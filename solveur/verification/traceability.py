@@ -347,7 +347,7 @@ def scope_for_model(model: object) -> str | None:
     if (
         analysis in {"modal", "transient_dynamic", "harmonic_response"}
         and not element_types
-        and (getattr(model, "springs", ()) or getattr(model, "concentrated_masses", ()))
+        and (bool(getattr(model, "springs", None)) or bool(getattr(model, "concentrated_masses", None)))
     ):
         return "discrete-linear-dynamics"
     if analysis in {"modal", "transient_dynamic", "harmonic_response"}:
