@@ -95,11 +95,28 @@ figee sont consignes dans la
 
 ## Installation
 
+Installation de la version alpha distribuee sur PyPI :
+
+```powershell
+python -m pip install "qf-solver==0.2.0a0"
+qf-solver --version
+```
+
+Les fonctionnalites optionnelles s'installent avec les extras correspondants :
+
+```powershell
+python -m pip install "qf-solver[mesh]==0.2.0a0"  # import Gmsh MSH 4.1
+python -m pip install "qf-solver[docs]==0.2.0a0"  # documentation locale
+python -m pip install "qf-solver[large]==0.2.0a0" # HDF5, PETSc et MPI
+```
+
+Pour contribuer ou executer la suite de tests depuis un clone du depot :
+
 ```powershell
 python -m pip install -e ".[test]"
 ```
 
-Options :
+Extras en mode developpement :
 
 ```powershell
 python -m pip install -e ".[docs]"   # documentation locale
