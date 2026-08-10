@@ -11,12 +11,6 @@ import numpy as np
 
 matplotlib.use("Agg")
 from matplotlib import pyplot as plt  # noqa: E402
-from reportlab.lib import colors  # noqa: E402
-from reportlab.lib.enums import TA_CENTER  # noqa: E402
-from reportlab.lib.pagesizes import A4  # noqa: E402
-from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet  # noqa: E402
-from reportlab.lib.units import cm  # noqa: E402
-from reportlab.platypus import Image, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle  # noqa: E402
 
 from solveur.verification.mitc4_laminate_dynamic import Mitc4LaminateDynamicStudy
 
@@ -177,6 +171,13 @@ def _markdown(reference: dict[str, object], figures: dict[str, Path]) -> str:
 
 
 def _pdf(path: Path, reference: dict[str, object], figures: dict[str, Path]) -> None:
+    from reportlab.lib import colors
+    from reportlab.lib.enums import TA_CENTER
+    from reportlab.lib.pagesizes import A4
+    from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
+    from reportlab.lib.units import cm
+    from reportlab.platypus import Image, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
+
     styles = getSampleStyleSheet()
     styles["Title"].alignment = TA_CENTER
     styles["BodyText"].leading = 13
