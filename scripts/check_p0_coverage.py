@@ -14,16 +14,20 @@ P0_MODULES = (
 )
 
 
-def main(path: str = "coverage.json") -> int:
-    report = json.loads(Path(path).read_text(encoding="utf-8"))
-    files = {name.replace("\\", "/"): data for name, data in report.get("files", {}).items()}
+def main(*paths: str) -> int:
+    report_paths = paths or ("coverage.json",)
+    files: dict[str, list[dict[str, object]]] = {}
+    for path in report_paths:
+        report = json.loads(Path(path).read_text(encoding="utf-8"))
+        for name, data in report.get("files", {}).items():
+            files.setdefault(name.replace("\\", "/"), []).append(data)
     failures: list[str] = []
     for module in P0_MODULES:
-        record = next((data for name, data in files.items() if name.endswith(module)), None)
-        if record is None:
+        records = [data for name, entries in files.items() if name.endswith(module) for data in entries]
+        if not records:
             failures.append(f"{module}: absent from coverage report")
             continue
-        percent = float(record["summary"]["percent_covered"])
+        percent = max(float(record["summary"]["percent_covered"]) for record in records)
         print(f"P0 COVERAGE {module}: {percent:.2f}%")
         if percent < MINIMUM:
             failures.append(f"{module}: {percent:.2f}% < {MINIMUM:.2f}%")
@@ -34,4 +38,4 @@ def main(path: str = "coverage.json") -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main(sys.argv[1] if len(sys.argv) > 1 else "coverage.json"))
+    raise SystemExit(main(*sys.argv[1:]))

@@ -54,7 +54,10 @@ jobs:
           --cov-report=xml:coverage.xml
           --cov-fail-under=80
       - name: P0 module coverage gate
-        run: python scripts/check_p0_coverage.py coverage.json
+        run: |
+          python -m coverage run --rcfile=.coveragerc-p0 -m pytest tests/unit/test_traceability.py
+          python -m coverage json --rcfile=.coveragerc-p0 -o coverage-p0.json
+          python scripts/check_p0_coverage.py coverage.json coverage-p0.json
       - name: Compile all Python sources
         run: python -m compileall -q solveur mitc4 scripts tests qf_solver.py main_solveur.py mitc4_solver.py
       - name: Quick verification
@@ -67,6 +70,7 @@ jobs:
           name: coverage-${{ matrix.os }}-py${{ matrix.python }}
           path: |
             coverage.json
+            coverage-p0.json
             coverage.xml
 
   engineering-campaign:

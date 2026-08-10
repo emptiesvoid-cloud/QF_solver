@@ -223,6 +223,9 @@ def test_formula_traceability_detects_orphan_formula(tmp_path):
         ("linear_static", ["TET10"], "tet10-linear-static"),
         ("linear_static", ["MITC4"], "mitc4-linear-static"),
         ("linear_static", ["MITC3"], "mitc3-linear-static"),
+        ("linear_static", ["BEAM2"], "beam2-linear-static"),
+        ("geometric_nonlinear_static", ["TET4"], "tet4-total-lagrangian-structural-v2"),
+        ("modal", ["TET4", "TET10"], "linear-dynamics"),
         ("linear_static", ["TET4", "MITC4"], None),
     ],
 )
@@ -258,3 +261,12 @@ def test_beam_and_discrete_dynamic_scopes_are_not_hidden_in_generic_scope(analys
     )
     assert scope_for_model(beam) == "beam2-linear-dynamics"
     assert scope_for_model(discrete) == "discrete-linear-dynamics"
+
+
+def test_mitc3_laminate_static_scope_is_explicit() -> None:
+    model = SimpleNamespace(
+        analysis=SimpleNamespace(type="linear_static"),
+        elements=[SimpleNamespace(type="MITC3", material="laminate")],
+        materials={"laminate": {"type": "shell_laminate"}},
+    )
+    assert scope_for_model(model) == "mitc3-laminate-static"

@@ -1,0 +1,7 @@
+[run]
+branch = true
+source =
+    solveur
+
+[report]
+show_missing = true
