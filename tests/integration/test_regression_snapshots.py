@@ -51,7 +51,7 @@ def test_official_examples_regression_snapshots(tmp_path: Path):
             "csv": _official_csv_summary(csv_paths),
         }
 
-    assert observed == _snapshot("official_examples_summary.json")
+    assert _canonicalize_floats(observed) == _canonicalize_floats(_snapshot("official_examples_summary.json"))
 
 
 def _result_summary(data: dict[str, object]) -> dict[str, object]:
@@ -158,3 +158,16 @@ def _official_csv_summary(paths: dict[str, Path]) -> dict[str, object]:
 
 def _snapshot(name: str) -> dict[str, object]:
     return json.loads((SNAPSHOTS / name).read_text(encoding="utf-8"))
+
+
+def _canonicalize_floats(value: object) -> object:
+    """Keep snapshots sensitive to engineering changes, not BLAS roundoff."""
+    if isinstance(value, float):
+        if abs(value) < 1.0e-12:
+            return 0.0
+        return float(f"{value:.11g}")
+    if isinstance(value, dict):
+        return {key: _canonicalize_floats(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [_canonicalize_floats(item) for item in value]
+    return value

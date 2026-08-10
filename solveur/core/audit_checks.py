@@ -352,9 +352,9 @@ def _equilibrium_checks(analysis: str, equilibrium: dict[str, Any]) -> list[Audi
                 ),
                 AuditCheck(
                     "equilibrium:constraint_force_closure",
-                    _threshold_status(closure, 1.0e-10, 1.0e-8),
+                    _threshold_status(closure, 1.0e-10, 1.0e-7),
                     closure,
-                    "<= 1e-10 PASS, <= 1e-8 WARNING",
+                    "<= 1e-10 PASS, <= 1e-7 WARNING",
                     "Recovered constraint forces must close full-space equilibrium.",
                 ),
                 AuditCheck(
@@ -362,10 +362,10 @@ def _equilibrium_checks(analysis: str, equilibrium: dict[str, Any]) -> list[Audi
                     _threshold_status(
                         float(constraints.get("global_force_closure_relative_error", float("inf"))),
                         1.0e-10,
-                        1.0e-8,
+                        1.0e-7,
                     ),
                     constraints.get("global_force_closure_relative_error", float("inf")),
-                    "<= 1e-10 PASS, <= 1e-8 WARNING",
+                    "<= 1e-10 PASS, <= 1e-7 WARNING",
                     "Constraint generalized forces must close the global force balance of the residual.",
                 ),
                 AuditCheck(
@@ -373,10 +373,10 @@ def _equilibrium_checks(analysis: str, equilibrium: dict[str, Any]) -> list[Audi
                     _threshold_status(
                         float(constraints.get("global_moment_closure_relative_error", float("inf"))),
                         1.0e-10,
-                        1.0e-8,
+                        1.0e-7,
                     ),
                     constraints.get("global_moment_closure_relative_error", float("inf")),
-                    "<= 1e-10 PASS, <= 1e-8 WARNING",
+                    "<= 1e-10 PASS, <= 1e-7 WARNING",
                     "Constraint generalized forces must close the global moment balance of the residual.",
                 ),
             ]

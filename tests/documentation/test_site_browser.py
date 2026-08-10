@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import functools
+import json
 import os
 import threading
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
@@ -13,6 +14,7 @@ import pytest
 pytestmark = pytest.mark.docs
 ROOT = Path(__file__).resolve().parents[2]
 SITE = ROOT / "site"
+FORMULA_REGISTRY = ROOT / "qualification" / "formulas.json"
 
 
 class QuietHandler(SimpleHTTPRequestHandler):
@@ -89,7 +91,8 @@ def test_site_is_responsive_offline_and_typesets_formulas(site_url: str, viewpor
 
         page.goto(f"{site_url}/verification/formules/", wait_until="networkidle")
         assert page.locator("main table").count() >= 2
-        assert page.get_by_text("18/18", exact=True).count() >= 1
+        formula_count = len(json.loads(FORMULA_REGISTRY.read_text(encoding="utf-8"))["formulas"])
+        assert page.get_by_text(f"{formula_count}/{formula_count}", exact=True).count() >= 1
         assert page.get_by_text("BLOCKED", exact=True).count() >= 2
         assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth + 1")
         browser.close()
