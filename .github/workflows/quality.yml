@@ -46,7 +46,7 @@ jobs:
       - name: Tests and branch coverage
         run: >-
           python -m pytest
-          --ignore=tests/documentation
+          tests/unit tests/integration
           -m "not benchmark and not large"
           --cov=solveur --cov=mitc4 --cov-branch
           --cov-report=term-missing:skip-covered
