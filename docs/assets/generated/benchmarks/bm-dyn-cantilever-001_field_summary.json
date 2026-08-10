@@ -1,0 +1,26 @@
+{
+  "deformation_scale": 87650.64191811044,
+  "element_count": 194,
+  "fields": [
+    {
+      "element_count": 194,
+      "key": "von_mises",
+      "label": "Contrainte equivalente de von Mises [unite du modele]",
+      "maximum": 97873.05529580709,
+      "minimum": 4056.420404129817,
+      "path": "bm-dyn-cantilever-001_von_mises.png",
+      "sha256": "ac30afffdcaaa0332c31328afa63e68e2d337ef9b0cd8d19680ecadc70b68a97"
+    },
+    {
+      "element_count": 194,
+      "key": "strain_measure",
+      "label": "Deformation equivalente de von Mises [-]",
+      "maximum": 4.0392054566523564e-07,
+      "minimum": 1.6740782620218294e-08,
+      "path": "bm-dyn-cantilever-001_strain_measure.png",
+      "sha256": "a1eaacf8d1c0e615e01d4c35a4e5f22c510569c5a56cd0422cda132e3914d1cd"
+    }
+  ],
+  "schema_version": 1,
+  "title": "Poutre 3D vibratoire multi-elements"
+}

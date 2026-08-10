@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "units": {
+    "system": "SI"
+  },
+  "verification_profile": "engineering",
+  "analysis": {
+    "type": "modal",
+    "method": "eigsh",
+    "parameters": {
+      "modes": 1
+    }
+  },
+  "nodes": [
+    [
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      1.0,
+      0.0,
+      0.0
+    ],
+    [
+      2.0,
+      0.0,
+      0.0
+    ]
+  ],
+  "elements": [
+    {
+      "type": "BEAM2",
+      "nodes": [
+        0,
+        1
+      ],
+      "material": "beam"
+    },
+    {
+      "type": "BEAM2",
+      "nodes": [
+        1,
+        2
+      ],
+      "material": "beam"
+    }
+  ],
+  "materials": {
+    "beam": {
+      "type": "beam_isotropic",
+      "E": 210000000000.0,
+      "nu": 0.3,
+      "A": 0.01,
+      "Iy": 2e-06,
+      "Iz": 3e-06,
+      "J": 5e-06,
+      "density": 7800.0,
+      "reference_vector": [
+        0.0,
+        1.0,
+        0.0
+      ]
+    }
+  },
+  "fixed_dofs": [
+    {
+      "node": 0,
+      "dofs": [
+        "UX",
+        "UY",
+        "UZ",
+        "RX",
+        "RY",
+        "RZ"
+      ]
+    }
+  ],
+  "loads": [],
+  "distributed_loads": [],
+  "springs": [],
+  "concentrated_masses": [],
+  "multipoint_constraints": [],
+  "rbe2": [],
+  "rbe3": [],
+  "contacts": []
+}

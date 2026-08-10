@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "review_id": "REV-MITC4-HARMONIC-RESPONSE-PENDING",
+  "scope": "mitc4-harmonic-response",
+  "decision": "superseded_by_signed_review",
+  "decision_date": null,
+  "validator": {
+    "name": "Quentin Farinazzo",
+    "role": "auteur et validateur mecanique"
+  },
+  "review_mode": "self_review",
+  "independence": "not_independent",
+  "certification_claim": "none",
+  "technical_status": "superseded_by_signed_review",
+  "superseded_by": "qualification/reviews/mitc4_harmonic_response_2026-07-15.json",
+  "evidence": [
+    "VNV-MITC4-HARMONIC-MODAL-001",
+    "VNV-MITC4-HARMONIC-CONDENSATION-002",
+    "VNV-MITC4-HARMONIC-BROADBAND-003",
+    "VNV-MITC4-HARMONIC-NAFEMS13H-004"
+  ],
+  "proposed_domain": [
+    "MITC4 isotrope homogene en petits deplacements",
+    "reponse harmonique lineaire deterministe",
+    "amortissement proportionnel de Rayleigh",
+    "condensation exacte du drilling sans masse",
+    "balayage frequentiel fini avec residus controles"
+  ],
+  "review_questions": [
+    "Les amplitudes, frequences et phases publiees sont-elles mecaniquement coherentes ?",
+    "La provenance NAFEMS/Abaqus et les ecarts sont-ils acceptables ?",
+    "Le domaine propose et les limites d'utilisation sont-ils suffisamment explicites ?",
+    "L'absence de comparaison des contraintes harmoniques doit-elle rester une reserve bloquante ?"
+  ],
+  "known_limitations": [
+    "La reference Abaqus est une table officielle; Abaqus n'a pas ete execute localement.",
+    "Les contraintes de coque harmoniques par frequence ne sont pas encore publiees.",
+    "La campagne large bande est deterministe et ne couvre ni PSD ni vibration aleatoire.",
+    "Cette auto-revue ne constitue pas une verification independante."
+  ],
+  "signature": null
+}

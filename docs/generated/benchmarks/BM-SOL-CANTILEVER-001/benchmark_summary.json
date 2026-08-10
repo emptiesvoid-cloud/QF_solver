@@ -1,0 +1,266 @@
+{
+  "benchmark": {
+    "identifier": "BM-SOL-CANTILEVER-001",
+    "title": "Poutre 3D TET4/TET10 en flexion",
+    "family": "TET4+TET10",
+    "analyses": [
+      "linear_static"
+    ],
+    "maturity": "stable_after_reinforced_tests",
+    "reference_type": "analytic",
+    "reference": "Poutre de Timoshenko",
+    "reference_id": "REF-FEM-BATHE",
+    "reference_url": "https://ocw.mit.edu/courses/res-2-002-finite-element-procedures-for-solids-and-structures-spring-2010/",
+    "requirements": [
+      "REQ-SOL-001",
+      "REQ-SOL-003",
+      "REQ-SOL-004",
+      "REQ-CMP-003"
+    ],
+    "criteria": {
+      "tet10_tip_error_max": 0.05,
+      "solver_difference_max": 1e-08,
+      "tet4_h_observed_order_min": 1.0,
+      "tet4_h_finest_error_max": 0.2,
+      "tet4_h_monotonicity_tolerance": 1e-12,
+      "tet4_h_residual_max": 1e-08
+    }
+  },
+  "status": "PASS",
+  "metrics": {
+    "reference_tip_uz": -2.9613714285714285e-05,
+    "tet4_tip_uz": -1.4069803799965016e-05,
+    "tet10_tip_uz": -2.9186553569430005e-05,
+    "tet10_relative_error": 0.014424422149920681,
+    "tet4_h_convergence": [
+      {
+        "level": 1,
+        "mesh_size": 0.82,
+        "node_count": 102,
+        "element_count": 226,
+        "tip_uz": -1.470659216738246e-05,
+        "relative_error": 0.5033857615599084,
+        "free_relative_residual": 6.374225448692492e-11
+      },
+      {
+        "level": 2,
+        "mesh_size": 0.68,
+        "node_count": 116,
+        "element_count": 252,
+        "tip_uz": -1.2906383884653632e-05,
+        "relative_error": 0.5641754438456341,
+        "free_relative_residual": 8.66228676906163e-11
+      },
+      {
+        "level": 3,
+        "mesh_size": 0.56,
+        "node_count": 148,
+        "element_count": 329,
+        "tip_uz": -1.6431701283270023e-05,
+        "relative_error": 0.4451320383273668,
+        "free_relative_residual": 7.139724245593897e-11
+      },
+      {
+        "level": 4,
+        "mesh_size": 0.46,
+        "node_count": 270,
+        "element_count": 679,
+        "tip_uz": -1.9377484245052054e-05,
+        "relative_error": 0.345658431830019,
+        "free_relative_residual": 8.255638374923325e-11
+      },
+      {
+        "level": 5,
+        "mesh_size": 0.36,
+        "node_count": 429,
+        "element_count": 1182,
+        "tip_uz": -2.15363925828408e-05,
+        "relative_error": 0.2727561164716849,
+        "free_relative_residual": 9.814924682319944e-11
+      },
+      {
+        "level": 6,
+        "mesh_size": 0.26,
+        "node_count": 773,
+        "element_count": 2509,
+        "tip_uz": -2.4133524603562394e-05,
+        "relative_error": 0.18505580317547488,
+        "free_relative_residual": 1.2641810500952356e-10
+      }
+    ],
+    "tet4_h_observed_order": 1.1002379906762163,
+    "tet4_h_pair_orders": [
+      -0.608982089172146,
+      1.2206385723303312,
+      1.2857479485043015,
+      0.9663457541418392,
+      1.1920526391449247
+    ],
+    "tet4_h_finest_relative_error": 0.18505580317547488,
+    "observed_order": 1.1002379906762163,
+    "finest_relative_error": 0.18505580317547488,
+    "asymptotic_levels": [
+      4,
+      5,
+      6
+    ],
+    "monotonicity_violation": 0.0,
+    "max_free_relative_residual": 1.2641810500952356e-10,
+    "linear_methods": [
+      {
+        "method": "direct",
+        "iterations": 1,
+        "residual_norm": 1.3169993722999852e-09,
+        "relative_displacement_difference": 0.0
+      },
+      {
+        "method": "cg",
+        "iterations": 202,
+        "residual_norm": 2.492878473600377e-08,
+        "relative_displacement_difference": 4.4693236425654544e-13
+      },
+      {
+        "method": "gmres",
+        "iterations": 5,
+        "residual_norm": 1.9113285727371236e-09,
+        "relative_displacement_difference": 2.513612420458184e-13
+      },
+      {
+        "method": "bicgstab",
+        "iterations": 3,
+        "residual_norm": 5.132178304499091e-09,
+        "relative_displacement_difference": 1.427641540906234e-12
+      },
+      {
+        "method": "minres",
+        "iterations": 196,
+        "residual_norm": 7.537785039110506e-08,
+        "relative_displacement_difference": 1.0982093139911544e-12
+      }
+    ]
+  },
+  "checks": [
+    {
+      "id": "tet10-tip-reference",
+      "status": "PASS",
+      "value": 0.014424422149920681,
+      "limit": 0.05,
+      "operator": "less_equal",
+      "detail": ""
+    },
+    {
+      "id": "linear-method-agreement",
+      "status": "PASS",
+      "value": 1.427641540906234e-12,
+      "limit": 1e-08,
+      "operator": "less_equal",
+      "detail": ""
+    },
+    {
+      "id": "tet4-h-observed-order",
+      "status": "PASS",
+      "value": 1.1002379906762163,
+      "limit": 1.0,
+      "operator": "greater_equal",
+      "detail": ""
+    },
+    {
+      "id": "tet4-h-finest-error",
+      "status": "PASS",
+      "value": 0.18505580317547488,
+      "limit": 0.2,
+      "operator": "less_equal",
+      "detail": ""
+    },
+    {
+      "id": "tet4-h-monotonicity",
+      "status": "PASS",
+      "value": 0.0,
+      "limit": 1e-12,
+      "operator": "less_equal",
+      "detail": ""
+    },
+    {
+      "id": "tet4-h-max-residual",
+      "status": "PASS",
+      "value": 1.2641810500952356e-10,
+      "limit": 1e-08,
+      "operator": "less_equal",
+      "detail": ""
+    },
+    {
+      "id": "tet4-free-residual",
+      "status": "PASS",
+      "value": 4.398517434824576e-12,
+      "limit": 1e-08,
+      "operator": "less_equal",
+      "detail": ""
+    },
+    {
+      "id": "tet10-free-residual",
+      "status": "PASS",
+      "value": 3.3795097715513856e-11,
+      "limit": 1e-08,
+      "operator": "less_equal",
+      "detail": ""
+    }
+  ],
+  "files": {
+    "linear_method_bicgstab": "linear_method_bicgstab.json",
+    "linear_method_cg": "linear_method_cg.json",
+    "linear_method_direct": "linear_method_direct.json",
+    "linear_method_gmres": "linear_method_gmres.json",
+    "linear_method_minres": "linear_method_minres.json",
+    "tet10_import_report": "tet10.import_report.json",
+    "tet10_mesh": "cantilever_tet10.msh",
+    "tet10_model": "tet10.model.json",
+    "tet10_result": "tet10.json",
+    "tet10_setup": "tet10.setup.json",
+    "tet10_vtu": "tet10.vtu",
+    "tet4_h1_import_report": "tet4_h1.import_report.json",
+    "tet4_h1_mesh": "tet4_h1.msh",
+    "tet4_h1_model": "tet4_h1.model.json",
+    "tet4_h1_result": "tet4_h1.json",
+    "tet4_h1_setup": "tet4_h1.setup.json",
+    "tet4_h1_vtu": "tet4_h1.vtu",
+    "tet4_h2_import_report": "tet4_h2.import_report.json",
+    "tet4_h2_mesh": "tet4_h2.msh",
+    "tet4_h2_model": "tet4_h2.model.json",
+    "tet4_h2_result": "tet4_h2.json",
+    "tet4_h2_setup": "tet4_h2.setup.json",
+    "tet4_h2_vtu": "tet4_h2.vtu",
+    "tet4_h3_import_report": "tet4_h3.import_report.json",
+    "tet4_h3_mesh": "tet4_h3.msh",
+    "tet4_h3_model": "tet4_h3.model.json",
+    "tet4_h3_result": "tet4_h3.json",
+    "tet4_h3_setup": "tet4_h3.setup.json",
+    "tet4_h3_vtu": "tet4_h3.vtu",
+    "tet4_h4_import_report": "tet4_h4.import_report.json",
+    "tet4_h4_mesh": "tet4_h4.msh",
+    "tet4_h4_model": "tet4_h4.model.json",
+    "tet4_h4_result": "tet4_h4.json",
+    "tet4_h4_setup": "tet4_h4.setup.json",
+    "tet4_h4_vtu": "tet4_h4.vtu",
+    "tet4_h5_import_report": "tet4_h5.import_report.json",
+    "tet4_h5_mesh": "tet4_h5.msh",
+    "tet4_h5_model": "tet4_h5.model.json",
+    "tet4_h5_result": "tet4_h5.json",
+    "tet4_h5_setup": "tet4_h5.setup.json",
+    "tet4_h5_vtu": "tet4_h5.vtu",
+    "tet4_h6_import_report": "tet4_h6.import_report.json",
+    "tet4_h6_mesh": "tet4_h6.msh",
+    "tet4_h6_model": "tet4_h6.model.json",
+    "tet4_h6_result": "tet4_h6.json",
+    "tet4_h6_setup": "tet4_h6.setup.json",
+    "tet4_h6_vtu": "tet4_h6.vtu",
+    "tet4_import_report": "tet4.import_report.json",
+    "tet4_mesh": "cantilever_tet4.msh",
+    "tet4_model": "tet4.model.json",
+    "tet4_result": "tet4.json",
+    "tet4_setup": "tet4.setup.json",
+    "tet4_vtu": "tet4.vtu",
+    "summary": "benchmark_summary.json",
+    "manifest": "benchmark_manifest.json"
+  },
+  "message": ""
+}

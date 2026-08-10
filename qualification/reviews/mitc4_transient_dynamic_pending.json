@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "scope": "mitc4-transient-dynamic",
+  "status": "superseded_by_signed_review",
+  "technical_readiness": "ready_for_owner_review",
+  "reviewer": "Quentin Farinazzo",
+  "review_mode": "self_review",
+  "independence": "not_independent",
+  "decision": "superseded_by_signed_review",
+  "superseded_by": "qualification/reviews/mitc4_transient_dynamic_2026-07-16.json",
+  "decision_date": null,
+  "certification_claim": "none",
+  "review_document": "docs/verification/revue_mitc4_transitoire.md",
+  "review_pdf": "docs/assets/reviews/revue_mitc4_transitoire.pdf",
+  "evidence": [
+    "results/VNV-MITC4-NEWMARK-FREE-002/summary.json",
+    "results/VNV-MITC4-NEWMARK-DAMPED-FORCED-003/summary.json",
+    "results/VNV-MITC4-NEWMARK-BROADBAND-004/summary.json",
+    "results/VNV-MITC4-NEWMARK-CODEASTER-DKQ-005/summary.json"
+  ],
+  "review_questions": [
+    "Are impulse, chirp and tabulated load definitions mechanically appropriate and traceable?",
+    "Are displacement and top-face S11 histories consistent with the exact temporal oracle?",
+    "Are the 5.20 percent UZ and 10.51 percent S11 peak differences versus DKQ acceptable for the bounded scope?",
+    "Are the reduced convergence order of the short pulse and its documented limitation acceptable?",
+    "Is the scope restricted clearly to linear small-displacement dynamics with mass-proportional damping?"
+  ]
+}

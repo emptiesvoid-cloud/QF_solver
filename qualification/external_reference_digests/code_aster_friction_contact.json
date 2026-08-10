@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "study_id": "VNV-CONTACT-FRICTION-CODEASTER-CONTINUE-003",
+  "status": "PASS_EXTERNAL_CORRELATION",
+  "maturity": "experimental",
+  "scope": "linear_static_regularized_coulomb_saturated_sliding",
+  "external_solver": {
+    "name": "Code_Aster",
+    "version": "18.1.0",
+    "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+    "formulation": "DEFI_CONTACT / CONTINUE / COULOMB",
+    "normal_penalty_n_per_m": 100000000.0,
+    "tangential_penalty_n_per_m": 10000.0
+  },
+  "model": {
+    "initial_normal_gap_m": 0.1,
+    "normal_load_n": -200.0,
+    "structural_spring_n_per_m": 1000.0,
+    "friction_coefficient": 0.5,
+    "same_loads_and_units": true
+  },
+  "cases": [
+    {
+      "id": "slip",
+      "load_x_n": 200.0,
+      "load_z_n": -200.0,
+      "expected_state": "slip",
+      "qf_state": "slip",
+      "qf_ux_m": 0.15000000000000002,
+      "qf_uz_m": -0.10000000000000002,
+      "qf_tangential_force_n": 50.0,
+      "qf_friction_limit_n": 50.0,
+      "code_aster_ux_m": 0.1509160486777338,
+      "code_aster_uz_m": -0.10004997501249376,
+      "qf_code_aster_ux_difference": 0.006069922223380756,
+      "qf_code_aster_uz_difference": 0.0004995004995003277
+    }
+  ],
+  "checks": [
+    {
+      "id": "slip_qf_code_aster_ux",
+      "value": 0.006069922223380756,
+      "limit": 0.02,
+      "status": "PASS"
+    },
+    {
+      "id": "normal_penalty_displacement",
+      "value": 0.0004995004995003277,
+      "limit": 0.001,
+      "status": "PASS"
+    },
+    {
+      "id": "qf_slip_branch",
+      "value": 0.0,
+      "limit": 0.0,
+      "status": "PASS"
+    },
+    {
+      "id": "qf_slip_coulomb_limit",
+      "value": 0.0,
+      "limit": 1e-08,
+      "status": "PASS"
+    }
+  ],
+  "limitations": [
+    "QF_solver uses an exact normal multiplier; Code_Aster CONTINUE uses declared penalties.",
+    "The comparison is a controlled point/contact-law correlation, not a surface-to-surface validation.",
+    "The elastic stick branch is not compared because Code_Aster's tangential penalty is not identical to QF_solver's return-map regularization.",
+    "Large sliding, updated normals, multiple contacts and dynamic contact are outside this study."
+  ],
+  "figure_path": "docs/assets/references/contact_friction_code_aster_comparison.png",
+  "figure_sha256": "1cec2877c753c32245e46d423a6104d85aedd511d0738385d46469191b5f7c88",
+  "provenance": "Pinned Docker execution; raw decks and logs are retained in internal ignored evidence."
+}

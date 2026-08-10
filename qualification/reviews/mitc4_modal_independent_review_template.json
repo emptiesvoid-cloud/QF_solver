@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "review_id": "REV-MITC4-MODAL-INDEPENDENT-PENDING",
+  "scope": "mitc4-modal",
+  "status": "pending",
+  "required_independence": "reviewer_not_author_or_implementer",
+  "reviewer": null,
+  "organization": null,
+  "decision": null,
+  "decision_date": null,
+  "source_revision": null,
+  "manifest_sha256": null,
+  "evidence": [
+    "VNV-MITC4-MODAL-CODEASTER-DKQ-004",
+    "VNV-MITC4-MODAL-FREEFREE-FOLDED-005",
+    "VNV-MITC4-MODAL-CURVED-DISTORTED-006",
+    "VNV-MITC4-MODAL-EIGSH-LARGE-007"
+  ],
+  "certification_claim": "none"
+}

@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "baseline_id": "BASELINE-MITC4-HARMONIC-2026-07-15",
+  "solver": "QF_solver",
+  "version": "0.2.0",
+  "scope": "mitc4-harmonic-response",
+  "decision": "accepted_with_recommendations",
+  "use_class": "engineering_internal",
+  "reviewer": "Quentin Farinazzo",
+  "review_mode": "self_review",
+  "certification_claim": "none",
+  "source_revision": "9d77d42c7ec3635bebfb392f5f17d5ea3a33ebb3",
+  "source_worktree_state": "dirty_at_evidence_freeze",
+  "code_baseline_status": "candidate_pending_clean_commit",
+  "evidence": [
+    {"study": "VNV-MITC4-HARMONIC-MODAL-001", "sha256": "89f8394fed5479c70f0a75c0f170fe90e19ba2ea0cd95c94b94d7af5c3acda1e"},
+    {"study": "VNV-MITC4-HARMONIC-CONDENSATION-002", "sha256": "b3f6415e8cd7e8cd9e5f87ccb3800ae1f2a35e1fef3de96209e54f6da27e9152"},
+    {"study": "VNV-MITC4-HARMONIC-BROADBAND-003", "sha256": "f7e21602bae51078f5e28a1ec840397034b4411509f7158ba1bd40abbf4d642a"},
+    {"study": "VNV-MITC4-HARMONIC-NAFEMS13H-004", "sha256": "1bb87a26b4ae68c7e86d554b87b402fbe08ca8fcd3f92bbb128dc271ff795732"},
+    {"study": "VNV-MITC4-HARMONIC-CALCULIX13H-S8R-006", "sha256": "86518f156ba5c41561c1c50be8c1bd03190502c28fd26e560b969dcd9eab254e"},
+    {"study": "VNV-MITC4-HARMONIC-CODEASTER13H-DKQ-007", "sha256": "f8c8b748b638071f728e681bead6b666a4ea3b5e9eab651646a6fcf1f4805d94"}
+  ],
+  "limitations": [
+    "The evidence files are frozen by SHA-256.",
+    "A clean source baseline requires a dedicated reviewed Git commit.",
+    "Self-review is not independent verification."
+  ]
+}

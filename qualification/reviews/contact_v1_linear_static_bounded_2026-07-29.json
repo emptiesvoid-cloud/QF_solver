@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "review_id": "OWNER-REVIEW-CONTACT-V1-2026-07-29",
+  "scope": "contact-v1-linear-static-bounded",
+  "validation_status": "engineering_ready_bounded",
+  "decision": "accepted_for_bounded_engineering_use",
+  "decision_date": "2026-07-29",
+  "owner": {
+    "name": "Quentin Farinazzo",
+    "role": "auteur, proprietaire et validateur mecanique"
+  },
+  "review_type": "owner_review",
+  "independence": "not_independent",
+  "certification_claim": "none",
+  "accepted_answers": {
+    "three_additional_models": true,
+    "closures_reactions_and_geometries": true,
+    "engineering_ready_bounded": true
+  },
+  "acceptance_condition": {
+    "requested_action": "Refine the deformable TET4 block and rerun QF_solver, Code_Aster and CalculiX.",
+    "coarse_elements": 576,
+    "coarse_code_aster_curve_error": 0.052565319500610296,
+    "refined_elements": 768,
+    "refined_code_aster_curve_error": 0.04339979885207582,
+    "confirmation_elements": 9984,
+    "confirmation_code_aster_curve_error": 3.30291349825974e-14,
+    "limit": 0.05,
+    "status": "PASS"
+  },
+  "accepted_domain": [
+    "contact unilateral sans frottement en statique lineaire",
+    "petites transformations",
+    "active-set noeud-triangle",
+    "surfaces maitres triangulees bornees",
+    "recherche initiale et mise a jour limitee documentee",
+    "plusieurs contraintes normales et plusieurs noeuds esclaves dans le domaine teste"
+  ],
+  "evidence": [
+    "VNV-CONTACT-ADDITIONAL-MODELS-008",
+    "qualification/external_reference_digests/contact_additional_models.json",
+    "VNV-CONTACT-CODEASTER-ADDITIONAL-009",
+    "qualification/external_reference_digests/contact_code_aster_additional.json",
+    "VNV-CONTACT-CODEASTER-ADDITIONAL-H10K-010",
+    "qualification/external_reference_digests/contact_code_aster_additional_h10k.json",
+    "docs/verification/revue_contact_v1.md",
+    "docs/assets/reviews/owner_review_contact_v1.pdf"
+  ],
+  "recommendations": [
+    {
+      "id": "REC-CONTACT-001",
+      "title": "Conserver un raffinement explicite autour des transitions de contact.",
+      "status": "active_engineering_recommendation"
+    },
+    {
+      "id": "REC-CONTACT-002",
+      "title": "Ne pas etendre cette decision au frottement, au grand glissement, aux impacts ou a l'usure.",
+      "status": "scope_boundary"
+    },
+    {
+      "id": "REC-CONTACT-003",
+      "title": "Verifier toute nouvelle topologie de contact par une etude de sensibilite au maillage.",
+      "status": "active_engineering_recommendation"
+    }
+  ],
+  "limitations": [
+    "Pas de contact surface-surface general.",
+    "Pas de grand glissement.",
+    "Pas de frottement dans ce scope.",
+    "Cette Owner review interne n'est ni une certification ni une revue independante."
+  ],
+  "signature": {
+    "name": "Quentin Farinazzo",
+    "mode": "electronic owner_review declaration",
+    "date": "2026-07-29",
+    "declaration": "Q1 OUI; Q2 OUI; Q3 OUI; Q4 accepted_for_bounded_engineering_use. Condition inferieure a 5 percent satisfaite a 4.33998 percent sur 768 TET4, puis confirmee a 3.30291e-12 percent sur 9984 TET4."
+  }
+}

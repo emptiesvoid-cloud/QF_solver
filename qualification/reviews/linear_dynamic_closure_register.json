@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "title": "Registre de fermeture Owner des analyses lineaires dynamiques",
+  "status": "owner_decisions_recorded",
+  "owner_review_template": "qualification/reviews/owner_review_linear_dynamic_template.md",
+  "owner_review_dossier": "qualification/reviews/owner_review_linear_dynamics_2026-08-02.md",
+  "principle": "Une campagne interne PASS rend un scope revisable; elle ne constitue pas une decision Owner ni une qualification externe.",
+  "common_minimum_evidence": [
+    "residu modal et orthogonalites masse/raideur",
+    "vibration libre Newmark comparee au premier mode et bilan d'energie",
+    "coherence harmonique avec la statique a 0 Hz, amplitude, phase et residu",
+    "convergence maillage ou pas de temps adaptee a la famille",
+    "correlation externe reproductible lorsque possible",
+    "rapport Markdown, manifeste et decision Owner datee"
+  ],
+  "reviews": [
+    {"scope": "tet4-modal", "status": "owner_accepted", "evidence": "qualification/vnv/tet4_dynamic_mesh_refinement/reference/summary.json", "remaining": []},
+    {"scope": "tet4-transient-dynamic", "status": "owner_accepted", "evidence": "qualification/vnv/tet4_dynamic_mesh_refinement/reference/summary.json", "remaining": []},
+    {"scope": "tet4-harmonic-response", "status": "owner_accepted", "evidence": "qualification/vnv/tet4_dynamic_mesh_refinement/reference/summary.json", "remaining": []},
+    {"scope": "tet10-modal", "status": "owner_accepted", "evidence": "qualification/vnv/linear_dynamic_families/tet10/summary.json", "remaining": []},
+    {"scope": "tet10-transient-dynamic", "status": "owner_accepted", "evidence": "qualification/vnv/tet10_dynamic_mesh_time_refinement/reference/summary.json", "remaining": []},
+    {"scope": "tet10-harmonic-response", "status": "owner_accepted", "evidence": "qualification/vnv/tet10_dynamic_code_aster/reference/summary.json", "remaining": []},
+    {"scope": "mitc3-modal", "status": "owner_accepted", "evidence": "qualification/vnv/mitc3_dynamic_code_aster/reference/summary.json", "remaining": ["modal mesh-frequency refinement"]},
+    {"scope": "mitc3-transient-dynamic", "status": "owner_accepted", "evidence": "qualification/vnv/mitc3_dynamic_code_aster/reference/summary.json", "remaining": ["modal mesh-frequency refinement"]},
+    {"scope": "mitc3-harmonic-response", "status": "owner_accepted", "evidence": "qualification/vnv/mitc3_dynamic_code_aster/reference/summary.json", "remaining": ["modal mesh-frequency refinement"]},
+    {"scope": "beam2-linear-dynamics", "status": "owner_accepted", "evidence": "qualification/vnv/external/code_aster_beam2_transverse/reference/summary.json", "remaining": []},
+    {"scope": "discrete-linear-dynamics", "status": "owner_accepted", "evidence": "qualification/vnv/external/code_aster_discrete/reference/summary.json", "remaining": []}
+  ],
+  "excluded": [
+    "nonlinear dynamic for every family",
+    "material or geometric nonlinear shell response",
+    "large rotations TET10",
+    "transient contact, impact and harmonic contact"
+  ]
+}

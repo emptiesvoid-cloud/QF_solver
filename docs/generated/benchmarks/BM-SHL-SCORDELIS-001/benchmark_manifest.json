@@ -1,0 +1,91 @@
+{
+  "manifest_schema_version": 1,
+  "created_at_utc": "2026-08-10T07:56:56.504983Z",
+  "solver": {
+    "name": "QF_solver",
+    "version": "0.2.0a0"
+  },
+  "benchmark_id": "BM-SHL-SCORDELIS-001",
+  "profile": "engineering",
+  "status": "PASS",
+  "source": {
+    "repository": ".",
+    "revision": "c8d7fcf4fb176c9cd595360ffd0f4417c19285ce",
+    "dirty": true
+  },
+  "runtime": {
+    "python": {
+      "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+      "executable": "C:\\Python313\\python.exe"
+    },
+    "platform": {
+      "system": "Windows",
+      "release": "10",
+      "machine": "AMD64",
+      "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+    },
+    "packages": {
+      "numpy": "2.2.6",
+      "scipy": "1.15.2",
+      "matplotlib": "3.10.3",
+      "h5py": "3.14.0",
+      "mpi4py": "4.1.0",
+      "petsc4py": null
+    },
+    "blas": {
+      "name": "scipy-openblas",
+      "version": "0.3.29",
+      "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+    },
+    "parallel_environment": {
+      "OMP_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "PETSC_ARCH": null
+    }
+  },
+  "files": [
+    {
+      "role": "benchmark_artifact",
+      "path": "benchmark_summary.json",
+      "size_bytes": 1908,
+      "sha256": "ac121b9391856f7c2ea3db95fbfb07cc7adefe41c687571c4b3548e750325836"
+    },
+    {
+      "role": "benchmark_artifact",
+      "path": "result.import_report.json",
+      "size_bytes": 1108,
+      "sha256": "c3ac3bb70a0a2a34f49dac94d41432e85e7da3dce1407c886b347c45f29496e4"
+    },
+    {
+      "role": "benchmark_artifact",
+      "path": "result.json",
+      "size_bytes": 14647765,
+      "sha256": "3559b485a65db1e6de7612a5271bc6747fc78df46ee526d80da1e9f61d7d32f9"
+    },
+    {
+      "role": "benchmark_artifact",
+      "path": "result.model.json",
+      "size_bytes": 180595,
+      "sha256": "ff03275f9466d2ba34c97686d58f0d06a24da9a7022b2a3a7232e8d8e6bb33cc"
+    },
+    {
+      "role": "benchmark_artifact",
+      "path": "result.setup.json",
+      "size_bytes": 1242,
+      "sha256": "04853be35d49a02dd2d1f7bc17df3c028efdaecd15f670dadfed827bbe4c132f"
+    },
+    {
+      "role": "benchmark_artifact",
+      "path": "result.vtu",
+      "size_bytes": 88947,
+      "sha256": "65cfccdecfc8efeb7ea947d21a8eadd6f87af02c37597566ee5d9f9fbad0cb96"
+    },
+    {
+      "role": "benchmark_artifact",
+      "path": "scordelis_mitc4.msh",
+      "size_bytes": 28811,
+      "sha256": "7315f62c1d117dd48517abc579724ecd9b31d133010c71d1da9998ed56df9400"
+    }
+  ]
+}

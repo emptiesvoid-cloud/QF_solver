@@ -1,0 +1,68 @@
+{
+  "benchmark": {
+    "identifier": "BM-SOL-TET4-PATCH-001",
+    "title": "Patch 3D TET4 a contrainte constante",
+    "family": "TET4",
+    "analyses": [
+      "linear_static"
+    ],
+    "maturity": "stable",
+    "reference_type": "analytic",
+    "reference": "Champ affine et contrainte constante",
+    "reference_id": "REF-FEM-BATHE",
+    "reference_url": "https://ocw.mit.edu/courses/res-2-002-finite-element-procedures-for-solids-and-structures-spring-2010/",
+    "requirements": [
+      "REQ-SOL-001",
+      "REQ-MESH-001",
+      "REQ-CMP-003"
+    ],
+    "criteria": {
+      "relative_stress_error_max": 1e-09,
+      "free_residual_max": 1e-08
+    }
+  },
+  "status": "PASS",
+  "metrics": {
+    "element_count": 184,
+    "target_sigma_xx": 12500000.0,
+    "mean_stress": [
+      12500000.0,
+      -3.036921438963517e-10,
+      1.2451377899750419e-09,
+      -3.395798287055689e-09,
+      -1.093418790392971e-09,
+      -1.6759155046663328e-09
+    ],
+    "relative_stress_error": 1.5780105072324628e-15,
+    "free_relative_residual": 2.1943991412967048e-15
+  },
+  "checks": [
+    {
+      "id": "constant-stress",
+      "status": "PASS",
+      "value": 1.5780105072324628e-15,
+      "limit": 1e-09,
+      "operator": "less_equal",
+      "detail": ""
+    },
+    {
+      "id": "free-residual",
+      "status": "PASS",
+      "value": 2.1943991412967048e-15,
+      "limit": 1e-08,
+      "operator": "less_equal",
+      "detail": ""
+    }
+  ],
+  "files": {
+    "result_import_report": "result.import_report.json",
+    "result_mesh": "patch_tet4.msh",
+    "result_model": "result.model.json",
+    "result_result": "result.json",
+    "result_setup": "result.setup.json",
+    "result_vtu": "result.vtu",
+    "summary": "benchmark_summary.json",
+    "manifest": "benchmark_manifest.json"
+  },
+  "message": ""
+}

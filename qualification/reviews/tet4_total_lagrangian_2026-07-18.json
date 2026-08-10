@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "review_id": "REV-TET4-TL-2026-07-18",
+  "scope": "tet4-total-lagrangian",
+  "validation_status": "engineering_internal_validated_with_recommendations",
+  "decision": "accepted_with_recommendations",
+  "decision_date": "2026-07-18",
+  "validator": {
+    "name": "Quentin Farinazzo",
+    "role": "auteur et validateur mecanique"
+  },
+  "review_mode": "self_review",
+  "independence": "not_independent",
+  "certification_claim": "none",
+  "use_class": "engineering_internal_research",
+  "source_revision": "c330865b6d2e2085ed5538fcb3af09e44aaec3dc",
+  "source_worktree_state": "dirty_at_review",
+  "accepted_domain": [
+    "TET4 total lagrangien en grandes rotations et grandes transformations",
+    "deformation de Green-Lagrange",
+    "contrainte de Piola-Kirchhoff 2",
+    "loi hyperelastique Saint-Venant-Kirchhoff",
+    "charges mortes nodales",
+    "tangente materielle et geometrique consistante",
+    "objectivite sous rotation rigide",
+    "assemblages multi-elements jusqu'a 24000 TET4 et 14883 DDL",
+    "convergence de la fleche globale du porte-a-faux",
+    "correlation meme maillage CalculiX 2.20 C3D4"
+  ],
+  "load_increment_policy": {
+    "minimum": 6,
+    "recommended": 10,
+    "default": 10
+  },
+  "excluded_domain": [
+    "contraintes locales en grandes transformations",
+    "flambement et charge critique",
+    "post-flambement et suivi de branche",
+    "pression suiveuse",
+    "contact",
+    "plasticite en deformation finie"
+  ],
+  "evidence": [
+    {"id": "VNV-TET4-TL-KERNEL-001", "sha256": "0120125e389cadcbc969fe729631b605517a86446616627e1298949bc6114489"},
+    {"id": "VNV-TET4-TL-ASSEMBLY-002", "sha256": "76b5811b05a505b783c5f88e932c23d51ee5f9fd5da061a5847aea59e407509a"},
+    {"id": "VNV-TET4-TL-STEPS-004", "sha256": "03c3c1aa41353db12481b2cc63fe9eae1d1cf1b85058770a15d0bb19ce3d8308"},
+    {"id": "VNV-TET4-TL-CALCULIX-003", "sha256": "9a521d17d890c700ee2cae333da0486c3357b6cc34bb6562c6f4716029dec409"}
+  ],
+  "reviewed_observations": [
+    "La variation de fleche entre les deux derniers maillages vaut 3,81 pour cent.",
+    "L'ecart a l'elastica d'Euler vaut 6,91 pour cent.",
+    "Les cas 6, 10, 12 et 24 increments atteignent le meme equilibre.",
+    "L'ecart maximal QF_solver/CalculiX vaut 1,86e-7 relatif.",
+    "Le TET4 reste couteux en flexion et exige un raffinement important."
+  ],
+  "recommendations": [
+    {"id": "REC-TL-001", "title": "Convergence des contraintes PK2 et Cauchy hors singularites", "status": "open_next_scope"},
+    {"id": "REC-TL-002", "title": "Benchmark de flambement d'Euler avec charge critique", "status": "open_next_scope"},
+    {"id": "REC-TL-003", "title": "Post-flambement avec imperfection et suivi de branche", "status": "open_next_scope"},
+    {"id": "REC-TL-004", "title": "Correlation CalculiX ou Code_Aster des contraintes et du flambement", "status": "open_next_scope"},
+    {"id": "REC-TL-005", "title": "Revue independante avant qualification externe", "status": "open_external_qualification_blocker"}
+  ],
+  "review_document": "docs/verification/revue_tet4_total_lagrangian.md",
+  "signature": {
+    "name": "Quentin Farinazzo",
+    "date": "2026-07-18",
+    "type": "declared_self_review",
+    "declaration": "Acceptation de Green-Lagrange, Piola-Kirchhoff 2, Saint-Venant-Kirchhoff, charges mortes, assemblage et convergence de fleche; minimum 6 increments et valeur recommandee/par defaut 10."
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "deformation_scale": 4213.822704338691,
+  "element_count": 184,
+  "fields": [
+    {
+      "element_count": 184,
+      "key": "von_mises",
+      "label": "Contrainte equivalente de von Mises [unite du modele]",
+      "maximum": 12500000.000000028,
+      "minimum": 12499999.999999948,
+      "path": "bm-sol-tet4-patch-001_von_mises.png",
+      "sha256": "c0727f13e6adb6bdce69d92134385c46cb3b79bfd6d721c5927910a28505fb55"
+    },
+    {
+      "element_count": 184,
+      "key": "strain_measure",
+      "label": "Deformation equivalente de von Mises [-]",
+      "maximum": 5.1587301587301715e-05,
+      "minimum": 5.158730158730138e-05,
+      "path": "bm-sol-tet4-patch-001_strain_measure.png",
+      "sha256": "3dbd73bfcfb2e569090c1b7290a36d7f4890644279a8e9d3034b525b0872cd9d"
+    }
+  ],
+  "schema_version": 1,
+  "title": "Patch 3D TET4 a contrainte constante"
+}

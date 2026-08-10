@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "review_id": "OWNER-REVIEW-TECHNICAL-MANUAL-0-3-2026-08-01",
+  "review_type": "owner_review_non_independent",
+  "owner": "Quentin Farinazzo",
+  "review_date": "2026-08-01",
+  "owner_declaration": "Je valide la qualite documentaire de la revision 0.3 avec ecarts V&V maintenus ouverts.",
+  "document": {
+    "path": "output/pdf/dossier_technique_elements_methodes_revision_0_3_candidate.pdf",
+    "sha256": "ec06c572e27c45d2d1159c3eef2a0ed84eadda4adfc3a28e009c3eb7b36d1708",
+    "size_bytes": 28793347,
+    "page_count": 277,
+    "applicable_version": "0.3-candidate"
+  },
+  "supersedes_review_for_documentation_closure": "qualification/reviews/technical_manual_owner_review_final_2026-08-01.json",
+  "decision": "accepted_with_recommendations",
+  "review_status": "closed",
+  "document_acceptance": true,
+  "qualification_effect": "none",
+  "maturity_effect": "none",
+  "accepted_scope": [
+    "technical document quality",
+    "document structure and readability",
+    "native LaTeX equations and matrices",
+    "colored figures and corrected graph scales",
+    "element and method pages with examples",
+    "references and traceability appendix",
+    "explicit maturity and limitation statements"
+  ],
+  "open_vv_gaps": [
+    {
+      "id": "PAIR-TET10-NONLINEAR",
+      "status": "open",
+      "reason": "TET10 nonlinear path has no dedicated structural benchmark.",
+      "effect": "No nonlinear TET10 maturity extrapolation."
+    },
+    {
+      "id": "PAIR-MITC4-LAMINATE-DYN",
+      "status": "open",
+      "reason": "MITC4 laminate modal/Newmark/harmonic scope is outside accepted perimeter.",
+      "effect": "Dedicated V&V campaign and Owner review required."
+    },
+    {
+      "id": "PAIR-MITC3-LAMINATE",
+      "status": "open",
+      "reason": "MITC3 laminate is execution-tested only; no ply-level external correlation.",
+      "effect": "No ply-level laminate maturity claim."
+    },
+    {
+      "id": "PAIR-MITC3-LAMINATE-DYN",
+      "status": "open",
+      "reason": "MITC3 laminate dynamic route is execution-tested only.",
+      "effect": "No laminate dynamic maturity claim."
+    }
+  ],
+  "open_non_blocking_recommendations": [
+    "Keep improving color maps for deformation, stress and strain figures.",
+    "Add more convergence curves where decisions depend on asymptotic behavior.",
+    "Add analytical, Code_Aster or CalculiX comparisons for each claimed element-method pair where feasible.",
+    "Treat gap_documented entries as active V&V work items, not as mechanical passes."
+  ],
+  "governance_note": "This Owner review closes the documentation-quality review for revision 0.3. It is not an independent review and does not qualify the open V&V gaps."
+}
+

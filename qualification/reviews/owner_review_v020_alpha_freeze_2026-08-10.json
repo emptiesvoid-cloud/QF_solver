@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "review_id": "OWNER-REVIEW-V020-ALPHA-FREEZE-2026-08-10",
+  "scope": "qf-solver-0.2.0-alpha-release-freeze",
+  "review_mode": "owner_review",
+  "owner": "Quentin Farinazzo",
+  "independence": "not_independent",
+  "certification_claim": "none",
+  "decision_date": "2026-08-10",
+  "decision": "accepted_with_recommendations",
+  "release_scope": "0.2.0-alpha",
+  "source_document": "docs/verification/release_v020_alpha_freeze.md",
+  "answers": {
+    "Q1_scope_and_exclusions": "yes",
+    "Q2_dynamic_owner_decisions_included": "yes",
+    "Q3_tet10_j2_and_mitc3_curved_bounded_experimental": "yes",
+    "Q4_mitc4_laminate_dynamic_experimental_with_modal_reserve": "yes",
+    "Q5_post_alpha_work_defined_after_publication": "yes",
+    "Q6_full_pytest_timeout_before_tag": "yes",
+    "Q7_local_tag_without_public_push": "yes_after_pytest_gate"
+  },
+  "accepted_owner_records": [
+    "qualification/reviews/owner_review_linear_dynamics_2026-08-02.json",
+    "qualification/reviews/mitc3_laminate_curved_projected_2026-08-09.json",
+    "qualification/reviews/tet10_j2_structural_code_aster_2026-08-09.json",
+    "qualification/reviews/mitc4_laminate_dynamic_2026-08-10.json",
+    "qualification/reviews/owner_review_pages_2026-08-02.json"
+  ],
+  "accepted_maturity_policy": {
+    "bounded_engineering": "accepted within documented scope and exclusions",
+    "experimental": "usable with explicit limits but not fully qualified",
+    "research": "not accepted for engineering decisions without new evidence"
+  },
+  "release_gates": {
+    "pytest_full_campaign": "blocking_before_tag",
+    "local_tag": "authorized_after_all_blocking_gates",
+    "public_push": "not_authorized",
+    "large_model_owner_audit": "post_release_owner_review"
+  },
+  "signature": {
+    "name": "Quentin Farinazzo",
+    "type": "declared_owner_review",
+    "date": "2026-08-10"
+  }
+}

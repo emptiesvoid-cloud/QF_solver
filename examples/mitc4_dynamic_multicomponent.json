@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "units": {"system": "SI"},
+  "verification_profile": "engineering",
+  "analysis": {
+    "type": "transient_dynamic",
+    "method": "newmark",
+    "time_step": 0.002,
+    "steps": 4,
+    "mass_formulation": "consistent",
+    "modal_damping_targets": [
+      {"frequency_hz": 5.0, "damping_ratio": 0.02},
+      {"frequency_hz": 25.0, "damping_ratio": 0.04}
+    ],
+    "load_factors_by_load": {
+      "0": [0.0, 0.5, 1.0, 0.5, 0.0],
+      "1": [0.0, -0.5, 0.0, 0.5, 0.0]
+    },
+    "history_probes": [
+      {"node": 1, "dof": "UZ", "label": "tip_uz"},
+      {"node": 2, "dof": "RY", "label": "tip_ry"}
+    ]
+  },
+  "nodes": [[0, 0, 0], [1, 0, 0], [1, 0.2, 0], [0, 0.2, 0]],
+  "elements": [
+    {"type": "MITC4", "nodes": [0, 1, 2, 3], "material": "skin"}
+  ],
+  "materials": {
+    "skin": {
+      "type": "shell_isotropic",
+      "E": 70000000000.0,
+      "nu": 0.3,
+      "t": 0.01,
+      "density": 2700.0,
+      "drilling_scale": 0.0001
+    }
+  },
+  "fixed_dofs": [
+    {"node": 0, "dofs": ["UX", "UY", "UZ", "RX", "RY", "RZ"]},
+    {"node": 3, "dofs": ["UX", "UY", "UZ", "RX", "RY", "RZ"]},
+    {"node": 1, "dofs": ["RZ"]},
+    {"node": 2, "dofs": ["RZ"]}
+  ],
+  "loads": [
+    {"node": 1, "dof": "UZ", "value": -100.0},
+    {"node": 2, "dof": "RY", "value": 10.0}
+  ]
+}

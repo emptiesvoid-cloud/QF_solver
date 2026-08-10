@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "units": {"system": "SI"},
+  "verification_profile": "engineering",
+  "analysis": {
+    "type": "transient_dynamic",
+    "method": "newmark",
+    "time_step": 0.0001,
+    "steps": 40,
+    "newmark_beta": 0.25,
+    "newmark_gamma": 0.5,
+    "rayleigh_alpha": 0.0,
+    "rayleigh_beta": 0.0,
+    "load_factors": [0.0],
+    "initial_displacements": [
+      {"node": 1, "dof": "UZ", "value": 0.0001},
+      {"node": 2, "dof": "UZ", "value": 0.0001}
+    ]
+  },
+  "nodes": [[0, 0, 0], [1, 0, 0], [1, 0.2, 0], [0, 0.2, 0]],
+  "elements": [
+    {"type": "MITC4", "nodes": [0, 1, 2, 3], "material": "skin"}
+  ],
+  "materials": {
+    "skin": {
+      "type": "shell_isotropic",
+      "E": 1000.0,
+      "nu": 0.3,
+      "t": 0.1,
+      "density": 10.0,
+      "drilling_scale": 0.0001
+    }
+  },
+  "fixed_dofs": [
+    {"node": 0, "dofs": ["UX", "UY", "UZ", "RX", "RY", "RZ"]},
+    {"node": 3, "dofs": ["UX", "UY", "UZ", "RX", "RY", "RZ"]}
+  ],
+  "loads": []
+}

@@ -1,0 +1,26 @@
+{
+  "deformation_scale": 25.766548543149224,
+  "element_count": 281,
+  "fields": [
+    {
+      "element_count": 281,
+      "key": "von_mises",
+      "label": "Contrainte equivalente de von Mises [unite du modele]",
+      "maximum": 28.495850575240805,
+      "minimum": 5.259517410631903,
+      "path": "bm-sol-tet10-lame-001_von_mises.png",
+      "sha256": "2e006d9d5950f938e5d5be8084fa1b25ff2ef79685af72eeb86c3da0ad4d4486"
+    },
+    {
+      "element_count": 281,
+      "key": "strain_measure",
+      "label": "Deformation equivalente de von Mises [-]",
+      "maximum": 0.024696403831875362,
+      "minimum": 0.004558248422547649,
+      "path": "bm-sol-tet10-lame-001_strain_measure.png",
+      "sha256": "8054ae37b7d405601c53bfdb06de7df0bf3ee6fe7bec1f08a2ee11ee0c4512e2"
+    }
+  ],
+  "schema_version": 1,
+  "title": "Cylindre epais TET10 sous pression"
+}

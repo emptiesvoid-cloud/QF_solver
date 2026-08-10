@@ -1,0 +1,678 @@
+{
+  "case_count": 11,
+  "cases": [
+    {
+      "checks": [
+        {
+          "detail": "",
+          "id": "beam2-static-compliance",
+          "limit": 1e-10,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 8.35268168241548e-14
+        },
+        {
+          "detail": "",
+          "id": "beam2-modal-reference",
+          "limit": 0.02,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 0.0004777935338015312
+        },
+        {
+          "detail": "",
+          "id": "beam2-modal-increment",
+          "limit": 0.005,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 3.10868657392001e-06
+        },
+        {
+          "detail": "",
+          "id": "beam2-modal-residual",
+          "limit": 1e-08,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 1.5097736903046054e-11
+        },
+        {
+          "detail": "",
+          "id": "beam2-static-residual",
+          "limit": 1e-08,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 5.659281234330947e-12
+        }
+      ],
+      "field_artifacts": [
+        {
+          "element_count": 16,
+          "key": "strain_measure",
+          "label": "Norme des courbures generalisees [1/unite de longueur]",
+          "maximum": 0.0022352430555556335,
+          "minimum": 3.100198412701871e-06,
+          "path": "bm-beam2-cantilever-001_strain_measure.png",
+          "sha256": "8c1068e964ff60fc583ac2e8d0538c5347be851ff096cebfeea3e21ad0d1d27a"
+        }
+      ],
+      "id": "BM-BEAM2-CANTILEVER-001",
+      "maturity": "experimental",
+      "mesh_sha256": "87ce202f5a0b6155334c332432d383ae6c3b3b554995ab8a0e581b3119d1d1ba",
+      "result_sha256": "16f39786b12846f820f7ed33401ba3e38505f8957d4b430c368956de754a9a94",
+      "status": "WARNING"
+    },
+    {
+      "checks": [
+        {
+          "detail": "",
+          "id": "modal-residual",
+          "limit": 1e-08,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 6.900810205063198e-12
+        },
+        {
+          "detail": "",
+          "id": "newmark-energy",
+          "limit": 1e-06,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 2.963132479091744e-12
+        },
+        {
+          "detail": "",
+          "id": "harmonic-zero-hz",
+          "limit": 1e-08,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 1.9334834147625453e-13
+        }
+      ],
+      "field_artifacts": [
+        {
+          "element_count": 194,
+          "key": "von_mises",
+          "label": "Contrainte equivalente de von Mises [unite du modele]",
+          "maximum": 97873.05529580709,
+          "minimum": 4056.420404129817,
+          "path": "bm-dyn-cantilever-001_von_mises.png",
+          "sha256": "ac30afffdcaaa0332c31328afa63e68e2d337ef9b0cd8d19680ecadc70b68a97"
+        },
+        {
+          "element_count": 194,
+          "key": "strain_measure",
+          "label": "Deformation equivalente de von Mises [-]",
+          "maximum": 4.0392054566523564e-07,
+          "minimum": 1.6740782620218294e-08,
+          "path": "bm-dyn-cantilever-001_strain_measure.png",
+          "sha256": "a1eaacf8d1c0e615e01d4c35a4e5f22c510569c5a56cd0422cda132e3914d1cd"
+        }
+      ],
+      "id": "BM-DYN-CANTILEVER-001",
+      "maturity": "stable_after_reinforced_tests",
+      "mesh_sha256": "67c53306ffb228f3384f0e2593bfc5066297417a2ffaf493e433c9ecea3f02f9",
+      "result_sha256": "77f35fbab5b14bd61eca5cd06b764692d2426d70d39ef114dd10c445e70cb8a3",
+      "status": "PASS"
+    },
+    {
+      "checks": [
+        {
+          "detail": "",
+          "id": "uniaxial-stress",
+          "limit": 0.02,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 3.9736429850260417e-16
+        },
+        {
+          "detail": "",
+          "id": "uniaxial-plastic-strain",
+          "limit": 1e-06,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 1.3877787807814457e-15
+        },
+        {
+          "detail": "",
+          "id": "load-step-sensitivity",
+          "limit": 1e-06,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 4.95575802617055e-13
+        },
+        {
+          "detail": "",
+          "id": "free-residual",
+          "limit": 1e-07,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 1.1197924259436353e-13
+        },
+        {
+          "detail": "",
+          "id": "step-residual",
+          "limit": 1e-07,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 1.1403240356501012e-13
+        }
+      ],
+      "field_artifacts": [
+        {
+          "element_count": 140,
+          "key": "von_mises",
+          "label": "Contrainte equivalente de von Mises [unite du modele]",
+          "maximum": 300000000.0000001,
+          "minimum": 299999999.9999997,
+          "path": "bm-nl-j2-bar-001_von_mises.png",
+          "sha256": "2310742f0151788b79567a7c52a6aaf0f771676fbd4a77d94794e06283e1b143"
+        },
+        {
+          "element_count": 140,
+          "key": "strain_measure",
+          "label": "Deformation equivalente de von Mises [-]",
+          "maximum": 0.05123809523809529,
+          "minimum": 0.051238095238094875,
+          "path": "bm-nl-j2-bar-001_strain_measure.png",
+          "sha256": "0960b28e6e07b6a8c1335b660331a4816d7e09f256c7e85974e19e9d69f29139"
+        },
+        {
+          "element_count": 140,
+          "key": "equivalent_plastic_strain",
+          "label": "Deformation plastique equivalente cumulee [-]",
+          "maximum": 0.05000000000000005,
+          "minimum": 0.049999999999999635,
+          "path": "bm-nl-j2-bar-001_plastic_strain.png",
+          "sha256": "53e027db53c5aa781d2d293a76ea8142334b9a161598eedb04f7d691aad7f5ab"
+        }
+      ],
+      "id": "BM-NL-J2-BAR-001",
+      "maturity": "experimental",
+      "mesh_sha256": "90f225c6b2c98782d71035c8bbe4acc3f37aab9ae1e51eca9f1db3ef709bf771",
+      "result_sha256": "25b1f8a6d67852f52c14f30bbcf3679992427bcd07dfd4b3cf462fb26a6bca83",
+      "status": "WARNING"
+    },
+    {
+      "checks": [
+        {
+          "detail": "",
+          "id": "normalized-tip",
+          "limit": 0.05,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 0.013020066185071956
+        },
+        {
+          "detail": "",
+          "id": "free-residual",
+          "limit": 1e-08,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 6.3416208248968685e-12
+        }
+      ],
+      "field_artifacts": [
+        {
+          "element_count": 256,
+          "key": "von_mises",
+          "label": "Contrainte equivalente de von Mises [unite du modele]",
+          "maximum": 275064.08837692253,
+          "minimum": 23230.923314647684,
+          "path": "bm-shl-cook-001_von_mises.png",
+          "sha256": "585769b82241848d9ea4d639d998c3398e0da8bb47f31e73b2c69a94b21be4f6"
+        },
+        {
+          "element_count": 256,
+          "key": "strain_measure",
+          "label": "Norme tensorielle maximale des deformations de face [-]",
+          "maximum": 0.2821654431108545,
+          "minimum": 0.023584029616810224,
+          "path": "bm-shl-cook-001_strain_measure.png",
+          "sha256": "94c83b1be691e7af8a31a67e9b7224dcfaa1ea29da4b56c293837e913eec7a07"
+        }
+      ],
+      "id": "BM-SHL-COOK-001",
+      "maturity": "stable",
+      "mesh_sha256": "c72c2512784e0c3ba0bd3685e40a401db630256630f47366390b2267627f11e7",
+      "result_sha256": "a5d3e694c2935c8c3be32233cbb486ae7dc8c8e59d481b3309f01a446e1e7d9a",
+      "status": "PASS"
+    },
+    {
+      "checks": [
+        {
+          "detail": "",
+          "id": "pinched-displacement",
+          "limit": 0.1,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 0.07259114220015705
+        },
+        {
+          "detail": "",
+          "id": "free-residual",
+          "limit": 1e-08,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 3.2142783863750625e-11
+        }
+      ],
+      "field_artifacts": [
+        {
+          "element_count": 2048,
+          "key": "von_mises",
+          "label": "Contrainte equivalente de von Mises [unite du modele]",
+          "maximum": 0.07150744686333467,
+          "minimum": 0.00027843511760877287,
+          "path": "bm-shl-pinched-001_von_mises.png",
+          "sha256": "cd87b45b354d4a0364b0d549be7a47104721c8fabe05379de437651e75d0eda1"
+        },
+        {
+          "element_count": 2048,
+          "key": "strain_measure",
+          "label": "Norme tensorielle maximale des deformations de face [-]",
+          "maximum": 2.367021830947422e-08,
+          "minimum": 9.842079179730475e-11,
+          "path": "bm-shl-pinched-001_strain_measure.png",
+          "sha256": "85ce20d47393a6f2f7f5876741869244ba6263acd4082ac063bde5dc2518ea06"
+        }
+      ],
+      "id": "BM-SHL-PINCHED-001",
+      "maturity": "stable_after_reinforced_tests",
+      "mesh_sha256": "3ae902a6a94b465e9b88d7c4a2aa47dbb62e767cb75ce5462aef1f64e6cf872b",
+      "result_sha256": "2414b9e7e7a72ab98618b5c0e2377e6f50f614f2dd80010812934ff09b2982e2",
+      "status": "PASS"
+    },
+    {
+      "checks": [
+        {
+          "detail": "",
+          "id": "edge-displacement",
+          "limit": 0.05,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 0.015827439480327426
+        },
+        {
+          "detail": "",
+          "id": "symmetry",
+          "limit": 0.01,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 0.00011452991271598588
+        },
+        {
+          "detail": "",
+          "id": "free-residual",
+          "limit": 1e-08,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 2.4480036431710997e-11
+        }
+      ],
+      "field_artifacts": [
+        {
+          "element_count": 400,
+          "key": "von_mises",
+          "label": "Contrainte equivalente de von Mises [unite du modele]",
+          "maximum": 267009.6097878004,
+          "minimum": 26341.396173357716,
+          "path": "bm-shl-scordelis-001_von_mises.png",
+          "sha256": "6d8b7a287cd5d65036de934ecd46fb87546dbbd73579414eb653eb7b5e19c737"
+        },
+        {
+          "element_count": 400,
+          "key": "strain_measure",
+          "label": "Norme tensorielle maximale des deformations de face [-]",
+          "maximum": 0.0006224352720658875,
+          "minimum": 5.475275262445897e-05,
+          "path": "bm-shl-scordelis-001_strain_measure.png",
+          "sha256": "ec05ca3b2e2b29498362960cf8fbbff6e772d94c8fc33e77fcb17f85924cee44"
+        }
+      ],
+      "id": "BM-SHL-SCORDELIS-001",
+      "maturity": "stable",
+      "mesh_sha256": "7315f62c1d117dd48517abc579724ecd9b31d133010c71d1da9998ed56df9400",
+      "result_sha256": "3559b485a65db1e6de7612a5271bc6747fc78df46ee526d80da1e9f61d7d32f9",
+      "status": "PASS"
+    },
+    {
+      "checks": [
+        {
+          "detail": "",
+          "id": "tet10-tip-reference",
+          "limit": 0.05,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 0.014424422149920681
+        },
+        {
+          "detail": "",
+          "id": "linear-method-agreement",
+          "limit": 1e-08,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 1.427641540906234e-12
+        },
+        {
+          "detail": "",
+          "id": "tet4-h-observed-order",
+          "limit": 1.0,
+          "operator": "greater_equal",
+          "status": "PASS",
+          "value": 1.1002379906762163
+        },
+        {
+          "detail": "",
+          "id": "tet4-h-finest-error",
+          "limit": 0.2,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 0.18505580317547488
+        },
+        {
+          "detail": "",
+          "id": "tet4-h-monotonicity",
+          "limit": 1e-12,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 0.0
+        },
+        {
+          "detail": "",
+          "id": "tet4-h-max-residual",
+          "limit": 1e-08,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 1.2641810500952356e-10
+        },
+        {
+          "detail": "",
+          "id": "tet4-free-residual",
+          "limit": 1e-08,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 4.398517434824576e-12
+        },
+        {
+          "detail": "",
+          "id": "tet10-free-residual",
+          "limit": 1e-08,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 3.3795097715513856e-11
+        }
+      ],
+      "field_artifacts": [
+        {
+          "element_count": 252,
+          "key": "von_mises",
+          "label": "Contrainte equivalente de von Mises [unite du modele]",
+          "maximum": 37237.80547010731,
+          "minimum": 1355.3083435075046,
+          "path": "bm-sol-cantilever-001_von_mises.png",
+          "sha256": "71b832bbda7fd570a9a8dc02eaef2e5818e1f28cdfc11602b53936b6f025889e"
+        },
+        {
+          "element_count": 252,
+          "key": "strain_measure",
+          "label": "Deformation equivalente de von Mises [-]",
+          "maximum": 4.6103949629656665e-07,
+          "minimum": 1.6780008062473866e-08,
+          "path": "bm-sol-cantilever-001_strain_measure.png",
+          "sha256": "42af24f43f9d391db025aab858b9bd816c74f4b5e18f70e9afc00c98e8e153f1"
+        }
+      ],
+      "id": "BM-SOL-CANTILEVER-001",
+      "maturity": "stable_after_reinforced_tests",
+      "mesh_sha256": "dc62d5c0acdda593b13eeb67435357ffbefeff20169547654c8afeced7f9d05e",
+      "result_sha256": "f8cfd2189c164cab459661eb5638a87465a118008850e6779fc16fe65f33611c",
+      "status": "PASS"
+    },
+    {
+      "checks": [
+        {
+          "detail": "",
+          "id": "radial-displacement",
+          "limit": 0.05,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 0.0009709548035980388
+        },
+        {
+          "detail": "",
+          "id": "free-residual",
+          "limit": 1e-08,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 4.726002690611845e-14
+        }
+      ],
+      "field_artifacts": [
+        {
+          "element_count": 281,
+          "key": "von_mises",
+          "label": "Contrainte equivalente de von Mises [unite du modele]",
+          "maximum": 28.495850575240805,
+          "minimum": 5.259517410631903,
+          "path": "bm-sol-tet10-lame-001_von_mises.png",
+          "sha256": "2e006d9d5950f938e5d5be8084fa1b25ff2ef79685af72eeb86c3da0ad4d4486"
+        },
+        {
+          "element_count": 281,
+          "key": "strain_measure",
+          "label": "Deformation equivalente de von Mises [-]",
+          "maximum": 0.024696403831875362,
+          "minimum": 0.004558248422547649,
+          "path": "bm-sol-tet10-lame-001_strain_measure.png",
+          "sha256": "8054ae37b7d405601c53bfdb06de7df0bf3ee6fe7bec1f08a2ee11ee0c4512e2"
+        }
+      ],
+      "id": "BM-SOL-TET10-LAME-001",
+      "maturity": "experimental",
+      "mesh_sha256": "f2f18581bfed3beaa8d353d749cdffd17a22de911d7f9947ae55e02dc5b89cf9",
+      "result_sha256": "a59a8115e794f454b8f086e22487fb4421add28b4d0d88e19eaa2c086e17e6f6",
+      "status": "WARNING"
+    },
+    {
+      "checks": [
+        {
+          "detail": "",
+          "id": "membrane-displacement",
+          "limit": 1e-09,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 3.604972223514302e-15
+        },
+        {
+          "detail": "",
+          "id": "membrane-constant-stress",
+          "limit": 1e-09,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 2.350059319083831e-14
+        },
+        {
+          "detail": "",
+          "id": "membrane-free-residual",
+          "limit": 1e-08,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 7.247104343076946e-14
+        },
+        {
+          "detail": "",
+          "id": "compression-displacement",
+          "limit": 1e-09,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 3.604972223514302e-15
+        },
+        {
+          "detail": "",
+          "id": "compression-constant-stress",
+          "limit": 1e-09,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 2.350059319083831e-14
+        },
+        {
+          "detail": "",
+          "id": "compression-free-residual",
+          "limit": 1e-08,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 7.247104343076946e-14
+        }
+      ],
+      "field_artifacts": [
+        {
+          "element_count": 2402,
+          "key": "von_mises",
+          "label": "Contrainte equivalente de von Mises [unite du modele]",
+          "maximum": 10000000.000000605,
+          "minimum": 9999999.999999484,
+          "path": "bm-sol-tet4-membrane-001_von_mises.png",
+          "sha256": "61bb0257dab48447a0d6fb15e1dd12d1ffe97cb642eb28f0b11b71cd5c80f528"
+        },
+        {
+          "element_count": 2402,
+          "key": "strain_measure",
+          "label": "Deformation equivalente de von Mises [-]",
+          "maximum": 0.00012380952380953132,
+          "minimum": 0.00012380952380951744,
+          "path": "bm-sol-tet4-membrane-001_strain_measure.png",
+          "sha256": "f6838c2d91ceedaf53561b9e86c2e8e264e42762306b699dda568f7f0aa119e6"
+        }
+      ],
+      "id": "BM-SOL-TET4-MEMBRANE-001",
+      "maturity": "stable_after_reinforced_tests",
+      "mesh_sha256": "1c499f5e23f879e0fbbe72b7140299808ff6584e62fc428f84af161ee235b708",
+      "result_sha256": "e56661fa20a7bba7e2e413d77c48761e7f2d53774764a2329997e91a08e7bfd6",
+      "status": "PASS"
+    },
+    {
+      "checks": [
+        {
+          "detail": "",
+          "id": "constant-stress",
+          "limit": 1e-09,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 1.5780105072324628e-15
+        },
+        {
+          "detail": "",
+          "id": "free-residual",
+          "limit": 1e-08,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 2.1943991412967048e-15
+        }
+      ],
+      "field_artifacts": [
+        {
+          "element_count": 184,
+          "key": "von_mises",
+          "label": "Contrainte equivalente de von Mises [unite du modele]",
+          "maximum": 12500000.000000028,
+          "minimum": 12499999.999999948,
+          "path": "bm-sol-tet4-patch-001_von_mises.png",
+          "sha256": "c0727f13e6adb6bdce69d92134385c46cb3b79bfd6d721c5927910a28505fb55"
+        },
+        {
+          "element_count": 184,
+          "key": "strain_measure",
+          "label": "Deformation equivalente de von Mises [-]",
+          "maximum": 5.1587301587301715e-05,
+          "minimum": 5.158730158730138e-05,
+          "path": "bm-sol-tet4-patch-001_strain_measure.png",
+          "sha256": "3dbd73bfcfb2e569090c1b7290a36d7f4890644279a8e9d3034b525b0872cd9d"
+        }
+      ],
+      "id": "BM-SOL-TET4-PATCH-001",
+      "maturity": "stable",
+      "mesh_sha256": "bb71b98503206589289acb7fb5af424662503f08098f359214f576974c4ef0b1",
+      "result_sha256": "8c8f8f869032edfa38bedf68e5ac66389aefc0083fbda3ba04f107a40ba61a55",
+      "status": "PASS"
+    },
+    {
+      "checks": [
+        {
+          "detail": "",
+          "id": "torsion-finest-twist",
+          "limit": 0.15,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 0.10359735207593766
+        },
+        {
+          "detail": "",
+          "id": "torsion-observed-order",
+          "limit": 0.5,
+          "operator": "greater_equal",
+          "status": "PASS",
+          "value": 1.5475445041844853
+        },
+        {
+          "detail": "",
+          "id": "torsion-monotonicity",
+          "limit": 1e-10,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 0.0
+        },
+        {
+          "detail": "",
+          "id": "torsion-load-resultant",
+          "limit": 1e-12,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 2.2737367544323206e-16
+        },
+        {
+          "detail": "",
+          "id": "torsion-force-resultant",
+          "limit": 1e-10,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 1.9328852131274407e-16
+        },
+        {
+          "detail": "",
+          "id": "torsion-free-residual",
+          "limit": 1e-08,
+          "operator": "less_equal",
+          "status": "PASS",
+          "value": 2.5481047987556336e-13
+        }
+      ],
+      "field_artifacts": [
+        {
+          "element_count": 3508,
+          "key": "von_mises",
+          "label": "Contrainte equivalente de von Mises [unite du modele]",
+          "maximum": 9712.748022994614,
+          "minimum": 332.18120177000986,
+          "path": "bm-sol-tet4-torsion-001_von_mises.png",
+          "sha256": "cab366cf09aaa0170112f27554526f8fde9d1aa18cbc6d610378f69c963bc43a"
+        },
+        {
+          "element_count": 3508,
+          "key": "strain_measure",
+          "label": "Deformation equivalente de von Mises [-]",
+          "maximum": 1.0522143691577498e-07,
+          "minimum": 3.5986296858417743e-09,
+          "path": "bm-sol-tet4-torsion-001_strain_measure.png",
+          "sha256": "5c83709a7ba764e827e2add59a79b21d3b994ac4a8b7bf941b58e236372270ed"
+        }
+      ],
+      "id": "BM-SOL-TET4-TORSION-001",
+      "maturity": "stable_after_reinforced_tests",
+      "mesh_sha256": "d2f885ce72dd368aeb62ab7458e21bfb77bdf999c101f7078007493e232295e2",
+      "result_sha256": "92698e23541708c07b03ad539f7fe4a444b3725f8021d51d10e9f817ee03c600",
+      "status": "PASS"
+    }
+  ],
+  "profile": "engineering",
+  "status": "PASS"
+}

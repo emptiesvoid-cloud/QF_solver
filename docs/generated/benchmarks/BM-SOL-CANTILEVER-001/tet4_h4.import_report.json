@@ -1,0 +1,64 @@
+{
+  "status": "WARNING",
+  "solver_name": "QF_solver",
+  "solver_version": "0.2.0a0",
+  "source_path": "tet4_h4.msh",
+  "source_sha256": "3cc67b6b8e846479902c0caa42eb1c33b953659d66643fdae63042c17386cb0a",
+  "setup_path": "tet4_h4.setup.json",
+  "setup_sha256": "5ea94b7428986cb3de1a541ff61db7303879ef8f3a31db2d8ebc8e3d3e7368c1",
+  "gmsh_version": "4.15.2",
+  "msh_version": "4.1",
+  "binary": false,
+  "element_family": "TET4",
+  "node_count": 270,
+  "element_count": 679,
+  "group_count": 5,
+  "physical_groups": [
+    {
+      "name": "x_max",
+      "dimension": 2,
+      "tag": 3,
+      "cell_count": 26,
+      "node_count": 20
+    },
+    {
+      "name": "x_min",
+      "dimension": 2,
+      "tag": 2,
+      "cell_count": 26,
+      "node_count": 20
+    },
+    {
+      "name": "y_min",
+      "dimension": 2,
+      "tag": 4,
+      "cell_count": 116,
+      "node_count": 80
+    },
+    {
+      "name": "z_min",
+      "dimension": 2,
+      "tag": 5,
+      "cell_count": 116,
+      "node_count": 80
+    },
+    {
+      "name": "domain",
+      "dimension": 3,
+      "tag": 1,
+      "cell_count": 679,
+      "node_count": 270
+    }
+  ],
+  "action_counts": {
+    "elements": 679,
+    "fixed_dofs": 20,
+    "surface_traction": 26
+  },
+  "orientation_repairs": 0,
+  "mesh_status": "PASS",
+  "warnings": [
+    "Physical group 'y_min' (dimension 2) is unused.",
+    "Physical group 'z_min' (dimension 2) is unused."
+  ]
+}

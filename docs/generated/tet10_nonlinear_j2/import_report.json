@@ -1,0 +1,86 @@
+{
+  "status": "WARNING",
+  "solver_name": "QF_solver",
+  "solver_version": "0.2.0a0",
+  "source_path": "j2_cyclic_bar_tet10.msh",
+  "source_sha256": "503d640c7fa94b6b00e50395469b66087df225afd8f521b41015007e99ea6103",
+  "setup_path": "model.setup.json",
+  "setup_sha256": "1c3a334d5b78c70eec19ce1590d182323708cad8ee834a68fc544bc62709bd02",
+  "gmsh_version": "4.15.2",
+  "msh_version": "4.1",
+  "binary": false,
+  "element_family": "TET10",
+  "node_count": 341,
+  "element_count": 140,
+  "group_count": 8,
+  "physical_groups": [
+    {
+      "name": "anchor_origin",
+      "dimension": 0,
+      "tag": 6,
+      "cell_count": 1,
+      "node_count": 1
+    },
+    {
+      "name": "anchor_x",
+      "dimension": 0,
+      "tag": 7,
+      "cell_count": 1,
+      "node_count": 1
+    },
+    {
+      "name": "anchor_xy",
+      "dimension": 0,
+      "tag": 8,
+      "cell_count": 1,
+      "node_count": 1
+    },
+    {
+      "name": "x_max",
+      "dimension": 2,
+      "tag": 3,
+      "cell_count": 14,
+      "node_count": 37
+    },
+    {
+      "name": "x_min",
+      "dimension": 2,
+      "tag": 2,
+      "cell_count": 14,
+      "node_count": 37
+    },
+    {
+      "name": "y_min",
+      "dimension": 2,
+      "tag": 4,
+      "cell_count": 26,
+      "node_count": 69
+    },
+    {
+      "name": "z_min",
+      "dimension": 2,
+      "tag": 5,
+      "cell_count": 26,
+      "node_count": 69
+    },
+    {
+      "name": "domain",
+      "dimension": 3,
+      "tag": 1,
+      "cell_count": 140,
+      "node_count": 341
+    }
+  ],
+  "action_counts": {
+    "elements": 140,
+    "fixed_dofs": 39,
+    "surface_traction": 14
+  },
+  "orientation_repairs": 0,
+  "mesh_status": "PASS",
+  "warnings": [
+    "Physical group 'anchor_x' (dimension 0) is unused.",
+    "Physical group 'y_min' (dimension 2) is unused.",
+    "Physical group 'z_min' (dimension 2) is unused."
+  ]
+}

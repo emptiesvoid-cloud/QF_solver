@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "analysis": {"type": "linear_static", "method": "direct"},
+  "units": {"system": "SI"},
+  "verification_profile": "quick",
+  "nodes": [[0, 0, 0], [1, 0, 0], [1, 1, 0], [0, 1, 0]],
+  "elements": [
+    {"type": "MITC3", "nodes": [0, 1, 2], "material": "skin"},
+    {"type": "MITC3", "nodes": [0, 2, 3], "material": "skin"}
+  ],
+  "materials": {
+    "skin": {
+      "type": "shell_isotropic",
+      "E": 70000000000.0,
+      "nu": 0.3,
+      "t": 0.01,
+      "density": 2700.0
+    }
+  },
+  "fixed_dofs": [
+    {"node": 0, "dofs": ["UX", "UY", "UZ", "RX", "RY", "RZ"]},
+    {"node": 3, "dofs": ["UX", "UY", "UZ", "RX", "RY", "RZ"]}
+  ],
+  "loads": [
+    {"node": 1, "dof": "UZ", "value": -500.0},
+    {"node": 2, "dof": "UZ", "value": -500.0}
+  ]
+}

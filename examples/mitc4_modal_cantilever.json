@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "units": {"system": "SI"},
+  "verification_profile": "engineering",
+  "analysis": {
+    "type": "modal",
+    "method": "eigh",
+    "modes": 3,
+    "modal_residual_failure_tolerance": 1e-7
+  },
+  "nodes": [[0, 0, 0], [1, 0, 0], [1, 0.2, 0], [0, 0.2, 0]],
+  "elements": [
+    {"type": "MITC4", "nodes": [0, 1, 2, 3], "material": "skin"}
+  ],
+  "materials": {
+    "skin": {
+      "type": "shell_isotropic",
+      "E": 70000000000.0,
+      "nu": 0.3,
+      "t": 0.01,
+      "density": 2700.0,
+      "drilling_scale": 0.0001
+    }
+  },
+  "fixed_dofs": [
+    {"node": 0, "dofs": ["UX", "UY", "UZ", "RX", "RY", "RZ"]},
+    {"node": 3, "dofs": ["UX", "UY", "UZ", "RX", "RY", "RZ"]}
+  ],
+  "loads": []
+}

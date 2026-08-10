@@ -1,0 +1,91 @@
+{
+  "manifest_schema_version": 1,
+  "created_at_utc": "2026-08-10T07:56:40.095188Z",
+  "solver": {
+    "name": "QF_solver",
+    "version": "0.2.0a0"
+  },
+  "benchmark_id": "BM-SHL-COOK-001",
+  "profile": "engineering",
+  "status": "PASS",
+  "source": {
+    "repository": ".",
+    "revision": "c8d7fcf4fb176c9cd595360ffd0f4417c19285ce",
+    "dirty": true
+  },
+  "runtime": {
+    "python": {
+      "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+      "executable": "C:\\Python313\\python.exe"
+    },
+    "platform": {
+      "system": "Windows",
+      "release": "10",
+      "machine": "AMD64",
+      "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+    },
+    "packages": {
+      "numpy": "2.2.6",
+      "scipy": "1.15.2",
+      "matplotlib": "3.10.3",
+      "h5py": "3.14.0",
+      "mpi4py": "4.1.0",
+      "petsc4py": null
+    },
+    "blas": {
+      "name": "scipy-openblas",
+      "version": "0.3.29",
+      "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+    },
+    "parallel_environment": {
+      "OMP_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "PETSC_ARCH": null
+    }
+  },
+  "files": [
+    {
+      "role": "benchmark_artifact",
+      "path": "benchmark_summary.json",
+      "size_bytes": 1523,
+      "sha256": "bf61d4061a47b9ea05d510f8ff4cdca246bcd5015aa74fc27a4ff0930c128754"
+    },
+    {
+      "role": "benchmark_artifact",
+      "path": "cook_mitc4.msh",
+      "size_bytes": 12185,
+      "sha256": "c72c2512784e0c3ba0bd3685e40a401db630256630f47366390b2267627f11e7"
+    },
+    {
+      "role": "benchmark_artifact",
+      "path": "result.import_report.json",
+      "size_bytes": 1101,
+      "sha256": "f2e3ad57c7599b7471bef2b85207a88709ed51dc2af39acd1b78d0b62ea376c3"
+    },
+    {
+      "role": "benchmark_artifact",
+      "path": "result.json",
+      "size_bytes": 8259806,
+      "sha256": "a5d3e694c2935c8c3be32233cbb486ae7dc8c8e59d481b3309f01a446e1e7d9a"
+    },
+    {
+      "role": "benchmark_artifact",
+      "path": "result.model.json",
+      "size_bytes": 60455,
+      "sha256": "02a31a70d72bbecc72753ff1dac6b9c50fe6b5d20f2184c87c1f6af12125d76a"
+    },
+    {
+      "role": "benchmark_artifact",
+      "path": "result.setup.json",
+      "size_bytes": 1171,
+      "sha256": "80e7002bf3b776aff93cefac66148e0f5545cce4f3ca70cf5ef3a2d27cf0800e"
+    },
+    {
+      "role": "benchmark_artifact",
+      "path": "result.vtu",
+      "size_bytes": 49716,
+      "sha256": "6b27a8ab412afe8618d37a57616dd4e397d3d4f1b78f57e0c5af12e1fd502e48"
+    }
+  ]
+}

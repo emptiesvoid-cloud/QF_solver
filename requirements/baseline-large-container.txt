@@ -1,0 +1,7 @@
+# Candidate container baseline for P4 large-scale campaigns.
+# The immutable image digest is controlled in docker/large/Dockerfile.
+python==3.12.3
+mpi4py==4.1.2
+petsc==3.25.1
+petsc4py==3.25.1
+h5py==3.13.0

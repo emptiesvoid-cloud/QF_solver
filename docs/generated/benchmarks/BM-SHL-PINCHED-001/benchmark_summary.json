@@ -1,0 +1,63 @@
+{
+  "benchmark": {
+    "identifier": "BM-SHL-PINCHED-001",
+    "title": "Cylindre pince MITC4 avec diaphragmes",
+    "family": "MITC4",
+    "analyses": [
+      "linear_static"
+    ],
+    "maturity": "stable_after_reinforced_tests",
+    "reference_type": "published_converged_value",
+    "reference": "Deplacement radial 1.8248e-5 en unites coherentes",
+    "reference_id": "REF-SHELL-OBSTACLE",
+    "reference_url": "https://doi.org/10.1016/0168-874X(85)90003-4",
+    "requirements": [
+      "REQ-SOL-002",
+      "REQ-CMP-003"
+    ],
+    "criteria": {
+      "normalized_displacement_error_max": 0.1,
+      "free_residual_max": 1e-08
+    }
+  },
+  "status": "PASS",
+  "metrics": {
+    "mesh": [
+      32,
+      64
+    ],
+    "loaded_point_displacement": 1.6923356837131533e-05,
+    "reference_displacement": 1.8248e-05,
+    "normalized_displacement_error": 0.07259114220015705,
+    "free_relative_residual": 3.2142783863750625e-11
+  },
+  "checks": [
+    {
+      "id": "pinched-displacement",
+      "status": "PASS",
+      "value": 0.07259114220015705,
+      "limit": 0.1,
+      "operator": "less_equal",
+      "detail": ""
+    },
+    {
+      "id": "free-residual",
+      "status": "PASS",
+      "value": 3.2142783863750625e-11,
+      "limit": 1e-08,
+      "operator": "less_equal",
+      "detail": ""
+    }
+  ],
+  "files": {
+    "result_import_report": "result.import_report.json",
+    "result_mesh": "pinched_cylinder_mitc4.msh",
+    "result_model": "result.model.json",
+    "result_result": "result.json",
+    "result_setup": "result.setup.json",
+    "result_vtu": "result.vtu",
+    "summary": "benchmark_summary.json",
+    "manifest": "benchmark_manifest.json"
+  },
+  "message": ""
+}

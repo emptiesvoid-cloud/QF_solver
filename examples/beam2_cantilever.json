@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "units": {"system": "SI"},
+  "verification_profile": "engineering",
+  "analysis": "linear_static",
+  "nodes": [[0.0, 0.0, 0.0], [2.0, 0.0, 0.0]],
+  "elements": [
+    {"type": "BEAM2", "nodes": [0, 1], "material": "beam"}
+  ],
+  "materials": {
+    "beam": {
+      "type": "beam_isotropic",
+      "E": 210000000000.0,
+      "nu": 0.3,
+      "A": 0.01,
+      "Iy": 0.000002,
+      "Iz": 0.000003,
+      "J": 0.000005,
+      "kappa_y": 0.8333333333333334,
+      "kappa_z": 0.8333333333333334,
+      "density": 7800.0,
+      "reference_vector": [0.0, 1.0, 0.0]
+    }
+  },
+  "fixed_dofs": [
+    {"node": 0, "dofs": ["UX", "UY", "UZ", "RX", "RY", "RZ"]}
+  ],
+  "loads": [
+    {"node": 1, "dof": "UY", "value": 1000.0}
+  ]
+}

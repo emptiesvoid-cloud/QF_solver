@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "mesh_scale_to_m": 1.0,
+  "units": {
+    "system": "consistent_benchmark"
+  },
+  "verification_profile": "engineering",
+  "analysis": {
+    "type": "linear_static",
+    "method": "direct"
+  },
+  "materials": {
+    "shell": {
+      "type": "shell_isotropic",
+      "E": 3000000.0,
+      "nu": 0.3,
+      "t": 3.0,
+      "density": 1.0
+    }
+  },
+  "groups": [
+    {
+      "name": "shell",
+      "dimension": 2,
+      "actions": [
+        {
+          "type": "elements",
+          "element_type": "MITC4",
+          "material": "shell"
+        }
+      ]
+    },
+    {
+      "name": "diaphragms",
+      "dimension": 1,
+      "actions": [
+        {
+          "type": "fixed_dofs",
+          "dofs": [
+            "UY",
+            "UZ",
+            "RX"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "anchor",
+      "dimension": 0,
+      "actions": [
+        {
+          "type": "fixed_dofs",
+          "dofs": [
+            "UX",
+            "RZ"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "load_a",
+      "dimension": 0,
+      "actions": [
+        {
+          "type": "nodal_load",
+          "dof": "UY",
+          "value": -1.0
+        }
+      ]
+    },
+    {
+      "name": "load_b",
+      "dimension": 0,
+      "actions": [
+        {
+          "type": "nodal_load",
+          "dof": "UY",
+          "value": 1.0
+        }
+      ]
+    }
+  ]
+}

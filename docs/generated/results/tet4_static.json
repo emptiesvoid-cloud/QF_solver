@@ -1,0 +1,2182 @@
+{
+  "status": "PASS",
+  "run_verdict": "PASS",
+  "analysis": "linear_static",
+  "method": "direct",
+  "message": "",
+  "node_count": 4,
+  "element_count": 1,
+  "ndof": 12,
+  "max_displacement": 2.122448979591837e-08,
+  "displacements": [
+    {
+      "node": 0,
+      "dofs": {
+        "UX": 0.0,
+        "UY": 0.0,
+        "UZ": 0.0
+      }
+    },
+    {
+      "node": 1,
+      "dofs": {
+        "UX": 2.122448979591837e-08,
+        "UY": 0.0,
+        "UZ": 0.0
+      }
+    },
+    {
+      "node": 2,
+      "dofs": {
+        "UX": 0.0,
+        "UY": 0.0,
+        "UZ": 0.0
+      }
+    },
+    {
+      "node": 3,
+      "dofs": {
+        "UX": 0.0,
+        "UY": 0.0,
+        "UZ": 0.0
+      }
+    }
+  ],
+  "element_results": [
+    {
+      "element": 0,
+      "type": "TET4",
+      "strain": [
+        2.122448979591837e-08,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "stress": [
+        6000.0,
+        2571.4285714285716,
+        2571.4285714285716,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "principal_strain": [
+        0.0,
+        0.0,
+        2.122448979591837e-08
+      ],
+      "principal_stress": [
+        2571.4285714285716,
+        2571.4285714285716,
+        6000.0
+      ],
+      "strain_trace": 2.122448979591837e-08,
+      "stress_trace": 11142.857142857145,
+      "hydrostatic_pressure": -3714.285714285715,
+      "deviatoric_stress": [
+        2285.714285714285,
+        -1142.8571428571436,
+        -1142.8571428571436,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "von_mises": 3428.5714285714284,
+      "integration_points": [
+        {
+          "index": 0,
+          "location": "centroid",
+          "barycentric": [
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ],
+          "coordinates": [
+            0.25,
+            0.25,
+            0.25
+          ],
+          "weight": 0.16666666666666666,
+          "strain": [
+            2.122448979591837e-08,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "stress": [
+            6000.0,
+            2571.4285714285716,
+            2571.4285714285716,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "principal_strain": [
+            0.0,
+            0.0,
+            2.122448979591837e-08
+          ],
+          "principal_stress": [
+            2571.4285714285716,
+            2571.4285714285716,
+            6000.0
+          ],
+          "strain_trace": 2.122448979591837e-08,
+          "stress_trace": 11142.857142857145,
+          "hydrostatic_pressure": -3714.285714285715,
+          "deviatoric_stress": [
+            2285.714285714285,
+            -1142.8571428571436,
+            -1142.8571428571436,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "von_mises": 3428.5714285714284
+        }
+      ],
+      "nodal_results": [
+        {
+          "node": 0,
+          "local_node": 0,
+          "method": "constant_strain",
+          "coordinates": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "strain": [
+            2.122448979591837e-08,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "stress": [
+            6000.0,
+            2571.4285714285716,
+            2571.4285714285716,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "principal_strain": [
+            0.0,
+            0.0,
+            2.122448979591837e-08
+          ],
+          "principal_stress": [
+            2571.4285714285716,
+            2571.4285714285716,
+            6000.0
+          ],
+          "strain_trace": 2.122448979591837e-08,
+          "stress_trace": 11142.857142857145,
+          "hydrostatic_pressure": -3714.285714285715,
+          "von_mises": 3428.5714285714284
+        },
+        {
+          "node": 1,
+          "local_node": 1,
+          "method": "constant_strain",
+          "coordinates": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "strain": [
+            2.122448979591837e-08,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "stress": [
+            6000.0,
+            2571.4285714285716,
+            2571.4285714285716,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "principal_strain": [
+            0.0,
+            0.0,
+            2.122448979591837e-08
+          ],
+          "principal_stress": [
+            2571.4285714285716,
+            2571.4285714285716,
+            6000.0
+          ],
+          "strain_trace": 2.122448979591837e-08,
+          "stress_trace": 11142.857142857145,
+          "hydrostatic_pressure": -3714.285714285715,
+          "von_mises": 3428.5714285714284
+        },
+        {
+          "node": 2,
+          "local_node": 2,
+          "method": "constant_strain",
+          "coordinates": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "strain": [
+            2.122448979591837e-08,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "stress": [
+            6000.0,
+            2571.4285714285716,
+            2571.4285714285716,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "principal_strain": [
+            0.0,
+            0.0,
+            2.122448979591837e-08
+          ],
+          "principal_stress": [
+            2571.4285714285716,
+            2571.4285714285716,
+            6000.0
+          ],
+          "strain_trace": 2.122448979591837e-08,
+          "stress_trace": 11142.857142857145,
+          "hydrostatic_pressure": -3714.285714285715,
+          "von_mises": 3428.5714285714284
+        },
+        {
+          "node": 3,
+          "local_node": 3,
+          "method": "constant_strain",
+          "coordinates": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "strain": [
+            2.122448979591837e-08,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "stress": [
+            6000.0,
+            2571.4285714285716,
+            2571.4285714285716,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "principal_strain": [
+            0.0,
+            0.0,
+            2.122448979591837e-08
+          ],
+          "principal_stress": [
+            2571.4285714285716,
+            2571.4285714285716,
+            6000.0
+          ],
+          "strain_trace": 2.122448979591837e-08,
+          "stress_trace": 11142.857142857145,
+          "hydrostatic_pressure": -3714.285714285715,
+          "von_mises": 3428.5714285714284
+        }
+      ]
+    }
+  ],
+  "nodal_results": [
+    {
+      "node": 0,
+      "contributing_element_count": 1,
+      "source": "element_nodal_average",
+      "hydrostatic_pressure": -3714.285714285715,
+      "principal_strain": [
+        0.0,
+        0.0,
+        2.122448979591837e-08
+      ],
+      "principal_stress": [
+        2571.4285714285716,
+        2571.4285714285716,
+        6000.0
+      ],
+      "strain": [
+        2.122448979591837e-08,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "strain_trace": 2.122448979591837e-08,
+      "stress": [
+        6000.0,
+        2571.4285714285716,
+        2571.4285714285716,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "stress_trace": 11142.857142857145,
+      "von_mises": 3428.5714285714284,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    {
+      "node": 1,
+      "contributing_element_count": 1,
+      "source": "element_nodal_average",
+      "hydrostatic_pressure": -3714.285714285715,
+      "principal_strain": [
+        0.0,
+        0.0,
+        2.122448979591837e-08
+      ],
+      "principal_stress": [
+        2571.4285714285716,
+        2571.4285714285716,
+        6000.0
+      ],
+      "strain": [
+        2.122448979591837e-08,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "strain_trace": 2.122448979591837e-08,
+      "stress": [
+        6000.0,
+        2571.4285714285716,
+        2571.4285714285716,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "stress_trace": 11142.857142857145,
+      "von_mises": 3428.5714285714284,
+      "x": 1.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    {
+      "node": 2,
+      "contributing_element_count": 1,
+      "source": "element_nodal_average",
+      "hydrostatic_pressure": -3714.285714285715,
+      "principal_strain": [
+        0.0,
+        0.0,
+        2.122448979591837e-08
+      ],
+      "principal_stress": [
+        2571.4285714285716,
+        2571.4285714285716,
+        6000.0
+      ],
+      "strain": [
+        2.122448979591837e-08,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "strain_trace": 2.122448979591837e-08,
+      "stress": [
+        6000.0,
+        2571.4285714285716,
+        2571.4285714285716,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "stress_trace": 11142.857142857145,
+      "von_mises": 3428.5714285714284,
+      "x": 0.0,
+      "y": 1.0,
+      "z": 0.0
+    },
+    {
+      "node": 3,
+      "contributing_element_count": 1,
+      "source": "element_nodal_average",
+      "hydrostatic_pressure": -3714.285714285715,
+      "principal_strain": [
+        0.0,
+        0.0,
+        2.122448979591837e-08
+      ],
+      "principal_stress": [
+        2571.4285714285716,
+        2571.4285714285716,
+        6000.0
+      ],
+      "strain": [
+        2.122448979591837e-08,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "strain_trace": 2.122448979591837e-08,
+      "stress": [
+        6000.0,
+        2571.4285714285716,
+        2571.4285714285716,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "stress_trace": 11142.857142857145,
+      "von_mises": 3428.5714285714284,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 1.0
+    }
+  ],
+  "solver": {
+    "method": "direct",
+    "iterations": 1,
+    "residual_norm": 0.0,
+    "converged": true,
+    "preconditioner": "none",
+    "residual_history": [
+      0.0
+    ],
+    "selection": {
+      "requested_method": "direct",
+      "used_method": "direct",
+      "recommended_method": "cg",
+      "rationale": "reduced matrix is real symmetric positive definite (dense Cholesky verified)",
+      "warnings": [],
+      "matrix_contract": {
+        "symmetric": true,
+        "real": true,
+        "positive_diagonal": true,
+        "positive_definite_evidence": "dense_cholesky",
+        "positive_definite_verified": true,
+        "positive_definite_assumed": false
+      },
+      "resource_estimate": {
+        "nnz": 3,
+        "sparse_memory_bytes": 52,
+        "direct_memory_estimate_bytes": 520,
+        "direct_memory_budget_bytes": null,
+        "direct_budget_exceeded": false
+      }
+    },
+    "execution": {
+      "requested_method": "direct",
+      "preconditioner": "none",
+      "rtol": null,
+      "atol": null,
+      "maxiter": null,
+      "residual_failure_tolerance": 1e-07,
+      "fallback_used": false,
+      "used_method": "direct",
+      "linear_solve_seconds": 0.0001976999919861555,
+      "assembly_seconds": 0.0006265999982133508,
+      "total_seconds": 0.015696800022851676,
+      "resource_estimate": {
+        "nnz": 3,
+        "sparse_memory_bytes": 52,
+        "direct_memory_estimate_bytes": 520,
+        "direct_memory_budget_bytes": null,
+        "direct_budget_exceeded": false
+      }
+    },
+    "load_assembly": {
+      "nodal_load_count": 1,
+      "distributed_load_count": 0,
+      "load_vector_count": 0,
+      "resultant": [
+        1000.0,
+        0.0,
+        0.0
+      ],
+      "moment_about_origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "contributions": [
+        {
+          "index": 0,
+          "type": "nodal",
+          "node": 1,
+          "dof": "UX",
+          "resultant": [
+            1000.0,
+            0.0,
+            0.0
+          ],
+          "moment_about_origin": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "vector_norm": 1000.0,
+          "nonzero_dof_count": 1
+        }
+      ]
+    },
+    "multipoint_constraints": {
+      "strategy": "sparse_affine_substitution",
+      "constraint_count": 9,
+      "mpc_count": 0,
+      "fixed_constraint_count": 9,
+      "independent_dof_count": 3,
+      "dependent_dof_count": 9,
+      "transform_nnz": 3
+    },
+    "contact": {}
+  },
+  "mesh_report": {
+    "status": "PASS",
+    "errors": [],
+    "warnings": [],
+    "details": {
+      "node_count": 4,
+      "element_count": 1,
+      "material_count": 1,
+      "fixed_condition_count": 3,
+      "load_count": 1,
+      "nodal_load_count": 1,
+      "distributed_load_count": 0,
+      "spring_count": 0,
+      "concentrated_mass_count": 0,
+      "multipoint_constraint_count": 0,
+      "rbe2_count": 0,
+      "rbe3_count": 0,
+      "contact_count": 0,
+      "element_types": {
+        "TET4": 1
+      },
+      "quality_thresholds": {
+        "tet_min_signed_volume": 1e-14,
+        "tet_min_quality": 0.05,
+        "tet_min_radius_ratio": 0.05,
+        "tet_max_aspect_ratio": 20.0,
+        "tet_min_relative_volume": 0.0001,
+        "tet10_max_mid_edge_deviation_ratio": 0.05,
+        "tet10_min_sampled_jacobian": 1e-14,
+        "tet10_min_jacobian_ratio": 0.05,
+        "mitc4_max_aspect_ratio": 10.0,
+        "mitc4_max_planarity_ratio": 0.001,
+        "mitc4_min_angle_degrees": 30.0,
+        "mitc4_max_angle_degrees": 150.0,
+        "mitc4_max_warpage_degrees": 5.0,
+        "mitc3_max_aspect_ratio": 10.0,
+        "mitc3_min_angle_degrees": 20.0,
+        "mitc3_max_angle_degrees": 140.0,
+        "mitc3_min_relative_area": 1e-08
+      },
+      "element_quality": [
+        {
+          "index": 0,
+          "type": "TET4",
+          "signed_volume": 0.16666666666666666,
+          "quality": 0.7698003589195013,
+          "radius_ratio": 0.7320508075688774,
+          "edge_length_min": 1.0,
+          "edge_length_max": 1.4142135623730951,
+          "aspect_ratio": 1.4142135623730951,
+          "relative_volume": 0.058925565098878946,
+          "skew": 0.23019964108049873,
+          "quality_status": "PASS",
+          "quality_warnings": []
+        }
+      ],
+      "component_count": 1,
+      "components": [
+        {
+          "index": 0,
+          "nodes": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "elements": [
+            0
+          ],
+          "element_types": {
+            "TET4": 1
+          },
+          "fixed_dof_count": 9,
+          "fixed_translation_dof_count": 9,
+          "load_count": 1,
+          "fixed_translation_node_count": 3
+        }
+      ],
+      "isolated_nodes": [],
+      "mechanical_rank": {
+        "checked": true,
+        "free_dof_count": 3,
+        "rank": 3,
+        "zero_mode_count": 0,
+        "eigenvalue_min": 13461538461.538462,
+        "eigenvalue_max": 47115384615.38461,
+        "tolerance": 4.711538461538462
+      },
+      "error_count": 0,
+      "warning_count": 0
+    }
+  },
+  "audit": {
+    "version": 1,
+    "purpose": "white_box_solver_audit",
+    "analysis": "linear_static",
+    "method": "direct",
+    "node_count": 4,
+    "element_count": 1,
+    "ndof": 12,
+    "mesh_status": "PASS",
+    "mesh_errors": [],
+    "mesh_warnings": [],
+    "mesh_details": {
+      "node_count": 4,
+      "element_count": 1,
+      "material_count": 1,
+      "fixed_condition_count": 3,
+      "load_count": 1,
+      "nodal_load_count": 1,
+      "distributed_load_count": 0,
+      "spring_count": 0,
+      "concentrated_mass_count": 0,
+      "multipoint_constraint_count": 0,
+      "rbe2_count": 0,
+      "rbe3_count": 0,
+      "contact_count": 0,
+      "element_types": {
+        "TET4": 1
+      },
+      "quality_thresholds": {
+        "tet_min_signed_volume": 1e-14,
+        "tet_min_quality": 0.05,
+        "tet_min_radius_ratio": 0.05,
+        "tet_max_aspect_ratio": 20.0,
+        "tet_min_relative_volume": 0.0001,
+        "tet10_max_mid_edge_deviation_ratio": 0.05,
+        "tet10_min_sampled_jacobian": 1e-14,
+        "tet10_min_jacobian_ratio": 0.05,
+        "mitc4_max_aspect_ratio": 10.0,
+        "mitc4_max_planarity_ratio": 0.001,
+        "mitc4_min_angle_degrees": 30.0,
+        "mitc4_max_angle_degrees": 150.0,
+        "mitc4_max_warpage_degrees": 5.0,
+        "mitc3_max_aspect_ratio": 10.0,
+        "mitc3_min_angle_degrees": 20.0,
+        "mitc3_max_angle_degrees": 140.0,
+        "mitc3_min_relative_area": 1e-08
+      },
+      "element_quality": [
+        {
+          "index": 0,
+          "type": "TET4",
+          "signed_volume": 0.16666666666666666,
+          "quality": 0.7698003589195013,
+          "radius_ratio": 0.7320508075688774,
+          "edge_length_min": 1.0,
+          "edge_length_max": 1.4142135623730951,
+          "aspect_ratio": 1.4142135623730951,
+          "relative_volume": 0.058925565098878946,
+          "skew": 0.23019964108049873,
+          "quality_status": "PASS",
+          "quality_warnings": []
+        }
+      ],
+      "component_count": 1,
+      "components": [
+        {
+          "index": 0,
+          "nodes": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "elements": [
+            0
+          ],
+          "element_types": {
+            "TET4": 1
+          },
+          "fixed_dof_count": 9,
+          "fixed_translation_dof_count": 9,
+          "load_count": 1,
+          "fixed_translation_node_count": 3
+        }
+      ],
+      "isolated_nodes": [],
+      "mechanical_rank": {
+        "checked": true,
+        "free_dof_count": 3,
+        "rank": 3,
+        "zero_mode_count": 0,
+        "eigenvalue_min": 13461538461.538462,
+        "eigenvalue_max": 47115384615.38461,
+        "tolerance": 4.711538461538462
+      },
+      "error_count": 0,
+      "warning_count": 0
+    },
+    "element_types": {
+      "TET4": 1
+    },
+    "material_names": [
+      "steel"
+    ],
+    "dof_map": [
+      {
+        "node": 0,
+        "dofs": {
+          "UX": 0,
+          "UY": 1,
+          "UZ": 2
+        }
+      },
+      {
+        "node": 1,
+        "dofs": {
+          "UX": 3,
+          "UY": 4,
+          "UZ": 5
+        }
+      },
+      {
+        "node": 2,
+        "dofs": {
+          "UX": 6,
+          "UY": 7,
+          "UZ": 8
+        }
+      },
+      {
+        "node": 3,
+        "dofs": {
+          "UX": 9,
+          "UY": 10,
+          "UZ": 11
+        }
+      }
+    ],
+    "element_dofs": [
+      {
+        "index": 0,
+        "type": "TET4",
+        "nodes": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "material": "steel",
+        "dofs_per_node": [
+          "UX",
+          "UY",
+          "UZ"
+        ],
+        "global_dof_indices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ]
+      }
+    ],
+    "boundary": {
+      "fixed_dof_count": 9,
+      "free_dof_count": 3,
+      "fixed_indices": [
+        0,
+        1,
+        2,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "free_indices": [
+        3,
+        4,
+        5
+      ]
+    },
+    "vectors": [
+      {
+        "name": "loads",
+        "size": 12,
+        "norm": 1000.0,
+        "max_abs": 1000.0,
+        "nonzero_count": 1,
+        "nonzero_entries": [
+          {
+            "index": 3,
+            "value": 1000.0
+          }
+        ]
+      },
+      {
+        "name": "displacements",
+        "size": 12,
+        "norm": 2.122448979591837e-08,
+        "max_abs": 2.122448979591837e-08,
+        "nonzero_count": 1,
+        "nonzero_entries": [
+          {
+            "index": 3,
+            "value": 2.122448979591837e-08
+          }
+        ]
+      },
+      {
+        "name": "internal_force",
+        "size": 12,
+        "norm": 1653.6909861128895,
+        "max_abs": 1000.0,
+        "nonzero_count": 6,
+        "nonzero_entries": [
+          {
+            "index": 0,
+            "value": -1000.0
+          },
+          {
+            "index": 1,
+            "value": -428.57142857142856
+          },
+          {
+            "index": 2,
+            "value": -428.57142857142856
+          },
+          {
+            "index": 3,
+            "value": 1000.0
+          },
+          {
+            "index": 7,
+            "value": 428.57142857142856
+          },
+          {
+            "index": 11,
+            "value": 428.57142857142856
+          }
+        ]
+      },
+      {
+        "name": "residual",
+        "size": 12,
+        "norm": 1317.0777796132695,
+        "max_abs": 1000.0,
+        "nonzero_count": 5,
+        "nonzero_entries": [
+          {
+            "index": 0,
+            "value": -1000.0
+          },
+          {
+            "index": 1,
+            "value": -428.57142857142856
+          },
+          {
+            "index": 2,
+            "value": -428.57142857142856
+          },
+          {
+            "index": 7,
+            "value": 428.57142857142856
+          },
+          {
+            "index": 11,
+            "value": 428.57142857142856
+          }
+        ]
+      },
+      {
+        "name": "reactions",
+        "size": 12,
+        "norm": 1317.0777796132695,
+        "max_abs": 1000.0,
+        "nonzero_count": 5,
+        "nonzero_entries": [
+          {
+            "index": 0,
+            "value": -1000.0
+          },
+          {
+            "index": 1,
+            "value": -428.57142857142856
+          },
+          {
+            "index": 2,
+            "value": -428.57142857142856
+          },
+          {
+            "index": 7,
+            "value": 428.57142857142856
+          },
+          {
+            "index": 11,
+            "value": 428.57142857142856
+          }
+        ]
+      }
+    ],
+    "load_assembly": {
+      "nodal_load_count": 1,
+      "distributed_load_count": 0,
+      "load_vector_count": 0,
+      "resultant": [
+        1000.0,
+        0.0,
+        0.0
+      ],
+      "moment_about_origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "contributions": [
+        {
+          "index": 0,
+          "type": "nodal",
+          "node": 1,
+          "dof": "UX",
+          "resultant": [
+            1000.0,
+            0.0,
+            0.0
+          ],
+          "moment_about_origin": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "vector_norm": 1000.0,
+          "nonzero_dof_count": 1
+        }
+      ]
+    },
+    "matrices": [
+      {
+        "name": "stiffness",
+        "shape": [
+          12,
+          12
+        ],
+        "nnz": 72,
+        "density": 0.5,
+        "data_norm": 238918606625.17682,
+        "symmetry_relative_error": 0.0,
+        "is_symmetric": true,
+        "diagonal_min": 13461538461.538462,
+        "diagonal_max": 74038461538.46153,
+        "rank_estimate": 6,
+        "eigenvalue_min": -1.1259537548815202e-05,
+        "eigenvalue_max": 211139632824.9721,
+        "condition_estimate": 7.842329219213251,
+        "positive_definite_estimate": false
+      },
+      {
+        "name": "reduced_stiffness",
+        "shape": [
+          3,
+          3
+        ],
+        "nnz": 3,
+        "density": 0.3333333333333333,
+        "data_norm": 50816193314.32235,
+        "symmetry_relative_error": 0.0,
+        "is_symmetric": true,
+        "diagonal_min": 13461538461.538462,
+        "diagonal_max": 47115384615.38461,
+        "rank_estimate": 3,
+        "eigenvalue_min": 13461538461.538462,
+        "eigenvalue_max": 47115384615.38461,
+        "condition_estimate": 3.5,
+        "positive_definite_estimate": true
+      }
+    ],
+    "element_audits": [
+      {
+        "index": 0,
+        "type": "TET4",
+        "nodes": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "material": "steel",
+        "material_data": {
+          "E": 210000000000.0,
+          "density": 7800.0,
+          "nu": 0.3,
+          "type": "isotropic_3d"
+        },
+        "dofs_per_node": [
+          "UX",
+          "UY",
+          "UZ"
+        ],
+        "global_dof_indices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "geometry": {
+          "centroid": [
+            0.25,
+            0.25,
+            0.25
+          ],
+          "bounding_box_min": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "bounding_box_max": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "signed_corner_volume": 0.16666666666666666,
+          "corner_quality": 0.7698003589195013,
+          "edge_length_min": 1.0,
+          "edge_length_max": 1.4142135623730951
+        },
+        "local_dofs": [
+          {
+            "local_index": 0,
+            "node": 0,
+            "dof": "UX",
+            "global_index": 0
+          },
+          {
+            "local_index": 1,
+            "node": 0,
+            "dof": "UY",
+            "global_index": 1
+          },
+          {
+            "local_index": 2,
+            "node": 0,
+            "dof": "UZ",
+            "global_index": 2
+          },
+          {
+            "local_index": 3,
+            "node": 1,
+            "dof": "UX",
+            "global_index": 3
+          },
+          {
+            "local_index": 4,
+            "node": 1,
+            "dof": "UY",
+            "global_index": 4
+          },
+          {
+            "local_index": 5,
+            "node": 1,
+            "dof": "UZ",
+            "global_index": 5
+          },
+          {
+            "local_index": 6,
+            "node": 2,
+            "dof": "UX",
+            "global_index": 6
+          },
+          {
+            "local_index": 7,
+            "node": 2,
+            "dof": "UY",
+            "global_index": 7
+          },
+          {
+            "local_index": 8,
+            "node": 2,
+            "dof": "UZ",
+            "global_index": 8
+          },
+          {
+            "local_index": 9,
+            "node": 3,
+            "dof": "UX",
+            "global_index": 9
+          },
+          {
+            "local_index": 10,
+            "node": 3,
+            "dof": "UY",
+            "global_index": 10
+          },
+          {
+            "local_index": 11,
+            "node": 3,
+            "dof": "UZ",
+            "global_index": 11
+          }
+        ],
+        "assembly_entries": [],
+        "matrices": [
+          {
+            "name": "local_stiffness",
+            "shape": [
+              12,
+              12
+            ],
+            "nnz": 72,
+            "density": 0.5,
+            "data_norm": 238918606625.17682,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 13461538461.538462,
+            "diagonal_max": 74038461538.46153,
+            "rank_estimate": 6,
+            "eigenvalue_min": -1.1259537548815202e-05,
+            "eigenvalue_max": 211139632824.9721,
+            "condition_estimate": 7.842329219213251,
+            "positive_definite_estimate": false
+          }
+        ],
+        "vectors": []
+      }
+    ],
+    "post_results": [
+      {
+        "element": 0,
+        "type": "TET4",
+        "nodes": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "material": "steel",
+        "dofs_per_node": [
+          "UX",
+          "UY",
+          "UZ"
+        ],
+        "global_dof_indices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "global_dof_displacement": [
+          0.0,
+          0.0,
+          0.0,
+          2.122448979591837e-08,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "calculation_frame": "global",
+        "calculation_displacement": [
+          0.0,
+          0.0,
+          0.0,
+          2.122448979591837e-08,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "calculation_displacement_norm": 2.122448979591837e-08,
+        "strain": [
+          2.122448979591837e-08,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "stress": [
+          6000.0,
+          2571.4285714285716,
+          2571.4285714285716,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "principal_strain": [
+          0.0,
+          0.0,
+          2.122448979591837e-08
+        ],
+        "principal_stress": [
+          2571.4285714285716,
+          2571.4285714285716,
+          6000.0
+        ],
+        "strain_trace": 2.122448979591837e-08,
+        "stress_trace": 11142.857142857145,
+        "hydrostatic_pressure": -3714.285714285715,
+        "deviatoric_stress": [
+          2285.714285714285,
+          -1142.8571428571436,
+          -1142.8571428571436,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "von_mises": 3428.5714285714284,
+        "integration_points": [
+          {
+            "index": 0,
+            "location": "centroid",
+            "barycentric": [
+              0.25,
+              0.25,
+              0.25,
+              0.25
+            ],
+            "coordinates": [
+              0.25,
+              0.25,
+              0.25
+            ],
+            "weight": 0.16666666666666666,
+            "strain": [
+              2.122448979591837e-08,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "stress": [
+              6000.0,
+              2571.4285714285716,
+              2571.4285714285716,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "principal_strain": [
+              0.0,
+              0.0,
+              2.122448979591837e-08
+            ],
+            "principal_stress": [
+              2571.4285714285716,
+              2571.4285714285716,
+              6000.0
+            ],
+            "strain_trace": 2.122448979591837e-08,
+            "stress_trace": 11142.857142857145,
+            "hydrostatic_pressure": -3714.285714285715,
+            "deviatoric_stress": [
+              2285.714285714285,
+              -1142.8571428571436,
+              -1142.8571428571436,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "von_mises": 3428.5714285714284
+          }
+        ],
+        "nodal_results": [
+          {
+            "node": 0,
+            "local_node": 0,
+            "method": "constant_strain",
+            "coordinates": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "strain": [
+              2.122448979591837e-08,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "stress": [
+              6000.0,
+              2571.4285714285716,
+              2571.4285714285716,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "principal_strain": [
+              0.0,
+              0.0,
+              2.122448979591837e-08
+            ],
+            "principal_stress": [
+              2571.4285714285716,
+              2571.4285714285716,
+              6000.0
+            ],
+            "strain_trace": 2.122448979591837e-08,
+            "stress_trace": 11142.857142857145,
+            "hydrostatic_pressure": -3714.285714285715,
+            "von_mises": 3428.5714285714284
+          },
+          {
+            "node": 1,
+            "local_node": 1,
+            "method": "constant_strain",
+            "coordinates": [
+              1.0,
+              0.0,
+              0.0
+            ],
+            "strain": [
+              2.122448979591837e-08,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "stress": [
+              6000.0,
+              2571.4285714285716,
+              2571.4285714285716,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "principal_strain": [
+              0.0,
+              0.0,
+              2.122448979591837e-08
+            ],
+            "principal_stress": [
+              2571.4285714285716,
+              2571.4285714285716,
+              6000.0
+            ],
+            "strain_trace": 2.122448979591837e-08,
+            "stress_trace": 11142.857142857145,
+            "hydrostatic_pressure": -3714.285714285715,
+            "von_mises": 3428.5714285714284
+          },
+          {
+            "node": 2,
+            "local_node": 2,
+            "method": "constant_strain",
+            "coordinates": [
+              0.0,
+              1.0,
+              0.0
+            ],
+            "strain": [
+              2.122448979591837e-08,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "stress": [
+              6000.0,
+              2571.4285714285716,
+              2571.4285714285716,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "principal_strain": [
+              0.0,
+              0.0,
+              2.122448979591837e-08
+            ],
+            "principal_stress": [
+              2571.4285714285716,
+              2571.4285714285716,
+              6000.0
+            ],
+            "strain_trace": 2.122448979591837e-08,
+            "stress_trace": 11142.857142857145,
+            "hydrostatic_pressure": -3714.285714285715,
+            "von_mises": 3428.5714285714284
+          },
+          {
+            "node": 3,
+            "local_node": 3,
+            "method": "constant_strain",
+            "coordinates": [
+              0.0,
+              0.0,
+              1.0
+            ],
+            "strain": [
+              2.122448979591837e-08,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "stress": [
+              6000.0,
+              2571.4285714285716,
+              2571.4285714285716,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "principal_strain": [
+              0.0,
+              0.0,
+              2.122448979591837e-08
+            ],
+            "principal_stress": [
+              2571.4285714285716,
+              2571.4285714285716,
+              6000.0
+            ],
+            "strain_trace": 2.122448979591837e-08,
+            "stress_trace": 11142.857142857145,
+            "hydrostatic_pressure": -3714.285714285715,
+            "von_mises": 3428.5714285714284
+          }
+        ]
+      }
+    ],
+    "equilibrium": {
+      "sign_convention": "residual = internal_force - external_force; reactions are residuals on fixed dofs",
+      "load_factor": 1.0,
+      "free_residual_norm": 0.0,
+      "free_relative_residual": 0.0,
+      "fixed_reaction_norm": 1317.077779613269,
+      "ground_spring_reaction_norm": 0.0,
+      "external_load_norm": 1000.0,
+      "internal_force_norm": 1653.6909861128895,
+      "displacement_norm": 2.122448979591837e-08,
+      "external_work_at_final_load": 2.1224489795918368e-05,
+      "secant_internal_energy": 1.0612244897959184e-05,
+      "linear_energy_identity_relative_error": 0.0,
+      "external_resultant": [
+        1000.0,
+        0.0,
+        0.0
+      ],
+      "reaction_resultant": [
+        -999.9999999999994,
+        0.0,
+        0.0
+      ],
+      "force_imbalance": [
+        5.684341886080801e-13,
+        0.0,
+        0.0
+      ],
+      "force_balance_relative_error": 5.684341886080802e-16,
+      "external_moment_about_origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "reaction_moment_about_origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "moment_imbalance_about_origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "moment_balance_relative_error": 0.0,
+      "reactions": [
+        {
+          "index": 0,
+          "node": 0,
+          "dof": "UX",
+          "value": -999.9999999999994
+        },
+        {
+          "index": 1,
+          "node": 0,
+          "dof": "UY",
+          "value": -428.5714285714284
+        },
+        {
+          "index": 2,
+          "node": 0,
+          "dof": "UZ",
+          "value": -428.5714285714284
+        },
+        {
+          "index": 6,
+          "node": 2,
+          "dof": "UX",
+          "value": -0.0
+        },
+        {
+          "index": 7,
+          "node": 2,
+          "dof": "UY",
+          "value": 428.5714285714284
+        },
+        {
+          "index": 8,
+          "node": 2,
+          "dof": "UZ",
+          "value": -0.0
+        },
+        {
+          "index": 9,
+          "node": 3,
+          "dof": "UX",
+          "value": -0.0
+        },
+        {
+          "index": 10,
+          "node": 3,
+          "dof": "UY",
+          "value": -0.0
+        },
+        {
+          "index": 11,
+          "node": 3,
+          "dof": "UZ",
+          "value": 428.5714285714284
+        }
+      ],
+      "constraint_forces": {
+        "equation_count": 9,
+        "kinematic_equation_count": 0,
+        "fixed_equation_count": 9,
+        "constraint_violation_norm": 0.0,
+        "constraint_violation_max_abs": 0.0,
+        "equilibrium_relative_error": 5.033130860551559e-16,
+        "lsmr_stop_code": 1,
+        "sign_convention": "K u - f + C.T lambda = 0",
+        "fixed_support_reaction_norm": 1317.077779613269,
+        "largest_multipliers": [
+          {
+            "index": 0,
+            "name": "fixed_0",
+            "kind": "fixed",
+            "multiplier": 999.9999999999994,
+            "violation": 0.0
+          },
+          {
+            "index": 8,
+            "name": "fixed_11",
+            "kind": "fixed",
+            "multiplier": -428.5714285714284,
+            "violation": 0.0
+          },
+          {
+            "index": 4,
+            "name": "fixed_7",
+            "kind": "fixed",
+            "multiplier": -428.5714285714284,
+            "violation": 0.0
+          },
+          {
+            "index": 2,
+            "name": "fixed_2",
+            "kind": "fixed",
+            "multiplier": 428.5714285714284,
+            "violation": 0.0
+          },
+          {
+            "index": 1,
+            "name": "fixed_1",
+            "kind": "fixed",
+            "multiplier": 428.5714285714284,
+            "violation": 0.0
+          },
+          {
+            "index": 5,
+            "name": "fixed_8",
+            "kind": "fixed",
+            "multiplier": 0.0,
+            "violation": 0.0
+          },
+          {
+            "index": 6,
+            "name": "fixed_9",
+            "kind": "fixed",
+            "multiplier": 0.0,
+            "violation": 0.0
+          },
+          {
+            "index": 7,
+            "name": "fixed_10",
+            "kind": "fixed",
+            "multiplier": 0.0,
+            "violation": 0.0
+          },
+          {
+            "index": 3,
+            "name": "fixed_6",
+            "kind": "fixed",
+            "multiplier": 0.0,
+            "violation": 0.0
+          }
+        ],
+        "generalized_force_norm": 1317.077779613269,
+        "resultant": [
+          999.9999999999994,
+          0.0,
+          0.0
+        ],
+        "moment_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "residual_resultant": [
+          -1000.0,
+          0.0,
+          0.0
+        ],
+        "residual_moment_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "global_force_closure_relative_error": 5.684341886080802e-16,
+        "global_moment_closure_relative_error": 0.0
+      }
+    },
+    "solver_selection": {
+      "requested_method": "direct",
+      "used_method": "direct",
+      "recommended_method": "cg",
+      "rationale": "reduced matrix is real symmetric positive definite (dense Cholesky verified)",
+      "warnings": [],
+      "matrix_contract": {
+        "symmetric": true,
+        "real": true,
+        "positive_diagonal": true,
+        "positive_definite_evidence": "dense_cholesky",
+        "positive_definite_verified": true,
+        "positive_definite_assumed": false
+      },
+      "resource_estimate": {
+        "nnz": 3,
+        "sparse_memory_bytes": 52,
+        "direct_memory_estimate_bytes": 520,
+        "direct_memory_budget_bytes": null,
+        "direct_budget_exceeded": false
+      }
+    },
+    "checks": [
+      {
+        "name": "mesh_validation",
+        "status": "PASS",
+        "value": "PASS",
+        "limit": "PASS",
+        "message": "Mesh validation passed."
+      },
+      {
+        "name": "boundary_has_fixed_dofs",
+        "status": "PASS",
+        "value": 9,
+        "limit": "> 0",
+        "message": "At least one fixed dof is required to constrain the model."
+      },
+      {
+        "name": "boundary_has_free_dofs",
+        "status": "PASS",
+        "value": 3,
+        "limit": "> 0",
+        "message": "At least one free dof is required to solve the model."
+      },
+      {
+        "name": "matrix:stiffness:finite_norm",
+        "status": "PASS",
+        "value": 238918606625.17682,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "matrix:stiffness:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "matrix:reduced_stiffness:finite_norm",
+        "status": "PASS",
+        "value": 50816193314.32235,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "matrix:reduced_stiffness:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "matrix:reduced_stiffness:condition_estimate",
+        "status": "PASS",
+        "value": 3.5,
+        "limit": "<= 1e12 PASS, <= 1e16 WARNING",
+        "message": "High condition estimates indicate numerical fragility."
+      },
+      {
+        "name": "matrix:reduced_stiffness:positive_definite",
+        "status": "PASS",
+        "value": true,
+        "limit": "true",
+        "message": "Reduced stiffness/mass matrices should be positive definite after constraints."
+      },
+      {
+        "name": "element:0:TET4:positive_volume",
+        "status": "PASS",
+        "value": 0.16666666666666666,
+        "limit": "> 1e-14",
+        "message": "Solid element corner volume must be positive."
+      },
+      {
+        "name": "element:0:TET4:corner_quality",
+        "status": "PASS",
+        "value": 0.7698003589195013,
+        "limit": ">= 0.05 PASS, >= 0.01 WARNING",
+        "message": "Low tetrahedral quality can degrade conditioning and stress accuracy."
+      },
+      {
+        "name": "element:0:TET4:local_stiffness:finite_norm",
+        "status": "PASS",
+        "value": 238918606625.17682,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "element:0:TET4:local_stiffness:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "post:0:TET4:finite_calculation_displacement",
+        "status": "PASS",
+        "value": true,
+        "limit": "all finite",
+        "message": "Recovered post-processing values must be finite."
+      },
+      {
+        "name": "post:0:TET4:finite_strain",
+        "status": "PASS",
+        "value": true,
+        "limit": "all finite",
+        "message": "Recovered post-processing values must be finite."
+      },
+      {
+        "name": "post:0:TET4:finite_stress",
+        "status": "PASS",
+        "value": true,
+        "limit": "all finite",
+        "message": "Recovered post-processing values must be finite."
+      },
+      {
+        "name": "post:0:TET4:finite_principal_strain",
+        "status": "PASS",
+        "value": true,
+        "limit": "all finite",
+        "message": "Recovered post-processing values must be finite."
+      },
+      {
+        "name": "post:0:TET4:finite_principal_stress",
+        "status": "PASS",
+        "value": true,
+        "limit": "all finite",
+        "message": "Recovered post-processing values must be finite."
+      },
+      {
+        "name": "post:0:TET4:finite_deviatoric_stress",
+        "status": "PASS",
+        "value": true,
+        "limit": "all finite",
+        "message": "Recovered post-processing values must be finite."
+      },
+      {
+        "name": "post:0:TET4:von_mises_nonnegative",
+        "status": "PASS",
+        "value": 3428.5714285714284,
+        "limit": ">= 0",
+        "message": "Von Mises stress must be finite and non-negative."
+      },
+      {
+        "name": "post:0:TET4:ip0:finite_strain",
+        "status": "PASS",
+        "value": true,
+        "limit": "all finite",
+        "message": "Recovered post-processing values must be finite."
+      },
+      {
+        "name": "post:0:TET4:ip0:finite_stress",
+        "status": "PASS",
+        "value": true,
+        "limit": "all finite",
+        "message": "Recovered post-processing values must be finite."
+      },
+      {
+        "name": "post:0:TET4:ip0:finite_principal_strain",
+        "status": "PASS",
+        "value": true,
+        "limit": "all finite",
+        "message": "Recovered post-processing values must be finite."
+      },
+      {
+        "name": "post:0:TET4:ip0:finite_principal_stress",
+        "status": "PASS",
+        "value": true,
+        "limit": "all finite",
+        "message": "Recovered post-processing values must be finite."
+      },
+      {
+        "name": "post:0:TET4:ip0:von_mises_nonnegative",
+        "status": "PASS",
+        "value": 3428.5714285714284,
+        "limit": ">= 0",
+        "message": "Integration-point Von Mises stress must be finite and non-negative."
+      },
+      {
+        "name": "post:0:TET4:node0:finite_strain",
+        "status": "PASS",
+        "value": true,
+        "limit": "all finite",
+        "message": "Recovered post-processing values must be finite."
+      },
+      {
+        "name": "post:0:TET4:node0:finite_stress",
+        "status": "PASS",
+        "value": true,
+        "limit": "all finite",
+        "message": "Recovered post-processing values must be finite."
+      },
+      {
+        "name": "post:0:TET4:node0:finite_principal_strain",
+        "status": "PASS",
+        "value": true,
+        "limit": "all finite",
+        "message": "Recovered post-processing values must be finite."
+      },
+      {
+        "name": "post:0:TET4:node0:finite_principal_stress",
+        "status": "PASS",
+        "value": true,
+        "limit": "all finite",
+        "message": "Recovered post-processing values must be finite."
+      },
+      {
+        "name": "post:0:TET4:node1:finite_strain",
+        "status": "PASS",
+        "value": true,
+        "limit": "all finite",
+        "message": "Recovered post-processing values must be finite."
+      },
+      {
+        "name": "post:0:TET4:node1:finite_stress",
+        "status": "PASS",
+        "value": true,
+        "limit": "all finite",
+        "message": "Recovered post-processing values must be finite."
+      },
+      {
+        "name": "post:0:TET4:node1:finite_principal_strain",
+        "status": "PASS",
+        "value": true,
+        "limit": "all finite",
+        "message": "Recovered post-processing values must be finite."
+      },
+      {
+        "name": "post:0:TET4:node1:finite_principal_stress",
+        "status": "PASS",
+        "value": true,
+        "limit": "all finite",
+        "message": "Recovered post-processing values must be finite."
+      },
+      {
+        "name": "post:0:TET4:node2:finite_strain",
+        "status": "PASS",
+        "value": true,
+        "limit": "all finite",
+        "message": "Recovered post-processing values must be finite."
+      },
+      {
+        "name": "post:0:TET4:node2:finite_stress",
+        "status": "PASS",
+        "value": true,
+        "limit": "all finite",
+        "message": "Recovered post-processing values must be finite."
+      },
+      {
+        "name": "post:0:TET4:node2:finite_principal_strain",
+        "status": "PASS",
+        "value": true,
+        "limit": "all finite",
+        "message": "Recovered post-processing values must be finite."
+      },
+      {
+        "name": "post:0:TET4:node2:finite_principal_stress",
+        "status": "PASS",
+        "value": true,
+        "limit": "all finite",
+        "message": "Recovered post-processing values must be finite."
+      },
+      {
+        "name": "post:0:TET4:node3:finite_strain",
+        "status": "PASS",
+        "value": true,
+        "limit": "all finite",
+        "message": "Recovered post-processing values must be finite."
+      },
+      {
+        "name": "post:0:TET4:node3:finite_stress",
+        "status": "PASS",
+        "value": true,
+        "limit": "all finite",
+        "message": "Recovered post-processing values must be finite."
+      },
+      {
+        "name": "post:0:TET4:node3:finite_principal_strain",
+        "status": "PASS",
+        "value": true,
+        "limit": "all finite",
+        "message": "Recovered post-processing values must be finite."
+      },
+      {
+        "name": "post:0:TET4:node3:finite_principal_stress",
+        "status": "PASS",
+        "value": true,
+        "limit": "all finite",
+        "message": "Recovered post-processing values must be finite."
+      },
+      {
+        "name": "equilibrium:free_relative_residual",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-8 PASS, <= 1e-6 WARNING",
+        "message": "Free dofs should satisfy the solved equilibrium equations."
+      },
+      {
+        "name": "equilibrium:global_force_balance",
+        "status": "PASS",
+        "value": 5.684341886080802e-16,
+        "limit": "<= 1e-10 PASS, <= 1e-8 WARNING",
+        "message": "Applied forces and support reactions should have a zero global resultant."
+      },
+      {
+        "name": "equilibrium:global_moment_balance",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-10 PASS, <= 1e-8 WARNING",
+        "message": "Applied loads and support reactions should have a zero global moment about the origin."
+      },
+      {
+        "name": "equilibrium:constraint_compatibility",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-10 PASS, <= 1e-8 WARNING",
+        "message": "Kinematic constraint equations must be satisfied after reconstruction."
+      },
+      {
+        "name": "equilibrium:constraint_force_closure",
+        "status": "PASS",
+        "value": 5.033130860551559e-16,
+        "limit": "<= 1e-10 PASS, <= 1e-8 WARNING",
+        "message": "Recovered constraint forces must close full-space equilibrium."
+      },
+      {
+        "name": "equilibrium:constraint_global_force_closure",
+        "status": "PASS",
+        "value": 5.684341886080802e-16,
+        "limit": "<= 1e-10 PASS, <= 1e-8 WARNING",
+        "message": "Constraint generalized forces must close the global force balance of the residual."
+      },
+      {
+        "name": "equilibrium:constraint_global_moment_closure",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-10 PASS, <= 1e-8 WARNING",
+        "message": "Constraint generalized forces must close the global moment balance of the residual."
+      },
+      {
+        "name": "equilibrium:linear_energy_identity",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-8 PASS, <= 1e-6 WARNING",
+        "message": "For linear statics, external work should equal twice the strain energy."
+      }
+    ],
+    "notes": [],
+    "qualification": {
+      "solver_version": "0.2.0a0",
+      "schema_version": 1,
+      "units": {
+        "system": "SI"
+      },
+      "verification_profile": "engineering",
+      "evidence_level": "engineering_review",
+      "maturity": {
+        "overall": "stable",
+        "analysis": "stable",
+        "method": "stable",
+        "elements": {
+          "TET4": "stable"
+        },
+        "discrete_entities": {}
+      },
+      "qualification_domain": {
+        "name": "tet4-linear-static-v1",
+        "status": "PASS",
+        "limits": {
+          "material_type": "isotropic_3d",
+          "young_modulus": {
+            "minimum_exclusive": 0.0,
+            "unit": "Pa"
+          },
+          "poisson_ratio": {
+            "minimum": 0.0,
+            "maximum": 0.45
+          },
+          "tet_min_quality": 0.05,
+          "tet_min_radius_ratio": 0.05,
+          "tet_max_aspect_ratio": 20.0,
+          "reduced_stiffness_condition_estimate_max": 1000000000000.0
+        },
+        "materials": [
+          {
+            "name": "steel",
+            "type": "isotropic_3d",
+            "E": 210000000000.0,
+            "nu": 0.3
+          }
+        ],
+        "violations": []
+      },
+      "traceability": {
+        "status": "PASS",
+        "scope": "tet4-linear-static",
+        "scope_status": "candidate",
+        "requirement_count": 13,
+        "covered_requirement_count": 13,
+        "formula_count": 6,
+        "covered_formula_count": 6,
+        "orphan_requirements": [],
+        "orphan_formulas": []
+      }
+    }
+  },
+  "qualification_summary": {
+    "status": "PASS",
+    "run_verdict": "PASS",
+    "blocking_errors": [],
+    "warnings": [],
+    "trust_score": 1.0,
+    "trust_score_non_certifying": true,
+    "evidence_level": "engineering_review",
+    "verification_profile": "engineering",
+    "maturity": {
+      "overall": "stable",
+      "analysis": "stable",
+      "method": "stable",
+      "elements": {
+        "TET4": "stable"
+      },
+      "discrete_entities": {}
+    },
+    "qualification_domain": {
+      "name": "tet4-linear-static-v1",
+      "status": "PASS",
+      "limits": {
+        "material_type": "isotropic_3d",
+        "young_modulus": {
+          "minimum_exclusive": 0.0,
+          "unit": "Pa"
+        },
+        "poisson_ratio": {
+          "minimum": 0.0,
+          "maximum": 0.45
+        },
+        "tet_min_quality": 0.05,
+        "tet_min_radius_ratio": 0.05,
+        "tet_max_aspect_ratio": 20.0,
+        "reduced_stiffness_condition_estimate_max": 1000000000000.0
+      },
+      "materials": [
+        {
+          "name": "steel",
+          "type": "isotropic_3d",
+          "E": 210000000000.0,
+          "nu": 0.3
+        }
+      ],
+      "violations": []
+    }
+  }
+}

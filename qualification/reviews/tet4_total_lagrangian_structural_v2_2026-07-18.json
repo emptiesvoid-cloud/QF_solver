@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "review_id": "REV-TET4-TL-STRUCTURAL-V2-2026-07-18",
+  "scope": "tet4-total-lagrangian-structural-v2",
+  "validation_status": "engineering_internal_validated_with_recommendations",
+  "decision": "accepted_with_recommendations",
+  "decision_date": "2026-07-18",
+  "validator": {
+    "name": "Quentin Farinazzo",
+    "role": "auteur et validateur mecanique"
+  },
+  "review_mode": "self_review",
+  "independence": "not_independent",
+  "certification_claim": "none",
+  "use_class": "engineering_internal_research",
+  "accepted_domain": [
+    "push-forward de Piola-Kirchhoff 2 vers Cauchy",
+    "energie Saint-Venant-Kirchhoff et determinant de deformation positif",
+    "charge critique d'Euler par tangente precontrainte",
+    "convergence de charge critique jusqu'a 98304 TET4 et 56355 DDL",
+    "trois amplitudes d'imperfection e0/L = 0.0025, 0.005 et 0.01",
+    "continuation arc-length creuse sur 120 pas",
+    "correlation CalculiX 2.20 C3D4 de contrainte et flambement",
+    "correlation Code_Aster 18.1.0 TETRA4 de PK2 et branche imparfaite jusqu'a 0.8 Pcr",
+    "chemin public geometric_nonlinear_static borne au perimetre documente"
+  ],
+  "accepted_observations": [
+    "L'erreur de charge critique face a Euler passe de 5.870 pour cent a 1.896 pour cent entre 24000 et 98304 TET4.",
+    "La charge critique QF_solver vaut 818.415402 pour une reference Euler de 803.190462.",
+    "CalculiX donne 818.696 sur le meme maillage, soit 0.0343 pour cent d'ecart relatif.",
+    "L'erreur du patch Cauchy face a CalculiX vaut 1.17e-7 relatif.",
+    "L'erreur PK2 face a Code_Aster vaut 8.54e-5 relatif.",
+    "L'ecart de branche imparfaite QF_solver/Code_Aster jusqu'a 0.8 Pcr vaut 1.69e-9 relatif.",
+    "Les trois chemins imparfaits restent continus avec un residu maximal inferieur a 1e-8."
+  ],
+  "excluded_domain": [
+    "pression suiveuse",
+    "contact",
+    "plasticite en deformation finie",
+    "endommagement et rupture",
+    "imperfections aleatoires",
+    "extrapolation des contraintes aux singularites",
+    "qualification externe ou certification"
+  ],
+  "recommendations": [
+    {
+      "id": "REC-TL-V2-001",
+      "title": "Conserver un raffinement important du TET4 dans les problemes domines par la flexion.",
+      "status": "open_usage_recommendation"
+    },
+    {
+      "id": "REC-TL-V2-002",
+      "title": "Conserver le point 98304 TET4 hors CI rapide et le relancer pour une baseline de release majeure.",
+      "status": "open_release_recommendation"
+    },
+    {
+      "id": "REC-TL-V2-003",
+      "title": "Obtenir une Owner review independante avant toute qualification externe.",
+      "status": "open_external_qualification_blocker"
+    },
+    {
+      "id": "REC-TL-V2-004",
+      "title": "Completer une correlation externe au-dela du maximum post-critique si ce domaine devient operationnel.",
+      "status": "open_future_scope"
+    }
+  ],
+  "evidence": [
+    "VNV-TET4-TL-STRESS-005",
+    "VNV-TET4-TL-BUCKLING-EULER-006",
+    "VNV-TET4-TL-POSTBUCKLING-007",
+    "VNV-TET4-TL-CALCULIX-STRUCTURAL-008",
+    "VNV-TET4-TL-CODEASTER-STRUCTURAL-009",
+    "VNV-TET4-TL-BUCKLING-H5-010"
+  ],
+  "review_document": "docs/verification/revue_tet4_total_lagrangian_structural_v2.md",
+  "signature": {
+    "name": "Quentin Farinazzo",
+    "date": "2026-07-18",
+    "type": "declared_self_review",
+    "declaration": "Acceptation engineering interne du push-forward Cauchy, de la charge critique, des trois imperfections, du post-flambement et des correlations CalculiX/Code_Aster apres confirmation a 98304 TET4."
+  }
+}

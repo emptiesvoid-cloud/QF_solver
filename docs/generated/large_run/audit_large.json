@@ -1,0 +1,191 @@
+{
+  "status": "PASS",
+  "errors": [],
+  "warnings": [],
+  "details": {
+    "node_count": 80,
+    "element_count": 216,
+    "ndof": 240,
+    "analysis": "linear_static",
+    "method": "cg",
+    "fixed_dof_count": 48,
+    "free_dof_count": 192,
+    "load_count": 16,
+    "quality_thresholds": {
+      "tet_min_signed_volume": 1e-14,
+      "tet_min_quality": 0.05,
+      "tet_min_radius_ratio": 0.05,
+      "tet_max_aspect_ratio": 20.0,
+      "tet_min_relative_volume": 0.0001,
+      "tet10_max_mid_edge_deviation_ratio": 0.05,
+      "tet10_min_sampled_jacobian": 1e-14,
+      "tet10_min_jacobian_ratio": 0.05,
+      "mitc4_max_aspect_ratio": 10.0,
+      "mitc4_max_planarity_ratio": 0.001,
+      "mitc4_min_angle_degrees": 30.0,
+      "mitc4_max_angle_degrees": 150.0,
+      "mitc4_max_warpage_degrees": 5.0,
+      "mitc3_max_aspect_ratio": 10.0,
+      "mitc3_min_angle_degrees": 20.0,
+      "mitc3_max_angle_degrees": 140.0,
+      "mitc3_min_relative_area": 1e-08
+    },
+    "tet4_quality": {
+      "signed_volume": {
+        "min": 0.018518518518518517,
+        "max": 0.01851851851851852,
+        "mean": 0.018518518518518517
+      },
+      "quality": {
+        "min": 0.22908106449636378,
+        "max": 0.31451745482788485,
+        "mean": 0.28603865805071105
+      },
+      "aspect_ratio": {
+        "min": 3.3166247903554,
+        "max": 3.3166247903554003,
+        "mean": 3.3166247903554
+      },
+      "relative_volume": {
+        "min": 0.013705061117171069,
+        "max": 0.01370506111717107,
+        "mean": 0.013705061117171069
+      },
+      "invalid_volume_count": 0,
+      "low_quality_count": 0
+    },
+    "sampled_elements": [
+      {
+        "index": 0,
+        "signed_volume": 0.018518518518518517
+      },
+      {
+        "index": 6,
+        "signed_volume": 0.018518518518518517
+      },
+      {
+        "index": 13,
+        "signed_volume": 0.01851851851851852
+      },
+      {
+        "index": 20,
+        "signed_volume": 0.018518518518518517
+      },
+      {
+        "index": 27,
+        "signed_volume": 0.018518518518518517
+      },
+      {
+        "index": 34,
+        "signed_volume": 0.01851851851851852
+      },
+      {
+        "index": 41,
+        "signed_volume": 0.01851851851851852
+      },
+      {
+        "index": 48,
+        "signed_volume": 0.01851851851851852
+      },
+      {
+        "index": 55,
+        "signed_volume": 0.018518518518518517
+      },
+      {
+        "index": 62,
+        "signed_volume": 0.018518518518518517
+      },
+      {
+        "index": 69,
+        "signed_volume": 0.01851851851851852
+      },
+      {
+        "index": 76,
+        "signed_volume": 0.018518518518518517
+      },
+      {
+        "index": 83,
+        "signed_volume": 0.018518518518518517
+      },
+      {
+        "index": 90,
+        "signed_volume": 0.01851851851851852
+      },
+      {
+        "index": 97,
+        "signed_volume": 0.01851851851851852
+      },
+      {
+        "index": 104,
+        "signed_volume": 0.01851851851851852
+      },
+      {
+        "index": 110,
+        "signed_volume": 0.018518518518518517
+      },
+      {
+        "index": 117,
+        "signed_volume": 0.018518518518518517
+      },
+      {
+        "index": 124,
+        "signed_volume": 0.01851851851851852
+      },
+      {
+        "index": 131,
+        "signed_volume": 0.018518518518518517
+      },
+      {
+        "index": 138,
+        "signed_volume": 0.01851851851851852
+      },
+      {
+        "index": 145,
+        "signed_volume": 0.01851851851851852
+      },
+      {
+        "index": 152,
+        "signed_volume": 0.01851851851851852
+      },
+      {
+        "index": 159,
+        "signed_volume": 0.01851851851851852
+      },
+      {
+        "index": 166,
+        "signed_volume": 0.018518518518518517
+      },
+      {
+        "index": 173,
+        "signed_volume": 0.018518518518518517
+      },
+      {
+        "index": 180,
+        "signed_volume": 0.018518518518518517
+      },
+      {
+        "index": 187,
+        "signed_volume": 0.018518518518518517
+      },
+      {
+        "index": 194,
+        "signed_volume": 0.01851851851851852
+      },
+      {
+        "index": 201,
+        "signed_volume": 0.01851851851851852
+      },
+      {
+        "index": 208,
+        "signed_volume": 0.01851851851851852
+      },
+      {
+        "index": 215,
+        "signed_volume": 0.01851851851851852
+      }
+    ],
+    "load_norm": 250.0,
+    "error_count": 0,
+    "warning_count": 0
+  }
+}

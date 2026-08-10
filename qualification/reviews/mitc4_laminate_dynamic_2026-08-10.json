@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "review_id": "OWNER-REVIEW-MITC4-LAMINATE-DYNAMIC-2026-08-10",
+  "scope": "mitc4-laminate-dynamic",
+  "status": "owner_accepted_experimental_bounded_use",
+  "owner": "Quentin Farinazzo",
+  "review_mode": "owner_review",
+  "independence": "not_independent",
+  "certification_claim": "none",
+  "decision": "accepted_for_bounded_engineering_use",
+  "decision_date": "2026-08-10",
+  "maturity_before_review": "ready_for_owner_review",
+  "maturity_after_review": "experimental_owner_accepted_bounded",
+  "campaigns": [
+    "VNV-MITC4-LAMINATE-DYNAMIC-001",
+    "VNV-MITC4-LAMINATE-DYNAMICS-CODEASTER-DST-018",
+    "VNV-MITC4-LAMINATE-LAYUPS-CODEASTER-DST-021",
+    "VNV-MITC4-LAMINATE-MESH-REFINEMENT-022",
+    "VNV-MITC4-LAMINATE-MODAL-10K-CODEASTER-023",
+    "VNV-COMP-CURVED-ORIENTATION-008"
+  ],
+  "accepted_domain": [
+    "MITC4 multicouche dynamique lineaire plane",
+    "petits deplacements et petites rotations",
+    "quatre plis symetriques",
+    "empilements [0/90/90/0], [45/-45/-45/45] et [0/45/45/0]",
+    "masse coherente et rotations de drilling condensees",
+    "analyses modale, Newmark et harmonique dans les cas documentes",
+    "amortissement de Rayleigh massique dans le cas controle [0/45/45/0]",
+    "correlation externe Code_Aster DST sur maillages QUAD4 communs"
+  ],
+  "excluded_domain": [
+    "dynamique de coque courbe avec orientations projetees",
+    "stratifies non symetriques avec matrice de couplage B non nulle",
+    "amortissement calibre sur essais",
+    "grandes deformations, flambement et dynamique non lineaire",
+    "dommage, rupture, delaminage et contraintes interlaminaires",
+    "maturite stable, qualification externe ou certification"
+  ],
+  "known_reservations": [
+    "Le cas modal [45/-45/-45/45] a 10 000 QUAD4 conserve un residu QF_solver d'environ 7.383e-6, superieur au seuil cible 1e-7.",
+    "Cette non-convergence du backend modal interdit une correlation mode par mode sur le maillage 10 000 QUAD4, sans invalider les correlations bornees sur les maillages controles."
+  ],
+  "recommendations": [
+    {
+      "id": "REC-MITC4-LAM-DYN-001",
+      "title": "Ameliorer le backend modal creux et fermer le cas 10 000 QUAD4 au seuil 1e-7.",
+      "status": "non_blocking_for_current_bounded_use"
+    },
+    {
+      "id": "REC-MITC4-LAM-DYN-002",
+      "title": "Ajouter une correlation dynamique de coque courbe a orientations projetees.",
+      "status": "blocking_for_broader_maturity"
+    },
+    {
+      "id": "REC-MITC4-LAM-DYN-003",
+      "title": "Verifier des empilements non symetriques avant toute extension au couplage membrane-flexion.",
+      "status": "blocking_for_broader_maturity"
+    }
+  ],
+  "signature": {
+    "name": "Quentin Farinazzo",
+    "date": "2026-08-10",
+    "type": "declared_owner_review",
+    "independence": "not_independent"
+  }
+}

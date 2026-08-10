@@ -1,0 +1,47 @@
+{
+  "status": "PASS",
+  "solver_name": "QF_solver",
+  "solver_version": "0.2.0a0",
+  "source_path": "cook_mitc4.msh",
+  "source_sha256": "c72c2512784e0c3ba0bd3685e40a401db630256630f47366390b2267627f11e7",
+  "setup_path": "result.setup.json",
+  "setup_sha256": "80e7002bf3b776aff93cefac66148e0f5545cce4f3ca70cf5ef3a2d27cf0800e",
+  "gmsh_version": "4.15.2",
+  "msh_version": "4.1",
+  "binary": false,
+  "element_family": "MITC4",
+  "node_count": 289,
+  "element_count": 256,
+  "group_count": 3,
+  "physical_groups": [
+    {
+      "name": "fixed",
+      "dimension": 1,
+      "tag": 2,
+      "cell_count": 16,
+      "node_count": 17
+    },
+    {
+      "name": "loaded_edge",
+      "dimension": 1,
+      "tag": 3,
+      "cell_count": 16,
+      "node_count": 17
+    },
+    {
+      "name": "shell",
+      "dimension": 2,
+      "tag": 1,
+      "cell_count": 256,
+      "node_count": 289
+    }
+  ],
+  "action_counts": {
+    "edge_traction": 16,
+    "elements": 256,
+    "fixed_dofs": 17
+  },
+  "orientation_repairs": 0,
+  "mesh_status": "PASS",
+  "warnings": []
+}

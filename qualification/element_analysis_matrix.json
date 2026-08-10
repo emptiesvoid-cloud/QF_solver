@@ -1,0 +1,162 @@
+{
+  "schema_version": 1,
+  "generated_on": "2026-08-02",
+  "purpose": "Authoritative coverage matrix separating implementation, automated verification and Owner validation.",
+  "status_values": {
+    "owner_accepted": "Bounded scope accepted by a dated Owner review.",
+    "ready_for_owner_review": "The required automated evidence is present; no Owner decision is implied.",
+    "verified_development": "Dedicated numerical evidence exists, but no separate accepted scope.",
+    "verified_development_external_correlation": "Dedicated numerical evidence is complemented by a traceable external solver correlation; no Owner decision is implied.",
+    "owner_accepted_experimental_bounded_use": "A dated Owner review accepts a bounded experimental engineering domain without general qualification.",
+    "owner_accepted_experimental": "A dated Owner review accepts a specific experimental case with explicit bounded-use limits.",
+    "smoke_tested": "The public route executes and basic invariants pass; mechanical V&V is incomplete.",
+    "implemented_unverified": "The generic solver accepts the combination, without element-specific proof.",
+    "experimental": "Implemented and tested for research or engineering investigation only.",
+    "unsupported": "The combination is explicitly outside the implementation or accepted domain."
+  },
+  "families": {
+    "TET4": {
+      "linear_static": {"status": "owner_accepted", "scope": "tet4-linear-static"},
+      "modal": {"status": "owner_accepted", "scope": "tet4-modal"},
+      "transient_newmark": {"status": "owner_accepted", "scope": "tet4-transient-dynamic"},
+      "harmonic": {"status": "owner_accepted", "scope": "tet4-harmonic-response"},
+      "material_nonlinear_static": {"status": "experimental", "scope": "material-nonlinear"},
+      "geometric_nonlinear_static": {"status": "owner_accepted", "scope": "tet4-total-lagrangian-structural-v2"},
+      "nonlinear_dynamic": {"status": "unsupported", "scope": null},
+      "evidence": [
+        "qualification/reviews/tet4_linear_isotropic_2026-07-14.json",
+        "qualification/campaign.json",
+        "qualification/reviews/tet4_total_lagrangian_structural_v2_2026-07-18.json",
+        "tests/unit/test_analysis_features.py",
+        "qualification/vnv/linear_dynamic_families/tet4/summary.json",
+        "solveur/verification/code_aster_tet4_dynamic.py",
+        "qualification/vnv/tet4_dynamic_code_aster/reference/summary.json"
+      ]
+    },
+    "TET10": {
+      "linear_static": {"status": "owner_accepted", "scope": "tet10-linear-static"},
+      "modal": {"status": "owner_accepted", "scope": "tet10-modal", "note": "Mass and modal evidence were accepted inside the TET10 review; a distinct Owner review remains recommended."},
+      "transient_newmark": {"status": "owner_accepted", "scope": "tet10-transient-dynamic"},
+      "harmonic": {"status": "owner_accepted", "scope": "tet10-harmonic-response"},
+      "material_nonlinear_static": {"status": "owner_accepted_experimental_bounded_use", "scope": "material-nonlinear", "note": "The bounded monotone TET10 J2 structural correlation was accepted for experimental internal use by Owner review on 2026-08-09; complex geometry, combined loads and cyclic paths remain outside the family maturity."},
+      "geometric_nonlinear_static": {"status": "unsupported", "scope": null},
+      "nonlinear_dynamic": {"status": "unsupported", "scope": null},
+      "evidence": [
+        "qualification/reviews/tet10_linear_2026-07-18.json",
+        "qualification/vnv/tet10_mass_modal_loads/reference/summary.json",
+        "qualification/vnv/orthotropic_modal_newmark/reference/summary.json",
+        "tests/unit/test_orthotropic_dynamic_large.py",
+        "qualification/vnv/linear_dynamic_families/tet10/summary.json",
+        "solveur/verification/code_aster_tet10_dynamic.py",
+        "tests/unit/test_code_aster_tet10_dynamic.py",
+        "qualification/vnv/tet10_dynamic_code_aster/reference/summary.json",
+        "qualification/vnv/tet10_dynamic_mesh_time_refinement/reference/summary.json"
+      ]
+    },
+    "MITC4": {
+      "linear_static": {"status": "owner_accepted", "scope": "mitc4-linear-static"},
+      "modal": {"status": "owner_accepted", "scope": "mitc4-modal"},
+      "transient_newmark": {"status": "owner_accepted", "scope": "mitc4-transient-dynamic"},
+      "harmonic": {"status": "owner_accepted", "scope": "mitc4-harmonic-response"},
+      "laminate_linear_static": {"status": "owner_accepted", "scope": "mitc4-laminate-static"},
+      "laminate_dynamic": {"status": "owner_accepted_experimental_bounded_use", "scope": "mitc4-laminate-dynamic", "note": "Planar symmetric four-ply laminates are Owner-accepted for bounded linear modal/Newmark/harmonic use. Curved dynamic shells, non-symmetric laminates, damage and delamination remain excluded; the 10 000 QUAD4 modal backend reservation remains open."},
+      "material_nonlinear_static": {"status": "unsupported", "scope": null},
+      "geometric_nonlinear_static": {"status": "unsupported", "scope": null},
+      "nonlinear_dynamic": {"status": "unsupported", "scope": null},
+      "evidence": [
+        "qualification/reviews/mitc4_linear_static_2026-07-14.json",
+        "qualification/reviews/mitc4_modal_2026-07-16.json",
+        "qualification/reviews/mitc4_transient_dynamic_2026-07-16.json",
+        "qualification/reviews/mitc4_harmonic_response_2026-07-15.json",
+        "qualification/vnv/mitc4_laminate_dynamic/reference/summary.json",
+        "qualification/vnv/external/code_aster_mitc4_laminate_dynamic/reference/summary.json",
+        "qualification/vnv/external/calculix_curved_orientation/reference/summary.json",
+        "qualification/reviews/mitc4_laminate_dynamic_2026-08-10.json",
+        "tests/verification/test_mitc4_laminate_dynamic_vnv.py",
+        "tests/unit/test_code_aster_mitc4_laminate_dynamic.py"
+      ]
+    },
+    "MITC3": {
+      "linear_static": {"status": "owner_accepted", "scope": "mitc3-linear-static"},
+      "modal": {"status": "owner_accepted", "scope": "mitc3-modal"},
+      "transient_newmark": {"status": "owner_accepted", "scope": "mitc3-transient-dynamic"},
+      "harmonic": {"status": "owner_accepted", "scope": "mitc3-harmonic-response"},
+      "laminate_linear_static": {"status": "verified_development_external_correlation", "scope": "mitc3-laminate-static", "note": "Flat symmetric laminate affine-patch material-axis ply stresses are externally correlated with CalculiX S6 COMPOSITE; curved projected orientation and Owner decision remain open."},
+      "laminate_linear_static_curved": {"status": "owner_accepted_experimental", "scope": "mitc3-laminate-static-curved", "note": "Curved faceted laminate with projected material orientation is correlated with CalculiX S6; accepted by Owner for bounded experimental use."},
+      "laminate_dynamic": {"status": "verified_development_external_correlation", "scope": null, "note": "Planar symmetric laminate modal/Newmark/harmonic responses are externally correlated on the same TRIA3 mesh with Code_Aster DST; static material-axis ply stresses are correlated with CalculiX S6. Curved projected orientation and an Owner decision remain open."},
+      "material_nonlinear_static": {"status": "unsupported", "scope": null},
+      "geometric_nonlinear_static": {"status": "unsupported", "scope": null},
+      "nonlinear_dynamic": {"status": "unsupported", "scope": null},
+      "evidence": [
+        "qualification/reviews/mitc3_linear_static_2026-08-01.json",
+        "qualification/vnv/mitc3/reference_v2/summary.json",
+        "tests/integration/test_mitc3_workflow.py",
+        "tests/verification/test_mitc3_campaign.py",
+        "qualification/vnv/linear_dynamic_families/mitc3/summary.json",
+        "qualification/vnv/mitc3_dynamic_extended/reference/summary.json",
+        "tests/verification/test_mitc3_dynamic_extended_vnv.py",
+        "solveur/verification/code_aster_mitc3_dynamic.py",
+        "tests/unit/test_code_aster_mitc3_dynamic.py",
+        "qualification/vnv/mitc3_dynamic_code_aster/reference/summary.json",
+        "qualification/vnv/mitc3_laminate_dynamic/reference/summary.json",
+        "qualification/vnv/external/code_aster_mitc3_laminate_dynamic/reference/summary.json",
+        "qualification/vnv/external/calculix_mitc3_laminate_ply_stress/reference/summary.json",
+        "tests/unit/test_code_aster_mitc3_laminate_dynamic.py",
+        "tests/unit/test_calculix_mitc3_laminate_ply_stress.py",
+        "tests/verification/test_mitc3_laminate_dynamic_vnv.py"
+      ]
+    },
+    "BEAM2": {
+      "linear_static": {"status": "verified_development", "scope": "beam2-linear-static"},
+      "modal": {"status": "owner_accepted", "scope": "beam2-linear-dynamics"},
+      "transient_newmark": {"status": "owner_accepted", "scope": "beam2-linear-dynamics"},
+      "harmonic": {"status": "owner_accepted", "scope": "beam2-linear-dynamics"},
+      "material_nonlinear_static": {"status": "unsupported", "scope": null},
+      "geometric_nonlinear_static": {"status": "unsupported", "scope": null},
+      "nonlinear_dynamic": {"status": "unsupported", "scope": null},
+      "evidence": [
+        "solveur/verification/code_aster_beam2.py",
+        "solveur/verification/code_aster_beam2_modal.py",
+        "solveur/verification/code_aster_beam2_newmark.py",
+        "solveur/verification/code_aster_beam2_transverse.py",
+        "tests/verification/test_code_aster_beam2_vnv.py",
+        "tests/verification/test_code_aster_beam2_modal_vnv.py",
+        "tests/verification/test_code_aster_beam2_newmark_vnv.py",
+        "tests/verification/test_code_aster_beam2_transverse_vnv.py",
+        "qualification/vnv/external/code_aster_beam2_newmark/reference/summary.json",
+        "qualification/vnv/external/code_aster_beam2_transverse/reference/summary.json",
+        "qualification/vnv/linear_dynamic_families/beam2/summary.json"
+      ]
+    },
+    "SPRING_MASS": {
+      "linear_static": {"status": "verified_development", "scope": "discrete-linear"},
+      "modal": {"status": "owner_accepted", "scope": "discrete-linear-dynamics"},
+      "transient_newmark": {"status": "owner_accepted", "scope": "discrete-linear-dynamics"},
+      "harmonic": {"status": "owner_accepted", "scope": "discrete-linear-dynamics"},
+      "nonlinear": {"status": "unsupported", "scope": null},
+      "evidence": [
+        "solveur/verification/code_aster_discrete.py",
+        "tests/unit/test_discrete_entities.py",
+        "tests/verification/test_code_aster_discrete_vnv.py",
+        "qualification/vnv/external/code_aster_discrete/reference/summary.json",
+        "qualification/vnv/linear_dynamic_families/spring_mass/summary.json"
+      ]
+    },
+    "CONTACT": {
+      "linear_static": {"status": "owner_accepted", "scope": "contact-v1-linear-static-bounded"},
+      "frictional_static": {"status": "experimental", "scope": null},
+      "modal": {"status": "unsupported", "scope": null},
+      "transient_newmark": {"status": "unsupported", "scope": null},
+      "harmonic": {"status": "unsupported", "scope": null},
+      "nonlinear_dynamic": {"status": "unsupported", "scope": null},
+      "evidence": [
+        "qualification/reviews/contact_v1_linear_static_bounded_2026-07-29.json"
+      ]
+    }
+  },
+  "blocking_gaps_for_uniform_v1": [
+    "Keep nonlinear dynamics outside V1 unless a dedicated nonlinear time integrator is implemented.",
+    "Do not claim nonlinear shell support for MITC3 or MITC4.",
+    "Do not infer composite dynamic validation from isotropic dynamic validation."
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "status": "WARNING",
+  "solver_name": "QF_solver",
+  "solver_version": "0.2.0a0",
+  "source_path": "h1.msh",
+  "source_sha256": "6620d8352e09d48c8da78c17d1ef4d75fd67315a7d8a40c5d4a249960463f409",
+  "setup_path": "h1.setup.json",
+  "setup_sha256": "df718595bf34a25452c0dc614546d3a1fc0a4262d69d26150888c523a3465881",
+  "gmsh_version": "4.15.2",
+  "msh_version": "4.1",
+  "binary": false,
+  "element_family": "TET4",
+  "node_count": 72,
+  "element_count": 158,
+  "group_count": 3,
+  "physical_groups": [
+    {
+      "name": "x_max",
+      "dimension": 2,
+      "tag": 3,
+      "cell_count": 7,
+      "node_count": 8
+    },
+    {
+      "name": "x_min",
+      "dimension": 2,
+      "tag": 2,
+      "cell_count": 7,
+      "node_count": 8
+    },
+    {
+      "name": "domain",
+      "dimension": 3,
+      "tag": 1,
+      "cell_count": 158,
+      "node_count": 72
+    }
+  ],
+  "action_counts": {
+    "elements": 158,
+    "fixed_dofs": 8
+  },
+  "orientation_repairs": 0,
+  "mesh_status": "PASS",
+  "warnings": [
+    "Physical group 'x_max' (dimension 2) is unused."
+  ]
+}

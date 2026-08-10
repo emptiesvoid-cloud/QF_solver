@@ -1,0 +1,96 @@
+{
+  "benchmark": {
+    "identifier": "BM-NL-J2-BAR-001",
+    "title": "Barre TET4 elastoplastique J2",
+    "family": "TET4",
+    "analyses": [
+      "nonlinear_static"
+    ],
+    "maturity": "experimental",
+    "reference_type": "analytic_material_path",
+    "reference": "Loi uniaxiale bilineaire avec ecrouissage isotrope",
+    "reference_id": "REF-J2-SIMO-1985",
+    "reference_url": "https://doi.org/10.1016/0045-7825(85)90070-2",
+    "requirements": [
+      "REQ-NL-001",
+      "REQ-CMP-003"
+    ],
+    "criteria": {
+      "relative_stress_error_max": 0.02,
+      "relative_plastic_strain_error_max": 1e-06,
+      "load_step_sensitivity_max": 1e-06,
+      "free_residual_max": 1e-07
+    }
+  },
+  "status": "WARNING",
+  "metrics": {
+    "applied_axial_stress": 300000000.0,
+    "mean_axial_stress": 300000000.0000001,
+    "relative_stress_error": 3.9736429850260417e-16,
+    "expected_uniaxial_equivalent_plastic_strain": 0.05,
+    "mean_equivalent_plastic_strain": 0.04999999999999993,
+    "relative_plastic_strain_error": 1.3877787807814457e-15,
+    "load_step_sensitivity": 4.95575802617055e-13,
+    "load_step_counts": [
+      3,
+      6,
+      12
+    ],
+    "converged_steps": 6,
+    "max_step_iterations": 6,
+    "free_relative_residual": 1.1197924259436353e-13
+  },
+  "checks": [
+    {
+      "id": "uniaxial-stress",
+      "status": "PASS",
+      "value": 3.9736429850260417e-16,
+      "limit": 0.02,
+      "operator": "less_equal",
+      "detail": ""
+    },
+    {
+      "id": "uniaxial-plastic-strain",
+      "status": "PASS",
+      "value": 1.3877787807814457e-15,
+      "limit": 1e-06,
+      "operator": "less_equal",
+      "detail": ""
+    },
+    {
+      "id": "load-step-sensitivity",
+      "status": "PASS",
+      "value": 4.95575802617055e-13,
+      "limit": 1e-06,
+      "operator": "less_equal",
+      "detail": ""
+    },
+    {
+      "id": "free-residual",
+      "status": "PASS",
+      "value": 1.1197924259436353e-13,
+      "limit": 1e-07,
+      "operator": "less_equal",
+      "detail": ""
+    },
+    {
+      "id": "step-residual",
+      "status": "PASS",
+      "value": 1.1403240356501012e-13,
+      "limit": 1e-07,
+      "operator": "less_equal",
+      "detail": ""
+    }
+  ],
+  "files": {
+    "result_import_report": "result.import_report.json",
+    "result_mesh": "j2_bar_tet4.msh",
+    "result_model": "result.model.json",
+    "result_result": "result.json",
+    "result_setup": "result.setup.json",
+    "result_vtu": "result.vtu",
+    "summary": "benchmark_summary.json",
+    "manifest": "benchmark_manifest.json"
+  },
+  "message": "Experimental small-displacement J2 benchmark; not qualification-eligible."
+}

@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "review_id": "REV-MITC4-LINEAR-STATIC-2026-07-14",
+  "scope": "mitc4-linear-static",
+  "decision": "accepted_with_reservations",
+  "decision_date": "2026-07-14",
+  "use_class": "engineering_internal",
+  "project_visibility_at_decision": "private",
+  "validator": {
+    "name": "Quentin Farinazzo",
+    "role": "auteur et validateur mecanique"
+  },
+  "review_mode": "self_review",
+  "independence": "not_independent",
+  "certification_claim": "none",
+  "accepted_domain": {
+    "element": "MITC4 isotrope",
+    "kinematics": "small_displacement_small_rotation",
+    "material": "linear_isotropic_shell",
+    "thickness": "constant_per_element",
+    "analyses": ["linear_static"],
+    "mesh_limits": {
+      "aspect_ratio_max": 10.0,
+      "warpage_max_degrees": 5.0,
+      "interior_angle_range_degrees": [30.0, 150.0],
+      "planarity_ratio_max": 0.001
+    },
+    "accepted_outputs": [
+      "nodal_displacements",
+      "reactions_and_global_equilibrium",
+      "membrane_bending_and_shear_resultants",
+      "top_and_bottom_surface_stresses"
+    ]
+  },
+  "evidence": [
+    "VNV-MITC4-PATCH-001",
+    "VNV-MITC4-SHEAR-LOCKING-001",
+    "VNV-MITC4-COOK-001",
+    "VNV-MITC4-SCORDELIS-001",
+    "VNV-MITC4-PINCHED-001",
+    "VNV-MITC4-LOADS-001",
+    "VNV-MITC4-STRESS-001",
+    "VNV-MITC4-DRILLING-001",
+    "ABAQUS-2025-PINCHED-CYLINDER-S4R"
+  ],
+  "recommendations": [
+    "Cook: audit independently the reference value and boundary conditions before using it as a full acceptance benchmark.",
+    "Keep the MITC4 use inside the published mesh-quality limits.",
+    "Run Abaqus S4R on an identical mesh for the pinched cylinder before raising the external evidence level.",
+    "Do not extend this decision to modal, Newmark, harmonic, nonlinear, composite, variable-thickness or large-rotation analyses."
+  ],
+  "explicit_exclusions": [
+    "modal_and_transient_dynamic_mitc4",
+    "harmonic_mitc4",
+    "large_displacements_or_large_rotations",
+    "buckling",
+    "composites_and_variable_thickness",
+    "contact_damage_fatigue_and_thermal_coupling",
+    "external_regulatory_certification"
+  ],
+  "comments": "Validation interne prononcee par Quentin Farinazzo avec reservations. Les patchs, la matrice shear-locking, Scordelis-Lo, le cylindre pince et la correlation Abaqus publiee sont acceptes dans le domaine borne. Cook 200x200 est numeriquement convergent mais se stabilise vers 0.2515 plutot que la reference actuelle 0.2396; une revue independante de cette reference et des conditions aux limites reste obligatoire."
+}

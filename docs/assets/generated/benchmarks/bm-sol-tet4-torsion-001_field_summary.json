@@ -1,0 +1,26 @@
+{
+  "deformation_scale": 1337999.1815922558,
+  "element_count": 3508,
+  "fields": [
+    {
+      "element_count": 3508,
+      "key": "von_mises",
+      "label": "Contrainte equivalente de von Mises [unite du modele]",
+      "maximum": 9712.748022994614,
+      "minimum": 332.18120177000986,
+      "path": "bm-sol-tet4-torsion-001_von_mises.png",
+      "sha256": "cab366cf09aaa0170112f27554526f8fde9d1aa18cbc6d610378f69c963bc43a"
+    },
+    {
+      "element_count": 3508,
+      "key": "strain_measure",
+      "label": "Deformation equivalente de von Mises [-]",
+      "maximum": 1.0522143691577498e-07,
+      "minimum": 3.5986296858417743e-09,
+      "path": "bm-sol-tet4-torsion-001_strain_measure.png",
+      "sha256": "5c83709a7ba764e827e2add59a79b21d3b994ac4a8b7bf941b58e236372270ed"
+    }
+  ],
+  "schema_version": 1,
+  "title": "Arbre circulaire TET4 en torsion de Saint-Venant"
+}

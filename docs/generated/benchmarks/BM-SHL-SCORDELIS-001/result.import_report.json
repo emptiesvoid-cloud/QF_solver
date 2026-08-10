@@ -1,0 +1,47 @@
+{
+  "status": "PASS",
+  "solver_name": "QF_solver",
+  "solver_version": "0.2.0a0",
+  "source_path": "scordelis_mitc4.msh",
+  "source_sha256": "7315f62c1d117dd48517abc579724ecd9b31d133010c71d1da9998ed56df9400",
+  "setup_path": "result.setup.json",
+  "setup_sha256": "04853be35d49a02dd2d1f7bc17df3c028efdaecd15f670dadfed827bbe4c132f",
+  "gmsh_version": "4.15.2",
+  "msh_version": "4.1",
+  "binary": false,
+  "element_family": "MITC4",
+  "node_count": 441,
+  "element_count": 400,
+  "group_count": 3,
+  "physical_groups": [
+    {
+      "name": "anchor",
+      "dimension": 0,
+      "tag": 3,
+      "cell_count": 1,
+      "node_count": 1
+    },
+    {
+      "name": "diaphragms",
+      "dimension": 1,
+      "tag": 2,
+      "cell_count": 40,
+      "node_count": 42
+    },
+    {
+      "name": "shell",
+      "dimension": 2,
+      "tag": 1,
+      "cell_count": 400,
+      "node_count": 441
+    }
+  ],
+  "action_counts": {
+    "elements": 400,
+    "fixed_dofs": 43,
+    "surface_traction": 400
+  },
+  "orientation_repairs": 0,
+  "mesh_status": "PASS",
+  "warnings": []
+}

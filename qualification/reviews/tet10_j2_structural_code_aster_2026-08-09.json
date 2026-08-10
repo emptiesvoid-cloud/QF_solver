@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "review_id": "OWNER-REVIEW-TET10-J2-CODEASTER-STRUCTURAL-2026-08-09",
+  "scope": "tet10-j2-small-strain-monotone-structural-bar",
+  "status": "owner_accepted_experimental_bounded_use",
+  "owner": "Quentin Farinazzo",
+  "review_mode": "owner_review",
+  "independence": "not_independent",
+  "certification_claim": "none",
+  "decision": "accepted_with_recommendations",
+  "decision_date": "2026-08-09",
+  "campaign": {
+    "study_id": "VNV-TET10-J2-CODEASTER-STRUCTURAL-025",
+    "summary": "qualification/vnv/external/code_aster_tet10_j2_structural/reference/summary.json",
+    "report": "docs/verification/tet10_j2_structural_code_aster.md",
+    "pdf": "output/pdf/tet10_j2_structural_code_aster_owner_review.pdf",
+    "status": "PASS_EXTERNAL_CORRELATION",
+    "same_mesh": "341 nodes and 140 TET10/TETRA10 elements",
+    "final_tip_displacement_error_percent": 0.0317538,
+    "peeq_path_rms_percent": 0.5508449,
+    "maximum_qf_residual": 7.400791788308093e-11
+  },
+  "accepted_domain": [
+    "TET10 isotropic small-strain J2 plasticity",
+    "linear isotropic hardening",
+    "straight homogeneous bar",
+    "monotone axial load path",
+    "global displacement and mean integration-point PEEQ comparison"
+  ],
+  "excluded_domain": [
+    "cyclic reversal and fatigue",
+    "large strains and geometric nonlinearity",
+    "contact, damage, rupture and buckling",
+    "singular-point stress acceptance",
+    "complex geometry and combined-load acceptance"
+  ],
+  "recommendations": [
+    {
+      "id": "REC-TET10-J2-STRUCTURAL-001",
+      "title": "Run a complex TET10 J2 structural case with combined loads.",
+      "status": "next_scope",
+      "blocking_current_bounded_acceptance": false,
+      "blocking_general_maturity": true
+    },
+    {
+      "id": "REC-TET10-J2-STRUCTURAL-002",
+      "title": "Keep the material nonlinear TET10 family at experimental maturity until the complex campaign is reviewed.",
+      "status": "accepted_recommendation"
+    }
+  ],
+  "maturity_before_review": "verified_development_external_correlation",
+  "maturity_after_review": "experimental_owner_accepted_bounded",
+  "signature": {
+    "name": "Quentin Farinazzo",
+    "date": "2026-08-09",
+    "type": "declared_owner_review",
+    "independence": "not_independent"
+  }
+}

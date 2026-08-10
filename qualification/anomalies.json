@@ -1,0 +1,56 @@
+{
+  "register_version": 1,
+  "status_values": ["open", "accepted", "resolved", "verified"],
+  "severity_values": ["critical", "major", "minor"],
+  "anomalies": [
+    {
+      "id": "ANOM-0001",
+      "title": "Qualification profile can return process success for an experimental feature",
+      "severity": "critical",
+      "status": "verified",
+      "affected_scope": "all",
+      "impact": "A caller can mistake a numerical PASS for an accepted qualification verdict.",
+      "resolution": "RunVerdict is separated from numerical status and qualification rejection maps to exit code 4.",
+      "verification": "tests/integration/test_p0_cli_contract.py and tests/unit/test_qualification.py"
+    },
+    {
+      "id": "ANOM-0002",
+      "title": "J2 plastic tangent is not algorithmically consistent",
+      "severity": "major",
+      "status": "verified",
+      "affected_scope": "material-nonlinear",
+      "impact": "Newton convergence and path-dependent response can be inaccurate.",
+      "resolution": "Direction-dependent consistent radial-return tangent implemented in engineering Voigt convention.",
+      "verification": "tests/unit/test_p0_numerical_safety.py; relative finite-difference error below 1e-6"
+    },
+    {
+      "id": "ANOM-0003",
+      "title": "PETSc backend is not a demonstrated distributed MPI implementation",
+      "severity": "major",
+      "status": "open",
+      "affected_scope": "large-tet4-linear-static",
+      "impact": "Large unstructured multi-rank runs are outside the accepted domain.",
+      "verification": "Two-rank and four-rank distributed equivalence tests"
+    },
+    {
+      "id": "ANOM-0004",
+      "title": "Newmark refactorizes a constant matrix and densifies initial mass",
+      "severity": "major",
+      "status": "verified",
+      "affected_scope": "linear-dynamics",
+      "impact": "Transient runtime and memory grow unnecessarily with step count and model size.",
+      "resolution": "Reusable sparse LU introduced for the effective matrix and initial acceleration.",
+      "verification": "tests/unit/test_p1_sparse_performance.py and tests/unit/test_analysis_features.py"
+    },
+    {
+      "id": "ANOM-0005",
+      "title": "Modal default permits unbounded dense conversion",
+      "severity": "major",
+      "status": "verified",
+      "affected_scope": "linear-dynamics",
+      "impact": "A modal request can exhaust memory before producing diagnostics.",
+      "resolution": "Sparse eigsh default and configurable dense_modal_max_dofs guard.",
+      "verification": "tests/unit/test_p1_sparse_performance.py"
+    }
+  ]
+}

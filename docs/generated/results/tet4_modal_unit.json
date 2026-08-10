@@ -1,0 +1,998 @@
+{
+  "status": "PASS",
+  "run_verdict": "PASS",
+  "analysis": "modal",
+  "method": "eigh",
+  "message": "",
+  "node_count": 4,
+  "element_count": 1,
+  "ndof": 12,
+  "modes": [
+    {
+      "index": 1,
+      "eigenvalue": 103550295.85798816,
+      "frequency_hz": 1619.5553821068938,
+      "shape": [
+        {
+          "node": 0,
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          }
+        },
+        {
+          "node": 1,
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.08770580193070293,
+            "UZ": 0.0
+          }
+        },
+        {
+          "node": 2,
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          }
+        },
+        {
+          "node": 3,
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "eigenvalue": 103550295.85798816,
+      "frequency_hz": 1619.5553821068938,
+      "shape": [
+        {
+          "node": 0,
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          }
+        },
+        {
+          "node": 1,
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.08770580193070293
+          }
+        },
+        {
+          "node": 2,
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          }
+        },
+        {
+          "node": 3,
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "eigenvalue": 362426035.50295854,
+      "frequency_hz": 3029.910679374876,
+      "shape": [
+        {
+          "node": 0,
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          }
+        },
+        {
+          "node": 1,
+          "dofs": {
+            "UX": 0.08770580193070293,
+            "UY": 0.0,
+            "UZ": 0.0
+          }
+        },
+        {
+          "node": 2,
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          }
+        },
+        {
+          "node": 3,
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          }
+        }
+      ]
+    }
+  ],
+  "solver": {
+    "mode_count": 3,
+    "max_relative_residual": 0.0,
+    "relative_residuals": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "mass_orthogonality_error": 0.0,
+    "stiffness_diagonal_error": 0.0,
+    "modal_masses": [
+      1.0000000000000002,
+      1.0000000000000002,
+      1.0000000000000002
+    ],
+    "modal_stiffnesses": [
+      103550295.8579882,
+      103550295.8579882,
+      362426035.5029586
+    ],
+    "effective_modal_mass": {
+      "by_direction": {
+        "UX": [
+          0.0,
+          0.0,
+          130.0
+        ],
+        "UY": [
+          130.0,
+          0.0,
+          0.0
+        ],
+        "UZ": [
+          0.0,
+          130.0,
+          0.0
+        ]
+      },
+      "total_direction_mass": {
+        "UX": 130.0,
+        "UY": 130.0,
+        "UZ": 130.0
+      }
+    },
+    "dense_modal_max_dofs": 2000,
+    "dense_conversion_used": true,
+    "arpack": {
+      "shift_eigenvalue": 0.0,
+      "shift_hz": null,
+      "which": "LM",
+      "tolerance": 0.0,
+      "maxiter": null,
+      "ncv": null
+    },
+    "assembly": {
+      "stiffness": {
+        "matrix": "stiffness",
+        "chunk_size": 256,
+        "chunk_count": 1,
+        "element_count": 1,
+        "coefficient_entry_count": 144,
+        "peak_chunk_entry_count": 144,
+        "final_nnz": 72,
+        "spring_count": 0,
+        "concentrated_mass_count": 0
+      },
+      "mass": {
+        "matrix": "mass",
+        "chunk_size": 256,
+        "chunk_count": 1,
+        "element_count": 1,
+        "coefficient_entry_count": 144,
+        "peak_chunk_entry_count": 144,
+        "final_nnz": 48,
+        "spring_count": 0,
+        "concentrated_mass_count": 0
+      }
+    },
+    "dynamic_reduction": {
+      "strategy": "consistent_mass_static_drilling_condensation",
+      "candidate_drilling_dof_count": 0,
+      "condensed_drilling_dof_count": 0,
+      "retained_dof_count": 3,
+      "drilling_mass_tolerance": 1e-12,
+      "maximum_candidate_mass_row_ratio": 0.0,
+      "condensed_mass_coupling_ratio": 0.0,
+      "condensed_stiffness_nnz": 3,
+      "lazy_condensation": false
+    }
+  },
+  "mesh_report": {
+    "status": "PASS",
+    "errors": [],
+    "warnings": [],
+    "details": {
+      "node_count": 4,
+      "element_count": 1,
+      "material_count": 1,
+      "fixed_condition_count": 3,
+      "load_count": 0,
+      "nodal_load_count": 0,
+      "distributed_load_count": 0,
+      "spring_count": 0,
+      "concentrated_mass_count": 0,
+      "multipoint_constraint_count": 0,
+      "rbe2_count": 0,
+      "rbe3_count": 0,
+      "contact_count": 0,
+      "element_types": {
+        "TET4": 1
+      },
+      "quality_thresholds": {
+        "tet_min_signed_volume": 1e-14,
+        "tet_min_quality": 0.05,
+        "tet_min_radius_ratio": 0.05,
+        "tet_max_aspect_ratio": 20.0,
+        "tet_min_relative_volume": 0.0001,
+        "tet10_max_mid_edge_deviation_ratio": 0.05,
+        "tet10_min_sampled_jacobian": 1e-14,
+        "tet10_min_jacobian_ratio": 0.05,
+        "mitc4_max_aspect_ratio": 10.0,
+        "mitc4_max_planarity_ratio": 0.001,
+        "mitc4_min_angle_degrees": 30.0,
+        "mitc4_max_angle_degrees": 150.0,
+        "mitc4_max_warpage_degrees": 5.0,
+        "mitc3_max_aspect_ratio": 10.0,
+        "mitc3_min_angle_degrees": 20.0,
+        "mitc3_max_angle_degrees": 140.0,
+        "mitc3_min_relative_area": 1e-08
+      },
+      "element_quality": [
+        {
+          "index": 0,
+          "type": "TET4",
+          "signed_volume": 0.16666666666666666,
+          "quality": 0.7698003589195013,
+          "radius_ratio": 0.7320508075688774,
+          "edge_length_min": 1.0,
+          "edge_length_max": 1.4142135623730951,
+          "aspect_ratio": 1.4142135623730951,
+          "relative_volume": 0.058925565098878946,
+          "skew": 0.23019964108049873,
+          "quality_status": "PASS",
+          "quality_warnings": []
+        }
+      ],
+      "component_count": 1,
+      "components": [
+        {
+          "index": 0,
+          "nodes": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "elements": [
+            0
+          ],
+          "element_types": {
+            "TET4": 1
+          },
+          "fixed_dof_count": 9,
+          "fixed_translation_dof_count": 9,
+          "load_count": 0,
+          "fixed_translation_node_count": 3
+        }
+      ],
+      "isolated_nodes": [],
+      "mechanical_rank": {
+        "checked": true,
+        "free_dof_count": 3,
+        "rank": 3,
+        "zero_mode_count": 0,
+        "eigenvalue_min": 13461538461.538462,
+        "eigenvalue_max": 47115384615.38461,
+        "tolerance": 4.711538461538462
+      },
+      "error_count": 0,
+      "warning_count": 0
+    }
+  },
+  "audit": {
+    "version": 1,
+    "purpose": "white_box_solver_audit",
+    "analysis": "modal",
+    "method": "eigh",
+    "node_count": 4,
+    "element_count": 1,
+    "ndof": 12,
+    "mesh_status": "PASS",
+    "mesh_errors": [],
+    "mesh_warnings": [],
+    "mesh_details": {
+      "node_count": 4,
+      "element_count": 1,
+      "material_count": 1,
+      "fixed_condition_count": 3,
+      "load_count": 0,
+      "nodal_load_count": 0,
+      "distributed_load_count": 0,
+      "spring_count": 0,
+      "concentrated_mass_count": 0,
+      "multipoint_constraint_count": 0,
+      "rbe2_count": 0,
+      "rbe3_count": 0,
+      "contact_count": 0,
+      "element_types": {
+        "TET4": 1
+      },
+      "quality_thresholds": {
+        "tet_min_signed_volume": 1e-14,
+        "tet_min_quality": 0.05,
+        "tet_min_radius_ratio": 0.05,
+        "tet_max_aspect_ratio": 20.0,
+        "tet_min_relative_volume": 0.0001,
+        "tet10_max_mid_edge_deviation_ratio": 0.05,
+        "tet10_min_sampled_jacobian": 1e-14,
+        "tet10_min_jacobian_ratio": 0.05,
+        "mitc4_max_aspect_ratio": 10.0,
+        "mitc4_max_planarity_ratio": 0.001,
+        "mitc4_min_angle_degrees": 30.0,
+        "mitc4_max_angle_degrees": 150.0,
+        "mitc4_max_warpage_degrees": 5.0,
+        "mitc3_max_aspect_ratio": 10.0,
+        "mitc3_min_angle_degrees": 20.0,
+        "mitc3_max_angle_degrees": 140.0,
+        "mitc3_min_relative_area": 1e-08
+      },
+      "element_quality": [
+        {
+          "index": 0,
+          "type": "TET4",
+          "signed_volume": 0.16666666666666666,
+          "quality": 0.7698003589195013,
+          "radius_ratio": 0.7320508075688774,
+          "edge_length_min": 1.0,
+          "edge_length_max": 1.4142135623730951,
+          "aspect_ratio": 1.4142135623730951,
+          "relative_volume": 0.058925565098878946,
+          "skew": 0.23019964108049873,
+          "quality_status": "PASS",
+          "quality_warnings": []
+        }
+      ],
+      "component_count": 1,
+      "components": [
+        {
+          "index": 0,
+          "nodes": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "elements": [
+            0
+          ],
+          "element_types": {
+            "TET4": 1
+          },
+          "fixed_dof_count": 9,
+          "fixed_translation_dof_count": 9,
+          "load_count": 0,
+          "fixed_translation_node_count": 3
+        }
+      ],
+      "isolated_nodes": [],
+      "mechanical_rank": {
+        "checked": true,
+        "free_dof_count": 3,
+        "rank": 3,
+        "zero_mode_count": 0,
+        "eigenvalue_min": 13461538461.538462,
+        "eigenvalue_max": 47115384615.38461,
+        "tolerance": 4.711538461538462
+      },
+      "error_count": 0,
+      "warning_count": 0
+    },
+    "element_types": {
+      "TET4": 1
+    },
+    "material_names": [
+      "steel"
+    ],
+    "dof_map": [
+      {
+        "node": 0,
+        "dofs": {
+          "UX": 0,
+          "UY": 1,
+          "UZ": 2
+        }
+      },
+      {
+        "node": 1,
+        "dofs": {
+          "UX": 3,
+          "UY": 4,
+          "UZ": 5
+        }
+      },
+      {
+        "node": 2,
+        "dofs": {
+          "UX": 6,
+          "UY": 7,
+          "UZ": 8
+        }
+      },
+      {
+        "node": 3,
+        "dofs": {
+          "UX": 9,
+          "UY": 10,
+          "UZ": 11
+        }
+      }
+    ],
+    "element_dofs": [
+      {
+        "index": 0,
+        "type": "TET4",
+        "nodes": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "material": "steel",
+        "dofs_per_node": [
+          "UX",
+          "UY",
+          "UZ"
+        ],
+        "global_dof_indices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ]
+      }
+    ],
+    "boundary": {
+      "fixed_dof_count": 9,
+      "free_dof_count": 3,
+      "fixed_indices": [
+        0,
+        1,
+        2,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "free_indices": [
+        3,
+        4,
+        5
+      ]
+    },
+    "vectors": [],
+    "load_assembly": {},
+    "matrices": [
+      {
+        "name": "stiffness",
+        "shape": [
+          12,
+          12
+        ],
+        "nnz": 72,
+        "density": 0.5,
+        "data_norm": 238918606625.17682,
+        "symmetry_relative_error": 0.0,
+        "is_symmetric": true,
+        "diagonal_min": 13461538461.538462,
+        "diagonal_max": 74038461538.46153,
+        "rank_estimate": 6,
+        "eigenvalue_min": -1.1259537548815202e-05,
+        "eigenvalue_max": 211139632824.9721,
+        "condition_estimate": 7.842329219213251,
+        "positive_definite_estimate": false
+      },
+      {
+        "name": "mass",
+        "shape": [
+          12,
+          12
+        ],
+        "nnz": 48,
+        "density": 0.3333333333333333,
+        "data_norm": 595.7348403442592,
+        "symmetry_relative_error": 0.0,
+        "is_symmetric": true,
+        "diagonal_min": 130.0,
+        "diagonal_max": 130.0,
+        "rank_estimate": 12,
+        "eigenvalue_min": 64.99999999999991,
+        "eigenvalue_max": 325.0000000000001,
+        "condition_estimate": 5.000000000000008,
+        "positive_definite_estimate": true
+      },
+      {
+        "name": "reduced_stiffness",
+        "shape": [
+          3,
+          3
+        ],
+        "nnz": 3,
+        "density": 0.3333333333333333,
+        "data_norm": 50816193314.32235,
+        "symmetry_relative_error": 0.0,
+        "is_symmetric": true,
+        "diagonal_min": 13461538461.538462,
+        "diagonal_max": 47115384615.38461,
+        "rank_estimate": 3,
+        "eigenvalue_min": 13461538461.538462,
+        "eigenvalue_max": 47115384615.38461,
+        "condition_estimate": 3.5,
+        "positive_definite_estimate": true
+      },
+      {
+        "name": "reduced_mass",
+        "shape": [
+          3,
+          3
+        ],
+        "nnz": 3,
+        "density": 0.3333333333333333,
+        "data_norm": 225.16660498395404,
+        "symmetry_relative_error": 0.0,
+        "is_symmetric": true,
+        "diagonal_min": 130.0,
+        "diagonal_max": 130.0,
+        "rank_estimate": 3,
+        "eigenvalue_min": 130.0,
+        "eigenvalue_max": 130.0,
+        "condition_estimate": 1.0,
+        "positive_definite_estimate": true
+      }
+    ],
+    "element_audits": [
+      {
+        "index": 0,
+        "type": "TET4",
+        "nodes": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "material": "steel",
+        "material_data": {
+          "E": 210000000000.0,
+          "density": 7800.0,
+          "nu": 0.3,
+          "type": "isotropic_3d"
+        },
+        "dofs_per_node": [
+          "UX",
+          "UY",
+          "UZ"
+        ],
+        "global_dof_indices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "geometry": {
+          "centroid": [
+            0.25,
+            0.25,
+            0.25
+          ],
+          "bounding_box_min": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "bounding_box_max": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "signed_corner_volume": 0.16666666666666666,
+          "corner_quality": 0.7698003589195013,
+          "edge_length_min": 1.0,
+          "edge_length_max": 1.4142135623730951
+        },
+        "local_dofs": [
+          {
+            "local_index": 0,
+            "node": 0,
+            "dof": "UX",
+            "global_index": 0
+          },
+          {
+            "local_index": 1,
+            "node": 0,
+            "dof": "UY",
+            "global_index": 1
+          },
+          {
+            "local_index": 2,
+            "node": 0,
+            "dof": "UZ",
+            "global_index": 2
+          },
+          {
+            "local_index": 3,
+            "node": 1,
+            "dof": "UX",
+            "global_index": 3
+          },
+          {
+            "local_index": 4,
+            "node": 1,
+            "dof": "UY",
+            "global_index": 4
+          },
+          {
+            "local_index": 5,
+            "node": 1,
+            "dof": "UZ",
+            "global_index": 5
+          },
+          {
+            "local_index": 6,
+            "node": 2,
+            "dof": "UX",
+            "global_index": 6
+          },
+          {
+            "local_index": 7,
+            "node": 2,
+            "dof": "UY",
+            "global_index": 7
+          },
+          {
+            "local_index": 8,
+            "node": 2,
+            "dof": "UZ",
+            "global_index": 8
+          },
+          {
+            "local_index": 9,
+            "node": 3,
+            "dof": "UX",
+            "global_index": 9
+          },
+          {
+            "local_index": 10,
+            "node": 3,
+            "dof": "UY",
+            "global_index": 10
+          },
+          {
+            "local_index": 11,
+            "node": 3,
+            "dof": "UZ",
+            "global_index": 11
+          }
+        ],
+        "assembly_entries": [],
+        "matrices": [
+          {
+            "name": "local_stiffness",
+            "shape": [
+              12,
+              12
+            ],
+            "nnz": 72,
+            "density": 0.5,
+            "data_norm": 238918606625.17682,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 13461538461.538462,
+            "diagonal_max": 74038461538.46153,
+            "rank_estimate": 6,
+            "eigenvalue_min": -1.1259537548815202e-05,
+            "eigenvalue_max": 211139632824.9721,
+            "condition_estimate": 7.842329219213251,
+            "positive_definite_estimate": false
+          },
+          {
+            "name": "local_mass",
+            "shape": [
+              12,
+              12
+            ],
+            "nnz": 48,
+            "density": 0.3333333333333333,
+            "data_norm": 595.7348403442592,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 130.0,
+            "diagonal_max": 130.0,
+            "rank_estimate": 12,
+            "eigenvalue_min": 64.99999999999991,
+            "eigenvalue_max": 325.0000000000001,
+            "condition_estimate": 5.000000000000008,
+            "positive_definite_estimate": true
+          }
+        ],
+        "vectors": []
+      }
+    ],
+    "post_results": [],
+    "equilibrium": {},
+    "solver_selection": {},
+    "checks": [
+      {
+        "name": "mesh_validation",
+        "status": "PASS",
+        "value": "PASS",
+        "limit": "PASS",
+        "message": "Mesh validation passed."
+      },
+      {
+        "name": "boundary_has_fixed_dofs",
+        "status": "PASS",
+        "value": 9,
+        "limit": "> 0",
+        "message": "At least one fixed dof is required to constrain the model."
+      },
+      {
+        "name": "boundary_has_free_dofs",
+        "status": "PASS",
+        "value": 3,
+        "limit": "> 0",
+        "message": "At least one free dof is required to solve the model."
+      },
+      {
+        "name": "matrix:stiffness:finite_norm",
+        "status": "PASS",
+        "value": 238918606625.17682,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "matrix:stiffness:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "matrix:mass:finite_norm",
+        "status": "PASS",
+        "value": 595.7348403442592,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "matrix:mass:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "matrix:reduced_stiffness:finite_norm",
+        "status": "PASS",
+        "value": 50816193314.32235,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "matrix:reduced_stiffness:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "matrix:reduced_stiffness:condition_estimate",
+        "status": "PASS",
+        "value": 3.5,
+        "limit": "<= 1e12 PASS, <= 1e16 WARNING",
+        "message": "High condition estimates indicate numerical fragility."
+      },
+      {
+        "name": "matrix:reduced_stiffness:positive_definite",
+        "status": "PASS",
+        "value": true,
+        "limit": "true",
+        "message": "Reduced stiffness/mass matrices should be positive definite after constraints."
+      },
+      {
+        "name": "matrix:reduced_mass:finite_norm",
+        "status": "PASS",
+        "value": 225.16660498395404,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "matrix:reduced_mass:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "matrix:reduced_mass:condition_estimate",
+        "status": "PASS",
+        "value": 1.0,
+        "limit": "<= 1e12 PASS, <= 1e16 WARNING",
+        "message": "High condition estimates indicate numerical fragility."
+      },
+      {
+        "name": "matrix:reduced_mass:positive_definite",
+        "status": "PASS",
+        "value": true,
+        "limit": "true",
+        "message": "Reduced stiffness/mass matrices should be positive definite after constraints."
+      },
+      {
+        "name": "element:0:TET4:positive_volume",
+        "status": "PASS",
+        "value": 0.16666666666666666,
+        "limit": "> 1e-14",
+        "message": "Solid element corner volume must be positive."
+      },
+      {
+        "name": "element:0:TET4:corner_quality",
+        "status": "PASS",
+        "value": 0.7698003589195013,
+        "limit": ">= 0.05 PASS, >= 0.01 WARNING",
+        "message": "Low tetrahedral quality can degrade conditioning and stress accuracy."
+      },
+      {
+        "name": "element:0:TET4:local_stiffness:finite_norm",
+        "status": "PASS",
+        "value": 238918606625.17682,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "element:0:TET4:local_stiffness:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "element:0:TET4:local_mass:finite_norm",
+        "status": "PASS",
+        "value": 595.7348403442592,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "element:0:TET4:local_mass:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      }
+    ],
+    "notes": [],
+    "qualification": {
+      "solver_version": "0.2.0a0",
+      "schema_version": 1,
+      "units": {
+        "system": "SI"
+      },
+      "verification_profile": "engineering",
+      "evidence_level": "engineering_review",
+      "maturity": {
+        "overall": "stable_after_reinforced_tests",
+        "analysis": "stable_after_reinforced_tests",
+        "method": "stable",
+        "elements": {
+          "TET4": "stable"
+        },
+        "discrete_entities": {}
+      },
+      "qualification_domain": {
+        "name": "tet4-linear-static-v1",
+        "status": "NOT_APPLICABLE",
+        "reason": "Domain applies only to linear_static models containing TET4 elements exclusively.",
+        "limits": {
+          "material_type": "isotropic_3d",
+          "young_modulus": {
+            "minimum_exclusive": 0.0,
+            "unit": "Pa"
+          },
+          "poisson_ratio": {
+            "minimum": 0.0,
+            "maximum": 0.45
+          },
+          "tet_min_quality": 0.05,
+          "tet_min_radius_ratio": 0.05,
+          "tet_max_aspect_ratio": 20.0,
+          "reduced_stiffness_condition_estimate_max": 1000000000000.0
+        }
+      },
+      "traceability": {
+        "status": "PASS",
+        "scope": "tet4-modal",
+        "scope_status": "candidate",
+        "requirement_count": 8,
+        "covered_requirement_count": 8,
+        "formula_count": 6,
+        "covered_formula_count": 6,
+        "orphan_requirements": [],
+        "orphan_formulas": []
+      }
+    }
+  },
+  "qualification_summary": {
+    "status": "PASS",
+    "run_verdict": "PASS",
+    "blocking_errors": [],
+    "warnings": [],
+    "trust_score": 0.9,
+    "trust_score_non_certifying": true,
+    "evidence_level": "engineering_review",
+    "verification_profile": "engineering",
+    "maturity": {
+      "overall": "stable_after_reinforced_tests",
+      "analysis": "stable_after_reinforced_tests",
+      "method": "stable",
+      "elements": {
+        "TET4": "stable"
+      },
+      "discrete_entities": {}
+    },
+    "qualification_domain": {
+      "name": "tet4-linear-static-v1",
+      "status": "NOT_APPLICABLE",
+      "reason": "Domain applies only to linear_static models containing TET4 elements exclusively.",
+      "limits": {
+        "material_type": "isotropic_3d",
+        "young_modulus": {
+          "minimum_exclusive": 0.0,
+          "unit": "Pa"
+        },
+        "poisson_ratio": {
+          "minimum": 0.0,
+          "maximum": 0.45
+        },
+        "tet_min_quality": 0.05,
+        "tet_min_radius_ratio": 0.05,
+        "tet_max_aspect_ratio": 20.0,
+        "reduced_stiffness_condition_estimate_max": 1000000000000.0
+      }
+    }
+  }
+}

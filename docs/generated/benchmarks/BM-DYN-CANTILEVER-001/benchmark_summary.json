@@ -1,0 +1,96 @@
+{
+  "benchmark": {
+    "identifier": "BM-DYN-CANTILEVER-001",
+    "title": "Poutre 3D vibratoire multi-elements",
+    "family": "TET4",
+    "analyses": [
+      "modal",
+      "transient_dynamic",
+      "harmonic_response"
+    ],
+    "maturity": "stable_after_reinforced_tests",
+    "reference_type": "analytic_and_invariants",
+    "reference": "Euler-Bernoulli, solution modale et limite statique",
+    "reference_id": "REF-NEWMARK-1959",
+    "reference_url": "https://doi.org/10.1061/JMCEA3.0000098",
+    "requirements": [
+      "REQ-MOD-001",
+      "REQ-DYN-001",
+      "REQ-DYN-002",
+      "REQ-HAR-001"
+    ],
+    "criteria": {
+      "modal_residual_max": 1e-08,
+      "energy_drift_max": 1e-06,
+      "zero_hz_error_max": 1e-08
+    }
+  },
+  "status": "PASS",
+  "metrics": {
+    "first_frequency_hz": 39.07738680118627,
+    "analytical_beam_frequency_hz": 26.193445449373574,
+    "frequency_relative_error": 0.49187654127879626,
+    "modal_max_relative_residual": 6.900810205063198e-12,
+    "mass_orthogonality_error": 2.035538299900017e-17,
+    "newmark_time_step": 0.0003198780937833985,
+    "newmark_max_energy_drift": 2.963132479091744e-12,
+    "harmonic_frequencies_hz": [
+      0.0,
+      19.538693400593136,
+      33.21577878100833,
+      39.07738680118627,
+      44.93899482136421,
+      58.61608020177941
+    ],
+    "harmonic_tip_amplitudes": [
+      8.308928740749987e-06,
+      1.0997910066144248e-05,
+      2.9221162724066708e-05,
+      0.00039688074108487864,
+      2.4855162620826956e-05,
+      6.224647611998952e-06
+    ],
+    "harmonic_peak_frequency_hz": 39.07738680118627,
+    "harmonic_zero_hz_relative_error": 1.9334834147625453e-13
+  },
+  "checks": [
+    {
+      "id": "modal-residual",
+      "status": "PASS",
+      "value": 6.900810205063198e-12,
+      "limit": 1e-08,
+      "operator": "less_equal",
+      "detail": ""
+    },
+    {
+      "id": "newmark-energy",
+      "status": "PASS",
+      "value": 2.963132479091744e-12,
+      "limit": 1e-06,
+      "operator": "less_equal",
+      "detail": ""
+    },
+    {
+      "id": "harmonic-zero-hz",
+      "status": "PASS",
+      "value": 1.9334834147625453e-13,
+      "limit": 1e-08,
+      "operator": "less_equal",
+      "detail": ""
+    }
+  ],
+  "files": {
+    "harmonic_result": "harmonic.json",
+    "modal_result": "modal.json",
+    "newmark_result": "newmark.json",
+    "static_import_report": "static.import_report.json",
+    "static_mesh": "dynamic_cantilever_tet4.msh",
+    "static_model": "static.model.json",
+    "static_result": "static.json",
+    "static_setup": "static.setup.json",
+    "static_vtu": "static.vtu",
+    "summary": "benchmark_summary.json",
+    "manifest": "benchmark_manifest.json"
+  },
+  "message": ""
+}

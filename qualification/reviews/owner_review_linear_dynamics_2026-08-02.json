@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "review_id": "OWNER-REVIEW-LINEAR-DYNAMICS-2026-08-02",
+  "review_mode": "owner_review",
+  "owner": "Quentin Farinazzo",
+  "independence": "not_independent",
+  "certification_claim": "none",
+  "decision_date": "2026-08-02",
+  "purpose": "Record the Owner decisions stated after review of controlled modal, Newmark and harmonic evidence. This record does not alter historical numerical evidence.",
+  "decisions": [
+    {
+      "scope": "tet4-modal",
+      "decision": "accepted_for_bounded_engineering_use",
+      "comment": "Accepted. A supplementary approximately 10,000-element spatial refinement is requested for the dynamic cantilever evidence."
+    },
+    {
+      "scope": "tet4-transient-dynamic",
+      "decision": "accepted_for_bounded_engineering_use",
+      "comment": "Accepted. A supplementary approximately 10,000-element spatial refinement is requested for the dynamic cantilever evidence."
+    },
+    {
+      "scope": "tet4-harmonic-response",
+      "decision": "accepted_for_bounded_engineering_use",
+      "comment": "Accepted. A supplementary approximately 10,000-element spatial refinement is requested for the dynamic cantilever evidence."
+    },
+    {
+      "scope": "tet10-modal",
+      "decision": "accepted_for_bounded_engineering_use",
+      "comment": "Accepted. A supplementary approximately 10,000-element Newmark mesh/time study is requested."
+    },
+    {
+      "scope": "tet10-transient-dynamic",
+      "decision": "accepted_for_bounded_engineering_use",
+      "comment": "Accepted. A supplementary approximately 10,000-element Newmark mesh/time study is requested."
+    },
+    {
+      "scope": "tet10-harmonic-response",
+      "decision": "accepted_for_bounded_engineering_use",
+      "comment": "Accepted. A supplementary approximately 10,000-element Newmark mesh/time study is requested."
+    },
+    {
+      "scope": "mitc3-modal",
+      "decision": "accepted_for_bounded_engineering_use",
+      "comment": "Accepted. Add a mesh-frequency refinement to the controlled campaign."
+    },
+    {
+      "scope": "mitc3-transient-dynamic",
+      "decision": "accepted_for_bounded_engineering_use",
+      "comment": "Accepted. Add a mesh-frequency refinement to the controlled campaign."
+    },
+    {
+      "scope": "mitc3-harmonic-response",
+      "decision": "accepted_for_bounded_engineering_use",
+      "comment": "Accepted. Add a mesh-frequency refinement to the controlled campaign."
+    },
+    {
+      "scope": "beam2-linear-dynamics",
+      "decision": "accepted_for_bounded_engineering_use",
+      "comment": "Accepted for the documented bounded linear dynamic domain."
+    },
+    {
+      "scope": "discrete-linear-dynamics",
+      "decision": "accepted_for_bounded_engineering_use",
+      "comment": "Accepted for the documented translational single-degree-of-freedom spring/mass domain, without damping or multi-DOF coupling."
+    }
+  ],
+  "common_exclusions": [
+    "nonlinear dynamics",
+    "contact dynamics and impact",
+    "large rotations",
+    "non-proportional damping unless explicitly demonstrated",
+    "external certification claim"
+  ],
+  "signature": {
+    "name": "Quentin Farinazzo",
+    "type": "declared_owner_review",
+    "date": "2026-08-02"
+  }
+}

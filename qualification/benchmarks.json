@@ -1,0 +1,178 @@
+{
+  "schema_version": 1,
+  "campaign": "qf_solver_meshed_benchmarks_v1",
+  "benchmarks": [
+    {
+      "id": "BM-BEAM2-CANTILEVER-001",
+      "title": "Porte-a-faux BEAM2 de Timoshenko",
+      "family": "BEAM2",
+      "analysis": ["linear_static", "modal"],
+      "maturity": "experimental",
+      "reference_type": "analytic_and_convergence",
+      "reference": "Poutre de Timoshenko statique et limite modale d'Euler-Bernoulli",
+      "reference_id": "REF-BEAM-TIMOSHENKO-1921",
+      "reference_url": "https://doi.org/10.1080/00423114.1921.10731255",
+      "requirements": ["REQ-BEAM-001", "REQ-MOD-001", "REQ-CMP-003", "REQ-DOC-001"],
+      "criteria": {
+        "static_relative_error_max": 1e-10,
+        "modal_relative_error_max": 0.02,
+        "modal_increment_max": 0.005,
+        "modal_residual_max": 1e-8,
+        "free_residual_max": 1e-8
+      }
+    },
+    {
+      "id": "BM-SOL-TET4-PATCH-001",
+      "title": "Patch 3D TET4 a contrainte constante",
+      "family": "TET4",
+      "analysis": ["linear_static"],
+      "maturity": "stable",
+      "reference_type": "analytic",
+      "reference": "Champ affine et contrainte constante",
+      "reference_id": "REF-FEM-BATHE",
+      "reference_url": "https://ocw.mit.edu/courses/res-2-002-finite-element-procedures-for-solids-and-structures-spring-2010/",
+      "requirements": ["REQ-SOL-001", "REQ-MESH-001", "REQ-CMP-003"],
+      "criteria": {"relative_stress_error_max": 1e-9, "free_residual_max": 1e-8}
+    },
+    {
+      "id": "BM-SOL-TET4-MEMBRANE-001",
+      "title": "Panneau mince 3D TET4 en traction et compression",
+      "family": "TET4",
+      "analysis": ["linear_static"],
+      "maturity": "stable_after_reinforced_tests",
+      "reference_type": "analytic_affine_field",
+      "reference": "Traction/compression uniaxiale 3D et champs affines exacts",
+      "reference_id": "REF-FEM-BATHE",
+      "reference_url": "https://ocw.mit.edu/courses/res-2-002-finite-element-procedures-for-solids-and-structures-spring-2010/",
+      "requirements": ["REQ-SOL-001", "REQ-MESH-001", "REQ-CMP-003"],
+      "criteria": {
+        "relative_displacement_error_max": 1e-9,
+        "relative_stress_error_max": 1e-9,
+        "free_residual_max": 1e-8
+      }
+    },
+    {
+      "id": "BM-SOL-TET4-TORSION-001",
+      "title": "Arbre circulaire TET4 en torsion de Saint-Venant",
+      "family": "TET4",
+      "analysis": ["linear_static"],
+      "maturity": "stable_after_reinforced_tests",
+      "reference_type": "analytic_saint_venant",
+      "reference": "Torsion pure d'un arbre circulaire elastique isotrope",
+      "reference_id": "REF-FEM-BATHE",
+      "reference_url": "https://ocw.mit.edu/courses/res-2-002-finite-element-procedures-for-solids-and-structures-spring-2010/",
+      "requirements": ["REQ-SOL-001", "REQ-MESH-001", "REQ-CMP-003"],
+      "criteria": {
+        "finest_twist_error_max": 0.15,
+        "observed_order_min": 0.5,
+        "monotonicity_tolerance": 1e-10,
+        "torque_error_max": 1e-12,
+        "force_resultant_ratio_max": 1e-10,
+        "free_residual_max": 1e-8
+      }
+    },
+    {
+      "id": "BM-SOL-CANTILEVER-001",
+      "title": "Poutre 3D TET4/TET10 en flexion",
+      "family": "TET4+TET10",
+      "analysis": ["linear_static"],
+      "maturity": "stable_after_reinforced_tests",
+      "reference_type": "analytic",
+      "reference": "Poutre de Timoshenko",
+      "reference_id": "REF-FEM-BATHE",
+      "reference_url": "https://ocw.mit.edu/courses/res-2-002-finite-element-procedures-for-solids-and-structures-spring-2010/",
+      "requirements": ["REQ-SOL-001", "REQ-SOL-003", "REQ-SOL-004", "REQ-CMP-003"],
+      "criteria": {
+        "tet10_tip_error_max": 0.05,
+        "solver_difference_max": 1e-8,
+        "tet4_h_observed_order_min": 1.0,
+        "tet4_h_finest_error_max": 0.2,
+        "tet4_h_monotonicity_tolerance": 1e-12,
+        "tet4_h_residual_max": 1e-8
+      }
+    },
+    {
+      "id": "BM-SOL-TET10-LAME-001",
+      "title": "Cylindre epais TET10 sous pression",
+      "family": "TET10",
+      "analysis": ["linear_static"],
+      "maturity": "experimental",
+      "reference_type": "analytic",
+      "reference": "Solution de Lame en deformation plane",
+      "reference_id": "REF-FEM-BATHE",
+      "reference_url": "https://ocw.mit.edu/courses/res-2-002-finite-element-procedures-for-solids-and-structures-spring-2010/",
+      "requirements": ["REQ-SOL-003", "REQ-MESH-001", "REQ-CMP-003"],
+      "criteria": {"radial_displacement_error_max": 0.05, "free_residual_max": 1e-8}
+    },
+    {
+      "id": "BM-SHL-COOK-001",
+      "title": "Membrane de Cook MITC4",
+      "family": "MITC4",
+      "analysis": ["linear_static"],
+      "maturity": "stable",
+      "reference_type": "published_benchmark",
+      "reference": "MacNeal et Harder, 1985",
+      "reference_id": "REF-SHELL-OBSTACLE",
+      "reference_url": "https://doi.org/10.1016/0168-874X(85)90003-4",
+      "requirements": ["REQ-SOL-002", "REQ-CMP-003"],
+      "criteria": {"normalized_tip_error_max": 0.05, "free_residual_max": 1e-8}
+    },
+    {
+      "id": "BM-SHL-SCORDELIS-001",
+      "title": "Toiture de Scordelis-Lo MITC4",
+      "family": "MITC4",
+      "analysis": ["linear_static"],
+      "maturity": "stable",
+      "reference_type": "published_converged_value",
+      "reference": "Valeur historique -0.3024 avec reserve documentaire",
+      "reference_id": "REF-SHELL-OBSTACLE",
+      "reference_url": "https://doi.org/10.1016/0168-874X(85)90003-4",
+      "requirements": ["REQ-SOL-002", "REQ-CMP-003"],
+      "criteria": {"edge_displacement_error_max": 0.05, "symmetry_error_max": 0.01}
+    },
+    {
+      "id": "BM-SHL-PINCHED-001",
+      "title": "Cylindre pince MITC4 avec diaphragmes",
+      "family": "MITC4",
+      "analysis": ["linear_static"],
+      "maturity": "stable_after_reinforced_tests",
+      "reference_type": "published_converged_value",
+      "reference": "Deplacement radial 1.8248e-5 en unites coherentes",
+      "reference_id": "REF-SHELL-OBSTACLE",
+      "reference_url": "https://doi.org/10.1016/0168-874X(85)90003-4",
+      "requirements": ["REQ-SOL-002", "REQ-CMP-003"],
+      "criteria": {"normalized_displacement_error_max": 0.1, "free_residual_max": 1e-8}
+    },
+    {
+      "id": "BM-DYN-CANTILEVER-001",
+      "title": "Poutre 3D vibratoire multi-elements",
+      "family": "TET4",
+      "analysis": ["modal", "transient_dynamic", "harmonic_response"],
+      "maturity": "stable_after_reinforced_tests",
+      "reference_type": "analytic_and_invariants",
+      "reference": "Euler-Bernoulli, solution modale et limite statique",
+      "reference_id": "REF-NEWMARK-1959",
+      "reference_url": "https://doi.org/10.1061/JMCEA3.0000098",
+      "requirements": ["REQ-MOD-001", "REQ-DYN-001", "REQ-DYN-002", "REQ-HAR-001"],
+      "criteria": {"modal_residual_max": 1e-8, "energy_drift_max": 1e-6, "zero_hz_error_max": 1e-8}
+    },
+    {
+      "id": "BM-NL-J2-BAR-001",
+      "title": "Barre TET4 elastoplastique J2",
+      "family": "TET4",
+      "analysis": ["nonlinear_static"],
+      "maturity": "experimental",
+      "reference_type": "analytic_material_path",
+      "reference": "Loi uniaxiale bilineaire avec ecrouissage isotrope",
+      "reference_id": "REF-J2-SIMO-1985",
+      "reference_url": "https://doi.org/10.1016/0045-7825(85)90070-2",
+      "requirements": ["REQ-NL-001", "REQ-CMP-003"],
+      "criteria": {
+        "relative_stress_error_max": 0.02,
+        "relative_plastic_strain_error_max": 1e-6,
+        "load_step_sensitivity_max": 1e-6,
+        "free_residual_max": 1e-7
+      }
+    }
+  ]
+}

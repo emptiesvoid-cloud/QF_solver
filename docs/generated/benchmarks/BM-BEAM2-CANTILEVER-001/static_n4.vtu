@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<VTKFile type="UnstructuredGrid" version="0.1" byte_order="LittleEndian">
+  <UnstructuredGrid>
+    <Piece NumberOfPoints="5" NumberOfCells="4">
+      <Points>
+        <DataArray type="Float64" NumberOfComponents="3" format="ascii">0 0 0 0.5 0 0 1 0 0 1.5 0 0 2 0 0</DataArray>
+      </Points>
+      <Cells>
+        <DataArray type="Int32" Name="connectivity" format="ascii">0 1 1 2 2 3 3 4</DataArray>
+        <DataArray type="Int32" Name="offsets" format="ascii">2 4 6 8</DataArray>
+        <DataArray type="UInt8" Name="types" format="ascii">3 3 3 3</DataArray>
+      </Cells>
+      <PointData Vectors="Displacement">
+        <DataArray type="Float64" Name="Displacement" NumberOfComponents="3" format="ascii">0 0 0 0 0.000252091071429 0 0 0.000844925396825 0 0 0.00159249107143 0 0 0.00238318095238 0</DataArray>
+        <DataArray type="Float64" Name="DisplacementMagnitude" format="ascii">0 0.000252091071429 0.000844925396825 0.00159249107143 0.00238318095238</DataArray>
+        <DataArray type="Float64" Name="NodalVonMises" format="ascii">0 0 0 0 0</DataArray>
+        <DataArray type="Float64" Name="NodalStressTrace" format="ascii">0 0 0 0 0</DataArray>
+        <DataArray type="Float64" Name="NodalPrincipalStress" NumberOfComponents="3" format="ascii">0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</DataArray>
+        <DataArray type="Float64" Name="ShellTopNodalVonMises" format="ascii">0 0 0 0 0</DataArray>
+        <DataArray type="Float64" Name="ShellBottomNodalVonMises" format="ascii">0 0 0 0 0</DataArray>
+      </PointData>
+      <CellData Scalars="VonMises">
+        <DataArray type="Int32" Name="ElementIndex" format="ascii">0 1 2 3</DataArray>
+        <DataArray type="Float64" Name="VonMises" format="ascii">0 0 0 0</DataArray>
+        <DataArray type="Int32" Name="HasVonMises" format="ascii">0 0 0 0</DataArray>
+        <DataArray type="Float64" Name="StressTrace" format="ascii">0 0 0 0</DataArray>
+        <DataArray type="Float64" Name="HydrostaticPressure" format="ascii">0 0 0 0</DataArray>
+        <DataArray type="Float64" Name="PrincipalStress" NumberOfComponents="3" format="ascii">0 0 0 0 0 0 0 0 0 0 0 0</DataArray>
+        <DataArray type="Float64" Name="PrincipalStrain" NumberOfComponents="3" format="ascii">0 0 0 0 0 0 0 0 0 0 0 0</DataArray>
+        <DataArray type="Float64" Name="ShellTopVonMises" format="ascii">0 0 0 0</DataArray>
+        <DataArray type="Float64" Name="ShellBottomVonMises" format="ascii">0 0 0 0</DataArray>
+      </CellData>
+    </Piece>
+  </UnstructuredGrid>
+</VTKFile>

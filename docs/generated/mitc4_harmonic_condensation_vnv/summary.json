@@ -1,0 +1,269 @@
+{
+  "study_id": "VNV-MITC4-HARMONIC-CONDENSATION-002",
+  "status": "PASS",
+  "proof": {
+    "impedance": "Z=a*K+b*M",
+    "stiffness_factor": "a=1+i*omega*rayleigh_beta",
+    "mass_factor": "b=-omega^2+i*omega*rayleigh_alpha",
+    "condensed_impedance": "Zc=a*(Kpp-Kpd*Kdd^-1*Kdp)+b*Mpp",
+    "drilling_reconstruction": "ud=Kdd^-1*(fd/a-Kdp*up)",
+    "assumption": "Mpd=Mdp=Mdd=0 for every condensed drilling direction"
+  },
+  "model": {
+    "mesh": [
+      4,
+      1
+    ],
+    "element_count": 4,
+    "tip_node": 8,
+    "condensed_drilling_dofs": 8,
+    "loads": [
+      "tip UZ force",
+      "tip RZ drilling moment"
+    ]
+  },
+  "parameters": {
+    "natural_frequency_hz": 8.39434106458772,
+    "rayleigh_alpha": 2.1097280176188726,
+    "rayleigh_betas": [
+      0.0,
+      0.0001,
+      0.001,
+      0.01
+    ],
+    "frequency_ratios": [
+      0.0,
+      0.25,
+      0.75,
+      1.25,
+      2.0
+    ]
+  },
+  "acceptance": {
+    "schur_relative_error_max": 1e-11,
+    "load_relative_error_max": 1e-11,
+    "response_relative_error_max": 1e-09,
+    "full_relative_residual_max": 1e-08
+  },
+  "maxima": {
+    "schur_relative_error": 9.618009335256308e-17,
+    "load_relative_error": 1.3950283701557724e-16,
+    "response_relative_error": 4.1249874213471727e-11,
+    "full_relative_residual": 7.811699539400378e-11
+  },
+  "points": [
+    {
+      "rayleigh_beta": 0.0,
+      "frequency_ratio": 0.0,
+      "frequency_hz": 0.0,
+      "stiffness_factor_abs": 1.0,
+      "schur_relative_error": 2.1739788272472456e-22,
+      "load_relative_error": 0.0,
+      "response_relative_error": 1.0863910784961326e-12,
+      "full_relative_residual": 4.878543001173503e-11
+    },
+    {
+      "rayleigh_beta": 0.0,
+      "frequency_ratio": 0.25,
+      "frequency_hz": 2.09858526614693,
+      "stiffness_factor_abs": 1.0,
+      "schur_relative_error": 2.173978909270259e-22,
+      "load_relative_error": 0.0,
+      "response_relative_error": 2.4338834027257973e-12,
+      "full_relative_residual": 1.934231533032716e-11
+    },
+    {
+      "rayleigh_beta": 0.0,
+      "frequency_ratio": 0.75,
+      "frequency_hz": 6.295755798440791,
+      "stiffness_factor_abs": 1.0,
+      "schur_relative_error": 2.17397956545418e-22,
+      "load_relative_error": 0.0,
+      "response_relative_error": 7.040099365923564e-12,
+      "full_relative_residual": 6.878674714287653e-11
+    },
+    {
+      "rayleigh_beta": 0.0,
+      "frequency_ratio": 1.25,
+      "frequency_hz": 10.492926330734651,
+      "stiffness_factor_abs": 1.0,
+      "schur_relative_error": 2.173980877821022e-22,
+      "load_relative_error": 0.0,
+      "response_relative_error": 3.3981906244303577e-12,
+      "full_relative_residual": 5.2915698801994444e-11
+    },
+    {
+      "rayleigh_beta": 0.0,
+      "frequency_ratio": 2.0,
+      "frequency_hz": 16.78868212917544,
+      "stiffness_factor_abs": 1.0,
+      "schur_relative_error": 2.17398407670961e-22,
+      "load_relative_error": 0.0,
+      "response_relative_error": 3.812349675757115e-12,
+      "full_relative_residual": 1.443901390371698e-11
+    },
+    {
+      "rayleigh_beta": 0.0001,
+      "frequency_ratio": 0.0,
+      "frequency_hz": 0.0,
+      "stiffness_factor_abs": 1.0,
+      "schur_relative_error": 2.1739788272472456e-22,
+      "load_relative_error": 0.0,
+      "response_relative_error": 1.0863910784961326e-12,
+      "full_relative_residual": 4.878543001173503e-11
+    },
+    {
+      "rayleigh_beta": 0.0001,
+      "frequency_ratio": 0.25,
+      "frequency_hz": 2.09858526614693,
+      "stiffness_factor_abs": 1.0000008693262448,
+      "schur_relative_error": 1.0631495338610892e-19,
+      "load_relative_error": 1.3950283701557724e-16,
+      "response_relative_error": 3.849762054369583e-12,
+      "full_relative_residual": 2.081921543011221e-11
+    },
+    {
+      "rayleigh_beta": 0.0001,
+      "frequency_ratio": 0.75,
+      "frequency_hz": 6.295755798440791,
+      "stiffness_factor_abs": 1.0000078239089978,
+      "schur_relative_error": 6.033750046302079e-19,
+      "load_relative_error": 7.452601629133258e-17,
+      "response_relative_error": 1.8283410612735974e-12,
+      "full_relative_residual": 4.60543951569099e-11
+    },
+    {
+      "rayleigh_beta": 0.0001,
+      "frequency_ratio": 1.25,
+      "frequency_hz": 10.492926330734651,
+      "stiffness_factor_abs": 1.0000217329294079,
+      "schur_relative_error": 6.688516433664475e-19,
+      "load_relative_error": 3.891550570304817e-17,
+      "response_relative_error": 1.9683489548570486e-11,
+      "full_relative_residual": 6.859883475840299e-11
+    },
+    {
+      "rayleigh_beta": 0.0001,
+      "frequency_ratio": 2.0,
+      "frequency_hz": 16.78868212917544,
+      "stiffness_factor_abs": 1.0000556353562078,
+      "schur_relative_error": 8.504611815578627e-19,
+      "load_relative_error": 8.083492240560004e-17,
+      "response_relative_error": 2.6425362407750843e-12,
+      "full_relative_residual": 7.85234685213446e-12
+    },
+    {
+      "rayleigh_beta": 0.001,
+      "frequency_ratio": 0.0,
+      "frequency_hz": 0.0,
+      "stiffness_factor_abs": 1.0,
+      "schur_relative_error": 2.1739788272472456e-22,
+      "load_relative_error": 0.0,
+      "response_relative_error": 1.0863910784961326e-12,
+      "full_relative_residual": 4.878543001173503e-11
+    },
+    {
+      "rayleigh_beta": 0.001,
+      "frequency_ratio": 0.25,
+      "frequency_hz": 2.09858526614693,
+      "stiffness_factor_abs": 1.0000869288839567,
+      "schur_relative_error": 1.5092280773266982e-18,
+      "load_relative_error": 7.170747717411957e-17,
+      "response_relative_error": 1.7901940728105274e-11,
+      "full_relative_residual": 2.1662017657859498e-11
+    },
+    {
+      "rayleigh_beta": 0.001,
+      "frequency_ratio": 0.75,
+      "frequency_hz": 6.295755798440791,
+      "stiffness_factor_abs": 1.0007820881295268,
+      "schur_relative_error": 4.6544729726196066e-18,
+      "load_relative_error": 9.040588242570837e-17,
+      "response_relative_error": 1.9315502714709804e-11,
+      "full_relative_residual": 7.811699539400378e-11
+    },
+    {
+      "rayleigh_beta": 0.001,
+      "frequency_ratio": 1.25,
+      "frequency_hz": 10.492926330734651,
+      "stiffness_factor_abs": 1.002170960023089,
+      "schur_relative_error": 8.718587876208684e-18,
+      "load_relative_error": 6.683330549010534e-17,
+      "response_relative_error": 3.94380132327698e-11,
+      "full_relative_residual": 3.84148730977933e-11
+    },
+    {
+      "rayleigh_beta": 0.001,
+      "frequency_ratio": 2.0,
+      "frequency_hz": 16.78868212917544,
+      "stiffness_factor_abs": 1.0055482985768587,
+      "schur_relative_error": 1.2008276737735003e-17,
+      "load_relative_error": 1.128809811642419e-16,
+      "response_relative_error": 3.0417461548218315e-12,
+      "full_relative_residual": 3.666536969027597e-12
+    },
+    {
+      "rayleigh_beta": 0.01,
+      "frequency_ratio": 0.0,
+      "frequency_hz": 0.0,
+      "stiffness_factor_abs": 1.0,
+      "schur_relative_error": 2.1739788272472456e-22,
+      "load_relative_error": 0.0,
+      "response_relative_error": 1.0863910784961326e-12,
+      "full_relative_residual": 4.878543001173503e-11
+    },
+    {
+      "rayleigh_beta": 0.01,
+      "frequency_ratio": 0.25,
+      "frequency_hz": 2.09858526614693,
+      "stiffness_factor_abs": 1.0086558047492706,
+      "schur_relative_error": 1.732505311946317e-17,
+      "load_relative_error": 1.0189204646816062e-16,
+      "response_relative_error": 1.071471675428395e-11,
+      "full_relative_residual": 4.2756304243078405e-11
+    },
+    {
+      "rayleigh_beta": 0.01,
+      "frequency_ratio": 0.75,
+      "frequency_hz": 6.295755798440791,
+      "stiffness_factor_abs": 1.0753970392787904,
+      "schur_relative_error": 1.2828144868722447e-17,
+      "load_relative_error": 4.7703901346934874e-17,
+      "response_relative_error": 4.1249874213471727e-11,
+      "full_relative_residual": 4.775602035888389e-11
+    },
+    {
+      "rayleigh_beta": 0.01,
+      "frequency_ratio": 1.25,
+      "frequency_hz": 10.492926330734651,
+      "stiffness_factor_abs": 1.1977743157039087,
+      "schur_relative_error": 4.250749673242361e-17,
+      "load_relative_error": 1.02589245751265e-16,
+      "response_relative_error": 5.6306212027508634e-12,
+      "full_relative_residual": 2.2602635217770335e-11
+    },
+    {
+      "rayleigh_beta": 0.01,
+      "frequency_ratio": 2.0,
+      "frequency_hz": 16.78868212917544,
+      "stiffness_factor_abs": 1.4535260840733182,
+      "schur_relative_error": 9.618009335256308e-17,
+      "load_relative_error": 5.841590377107473e-17,
+      "response_relative_error": 8.974281203331044e-12,
+      "full_relative_residual": 7.858658458643574e-12
+    }
+  ],
+  "checks": {
+    "exact_schur_complement": true,
+    "exact_condensed_load": true,
+    "condensed_matches_full_solution": true,
+    "full_complex_equilibrium": true,
+    "stiffness_damping_exercised": true,
+    "direct_drilling_load_exercised": true
+  },
+  "limitations": [
+    "The proof applies to proportional Rayleigh damping C=alpha*M+beta*K.",
+    "General non-proportional damping requires a frequency-dependent complex Schur complement.",
+    "Only directions whose complete assembled mass row is null may be condensed."
+  ]
+}

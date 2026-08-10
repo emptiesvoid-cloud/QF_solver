@@ -1,0 +1,428 @@
+{
+  "schema_version": 1,
+  "units": {
+    "system": "SI"
+  },
+  "verification_profile": "engineering",
+  "analysis": {
+    "type": "linear_static",
+    "method": "direct",
+    "parameters": {}
+  },
+  "nodes": [
+    [
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.125,
+      0.0,
+      0.0
+    ],
+    [
+      0.25,
+      0.0,
+      0.0
+    ],
+    [
+      0.375,
+      0.0,
+      0.0
+    ],
+    [
+      0.5,
+      0.0,
+      0.0
+    ],
+    [
+      0.625,
+      0.0,
+      0.0
+    ],
+    [
+      0.75,
+      0.0,
+      0.0
+    ],
+    [
+      0.875,
+      0.0,
+      0.0
+    ],
+    [
+      1.0,
+      0.0,
+      0.0
+    ],
+    [
+      1.125,
+      0.0,
+      0.0
+    ],
+    [
+      1.25,
+      0.0,
+      0.0
+    ],
+    [
+      1.375,
+      0.0,
+      0.0
+    ],
+    [
+      1.5,
+      0.0,
+      0.0
+    ],
+    [
+      1.625,
+      0.0,
+      0.0
+    ],
+    [
+      1.75,
+      0.0,
+      0.0
+    ],
+    [
+      1.875,
+      0.0,
+      0.0
+    ],
+    [
+      2.0,
+      0.0,
+      0.0
+    ]
+  ],
+  "elements": [
+    {
+      "type": "BEAM2",
+      "nodes": [
+        0,
+        1
+      ],
+      "material": "beam"
+    },
+    {
+      "type": "BEAM2",
+      "nodes": [
+        1,
+        2
+      ],
+      "material": "beam"
+    },
+    {
+      "type": "BEAM2",
+      "nodes": [
+        2,
+        3
+      ],
+      "material": "beam"
+    },
+    {
+      "type": "BEAM2",
+      "nodes": [
+        3,
+        4
+      ],
+      "material": "beam"
+    },
+    {
+      "type": "BEAM2",
+      "nodes": [
+        4,
+        5
+      ],
+      "material": "beam"
+    },
+    {
+      "type": "BEAM2",
+      "nodes": [
+        5,
+        6
+      ],
+      "material": "beam"
+    },
+    {
+      "type": "BEAM2",
+      "nodes": [
+        6,
+        7
+      ],
+      "material": "beam"
+    },
+    {
+      "type": "BEAM2",
+      "nodes": [
+        7,
+        8
+      ],
+      "material": "beam"
+    },
+    {
+      "type": "BEAM2",
+      "nodes": [
+        8,
+        9
+      ],
+      "material": "beam"
+    },
+    {
+      "type": "BEAM2",
+      "nodes": [
+        9,
+        10
+      ],
+      "material": "beam"
+    },
+    {
+      "type": "BEAM2",
+      "nodes": [
+        10,
+        11
+      ],
+      "material": "beam"
+    },
+    {
+      "type": "BEAM2",
+      "nodes": [
+        11,
+        12
+      ],
+      "material": "beam"
+    },
+    {
+      "type": "BEAM2",
+      "nodes": [
+        12,
+        13
+      ],
+      "material": "beam"
+    },
+    {
+      "type": "BEAM2",
+      "nodes": [
+        13,
+        14
+      ],
+      "material": "beam"
+    },
+    {
+      "type": "BEAM2",
+      "nodes": [
+        14,
+        15
+      ],
+      "material": "beam"
+    },
+    {
+      "type": "BEAM2",
+      "nodes": [
+        15,
+        16
+      ],
+      "material": "beam"
+    }
+  ],
+  "materials": {
+    "beam": {
+      "type": "beam_isotropic",
+      "E": 210000000000.0,
+      "nu": 0.3,
+      "A": 0.01,
+      "Iy": 2e-06,
+      "Iz": 3e-06,
+      "J": 5e-06,
+      "density": 7800.0,
+      "reference_vector": [
+        0.0,
+        1.0,
+        0.0
+      ]
+    }
+  },
+  "fixed_dofs": [
+    {
+      "node": 0,
+      "dofs": [
+        "UX",
+        "UY",
+        "UZ",
+        "RX",
+        "RY",
+        "RZ"
+      ]
+    }
+  ],
+  "loads": [],
+  "distributed_loads": [
+    {
+      "type": "line_load",
+      "element": 0,
+      "value": [
+        0.0,
+        750.0,
+        0.0
+      ],
+      "coordinate_system": "local"
+    },
+    {
+      "type": "line_load",
+      "element": 1,
+      "value": [
+        0.0,
+        750.0,
+        0.0
+      ],
+      "coordinate_system": "local"
+    },
+    {
+      "type": "line_load",
+      "element": 2,
+      "value": [
+        0.0,
+        750.0,
+        0.0
+      ],
+      "coordinate_system": "local"
+    },
+    {
+      "type": "line_load",
+      "element": 3,
+      "value": [
+        0.0,
+        750.0,
+        0.0
+      ],
+      "coordinate_system": "local"
+    },
+    {
+      "type": "line_load",
+      "element": 4,
+      "value": [
+        0.0,
+        750.0,
+        0.0
+      ],
+      "coordinate_system": "local"
+    },
+    {
+      "type": "line_load",
+      "element": 5,
+      "value": [
+        0.0,
+        750.0,
+        0.0
+      ],
+      "coordinate_system": "local"
+    },
+    {
+      "type": "line_load",
+      "element": 6,
+      "value": [
+        0.0,
+        750.0,
+        0.0
+      ],
+      "coordinate_system": "local"
+    },
+    {
+      "type": "line_load",
+      "element": 7,
+      "value": [
+        0.0,
+        750.0,
+        0.0
+      ],
+      "coordinate_system": "local"
+    },
+    {
+      "type": "line_load",
+      "element": 8,
+      "value": [
+        0.0,
+        750.0,
+        0.0
+      ],
+      "coordinate_system": "local"
+    },
+    {
+      "type": "line_load",
+      "element": 9,
+      "value": [
+        0.0,
+        750.0,
+        0.0
+      ],
+      "coordinate_system": "local"
+    },
+    {
+      "type": "line_load",
+      "element": 10,
+      "value": [
+        0.0,
+        750.0,
+        0.0
+      ],
+      "coordinate_system": "local"
+    },
+    {
+      "type": "line_load",
+      "element": 11,
+      "value": [
+        0.0,
+        750.0,
+        0.0
+      ],
+      "coordinate_system": "local"
+    },
+    {
+      "type": "line_load",
+      "element": 12,
+      "value": [
+        0.0,
+        750.0,
+        0.0
+      ],
+      "coordinate_system": "local"
+    },
+    {
+      "type": "line_load",
+      "element": 13,
+      "value": [
+        0.0,
+        750.0,
+        0.0
+      ],
+      "coordinate_system": "local"
+    },
+    {
+      "type": "line_load",
+      "element": 14,
+      "value": [
+        0.0,
+        750.0,
+        0.0
+      ],
+      "coordinate_system": "local"
+    },
+    {
+      "type": "line_load",
+      "element": 15,
+      "value": [
+        0.0,
+        750.0,
+        0.0
+      ],
+      "coordinate_system": "local"
+    }
+  ],
+  "springs": [],
+  "concentrated_masses": [],
+  "multipoint_constraints": [],
+  "rbe2": [],
+  "rbe3": [],
+  "contacts": []
+}

@@ -1,0 +1,127 @@
+name: Quality and verification
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  standard-baseline:
+    name: ${{ matrix.os }} / Python ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ["3.10", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+      - name: Install locked standard baseline
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements/baseline-standard.txt
+          python -m pip install -e . --no-deps
+      - name: Ruff
+        run: python -m ruff check solveur mitc4 tests scripts
+      - name: Progressive typing gate
+        run: >-
+          python -m mypy
+          solveur/core/errors.py
+          solveur/core/qualification.py
+          solveur/io/manifest.py
+          solveur/verification/traceability.py
+      - name: Tests and branch coverage
+        run: >-
+          python -m pytest
+          --ignore=tests/documentation
+          -m "not benchmark and not large"
+          --cov=solveur --cov=mitc4 --cov-branch
+          --cov-report=term-missing:skip-covered
+          --cov-report=json:coverage.json
+          --cov-report=xml:coverage.xml
+          --cov-fail-under=80
+      - name: P0 module coverage gate
+        run: python scripts/check_p0_coverage.py coverage.json
+      - name: Compile all Python sources
+        run: python -m compileall -q solveur mitc4 scripts tests qf_solver.py main_solveur.py mitc4_solver.py
+      - name: Quick verification
+        run: |
+          python qf_solver.py verify --quick
+          python mitc4_solver.py verify --quick
+      - name: Upload coverage evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-${{ matrix.os }}-py${{ matrix.python }}
+          path: |
+            coverage.json
+            coverage.xml
+
+  engineering-campaign:
+    name: Full engineering campaign
+    runs-on: ubuntu-latest
+    needs: standard-baseline
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - name: Install locked standard baseline
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements/baseline-standard.txt
+          python -m pip install -e . --no-deps
+      - name: Full MITC4 benchmarks
+        run: python qf_solver.py verify
+      - name: Engineering profile
+        run: python qf_solver.py verify-all --profile engineering
+
+  documentation-site:
+    name: Documentation / ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    needs: standard-baseline
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - name: Install Gmsh runtime libraries on Linux
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libglu1-mesa libxrender1 libxcursor1 libxft2 libxinerama1
+      - name: Install locked documentation baseline
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements/baseline-standard.txt
+          python -m pip install -r requirements/baseline-docs.txt
+          python -m pip install -e . --no-deps
+      - name: Install Chromium
+        run: python -m playwright install chromium
+      - name: Build offline site from the controlled public snapshot
+        run: python -m mkdocs build --strict --clean
+      - name: Controlled meshed benchmarks
+        run: python -m pytest -m benchmark
+      - name: Documentation unit and browser checks
+        env:
+          QF_SOLVER_RUN_DOCS_UI: "1"
+        run: python -m pytest tests/documentation
+      - name: Upload technical manual
+        uses: actions/upload-artifact@v4
+        with:
+          name: fem-manual-${{ matrix.os }}
+          path: |
+            site/
+            docs/generated/docs_manifest.json

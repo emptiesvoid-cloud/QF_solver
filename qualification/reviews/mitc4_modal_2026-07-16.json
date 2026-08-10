@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "review_id": "REV-MITC4-MODAL-2026-07-16",
+  "scope": "mitc4-modal",
+  "validation_status": "provisional_internal_validation",
+  "decision": "accepted_with_recommendations",
+  "decision_date": "2026-07-16",
+  "validator": {
+    "name": "Quentin Farinazzo",
+    "role": "auteur et validateur mecanique"
+  },
+  "review_mode": "self_review",
+  "independence": "not_independent",
+  "certification_claim": "none",
+  "use_class": "engineering_internal_provisional",
+  "source_revision": "c330865b6d2e2085ed5538fcb3af09e44aaec3dc",
+  "source_worktree_state": "dirty_at_review",
+  "accepted_domain": [
+    "MITC4 isotrope homogene a epaisseur constante par element",
+    "petits deplacements et petites rotations",
+    "analyse modale lineaire a modes reels non amortis",
+    "masse coherente Reissner-Mindlin uniquement",
+    "drilling sans masse artificielle et condensation des directions sans masse",
+    "solveurs eigh et eigsh avec diagnostics de residu et orthogonalite",
+    "coques planes, assemblees, courbes facettisees et maillages dans les limites publiees",
+    "dix premiers modes de la plaque de correlation"
+  ],
+  "excluded_domain": [
+    "masse concentree ou lumped",
+    "grandes rotations et precontrainte",
+    "flambement et modes complexes",
+    "amortissement non proportionnel",
+    "composites, offsets et masse ajoutee non structurelle"
+  ],
+  "evidence": [
+    "VNV-MITC4-MODAL-CANTILEVER-002",
+    "VNV-MITC4-MODAL-PLATE-003",
+    "VNV-MITC4-MODAL-CODEASTER-DKQ-004",
+    "VNV-MITC4-MODAL-FREEFREE-FOLDED-005",
+    "VNV-MITC4-MODAL-CURVED-DISTORTED-006",
+    "VNV-MITC4-MODAL-EIGSH-LARGE-007"
+  ],
+  "reviewed_observations": [
+    "Les dix frequences et formes de plaque sont acceptees face a Navier et Code_Aster.",
+    "Les modes propres multiples sont acceptes par comparaison de sous-espaces.",
+    "Les six modes rigides de la structure assemblee libre-libre sont acceptes.",
+    "La convergence, la distorsion et l'objectivite de la coque courbe sont acceptees.",
+    "La concordance eigh/eigsh et le calcul a 7011 DDL actifs sont acceptes.",
+    "La masse concentree reste explicitement hors scope."
+  ],
+  "recommendations": [
+    {
+      "id": "REC-MOD-001",
+      "title": "Structure assemblee libre-libre contre sous-espace rigide analytique",
+      "status": "completed_internal"
+    },
+    {
+      "id": "REC-MOD-002",
+      "title": "Coque courbe et distordue avec convergence et objectivite",
+      "status": "completed_internal"
+    },
+    {
+      "id": "REC-MOD-003",
+      "title": "Verification eigsh sur un modele significativement plus grand",
+      "status": "completed_internal"
+    },
+    {
+      "id": "REC-MOD-004",
+      "title": "Conserver la masse concentree hors scope",
+      "status": "scope_exclusion_active"
+    },
+    {
+      "id": "REC-MOD-005",
+      "title": "Obtenir une Owner review independante avant qualification externe",
+      "status": "open_external_qualification_blocker"
+    }
+  ],
+  "known_limitations": [
+    "La correlation Code_Aster principale porte sur une plaque plane reguliere.",
+    "Le libre-libre est correle au sous-espace rigide analytique sans second solveur.",
+    "La coque courbe dispose de convergence et d'invariance sans oracle externe.",
+    "Le cas eigsh a 7011 DDL ne prouve pas la scalabilite million de DDL.",
+    "La masse concentree est hors scope et rejetee si demandee.",
+    "Cette auto-revue provisoire ne constitue pas une verification independante."
+  ],
+  "review_document": "docs/verification/revue_mitc4_modale.md",
+  "review_pdf": "docs/assets/reviews/revue_mitc4_modale.pdf",
+  "signature": {
+    "name": "Quentin Farinazzo",
+    "date": "2026-07-16",
+    "type": "declared_self_review",
+    "declaration": "MITC4 modal avec masse coherente tentative de validation"
+  }
+}

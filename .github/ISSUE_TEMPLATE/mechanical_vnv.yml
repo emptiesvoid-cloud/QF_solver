@@ -1,0 +1,26 @@
+name: Mechanical V and V proposal
+description: Propose a benchmark, external correlation or acceptance study.
+title: "[VNV] "
+labels: ["verification"]
+body:
+  - type: textarea
+    id: scope
+    attributes:
+      label: Mechanical scope and hypothesis
+      description: State element, material, analysis, boundary conditions and excluded phenomena.
+    validations:
+      required: true
+  - type: textarea
+    id: oracle
+    attributes:
+      label: Reference or oracle
+      description: Provide analytical, experimental, Code_Aster, CalculiX or published reference details.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: Define measured quantities, convergence levels and tolerances before execution.
+    validations:
+      required: true

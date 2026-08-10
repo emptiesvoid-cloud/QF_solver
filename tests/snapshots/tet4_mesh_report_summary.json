@@ -1,0 +1,27 @@
+{
+  "details": {
+    "component_count": 1,
+    "element_count": 1,
+    "element_types": {
+      "TET4": 1
+    },
+    "mechanical_rank_checked": true,
+    "mechanical_zero_mode_count": 0,
+    "node_count": 4,
+    "quality_keys": [
+      "aspect_ratio",
+      "edge_length_max",
+      "edge_length_min",
+      "quality",
+      "quality_status",
+      "quality_warnings",
+      "radius_ratio",
+      "relative_volume",
+      "signed_volume",
+      "skew"
+    ]
+  },
+  "errors": [],
+  "status": "PASS",
+  "warnings": []
+}

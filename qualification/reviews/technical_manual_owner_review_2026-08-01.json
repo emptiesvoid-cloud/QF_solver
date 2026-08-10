@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "review_id": "OWNER-REVIEW-TECHNICAL-MANUAL-2026-08-01",
+  "document": "output/pdf/dossier_technique_elements_methodes_owner_review_latex.pdf",
+  "owner": "Quentin Farinazzo",
+  "review_date": "2026-08-01",
+  "decision": "accepted_with_recommendations",
+  "qualification_effect": "none",
+  "answers": {
+    "Q1": "yes",
+    "Q2": "yes_with_recommendation_color_all_result_figures",
+    "Q3": "yes",
+    "Q4": "yes_with_recommendation_publication_links_in_appendix",
+    "Q5": "yes",
+    "Q6": "yes",
+    "Q7": "yes",
+    "Q8": "yes",
+    "Q9": "yes_with_recommendation_native_latex_for_spring_equations",
+    "Q10": "yes",
+    "Q11": "yes",
+    "Q12": "yes",
+    "Q13": "yes",
+    "Q14": "yes",
+    "Q15": "yes_with_recommendation_more_color",
+    "Q16": "yes_with_recommendation_more_convergence_curves",
+    "Q17": "yes_with_recommendation_external_comparison_per_element_and_method",
+    "Q18": "no_more_stress_and_strain_fields_required",
+    "Q19": "yes",
+    "Q20": "yes"
+  },
+  "open_recommendations": [
+    "Use color-mapped filled result fields for every relevant deformation figure, including TET10 and contact.",
+    "Keep publication links in the final reference appendix, including the Hammer quadrature source.",
+    "Render spring and concentrated-mass equations as native LaTeX.",
+    "Add more convergence curves where only a terminal result is currently shown.",
+    "Provide a reproducible analytical or Code_Aster/CalculiX comparison for every element and every claimed method where feasible.",
+    "Add post-calculation stress and strain field images whenever these quantities are relevant or problematic.",
+    "Include the composite V1 scope and document shell_down, shell_middle and shell_up conventions."
+  ],
+  "closure_rule": "A new owner review is required after the regenerated PDF has been inspected."
+}

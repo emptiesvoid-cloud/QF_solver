@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "study_id": "VNV-MITC4-NEWMARK-BROADBAND-004",
+  "source": {
+    "repository": ".",
+    "revision": "c8d7fcf4fb176c9cd595360ffd0f4417c19285ce",
+    "dirty": true
+  },
+  "files": [
+    {
+      "role": "mitc4_newmark_broadband_vnv",
+      "path": "summary.json",
+      "size_bytes": 780815,
+      "sha256": "69dfb9509dfe1ae3bfd074afd5fe79bb360e78d143653500f15dc1ca0ba3d30c"
+    },
+    {
+      "role": "mitc4_newmark_broadband_vnv",
+      "path": "VNV-MITC4-NEWMARK-BROADBAND-004-convergence.png",
+      "size_bytes": 120492,
+      "sha256": "cd631d8b66e19b844ba9e8d2bf0ec58e24dfdc2db4ec2780a0927b7cafc0dba2"
+    },
+    {
+      "role": "mitc4_newmark_broadband_vnv",
+      "path": "VNV-MITC4-NEWMARK-BROADBAND-004-displacement.png",
+      "size_bytes": 190684,
+      "sha256": "f8bd560b91a8615cdc2e4b6c950e64019362b9cd65db076a9ee6f1420efa7650"
+    },
+    {
+      "role": "mitc4_newmark_broadband_vnv",
+      "path": "VNV-MITC4-NEWMARK-BROADBAND-004-excitations.png",
+      "size_bytes": 146415,
+      "sha256": "2b0fde304a03e77fa81e485d4486973e90a5bff68dc1a8c08d570477b1e52231"
+    },
+    {
+      "role": "mitc4_newmark_broadband_vnv",
+      "path": "VNV-MITC4-NEWMARK-BROADBAND-004-stress.png",
+      "size_bytes": 191635,
+      "sha256": "8ad858a9bf02edd2c747dde924e43ec84daf7fdf63ba4de82f13ea8b9ef1c69e"
+    },
+    {
+      "role": "mitc4_newmark_broadband_vnv",
+      "path": "VNV-MITC4-NEWMARK-BROADBAND-004.md",
+      "size_bytes": 1390,
+      "sha256": "6daee6e33d95e8be1c860dcd51a277db007e72b2d71fcd79283b0d350fcc478b"
+    }
+  ]
+}

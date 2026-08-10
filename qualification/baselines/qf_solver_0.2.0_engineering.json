@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "baseline_id": "QF-SOLVER-0.2.0-ENGINEERING",
+  "solver": {
+    "name": "QF_solver",
+    "version": "0.2.0"
+  },
+  "status": "engineering_frozen",
+  "certification_claim": "none",
+  "date": "2026-07-14",
+  "approval": {
+    "name": "Quentin Farinazzo",
+    "roles": [
+      "author",
+      "mechanical_validator"
+    ],
+    "review_mode": "self_review",
+    "independence": "not_independent"
+  },
+  "source": {
+    "remote_branch": "qf-solver-0.2.0",
+    "baseline_commit": "14b7b864b83dd5a68e64a0d96103579a79c8e1ce",
+    "vnv_commit": "4f242a9dd97c9e5063b4a9ab248146979c3b8ab9",
+    "release_tag": "v0.2.0-engineering",
+    "tag_target": "manifest_commit"
+  },
+  "local_validation": {
+    "ruff": "PASS",
+    "mypy_progressive_gate": "PASS",
+    "compileall": "PASS",
+    "pytest_standard": {
+      "status": "PASS",
+      "passed": 328,
+      "deselected": 11
+    },
+    "pytest_documentation": {
+      "status": "PASS",
+      "passed": 16
+    },
+    "pytest_vnv_targeted": {
+      "status": "PASS",
+      "passed": 51
+    },
+    "mitc4_quick": "PASS",
+    "tet4_qualification_readiness": "PASS",
+    "mkdocs_strict": "PASS"
+  },
+  "controlled_studies": [
+    {
+      "id": "VNV-TET4-CANTILEVER-ANALYTIC-001",
+      "reference": "Timoshenko",
+      "decision": "accepted"
+    },
+    {
+      "id": "VNV-TET4-TORSION-ANALYTIC-001",
+      "reference": "Saint-Venant",
+      "automated_verdict": "PASS",
+      "decision": "accepted_with_reservations"
+    }
+  ],
+  "known_limits": [
+    "local_torsion_stresses_not_accepted",
+    "commercial_abaqus_or_ansys_torsion_comparison_pending",
+    "review_not_independent",
+    "no_external_certification_claim",
+    "tet10_advanced_and_j2_remain_experimental"
+  ]
+}

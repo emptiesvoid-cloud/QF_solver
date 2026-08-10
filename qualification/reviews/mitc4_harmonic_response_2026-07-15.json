@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "review_id": "REV-MITC4-HARMONIC-RESPONSE-2026-07-15",
+  "scope": "mitc4-harmonic-response",
+  "decision": "accepted_with_recommendations",
+  "decision_date": "2026-07-15",
+  "validator": {
+    "name": "Quentin Farinazzo",
+    "role": "auteur et validateur mecanique"
+  },
+  "review_mode": "self_review",
+  "independence": "not_independent",
+  "certification_claim": "none",
+  "use_class": "engineering_internal",
+  "accepted_domain": [
+    "MITC4 isotrope homogene en petits deplacements",
+    "reponse harmonique lineaire deterministe",
+    "amortissement proportionnel de Rayleigh",
+    "condensation exacte du drilling sans masse",
+    "balayage frequentiel fini avec residus controles"
+  ],
+  "evidence": [
+    "VNV-MITC4-HARMONIC-MODAL-001",
+    "VNV-MITC4-HARMONIC-CONDENSATION-002",
+    "VNV-MITC4-HARMONIC-BROADBAND-003",
+    "VNV-MITC4-HARMONIC-NAFEMS13H-004",
+    "VNV-MITC4-HARMONIC-CALCULIX13H-S8R-006",
+    "VNV-MITC4-HARMONIC-CODEASTER13H-DKQ-007"
+  ],
+  "reviewed_observations": [
+    "Le chargement, la geometrie et les blocages NAFEMS 13H sont juges coherents.",
+    "Les amplitudes et phases de deplacement sont jugees coherentes.",
+    "L'accord direct-superposition modale est accepte.",
+    "Les contraintes harmoniques MITC4 par frequence sont implementees en complexe et comparees sur S11 au centre."
+  ],
+  "recommendations": [
+    {
+      "id": "REC-MITC4-HAR-001",
+      "title": "Contrainte harmonique MITC4 par frequence",
+      "status": "implemented_pending_mechanical_recheck",
+      "evidence": "results/VNV-MITC4-HARMONIC-NAFEMS13H-004/summary.json"
+    },
+    {
+      "id": "REC-MITC4-HAR-002",
+      "title": "Executer CalculiX et Code_Aster pour comparer les courbes complexes completes",
+      "status": "completed_calculix_warning_code_aster_pass",
+      "evidence": [
+        "results/VNV-MITC4-HARMONIC-CALCULIX13H-S8R-006/summary.json",
+        "results/VNV-MITC4-HARMONIC-CODEASTER13H-DKQ-007/summary.json"
+      ]
+    },
+    {
+      "id": "REC-MITC4-HAR-003",
+      "title": "Obtenir une revue mecanique independante",
+      "status": "open"
+    }
+  ],
+  "known_limitations": [
+    "Les valeurs Abaqus proviennent de la documentation officielle; elles sont une reference publiee et non une execution locale.",
+    "La correlation CalculiX S8R conserve un WARNING sur l'ecart S11/NAFEMS de 5.168%.",
+    "Code_Aster DKQ passe les seuils face a QF_solver; S11 est reconstruit depuis les rotations complexes et non extrait par le post-traitement coque natif.",
+    "La definition Navier de S11 en face donne 32.01 MPa contre 30.03 MPa pour la reference NAFEMS publiee; les deux conventions restent tracees.",
+    "La campagne large bande est deterministe et ne couvre ni PSD ni vibration aleatoire.",
+    "Cette auto-revue ne constitue pas une verification independante."
+  ],
+  "signature": {
+    "name": "Quentin Farinazzo",
+    "date": "2026-07-15",
+    "type": "declared_self_review"
+  }
+}

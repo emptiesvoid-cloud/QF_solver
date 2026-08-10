@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "study_id": "VNV-CONTACT-FRICTION-TET4-STRUCTURAL-002",
+  "generated_utc": "2026-08-10T07:55:11.632113Z",
+  "source": {
+    "repository": ".",
+    "revision": "c8d7fcf4fb176c9cd595360ffd0f4417c19285ce",
+    "dirty": true
+  },
+  "command": [
+    "scripts/build_docs.py",
+    "--profile",
+    "engineering"
+  ],
+  "runtime": {
+    "python": {
+      "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+      "executable": "C:\\Python313\\python.exe"
+    },
+    "platform": {
+      "system": "Windows",
+      "release": "10",
+      "machine": "AMD64",
+      "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+    },
+    "packages": {
+      "numpy": "2.2.6",
+      "scipy": "1.15.2",
+      "matplotlib": "3.10.3",
+      "h5py": "3.14.0",
+      "mpi4py": "4.1.0",
+      "petsc4py": null
+    },
+    "blas": {
+      "name": "scipy-openblas",
+      "version": "0.3.29",
+      "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+    },
+    "parallel_environment": {
+      "OMP_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "PETSC_ARCH": null
+    }
+  },
+  "files": [
+    {
+      "role": "figure",
+      "path": "friction_structural_convergence.png",
+      "size_bytes": 58799,
+      "sha256": "d373fb33a6a86ed254151e4faebc1020668effeec502f472d3b5b2f8c573f583"
+    },
+    {
+      "role": "owner_review_report",
+      "path": "report.md",
+      "size_bytes": 1012,
+      "sha256": "c1f352be676897a635e54ebc52143212da3a4942ed972373a15cfb771ef301c4"
+    },
+    {
+      "role": "normalized_results",
+      "path": "summary.json",
+      "size_bytes": 3622,
+      "sha256": "5765bf26dbcb2f17a554b245d530db8ff31d2d180129948ed780761c32f49b94"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "deformation_scale": 1301.162900240708,
+  "element_count": 2402,
+  "fields": [
+    {
+      "element_count": 2402,
+      "key": "von_mises",
+      "label": "Contrainte equivalente de von Mises [unite du modele]",
+      "maximum": 10000000.000000605,
+      "minimum": 9999999.999999484,
+      "path": "bm-sol-tet4-membrane-001_compression_von_mises.png",
+      "sha256": "7b4ef0962cbfbb336768bbb3f9c21c49b0d32f245687510745526fa023dc487a"
+    },
+    {
+      "element_count": 2402,
+      "key": "strain_measure",
+      "label": "Deformation equivalente de von Mises [-]",
+      "maximum": 0.00012380952380953132,
+      "minimum": 0.00012380952380951744,
+      "path": "bm-sol-tet4-membrane-001_compression_strain_measure.png",
+      "sha256": "419fe444cb9e0047756d767d300c5b126b137e24bfc22c7e4d1ce5a4ea0f3e06"
+    }
+  ],
+  "schema_version": 1,
+  "title": "Panneau mince 3D TET4 en traction et compression - compression"
+}

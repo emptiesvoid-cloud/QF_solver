@@ -1,0 +1,17 @@
+{
+  "deformation_scale": 151.0586091418306,
+  "element_count": 16,
+  "fields": [
+    {
+      "element_count": 16,
+      "key": "strain_measure",
+      "label": "Norme des courbures generalisees [1/unite de longueur]",
+      "maximum": 0.0022352430555556335,
+      "minimum": 3.100198412701871e-06,
+      "path": "bm-beam2-cantilever-001_strain_measure.png",
+      "sha256": "8c1068e964ff60fc583ac2e8d0538c5347be851ff096cebfeea3e21ad0d1d27a"
+    }
+  ],
+  "schema_version": 1,
+  "title": "Porte-a-faux BEAM2 de Timoshenko"
+}

@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "review_id": "OWNER-REVIEW-TECHNICAL-MANUAL-CONTENT-CLOSURE-2026-08-01",
+  "review_type": "owner_review_non_independent",
+  "owner": "Quentin Farinazzo",
+  "review_date": null,
+  "document": {
+    "path": "output/pdf/dossier_technique_elements_methodes_revision_0_3_candidate.pdf",
+    "sha256": "ec06c572e27c45d2d1159c3eef2a0ed84eadda4adfc3a28e009c3eb7b36d1708",
+    "size_bytes": 28793347,
+    "page_count": 277,
+    "applicable_version": "0.2.0",
+    "document_revision": "0.3-candidate"
+  },
+  "base_validated_document": {
+    "path": "output/pdf/dossier_technique_elements_methodes_owner_review_latex.pdf",
+    "sha256": "35a33ac588917568b1cf411bbe331193f4b409b7c32966f3002db29198e6c1e7",
+    "review": "qualification/reviews/technical_manual_owner_review_final_2026-08-01.json"
+  },
+  "decision": "pending",
+  "review_status": "pending_owner_review",
+  "document_acceptance": null,
+  "qualification_effect": "none",
+  "maturity_effect": "none",
+  "review_questions": [
+    "Les cartes de contraintes et deformations sont-elles lisibles et mecaniquement pertinentes ?",
+    "Les contrats de chargement sont-ils suffisamment explicites pour chaque famille ?",
+    "Les courbes de convergence et vues QF_solver/reference sont-elles exploitables pour une decision ?",
+    "Les absences d'oracle sont-elles visibles sans etre presentees comme des validations ?",
+    "Les statuts mecaniques existants sont-ils conserves sans sur-revendication ?"
+  ],
+  "owner_comments": null,
+  "signature": null,
+  "closure_rule": "The reviewed PDF hash is fixed. Record an explicit Owner decision only after the Owner confirms this exact hash."
+}

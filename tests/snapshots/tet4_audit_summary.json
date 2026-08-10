@@ -1,0 +1,19 @@
+{
+  "analysis": "linear_static",
+  "check_names": [
+    "mesh_validation",
+    "boundary_has_fixed_dofs",
+    "boundary_has_free_dofs",
+    "matrix:stiffness:finite_norm",
+    "matrix:stiffness:symmetry"
+  ],
+  "component_count": 1,
+  "free_relative_residual": 0.0,
+  "matrix_names": [
+    "stiffness",
+    "reduced_stiffness"
+  ],
+  "mesh_status": "PASS",
+  "post_type": "TET4",
+  "purpose": "white_box_solver_audit"
+}

@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "units": {
+    "system": "SI",
+    "length": "m",
+    "force": "N",
+    "mass": "kg",
+    "time": "s",
+    "stress": "Pa"
+  },
+  "verification_profile": "engineering",
+  "analysis": {
+    "type": "linear_static",
+    "method": "direct"
+  },
+  "nodes": [
+    [0.0, 0.0, 0.0],
+    [1.2, 0.0, 0.0],
+    [1.2, 0.8, 0.0],
+    [0.0, 0.8, 0.0]
+  ],
+  "elements": [
+    {"type": "MITC4", "nodes": [0, 1, 2, 3], "material": "carbon_epoxy"}
+  ],
+  "materials": {
+    "carbon_epoxy": {
+      "type": "shell_laminate",
+      "shear_factor": 0.8333333333333334,
+      "drilling_scale": 0.0001,
+      "plies": [
+        {"name": "ply-1", "E1": 135000000000.0, "E2": 10000000000.0, "nu12": 0.3, "G12": 5000000000.0, "G13": 4500000000.0, "G23": 3800000000.0, "density": 1600.0, "thickness": 0.000125, "angle_deg": 0.0},
+        {"name": "ply-2", "E1": 135000000000.0, "E2": 10000000000.0, "nu12": 0.3, "G12": 5000000000.0, "G13": 4500000000.0, "G23": 3800000000.0, "density": 1600.0, "thickness": 0.000125, "angle_deg": 90.0},
+        {"name": "ply-3", "E1": 135000000000.0, "E2": 10000000000.0, "nu12": 0.3, "G12": 5000000000.0, "G13": 4500000000.0, "G23": 3800000000.0, "density": 1600.0, "thickness": 0.000125, "angle_deg": 90.0},
+        {"name": "ply-4", "E1": 135000000000.0, "E2": 10000000000.0, "nu12": 0.3, "G12": 5000000000.0, "G13": 4500000000.0, "G23": 3800000000.0, "density": 1600.0, "thickness": 0.000125, "angle_deg": 0.0}
+      ]
+    }
+  },
+  "fixed_dofs": [
+    {"node": 0, "dofs": ["UX", "UY", "UZ", "RX", "RY", "RZ"]},
+    {"node": 3, "dofs": ["UX", "UY", "UZ", "RX", "RY", "RZ"]}
+  ],
+  "loads": [
+    {"node": 1, "dof": "UX", "value": 1000.0},
+    {"node": 2, "dof": "UX", "value": 1000.0}
+  ]
+}

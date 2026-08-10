@@ -1,0 +1,122 @@
+{
+  "campaign_id": "VNV-CONTACT-TET4-STRUCTURAL-001",
+  "checks": [
+    {
+      "criterion": "maximum absolute normal gap [m]",
+      "limit": 1e-10,
+      "name": "closed-contact gap",
+      "status": "PASS",
+      "value": 5.689893001203927e-16
+    },
+    {
+      "criterion": "minimum reaction [N]",
+      "limit": 0.0,
+      "name": "compressive normal pressure",
+      "status": "PASS",
+      "value": 3487.297255543241
+    },
+    {
+      "criterion": "maximum free residual",
+      "limit": 1e-10,
+      "name": "free relative residual",
+      "status": "PASS",
+      "value": 3.0257382882916644e-16
+    },
+    {
+      "criterion": "relative change between final two meshes",
+      "limit": 0.03,
+      "name": "finest pressure change",
+      "status": "PASS",
+      "value": 0.011166545188711997
+    },
+    {
+      "criterion": "maximum active-set iterations",
+      "limit": 3.0,
+      "name": "active-set iterations",
+      "status": "PASS",
+      "value": 2.0
+    }
+  ],
+  "levels": [
+    {
+      "active_iterations": 2,
+      "cells": [
+        4,
+        2,
+        2
+      ],
+      "dofs": 144,
+      "elements": 96,
+      "gap": 2.7755575615628914e-17,
+      "nodes": 45,
+      "pressure": 3487.297255543241,
+      "pressure_change_from_previous": null,
+      "relative_residual": 2.9616203822945942e-16,
+      "slave_ux": -0.09999999999999998
+    },
+    {
+      "active_iterations": 2,
+      "cells": [
+        8,
+        4,
+        4
+      ],
+      "dofs": 684,
+      "elements": 768,
+      "gap": 5.551115123125783e-17,
+      "nodes": 225,
+      "pressure": 3741.972396698201,
+      "pressure_change_from_previous": 0.06805906462048657,
+      "relative_residual": 3.0257382882916644e-16,
+      "slave_ux": -0.09999999999999995
+    },
+    {
+      "active_iterations": 2,
+      "cells": [
+        12,
+        6,
+        6
+      ],
+      "dofs": 1920,
+      "elements": 2592,
+      "gap": 5.689893001203927e-16,
+      "nodes": 637,
+      "pressure": 3828.5906419194284,
+      "pressure_change_from_previous": 0.022624054991108207,
+      "relative_residual": 2.1657234938446281e-16,
+      "slave_ux": -0.09999999999999944
+    },
+    {
+      "active_iterations": 2,
+      "cells": [
+        16,
+        8,
+        8
+      ],
+      "dofs": 4140,
+      "elements": 6144,
+      "gap": -4.85722573273506e-16,
+      "nodes": 1377,
+      "pressure": 3871.825556964078,
+      "pressure_change_from_previous": 0.011166545188711997,
+      "relative_residual": 1.9699121245183487e-16,
+      "slave_ux": -0.10000000000000049
+    }
+  ],
+  "limitations": [
+    "The master is a fixed triangle and the normal is frozen in the initial configuration.",
+    "This checks TET4 spatial convergence coupled to normal contact, not surface-to-surface contact.",
+    "No external solver correlation is claimed; friction, large sliding and nonlinear geometry remain outside scope."
+  ],
+  "maturity": "experimental",
+  "reference": {
+    "description": "Deformable TET4 bar against a rigid triangular plane; no external correlation.",
+    "initial_gap": 0.1,
+    "kind": "mesh_refinement_internal",
+    "normal_load": -4000.0,
+    "poisson_ratio": 0.3,
+    "young_modulus": 10000.0
+  },
+  "scope": "linear_static_tet4_node_triangle_frictionless",
+  "status": "PASS_INTERNAL"
+}

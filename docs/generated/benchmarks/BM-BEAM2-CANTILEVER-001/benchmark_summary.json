@@ -1,0 +1,164 @@
+{
+  "benchmark": {
+    "identifier": "BM-BEAM2-CANTILEVER-001",
+    "title": "Porte-a-faux BEAM2 de Timoshenko",
+    "family": "BEAM2",
+    "analyses": [
+      "linear_static",
+      "modal"
+    ],
+    "maturity": "experimental",
+    "reference_type": "analytic_and_convergence",
+    "reference": "Poutre de Timoshenko statique et limite modale d'Euler-Bernoulli",
+    "reference_id": "REF-BEAM-TIMOSHENKO-1921",
+    "reference_url": "https://doi.org/10.1080/00423114.1921.10731255",
+    "requirements": [
+      "REQ-BEAM-001",
+      "REQ-MOD-001",
+      "REQ-CMP-003",
+      "REQ-DOC-001"
+    ],
+    "criteria": {
+      "static_relative_error_max": 1e-10,
+      "modal_relative_error_max": 0.02,
+      "modal_increment_max": 0.005,
+      "modal_residual_max": 1e-08,
+      "free_residual_max": 1e-08
+    }
+  },
+  "status": "WARNING",
+  "metrics": {
+    "convergence": [
+      {
+        "element_count": 1,
+        "static_tip_displacement": 0.0023831809523809514,
+        "static_reference": 0.0023831809523809527,
+        "static_relative_error": 5.45926907347417e-16,
+        "first_frequency_hz": 10.310168763343665,
+        "euler_bernoulli_frequency_hz": 10.265692153022604,
+        "modal_relative_error": 0.004332548615142836,
+        "modal_residual": 1.884767155227696e-15,
+        "free_relative_residual": 6.431098710768743e-16
+      },
+      {
+        "element_count": 2,
+        "static_tip_displacement": 0.0023831809523809522,
+        "static_reference": 0.0023831809523809527,
+        "static_relative_error": 1.8197563578247234e-16,
+        "first_frequency_hz": 10.265970102357032,
+        "euler_bernoulli_frequency_hz": 10.265692153022604,
+        "modal_relative_error": 2.7075557135876686e-05,
+        "modal_residual": 7.463063183556538e-15,
+        "free_relative_residual": 1.8139576113240774e-15
+      },
+      {
+        "element_count": 4,
+        "static_tip_displacement": 0.0023831809523809475,
+        "static_reference": 0.0023831809523809527,
+        "static_relative_error": 2.183707629389668e-15,
+        "first_frequency_hz": 10.261179614354948,
+        "euler_bernoulli_frequency_hz": 10.265692153022604,
+        "modal_relative_error": 0.00043957471161140064,
+        "modal_residual": 7.978053070185381e-14,
+        "free_relative_residual": 1.2777175616800192e-14
+      },
+      {
+        "element_count": 8,
+        "static_tip_displacement": 0.0023831809523811058,
+        "static_reference": 0.0023831809523809527,
+        "static_relative_error": 6.423739943121273e-14,
+        "first_frequency_hz": 10.260819169263522,
+        "euler_bernoulli_frequency_hz": 10.265692153022604,
+        "modal_relative_error": 0.00047468633253795484,
+        "modal_residual": 1.569871956611577e-12,
+        "free_relative_residual": 1.200324648779777e-12
+      },
+      {
+        "element_count": 16,
+        "static_tip_displacement": 0.0023831809523811517,
+        "static_reference": 0.0023831809523809527,
+        "static_relative_error": 8.35268168241548e-14,
+        "first_frequency_hz": 10.260787271691893,
+        "euler_bernoulli_frequency_hz": 10.265692153022604,
+        "modal_relative_error": 0.0004777935338015312,
+        "modal_residual": 1.5097736903046054e-11,
+        "free_relative_residual": 5.659281234330947e-12
+      }
+    ],
+    "static_reference": 0.0023831809523809527,
+    "euler_bernoulli_frequency_hz": 10.265692153022604,
+    "final_modal_increment": 3.10868657392001e-06
+  },
+  "checks": [
+    {
+      "id": "beam2-static-compliance",
+      "status": "PASS",
+      "value": 8.35268168241548e-14,
+      "limit": 1e-10,
+      "operator": "less_equal",
+      "detail": ""
+    },
+    {
+      "id": "beam2-modal-reference",
+      "status": "PASS",
+      "value": 0.0004777935338015312,
+      "limit": 0.02,
+      "operator": "less_equal",
+      "detail": ""
+    },
+    {
+      "id": "beam2-modal-increment",
+      "status": "PASS",
+      "value": 3.10868657392001e-06,
+      "limit": 0.005,
+      "operator": "less_equal",
+      "detail": ""
+    },
+    {
+      "id": "beam2-modal-residual",
+      "status": "PASS",
+      "value": 1.5097736903046054e-11,
+      "limit": 1e-08,
+      "operator": "less_equal",
+      "detail": ""
+    },
+    {
+      "id": "beam2-static-residual",
+      "status": "PASS",
+      "value": 5.659281234330947e-12,
+      "limit": 1e-08,
+      "operator": "less_equal",
+      "detail": ""
+    }
+  ],
+  "files": {
+    "modal_n16_model": "modal_n16.model.json",
+    "modal_n16_result": "modal_n16.json",
+    "modal_n1_model": "modal_n1.model.json",
+    "modal_n1_result": "modal_n1.json",
+    "modal_n2_model": "modal_n2.model.json",
+    "modal_n2_result": "modal_n2.json",
+    "modal_n4_model": "modal_n4.model.json",
+    "modal_n4_result": "modal_n4.json",
+    "modal_n8_model": "modal_n8.model.json",
+    "modal_n8_result": "modal_n8.json",
+    "static_n16_model": "static_n16.model.json",
+    "static_n16_result": "static_n16.json",
+    "static_n16_vtu": "static_n16.vtu",
+    "static_n1_model": "static_n1.model.json",
+    "static_n1_result": "static_n1.json",
+    "static_n1_vtu": "static_n1.vtu",
+    "static_n2_model": "static_n2.model.json",
+    "static_n2_result": "static_n2.json",
+    "static_n2_vtu": "static_n2.vtu",
+    "static_n4_model": "static_n4.model.json",
+    "static_n4_result": "static_n4.json",
+    "static_n4_vtu": "static_n4.vtu",
+    "static_n8_model": "static_n8.model.json",
+    "static_n8_result": "static_n8.json",
+    "static_n8_vtu": "static_n8.vtu",
+    "summary": "benchmark_summary.json",
+    "manifest": "benchmark_manifest.json"
+  },
+  "message": "Experimental until an external same-model correlation and Owner review are complete."
+}

@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "units": {"system": "SI"},
+  "verification_profile": "engineering",
+  "analysis": {
+    "type": "transient_dynamic",
+    "method": "newmark",
+    "time_step": 0.001,
+    "steps": 20,
+    "newmark_beta": 0.25,
+    "newmark_gamma": 0.5,
+    "rayleigh_alpha": 0.0,
+    "rayleigh_beta": 0.0,
+    "load_factors": [0.0],
+    "initial_displacements": [{"node": 1, "dof": "UX", "value": 0.001}]
+  },
+  "nodes": [
+    [0, 0, 0],
+    [1, 0, 0],
+    [0, 1, 0],
+    [0, 0, 1],
+    [0.5, 0, 0],
+    [0.5, 0.5, 0],
+    [0, 0.5, 0],
+    [0, 0, 0.5],
+    [0.5, 0, 0.5],
+    [0, 0.5, 0.5]
+  ],
+  "elements": [
+    {"type": "TET10", "nodes": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], "material": "ortho"}
+  ],
+  "materials": {
+    "ortho": {
+      "type": "orthotropic_3d",
+      "E1": 1200.0,
+      "E2": 800.0,
+      "E3": 600.0,
+      "nu12": 0.22,
+      "nu13": 0.18,
+      "nu23": 0.24,
+      "G12": 420.0,
+      "G13": 360.0,
+      "G23": 310.0,
+      "density": 10.0,
+      "e1": [1.0, 0.0, 0.0],
+      "e2_hint": [0.0, 1.0, 0.0]
+    }
+  },
+  "fixed_dofs": [
+    {"node": 0, "dofs": ["UX", "UY", "UZ"]},
+    {"node": 2, "dofs": ["UX", "UY", "UZ"]},
+    {"node": 3, "dofs": ["UX", "UY", "UZ"]},
+    {"node": 6, "dofs": ["UX", "UY", "UZ"]},
+    {"node": 7, "dofs": ["UX", "UY", "UZ"]},
+    {"node": 9, "dofs": ["UX", "UY", "UZ"]}
+  ]
+}

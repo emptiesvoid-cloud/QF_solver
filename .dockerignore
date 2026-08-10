@@ -1,0 +1,17 @@
+**/__pycache__
+**/*.pyc
+.git
+.pytest_cache
+.ruff_cache
+.mypy_cache
+.docs-cache
+build
+dist
+site
+results
+results_large
+docs/generated
+docs/assets/generated
+*.h5
+*.hdf5
+*.npz

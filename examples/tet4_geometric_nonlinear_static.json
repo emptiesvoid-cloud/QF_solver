@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "units": {"system": "SI"},
+  "verification_profile": "engineering",
+  "analysis": {
+    "type": "geometric_nonlinear_static",
+    "method": "newton_raphson",
+    "parameters": {"load_increments": 10, "tolerance": 1e-9, "max_iterations": 30}
+  },
+  "nodes": [[0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1]],
+  "elements": [{"type": "TET4", "nodes": [0, 1, 2, 3], "material": "solid"}],
+  "materials": {"solid": {"type": "isotropic_3d", "E": 210000000000.0, "nu": 0.3}},
+  "fixed_dofs": [
+    {"node": 0, "dofs": ["UX", "UY", "UZ"]},
+    {"node": 1, "dofs": ["UY", "UZ"]},
+    {"node": 2, "dofs": ["UZ"]}
+  ],
+  "loads": [{"node": 3, "dof": "UZ", "value": -1000000.0}]
+}

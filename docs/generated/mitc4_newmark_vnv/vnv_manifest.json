@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "study_id": "VNV-MITC4-NEWMARK-FREE-002",
+  "source": {
+    "repository": ".",
+    "revision": "c8d7fcf4fb176c9cd595360ffd0f4417c19285ce",
+    "dirty": true
+  },
+  "files": [
+    {
+      "role": "mitc4_newmark_vnv",
+      "path": "summary.json",
+      "size_bytes": 88213,
+      "sha256": "2a730bb0dcd655b6ddbd99aac457c7aaab2c24b893dfc9436a08f102f81a9491"
+    },
+    {
+      "role": "mitc4_newmark_vnv",
+      "path": "VNV-MITC4-NEWMARK-FREE-002-convergence.png",
+      "size_bytes": 44622,
+      "sha256": "76353f829e32005142027328dbe017c632a4cfd3f582ac5972a757b3d14b6c78"
+    },
+    {
+      "role": "mitc4_newmark_vnv",
+      "path": "VNV-MITC4-NEWMARK-FREE-002-history.png",
+      "size_bytes": 89555,
+      "sha256": "5e21911952c3d83ff9d458b6b7b4046dbd5e09f458a11442a4329673476eb6c5"
+    },
+    {
+      "role": "mitc4_newmark_vnv",
+      "path": "VNV-MITC4-NEWMARK-FREE-002.md",
+      "size_bytes": 806,
+      "sha256": "26f893c7526fa77705634840b33fcb3acd216e7a338ce8ae9d8f2e39523a2658"
+    }
+  ]
+}

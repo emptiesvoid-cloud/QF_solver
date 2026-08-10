@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "review_id": "OWNER-REVIEW-MITC3-LAMINATE-CURVED-PROJECTED-2026-08-09",
+  "scope": "mitc3-laminate-curved-projected-static",
+  "status": "owner_accepted_experimental_bounded_use",
+  "owner": "Quentin Farinazzo",
+  "review_mode": "owner_review",
+  "independence": "not_independent",
+  "certification_claim": "none",
+  "maturity_before_review": "experimental_external_correlation",
+  "automated_evidence": {
+    "campaign": {
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "path": "qualification/vnv/external/calculix_mitc3_curved_composite/reference/summary.json",
+      "study_id": "VNV-MITC3-LAMINATE-CURVED-PROJECTED-CALCULIX-S6-024",
+      "fine_mesh": "128x64",
+      "mitc3_elements": 16384,
+      "fine_vector_difference": 0.02073849139835969,
+      "previous_refined_vector_difference": 0.034437089545702675,
+      "qf_final_mesh_increment": 0.012273228067565858,
+      "calculix_final_mesh_increment": 0.0019132631796118062,
+      "qf_free_residual": 3.248673551072972e-10,
+      "orientation_projection_error_deg": 1.4787793334710982e-06,
+      "figures_available": true
+    }
+  },
+  "questions": [
+    {
+      "id": "Q1",
+      "question": "La correlation courbe MITC3+ / CalculiX S6 est-elle suffisante pour la V0.2.0-alpha ?",
+      "answer": "yes",
+      "owner_comment": "Oui, au statut experimental et pour un usage engineering borne."
+    },
+    {
+      "id": "Q2",
+      "question": "La convergence 80x40, 96x48 et 128x64 est-elle coherente ?",
+      "answer": "yes",
+      "owner_comment": "Oui, l'ecart descend de 4.7270 % a 3.4437 %, puis 2.0738 %."
+    },
+    {
+      "id": "Q3",
+      "question": "La projection de l'orientation globale dans les facettes est-elle acceptee ?",
+      "answer": "yes"
+    },
+    {
+      "id": "Q4",
+      "question": "Le statut experimental doit-il etre conserve jusqu'a davantage de tests ?",
+      "answer": "yes",
+      "owner_comment": "Oui. Des cas courbes supplementaires, des contraintes par pli et des correlations dynamiques restent a produire."
+    }
+  ],
+  "blocking_items": [],
+  "decision": "accepted_for_v020_alpha_experimental_bounded_use",
+  "decision_date": "2026-08-09",
+  "maturity_after_review": "experimental_owner_accepted",
+  "accepted_domain": [
+    "MITC3+ multicouche statique lineaire",
+    "panneau cylindrique courbe facettise",
+    "orientation materiau globale projetee dans chaque facette",
+    "empilement symetrique [0/90/90/0]",
+    "petits deplacements et charges nodales distribuees",
+    "correlation externe de deplacements globaux avec CalculiX S6"
+  ],
+  "excluded_domain": [
+    "maturite stable ou qualification externe",
+    "contraintes par pli comme critere principal d'acceptation",
+    "quantites interlaminaires, delaminage, dommage et rupture",
+    "grandes deformations et dynamique courbe",
+    "empilements non symetriques et assemblages complexes"
+  ],
+  "recommendations": [
+    {
+      "id": "REC-MITC3-CURVED-001",
+      "title": "Ajouter plusieurs geometries courbes et distordues avec orientations projetees.",
+      "status": "non_blocking_future_scope"
+    },
+    {
+      "id": "REC-MITC3-CURVED-002",
+      "title": "Ajouter une comparaison des contraintes par pli hors zones singulieres.",
+      "status": "non_blocking_future_scope"
+    },
+    {
+      "id": "REC-MITC3-CURVED-003",
+      "title": "Porter la meme campagne vers modal, Newmark et harmonique avant toute maturite superieure.",
+      "status": "next_scope"
+    }
+  ],
+  "signature": {
+    "name": "Quentin Farinazzo",
+    "date": "2026-08-09",
+    "type": "declared_owner_review",
+    "independence": "not_independent"
+  }
+}

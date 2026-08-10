@@ -1,0 +1,23 @@
+*.msh -text whitespace=-trailing-space
+*.pdf binary
+*.png binary
+LICENSE text eol=lf
+LICENSE-DOCS text eol=lf
+NOTICE text eol=lf
+THIRD_PARTY_LICENSES.md text eol=lf
+tmp export-ignore
+results export-ignore
+results_large export-ignore
+site export-ignore
+output export-ignore
+git_history_audit.json export-ignore
+release_readiness.json export-ignore
+VNV-* export-ignore
+qualification/vnv export-ignore
+tmp/** export-ignore
+results/** export-ignore
+results_large/** export-ignore
+site/** export-ignore
+output/** export-ignore
+VNV-*/** export-ignore
+qualification/vnv/** export-ignore

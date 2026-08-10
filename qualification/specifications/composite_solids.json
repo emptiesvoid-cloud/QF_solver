@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "scope": "orthotropic-solid-tet4-tet10",
+  "status": "engineering_internal_validated_with_recommendations",
+  "target_elements": ["TET4", "TET10"],
+  "target_materials": ["orthotropic_3d", "composite_orthotropic_3d"],
+  "first_analysis": "linear_static",
+  "modeling_modes": {
+    "orthotropic_3d": "homogeneous orthotropic solid",
+    "composite_orthotropic_3d": "homogenized composite solid with traceable layup or homogenization metadata",
+    "ply_resolved_regions": "future separate solid regions; interfaces and delamination excluded"
+  },
+  "requirements": [
+    {"id": "SPEC-COMP-SOLID-001", "title": "Loi orthotrope 3D symetrique definie positive", "status": "pass"},
+    {"id": "SPEC-COMP-SOLID-002", "title": "Tractions analytiques selon les trois axes materiau", "status": "pass"},
+    {"id": "SPEC-COMP-SOLID-003", "title": "Cisaillements analytiques dans les trois plans", "status": "pass"},
+    {"id": "SPEC-COMP-SOLID-004", "title": "Patch affine TET4 et TET10 avec orientation tournee", "status": "pass"},
+    {"id": "SPEC-COMP-SOLID-005", "title": "Objectivite sous rotation globale", "status": "pass"},
+    {"id": "SPEC-COMP-SOLID-006", "title": "Convergence structurelle TET4 et TET10", "status": "pass"},
+    {"id": "SPEC-COMP-SOLID-007", "title": "Correlation externe sur maillage identique", "status": "pass"},
+    {"id": "SPEC-COMP-SOLID-008", "title": "Non-regression du chemin isotrope", "status": "pass"}
+  ],
+  "evidence": {
+    "study_id": "VNV-ORTHOTROPIC-SOLID-KERNEL-001",
+    "summary": "qualification/vnv/orthotropic_solid_kernel/reference/summary.json",
+    "manifest": "qualification/vnv/orthotropic_solid_kernel/reference/vnv_manifest.json"
+  },
+  "external_evidence": {
+    "study_id": "VNV-ORTHOTROPIC-SOLID-EXTERNAL-002",
+    "summary": "qualification/vnv/external/orthotropic_solids/reference/summary.json",
+    "manifest": "qualification/vnv/external/orthotropic_solids/reference/vnv_manifest.json",
+    "solvers": ["Code_Aster 18.1.0 TETRA4", "CalculiX 2.20 C3D4"]
+  },
+  "convergence_evidence": {
+    "study_id": "VNV-ORTHOTROPIC-SOLID-CONVERGENCE-003",
+    "summary": "qualification/vnv/orthotropic_solid_convergence/reference/summary.json",
+    "manifest": "qualification/vnv/orthotropic_solid_convergence/reference/vnv_manifest.json"
+  },
+  "performance_evidence": {
+    "study_id": "VNV-ORTHOTROPIC-ISOTROPIC-NONREGRESSION-004",
+    "summary": "qualification/vnv/orthotropic_isotropic_performance/reference/summary.json",
+    "manifest": "qualification/vnv/orthotropic_isotropic_performance/reference/vnv_manifest.json"
+  },
+  "planned_extensions": [
+    {
+      "scope": "orthotropic-solid-modal",
+      "status": "technical_verification",
+      "prerequisite": "Owner review before acceptance",
+      "evidence": "qualification/vnv/orthotropic_modal_newmark/reference/summary.json"
+    },
+    {
+      "scope": "orthotropic-solid-transient-dynamic",
+      "status": "technical_verification",
+      "prerequisite": "accepted orthotropic modal scope and Owner review before acceptance",
+      "evidence": "qualification/vnv/orthotropic_modal_newmark/reference/summary.json"
+    },
+    {
+      "scope": "orthotropic-solid-large-static",
+      "status": "technical_verification",
+      "prerequisite": "PETSc/MPI campaign on a representative million-dof orthotropic TET4 model"
+    },
+    {
+      "scope": "orthotropic-solid-curvilinear-orientation",
+      "status": "planned",
+      "prerequisite": "continuous material frame field, interpolation and objectivity tests"
+    },
+    {
+      "scope": "orthotropic-solid-singular-stress-assessment",
+      "status": "ready_for_owner_review",
+      "prerequisite": "human decision on the bounded path-and-band stress acceptance scope",
+      "evidence": "qualification/external_reference_digests/orthotropic_singular_stress_h8.json"
+    }
+  ],
+  "out_of_scope_v1": [
+    "orientation variable aux points d'integration",
+    "delaminage et elements cohesifs",
+    "endommagement progressif",
+    "plasticite anisotrope",
+    "grandes deformations",
+    "modal ou dynamique distribuee en mode grand modele"
+  ]
+}

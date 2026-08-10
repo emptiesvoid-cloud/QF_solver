@@ -1,0 +1,67 @@
+% QF_solver controlled LaTeX style for the technical Owner-review manual.
+% Encoding, language and base fonts are configured by Pandoc's template.
+\usepackage{amsmath,amssymb,mathtools,bm}
+\usepackage{booktabs,longtable,tabularx,array}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{etoolbox}
+\usepackage{caption}
+\usepackage{xurl}
+\usepackage{hyperref}
+
+\definecolor{QFBlue}{HTML}{17324D}
+\definecolor{QFTeal}{HTML}{205B73}
+\definecolor{QFLight}{HTML}{EAF1F4}
+\definecolor{QFWarn}{HTML}{8A3B12}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=QFBlue,
+  citecolor=QFTeal,
+  urlcolor=QFTeal,
+  pdfauthor={QF_solver project},
+  pdftitle={QF_solver - Dossier technique elements et methodes}
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.45em}
+\setlength{\jot}{3pt}
+\setlength{\emergencystretch}{3em}
+\allowdisplaybreaks[2]
+\setlist{nosep,leftmargin=1.5em}
+\setkeys{Gin}{width=0.92\linewidth,height=0.34\textheight,keepaspectratio}
+\captionsetup{font=small,labelfont=bf,margin=1.5em}
+\renewcommand{\arraystretch}{1.16}
+\setlength{\tabcolsep}{4pt}
+\AtBeginEnvironment{longtable}{\footnotesize\setlength{\tabcolsep}{2.5pt}}
+\renewcommand{\UrlFont}{\ttfamily\footnotesize}
+
+\makeatletter
+\renewcommand\chapter{\if@openright\cleardoublepage\else\clearpage\fi
+  \thispagestyle{plain}\global\@topnum\z@
+  \@afterindentfalse\secdef\@chapter\@schapter}
+\makeatother
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small QF\_solver - dossier technique}
+\fancyhead[R]{\small Owner review requise}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.35pt}
+
+\newcommand{\qfmeta}[4]{%
+  \begin{center}
+  \begin{tabularx}{\linewidth}{>{\bfseries}l X >{\bfseries}l X}
+  Type & #1 & Maturite & #2\\
+  Relecture & #3 & Effet qualification & #4
+  \end{tabularx}
+  \end{center}
+}
+
+\newenvironment{qfwarning}
+  {\begin{center}\begin{minipage}{0.94\linewidth}\color{QFWarn}\bfseries}
+  {\end{minipage}\end{center}}

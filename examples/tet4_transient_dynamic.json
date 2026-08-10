@@ -1,0 +1,28 @@
+{
+  "analysis": {
+    "type": "transient_dynamic",
+    "method": "newmark",
+    "time_step": 0.01,
+    "steps": 10,
+    "newmark_beta": 0.25,
+    "newmark_gamma": 0.5,
+    "rayleigh_alpha": 0.02,
+    "rayleigh_beta": 0.0,
+    "load_function": "linear_ramp"
+  },
+  "nodes": [[0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1]],
+  "elements": [
+    {"type": "TET4", "nodes": [0, 1, 2, 3], "material": "steel"}
+  ],
+  "materials": {
+    "steel": {"type": "isotropic_3d", "E": 1000.0, "nu": 0.25, "density": 10.0}
+  },
+  "fixed_dofs": [
+    {"node": 0, "dofs": ["UX", "UY", "UZ"]},
+    {"node": 2, "dofs": ["UX", "UY", "UZ"]},
+    {"node": 3, "dofs": ["UX", "UY", "UZ"]}
+  ],
+  "loads": [
+    {"node": 1, "dof": "UX", "value": 1.0}
+  ]
+}

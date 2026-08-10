@@ -1,0 +1,251 @@
+{
+  "benchmark": {
+    "identifier": "BM-SOL-TET4-TORSION-001",
+    "title": "Arbre circulaire TET4 en torsion de Saint-Venant",
+    "family": "TET4",
+    "analyses": [
+      "linear_static"
+    ],
+    "maturity": "stable_after_reinforced_tests",
+    "reference_type": "analytic_saint_venant",
+    "reference": "Torsion pure d'un arbre circulaire elastique isotrope",
+    "reference_id": "REF-FEM-BATHE",
+    "reference_url": "https://ocw.mit.edu/courses/res-2-002-finite-element-procedures-for-solids-and-structures-spring-2010/",
+    "requirements": [
+      "REQ-SOL-001",
+      "REQ-MESH-001",
+      "REQ-CMP-003"
+    ],
+    "criteria": {
+      "finest_twist_error_max": 0.15,
+      "observed_order_min": 0.5,
+      "monotonicity_tolerance": 1e-10,
+      "torque_error_max": 1e-12,
+      "force_resultant_ratio_max": 1e-10,
+      "free_residual_max": 1e-08
+    }
+  },
+  "status": "PASS",
+  "metrics": {
+    "reference_twist_angle": 9.93126844893427e-07,
+    "shear_modulus": 30769230769.230766,
+    "polar_moment": 0.09817477042468103,
+    "torsion_h_convergence": [
+      {
+        "level": 1,
+        "mesh_size": 0.48,
+        "node_count": 72,
+        "element_count": 158,
+        "twist_angle": 6.344346986878009e-07,
+        "reference_twist_angle": 9.93126844893427e-07,
+        "relative_twist_error": 0.361174554942292,
+        "relative_stress_l2_error": 0.7707988027729272,
+        "applied_torque": 1000.0,
+        "resultant_force_norm": 6.32935543034587e-14,
+        "free_relative_residual": 2.2461339649296203e-14
+      },
+      {
+        "level": 2,
+        "mesh_size": 0.4,
+        "node_count": 105,
+        "element_count": 259,
+        "twist_angle": 6.336996482048025e-07,
+        "reference_twist_angle": 9.93126844893427e-07,
+        "relative_twist_error": 0.361914692505563,
+        "relative_stress_l2_error": 0.8307015203971233,
+        "applied_torque": 999.9999999999998,
+        "resultant_force_norm": 7.105427357601002e-14,
+        "free_relative_residual": 2.4523045648549725e-14
+      },
+      {
+        "level": 3,
+        "mesh_size": 0.34,
+        "node_count": 140,
+        "element_count": 335,
+        "twist_angle": 6.690365277746401e-07,
+        "reference_twist_angle": 9.93126844893427e-07,
+        "relative_twist_error": 0.3263332562051177,
+        "relative_stress_l2_error": 0.674712705304469,
+        "applied_torque": 999.9999999999998,
+        "resultant_force_norm": 4.5496934130773415e-14,
+        "free_relative_residual": 3.566779889183848e-14
+      },
+      {
+        "level": 4,
+        "mesh_size": 0.29,
+        "node_count": 200,
+        "element_count": 585,
+        "twist_angle": 7.341195927018195e-07,
+        "reference_twist_angle": 9.93126844893427e-07,
+        "relative_twist_error": 0.26079976945885674,
+        "relative_stress_l2_error": 0.6913708099035518,
+        "applied_torque": 1000.0,
+        "resultant_force_norm": 1.9328852131274408e-13,
+        "free_relative_residual": 6.322048765745729e-14
+      },
+      {
+        "level": 5,
+        "mesh_size": 0.25,
+        "node_count": 285,
+        "element_count": 898,
+        "twist_angle": 7.986007362177442e-07,
+        "reference_twist_angle": 9.93126844893427e-07,
+        "relative_twist_error": 0.19587236985478687,
+        "relative_stress_l2_error": 0.6271852108292095,
+        "applied_torque": 1000.0,
+        "resultant_force_norm": 1.0173423748423967e-13,
+        "free_relative_residual": 7.71652871560429e-14
+      },
+      {
+        "level": 6,
+        "mesh_size": 0.21,
+        "node_count": 426,
+        "element_count": 1462,
+        "twist_angle": 8.211177581033752e-07,
+        "reference_twist_angle": 9.93126844893427e-07,
+        "relative_twist_error": 0.17319951391356286,
+        "relative_stress_l2_error": 0.6321122712666889,
+        "applied_torque": 1000.0,
+        "resultant_force_norm": 1.572853393922362e-13,
+        "free_relative_residual": 1.2535112435795983e-13
+      },
+      {
+        "level": 7,
+        "mesh_size": 0.18,
+        "node_count": 610,
+        "element_count": 2257,
+        "twist_angle": 8.396223477763206e-07,
+        "reference_twist_angle": 9.93126844893427e-07,
+        "relative_twist_error": 0.1545668591141338,
+        "relative_stress_l2_error": 0.6031376509214159,
+        "applied_torque": 1000.0,
+        "resultant_force_norm": 3.499017183300205e-14,
+        "free_relative_residual": 1.815172706242441e-13
+      },
+      {
+        "level": 8,
+        "mesh_size": 0.15,
+        "node_count": 892,
+        "element_count": 3508,
+        "twist_angle": 8.902415334869376e-07,
+        "reference_twist_angle": 9.93126844893427e-07,
+        "relative_twist_error": 0.10359735207593766,
+        "relative_stress_l2_error": 0.5040787613242692,
+        "applied_torque": 1000.0000000000001,
+        "resultant_force_norm": 7.914262813082993e-14,
+        "free_relative_residual": 2.5481047987556336e-13
+      }
+    ],
+    "asymptotic_levels": [
+      6,
+      7,
+      8
+    ],
+    "observed_order": 1.5475445041844853,
+    "finest_relative_twist_error": 0.10359735207593766,
+    "monotonicity_violation": 0.0
+  },
+  "checks": [
+    {
+      "id": "torsion-finest-twist",
+      "status": "PASS",
+      "value": 0.10359735207593766,
+      "limit": 0.15,
+      "operator": "less_equal",
+      "detail": ""
+    },
+    {
+      "id": "torsion-observed-order",
+      "status": "PASS",
+      "value": 1.5475445041844853,
+      "limit": 0.5,
+      "operator": "greater_equal",
+      "detail": ""
+    },
+    {
+      "id": "torsion-monotonicity",
+      "status": "PASS",
+      "value": 0.0,
+      "limit": 1e-10,
+      "operator": "less_equal",
+      "detail": ""
+    },
+    {
+      "id": "torsion-load-resultant",
+      "status": "PASS",
+      "value": 2.2737367544323206e-16,
+      "limit": 1e-12,
+      "operator": "less_equal",
+      "detail": ""
+    },
+    {
+      "id": "torsion-force-resultant",
+      "status": "PASS",
+      "value": 1.9328852131274407e-16,
+      "limit": 1e-10,
+      "operator": "less_equal",
+      "detail": ""
+    },
+    {
+      "id": "torsion-free-residual",
+      "status": "PASS",
+      "value": 2.5481047987556336e-13,
+      "limit": 1e-08,
+      "operator": "less_equal",
+      "detail": ""
+    }
+  ],
+  "files": {
+    "h1_import_report": "h1.import_report.json",
+    "h1_mesh": "h1.msh",
+    "h1_model": "h1.model.json",
+    "h1_result": "h1.json",
+    "h1_setup": "h1.setup.json",
+    "h1_vtu": "h1.vtu",
+    "h2_import_report": "h2.import_report.json",
+    "h2_mesh": "h2.msh",
+    "h2_model": "h2.model.json",
+    "h2_result": "h2.json",
+    "h2_setup": "h2.setup.json",
+    "h2_vtu": "h2.vtu",
+    "h3_import_report": "h3.import_report.json",
+    "h3_mesh": "h3.msh",
+    "h3_model": "h3.model.json",
+    "h3_result": "h3.json",
+    "h3_setup": "h3.setup.json",
+    "h3_vtu": "h3.vtu",
+    "h4_import_report": "h4.import_report.json",
+    "h4_mesh": "h4.msh",
+    "h4_model": "h4.model.json",
+    "h4_result": "h4.json",
+    "h4_setup": "h4.setup.json",
+    "h4_vtu": "h4.vtu",
+    "h5_import_report": "h5.import_report.json",
+    "h5_mesh": "h5.msh",
+    "h5_model": "h5.model.json",
+    "h5_result": "h5.json",
+    "h5_setup": "h5.setup.json",
+    "h5_vtu": "h5.vtu",
+    "h6_import_report": "h6.import_report.json",
+    "h6_mesh": "h6.msh",
+    "h6_model": "h6.model.json",
+    "h6_result": "h6.json",
+    "h6_setup": "h6.setup.json",
+    "h6_vtu": "h6.vtu",
+    "h7_import_report": "h7.import_report.json",
+    "h7_mesh": "h7.msh",
+    "h7_model": "h7.model.json",
+    "h7_result": "h7.json",
+    "h7_setup": "h7.setup.json",
+    "h7_vtu": "h7.vtu",
+    "h8_import_report": "h8.import_report.json",
+    "h8_mesh": "h8.msh",
+    "h8_model": "h8.model.json",
+    "h8_result": "h8.json",
+    "h8_setup": "h8.setup.json",
+    "h8_vtu": "h8.vtu",
+    "summary": "benchmark_summary.json",
+    "manifest": "benchmark_manifest.json"
+  },
+  "message": ""
+}

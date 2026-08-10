@@ -1,0 +1,5173 @@
+{
+  "status": "PASS",
+  "run_verdict": "WARNING",
+  "analysis": "modal",
+  "method": "eigsh",
+  "message": "",
+  "node_count": 17,
+  "element_count": 16,
+  "ndof": 102,
+  "modes": [
+    {
+      "index": 1,
+      "eigenvalue": 4156.436064014585,
+      "frequency_hz": 10.260787271691893,
+      "shape": [
+        {
+          "node": 0,
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0,
+            "RX": 0.0,
+            "RY": 0.0,
+            "RZ": 0.0
+          }
+        },
+        {
+          "node": 1,
+          "dofs": {
+            "UX": -6.0233841593662705e-21,
+            "UY": 1.4078815170129665e-17,
+            "UZ": 0.0010747288834697473,
+            "RX": 2.055480479863946e-20,
+            "RY": -0.016822868404440208,
+            "RZ": 2.854009197117305e-16
+          }
+        },
+        {
+          "node": 2,
+          "dofs": {
+            "UX": -1.340062322621126e-20,
+            "UY": 3.8377392194597285e-17,
+            "UZ": 0.004157822574859726,
+            "RX": 3.927724588292609e-20,
+            "RY": -0.03213428615864047,
+            "RZ": 1.6150017296138098e-16
+          }
+        },
+        {
+          "node": 3,
+          "dofs": {
+            "UX": -1.7428778598953612e-20,
+            "UY": 5.828989149398258e-17,
+            "UZ": 0.009060522628952456,
+            "RX": 5.48508481005375e-20,
+            "RY": -0.04593816071737915,
+            "RZ": 2.2646013272372377e-16
+          }
+        },
+        {
+          "node": 4,
+          "dofs": {
+            "UX": -2.2469756593939705e-20,
+            "UY": 1.062635551156936e-16,
+            "UZ": 0.015594893227305957,
+            "RX": 5.688128564733673e-20,
+            "RY": -0.05824442300415446,
+            "RZ": 5.795845758876476e-16
+          }
+        },
+        {
+          "node": 5,
+          "dofs": {
+            "UX": -3.181762704383978e-20,
+            "UY": 1.4663299613501527e-16,
+            "UZ": 0.023574741076877435,
+            "RX": 8.842439215266834e-20,
+            "RY": -0.0690716290206543,
+            "RZ": 1.4934245630330245e-16
+          }
+        },
+        {
+          "node": 6,
+          "dofs": {
+            "UX": -3.5344298932574963e-20,
+            "UY": 1.4736044871759427e-16,
+            "UZ": 0.0328168428410023,
+            "RX": 9.827100173914191e-20,
+            "RY": -0.07844927941027184,
+            "RZ": -1.0539666918268024e-16
+          }
+        },
+        {
+          "node": 7,
+          "dofs": {
+            "UX": -5.3178872243100456e-20,
+            "UY": 1.1659453300324036e-16,
+            "UZ": 0.0431424450401988,
+            "RX": 1.087054306057566e-19,
+            "RY": -0.0864198605224535,
+            "RZ": -2.872879512988169e-16
+          }
+        },
+        {
+          "node": 8,
+          "dofs": {
+            "UX": -5.3680523789186953e-20,
+            "UY": 7.425433578825146e-17,
+            "UZ": 0.05437900192582045,
+            "RX": 1.081799586962505e-19,
+            "RY": -0.09304061258121461,
+            "RZ": -3.1353605429031384e-16
+          }
+        },
+        {
+          "node": 9,
+          "dofs": {
+            "UX": -5.897605505913542e-20,
+            "UY": 3.8845230044984055e-17,
+            "UZ": 0.0663621176770502,
+            "RX": 1.3551613996477045e-19,
+            "RY": -0.09838503300250617,
+            "RZ": -4.541982336127443e-16
+          }
+        },
+        {
+          "node": 10,
+          "dofs": {
+            "UX": -6.201729789256135e-20,
+            "UY": -2.4614169649498045e-17,
+            "UZ": 0.0789376604459902,
+            "RX": 1.4637606847030243e-19,
+            "RY": -0.1025441256798808,
+            "RZ": -3.6912016003572804e-16
+          }
+        },
+        {
+          "node": 11,
+          "dofs": {
+            "UX": -5.92870844492352e-20,
+            "UY": -5.528240987550108e-17,
+            "UZ": 0.09196401731517688,
+            "RX": 1.7713031567984006e-19,
+            "RY": -0.10562741011614231,
+            "RZ": -1.0945145193333197e-16
+          }
+        },
+        {
+          "node": 12,
+          "dofs": {
+            "UX": -6.958786168415369e-20,
+            "UY": -6.774607341983756e-17,
+            "UZ": 0.10531446116916357,
+            "RX": 1.7483871589934355e-19,
+            "RY": -0.10776370757270964,
+            "RZ": -9.00730518574779e-17
+          }
+        },
+        {
+          "node": 13,
+          "dofs": {
+            "UX": -6.778956006348054e-20,
+            "UY": -9.701193614949679e-17,
+            "UZ": 0.11887960284345986,
+            "RX": 2.070076955288754e-19,
+            "RY": -0.1091017248929775,
+            "RZ": -1.0652831561460911e-16
+          }
+        },
+        {
+          "node": 14,
+          "dofs": {
+            "UX": -6.28114079148108e-20,
+            "UY": -1.1266239031645794e-16,
+            "UZ": 0.1325699047212377,
+            "RX": 1.886310817362188e-19,
+            "RY": -0.109810460289088,
+            "RZ": -9.626348370310836e-17
+          }
+        },
+        {
+          "node": 15,
+          "dofs": {
+            "UX": -5.879169503051337e-20,
+            "UY": -1.2221025024648277e-16,
+            "UZ": 0.1463182352169402,
+            "RX": 1.8719797713411352e-19,
+            "RY": -0.11007945912524184,
+            "RZ": -9.926534507136552e-17
+          }
+        },
+        {
+          "node": 16,
+          "dofs": {
+            "UX": -7.36406444445835e-20,
+            "UY": -1.1369649874927148e-16,
+            "UZ": 0.16008244732791269,
+            "RX": 1.818428877974622e-19,
+            "RY": -0.11011895155143142,
+            "RZ": -1.0583603593803348e-16
+          }
+        }
+      ]
+    }
+  ],
+  "solver": {
+    "mode_count": 1,
+    "max_relative_residual": 1.5097736903046054e-11,
+    "relative_residuals": [
+      1.5097736903046054e-11
+    ],
+    "mass_orthogonality_error": 0.0,
+    "stiffness_diagonal_error": 1.8380543757272264e-14,
+    "modal_masses": [
+      0.9999999999999998
+    ],
+    "modal_stiffnesses": [
+      4156.436064014661
+    ],
+    "effective_modal_mass": {
+      "by_direction": {
+        "UX": [
+          4.7708129907500724e-35
+        ],
+        "UY": [
+          3.9840286493169734e-30
+        ],
+        "UZ": [
+          95.62763944695013
+        ]
+      },
+      "total_direction_mass": {
+        "UX": 149.5,
+        "UY": 149.87142857142857,
+        "UZ": 149.87142857142857
+      }
+    },
+    "dense_modal_max_dofs": 2000,
+    "dense_conversion_used": false,
+    "arpack": {
+      "shift_eigenvalue": 0.0,
+      "shift_hz": null,
+      "which": "LM",
+      "tolerance": 0.0,
+      "maxiter": null,
+      "ncv": null
+    },
+    "assembly": {
+      "stiffness": {
+        "matrix": "stiffness",
+        "chunk_size": 256,
+        "chunk_count": 1,
+        "element_count": 16,
+        "coefficient_entry_count": 2304,
+        "peak_chunk_entry_count": 2304,
+        "final_nnz": 430,
+        "spring_count": 0,
+        "concentrated_mass_count": 0
+      },
+      "mass": {
+        "matrix": "mass",
+        "chunk_size": 256,
+        "chunk_count": 1,
+        "element_count": 16,
+        "coefficient_entry_count": 2304,
+        "peak_chunk_entry_count": 2304,
+        "final_nnz": 430,
+        "spring_count": 0,
+        "concentrated_mass_count": 0
+      }
+    },
+    "dynamic_reduction": {
+      "strategy": "consistent_mass_static_drilling_condensation",
+      "candidate_drilling_dof_count": 0,
+      "condensed_drilling_dof_count": 0,
+      "retained_dof_count": 96,
+      "drilling_mass_tolerance": 1e-12,
+      "maximum_candidate_mass_row_ratio": 0.0,
+      "condensed_mass_coupling_ratio": 0.0,
+      "condensed_stiffness_nnz": 400,
+      "lazy_condensation": false
+    }
+  },
+  "mesh_report": {
+    "status": "PASS",
+    "errors": [],
+    "warnings": [],
+    "details": {
+      "node_count": 17,
+      "element_count": 16,
+      "material_count": 1,
+      "fixed_condition_count": 1,
+      "load_count": 0,
+      "nodal_load_count": 0,
+      "distributed_load_count": 0,
+      "spring_count": 0,
+      "concentrated_mass_count": 0,
+      "multipoint_constraint_count": 0,
+      "rbe2_count": 0,
+      "rbe3_count": 0,
+      "contact_count": 0,
+      "element_types": {
+        "BEAM2": 16
+      },
+      "quality_thresholds": {
+        "tet_min_signed_volume": 1e-14,
+        "tet_min_quality": 0.05,
+        "tet_min_radius_ratio": 0.05,
+        "tet_max_aspect_ratio": 20.0,
+        "tet_min_relative_volume": 0.0001,
+        "tet10_max_mid_edge_deviation_ratio": 0.05,
+        "tet10_min_sampled_jacobian": 1e-14,
+        "tet10_min_jacobian_ratio": 0.05,
+        "mitc4_max_aspect_ratio": 10.0,
+        "mitc4_max_planarity_ratio": 0.001,
+        "mitc4_min_angle_degrees": 30.0,
+        "mitc4_max_angle_degrees": 150.0,
+        "mitc4_max_warpage_degrees": 5.0,
+        "mitc3_max_aspect_ratio": 10.0,
+        "mitc3_min_angle_degrees": 20.0,
+        "mitc3_max_angle_degrees": 140.0,
+        "mitc3_min_relative_area": 1e-08
+      },
+      "element_quality": [
+        {
+          "index": 0,
+          "type": "BEAM2",
+          "length": 0.125,
+          "quality_status": "PASS",
+          "quality_warnings": []
+        },
+        {
+          "index": 1,
+          "type": "BEAM2",
+          "length": 0.125,
+          "quality_status": "PASS",
+          "quality_warnings": []
+        },
+        {
+          "index": 2,
+          "type": "BEAM2",
+          "length": 0.125,
+          "quality_status": "PASS",
+          "quality_warnings": []
+        },
+        {
+          "index": 3,
+          "type": "BEAM2",
+          "length": 0.125,
+          "quality_status": "PASS",
+          "quality_warnings": []
+        },
+        {
+          "index": 4,
+          "type": "BEAM2",
+          "length": 0.125,
+          "quality_status": "PASS",
+          "quality_warnings": []
+        },
+        {
+          "index": 5,
+          "type": "BEAM2",
+          "length": 0.125,
+          "quality_status": "PASS",
+          "quality_warnings": []
+        },
+        {
+          "index": 6,
+          "type": "BEAM2",
+          "length": 0.125,
+          "quality_status": "PASS",
+          "quality_warnings": []
+        },
+        {
+          "index": 7,
+          "type": "BEAM2",
+          "length": 0.125,
+          "quality_status": "PASS",
+          "quality_warnings": []
+        },
+        {
+          "index": 8,
+          "type": "BEAM2",
+          "length": 0.125,
+          "quality_status": "PASS",
+          "quality_warnings": []
+        },
+        {
+          "index": 9,
+          "type": "BEAM2",
+          "length": 0.125,
+          "quality_status": "PASS",
+          "quality_warnings": []
+        },
+        {
+          "index": 10,
+          "type": "BEAM2",
+          "length": 0.125,
+          "quality_status": "PASS",
+          "quality_warnings": []
+        },
+        {
+          "index": 11,
+          "type": "BEAM2",
+          "length": 0.125,
+          "quality_status": "PASS",
+          "quality_warnings": []
+        },
+        {
+          "index": 12,
+          "type": "BEAM2",
+          "length": 0.125,
+          "quality_status": "PASS",
+          "quality_warnings": []
+        },
+        {
+          "index": 13,
+          "type": "BEAM2",
+          "length": 0.125,
+          "quality_status": "PASS",
+          "quality_warnings": []
+        },
+        {
+          "index": 14,
+          "type": "BEAM2",
+          "length": 0.125,
+          "quality_status": "PASS",
+          "quality_warnings": []
+        },
+        {
+          "index": 15,
+          "type": "BEAM2",
+          "length": 0.125,
+          "quality_status": "PASS",
+          "quality_warnings": []
+        }
+      ],
+      "component_count": 1,
+      "components": [
+        {
+          "index": 0,
+          "nodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+          ],
+          "elements": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "element_types": {
+            "BEAM2": 16
+          },
+          "fixed_dof_count": 6,
+          "fixed_translation_dof_count": 3,
+          "load_count": 0,
+          "fixed_translation_node_count": 1
+        }
+      ],
+      "isolated_nodes": [],
+      "mechanical_rank": {
+        "checked": true,
+        "free_dof_count": 96,
+        "rank": 96,
+        "zero_mode_count": 0,
+        "eigenvalue_min": 16800.255591708705,
+        "eigenvalue_max": 66592804228.02699,
+        "tolerance": 6.659280422802699
+      },
+      "error_count": 0,
+      "warning_count": 0
+    }
+  },
+  "audit": {
+    "version": 1,
+    "purpose": "white_box_solver_audit",
+    "analysis": "modal",
+    "method": "eigsh",
+    "node_count": 17,
+    "element_count": 16,
+    "ndof": 102,
+    "mesh_status": "PASS",
+    "mesh_errors": [],
+    "mesh_warnings": [],
+    "mesh_details": {
+      "node_count": 17,
+      "element_count": 16,
+      "material_count": 1,
+      "fixed_condition_count": 1,
+      "load_count": 0,
+      "nodal_load_count": 0,
+      "distributed_load_count": 0,
+      "spring_count": 0,
+      "concentrated_mass_count": 0,
+      "multipoint_constraint_count": 0,
+      "rbe2_count": 0,
+      "rbe3_count": 0,
+      "contact_count": 0,
+      "element_types": {
+        "BEAM2": 16
+      },
+      "quality_thresholds": {
+        "tet_min_signed_volume": 1e-14,
+        "tet_min_quality": 0.05,
+        "tet_min_radius_ratio": 0.05,
+        "tet_max_aspect_ratio": 20.0,
+        "tet_min_relative_volume": 0.0001,
+        "tet10_max_mid_edge_deviation_ratio": 0.05,
+        "tet10_min_sampled_jacobian": 1e-14,
+        "tet10_min_jacobian_ratio": 0.05,
+        "mitc4_max_aspect_ratio": 10.0,
+        "mitc4_max_planarity_ratio": 0.001,
+        "mitc4_min_angle_degrees": 30.0,
+        "mitc4_max_angle_degrees": 150.0,
+        "mitc4_max_warpage_degrees": 5.0,
+        "mitc3_max_aspect_ratio": 10.0,
+        "mitc3_min_angle_degrees": 20.0,
+        "mitc3_max_angle_degrees": 140.0,
+        "mitc3_min_relative_area": 1e-08
+      },
+      "element_quality": [
+        {
+          "index": 0,
+          "type": "BEAM2",
+          "length": 0.125,
+          "quality_status": "PASS",
+          "quality_warnings": []
+        },
+        {
+          "index": 1,
+          "type": "BEAM2",
+          "length": 0.125,
+          "quality_status": "PASS",
+          "quality_warnings": []
+        },
+        {
+          "index": 2,
+          "type": "BEAM2",
+          "length": 0.125,
+          "quality_status": "PASS",
+          "quality_warnings": []
+        },
+        {
+          "index": 3,
+          "type": "BEAM2",
+          "length": 0.125,
+          "quality_status": "PASS",
+          "quality_warnings": []
+        },
+        {
+          "index": 4,
+          "type": "BEAM2",
+          "length": 0.125,
+          "quality_status": "PASS",
+          "quality_warnings": []
+        },
+        {
+          "index": 5,
+          "type": "BEAM2",
+          "length": 0.125,
+          "quality_status": "PASS",
+          "quality_warnings": []
+        },
+        {
+          "index": 6,
+          "type": "BEAM2",
+          "length": 0.125,
+          "quality_status": "PASS",
+          "quality_warnings": []
+        },
+        {
+          "index": 7,
+          "type": "BEAM2",
+          "length": 0.125,
+          "quality_status": "PASS",
+          "quality_warnings": []
+        },
+        {
+          "index": 8,
+          "type": "BEAM2",
+          "length": 0.125,
+          "quality_status": "PASS",
+          "quality_warnings": []
+        },
+        {
+          "index": 9,
+          "type": "BEAM2",
+          "length": 0.125,
+          "quality_status": "PASS",
+          "quality_warnings": []
+        },
+        {
+          "index": 10,
+          "type": "BEAM2",
+          "length": 0.125,
+          "quality_status": "PASS",
+          "quality_warnings": []
+        },
+        {
+          "index": 11,
+          "type": "BEAM2",
+          "length": 0.125,
+          "quality_status": "PASS",
+          "quality_warnings": []
+        },
+        {
+          "index": 12,
+          "type": "BEAM2",
+          "length": 0.125,
+          "quality_status": "PASS",
+          "quality_warnings": []
+        },
+        {
+          "index": 13,
+          "type": "BEAM2",
+          "length": 0.125,
+          "quality_status": "PASS",
+          "quality_warnings": []
+        },
+        {
+          "index": 14,
+          "type": "BEAM2",
+          "length": 0.125,
+          "quality_status": "PASS",
+          "quality_warnings": []
+        },
+        {
+          "index": 15,
+          "type": "BEAM2",
+          "length": 0.125,
+          "quality_status": "PASS",
+          "quality_warnings": []
+        }
+      ],
+      "component_count": 1,
+      "components": [
+        {
+          "index": 0,
+          "nodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+          ],
+          "elements": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "element_types": {
+            "BEAM2": 16
+          },
+          "fixed_dof_count": 6,
+          "fixed_translation_dof_count": 3,
+          "load_count": 0,
+          "fixed_translation_node_count": 1
+        }
+      ],
+      "isolated_nodes": [],
+      "mechanical_rank": {
+        "checked": true,
+        "free_dof_count": 96,
+        "rank": 96,
+        "zero_mode_count": 0,
+        "eigenvalue_min": 16800.255591708705,
+        "eigenvalue_max": 66592804228.02699,
+        "tolerance": 6.659280422802699
+      },
+      "error_count": 0,
+      "warning_count": 0
+    },
+    "element_types": {
+      "BEAM2": 16
+    },
+    "material_names": [
+      "beam"
+    ],
+    "dof_map": [
+      {
+        "node": 0,
+        "dofs": {
+          "UX": 0,
+          "UY": 1,
+          "UZ": 2,
+          "RX": 3,
+          "RY": 4,
+          "RZ": 5
+        }
+      },
+      {
+        "node": 1,
+        "dofs": {
+          "UX": 6,
+          "UY": 7,
+          "UZ": 8,
+          "RX": 9,
+          "RY": 10,
+          "RZ": 11
+        }
+      },
+      {
+        "node": 2,
+        "dofs": {
+          "UX": 12,
+          "UY": 13,
+          "UZ": 14,
+          "RX": 15,
+          "RY": 16,
+          "RZ": 17
+        }
+      },
+      {
+        "node": 3,
+        "dofs": {
+          "UX": 18,
+          "UY": 19,
+          "UZ": 20,
+          "RX": 21,
+          "RY": 22,
+          "RZ": 23
+        }
+      },
+      {
+        "node": 4,
+        "dofs": {
+          "UX": 24,
+          "UY": 25,
+          "UZ": 26,
+          "RX": 27,
+          "RY": 28,
+          "RZ": 29
+        }
+      },
+      {
+        "node": 5,
+        "dofs": {
+          "UX": 30,
+          "UY": 31,
+          "UZ": 32,
+          "RX": 33,
+          "RY": 34,
+          "RZ": 35
+        }
+      },
+      {
+        "node": 6,
+        "dofs": {
+          "UX": 36,
+          "UY": 37,
+          "UZ": 38,
+          "RX": 39,
+          "RY": 40,
+          "RZ": 41
+        }
+      },
+      {
+        "node": 7,
+        "dofs": {
+          "UX": 42,
+          "UY": 43,
+          "UZ": 44,
+          "RX": 45,
+          "RY": 46,
+          "RZ": 47
+        }
+      },
+      {
+        "node": 8,
+        "dofs": {
+          "UX": 48,
+          "UY": 49,
+          "UZ": 50,
+          "RX": 51,
+          "RY": 52,
+          "RZ": 53
+        }
+      },
+      {
+        "node": 9,
+        "dofs": {
+          "UX": 54,
+          "UY": 55,
+          "UZ": 56,
+          "RX": 57,
+          "RY": 58,
+          "RZ": 59
+        }
+      },
+      {
+        "node": 10,
+        "dofs": {
+          "UX": 60,
+          "UY": 61,
+          "UZ": 62,
+          "RX": 63,
+          "RY": 64,
+          "RZ": 65
+        }
+      },
+      {
+        "node": 11,
+        "dofs": {
+          "UX": 66,
+          "UY": 67,
+          "UZ": 68,
+          "RX": 69,
+          "RY": 70,
+          "RZ": 71
+        }
+      },
+      {
+        "node": 12,
+        "dofs": {
+          "UX": 72,
+          "UY": 73,
+          "UZ": 74,
+          "RX": 75,
+          "RY": 76,
+          "RZ": 77
+        }
+      },
+      {
+        "node": 13,
+        "dofs": {
+          "UX": 78,
+          "UY": 79,
+          "UZ": 80,
+          "RX": 81,
+          "RY": 82,
+          "RZ": 83
+        }
+      },
+      {
+        "node": 14,
+        "dofs": {
+          "UX": 84,
+          "UY": 85,
+          "UZ": 86,
+          "RX": 87,
+          "RY": 88,
+          "RZ": 89
+        }
+      },
+      {
+        "node": 15,
+        "dofs": {
+          "UX": 90,
+          "UY": 91,
+          "UZ": 92,
+          "RX": 93,
+          "RY": 94,
+          "RZ": 95
+        }
+      },
+      {
+        "node": 16,
+        "dofs": {
+          "UX": 96,
+          "UY": 97,
+          "UZ": 98,
+          "RX": 99,
+          "RY": 100,
+          "RZ": 101
+        }
+      }
+    ],
+    "element_dofs": [
+      {
+        "index": 0,
+        "type": "BEAM2",
+        "nodes": [
+          0,
+          1
+        ],
+        "material": "beam",
+        "dofs_per_node": [
+          "UX",
+          "UY",
+          "UZ",
+          "RX",
+          "RY",
+          "RZ"
+        ],
+        "global_dof_indices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ]
+      },
+      {
+        "index": 1,
+        "type": "BEAM2",
+        "nodes": [
+          1,
+          2
+        ],
+        "material": "beam",
+        "dofs_per_node": [
+          "UX",
+          "UY",
+          "UZ",
+          "RX",
+          "RY",
+          "RZ"
+        ],
+        "global_dof_indices": [
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ]
+      },
+      {
+        "index": 2,
+        "type": "BEAM2",
+        "nodes": [
+          2,
+          3
+        ],
+        "material": "beam",
+        "dofs_per_node": [
+          "UX",
+          "UY",
+          "UZ",
+          "RX",
+          "RY",
+          "RZ"
+        ],
+        "global_dof_indices": [
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ]
+      },
+      {
+        "index": 3,
+        "type": "BEAM2",
+        "nodes": [
+          3,
+          4
+        ],
+        "material": "beam",
+        "dofs_per_node": [
+          "UX",
+          "UY",
+          "UZ",
+          "RX",
+          "RY",
+          "RZ"
+        ],
+        "global_dof_indices": [
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29
+        ]
+      },
+      {
+        "index": 4,
+        "type": "BEAM2",
+        "nodes": [
+          4,
+          5
+        ],
+        "material": "beam",
+        "dofs_per_node": [
+          "UX",
+          "UY",
+          "UZ",
+          "RX",
+          "RY",
+          "RZ"
+        ],
+        "global_dof_indices": [
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35
+        ]
+      },
+      {
+        "index": 5,
+        "type": "BEAM2",
+        "nodes": [
+          5,
+          6
+        ],
+        "material": "beam",
+        "dofs_per_node": [
+          "UX",
+          "UY",
+          "UZ",
+          "RX",
+          "RY",
+          "RZ"
+        ],
+        "global_dof_indices": [
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41
+        ]
+      },
+      {
+        "index": 6,
+        "type": "BEAM2",
+        "nodes": [
+          6,
+          7
+        ],
+        "material": "beam",
+        "dofs_per_node": [
+          "UX",
+          "UY",
+          "UZ",
+          "RX",
+          "RY",
+          "RZ"
+        ],
+        "global_dof_indices": [
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47
+        ]
+      },
+      {
+        "index": 7,
+        "type": "BEAM2",
+        "nodes": [
+          7,
+          8
+        ],
+        "material": "beam",
+        "dofs_per_node": [
+          "UX",
+          "UY",
+          "UZ",
+          "RX",
+          "RY",
+          "RZ"
+        ],
+        "global_dof_indices": [
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53
+        ]
+      },
+      {
+        "index": 8,
+        "type": "BEAM2",
+        "nodes": [
+          8,
+          9
+        ],
+        "material": "beam",
+        "dofs_per_node": [
+          "UX",
+          "UY",
+          "UZ",
+          "RX",
+          "RY",
+          "RZ"
+        ],
+        "global_dof_indices": [
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59
+        ]
+      },
+      {
+        "index": 9,
+        "type": "BEAM2",
+        "nodes": [
+          9,
+          10
+        ],
+        "material": "beam",
+        "dofs_per_node": [
+          "UX",
+          "UY",
+          "UZ",
+          "RX",
+          "RY",
+          "RZ"
+        ],
+        "global_dof_indices": [
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65
+        ]
+      },
+      {
+        "index": 10,
+        "type": "BEAM2",
+        "nodes": [
+          10,
+          11
+        ],
+        "material": "beam",
+        "dofs_per_node": [
+          "UX",
+          "UY",
+          "UZ",
+          "RX",
+          "RY",
+          "RZ"
+        ],
+        "global_dof_indices": [
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71
+        ]
+      },
+      {
+        "index": 11,
+        "type": "BEAM2",
+        "nodes": [
+          11,
+          12
+        ],
+        "material": "beam",
+        "dofs_per_node": [
+          "UX",
+          "UY",
+          "UZ",
+          "RX",
+          "RY",
+          "RZ"
+        ],
+        "global_dof_indices": [
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77
+        ]
+      },
+      {
+        "index": 12,
+        "type": "BEAM2",
+        "nodes": [
+          12,
+          13
+        ],
+        "material": "beam",
+        "dofs_per_node": [
+          "UX",
+          "UY",
+          "UZ",
+          "RX",
+          "RY",
+          "RZ"
+        ],
+        "global_dof_indices": [
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83
+        ]
+      },
+      {
+        "index": 13,
+        "type": "BEAM2",
+        "nodes": [
+          13,
+          14
+        ],
+        "material": "beam",
+        "dofs_per_node": [
+          "UX",
+          "UY",
+          "UZ",
+          "RX",
+          "RY",
+          "RZ"
+        ],
+        "global_dof_indices": [
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89
+        ]
+      },
+      {
+        "index": 14,
+        "type": "BEAM2",
+        "nodes": [
+          14,
+          15
+        ],
+        "material": "beam",
+        "dofs_per_node": [
+          "UX",
+          "UY",
+          "UZ",
+          "RX",
+          "RY",
+          "RZ"
+        ],
+        "global_dof_indices": [
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95
+        ]
+      },
+      {
+        "index": 15,
+        "type": "BEAM2",
+        "nodes": [
+          15,
+          16
+        ],
+        "material": "beam",
+        "dofs_per_node": [
+          "UX",
+          "UY",
+          "UZ",
+          "RX",
+          "RY",
+          "RZ"
+        ],
+        "global_dof_indices": [
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100,
+          101
+        ]
+      }
+    ],
+    "boundary": {
+      "fixed_dof_count": 6,
+      "free_dof_count": 96,
+      "fixed_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "free_indices": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101
+      ]
+    },
+    "vectors": [],
+    "load_assembly": {},
+    "matrices": [
+      {
+        "name": "stiffness",
+        "shape": [
+          102,
+          102
+        ],
+        "nnz": 430,
+        "density": 0.041330257593233374,
+        "data_norm": 165213453812.6677,
+        "symmetry_relative_error": 0.0,
+        "is_symmetric": true,
+        "diagonal_min": 3230769.2307692314,
+        "diagonal_max": 33600000000.0,
+        "rank_estimate": 96,
+        "eigenvalue_min": -1.7158703278014945e-06,
+        "eigenvalue_max": 66627896149.37908,
+        "condition_estimate": 632015.2735135906,
+        "positive_definite_estimate": false
+      },
+      {
+        "name": "mass",
+        "shape": [
+          102,
+          102
+        ],
+        "nnz": 430,
+        "density": 0.041330257593233374,
+        "data_norm": 49.66277497947329,
+        "symmetry_relative_error": 0.0,
+        "is_symmetric": true,
+        "diagonal_min": 0.001625,
+        "diagonal_max": 7.242857142857143,
+        "rank_estimate": 102,
+        "eigenvalue_min": 0.0009321440784276324,
+        "eigenvalue_max": 9.70478542856935,
+        "condition_estimate": 10411.250420578397,
+        "positive_definite_estimate": true
+      },
+      {
+        "name": "reduced_stiffness",
+        "shape": [
+          96,
+          96
+        ],
+        "nnz": 400,
+        "density": 0.043402777777777776,
+        "data_norm": 162555318836.35272,
+        "symmetry_relative_error": 0.0,
+        "is_symmetric": true,
+        "diagonal_min": 3230769.2307692314,
+        "diagonal_max": 33600000000.0,
+        "rank_estimate": 96,
+        "eigenvalue_min": 16800.255591708705,
+        "eigenvalue_max": 66592804228.02699,
+        "condition_estimate": 3963797.090140224,
+        "positive_definite_estimate": true
+      },
+      {
+        "name": "reduced_mass",
+        "shape": [
+          96,
+          96
+        ],
+        "nnz": 400,
+        "density": 0.043402777777777776,
+        "data_norm": 49.17320928380492,
+        "symmetry_relative_error": 0.0,
+        "is_symmetric": true,
+        "diagonal_min": 0.001625,
+        "diagonal_max": 7.242857142857143,
+        "rank_estimate": 96,
+        "eigenvalue_min": 0.0009321440784292926,
+        "eigenvalue_max": 9.703350045112035,
+        "condition_estimate": 10409.71054760402,
+        "positive_definite_estimate": true
+      }
+    ],
+    "element_audits": [
+      {
+        "index": 0,
+        "type": "BEAM2",
+        "nodes": [
+          0,
+          1
+        ],
+        "material": "beam",
+        "material_data": {
+          "A": 0.01,
+          "E": 210000000000.0,
+          "Iy": 2e-06,
+          "Iz": 3e-06,
+          "J": 5e-06,
+          "density": 7800.0,
+          "nu": 0.3,
+          "reference_vector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "type": "beam_isotropic"
+        },
+        "dofs_per_node": [
+          "UX",
+          "UY",
+          "UZ",
+          "RX",
+          "RY",
+          "RZ"
+        ],
+        "global_dof_indices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "geometry": {
+          "centroid": [
+            0.0625,
+            0.0,
+            0.0
+          ],
+          "bounding_box_min": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "bounding_box_max": [
+            0.125,
+            0.0,
+            0.0
+          ],
+          "length": 0.125,
+          "edge_length_min": 0.125,
+          "edge_length_max": 0.125
+        },
+        "local_dofs": [
+          {
+            "local_index": 0,
+            "node": 0,
+            "dof": "UX",
+            "global_index": 0
+          },
+          {
+            "local_index": 1,
+            "node": 0,
+            "dof": "UY",
+            "global_index": 1
+          },
+          {
+            "local_index": 2,
+            "node": 0,
+            "dof": "UZ",
+            "global_index": 2
+          },
+          {
+            "local_index": 3,
+            "node": 0,
+            "dof": "RX",
+            "global_index": 3
+          },
+          {
+            "local_index": 4,
+            "node": 0,
+            "dof": "RY",
+            "global_index": 4
+          },
+          {
+            "local_index": 5,
+            "node": 0,
+            "dof": "RZ",
+            "global_index": 5
+          },
+          {
+            "local_index": 6,
+            "node": 1,
+            "dof": "UX",
+            "global_index": 6
+          },
+          {
+            "local_index": 7,
+            "node": 1,
+            "dof": "UY",
+            "global_index": 7
+          },
+          {
+            "local_index": 8,
+            "node": 1,
+            "dof": "UZ",
+            "global_index": 8
+          },
+          {
+            "local_index": 9,
+            "node": 1,
+            "dof": "RX",
+            "global_index": 9
+          },
+          {
+            "local_index": 10,
+            "node": 1,
+            "dof": "RY",
+            "global_index": 10
+          },
+          {
+            "local_index": 11,
+            "node": 1,
+            "dof": "RZ",
+            "global_index": 11
+          }
+        ],
+        "assembly_entries": [],
+        "matrices": [
+          {
+            "name": "local_stiffness",
+            "shape": [
+              12,
+              12
+            ],
+            "nnz": 40,
+            "density": 0.2777777777777778,
+            "data_norm": 34083305261.94544,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 3230769.2307692314,
+            "diagonal_max": 16800000000.0,
+            "rank_estimate": 6,
+            "eigenvalue_min": -2.7142909145282643e-07,
+            "eigenvalue_max": 33600000000.0,
+            "condition_estimate": 5199.999999999948,
+            "positive_definite_estimate": false
+          },
+          {
+            "name": "local_mass",
+            "shape": [
+              12,
+              12
+            ],
+            "nnz": 40,
+            "density": 0.2777777777777778,
+            "data_norm": 9.230114405887496,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 0.001625,
+            "diagonal_max": 3.6214285714285714,
+            "rank_estimate": 12,
+            "eigenvalue_min": 0.0007478524447972345,
+            "eigenvalue_max": 4.877116280578095,
+            "condition_estimate": 6521.49540261305,
+            "positive_definite_estimate": true
+          }
+        ],
+        "vectors": []
+      },
+      {
+        "index": 1,
+        "type": "BEAM2",
+        "nodes": [
+          1,
+          2
+        ],
+        "material": "beam",
+        "material_data": {
+          "A": 0.01,
+          "E": 210000000000.0,
+          "Iy": 2e-06,
+          "Iz": 3e-06,
+          "J": 5e-06,
+          "density": 7800.0,
+          "nu": 0.3,
+          "reference_vector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "type": "beam_isotropic"
+        },
+        "dofs_per_node": [
+          "UX",
+          "UY",
+          "UZ",
+          "RX",
+          "RY",
+          "RZ"
+        ],
+        "global_dof_indices": [
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "geometry": {
+          "centroid": [
+            0.1875,
+            0.0,
+            0.0
+          ],
+          "bounding_box_min": [
+            0.125,
+            0.0,
+            0.0
+          ],
+          "bounding_box_max": [
+            0.25,
+            0.0,
+            0.0
+          ],
+          "length": 0.125,
+          "edge_length_min": 0.125,
+          "edge_length_max": 0.125
+        },
+        "local_dofs": [
+          {
+            "local_index": 0,
+            "node": 1,
+            "dof": "UX",
+            "global_index": 6
+          },
+          {
+            "local_index": 1,
+            "node": 1,
+            "dof": "UY",
+            "global_index": 7
+          },
+          {
+            "local_index": 2,
+            "node": 1,
+            "dof": "UZ",
+            "global_index": 8
+          },
+          {
+            "local_index": 3,
+            "node": 1,
+            "dof": "RX",
+            "global_index": 9
+          },
+          {
+            "local_index": 4,
+            "node": 1,
+            "dof": "RY",
+            "global_index": 10
+          },
+          {
+            "local_index": 5,
+            "node": 1,
+            "dof": "RZ",
+            "global_index": 11
+          },
+          {
+            "local_index": 6,
+            "node": 2,
+            "dof": "UX",
+            "global_index": 12
+          },
+          {
+            "local_index": 7,
+            "node": 2,
+            "dof": "UY",
+            "global_index": 13
+          },
+          {
+            "local_index": 8,
+            "node": 2,
+            "dof": "UZ",
+            "global_index": 14
+          },
+          {
+            "local_index": 9,
+            "node": 2,
+            "dof": "RX",
+            "global_index": 15
+          },
+          {
+            "local_index": 10,
+            "node": 2,
+            "dof": "RY",
+            "global_index": 16
+          },
+          {
+            "local_index": 11,
+            "node": 2,
+            "dof": "RZ",
+            "global_index": 17
+          }
+        ],
+        "assembly_entries": [],
+        "matrices": [
+          {
+            "name": "local_stiffness",
+            "shape": [
+              12,
+              12
+            ],
+            "nnz": 40,
+            "density": 0.2777777777777778,
+            "data_norm": 34083305261.94544,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 3230769.2307692314,
+            "diagonal_max": 16800000000.0,
+            "rank_estimate": 6,
+            "eigenvalue_min": -2.7142909145282643e-07,
+            "eigenvalue_max": 33600000000.0,
+            "condition_estimate": 5199.999999999948,
+            "positive_definite_estimate": false
+          },
+          {
+            "name": "local_mass",
+            "shape": [
+              12,
+              12
+            ],
+            "nnz": 40,
+            "density": 0.2777777777777778,
+            "data_norm": 9.230114405887496,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 0.001625,
+            "diagonal_max": 3.6214285714285714,
+            "rank_estimate": 12,
+            "eigenvalue_min": 0.0007478524447972345,
+            "eigenvalue_max": 4.877116280578095,
+            "condition_estimate": 6521.49540261305,
+            "positive_definite_estimate": true
+          }
+        ],
+        "vectors": []
+      },
+      {
+        "index": 2,
+        "type": "BEAM2",
+        "nodes": [
+          2,
+          3
+        ],
+        "material": "beam",
+        "material_data": {
+          "A": 0.01,
+          "E": 210000000000.0,
+          "Iy": 2e-06,
+          "Iz": 3e-06,
+          "J": 5e-06,
+          "density": 7800.0,
+          "nu": 0.3,
+          "reference_vector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "type": "beam_isotropic"
+        },
+        "dofs_per_node": [
+          "UX",
+          "UY",
+          "UZ",
+          "RX",
+          "RY",
+          "RZ"
+        ],
+        "global_dof_indices": [
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "geometry": {
+          "centroid": [
+            0.3125,
+            0.0,
+            0.0
+          ],
+          "bounding_box_min": [
+            0.25,
+            0.0,
+            0.0
+          ],
+          "bounding_box_max": [
+            0.375,
+            0.0,
+            0.0
+          ],
+          "length": 0.125,
+          "edge_length_min": 0.125,
+          "edge_length_max": 0.125
+        },
+        "local_dofs": [
+          {
+            "local_index": 0,
+            "node": 2,
+            "dof": "UX",
+            "global_index": 12
+          },
+          {
+            "local_index": 1,
+            "node": 2,
+            "dof": "UY",
+            "global_index": 13
+          },
+          {
+            "local_index": 2,
+            "node": 2,
+            "dof": "UZ",
+            "global_index": 14
+          },
+          {
+            "local_index": 3,
+            "node": 2,
+            "dof": "RX",
+            "global_index": 15
+          },
+          {
+            "local_index": 4,
+            "node": 2,
+            "dof": "RY",
+            "global_index": 16
+          },
+          {
+            "local_index": 5,
+            "node": 2,
+            "dof": "RZ",
+            "global_index": 17
+          },
+          {
+            "local_index": 6,
+            "node": 3,
+            "dof": "UX",
+            "global_index": 18
+          },
+          {
+            "local_index": 7,
+            "node": 3,
+            "dof": "UY",
+            "global_index": 19
+          },
+          {
+            "local_index": 8,
+            "node": 3,
+            "dof": "UZ",
+            "global_index": 20
+          },
+          {
+            "local_index": 9,
+            "node": 3,
+            "dof": "RX",
+            "global_index": 21
+          },
+          {
+            "local_index": 10,
+            "node": 3,
+            "dof": "RY",
+            "global_index": 22
+          },
+          {
+            "local_index": 11,
+            "node": 3,
+            "dof": "RZ",
+            "global_index": 23
+          }
+        ],
+        "assembly_entries": [],
+        "matrices": [
+          {
+            "name": "local_stiffness",
+            "shape": [
+              12,
+              12
+            ],
+            "nnz": 40,
+            "density": 0.2777777777777778,
+            "data_norm": 34083305261.94544,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 3230769.2307692314,
+            "diagonal_max": 16800000000.0,
+            "rank_estimate": 6,
+            "eigenvalue_min": -2.7142909145282643e-07,
+            "eigenvalue_max": 33600000000.0,
+            "condition_estimate": 5199.999999999948,
+            "positive_definite_estimate": false
+          },
+          {
+            "name": "local_mass",
+            "shape": [
+              12,
+              12
+            ],
+            "nnz": 40,
+            "density": 0.2777777777777778,
+            "data_norm": 9.230114405887496,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 0.001625,
+            "diagonal_max": 3.6214285714285714,
+            "rank_estimate": 12,
+            "eigenvalue_min": 0.0007478524447972345,
+            "eigenvalue_max": 4.877116280578095,
+            "condition_estimate": 6521.49540261305,
+            "positive_definite_estimate": true
+          }
+        ],
+        "vectors": []
+      },
+      {
+        "index": 3,
+        "type": "BEAM2",
+        "nodes": [
+          3,
+          4
+        ],
+        "material": "beam",
+        "material_data": {
+          "A": 0.01,
+          "E": 210000000000.0,
+          "Iy": 2e-06,
+          "Iz": 3e-06,
+          "J": 5e-06,
+          "density": 7800.0,
+          "nu": 0.3,
+          "reference_vector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "type": "beam_isotropic"
+        },
+        "dofs_per_node": [
+          "UX",
+          "UY",
+          "UZ",
+          "RX",
+          "RY",
+          "RZ"
+        ],
+        "global_dof_indices": [
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29
+        ],
+        "geometry": {
+          "centroid": [
+            0.4375,
+            0.0,
+            0.0
+          ],
+          "bounding_box_min": [
+            0.375,
+            0.0,
+            0.0
+          ],
+          "bounding_box_max": [
+            0.5,
+            0.0,
+            0.0
+          ],
+          "length": 0.125,
+          "edge_length_min": 0.125,
+          "edge_length_max": 0.125
+        },
+        "local_dofs": [
+          {
+            "local_index": 0,
+            "node": 3,
+            "dof": "UX",
+            "global_index": 18
+          },
+          {
+            "local_index": 1,
+            "node": 3,
+            "dof": "UY",
+            "global_index": 19
+          },
+          {
+            "local_index": 2,
+            "node": 3,
+            "dof": "UZ",
+            "global_index": 20
+          },
+          {
+            "local_index": 3,
+            "node": 3,
+            "dof": "RX",
+            "global_index": 21
+          },
+          {
+            "local_index": 4,
+            "node": 3,
+            "dof": "RY",
+            "global_index": 22
+          },
+          {
+            "local_index": 5,
+            "node": 3,
+            "dof": "RZ",
+            "global_index": 23
+          },
+          {
+            "local_index": 6,
+            "node": 4,
+            "dof": "UX",
+            "global_index": 24
+          },
+          {
+            "local_index": 7,
+            "node": 4,
+            "dof": "UY",
+            "global_index": 25
+          },
+          {
+            "local_index": 8,
+            "node": 4,
+            "dof": "UZ",
+            "global_index": 26
+          },
+          {
+            "local_index": 9,
+            "node": 4,
+            "dof": "RX",
+            "global_index": 27
+          },
+          {
+            "local_index": 10,
+            "node": 4,
+            "dof": "RY",
+            "global_index": 28
+          },
+          {
+            "local_index": 11,
+            "node": 4,
+            "dof": "RZ",
+            "global_index": 29
+          }
+        ],
+        "assembly_entries": [],
+        "matrices": [
+          {
+            "name": "local_stiffness",
+            "shape": [
+              12,
+              12
+            ],
+            "nnz": 40,
+            "density": 0.2777777777777778,
+            "data_norm": 34083305261.94544,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 3230769.2307692314,
+            "diagonal_max": 16800000000.0,
+            "rank_estimate": 6,
+            "eigenvalue_min": -2.7142909145282643e-07,
+            "eigenvalue_max": 33600000000.0,
+            "condition_estimate": 5199.999999999948,
+            "positive_definite_estimate": false
+          },
+          {
+            "name": "local_mass",
+            "shape": [
+              12,
+              12
+            ],
+            "nnz": 40,
+            "density": 0.2777777777777778,
+            "data_norm": 9.230114405887496,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 0.001625,
+            "diagonal_max": 3.6214285714285714,
+            "rank_estimate": 12,
+            "eigenvalue_min": 0.0007478524447972345,
+            "eigenvalue_max": 4.877116280578095,
+            "condition_estimate": 6521.49540261305,
+            "positive_definite_estimate": true
+          }
+        ],
+        "vectors": []
+      },
+      {
+        "index": 4,
+        "type": "BEAM2",
+        "nodes": [
+          4,
+          5
+        ],
+        "material": "beam",
+        "material_data": {
+          "A": 0.01,
+          "E": 210000000000.0,
+          "Iy": 2e-06,
+          "Iz": 3e-06,
+          "J": 5e-06,
+          "density": 7800.0,
+          "nu": 0.3,
+          "reference_vector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "type": "beam_isotropic"
+        },
+        "dofs_per_node": [
+          "UX",
+          "UY",
+          "UZ",
+          "RX",
+          "RY",
+          "RZ"
+        ],
+        "global_dof_indices": [
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35
+        ],
+        "geometry": {
+          "centroid": [
+            0.5625,
+            0.0,
+            0.0
+          ],
+          "bounding_box_min": [
+            0.5,
+            0.0,
+            0.0
+          ],
+          "bounding_box_max": [
+            0.625,
+            0.0,
+            0.0
+          ],
+          "length": 0.125,
+          "edge_length_min": 0.125,
+          "edge_length_max": 0.125
+        },
+        "local_dofs": [
+          {
+            "local_index": 0,
+            "node": 4,
+            "dof": "UX",
+            "global_index": 24
+          },
+          {
+            "local_index": 1,
+            "node": 4,
+            "dof": "UY",
+            "global_index": 25
+          },
+          {
+            "local_index": 2,
+            "node": 4,
+            "dof": "UZ",
+            "global_index": 26
+          },
+          {
+            "local_index": 3,
+            "node": 4,
+            "dof": "RX",
+            "global_index": 27
+          },
+          {
+            "local_index": 4,
+            "node": 4,
+            "dof": "RY",
+            "global_index": 28
+          },
+          {
+            "local_index": 5,
+            "node": 4,
+            "dof": "RZ",
+            "global_index": 29
+          },
+          {
+            "local_index": 6,
+            "node": 5,
+            "dof": "UX",
+            "global_index": 30
+          },
+          {
+            "local_index": 7,
+            "node": 5,
+            "dof": "UY",
+            "global_index": 31
+          },
+          {
+            "local_index": 8,
+            "node": 5,
+            "dof": "UZ",
+            "global_index": 32
+          },
+          {
+            "local_index": 9,
+            "node": 5,
+            "dof": "RX",
+            "global_index": 33
+          },
+          {
+            "local_index": 10,
+            "node": 5,
+            "dof": "RY",
+            "global_index": 34
+          },
+          {
+            "local_index": 11,
+            "node": 5,
+            "dof": "RZ",
+            "global_index": 35
+          }
+        ],
+        "assembly_entries": [],
+        "matrices": [
+          {
+            "name": "local_stiffness",
+            "shape": [
+              12,
+              12
+            ],
+            "nnz": 40,
+            "density": 0.2777777777777778,
+            "data_norm": 34083305261.94544,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 3230769.2307692314,
+            "diagonal_max": 16800000000.0,
+            "rank_estimate": 6,
+            "eigenvalue_min": -2.7142909145282643e-07,
+            "eigenvalue_max": 33600000000.0,
+            "condition_estimate": 5199.999999999948,
+            "positive_definite_estimate": false
+          },
+          {
+            "name": "local_mass",
+            "shape": [
+              12,
+              12
+            ],
+            "nnz": 40,
+            "density": 0.2777777777777778,
+            "data_norm": 9.230114405887496,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 0.001625,
+            "diagonal_max": 3.6214285714285714,
+            "rank_estimate": 12,
+            "eigenvalue_min": 0.0007478524447972345,
+            "eigenvalue_max": 4.877116280578095,
+            "condition_estimate": 6521.49540261305,
+            "positive_definite_estimate": true
+          }
+        ],
+        "vectors": []
+      },
+      {
+        "index": 5,
+        "type": "BEAM2",
+        "nodes": [
+          5,
+          6
+        ],
+        "material": "beam",
+        "material_data": {
+          "A": 0.01,
+          "E": 210000000000.0,
+          "Iy": 2e-06,
+          "Iz": 3e-06,
+          "J": 5e-06,
+          "density": 7800.0,
+          "nu": 0.3,
+          "reference_vector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "type": "beam_isotropic"
+        },
+        "dofs_per_node": [
+          "UX",
+          "UY",
+          "UZ",
+          "RX",
+          "RY",
+          "RZ"
+        ],
+        "global_dof_indices": [
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41
+        ],
+        "geometry": {
+          "centroid": [
+            0.6875,
+            0.0,
+            0.0
+          ],
+          "bounding_box_min": [
+            0.625,
+            0.0,
+            0.0
+          ],
+          "bounding_box_max": [
+            0.75,
+            0.0,
+            0.0
+          ],
+          "length": 0.125,
+          "edge_length_min": 0.125,
+          "edge_length_max": 0.125
+        },
+        "local_dofs": [
+          {
+            "local_index": 0,
+            "node": 5,
+            "dof": "UX",
+            "global_index": 30
+          },
+          {
+            "local_index": 1,
+            "node": 5,
+            "dof": "UY",
+            "global_index": 31
+          },
+          {
+            "local_index": 2,
+            "node": 5,
+            "dof": "UZ",
+            "global_index": 32
+          },
+          {
+            "local_index": 3,
+            "node": 5,
+            "dof": "RX",
+            "global_index": 33
+          },
+          {
+            "local_index": 4,
+            "node": 5,
+            "dof": "RY",
+            "global_index": 34
+          },
+          {
+            "local_index": 5,
+            "node": 5,
+            "dof": "RZ",
+            "global_index": 35
+          },
+          {
+            "local_index": 6,
+            "node": 6,
+            "dof": "UX",
+            "global_index": 36
+          },
+          {
+            "local_index": 7,
+            "node": 6,
+            "dof": "UY",
+            "global_index": 37
+          },
+          {
+            "local_index": 8,
+            "node": 6,
+            "dof": "UZ",
+            "global_index": 38
+          },
+          {
+            "local_index": 9,
+            "node": 6,
+            "dof": "RX",
+            "global_index": 39
+          },
+          {
+            "local_index": 10,
+            "node": 6,
+            "dof": "RY",
+            "global_index": 40
+          },
+          {
+            "local_index": 11,
+            "node": 6,
+            "dof": "RZ",
+            "global_index": 41
+          }
+        ],
+        "assembly_entries": [],
+        "matrices": [
+          {
+            "name": "local_stiffness",
+            "shape": [
+              12,
+              12
+            ],
+            "nnz": 40,
+            "density": 0.2777777777777778,
+            "data_norm": 34083305261.94544,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 3230769.2307692314,
+            "diagonal_max": 16800000000.0,
+            "rank_estimate": 6,
+            "eigenvalue_min": -2.7142909145282643e-07,
+            "eigenvalue_max": 33600000000.0,
+            "condition_estimate": 5199.999999999948,
+            "positive_definite_estimate": false
+          },
+          {
+            "name": "local_mass",
+            "shape": [
+              12,
+              12
+            ],
+            "nnz": 40,
+            "density": 0.2777777777777778,
+            "data_norm": 9.230114405887496,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 0.001625,
+            "diagonal_max": 3.6214285714285714,
+            "rank_estimate": 12,
+            "eigenvalue_min": 0.0007478524447972345,
+            "eigenvalue_max": 4.877116280578095,
+            "condition_estimate": 6521.49540261305,
+            "positive_definite_estimate": true
+          }
+        ],
+        "vectors": []
+      },
+      {
+        "index": 6,
+        "type": "BEAM2",
+        "nodes": [
+          6,
+          7
+        ],
+        "material": "beam",
+        "material_data": {
+          "A": 0.01,
+          "E": 210000000000.0,
+          "Iy": 2e-06,
+          "Iz": 3e-06,
+          "J": 5e-06,
+          "density": 7800.0,
+          "nu": 0.3,
+          "reference_vector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "type": "beam_isotropic"
+        },
+        "dofs_per_node": [
+          "UX",
+          "UY",
+          "UZ",
+          "RX",
+          "RY",
+          "RZ"
+        ],
+        "global_dof_indices": [
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47
+        ],
+        "geometry": {
+          "centroid": [
+            0.8125,
+            0.0,
+            0.0
+          ],
+          "bounding_box_min": [
+            0.75,
+            0.0,
+            0.0
+          ],
+          "bounding_box_max": [
+            0.875,
+            0.0,
+            0.0
+          ],
+          "length": 0.125,
+          "edge_length_min": 0.125,
+          "edge_length_max": 0.125
+        },
+        "local_dofs": [
+          {
+            "local_index": 0,
+            "node": 6,
+            "dof": "UX",
+            "global_index": 36
+          },
+          {
+            "local_index": 1,
+            "node": 6,
+            "dof": "UY",
+            "global_index": 37
+          },
+          {
+            "local_index": 2,
+            "node": 6,
+            "dof": "UZ",
+            "global_index": 38
+          },
+          {
+            "local_index": 3,
+            "node": 6,
+            "dof": "RX",
+            "global_index": 39
+          },
+          {
+            "local_index": 4,
+            "node": 6,
+            "dof": "RY",
+            "global_index": 40
+          },
+          {
+            "local_index": 5,
+            "node": 6,
+            "dof": "RZ",
+            "global_index": 41
+          },
+          {
+            "local_index": 6,
+            "node": 7,
+            "dof": "UX",
+            "global_index": 42
+          },
+          {
+            "local_index": 7,
+            "node": 7,
+            "dof": "UY",
+            "global_index": 43
+          },
+          {
+            "local_index": 8,
+            "node": 7,
+            "dof": "UZ",
+            "global_index": 44
+          },
+          {
+            "local_index": 9,
+            "node": 7,
+            "dof": "RX",
+            "global_index": 45
+          },
+          {
+            "local_index": 10,
+            "node": 7,
+            "dof": "RY",
+            "global_index": 46
+          },
+          {
+            "local_index": 11,
+            "node": 7,
+            "dof": "RZ",
+            "global_index": 47
+          }
+        ],
+        "assembly_entries": [],
+        "matrices": [
+          {
+            "name": "local_stiffness",
+            "shape": [
+              12,
+              12
+            ],
+            "nnz": 40,
+            "density": 0.2777777777777778,
+            "data_norm": 34083305261.94544,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 3230769.2307692314,
+            "diagonal_max": 16800000000.0,
+            "rank_estimate": 6,
+            "eigenvalue_min": -2.7142909145282643e-07,
+            "eigenvalue_max": 33600000000.0,
+            "condition_estimate": 5199.999999999948,
+            "positive_definite_estimate": false
+          },
+          {
+            "name": "local_mass",
+            "shape": [
+              12,
+              12
+            ],
+            "nnz": 40,
+            "density": 0.2777777777777778,
+            "data_norm": 9.230114405887496,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 0.001625,
+            "diagonal_max": 3.6214285714285714,
+            "rank_estimate": 12,
+            "eigenvalue_min": 0.0007478524447972345,
+            "eigenvalue_max": 4.877116280578095,
+            "condition_estimate": 6521.49540261305,
+            "positive_definite_estimate": true
+          }
+        ],
+        "vectors": []
+      },
+      {
+        "index": 7,
+        "type": "BEAM2",
+        "nodes": [
+          7,
+          8
+        ],
+        "material": "beam",
+        "material_data": {
+          "A": 0.01,
+          "E": 210000000000.0,
+          "Iy": 2e-06,
+          "Iz": 3e-06,
+          "J": 5e-06,
+          "density": 7800.0,
+          "nu": 0.3,
+          "reference_vector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "type": "beam_isotropic"
+        },
+        "dofs_per_node": [
+          "UX",
+          "UY",
+          "UZ",
+          "RX",
+          "RY",
+          "RZ"
+        ],
+        "global_dof_indices": [
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53
+        ],
+        "geometry": {
+          "centroid": [
+            0.9375,
+            0.0,
+            0.0
+          ],
+          "bounding_box_min": [
+            0.875,
+            0.0,
+            0.0
+          ],
+          "bounding_box_max": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "length": 0.125,
+          "edge_length_min": 0.125,
+          "edge_length_max": 0.125
+        },
+        "local_dofs": [
+          {
+            "local_index": 0,
+            "node": 7,
+            "dof": "UX",
+            "global_index": 42
+          },
+          {
+            "local_index": 1,
+            "node": 7,
+            "dof": "UY",
+            "global_index": 43
+          },
+          {
+            "local_index": 2,
+            "node": 7,
+            "dof": "UZ",
+            "global_index": 44
+          },
+          {
+            "local_index": 3,
+            "node": 7,
+            "dof": "RX",
+            "global_index": 45
+          },
+          {
+            "local_index": 4,
+            "node": 7,
+            "dof": "RY",
+            "global_index": 46
+          },
+          {
+            "local_index": 5,
+            "node": 7,
+            "dof": "RZ",
+            "global_index": 47
+          },
+          {
+            "local_index": 6,
+            "node": 8,
+            "dof": "UX",
+            "global_index": 48
+          },
+          {
+            "local_index": 7,
+            "node": 8,
+            "dof": "UY",
+            "global_index": 49
+          },
+          {
+            "local_index": 8,
+            "node": 8,
+            "dof": "UZ",
+            "global_index": 50
+          },
+          {
+            "local_index": 9,
+            "node": 8,
+            "dof": "RX",
+            "global_index": 51
+          },
+          {
+            "local_index": 10,
+            "node": 8,
+            "dof": "RY",
+            "global_index": 52
+          },
+          {
+            "local_index": 11,
+            "node": 8,
+            "dof": "RZ",
+            "global_index": 53
+          }
+        ],
+        "assembly_entries": [],
+        "matrices": [
+          {
+            "name": "local_stiffness",
+            "shape": [
+              12,
+              12
+            ],
+            "nnz": 40,
+            "density": 0.2777777777777778,
+            "data_norm": 34083305261.94544,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 3230769.2307692314,
+            "diagonal_max": 16800000000.0,
+            "rank_estimate": 6,
+            "eigenvalue_min": -2.7142909145282643e-07,
+            "eigenvalue_max": 33600000000.0,
+            "condition_estimate": 5199.999999999948,
+            "positive_definite_estimate": false
+          },
+          {
+            "name": "local_mass",
+            "shape": [
+              12,
+              12
+            ],
+            "nnz": 40,
+            "density": 0.2777777777777778,
+            "data_norm": 9.230114405887496,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 0.001625,
+            "diagonal_max": 3.6214285714285714,
+            "rank_estimate": 12,
+            "eigenvalue_min": 0.0007478524447972345,
+            "eigenvalue_max": 4.877116280578095,
+            "condition_estimate": 6521.49540261305,
+            "positive_definite_estimate": true
+          }
+        ],
+        "vectors": []
+      },
+      {
+        "index": 8,
+        "type": "BEAM2",
+        "nodes": [
+          8,
+          9
+        ],
+        "material": "beam",
+        "material_data": {
+          "A": 0.01,
+          "E": 210000000000.0,
+          "Iy": 2e-06,
+          "Iz": 3e-06,
+          "J": 5e-06,
+          "density": 7800.0,
+          "nu": 0.3,
+          "reference_vector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "type": "beam_isotropic"
+        },
+        "dofs_per_node": [
+          "UX",
+          "UY",
+          "UZ",
+          "RX",
+          "RY",
+          "RZ"
+        ],
+        "global_dof_indices": [
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59
+        ],
+        "geometry": {
+          "centroid": [
+            1.0625,
+            0.0,
+            0.0
+          ],
+          "bounding_box_min": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "bounding_box_max": [
+            1.125,
+            0.0,
+            0.0
+          ],
+          "length": 0.125,
+          "edge_length_min": 0.125,
+          "edge_length_max": 0.125
+        },
+        "local_dofs": [
+          {
+            "local_index": 0,
+            "node": 8,
+            "dof": "UX",
+            "global_index": 48
+          },
+          {
+            "local_index": 1,
+            "node": 8,
+            "dof": "UY",
+            "global_index": 49
+          },
+          {
+            "local_index": 2,
+            "node": 8,
+            "dof": "UZ",
+            "global_index": 50
+          },
+          {
+            "local_index": 3,
+            "node": 8,
+            "dof": "RX",
+            "global_index": 51
+          },
+          {
+            "local_index": 4,
+            "node": 8,
+            "dof": "RY",
+            "global_index": 52
+          },
+          {
+            "local_index": 5,
+            "node": 8,
+            "dof": "RZ",
+            "global_index": 53
+          },
+          {
+            "local_index": 6,
+            "node": 9,
+            "dof": "UX",
+            "global_index": 54
+          },
+          {
+            "local_index": 7,
+            "node": 9,
+            "dof": "UY",
+            "global_index": 55
+          },
+          {
+            "local_index": 8,
+            "node": 9,
+            "dof": "UZ",
+            "global_index": 56
+          },
+          {
+            "local_index": 9,
+            "node": 9,
+            "dof": "RX",
+            "global_index": 57
+          },
+          {
+            "local_index": 10,
+            "node": 9,
+            "dof": "RY",
+            "global_index": 58
+          },
+          {
+            "local_index": 11,
+            "node": 9,
+            "dof": "RZ",
+            "global_index": 59
+          }
+        ],
+        "assembly_entries": [],
+        "matrices": [
+          {
+            "name": "local_stiffness",
+            "shape": [
+              12,
+              12
+            ],
+            "nnz": 40,
+            "density": 0.2777777777777778,
+            "data_norm": 34083305261.94544,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 3230769.2307692314,
+            "diagonal_max": 16800000000.0,
+            "rank_estimate": 6,
+            "eigenvalue_min": -2.7142909145282643e-07,
+            "eigenvalue_max": 33600000000.0,
+            "condition_estimate": 5199.999999999948,
+            "positive_definite_estimate": false
+          },
+          {
+            "name": "local_mass",
+            "shape": [
+              12,
+              12
+            ],
+            "nnz": 40,
+            "density": 0.2777777777777778,
+            "data_norm": 9.230114405887496,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 0.001625,
+            "diagonal_max": 3.6214285714285714,
+            "rank_estimate": 12,
+            "eigenvalue_min": 0.0007478524447972345,
+            "eigenvalue_max": 4.877116280578095,
+            "condition_estimate": 6521.49540261305,
+            "positive_definite_estimate": true
+          }
+        ],
+        "vectors": []
+      },
+      {
+        "index": 9,
+        "type": "BEAM2",
+        "nodes": [
+          9,
+          10
+        ],
+        "material": "beam",
+        "material_data": {
+          "A": 0.01,
+          "E": 210000000000.0,
+          "Iy": 2e-06,
+          "Iz": 3e-06,
+          "J": 5e-06,
+          "density": 7800.0,
+          "nu": 0.3,
+          "reference_vector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "type": "beam_isotropic"
+        },
+        "dofs_per_node": [
+          "UX",
+          "UY",
+          "UZ",
+          "RX",
+          "RY",
+          "RZ"
+        ],
+        "global_dof_indices": [
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65
+        ],
+        "geometry": {
+          "centroid": [
+            1.1875,
+            0.0,
+            0.0
+          ],
+          "bounding_box_min": [
+            1.125,
+            0.0,
+            0.0
+          ],
+          "bounding_box_max": [
+            1.25,
+            0.0,
+            0.0
+          ],
+          "length": 0.125,
+          "edge_length_min": 0.125,
+          "edge_length_max": 0.125
+        },
+        "local_dofs": [
+          {
+            "local_index": 0,
+            "node": 9,
+            "dof": "UX",
+            "global_index": 54
+          },
+          {
+            "local_index": 1,
+            "node": 9,
+            "dof": "UY",
+            "global_index": 55
+          },
+          {
+            "local_index": 2,
+            "node": 9,
+            "dof": "UZ",
+            "global_index": 56
+          },
+          {
+            "local_index": 3,
+            "node": 9,
+            "dof": "RX",
+            "global_index": 57
+          },
+          {
+            "local_index": 4,
+            "node": 9,
+            "dof": "RY",
+            "global_index": 58
+          },
+          {
+            "local_index": 5,
+            "node": 9,
+            "dof": "RZ",
+            "global_index": 59
+          },
+          {
+            "local_index": 6,
+            "node": 10,
+            "dof": "UX",
+            "global_index": 60
+          },
+          {
+            "local_index": 7,
+            "node": 10,
+            "dof": "UY",
+            "global_index": 61
+          },
+          {
+            "local_index": 8,
+            "node": 10,
+            "dof": "UZ",
+            "global_index": 62
+          },
+          {
+            "local_index": 9,
+            "node": 10,
+            "dof": "RX",
+            "global_index": 63
+          },
+          {
+            "local_index": 10,
+            "node": 10,
+            "dof": "RY",
+            "global_index": 64
+          },
+          {
+            "local_index": 11,
+            "node": 10,
+            "dof": "RZ",
+            "global_index": 65
+          }
+        ],
+        "assembly_entries": [],
+        "matrices": [
+          {
+            "name": "local_stiffness",
+            "shape": [
+              12,
+              12
+            ],
+            "nnz": 40,
+            "density": 0.2777777777777778,
+            "data_norm": 34083305261.94544,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 3230769.2307692314,
+            "diagonal_max": 16800000000.0,
+            "rank_estimate": 6,
+            "eigenvalue_min": -2.7142909145282643e-07,
+            "eigenvalue_max": 33600000000.0,
+            "condition_estimate": 5199.999999999948,
+            "positive_definite_estimate": false
+          },
+          {
+            "name": "local_mass",
+            "shape": [
+              12,
+              12
+            ],
+            "nnz": 40,
+            "density": 0.2777777777777778,
+            "data_norm": 9.230114405887496,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 0.001625,
+            "diagonal_max": 3.6214285714285714,
+            "rank_estimate": 12,
+            "eigenvalue_min": 0.0007478524447972345,
+            "eigenvalue_max": 4.877116280578095,
+            "condition_estimate": 6521.49540261305,
+            "positive_definite_estimate": true
+          }
+        ],
+        "vectors": []
+      },
+      {
+        "index": 10,
+        "type": "BEAM2",
+        "nodes": [
+          10,
+          11
+        ],
+        "material": "beam",
+        "material_data": {
+          "A": 0.01,
+          "E": 210000000000.0,
+          "Iy": 2e-06,
+          "Iz": 3e-06,
+          "J": 5e-06,
+          "density": 7800.0,
+          "nu": 0.3,
+          "reference_vector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "type": "beam_isotropic"
+        },
+        "dofs_per_node": [
+          "UX",
+          "UY",
+          "UZ",
+          "RX",
+          "RY",
+          "RZ"
+        ],
+        "global_dof_indices": [
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71
+        ],
+        "geometry": {
+          "centroid": [
+            1.3125,
+            0.0,
+            0.0
+          ],
+          "bounding_box_min": [
+            1.25,
+            0.0,
+            0.0
+          ],
+          "bounding_box_max": [
+            1.375,
+            0.0,
+            0.0
+          ],
+          "length": 0.125,
+          "edge_length_min": 0.125,
+          "edge_length_max": 0.125
+        },
+        "local_dofs": [
+          {
+            "local_index": 0,
+            "node": 10,
+            "dof": "UX",
+            "global_index": 60
+          },
+          {
+            "local_index": 1,
+            "node": 10,
+            "dof": "UY",
+            "global_index": 61
+          },
+          {
+            "local_index": 2,
+            "node": 10,
+            "dof": "UZ",
+            "global_index": 62
+          },
+          {
+            "local_index": 3,
+            "node": 10,
+            "dof": "RX",
+            "global_index": 63
+          },
+          {
+            "local_index": 4,
+            "node": 10,
+            "dof": "RY",
+            "global_index": 64
+          },
+          {
+            "local_index": 5,
+            "node": 10,
+            "dof": "RZ",
+            "global_index": 65
+          },
+          {
+            "local_index": 6,
+            "node": 11,
+            "dof": "UX",
+            "global_index": 66
+          },
+          {
+            "local_index": 7,
+            "node": 11,
+            "dof": "UY",
+            "global_index": 67
+          },
+          {
+            "local_index": 8,
+            "node": 11,
+            "dof": "UZ",
+            "global_index": 68
+          },
+          {
+            "local_index": 9,
+            "node": 11,
+            "dof": "RX",
+            "global_index": 69
+          },
+          {
+            "local_index": 10,
+            "node": 11,
+            "dof": "RY",
+            "global_index": 70
+          },
+          {
+            "local_index": 11,
+            "node": 11,
+            "dof": "RZ",
+            "global_index": 71
+          }
+        ],
+        "assembly_entries": [],
+        "matrices": [
+          {
+            "name": "local_stiffness",
+            "shape": [
+              12,
+              12
+            ],
+            "nnz": 40,
+            "density": 0.2777777777777778,
+            "data_norm": 34083305261.94544,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 3230769.2307692314,
+            "diagonal_max": 16800000000.0,
+            "rank_estimate": 6,
+            "eigenvalue_min": -2.7142909145282643e-07,
+            "eigenvalue_max": 33600000000.0,
+            "condition_estimate": 5199.999999999948,
+            "positive_definite_estimate": false
+          },
+          {
+            "name": "local_mass",
+            "shape": [
+              12,
+              12
+            ],
+            "nnz": 40,
+            "density": 0.2777777777777778,
+            "data_norm": 9.230114405887496,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 0.001625,
+            "diagonal_max": 3.6214285714285714,
+            "rank_estimate": 12,
+            "eigenvalue_min": 0.0007478524447972345,
+            "eigenvalue_max": 4.877116280578095,
+            "condition_estimate": 6521.49540261305,
+            "positive_definite_estimate": true
+          }
+        ],
+        "vectors": []
+      },
+      {
+        "index": 11,
+        "type": "BEAM2",
+        "nodes": [
+          11,
+          12
+        ],
+        "material": "beam",
+        "material_data": {
+          "A": 0.01,
+          "E": 210000000000.0,
+          "Iy": 2e-06,
+          "Iz": 3e-06,
+          "J": 5e-06,
+          "density": 7800.0,
+          "nu": 0.3,
+          "reference_vector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "type": "beam_isotropic"
+        },
+        "dofs_per_node": [
+          "UX",
+          "UY",
+          "UZ",
+          "RX",
+          "RY",
+          "RZ"
+        ],
+        "global_dof_indices": [
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77
+        ],
+        "geometry": {
+          "centroid": [
+            1.4375,
+            0.0,
+            0.0
+          ],
+          "bounding_box_min": [
+            1.375,
+            0.0,
+            0.0
+          ],
+          "bounding_box_max": [
+            1.5,
+            0.0,
+            0.0
+          ],
+          "length": 0.125,
+          "edge_length_min": 0.125,
+          "edge_length_max": 0.125
+        },
+        "local_dofs": [
+          {
+            "local_index": 0,
+            "node": 11,
+            "dof": "UX",
+            "global_index": 66
+          },
+          {
+            "local_index": 1,
+            "node": 11,
+            "dof": "UY",
+            "global_index": 67
+          },
+          {
+            "local_index": 2,
+            "node": 11,
+            "dof": "UZ",
+            "global_index": 68
+          },
+          {
+            "local_index": 3,
+            "node": 11,
+            "dof": "RX",
+            "global_index": 69
+          },
+          {
+            "local_index": 4,
+            "node": 11,
+            "dof": "RY",
+            "global_index": 70
+          },
+          {
+            "local_index": 5,
+            "node": 11,
+            "dof": "RZ",
+            "global_index": 71
+          },
+          {
+            "local_index": 6,
+            "node": 12,
+            "dof": "UX",
+            "global_index": 72
+          },
+          {
+            "local_index": 7,
+            "node": 12,
+            "dof": "UY",
+            "global_index": 73
+          },
+          {
+            "local_index": 8,
+            "node": 12,
+            "dof": "UZ",
+            "global_index": 74
+          },
+          {
+            "local_index": 9,
+            "node": 12,
+            "dof": "RX",
+            "global_index": 75
+          },
+          {
+            "local_index": 10,
+            "node": 12,
+            "dof": "RY",
+            "global_index": 76
+          },
+          {
+            "local_index": 11,
+            "node": 12,
+            "dof": "RZ",
+            "global_index": 77
+          }
+        ],
+        "assembly_entries": [],
+        "matrices": [
+          {
+            "name": "local_stiffness",
+            "shape": [
+              12,
+              12
+            ],
+            "nnz": 40,
+            "density": 0.2777777777777778,
+            "data_norm": 34083305261.94544,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 3230769.2307692314,
+            "diagonal_max": 16800000000.0,
+            "rank_estimate": 6,
+            "eigenvalue_min": -2.7142909145282643e-07,
+            "eigenvalue_max": 33600000000.0,
+            "condition_estimate": 5199.999999999948,
+            "positive_definite_estimate": false
+          },
+          {
+            "name": "local_mass",
+            "shape": [
+              12,
+              12
+            ],
+            "nnz": 40,
+            "density": 0.2777777777777778,
+            "data_norm": 9.230114405887496,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 0.001625,
+            "diagonal_max": 3.6214285714285714,
+            "rank_estimate": 12,
+            "eigenvalue_min": 0.0007478524447972345,
+            "eigenvalue_max": 4.877116280578095,
+            "condition_estimate": 6521.49540261305,
+            "positive_definite_estimate": true
+          }
+        ],
+        "vectors": []
+      },
+      {
+        "index": 12,
+        "type": "BEAM2",
+        "nodes": [
+          12,
+          13
+        ],
+        "material": "beam",
+        "material_data": {
+          "A": 0.01,
+          "E": 210000000000.0,
+          "Iy": 2e-06,
+          "Iz": 3e-06,
+          "J": 5e-06,
+          "density": 7800.0,
+          "nu": 0.3,
+          "reference_vector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "type": "beam_isotropic"
+        },
+        "dofs_per_node": [
+          "UX",
+          "UY",
+          "UZ",
+          "RX",
+          "RY",
+          "RZ"
+        ],
+        "global_dof_indices": [
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83
+        ],
+        "geometry": {
+          "centroid": [
+            1.5625,
+            0.0,
+            0.0
+          ],
+          "bounding_box_min": [
+            1.5,
+            0.0,
+            0.0
+          ],
+          "bounding_box_max": [
+            1.625,
+            0.0,
+            0.0
+          ],
+          "length": 0.125,
+          "edge_length_min": 0.125,
+          "edge_length_max": 0.125
+        },
+        "local_dofs": [
+          {
+            "local_index": 0,
+            "node": 12,
+            "dof": "UX",
+            "global_index": 72
+          },
+          {
+            "local_index": 1,
+            "node": 12,
+            "dof": "UY",
+            "global_index": 73
+          },
+          {
+            "local_index": 2,
+            "node": 12,
+            "dof": "UZ",
+            "global_index": 74
+          },
+          {
+            "local_index": 3,
+            "node": 12,
+            "dof": "RX",
+            "global_index": 75
+          },
+          {
+            "local_index": 4,
+            "node": 12,
+            "dof": "RY",
+            "global_index": 76
+          },
+          {
+            "local_index": 5,
+            "node": 12,
+            "dof": "RZ",
+            "global_index": 77
+          },
+          {
+            "local_index": 6,
+            "node": 13,
+            "dof": "UX",
+            "global_index": 78
+          },
+          {
+            "local_index": 7,
+            "node": 13,
+            "dof": "UY",
+            "global_index": 79
+          },
+          {
+            "local_index": 8,
+            "node": 13,
+            "dof": "UZ",
+            "global_index": 80
+          },
+          {
+            "local_index": 9,
+            "node": 13,
+            "dof": "RX",
+            "global_index": 81
+          },
+          {
+            "local_index": 10,
+            "node": 13,
+            "dof": "RY",
+            "global_index": 82
+          },
+          {
+            "local_index": 11,
+            "node": 13,
+            "dof": "RZ",
+            "global_index": 83
+          }
+        ],
+        "assembly_entries": [],
+        "matrices": [
+          {
+            "name": "local_stiffness",
+            "shape": [
+              12,
+              12
+            ],
+            "nnz": 40,
+            "density": 0.2777777777777778,
+            "data_norm": 34083305261.94544,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 3230769.2307692314,
+            "diagonal_max": 16800000000.0,
+            "rank_estimate": 6,
+            "eigenvalue_min": -2.7142909145282643e-07,
+            "eigenvalue_max": 33600000000.0,
+            "condition_estimate": 5199.999999999948,
+            "positive_definite_estimate": false
+          },
+          {
+            "name": "local_mass",
+            "shape": [
+              12,
+              12
+            ],
+            "nnz": 40,
+            "density": 0.2777777777777778,
+            "data_norm": 9.230114405887496,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 0.001625,
+            "diagonal_max": 3.6214285714285714,
+            "rank_estimate": 12,
+            "eigenvalue_min": 0.0007478524447972345,
+            "eigenvalue_max": 4.877116280578095,
+            "condition_estimate": 6521.49540261305,
+            "positive_definite_estimate": true
+          }
+        ],
+        "vectors": []
+      },
+      {
+        "index": 13,
+        "type": "BEAM2",
+        "nodes": [
+          13,
+          14
+        ],
+        "material": "beam",
+        "material_data": {
+          "A": 0.01,
+          "E": 210000000000.0,
+          "Iy": 2e-06,
+          "Iz": 3e-06,
+          "J": 5e-06,
+          "density": 7800.0,
+          "nu": 0.3,
+          "reference_vector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "type": "beam_isotropic"
+        },
+        "dofs_per_node": [
+          "UX",
+          "UY",
+          "UZ",
+          "RX",
+          "RY",
+          "RZ"
+        ],
+        "global_dof_indices": [
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89
+        ],
+        "geometry": {
+          "centroid": [
+            1.6875,
+            0.0,
+            0.0
+          ],
+          "bounding_box_min": [
+            1.625,
+            0.0,
+            0.0
+          ],
+          "bounding_box_max": [
+            1.75,
+            0.0,
+            0.0
+          ],
+          "length": 0.125,
+          "edge_length_min": 0.125,
+          "edge_length_max": 0.125
+        },
+        "local_dofs": [
+          {
+            "local_index": 0,
+            "node": 13,
+            "dof": "UX",
+            "global_index": 78
+          },
+          {
+            "local_index": 1,
+            "node": 13,
+            "dof": "UY",
+            "global_index": 79
+          },
+          {
+            "local_index": 2,
+            "node": 13,
+            "dof": "UZ",
+            "global_index": 80
+          },
+          {
+            "local_index": 3,
+            "node": 13,
+            "dof": "RX",
+            "global_index": 81
+          },
+          {
+            "local_index": 4,
+            "node": 13,
+            "dof": "RY",
+            "global_index": 82
+          },
+          {
+            "local_index": 5,
+            "node": 13,
+            "dof": "RZ",
+            "global_index": 83
+          },
+          {
+            "local_index": 6,
+            "node": 14,
+            "dof": "UX",
+            "global_index": 84
+          },
+          {
+            "local_index": 7,
+            "node": 14,
+            "dof": "UY",
+            "global_index": 85
+          },
+          {
+            "local_index": 8,
+            "node": 14,
+            "dof": "UZ",
+            "global_index": 86
+          },
+          {
+            "local_index": 9,
+            "node": 14,
+            "dof": "RX",
+            "global_index": 87
+          },
+          {
+            "local_index": 10,
+            "node": 14,
+            "dof": "RY",
+            "global_index": 88
+          },
+          {
+            "local_index": 11,
+            "node": 14,
+            "dof": "RZ",
+            "global_index": 89
+          }
+        ],
+        "assembly_entries": [],
+        "matrices": [
+          {
+            "name": "local_stiffness",
+            "shape": [
+              12,
+              12
+            ],
+            "nnz": 40,
+            "density": 0.2777777777777778,
+            "data_norm": 34083305261.94544,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 3230769.2307692314,
+            "diagonal_max": 16800000000.0,
+            "rank_estimate": 6,
+            "eigenvalue_min": -2.7142909145282643e-07,
+            "eigenvalue_max": 33600000000.0,
+            "condition_estimate": 5199.999999999948,
+            "positive_definite_estimate": false
+          },
+          {
+            "name": "local_mass",
+            "shape": [
+              12,
+              12
+            ],
+            "nnz": 40,
+            "density": 0.2777777777777778,
+            "data_norm": 9.230114405887496,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 0.001625,
+            "diagonal_max": 3.6214285714285714,
+            "rank_estimate": 12,
+            "eigenvalue_min": 0.0007478524447972345,
+            "eigenvalue_max": 4.877116280578095,
+            "condition_estimate": 6521.49540261305,
+            "positive_definite_estimate": true
+          }
+        ],
+        "vectors": []
+      },
+      {
+        "index": 14,
+        "type": "BEAM2",
+        "nodes": [
+          14,
+          15
+        ],
+        "material": "beam",
+        "material_data": {
+          "A": 0.01,
+          "E": 210000000000.0,
+          "Iy": 2e-06,
+          "Iz": 3e-06,
+          "J": 5e-06,
+          "density": 7800.0,
+          "nu": 0.3,
+          "reference_vector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "type": "beam_isotropic"
+        },
+        "dofs_per_node": [
+          "UX",
+          "UY",
+          "UZ",
+          "RX",
+          "RY",
+          "RZ"
+        ],
+        "global_dof_indices": [
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95
+        ],
+        "geometry": {
+          "centroid": [
+            1.8125,
+            0.0,
+            0.0
+          ],
+          "bounding_box_min": [
+            1.75,
+            0.0,
+            0.0
+          ],
+          "bounding_box_max": [
+            1.875,
+            0.0,
+            0.0
+          ],
+          "length": 0.125,
+          "edge_length_min": 0.125,
+          "edge_length_max": 0.125
+        },
+        "local_dofs": [
+          {
+            "local_index": 0,
+            "node": 14,
+            "dof": "UX",
+            "global_index": 84
+          },
+          {
+            "local_index": 1,
+            "node": 14,
+            "dof": "UY",
+            "global_index": 85
+          },
+          {
+            "local_index": 2,
+            "node": 14,
+            "dof": "UZ",
+            "global_index": 86
+          },
+          {
+            "local_index": 3,
+            "node": 14,
+            "dof": "RX",
+            "global_index": 87
+          },
+          {
+            "local_index": 4,
+            "node": 14,
+            "dof": "RY",
+            "global_index": 88
+          },
+          {
+            "local_index": 5,
+            "node": 14,
+            "dof": "RZ",
+            "global_index": 89
+          },
+          {
+            "local_index": 6,
+            "node": 15,
+            "dof": "UX",
+            "global_index": 90
+          },
+          {
+            "local_index": 7,
+            "node": 15,
+            "dof": "UY",
+            "global_index": 91
+          },
+          {
+            "local_index": 8,
+            "node": 15,
+            "dof": "UZ",
+            "global_index": 92
+          },
+          {
+            "local_index": 9,
+            "node": 15,
+            "dof": "RX",
+            "global_index": 93
+          },
+          {
+            "local_index": 10,
+            "node": 15,
+            "dof": "RY",
+            "global_index": 94
+          },
+          {
+            "local_index": 11,
+            "node": 15,
+            "dof": "RZ",
+            "global_index": 95
+          }
+        ],
+        "assembly_entries": [],
+        "matrices": [
+          {
+            "name": "local_stiffness",
+            "shape": [
+              12,
+              12
+            ],
+            "nnz": 40,
+            "density": 0.2777777777777778,
+            "data_norm": 34083305261.94544,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 3230769.2307692314,
+            "diagonal_max": 16800000000.0,
+            "rank_estimate": 6,
+            "eigenvalue_min": -2.7142909145282643e-07,
+            "eigenvalue_max": 33600000000.0,
+            "condition_estimate": 5199.999999999948,
+            "positive_definite_estimate": false
+          },
+          {
+            "name": "local_mass",
+            "shape": [
+              12,
+              12
+            ],
+            "nnz": 40,
+            "density": 0.2777777777777778,
+            "data_norm": 9.230114405887496,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 0.001625,
+            "diagonal_max": 3.6214285714285714,
+            "rank_estimate": 12,
+            "eigenvalue_min": 0.0007478524447972345,
+            "eigenvalue_max": 4.877116280578095,
+            "condition_estimate": 6521.49540261305,
+            "positive_definite_estimate": true
+          }
+        ],
+        "vectors": []
+      },
+      {
+        "index": 15,
+        "type": "BEAM2",
+        "nodes": [
+          15,
+          16
+        ],
+        "material": "beam",
+        "material_data": {
+          "A": 0.01,
+          "E": 210000000000.0,
+          "Iy": 2e-06,
+          "Iz": 3e-06,
+          "J": 5e-06,
+          "density": 7800.0,
+          "nu": 0.3,
+          "reference_vector": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "type": "beam_isotropic"
+        },
+        "dofs_per_node": [
+          "UX",
+          "UY",
+          "UZ",
+          "RX",
+          "RY",
+          "RZ"
+        ],
+        "global_dof_indices": [
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100,
+          101
+        ],
+        "geometry": {
+          "centroid": [
+            1.9375,
+            0.0,
+            0.0
+          ],
+          "bounding_box_min": [
+            1.875,
+            0.0,
+            0.0
+          ],
+          "bounding_box_max": [
+            2.0,
+            0.0,
+            0.0
+          ],
+          "length": 0.125,
+          "edge_length_min": 0.125,
+          "edge_length_max": 0.125
+        },
+        "local_dofs": [
+          {
+            "local_index": 0,
+            "node": 15,
+            "dof": "UX",
+            "global_index": 90
+          },
+          {
+            "local_index": 1,
+            "node": 15,
+            "dof": "UY",
+            "global_index": 91
+          },
+          {
+            "local_index": 2,
+            "node": 15,
+            "dof": "UZ",
+            "global_index": 92
+          },
+          {
+            "local_index": 3,
+            "node": 15,
+            "dof": "RX",
+            "global_index": 93
+          },
+          {
+            "local_index": 4,
+            "node": 15,
+            "dof": "RY",
+            "global_index": 94
+          },
+          {
+            "local_index": 5,
+            "node": 15,
+            "dof": "RZ",
+            "global_index": 95
+          },
+          {
+            "local_index": 6,
+            "node": 16,
+            "dof": "UX",
+            "global_index": 96
+          },
+          {
+            "local_index": 7,
+            "node": 16,
+            "dof": "UY",
+            "global_index": 97
+          },
+          {
+            "local_index": 8,
+            "node": 16,
+            "dof": "UZ",
+            "global_index": 98
+          },
+          {
+            "local_index": 9,
+            "node": 16,
+            "dof": "RX",
+            "global_index": 99
+          },
+          {
+            "local_index": 10,
+            "node": 16,
+            "dof": "RY",
+            "global_index": 100
+          },
+          {
+            "local_index": 11,
+            "node": 16,
+            "dof": "RZ",
+            "global_index": 101
+          }
+        ],
+        "assembly_entries": [],
+        "matrices": [
+          {
+            "name": "local_stiffness",
+            "shape": [
+              12,
+              12
+            ],
+            "nnz": 40,
+            "density": 0.2777777777777778,
+            "data_norm": 34083305261.94544,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 3230769.2307692314,
+            "diagonal_max": 16800000000.0,
+            "rank_estimate": 6,
+            "eigenvalue_min": -2.7142909145282643e-07,
+            "eigenvalue_max": 33600000000.0,
+            "condition_estimate": 5199.999999999948,
+            "positive_definite_estimate": false
+          },
+          {
+            "name": "local_mass",
+            "shape": [
+              12,
+              12
+            ],
+            "nnz": 40,
+            "density": 0.2777777777777778,
+            "data_norm": 9.230114405887496,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 0.001625,
+            "diagonal_max": 3.6214285714285714,
+            "rank_estimate": 12,
+            "eigenvalue_min": 0.0007478524447972345,
+            "eigenvalue_max": 4.877116280578095,
+            "condition_estimate": 6521.49540261305,
+            "positive_definite_estimate": true
+          }
+        ],
+        "vectors": []
+      }
+    ],
+    "post_results": [],
+    "equilibrium": {},
+    "solver_selection": {},
+    "checks": [
+      {
+        "name": "mesh_validation",
+        "status": "PASS",
+        "value": "PASS",
+        "limit": "PASS",
+        "message": "Mesh validation passed."
+      },
+      {
+        "name": "boundary_has_fixed_dofs",
+        "status": "PASS",
+        "value": 6,
+        "limit": "> 0",
+        "message": "At least one fixed dof is required to constrain the model."
+      },
+      {
+        "name": "boundary_has_free_dofs",
+        "status": "PASS",
+        "value": 96,
+        "limit": "> 0",
+        "message": "At least one free dof is required to solve the model."
+      },
+      {
+        "name": "matrix:stiffness:finite_norm",
+        "status": "PASS",
+        "value": 165213453812.6677,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "matrix:stiffness:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "matrix:mass:finite_norm",
+        "status": "PASS",
+        "value": 49.66277497947329,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "matrix:mass:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "matrix:reduced_stiffness:finite_norm",
+        "status": "PASS",
+        "value": 162555318836.35272,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "matrix:reduced_stiffness:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "matrix:reduced_stiffness:condition_estimate",
+        "status": "PASS",
+        "value": 3963797.090140224,
+        "limit": "<= 1e12 PASS, <= 1e16 WARNING",
+        "message": "High condition estimates indicate numerical fragility."
+      },
+      {
+        "name": "matrix:reduced_stiffness:positive_definite",
+        "status": "PASS",
+        "value": true,
+        "limit": "true",
+        "message": "Reduced stiffness/mass matrices should be positive definite after constraints."
+      },
+      {
+        "name": "matrix:reduced_mass:finite_norm",
+        "status": "PASS",
+        "value": 49.17320928380492,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "matrix:reduced_mass:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "matrix:reduced_mass:condition_estimate",
+        "status": "PASS",
+        "value": 10409.71054760402,
+        "limit": "<= 1e12 PASS, <= 1e16 WARNING",
+        "message": "High condition estimates indicate numerical fragility."
+      },
+      {
+        "name": "matrix:reduced_mass:positive_definite",
+        "status": "PASS",
+        "value": true,
+        "limit": "true",
+        "message": "Reduced stiffness/mass matrices should be positive definite after constraints."
+      },
+      {
+        "name": "element:0:BEAM2:local_stiffness:finite_norm",
+        "status": "PASS",
+        "value": 34083305261.94544,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "element:0:BEAM2:local_stiffness:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "element:0:BEAM2:local_mass:finite_norm",
+        "status": "PASS",
+        "value": 9.230114405887496,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "element:0:BEAM2:local_mass:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "element:1:BEAM2:local_stiffness:finite_norm",
+        "status": "PASS",
+        "value": 34083305261.94544,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "element:1:BEAM2:local_stiffness:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "element:1:BEAM2:local_mass:finite_norm",
+        "status": "PASS",
+        "value": 9.230114405887496,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "element:1:BEAM2:local_mass:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "element:2:BEAM2:local_stiffness:finite_norm",
+        "status": "PASS",
+        "value": 34083305261.94544,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "element:2:BEAM2:local_stiffness:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "element:2:BEAM2:local_mass:finite_norm",
+        "status": "PASS",
+        "value": 9.230114405887496,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "element:2:BEAM2:local_mass:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "element:3:BEAM2:local_stiffness:finite_norm",
+        "status": "PASS",
+        "value": 34083305261.94544,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "element:3:BEAM2:local_stiffness:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "element:3:BEAM2:local_mass:finite_norm",
+        "status": "PASS",
+        "value": 9.230114405887496,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "element:3:BEAM2:local_mass:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "element:4:BEAM2:local_stiffness:finite_norm",
+        "status": "PASS",
+        "value": 34083305261.94544,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "element:4:BEAM2:local_stiffness:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "element:4:BEAM2:local_mass:finite_norm",
+        "status": "PASS",
+        "value": 9.230114405887496,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "element:4:BEAM2:local_mass:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "element:5:BEAM2:local_stiffness:finite_norm",
+        "status": "PASS",
+        "value": 34083305261.94544,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "element:5:BEAM2:local_stiffness:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "element:5:BEAM2:local_mass:finite_norm",
+        "status": "PASS",
+        "value": 9.230114405887496,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "element:5:BEAM2:local_mass:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "element:6:BEAM2:local_stiffness:finite_norm",
+        "status": "PASS",
+        "value": 34083305261.94544,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "element:6:BEAM2:local_stiffness:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "element:6:BEAM2:local_mass:finite_norm",
+        "status": "PASS",
+        "value": 9.230114405887496,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "element:6:BEAM2:local_mass:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "element:7:BEAM2:local_stiffness:finite_norm",
+        "status": "PASS",
+        "value": 34083305261.94544,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "element:7:BEAM2:local_stiffness:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "element:7:BEAM2:local_mass:finite_norm",
+        "status": "PASS",
+        "value": 9.230114405887496,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "element:7:BEAM2:local_mass:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "element:8:BEAM2:local_stiffness:finite_norm",
+        "status": "PASS",
+        "value": 34083305261.94544,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "element:8:BEAM2:local_stiffness:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "element:8:BEAM2:local_mass:finite_norm",
+        "status": "PASS",
+        "value": 9.230114405887496,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "element:8:BEAM2:local_mass:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "element:9:BEAM2:local_stiffness:finite_norm",
+        "status": "PASS",
+        "value": 34083305261.94544,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "element:9:BEAM2:local_stiffness:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "element:9:BEAM2:local_mass:finite_norm",
+        "status": "PASS",
+        "value": 9.230114405887496,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "element:9:BEAM2:local_mass:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "element:10:BEAM2:local_stiffness:finite_norm",
+        "status": "PASS",
+        "value": 34083305261.94544,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "element:10:BEAM2:local_stiffness:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "element:10:BEAM2:local_mass:finite_norm",
+        "status": "PASS",
+        "value": 9.230114405887496,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "element:10:BEAM2:local_mass:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "element:11:BEAM2:local_stiffness:finite_norm",
+        "status": "PASS",
+        "value": 34083305261.94544,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "element:11:BEAM2:local_stiffness:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "element:11:BEAM2:local_mass:finite_norm",
+        "status": "PASS",
+        "value": 9.230114405887496,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "element:11:BEAM2:local_mass:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "element:12:BEAM2:local_stiffness:finite_norm",
+        "status": "PASS",
+        "value": 34083305261.94544,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "element:12:BEAM2:local_stiffness:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "element:12:BEAM2:local_mass:finite_norm",
+        "status": "PASS",
+        "value": 9.230114405887496,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "element:12:BEAM2:local_mass:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "element:13:BEAM2:local_stiffness:finite_norm",
+        "status": "PASS",
+        "value": 34083305261.94544,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "element:13:BEAM2:local_stiffness:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "element:13:BEAM2:local_mass:finite_norm",
+        "status": "PASS",
+        "value": 9.230114405887496,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "element:13:BEAM2:local_mass:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "element:14:BEAM2:local_stiffness:finite_norm",
+        "status": "PASS",
+        "value": 34083305261.94544,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "element:14:BEAM2:local_stiffness:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "element:14:BEAM2:local_mass:finite_norm",
+        "status": "PASS",
+        "value": 9.230114405887496,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "element:14:BEAM2:local_mass:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "element:15:BEAM2:local_stiffness:finite_norm",
+        "status": "PASS",
+        "value": 34083305261.94544,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "element:15:BEAM2:local_stiffness:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      },
+      {
+        "name": "element:15:BEAM2:local_mass:finite_norm",
+        "status": "PASS",
+        "value": 9.230114405887496,
+        "limit": "finite",
+        "message": "Matrix norm must be finite."
+      },
+      {
+        "name": "element:15:BEAM2:local_mass:symmetry",
+        "status": "PASS",
+        "value": 0.0,
+        "limit": "<= 1e-9 PASS, <= 1e-8 WARNING",
+        "message": "Conservative mechanical matrices are expected to be symmetric."
+      }
+    ],
+    "notes": [],
+    "qualification": {
+      "solver_version": "0.2.0a0",
+      "schema_version": 1,
+      "units": {
+        "system": "SI"
+      },
+      "verification_profile": "engineering",
+      "evidence_level": "engineering_review",
+      "maturity": {
+        "overall": "experimental",
+        "analysis": "stable_after_reinforced_tests",
+        "method": "stable",
+        "elements": {
+          "BEAM2": "experimental"
+        },
+        "discrete_entities": {}
+      },
+      "qualification_domain": {
+        "name": "tet4-linear-static-v1",
+        "status": "NOT_APPLICABLE",
+        "reason": "Domain applies only to linear_static models containing TET4 elements exclusively.",
+        "limits": {
+          "material_type": "isotropic_3d",
+          "young_modulus": {
+            "minimum_exclusive": 0.0,
+            "unit": "Pa"
+          },
+          "poisson_ratio": {
+            "minimum": 0.0,
+            "maximum": 0.45
+          },
+          "tet_min_quality": 0.05,
+          "tet_min_radius_ratio": 0.05,
+          "tet_max_aspect_ratio": 20.0,
+          "reduced_stiffness_condition_estimate_max": 1000000000000.0
+        }
+      },
+      "traceability": {
+        "status": "PASS",
+        "scope": "beam2-linear-dynamics",
+        "scope_status": "candidate",
+        "requirement_count": 9,
+        "covered_requirement_count": 9,
+        "formula_count": 8,
+        "covered_formula_count": 8,
+        "orphan_requirements": [],
+        "orphan_formulas": []
+      }
+    }
+  },
+  "qualification_summary": {
+    "status": "WARNING",
+    "run_verdict": "WARNING",
+    "blocking_errors": [],
+    "warnings": [
+      "Maturity 'experimental' is used under profile 'engineering'."
+    ],
+    "trust_score": 0.75,
+    "trust_score_non_certifying": true,
+    "evidence_level": "engineering_review",
+    "verification_profile": "engineering",
+    "maturity": {
+      "overall": "experimental",
+      "analysis": "stable_after_reinforced_tests",
+      "method": "stable",
+      "elements": {
+        "BEAM2": "experimental"
+      },
+      "discrete_entities": {}
+    },
+    "qualification_domain": {
+      "name": "tet4-linear-static-v1",
+      "status": "NOT_APPLICABLE",
+      "reason": "Domain applies only to linear_static models containing TET4 elements exclusively.",
+      "limits": {
+        "material_type": "isotropic_3d",
+        "young_modulus": {
+          "minimum_exclusive": 0.0,
+          "unit": "Pa"
+        },
+        "poisson_ratio": {
+          "minimum": 0.0,
+          "maximum": 0.45
+        },
+        "tet_min_quality": 0.05,
+        "tet_min_radius_ratio": 0.05,
+        "tet_max_aspect_ratio": 20.0,
+        "reduced_stiffness_condition_estimate_max": 1000000000000.0
+      }
+    }
+  }
+}

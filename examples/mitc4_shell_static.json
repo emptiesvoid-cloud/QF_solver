@@ -1,0 +1,26 @@
+{
+  "analysis": {
+    "type": "linear_static",
+    "method": "direct"
+  },
+  "nodes": [
+    [0.0, 0.0, 0.0],
+    [1.0, 0.0, 0.0],
+    [1.0, 1.0, 0.0],
+    [0.0, 1.0, 0.0]
+  ],
+  "elements": [
+    {"type": "MITC4", "nodes": [0, 1, 2, 3], "material": "skin"}
+  ],
+  "materials": {
+    "skin": {"type": "shell_isotropic", "E": 1000.0, "nu": 0.25, "t": 0.1}
+  },
+  "fixed_dofs": [
+    {"node": 0, "dofs": ["UX", "UY", "UZ", "RX", "RY", "RZ"]},
+    {"node": 3, "dofs": ["UX", "UY", "UZ", "RX", "RY", "RZ"]}
+  ],
+  "loads": [
+    {"node": 1, "dof": "UX", "value": 1.0},
+    {"node": 2, "dof": "UX", "value": 1.0}
+  ]
+}

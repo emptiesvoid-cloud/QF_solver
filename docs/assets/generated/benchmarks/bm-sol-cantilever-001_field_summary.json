@@ -1,0 +1,26 @@
+{
+  "deformation_scale": 49881.189202567024,
+  "element_count": 252,
+  "fields": [
+    {
+      "element_count": 252,
+      "key": "von_mises",
+      "label": "Contrainte equivalente de von Mises [unite du modele]",
+      "maximum": 37237.80547010731,
+      "minimum": 1355.3083435075046,
+      "path": "bm-sol-cantilever-001_von_mises.png",
+      "sha256": "71b832bbda7fd570a9a8dc02eaef2e5818e1f28cdfc11602b53936b6f025889e"
+    },
+    {
+      "element_count": 252,
+      "key": "strain_measure",
+      "label": "Deformation equivalente de von Mises [-]",
+      "maximum": 4.6103949629656665e-07,
+      "minimum": 1.6780008062473866e-08,
+      "path": "bm-sol-cantilever-001_strain_measure.png",
+      "sha256": "42af24f43f9d391db025aab858b9bd816c74f4b5e18f70e9afc00c98e8e153f1"
+    }
+  ],
+  "schema_version": 1,
+  "title": "Poutre 3D TET4/TET10 en flexion"
+}

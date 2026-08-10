@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "study_id": "VNV-MITC4-HARMONIC-NAFEMS13H-004",
+  "source": {
+    "repository": ".",
+    "revision": "c8d7fcf4fb176c9cd595360ffd0f4417c19285ce",
+    "dirty": true
+  },
+  "external_reference": {
+    "title": "Test 13H: Simply supported thin square plate: harmonic forced vibration",
+    "url": "https://docs.software.vt.edu/abaqusv2024/English/SIMACAEBMKRefMap/simabmk-c-forcedvibrationtest13h.htm",
+    "table": "Table 2 - Direct solution",
+    "reference_origin": "NAFEMS Selected Benchmarks for Forced Vibration, R0016, March 1993",
+    "input_files": {
+      "S4": "https://docs.software.vt.edu/abaqusv2024/English/SIMAINPRefResources/nfh13e4x.inp",
+      "S4R": "https://docs.software.vt.edu/abaqusv2024/English/SIMAINPRefResources/nfh13f4x.inp"
+    }
+  },
+  "files": [
+    {
+      "role": "mitc4_nafems_13h_external_correlation",
+      "path": "summary.json",
+      "size_bytes": 127983,
+      "sha256": "1bb87a26b4ae68c7e86d554b87b402fbe08ca8fcd3f92bbb128dc271ff795732"
+    },
+    {
+      "role": "mitc4_nafems_13h_external_correlation",
+      "path": "VNV-MITC4-HARMONIC-NAFEMS13H-004-deformed.png",
+      "size_bytes": 250911,
+      "sha256": "ffa251165febf63b4ed222d4b5829d60fad1a047ef891eb789be333b07bf2dd3"
+    },
+    {
+      "role": "mitc4_nafems_13h_external_correlation",
+      "path": "VNV-MITC4-HARMONIC-NAFEMS13H-004-model-setup.png",
+      "size_bytes": 46833,
+      "sha256": "f7bc02b2ca368e734942d3f924425e92633f4d4808174adb25a1ae222cf53f2e"
+    },
+    {
+      "role": "mitc4_nafems_13h_external_correlation",
+      "path": "VNV-MITC4-HARMONIC-NAFEMS13H-004-response.png",
+      "size_bytes": 48219,
+      "sha256": "75caea1ef23cd5119d799b8b9c6545389915085d378d33a2b746e14b5c2994cc"
+    },
+    {
+      "role": "mitc4_nafems_13h_external_correlation",
+      "path": "VNV-MITC4-HARMONIC-NAFEMS13H-004-stress-response.png",
+      "size_bytes": 82289,
+      "sha256": "60bf87ed0147fe5704bf1f066fc8181af29f41c4050ae5efa0c699aa7a89c904"
+    },
+    {
+      "role": "mitc4_nafems_13h_external_correlation",
+      "path": "VNV-MITC4-HARMONIC-NAFEMS13H-004.md",
+      "size_bytes": 1608,
+      "sha256": "f6869af622a3a0e9c00827fa87ce7f13b14ffe26c1ac83e554c01b4599c922ca"
+    }
+  ]
+}

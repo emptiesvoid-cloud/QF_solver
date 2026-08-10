@@ -1,0 +1,86 @@
+{
+  "status": "WARNING",
+  "solver_name": "QF_solver",
+  "solver_version": "0.2.0a0",
+  "source_path": "h5.msh",
+  "source_sha256": "1c499f5e23f879e0fbbe72b7140299808ff6584e62fc428f84af161ee235b708",
+  "setup_path": "compression_h5.setup.json",
+  "setup_sha256": "7eada286ee8e1cbb32ebe011781377e862e3a7266e263d975c0884d817ae558a",
+  "gmsh_version": "4.15.2",
+  "msh_version": "4.1",
+  "binary": false,
+  "element_family": "TET4",
+  "node_count": 737,
+  "element_count": 2402,
+  "group_count": 8,
+  "physical_groups": [
+    {
+      "name": "anchor_origin",
+      "dimension": 0,
+      "tag": 6,
+      "cell_count": 1,
+      "node_count": 1
+    },
+    {
+      "name": "anchor_x",
+      "dimension": 0,
+      "tag": 7,
+      "cell_count": 1,
+      "node_count": 1
+    },
+    {
+      "name": "anchor_xy",
+      "dimension": 0,
+      "tag": 8,
+      "cell_count": 1,
+      "node_count": 1
+    },
+    {
+      "name": "x_max",
+      "dimension": 2,
+      "tag": 3,
+      "cell_count": 46,
+      "node_count": 36
+    },
+    {
+      "name": "x_min",
+      "dimension": 2,
+      "tag": 2,
+      "cell_count": 46,
+      "node_count": 36
+    },
+    {
+      "name": "y_min",
+      "dimension": 2,
+      "tag": 4,
+      "cell_count": 86,
+      "node_count": 66
+    },
+    {
+      "name": "z_min",
+      "dimension": 2,
+      "tag": 5,
+      "cell_count": 488,
+      "node_count": 275
+    },
+    {
+      "name": "domain",
+      "dimension": 3,
+      "tag": 1,
+      "cell_count": 2402,
+      "node_count": 737
+    }
+  ],
+  "action_counts": {
+    "elements": 2402,
+    "fixed_dofs": 38,
+    "surface_traction": 46
+  },
+  "orientation_repairs": 0,
+  "mesh_status": "PASS",
+  "warnings": [
+    "Physical group 'anchor_x' (dimension 0) is unused.",
+    "Physical group 'y_min' (dimension 2) is unused.",
+    "Physical group 'z_min' (dimension 2) is unused."
+  ]
+}

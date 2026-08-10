@@ -1,0 +1,261 @@
+{
+  "benchmark": {
+    "identifier": "BM-SOL-TET4-MEMBRANE-001",
+    "title": "Panneau mince 3D TET4 en traction et compression",
+    "family": "TET4",
+    "analyses": [
+      "linear_static"
+    ],
+    "maturity": "stable_after_reinforced_tests",
+    "reference_type": "analytic_affine_field",
+    "reference": "Traction/compression uniaxiale 3D et champs affines exacts",
+    "reference_id": "REF-FEM-BATHE",
+    "reference_url": "https://ocw.mit.edu/courses/res-2-002-finite-element-procedures-for-solids-and-structures-spring-2010/",
+    "requirements": [
+      "REQ-SOL-001",
+      "REQ-MESH-001",
+      "REQ-CMP-003"
+    ],
+    "criteria": {
+      "relative_displacement_error_max": 1e-09,
+      "relative_stress_error_max": 1e-09,
+      "free_residual_max": 1e-08
+    }
+  },
+  "status": "PASS",
+  "metrics": {
+    "reference_end_ux": 0.00028571428571428574,
+    "membrane_resultant_nx": 2000000.0,
+    "membrane_h_convergence": [
+      {
+        "level": 1,
+        "mesh_size": 0.34,
+        "node_count": 88,
+        "element_count": 208,
+        "mean_end_ux": 0.00028571428571428503,
+        "reference_end_ux": 0.00028571428571428574,
+        "relative_displacement_error": 2.4665599424045226e-15,
+        "relative_stress_error": 7.437740684236324e-15,
+        "free_relative_residual": 1.6557809381540823e-14
+      },
+      {
+        "level": 2,
+        "mesh_size": 0.24,
+        "node_count": 170,
+        "element_count": 431,
+        "mean_end_ux": 0.00028571428571428546,
+        "reference_end_ux": 0.00028571428571428574,
+        "relative_displacement_error": 9.486769009248164e-16,
+        "relative_stress_error": 8.374078346104705e-15,
+        "free_relative_residual": 2.8099623105620978e-14
+      },
+      {
+        "level": 3,
+        "mesh_size": 0.17,
+        "node_count": 254,
+        "element_count": 640,
+        "mean_end_ux": 0.00028571428571428677,
+        "reference_end_ux": 0.00028571428571428574,
+        "relative_displacement_error": 3.604972223514302e-15,
+        "relative_stress_error": 1.0332396280163256e-14,
+        "free_relative_residual": 3.030170740322278e-14
+      },
+      {
+        "level": 4,
+        "mesh_size": 0.13,
+        "node_count": 419,
+        "element_count": 1116,
+        "mean_end_ux": 0.0002857142857142862,
+        "reference_end_ux": 0.00028571428571428574,
+        "relative_displacement_error": 1.7076184216646693e-15,
+        "relative_stress_error": 1.4013585703084069e-14,
+        "free_relative_residual": 5.2680707653039373e-14
+      },
+      {
+        "level": 5,
+        "mesh_size": 0.1,
+        "node_count": 737,
+        "element_count": 2402,
+        "mean_end_ux": 0.00028571428571428677,
+        "reference_end_ux": 0.00028571428571428574,
+        "relative_displacement_error": 3.604972223514302e-15,
+        "relative_stress_error": 2.350059319083831e-14,
+        "free_relative_residual": 7.247104343076946e-14
+      }
+    ],
+    "compression_h_convergence": [
+      {
+        "level": 1,
+        "mesh_size": 0.34,
+        "node_count": 88,
+        "element_count": 208,
+        "mean_end_ux": -0.00028571428571428503,
+        "reference_end_ux": -0.00028571428571428574,
+        "relative_displacement_error": 2.4665599424045226e-15,
+        "relative_stress_error": 7.437740684236324e-15,
+        "free_relative_residual": 1.6557809381540823e-14
+      },
+      {
+        "level": 2,
+        "mesh_size": 0.24,
+        "node_count": 170,
+        "element_count": 431,
+        "mean_end_ux": -0.00028571428571428546,
+        "reference_end_ux": -0.00028571428571428574,
+        "relative_displacement_error": 9.486769009248164e-16,
+        "relative_stress_error": 8.374078346104705e-15,
+        "free_relative_residual": 2.8099623105620978e-14
+      },
+      {
+        "level": 3,
+        "mesh_size": 0.17,
+        "node_count": 254,
+        "element_count": 640,
+        "mean_end_ux": -0.00028571428571428677,
+        "reference_end_ux": -0.00028571428571428574,
+        "relative_displacement_error": 3.604972223514302e-15,
+        "relative_stress_error": 1.0332396280163256e-14,
+        "free_relative_residual": 3.030170740322278e-14
+      },
+      {
+        "level": 4,
+        "mesh_size": 0.13,
+        "node_count": 419,
+        "element_count": 1116,
+        "mean_end_ux": -0.0002857142857142862,
+        "reference_end_ux": -0.00028571428571428574,
+        "relative_displacement_error": 1.7076184216646693e-15,
+        "relative_stress_error": 1.4013585703084069e-14,
+        "free_relative_residual": 5.2680707653039373e-14
+      },
+      {
+        "level": 5,
+        "mesh_size": 0.1,
+        "node_count": 737,
+        "element_count": 2402,
+        "mean_end_ux": -0.00028571428571428677,
+        "reference_end_ux": -0.00028571428571428574,
+        "relative_displacement_error": 3.604972223514302e-15,
+        "relative_stress_error": 2.350059319083831e-14,
+        "free_relative_residual": 7.247104343076946e-14
+      }
+    ],
+    "max_relative_displacement_error": 3.604972223514302e-15,
+    "max_relative_stress_error": 2.350059319083831e-14
+  },
+  "checks": [
+    {
+      "id": "membrane-displacement",
+      "status": "PASS",
+      "value": 3.604972223514302e-15,
+      "limit": 1e-09,
+      "operator": "less_equal",
+      "detail": ""
+    },
+    {
+      "id": "membrane-constant-stress",
+      "status": "PASS",
+      "value": 2.350059319083831e-14,
+      "limit": 1e-09,
+      "operator": "less_equal",
+      "detail": ""
+    },
+    {
+      "id": "membrane-free-residual",
+      "status": "PASS",
+      "value": 7.247104343076946e-14,
+      "limit": 1e-08,
+      "operator": "less_equal",
+      "detail": ""
+    },
+    {
+      "id": "compression-displacement",
+      "status": "PASS",
+      "value": 3.604972223514302e-15,
+      "limit": 1e-09,
+      "operator": "less_equal",
+      "detail": ""
+    },
+    {
+      "id": "compression-constant-stress",
+      "status": "PASS",
+      "value": 2.350059319083831e-14,
+      "limit": 1e-09,
+      "operator": "less_equal",
+      "detail": ""
+    },
+    {
+      "id": "compression-free-residual",
+      "status": "PASS",
+      "value": 7.247104343076946e-14,
+      "limit": 1e-08,
+      "operator": "less_equal",
+      "detail": ""
+    }
+  ],
+  "files": {
+    "compression_h1_import_report": "compression_h1.import_report.json",
+    "compression_h1_mesh": "h1.msh",
+    "compression_h1_model": "compression_h1.model.json",
+    "compression_h1_result": "compression_h1.json",
+    "compression_h1_setup": "compression_h1.setup.json",
+    "compression_h1_vtu": "compression_h1.vtu",
+    "compression_h2_import_report": "compression_h2.import_report.json",
+    "compression_h2_mesh": "h2.msh",
+    "compression_h2_model": "compression_h2.model.json",
+    "compression_h2_result": "compression_h2.json",
+    "compression_h2_setup": "compression_h2.setup.json",
+    "compression_h2_vtu": "compression_h2.vtu",
+    "compression_h3_import_report": "compression_h3.import_report.json",
+    "compression_h3_mesh": "h3.msh",
+    "compression_h3_model": "compression_h3.model.json",
+    "compression_h3_result": "compression_h3.json",
+    "compression_h3_setup": "compression_h3.setup.json",
+    "compression_h3_vtu": "compression_h3.vtu",
+    "compression_h4_import_report": "compression_h4.import_report.json",
+    "compression_h4_mesh": "h4.msh",
+    "compression_h4_model": "compression_h4.model.json",
+    "compression_h4_result": "compression_h4.json",
+    "compression_h4_setup": "compression_h4.setup.json",
+    "compression_h4_vtu": "compression_h4.vtu",
+    "compression_h5_import_report": "compression_h5.import_report.json",
+    "compression_h5_mesh": "h5.msh",
+    "compression_h5_model": "compression_h5.model.json",
+    "compression_h5_result": "compression_h5.json",
+    "compression_h5_setup": "compression_h5.setup.json",
+    "compression_h5_vtu": "compression_h5.vtu",
+    "traction_h1_import_report": "traction_h1.import_report.json",
+    "traction_h1_mesh": "h1.msh",
+    "traction_h1_model": "traction_h1.model.json",
+    "traction_h1_result": "traction_h1.json",
+    "traction_h1_setup": "traction_h1.setup.json",
+    "traction_h1_vtu": "traction_h1.vtu",
+    "traction_h2_import_report": "traction_h2.import_report.json",
+    "traction_h2_mesh": "h2.msh",
+    "traction_h2_model": "traction_h2.model.json",
+    "traction_h2_result": "traction_h2.json",
+    "traction_h2_setup": "traction_h2.setup.json",
+    "traction_h2_vtu": "traction_h2.vtu",
+    "traction_h3_import_report": "traction_h3.import_report.json",
+    "traction_h3_mesh": "h3.msh",
+    "traction_h3_model": "traction_h3.model.json",
+    "traction_h3_result": "traction_h3.json",
+    "traction_h3_setup": "traction_h3.setup.json",
+    "traction_h3_vtu": "traction_h3.vtu",
+    "traction_h4_import_report": "traction_h4.import_report.json",
+    "traction_h4_mesh": "h4.msh",
+    "traction_h4_model": "traction_h4.model.json",
+    "traction_h4_result": "traction_h4.json",
+    "traction_h4_setup": "traction_h4.setup.json",
+    "traction_h4_vtu": "traction_h4.vtu",
+    "traction_h5_import_report": "traction_h5.import_report.json",
+    "traction_h5_mesh": "h5.msh",
+    "traction_h5_model": "traction_h5.model.json",
+    "traction_h5_result": "traction_h5.json",
+    "traction_h5_setup": "traction_h5.setup.json",
+    "traction_h5_vtu": "traction_h5.vtu",
+    "summary": "benchmark_summary.json",
+    "manifest": "benchmark_manifest.json"
+  },
+  "message": "These are 3D thin-solid axial patches, not plane-stress or shell elements."
+}

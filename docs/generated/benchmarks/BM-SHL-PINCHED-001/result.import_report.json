@@ -1,0 +1,61 @@
+{
+  "status": "PASS",
+  "solver_name": "QF_solver",
+  "solver_version": "0.2.0a0",
+  "source_path": "pinched_cylinder_mitc4.msh",
+  "source_sha256": "3ae902a6a94b465e9b88d7c4a2aa47dbb62e767cb75ce5462aef1f64e6cf872b",
+  "setup_path": "result.setup.json",
+  "setup_sha256": "67b250d96824c7879207ac77f8ff54dc40fed374c0aafd9dda8ba5350fbb935b",
+  "gmsh_version": "4.15.2",
+  "msh_version": "4.1",
+  "binary": false,
+  "element_family": "MITC4",
+  "node_count": 2112,
+  "element_count": 2048,
+  "group_count": 5,
+  "physical_groups": [
+    {
+      "name": "anchor",
+      "dimension": 0,
+      "tag": 3,
+      "cell_count": 1,
+      "node_count": 1
+    },
+    {
+      "name": "load_a",
+      "dimension": 0,
+      "tag": 4,
+      "cell_count": 1,
+      "node_count": 1
+    },
+    {
+      "name": "load_b",
+      "dimension": 0,
+      "tag": 5,
+      "cell_count": 1,
+      "node_count": 1
+    },
+    {
+      "name": "diaphragms",
+      "dimension": 1,
+      "tag": 2,
+      "cell_count": 128,
+      "node_count": 128
+    },
+    {
+      "name": "shell",
+      "dimension": 2,
+      "tag": 1,
+      "cell_count": 2048,
+      "node_count": 2112
+    }
+  ],
+  "action_counts": {
+    "elements": 2048,
+    "fixed_dofs": 129,
+    "nodal_load": 2
+  },
+  "orientation_repairs": 0,
+  "mesh_status": "PASS",
+  "warnings": []
+}

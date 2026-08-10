@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "review_id": "REV-MITC4-MODAL-PENDING",
+  "scope": "mitc4-modal",
+  "decision": "superseded_by_signed_review",
+  "decision_date": null,
+  "validator": {
+    "name": "Quentin Farinazzo",
+    "role": "auteur et validateur mecanique"
+  },
+  "review_mode": "self_review",
+  "independence": "not_independent",
+  "certification_claim": "none",
+  "technical_status": "superseded_by_signed_review",
+  "superseded_by": "qualification/reviews/mitc4_modal_2026-07-16.json",
+  "review_document": "docs/verification/revue_mitc4_modale.md",
+  "review_pdf": "docs/assets/reviews/revue_mitc4_modale.pdf",
+  "evidence": [
+    "VNV-MITC4-MODAL-CANTILEVER-002",
+    "VNV-MITC4-MODAL-PLATE-003",
+    "VNV-MITC4-MODAL-CODEASTER-DKQ-004",
+    "VNV-MITC4-MODAL-FREEFREE-FOLDED-005",
+    "VNV-MITC4-MODAL-CURVED-DISTORTED-006",
+    "VNV-MITC4-MODAL-EIGSH-LARGE-007"
+  ],
+  "review_questions": [
+    "Les dix frequences et formes de plaque sont-elles coherentes avec Navier ?",
+    "L'accord de frequence et de forme avec Code_Aster DKQ est-il acceptable ?",
+    "Les trois paires propres repetees sont-elles correctement jugees par sous-espace ?",
+    "Les six modes rigides de la structure assemblee libre-libre sont-ils acceptables ?",
+    "La convergence, la distorsion et l'objectivite de la coque courbe sont-elles acceptables ?",
+    "La concordance eigh/eigsh et le calcul a 7011 DDL actifs sont-ils acceptables ?",
+    "Les residus, orthogonalites et limites du scope sont-ils acceptables ?"
+  ],
+  "scope_constraints": {
+    "accepted_mass_formulation": "consistent",
+    "excluded_mass_formulations": ["lumped", "concentrated"],
+    "exclusion_status": "outside_scope"
+  },
+  "known_limitations": [
+    "La correlation Code_Aster principale porte sur une plaque plane reguliere.",
+    "Code_Aster DKQ et MITC4 ne sont pas des formulations identiques.",
+    "Le libre-libre est correle au sous-espace rigide analytique sans second solveur.",
+    "La coque courbe dispose de preuves de convergence et d'invariance sans oracle externe.",
+    "Le cas eigsh a 7011 DDL ne prouve pas la scalabilite million de DDL.",
+    "La masse concentree est explicitement hors scope et rejetee si demandee.",
+    "Cette auto-revue ne constitue pas une verification independante."
+  ],
+  "signature": null
+}

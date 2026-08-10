@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "followup_id": "FOLLOWUP-MITC4-LAMINATE-STATIC-2026-07-26",
+  "scope": "mitc4-laminate-static",
+  "parent_review": "qualification/reviews/mitc4_laminate_static_pending.json",
+  "decision_preserved": "engineering_internal_validated_with_recommendations",
+  "completed_recommendations": [
+    {
+      "recommendation": "Comparer les contraintes par pli hors zone singuliere.",
+      "status": "completed",
+      "evidence": "VNV-COMP-PLY-STRESS-005",
+      "results": {
+        "membrane_fine_l2_error": 3.8899376628766106e-05,
+        "bending_fine_l2_error": 0.002538932799996553,
+        "combined_fine_l2_error": 0.0003790954429530897,
+        "distorted_combined_fine_l2_error": 0.010556667957690832
+      }
+    }
+  ],
+  "additional_completed_recommendations": [
+    {
+      "recommendation": "Verifier le transport projete des axes materiau sur une coque courbe et un assemblage plie.",
+      "status": "completed_internal_verification",
+      "evidence": "VNV-COMP-CURVED-ASSEMBLY-006",
+      "limitations": "La correlation externe axiale est couverte par VNV-COMP-CURVED-CALCULIX-S8R-007; les axes obliques et les facettes gauches restent hors acceptation."
+    },
+    {
+      "recommendation": "Executer une correlation externe sur coque composite courbe.",
+      "status": "completed_bounded_scope",
+      "evidence": "VNV-COMP-CURVED-CALCULIX-S8R-007",
+      "results": {
+        "fine_vector_difference": 0.002247131986635772,
+        "fine_uz_difference": 0.0022477858585822096,
+        "qf_final_mesh_increment": 0.0024498580186560425,
+        "calculix_final_mesh_increment": 0.0003759441263103314
+      },
+      "limitations": "Accepted for a symmetric [0/90/90/0] laminate with material direction parallel to the cylinder generatrix."
+    },
+    {
+      "recommendation": "Fermer ANOM-COMP-CURVED-ORIENTATION-001 pour les directions globales obliques et les stratifies non symetriques.",
+      "status": "completed_bounded_scope",
+      "evidence": "VNV-COMP-CURVED-ORIENTATION-008",
+      "results": {
+        "fine_vector_difference": 0.01839318074248966,
+        "fine_uz_difference": 0.01842744405588437,
+        "qf_final_mesh_increment": 0.0073027795266211466,
+        "calculix_final_mesh_increment": 0.00047265775413442214
+      },
+      "limitations": "Residual MITC4 faceted versus CalculiX S8R model-form difference is accepted below 3 percent for this study only."
+    }
+  ],
+  "open_recommendations": [
+    "Traiter REC-COMP-CURVED-MODELFORM-001 avec un oracle coque de meme ordre ou une reference analytique.",
+    "Etendre la validation a des assemblages composites complexes.",
+    "Maintenir S13, delaminage et dommage hors du domaine accepte."
+  ],
+  "certification_claim": "none"
+}

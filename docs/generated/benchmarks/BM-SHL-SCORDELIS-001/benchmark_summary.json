@@ -1,0 +1,73 @@
+{
+  "benchmark": {
+    "identifier": "BM-SHL-SCORDELIS-001",
+    "title": "Toiture de Scordelis-Lo MITC4",
+    "family": "MITC4",
+    "analyses": [
+      "linear_static"
+    ],
+    "maturity": "stable",
+    "reference_type": "published_converged_value",
+    "reference": "Valeur historique -0.3024 avec reserve documentaire",
+    "reference_id": "REF-SHELL-OBSTACLE",
+    "reference_url": "https://doi.org/10.1016/0168-874X(85)90003-4",
+    "requirements": [
+      "REQ-SOL-002",
+      "REQ-CMP-003"
+    ],
+    "criteria": {
+      "edge_displacement_error_max": 0.05,
+      "symmetry_error_max": 0.01
+    }
+  },
+  "status": "PASS",
+  "metrics": {
+    "mesh": [
+      20,
+      20
+    ],
+    "edge_uz_a": -0.29759646537834633,
+    "edge_uz_b": -0.29763109922395165,
+    "reference_edge_uz": -0.3024,
+    "edge_displacement_error": 0.015827439480327426,
+    "symmetry_error": 0.00011452991271598588,
+    "reference_caveat": "Historical converged value; provenance limitations are documented on the site."
+  },
+  "checks": [
+    {
+      "id": "edge-displacement",
+      "status": "PASS",
+      "value": 0.015827439480327426,
+      "limit": 0.05,
+      "operator": "less_equal",
+      "detail": ""
+    },
+    {
+      "id": "symmetry",
+      "status": "PASS",
+      "value": 0.00011452991271598588,
+      "limit": 0.01,
+      "operator": "less_equal",
+      "detail": ""
+    },
+    {
+      "id": "free-residual",
+      "status": "PASS",
+      "value": 2.4480036431710997e-11,
+      "limit": 1e-08,
+      "operator": "less_equal",
+      "detail": ""
+    }
+  ],
+  "files": {
+    "result_import_report": "result.import_report.json",
+    "result_mesh": "scordelis_mitc4.msh",
+    "result_model": "result.model.json",
+    "result_result": "result.json",
+    "result_setup": "result.setup.json",
+    "result_vtu": "result.vtu",
+    "summary": "benchmark_summary.json",
+    "manifest": "benchmark_manifest.json"
+  },
+  "message": ""
+}

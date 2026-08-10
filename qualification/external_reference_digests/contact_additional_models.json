@@ -1,0 +1,273 @@
+{
+  "campaign_id": "VNV-CONTACT-ADDITIONAL-MODELS-008",
+  "cases": [
+    {
+      "checks": [
+        {
+          "id": "dual_stop_corner:maximum_abs_gap",
+          "limit": 1e-09,
+          "status": "PASS",
+          "value": 2.7755575615628914e-17
+        },
+        {
+          "id": "dual_stop_corner:inactive_contact_count",
+          "limit": 0.0,
+          "status": "PASS",
+          "value": 0.0
+        },
+        {
+          "id": "dual_stop_corner:minimum_pressure",
+          "limit": 0.0,
+          "status": "PASS",
+          "value": 100.0
+        },
+        {
+          "id": "dual_stop_corner:active_set_iterations",
+          "limit": 5.0,
+          "status": "PASS",
+          "value": 2.0
+        },
+        {
+          "id": "dual_stop_corner:node_4_component_0",
+          "limit": 1e-09,
+          "status": "PASS",
+          "value": 0.0
+        },
+        {
+          "id": "dual_stop_corner:node_4_component_2",
+          "limit": 1e-09,
+          "status": "PASS",
+          "value": 2.7755575615628914e-17
+        }
+      ],
+      "contacts": 2,
+      "elements": 0,
+      "gaps_m": [
+        0.0,
+        -2.7755575615628914e-17
+      ],
+      "id": "dual_stop_corner",
+      "max_displacement_m": 0.14142135623730953,
+      "nodes": 5,
+      "pressures_n": [
+        100.0,
+        199.99999999999997
+      ],
+      "selected_faces": [
+        0,
+        0
+      ]
+    },
+    {
+      "checks": [
+        {
+          "id": "faceted_ramp_patch:maximum_abs_gap",
+          "limit": 1e-09,
+          "status": "PASS",
+          "value": 2.7755575615628914e-17
+        },
+        {
+          "id": "faceted_ramp_patch:inactive_contact_count",
+          "limit": 0.0,
+          "status": "PASS",
+          "value": 0.0
+        },
+        {
+          "id": "faceted_ramp_patch:minimum_pressure",
+          "limit": 0.0,
+          "status": "PASS",
+          "value": 85.61051337306658
+        },
+        {
+          "id": "faceted_ramp_patch:active_set_iterations",
+          "limit": 5.0,
+          "status": "PASS",
+          "value": 2.0
+        }
+      ],
+      "contacts": 3,
+      "elements": 0,
+      "gaps_m": [
+        0.0,
+        -2.7755575615628914e-17,
+        0.0
+      ],
+      "id": "faceted_ramp_patch",
+      "max_displacement_m": 0.26499999999999996,
+      "nodes": 11,
+      "pressures_n": [
+        203.8492029319713,
+        170.20744013115288,
+        85.61051337306658
+      ],
+      "selected_faces": [
+        0,
+        2,
+        5
+      ]
+    },
+    {
+      "checks": [
+        {
+          "id": "deformable_tet4_two_slaves:maximum_abs_gap",
+          "limit": 1e-09,
+          "status": "PASS",
+          "value": 6.938893903907228e-16
+        },
+        {
+          "id": "deformable_tet4_two_slaves:inactive_contact_count",
+          "limit": 0.0,
+          "status": "PASS",
+          "value": 0.0
+        },
+        {
+          "id": "deformable_tet4_two_slaves:minimum_pressure",
+          "limit": 0.0,
+          "status": "PASS",
+          "value": 1780.527166463723
+        },
+        {
+          "id": "deformable_tet4_two_slaves:active_set_iterations",
+          "limit": 5.0,
+          "status": "PASS",
+          "value": 2.0
+        },
+        {
+          "id": "deformable_tet4_two_slaves:node_6_component_0",
+          "limit": 1e-09,
+          "status": "PASS",
+          "value": 6.938893903907228e-16
+        },
+        {
+          "id": "deformable_tet4_two_slaves:node_18_component_0",
+          "limit": 1e-09,
+          "status": "PASS",
+          "value": 2.3592239273284576e-16
+        }
+      ],
+      "contacts": 2,
+      "elements": 576,
+      "gaps_m": [
+        -6.938893903907228e-16,
+        2.3592239273284576e-16
+      ],
+      "id": "deformable_tet4_two_slaves",
+      "max_displacement_m": 0.10154780066949422,
+      "nodes": 178,
+      "pressures_n": [
+        1780.527166463723,
+        1788.8471160191043
+      ],
+      "selected_faces": [
+        0,
+        0
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "dual_stop_corner:maximum_abs_gap",
+      "limit": 1e-09,
+      "status": "PASS",
+      "value": 2.7755575615628914e-17
+    },
+    {
+      "id": "dual_stop_corner:inactive_contact_count",
+      "limit": 0.0,
+      "status": "PASS",
+      "value": 0.0
+    },
+    {
+      "id": "dual_stop_corner:minimum_pressure",
+      "limit": 0.0,
+      "status": "PASS",
+      "value": 100.0
+    },
+    {
+      "id": "dual_stop_corner:active_set_iterations",
+      "limit": 5.0,
+      "status": "PASS",
+      "value": 2.0
+    },
+    {
+      "id": "dual_stop_corner:node_4_component_0",
+      "limit": 1e-09,
+      "status": "PASS",
+      "value": 0.0
+    },
+    {
+      "id": "dual_stop_corner:node_4_component_2",
+      "limit": 1e-09,
+      "status": "PASS",
+      "value": 2.7755575615628914e-17
+    },
+    {
+      "id": "faceted_ramp_patch:maximum_abs_gap",
+      "limit": 1e-09,
+      "status": "PASS",
+      "value": 2.7755575615628914e-17
+    },
+    {
+      "id": "faceted_ramp_patch:inactive_contact_count",
+      "limit": 0.0,
+      "status": "PASS",
+      "value": 0.0
+    },
+    {
+      "id": "faceted_ramp_patch:minimum_pressure",
+      "limit": 0.0,
+      "status": "PASS",
+      "value": 85.61051337306658
+    },
+    {
+      "id": "faceted_ramp_patch:active_set_iterations",
+      "limit": 5.0,
+      "status": "PASS",
+      "value": 2.0
+    },
+    {
+      "id": "deformable_tet4_two_slaves:maximum_abs_gap",
+      "limit": 1e-09,
+      "status": "PASS",
+      "value": 6.938893903907228e-16
+    },
+    {
+      "id": "deformable_tet4_two_slaves:inactive_contact_count",
+      "limit": 0.0,
+      "status": "PASS",
+      "value": 0.0
+    },
+    {
+      "id": "deformable_tet4_two_slaves:minimum_pressure",
+      "limit": 0.0,
+      "status": "PASS",
+      "value": 1780.527166463723
+    },
+    {
+      "id": "deformable_tet4_two_slaves:active_set_iterations",
+      "limit": 5.0,
+      "status": "PASS",
+      "value": 2.0
+    },
+    {
+      "id": "deformable_tet4_two_slaves:node_6_component_0",
+      "limit": 1e-09,
+      "status": "PASS",
+      "value": 6.938893903907228e-16
+    },
+    {
+      "id": "deformable_tet4_two_slaves:node_18_component_0",
+      "limit": 1e-09,
+      "status": "PASS",
+      "value": 2.3592239273284576e-16
+    }
+  ],
+  "evidence_manifest_sha256": "8a00bf36d43c4e45b9dceb2617cefbdd5290cb29391fa397cd000c0cd5cfe0a6",
+  "limitations": [
+    "The three models remain small-displacement node-to-triangle contact.",
+    "They do not demonstrate general surface-to-surface or large-sliding contact.",
+    "The external Code_Aster evidence remains provided by the preceding controlled campaigns."
+  ],
+  "maturity": "experimental_ready_for_human_recheck",
+  "status": "PASS_INTERNAL"
+}

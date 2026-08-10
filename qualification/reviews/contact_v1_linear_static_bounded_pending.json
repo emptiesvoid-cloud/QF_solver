@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "review_id": "REV-CONTACT-V1-LINEAR-STATIC-BOUNDED-PENDING",
+  "scope": "contact-v1-linear-static-bounded",
+  "technical_status": "external_correlation_complete_with_warning_pending_human_recheck",
+  "decision": "more_evidence_required",
+  "decision_date": "2026-07-29",
+  "validator": {
+    "name": "Quentin Farinazzo",
+    "role": "auteur et validateur mecanique"
+  },
+  "review_mode": "self_review",
+  "independence": "not_independent",
+  "certification_claim": "none",
+  "review_document": "docs/verification/revue_contact_v1.md",
+  "evidence": [
+    "VNV-CONTACT-FRICTION-BLOCK-001",
+    "VNV-CONTACT-TET4-STRUCTURAL-001",
+    "VNV-CONTACT-DEFORMABLE-MASTER-003",
+    "VNV-CONTACT-TET4-MASTER-FACE-004",
+    "VNV-CONTACT-MASTER-SURFACE-005",
+    "VNV-CONTACT-CODEASTER-LIAISON-UNIL-001",
+    "VNV-CONTACT-CODEASTER-TET4-MASTER-004",
+    "VNV-CONTACT-CODEASTER-FOLDED-NORMAL-006",
+    "VNV-CONTACT-CODEASTER-FOLDED-SEARCH-007",
+    "VNV-CONTACT-ADDITIONAL-MODELS-008",
+    "qualification/external_reference_digests/contact_additional_models.json",
+    "VNV-CONTACT-CODEASTER-ADDITIONAL-009",
+    "qualification/external_reference_digests/contact_code_aster_additional.json"
+  ],
+  "recorded_answers": {
+    "evidence_sufficient_before_followup": "yes",
+    "bounded_domain_and_limits_accepted": "yes",
+    "maturity_request": "promote to ready-to-use equivalent after the requested tests",
+    "interim_decision": "more_evidence_required"
+  },
+  "proposed_domain": [
+    "contact unilateral sans frottement en linear_static",
+    "petites transformations et active-set noeud-triangle",
+    "surface maitre triangulee bornee et recherche initiale ou actualisee limitee",
+    "usage engineering interne experimental uniquement"
+  ],
+  "known_limitations": [
+    "Pas de grand glissement, de topologie variable ni de recherche generale surface-surface.",
+    "Le mode updated est reserve au sans-frottement et a des iterations de petites translations.",
+    "La correlation autonome Code_Aster est comportementale sur un patch discret, pas paire-a-paire.",
+    "Le contact avec frottement est un scope experimental distinct."
+  ],
+  "review_questions": [
+    "Les preuves internes et les correlations externes sont-elles suffisantes pour le domaine borne ?",
+    "Les limites de recherche, de glissement et de discretisation sont-elles acceptees ?",
+    "Le statut experimental et l'absence de revendication de certification sont-ils maintenus ?"
+  ],
+  "recommended_decision": "accepted_for_bounded_engineering_use",
+  "recommendations": [
+    "Conserver le statut experimental jusqu'a la verification d'une recherche surface-surface generale.",
+    "Ne pas etendre cette decision au frottement, au grand glissement ou aux impacts.",
+    "Ajouter une correlation externe sur une structure deformable plus complexe avant toute hausse de maturite."
+  ],
+  "additional_evidence": {
+    "status": "PASS_INTERNAL",
+    "models": [
+      "dual_stop_corner",
+      "faceted_ramp_patch",
+      "deformable_tet4_two_slaves"
+    ],
+    "human_recheck_required": true
+  },
+  "external_correlation_extension": {
+    "status": "PASS_WITH_EXTERNAL_WARNING",
+    "exact_cases": [
+      "dual_stop_corner",
+      "faceted_ramp_patch"
+    ],
+    "deformable_tet4_active_branch": "PASS from load factor 0.2",
+    "qf_calculix_precontact_error": 4.775140638142289e-07,
+    "code_aster_transition_curve_error": 0.052565319500610296,
+    "warning": "Code_Aster closes the second slave at factor 0.1 while QF_solver and CalculiX keep it open.",
+    "human_recheck_required": true
+  },
+  "signature": {
+    "name": "Quentin Farinazzo",
+    "mode": "electronic self_review declaration",
+    "date": "2026-07-29",
+    "applies_to": "interim more_evidence_required decision only"
+  },
+  "superseded_by": "qualification/reviews/contact_v1_linear_static_bounded_2026-07-29.json"
+}

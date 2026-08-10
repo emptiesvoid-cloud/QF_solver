@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "review_id": "REV-ORTHOTROPIC-SINGULAR-STRESS-PENDING",
+  "scope": "orthotropic-solid-singular-stress-assessment",
+  "status": "additional_evidence_complete_pending_human_recheck",
+  "decision": "more_evidence_required",
+  "decision_date": "2026-07-29",
+  "validator": {
+    "name": "Quentin Farinazzo",
+    "role": "auteur et validateur mecanique"
+  },
+  "review_mode": "self_review",
+  "independence": "not_independent",
+  "certification_claim": "none",
+  "review_document": "docs/verification/revue_contraintes_singularites.md",
+  "reason": "Eight refinement levels now satisfy the 5 percent path-and-band convergence policy and the blocking same-mesh Code_Aster correlation.",
+  "evidence": [
+    "VNV-ORTHOTROPIC-SINGULAR-STRESS-005",
+    "qualification/external_reference_digests/orthotropic_singular_stress_h8.json",
+    "VNV-ORTHOTROPIC-ADDITIONAL-STRESS-006",
+    "qualification/external_reference_digests/orthotropic_additional_stress.json"
+  ],
+  "blocking_checks": [],
+  "review_questions": [
+    "Le protocole par chemins fixes et moyennes de bande est-il accepte ?",
+    "Le seuil de convergence de 5 percent est-il accepte ?",
+    "Code_Aster peut-il rester l'oracle bloquant et CalculiX nodal un diagnostic ?",
+    "Le pic ponctuel de l'angle rentrant reste-t-il informatif seulement ?"
+  ],
+  "recommended_decision": "accepted_with_recommendations",
+  "recorded_answers": {
+    "path_and_band_protocol": "accepted",
+    "five_percent_threshold": "accepted",
+    "code_aster_blocking_calculix_diagnostic_policy": "accepted",
+    "reentrant_point_peak": "informative_only",
+    "interim_decision": "more_evidence_required"
+  },
+  "additional_evidence": {
+    "status": "PASS_STRESS_ACCEPTANCE",
+    "models": [
+      "edge_notched_coupon",
+      "double_hole_coupon"
+    ],
+    "stress_fields_published": true,
+    "human_recheck_required": true
+  },
+  "recommendations": [
+    "Keep the re-entrant-corner point peak informative only.",
+    "Keep the 6.357 percent CalculiX nodal band difference visible as a diagnostic because its extrapolation operator differs.",
+    "Use converged fixed-distance paths, band averages and Code_Aster integration-point correlation for bounded engineering decisions."
+  ],
+  "next_action": "The Owner must issue the final decision after reading the two added stress-field studies.",
+  "signature": {
+    "name": "Quentin Farinazzo",
+    "mode": "electronic self_review declaration",
+    "date": "2026-07-29",
+    "applies_to": "interim more_evidence_required decision only"
+  }
+}

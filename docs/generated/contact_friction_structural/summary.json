@@ -1,0 +1,133 @@
+{
+  "campaign_id": "VNV-CONTACT-FRICTION-TET4-STRUCTURAL-002",
+  "checks": [
+    {
+      "criterion": "maximum absolute gap [m]",
+      "limit": 1e-10,
+      "name": "normal gap",
+      "status": "PASS",
+      "value": 4.440892098500626e-16
+    },
+    {
+      "criterion": "maximum ||t|| - mu p [N]",
+      "limit": 1e-08,
+      "name": "Coulomb cone excess",
+      "status": "PASS",
+      "value": 3.310560714453459e-10
+    },
+    {
+      "criterion": "each level must be stick or slip",
+      "limit": 0.0,
+      "name": "invalid tangential-state count",
+      "status": "PASS",
+      "value": 0.0
+    },
+    {
+      "criterion": "at least one level must exercise sliding",
+      "limit": 0.0,
+      "name": "missing sliding branch",
+      "status": "PASS",
+      "value": 0.0
+    },
+    {
+      "criterion": "at least one level must exercise the coupled fallback",
+      "limit": 0.0,
+      "name": "missing active-slip fallback",
+      "status": "PASS",
+      "value": 0.0
+    },
+    {
+      "criterion": "maximum nonlinear function evaluations",
+      "limit": 100.0,
+      "name": "root evaluations",
+      "status": "PASS",
+      "value": 20.0
+    }
+  ],
+  "levels": [
+    {
+      "cells": [
+        4,
+        2,
+        2
+      ],
+      "dofs": 144,
+      "elements": 96,
+      "friction_limit": 1391.0463989309374,
+      "gap": 1.942890293094024e-16,
+      "nodes": 45,
+      "pressure": 3477.6159973273434,
+      "root_evaluations": 20,
+      "solver_strategy": "active_slip_root",
+      "state": "slip",
+      "tangential_force_norm": 1391.0463989312684
+    },
+    {
+      "cells": [
+        8,
+        4,
+        4
+      ],
+      "dofs": 684,
+      "elements": 768,
+      "friction_limit": 1495.9721228502806,
+      "gap": 1.3877787807814457e-17,
+      "nodes": 225,
+      "pressure": 3739.9303071257013,
+      "root_evaluations": 3,
+      "solver_strategy": "direct",
+      "state": "stick",
+      "tangential_force_norm": 1476.5695968544878
+    },
+    {
+      "cells": [
+        12,
+        6,
+        6
+      ],
+      "dofs": 1920,
+      "elements": 2592,
+      "friction_limit": 1530.8280573415968,
+      "gap": 2.498001805406602e-16,
+      "nodes": 637,
+      "pressure": 3827.070143353992,
+      "root_evaluations": 3,
+      "solver_strategy": "direct",
+      "state": "stick",
+      "tangential_force_norm": 1481.9291157094767
+    },
+    {
+      "cells": [
+        16,
+        8,
+        8
+      ],
+      "dofs": 4140,
+      "elements": 6144,
+      "friction_limit": 1548.235597123088,
+      "gap": 4.440892098500626e-16,
+      "nodes": 1377,
+      "pressure": 3870.5889928077195,
+      "root_evaluations": 3,
+      "solver_strategy": "direct",
+      "state": "stick",
+      "tangential_force_norm": 1485.0671461857216
+    }
+  ],
+  "limitations": [
+    "This is node-to-triangle contact with frozen initial normal and small transformations.",
+    "The root fallback is an internal nonlinear robustness measure, not an external correlation.",
+    "Surface-to-surface contact, large sliding, rate dependence and thermal effects remain outside scope."
+  ],
+  "maturity": "experimental",
+  "reference": {
+    "description": "Deformable TET4 bar on one rigid triangle with normal and tangential load.",
+    "friction_coefficient": 0.4,
+    "kind": "internal_mesh_refinement",
+    "normal_load": -4000.0,
+    "tangential_load": 1500.0,
+    "tangential_stiffness": 100000.0
+  },
+  "scope": "linear_static_tet4_node_triangle_regularized_coulomb",
+  "status": "PASS_INTERNAL"
+}

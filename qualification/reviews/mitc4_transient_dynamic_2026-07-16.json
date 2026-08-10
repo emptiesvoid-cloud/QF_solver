@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "review_id": "REV-MITC4-TRANSIENT-DYNAMIC-2026-07-16",
+  "scope": "mitc4-transient-dynamic",
+  "decision": "accepted_with_recommendations",
+  "decision_date": "2026-07-16",
+  "validator": {
+    "name": "Quentin Farinazzo",
+    "role": "auteur et validateur mecanique"
+  },
+  "review_mode": "self_review",
+  "independence": "not_independent",
+  "certification_claim": "none",
+  "use_class": "engineering_internal",
+  "source_revision": "9d77d42c7ec3635bebfb392f5f17d5ea3a33ebb3",
+  "source_worktree_state": "dirty_at_review",
+  "accepted_domain": [
+    "MITC4 isotrope homogene a epaisseur constante par element",
+    "petits deplacements et petites rotations",
+    "dynamique lineaire deterministe",
+    "masse coherente Reissner-Mindlin avec drilling sans masse condense",
+    "Newmark acceleration moyenne beta=0.25 gamma=0.5",
+    "amortissement de Rayleigh proportionnel a la masse",
+    "impulsion demi-sinus, chirp lineaire et charge tabulee",
+    "deplacements, energies, residus et contraintes de face"
+  ],
+  "evidence": [
+    "VNV-MITC4-NEWMARK-FREE-002",
+    "VNV-MITC4-NEWMARK-DAMPED-FORCED-003",
+    "VNV-MITC4-NEWMARK-BROADBAND-004",
+    "VNV-MITC4-NEWMARK-CODEASTER-DKQ-005"
+  ],
+  "reviewed_observations": [
+    "La geometrie, le maillage, les blocages et le chargement du cas de controle sont acceptes.",
+    "La verification temporelle repose sur un oracle modal exact qui ne reutilise pas la recurrence Newmark.",
+    "Les convergences de deplacement et de contrainte sont acceptees.",
+    "L'ordre reduit de l'impulsion courte est accepte avec recommandation de raffinement temporel.",
+    "Les bilans d'energie et les residus dynamiques sont acceptes.",
+    "La correlation Code_Aster DKQ est acceptee comme preuve externe complementaire et non comme verite absolue."
+  ],
+  "recommendations": [
+    {"id": "REC-DYN-TR-001", "title": "Imposer une etude de pas pour toute excitation impulsive ou nouvelle bande de frequences", "status": "active"},
+    {"id": "REC-DYN-TR-002", "title": "Ajouter un cas dynamique de coque courbe ou distordue", "status": "open"},
+    {"id": "REC-DYN-TR-003", "title": "Extraire les contraintes de coque natives Code_Aster", "status": "open"},
+    {"id": "REC-DYN-TR-004", "title": "Qualifier excitation de base, amortissement modal et PSD dans des scopes separes", "status": "future_scope"},
+    {"id": "REC-DYN-TR-005", "title": "Obtenir une revue independante avant toute qualification externe", "status": "open"}
+  ],
+  "known_limitations": [
+    "Le cas large bande principal est une plaque plane reguliere 8x8.",
+    "L'oracle exact partage les matrices spatiales MITC4 et valide principalement l'integration temporelle.",
+    "Code_Aster DKQ Kirchhoff n'est pas une formulation identique au MITC4 Reissner-Mindlin.",
+    "Les contraintes nodales sont moyennees sur les facettes coplanaires adjacentes.",
+    "Le scope ne couvre ni dynamique non lineaire, ni PSD, ni excitation de base, ni composites.",
+    "Cette auto-revue ne constitue pas une verification independante."
+  ],
+  "review_document": "docs/verification/revue_mitc4_transitoire.md",
+  "review_pdf": "docs/assets/reviews/revue_mitc4_transitoire.pdf",
+  "signature": {
+    "name": "Quentin Farinazzo",
+    "date": "2026-07-16",
+    "type": "declared_self_review",
+    "declaration": "je valide l'etude"
+  }
+}

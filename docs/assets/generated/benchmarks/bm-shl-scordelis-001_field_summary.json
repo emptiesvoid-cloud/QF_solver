@@ -1,0 +1,26 @@
+{
+  "deformation_scale": 31.929193648385624,
+  "element_count": 400,
+  "fields": [
+    {
+      "element_count": 400,
+      "key": "von_mises",
+      "label": "Contrainte equivalente de von Mises [unite du modele]",
+      "maximum": 267009.6097878004,
+      "minimum": 26341.396173357716,
+      "path": "bm-shl-scordelis-001_von_mises.png",
+      "sha256": "6d8b7a287cd5d65036de934ecd46fb87546dbbd73579414eb653eb7b5e19c737"
+    },
+    {
+      "element_count": 400,
+      "key": "strain_measure",
+      "label": "Norme tensorielle maximale des deformations de face [-]",
+      "maximum": 0.0006224352720658875,
+      "minimum": 5.475275262445897e-05,
+      "path": "bm-shl-scordelis-001_strain_measure.png",
+      "sha256": "ec05ca3b2e2b29498362960cf8fbbff6e772d94c8fc33e77fcb17f85924cee44"
+    }
+  ],
+  "schema_version": 1,
+  "title": "Toiture de Scordelis-Lo MITC4"
+}

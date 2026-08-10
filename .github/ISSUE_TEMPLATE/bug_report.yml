@@ -1,0 +1,26 @@
+name: Defect report
+description: Report a reproducible software, numerical or documentation defect.
+title: "[DEFECT] "
+labels: ["defect"]
+body:
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Include commands, model type and expected versus actual behavior. Do not attach confidential data.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, Python version, QF_solver version and optional backends.
+    validations:
+      required: true
+  - type: dropdown
+    id: impact
+    attributes:
+      label: Impact
+      options: [documentation, workflow, wrong result, crash, security]
+    validations:
+      required: true

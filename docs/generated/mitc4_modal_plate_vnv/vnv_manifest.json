@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "study_id": "VNV-MITC4-MODAL-PLATE-003",
+  "source": {
+    "repository": ".",
+    "revision": "c8d7fcf4fb176c9cd595360ffd0f4417c19285ce",
+    "dirty": true
+  },
+  "files": [
+    {
+      "role": "mitc4_modal_plate_vnv",
+      "path": "summary.json",
+      "size_bytes": 4710,
+      "sha256": "7dad126352f349f958b9d7c6cc939a9cb86edf5245f69ace410678cf89f779fc"
+    },
+    {
+      "role": "mitc4_modal_plate_vnv",
+      "path": "VNV-MITC4-MODAL-PLATE-003-convergence.png",
+      "size_bytes": 50162,
+      "sha256": "7a6dc31dd590f95d93d768688c2912083433b3739b9c86fb7591cbe762b8185a"
+    },
+    {
+      "role": "mitc4_modal_plate_vnv",
+      "path": "VNV-MITC4-MODAL-PLATE-003-mode-11.png",
+      "size_bytes": 307311,
+      "sha256": "e274154a38cdfbcd041f90219e6a248436d305350cc80597031706312cb6a6ef"
+    },
+    {
+      "role": "mitc4_modal_plate_vnv",
+      "path": "VNV-MITC4-MODAL-PLATE-003.md",
+      "size_bytes": 1425,
+      "sha256": "0e5142c6b2d5d57db1aa14f7d988e765075fed9139d17330433c4a445d6b7030"
+    }
+  ]
+}

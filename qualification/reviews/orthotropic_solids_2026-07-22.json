@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "review_id": "REV-ORTHOTROPIC-SOLIDS-2026-07-22",
+  "scope": "orthotropic-solid-tet4-tet10",
+  "validation_status": "engineering_internal_validated_with_recommendations",
+  "decision": "accepted_with_recommendations",
+  "decision_date": "2026-07-22",
+  "validator": {
+    "name": "Quentin Farinazzo",
+    "role": "auteur et validateur mecanique"
+  },
+  "review_mode": "self_review",
+  "independence": "not_independent",
+  "certification_claim": "none",
+  "use_class": "engineering_internal_candidate",
+  "source_revision": "c330865b6d2e2085ed5538fcb3af09e44aaec3dc",
+  "source_worktree_state": "dirty_at_review",
+  "accepted_domain": [
+    "TET4 et TET10 en elasticite lineaire orthotrope 3D homogene et petites deformations",
+    "constantes E1/E2/E3, nu12/nu13/nu23 et G12/G13/G23 avec reciprocite et positivite",
+    "contraintes et deformations exprimees dans les axes globaux et axes materiau",
+    "notation de Voigt avec cisaillements d'ingenieur et rotation tensorielle globale/materiau",
+    "orientation constante par materiau, region ou element explicitement affecte",
+    "patchs affines TET4/TET10 et objectivite sous rotation globale",
+    "correlation meme maillage avec Code_Aster 18.1.0 et CalculiX 2.20",
+    "TET10 recommande pour flexion, gradients de contraintes et zones courbes discretisees",
+    "TET4 lineaire convergent avec raffinement explicite en flexion orthotrope"
+  ],
+  "excluded_domain": [
+    "champ d'orientation continu ou interpole aux points d'integration",
+    "suivi automatique des fibres ou reperes materiau sur geometrie courbe",
+    "modelisation composite pli par pli, delaminage et elements cohesifs",
+    "endommagement progressif, plasticite anisotrope et grandes deformations",
+    "analyses modales et dynamiques orthotropes avant leurs campagnes dediees",
+    "revendication de certification ou de qualification externe"
+  ],
+  "evidence": [
+    "VNV-ORTHOTROPIC-SOLID-KERNEL-001",
+    "VNV-ORTHOTROPIC-SOLID-EXTERNAL-002",
+    "VNV-ORTHOTROPIC-SOLID-CONVERGENCE-003",
+    "VNV-ORTHOTROPIC-ISOTROPIC-NONREGRESSION-004"
+  ],
+  "reviewed_observations": [
+    "Les conventions de constantes, d'orientation et de transformation Voigt sont acceptees.",
+    "L'orientation est evaluee element par element a partir du materiau affecte; plusieurs orientations constantes sont donc possibles par regions ou elements.",
+    "Les patchs affines et l'invariance par rotation sont acceptes.",
+    "Les correlations Code_Aster/CalculiX sur eprouvette perforee et equerre 3D sont acceptees.",
+    "Le TET4 orthotrope converge de 62,07 % a 11,75 % d'erreur de fleche entre 215 et 9 820 elements; sa raideur en flexion justifie la recommandation de raffinement.",
+    "Le TET10 orthotrope est accepte dans le perimetre statique lineaire borne.",
+    "composite_orthotropic_3d est accepte comme materiau homogeneise trace et non comme qualification composite pli par pli.",
+    "Les contraintes proches des singularites doivent etre evaluees par une methode dediee au lieu d'etre exclues globalement."
+  ],
+  "recommendations": [
+    {
+      "id": "REC-ORTHO-001",
+      "title": "Preferer TET10 ou raffiner explicitement le TET4 pour la flexion orthotrope.",
+      "status": "active_engineering_recommendation",
+      "blocking_current_internal_acceptance": false,
+      "blocking_total_or_external_acceptance": false
+    },
+    {
+      "id": "REC-ORTHO-002",
+      "title": "Developper un champ d'orientation continu pour pieces courbes et fibres suivant la geometrie.",
+      "status": "planned_scope",
+      "blocking_current_internal_acceptance": false,
+      "blocking_total_or_external_acceptance": true
+    },
+    {
+      "id": "REC-ORTHO-003",
+      "title": "Appliquer le protocole de contraintes proches des singularites avant d'accepter des pics locaux sur une piece reelle.",
+      "status": "active_safety_requirement",
+      "blocking_current_internal_acceptance": false,
+      "blocking_total_or_external_acceptance": true
+    },
+    {
+      "id": "REC-ORTHO-004",
+      "title": "Ajouter modal et dynamique lineaire orthotropes apres verification des masses et des invariants dynamiques.",
+      "status": "planned_scope",
+      "blocking_current_internal_acceptance": false,
+      "blocking_total_or_external_acceptance": false
+    },
+    {
+      "id": "REC-ORTHO-005",
+      "title": "Realiser en fin de developpement une revue finale sur pieces et assemblages complexes, chargements combines, grands maillages et correlations multi-solveurs.",
+      "status": "deferred_final_validation_campaign",
+      "blocking_current_internal_acceptance": false,
+      "blocking_total_or_external_acceptance": true
+    }
+  ],
+  "review_document": "docs/verification/revue_solides_orthotropes.md",
+  "signature": {
+    "name": "Quentin Farinazzo",
+    "date": "2026-07-22",
+    "type": "declared_electronic_self_review",
+    "declaration": "Acceptation engineering interne des solides orthotropes TET4/TET10 en statique lineaire, avec recommandations de raffinement TET4, de traitement des contraintes singulieres et de campagne finale sur pieces complexes. Aucune revendication de certification externe n'est faite."
+  }
+}

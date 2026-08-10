@@ -1,0 +1,115 @@
+{
+  "checks": [
+    {
+      "id": "code_aster_axial_stress_vs_theory",
+      "limit": 2e-05,
+      "status": "PASS",
+      "value": 3.789561257387201e-16
+    },
+    {
+      "id": "qf_solver_axial_stress_vs_theory",
+      "limit": 2e-05,
+      "status": "PASS",
+      "value": 3.789561257387201e-16
+    },
+    {
+      "id": "code_aster_equivalent_plastic_strain_vs_theory",
+      "limit": 2e-05,
+      "status": "PASS",
+      "value": 4.3368086899420177e-16
+    },
+    {
+      "id": "qf_solver_equivalent_plastic_strain_vs_theory",
+      "limit": 2e-05,
+      "status": "PASS",
+      "value": 2.1684043449710089e-16
+    },
+    {
+      "id": "code_aster_lateral_stress_ratio",
+      "limit": 2e-05,
+      "status": "PASS",
+      "value": 2.9369099744750807e-16
+    },
+    {
+      "id": "code_aster_homogeneous_stress_range",
+      "limit": 2e-05,
+      "status": "PASS",
+      "value": 3.789561257387201e-16
+    }
+  ],
+  "code_aster": {
+    "equivalent_plastic_strain": 0.0009999999999999996,
+    "plastic_strain_range": [
+      0.0009999999999999994,
+      0.001
+    ],
+    "stress_mpa": [
+      299.9999999999999,
+      -8.810729923425243e-14,
+      -8.242295734817162e-14,
+      -2.9518591570925344e-15,
+      -9.991375754142119e-16,
+      4.2058895233721253e-16
+    ],
+    "stress_ranges_mpa": [
+      [
+        299.9999999999999,
+        300.0
+      ],
+      [
+        -1.4210854715202004e-13,
+        -4.263256414560601e-14
+      ],
+      [
+        -1.1368683772161603e-13,
+        -1.4210854715202004e-14
+      ],
+      [
+        -2.24796174745836e-14,
+        7.057726535606033e-15
+      ],
+      [
+        -1.4305539191879727e-14,
+        6.469830452602662e-15
+      ],
+      [
+        -1.0186997747743159e-14,
+        1.1000591112080478e-14
+      ]
+    ]
+  },
+  "evidence_manifest_sha256": "4f1b7bd8458d2bff87940d958d04d78b81ce19f21b30273b53988cf513e1db4c",
+  "external_solver": {
+    "deformation": "PETIT",
+    "name": "Code_Aster",
+    "relation": "VMIS_ISOT_LINE",
+    "version": "18.1.0"
+  },
+  "limitations": [
+    "Affine monotonic small-strain material correlation.",
+    "No cyclic reversal or structural localization comparison.",
+    "Code_Aster TETRA4 and QF_solver use independent constitutive implementations."
+  ],
+  "maturity": "experimental",
+  "qf_solver": {
+    "equivalent_plastic_strain": 0.0009999999999999998,
+    "stress_mpa": [
+      299.9999999999999,
+      -7.105427357601002e-14,
+      -5.684341886080802e-14,
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "status": "PASS_EXTERNAL_CORRELATION",
+  "study_id": "VNV-J2-CODEASTER-VMIS-ISOT-LINE-004",
+  "theory": {
+    "axial_strain": 0.0024285714285714284,
+    "axial_stress_mpa": 300.0,
+    "code_aster_total_tangent_mpa": 40384.61538461538,
+    "equivalent_plastic_strain": 0.001,
+    "lateral_strain": -0.0009285714285714286,
+    "plastic_hardening_modulus_mpa": 50000.0
+  }
+}

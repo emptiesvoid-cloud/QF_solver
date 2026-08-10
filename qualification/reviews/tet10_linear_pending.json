@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "review_id": "REV-TET10-LINEAR-PENDING",
+  "scope": "tet10-linear-static",
+  "decision": "pending",
+  "decision_date": null,
+  "validator": {
+    "name": "Quentin Farinazzo",
+    "role": "auteur et validateur mecanique"
+  },
+  "review_mode": "self_review",
+  "independence": "not_independent",
+  "certification_claim": "none",
+  "technical_status": "superseded_by_signed_review",
+  "superseded_by": "qualification/reviews/tet10_linear_2026-07-18.json",
+  "review_document": "docs/verification/revue_tet10_lineaire.md",
+  "evidence": [
+    "VNV-TET10-GEOMETRY-QUADRATURE-011",
+    "VNV-TET10-STRUCTURAL-CONVERGENCE-012",
+    "VNV-TET10-MASS-MODAL-LOADS-013",
+    "VNV-TET10-CALCULIX-C3D10-014",
+    "VNV-TET10-NEAR-INCOMPRESSIBLE-015"
+  ],
+  "review_questions": [
+    "Les controles de Jacobien et la selection de quadrature sont-ils acceptables ?",
+    "Les convergences en traction, flexion et torsion bornent-elles suffisamment le domaine ?",
+    "La masse coherente, le modal et les charges T6 sont-ils acceptables ?",
+    "La correlation meme maillage CalculiX C3D10 est-elle acceptable ?",
+    "La caracterisation a nu=0.499 est-elle acceptable avec exclusion de nu=0.5 ?",
+    "Les limites de post-traitement et de maturite sont-elles suffisamment explicites ?"
+  ],
+  "known_limitations": [
+    "Une seule correlation externe C3D10 sur geometrie courbe est disponible.",
+    "La correlation externe porte sur les deplacements, pas sur les contraintes aux points d'integration.",
+    "Le cas quasi-incompressible est une poutre unique et ne qualifie pas nu=0.5.",
+    "La recuperation nodale ne regularise pas les singularites.",
+    "La plasticite courbe et les grandes transformations TET10 restent hors scope.",
+    "Cette auto-revue ne constitue pas une verification independante."
+  ],
+  "signature": null
+}

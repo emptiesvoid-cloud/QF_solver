@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "units": {"system": "SI"},
+  "verification_profile": "engineering",
+  "analysis": {"type": "modal", "method": "eigh", "modes": 3},
+  "nodes": [[0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1]],
+  "elements": [
+    {"type": "TET4", "nodes": [0, 1, 2, 3], "material": "ortho"}
+  ],
+  "materials": {
+    "ortho": {
+      "type": "orthotropic_3d",
+      "E1": 145000000000.0,
+      "E2": 12000000000.0,
+      "E3": 9000000000.0,
+      "nu12": 0.24,
+      "nu13": 0.21,
+      "nu23": 0.28,
+      "G12": 5500000000.0,
+      "G13": 4800000000.0,
+      "G23": 3900000000.0,
+      "density": 1580.0,
+      "e1": [0.7071067811865476, 0.7071067811865476, 0.0],
+      "e2_hint": [-0.7071067811865476, 0.7071067811865476, 0.0]
+    }
+  },
+  "fixed_dofs": [
+    {"node": 0, "dofs": ["UX", "UY", "UZ"]},
+    {"node": 2, "dofs": ["UX", "UY", "UZ"]},
+    {"node": 3, "dofs": ["UX", "UY", "UZ"]}
+  ]
+}

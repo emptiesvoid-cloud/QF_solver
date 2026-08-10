@@ -1,0 +1,61 @@
+{
+  "status": "PASS",
+  "solver_name": "QF_solver",
+  "solver_version": "0.2.0a0",
+  "source_path": "lame_tet10.msh",
+  "source_sha256": "f2f18581bfed3beaa8d353d749cdffd17a22de911d7f9947ae55e02dc5b89cf9",
+  "setup_path": "result.setup.json",
+  "setup_sha256": "d8e0a73a6b552a4b1bd033359b7df019681769d7729cf8db2360c146454f3553",
+  "gmsh_version": "4.15.2",
+  "msh_version": "4.1",
+  "binary": false,
+  "element_family": "TET10",
+  "node_count": 626,
+  "element_count": 281,
+  "group_count": 5,
+  "physical_groups": [
+    {
+      "name": "inner_pressure",
+      "dimension": 2,
+      "tag": 2,
+      "cell_count": 16,
+      "node_count": 43
+    },
+    {
+      "name": "plane_strain_z",
+      "dimension": 2,
+      "tag": 5,
+      "cell_count": 140,
+      "node_count": 326
+    },
+    {
+      "name": "symmetry_x",
+      "dimension": 2,
+      "tag": 3,
+      "cell_count": 16,
+      "node_count": 43
+    },
+    {
+      "name": "symmetry_y",
+      "dimension": 2,
+      "tag": 4,
+      "cell_count": 16,
+      "node_count": 43
+    },
+    {
+      "name": "domain",
+      "dimension": 3,
+      "tag": 1,
+      "cell_count": 281,
+      "node_count": 626
+    }
+  ],
+  "action_counts": {
+    "elements": 281,
+    "fixed_dofs": 412,
+    "pressure": 16
+  },
+  "orientation_repairs": 0,
+  "mesh_status": "PASS",
+  "warnings": []
+}

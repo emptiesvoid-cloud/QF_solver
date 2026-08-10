@@ -1,0 +1,63 @@
+{
+  "benchmark": {
+    "identifier": "BM-SHL-COOK-001",
+    "title": "Membrane de Cook MITC4",
+    "family": "MITC4",
+    "analyses": [
+      "linear_static"
+    ],
+    "maturity": "stable",
+    "reference_type": "published_benchmark",
+    "reference": "MacNeal et Harder, 1985",
+    "reference_id": "REF-SHELL-OBSTACLE",
+    "reference_url": "https://doi.org/10.1016/0168-874X(85)90003-4",
+    "requirements": [
+      "REQ-SOL-002",
+      "REQ-CMP-003"
+    ],
+    "criteria": {
+      "normalized_tip_error_max": 0.05,
+      "free_residual_max": 1e-08
+    }
+  },
+  "status": "PASS",
+  "metrics": {
+    "mesh": [
+      16,
+      16
+    ],
+    "tip_uy": 0.24271960785794325,
+    "reference_tip_uy": 0.2396,
+    "normalized_tip_error": 0.013020066185071956,
+    "free_relative_residual": 6.3416208248968685e-12
+  },
+  "checks": [
+    {
+      "id": "normalized-tip",
+      "status": "PASS",
+      "value": 0.013020066185071956,
+      "limit": 0.05,
+      "operator": "less_equal",
+      "detail": ""
+    },
+    {
+      "id": "free-residual",
+      "status": "PASS",
+      "value": 6.3416208248968685e-12,
+      "limit": 1e-08,
+      "operator": "less_equal",
+      "detail": ""
+    }
+  ],
+  "files": {
+    "result_import_report": "result.import_report.json",
+    "result_mesh": "cook_mitc4.msh",
+    "result_model": "result.model.json",
+    "result_result": "result.json",
+    "result_setup": "result.setup.json",
+    "result_vtu": "result.vtu",
+    "summary": "benchmark_summary.json",
+    "manifest": "benchmark_manifest.json"
+  },
+  "message": ""
+}

@@ -1,0 +1,208 @@
+{
+  "baseline_id": "P4-PETSC-MPI-2026-07-16",
+  "status": "pass_internal_with_limitations",
+  "scope": "large-tet4-linear-static",
+  "solver": "QF_solver 0.2.0",
+  "environment": {
+    "container_image": "qf-solver-large:0.2.0",
+    "base_image_digest": "sha256:2ae4bfbc0d9077268880faf04c72750528bee986c94ab223a2c159969bd56fa8",
+    "python": "3.12.3",
+    "mpi4py": "4.1.2",
+    "petsc": "3.25.1",
+    "petsc4py": "3.25.1",
+    "h5py": "3.13.0",
+    "mpi_ranks": 2,
+    "ksp": "cg",
+    "preconditioner": "gamg"
+  },
+  "runs": [
+    {
+      "id": "P4-PETSC-100K-001",
+      "status": "PASS",
+      "nodes": 35937,
+      "elements": 196608,
+      "dofs": 107811,
+      "assembly_time_seconds": 28.276685208000345,
+      "solve_time_seconds": 3.537377418999313,
+      "pipeline_time_seconds": 32.148558888999105,
+      "iterations": 132,
+      "residual_norm": 1.823995795913281e-15,
+      "process_peak_rss_per_rank_bytes": 500744192,
+      "process_peak_rss_sum_bytes": 1001160704,
+      "audit": "PASS",
+      "model_sha256": "3ce660c6d52197e18c94d9438d7012cd4fcaf02076ee44fca498f9a85614104d",
+      "benchmark_sha256": "8046cf5eecdea8860634dc3d1b5a50c1f0fc710a3642f7b07c32a619463fc4cf",
+      "manifest_sha256": "ea850add69d8f3b4d9cc6d2796297c45ec8c7f106adce47fb1c465097baacfab"
+    },
+    {
+      "id": "P4-PETSC-1M-001",
+      "status": "PASS",
+      "nodes": 343000,
+      "elements": 1971054,
+      "dofs": 1029000,
+      "assembly_time_seconds": 465.6250933600004,
+      "solve_time_seconds": 56.013595518999864,
+      "pipeline_time_seconds": 524.4095678209997,
+      "iterations": 219,
+      "residual_norm": 5.219632254237562e-15,
+      "process_peak_rss_per_rank_bytes": 3566632960,
+      "process_peak_rss_sum_bytes": 7132233728,
+      "audit": "PASS",
+      "model_sha256": "32922c067a8f9c1bb28128b406636f832a783bab7aa231f5a555f46809ec8c97",
+      "benchmark_sha256": "0d27a85fed0d09b1f695261e4f2d54d9905b4e7c484019119b0a1ab5923b101b",
+      "manifest_sha256": "be9597e496c8f9e36ba572ec3612b2dd6b2748fb6c6cd70acfd8892e6e3f5a8a"
+    }
+  ],
+  "cross_rank_smoke": {
+    "dofs": 24,
+    "one_vs_two_rank_relative_displacement_error": 2.922225948428937e-16,
+    "one_vs_two_rank_max_absolute_error": 1.6543612251060553e-24
+  },
+  "batched_assembly_optimization": {
+    "status": "PASS",
+    "formulation_change": false,
+    "relative_displacement_error_100k": 0.0,
+    "relative_displacement_error_1m": 0.0,
+    "run_100k": {
+      "assembly_time_seconds": 2.729934508999577,
+      "pipeline_time_seconds": 6.340980749999289,
+      "assembly_speedup": 10.358008631629312,
+      "pipeline_speedup": 5.069966328001028,
+      "benchmark_sha256": "ba094144f604c121a3c12e189147b2d0308df0acdb3cec07c3a5ab7f48f489ae",
+      "manifest_sha256": "274d7984d15cb8622f337239605a44878ee48e16da05dadcdafebef4df0bb7e7"
+    },
+    "run_1m": {
+      "assembly_time_seconds": 161.45240538799953,
+      "pipeline_time_seconds": 213.46586604499862,
+      "assembly_speedup": 2.8839774312499,
+      "pipeline_speedup": 2.456643666441988,
+      "benchmark_sha256": "3a78a622043e89e555be841fd19b0f51af3f162b2aa929419d3092aa3c61323d",
+      "manifest_sha256": "0a1290e54a1dcec077af42540f2db6cb3b5299c484a1dfb180e031005d343edb"
+    }
+  },
+  "baij_block_optimization": {
+    "status": "PASS",
+    "assembly_format": "BAIJ block size 3 converted collectively to AIJ before GAMG",
+    "qualification_rtol": 1e-12,
+    "aij_baij_matrix_relative_error": 0.0,
+    "aij_baij_displacement_relative_error_100k": 7.830745923086289e-12,
+    "run_1m": {
+      "dofs": 1029000,
+      "elements": 1971054,
+      "assembly_time_seconds": 13.148676161999902,
+      "solve_time_seconds": 14.609761409001294,
+      "pipeline_time_seconds": 30.093787148000047,
+      "iterations": 52,
+      "residual_norm": 5.342843613421622e-19,
+      "process_peak_rss_per_rank_bytes": 1134379008,
+      "benchmark_sha256": "3077ef70dc3ce5276151fcab2779d4820f37e56c784515afd999e54fea797142",
+      "manifest_sha256": "02154f6d350233d7ac7b3fbfd8e5def60c7d7b3445393ad219e46ba9ccf640d7"
+    },
+    "run_3m": {
+      "status": "PASS",
+      "nodes": 1000000,
+      "elements": 5821794,
+      "dofs": 3000000,
+      "assembly_time_seconds": 34.53850971200154,
+      "solve_time_seconds": 47.75410300600015,
+      "pipeline_time_seconds": 88.68277097999999,
+      "iterations": 56,
+      "residual_norm": 8.99732031689313e-19,
+      "process_peak_rss_per_rank_bytes": 3019988992,
+      "benchmark_sha256": "0f6d2d19ed405649cd0a278ca93d4dd64ae2551226b00ff964e800976f33d2dd",
+      "manifest_sha256": "8891e7c26f6ae27fbc84a62822083d4b90fda6deadfeea5ff9bc20f450b85449"
+    }
+  },
+  "strong_scaling_1m": {
+    "status": "PASS_WITH_LIMITED_EFFICIENCY",
+    "ranks": [1, 2, 4],
+    "pipeline_time_seconds": [43.66121588100032, 30.093787148000047, 26.504534040999715],
+    "speedup": [1.0, 1.450838196810398, 1.6473112039419755],
+    "parallel_efficiency": [1.0, 0.725419098405199, 0.4118278009854939],
+    "max_cross_rank_displacement_error": 5.107543394840198e-12,
+    "rank1_benchmark_sha256": "143b0ee513d56fcbe1311603b216a9be4a1ead0903a3ace753b3be492a311890",
+    "rank4_benchmark_sha256": "378784788798663105216e25a735f2ae77dcc6982a8087a87d97d9bd32b6e725"
+  },
+  "partitioned_input_and_mpi_io": {
+    "status": "PASS",
+    "mpi_ranks": 4,
+    "input_partition": "contiguous HDF5 element hyperslabs with compact rank-local nodes",
+    "displacement_output": "collective MPI-IO float64 binary with checked JSON metadata",
+    "run_1m": {
+      "dofs": 1029000,
+      "elements": 1971054,
+      "pipeline_time_seconds": 25.300573350999912,
+      "assembly_time_seconds": 11.303474955999263,
+      "solve_time_seconds": 13.442507751000448,
+      "iterations": 53,
+      "residual_norm": 4.525921575731511e-19,
+      "process_peak_rss_per_rank_bytes": 757850112,
+      "displacement_bytes": 8232000,
+      "benchmark_sha256": "cf32ffc1a00590444e04df22a232efd070432a358a723678c4744206f8bb25af",
+      "manifest_sha256": "316aad438f05ba5ff48a4498071a4165e196d4f1a6e0c0afd7231853b91b0b22"
+    },
+    "run_3m": {
+      "dofs": 3000000,
+      "elements": 5821794,
+      "pipeline_time_seconds": 63.99948227900131,
+      "assembly_time_seconds": 23.927730856999915,
+      "solve_time_seconds": 38.54528624199884,
+      "iterations": 54,
+      "residual_norm": 1.098630956144945e-18,
+      "process_peak_rss_per_rank_bytes": 1914695680,
+      "displacement_bytes": 24000000,
+      "benchmark_sha256": "692a22948c8c48ccefe421c05e9ad2db0c275a1c189d4dec01e035e6f3721dac",
+      "manifest_sha256": "5b80db5d16add5293ff7850111d8a81811ee9eb30be3bd8dcfab75eaa13e963c"
+    }
+  },
+  "preconditioner_comparison_1m_r4": {
+    "status": "PASS",
+    "dofs": 1029000,
+    "mpi_ranks": 4,
+    "displacement_relative_error": 3.3994727618065297e-12,
+    "gamg": {
+      "pipeline_time_seconds": 24.412825682000005,
+      "setup_time_seconds": 3.0765698929999985,
+      "iteration_time_seconds": 9.580040050000001,
+      "iterations": 53,
+      "peak_rss_per_rank_bytes": 758943744
+    },
+    "hypre_boomeramg": {
+      "pipeline_time_seconds": 52.303319108,
+      "setup_time_seconds": 18.756043660000003,
+      "iteration_time_seconds": 24.515947165,
+      "iterations": 18,
+      "peak_rss_per_rank_bytes": 2468388864
+    },
+    "decision": "Keep GAMG as default for this model and workstation.",
+    "comparison_sha256": "0deac0a232c52ce0b3a2895a253d632bf9bd2b02701e04551c9a8997c8c9342f",
+    "manifest_sha256": "3cee2118bf234d116cbcc4e1afe069eadaafe20f4af769efa58bb4a8a9d8399f"
+  },
+  "gamg_coarse_repartition_1m_r4": {
+    "status": "PASS",
+    "automatic_option": "pc_gamg_repartition=true for mpi_size >= 4 unless explicitly overridden",
+    "setup_plus_iteration_seconds": 12.199584110000047,
+    "iterations": 53,
+    "residual_norm": 4.531721103658172e-19,
+    "peak_rss_per_rank_bytes": 756518912,
+    "benchmark_sha256": "c729e9748b5fd181b71ab51aaf709300d45e5f10371f6f1e8272e1c5ba876ed9",
+    "manifest_sha256": "ab4232b22a2282a1d198c89c199abb8e404f464efd508ea120e94c3a6b0a6272"
+  },
+  "weak_scaling": {
+    "status": "WARNING",
+    "local_dofs_per_rank": [264600.0, 257250.0, 257250.0],
+    "ranks": [1, 2, 4],
+    "pipeline_time_seconds": [10.218311884000002, 14.079027507000006, 24.563663362000057],
+    "weak_efficiency": [1.0, 0.7257825072732843, 0.41599299475043744],
+    "minimum_required_for_pass": 0.6,
+    "report_sha256": "2748d15a778960a3ca88754e8e6d8379f87ea93668a29dd699032685f9f34377",
+    "manifest_sha256": "62f0f64195916da7cc32909e663ab5841b4ad7004e7244620b70328bef7422f5"
+  },
+  "limitations": [
+    "Fixed-DOF and load arrays remain replicated because they are small relative to connectivity.",
+    "The pinned PETSc image lacks parallel HDF5; displacement output therefore uses collective MPI-IO binary plus JSON metadata.",
+    "GAMG remains faster and lighter than Hypre/BoomerAMG on the measured 1M model, but both preconditioners remain model-dependent.",
+    "Strong and weak scaling are measured only on one workstation at 1, 2 and 4 ranks.",
+    "Weak-scaling efficiency at four ranks is 41.60 percent and remains WARNING; graph partition quality and preconditioner communication remain optimization targets."
+  ]
+}

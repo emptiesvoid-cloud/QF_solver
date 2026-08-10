@@ -1,0 +1,423 @@
+{
+  "campaign": "qf_solver_engineering_v2",
+  "description": "Campagne de preuves pour le perimetre mecanique souverain v1.",
+  "default_profile": "engineering",
+  "cases": [
+    {
+      "id": "SOV-TET4-STATIC-001",
+      "requirement": "REQ-SOL-001",
+      "description": "Statique lineaire TET4 avec audit d'equilibre.",
+      "input": "../examples/tet4_static.json",
+      "mode": "solve",
+      "profile": "strict",
+      "expected_status": "PASS",
+      "replacement_candidate": true,
+      "accepted_use": "Statique lineaire TET4 sur composants tetraedriques simples, avec equilibrium audit et evidence.",
+      "checks": [
+        {"path": "qualification.maturity.overall", "op": "equals", "expected": "stable"},
+        {
+          "path": "result.max_displacement",
+          "op": "relative_error",
+          "reference_formula": "tet4_unit_uniaxial_ux_displacement",
+          "tolerance": 1.0e-12,
+          "reference_type": "analytic",
+          "reference": "closed-form constrained unit TET4 uniaxial solution"
+        },
+        {
+          "path": "result.element_results.0.von_mises",
+          "op": "relative_error",
+          "reference_formula": "tet4_unit_uniaxial_von_mises",
+          "tolerance": 1.0e-12,
+          "reference_type": "analytic",
+          "reference": "closed-form constrained unit TET4 uniaxial stress state"
+        },
+        {"path": "result.audit.equilibrium.free_relative_residual", "op": "less_equal", "expected": 1.0e-9},
+        {"path": "result.audit.equilibrium.reaction_resultant.0", "op": "abs_error", "expected": -1000.0, "tolerance": 1.0e-10, "reference_type": "equilibrium_closed_form", "reference": "support reactions balance the applied UX force"},
+        {"path": "result.audit.equilibrium.force_balance_relative_error", "op": "less_equal", "expected": 1.0e-12},
+        {"path": "result.audit.equilibrium.linear_energy_identity_relative_error", "op": "less_equal", "expected": 1.0e-9}
+      ]
+    },
+    {
+      "id": "SOV-TET4-COMPRESSION-001",
+      "requirement": "REQ-SOL-001",
+      "description": "Compression lineaire TET4 avec signe du deplacement, contrainte et reactions analytiques.",
+      "input": "../examples/tet4_compression.json",
+      "mode": "solve",
+      "profile": "strict",
+      "expected_status": "PASS",
+      "replacement_candidate": true,
+      "accepted_use": "Compression lineaire TET4 sur le tetraedre canonique contraint, avec preuve analytique signee.",
+      "checks": [
+        {"path": "qualification.maturity.overall", "op": "equals", "expected": "stable"},
+        {
+          "path": "result.displacements.1.dofs.UX",
+          "op": "relative_error",
+          "reference_formula": "tet4_unit_uniaxial_ux_displacement",
+          "tolerance": 1.0e-12,
+          "reference_type": "analytic",
+          "reference": "closed-form constrained unit TET4 signed compression displacement"
+        },
+        {
+          "path": "result.element_results.0.stress.0",
+          "op": "abs_error",
+          "expected": -6000.0,
+          "tolerance": 1.0e-10,
+          "reference_type": "analytic",
+          "reference": "applied force divided by unit-tetrahedron volume"
+        },
+        {
+          "path": "result.element_results.0.von_mises",
+          "op": "relative_error",
+          "reference_formula": "tet4_unit_uniaxial_von_mises",
+          "tolerance": 1.0e-12,
+          "reference_type": "analytic",
+          "reference": "closed-form constrained unit TET4 compression stress state"
+        },
+        {"path": "result.audit.equilibrium.reaction_resultant.0", "op": "abs_error", "expected": 1000.0, "tolerance": 1.0e-10, "reference_type": "equilibrium_closed_form", "reference": "support reactions balance the applied compression force"},
+        {"path": "result.audit.equilibrium.force_balance_relative_error", "op": "less_equal", "expected": 1.0e-12},
+        {"path": "result.audit.equilibrium.linear_energy_identity_relative_error", "op": "less_equal", "expected": 1.0e-9}
+      ]
+    },
+    {
+      "id": "SOV-TET4-PRESSURE-001",
+      "requirement": "REQ-LOAD-001",
+      "description": "Pression TET4 coherente avec resultante et premier moment analytiques.",
+      "input": "../examples/tet4_pressure.json",
+      "mode": "solve",
+      "profile": "strict",
+      "expected_status": "PASS",
+      "replacement_candidate": false,
+      "accepted_use": "Preuve de chargement: pression morte constante sur une face TET4 plane.",
+      "checks": [
+        {"path": "qualification.maturity.overall", "op": "equals", "expected": "stable"},
+        {"path": "result.audit.load_assembly.distributed_load_count", "op": "equals", "expected": 1},
+        {
+          "path": "result.audit.load_assembly.resultant.0",
+          "op": "abs_error",
+          "expected": -500.0,
+          "tolerance": 1.0e-10,
+          "reference_type": "equilibrium_closed_form",
+          "reference": "constant pressure times oriented unit-tetrahedron face area"
+        },
+        {
+          "path": "result.audit.load_assembly.resultant.1",
+          "op": "abs_error",
+          "expected": -500.0,
+          "tolerance": 1.0e-10,
+          "reference_type": "equilibrium_closed_form",
+          "reference": "constant pressure times oriented unit-tetrahedron face area"
+        },
+        {
+          "path": "result.audit.load_assembly.resultant.2",
+          "op": "abs_error",
+          "expected": -500.0,
+          "tolerance": 1.0e-10,
+          "reference_type": "equilibrium_closed_form",
+          "reference": "constant pressure times oriented unit-tetrahedron face area"
+        },
+        {
+          "path": "result.audit.load_assembly.moment_about_origin.0",
+          "op": "abs_error",
+          "expected": 0.0,
+          "tolerance": 1.0e-10,
+          "reference_type": "equilibrium_closed_form",
+          "reference": "pressure resultant line of action crosses origin"
+        },
+        {"path": "result.audit.equilibrium.free_relative_residual", "op": "less_equal", "expected": 1.0e-9},
+        {"path": "result.audit.equilibrium.force_balance_relative_error", "op": "less_equal", "expected": 1.0e-12},
+        {"path": "result.audit.equilibrium.moment_balance_relative_error", "op": "less_equal", "expected": 1.0e-12}
+      ]
+    },
+    {
+      "id": "SOV-TET4-BODY-FORCE-001",
+      "requirement": "REQ-LOAD-001",
+      "description": "Force volumique TET4 coherente avec resultante, deplacement et reactions analytiques.",
+      "input": "../examples/tet4_body_force.json",
+      "mode": "solve",
+      "profile": "strict",
+      "expected_status": "PASS",
+      "replacement_candidate": false,
+      "accepted_use": "Preuve de chargement: force volumique constante sur un TET4 affine.",
+      "checks": [
+        {"path": "qualification.maturity.overall", "op": "equals", "expected": "stable"},
+        {"path": "result.audit.load_assembly.distributed_load_count", "op": "equals", "expected": 1},
+        {"path": "result.audit.load_assembly.resultant.0", "op": "abs_error", "expected": 1000.0, "tolerance": 1.0e-10, "reference_type": "equilibrium_closed_form", "reference": "constant body force times unit-tetrahedron volume"},
+        {
+          "path": "result.displacements.1.dofs.UX",
+          "op": "relative_error",
+          "reference_formula": "tet4_unit_body_force_ux_displacement",
+          "tolerance": 1.0e-12,
+          "reference_type": "analytic",
+          "reference": "consistent TET4 body load and constrained one-dof stiffness"
+        },
+        {"path": "result.audit.equilibrium.reaction_resultant.0", "op": "abs_error", "expected": -1000.0, "tolerance": 1.0e-10, "reference_type": "equilibrium_closed_form", "reference": "support reactions balance the body-force resultant"},
+        {"path": "result.audit.equilibrium.force_balance_relative_error", "op": "less_equal", "expected": 1.0e-12},
+        {"path": "result.audit.equilibrium.moment_balance_relative_error", "op": "less_equal", "expected": 1.0e-12}
+      ]
+    },
+    {
+      "id": "SOV-MITC4-STATIC-001",
+      "requirement": "REQ-SOL-002",
+      "description": "Cas coque MITC4 simple avec resultantes.",
+      "input": "../examples/mitc4_shell_static.json",
+      "mode": "solve",
+      "profile": "strict",
+      "expected_status": "PASS",
+      "replacement_candidate": true,
+      "accepted_use": "Statique lineaire MITC4 sur plaques et panneaux coques simples, avec resultantes auditees.",
+      "checks": [
+        {"path": "qualification.maturity.overall", "op": "equals", "expected": "stable"},
+        {
+          "path": "result.max_displacement",
+          "op": "relative_error",
+          "expected": 0.01958955106406101,
+          "tolerance": 1.0e-8,
+          "reference_type": "non_regression",
+          "reference": "baseline QF_solver 0.2.0"
+        },
+        {"path": "result.element_results.0.type", "op": "equals", "expected": "MITC4"},
+        {"path": "result.element_results.0.membrane_force", "op": "exists"},
+        {
+          "path": "result.element_results.0.membrane_force.0",
+          "op": "abs_error",
+          "reference_formula": "mitc4_edge_membrane_force_x",
+          "tolerance": 1.0e-12,
+          "reference_type": "equilibrium_closed_form",
+          "reference": "sum of right-edge UX loads divided by edge length"
+        }
+      ]
+    },
+    {
+      "id": "SOV-TET10-STATIC-001",
+      "requirement": "REQ-SOL-003",
+      "description": "Cas TET10 lineaire accepte avec recommandations dans un domaine borne.",
+      "input": "../examples/tet10_static.json",
+      "mode": "solve",
+      "profile": "engineering",
+      "expected_status": "PASS",
+      "replacement_candidate": false,
+      "accepted_use": "Usage engineering interne borne apres revue du 2026-07-18; campagne complexe finale encore requise avant acceptation totale.",
+      "checks": [
+        {"path": "qualification.maturity.overall", "op": "equals", "expected": "stable_after_reinforced_tests"},
+        {
+          "path": "result.max_displacement",
+          "op": "relative_error",
+          "expected": 1.4425139967491445e-07,
+          "tolerance": 1.0e-8,
+          "reference_type": "non_regression",
+          "reference": "baseline QF_solver 0.2.0"
+        },
+        {"path": "result.element_results.0.type", "op": "equals", "expected": "TET10"},
+        {"path": "result.audit.equilibrium.free_relative_residual", "op": "less_equal", "expected": 1.0e-8}
+      ]
+    },
+    {
+      "id": "SOV-MODAL-TET4-001",
+      "requirement": "REQ-MOD-001",
+      "description": "Modal TET4 canonique avec premiere frequence de cisaillement analytique.",
+      "input": "../examples/tet4_modal_unit.json",
+      "mode": "solve",
+      "profile": "engineering",
+      "expected_status": "PASS",
+      "replacement_candidate": false,
+      "accepted_use": "Scope candidat TET4 modal avec reference analytique; decision Owner distincte encore requise.",
+      "checks": [
+        {"path": "qualification.maturity.overall", "op": "equals", "expected": "stable_after_reinforced_tests"},
+        {
+          "path": "result.modes.0.frequency_hz",
+          "op": "relative_error",
+          "reference_formula": "tet4_unit_first_shear_frequency_hz",
+          "tolerance": 1.0e-12,
+          "reference_type": "analytic",
+          "reference": "closed-form unit TET4 constrained first shear frequency"
+        },
+        {"path": "result.solver.max_relative_residual", "op": "less_equal", "expected": 1.0e-10},
+        {"path": "result.solver.mass_orthogonality_error", "op": "less_equal", "expected": 1.0e-10},
+        {"path": "result.solver.stiffness_diagonal_error", "op": "less_equal", "expected": 1.0e-10}
+      ]
+    },
+    {
+      "id": "SOV-DYN-NEWMARK-001",
+      "requirement": "REQ-DYN-001",
+      "description": "Dynamique transitoire Newmark avec historique temporel.",
+      "input": "../examples/tet4_transient_dynamic.json",
+      "mode": "solve",
+      "profile": "engineering",
+      "expected_status": "PASS",
+      "replacement_candidate": false,
+      "accepted_use": "Scope candidat TET4 Newmark; decision Owner et correlation externe structurelle encore requises.",
+      "checks": [
+        {"path": "qualification.maturity.overall", "op": "equals", "expected": "stable_after_reinforced_tests"},
+        {
+          "path": "result.max_displacement",
+          "op": "relative_error",
+          "expected": 0.005408601343090955,
+          "tolerance": 1.0e-8,
+          "reference_type": "non_regression",
+          "reference": "baseline QF_solver 0.2.0"
+        },
+        {
+          "path": "result.solver.time_history.9.total_energy",
+          "op": "relative_error",
+          "expected": 0.003723858706105806,
+          "tolerance": 1.0e-8,
+          "reference_type": "non_regression",
+          "reference": "baseline QF_solver 0.2.0"
+        },
+        {"path": "result.solver.time_history.0.total_energy", "op": "exists"},
+        {"path": "result.audit.equilibrium.free_relative_residual", "op": "less_equal", "expected": 1.0e-8}
+      ]
+    },
+    {
+      "id": "SOV-DYN-SDOF-001",
+      "requirement": "REQ-DYN-001",
+      "description": "Vibration libre Newmark 1 ddl avec energie initiale analytique.",
+      "input": "../examples/tet4_dynamic_sdof_free_vibration.json",
+      "mode": "solve",
+      "profile": "engineering",
+      "expected_status": "PASS",
+      "replacement_candidate": false,
+      "accepted_use": "Scope candidat TET4 Newmark avec conservation d'energie analytique; decision Owner encore requise.",
+      "checks": [
+        {"path": "qualification.maturity.overall", "op": "equals", "expected": "stable_after_reinforced_tests"},
+        {
+          "path": "result.solver.time_history.0.total_energy",
+          "op": "relative_error",
+          "reference_formula": "tet4_unit_sdof_free_vibration_initial_energy",
+          "tolerance": 1.0e-10,
+          "reference_type": "analytic",
+          "reference": "closed-form initial energy of constrained unit TET4 one-dof oscillator"
+        },
+        {
+          "path": "result.solver.time_history.39.total_energy",
+          "op": "relative_error",
+          "reference_formula": "tet4_unit_sdof_free_vibration_initial_energy",
+          "tolerance": 1.0e-10,
+          "reference_type": "analytic",
+          "reference": "energy conservation of undamped average-acceleration Newmark"
+        },
+        {"path": "result.solver.time_history.39.relative_energy_drift", "op": "between", "expected": [-1.0e-10, 1.0e-10]},
+        {"path": "result.solver.time_history.39.dynamic_residual_norm", "op": "less_equal", "expected": 1.0e-10},
+        {"path": "result.audit.equilibrium.free_relative_residual", "op": "less_equal", "expected": 1.0e-10}
+      ]
+    },
+    {
+      "id": "SOV-HAR-DIRECT-001",
+      "requirement": "REQ-HAR-001",
+      "description": "Reponse harmonique directe avec amplitude et phase.",
+      "input": "../examples/tet4_harmonic_response.json",
+      "mode": "solve",
+      "profile": "engineering",
+      "expected_status": "PASS",
+      "replacement_candidate": false,
+      "accepted_use": "Scope candidat TET4 harmonique; decision Owner et correlation externe structurelle encore requises.",
+      "checks": [
+        {"path": "qualification.maturity.overall", "op": "equals", "expected": "stable_after_reinforced_tests"},
+        {
+          "path": "result.max_displacement",
+          "op": "relative_error",
+          "expected": 0.028163017773667365,
+          "tolerance": 1.0e-8,
+          "reference_type": "non_regression",
+          "reference": "baseline QF_solver 0.2.0"
+        },
+        {"path": "result.frequency_response.0.frequency_hz", "op": "equals", "expected": 0.0},
+        {"path": "result.peak_response.max_displacement_amplitude", "op": "greater_equal", "expected": 0.0}
+      ]
+    },
+    {
+      "id": "SOV-HAR-SDOF-001",
+      "requirement": "REQ-HAR-001",
+      "description": "Reponse harmonique 1 ddl avec amplitude et phase analytiques.",
+      "input": "../examples/tet4_harmonic_sdof_response.json",
+      "mode": "solve",
+      "profile": "engineering",
+      "expected_status": "PASS",
+      "replacement_candidate": false,
+      "accepted_use": "Scope candidat TET4 harmonique avec amplitude et phase analytiques; decision Owner encore requise.",
+      "checks": [
+        {"path": "qualification.maturity.overall", "op": "equals", "expected": "stable_after_reinforced_tests"},
+        {
+          "path": "result.frequency_response.0.displacements.1.dofs.UX.amplitude",
+          "op": "relative_error",
+          "reference_formula": "tet4_unit_sdof_harmonic_static_amplitude",
+          "tolerance": 1.0e-12,
+          "reference_type": "analytic",
+          "reference": "closed-form static amplitude of constrained unit TET4 one-dof oscillator"
+        },
+        {
+          "path": "result.frequency_response.1.displacements.1.dofs.UX.amplitude",
+          "op": "relative_error",
+          "reference_formula": "tet4_unit_sdof_harmonic_f1_amplitude",
+          "tolerance": 1.0e-12,
+          "reference_type": "analytic",
+          "reference": "closed-form harmonic amplitude before resonance"
+        },
+        {
+          "path": "result.frequency_response.1.displacements.1.dofs.UX.phase_degrees",
+          "op": "abs_error",
+          "reference_formula": "tet4_unit_sdof_harmonic_f1_phase_degrees",
+          "tolerance": 1.0e-10,
+          "reference_type": "analytic",
+          "reference": "closed-form harmonic phase before resonance"
+        },
+        {
+          "path": "result.frequency_response.2.displacements.1.dofs.UX.amplitude",
+          "op": "relative_error",
+          "reference_formula": "tet4_unit_sdof_harmonic_f2_amplitude",
+          "tolerance": 1.0e-12,
+          "reference_type": "analytic",
+          "reference": "closed-form harmonic amplitude after resonance"
+        },
+        {
+          "path": "result.frequency_response.2.displacements.1.dofs.UX.phase_degrees",
+          "op": "abs_error",
+          "reference_formula": "tet4_unit_sdof_harmonic_f2_phase_degrees",
+          "tolerance": 1.0e-10,
+          "reference_type": "analytic",
+          "reference": "closed-form harmonic phase after resonance"
+        },
+        {"path": "result.solver.max_residual_norm", "op": "less_equal", "expected": 1.0e-10}
+      ]
+    },
+    {
+      "id": "SOV-NL-EXPERIMENTAL-001",
+      "requirement": "REQ-NL-001",
+      "description": "Non-lineaire petits deplacements declare experimental.",
+      "input": "../examples/tet4_nonlinear_static.json",
+      "mode": "solve",
+      "profile": "engineering",
+      "expected_status": "WARNING",
+      "replacement_candidate": false,
+      "accepted_use": "Suivi experimental: non-lineaire hors remplacement.",
+      "checks": [
+        {"path": "qualification.maturity.overall", "op": "equals", "expected": "experimental"},
+        {
+          "path": "result.max_displacement",
+          "op": "relative_error",
+          "expected": 0.029216734646579492,
+          "tolerance": 1.0e-8,
+          "reference_type": "non_regression",
+          "reference": "baseline QF_solver 0.2.0"
+        },
+        {"path": "result.solver.steps.0.relative_residual", "op": "exists"},
+        {"path": "result.audit.equilibrium.free_relative_residual", "op": "less_equal", "expected": 1.0e-8}
+      ]
+    },
+    {
+      "id": "SOV-MESH-REJECT-001",
+      "requirement": "REQ-MESH-001",
+      "description": "Maillage TET4 inverse attendu en rejet FAIL.",
+      "input": "../examples/invalid_inverted_tet4.json",
+      "mode": "check_mesh",
+      "profile": "strict",
+      "expected_status": "FAIL",
+      "replacement_candidate": false,
+      "accepted_use": "Preuve de surete: un maillage invalide doit etre refuse.",
+      "checks": [
+        {"path": "mesh_report.status", "op": "equals", "expected": "FAIL"},
+        {"path": "mesh_report.errors.0", "op": "exists"}
+      ]
+    }
+  ]
+}

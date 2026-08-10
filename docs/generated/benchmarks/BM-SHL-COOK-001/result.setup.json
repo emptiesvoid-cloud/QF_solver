@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "mesh_scale_to_m": 1.0,
+  "units": {
+    "system": "SI"
+  },
+  "verification_profile": "engineering",
+  "analysis": {
+    "type": "linear_static",
+    "method": "direct"
+  },
+  "materials": {
+    "shell": {
+      "type": "shell_isotropic",
+      "E": 1000000.0,
+      "nu": 0.3333333333333333,
+      "t": 0.01,
+      "density": 1.0
+    }
+  },
+  "groups": [
+    {
+      "name": "shell",
+      "dimension": 2,
+      "actions": [
+        {
+          "type": "elements",
+          "element_type": "MITC4",
+          "material": "shell"
+        }
+      ]
+    },
+    {
+      "name": "fixed",
+      "dimension": 1,
+      "actions": [
+        {
+          "type": "fixed_dofs",
+          "dofs": [
+            "UX",
+            "UY",
+            "UZ",
+            "RX",
+            "RY",
+            "RZ"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "loaded_edge",
+      "dimension": 1,
+      "actions": [
+        {
+          "type": "edge_traction",
+          "value": [
+            0.0,
+            625.0000000000001,
+            0.0
+          ]
+        }
+      ]
+    }
+  ]
+}

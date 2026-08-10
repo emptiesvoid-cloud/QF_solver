@@ -1,0 +1,2023 @@
+{
+  "schema_version": 1,
+  "units": {
+    "system": "SI"
+  },
+  "verification_profile": "engineering",
+  "analysis": {
+    "type": "nonlinear_static",
+    "method": "newton_raphson",
+    "parameters": {
+      "load_steps": 6,
+      "max_iterations": 30,
+      "tolerance": 1e-09
+    }
+  },
+  "nodes": [
+    [
+      0.0,
+      0.0,
+      0.2
+    ],
+    [
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.2,
+      0.2
+    ],
+    [
+      0.0,
+      0.2,
+      0.0
+    ],
+    [
+      1.0,
+      0.0,
+      0.2
+    ],
+    [
+      1.0,
+      0.0,
+      0.0
+    ],
+    [
+      1.0,
+      0.2,
+      0.2
+    ],
+    [
+      1.0,
+      0.2,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.1000000000000001
+    ],
+    [
+      0.0,
+      0.1000000000000001,
+      0.2
+    ],
+    [
+      0.0,
+      0.2,
+      0.1000000000000001
+    ],
+    [
+      0.0,
+      0.1000000000000001,
+      0.0
+    ],
+    [
+      1.0,
+      0.0,
+      0.1000000000000001
+    ],
+    [
+      1.0,
+      0.1000000000000001,
+      0.2
+    ],
+    [
+      1.0,
+      0.2,
+      0.1000000000000001
+    ],
+    [
+      1.0,
+      0.1000000000000001,
+      0.0
+    ],
+    [
+      0.1666666666666664,
+      0.0,
+      0.0
+    ],
+    [
+      0.333333333333333,
+      0.0,
+      0.0
+    ],
+    [
+      0.4999999999999998,
+      0.0,
+      0.0
+    ],
+    [
+      0.6666666666666665,
+      0.0,
+      0.0
+    ],
+    [
+      0.8333333333333331,
+      0.0,
+      0.0
+    ],
+    [
+      0.1666666666666664,
+      0.0,
+      0.2
+    ],
+    [
+      0.333333333333333,
+      0.0,
+      0.2
+    ],
+    [
+      0.4999999999999998,
+      0.0,
+      0.2
+    ],
+    [
+      0.6666666666666665,
+      0.0,
+      0.2
+    ],
+    [
+      0.8333333333333331,
+      0.0,
+      0.2
+    ],
+    [
+      0.1666666666666664,
+      0.2,
+      0.0
+    ],
+    [
+      0.333333333333333,
+      0.2,
+      0.0
+    ],
+    [
+      0.4999999999999998,
+      0.2,
+      0.0
+    ],
+    [
+      0.6666666666666665,
+      0.2,
+      0.0
+    ],
+    [
+      0.8333333333333331,
+      0.2,
+      0.0
+    ],
+    [
+      0.1666666666666664,
+      0.2,
+      0.2
+    ],
+    [
+      0.333333333333333,
+      0.2,
+      0.2
+    ],
+    [
+      0.4999999999999998,
+      0.2,
+      0.2
+    ],
+    [
+      0.6666666666666665,
+      0.2,
+      0.2
+    ],
+    [
+      0.8333333333333331,
+      0.2,
+      0.2
+    ],
+    [
+      0.0,
+      0.05227769679300298,
+      0.05227769679300298
+    ],
+    [
+      0.0,
+      0.07500000000000001,
+      0.1250000000000001
+    ],
+    [
+      0.0,
+      0.1285046161321672,
+      0.07017128279883386
+    ],
+    [
+      0.0,
+      0.14375,
+      0.14375
+    ],
+    [
+      1.0,
+      0.05227769679300298,
+      0.05227769679300298
+    ],
+    [
+      1.0,
+      0.07500000000000001,
+      0.1250000000000001
+    ],
+    [
+      1.0,
+      0.1285046161321672,
+      0.07017128279883386
+    ],
+    [
+      1.0,
+      0.14375,
+      0.14375
+    ],
+    [
+      0.2499999999999996,
+      0.0,
+      0.1
+    ],
+    [
+      0.1018253968253967,
+      0.0,
+      0.1
+    ],
+    [
+      0.7499999999999997,
+      0.0,
+      0.09999999999999994
+    ],
+    [
+      0.8981746031746032,
+      0.0,
+      0.09999999999999998
+    ],
+    [
+      0.4166666666666665,
+      0.0,
+      0.1
+    ],
+    [
+      0.5833333333333331,
+      0.0,
+      0.1
+    ],
+    [
+      0.2499999999999997,
+      0.2,
+      0.1
+    ],
+    [
+      0.1018253968253967,
+      0.2,
+      0.1
+    ],
+    [
+      0.5833333333333331,
+      0.2,
+      0.1
+    ],
+    [
+      0.4166666666666664,
+      0.2,
+      0.1
+    ],
+    [
+      0.7499999999999997,
+      0.2,
+      0.1
+    ],
+    [
+      0.8981746031746032,
+      0.2,
+      0.1
+    ],
+    [
+      0.2499999999999996,
+      0.09999999999999999,
+      0.0
+    ],
+    [
+      0.1018253968253967,
+      0.1,
+      0.0
+    ],
+    [
+      0.5833333333333331,
+      0.1,
+      0.0
+    ],
+    [
+      0.4166666666666665,
+      0.1,
+      0.0
+    ],
+    [
+      0.7499999999999997,
+      0.1,
+      0.0
+    ],
+    [
+      0.8981746031746032,
+      0.1,
+      0.0
+    ],
+    [
+      0.2499999999999996,
+      0.09999999999999999,
+      0.2
+    ],
+    [
+      0.1018253968253967,
+      0.1,
+      0.2
+    ],
+    [
+      0.5833333333333331,
+      0.1,
+      0.2
+    ],
+    [
+      0.4166666666666665,
+      0.1,
+      0.2
+    ],
+    [
+      0.7499999999999997,
+      0.1,
+      0.2
+    ],
+    [
+      0.8981746031746032,
+      0.09999999999999998,
+      0.2
+    ]
+  ],
+  "elements": [
+    {
+      "type": "TET4",
+      "nodes": [
+        51,
+        39,
+        38,
+        37
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        42,
+        41,
+        43,
+        55
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        51,
+        63,
+        45,
+        62
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        45,
+        57,
+        51,
+        62
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        67,
+        54,
+        55,
+        61
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        61,
+        67,
+        66,
+        47
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        36,
+        57,
+        38,
+        37
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        61,
+        42,
+        41,
+        40
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        46,
+        61,
+        66,
+        47
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        57,
+        50,
+        51,
+        62
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        54,
+        67,
+        66,
+        61
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        45,
+        44,
+        57,
+        62
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        51,
+        38,
+        57,
+        37
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        55,
+        42,
+        41,
+        61
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        54,
+        66,
+        58,
+        60
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        66,
+        58,
+        60,
+        46
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        58,
+        66,
+        64,
+        46
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        54,
+        66,
+        64,
+        58
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        58,
+        64,
+        49,
+        46
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        44,
+        59,
+        53,
+        65
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        52,
+        64,
+        65,
+        58
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        64,
+        49,
+        65,
+        58
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        49,
+        59,
+        65,
+        58
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        52,
+        54,
+        64,
+        58
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        52,
+        65,
+        59,
+        58
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        53,
+        56,
+        44,
+        50
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        44,
+        53,
+        50,
+        65
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        65,
+        48,
+        59,
+        49
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        62,
+        44,
+        50,
+        65
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        59,
+        56,
+        44,
+        53
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        59,
+        44,
+        48,
+        65
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        59,
+        53,
+        65,
+        52
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        66,
+        60,
+        61,
+        46
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        60,
+        66,
+        61,
+        54
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        50,
+        44,
+        57,
+        56
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        44,
+        50,
+        57,
+        62
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        39,
+        51,
+        63,
+        37
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        41,
+        67,
+        43,
+        55
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        57,
+        36,
+        45,
+        37
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        40,
+        41,
+        61,
+        47
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        45,
+        63,
+        51,
+        37
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        45,
+        51,
+        57,
+        37
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        61,
+        41,
+        67,
+        47
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        55,
+        41,
+        67,
+        61
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        32,
+        50,
+        53,
+        65
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        22,
+        48,
+        44,
+        65
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        44,
+        17,
+        56,
+        59
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        27,
+        56,
+        53,
+        50
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        62,
+        22,
+        44,
+        65
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        56,
+        59,
+        27,
+        53
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        49,
+        65,
+        23,
+        64
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        58,
+        49,
+        59,
+        18
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        50,
+        32,
+        62,
+        65
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        33,
+        64,
+        65,
+        52
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        33,
+        65,
+        53,
+        52
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        28,
+        52,
+        59,
+        58
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        46,
+        58,
+        19,
+        49
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        64,
+        24,
+        49,
+        46
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        34,
+        66,
+        64,
+        54
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        48,
+        65,
+        23,
+        49
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        54,
+        52,
+        29,
+        58
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        52,
+        59,
+        53,
+        28
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        58,
+        29,
+        54,
+        60
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        58,
+        46,
+        19,
+        60
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        66,
+        24,
+        64,
+        46
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        44,
+        17,
+        59,
+        48
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        49,
+        48,
+        59,
+        18
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        64,
+        34,
+        54,
+        52
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        47,
+        46,
+        61,
+        20
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        67,
+        25,
+        66,
+        47
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        30,
+        55,
+        54,
+        61
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        35,
+        67,
+        54,
+        55
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        26,
+        57,
+        50,
+        51
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        57,
+        16,
+        44,
+        45
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        63,
+        21,
+        45,
+        62
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        51,
+        31,
+        63,
+        62
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        61,
+        54,
+        30,
+        60
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        35,
+        67,
+        66,
+        54
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        46,
+        66,
+        25,
+        47
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        60,
+        61,
+        46,
+        20
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        57,
+        56,
+        26,
+        50
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        31,
+        51,
+        50,
+        62
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        45,
+        21,
+        44,
+        62
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        44,
+        16,
+        57,
+        56
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        36,
+        57,
+        11,
+        38
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        42,
+        61,
+        15,
+        40
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        39,
+        38,
+        10,
+        51
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        42,
+        43,
+        14,
+        55
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        36,
+        8,
+        45,
+        37
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        12,
+        41,
+        40,
+        47
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        57,
+        36,
+        1,
+        45
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        40,
+        61,
+        5,
+        47
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        63,
+        9,
+        39,
+        37
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        41,
+        67,
+        13,
+        43
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        2,
+        39,
+        51,
+        63
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        43,
+        67,
+        6,
+        55
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        38,
+        57,
+        3,
+        51
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        7,
+        42,
+        55,
+        61
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        45,
+        0,
+        63,
+        37
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        67,
+        41,
+        4,
+        47
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        45,
+        8,
+        0,
+        37
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        0,
+        9,
+        63,
+        37
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        12,
+        4,
+        41,
+        47
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        67,
+        4,
+        41,
+        13
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        39,
+        10,
+        2,
+        51
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        39,
+        2,
+        9,
+        63
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        13,
+        67,
+        6,
+        43
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        43,
+        6,
+        14,
+        55
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        1,
+        36,
+        57,
+        11
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        1,
+        36,
+        8,
+        45
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        40,
+        5,
+        12,
+        47
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        15,
+        61,
+        5,
+        40
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        3,
+        10,
+        38,
+        51
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        14,
+        7,
+        42,
+        55
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        11,
+        57,
+        3,
+        38
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        7,
+        42,
+        61,
+        15
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        57,
+        1,
+        16,
+        45
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        3,
+        57,
+        26,
+        51
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        21,
+        0,
+        63,
+        45
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        31,
+        2,
+        51,
+        63
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        30,
+        7,
+        55,
+        61
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        67,
+        4,
+        25,
+        47
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        61,
+        5,
+        47,
+        20
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        35,
+        6,
+        67,
+        55
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        58,
+        49,
+        18,
+        19
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        49,
+        23,
+        24,
+        64
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        53,
+        32,
+        65,
+        33
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        66,
+        34,
+        35,
+        54
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        46,
+        19,
+        60,
+        20
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        56,
+        27,
+        26,
+        50
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        17,
+        59,
+        48,
+        18
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        33,
+        34,
+        64,
+        52
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        28,
+        29,
+        52,
+        58
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        24,
+        66,
+        25,
+        46
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        16,
+        44,
+        17,
+        56
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        65,
+        22,
+        48,
+        23
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        59,
+        27,
+        53,
+        28
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        29,
+        30,
+        54,
+        60
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        32,
+        31,
+        50,
+        62
+      ],
+      "material": "j2"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        44,
+        21,
+        22,
+        62
+      ],
+      "material": "j2"
+    }
+  ],
+  "materials": {
+    "j2": {
+      "type": "von_mises_elastoplastic_3d",
+      "E": 210000000000.0,
+      "nu": 0.3,
+      "yield_stress": 250000000.0,
+      "hardening_modulus": 1000000000.0,
+      "density": 7800.0
+    }
+  },
+  "fixed_dofs": [
+    {
+      "node": 0,
+      "dofs": [
+        "UX",
+        "UY",
+        "UZ"
+      ]
+    },
+    {
+      "node": 1,
+      "dofs": [
+        "UX"
+      ]
+    },
+    {
+      "node": 2,
+      "dofs": [
+        "UX"
+      ]
+    },
+    {
+      "node": 3,
+      "dofs": [
+        "UX"
+      ]
+    },
+    {
+      "node": 8,
+      "dofs": [
+        "UX"
+      ]
+    },
+    {
+      "node": 9,
+      "dofs": [
+        "UX"
+      ]
+    },
+    {
+      "node": 10,
+      "dofs": [
+        "UX"
+      ]
+    },
+    {
+      "node": 11,
+      "dofs": [
+        "UX"
+      ]
+    },
+    {
+      "node": 36,
+      "dofs": [
+        "UX"
+      ]
+    },
+    {
+      "node": 37,
+      "dofs": [
+        "UX"
+      ]
+    },
+    {
+      "node": 38,
+      "dofs": [
+        "UX"
+      ]
+    },
+    {
+      "node": 39,
+      "dofs": [
+        "UX"
+      ]
+    }
+  ],
+  "loads": [],
+  "distributed_loads": [
+    {
+      "type": "surface_traction",
+      "element": 1,
+      "value": [
+        300000000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 3
+    },
+    {
+      "type": "surface_traction",
+      "element": 7,
+      "value": [
+        300000000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 0
+    },
+    {
+      "type": "surface_traction",
+      "element": 85,
+      "value": [
+        300000000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 1
+    },
+    {
+      "type": "surface_traction",
+      "element": 87,
+      "value": [
+        300000000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 3
+    },
+    {
+      "type": "surface_traction",
+      "element": 89,
+      "value": [
+        300000000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 3
+    },
+    {
+      "type": "surface_traction",
+      "element": 93,
+      "value": [
+        300000000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 1
+    },
+    {
+      "type": "surface_traction",
+      "element": 102,
+      "value": [
+        300000000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 3
+    },
+    {
+      "type": "surface_traction",
+      "element": 103,
+      "value": [
+        300000000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 0
+    },
+    {
+      "type": "surface_traction",
+      "element": 106,
+      "value": [
+        300000000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 1
+    },
+    {
+      "type": "surface_traction",
+      "element": 107,
+      "value": [
+        300000000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 3
+    },
+    {
+      "type": "surface_traction",
+      "element": 110,
+      "value": [
+        300000000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 3
+    },
+    {
+      "type": "surface_traction",
+      "element": 111,
+      "value": [
+        300000000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 1
+    },
+    {
+      "type": "surface_traction",
+      "element": 113,
+      "value": [
+        300000000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 3
+    },
+    {
+      "type": "surface_traction",
+      "element": 115,
+      "value": [
+        300000000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 2
+    }
+  ],
+  "springs": [],
+  "concentrated_masses": [],
+  "multipoint_constraints": [],
+  "rbe2": [],
+  "rbe3": [],
+  "contacts": []
+}

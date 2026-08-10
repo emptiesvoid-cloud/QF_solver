@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "units": {"system": "SI", "length": "m", "force": "N"},
+  "analysis": "linear_static",
+  "nodes": [[0.0, 0.0, 0.0], [0.0, 2.0, 0.0]],
+  "elements": [],
+  "materials": {},
+  "springs": [
+    {
+      "node_a": 0,
+      "dofs": ["UX", "UY", "UZ", "RX", "RY", "RZ"],
+      "stiffness": 1000.0
+    }
+  ],
+  "fixed_dofs": [{"node": 0, "dofs": ["UY", "UZ", "RX", "RY", "RZ"]}],
+  "loads": [{"node": 1, "dof": "UX", "value": 20.0}],
+  "rbe2": [{"name": "rigid_arm", "master": 0, "slaves": [1]}]
+}

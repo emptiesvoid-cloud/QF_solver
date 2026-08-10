@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "mesh_scale_to_m": 1.0,
+  "units": {
+    "system": "SI"
+  },
+  "verification_profile": "engineering",
+  "analysis": {
+    "type": "linear_static",
+    "method": "direct"
+  },
+  "materials": {
+    "solid": {
+      "type": "isotropic_3d",
+      "E": 70000000000.0,
+      "nu": 0.3,
+      "density": 7800.0
+    }
+  },
+  "groups": [
+    {
+      "name": "domain",
+      "dimension": 3,
+      "actions": [
+        {
+          "type": "elements",
+          "element_type": "TET4",
+          "material": "solid"
+        }
+      ]
+    },
+    {
+      "name": "x_min",
+      "dimension": 2,
+      "actions": [
+        {
+          "type": "fixed_dofs",
+          "dofs": [
+            "UX"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "anchor_origin",
+      "dimension": 0,
+      "actions": [
+        {
+          "type": "fixed_dofs",
+          "dofs": [
+            "UY",
+            "UZ"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "anchor_xy",
+      "dimension": 0,
+      "actions": [
+        {
+          "type": "fixed_dofs",
+          "dofs": [
+            "UZ"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "x_max",
+      "dimension": 2,
+      "actions": [
+        {
+          "type": "surface_traction",
+          "value": [
+            -10000000.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    }
+  ]
+}

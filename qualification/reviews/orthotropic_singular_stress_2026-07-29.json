@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "review_id": "REV-ORTHOTROPIC-SINGULAR-STRESS-2026-07-29",
+  "scope": "orthotropic-solid-singular-stress-assessment",
+  "validation_status": "engineering_internal_validated_with_recommendations",
+  "decision": "accepted_with_recommendations",
+  "decision_date": "2026-07-29",
+  "validator": {
+    "name": "Quentin Farinazzo",
+    "role": "auteur et validateur mecanique"
+  },
+  "review_mode": "self_review",
+  "independence": "not_independent",
+  "certification_claim": "none",
+  "accepted_answers": {
+    "additional_edge_notched_and_double_hole_cases": true,
+    "final_path_and_band_increments_below_five_percent": true,
+    "qf_solver_code_aster_s11_fields": true,
+    "policy_excluding_point_singular_peaks_from_dimensioning": true
+  },
+  "evidence": [
+    "VNV-ORTHOTROPIC-SINGULAR-STRESS-005",
+    "qualification/external_reference_digests/orthotropic_singular_stress_h8.json",
+    "VNV-ORTHOTROPIC-ADDITIONAL-STRESS-006",
+    "qualification/external_reference_digests/orthotropic_additional_stress.json",
+    "docs/verification/revue_contraintes_singularites.md",
+    "docs/assets/reviews/owner_review_contraintes_singulieres.pdf"
+  ],
+  "accepted_domain": [
+    "evaluation statique lineaire des contraintes orthotropes homogenes en petites deformations",
+    "lecture par chemins fixes hors singularite et moyennes de bandes",
+    "seuil de stabilisation entre deux raffinements successifs inferieur ou egal a 5 percent",
+    "correlation des contraintes S11 aux points d'integration avec Code_Aster sur maillage identique",
+    "usage de CalculiX nodal comme diagnostic complementaire non bloquant"
+  ],
+  "recommendations": [
+    {
+      "id": "REC-SINGULAR-001",
+      "title": "Ne jamais utiliser un pic ponctuel singulier comme valeur de dimensionnement.",
+      "status": "active_engineering_recommendation"
+    },
+    {
+      "id": "REC-SINGULAR-002",
+      "title": "Conserver visibles les ecarts lies a l'extrapolation nodale CalculiX.",
+      "status": "active_engineering_recommendation"
+    },
+    {
+      "id": "REC-SINGULAR-003",
+      "title": "Employer chemins converges, bandes moyennes et correlation Code_Aster pour toute decision bornee.",
+      "status": "active_engineering_recommendation"
+    }
+  ],
+  "limitations": [
+    "La decision ne qualifie aucun critere de rupture anisotrope.",
+    "Les singularites geometriques ponctuelles ne possedent pas de contrainte locale convergente.",
+    "Cette revue interne n'est ni une certification ni une revue independante."
+  ],
+  "signature": {
+    "name": "Quentin Farinazzo",
+    "mode": "electronic self_review declaration",
+    "date": "2026-07-29",
+    "declaration": "Q1 OUI; Q2 OUI; Q3 OUI; Q4 OUI; Q5 accepted_with_recommendations."
+  }
+}

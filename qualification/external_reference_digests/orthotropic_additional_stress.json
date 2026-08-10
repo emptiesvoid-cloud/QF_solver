@@ -1,0 +1,371 @@
+{
+  "blocking_oracle": "Code_Aster 18.1.0 integration-point stress on identical TET4 meshes",
+  "campaign_id": "VNV-ORTHOTROPIC-ADDITIONAL-STRESS-006",
+  "cases": [
+    {
+      "assessment": {
+        "acceptance_observables": [
+          "fixed_distance_path",
+          "band_average"
+        ],
+        "checks": [
+          {
+            "direction": "lower",
+            "id": "mesh_order",
+            "limit": 1.0,
+            "status": "PASS",
+            "value": 1.0
+          },
+          {
+            "direction": "lower",
+            "id": "minimum_distance_over_h",
+            "limit": 2.0,
+            "status": "PASS",
+            "value": 2.0
+          },
+          {
+            "direction": "upper",
+            "id": "final_path_increment",
+            "limit": 0.05,
+            "status": "PASS",
+            "value": 0.006107569798151324
+          },
+          {
+            "direction": "upper",
+            "id": "final_band_increment",
+            "limit": 0.05,
+            "status": "PASS",
+            "value": 0.008677664635295623
+          },
+          {
+            "direction": "upper",
+            "id": "reference_path_error",
+            "limit": 0.05,
+            "status": "PASS",
+            "value": 4.2389925910319816e-14
+          },
+          {
+            "direction": "upper",
+            "id": "reference_band_error",
+            "limit": 0.05,
+            "status": "PASS",
+            "value": 1.6953085921430378e-13
+          }
+        ],
+        "distances": [
+          0.4,
+          0.65,
+          0.9
+        ],
+        "fine_band_average": 9205.951739259517,
+        "fine_path_values": [
+          10813.544016644357,
+          7943.0067232559395,
+          6825.909857030933
+        ],
+        "mesh_sizes": [
+          0.2,
+          0.15,
+          0.11,
+          0.085,
+          0.065
+        ],
+        "point_peak_rule": "eligible_only_after_finite_radius_convergence",
+        "reference_kind": "code_aster",
+        "status": "PASS",
+        "true_singularity": false
+      },
+      "id": "edge_notched_coupon",
+      "levels": [
+        {
+          "code_aster_band_S11_pa": 9324.409976884795,
+          "code_aster_path_S11_pa": [
+            12736.349889395084,
+            8404.909455552242,
+            7348.001962709716
+          ],
+          "elements": 2523,
+          "level": 1,
+          "mesh_size": 0.2,
+          "nodes": 795,
+          "qf_band_S11_pa": 9324.40997688462,
+          "qf_path_S11_pa": [
+            12736.34988939426,
+            8404.909455551779,
+            7348.001962708404
+          ],
+          "same_mesh_band_error": 1.8727510177404518e-14,
+          "same_mesh_path_error": 9.550692393948529e-14
+        },
+        {
+          "code_aster_band_S11_pa": 9158.441122010167,
+          "code_aster_path_S11_pa": [
+            10868.774062135411,
+            7879.316931076022,
+            6732.682805125438
+          ],
+          "elements": 5271,
+          "level": 2,
+          "mesh_size": 0.15,
+          "nodes": 1514,
+          "qf_band_S11_pa": 9158.441122007802,
+          "qf_path_S11_pa": [
+            10868.774062132221,
+            7879.316931074728,
+            6732.682805125057
+          ],
+          "same_mesh_band_error": 2.5819745883681496e-13,
+          "same_mesh_path_error": 2.306575741791611e-13
+        },
+        {
+          "code_aster_band_S11_pa": 9058.384624562894,
+          "code_aster_path_S11_pa": [
+            10842.091001609084,
+            8047.875026347702,
+            7045.890618903487
+          ],
+          "elements": 12439,
+          "level": 3,
+          "mesh_size": 0.11,
+          "nodes": 3126,
+          "qf_band_S11_pa": 9058.384624563227,
+          "qf_path_S11_pa": [
+            10842.09100160918,
+            8047.875026348066,
+            7045.8906189025565
+          ],
+          "same_mesh_band_error": 3.674772872265204e-14,
+          "same_mesh_path_error": 6.589793504649829e-14
+        },
+        {
+          "code_aster_band_S11_pa": 9126.065577418802,
+          "code_aster_path_S11_pa": [
+            10775.771958373896,
+            7894.49425527843,
+            6837.886453139751
+          ],
+          "elements": 26283,
+          "level": 4,
+          "mesh_size": 0.085,
+          "nodes": 6067,
+          "qf_band_S11_pa": 9126.065577417507,
+          "qf_path_S11_pa": [
+            10775.771958377036,
+            7894.494255286469,
+            6837.886453147705
+          ],
+          "same_mesh_band_error": 1.4191443665814191e-13,
+          "same_mesh_path_error": 7.820798631555248e-13
+        },
+        {
+          "code_aster_band_S11_pa": 9205.951739261078,
+          "code_aster_path_S11_pa": [
+            10813.544016644815,
+            7943.006723256001,
+            6825.909857030741
+          ],
+          "elements": 55935,
+          "level": 5,
+          "mesh_size": 0.065,
+          "nodes": 12056,
+          "qf_band_S11_pa": 9205.951739259517,
+          "qf_path_S11_pa": [
+            10813.544016644357,
+            7943.0067232559395,
+            6825.909857030933
+          ],
+          "same_mesh_band_error": 1.6953085921430378e-13,
+          "same_mesh_path_error": 3.328842443541983e-14
+        }
+      ],
+      "same_mesh_code_aster_status": "PASS"
+    },
+    {
+      "assessment": {
+        "acceptance_observables": [
+          "fixed_distance_path",
+          "band_average"
+        ],
+        "checks": [
+          {
+            "direction": "lower",
+            "id": "mesh_order",
+            "limit": 1.0,
+            "status": "PASS",
+            "value": 1.0
+          },
+          {
+            "direction": "lower",
+            "id": "minimum_distance_over_h",
+            "limit": 2.0,
+            "status": "PASS",
+            "value": 2.0
+          },
+          {
+            "direction": "upper",
+            "id": "final_path_increment",
+            "limit": 0.05,
+            "status": "PASS",
+            "value": 0.04403873586164181
+          },
+          {
+            "direction": "upper",
+            "id": "final_band_increment",
+            "limit": 0.05,
+            "status": "PASS",
+            "value": 0.005563801110788682
+          },
+          {
+            "direction": "upper",
+            "id": "reference_path_error",
+            "limit": 0.05,
+            "status": "PASS",
+            "value": 1.888308558702626e-12
+          },
+          {
+            "direction": "upper",
+            "id": "reference_band_error",
+            "limit": 0.05,
+            "status": "PASS",
+            "value": 1.1137302244987704e-12
+          }
+        ],
+        "distances": [
+          0.4,
+          0.65,
+          0.9
+        ],
+        "fine_band_average": 7761.975880866675,
+        "fine_path_values": [
+          7109.0827483150115,
+          7464.385711658696,
+          7183.840661586273
+        ],
+        "mesh_sizes": [
+          0.2,
+          0.15,
+          0.11,
+          0.085,
+          0.065
+        ],
+        "point_peak_rule": "eligible_only_after_finite_radius_convergence",
+        "reference_kind": "code_aster",
+        "status": "PASS",
+        "true_singularity": false
+      },
+      "id": "double_hole_coupon",
+      "levels": [
+        {
+          "code_aster_band_S11_pa": 7756.497411509754,
+          "code_aster_path_S11_pa": [
+            6924.606594870705,
+            5792.865732496557,
+            6534.93058936177
+          ],
+          "elements": 2381,
+          "level": 1,
+          "mesh_size": 0.2,
+          "nodes": 770,
+          "qf_band_S11_pa": 7756.497411510511,
+          "qf_path_S11_pa": [
+            6924.606594872344,
+            5792.865732495858,
+            6534.930589361209
+          ],
+          "same_mesh_band_error": 9.755686771095249e-14,
+          "same_mesh_path_error": 1.676950755164416e-13
+        },
+        {
+          "code_aster_band_S11_pa": 7772.534644806383,
+          "code_aster_path_S11_pa": [
+            7148.714742494606,
+            7479.531759179502,
+            7382.313596708888
+          ],
+          "elements": 5066,
+          "level": 2,
+          "mesh_size": 0.15,
+          "nodes": 1517,
+          "qf_band_S11_pa": 7772.53464480829,
+          "qf_path_S11_pa": [
+            7148.714742497535,
+            7479.53175918058,
+            7382.313596709043
+          ],
+          "same_mesh_band_error": 2.453781780042322e-13,
+          "same_mesh_path_error": 2.458221641217544e-13
+        },
+        {
+          "code_aster_band_S11_pa": 7806.271646589861,
+          "code_aster_path_S11_pa": [
+            6599.378926749727,
+            6887.3581106178935,
+            6872.819854287468
+          ],
+          "elements": 11802,
+          "level": 3,
+          "mesh_size": 0.11,
+          "nodes": 3081,
+          "qf_band_S11_pa": 7806.271646593314,
+          "qf_path_S11_pa": [
+            6599.378926755587,
+            6887.358110621311,
+            6872.8198542890395
+          ],
+          "same_mesh_band_error": 4.422651483614069e-13,
+          "same_mesh_path_error": 5.922916761623919e-13
+        },
+        {
+          "code_aster_band_S11_pa": 7805.40359404985,
+          "code_aster_path_S11_pa": [
+            7048.111363863642,
+            7777.129552056539,
+            7514.782168564424
+          ],
+          "elements": 25355,
+          "level": 4,
+          "mesh_size": 0.085,
+          "nodes": 6004,
+          "qf_band_S11_pa": 7805.403594053423,
+          "qf_path_S11_pa": [
+            7048.111363870086,
+            7777.129552057582,
+            7514.782168565505
+          ],
+          "same_mesh_band_error": 4.578116480726566e-13,
+          "same_mesh_path_error": 5.126447074573558e-13
+        },
+        {
+          "code_aster_band_S11_pa": 7761.97588085803,
+          "code_aster_path_S11_pa": [
+            7109.082748301587,
+            7464.385711653882,
+            7183.840661585992
+          ],
+          "elements": 54342,
+          "level": 5,
+          "mesh_size": 0.065,
+          "nodes": 11975,
+          "qf_band_S11_pa": 7761.975880866675,
+          "qf_path_S11_pa": [
+            7109.0827483150115,
+            7464.385711658696,
+            7183.840661586273
+          ],
+          "same_mesh_band_error": 1.1137302244987704e-12,
+          "same_mesh_path_error": 1.1352700757390706e-12
+        }
+      ],
+      "same_mesh_code_aster_status": "PASS"
+    }
+  ],
+  "evidence_manifest_sha256": "89b659a569b62c5505e3148218243f5df5bbdc8de79dc4f142bfce42750a1dc7",
+  "limitations": [
+    "The two new geometries contain finite-radius concentrations, not mathematical point singularities.",
+    "S11 is a stress observable and not an anisotropic failure criterion.",
+    "The accepted domain remains small-strain homogeneous orthotropy."
+  ],
+  "maturity": "engineering_internal_pending_human_recheck",
+  "observable": "material-axis S11 [Pa]",
+  "status": "PASS_STRESS_ACCEPTANCE"
+}

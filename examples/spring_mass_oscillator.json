@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "units": {
+    "system": "SI",
+    "length": "m",
+    "force": "N",
+    "mass": "kg",
+    "time": "s"
+  },
+  "verification_profile": "engineering",
+  "analysis": {
+    "type": "modal",
+    "method": "eigh",
+    "parameters": {
+      "modes": 1
+    }
+  },
+  "nodes": [
+    [0.0, 0.0, 0.0]
+  ],
+  "elements": [],
+  "materials": {},
+  "springs": [
+    {
+      "node_a": 0,
+      "dofs": ["UX", "UY", "UZ"],
+      "stiffness": [1000.0, 4000.0, 9000.0],
+      "coordinate_system": "global"
+    }
+  ],
+  "concentrated_masses": [
+    {
+      "node": 0,
+      "mass": 10.0
+    }
+  ],
+  "fixed_dofs": [],
+  "loads": [],
+  "distributed_loads": []
+}

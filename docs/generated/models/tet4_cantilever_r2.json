@@ -1,0 +1,2469 @@
+{
+  "analysis": {
+    "method": "direct",
+    "type": "linear_static"
+  },
+  "elements": [
+    {
+      "material": "aluminium",
+      "nodes": [
+        0,
+        9,
+        12,
+        13
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        0,
+        12,
+        3,
+        13
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        0,
+        3,
+        4,
+        13
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        0,
+        4,
+        1,
+        13
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        0,
+        1,
+        10,
+        13
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        0,
+        10,
+        9,
+        13
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        1,
+        10,
+        13,
+        14
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        1,
+        13,
+        4,
+        14
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        1,
+        4,
+        5,
+        14
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        1,
+        5,
+        2,
+        14
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        1,
+        2,
+        11,
+        14
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        1,
+        11,
+        10,
+        14
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        3,
+        12,
+        15,
+        16
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        3,
+        15,
+        6,
+        16
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        3,
+        6,
+        7,
+        16
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        3,
+        7,
+        4,
+        16
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        3,
+        4,
+        13,
+        16
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        3,
+        13,
+        12,
+        16
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        4,
+        13,
+        16,
+        17
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        4,
+        16,
+        7,
+        17
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        4,
+        7,
+        8,
+        17
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        4,
+        8,
+        5,
+        17
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        4,
+        5,
+        14,
+        17
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        4,
+        14,
+        13,
+        17
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        9,
+        18,
+        21,
+        22
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        9,
+        21,
+        12,
+        22
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        9,
+        12,
+        13,
+        22
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        9,
+        13,
+        10,
+        22
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        9,
+        10,
+        19,
+        22
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        9,
+        19,
+        18,
+        22
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        10,
+        19,
+        22,
+        23
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        10,
+        22,
+        13,
+        23
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        10,
+        13,
+        14,
+        23
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        10,
+        14,
+        11,
+        23
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        10,
+        11,
+        20,
+        23
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        10,
+        20,
+        19,
+        23
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        12,
+        21,
+        24,
+        25
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        12,
+        24,
+        15,
+        25
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        12,
+        15,
+        16,
+        25
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        12,
+        16,
+        13,
+        25
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        12,
+        13,
+        22,
+        25
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        12,
+        22,
+        21,
+        25
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        13,
+        22,
+        25,
+        26
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        13,
+        25,
+        16,
+        26
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        13,
+        16,
+        17,
+        26
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        13,
+        17,
+        14,
+        26
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        13,
+        14,
+        23,
+        26
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        13,
+        23,
+        22,
+        26
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        18,
+        27,
+        30,
+        31
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        18,
+        30,
+        21,
+        31
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        18,
+        21,
+        22,
+        31
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        18,
+        22,
+        19,
+        31
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        18,
+        19,
+        28,
+        31
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        18,
+        28,
+        27,
+        31
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        19,
+        28,
+        31,
+        32
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        19,
+        31,
+        22,
+        32
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        19,
+        22,
+        23,
+        32
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        19,
+        23,
+        20,
+        32
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        19,
+        20,
+        29,
+        32
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        19,
+        29,
+        28,
+        32
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        21,
+        30,
+        33,
+        34
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        21,
+        33,
+        24,
+        34
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        21,
+        24,
+        25,
+        34
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        21,
+        25,
+        22,
+        34
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        21,
+        22,
+        31,
+        34
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        21,
+        31,
+        30,
+        34
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        22,
+        31,
+        34,
+        35
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        22,
+        34,
+        25,
+        35
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        22,
+        25,
+        26,
+        35
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        22,
+        26,
+        23,
+        35
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        22,
+        23,
+        32,
+        35
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        22,
+        32,
+        31,
+        35
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        27,
+        36,
+        39,
+        40
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        27,
+        39,
+        30,
+        40
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        27,
+        30,
+        31,
+        40
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        27,
+        31,
+        28,
+        40
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        27,
+        28,
+        37,
+        40
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        27,
+        37,
+        36,
+        40
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        28,
+        37,
+        40,
+        41
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        28,
+        40,
+        31,
+        41
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        28,
+        31,
+        32,
+        41
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        28,
+        32,
+        29,
+        41
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        28,
+        29,
+        38,
+        41
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        28,
+        38,
+        37,
+        41
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        30,
+        39,
+        42,
+        43
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        30,
+        42,
+        33,
+        43
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        30,
+        33,
+        34,
+        43
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        30,
+        34,
+        31,
+        43
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        30,
+        31,
+        40,
+        43
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        30,
+        40,
+        39,
+        43
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        31,
+        40,
+        43,
+        44
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        31,
+        43,
+        34,
+        44
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        31,
+        34,
+        35,
+        44
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        31,
+        35,
+        32,
+        44
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        31,
+        32,
+        41,
+        44
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        31,
+        41,
+        40,
+        44
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        36,
+        45,
+        48,
+        49
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        36,
+        48,
+        39,
+        49
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        36,
+        39,
+        40,
+        49
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        36,
+        40,
+        37,
+        49
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        36,
+        37,
+        46,
+        49
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        36,
+        46,
+        45,
+        49
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        37,
+        46,
+        49,
+        50
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        37,
+        49,
+        40,
+        50
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        37,
+        40,
+        41,
+        50
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        37,
+        41,
+        38,
+        50
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        37,
+        38,
+        47,
+        50
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        37,
+        47,
+        46,
+        50
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        39,
+        48,
+        51,
+        52
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        39,
+        51,
+        42,
+        52
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        39,
+        42,
+        43,
+        52
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        39,
+        43,
+        40,
+        52
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        39,
+        40,
+        49,
+        52
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        39,
+        49,
+        48,
+        52
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        40,
+        49,
+        52,
+        53
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        40,
+        52,
+        43,
+        53
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        40,
+        43,
+        44,
+        53
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        40,
+        44,
+        41,
+        53
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        40,
+        41,
+        50,
+        53
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        40,
+        50,
+        49,
+        53
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        45,
+        54,
+        57,
+        58
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        45,
+        57,
+        48,
+        58
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        45,
+        48,
+        49,
+        58
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        45,
+        49,
+        46,
+        58
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        45,
+        46,
+        55,
+        58
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        45,
+        55,
+        54,
+        58
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        46,
+        55,
+        58,
+        59
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        46,
+        58,
+        49,
+        59
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        46,
+        49,
+        50,
+        59
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        46,
+        50,
+        47,
+        59
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        46,
+        47,
+        56,
+        59
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        46,
+        56,
+        55,
+        59
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        48,
+        57,
+        60,
+        61
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        48,
+        60,
+        51,
+        61
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        48,
+        51,
+        52,
+        61
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        48,
+        52,
+        49,
+        61
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        48,
+        49,
+        58,
+        61
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        48,
+        58,
+        57,
+        61
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        49,
+        58,
+        61,
+        62
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        49,
+        61,
+        52,
+        62
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        49,
+        52,
+        53,
+        62
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        49,
+        53,
+        50,
+        62
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        49,
+        50,
+        59,
+        62
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        49,
+        59,
+        58,
+        62
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        54,
+        63,
+        66,
+        67
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        54,
+        66,
+        57,
+        67
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        54,
+        57,
+        58,
+        67
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        54,
+        58,
+        55,
+        67
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        54,
+        55,
+        64,
+        67
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        54,
+        64,
+        63,
+        67
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        55,
+        64,
+        67,
+        68
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        55,
+        67,
+        58,
+        68
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        55,
+        58,
+        59,
+        68
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        55,
+        59,
+        56,
+        68
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        55,
+        56,
+        65,
+        68
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        55,
+        65,
+        64,
+        68
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        57,
+        66,
+        69,
+        70
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        57,
+        69,
+        60,
+        70
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        57,
+        60,
+        61,
+        70
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        57,
+        61,
+        58,
+        70
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        57,
+        58,
+        67,
+        70
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        57,
+        67,
+        66,
+        70
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        58,
+        67,
+        70,
+        71
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        58,
+        70,
+        61,
+        71
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        58,
+        61,
+        62,
+        71
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        58,
+        62,
+        59,
+        71
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        58,
+        59,
+        68,
+        71
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        58,
+        68,
+        67,
+        71
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        63,
+        72,
+        75,
+        76
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        63,
+        75,
+        66,
+        76
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        63,
+        66,
+        67,
+        76
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        63,
+        67,
+        64,
+        76
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        63,
+        64,
+        73,
+        76
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        63,
+        73,
+        72,
+        76
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        64,
+        73,
+        76,
+        77
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        64,
+        76,
+        67,
+        77
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        64,
+        67,
+        68,
+        77
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        64,
+        68,
+        65,
+        77
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        64,
+        65,
+        74,
+        77
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        64,
+        74,
+        73,
+        77
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        66,
+        75,
+        78,
+        79
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        66,
+        78,
+        69,
+        79
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        66,
+        69,
+        70,
+        79
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        66,
+        70,
+        67,
+        79
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        66,
+        67,
+        76,
+        79
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        66,
+        76,
+        75,
+        79
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        67,
+        76,
+        79,
+        80
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        67,
+        79,
+        70,
+        80
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        67,
+        70,
+        71,
+        80
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        67,
+        71,
+        68,
+        80
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        67,
+        68,
+        77,
+        80
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "aluminium",
+      "nodes": [
+        67,
+        77,
+        76,
+        80
+      ],
+      "type": "TET4"
+    }
+  ],
+  "fixed_dofs": [
+    {
+      "dofs": [
+        "UX",
+        "UY",
+        "UZ"
+      ],
+      "node": 0
+    },
+    {
+      "dofs": [
+        "UX",
+        "UY",
+        "UZ"
+      ],
+      "node": 1
+    },
+    {
+      "dofs": [
+        "UX",
+        "UY",
+        "UZ"
+      ],
+      "node": 2
+    },
+    {
+      "dofs": [
+        "UX",
+        "UY",
+        "UZ"
+      ],
+      "node": 3
+    },
+    {
+      "dofs": [
+        "UX",
+        "UY",
+        "UZ"
+      ],
+      "node": 4
+    },
+    {
+      "dofs": [
+        "UX",
+        "UY",
+        "UZ"
+      ],
+      "node": 5
+    },
+    {
+      "dofs": [
+        "UX",
+        "UY",
+        "UZ"
+      ],
+      "node": 6
+    },
+    {
+      "dofs": [
+        "UX",
+        "UY",
+        "UZ"
+      ],
+      "node": 7
+    },
+    {
+      "dofs": [
+        "UX",
+        "UY",
+        "UZ"
+      ],
+      "node": 8
+    }
+  ],
+  "loads": [
+    {
+      "dof": "UZ",
+      "node": 72,
+      "value": -111.11111111111111
+    },
+    {
+      "dof": "UZ",
+      "node": 73,
+      "value": -111.11111111111111
+    },
+    {
+      "dof": "UZ",
+      "node": 74,
+      "value": -111.11111111111111
+    },
+    {
+      "dof": "UZ",
+      "node": 75,
+      "value": -111.11111111111111
+    },
+    {
+      "dof": "UZ",
+      "node": 76,
+      "value": -111.11111111111111
+    },
+    {
+      "dof": "UZ",
+      "node": 77,
+      "value": -111.11111111111111
+    },
+    {
+      "dof": "UZ",
+      "node": 78,
+      "value": -111.11111111111111
+    },
+    {
+      "dof": "UZ",
+      "node": 79,
+      "value": -111.11111111111111
+    },
+    {
+      "dof": "UZ",
+      "node": 80,
+      "value": -111.11111111111111
+    }
+  ],
+  "materials": {
+    "aluminium": {
+      "E": 70000000000.0,
+      "density": 2700.0,
+      "nu": 0.3,
+      "type": "isotropic_3d"
+    }
+  },
+  "nodes": [
+    [
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.5
+    ],
+    [
+      0.0,
+      0.0,
+      1.0
+    ],
+    [
+      0.0,
+      0.5,
+      0.0
+    ],
+    [
+      0.0,
+      0.5,
+      0.5
+    ],
+    [
+      0.0,
+      0.5,
+      1.0
+    ],
+    [
+      0.0,
+      1.0,
+      0.0
+    ],
+    [
+      0.0,
+      1.0,
+      0.5
+    ],
+    [
+      0.0,
+      1.0,
+      1.0
+    ],
+    [
+      0.5,
+      0.0,
+      0.0
+    ],
+    [
+      0.5,
+      0.0,
+      0.5
+    ],
+    [
+      0.5,
+      0.0,
+      1.0
+    ],
+    [
+      0.5,
+      0.5,
+      0.0
+    ],
+    [
+      0.5,
+      0.5,
+      0.5
+    ],
+    [
+      0.5,
+      0.5,
+      1.0
+    ],
+    [
+      0.5,
+      1.0,
+      0.0
+    ],
+    [
+      0.5,
+      1.0,
+      0.5
+    ],
+    [
+      0.5,
+      1.0,
+      1.0
+    ],
+    [
+      1.0,
+      0.0,
+      0.0
+    ],
+    [
+      1.0,
+      0.0,
+      0.5
+    ],
+    [
+      1.0,
+      0.0,
+      1.0
+    ],
+    [
+      1.0,
+      0.5,
+      0.0
+    ],
+    [
+      1.0,
+      0.5,
+      0.5
+    ],
+    [
+      1.0,
+      0.5,
+      1.0
+    ],
+    [
+      1.0,
+      1.0,
+      0.0
+    ],
+    [
+      1.0,
+      1.0,
+      0.5
+    ],
+    [
+      1.0,
+      1.0,
+      1.0
+    ],
+    [
+      1.5,
+      0.0,
+      0.0
+    ],
+    [
+      1.5,
+      0.0,
+      0.5
+    ],
+    [
+      1.5,
+      0.0,
+      1.0
+    ],
+    [
+      1.5,
+      0.5,
+      0.0
+    ],
+    [
+      1.5,
+      0.5,
+      0.5
+    ],
+    [
+      1.5,
+      0.5,
+      1.0
+    ],
+    [
+      1.5,
+      1.0,
+      0.0
+    ],
+    [
+      1.5,
+      1.0,
+      0.5
+    ],
+    [
+      1.5,
+      1.0,
+      1.0
+    ],
+    [
+      2.0,
+      0.0,
+      0.0
+    ],
+    [
+      2.0,
+      0.0,
+      0.5
+    ],
+    [
+      2.0,
+      0.0,
+      1.0
+    ],
+    [
+      2.0,
+      0.5,
+      0.0
+    ],
+    [
+      2.0,
+      0.5,
+      0.5
+    ],
+    [
+      2.0,
+      0.5,
+      1.0
+    ],
+    [
+      2.0,
+      1.0,
+      0.0
+    ],
+    [
+      2.0,
+      1.0,
+      0.5
+    ],
+    [
+      2.0,
+      1.0,
+      1.0
+    ],
+    [
+      2.5,
+      0.0,
+      0.0
+    ],
+    [
+      2.5,
+      0.0,
+      0.5
+    ],
+    [
+      2.5,
+      0.0,
+      1.0
+    ],
+    [
+      2.5,
+      0.5,
+      0.0
+    ],
+    [
+      2.5,
+      0.5,
+      0.5
+    ],
+    [
+      2.5,
+      0.5,
+      1.0
+    ],
+    [
+      2.5,
+      1.0,
+      0.0
+    ],
+    [
+      2.5,
+      1.0,
+      0.5
+    ],
+    [
+      2.5,
+      1.0,
+      1.0
+    ],
+    [
+      3.0,
+      0.0,
+      0.0
+    ],
+    [
+      3.0,
+      0.0,
+      0.5
+    ],
+    [
+      3.0,
+      0.0,
+      1.0
+    ],
+    [
+      3.0,
+      0.5,
+      0.0
+    ],
+    [
+      3.0,
+      0.5,
+      0.5
+    ],
+    [
+      3.0,
+      0.5,
+      1.0
+    ],
+    [
+      3.0,
+      1.0,
+      0.0
+    ],
+    [
+      3.0,
+      1.0,
+      0.5
+    ],
+    [
+      3.0,
+      1.0,
+      1.0
+    ],
+    [
+      3.5,
+      0.0,
+      0.0
+    ],
+    [
+      3.5,
+      0.0,
+      0.5
+    ],
+    [
+      3.5,
+      0.0,
+      1.0
+    ],
+    [
+      3.5,
+      0.5,
+      0.0
+    ],
+    [
+      3.5,
+      0.5,
+      0.5
+    ],
+    [
+      3.5,
+      0.5,
+      1.0
+    ],
+    [
+      3.5,
+      1.0,
+      0.0
+    ],
+    [
+      3.5,
+      1.0,
+      0.5
+    ],
+    [
+      3.5,
+      1.0,
+      1.0
+    ],
+    [
+      4.0,
+      0.0,
+      0.0
+    ],
+    [
+      4.0,
+      0.0,
+      0.5
+    ],
+    [
+      4.0,
+      0.0,
+      1.0
+    ],
+    [
+      4.0,
+      0.5,
+      0.0
+    ],
+    [
+      4.0,
+      0.5,
+      0.5
+    ],
+    [
+      4.0,
+      0.5,
+      1.0
+    ],
+    [
+      4.0,
+      1.0,
+      0.0
+    ],
+    [
+      4.0,
+      1.0,
+      0.5
+    ],
+    [
+      4.0,
+      1.0,
+      1.0
+    ]
+  ],
+  "schema_version": 1,
+  "units": {
+    "system": "SI"
+  },
+  "verification_profile": "engineering"
+}

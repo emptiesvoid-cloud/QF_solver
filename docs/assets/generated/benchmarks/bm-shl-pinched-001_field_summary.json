@@ -1,0 +1,26 @@
+{
+  "deformation_scale": 11029982.103572326,
+  "element_count": 2048,
+  "fields": [
+    {
+      "element_count": 2048,
+      "key": "von_mises",
+      "label": "Contrainte equivalente de von Mises [unite du modele]",
+      "maximum": 0.07150744686333467,
+      "minimum": 0.00027843511760877287,
+      "path": "bm-shl-pinched-001_von_mises.png",
+      "sha256": "cd87b45b354d4a0364b0d549be7a47104721c8fabe05379de437651e75d0eda1"
+    },
+    {
+      "element_count": 2048,
+      "key": "strain_measure",
+      "label": "Norme tensorielle maximale des deformations de face [-]",
+      "maximum": 2.367021830947422e-08,
+      "minimum": 9.842079179730475e-11,
+      "path": "bm-shl-pinched-001_strain_measure.png",
+      "sha256": "85ce20d47393a6f2f7f5876741869244ba6263acd4082ac063bde5dc2518ea06"
+    }
+  ],
+  "schema_version": 1,
+  "title": "Cylindre pince MITC4 avec diaphragmes"
+}

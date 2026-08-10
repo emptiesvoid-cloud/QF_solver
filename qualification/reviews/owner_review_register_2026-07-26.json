@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "register_id": "HUMAN-REVIEW-REGISTER-2026-07-26",
+  "purpose": "Single entry point for internal mechanical Owner review without certification claim.",
+  "reviewer": {"name": "Quentin Farinazzo", "mode": "self_review", "independence": "not_independent"},
+  "accepted_internal": [
+    "tet4-linear-static",
+    "tet10-linear-static",
+    "mitc4-linear-static",
+    "mitc4-modal",
+    "mitc4-transient-dynamic",
+    "mitc4-harmonic-response",
+    "mitc3-linear-static",
+    "tet4-total-lagrangian",
+    "tet4-total-lagrangian-structural-v2",
+    "orthotropic-solid-tet4-tet10",
+    "contact-v1-linear-static-bounded"
+  ],
+  "ready_for_decision": [],
+  "accepted_internal_with_recommendations": [
+    {"scope": "mitc4-laminate-static", "review": "qualification/reviews/mitc4_laminate_static_pending.json", "decision_date": "2026-07-26"},
+    {"scope": "orthotropic-solid-singular-stress-assessment", "review": "qualification/reviews/orthotropic_singular_stress_2026-07-29.json", "decision_date": "2026-07-29"},
+    {"scope": "contact-v1-linear-static-bounded", "review": "qualification/reviews/contact_v1_linear_static_bounded_2026-07-29.json", "decision_date": "2026-07-29"}
+  ],
+  "not_ready": [],
+  "deferred_independent_review": [
+    "mitc4-modal",
+    "mitc4-transient-dynamic",
+    "mitc4-harmonic-response",
+    "tet4-total-lagrangian-structural-v2",
+    "orthotropic-solid-tet4-tet10"
+  ]
+}

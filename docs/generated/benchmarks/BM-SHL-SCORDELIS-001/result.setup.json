@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "mesh_scale_to_m": 1.0,
+  "units": {
+    "system": "SI"
+  },
+  "verification_profile": "engineering",
+  "analysis": {
+    "type": "linear_static",
+    "method": "direct"
+  },
+  "materials": {
+    "shell": {
+      "type": "shell_isotropic",
+      "E": 432000000.0,
+      "nu": 0.0,
+      "t": 0.25,
+      "density": 1.0
+    }
+  },
+  "groups": [
+    {
+      "name": "shell",
+      "dimension": 2,
+      "actions": [
+        {
+          "type": "elements",
+          "element_type": "MITC4",
+          "material": "shell"
+        },
+        {
+          "type": "surface_traction",
+          "value": [
+            0.0,
+            0.0,
+            -90.0
+          ],
+          "coordinate_system": "global"
+        }
+      ]
+    },
+    {
+      "name": "diaphragms",
+      "dimension": 1,
+      "actions": [
+        {
+          "type": "fixed_dofs",
+          "dofs": [
+            "UY",
+            "UZ"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "anchor",
+      "dimension": 0,
+      "actions": [
+        {
+          "type": "fixed_dofs",
+          "dofs": [
+            "UX",
+            "RZ"
+          ]
+        }
+      ]
+    }
+  ]
+}

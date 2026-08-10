@@ -1,0 +1,17 @@
+{
+  "analysis": "linear_static",
+  "element_count": 1,
+  "element_type": "TET4",
+  "max_displacement": 2.122448979591837e-08,
+  "mesh_status": "PASS",
+  "method": "direct",
+  "ndof": 12,
+  "node_count": 4,
+  "principal_stress": [
+    2571.4285714285716,
+    2571.4285714285716,
+    6000.0
+  ],
+  "status": "PASS",
+  "von_mises": 3428.5714285714284
+}

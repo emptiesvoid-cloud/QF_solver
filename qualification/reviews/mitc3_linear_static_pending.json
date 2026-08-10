@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "review_id": "OWNER-REVIEW-MITC3-LINEAR-STATIC-001",
+  "scope": "mitc3-linear-static",
+  "status": "superseded_by_signed_owner_review",
+  "superseded_by": "qualification/reviews/mitc3_linear_static_2026-08-01.json",
+  "owner": "Quentin Farinazzo",
+  "review_mode": "owner_review",
+  "independence": "not_independent",
+  "certification_claim": "none",
+  "maturity_before_review": "experimental",
+  "automated_evidence": {
+    "internal_campaign": {
+      "status": "PASS",
+      "path": "qualification/vnv/mitc3/reference_v2/summary.json",
+      "warnings": [],
+      "fine_results": {
+        "constant_shear_interpolation_error": 1.8070036208091741e-16,
+        "locking_tip_ratio": 0.97951254097262,
+        "cook_relative_error": 0.0064352073155370315,
+        "scordelis_relative_error": 0.035392371028663015,
+        "pinched_relative_error": 0.10231978935642276
+      }
+    },
+    "refined_curved_shells": {
+      "status": "PASS",
+      "path": "qualification/vnv/mitc3/refined_h20k/summary.json",
+      "scordelis_elements": 20000,
+      "scordelis_relative_error": 0.004044272396093561,
+      "pinched_elements": 19600,
+      "pinched_relative_error": 0.02089903827768636
+    },
+    "code_aster_dkt": {
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "path": "qualification/vnv/external/code_aster_mitc3/reference_v2/summary.json",
+      "membrane_difference": 5.960706314900474e-08,
+      "bending_difference": 7.115873119023749e-05
+    },
+    "calculix_s3": {
+      "status": "WARNING",
+      "path": "qualification/vnv/external/calculix_mitc3/reference_v2/summary.json",
+      "membrane_difference": 8.556526513428363e-05,
+      "bending_difference": 1.130864014317809,
+      "accepted_interpretation": "negative_locking_stiffness_witness_only"
+    },
+    "explicit_bending_patch": {
+      "status": "PASS",
+      "test": "tests/unit/test_mitc3_element.py::test_expanded_operator_reproduces_constant_bending_exactly",
+      "curvatures": ["kappa_x", "kappa_y", "kappa_xy"],
+      "tolerance": 2e-13
+    },
+    "pinched_hemisphere_code_aster": {
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "path": "qualification/vnv/external/code_aster_mitc3/hemisphere_v1/summary.json",
+      "reference_displacement": 0.0924,
+      "qf_finest_displacement": 0.09294622501789296,
+      "code_aster_finest_displacement": 0.09286018457331557,
+      "qf_reference_error": 0.005911526167672753,
+      "qf_code_aster_probe_difference": 0.0009265590518986439,
+      "qf_code_aster_vector_difference": 0.001535564257819871,
+      "final_increment": 0.002604894844707209,
+      "figures_available": true
+    }
+  },
+  "questions": [
+    {
+      "id": "Q1",
+      "question": "Les conventions d'ordre nodal, normale, repere local et faces sont-elles acceptees ?",
+      "answer": "yes",
+      "owner_comment": "Accepted subject to adding the four-quadrant pinched hemisphere convergence study; condition fulfilled by VNV-MITC3-PINCHED-HEMISPHERE-CODEASTER-015."
+    },
+    {
+      "id": "Q2",
+      "question": "La bulle cubique, les points de tying et la condensation sont-ils correctement documentes ?",
+      "answer": "yes"
+    },
+    {
+      "id": "Q3",
+      "question": "L'accord membrane/flexion avec Code_Aster DKT est-il acceptable pour poursuivre la V&V ?",
+      "answer": "yes"
+    },
+    {
+      "id": "Q4",
+      "question": "Le CalculiX S3 tres raide en flexion est-il accepte comme temoin negatif uniquement ?",
+      "answer": "yes",
+      "owner_comment": "CalculiX S3 remains a negative witness; the requested curved-shell check passes against Code_Aster DKT."
+    },
+    {
+      "id": "Q5",
+      "question": "Le patch de cisaillement, le shear locking et les raffinements autour de 20 000 triangles sont-ils acceptes ?",
+      "answer": "yes",
+      "owner_comment": "Code_Aster result displays are now included in the controlled evidence and owner-review pack."
+    },
+    {
+      "id": "Q6",
+      "question": "Le scope statique peut-il etre accepte pour un usage engineering borne, avec recommandations ?",
+      "answer": null
+    }
+  ],
+  "blocking_items": [
+    "owner final decision and date"
+  ],
+  "decision": null,
+  "decision_date": null,
+  "recommendations": []
+}

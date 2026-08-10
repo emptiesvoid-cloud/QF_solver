@@ -1,0 +1,5 @@
+# Candidate PETSc/MPI baseline. It is not validated by the current Windows audit.
+-r baseline-standard.txt
+mpi4py==4.1.0
+petsc==3.23.7
+petsc4py==3.23.7

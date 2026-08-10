@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "policy_id": "QF-EXTERNAL-ORACLES-001",
+  "status": "accepted_internal",
+  "date": "2026-07-26",
+  "active_oracles": [
+    {"name": "analytical_reference", "role": "primary_when_available"},
+    {"name": "Code_Aster", "version": "18.1.0", "role": "reproducible_external_solver"},
+    {"name": "CalculiX", "version": "2.20", "role": "reproducible_external_solver"}
+  ],
+  "commercial_tools": {
+    "Abaqus": "historical_published_reference_only",
+    "Ansys": "not_required",
+    "rule": "No active test, release gate, or engineering decision depends on a local commercial licence."
+  },
+  "comparison_rules": [
+    "Use the same mesh, material, load and boundary conditions whenever formulations permit.",
+    "Declare formulation differences and compare converged engineering observables otherwise.",
+    "Retain raw decks, normalized results, solver versions and SHA-256 manifests.",
+    "For contact, declare normal/tangential enforcement and compare only branch observables that are mechanically equivalent; a penalty stick branch requires demonstrated equivalent tangential compliance and cannot validate a different return-map regularization by displacement alone."
+  ],
+  "docker_code_aster_protocol": {
+    "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+    "version": "18.1.0",
+    "execution_rule": "A pinned Docker image is mandatory; run docker version before the campaign and require a reachable server. The image tag latest and host installations are not evidence.",
+    "evidence_rule": "Keep .comm/.mail inputs, stdout/stderr logs, normalized JSON, PNG/VTU when applicable, and a SHA-256 manifest. Publish only a host-neutral digest and an integrity-checked figure when the repository is made public.",
+    "ci_rule": "Docker oracle runs are opt-in with QF_SOLVER_RUN_EXTERNAL=1; standard unit CI only validates deterministic decks.",
+    "unavailable_backend_rule": "A missing Docker daemon or image is InfrastructureError evidence, never a mechanical PASS, FAIL, or correlation result."
+  },
+  "certification_claim": "none"
+}

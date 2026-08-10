@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "review_id": "DOC-VV-OWNER-PAGES-001-2026-08-02",
+  "doc_id": "DOC-VV-OWNER-PAGES-001",
+  "review_type": "Owner review",
+  "reviewer": {
+    "name": "Quentin Farinazzo",
+    "mode": "self_review",
+    "independence": "not_independent"
+  },
+  "review_date": "2026-08-02",
+  "revision_reviewed": "0.2",
+  "questions": {
+    "Q1": {"topic": "Geometrie, DDL, reperes et signes", "answer": "yes"},
+    "Q2": {"topic": "Formulation, integration et algorithme", "answer": "yes"},
+    "Q3": {"topic": "Exemple, maillage, charges et blocages", "answer": "yes"},
+    "Q4": {"topic": "Resultats, figures, invariants et convergence", "answer": "yes"},
+    "Q5": {"topic": "Limites, references et tracabilite", "answer": "yes"}
+  },
+  "decision": "accepted",
+  "qualification_effect": "none",
+  "comments": "Les cartes de champs et les conventions sont acceptees pour la documentation technique. Cette decision ne modifie pas les perimetres mecaniques et ne constitue pas une certification externe."
+}

@@ -1,0 +1,35 @@
+{
+  "analysis": {
+    "type": "nonlinear_static",
+    "method": "newton_line_search",
+    "load_steps": 5,
+    "max_iterations": 80,
+    "tolerance": 1.0e-9
+  },
+  "nodes": [
+    [0.0, 0.0, 0.0],
+    [1.0, 0.0, 0.0],
+    [0.0, 1.0, 0.0],
+    [0.0, 0.0, 1.0]
+  ],
+  "elements": [
+    {"type": "TET4", "nodes": [0, 1, 2, 3], "material": "plastic_steel"}
+  ],
+  "materials": {
+    "plastic_steel": {
+      "type": "von_mises_elastoplastic_3d",
+      "E": 1000.0,
+      "nu": 0.25,
+      "yield_stress": 5.0,
+      "hardening_modulus": 100.0
+    }
+  },
+  "fixed_dofs": [
+    {"node": 0, "dofs": ["UX", "UY", "UZ"]},
+    {"node": 2, "dofs": ["UX", "UY", "UZ"]},
+    {"node": 3, "dofs": ["UX", "UY", "UZ"]}
+  ],
+  "loads": [
+    {"node": 1, "dof": "UX", "value": 10.0}
+  ]
+}

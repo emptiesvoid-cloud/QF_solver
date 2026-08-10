@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "baseline_id": "QF-SOLVER-DOC-P0-0.2.0",
+  "solver": {"name": "QF_solver", "version": "0.2.0"},
+  "status": "technical_documentation_closed",
+  "certification_claim": "none",
+  "scope": "offline engineering documentation baseline",
+  "automated_evidence": {
+    "document_registry": "docs/document_registry.json",
+    "formula_registry": "qualification/formulas.json",
+    "docs_manifest": "docs/generated/docs_manifest.json",
+    "review_readiness": "docs/generated/review_readiness.json",
+    "technical_closure": "docs/verification/baseline_documentaire_p0.md"
+  },
+  "human_blockers": [
+    "Owner review fields are intentionally empty until an actual review",
+    "independent review is required for any external qualification claim",
+    "clean approved Git revision is required for the qualification documentation profile"
+  ],
+  "external_reference_policy": {
+    "reproducible_oracles": ["Code_Aster", "CalculiX", "analytical references", "published NAFEMS/Abaqus tables"],
+    "licensed_oracles_pending": ["Abaqus same-mesh export", "Ansys same-mesh export"],
+    "accepted_review": "qualification/reviews/documentation_baseline_p0_2026-07-26.json"
+  }
+}

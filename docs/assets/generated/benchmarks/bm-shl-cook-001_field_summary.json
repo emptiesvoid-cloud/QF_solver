@@ -1,0 +1,26 @@
+{
+  "deformation_scale": 0.45797240267510814,
+  "element_count": 256,
+  "fields": [
+    {
+      "element_count": 256,
+      "key": "von_mises",
+      "label": "Contrainte equivalente de von Mises [unite du modele]",
+      "maximum": 275064.08837692253,
+      "minimum": 23230.923314647684,
+      "path": "bm-shl-cook-001_von_mises.png",
+      "sha256": "585769b82241848d9ea4d639d998c3398e0da8bb47f31e73b2c69a94b21be4f6"
+    },
+    {
+      "element_count": 256,
+      "key": "strain_measure",
+      "label": "Norme tensorielle maximale des deformations de face [-]",
+      "maximum": 0.2821654431108545,
+      "minimum": 0.023584029616810224,
+      "path": "bm-shl-cook-001_strain_measure.png",
+      "sha256": "94c83b1be691e7af8a31a67e9b7224dcfaa1ea29da4b56c293837e913eec7a07"
+    }
+  ],
+  "schema_version": 1,
+  "title": "Membrane de Cook MITC4"
+}

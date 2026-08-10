@@ -1,0 +1,277 @@
+{
+  "campaign_id": "VNV-CONTACT-FRICTION-BLOCK-001",
+  "checks": [
+    {
+      "criterion": "maximum relative error",
+      "limit": 1e-10,
+      "name": "analytical displacement",
+      "status": "PASS",
+      "value": 0.0
+    },
+    {
+      "criterion": "maximum relative error",
+      "limit": 1e-10,
+      "name": "analytical tangential force",
+      "status": "PASS",
+      "value": 0.0
+    },
+    {
+      "criterion": "relative error against 100 N",
+      "limit": 1e-10,
+      "name": "normal pressure",
+      "status": "PASS",
+      "value": 0.0
+    },
+    {
+      "criterion": "force norm minus mu times pressure",
+      "limit": 1e-10,
+      "name": "Coulomb cone excess",
+      "status": "PASS",
+      "value": 0.0
+    },
+    {
+      "criterion": "q dot s",
+      "limit": -1e-12,
+      "name": "non-negative local friction work",
+      "status": "PASS",
+      "value": 0.0
+    },
+    {
+      "criterion": "analytical branch classification",
+      "limit": 0.0,
+      "name": "stick/slip state mismatch count",
+      "status": "PASS",
+      "value": 0.0
+    },
+    {
+      "criterion": "relative force and displacement mismatch",
+      "limit": 1e-10,
+      "name": "reversed sliding symmetry",
+      "status": "PASS",
+      "value": 0.0
+    },
+    {
+      "criterion": "force spread at 200 N tangential load",
+      "limit": 1e-10,
+      "name": "sliding regularization sensitivity",
+      "status": "PASS",
+      "value": 0.0
+    }
+  ],
+  "limitations": [
+    "Each load point is a separate static solve; no rate or incremental slip history is represented.",
+    "Incremental slip memory is checked separately at unit-test level; it is not an external structural validation.",
+    "Strongly coupled structural sliding can be rejected by the active-set iteration and remains outside this campaign.",
+    "No external solver correlation is claimed by this internal analytical campaign.",
+    "The formulation remains node-to-triangle with frozen initial normal and small transformations."
+  ],
+  "load_path": [
+    {
+      "displacement": 0.0,
+      "displacement_relative_error": 0.0,
+      "expected_displacement": 0.0,
+      "expected_state": "stick",
+      "expected_tangential_force": 0.0,
+      "force_relative_error": 0.0,
+      "friction_limit": 50.0,
+      "local_work": 0.0,
+      "pressure": 100.0,
+      "relative_displacement": 0.0,
+      "state": "stick",
+      "tangential_force": 0.0,
+      "tangential_load": 0.0,
+      "tangential_stiffness": 10000.0
+    },
+    {
+      "displacement": 0.0009090909090909091,
+      "displacement_relative_error": 0.0,
+      "expected_displacement": 0.0009090909090909091,
+      "expected_state": "stick",
+      "expected_tangential_force": 9.090909090909092,
+      "force_relative_error": 0.0,
+      "friction_limit": 50.0,
+      "local_work": 0.008264462809917356,
+      "pressure": 100.0,
+      "relative_displacement": 0.0009090909090909091,
+      "state": "stick",
+      "tangential_force": 9.090909090909092,
+      "tangential_load": 10.0,
+      "tangential_stiffness": 10000.0
+    },
+    {
+      "displacement": 0.0027272727272727275,
+      "displacement_relative_error": 0.0,
+      "expected_displacement": 0.0027272727272727275,
+      "expected_state": "stick",
+      "expected_tangential_force": 27.272727272727273,
+      "force_relative_error": 0.0,
+      "friction_limit": 50.0,
+      "local_work": 0.0743801652892562,
+      "pressure": 100.0,
+      "relative_displacement": 0.0027272727272727275,
+      "state": "stick",
+      "tangential_force": 27.272727272727273,
+      "tangential_load": 30.0,
+      "tangential_stiffness": 10000.0
+    },
+    {
+      "displacement": 0.005,
+      "displacement_relative_error": 0.0,
+      "expected_displacement": 0.005,
+      "expected_state": "stick",
+      "expected_tangential_force": 50.0,
+      "force_relative_error": 0.0,
+      "friction_limit": 50.0,
+      "local_work": 0.25,
+      "pressure": 100.0,
+      "relative_displacement": 0.005,
+      "state": "stick",
+      "tangential_force": 50.0,
+      "tangential_load": 55.0,
+      "tangential_stiffness": 10000.0
+    },
+    {
+      "displacement": 0.02,
+      "displacement_relative_error": 0.0,
+      "expected_displacement": 0.02,
+      "expected_state": "slip",
+      "expected_tangential_force": 50.0,
+      "force_relative_error": 0.0,
+      "friction_limit": 50.0,
+      "local_work": 1.0,
+      "pressure": 100.0,
+      "relative_displacement": 0.02,
+      "state": "slip",
+      "tangential_force": 50.0,
+      "tangential_load": 70.0,
+      "tangential_stiffness": 10000.0
+    },
+    {
+      "displacement": 0.05,
+      "displacement_relative_error": 0.0,
+      "expected_displacement": 0.05,
+      "expected_state": "slip",
+      "expected_tangential_force": 50.0,
+      "force_relative_error": 0.0,
+      "friction_limit": 50.0,
+      "local_work": 2.5,
+      "pressure": 100.0,
+      "relative_displacement": 0.05,
+      "state": "slip",
+      "tangential_force": 50.0,
+      "tangential_load": 100.0,
+      "tangential_stiffness": 10000.0
+    },
+    {
+      "displacement": 0.15,
+      "displacement_relative_error": 0.0,
+      "expected_displacement": 0.15,
+      "expected_state": "slip",
+      "expected_tangential_force": 50.0,
+      "force_relative_error": 0.0,
+      "friction_limit": 50.0,
+      "local_work": 7.5,
+      "pressure": 100.0,
+      "relative_displacement": 0.15,
+      "state": "slip",
+      "tangential_force": 50.0,
+      "tangential_load": 200.0,
+      "tangential_stiffness": 10000.0
+    }
+  ],
+  "maturity": "experimental",
+  "reference": {
+    "contact_tangential_stiffness": 10000.0,
+    "friction_coefficient": 0.5,
+    "kind": "closed_form_sliding_block",
+    "normal_force": 100.0,
+    "normal_spring": 1000.0,
+    "tangential_spring": 1000.0
+  },
+  "regularization_sensitivity": [
+    {
+      "displacement": 0.15,
+      "displacement_relative_error": 0.0,
+      "expected_displacement": 0.15,
+      "expected_state": "slip",
+      "expected_tangential_force": 50.0,
+      "force_relative_error": 0.0,
+      "friction_limit": 50.0,
+      "local_work": 7.5,
+      "pressure": 100.0,
+      "relative_displacement": 0.15,
+      "state": "slip",
+      "tangential_force": 50.0,
+      "tangential_load": 200.0,
+      "tangential_stiffness": 1000.0
+    },
+    {
+      "displacement": 0.15,
+      "displacement_relative_error": 0.0,
+      "expected_displacement": 0.15,
+      "expected_state": "slip",
+      "expected_tangential_force": 50.0,
+      "force_relative_error": 0.0,
+      "friction_limit": 50.0,
+      "local_work": 7.5,
+      "pressure": 100.0,
+      "relative_displacement": 0.15,
+      "state": "slip",
+      "tangential_force": 50.0,
+      "tangential_load": 200.0,
+      "tangential_stiffness": 10000.0
+    },
+    {
+      "displacement": 0.15,
+      "displacement_relative_error": 0.0,
+      "expected_displacement": 0.15,
+      "expected_state": "slip",
+      "expected_tangential_force": 50.0,
+      "force_relative_error": 0.0,
+      "friction_limit": 50.0,
+      "local_work": 7.5,
+      "pressure": 100.0,
+      "relative_displacement": 0.15,
+      "state": "slip",
+      "tangential_force": 50.0,
+      "tangential_load": 200.0,
+      "tangential_stiffness": 100000.0
+    }
+  ],
+  "reverse_sliding": {
+    "negative": {
+      "displacement": -0.15,
+      "displacement_relative_error": 0.0,
+      "expected_displacement": -0.15,
+      "expected_state": "slip",
+      "expected_tangential_force": -50.0,
+      "force_relative_error": 0.0,
+      "friction_limit": 50.0,
+      "local_work": 7.5,
+      "pressure": 100.0,
+      "relative_displacement": -0.15,
+      "state": "slip",
+      "tangential_force": -50.0,
+      "tangential_load": -200.0,
+      "tangential_stiffness": 10000.0
+    },
+    "positive": {
+      "displacement": 0.15,
+      "displacement_relative_error": 0.0,
+      "expected_displacement": 0.15,
+      "expected_state": "slip",
+      "expected_tangential_force": 50.0,
+      "force_relative_error": 0.0,
+      "friction_limit": 50.0,
+      "local_work": 7.5,
+      "pressure": 100.0,
+      "relative_displacement": 0.15,
+      "state": "slip",
+      "tangential_force": 50.0,
+      "tangential_load": 200.0,
+      "tangential_stiffness": 10000.0
+    }
+  },
+  "scope": "linear_static_node_triangle_regularized_coulomb",
+  "status": "PASS_INTERNAL"
+}

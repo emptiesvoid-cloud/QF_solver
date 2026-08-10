@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "units": {"system": "SI"},
+  "verification_profile": "engineering",
+  "analysis": {
+    "type": "linear_static",
+    "method": "direct",
+    "contact_max_iterations": 16,
+    "contact_friction_tolerance": 1e-11
+  },
+  "nodes": [[0.0, 0.0, 0.0], [1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.25, 0.25, 0.1]],
+  "elements": [],
+  "materials": {},
+  "fixed_dofs": [
+    {"node": 0, "dofs": ["UX", "UY", "UZ"]},
+    {"node": 1, "dofs": ["UX", "UY", "UZ"]},
+    {"node": 2, "dofs": ["UX", "UY", "UZ"]},
+    {"node": 3, "dofs": ["UY"]}
+  ],
+  "springs": [{"node_a": 3, "dofs": ["UX", "UZ"], "stiffness": [1000.0, 1000.0]}],
+  "loads": [
+    {"node": 3, "dof": "UX", "value": 200.0},
+    {"node": 3, "dof": "UZ", "value": -200.0}
+  ],
+  "contacts": [{
+    "name": "rough_plane",
+    "slave_node": 3,
+    "master_nodes": [0, 1, 2],
+    "friction_coefficient": 0.5,
+    "tangential_stiffness": 10000.0
+  }]
+}

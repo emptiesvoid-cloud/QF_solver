@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "review_revision": 2,
+  "review_id": "REV-TET4-LINEAR-ISO-2026-07-14",
+  "scope": "tet4-linear-static",
+  "decision": "accepted",
+  "decision_date": "2026-07-14",
+  "use_class": "engineering_internal",
+  "project_visibility_at_decision": "private",
+  "validator": {
+    "name": "Quentin Farinazzo",
+    "role": "auteur et validateur mecanique"
+  },
+  "review_mode": "self_review",
+  "independence": "not_independent",
+  "certification_claim": "none",
+  "accepted_domain": {
+    "element": "TET4",
+    "kinematics": "small_strain_small_displacement",
+    "material": "linear_isotropic_3d",
+    "young_modulus": "E > 0 Pa",
+    "poisson_ratio": "0 <= nu <= 0.45",
+    "analyses": ["linear_static"],
+    "accepted_outputs": [
+      "nodal_displacements",
+      "reactions",
+      "global_equilibrium",
+      "linear_energy_identity",
+      "affine_strain_and_stress_fields",
+      "global_l2_torsion_stress_on_smooth_circular_shaft"
+    ]
+  },
+  "evidence": [
+    "BM-SOL-TET4-PATCH-001",
+    "BM-SOL-TET4-MEMBRANE-001",
+    "BM-SOL-CANTILEVER-001",
+    "BM-SOL-TET4-TORSION-001",
+    "VNV-TET4-TORSION-ANALYTIC-001",
+    "VNV-TET4-TORSION-STRESS-H9-001",
+    "VNV-TET4-CANTILEVER-ANALYTIC-001"
+  ],
+  "convergence_summary": {
+    "flexion_mesh_levels": 6,
+    "flexion_finest_relative_displacement_error": 0.0771389708780312,
+    "flexion_observed_order": 1.377077,
+    "torsion_mesh_levels": 8,
+    "torsion_finest_relative_rotation_error": 0.030655404825016535,
+    "torsion_observed_order": 1.4994226905223655,
+    "torsion_finest_relative_stress_l2_error": 0.2906102700848916,
+    "torsion_stress_probe_elements": 105529,
+    "torsion_stress_probe_element_multiplier_vs_h8": 4.007024605103281,
+    "torsion_stress_probe_relative_rotation_error": 0.012416732674494068,
+    "torsion_stress_probe_relative_stress_l2_error": 0.18890612079193136,
+    "traction_mesh_levels": 5,
+    "compression_mesh_levels": 5,
+    "axial_max_relative_displacement_error": 4.93312e-15,
+    "axial_max_relative_stress_error": 3.639631e-14
+  },
+  "explicit_exclusions": [
+    "pointwise_torsion_stress_peaks",
+    "stress_singularities",
+    "nearly_incompressible_materials_above_nu_0_45",
+    "large_displacements_or_large_strains",
+    "plasticity_or_other_nonlinear_materials",
+    "fatigue_fracture_contact_and_thermal_coupling",
+    "external_regulatory_certification"
+  ],
+  "comments": "Validation interne prononcee par Quentin Farinazzo. Revision 2: la sonde h9 a 105529 TET4 accepte l'erreur globale L2 de contrainte de torsion a 18.891 % sous un seuil engineering de 20 %; les pics ponctuels et singularites restent exclus. Le projet est prive a la date de decision. Une publication Git future devra conserver ce registre, les limites et les preuves reproductibles."
+}

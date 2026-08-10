@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "analysis": {
+    "type": "harmonic_response",
+    "method": "direct_frequency",
+    "parameters": {"frequencies_hz": [1.0, 5.0, 10.0]}
+  },
+  "units": {"system": "SI"},
+  "verification_profile": "quick",
+  "nodes": [[0, 0, 0], [1, 0, 0], [1, 0.2, 0], [0, 0.2, 0]],
+  "elements": [
+    {"type": "MITC3", "nodes": [0, 1, 2], "material": "laminate"},
+    {"type": "MITC3", "nodes": [0, 2, 3], "material": "laminate"}
+  ],
+  "materials": {
+    "laminate": {
+      "type": "shell_laminate",
+      "reference_direction": [1.0, 0.0, 0.0],
+      "plies": [
+        {"name": "p1", "thickness": 0.001, "angle_deg": 0, "E1": 130000000000.0, "E2": 9000000000.0, "nu12": 0.28, "G12": 5000000000.0, "G13": 4000000000.0, "G23": 3500000000.0, "density": 1550.0},
+        {"name": "p2", "thickness": 0.001, "angle_deg": 90, "E1": 130000000000.0, "E2": 9000000000.0, "nu12": 0.28, "G12": 5000000000.0, "G13": 4000000000.0, "G23": 3500000000.0, "density": 1550.0}
+      ]
+    }
+  },
+  "fixed_dofs": [
+    {"node": 0, "dofs": ["UX", "UY", "UZ", "RX", "RY", "RZ"]},
+    {"node": 3, "dofs": ["UX", "UY", "UZ", "RX", "RY", "RZ"]}
+  ],
+  "loads": [{"node": 1, "dof": "UZ", "value": -1.0}]
+}

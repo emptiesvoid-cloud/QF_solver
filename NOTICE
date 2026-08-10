@@ -1,0 +1,8 @@
+QF_solver
+Copyright 2026 Quentin Farinazzo
+
+QF_solver is a personal, open-source Python finite-element solver project.
+The source code is distributed under the Apache License, Version 2.0.
+Documentation and original examples are distributed under CC BY 4.0; see
+LICENSE-DOCS. Third-party components and reference materials retain their
+own licenses; see THIRD_PARTY_LICENSES.md.

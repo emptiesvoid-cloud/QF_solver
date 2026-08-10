@@ -1,0 +1,24 @@
+{
+  "analysis": {
+    "type": "harmonic_response",
+    "method": "direct_frequency",
+    "frequencies_hz": [0.0, 5.0, 10.0, 15.0],
+    "rayleigh_alpha": 0.05,
+    "rayleigh_beta": 0.0
+  },
+  "nodes": [[0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1]],
+  "elements": [
+    {"type": "TET4", "nodes": [0, 1, 2, 3], "material": "steel"}
+  ],
+  "materials": {
+    "steel": {"type": "isotropic_3d", "E": 1000.0, "nu": 0.25, "density": 10.0}
+  },
+  "fixed_dofs": [
+    {"node": 0, "dofs": ["UX", "UY", "UZ"]},
+    {"node": 2, "dofs": ["UX", "UY", "UZ"]},
+    {"node": 3, "dofs": ["UX", "UY", "UZ"]}
+  ],
+  "loads": [
+    {"node": 1, "dof": "UX", "value": 1.0}
+  ]
+}

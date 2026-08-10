@@ -1,0 +1,2912 @@
+{
+  "schema_version": 1,
+  "units": {
+    "system": "SI"
+  },
+  "verification_profile": "engineering",
+  "analysis": {
+    "type": "linear_static",
+    "method": "direct",
+    "parameters": {}
+  },
+  "nodes": [
+    [
+      0.0,
+      0.0,
+      1.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      1.0,
+      1.0
+    ],
+    [
+      0.0,
+      1.0,
+      0.0
+    ],
+    [
+      1.0,
+      0.0,
+      1.0
+    ],
+    [
+      1.0,
+      0.0,
+      0.0
+    ],
+    [
+      1.0,
+      1.0,
+      1.0
+    ],
+    [
+      1.0,
+      1.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.333333333333334
+    ],
+    [
+      0.0,
+      0.0,
+      0.666666666666668
+    ],
+    [
+      0.0,
+      0.333333333333334,
+      1.0
+    ],
+    [
+      0.0,
+      0.666666666666668,
+      1.0
+    ],
+    [
+      0.0,
+      1.0,
+      0.333333333333334
+    ],
+    [
+      0.0,
+      1.0,
+      0.666666666666668
+    ],
+    [
+      0.0,
+      0.333333333333334,
+      0.0
+    ],
+    [
+      0.0,
+      0.666666666666668,
+      0.0
+    ],
+    [
+      1.0,
+      0.0,
+      0.333333333333334
+    ],
+    [
+      1.0,
+      0.0,
+      0.666666666666668
+    ],
+    [
+      1.0,
+      0.333333333333334,
+      1.0
+    ],
+    [
+      1.0,
+      0.666666666666668,
+      1.0
+    ],
+    [
+      1.0,
+      1.0,
+      0.333333333333334
+    ],
+    [
+      1.0,
+      1.0,
+      0.666666666666668
+    ],
+    [
+      1.0,
+      0.333333333333334,
+      0.0
+    ],
+    [
+      1.0,
+      0.666666666666668,
+      0.0
+    ],
+    [
+      0.333333333333334,
+      0.0,
+      0.0
+    ],
+    [
+      0.666666666666668,
+      0.0,
+      0.0
+    ],
+    [
+      0.333333333333334,
+      0.0,
+      1.0
+    ],
+    [
+      0.666666666666668,
+      0.0,
+      1.0
+    ],
+    [
+      0.333333333333334,
+      1.0,
+      0.0
+    ],
+    [
+      0.666666666666668,
+      1.0,
+      0.0
+    ],
+    [
+      0.333333333333334,
+      1.0,
+      1.0
+    ],
+    [
+      0.666666666666668,
+      1.0,
+      1.0
+    ],
+    [
+      0.0,
+      0.7022016650228015,
+      0.5000000000000008
+    ],
+    [
+      0.0,
+      0.2973233661942756,
+      0.5000000000000008
+    ],
+    [
+      0.0,
+      0.49992083853618,
+      0.2474399182838955
+    ],
+    [
+      0.0,
+      0.4999208385361799,
+      0.752560081716105
+    ],
+    [
+      0.0,
+      0.2423197548516862,
+      0.7576802451483143
+    ],
+    [
+      0.0,
+      0.2423197548516859,
+      0.242319754851686
+    ],
+    [
+      0.0,
+      0.7576802451483149,
+      0.7576802451483149
+    ],
+    [
+      0.0,
+      0.7576802451483152,
+      0.2423197548516856
+    ],
+    [
+      1.0,
+      0.7022016650228015,
+      0.5000000000000007
+    ],
+    [
+      1.0,
+      0.2973233661942756,
+      0.5000000000000008
+    ],
+    [
+      1.0,
+      0.49992083853618,
+      0.2474399182838955
+    ],
+    [
+      1.0,
+      0.49992083853618,
+      0.7525600817161051
+    ],
+    [
+      1.0,
+      0.2423197548516863,
+      0.7576802451483142
+    ],
+    [
+      1.0,
+      0.2423197548516859,
+      0.242319754851686
+    ],
+    [
+      1.0,
+      0.7576802451483149,
+      0.7576802451483149
+    ],
+    [
+      1.0,
+      0.7576802451483152,
+      0.2423197548516856
+    ],
+    [
+      0.5000000000000008,
+      0.0,
+      0.7022016650228015
+    ],
+    [
+      0.5000000000000008,
+      0.0,
+      0.2973233661942756
+    ],
+    [
+      0.2474399182838955,
+      0.0,
+      0.49992083853618
+    ],
+    [
+      0.752560081716105,
+      0.0,
+      0.4999208385361799
+    ],
+    [
+      0.7576802451483143,
+      0.0,
+      0.2423197548516862
+    ],
+    [
+      0.242319754851686,
+      0.0,
+      0.2423197548516859
+    ],
+    [
+      0.7576802451483149,
+      0.0,
+      0.7576802451483149
+    ],
+    [
+      0.2423197548516856,
+      0.0,
+      0.7576802451483152
+    ],
+    [
+      0.5000000000000007,
+      1.0,
+      0.7022016650228015
+    ],
+    [
+      0.5000000000000008,
+      1.0,
+      0.2973233661942756
+    ],
+    [
+      0.2474399182838955,
+      1.0,
+      0.49992083853618
+    ],
+    [
+      0.7525600817161051,
+      1.0,
+      0.49992083853618
+    ],
+    [
+      0.7576802451483142,
+      1.0,
+      0.2423197548516863
+    ],
+    [
+      0.242319754851686,
+      1.0,
+      0.2423197548516859
+    ],
+    [
+      0.7576802451483149,
+      1.0,
+      0.7576802451483149
+    ],
+    [
+      0.2423197548516856,
+      1.0,
+      0.7576802451483152
+    ],
+    [
+      0.5000000000000007,
+      0.7022016650228015,
+      0.0
+    ],
+    [
+      0.5000000000000008,
+      0.2973233661942756,
+      0.0
+    ],
+    [
+      0.2474399182838954,
+      0.49992083853618,
+      0.0
+    ],
+    [
+      0.7525600817161051,
+      0.49992083853618,
+      0.0
+    ],
+    [
+      0.7576802451483141,
+      0.2423197548516863,
+      0.0
+    ],
+    [
+      0.242319754851686,
+      0.2423197548516859,
+      0.0
+    ],
+    [
+      0.7576802451483149,
+      0.7576802451483149,
+      0.0
+    ],
+    [
+      0.2423197548516854,
+      0.7576802451483152,
+      0.0
+    ],
+    [
+      0.7022016650228015,
+      0.5000000000000008,
+      1.0
+    ],
+    [
+      0.2973233661942756,
+      0.5000000000000008,
+      1.0
+    ],
+    [
+      0.49992083853618,
+      0.2474399182838955,
+      1.0
+    ],
+    [
+      0.4999208385361799,
+      0.752560081716105,
+      1.0
+    ],
+    [
+      0.2423197548516862,
+      0.7576802451483143,
+      1.0
+    ],
+    [
+      0.2423197548516859,
+      0.242319754851686,
+      1.0
+    ],
+    [
+      0.7576802451483149,
+      0.7576802451483149,
+      1.0
+    ],
+    [
+      0.7576802451483152,
+      0.2423197548516856,
+      1.0
+    ],
+    [
+      0.5451476943071685,
+      0.4997625156085386,
+      0.4548523056928312
+    ]
+  ],
+  "elements": [
+    {
+      "type": "TET4",
+      "nodes": [
+        38,
+        63,
+        76,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        77,
+        55,
+        36,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        36,
+        35,
+        73,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        77,
+        74,
+        48,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        36,
+        73,
+        77,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        34,
+        66,
+        71,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        33,
+        55,
+        50,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        66,
+        34,
+        37,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        77,
+        48,
+        55,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        33,
+        36,
+        55,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        38,
+        35,
+        32,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        36,
+        33,
+        35,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        75,
+        73,
+        76,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        77,
+        73,
+        74,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        34,
+        71,
+        39,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        78,
+        62,
+        46,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        61,
+        39,
+        71,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        37,
+        69,
+        66,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        44,
+        54,
+        79,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        69,
+        37,
+        53,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        58,
+        56,
+        63,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        55,
+        48,
+        50,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        79,
+        48,
+        74,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        61,
+        58,
+        32,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        53,
+        33,
+        50,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        61,
+        32,
+        39,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        37,
+        33,
+        53,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        79,
+        54,
+        48,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        43,
+        72,
+        46,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        43,
+        44,
+        72,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        75,
+        78,
+        72,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        79,
+        74,
+        72,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        72,
+        78,
+        46,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        44,
+        79,
+        72,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        34,
+        39,
+        32,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        34,
+        33,
+        37,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        57,
+        61,
+        71,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        69,
+        53,
+        49,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        61,
+        57,
+        58,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        53,
+        50,
+        49,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        70,
+        47,
+        60,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        45,
+        68,
+        52,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        67,
+        42,
+        47,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        67,
+        45,
+        42,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        56,
+        59,
+        62,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        48,
+        54,
+        51,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        70,
+        67,
+        47,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        45,
+        67,
+        68,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        43,
+        46,
+        40,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        66,
+        64,
+        71,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        43,
+        41,
+        44,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        66,
+        69,
+        65,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        32,
+        35,
+        33,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        71,
+        64,
+        57,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        65,
+        69,
+        49,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        75,
+        72,
+        73,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        73,
+        72,
+        74,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        34,
+        32,
+        33,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        70,
+        60,
+        57,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        52,
+        68,
+        65,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        57,
+        60,
+        59,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        51,
+        52,
+        49,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        56,
+        58,
+        57,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        50,
+        48,
+        49,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        57,
+        64,
+        70,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        65,
+        49,
+        52,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        56,
+        57,
+        59,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        48,
+        51,
+        49,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        64,
+        67,
+        70,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        47,
+        42,
+        40,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        41,
+        42,
+        45,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        65,
+        68,
+        67,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        43,
+        40,
+        41,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        65,
+        64,
+        66,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        40,
+        42,
+        41,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        64,
+        65,
+        67,
+        80
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        67,
+        23,
+        47,
+        42
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        34,
+        66,
+        15,
+        71
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        14,
+        34,
+        37,
+        66
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        67,
+        22,
+        42,
+        45
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        49,
+        53,
+        69,
+        24
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        52,
+        25,
+        65,
+        68
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        61,
+        71,
+        28,
+        57
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        57,
+        60,
+        70,
+        29
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        47,
+        70,
+        23,
+        67
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        71,
+        15,
+        34,
+        39
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        37,
+        69,
+        14,
+        66
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        67,
+        22,
+        45,
+        68
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        11,
+        38,
+        76,
+        35
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        54,
+        44,
+        17,
+        51
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        52,
+        51,
+        16,
+        45
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        63,
+        13,
+        58,
+        38
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        78,
+        75,
+        31,
+        62
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        46,
+        62,
+        21,
+        59
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        60,
+        20,
+        59,
+        47
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        30,
+        76,
+        63,
+        75
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        69,
+        49,
+        24,
+        65
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        65,
+        49,
+        25,
+        52
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        57,
+        71,
+        28,
+        64
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        29,
+        70,
+        57,
+        64
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        76,
+        73,
+        11,
+        35
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        41,
+        17,
+        44,
+        51
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        32,
+        58,
+        13,
+        38
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        75,
+        56,
+        31,
+        62
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        40,
+        46,
+        21,
+        59
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        51,
+        41,
+        16,
+        45
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        63,
+        56,
+        30,
+        75
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        20,
+        40,
+        59,
+        47
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        46,
+        78,
+        6,
+        62
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        37,
+        1,
+        69,
+        53
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        5,
+        52,
+        45,
+        68
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        0,
+        77,
+        55,
+        36
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        47,
+        60,
+        7,
+        70
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        38,
+        63,
+        2,
+        76
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        4,
+        44,
+        54,
+        79
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        39,
+        71,
+        3,
+        61
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        29,
+        57,
+        28,
+        64
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        49,
+        24,
+        65,
+        25
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        26,
+        74,
+        27,
+        48
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        75,
+        56,
+        30,
+        31
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        32,
+        58,
+        12,
+        13
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        21,
+        40,
+        59,
+        20
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        19,
+        43,
+        18,
+        72
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        10,
+        11,
+        73,
+        35
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        50,
+        8,
+        9,
+        33
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        17,
+        41,
+        16,
+        51
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        66,
+        14,
+        34,
+        15
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        23,
+        67,
+        22,
+        42
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        37,
+        69,
+        1,
+        14
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        45,
+        22,
+        5,
+        68
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        3,
+        15,
+        71,
+        39
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        7,
+        47,
+        70,
+        23
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        5,
+        25,
+        52,
+        68
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        8,
+        1,
+        37,
+        53
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        77,
+        0,
+        10,
+        36
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        1,
+        69,
+        53,
+        24
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        52,
+        16,
+        5,
+        45
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        9,
+        0,
+        55,
+        36
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        44,
+        17,
+        4,
+        54
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        2,
+        38,
+        76,
+        11
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        61,
+        3,
+        39,
+        12
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        76,
+        63,
+        2,
+        30
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        78,
+        31,
+        6,
+        62
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        55,
+        77,
+        0,
+        26
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        78,
+        6,
+        19,
+        46
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        70,
+        60,
+        7,
+        29
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        6,
+        46,
+        62,
+        21
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        71,
+        28,
+        3,
+        61
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        79,
+        4,
+        44,
+        18
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        7,
+        20,
+        60,
+        47
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        2,
+        13,
+        63,
+        38
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        54,
+        27,
+        4,
+        79
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        48,
+        77,
+        26,
+        74
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        48,
+        26,
+        77,
+        55
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        61,
+        32,
+        12,
+        39
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        12,
+        32,
+        61,
+        58
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        63,
+        75,
+        80,
+        56
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        80,
+        75,
+        63,
+        76
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        72,
+        44,
+        18,
+        79
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        72,
+        18,
+        44,
+        43
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        59,
+        47,
+        80,
+        60
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        80,
+        47,
+        59,
+        40
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        51,
+        45,
+        80,
+        41
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        80,
+        45,
+        51,
+        52
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        36,
+        73,
+        10,
+        77
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        36,
+        10,
+        73,
+        35
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        53,
+        33,
+        8,
+        50
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        8,
+        33,
+        53,
+        37
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        38,
+        58,
+        80,
+        32
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        38,
+        80,
+        58,
+        63
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        48,
+        79,
+        27,
+        54
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        27,
+        79,
+        48,
+        74
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        75,
+        62,
+        80,
+        56
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        80,
+        62,
+        75,
+        78
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        46,
+        59,
+        80,
+        62
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        80,
+        59,
+        46,
+        40
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        72,
+        46,
+        19,
+        43
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        19,
+        46,
+        72,
+        78
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        55,
+        33,
+        9,
+        36
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        9,
+        33,
+        55,
+        50
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        51,
+        44,
+        80,
+        54
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        51,
+        80,
+        44,
+        41
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        76,
+        35,
+        80,
+        73
+      ],
+      "material": "solid"
+    },
+    {
+      "type": "TET4",
+      "nodes": [
+        80,
+        35,
+        76,
+        38
+      ],
+      "material": "solid"
+    }
+  ],
+  "materials": {
+    "solid": {
+      "type": "isotropic_3d",
+      "E": 210000000000.0,
+      "nu": 0.3,
+      "density": 2700.0
+    }
+  },
+  "fixed_dofs": [
+    {
+      "node": 0,
+      "dofs": [
+        "UX",
+        "UY",
+        "UZ"
+      ]
+    }
+  ],
+  "loads": [],
+  "distributed_loads": [
+    {
+      "type": "surface_traction",
+      "element": 10,
+      "value": [
+        -12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 3
+    },
+    {
+      "type": "surface_traction",
+      "element": 11,
+      "value": [
+        -12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 3
+    },
+    {
+      "type": "surface_traction",
+      "element": 34,
+      "value": [
+        -12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 3
+    },
+    {
+      "type": "surface_traction",
+      "element": 35,
+      "value": [
+        -12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 3
+    },
+    {
+      "type": "surface_traction",
+      "element": 52,
+      "value": [
+        -12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 3
+    },
+    {
+      "type": "surface_traction",
+      "element": 57,
+      "value": [
+        -12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 3
+    },
+    {
+      "type": "surface_traction",
+      "element": 78,
+      "value": [
+        -12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 3
+    },
+    {
+      "type": "surface_traction",
+      "element": 85,
+      "value": [
+        -12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 0
+    },
+    {
+      "type": "surface_traction",
+      "element": 88,
+      "value": [
+        -12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 2
+    },
+    {
+      "type": "surface_traction",
+      "element": 102,
+      "value": [
+        -12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 1
+    },
+    {
+      "type": "surface_traction",
+      "element": 120,
+      "value": [
+        -12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 1
+    },
+    {
+      "type": "surface_traction",
+      "element": 123,
+      "value": [
+        -12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 2
+    },
+    {
+      "type": "surface_traction",
+      "element": 124,
+      "value": [
+        -12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 0
+    },
+    {
+      "type": "surface_traction",
+      "element": 126,
+      "value": [
+        -12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 0
+    },
+    {
+      "type": "surface_traction",
+      "element": 128,
+      "value": [
+        -12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 1
+    },
+    {
+      "type": "surface_traction",
+      "element": 130,
+      "value": [
+        -12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 2
+    },
+    {
+      "type": "surface_traction",
+      "element": 133,
+      "value": [
+        -12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 3
+    },
+    {
+      "type": "surface_traction",
+      "element": 134,
+      "value": [
+        -12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 0
+    },
+    {
+      "type": "surface_traction",
+      "element": 137,
+      "value": [
+        -12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 2
+    },
+    {
+      "type": "surface_traction",
+      "element": 139,
+      "value": [
+        -12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 2
+    },
+    {
+      "type": "surface_traction",
+      "element": 140,
+      "value": [
+        -12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 0
+    },
+    {
+      "type": "surface_traction",
+      "element": 150,
+      "value": [
+        -12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 2
+    },
+    {
+      "type": "surface_traction",
+      "element": 154,
+      "value": [
+        -12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 0
+    },
+    {
+      "type": "surface_traction",
+      "element": 165,
+      "value": [
+        -12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 2
+    },
+    {
+      "type": "surface_traction",
+      "element": 167,
+      "value": [
+        -12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 2
+    },
+    {
+      "type": "surface_traction",
+      "element": 178,
+      "value": [
+        -12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 0
+    },
+    {
+      "type": "surface_traction",
+      "element": 48,
+      "value": [
+        12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 3
+    },
+    {
+      "type": "surface_traction",
+      "element": 50,
+      "value": [
+        12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 3
+    },
+    {
+      "type": "surface_traction",
+      "element": 69,
+      "value": [
+        12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 3
+    },
+    {
+      "type": "surface_traction",
+      "element": 70,
+      "value": [
+        12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 3
+    },
+    {
+      "type": "surface_traction",
+      "element": 72,
+      "value": [
+        12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 3
+    },
+    {
+      "type": "surface_traction",
+      "element": 74,
+      "value": [
+        12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 3
+    },
+    {
+      "type": "surface_traction",
+      "element": 76,
+      "value": [
+        12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 0
+    },
+    {
+      "type": "surface_traction",
+      "element": 79,
+      "value": [
+        12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 0
+    },
+    {
+      "type": "surface_traction",
+      "element": 101,
+      "value": [
+        12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 3
+    },
+    {
+      "type": "surface_traction",
+      "element": 104,
+      "value": [
+        12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 3
+    },
+    {
+      "type": "surface_traction",
+      "element": 105,
+      "value": [
+        12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 0
+    },
+    {
+      "type": "surface_traction",
+      "element": 107,
+      "value": [
+        12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 2
+    },
+    {
+      "type": "surface_traction",
+      "element": 121,
+      "value": [
+        12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 2
+    },
+    {
+      "type": "surface_traction",
+      "element": 122,
+      "value": [
+        12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 3
+    },
+    {
+      "type": "surface_traction",
+      "element": 125,
+      "value": [
+        12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 3
+    },
+    {
+      "type": "surface_traction",
+      "element": 127,
+      "value": [
+        12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 1
+    },
+    {
+      "type": "surface_traction",
+      "element": 129,
+      "value": [
+        12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 3
+    },
+    {
+      "type": "surface_traction",
+      "element": 131,
+      "value": [
+        12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 2
+    },
+    {
+      "type": "surface_traction",
+      "element": 136,
+      "value": [
+        12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 0
+    },
+    {
+      "type": "surface_traction",
+      "element": 138,
+      "value": [
+        12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 3
+    },
+    {
+      "type": "surface_traction",
+      "element": 144,
+      "value": [
+        12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 0
+    },
+    {
+      "type": "surface_traction",
+      "element": 146,
+      "value": [
+        12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 2
+    },
+    {
+      "type": "surface_traction",
+      "element": 148,
+      "value": [
+        12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 0
+    },
+    {
+      "type": "surface_traction",
+      "element": 149,
+      "value": [
+        12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 2
+    },
+    {
+      "type": "surface_traction",
+      "element": 159,
+      "value": [
+        12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 0
+    },
+    {
+      "type": "surface_traction",
+      "element": 176,
+      "value": [
+        12500000.0,
+        0.0,
+        0.0
+      ],
+      "coordinate_system": "global",
+      "follower": false,
+      "face": 0
+    }
+  ],
+  "springs": [],
+  "concentrated_masses": [],
+  "multipoint_constraints": [],
+  "rbe2": [],
+  "rbe3": [],
+  "contacts": []
+}

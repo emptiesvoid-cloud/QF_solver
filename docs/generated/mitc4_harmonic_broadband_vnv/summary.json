@@ -1,0 +1,4906 @@
+{
+  "study_id": "VNV-MITC4-HARMONIC-BROADBAND-003",
+  "status": "PASS",
+  "model": {
+    "mesh": [
+      8,
+      8
+    ],
+    "node_count": 81,
+    "element_count": 64,
+    "load": {
+      "node": 30,
+      "dof": "UZ",
+      "amplitude_n": 100.0
+    },
+    "probe": {
+      "node": 30,
+      "dof": "UZ"
+    }
+  },
+  "frequency_band": {
+    "start_hz": 0.1,
+    "stop_hz": 16.0,
+    "count": 600,
+    "resonance_family_count": 4
+  },
+  "damping": {
+    "rayleigh_alpha": 0.299,
+    "rayleigh_beta": 0.001339
+  },
+  "oracle": {
+    "type": "complete mass-orthonormal modal superposition",
+    "mode_count": 175,
+    "reduced_dof_count": 175,
+    "first_eigenfrequencies_hz": [
+      2.417887757792536,
+      6.332087293422356,
+      6.332087293848886,
+      10.192141428409881,
+      13.991182893830405,
+      13.991182894682323,
+      17.749002864081675,
+      17.74900286423944,
+      25.107020169887647,
+      27.77051068843524
+    ]
+  },
+  "acceptance": {
+    "complex_response_relative_error_max": 1e-06,
+    "relative_residual_max": 1e-08,
+    "peak_frequency_relative_error_max": 0.01,
+    "resonance_family_count_min": 4
+  },
+  "metrics": {
+    "maximum_complex_response_relative_error": 2.410772568330203e-07,
+    "maximum_probe_relative_error": 2.4038268700959714e-07,
+    "maximum_peak_frequency_relative_error": 0.007290189757253961,
+    "maximum_relative_residual": 8.250901537218317e-11
+  },
+  "peaks": [
+    {
+      "modal_frequency_hz": 2.417887757792536,
+      "direct_peak_frequency_hz": 2.409348914858097,
+      "direct_peak_amplitude_m": 0.0008226493878314388,
+      "relative_frequency_error": 0.003531529909492167,
+      "frequency_index": 87
+    },
+    {
+      "modal_frequency_hz": 6.332087293422356,
+      "direct_peak_frequency_hz": 6.3378964941569285,
+      "direct_peak_amplitude_m": 0.00010115247618989189,
+      "relative_frequency_error": 0.0009174227178779942,
+      "frequency_index": 235
+    },
+    {
+      "modal_frequency_hz": 10.192141428409881,
+      "direct_peak_frequency_hz": 10.266444073455759,
+      "direct_peak_amplitude_m": 9.428069411929958e-06,
+      "relative_frequency_error": 0.007290189757253961,
+      "frequency_index": 383
+    },
+    {
+      "modal_frequency_hz": 13.991182893830405,
+      "direct_peak_frequency_hz": 14.035726210350584,
+      "direct_peak_amplitude_m": 4.161410074458047e-06,
+      "relative_frequency_error": 0.003183670520083046,
+      "frequency_index": 525
+    }
+  ],
+  "frequency_response": [
+    {
+      "frequency_hz": 0.1,
+      "direct_amplitude_m": 4.272000651582333e-05,
+      "direct_phase_degrees": -0.08572324807855745,
+      "modal_amplitude_m": 4.272000683357913e-05,
+      "modal_phase_degrees": -0.08572324849729636,
+      "full_field_relative_error": 9.660374208553258e-09
+    },
+    {
+      "frequency_hz": 0.12654424040066778,
+      "direct_amplitude_m": 4.275529881136199e-05,
+      "direct_phase_degrees": -0.1085845393756026,
+      "modal_amplitude_m": 4.2755299129780624e-05,
+      "modal_phase_degrees": -0.1085845399069029,
+      "full_field_relative_error": 9.670117525069815e-09
+    },
+    {
+      "frequency_hz": 0.15308848080133558,
+      "direct_amplitude_m": 4.2798959445426244e-05,
+      "direct_phase_degrees": -0.13152125144901208,
+      "modal_amplitude_m": 4.279895976456257e-05,
+      "modal_phase_degrees": -0.1315212520939055,
+      "full_field_relative_error": 9.68008803080563e-09
+    },
+    {
+      "frequency_hz": 0.17963272120200335,
+      "direct_amplitude_m": 4.2851050577784074e-05,
+      "direct_phase_degrees": -0.15454963118040194,
+      "modal_amplitude_m": 4.285105089803268e-05,
+      "modal_phase_degrees": -0.15454963194101448,
+      "full_field_relative_error": 9.69886783802575e-09
+    },
+    {
+      "frequency_hz": 0.20617696160267113,
+      "direct_amplitude_m": 4.2911646684377255e-05,
+      "direct_phase_degrees": -0.17768617195006212,
+      "modal_amplitude_m": 4.2911647005695185e-05,
+      "modal_phase_degrees": -0.17768617282815521,
+      "full_field_relative_error": 9.71463618392454e-09
+    },
+    {
+      "frequency_hz": 0.2327212020033389,
+      "direct_amplitude_m": 4.298083482925436e-05,
+      "direct_phase_degrees": -0.20094765956177135,
+      "modal_amplitude_m": 4.298083515190086e-05,
+      "modal_phase_degrees": -0.20094766055914212,
+      "full_field_relative_error": 9.73485050455884e-09
+    },
+    {
+      "frequency_hz": 0.25926544240400673,
+      "direct_amplitude_m": 4.3058714987720146e-05,
+      "direct_phase_degrees": -0.2243512197453821,
+      "modal_amplitude_m": 4.3058715311769154e-05,
+      "modal_phase_degrees": -0.22435122086432532,
+      "full_field_relative_error": 9.755274491621972e-09
+    },
+    {
+      "frequency_hz": 0.28580968280467445,
+      "direct_amplitude_m": 4.3145400418044704e-05,
+      "direct_phase_degrees": -0.2479143675063772,
+      "modal_amplitude_m": 4.314540074382867e-05,
+      "modal_phase_degrees": -0.24791436875070166,
+      "full_field_relative_error": 9.782158421210663e-09
+    },
+    {
+      "frequency_hz": 0.3123539232053423,
+      "direct_amplitude_m": 4.324101808849761e-05,
+      "direct_phase_degrees": -0.27165505861790573,
+      "modal_amplitude_m": 4.324101841600331e-05,
+      "modal_phase_degrees": -0.2716550599879504,
+      "full_field_relative_error": 9.806852389879107e-09
+    },
+    {
+      "frequency_hz": 0.33889816360601,
+      "direct_amplitude_m": 4.3345709158601666e-05,
+      "direct_phase_degrees": -0.29559174353797957,
+      "modal_amplitude_m": 4.334570948798142e-05,
+      "modal_phase_degrees": -0.2955917450387265,
+      "full_field_relative_error": 9.834188437392138e-09
+    },
+    {
+      "frequency_hz": 0.3654424040066778,
+      "direct_amplitude_m": 4.3459629521675265e-05,
+      "direct_phase_degrees": -0.31974342412839585,
+      "modal_amplitude_m": 4.345962985345311e-05,
+      "modal_phase_degrees": -0.31974342576454384,
+      "full_field_relative_error": 9.872522284147952e-09
+    },
+    {
+      "frequency_hz": 0.39198664440734554,
+      "direct_amplitude_m": 4.3582950412199425e-05,
+      "direct_phase_degrees": -0.34412971349299115,
+      "modal_amplitude_m": 4.358295074618552e-05,
+      "modal_phase_degrees": -0.344129715265153,
+      "full_field_relative_error": 9.904005941968027e-09
+    },
+    {
+      "frequency_hz": 0.41853088480801337,
+      "direct_amplitude_m": 4.3715859077980476e-05,
+      "direct_phase_degrees": -0.3687708993254169,
+      "modal_amplitude_m": 4.3715859414443755e-05,
+      "modal_phase_degrees": -0.36877090123968337,
+      "full_field_relative_error": 9.939865233430414e-09
+    },
+    {
+      "frequency_hz": 0.4450751252086812,
+      "direct_amplitude_m": 4.3858559529606275e-05,
+      "direct_phase_degrees": -0.3936880112314537,
+      "modal_amplitude_m": 4.385855986885127e-05,
+      "modal_phase_degrees": -0.39368801329264463,
+      "full_field_relative_error": 9.98125489154198e-09
+    },
+    {
+      "frequency_hz": 0.4716193656093489,
+      "direct_amplitude_m": 4.401127336735798e-05,
+      "direct_phase_degrees": -0.4189028924348728,
+      "modal_amplitude_m": 4.401127370944019e-05,
+      "modal_phase_degrees": -0.4189028946474743,
+      "full_field_relative_error": 1.0021457063555963e-08
+    },
+    {
+      "frequency_hz": 0.49816360601001675,
+      "direct_amplitude_m": 4.41742406929884e-05,
+      "direct_phase_degrees": -0.4444382764038594,
+      "modal_amplitude_m": 4.4174241038364325e-05,
+      "modal_phase_degrees": -0.44443827877551556,
+      "full_field_relative_error": 1.0071119590150823e-08
+    },
+    {
+      "frequency_hz": 0.5247078464106845,
+      "direct_amplitude_m": 4.43477211167817e-05,
+      "direct_phase_degrees": -0.4703178689632334,
+      "modal_amplitude_m": 4.434772146556067e-05,
+      "modal_phase_degrees": -0.4703178714996146,
+      "full_field_relative_error": 1.0121646188313595e-08
+    },
+    {
+      "frequency_hz": 0.5512520868113523,
+      "direct_amplitude_m": 4.453199486327035e-05,
+      "direct_phase_degrees": -0.4965664364830747,
+      "modal_amplitude_m": 4.45319952155479e-05,
+      "modal_phase_degrees": -0.49656643918998455,
+      "full_field_relative_error": 1.0170309949055032e-08
+    },
+    {
+      "frequency_hz": 0.57779632721202,
+      "direct_amplitude_m": 4.4727363988281e-05,
+      "direct_phase_degrees": -0.5232099008522006,
+      "modal_amplitude_m": 4.472736434456947e-05,
+      "modal_phase_degrees": -0.5232099037363949,
+      "full_field_relative_error": 1.0230161481309286e-08
+    },
+    {
+      "frequency_hz": 0.6043405676126878,
+      "direct_amplitude_m": 4.493415371819086e-05,
+      "direct_phase_degrees": -0.550275441987433,
+      "modal_amplitude_m": 4.4934154078431966e-05,
+      "modal_phase_degrees": -0.5502754450563424,
+      "full_field_relative_error": 1.0285068713334217e-08
+    },
+    {
+      "frequency_hz": 0.6308848080133556,
+      "direct_amplitude_m": 4.515271391808139e-05,
+      "direct_phase_degrees": -0.5777916087211451,
+      "modal_amplitude_m": 4.515271428268046e-05,
+      "modal_phase_degrees": -0.5777916119849553,
+      "full_field_relative_error": 1.0347476896122589e-08
+    },
+    {
+      "frequency_hz": 0.6574290484140234,
+      "direct_amplitude_m": 4.538342070877713e-05,
+      "direct_phase_degrees": -0.6057884390232775,
+      "modal_amplitude_m": 4.538342107821427e-05,
+      "modal_phase_degrees": -0.6057884424904691,
+      "full_field_relative_error": 1.0418691688872497e-08
+    },
+    {
+      "frequency_hz": 0.6839732888146911,
+      "direct_amplitude_m": 4.562667824293031e-05,
+      "direct_phase_degrees": -0.6342975905939137,
+      "modal_amplitude_m": 4.562667861710089e-05,
+      "modal_phase_degrees": -0.6342975942710726,
+      "full_field_relative_error": 1.0482829864580554e-08
+    },
+    {
+      "frequency_hz": 0.7105175292153589,
+      "direct_amplitude_m": 4.588292065578677e-05,
+      "direct_phase_degrees": -0.6633524830168559,
+      "modal_amplitude_m": 4.588292103523085e-05,
+      "modal_phase_degrees": -0.6633524869168187,
+      "full_field_relative_error": 1.055733833234142e-08
+    },
+    {
+      "frequency_hz": 0.7370617696160268,
+      "direct_amplitude_m": 4.615261421562035e-05,
+      "direct_phase_degrees": -0.6929884528345712,
+      "modal_amplitude_m": 4.615261460059967e-05,
+      "modal_phase_degrees": -0.6929884569666372,
+      "full_field_relative_error": 1.0633974220506897e-08
+    },
+    {
+      "frequency_hz": 0.7636060100166945,
+      "direct_amplitude_m": 4.643625968741768e-05,
+      "direct_phase_degrees": -0.7232429229768237,
+      "modal_amplitude_m": 4.643626007845419e-05,
+      "modal_phase_degrees": -0.723242927358208,
+      "full_field_relative_error": 1.0719636014123766e-08
+    },
+    {
+      "frequency_hz": 0.7901502504173623,
+      "direct_amplitude_m": 4.673439494031622e-05,
+      "direct_phase_degrees": -0.7541555883229919,
+      "modal_amplitude_m": 4.673439533734383e-05,
+      "modal_phase_degrees": -0.7541555929610246,
+      "full_field_relative_error": 1.0799155811900687e-08
+    },
+    {
+      "frequency_hz": 0.81669449081803,
+      "direct_amplitude_m": 4.7047597819715184e-05,
+      "direct_phase_degrees": -0.7857686191968896,
+      "modal_amplitude_m": 4.704759822333628e-05,
+      "modal_phase_degrees": -0.7857686241044265,
+      "full_field_relative_error": 1.0887861788509614e-08
+    },
+    {
+      "frequency_hz": 0.8432387312186979,
+      "direct_amplitude_m": 4.737648932274548e-05,
+      "direct_phase_degrees": -0.8181268850688912,
+      "modal_amplitude_m": 4.737648973335616e-05,
+      "modal_phase_degrees": -0.8181268902676657,
+      "full_field_relative_error": 1.0982713108472776e-08
+    },
+    {
+      "frequency_hz": 0.8697829716193656,
+      "direct_amplitude_m": 4.7721737104976976e-05,
+      "direct_phase_degrees": -0.8512782008941445,
+      "modal_amplitude_m": 4.772173752287245e-05,
+      "modal_phase_degrees": -0.8512782063937945,
+      "full_field_relative_error": 1.1078788162191228e-08
+    },
+    {
+      "frequency_hz": 0.8963272120200334,
+      "direct_amplitude_m": 4.808405936235943e-05,
+      "direct_phase_degrees": -0.8852735988096858,
+      "modal_amplitude_m": 4.808405978809028e-05,
+      "modal_phase_degrees": -0.8852736046303429,
+      "full_field_relative_error": 1.1182551552041047e-08
+    },
+    {
+      "frequency_hz": 0.9228714524207011,
+      "direct_amplitude_m": 4.84642291344853e-05,
+      "direct_phase_degrees": -0.9201676285331439,
+      "modal_amplitude_m": 4.846422956851232e-05,
+      "modal_phase_degrees": -0.9201676346955137,
+      "full_field_relative_error": 1.1291524889399269e-08
+    },
+    {
+      "frequency_hz": 0.949415692821369,
+      "direct_amplitude_m": 4.886307907954102e-05,
+      "direct_phase_degrees": -0.9560186900050544,
+      "modal_amplitude_m": 4.886307952237054e-05,
+      "modal_phase_degrees": -0.9560186965287395,
+      "full_field_relative_error": 1.1404957590856481e-08
+    },
+    {
+      "frequency_hz": 0.9759599332220368,
+      "direct_amplitude_m": 4.928150678290321e-05,
+      "direct_phase_degrees": -0.9928894025128117,
+      "modal_amplitude_m": 4.928150723515173e-05,
+      "modal_phase_degrees": -0.9928894094208202,
+      "full_field_relative_error": 1.1527441817294346e-08
+    },
+    {
+      "frequency_hz": 1.0025041736227045,
+      "direct_amplitude_m": 4.972048066844542e-05,
+      "direct_phase_degrees": -1.0308470151294258,
+      "modal_amplitude_m": 4.972048113045892e-05,
+      "modal_phase_degrees": -1.0308470224457151,
+      "full_field_relative_error": 1.1650043651023782e-08
+    },
+    {
+      "frequency_hz": 1.0290484140233724,
+      "direct_amplitude_m": 5.018104659046668e-05,
+      "direct_phase_degrees": -1.069963864000037,
+      "modal_amplitude_m": 5.0181047063010166e-05,
+      "modal_phase_degrees": -1.0699638717505322,
+      "full_field_relative_error": 1.1782493120865731e-08
+    },
+    {
+      "frequency_hz": 1.0555926544240402,
+      "direct_amplitude_m": 5.066433520220079e-05,
+      "direct_phase_degrees": -1.1103178829096632,
+      "modal_amplitude_m": 5.066433568597407e-05,
+      "modal_phase_degrees": -1.1103178911233178,
+      "full_field_relative_error": 1.1923346354607724e-08
+    },
+    {
+      "frequency_hz": 1.0821368948247079,
+      "direct_amplitude_m": 5.117157020393202e-05,
+      "direct_phase_degrees": -1.1519931745641785,
+      "modal_amplitude_m": 5.1171570699441144e-05,
+      "modal_phase_degrees": -1.1519931832753443,
+      "full_field_relative_error": 1.2065627896018117e-08
+    },
+    {
+      "frequency_hz": 1.1086811352253758,
+      "direct_amplitude_m": 5.170407759594962e-05,
+      "direct_phase_degrees": -1.195080651242842,
+      "modal_amplitude_m": 5.1704078104074964e-05,
+      "modal_phase_degrees": -1.195080660476774,
+      "full_field_relative_error": 1.2218618697557084e-08
+    },
+    {
+      "frequency_hz": 1.1352253756260435,
+      "direct_amplitude_m": 5.2263296082874754e-05,
+      "direct_phase_degrees": -1.2396787548102355,
+      "modal_amplitude_m": 5.226329660442303e-05,
+      "modal_phase_degrees": -1.2396787646099623,
+      "full_field_relative_error": 1.238001530298017e-08
+    },
+    {
+      "frequency_hz": 1.1617696160267112,
+      "direct_amplitude_m": 5.2850788794909826e-05,
+      "direct_phase_degrees": -1.285894267998291,
+      "modal_amplitude_m": 5.2850789330656755e-05,
+      "modal_phase_degrees": -1.2858942784003857,
+      "full_field_relative_error": 1.254599116420468e-08
+    },
+    {
+      "frequency_hz": 1.1883138564273792,
+      "direct_amplitude_m": 5.346825652563296e-05,
+      "direct_phase_degrees": -1.3338432305537098,
+      "modal_amplitude_m": 5.346825707648995e-05,
+      "modal_phase_degrees": -1.33384324160897,
+      "full_field_relative_error": 1.2721150262782906e-08
+    },
+    {
+      "frequency_hz": 1.214858096828047,
+      "direct_amplitude_m": 5.411755271853523e-05,
+      "direct_phase_degrees": -1.3836519766382889,
+      "modal_amplitude_m": 5.4117553285709285e-05,
+      "modal_phase_degrees": -1.383651988393925,
+      "full_field_relative_error": 1.2909111440513615e-08
+    },
+    {
+      "frequency_hz": 1.2414023372287146,
+      "direct_amplitude_m": 5.480070047677382e-05,
+      "direct_phase_degrees": -1.4354583124539537,
+      "modal_amplitude_m": 5.4800701061423944e-05,
+      "modal_phase_degrees": -1.435458324964616,
+      "full_field_relative_error": 1.3107985223405323e-08
+    },
+    {
+      "frequency_hz": 1.2679465776293823,
+      "direct_amplitude_m": 5.551991191939504e-05,
+      "direct_phase_degrees": -1.4894128568481564,
+      "modal_amplitude_m": 5.5519912522401265e-05,
+      "modal_phase_degrees": -1.4894128701672094,
+      "full_field_relative_error": 1.3310965496202974e-08
+    },
+    {
+      "frequency_hz": 1.2944908180300503,
+      "direct_amplitude_m": 5.627761026851394e-05,
+      "direct_phase_degrees": -1.5456805717009858,
+      "modal_amplitude_m": 5.627761089170716e-05,
+      "modal_phase_degrees": -1.545680585903409,
+      "full_field_relative_error": 1.3534876582374105e-08
+    },
+    {
+      "frequency_hz": 1.321035058430718,
+      "direct_amplitude_m": 5.707645513235743e-05,
+      "direct_phase_degrees": -1.6044425143232097,
+      "modal_amplitude_m": 5.70764557768592e-05,
+      "modal_phase_degrees": -1.6044425294686815,
+      "full_field_relative_error": 1.376447665226157e-08
+    },
+    {
+      "frequency_hz": 1.3475792988313857,
+      "direct_amplitude_m": 5.7919371523602924e-05,
+      "direct_phase_degrees": -1.665897850053705,
+      "modal_amplitude_m": 5.7919372191044964e-05,
+      "modal_phase_degrees": -1.6658978662324426,
+      "full_field_relative_error": 1.4008165210850851e-08
+    },
+    {
+      "frequency_hz": 1.3741235392320537,
+      "direct_amplitude_m": 5.8809583283708285e-05,
+      "direct_phase_degrees": -1.730266171567151,
+      "modal_amplitude_m": 5.8809583975777036e-05,
+      "modal_phase_degrees": -1.730266188860707,
+      "full_field_relative_error": 1.4264558259069921e-08
+    },
+    {
+      "frequency_hz": 1.4006677796327214,
+      "direct_amplitude_m": 5.975065170367345e-05,
+      "direct_phase_degrees": -1.7977901803868372,
+      "modal_amplitude_m": 5.975065242192986e-05,
+      "modal_phase_degrees": -1.797790198875204,
+      "full_field_relative_error": 1.4529218797836527e-08
+    },
+    {
+      "frequency_hz": 1.427212020033389,
+      "direct_amplitude_m": 6.074652030784616e-05,
+      "direct_phase_degrees": -1.8687387984090504,
+      "modal_amplitude_m": 6.074652105525142e-05,
+      "modal_phase_degrees": -1.868738818235075,
+      "full_field_relative_error": 1.4825862590495993e-08
+    },
+    {
+      "frequency_hz": 1.4537562604340568,
+      "direct_amplitude_m": 6.180156698467927e-05,
+      "direct_phase_degrees": -1.943410792170674,
+      "modal_amplitude_m": 6.180156776301934e-05,
+      "modal_phase_degrees": -1.9434108134456551,
+      "full_field_relative_error": 1.5129512622034203e-08
+    },
+    {
+      "frequency_hz": 1.4803005008347248,
+      "direct_amplitude_m": 6.292066489020182e-05,
+      "direct_phase_degrees": -2.0221390104176935,
+      "modal_amplitude_m": 6.292066570209161e-05,
+      "modal_phase_degrees": -2.0221390332656717,
+      "full_field_relative_error": 1.5452061835892705e-08
+    },
+    {
+      "frequency_hz": 1.5068447412353925,
+      "direct_amplitude_m": 6.410925391260664e-05,
+      "direct_phase_degrees": -2.105295359926022,
+      "modal_amplitude_m": 6.410925476041248e-05,
+      "modal_phase_degrees": -2.1052953844819493,
+      "full_field_relative_error": 1.5786583197396727e-08
+    },
+    {
+      "frequency_hz": 1.5333889816360602,
+      "direct_amplitude_m": 6.537342487671198e-05,
+      "direct_phase_degrees": -2.1932966734161217,
+      "modal_amplitude_m": 6.537342576424897e-05,
+      "modal_phase_degrees": -2.1932966998859973,
+      "full_field_relative_error": 1.6154081394880566e-08
+    },
+    {
+      "frequency_hz": 1.559933222036728,
+      "direct_amplitude_m": 6.672001922804579e-05,
+      "direct_phase_degrees": -2.2866116618708263,
+      "modal_amplitude_m": 6.672002015897173e-05,
+      "modal_phase_degrees": -2.2866116904404588,
+      "full_field_relative_error": 1.6545508818794632e-08
+    },
+    {
+      "frequency_hz": 1.5864774624373958,
+      "direct_amplitude_m": 6.815674759978861e-05,
+      "direct_phase_degrees": -2.3857691913565473,
+      "modal_amplitude_m": 6.815674857826811e-05,
+      "modal_phase_degrees": -2.385769222252075,
+      "full_field_relative_error": 1.6964581719261848e-08
+    },
+    {
+      "frequency_hz": 1.6130217028380636,
+      "direct_amplitude_m": 6.969233157378341e-05,
+      "direct_phase_degrees": -2.491368188414896,
+      "modal_amplitude_m": 6.969233260436599e-05,
+      "modal_phase_degrees": -2.491368221887165,
+      "full_field_relative_error": 1.741376539424676e-08
+    },
+    {
+      "frequency_hz": 1.6395659432387313,
+      "direct_amplitude_m": 7.133667408971041e-05,
+      "direct_phase_degrees": -2.604089559250448,
+      "modal_amplitude_m": 7.133667517728903e-05,
+      "modal_phase_degrees": -2.6040895955915557,
+      "full_field_relative_error": 1.788875631149125e-08
+    },
+    {
+      "frequency_hz": 1.6661101836393992,
+      "direct_amplitude_m": 7.310106547619184e-05,
+      "direct_phase_degrees": -2.7247106162473,
+      "modal_amplitude_m": 7.310106662698495e-05,
+      "modal_phase_degrees": -2.7247106557725727,
+      "full_field_relative_error": 1.840402330314516e-08
+    },
+    {
+      "frequency_hz": 1.692654424040067,
+      "direct_amplitude_m": 7.499843408723183e-05,
+      "direct_phase_degrees": -2.8541226478876065,
+      "modal_amplitude_m": 7.499843530741754e-05,
+      "modal_phase_degrees": -2.8541226909708524,
+      "full_field_relative_error": 1.894809609641655e-08
+    },
+    {
+      "frequency_hz": 1.7191986644407347,
+      "direct_amplitude_m": 7.704365318974424e-05,
+      "direct_phase_degrees": -2.9933524595062955,
+      "modal_amplitude_m": 7.704365448802057e-05,
+      "modal_phase_degrees": -2.9933525066292503,
+      "full_field_relative_error": 1.9550654932452047e-08
+    },
+    {
+      "frequency_hz": 1.7457429048414024,
+      "direct_amplitude_m": 7.925391937944946e-05,
+      "direct_phase_degrees": -3.143588970366328,
+      "modal_amplitude_m": 7.925392076366808e-05,
+      "modal_phase_degrees": -3.1435890219984115,
+      "full_field_relative_error": 2.0184055557902428e-08
+    },
+    {
+      "frequency_hz": 1.7722871452420703,
+      "direct_amplitude_m": 8.16492226695939e-05,
+      "direct_phase_degrees": -3.306216303768431,
+      "modal_amplitude_m": 8.164922415136426e-05,
+      "modal_phase_degrees": -3.306216360572034,
+      "full_field_relative_error": 2.088876869361943e-08
+    },
+    {
+      "frequency_hz": 1.798831385642738,
+      "direct_amplitude_m": 8.425293520039925e-05,
+      "direct_phase_degrees": -3.4828552944325564,
+      "modal_amplitude_m": 8.425293679188104e-05,
+      "modal_phase_degrees": -3.4828553571047904,
+      "full_field_relative_error": 2.1653963129095896e-08
+    },
+    {
+      "frequency_hz": 1.8253756260434058,
+      "direct_amplitude_m": 8.709255485311262e-05,
+      "direct_phase_degrees": -3.675416012899122,
+      "modal_amplitude_m": 8.709255656701131e-05,
+      "modal_phase_degrees": -3.675416082209921,
+      "full_field_relative_error": 2.2466035277670793e-08
+    },
+    {
+      "frequency_hz": 1.8519198664440737,
+      "direct_amplitude_m": 9.020065331923505e-05,
+      "direct_phase_degrees": -3.8861648669740116,
+      "modal_amplitude_m": 9.020065517437012e-05,
+      "modal_phase_degrees": -3.8861649440105763,
+      "full_field_relative_error": 2.3380294994135256e-08
+    },
+    {
+      "frequency_hz": 1.8784641068447414,
+      "direct_amplitude_m": 9.361609707344232e-05,
+      "direct_phase_degrees": -4.117811214180626,
+      "modal_amplitude_m": 9.361609908917632e-05,
+      "modal_phase_degrees": -4.117811300134523,
+      "full_field_relative_error": 2.4373731541710297e-08
+    },
+    {
+      "frequency_hz": 1.9050083472454091,
+      "direct_amplitude_m": 9.738563698912349e-05,
+      "direct_phase_degrees": -4.373620415484626,
+      "modal_amplitude_m": 9.738563919146207e-05,
+      "modal_phase_degrees": -4.373620511909804,
+      "full_field_relative_error": 2.548781068158914e-08
+    },
+    {
+      "frequency_hz": 1.9315525876460768,
+      "direct_amplitude_m": 0.00010156600263626748,
+      "direct_phase_degrees": -4.6575632186054925,
+      "modal_amplitude_m": 0.00010156600505295368,
+      "modal_phase_degrees": -4.657563327214166,
+      "full_field_relative_error": 2.6699877326466537e-08
+    },
+    {
+      "frequency_hz": 1.9580968280467448,
+      "direct_amplitude_m": 0.00010622669733882634,
+      "direct_phase_degrees": -4.974515800443419,
+      "modal_amplitude_m": 0.00010622670000752996,
+      "modal_phase_degrees": -4.974515923523579,
+      "full_field_relative_error": 2.8066285395972722e-08
+    },
+    {
+      "frequency_hz": 1.9846410684474125,
+      "direct_amplitude_m": 0.00011145378170723973,
+      "direct_phase_degrees": -5.330531618834599,
+      "modal_amplitude_m": 0.00011145378467316247,
+      "modal_phase_degrees": -5.330531759254125,
+      "full_field_relative_error": 2.9596676724256838e-08
+    },
+    {
+      "frequency_hz": 2.0111853088480802,
+      "direct_amplitude_m": 0.0001173550754085123,
+      "direct_phase_degrees": -5.733216894618056,
+      "modal_amplitude_m": 0.00011735507872826042,
+      "modal_phase_degrees": -5.733217055881635,
+      "full_field_relative_error": 3.132316534538162e-08
+    },
+    {
+      "frequency_hz": 2.037729549248748,
+      "direct_amplitude_m": 0.00012406743245449865,
+      "direct_phase_degrees": -6.19225865167147,
+      "modal_amplitude_m": 0.00012406743619944126,
+      "modal_phase_degrees": -6.192258838346851,
+      "full_field_relative_error": 3.3275962827113393e-08
+    },
+    {
+      "frequency_hz": 2.0642737896494157,
+      "direct_amplitude_m": 0.00013176711129522355,
+      "direct_phase_degrees": -6.720182358664294,
+      "modal_amplitude_m": 0.00013176711556214,
+      "modal_phase_degrees": -6.720182576888647,
+      "full_field_relative_error": 3.554441741572862e-08
+    },
+    {
+      "frequency_hz": 2.0908180300500834,
+      "direct_amplitude_m": 0.00014068487062764864,
+      "direct_phase_degrees": -7.33346375087354,
+      "modal_amplitude_m": 0.00014068487553766344,
+      "modal_phase_degrees": -7.333464008601869,
+      "full_field_relative_error": 3.815032476174224e-08
+    },
+    {
+      "frequency_hz": 2.1173622704507515,
+      "direct_amplitude_m": 0.00015112846528317486,
+      "direct_phase_degrees": -8.054202338038033,
+      "modal_amplitude_m": 0.0001511284710063126,
+      "modal_phase_degrees": -8.054202646357636,
+      "full_field_relative_error": 4.123375834567444e-08
+    },
+    {
+      "frequency_hz": 2.1439065108514193,
+      "direct_amplitude_m": 0.00016351705705639136,
+      "direct_phase_degrees": -8.912713946853822,
+      "modal_amplitude_m": 0.00016351706381847385,
+      "modal_phase_degrees": -8.91271432088625,
+      "full_field_relative_error": 4.487151298794413e-08
+    },
+    {
+      "frequency_hz": 2.170450751252087,
+      "direct_amplitude_m": 0.00017843540492448482,
+      "direct_phase_degrees": -9.951681208643864,
+      "modal_amplitude_m": 0.00017843541304400645,
+      "modal_phase_degrees": -9.951681670039921,
+      "full_field_relative_error": 4.9235507519027164e-08
+    },
+    {
+      "frequency_hz": 2.1969949916527547,
+      "direct_amplitude_m": 0.0001967219964746919,
+      "direct_phase_degrees": -11.233053805156885,
+      "modal_amplitude_m": 0.00019672200642227727,
+      "modal_phase_degrees": -11.233054386401795,
+      "full_field_relative_error": 5.461625217438118e-08
+    },
+    {
+      "frequency_hz": 2.2235392320534224,
+      "direct_amplitude_m": 0.00021961748126236822,
+      "direct_phase_degrees": -12.8500305457937,
+      "modal_amplitude_m": 0.0002196174937345895,
+      "modal_phase_degrees": -12.850031296356907,
+      "full_field_relative_error": 6.133566863641049e-08
+    },
+    {
+      "frequency_hz": 2.25008347245409,
+      "direct_amplitude_m": 0.0002490238682081163,
+      "direct_phase_degrees": -14.94893690278676,
+      "modal_amplitude_m": 0.0002490238842989261,
+      "modal_phase_degrees": -14.948937902957518,
+      "full_field_relative_error": 6.999059830303033e-08
+    },
+    {
+      "frequency_hz": 2.2766277128547583,
+      "direct_amplitude_m": 0.00028797185075576774,
+      "direct_phase_degrees": -17.771524196171246,
+      "modal_amplitude_m": 0.0002879718722447253,
+      "modal_phase_degrees": -17.77152558313067,
+      "full_field_relative_error": 8.149935967493727e-08
+    },
+    {
+      "frequency_hz": 2.303171953255426,
+      "direct_amplitude_m": 0.0003414721236884771,
+      "direct_phase_degrees": -21.74203510459867,
+      "modal_amplitude_m": 0.00034147215354618174,
+      "modal_phase_degrees": -21.74203712637647,
+      "full_field_relative_error": 9.730059425563691e-08
+    },
+    {
+      "frequency_hz": 2.3297161936560937,
+      "direct_amplitude_m": 0.0004179461368950383,
+      "direct_phase_degrees": -27.657130150686655,
+      "modal_amplitude_m": 0.00041794618009160145,
+      "modal_phase_degrees": -27.65713328956715,
+      "full_field_relative_error": 1.1988430428518652e-07
+    },
+    {
+      "frequency_hz": 2.3562604340567614,
+      "direct_amplitude_m": 0.0005303799122829583,
+      "direct_phase_degrees": -37.10442815755948,
+      "modal_amplitude_m": 0.0005303799756836689,
+      "modal_phase_degrees": -37.10443339631834,
+      "full_field_relative_error": 1.531564237596707e-07
+    },
+    {
+      "frequency_hz": 2.382804674457429,
+      "direct_amplitude_m": 0.0006867986529753727,
+      "direct_phase_degrees": -53.16063859974393,
+      "modal_amplitude_m": 0.0006867987337330153,
+      "modal_phase_degrees": -53.16064770683656,
+      "full_field_relative_error": 1.997598697937173e-07
+    },
+    {
+      "frequency_hz": 2.409348914858097,
+      "direct_amplitude_m": 0.0008226493878314389,
+      "direct_phase_degrees": -79.25532116485994,
+      "modal_amplitude_m": 0.0008226494233811617,
+      "modal_phase_degrees": -79.25533471339352,
+      "full_field_relative_error": 2.410772568330203e-07
+    },
+    {
+      "frequency_hz": 2.4358931552587646,
+      "direct_amplitude_m": 0.0007693823669807785,
+      "direct_phase_degrees": -109.59748455166469,
+      "modal_amplitude_m": 0.0007693823068723393,
+      "modal_phase_degrees": -109.59749683157628,
+      "full_field_relative_error": 2.2704847981512813e-07
+    },
+    {
+      "frequency_hz": 2.4624373956594328,
+      "direct_amplitude_m": 0.0005953668686264756,
+      "direct_phase_degrees": -131.60607518847002,
+      "modal_amplitude_m": 0.0005953667970807879,
+      "modal_phase_degrees": -131.60608281334387,
+      "full_field_relative_error": 1.7708053595539403e-07
+    },
+    {
+      "frequency_hz": 2.4889816360601005,
+      "direct_amplitude_m": 0.00044973121375211137,
+      "direct_phase_degrees": -144.57867487999047,
+      "modal_amplitude_m": 0.00044973116299625704,
+      "modal_phase_degrees": -144.5786793904651,
+      "full_field_relative_error": 1.3481166013581389e-07
+    },
+    {
+      "frequency_hz": 2.515525876460768,
+      "direct_amplitude_m": 0.00035061468491900624,
+      "direct_phase_degrees": -152.36284707365587,
+      "modal_amplitude_m": 0.00035061465088500406,
+      "modal_phase_degrees": -152.36284991519832,
+      "full_field_relative_error": 1.0592281937148998e-07
+    },
+    {
+      "frequency_hz": 2.542070116861436,
+      "direct_amplitude_m": 0.00028312788361332334,
+      "direct_phase_degrees": -157.37276816920095,
+      "modal_amplitude_m": 0.0002831278601176777,
+      "modal_phase_degrees": -157.37277009009813,
+      "full_field_relative_error": 8.624310526549141e-08
+    },
+    {
+      "frequency_hz": 2.5686143572621036,
+      "direct_amplitude_m": 0.00023535451595499909,
+      "direct_phase_degrees": -160.813283054207,
+      "modal_amplitude_m": 0.00023535449906581974,
+      "modal_phase_degrees": -160.81328443016127,
+      "full_field_relative_error": 7.228980672850227e-08
+    },
+    {
+      "frequency_hz": 2.5951585976627713,
+      "direct_amplitude_m": 0.00020013852997429575,
+      "direct_phase_degrees": -163.30113427944136,
+      "modal_amplitude_m": 0.00020013851737818832,
+      "modal_phase_degrees": -163.3011353106145,
+      "full_field_relative_error": 6.198223761136087e-08
+    },
+    {
+      "frequency_hz": 2.621702838063439,
+      "direct_amplitude_m": 0.00017325392040502718,
+      "direct_phase_degrees": -165.17374461133275,
+      "modal_amplitude_m": 0.00017325391070384199,
+      "modal_phase_degrees": -165.17374541261356,
+      "full_field_relative_error": 5.415333202366691e-08
+    },
+    {
+      "frequency_hz": 2.6482470784641072,
+      "direct_amplitude_m": 0.00015212361328045522,
+      "direct_phase_degrees": -166.62820559773937,
+      "modal_amplitude_m": 0.00015212360561635965,
+      "modal_phase_degrees": -166.62820623786777,
+      "full_field_relative_error": 4.7970322209762054e-08
+    },
+    {
+      "frequency_hz": 2.674791318864775,
+      "direct_amplitude_m": 0.00013511133637031015,
+      "direct_phase_degrees": -167.78633653479233,
+      "modal_amplitude_m": 0.00013511133017807224,
+      "modal_phase_degrees": -167.78633705846508,
+      "full_field_relative_error": 4.30276568684934e-08
+    },
+    {
+      "frequency_hz": 2.7013355592654427,
+      "direct_amplitude_m": 0.00012113723631785751,
+      "direct_phase_degrees": -168.727089681224,
+      "modal_amplitude_m": 0.00012113723122733263,
+      "modal_phase_degrees": -168.72709011730637,
+      "full_field_relative_error": 3.893420068461128e-08
+    },
+    {
+      "frequency_hz": 2.7278797996661104,
+      "direct_amplitude_m": 0.00010946362576951415,
+      "direct_phase_degrees": -169.50370585966152,
+      "modal_amplitude_m": 0.00010946362151895027,
+      "modal_phase_degrees": -169.50370622850718,
+      "full_field_relative_error": 3.552206474070675e-08
+    },
+    {
+      "frequency_hz": 2.754424040066778,
+      "direct_amplitude_m": 9.957109557335081e-05,
+      "direct_phase_degrees": -170.15330550721401,
+      "modal_amplitude_m": 9.957109197557562e-05,
+      "modal_phase_degrees": -170.1533058234509,
+      "full_field_relative_error": 3.264568894602624e-08
+    },
+    {
+      "frequency_hz": 2.780968280467446,
+      "direct_amplitude_m": 9.108416469757234e-05,
+      "direct_phase_degrees": -170.70251129519343,
+      "modal_amplitude_m": 9.108416161886483e-05,
+      "modal_phase_degrees": -170.70251156918775,
+      "full_field_relative_error": 3.016462640604791e-08
+    },
+    {
+      "frequency_hz": 2.8075125208681135,
+      "direct_amplitude_m": 8.372508330327852e-05,
+      "direct_phase_degrees": -171.17088264374158,
+      "modal_amplitude_m": 8.37250806416777e-05,
+      "modal_phase_degrees": -171.17088288342148,
+      "full_field_relative_error": 2.8022216314805794e-08
+    },
+    {
+      "frequency_hz": 2.8340567612687813,
+      "direct_amplitude_m": 7.728421033959146e-05,
+      "direct_phase_degrees": -171.5730898619345,
+      "modal_amplitude_m": 7.728420801866227e-05,
+      "modal_phase_degrees": -171.5730900733314,
+      "full_field_relative_error": 2.614586853123118e-08
+    },
+    {
+      "frequency_hz": 2.8606010016694494,
+      "direct_amplitude_m": 7.160047461744965e-05,
+      "direct_phase_degrees": -171.9203339206549,
+      "modal_amplitude_m": 7.160047257766127e-05,
+      "modal_phase_degrees": -171.9203341083258,
+      "full_field_relative_error": 2.449195963040071e-08
+    },
+    {
+      "frequency_hz": 2.887145242070117,
+      "direct_amplitude_m": 6.654815674295771e-05,
+      "direct_phase_degrees": -172.22129923025054,
+      "modal_amplitude_m": 6.654815493837982e-05,
+      "modal_phase_degrees": -172.22129939785523,
+      "full_field_relative_error": 2.301755749178652e-08
+    },
+    {
+      "frequency_hz": 2.913689482470785,
+      "direct_amplitude_m": 6.202774214088395e-05,
+      "direct_phase_degrees": -172.48280857166253,
+      "modal_amplitude_m": 6.202774053488841e-05,
+      "modal_phase_degrees": -172.4828087220608,
+      "full_field_relative_error": 2.1693586914597446e-08
+    },
+    {
+      "frequency_hz": 2.9402337228714526,
+      "direct_amplitude_m": 5.79594611143323e-05,
+      "direct_phase_degrees": -172.71028295574013,
+      "modal_amplitude_m": 5.795945967530255e-05,
+      "modal_phase_degrees": -172.71028309141096,
+      "full_field_relative_error": 2.0527743093617646e-08
+    },
+    {
+      "frequency_hz": 2.9667779632721203,
+      "direct_amplitude_m": 5.427864210861701e-05,
+      "direct_phase_degrees": -172.90807065568188,
+      "modal_amplitude_m": 5.427864081393351e-05,
+      "modal_phase_degrees": -172.90807077839477,
+      "full_field_relative_error": 1.9454132067710827e-08
+    },
+    {
+      "frequency_hz": 2.993322203672788,
+      "direct_amplitude_m": 5.09323133327924e-05,
+      "direct_phase_degrees": -173.07968659858872,
+      "modal_amplitude_m": 5.093231216201385e-05,
+      "modal_phase_degrees": -173.07968670999335,
+      "full_field_relative_error": 1.8488805771748244e-08
+    },
+    {
+      "frequency_hz": 3.0198664440734557,
+      "direct_amplitude_m": 4.7876679604890044e-05,
+      "direct_phase_degrees": -173.22798913604237,
+      "modal_amplitude_m": 4.787667854168727e-05,
+      "modal_phase_degrees": -173.22798923738299,
+      "full_field_relative_error": 1.760804818110728e-08
+    },
+    {
+      "frequency_hz": 3.046410684474124,
+      "direct_amplitude_m": 4.507522314070072e-05,
+      "direct_phase_degrees": -173.35531227855958,
+      "modal_amplitude_m": 4.50752221711958e-05,
+      "modal_phase_degrees": -173.35531237095782,
+      "full_field_relative_error": 1.6805195920458422e-08
+    },
+    {
+      "frequency_hz": 3.0729549248747916,
+      "direct_amplitude_m": 4.2497255920147456e-05,
+      "direct_phase_degrees": -173.4635657328954,
+      "modal_amplitude_m": 4.249725503339334e-05,
+      "modal_phase_degrees": -173.46356581717575,
+      "full_field_relative_error": 1.6058530861143696e-08
+    },
+    {
+      "frequency_hz": 3.0994991652754593,
+      "direct_amplitude_m": 4.0116803483969476e-05,
+      "direct_phase_degrees": -173.55431129529956,
+      "modal_amplitude_m": 4.011680266981572e-05,
+      "modal_phase_degrees": -173.55431137223889,
+      "full_field_relative_error": 1.537749218721917e-08
+    },
+    {
+      "frequency_hz": 3.126043405676127,
+      "direct_amplitude_m": 3.791173509926312e-05,
+      "direct_phase_degrees": -173.628821623971,
+      "modal_amplitude_m": 3.791173434985951e-05,
+      "modal_phase_degrees": -173.62882169417855,
+      "full_field_relative_error": 1.4739849001412383e-08
+    },
+    {
+      "frequency_hz": 3.1525876460767948,
+      "direct_amplitude_m": 3.586307925969487e-05,
+      "direct_phase_degrees": -173.68812568353056,
+      "modal_amplitude_m": 3.586307856753818e-05,
+      "modal_phase_degrees": -173.6881257475864,
+      "full_field_relative_error": 1.4155575911315672e-08
+    },
+    {
+      "frequency_hz": 3.1791318864774625,
+      "direct_amplitude_m": 3.395448011831996e-05,
+      "direct_phase_degrees": -173.73304395947255,
+      "modal_amplitude_m": 3.3954479477495306e-05,
+      "modal_phase_degrees": -173.73304401780572,
+      "full_field_relative_error": 1.3608916485989426e-08
+    },
+    {
+      "frequency_hz": 3.20567612687813,
+      "direct_amplitude_m": 3.217176220095907e-05,
+      "direct_phase_degrees": -173.76421569491478,
+      "modal_amplitude_m": 3.217176160633805e-05,
+      "modal_phase_degrees": -173.76421574784993,
+      "full_field_relative_error": 1.3094962110860849e-08
+    },
+    {
+      "frequency_hz": 3.2322203672787984,
+      "direct_amplitude_m": 3.0502579087515123e-05,
+      "direct_phase_degrees": -173.78211979950373,
+      "modal_amplitude_m": 3.050257853411111e-05,
+      "modal_phase_degrees": -173.78211984740818,
+      "full_field_relative_error": 1.262286612227923e-08
+    },
+    {
+      "frequency_hz": 3.258764607679466,
+      "direct_amplitude_m": 2.893612778850022e-05,
+      "direct_phase_degrees": -173.7870906404665,
+      "modal_amplitude_m": 2.8936127272175982e-05,
+      "modal_phase_degrees": -173.7870906835702,
+      "full_field_relative_error": 1.2184001361728021e-08
+    },
+    {
+      "frequency_hz": 3.285308848080134,
+      "direct_amplitude_m": 2.7462914947430173e-05,
+      "direct_phase_degrees": -173.77932959811352,
+      "modal_amplitude_m": 2.7462914465053905e-05,
+      "modal_phase_degrees": -173.77932963662997,
+      "full_field_relative_error": 1.1762520549420253e-08
+    },
+    {
+      "frequency_hz": 3.3118530884808015,
+      "direct_amplitude_m": 2.6074564241357516e-05,
+      "direct_phase_degrees": -173.7589130227133,
+      "modal_amplitude_m": 2.6074563789452218e-05,
+      "modal_phase_degrees": -173.7589130567769,
+      "full_field_relative_error": 1.13751013836139e-08
+    },
+    {
+      "frequency_hz": 3.3383973288814692,
+      "direct_amplitude_m": 2.4763656764914104e-05,
+      "direct_phase_degrees": -173.72579703462486,
+      "modal_amplitude_m": 2.4763656340846882e-05,
+      "modal_phase_degrees": -173.72579706437645,
+      "full_field_relative_error": 1.1008501165745391e-08
+    },
+    {
+      "frequency_hz": 3.364941569282137,
+      "direct_amplitude_m": 2.352359801333317e-05,
+      "direct_phase_degrees": -173.67981945496493,
+      "modal_amplitude_m": 2.3523597614879117e-05,
+      "modal_phase_degrees": -173.67981948045016,
+      "full_field_relative_error": 1.0656706536017012e-08
+    },
+    {
+      "frequency_hz": 3.3914858096828047,
+      "direct_amplitude_m": 2.2348506443681114e-05,
+      "direct_phase_degrees": -173.62069902066352,
+      "modal_amplitude_m": 2.234850606848477e-05,
+      "modal_phase_degrees": -173.620699041948,
+      "full_field_relative_error": 1.0329382310469526e-08
+    },
+    {
+      "frequency_hz": 3.418030050083473,
+      "direct_amplitude_m": 2.1233119652844698e-05,
+      "direct_phase_degrees": -173.54803192130078,
+      "modal_amplitude_m": 2.123311929895024e-05,
+      "modal_phase_degrees": -173.54803193835934,
+      "full_field_relative_error": 1.001984701203722e-08
+    },
+    {
+      "frequency_hz": 3.4445742904841405,
+      "direct_amplitude_m": 2.0172715024999803e-05,
+      "direct_phase_degrees": -173.46128558093474,
+      "modal_amplitude_m": 2.017271469071534e-05,
+      "modal_phase_degrees": -173.46128559372582,
+      "full_field_relative_error": 9.725350087954048e-09
+    },
+    {
+      "frequency_hz": 3.4711185308848083,
+      "direct_amplitude_m": 1.9163042326059086e-05,
+      "direct_phase_degrees": -173.3597894951254,
+      "modal_amplitude_m": 1.916304200986791e-05,
+      "modal_phase_degrees": -173.35978950355047,
+      "full_field_relative_error": 9.44498269914187e-09
+    },
+    {
+      "frequency_hz": 3.497662771285476,
+      "direct_amplitude_m": 1.8200266218747647e-05,
+      "direct_phase_degrees": -173.2427228078912,
+      "modal_amplitude_m": 1.8200265919072825e-05,
+      "modal_phase_degrees": -173.24272281182982,
+      "full_field_relative_error": 9.183235590474872e-09
+    },
+    {
+      "frequency_hz": 3.5242070116861437,
+      "direct_amplitude_m": 1.728091705812761e-05,
+      "direct_phase_degrees": -173.10909817180334,
+      "modal_amplitude_m": 1.728091677382842e-05,
+      "modal_phase_degrees": -173.10909817110226,
+      "full_field_relative_error": 8.931185532222718e-09
+    },
+    {
+      "frequency_hz": 3.5507512520868114,
+      "direct_amplitude_m": 1.640184863882459e-05,
+      "direct_phase_degrees": -172.9577412636584,
+      "modal_amplitude_m": 1.640184836889872e-05,
+      "modal_phase_degrees": -172.9577412581152,
+      "full_field_relative_error": 8.687557246704026e-09
+    },
+    {
+      "frequency_hz": 3.577295492487479,
+      "direct_amplitude_m": 1.5560201806654097e-05,
+      "direct_phase_degrees": -172.78726511769315,
+      "modal_amplitude_m": 1.556020154994227e-05,
+      "modal_phase_degrees": -172.78726510700687,
+      "full_field_relative_error": 8.457726385844398e-09
+    },
+    {
+      "frequency_hz": 3.6038397328881473,
+      "direct_amplitude_m": 1.4753373048259558e-05,
+      "direct_phase_degrees": -172.5960381706429,
+      "modal_amplitude_m": 1.475337280380185e-05,
+      "modal_phase_degrees": -172.5960381544623,
+      "full_field_relative_error": 8.23915082300047e-09
+    },
+    {
+      "frequency_hz": 3.630383973288815,
+      "direct_amplitude_m": 1.3978987335446921e-05,
+      "direct_phase_degrees": -172.38214456717563,
+      "modal_amplitude_m": 1.3978987102467609e-05,
+      "modal_phase_degrees": -172.3821445451156,
+      "full_field_relative_error": 8.027445996893961e-09
+    },
+    {
+      "frequency_hz": 3.6569282136894827,
+      "direct_amplitude_m": 1.323487463139072e-05,
+      "direct_phase_degrees": -172.14333481869764,
+      "modal_amplitude_m": 1.3234874408892968e-05,
+      "modal_phase_degrees": -172.14333479018774,
+      "full_field_relative_error": 7.831767769268636e-09
+    },
+    {
+      "frequency_hz": 3.6834724540901504,
+      "direct_amplitude_m": 1.2519049577066929e-05,
+      "direct_phase_degrees": -171.8769643009784,
+      "modal_amplitude_m": 1.2519049364475764e-05,
+      "modal_phase_degrees": -171.87696426546327,
+      "full_field_relative_error": 7.640510839556804e-09
+    },
+    {
+      "frequency_hz": 3.710016694490818,
+      "direct_amplitude_m": 1.18296939772509e-05,
+      "direct_phase_degrees": -171.57991625914906,
+      "modal_amplitude_m": 1.1829693773847028e-05,
+      "modal_phase_degrees": -171.5799162158599,
+      "full_field_relative_error": 7.459347489582513e-09
+    },
+    {
+      "frequency_hz": 3.736560934891486,
+      "direct_amplitude_m": 1.1165141782459383e-05,
+      "direct_phase_degrees": -171.24850486813156,
+      "modal_amplitude_m": 1.1165141587709168e-05,
+      "modal_phase_degrees": -171.24850481622397,
+      "full_field_relative_error": 7.2834204930521e-09
+    },
+    {
+      "frequency_hz": 3.7631051752921536,
+      "direct_amplitude_m": 1.0523866350360176e-05,
+      "direct_phase_degrees": -170.87835235683227,
+      "modal_amplitude_m": 1.0523866163712285e-05,
+      "modal_phase_degrees": -170.8783522952618,
+      "full_field_relative_error": 7.115064155074538e-09
+    },
+    {
+      "frequency_hz": 3.7896494156928218,
+      "direct_amplitude_m": 9.90446984302558e-06,
+      "direct_phase_degrees": -170.4642320482014,
+      "modal_amplitude_m": 9.904469663949203e-06,
+      "modal_phase_degrees": -170.46423197565187,
+      "full_field_relative_error": 6.954532178706854e-09
+    },
+    {
+      "frequency_hz": 3.8161936560934895,
+      "direct_amplitude_m": 9.305674703633927e-06,
+      "direct_phase_degrees": -169.9998661261408,
+      "modal_amplitude_m": 9.305674531767972e-06,
+      "modal_phase_degrees": -169.9998660411435,
+      "full_field_relative_error": 6.7971760063662494e-09
+    },
+    {
+      "frequency_hz": 3.842737896494157,
+      "direct_amplitude_m": 8.7263172535408e-06,
+      "direct_phase_degrees": -169.47766259219313,
+      "modal_amplitude_m": 8.7263170883738e-06,
+      "modal_phase_degrees": -169.47766249278354,
+      "full_field_relative_error": 6.6487737972799195e-09
+    },
+    {
+      "frequency_hz": 3.869282136894825,
+      "direct_amplitude_m": 8.165343571413824e-06,
+      "direct_phase_degrees": -168.88836957950343,
+      "modal_amplitude_m": 8.165343412673763e-06,
+      "modal_phase_degrees": -168.88836946345486,
+      "full_field_relative_error": 6.5029598003487766e-09
+    },
+    {
+      "frequency_hz": 3.8958263772954926,
+      "direct_amplitude_m": 7.621807986177292e-06,
+      "direct_phase_degrees": -168.22061597395953,
+      "modal_amplitude_m": 7.621807833394334e-06,
+      "modal_phase_degrees": -168.22061583825953,
+      "full_field_relative_error": 6.3653271554049564e-09
+    },
+    {
+      "frequency_hz": 3.9223706176961604,
+      "direct_amplitude_m": 7.094874745019046e-06,
+      "direct_phase_degrees": -167.4602936017537,
+      "modal_amplitude_m": 7.094874597930465e-06,
+      "modal_phase_degrees": -167.46029344275323,
+      "full_field_relative_error": 6.232108232742893e-09
+    },
+    {
+      "frequency_hz": 3.948914858096828,
+      "direct_amplitude_m": 6.583823773305691e-06,
+      "direct_phase_degrees": -166.58971568344887,
+      "modal_amplitude_m": 6.583823631698529e-06,
+      "modal_phase_degrees": -166.5897154967853,
+      "full_field_relative_error": 6.102065896232222e-09
+    },
+    {
+      "frequency_hz": 3.9754590984974962,
+      "direct_amplitude_m": 6.088061974291828e-06,
+      "direct_phase_degrees": -165.5864549911818,
+      "modal_amplitude_m": 6.088061837866651e-06,
+      "modal_phase_degrees": -165.58645477067972,
+      "full_field_relative_error": 5.978128501263421e-09
+    },
+    {
+      "frequency_hz": 4.002003338898164,
+      "direct_amplitude_m": 5.607142364796966e-06,
+      "direct_phase_degrees": -164.42171715677242,
+      "modal_amplitude_m": 5.607142233419757e-06,
+      "modal_phase_degrees": -164.42171689510556,
+      "full_field_relative_error": 5.85801001394089e-09
+    },
+    {
+      "frequency_hz": 4.028547579298832,
+      "direct_amplitude_m": 5.140794711874974e-06,
+      "direct_phase_degrees": -163.0580304993045,
+      "modal_amplitude_m": 5.140794585350751e-06,
+      "modal_phase_degrees": -163.05803018617777,
+      "full_field_relative_error": 5.743534656345362e-09
+    },
+    {
+      "frequency_hz": 4.055091819699499,
+      "direct_amplitude_m": 4.6889735907677765e-06,
+      "direct_phase_degrees": -161.44591953261232,
+      "modal_amplitude_m": 4.688973469083056e-06,
+      "modal_phase_degrees": -161.4459191546917,
+      "full_field_relative_error": 5.630851403626139e-09
+    },
+    {
+      "frequency_hz": 4.081636060100167,
+      "direct_amplitude_m": 4.251933581994169e-06,
+      "direct_phase_degrees": -159.51905636072095,
+      "modal_amplitude_m": 4.251933465141564e-06,
+      "modal_phase_degrees": -159.51905589986654,
+      "full_field_relative_error": 5.523029029801996e-09
+    },
+    {
+      "frequency_hz": 4.108180300500835,
+      "direct_amplitude_m": 3.8303477675914735e-06,
+      "direct_phase_degrees": -157.18713558090528,
+      "modal_amplitude_m": 3.8303476557875765e-06,
+      "modal_phase_degrees": -157.18713501236536,
+      "full_field_relative_error": 5.4156611661063495e-09
+    },
+    {
+      "frequency_hz": 4.1347245409015025,
+      "direct_amplitude_m": 3.425496628846419e-06,
+      "direct_phase_degrees": -154.32541120638976,
+      "modal_amplitude_m": 3.4254965222810556e-06,
+      "modal_phase_degrees": -154.32541049452735,
+      "full_field_relative_error": 5.315840143700344e-09
+    },
+    {
+      "frequency_hz": 4.16126878130217,
+      "direct_amplitude_m": 3.0395724889264425e-06,
+      "direct_phase_degrees": -150.75963977885908,
+      "modal_amplitude_m": 3.039572388199136e-06,
+      "modal_phase_degrees": -150.75963887440366,
+      "full_field_relative_error": 5.217964768440649e-09
+    },
+    {
+      "frequency_hz": 4.187813021702838,
+      "direct_amplitude_m": 2.676171619610899e-06,
+      "direct_phase_degrees": -146.24582044411878,
+      "modal_amplitude_m": 2.676171525701232e-06,
+      "modal_phase_degrees": -146.2458192775727,
+      "full_field_relative_error": 5.123838102776632e-09
+    },
+    {
+      "frequency_hz": 4.214357262103506,
+      "direct_amplitude_m": 2.341074141391422e-06,
+      "direct_phase_degrees": -140.4480984008215,
+      "modal_amplitude_m": 2.341074055950823e-06,
+      "modal_phase_degrees": -140.44809687807853,
+      "full_field_relative_error": 5.0308288766437346e-09
+    },
+    {
+      "frequency_hz": 4.240901502504173,
+      "direct_amplitude_m": 2.0433877347560116e-06,
+      "direct_phase_degrees": -132.93259365040035,
+      "modal_amplitude_m": 2.0433876602887513e-06,
+      "modal_phase_degrees": -132.9325916533064,
+      "full_field_relative_error": 4.94269548793951e-09
+    },
+    {
+      "frequency_hz": 4.267445742904841,
+      "direct_amplitude_m": 1.7968523505820339e-06,
+      "direct_phase_degrees": -123.23357023713696,
+      "modal_amplitude_m": 1.7968522909025386e-06,
+      "modal_phase_degrees": -123.23356765921909,
+      "full_field_relative_error": 4.855338992907289e-09
+    },
+    {
+      "frequency_hz": 4.293989983305509,
+      "direct_amplitude_m": 1.6200966286249058e-06,
+      "direct_phase_degrees": -111.10686123901755,
+      "modal_amplitude_m": 1.6200965884376645e-06,
+      "modal_phase_degrees": -111.1068580696687,
+      "full_field_relative_error": 4.775398117243205e-09
+    },
+    {
+      "frequency_hz": 4.320534223706177,
+      "direct_amplitude_m": 1.5328846046472986e-06,
+      "direct_phase_degrees": -97.0170276471073,
+      "modal_amplitude_m": 1.5328845881396666e-06,
+      "modal_phase_degrees": -97.01702411606138,
+      "full_field_relative_error": 4.6923295017558785e-09
+    },
+    {
+      "frequency_hz": 4.347078464106844,
+      "direct_amplitude_m": 1.5465033433357483e-06,
+      "direct_phase_degrees": -82.41484579896928,
+      "modal_amplitude_m": 1.5465033512647492e-06,
+      "modal_phase_degrees": -82.41484233655771,
+      "full_field_relative_error": 4.614060945119154e-09
+    },
+    {
+      "frequency_hz": 4.373622704507512,
+      "direct_amplitude_m": 1.6553192847192592e-06,
+      "direct_phase_degrees": -69.07279329912306,
+      "modal_amplitude_m": 1.6553193136263118e-06,
+      "modal_phase_degrees": -69.0727902830067,
+      "full_field_relative_error": 4.538170519817234e-09
+    },
+    {
+      "frequency_hz": 4.40016694490818,
+      "direct_amplitude_m": 1.8401255563456751e-06,
+      "direct_phase_degrees": -58.022103450281726,
+      "modal_amplitude_m": 1.8401256007501689e-06,
+      "modal_phase_degrees": -58.02210101372963,
+      "full_field_relative_error": 4.466340049177922e-09
+    },
+    {
+      "frequency_hz": 4.426711185308847,
+      "direct_amplitude_m": 2.0789854902736768e-06,
+      "direct_phase_degrees": -49.348383767677014,
+      "modal_amplitude_m": 2.0789855451233076e-06,
+      "modal_phase_degrees": -49.34838186172867,
+      "full_field_relative_error": 4.39692373269606e-09
+    },
+    {
+      "frequency_hz": 4.453255425709516,
+      "direct_amplitude_m": 2.3542331392359113e-06,
+      "direct_phase_degrees": -42.661110407877665,
+      "modal_amplitude_m": 2.354233200719294e-06,
+      "modal_phase_degrees": -42.6611089261328,
+      "full_field_relative_error": 4.324568497718139e-09
+    },
+    {
+      "frequency_hz": 4.479799666110184,
+      "direct_amplitude_m": 2.6536948705148227e-06,
+      "direct_phase_degrees": -37.49169403215891,
+      "modal_amplitude_m": 2.6536949363087744e-06,
+      "modal_phase_degrees": -37.49169286687188,
+      "full_field_relative_error": 4.261247902134455e-09
+    },
+    {
+      "frequency_hz": 4.5063439065108515,
+      "direct_amplitude_m": 2.969492624308662e-06,
+      "direct_phase_degrees": -33.447738968063916,
+      "modal_amplitude_m": 2.9694926926472114e-06,
+      "modal_phase_degrees": -33.44773804023413,
+      "full_field_relative_error": 4.194098259493877e-09
+    },
+    {
+      "frequency_hz": 4.532888146911519,
+      "direct_amplitude_m": 3.296625010889297e-06,
+      "direct_phase_degrees": -30.236441193508014,
+      "modal_amplitude_m": 3.2966250808838148e-06,
+      "modal_phase_degrees": -30.236440441442717,
+      "full_field_relative_error": 4.1339736357403375e-09
+    },
+    {
+      "frequency_hz": 4.559432387312187,
+      "direct_amplitude_m": 3.631924955515011e-06,
+      "direct_phase_degrees": -27.647460518430133,
+      "modal_amplitude_m": 3.63192502646323e-06,
+      "modal_phase_degrees": -27.64745989961708,
+      "full_field_relative_error": 4.0748233321635094e-09
+    },
+    {
+      "frequency_hz": 4.585976627712855,
+      "direct_amplitude_m": 3.973389000781968e-06,
+      "direct_phase_degrees": -25.530674479968283,
+      "modal_amplitude_m": 3.973389072247098e-06,
+      "modal_phase_degrees": -25.53067396378665,
+      "full_field_relative_error": 4.017247600350062e-09
+    },
+    {
+      "frequency_hz": 4.612520868113522,
+      "direct_amplitude_m": 4.319762247155536e-06,
+      "direct_phase_degrees": -23.77816780398759,
+      "modal_amplitude_m": 4.319762318775395e-06,
+      "modal_phase_degrees": -23.77816736822594,
+      "full_field_relative_error": 3.959515985074301e-09
+    },
+    {
+      "frequency_hz": 4.63906510851419,
+      "direct_amplitude_m": 4.670282276725147e-06,
+      "direct_phase_degrees": -22.311355440736417,
+      "modal_amplitude_m": 4.670282348396293e-06,
+      "modal_phase_degrees": -22.311355068334343,
+      "full_field_relative_error": 3.906154690529726e-09
+    },
+    {
+      "frequency_hz": 4.665609348914858,
+      "direct_amplitude_m": 5.024519308934528e-06,
+      "direct_phase_degrees": -21.072145494903467,
+      "modal_amplitude_m": 5.024519380513803e-06,
+      "modal_phase_degrees": -21.072145173599097,
+      "full_field_relative_error": 3.853660759902544e-09
+    },
+    {
+      "frequency_hz": 4.6921535893155255,
+      "direct_amplitude_m": 5.382274702066412e-06,
+      "direct_phase_degrees": -20.016932871601394,
+      "modal_amplitude_m": 5.382274773527858e-06,
+      "modal_phase_degrees": -20.01693259180075,
+      "full_field_relative_error": 3.804559452803064e-09
+    },
+    {
+      "frequency_hz": 4.718697829716193,
+      "direct_amplitude_m": 5.743515335805182e-06,
+      "direct_phase_degrees": -19.112500318895187,
+      "modal_amplitude_m": 5.743515407133254e-06,
+      "modal_phase_degrees": -19.112500073332686,
+      "full_field_relative_error": 3.758797192246183e-09
+    },
+    {
+      "frequency_hz": 4.745242070116861,
+      "direct_amplitude_m": 6.1083304945234565e-06,
+      "direct_phase_degrees": -18.333192129774474,
+      "modal_amplitude_m": 6.1083305657018035e-06,
+      "modal_phase_degrees": -18.333191912759784,
+      "full_field_relative_error": 3.713557177888109e-09
+    },
+    {
+      "frequency_hz": 4.771786310517529,
+      "direct_amplitude_m": 6.4769031738265205e-06,
+      "direct_phase_degrees": -17.6589397076613,
+      "modal_amplitude_m": 6.476903244849803e-06,
+      "modal_phase_degrees": -17.65893951479548,
+      "full_field_relative_error": 3.6704799669819455e-09
+    },
+    {
+      "frequency_hz": 4.798330550918196,
+      "direct_amplitude_m": 6.849490846666685e-06,
+      "direct_phase_degrees": -17.07386270343324,
+      "modal_amplitude_m": 6.849490917506719e-06,
+      "modal_phase_degrees": -17.073862531200472,
+      "full_field_relative_error": 3.6278904720271817e-09
+    },
+    {
+      "frequency_hz": 4.824874791318865,
+      "direct_amplitude_m": 7.226412581381934e-06,
+      "direct_phase_degrees": -16.565263837039968,
+      "modal_amplitude_m": 7.226412652179285e-06,
+      "modal_phase_degrees": -16.565263682330873,
+      "full_field_relative_error": 3.5910698442763408e-09
+    },
+    {
+      "frequency_hz": 4.851419031719533,
+      "direct_amplitude_m": 7.6080405322307274e-06,
+      "direct_phase_degrees": -16.122896641578855,
+      "modal_amplitude_m": 7.608040602964235e-06,
+      "modal_phase_degrees": -16.12289650210954,
+      "full_field_relative_error": 3.5532891270902965e-09
+    },
+    {
+      "frequency_hz": 4.8779632721202,
+      "direct_amplitude_m": 7.994794517755537e-06,
+      "direct_phase_degrees": -15.738425036782177,
+      "modal_amplitude_m": 7.994794588461426e-06,
+      "modal_phase_degrees": -15.738424910629403,
+      "full_field_relative_error": 3.5185033038809263e-09
+    },
+    {
+      "frequency_hz": 4.904507512520868,
+      "direct_amplitude_m": 8.38713884668164e-06,
+      "direct_phase_degrees": -15.405019576782804,
+      "modal_amplitude_m": 8.387138917449697e-06,
+      "modal_phase_degrees": -15.40501946231087,
+      "full_field_relative_error": 3.4855528066211253e-09
+    },
+    {
+      "frequency_hz": 4.931051752921536,
+      "direct_amplitude_m": 8.785580832620234e-06,
+      "direct_phase_degrees": -15.117052373544619,
+      "modal_amplitude_m": 8.785580903434125e-06,
+      "modal_phase_degrees": -15.117052269421906,
+      "full_field_relative_error": 3.4526970095100154e-09
+    },
+    {
+      "frequency_hz": 4.957595993322204,
+      "direct_amplitude_m": 9.190670626439623e-06,
+      "direct_phase_degrees": -14.869864173027805,
+      "modal_amplitude_m": 9.190670697485368e-06,
+      "modal_phase_degrees": -14.869864078035352,
+      "full_field_relative_error": 3.426654368368644e-09
+    },
+    {
+      "frequency_hz": 4.984140233722871,
+      "direct_amplitude_m": 9.603002123850574e-06,
+      "direct_phase_degrees": -14.659584837863319,
+      "modal_amplitude_m": 9.603002195094347e-06,
+      "modal_phase_degrees": -14.659584751052389,
+      "full_field_relative_error": 3.3988058694860654e-09
+    },
+    {
+      "frequency_hz": 5.010684474123539,
+      "direct_amplitude_m": 1.0023214788578698e-05,
+      "direct_phase_degrees": -14.48299383014017,
+      "modal_amplitude_m": 1.0023214860162152e-05,
+      "modal_phase_degrees": -14.482993750657778,
+      "full_field_relative_error": 3.3751931616857807e-09
+    },
+    {
+      "frequency_hz": 5.037228714524207,
+      "direct_amplitude_m": 1.0451996299514728e-05,
+      "direct_phase_degrees": -14.337410994853293,
+      "modal_amplitude_m": 1.0451996371582437e-05,
+      "modal_phase_degrees": -14.337410922011305,
+      "full_field_relative_error": 3.3569217907691563e-09
+    },
+    {
+      "frequency_hz": 5.0637729549248744,
+      "direct_amplitude_m": 1.0890085971477584e-05,
+      "direct_phase_degrees": -14.2206105563637,
+      "modal_amplitude_m": 1.089008604402272e-05,
+      "modal_phase_degrees": -14.220610489572419,
+      "full_field_relative_error": 3.337578818340289e-09
+    },
+    {
+      "frequency_hz": 5.090317195325542,
+      "direct_amplitude_m": 1.133827893712834e-05,
+      "direct_phase_degrees": -14.130753096631794,
+      "modal_amplitude_m": 1.1338279010265376e-05,
+      "modal_phase_degrees": -14.130753035361309,
+      "full_field_relative_error": 3.3209815452266446e-09
+    },
+    {
+      "frequency_hz": 5.11686143572621,
+      "direct_amplitude_m": 1.1797431107926092e-05,
+      "direct_phase_degrees": -14.066331622971786,
+      "modal_amplitude_m": 1.1797431181729384e-05,
+      "modal_phase_degrees": -14.066331566779004,
+      "full_field_relative_error": 3.3066519883608352e-09
+    },
+    {
+      "frequency_hz": 5.143405676126878,
+      "direct_amplitude_m": 1.2268464954639058e-05,
+      "direct_phase_degrees": -14.026128808408306,
+      "modal_amplitude_m": 1.226846502926134e-05,
+      "modal_phase_degrees": -14.026128756925571,
+      "full_field_relative_error": 3.296557838435481e-09
+    },
+    {
+      "frequency_hz": 5.169949916527545,
+      "direct_amplitude_m": 1.2752376174395996e-05,
+      "direct_phase_degrees": -14.009183206664632,
+      "modal_amplitude_m": 1.2752376249922737e-05,
+      "modal_phase_degrees": -14.009183159555974,
+      "full_field_relative_error": 3.2890453879390955e-09
+    },
+    {
+      "frequency_hz": 5.196494156928214,
+      "direct_amplitude_m": 1.325024133229657e-05,
+      "direct_phase_degrees": -14.014762780740906,
+      "modal_amplitude_m": 1.3250241408809455e-05,
+      "modal_phase_degrees": -14.01476273773337,
+      "full_field_relative_error": 3.2831411853874825e-09
+    },
+    {
+      "frequency_hz": 5.223038397328882,
+      "direct_amplitude_m": 1.376322659147978e-05,
+      "direct_phase_degrees": -14.042344490682721,
+      "modal_amplitude_m": 1.3763226669156515e-05,
+      "modal_phase_degrees": -14.042344451496275,
+      "full_field_relative_error": 3.281108284072262e-09
+    },
+    {
+      "frequency_hz": 5.249582637729549,
+      "direct_amplitude_m": 1.4292597671209663e-05,
+      "direct_phase_degrees": -14.091598997514414,
+      "modal_amplitude_m": 1.4292597750198263e-05,
+      "modal_phase_degrees": -14.09159896199033,
+      "full_field_relative_error": 3.283125119208689e-09
+    },
+    {
+      "frequency_hz": 5.276126878130217,
+      "direct_amplitude_m": 1.4839731201113192e-05,
+      "direct_phase_degrees": -14.162379785826056,
+      "modal_amplitude_m": 1.4839731281527869e-05,
+      "modal_phase_degrees": -14.162379753755358,
+      "full_field_relative_error": 3.287450468372308e-09
+    },
+    {
+      "frequency_hz": 5.302671118530885,
+      "direct_amplitude_m": 1.540612767414392e-05,
+      "direct_phase_degrees": -14.254716201097335,
+      "modal_amplitude_m": 1.5406127756104796e-05,
+      "modal_phase_degrees": -14.254716172337867,
+      "full_field_relative_error": 3.294053782777058e-09
+    },
+    {
+      "frequency_hz": 5.3292153589315525,
+      "direct_amplitude_m": 1.5993426239067033e-05,
+      "direct_phase_degrees": -14.368810060902392,
+      "modal_amplitude_m": 1.599342632276989e-05,
+      "modal_phase_degrees": -14.368810035348778,
+      "full_field_relative_error": 3.304327651018711e-09
+    },
+    {
+      "frequency_hz": 5.35575959933222,
+      "direct_amplitude_m": 1.660342161882696e-05,
+      "direct_phase_degrees": -14.505035634818011,
+      "modal_amplitude_m": 1.660342170444974e-05,
+      "modal_phase_degrees": -14.505035612387172,
+      "full_field_relative_error": 3.3186811812856362e-09
+    },
+    {
+      "frequency_hz": 5.382303839732888,
+      "direct_amplitude_m": 1.7238083493844834e-05,
+      "direct_phase_degrees": -14.663942910889439,
+      "modal_amplitude_m": 1.7238083581673524e-05,
+      "modal_phase_degrees": -14.663942891497515,
+      "full_field_relative_error": 3.3392956342463974e-09
+    },
+    {
+      "frequency_hz": 5.408848080133556,
+      "direct_amplitude_m": 1.7899578754161494e-05,
+      "direct_phase_degrees": -14.846264180534005,
+      "modal_amplitude_m": 1.7899578844320758e-05,
+      "modal_phase_degrees": -14.846264164161388,
+      "full_field_relative_error": 3.36146458008869e-09
+    },
+    {
+      "frequency_hz": 5.435392320534223,
+      "direct_amplitude_m": 1.8590297096994257e-05,
+      "direct_phase_degrees": -15.05292408690719,
+      "modal_amplitude_m": 1.859029718969289e-05,
+      "modal_phase_degrees": -15.052924073509278,
+      "full_field_relative_error": 3.3875623724771096e-09
+    },
+    {
+      "frequency_hz": 5.461936560934891,
+      "direct_amplitude_m": 1.931288053882354e-05,
+      "direct_phase_degrees": -15.28505339778242,
+      "modal_amplitude_m": 1.9312880634378026e-05,
+      "modal_phase_degrees": -15.285053387391475,
+      "full_field_relative_error": 3.420330212201553e-09
+    },
+    {
+      "frequency_hz": 5.488480801335559,
+      "direct_amplitude_m": 2.0070257514865364e-05,
+      "direct_phase_degrees": -15.544006892527936,
+      "modal_amplitude_m": 2.0070257613600515e-05,
+      "modal_phase_degrees": -15.544006885145539,
+      "full_field_relative_error": 3.4560287180573334e-09
+    },
+    {
+      "frequency_hz": 5.5150250417362265,
+      "direct_amplitude_m": 2.086568236546301e-05,
+      "direct_phase_degrees": -15.831385895074058,
+      "modal_amplitude_m": 2.086568246773746e-05,
+      "modal_phase_degrees": -15.831385890809294,
+      "full_field_relative_error": 3.502426263423968e-09
+    },
+    {
+      "frequency_hz": 5.541569282136894,
+      "direct_amplitude_m": 2.170278115845249e-05,
+      "direct_phase_degrees": -16.149066154630162,
+      "modal_amplitude_m": 2.170278126451189e-05,
+      "modal_phase_degrees": -16.149066153532967,
+      "full_field_relative_error": 3.548596462980968e-09
+    },
+    {
+      "frequency_hz": 5.568113522537562,
+      "direct_amplitude_m": 2.258560496979996e-05,
+      "direct_phase_degrees": -16.499231974641564,
+      "modal_amplitude_m": 2.258560508000118e-05,
+      "modal_phase_degrees": -16.499231976800115,
+      "full_field_relative_error": 3.5998759087907504e-09
+    },
+    {
+      "frequency_hz": 5.594657762938231,
+      "direct_amplitude_m": 2.3518691949362948e-05,
+      "direct_phase_degrees": -16.8844177368566,
+      "modal_amplitude_m": 2.351869206433343e-05,
+      "modal_phase_degrees": -16.884417742465857,
+      "full_field_relative_error": 3.663202745022255e-09
+    },
+    {
+      "frequency_hz": 5.621202003338898,
+      "direct_amplitude_m": 2.450713972929892e-05,
+      "direct_phase_degrees": -17.30755826754186,
+      "modal_amplitude_m": 2.450713984947397e-05,
+      "modal_phase_degrees": -17.307558276811392,
+      "full_field_relative_error": 3.732750656681734e-09
+    },
+    {
+      "frequency_hz": 5.647746243739566,
+      "direct_amplitude_m": 2.5556689988337828e-05,
+      "direct_phase_degrees": -17.772049867275012,
+      "modal_amplitude_m": 2.5556690114128157e-05,
+      "modal_phase_degrees": -17.77204988035463,
+      "full_field_relative_error": 3.803785684172441e-09
+    },
+    {
+      "frequency_hz": 5.674290484140234,
+      "direct_amplitude_m": 2.6673827263221833e-05,
+      "direct_phase_degrees": -18.281824294521165,
+      "modal_amplitude_m": 2.6673827395385987e-05,
+      "modal_phase_degrees": -18.281824311743605,
+      "full_field_relative_error": 3.888159766610583e-09
+    },
+    {
+      "frequency_hz": 5.7008347245409015,
+      "direct_amplitude_m": 2.7865894368260012e-05,
+      "direct_phase_degrees": -18.84143858268778,
+      "modal_amplitude_m": 2.786589450750904e-05,
+      "modal_phase_degrees": -18.84143860439128,
+      "full_field_relative_error": 3.981381826072531e-09
+    },
+    {
+      "frequency_hz": 5.727378964941569,
+      "direct_amplitude_m": 2.9141227006811407e-05,
+      "direct_phase_degrees": -19.456184307527465,
+      "modal_amplitude_m": 2.914122715374701e-05,
+      "modal_phase_degrees": -19.456184333999875,
+      "full_field_relative_error": 4.078806856233656e-09
+    },
+    {
+      "frequency_hz": 5.753923205342237,
+      "direct_amplitude_m": 3.050931026408878e-05,
+      "direct_phase_degrees": -20.132220851258474,
+      "modal_amplitude_m": 3.050931041990236e-05,
+      "modal_phase_degrees": -20.132220883063898,
+      "full_field_relative_error": 4.193988886910763e-09
+    },
+    {
+      "frequency_hz": 5.780467445742905,
+      "direct_amplitude_m": 3.198095951383818e-05,
+      "direct_phase_degrees": -20.87673836913967,
+      "modal_amplitude_m": 3.1980959679407125e-05,
+      "modal_phase_degrees": -20.876738406798626,
+      "full_field_relative_error": 4.317283329411113e-09
+    },
+    {
+      "frequency_hz": 5.807011686143572,
+      "direct_amplitude_m": 3.356852759776874e-05,
+      "direct_phase_degrees": -21.69815759194184,
+      "modal_amplitude_m": 3.356852777435755e-05,
+      "modal_phase_degrees": -21.6981576361357,
+      "full_field_relative_error": 4.455839841887602e-09
+    },
+    {
+      "frequency_hz": 5.83355592654424,
+      "direct_amplitude_m": 3.528613855250382e-05,
+      "direct_phase_degrees": -22.606375338281275,
+      "modal_amplitude_m": 3.5286138741570974e-05,
+      "modal_phase_degrees": -22.6063753898302,
+      "full_field_relative_error": 4.610706616082988e-09
+    },
+    {
+      "frequency_hz": 5.860100166944908,
+      "direct_amplitude_m": 3.7149944897764714e-05,
+      "direct_phase_degrees": -23.613066648949445,
+      "modal_amplitude_m": 3.714994510071185e-05,
+      "modal_phase_degrees": -23.613066708723768,
+      "full_field_relative_error": 4.777140757709794e-09
+    },
+    {
+      "frequency_hz": 5.8866444073455755,
+      "direct_amplitude_m": 3.917839935843791e-05,
+      "direct_phase_degrees": -24.73205672093898,
+      "modal_amplitude_m": 3.917839957684508e-05,
+      "modal_phase_degrees": -24.732056789993287,
+      "full_field_relative_error": 4.9593869765600184e-09
+    },
+    {
+      "frequency_hz": 5.913188647746243,
+      "direct_amplitude_m": 4.139252076982651e-05,
+      "direct_phase_degrees": -25.979778053456084,
+      "modal_amplitude_m": 4.139252100599689e-05,
+      "modal_phase_degrees": -25.979778133271036,
+      "full_field_relative_error": 5.167272752001195e-09
+    },
+    {
+      "frequency_hz": 5.939732888146911,
+      "direct_amplitude_m": 4.3816114325055704e-05,
+      "direct_phase_degrees": -27.37582981287139,
+      "modal_amplitude_m": 4.3816114581322724e-05,
+      "modal_phase_degrees": -27.37582990513951,
+      "full_field_relative_error": 5.399392042731411e-09
+    },
+    {
+      "frequency_hz": 5.9662771285475795,
+      "direct_amplitude_m": 4.6475872510535526e-05,
+      "direct_phase_degrees": -28.943656073390834,
+      "modal_amplitude_m": 4.647587278946915e-05,
+      "modal_phase_degrees": -28.943656180024142,
+      "full_field_relative_error": 5.654407681070282e-09
+    },
+    {
+      "frequency_hz": 5.992821368948247,
+      "direct_amplitude_m": 4.940122579343512e-05,
+      "direct_phase_degrees": -30.71135467391276,
+      "modal_amplitude_m": 4.9401226097813943e-05,
+      "modal_phase_degrees": -30.711354797227674,
+      "full_field_relative_error": 5.9364642496037095e-09
+    },
+    {
+      "frequency_hz": 6.019365609348915,
+      "direct_amplitude_m": 5.2623717000749626e-05,
+      "direct_phase_degrees": -32.712613871830094,
+      "modal_amplitude_m": 5.2623717333467915e-05,
+      "modal_phase_degrees": -32.71261401463377,
+      "full_field_relative_error": 6.246127383517284e-09
+    },
+    {
+      "frequency_hz": 6.045909849749583,
+      "direct_amplitude_m": 5.6175519714154806e-05,
+      "direct_phase_degrees": -34.987740354656616,
+      "modal_amplitude_m": 5.617552007811182e-05,
+      "modal_phase_degrees": -34.987740520323065,
+      "full_field_relative_error": 6.588182942757286e-09
+    },
+    {
+      "frequency_hz": 6.07245409015025,
+      "direct_amplitude_m": 6.008648342147866e-05,
+      "direct_phase_degrees": -37.58467277477433,
+      "modal_amplitude_m": 6.008648381997472e-05,
+      "modal_phase_degrees": -37.58467296761823,
+      "full_field_relative_error": 6.9742288398832745e-09
+    },
+    {
+      "frequency_hz": 6.098998330550918,
+      "direct_amplitude_m": 6.437874745369395e-05,
+      "direct_phase_degrees": -40.55974205622035,
+      "modal_amplitude_m": 6.437874788887218e-05,
+      "modal_phase_degrees": -40.5597422811144,
+      "full_field_relative_error": 7.399709056585859e-09
+    },
+    {
+      "frequency_hz": 6.125542570951586,
+      "direct_amplitude_m": 6.905754635399597e-05,
+      "direct_phase_degrees": -43.9777023882227,
+      "modal_amplitude_m": 6.90575468258941e-05,
+      "modal_phase_degrees": -43.97770265035718,
+      "full_field_relative_error": 7.856674639637146e-09
+    },
+    {
+      "frequency_hz": 6.1520868113522535,
+      "direct_amplitude_m": 7.409649638157222e-05,
+      "direct_phase_degrees": -47.91016925373507,
+      "modal_amplitude_m": 7.40964968879577e-05,
+      "modal_phase_degrees": -47.910169559607624,
+      "full_field_relative_error": 8.358499275206245e-09
+    },
+    {
+      "frequency_hz": 6.178631051752921,
+      "direct_amplitude_m": 7.941591381726333e-05,
+      "direct_phase_degrees": -52.43105408681492,
+      "modal_amplitude_m": 7.941591434941243e-05,
+      "modal_phase_degrees": -52.43105444174103,
+      "full_field_relative_error": 8.870043574938533e-09
+    },
+    {
+      "frequency_hz": 6.205175292153589,
+      "direct_amplitude_m": 8.485471187145368e-05,
+      "direct_phase_degrees": -57.607028053006545,
+      "modal_amplitude_m": 8.485471241424026e-05,
+      "modal_phase_degrees": -57.607028462609705,
+      "full_field_relative_error": 9.400824659008454e-09
+    },
+    {
+      "frequency_hz": 6.231719532554257,
+      "direct_amplitude_m": 9.014196482912448e-05,
+      "direct_phase_degrees": -63.48102885388353,
+      "modal_amplitude_m": 9.014196535687825e-05,
+      "modal_phase_degrees": -63.481029320620706,
+      "full_field_relative_error": 9.907567540273172e-09
+    },
+    {
+      "frequency_hz": 6.258263772954924,
+      "direct_amplitude_m": 9.488439196907255e-05,
+      "direct_phase_degrees": -70.04853665023109,
+      "modal_amplitude_m": 9.488439244615968e-05,
+      "modal_phase_degrees": -70.04853717252342,
+      "full_field_relative_error": 1.0358488414828942e-08
+    },
+    {
+      "frequency_hz": 6.284808013355592,
+      "direct_amplitude_m": 9.859656689955521e-05,
+      "direct_phase_degrees": -77.2312201096986,
+      "modal_amplitude_m": 9.859656728420885e-05,
+      "modal_phase_degrees": -77.2312206782083,
+      "full_field_relative_error": 1.0683350452229244e-08
+    },
+    {
+      "frequency_hz": 6.31135225375626,
+      "direct_amplitude_m": 0.00010079651988414436,
+      "direct_phase_degrees": -84.86002679094315,
+      "modal_amplitude_m": 0.00010079652013874859,
+      "modal_phase_degrees": -84.86002738996457,
+      "full_field_relative_error": 1.0850086441791304e-08
+    },
+    {
+      "frequency_hz": 6.3378964941569285,
+      "direct_amplitude_m": 0.00010115247618989189,
+      "direct_phase_degrees": -92.68387196915836,
+      "modal_amplitude_m": 0.00010115247629369585,
+      "modal_phase_degrees": -92.68387257694872,
+      "full_field_relative_error": 1.0819413533608739e-08
+    },
+    {
+      "frequency_hz": 6.364440734557596,
+      "direct_amplitude_m": 9.960991297570418e-05,
+      "direct_phase_degrees": -100.41130823816712,
+      "modal_amplitude_m": 9.960991293161663e-05,
+      "modal_phase_degrees": -100.41130883202914,
+      "full_field_relative_error": 1.0594733413236206e-08
+    },
+    {
+      "frequency_hz": 6.390984974958264,
+      "direct_amplitude_m": 9.64141855043619e-05,
+      "direct_phase_degrees": -107.7712887296884,
+      "modal_amplitude_m": 9.641418533770296e-05,
+      "modal_phase_degrees": -107.77128928915515,
+      "full_field_relative_error": 1.0184534440839414e-08
+    },
+    {
+      "frequency_hz": 6.417529215358932,
+      "direct_amplitude_m": 9.20120340143337e-05,
+      "direct_phase_degrees": -114.564060865485,
+      "modal_amplitude_m": 9.20120337614463e-05,
+      "modal_phase_degrees": -114.56406137851259,
+      "full_field_relative_error": 9.670100070928582e-09
+    },
+    {
+      "frequency_hz": 6.444073455759599,
+      "direct_amplitude_m": 8.690142912976456e-05,
+      "direct_phase_degrees": -120.68122367814476,
+      "modal_amplitude_m": 8.690142882761833e-05,
+      "modal_phase_degrees": -120.68122413822665,
+      "full_field_relative_error": 9.078715518671179e-09
+    },
+    {
+      "frequency_hz": 6.470617696160267,
+      "direct_amplitude_m": 8.151382685950658e-05,
+      "direct_phase_degrees": -126.09584959091774,
+      "modal_amplitude_m": 8.151382653715539e-05,
+      "modal_phase_degrees": -126.09584999862348,
+      "full_field_relative_error": 8.484719780264129e-09
+    },
+    {
+      "frequency_hz": 6.497161936560935,
+      "direct_amplitude_m": 7.61627754333685e-05,
+      "direct_phase_degrees": -130.83763034446062,
+      "modal_amplitude_m": 7.616277511138094e-05,
+      "modal_phase_degrees": -130.83763070295106,
+      "full_field_relative_error": 7.902135542864665e-09
+    },
+    {
+      "frequency_hz": 6.5237061769616025,
+      "direct_amplitude_m": 7.104488376344495e-05,
+      "direct_phase_degrees": -134.96738521501683,
+      "modal_amplitude_m": 7.104488345591658e-05,
+      "modal_phase_degrees": -134.9673855280114,
+      "full_field_relative_error": 7.322450533420837e-09
+    },
+    {
+      "frequency_hz": 6.55025041736227,
+      "direct_amplitude_m": 6.626509284187269e-05,
+      "direct_phase_degrees": -138.55795782404905,
+      "modal_amplitude_m": 6.626509255374677e-05,
+      "modal_phase_degrees": -138.5579580984619,
+      "full_field_relative_error": 6.818769481980758e-09
+    },
+    {
+      "frequency_hz": 6.576794657762938,
+      "direct_amplitude_m": 6.186591762907513e-05,
+      "direct_phase_degrees": -141.68249030393383,
+      "modal_amplitude_m": 6.186591736439497e-05,
+      "modal_phase_degrees": -141.68249054415153,
+      "full_field_relative_error": 6.3338334595880785e-09
+    },
+    {
+      "frequency_hz": 6.603338898163606,
+      "direct_amplitude_m": 5.7851547150554186e-05,
+      "direct_phase_degrees": -144.40840078435113,
+      "modal_amplitude_m": 5.7851546908911285e-05,
+      "modal_phase_degrees": -144.40840099573046,
+      "full_field_relative_error": 5.909044733608938e-09
+    },
+    {
+      "frequency_hz": 6.629883138564273,
+      "direct_amplitude_m": 5.4204830530775173e-05,
+      "direct_phase_degrees": -146.79498431064988,
+      "modal_amplitude_m": 5.420483031193991e-05,
+      "modal_phase_degrees": -146.79498449697212,
+      "full_field_relative_error": 5.510469270186308e-09
+    },
+    {
+      "frequency_hz": 6.656427378964941,
+      "direct_amplitude_m": 5.089817490555853e-05,
+      "direct_phase_degrees": -148.89302119855626,
+      "modal_amplitude_m": 5.089817470745758e-05,
+      "modal_phase_degrees": -148.89302136374388,
+      "full_field_relative_error": 5.158893793958473e-09
+    },
+    {
+      "frequency_hz": 6.682971619365609,
+      "direct_amplitude_m": 4.79000755382427e-05,
+      "direct_phase_degrees": -150.7453577888912,
+      "modal_amplitude_m": 4.790007535923569e-05,
+      "modal_phase_degrees": -150.74535793578391,
+      "full_field_relative_error": 4.835478367622583e-09
+    },
+    {
+      "frequency_hz": 6.709515859766277,
+      "direct_amplitude_m": 4.517879087958041e-05,
+      "direct_phase_degrees": -152.38786984941754,
+      "modal_amplitude_m": 4.5178790717183075e-05,
+      "modal_phase_degrees": -152.38786998096708,
+      "full_field_relative_error": 4.556526653443467e-09
+    },
+    {
+      "frequency_hz": 6.736060100166945,
+      "direct_amplitude_m": 4.27042576978938e-05,
+      "direct_phase_degrees": -153.85050288756634,
+      "modal_amplitude_m": 4.2704257550721706e-05,
+      "modal_phase_degrees": -153.85050300567443,
+      "full_field_relative_error": 4.295345266394077e-09
+    },
+    {
+      "frequency_hz": 6.762604340567613,
+      "direct_amplitude_m": 4.044896804323493e-05,
+      "direct_phase_degrees": -155.15824702831463,
+      "modal_amplitude_m": 4.044896790968281e-05,
+      "modal_phase_degrees": -155.15824713474902,
+      "full_field_relative_error": 4.05584800399703e-09
+    },
+    {
+      "frequency_hz": 6.7891485809682806,
+      "direct_amplitude_m": 3.838825853951721e-05,
+      "direct_phase_degrees": -156.33199145967802,
+      "modal_amplitude_m": 3.838825841780074e-05,
+      "modal_phase_degrees": -156.33199155607474,
+      "full_field_relative_error": 3.844225965238438e-09
+    },
+    {
+      "frequency_hz": 6.815692821368948,
+      "direct_amplitude_m": 3.650028324660923e-05,
+      "direct_phase_degrees": -157.38924693275794,
+      "modal_amplitude_m": 3.650028313551265e-05,
+      "modal_phase_degrees": -157.38924702030607,
+      "full_field_relative_error": 3.6483778157883115e-09
+    },
+    {
+      "frequency_hz": 6.842237061769616,
+      "direct_amplitude_m": 3.47658288374986e-05,
+      "direct_phase_degrees": -158.34474452823684,
+      "modal_amplitude_m": 3.476582873574482e-05,
+      "modal_phase_degrees": -158.34474460811236,
+      "full_field_relative_error": 3.472495681586472e-09
+    },
+    {
+      "frequency_hz": 6.868781302170284,
+      "direct_amplitude_m": 3.316806245402964e-05,
+      "direct_phase_degrees": -159.21092637944344,
+      "modal_amplitude_m": 3.3168062360884426e-05,
+      "modal_phase_degrees": -159.2109264523694,
+      "full_field_relative_error": 3.3014674307446012e-09
+    },
+    {
+      "frequency_hz": 6.895325542570951,
+      "direct_amplitude_m": 3.16922619660092e-05,
+      "direct_phase_degrees": -159.99834555881276,
+      "modal_amplitude_m": 3.169226188032448e-05,
+      "modal_phase_degrees": -159.9983456257649,
+      "full_field_relative_error": 3.1517988774059957e-09
+    },
+    {
+      "frequency_hz": 6.921869782971619,
+      "direct_amplitude_m": 3.032555462084028e-05,
+      "direct_phase_degrees": -160.7159912172246,
+      "modal_amplitude_m": 3.0325554541751154e-05,
+      "modal_phase_degrees": -160.71599127886267,
+      "full_field_relative_error": 3.0158041102345162e-09
+    },
+    {
+      "frequency_hz": 6.948414023372287,
+      "direct_amplitude_m": 2.9056676493123134e-05,
+      "direct_phase_degrees": -161.37155294869498,
+      "modal_amplitude_m": 2.905667642007731e-05,
+      "modal_phase_degrees": -161.37155300550188,
+      "full_field_relative_error": 2.885654225333133e-09
+    },
+    {
+      "frequency_hz": 6.974958263772955,
+      "direct_amplitude_m": 2.7875757536858173e-05,
+      "direct_phase_degrees": -161.97163606578647,
+      "modal_amplitude_m": 2.7875757469109297e-05,
+      "modal_phase_degrees": -161.97163611836547,
+      "full_field_relative_error": 2.7698966225135864e-09
+    },
+    {
+      "frequency_hz": 7.001502504173622,
+      "direct_amplitude_m": 2.6774132943355206e-05,
+      "direct_phase_degrees": -162.5219373381475,
+      "modal_amplitude_m": 2.6774132880450412e-05,
+      "modal_phase_degrees": -162.521937386861,
+      "full_field_relative_error": 2.66046087380559e-09
+    },
+    {
+      "frequency_hz": 7.02804674457429,
+      "direct_amplitude_m": 2.5744179428532988e-05,
+      "direct_phase_degrees": -163.02738890332057,
+      "modal_amplitude_m": 2.5744179369931884e-05,
+      "modal_phase_degrees": -163.02738894858152,
+      "full_field_relative_error": 2.5601300132881668e-09
+    },
+    {
+      "frequency_hz": 7.054590984974958,
+      "direct_amplitude_m": 2.4779174124591977e-05,
+      "direct_phase_degrees": -163.4922765335347,
+      "modal_amplitude_m": 2.477917407003421e-05,
+      "modal_phase_degrees": -163.49227657560948,
+      "full_field_relative_error": 2.462168762776491e-09
+    },
+    {
+      "frequency_hz": 7.0811352253756255,
+      "direct_amplitude_m": 2.387317344667756e-05,
+      "direct_phase_degrees": -163.920337194138,
+      "modal_amplitude_m": 2.3873173395752102e-05,
+      "modal_phase_degrees": -163.92033723331673,
+      "full_field_relative_error": 2.3717253680948193e-09
+    },
+    {
+      "frequency_hz": 7.107679465776294,
+      "direct_amplitude_m": 2.302090932224007e-05,
+      "direct_phase_degrees": -164.3148398349141,
+      "modal_amplitude_m": 2.3020909274428886e-05,
+      "modal_phase_degrees": -164.31483987158597,
+      "full_field_relative_error": 2.294329435352641e-09
+    },
+    {
+      "frequency_hz": 7.134223706176962,
+      "direct_amplitude_m": 2.2217700362051595e-05,
+      "direct_phase_degrees": -164.67865255961408,
+      "modal_amplitude_m": 2.2217700317253543e-05,
+      "modal_phase_degrees": -164.67865259386255,
+      "full_field_relative_error": 2.215339099008798e-09
+    },
+    {
+      "frequency_hz": 7.1607679465776295,
+      "direct_amplitude_m": 2.1459375807959946e-05,
+      "direct_phase_degrees": -165.01429868710176,
+      "modal_amplitude_m": 2.1459375765832633e-05,
+      "modal_phase_degrees": -165.01429871918117,
+      "full_field_relative_error": 2.1445923800626777e-09
+    },
+    {
+      "frequency_hz": 7.187312186978297,
+      "direct_amplitude_m": 2.0742210359003666e-05,
+      "direct_phase_degrees": -165.32400372301416,
+      "modal_amplitude_m": 2.0742210319422664e-05,
+      "modal_phase_degrees": -165.32400375307645,
+      "full_field_relative_error": 2.0745864047571393e-09
+    },
+    {
+      "frequency_hz": 7.213856427378965,
+      "direct_amplitude_m": 2.0062868247401e-05,
+      "direct_phase_degrees": -165.60973485957268,
+      "modal_amplitude_m": 2.0062868210059387e-05,
+      "modal_phase_degrees": -165.60973488777321,
+      "full_field_relative_error": 2.0125887495141625e-09
+    },
+    {
+      "frequency_hz": 7.240400667779633,
+      "direct_amplitude_m": 1.9418355166569467e-05,
+      "direct_phase_degrees": -165.87323431184035,
+      "modal_amplitude_m": 1.9418355131305513e-05,
+      "modal_phase_degrees": -165.873234338301,
+      "full_field_relative_error": 1.9531197016310396e-09
+    },
+    {
+      "frequency_hz": 7.2669449081803,
+      "direct_amplitude_m": 1.8805976870428082e-05,
+      "direct_phase_degrees": -166.11604754684177,
+      "modal_amplitude_m": 1.8805976836992717e-05,
+      "modal_phase_degrees": -166.11604757176397,
+      "full_field_relative_error": 1.9018023649286e-09
+    },
+    {
+      "frequency_hz": 7.293489148580968,
+      "direct_amplitude_m": 1.822330344041059e-05,
+      "direct_phase_degrees": -166.3395472647614,
+      "modal_amplitude_m": 1.8223303408782773e-05,
+      "modal_phase_degrees": -166.33954728820035,
+      "full_field_relative_error": 1.847578483543352e-09
+    },
+    {
+      "frequency_hz": 7.320033388981636,
+      "direct_amplitude_m": 1.7668138377461115e-05,
+      "direct_phase_degrees": -166.54495383042635,
+      "modal_amplitude_m": 1.7668138347395718e-05,
+      "modal_phase_degrees": -166.54495385252028,
+      "full_field_relative_error": 1.8017983345482802e-09
+    },
+    {
+      "frequency_hz": 7.3465776293823035,
+      "direct_amplitude_m": 1.7138491803133233e-05,
+      "direct_phase_degrees": -166.73335272879132,
+      "modal_amplitude_m": 1.7138491774671794e-05,
+      "modal_phase_degrees": -166.73335274951256,
+      "full_field_relative_error": 1.7513686033613217e-09
+    },
+    {
+      "frequency_hz": 7.373121869782971,
+      "direct_amplitude_m": 1.6632557172384367e-05,
+      "direct_phase_degrees": -166.90570951170264,
+      "modal_amplitude_m": 1.663255714524977e-05,
+      "modal_phase_degrees": -166.90570953125962,
+      "full_field_relative_error": 1.71174318344046e-09
+    },
+    {
+      "frequency_hz": 7.399666110183639,
+      "direct_amplitude_m": 1.614869098629799e-05,
+      "direct_phase_degrees": -167.06288262494564,
+      "modal_amplitude_m": 1.6148690960481334e-05,
+      "modal_phase_degrees": -167.06288264335998,
+      "full_field_relative_error": 1.6702347371713783e-09
+    },
+    {
+      "frequency_hz": 7.426210350584307,
+      "direct_amplitude_m": 1.5685395080573657e-05,
+      "direct_phase_degrees": -167.205634431723,
+      "modal_amplitude_m": 1.5685395055946083e-05,
+      "modal_phase_degrees": -167.20563444907566,
+      "full_field_relative_error": 1.6335119055944333e-09
+    },
+    {
+      "frequency_hz": 7.452754590984974,
+      "direct_amplitude_m": 1.5241301123491177e-05,
+      "direct_phase_degrees": -167.33464069939657,
+      "modal_amplitude_m": 1.5241301099952497e-05,
+      "modal_phase_degrees": -167.33464071573573,
+      "full_field_relative_error": 1.599213203176786e-09
+    },
+    {
+      "frequency_hz": 7.479298831385643,
+      "direct_amplitude_m": 1.4815157018217315e-05,
+      "direct_phase_degrees": -167.45049876758745,
+      "modal_amplitude_m": 1.4815156995763996e-05,
+      "modal_phase_degrees": -167.4504987829289,
+      "full_field_relative_error": 1.5643061266389574e-09
+    },
+    {
+      "frequency_hz": 7.505843071786311,
+      "direct_amplitude_m": 1.4405814948190054e-05,
+      "direct_phase_degrees": -167.553734580826,
+      "modal_amplitude_m": 1.4405814926721953e-05,
+      "modal_phase_degrees": -167.55373459523835,
+      "full_field_relative_error": 1.5327735035126615e-09
+    },
+    {
+      "frequency_hz": 7.532387312186978,
+      "direct_amplitude_m": 1.4012220843024482e-05,
+      "direct_phase_degrees": -167.6448087383864,
+      "modal_amplitude_m": 1.4012220822424242e-05,
+      "modal_phase_degrees": -167.64480875194533,
+      "full_field_relative_error": 1.5061676951324452e-09
+    },
+    {
+      "frequency_hz": 7.558931552587646,
+      "direct_amplitude_m": 1.3633405076649903e-05,
+      "direct_phase_degrees": -167.724121688293,
+      "modal_amplitude_m": 1.3633405056896627e-05,
+      "modal_phase_degrees": -167.72412170100358,
+      "full_field_relative_error": 1.479477826265224e-09
+    },
+    {
+      "frequency_hz": 7.585475792988314,
+      "direct_amplitude_m": 1.326847423624163e-05,
+      "direct_phase_degrees": -167.7920181717839,
+      "modal_amplitude_m": 1.3268474217294382e-05,
+      "modal_phase_degrees": -167.79201818368162,
+      "full_field_relative_error": 1.4539758370547513e-09
+    },
+    {
+      "frequency_hz": 7.612020033388982,
+      "direct_amplitude_m": 1.2916603823131062e-05,
+      "direct_phase_degrees": -167.84879100767088,
+      "modal_amplitude_m": 1.291660380495296e-05,
+      "modal_phase_degrees": -167.848791018776,
+      "full_field_relative_error": 1.4296338003636393e-09
+    },
+    {
+      "frequency_hz": 7.638564273789649,
+      "direct_amplitude_m": 1.2577031767762134e-05,
+      "direct_phase_degrees": -167.89468429022048,
+      "modal_amplitude_m": 1.2577031750280766e-05,
+      "modal_phase_degrees": -167.89468430058332,
+      "full_field_relative_error": 1.4086239350819975e-09
+    },
+    {
+      "frequency_hz": 7.665108514190317,
+      "direct_amplitude_m": 1.224905265649992e-05,
+      "direct_phase_degrees": -167.9298960627271,
+      "modal_amplitude_m": 1.2249052639648546e-05,
+      "modal_phase_degrees": -167.92989607236018,
+      "full_field_relative_error": 1.3902716302101192e-09
+    },
+    {
+      "frequency_hz": 7.691652754590985,
+      "direct_amplitude_m": 1.193201258279317e-05,
+      "direct_phase_degrees": -167.95458051746516,
+      "modal_amplitude_m": 1.1932012566565906e-05,
+      "modal_phase_degrees": -167.95458052637792,
+      "full_field_relative_error": 1.3721451619804513e-09
+    },
+    {
+      "frequency_hz": 7.7181969949916525,
+      "direct_amplitude_m": 1.162530454712644e-05,
+      "direct_phase_degrees": -167.9688497643148,
+      "modal_amplitude_m": 1.1625304531459005e-05,
+      "modal_phase_degrees": -167.96884977254888,
+      "full_field_relative_error": 1.3569182245274513e-09
+    },
+    {
+      "frequency_hz": 7.74474123539232,
+      "direct_amplitude_m": 1.132836433971788e-05,
+      "direct_phase_degrees": -167.9727752021436,
+      "modal_amplitude_m": 1.132836432460961e-05,
+      "modal_phase_degrees": -167.97277520968166,
+      "full_field_relative_error": 1.3414723760220262e-09
+    },
+    {
+      "frequency_hz": 7.771285475792988,
+      "direct_amplitude_m": 1.1040666850170015e-05,
+      "direct_phase_degrees": -167.9663885196271,
+      "modal_amplitude_m": 1.1040666835569577e-05,
+      "modal_phase_degrees": -167.9663885264784,
+      "full_field_relative_error": 1.328467732947785e-09
+    },
+    {
+      "frequency_hz": 7.797829716193656,
+      "direct_amplitude_m": 1.0761722753984597e-05,
+      "direct_phase_degrees": -167.94968234703242,
+      "modal_amplitude_m": 1.0761722739860392e-05,
+      "modal_phase_degrees": -167.94968235322472,
+      "full_field_relative_error": 1.3170338670656277e-09
+    },
+    {
+      "frequency_hz": 7.824373956594323,
+      "direct_amplitude_m": 1.0491075533843996e-05,
+      "direct_phase_degrees": -167.92261057405608,
+      "modal_amplitude_m": 1.0491075520201714e-05,
+      "modal_phase_degrees": -167.92261057957597,
+      "full_field_relative_error": 1.3054028890950558e-09
+    },
+    {
+      "frequency_hz": 7.850918196994992,
+      "direct_amplitude_m": 1.0228298798282652e-05,
+      "direct_phase_degrees": -167.88508834391948,
+      "modal_amplitude_m": 1.0228298785050969e-05,
+      "modal_phase_degrees": -167.88508834877356,
+      "full_field_relative_error": 1.297178751737326e-09
+    },
+    {
+      "frequency_hz": 7.87746243739566,
+      "direct_amplitude_m": 9.97299386483166e-06,
+      "direct_phase_degrees": -167.83699172971583,
+      "modal_amplitude_m": 9.972993852014335e-06,
+      "modal_phase_degrees": -167.836991733911,
+      "full_field_relative_error": 1.2891429119865002e-09
+    },
+    {
+      "frequency_hz": 7.904006677796327,
+      "direct_amplitude_m": 9.724787580250657e-06,
+      "direct_phase_degrees": -167.77815709388014,
+      "modal_amplitude_m": 9.724787567825638e-06,
+      "modal_phase_degrees": -167.7781570974047,
+      "full_field_relative_error": 1.2825426351429125e-09
+    },
+    {
+      "frequency_hz": 7.930550918196995,
+      "direct_amplitude_m": 9.48333035225235e-06,
+      "direct_phase_degrees": -167.70838012767237,
+      "modal_amplitude_m": 9.483330340181173e-06,
+      "modal_phase_degrees": -167.70838013051815,
+      "full_field_relative_error": 1.2776187009081907e-09
+    },
+    {
+      "frequency_hz": 7.957095158597663,
+      "direct_amplitude_m": 9.248294371559247e-06,
+      "direct_phase_degrees": -167.62741456337125,
+      "modal_amplitude_m": 9.248294359846072e-06,
+      "modal_phase_degrees": -167.62741456554951,
+      "full_field_relative_error": 1.2731224961689147e-09
+    },
+    {
+      "frequency_hz": 7.9836393989983305,
+      "direct_amplitude_m": 9.019372005562488e-06,
+      "direct_phase_degrees": -167.53497054756744,
+      "modal_amplitude_m": 9.019371994185533e-06,
+      "modal_phase_degrees": -167.53497054905176,
+      "full_field_relative_error": 1.2699399588349454e-09
+    },
+    {
+      "frequency_hz": 8.010183639399,
+      "direct_amplitude_m": 8.796274346753015e-06,
+      "direct_phase_degrees": -167.43071265936078,
+      "modal_amplitude_m": 8.796274335678e-06,
+      "modal_phase_degrees": -167.4307126601307,
+      "full_field_relative_error": 1.2686258562825568e-09
+    },
+    {
+      "frequency_hz": 8.036727879799667,
+      "direct_amplitude_m": 8.578729901860213e-06,
+      "direct_phase_degrees": -167.31425755332288,
+      "modal_amplitude_m": 8.57872989109163e-06,
+      "modal_phase_degrees": -167.314257553397,
+      "full_field_relative_error": 1.2673784408217128e-09
+    },
+    {
+      "frequency_hz": 8.063272120200335,
+      "direct_amplitude_m": 8.366483409387726e-06,
+      "direct_phase_degrees": -167.18517120214375,
+      "modal_amplitude_m": 8.36648339889243e-06,
+      "modal_phase_degrees": -167.18517120146248,
+      "full_field_relative_error": 1.2684937359523413e-09
+    },
+    {
+      "frequency_hz": 8.089816360601002,
+      "direct_amplitude_m": 8.159294774392413e-06,
+      "direct_phase_degrees": -167.04296570837477,
+      "modal_amplitude_m": 8.159294764142347e-06,
+      "modal_phase_degrees": -167.04296570691153,
+      "full_field_relative_error": 1.2711430060312966e-09
+    },
+    {
+      "frequency_hz": 8.11636060100167,
+      "direct_amplitude_m": 7.956938111650913e-06,
+      "direct_phase_degrees": -166.88709565066202,
+      "modal_amplitude_m": 7.956938101671476e-06,
+      "modal_phase_degrees": -166.8870956483813,
+      "full_field_relative_error": 1.2726251020875938e-09
+    },
+    {
+      "frequency_hz": 8.142904841402338,
+      "direct_amplitude_m": 7.759200889445871e-06,
+      "direct_phase_degrees": -166.71695392282237,
+      "modal_amplitude_m": 7.759200879700396e-06,
+      "modal_phase_degrees": -166.71695391969737,
+      "full_field_relative_error": 1.2769348171024205e-09
+    },
+    {
+      "frequency_hz": 8.169449081803005,
+      "direct_amplitude_m": 7.56588316690208e-06,
+      "direct_phase_degrees": -166.53186701885878,
+      "modal_amplitude_m": 7.565883157374339e-06,
+      "modal_phase_degrees": -166.53186701488806,
+      "full_field_relative_error": 1.2820359651113312e-09
+    },
+    {
+      "frequency_hz": 8.195993322203673,
+      "direct_amplitude_m": 7.376796920180379e-06,
+      "direct_phase_degrees": -166.33108971020067,
+      "modal_amplitude_m": 7.3767969108753216e-06,
+      "modal_phase_degrees": -166.33108970529744,
+      "full_field_relative_error": 1.2874638071435508e-09
+    },
+    {
+      "frequency_hz": 8.22253756260434,
+      "direct_amplitude_m": 7.19176545301657e-06,
+      "direct_phase_degrees": -166.11379905375966,
+      "modal_amplitude_m": 7.191765443923487e-06,
+      "modal_phase_degrees": -166.11379904792207,
+      "full_field_relative_error": 1.2938459096850347e-09
+    },
+    {
+      "frequency_hz": 8.249081803005009,
+      "direct_amplitude_m": 7.010622888493464e-06,
+      "direct_phase_degrees": -165.87908766338106,
+      "modal_amplitude_m": 7.010622879589471e-06,
+      "modal_phase_degrees": -165.87908765650235,
+      "full_field_relative_error": 1.301980495728779e-09
+    },
+    {
+      "frequency_hz": 8.275626043405676,
+      "direct_amplitude_m": 6.833213740154656e-06,
+      "direct_phase_degrees": -165.62595616673622,
+      "modal_amplitude_m": 6.833213731434266e-06,
+      "modal_phase_degrees": -165.62595615885067,
+      "full_field_relative_error": 1.3101797466377458e-09
+    },
+    {
+      "frequency_hz": 8.302170283806344,
+      "direct_amplitude_m": 6.659392561626137e-06,
+      "direct_phase_degrees": -165.35330476450477,
+      "modal_amplitude_m": 6.659392553096622e-06,
+      "modal_phase_degrees": -165.35330475548332,
+      "full_field_relative_error": 1.3192297210482045e-09
+    },
+    {
+      "frequency_hz": 8.328714524207012,
+      "direct_amplitude_m": 6.4890236749451636e-06,
+      "direct_phase_degrees": -165.05992379623268,
+      "modal_amplitude_m": 6.489023666579215e-06,
+      "modal_phase_degrees": -165.05992378600678,
+      "full_field_relative_error": 1.3300556490172196e-09
+    },
+    {
+      "frequency_hz": 8.35525876460768,
+      "direct_amplitude_m": 6.321980978873116e-06,
+      "direct_phase_degrees": -164.7444832126918,
+      "modal_amplitude_m": 6.321980970668934e-06,
+      "modal_phase_degrees": -164.7444832011648,
+      "full_field_relative_error": 1.3412662282833819e-09
+    },
+    {
+      "frequency_hz": 8.381803005008347,
+      "direct_amplitude_m": 6.158147840215264e-06,
+      "direct_phase_degrees": -164.40552084327115,
+      "modal_amplitude_m": 6.1581478321853065e-06,
+      "modal_phase_degrees": -164.40552083040544,
+      "full_field_relative_error": 1.3524241072525476e-09
+    },
+    {
+      "frequency_hz": 8.408347245409015,
+      "direct_amplitude_m": 5.997417072018451e-06,
+      "direct_phase_degrees": -164.041429342298,
+      "modal_amplitude_m": 5.997417064110016e-06,
+      "modal_phase_degrees": -164.04142932791518,
+      "full_field_relative_error": 1.367007802484447e-09
+    },
+    {
+      "frequency_hz": 8.434891485809683,
+      "direct_amplitude_m": 5.839691003885619e-06,
+      "direct_phase_degrees": -163.6504416910925,
+      "modal_amplitude_m": 5.8396909961348105e-06,
+      "modal_phase_degrees": -163.65044167522575,
+      "full_field_relative_error": 1.3797961142238923e-09
+    },
+    {
+      "frequency_hz": 8.46143572621035,
+      "direct_amplitude_m": 5.684881652415237e-06,
+      "direct_phase_degrees": -163.23061513466115,
+      "modal_amplitude_m": 5.684881644801034e-06,
+      "modal_phase_degrees": -163.23061511707343,
+      "full_field_relative_error": 1.3944662850300498e-09
+    },
+    {
+      "frequency_hz": 8.487979966611018,
+      "direct_amplitude_m": 5.5329109997102555e-06,
+      "direct_phase_degrees": -162.77981343051528,
+      "modal_amplitude_m": 5.532910992218133e-06,
+      "modal_phase_degrees": -162.77981341109177,
+      "full_field_relative_error": 1.4110662355872429e-09
+    },
+    {
+      "frequency_hz": 8.514524207011686,
+      "direct_amplitude_m": 5.383711391731205e-06,
+      "direct_phase_degrees": -162.29568730521476,
+      "modal_amplitude_m": 5.383711384364999e-06,
+      "modal_phase_degrees": -162.29568728383035,
+      "full_field_relative_error": 1.4276596344897317e-09
+    },
+    {
+      "frequency_hz": 8.541068447412353,
+      "direct_amplitude_m": 5.2372260694527036e-06,
+      "direct_phase_degrees": -161.7756530327229,
+      "modal_amplitude_m": 5.237226062216842e-06,
+      "modal_phase_degrees": -161.7756530092422,
+      "full_field_relative_error": 1.4445686177375257e-09
+    },
+    {
+      "frequency_hz": 8.567612687813021,
+      "direct_amplitude_m": 5.093409848507444e-06,
+      "direct_phase_degrees": -161.21686909204007,
+      "modal_amplitude_m": 5.093409841413578e-06,
+      "modal_phase_degrees": -161.21686906631086,
+      "full_field_relative_error": 1.4611364776928039e-09
+    },
+    {
+      "frequency_hz": 8.594156928213689,
+      "direct_amplitude_m": 4.952229965870744e-06,
+      "direct_phase_degrees": -160.61621092513408,
+      "modal_amplitude_m": 4.952229958890088e-06,
+      "modal_phase_degrees": -160.61621089691508,
+      "full_field_relative_error": 1.480760806029061e-09
+    },
+    {
+      "frequency_hz": 8.620701168614357,
+      "direct_amplitude_m": 4.81366711466631e-06,
+      "direct_phase_degrees": -159.97024391384133,
+      "modal_amplitude_m": 4.813667107796351e-06,
+      "modal_phase_degrees": -159.9702438828533,
+      "full_field_relative_error": 1.5011357603108106e-09
+    },
+    {
+      "frequency_hz": 8.647245409015024,
+      "direct_amplitude_m": 4.677716691829703e-06,
+      "direct_phase_degrees": -159.2751948388443,
+      "modal_amplitude_m": 4.677716685079233e-06,
+      "modal_phase_degrees": -159.2751948048959,
+      "full_field_relative_error": 1.521889606382716e-09
+    },
+    {
+      "frequency_hz": 8.673789649415692,
+      "direct_amplitude_m": 4.5443902857754784e-06,
+      "direct_phase_degrees": -158.52692229076408,
+      "modal_amplitude_m": 4.544390279150198e-06,
+      "modal_phase_degrees": -158.52692225363916,
+      "full_field_relative_error": 1.5427781433890887e-09
+    },
+    {
+      "frequency_hz": 8.70033388981636,
+      "direct_amplitude_m": 4.413717434415559e-06,
+      "direct_phase_degrees": -157.72088679441015,
+      "modal_amplitude_m": 4.41371742790708e-06,
+      "modal_phase_degrees": -157.72088675375284,
+      "full_field_relative_error": 1.5656939597320264e-09
+    },
+    {
+      "frequency_hz": 8.726878130217028,
+      "direct_amplitude_m": 4.285747686034292e-06,
+      "direct_phase_degrees": -156.85212181243406,
+      "modal_amplitude_m": 4.285747679661847e-06,
+      "modal_phase_degrees": -156.85212176800795,
+      "full_field_relative_error": 1.5880268034115132e-09
+    },
+    {
+      "frequency_hz": 8.753422370617695,
+      "direct_amplitude_m": 4.160552996950977e-06,
+      "direct_phase_degrees": -155.9152073487864,
+      "modal_amplitude_m": 4.160552990709924e-06,
+      "modal_phase_degrees": -155.9152073002151,
+      "full_field_relative_error": 1.6121971864153998e-09
+    },
+    {
+      "frequency_hz": 8.779966611018363,
+      "direct_amplitude_m": 4.038230498648735e-06,
+      "direct_phase_degrees": -154.9042486119941,
+      "modal_amplitude_m": 4.038230492551537e-06,
+      "modal_phase_degrees": -154.9042485588927,
+      "full_field_relative_error": 1.6372547141067511e-09
+    },
+    {
+      "frequency_hz": 8.806510851419032,
+      "direct_amplitude_m": 3.918905663916791e-06,
+      "direct_phase_degrees": -153.81286318181475,
+      "modal_amplitude_m": 3.918905657969849e-06,
+      "modal_phase_degrees": -153.81286312382292,
+      "full_field_relative_error": 1.6623158570138013e-09
+    },
+    {
+      "frequency_hz": 8.8330550918197,
+      "direct_amplitude_m": 3.802735892427656e-06,
+      "direct_phase_degrees": -152.6341813884672,
+      "modal_amplitude_m": 3.802735886630865e-06,
+      "modal_phase_degrees": -152.63418132496727,
+      "full_field_relative_error": 1.6903770421985331e-09
+    },
+    {
+      "frequency_hz": 8.859599332220368,
+      "direct_amplitude_m": 3.6899145209663843e-06,
+      "direct_phase_degrees": -151.36086620892496,
+      "modal_amplitude_m": 3.6899145153375382e-06,
+      "modal_phase_degrees": -151.3608661395289,
+      "full_field_relative_error": 1.718156840874653e-09
+    },
+    {
+      "frequency_hz": 8.886143572621036,
+      "direct_amplitude_m": 3.580675238016611e-06,
+      "direct_phase_degrees": -149.98516093193803,
+      "modal_amplitude_m": 3.580675232571506e-06,
+      "modal_phase_degrees": -149.98516085611107,
+      "full_field_relative_error": 1.7471237567698804e-09
+    },
+    {
+      "frequency_hz": 8.912687813021703,
+      "direct_amplitude_m": 3.475296843003478e-06,
+      "direct_phase_degrees": -148.49897509244647,
+      "modal_amplitude_m": 3.4752968377648e-06,
+      "modal_phase_degrees": -148.49897500966168,
+      "full_field_relative_error": 1.777524590364064e-09
+    },
+    {
+      "frequency_hz": 8.939232053422371,
+      "direct_amplitude_m": 3.3741082335131988e-06,
+      "direct_phase_degrees": -146.8940216130022,
+      "modal_amplitude_m": 3.374108228512604e-06,
+      "modal_phase_degrees": -146.89402152294772,
+      "full_field_relative_error": 1.8069850935170051e-09
+    },
+    {
+      "frequency_hz": 8.965776293823039,
+      "direct_amplitude_m": 3.277493423912587e-06,
+      "direct_phase_degrees": -145.1620203978125,
+      "modal_amplitude_m": 3.277493419158259e-06,
+      "modal_phase_degrees": -145.16202029964296,
+      "full_field_relative_error": 1.8402457236624496e-09
+    },
+    {
+      "frequency_hz": 8.992320534223706,
+      "direct_amplitude_m": 3.1858962926702004e-06,
+      "direct_phase_degrees": -143.2949852543901,
+      "modal_amplitude_m": 3.1858962882031316e-06,
+      "modal_phase_degrees": -143.2949851476902,
+      "full_field_relative_error": 1.8730713536325228e-09
+    },
+    {
+      "frequency_hz": 9.018864774624374,
+      "direct_amplitude_m": 3.099824623061992e-06,
+      "direct_phase_degrees": -141.2856110833908,
+      "modal_amplitude_m": 3.0998246189186823e-06,
+      "modal_phase_degrees": -141.28561096771844,
+      "full_field_relative_error": 1.9078517385101303e-09
+    },
+    {
+      "frequency_hz": 9.045409015025042,
+      "direct_amplitude_m": 3.019852846044244e-06,
+      "direct_phase_degrees": -139.12777542581495,
+      "modal_amplitude_m": 3.0198528422415627e-06,
+      "modal_phase_degrees": -139.12777530025505,
+      "full_field_relative_error": 1.946193199838124e-09
+    },
+    {
+      "frequency_hz": 9.07195325542571,
+      "direct_amplitude_m": 2.9466227317852837e-06,
+      "direct_phase_degrees": -136.81716101336448,
+      "modal_amplitude_m": 2.9466227283921993e-06,
+      "modal_phase_degrees": -136.81716087821292,
+      "full_field_relative_error": 1.9829271397595357e-09
+    },
+    {
+      "frequency_hz": 9.098497495826377,
+      "direct_amplitude_m": 2.8808411363450107e-06,
+      "direct_phase_degrees": -134.35199206737292,
+      "modal_amplitude_m": 2.8808411334119105e-06,
+      "modal_phase_degrees": -134.35199192252003,
+      "full_field_relative_error": 2.0208602973365786e-09
+    },
+    {
+      "frequency_hz": 9.125041736227045,
+      "direct_amplitude_m": 2.823273839749229e-06,
+      "direct_phase_degrees": -131.73385530583474,
+      "modal_amplitude_m": 2.823273837327054e-06,
+      "modal_phase_degrees": -131.73385515140208,
+      "full_field_relative_error": 2.0604659891589295e-09
+    },
+    {
+      "frequency_hz": 9.151585976627713,
+      "direct_amplitude_m": 2.774734580014904e-06,
+      "direct_phase_degrees": -128.96854713832946,
+      "modal_amplitude_m": 2.7747345781576753e-06,
+      "modal_phase_degrees": -128.9685469743765,
+      "full_field_relative_error": 2.103777241169248e-09
+    },
+    {
+      "frequency_hz": 9.17813021702838,
+      "direct_amplitude_m": 2.73606866563402e-06,
+      "direct_phase_degrees": -126.06685436429939,
+      "modal_amplitude_m": 2.736068664405941e-06,
+      "modal_phase_degrees": -126.06685419206,
+      "full_field_relative_error": 2.1460229154663118e-09
+    },
+    {
+      "frequency_hz": 9.204674457429048,
+      "direct_amplitude_m": 2.7081310959158076e-06,
+      "direct_phase_degrees": -123.04514422156936,
+      "modal_amplitude_m": 2.7081310953742524e-06,
+      "modal_phase_degrees": -123.0451440416847,
+      "full_field_relative_error": 2.192273709458323e-09
+    },
+    {
+      "frequency_hz": 9.231218697829716,
+      "direct_amplitude_m": 2.691759936264027e-06,
+      "direct_phase_degrees": -119.92562244559156,
+      "modal_amplitude_m": 2.691759936477449e-06,
+      "modal_phase_degrees": -119.92562225987417,
+      "full_field_relative_error": 2.238981340296935e-09
+    },
+    {
+      "frequency_hz": 9.257762938230384,
+      "direct_amplitude_m": 2.6877466916326927e-06,
+      "direct_phase_degrees": -116.73612872796782,
+      "modal_amplitude_m": 2.6877466926607396e-06,
+      "modal_phase_degrees": -116.73612853836623,
+      "full_field_relative_error": 2.2873142945027204e-09
+    },
+    {
+      "frequency_hz": 9.284307178631051,
+      "direct_amplitude_m": 2.696806386207186e-06,
+      "direct_phase_degrees": -113.5093874731405,
+      "modal_amplitude_m": 2.6968063880985574e-06,
+      "modal_phase_degrees": -113.50938728166408,
+      "full_field_relative_error": 2.338281206943868e-09
+    },
+    {
+      "frequency_hz": 9.310851419031719,
+      "direct_amplitude_m": 2.7195506969409414e-06,
+      "direct_phase_degrees": -110.28171727410397,
+      "modal_amplitude_m": 2.7195506997435274e-06,
+      "modal_phase_degrees": -110.28171708321253,
+      "full_field_relative_error": 2.3908022868806987e-09
+    },
+    {
+      "frequency_hz": 9.337395659432387,
+      "direct_amplitude_m": 2.756467516341864e-06,
+      "direct_phase_degrees": -107.09130844003543,
+      "modal_amplitude_m": 2.7564675201034605e-06,
+      "modal_phase_degrees": -107.09130825197893,
+      "full_field_relative_error": 2.446964305813933e-09
+    },
+    {
+      "frequency_hz": 9.363939899833055,
+      "direct_amplitude_m": 2.8079095915917232e-06,
+      "direct_phase_degrees": -103.97627417305486,
+      "modal_amplitude_m": 2.8079095963486497e-06,
+      "modal_phase_degrees": -103.97627399012731,
+      "full_field_relative_error": 2.5063219758304293e-09
+    },
+    {
+      "frequency_hz": 9.390484140233722,
+      "direct_amplitude_m": 2.874093501331151e-06,
+      "direct_phase_degrees": -100.97273507296673,
+      "modal_amplitude_m": 2.8740935070943463e-06,
+      "modal_phase_degrees": -100.97273489821983,
+      "full_field_relative_error": 2.5638097618650133e-09
+    },
+    {
+      "frequency_hz": 9.41702838063439,
+      "direct_amplitude_m": 2.955108527619367e-06,
+      "direct_phase_degrees": -98.11318863912626,
+      "modal_amplitude_m": 2.955108534417544e-06,
+      "modal_phase_degrees": -98.11318847402444,
+      "full_field_relative_error": 2.626961536470587e-09
+    },
+    {
+      "frequency_hz": 9.443572621035058,
+      "direct_amplitude_m": 3.0509334143356874e-06,
+      "direct_phase_degrees": -95.42534831046667,
+      "modal_amplitude_m": 3.050933422192706e-06,
+      "modal_phase_degrees": -95.4253481569009,
+      "full_field_relative_error": 2.6938623257273403e-09
+    },
+    {
+      "frequency_hz": 9.470116861435725,
+      "direct_amplitude_m": 3.16145795941467e-06,
+      "direct_phase_degrees": -92.93153467788309,
+      "modal_amplitude_m": 3.1614579683228328e-06,
+      "modal_phase_degrees": -92.93153453717012,
+      "full_field_relative_error": 2.762290954720027e-09
+    },
+    {
+      "frequency_hz": 9.496661101836393,
+      "direct_amplitude_m": 3.2865060415720848e-06,
+      "direct_phase_degrees": -90.64859803167171,
+      "modal_amplitude_m": 3.2865060515397504e-06,
+      "modal_phase_degrees": -90.64859790512463,
+      "full_field_relative_error": 2.8336742551585468e-09
+    },
+    {
+      "frequency_hz": 9.52320534223706,
+      "direct_amplitude_m": 3.425856965211522e-06,
+      "direct_phase_degrees": -88.58827391163334,
+      "modal_amplitude_m": 3.4258569762440568e-06,
+      "modal_phase_degrees": -88.58827380004168,
+      "full_field_relative_error": 2.9083133975561392e-09
+    },
+    {
+      "frequency_hz": 9.54974958263773,
+      "direct_amplitude_m": 3.579262690327098e-06,
+      "direct_phase_degrees": -86.75783429771826,
+      "modal_amplitude_m": 3.5792627024207477e-06,
+      "modal_phase_degrees": -86.75783420154985,
+      "full_field_relative_error": 2.98636474380581e-09
+    },
+    {
+      "frequency_hz": 9.576293823038398,
+      "direct_amplitude_m": 3.7464593292938554e-06,
+      "direct_phase_degrees": -85.16089412702839,
+      "modal_amplitude_m": 3.7464593424655502e-06,
+      "modal_phase_degrees": -85.16089404656049,
+      "full_field_relative_error": 3.069902448245499e-09
+    },
+    {
+      "frequency_hz": 9.602838063439066,
+      "direct_amplitude_m": 3.927172025740908e-06,
+      "direct_phase_degrees": -83.79825441629417,
+      "modal_amplitude_m": 3.927172039965267e-06,
+      "modal_phase_degrees": -83.79825435202025,
+      "full_field_relative_error": 3.1542021380997446e-09
+    },
+    {
+      "frequency_hz": 9.629382303839733,
+      "direct_amplitude_m": 4.121112867789107e-06,
+      "direct_phase_degrees": -82.6686959316098,
+      "modal_amplitude_m": 4.121112883072525e-06,
+      "modal_phase_degrees": -82.66869588342006,
+      "full_field_relative_error": 3.2421449503758337e-09
+    },
+    {
+      "frequency_hz": 9.655926544240401,
+      "direct_amplitude_m": 4.327971809324771e-06,
+      "direct_phase_degrees": -81.7696703686534,
+      "modal_amplitude_m": 4.32797182567657e-06,
+      "modal_phase_degrees": -81.76967033664214,
+      "full_field_relative_error": 3.3372380015183257e-09
+    },
+    {
+      "frequency_hz": 9.682470784641069,
+      "direct_amplitude_m": 4.547400716835677e-06,
+      "direct_phase_degrees": -81.09786321152258,
+      "modal_amplitude_m": 4.547400734220135e-06,
+      "modal_phase_degrees": -81.0978631956486,
+      "full_field_relative_error": 3.431827997988026e-09
+    },
+    {
+      "frequency_hz": 9.709015025041737,
+      "direct_amplitude_m": 4.7789907003231296e-06,
+      "direct_phase_degrees": -80.64962158698795,
+      "modal_amplitude_m": 4.778990718733131e-06,
+      "modal_phase_degrees": -80.64962158741079,
+      "full_field_relative_error": 3.531742714553884e-09
+    },
+    {
+      "frequency_hz": 9.735559265442404,
+      "direct_amplitude_m": 5.022242904883297e-06,
+      "direct_phase_degrees": -80.42125196772238,
+      "modal_amplitude_m": 5.022242924303997e-06,
+      "modal_phase_degrees": -80.42125198418778,
+      "full_field_relative_error": 3.6365141150580314e-09
+    },
+    {
+      "frequency_hz": 9.762103505843072,
+      "direct_amplitude_m": 5.276533012450172e-06,
+      "direct_phase_degrees": -80.4091981247437,
+      "modal_amplitude_m": 5.276533032823495e-06,
+      "modal_phase_degrees": -80.40919815742798,
+      "full_field_relative_error": 3.7422312961083524e-09
+    },
+    {
+      "frequency_hz": 9.78864774624374,
+      "direct_amplitude_m": 5.541069907300982e-06,
+      "direct_phase_degrees": -80.610111285272,
+      "modal_amplitude_m": 5.541069928566113e-06,
+      "modal_phase_degrees": -80.61011133419161,
+      "full_field_relative_error": 3.851111639236184e-09
+    },
+    {
+      "frequency_hz": 9.815191986644408,
+      "direct_amplitude_m": 5.814849361522953e-06,
+      "direct_phase_degrees": -81.02082377011985,
+      "modal_amplitude_m": 5.814849383613007e-06,
+      "modal_phase_degrees": -81.0208238352014,
+      "full_field_relative_error": 3.962995812413417e-09
+    },
+    {
+      "frequency_hz": 9.841736227045075,
+      "direct_amplitude_m": 6.09660425723674e-06,
+      "direct_phase_degrees": -81.638235946149,
+      "modal_amplitude_m": 6.096604280053891e-06,
+      "modal_phase_degrees": -81.63823602742704,
+      "full_field_relative_error": 4.077386063105275e-09
+    },
+    {
+      "frequency_hz": 9.868280467445743,
+      "direct_amplitude_m": 6.384753822863324e-06,
+      "direct_phase_degrees": -82.45912521045024,
+      "modal_amplitude_m": 6.3847538462509334e-06,
+      "modal_phase_degrees": -82.45912530795005,
+      "full_field_relative_error": 4.190725153785406e-09
+    },
+    {
+      "frequency_hz": 9.89482470784641,
+      "direct_amplitude_m": 6.6773556224384894e-06,
+      "direct_phase_degrees": -83.47988576340067,
+      "modal_amplitude_m": 6.677355646267983e-06,
+      "modal_phase_degrees": -83.47988587702909,
+      "full_field_relative_error": 4.308712576104071e-09
+    },
+    {
+      "frequency_hz": 9.921368948247078,
+      "direct_amplitude_m": 6.972065533053948e-06,
+      "direct_phase_degrees": -84.6962097213596,
+      "modal_amplitude_m": 6.9720655570677804e-06,
+      "modal_phase_degrees": -84.69620985087907,
+      "full_field_relative_error": 4.419956828165208e-09
+    },
+    {
+      "frequency_hz": 9.947913188647746,
+      "direct_amplitude_m": 7.2661124968577574e-06,
+      "direct_phase_degrees": -86.10272400755676,
+      "modal_amplitude_m": 7.266112520853286e-06,
+      "modal_phase_degrees": -86.10272415282434,
+      "full_field_relative_error": 4.534329886428253e-09
+    },
+    {
+      "frequency_hz": 9.974457429048414,
+      "direct_amplitude_m": 7.556296125591589e-06,
+      "direct_phase_degrees": -87.69260344532793,
+      "modal_amplitude_m": 7.55629614928804e-06,
+      "modal_phase_degrees": -87.69260360595037,
+      "full_field_relative_error": 4.64632318190326e-09
+    },
+    {
+      "frequency_hz": 10.001001669449082,
+      "direct_amplitude_m": 7.839015783051362e-06,
+      "direct_phase_degrees": -89.45718805664153,
+      "modal_amplitude_m": 7.839015806081476e-06,
+      "modal_phase_degrees": -89.45718823175932,
+      "full_field_relative_error": 4.7455198007111444e-09
+    },
+    {
+      "frequency_hz": 10.02754590984975,
+      "direct_amplitude_m": 8.110338995129253e-06,
+      "direct_phase_degrees": -91.38564058170984,
+      "modal_amplitude_m": 8.110339017176194e-06,
+      "modal_phase_degrees": -91.38564077070801,
+      "full_field_relative_error": 4.84330532794799e-09
+    },
+    {
+      "frequency_hz": 10.054090150250417,
+      "direct_amplitude_m": 8.366114365489947e-06,
+      "direct_phase_degrees": -93.46468676810827,
+      "modal_amplitude_m": 8.36611438618554e-06,
+      "modal_phase_degrees": -93.46468696996831,
+      "full_field_relative_error": 4.933417043251352e-09
+    },
+    {
+      "frequency_hz": 10.080634390651085,
+      "direct_amplitude_m": 8.602129288800235e-06,
+      "direct_phase_degrees": -95.67848351032488,
+      "modal_amplitude_m": 8.602129307753825e-06,
+      "modal_phase_degrees": -95.67848372348902,
+      "full_field_relative_error": 5.0070941893734175e-09
+    },
+    {
+      "frequency_hz": 10.107178631051752,
+      "direct_amplitude_m": 8.814305869462429e-06,
+      "direct_phase_degrees": -98.00865587010561,
+      "modal_amplitude_m": 8.81430588631756e-06,
+      "modal_phase_degrees": -98.008656093149,
+      "full_field_relative_error": 5.0710752478346814e-09
+    },
+    {
+      "frequency_hz": 10.13372287145242,
+      "direct_amplitude_m": 8.998920539647253e-06,
+      "direct_phase_degrees": -100.43453151015521,
+      "modal_amplitude_m": 8.998920554080095e-06,
+      "modal_phase_degrees": -100.43453174135,
+      "full_field_relative_error": 5.120940186525417e-09
+    },
+    {
+      "frequency_hz": 10.160267111853088,
+      "direct_amplitude_m": 9.152825661493584e-06,
+      "direct_phase_degrees": -102.93358006527475,
+      "modal_amplitude_m": 9.152825673241422e-06,
+      "modal_phase_degrees": -102.93358030248147,
+      "full_field_relative_error": 5.152977956619345e-09
+    },
+    {
+      "frequency_hz": 10.186811352253756,
+      "direct_amplitude_m": 9.273647032477909e-06,
+      "direct_phase_degrees": -105.48203795285929,
+      "modal_amplitude_m": 9.273647041330751e-06,
+      "modal_phase_degrees": -105.48203819403861,
+      "full_field_relative_error": 5.168187510035296e-09
+    },
+    {
+      "frequency_hz": 10.213355592654423,
+      "direct_amplitude_m": 9.359931526385015e-06,
+      "direct_phase_degrees": -108.05567107265882,
+      "modal_amplitude_m": 9.35993153223813e-06,
+      "modal_phase_degrees": -108.05567131577473,
+      "full_field_relative_error": 5.168485837948913e-09
+    },
+    {
+      "frequency_hz": 10.239899833055091,
+      "direct_amplitude_m": 9.411224823137553e-06,
+      "direct_phase_degrees": -110.63060516191591,
+      "modal_amplitude_m": 9.411224825957546e-06,
+      "modal_phase_degrees": -110.63060540496228,
+      "full_field_relative_error": 5.153251167298684e-09
+    },
+    {
+      "frequency_hz": 10.266444073455759,
+      "direct_amplitude_m": 9.428069411929956e-06,
+      "direct_phase_degrees": -113.18414206918102,
+      "modal_amplitude_m": 9.428069411793604e-06,
+      "modal_phase_degrees": -113.18414231016634,
+      "full_field_relative_error": 5.122107825909635e-09
+    },
+    {
+      "frequency_hz": 10.292988313856428,
+      "direct_amplitude_m": 9.411925408139985e-06,
+      "direct_phase_degrees": -115.69548299177181,
+      "modal_amplitude_m": 9.411925405185648e-06,
+      "modal_phase_degrees": -115.69548322896244,
+      "full_field_relative_error": 5.077087193865149e-09
+    },
+    {
+      "frequency_hz": 10.319532554257096,
+      "direct_amplitude_m": 9.365028121909692e-06,
+      "direct_phase_degrees": -118.14629601785609,
+      "modal_amplitude_m": 9.3650281163382e-06,
+      "modal_phase_degrees": -118.1462962494871,
+      "full_field_relative_error": 5.014867915151286e-09
+    },
+    {
+      "frequency_hz": 10.346076794657764,
+      "direct_amplitude_m": 9.290204094741134e-06,
+      "direct_phase_degrees": -120.52109074975105,
+      "modal_amplitude_m": 9.290204086801848e-06,
+      "modal_phase_degrees": -120.52109097475275,
+      "full_field_relative_error": 4.946293911147307e-09
+    },
+    {
+      "frequency_hz": 10.372621035058431,
+      "direct_amplitude_m": 9.190670118160162e-06,
+      "direct_phase_degrees": -122.80739106750461,
+      "modal_amplitude_m": 9.190670108132725e-06,
+      "modal_phase_degrees": -122.80739128472794,
+      "full_field_relative_error": 4.8659117935879295e-09
+    },
+    {
+      "frequency_hz": 10.399165275459099,
+      "direct_amplitude_m": 9.069837778560458e-06,
+      "direct_phase_degrees": -124.9957221199657,
+      "modal_amplitude_m": 9.069837766759608e-06,
+      "modal_phase_degrees": -124.99572232848831,
+      "full_field_relative_error": 4.775121789540251e-09
+    },
+    {
+      "frequency_hz": 10.425709515859767,
+      "direct_amplitude_m": 8.931140748679599e-06,
+      "direct_phase_degrees": -127.07944531593084,
+      "modal_amplitude_m": 8.931140735386342e-06,
+      "modal_phase_degrees": -127.07944551526019,
+      "full_field_relative_error": 4.679855398848908e-09
+    },
+    {
+      "frequency_hz": 10.452253756260435,
+      "direct_amplitude_m": 8.777895269035756e-06,
+      "direct_phase_degrees": -129.05448392046796,
+      "modal_amplitude_m": 8.777895254512957e-06,
+      "modal_phase_degrees": -129.05448411046694,
+      "full_field_relative_error": 4.584561528519189e-09
+    },
+    {
+      "frequency_hz": 10.478797996661102,
+      "direct_amplitude_m": 8.613197738636819e-06,
+      "direct_phase_degrees": -130.91898269342653,
+      "modal_amplitude_m": 8.613197723175344e-06,
+      "modal_phase_degrees": -130.91898287370577,
+      "full_field_relative_error": 4.48064990134463e-09
+    },
+    {
+      "frequency_hz": 10.50534223706177,
+      "direct_amplitude_m": 8.439858170849267e-06,
+      "direct_phase_degrees": -132.6729400500493,
+      "modal_amplitude_m": 8.439858154680378e-06,
+      "modal_phase_degrees": -132.67294022054318,
+      "full_field_relative_error": 4.374131307992303e-09
+    },
+    {
+      "frequency_hz": 10.531886477462438,
+      "direct_amplitude_m": 8.260364905004478e-06,
+      "direct_phase_degrees": -134.31784309708712,
+      "modal_amplitude_m": 8.26036488833734e-06,
+      "modal_phase_degrees": -134.31784325806893,
+      "full_field_relative_error": 4.269995006718601e-09
+    },
+    {
+      "frequency_hz": 10.558430717863105,
+      "direct_amplitude_m": 8.076874313359635e-06,
+      "direct_phase_degrees": -135.85632685238411,
+      "modal_amplitude_m": 8.076874296376138e-06,
+      "modal_phase_degrees": -135.8563270040108,
+      "full_field_relative_error": 4.164881102037182e-09
+    },
+    {
+      "frequency_hz": 10.584974958263773,
+      "direct_amplitude_m": 7.89121892533073e-06,
+      "direct_phase_degrees": -137.2918705874984,
+      "modal_amplitude_m": 7.891218908183951e-06,
+      "modal_phase_degrees": -137.2918707300497,
+      "full_field_relative_error": 4.060699822207631e-09
+    },
+    {
+      "frequency_hz": 10.61151919866444,
+      "direct_amplitude_m": 7.704927943699919e-06,
+      "direct_phase_degrees": -138.62853739212764,
+      "modal_amplitude_m": 7.70492792651826e-06,
+      "modal_phase_degrees": -138.62853752592005,
+      "full_field_relative_error": 3.957866782808157e-09
+    },
+    {
+      "frequency_hz": 10.638063439065109,
+      "direct_amplitude_m": 7.519255131002697e-06,
+      "direct_phase_degrees": -139.87075801057597,
+      "modal_amplitude_m": 7.519255113895581e-06,
+      "modal_phase_degrees": -139.87075813600987,
+      "full_field_relative_error": 3.857346294806557e-09
+    },
+    {
+      "frequency_hz": 10.664607679465776,
+      "direct_amplitude_m": 7.33521018709683e-06,
+      "direct_phase_degrees": -141.02315665451871,
+      "modal_amplitude_m": 7.335210170142308e-06,
+      "modal_phase_degrees": -141.02315677202648,
+      "full_field_relative_error": 3.760620779183274e-09
+    },
+    {
+      "frequency_hz": 10.691151919866444,
+      "direct_amplitude_m": 7.153590823878859e-06,
+      "direct_phase_degrees": -142.09041454989395,
+      "modal_amplitude_m": 7.153590807143887e-06,
+      "modal_phase_degrees": -142.09041465977947,
+      "full_field_relative_error": 3.664940634897884e-09
+    },
+    {
+      "frequency_hz": 10.717696160267112,
+      "direct_amplitude_m": 6.975013668884738e-06,
+      "direct_phase_degrees": -143.07716608029025,
+      "modal_amplitude_m": 6.9750136524164015e-06,
+      "modal_phase_degrees": -143.0771661830623,
+      "full_field_relative_error": 3.575240642635682e-09
+    },
+    {
+      "frequency_hz": 10.74424040066778,
+      "direct_amplitude_m": 6.799942860541212e-06,
+      "direct_phase_degrees": -143.98792221655043,
+      "modal_amplitude_m": 6.799942844396608e-06,
+      "modal_phase_degrees": -143.9879223124697,
+      "full_field_relative_error": 3.4847823047270716e-09
+    },
+    {
+      "frequency_hz": 10.770784641068447,
+      "direct_amplitude_m": 6.628715740671296e-06,
+      "direct_phase_degrees": -144.82701619053782,
+      "modal_amplitude_m": 6.628715724884227e-06,
+      "modal_phase_degrees": -144.82701627999697,
+      "full_field_relative_error": 3.3971760094899537e-09
+    },
+    {
+      "frequency_hz": 10.797328881469115,
+      "direct_amplitude_m": 6.461565429185628e-06,
+      "direct_phase_degrees": -145.59856689451183,
+      "modal_amplitude_m": 6.461565413743983e-06,
+      "modal_phase_degrees": -145.59856697788334,
+      "full_field_relative_error": 3.316025838127894e-09
+    },
+    {
+      "frequency_hz": 10.823873121869783,
+      "direct_amplitude_m": 6.298640315717929e-06,
+      "direct_phase_degrees": -146.30645610377417,
+      "modal_amplitude_m": 6.298640300648277e-06,
+      "modal_phase_degrees": -146.30645618142304,
+      "full_field_relative_error": 3.2375125273367235e-09
+    },
+    {
+      "frequency_hz": 10.85041736227045,
+      "direct_amplitude_m": 6.140020655210655e-06,
+      "direct_phase_degrees": -146.95431625784036,
+      "modal_amplitude_m": 6.140020640522964e-06,
+      "modal_phase_degrees": -146.95431633004327,
+      "full_field_relative_error": 3.161034674481443e-09
+    },
+    {
+      "frequency_hz": 10.876961602671118,
+      "direct_amplitude_m": 5.985732535615855e-06,
+      "direct_phase_degrees": -147.54552612906176,
+      "modal_amplitude_m": 5.985732521313883e-06,
+      "modal_phase_degrees": -147.54552619609086,
+      "full_field_relative_error": 3.0875898275867952e-09
+    },
+    {
+      "frequency_hz": 10.903505843071786,
+      "direct_amplitude_m": 5.835759520928554e-06,
+      "direct_phase_degrees": -148.08321223768556,
+      "modal_amplitude_m": 5.835759507017067e-06,
+      "modal_phase_degrees": -148.08321229981198,
+      "full_field_relative_error": 3.0155761428586343e-09
+    },
+    {
+      "frequency_hz": 10.930050083472453,
+      "direct_amplitude_m": 5.690052276013357e-06,
+      "direct_phase_degrees": -148.57025432469655,
+      "modal_amplitude_m": 5.690052262482546e-06,
+      "modal_phase_degrees": -148.57025438214737,
+      "full_field_relative_error": 2.947223242595814e-09
+    },
+    {
+      "frequency_hz": 10.956594323873121,
+      "direct_amplitude_m": 5.548536464662951e-06,
+      "direct_phase_degrees": -149.0092935715554,
+      "modal_amplitude_m": 5.5485364514980246e-06,
+      "modal_phase_degrees": -149.00929362462446,
+      "full_field_relative_error": 2.883313951897597e-09
+    },
+    {
+      "frequency_hz": 10.983138564273789,
+      "direct_amplitude_m": 5.41111918734414e-06,
+      "direct_phase_degrees": -149.40274256489792,
+      "modal_amplitude_m": 5.4111191745415065e-06,
+      "modal_phase_degrees": -149.4027426137796,
+      "full_field_relative_error": 2.821571552481363e-09
+    },
+    {
+      "frequency_hz": 11.009682804674457,
+      "direct_amplitude_m": 5.277694195436941e-06,
+      "direct_phase_degrees": -149.75279624991848,
+      "modal_amplitude_m": 5.2776941829902685e-06,
+      "modal_phase_degrees": -149.75279629474187,
+      "full_field_relative_error": 2.7606968436356203e-09
+    },
+    {
+      "frequency_hz": 11.036227045075124,
+      "direct_amplitude_m": 5.148146088153938e-06,
+      "direct_phase_degrees": -150.06144331311083,
+      "modal_amplitude_m": 5.148146076064416e-06,
+      "modal_phase_degrees": -150.06144335410784,
+      "full_field_relative_error": 2.7022055390387916e-09
+    },
+    {
+      "frequency_hz": 11.062771285475794,
+      "direct_amplitude_m": 5.022353669263787e-06,
+      "direct_phase_degrees": -150.33047758764766,
+      "modal_amplitude_m": 5.022353657504367e-06,
+      "modal_phase_degrees": -150.33047762495684,
+      "full_field_relative_error": 2.6477155459206735e-09
+    },
+    {
+      "frequency_hz": 11.089315525876462,
+      "direct_amplitude_m": 4.900192613535669e-06,
+      "direct_phase_degrees": -150.5615091910652,
+      "modal_amplitude_m": 4.900192602101058e-06,
+      "modal_phase_degrees": -150.56150922483906,
+      "full_field_relative_error": 2.5948523526035083e-09
+    },
+    {
+      "frequency_hz": 11.11585976627713,
+      "direct_amplitude_m": 4.781537569367577e-06,
+      "direct_phase_degrees": -150.7559751973986,
+      "modal_amplitude_m": 4.781537558242293e-06,
+      "modal_phase_degrees": -150.75597522777542,
+      "full_field_relative_error": 2.5445575874312067e-09
+    },
+    {
+      "frequency_hz": 11.142404006677797,
+      "direct_amplitude_m": 4.666263802555372e-06,
+      "direct_phase_degrees": -150.91514971254014,
+      "modal_amplitude_m": 4.666263791740677e-06,
+      "modal_phase_degrees": -150.91514973958212,
+      "full_field_relative_error": 2.4949469038546767e-09
+    },
+    {
+      "frequency_hz": 11.168948247078465,
+      "direct_amplitude_m": 4.554248468782615e-06,
+      "direct_phase_degrees": -151.040153273101,
+      "modal_amplitude_m": 4.554248458261864e-06,
+      "modal_phase_degrees": -151.04015329697737,
+      "full_field_relative_error": 2.448500444054378e-09
+    },
+    {
+      "frequency_hz": 11.195492487479132,
+      "direct_amplitude_m": 4.44537158668908e-06,
+      "direct_phase_degrees": -151.1319615281081,
+      "modal_amplitude_m": 4.445371576442036e-06,
+      "modal_phase_degrees": -151.13196154885026,
+      "full_field_relative_error": 2.4043538640604366e-09
+    },
+    {
+      "frequency_hz": 11.2220367278798,
+      "direct_amplitude_m": 4.339516770953766e-06,
+      "direct_phase_degrees": -151.19141318816995,
+      "modal_amplitude_m": 4.339516760979697e-06,
+      "modal_phase_degrees": -151.19141320587474,
+      "full_field_relative_error": 2.3612256830845345e-09
+    },
+    {
+      "frequency_hz": 11.248580968280468,
+      "direct_amplitude_m": 4.236571774012142e-06,
+      "direct_phase_degrees": -151.21921725011205,
+      "modal_amplitude_m": 4.23657176429841e-06,
+      "modal_phase_degrees": -151.219217264818,
+      "full_field_relative_error": 2.320307011649381e-09
+    },
+    {
+      "frequency_hz": 11.275125208681136,
+      "direct_amplitude_m": 4.136428875965941e-06,
+      "direct_phase_degrees": -151.2159595165687,
+      "modal_amplitude_m": 4.136428866508226e-06,
+      "modal_phase_degrees": -151.21595952837382,
+      "full_field_relative_error": 2.280466368437566e-09
+    },
+    {
+      "frequency_hz": 11.301669449081803,
+      "direct_amplitude_m": 4.0389851552903055e-06,
+      "direct_phase_degrees": -151.18210844276666,
+      "modal_amplitude_m": 4.038985146066896e-06,
+      "modal_phase_degrees": -151.18210845166553,
+      "full_field_relative_error": 2.2438171172386467e-09
+    },
+    {
+      "frequency_hz": 11.328213689482471,
+      "direct_amplitude_m": 3.944142666496736e-06,
+      "direct_phase_degrees": -151.1180203478748,
+      "modal_amplitude_m": 3.944142657512762e-06,
+      "modal_phase_degrees": -151.11802035393416,
+      "full_field_relative_error": 2.2070610888029784e-09
+    },
+    {
+      "frequency_hz": 11.354757929883139,
+      "direct_amplitude_m": 3.851808546462879e-06,
+      "direct_phase_degrees": -151.0239440360755,
+      "modal_amplitude_m": 3.851808537694768e-06,
+      "modal_phase_degrees": -151.02394403927136,
+      "full_field_relative_error": 2.1736795686887167e-09
+    },
+    {
+      "frequency_hz": 11.381302170283806,
+      "direct_amplitude_m": 3.761895066417229e-06,
+      "direct_phase_degrees": -150.90002487393213,
+      "modal_amplitude_m": 3.761895057877158e-06,
+      "modal_phase_degrees": -150.9000248743477,
+      "full_field_relative_error": 2.1390867605297103e-09
+    },
+    {
+      "frequency_hz": 11.407846410684474,
+      "direct_amplitude_m": 3.674319644125477e-06,
+      "direct_phase_degrees": -150.7463083769316,
+      "modal_amplitude_m": 3.674319635789125e-06,
+      "modal_phase_degrees": -150.74630837449442,
+      "full_field_relative_error": 2.108378160301336e-09
+    },
+    {
+      "frequency_hz": 11.434390651085142,
+      "direct_amplitude_m": 3.5890048271210348e-06,
+      "direct_phase_degrees": -150.56274335796695,
+      "modal_amplitude_m": 3.589004818993011e-06,
+      "modal_phase_degrees": -150.56274335272263,
+      "full_field_relative_error": 2.0776434356398142e-09
+    },
+    {
+      "frequency_hz": 11.46093489148581,
+      "direct_amplitude_m": 3.5058782566768374e-06,
+      "direct_phase_degrees": -150.34918469774266,
+      "modal_amplitude_m": 3.505878248746376e-06,
+      "modal_phase_degrees": -150.34918468969377,
+      "full_field_relative_error": 2.0489996313045532e-09
+    },
+    {
+      "frequency_hz": 11.487479131886477,
+      "direct_amplitude_m": 3.4248726194837968e-06,
+      "direct_phase_degrees": -150.10539579759364,
+      "modal_amplitude_m": 3.4248726117414434e-06,
+      "modal_phase_degrees": -150.10539578663656,
+      "full_field_relative_error": 2.021658289237678e-09
+    },
+    {
+      "frequency_hz": 11.514023372287145,
+      "direct_amplitude_m": 3.3459255932019144e-06,
+      "direct_phase_degrees": -149.83105078188757,
+      "modal_amplitude_m": 3.3459255856446907e-06,
+      "modal_phase_degrees": -149.8310507680305,
+      "full_field_relative_error": 1.995388448113928e-09
+    },
+    {
+      "frequency_hz": 11.540567612687813,
+      "direct_amplitude_m": 3.2689797905415955e-06,
+      "direct_phase_degrees": -149.5257365235615,
+      "modal_amplitude_m": 3.268979783163209e-06,
+      "modal_phase_degrees": -149.52573650681117,
+      "full_field_relative_error": 1.9708335816603514e-09
+    },
+    {
+      "frequency_hz": 11.56711185308848,
+      "direct_amplitude_m": 3.1939827055862655e-06,
+      "direct_phase_degrees": -149.18895457191329,
+      "modal_amplitude_m": 3.193982698382349e-06,
+      "modal_phase_degrees": -149.188954552147,
+      "full_field_relative_error": 1.9471574200793008e-09
+    },
+    {
+      "frequency_hz": 11.593656093489148,
+      "direct_amplitude_m": 3.1208866653382794e-06,
+      "direct_phase_degrees": -148.82012307148833,
+      "modal_amplitude_m": 3.1208866583042667e-06,
+      "modal_phase_degrees": -148.82012304871085,
+      "full_field_relative_error": 1.92523883284611e-09
+    },
+    {
+      "frequency_hz": 11.620200333889816,
+      "direct_amplitude_m": 3.0496487886963898e-06,
+      "direct_phase_degrees": -148.41857877289738,
+      "modal_amplitude_m": 3.0496487818324515e-06,
+      "modal_phase_degrees": -148.4185787470359,
+      "full_field_relative_error": 1.9033766822727894e-09
+    },
+    {
+      "frequency_hz": 11.646744574290484,
+      "direct_amplitude_m": 2.9802309545722086e-06,
+      "direct_phase_degrees": -147.98357924628777,
+      "modal_amplitude_m": 2.9802309478609535e-06,
+      "modal_phase_degrees": -147.9835792171843,
+      "full_field_relative_error": 1.8851166755156242e-09
+    },
+    {
+      "frequency_hz": 11.673288814691151,
+      "direct_amplitude_m": 2.9125997801552225e-06,
+      "direct_phase_degrees": -147.5143054250363,
+      "modal_amplitude_m": 2.912599773610713e-06,
+      "modal_phase_degrees": -147.51430539271985,
+      "full_field_relative_error": 1.865466740768018e-09
+    },
+    {
+      "frequency_hz": 11.699833055091819,
+      "direct_amplitude_m": 2.8467266102744746e-06,
+      "direct_phase_degrees": -147.0098646246437,
+      "modal_amplitude_m": 2.8467266038843446e-06,
+      "modal_phase_degrees": -147.00986458894738,
+      "full_field_relative_error": 1.8484630415401554e-09
+    },
+    {
+      "frequency_hz": 11.726377295492487,
+      "direct_amplitude_m": 2.782587517707685e-06,
+      "direct_phase_degrees": -146.46929419777177,
+      "modal_amplitude_m": 2.7825875114641854e-06,
+      "modal_phase_degrees": -146.46929415858676,
+      "full_field_relative_error": 1.8331286854816337e-09
+    },
+    {
+      "frequency_hz": 11.752921535893154,
+      "direct_amplitude_m": 2.720163314522456e-06,
+      "direct_phase_degrees": -145.89156601209612,
+      "modal_amplitude_m": 2.7201633084349215e-06,
+      "modal_phase_degrees": -145.89156596936658,
+      "full_field_relative_error": 1.8174213753675463e-09
+    },
+    {
+      "frequency_hz": 11.779465776293822,
+      "direct_amplitude_m": 2.659439573687981e-06,
+      "direct_phase_degrees": -145.27559195751527,
+      "modal_amplitude_m": 2.6594395677550943e-06,
+      "modal_phase_degrees": -145.27559191119448,
+      "full_field_relative_error": 1.8030191211008645e-09
+    },
+    {
+      "frequency_hz": 11.806010016694492,
+      "direct_amplitude_m": 2.600406659699011e-06,
+      "direct_phase_degrees": -144.6202307151924,
+      "modal_amplitude_m": 2.600406653913202e-06,
+      "modal_phase_degrees": -144.62023066507237,
+      "full_field_relative_error": 1.790637577670476e-09
+    },
+    {
+      "frequency_hz": 11.83255425709516,
+      "direct_amplitude_m": 2.543059766604684e-06,
+      "direct_phase_degrees": -143.92429604499083,
+      "modal_amplitude_m": 2.543059760969433e-06,
+      "modal_phase_degrees": -143.92429599098355,
+      "full_field_relative_error": 1.778551144744097e-09
+    },
+    {
+      "frequency_hz": 11.859098497495827,
+      "direct_amplitude_m": 2.487398961177422e-06,
+      "direct_phase_degrees": -143.1865668744109,
+      "modal_amplitude_m": 2.4873989556896786e-06,
+      "modal_phase_degrees": -143.18656681637444,
+      "full_field_relative_error": 1.7679834238816506e-09
+    },
+    {
+      "frequency_hz": 11.885642737896495,
+      "direct_amplitude_m": 2.4334292281536992e-06,
+      "direct_phase_degrees": -142.40579949108283,
+      "modal_amplitude_m": 2.4334292228129994e-06,
+      "modal_phase_degrees": -142.40579942888647,
+      "full_field_relative_error": 1.758824782721026e-09
+    },
+    {
+      "frequency_hz": 11.912186978297163,
+      "direct_amplitude_m": 2.3811605139376333e-06,
+      "direct_phase_degrees": -141.58074216079208,
+      "modal_amplitude_m": 2.381160508750401e-06,
+      "modal_phase_degrees": -141.58074209436217,
+      "full_field_relative_error": 1.7499980143213176e-09
+    },
+    {
+      "frequency_hz": 11.93873121869783,
+      "direct_amplitude_m": 2.330607764227161e-06,
+      "direct_phase_degrees": -140.71015250167494,
+      "modal_amplitude_m": 2.3306077591882603e-06,
+      "modal_phase_degrees": -140.7101524308009,
+      "full_field_relative_error": 1.742862625291485e-09
+    },
+    {
+      "frequency_hz": 11.965275459098498,
+      "direct_amplitude_m": 2.2817909500543866e-06,
+      "direct_phase_degrees": -139.79281794249823,
+      "modal_amplitude_m": 2.281790945168792e-06,
+      "modal_phase_degrees": -139.79281786704044,
+      "full_field_relative_error": 1.7369204752087529e-09
+    },
+    {
+      "frequency_hz": 11.991819699499166,
+      "direct_amplitude_m": 2.2347350759857937e-06,
+      "direct_phase_degrees": -138.8275795768455,
+      "modal_amplitude_m": 2.2347350712564594e-06,
+      "modal_phase_degrees": -138.82757949676,
+      "full_field_relative_error": 1.7315730075518728e-09
+    },
+    {
+      "frequency_hz": 12.018363939899833,
+      "direct_amplitude_m": 2.189470162967546e-06,
+      "direct_phase_degrees": -137.81335968320084,
+      "modal_amplitude_m": 2.1894701583986755e-06,
+      "modal_phase_degrees": -137.8133595983672,
+      "full_field_relative_error": 1.7270200646842894e-09
+    },
+    {
+      "frequency_hz": 12.044908180300501,
+      "direct_amplitude_m": 2.1460311974993126e-06,
+      "direct_phase_degrees": -136.74919311285595,
+      "modal_amplitude_m": 2.1460311930930388e-06,
+      "modal_phase_degrees": -136.7491930231632,
+      "full_field_relative_error": 1.7238278679563408e-09
+    },
+    {
+      "frequency_hz": 12.071452420701169,
+      "direct_amplitude_m": 2.104458037783787e-06,
+      "direct_phase_degrees": -135.63426264584785,
+      "modal_amplitude_m": 2.1044580335422252e-06,
+      "modal_phase_degrees": -135.6342625511957,
+      "full_field_relative_error": 1.7217387475803122e-09
+    },
+    {
+      "frequency_hz": 12.097996661101837,
+      "direct_amplitude_m": 2.064795266766267e-06,
+      "direct_phase_degrees": -134.4679382696552,
+      "modal_amplitude_m": 2.0647952626918663e-06,
+      "modal_phase_degrees": -134.46793816986212,
+      "full_field_relative_error": 1.7210767904754611e-09
+    },
+    {
+      "frequency_hz": 12.124540901502504,
+      "direct_amplitude_m": 2.027091981413228e-06,
+      "direct_phase_degrees": -133.24982014400013,
+      "modal_amplitude_m": 2.0270919775118803e-06,
+      "modal_phase_degrees": -133.24982003906783,
+      "full_field_relative_error": 1.7211154797533356e-09
+    },
+    {
+      "frequency_hz": 12.151085141903172,
+      "direct_amplitude_m": 1.991401507445482e-06,
+      "direct_phase_degrees": -131.97978477523426,
+      "modal_amplitude_m": 1.9914015037236628e-06,
+      "modal_phase_degrees": -131.97978466515877,
+      "full_field_relative_error": 1.7219763900365621e-09
+    },
+    {
+      "frequency_hz": 12.17762938230384,
+      "direct_amplitude_m": 1.957781029076701e-06,
+      "direct_phase_degrees": -130.65803362936575,
+      "modal_amplitude_m": 1.957781025540303e-06,
+      "modal_phase_degrees": -130.65803351416682,
+      "full_field_relative_error": 1.7236458004830224e-09
+    },
+    {
+      "frequency_hz": 12.204173622704507,
+      "direct_amplitude_m": 1.926291124378804e-06,
+      "direct_phase_degrees": -129.28514307914256,
+      "modal_amplitude_m": 1.926291121030309e-06,
+      "modal_phase_degrees": -129.28514295874564,
+      "full_field_relative_error": 1.7268440448230414e-09
+    },
+    {
+      "frequency_hz": 12.230717863105175,
+      "direct_amplitude_m": 1.8969951987413266e-06,
+      "direct_phase_degrees": -127.86211421077674,
+      "modal_amplitude_m": 1.8969951955893863e-06,
+      "modal_phase_degrees": -127.8621140853611,
+      "full_field_relative_error": 1.7308548284450244e-09
+    },
+    {
+      "frequency_hz": 12.257262103505843,
+      "direct_amplitude_m": 1.8699588117870409e-06,
+      "direct_phase_degrees": -126.39042064086512,
+      "modal_amplitude_m": 1.8699588088375885e-06,
+      "modal_phase_degrees": -126.39042051042547,
+      "full_field_relative_error": 1.7362841853720415e-09
+    },
+    {
+      "frequency_hz": 12.28380634390651,
+      "direct_amplitude_m": 1.845248896869152e-06,
+      "direct_phase_degrees": -124.87205213267885,
+      "modal_amplitude_m": 1.8452488941285544e-06,
+      "modal_phase_degrees": -124.87205199745348,
+      "full_field_relative_error": 1.742060819244933e-09
+    },
+    {
+      "frequency_hz": 12.310350584307178,
+      "direct_amplitude_m": 1.8229328772862068e-06,
+      "direct_phase_degrees": -123.30955151238997,
+      "modal_amplitude_m": 1.8229328747600719e-06,
+      "modal_phase_degrees": -123.30955137258398,
+      "full_field_relative_error": 1.7490113627780613e-09
+    },
+    {
+      "frequency_hz": 12.336894824707846,
+      "direct_amplitude_m": 1.8030776890978401e-06,
+      "direct_phase_degrees": -121.70604219485489,
+      "modal_amplitude_m": 1.8030776867947902e-06,
+      "modal_phase_degrees": -121.70604205079502,
+      "full_field_relative_error": 1.7567575539814148e-09
+    },
+    {
+      "frequency_hz": 12.363439065108514,
+      "direct_amplitude_m": 1.7857487269595372e-06,
+      "direct_phase_degrees": -120.06524360858,
+      "modal_amplitude_m": 1.7857487248835744e-06,
+      "modal_phase_degrees": -120.06524346044789,
+      "full_field_relative_error": 1.7658591961914546e-09
+    },
+    {
+      "frequency_hz": 12.389983305509181,
+      "direct_amplitude_m": 1.7710087360693157e-06,
+      "direct_phase_degrees": -118.39147198781022,
+      "modal_amplitude_m": 1.7710087342260184e-06,
+      "modal_phase_degrees": -118.39147183601335,
+      "full_field_relative_error": 1.7759535071270824e-09
+    },
+    {
+      "frequency_hz": 12.41652754590985,
+      "direct_amplitude_m": 1.7589166798580485e-06,
+      "direct_phase_degrees": -116.68962442677866,
+      "modal_amplitude_m": 1.7589166782561059e-06,
+      "modal_phase_degrees": -116.68962427192936,
+      "full_field_relative_error": 1.7862098517086515e-09
+    },
+    {
+      "frequency_hz": 12.443071786310517,
+      "direct_amplitude_m": 1.7495266185069642e-06,
+      "direct_phase_degrees": -114.96514476401352,
+      "modal_amplitude_m": 1.7495266171501464e-06,
+      "modal_phase_degrees": -114.96514460642648,
+      "full_field_relative_error": 1.7979376623760155e-09
+    },
+    {
+      "frequency_hz": 12.469616026711185,
+      "direct_amplitude_m": 1.7428866372280911e-06,
+      "direct_phase_degrees": -113.22397077423572,
+      "modal_amplitude_m": 1.7428866361218864e-06,
+      "modal_phase_degrees": -113.22397061448676,
+      "full_field_relative_error": 1.8106191518219218e-09
+    },
+    {
+      "frequency_hz": 12.496160267111852,
+      "direct_amplitude_m": 1.7390378648993725e-06,
+      "direct_phase_degrees": -111.47246324181376,
+      "modal_amplitude_m": 1.7390378640478448e-06,
+      "modal_phase_degrees": -111.47246308046581,
+      "full_field_relative_error": 1.8242174879432221e-09
+    },
+    {
+      "frequency_hz": 12.52270450751252,
+      "direct_amplitude_m": 1.738013622355306e-06,
+      "direct_phase_degrees": -109.71731866798024,
+      "modal_amplitude_m": 1.7380136217614768e-06,
+      "modal_phase_degrees": -109.71731850558682,
+      "full_field_relative_error": 1.8388119504671579e-09
+    },
+    {
+      "frequency_hz": 12.549248747913188,
+      "direct_amplitude_m": 1.7398387354631613e-06,
+      "direct_phase_degrees": -107.9654685319242,
+      "modal_amplitude_m": 1.7398387351303159e-06,
+      "modal_phase_degrees": -107.96546836913625,
+      "full_field_relative_error": 1.8541990986038903e-09
+    },
+    {
+      "frequency_hz": 12.575792988313857,
+      "direct_amplitude_m": 1.7445290409492458e-06,
+      "direct_phase_degrees": -106.22396904061962,
+      "modal_amplitude_m": 1.7445290408788137e-06,
+      "modal_phase_degrees": -106.22396887815538,
+      "full_field_relative_error": 1.870247779121473e-09
+    },
+    {
+      "frequency_hz": 12.602337228714525,
+      "direct_amplitude_m": 1.752091103295156e-06,
+      "direct_phase_degrees": -104.49988605039931,
+      "modal_amplitude_m": 1.7520911034897682e-06,
+      "modal_phase_degrees": -104.49988588878712,
+      "full_field_relative_error": 1.88771984895926e-09
+    },
+    {
+      "frequency_hz": 12.628881469115193,
+      "direct_amplitude_m": 1.762522149724214e-06,
+      "direct_phase_degrees": -102.8001802299153,
+      "modal_amplitude_m": 1.7625221501814552e-06,
+      "modal_phase_degrees": -102.80018007013282,
+      "full_field_relative_error": 1.9044246577556187e-09
+    },
+    {
+      "frequency_hz": 12.65542570951586,
+      "direct_amplitude_m": 1.775810218194259e-06,
+      "direct_phase_degrees": -101.13159751636589,
+      "modal_amplitude_m": 1.7758102189167999e-06,
+      "modal_phase_degrees": -101.13159735868116,
+      "full_field_relative_error": 1.9237967126640182e-09
+    },
+    {
+      "frequency_hz": 12.681969949916528,
+      "direct_amplitude_m": 1.7919345017643543e-06,
+      "direct_phase_degrees": -99.50056947569311,
+      "modal_amplitude_m": 1.791934502749707e-06,
+      "modal_phase_degrees": -99.50056932088101,
+      "full_field_relative_error": 1.942896188192616e-09
+    },
+    {
+      "frequency_hz": 12.708514190317196,
+      "direct_amplitude_m": 1.810865862338865e-06,
+      "direct_phase_degrees": -97.9131274095164,
+      "modal_amplitude_m": 1.8108658635833425e-06,
+      "modal_phase_degrees": -97.91312725800229,
+      "full_field_relative_error": 1.9632110580574164e-09
+    },
+    {
+      "frequency_hz": 12.735058430717864,
+      "direct_amplitude_m": 1.8325674789293104e-06,
+      "direct_phase_degrees": -96.37483299547559,
+      "modal_amplitude_m": 1.8325674804337006e-06,
+      "modal_phase_degrees": -96.37483284777574,
+      "full_field_relative_error": 1.9849313991357957e-09
+    },
+    {
+      "frequency_hz": 12.761602671118531,
+      "direct_amplitude_m": 1.8569955903253081e-06,
+      "direct_phase_degrees": -94.89072708612782,
+      "modal_amplitude_m": 1.8569955920821546e-06,
+      "modal_phase_degrees": -94.8907269429105,
+      "full_field_relative_error": 2.0062903453637186e-09
+    },
+    {
+      "frequency_hz": 12.788146911519199,
+      "direct_amplitude_m": 1.8841002897294489e-06,
+      "direct_phase_degrees": -93.46529710217719,
+      "modal_amplitude_m": 1.8841002917384175e-06,
+      "modal_phase_degrees": -93.46529696362776,
+      "full_field_relative_error": 2.0294683622234827e-09
+    },
+    {
+      "frequency_hz": 12.814691151919867,
+      "direct_amplitude_m": 1.913826329609857e-06,
+      "direct_phase_degrees": -92.1024623752747,
+      "modal_amplitude_m": 1.913826331864945e-06,
+      "modal_phase_degrees": -92.1024622419367,
+      "full_field_relative_error": 2.0530223367076356e-09
+    },
+    {
+      "frequency_hz": 12.841235392320534,
+      "direct_amplitude_m": 1.946113897718901e-06,
+      "direct_phase_degrees": -90.80557591175784,
+      "modal_amplitude_m": 1.9461139002140845e-06,
+      "modal_phase_degrees": -90.80557578393379,
+      "full_field_relative_error": 2.07678184049289e-09
+    },
+    {
+      "frequency_hz": 12.867779632721202,
+      "direct_amplitude_m": 1.9808993300785825e-06,
+      "direct_phase_degrees": -89.57744038461357,
+      "modal_amplitude_m": 1.9808993328100266e-06,
+      "modal_phase_degrees": -89.57744026260482,
+      "full_field_relative_error": 2.10176042633936e-09
+    },
+    {
+      "frequency_hz": 12.89432387312187,
+      "direct_amplitude_m": 2.0181157324504103e-06,
+      "direct_phase_degrees": -88.4203357683104,
+      "modal_amplitude_m": 2.0181157354111966e-06,
+      "modal_phase_degrees": -88.42033565236952,
+      "full_field_relative_error": 2.126858797438955e-09
+    },
+    {
+      "frequency_hz": 12.920868113522538,
+      "direct_amplitude_m": 2.0576934880957985e-06,
+      "direct_phase_degrees": -87.33605586317469,
+      "modal_amplitude_m": 2.057693491283138e-06,
+      "modal_phase_degrees": -87.33605575332234,
+      "full_field_relative_error": 2.1538939015050736e-09
+    },
+    {
+      "frequency_hz": 12.947412353923205,
+      "direct_amplitude_m": 2.099560635952672e-06,
+      "direct_phase_degrees": -86.3259509954571,
+      "modal_amplitude_m": 2.0995606393589944e-06,
+      "modal_phase_degrees": -86.32595089208066,
+      "full_field_relative_error": 2.180699634076045e-09
+    },
+    {
+      "frequency_hz": 12.973956594323873,
+      "direct_amplitude_m": 2.1436431090411917e-06,
+      "direct_phase_degrees": -85.39097437690413,
+      "modal_amplitude_m": 2.143643112659272e-06,
+      "modal_phase_degrees": -85.39097428000055,
+      "full_field_relative_error": 2.208285910403868e-09
+    },
+    {
+      "frequency_hz": 13.00050083472454,
+      "direct_amplitude_m": 2.1898648281006257e-06,
+      "direct_phase_degrees": -84.53172989808,
+      "modal_amplitude_m": 2.189864831926485e-06,
+      "modal_phase_degrees": -84.53172980769227,
+      "full_field_relative_error": 2.2370753938542624e-09
+    },
+    {
+      "frequency_hz": 13.027045075125208,
+      "direct_amplitude_m": 2.2381476496593937e-06,
+      "direct_phase_degrees": -83.7485194938025,
+      "modal_amplitude_m": 2.2381476536839005e-06,
+      "modal_phase_degrees": -83.74851941007284,
+      "full_field_relative_error": 2.2658215005781935e-09
+    },
+    {
+      "frequency_hz": 13.053589315525876,
+      "direct_amplitude_m": 2.288411171131347e-06,
+      "direct_phase_degrees": -83.04138858603527,
+      "modal_amplitude_m": 2.2884111753475744e-06,
+      "modal_phase_degrees": -83.04138850899005,
+      "full_field_relative_error": 2.2952581446474123e-09
+    },
+    {
+      "frequency_hz": 13.080133555926544,
+      "direct_amplitude_m": 2.3405723982870033e-06,
+      "direct_phase_degrees": -82.4101684710889,
+      "modal_amplitude_m": 2.340572402692579e-06,
+      "modal_phase_degrees": -82.41016840057169,
+      "full_field_relative_error": 2.3261462551873037e-09
+    },
+    {
+      "frequency_hz": 13.106677796327212,
+      "direct_amplitude_m": 2.3945452824604237e-06,
+      "direct_phase_degrees": -81.85451484520382,
+      "modal_amplitude_m": 2.394545287042996e-06,
+      "modal_phase_degrees": -81.85451478143113,
+      "full_field_relative_error": 2.3567390609613276e-09
+    },
+    {
+      "frequency_hz": 13.13322203672788,
+      "direct_amplitude_m": 2.4502401364409757e-06,
+      "direct_phase_degrees": -81.37394194709675,
+      "modal_amplitude_m": 2.4502401411984828e-06,
+      "modal_phase_degrees": -81.37394188993613,
+      "full_field_relative_error": 2.3892752275286787e-09
+    },
+    {
+      "frequency_hz": 13.159766277128547,
+      "direct_amplitude_m": 2.50756293960226e-06,
+      "direct_phase_degrees": -80.96785202171802,
+      "modal_amplitude_m": 2.5075629445200433e-06,
+      "modal_phase_degrees": -80.96785197123421,
+      "full_field_relative_error": 2.4208748975978717e-09
+    },
+    {
+      "frequency_hz": 13.186310517529215,
+      "direct_amplitude_m": 2.5664145438851287e-06,
+      "direct_phase_degrees": -80.63556000215415,
+      "modal_amplitude_m": 2.5664145489603443e-06,
+      "modal_phase_degrees": -80.63555995823953,
+      "full_field_relative_error": 2.4542362675784996e-09
+    },
+    {
+      "frequency_hz": 13.212854757929883,
+      "direct_amplitude_m": 2.6266897940956633e-06,
+      "direct_phase_degrees": -80.37631343681477,
+      "modal_amplitude_m": 2.626689799313412e-06,
+      "modal_phase_degrees": -80.37631339945868,
+      "full_field_relative_error": 2.486665586838725e-09
+    },
+    {
+      "frequency_hz": 13.23939899833055,
+      "direct_amplitude_m": 2.6882765773726985e-06,
+      "direct_phase_degrees": -80.18930779549152,
+      "modal_amplitude_m": 2.6882765827246254e-06,
+      "modal_phase_degrees": -80.18930776463526,
+      "full_field_relative_error": 2.519722718026405e-09
+    },
+    {
+      "frequency_hz": 13.265943238731218,
+      "direct_amplitude_m": 2.7510548191906725e-06,
+      "direct_phase_degrees": -80.07369735231546,
+      "modal_amplitude_m": 2.751054824666242e-06,
+      "modal_phase_degrees": -80.07369732793669,
+      "full_field_relative_error": 2.5535139407406496e-09
+    },
+    {
+      "frequency_hz": 13.292487479131886,
+      "direct_amplitude_m": 2.8148954456450933e-06,
+      "direct_phase_degrees": -80.02860189117449,
+      "modal_amplitude_m": 2.8148954512344956e-06,
+      "modal_phase_degrees": -80.02860187318613,
+      "full_field_relative_error": 2.588094207613261e-09
+    },
+    {
+      "frequency_hz": 13.319031719532555,
+      "direct_amplitude_m": 2.8796593351226124e-06,
+      "direct_phase_degrees": -80.05310950509339,
+      "modal_amplitude_m": 2.8796593408094798e-06,
+      "modal_phase_degrees": -80.05310949346214,
+      "full_field_relative_error": 2.622190020808753e-09
+    },
+    {
+      "frequency_hz": 13.345575959933223,
+      "direct_amplitude_m": 2.9451962860597498e-06,
+      "direct_phase_degrees": -80.14627577990285,
+      "modal_amplitude_m": 2.9451962918402944e-06,
+      "modal_phase_degrees": -80.14627577457587,
+      "full_field_relative_error": 2.6585515932824677e-09
+    },
+    {
+      "frequency_hz": 13.37212020033389,
+      "direct_amplitude_m": 3.011344031879031e-06,
+      "direct_phase_degrees": -80.30711966307763,
+      "modal_amplitude_m": 3.0113440377224376e-06,
+      "modal_phase_degrees": -80.30711966395795,
+      "full_field_relative_error": 2.691740499834069e-09
+    },
+    {
+      "frequency_hz": 13.398664440734558,
+      "direct_amplitude_m": 3.0779273384031047e-06,
+      "direct_phase_degrees": -80.53461633081591,
+      "modal_amplitude_m": 3.077927344304101e-06,
+      "modal_phase_degrees": -80.53461633788127,
+      "full_field_relative_error": 2.727760077049706e-09
+    },
+    {
+      "frequency_hz": 13.425208681135226,
+      "direct_amplitude_m": 3.144757224361164e-06,
+      "direct_phase_degrees": -80.8276873811004,
+      "modal_amplitude_m": 3.1447572303009474e-06,
+      "modal_phase_degrees": -80.82768739429898,
+      "full_field_relative_error": 2.763541147681144e-09
+    },
+    {
+      "frequency_hz": 13.451752921535894,
+      "direct_amplitude_m": 3.2116303495815933e-06,
+      "direct_phase_degrees": -81.1851886993763,
+      "modal_amplitude_m": 3.2116303555386494e-06,
+      "modal_phase_degrees": -81.18518871852103,
+      "full_field_relative_error": 2.7980960615005047e-09
+    },
+    {
+      "frequency_hz": 13.478297161936561,
+      "direct_amplitude_m": 3.278328620159599e-06,
+      "direct_phase_degrees": -81.60589637101867,
+      "modal_amplitude_m": 3.2783286261113415e-06,
+      "modal_phase_degrees": -81.60589639612932,
+      "full_field_relative_error": 2.8330580726858948e-09
+    },
+    {
+      "frequency_hz": 13.50484140233723,
+      "direct_amplitude_m": 3.3446190628520068e-06,
+      "direct_phase_degrees": -82.08849105167339,
+      "modal_amplitude_m": 3.3446190687839047e-06,
+      "modal_phase_degrees": -82.08849108258585,
+      "full_field_relative_error": 2.8685932409697054e-09
+    },
+    {
+      "frequency_hz": 13.531385642737897,
+      "direct_amplitude_m": 3.410254022850502e-06,
+      "direct_phase_degrees": -82.63154124488419,
+      "modal_amplitude_m": 3.41025402873167e-06,
+      "modal_phase_degrees": -82.63154128149284,
+      "full_field_relative_error": 2.9027389734778685e-09
+    },
+    {
+      "frequency_hz": 13.557929883138565,
+      "direct_amplitude_m": 3.474971738578438e-06,
+      "direct_phase_degrees": -83.23348598968965,
+      "modal_amplitude_m": 3.474971744394554e-06,
+      "modal_phase_degrees": -83.23348603187267,
+      "full_field_relative_error": 2.938447807412214e-09
+    },
+    {
+      "frequency_hz": 13.584474123539232,
+      "direct_amplitude_m": 3.5384973444718903e-06,
+      "direct_phase_degrees": -83.89261750878886,
+      "modal_amplitude_m": 3.5384973501837447e-06,
+      "modal_phase_degrees": -83.89261755644554,
+      "full_field_relative_error": 2.9715084055964055e-09
+    },
+    {
+      "frequency_hz": 13.6110183639399,
+      "direct_amplitude_m": 3.6005443458083434e-06,
+      "direct_phase_degrees": -84.60706442088124,
+      "modal_amplitude_m": 3.6005443514000225e-06,
+      "modal_phase_degrees": -84.6070644738127,
+      "full_field_relative_error": 3.0056723290317874e-09
+    },
+    {
+      "frequency_hz": 13.637562604340568,
+      "direct_amplitude_m": 3.660816600045526e-06,
+      "direct_phase_degrees": -85.37477616470834,
+      "modal_amplitude_m": 3.6608166054783082e-06,
+      "modal_phase_degrees": -85.37477622274412,
+      "full_field_relative_error": 3.0375764713300956e-09
+    },
+    {
+      "frequency_hz": 13.664106844741235,
+      "direct_amplitude_m": 3.7190108239677113e-06,
+      "direct_phase_degrees": -86.19350931757671,
+      "modal_amplitude_m": 3.7190108292161002e-06,
+      "modal_phase_degrees": -86.19350938054296,
+      "full_field_relative_error": 3.0693139310122478e-09
+    },
+    {
+      "frequency_hz": 13.690651085141903,
+      "direct_amplitude_m": 3.7748196278625984e-06,
+      "direct_phase_degrees": -87.06081650551953,
+      "modal_amplitude_m": 3.7748196329001706e-06,
+      "modal_phase_degrees": -87.06081657325201,
+      "full_field_relative_error": 3.1010269451426563e-09
+    },
+    {
+      "frequency_hz": 13.717195325542571,
+      "direct_amplitude_m": 3.827935054720095e-06,
+      "direct_phase_degrees": -87.9740385945222,
+      "modal_amplitude_m": 3.8279350595122555e-06,
+      "modal_phase_degrees": -87.97403866671912,
+      "full_field_relative_error": 3.130732224799282e-09
+    },
+    {
+      "frequency_hz": 13.743739565943239,
+      "direct_amplitude_m": 3.878052576691125e-06,
+      "direct_phase_degrees": -88.93030081170862,
+      "modal_amplitude_m": 3.878052581209872e-06,
+      "modal_phase_degrees": -88.9303008881984,
+      "full_field_relative_error": 3.160092147766099e-09
+    },
+    {
+      "frequency_hz": 13.770283806343906,
+      "direct_amplitude_m": 3.924875473058862e-06,
+      "direct_phase_degrees": -89.92651337312803,
+      "modal_amplitude_m": 3.924875477273418e-06,
+      "modal_phase_degrees": -89.92651345347316,
+      "full_field_relative_error": 3.185915800365208e-09
+    },
+    {
+      "frequency_hz": 13.796828046744574,
+      "direct_amplitude_m": 3.968119485508654e-06,
+      "direct_phase_degrees": -90.95937707771405,
+      "modal_amplitude_m": 3.968119489394883e-06,
+      "modal_phase_degrees": -90.959377161769,
+      "full_field_relative_error": 3.2129042242848594e-09
+    },
+    {
+      "frequency_hz": 13.823372287145242,
+      "direct_amplitude_m": 4.007517620138095e-06,
+      "direct_phase_degrees": -92.02539418274695,
+      "modal_amplitude_m": 4.007517623667653e-06,
+      "modal_phase_degrees": -92.02539427012934,
+      "full_field_relative_error": 3.237705508512237e-09
+    },
+    {
+      "frequency_hz": 13.84991652754591,
+      "direct_amplitude_m": 4.042824943133352e-06,
+      "direct_phase_degrees": -93.12088468364323,
+      "modal_amplitude_m": 4.042824946281418e-06,
+      "modal_phase_degrees": -93.12088477405308,
+      "full_field_relative_error": 3.261081511263658e-09
+    },
+    {
+      "frequency_hz": 13.876460767946577,
+      "direct_amplitude_m": 4.073823201368901e-06,
+      "direct_phase_degrees": -94.2420079162342,
+      "modal_amplitude_m": 4.073823204114684e-06,
+      "modal_phase_degrees": -94.24200800933737,
+      "full_field_relative_error": 3.283575070641693e-09
+    },
+    {
+      "frequency_hz": 13.903005008347245,
+      "direct_amplitude_m": 4.100325091960104e-06,
+      "direct_phase_degrees": -95.38478916667431,
+      "modal_amplitude_m": 4.100325094281397e-06,
+      "modal_phase_degrees": -95.38478926210139,
+      "full_field_relative_error": 3.303618749277624e-09
+    },
+    {
+      "frequency_hz": 13.929549248747913,
+      "direct_amplitude_m": 4.122178007931587e-06,
+      "direct_phase_degrees": -96.54515074649183,
+      "modal_amplitude_m": 4.122178009813579e-06,
+      "modal_phase_degrees": -96.54515084372541,
+      "full_field_relative_error": 3.3205276432351358e-09
+    },
+    {
+      "frequency_hz": 13.95609348914858,
+      "direct_amplitude_m": 4.1392671013907425e-06,
+      "direct_phase_degrees": -97.71894677188568,
+      "modal_amplitude_m": 4.139267102822619e-06,
+      "modal_phase_degrees": -97.7189468706216,
+      "full_field_relative_error": 3.3367640805386815e-09
+    },
+    {
+      "frequency_hz": 13.982637729549248,
+      "direct_amplitude_m": 4.151517530477723e-06,
+      "direct_phase_degrees": -98.90200070156837,
+      "modal_amplitude_m": 4.151517531450359e-06,
+      "modal_phase_degrees": -98.90200080140472,
+      "full_field_relative_error": 3.3513557163291907e-09
+    },
+    {
+      "frequency_hz": 14.009181969949916,
+      "direct_amplitude_m": 4.158895790891294e-06,
+      "direct_phase_degrees": -100.09014454029537,
+      "modal_amplitude_m": 4.158895791397558e-06,
+      "modal_phase_degrees": -100.09014464090869,
+      "full_field_relative_error": 3.3649605936025315e-09
+    },
+    {
+      "frequency_hz": 14.035726210350584,
+      "direct_amplitude_m": 4.161410074458047e-06,
+      "direct_phase_degrees": -101.27925853233674,
+      "modal_amplitude_m": 4.161410074501022e-06,
+      "modal_phase_degrees": -101.27925863328059,
+      "full_field_relative_error": 3.3766004199976553e-09
+    },
+    {
+      "frequency_hz": 14.062270450751251,
+      "direct_amplitude_m": 4.159109643056321e-06,
+      "direct_phase_degrees": -102.46531014152768,
+      "modal_amplitude_m": 4.159109642638296e-06,
+      "modal_phase_degrees": -102.4653102423819,
+      "full_field_relative_error": 3.385528077027961e-09
+    },
+    {
+      "frequency_hz": 14.08881469115192,
+      "direct_amplitude_m": 4.152083252512208e-06,
+      "direct_phase_degrees": -103.64439115849203,
+      "modal_amplitude_m": 4.152083251638085e-06,
+      "modal_phase_degrees": -103.64439125888104,
+      "full_field_relative_error": 3.393088917080196e-09
+    },
+    {
+      "frequency_hz": 14.115358931552588,
+      "direct_amplitude_m": 4.140456704609141e-06,
+      "direct_phase_degrees": -104.8127518764544,
+      "modal_amplitude_m": 4.140456703287686e-06,
+      "modal_phase_degrees": -104.81275197608925,
+      "full_field_relative_error": 3.3998507074726233e-09
+    },
+    {
+      "frequency_hz": 14.141903171953256,
+      "direct_amplitude_m": 4.12438964249116e-06,
+      "direct_phase_degrees": -105.96683143347971,
+      "modal_amplitude_m": 4.124389640741053e-06,
+      "modal_phase_degrees": -105.96683153202454,
+      "full_field_relative_error": 3.4056444929438433e-09
+    },
+    {
+      "frequency_hz": 14.168447412353924,
+      "direct_amplitude_m": 4.104071733303436e-06,
+      "direct_phase_degrees": -107.10328361349198,
+      "modal_amplitude_m": 4.104071731137827e-06,
+      "modal_phase_degrees": -107.10328371053838,
+      "full_field_relative_error": 3.4088363825139375e-09
+    },
+    {
+      "frequency_hz": 14.194991652754592,
+      "direct_amplitude_m": 4.079718400051855e-06,
+      "direct_phase_degrees": -108.21899761891518,
+      "modal_amplitude_m": 4.079718397489206e-06,
+      "modal_phase_degrees": -108.21899771422868,
+      "full_field_relative_error": 3.4121032886874503e-09
+    },
+    {
+      "frequency_hz": 14.22153589315526,
+      "direct_amplitude_m": 4.051566272298907e-06,
+      "direct_phase_degrees": -109.31111355692487,
+      "modal_amplitude_m": 4.051566269361215e-06,
+      "modal_phase_degrees": -109.31111365007654,
+      "full_field_relative_error": 3.411728226570579e-09
+    },
+    {
+      "frequency_hz": 14.248080133555927,
+      "direct_amplitude_m": 4.019868522369311e-06,
+      "direct_phase_degrees": -110.37703259905281,
+      "modal_amplitude_m": 4.019868519080802e-06,
+      "modal_phase_degrees": -110.37703268987563,
+      "full_field_relative_error": 3.411927947830521e-09
+    },
+    {
+      "frequency_hz": 14.274624373956595,
+      "direct_amplitude_m": 3.984890242052593e-06,
+      "direct_phase_degrees": -111.41442198013021,
+      "modal_amplitude_m": 3.984890238434338e-06,
+      "modal_phase_degrees": -111.41442206840561,
+      "full_field_relative_error": 3.4117045487539313e-09
+    },
+    {
+      "frequency_hz": 14.301168614357262,
+      "direct_amplitude_m": 3.946903995958311e-06,
+      "direct_phase_degrees": -112.42121516749788,
+      "modal_amplitude_m": 3.946903992039581e-06,
+      "modal_phase_degrees": -112.42121525292754,
+      "full_field_relative_error": 3.4092631415478024e-09
+    },
+    {
+      "frequency_hz": 14.32771285475793,
+      "direct_amplitude_m": 3.90618566417759e-06,
+      "direct_phase_degrees": -113.39560766920457,
+      "modal_amplitude_m": 3.906185659981763e-06,
+      "modal_phase_degrees": -113.39560775159437,
+      "full_field_relative_error": 3.4059590881767264e-09
+    },
+    {
+      "frequency_hz": 14.354257095158598,
+      "direct_amplitude_m": 3.863010660633305e-06,
+      "direct_phase_degrees": -114.33604904380125,
+      "modal_amplitude_m": 3.863010656182712e-06,
+      "modal_phase_degrees": -114.33604912308644,
+      "full_field_relative_error": 3.4039688550664774e-09
+    },
+    {
+      "frequency_hz": 14.380801335559266,
+      "direct_amplitude_m": 3.817650587085879e-06,
+      "direct_phase_degrees": -115.24123172977647,
+      "modal_amplitude_m": 3.817650582405364e-06,
+      "modal_phase_degrees": -115.24123180576927,
+      "full_field_relative_error": 3.40075270257369e-09
+    },
+    {
+      "frequency_hz": 14.407345575959933,
+      "direct_amplitude_m": 3.7703703574088983e-06,
+      "direct_phase_degrees": -116.11007733265224,
+      "modal_amplitude_m": 3.7703703525266825e-06,
+      "modal_phase_degrees": -116.11007740512662,
+      "full_field_relative_error": 3.395967259982444e-09
+    },
+    {
+      "frequency_hz": 14.433889816360601,
+      "direct_amplitude_m": 3.721425804106079e-06,
+      "direct_phase_degrees": -116.94172099927076,
+      "modal_amplitude_m": 3.7214257990467746e-06,
+      "modal_phase_degrees": -116.94172106819885,
+      "full_field_relative_error": 3.3916168550790446e-09
+    },
+    {
+      "frequency_hz": 14.460434056761269,
+      "direct_amplitude_m": 3.6710617598097925e-06,
+      "direct_phase_degrees": -117.73549447404807,
+      "modal_amplitude_m": 3.671061754591883e-06,
+      "modal_phase_degrees": -117.73549453933981,
+      "full_field_relative_error": 3.38757879332326e-09
+    },
+    {
+      "frequency_hz": 14.486978297161937,
+      "direct_amplitude_m": 3.6195105911834002e-06,
+      "direct_phase_degrees": -118.49090837773889,
+      "modal_amplitude_m": 3.6195105858354214e-06,
+      "modal_phase_degrees": -118.49090843924373,
+      "full_field_relative_error": 3.3817458703345477e-09
+    },
+    {
+      "frequency_hz": 14.513522537562604,
+      "direct_amplitude_m": 3.5669911513270908e-06,
+      "direct_phase_degrees": -119.20763418733478,
+      "modal_amplitude_m": 3.566991145863661e-06,
+      "modal_phase_degrees": -119.20763424509006,
+      "full_field_relative_error": 3.3776360534318106e-09
+    },
+    {
+      "frequency_hz": 14.540066777963272,
+      "direct_amplitude_m": 3.5137081088872044e-06,
+      "direct_phase_degrees": -119.88548632546437,
+      "modal_amplitude_m": 3.5137081033311753e-06,
+      "modal_phase_degrees": -119.88548637936876,
+      "full_field_relative_error": 3.372460239497866e-09
+    },
+    {
+      "frequency_hz": 14.56661101836394,
+      "direct_amplitude_m": 3.4598516080021844e-06,
+      "direct_phase_degrees": -120.52440469315967,
+      "modal_amplitude_m": 3.4598516023728814e-06,
+      "modal_phase_degrees": -120.52440474315972,
+      "full_field_relative_error": 3.36678875959703e-09
+    },
+    {
+      "frequency_hz": 14.593155258764607,
+      "direct_amplitude_m": 3.4055972113313404e-06,
+      "direct_phase_degrees": -121.12443791392319,
+      "modal_amplitude_m": 3.4055972056433884e-06,
+      "modal_phase_degrees": -121.1244379600086,
+      "full_field_relative_error": 3.3625170240767485e-09
+    },
+    {
+      "frequency_hz": 14.619699499165275,
+      "direct_amplitude_m": 3.3511060792068058e-06,
+      "direct_phase_degrees": -121.68572748959369,
+      "modal_amplitude_m": 3.3511060734760858e-06,
+      "modal_phase_degrees": -121.68572753174705,
+      "full_field_relative_error": 3.3575965969942294e-09
+    },
+    {
+      "frequency_hz": 14.646243739565943,
+      "direct_amplitude_m": 3.29652534020087e-06,
+      "direct_phase_degrees": -122.20849301118845,
+      "modal_amplitude_m": 3.2965253344398493e-06,
+      "modal_phase_degrees": -122.2084930494088,
+      "full_field_relative_error": 3.3533961786983705e-09
+    },
+    {
+      "frequency_hz": 14.67278797996661,
+      "direct_amplitude_m": 3.24198861178726e-06,
+      "direct_phase_degrees": -122.69301851751577,
+      "modal_amplitude_m": 3.2419886060149412e-06,
+      "modal_phase_degrees": -122.69301855176242,
+      "full_field_relative_error": 3.348246390977645e-09
+    },
+    {
+      "frequency_hz": 14.699332220367278,
+      "direct_amplitude_m": 3.187616634044197e-06,
+      "direct_phase_degrees": -123.13964005101852,
+      "modal_amplitude_m": 3.1876166282710187e-06,
+      "modal_phase_degrees": -123.1396400812685,
+      "full_field_relative_error": 3.3438618610302043e-09
+    },
+    {
+      "frequency_hz": 14.725876460767946,
+      "direct_amplitude_m": 3.133517983716812e-06,
+      "direct_phase_degrees": -123.54873442602904,
+      "modal_amplitude_m": 3.1335179779489188e-06,
+      "modal_phase_degrees": -123.54873445232859,
+      "full_field_relative_error": 3.340137371537441e-09
+    },
+    {
+      "frequency_hz": 14.752420701168614,
+      "direct_amplitude_m": 3.0797898406899584e-06,
+      "direct_phase_degrees": -123.92070919667096,
+      "modal_amplitude_m": 3.079789834940823e-06,
+      "modal_phase_degrees": -123.92070921905623,
+      "full_field_relative_error": 3.336639519610016e-09
+    },
+    {
+      "frequency_hz": 14.778964941569281,
+      "direct_amplitude_m": 3.0265187833408132e-06,
+      "direct_phase_degrees": -124.25599379032833,
+      "modal_amplitude_m": 3.0265187776204097e-06,
+      "modal_phase_degrees": -124.25599380876723,
+      "full_field_relative_error": 3.332999023471987e-09
+    },
+    {
+      "frequency_hz": 14.80550918196995,
+      "direct_amplitude_m": 2.9737815933341624e-06,
+      "direct_phase_degrees": -124.555031757643,
+      "modal_amplitude_m": 2.97378158765047e-06,
+      "modal_phase_degrees": -124.55503177215581,
+      "full_field_relative_error": 3.3295423217797193e-09
+    },
+    {
+      "frequency_hz": 14.832053422370619,
+      "direct_amplitude_m": 2.9216460543372666e-06,
+      "direct_phase_degrees": -124.81827408026396,
+      "modal_amplitude_m": 2.921646048698105e-06,
+      "modal_phase_degrees": -124.81827409083353,
+      "full_field_relative_error": 3.3261578509223086e-09
+    },
+    {
+      "frequency_hz": 14.858597662771286,
+      "direct_amplitude_m": 2.8701717324589466e-06,
+      "direct_phase_degrees": -125.04617347007301,
+      "modal_amplitude_m": 2.8701717268676415e-06,
+      "modal_phase_degrees": -125.04617347673722,
+      "full_field_relative_error": 3.323827443408115e-09
+    },
+    {
+      "frequency_hz": 14.885141903171954,
+      "direct_amplitude_m": 2.8194107291340408e-06,
+      "direct_phase_degrees": -125.23917959231379,
+      "modal_amplitude_m": 2.819410723603282e-06,
+      "modal_phase_degrees": -125.23917959505957,
+      "full_field_relative_error": 3.3203763866604774e-09
+    },
+    {
+      "frequency_hz": 14.911686143572622,
+      "direct_amplitude_m": 2.769408399794537e-06,
+      "direct_phase_degrees": -125.39773514327018,
+      "modal_amplitude_m": 2.76940839432378e-06,
+      "modal_phase_degrees": -125.39773514212487,
+      "full_field_relative_error": 3.3185084329179824e-09
+    },
+    {
+      "frequency_hz": 14.93823038397329,
+      "direct_amplitude_m": 2.720204033558498e-06,
+      "direct_phase_degrees": -125.52227271642745,
+      "modal_amplitude_m": 2.7202040281545365e-06,
+      "modal_phase_degrees": -125.52227271138655,
+      "full_field_relative_error": 3.316189034656115e-09
+    },
+    {
+      "frequency_hz": 14.964774624373957,
+      "direct_amplitude_m": 2.6718314911880493e-06,
+      "direct_phase_degrees": -125.61321239282543,
+      "modal_amplitude_m": 2.6718314858519523e-06,
+      "modal_phase_degrees": -125.61321238393153,
+      "full_field_relative_error": 3.315036854665356e-09
+    },
+    {
+      "frequency_hz": 14.991318864774625,
+      "direct_amplitude_m": 2.624319799670821e-06,
+      "direct_phase_degrees": -125.67095999686603,
+      "modal_amplitude_m": 2.6243197944099576e-06,
+      "modal_phase_degrees": -125.67095998408122,
+      "full_field_relative_error": 3.3132244296822526e-09
+    },
+    {
+      "frequency_hz": 15.017863105175293,
+      "direct_amplitude_m": 2.577693703125658e-06,
+      "direct_phase_degrees": -125.69590596216251,
+      "modal_amplitude_m": 2.5776936979409475e-06,
+      "modal_phase_degrees": -125.69590594550645,
+      "full_field_relative_error": 3.3120087033782176e-09
+    },
+    {
+      "frequency_hz": 15.04440734557596,
+      "direct_amplitude_m": 2.531974170376112e-06,
+      "direct_phase_degrees": -125.68842475894508,
+      "modal_amplitude_m": 2.5319741652734238e-06,
+      "modal_phase_degrees": -125.68842473841897,
+      "full_field_relative_error": 3.3109364175222834e-09
+    },
+    {
+      "frequency_hz": 15.070951585976628,
+      "direct_amplitude_m": 2.487178860362584e-06,
+      "direct_phase_degrees": -125.64887483803433,
+      "modal_amplitude_m": 2.4871788553451826e-06,
+      "modal_phase_degrees": -125.64887481361573,
+      "full_field_relative_error": 3.309263336221342e-09
+    },
+    {
+      "frequency_hz": 15.097495826377296,
+      "direct_amplitude_m": 2.443322546862651e-06,
+      "direct_phase_degrees": -125.57759905251724,
+      "modal_amplitude_m": 2.44332254192964e-06,
+      "modal_phase_degrees": -125.57759902424027,
+      "full_field_relative_error": 3.3088526029339168e-09
+    },
+    {
+      "frequency_hz": 15.124040066777964,
+      "direct_amplitude_m": 2.400417504389205e-06,
+      "direct_phase_degrees": -125.4749255230863,
+      "modal_amplitude_m": 2.4004174995454913e-06,
+      "modal_phase_degrees": -125.47492549093049,
+      "full_field_relative_error": 3.3084278658195584e-09
+    },
+    {
+      "frequency_hz": 15.150584307178631,
+      "direct_amplitude_m": 2.358473857345637e-06,
+      "direct_phase_degrees": -125.34116891646006,
+      "modal_amplitude_m": 2.3584738525943427e-06,
+      "modal_phase_degrees": -125.34116888041925,
+      "full_field_relative_error": 3.3077466186554002e-09
+    },
+    {
+      "frequency_hz": 15.177128547579299,
+      "direct_amplitude_m": 2.31749989453425e-06,
+      "direct_phase_degrees": -125.1766321114751,
+      "modal_amplitude_m": 2.3174998898718207e-06,
+      "modal_phase_degrees": -125.17663207155064,
+      "full_field_relative_error": 3.3080216498704437e-09
+    },
+    {
+      "frequency_hz": 15.203672787979967,
+      "direct_amplitude_m": 2.2775023511945804e-06,
+      "direct_phase_degrees": -124.98160822982167,
+      "modal_amplitude_m": 2.2775023466250434e-06,
+      "modal_phase_degrees": -124.98160818598177,
+      "full_field_relative_error": 3.308173220188429e-09
+    },
+    {
+      "frequency_hz": 15.230217028380634,
+      "direct_amplitude_m": 2.2384866607736597e-06,
+      "direct_phase_degrees": -124.75638301123512,
+      "modal_amplitude_m": 2.2384866563013715e-06,
+      "modal_phase_degrees": -124.75638296350299,
+      "full_field_relative_error": 3.3080370135299687e-09
+    },
+    {
+      "frequency_hz": 15.256761268781302,
+      "direct_amplitude_m": 2.2004571784397234e-06,
+      "direct_phase_degrees": -124.50123751551783,
+      "modal_amplitude_m": 2.2004571740638674e-06,
+      "modal_phase_degrees": -124.50123746386838,
+      "full_field_relative_error": 3.3080895639699024e-09
+    },
+    {
+      "frequency_hz": 15.28330550918197,
+      "direct_amplitude_m": 2.1634173783280678e-06,
+      "direct_phase_degrees": -124.21645113378631,
+      "modal_amplitude_m": 2.1634173740504197e-06,
+      "modal_phase_degrees": -124.2164510782395,
+      "full_field_relative_error": 3.308767723134448e-09
+    },
+    {
+      "frequency_hz": 15.309849749582638,
+      "direct_amplitude_m": 2.1273700264141153e-06,
+      "direct_phase_degrees": -123.90230489323153,
+      "modal_amplitude_m": 2.1273700222356243e-06,
+      "modal_phase_degrees": -123.9023048337711,
+      "full_field_relative_error": 3.3093130713873683e-09
+    },
+    {
+      "frequency_hz": 15.336393989983305,
+      "direct_amplitude_m": 2.092317330703975e-06,
+      "direct_phase_degrees": -123.55908503786668,
+      "modal_amplitude_m": 2.092317326625376e-06,
+      "modal_phase_degrees": -123.55908497447645,
+      "full_field_relative_error": 3.3097386143381934e-09
+    },
+    {
+      "frequency_hz": 15.362938230383973,
+      "direct_amplitude_m": 2.0582610703543874e-06,
+      "direct_phase_degrees": -123.18708686761832,
+      "modal_amplitude_m": 2.058261066380157e-06,
+      "modal_phase_degrees": -123.18708680028026,
+      "full_field_relative_error": 3.3106024762277342e-09
+    },
+    {
+      "frequency_hz": 15.38948247078464,
+      "direct_amplitude_m": 2.025202705200794e-06,
+      "direct_phase_degrees": -122.7866188153317,
+      "modal_amplitude_m": 2.0252027013295187e-06,
+      "modal_phase_degrees": -122.78661874408225,
+      "full_field_relative_error": 3.3111285616071686e-09
+    },
+    {
+      "frequency_hz": 15.416026711185308,
+      "direct_amplitude_m": 1.993143466978233e-06,
+      "direct_phase_degrees": -122.35800673885926,
+      "modal_amplitude_m": 1.993143463211464e-06,
+      "modal_phase_degrees": -122.35800666372135,
+      "full_field_relative_error": 3.3119383981180743e-09
+    },
+    {
+      "frequency_hz": 15.442570951585976,
+      "direct_amplitude_m": 1.9620844335089016e-06,
+      "direct_phase_degrees": -121.90159840103979,
+      "modal_amplitude_m": 1.9620844298497112e-06,
+      "modal_phase_degrees": -121.90159832195577,
+      "full_field_relative_error": 3.3126656346445183e-09
+    },
+    {
+      "frequency_hz": 15.469115191986644,
+      "direct_amplitude_m": 1.932026586925082e-06,
+      "direct_phase_degrees": -121.41776810604145,
+      "modal_amplitude_m": 1.9320265833719418e-06,
+      "modal_phase_degrees": -121.41776802300774,
+      "full_field_relative_error": 3.3139003241257975e-09
+    },
+    {
+      "frequency_hz": 15.495659432387312,
+      "direct_amplitude_m": 1.9029708569203292e-06,
+      "direct_phase_degrees": -120.90692145581639,
+      "modal_amplitude_m": 1.9029708534750577e-06,
+      "modal_phase_degrees": -120.90692136891366,
+      "full_field_relative_error": 3.3150028709129774e-09
+    },
+    {
+      "frequency_hz": 15.52220367278798,
+      "direct_amplitude_m": 1.8749181499953782e-06,
+      "direct_phase_degrees": -120.36950018372737,
+      "modal_amplitude_m": 1.8749181466611795e-06,
+      "modal_phase_degrees": -120.3695000929769,
+      "full_field_relative_error": 3.315628618204332e-09
+    },
+    {
+      "frequency_hz": 15.548747913188647,
+      "direct_amplitude_m": 1.8478693655251232e-06,
+      "direct_phase_degrees": -119.80598701577144,
+      "modal_amplitude_m": 1.8478693623015365e-06,
+      "modal_phase_degrees": -119.80598692116457,
+      "full_field_relative_error": 3.3168369626481637e-09
+    },
+    {
+      "frequency_hz": 15.575292153589315,
+      "direct_amplitude_m": 1.8218253994451842e-06,
+      "direct_phase_degrees": -119.21691050389414,
+      "modal_amplitude_m": 1.8218253963354675e-06,
+      "modal_phase_degrees": -119.21691040549254,
+      "full_field_relative_error": 3.317756325998121e-09
+    },
+    {
+      "frequency_hz": 15.601836393989984,
+      "direct_amplitude_m": 1.796787136376706e-06,
+      "direct_phase_degrees": -118.60284976875438,
+      "modal_amplitude_m": 1.7967871333789974e-06,
+      "modal_phase_degrees": -118.60284966652307,
+      "full_field_relative_error": 3.3188640510979825e-09
+    },
+    {
+      "frequency_hz": 15.628380634390652,
+      "direct_amplitude_m": 1.7727554308855275e-06,
+      "direct_phase_degrees": -117.96443908128,
+      "modal_amplitude_m": 1.7727554280017185e-06,
+      "modal_phase_degrees": -117.96443897530654,
+      "full_field_relative_error": 3.3202362699294186e-09
+    },
+    {
+      "frequency_hz": 15.65492487479132,
+      "direct_amplitude_m": 1.7497310786993176e-06,
+      "direct_phase_degrees": -117.30237220838414,
+      "modal_amplitude_m": 1.7497310759316697e-06,
+      "modal_phase_degrees": -117.30237209874133,
+      "full_field_relative_error": 3.3215008494002854e-09
+    },
+    {
+      "frequency_hz": 15.681469115191987,
+      "direct_amplitude_m": 1.727714778614547e-06,
+      "direct_phase_degrees": -116.61740644002116,
+      "modal_amplitude_m": 1.7277147759647025e-06,
+      "modal_phase_degrees": -116.61740632674214,
+      "full_field_relative_error": 3.3223190388248134e-09
+    },
+    {
+      "frequency_hz": 15.708013355592655,
+      "direct_amplitude_m": 1.7067070859172057e-06,
+      "direct_phase_degrees": -115.9103662119638,
+      "modal_amplitude_m": 1.7067070833857937e-06,
+      "modal_phase_degrees": -115.91036609516127,
+      "full_field_relative_error": 3.3230677799733224e-09
+    },
+    {
+      "frequency_hz": 15.734557595993323,
+      "direct_amplitude_m": 1.686708358165024e-06,
+      "direct_phase_degrees": -115.1821462357774,
+      "modal_amplitude_m": 1.6867083557533145e-06,
+      "modal_phase_degrees": -115.1821461155047,
+      "full_field_relative_error": 3.324419762002014e-09
+    },
+    {
+      "frequency_hz": 15.76110183639399,
+      "direct_amplitude_m": 1.6677186942411854e-06,
+      "direct_phase_degrees": -114.43371404510685,
+      "modal_amplitude_m": 1.6677186919504178e-06,
+      "modal_phase_degrees": -114.43371392149749,
+      "full_field_relative_error": 3.3250498299754444e-09
+    },
+    {
+      "frequency_hz": 15.787646076794658,
+      "direct_amplitude_m": 1.6497378676357496e-06,
+      "direct_phase_degrees": -113.6661118707272,
+      "modal_amplitude_m": 1.6497378654677524e-06,
+      "modal_phase_degrees": -113.66611174387349,
+      "full_field_relative_error": 3.3259015176973687e-09
+    },
+    {
+      "frequency_hz": 15.814190317195326,
+      "direct_amplitude_m": 1.6327652549912185e-06,
+      "direct_phase_degrees": -112.88045775875409,
+      "modal_amplitude_m": 1.6327652529447962e-06,
+      "modal_phase_degrees": -112.88045762871347,
+      "full_field_relative_error": 3.3272651076883993e-09
+    },
+    {
+      "frequency_hz": 15.840734557595994,
+      "direct_amplitude_m": 1.61679976098072e-06,
+      "direct_phase_degrees": -112.07794585453404,
+      "modal_amplitude_m": 1.6167997590591608e-06,
+      "modal_phase_degrees": -112.07794572149618,
+      "full_field_relative_error": 3.327768742158858e-09
+    },
+    {
+      "frequency_hz": 15.867278797996661,
+      "direct_amplitude_m": 1.6018397407062813e-06,
+      "direct_phase_degrees": -111.25984578485544,
+      "modal_amplitude_m": 1.6018397389100372e-06,
+      "modal_phase_degrees": -111.25984564893153,
+      "full_field_relative_error": 3.328568787942683e-09
+    },
+    {
+      "frequency_hz": 15.89382303839733,
+      "direct_amplitude_m": 1.5878829207589135e-06,
+      "direct_phase_degrees": -110.42750108225064,
+      "modal_amplitude_m": 1.5878829190888098e-06,
+      "modal_phase_degrees": -110.42750094365238,
+      "full_field_relative_error": 3.328896630849391e-09
+    },
+    {
+      "frequency_hz": 15.920367278797997,
+      "direct_amplitude_m": 1.574926320205239e-06,
+      "direct_phase_degrees": -109.58232661406532,
+      "modal_amplitude_m": 1.5749263186621218e-06,
+      "modal_phase_degrees": -109.58232647284377,
+      "full_field_relative_error": 3.329922513000318e-09
+    },
+    {
+      "frequency_hz": 15.946911519198665,
+      "direct_amplitude_m": 1.5629661727221113e-06,
+      "direct_phase_degrees": -108.72580499424208,
+      "modal_amplitude_m": 1.5629661713064107e-06,
+      "modal_phase_degrees": -108.72580485063983,
+      "full_field_relative_error": 3.330389433782543e-09
+    },
+    {
+      "frequency_hz": 15.973455759599332,
+      "direct_amplitude_m": 1.5519978511114334e-06,
+      "direct_phase_degrees": -107.85948198094161,
+      "modal_amplitude_m": 1.551997849823886e-06,
+      "modal_phase_degrees": -107.85948183516315,
+      "full_field_relative_error": 3.330668270261407e-09
+    },
+    {
+      "frequency_hz": 16.0,
+      "direct_amplitude_m": 1.5420157953952762e-06,
+      "direct_phase_degrees": -106.9849608816362,
+      "modal_amplitude_m": 1.5420157942354012e-06,
+      "modal_phase_degrees": -106.98496073384219,
+      "full_field_relative_error": 3.3310834970060974e-09
+    }
+  ],
+  "checks": {
+    "four_resonance_families": true,
+    "peak_frequency_locations": true,
+    "direct_matches_complete_modal": true,
+    "probe_matches_complete_modal": true,
+    "harmonic_residual": true,
+    "finite_response": true,
+    "complete_modal_basis": true
+  },
+  "limitations": [
+    "The broadband oracle uses the same assembled K and M but an independent complete modal algorithm.",
+    "The point load is deliberately off-center to activate several mode families.",
+    "This study verifies deterministic harmonic response, not random vibration or PSD analysis."
+  ]
+}

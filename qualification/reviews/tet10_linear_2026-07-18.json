@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "review_id": "REV-TET10-LINEAR-2026-07-18",
+  "scope": "tet10-linear-static",
+  "validation_status": "engineering_internal_validated_with_recommendations",
+  "decision": "accepted_with_recommendations",
+  "decision_date": "2026-07-18",
+  "validator": {
+    "name": "Quentin Farinazzo",
+    "role": "auteur et validateur mecanique"
+  },
+  "review_mode": "self_review",
+  "independence": "not_independent",
+  "certification_claim": "none",
+  "use_class": "engineering_internal_candidate",
+  "source_revision": "c330865b6d2e2085ed5538fcb3af09e44aaec3dc",
+  "source_worktree_state": "dirty_at_review",
+  "accepted_domain": [
+    "TET10 isoparametrique en elasticite lineaire isotrope et petites deformations",
+    "geometries droites avec quadrature Hammer a quatre points",
+    "geometries courbes admissibles avec quadrature Duffy positive a 64 points",
+    "controle du Jacobien sur 35 points et rejet des geometries inversees",
+    "traction, flexion et torsion dans les domaines des campagnes publiees",
+    "masse coherente, modal lineaire et charges coherentes de face T6",
+    "recuperation nodale hors singularites",
+    "correlation meme maillage CalculiX 2.20 C3D10",
+    "caracterisation favorable jusqu'a nu=0.499 sur le cas de flexion documente"
+  ],
+  "excluded_domain": [
+    "incompressibilite exacte nu=0.5 et formulation mixte u-p",
+    "plasticite TET10 courbe dependante du chemin",
+    "grandes transformations TET10",
+    "regularisation des singularites par recuperation nodale",
+    "usage industriel autonome sans campagne finale complexe",
+    "revendication de certification"
+  ],
+  "evidence": [
+    "VNV-TET10-GEOMETRY-QUADRATURE-011",
+    "VNV-TET10-STRUCTURAL-CONVERGENCE-012",
+    "VNV-TET10-MASS-MODAL-LOADS-013",
+    "VNV-TET10-CALCULIX-C3D10-014",
+    "VNV-TET10-NEAR-INCOMPRESSIBLE-015"
+  ],
+  "reviewed_observations": [
+    "La geometrie courbe utilise une quadrature positive enrichie et un controle echantillonne du Jacobien.",
+    "Les convergences de traction, flexion et torsion sont acceptees dans le domaine documente.",
+    "La masse coherente, le modal et les charges T6 sont acceptes.",
+    "La correlation sur maillage identique avec CalculiX C3D10 est acceptee.",
+    "Le comportement a nu=0.499 est accepte comme caracterisation avec recommandation, sans qualifier nu=0.5.",
+    "Les resultats actuels sont juges coherents et validables pour l'usage interne borne."
+  ],
+  "recommendations": [
+    {
+      "id": "REC-TET10-001",
+      "title": "Campagne finale sur pieces et assemblages complexes avec maillages importants, chargements combines et correlations multi-solveurs",
+      "details": "Executer cette campagne a la fin de l'ensemble du developpement, avec davantage de tests structurels que les cas elementaires actuels et des comparaisons notamment avec Conastin, CalculiX et Code_Aster. Preciser la designation et la version de Conastin avant execution.",
+      "status": "deferred_final_validation_campaign",
+      "blocking_current_internal_acceptance": false,
+      "blocking_total_or_external_acceptance": true
+    },
+    {
+      "id": "REC-TET10-002",
+      "title": "Obtenir une Owner review independante avant qualification externe",
+      "status": "open_external_qualification_blocker",
+      "blocking_current_internal_acceptance": false,
+      "blocking_total_or_external_acceptance": true
+    }
+  ],
+  "known_limitations": [
+    "Une seule correlation externe C3D10 sur geometrie courbe est disponible.",
+    "La correlation externe porte sur les deplacements, pas sur les contraintes aux points d'integration.",
+    "Le cas quasi-incompressible est une poutre unique et ne qualifie pas nu=0.5.",
+    "Cette auto-revue ne constitue pas une verification independante."
+  ],
+  "review_document": "docs/verification/revue_tet10_lineaire.md",
+  "review_pdf": "docs/assets/reviews/revue_mecanique_tet10_lineaire.pdf",
+  "signature": {
+    "name": "Quentin Farinazzo",
+    "date": "2026-07-18",
+    "type": "declared_electronic_self_review",
+    "declaration": "Validation du TET10 lineaire avec recommandation d'une campagne finale sur pieces complexes et correlations multi-solveurs avant acceptation totale."
+  }
+}

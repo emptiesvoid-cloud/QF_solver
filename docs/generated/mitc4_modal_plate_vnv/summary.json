@@ -1,0 +1,175 @@
+{
+  "study_id": "VNV-MITC4-MODAL-PLATE-003",
+  "reference": {
+    "type": "Navier thin simply-supported square plate",
+    "equation": "f_mn = pi/(2*a^2)*sqrt(D/(rho*t))*(m^2+n^2)",
+    "mode_orders": [
+      [
+        1,
+        1
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        2
+      ]
+    ],
+    "frequencies_hz": [
+      48.406723927944356,
+      121.0168098198609,
+      121.0168098198609,
+      193.62689571177742
+    ],
+    "domain": "square plate, t/a = 0.01, w=0 on four edges"
+  },
+  "acceptance": {
+    "relative_frequency_error_max": 0.05,
+    "mac_min": 0.995,
+    "relative_residual_max": 1e-07,
+    "mass_orthogonality_error_max": 1e-07
+  },
+  "points": [
+    {
+      "mesh": [
+        4,
+        4
+      ],
+      "element_count": 16,
+      "frequencies_hz": [
+        51.88551983042891,
+        159.66282988902498,
+        159.6628298930521,
+        259.94241974580035
+      ],
+      "relative_frequency_errors": [
+        0.07186596448177127,
+        0.3193442309931196,
+        0.31934423102639703,
+        0.34249128350813746
+      ],
+      "first_mode_mac": 0.9999999999953176,
+      "repeated_mode_subspace_mac": 0.9999999998813154,
+      "fourth_mode_mac": 1.0000000000000002,
+      "maximum_relative_residual": 9.66026406930287e-10,
+      "mass_orthogonality_error": 5.974778997368415e-16
+    },
+    {
+      "mesh": [
+        6,
+        6
+      ],
+      "element_count": 36,
+      "frequencies_hz": [
+        49.88731043307567,
+        135.73039429618544,
+        135.73039429774536,
+        219.23894875481145
+      ],
+      "relative_frequency_errors": [
+        0.030586381084892974,
+        0.12158298089518631,
+        0.12158298090807645,
+        0.13227528618316925
+      ],
+      "first_mode_mac": 0.9999999987861604,
+      "repeated_mode_subspace_mac": 0.9999999931461669,
+      "fourth_mode_mac": 0.9999999972020097,
+      "maximum_relative_residual": 1.7617862754431368e-09,
+      "mass_orthogonality_error": 1.0464462694862095e-15
+    },
+    {
+      "mesh": [
+        8,
+        8
+      ],
+      "element_count": 64,
+      "frequencies_hz": [
+        49.2122739345242,
+        128.83899108386808,
+        128.83899108490047,
+        207.25411201492352
+      ],
+      "relative_frequency_errors": [
+        0.01664128330144674,
+        0.06463714648940806,
+        0.06463714649793903,
+        0.0703787366576947
+      ],
+      "first_mode_mac": 0.9999999966283384,
+      "repeated_mode_subspace_mac": 0.9999999838803669,
+      "fourth_mode_mac": 0.9999999777401913,
+      "maximum_relative_residual": 1.5792874759577834e-09,
+      "mass_orthogonality_error": 5.172587467070895e-16
+    },
+    {
+      "mesh": [
+        12,
+        12
+      ],
+      "element_count": 144,
+      "frequencies_hz": [
+        48.73257955786665,
+        124.28641552671499,
+        124.2864155316255,
+        199.2656655031575
+      ],
+      "relative_frequency_errors": [
+        0.006731619152895902,
+        0.02701778134559201,
+        0.027017781386169053,
+        0.0291218312964829
+      ],
+      "first_mode_mac": 0.9999999904875583,
+      "repeated_mode_subspace_mac": 0.999999958081601,
+      "fourth_mode_mac": 0.9999999166264406,
+      "maximum_relative_residual": 1.760534338242256e-09,
+      "mass_orthogonality_error": 1.225560577510485e-15
+    },
+    {
+      "mesh": [
+        16,
+        16
+      ],
+      "element_count": 256,
+      "frequencies_hz": [
+        48.56049986831976,
+        122.7521998501127,
+        122.75219985083636,
+        196.55556400102066
+      ],
+      "relative_frequency_errors": [
+        0.003176747523842067,
+        0.01434007418337184,
+        0.014340074189351666,
+        0.015125317577795038
+      ],
+      "first_mode_mac": 0.9999999821418508,
+      "repeated_mode_subspace_mac": 0.9999999231701971,
+      "fourth_mode_mac": 0.9999998332596316,
+      "maximum_relative_residual": 2.2715015457522385e-09,
+      "mass_orthogonality_error": 9.30709609130432e-16
+    }
+  ],
+  "checks": {
+    "four_frequency_errors": true,
+    "first_mode_mac": true,
+    "repeated_mode_subspace_mac": true,
+    "fourth_mode_mac": true,
+    "modal_residual": true,
+    "mass_orthogonality": true,
+    "first_frequency_convergence": true
+  },
+  "status": "PASS",
+  "limitations": [
+    "The Navier reference assumes Kirchhoff thin-plate behavior.",
+    "The repeated (1,2)/(2,1) eigenspace is compared as a subspace because individual vectors are not unique.",
+    "A same-mesh Abaqus S4R/S4 correlation remains pending."
+  ]
+}

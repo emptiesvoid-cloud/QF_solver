@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "review_id": "REV-MITC4-LAMINATE-STATIC-PENDING",
+  "scope": "mitc4-laminate-static",
+  "status": "engineering_internal_validated_with_recommendations",
+  "decision": "accepted_with_recommendations",
+  "decision_date": "2026-07-26",
+  "validator": {"name": "Quentin Farinazzo", "role": "auteur et validateur mecanique"},
+  "review_mode": "self_review",
+  "independence": "not_independent",
+  "certification_claim": "none",
+  "review_document": "docs/verification/revue_composites_mitc4.md",
+  "evidence": [
+    "VNV-COMP-ANALYTIC-001",
+    "VNV-COMP-STRUCTURAL-CONVERGENCE-002",
+    "VNV-COMP-CALCULIX-S8R-003",
+    "VNV-COMP-NAFEMS-R0031-CODEASTER-004"
+  ],
+  "proposed_domain": [
+    "MITC4 multicouche, elasticite lineaire, petits deplacements",
+    "empilements definis pli par pli et resultats de contraintes par pli",
+    "premier pli : contrainte/deformation maximale, Tsai-Hill et Tsai-Wu",
+    "coques planes ou facettisees dans les limites MITC4 documentees"
+  ],
+  "known_limitations": [
+    "S13 interlaminaire et contraintes de bord ne sont pas acceptees pour le dimensionnement.",
+    "Pas de delaminage, dommage progressif, Hashin ou Puck dans ce scope.",
+    "La correlation externe couvre un panneau plat; coques courbes et charges combinees restent a etudier.",
+    "Cette auto-revue ne constitue pas une verification independante."
+  ],
+  "review_answers": {
+    "ply_axes_and_signs": "accepted",
+    "analytic_abd_and_coupling": "accepted",
+    "shear_locking_resistance": "accepted",
+    "external_correlations": "accepted",
+    "excluded_s13_delamination_damage": "accepted",
+    "experimental_maturity": "accepted"
+  },
+  "recommendations": [
+    "Planifier une comparaison de contraintes par pli hors zone singuliere.",
+    "Maintenir le scope experimental jusqu'aux cas courbes ou distordus et aux charges combinees.",
+    "Ne pas utiliser S13, le delaminage ou le dommage comme resultat de dimensionnement dans ce scope."
+  ],
+  "signature": {
+    "signer": "Quentin Farinazzo",
+    "role": "auteur et validateur mecanique",
+    "mode": "self_review",
+    "date": "2026-07-26",
+    "statement": "Acceptation engineering interne avec recommandations du MITC4 multicouche dans le domaine borne et experimental; aucune revendication de certification externe."
+  }
+}

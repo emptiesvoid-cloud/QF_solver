@@ -1,0 +1,23 @@
+{
+  "record_id": "REVIEW-DOC-P0-2026-07-26",
+  "date": "2026-07-26",
+  "reviewer": {
+    "name": "Quentin Farinazzo",
+    "roles": ["author", "mechanical_validator"],
+    "mode": "self_review",
+    "independence": "not_independent"
+  },
+  "scope": "documentation baseline P0 external-reference policy",
+  "decision": "accepted_with_recommendations",
+  "accepted_statements": [
+    "Abaqus and Ansys same-mesh comparisons require traceable licensed results and exact solver versions.",
+    "Code_Aster and CalculiX are accepted as locally reproducible external numerical oracles.",
+    "The complete page-by-page documentation review is deferred until the end of development."
+  ],
+  "recommendations": [
+    "Do not present the deferred Abaqus or Ansys evidence as completed.",
+    "Record a separate review for each page or scope when the final documentation review begins.",
+    "Keep the qualification profile blocked until an approved clean source revision and the required reviews exist."
+  ],
+  "certification_claim": "none"
+}

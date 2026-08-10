@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "review_id": "REV-ORTHOTROPIC-SOLIDS-PENDING",
+  "scope": "orthotropic-solid-tet4-tet10",
+  "decision": "superseded_by_signed_review",
+  "decision_date": "2026-07-22",
+  "validator": {
+    "name": "Quentin Farinazzo",
+    "role": "auteur et validateur mecanique"
+  },
+  "review_mode": "self_review",
+  "independence": "not_independent",
+  "certification_claim": "none",
+  "technical_status": "review_closed_with_recommendations",
+  "successor_review": "qualification/reviews/orthotropic_solids_2026-07-22.json",
+  "review_progress_date": "2026-07-22",
+  "review_document": "docs/verification/revue_solides_orthotropes.md",
+  "evidence": [
+    "VNV-ORTHOTROPIC-SOLID-KERNEL-001",
+    "VNV-ORTHOTROPIC-SOLID-EXTERNAL-002",
+    "VNV-ORTHOTROPIC-SOLID-CONVERGENCE-003",
+    "VNV-ORTHOTROPIC-ISOTROPIC-NONREGRESSION-004"
+  ],
+  "review_questions": [
+    "La loi orthotrope 3D, la reciprocite des coefficients de Poisson et la positivite energetique sont-elles acceptables ?",
+    "Les conventions d'orientation materiau et de transformation Voigt sont-elles suffisamment claires ?",
+    "Les patch tests TET4/TET10 avec repere tourne et l'invariance par rotation globale sont-ils acceptables ?",
+    "La correlation meme maillage avec Code_Aster et CalculiX sur eprouvette perforee et equerre 3D est-elle acceptable ?",
+    "La convergence TET10 sur poutre hors axe permet-elle d'accepter le TET10 orthotrope en statique lineaire ?",
+    "La convergence TET4, malgre la raideur en flexion constatee, est-elle acceptable avec recommendation d'usage ?",
+    "La non-regression du chemin isotrope est-elle acceptable ?",
+    "Les limites hors scope sont-elles suffisamment explicites ?"
+  ],
+  "recorded_decisions": [
+    {
+      "item": "engineering_constants",
+      "decision": "accepted",
+      "statement": "Definition de E1/E2/E3, nu12/nu13/nu23 et G12/G13/G23 acceptee."
+    },
+    {
+      "item": "voigt_transformation",
+      "decision": "accepted",
+      "statement": "Transformation globale/materiau en notation de Voigt avec cisaillements d'ingenieur acceptee."
+    },
+    {
+      "item": "external_correlation",
+      "decision": "accepted",
+      "statement": "Correlation Code_Aster/CalculiX sur eprouvette perforee et equerre 3D acceptee."
+    },
+    {
+      "item": "homogenized_composite_scope",
+      "decision": "accepted",
+      "statement": "composite_orthotropic_3d est accepte comme materiau homogeneise trace et non comme modele pli par pli qualifie."
+    },
+    {
+      "item": "tet10_linear_static",
+      "decision": "accepted",
+      "statement": "TET10 orthotrope accepte pour le perimetre statique lineaire borne."
+    },
+    {
+      "item": "tet4_flexural_refinement",
+      "decision": "accepted_with_recommendation",
+      "statement": "Le besoin de raffinement superieur du TET4 en flexion orthotrope est juge coherent."
+    },
+    {
+      "item": "point_stress_singularities",
+      "decision": "not_accepted_as_exclusion",
+      "statement": "Les contraintes ponctuelles aux singularites ne doivent pas etre exclues globalement; une methode de convergence dediee est requise."
+    }
+  ],
+  "open_actions": [
+    "Completer la convergence TET4 avec environ 5 000 et 10 000 elements.",
+    "Qualifier les orientations variables pour geometries courbes; le suivi automatique de courbure n'est pas encore disponible.",
+    "Definir et verifier une procedure de traitement des contraintes proches des singularites.",
+    "Etendre ulterieurement le materiau orthotrope TET4/TET10 aux analyses modales et dynamiques."
+  ],
+  "known_limitations": [
+    "Le TET4 orthotrope converge mais reste trop raide en flexion sur les maillages courants; le TET10 est recommande pour la conception en flexion.",
+    "La correlation externe porte surtout sur les deplacements nodaux et le pic von Mises Code_Aster; une procedure de convergence dediee aux contraintes proches des singularites reste a qualifier.",
+    "Une orientation constante est definie par materiau. Une orientation par regions est possible avec plusieurs materiaux, mais le suivi automatique d'une geometrie courbe et les orientations variables aux points d'integration ne sont pas encore supportes.",
+    "Le delaminage, les elements cohesifs, l'endommagement progressif, la plasticite anisotrope et les grandes deformations sont hors scope.",
+    "Le type composite_orthotropic_3d conserve la provenance homogeneisee; il ne remplace pas une modelisation pli par pli qualifiee.",
+    "Cette auto-revue ne constitue pas une verification independante."
+  ],
+  "proposed_decision": "accepted_with_recommendations",
+  "proposed_recommendations": [
+    {
+      "id": "REC-ORTHO-001",
+      "title": "Utiliser preferentiellement TET10 pour les structures orthotropes dominees par flexion.",
+      "blocking_current_internal_acceptance": false,
+      "blocking_total_or_external_acceptance": false
+    },
+    {
+      "id": "REC-ORTHO-002",
+      "title": "Ajouter une campagne finale sur pieces composites complexes, chargements combines et correlations multi-solveurs avant acceptation totale.",
+      "blocking_current_internal_acceptance": false,
+      "blocking_total_or_external_acceptance": true
+    },
+    {
+      "id": "REC-ORTHO-003",
+      "title": "Obtenir une Owner review independante avant toute qualification externe.",
+      "blocking_current_internal_acceptance": false,
+      "blocking_total_or_external_acceptance": true
+    },
+    {
+      "id": "REC-ORTHO-004",
+      "title": "Qualifier le transport d'orientation sur geometries courbes avant usage sur fibres ou directions materiau continument variables.",
+      "blocking_current_internal_acceptance": false,
+      "blocking_total_or_external_acceptance": true
+    },
+    {
+      "id": "REC-ORTHO-005",
+      "title": "Ajouter les perimetres modal et dynamique TET4/TET10 orthotropes apres qualification de la masse.",
+      "blocking_current_internal_acceptance": false,
+      "blocking_total_or_external_acceptance": false
+    },
+    {
+      "id": "REC-ORTHO-006",
+      "title": "Verifier les contraintes proches des singularites par sequences de raffinement, chemins de distance et grandeurs regularisees.",
+      "blocking_current_internal_acceptance": false,
+      "blocking_total_or_external_acceptance": true
+    }
+  ],
+  "signature": null
+}

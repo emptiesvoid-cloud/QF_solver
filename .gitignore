@@ -1,0 +1,47 @@
+# Python caches
+__pycache__/
+*.py[cod]
+
+# Test and lint caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.hypothesis/
+.coverage
+coverage*.json
+coverage*.xml
+htmlcov/
+
+# Editable/install metadata
+*.egg-info/
+build/
+dist/
+site/
+.docs-cache/
+output/
+git_history_audit.json
+release_readiness.json
+release_archive_audit.json
+
+# Generated solver outputs
+results/
+results_large/
+VNV-*/
+qualification/vnv/**
+tmp/
+docs/generated/
+docs/assets/generated/
+docs/latex/qf_solver_manual*.tex
+*.h5
+*.hdf5
+*.npz
+
+# Local virtual environments and IDE state
+.venv/
+.ci-repro-venv/
+venv/
+.idea/
+.vscode/
+playwright-report/
+test-results/
+public_release_audit.json

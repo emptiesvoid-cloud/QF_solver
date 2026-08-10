@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QF_solver - Revue TET4 lineaire isotrope</title>
+  <style>
+    :root { color-scheme: light; font-family: Arial, Helvetica, sans-serif; }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: #17212b; background: #f4f6f7; line-height: 1.55; }
+    header { background: #ffffff; border-bottom: 1px solid #cbd3d8; padding: 20px 5vw 16px; }
+    header h1 { margin: 0 0 6px; font-size: 1.65rem; letter-spacing: 0; }
+    header p { margin: 0; color: #52616b; }
+    nav { margin-top: 14px; display: flex; gap: 18px; flex-wrap: wrap; }
+    nav a { color: #006b66; font-weight: 700; text-decoration: none; }
+    main { width: min(1180px, 92vw); margin: 0 auto; background: #ffffff; }
+    section { padding: 30px 3vw; border-bottom: 1px solid #d8dee2; }
+    h2 { margin: 0 0 12px; font-size: 1.35rem; }
+    h3 { margin: 24px 0 8px; font-size: 1.05rem; }
+    .status { display: inline-block; padding: 3px 8px; border: 1px solid #9a7b14; color: #725700; background: #fff8d7; font-weight: 700; }
+    table { border-collapse: collapse; width: 100%; margin: 14px 0 22px; }
+    th, td { border: 1px solid #cbd3d8; padding: 8px 10px; text-align: left; }
+    th { background: #edf1f2; }
+    code, pre { font-family: Consolas, "Courier New", monospace; }
+    pre { overflow-x: auto; padding: 14px; background: #eef3f3; border-left: 4px solid #007f7b; }
+    figure { margin: 20px 0 34px; }
+    figure img { display: block; width: 100%; height: auto; border: 1px solid #cbd3d8; background: #ffffff; }
+    figcaption { margin-top: 7px; color: #52616b; }
+    .warning { border-left: 4px solid #b7791f; padding: 10px 14px; background: #fff8e6; }
+    footer { padding: 20px 5vw; color: #52616b; background: #edf1f2; }
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.35rem; }
+      main { width: 100%; }
+      section { padding: 24px 18px; }
+      th, td { padding: 6px; font-size: 0.88rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>QF_solver - Revue TET4 lineaire isotrope</h1>
+    <p>Document local autonome. Les images sont chargees depuis les artefacts regeneres du projet.</p>
+    <nav aria-label="Sections">
+      <a href="#decision">Decision</a>
+      <a href="#membrane">Traction / compression</a>
+      <a href="#flexion">Flexion</a>
+      <a href="#torsion">Torsion</a>
+    </nav>
+  </header>
+  <main>
+    <section id="decision">
+      <h2>Decision actuelle</h2>
+      <p><span class="status">ACCEPTED - ENGINEERING INTERNE</span></p>
+      <p>Validation du TET4 lineaire isotrope par Quentin Farinazzo le 14 juillet 2026. La revue est une auto-revue non independante et le projet est prive a cette date.</p>
+      <p class="warning">Les contraintes locales de torsion ne font pas partie du domaine accepte: leur erreur L2 vaut encore 29,06 % au maillage le plus fin.</p>
+    </section>
+
+    <section id="membrane">
+      <h2>Panneau mince 3D TET4 en traction et compression</h2>
+      <table>
+        <thead><tr><th>Grandeur</th><th>Valeur</th><th>Critere</th></tr></thead>
+        <tbody>
+          <tr><td>Erreur relative deplacement maximale</td><td>4,94e-15</td><td>&lt;= 1e-9</td></tr>
+          <tr><td>Erreur relative contrainte maximale</td><td>3,64e-14</td><td>&lt;= 1e-9</td></tr>
+          <tr><td>Residu libre maximal</td><td>7,61e-14</td><td>&lt;= 1e-8</td></tr>
+          <tr><td>Maillages</td><td>5 en traction + 5 en compression</td><td>memes geometries</td></tr>
+        </tbody>
+      </table>
+      <figure>
+        <img src="docs/assets/generated/benchmarks/bm-sol-tet4-membrane-001_deformation.png" alt="Deformee du panneau TET4 en traction membranaire">
+        <figcaption>Maillage initial et deformee amplifiee.</figcaption>
+      </figure>
+      <figure>
+        <img src="docs/assets/generated/benchmarks/bm-sol-tet4-membrane-001_von_mises.png" alt="Champ de von Mises du panneau TET4">
+        <figcaption>Contrainte equivalente sur la deformee.</figcaption>
+      </figure>
+      <figure>
+        <img src="docs/assets/generated/benchmarks/bm-sol-tet4-membrane-001_response.png" alt="Erreurs du panneau TET4 selon le maillage">
+        <figcaption>Erreurs de deplacement et de contrainte sur cinq maillages, pour les deux signes de chargement.</figcaption>
+      </figure>
+      <figure>
+        <img src="docs/assets/generated/benchmarks/bm-sol-tet4-membrane-001_compression_deformation.png" alt="Deformee du panneau TET4 en compression">
+        <figcaption>Maillage initial et deformee amplifiee en compression.</figcaption>
+      </figure>
+      <figure>
+        <img src="docs/assets/generated/benchmarks/bm-sol-tet4-membrane-001_compression_von_mises.png" alt="Champ de von Mises en compression">
+        <figcaption>Contrainte equivalente du cas de compression.</figcaption>
+      </figure>
+    </section>
+
+    <section id="flexion">
+      <h2>Poutre 3D TET4 en flexion</h2>
+      <table>
+        <thead><tr><th>Grandeur</th><th>Valeur</th><th>Critere</th></tr></thead>
+        <tbody>
+          <tr><td>Nombre de maillages TET4</td><td>6</td><td>raffinement monotone</td></tr>
+          <tr><td>Erreur initiale sur la fleche</td><td>44,89 %</td><td>information</td></tr>
+          <tr><td>Erreur finale sur la fleche</td><td>7,71 %</td><td>&lt;= 20 %</td></tr>
+          <tr><td>Ordre observe</td><td>1,377</td><td>&gt;= 1,0</td></tr>
+        </tbody>
+      </table>
+      <figure>
+        <img src="docs/assets/generated/benchmarks/bm-sol-cantilever-001_deformation.png" alt="Deformee de la poutre en flexion">
+        <figcaption>Deformee amplifiee du modele de poutre.</figcaption>
+      </figure>
+      <figure>
+        <img src="docs/assets/generated/benchmarks/bm-sol-cantilever-001_von_mises.png" alt="Champ de von Mises en flexion">
+        <figcaption>Champ de von Mises sur la deformee.</figcaption>
+      </figure>
+      <figure>
+        <img src="docs/assets/generated/benchmarks/bm-sol-cantilever-001_response.png" alt="Convergence de la fleche TET4">
+        <figcaption>Erreur de fleche en fonction de la taille de maille.</figcaption>
+      </figure>
+    </section>
+
+    <section id="torsion">
+      <h2>Arbre circulaire TET4 en torsion de Saint-Venant</h2>
+      <h3>Lecture du champ de deplacement</h3>
+      <pre>phi(x) = T * x / (G * J)
+u_x = 0
+u_y = -phi(x) * z
+u_z =  phi(x) * y</pre>
+      <h3>Traction terminale</h3>
+      <pre>t_x = 0
+t_y = -T * z / J
+t_z =  T * y / J</pre>
+      <table>
+        <thead><tr><th>Grandeur</th><th>Valeur</th><th>Critere</th></tr></thead>
+        <tbody>
+          <tr><td>Nombre de maillages</td><td>8</td><td>raffinement monotone</td></tr>
+          <tr><td>Erreur de rotation, maillage fin</td><td>3,07 %</td><td>&lt;= 15 %</td></tr>
+          <tr><td>Ordre de convergence observe</td><td>1,499</td><td>&gt;= 0,5</td></tr>
+          <tr><td>Erreur relative sur le couple</td><td>2,27e-16</td><td>&lt;= 1e-12</td></tr>
+          <tr><td>Erreur L2 des contraintes, maillage fin</td><td>29,06 %</td><td>hors domaine accepte</td></tr>
+        </tbody>
+      </table>
+      <figure>
+        <img src="docs/assets/generated/benchmarks/bm-sol-tet4-torsion-001_deformation.png" alt="Deformee de l'arbre TET4 en torsion">
+        <figcaption>Rotation amplifiee de l'arbre circulaire.</figcaption>
+      </figure>
+      <figure>
+        <img src="docs/assets/generated/benchmarks/bm-sol-tet4-torsion-001_von_mises.png" alt="Champ de von Mises de l'arbre TET4">
+        <figcaption>Champ de von Mises sur le maillage fin.</figcaption>
+      </figure>
+      <figure>
+        <img src="docs/assets/generated/benchmarks/bm-sol-tet4-torsion-001_response.png" alt="Convergence de la torsion TET4">
+        <figcaption>Convergence de la rotation et des contraintes.</figcaption>
+      </figure>
+    </section>
+  </main>
+  <footer>QF_solver 0.2.0 - document de revue engineering, sans revendication de certification externe.</footer>
+</body>
+</html>

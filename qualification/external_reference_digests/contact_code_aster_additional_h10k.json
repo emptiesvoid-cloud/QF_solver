@@ -1,0 +1,210 @@
+{
+  "cases": [
+    {
+      "channels": [
+        "N5-UX",
+        "N5-UZ"
+      ],
+      "checks": [
+        {
+          "id": "dual_stop_corner:displacement_curve",
+          "limit": 0.0005,
+          "status": "PASS",
+          "value": 4.1633363423443355e-16
+        },
+        {
+          "id": "dual_stop_corner:gap_curve",
+          "limit": 0.0005,
+          "status": "PASS",
+          "value": 5.20417042793042e-16
+        },
+        {
+          "id": "dual_stop_corner:final_max_abs_gap",
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 0.0
+        }
+      ],
+      "diagnostics": {},
+      "displacement_curve_error": 4.1633363423443355e-16,
+      "elements": 0,
+      "gap_curve_error": 5.20417042793042e-16,
+      "id": "dual_stop_corner",
+      "nodes": 5
+    },
+    {
+      "channels": [
+        "N9-UZ",
+        "N10-UZ",
+        "N11-UZ"
+      ],
+      "checks": [
+        {
+          "id": "faceted_ramp_patch:displacement_curve",
+          "limit": 0.0005,
+          "status": "PASS",
+          "value": 2.0947604238210504e-16
+        },
+        {
+          "id": "faceted_ramp_patch:gap_curve",
+          "limit": 0.0005,
+          "status": "PASS",
+          "value": 2.5016694971949027e-16
+        },
+        {
+          "id": "faceted_ramp_patch:final_max_abs_gap",
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 5.551115123125783e-17
+        }
+      ],
+      "diagnostics": {},
+      "displacement_curve_error": 2.0947604238210504e-16,
+      "elements": 0,
+      "gap_curve_error": 2.5016694971949027e-16,
+      "id": "faceted_ramp_patch",
+      "nodes": 11
+    },
+    {
+      "channels": [
+        "N21-UX",
+        "N61-UX"
+      ],
+      "checks": [
+        {
+          "id": "deformable_tet4_two_slaves:active_displacement_curve",
+          "limit": 0.0005,
+          "status": "PASS",
+          "value": 3.3029134982597435e-14
+        },
+        {
+          "id": "deformable_tet4_two_slaves:active_gap_curve",
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 3.3029134982598407e-15
+        },
+        {
+          "id": "deformable_tet4_two_slaves:code_aster_transition_curve",
+          "limit": 0.05,
+          "status": "PASS",
+          "value": 3.3029134982597435e-14
+        },
+        {
+          "id": "deformable_tet4_two_slaves:final_max_abs_gap",
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 9.71445146547012e-16
+        }
+      ],
+      "diagnostics": {
+        "calculix_precontact_probe": "not_applicable",
+        "code_aster_transition_observation": "Both QF_solver contacts are already closed at the first sample; the full QF_solver/Code_Aster curve is compared.",
+        "contacts_closed_at_first_sample": true
+      },
+      "displacement_curve_error": 3.3029134982597435e-14,
+      "elements": 9984,
+      "gap_curve_error": 0.0033029134982598407,
+      "id": "deformable_tet4_two_slaves",
+      "nodes": 2190
+    }
+  ],
+  "checks": [
+    {
+      "id": "dual_stop_corner:displacement_curve",
+      "limit": 0.0005,
+      "status": "PASS",
+      "value": 4.1633363423443355e-16
+    },
+    {
+      "id": "dual_stop_corner:gap_curve",
+      "limit": 0.0005,
+      "status": "PASS",
+      "value": 5.20417042793042e-16
+    },
+    {
+      "id": "dual_stop_corner:final_max_abs_gap",
+      "limit": 1e-08,
+      "status": "PASS",
+      "value": 0.0
+    },
+    {
+      "id": "faceted_ramp_patch:displacement_curve",
+      "limit": 0.0005,
+      "status": "PASS",
+      "value": 2.0947604238210504e-16
+    },
+    {
+      "id": "faceted_ramp_patch:gap_curve",
+      "limit": 0.0005,
+      "status": "PASS",
+      "value": 2.5016694971949027e-16
+    },
+    {
+      "id": "faceted_ramp_patch:final_max_abs_gap",
+      "limit": 1e-08,
+      "status": "PASS",
+      "value": 5.551115123125783e-17
+    },
+    {
+      "id": "deformable_tet4_two_slaves:active_displacement_curve",
+      "limit": 0.0005,
+      "status": "PASS",
+      "value": 3.3029134982597435e-14
+    },
+    {
+      "id": "deformable_tet4_two_slaves:active_gap_curve",
+      "limit": 1e-08,
+      "status": "PASS",
+      "value": 3.3029134982598407e-15
+    },
+    {
+      "id": "deformable_tet4_two_slaves:code_aster_transition_curve",
+      "limit": 0.05,
+      "status": "PASS",
+      "value": 3.3029134982597435e-14
+    },
+    {
+      "id": "deformable_tet4_two_slaves:final_max_abs_gap",
+      "limit": 1e-08,
+      "status": "PASS",
+      "value": 9.71445146547012e-16
+    }
+  ],
+  "diagnostic_solver": {
+    "image": "qf-solver/calculix-nafems13h:2.20",
+    "name": "CalculiX",
+    "role": "independent pre-contact TET4 tie-breaker",
+    "version": "2.20"
+  },
+  "evidence_manifest_sha256": "a33d926f45bb887b4c0536f73749ed7264cb55963e71ac1729d94e46944b9f85",
+  "external_solver": {
+    "formulations": [
+      "DEFI_CONTACT / LIAISON_UNIL",
+      "3D TETRA4 / DEFI_CONTACT / LIAISON_UNIL"
+    ],
+    "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+    "name": "Code_Aster",
+    "version": "18.1.0"
+  },
+  "limitations": [
+    "The comparison isolates the same unilateral normal inequalities.",
+    "The faceted ramp uses one scalar normal inequality per retained facet.",
+    "The TET4 model compares the deformable structure and two unilateral slave nodes.",
+    "Friction, impact, large sliding and general surface-to-surface contact remain outside scope."
+  ],
+  "load_factors": [
+    0.1,
+    0.2,
+    0.30000000000000004,
+    0.4,
+    0.5,
+    0.6,
+    0.7000000000000001,
+    0.8,
+    0.9,
+    1.0
+  ],
+  "maturity": "ready_for_owner_review",
+  "status": "PASS_EXTERNAL_CORRELATION",
+  "study_id": "VNV-CONTACT-CODEASTER-ADDITIONAL-H10K-010"
+}

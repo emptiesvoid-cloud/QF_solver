@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "review_id": "OWNER-REVIEW-TECHNICAL-MANUAL-FINAL-2026-08-01",
+  "review_type": "owner_review_non_independent",
+  "owner": "Quentin Farinazzo",
+  "review_date": "2026-08-01",
+  "owner_declaration": "Je valide le document.",
+  "document": {
+    "path": "output/pdf/dossier_technique_elements_methodes_owner_review_latex.pdf",
+    "sha256": "35a33ac588917568b1cf411bbe331193f4b409b7c32966f3002db29198e6c1e7",
+    "size_bytes": 11776426,
+    "page_count": 208,
+    "applicable_version": "0.2.0"
+  },
+  "supersedes_review": "qualification/reviews/technical_manual_owner_review_2026-08-01.json",
+  "decision": "accepted_with_recommendations",
+  "review_status": "closed",
+  "document_acceptance": true,
+  "qualification_effect": "none",
+  "maturity_effect": "none",
+  "accepted_scope": [
+    "technical structure and readability",
+    "finite element formulations and stated conventions",
+    "solver method descriptions",
+    "examples, result tables and current figures",
+    "composite V1 bounded documentation",
+    "stated maturity levels, limitations and exclusions"
+  ],
+  "completed_recommendations": [
+    "TET10 and contact figures use color-mapped filled fields.",
+    "Spring and concentrated-mass equations use native LaTeX.",
+    "Primary publication links, including Hammer-Stroud, are listed in the reference appendix.",
+    "The bounded composite V1 scope is included.",
+    "The shell_down, shell_middle and shell_up conventions are documented."
+  ],
+  "open_non_blocking_recommendations": [
+    "Add stress and strain field maps to every demonstration where these quantities drive the mechanical conclusion.",
+    "Add convergence curves to studies currently documented mainly by terminal values.",
+    "Add an analytical or reproducible Code_Aster/CalculiX comparison for every claimed element-method pair where feasible.",
+    "Add synchronized QF_solver/reference result views where an external reference is available."
+  ],
+  "governance_note": "This owner review accepts the document. It is not an independent review and does not by itself qualify an element, method or solver scope."
+}

@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "generated_on": "2026-08-02",
+  "purpose": "Close the technical-documentation gaps without changing mechanical maturity or qualification status.",
+  "policy": {
+    "accepted_oracle_kinds": [
+      "analytical",
+      "code_aster",
+      "calculix",
+      "published_benchmark",
+      "cross_backend",
+      "gap_documented"
+    ],
+    "gap_documented_is_mechanical_pass": false,
+    "documentation_acceptance_changes_maturity": false,
+    "external_priority": ["analytical", "Code_Aster", "CalculiX"],
+    "validated_pdf_is_immutable": "output/pdf/dossier_technique_elements_methodes_owner_review_latex.pdf"
+  },
+  "loading_contracts": [
+    {
+      "family": "TET4",
+      "documentation": "docs/elements/tet4/matrices_charges.md",
+      "supports": ["nodal_load", "pressure", "surface_traction", "gravity", "body_force"],
+      "tests": ["tests/unit/test_distributed_loads.py", "tests/integration/test_examples.py"]
+    },
+    {
+      "family": "TET10",
+      "documentation": "docs/elements/tet10/matrices_charges.md",
+      "supports": ["nodal_load", "pressure", "surface_traction", "gravity", "body_force"],
+      "tests": ["tests/unit/test_distributed_loads.py", "tests/verification/test_tet10_mass_modal_loads_vnv.py"]
+    },
+    {
+      "family": "MITC4",
+      "documentation": "docs/elements/mitc4/matrices_charges.md",
+      "supports": ["nodal_load", "pressure", "surface_traction", "edge_traction", "gravity", "body_force"],
+      "tests": ["tests/unit/test_distributed_loads.py", "tests/verification/test_mitc4_verification.py"]
+    },
+    {
+      "family": "MITC3",
+      "documentation": "docs/elements/mitc3/matrices_charges.md",
+      "supports": ["nodal_load", "pressure", "surface_traction", "edge_traction", "gravity", "body_force"],
+      "tests": ["tests/unit/test_distributed_loads.py", "tests/verification/test_mitc3_campaign.py"]
+    },
+    {
+      "family": "BEAM2",
+      "documentation": "docs/elements/beam2/interpolation_matrices.md",
+      "supports": ["nodal_load", "beam_distributed"],
+      "tests": ["tests/unit/test_beam2_element.py", "tests/integration/test_beam2_workflow.py"]
+    },
+    {
+      "family": "SPRING_MASS",
+      "documentation": "docs/elements/entites_discretes.md",
+      "supports": ["nodal_load", "grounded_spring", "concentrated_mass"],
+      "tests": ["tests/unit/test_discrete_entities.py", "tests/verification/test_code_aster_discrete_vnv.py"]
+    },
+    {
+      "family": "CONTACT",
+      "documentation": "docs/elements/contact_sans_frottement.md",
+      "supports": ["contact_normal", "coulomb_regularized"],
+      "tests": ["tests/verification/test_frictionless_contact_structural_vnv.py", "tests/verification/test_frictional_contact_structural_vnv.py"]
+    }
+  ],
+  "element_analysis_pairs": [
+    {"id": "PAIR-TET4-STATIC", "family": "TET4", "analysis": "linear_static", "status": "owner_accepted", "oracle": {"kind": "analytical", "status": "available", "evidence": ["qualification/reviews/tet4_linear_isotropic_2026-07-14.json", "qualification/campaign.json"], "note": "Affine patch, traction/compression, pressure, body force, membrane and Saint-Venant torsion."}},
+    {"id": "PAIR-TET4-MODAL", "family": "TET4", "analysis": "modal", "status": "owner_accepted", "oracle": {"kind": "code_aster", "status": "available", "evidence": ["qualification/vnv/linear_dynamic_families/tet4/summary.json", "qualification/vnv/tet4_dynamic_code_aster/reference/summary.json"], "note": "Eigen residuals, first-mode oscillator reduction and same-mesh Code_Aster TETRA4 modes were accepted by the Owner on 2026-08-02."}},
+    {"id": "PAIR-TET4-NEWMARK", "family": "TET4", "analysis": "transient_newmark", "status": "owner_accepted", "oracle": {"kind": "code_aster", "status": "available", "evidence": ["qualification/vnv/linear_dynamic_families/tet4/summary.json", "qualification/vnv/tet4_dynamic_code_aster/reference/summary.json"], "note": "Closed-form first-mode response, energy invariant and same-time-grid Code_Aster TETRA4 history were accepted by the Owner on 2026-08-02."}},
+    {"id": "PAIR-TET4-HARMONIC", "family": "TET4", "analysis": "harmonic", "status": "owner_accepted", "oracle": {"kind": "code_aster", "status": "available", "evidence": ["qualification/vnv/linear_dynamic_families/tet4/summary.json", "qualification/vnv/tet4_dynamic_code_aster/reference/summary.json"], "note": "Static limit, resonance checks and same-frequency-grid Code_Aster TETRA4 response were accepted by the Owner on 2026-08-02."}},
+    {"id": "PAIR-TET4-J2", "family": "TET4", "analysis": "material_nonlinear_static", "status": "experimental", "oracle": {"kind": "analytical", "status": "available", "evidence": ["tests/verification/test_j2_material_vnv.py", "tests/verification/test_j2_structural_vnv.py", "tests/unit/test_calculix_j2.py"], "note": "Uniaxial J2 path and CalculiX comparison; bounded small-strain scope."}},
+    {"id": "PAIR-TET4-TL", "family": "TET4", "analysis": "geometric_nonlinear_static", "status": "owner_accepted", "oracle": {"kind": "code_aster", "status": "available", "evidence": ["qualification/reviews/tet4_total_lagrangian_structural_v2_2026-07-18.json", "qualification/vnv/external/code_aster_tl_structural/reference/summary.json", "qualification/vnv/external/calculix_tl_structural/reference/summary.json"], "note": "Total-Lagrangian structural paths correlated externally within the reviewed scope."}},
+
+    {"id": "PAIR-TET10-STATIC", "family": "TET10", "analysis": "linear_static", "status": "owner_accepted", "oracle": {"kind": "calculix", "status": "available", "evidence": ["qualification/reviews/tet10_linear_2026-07-18.json", "qualification/vnv/external/calculix_tet10/reference/summary.json", "qualification/vnv/tet10_structural_convergence/reference/summary.json"], "note": "Affine, bending, torsion, curved geometry and CalculiX C3D10 evidence."}},
+    {"id": "PAIR-TET10-MODAL", "family": "TET10", "analysis": "modal", "status": "owner_accepted", "oracle": {"kind": "analytical", "status": "available", "evidence": ["qualification/vnv/tet10_mass_modal_loads/reference/summary.json", "qualification/vnv/linear_dynamic_families/tet10/summary.json"], "note": "Consistent mass, modal residuals and bending mode convergence."}},
+    {"id": "PAIR-TET10-NEWMARK", "family": "TET10", "analysis": "transient_newmark", "status": "owner_accepted", "oracle": {"kind": "code_aster", "status": "available", "evidence": ["qualification/vnv/linear_dynamic_families/tet10/summary.json", "qualification/vnv/orthotropic_modal_newmark/reference/summary.json", "qualification/vnv/tet10_dynamic_code_aster/reference/summary.json", "tests/unit/test_code_aster_tet10_dynamic.py"], "note": "Internal first-mode response and a structural time-step study are complemented by the same-mesh Code_Aster TETRA10 Newmark history; accepted by the Owner on 2026-08-02."}},
+    {"id": "PAIR-TET10-HARMONIC", "family": "TET10", "analysis": "harmonic", "status": "owner_accepted", "oracle": {"kind": "code_aster", "status": "available", "evidence": ["qualification/vnv/linear_dynamic_families/tet10/summary.json", "qualification/vnv/tet10_dynamic_code_aster/reference/summary.json", "tests/unit/test_code_aster_tet10_dynamic.py"], "note": "Static limit, resonance checks, spatial frequency convergence and a same-mesh Code_Aster TETRA10 sweep were accepted by the Owner on 2026-08-02."}},
+    {"id": "PAIR-TET10-NONLINEAR", "family": "TET10", "analysis": "material_nonlinear_static", "status": "owner_accepted_experimental_bounded_use", "oracle": {"kind": "code_aster", "status": "available", "evidence": ["qualification/vnv/tet10_nonlinear_j2/reference/summary.json", "qualification/vnv/external/code_aster_tet10_j2_structural/reference/summary.json", "qualification/vnv/external/code_aster_tet10_j2_complex/reference/summary.json", "docs/verification/tet10_j2_structural_code_aster.md", "docs/verification/tet10_j2_complex_code_aster.md", "output/pdf/tet10_j2_structural_code_aster_owner_review.pdf", "qualification/reviews/tet10_j2_structural_code_aster_2026-08-09.json", "tests/verification/test_tet10_j2_structural_vnv.py", "tests/unit/test_code_aster_tet10_j2_structural.py", "tests/unit/test_code_aster_tet10_j2_complex.py"], "note": "The straight-bar monotone TET10/TETRA10 correlation was accepted by the Owner for experimental internal use. A re-entrant combined-load campaign also passes automatically, but its Owner review remains open; general maturity stays experimental."}},
+
+    {"id": "PAIR-MITC4-STATIC", "family": "MITC4", "analysis": "linear_static", "status": "owner_accepted", "oracle": {"kind": "code_aster", "status": "available", "evidence": ["qualification/reviews/mitc4_linear_static_2026-07-14.json", "qualification/vnv/mitc4_conical_cutout/reference/summary.json", "qualification/vnv/external/calculix_mitc4_conical_cutout/reference/summary.json", "qualification/vnv/external/code_aster_mitc4_conical_cutout/reference/summary.json"], "note": "Patch, locking, Cook, Scordelis, pinched cylinder and same-mesh conical-cutout correlations; Code_Aster closes the resultant check."}},
+    {"id": "PAIR-MITC4-MODAL", "family": "MITC4", "analysis": "modal", "status": "owner_accepted", "oracle": {"kind": "code_aster", "status": "available", "evidence": ["qualification/reviews/mitc4_modal_2026-07-16.json", "qualification/vnv/external/code_aster_modal/reference/summary.json"], "note": "Consistent mass and ten-mode Code_Aster correlation."}},
+    {"id": "PAIR-MITC4-NEWMARK", "family": "MITC4", "analysis": "transient_newmark", "status": "owner_accepted", "oracle": {"kind": "analytical", "status": "available", "evidence": ["qualification/reviews/mitc4_transient_dynamic_2026-07-16.json", "tests/verification/test_mitc4_newmark_operational_vnv.py"], "note": "Exact modal oscillator is the accepted temporal oracle; refined external structural correlation remains recommended."}},
+    {"id": "PAIR-MITC4-HARMONIC", "family": "MITC4", "analysis": "harmonic", "status": "owner_accepted", "oracle": {"kind": "published_benchmark", "status": "available", "evidence": ["qualification/reviews/mitc4_harmonic_response_2026-07-15.json", "tests/unit/test_mitc4_harmonic_review_record.py"], "note": "NAFEMS/theory and direct/modal-superposition checks within the reviewed band."}},
+    {"id": "PAIR-MITC4-LAMINATE", "family": "MITC4", "analysis": "laminate_linear_static", "status": "owner_accepted", "oracle": {"kind": "code_aster", "status": "available", "evidence": ["qualification/reviews/mitc4_laminate_static_followup_2026-07-26.json", "qualification/vnv/external/code_aster_composite_nafems/reference/summary.json", "qualification/vnv/external/calculix_composite/reference/summary.json"], "note": "ABD, ply stresses and bounded curved laminate comparisons."}},
+    {"id": "PAIR-MITC4-LAMINATE-DYN", "family": "MITC4", "analysis": "laminate_dynamic", "status": "owner_accepted_experimental_bounded_use", "oracle": {"kind": "code_aster", "status": "available", "evidence": ["qualification/vnv/mitc4_laminate_dynamic/reference/summary.json", "qualification/vnv/external/code_aster_mitc4_laminate_dynamic/reference/summary.json", "qualification/vnv/external/calculix_curved_orientation/reference/summary.json", "qualification/reviews/mitc4_laminate_dynamic_2026-08-10.json", "tests/verification/test_mitc4_laminate_dynamic_vnv.py", "tests/unit/test_code_aster_mitc4_laminate_dynamic.py"], "note": "Planar symmetric four-ply modal/Newmark/harmonic use is Owner-accepted as experimental and bounded. Dynamic curved shells, non-symmetric coupling, damage and delamination remain excluded; the 10 000 QUAD4 modal reservation remains open."}},
+
+    {"id": "PAIR-MITC3-STATIC", "family": "MITC3", "analysis": "linear_static", "status": "owner_accepted", "oracle": {"kind": "code_aster", "status": "available", "evidence": ["qualification/reviews/mitc3_linear_static_2026-08-01.json", "qualification/vnv/external/code_aster_mitc3/reference_v2/summary.json", "qualification/vnv/external/code_aster_mitc3/hemisphere_v1/summary.json"], "note": "Membrane, bending, hemisphere, Scordelis and pinched-shell evidence."}},
+    {"id": "PAIR-MITC3-MODAL", "family": "MITC3", "analysis": "modal", "status": "owner_accepted", "oracle": {"kind": "code_aster", "status": "available", "evidence": ["qualification/vnv/linear_dynamic_families/mitc3/summary.json", "qualification/vnv/mitc3_dynamic_extended/reference/summary.json", "qualification/vnv/mitc3_dynamic_code_aster/reference/summary.json", "tests/unit/test_code_aster_mitc3_dynamic.py"], "note": "Modal invariants, free-free modes, curved-shell h-refinement, eigsh and same-mesh Code_Aster DKT six-mode correlation were accepted by the Owner on 2026-08-02; mesh-frequency refinement remains recommended."}},
+    {"id": "PAIR-MITC3-NEWMARK", "family": "MITC3", "analysis": "transient_newmark", "status": "owner_accepted", "oracle": {"kind": "code_aster", "status": "available", "evidence": ["qualification/vnv/linear_dynamic_families/mitc3/summary.json", "qualification/vnv/mitc3_dynamic_extended/reference/summary.json", "qualification/vnv/mitc3_dynamic_code_aster/reference/summary.json", "tests/unit/test_code_aster_mitc3_dynamic.py"], "note": "First-mode time-history, energy, curved-shell time-step convergence and same-mesh Code_Aster DKT transient history were accepted by the Owner on 2026-08-02; mesh-frequency refinement remains recommended."}},
+    {"id": "PAIR-MITC3-HARMONIC", "family": "MITC3", "analysis": "harmonic", "status": "owner_accepted", "oracle": {"kind": "code_aster", "status": "available", "evidence": ["qualification/vnv/linear_dynamic_families/mitc3/summary.json", "qualification/vnv/mitc3_dynamic_extended/reference/summary.json", "qualification/vnv/mitc3_dynamic_code_aster/reference/summary.json", "tests/unit/test_code_aster_mitc3_dynamic.py"], "note": "Static limit, resonance, curved-shell broadband stress output and same-mesh sub-resonant Code_Aster DKT sweep were accepted by the Owner on 2026-08-02; mesh-frequency refinement remains recommended."}},
+    {"id": "PAIR-MITC3-LAMINATE", "family": "MITC3", "analysis": "laminate_linear_static", "status": "verified_development_external_correlation", "oracle": {"kind": "calculix", "status": "available", "evidence": ["qualification/vnv/mitc3_laminate_dynamic/reference/summary.json", "qualification/vnv/external/calculix_mitc3_laminate_ply_stress/reference/summary.json", "tests/verification/test_mitc3_laminate_dynamic_vnv.py", "tests/unit/test_calculix_mitc3_laminate_ply_stress.py"], "note": "The flat symmetric [0/90/90/0] affine membrane patch is externally correlated per ply with CalculiX S6 COMPOSITE: 0.09625 percent L2 on S11/S22/S12 at the final mesh. Curved projected orientation and an Owner decision remain open."}},
+    {"id": "PAIR-MITC3-LAMINATE-DYN", "family": "MITC3", "analysis": "laminate_dynamic", "status": "verified_development_external_correlation", "oracle": {"kind": "code_aster", "status": "available", "evidence": ["qualification/vnv/mitc3_laminate_dynamic/reference/summary.json", "qualification/vnv/external/code_aster_mitc3_laminate_dynamic/reference/summary.json", "qualification/vnv/external/calculix_mitc3_laminate_ply_stress/reference/summary.json", "tests/verification/test_mitc3_laminate_dynamic_vnv.py", "tests/unit/test_code_aster_mitc3_laminate_dynamic.py", "tests/unit/test_calculix_mitc3_laminate_ply_stress.py"], "note": "Planar symmetric [0/90/90/0] modal/Newmark/harmonic responses are externally correlated on the same TRIA3 mesh with Code_Aster DST; material-axis static ply stresses are correlated with CalculiX S6. Curved projected orientation and an Owner decision remain open."}},
+    {"id": "PAIR-MITC3-LAMINATE-CURVED-PROJECTED", "family": "MITC3", "analysis": "laminate_linear_static_curved", "status": "owner_accepted_experimental", "oracle": {"kind": "calculix", "status": "available", "evidence": ["qualification/vnv/external/calculix_mitc3_curved_composite/reference/summary.json", "qualification/reviews/mitc3_laminate_curved_projected_2026-08-09.json", "docs/verification/mitc3_laminate_curved_projected.md", "tests/unit/test_calculix_mitc3_curved_composite.py"], "note": "Owner accepted for V0.2.0-alpha at experimental maturity on 2026-08-09. CalculiX S6 correlation reaches 2.0738 percent on the 128x64 mesh after monotone refinement; more curved geometries and ply-stress evidence remain recommended."}},
+
+    {"id": "PAIR-BEAM2-STATIC", "family": "BEAM2", "analysis": "linear_static", "status": "verified_development", "oracle": {"kind": "analytical", "status": "available", "evidence": ["tests/verification/test_code_aster_beam2_vnv.py", "docs/demonstrations/benchmarks/beam2_cantilever.md"], "note": "Timoshenko closed form and Code_Aster POU_D_E test route."}},
+    {"id": "PAIR-BEAM2-MODAL", "family": "BEAM2", "analysis": "modal", "status": "owner_accepted", "oracle": {"kind": "code_aster", "status": "available", "evidence": ["tests/verification/test_code_aster_beam2_modal_vnv.py", "qualification/vnv/external/code_aster_beam2_transverse/reference/summary.json"], "note": "Six-mode axial and slender-transverse comparisons were accepted by the Owner on 2026-08-02."}},
+    {"id": "PAIR-BEAM2-NEWMARK", "family": "BEAM2", "analysis": "transient_newmark", "status": "owner_accepted", "oracle": {"kind": "code_aster", "status": "available", "evidence": ["qualification/vnv/external/code_aster_beam2_newmark/reference/summary.json", "qualification/vnv/external/code_aster_beam2_transverse/reference/summary.json"], "note": "Same mesh/time-grid axial and slender-transverse histories were accepted by the Owner on 2026-08-02."}},
+    {"id": "PAIR-BEAM2-HARMONIC", "family": "BEAM2", "analysis": "harmonic", "status": "owner_accepted", "oracle": {"kind": "code_aster", "status": "available", "evidence": ["qualification/vnv/external/code_aster_beam2_newmark/reference/summary.json", "qualification/vnv/external/code_aster_beam2_transverse/reference/summary.json"], "note": "Same-mesh axial and slender-transverse frequency responses were accepted by the Owner on 2026-08-02."}},
+
+    {"id": "PAIR-DISCRETE-STATIC", "family": "SPRING_MASS", "analysis": "linear_static", "status": "verified_development", "oracle": {"kind": "code_aster", "status": "available", "evidence": ["qualification/vnv/external/code_aster_discrete/reference/summary.json"], "note": "Grounded spring displacement."}},
+    {"id": "PAIR-DISCRETE-MODAL", "family": "SPRING_MASS", "analysis": "modal", "status": "owner_accepted", "oracle": {"kind": "code_aster", "status": "available", "evidence": ["qualification/vnv/external/code_aster_discrete/reference/summary.json"], "note": "Single-degree-of-freedom frequency is externally correlated and was accepted by the Owner on 2026-08-02."}},
+    {"id": "PAIR-DISCRETE-NEWMARK", "family": "SPRING_MASS", "analysis": "transient_newmark", "status": "owner_accepted", "oracle": {"kind": "code_aster", "status": "available", "evidence": ["qualification/vnv/external/code_aster_discrete/reference/summary.json"], "note": "Same time-grid transient response is externally correlated and was accepted by the Owner on 2026-08-02."}},
+    {"id": "PAIR-DISCRETE-HARMONIC", "family": "SPRING_MASS", "analysis": "harmonic", "status": "owner_accepted", "oracle": {"kind": "code_aster", "status": "available", "evidence": ["qualification/vnv/external/code_aster_discrete/reference/summary.json"], "note": "Same frequency-grid response is externally correlated and was accepted by the Owner on 2026-08-02."}},
+
+    {"id": "PAIR-CONTACT-NORMAL", "family": "CONTACT", "analysis": "linear_static", "status": "owner_accepted", "oracle": {"kind": "code_aster", "status": "available", "evidence": ["qualification/reviews/contact_v1_linear_static_bounded_2026-07-29.json", "qualification/vnv/external/code_aster_contact/reference/summary.json"], "note": "Bounded small-sliding normal-contact scope."}},
+    {"id": "PAIR-CONTACT-FRICTION", "family": "CONTACT", "analysis": "frictional_static", "status": "experimental", "oracle": {"kind": "code_aster", "status": "available", "evidence": ["qualification/vnv/external/code_aster_friction_contact/reference/summary.json"], "note": "Saturated sliding is correlated; adhesion remains non-comparable."}}
+  ],
+  "method_correlations": [
+    {"method": "direct", "oracle": "assembled residual and energy balance", "evidence": "tests/unit/test_solver.py"},
+    {"method": "cg", "oracle": "direct sparse solution", "evidence": "tests/unit/test_solver.py"},
+    {"method": "minres", "oracle": "direct sparse solution", "evidence": "tests/unit/test_solver.py"},
+    {"method": "gmres", "oracle": "direct sparse solution", "evidence": "tests/unit/test_solver.py"},
+    {"method": "bicgstab", "oracle": "direct sparse solution", "evidence": "tests/unit/test_solver.py"},
+    {"method": "modal", "oracle": "eigen residual, M/K orthogonality and analytical/external frequencies", "evidence": "tests/unit/test_analysis_features.py"},
+    {"method": "newmark", "oracle": "closed-form oscillator, energy and external histories", "evidence": "tests/unit/test_analysis_features.py"},
+    {"method": "harmonic", "oracle": "zero-frequency static limit, phase and external sweeps", "evidence": "tests/unit/test_analysis_features.py"},
+    {"method": "newton_j2", "oracle": "uniaxial return mapping and external material paths", "evidence": "tests/verification/test_j2_material_vnv.py"},
+    {"method": "arc_length", "oracle": "elastica reference; structural breadth remains experimental", "evidence": "tests/unit/test_elastica_reference.py"},
+    {"method": "total_lagrangian", "oracle": "Code_Aster and CalculiX structural paths", "evidence": "qualification/reviews/tet4_total_lagrangian_structural_v2_2026-07-18.json"},
+    {"method": "large_model", "oracle": "SciPy/PETSc small-model equivalence and MPI diagnostics", "evidence": "tests/integration/test_large_model.py"}
+  ],
+  "published_assets": [
+    {"source": "qualification/vnv/tet10_structural_convergence/reference/tet10_structural_convergence.png", "target": "tet10_structural_convergence.png", "caption": "Convergence structurelle TET10."},
+    {"source": "qualification/vnv/external/calculix_tet10/reference/calculix_c3d10_deformation.png", "target": "tet10_calculix_deformation.png", "caption": "Deformee CalculiX C3D10 de reference."},
+    {"source": "qualification/vnv/mitc4_conical_cutout/reference/conical_cutout_geometry_deformation.png", "target": "mitc4_conical_qf_deformation.png", "caption": "Panneau conique ajoure QF_solver."},
+    {"source": "qualification/vnv/external/calculix_mitc4_conical_cutout/reference/conical_cutout_calculix_deformation.png", "target": "mitc4_conical_calculix_deformation.png", "caption": "Panneau conique ajoure CalculiX."},
+    {"source": "qualification/vnv/external/code_aster_modal/reference/VNV-MITC4-MODAL-CODEASTER-DKQ-004-frequencies.png", "target": "mitc4_modal_code_aster_frequencies.png", "caption": "Frequences MITC4 et Code_Aster."},
+    {"source": "qualification/vnv/external/code_aster_mitc3/hemisphere_v1/level_32/fine_deformation_qf_code_aster.png", "target": "mitc3_hemisphere_qf_code_aster.png", "caption": "Hemisphere MITC3, vues QF_solver et Code_Aster."},
+    {"source": "qualification/vnv/external/code_aster_mitc3/hemisphere_v1/convergence_qf_code_aster.png", "target": "mitc3_hemisphere_convergence.png", "caption": "Convergence de l'hemisphere MITC3."},
+    {"source": "qualification/vnv/external/code_aster_composite_nafems/reference/nafems_r0031_convergence.png", "target": "composite_nafems_convergence.png", "caption": "Convergence composite NAFEMS/Code_Aster."},
+    {"source": "qualification/vnv/external/orthotropic_solids/reference/vnv-ortho-lbracket-002/qf_deformation.png", "target": "orthotropic_lbracket_qf.png", "caption": "Equerre orthotrope QF_solver."},
+    {"source": "qualification/vnv/external/orthotropic_solids/reference/vnv-ortho-lbracket-002/code_aster_deformation.png", "target": "orthotropic_lbracket_code_aster.png", "caption": "Equerre orthotrope Code_Aster."},
+    {"source": "qualification/vnv/external/orthotropic_solids/reference/vnv-ortho-lbracket-002/calculix_deformation.png", "target": "orthotropic_lbracket_calculix.png", "caption": "Equerre orthotrope CalculiX."},
+    {"source": "qualification/vnv/external/code_aster_tl_structural/reference/code_aster_stress_comparison.png", "target": "tet4_tl_code_aster_stress.png", "caption": "Contraintes Total-Lagrangian comparees a Code_Aster."},
+    {"source": "qualification/vnv/external/code_aster_contact/reference/code_aster_contact_comparison.png", "target": "contact_code_aster_comparison.png", "caption": "Contact normal compare a Code_Aster."},
+    {"source": "qualification/vnv/mitc3_dynamic_code_aster/reference/comparison.png", "target": "mitc3_dynamic_code_aster.png", "caption": "MITC3+ modal, Newmark et harmonique compares a Code_Aster DKT."},
+    {"source": "qualification/vnv/tet10_dynamic_code_aster/reference/comparison.png", "target": "tet10_dynamic_code_aster.png", "caption": "TET10 modal, Newmark et harmonique compares a Code_Aster TETRA10."},
+    {"source": "qualification/vnv/external/code_aster_beam2_transverse/reference/comparison.png", "target": "beam2_transverse_dynamic_code_aster.png", "caption": "BEAM2 transverse modal, Newmark et harmonique compares a Code_Aster POU_D_E."},
+    {"source": "qualification/vnv/tet4_dynamic_code_aster/reference/comparison.png", "target": "tet4_dynamic_code_aster.png", "caption": "TET4 modal, Newmark et harmonique compares a Code_Aster TETRA4."}
+  ]
+}
