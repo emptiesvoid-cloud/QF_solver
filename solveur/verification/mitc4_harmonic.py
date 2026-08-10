@@ -64,12 +64,14 @@ class Mitc4HarmonicModalStudy:
         result = solve_model(model, enforce_policy=False)
         tip_index = result.dofs.index(tip, "UZ")
         numerical = np.asarray([response[tip_index] for response in result.responses], dtype=complex)
-        analytical = _analytical_response(tip_mode, omega, frequencies, alpha)
-        relative_errors = np.abs(numerical - analytical) / np.maximum(np.abs(analytical), 1.0e-30)
+        orientation = 1.0 if tip_mode >= 0.0 else -1.0
+        canonical_numerical = orientation * numerical
+        analytical = _analytical_response(abs(tip_mode), omega, frequencies, alpha)
+        relative_errors = np.abs(canonical_numerical - analytical) / np.maximum(np.abs(analytical), 1.0e-30)
         static_error = self._static_error(modal, mode, tip, numerical[0])
         damping = self._damping_sensitivity(frequency, omega, tip_mode, modal, mode)
         amplitudes = np.abs(numerical)
-        phases = np.degrees(np.angle(numerical))
+        phases = np.degrees(np.angle(canonical_numerical))
         peak_index = int(np.argmax(amplitudes))
         before = int(np.argmin(np.abs(np.asarray(self.frequency_ratios) - 0.5)))
         after = int(np.argmin(np.abs(np.asarray(self.frequency_ratios) - 1.5)))

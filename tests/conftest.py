@@ -10,6 +10,10 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 EVIDENCE_ROOT = ROOT / "qualification" / "vnv"
 GENERATED_DOCS_MANIFEST = ROOT / "docs" / "generated" / "docs_manifest.json"
+OPTIONAL_MESH_TEST_MODULES = {
+    "tests/unit/test_code_aster_tet10_dynamic.py",
+    "tests/unit/test_code_aster_tet4_dynamic.py",
+}
 
 EVIDENCE_TESTS = {
     "tests/documentation/test_docs_generation.py::test_every_controlled_page_is_registered_with_consistent_review_fields",
@@ -69,11 +73,23 @@ EVIDENCE_TESTS = {
 
 def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
     """Skip only archive-backed checks when the optional evidence corpus is absent."""
-    if EVIDENCE_ROOT.is_dir() and GENERATED_DOCS_MANIFEST.is_file():
-        return
-    marker = pytest.mark.skip(reason="optional controlled V&V evidence corpus is not installed")
+    evidence_available = EVIDENCE_ROOT.is_dir() and GENERATED_DOCS_MANIFEST.is_file()
+    mesh_available = _gmsh_available()
+    evidence_marker = pytest.mark.skip(reason="optional controlled V&V evidence corpus is not installed")
+    mesh_marker = pytest.mark.skip(reason="optional Gmsh dependency is not installed")
     for item in items:
         base_nodeid = item.nodeid.split("[", maxsplit=1)[0]
-        if base_nodeid in EVIDENCE_TESTS:
+        module_path = base_nodeid.split("::", maxsplit=1)[0]
+        if not evidence_available and base_nodeid in EVIDENCE_TESTS:
             item.add_marker(pytest.mark.evidence)
-            item.add_marker(marker)
+            item.add_marker(evidence_marker)
+        if not mesh_available and module_path in OPTIONAL_MESH_TEST_MODULES:
+            item.add_marker(mesh_marker)
+
+
+def _gmsh_available() -> bool:
+    try:
+        import gmsh  # noqa: F401
+    except (ImportError, OSError):
+        return False
+    return True

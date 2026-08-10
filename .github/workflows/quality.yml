@@ -10,6 +10,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: quality-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   standard-baseline:
     name: ${{ matrix.os }} / Python ${{ matrix.python }}
