@@ -2,8 +2,12 @@
 
 from __future__ import annotations
 
-import tomllib
 from pathlib import Path
+
+try:
+    import tomllib
+except ModuleNotFoundError:  # pragma: no cover - exercised on Python 3.10 CI
+    import tomli as tomllib
 
 import solveur
 from solveur.version import __version__
@@ -31,7 +35,7 @@ def test_publication_governance_files_and_package_urls_exist() -> None:
     assert "LICENSE" in project["license-files"]
     assert (ROOT / "LICENSE").is_file()
     assert (ROOT / "LICENSE-DOCS").is_file()
-    assert project["urls"]["Source"].endswith("/Solveur")
+    assert project["urls"]["Source"].endswith("/QF_solver")
     assert solveur.__version__ == __version__ == project["version"]
 
 
