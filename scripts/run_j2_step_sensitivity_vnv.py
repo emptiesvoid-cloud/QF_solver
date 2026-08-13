@@ -7,8 +7,10 @@ import sys
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-if str(PROJECT_ROOT) not in sys.path:
-    sys.path.insert(0, str(PROJECT_ROOT))
+SOURCE_ROOT = PROJECT_ROOT / "src"
+for candidate in (SOURCE_ROOT, PROJECT_ROOT):
+    if str(candidate) not in sys.path:
+        sys.path.insert(0, str(candidate))
 
 from solveur.verification.j2_step_sensitivity import J2StepSensitivityCampaign  # noqa: E402
 

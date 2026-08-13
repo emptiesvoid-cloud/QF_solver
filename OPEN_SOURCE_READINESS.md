@@ -76,13 +76,16 @@ working material is kept in a separate local or private repository. A public
 site is documentation, not an access-control mechanism: content that must be
 restricted must not be committed or deployed to it.
 
-## Alpha Baseline - 10 August 2026
+## Alpha Baseline - 13 August 2026
 
-- Full Windows suite: `1091 passed`, `17 skipped`, no failure.
-- Documentation: `711` generated artifacts and strict MkDocs build, PASS.
-- Public-source audit: `992` files, `0` finding.
-- Clean source archive: `1102` files, `0` finding.
-- Clean public history: one root commit, `0` history finding, GitHub `noreply`
-  author identity.
-- Release readiness: every gate passes except the local version tag, which is
-  created only after this baseline record is committed.
+- Full Windows suite: `1117` tests collected, `1039 passed`, `78 skipped`,
+  no failure.
+- Mechanical verification: full MITC4 campaign and TET10 campaign, PASS.
+- Documentation: strict MkDocs build, PASS.
+- Static analysis: Ruff, controlled mypy gate and `compileall`, PASS.
+- Public-source audit: `1009` files inspected, `0` finding.
+- PyPI distributions: wheel `917988` bytes and source archive `677398`
+  bytes; Twine, content policy and isolated wheel smoke test, PASS.
+- Public commits use the GitHub `noreply` author identity.
+- The committed source archive and release-readiness gates are checked again
+  after this baseline record is committed and before publication.

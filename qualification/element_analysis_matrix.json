@@ -29,7 +29,7 @@
         "qualification/reviews/tet4_total_lagrangian_structural_v2_2026-07-18.json",
         "tests/unit/test_analysis_features.py",
         "qualification/vnv/linear_dynamic_families/tet4/summary.json",
-        "solveur/verification/code_aster_tet4_dynamic.py",
+        "src/solveur/verification/code_aster_tet4_dynamic.py",
         "qualification/vnv/tet4_dynamic_code_aster/reference/summary.json"
       ]
     },
@@ -47,7 +47,7 @@
         "qualification/vnv/orthotropic_modal_newmark/reference/summary.json",
         "tests/unit/test_orthotropic_dynamic_large.py",
         "qualification/vnv/linear_dynamic_families/tet10/summary.json",
-        "solveur/verification/code_aster_tet10_dynamic.py",
+        "src/solveur/verification/code_aster_tet10_dynamic.py",
         "tests/unit/test_code_aster_tet10_dynamic.py",
         "qualification/vnv/tet10_dynamic_code_aster/reference/summary.json",
         "qualification/vnv/tet10_dynamic_mesh_time_refinement/reference/summary.json"
@@ -95,7 +95,7 @@
         "qualification/vnv/linear_dynamic_families/mitc3/summary.json",
         "qualification/vnv/mitc3_dynamic_extended/reference/summary.json",
         "tests/verification/test_mitc3_dynamic_extended_vnv.py",
-        "solveur/verification/code_aster_mitc3_dynamic.py",
+        "src/solveur/verification/code_aster_mitc3_dynamic.py",
         "tests/unit/test_code_aster_mitc3_dynamic.py",
         "qualification/vnv/mitc3_dynamic_code_aster/reference/summary.json",
         "qualification/vnv/mitc3_laminate_dynamic/reference/summary.json",
@@ -115,10 +115,10 @@
       "geometric_nonlinear_static": {"status": "unsupported", "scope": null},
       "nonlinear_dynamic": {"status": "unsupported", "scope": null},
       "evidence": [
-        "solveur/verification/code_aster_beam2.py",
-        "solveur/verification/code_aster_beam2_modal.py",
-        "solveur/verification/code_aster_beam2_newmark.py",
-        "solveur/verification/code_aster_beam2_transverse.py",
+        "src/solveur/verification/code_aster_beam2.py",
+        "src/solveur/verification/code_aster_beam2_modal.py",
+        "src/solveur/verification/code_aster_beam2_newmark.py",
+        "src/solveur/verification/code_aster_beam2_transverse.py",
         "tests/verification/test_code_aster_beam2_vnv.py",
         "tests/verification/test_code_aster_beam2_modal_vnv.py",
         "tests/verification/test_code_aster_beam2_newmark_vnv.py",
@@ -135,7 +135,7 @@
       "harmonic": {"status": "owner_accepted", "scope": "discrete-linear-dynamics"},
       "nonlinear": {"status": "unsupported", "scope": null},
       "evidence": [
-        "solveur/verification/code_aster_discrete.py",
+        "src/solveur/verification/code_aster_discrete.py",
         "tests/unit/test_discrete_entities.py",
         "tests/verification/test_code_aster_discrete_vnv.py",
         "qualification/vnv/external/code_aster_discrete/reference/summary.json",

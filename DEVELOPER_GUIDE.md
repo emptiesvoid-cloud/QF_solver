@@ -10,10 +10,10 @@ mechanically justified and accompanied by proportionate tests.
 
 - Do not change public CLI or API contracts without compatibility tests.
 - Keep Python source files below 700 lines.
-- Keep `solveur/elements` independent from `solveur/io`, `solveur/cli` and
-  `solveur/api`; keep `solveur/core` independent from `solveur/cli` and
+- Keep `src/solveur/elements` independent from `solveur/io`, `solveur/cli` and
+  `solveur/api`; keep `src/solveur/core` independent from `solveur/cli` and
   `solveur/api`.
-- Centralize evidence hashes and manifests in `solveur/io/manifest.py`.
+- Centralize evidence hashes and manifests in `src/solveur/io/manifest.py`.
 - Avoid dense conversions on the large-model path.
 - Use the public error taxonomy at API and CLI boundaries.
 - Update requirements, anomaly records and the changelog when a controlled
@@ -37,9 +37,9 @@ regression gate for pushed changes.
 Examples of a focused local check:
 
 ```powershell
-python -m ruff check solveur\core\solver.py tests\unit\test_solver.py
+python -m ruff check src\solveur\core\solver.py tests\unit\test_solver.py
 python -m pytest tests\unit\test_solver.py tests\unit\test_linear_policy.py -q
-python -m compileall -q solveur\core\solver.py
+python -m compileall -q src\solveur\core\solver.py
 ```
 
 The detailed tiered procedure and full baseline commands are in

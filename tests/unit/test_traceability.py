@@ -78,7 +78,7 @@ def test_readiness_fails_for_orphan_requirement(tmp_path):
                     {
                         "id": "REQ-X-001",
                         "design": ["README.md"],
-                        "code": ["solveur/core/solver.py"],
+                        "code": ["src/solveur/core/solver.py"],
                         "functions": ["LinearStaticSolver.solve"],
                         "tests": [],
                         "artifacts": ["examples/tet4_static.json"],
@@ -110,7 +110,7 @@ def test_mechanical_requirement_needs_independent_reference(tmp_path):
                     {
                         "id": "REQ-SOL-X",
                         "design": ["README.md"],
-                        "code": ["solveur/core/solver.py"],
+                        "code": ["src/solveur/core/solver.py"],
                         "tests": ["tests/unit/test_solver.py"],
                         "artifacts": ["examples/tet4_static.json"],
                         "independent_references": [],
@@ -136,7 +136,7 @@ def test_formula_traceability_detects_missing_symbol(tmp_path):
                     {
                         "id": "REQ-SOL-X",
                         "design": ["README.md"],
-                        "code": ["solveur/core/solver.py"],
+                        "code": ["src/solveur/core/solver.py"],
                         "functions": ["LinearStaticSolver.solve"],
                         "tests": ["tests/unit/test_solver.py"],
                         "artifacts": ["examples/tet4_static.json"],
@@ -158,7 +158,7 @@ def test_formula_traceability_detects_missing_symbol(tmp_path):
                         "requirement": "REQ-SOL-X",
                         "document": "README.md",
                         "section": "# QF_solver",
-                        "code": ["solveur/core/solver.py"],
+                        "code": ["src/solveur/core/solver.py"],
                         "functions": ["LinearStaticSolver.missing_symbol"],
                         "tests": ["tests/unit/test_solver.py"],
                         "reference_id": "REF-FEM-BATHE",
@@ -186,7 +186,7 @@ def test_formula_traceability_detects_orphan_formula(tmp_path):
                     {
                         "id": "REQ-X",
                         "design": ["README.md"],
-                        "code": ["solveur/core/solver.py"],
+                        "code": ["src/solveur/core/solver.py"],
                         "functions": ["LinearStaticSolver.solve"],
                         "tests": ["tests/unit/test_solver.py"],
                         "artifacts": ["examples/tet4_static.json"],

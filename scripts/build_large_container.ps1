@@ -7,7 +7,7 @@ $ErrorActionPreference = "Stop"
 $projectRoot = Split-Path -Parent $PSScriptRoot
 
 docker build `
-    --file (Join-Path $projectRoot "docker/large/Dockerfile") `
+    --file (Join-Path $projectRoot "tools/containers/large/Dockerfile") `
     --tag $Image `
     $projectRoot
 

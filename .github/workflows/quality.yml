@@ -35,14 +35,14 @@ jobs:
           python -m pip install -r requirements/baseline-standard.txt
           python -m pip install -e . --no-deps
       - name: Ruff
-        run: python -m ruff check solveur mitc4 tests scripts
+        run: python -m ruff check src/solveur src/mitc4 tests scripts
       - name: Progressive typing gate
         run: >-
           python -m mypy
-          solveur/core/errors.py
-          solveur/core/qualification.py
-          solveur/io/manifest.py
-          solveur/verification/traceability.py
+          src/solveur/core/errors.py
+          src/solveur/core/qualification.py
+          src/solveur/io/manifest.py
+          src/solveur/verification/traceability.py
       - name: Tests and branch coverage
         run: >-
           python -m pytest
@@ -59,7 +59,7 @@ jobs:
           python -m coverage json --rcfile=.coveragerc-p0 -o coverage-p0.json
           python scripts/check_p0_coverage.py coverage.json coverage-p0.json
       - name: Compile all Python sources
-        run: python -m compileall -q solveur mitc4 scripts tests qf_solver.py main_solveur.py mitc4_solver.py
+        run: python -m compileall -q src scripts tests qf_solver.py main_solveur.py mitc4_solver.py
       - name: Quick verification
         run: |
           python qf_solver.py verify --quick

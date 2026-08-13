@@ -263,3 +263,6 @@ nav:
       - Compatibilite documentaire:
           - Ancien guide de creation: creer_cas.md
           - Ancien manuel theorique: manuel_theorique_elements_finis.md
+          - Ancienne analyse d'architecture: reference/legacy/analyse_solveur_ef.md
+          - Ancienne correlation de cisaillement: reference/legacy/correlation_litterature_cisaillement.md
+          - Ancien portail de verification: reference/legacy/verification_mecanique.md

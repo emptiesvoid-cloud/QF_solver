@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.2.0a0 - 2026-08-10
+## 0.2.0a0 - 2026-08-13
 
 Cette version alpha est la premiere publication open source preparee de
 QF_solver. Le code est sous Apache-2.0 et la documentation ainsi que les
@@ -18,6 +18,15 @@ qualification et doivent etre utilisees avec une revue mecanique adaptee.
 - La campagne MITC4 multicouche dynamique est acceptee par l'Owner pour un
   usage engineering experimental borne; la tentative modale a 10 000 QUAD4
   conserve une reserve numerique explicite.
+- Adoption d'un layout `src/` pour isoler le paquet installable du repertoire
+  de travail. Le noyau MITC4 historique reste dans `src/mitc4` et l'API
+  generaliste dans `src/solveur`.
+- Deplacement du conteneur PETSc/MPI dans `tools/containers/large`; Docker
+  reste une aide de reproductibilite optionnelle et ne fait pas partie du
+  runtime standard.
+- Reduction de la wheel aux sources, exemples et registres d'execution. Le
+  manuel, les tests et les decisions de revue restent publics dans le depot
+  GitHub et ne sont pas dupliques dans les archives PyPI.
 
 ### Documentation technique
 

@@ -77,7 +77,7 @@ distingue explicitement controle automatique, Owner review et baseline Git.
 
 La validation engineering interne du TET4 lineaire isotrope est documentee
 dans la [decision de revue](docs/verification/revue_tet4_lineaire.md). Une
-[page HTML autonome](REVUE_TET4_LINEAIRE.html) rassemble aussi les tableaux,
+[page HTML autonome](docs/reference/reports/REVUE_TET4_LINEAIRE.html) rassemble aussi les tableaux,
 conclusions et PNG pour une lecture locale sans serveur.
 
 Le MITC4 statique lineaire est valide pour l'usage engineering interne avec
@@ -106,7 +106,7 @@ Les fonctionnalites optionnelles s'installent avec les extras correspondants :
 
 ```powershell
 python -m pip install "qf-solver[mesh]==0.2.0a0"  # import Gmsh MSH 4.1
-python -m pip install "qf-solver[docs]==0.2.0a0"  # documentation locale
+python -m pip install "qf-solver[docs]==0.2.0a0"  # outils de construction documentaire
 python -m pip install "qf-solver[large]==0.2.0a0" # HDF5, PETSc et MPI
 ```
 
@@ -126,6 +126,19 @@ python -m pip install -e ".[large]"  # HDF5, PETSc et MPI si disponibles
 
 Python 3.10 a 3.13 est cible par la CI. Les versions de baseline sont dans
 [`requirements/`](requirements/).
+
+Le code installable suit un layout `src/`: `src/solveur` porte le produit
+generaliste et `src/mitc4` conserve le noyau historique valide utilise par
+l'adaptateur coque. Les choix d'architecture et la place du conteneur
+PETSc/MPI optionnel sont detailles dans
+[`docs/architecture.md`](docs/architecture.md).
+
+La wheel PyPI contient le runtime, les exemples JSON et les registres
+machine-readable necessaires au fonctionnement courant. Le manuel complet,
+les tests et les preuves V&V restent dans le depot GitHub; construire le site
+ou executer `qualification-readiness` avec verification de tous les liens
+necessite donc un clone source. L'extra `docs` installe les outils de
+construction, pas une copie preconstruite du site.
 
 ## Premier calcul
 
@@ -240,7 +253,7 @@ regenere toutes les preuves et requiert donc le corpus V&V de developpement.
 ## Documents de pilotage
 
 - [Prochaines etapes](prochaines_etapes.md)
-- [Analyse du solveur](analyse_solveur_ef.md)
+- [Analyse historique du solveur](docs/reference/legacy/analyse_solveur_ef.md)
 - [Audit de qualification industrielle](docs/audit_qualification_industrielle.md)
 - [Architecture](docs/architecture.md)
 - [Registre d'exigences](qualification/requirements.json)

@@ -16,6 +16,7 @@ htmlcov/
 *.egg-info/
 build/
 dist/
+release_dist/
 site/
 .docs-cache/
 output/

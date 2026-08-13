@@ -1,8 +1,8 @@
 ---
 doc_id: DOC-ARCH-001
-revision: 2.0
-status: draft
-applicable_version: 0.2.0
+revision: 2.1
+status: controlled
+applicable_version: 0.2.0a0
 reviewer: ""
 approver: ""
 ---
@@ -18,6 +18,51 @@ site MkDocs. L'ancien manuel monolithique est uniquement une redirection.
 Le solveur est organise par responsabilite. Les modules de calcul ne doivent
 pas connaitre la CLI, les formats disque ou les details d'export. Les entrees
 publiques passent par `solveur.api` ou `solveur.cli.main`.
+
+## Arborescence Publique
+
+```text
+QF_solver/
+  src/
+    solveur/              # produit principal et API publique
+      api/                # facade Python stable
+      cli/                # adaptation des commandes
+      core/               # analyses, assemblage et solveurs
+      elements/           # TET4, TET10, MITC3+, MITC4, BEAM2, discret
+      materials/          # lois isotropes, orthotropes, stratifies et J2
+      mesh/ loads/ post/  # validation, chargements et post-traitement
+      large/              # chemin TET4 PETSc/MPI optionnel
+      verification/       # campagnes et oracles reproductibles
+    mitc4/                # noyau MITC4 historique valide et protege
+  examples/               # entrees JSON executables
+  qualification/          # exigences, scopes et decisions controlees
+  tests/                  # unitaires, integration, V&V et documentation
+  docs/                   # source unique du manuel technique
+  scripts/                # construction, V&V et publication
+  tools/
+    containers/large/     # environnement PETSc/MPI optionnel
+    legacy_launchers/     # lanceurs specialises non publics
+```
+
+Le layout `src/` empeche qu'un test importe accidentellement le code du
+repertoire courant au lieu du paquet installe. Le paquet `solveur` reste le
+seul produit public generaliste. Le paquet `mitc4` contient la formulation
+historique sur laquelle reposent des benchmarks valides; l'adaptateur
+`solveur.elements.shell.mitc4` l'integre au modele commun. Une fusion de ces
+deux implementations est differee jusqu'a ce que l'equivalence numerique soit
+protegee sur toute la campagne MITC4.
+
+Docker ne fait pas partie du runtime standard. Le Dockerfile conserve dans
+`tools/containers/large/` sert seulement a reproduire un environnement
+PETSc/MPI epingle pour les campagnes grand modele. `pip install qf-solver`
+n'installe ni Docker, ni PETSc, ni les artefacts documentaires.
+
+Les archives PyPI sont volontairement centrees sur le produit : elles ne
+dupliquent ni le manuel, ni les Owner reviews, ni les tests. Le depot GitHub
+est la distribution publique complete et lisible. Les operations de qualification qui
+verifient l'existence physique de ces preuves s'executent depuis un clone du
+depot; le paquet installe reste utilisable pour charger, verifier et resoudre
+les modeles couverts.
 
 ## Couches
 
@@ -107,12 +152,12 @@ refactoring automatique.
 
 ## Garde-Fous
 
-- Aucun fichier Python sous `solveur`, `mitc4` ou `tests` ne depasse 700 lignes.
-- `solveur/elements` ne depend pas de `solveur/io`, `solveur/cli` ou
+- Aucun fichier Python sous `src/solveur`, `src/mitc4` ou `tests` ne depasse 700 lignes.
+- `src/solveur/elements` ne depend pas de `solveur/io`, `solveur/cli` ou
   `solveur/api`.
-- `solveur/core` ne depend pas de `solveur/cli` ou `solveur/api`.
+- `src/solveur/core` ne depend pas de `solveur/cli` ou `solveur/api`.
 - Les empreintes SHA-256 et entrees de manifeste sont centralisees dans
-  `solveur/io/manifest.py`.
+  `src/solveur/io/manifest.py`.
 - Les formats publics JSON/CLI/API sont proteges par tests de regression.
 - Toute page Markdown publiee possede une entete de configuration et une
   entree dans `docs/document_registry.json`.

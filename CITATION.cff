@@ -3,7 +3,7 @@ message: "If you use QF_solver, please cite the software and its release version
 type: software
 title: "QF_solver"
 version: "0.2.0-alpha"
-date-released: 2026-08-10
+date-released: 2026-08-13
 license: "Apache-2.0"
 authors:
   - family-names: "Farinazzo"

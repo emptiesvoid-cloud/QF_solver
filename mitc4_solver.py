@@ -1,5 +1,15 @@
 """Compatibility launcher for the MITC4 package."""
 
+from __future__ import annotations
+
+import sys
+from pathlib import Path
+
+
+SOURCE_ROOT = Path(__file__).resolve().parent / "src"
+if SOURCE_ROOT.is_dir():
+    sys.path.insert(0, str(SOURCE_ROOT))
+
 from mitc4.cli import main
 
 

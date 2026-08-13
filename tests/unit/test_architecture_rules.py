@@ -7,7 +7,8 @@ MAX_SOURCE_LINES = 700
 
 
 def test_python_source_files_stay_under_700_lines():
-    roots = [PROJECT_ROOT / name for name in ("solveur", "mitc4", "scripts", "tests")]
+    roots = [PROJECT_ROOT / "src" / name for name in ("solveur", "mitc4")]
+    roots.extend(PROJECT_ROOT / name for name in ("scripts", "tests"))
     oversized: list[str] = []
     for root in roots:
         for path in root.rglob("*.py"):
@@ -19,9 +20,9 @@ def test_python_source_files_stay_under_700_lines():
 
 def test_solver_layers_do_not_import_forbidden_upper_layers():
     rules = {
-        PROJECT_ROOT / "solveur" / "elements": ("solveur.io", "solveur.cli", "solveur.api"),
-        PROJECT_ROOT / "solveur" / "loads": ("solveur.io", "solveur.cli", "solveur.api"),
-        PROJECT_ROOT / "solveur" / "core": ("solveur.cli", "solveur.api"),
+        PROJECT_ROOT / "src" / "solveur" / "elements": ("solveur.io", "solveur.cli", "solveur.api"),
+        PROJECT_ROOT / "src" / "solveur" / "loads": ("solveur.io", "solveur.cli", "solveur.api"),
+        PROJECT_ROOT / "src" / "solveur" / "core": ("solveur.cli", "solveur.api"),
     }
     violations: list[str] = []
     for root, forbidden_prefixes in rules.items():
@@ -36,12 +37,12 @@ def test_solver_layers_do_not_import_forbidden_upper_layers():
 def test_sha256_helper_is_centralized_outside_tests():
     definitions: list[str] = []
     for root_name in ("solveur", "mitc4"):
-        for path in (PROJECT_ROOT / root_name).rglob("*.py"):
+        for path in (PROJECT_ROOT / "src" / root_name).rglob("*.py"):
             tree = ast.parse(path.read_text(encoding="utf-8"))
             for node in ast.walk(tree):
                 if isinstance(node, ast.FunctionDef) and "sha256" in node.name.lower():
                     definitions.append(f"{path.relative_to(PROJECT_ROOT).as_posix()}:{node.name}")
-    assert definitions == ["solveur/io/manifest.py:sha256"]
+    assert definitions == ["src/solveur/io/manifest.py:sha256"]
 
 
 def _solveur_imports(path: Path) -> list[str]:

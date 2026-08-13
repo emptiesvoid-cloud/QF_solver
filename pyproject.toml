@@ -76,43 +76,23 @@ mesh = [
 
 [project.scripts]
 qf-solver = "solveur.cli.main:main"
-qf-solver-docs = "solveur.documentation.server:main"
 solveur-ef = "solveur.cli.main:legacy_main"
 mitc4-solver = "mitc4.cli:main"
 
 [tool.setuptools.packages.find]
-where = ["."]
+where = ["src"]
 include = ["solveur*", "mitc4*"]
 
 [tool.setuptools.data-files]
-"." = [
-  "CHANGELOG.md",
-  "README.md",
-  "analyse_solveur_ef.md",
-  "correlation_litterature_cisaillement.md",
-  "verification_mecanique.md"
-]
-docs = ["docs/*.md", "docs/*.json"]
-"docs/etat" = ["docs/etat/*.md"]
-"docs/demarrage" = ["docs/demarrage/*.md"]
-"docs/fondements" = ["docs/fondements/*.md"]
-"docs/elements" = ["docs/elements/*.md"]
-"docs/solveurs" = ["docs/solveurs/*.md"]
-"docs/demonstrations" = ["docs/demonstrations/*.md"]
-"docs/verification" = ["docs/verification/*.md"]
-"docs/reference" = ["docs/reference/*.md"]
 examples = ["examples/*.json"]
-qualification = ["qualification/*.json"]
-"qualification/vnv/schema" = ["qualification/vnv/schema/*.json"]
-"qualification/vnv/templates" = ["qualification/vnv/templates/*.json"]
-"qualification/vnv/references" = ["qualification/vnv/references/*.json"]
-"qualification/reviews" = ["qualification/reviews/*.json"]
-requirements = ["requirements/baseline-standard.txt", "requirements/baseline-large-linux.txt", "requirements/baseline-docs.txt"]
-"tests/helpers" = ["tests/helpers/*.py"]
-"tests/integration" = ["tests/integration/*.py"]
-"tests/snapshots" = ["tests/snapshots/*.json"]
-"tests/unit" = ["tests/unit/*.py"]
-"tests/verification" = ["tests/verification/*.py"]
+qualification = [
+  "qualification/benchmarks.json",
+  "qualification/campaign.json",
+  "qualification/demonstrations.json",
+  "qualification/formulas.json",
+  "qualification/requirements.json"
+]
+requirements = ["requirements/baseline-standard.txt", "requirements/baseline-large-linux.txt"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -134,9 +114,9 @@ select = ["E4", "E7", "E9", "F"]
 branch = true
 source = ["solveur", "mitc4"]
 omit = [
-  "solveur/benchmarks/*",
-  "solveur/documentation/*",
-  "solveur/verification/*",
+  "src/solveur/benchmarks/*",
+  "src/solveur/documentation/*",
+  "src/solveur/verification/*",
 ]
 
 [tool.coverage.report]

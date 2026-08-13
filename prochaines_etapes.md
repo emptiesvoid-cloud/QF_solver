@@ -15,6 +15,12 @@ La version 0.2.0 ajoute l'identite QF_solver, l'import Gmsh MSH 4.1 et dix
 benchmarks mailles reproductibles. Les criteres mecaniques de ces dix cas
 passent; TET10 courbe et J2 restent volontairement en `WARNING` experimental.
 
+La structure de publication alpha est figee autour de `src/solveur` et
+`src/mitc4`. Docker est conserve uniquement sous `tools/containers/large`
+pour reproduire PETSc/MPI; il n'est ni requis par la V1 standard ni embarque
+sur PyPI. Le manuel et les preuves restent publics dans GitHub, tandis que la
+wheel ne contient que le runtime et ses petites ressources d'execution.
+
 ## Regles de lecture de la feuille de route
 
 Les cases cochees constituent des constats dates et des preuves historiques;

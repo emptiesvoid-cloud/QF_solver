@@ -161,12 +161,12 @@ def test_public_api_demonstration_catalog_is_generated_from_its_registry(tmp_pat
 
 
 def test_standalone_tet4_review_references_eleven_existing_png_files() -> None:
-    page = ROOT / "REVUE_TET4_LINEAIRE.html"
+    page = DOCS / "reference" / "reports" / "REVUE_TET4_LINEAIRE.html"
     collector = SiteLinkCollector()
     collector.feed(page.read_text(encoding="utf-8"))
     images = [target for role, target in collector.targets if role == "resource" and target.endswith(".png")]
     assert len(images) == 11
-    assert all((ROOT / unquote(urlparse(target).path)).is_file() for target in images)
+    assert all((page.parent / unquote(urlparse(target).path)).is_file() for target in images)
 
 
 def test_every_controlled_page_is_registered_with_consistent_review_fields() -> None:

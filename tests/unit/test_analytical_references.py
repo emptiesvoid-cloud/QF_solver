@@ -7,7 +7,7 @@ from solveur.verification.analytical_references import Tet4StaticClosedFormOracl
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-ORACLE_SOURCE = PROJECT_ROOT / "solveur" / "verification" / "analytical_references.py"
+ORACLE_SOURCE = PROJECT_ROOT / "src" / "solveur" / "verification" / "analytical_references.py"
 
 
 def test_tet4_closed_form_oracle_matches_hand_calculated_uniaxial_state() -> None:

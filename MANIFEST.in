@@ -1,0 +1,11 @@
+include CHANGELOG.md LICENSE LICENSE-DOCS NOTICE README.md THIRD_PARTY_LICENSES.md
+include CITATION.cff
+recursive-include examples *.json
+include qualification/benchmarks.json
+include qualification/campaign.json
+include qualification/demonstrations.json
+include qualification/formulas.json
+include qualification/requirements.json
+include requirements/baseline-standard.txt
+include requirements/baseline-large-linux.txt
+global-exclude __pycache__ *.py[cod]
