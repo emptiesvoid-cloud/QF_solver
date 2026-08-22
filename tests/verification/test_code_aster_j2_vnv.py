@@ -5,6 +5,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import pytest
+
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -24,6 +26,7 @@ def test_controlled_code_aster_j2_digest_passes() -> None:
     assert all(check["status"] == "PASS" for check in summary["checks"])
 
 
+@pytest.mark.evidence
 def test_tet4_structural_code_aster_evidence_is_archived() -> None:
     path = (
         ROOT
