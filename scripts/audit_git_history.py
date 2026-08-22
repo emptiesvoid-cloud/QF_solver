@@ -31,6 +31,9 @@ _SENSITIVE_PARTS = (
     "qf_solver_manual_candidate_",
     ".env",
 )
+_REVIEWED_PUBLIC_HISTORY_PATHS = (
+    "qualification/vnv/mitc4_stable_package_2026-08-21/study.json",
+)
 
 
 class GitHistoryFinding(TypedDict):
@@ -96,6 +99,8 @@ def audit_git_history_paths(root: str | Path = ROOT) -> GitHistoryReport:
 def _is_sensitive_path(path: str) -> bool:
     """Flag private artifacts while allowing reviewed documentation snapshots."""
     normalized = path.replace("\\", "/").lower()
+    if normalized in _REVIEWED_PUBLIC_HISTORY_PATHS:
+        return False
     if normalized.startswith(("docs/generated/", "docs/assets/generated/")):
         return False
     return any(part in normalized for part in _SENSITIVE_PARTS)

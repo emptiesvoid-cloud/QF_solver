@@ -30,8 +30,8 @@ results/
 results_large/
 VNV-*/
 qualification/vnv/**
-!qualification/vnv/mitc4_stable_package_2026-08-21/
-!qualification/vnv/mitc4_stable_package_2026-08-21/study.json
+!qualification/studies/mitc4_stable_package_2026-08-21/
+!qualification/studies/mitc4_stable_package_2026-08-21/study.json
 qualification/evidence/
 qualification/maturity_evidence_*/
 tmp/

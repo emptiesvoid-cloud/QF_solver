@@ -958,7 +958,7 @@ Ce perimetre reste volontairement exclu et ne doit pas etre promu.
 ### Preuves et artefacts
 
 - `docs/verification/mitc4_stable_package/owner_review.md`
-- `qualification/vnv/mitc4_stable_package_2026-08-21/study.json`
+- `qualification/studies/mitc4_stable_package_2026-08-21/study.json`
 - `docs/verification/mitc4_same_order_oracle_probe.md`
 
 ### Figures disponibles

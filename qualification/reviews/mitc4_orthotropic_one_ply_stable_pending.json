@@ -16,7 +16,7 @@
   "closure_audit": "docs/verification/mitc4_stable_package/completion_audit.md",
   "evidence": [
     "docs/verification/mitc4_stable_package/orthotropic_one_ply_results_2026-08-21.md",
-    "qualification/vnv/mitc4_stable_package_2026-08-21/study.json",
+    "qualification/studies/mitc4_stable_package_2026-08-21/study.json",
     "results/mitc4_orthotropic_one_ply_static_20260821/summary.json",
     "results/mitc4_orthotropic_one_ply_internal_20260821/summary.json",
     "results/mitc4_orthotropic_one_ply_codeaster_20260821/summary.json",

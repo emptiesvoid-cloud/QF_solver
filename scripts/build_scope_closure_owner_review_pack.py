@@ -506,7 +506,7 @@ SCOPES: list[dict[str, Any]] = [
         ],
         [
             "docs/verification/mitc4_stable_package/owner_review.md",
-            "qualification/vnv/mitc4_stable_package_2026-08-21/study.json",
+            "qualification/studies/mitc4_stable_package_2026-08-21/study.json",
             "docs/verification/mitc4_same_order_oracle_probe.md",
         ],
         ["results/mitc4_orthotropic_curved_projected_one_ply_calculix_20260821/curved_orientation_correlation.png"],

@@ -203,7 +203,7 @@ documente comme optionnel et ne bloque plus ce sous-perimetre explicitement
 ### Etude groupee MITC4 vers `stable` - isotrope, multicouche et orthotrope
 
 Une etude consolidee est maintenant ouverte dans
-`qualification/vnv/mitc4_stable_package_2026-08-21/study.json`, avec sa page
+`qualification/studies/mitc4_stable_package_2026-08-21/study.json`, avec sa page
 de lecture dans `docs/verification/mitc4_stable_package/README.md` et sa
 matrice dans `docs/verification/mitc4_stable_package/campaign_matrix.md`.
 L'objectif est de traiter MITC4 comme une famille coherente tout en gardant
@@ -3681,7 +3681,7 @@ obligatoire dans la décision stable proposée.
 
 Artefacts de la campagne :
 
-- `qualification/vnv/mitc4_stable_package_2026-08-21/study.json` ;
+- `qualification/studies/mitc4_stable_package_2026-08-21/study.json` ;
 - `docs/verification/mitc4_stable_package/README.md` ;
 - `docs/verification/mitc4_stable_package/campaign_matrix.md` ;
 - `docs/verification/mitc4_stable_package/orthotropic_one_ply_results_2026-08-21.md` ;

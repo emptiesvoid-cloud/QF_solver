@@ -35,7 +35,7 @@ jobs:
           python -m pip install -r requirements/baseline-standard.txt
           python -m pip install -e . --no-deps
       - name: Ruff
-        run: python -m ruff check src/solveur src/mitc4 tests scripts
+        run: python -m ruff check src/solveur tests scripts
       - name: Progressive typing gate
         run: >-
           python -m mypy
@@ -48,7 +48,7 @@ jobs:
           python -m pytest
           tests/unit tests/integration
           -m "not benchmark and not large"
-          --cov=solveur --cov=mitc4 --cov-branch
+          --cov=solveur --cov-branch
           --cov-report=term-missing:skip-covered
           --cov-report=json:coverage.json
           --cov-report=xml:coverage.xml

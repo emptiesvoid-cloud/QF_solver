@@ -14,7 +14,7 @@ plan et de l'orthotrope homogène mono-pli. Les exclusions et les diagnostics
 restent contraignants : cette clôture ne vaut pas qualification générale.
 
 Le registre machine-readable est
-`qualification/vnv/mitc4_stable_package_2026-08-21/study.json`.
+`qualification/studies/mitc4_stable_package_2026-08-21/study.json`.
 Les premiers résultats exécutés sont synthétisés dans
 `orthotropic_one_ply_results_2026-08-21.md`.
 Le formulaire PDF signable est généré dans
