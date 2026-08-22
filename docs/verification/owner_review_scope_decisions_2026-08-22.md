@@ -1,8 +1,12 @@
 ---
+
 doc_id: DOC-OWNER-DECISIONS-2026-08-22
 revision: 0.1
 status: owner_decisions_recorded_pending_audit
 review_mode: owner_declared
+applicable_version: 0.2.1a0
+reviewer: ""
+approver: ""
 ---
 
 # Decisions Owner - 22 aout 2026

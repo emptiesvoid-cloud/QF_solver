@@ -1,9 +1,11 @@
 ---
 doc_id: DOC-OWNER-REL-021-FINAL-001
 revision: 0.1
-status: owner_decision_recorded
+status: ready_for_owner_review
 applicable_version: 0.2.1a0
 owner_review: accepted_for_release_preparation
+reviewer: ""
+approver: ""
 certification_claim: none
 ---
 

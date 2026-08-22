@@ -1,3 +1,13 @@
+---
+doc_id: DOC-VNV-ORTHO-LOAD-007
+revision: 0.2
+status: controlled_candidate
+applicable_version: 0.2.1-alpha
+owner_review: pending
+reviewer: ""
+approver: ""
+---
+
 # VNV orthotrope : orientations et chargements combinés
 
 **Identifiant :** `VNV-ORTHOTROPIC-SOLID-LOAD-CASES-007`  

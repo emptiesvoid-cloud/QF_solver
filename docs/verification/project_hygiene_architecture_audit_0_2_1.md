@@ -1,10 +1,13 @@
 ---
+
 doc_id: DOC-AUDIT-PROJECT-021-001
 revision: 0.1
 status: controlled_snapshot
 applicable_version: 0.2.1a0
 audit_date: 2026-08-15
 certification_claim: none
+reviewer: ""
+approver: ""
 ---
 # Audit hygiene, architecture et manques - QF_solver 0.2.1 alpha
 ## Verdict

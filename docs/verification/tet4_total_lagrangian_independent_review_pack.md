@@ -1,9 +1,12 @@
 ---
+
 doc_id: DOC-INDEPENDENT-REVIEW-TET4-TL-001
 revision: 0.1
 status: ready_for_independent_review
 applicable_version: 0.2.1a0
 scope: tet4-total-lagrangian-structural-v2
+reviewer: ""
+approver: ""
 ---
 
 # Dossier de revue indépendante - TET4 Total Lagrangian

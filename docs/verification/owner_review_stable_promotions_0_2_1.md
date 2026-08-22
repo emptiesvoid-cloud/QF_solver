@@ -1,10 +1,13 @@
 ---
+
 doc_id: DOC-OWNER-REVIEW-021-STABLE
 revision: 0.1
 status: ready_for_owner_review
 applicable_version: 0.2.1a0
 decision: pending
 certification_claim: none
+reviewer: ""
+approver: ""
 ---
 
 # Promotions techniquement pretes - QF_solver 0.2.1 alpha

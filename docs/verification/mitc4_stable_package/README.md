@@ -1,9 +1,12 @@
 ---
+
 doc_id: DOC-VNV-MITC4-STABLE-PACKAGE-001
 revision: 0.2
 status: owner_reviewed
 review_mode: owner_review
 applicable_version: 0.2.1-alpha
+reviewer: ""
+approver: ""
 ---
 
 # Étude MITC4 : isotrope, multicouche et orthotrope

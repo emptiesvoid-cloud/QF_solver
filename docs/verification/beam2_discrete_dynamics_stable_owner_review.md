@@ -1,4 +1,5 @@
 ---
+
 doc_id: DOC-OWNER-BEAM2-DISCRETE-DYN-STABLE-001
 revision: 0.1
 status: ready_for_owner_review
@@ -6,6 +7,9 @@ review_mode: owner_review
 promotion_target: stable
 scope: beam2-linear-dynamics, discrete-linear-dynamics
 date: 2026-08-21
+applicable_version: 0.2.1a0
+reviewer: ""
+approver: ""
 ---
 
 # Owner review — BEAM2 et système discret, dynamique linéaire

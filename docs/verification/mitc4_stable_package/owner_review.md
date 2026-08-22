@@ -1,8 +1,12 @@
 ---
+
 doc_id: DOC-OWNER-MITC4-STABLE-PACKAGE-001
 revision: 0.1
 status: owner_reviewed
 review_mode: owner_review
+applicable_version: 0.2.1a0
+reviewer: ""
+approver: ""
 ---
 
 # Owner Review - paquet MITC4 vers stable

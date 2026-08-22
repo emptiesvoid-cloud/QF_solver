@@ -1,10 +1,14 @@
 ---
+
 doc_id: DOC-OWNER-MITC3-LAM-CURVED-STABLE-001
 revision: 0.1
 status: ready_for_owner_review
 review_mode: owner_review
 promotion_target: stable
 scope: mitc3-laminate-static-curved
+applicable_version: 0.2.1a0
+reviewer: ""
+approver: ""
 ---
 
 # Owner review — MITC3 multicouche courbe, campagne raffinée

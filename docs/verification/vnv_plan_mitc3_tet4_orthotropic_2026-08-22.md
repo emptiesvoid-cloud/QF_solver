@@ -1,10 +1,13 @@
 ---
+
 doc_id: VNV-PLAN-MITC3-TET4-TL-ORTHO-001
 revision: 0.1
 status: technical_evidence_ready_owner_review
 date: 2026-08-22
 applicable_version: 0.2.1a0
 review_mode: owner_review
+reviewer: ""
+approver: ""
 ---
 
 # Plan V&V : MITC3 dynamique, MITC3 courbe, TET4 total-lagrangien et orthotropie statique

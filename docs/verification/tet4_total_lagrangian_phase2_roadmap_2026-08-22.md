@@ -1,9 +1,13 @@
 ---
+
 doc_id: TET4-TL-2-ROADMAP-001
 revision: 0.1
 status: opened_ready_to_execute
 date: 2026-08-22
 scope: tet4-total-lagrangian-structural-v2
+applicable_version: 0.2.1a0
+reviewer: ""
+approver: ""
 ---
 
 # TET4 total-lagrangien - phase 2 de preuve et de promotion

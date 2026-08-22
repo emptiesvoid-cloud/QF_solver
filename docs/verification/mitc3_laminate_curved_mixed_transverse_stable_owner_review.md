@@ -1,10 +1,14 @@
 ---
+
 doc_id: DOC-OWNER-MITC3-LAM-CURVED-MT-STABLE-001
 revision: 0.1
 status: owner_confirmed_pending_audit_application
 review_mode: owner_review
 promotion_target: stable
 scope: mitc3-laminate-static-curved-mixed-transverse
+applicable_version: 0.2.1a0
+reviewer: ""
+approver: ""
 ---
 
 # Owner review : MITC3 multicouche courbe, mixte et transverse

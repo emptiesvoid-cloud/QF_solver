@@ -1,10 +1,13 @@
 ---
+
 doc_id: DOC-OWNER-REVIEW-021-OPEN
 revision: 0.1
 status: ready_for_owner_review
 applicable_version: 0.2.1a0
 decision: pending
 certification_claim: none
+reviewer: ""
+approver: ""
 ---
 
 # Gates Owner ouverts - QF_solver 0.2.1 alpha

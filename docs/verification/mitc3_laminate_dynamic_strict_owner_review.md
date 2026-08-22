@@ -1,4 +1,5 @@
 ---
+
 doc_id: DOC-OWNER-MITC3-LAMINATE-DYNAMIC-020
 revision: 0.1
 status: pending_owner_review
@@ -6,6 +7,7 @@ applicable_version: 0.2.1a0
 promotion_target: stable
 reviewer: ""
 review_date: ""
+approver: ""
 ---
 
 # Owner review - MITC3 multicouche dynamique, raffinement strict

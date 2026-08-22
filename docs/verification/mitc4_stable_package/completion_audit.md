@@ -1,7 +1,11 @@
 ---
+
 doc_id: DOC-AUDIT-MITC4-ORTHO-ONE-PLY-CLOSURE-001
 revision: 0.1
 status: owner_reviewed
+applicable_version: 0.2.1a0
+reviewer: ""
+approver: ""
 ---
 
 # Audit de clôture - MITC4 orthotrope homogène à un pli

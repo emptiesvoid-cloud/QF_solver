@@ -1,8 +1,12 @@
 ---
+
 doc_id: OWNER-VALIDATION-ADDENDUM-MITC3-ORTHO-2026-08-22
 revision: 0.1
 status: owner_confirmed_pending_audit_application
 date: 2026-08-22
+applicable_version: 0.2.1a0
+reviewer: ""
+approver: ""
 ---
 
 # Confirmation Owner : MITC3 dynamique, MITC3 courbe et orthotropie statique

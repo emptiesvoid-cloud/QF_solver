@@ -1,10 +1,13 @@
 ---
+
 doc_id: DOC-STABLE-PROMOTION-OPEN-GATES-20260821
 revision: 0.1
 status: controlled
 applicable_version: 0.2.1a0
 owner_decision_date: 2026-08-21
 certification_claim: none
+reviewer: ""
+approver: ""
 ---
 
 # Gates ouverts vers stable

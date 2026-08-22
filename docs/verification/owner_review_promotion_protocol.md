@@ -1,10 +1,13 @@
 ---
+
 doc_id: DOC-OWNER-PROMOTION-PROTOCOL-001
 revision: 0.1
 status: controlled
 applicable_version: 0.2.1a0
 decision: pending
 certification_claim: none
+reviewer: ""
+approver: ""
 ---
 
 # Protocole de promotion Owner

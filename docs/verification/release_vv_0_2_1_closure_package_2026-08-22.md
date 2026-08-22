@@ -1,10 +1,13 @@
 ---
+
 doc_id: DOC-RELEASE-VV-021-CLOSURE-001
 revision: 0.1
 status: ready_for_owner_audit
 applicable_version: 0.2.1a0
 owner_review: pending
 certification_claim: none
+reviewer: ""
+approver: ""
 ---
 
 # Paquet de cloture V&V - QF_solver 0.2.1 alpha

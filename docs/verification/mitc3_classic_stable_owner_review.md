@@ -1,4 +1,5 @@
 ---
+
 doc_id: DOC-OWNER-MITC3-CLASSIC-STABLE-001
 revision: 0.2
 status: owner_reviewed
@@ -6,6 +7,9 @@ review_mode: owner_review
 promotion_target: stable
 scope: mitc3-modal, mitc3-transient-dynamic, mitc3-harmonic-response
 date: 2026-08-21
+applicable_version: 0.2.1a0
+reviewer: ""
+approver: ""
 ---
 
 # Owner review — MITC3 isotrope classique

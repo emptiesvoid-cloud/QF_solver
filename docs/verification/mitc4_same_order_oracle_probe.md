@@ -1,3 +1,12 @@
+---
+doc_id: DOC-UNREGISTERED-VERIFICATION-MITC4-SAME-ORDER-ORACLE-PROBE
+revision: 0.1
+status: draft
+applicable_version: 0.2.1a0
+reviewer: ''
+approver: ''
+---
+
 # MITC4 multicouche courbe - sonde oracle de meme ordre
 
 **Document** : `VNV-COMP-CURVED-S4-SAME-ORDER-009`  

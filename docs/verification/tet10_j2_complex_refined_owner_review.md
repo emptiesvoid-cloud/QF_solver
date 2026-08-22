@@ -1,10 +1,14 @@
 ---
+
 doc_id: DOC-OWNER-TET10-J2-REFINED-001
 revision: 0.1
 status: ready_for_owner_review
 review_mode: owner_review
 promotion_target: stable
 scope: tet10-material-nonlinear
+applicable_version: 0.2.1a0
+reviewer: ""
+approver: ""
 ---
 
 # Owner review — TET10 J2 complexe raffiné

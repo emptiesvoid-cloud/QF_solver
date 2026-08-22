@@ -1,3 +1,12 @@
+---
+doc_id: DOC-UNREGISTERED-VERIFICATION-TET4-STATIC-CAUSAL-AUDIT-2026-08-21
+revision: 0.1
+status: draft
+applicable_version: 0.2.1a0
+reviewer: ''
+approver: ''
+---
+
 # Audit causal TET4 statique : ecarts et trajectoire vers 1 %
 
 | Champ | Valeur |

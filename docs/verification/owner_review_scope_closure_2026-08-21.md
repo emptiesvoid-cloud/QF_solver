@@ -1,9 +1,12 @@
 ---
+
 doc_id: DOC-OWNER-SCOPE-CLOSURE-2026-08-21
 revision: 0.1
 status: ready_for_owner_review
 review_mode: pending_owner_decision
 applicable_version: 0.2.1-alpha
+reviewer: ""
+approver: ""
 ---
 
 # Dossier Owner Review - fermeture des scopes restants

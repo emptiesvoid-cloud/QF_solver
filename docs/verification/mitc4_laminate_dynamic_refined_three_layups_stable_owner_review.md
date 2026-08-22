@@ -1,10 +1,14 @@
 ---
+
 doc_id: DOC-OWNER-MITC4-LAM-DYN-REFINED-STABLE-001
 revision: 0.2
 status: owner_reviewed
 review_mode: owner_review
 promotion_target: stable
 scope: mitc4-laminate-dynamic-refined-three-layups
+applicable_version: 0.2.1a0
+reviewer: ""
+approver: ""
 ---
 
 # Owner review : MITC4 multicouche dynamique raffiné

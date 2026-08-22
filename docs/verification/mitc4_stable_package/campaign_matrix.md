@@ -1,7 +1,11 @@
 ---
+
 doc_id: DOC-VNV-MITC4-STABLE-MATRIX-001
 revision: 0.1
 status: owner_reviewed
+applicable_version: 0.2.1a0
+reviewer: ""
+approver: ""
 ---
 
 # Matrice de campagne MITC4

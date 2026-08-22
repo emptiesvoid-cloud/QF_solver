@@ -1,7 +1,11 @@
 ---
+
 doc_id: OWNER-REVIEW-ST-02-A-TET10-001
 revision: 0.1
 status: owner_reviewed
+applicable_version: 0.2.1a0
+reviewer: ""
+approver: ""
 ---
 
 # Owner review ST-02-A - TET10

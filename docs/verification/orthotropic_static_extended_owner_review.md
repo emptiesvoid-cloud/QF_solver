@@ -1,10 +1,14 @@
 ---
+
 doc_id: DOC-OWNER-ORTHO-STATIC-EXTENDED-001
 revision: 0.2
 status: owner_decision_recorded_pending_audit
 review_mode: owner_review
 promotion_target: stable
 scope: orthotropic-solid-tet4-tet10
+applicable_version: 0.2.1a0
+reviewer: ""
+approver: ""
 ---
 
 # Owner review — orthotropie statique TET4/TET10, extension de raffinement

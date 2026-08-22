@@ -1,3 +1,12 @@
+---
+doc_id: DOC-UNREGISTERED-VERIFICATION-MITC3-DYNAMIC-CAUSAL-AUDIT-2026-08-21
+revision: 0.1
+status: draft
+applicable_version: 0.2.1a0
+reviewer: ''
+approver: ''
+---
+
 # Audit causal de la dynamique MITC3+
 
 | Champ | Valeur |

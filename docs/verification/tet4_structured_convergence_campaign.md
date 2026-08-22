@@ -1,3 +1,12 @@
+---
+doc_id: DOC-UNREGISTERED-VERIFICATION-TET4-STRUCTURED-CONVERGENCE-CAMPAIGN
+revision: 0.1
+status: draft
+applicable_version: 0.2.1a0
+reviewer: ''
+approver: ''
+---
+
 # Campagne TET4 de convergence structuree en flexion
 
 | Champ | Valeur |

@@ -1,10 +1,14 @@
 ---
+
 doc_id: OWNER-REVIEW-TET4-TL-PHASE2-2026-08-22
 revision: 0.1
 status: pending_owner_decision
 scope: tet4-total-lagrangian-structural-v2
 promotion_target: research
 certification_claim: none
+applicable_version: 0.2.1a0
+reviewer: ""
+approver: ""
 ---
 
 # Owner review - TET4 total-lagrangien phase 2

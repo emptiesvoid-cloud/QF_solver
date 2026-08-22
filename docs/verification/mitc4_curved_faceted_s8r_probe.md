@@ -1,3 +1,12 @@
+---
+doc_id: DOC-UNREGISTERED-VERIFICATION-MITC4-CURVED-FACETED-S8R-PROBE
+revision: 0.1
+status: draft
+applicable_version: 0.2.1a0
+reviewer: ''
+approver: ''
+---
+
 # MITC4 multicouche courbe - sonde S8R sur surface facettisée
 
 **Etude** : `VNV-COMP-CURVED-ORIENTATION-008`  
