@@ -95,9 +95,9 @@ class J2NonlinearMethodsCampaign:
             "full_newton_line_search_relative_errors": agreements,
             "acceptance_limit_on_axial_response": 1.0e-8,
             "engineering_conclusion": (
-                "Full Newton remains the default. Armijo agrees on axial displacement, stress and accumulated "
-                "plastic strain, but the weakly restrained transverse field is method-sensitive. Modified Newton "
-                "is not accepted for plastic load reversals."
+                "Full Newton remains the default. Armijo agrees on the complete displacement field, stress and "
+                "accumulated plastic strain for this characterization case. Modified Newton is not accepted for "
+                "plastic load reversals."
             ),
         }
         write_json_file(self.output_dir / "summary.json", summary)
@@ -146,8 +146,8 @@ class J2NonlinearMethodsCampaign:
                 "",
                 str(summary["engineering_conclusion"]),
                 "",
-                "L'ecart du champ transverse complet est conserve comme avertissement. L'echec de Newton modifie "
-                "est egalement un resultat de la campagne; aucun des deux ne doit etre masque.",
+                "L'accord du champ deplacement complet est conserve comme invariant de la campagne. L'echec de "
+                "Newton modifie est egalement un resultat de la campagne ; aucun des deux ne doit etre masque.",
                 "",
             ]
         )

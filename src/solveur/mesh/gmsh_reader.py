@@ -119,6 +119,14 @@ class GmshNativeReader:
                     # directly so point groups remain deterministic.
                     entity_nodes, _, _ = gmsh.model.mesh.getNodes(dim, int(entity_tag))
                     node_tags.update(int(value) for value in entity_nodes)
+                    # Discrete point entities do not expose their mesh node
+                    # through getNodes on every supported Gmsh version.  The
+                    # point element connectivity is the deterministic
+                    # fallback for benchmark-generated MSH files.
+                    if np.asarray(entity_nodes).size == 0:
+                        _, _, element_nodes = gmsh.model.mesh.getElements(dim, int(entity_tag))
+                        for block in element_nodes:
+                            node_tags.update(int(value) for value in block)
                     continue
                 _, entity_elements, _ = gmsh.model.mesh.getElements(dim, int(entity_tag))
                 for block in entity_elements:

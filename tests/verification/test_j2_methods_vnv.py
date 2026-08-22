@@ -15,5 +15,7 @@ def test_j2_nonlinear_methods_campaign_characterizes_all_methods(tmp_path):
     assert errors["axial_displacement"] < 1.0e-8
     assert errors["stress"] < 1.0e-8
     assert errors["equivalent_plastic_strain"] < 1.0e-8
-    assert errors["displacement"] > 0.1
+    # The full displacement field is no longer method-sensitive after the
+    # nonlinear assembly fix; keep the characterization invariant explicit.
+    assert errors["displacement"] < 1.0e-8
     assert (tmp_path / "report.md").is_file()
