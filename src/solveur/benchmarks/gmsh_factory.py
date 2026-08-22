@@ -269,5 +269,8 @@ def _nearest_point(gmsh: Any, points: list[int], target: tuple[float, float, flo
     target_vector = np.asarray(target, dtype=float)
     return min(
         points,
-        key=lambda tag: float(np.linalg.norm(np.asarray(gmsh.model.occ.getCenterOfMass(0, tag)) - target_vector)),
+        # ``occ.getCenterOfMass`` is not reliable for zero-dimensional OCC
+        # entities after synchronization on all supported Gmsh platforms.
+        # ``model.getValue`` returns the actual geometric point coordinates.
+        key=lambda tag: float(np.linalg.norm(np.asarray(gmsh.model.getValue(0, tag, [])) - target_vector)),
     )

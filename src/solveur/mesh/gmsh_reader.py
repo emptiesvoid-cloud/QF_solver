@@ -109,15 +109,25 @@ class GmshNativeReader:
             if key in groups:
                 raise MeshValidationError(f"Duplicate physical group name {name!r} in dimension {dim}.")
             cell_tags: set[int] = set()
+            node_tags: set[int] = set()
             for entity_tag in gmsh.model.getEntitiesForPhysicalGroup(dim, physical_tag):
+                if dim == 0:
+                    # Point physical groups carry constraints and anchors.  A
+                    # point's mesh element tag is not a portable node lookup:
+                    # Gmsh can emit different point-element ordering across
+                    # platforms.  Query the nodes of the geometric entity
+                    # directly so point groups remain deterministic.
+                    entity_nodes, _, _ = gmsh.model.mesh.getNodes(dim, int(entity_tag))
+                    node_tags.update(int(value) for value in entity_nodes)
+                    continue
                 _, entity_elements, _ = gmsh.model.mesh.getElements(dim, int(entity_tag))
                 for block in entity_elements:
                     cell_tags.update(int(value) for value in block)
-            node_tags = {
+            node_tags.update(
                 node
                 for cell_tag in cell_tags
                 for node in cells.get(cell_tag, GmshCell(0, 0, 0, 0, "", ())).nodes
-            }
+            )
             groups[key] = GmshPhysicalGroup(
                 name=name,
                 dimension=dim,

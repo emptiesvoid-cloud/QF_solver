@@ -7,6 +7,7 @@ import pytest
 from solveur.core.errors import InfrastructureError, InputValidationError, MeshValidationError
 from solveur.io.json_reader import JsonModelReader
 from solveur.io.model_writer import JsonModelWriter
+from solveur.benchmarks.gmsh_factory import BenchmarkMeshFactory
 from solveur.mesh.gmsh_importer import GmshModelImporter, _portable_input_path
 from solveur.mesh.gmsh_reader import GmshNativeReader
 from solveur.mesh.gmsh_types import GmshCell, GmshMeshData, GmshPhysicalGroup
@@ -242,6 +243,31 @@ def test_native_reader_rejects_corrupted_msh_header(tmp_path: Path) -> None:
     mesh.write_bytes(b"not a gmsh file")
     with pytest.raises(InputValidationError, match="readable Gmsh"):
         GmshNativeReader().read(mesh)
+
+
+def test_native_reader_preserves_distinct_point_group_nodes(tmp_path: Path) -> None:
+    pytest.importorskip("gmsh")
+    mesh_path = BenchmarkMeshFactory().box_tetra(
+        tmp_path / "anchored_box.msh",
+        length=2.0,
+        width=1.0,
+        height=0.2,
+        mesh_size=0.34,
+        anchors=True,
+    )
+
+    mesh = GmshNativeReader().read(mesh_path)
+    anchor_coordinates = {
+        name: mesh.nodes[group.node_tags[0]]
+        for (dimension, name), group in mesh.groups.items()
+        if dimension == 0 and name in {"anchor_origin", "anchor_x", "anchor_xy"}
+    }
+
+    assert set(anchor_coordinates) == {"anchor_origin", "anchor_x", "anchor_xy"}
+    assert len(set(anchor_coordinates.values())) == 3
+    assert anchor_coordinates["anchor_origin"] == (0.0, 0.0, 0.0)
+    assert anchor_coordinates["anchor_x"] == (2.0, 0.0, 0.0)
+    assert anchor_coordinates["anchor_xy"] == (0.0, 1.0, 0.0)
 
 
 def _tet_setup(family: str) -> dict[str, object]:

@@ -83,7 +83,7 @@ def test_verify_all_core_pytest_excludes_generated_documentation_and_optional_ca
     command = pytest_commands[0]
     assert "--ignore=tests/documentation" in command
     marker_index = command.index("-m", 3)
-    assert command[marker_index + 1] == "not benchmark and not large"
+    assert command[marker_index + 1] == "not benchmark and not large and not evidence"
 
 
 def test_api_qualification_policy_rejects_non_si_model_built_without_json():

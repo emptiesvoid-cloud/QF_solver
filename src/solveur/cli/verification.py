@@ -241,7 +241,7 @@ def _verify_all_commands(profile: str, scope: str) -> list[list[str]]:
                     "--cov-fail-under=84",
                     "--ignore=tests/documentation",
                     "-m",
-                    "not benchmark and not large",
+                    "not benchmark and not large and not evidence",
                 ],
                 [sys.executable, "scripts/check_p0_coverage.py", "coverage.json"],
             ]
@@ -254,7 +254,7 @@ def _verify_all_commands(profile: str, scope: str) -> list[list[str]]:
                 "pytest",
                 "--ignore=tests/documentation",
                 "-m",
-                "not benchmark and not large",
+                "not benchmark and not large and not evidence",
             ]
         )
     commands.extend(

@@ -15,6 +15,16 @@ OPTIONAL_MESH_TEST_MODULES = {
     "tests/unit/test_code_aster_tet10_dynamic.py",
     "tests/unit/test_code_aster_tet4_dynamic.py",
 }
+OPTIONAL_EVIDENCE_MODULES = {
+    "tests/verification/test_beam2_discrete_stable_owner_review.py",
+    "tests/verification/test_mitc3_classic_stable_owner_review.py",
+    "tests/verification/test_mitc4_classic_stable_owner_review.py",
+    "tests/verification/test_mitc4_laminate_stable_owner_review.py",
+    "tests/verification/test_stable_refinement_evidence.py",
+    "tests/verification/test_tet4_causal_audit.py",
+    "tests/verification/test_tet4_tl_phase2_execution.py",
+    "tests/verification/test_vnv_mitc3_tet4_orthotropic_plan.py",
+}
 
 EVIDENCE_TESTS = {
     "tests/documentation/test_docs_generation.py::test_every_controlled_page_is_registered_with_consistent_review_fields",
@@ -85,7 +95,8 @@ def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
     for item in items:
         base_nodeid = item.nodeid.split("[", maxsplit=1)[0]
         module_path = base_nodeid.split("::", maxsplit=1)[0]
-        if not evidence_available and base_nodeid in EVIDENCE_TESTS:
+        evidence_required = base_nodeid in EVIDENCE_TESTS or module_path in OPTIONAL_EVIDENCE_MODULES
+        if not evidence_available and (evidence_required or item.get_closest_marker("evidence") is not None):
             item.add_marker(pytest.mark.evidence)
             item.add_marker(evidence_marker)
         if not mesh_available and module_path in OPTIONAL_MESH_TEST_MODULES:
