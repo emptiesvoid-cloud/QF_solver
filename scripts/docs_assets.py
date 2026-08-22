@@ -1,6 +1,6 @@
 """Rebuild all numerical, tabular and graphical evidence used by the local site."""
 from __future__ import annotations
-import json
+
 import shutil
 from dataclasses import dataclass
 from pathlib import Path
@@ -21,6 +21,7 @@ from scripts.docs_support import (
     write_json,
     write_markdown_table,
 )
+from scripts.docs_torsion import publish_torsion_stress_probe
 from scripts.docs_models import DocumentationModelFactory, mean_tip_displacement, unit_tet10_coordinates
 from scripts.docs_contact import publish_contact_verification
 from scripts.docs_publication import DocumentationPublisher
@@ -99,50 +100,7 @@ class DocumentationAssetBuilder:
             profile=self.profile,
         ).build()
         self.records.extend(DemoRecord(**record) for record in records)
-        self._publish_torsion_stress_probe()
-
-    def _publish_torsion_stress_probe(self) -> None:
-        source = self.root / "VNV-TET4-TORSION-ANALYTIC-001" / "stress_probe_h9"
-        summary_path = source / "stress_probe_summary.json"
-        manifest_path = source / "stress_probe_manifest.json"
-        if not summary_path.is_file() or not manifest_path.is_file():
-            raise RuntimeError("Controlled TET4 torsion h9 stress-probe evidence is missing.")
-        summary = json.loads(summary_path.read_text(encoding="utf-8"))
-        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-        for entry in manifest.get("files", []):
-            path = source / str(entry["path"])
-            if not path.is_file() or sha256(path) != entry["sha256"]:
-                raise RuntimeError(f"Torsion h9 stress-probe artifact failed SHA-256 verification: {path}.")
-        if summary.get("status") != "PASS" or any(check["status"] != "PASS" for check in summary["checks"]):
-            raise RuntimeError("Controlled TET4 torsion h9 stress probe did not pass.")
-        names = (
-            "h9_qf_deformation.png",
-            "h9_qf_von_mises.png",
-            "h9_saint_venant_deformation.png",
-            "h9_saint_venant_von_mises.png",
-            "h9_stress_error.png",
-        )
-        for name in names:
-            shutil.copy2(source / name, self.assets / "benchmarks" / f"torsion_{name}")
-        aliases = {
-            "h9_qf_deformation.png": "bm-sol-tet4-torsion-001_deformation.png",
-            "h9_qf_von_mises.png": "bm-sol-tet4-torsion-001_von_mises.png",
-            "h9_stress_error.png": "bm-sol-tet4-torsion-001_response.png",
-        }
-        for source_name, target_name in aliases.items():
-            shutil.copy2(source / source_name, self.assets / "benchmarks" / target_name)
-        metrics = summary["metrics"]
-        write_markdown_table(
-            self.generated / "benchmarks" / "torsion_h9_stress_probe.md",
-            ("Grandeur h9", "Valeur", "Critere", "Verdict"),
-            [
-                ("TET4", metrics["element_count"], "3.8 <= N/N_h8 <= 4.2", True),
-                ("Multiplicateur N/N_h8", metrics["element_multiplier_vs_h8"], "[3.8, 4.2]", True),
-                ("Erreur rotation", metrics["relative_twist_error"], "<= 5 %", metrics["relative_twist_error"] <= 0.05),
-                ("Erreur contrainte L2", metrics["relative_stress_l2_error"], "<= 20 %", metrics["relative_stress_l2_error"] <= 0.20),
-                ("Residu libre relatif", metrics["free_relative_residual"], "<= 1e-8", metrics["free_relative_residual"] <= 1.0e-8),
-            ],
-        )
+        publish_torsion_stress_probe(self.root, self.generated, self.assets)
 
     def _reset_outputs(self) -> None:
         for target in (self.generated, self.assets):

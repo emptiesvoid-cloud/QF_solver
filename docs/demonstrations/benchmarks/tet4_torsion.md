@@ -84,9 +84,8 @@ controler separement la resultante parasite.
 
 Huit maillages TET4 construisent la courbe engineering reproductible. La
 monotonie et l'ordre sont evalues sur les trois derniers, qui constituent la
-zone asymptotique des maillages non structures. Une sonde V&V historique plus
-fine controle ensuite la contrainte. La face `x = 0` est encastree. La rotation
-terminale est extraite par projection aux moindres carres:
+zone asymptotique des maillages non structures. La face `x = 0` est encastree.
+La rotation terminale est extraite par projection aux moindres carres:
 
 ```text
 phi_h = somme(y_a * u_z,a - z_a * u_y,a)
@@ -96,23 +95,16 @@ phi_h = somme(y_a * u_z,a - z_a * u_y,a)
 Cette formule cherche la rotation rigide qui explique au mieux les
 deplacements de tous les noeuds de la face terminale.
 
-[Ouvrir directement le PNG de la deformee h9](../../assets/generated/benchmarks/torsion_h9_qf_deformation.png)
+![Deformee sur le niveau fin public h8](../../assets/generated/benchmarks/bm-sol-tet4-torsion-001_deformation.png){ .result-figure }
 
-![Deformee de l'arbre en torsion h9](../../assets/generated/benchmarks/torsion_h9_qf_deformation.png)
+![Champ de von Mises sur le niveau fin public h8](../../assets/generated/benchmarks/bm-sol-tet4-torsion-001_von_mises.png){ .result-figure }
 
-[Ouvrir directement le PNG de von Mises h9](../../assets/generated/benchmarks/torsion_h9_qf_von_mises.png)
+![Deformation equivalente sur le niveau fin public h8](../../assets/generated/benchmarks/bm-sol-tet4-torsion-001_strain_measure.png){ .result-figure }
 
-![Champ de von Mises h9](../../assets/generated/benchmarks/torsion_h9_qf_von_mises.png)
-
-![Deformation equivalente sur le niveau controle h8](../../assets/generated/benchmarks/bm-sol-tet4-torsion-001_strain_measure.png){ .result-figure }
-
-La carte de deformation provient du niveau h8 regenere par le catalogue. Le
-niveau h9 reste la sonde de contrainte tres raffinee et conserve ses vues
-QF_solver/Saint-Venant dediees ci-dessous.
-
-[Ouvrir directement la carte d'ecart h9](../../assets/generated/benchmarks/torsion_h9_stress_error.png)
-
-![Ecart de contrainte h9](../../assets/generated/benchmarks/torsion_h9_stress_error.png)
+Les images ci-dessus proviennent du niveau h8 regenere par le catalogue public.
+Une sonde h9 de contrainte peut etre ajoutee dans un checkout local controle,
+mais elle n'est pas necessaire pour construire cette documentation et ses
+resultats ne sont pas presents dans la baseline publique.
 
 ## Acceptation et lecture
 
@@ -127,44 +119,26 @@ une contrainte constante par element et approche le bord circulaire par des
 facettes planes. Elle est donc evaluee dans une campagne V&V distincte plus
 fine et n'est pas le critere d'acceptation du sweep documentaire.
 
-## Sonde h9 a quatre fois plus d'elements
+## Sonde h9 optionnelle
 
-La taille nominale est choisie avec la loi volumique `N ~ h^-3` :
-
-```text
-h9 = h8 / racine_cubique(4) = 0,047247 m
-```
-
-Le maillage genere contient `105 529` TET4 contre `26 336` pour h8, soit un
-facteur mesure de `4,007`. Le calcul est realise avec l'assembleur creux
-chunked et CG/Jacobi afin d'eviter un JSON d'audit elementaire de plusieurs
-gigaoctets.
+La sonde h9 a quatre fois plus d'elements est une campagne V&V locale
+optionnelle. Elle n'est pas embarquee dans le checkout public, car son maillage
+et ses sorties sont volumineux. Le build documentaire verifie ses empreintes
+et publie ses chiffres lorsqu'elle est disponible; sinon il publie explicitement
+le dernier niveau h8 et marque la sonde h9 comme non disponible.
 
 --8<-- "docs/generated/benchmarks/torsion_h9_stress_probe.md"
 
-L'erreur de rotation descend a `1,242 %` et l'erreur globale L2 de contrainte
-a `18,891 %`. Quentin Farinazzo accepte ce resultat sous le seuil engineering
-de `20 %` defini pour ce benchmark lisse. L'acceptation ne s'etend pas aux
-pics ponctuels, aux singularites, ni a une geometrie arbitraire sans nouvelle
-etude de convergence.
+Le rapport inclus ci-dessous distingue donc toujours la sonde h9 controlee du
+dernier niveau public. Aucune valeur h9 n'est recopiee manuellement dans cette
+page et aucune acceptance de contrainte locale n'est deduite de la campagne
+h1-h8 seule.
 
-[Ouvrir le von Mises QF_solver h9](../../assets/generated/benchmarks/torsion_h9_qf_von_mises.png)
-
-![von Mises QF_solver h9](../../assets/generated/benchmarks/torsion_h9_qf_von_mises.png)
-
-[Ouvrir le von Mises analytique h9](../../assets/generated/benchmarks/torsion_h9_saint_venant_von_mises.png)
-
-![von Mises Saint-Venant h9](../../assets/generated/benchmarks/torsion_h9_saint_venant_von_mises.png)
-
-[Ouvrir la carte d'ecart de contrainte h9](../../assets/generated/benchmarks/torsion_h9_stress_error.png)
-
-![Ecart de contrainte h9](../../assets/generated/benchmarks/torsion_h9_stress_error.png)
-
-Une etude V&V controlee complete le benchmark dans
-`VNV-TET4-TORSION-ANALYTIC-001/STUDY.md`. Elle compare les deformees QF_solver
-et Saint-Venant niveau par niveau, avec le meme maillage, la meme vue et le
-meme facteur d'amplification. Le rapport formel est regenere par
-`qf-solver vnv-compare`.
+Lorsqu'elle est disponible, l'etude V&V controlee dans
+`VNV-TET4-TORSION-ANALYTIC-001/STUDY.md` compare les deformees QF_solver et
+Saint-Venant niveau par niveau, avec le meme maillage, la meme vue et le meme
+facteur d'amplification. Le rapport formel est regenere par `qf-solver
+vnv-compare`.
 
 ## Reproduction
 

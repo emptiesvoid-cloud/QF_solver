@@ -92,12 +92,12 @@ def publish_technical_content_closure(
         artifacts.append(_artifact(target, row["caption"], assets))
     dynamic_sources = (
         (
-            root / "qualification/vnv/external/code_aster_beam2_newmark/reference/summary.json",
+            root / "qualification/external_reference_digests/code_aster_beam2_newmark_summary.json",
             assets / "beam2_code_aster_dynamic.png",
             "BEAM2",
         ),
         (
-            root / "qualification/vnv/external/code_aster_discrete/reference/summary.json",
+            root / "qualification/external_reference_digests/code_aster_discrete_summary.json",
             assets / "discrete_code_aster_dynamic.png",
             "Ressort et masse concentree",
         ),

@@ -17,7 +17,7 @@ from solveur.verification.calculix_nafems import (
 
 ROOT = Path(__file__).resolve().parents[1]
 QF_SUMMARY = ROOT / "results" / "VNV-MITC4-HARMONIC-NAFEMS13H-004" / "summary.json"
-REFERENCE = ROOT / "qualification" / "vnv" / "references" / "abaqus_nafems_13h_harmonic.json"
+REFERENCE = ROOT / "qualification" / "external_reference_digests" / "abaqus_nafems_13h_harmonic.json"
 
 
 def main() -> int:

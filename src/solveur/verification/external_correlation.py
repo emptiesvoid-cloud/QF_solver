@@ -17,8 +17,7 @@ DEFAULT_ABAQUS_REFERENCE = (
 DEFAULT_NAFEMS_13H_REFERENCE = (
     PROJECT_ROOT
     / "qualification"
-    / "vnv"
-    / "references"
+    / "external_reference_digests"
     / "abaqus_nafems_13h_harmonic.json"
 )
 

@@ -434,6 +434,7 @@ def normalize_document_status(status: str) -> str:
         "owner_accepted_experimental",
         "owner_accepted_with_recommendations",
         "ready_for_owner_review",
+        "verified_development_external_correlation",
     }:
         return normalized
     if normalized == "owner_reviewed":

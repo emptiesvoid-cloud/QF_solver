@@ -203,6 +203,7 @@ def test_document_lifecycle_statuses_are_preserved() -> None:
         "owner_accepted_experimental",
         "owner_accepted_with_recommendations",
         "controlled_candidate",
+        "verified_development_external_correlation",
     ):
         assert normalize_document_status(status) == status
 

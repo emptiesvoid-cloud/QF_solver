@@ -30,7 +30,10 @@ def test_element_analysis_matrix_matches_current_owner_promotions_and_limits() -
     assert families["MITC4"]["modal"]["status"] == "stable"
     assert families["MITC3"]["modal"]["status"] == "stable"
     assert families["TET10"]["harmonic"]["status"] == "stable"
-    assert "qualification/vnv/linear_dynamic_families/tet10/summary.json" in families["TET10"]["evidence"]
+    # The public checkout deliberately excludes generated/private V&V folders.
+    # Keep this assertion on the tracked promotion dossier instead of an
+    # ignored local summary that cannot be reproduced from a fresh clone.
+    assert "docs/verification/tet10_stable_promotion_owner_review_0_2_1.md" in families["TET10"]["evidence"]
     assert families["BEAM2"]["transient_newmark"]["status"] == "stable"
     assert families["SPRING_MASS"]["harmonic"]["status"] == "stable"
     assert families["TET4"]["nonlinear_dynamic"]["status"] == "unsupported"

@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "reference_id": "ABAQUS-2024-NAFEMS-13H-S4R-DIRECT",
+  "publisher": "Dassault Systemes SIMULIA",
+  "product": "Abaqus/Standard",
+  "documentation_release": "2024",
+  "retrieved_on": "2026-07-15",
+  "source": {
+    "title": "Test 13H: Simply supported thin square plate: harmonic forced vibration",
+    "url": "https://docs.software.vt.edu/abaqusv2024/English/SIMACAEBMKRefMap/simabmk-c-forcedvibrationtest13h.htm",
+    "table": "Table 2 - Direct solution",
+    "reference_origin": "NAFEMS Selected Benchmarks for Forced Vibration, R0016, March 1993",
+    "input_files": {
+      "S4": "https://docs.software.vt.edu/abaqusv2024/English/SIMAINPRefResources/nfh13e4x.inp",
+      "S4R": "https://docs.software.vt.edu/abaqusv2024/English/SIMAINPRefResources/nfh13f4x.inp"
+    }
+  },
+  "model": {
+    "geometry_m": {"length": 10.0, "width": 10.0, "thickness": 0.05},
+    "mesh": "8x8 quadrilateral shell elements",
+    "material": {"young_modulus_pa": 200000000000.0, "poisson_ratio": 0.3, "density_kg_m3": 8000.0},
+    "pressure_pa": 100.0,
+    "frequency_sweep_hz": {"start": 0.1, "stop": 4.16, "count": 200},
+    "rayleigh_damping": {"alpha_s_inv": 0.299, "beta_s": 0.001339},
+    "boundary_conditions": [
+      "UX=UY=RZ=0 at every node",
+      "UZ=0 on all four edges",
+      "RY=0 on bottom and top edges",
+      "RX=0 on left and right edges"
+    ]
+  },
+  "nafems_reference": {
+    "peak_displacement_mm": 45.42,
+    "peak_stress_n_mm2": 30.03,
+    "peak_frequency_hz": 2.377
+  },
+  "abaqus_direct_results": [
+    {"element": "S4", "peak_displacement_mm": 44.93, "peak_stress_n_mm2": 31.26, "peak_frequency_hz": 2.420},
+    {"element": "S4R", "peak_displacement_mm": 45.38, "peak_stress_n_mm2": 30.37, "peak_frequency_hz": 2.405}
+  ],
+  "comparison_policy": {
+    "type": "same_geometry_mesh_load_damping_and_boundary_conditions",
+    "qf_to_abaqus_displacement_relative_limit": 0.05,
+    "qf_to_abaqus_frequency_relative_limit": 0.03,
+    "qf_to_abaqus_stress_relative_limit": 0.05,
+    "qf_to_nafems_displacement_relative_limit": 0.05,
+    "qf_to_nafems_frequency_relative_limit": 0.03,
+    "qf_to_nafems_stress_relative_limit": 0.05,
+    "relative_residual_limit": 1e-8,
+    "qualification_use": "supporting_external_evidence",
+    "limitations": [
+      "QF_solver uses MITC4 while the primary Abaqus comparison uses S4R.",
+      "Published scalar peaks are transcribed from the official Abaqus table; Abaqus was not executed locally.",
+      "Peak S11 is recovered on the shell top face at the center node by complex averaging of the four adjacent MITC4 facets."
+    ]
+  }
+}
