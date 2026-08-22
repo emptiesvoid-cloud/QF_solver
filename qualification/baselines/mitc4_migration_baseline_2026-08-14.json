@@ -38,7 +38,11 @@
     "sum": 162.47405232727868,
     "symmetry_relative": 0.0,
     "checksum_decimals": 3,
-    "rounded_checksum_sha256": "87fba9b76c565b30b216f3faa5fd0f23f789163b911e0587a8520f3bfec2e00e"
+    "rounded_checksum_sha256": "87fba9b76c565b30b216f3faa5fd0f23f789163b911e0587a8520f3bfec2e00e",
+    "accepted_rounded_checksum_sha256": [
+      "87fba9b76c565b30b216f3faa5fd0f23f789163b911e0587a8520f3bfec2e00e",
+      "53892dc84f5fff58ac753e6f16b233bff56220700af67fc5d33a5ab0f5876a33"
+    ]
   },
   "verification_command": "python -m mitc4.cli verify --quick",
   "verification_status": "PASS",

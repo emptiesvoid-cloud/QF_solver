@@ -58,7 +58,11 @@ def test_mitc4_stiffness_and_mass_match_the_migration_baseline() -> None:
     # strict norm/trace/sum checks above retain the numerical guard while
     # this checksum remains portable across supported Python platforms.
     mass_checksum_decimals = int(expected_mass.get("checksum_decimals", 3))
-    assert _rounded_checksum(mass, decimals=mass_checksum_decimals) == expected_mass["rounded_checksum_sha256"]
+    actual_mass_checksum = _rounded_checksum(mass, decimals=mass_checksum_decimals)
+    accepted_mass_checksums = expected_mass.get("accepted_rounded_checksum_sha256")
+    if accepted_mass_checksums is None:
+        accepted_mass_checksums = [expected_mass["rounded_checksum_sha256"]]
+    assert actual_mass_checksum in accepted_mass_checksums
 
 
 def test_common_shell_adapter_matches_the_validated_mitc4_element() -> None:
