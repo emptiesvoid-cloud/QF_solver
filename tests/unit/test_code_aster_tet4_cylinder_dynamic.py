@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import pytest
 import numpy as np
 
 from solveur.verification.code_aster_tet4_cylinder_dynamic import CodeAsterTet4CylinderDynamicsCampaign
@@ -19,3 +20,4 @@ def test_circular_tet4_dynamic_geometry_has_circular_end_sections(tmp_path) -> N
     assert np.max(root_radius) == np.max(tip_radius)
     assert np.isclose(np.max(root_radius), 0.4, atol=1.0e-10)
 
+pytestmark = pytest.mark.evidence

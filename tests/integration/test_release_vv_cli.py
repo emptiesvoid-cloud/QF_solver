@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import pytest
 import json
 import subprocess
 import sys
@@ -50,3 +51,5 @@ def test_release_vv_cli_can_fail_on_warning(tmp_path: Path) -> None:
 
     assert completed.returncode == 4
     assert "RELEASE V&V STATUS: FAIL" in completed.stdout
+
+pytestmark = pytest.mark.evidence

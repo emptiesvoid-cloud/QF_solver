@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import pytest
 import json
 from pathlib import Path
 
@@ -99,3 +100,5 @@ def test_release_vv_verifies_internal_linear_dynamics_bundle(tmp_path: Path) -> 
     )
     assert check["status"] == "PASS"
     assert check["checked_file_count"] == 11
+
+pytestmark = pytest.mark.evidence

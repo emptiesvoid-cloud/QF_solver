@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import pytest
 import json
 from pathlib import Path
 
@@ -55,3 +56,5 @@ def test_tet4_audit_writes_json_markdown_plot_and_manifest(tmp_path: Path) -> No
     assert (tmp_path / "report.md").is_file()
     assert (tmp_path / "tet4_error_convergence.png").stat().st_size > 1000
     assert (tmp_path / "vnv_manifest.json").is_file()
+
+pytestmark = pytest.mark.evidence

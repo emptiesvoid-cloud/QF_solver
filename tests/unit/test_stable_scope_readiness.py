@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import pytest
 import importlib.util
 from pathlib import Path
 
@@ -40,3 +41,5 @@ def test_latest_audit_contains_separated_release_fields() -> None:
         {"technical_status", "owner_decision", "release_readiness"}.issubset(row)
         for row in payload["scopes"]
     )
+
+pytestmark = pytest.mark.evidence

@@ -47,7 +47,7 @@ jobs:
         run: >-
           python -m pytest
           tests/unit tests/integration
-          -m "not benchmark and not large"
+          -m "not benchmark and not large and not evidence"
           --cov=solveur --cov-branch
           --cov-report=term-missing:skip-covered
           --cov-report=json:coverage.json

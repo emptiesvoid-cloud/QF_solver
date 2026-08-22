@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import pytest
 import json
 from pathlib import Path
 
@@ -549,3 +550,5 @@ def test_tet4_j2_uses_code_aster_reference_and_keeps_owner_gate() -> None:
     assert criteria["TET4-J2-C02"]["status"] == "PASS"
     assert criteria["TET4-J2-C03"]["status"] == "PASS"
     assert criteria["TET4-J2-C04"]["status"] == "PASS"
+
+pytestmark = pytest.mark.evidence

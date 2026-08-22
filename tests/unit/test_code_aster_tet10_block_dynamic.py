@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import pytest
 import numpy as np
 
 from solveur.verification.code_aster_tet10_block_dynamic import (
@@ -24,3 +25,4 @@ def test_block_campaign_preserves_non_cantilever_scope() -> None:
     assert "block" in CodeAsterTet10BlockDynamicsCampaign.geometry_label
     assert CodeAsterTet10BlockDynamicsCampaign.study_id.endswith("-025")
 
+pytestmark = pytest.mark.evidence

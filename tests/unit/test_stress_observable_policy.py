@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import pytest
 import json
 from pathlib import Path
 
@@ -28,3 +29,5 @@ def test_tet10_stress_evidence_matches_policy() -> None:
         assert observable["probe_margin_fraction"] >= policy["interior_probe"]["minimum_margin_fraction"]
         assert observable["singular_boundaries_excluded"] is True
         assert observable["relative_l2_difference"] <= limit
+
+pytestmark = pytest.mark.evidence

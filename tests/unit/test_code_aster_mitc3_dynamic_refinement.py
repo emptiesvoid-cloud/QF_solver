@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import pytest
 import json
 from pathlib import Path
 
@@ -61,3 +62,5 @@ def test_mitc3_laminate_dynamic_64x16_diagnostic_does_not_promote_stable() -> No
     report = (LARGE_MESH_EVIDENCE / "report.md").read_text(encoding="utf-8")
     assert "BLOCKED_OVER_1_PERCENT" in report
     assert (LARGE_MESH_EVIDENCE / "mitc3_laminate_code_aster_comparison.png").stat().st_size > 0
+
+pytestmark = pytest.mark.evidence

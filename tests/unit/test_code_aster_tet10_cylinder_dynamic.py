@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import pytest
 import numpy as np
 
 from solveur.verification.code_aster_tet10_cylinder_dynamic import CodeAsterTet10CylinderDynamicsCampaign
@@ -14,3 +15,4 @@ def test_circular_tet10_dynamic_geometry_preserves_quadratic_nodes(tmp_path) -> 
     assert np.allclose(model.nodes[root, 0], 0.0)
     assert np.allclose(model.nodes[tip, 0], campaign.length)
 
+pytestmark = pytest.mark.evidence

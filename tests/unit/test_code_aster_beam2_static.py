@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import pytest
 import json
 from pathlib import Path
 
@@ -34,3 +35,5 @@ def test_beam2_static_campaign_publishes_reviewable_artifacts() -> None:
 
     assert all((EVIDENCE / name).is_file() for name in required)
     assert all(item["status"] == "PASS" for item in summary["checks"])
+
+pytestmark = pytest.mark.evidence

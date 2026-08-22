@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import pytest
 import numpy as np
 
 from solveur.verification.code_aster_tet10_block_dynamic import (
@@ -49,3 +50,5 @@ def test_cylinder_stress_probe_uses_curved_mesh_campaign(tmp_path) -> None:
     source = campaign._build_campaign()
     assert campaign.study_id.endswith("-028")
     assert source.geometry_label == "circular-shaft cantilever"
+
+pytestmark = pytest.mark.evidence

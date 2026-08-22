@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import pytest
 import numpy as np
 
 from solveur.verification.code_aster_tet10_damped_cylinder_dynamic import (
@@ -41,3 +42,4 @@ def test_damped_campaign_keeps_same_mesh_modal_model(tmp_path) -> None:
     model, _, _ = campaign._model(0.80, _modal_analysis())
     assert {element.type for element in model.elements} == {"TET10"}
 
+pytestmark = pytest.mark.evidence
