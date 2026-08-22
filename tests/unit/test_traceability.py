@@ -7,6 +7,7 @@ from solveur.core.errors import InputValidationError
 from solveur.verification.traceability import (
     FormulaRegistry,
     QualificationRegistry,
+    _declared_scope_names,
     model_traceability_summary,
     qualification_readiness,
     scope_for_model,
@@ -201,6 +202,68 @@ def test_formula_traceability_detects_orphan_formula(tmp_path):
     report = QualificationRegistry(registry, formulas).readiness("candidate")
     assert report.status == "FAIL"
     assert report.orphan_formulas == ("FORM-MISSING",)
+
+
+def test_formula_registry_rejects_invalid_controlled_inputs(tmp_path) -> None:
+    missing = tmp_path / "missing-formulas.json"
+    with pytest.raises(InputValidationError, match="Cannot load formula registry"):
+        FormulaRegistry(missing)
+
+    invalid_schema = tmp_path / "invalid-schema.json"
+    invalid_schema.write_text(json.dumps({"schema_version": 2, "formulas": []}), encoding="utf-8")
+    with pytest.raises(InputValidationError, match="schema_version"):
+        FormulaRegistry(invalid_schema)
+
+    missing_list = tmp_path / "missing-list.json"
+    missing_list.write_text(json.dumps({"schema_version": 1}), encoding="utf-8")
+    with pytest.raises(InputValidationError, match="formula list"):
+        FormulaRegistry(missing_list)
+
+    invalid_ids = tmp_path / "invalid-ids.json"
+    invalid_ids.write_text(json.dumps({"schema_version": 1, "formulas": [{}, {}]}), encoding="utf-8")
+    with pytest.raises(InputValidationError, match="invalid or duplicate"):
+        FormulaRegistry(invalid_ids)
+
+
+def test_formula_record_reports_all_missing_traceability_links() -> None:
+    issues = FormulaRegistry._record_issues(
+        {
+            "requirement": "REQ-UNKNOWN",
+            "document": "missing-document.md",
+            "section": "# Missing",
+            "code": ["missing-code.py"],
+            "functions": ["Example.missing_function"],
+            "tests": ["missing-test.py"],
+            "reference_id": "REF-MISSING",
+            "reference": "missing-reference.md#REF-MISSING",
+        },
+        {"REQ-KNOWN"},
+    )
+
+    assert "unknown requirement 'REQ-UNKNOWN'" in issues
+    assert "missing document 'missing-document.md'" in issues
+    assert "missing code path" in issues
+    assert "missing test path" in issues
+    assert "missing function Example.missing_function" in issues
+    assert "missing reference 'missing-reference.md#REF-MISSING'" in issues
+
+
+def test_formula_record_reports_empty_required_fields() -> None:
+    issues = FormulaRegistry._record_issues({}, set())
+    assert {f"missing {field}" for field in ("document", "section", "code", "functions", "tests", "reference_id", "reference")} <= set(issues)
+
+
+def test_scope_declarations_and_mapping_tolerate_invalid_data(tmp_path) -> None:
+    invalid_registry = tmp_path / "invalid-registry.json"
+    invalid_registry.write_text("not json", encoding="utf-8")
+    assert _declared_scope_names(invalid_registry) == ()
+
+    model = SimpleNamespace(
+        analysis=SimpleNamespace(type="linear_static"),
+        elements=[SimpleNamespace(type="TET4")],
+        materials=(),
+    )
+    assert scope_for_model(model) == "tet4-linear-static"
 
 
 @pytest.mark.parametrize(
