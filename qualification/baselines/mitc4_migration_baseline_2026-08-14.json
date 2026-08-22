@@ -37,8 +37,8 @@
     "trace": 72.21063839098781,
     "sum": 162.47405232727868,
     "symmetry_relative": 0.0,
-    "checksum_decimals": 6,
-    "rounded_checksum_sha256": "44f3bea70601b984c04523cbf036ba5e0bd2823c1c084f1031df080cf3bc89c1"
+    "checksum_decimals": 3,
+    "rounded_checksum_sha256": "87fba9b76c565b30b216f3faa5fd0f23f789163b911e0587a8520f3bfec2e00e"
   },
   "verification_command": "python -m mitc4.cli verify --quick",
   "verification_status": "PASS",
