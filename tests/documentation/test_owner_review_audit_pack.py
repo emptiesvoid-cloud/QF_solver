@@ -28,9 +28,10 @@ def test_pack_contains_every_scope_without_prefilled_decision(
     generated_pack: tuple[Path, Path, Path],
 ) -> None:
     stable_pdf, open_pdf, _ = generated_pack
-    packet = json.loads(
-        (ROOT / "results/maturity_promotion_0_2_1/owner_review_packet.json").read_text(encoding="utf-8")
+    snapshot = json.loads(
+        (ROOT / "qualification" / "public_evidence" / "owner_review_audit_pack_0_2_1.json").read_text(encoding="utf-8")
     )
+    packet = snapshot["packet"]
     stable_text = _text(stable_pdf)
     open_text = _text(open_pdf)
     for row in packet["scopes"]:

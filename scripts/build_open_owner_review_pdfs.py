@@ -21,11 +21,7 @@ OUTPUT_DIR = ROOT / "output" / "pdf"
 PENDING_CORRELATION_REVIEW = ROOT / "qualification" / "reviews" / "code_aster_correlation_owner_review_2026-08-14_pending.json"
 FINAL_CORRELATION_REVIEW = ROOT / "qualification" / "reviews" / "code_aster_correlation_owner_review_2026-08-14.json"
 CORRELATION_REVIEW = FINAL_CORRELATION_REVIEW if FINAL_CORRELATION_REVIEW.is_file() else PENDING_CORRELATION_REVIEW
-CURVED_SUMMARY = ROOT / "results" / "VNV-MITC3-LAMINATE-CURVED-PROJECTED-CODEASTER-DST-025" / "summary.json"
-CURVED_REFINED_SUMMARY = ROOT / "results" / "VNV-MITC3-LAMINATE-CURVED-PROJECTED-CODEASTER-DST-025-R1-96" / "summary.json"
-HEMISPHERE_SUMMARY = ROOT / "qualification" / "vnv" / "external" / "code_aster_mitc3" / "hemisphere_v1" / "summary.json"
-ORTHOTROPIC_EXTERNAL_SUMMARY = ROOT / "qualification" / "vnv" / "external" / "orthotropic_solids" / "reference" / "summary.json"
-ORTHOTROPIC_DYNAMIC_SUMMARY = ROOT / "qualification" / "vnv" / "orthotropic_modal_newmark" / "reference" / "summary.json"
+PUBLIC_CORRELATION_EVIDENCE = ROOT / "qualification" / "public_evidence" / "owner_review_correlation_2026-08-14.json"
 MANUAL_CLOSURE = ROOT / "qualification" / "reviews" / "technical_manual_content_closure_pending_2026-08-01.json"
 RELEASE_REGISTER = ROOT / "qualification" / "release_vv_0_2_1.json"
 
@@ -116,6 +112,11 @@ def _image(path: Path, name: str, *, height: float = 75 * mm) -> Image:
     return figure
 
 
+def _public_correlation_evidence() -> dict[str, object]:
+    """Load the tracked scalar snapshot used when private workspaces are absent."""
+    return json.loads(PUBLIC_CORRELATION_EVIDENCE.read_text(encoding="utf-8"))
+
+
 def _footer(canvas: object, document: object) -> None:
     canvas.saveState()
     canvas.setFont("Helvetica", 7)
@@ -185,11 +186,12 @@ def _build_correlation_review(output: Path) -> Path:
     review = json.loads(CORRELATION_REVIEW.read_text(encoding="utf-8"))
     answers = review.get("answers")
     answer_map = answers if isinstance(answers, dict) else None
-    curved = json.loads(CURVED_SUMMARY.read_text(encoding="utf-8"))
-    curved_refined = json.loads(CURVED_REFINED_SUMMARY.read_text(encoding="utf-8"))
-    hemisphere = json.loads(HEMISPHERE_SUMMARY.read_text(encoding="utf-8"))
-    orthotropic_external = json.loads(ORTHOTROPIC_EXTERNAL_SUMMARY.read_text(encoding="utf-8"))
-    orthotropic_dynamic = json.loads(ORTHOTROPIC_DYNAMIC_SUMMARY.read_text(encoding="utf-8"))
+    evidence = _public_correlation_evidence()
+    curved = dict(evidence["curved"])
+    curved_refined = dict(evidence["curved_refined"])
+    hemisphere = dict(evidence["hemisphere"])
+    orthotropic_external = dict(evidence["orthotropic_external"])
+    orthotropic_dynamic = dict(evidence["orthotropic_dynamic"])
     output.parent.mkdir(parents=True, exist_ok=True)
     story: list[object] = [
         Spacer(1, 26 * mm),
@@ -274,8 +276,8 @@ def _build_correlation_review(output: Path) -> Path:
         ),
         _table(_checks(curved), [67 * mm, 34 * mm, 34 * mm, 32 * mm], styles),
         Spacer(1, 4 * mm),
-        _image(ROOT / "results" / "VNV-MITC3-LAMINATE-CURVED-PROJECTED-CODEASTER-DST-025" / "convergence_qf_code_aster.png", "mitc3_curved_convergence.png", height=58 * mm),
-        _image(ROOT / "results" / "VNV-MITC3-LAMINATE-CURVED-PROJECTED-CODEASTER-DST-025" / "curved_laminate_deformation_qf_code_aster.png", "mitc3_curved_deformation.png", height=58 * mm),
+        _image(ROOT / "docs" / "assets" / "reviews" / "mitc3_curved_laminate_code_aster_convergence.png", "mitc3_curved_convergence.png", height=58 * mm),
+        _image(ROOT / "docs" / "assets" / "reviews" / "mitc3_curved_laminate_code_aster_deformation.png", "mitc3_curved_deformation.png", height=58 * mm),
         PageBreak(),
         Paragraph("4.1 Suivi de raffinement MITC3 courbe : 96 x 48", styles["h1"]),
         Paragraph(
@@ -287,7 +289,7 @@ def _build_correlation_review(output: Path) -> Path:
         ),
         _table(_checks(curved_refined), [67 * mm, 34 * mm, 34 * mm, 32 * mm], styles),
         Spacer(1, 4 * mm),
-        _image(ROOT / "results" / "VNV-MITC3-LAMINATE-CURVED-PROJECTED-CODEASTER-DST-025-R1-96" / "convergence_qf_code_aster.png", "mitc3_curved_r1_convergence.png", height=66 * mm),
+        _image(ROOT / "docs" / "assets" / "reviews" / "mitc3_refined_convergence.png", "mitc3_curved_r1_convergence.png", height=66 * mm),
         _table(_question_rows(review["questions"], 8, 8, answer_map), [12 * mm, 88 * mm, 29 * mm, 38 * mm], styles),
         PageBreak(),
         Paragraph("5. MITC3 hemisphere pince", styles["h1"]),
@@ -299,8 +301,8 @@ def _build_correlation_review(output: Path) -> Path:
         ),
         _table(_checks(hemisphere), [67 * mm, 34 * mm, 34 * mm, 32 * mm], styles),
         Spacer(1, 4 * mm),
-        _image(ROOT / "qualification" / "vnv" / "external" / "code_aster_mitc3" / "hemisphere_v1" / "convergence_qf_code_aster.png", "mitc3_hemisphere_convergence.png", height=56 * mm),
-        _image(ROOT / "qualification" / "vnv" / "external" / "code_aster_mitc3" / "hemisphere_v1" / "level_32" / "fine_deformation_qf_code_aster.png", "mitc3_hemisphere_deformation.png", height=56 * mm),
+        _image(ROOT / "docs" / "assets" / "reviews" / "mitc3_hemisphere_convergence.png", "mitc3_hemisphere_convergence.png", height=56 * mm),
+        _image(ROOT / "docs" / "assets" / "reviews" / "mitc3_hemisphere_qf_aster.png", "mitc3_hemisphere_deformation.png", height=56 * mm),
         _table(_question_rows(review["questions"], 9, 9, answer_map), [12 * mm, 88 * mm, 29 * mm, 38 * mm], styles),
         PageBreak(),
         Paragraph("6. Decision Owner", styles["h1"]),

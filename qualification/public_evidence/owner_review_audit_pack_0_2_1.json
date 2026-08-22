@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "snapshot_id": "QF-PUBLIC-OWNER-REVIEW-PACK-021-001",
+  "purpose": "Public, portable inputs for the controlled Owner-review PDFs. Full local V&V workspaces are deliberately not distributed.",
+  "packet": {
+    "packet_id": "QF-MATURITY-OWNER-PACKET-021-001",
+    "status": "PENDING_OWNER_REVIEW",
+    "scopes": [
+      {
+        "scope": "tet4-total-lagrangian-structural-v2",
+        "current_status": "research",
+        "target_status": "research",
+        "technical_status": "BLOCKED",
+        "promotion_gate": "BLOCKED_INDEPENDENT_REVIEW",
+        "blocking_classification": "owner_decision_pending",
+        "evidence_paths": ["docs/verification/tet4_total_lagrangian_structural_v2.md", "docs/verification/revue_tet4_total_lagrangian_structural_v2.md", "docs/assets/reviews/tet4_tl_assembly_convergence.png", "qualification/reviews/tet4_total_lagrangian_independent_review_pending.json", "tests/unit/test_total_lagrangian_tet4.py"],
+        "owner_review_paths": ["qualification/reviews/tet4_total_lagrangian_phase2_owner_review_pending_2026-08-22.json", "qualification/reviews/tet4_total_lagrangian_independent_review_pending.json"],
+        "questions": [{"id": "Q1", "question": "Les preuves couvrent-elles le domaine total-lagrangien explicitement borne ?"}, {"id": "Q2", "question": "Les limites, exclusions et conventions sont-elles acceptables ?"}, {"id": "Q3", "question": "Le statut research reste-t-il approprie sans extrapolation ?"}, {"id": "Q4", "question": "Quelle decision Owner doit etre enregistree pour ce scope ?"}]
+      },
+      {
+        "scope": "orthotropic-solid-tet4-tet10",
+        "current_status": "supplementary_scope",
+        "target_status": "stable",
+        "technical_status": "PASS",
+        "promotion_gate": "READY_FOR_OWNER_REVIEW",
+        "blocking_classification": "none",
+        "evidence_paths": ["docs/verification/revue_solides_orthotropes.md", "docs/assets/reviews/orthotropic_solid_convergence.png", "docs/assets/reviews/orthotropic_lbracket_code_aster.png", "qualification/reviews/orthotropic_solids_2026-07-22.json", "tests/unit/test_orthotropic_solid.py"],
+        "owner_review_paths": ["qualification/reviews/orthotropic_solids_2026-07-22.json"],
+        "questions": [{"id": "Q1", "question": "Les preuves statiques orthotropes TET4/TET10 couvrent-elles le domaine borne ?"}, {"id": "Q2", "question": "Les limites de contrainte et d orientation sont-elles acceptables ?"}, {"id": "Q3", "question": "La cible stable est-elle appropriee sans extrapolation aux composites pli par pli ?"}, {"id": "Q4", "question": "Quelle decision Owner doit etre enregistree pour ce scope ?"}]
+      },
+      {
+        "scope": "orthotropic-solid-modal",
+        "current_status": "supplementary_scope",
+        "target_status": "stable",
+        "technical_status": "PASS",
+        "promotion_gate": "READY_FOR_OWNER_REVIEW",
+        "blocking_classification": "none",
+        "evidence_paths": ["docs/verification/orthotropic_modal_newmark.md", "docs/assets/reviews/orthotropic_modal_convergence.png", "qualification/reviews/orthotropic_modal_owner_review_2026-08-20.json", "tests/unit/test_orthotropic_dynamic_large.py"],
+        "owner_review_paths": ["qualification/reviews/orthotropic_modal_owner_review_pending.json"],
+        "questions": [{"id": "Q1", "question": "Les preuves modales orthotropes couvrent-elles le domaine borne ?"}, {"id": "Q2", "question": "Les limites et conventions de masse sont-elles acceptables ?"}, {"id": "Q3", "question": "La cible stable est-elle appropriee sans extrapolation ?"}, {"id": "Q4", "question": "Quelle decision Owner doit etre enregistree pour ce scope ?"}]
+      },
+      {
+        "scope": "orthotropic-solid-transient-dynamic",
+        "current_status": "supplementary_scope",
+        "target_status": "stable",
+        "technical_status": "PASS",
+        "promotion_gate": "READY_FOR_OWNER_REVIEW",
+        "blocking_classification": "none",
+        "evidence_paths": ["docs/verification/orthotropic_modal_newmark.md", "docs/assets/reviews/orthotropic_newmark_convergence.png", "docs/assets/reviews/orthotropic_code_aster_newmark.png", "qualification/reviews/orthotropic_transient_dynamic_owner_review_2026-08-20.json", "tests/unit/test_orthotropic_dynamic_large.py"],
+        "owner_review_paths": ["qualification/reviews/orthotropic_transient_dynamic_owner_review_pending.json"],
+        "questions": [{"id": "Q1", "question": "Les preuves Newmark orthotropes couvrent-elles le domaine borne ?"}, {"id": "Q2", "question": "Les pas de temps, la masse et les exclusions sont-ils acceptables ?"}, {"id": "Q3", "question": "La cible stable est-elle appropriee sans extrapolation ?"}, {"id": "Q4", "question": "Quelle decision Owner doit etre enregistree pour ce scope ?"}]
+      },
+      {
+        "scope": "mitc3-laminate-dynamic-thin-planar",
+        "current_status": "supplementary_scope",
+        "target_status": "stable",
+        "technical_status": "BLOCKED",
+        "promotion_gate": "BLOCKED_OWNER_REVIEW",
+        "blocking_classification": "owner_decision_pending",
+        "evidence_paths": ["docs/verification/mitc3_laminate_dynamic_dkt_thin_owner_review.md", "docs/assets/reviews/mitc3_laminate_code_aster_comparison.png", "qualification/reviews/mitc3_laminate_dynamic_dkt_thin_owner_review_pending.json", "tests/unit/test_mitc3_element.py"],
+        "owner_review_paths": ["qualification/reviews/mitc3_laminate_dynamic_dkt_thin_owner_review_pending.json"],
+        "questions": [{"id": "Q1", "question": "Les preuves dynamiques MITC3 stratifie mince plan couvrent-elles le domaine borne ?"}, {"id": "Q2", "question": "Les exclusions de courbure, couplage B et dommage sont-elles acceptables ?"}, {"id": "Q3", "question": "Les ecarts sous un pour cent sont-ils suffisants pour la cible proposee ?"}, {"id": "Q4", "question": "Quelle decision Owner doit etre enregistree pour ce scope ?"}]
+      },
+      {
+        "scope": "mitc3-laminate-static-curved-mixed-transverse",
+        "current_status": "supplementary_scope",
+        "target_status": "stable",
+        "technical_status": "BLOCKED",
+        "promotion_gate": "BLOCKED_OWNER_REVIEW",
+        "blocking_classification": "owner_decision_pending",
+        "evidence_paths": ["docs/verification/mitc3_laminate_curved_mixed_transverse_stable_owner_review.md", "docs/assets/reviews/mitc3_curved_laminate_code_aster_convergence.png", "docs/assets/reviews/mitc3_curved_laminate_code_aster_deformation.png", "qualification/reviews/mitc3_laminate_curved_mixed_transverse_stable_owner_review_pending.json", "tests/unit/test_mitc3_element.py"],
+        "owner_review_paths": ["qualification/reviews/mitc3_laminate_curved_mixed_transverse_stable_owner_review_pending.json"],
+        "questions": [{"id": "Q1", "question": "Les preuves courbes mixtes et transverses couvrent-elles le sous-domaine borne ?"}, {"id": "Q2", "question": "Les exclusions de chargement axial et de contraintes par pli sont-elles acceptables ?"}, {"id": "Q3", "question": "Les ecarts sous un pour cent et les increments finaux sont-ils suffisants ?"}, {"id": "Q4", "question": "Quelle decision Owner doit etre enregistree pour ce scope ?"}]
+      }
+    ]
+  },
+  "maturity_audit": {
+    "audit_id": "QF-MATURITY-PROMOTION-AUDIT-021-001",
+    "status": "WARNING",
+    "scopes": [
+      {"scope": "tet4-total-lagrangian-structural-v2", "criteria": [{"id": "TET4-TL-C01", "title": "Verification TL et convergence. L erreur Euler de charge critique passe de 5.870 pour cent a 1.896 pour cent.", "status": "PASS", "assertions": [{"path": "accepted_observations", "actual": "1.896 pour cent", "expected": "observation tracee"}]}, {"id": "TET4-TL-C02", "title": "Correlation structurale externe", "status": "PASS"}, {"id": "TET4-TL-C03", "title": "Dossier et tests", "status": "PASS"}, {"id": "TET4-TL-C04", "title": "Relecture independante avant qualification externe", "status": "FAIL"}]},
+      {"scope": "orthotropic-solid-tet4-tet10", "criteria": [{"id": "ORTHO-STATIC-C01", "title": "Patch affine et invariance de rotation", "status": "PASS"}, {"id": "ORTHO-STATIC-C02", "title": "Correlation externe statique", "status": "PASS"}]},
+      {"scope": "orthotropic-solid-modal", "criteria": [{"id": "ORTHO-MOD-C01", "title": "Verification modale interne", "status": "PASS"}, {"id": "ORTHO-MOD-C02", "title": "Correlation modale externe", "status": "PASS"}, {"id": "ORTHO-MOD-C03", "title": "Dossier modal et tests", "status": "PASS"}]},
+      {"scope": "orthotropic-solid-transient-dynamic", "criteria": [{"id": "ORTHO-NEW-C01", "title": "Verification Newmark interne", "status": "PASS"}, {"id": "ORTHO-NEW-C02", "title": "Correlation Newmark externe", "status": "PASS"}, {"id": "ORTHO-NEW-C03", "title": "Dossier transitoire et tests", "status": "PASS"}]},
+      {"scope": "mitc3-laminate-dynamic-thin-planar", "criteria": [{"id": "MITC3-LAM-DYN-THIN-C01", "title": "Correlation DKT du sous-perimetre mince plan", "status": "PASS"}, {"id": "MITC3-LAM-DYN-THIN-C02", "title": "Dossier de preuve et limites", "status": "PASS"}, {"id": "MITC3-LAM-DYN-THIN-C03", "title": "Decision Owner de promotion stable", "status": "FAIL"}]},
+      {"scope": "mitc3-laminate-static-curved-mixed-transverse", "criteria": [{"id": "MITC3-LAM-STAT-CURVE-MT-C01", "title": "Correlation courbe mixte et transverse sous un pour cent", "status": "PASS"}, {"id": "MITC3-LAM-STAT-CURVE-MT-C02", "title": "Artefacts de preuve du sous-scope courbe", "status": "PASS"}, {"id": "MITC3-LAM-STAT-CURVE-MT-C03", "title": "Decision Owner du sous-scope courbe", "status": "FAIL"}]}
+    ]
+  },
+  "release": {"release": {"version": "0.2.1a0"}, "status": "PENDING_FINAL_CAMPAIGN", "certification_claim": "none"}
+}

@@ -10,12 +10,7 @@ except ModuleNotFoundError:  # Python 3.10.
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.units import mm
-from reportlab.platypus import (
-    PageBreak,
-    Paragraph,
-    SimpleDocTemplate,
-    Spacer,
-)
+from reportlab.platypus import PageBreak, Paragraph, SimpleDocTemplate, Spacer
 try:
     from scripts.audit_public_release import audit_public_release, public_source_files
 except ModuleNotFoundError:  # Direct execution: ``python scripts/<name>.py``.
@@ -43,9 +38,7 @@ except ModuleNotFoundError:  # Direct execution: ``python scripts/<name>.py``.
         validate_pdf as _validate_pdf,
     )
 ROOT = Path(__file__).resolve().parents[1]
-PACKET_PATH = ROOT / "results" / "maturity_promotion_0_2_1" / "owner_review_packet.json"
-AUDIT_PATH = ROOT / "results" / "maturity_promotion_0_2_1" / "maturity_promotion_audit.json"
-RELEASE_PATH = ROOT / "results" / "release_vv_0_2_1" / "release_vv_summary.json"
+PUBLIC_EVIDENCE_PATH = ROOT / "qualification" / "public_evidence" / "owner_review_audit_pack_0_2_1.json"
 DOCS_DIR = ROOT / "docs" / "verification"
 PDF_DIR = ROOT / "output" / "pdf"
 TMP_DIR = ROOT / "tmp" / "pdfs" / "owner_review_0_2_1"
@@ -391,7 +384,7 @@ def _markdown_scope(row: dict[str, Any], audit_row: dict[str, Any], *, open_gate
         lines.extend(["### Figures de preuve", ""])
         for _, label in assets:
             lines.append(f"![Figure de preuve](/{label})")
-            lines.append(f"*{label}*  ")
+            lines.append(f"*{label}*")
         lines.append("")
     lines.extend(["### Criteres", "", "| ID | Objet | Statut |", "| --- | --- | --- |"])
     for criterion in audit_row.get("criteria", []):
@@ -423,6 +416,8 @@ def _write_scope_markdown(
         "applicable_version: 0.2.1a0",
         "decision: pending",
         "certification_claim: none",
+        "reviewer: ''",
+        "approver: ''",
         "---",
         "",
         f"# {title} - QF_solver 0.2.1 alpha",
@@ -490,6 +485,8 @@ status: controlled_snapshot
 applicable_version: 0.2.1a0
 audit_date: 2026-08-15
 certification_claim: none
+reviewer: ''
+approver: ''
 ---
 # Audit hygiene, architecture et manques - QF_solver 0.2.1 alpha
 ## Verdict
@@ -661,9 +658,10 @@ def _build_audit_pdf(output: Path, markdown: str, stats: dict[str, Any], git_sta
     return output
 def build() -> tuple[Path, Path, Path]:
     """Generate and validate all Owner-review and project-audit PDFs."""
-    packet = _load_json(PACKET_PATH)
-    maturity_audit = _load_json(AUDIT_PATH)
-    release = _load_json(RELEASE_PATH)
+    snapshot = _load_json(PUBLIC_EVIDENCE_PATH)
+    packet = dict(snapshot["packet"])
+    maturity_audit = dict(snapshot["maturity_audit"])
+    release = dict(snapshot["release"])
     audit_by_scope = {row["scope"]: row for row in maturity_audit["scopes"]}
     open_rows = [
         row for row in packet["scopes"] if row.get("blocking_classification") == "owner_decision_pending"

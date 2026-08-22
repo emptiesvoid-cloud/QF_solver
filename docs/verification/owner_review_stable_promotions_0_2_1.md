@@ -1,13 +1,12 @@
 ---
-
 doc_id: DOC-OWNER-REVIEW-021-STABLE
 revision: 0.1
 status: ready_for_owner_review
 applicable_version: 0.2.1a0
 decision: pending
 certification_claim: none
-reviewer: ""
-approver: ""
+reviewer: ''
+approver: ''
 ---
 
 # Promotions techniquement pretes - QF_solver 0.2.1 alpha
@@ -29,34 +28,27 @@ Nombre de scopes : **3**.
 
 | Fichier | Mesure | Valeur |
 | --- | --- | ---: |
-| `qualification/maturity_evidence_0_2_1/orthotropic.json` | `schema_version` | `1` |
-| `qualification/maturity_evidence_0_2_1/orthotropic.json` | `scopes.orthotropic-solid-tet4-tet10.static.external_case_count` | `2` |
-| `qualification/maturity_evidence_0_2_1/orthotropic.json` | `scopes.orthotropic-solid-tet4-tet10.static.calculix_displacement_l2_max` | `1.32142e-06` |
-| `qualification/maturity_evidence_0_2_1/orthotropic.json` | `scopes.orthotropic-solid-tet4-tet10.static.code_aster_displacement_l2_max` | `4.17311e-12` |
-| `qualification/maturity_evidence_0_2_1/orthotropic.json` | `scopes.orthotropic-solid-tet4-tet10.static.code_aster_von_mises_peak_difference_max` | `6.57877e-12` |
-| `qualification/maturity_evidence_0_2_1/orthotropic.json` | `scopes.orthotropic-solid-tet4-tet10.static.tet4_convergence_level_count` | `9` |
-| `qualification/maturity_evidence_0_2_1/orthotropic.json` | `scopes.orthotropic-solid-tet4-tet10.static.tet4_final_deflection_error` | `0.0282829` |
-| `qualification/maturity_evidence_0_2_1/orthotropic.json` | `scopes.orthotropic-solid-tet4-tet10.static.tet4_final_energy_error` | `0.0285589` |
+| `qualification/reviews/orthotropic_solids_2026-07-22.json` | `schema_version` | `1` |
 
 ### Figures de preuve
 
-![Figure de preuve](/qualification/vnv/orthotropic_solid_convergence/reference/orthotropic_convergence.png)
-*qualification/vnv/orthotropic_solid_convergence/reference/orthotropic_convergence.png*  
-![Figure de preuve](/qualification/vnv/orthotropic_solid_convergence_refined/reference/orthotropic_convergence.png)
-*qualification/vnv/orthotropic_solid_convergence_refined/reference/orthotropic_convergence.png*  
+![Figure de preuve](/docs/assets/reviews/orthotropic_solid_convergence.png)
+*docs/assets/reviews/orthotropic_solid_convergence.png*
+![Figure de preuve](/docs/assets/reviews/orthotropic_lbracket_code_aster.png)
+*docs/assets/reviews/orthotropic_lbracket_code_aster.png*
 
 ### Criteres
 
 | ID | Objet | Statut |
 | --- | --- | --- |
-| `ORTHO-STAT-C01` | Verification statique et correlation externe orthotrope | `PASS` |
-| `ORTHO-STAT-C02` | Dossier statique, grand modele interne et limites | `PASS` |
+| `ORTHO-STATIC-C01` | Patch affine et invariance de rotation | `PASS` |
+| `ORTHO-STATIC-C02` | Correlation externe statique | `PASS` |
 
 ### Questions
 
-- **Q1** Les preuves du scope orthotropic-solid-tet4-tet10 couvrent-elles le domaine revendique ? Reponse : ____
-- **Q2** Les limites, exclusions, singularites et conventions sont-elles acceptables ? Reponse : ____
-- **Q3** La maturite ciblee est-elle appropriee sans extrapolation aux cas non testes ? Reponse : ____
+- **Q1** Les preuves statiques orthotropes TET4/TET10 couvrent-elles le domaine borne ? Reponse : ____
+- **Q2** Les limites de contrainte et d orientation sont-elles acceptables ? Reponse : ____
+- **Q3** La cible stable est-elle appropriee sans extrapolation aux composites pli par pli ? Reponse : ____
 - **Q4** Quelle decision Owner doit etre enregistree pour ce scope ? Reponse : ____
 
 ### Reponses Owner proposees - brouillon non signe
@@ -81,34 +73,18 @@ Decision : `__________`  Nom : `__________`  Date : `__________`  Signature : `_
 - Gate : `READY_FOR_OWNER_REVIEW`.
 - Classification : `none`.
 
-### Donnees numeriques a controler
-
-| Fichier | Mesure | Valeur |
-| --- | --- | ---: |
-| `qualification/maturity_evidence_0_2_1/orthotropic.json` | `schema_version` | `1` |
-| `qualification/maturity_evidence_0_2_1/orthotropic.json` | `scopes.orthotropic-solid-tet4-tet10.static.external_case_count` | `2` |
-| `qualification/maturity_evidence_0_2_1/orthotropic.json` | `scopes.orthotropic-solid-tet4-tet10.static.calculix_displacement_l2_max` | `1.32142e-06` |
-| `qualification/maturity_evidence_0_2_1/orthotropic.json` | `scopes.orthotropic-solid-tet4-tet10.static.code_aster_displacement_l2_max` | `4.17311e-12` |
-| `qualification/maturity_evidence_0_2_1/orthotropic.json` | `scopes.orthotropic-solid-tet4-tet10.static.code_aster_von_mises_peak_difference_max` | `6.57877e-12` |
-| `qualification/maturity_evidence_0_2_1/orthotropic.json` | `scopes.orthotropic-solid-tet4-tet10.static.tet4_convergence_level_count` | `9` |
-| `qualification/maturity_evidence_0_2_1/orthotropic.json` | `scopes.orthotropic-solid-tet4-tet10.static.tet4_final_deflection_error` | `0.0282829` |
-| `qualification/maturity_evidence_0_2_1/orthotropic.json` | `scopes.orthotropic-solid-tet4-tet10.static.tet4_final_energy_error` | `0.0285589` |
-
 ### Figures de preuve
 
-![Figure de preuve](/qualification/vnv/orthotropic_modal_newmark/reference/code_aster_newmark.png)
-*qualification/vnv/orthotropic_modal_newmark/reference/code_aster_newmark.png*  
-![Figure de preuve](/qualification/vnv/orthotropic_modal_newmark/reference/modal_convergence.png)
-*qualification/vnv/orthotropic_modal_newmark/reference/modal_convergence.png*  
+![Figure de preuve](/docs/assets/reviews/orthotropic_modal_convergence.png)
+*docs/assets/reviews/orthotropic_modal_convergence.png*
 
 ### Criteres
 
 | ID | Objet | Statut |
 | --- | --- | --- |
-| `ORTHO-MOD-C01` | Verification modale interne orthotrope | `PASS` |
-| `ORTHO-MOD-C02` | Correlation modale Code_Aster | `PASS` |
+| `ORTHO-MOD-C01` | Verification modale interne | `PASS` |
+| `ORTHO-MOD-C02` | Correlation modale externe | `PASS` |
 | `ORTHO-MOD-C03` | Dossier modal et tests | `PASS` |
-| `ORTHO-MOD-C04` | Decision Owner dediee au modal | `PASS` |
 
 ### Questions
 
@@ -141,34 +117,20 @@ Fiche controlee : `qualification/reviews/orthotropic_modal_owner_review_pending.
 - Gate : `READY_FOR_OWNER_REVIEW`.
 - Classification : `none`.
 
-### Donnees numeriques a controler
-
-| Fichier | Mesure | Valeur |
-| --- | --- | ---: |
-| `qualification/maturity_evidence_0_2_1/orthotropic.json` | `schema_version` | `1` |
-| `qualification/maturity_evidence_0_2_1/orthotropic.json` | `scopes.orthotropic-solid-tet4-tet10.static.external_case_count` | `2` |
-| `qualification/maturity_evidence_0_2_1/orthotropic.json` | `scopes.orthotropic-solid-tet4-tet10.static.calculix_displacement_l2_max` | `1.32142e-06` |
-| `qualification/maturity_evidence_0_2_1/orthotropic.json` | `scopes.orthotropic-solid-tet4-tet10.static.code_aster_displacement_l2_max` | `4.17311e-12` |
-| `qualification/maturity_evidence_0_2_1/orthotropic.json` | `scopes.orthotropic-solid-tet4-tet10.static.code_aster_von_mises_peak_difference_max` | `6.57877e-12` |
-| `qualification/maturity_evidence_0_2_1/orthotropic.json` | `scopes.orthotropic-solid-tet4-tet10.static.tet4_convergence_level_count` | `9` |
-| `qualification/maturity_evidence_0_2_1/orthotropic.json` | `scopes.orthotropic-solid-tet4-tet10.static.tet4_final_deflection_error` | `0.0282829` |
-| `qualification/maturity_evidence_0_2_1/orthotropic.json` | `scopes.orthotropic-solid-tet4-tet10.static.tet4_final_energy_error` | `0.0285589` |
-
 ### Figures de preuve
 
-![Figure de preuve](/qualification/vnv/orthotropic_modal_newmark/reference/code_aster_newmark.png)
-*qualification/vnv/orthotropic_modal_newmark/reference/code_aster_newmark.png*  
-![Figure de preuve](/qualification/vnv/orthotropic_modal_newmark/reference/modal_convergence.png)
-*qualification/vnv/orthotropic_modal_newmark/reference/modal_convergence.png*  
+![Figure de preuve](/docs/assets/reviews/orthotropic_newmark_convergence.png)
+*docs/assets/reviews/orthotropic_newmark_convergence.png*
+![Figure de preuve](/docs/assets/reviews/orthotropic_code_aster_newmark.png)
+*docs/assets/reviews/orthotropic_code_aster_newmark.png*
 
 ### Criteres
 
 | ID | Objet | Statut |
 | --- | --- | --- |
-| `ORTHO-NEW-C01` | Verification Newmark interne orthotrope | `PASS` |
-| `ORTHO-NEW-C02` | Correlation Newmark Code_Aster | `PASS` |
+| `ORTHO-NEW-C01` | Verification Newmark interne | `PASS` |
+| `ORTHO-NEW-C02` | Correlation Newmark externe | `PASS` |
 | `ORTHO-NEW-C03` | Dossier transitoire et tests | `PASS` |
-| `ORTHO-NEW-C04` | Decision Owner dediee au transitoire | `PASS` |
 
 ### Questions
 
