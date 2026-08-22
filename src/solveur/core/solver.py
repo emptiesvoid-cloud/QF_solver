@@ -32,7 +32,10 @@ class LinearStaticSolver:
         self.post = StressPostProcessor()
         self.post_auditor = PostProcessingAuditor()
 
-    def solve(self, model: FiniteElementModel) -> SolveResult:
+    def solve(self, model: FiniteElementModel, *, detail_level: str = "full") -> SolveResult:
+        if detail_level not in {"full", "summary"}:
+            raise ValueError("detail_level must be 'full' or 'summary'.")
+        include_detail = detail_level == "full"
         run_started = perf_counter()
         report = self.validator.validate(model)
         if report.status == "FAIL":
@@ -89,9 +92,13 @@ class LinearStaticSolver:
             solver_info["execution"]["linear_solve_seconds"] = perf_counter() - linear_started
         if not np.all(np.isfinite(displacement)):
             raise NumericalConvergenceError("Linear solve produced non-finite displacements.")
-        element_results = self.post.element_results(model, dofs, displacement)
-        nodal_results = self.post.nodal_results(model, element_results)
-        post_results = self.post_auditor.element_audits(model, dofs, displacement, element_results)
+        element_results = self.post.element_results(model, dofs, displacement) if include_detail else []
+        nodal_results = self.post.nodal_results(model, element_results) if include_detail else []
+        post_results = (
+            self.post_auditor.element_audits(model, dofs, displacement, element_results)
+            if include_detail
+            else []
+        )
         residual = internal - loads
         reactions = np.zeros_like(residual)
         reactions[fixed] = residual[fixed]
@@ -155,6 +162,9 @@ class LinearStaticSolver:
             equilibrium=equilibrium,
             post_results=post_results,
             solver_selection=dict(solver_info.get("selection", {})),
+            include_element_audits=include_detail,
+            include_element_dofs=include_detail,
+            notes=([] if include_detail else ["Summary audit: element-wise audit and full nodal serialization omitted."]),
         )
         solver_info.setdefault("execution", {})
         solver_info["execution"]["assembly_seconds"] = assembly_seconds

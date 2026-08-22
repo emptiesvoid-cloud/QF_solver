@@ -1,0 +1,28 @@
+{
+  "review_id": "OWNER-REVIEW-MITC3-CLASSIC-STABLE-PENDING-2026-08-21",
+  "review_mode": "owner_review",
+  "status": "owner_reviewed",
+  "scope": [
+    "mitc3-modal",
+    "mitc3-transient-dynamic",
+    "mitc3-harmonic-response"
+  ],
+  "decision": "accepted_with_recommendations",
+  "promotion_target": "stable",
+  "questions_document": "docs/verification/mitc3_classic_stable_owner_review.md",
+  "evidence": [
+    "qualification/maturity_evidence_0_2_1/mitc3_dynamic_refinement/summary.json",
+    "qualification/evidence/linear_dynamic_families_2026-08-14/mitc3/summary.json",
+    "qualification/evidence/code_aster_correlation_campaign_2026-08-14/studies/mitc3_dynamic/summary.json",
+    "qualification/reviews/mitc3_dynamic_refinement_owner_review_pending.json",
+    "qualification/vnv/mitc3_dynamic_extended/reference/summary.json"
+  ],
+  "review_date": "2026-08-21",
+  "owner_comment": "Promotion stable acceptee pour le MITC3 isotrope classique plan; le stratifie et le courbe restent des scopes distincts.",
+  "signature": {
+    "name": "Quentin Farinazzo",
+    "date": "2026-08-21",
+    "type": "declared_owner_review",
+    "independence": "not_independent"
+  }
+}

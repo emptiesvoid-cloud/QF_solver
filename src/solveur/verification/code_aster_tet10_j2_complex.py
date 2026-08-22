@@ -29,7 +29,8 @@ class CodeAsterTet10J2ComplexCampaign:
     """Compare a TET10 re-entrant bracket with Code_Aster TETRA10."""
 
     study_id = STUDY_ID
-    mesh_size = 0.32
+    element_type = "TET10"
+    default_mesh_size = 0.32
     force_x = 3.0e6
     force_y = -6.0e6
     load_factors = (0.25, 0.50, 0.75, 1.00, 1.10)
@@ -38,8 +39,18 @@ class CodeAsterTet10J2ComplexCampaign:
     yield_stress = 250.0e6
     hardening = 50.0e9
 
-    def __init__(self, output_dir: str | Path):
+    def __init__(
+        self,
+        output_dir: str | Path,
+        *,
+        mesh_size: float = default_mesh_size,
+        publish_reference: bool = True,
+    ):
         self.output_dir = Path(output_dir).resolve()
+        self.mesh_size = float(mesh_size)
+        self.publish_reference = bool(publish_reference)
+        if not 0.12 <= self.mesh_size <= 0.50:
+            raise ValueError("Complex TET10 J2 mesh_size must be in [0.12, 0.50].")
 
     def run(self) -> dict[str, Any]:
         self.output_dir.mkdir(parents=True, exist_ok=True)
@@ -52,20 +63,22 @@ class CodeAsterTet10J2ComplexCampaign:
         VtuResultWriter().write(final_result, final_model, self.output_dir / "deformation.vtu")
         self._write_code_aster_files(final_model, fixed, loaded)
         work = self.output_dir / "code_aster"
-        run_code_aster(work, "tet10_j2_complex", timeout=1800)
+        run_code_aster(work, f"{self.element_type.lower()}_j2_complex", timeout=1800)
         raw = json.loads((work / "code_aster_raw.json").read_text(encoding="utf-8"))
         summary = self._summary(final_model, qf_rows, raw, fixed, loaded)
         write_json_file(self.output_dir / "summary.json", summary)
         self._plot(summary, final_model, final_result)
         (self.output_dir / "report.md").write_text(_report(summary), encoding="utf-8")
         write_vnv_manifest(self.output_dir, self.study_id)
-        self._publish_reference()
+        if self.publish_reference:
+            self._publish_reference()
         return summary
 
     def _build_base_model(self) -> tuple[FiniteElementModel, np.ndarray, np.ndarray]:
-        mesh_path = self.output_dir / "mesh_tet10_j2_complex.msh"
+        stem = f"{self.element_type.lower()}_j2_complex"
+        mesh_path = self.output_dir / f"mesh_{stem}.msh"
         self._generate_mesh(mesh_path)
-        setup_path = self.output_dir / "mesh_tet10_j2_complex.setup.json"
+        setup_path = self.output_dir / f"mesh_{stem}.setup.json"
         write_json_file(setup_path, self._setup())
         imported = GmshModelImporter().import_model(mesh_path, setup_path).model
         fixed = np.flatnonzero(np.isclose(imported.nodes[:, 1], 2.6, atol=1.0e-8))
@@ -139,7 +152,7 @@ class CodeAsterTet10J2ComplexCampaign:
             import gmsh
         except (ImportError, OSError) as exc:
             raise RuntimeError("The complex TET10 campaign requires gmsh 4.15.2.") from exc
-        gmsh.initialize(["qf_tet10_j2_complex", "-nopopup"])
+        gmsh.initialize([f"qf_{self.element_type.lower()}_j2_complex", "-nopopup"])
         try:
             gmsh.option.setNumber("General.Terminal", 0)
             gmsh.option.setNumber("General.NumThreads", 1)
@@ -148,7 +161,7 @@ class CodeAsterTet10J2ComplexCampaign:
             gmsh.option.setNumber("Mesh.MeshSizeMax", self.mesh_size)
             gmsh.option.setNumber("Mesh.MshFileVersion", 4.1)
             gmsh.option.setNumber("Mesh.Binary", 0)
-            gmsh.model.add("tet10_j2_reentrant_bracket")
+            gmsh.model.add(f"{self.element_type.lower()}_j2_reentrant_bracket")
             horizontal = gmsh.model.occ.addBox(0.0, 0.0, -0.20, 3.2, 0.75, 0.40)
             vertical = gmsh.model.occ.addBox(0.0, 0.0, -0.20, 0.75, 2.6, 0.40)
             fused, _ = gmsh.model.occ.fuse([(3, horizontal)], [(3, vertical)])
@@ -166,7 +179,8 @@ class CodeAsterTet10J2ComplexCampaign:
             gmsh.model.addPhysicalGroup(2, [loaded_surface], 3)
             gmsh.model.setPhysicalName(2, 3, "LOADED")
             gmsh.model.mesh.generate(3)
-            gmsh.model.mesh.setOrder(2)
+            if self.element_type == "TET10":
+                gmsh.model.mesh.setOrder(2)
             gmsh.write(str(path))
         finally:
             gmsh.finalize()
@@ -201,7 +215,7 @@ class CodeAsterTet10J2ComplexCampaign:
                 }
             },
             "groups": [
-                {"name": "DOMAIN", "dimension": 3, "actions": [{"type": "elements", "element_type": "TET10", "material": "J2"}]},
+                {"name": "DOMAIN", "dimension": 3, "actions": [{"type": "elements", "element_type": self.element_type, "material": "J2"}]},
                 {"name": "FIXED", "dimension": 2, "actions": [{"type": "fixed_dofs", "dofs": ["UX", "UY", "UZ"]}]},
                 {"name": "LOADED", "dimension": 2, "actions": [{"type": "nodal_load", "dof": "UX", "value": 1.0}, {"type": "nodal_load", "dof": "UY", "value": 1.0}]},
             ],
@@ -210,8 +224,9 @@ class CodeAsterTet10J2ComplexCampaign:
     def _write_code_aster_files(self, model: FiniteElementModel, fixed: np.ndarray, loaded: np.ndarray) -> None:
         work = self.output_dir / "code_aster"
         work.mkdir(parents=True, exist_ok=True)
-        (work / "tet10_j2_complex.mail").write_text(_aster_mesh(model, fixed, loaded), encoding="ascii")
-        (work / "tet10_j2_complex.comm").write_text(_aster_commands(self, loaded), encoding="utf-8")
+        stem = f"{self.element_type.lower()}_j2_complex"
+        (work / f"{stem}.mail").write_text(_aster_mesh(model, fixed, loaded, self.element_type), encoding="ascii")
+        (work / f"{stem}.comm").write_text(_aster_commands(self, loaded), encoding="utf-8")
 
     def _summary(self, model: FiniteElementModel, qf: list[dict[str, float]], raw: dict[str, Any], fixed: np.ndarray, loaded: np.ndarray) -> dict[str, Any]:
         aster = _trim_initial(raw, len(qf))
@@ -233,10 +248,10 @@ class CodeAsterTet10J2ComplexCampaign:
             "study_id": self.study_id,
             "status": "PASS_EXTERNAL_CORRELATION" if all(item["status"] == "PASS" for item in checks) else "WARNING",
             "maturity": "experimental",
-            "external_solver": {"name": "Code_Aster", "version": "18.1.0", "image": CODE_ASTER_IMAGE, "element": "TETRA10", "relation": "VMIS_ISOT_LINE"},
-            "qf_solver": {"element": "TET10", "material": "von_mises_elastoplastic_3d"},
+            "external_solver": {"name": "Code_Aster", "version": "18.1.0", "image": CODE_ASTER_IMAGE, "element": "TETRA10" if self.element_type == "TET10" else "TETRA4", "relation": "VMIS_ISOT_LINE"},
+            "qf_solver": {"element": self.element_type, "material": "von_mises_elastoplastic_3d"},
             "geometry": "re-entrant L bracket, fused volumes",
-            "model": {"nodes": model.node_count, "elements": len(model.elements), "fixed_nodes": int(fixed.size), "loaded_nodes": int(loaded.size), "same_mesh": True, "same_combined_loads": True, "load_factors": list(self.load_factors)},
+            "model": {"nodes": model.node_count, "elements": len(model.elements), "mesh_size": self.mesh_size, "fixed_nodes": int(fixed.size), "loaded_nodes": int(loaded.size), "same_mesh": True, "same_combined_loads": True, "load_factors": list(self.load_factors)},
             "loads": {"base_force_x_n": self.force_x, "base_force_y_n": self.force_y},
             "material": {"E_pa": self.young, "nu": self.poisson, "yield_stress_pa": self.yield_stress, "hardening_modulus_pa": self.hardening},
             "qf_rows": qf,
@@ -259,8 +274,8 @@ class CodeAsterTet10J2ComplexCampaign:
         qf, aster = summary["qf_rows"], summary["code_aster_rows"]
         figure, axes = plt.subplots(1, 2, figsize=(11, 4.5), constrained_layout=True)
         for index, label in enumerate(("tip_ux_m", "tip_uy_m")):
-            axes[index].plot(factors, [row[label] for row in qf], "o-", label="QF_solver TET10", color="#0072B2")
-            axes[index].plot(factors, [row[label] for row in aster], "s--", label="Code_Aster TETRA10", color="#D55E00")
+            axes[index].plot(factors, [row[label] for row in qf], "o-", label=f"QF_solver {self.element_type}", color="#0072B2")
+            axes[index].plot(factors, [row[label] for row in aster], "s--", label=f"Code_Aster TETRA{10 if self.element_type == 'TET10' else 4}", color="#D55E00")
             axes[index].set(xlabel="Facteur de charge", ylabel=f"{label.upper()} [m]", title=f"Reponse {label.upper()}")
             axes[index].grid(alpha=0.25)
             axes[index].legend(fontsize=8)
@@ -280,12 +295,12 @@ class CodeAsterTet10J2ComplexCampaign:
             loop = np.append(corners, corners[0])
             axis.plot(model.nodes[loop, 0], model.nodes[loop, 1], model.nodes[loop, 2], color="#9aa0a6", linewidth=0.3)
             axis.plot(deformed[loop, 0], deformed[loop, 1], deformed[loop, 2], color="#0072B2", linewidth=0.5)
-        axis.set(title=f"TET10 J2 re-entrant bracket - deformation x{scale:.1f}", xlabel="X", ylabel="Y", zlabel="Z")
+        axis.set(title=f"{self.element_type} J2 re-entrant bracket - deformation x{scale:.1f}", xlabel="X", ylabel="Y", zlabel="Z")
         figure.savefig(self.output_dir / "deformation.png", dpi=180)
         plt.close(figure)
 
     def _publish_reference(self) -> None:
-        reference = ROOT / "qualification" / "vnv" / "external" / "code_aster_tet10_j2_complex" / "reference"
+        reference = ROOT / "qualification" / "vnv" / "external" / f"code_aster_{self.element_type.lower()}_j2_complex" / "reference"
         reference.mkdir(parents=True, exist_ok=True)
         for name in ("summary.json", "report.md", "vnv_manifest.json", "comparison.png", "deformation.png"):
             shutil.copy2(self.output_dir / name, reference / name)
@@ -294,10 +309,23 @@ class CodeAsterTet10J2ComplexCampaign:
 ROOT = project_root()
 
 
-def _aster_mesh(model: FiniteElementModel, fixed: np.ndarray, loaded: np.ndarray) -> str:
-    lines = ["TITRE", "QF_solver TET10 J2 complex correlation", "FINSF", "COOR_3D"]
+class CodeAsterTet4J2ComplexCampaign(CodeAsterTet10J2ComplexCampaign):
+    """Compare a TET4 re-entrant bracket with Code_Aster TETRA4."""
+
+    study_id = "VNV-TET4-J2-CODEASTER-COMPLEX-027"
+    element_type = "TET4"
+
+
+def _aster_mesh(
+    model: FiniteElementModel,
+    fixed: np.ndarray,
+    loaded: np.ndarray,
+    element_type: str = "TET10",
+) -> str:
+    mesh_type = "TETRA10" if str(element_type).upper() == "TET10" else "TETRA4"
+    lines = ["TITRE", f"QF_solver {element_type} J2 complex correlation", "FINSF", "COOR_3D"]
     lines.extend(f"N{i + 1} {node[0]:.16g} {node[1]:.16g} {node[2]:.16g}" for i, node in enumerate(model.nodes))
-    lines.extend(["FINSF", "TETRA10"])
+    lines.extend(["FINSF", mesh_type])
     lines.extend(f"M{i + 1} " + " ".join(f"N{int(node) + 1}" for node in item.nodes) for i, item in enumerate(model.elements))
     lines.extend(["FINSF", "GROUP_MA", "SOLID", *(f"M{i}" for i in range(1, len(model.elements) + 1)), "FINSF", "GROUP_NO", "FIXED", *(f"N{int(node) + 1}" for node in fixed), "FINSF", "GROUP_NO", "TIP", *(f"N{int(node) + 1}" for node in loaded), "FINSF", "FIN"])
     return "\n".join(lines) + "\n"
@@ -366,7 +394,9 @@ def _check(identifier: str, value: float, limit: float) -> dict[str, float | str
 
 
 def _report(summary: dict[str, Any]) -> str:
-    lines = [f"# {summary['study_id']}", "", f"Statut : **{summary['status']}**", "", "Correlation externe sur le meme maillage TET10/TETRA10 d'une geometrie rentrante sous chargements combines.", "", "| Facteur | UX QF | UX Code_Aster | UY QF | UY Code_Aster | PEEQ QF | PEEQ Code_Aster |", "| ---: | ---: | ---: | ---: | ---: | ---: | ---: |"]
+    element = str(summary["qf_solver"]["element"])
+    oracle = "TETRA10" if element == "TET10" else "TETRA4"
+    lines = [f"# {summary['study_id']}", "", f"Statut : **{summary['status']}**", "", f"Correlation externe sur le meme maillage {element}/{oracle} d'une geometrie rentrante sous chargements combines.", "", "| Facteur | UX QF | UX Code_Aster | UY QF | UY Code_Aster | PEEQ QF | PEEQ Code_Aster |", "| ---: | ---: | ---: | ---: | ---: | ---: | ---: |"]
     for qf, aster in zip(summary["qf_rows"], summary["code_aster_rows"], strict=True):
         lines.append(f"| {qf['load_factor']:.2f} | {qf['tip_ux_m']:.6e} | {aster['tip_ux_m']:.6e} | {qf['tip_uy_m']:.6e} | {aster['tip_uy_m']:.6e} | {qf['equivalent_plastic_strain_mean']:.6e} | {aster['equivalent_plastic_strain']:.6e} |")
     lines.extend(["", "| Controle | Valeur | Limite | Statut |", "| --- | ---: | ---: | --- |"])

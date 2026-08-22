@@ -2,7 +2,7 @@
   "schema_version": 1,
   "review_id": "REV-CONTACT-V1-LINEAR-STATIC-BOUNDED-PENDING",
   "scope": "contact-v1-linear-static-bounded",
-  "technical_status": "external_correlation_complete_with_warning_pending_human_recheck",
+  "technical_status": "external_correlation_complete_with_warning_pending_owner_recheck",
   "decision": "more_evidence_required",
   "decision_date": "2026-07-29",
   "validator": {
@@ -64,7 +64,7 @@
       "faceted_ramp_patch",
       "deformable_tet4_two_slaves"
     ],
-    "human_recheck_required": true
+    "owner_recheck_required": true
   },
   "external_correlation_extension": {
     "status": "PASS_WITH_EXTERNAL_WARNING",
@@ -76,7 +76,7 @@
     "qf_calculix_precontact_error": 4.775140638142289e-07,
     "code_aster_transition_curve_error": 0.052565319500610296,
     "warning": "Code_Aster closes the second slave at factor 0.1 while QF_solver and CalculiX keep it open.",
-    "human_recheck_required": true
+    "owner_recheck_required": true
   },
   "signature": {
     "name": "Quentin Farinazzo",

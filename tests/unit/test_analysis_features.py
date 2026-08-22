@@ -245,6 +245,22 @@ def test_modal_analysis_returns_positive_frequencies():
     assert data["solver"]["assembly"]["stiffness"]["chunk_count"] == 1
 
 
+def test_modal_eigenpair_refinement_reports_residual_improvement():
+    model = modal_tet4_model()
+    model.analysis = {
+        "type": "modal",
+        "method": "eigh",
+        "modes": 3,
+        "modal_eigenpair_refinement_iterations": 1,
+    }
+    result = solve_model(model)
+    refinement = result.solver["eigenpair_refinement"]
+    assert refinement["iterations_requested"] == 1
+    assert refinement["iterations_performed"] == 1
+    assert refinement["maximum_residual_after"] <= refinement["maximum_residual_before"]
+    assert result.solver["max_relative_residual"] < 1.0e-10
+
+
 def test_transient_dynamic_newmark_returns_time_history():
     result = solve_model(transient_tet4_model())
     data = result.to_dict()

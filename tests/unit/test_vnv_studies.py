@@ -20,7 +20,7 @@ def test_vnv_study_generates_markdown_convergence_and_manifest(tmp_path: Path) -
     run = run_vnv_study(study, output)
 
     assert run.automated_verdict == "PASS"
-    assert run.human_decision == "pending"
+    assert run.owner_decision == "pending"
     assert run.status == "PENDING_REVIEW"
     assert run.convergence[0]["observed_order"] == pytest.approx(2.0)
     assert run.convergence[0]["monotonic"] is True
@@ -37,7 +37,7 @@ def test_vnv_study_generates_markdown_convergence_and_manifest(tmp_path: Path) -
     assert "VTU reference" in report
     manifest = json.loads((output / "vnv_manifest.json").read_text(encoding="utf-8"))
     assert manifest["study_id"] == "VNV-TET4-TEST-001"
-    assert manifest["human_decision"] == "pending"
+    assert manifest["owner_decision"] == "pending"
     assert len(manifest["source_inputs"]) == 7
 
 

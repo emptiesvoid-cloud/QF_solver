@@ -19,20 +19,20 @@ CASES = (
     (
         "TET4 dynamique lineaire",
         ("tet4-modal", "tet4-transient-dynamic", "tet4-harmonic-response"),
-        ROOT / "qualification/vnv/tet4_dynamic_code_aster/reference/summary.json",
-        ROOT / "qualification/vnv/tet4_dynamic_code_aster/reference/comparison.png",
+        ROOT / "qualification/vnv/linear_dynamic_families/tet4/summary.json",
+        None,
     ),
     (
         "TET10 dynamique lineaire",
         ("tet10-modal", "tet10-transient-dynamic", "tet10-harmonic-response"),
-        ROOT / "qualification/vnv/tet10_dynamic_code_aster/reference/summary.json",
-        ROOT / "qualification/vnv/tet10_dynamic_code_aster/reference/comparison.png",
+        ROOT / "qualification/vnv/linear_dynamic_families/tet10/summary.json",
+        None,
     ),
     (
         "MITC3+ dynamique lineaire",
         ("mitc3-modal", "mitc3-transient-dynamic", "mitc3-harmonic-response"),
-        ROOT / "qualification/vnv/mitc3_dynamic_code_aster/reference/summary.json",
-        ROOT / "qualification/vnv/mitc3_dynamic_code_aster/reference/comparison.png",
+        ROOT / "qualification/vnv/external/code_aster_mitc3_laminate_dynamic/reference/summary.json",
+        ROOT / "qualification/vnv/external/code_aster_mitc3_laminate_dynamic/reference/mitc3_laminate_code_aster_comparison.png",
     ),
     (
         "BEAM2 dynamique lineaire",

@@ -38,7 +38,11 @@ facettes MITC3+ planes. Les maillages `16x4`, `24x6`, `32x8` montrent une
 variation finale de frequence inferieure a `6 %`. Une rotation rigide globale
 laisse les dix frequences invariantes a `1e-8` relatif. La comparaison sur
 `16x4` entre `eigh` et `eigsh` est sous `1e-8`; le cas `40x10` resout dix
-modes sur `2 560` DDL retenus avec `eigsh`, sans conversion dense.
+modes sur `2 560` DDL retenus avec `eigsh`, sans conversion dense. Pour cette
+coque, `eigsh` utilise un shift-invert sparse avec `modal_shift_eigenvalue=1`
+et `arpack_which=LM`: le calcul direct en `SM` produit un residu insuffisant
+sur les modes bas et reste conserve comme diagnostic numerique, pas comme
+resultat accepte.
 
 ![Convergence MITC3+ et eigsh](../assets/generated/VNV-MITC3-MODAL-CURVED-014.png)
 

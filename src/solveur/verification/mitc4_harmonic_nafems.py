@@ -14,7 +14,7 @@ import numpy as np
 matplotlib.use("Agg")
 from matplotlib import pyplot as plt  # noqa: E402
 
-from mitc4.mesh import MeshFactory
+from solveur.elements.shell.mitc4.mesh import MeshFactory
 from solveur.api import solve_model
 from solveur.core.model import FiniteElementModel
 from solveur.io.manifest import discovered_file_entries, git_source_state, write_json_file
@@ -32,9 +32,14 @@ STUDY_ID = "VNV-MITC4-HARMONIC-NAFEMS13H-004"
 class Mitc4Nafems13HStudy:
     """Reproduce the published NAFEMS 13H direct frequency sweep."""
 
+    def __init__(self, *, mesh_size: int = 8) -> None:
+        if mesh_size < 4:
+            raise ValueError("mesh_size must be at least 4")
+        self.mesh_size = int(mesh_size)
+
     def run(self) -> dict[str, Any]:
         reference = load_abaqus_nafems_13h_reference()
-        model, quads = build_nafems_13h_model(reference)
+        model, quads = build_nafems_13h_model(reference, mesh_size=self.mesh_size)
         result = solve_model(model, enforce_policy=False)
         center = _center_node(model.nodes)
         center_dof = result.dofs.index(center, "UZ")
@@ -105,7 +110,7 @@ class Mitc4Nafems13HStudy:
             "model": {
                 "node_count": model.node_count,
                 "element_count": len(model.elements),
-                "mesh": [8, 8],
+                "mesh": [self.mesh_size, self.mesh_size],
                 "center_node": center,
                 "boundary_conditions": reference["model"]["boundary_conditions"],
                 "pressure_pa": reference["model"]["pressure_pa"],
@@ -166,10 +171,13 @@ def build_nafems_13h_model(
     *,
     analysis: dict[str, Any] | None = None,
     pressure: bool = True,
+    mesh_size: int = 8,
 ) -> tuple[FiniteElementModel, np.ndarray]:
     """Build the exact 8x8 geometry and constraints from Abaqus input nfh13f4x."""
+    if mesh_size < 4:
+        raise ValueError("mesh_size must be at least 4")
     data = reference or load_abaqus_nafems_13h_reference()
-    mesh = MeshFactory.rectangular_plate(8, 8, 10.0, 10.0)
+    mesh = MeshFactory.rectangular_plate(mesh_size, mesh_size, 10.0, 10.0)
     nodes = mesh.nodes.copy()
     nodes[:, 1] += 5.0
     x = nodes[:, 0]

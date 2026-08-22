@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "review_id": "OWNER-REVIEW-MATURITY-PROMOTION-021-2026-08-20",
+  "scope": "maturity-promotion-0.2.1-alpha",
+  "review_mode": "owner_review",
+  "owner": "Quentin Farinazzo",
+  "independence": "not_independent",
+  "certification_claim": "none",
+  "decision_date": "2026-08-20",
+  "decision": "accepted_with_recommendations",
+  "decision_policy": "Decision Owner archivee; aucune promotion technique automatique. Les exclusions et limites restent opposables.",
+  "stable_scope_position": {
+    "decision": "accepted_with_recommendations",
+    "scope": "Dans le domaine explicitement teste et documente, sans extrapolation.",
+    "applies_to": [
+      "beam2-linear-static",
+      "discrete-linear",
+      "mitc3-linear-static",
+      "mitc3-modal",
+      "mitc3-transient-dynamic",
+      "mitc3-harmonic-response",
+      "mitc4-linear-static",
+      "mitc4-modal",
+      "mitc4-transient-dynamic",
+      "mitc4-harmonic-response",
+      "tet4-linear-static",
+      "tet4-modal",
+      "tet4-transient-dynamic",
+      "tet4-harmonic-response",
+      "tet10-linear-static",
+      "tet10-modal",
+      "tet10-transient-dynamic",
+      "tet10-harmonic-response"
+    ],
+    "conditions": [
+      "Les limites et exclusions restent publiees avec chaque scope.",
+      "La maturite stable ne couvre pas les domaines non testes.",
+      "Les recommandations ne constituent pas une certification externe."
+    ]
+  },
+  "responses": {
+    "mitc3-dynamic": {
+      "Q1": "yes: 8x2, 16x4 and 24x6 are sufficient for the presented bounded isotropic case; not a universal convergence proof.",
+      "Q2": "yes: modal 0.673 percent, Newmark 0.174 percent and harmonic 0.097 percent are acceptable in the documented scope.",
+      "Q3": "yes: the final frequency variation is 0.129 percent and is consistent with stabilization.",
+      "Q4": "yes: curved dynamic shells, damping, nonlinearity, stresses and laminates remain explicit exclusions.",
+      "Q5": "accepted_with_recommendations"
+    },
+    "mitc3-laminate-static-curved": {
+      "Q1": "yes: the tested geometry and [0/90/90/0] orientation are explicitly bounded.",
+      "Q2": "yes for bounded engineering use; no for a general curved laminate claim.",
+      "Q3": "yes for bounded engineering use: final mesh increments are 1.220 percent and 1.073 percent; a second curved geometry remains recommended.",
+      "Q4": "yes provisionally: measured residual is 3.25e-10 below 1e-7, pending explicit documentation of residual definition and normalization.",
+      "Q5": "yes for owner_accepted / bounded engineering use; no for general stable scope.",
+      "Q6": "accepted_for_bounded_engineering_use"
+    },
+    "mitc4-laminate-dynamic": {
+      "Q1": "yes for the tested laminate domain.",
+      "Q2": "yes if damping and curved geometries remain excluded.",
+      "Q3": "partial: three layups, three mesh levels and a maximum modal error near 1.68 percent support the evidence, but the campaign remains bounded and undamped.",
+      "Q4": "accepted_for_bounded_engineering_use"
+    },
+    "orthotropic-solid-tet4-tet10": {
+      "Q1": "yes for the explicitly bounded orthotropic domain.",
+      "Q2": "yes with current exclusions.",
+      "Q3": "yes for supplementary_scope to owner_accepted, not stable.",
+      "Q4": "accepted_with_recommendations",
+      "open_point": "Clarify the definition and threshold associated with tet4_final_deflection_error = 0.11752 before any future stable claim."
+    },
+    "other_open_gates": {
+      "beam2-linear-static": "accepted_with_recommendations",
+      "contact-frictional-static": "accepted_for_bounded_engineering_use",
+      "discrete-linear": "accepted_with_recommendations",
+      "mitc3-laminate-dynamic": "accepted_with_recommendations",
+      "mitc3-laminate-static": "accepted_for_bounded_engineering_use",
+      "tet10-material-nonlinear": "accepted_for_bounded_engineering_use",
+      "tet4-material-nonlinear": "accepted_for_bounded_engineering_use",
+      "tet4-total-lagrangian-structural-v2": "more_evidence_required",
+      "large-tet4-linear-static": "accepted_for_bounded_engineering_use"
+    }
+  },
+  "recommendations": [
+    "Remplacer les reponses generiques par des reponses numeriques et specifiques dans les futures owner reviews.",
+    "Documenter la normalisation exacte du residu MITC3 courbe.",
+    "Documenter le seuil et la definition de tet4_final_deflection_error = 0.11752.",
+    "Ajouter une seconde geometrie courbe pour MITC3 stratifie statique.",
+    "Conserver MITC4 stratifie dynamique et MITC3 courbe en usage borne.",
+    "Ne pas promouvoir automatiquement un scope vers stable.",
+    "Une revue independante est obligatoire pour TET4 total-lagrangien avant fermeture du gate.",
+    "Le statut final de cette campagne est 4 scopes avec cible owner_accepted, 6 en usage borne et 1 bloque par revue independante."
+  ],
+  "signature": {
+    "name": "Quentin Farinazzo",
+    "mode": "electronic owner_review declaration",
+    "date": "2026-08-20",
+    "declaration": "Je confirme les decisions et recommandations ci-dessus pour le domaine teste, sans revendication de certification externe."
+  },
+  "source_documents": [
+    "results/maturity_promotion_0_2_1/owner_review_packet.md",
+    "output/pdf/qf_solver_owner_review_stable_promotions_0_2_1.pdf",
+    "output/pdf/qf_solver_owner_review_open_gates_0_2_1.pdf"
+  ]
+}

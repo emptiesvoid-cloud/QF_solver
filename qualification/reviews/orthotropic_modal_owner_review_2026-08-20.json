@@ -1,0 +1,26 @@
+{
+  "review_id": "OWNER-REVIEW-ORTHOTROPIC-MODAL-2026-08-20",
+  "review_mode": "owner_review",
+  "status": "accepted_with_recommendations",
+  "scope": ["orthotropic-solid-modal"],
+  "decision": "accepted_with_recommendations",
+  "promotion_target": "owner_accepted",
+  "responses": {
+    "Q1": "yes: mass, frequencies, modes and Code_Aster correlation cover the tested bounded domain.",
+    "Q2": "yes: material-axis conventions and positive orthotropic properties are accepted.",
+    "Q3": "yes for owner_accepted only; no extrapolation to ply-by-ply composites.",
+    "Q4": "accepted_with_recommendations"
+  },
+  "open_point": "The definition and threshold associated with tet4_final_deflection_error = 0.11752 must be clarified before any stable target.",
+  "evidence": [
+    "qualification/maturity_evidence_0_2_1/orthotropic.json",
+    "qualification/vnv/orthotropic_modal_newmark/reference/summary.json"
+  ],
+  "certification_claim": "none",
+  "signature": {
+    "name": "Quentin Farinazzo",
+    "mode": "electronic owner_review declaration",
+    "date": "2026-08-20",
+    "declaration": "Decision Owner acceptee pour le domaine borne, sans revendication de certification externe."
+  }
+}

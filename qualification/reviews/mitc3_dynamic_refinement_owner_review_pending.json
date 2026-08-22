@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "review_id": "OWNER-REVIEW-MITC3-DYNAMIC-REFINEMENT-2026-08-15",
+  "review_mode": "owner_review",
+  "status": "superseded",
+  "scope": [
+    "mitc3-modal",
+    "mitc3-transient-dynamic",
+    "mitc3-harmonic-response"
+  ],
+  "owner": "Quentin Farinazzo",
+  "independence": "not_independent",
+  "certification_claim": "none",
+  "purpose": "Lire la preuve dediee de raffinement frequence-maillage avant toute promotion vers stable.",
+  "evidence": [
+    "qualification/maturity_evidence_0_2_1/mitc3_dynamic_refinement/summary.json",
+    "qualification/maturity_evidence_0_2_1/mitc3_dynamic_refinement/report.md",
+    "qualification/maturity_evidence_0_2_1/mitc3_dynamic_refinement/mesh_frequency_refinement.png",
+    "qualification/evidence/code_aster_correlation_campaign_2026-08-14/studies/mitc3_dynamic/summary.json"
+  ],
+  "questions": [
+    {
+      "id": "Q1",
+      "question": "Les trois niveaux 8x2, 16x4 et 24x6 representent-ils une progression de maillage suffisante pour ce cas isotrope borne ?",
+      "answer": null
+    },
+    {
+      "id": "Q2",
+      "question": "Les ecarts finaux de 0,673 % modal, 0,174 % Newmark et 0,097 % harmonique sont-ils acceptables dans le perimetre documente ?",
+      "answer": null
+    },
+    {
+      "id": "Q3",
+      "question": "La diminution des ecarts et la variation de frequence QF de 0,129 % entre les deux derniers niveaux vous paraissent-elles coherentes ?",
+      "answer": null
+    },
+    {
+      "id": "Q4",
+      "question": "Les exclusions coque courbe dynamique, amortissement, non-linearite, contraintes et stratifies sont-elles explicites et acceptables ?",
+      "answer": null
+    },
+    {
+      "id": "Q5",
+      "question": "Decision pour les trois scopes : accepted_with_recommendations, accepted_for_bounded_engineering_use ou more_evidence_required ?",
+      "answer": null
+    }
+  ],
+  "decision": "superseded",
+  "superseded_by": "qualification/reviews/mitc3_classic_stable_owner_review_pending.json",
+  "superseded_on": "2026-08-21",
+  "superseded_reason": "The dated stable Owner review covers the same three MITC3 isotropic dynamic scopes.",
+  "signature": null
+}

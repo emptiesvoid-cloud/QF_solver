@@ -7,8 +7,8 @@ from pathlib import Path
 
 import numpy as np
 
-from mitc4.benchmarks import ShearLockingStudy
-from mitc4.verification import MechanicalVerifier
+from solveur.compat.mitc4.benchmarks import ShearLockingStudy
+from solveur.compat.mitc4.verification import MechanicalVerifier
 from scripts.docs_support import plot_line_series, write_markdown_table
 from solveur.verification.mitc3_dynamic_extended import write_mitc3_dynamic_extended_evidence
 from solveur.verification.mitc3_laminate_dynamic import write_mitc3_laminate_dynamic_evidence

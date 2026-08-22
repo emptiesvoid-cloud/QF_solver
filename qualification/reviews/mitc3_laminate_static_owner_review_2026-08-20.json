@@ -1,0 +1,12 @@
+{
+  "review_id": "OWNER-REVIEW-MITC3-LAM-STAT-2026-08-20",
+  "review_mode": "owner_review",
+  "status": "accepted_for_bounded_engineering_use",
+  "scope": ["mitc3-laminate-static"],
+  "decision": "accepted_for_bounded_engineering_use",
+  "promotion_target": "owner_accepted",
+  "responses": {"Q1": "partial: planar [0/90/90/0] patch only", "Q2": "yes with S13/S23, free-edge, damage, delamination and curved shells excluded.", "Q3": "yes for bounded use, not stable generality.", "Q4": "accepted_for_bounded_engineering_use"},
+  "evidence": ["qualification/maturity_evidence_0_2_1/mitc3_laminate_static/summary.json"],
+  "certification_claim": "none",
+  "signature": {"name": "Quentin Farinazzo", "mode": "electronic owner_review declaration", "date": "2026-08-20", "declaration": "Decision bounded acceptee; davantage de layups et geometries sont requis avant stable."}
+}

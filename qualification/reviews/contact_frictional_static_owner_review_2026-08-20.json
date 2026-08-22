@@ -1,0 +1,13 @@
+{
+  "review_id": "OWNER-REVIEW-CONTACT-FRICTION-2026-08-20",
+  "review_mode": "owner_review",
+  "status": "accepted_for_bounded_engineering_use",
+  "scope": ["contact-frictional-static"],
+  "decision": "accepted_for_bounded_engineering_use",
+  "promotion_target": "owner_accepted",
+  "responses": {"Q1": "partial", "Q2": "yes", "Q3": "no for stable: stick, general surface contact and large sliding remain open.", "Q4": "accepted_for_bounded_engineering_use"},
+  "limitations": ["Plan/simple Coulomb contact and slip branch only.", "Stick branch, general surface-to-surface contact, large sliding, impact and wear excluded."],
+  "evidence": ["qualification/maturity_evidence_0_2_1/contact_frictional_static.json", "qualification/maturity_evidence_0_2_1/contact_additional_models/summary.json"],
+  "certification_claim": "none",
+  "signature": {"name": "Quentin Farinazzo", "mode": "electronic owner_review declaration", "date": "2026-08-20", "declaration": "Decision bounded acceptee; la promotion stable exige des preuves supplementaires."}
+}

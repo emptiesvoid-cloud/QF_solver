@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Sequence
 
 
-WHEEL_REQUIRED_PREFIXES = ("solveur/", "mitc4/", "qf_solver-")
+WHEEL_REQUIRED_PREFIXES = ("solveur/", "qf_solver-")
 WHEEL_FORBIDDEN_PREFIXES = (
     "docs/",
     "scripts/",
@@ -19,7 +19,7 @@ WHEEL_FORBIDDEN_PREFIXES = (
     "qualification/reviews/",
     "qualification/vnv/",
 )
-SDIST_REQUIRED_PARTS = ("README.md", "LICENSE", "src/solveur/", "src/mitc4/")
+SDIST_REQUIRED_PARTS = ("README.md", "LICENSE", "src/solveur/")
 MAX_WHEEL_BYTES = 5 * 1024 * 1024
 MAX_SDIST_BYTES = 75 * 1024 * 1024
 

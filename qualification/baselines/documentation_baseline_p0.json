@@ -12,7 +12,7 @@
     "review_readiness": "docs/generated/review_readiness.json",
     "technical_closure": "docs/verification/baseline_documentaire_p0.md"
   },
-  "human_blockers": [
+  "owner_review_blockers": [
     "Owner review fields are intentionally empty until an actual review",
     "independent review is required for any external qualification claim",
     "clean approved Git revision is required for the qualification documentation profile"

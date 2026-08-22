@@ -3,27 +3,27 @@
   "study_id": "VNV-MITC4-HARMONIC-CONDENSATION-002",
   "source": {
     "repository": ".",
-    "revision": "c8d7fcf4fb176c9cd595360ffd0f4417c19285ce",
+    "revision": "1804a03aee0c4e4bc6ac2c56e9461bedd9aac6d4",
     "dirty": true
   },
   "files": [
     {
       "role": "mitc4_harmonic_condensation_vnv",
       "path": "summary.json",
-      "size_bytes": 9427,
-      "sha256": "b3f6415e8cd7e8cd9e5f87ccb3800ae1f2a35e1fef3de96209e54f6da27e9152"
+      "size_bytes": 9437,
+      "sha256": "18bd3d7f2a48a0872858d2dfde128b0ed08248e2d2da91b7ddced69560f669ff"
     },
     {
       "role": "mitc4_harmonic_condensation_vnv",
       "path": "VNV-MITC4-HARMONIC-CONDENSATION-002-errors.png",
-      "size_bytes": 109094,
-      "sha256": "af94a1ba3289191a0ac41e493cd3faa6bbdca1a86070737370b25099870f23e1"
+      "size_bytes": 111688,
+      "sha256": "e2f4956729fd95bc47be1049aa55697132b90234446fcaddc424f386d725ff82"
     },
     {
       "role": "mitc4_harmonic_condensation_vnv",
       "path": "VNV-MITC4-HARMONIC-CONDENSATION-002.md",
       "size_bytes": 855,
-      "sha256": "5e4ce06ef00134d117c4f1dccf2b5db3ec70495e5045622581b85d7f52bac423"
+      "sha256": "ee330802bfe05f3b1b0d1ee6628e7ad25492f80bf0addabc84635812e145d10c"
     }
   ]
 }

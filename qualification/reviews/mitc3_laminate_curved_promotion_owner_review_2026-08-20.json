@@ -1,0 +1,20 @@
+{
+  "review_id": "OWNER-REVIEW-MITC3-LAM-CURVED-2026-08-20",
+  "review_mode": "owner_review",
+  "status": "accepted_for_bounded_engineering_use",
+  "scope": ["mitc3-laminate-static-curved"],
+  "decision": "accepted_for_bounded_engineering_use",
+  "promotion_target": "owner_accepted",
+  "responses": {
+    "Q1": "yes for the tested faceted curved geometry and [0/90/90/0] orientation only.",
+    "Q2": "yes for bounded engineering use; not a general curved laminate validation.",
+    "Q3": "yes: final mesh increments 1.220 percent and 1.073 percent are acceptable for bounded use; a second curved geometry remains recommended.",
+    "Q4": "yes provisionally: measured residual 3.25e-10 is below 1e-7, pending explicit residual normalization documentation.",
+    "Q5": "yes for owner_accepted bounded use, no for stable generality.",
+    "Q6": "accepted_for_bounded_engineering_use"
+  },
+  "limitations": ["One faceted curved geometry and one laminate are covered.", "Ply singularities, S13/S23, damage, delamination, curved dynamics and large deformation remain excluded."],
+  "evidence": ["qualification/maturity_evidence_0_2_1/mitc3_laminate_curved_load_families/summary.json", "results/VNV-MITC3-LAMINATE-CURVED-PROJECTED-CODEASTER-DST-025-R1-96/summary.json"],
+  "certification_claim": "none",
+  "signature": {"name": "Quentin Farinazzo", "mode": "electronic owner_review declaration", "date": "2026-08-20", "declaration": "Decision bounded acceptee; la seconde geometrie et la normalisation du residu restent des recommandations avant stable."}
+}

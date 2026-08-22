@@ -106,7 +106,7 @@ class VnvStudyLoader:
             raise InputValidationError("The author and validator are identical; validation.mode must be self_review.")
         date = data.get("date")
         if decision != "pending" and (not isinstance(date, str) or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", date)):
-            raise InputValidationError("A YYYY-MM-DD validation.date is required for a completed human decision.")
+            raise InputValidationError("A YYYY-MM-DD validation.date is required for a completed owner decision.")
         comments = str(data.get("comments", ""))
         if decision == "accepted_with_reservations" and not comments.strip():
             raise InputValidationError("accepted_with_reservations requires explicit validation.comments.")

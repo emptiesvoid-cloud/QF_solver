@@ -18,5 +18,5 @@ est regeneree et controlee lors du build.
 ## Regle de revue
 
 Une page reste `draft` tant que les champs de revue correspondants ne sont pas
-approuves par des personnes identifiees hors du generateur. Le code ne remplit
-jamais automatiquement une signature humaine.
+approuves dans un registre `owner_review` ou `external_audit` hors du generateur.
+Le code ne remplit jamais automatiquement une signature de revue.

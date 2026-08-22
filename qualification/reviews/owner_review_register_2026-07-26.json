@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "register_id": "HUMAN-REVIEW-REGISTER-2026-07-26",
+  "register_id": "OWNER-REVIEW-REGISTER-2026-07-26",
   "purpose": "Single entry point for internal mechanical Owner review without certification claim.",
   "reviewer": {"name": "Quentin Farinazzo", "mode": "self_review", "independence": "not_independent"},
   "accepted_internal": [

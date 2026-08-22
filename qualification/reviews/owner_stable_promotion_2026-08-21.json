@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "review_id": "OWNER-REVIEW-STABLE-PROMOTION-2026-08-21",
+  "review_mode": "owner_review",
+  "status": "completed",
+  "decision": "accepted_with_recommendations",
+  "promotion_target": "stable",
+  "owner": "Quentin Farinazzo",
+  "review_date": "2026-08-21",
+  "scope": [
+    "beam2-linear-static",
+    "beam2-linear-dynamics",
+    "discrete-linear",
+    "discrete-linear-dynamics",
+    "mitc3-linear-static",
+    "mitc3-modal",
+    "mitc3-transient-dynamic",
+    "mitc3-harmonic-response",
+    "mitc4-linear-static",
+    "mitc4-modal",
+    "mitc4-transient-dynamic",
+    "mitc4-harmonic-response",
+    "mitc4-laminate-static",
+    "mitc4-laminate-dynamic-refined-three-layups",
+    "mitc4-orthotropic-homogeneous-ply",
+    "tet4-linear-static",
+    "tet4-modal",
+    "tet4-transient-dynamic",
+    "tet4-harmonic-response",
+    "tet10-linear-static",
+    "tet10-modal",
+    "tet10-transient-dynamic",
+    "tet10-harmonic-response"
+  ],
+  "accepted_domain": "Stable uniquement dans les domaines explicitement documentes, avec limites, geometries, maillages, observables et exclusions conserves dans les dossiers V&V.",
+  "conditions": [
+    "La promotion stable ne constitue pas une certification externe ni une equivalence generale avec un solveur industriel.",
+    "Le TET4 statique est accepte pour le sous-perimetre raffine documente, dont l'erreur finale est inferieure a 1 pour cent; l'increment final de maillage reste un suivi non bloquant.",
+    "Les routes MITC4 Newmark et harmonique sont acceptees avec les observables primaires documentees. Les ecarts spatiaux externes conserves comme diagnostics restent visibles et ne sont pas reclasses comme preuves temporelles.",
+    "Le sous-perimetre MITC4 multicouche dynamique stable est limite aux trois layups plans raffines [0/90/90/0], [45/-45/-45/45] et [0/45/45/0], au niveau final 48x12 et aux routes modale/Newmark/harmonique documentees.",
+    "Le sous-perimetre MITC4 orthotrope stable est limite a la lamelle homogene mono-pli et aux orientations/geometries effectivement documentees; il ne vaut pas qualification composite generale.",
+    "Les exclusions de contact, grandes transformations, non-linearite non qualifiee, dommage, delamination, contraintes singulieres et amortissement hors domaine restent applicables.",
+    "Une campagne complementaire peut etendre un scope, mais ne change pas retroactivement le domaine stable signe sans nouvelle Owner review."
+  ],
+  "retained_non_stable_scopes": [
+    {
+      "scope": "mitc4-laminate-dynamic",
+      "status": "owner_accepted_experimental_bounded_use",
+      "stable_subscope": "mitc4-laminate-dynamic-refined-three-layups",
+      "reason": "Le parent multicouche general reste hors stable; la dynamique stratifiee courbe, les layups non symetriques et l'amortissement realiste restent hors du sous-perimetre stable."
+    },
+    {
+      "scope": "orthotropic-solid-tet4-tet10",
+      "status": "owner_accepted",
+      "reason": "Le domaine orthotrope homogeneise est accepte, mais ne couvre pas le composite pli-par-pli ni une promotion stable generale."
+    }
+  ],
+  "open_technical_gates": [
+    "mitc3-laminate-dynamic",
+    "mitc3-laminate-static-curved",
+    "mitc3-laminate-dynamic-thin-planar",
+    "mitc3-laminate-static-curved-mixed-transverse",
+    "tet4-total-lagrangian-structural-v2"
+  ],
+  "signature": {
+    "name": "Quentin Farinazzo",
+    "date": "2026-08-21",
+    "type": "declared_owner_review",
+    "independence": "not_independent"
+  },
+  "certification_claim": "none"
+}

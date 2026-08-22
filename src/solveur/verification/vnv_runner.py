@@ -65,13 +65,13 @@ class VnvStudyRunner:
         checks.extend(convergence_checks)
         artifacts.extend(_copy_source_inputs(output, study, loaded))
         automated_verdict = "PASS" if all(item["status"] == "PASS" for item in checks) else "FAIL"
-        human_decision = str(study.validation["decision"])
-        status = _overall_status(automated_verdict, human_decision)
+        owner_decision = str(study.validation["decision"])
+        status = _overall_status(automated_verdict, owner_decision)
         run = VnvStudyRun(
             study,
             status,
             automated_verdict,
-            human_decision,
+            owner_decision,
             comparisons,
             convergence,
             checks,
@@ -334,14 +334,14 @@ def _check(identifier: str, value: float, limit: float, status: str, detail: str
     }
 
 
-def _overall_status(automated: str, human: str) -> str:
+def _overall_status(automated: str, owner_decision: str) -> str:
     if automated == "FAIL":
         return "FAIL"
-    if human == "rejected":
+    if owner_decision == "rejected":
         return "REJECTED"
-    if human == "accepted":
+    if owner_decision == "accepted":
         return "ACCEPTED"
-    if human == "accepted_with_reservations":
+    if owner_decision == "accepted_with_reservations":
         return "ACCEPTED_WITH_RESERVATIONS"
     return "PENDING_REVIEW"
 
@@ -371,13 +371,13 @@ def _write_manifest(
             }
         )
     payload = {
-        "manifest_schema_version": 1,
+        "manifest_schema_version": 2,
         "created_at_utc": utc_timestamp(),
         "solver": {"name": DISPLAY_NAME, "version": __version__},
         "study_id": run.study.identifier,
         "status": run.status,
         "automated_verdict": run.automated_verdict,
-        "human_decision": run.human_decision,
+        "owner_decision": run.owner_decision,
         "source": git_source_state(project_root()),
         "runtime": runtime_fingerprint(),
         "command": command_line(),

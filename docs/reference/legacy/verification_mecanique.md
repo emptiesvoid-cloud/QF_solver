@@ -1,3 +1,12 @@
+---
+doc_id: DOC-LEGACY-MECHANICS-001
+revision: 0.1
+status: draft
+applicable_version: 0.2.1-alpha
+reviewer: ""
+approver: ""
+---
+
 # Verification mecanique du solveur
 
 Ce document racine est conserve pour compatibilite. La methode de verification

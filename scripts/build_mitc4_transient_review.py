@@ -16,7 +16,7 @@ import numpy as np
 matplotlib.use("Agg")
 from matplotlib import pyplot as plt  # noqa: E402
 
-from mitc4.mesh import MeshFactory
+from solveur.compat.mitc4.mesh import MeshFactory
 
 
 ROOT = Path(__file__).resolve().parents[1]

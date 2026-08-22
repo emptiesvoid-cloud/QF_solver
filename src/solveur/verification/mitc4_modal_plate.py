@@ -14,7 +14,7 @@ import numpy as np
 matplotlib.use("Agg")
 from matplotlib import pyplot as plt  # noqa: E402
 
-from mitc4.mesh import MeshFactory
+from solveur.elements.shell.mitc4.mesh import MeshFactory
 from solveur.api import solve_model
 from solveur.core.model import FiniteElementModel
 from solveur.io.manifest import discovered_file_entries, git_source_state, write_json_file

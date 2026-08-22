@@ -9,7 +9,7 @@ def test_j2_material_campaign_passes_all_acceptance_checks(tmp_path):
     summary = J2MaterialVerificationCampaign(tmp_path).run()
 
     assert summary["status"] == "PASS_INTERNAL"
-    assert len(summary["checks"]) >= 23
+    assert len(summary["checks"]) >= 22
     assert all(check["status"] == "PASS" for check in summary["checks"])
     assert summary["maturity"] == "experimental"
 
@@ -39,13 +39,14 @@ def test_j2_cycle_contains_loading_unloading_and_reloading(tmp_path):
     assert equivalent_plastic_strain[-1] > equivalent_plastic_strain[4]
 
 
-def test_j2_uniaxial_matches_bilinear_theory_and_published_abaqus_points(tmp_path):
+def test_j2_uniaxial_reports_absent_abaqus_reference_without_fabrication(tmp_path):
     summary = J2MaterialVerificationCampaign(tmp_path).run()
     checks = {check["name"]: check for check in summary["checks"]}
     correlation = summary["external_correlations"]["abaqus_published"]
 
     assert checks["uniaxial bilinear analytical strain"]["status"] == "PASS"
-    assert checks["Abaqus published monotonic plastic strain"]["status"] == "PASS"
-    assert correlation["execution_status"] == "published_not_executed_locally"
-    assert correlation["comparison_scope"] == "monotonic increments 1-4 only"
-    assert correlation["excluded_points"]["increments"] == [5, 6, 7, 8, 9, 10]
+    assert "Abaqus published monotonic plastic strain" not in checks
+    assert correlation["status"] == "NOT_AVAILABLE"
+    assert correlation["execution_status"] == "not_available_in_checkout"
+    assert correlation["comparison"] == []
+    assert correlation["maximum_absolute_plastic_strain_error"] is None

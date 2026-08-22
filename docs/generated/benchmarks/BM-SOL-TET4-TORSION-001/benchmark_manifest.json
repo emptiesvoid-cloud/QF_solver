@@ -1,16 +1,16 @@
 {
   "manifest_schema_version": 1,
-  "created_at_utc": "2026-08-10T07:58:23.381820Z",
+  "created_at_utc": "2026-08-14T21:32:38.661717Z",
   "solver": {
     "name": "QF_solver",
-    "version": "0.2.0a0"
+    "version": "0.2.1a0"
   },
   "benchmark_id": "BM-SOL-TET4-TORSION-001",
   "profile": "engineering",
   "status": "PASS",
   "source": {
     "repository": ".",
-    "revision": "c8d7fcf4fb176c9cd595360ffd0f4417c19285ce",
+    "revision": "1804a03aee0c4e4bc6ac2c56e9461bedd9aac6d4",
     "dirty": true
   },
   "runtime": {
@@ -55,13 +55,13 @@
       "role": "benchmark_artifact",
       "path": "h1.import_report.json",
       "size_bytes": 1112,
-      "sha256": "e2b8b3b7ac21ff1f469143460b2d8802a678c36847aab5f79b6455e60e16f242"
+      "sha256": "e2ff0e11c1ae52f832b6167c50f95fa43a9be136dfdfdf7b8a2b7c3da32d521d"
     },
     {
       "role": "benchmark_artifact",
       "path": "h1.json",
-      "size_bytes": 5013579,
-      "sha256": "6e973c65372dda6b3602091c23acf652e38afcfd399cffe60c96c5fb94f08256"
+      "size_bytes": 5013581,
+      "sha256": "4612eccceee842acae72d28e1a8f7fbb5b3e9f3480738b25c5b5fbeb8d1942da"
     },
     {
       "role": "benchmark_artifact",
@@ -91,13 +91,13 @@
       "role": "benchmark_artifact",
       "path": "h2.import_report.json",
       "size_bytes": 1119,
-      "sha256": "4a244e6db4f738eca938b1b369cb2dc0c19eee5621efb8f7a7e6b3f84c8b7ce6"
+      "sha256": "955f941c6dea267e6b03a0cbf7a5107247c8d20f9d998a24dcab47dc9ec65a5c"
     },
     {
       "role": "benchmark_artifact",
       "path": "h2.json",
       "size_bytes": 8171926,
-      "sha256": "8f436d8ed2b5c85a7155b5fac1bfef2e2b91360589b14db24fb4cf92035d3519"
+      "sha256": "88368e58f562ae2ee9acb725d39f4ee027e3057d01840c063dd696c408217f0c"
     },
     {
       "role": "benchmark_artifact",
@@ -127,13 +127,13 @@
       "role": "benchmark_artifact",
       "path": "h3.import_report.json",
       "size_bytes": 1119,
-      "sha256": "958fb7ef6f24c42345a0d9a09c3ddb463c6805d481173565ac0f9e23cd934ddb"
+      "sha256": "bd2670040b4740857147ab6327bb11f1a9bf9f6b851e2c7f2b6228a171595f05"
     },
     {
       "role": "benchmark_artifact",
       "path": "h3.json",
-      "size_bytes": 10582156,
-      "sha256": "0f3b3a03df63ae4a619b7c1c7d7bbf59d2934de4ad61e9871aea043b2a7c5cb3"
+      "size_bytes": 10582155,
+      "sha256": "a7a49435c6a592c1612cba24d53d3567a8e8e6f35945a8d64f5aee370a867c76"
     },
     {
       "role": "benchmark_artifact",
@@ -163,13 +163,13 @@
       "role": "benchmark_artifact",
       "path": "h4.import_report.json",
       "size_bytes": 1119,
-      "sha256": "76f14e4b638cd0a0fb363db10d350f658973b296c6e9b92da0b2d34231a4e8aa"
+      "sha256": "9d2fc58517049595a4a55805a862aca47730cf12f8d6b5e9327b47ba8de9a6d0"
     },
     {
       "role": "benchmark_artifact",
       "path": "h4.json",
       "size_bytes": 18366426,
-      "sha256": "5e04fc3e9cd9f8a813d622b1635db58d3479db50c490c4cbdaf482f09807fd1a"
+      "sha256": "90f6d5ffb346f3c383be26c010135914eea02ff857227f320f388ea008760e1f"
     },
     {
       "role": "benchmark_artifact",
@@ -199,13 +199,13 @@
       "role": "benchmark_artifact",
       "path": "h5.import_report.json",
       "size_bytes": 1119,
-      "sha256": "a3f624dd57bf782dfd4a34a7cec14c14feb193e5a752ca8dde14b9ab05b1a924"
+      "sha256": "3bddf82f379c460aea1b7c122359deeb714b034787df80f0a9644d14196d6aec"
     },
     {
       "role": "benchmark_artifact",
       "path": "h5.json",
       "size_bytes": 28125654,
-      "sha256": "69c0eee608e32447caf9b89777e817c59e1eed3615e25d86667b30b8d21b1a04"
+      "sha256": "f70b944c62ae208bd545095b693618979a43b136dfe00aaa870cecf1c58bf529"
     },
     {
       "role": "benchmark_artifact",
@@ -235,13 +235,13 @@
       "role": "benchmark_artifact",
       "path": "h6.import_report.json",
       "size_bytes": 1122,
-      "sha256": "7cfc025b60938bd83a226e7f3861def8b4975dff04846ada673763b23fd3d5c6"
+      "sha256": "c74a647ed6d3ed9f9ca91b9067a130817bf8faa1a317d9976dd488762d3ca305"
     },
     {
       "role": "benchmark_artifact",
       "path": "h6.json",
       "size_bytes": 45748067,
-      "sha256": "b7a57e84d29c1c20ff07cbd13f187497218ca0e94c6dd8964aa2148f63b92ae7"
+      "sha256": "e3c00e4b30beddbd4a3c799b83d8e48cab086091cbbb57a1adf5566f7496b0de"
     },
     {
       "role": "benchmark_artifact",
@@ -271,13 +271,13 @@
       "role": "benchmark_artifact",
       "path": "h7.import_report.json",
       "size_bytes": 1122,
-      "sha256": "f3f270097f7832fc861c104d1f54b4decc55f2fe61eabf6518a56be8755acd0a"
+      "sha256": "db5e5c9ef3d91c35d0f4e2bae8bf89f4df749274cec995c68c7a346ceae0ba15"
     },
     {
       "role": "benchmark_artifact",
       "path": "h7.json",
-      "size_bytes": 70562536,
-      "sha256": "c1335921447fe58367305f8d402b381aefa49b5bfa6cc3fcae9f7c99b3f58aec"
+      "size_bytes": 70562535,
+      "sha256": "995cd019498093c63977a71c9647102ef2b341ebb9d6663627392b2fc738acdb"
     },
     {
       "role": "benchmark_artifact",
@@ -307,13 +307,13 @@
       "role": "benchmark_artifact",
       "path": "h8.import_report.json",
       "size_bytes": 1122,
-      "sha256": "913655173bd7701a02fb8eacce09ed79017768d520e10db05517526cb3308b92"
+      "sha256": "062a0ff451f689f4b9ade7c8bb84b042a5d089aa20cea8fd892edb19af0bcb05"
     },
     {
       "role": "benchmark_artifact",
       "path": "h8.json",
       "size_bytes": 109598041,
-      "sha256": "92698e23541708c07b03ad539f7fe4a444b3725f8021d51d10e9f817ee03c600"
+      "sha256": "3b49187a7fb4953a7adbc0acf6f2855c96a5cbbf58ee8ca8cd1acb54feb131c8"
     },
     {
       "role": "benchmark_artifact",

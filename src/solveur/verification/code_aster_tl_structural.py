@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import json
+import os
+import shutil
 import subprocess
 from pathlib import Path
 
@@ -392,8 +394,9 @@ def run_code_aster(work: Path, stem: str, *, timeout: int = 900) -> None:
         f"python3 /work/{stem}.comm --last --link=F::mail::/work/{stem}.mail::D::20 "
         "--memory 4096 --tpmax 900 --numthreads 1"
     )
+    docker_executable = _docker_executable()
     command = [
-        "docker",
+        docker_executable,
         "run",
         "--rm",
         "-v",
@@ -430,6 +433,17 @@ def run_code_aster(work: Path, stem: str, *, timeout: int = 900) -> None:
     if completed.returncode != 0:
         tail = "\n".join(output.splitlines()[-50:])
         raise RuntimeError(f"Code_Aster failed for {stem}:\n{tail}")
+
+
+def _docker_executable() -> str:
+    """Return a resolvable Docker executable, including Windows installations."""
+    configured = os.environ.get("QF_SOLVER_DOCKER")
+    if configured:
+        return configured
+    executable = shutil.which("docker")
+    if executable:
+        return executable
+    raise InfrastructureError("Code_Aster correlation requires the Docker CLI.")
 
 
 def _docker_unavailable(output: str) -> bool:

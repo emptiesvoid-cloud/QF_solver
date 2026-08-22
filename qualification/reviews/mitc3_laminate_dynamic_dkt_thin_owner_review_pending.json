@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "review_id": "OWNER-REVIEW-MITC3-LAMINATE-DYNAMIC-DKT-THIN-PENDING",
+  "scope": "mitc3-laminate-dynamic-thin-planar",
+  "review_type": "owner_review",
+  "review_mode": "pending_owner_decision",
+  "decision": null,
+  "decision_date": null,
+  "owner": null,
+  "certification_claim": "none",
+  "evidence": [
+    "qualification/vnv/external/code_aster_mitc3_laminate_dynamic_refinement_dkt_2026-08-21/reference/summary.json",
+    "qualification/vnv/external/code_aster_mitc3_laminate_dynamic_refinement_dkt_2026-08-21/reference/report.md",
+    "qualification/vnv/mitc3_laminate_temporal_refinement_2026-08-21/summary.json",
+    "qualification/vnv/mitc3_mass_quadrature_audit_2026-08-21/summary.json",
+    "docs/verification/mitc3_dynamic_causal_audit_2026-08-21.md"
+  ],
+  "scope_under_review": {
+    "element": "MITC3+",
+    "material": "linear symmetric laminate [0/90/90/0]",
+    "analyses": ["modal", "transient_newmark", "harmonic_response"],
+    "geometry": "planar thin cantilever",
+    "thickness_to_length_ratio": 0.01,
+    "external_reference": "Code_Aster 18.1 DKT/TRIA3, thin-limit diagnostic",
+    "mesh_levels": ["12x3", "16x4", "24x6"]
+  },
+  "review_questions": [
+    "Le domaine mince, plan, symetrique et a petits deplacements est-il correctement borne ?",
+    "Les ecarts au niveau fin (0,3940 % modal, 0,1968 % Newmark, 0,0880 % harmonique) sont-ils acceptables ?",
+    "Les niveaux intermediaires, dont le modal reste au-dessus de 1 %, sont-ils suffisamment traces sans etre masques par le seul niveau final ?",
+    "DKT est-il accepte comme reference de limite mince, distincte de DST, sans extrapolation aux coques epaisses ou courbes ?",
+    "Les exclusions (courbure, epaisseur importante, couplage B non nul, dommage, delamination, contraintes dynamiques par pli) sont-elles acceptees ?",
+    "Decision : stable pour ce sous-perimetre, accepted_with_recommendations, accepted_for_bounded_engineering_use ou more_evidence_required ?"
+  ],
+  "known_limits": [
+    "Le resultat ne constitue pas une qualification generale du MITC3+ multicouche.",
+    "DKT et MITC3+ restent des formulations distinctes; la comparaison est justifiee uniquement dans la limite mince documentee.",
+    "La decision stable doit etre datee et signee apres lecture des figures, tableaux et rapports.",
+    "Aucune revendication de certification externe n'est associee a cette revue."
+  ],
+  "signature": null
+}
+

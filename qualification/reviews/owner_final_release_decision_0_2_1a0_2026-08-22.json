@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "review_id": "OWNER-FINAL-RELEASE-0.2.1A0-2026-08-22",
+  "release": "0.2.1a0",
+  "owner": "Quentin Farinazzo",
+  "date": "2026-08-22",
+  "decision": "accepted_for_release_preparation",
+  "recording_mode": "user_declared_electronic_owner_decision",
+  "certification_claim": "none",
+  "answers": {
+    "Q1_stable_scope_accepted": "OUI",
+    "Q2_nonstable_scopes_excluded": "OUI",
+    "Q3_campaign_and_audits_accepted": "OUI",
+    "Q4_clean_checkout_required": "OUI"
+  },
+  "justification": [
+    "Tous les criteres techniques sont respectes dans les domaines revendiques.",
+    "Les limites sont documentees et visibles.",
+    "Les scopes non stables sont isoles des revendications stables.",
+    "Le nettoyage Git et le rejeu final restent obligatoires avant tag et PyPI."
+  ],
+  "local_parent_rename": "out_of_scope_not_required",
+  "publication_authorized": false,
+  "required_before_publication": [
+    "clean_worktree",
+    "final_release_replay",
+    "owner_review_registry_update",
+    "tag_and_push_only_after_explicit_authorization"
+  ]
+}

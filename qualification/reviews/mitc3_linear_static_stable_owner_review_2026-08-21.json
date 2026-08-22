@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "review_id": "OWNER-REVIEW-MITC3-LINEAR-STATIC-STABLE-2026-08-21",
+  "review_mode": "owner_review",
+  "status": "owner_reviewed",
+  "scope": ["mitc3-linear-static"],
+  "decision": "accepted_with_recommendations",
+  "promotion_target": "stable",
+  "review_date": "2026-08-21",
+  "evidence": [
+    "qualification/reviews/mitc3_linear_static_2026-08-01.json",
+    "qualification/vnv/mitc3/reference_v2/summary.json",
+    "qualification/vnv/mitc3/refined_h20k/summary.json",
+    "qualification/vnv/external/code_aster_mitc3/reference_v2/summary.json",
+    "qualification/vnv/external/code_aster_mitc3/hemisphere_v1/summary.json"
+  ],
+  "accepted_domain": "MITC3 isotrope lineaire, petits deplacements et petites rotations, coques planes ou facettisees dans les limites de maillage documentees, statique membrane, flexion et cisaillement transverse.",
+  "limitations": [
+    "Le MITC3 stratifie, le MITC3 courbe a orientation projetee et les analyses dynamiques stratifiees sont des scopes distincts.",
+    "Les contraintes ponctuelles aux singularites, le dommage, la delamination, le contact et les grandes transformations restent exclus.",
+    "La promotion ne constitue pas une certification externe."
+  ],
+  "owner_comment": "Promotion stable acceptee pour le domaine isotrope statique borne, apres les campagnes de cisaillement, coque courbe raffinee et correlations externes documentees.",
+  "signature": {
+    "name": "Quentin Farinazzo",
+    "date": "2026-08-21",
+    "type": "declared_owner_review",
+    "independence": "not_independent"
+  },
+  "certification_claim": "none"
+}

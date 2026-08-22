@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "review_id": "INDEPENDENT-REVIEW-TET4-TL-2026-08-15",
+  "review_mode": "independent_review",
+  "status": "pending",
+  "scope": ["tet4-total-lagrangian-structural-v2"],
+  "purpose": "Obtenir une relecture independante avant toute revendication externe sur le domaine TET4 total-lagrangien.",
+  "promotion_target": "stable",
+  "technical_snapshot": {
+    "constitutive_stress_error": 0.00008544216665475574,
+    "imperfect_column_max_relative_difference": 0.0000000016929857737642425,
+    "refined_buckling_euler_error": 0.01895557834366395,
+    "refined_qf_calculix_difference": 0.00034273764403158123,
+    "newton_residual_max": 7.971791838020341e-11,
+    "interpretation": "Constitutive and Code_Aster path observables are below 1 percent; the Euler buckling comparison is 1.8956 percent and remains a diagnostic, not a stable acceptance oracle."
+  },
+  "review_artifacts": [
+    "output/pdf/qf_solver_tet4_total_lagrangian_independent_review_0_2_1.pdf",
+    "results/VNV-TET4-TL-ASSEMBLY-002/summary.json",
+    "results/VNV-TET4-TL-BUCKLING-H5-010/summary.json",
+    "results/VNV-TET4-TL-POSTBUCKLING-007/summary.json",
+    "qualification/vnv/external/code_aster_tl_structural/reference/summary.json"
+  ],
+  "evidence": [
+    "docs/verification/revue_tet4_total_lagrangian_structural_v2.md",
+    "qualification/vnv/tet4_tl_buckling_h5/reference/summary.json",
+    "tests/unit/test_total_lagrangian_tet4.py",
+    "tests/verification/test_tet4_total_lagrangian_vnv.py",
+    "tests/verification/test_tet4_tl_buckling_vnv.py",
+    "tests/verification/test_tet4_tl_postbuckling_vnv.py"
+  ],
+  "questions": [
+    {"id": "Q1", "question": "Le domaine total-lagrangien et les limites de grandes rotations sont-ils correctement delimites ?", "answer": null},
+    {"id": "Q2", "question": "Les comparaisons, increments de chargement et imperfections sont-ils suffisants pour une relecture independante ?", "answer": null},
+    {"id": "Q3", "question": "Les exclusions contact, rupture, endommagement et extrapolation hors des cas testes sont-elles acceptees ?", "answer": null},
+    {"id": "Q4", "question": "La recommandation de maintenir le statut research est-elle confirmee ?", "answer": null}
+  ],
+  "decision": null,
+  "signature": null,
+  "certification_claim": "none"
+}

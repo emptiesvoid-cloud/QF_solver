@@ -8,6 +8,8 @@ from solveur.verification.calculix_mitc3_curved_composite import (
     build_curved_s6_mesh,
     write_s6_input,
 )
+from solveur.verification.calculix_mitc3_curved_composite import _qf_model
+from solveur.verification.mitc3_models import LAMINATE_MATERIAL
 
 
 def test_curved_mesh_has_shared_quadratic_edges_and_projected_frames() -> None:
@@ -54,3 +56,22 @@ def test_curved_mesh_uses_same_corner_geometry_for_qf_and_s6() -> None:
         assert np.allclose(midsides[0], 0.5 * (corners[0] + corners[1]))
         assert np.allclose(midsides[1], 0.5 * (corners[1] + corners[2]))
         assert np.allclose(midsides[2], 0.5 * (corners[2] + corners[0]))
+
+
+def test_curved_qf_model_supports_independent_axial_loading() -> None:
+    model, _ = _qf_model(2, 1, load_case="axial")
+
+    values = {load.dof: float(load.value) for load in model.loads}
+    assert values["UX"] > 0.0
+    assert values["UZ"] == 0.0
+
+
+def test_calculix_curved_deck_uses_the_qf_laminate_constants(tmp_path) -> None:
+    mesh = build_curved_s6_mesh(2, 1)
+    text = write_s6_input(tmp_path / "curved.inp", mesh).read_text(encoding="ascii")
+
+    assert f"{LAMINATE_MATERIAL['E1']:.16g}" in text
+    assert f"{LAMINATE_MATERIAL['E2']:.16g}" in text
+    assert f"{LAMINATE_MATERIAL['G13']:.16g}" in text
+    assert f"{LAMINATE_MATERIAL['G23']:.16g}" in text
+    assert f"{LAMINATE_MATERIAL['density']:.16g}" in text

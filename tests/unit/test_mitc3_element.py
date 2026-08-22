@@ -3,7 +3,7 @@ from __future__ import annotations
 import numpy as np
 import pytest
 
-from mitc4.material import ShellMaterial
+from solveur.compat.mitc4.material import ShellMaterial
 
 from solveur.elements.shell.mitc3 import (
     EXPANDED_DOF_COUNT,
@@ -151,6 +151,35 @@ def test_consistent_mass_preserves_total_translation_mass_and_is_positive_semide
     eigenvalues = np.linalg.eigvalsh(mass)
     assert np.min(eigenvalues) >= -1.0e-12 * np.max(eigenvalues)
     assert np.count_nonzero(np.abs(eigenvalues) <= 1.0e-12 * np.max(eigenvalues)) == 3
+
+
+def test_consistent_mass_has_no_nodal_drilling_inertia() -> None:
+    mass = Mitc3ShellElement(material()).mass(COORDS)
+    drilling = np.array([5, 11, 17])
+
+    assert np.diag(mass)[drilling] == pytest.approx(0.0, abs=1.0e-30)
+    assert np.linalg.norm(mass[drilling, :]) == pytest.approx(0.0, abs=1.0e-30)
+    assert np.linalg.norm(mass[:, drilling]) == pytest.approx(0.0, abs=1.0e-30)
+
+
+def test_consistent_mass_is_invariant_under_rigid_rotation_of_the_element() -> None:
+    element = Mitc3ShellElement(material())
+    angle = np.deg2rad(37.0)
+    rotation = np.array(
+        [[np.cos(angle), -np.sin(angle), 0.0], [np.sin(angle), np.cos(angle), 0.0], [0.0, 0.0, 1.0]]
+    )
+    rotated_coords = COORDS @ rotation.T
+    transform = np.zeros((18, 18))
+    for node in range(3):
+        transform[6 * node : 6 * node + 3, 6 * node : 6 * node + 3] = rotation
+        transform[6 * node + 3 : 6 * node + 6, 6 * node + 3 : 6 * node + 6] = rotation
+    values = np.linspace(-2.0e-4, 3.0e-4, 18)
+    original_mass = element.mass(COORDS)
+    rotated_mass = element.mass(rotated_coords)
+
+    assert values @ original_mass @ values == pytest.approx(
+        (transform @ values) @ rotated_mass @ (transform @ values), rel=2.0e-12
+    )
 
 
 def test_rotation_of_geometry_preserves_stiffness_energy() -> None:

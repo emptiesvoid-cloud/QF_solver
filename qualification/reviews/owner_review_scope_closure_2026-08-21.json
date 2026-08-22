@@ -1,0 +1,856 @@
+{
+  "schema_version": 1,
+  "review_id": "OWNER-REVIEW-SCOPE-CLOSURE-2026-08-21",
+  "revision": "0.2.1-alpha",
+  "status": "pending_owner_review",
+  "review_mode": "pending_owner_decision",
+  "automatic_promotion": false,
+  "owner": null,
+  "decision_date": null,
+  "certification_claim": "none",
+  "purpose": "Consolider les preuves existantes des scopes restants avant revue Owner.",
+  "scope_count": 14,
+  "scopes": [
+    {
+      "scope": "mitc3-laminate-static",
+      "title": "MITC3 multicouche statique plane",
+      "current_status": "verified_development_external_correlation",
+      "target_status": "owner_accepted",
+      "technical_status": "PASS_EXTERNAL_CORRELATION",
+      "proposed_decision": "accepted_for_bounded_engineering_use",
+      "summary": "Patch membrane plan [0/90/90/0] compare a CalculiX S6 COMPOSITE. La preuve porte sur les contraintes dans les axes materiau et non sur une coque courbe.",
+      "metrics": [
+        {
+          "name": "Ecart L2 contraintes par pli fin",
+          "value": "0,09625 %",
+          "limit": "2 %",
+          "status": "PASS"
+        },
+        {
+          "name": "Erreur patch affine QF_solver",
+          "value": "2,278e-13",
+          "limit": "1e-10",
+          "status": "PASS"
+        },
+        {
+          "name": "Dernier increment CalculiX",
+          "value": "0,07313 %",
+          "limit": "0,2 %",
+          "status": "PASS"
+        }
+      ],
+      "questions": [
+        "Q1 : Les preuves et le maillage 4x1 -> 8x2 -> 16x4 couvrent-ils le domaine plane declare ?",
+        "Q2 : Les observables S11/S22/S12 par pli sont-ils suffisants pour ce domaine ?",
+        "Q3 : Les exclusions S13/S23, bords libres, dommage et delamination sont-elles acceptees ?",
+        "Q4 : Decision Owner : accepted_for_bounded_engineering_use, accepted_with_recommendations ou more_evidence_required ?"
+      ],
+      "limitations": [
+        "Aucune revendication de certification externe.",
+        "La decision doit rester limitee aux preuves et aux observables listes.",
+        "Dommage, rupture et delamination restent hors scope sauf mention contraire.",
+        "Une seule geometrie plane et un seul empilement symetrique sont compares.",
+        "MITC3+ et CalculiX S6 ne sont pas la meme formulation elementaire."
+      ],
+      "evidence": [
+        "docs/verification/mitc3_laminate_dynamic.md",
+        "qualification/maturity_evidence_0_2_1/mitc3_laminate_static_campaign/summary.json",
+        "qualification/vnv/external/calculix_mitc3_laminate_ply_stress/reference/"
+      ],
+      "images": [
+        "qualification/maturity_evidence_0_2_1/mitc3_laminate_static_campaign/mitc3_laminate_ply_stress_calculix.png"
+      ],
+      "blocker": "",
+      "owner_decision": null,
+      "owner_comment": "",
+      "owner_name": "",
+      "owner_date": ""
+    },
+    {
+      "scope": "mitc3-laminate-dynamic-thin-planar",
+      "title": "MITC3 multicouche dynamique mince plane",
+      "current_status": "verified_development_external_correlation",
+      "target_status": "stable (sous-perimetre mince plane uniquement)",
+      "technical_status": "PASS_EXTERNAL_CORRELATION_DKT",
+      "proposed_decision": "stable",
+      "summary": "La campagne DKT de Code_Aster fournit une reference de limite mince sur le meme stratife [0/90/90/0]. Elle est distincte de la comparaison DST, qui reste un diagnostic de difference de formulation.",
+      "metrics": [
+        {
+          "name": "Erreur modale fine 24x6",
+          "value": "0,3940 %",
+          "limit": "1 %",
+          "status": "PASS"
+        },
+        {
+          "name": "Erreur RMS Newmark fine",
+          "value": "0,1968 %",
+          "limit": "1 %",
+          "status": "PASS"
+        },
+        {
+          "name": "Erreur harmonique fine",
+          "value": "0,0880 %",
+          "limit": "1 %",
+          "status": "PASS"
+        },
+        {
+          "name": "Residu modal fin",
+          "value": "1,08e-08",
+          "limit": "1e-07",
+          "status": "PASS"
+        }
+      ],
+      "questions": [
+        "Q1 : Le domaine mince, symetrique et plan est-il suffisamment delimite ?",
+        "Q2 : Les erreurs fines 0,3940 %, 0,1968 % et 0,0880 % sont-elles acceptees ?",
+        "Q3 : Les niveaux intermediaires depassant parfois 1 % doivent-ils rester publies comme diagnostics ?",
+        "Q4 : DKT est-il accepte comme oracle de limite mince sans pretendre a une identite MITC3/DKT ?",
+        "Q5 : Decision Owner pour le sous-perimetre mince plane ?"
+      ],
+      "limitations": [
+        "Aucune revendication de certification externe.",
+        "La decision doit rester limitee aux preuves et aux observables listes.",
+        "Dommage, rupture et delamination restent hors scope sauf mention contraire.",
+        "Coques epaisses, courbes, non symetriques, couplage B non nul et amortissement calibre exclus.",
+        "La decision ne s'etend pas aux contraintes dynamiques par pli."
+      ],
+      "evidence": [
+        "docs/verification/mitc3_laminate_dynamic_dkt_thin_owner_review.md",
+        "qualification/vnv/external/code_aster_mitc3_laminate_dynamic_refinement_dkt_2026-08-21/reference/summary.json",
+        "qualification/vnv/mitc3_laminate_temporal_refinement_2026-08-21/summary.json"
+      ],
+      "images": [
+        "qualification/vnv/external/code_aster_mitc3_laminate_dynamic_refinement_dkt_2026-08-21/reference/mitc3_laminate_dynamic_refinement.png"
+      ],
+      "blocker": "La promotion depend d'une decision Owner ; aucune promotion automatique ne doit etre deduite du PASS technique.",
+      "owner_decision": null,
+      "owner_comment": "",
+      "owner_name": "",
+      "owner_date": ""
+    },
+    {
+      "scope": "mitc3-laminate-static-curved-mixed-transverse",
+      "title": "MITC3 multicouche courbe : mixte et transverse",
+      "current_status": "owner_accepted_experimental_bounded_use",
+      "target_status": "stable (sous-perimetre mixte/transverse borne)",
+      "technical_status": "PASS_WITH_AXIAL_EXCLUSION",
+      "proposed_decision": "stable",
+      "summary": "Panneau cylindrique facettise, axes materiau projetes par facette et empilement [0/90/90/0]. Le sous-perimetre ne revendique pas le chargement axial.",
+      "metrics": [
+        {
+          "name": "Ecart mixte QF / Code_Aster",
+          "value": "0,5780 %",
+          "limit": "1 %",
+          "status": "PASS"
+        },
+        {
+          "name": "Ecart transverse QF / Code_Aster",
+          "value": "0,4975 %",
+          "limit": "1 %",
+          "status": "PASS"
+        },
+        {
+          "name": "Increment mixte final",
+          "value": "4,4755 %",
+          "limit": "5 %",
+          "status": "PASS"
+        },
+        {
+          "name": "Increment transverse final",
+          "value": "4,6023 %",
+          "limit": "5 %",
+          "status": "PASS"
+        }
+      ],
+      "questions": [
+        "Q1 : La geometrie, l'orientation projetee et l'empilement sont-ils assez definis ?",
+        "Q2 : Les deux familles mixte et transverse sous 1 % sont-elles suffisantes pour ce sous-perimetre ?",
+        "Q3 : L'exclusion axiale est-elle acceptee sans extrapolation ?",
+        "Q4 : Les exclusions S13/S23, singularites, dommage et delamination sont-elles acceptees ?",
+        "Q5 : Decision Owner : stable ou accepted_with_recommendations ?"
+      ],
+      "limitations": [
+        "Aucune revendication de certification externe.",
+        "La decision doit rester limitee aux preuves et aux observables listes.",
+        "Dommage, rupture et delamination restent hors scope sauf mention contraire.",
+        "La preuve est limitee a une geometrie facettisee et un empilement.",
+        "Le chargement axial n'est pas inclus dans ce sous-perimetre."
+      ],
+      "evidence": [
+        "docs/verification/mitc3_laminate_curved_mixed_transverse_stable_owner_review.md",
+        "qualification/maturity_evidence_0_2_1/mitc3_laminate_curved_load_families/summary.json",
+        "qualification/vnv/external/code_aster_mitc3_curved_laminate_refinement_027/reference/"
+      ],
+      "images": [
+        "qualification/maturity_evidence_0_2_1/mitc3_laminate_curved_load_families/curved_laminate_deformation_qf_code_aster.png"
+      ],
+      "blocker": "Le sous-perimetre axial reste separe et bloque.",
+      "owner_decision": null,
+      "owner_comment": "",
+      "owner_name": "",
+      "owner_date": ""
+    },
+    {
+      "scope": "mitc3-laminate-static-curved",
+      "title": "MITC3 multicouche courbe : domaine axial complet",
+      "current_status": "owner_accepted_experimental_bounded_use",
+      "target_status": "accepted_for_bounded_engineering_use (pas stable)",
+      "technical_status": "BLOCKED_EXTERNAL_COMPARABILITY",
+      "proposed_decision": "accepted_for_bounded_engineering_use",
+      "summary": "Le cas axial est sous 1 % face a Code_Aster a 64x32, mais l'increment axial depasse 5 % et les references Code_Aster/CalculiX divergent. Le raffinement seul ne justifie pas une promotion stable.",
+      "metrics": [
+        {
+          "name": "Ecart axial QF / Code_Aster a 64x32",
+          "value": "0,9066 %",
+          "limit": "1 %",
+          "status": "PASS"
+        },
+        {
+          "name": "Increment QF axial 48x24 -> 64x32",
+          "value": "8,2619 %",
+          "limit": "5 %",
+          "status": "FAIL"
+        },
+        {
+          "name": "Ecart QF / CalculiX S6 a 64x32",
+          "value": "6,420 %",
+          "limit": "1 %",
+          "status": "FAIL"
+        },
+        {
+          "name": "Ecart Code_Aster / CalculiX",
+          "value": "7,591 %",
+          "limit": "information",
+          "status": "WARNING"
+        }
+      ],
+      "questions": [
+        "Q1 : Le panneau axial peut-il etre accepte uniquement comme usage borne ?",
+        "Q2 : L'increment axial et la dispersion des oracles interdisent-ils une promotion stable ?",
+        "Q3 : Une seconde geometrie ou une reference de meme ordre doit-elle rester obligatoire ?",
+        "Q4 : Decision Owner : accepted_for_bounded_engineering_use ou more_evidence_required ?"
+      ],
+      "limitations": [
+        "Aucune revendication de certification externe.",
+        "La decision doit rester limitee aux preuves et aux observables listes.",
+        "Dommage, rupture et delamination restent hors scope sauf mention contraire.",
+        "La comparaison statique est sensible a la formulation externe DST/S6.",
+        "Dynamique courbe, autres empilements et contraintes par pli d'acceptation exclus."
+      ],
+      "evidence": [
+        "docs/verification/mitc3_laminate_curved_stable_owner_review.md",
+        "qualification/vnv/external/mitc3_curved_axial_reference_audit_2026-08-21/",
+        "qualification/vnv/external/calculix_mitc3_curved_laminate_axial_2026-08-21/reference/"
+      ],
+      "images": [
+        "qualification/maturity_evidence_0_2_1/mitc3_laminate_curved_load_families/convergence_qf_code_aster.png"
+      ],
+      "blocker": "Gate technique bloque par l'increment axial et la comparabilite externe.",
+      "owner_decision": null,
+      "owner_comment": "",
+      "owner_name": "",
+      "owner_date": ""
+    },
+    {
+      "scope": "tet4-total-lagrangian-structural-v2",
+      "title": "TET4 total-lagrangien structurel",
+      "current_status": "owner_accepted / research",
+      "target_status": "experimental borne (pas stable)",
+      "technical_status": "PASS_WITH_INDEPENDENT_REVIEW_REQUIRED",
+      "proposed_decision": "more_evidence_required",
+      "summary": "Green-Lagrange, PK2/Cauchy, imperfection et flambement sont verifies jusqu'a 98 304 TET4. L'accord CalculiX est excellent, mais la revue independante et le post-flambement restent ouverts.",
+      "metrics": [
+        {
+          "name": "Erreur Euler h5, 98 304 TET4",
+          "value": "1,896 %",
+          "limit": "information",
+          "status": "WARNING"
+        },
+        {
+          "name": "Ecart QF / CalculiX h5",
+          "value": "0,0343 %",
+          "limit": "1 %",
+          "status": "PASS"
+        },
+        {
+          "name": "Erreur PK2 Code_Aster",
+          "value": "8,54e-5",
+          "limit": "1e-3",
+          "status": "PASS"
+        },
+        {
+          "name": "Erreur Cauchy CalculiX",
+          "value": "1,17e-7",
+          "limit": "1e-3",
+          "status": "PASS"
+        }
+      ],
+      "questions": [
+        "Q1 : Les preuves couvrent-elles le flambement pre-critique et la charge critique dans le domaine declare ?",
+        "Q2 : Les trois imperfections et la limite de 98 304 TET4 sont-elles acceptees ?",
+        "Q3 : La revue independante doit-elle rester obligatoire avant toute maturite superieure ?",
+        "Q4 : Les exclusions pression suiveuse, contact, rupture et post-flambement complet sont-elles acceptees ?",
+        "Q5 : Decision Owner : experimental borne ou more_evidence_required ?"
+      ],
+      "limitations": [
+        "Aucune revendication de certification externe.",
+        "La decision doit rester limitee aux preuves et aux observables listes.",
+        "Dommage, rupture et delamination restent hors scope sauf mention contraire.",
+        "Pas de grandes deformations plastiques, contact, pression suiveuse ou rupture.",
+        "La decision presente ne ferme pas le post-flambement general."
+      ],
+      "evidence": [
+        "docs/verification/revue_tet4_total_lagrangian_structural_v2.md",
+        "qualification/vnv/tet4_tl_buckling_h5/reference/summary.json",
+        "qualification/reviews/tet4_total_lagrangian_independent_review_pending.json"
+      ],
+      "images": [
+        "docs/assets/reviews/tet4_tl_assembly_convergence.png"
+      ],
+      "blocker": "La revue independante est un gate explicite.",
+      "owner_decision": null,
+      "owner_comment": "",
+      "owner_name": "",
+      "owner_date": ""
+    },
+    {
+      "scope": "tet4-material-nonlinear",
+      "title": "TET4 J2 material nonlineaire",
+      "current_status": "experimental",
+      "target_status": "owner_accepted experimental borne",
+      "technical_status": "PASS_EXTERNAL_STRUCTURAL_BOUNDED",
+      "proposed_decision": "accepted_for_bounded_engineering_use",
+      "summary": "La campagne J2 isotrope monotone sur equerre rentrante utilise le meme maillage TET4/TETRA4 et les memes chargements que Code_Aster. La preuve structurelle est bonne mais le domaine reste petit deplacement et monotone.",
+      "metrics": [
+        {
+          "name": "Ecart RMS deplacement",
+          "value": "4,66e-14",
+          "limit": "1e-2",
+          "status": "PASS"
+        },
+        {
+          "name": "Ecart RMS PEEQ",
+          "value": "2,89e-15",
+          "limit": "1e-2",
+          "status": "PASS"
+        },
+        {
+          "name": "Residu relatif maximal",
+          "value": "1,36e-12",
+          "limit": "1e-7",
+          "status": "PASS"
+        },
+        {
+          "name": "Elements de la correlation",
+          "value": "244 TET4",
+          "limit": "cas documente",
+          "status": "PASS"
+        }
+      ],
+      "questions": [
+        "Q1 : La geometrie rentrante et le chargement monotone couvrent-ils le domaine J2 revendique ?",
+        "Q2 : Les limites petites deformations, isotropie et ecrouissage lineaire sont-elles acceptees ?",
+        "Q3 : Une correlation structurelle cyclique externe est-elle requise avant toute promotion stable ?",
+        "Q4 : Decision Owner : accepted_for_bounded_engineering_use ou more_evidence_required ?"
+      ],
+      "limitations": [
+        "Aucune revendication de certification externe.",
+        "La decision doit rester limitee aux preuves et aux observables listes.",
+        "Dommage, rupture et delamination restent hors scope sauf mention contraire.",
+        "Chargement inverse, grandes deformations, contact, rupture et dommage exclus.",
+        "La correlation externe ne couvre pas tous les chemins cycliques."
+      ],
+      "evidence": [
+        "docs/verification/tet4_j2_structural_code_aster.md",
+        "qualification/maturity_evidence_0_2_1/tet4_j2.json",
+        "qualification/vnv/external/code_aster_tet4_j2_complex/reference/"
+      ],
+      "images": [
+        "qualification/maturity_evidence_0_2_1/tet4_j2_structural_campaign/cyclic_response.png"
+      ],
+      "blocker": "",
+      "owner_decision": null,
+      "owner_comment": "",
+      "owner_name": "",
+      "owner_date": ""
+    },
+    {
+      "scope": "tet10-material-nonlinear",
+      "title": "TET10 J2 material nonlineaire",
+      "current_status": "owner_accepted_experimental_bounded_use",
+      "target_status": "owner_accepted experimental borne",
+      "technical_status": "PASS_EXTERNAL_STRUCTURAL_BOUNDED",
+      "proposed_decision": "accepted_for_bounded_engineering_use",
+      "summary": "Le support en L quadratique et la loi J2 sont compares a Code_Aster sur cinq facteurs de charge. Les observables globales sont coherentes, mais les limites de petites deformations et de materiau isotrope restent strictes.",
+      "metrics": [
+        {
+          "name": "Ecart RMS deplacement",
+          "value": "0,01245 %",
+          "limit": "10 %",
+          "status": "PASS"
+        },
+        {
+          "name": "Ecart final deplacement",
+          "value": "0,00227 %",
+          "limit": "10 %",
+          "status": "PASS"
+        },
+        {
+          "name": "Ecart RMS PEEQ",
+          "value": "1,84443 %",
+          "limit": "15 %",
+          "status": "PASS"
+        },
+        {
+          "name": "Residu QF maximal",
+          "value": "1,97e-09",
+          "limit": "1e-7",
+          "status": "PASS"
+        }
+      ],
+      "questions": [
+        "Q1 : Le support en L et les facteurs 0,25 a 1,10 couvrent-ils le domaine J2 borne ?",
+        "Q2 : Les exclusions rupture, dommage, contact et grandes deformations sont-elles acceptees ?",
+        "Q3 : Une preuve structurelle sur un second chemin de chargement est-elle necessaire avant stable ?",
+        "Q4 : Decision Owner : accepted_for_bounded_engineering_use ou more_evidence_required ?"
+      ],
+      "limitations": [
+        "Aucune revendication de certification externe.",
+        "La decision doit rester limitee aux preuves et aux observables listes.",
+        "Dommage, rupture et delamination restent hors scope sauf mention contraire.",
+        "Une seule geometrie structurelle externe est disponible.",
+        "Les seuils historiques de 10/15 % ne constituent pas la regle stable generale a 1 %."
+      ],
+      "evidence": [
+        "docs/verification/tet10_j2_complex_code_aster.md",
+        "qualification/maturity_evidence_0_2_1/tet10_j2.json",
+        "qualification/vnv/external/code_aster_tet10_j2_complex/reference/"
+      ],
+      "images": [
+        "docs/assets/reviews/tet10_j2_complex_comparison.png"
+      ],
+      "blocker": "",
+      "owner_decision": null,
+      "owner_comment": "",
+      "owner_name": "",
+      "owner_date": ""
+    },
+    {
+      "scope": "orthotropic-solid-tet4-tet10",
+      "title": "Solides orthotropes statiques TET4/TET10",
+      "current_status": "supplementary_scope / accepted_with_recommendations",
+      "target_status": "owner_accepted (borne)",
+      "technical_status": "PASS_EXTERNAL_CORRELATION",
+      "proposed_decision": "accepted_with_recommendations",
+      "summary": "Les noyaux orthotropes et les correlations externes sont PASS. Le TET4 passe le gate technique sous 1 % sur la campagne CG raffinee; le TET10 est sous 1 % sur sa campagne de reference.",
+      "metrics": [
+        {
+          "name": "TET4 erreur deplacement, CG fin",
+          "value": "0,8772 %",
+          "limit": "1 %",
+          "status": "PASS"
+        },
+        {
+          "name": "TET4 erreur energie, CG fin",
+          "value": "0,8647 %",
+          "limit": "1 %",
+          "status": "PASS"
+        },
+        {
+          "name": "TET10 erreur deplacement",
+          "value": "0,2918 %",
+          "limit": "1 %",
+          "status": "PASS"
+        },
+        {
+          "name": "Residue TET4 CG fin",
+          "value": "9,963e-09",
+          "limit": "1e-8",
+          "status": "WARNING"
+        }
+      ],
+      "questions": [
+        "Q1 : Les conventions E1/E2/E3, Poisson, cisaillements et axes locaux sont-elles acceptees ?",
+        "Q2 : Les campagnes TET4/TET10 et les deux correlations externes couvrent-elles le domaine statique borne ?",
+        "Q3 : Les singularites, l'orientation continue courbe, le composite pli par pli et la plasticite anisotrope restent-ils exclus ?",
+        "Q4 : Decision Owner : owner_accepted, accepted_with_recommendations ou more_evidence_required ?"
+      ],
+      "limitations": [
+        "Aucune revendication de certification externe.",
+        "La decision doit rester limitee aux preuves et aux observables listes.",
+        "Dommage, rupture et delamination restent hors scope sauf mention contraire.",
+        "Le champ d'orientation continue sur courbe et le composite pli par pli sont exclus.",
+        "Verifier la coherence entre l'ancien texte 1,3293 % et la campagne CG actuelle 0,8772 % avant signature."
+      ],
+      "evidence": [
+        "docs/verification/orthotropic_static_extended_owner_review.md",
+        "qualification/maturity_evidence_0_2_1/orthotropic.json",
+        "qualification/vnv/external/orthotropic_solids/reference/summary.json"
+      ],
+      "images": [
+        "qualification/vnv/orthotropic_solid_convergence_large_cg_006/reference/orthotropic_convergence.png"
+      ],
+      "blocker": "Une incoherence documentaire ancienne doit etre confirmee par la source archivee avant fermeture.",
+      "owner_decision": null,
+      "owner_comment": "",
+      "owner_name": "",
+      "owner_date": ""
+    },
+    {
+      "scope": "orthotropic-solid-modal",
+      "title": "Solide orthotrope modal",
+      "current_status": "supplementary_scope / ready_for_owner_review",
+      "target_status": "owner_accepted (borne)",
+      "technical_status": "PASS_EXTERNAL_CORRELATION",
+      "proposed_decision": "accepted_with_recommendations",
+      "summary": "La masse coherente, les frequences, les residus et l'orthogonalite sont verifies sur quatre niveaux de maillage, avec une correlation Code_Aster sur la meme grille.",
+      "metrics": [
+        {
+          "name": "Erreur frequence theorie fine",
+          "value": "0,007717 %",
+          "limit": "1 %",
+          "status": "PASS"
+        },
+        {
+          "name": "Residu modal fin",
+          "value": "2,625e-12",
+          "limit": "1e-8",
+          "status": "PASS"
+        },
+        {
+          "name": "Orthogonalite masse",
+          "value": "1,122e-16",
+          "limit": "1e-8",
+          "status": "PASS"
+        },
+        {
+          "name": "Ecart frequence Code_Aster",
+          "value": "1,205e-13",
+          "limit": "1e-6",
+          "status": "PASS"
+        }
+      ],
+      "questions": [
+        "Q1 : Les quatre niveaux de maillage et la masse coherente couvrent-ils le domaine modal orthotrope teste ?",
+        "Q2 : Les axes materiau, l'invariance de masse et les residus sont-ils acceptables ?",
+        "Q3 : Les exclusions composite pli par pli, dommage et grandes deformations sont-elles maintenues ?",
+        "Q4 : Decision Owner : owner_accepted ou accepted_with_recommendations ?"
+      ],
+      "limitations": [
+        "Aucune revendication de certification externe.",
+        "La decision doit rester limitee aux preuves et aux observables listes.",
+        "Dommage, rupture et delamination restent hors scope sauf mention contraire.",
+        "Modele axial 3D borne; pas de champ d'orientation variable ni de dynamique distribuee generale."
+      ],
+      "evidence": [
+        "qualification/vnv/orthotropic_modal_newmark/reference/summary.json",
+        "qualification/reviews/orthotropic_modal_owner_review_pending.json",
+        "tests/verification/test_orthotropic_modal_newmark_vnv.py"
+      ],
+      "images": [
+        "qualification/vnv/orthotropic_modal_newmark/reference/modal_convergence.png"
+      ],
+      "blocker": "",
+      "owner_decision": null,
+      "owner_comment": "",
+      "owner_name": "",
+      "owner_date": ""
+    },
+    {
+      "scope": "orthotropic-solid-transient-dynamic",
+      "title": "Solide orthotrope transitoire Newmark",
+      "current_status": "supplementary_scope / ready_for_owner_review",
+      "target_status": "owner_accepted (borne)",
+      "technical_status": "PASS_EXTERNAL_CORRELATION",
+      "proposed_decision": "accepted_with_recommendations",
+      "summary": "La reponse Newmark est verifiee sur huit pas de temps avec zero derive energetique archivee et une correlation Code_Aster sur la meme grille temporelle.",
+      "metrics": [
+        {
+          "name": "Erreur de raffinement temporel",
+          "value": "0,1119 %",
+          "limit": "1 %",
+          "status": "PASS"
+        },
+        {
+          "name": "Residu dynamique maximal",
+          "value": "2,228e-10",
+          "limit": "1e-7",
+          "status": "PASS"
+        },
+        {
+          "name": "Derive energetique",
+          "value": "0",
+          "limit": "1e-4",
+          "status": "PASS"
+        },
+        {
+          "name": "Ecart historique Code_Aster",
+          "value": "6,254e-14",
+          "limit": "1e-5",
+          "status": "PASS"
+        }
+      ],
+      "questions": [
+        "Q1 : Les huit niveaux de pas et le schema Newmark couvrent-ils le domaine transitoire orthotrope teste ?",
+        "Q2 : La masse, l'amortissement nul et les conventions d'axes sont-ils acceptables ?",
+        "Q3 : Les exclusions non-linearite, dommage, grandes deformations et pli-par-pli sont-elles maintenues ?",
+        "Q4 : Decision Owner : owner_accepted ou accepted_with_recommendations ?"
+      ],
+      "limitations": [
+        "Aucune revendication de certification externe.",
+        "La decision doit rester limitee aux preuves et aux observables listes.",
+        "Dommage, rupture et delamination restent hors scope sauf mention contraire.",
+        "La validation ne couvre pas l'endommagement ni le composite pli par pli.",
+        "La dynamique courbe et distribuee reste hors du perimetre."
+      ],
+      "evidence": [
+        "qualification/vnv/orthotropic_modal_newmark/reference/summary.json",
+        "qualification/reviews/orthotropic_transient_dynamic_owner_review_pending.json",
+        "tests/verification/test_orthotropic_modal_newmark_vnv.py"
+      ],
+      "images": [
+        "qualification/vnv/orthotropic_modal_newmark/reference/newmark_convergence.png"
+      ],
+      "blocker": "",
+      "owner_decision": null,
+      "owner_comment": "",
+      "owner_name": "",
+      "owner_date": ""
+    },
+    {
+      "scope": "contact-v1-linear-static-bounded",
+      "title": "Contact unilateral sans frottement",
+      "current_status": "owner_accepted / engineering_ready_bounded",
+      "target_status": "accepted_for_bounded_engineering_use (maintien)",
+      "technical_status": "PASS_EXTERNAL_CORRELATION",
+      "proposed_decision": "accepted_for_bounded_engineering_use",
+      "summary": "Les cas ouverture/fermeture, face TET4 deformable, surface pliee et confirmation 9 984 TET4 sont documentes. Le resultat ne qualifie pas le contact general.",
+      "metrics": [
+        {
+          "name": "Ecart final sur 9 984 TET4",
+          "value": "3,3029e-12 %",
+          "limit": "5 %",
+          "status": "PASS"
+        },
+        {
+          "name": "Jeu final maximal",
+          "value": "9,7145e-16 m",
+          "limit": "1e-8 m",
+          "status": "PASS"
+        },
+        {
+          "name": "Ecart moyen recherche de pli",
+          "value": "0,1157 %",
+          "limit": "1 %",
+          "status": "PASS"
+        }
+      ],
+      "questions": [
+        "Q1 : Les preuves de contact unilateral et les modeles complementaires couvrent-ils le domaine borne ?",
+        "Q2 : Les gaps, reactions, normales et active-set sont-ils correctement interpretes ?",
+        "Q3 : Les limites surface-surface general, grand glissement, impact et usure sont-elles acceptees ?",
+        "Q4 : Decision Owner : maintenir accepted_for_bounded_engineering_use ou demander plus d'evidence ?"
+      ],
+      "limitations": [
+        "Aucune revendication de certification externe.",
+        "La decision doit rester limitee aux preuves et aux observables listes.",
+        "Dommage, rupture et delamination restent hors scope sauf mention contraire.",
+        "Contact surface-surface general, grand glissement, impact et usure exclus.",
+        "La decision ne s'etend pas au frottement."
+      ],
+      "evidence": [
+        "docs/verification/revue_contact_v1.md",
+        "qualification/reviews/contact_v1_linear_static_bounded_2026-07-29.json",
+        "results/VNV-CONTACT-ADDITIONAL-MODELS-008/"
+      ],
+      "images": [
+        "docs/assets/reviews/contact_code_aster_additional_curves.png",
+        "docs/assets/reviews/contact_additional_models.png"
+      ],
+      "blocker": "",
+      "owner_decision": null,
+      "owner_comment": "",
+      "owner_name": "",
+      "owner_date": ""
+    },
+    {
+      "scope": "contact-frictional-static",
+      "title": "Contact statique avec frottement",
+      "current_status": "experimental",
+      "target_status": "owner_accepted experimental borne",
+      "technical_status": "PASS_EXTERNAL_CORRELATION_SLIP_ONLY",
+      "proposed_decision": "accepted_for_bounded_engineering_use",
+      "summary": "Trois familles internes et trois niveaux par famille sont verifies. Code_Aster est compare sur trois charges tangentielles, uniquement sur la branche slip.",
+      "metrics": [
+        {
+          "name": "Ecart UX Code_Aster, charge 200 N",
+          "value": "0,607 %",
+          "limit": "5 %",
+          "status": "PASS"
+        },
+        {
+          "name": "Ecart UX Code_Aster, charge 250 N",
+          "value": "0,456 %",
+          "limit": "5 %",
+          "status": "PASS"
+        },
+        {
+          "name": "Ecart UX Code_Aster, charge 300 N",
+          "value": "0,365 %",
+          "limit": "5 %",
+          "status": "PASS"
+        },
+        {
+          "name": "Families internes",
+          "value": "3 x 3 niveaux",
+          "limit": "preuve interne",
+          "status": "PASS"
+        }
+      ],
+      "questions": [
+        "Q1 : Les trois familles et les trois niveaux de maillage sont-ils suffisants pour la branche slip ?",
+        "Q2 : Le cone de Coulomb, les gaps et la dissipation sont-ils correctement verifies ?",
+        "Q3 : La correlation Code_Aster slip est-elle acceptee comme preuve externe partielle ?",
+        "Q4 : La branche stick, le grand glissement et le contact surface-surface general restent-ils hors scope ?",
+        "Q5 : Decision Owner : owner_accepted experimental borne ou more_evidence_required ?"
+      ],
+      "limitations": [
+        "Aucune revendication de certification externe.",
+        "La decision doit rester limitee aux preuves et aux observables listes.",
+        "Dommage, rupture et delamination restent hors scope sauf mention contraire.",
+        "La branche stick n'est pas fermee par correlation externe.",
+        "Grand glissement, normales actualisees, impacts, usure et contact dynamique exclus."
+      ],
+      "evidence": [
+        "docs/verification/contact_frottement_vnv.md",
+        "qualification/maturity_evidence_0_2_1/contact_frictional_static.json",
+        "qualification/maturity_evidence_0_2_1/contact_frictional_family_survey/summary.json"
+      ],
+      "images": [
+        "qualification/maturity_evidence_0_2_1/contact_friction_code_aster_three_loads/code_aster_friction_comparison.png",
+        "qualification/maturity_evidence_0_2_1/contact_frictional_family_survey/frictional_contact_family_survey.png"
+      ],
+      "blocker": "",
+      "owner_decision": null,
+      "owner_comment": "",
+      "owner_name": "",
+      "owner_date": ""
+    },
+    {
+      "scope": "large-tet4-linear-static",
+      "title": "Grand modele TET4 statique lineaire PETSc/MPI",
+      "current_status": "experimental / PASS_INTERNAL_WITH_LIMITATIONS",
+      "target_status": "accepted_for_bounded_engineering_use",
+      "technical_status": "PASS_SCALABLE_PIPELINE_WITH_LIMITED_SCALING",
+      "proposed_decision": "accepted_for_bounded_engineering_use",
+      "summary": "Le chemin HDF5, MPI, assembleur par blocs, AIJ/BAIJ et KSP GAMG est verifie jusqu'a 3 millions de DDL. La mesure de scaling reste limitee a une station et une image conteneur.",
+      "metrics": [
+        {
+          "name": "Cas 1 M DDL",
+          "value": "1 029 000 DDL / 1 971 054 TET4",
+          "limit": "PASS",
+          "status": "PASS"
+        },
+        {
+          "name": "Cas 3 M DDL",
+          "value": "3 000 000 DDL / 5 821 794 TET4",
+          "limit": "PASS",
+          "status": "PASS"
+        },
+        {
+          "name": "Residue 3 M DDL",
+          "value": "8,997e-19",
+          "limit": "diagnostic",
+          "status": "PASS"
+        },
+        {
+          "name": "Weak scaling, 4 rangs",
+          "value": "41,6 %",
+          "limit": "60 %",
+          "status": "WARNING"
+        }
+      ],
+      "questions": [
+        "Q1 : Les cas 100 k, 1 M et 3 M DDL demontrent-ils le perimetre TET4 isotrope statique ?",
+        "Q2 : Les limites de machine, memoire, image Docker, PETSc/MPI et scaling sont-elles acceptables ?",
+        "Q3 : Le statut bounded est-il prefere a une revendication HPC generale ?",
+        "Q4 : Decision Owner : accepted_for_bounded_engineering_use ou more_evidence_required ?"
+      ],
+      "limitations": [
+        "Aucune revendication de certification externe.",
+        "La decision doit rester limitee aux preuves et aux observables listes.",
+        "Dommage, rupture et delamination restent hors scope sauf mention contraire.",
+        "Une seule configuration materielle est mesuree; weak scaling 4 rangs sous le seuil provisoire.",
+        "MITC4, TET10, non-lineaire, modal et transitoire grand modele exclus."
+      ],
+      "evidence": [
+        "qualification/maturity_evidence_0_2_1/large_tet4_linear_static.json",
+        "results_large/qualification_matrix_free_1m/large_readiness.md",
+        "tests/integration/test_large_model.py"
+      ],
+      "images": [
+        "docs/assets/generated/large_model_summary.png"
+      ],
+      "blocker": "",
+      "owner_decision": null,
+      "owner_comment": "",
+      "owner_name": "",
+      "owner_date": ""
+    },
+    {
+      "scope": "mitc4-orthotropic-curved-out-of-acceptance",
+      "title": "MITC4 orthotrope courbe",
+      "current_status": "out_of_acceptance",
+      "target_status": "hors acceptance",
+      "technical_status": "DIAGNOSTIC_ONLY",
+      "proposed_decision": "no_decision",
+      "summary": "Ce cas est conserve comme diagnostic, pas comme dossier de promotion. L'orientation non axiale projetee sur une surface courbe n'est pas encore comparable de facon suffisante pour une acceptation.",
+      "metrics": [
+        {
+          "name": "Courbe mono-pli 0 deg, UZ",
+          "value": "0,012 %",
+          "limit": "diagnostic",
+          "status": "PASS"
+        },
+        {
+          "name": "Orientation courbe non axiale",
+          "value": "preuve incomplete",
+          "limit": "hors acceptance",
+          "status": "WARNING"
+        },
+        {
+          "name": "Dommage / rupture / delamination",
+          "value": "non traite",
+          "limit": "hors acceptance",
+          "status": "WARNING"
+        }
+      ],
+      "questions": [
+        "Q1 : Confirmer que ce cas reste explicitement hors acceptance.",
+        "Q2 : Confirmer qu'aucune preuve des solides orthotropes n'est reutilisee pour ce cas MITC4 courbe.",
+        "Q3 : Confirmer que l'orientation continue courbe fera l'objet d'une campagne distincte.",
+        "Q4 : Decision : hors acceptance, sans promotion."
+      ],
+      "limitations": [
+        "Aucune revendication de certification externe.",
+        "La decision doit rester limitee aux preuves et aux observables listes.",
+        "Dommage, rupture et delamination restent hors scope sauf mention contraire.",
+        "Orientation non axiale projetee sur surface courbe non qualifiee.",
+        "Ce dossier ne doit pas etre compte parmi les scopes stables."
+      ],
+      "evidence": [
+        "docs/verification/mitc4_stable_package/owner_review.md",
+        "qualification/vnv/mitc4_stable_package_2026-08-21/study.json",
+        "docs/verification/mitc4_same_order_oracle_probe.md"
+      ],
+      "images": [
+        "results/mitc4_orthotropic_curved_projected_one_ply_calculix_20260821/curved_orientation_correlation.png"
+      ],
+      "blocker": "Ce perimetre reste volontairement exclu et ne doit pas etre promu.",
+      "owner_decision": null,
+      "owner_comment": "",
+      "owner_name": "",
+      "owner_date": ""
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "review_id": "OWNER-REVIEW-BEAM2-LS-2026-08-20",
+  "review_mode": "owner_review",
+  "status": "accepted_with_recommendations",
+  "scope": ["beam2-linear-static"],
+  "decision": "accepted_with_recommendations",
+  "promotion_target": "owner_accepted",
+  "responses": {
+    "Q1": "yes",
+    "Q2": "yes: Code_Aster POU_D_E on matching meshes is sufficient in the slender-beam domain.",
+    "Q3": "yes: final displacement error 0.002808 percent and refinement increments are acceptable.",
+    "Q4": "yes: thick beams, joints, contact and geometric nonlinearity remain excluded.",
+    "Q5": "accepted_with_recommendations"
+  },
+  "evidence": [
+    "qualification/maturity_evidence_0_2_1/beam2_static_code_aster/summary.json",
+    "qualification/maturity_evidence_0_2_1/beam2_static_code_aster/report.md",
+    "qualification/maturity_evidence_0_2_1/beam2_static_code_aster/beam2_static_code_aster.png"
+  ],
+  "certification_claim": "none",
+  "signature": {
+    "name": "Quentin Farinazzo",
+    "mode": "electronic owner_review declaration",
+    "date": "2026-08-20",
+    "declaration": "Decision Owner acceptee pour le domaine borne, sans revendication de certification externe."
+  }
+}

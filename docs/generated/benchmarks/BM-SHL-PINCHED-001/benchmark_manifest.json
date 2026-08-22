@@ -1,16 +1,16 @@
 {
   "manifest_schema_version": 1,
-  "created_at_utc": "2026-08-10T07:56:50.592810Z",
+  "created_at_utc": "2026-08-14T21:30:59.427878Z",
   "solver": {
     "name": "QF_solver",
-    "version": "0.2.0a0"
+    "version": "0.2.1a0"
   },
   "benchmark_id": "BM-SHL-PINCHED-001",
   "profile": "engineering",
   "status": "PASS",
   "source": {
     "repository": ".",
-    "revision": "c8d7fcf4fb176c9cd595360ffd0f4417c19285ce",
+    "revision": "1804a03aee0c4e4bc6ac2c56e9461bedd9aac6d4",
     "dirty": true
   },
   "runtime": {
@@ -61,13 +61,13 @@
       "role": "benchmark_artifact",
       "path": "result.import_report.json",
       "size_bytes": 1369,
-      "sha256": "23e11ebe32d095373212d87fa4d83e38bf88326aa82bca2146a343b99843c3e5"
+      "sha256": "c00aa1dd29a289056833a5df1ee39d6804be7a9328deaaa2b57635f4ee92b6fe"
     },
     {
       "role": "benchmark_artifact",
       "path": "result.json",
       "size_bytes": 73457965,
-      "sha256": "2414b9e7e7a72ab98618b5c0e2377e6f50f614f2dd80010812934ff09b2982e2"
+      "sha256": "cf13c6ff3e84019bb241cfc841ba8000b5d7d135e37f0a4dd12a8944c5e6100f"
     },
     {
       "role": "benchmark_artifact",

@@ -6,7 +6,7 @@ from pathlib import Path
 
 import numpy as np
 
-from mitc4.mesh import MeshFactory, QuadMesh
+from solveur.elements.shell.mitc4.mesh import MeshFactory, QuadMesh
 
 from solveur.api import solve_model
 from solveur.core.model import FiniteElementModel

@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "policy_id": "QF-STRESS-OBSERVABLE-TET10-021-001",
+  "scope": "tet10-stable-batch-01",
+  "purpose": "Define which stress quantities can support acceptance and which remain informative.",
+  "acceptance_observables": [
+    "fixed_distance_path",
+    "interior_element_stress_vector",
+    "interior_band_average"
+  ],
+  "informative_only_observables": [
+    "pointwise_peak_at_true_singularity",
+    "nodal_extrapolated_peak_at_load_or_clamp"
+  ],
+  "interior_probe": {
+    "minimum_probe_count": 3,
+    "minimum_margin_fraction": 0.2,
+    "excluded_boundaries": [
+      "clamp_face",
+      "load_face",
+      "point_load",
+      "reentrant_corner"
+    ]
+  },
+  "acceptance_thresholds": {
+    "minimum_mesh_levels": 3,
+    "final_path_increment": 0.05,
+    "final_band_increment": 0.05,
+    "reference_relative_error": 0.1
+  },
+  "current_evidence": [
+    "qualification/maturity_evidence_0_2_1/tet10_stress_probe_code_aster/summary.json",
+    "qualification/maturity_evidence_0_2_1/tet10_stress_probe_cantilever_code_aster/summary.json",
+    "qualification/maturity_evidence_0_2_1/tet10_stress_probe_cylinder_code_aster/summary.json"
+  ],
+  "promotion_rule": "Pointwise singular peaks cannot close ST-C08; stable promotion requires the bounded observables and the dated Owner decision.",
+  "certification_claim": "none"
+}

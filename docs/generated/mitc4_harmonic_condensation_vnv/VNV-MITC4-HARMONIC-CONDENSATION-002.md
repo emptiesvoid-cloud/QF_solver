@@ -14,10 +14,10 @@ eliminee est `ud=Kdd^-1*(fd/a-Kdp*up)`.
 
 | Controle | Erreur maximale | Limite |
 | --- | ---: | ---: |
-| Complement de Schur | 9.618e-17 | 1.0e-11 |
-| Charge condensee | 1.395e-16 | 1.0e-11 |
-| Reponse condensee / systeme complet | 4.125e-11 | 1.0e-09 |
-| Equilibre complexe complet | 7.812e-11 | 1.0e-08 |
+| Complement de Schur | 7.922e-17 | 1.0e-11 |
+| Charge condensee | 1.248e-16 | 1.0e-11 |
+| Reponse condensee / systeme complet | 3.283e-11 | 1.0e-09 |
+| Equilibre complexe complet | 7.828e-11 | 1.0e-08 |
 
 Statut : **PASS**.
 

@@ -3,33 +3,33 @@
   "study_id": "VNV-MITC4-LAMINATE-DYNAMIC-001",
   "source": {
     "repository": ".",
-    "revision": "c8d7fcf4fb176c9cd595360ffd0f4417c19285ce",
+    "revision": "1804a03aee0c4e4bc6ac2c56e9461bedd9aac6d4",
     "dirty": true
   },
   "files": [
     {
       "role": "mitc4_laminate_dynamic_vnv",
       "path": "summary.json",
-      "size_bytes": 33586,
-      "sha256": "a723d002942028233599e4164d709931cb68a713e8b6ab96d179f6fb169aae94"
+      "size_bytes": 33592,
+      "sha256": "92fe7e2daa2f03fd4fd51bad4a13bd38ae35373fa6b05a87a4047ddebeb88358"
     },
     {
       "role": "mitc4_laminate_dynamic_vnv",
       "path": "VNV-MITC4-LAMINATE-DYNAMIC-001-harmonic.png",
-      "size_bytes": 67705,
-      "sha256": "14a644d8e92c73e1fa35dd8c3ccf275ad2a159daf5354f673f197b4c966627e7"
+      "size_bytes": 68725,
+      "sha256": "03f72f4b9da0330832189bf046a3d3385aa4700c32b8af60365b8913c72b4248"
     },
     {
       "role": "mitc4_laminate_dynamic_vnv",
       "path": "VNV-MITC4-LAMINATE-DYNAMIC-001-newmark.png",
-      "size_bytes": 106160,
-      "sha256": "b992742b7d4e22cf1f4ea2c99ae9c07da001db8d97b5385c2c8d2093e0d27392"
+      "size_bytes": 105988,
+      "sha256": "b5718595e2ee2543367ee64f07006671a69cadfe0b4773118883961f430c1a1b"
     },
     {
       "role": "mitc4_laminate_dynamic_vnv",
       "path": "VNV-MITC4-LAMINATE-DYNAMIC-001.md",
-      "size_bytes": 1527,
-      "sha256": "9263fe915b01aa29a139a9e0157bfbe8343eb2cfadc3a4831d9c42a63d62fbb3"
+      "size_bytes": 1513,
+      "sha256": "963609e16e00958afcf417463cdc5fdc29ad373722ecb35d82c20bf4229aa2f4"
     }
   ]
 }

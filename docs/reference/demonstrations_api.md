@@ -85,7 +85,7 @@ Le plan grand modele exige `large_campaign.json`, `large_campaign.md` et
 resultat de resolution.
 Le controle est
 volontairement separe de `list_demonstrations()` afin qu'une installation de la
-bibliotheque reste utilisable sans site MkDocs installe.
+bibliotheque reste utilisable sans outillage de publication documentaire installe.
 
 `list_benchmarks()` et `run_benchmark()` restent les interfaces compatibles du
 catalogue de onze benchmarks mailles existant. Le futur registre transverse
@@ -115,4 +115,4 @@ code, aux tests et aux artefacts de sortie.
 Une page ou un cas sans reference, test, runner ou limite ne pourra pas etre
 publie comme demonstration complete. Une demonstration complete reste une
 preuve de reproductibilite et de verification; elle ne remplace pas une revue
-mecanique humaine ni une qualification externe.
+mecanique `owner_review` ni une qualification externe.

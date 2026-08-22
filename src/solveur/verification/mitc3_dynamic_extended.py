@@ -357,7 +357,15 @@ def _shell_model(nodes: np.ndarray, triangles: np.ndarray, *, fixed: list[dict[s
 def _modal_analysis(method: str) -> dict[str, object]:
     values: dict[str, object] = {"type": "modal", "method": method, "modes": 10, "dense_modal_max_dofs": 6000, "modal_residual_failure_tolerance": 1.0e-7}
     if method == "eigsh":
-        values.update({"arpack_tolerance": 1.0e-10, "arpack_maxiter": 10000, "arpack_ncv": 30})
+        # The lowest shell modes are poorly conditioned without shift-invert.
+        # Keep the sparse route and make the choice explicit in the evidence.
+        values.update({
+            "arpack_tolerance": 1.0e-10,
+            "arpack_maxiter": 10000,
+            "arpack_ncv": 30,
+            "modal_shift_eigenvalue": 1.0,
+            "arpack_which": "LM",
+        })
     return values
 
 

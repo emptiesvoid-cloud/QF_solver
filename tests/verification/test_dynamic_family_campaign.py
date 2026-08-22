@@ -25,3 +25,5 @@ def test_linear_dynamic_family_campaign_is_reproducible(tmp_path, family: str) -
     assert stored["study_id"] == f"VNV-{family}-LINEAR-DYNAMICS-001"
     assert stored["studies"]["harmonic"]["zero_frequency_static_error"] <= 1.0e-8
     assert stored["studies"]["newmark"]["maximum_energy_drift"] <= 1.0e-4
+    assert stored["studies"]["newmark"]["time_refinement_error_max"] <= 1.0e-2
+    assert stored["studies"]["newmark"]["time_level_count"] == 4

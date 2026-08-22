@@ -3,29 +3,15 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[2]
-REVIEW = ROOT / "qualification" / "reviews" / "mitc4_harmonic_response_pending.json"
 ACCEPTED_REVIEW = (
     ROOT / "qualification" / "reviews" / "mitc4_harmonic_response_2026-07-15.json"
 )
 
 
-def test_mitc4_harmonic_pending_review_points_to_signed_record() -> None:
-    data = json.loads(REVIEW.read_text(encoding="utf-8"))
-
-    assert data["scope"] == "mitc4-harmonic-response"
-    assert data["technical_status"] == "superseded_by_signed_review"
-    assert data["decision"] == "superseded_by_signed_review"
-    assert data["decision_date"] is None
-    assert data["signature"] is None
-    assert data["superseded_by"].endswith("mitc4_harmonic_response_2026-07-15.json")
-    assert data["review_mode"] == "self_review"
-    assert data["independence"] == "not_independent"
-    assert set(data["evidence"]) == {
-        "VNV-MITC4-HARMONIC-MODAL-001",
-        "VNV-MITC4-HARMONIC-CONDENSATION-002",
-        "VNV-MITC4-HARMONIC-BROADBAND-003",
-        "VNV-MITC4-HARMONIC-NAFEMS13H-004",
-    }
+def test_mitc4_harmonic_stale_pending_review_is_removed() -> None:
+    stale = ROOT / "qualification" / "reviews" / "mitc4_harmonic_response_pending.json"
+    assert not stale.exists()
+    assert ACCEPTED_REVIEW.is_file()
 
 
 def test_mitc4_harmonic_review_evidence_has_executable_tests() -> None:

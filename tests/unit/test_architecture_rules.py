@@ -7,7 +7,7 @@ MAX_SOURCE_LINES = 700
 
 
 def test_python_source_files_stay_under_700_lines():
-    roots = [PROJECT_ROOT / "src" / name for name in ("solveur", "mitc4")]
+    roots = [PROJECT_ROOT / "src" / "solveur"]
     roots.extend(PROJECT_ROOT / name for name in ("scripts", "tests"))
     oversized: list[str] = []
     for root in roots:
@@ -34,10 +34,26 @@ def test_solver_layers_do_not_import_forbidden_upper_layers():
     assert violations == []
 
 
+def test_product_code_keeps_mitc4_compatibility_inside_solver_namespace():
+    violations: list[str] = []
+    product_root = PROJECT_ROOT / "src" / "solveur"
+    for path in product_root.rglob("*.py"):
+        tree = ast.parse(path.read_text(encoding="utf-8"))
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Import):
+                imported = [alias.name for alias in node.names]
+            elif isinstance(node, ast.ImportFrom) and node.module:
+                imported = [node.module]
+            else:
+                continue
+            if any(name == "mitc4" or name.startswith("mitc4.") for name in imported):
+                violations.append(f"{path.relative_to(PROJECT_ROOT)}: imports removed top-level mitc4 package")
+    assert violations == []
+
+
 def test_sha256_helper_is_centralized_outside_tests():
     definitions: list[str] = []
-    for root_name in ("solveur", "mitc4"):
-        for path in (PROJECT_ROOT / "src" / root_name).rglob("*.py"):
+    for path in (PROJECT_ROOT / "src" / "solveur").rglob("*.py"):
             tree = ast.parse(path.read_text(encoding="utf-8"))
             for node in ast.walk(tree):
                 if isinstance(node, ast.FunctionDef) and "sha256" in node.name.lower():

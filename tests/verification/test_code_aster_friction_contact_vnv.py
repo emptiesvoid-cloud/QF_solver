@@ -15,7 +15,7 @@ def test_code_aster_saturated_sliding_matches_qf_solver(tmp_path) -> None:
 
     assert summary["status"] == "PASS_EXTERNAL_CORRELATION"
     assert all(check["status"] == "PASS" for check in summary["checks"])
-    assert summary["cases"][0]["qf_state"] == "slip"
+    assert [row["qf_state"] for row in summary["cases"]] == ["slip", "slip", "slip"]
     assert (tmp_path / "code_aster_friction_comparison.png").stat().st_size > 10_000
-    assert (tmp_path / "slip" / "code_aster_stdout.log").is_file()
+    assert (tmp_path / "slip_200" / "code_aster_stdout.log").is_file()
     assert (tmp_path / "vnv_manifest.json").is_file()

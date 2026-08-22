@@ -251,7 +251,7 @@ La commande produit :
 | Fichier | Contenu |
 | --- | --- |
 | `comparison.json` | Ecarts, convergence, checks et statut de revue |
-| `study_report.md` | Etude complete lisible et checklist humaine |
+| `study_report.md` | Etude complete lisible et checklist `owner_review` |
 | `convergence.png` | Courbes d'erreur pour les grandeurs declarees |
 | `inputs/` | Copie autonome du protocole et des resultats normalises |
 | `artifacts/` | Copies autonomes des PNG, VTU et sources declarees |

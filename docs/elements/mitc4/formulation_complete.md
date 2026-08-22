@@ -108,8 +108,8 @@ eventuelle a la penalisation de drilling.
 
 | Objet | Code | Preuve | Exigence |
 | --- | --- | --- | --- |
-| Base, cinematique et matrices | `mitc4/element.py` | modes rigides et patch membrane | `REQ-SOL-002` |
-| Tying MITC | `mitc4/element.py` | patch cisaillement et locking | `REQ-SOL-002` |
+| Base, cinematique et matrices | `solveur/elements/shell/mitc4/element.py` | modes rigides et patch membrane | `REQ-SOL-002` |
+| Tying MITC | `solveur/elements/shell/mitc4/element.py` | patch cisaillement et locking | `REQ-SOL-002` |
 | Coques maillees | `mitc4/benchmarks.py` | Cook, Scordelis-Lo, cylindre pince | `REQ-CMP-003` |
 
 References : [REF-MITC4-DVORKIN](../../reference/references.md#ref-mitc4-dvorkin)

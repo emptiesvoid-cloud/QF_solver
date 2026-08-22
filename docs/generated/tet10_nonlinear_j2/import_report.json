@@ -1,7 +1,7 @@
 {
   "status": "WARNING",
   "solver_name": "QF_solver",
-  "solver_version": "0.2.0a0",
+  "solver_version": "0.2.1a0",
   "source_path": "j2_cyclic_bar_tet10.msh",
   "source_sha256": "503d640c7fa94b6b00e50395469b66087df225afd8f521b41015007e99ea6103",
   "setup_path": "model.setup.json",

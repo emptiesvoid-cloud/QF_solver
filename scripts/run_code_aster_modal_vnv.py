@@ -37,7 +37,7 @@ def main() -> int:
     summary = _normalize(output, args.mesh_size)
     _publish_controlled_reference(output)
     print(f"{STUDY_ID}: {summary['status']}")
-    return 0 if summary["status"] == "PASS" else 1
+    return 0 if summary["status"] in {"PASS_EXTERNAL_CORRELATION", "WARNING"} else 1
 
 
 def _write_inputs(output: Path, size: int) -> None:
@@ -124,6 +124,12 @@ def _run_code_aster(output: Path) -> None:
 
 def _normalize(output: Path, mesh_size: int) -> dict[str, Any]:
     full = Mitc4CodeAsterModalStudy(mesh_size=mesh_size).run(output / "code_aster_modal_raw.json")
+    internal_status = full["status"]
+    full["internal_verdict"] = internal_status
+    full["maturity"] = "verified_development_external_correlation"
+    full["status"] = (
+        "PASS_EXTERNAL_CORRELATION" if internal_status == "PASS" else "FAIL"
+    )
     plot_data = full.pop("_plot_data")
     full["solver"] = {"name": "Code_Aster", "version": "18.1.0", "formulation": "DKT/DKQ"}
     full["container"] = {"image": IMAGE}

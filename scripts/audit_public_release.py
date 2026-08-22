@@ -5,9 +5,15 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import subprocess
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Iterable, Sequence, cast
+
+try:
+    from scripts.git_tools import git_command
+except ModuleNotFoundError:
+    from git_tools import git_command  # type: ignore[no-redef]
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -29,7 +35,6 @@ PUBLIC_ROOTS = (
     "SECURITY.md",
     "SUPPORT.md",
     "pyproject.toml",
-    "mkdocs.yml",
     "qf_solver.py",
     "main_solveur.py",
     "mitc4_solver.py",
@@ -53,9 +58,12 @@ EXCLUDED_PARTS = {
     "results_large",
     "site",
     "tmp",
-    "generated",
 }
-PRIVATE_RELATIVE_PREFIXES = ("qualification/vnv/",)
+PRIVATE_RELATIVE_PREFIXES = (
+    "qualification/evidence/",
+    "qualification/maturity_evidence_",
+    "qualification/vnv/",
+)
 TEXT_SUFFIXES = {
     ".cff", ".cfg", ".csv", ".htm", ".html", ".ini", ".json", ".md",
     ".ps1", ".py", ".rst", ".sh", ".tex", ".toml", ".txt", ".xml",
@@ -101,8 +109,12 @@ def _patterns() -> dict[str, re.Pattern[str]]:
 
 
 def public_source_files(root: str | Path = ROOT) -> Iterable[Path]:
-    """Yield release candidates while excluding generated and local artifact trees."""
+    """Yield tracked release candidates while excluding local artifact trees."""
     base = Path(root).resolve()
+    tracked = _tracked_public_files(base)
+    if tracked is not None:
+        yield from tracked
+        return
     for relative in PUBLIC_ROOTS:
         candidate = base / relative
         if candidate.is_file():
@@ -119,6 +131,43 @@ def public_source_files(root: str | Path = ROOT) -> Iterable[Path]:
                 ):
                     if path.name != Path(__file__).name:
                         yield path
+
+
+def _tracked_public_files(base: Path) -> list[Path] | None:
+    """Return existing tracked release files, or ``None`` outside a Git checkout."""
+    try:
+        completed = subprocess.run(
+            [git_command(), "ls-files", "--cached", "--others", "--exclude-standard"],
+            cwd=base,
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=10,
+        )
+    except (FileNotFoundError, subprocess.TimeoutExpired):
+        return None
+    if completed.returncode != 0:
+        return None
+
+    public_roots = {Path(item).parts[0] for item in PUBLIC_ROOTS}
+    candidates: list[Path] = []
+    for relative_text in completed.stdout.splitlines():
+        relative = Path(relative_text)
+        if not relative.parts or relative.parts[0] not in public_roots:
+            continue
+        if set(relative.parts) & EXCLUDED_PARTS:
+            continue
+        portable = relative.as_posix()
+        if portable.startswith(PRIVATE_RELATIVE_PREFIXES):
+            continue
+        path = base / relative
+        if (
+            path.is_file()
+            and path.resolve() != Path(__file__).resolve()
+            and path.suffix.lower() in TEXT_SUFFIXES | PDF_SUFFIXES
+        ):
+            candidates.append(path)
+    return candidates
 
 
 def audit_public_release(root: str | Path = ROOT) -> dict[str, object]:

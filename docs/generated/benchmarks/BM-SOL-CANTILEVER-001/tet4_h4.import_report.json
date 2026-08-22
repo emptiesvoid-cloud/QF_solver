@@ -1,7 +1,7 @@
 {
   "status": "WARNING",
   "solver_name": "QF_solver",
-  "solver_version": "0.2.0a0",
+  "solver_version": "0.2.1a0",
   "source_path": "tet4_h4.msh",
   "source_sha256": "3cc67b6b8e846479902c0caa42eb1c33b953659d66643fdae63042c17386cb0a",
   "setup_path": "tet4_h4.setup.json",

@@ -29,8 +29,8 @@ Un ecart documente n'est jamais transforme en validation mecanique.
 | TET4 / transient_newmark | `owner_accepted` | code_aster | `available` | Closed-form first-mode response, energy invariant and same-time-grid Code_Aster TETRA4 history were accepted by the Owner on 2026-08-02. |
 | TET4 / harmonic | `owner_accepted` | code_aster | `available` | Static limit, resonance checks and same-frequency-grid Code_Aster TETRA4 response were accepted by the Owner on 2026-08-02. |
 | TET4 / material_nonlinear_static | `experimental` | analytical | `available` | Uniaxial J2 path and CalculiX comparison; bounded small-strain scope. |
-| TET4 / geometric_nonlinear_static | `owner_accepted` | code_aster | `available` | Total-Lagrangian structural paths correlated externally within the reviewed scope. |
-| TET10 / linear_static | `owner_accepted` | calculix | `available` | Affine, bending, torsion, curved geometry and CalculiX C3D10 evidence. |
+| TET4 / geometric_nonlinear_static | `owner_accepted` | code_aster | `available` | Total-Lagrangian structural paths correlated with Code_Aster within the reviewed scope. |
+| TET10 / linear_static | `owner_accepted` | internal_reference | `available` | Affine, bending, torsion, curved geometry and h-convergence evidence; same-mesh external linear TET10 static correlation remains recommended. |
 | TET10 / modal | `owner_accepted` | analytical | `available` | Consistent mass, modal residuals and bending mode convergence. |
 | TET10 / transient_newmark | `owner_accepted` | code_aster | `available` | Internal first-mode response and a structural time-step study are complemented by the same-mesh Code_Aster TETRA10 Newmark history; accepted by the Owner on 2026-08-02. |
 | TET10 / harmonic | `owner_accepted` | code_aster | `available` | Static limit, resonance checks, spatial frequency convergence and a same-mesh Code_Aster TETRA10 sweep were accepted by the Owner on 2026-08-02. |
@@ -39,15 +39,15 @@ Un ecart documente n'est jamais transforme en validation mecanique.
 | MITC4 / modal | `owner_accepted` | code_aster | `available` | Consistent mass and ten-mode Code_Aster correlation. |
 | MITC4 / transient_newmark | `owner_accepted` | analytical | `available` | Exact modal oscillator is the accepted temporal oracle; refined external structural correlation remains recommended. |
 | MITC4 / harmonic | `owner_accepted` | published_benchmark | `available` | NAFEMS/theory and direct/modal-superposition checks within the reviewed band. |
-| MITC4 / laminate_linear_static | `owner_accepted` | code_aster | `available` | ABD, ply stresses and bounded curved laminate comparisons. |
+| MITC4 / laminate_linear_static | `owner_accepted` | code_aster | `available` | ABD, ply stresses and bounded curved laminate comparisons; NAFEMS R0031 is the controlled external reference. |
 | MITC4 / laminate_dynamic | `owner_accepted_experimental_bounded_use` | code_aster | `available` | Planar symmetric four-ply modal/Newmark/harmonic use is Owner-accepted as experimental and bounded. Dynamic curved shells, non-symmetric coupling, damage and delamination remain excluded; the 10 000 QUAD4 modal reservation remains open. |
-| MITC3 / linear_static | `owner_accepted` | code_aster | `available` | Membrane, bending, hemisphere, Scordelis and pinched-shell evidence. |
+| MITC3 / linear_static | `owner_accepted` | code_aster | `available` | Membrane, bending, hemisphere, Scordelis and pinched-shell evidence; active Code_Aster archive replaces obsolete versioned folder aliases. |
 | MITC3 / modal | `owner_accepted` | code_aster | `available` | Modal invariants, free-free modes, curved-shell h-refinement, eigsh and same-mesh Code_Aster DKT six-mode correlation were accepted by the Owner on 2026-08-02; mesh-frequency refinement remains recommended. |
 | MITC3 / transient_newmark | `owner_accepted` | code_aster | `available` | First-mode time-history, energy, curved-shell time-step convergence and same-mesh Code_Aster DKT transient history were accepted by the Owner on 2026-08-02; mesh-frequency refinement remains recommended. |
 | MITC3 / harmonic | `owner_accepted` | code_aster | `available` | Static limit, resonance, curved-shell broadband stress output and same-mesh sub-resonant Code_Aster DKT sweep were accepted by the Owner on 2026-08-02; mesh-frequency refinement remains recommended. |
-| MITC3 / laminate_linear_static | `verified_development_external_correlation` | calculix | `available` | The flat symmetric [0/90/90/0] affine membrane patch is externally correlated per ply with CalculiX S6 COMPOSITE: 0.09625 percent L2 on S11/S22/S12 at the final mesh. Curved projected orientation and an Owner decision remain open. |
-| MITC3 / laminate_dynamic | `verified_development_external_correlation` | code_aster | `available` | Planar symmetric [0/90/90/0] modal/Newmark/harmonic responses are externally correlated on the same TRIA3 mesh with Code_Aster DST; material-axis static ply stresses are correlated with CalculiX S6. Curved projected orientation and an Owner decision remain open. |
-| MITC3 / laminate_linear_static_curved | `owner_accepted_experimental` | calculix | `available` | Owner accepted for V0.2.0-alpha at experimental maturity on 2026-08-09. CalculiX S6 correlation reaches 2.0738 percent on the 128x64 mesh after monotone refinement; more curved geometries and ply-stress evidence remain recommended. |
+| MITC3 / laminate_linear_static | `verified_development_external_correlation` | code_aster | `available` | The flat symmetric [0/90/90/0] affine membrane patch is correlated with Code_Aster. The separate curved projected static scope is Owner-accepted with recommendations. |
+| MITC3 / laminate_dynamic | `verified_development_external_correlation` | code_aster | `available` | Planar symmetric [0/90/90/0] modal/Newmark/harmonic responses are externally correlated on the same TRIA3 mesh with Code_Aster DST. Curved projected orientation remains outside the dynamic scope. |
+| MITC3 / laminate_linear_static_curved | `owner_accepted_experimental_bounded_use` | code_aster | `available` | The Owner accepted the same faceted curved geometry with Code_Aster DST/TRIA3 and projected global reference vector as an experimental bounded static scope with recommendations. Ply stress, S13, damage, delamination and curved dynamic use remain outside the evidence. |
 | BEAM2 / linear_static | `verified_development` | analytical | `available` | Timoshenko closed form and Code_Aster POU_D_E test route. |
 | BEAM2 / modal | `owner_accepted` | code_aster | `available` | Six-mode axial and slender-transverse comparisons were accepted by the Owner on 2026-08-02. |
 | BEAM2 / transient_newmark | `owner_accepted` | code_aster | `available` | Same mesh/time-grid axial and slender-transverse histories were accepted by the Owner on 2026-08-02. |
@@ -84,11 +84,11 @@ Un ecart documente n'est jamais transforme en validation mecanique.
 
 ![Deformee CalculiX C3D10 de reference.](../assets/generated/content_closure/tet10_calculix_deformation.png){ .result-figure }
 
-*Deformee CalculiX C3D10 de reference. Empreinte SHA-256 : `5a55a706831b645103306359829d9ad48d6e822d4e1f7279136767bfe5dc0a46`.*
+*Deformee CalculiX C3D10 de reference. Empreinte SHA-256 : `ce463693e78cc14e99ccd8a20b665f2476925cd2d94329072ddfc5393b32ce02`.*
 
 ![Panneau conique ajoure QF_solver.](../assets/generated/content_closure/mitc4_conical_qf_deformation.png){ .result-figure }
 
-*Panneau conique ajoure QF_solver. Empreinte SHA-256 : `3bae0c4876b830e042ad090b2b9a9c8f9f2844726d62730f08395f2f0bb5e0dd`.*
+*Panneau conique ajoure QF_solver. Empreinte SHA-256 : `0a80a6ed13678f33811c20dc69514063212e78573a34ce43ec78855ffb7c5749`.*
 
 ![Panneau conique ajoure CalculiX.](../assets/generated/content_closure/mitc4_conical_calculix_deformation.png){ .result-figure }
 
@@ -96,7 +96,7 @@ Un ecart documente n'est jamais transforme en validation mecanique.
 
 ![Frequences MITC4 et Code_Aster.](../assets/generated/content_closure/mitc4_modal_code_aster_frequencies.png){ .result-figure }
 
-*Frequences MITC4 et Code_Aster. Empreinte SHA-256 : `7d61bbd95242f75de032768b0dfd1a7c93bb93b43c82648640be2e5c2d32ba39`.*
+*Frequences MITC4 et Code_Aster. Empreinte SHA-256 : `1f659da2ab95e6e9cb64d26e3e5a5ffbf79f817a1dac0a95ec30f42234b6f459`.*
 
 ![Hemisphere MITC3, vues QF_solver et Code_Aster.](../assets/generated/content_closure/mitc3_hemisphere_qf_code_aster.png){ .result-figure }
 
@@ -112,7 +112,7 @@ Un ecart documente n'est jamais transforme en validation mecanique.
 
 ![Equerre orthotrope QF_solver.](../assets/generated/content_closure/orthotropic_lbracket_qf.png){ .result-figure }
 
-*Equerre orthotrope QF_solver. Empreinte SHA-256 : `df3ed2f05fe3dd100658eae27b362d556e91906d549056f6d40be809d5ad2d9f`.*
+*Equerre orthotrope QF_solver. Empreinte SHA-256 : `abcddc44d6aa681cbff95243d21b12ec1d9db09776ce23721523f3db7e2c48a4`.*
 
 ![Equerre orthotrope Code_Aster.](../assets/generated/content_closure/orthotropic_lbracket_code_aster.png){ .result-figure }
 
@@ -144,7 +144,7 @@ Un ecart documente n'est jamais transforme en validation mecanique.
 
 ![TET4 modal, Newmark et harmonique compares a Code_Aster TETRA4.](../assets/generated/content_closure/tet4_dynamic_code_aster.png){ .result-figure }
 
-*TET4 modal, Newmark et harmonique compares a Code_Aster TETRA4. Empreinte SHA-256 : `8efd55edd909470dfbf4ef0624030770583891fb453a2a301cc748b8655ac7e0`.*
+*TET4 modal, Newmark et harmonique compares a Code_Aster TETRA4. Empreinte SHA-256 : `1d7ac0968c5d6d2c5f38b86d71f7403faec4c2d40abe48b9532469162a1531a7`.*
 
 ![BEAM2: QF_solver et Code_Aster.](../assets/generated/content_closure/beam2_code_aster_dynamic.png){ .result-figure }
 

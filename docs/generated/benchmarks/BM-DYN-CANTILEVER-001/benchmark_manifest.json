@@ -1,16 +1,16 @@
 {
   "manifest_schema_version": 1,
-  "created_at_utc": "2026-08-10T07:56:33.081322Z",
+  "created_at_utc": "2026-08-14T21:30:41.126287Z",
   "solver": {
     "name": "QF_solver",
-    "version": "0.2.0a0"
+    "version": "0.2.1a0"
   },
   "benchmark_id": "BM-DYN-CANTILEVER-001",
   "profile": "engineering",
   "status": "PASS",
   "source": {
     "repository": ".",
-    "revision": "c8d7fcf4fb176c9cd595360ffd0f4417c19285ce",
+    "revision": "1804a03aee0c4e4bc6ac2c56e9461bedd9aac6d4",
     "dirty": true
   },
   "runtime": {
@@ -48,8 +48,8 @@
     {
       "role": "benchmark_artifact",
       "path": "benchmark_summary.json",
-      "size_bytes": 2713,
-      "sha256": "ce8cf354d3442ef0722fe3dd9a5c14aba9da6afe831ea6fedc0a490bb95e646b"
+      "size_bytes": 2714,
+      "sha256": "26595d42a8d737f3ec01948ef639e7595f2234082932feb5e4994e09e894315f"
     },
     {
       "role": "benchmark_artifact",
@@ -60,32 +60,32 @@
     {
       "role": "benchmark_artifact",
       "path": "harmonic.json",
-      "size_bytes": 1769235,
-      "sha256": "d95f82d40149df86fc22155fd76f18d033f37865efb5fe740e2afc2832cbaf45"
+      "size_bytes": 1769121,
+      "sha256": "745990194b6ec3e708d99c425e0a3bfe2f32192dc0ddb118279a3e5cfc199028"
     },
     {
       "role": "benchmark_artifact",
       "path": "modal.json",
-      "size_bytes": 1546491,
-      "sha256": "55a91832d07407d9a1db62098e306fc547836bbbcf28eb1be29ba7800f94be8d"
+      "size_bytes": 1546514,
+      "sha256": "eec9091b102d657375442dbd1b9e4e4536af30a16cb70bb858cd66a52da9331c"
     },
     {
       "role": "benchmark_artifact",
       "path": "newmark.json",
-      "size_bytes": 6392159,
-      "sha256": "fd66c6e1e2f16fad68041d8436bd4dade7edff201b32fa9df41ba5fa3deaabdb"
+      "size_bytes": 6391752,
+      "sha256": "8ba8506464d80930d88b456c6eacc6f5e8fc63773f1e44f165fc8ac2a530465b"
     },
     {
       "role": "benchmark_artifact",
       "path": "static.import_report.json",
       "size_bytes": 1483,
-      "sha256": "60bdea74ffd0527336eaf21593462ccc49114205e75d1423fbe63ce9a5b32436"
+      "sha256": "8d00737b580d3118c4bf4b3601973dcc17c893217929f27f944357201445f4bd"
     },
     {
       "role": "benchmark_artifact",
       "path": "static.json",
-      "size_bytes": 6093115,
-      "sha256": "77f35fbab5b14bd61eca5cd06b764692d2426d70d39ef114dd10c445e70cb8a3"
+      "size_bytes": 6093114,
+      "sha256": "a4a1efddc0bc88ec88afa1f08b794df0e85114ef2d960963b3d326fa6303f9ac"
     },
     {
       "role": "benchmark_artifact",

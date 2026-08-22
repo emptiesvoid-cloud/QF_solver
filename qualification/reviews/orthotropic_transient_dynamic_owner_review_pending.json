@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "review_id": "OWNER-REVIEW-ORTHOTROPIC-NEWMARK-2026-08-15",
+  "review_mode": "owner_review",
+  "status": "pending",
+  "promotion_target": "stable",
+  "scope": ["orthotropic-solid-transient-dynamic"],
+  "purpose": "Statuer sur l'extension Newmark du solide orthotrope homogeneise, distincte de la revue statique.",
+  "evidence": [
+    "qualification/maturity_evidence_0_2_1/orthotropic.json",
+    "qualification/vnv/orthotropic_modal_newmark/reference/summary.json",
+    "tests/verification/test_orthotropic_modal_newmark_vnv.py",
+    "tests/unit/test_orthotropic_dynamic_large.py"
+  ],
+  "questions": [
+    {"id": "Q1", "question": "La reponse Newmark couvre-t-elle le perimetre orthotrope teste avec 8 niveaux de pas, un increment final de 0,1119 % et un residu maximal de 2,23e-10 ?", "answer": null},
+    {"id": "Q2", "question": "Les choix de masse, pas de temps, amortissement nul et axes materiau sont-ils acceptables pour le domaine stable explicitement borne ?", "answer": null},
+    {"id": "Q3", "question": "Les exclusions de non-linearite, endommagement, grandes deformations et composite pli par pli sont-elles maintenues ?", "answer": null},
+    {"id": "Q4", "question": "Decision Owner pour la cible stable : accepted, accepted_with_recommendations ou more_evidence_required ?", "answer": null}
+  ],
+  "decision": null,
+  "signature": null,
+  "certification_claim": "none"
+}

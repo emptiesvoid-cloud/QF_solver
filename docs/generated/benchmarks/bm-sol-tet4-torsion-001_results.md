@@ -9,7 +9,7 @@
 | Empreinte maillage/source | `d2f885ce72dd368aeb62ab7458e21bfb77bdf999c101f7078007493e232295e2` |
 | Empreinte configuration/source | `df718595bf34a25452c0dc614546d3a1fc0a4262d69d26150888c523a3465881` |
 | Empreinte modele | `2e73c903bd40c72f2ab771451aa5c9d4d254ad91bf27d5630821d8d5087e1806` |
-| Empreinte resultat | `92698e23541708c07b03ad539f7fe4a444b3725f8021d51d10e9f817ee03c600` |
+| Empreinte resultat | `3b49187a7fb4953a7adbc0acf6f2855c96a5cbbf58ee8ca8cd1acb54feb131c8` |
 
 ### Criteres d'acceptation
 

@@ -1,0 +1,33 @@
+{
+  "review_id": "MITC3-LAM-CURVED-PROMOTION-OWNER-REVIEW-2026-08-15",
+  "revision": "0.2.1-alpha",
+  "status": "pending_owner_review",
+  "decision": null,
+  "reviewer": null,
+  "review_date": null,
+  "scope": ["mitc3-laminate-static-curved"],
+  "questions": [
+    "Q1: La geometrie du panneau cylindrique facettise, son orientation projetee et l'empilement [0/90/90/0] sont-ils correctement delimites ?",
+    "Q2: Les deux familles de chargement, resultant mixte et resultant transverse, sont-elles suffisantes pour l'extension du domaine ?",
+    "Q3: Les trois niveaux 4096, 9216 et 16384 triangles donnent-ils une convergence acceptable, avec ecarts finaux 1,220 % et 1,073 % ?",
+    "Q4: Le seuil de residu specifique a la campagne courbe facettisee, 1e-7, est-il acceptable pour cet usage borne ?",
+    "Q5: La recommandation d'ajouter une seconde geometrie courbe ou distordue est-elle non bloquante pour la cible actuelle ?",
+    "Q6: Decision Owner pour la promotion du scope MITC3 multicouche courbe"
+  ],
+  "evidence": [
+    "qualification/maturity_evidence_0_2_1/mitc3_laminate.json",
+    "qualification/maturity_evidence_0_2_1/mitc3_laminate_curved_load_families/summary.json",
+    "qualification/maturity_evidence_0_2_1/mitc3_laminate_curved_load_families/report.md",
+    "qualification/maturity_evidence_0_2_1/mitc3_laminate_curved_load_families/convergence_qf_code_aster.png",
+    "qualification/maturity_evidence_0_2_1/mitc3_laminate_curved_load_families/convergence_qf_code_aster_transverse.png",
+    "qualification/maturity_evidence_0_2_1/mitc3_laminate_curved_load_families/curved_laminate_deformation_qf_code_aster.png",
+    "qualification/maturity_evidence_0_2_1/mitc3_laminate_curved_load_families/curved_laminate_deformation_qf_code_aster_transverse.png"
+  ],
+  "limitations": [
+    "La preuve porte sur une seule geometrie courbe facettisee; une seconde geometrie reste recommandee.",
+    "Les contraintes par pli, S13/S23, dommage, delamination, dynamique courbe et grandes deformations sont exclus.",
+    "CalculiX S6 et Code_Aster DST sont des oracles de correlation, pas une identite de formulation.",
+    "Aucune maturite ne doit changer sans decision Owner explicite."
+  ],
+  "certification_claim": "none"
+}

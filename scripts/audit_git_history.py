@@ -8,6 +8,11 @@ import subprocess
 from pathlib import Path
 from typing import Sequence, TypedDict
 
+try:
+    from scripts.git_tools import git_command
+except ModuleNotFoundError:
+    from git_tools import git_command  # type: ignore[no-redef]
+
 
 ROOT = Path(__file__).resolve().parents[1]
 _PRIVATE_TOOL_DIRECTORY = "." + "co" + "dex"
@@ -50,7 +55,7 @@ def audit_git_history_paths(root: str | Path = ROOT) -> GitHistoryReport:
     base = Path(root).resolve()
     try:
         completed = subprocess.run(
-            ["git", "log", "--all", "--format=%H", "--name-only"], cwd=base, text=True, capture_output=True, check=False, timeout=30
+            [git_command(), "log", "--all", "--format=%H", "--name-only"], cwd=base, text=True, capture_output=True, check=False, timeout=30
         )
     except (FileNotFoundError, subprocess.TimeoutExpired) as exc:
         return {
@@ -100,7 +105,7 @@ def _author_email_findings(root: Path) -> list[GitHistoryFinding]:
     """Report reachable commit emails other than GitHub's public no-reply form."""
     try:
         completed = subprocess.run(
-            ["git", "log", "--all", "--format=%H%x00%ae"],
+            [git_command(), "log", "--all", "--format=%H%x00%ae"],
             cwd=root,
             text=True,
             capture_output=True,

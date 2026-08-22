@@ -57,7 +57,65 @@ FIN()
 '''
 
 
-def run_modal(output_dir: Path, nx: int, ny: int) -> dict[str, Any]:
+def _modal_analysis_parameters(
+    *,
+    method: str,
+    preconditioner: str,
+    tolerance: float,
+    maxiter: int,
+    ncv: int,
+    shift_hz: float | None = None,
+    lazy_condensation: bool = True,
+    drop_tol: float = 1.0e-4,
+    fill_factor: float = 10.0,
+    inner_rtol: float = 1.0e-8,
+    inner_maxiter: int = 500,
+    inner_restart: int = 50,
+) -> dict[str, Any]:
+    """Return explicit sparse modal controls for reproducible campaigns."""
+    parameters: dict[str, Any] = {
+        "type": "modal",
+        "method": method,
+        "modes": 4,
+        "dense_modal_max_dofs": 6000,
+        "modal_residual_failure_tolerance": 1.0e-7,
+        "arpack_which": "LM" if shift_hz is not None else "SM",
+        "arpack_tolerance": tolerance,
+        "arpack_maxiter": maxiter,
+        "arpack_ncv": ncv,
+        "lazy_drilling_condensation": lazy_condensation,
+        "drilling_mass_tolerance": 1.0e-10,
+        "lobpcg_preconditioner": preconditioner,
+        "lobpcg_drop_tol": drop_tol,
+        "lobpcg_fill_factor": fill_factor,
+        "modal_inner_rtol": inner_rtol,
+        "modal_inner_maxiter": inner_maxiter,
+        "modal_inner_restart": inner_restart,
+    }
+    if shift_hz is not None:
+        parameters["modal_shift_hz"] = shift_hz
+    return parameters
+
+
+def run_modal(
+    output_dir: Path,
+    nx: int,
+    ny: int,
+    *,
+    method: str = "lobpcg",
+    preconditioner: str = "ssor",
+    tolerance: float = 1.0e-9,
+    maxiter: int = 30000,
+    ncv: int = 30,
+    shift_hz: float | None = None,
+    lazy_condensation: bool = True,
+    run_external: bool = True,
+    drop_tol: float = 1.0e-4,
+    fill_factor: float = 10.0,
+    inner_rtol: float = 1.0e-8,
+    inner_maxiter: int = 500,
+    inner_restart: int = 50,
+) -> dict[str, Any]:
     output_dir.mkdir(parents=True, exist_ok=True)
     study = Mitc4LaminateDynamicStudy(mesh=(nx, ny), layup=LAYUP)
     model, _ = study.build_model()
@@ -67,19 +125,20 @@ def run_modal(output_dir: Path, nx: int, ny: int) -> dict[str, Any]:
     modal = None
     qf = np.empty(0, dtype=float)
     model.analysis = AnalysisSettings.from_raw(
-        {
-            "type": "modal",
-            "method": "lobpcg",
-            "modes": 4,
-            "dense_modal_max_dofs": 6000,
-            "modal_residual_failure_tolerance": 1.0e-7,
-            "arpack_which": "SM",
-            "arpack_tolerance": 1.0e-9,
-            "arpack_maxiter": 30000,
-            "arpack_ncv": 30,
-            "lazy_drilling_condensation": True,
-            "lobpcg_preconditioner": "ssor",
-        }
+        _modal_analysis_parameters(
+            method=method,
+            preconditioner=preconditioner,
+            tolerance=tolerance,
+            maxiter=maxiter,
+            ncv=ncv,
+            shift_hz=shift_hz,
+            lazy_condensation=lazy_condensation,
+            drop_tol=drop_tol,
+            fill_factor=fill_factor,
+            inner_rtol=inner_rtol,
+            inner_maxiter=inner_maxiter,
+            inner_restart=inner_restart,
+        )
     )
     try:
         modal = solve_model(model, enforce_policy=False)
@@ -87,10 +146,13 @@ def run_modal(output_dir: Path, nx: int, ny: int) -> dict[str, Any]:
     except (SolverError, MemoryError, RuntimeError) as exc:
         qf_error = f"{type(exc).__name__}: {exc}"
     aster_error: str | None = None
-    try:
-        run_code_aster(output_dir, "mitc4_laminate_modal_10k", timeout=3600)
-    except (SolverError, RuntimeError) as exc:
-        aster_error = f"{type(exc).__name__}: {exc}"
+    if run_external:
+        try:
+            run_code_aster(output_dir, "mitc4_laminate_modal_10k", timeout=3600)
+        except (SolverError, RuntimeError) as exc:
+            aster_error = f"{type(exc).__name__}: {exc}"
+    elif not (output_dir / "code_aster_modal_raw.json").is_file():
+        aster_error = "Reference reuse requested but code_aster_modal_raw.json is missing."
     raw_path = output_dir / "code_aster_modal_raw.json"
     raw = json.loads(raw_path.read_text(encoding="utf-8")) if raw_path.is_file() else {"frequencies_hz": []}
     aster = np.asarray(raw["frequencies_hz"][:4], dtype=float)
@@ -118,6 +180,22 @@ def run_modal(output_dir: Path, nx: int, ny: int) -> dict[str, Any]:
             "element": "DST / QUAD4 / DEFI_COMPOSITE",
         },
         "model": {"mesh": [nx, ny], "quad4_elements": nx * ny, "layup_deg": list(LAYUP)},
+        "qf_solver": {
+            "method": method,
+            "preconditioner": preconditioner,
+            "tolerance": tolerance,
+            "maxiter": maxiter,
+            "ncv": ncv,
+            "shift_hz": shift_hz,
+            "lazy_condensation": lazy_condensation,
+            "drilling_mass_tolerance": 1.0e-10,
+            "external_run": run_external,
+            "drop_tol": drop_tol,
+            "fill_factor": fill_factor,
+            "inner_rtol": inner_rtol,
+            "inner_maxiter": inner_maxiter,
+            "inner_restart": inner_restart,
+        },
         "modal": {
             "qf_frequencies_hz": qf.tolist(),
             "code_aster_frequencies_hz": aster.tolist(),
@@ -199,7 +277,7 @@ def _parse_code_aster_frequencies(path: Path) -> list[float]:
     values: list[float] = []
     in_table = False
     for line in path.read_text(encoding="utf-8", errors="replace").splitlines():
-        if "frÃ©quence" in line or "fréquence" in line or "frequence" in line.lower():
+        if "frequence" in line or "fréquence" in line or "frequence" in line.lower():
             in_table = True
             continue
         if not in_table:
@@ -281,11 +359,45 @@ def main() -> int:
     parser.add_argument("--nx", type=int, default=200)
     parser.add_argument("--ny", type=int, default=50)
     parser.add_argument("--reference-only", action="store_true")
+    parser.add_argument("--qf-method", choices=("lobpcg", "eigsh"), default="lobpcg")
+    parser.add_argument(
+        "--qf-preconditioner",
+        choices=("diagonal", "ssor", "spilu"),
+        default="ssor",
+    )
+    parser.add_argument("--qf-tolerance", type=float, default=1.0e-9)
+    parser.add_argument("--qf-maxiter", type=int, default=30000)
+    parser.add_argument("--qf-ncv", type=int, default=30)
+    parser.add_argument("--qf-shift-hz", type=float, default=None)
+    parser.add_argument("--qf-no-lazy-condensation", action="store_true")
+    parser.add_argument("--skip-external", action="store_true")
+    parser.add_argument("--qf-drop-tol", type=float, default=1.0e-4)
+    parser.add_argument("--qf-fill-factor", type=float, default=10.0)
+    parser.add_argument("--qf-inner-rtol", type=float, default=1.0e-8)
+    parser.add_argument("--qf-inner-maxiter", type=int, default=500)
+    parser.add_argument("--qf-inner-restart", type=int, default=50)
     args = parser.parse_args()
     if args.reference_only:
         summary = run_code_aster_reference(args.output.resolve(), args.nx, args.ny)
     else:
-        summary = run_modal(args.output.resolve(), args.nx, args.ny)
+        summary = run_modal(
+            args.output.resolve(),
+            args.nx,
+            args.ny,
+            method=args.qf_method,
+            preconditioner=args.qf_preconditioner,
+            tolerance=args.qf_tolerance,
+            maxiter=args.qf_maxiter,
+            ncv=args.qf_ncv,
+            shift_hz=args.qf_shift_hz,
+            lazy_condensation=not args.qf_no_lazy_condensation,
+            run_external=not args.skip_external,
+            drop_tol=args.qf_drop_tol,
+            fill_factor=args.qf_fill_factor,
+            inner_rtol=args.qf_inner_rtol,
+            inner_maxiter=args.qf_inner_maxiter,
+            inner_restart=args.qf_inner_restart,
+        )
     print(f"{summary['study_id']}: {summary['status']}")
     return 0 if summary["status"] in {"PASS_EXTERNAL_CORRELATION", "PASS_EXTERNAL_REFERENCE_ONLY"} else 4
 

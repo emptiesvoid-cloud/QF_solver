@@ -53,7 +53,7 @@ def test_torsion_benchmark_import_creates_paired_deformations_and_passing_study(
     run = run_vnv_study(study, tmp_path / "evidence")
 
     assert run.automated_verdict == "PASS"
-    assert run.human_decision == "accepted_with_reservations"
+    assert run.owner_decision == "accepted_with_reservations"
     assert len(run.study.levels) == 4
     assert run.convergence[0]["observed_order"] == pytest.approx(1.0)
     assert run.convergence[0]["finest_error"] == pytest.approx(0.02)

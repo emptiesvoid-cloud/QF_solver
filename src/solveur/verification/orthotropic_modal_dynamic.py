@@ -23,7 +23,7 @@ class OrthotropicModalDynamicCampaign:
 
     study_id = "VNV-ORTHOTROPIC-MODAL-NEWMARK-010"
 
-    def __init__(self, output_dir: str | Path, *, cells: tuple[int, ...] = (4, 8, 16)) -> None:
+    def __init__(self, output_dir: str | Path, *, cells: tuple[int, ...] = (4, 8, 16, 32)) -> None:
         self.output_dir = Path(output_dir).resolve()
         self.cells = tuple(int(value) for value in cells)
         if len(self.cells) < 3 or any(value <= 0 for value in self.cells):
@@ -33,7 +33,19 @@ class OrthotropicModalDynamicCampaign:
         """Execute all internal checks and optionally the same-mesh Code_Aster correlation."""
         self.output_dir.mkdir(parents=True, exist_ok=True)
         modal_rows = [self._modal_row(cells) for cells in self.cells]
-        dynamic_rows = [self._dynamic_row(step) for step in (2.0e-3, 1.0e-3, 5.0e-4, 2.5e-4, 1.25e-4, 6.25e-5)]
+        dynamic_rows = [
+            self._dynamic_row(step)
+            for step in (
+                2.0e-4,
+                1.0e-4,
+                5.0e-5,
+                2.5e-5,
+                1.25e-5,
+                6.25e-6,
+                3.125e-6,
+                1.5625e-6,
+            )
+        ]
         external = self._code_aster_correlation(self.cells[-1]) if run_code_aster_external else None
         checks = _checks(modal_rows, dynamic_rows, external)
         status = "PASS_TECHNICAL_VERIFICATION" if all(row["status"] == "PASS" for row in checks) else "FAIL"
@@ -87,7 +99,8 @@ class OrthotropicModalDynamicCampaign:
                 "newmark_gamma": 0.5,
                 "rayleigh_alpha": 0.0,
                 "rayleigh_beta": 0.0,
-                "load_table": _load_table(step),
+                "load_function": "half_sine_pulse",
+                "pulse_duration": 0.005,
                 "history_probes": [{"node": _tip_node(self.cells[-1]), "dof": "UX", "label": "tip_ux"}],
             },
         )
@@ -109,18 +122,20 @@ class OrthotropicModalDynamicCampaign:
         work.mkdir(parents=True, exist_ok=True)
         modal_model = _axial_model(cells, {"type": "modal", "method": "eigh", "modes": 2})
         qf_modal = solve_model(modal_model)
+        external_step = 1.25e-5
         dynamic_model = _axial_model(
             cells,
             {
                 "type": "transient_dynamic",
                 "method": "newmark",
-                "time_step": 2.5e-4,
-                "steps": round(_DURATION / 2.5e-4),
+                "time_step": external_step,
+                "steps": round(_DURATION / external_step),
                 "newmark_beta": 0.25,
                 "newmark_gamma": 0.5,
                 "rayleigh_alpha": 0.0,
                 "rayleigh_beta": 0.0,
-                "load_table": _load_table(2.5e-4),
+                "load_function": "half_sine_pulse",
+                "pulse_duration": 0.005,
                 "history_probes": [{"node": _tip_node(cells), "dof": "UX", "label": "tip_ux"}],
             },
         )
@@ -136,7 +151,7 @@ class OrthotropicModalDynamicCampaign:
             ),
             encoding="ascii",
         )
-        (work / "orthotropic.comm").write_text(_code_aster_commands(tip), encoding="utf-8")
+        (work / "orthotropic.comm").write_text(_code_aster_commands(tip, external_step), encoding="utf-8")
         run_code_aster(work, "orthotropic")
         raw = json.loads((work / "code_aster_raw.json").read_text(encoding="utf-8"))
         qf_frequency = np.asarray(qf_modal.frequencies_hz[:2], dtype=float)
@@ -283,8 +298,8 @@ def _load_table(step: float) -> list[dict[str, float]]:
     ]
 
 
-def _code_aster_commands(tip: int) -> str:
-    times = _load_table(2.5e-4)
+def _code_aster_commands(tip: int, time_step: float) -> str:
+    times = _load_table(time_step)
     values = ", ".join(f"{item['time']:.16g}, {item['factor']:.16g}" for item in times)
     return f'''# coding=utf-8
 import json
@@ -322,11 +337,13 @@ FIN()
 def _checks(modal: list[dict[str, Any]], dynamic: list[dict[str, Any]], external: dict[str, Any] | None) -> list[dict[str, Any]]:
     reference = np.asarray(dynamic[-1]["tip_displacement_m"], dtype=float)
     rows = [
-        _upper("modal_fine_theory", modal[-1]["relative_error_theory"], 0.03),
+        _upper("modal_fine_theory", modal[-1]["relative_error_theory"], 0.01),
         _upper("modal_refinement", modal[-1]["relative_error_theory"] / max(modal[0]["relative_error_theory"], 1e-30), 0.50),
         _upper("modal_residual", modal[-1]["modal_residual"], 1.0e-8),
         _upper("modal_mass_orthogonality", modal[-1]["mass_orthogonality_error"], 1.0e-8),
-        _upper("newmark_time_refinement", _normalized_rms(np.asarray(dynamic[-2]["tip_displacement_m"]), reference[::2]), 0.05),
+        # The final adjacent pair is compared on identical physical times.
+        # Coarser levels remain visible in the report as diagnostics.
+        _upper("newmark_time_refinement", _normalized_rms(np.asarray(dynamic[-2]["tip_displacement_m"]), reference[::2]), 0.01),
         _upper("newmark_residual", max(row["max_dynamic_residual"] for row in dynamic), 1.0e-7),
     ]
     if external is not None:

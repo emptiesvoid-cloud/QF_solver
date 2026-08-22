@@ -1,0 +1,2517 @@
+{
+  "schema_version": 1,
+  "catalog_id": "CODE-ASTER-CORRELATION-2026-08-14",
+  "generated_utc": "2026-08-14T16:00:31.769155Z",
+  "input_directory": "tmp/code_aster",
+  "output": "qualification/external_reference_digests/code_aster_correlation_campaign_2026-08-14.json",
+  "source": {
+    "repository": ".",
+    "revision": "1804a03aee0c4e4bc6ac2c56e9461bedd9aac6d4",
+    "dirty": true
+  },
+  "runtime": {
+    "python": {
+      "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]"
+    },
+    "platform": {
+      "system": "Windows",
+      "release": "10",
+      "machine": "AMD64"
+    },
+    "packages": {
+      "numpy": "2.2.6",
+      "scipy": "1.15.2",
+      "matplotlib": "3.10.3",
+      "h5py": "3.14.0",
+      "mpi4py": "4.1.0",
+      "petsc4py": null
+    },
+    "blas": {
+      "name": "scipy-openblas",
+      "version": "0.3.29",
+      "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+    },
+    "parallel_environment": {
+      "OMP_NUM_THREADS": false,
+      "MKL_NUM_THREADS": false,
+      "OPENBLAS_NUM_THREADS": false,
+      "PETSC_ARCH": false
+    }
+  },
+  "studies": [
+    {
+      "directory": "tmp/code_aster/beam2_modal",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/beam2_modal/summary.json",
+        "size_bytes": 2577,
+        "sha256": "190da479362ec7435a729a6b073ccb82a1cbb21a1505e34d030a471a5337ca2e"
+      },
+      "study_id": "VNV-BEAM2-MODAL-CODEASTER-POUDE-002",
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "maturity": "experimental",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/beam2_modal/report.md",
+          "size_bytes": 596,
+          "sha256": "0a6ebf46c514afc19f4d4720e28188d2cd224d18b2b1f99e61d87816711130f4"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/beam2_modal/vnv_manifest.json",
+          "size_bytes": 3448,
+          "sha256": "eb3b056af41a34505fbed7a0e9786333af595e2923a1c35b8c537aad7cae0607"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/beam2_modal/code_aster_raw.json",
+          "size_bytes": 169,
+          "sha256": "a79d0985170a234961c479ab3bd28c104474a5f8afd3d42c51c06dcf168339b5"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/beam2_modal/vnv_manifest.json",
+          "size_bytes": 3448,
+          "sha256": "eb3b056af41a34505fbed7a0e9786333af595e2923a1c35b8c537aad7cae0607"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "element": "POU_D_E"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/beam2_newmark",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/beam2_newmark/summary.json",
+        "size_bytes": 56057,
+        "sha256": "07b573123420d5616e19604e35e56aa49ca491d007a3e9e0b74c7750cf7ebfc5"
+      },
+      "study_id": "VNV-BEAM2-NEWMARK-CODEASTER-POUDE-003",
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "maturity": "experimental",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/beam2_newmark/report.md",
+          "size_bytes": 444,
+          "sha256": "618a1dfb9bef97fb21b887b4c1d9cf4958bb73a385f2ab2bf9c6cac9d7e5eaee"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/beam2_newmark/vnv_manifest.json",
+          "size_bytes": 3459,
+          "sha256": "727d78ab023f48dee898552b55c462a690cf776b98a6b62c636163d95263cab1"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/beam2_newmark/code_aster_raw.json",
+          "size_bytes": 11282,
+          "sha256": "3f8148effa7831da19df79c3c5d5875dd806174eaf59742b25874d9a7e0b6a55"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/beam2_newmark/vnv_manifest.json",
+          "size_bytes": 3459,
+          "sha256": "727d78ab023f48dee898552b55c462a690cf776b98a6b62c636163d95263cab1"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "element": "POU_D_E"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/beam2_transverse_dynamic",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/beam2_transverse_dynamic/summary.json",
+        "size_bytes": 56495,
+        "sha256": "8023c164f12ad35b2e1b3869941567932fd3382b4672dd356af97ba7e0c356c2"
+      },
+      "study_id": "VNV-BEAM2-TRANSVERSE-DYNAMICS-CODEASTER-POUDE-019",
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "maturity": "experimental",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/beam2_transverse_dynamic/report.md",
+          "size_bytes": 560,
+          "sha256": "90fd1f713390bffa5b783180070801d692b02f1651f0a0c809b70cccf4e5f375"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/beam2_transverse_dynamic/vnv_manifest.json",
+          "size_bytes": 3680,
+          "sha256": "f5139806451d2b6699947c41ad8a3db95ec41c2b35449fae4767d53a5a76ecab"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/beam2_transverse_dynamic/comparison.png",
+          "size_bytes": 116841,
+          "sha256": "bd7003929f148678bc9f3791c51a93a2913a09ff959087b77110ce110ce61646"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/beam2_transverse_dynamic/code_aster_raw.json",
+          "size_bytes": 11233,
+          "sha256": "d3178627a957ad426b735cfee177f74039c6736e3cdd7fa84163cd4617e43649"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/beam2_transverse_dynamic/vnv_manifest.json",
+          "size_bytes": 3680,
+          "sha256": "f5139806451d2b6699947c41ad8a3db95ec41c2b35449fae4767d53a5a76ecab"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "element": "POU_D_E (Euler-Bernoulli)"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/contact_additional",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/contact_additional/summary.json",
+        "size_bytes": 19856,
+        "sha256": "5d04ab0485e619fb8f8e0e0b419fae85b5b5513f5bcd75e2850f5a66a4506593"
+      },
+      "study_id": "VNV-CONTACT-CODEASTER-ADDITIONAL-009",
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "maturity": "ready_for_owner_review",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/contact_additional/report.md",
+          "size_bytes": 1000,
+          "sha256": "0e011955d4d0c1643fd9942526de8e014bf25cf7e5d17b71bc33a9ca892a5ddd"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/contact_additional/vnv_manifest.json",
+          "size_bytes": 9665,
+          "sha256": "74fe7f9edc9bf90ee9210adc1a787429afafdd43e0e25a963bada336da13a253"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/contact_additional/contact_code_aster_curves.png",
+          "size_bytes": 296337,
+          "sha256": "514c1ac71c53cb475cd6b7eefeca00e94011cfc118822b9d7b3ec6aff5210e54"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/contact_additional/vnv_manifest.json",
+          "size_bytes": 9665,
+          "sha256": "74fe7f9edc9bf90ee9210adc1a787429afafdd43e0e25a963bada336da13a253"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "formulations": [
+          "DEFI_CONTACT / LIAISON_UNIL",
+          "3D TETRA4 / DEFI_CONTACT / LIAISON_UNIL"
+        ]
+      }
+    },
+    {
+      "directory": "tmp/code_aster/contact_folded",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/contact_folded/summary.json",
+        "size_bytes": 1957,
+        "sha256": "c8876b11f5aabbedbec766a6fb9c7afcd67eafc5f9f20638821d8da8a5125fc4"
+      },
+      "study_id": "VNV-CONTACT-CODEASTER-FOLDED-NORMAL-006",
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "maturity": "experimental",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/contact_folded/report.md",
+          "size_bytes": 450,
+          "sha256": "3aa1219e13a1046911db486c3f1559f2eb4d8c9e0e25bad0262621527f7fed49"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/contact_folded/vnv_manifest.json",
+          "size_bytes": 3476,
+          "sha256": "6b097875d294daf88e6fc996a1a715898cf1b7257a6792008fd52fd80547aa52"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/contact_folded/code_aster_raw.json",
+          "size_bytes": 107,
+          "sha256": "451247a1596812dc2fe6afa5592c55982becc3ac2b3b5e235d27587a4393633e"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/contact_folded/vnv_manifest.json",
+          "size_bytes": 3476,
+          "sha256": "6b097875d294daf88e6fc996a1a715898cf1b7257a6792008fd52fd80547aa52"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/contact_folded_search",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/contact_folded_search/summary.json",
+        "size_bytes": 1431,
+        "sha256": "9d211f3a94d961aadaafa9b67052a0c701da20e25eaaf32dad6379eb04c5fe16"
+      },
+      "study_id": "VNV-CONTACT-CODEASTER-FOLDED-SEARCH-007",
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "maturity": "experimental",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/contact_folded_search/report.md",
+          "size_bytes": 472,
+          "sha256": "50dab54f0f58fa2277460a9abc8f15bb8fde01ed3a324769906cb150fabc7adc"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/contact_folded_search/vnv_manifest.json",
+          "size_bytes": 3490,
+          "sha256": "87ef3b8237e3e6f873da36b8238d39ce8d52e23972fbd6c4f559e829215e1042"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/contact_folded_search/code_aster_raw.json",
+          "size_bytes": 92,
+          "sha256": "6c361dba0f03c36b346cea694c5e076ad07051143be1b1732ab40d1e2dcccec9"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/contact_folded_search/vnv_manifest.json",
+          "size_bytes": 3490,
+          "sha256": "87ef3b8237e3e6f873da36b8238d39ce8d52e23972fbd6c4f559e829215e1042"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "formulation": "DEFI_CONTACT / CONTINUE / frictionless"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/contact_master",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/contact_master/summary.json",
+        "size_bytes": 2371,
+        "sha256": "b28e18a718ecf402875247dbd08f80ff02057ded4bc16ad351ec8323e56b2dfa"
+      },
+      "study_id": "VNV-CONTACT-CODEASTER-LIAISON-UNIL-001",
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "maturity": "experimental",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/contact_master/report.md",
+          "size_bytes": 1087,
+          "sha256": "0b8d5c1c2dfdc009461a84579c8fd20434575005278814152379a04496068b66"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/contact_master/vnv_manifest.json",
+          "size_bytes": 5629,
+          "sha256": "578975480fda12b8eb2528cc163affaefc9e27ccbe864ef44e243984e467170e"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/contact_master/code_aster_contact_comparison.png",
+          "size_bytes": 31030,
+          "sha256": "30ee4a8bcede5f61c0e044b9ef66447878cf296de00af483b29a8b9dfd329e84"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/contact_master/vnv_manifest.json",
+          "size_bytes": 5629,
+          "sha256": "578975480fda12b8eb2528cc163affaefc9e27ccbe864ef44e243984e467170e"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "formulation": "DEFI_CONTACT / LIAISON_UNIL"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/contact_tet4",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/contact_tet4/summary.json",
+        "size_bytes": 2287,
+        "sha256": "323c2af0ae779f38406c6e7422490cddf972ec8c81d9c02a43a5cbccbf9d9dbf"
+      },
+      "study_id": "VNV-CONTACT-CODEASTER-TET4-MASTER-004",
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "maturity": "experimental",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/contact_tet4/report.md",
+          "size_bytes": 608,
+          "sha256": "97a9c2e455f724f3af14aac98cc67bb7c2e5727b1f16f669825c332970f1ad1d"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/contact_tet4/vnv_manifest.json",
+          "size_bytes": 3466,
+          "sha256": "1d297feda410278cf2543ca93382703c648b2d5b21cb7ef76117d218a2aa99a0"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/contact_tet4/code_aster_raw.json",
+          "size_bytes": 144,
+          "sha256": "a0de1e6be5e3b706da0f9d76817ca7dbf261d5bb34a6f386e473ff6bb1fe23ed"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/contact_tet4/vnv_manifest.json",
+          "size_bytes": 3466,
+          "sha256": "1d297feda410278cf2543ca93382703c648b2d5b21cb7ef76117d218a2aa99a0"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "formulation": "3D/TETRA4 plus LIAISON_DDL active-contact kinematics"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/discrete",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/discrete/summary.json",
+        "size_bytes": 16127,
+        "sha256": "534b3f9cb98a174b6ab6a8bb7ca4541e19b26174365c409d3c048f399373c9b1"
+      },
+      "study_id": "VNV-DISCRETE-CODEASTER-SDOF-001",
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "maturity": "experimental",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/discrete/report.md",
+          "size_bytes": 688,
+          "sha256": "17c5d6d03c04a6b2cf5fafed7cd17a4b354a264f776e347b509491dc7da742fe"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/discrete/vnv_manifest.json",
+          "size_bytes": 3441,
+          "sha256": "f70c74eb1103a22b4995d728994a628e15cd23fbaf5c9917a7599db001666127"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/discrete/code_aster_raw.json",
+          "size_bytes": 3011,
+          "sha256": "8ab60705f53d7af281971c36b00a16bfa3059a4d01a48d34c495fd92a0fe9137"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/discrete/vnv_manifest.json",
+          "size_bytes": 3441,
+          "sha256": "f70c74eb1103a22b4995d728994a628e15cd23fbaf5c9917a7599db001666127"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "element": "DIS_T"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/friction_contact",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/friction_contact/summary.json",
+        "size_bytes": 2338,
+        "sha256": "b0c6a8f8cff387f74e60e4415459534973b7d1a019233d43e9700dba8eb4c214"
+      },
+      "study_id": "VNV-CONTACT-FRICTION-CODEASTER-CONTINUE-003",
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "maturity": "experimental",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/friction_contact/report.md",
+          "size_bytes": 901,
+          "sha256": "4eaa31dada528d3b19defa3b8ca91674703f9b1c5ce32faf8517bdada6f66834"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/friction_contact/vnv_manifest.json",
+          "size_bytes": 3716,
+          "sha256": "c6f25584e320c1c0342b37f080c881027bca5e24e2edab29cf9085682a160ad5"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/friction_contact/code_aster_friction_comparison.png",
+          "size_bytes": 28996,
+          "sha256": "1cec2877c753c32245e46d423a6104d85aedd511d0738385d46469191b5f7c88"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/friction_contact/vnv_manifest.json",
+          "size_bytes": 3716,
+          "sha256": "c6f25584e320c1c0342b37f080c881027bca5e24e2edab29cf9085682a160ad5"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "formulation": "DEFI_CONTACT / CONTINUE / COULOMB",
+        "normal_penalty_n_per_m": 100000000.0,
+        "tangential_penalty_n_per_m": 10000.0
+      }
+    },
+    {
+      "directory": "tmp/code_aster/j2",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/j2/summary.json",
+        "size_bytes": 2877,
+        "sha256": "fd54325affce6eb663ab7bc0110298aaf148a6d9b18583b013880a52f45855f7"
+      },
+      "study_id": "VNV-J2-CODEASTER-VMIS-ISOT-LINE-004",
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "maturity": "experimental",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/j2/report.md",
+          "size_bytes": 1038,
+          "sha256": "29c27ecd7dcd2330d89aa475f8801e07f453c9875cab8fd349fec1a60aa7ec90"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/j2/vnv_manifest.json",
+          "size_bytes": 3542,
+          "sha256": "26be4da37355fe81cf2baf3c810e9ec5a8d9ee0720ef8ab41acfef37285d528c"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/j2/vnv_manifest.json",
+          "size_bytes": 3542,
+          "sha256": "26be4da37355fe81cf2baf3c810e9ec5a8d9ee0720ef8ab41acfef37285d528c"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "relation": "VMIS_ISOT_LINE",
+        "deformation": "PETIT"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/mitc3_curved_laminate",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/mitc3_curved_laminate/summary.json",
+        "size_bytes": 543217,
+        "sha256": "ddc44a01626c5612bd663f064dbb4494419fdd6ec6380ef2a4962efddc01b8b2"
+      },
+      "study_id": "VNV-MITC3-LAMINATE-CURVED-PROJECTED-CODEASTER-DST-025",
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "maturity": "verified_development_external_correlation",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc3_curved_laminate/report.md",
+          "size_bytes": 1470,
+          "sha256": "f8a9e5b8954cd40e8503f01d6f0ce0a45d62d4c2c7b904f7c17c80ff0e89b7af"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc3_curved_laminate/vnv_manifest.json",
+          "size_bytes": 14851,
+          "sha256": "df9d0c7ee1a583b409fda0ed8fecf505252c23de05a47e8f53e7164a227c34e2"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc3_curved_laminate/convergence_qf_code_aster.png",
+          "size_bytes": 95918,
+          "sha256": "5b291fd5b487847e93c618f01da32d822ac5b611bb8703ebdcafa48e733a8b10"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc3_curved_laminate/curved_laminate_deformation_qf_code_aster.png",
+          "size_bytes": 461649,
+          "sha256": "132a1856943bd0b84a3e6d486db719466032974f5aded2e00ba6d0d3db429ba9"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc3_curved_laminate/vnv_manifest.json",
+          "size_bytes": 14851,
+          "sha256": "df9d0c7ee1a583b409fda0ed8fecf505252c23de05a47e8f53e7164a227c34e2"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "element": "DST / TRIA3 / DEFI_COMPOSITE"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/mitc3_dynamic",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/mitc3_dynamic/summary.json",
+        "size_bytes": 14709,
+        "sha256": "72c8227efb01e838eddf0d30b871285bef220afc7bc4472d5ac671ec5f0eda67"
+      },
+      "study_id": "VNV-MITC3-DYNAMICS-CODEASTER-DKT-017",
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "maturity": "experimental",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc3_dynamic/report.md",
+          "size_bytes": 436,
+          "sha256": "d44b416c77e4d446d1f76e8aa596be16c13c1ce30e61454232026add561d0cc4"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc3_dynamic/vnv_manifest.json",
+          "size_bytes": 3662,
+          "sha256": "7921108d41b3ad2adc72a275f7c6a41375dec44f55ed32ece411d32753d7e574"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc3_dynamic/comparison.png",
+          "size_bytes": 143091,
+          "sha256": "509f2d148a0cbb0c523a9cc1e937d8310b79bdd3ab3968576f6e06b6b3180408"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc3_dynamic/code_aster_raw.json",
+          "size_bytes": 2676,
+          "sha256": "4aff045cbcc832ffda806422ce54847c6e6f6935392dda5e3f05631c8139502d"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc3_dynamic/vnv_manifest.json",
+          "size_bytes": 3662,
+          "sha256": "7921108d41b3ad2adc72a275f7c6a41375dec44f55ed32ece411d32753d7e574"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "element": "DKT/TRIA3"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/mitc3_hemisphere",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/mitc3_hemisphere/summary.json",
+        "size_bytes": 6313,
+        "sha256": "f93fb8b117dcf4456402274d1302e71282bdf9ca0e6f8dc55f8d2ab77b55eb75"
+      },
+      "study_id": "VNV-MITC3-PINCHED-HEMISPHERE-CODEASTER-015",
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "maturity": "experimental",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc3_hemisphere/report.md",
+          "size_bytes": 1386,
+          "sha256": "71cb5bded52d01fea19d2148c653016f4dcf7658bfb6ef0ca1e50c3d1b24f053"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc3_hemisphere/vnv_manifest.json",
+          "size_bytes": 15020,
+          "sha256": "e43fe655d8513b023864b84dc6abd7c3376b876138a6a4918b7441072779de0c"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc3_hemisphere/convergence_qf_code_aster.png",
+          "size_bytes": 85625,
+          "sha256": "2a77ec2a35ba0966eca3e689ac72da4fcdd1e916b41c469615adaf7e2a97883d"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc3_hemisphere/geometry_boundary_loads.png",
+          "size_bytes": 538603,
+          "sha256": "c8a33f133047b18bd50387688a25437a8b1ab9bc4cd4611aafdb1f012df0eafe"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc3_hemisphere/vnv_manifest.json",
+          "size_bytes": 15020,
+          "sha256": "e43fe655d8513b023864b84dc6abd7c3376b876138a6a4918b7441072779de0c"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "element": "DKT/TRIA3"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/mitc3_laminate_dynamic",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/mitc3_laminate_dynamic/summary.json",
+        "size_bytes": 15225,
+        "sha256": "c280c893011895bb06a09ca365f2b3e641f76657a7a47bedf9dddeab914c0a59"
+      },
+      "study_id": "VNV-MITC3-LAMINATE-DYNAMICS-CODEASTER-DST-019",
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "maturity": "verified_development_external_correlation",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc3_laminate_dynamic/report.md",
+          "size_bytes": 793,
+          "sha256": "932be680999ea60bf59c09314e9e32f25b221f942e42c1636897fc5570b55b83"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc3_laminate_dynamic/vnv_manifest.json",
+          "size_bytes": 3733,
+          "sha256": "cacd6919daccf589d4e5b95e76d3dac92e4d67452dc4ba6d2126224e65e1587d"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc3_laminate_dynamic/mitc3_laminate_code_aster_comparison.png",
+          "size_bytes": 155608,
+          "sha256": "c562a498c6e0a8c22f402b6f2429a90369b22b8df885b6e7b634e90faa2113e1"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc3_laminate_dynamic/code_aster_raw.json",
+          "size_bytes": 2642,
+          "sha256": "3f2b2100e29a4233850ce843299d044d2a9d368c067780c4a40c96ce40853152"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc3_laminate_dynamic/vnv_manifest.json",
+          "size_bytes": 3733,
+          "sha256": "cacd6919daccf589d4e5b95e76d3dac92e4d67452dc4ba6d2126224e65e1587d"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "element": "DST / TRIA3 / DEFI_COMPOSITE"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/mitc3_static",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/mitc3_static/summary.json",
+        "size_bytes": 1657,
+        "sha256": "bb7a239ac155bdf50a7f56d4c2341b2b688e0bdd489ea5a4d0a4fbcd9e6f8311"
+      },
+      "study_id": "VNV-MITC3-CODEASTER-DKT-013",
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "maturity": "experimental",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc3_static/report.md",
+          "size_bytes": 522,
+          "sha256": "7f617b46636fc88381949b5be72c76a5d9885b8397cd565accfdd96f24937c60"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc3_static/vnv_manifest.json",
+          "size_bytes": 5789,
+          "sha256": "a8712a68311c9071a0800452baf9679303a0895a21680abf9fa3c9a3ffe3e508"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc3_static/vnv_manifest.json",
+          "size_bytes": 5789,
+          "sha256": "a8712a68311c9071a0800452baf9679303a0895a21680abf9fa3c9a3ffe3e508"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "element": "DKT"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/mitc4_conical",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/mitc4_conical/summary.json",
+        "size_bytes": 4042,
+        "sha256": "7963b8ac772096ebcd7e8bf8d69a84aafd40d295f493ab4a0e4b951437702864"
+      },
+      "study_id": "VNV-MITC4-CONICAL-CUTOUT-CODEASTER-DKQ-014",
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "maturity": "engineering_internal_supplementary_evidence",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_conical/report.md",
+          "size_bytes": 654,
+          "sha256": "70693dd6c91d0a31f59b24c5823e2337ac047f1a19782abe7582fe9c7170829f"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_conical/vnv_manifest.json",
+          "size_bytes": 7404,
+          "sha256": "38fc6c9bf590ef169f3ec140133a254e3707be5ae24dc2b549a781d6ec6faa0e"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_conical/conical_cutout_code_aster_correlation.png",
+          "size_bytes": 92552,
+          "sha256": "4fb534fd7933cbe5f80b8c133aae6536e0f16df56c63dce0335ad392213e6eba"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_conical/vnv_manifest.json",
+          "size_bytes": 7404,
+          "sha256": "38fc6c9bf590ef169f3ec140133a254e3707be5ae24dc2b549a781d6ec6faa0e"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "element": "DKQ on QUAD4"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/mitc4_laminate_dynamic",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/mitc4_laminate_dynamic/summary.json",
+        "size_bytes": 15468,
+        "sha256": "b3b33b535b49ca3376ada8838ea471e3983cecd5f1f15dc7f4d5188664cab3be"
+      },
+      "study_id": "VNV-MITC4-LAMINATE-DYNAMICS-CODEASTER-DST-018",
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "maturity": "verified_development_external_correlation",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_laminate_dynamic/report.md",
+          "size_bytes": 822,
+          "sha256": "15ecaf618cde8642c70854b9fe2427524f6e31f8945d1232645e158cf53d48af"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_laminate_dynamic/vnv_manifest.json",
+          "size_bytes": 3733,
+          "sha256": "3efb12609a6f0ff8adfeede1c0dfa695191b6c2087d6349be4b8b7e9bda9c66c"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_laminate_dynamic/mitc4_laminate_code_aster_comparison.png",
+          "size_bytes": 145823,
+          "sha256": "89bb7ff667330db5fd47e72ed0b77a94b6a0782ebfdad5de212aefb17e6ef2d2"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_laminate_dynamic/code_aster_raw.json",
+          "size_bytes": 2644,
+          "sha256": "9196f07d17ab3a12f308df3371c72d28ebfd8b81178bc253172001ec15f878ab"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_laminate_dynamic/vnv_manifest.json",
+          "size_bytes": 3733,
+          "sha256": "3efb12609a6f0ff8adfeede1c0dfa695191b6c2087d6349be4b8b7e9bda9c66c"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "element": "DST / QUAD4 / DEFI_COMPOSITE"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/mitc4_layups",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/mitc4_layups/summary.json",
+        "size_bytes": 62185,
+        "sha256": "b7fc0b3184db19c2a88b9f7ba8252e1f36220c9f7e13b533cc3663b97530e8db"
+      },
+      "study_id": "VNV-MITC4-LAMINATE-LAYUPS-CODEASTER-DST-021",
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "maturity": null,
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_layups/report.md",
+          "size_bytes": 1938,
+          "sha256": "35855e3cd11ba6d5b4f7f1b42ff7eee65c06d0bef93ec01005eac96d2fb9f1b6"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_layups/vnv_manifest.json",
+          "size_bytes": 9665,
+          "sha256": "67f95468aec9ec7f3ea56e8d1d9acefb355a6f2a0f2ee92e58aab1e5c61a5930"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_layups/mitc4_laminate_layups_comparison.png",
+          "size_bytes": 142151,
+          "sha256": "54e41cb9fc64642cd5546329d0f54297f3dfef030ef2539eddfd730de21b8625"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_layups/vnv_manifest.json",
+          "size_bytes": 9665,
+          "sha256": "67f95468aec9ec7f3ea56e8d1d9acefb355a6f2a0f2ee92e58aab1e5c61a5930"
+        }
+      ]
+    },
+    {
+      "directory": "tmp/code_aster/mitc4_modal_10k",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/mitc4_modal_10k/summary.json",
+        "size_bytes": 1804,
+        "sha256": "c609c3619d43356e958e3e2ce52ac9e1f3137d2fe00814dc60a22f2f8458c564"
+      },
+      "study_id": "VNV-MITC4-LAMINATE-MODAL-10K-CODEASTER-023",
+      "status": "QF_NUMERICAL_FAILURE_REFERENCE_AVAILABLE",
+      "maturity": "verified_development_external_correlation",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_10k/report.md",
+          "size_bytes": 625,
+          "sha256": "499936f07135c5d9082ec3dd205afb93d5aa3ce8f48a6e4f629a713588b89341"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_10k/vnv_manifest.json",
+          "size_bytes": 3726,
+          "sha256": "191e5344d65bd2ac52001611c23bf95326680003fa75bfc6ed977f311e5cd99a"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_10k/mitc4_laminate_modal_10k_comparison.png",
+          "size_bytes": 51491,
+          "sha256": "4a7471334064c9ee8c33df3c750bec9a939c4fa85b7b87d30a9678fcda130ed1"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_10k/code_aster_modal_raw.json",
+          "size_bytes": 120,
+          "sha256": "8bc0848a82c1e8a4f544bd198aa332bd8ce501cbfea6d3207a2b600866ae0ab9"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_10k/vnv_manifest.json",
+          "size_bytes": 3726,
+          "sha256": "191e5344d65bd2ac52001611c23bf95326680003fa75bfc6ed977f311e5cd99a"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "element": "DST / QUAD4 / DEFI_COMPOSITE"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/mitc4_modal_10k_eigsh_explicit",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/mitc4_modal_10k_eigsh_explicit/summary.json",
+        "size_bytes": 1933,
+        "sha256": "bf727d7c8b3c7d1f4cefcd4db1b9bd5f6190e0642b98de517d8faa6c3e7ae1c5"
+      },
+      "study_id": "VNV-MITC4-LAMINATE-MODAL-10K-CODEASTER-023",
+      "status": "QF_NUMERICAL_FAILURE_REFERENCE_AVAILABLE",
+      "maturity": "verified_development_external_correlation",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_10k_eigsh_explicit/report.md",
+          "size_bytes": 625,
+          "sha256": "499936f07135c5d9082ec3dd205afb93d5aa3ce8f48a6e4f629a713588b89341"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_10k_eigsh_explicit/vnv_manifest.json",
+          "size_bytes": 2803,
+          "sha256": "3913213feef628831dd4f7f0e2a323a36dd33e5ed9dfff6e3e88c0def1d35023"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_10k_eigsh_explicit/mitc4_laminate_modal_10k_comparison.png",
+          "size_bytes": 51491,
+          "sha256": "4a7471334064c9ee8c33df3c750bec9a939c4fa85b7b87d30a9678fcda130ed1"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_10k_eigsh_explicit/code_aster_modal_raw.json",
+          "size_bytes": 120,
+          "sha256": "8bc0848a82c1e8a4f544bd198aa332bd8ce501cbfea6d3207a2b600866ae0ab9"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_10k_eigsh_explicit/vnv_manifest.json",
+          "size_bytes": 2803,
+          "sha256": "3913213feef628831dd4f7f0e2a323a36dd33e5ed9dfff6e3e88c0def1d35023"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "element": "DST / QUAD4 / DEFI_COMPOSITE"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/mitc4_modal_10k_eigsh_lazy_custom",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/mitc4_modal_10k_eigsh_lazy_custom/summary.json",
+        "size_bytes": 2091,
+        "sha256": "1ab0a807b7c853215bc7880713acc43d7fe3e8be086ecf37fc9d52d06feb499e"
+      },
+      "study_id": "VNV-MITC4-LAMINATE-MODAL-10K-CODEASTER-023",
+      "status": "QF_NUMERICAL_FAILURE_REFERENCE_AVAILABLE",
+      "maturity": "verified_development_external_correlation",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_10k_eigsh_lazy_custom/report.md",
+          "size_bytes": 625,
+          "sha256": "499936f07135c5d9082ec3dd205afb93d5aa3ce8f48a6e4f629a713588b89341"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_10k_eigsh_lazy_custom/vnv_manifest.json",
+          "size_bytes": 2885,
+          "sha256": "2e4908a23aa645e4355a45370667b38442410604139fbbd0c9240c91c2ac6e30"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_10k_eigsh_lazy_custom/mitc4_laminate_modal_10k_comparison.png",
+          "size_bytes": 51491,
+          "sha256": "4a7471334064c9ee8c33df3c750bec9a939c4fa85b7b87d30a9678fcda130ed1"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_10k_eigsh_lazy_custom/code_aster_modal_raw.json",
+          "size_bytes": 120,
+          "sha256": "8bc0848a82c1e8a4f544bd198aa332bd8ce501cbfea6d3207a2b600866ae0ab9"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_10k_eigsh_lazy_custom/vnv_manifest.json",
+          "size_bytes": 2885,
+          "sha256": "2e4908a23aa645e4355a45370667b38442410604139fbbd0c9240c91c2ac6e30"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "element": "DST / QUAD4 / DEFI_COMPOSITE"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/mitc4_modal_10k_eigsh_lazy_restart100",
+      "summary": null,
+      "study_id": null,
+      "status": "UNAVAILABLE",
+      "maturity": null,
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_10k_eigsh_lazy_restart100/code_aster_modal_raw.json",
+          "size_bytes": 120,
+          "sha256": "8bc0848a82c1e8a4f544bd198aa332bd8ce501cbfea6d3207a2b600866ae0ab9"
+        }
+      ],
+      "missing": [
+        "summary.json"
+      ]
+    },
+    {
+      "directory": "tmp/code_aster/mitc4_modal_10k_eigsh_lazy_schur",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/mitc4_modal_10k_eigsh_lazy_schur/summary.json",
+        "size_bytes": 2091,
+        "sha256": "1ab0a807b7c853215bc7880713acc43d7fe3e8be086ecf37fc9d52d06feb499e"
+      },
+      "study_id": "VNV-MITC4-LAMINATE-MODAL-10K-CODEASTER-023",
+      "status": "QF_NUMERICAL_FAILURE_REFERENCE_AVAILABLE",
+      "maturity": "verified_development_external_correlation",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_10k_eigsh_lazy_schur/report.md",
+          "size_bytes": 625,
+          "sha256": "499936f07135c5d9082ec3dd205afb93d5aa3ce8f48a6e4f629a713588b89341"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_10k_eigsh_lazy_schur/vnv_manifest.json",
+          "size_bytes": 2884,
+          "sha256": "5e209608de8dc5ec582a4f6a869337de6b2016b8ed02cd6efb4e509aa9307b4f"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_10k_eigsh_lazy_schur/mitc4_laminate_modal_10k_comparison.png",
+          "size_bytes": 51491,
+          "sha256": "4a7471334064c9ee8c33df3c750bec9a939c4fa85b7b87d30a9678fcda130ed1"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_10k_eigsh_lazy_schur/code_aster_modal_raw.json",
+          "size_bytes": 120,
+          "sha256": "8bc0848a82c1e8a4f544bd198aa332bd8ce501cbfea6d3207a2b600866ae0ab9"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_10k_eigsh_lazy_schur/vnv_manifest.json",
+          "size_bytes": 2884,
+          "sha256": "5e209608de8dc5ec582a4f6a869337de6b2016b8ed02cd6efb4e509aa9307b4f"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "element": "DST / QUAD4 / DEFI_COMPOSITE"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/mitc4_modal_10k_lobpcg_spilu",
+      "summary": null,
+      "study_id": null,
+      "status": "UNAVAILABLE",
+      "maturity": null,
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_10k_lobpcg_spilu/code_aster_modal_raw.json",
+          "size_bytes": 120,
+          "sha256": "8bc0848a82c1e8a4f544bd198aa332bd8ce501cbfea6d3207a2b600866ae0ab9"
+        }
+      ],
+      "missing": [
+        "summary.json"
+      ]
+    },
+    {
+      "directory": "tmp/code_aster/mitc4_modal_10k_lobpcg_spilu_lazy",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/mitc4_modal_10k_lobpcg_spilu_lazy/summary.json",
+        "size_bytes": 2080,
+        "sha256": "0f96bf0038f95bc9e180aa18338b41d22a588283575251abd7d3c4c338855ab0"
+      },
+      "study_id": "VNV-MITC4-LAMINATE-MODAL-10K-CODEASTER-023",
+      "status": "QF_NUMERICAL_FAILURE_REFERENCE_AVAILABLE",
+      "maturity": "verified_development_external_correlation",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_10k_lobpcg_spilu_lazy/report.md",
+          "size_bytes": 625,
+          "sha256": "499936f07135c5d9082ec3dd205afb93d5aa3ce8f48a6e4f629a713588b89341"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_10k_lobpcg_spilu_lazy/vnv_manifest.json",
+          "size_bytes": 2900,
+          "sha256": "67d07e61c7753cbc8cc2af49f7c229c61c77eadafe9127cc26097f2117b4c975"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_10k_lobpcg_spilu_lazy/mitc4_laminate_modal_10k_comparison.png",
+          "size_bytes": 51491,
+          "sha256": "4a7471334064c9ee8c33df3c750bec9a939c4fa85b7b87d30a9678fcda130ed1"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_10k_lobpcg_spilu_lazy/code_aster_modal_raw.json",
+          "size_bytes": 120,
+          "sha256": "8bc0848a82c1e8a4f544bd198aa332bd8ce501cbfea6d3207a2b600866ae0ab9"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_10k_lobpcg_spilu_lazy/vnv_manifest.json",
+          "size_bytes": 2900,
+          "sha256": "67d07e61c7753cbc8cc2af49f7c229c61c77eadafe9127cc26097f2117b4c975"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "element": "DST / QUAD4 / DEFI_COMPOSITE"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/mitc4_modal_code_aster_control_400",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/mitc4_modal_code_aster_control_400/summary.json",
+        "size_bytes": 2222,
+        "sha256": "f1e89a45ca4958441dcd4e29d00b138bc445cbda147d5fd6fefbdd1068bc0f9f"
+      },
+      "study_id": "VNV-MITC4-LAMINATE-MODAL-10K-CODEASTER-023",
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "maturity": "verified_development_external_correlation",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_code_aster_control_400/report.md",
+          "size_bytes": 715,
+          "sha256": "21a68141cbc0d7f89d074dbd0925c178eb1c4637ffbebe2c7268093f69e92322"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_code_aster_control_400/vnv_manifest.json",
+          "size_bytes": 4069,
+          "sha256": "7bb1975df4e75e9ecb2fdcd3b18930ce1675ee3a184d7f44446942304932f5a9"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_code_aster_control_400/mitc4_laminate_modal_10k_comparison.png",
+          "size_bytes": 61488,
+          "sha256": "5fbd88d5e740cbfb96d4f03b582ce440e9b0565aab4d363173b37aec0abaedcd"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_code_aster_control_400/code_aster_modal_raw.json",
+          "size_bytes": 122,
+          "sha256": "06c482b530e4167e21ba41748323347f345ca5c3d23b8bf771dc2d71ca301c8c"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_code_aster_control_400/vnv_manifest.json",
+          "size_bytes": 4069,
+          "sha256": "7bb1975df4e75e9ecb2fdcd3b18930ce1675ee3a184d7f44446942304932f5a9"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "element": "DST / QUAD4 / DEFI_COMPOSITE"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/mitc4_modal_code_aster_control_400_lobpcg",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/mitc4_modal_code_aster_control_400_lobpcg/summary.json",
+        "size_bytes": 2079,
+        "sha256": "2837c934279f423f8d24344a8eb18f86e640b376603293aa14a4dd17a281f116"
+      },
+      "study_id": "VNV-MITC4-LAMINATE-MODAL-10K-CODEASTER-023",
+      "status": "QF_NUMERICAL_FAILURE_REFERENCE_AVAILABLE",
+      "maturity": "verified_development_external_correlation",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_code_aster_control_400_lobpcg/report.md",
+          "size_bytes": 625,
+          "sha256": "499936f07135c5d9082ec3dd205afb93d5aa3ce8f48a6e4f629a713588b89341"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_code_aster_control_400_lobpcg/vnv_manifest.json",
+          "size_bytes": 2906,
+          "sha256": "bf8cd1619f896bab56a9e2cac6f71b9a1a7b0886f7910bbc5efa5a500e5b39df"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_code_aster_control_400_lobpcg/mitc4_laminate_modal_10k_comparison.png",
+          "size_bytes": 49520,
+          "sha256": "7d3a014e24e84f51ae858dd13d8183cf6ae656187a665b247b46b966c1488290"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_code_aster_control_400_lobpcg/code_aster_modal_raw.json",
+          "size_bytes": 122,
+          "sha256": "06c482b530e4167e21ba41748323347f345ca5c3d23b8bf771dc2d71ca301c8c"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_code_aster_control_400_lobpcg/vnv_manifest.json",
+          "size_bytes": 2906,
+          "sha256": "bf8cd1619f896bab56a9e2cac6f71b9a1a7b0886f7910bbc5efa5a500e5b39df"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "element": "DST / QUAD4 / DEFI_COMPOSITE"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/mitc4_modal_code_aster_control_400_rerun",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/mitc4_modal_code_aster_control_400_rerun/summary.json",
+        "size_bytes": 2268,
+        "sha256": "abec6cc35940a17946c83fe263a90e510f3d066ed70c8677e7c1582b88a6d22d"
+      },
+      "study_id": "VNV-MITC4-LAMINATE-MODAL-10K-CODEASTER-023",
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "maturity": "verified_development_external_correlation",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_code_aster_control_400_rerun/report.md",
+          "size_bytes": 715,
+          "sha256": "21a68141cbc0d7f89d074dbd0925c178eb1c4637ffbebe2c7268093f69e92322"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_code_aster_control_400_rerun/vnv_manifest.json",
+          "size_bytes": 4076,
+          "sha256": "a9661b06078f1ec2947dbb7ff59275ad28152c8536bcd72460e12ddd1a230f77"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_code_aster_control_400_rerun/mitc4_laminate_modal_10k_comparison.png",
+          "size_bytes": 61488,
+          "sha256": "5fbd88d5e740cbfb96d4f03b582ce440e9b0565aab4d363173b37aec0abaedcd"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_code_aster_control_400_rerun/code_aster_modal_raw.json",
+          "size_bytes": 122,
+          "sha256": "06c482b530e4167e21ba41748323347f345ca5c3d23b8bf771dc2d71ca301c8c"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_code_aster_control_400_rerun/vnv_manifest.json",
+          "size_bytes": 4076,
+          "sha256": "a9661b06078f1ec2947dbb7ff59275ad28152c8536bcd72460e12ddd1a230f77"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "element": "DST / QUAD4 / DEFI_COMPOSITE"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/mitc4_modal_probe_eigsh",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/mitc4_modal_probe_eigsh/summary.json",
+        "size_bytes": 1968,
+        "sha256": "723ad1c4a97d87cb4affa9248c4f202b9d00a0e691057c667d7da7738c43ddc1"
+      },
+      "study_id": "VNV-MITC4-LAMINATE-MODAL-10K-CODEASTER-023",
+      "status": "QF_NUMERICAL_FAILURE_REFERENCE_AVAILABLE",
+      "maturity": "verified_development_external_correlation",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_eigsh/report.md",
+          "size_bytes": 625,
+          "sha256": "499936f07135c5d9082ec3dd205afb93d5aa3ce8f48a6e4f629a713588b89341"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_eigsh/vnv_manifest.json",
+          "size_bytes": 3956,
+          "sha256": "4285a52b67b5bd5632a11321843f9b999f670e2740c64743c9330bd5ba6d149c"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_eigsh/mitc4_laminate_modal_10k_comparison.png",
+          "size_bytes": 49520,
+          "sha256": "7d3a014e24e84f51ae858dd13d8183cf6ae656187a665b247b46b966c1488290"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_eigsh/code_aster_modal_raw.json",
+          "size_bytes": 122,
+          "sha256": "06c482b530e4167e21ba41748323347f345ca5c3d23b8bf771dc2d71ca301c8c"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_eigsh/vnv_manifest.json",
+          "size_bytes": 3956,
+          "sha256": "4285a52b67b5bd5632a11321843f9b999f670e2740c64743c9330bd5ba6d149c"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "element": "DST / QUAD4 / DEFI_COMPOSITE"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/mitc4_modal_probe_eigsh_explicit",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/mitc4_modal_probe_eigsh_explicit/summary.json",
+        "size_bytes": 2152,
+        "sha256": "40da11a07ee95dc3fb26d3bcdbc79b9cb24be868b1e3ec0b4eac550dbb18c133"
+      },
+      "study_id": "VNV-MITC4-LAMINATE-MODAL-10K-CODEASTER-023",
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "maturity": "verified_development_external_correlation",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_eigsh_explicit/report.md",
+          "size_bytes": 715,
+          "sha256": "21a68141cbc0d7f89d074dbd0925c178eb1c4637ffbebe2c7268093f69e92322"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_eigsh_explicit/vnv_manifest.json",
+          "size_bytes": 3988,
+          "sha256": "90b0758ccb48e09a2a01452a0a1428a3f2959d5c870f361cdfbdc0d0b8d33fe7"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_eigsh_explicit/mitc4_laminate_modal_10k_comparison.png",
+          "size_bytes": 61488,
+          "sha256": "5fbd88d5e740cbfb96d4f03b582ce440e9b0565aab4d363173b37aec0abaedcd"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_eigsh_explicit/code_aster_modal_raw.json",
+          "size_bytes": 122,
+          "sha256": "06c482b530e4167e21ba41748323347f345ca5c3d23b8bf771dc2d71ca301c8c"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_eigsh_explicit/vnv_manifest.json",
+          "size_bytes": 3988,
+          "sha256": "90b0758ccb48e09a2a01452a0a1428a3f2959d5c870f361cdfbdc0d0b8d33fe7"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "element": "DST / QUAD4 / DEFI_COMPOSITE"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/mitc4_modal_probe_eigsh_lazy_custom",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/mitc4_modal_probe_eigsh_lazy_custom/summary.json",
+        "size_bytes": 2231,
+        "sha256": "007cc8224991234d0254bd62bb56963c8bd192fc9e0160e0afe7af78bbdcf622"
+      },
+      "study_id": "VNV-MITC4-LAMINATE-MODAL-10K-CODEASTER-023",
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "maturity": "verified_development_external_correlation",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_eigsh_lazy_custom/report.md",
+          "size_bytes": 715,
+          "sha256": "21a68141cbc0d7f89d074dbd0925c178eb1c4637ffbebe2c7268093f69e92322"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_eigsh_lazy_custom/vnv_manifest.json",
+          "size_bytes": 2933,
+          "sha256": "095dbc43ed3b47b156a9e7e457eaa886df214d1dc8ba7195c3f9fb2b886e6645"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_eigsh_lazy_custom/mitc4_laminate_modal_10k_comparison.png",
+          "size_bytes": 61488,
+          "sha256": "5fbd88d5e740cbfb96d4f03b582ce440e9b0565aab4d363173b37aec0abaedcd"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_eigsh_lazy_custom/code_aster_modal_raw.json",
+          "size_bytes": 122,
+          "sha256": "06c482b530e4167e21ba41748323347f345ca5c3d23b8bf771dc2d71ca301c8c"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_eigsh_lazy_custom/vnv_manifest.json",
+          "size_bytes": 2933,
+          "sha256": "095dbc43ed3b47b156a9e7e457eaa886df214d1dc8ba7195c3f9fb2b886e6645"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "element": "DST / QUAD4 / DEFI_COMPOSITE"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/mitc4_modal_probe_eigsh_lazy_schur",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/mitc4_modal_probe_eigsh_lazy_schur/summary.json",
+        "size_bytes": 2223,
+        "sha256": "14773d9b60ef808090c89ec4f638910c0fa2cf63e9f08c36a512ecd40aeef07f"
+      },
+      "study_id": "VNV-MITC4-LAMINATE-MODAL-10K-CODEASTER-023",
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "maturity": "verified_development_external_correlation",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_eigsh_lazy_schur/report.md",
+          "size_bytes": 715,
+          "sha256": "21a68141cbc0d7f89d074dbd0925c178eb1c4637ffbebe2c7268093f69e92322"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_eigsh_lazy_schur/vnv_manifest.json",
+          "size_bytes": 2932,
+          "sha256": "278be72b3383d92912b19ad2186e9d25919979381e427c8c4b302f955ae8ec7c"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_eigsh_lazy_schur/mitc4_laminate_modal_10k_comparison.png",
+          "size_bytes": 61488,
+          "sha256": "5fbd88d5e740cbfb96d4f03b582ce440e9b0565aab4d363173b37aec0abaedcd"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_eigsh_lazy_schur/code_aster_modal_raw.json",
+          "size_bytes": 122,
+          "sha256": "06c482b530e4167e21ba41748323347f345ca5c3d23b8bf771dc2d71ca301c8c"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_eigsh_lazy_schur/vnv_manifest.json",
+          "size_bytes": 2932,
+          "sha256": "278be72b3383d92912b19ad2186e9d25919979381e427c8c4b302f955ae8ec7c"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "element": "DST / QUAD4 / DEFI_COMPOSITE"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/mitc4_modal_probe_eigsh_shift",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/mitc4_modal_probe_eigsh_shift/summary.json",
+        "size_bytes": 1994,
+        "sha256": "e66f08279a86c9697dc7ab5755abb124a52863ec8e934a8a93c0bec90e014f34"
+      },
+      "study_id": "VNV-MITC4-LAMINATE-MODAL-10K-CODEASTER-023",
+      "status": "QF_NUMERICAL_FAILURE_REFERENCE_AVAILABLE",
+      "maturity": "verified_development_external_correlation",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_eigsh_shift/report.md",
+          "size_bytes": 625,
+          "sha256": "499936f07135c5d9082ec3dd205afb93d5aa3ce8f48a6e4f629a713588b89341"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_eigsh_shift/vnv_manifest.json",
+          "size_bytes": 3951,
+          "sha256": "2d86d21b83143ad69c7551f52c6efe0acbf260a1e6a70b7f558f28e661f3cad1"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_eigsh_shift/mitc4_laminate_modal_10k_comparison.png",
+          "size_bytes": 49520,
+          "sha256": "7d3a014e24e84f51ae858dd13d8183cf6ae656187a665b247b46b966c1488290"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_eigsh_shift/code_aster_modal_raw.json",
+          "size_bytes": 122,
+          "sha256": "06c482b530e4167e21ba41748323347f345ca5c3d23b8bf771dc2d71ca301c8c"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_eigsh_shift/vnv_manifest.json",
+          "size_bytes": 3951,
+          "sha256": "2d86d21b83143ad69c7551f52c6efe0acbf260a1e6a70b7f558f28e661f3cad1"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "element": "DST / QUAD4 / DEFI_COMPOSITE"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/mitc4_modal_probe_spilu",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/mitc4_modal_probe_spilu/summary.json",
+        "size_bytes": 1946,
+        "sha256": "a9f57ac6205845c201851093f8f461881033026cee486f20cdff69948f491fb9"
+      },
+      "study_id": "VNV-MITC4-LAMINATE-MODAL-10K-CODEASTER-023",
+      "status": "QF_NUMERICAL_FAILURE_REFERENCE_AVAILABLE",
+      "maturity": "verified_development_external_correlation",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_spilu/report.md",
+          "size_bytes": 625,
+          "sha256": "499936f07135c5d9082ec3dd205afb93d5aa3ce8f48a6e4f629a713588b89341"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_spilu/vnv_manifest.json",
+          "size_bytes": 3918,
+          "sha256": "d2be8d273c9650bd569dbf8c7f6bfbd93d79603d2bd933cb829a06dcac894f01"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_spilu/mitc4_laminate_modal_10k_comparison.png",
+          "size_bytes": 49520,
+          "sha256": "7d3a014e24e84f51ae858dd13d8183cf6ae656187a665b247b46b966c1488290"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_spilu/code_aster_modal_raw.json",
+          "size_bytes": 122,
+          "sha256": "06c482b530e4167e21ba41748323347f345ca5c3d23b8bf771dc2d71ca301c8c"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_spilu/vnv_manifest.json",
+          "size_bytes": 3918,
+          "sha256": "d2be8d273c9650bd569dbf8c7f6bfbd93d79603d2bd933cb829a06dcac894f01"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "element": "DST / QUAD4 / DEFI_COMPOSITE"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/mitc4_modal_probe_spilu_tuned",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/mitc4_modal_probe_spilu_tuned/summary.json",
+        "size_bytes": 2080,
+        "sha256": "51aa2b0372d64383a6fd9017e94501397e1ed87a5127e9f6fe0876bfe9987fbd"
+      },
+      "study_id": "VNV-MITC4-LAMINATE-MODAL-10K-CODEASTER-023",
+      "status": "QF_NUMERICAL_FAILURE_REFERENCE_AVAILABLE",
+      "maturity": "verified_development_external_correlation",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_spilu_tuned/report.md",
+          "size_bytes": 625,
+          "sha256": "499936f07135c5d9082ec3dd205afb93d5aa3ce8f48a6e4f629a713588b89341"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_spilu_tuned/vnv_manifest.json",
+          "size_bytes": 2895,
+          "sha256": "6698da5161825ed422ffd886db3f214ea96126893c97bdd1c8bef422a8c0f34d"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_spilu_tuned/mitc4_laminate_modal_10k_comparison.png",
+          "size_bytes": 49520,
+          "sha256": "7d3a014e24e84f51ae858dd13d8183cf6ae656187a665b247b46b966c1488290"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_spilu_tuned/code_aster_modal_raw.json",
+          "size_bytes": 122,
+          "sha256": "06c482b530e4167e21ba41748323347f345ca5c3d23b8bf771dc2d71ca301c8c"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_spilu_tuned/vnv_manifest.json",
+          "size_bytes": 2895,
+          "sha256": "6698da5161825ed422ffd886db3f214ea96126893c97bdd1c8bef422a8c0f34d"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "element": "DST / QUAD4 / DEFI_COMPOSITE"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/mitc4_modal_probe_ssor",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/mitc4_modal_probe_ssor/summary.json",
+        "size_bytes": 1945,
+        "sha256": "ed902ec314f7ad9c2deaa47440e35223fa434d7da1f41568a435c821aed79a7b"
+      },
+      "study_id": "VNV-MITC4-LAMINATE-MODAL-10K-CODEASTER-023",
+      "status": "QF_NUMERICAL_FAILURE_REFERENCE_AVAILABLE",
+      "maturity": "verified_development_external_correlation",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_ssor/report.md",
+          "size_bytes": 625,
+          "sha256": "499936f07135c5d9082ec3dd205afb93d5aa3ce8f48a6e4f629a713588b89341"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_ssor/vnv_manifest.json",
+          "size_bytes": 3952,
+          "sha256": "9c5179620614af190317cd1001c16e7c7c0e2dfaa19cbceb311b284e54a97c69"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_ssor/mitc4_laminate_modal_10k_comparison.png",
+          "size_bytes": 49520,
+          "sha256": "7d3a014e24e84f51ae858dd13d8183cf6ae656187a665b247b46b966c1488290"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_ssor/code_aster_modal_raw.json",
+          "size_bytes": 122,
+          "sha256": "06c482b530e4167e21ba41748323347f345ca5c3d23b8bf771dc2d71ca301c8c"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_ssor/vnv_manifest.json",
+          "size_bytes": 3952,
+          "sha256": "9c5179620614af190317cd1001c16e7c7c0e2dfaa19cbceb311b284e54a97c69"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "element": "DST / QUAD4 / DEFI_COMPOSITE"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/mitc4_modal_probe_ssor_ncv60",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/mitc4_modal_probe_ssor_ncv60/summary.json",
+        "size_bytes": 2080,
+        "sha256": "478738e4dc1a041c972a2633a135baf0db0b9128cdddfbec49c47605dbe8b729"
+      },
+      "study_id": "VNV-MITC4-LAMINATE-MODAL-10K-CODEASTER-023",
+      "status": "QF_NUMERICAL_FAILURE_REFERENCE_AVAILABLE",
+      "maturity": "verified_development_external_correlation",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_ssor_ncv60/report.md",
+          "size_bytes": 625,
+          "sha256": "499936f07135c5d9082ec3dd205afb93d5aa3ce8f48a6e4f629a713588b89341"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_ssor_ncv60/vnv_manifest.json",
+          "size_bytes": 2822,
+          "sha256": "02cc24ba4b6ddb96c06f925de1ebf3b5d5669adb15bd93f40e05241561a21780"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_ssor_ncv60/mitc4_laminate_modal_10k_comparison.png",
+          "size_bytes": 49520,
+          "sha256": "7d3a014e24e84f51ae858dd13d8183cf6ae656187a665b247b46b966c1488290"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_ssor_ncv60/code_aster_modal_raw.json",
+          "size_bytes": 122,
+          "sha256": "06c482b530e4167e21ba41748323347f345ca5c3d23b8bf771dc2d71ca301c8c"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_ssor_ncv60/vnv_manifest.json",
+          "size_bytes": 2822,
+          "sha256": "02cc24ba4b6ddb96c06f925de1ebf3b5d5669adb15bd93f40e05241561a21780"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "element": "DST / QUAD4 / DEFI_COMPOSITE"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/mitc4_modal_probe_ssor_tol1e7",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/mitc4_modal_probe_ssor_tol1e7/summary.json",
+        "size_bytes": 2028,
+        "sha256": "361915bd0df0ad676a17e71fe2bec17eee80aa73c65858f89dc187b29aa6c95a"
+      },
+      "study_id": "VNV-MITC4-LAMINATE-MODAL-10K-CODEASTER-023",
+      "status": "QF_NUMERICAL_FAILURE_REFERENCE_AVAILABLE",
+      "maturity": "verified_development_external_correlation",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_ssor_tol1e7/report.md",
+          "size_bytes": 625,
+          "sha256": "499936f07135c5d9082ec3dd205afb93d5aa3ce8f48a6e4f629a713588b89341"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_ssor_tol1e7/vnv_manifest.json",
+          "size_bytes": 3960,
+          "sha256": "f0914e9cf96fcf5a9aae5b018e82ab12c8a0bf377b41f4be4cd06a1a00b14eed"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_ssor_tol1e7/mitc4_laminate_modal_10k_comparison.png",
+          "size_bytes": 49520,
+          "sha256": "7d3a014e24e84f51ae858dd13d8183cf6ae656187a665b247b46b966c1488290"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_ssor_tol1e7/code_aster_modal_raw.json",
+          "size_bytes": 122,
+          "sha256": "06c482b530e4167e21ba41748323347f345ca5c3d23b8bf771dc2d71ca301c8c"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/mitc4_modal_probe_ssor_tol1e7/vnv_manifest.json",
+          "size_bytes": 3960,
+          "sha256": "f0914e9cf96fcf5a9aae5b018e82ab12c8a0bf377b41f4be4cd06a1a00b14eed"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "element": "DST / QUAD4 / DEFI_COMPOSITE"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/modal_reference",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/modal_reference/summary.json",
+        "size_bytes": 5493,
+        "sha256": "0db3c5aab27a388fa299f7e65ee9f28377f5b8fc3db5ce789c1646b4fe14621f"
+      },
+      "study_id": "VNV-MITC4-MODAL-CODEASTER-DKQ-004",
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "maturity": "verified_development_external_correlation",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/modal_reference/vnv_manifest.json",
+          "size_bytes": 2393,
+          "sha256": "e94f2708d883a9993c6b24e62abb2ab966aa58b686ff90219370f5da3690811d"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/modal_reference/VNV-MITC4-MODAL-CODEASTER-DKQ-004-frequencies.png",
+          "size_bytes": 55077,
+          "sha256": "1f659da2ab95e6e9cb64d26e3e5a5ffbf79f817a1dac0a95ec30f42234b6f459"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/modal_reference/VNV-MITC4-MODAL-CODEASTER-DKQ-004-modes.png",
+          "size_bytes": 316825,
+          "sha256": "358553788d23f1199e200c4c9888636108f83afe3535e36b76cb2bd6f2ff9919"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/modal_reference/code_aster_modal_raw.json",
+          "size_bytes": 304302,
+          "sha256": "dcd1daa962d472dc9782ef08613a5fb0c150e8e430b2c3ef234f216a8807c5e4"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/modal_reference/vnv_manifest.json",
+          "size_bytes": 2393,
+          "sha256": "e94f2708d883a9993c6b24e62abb2ab966aa58b686ff90219370f5da3690811d"
+        }
+      ]
+    },
+    {
+      "directory": "tmp/code_aster/nafems13h",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/nafems13h/summary.json",
+        "size_bytes": 88797,
+        "sha256": "885f58bddbdc885303476f636c345c6fb3d622135c1bb27d53c4d721d7d78211"
+      },
+      "study_id": "VNV-MITC4-HARMONIC-CODEASTER13H-DKQ-007",
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "maturity": "verified_development_external_correlation",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/nafems13h/vnv_manifest.json",
+          "size_bytes": 2107,
+          "sha256": "27f6405611d240ce8868dfe436b39c1cc5f518a7dc6c08647ae64515fa7a695d"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/nafems13h/code-aster-comparison.png",
+          "size_bytes": 98902,
+          "sha256": "f8fa576de60c07409ee26ae69fed5e2cfe926fb187f113e455ae84bfd8833a40"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/nafems13h/code_aster_raw.json",
+          "size_bytes": 514606,
+          "sha256": "0ca13281fd5af412a3f68829ddd9cce2a1183a678a68dee228e9656b8c432644"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/nafems13h/vnv_manifest.json",
+          "size_bytes": 2107,
+          "sha256": "27f6405611d240ce8868dfe436b39c1cc5f518a7dc6c08647ae64515fa7a695d"
+        }
+      ]
+    },
+    {
+      "directory": "tmp/code_aster/newmark_reference",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/newmark_reference/summary.json",
+        "size_bytes": 154108,
+        "sha256": "c605a6a9b08b8e39b20944985462e933462411183c9def5d3b35a1c6d9e600a3"
+      },
+      "study_id": "VNV-MITC4-NEWMARK-CODEASTER-DKQ-005",
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "maturity": "verified_development_external_correlation",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/newmark_reference/vnv_manifest.json",
+          "size_bytes": 2097,
+          "sha256": "fee39141d7b303bb30eb41f9a478342150105a3f004e00f8657b616d5c7cefbb"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/newmark_reference/code-aster-newmark-comparison.png",
+          "size_bytes": 215682,
+          "sha256": "25882525e1e59ef9751ee621a9aca4dbd105c78afbd64a1e883a3e17dc58e75e"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/newmark_reference/code_aster_transient_raw.json",
+          "size_bytes": 904111,
+          "sha256": "0f6768b0ba37eea6e4f0a2e7ed0f12e817056bc91adb3c2c106cf501d0e43dbd"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/newmark_reference/vnv_manifest.json",
+          "size_bytes": 2097,
+          "sha256": "fee39141d7b303bb30eb41f9a478342150105a3f004e00f8657b616d5c7cefbb"
+        }
+      ]
+    },
+    {
+      "directory": "tmp/code_aster/rbe",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/rbe/summary.json",
+        "size_bytes": 1099,
+        "sha256": "3431a95b93dfb99bcc928d64a918c6c6dd1dcc15d1d06fc682c2e3464bd8e27a"
+      },
+      "study_id": "VNV-RBE2-CODEASTER-RIGID-ARM-001",
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "maturity": "experimental",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/rbe/report.md",
+          "size_bytes": 388,
+          "sha256": "ca613484c5ad5d751afe00a63fec7ac420c886799d6c98d70f8d1bbe78a2a4c9"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/rbe/vnv_manifest.json",
+          "size_bytes": 3438,
+          "sha256": "1091371f32025ccca31bc742dec6d0a51cc8a5947b76a40ba559d583fcba2956"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/rbe/code_aster_raw.json",
+          "size_bytes": 38,
+          "sha256": "bddedadebf2815fd27096099f44913d7c5d915c74b688936a4e2ec92cc3f7ed1"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/rbe/vnv_manifest.json",
+          "size_bytes": 3438,
+          "sha256": "1091371f32025ccca31bc742dec6d0a51cc8a5947b76a40ba559d583fcba2956"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "constraint": "LIAISON_DDL"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/tet10_dynamic",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/tet10_dynamic/summary.json",
+        "size_bytes": 57833,
+        "sha256": "bfe79f342a06bd104fa842f0a2c86f58c952a33f64b613f2bdaf7c5fca1cd634"
+      },
+      "study_id": "VNV-TET10-DYNAMICS-CODEASTER-TETRA10-018",
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "maturity": "experimental",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_dynamic/report.md",
+          "size_bytes": 668,
+          "sha256": "27d8c00e53b87021ff578d40edfb92a54d775b94a9b123b6f466bf99f2d0da8c"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_dynamic/vnv_manifest.json",
+          "size_bytes": 4931,
+          "sha256": "9e113c7c2a163e733bbaf6d5e1ac88c2671f3d5de8dd9a10b85e7929543dfed9"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_dynamic/comparison.png",
+          "size_bytes": 182755,
+          "sha256": "514142cde42ef7b832916ca9429e88fbd9327037fc1e01cadeede384dd55465c"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_dynamic/code_aster_raw.json",
+          "size_bytes": 2694,
+          "sha256": "6c1053b86b72fecc4bdc8aefb063315b7c21763e66e4ada60bb1b2238f11e063"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_dynamic/vnv_manifest.json",
+          "size_bytes": 4931,
+          "sha256": "9e113c7c2a163e733bbaf6d5e1ac88c2671f3d5de8dd9a10b85e7929543dfed9"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "element": "3D/TETRA10"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/tet10_j2_complex",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/tet10_j2_complex/summary.json",
+        "size_bytes": 4045,
+        "sha256": "01b73dbd6df471665b7d8b65c1144a3dfa23af432ce7673a4b6bb821c0fd324a"
+      },
+      "study_id": "VNV-TET10-J2-CODEASTER-COMPLEX-026",
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "maturity": "experimental",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_j2_complex/report.md",
+          "size_bytes": 1601,
+          "sha256": "bc550798c877e661bc3d42f744065c77090dca0dd8ed9f567b82ff07d231d71c"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_j2_complex/vnv_manifest.json",
+          "size_bytes": 4975,
+          "sha256": "0f03718083d59080e21c844b5e4943bc1c23a12f6698f467013a5e0a4473f17d"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_j2_complex/comparison.png",
+          "size_bytes": 92627,
+          "sha256": "e98b67053d93e5a84bfeaaf94be988964b2b442583a69a8be13f761d00a4cfaf"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_j2_complex/deformation.png",
+          "size_bytes": 500211,
+          "sha256": "05b9a75d3efcaf1d4e44a1fe141873a3899b6e28a7bf94b96d3b66aa27e8c916"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_j2_complex/mesh_tet10_j2_complex.setup.json",
+          "size_bytes": 1145,
+          "sha256": "239fa7195b20079819908ab48651435f242d2113dcd6acdf688aa74be596785a"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_j2_complex/model.json",
+          "size_bytes": 197350,
+          "sha256": "1ed505216fafae7319964725f93fd3a61865d267d715dc4d1f7d3c9a3d532e41"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_j2_complex/results.json",
+          "size_bytes": 47848383,
+          "sha256": "accd213dcdf719be16c5b6f2c00d9f7540a1ad1c3706a8e19a3f141712d0e73d"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_j2_complex/vnv_manifest.json",
+          "size_bytes": 4975,
+          "sha256": "0f03718083d59080e21c844b5e4943bc1c23a12f6698f467013a5e0a4473f17d"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "element": "TETRA10",
+        "relation": "VMIS_ISOT_LINE"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/tet10_j2_complex_refined_h022",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/tet10_j2_complex_refined_h022/summary.json",
+        "size_bytes": 4072,
+        "sha256": "1e205949839b7a01feece6b95249e35f14cb880a8f78f42446ab5ad89d754f5a"
+      },
+      "study_id": "VNV-TET10-J2-CODEASTER-COMPLEX-026",
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "maturity": "experimental",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_j2_complex_refined_h022/report.md",
+          "size_bytes": 1601,
+          "sha256": "4d6cbc455fdca6516748a81ba8be4323242219190820575a7188caa77d913063"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_j2_complex_refined_h022/vnv_manifest.json",
+          "size_bytes": 5025,
+          "sha256": "012f177861821cf20ebc809c14ae93f68cb3deaaf9a3df01019b0f67aa065526"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_j2_complex_refined_h022/comparison.png",
+          "size_bytes": 94610,
+          "sha256": "835909089270061a96be1505db8d945bb0d1f76070a7f4d19d59c0f7ba7226b3"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_j2_complex_refined_h022/deformation.png",
+          "size_bytes": 511714,
+          "sha256": "2653b58bb1f87adf1f8613361072b27d24230efb3c304d9c428878b934faf76f"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_j2_complex_refined_h022/mesh_tet10_j2_complex.setup.json",
+          "size_bytes": 1145,
+          "sha256": "239fa7195b20079819908ab48651435f242d2113dcd6acdf688aa74be596785a"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_j2_complex_refined_h022/model.json",
+          "size_bytes": 437944,
+          "sha256": "9c201aa162627ada5cc99e284d71d121cc4629367bc4805296c123cc81213b60"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_j2_complex_refined_h022/results.json",
+          "size_bytes": 107260494,
+          "sha256": "753ea7c380cdc49fd91f09b703431a2758b70f07d2dee0b0f9cdc103a44863bf"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_j2_complex_refined_h022/vnv_manifest.json",
+          "size_bytes": 5025,
+          "sha256": "012f177861821cf20ebc809c14ae93f68cb3deaaf9a3df01019b0f67aa065526"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "element": "TETRA10",
+        "relation": "VMIS_ISOT_LINE"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/tet10_j2_complex_refined_h032",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/tet10_j2_complex_refined_h032/summary.json",
+        "size_bytes": 4069,
+        "sha256": "cad3f6d2345f9a1e11e7de0dad30ade4ec27466a62006c16f83a8ce09cce7d95"
+      },
+      "study_id": "VNV-TET10-J2-CODEASTER-COMPLEX-026",
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "maturity": "experimental",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_j2_complex_refined_h032/report.md",
+          "size_bytes": 1601,
+          "sha256": "bc550798c877e661bc3d42f744065c77090dca0dd8ed9f567b82ff07d231d71c"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_j2_complex_refined_h032/vnv_manifest.json",
+          "size_bytes": 5021,
+          "sha256": "6dddeb77511afa4bcf64adb8743960f83b6a3f0da190adf66b28863eb7ba2c59"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_j2_complex_refined_h032/comparison.png",
+          "size_bytes": 92627,
+          "sha256": "e98b67053d93e5a84bfeaaf94be988964b2b442583a69a8be13f761d00a4cfaf"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_j2_complex_refined_h032/deformation.png",
+          "size_bytes": 500211,
+          "sha256": "05b9a75d3efcaf1d4e44a1fe141873a3899b6e28a7bf94b96d3b66aa27e8c916"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_j2_complex_refined_h032/mesh_tet10_j2_complex.setup.json",
+          "size_bytes": 1145,
+          "sha256": "239fa7195b20079819908ab48651435f242d2113dcd6acdf688aa74be596785a"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_j2_complex_refined_h032/model.json",
+          "size_bytes": 197350,
+          "sha256": "1ed505216fafae7319964725f93fd3a61865d267d715dc4d1f7d3c9a3d532e41"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_j2_complex_refined_h032/results.json",
+          "size_bytes": 47848383,
+          "sha256": "accd213dcdf719be16c5b6f2c00d9f7540a1ad1c3706a8e19a3f141712d0e73d"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_j2_complex_refined_h032/vnv_manifest.json",
+          "size_bytes": 5021,
+          "sha256": "6dddeb77511afa4bcf64adb8743960f83b6a3f0da190adf66b28863eb7ba2c59"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "element": "TETRA10",
+        "relation": "VMIS_ISOT_LINE"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/tet10_j2_complex_refinement",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/tet10_j2_complex_refinement/summary.json",
+        "size_bytes": 2529,
+        "sha256": "8d0a0a4eb17465855f4203e4f3e4c4f48d890bd5ebc7dd7761bcda481dfeb848"
+      },
+      "study_id": "VNV-TET10-J2-CODEASTER-COMPLEX-REFINEMENT-027",
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "maturity": "experimental",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_j2_complex_refinement/report.md",
+          "size_bytes": 1161,
+          "sha256": "4fbde2029b3e16cf1c910d7108770f224a42d8f7d18c1e1d7623a9eb1bc92add"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_j2_complex_refinement/convergence.png",
+          "size_bytes": 120536,
+          "sha256": "4267a925e1982ab61149a5c0b5f38cba78ea3dffe7ffb53fb2fff48f6c9abe68"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_j2_complex_refinement/source_digests.json",
+          "size_bytes": 441,
+          "sha256": "c09ea01a40f7145e46478e6995d41e743ed0c6def0396685dcaa99700837df48"
+        }
+      ]
+    },
+    {
+      "directory": "tmp/code_aster/tet10_j2_structural",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/tet10_j2_structural/summary.json",
+        "size_bytes": 4395,
+        "sha256": "2e8e60f4283dd08159f6ce2a604ddc2cf4371fa3681db1dc8dea26b214ffa24e"
+      },
+      "study_id": "VNV-TET10-J2-CODEASTER-STRUCTURAL-025",
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "maturity": "experimental",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_j2_structural/report.md",
+          "size_bytes": 1543,
+          "sha256": "981aaaddc5be4a4da5a352ffba100ec33ec799b0d9a5d0cb9060e498634c1174"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_j2_structural/vnv_manifest.json",
+          "size_bytes": 4972,
+          "sha256": "3c269724a251097de7145bd9617cad3f75c186b0557ad26f895c30b664089fc9"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_j2_structural/comparison.png",
+          "size_bytes": 103742,
+          "sha256": "b6e234633fe14ffcbb0dd8c3a7b472a1d2542eb631e4bcd0f332dacb120dd739"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_j2_structural/deformation.png",
+          "size_bytes": 404409,
+          "sha256": "62216fd6bd643637cd69a7844c83d56330def473cad02c8b1a6bf8ed10d0bb81"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_j2_structural/mesh_tet10_j2.setup.json",
+          "size_bytes": 610,
+          "sha256": "4f9e3b8ace1e6e4f4ff4ebe2f573b3884fd66e49bd3b50ad06219be4efbae264"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_j2_structural/model.json",
+          "size_bytes": 63856,
+          "sha256": "7e9fd6270848c62aca04852dc96dcb4378edc2129925408c1900d09cfcd7b63a"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_j2_structural/results.json",
+          "size_bytes": 15213082,
+          "sha256": "427ee823ceedf72d1d7d7bf1c3bf04b3cf370fd10d2a3bf29eef45d2e049d0c7"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet10_j2_structural/vnv_manifest.json",
+          "size_bytes": 4972,
+          "sha256": "3c269724a251097de7145bd9617cad3f75c186b0557ad26f895c30b664089fc9"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "element": "TETRA10",
+        "relation": "VMIS_ISOT_LINE"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/tet4_dynamic",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/tet4_dynamic/summary.json",
+        "size_bytes": 57958,
+        "sha256": "10a116e3eebb5b69b391aa8108fb5466fbe4de6ab2e04313091282fa61285c76"
+      },
+      "study_id": "VNV-TET4-DYNAMICS-CODEASTER-TETRA4-020",
+      "status": "WARNING",
+      "maturity": "experimental",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet4_dynamic/report.md",
+          "size_bytes": 646,
+          "sha256": "34f523823d966e5670cea4b8c32f9d83d99fce22c0fc2e638435663e05231454"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet4_dynamic/vnv_manifest.json",
+          "size_bytes": 4529,
+          "sha256": "bd7656c099197c68bc944b921986a5a65ddc8add575824bed4c2846a49d028c6"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet4_dynamic/comparison.png",
+          "size_bytes": 179148,
+          "sha256": "245a4450b169e738d4a0345c06edf69610f5afd7feae5d8257bca5e05af87a75"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet4_dynamic/code_aster_raw.json",
+          "size_bytes": 2668,
+          "sha256": "6cbf8cea098f2fe38f48db9f33423344e3c6db074767ec05c6db0a3f4c98f0a5"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet4_dynamic/vnv_manifest.json",
+          "size_bytes": 4529,
+          "sha256": "bd7656c099197c68bc944b921986a5a65ddc8add575824bed4c2846a49d028c6"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "element": "3D/TETRA4"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/tet4_dynamic_refined_h030",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/tet4_dynamic_refined_h030/summary.json",
+        "size_bytes": 57584,
+        "sha256": "23d605947e5124ac1f785e7d5ebc2f5b6b6de3648a608dc7ef6ba91056c9d446"
+      },
+      "study_id": "VNV-TET4-DYNAMICS-CODEASTER-TETRA4-020",
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "maturity": "experimental",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet4_dynamic_refined_h030/report.md",
+          "size_bytes": 664,
+          "sha256": "bf183ac9942c5913dd3735284a49fb573a6177ba8fad170697d1f26e0084062a"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet4_dynamic_refined_h030/vnv_manifest.json",
+          "size_bytes": 4963,
+          "sha256": "094a576dda566d044dc89f14fe043ed02dd9222f6a71167b1c84935e65dd19a8"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet4_dynamic_refined_h030/comparison.png",
+          "size_bytes": 186311,
+          "sha256": "1d7ac0968c5d6d2c5f38b86d71f7403faec4c2d40abe48b9532469162a1531a7"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet4_dynamic_refined_h030/code_aster_raw.json",
+          "size_bytes": 2661,
+          "sha256": "7f4a509f25c1112550be5d0f3d7097a929faa4fca0dfbd63ade5757275e6180c"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tet4_dynamic_refined_h030/vnv_manifest.json",
+          "size_bytes": 4963,
+          "sha256": "094a576dda566d044dc89f14fe043ed02dd9222f6a71167b1c84935e65dd19a8"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "element": "3D/TETRA4"
+      }
+    },
+    {
+      "directory": "tmp/code_aster/tl_structural",
+      "summary": {
+        "role": "campaign_artifact",
+        "path": "tmp/code_aster/tl_structural/summary.json",
+        "size_bytes": 4114,
+        "sha256": "20ff5a593429e13020fc2f4f9da73e3b99f6d4e4ce3770932f7331983c4f9971"
+      },
+      "study_id": "VNV-TET4-TL-CODEASTER-STRUCTURAL-009",
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "maturity": "research",
+      "artifacts": [
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tl_structural/report.md",
+          "size_bytes": 941,
+          "sha256": "8a7bc46000a3eaef75776dab937b704fd838b73e87bfd05da925ec15fcb1701b"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tl_structural/vnv_manifest.json",
+          "size_bytes": 5928,
+          "sha256": "d7db0adb40de5b9a5377ad40c5499da10fed60a734e92de44c70678e63cdfab0"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tl_structural/code_aster_column_path.png",
+          "size_bytes": 58282,
+          "sha256": "4e19c6125b44411b22165ab2aaa65a01189240e888f06a9301c1313c519f04cd"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tl_structural/code_aster_stress_comparison.png",
+          "size_bytes": 29714,
+          "sha256": "701e36818b0ba8b12644f70464e7f387599efd5fe8ae6df78c315784c76814d9"
+        },
+        {
+          "role": "campaign_artifact",
+          "path": "tmp/code_aster/tl_structural/vnv_manifest.json",
+          "size_bytes": 5928,
+          "sha256": "d7db0adb40de5b9a5377ad40c5499da10fed60a734e92de44c70678e63cdfab0"
+        }
+      ],
+      "external_solver": {
+        "name": "Code_Aster",
+        "version": "18.1.0",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "modelisation": "3D/TETRA4"
+      }
+    }
+  ],
+  "summary": {
+    "study_count": 52,
+    "excluded_directories": [],
+    "pass_external_correlation": 36,
+    "warning": 1,
+    "failure": 13,
+    "unavailable": 2
+  }
+}

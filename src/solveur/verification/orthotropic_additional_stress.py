@@ -73,7 +73,7 @@ class AdditionalOrthotropicStressCampaign:
         summary: dict[str, object] = {
             "campaign_id": self.campaign_id,
             "status": status,
-            "maturity": "engineering_internal_pending_human_recheck",
+            "maturity": "engineering_internal_pending_owner_recheck",
             "observable": "material-axis S11 [Pa]",
             "blocking_oracle": "Code_Aster 18.1.0 integration-point stress on identical TET4 meshes",
             "cases": cases,

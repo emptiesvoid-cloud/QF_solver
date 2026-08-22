@@ -13,11 +13,11 @@ def command_vnv_compare(args: argparse.Namespace) -> int:
     run = run_vnv_study(args.study, args.output)
     print(f"VNV {run.status}: {run.study.identifier} - {run.study.title}")
     print(f"automated verdict: {run.automated_verdict}")
-    print(f"human decision: {run.human_decision}")
+    print(f"owner decision: {run.owner_decision}")
     print(f"report: {args.output.resolve() / run.files['report']}")
-    if run.automated_verdict == "FAIL" or run.human_decision == "rejected":
+    if run.automated_verdict == "FAIL" or run.owner_decision == "rejected":
         return int(ExitCode.QUALIFICATION_REJECTED)
-    if args.require_approval and run.human_decision not in {"accepted", "accepted_with_reservations"}:
+    if args.require_approval and run.owner_decision not in {"accepted", "accepted_with_reservations"}:
         return int(ExitCode.QUALIFICATION_REJECTED)
     return int(ExitCode.ACCEPTED)
 

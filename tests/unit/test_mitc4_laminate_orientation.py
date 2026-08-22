@@ -5,7 +5,7 @@ import copy
 import numpy as np
 import pytest
 
-from mitc4.element import MITC4Element
+from solveur.compat.mitc4.element import MITC4Element
 
 from solveur.api import solve_model
 from solveur.core.model import FiniteElementModel

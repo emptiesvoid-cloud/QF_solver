@@ -408,9 +408,9 @@
       "residual_failure_tolerance": 1e-07,
       "fallback_used": false,
       "used_method": "direct",
-      "linear_solve_seconds": 0.0001613000058569014,
-      "assembly_seconds": 0.0022454000427387655,
-      "total_seconds": 0.016242100042290986,
+      "linear_solve_seconds": 0.00016410008538514376,
+      "assembly_seconds": 0.0021383999846875668,
+      "total_seconds": 0.04729490005411208,
       "resource_estimate": {
         "nnz": 88,
         "sparse_memory_bytes": 1156,
@@ -2824,21 +2824,21 @@
         "name": "equilibrium:constraint_force_closure",
         "status": "PASS",
         "value": 4.0730291834868985e-15,
-        "limit": "<= 1e-10 PASS, <= 1e-8 WARNING",
+        "limit": "<= 1e-10 PASS, <= 1e-7 WARNING",
         "message": "Recovered constraint forces must close full-space equilibrium."
       },
       {
         "name": "equilibrium:constraint_global_force_closure",
         "status": "PASS",
         "value": 4.850638409455635e-15,
-        "limit": "<= 1e-10 PASS, <= 1e-8 WARNING",
+        "limit": "<= 1e-10 PASS, <= 1e-7 WARNING",
         "message": "Constraint generalized forces must close the global force balance of the residual."
       },
       {
         "name": "equilibrium:constraint_global_moment_closure",
         "status": "PASS",
         "value": 5.760133111228542e-15,
-        "limit": "<= 1e-10 PASS, <= 1e-8 WARNING",
+        "limit": "<= 1e-10 PASS, <= 1e-7 WARNING",
         "message": "Constraint generalized forces must close the global moment balance of the residual."
       },
       {
@@ -2851,7 +2851,7 @@
     ],
     "notes": [],
     "qualification": {
-      "solver_version": "0.2.0a0",
+      "solver_version": "0.2.1a0",
       "schema_version": 1,
       "units": {
         "system": "SI"

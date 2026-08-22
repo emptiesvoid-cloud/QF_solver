@@ -30,7 +30,7 @@ Quentin Farinazzo.
 | Documentation et exemples originaux | CC BY 4.0 |
 | Audit public | a relancer apres durcissement du scan de contenu |
 | Audit archive | a relancer sur le contenu exact du tag |
-| Site MkDocs strict | PASS |
+| Documentation web MkDocs historique | PASS lors du gel 0.2.0 ; retiree en 0.2.1a0 |
 | Ruff et compilation ciblee | PASS |
 | Tests documentaires/packaging/evidence/open-source cibles | 39 PASS |
 | Suite pytest complete | PASS : 1091 passed, 17 skipped apres corrections de publication |
@@ -57,7 +57,7 @@ Le perimetre gele comprend :
 - contact sans frottement et contact avec frottement dans leurs campagnes
   experimentales respectives ;
 - import Gmsh, exports JSON/CSV/VTU, audits boite blanche, rapports Markdown,
-  site MkDocs hors ligne, profils de verification et mode grand modele
+  documentation web MkDocs historique, profils de verification et mode grand modele
   optionnel PETSc/MPI.
 
 Les preuves associees comprennent les patch tests, etudes de convergence,

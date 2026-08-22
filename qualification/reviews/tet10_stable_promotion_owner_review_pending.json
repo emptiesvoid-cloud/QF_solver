@@ -1,0 +1,58 @@
+{
+  "doc_id": "OWNER-REVIEW-ST-02-A-TET10-001",
+  "review_id": "OWNER-REVIEW-ST-02-A-TET10-001",
+  "revision": "0.1",
+  "status": "owner_reviewed",
+  "scope": ["tet10-linear-static", "tet10-modal", "tet10-transient-dynamic", "tet10-harmonic-response"],
+  "owner": "Quentin Farinazzo",
+  "decision": "accepted_with_recommendations",
+  "maturity_before": "owner_accepted",
+  "maturity_target": "stable",
+  "promotion_target": "stable",
+  "evidence": [
+    "qualification/maturity_evidence_0_2_1/tet10_stable_batch_01/summary.json",
+    "qualification/maturity_evidence_0_2_1/tet10_stable_batch_01/report.md",
+    "qualification/maturity_evidence_0_2_1/tet10_dynamic_code_aster/summary.json",
+    "qualification/maturity_evidence_0_2_1/tet10_dynamic_damped_cylinder_code_aster/summary.json",
+    "qualification/maturity_evidence_0_2_1/tet10_dynamic_block_code_aster/summary.json",
+    "qualification/maturity_evidence_0_2_1/tet10_stress_probe_code_aster/summary.json",
+    "qualification/maturity_evidence_0_2_1/tet10_stress_probe_cantilever_code_aster/summary.json",
+    "qualification/maturity_evidence_0_2_1/tet10_stress_probe_cylinder_code_aster/summary.json",
+    "qualification/vnv/external/code_aster_tet10_static_reference_001/summary.json",
+    "qualification/vnv/external/code_aster_tet10_static_reference_001/report.md",
+    "qualification/vnv/external/code_aster_tet10_static_reference_001/vnv_manifest.json",
+    "qualification/stress_observable_policy_0_2_1.json",
+    "qualification/maturity_evidence_0_2_1/tet10_linear_static.json",
+    "qualification/maturity_evidence_0_2_1/tet10_linear_dynamics.json",
+    "qualification/maturity_evidence_0_2_1/tet10_dynamic_refinement_001.json",
+    "qualification/vnv/external/tet10_dynamic_refinement_001/reference/summary.json",
+    "qualification/vnv/external/tet10_dynamic_refinement_001/reference/controlled_report.md",
+    "qualification/vnv/external/tet10_dynamic_refinement_001/reference/time_refinement.png",
+    "qualification/vnv/external/tet10_dynamic_refinement_001/reference/evidence_manifest.json",
+    "output/pdf/tet10_dynamic_refinement_owner_review.pdf"
+  ],
+  "questions": [
+    {"id": "Q1", "question": "Les preuves TET10 statiques et dynamiques couvrent-elles le domaine isotrope revendique ?", "answer": null},
+    {"id": "Q2", "question": "Les correlations CalculiX statiques, Code_Aster TETRA10 statique et Code_Aster dynamiques sont-elles acceptables ?", "answer": null},
+    {"id": "Q3", "question": "Quatre niveaux spatiaux externes sur le cas cylindrique et quatre niveaux temporels (T/30 a T/240), avec un increment final de 0,472096 %, sont-ils suffisants pour ce lot ?", "answer": null},
+    {"id": "Q4", "question": "Les limites avec amortissement de Rayleigh massique cible a 2 %, sans amortissement non proportionnel, non-linearite, contact et grandes transformations sont-elles suffisantes ?", "answer": null},
+    {"id": "Q5", "question": "La preuve amortie Code_Aster sur le cylindre est-elle suffisante pour fermer le point amortissement proportionnel, en conservant les exclusions declarees ?", "answer": null},
+    {"id": "Q6", "question": "La maturite stable est-elle acceptable avec trois chemins de charge dynamiques et des sondes de champ interieur sur trois geometries, en excluant explicitement les pics ponctuels aux singularites ?", "answer": null},
+    {"id": "Q7", "question": "Les sondes de contraintes interieures sur le bloc, le cantilever et le cylindre, avec des ecarts L2 de 2,1316e-13 %, 5,9227e-10 % et 0,43619 %, sont-elles suffisantes comme preuve de contraintes hors singularites pour le domaine borne ?", "answer": null},
+    {"id": "Q8", "question": "Decision Owner : stable, accepted_with_recommendations ou maintien owner_accepted ?", "answer": null}
+  ],
+  "review_date": "2026-08-21",
+  "owner_comment": "Promotion stable acceptee pour le domaine isotrope lineaire documente, avec amortissement proportionnel declare et exclusions conservees.",
+  "limitations": [
+    "La correlation dynamique externe reste limitee a une famille de cantilever droit, dont une variante cylindrique amortie.",
+    "L amortissement externe est massique proportionnel de Rayleigh, avec un ratio modal cible de 2 % sur le premier mode.",
+    "Les contraintes aux singularites ne sont pas des observables acceptes.",
+    "Aucune revendication de certification externe n'est associee a ce dossier."
+  ],
+  "signature": {
+    "name": "Quentin Farinazzo",
+    "date": "2026-08-21",
+    "type": "declared_owner_review",
+    "independence": "not_independent"
+  }
+}

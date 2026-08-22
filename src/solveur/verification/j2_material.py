@@ -209,6 +209,23 @@ class J2MaterialVerificationCampaign:
             / "references"
             / "abaqus_j2_uniaxial_2024.json"
         )
+        if not reference_path.is_file():
+            return (
+                {
+                    "reference_id": None,
+                    "title": "Abaqus published J2 reference",
+                    "status": "NOT_AVAILABLE",
+                    "execution_status": "not_available_in_checkout",
+                    "comparison_scope": None,
+                    "comparison": [],
+                    "excluded_points": {
+                        "reason": "The controlled Abaqus reference is absent; no published values are reconstructed."
+                    },
+                    "maximum_absolute_plastic_strain_error": None,
+                    "reason": "Use the Code_Aster constitutive reference and analytical checks for this campaign.",
+                },
+                [],
+            )
         reference = json.loads(reference_path.read_text(encoding="utf-8"))
         material_data = reference["material"]
         material = VonMisesElastoplasticMaterial(
@@ -274,32 +291,44 @@ class J2MaterialVerificationCampaign:
         axes[0].grid(alpha=0.25)
         abaqus_qf_plastic = [1.0e3 * row["qf_solver_axial_plastic_strain"] for row in abaqus]
         abaqus_stress = [row["stress_mpa"] for row in abaqus]
-        axes[1].plot(
-            abaqus_qf_plastic,
-            abaqus_stress,
-            color="#0b7285",
-            linewidth=2.0,
-            marker="o",
-            markersize=4,
-            label="QF_solver, parametres Abaqus",
-        )
-        axes[1].scatter(
-            [1.0e3 * row["abaqus_exact_axial_plastic_strain"] for row in abaqus],
-            abaqus_stress,
-            color="#c92a2a",
-            marker="x",
-            s=55,
-            label="Abaqus exact publie",
-            zorder=3,
-        )
-        axes[1].set(
-            xlabel="Deformation plastique axiale [1e-3]",
-            ylabel="Contrainte axiale [MPa]",
-            title="Correlation externe monotone",
-        )
-        axes[1].legend()
-        axes[1].grid(alpha=0.25)
-        figure.suptitle("VNV J2 - theorie analytique et reference Abaqus publiee")
+        if abaqus:
+            axes[1].plot(
+                abaqus_qf_plastic,
+                abaqus_stress,
+                color="#0b7285",
+                linewidth=2.0,
+                marker="o",
+                markersize=4,
+                label="QF_solver, parametres de reference",
+            )
+            axes[1].scatter(
+                [1.0e3 * row["abaqus_exact_axial_plastic_strain"] for row in abaqus],
+                abaqus_stress,
+                color="#c92a2a",
+                marker="x",
+                s=55,
+                label="Abaqus exact publie",
+                zorder=3,
+            )
+            axes[1].set(
+                xlabel="Deformation plastique axiale [1e-3]",
+                ylabel="Contrainte axiale [MPa]",
+                title="Correlation externe monotone",
+            )
+            axes[1].legend()
+            axes[1].grid(alpha=0.25)
+            figure.suptitle("VNV J2 - theorie analytique et reference publiee")
+        else:
+            axes[1].axis("off")
+            axes[1].text(
+                0.5,
+                0.5,
+                "Reference Abaqus non disponible\naucune valeur reconstruite",
+                ha="center",
+                va="center",
+                color="#495057",
+            )
+            figure.suptitle("VNV J2 - theorie analytique; correlation Abaqus indisponible")
         figure.savefig(self.output_dir / "uniaxial_comparison.png", dpi=180)
         plt.close(figure)
 
@@ -335,15 +364,14 @@ class J2MaterialVerificationCampaign:
                 "Les historiques numeriques complets sont stockes dans `results.json`. Ils comprennent la deformation, ",
                 "la contrainte, la contrainte equivalente, la limite courante, la deformation plastique cumulee et la dissipation incrementale.",
                 "",
-                "## Correlation analytique et Abaqus",
+                "## Correlation analytique et reference externe",
                 "",
-                "La traction monotone est comparee a la loi bilineaire exacte. Les quatre premiers increments monotones du benchmark ",
-                "Abaqus *Uniformly loaded, elastic-plastic plate* sont aussi compares a leurs deformations plastiques exactes publiees.",
+                "La traction monotone est comparee a la loi bilineaire exacte.",
                 "",
                 "![Comparaison uniaxiale](uniaxial_comparison.png)",
                 "",
-                "Les increments 5 a 10 du benchmark Abaqus ne sont pas compares : le fichier officiel emploie un ecrouissage cinematique, ",
-                "alors que QF_solver implemente actuellement un ecrouissage isotrope. Abaqus n'a pas ete execute localement; son alias 2019 est casse.",
+                "La reference Abaqus publiee n'est pas disponible dans le checkout courant; aucune valeur n'est reconstruite. ",
+                "La comparaison constitutive Code_Aster est archivee separement dans le ledger de promotion TET4 J2.",
                 "",
                 "## Conclusion et limites",
                 "",

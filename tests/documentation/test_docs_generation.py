@@ -7,10 +7,9 @@ from urllib.parse import unquote, urlparse
 
 import numpy as np
 import pytest
-import yaml
 from PIL import Image, ImageStat
 
-from scripts.build_docs import DocumentationQualificationGateError, DocumentationSiteBuilder
+from scripts.build_docs import DocumentationEvidenceBuilder, DocumentationQualificationGateError
 from scripts.build_technical_latex import _pandoc, _pdflatex
 from scripts.docs_models import upgrade_tet4_to_tet10
 from scripts.docs_publication import normalize_document_status, read_document_metadata
@@ -22,9 +21,6 @@ from solveur.io.manifest import sha256
 
 ROOT = Path(__file__).resolve().parents[2]
 DOCS = ROOT / "docs"
-SITE = ROOT / "site"
-
-
 class SiteLinkCollector(HTMLParser):
     def __init__(self) -> None:
         super().__init__()
@@ -200,13 +196,24 @@ def test_owner_reviewed_document_normalizes_to_controlled() -> None:
     assert normalize_document_status("owner_reviewed") == "controlled"
 
 
+def test_document_lifecycle_statuses_are_preserved() -> None:
+    for status in (
+        "ready_for_owner_review",
+        "owner_accepted",
+        "owner_accepted_experimental",
+        "owner_accepted_with_recommendations",
+        "controlled_candidate",
+    ):
+        assert normalize_document_status(status) == status
+
+
 def test_qualification_build_requires_controlled_source(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr(
         "scripts.build_docs.git_source_state",
         lambda _root: {"revision": "uncommitted", "dirty": True},
     )
     with pytest.raises(DocumentationQualificationGateError, match="no committed source revision"):
-        DocumentationSiteBuilder(ROOT)._enforce_qualification_gate()
+        DocumentationEvidenceBuilder(ROOT)._enforce_qualification_gate()
 
 
 def test_qualification_gate_accepts_controlled_and_superseded_documents(
@@ -230,7 +237,7 @@ def test_qualification_gate_accepts_controlled_and_superseded_documents(
         "scripts.build_docs.git_source_state",
         lambda _root: {"revision": "abc123", "dirty": False},
     )
-    DocumentationSiteBuilder(tmp_path)._enforce_qualification_gate()
+    DocumentationEvidenceBuilder(tmp_path)._enforce_qualification_gate()
 
 
 @pytest.mark.docs
@@ -276,23 +283,14 @@ def test_generated_manifest_hashes_and_images_are_valid() -> None:
     assert review["status"] == "BLOCKED"
 
 
-def test_mkdocs_configuration_has_no_remote_runtime_resource() -> None:
-    configuration = yaml.safe_load((ROOT / "mkdocs.yml").read_text(encoding="utf-8"))
-    resources = [*configuration.get("extra_css", []), *configuration.get("extra_javascript", [])]
-    assert resources
-    assert all(not str(resource).startswith(("http://", "https://", "//")) for resource in resources)
-    assert (DOCS / "assets" / "vendor" / "mathjax" / "tex-svg-full.js").stat().st_size > 1_000_000
-
-
-def test_documentation_access_uses_system_browser_launcher() -> None:
+def test_documentation_is_markdown_and_pdf_first_without_web_runtime() -> None:
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     installation = (DOCS / "demarrage" / "installation.md").read_text(encoding="utf-8")
-    stylesheet = (DOCS / "assets" / "stylesheets" / "engineering.css").read_text(encoding="utf-8")
     for content in (readme, installation):
-        assert "scripts\\serve_docs.py" in content
-        assert "<http://127.0.0.1" not in content
-    assert ".md-nav .md-status" in stylesheet
-    assert "display: none" in stylesheet
+        assert "scripts\\build_docs.py" in content
+        assert "scripts\\build_technical_latex.py" in content
+        assert "serve_docs.py" not in content
+    assert not (ROOT / "mkdocs.yml").exists()
 
 
 def test_printable_mitc4_reviews_do_not_require_a_latex_renderer() -> None:
@@ -307,9 +305,7 @@ def test_printable_mitc4_reviews_do_not_require_a_latex_renderer() -> None:
         assert "```text" in content
 
 
-def test_complete_formulation_pages_are_registered_and_linked_from_navigation() -> None:
-    configuration = yaml.safe_load((ROOT / "mkdocs.yml").read_text(encoding="utf-8"))
-    navigation = json.dumps(configuration["nav"])
+def test_complete_formulation_pages_are_registered() -> None:
     pages = {
         "elements/tet4/formulation_complete.md": ("# TET4 : derivation complete", "Demonstration : traction"),
         "elements/tet10/formulation_complete.md": ("# TET10 : derivation complete", "Consistance et demonstration"),
@@ -321,44 +317,7 @@ def test_complete_formulation_pages_are_registered_and_linked_from_navigation() 
     for relative_path, required_fragments in pages.items():
         content = (DOCS / relative_path).read_text(encoding="utf-8")
         assert relative_path in registered_paths
-        assert relative_path in navigation
         for fragment in required_fragments:
             assert fragment in content
 
 
-@pytest.mark.docs
-def test_built_site_has_no_broken_local_link_anchor_or_resource() -> None:
-    if not (SITE / "index.html").is_file():
-        pytest.skip("Build the MkDocs site before checking rendered links.")
-    parsed_pages: dict[Path, SiteLinkCollector] = {}
-
-    def parse(path: Path) -> SiteLinkCollector:
-        resolved = path.resolve()
-        if resolved not in parsed_pages:
-            collector = SiteLinkCollector()
-            collector.feed(resolved.read_text(encoding="utf-8"))
-            parsed_pages[resolved] = collector
-        return parsed_pages[resolved]
-
-    for html_path in SITE.rglob("*.html"):
-        collector = parse(html_path)
-        for kind, raw_target in collector.targets:
-            parsed = urlparse(raw_target)
-            if parsed.scheme in {"mailto", "tel", "javascript", "data"}:
-                continue
-            if parsed.scheme in {"http", "https"} or parsed.netloc:
-                assert kind == "link", f"Remote runtime resource in {html_path}: {raw_target}"
-                continue
-            path_part = unquote(parsed.path)
-            if path_part.startswith("/"):
-                target = SITE / path_part.lstrip("/")
-            else:
-                target = html_path.parent / path_part if path_part else html_path
-            if target.is_dir():
-                target = target / "index.html"
-            elif not target.suffix and not target.is_file():
-                target = target / "index.html"
-            assert target.is_file(), f"Broken {kind} in {html_path}: {raw_target}"
-            if parsed.fragment and target.suffix.lower() == ".html":
-                identifier = unquote(parsed.fragment)
-                assert identifier in parse(target).identifiers, f"Broken anchor in {html_path}: {raw_target}"

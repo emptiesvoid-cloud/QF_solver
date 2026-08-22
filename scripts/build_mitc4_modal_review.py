@@ -13,7 +13,7 @@ matplotlib.use("Agg")
 from matplotlib import pyplot as plt  # noqa: E402
 
 from build_mitc4_transient_review import _default_edge, _print_pdf, _render_html
-from mitc4.mesh import MeshFactory
+from solveur.compat.mitc4.mesh import MeshFactory
 
 
 ROOT = Path(__file__).resolve().parents[1]

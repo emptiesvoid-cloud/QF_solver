@@ -43,7 +43,14 @@ class CodeAsterFrictionContactCampaign:
     def run(self) -> dict[str, Any]:
         """Run the saturated sliding case through the pinned Docker image."""
         self.output_dir.mkdir(parents=True, exist_ok=True)
-        rows = [self._run_case("slip", 200.0, self._tangential_stiffness, "slip")]
+        rows = [
+            self._run_case(identifier, load_x, self._tangential_stiffness, "slip")
+            for identifier, load_x in (
+                ("slip_200", 200.0),
+                ("slip_250", 250.0),
+                ("slip_300", 300.0),
+            )
+        ]
         checks = self._checks(rows)
         summary: dict[str, Any] = {
             "study_id": self.study_id,
@@ -65,6 +72,7 @@ class CodeAsterFrictionContactCampaign:
                 "friction_coefficient": self._friction,
                 "same_loads_and_units": True,
             },
+            "load_level_count": len(rows),
             "cases": rows,
             "checks": checks,
             "limitations": [
@@ -120,22 +128,27 @@ class CodeAsterFrictionContactCampaign:
 
     @staticmethod
     def _checks(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
-        slip = rows[0]
-        return [
-            _upper("slip_qf_code_aster_ux", float(slip["qf_code_aster_ux_difference"]), 0.02),
-            _upper("normal_penalty_displacement", abs(float(slip["qf_code_aster_uz_difference"])), 1.0e-3),
-            {
-                "id": "qf_slip_branch",
-                "value": float(int(slip["qf_state"] != "slip")),
-                "limit": 0.0,
-                "status": "PASS" if slip["qf_state"] == "slip" else "FAIL",
-            },
-            _upper(
-                "qf_slip_coulomb_limit",
-                abs(float(slip["qf_tangential_force_n"]) - float(slip["qf_friction_limit_n"])),
-                1.0e-8,
-            ),
-        ]
+        checks: list[dict[str, Any]] = []
+        for slip in rows:
+            identifier = str(slip["id"])
+            checks.extend(
+                [
+                    _upper(f"{identifier}_qf_code_aster_ux", float(slip["qf_code_aster_ux_difference"]), 0.02),
+                    _upper(f"{identifier}_normal_penalty_displacement", abs(float(slip["qf_code_aster_uz_difference"])), 1.0e-3),
+                    {
+                        "id": f"{identifier}_qf_slip_branch",
+                        "value": float(int(slip["qf_state"] != "slip")),
+                        "limit": 0.0,
+                        "status": "PASS" if slip["qf_state"] == "slip" else "FAIL",
+                    },
+                    _upper(
+                        f"{identifier}_qf_slip_coulomb_limit",
+                        abs(float(slip["qf_tangential_force_n"]) - float(slip["qf_friction_limit_n"])),
+                        1.0e-8,
+                    ),
+                ]
+            )
+        return checks
 
     def _plot(self, rows: list[dict[str, Any]]) -> None:
         labels = [str(row["id"]) for row in rows]

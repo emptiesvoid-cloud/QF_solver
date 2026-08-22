@@ -1,6 +1,6 @@
-from mitc4.verification import MechanicalVerifier
-from mitc4.locking import EnhancedShearLockingStudy
-from mitc4.convergence import Mitc4StructuralConvergence
+from solveur.compat.mitc4.verification import MechanicalVerifier
+from solveur.compat.mitc4.locking import EnhancedShearLockingStudy
+from solveur.compat.mitc4.convergence import Mitc4StructuralConvergence
 import pytest
 
 

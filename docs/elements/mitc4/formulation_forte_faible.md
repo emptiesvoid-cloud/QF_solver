@@ -193,5 +193,5 @@ transformations, facettes de qualite bornee, drilling penalise, pas de
 delaminage ni dommage, et aucune extrapolation hors du domaine V&V.
 
 References primaires : `REF-MITC4-DVORKIN`, `REF-MITC-BATHE`,
-`REF-FEM-BATHE`; code `mitc4/element.py`; exigences `REQ-SOL-002`,
+`REF-FEM-BATHE`; code `solveur/elements/shell/mitc4/element.py`; exigences `REQ-SOL-002`,
 `REQ-SOL-005` et `REQ-MESH-002`.

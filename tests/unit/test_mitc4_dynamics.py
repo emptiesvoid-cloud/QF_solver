@@ -4,8 +4,8 @@ import numpy as np
 import pytest
 from scipy.sparse.linalg import spsolve
 
-from mitc4.element import MITC4Element
-from mitc4.material import ShellMaterial
+from solveur.compat.mitc4.element import MITC4Element
+from solveur.compat.mitc4.material import ShellMaterial
 from solveur.core.assembler import GlobalAssembler
 from solveur.core.analysis import AnalysisSettings
 from solveur.core.dynamic_reduction import DynamicDofReducer

@@ -1,0 +1,37 @@
+{
+  "review_id": "BEAM2-LS-OWNER-REVIEW-2026-08-15",
+  "revision": "0.2.1-alpha",
+  "status": "owner_reviewed",
+  "decision": "accepted_with_recommendations",
+  "promotion_target": "stable",
+  "reviewer": "Quentin Farinazzo",
+  "review_date": "2026-08-21",
+  "scope": ["beam2-linear-static"],
+  "questions": [
+    "Q1: La formulation BEAM2 Timoshenko, les six DDL, le repere local et les limites d'usage sont-ils acceptes ?",
+    "Q2: La correlation Code_Aster POU_D_E sur les memes maillages 4, 8 et 16 elements est-elle suffisante ?",
+    "Q3: L'ecart de deplacement de pointe au maillage fin, 0,002808 %, et les increments de raffinement sont-ils acceptables ?",
+    "Q4: Le perimetre reste-t-il borne aux poutres elancees, sans extrapolation aux poutres epaisses, joints, contact ou non-linearite geometrique ?",
+    "Q5: Decision Owner pour la promotion de maturite du scope beam2-linear-static"
+  ],
+  "evidence": [
+    "qualification/maturity_evidence_0_2_1/beam2_static_code_aster/summary.json",
+    "qualification/maturity_evidence_0_2_1/beam2_static_code_aster/report.md",
+    "qualification/maturity_evidence_0_2_1/beam2_static_code_aster/beam2_static_code_aster.png",
+    "qualification/maturity_evidence_0_2_1/beam2_static_code_aster/vnv_manifest.json",
+    "qualification/maturity_evidence_0_2_1/beam2_discrete_static.json"
+  ],
+  "limitations": [
+    "POU_D_E est une formulation Euler-Bernoulli, tandis que BEAM2 QF_solver est Timoshenko.",
+    "La campagne vise une poutre elancee : elle ne valide pas le cisaillement des poutres epaisses.",
+    "Aucune maturite ne doit changer sans decision Owner explicite."
+  ],
+  "owner_comment": "Promotion stable acceptee pour les poutres droites elancees dans le domaine documente.",
+  "signature": {
+    "name": "Quentin Farinazzo",
+    "date": "2026-08-21",
+    "type": "declared_owner_review",
+    "independence": "not_independent"
+  },
+  "certification_claim": "none"
+}

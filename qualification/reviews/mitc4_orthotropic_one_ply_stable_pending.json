@@ -1,0 +1,44 @@
+{
+  "review_id": "OWNER-REVIEW-MITC4-ORTHOTROPIC-ONE-PLY-STABLE-PENDING-2026-08-21",
+  "review_mode": "owner_review",
+  "status": "owner_reviewed",
+  "scope": ["mitc4-orthotropic-homogeneous-ply"],
+  "decision": "accepted_with_recommendations",
+  "promotion_target": "stable",
+  "bounded_scope": {
+    "material": "one homogeneous orthotropic ply through shell_laminate",
+    "analyses": ["linear_static", "modal", "newmark", "harmonic_response"],
+    "planar_orientations_deg": [0.0, 45.0, 90.0],
+    "curved_orientation": "axial 0 deg only on the faceted cylindrical panel",
+    "units": "SI"
+  },
+  "questions_document": "docs/verification/mitc4_stable_package/owner_review.md",
+  "closure_audit": "docs/verification/mitc4_stable_package/completion_audit.md",
+  "evidence": [
+    "docs/verification/mitc4_stable_package/orthotropic_one_ply_results_2026-08-21.md",
+    "qualification/vnv/mitc4_stable_package_2026-08-21/study.json",
+    "results/mitc4_orthotropic_one_ply_static_20260821/summary.json",
+    "results/mitc4_orthotropic_one_ply_internal_20260821/summary.json",
+    "results/mitc4_orthotropic_one_ply_codeaster_20260821/summary.json",
+    "results/mitc4_orthotropic_modal_codeaster_20260821_56x14/summary.json",
+    "results/mitc4_orthotropic_curved_axial_one_ply_calculix_20260821/summary.json",
+    "results/mitc4_orthotropic_curved_dynamic_20260821/summary.json",
+    "results/mitc4_orthotropic_curved_dynamic_codeaster_20260821_16x8_aligned/summary.json",
+    "results/mitc4_orthotropic_curved_dynamic_codeaster_20260821_32x16_aligned/summary.json",
+    "output/pdf/mitc4_orthotropic_one_ply_stable_owner_review.pdf"
+  ],
+  "open_exclusions": [
+    "non-axial projected material orientation on a curved surface",
+    "interlaminar S13/S23 acceptance",
+    "damage, rupture, delamination and large deformation"
+  ],
+  "review_date": "2026-08-21",
+  "owner_comment": "Owner accepte la géométrie et les aires de référence, la masse cohérente, les invariants et la corrélation Code_Aster. Les exclusions rupture, dommage, délamination et orientation courbe non axiale sont maintenues. Décision de promotion : stable pour le périmètre borné documenté.",
+  "signature": {
+    "name": "Quentin Farinazzo",
+    "date": "2026-08-21",
+    "type": "declared_owner_review",
+    "independence": "not_independent",
+    "declaration": "Décision stable déclarée par l'Owner dans la revue du paquet MITC4 orthotrope homogène à un pli."
+  }
+}

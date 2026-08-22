@@ -11,7 +11,7 @@ import matplotlib
 matplotlib.use("Agg")
 from matplotlib import pyplot as plt  # noqa: E402
 
-from mitc4.convergence import cook_large_point
+from solveur.compat.mitc4.convergence import cook_large_point
 
 
 def main() -> int:

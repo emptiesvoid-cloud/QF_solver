@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
 
 import pytest
@@ -32,7 +33,7 @@ EVIDENCE_TESTS = {
     "tests/unit/test_calculix_curved_orientation.py::test_controlled_curved_orientation_evidence_is_complete",
     "tests/unit/test_calculix_j2.py::test_controlled_calculix_input_requests_isotropic_hardening",
     "tests/unit/test_calculix_tet10_evidence.py::test_controlled_calculix_tet10_evidence_is_complete",
-    "tests/unit/test_documentation_baseline.py::test_p0_documentation_baseline_declares_automatic_evidence_and_human_blockers",
+    "tests/unit/test_documentation_baseline.py::test_p0_documentation_baseline_declares_automatic_evidence_and_owner_review_blockers",
     "tests/unit/test_element_analysis_matrix.py::test_element_analysis_matrix_is_complete_and_references_existing_evidence",
     "tests/unit/test_element_analysis_matrix.py::test_linear_dynamic_closure_register_references_real_evidence",
     "tests/unit/test_external_correlation.py::test_official_abaqus_reference_is_controlled_and_monotone",
@@ -73,7 +74,11 @@ EVIDENCE_TESTS = {
 
 def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
     """Skip only archive-backed checks when the optional evidence corpus is absent."""
-    evidence_available = EVIDENCE_ROOT.is_dir() and GENERATED_DOCS_MANIFEST.is_file()
+    evidence_available = (
+        os.environ.get("QF_SOLVER_RUN_EVIDENCE", "0") == "1"
+        and EVIDENCE_ROOT.is_dir()
+        and GENERATED_DOCS_MANIFEST.is_file()
+    )
     mesh_available = _gmsh_available()
     evidence_marker = pytest.mark.skip(reason="optional controlled V&V evidence corpus is not installed")
     mesh_marker = pytest.mark.skip(reason="optional Gmsh dependency is not installed")

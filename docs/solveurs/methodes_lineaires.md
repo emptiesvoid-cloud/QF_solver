@@ -138,10 +138,16 @@ numerique ou $\eta$ trop grand est un echec, non un resultat approximatif
 silencieux. La [poutre TET4/TET10](../demonstrations/benchmarks/cantilever.md)
 compare les voies iteratives au resultat direct et publie les residus.
 
-La campagne `VNV-LINEAR-SOLVERS-001` complete ce cas EF symetrique par deux
-matrices algebriques controlees: une matrice SPD compare LU, CG, MINRES, GMRES
-et BiCGSTAB; une matrice non symetrique compare LU, GMRES et BiCGSTAB, tout en
-excluant explicitement CG et MINRES. Elle se regenere avec :
+La campagne `VNV-LINEAR-SOLVERS-001` complete ce cas EF symetrique par quatre
+systemes algebriques controles : une paire SPD/non symetrique en `4` DDL et une
+paire en `32` DDL de type chaine de rigidite scalaire et chaine non symetrique.
+La famille SPD compare LU, CG, MINRES, GMRES et BiCGSTAB; la famille non
+symetrique compare LU, GMRES et BiCGSTAB, tout en excluant explicitement CG et
+MINRES. Chaque ligne publie le residu relatif, l'ecart a LU, le nombre
+d'iterations, le temps indicatif, le nombre de coefficients non nuls et le
+conditionnement 2-norme. Le conditionnement est calcule uniquement sur ces
+petits systemes controles; il n'autorise jamais une conversion dense dans le
+solveur de production. La campagne se regenere avec :
 
 ```powershell
 python .\scripts\run_linear_solver_vnv.py --output .\results\VNV-LINEAR-SOLVERS-001
@@ -153,6 +159,12 @@ from solveur.api import run_linear_solver_verification
 report = run_linear_solver_verification("results/VNV-LINEAR-SOLVERS-001")
 assert report["status"] == "PASS"
 ```
+
+Le dossier contient aussi `vnv_manifest.json`. Les temps de calcul sont
+informatifs et ne servent pas de seuil, car ils dependent de la machine. Le
+critere d'acceptation reste algebrique : ecart de solution et residu relatif
+inferieurs a `1e-10`, avec un benchmark EF separe pour confirmer l'accord sur
+une matrice issue d'un assemblage mecanique.
 
 | Methode | Hypothese principale | Memoire supplementaire | Usage |
 | --- | --- | --- | --- |

@@ -12,19 +12,19 @@ Six valeurs propres rigides restent separees du premier mode elastique avec un r
 
 | Maillage | Elements | DDL retenus | Premier mode (Hz) | Residu |
 | --- | ---: | ---: | ---: | ---: |
-| 16 x 4 | 128 | 448 | 21.747691 | 2.186e-09 |
-| 24 x 6 | 288 | 960 | 19.178202 | 6.304e-09 |
-| 32 x 8 | 512 | 1664 | 18.121073 | 1.366e-08 |
+| 16 x 4 | 128 | 448 | 21.747691 | 2.163e-09 |
+| 24 x 6 | 288 | 960 | 19.178202 | 5.635e-09 |
+| 32 x 8 | 512 | 1664 | 18.121073 | 1.341e-08 |
 
 ## Newmark et harmonique
 
 | Pas/periode | Erreur RMS | Derive energie | Residu dynamique |
 | ---: | ---: | ---: | ---: |
-| 20 | 4.162e-02 | 7.780e-12 | 1.518e-10 |
-| 40 | 1.048e-02 | 1.778e-11 | 1.396e-10 |
-| 80 | 2.623e-03 | 2.299e-11 | 1.361e-10 |
+| 20 | 4.162e-02 | 7.344e-12 | 1.254e-10 |
+| 40 | 1.048e-02 | 7.003e-12 | 1.368e-10 |
+| 80 | 2.623e-03 | 2.418e-11 | 1.037e-10 |
 
-Erreur harmonique complexe maximale : `1.014e-08`. Limite statique : `3.437e-12`.
+Erreur harmonique complexe maximale : `4.821e-09`. Limite statique : `3.396e-12`.
 
 ![Libre-libre](VNV-MITC3-MODAL-FREEFREE-013.png)
 

@@ -1,4 +1,4 @@
-"""Publication metadata, qualification status and manifests for the documentation site."""
+"""Publication metadata, qualification status and manifests for documentation evidence."""
 
 from __future__ import annotations
 
@@ -191,14 +191,14 @@ class DocumentationPublisher:
                 and str(metadata.get("approver", "")).strip()
             ):
                 reviewed_documents.append(str(item["id"]))
-        human_status = "PASS" if len(reviewed_documents) == len(active_documents) else "BLOCKED"
+        owner_review_status = "PASS" if len(reviewed_documents) == len(active_documents) else "BLOCKED"
         source_status = (
             "PASS"
             if self.source_state["revision"] not in {"uncommitted", "unknown"} and not self.source_state["dirty"]
             else "BLOCKED"
         )
         blockers = []
-        if human_status != "PASS":
+        if owner_review_status != "PASS":
             blockers.append(f"Owner review incomplete: {len(reviewed_documents)}/{len(active_documents)} documents")
         if source_status != "PASS":
             blockers.append("approved clean Git revision unavailable")
@@ -210,7 +210,7 @@ class DocumentationPublisher:
                 "total": formula_report.requested_count,
             },
             "owner_review": {
-                "status": human_status,
+                "status": owner_review_status,
                 "reviewed_documents": len(reviewed_documents),
                 "active_documents": len(active_documents),
             },
@@ -229,9 +229,9 @@ class DocumentationPublisher:
                     "controle automatique bloquant",
                 ),
                 (
-                    "Owner review independante",
+                    "Owner review",
                     f"{len(reviewed_documents)}/{len(active_documents)}",
-                    human_status,
+                    owner_review_status,
                     "reviewer et approver non pre-remplis",
                 ),
                 (
@@ -425,7 +425,16 @@ def read_document_metadata(path: Path) -> dict[str, Any]:
 def normalize_document_status(status: str) -> str:
     """Map descriptive page states to the controlled lifecycle vocabulary."""
     normalized = status.strip().lower()
-    if normalized in {"controlled", "approved", "superseded"}:
+    if normalized in {
+        "controlled",
+        "approved",
+        "superseded",
+        "controlled_candidate",
+        "owner_accepted",
+        "owner_accepted_experimental",
+        "owner_accepted_with_recommendations",
+        "ready_for_owner_review",
+    }:
         return normalized
     if normalized == "owner_reviewed":
         return "controlled"

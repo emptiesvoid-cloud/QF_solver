@@ -15,10 +15,10 @@ from scipy.linalg import eigh
 matplotlib.use("Agg")
 from matplotlib import pyplot as plt  # noqa: E402
 
-from mitc4.locking import EnhancedShearLockingStudy, LockingCampaign
-from mitc4.mesh import MeshFactory
-from mitc4.convergence import Mitc4StructuralConvergence
-from mitc4.verification import MechanicalVerifier
+from solveur.verification.mitc4_locking import EnhancedShearLockingStudy, LockingCampaign
+from solveur.elements.shell.mitc4.mesh import MeshFactory
+from solveur.verification.mitc4_convergence import Mitc4StructuralConvergence
+from solveur.verification.mitc4_mechanical import MechanicalVerifier
 
 from solveur.core.analysis import AnalysisSettings
 from solveur.core.assembler import GlobalAssembler

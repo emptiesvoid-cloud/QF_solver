@@ -1,6 +1,6 @@
 ---
 doc_id: DOC-COMP-000
-revision: 0.3
+revision: 0.4
 status: engineering_internal_validated_with_recommendations
 applicable_version: 0.2.0
 reviewer: ""
@@ -16,6 +16,12 @@ Le MITC4 multicouche statique est accepte pour un usage engineering interne
 borne avec recommandations. Les criteres de rupture, extensions dynamiques,
 dommage et delaminage restent `experimental` ou hors scope; cette inclusion
 V1 ne constitue pas une certification.
+
+> **Limite de dimensionnement composite.** La campagne NAFEMS R0031/1 accepte
+> le deplacement `UZ(E)` comme observable global et `S11` comme indicateur de
+> champ. La recuperation interlaminaire `S13`, le delaminage, la rupture
+> progressive et la calibration sur essais sont hors du domaine V1 : ils ne
+> doivent pas etre utilises pour une decision de dimensionnement.
 
 | Capacite | Etat | Utilisation autorisee |
 | --- | --- | --- |

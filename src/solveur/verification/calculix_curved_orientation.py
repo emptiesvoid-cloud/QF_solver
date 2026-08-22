@@ -54,15 +54,19 @@ class CalculixCurvedOrientationCorrelation:
         output_dir: str | Path,
         *,
         image: str = "qf-solver/calculix-nafems13h:2.20",
+        meshes: tuple[tuple[int, int], ...] | None = None,
+        faceted_geometry: bool = False,
     ):
         self.output_dir = Path(output_dir).resolve()
         self.image = image
+        self.mesh_levels = meshes or self.meshes
+        self.faceted_geometry = faceted_geometry
 
     def run(self) -> dict[str, object]:
         self.output_dir.mkdir(parents=True, exist_ok=True)
         rows: list[dict[str, object]] = []
         fine_payload: tuple[CurvedS8RMesh, np.ndarray] | None = None
-        for nx, ny in self.meshes:
+        for nx, ny in self.mesh_levels:
             row, payload = self._run_mesh(nx, ny)
             rows.append(row)
             fine_payload = payload
@@ -96,6 +100,11 @@ class CalculixCurvedOrientationCorrelation:
                 "element": "S8R COMPOSITE",
             },
             "qf_element": "MITC4 shell_laminate",
+            "external_geometry": (
+                "faceted bilinear surface"
+                if self.faceted_geometry
+                else "exact cylindrical quadratic surface"
+            ),
             "layup": list(self.angles),
             "reference_direction": self.reference_direction.tolist(),
             "orientation_convention": (
@@ -108,7 +117,7 @@ class CalculixCurvedOrientationCorrelation:
             "checks": checks,
             "limitations": [
                 "CalculiX orientations are piecewise constant by circumferential row.",
-                "MITC4 is linear and faceted; CalculiX S8R is quadratic and geometrically curved.",
+                "MITC4 is linear and faceted; CalculiX S8R is quadratic.",
                 "The residual fine-mesh model-form difference is accepted below 3 percent.",
                 "The comparison covers weighted edge displacements, not ply stresses.",
                 "Damage, delamination and interlaminar stresses remain outside scope.",
@@ -124,6 +133,12 @@ class CalculixCurvedOrientationCorrelation:
                 }
             ],
         }
+        if self.faceted_geometry:
+            summary["limitations"] = [
+                "S8R midside nodes are placed on the same faceted bilinear midsurface as the MITC4 corner mesh.",
+                "The comparison remains an independent S8R/MITC4 formulation correlation.",
+                "Damage, delamination and interlaminar stresses remain outside scope.",
+            ]
         write_json_file(self.output_dir / "summary.json", summary)
         self._plot(rows)
         if fine_payload is not None:
@@ -138,7 +153,7 @@ class CalculixCurvedOrientationCorrelation:
         ny: int,
     ) -> tuple[dict[str, object], tuple[CurvedS8RMesh, np.ndarray]]:
         qf = _solve_qf(nx, ny, self.angles, self.reference_direction)
-        mesh = build_curved_s8r_mesh(nx, ny)
+        mesh = build_curved_s8r_mesh(nx, ny, faceted=self.faceted_geometry)
         stem = f"curved_orientation_s8r_{nx}x{ny}"
         orientations = write_tangent_oriented_input(
             self.output_dir / f"{stem}.inp",

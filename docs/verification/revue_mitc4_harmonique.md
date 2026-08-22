@@ -130,7 +130,12 @@ du seuil de `5 %`; le verdict CalculiX reste donc `WARNING`. La contrainte est
 extrapolee de facon trilineaire des huit points de Gauss de la coque expansee
 vers `z=+1`, puis moyennee en complexe sur les quatre elements centraux.
 
-![Correlation CalculiX S8R](../assets/generated/mitc4_calculix_nafems13h.png){ .result-figure }
+![Courbe harmonique QF_solver et references utilisee avec la comparaison CalculiX S8R](../assets/generated/mitc4_calculix_nafems13h.png){ .result-figure }
+
+La comparaison scalaire CalculiX S8R reste tracee dans le tableau ci-dessus et
+dans la baseline harmonique. La figure publiee ici est la courbe QF_solver et
+ses references, car le fichier brut CalculiX n'est pas une entree de la
+construction documentaire courante.
 
 ### Correlation Code_Aster
 

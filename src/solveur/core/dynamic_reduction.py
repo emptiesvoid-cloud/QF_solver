@@ -8,7 +8,7 @@ import numpy as np
 from scipy.sparse import csc_matrix, csr_matrix, eye, lil_matrix
 from scipy.sparse.linalg import LinearOperator, SuperLU, splu, spsolve
 
-from mitc4.element import MITC4Element
+from solveur.elements.shell.mitc4 import MITC4Element
 
 from solveur.core.dofs import DofManager
 from solveur.core.errors import InputValidationError, NumericalConvergenceError
@@ -57,7 +57,12 @@ class DynamicDofReducer:
         stiffness_free = (transform @ stiffness[free, :][:, free] @ transform.T).tocsr()
         row_mass = np.asarray(abs(mass_free).sum(axis=1)).ravel()
         reference = max(float(row_mass.max(initial=0.0)), 1.0)
-        tolerance = _positive_tolerance(model, "drilling_mass_tolerance", 1.0e-12)
+        # Faceted curved shells can leave round-off-level inertia in the
+        # nodal drilling direction after the director-frame transformation.
+        # Condense that leakage instead of turning it into a badly conditioned
+        # physical modal coordinate; the element mass formulation remains
+        # exactly massless in drilling.
+        tolerance = _positive_tolerance(model, "drilling_mass_tolerance", 1.0e-10)
         massless = np.array(
             [index for index in drilling_candidates if row_mass[index] <= tolerance * reference], dtype=int
         )
@@ -107,6 +112,7 @@ class DynamicDofReducer:
                 stiffness_pd,
                 stiffness_dp,
                 factor,
+                np.asarray(stiffness_dd.diagonal(), dtype=float),
             )
         else:
             transfer = spsolve(stiffness_dd, stiffness_dp.tocsc())
@@ -312,11 +318,13 @@ class LazyCondensedStiffness(LinearOperator):
         stiffness_pd: csr_matrix,
         stiffness_dp: csr_matrix,
         drilling_factor: SuperLU,
+        drilling_diagonal: np.ndarray,
     ) -> None:
         self.physical_stiffness = physical_stiffness
         self.stiffness_pd = stiffness_pd
         self.stiffness_dp = stiffness_dp
         self.drilling_factor = drilling_factor
+        self.drilling_diagonal = np.asarray(drilling_diagonal, dtype=float)
         super().__init__(dtype=np.dtype(float), shape=physical_stiffness.shape)
 
     def _matvec(self, vector: np.ndarray) -> np.ndarray:

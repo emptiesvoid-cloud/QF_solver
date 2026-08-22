@@ -15,19 +15,19 @@ Verification interne MITC3+ multicouche plane symetrique `[0/90/90/0]`. La campa
 
 ## Modal
 
-Frequence fondamentale : `13.934772` Hz. Residu relatif : `2.400e-09`. Orthogonalites masse/raideur : `5.242e-16` / `9.906e-12`.
+Frequence fondamentale : `13.934772` Hz. Residu relatif : `1.347e-09`. Orthogonalites masse/raideur : `7.022e-16` / `7.577e-12`.
 
 ## Newmark
 
 | Pas/periode | Erreur RMS | Derive energie | Residu | Plis finaux |
 | ---: | ---: | ---: | ---: | ---: |
-| 20 | 4.162e-02 | 1.026e-12 | 1.322e-12 | 4 |
-| 40 | 1.048e-02 | 1.636e-12 | 1.332e-12 | 4 |
-| 80 | 2.623e-03 | 1.610e-12 | 1.433e-12 | 4 |
+| 20 | 4.162e-02 | 2.218e-12 | 1.451e-12 | 4 |
+| 40 | 1.048e-02 | 1.503e-12 | 1.531e-12 | 4 |
+| 80 | 2.623e-03 | 2.154e-12 | 1.672e-12 | 4 |
 
 ## Harmonique
 
-Erreur complexe maximale : `9.150e-09`. Limite statique a 0 Hz : `7.812e-14`. Post-traitement : `4` plis.
+Erreur complexe maximale : `6.313e-09`. Limite statique a 0 Hz : `7.483e-14`. Post-traitement : `4` plis.
 
 ![Newmark](VNV-MITC3-LAMINATE-DYNAMIC-001-newmark.png)
 

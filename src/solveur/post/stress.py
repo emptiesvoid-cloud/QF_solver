@@ -4,8 +4,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from mitc4.element import MITC4Element
-from mitc4.material import ShellMaterial
+from solveur.elements.shell.mitc4 import MITC4Element, ShellMaterial
 
 from solveur.core.dofs import DofManager
 from solveur.core.material_state import MaterialStateTable

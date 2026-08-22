@@ -2,10 +2,10 @@ from __future__ import annotations
 
 import numpy as np
 
-from mitc4.constants import UZ
-from mitc4.material import ShellMaterial
-from mitc4.mesh import MeshFactory
-from mitc4.model import ShellModel
+from solveur.compat.mitc4.constants import UZ
+from solveur.compat.mitc4.material import ShellMaterial
+from solveur.compat.mitc4.mesh import MeshFactory
+from solveur.compat.mitc4.model import ShellModel
 
 
 def test_chunked_scaled_cg_matches_direct_solution() -> None:

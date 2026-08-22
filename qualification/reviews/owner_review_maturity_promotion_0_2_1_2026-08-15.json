@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "review_id": "OWNER-REVIEW-MATURITY-PROMOTION-021-2026-08-15",
+  "scope": "maturity-promotion-0.2.1-alpha-open-gates",
+  "review_mode": "owner_review",
+  "owner": "Quentin Farinazzo",
+  "independence": "not_independent",
+  "certification_claim": "none",
+  "decision_date": "2026-08-15",
+  "decision": "accepted_with_recommendations",
+  "decision_policy": "Responses are accepted as bounded Owner decisions; technical maturity is not promoted automatically.",
+  "responses": {
+    "beam2-linear-static": {"Q1": "yes", "Q2": "yes", "Q3": "yes", "Q4": "accepted_with_recommendations"},
+    "contact-frictional-static": {"Q1": "partial", "Q2": "yes", "Q3": "no: 4.5 percent exceeds the 2 percent target", "Q4": "accepted_for_bounded_engineering_use"},
+    "discrete-linear": {"Q1": "yes", "Q2": "yes", "Q3": "yes", "Q4": "accepted_with_recommendations"},
+    "mitc3-laminate-dynamic": {"Q1": "yes", "Q2": "yes", "Q3": "yes", "Q4": "accepted_with_recommendations"},
+    "mitc3-laminate-static": {"Q1": "partial", "Q2": "yes", "Q3": "partial", "Q4": "accepted_for_bounded_engineering_use"},
+    "tet10-material-nonlinear": {"Q1": "yes", "Q2": "yes", "Q3": "yes", "Q4": "accepted_with_recommendations"},
+    "tet4-material-nonlinear": {"Q1": "yes", "Q2": "yes", "Q3": "yes", "Q4": "accepted_with_recommendations"},
+    "tet4-total-lagrangian-structural-v2": {"Q1": "yes", "Q2": "yes", "Q3": "yes", "Q4": "accepted_with_recommendations"},
+    "orthotropic-solid-modal": {"Q1": "yes", "Q2": "yes", "Q3": "yes", "Q4": "accepted_with_recommendations"},
+    "orthotropic-solid-transient-dynamic": {"Q1": "yes", "Q2": "yes", "Q3": "yes", "Q4": "accepted_with_recommendations"},
+    "large-tet4-linear-static": {"Q1": "partial", "Q2": "yes", "Q3": "not_applicable", "Q4": "accepted_for_bounded_engineering_use"}
+  },
+  "recommendations": [
+    "Conserver les exclusions de domaine dans la documentation utilisateur.",
+    "Ne pas promouvoir automatiquement un scope vers stable.",
+    "Renforcer contact frottant, geometries courbes stratifiees et scalabilite grand modele.",
+    "Conserver les preuves historiques et les empreintes des campagnes."
+  ],
+  "signature": {
+    "name": "Quentin Farinazzo",
+    "mode": "electronic owner_review declaration",
+    "date": "2026-08-15",
+    "declaration": "Je confirme les reponses Q1 a Q4 du dossier Open Gates et accepte les decisions bornees avec recommandations, sans revendication de certification externe."
+  },
+  "source_documents": [
+    "docs/verification/owner_review_open_gates_0_2_1.md",
+    "output/pdf/qf_solver_owner_review_open_gates_0_2_1_evidence.pdf"
+  ]
+}

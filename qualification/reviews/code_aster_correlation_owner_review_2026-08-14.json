@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "review_id": "DOC-VV-CODEASTER-OWNER-2026-08-14",
+  "revision": "0.3",
+  "status": "owner_accepted_with_recommendations",
+  "review_mode": "owner_review",
+  "owner": "Quentin Farinazzo",
+  "independence": "not_independent",
+  "certification_claim": "none",
+  "decision": "accepted_with_recommendations",
+  "decision_date": "2026-08-14",
+  "source_review": "qualification/reviews/code_aster_correlation_owner_review_2026-08-14_pending.json",
+  "scope": [
+    "composite-nafems-r0031-code-aster",
+    "tet4-total-lagrangian-structural-v2",
+    "orthotropic-solid-static-and-dynamic",
+    "mitc3-laminate-curved-projected-static",
+    "mitc3-pinched-hemisphere-static"
+  ],
+  "questions": [
+    "Q1: provenance Code_Aster et image Docker epinglee acceptees ?",
+    "Q2: convergence UZ NAFEMS R0031/1 et ecarts finaux acceptes ?",
+    "Q3: S11 informatif et S13/delaminage hors perimetre acceptes ?",
+    "Q4: campagnes composites internes maintenues en preuve technique ?",
+    "Q5: TET4 total-lagrangien maintenu en recherche borne ?",
+    "Q6: correlations orthotropes statiques, modal et Newmark acceptees ?",
+    "Q7: grand modele orthotrope, large-scale et MPC/RBE2 restent ouverts ?",
+    "Q8: correlation MITC3 multicouche courbe a orientation projetee acceptee comme preuve statique experimentale bornee ?",
+    "Q9: correlation MITC3 hemisphere pince acceptee comme evidence complementaire statique ?",
+    "Q10: decision globale"
+  ],
+  "answers": {
+    "Q1": {
+      "decision": "accepted",
+      "comment": "Image Docker epinglee par digest et version Code_Aster documentee."
+    },
+    "Q2": {
+      "decision": "accepted",
+      "comment": "Accords finaux acceptes; la valeur NAFEMS est interpretee comme une cible scalaire et non une asymptote maille par maille."
+    },
+    "Q3": {
+      "decision": "accepted",
+      "comment": "S13, delaminage, rupture progressive et calibration d'essai restent hors perimetre et sont repris dans la documentation utilisateur."
+    },
+    "Q4": {
+      "decision": "accepted",
+      "comment": "Les campagnes composites internes restent des preuves techniques complementaires."
+    },
+    "Q5": {
+      "decision": "accepted",
+      "comment": "Le TET4 total-lagrangien reste en recherche bornee, non stable, sans extrapolation aux grandes rotations, au contact ou a la rupture."
+    },
+    "Q6": {
+      "decision": "accepted_with_recommendations",
+      "comment": "Accepte dans le domaine orthotrope TET4 statique, modal et Newmark documente; les correlations structurelles supplementaires et le grand modele restent ouverts."
+    },
+    "Q7": {
+      "decision": "accepted",
+      "comment": "Grand modele orthotrope, large-scale et MPC/RBE2 restent explicitement hors maturite actuelle."
+    },
+    "Q8": {
+      "decision": "accepted_with_recommendations",
+      "comment": "Accepte comme preuve statique experimentale bornee; conserver la reserve de convergence et ajouter un niveau de raffinement ou une extrapolation de Richardson."
+    },
+    "Q9": {
+      "decision": "accepted",
+      "comment": "Correlation solide avec Code_Aster et reference independante; contraintes ponctuelles singulieres exclues des observables d'acceptation."
+    },
+    "Q10": {
+      "decision": "accepted_with_recommendations",
+      "comment": "La revue ferme la correlation de ses scopes bornes; elle ne ferme pas le gate release-vv ni ne promeut les fonctionnalites experimentales au statut stable."
+    }
+  },
+  "artifacts": [
+    "output/pdf/owner_review_code_aster_correlations_2026-08-14_decision_record.pdf",
+    "docs/verification/owner_review_code_aster_2026-08-14.md",
+    "docs/verification/composite_code_aster_nafems_2026-08-14.md",
+    "docs/verification/mitc3_laminate_curved_code_aster.md",
+    "qualification/vnv/external/code_aster_mitc3/hemisphere_v1/summary.json",
+    "results/VNV-MITC3-LAMINATE-CURVED-PROJECTED-CODEASTER-DST-025-R1-96/summary.json",
+    "qualification/evidence/release_vv_artifacts_2026-08-14-r14/evidence_manifest.json"
+  ],
+  "recommendations": [
+    {
+      "id": "REC-ORTHOTROPIC-EXT-001",
+      "title": "Etendre la correlation orthotrope a des structures plus complexes avant toute promotion de maturite.",
+      "status": "open_non_blocking_for_bounded_scope"
+    },
+    {
+      "id": "REC-MITC3-CURVED-004",
+      "title": "Ajouter un niveau de raffinement MITC3 courbe ou une extrapolation de Richardson pour objectiver l'asymptote.",
+      "status": "open_non_blocking_for_bounded_scope"
+    },
+    {
+      "id": "REC-RELEASE-VV-001",
+      "title": "Conserver le gate release-vv distinct et fermer ses exigences de maturite avant toute decision de release.",
+      "status": "blocking_release_gate"
+    }
+  ],
+  "maturity_effect": "No automatic maturity promotion. Experimental and research classifications remain unchanged.",
+  "signature": {
+    "name": "Quentin Farinazzo",
+    "date": "2026-08-14",
+    "type": "declared_owner_review",
+    "independence": "not_independent"
+  }
+}

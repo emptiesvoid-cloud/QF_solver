@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from run_code_aster_nafems13h_vnv import IMAGE, _mesh_text
+from solveur.io.manifest import discovered_file_entries, git_source_state, write_json_file
 from solveur.verification.code_aster_nafems import CodeAsterNafems13HParser
 
 
@@ -35,8 +36,8 @@ def main() -> int:
     if not args.skip_run:
         _run(output)
     summary = _normalize(output, qf, point)
-    print(f"{STUDY_ID}: {summary['verdict']}")
-    return 0 if summary["verdict"] in {"PASS", "WARNING"} else 1
+    print(f"{STUDY_ID}: {summary['status']}")
+    return 0 if summary["status"] in {"PASS_EXTERNAL_CORRELATION", "WARNING"} else 1
 
 
 def _write_inputs(output: Path, qf: dict[str, Any], point: dict[str, Any]) -> None:
@@ -129,7 +130,9 @@ def _normalize(
     verdict = "PASS" if all(checks.values()) else "WARNING"
     summary = {
         "study_id": STUDY_ID,
+        "status": "PASS_EXTERNAL_CORRELATION" if verdict == "PASS" else "WARNING",
         "verdict": verdict,
+        "maturity": "verified_development_external_correlation",
         "solver": {"name": "Code_Aster", "version": "18.1.0", "formulation": "DKT/DKQ"},
         "container": {"image": IMAGE},
         "comparison": "same 8x8 mesh, constraints, nodal chirp, time grid and Rayleigh alpha",
@@ -163,6 +166,19 @@ def _normalize(
     (output / "summary.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
     _plot(output, times, qf_u, aster_u, qf_s, aster_s)
     (output / "STUDY.md").write_text(_markdown(summary), encoding="utf-8")
+    write_json_file(
+        output / "vnv_manifest.json",
+        {
+            "schema_version": 1,
+            "study_id": STUDY_ID,
+            "source": git_source_state(ROOT),
+            "files": discovered_file_entries(
+                output,
+                lambda _: "code_aster_newmark_vnv",
+                exclude_names=("vnv_manifest.json",),
+            ),
+        },
+    )
     return summary
 
 

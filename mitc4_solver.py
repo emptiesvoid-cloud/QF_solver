@@ -1,4 +1,4 @@
-"""Compatibility launcher for the MITC4 package."""
+"""Compatibility launcher for the MITC4 tooling."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ SOURCE_ROOT = Path(__file__).resolve().parent / "src"
 if SOURCE_ROOT.is_dir():
     sys.path.insert(0, str(SOURCE_ROOT))
 
-from mitc4.cli import main
+from solveur.compat.mitc4.cli import main
 
 
 if __name__ == "__main__":

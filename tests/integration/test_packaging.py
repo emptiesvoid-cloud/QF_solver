@@ -14,7 +14,6 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 def _maintained_text_files() -> list[Path]:
     roots = [
         PROJECT_ROOT / "src" / "solveur",
-        PROJECT_ROOT / "src" / "mitc4",
         PROJECT_ROOT / "scripts",
         PROJECT_ROOT / "tests",
         PROJECT_ROOT / "docs",
@@ -27,7 +26,6 @@ def _maintained_text_files() -> list[Path]:
         PROJECT_ROOT / "DEVELOPER_GUIDE.md",
         PROJECT_ROOT / "CHANGELOG.md",
         PROJECT_ROOT / "prochaines_etapes.md",
-        PROJECT_ROOT / "mkdocs.yml",
         PROJECT_ROOT / "pyproject.toml",
         PROJECT_ROOT / "qf_solver.py",
         PROJECT_ROOT / "main_solveur.py",
@@ -38,9 +36,6 @@ def _maintained_text_files() -> list[Path]:
             for path in root.rglob("*")
             if path.is_file() and path.suffix.lower() in suffixes and "generated" not in path.parts
         )
-    site = PROJECT_ROOT / "site"
-    if site.is_dir():
-        files.extend(site.rglob("*.html"))
     return files
 
 
@@ -48,17 +43,21 @@ def test_pyproject_declares_installable_solver_package():
     data = tomllib.loads((PROJECT_ROOT / "pyproject.toml").read_text(encoding="utf-8"))
     project = data["project"]
     assert project["name"] == "qf-solver"
-    assert project["version"] == "0.2.0a0"
+    assert project["version"] == "0.2.1a0"
     assert project["requires-python"] == ">=3.10"
     assert {"numpy>=1.24", "scipy>=1.10", "matplotlib>=3.7"} <= set(project["dependencies"])
     assert "ruff>=0.6" in project["optional-dependencies"]["dev"]
     assert {"h5py>=3.10", "mpi4py>=3.1", "petsc4py>=3.20"} <= set(project["optional-dependencies"]["large"])
     assert "pypdf==6.10.0" in project["optional-dependencies"]["docs"]
     assert "platformdirs==4.9.4" in project["optional-dependencies"]["docs"]
+    assert not any(
+        dependency.startswith(("mkdocs", "playwright"))
+        for dependency in project["optional-dependencies"]["docs"]
+    )
     assert project["scripts"]["qf-solver"] == "solveur.cli.main:main"
     assert "qf-solver-docs" not in project["scripts"]
     assert project["scripts"]["solveur-ef"] == "solveur.cli.main:legacy_main"
-    assert project["scripts"]["mitc4-solver"] == "mitc4.cli:main"
+    assert project["scripts"]["mitc4-solver"] == "solveur.compat.mitc4.cli:main"
     assert data["tool"]["ruff"]["line-length"] == 120
     assert "F" in data["tool"]["ruff"]["lint"]["select"]
 
@@ -72,11 +71,11 @@ def test_locked_documentation_baseline_contains_pdf_runtime():
     assert "pypdf==6.10.0" in requirements
 
 
-def test_pyproject_packages_include_solver_and_mitc4():
+def test_pyproject_packages_include_only_the_solver_namespace():
     data = tomllib.loads((PROJECT_ROOT / "pyproject.toml").read_text(encoding="utf-8"))
     package_finder = data["tool"]["setuptools"]["packages"]["find"]
     assert package_finder["where"] == ["src"]
-    assert {"solveur*", "mitc4*"} <= set(package_finder["include"])
+    assert package_finder["include"] == ["solveur*"]
 
 
 def test_runtime_distribution_excludes_repository_only_trees():
@@ -96,7 +95,7 @@ def test_large_container_is_optional_tooling_not_a_root_runtime_file():
     assert (PROJECT_ROOT / "tools" / "containers" / "large" / "Dockerfile").is_file()
 
 
-def test_maintained_sources_and_site_use_only_qf_solver_brand():
+def test_maintained_sources_use_only_qf_solver_brand():
     old_brand = "SAF" + "RAN"
     old_names = (old_brand, f"{old_brand.lower()}-solveur", f"{old_brand.lower()}_solveur")
     offenders: list[str] = []
@@ -195,7 +194,7 @@ def test_solver_cli_version_runs():
         text=True,
     )
     assert completed.returncode == 0, completed.stdout + completed.stderr
-    assert completed.stdout.strip() == "QF_solver 0.2.0a0"
+    assert completed.stdout.strip() == "QF_solver 0.2.1a0"
 
 
 def test_portable_and_legacy_launchers_expose_qf_solver_identity():
@@ -207,7 +206,7 @@ def test_portable_and_legacy_launchers_expose_qf_solver_identity():
         text=True,
     )
     assert portable.returncode == 0, portable.stdout + portable.stderr
-    assert portable.stdout.strip() == "QF_solver 0.2.0a0"
+    assert portable.stdout.strip() == "QF_solver 0.2.1a0"
     legacy = subprocess.run(
         [sys.executable, "main_solveur.py", "--version"],
         cwd=PROJECT_ROOT,
@@ -216,13 +215,13 @@ def test_portable_and_legacy_launchers_expose_qf_solver_identity():
         text=True,
     )
     assert legacy.returncode == 0, legacy.stdout + legacy.stderr
-    assert legacy.stdout.strip() == "QF_solver 0.2.0a0"
+    assert legacy.stdout.strip() == "QF_solver 0.2.1a0"
     assert "deprecated" in legacy.stderr
 
 
 def test_mitc4_cli_module_entry_point_runs():
     completed = subprocess.run(
-        [sys.executable, "-m", "mitc4.cli", "--help"],
+        [sys.executable, "-m", "solveur.compat.mitc4.cli", "--help"],
         cwd=PROJECT_ROOT,
         check=False,
         capture_output=True,
@@ -235,11 +234,11 @@ def test_mitc4_cli_module_entry_point_runs():
 
 def test_mitc4_cli_version_runs():
     completed = subprocess.run(
-        [sys.executable, "-m", "mitc4.cli", "--version"],
+        [sys.executable, "-m", "solveur.compat.mitc4.cli", "--version"],
         cwd=PROJECT_ROOT,
         check=False,
         capture_output=True,
         text=True,
     )
     assert completed.returncode == 0, completed.stdout + completed.stderr
-    assert "0.2.0" in completed.stdout
+    assert "0.2.1a0" in completed.stdout

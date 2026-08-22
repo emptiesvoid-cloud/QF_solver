@@ -2,7 +2,7 @@
 doc_id: DOC-STATE-001
 revision: 0.1
 status: draft technique
-applicable_version: 0.2.0
+applicable_version: 0.2.1a0
 reviewer: ""
 approver: ""
 ---
@@ -22,6 +22,10 @@ aeronautique sans revue independante.
     l'ingenieur, ni une decision de qualification du logiciel.
 
 --8<-- "docs/generated/status.md"
+
+La release en preparation `0.2.1a0` est une alpha V&V. Son [pack de readiness](verification/release_vv_0_2_1.md)
+separe les deux scopes de reference, les scopes candidats, la campagne et la
+revue Owner.
 
 ## Lire ce site comme un ingenieur calcul
 

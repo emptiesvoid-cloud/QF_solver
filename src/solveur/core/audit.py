@@ -271,6 +271,7 @@ class SolverAudit:
         solver_selection: dict[str, Any] | None = None,
         include_values: bool = False,
         include_element_audits: bool = True,
+        include_element_dofs: bool = True,
         notes: list[str] | None = None,
     ) -> "SolverAudit":
         """Build an audit from validated model data and assembled arrays."""
@@ -293,7 +294,7 @@ class SolverAudit:
             element_types=_element_type_counts(model),
             material_names=sorted(model.materials),
             dof_map=_dof_map(dofs),
-            element_dofs=_element_dofs(model, dofs),
+            element_dofs=_element_dofs(model, dofs) if include_element_dofs else [],
             boundary=boundary,
             vectors=[_vector_summary(name, vector) for name, vector in (vectors or {}).items()],
             load_assembly=dict(load_assembly or {}),

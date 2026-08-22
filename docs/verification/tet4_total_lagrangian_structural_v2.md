@@ -205,3 +205,7 @@ et la charge critique apres confirmation a `98 304` TET4. Decision :
 
 La grille detaillee est disponible dans
 [la revue mecanique structurelle V2](revue_tet4_total_lagrangian_structural_v2.md).
+
+Le dossier pret pour un relecteur independant est disponible en
+[Markdown](tet4_total_lagrangian_independent_review_pack.md) et en
+[PDF](../../output/pdf/qf_solver_tet4_total_lagrangian_independent_review_0_2_1.pdf).

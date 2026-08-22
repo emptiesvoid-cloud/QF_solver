@@ -38,7 +38,7 @@ class AdditionalContactModelsCampaign:
         summary: dict[str, Any] = {
             "campaign_id": self.campaign_id,
             "status": status,
-            "maturity": "experimental_ready_for_human_recheck",
+            "maturity": "experimental_ready_for_owner_recheck",
             "cases": cases,
             "checks": checks,
             "limitations": [

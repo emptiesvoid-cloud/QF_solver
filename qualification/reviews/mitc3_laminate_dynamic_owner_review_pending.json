@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "review_id": "OWNER-REVIEW-MITC3-LAMINATE-DYNAMIC-PENDING",
+  "scope": "mitc3-laminate-dynamic",
+  "review_type": "owner_review",
+  "review_mode": "pending_owner_decision",
+  "decision": null,
+  "decision_date": null,
+  "owner": null,
+  "certification_claim": "none",
+  "evidence": [
+    "qualification/maturity_evidence_0_2_1/mitc3_laminate.json",
+    "qualification/maturity_evidence_0_2_1/mitc3_laminate_dynamic_refinement.json",
+    "qualification/maturity_evidence_0_2_1/mitc3_laminate_dynamic_refinement/mesh_8x2/summary.json",
+    "qualification/maturity_evidence_0_2_1/mitc3_laminate_dynamic_refinement/mesh_12x3/summary.json",
+    "qualification/maturity_evidence_0_2_1/mitc3_laminate_dynamic_refinement/mesh_16x4/summary.json",
+    "qualification/vnv/external/code_aster_mitc3_laminate_dynamic/reference/summary.json",
+    "docs/verification/mitc3_laminate_dynamic.md"
+  ],
+  "scope_under_review": {
+    "element": "MITC3+",
+    "material": "linear symmetric laminate [0/90/90/0]",
+    "analyses": ["modal", "transient_newmark", "harmonic_response"],
+    "geometry": "planar cantilever",
+    "external_oracle": "Code_Aster 18.1 DST/TRIA3"
+  },
+  "review_questions": [
+    "Les trois niveaux spatiaux et les erreurs modales, Newmark et harmoniques sont-ils suffisants pour le domaine plan declare ?",
+    "Les residus propres et dynamiques, la masse coherente et la condensation du drilling sont-ils correctement interpretes ?",
+    "Les limites de formulation DST/MITC3+, de stratifie symetrique, de courbure, de dommage et de delamination sont-elles acceptees ?",
+    "Le statut owner_accepted est-il approprie, ou faut-il conserver verified_development_external_correlation ?"
+  ],
+  "known_limits": [
+    "La correlation externe compare des observables; elle ne prouve pas une identite de formulation.",
+    "La dynamique courbe, le couplage B non nul, le calibrage d'amortissement et les contraintes par pli dynamiques sont exclus.",
+    "Aucune decision ne doit etre deduite de ce fichier tant qu'il reste pending."
+  ],
+  "signature": null
+}

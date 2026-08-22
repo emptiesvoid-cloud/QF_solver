@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from mitc4.element import MITC4Element
+from solveur.elements.shell.mitc4 import MITC4Element
 
 from solveur.core.model import FiniteElementModel
 from solveur.elements.shell.mitc3 import Mitc3ShellElement

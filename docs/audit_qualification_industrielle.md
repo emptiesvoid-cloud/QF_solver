@@ -40,8 +40,8 @@ incertitudes et revue technique.
 ## Baseline P0 mesuree le 11 juillet 2026
 
 - Le compteur de tests courant n'est plus recopie dans ce document. Il est
-  collecte automatiquement par la construction MkDocs et affiche sur le
-  tableau de bord avec la revision source.
+  collecte automatiquement par la generation des artefacts documentaires et
+  enregistre avec la revision source.
 - Couverture lignes et branches combinees: 85,30 %; seuil CI global
   fixe a 84 % et seuil des nouveaux modules P0 fixe a 90 %.
 - `ruff` et `compileall`: PASS.

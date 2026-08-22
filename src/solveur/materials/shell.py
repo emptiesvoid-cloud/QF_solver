@@ -1,5 +1,5 @@
 """Shell material aliases used by the generic solver."""
 
-from mitc4.material import ShellMaterial
+from solveur.elements.shell.mitc4 import ShellMaterial
 
 __all__ = ["ShellMaterial"]

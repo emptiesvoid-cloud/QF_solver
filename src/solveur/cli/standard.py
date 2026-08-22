@@ -7,7 +7,7 @@ import json
 
 import numpy as np
 
-from mitc4.visualization import DeformationPlotter
+from solveur.post.mitc4_visualization import DeformationPlotter
 
 from solveur.api.public import (
     check_mesh,

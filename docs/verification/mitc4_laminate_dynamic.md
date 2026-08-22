@@ -19,6 +19,25 @@ Code_Aster repertoriees dans l'Owner review completent cette preuve interne.
 Le perimetre reste experimental et borne ; il ne constitue pas une
 qualification externe.
 
+## Mise a jour controlee du 21 aout 2026
+
+La campagne externe la plus recente utilise Code_Aster 18.1.0 sur les trois
+empilements et trois niveaux `24x6`, `36x9` et `48x12`. Le niveau final
+`48x12` respecte la nouvelle regle QF_solver : toutes les erreurs primaires
+applicables sont inferieures ou egales a `1 %`.
+
+| Empilement | Erreur modale | Erreur RMS Newmark | Erreur harmonique | Residu modal QF |
+| --- | ---: | ---: | ---: | ---: |
+| `[0/90/90/0]` | `0,1303 %` | `0,0272 %` | `0,0144 %` | `9,642e-09` |
+| `[45/-45/-45/45]` | `0,3792 %` | `0,4841 %` | `0,2613 %` | `7,409e-08` |
+| `[0/45/45/0]` amorti | `0,1281 %` | `0,0669 %` | `0,0349 %` | `2,163e-09` |
+
+Le niveau intermediaire `36x9` reste integralement publie : l'angle-ply
+atteint `2,938 %` en Newmark et `1,606 %` en harmonique. Il est donc interdit
+de ne publier que le dernier niveau pour faire disparaitre les depassements.
+Le niveau `48x12` est requis pour la preuve finale, et la promotion vers
+`stable` reste soumise a une Owner Review datee.
+
 Les resultats calcules sont conserves dans
 `qualification/vnv/mitc4_laminate_dynamic/reference/summary.json`.
 
@@ -123,8 +142,9 @@ et en PDF dans
 
 ## Decision de maturite
 
-Le couple `MITC4 / laminate_dynamic` est `ready_for_owner_review`. Il reste
-hors scope Owner accepte jusqu'a reception :
+Le couple `MITC4 / laminate_dynamic` est maintenant `ready_for_owner_review`
+avec un gate technique PASS sur la campagne raffinee. Il reste hors scope
+`stable` jusqu'a reception :
 
 1. d'une Owner review dediee fixant le domaine d'emploi et les tolerances ;
 2. d'une decision explicite sur le fait que la correlation dynamique plane et

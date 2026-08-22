@@ -344,11 +344,32 @@ maillages courants : le PASS prouve sa convergence, pas une precision de
 conception inferieure a 5 %. Le TET10 atteint moins de `0,31 %` sur les deux
 observables. Le residu libre maximal vaut `6,96e-12`.
 
+Une campagne de raffinement supplementaire `VNV-ORTHOTROPIC-SOLID-CONVERGENCE-004`
+a ajoute trois niveaux TET4, jusqu'a `112 076` elements. L'ecart de fleche
+descend a `2,828 %`, l'ecart d'energie a `2,856 %` et l'increment entre les
+deux derniers niveaux vaut `1,717 %`. La tendance confirme une erreur de
+discretisation qui diminue, mais elle reste au-dessus de la politique
+engineering imposee de `1 %`. Le scope orthotrope statique TET4/TET10 reste
+donc bloque pour `stable`; cette preuve ne constitue pas une promotion.
+Les niveaux fins utilisent une sortie `summary` compacte afin d'eviter un
+JSON nodal monolithique. Le dossier controle est
+`qualification/vnv/orthotropic_solid_convergence_refined/reference/`.
+
 ![Convergence des solides orthotropes](../assets/reviews/orthotropic_solid_convergence.png)
 
 ```powershell
 python .\scripts\run_orthotropic_convergence_vnv.py `
   --output .\results\VNV-ORTHOTROPIC-SOLID-CONVERGENCE-003
+```
+
+La campagne raffinee est reproductible avec :
+
+```powershell
+python .\scripts\run_orthotropic_convergence_vnv.py `
+  --output .\results\VNV-ORTHOTROPIC-SOLID-CONVERGENCE-004 `
+  --study-id VNV-ORTHOTROPIC-SOLID-CONVERGENCE-004 `
+  --tet4-extra-sizes 0.105 0.08 0.06 0.045 0.035 `
+  --full-result-element-limit 12000
 ```
 
 ## Non-regression isotrope

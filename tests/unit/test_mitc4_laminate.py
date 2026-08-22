@@ -1,9 +1,9 @@
 import numpy as np
 import pytest
 
-from mitc4.element import MITC4Element
-from mitc4.material import ShellMaterial
-from mitc4.mesh import MeshFactory
+from solveur.compat.mitc4.element import MITC4Element
+from solveur.compat.mitc4.material import ShellMaterial
+from solveur.compat.mitc4.mesh import MeshFactory
 
 from solveur.api import check_mesh, solve_model
 from solveur.core.model import FiniteElementModel

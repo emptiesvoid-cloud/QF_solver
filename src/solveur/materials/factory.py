@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from mitc4.material import ShellMaterial
+from solveur.elements.shell.mitc4 import ShellMaterial
 
 from solveur.materials.beam import BeamSectionMaterial
 from solveur.materials.composite import OrthotropicLamina

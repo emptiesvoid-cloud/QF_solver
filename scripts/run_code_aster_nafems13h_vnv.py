@@ -12,6 +12,7 @@ from typing import Any
 import matplotlib.pyplot as plt
 import numpy as np
 
+from solveur.io.manifest import discovered_file_entries, git_source_state, write_json_file
 from solveur.verification.code_aster_nafems import (
     CodeAsterNafems13HParser,
     complex_polar,
@@ -37,8 +38,8 @@ def main() -> int:
     if not args.skip_run:
         _run_code_aster(output)
     summary = _normalize(output)
-    print(f"Code_Aster NAFEMS 13H DKQ: {summary['verdict']}")
-    return 0 if summary["verdict"] in {"PASS", "WARNING"} else 1
+    print(f"Code_Aster NAFEMS 13H DKQ: {summary['status']}")
+    return 0 if summary["status"] in {"PASS_EXTERNAL_CORRELATION", "WARNING"} else 1
 
 
 def _write_inputs(output: Path, frequencies: np.ndarray) -> None:
@@ -169,7 +170,9 @@ def _normalize(output: Path) -> dict[str, Any]:
     verdict = "PASS" if max(qf_diff.values()) <= 5.0 else "WARNING"
     summary = {
         "study_id": "VNV-MITC4-HARMONIC-CODEASTER13H-DKQ-007",
+        "status": "PASS_EXTERNAL_CORRELATION" if verdict == "PASS" else "WARNING",
         "verdict": verdict,
+        "maturity": "verified_development_external_correlation",
         "solver": {"name": "Code_Aster", "version": "18.1.0", "formulation": "DKT/DKQ"},
         "container": {"image": IMAGE, "runtime": "Docker Desktop"},
         "mesh": {"elements": 64, "nodes": 81, "pattern": "8x8 QUAD4", "element_size_m": 1.25},
@@ -200,6 +203,19 @@ def _normalize(output: Path) -> dict[str, Any]:
     (output / "summary.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
     _plot(output, points, references, peak)
     (output / "STUDY.md").write_text(_markdown(summary), encoding="utf-8")
+    write_json_file(
+        output / "vnv_manifest.json",
+        {
+            "schema_version": 1,
+            "study_id": summary["study_id"],
+            "source": git_source_state(ROOT),
+            "files": discovered_file_entries(
+                output,
+                lambda _: "code_aster_nafems13h_vnv",
+                exclude_names=("vnv_manifest.json",),
+            ),
+        },
+    )
     return summary
 
 

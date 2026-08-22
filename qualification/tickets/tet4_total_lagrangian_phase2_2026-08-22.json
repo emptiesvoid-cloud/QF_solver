@@ -1,0 +1,157 @@
+{
+  "schema_version": 1,
+  "ticket_batch_id": "TET4-TL-2-2026-08-22",
+  "title": "TET4 total-lagrangien - phase 2 de preuve et de promotion",
+  "status": "research_resource_limited",
+  "date": "2026-08-22",
+  "current_maturity": "research",
+  "current_decision": "more_evidence_required",
+  "objective": "Determiner si le TET4 total-lagrangien peut quitter le statut recherche sans confondre raffinement de maillage, accord externe et validite generale.",
+  "execution_update": {
+    "date": "2026-08-22",
+    "completed_campaigns": [
+      "kernel",
+      "assembled_newton",
+      "load_increment_sensitivity",
+      "stress_energy",
+      "CalculiX_precritical_correlation",
+      "Euler_buckling",
+      "98_304_element_refinement",
+      "postbuckling_three_imperfections"
+    ],
+    "large_probe": "RESOURCE_LIMIT_ABORTED",
+    "large_probe_artifact": "results/VNV-TET4-TL-PHASE2-LARGE-012/summary.json",
+    "large_probe_attempts": [
+      {
+        "artifact": "results/VNV-TET4-TL-PHASE2-LARGE-011/summary.json",
+        "status": "RESOURCE_LIMIT_ABORTED",
+        "observed_private_memory_gb": 47.85
+      },
+      {
+        "artifact": "results/VNV-TET4-TL-PHASE2-LARGE-012/summary.json",
+        "status": "RESOURCE_LIMIT_ABORTED",
+        "observed_private_memory_gb": 30.02,
+        "observed_working_set_gb": 22.33
+      }
+    ],
+    "interpretation": "Two independent attempts using the current path are not yet scalable to 1,152,000 TET4; no mechanical verdict is inferred from either aborted probe."
+  },
+  "baseline": {
+    "buckling_mesh_elements": 98304,
+    "buckling_euler_error": 0.01895557834366395,
+    "same_mesh_calculix_difference": 0.00034273764403158123,
+    "postbuckling_status": "PASS_POSTBUCKLING_RESEARCH",
+    "postbuckling_mesh_elements": 1536,
+    "postbuckling_max_residual": 9.52125543557075e-09,
+    "postbuckling_min_det_f": 0.9831972137003101
+  },
+  "global_exit_criteria": [
+    "Observable d'acceptation et oracle declares avant calcul.",
+    "Erreur, increment de maillage et residu traces a chaque niveau.",
+    "Chemin de charge, positivite de F et iterations Newton/arc-length traces.",
+    "Temps, memoire et taille du modele mesures pour le niveau large.",
+    "Correlation externe de la branche revendiquee, pas seulement de la branche precritique.",
+    "Revue independante archivee avant toute promotion stable ou qualification externe."
+  ],
+  "tickets": [
+    {
+      "id": "TL2-001",
+      "priority": "P0",
+      "title": "Figer le domaine et l'observable d'acceptation",
+      "status": "completed_bounded",
+      "deliverables": ["scope JSON", "decision sur charge critique versus chemin post-critique", "liste des exclusions"],
+      "exit": "Le critere est reproductible et ne change pas apres inspection du resultat.",
+      "depends_on": []
+    },
+    {
+      "id": "TL2-002",
+      "priority": "P0",
+      "title": "Raffinement structurel vers environ 1,2 million de TET4",
+      "status": "blocked_resource_limit",
+      "deliverables": ["summary.json", "mesh report", "convergence figure", "resource report"],
+      "exit": "La tendance de l'erreur est mesuree; aucune promesse automatique de passage sous 1 %.",
+      "depends_on": ["TL2-001"]
+    },
+    {
+      "id": "TL2-003",
+      "priority": "P0",
+      "title": "Audit residus, tangent et determinant",
+      "status": "partial_evidence",
+      "deliverables": ["residual history", "smallest tangent eigenvalue", "min det(F)", "Newton/arc-length iterations"],
+      "exit": "Aucune non-convergence silencieuse et aucun element inverse sur le chemin accepte.",
+      "depends_on": ["TL2-002"]
+    },
+    {
+      "id": "TL2-004",
+      "priority": "P1",
+      "title": "Mesurer memoire et performance du calcul large",
+      "status": "blocked_resource_limit",
+      "deliverables": ["peak memory", "assembly time", "solve time", "backend and options"],
+      "exit": "Le cout du calcul et ses limites machine sont publies avec le resultat.",
+      "depends_on": ["TL2-002"]
+    },
+    {
+      "id": "TL2-005",
+      "priority": "P0",
+      "title": "Robustesse du chemin de charge et des imperfections",
+      "status": "completed_bounded",
+      "deliverables": ["0.25 %, 0.5 %, 1.0 % imperfections", "dead-load path", "arc-length sensitivity"],
+      "exit": "Les conclusions ne dependent pas d'une seule amplitude ou d'un seul nombre de pas.",
+      "depends_on": ["TL2-001", "TL2-003"]
+    },
+    {
+      "id": "TL2-006",
+      "priority": "P0",
+      "title": "Correlation externe de la branche revendiquee",
+      "status": "in_progress",
+      "deliverables": ["same mesh or documented mapping", "precritical comparison", "postcritical comparison", "manifest"],
+      "exit": "La branche effectivement revendiquee est comparee; les formulations differentes sont explicitees.",
+      "depends_on": ["TL2-005"]
+    },
+    {
+      "id": "TL2-007",
+      "priority": "P1",
+      "title": "Sensibilite maillage et qualite geometrie",
+      "status": "open",
+      "deliverables": ["aspect ratio study", "distortion study", "mesh quality summary"],
+      "exit": "La limite de qualite du modele est connue et documentee.",
+      "depends_on": ["TL2-002"]
+    },
+    {
+      "id": "TL2-008",
+      "priority": "P1",
+      "title": "Verifier les modes de resolution et options non lineaires",
+      "status": "completed_bounded",
+      "deliverables": ["direct versus iterative comparison", "line-search report", "step sensitivity"],
+      "exit": "Le resultat ne depend pas d'un choix numerique non trace.",
+      "depends_on": ["TL2-003"]
+    },
+    {
+      "id": "TL2-009",
+      "priority": "P0",
+      "title": "Revue independante du paquet TET4-TL-2",
+      "status": "blocked_until_evidence_complete",
+      "deliverables": ["review pack", "questions", "independent decision record"],
+      "exit": "Avis independant archive avant toute promotion stable.",
+      "depends_on": ["TL2-004", "TL2-006", "TL2-007", "TL2-008"]
+    },
+    {
+      "id": "TL2-010",
+      "priority": "P0",
+      "title": "Decision de maturite et synchronisation release",
+      "status": "blocked_until_independent_review",
+      "deliverables": ["scope report", "maturity decision", "release audit", "updated roadmap"],
+      "exit": "Stable seulement si tous les gates sont PASS; sinon maintien research avec limites explicites.",
+      "depends_on": ["TL2-009"]
+    }
+  ],
+  "not_in_scope": [
+    "contact",
+    "plasticite finite strain",
+    "damage",
+    "rupture",
+    "follower pressure",
+    "random imperfections",
+    "certification externe"
+  ]
+}

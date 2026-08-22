@@ -1,0 +1,12 @@
+{
+  "review_id": "OWNER-REVIEW-MITC3-LAM-DYN-2026-08-20",
+  "review_mode": "owner_review",
+  "status": "accepted_for_bounded_engineering_use",
+  "scope": ["mitc3-laminate-dynamic"],
+  "decision": "accepted_for_bounded_engineering_use",
+  "promotion_target": "owner_accepted",
+  "responses": {"Q1": "yes for planar symmetric laminate", "Q2": "yes with curved dynamics, nonzero B coupling, calibrated damping and dynamic ply stresses excluded.", "Q3": "yes for bounded use, not stable generality.", "Q4": "accepted_for_bounded_engineering_use"},
+  "evidence": ["qualification/maturity_evidence_0_2_1/mitc3_laminate_dynamic_refinement/summary.json"],
+  "certification_claim": "none",
+  "signature": {"name": "Quentin Farinazzo", "mode": "electronic owner_review declaration", "date": "2026-08-20", "declaration": "Decision bounded acceptee; extensions remain required before stable."}
+}

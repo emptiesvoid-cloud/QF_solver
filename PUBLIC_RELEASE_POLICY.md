@@ -76,8 +76,8 @@ does not prove that historical file contents are suitable for publication.
 
 ## Public Documentation
 
-The public site documents the solver formulation, interfaces, verified scope,
-known limitations and selected reproducible demonstrations. It does not
+The public documentation documents the solver formulation, interfaces,
+verified scope, known limitations and selected reproducible demonstrations. It does not
 publish internal working instructions, local execution context, private model
 data or machine configuration. URLs created for documentation, packages or
 releases must point only to reviewed public content and must be added to the

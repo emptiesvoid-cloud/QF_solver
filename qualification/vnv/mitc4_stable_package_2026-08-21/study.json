@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "study_id": "VNV-MITC4-STABLE-PACKAGE-001",
+  "title": "MITC4 isotrope, multicouche et orthotrope - etude de promotion stable",
+  "date": "2026-08-21",
+  "owner": "Quentin Farinazzo",
+  "status": "owner_reviewed",
+  "promotion_target": "stable",
+  "units": "SI",
+  "scope_policy": "Aucune promotion automatique. Chaque sous-scope doit satisfaire ses preuves et recevoir une decision Owner distincte.",
+  "subscopes": [
+    {
+      "id": "mitc4-isotropic",
+      "current_maturity": "stable",
+      "target_maturity": "stable",
+      "material_model": "shell_isotropic",
+      "interpretation": "Perimetre deja promu : la campagne est conservee comme reference de non-regression.",
+      "existing_evidence": [
+        "qualification/reviews/mitc4_classic_stable_owner_review_pending.json",
+        "docs/verification/mitc4_classic_stable_owner_review.md",
+        "docs/verification/mitc4_validation.md",
+        "qualification/vnv/external/mitc4_static_code_aster/reference/summary.json",
+        "qualification/vnv/external/code_aster_mitc4_conical_cutout_refinement/reference/summary.json"
+      ],
+      "required_checks": [
+        "patch membrane et flexion",
+        "shear locking sur maillage mince",
+        "statique, modal, Newmark et harmonique",
+        "symetrie, residu, energie et modes rigides",
+        "non-regression des resultats historiques"
+      ]
+    },
+    {
+      "id": "mitc4-laminate",
+      "current_maturity": "stable_for_bounded_planar_static_and_three_layup_dynamic",
+      "target_maturity": "stable",
+      "material_model": "shell_laminate",
+      "interpretation": "Coque Reissner-Mindlin MITC4 avec ABD et recuperation par pli. La cible stable reste limitee aux empilements, geometries et analyses effectivement demontres.",
+      "existing_evidence": [
+        "docs/verification/mitc4_laminate_static_planar_stable_owner_review.md",
+        "docs/verification/mitc4_laminate_dynamic_refined_three_layups_stable_owner_review.md",
+        "qualification/vnv/external/code_aster_composite_nafems/reference/summary.json",
+        "qualification/vnv/external/code_aster_mitc4_laminate_dynamic_refinement_48x12_032/reference/summary.json",
+        "qualification/maturity_evidence_0_2_1/mitc4_laminate_static_planar.json",
+        "qualification/maturity_evidence_0_2_1/mitc4_laminate_dynamic.json"
+      ],
+      "owner_decision": "accepted_with_recommendations; promotion stable acceptee par Owner pour le perimetre plan documente et les trois layups raffines.",
+      "required_checks": [
+        "layups [0/90/90/0], [45/-45/-45/45] et [0/45/45/0]",
+        "ABD, couplage B et contraintes S11/S22/S12 par pli",
+        "modal, Newmark et harmonique avec et sans amortissement documente",
+        "convergence de maillage et de pas de temps sous 1 pour cent",
+        "limites explicites : S13/S23, dommage, rupture et delamination hors scope"
+      ]
+    },
+    {
+      "id": "mitc4-orthotropic-homogeneous-ply",
+      "current_maturity": "stable",
+      "latest_campaign_status": "PASS_INTERNAL_EXTERNAL_CORRELATION_WITH_CURVED_AXIAL_SCOPE",
+      "target_maturity": "stable",
+      "material_model": "shell_laminate with one orthotropic ply",
+      "implementation_note": "Le noyau ne declare pas encore un type shell_orthotropic autonome. Cette etude utilise une lamelle orthotrope unique via shell_laminate; elle ne vaut pas qualification generale des coques orthotropes.",
+      "required_evidence": [
+        "patch affine avec axes materiau 0, 45 et 90 degres",
+        "invariance par rotation du repere global",
+        "membrane, flexion et cisaillement transverse",
+        "modal et Newmark avec masse coherente",
+        "harmonique sur une bande couvrant le premier mode",
+        "correlation Code_Aster sur la meme geometrie et le meme axe materiau",
+        "au moins deux geometries : plaque plane et panneau courbe facettise"
+      ],
+      "acceptance_limits": {
+        "primary_observables_relative_error": 0.01,
+        "modal_residual": 1e-8,
+        "newmark_dynamic_residual": 1e-7,
+        "free_residual": 1e-8,
+        "mesh_quality": "limites MITC4 du profil qualification"
+      },
+      "exclusions": [
+        "composite pli par pli au sens certification materiau",
+        "dommage, rupture et delamination",
+        "grandes deformations",
+        "orientation continue de fibres dans une surface courbe",
+        "contraintes interlaminaires S13/S23 comme critere d'acceptation"
+      ],
+      "owner_decision": "accepted_with_recommendations; promotion stable acceptee par Owner pour le perimetre borne documente."
+      ,"latest_evidence": [
+        "docs/verification/mitc4_stable_package/orthotropic_one_ply_results_2026-08-21.md",
+        "docs/verification/mitc4_stable_package/completion_audit.md",
+        "results/mitc4_orthotropic_one_ply_static_20260821/summary.json",
+        "results/mitc4_orthotropic_one_ply_internal_20260821/summary.json",
+        "results/mitc4_orthotropic_one_ply_codeaster_20260821/summary.json",
+        "results/mitc4_orthotropic_curved_one_ply_20260821/summary.json",
+        "results/mitc4_orthotropic_modal_codeaster_20260821_56x14/summary.json",
+        "results/mitc4_orthotropic_curved_axial_one_ply_calculix_20260821/summary.json",
+        "results/mitc4_orthotropic_curved_dynamic_20260821/summary.json",
+        "results/mitc4_orthotropic_curved_dynamic_codeaster_20260821_16x8_aligned/summary.json",
+        "results/mitc4_orthotropic_curved_dynamic_codeaster_20260821_32x16_aligned/summary.json"
+      ]
+    }
+  ],
+  "common_method_matrix": [
+    {"method": "linear_static", "required": true, "primary_outputs": ["displacement", "reaction", "energy", "ABD_or_material_axes"]},
+    {"method": "modal", "required": true, "primary_outputs": ["frequencies", "residuals", "mass_orthogonality", "mode_shapes"]},
+    {"method": "newmark", "required": true, "primary_outputs": ["time_history", "dynamic_residual", "energy_drift", "time_refinement"]},
+    {"method": "harmonic_response", "required": true, "primary_outputs": ["amplitude", "phase", "resonance", "zero_frequency_limit"]}
+  ],
+  "external_oracles": [
+    {"name": "Code_Aster", "role": "correlation externe reproducible", "version_policy": "version et image Docker par digest"},
+    {"name": "CalculiX", "role": "correlation secondaire", "version_policy": "version et deck traces"},
+    {"name": "theory", "role": "reference analytique ou CLT lorsque applicable", "version_policy": "publication citee"}
+  ],
+  "release_gate": {
+    "stable_requires": [
+      "toutes les campagnes obligatoires PASS",
+      "erreur primaire <= 1 pour cent ou justification documentee",
+      "aucune extrapolation au-dela des exclusions",
+      "rapport Markdown et figures lisibles",
+      "Owner Review signee pour chaque sous-scope"
+    ],
+    "blocking_conditions": [
+      "preuve absente",
+      "resultat non reproductible",
+      "residu ou solution non fini",
+      "orientation materiau non tracee",
+      "contradiction entre statut technique et statut Owner"
+    ]
+  }
+}
+

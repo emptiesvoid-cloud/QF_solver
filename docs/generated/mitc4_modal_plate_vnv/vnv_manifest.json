@@ -3,15 +3,15 @@
   "study_id": "VNV-MITC4-MODAL-PLATE-003",
   "source": {
     "repository": ".",
-    "revision": "c8d7fcf4fb176c9cd595360ffd0f4417c19285ce",
+    "revision": "1804a03aee0c4e4bc6ac2c56e9461bedd9aac6d4",
     "dirty": true
   },
   "files": [
     {
       "role": "mitc4_modal_plate_vnv",
       "path": "summary.json",
-      "size_bytes": 4710,
-      "sha256": "7dad126352f349f958b9d7c6cc939a9cb86edf5245f69ace410678cf89f779fc"
+      "size_bytes": 4712,
+      "sha256": "cc806f352a90efee664e0c4f192e1cf9ea2b56148a62091d38e101b586838dd9"
     },
     {
       "role": "mitc4_modal_plate_vnv",

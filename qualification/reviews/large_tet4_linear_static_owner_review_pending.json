@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "review_id": "OWNER-REVIEW-LARGE-TET4-2026-08-15",
+  "review_mode": "owner_review",
+  "status": "pending",
+  "scope": ["large-tet4-linear-static"],
+  "purpose": "Statuer sur le perimetre grand modele TET4 isotrope lineaire et ses limites de reproductibilite materielle.",
+  "evidence": [
+    "qualification/maturity_evidence_0_2_1/large_tet4_linear_static.json",
+    "qualification/baselines/large_petsc_mpi_2026-07-16.json",
+    "results_large/qualification_matrix_free_1m/large_qualification_summary.md",
+    "results_large/qualification_matrix_free_1m/large_readiness.md",
+    "tests/integration/test_large_model.py"
+  ],
+  "questions": [
+    {"id": "Q1", "question": "Le perimetre TET4 lineaire statique grand modele est-il suffisamment documente et reproductible ?", "answer": null},
+    {"id": "Q2", "question": "Les limites PETSc/MPI, materiel, memoire et weak scaling sont-elles explicites et acceptables ?", "answer": null},
+    {"id": "Q3", "question": "La maturite ciblee est-elle appropriee sans extrapolation a tous les solveurs ou elements ?", "answer": null},
+    {"id": "Q4", "question": "Decision Owner : accepted_with_recommendations, accepted_for_bounded_engineering_use ou more_evidence_required ?", "answer": null}
+  ],
+  "decision": null,
+  "signature": null,
+  "certification_claim": "none"
+}

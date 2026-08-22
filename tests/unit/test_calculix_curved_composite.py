@@ -38,13 +38,25 @@ def test_curved_calculix_input_contains_composite_orientation_and_balanced_loads
     assert "*ORIENTATION,NAME=ORIP90" in text
     assert "1.,0.,0.,0.,1.,0." in text
     assert "*ORIENTATION,NAME=ORIP45" not in text
-    assert text.count("2.0e-3,,LAMINA,ORIP0") == 2
-    assert text.count("2.0e-3,,LAMINA,ORIP90") == 2
+    assert text.count("0.002,,LAMINA,ORIP0") == 2
+    assert text.count("0.002,,LAMINA,ORIP90") == 2
     load_lines = text.split("*CLOAD\n", maxsplit=1)[1].split("*NODE FILE", maxsplit=1)[0]
     fx = sum(float(line.split(",")[2]) for line in load_lines.splitlines()[::2])
     fz = sum(float(line.split(",")[2]) for line in load_lines.splitlines()[1::2])
     np.testing.assert_allclose(fx, 1000.0, rtol=0.0, atol=1.0e-12)
     np.testing.assert_allclose(fz, -20.0, rtol=0.0, atol=1.0e-12)
+
+
+def test_curved_calculix_input_preserves_one_ply_orientation_and_total_thickness(
+    tmp_path,
+):
+    mesh = build_curved_s8r_mesh(2, 1)
+    path = write_curved_calculix_input(tmp_path / "one_ply.inp", mesh, layup=(45.0,))
+    text = path.read_text(encoding="ascii")
+
+    assert "*ORIENTATION,NAME=ORIP45" in text
+    assert "*ORIENTATION,NAME=ORIP0" not in text
+    assert "0.008,,LAMINA,ORIP45" in text
 
 
 def test_controlled_curved_calculix_evidence_is_complete() -> None:

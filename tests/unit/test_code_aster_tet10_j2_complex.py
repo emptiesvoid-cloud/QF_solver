@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+import pytest
+
 from solveur.verification.code_aster_tet10_j2_complex import _aster_commands, _normalized_rms
+from solveur.verification.code_aster_tet10_j2_complex import CodeAsterTet10J2ComplexCampaign
 
 
 def test_complex_code_aster_deck_contains_combined_load_and_tetra10() -> None:
@@ -25,3 +28,10 @@ def test_normalized_rms_is_zero_for_identical_paths() -> None:
 
     path = np.array([[1.0, 2.0], [3.0, 4.0]])
     assert _normalized_rms(path, path) == 0.0
+
+
+def test_complex_campaign_accepts_controlled_refinement_range(tmp_path) -> None:
+    campaign = CodeAsterTet10J2ComplexCampaign(tmp_path, mesh_size=0.22)
+    assert campaign.mesh_size == pytest.approx(0.22)
+    with pytest.raises(ValueError, match="mesh_size"):
+        CodeAsterTet10J2ComplexCampaign(tmp_path, mesh_size=0.05)

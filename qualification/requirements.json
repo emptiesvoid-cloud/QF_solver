@@ -1,41 +1,52 @@
 {
   "registry_version": 1,
   "scope_status_values": ["development", "candidate", "qualified"],
+  "artifact_aliases": {
+    "path": "qualification/evidence/release_vv_artifacts_2026-08-14-r14/artifact_aliases.json"
+  },
   "scopes": {
     "tet4-linear-static": {
-      "status": "candidate",
+      "status": "qualified",
       "requirements": ["REQ-IO-001", "REQ-IO-002", "REQ-MESH-001", "REQ-MESH-002", "REQ-SOL-001", "REQ-SOL-004", "REQ-LOAD-001", "REQ-AUD-001", "REQ-EVD-001", "REQ-CMP-001", "REQ-CMP-003", "REQ-CMP-004", "REQ-REL-001"]
     },
     "beam2-linear-static": {
-      "status": "development",
+      "status": "qualified",
       "requirements": ["REQ-IO-001", "REQ-MESH-001", "REQ-BEAM-001", "REQ-AUD-001", "REQ-DOC-001", "REQ-REL-001"]
     },
     "discrete-linear": {
-      "status": "development",
+      "status": "qualified",
       "requirements": ["REQ-IO-001", "REQ-DISCRETE-001", "REQ-MPC-001", "REQ-MOD-001", "REQ-AUD-001", "REQ-DOC-001", "REQ-REL-001"]
     },
     "mitc4-linear-static": {
-      "status": "candidate",
+      "status": "qualified",
       "requirements": ["REQ-IO-001", "REQ-MESH-001", "REQ-MESH-002", "REQ-SOL-002", "REQ-SOL-005", "REQ-LOAD-001", "REQ-AUD-001", "REQ-EVD-001", "REQ-CMP-001", "REQ-CMP-003", "REQ-CMP-004", "REQ-REL-001"]
     },
     "mitc4-laminate-static": {
-      "status": "development",
+      "status": "qualified",
       "requirements": ["REQ-IO-001", "REQ-MESH-001", "REQ-SOL-002", "REQ-LOAD-001", "REQ-AUD-001", "REQ-EVD-001", "REQ-COMP-001", "REQ-COMP-002", "REQ-COMP-003", "REQ-COMP-004", "REQ-COMP-005", "REQ-REL-001"]
     },
     "mitc4-laminate-dynamic": {
       "status": "candidate",
       "requirements": ["REQ-IO-001", "REQ-MESH-001", "REQ-SOL-002", "REQ-MOD-001", "REQ-MOD-002", "REQ-DYN-001", "REQ-DYN-003", "REQ-HAR-001", "REQ-AUD-001", "REQ-EVD-001", "REQ-COMP-001", "REQ-COMP-002", "REQ-COMP-003", "REQ-CMP-003", "REQ-REL-001"]
     },
+    "mitc4-laminate-dynamic-refined-three-layups": {
+      "status": "qualified",
+      "requirements": ["REQ-IO-001", "REQ-MESH-001", "REQ-SOL-002", "REQ-MOD-001", "REQ-DYN-001", "REQ-HAR-001", "REQ-COMP-001", "REQ-COMP-002", "REQ-COMP-003", "REQ-CMP-003", "REQ-AUD-001", "REQ-EVD-001", "REQ-REL-001"]
+    },
+    "mitc4-orthotropic-homogeneous-ply": {
+      "status": "qualified",
+      "requirements": ["REQ-IO-001", "REQ-MESH-001", "REQ-SOL-002", "REQ-MOD-002", "REQ-COMP-001", "REQ-COMP-002", "REQ-COMP-003", "REQ-CMP-003", "REQ-REL-001"]
+    },
     "orthotropic-solid-tet4-tet10": {
-      "status": "candidate",
+      "status": "qualified",
       "requirements": ["REQ-IO-001", "REQ-MESH-001", "REQ-SOL-001", "REQ-SOL-003", "REQ-LOAD-001", "REQ-AUD-001", "REQ-EVD-001", "REQ-COMP-006", "REQ-REL-001"]
     },
     "orthotropic-solid-modal": {
-      "status": "development",
+      "status": "qualified",
       "requirements": ["REQ-IO-001", "REQ-MESH-001", "REQ-SOL-001", "REQ-SOL-003", "REQ-MOD-001", "REQ-COMP-008", "REQ-REL-001"]
     },
     "orthotropic-solid-transient-dynamic": {
-      "status": "development",
+      "status": "qualified",
       "requirements": ["REQ-IO-001", "REQ-MESH-001", "REQ-SOL-001", "REQ-SOL-003", "REQ-MOD-001", "REQ-DYN-001", "REQ-DYN-002", "REQ-COMP-008", "REQ-REL-001"]
     },
     "orthotropic-solid-large-static": {
@@ -47,15 +58,15 @@
       "requirements": ["REQ-COMP-007", "REQ-CMP-003", "REQ-REL-001"]
     },
     "mitc4-modal": {
-      "status": "candidate",
+      "status": "qualified",
       "requirements": ["REQ-IO-001", "REQ-MESH-001", "REQ-MESH-002", "REQ-SOL-002", "REQ-SOL-005", "REQ-MOD-001", "REQ-MOD-002", "REQ-AUD-001", "REQ-EVD-001", "REQ-CMP-001", "REQ-CMP-003", "REQ-REL-001"]
     },
     "mitc4-transient-dynamic": {
-      "status": "candidate",
+      "status": "qualified",
       "requirements": ["REQ-IO-001", "REQ-MESH-001", "REQ-MESH-002", "REQ-SOL-002", "REQ-SOL-005", "REQ-MOD-001", "REQ-MOD-002", "REQ-DYN-001", "REQ-DYN-003", "REQ-AUD-001", "REQ-EVD-001", "REQ-CMP-001", "REQ-CMP-003", "REQ-REL-001"]
     },
     "mitc4-harmonic-response": {
-      "status": "candidate",
+      "status": "qualified",
       "requirements": ["REQ-IO-001", "REQ-MESH-001", "REQ-MESH-002", "REQ-SOL-002", "REQ-SOL-005", "REQ-MOD-001", "REQ-MOD-002", "REQ-HAR-001", "REQ-AUD-001", "REQ-EVD-001", "REQ-CMP-001", "REQ-CMP-003", "REQ-REL-001"]
     },
     "mitc4-harmonic-condensation": {
@@ -63,59 +74,75 @@
       "requirements": ["REQ-MOD-002", "REQ-HAR-001", "REQ-CMP-003", "REQ-REL-001"]
     },
     "mitc3-linear-static": {
-      "status": "candidate",
+      "status": "qualified",
       "requirements": ["REQ-IO-001", "REQ-MESH-001", "REQ-MESH-002", "REQ-MITC3-001", "REQ-LOAD-001", "REQ-AUD-001", "REQ-EVD-001", "REQ-CMP-003", "REQ-DOC-001", "REQ-REL-001"]
     },
     "mitc3-modal": {
-      "status": "development",
+      "status": "qualified",
       "requirements": ["REQ-IO-001", "REQ-MESH-001", "REQ-MITC3-001", "REQ-MITC3-002", "REQ-MOD-001", "REQ-AUD-001", "REQ-EVD-001", "REQ-CMP-003", "REQ-REL-001"]
     },
     "mitc3-transient-dynamic": {
-      "status": "development",
+      "status": "qualified",
       "requirements": ["REQ-IO-001", "REQ-MESH-001", "REQ-MITC3-001", "REQ-MITC3-002", "REQ-MOD-001", "REQ-DYN-001", "REQ-AUD-001", "REQ-EVD-001", "REQ-CMP-003", "REQ-REL-001"]
     },
     "mitc3-harmonic-response": {
-      "status": "development",
+      "status": "qualified",
       "requirements": ["REQ-IO-001", "REQ-MESH-001", "REQ-MITC3-001", "REQ-MITC3-002", "REQ-HAR-001", "REQ-AUD-001", "REQ-EVD-001", "REQ-CMP-003", "REQ-REL-001"]
     },
     "mitc3-laminate-static": {
       "status": "development",
       "requirements": ["REQ-IO-001", "REQ-MESH-001", "REQ-MITC3-001", "REQ-MITC3-003", "REQ-COMP-001", "REQ-COMP-002", "REQ-COMP-003", "REQ-LOAD-001", "REQ-AUD-001", "REQ-EVD-001", "REQ-REL-001"]
     },
+    "mitc3-laminate-static-curved": {
+      "status": "development",
+      "requirements": ["REQ-IO-001", "REQ-MESH-001", "REQ-MITC3-001", "REQ-MITC3-003", "REQ-COMP-001", "REQ-COMP-002", "REQ-COMP-003", "REQ-COMP-005", "REQ-LOAD-001", "REQ-AUD-001", "REQ-EVD-001", "REQ-REL-001"]
+    },
+    "mitc3-laminate-dynamic": {
+      "status": "development",
+      "requirements": ["REQ-IO-001", "REQ-MESH-001", "REQ-MITC3-001", "REQ-MITC3-002", "REQ-MITC3-003", "REQ-MOD-001", "REQ-DYN-001", "REQ-HAR-001", "REQ-COMP-001", "REQ-COMP-002", "REQ-COMP-003", "REQ-CMP-003", "REQ-AUD-001", "REQ-EVD-001", "REQ-REL-001"]
+    },
+    "mitc3-laminate-dynamic-thin-planar": {
+      "status": "qualified",
+      "requirements": ["REQ-IO-001", "REQ-MESH-001", "REQ-MITC3-001", "REQ-MITC3-002", "REQ-MITC3-003", "REQ-MOD-001", "REQ-DYN-001", "REQ-HAR-001", "REQ-CMP-003", "REQ-EVD-001", "REQ-REL-001"]
+    },
+    "mitc3-laminate-static-curved-mixed-transverse": {
+      "status": "qualified",
+      "requirements": ["REQ-IO-001", "REQ-MESH-001", "REQ-MITC3-001", "REQ-MITC3-003", "REQ-COMP-001", "REQ-COMP-002", "REQ-COMP-003", "REQ-COMP-005", "REQ-LOAD-001", "REQ-CMP-003", "REQ-AUD-001", "REQ-EVD-001", "REQ-REL-001"]
+    },
     "tet10-linear-static": {
-      "status": "candidate",
+      "status": "qualified",
       "requirements": ["REQ-IO-001", "REQ-MESH-001", "REQ-MESH-002", "REQ-SOL-003", "REQ-LOAD-001", "REQ-AUD-001", "REQ-EVD-001", "REQ-CMP-001", "REQ-CMP-003", "REQ-REL-001"]
     },
     "tet4-modal": {
-      "status": "candidate",
+      "status": "qualified",
       "requirements": ["REQ-IO-001", "REQ-MESH-001", "REQ-SOL-001", "REQ-MOD-001", "REQ-AUD-001", "REQ-EVD-001", "REQ-CMP-003", "REQ-REL-001"]
     },
     "tet4-transient-dynamic": {
-      "status": "candidate",
+      "status": "qualified",
       "requirements": ["REQ-IO-001", "REQ-MESH-001", "REQ-SOL-001", "REQ-MOD-001", "REQ-DYN-001", "REQ-DYN-002", "REQ-AUD-001", "REQ-EVD-001", "REQ-CMP-003", "REQ-REL-001"]
     },
     "tet4-harmonic-response": {
-      "status": "candidate",
+      "status": "qualified",
       "requirements": ["REQ-IO-001", "REQ-MESH-001", "REQ-SOL-001", "REQ-MOD-001", "REQ-HAR-001", "REQ-AUD-001", "REQ-EVD-001", "REQ-CMP-003", "REQ-REL-001"]
     },
     "tet10-modal": {
-      "status": "candidate",
+      "status": "qualified",
       "requirements": ["REQ-IO-001", "REQ-MESH-001", "REQ-SOL-003", "REQ-MOD-001", "REQ-AUD-001", "REQ-EVD-001", "REQ-CMP-003", "REQ-REL-001"]
     },
     "tet10-transient-dynamic": {
-      "status": "candidate",
+      "status": "qualified",
       "requirements": ["REQ-IO-001", "REQ-MESH-001", "REQ-SOL-003", "REQ-MOD-001", "REQ-DYN-001", "REQ-DYN-002", "REQ-AUD-001", "REQ-EVD-001", "REQ-CMP-003", "REQ-REL-001"]
     },
     "tet10-harmonic-response": {
-      "status": "candidate",
+      "status": "qualified",
       "requirements": ["REQ-IO-001", "REQ-MESH-001", "REQ-SOL-003", "REQ-MOD-001", "REQ-HAR-001", "REQ-AUD-001", "REQ-EVD-001", "REQ-CMP-003", "REQ-REL-001"]
     },
     "beam2-linear-dynamics": {
-      "status": "candidate",
+      "status": "qualified",
       "requirements": ["REQ-IO-001", "REQ-MESH-001", "REQ-BEAM-001", "REQ-MOD-001", "REQ-DYN-001", "REQ-HAR-001", "REQ-AUD-001", "REQ-EVD-001", "REQ-REL-001"]
     },
     "discrete-linear-dynamics": {
-      "status": "candidate",
+      "status": "qualified",
       "requirements": ["REQ-IO-001", "REQ-DISCRETE-001", "REQ-MOD-001", "REQ-DYN-001", "REQ-HAR-001", "REQ-AUD-001", "REQ-EVD-001", "REQ-REL-001"]
     },
     "linear-dynamics": {
@@ -129,6 +156,22 @@
     "material-nonlinear": {
       "status": "development",
       "requirements": ["REQ-IO-001", "REQ-MESH-001", "REQ-NL-001", "REQ-AUD-001", "REQ-EVD-001", "REQ-CMP-001", "REQ-REL-001"]
+    },
+    "tet4-material-nonlinear": {
+      "status": "development",
+      "requirements": ["REQ-IO-001", "REQ-MESH-001", "REQ-NL-001", "REQ-AUD-001", "REQ-EVD-001", "REQ-CMP-001", "REQ-REL-001"]
+    },
+    "tet10-material-nonlinear": {
+      "status": "development",
+      "requirements": ["REQ-IO-001", "REQ-MESH-001", "REQ-NL-001", "REQ-AUD-001", "REQ-EVD-001", "REQ-CMP-001", "REQ-REL-001"]
+    },
+    "contact-v1-linear-static-bounded": {
+      "status": "development",
+      "requirements": ["REQ-IO-001", "REQ-MESH-001", "REQ-CONTACT-001", "REQ-AUD-001", "REQ-EVD-001", "REQ-CMP-001", "REQ-CMP-003", "REQ-REL-001"]
+    },
+    "contact-frictional-static": {
+      "status": "development",
+      "requirements": ["REQ-IO-001", "REQ-MESH-001", "REQ-CONTACT-001", "REQ-AUD-001", "REQ-EVD-001", "REQ-CMP-001", "REQ-CMP-003", "REQ-REL-001"]
     },
     "tet4-total-lagrangian": {
       "status": "candidate",
@@ -158,7 +201,7 @@
       "functions": ["qualification_metadata", "qualification_summary", "EvidenceBundleWriter.write"],
       "tests": ["tests/integration/test_evidence_bundle.py"],
       "independent_references": [],
-      "artifacts": ["qualification/campaign.json"]
+      "artifacts": ["qualification/campaign.json", "docs/verification/owner_review_code_aster_2026-08-14.md", "qualification/reviews/code_aster_correlation_owner_review_2026-08-14_pending.json"]
     },
     {
       "id": "REQ-MESH-001",
@@ -195,7 +238,7 @@
       "id": "REQ-SOL-002",
       "title": "Verification mecanique MITC4",
       "design": ["docs/reference/legacy/verification_mecanique.md", "docs/reference/legacy/correlation_litterature_cisaillement.md", "docs/manuel_theorique_elements_finis.md"],
-      "code": ["src/mitc4/element.py", "src/mitc4/verification.py"],
+      "code": ["src/solveur/elements/shell/mitc4/element.py", "src/solveur/verification/mitc4_mechanical.py"],
       "functions": ["MITC4Element.stiffness", "run_all_verifications"],
       "tests": ["tests/verification/test_mitc4_verification.py", "tests/unit/test_shell_post.py"],
       "independent_references": ["Scordelis-Lo published reference", "closed-form membrane equilibrium"],
@@ -216,12 +259,12 @@
       "id": "REQ-SOL-005",
       "title": "Absence de shear locking MITC4 sur domaine borne",
       "design": ["docs/elements/mitc4/verification_limites.md", "docs/verification/mitc4_validation.md"],
-        "code": ["src/mitc4/element.py", "src/mitc4/locking.py", "src/solveur/verification/external_correlation.py"],
+        "code": ["src/solveur/elements/shell/mitc4/element.py", "src/solveur/verification/mitc4_locking.py", "src/solveur/verification/external_correlation.py"],
         "functions": ["MITC4Element.shear_tying_vectors", "EnhancedShearLockingStudy.run", "compare_pinched_cylinder"],
         "tests": ["tests/verification/test_mitc4_verification.py", "tests/unit/test_external_correlation.py"],
-        "independent_references": ["Timoshenko cantilever deflection including transverse shear", "full-shear Q4 locking control", "SIMULIA Abaqus 2025 pinched-cylinder S4R published results"],
+        "independent_references": ["Timoshenko cantilever deflection including transverse shear", "full-shear Q4 locking control", "Code_Aster 18.1.0 DKQ same-mesh conical-cutout execution"],
       "formulas": ["FORM-MITC4-003", "FORM-MITC4-004"],
-        "artifacts": ["qualification/vnv/mitc4_validation_scope.json", "qualification/vnv/references/abaqus_mitc4_static.json"]
+        "artifacts": ["docs/verification/mitc4_validation.md", "qualification/evidence/code_aster_correlation_campaign_2026-08-14/studies/mitc4_conical/summary.json"]
     },
     {
       "id": "REQ-SOL-003",
@@ -230,9 +273,9 @@
       "code": ["src/solveur/elements/solid/tet10.py", "src/solveur/elements/solid/quadrature.py", "src/solveur/loads/integration.py", "src/solveur/benchmarks/solid_extended.py", "src/solveur/verification/tet10.py", "src/solveur/verification/tet10_geometry_quadrature.py", "src/solveur/verification/tet10_structural_convergence.py", "src/solveur/verification/tet10_mass_modal_loads.py", "src/solveur/verification/calculix_tet10.py", "src/solveur/verification/code_aster_tet10_dynamic.py", "src/solveur/verification/tet10_near_incompressible.py"],
       "functions": ["Tet10Element.mass", "Tet10Element.geometry_diagnostics", "Tet10Element.stiffness_integration_rule", "Tet10Element.jacobian_determinants", "Tet10Element.extrapolate_integration_values", "triangle_duffy_rule", "triangle_shape_functions", "apply_consistent_circular_torsion", "Tet10MechanicalVerifier.run", "Tet10GeometryQuadratureCampaign.run", "Tet10StructuralConvergenceCampaign.run", "Tet10MassModalLoadsCampaign.run", "CalculixTet10Correlation.run", "CodeAsterTet10DynamicsCampaign.run", "write_calculix_tet10_input", "Tet10NearIncompressibleCampaign.run", "timoshenko_tip_displacement"],
       "tests": ["tests/unit/test_tet10_element.py", "tests/unit/test_mesh_validation.py", "tests/unit/test_distributed_loads.py", "tests/unit/test_solid_extended_benchmarks.py", "tests/unit/test_tet10_mass_modal_evidence.py", "tests/unit/test_calculix_tet10.py", "tests/unit/test_calculix_tet10_evidence.py", "tests/unit/test_code_aster_tet10_dynamic.py", "tests/unit/test_tet10_near_incompressible.py", "tests/verification/test_tet10_verification.py", "tests/verification/test_tet10_geometry_quadrature_vnv.py", "tests/verification/test_tet10_structural_convergence_vnv.py", "tests/verification/test_tet10_mass_modal_loads_vnv.py", "tests/verification/test_code_aster_tet10_dynamic_vnv.py", "tests/verification/test_tet10_near_incompressible_vnv.py"],
-      "independent_references": ["affine continuum strain and energy", "quadratic interpolation identity", "rigid translation total mass", "closed-form one-dof TET10 edge eigenvalue", "positive high-order Duffy quadrature cross-check", "uniform uniaxial Hooke solution", "Timoshenko cantilever displacement", "Saint-Venant circular shaft torsion", "Euler-Bernoulli first cantilever frequency", "high-order curved-face pressure resultant and moment", "CalculiX 2.20 C3D10 same-mesh solution", "Code_Aster 3D TETRA10 same-mesh modal, Newmark and harmonic solution"],
+      "independent_references": ["affine continuum strain and energy", "quadratic interpolation identity", "rigid translation total mass", "closed-form one-dof TET10 edge eigenvalue", "positive high-order Duffy quadrature cross-check", "uniform uniaxial Hooke solution", "Timoshenko cantilever displacement", "Saint-Venant circular shaft torsion", "Euler-Bernoulli first cantilever frequency", "high-order curved-face pressure resultant and moment", "Code_Aster 3D TETRA10 same-mesh modal, Newmark and harmonic solution"],
       "formulas": ["FORM-TET10-001", "FORM-TET10-002", "FORM-TET10-003", "FORM-TET10-004", "FORM-TET10-005"],
-      "artifacts": ["examples/tet10_static.json", "qualification/vnv/tet10_geometry_quadrature/reference/summary.json", "qualification/vnv/tet10_geometry_quadrature/reference/report.md", "qualification/vnv/tet10_structural_convergence/reference/summary.json", "qualification/vnv/tet10_structural_convergence/reference/report.md", "qualification/vnv/tet10_mass_modal_loads/reference/summary.json", "qualification/vnv/tet10_mass_modal_loads/reference/report.md", "qualification/vnv/external/calculix_tet10/reference/summary.json", "qualification/vnv/external/calculix_tet10/reference/report.md", "qualification/vnv/external/calculix_tet10/reference/vnv_manifest.json", "qualification/vnv/tet10_dynamic_code_aster/reference/summary.json", "qualification/vnv/tet10_dynamic_code_aster/reference/report.md", "qualification/vnv/tet10_dynamic_code_aster/reference/vnv_manifest.json", "qualification/vnv/tet10_near_incompressible/reference/summary.json", "qualification/vnv/tet10_near_incompressible/reference/report.md", "qualification/vnv/tet10_near_incompressible/reference/vnv_manifest.json", "qualification/reviews/tet10_linear_2026-07-18.json", "docs/assets/reviews/revue_mecanique_tet10_lineaire.pdf"]
+      "artifacts": ["examples/tet10_static.json", "qualification/vnv/tet10_geometry_quadrature/reference/summary.json", "qualification/vnv/tet10_geometry_quadrature/reference/report.md", "qualification/vnv/tet10_structural_convergence/reference/summary.json", "qualification/vnv/tet10_structural_convergence/reference/report.md", "qualification/vnv/tet10_mass_modal_loads/reference/summary.json", "qualification/vnv/tet10_mass_modal_loads/reference/report.md", "qualification/evidence/code_aster_correlation_campaign_2026-08-14/studies/tet10_dynamic/summary.json", "qualification/vnv/tet10_near_incompressible/reference/summary.json", "qualification/vnv/tet10_near_incompressible/reference/report.md", "qualification/vnv/tet10_near_incompressible/reference/vnv_manifest.json", "qualification/reviews/tet10_linear_2026-07-18.json", "docs/assets/reviews/revue_mecanique_tet10_lineaire.pdf"]
     },
     {
       "id": "REQ-MOD-001",
@@ -248,7 +291,7 @@
       "id": "REQ-MOD-002",
       "title": "Masse coherente et modes physiques MITC4",
       "design": ["docs/elements/mitc4/matrices_charges.md", "docs/verification/mitc4_validation.md"],
-      "code": ["src/mitc4/element.py", "src/solveur/core/dynamic_reduction.py", "src/solveur/core/modal.py", "src/solveur/verification/mitc4_modal_external.py", "src/solveur/verification/mitc4_modal_extended.py"],
+      "code": ["src/solveur/elements/shell/mitc4/element.py", "src/solveur/core/dynamic_reduction.py", "src/solveur/core/modal.py", "src/solveur/verification/mitc4_modal_external.py", "src/solveur/verification/mitc4_modal_extended.py"],
       "functions": ["MITC4Element.mass", "DynamicDofReducer.from_system", "ModalAnalysisSolver.solve", "Mitc4CodeAsterModalStudy.run", "FoldedShellFreeFreeStudy.run", "CurvedDistortedShellStudy.run", "SparseModalScalingStudy.run"],
       "tests": [
         "tests/unit/test_mitc4_dynamics.py",
@@ -260,7 +303,7 @@
       "independent_references": ["Reissner-Mindlin translational and rotary kinetic energy", "analytical six-dimensional rigid-motion subspace", "rigid rotation objectivity", "Navier thin square-plate frequencies and shapes", "Code_Aster 18.1.0 DKQ same-mesh ten-mode execution", "eigh versus eigsh same-matrix cross-check"],
       "formulas": ["FORM-MITC4-008", "FORM-MITC4-009"],
       "artifacts": [
-        "qualification/vnv/mitc4_validation_scope.json",
+        "docs/verification/mitc4_validation.md",
         "results/VNV-MITC4-MODAL-CANTILEVER-002/summary.json",
         "results/VNV-MITC4-MODAL-PLATE-003/summary.json",
         "qualification/vnv/external/code_aster_modal/reference/summary.json",
@@ -318,11 +361,11 @@
       "formulas": ["FORM-DYN-001"],
       "independent_references": ["undamped average-acceleration Newmark energy conservation", "exact modal matrix-exponential propagation", "Code_Aster 18.1.0 DKQ same-mesh transient execution"],
       "artifacts": [
-        "qualification/vnv/mitc4_validation_scope.json",
+        "docs/verification/mitc4_validation.md",
         "results/VNV-MITC4-NEWMARK-FREE-002/summary.json",
         "results/VNV-MITC4-NEWMARK-DAMPED-FORCED-003/summary.json",
         "results/VNV-MITC4-NEWMARK-BROADBAND-004/summary.json",
-        "results/VNV-MITC4-NEWMARK-CODEASTER-DKQ-005/summary.json",
+        "qualification/evidence/code_aster_correlation_campaign_2026-08-14/studies/newmark_reference/summary.json",
         "results/VNV-MITC4-NEWMARK-OPERATIONAL-006/summary.json",
         "qualification/reviews/mitc4_transient_dynamic_2026-07-16.json"
       ]
@@ -335,29 +378,29 @@
       "functions": ["HarmonicResponseSolver.solve", "frequency_grid", "DynamicDofReducer.expand_complex_state", "HarmonicShellStressPostProcessor.frequency_results", "HarmonicShellStressPostProcessor.averaged_nodal_stress", "Mitc4HarmonicCondensationStudy.run", "Mitc4HarmonicBroadbandStudy.run", "Mitc4Nafems13HStudy.run"],
       "tests": ["tests/unit/test_analysis_features.py", "tests/unit/test_mitc4_dynamics.py", "tests/unit/test_harmonic_shell_post.py", "tests/unit/test_external_correlation.py", "tests/unit/test_calculix_nafems.py", "tests/unit/test_code_aster_nafems.py", "tests/verification/test_mitc4_harmonic_vnv.py", "tests/verification/test_mitc4_harmonic_condensation_vnv.py", "tests/verification/test_mitc4_harmonic_broadband_vnv.py", "tests/verification/test_mitc4_harmonic_nafems_vnv.py", "tests/integration/test_export_formats.py"],
       "formulas": ["FORM-MITC4-010", "FORM-MITC4-011", "FORM-MITC4-012"],
-      "independent_references": ["closed-form damped one-dof frequency response", "mass-normalized single-mode harmonic response", "block Gaussian elimination and Schur complement identity", "NAFEMS Test 13H published by Abaqus/Standard 2024", "CalculiX 2.20-1 S8R local execution", "Code_Aster 18.1.0 DKQ local execution"],
-      "artifacts": ["qualification/campaign.json", "examples/tet4_harmonic_sdof_response.json", "examples/mitc4_harmonic_cantilever.json", "qualification/vnv/references/abaqus_nafems_13h_harmonic.json", "results/VNV-MITC4-HARMONIC-MODAL-001/summary.json", "results/VNV-MITC4-HARMONIC-CONDENSATION-002/summary.json", "results/VNV-MITC4-HARMONIC-BROADBAND-003/summary.json", "results/VNV-MITC4-HARMONIC-NAFEMS13H-004/summary.json", "results/VNV-MITC4-HARMONIC-CALCULIX13H-S8R-006/summary.json", "results/VNV-MITC4-HARMONIC-CODEASTER13H-DKQ-007/summary.json"]
+      "independent_references": ["closed-form damped one-dof frequency response", "mass-normalized single-mode harmonic response", "block Gaussian elimination and Schur complement identity", "NAFEMS R0016 published forced-vibration benchmark", "Code_Aster 18.1.0 DKQ local execution"],
+      "artifacts": ["qualification/campaign.json", "examples/tet4_harmonic_sdof_response.json", "examples/mitc4_harmonic_cantilever.json", "results/VNV-MITC4-HARMONIC-MODAL-001/summary.json", "results/VNV-MITC4-HARMONIC-CONDENSATION-002/summary.json", "results/VNV-MITC4-HARMONIC-BROADBAND-003/summary.json", "results/VNV-MITC4-HARMONIC-NAFEMS13H-004/summary.json", "qualification/evidence/code_aster_correlation_campaign_2026-08-14/studies/nafems13h/summary.json"]
     },
     {
       "id": "REQ-NL-001",
       "title": "Non-lineaire explicitement experimental",
       "design": ["docs/conventions_resultats.md", "docs/audit_qualification_industrielle.md"],
-      "code": ["src/solveur/core/nonlinear.py", "src/solveur/materials/solid.py", "src/solveur/verification/code_aster_j2.py"],
-      "functions": ["NonlinearStaticSolver.solve", "VonMisesElastoplasticMaterial.stress_tangent_state"],
-      "tests": ["tests/unit/test_analysis_features.py", "tests/unit/test_solid_material.py", "tests/unit/test_code_aster_j2.py", "tests/verification/test_code_aster_j2_vnv.py"],
-      "independent_references": ["Code_Aster 18.1.0 VMIS_ISOT_LINE pinned Docker correlation"],
-      "artifacts": ["qualification/anomalies.json", "examples/tet4_elastoplastic_static.json", "qualification/external_reference_digests/code_aster_j2.json"]
+      "code": ["src/solveur/core/nonlinear.py", "src/solveur/materials/solid.py", "src/solveur/verification/code_aster_j2.py", "src/solveur/verification/code_aster_tet10_j2_complex.py"],
+      "functions": ["NonlinearStaticSolver.solve", "VonMisesElastoplasticMaterial.stress_tangent_state", "CodeAsterTet4J2ComplexCampaign.run"],
+      "tests": ["tests/unit/test_analysis_features.py", "tests/unit/test_solid_material.py", "tests/unit/test_code_aster_j2.py", "tests/verification/test_code_aster_j2_vnv.py", "tests/unit/test_code_aster_tet4_j2_complex.py"],
+      "independent_references": ["Code_Aster 18.1.0 VMIS_ISOT_LINE pinned Docker constitutive correlation", "Code_Aster 18.1.0 TETRA4 same-mesh structural monotone correlation"],
+      "artifacts": ["qualification/anomalies.json", "examples/tet4_elastoplastic_static.json", "qualification/external_reference_digests/code_aster_j2.json", "qualification/vnv/external/code_aster_tet4_j2_complex/reference/summary.json", "qualification/vnv/external/code_aster_tet4_j2_complex/reference/report.md", "qualification/vnv/external/code_aster_tet4_j2_complex/reference/vnv_manifest.json"]
     },
     {
       "id": "REQ-NL-002",
       "title": "TET4 total lagrangien objectif et correle",
       "design": ["docs/solveurs/total_lagrangian.md", "docs/verification/revue_tet4_total_lagrangian.md"],
-      "code": ["src/solveur/elements/solid/tet4_total_lagrangian.py", "src/solveur/elements/solid/tet4_total_lagrangian_batch.py", "src/solveur/core/geometric_nonlinear_controls.py", "src/solveur/verification/tet4_total_lagrangian_assembly.py", "src/solveur/verification/tet4_total_lagrangian_steps.py", "src/solveur/verification/calculix_total_lagrangian.py"],
-      "functions": ["TotalLagrangianTet4Kernel.internal_force_and_tangent", "TotalLagrangianTet4Assembly.assemble", "TotalLagrangianAssemblyCampaign.run", "TotalLagrangianStepSensitivity.run", "CalculixTotalLagrangianCorrelation.run"],
-      "tests": ["tests/unit/test_total_lagrangian_tet4.py", "tests/unit/test_total_lagrangian_tet4_batch.py", "tests/unit/test_geometric_nonlinear_controls.py", "tests/unit/test_calculix_total_lagrangian.py", "tests/unit/test_tet4_tl_step_sensitivity.py", "tests/verification/test_tet4_total_lagrangian_vnv.py", "tests/verification/test_tet4_total_lagrangian_assembly_vnv.py"],
+      "code": ["src/solveur/elements/solid/tet4_total_lagrangian.py", "src/solveur/elements/solid/tet4_total_lagrangian_batch.py", "src/solveur/core/geometric_nonlinear_controls.py", "src/solveur/verification/tet4_total_lagrangian_assembly.py", "src/solveur/verification/tet4_total_lagrangian_steps.py", "src/solveur/verification/code_aster_tl_structural.py"],
+      "functions": ["TotalLagrangianTet4Kernel.internal_force_and_tangent", "TotalLagrangianTet4Assembly.assemble", "TotalLagrangianAssemblyCampaign.run", "TotalLagrangianStepSensitivity.run", "CodeAsterTlStructuralCampaign.run"],
+      "tests": ["tests/unit/test_total_lagrangian_tet4.py", "tests/unit/test_total_lagrangian_tet4_batch.py", "tests/unit/test_geometric_nonlinear_controls.py", "tests/unit/test_code_aster_tl_structural.py", "tests/unit/test_tet4_tl_step_sensitivity.py", "tests/verification/test_tet4_total_lagrangian_vnv.py", "tests/verification/test_tet4_total_lagrangian_assembly_vnv.py"],
       "formulas": ["FORM-TET4-TL-001", "FORM-TET4-TL-002", "FORM-TET4-TL-003", "FORM-TET4-TL-004", "FORM-TET4-TL-005"],
-      "independent_references": ["Euler elastica under dead tip load", "CalculiX 2.20 total-Lagrangian C3D4 same-mesh execution"],
-      "artifacts": ["results/VNV-TET4-TL-KERNEL-001/summary.json", "results/VNV-TET4-TL-ASSEMBLY-002/summary.json", "results/VNV-TET4-TL-STEPS-004/summary.json", "results/VNV-TET4-TL-CALCULIX-003/summary.json", "qualification/reviews/tet4_total_lagrangian_2026-07-18.json"]
+      "independent_references": ["Euler elastica under dead tip load", "Code_Aster 18.1.0 3D/TETRA4 same-mesh nonlinear path"],
+      "artifacts": ["results/VNV-TET4-TL-KERNEL-001/summary.json", "results/VNV-TET4-TL-ASSEMBLY-002/summary.json", "results/VNV-TET4-TL-STEPS-004/summary.json", "qualification/vnv/external/code_aster_tl_structural/reference/summary.json", "qualification/vnv/external/code_aster_tl_structural/reference/vnv_manifest.json", "qualification/reviews/tet4_total_lagrangian_2026-07-18.json"]
     },
     {
       "id": "REQ-NL-003",
@@ -367,8 +410,8 @@
       "functions": ["TotalLagrangianTet4Assembly.element_states", "GeometricNonlinearStaticSolver.solve", "TotalLagrangianStressCampaign.run", "TotalLagrangianBucklingCampaign.run", "trace_sparse_arc_length", "TotalLagrangianPostbucklingCampaign.run", "CalculixTlStructuralCampaign.run", "CodeAsterTlStructuralCampaign.run"],
       "tests": ["tests/unit/test_total_lagrangian_tet4_batch.py", "tests/unit/test_geometric_nonlinear_public.py", "tests/unit/test_tet4_tl_stress.py", "tests/unit/test_tet4_tl_buckling.py", "tests/unit/test_tet4_tl_postbuckling.py", "tests/unit/test_calculix_tl_structural.py", "tests/unit/test_code_aster_tl_structural.py", "tests/verification/test_tet4_tl_buckling_vnv.py", "tests/verification/test_tet4_tl_postbuckling_vnv.py"],
       "formulas": ["FORM-TET4-TL-006", "FORM-TET4-TL-007", "FORM-TET4-TL-008"],
-      "independent_references": ["homogeneous Saint-Venant-Kirchhoff finite-strain state", "Euler clamped-free critical load", "CalculiX 2.20 C3D4 same-mesh buckling", "Code_Aster 18.1.0 3D/TETRA4 same-mesh nonlinear path"],
-      "artifacts": ["results/VNV-TET4-TL-STRESS-005/summary.json", "results/VNV-TET4-TL-STRESS-005/vnv_manifest.json", "results/VNV-TET4-TL-BUCKLING-EULER-006/summary.json", "results/VNV-TET4-TL-BUCKLING-EULER-006/vnv_manifest.json", "results/VNV-TET4-TL-POSTBUCKLING-007/summary.json", "results/VNV-TET4-TL-POSTBUCKLING-007/vnv_manifest.json", "qualification/vnv/tet4_tl_buckling_h5/reference/summary.json", "qualification/vnv/external/calculix_tl_structural/reference/summary.json", "qualification/vnv/external/code_aster_tl_structural/reference/summary.json", "qualification/reviews/tet4_total_lagrangian_structural_v2_2026-07-18.json"]
+      "independent_references": ["homogeneous Saint-Venant-Kirchhoff finite-strain state", "Euler clamped-free critical load", "Code_Aster 18.1.0 3D/TETRA4 same-mesh nonlinear path"],
+      "artifacts": ["results/VNV-TET4-TL-STRESS-005/summary.json", "results/VNV-TET4-TL-STRESS-005/vnv_manifest.json", "results/VNV-TET4-TL-BUCKLING-EULER-006/summary.json", "results/VNV-TET4-TL-BUCKLING-EULER-006/vnv_manifest.json", "results/VNV-TET4-TL-POSTBUCKLING-007/summary.json", "results/VNV-TET4-TL-POSTBUCKLING-007/vnv_manifest.json", "results/VNV-TET4-TL-BUCKLING-H5-010/summary.json", "results/VNV-TET4-TL-BUCKLING-H5-010/vnv_manifest.json", "qualification/vnv/tet4_tl_buckling_h5/reference/summary.json", "qualification/vnv/external/code_aster_tl_structural/reference/summary.json", "qualification/reviews/tet4_total_lagrangian_structural_v2_2026-07-18.json"]
     },
     {
       "id": "REQ-COMP-001",
@@ -396,7 +439,7 @@
       "id": "REQ-COMP-003",
       "title": "MITC4 multicouche statique experimental",
       "design": ["docs/composites/mitc4_multicouche.md", "docs/elements/mitc4/interpolation_tying.md"],
-      "code": ["src/mitc4/element.py", "src/solveur/materials/laminate.py", "src/solveur/materials/factory.py", "src/solveur/post/stress.py", "src/solveur/elements/registry.py"],
+      "code": ["src/solveur/elements/shell/mitc4/element.py", "src/solveur/materials/laminate.py", "src/solveur/materials/factory.py", "src/solveur/post/stress.py", "src/solveur/elements/registry.py"],
       "functions": ["MITC4Element.stiffness_local_components", "LaminateShellMaterial.shear_matrix", "StressPostProcessor._mitc4_result", "ClassicalLaminate.ply_results"],
       "tests": ["tests/unit/test_mitc4_laminate.py", "tests/integration/test_examples.py"],
       "formulas": ["FORM-COMP-006", "FORM-COMP-007", "FORM-COMP-008"],
@@ -422,19 +465,19 @@
       "functions": ["CompositeAnalyticalCampaign.run", "CompositeStructuralConvergenceCampaign.run", "CalculixCompositeCorrelation.run", "CompositeConicalPlyStressCalculixCorrelation.run", "CalculixCompositeConicalCutoutCorrelation.run", "CompositeNafemsR0031Campaign.run", "CompositePlyStressCampaign.run", "CompositeCurvedAssemblyCampaign.run", "CalculixCurvedCompositeCorrelation.run", "CalculixCurvedOrientationCorrelation.run"],
       "tests": ["tests/verification/test_composite_analytic_vnv.py", "tests/verification/test_composite_structural_vnv.py", "tests/verification/test_composite_ply_stress_vnv.py", "tests/verification/test_composite_curved_assembly_vnv.py", "tests/unit/test_calculix_composite.py", "tests/unit/test_calculix_composite_conical_cutout.py", "tests/unit/test_calculix_composite_conical_ply_stress.py", "tests/unit/test_calculix_curved_composite.py", "tests/unit/test_calculix_curved_orientation.py", "tests/unit/test_composite_nafems.py"],
       "formulas": [],
-      "independent_references": ["single-ply A/B/D closed form", "off-axis stress transformation", "failure-surface axis intercepts", "Reissner-Mindlin laminated beam reference", "CalculiX 2.20 S8R COMPOSITE", "NAFEMS R0031/1 laminated strip under three-point bending", "Code_Aster 18.1.0 DST/DSQ DEFI_COMPOSITE"],
-      "artifacts": ["qualification/vnv/composite_analytic/reference/summary.json", "qualification/vnv/composite_analytic/reference/vnv_manifest.json", "qualification/vnv/composite_structural/reference/summary.json", "qualification/vnv/composite_structural/reference/vnv_manifest.json", "qualification/vnv/composite_ply_stress/reference/summary.json", "qualification/vnv/composite_ply_stress/reference/vnv_manifest.json", "qualification/vnv/composite_curved_assembly/reference/summary.json", "qualification/vnv/composite_curved_assembly/reference/vnv_manifest.json", "qualification/vnv/external/calculix_composite/reference/summary.json", "qualification/vnv/external/calculix_composite/reference/vnv_manifest.json", "qualification/vnv/external/calculix_composite_conical_cutout_ply_stress/reference/summary.json", "qualification/vnv/external/calculix_composite_conical_cutout_ply_stress/reference/vnv_manifest.json", "qualification/vnv/external/calculix_curved_composite/reference/summary.json", "qualification/vnv/external/calculix_curved_composite/reference/vnv_manifest.json", "qualification/vnv/external/calculix_curved_orientation/reference/summary.json", "qualification/vnv/external/calculix_curved_orientation/reference/vnv_manifest.json", "qualification/vnv/external/code_aster_composite_nafems/reference/summary.json", "qualification/vnv/external/code_aster_composite_nafems/reference/vnv_manifest.json"]
+      "independent_references": ["single-ply A/B/D closed form", "off-axis stress transformation", "failure-surface axis intercepts", "Reissner-Mindlin laminated beam reference", "NAFEMS R0031/1 laminated strip under three-point bending", "Code_Aster 18.1.0 DST/DSQ DEFI_COMPOSITE"],
+      "artifacts": ["qualification/vnv/composite_analytic/reference/summary.json", "qualification/vnv/composite_analytic/reference/vnv_manifest.json", "qualification/vnv/composite_structural/reference/summary.json", "qualification/vnv/composite_structural/reference/vnv_manifest.json", "qualification/vnv/composite_ply_stress/reference/summary.json", "qualification/vnv/composite_ply_stress/reference/vnv_manifest.json", "qualification/vnv/composite_curved_assembly/reference/summary.json", "qualification/vnv/composite_curved_assembly/reference/vnv_manifest.json", "qualification/vnv/composite_conical_cutout/reference/summary.json", "qualification/vnv/composite_conical_cutout/reference/vnv_manifest.json", "qualification/vnv/external/code_aster_composite_nafems/reference/summary.json", "qualification/vnv/external/code_aster_composite_nafems/reference/vnv_manifest.json"]
     },
     {
       "id": "REQ-COMP-006",
       "title": "Solides orthotropes orientes TET4 et TET10",
       "design": ["docs/composites/solides_orthotropes.md", "qualification/specifications/composite_solids.json"],
-      "code": ["src/solveur/materials/orthotropic.py", "src/solveur/materials/factory.py", "src/solveur/elements/solid/tet4.py", "src/solveur/elements/solid/tet10.py", "src/solveur/post/stress.py", "src/solveur/verification/orthotropic_solid.py", "src/solveur/verification/orthotropic_complex_mesh.py", "src/solveur/verification/orthotropic_external.py", "src/solveur/verification/orthotropic_convergence.py", "src/solveur/verification/orthotropic_performance.py"],
-      "functions": ["OrthotropicSolidMaterial.elasticity_matrix", "OrthotropicSolidMaterial.stress_tangent", "material_orientation", "OrthotropicSolidKernelCampaign.run", "OrthotropicExternalCampaign.run", "OrthotropicStructuralConvergenceCampaign.run", "OrthotropicIsotropicPerformanceCampaign.run"],
-      "tests": ["tests/unit/test_orthotropic_solid.py", "tests/unit/test_orthotropic_external.py", "tests/verification/test_orthotropic_solid_vnv.py", "tests/verification/test_orthotropic_completion_vnv.py", "tests/integration/test_examples.py"],
+      "code": ["src/solveur/materials/orthotropic.py", "src/solveur/materials/factory.py", "src/solveur/elements/solid/tet4.py", "src/solveur/elements/solid/tet10.py", "src/solveur/post/stress.py", "src/solveur/verification/orthotropic_solid.py", "src/solveur/verification/orthotropic_complex_mesh.py", "src/solveur/verification/orthotropic_external.py", "src/solveur/verification/orthotropic_convergence.py", "src/solveur/verification/orthotropic_load_cases.py", "src/solveur/verification/orthotropic_performance.py"],
+      "functions": ["OrthotropicSolidMaterial.elasticity_matrix", "OrthotropicSolidMaterial.stress_tangent", "material_orientation", "OrthotropicSolidKernelCampaign.run", "OrthotropicExternalCampaign.run", "OrthotropicStructuralConvergenceCampaign.run", "OrthotropicLoadCaseCampaign.run", "OrthotropicIsotropicPerformanceCampaign.run"],
+      "tests": ["tests/unit/test_orthotropic_solid.py", "tests/unit/test_orthotropic_load_cases.py", "tests/unit/test_orthotropic_external.py", "tests/verification/test_orthotropic_solid_vnv.py", "tests/verification/test_orthotropic_completion_vnv.py", "tests/integration/test_examples.py"],
       "formulas": [],
       "independent_references": ["orthotropic 3D compliance reciprocity", "tensor rotation with engineering shear mapping", "affine TET4 and TET10 patch fields", "Code_Aster 18.1.0 ELAS_ORTH TETRA4", "CalculiX 2.20 engineering constants C3D4", "TET10 fine-mesh structural reference", "equivalent rotated isotropic constitutive law"],
-      "artifacts": ["examples/tet4_orthotropic_static.json", "examples/tet10_orthotropic_static.json", "qualification/vnv/orthotropic_solid_kernel/reference/summary.json", "qualification/vnv/orthotropic_solid_kernel/reference/vnv_manifest.json", "qualification/vnv/external/orthotropic_solids/reference/summary.json", "qualification/vnv/external/orthotropic_solids/reference/vnv_manifest.json", "qualification/vnv/orthotropic_solid_convergence/reference/summary.json", "qualification/vnv/orthotropic_solid_convergence/reference/vnv_manifest.json", "qualification/vnv/orthotropic_isotropic_performance/reference/summary.json", "qualification/vnv/orthotropic_isotropic_performance/reference/vnv_manifest.json"]
+      "artifacts": ["examples/tet4_orthotropic_static.json", "examples/tet10_orthotropic_static.json", "qualification/vnv/orthotropic_solid_kernel/reference/summary.json", "qualification/vnv/orthotropic_solid_kernel/reference/vnv_manifest.json", "qualification/vnv/external/orthotropic_solids/reference/summary.json", "qualification/vnv/external/orthotropic_solids/reference/vnv_manifest.json", "qualification/vnv/orthotropic_solid_convergence/reference/summary.json", "qualification/vnv/orthotropic_solid_convergence/reference/vnv_manifest.json", "qualification/vnv/orthotropic_load_cases_007/reference/summary.json", "qualification/vnv/orthotropic_load_cases_007/reference/report.md", "qualification/vnv/orthotropic_load_cases_007/reference/vnv_manifest.json", "qualification/vnv/orthotropic_isotropic_performance/reference/summary.json", "qualification/vnv/orthotropic_isotropic_performance/reference/vnv_manifest.json"]
     },
     {
       "id": "REQ-COMP-007",
@@ -445,18 +488,18 @@
       "tests": ["tests/unit/test_singularity_stress.py", "tests/unit/test_orthotropic_singularity_vnv.py", "tests/unit/test_orthotropic_additional_stress.py", "tests/verification/test_orthotropic_singularity_controlled_vnv.py", "tests/verification/test_additional_owner_review_evidence.py"],
       "formulas": [],
       "independent_references": ["Williams notch singularity framework", "Code_Aster 18.1.0 same-mesh integration-point stress paths", "CalculiX 2.20 same-mesh nodal extrapolation diagnostic", "finite-radius stress-concentration convergence"],
-      "artifacts": ["qualification/vnv/orthotropic_singular_stress/study.json", "qualification/external_reference_digests/orthotropic_singular_stress_h8.json", "qualification/external_reference_digests/orthotropic_additional_stress.json", "docs/assets/reviews/additional_stress_fields.png"]
+      "artifacts": ["qualification/vnv/orthotropic_singular_stress/reference/summary.json", "qualification/vnv/orthotropic_singular_stress/reference/report.md", "qualification/vnv/orthotropic_singular_stress/reference/vnv_manifest.json", "qualification/external_reference_digests/orthotropic_singular_stress_h8.json", "qualification/external_reference_digests/orthotropic_additional_stress.json", "docs/assets/reviews/additional_stress_fields.png"]
     },
     {
       "id": "REQ-COMP-008",
       "title": "Extension orthotrope lineaire au modal, a Newmark et au grand modele TET4",
       "design": ["docs/composites/solides_orthotropes.md", "qualification/specifications/composite_solids.json"],
-      "code": ["src/solveur/core/modal.py", "src/solveur/core/dynamic.py", "src/solveur/large/materials.py", "src/solveur/large/assembler.py", "src/solveur/large/matrix_free.py", "src/solveur/large/postprocess.py", "src/solveur/verification/orthotropic_modal_dynamic.py"],
+      "code": ["src/solveur/core/modal.py", "src/solveur/core/dynamic.py", "src/solveur/large/materials.py", "src/solveur/large/assembler.py", "src/solveur/large/matrix_free.py", "src/solveur/large/postprocess.py", "src/solveur/verification/orthotropic_modal_dynamic.py", "src/solveur/verification/orthotropic_large_static.py"],
       "functions": ["ModalAnalysisSolver.solve", "NewmarkDynamicSolver.solve", "create_large_material", "solve_large_model"],
-      "tests": ["tests/unit/test_orthotropic_dynamic_large.py", "tests/integration/test_examples.py", "tests/integration/test_large_model.py", "tests/verification/test_orthotropic_modal_newmark_vnv.py"],
+      "tests": ["tests/unit/test_orthotropic_dynamic_large.py", "tests/integration/test_examples.py", "tests/integration/test_large_model.py", "tests/verification/test_orthotropic_modal_newmark_vnv.py", "tests/verification/test_orthotropic_large_static_vnv.py"],
       "formulas": [],
       "independent_references": ["generalized symmetric eigenproblem", "Newmark average acceleration", "equivalent isotropic constitutive limit", "Code_Aster 18.1.0 3D/TETRA4 same-mesh correlation"],
-      "artifacts": ["examples/tet4_orthotropic_modal.json", "examples/tet10_orthotropic_newmark.json", "qualification/vnv/orthotropic_large_static/study.json", "qualification/vnv/orthotropic_large_static/reference/summary.json", "qualification/vnv/orthotropic_large_static/reference/report.md", "qualification/vnv/orthotropic_modal_newmark/reference/summary.json", "qualification/vnv/orthotropic_modal_newmark/reference/report.md"]
+      "artifacts": ["examples/tet4_orthotropic_modal.json", "examples/tet10_orthotropic_newmark.json", "qualification/vnv/orthotropic_large_static/study.json", "qualification/vnv/orthotropic_large_static/reference/summary.json", "qualification/vnv/orthotropic_large_static/reference/report.md", "qualification/vnv/orthotropic_large_static/reference/vnv_manifest.json", "qualification/vnv/orthotropic_modal_newmark/reference/summary.json", "qualification/vnv/orthotropic_modal_newmark/reference/report.md"]
     },
     {
       "id": "REQ-AUD-001",
@@ -639,7 +682,7 @@
       "tests": ["tests/unit/test_mpc_reduction.py", "tests/unit/test_rbe_links.py", "tests/unit/test_code_aster_rbe.py", "tests/verification/test_code_aster_rbe_vnv.py"],
       "independent_references": ["Lagrange-multiplier constrained finite element systems", "rigid-body kinematics", "Code_Aster 18.1.0 LIAISON_DDL pinned Docker correlation"],
       "formulas": ["FORM-MPC-001", "FORM-MPC-002", "FORM-MPC-003"],
-      "artifacts": ["examples/rbe2_rigid_arm.json", "docs/elements/liaisons_mpc_rbe.md", "VNV-RBE2-CODEASTER-RIGID-ARM-001"]
+      "artifacts": ["examples/rbe2_rigid_arm.json", "docs/elements/liaisons_mpc_rbe.md", "results/VNV-RBE2-CODEASTER-RIGID-ARM-001/summary.json", "results/VNV-RBE2-CODEASTER-RIGID-ARM-001/report.md", "results/VNV-RBE2-CODEASTER-RIGID-ARM-001/vnv_manifest.json"]
     },
     {
       "id": "REQ-CONTACT-001",
@@ -650,7 +693,7 @@
       "tests": ["tests/unit/test_frictionless_contact.py", "tests/unit/test_frictional_contact.py", "tests/unit/test_frictional_contact_structural_limit.py", "tests/unit/test_code_aster_contact.py", "tests/unit/test_code_aster_contact_tet4.py", "tests/unit/test_code_aster_contact_folded.py", "tests/unit/test_code_aster_contact_folded_search.py", "tests/unit/test_code_aster_friction_contact.py", "tests/verification/test_contact_deformable_master_vnv.py", "tests/verification/test_contact_tet4_master_vnv.py", "tests/verification/test_contact_master_surface_vnv.py", "tests/verification/test_contact_additional_models_vnv.py", "tests/verification/test_additional_owner_review_evidence.py", "tests/verification/test_frictional_contact_vnv.py", "tests/verification/test_frictional_contact_structural_vnv.py", "tests/verification/test_frictionless_contact_structural_vnv.py", "tests/verification/test_code_aster_contact_vnv.py", "tests/verification/test_code_aster_contact_tet4_vnv.py", "tests/verification/test_code_aster_contact_folded_vnv.py", "tests/verification/test_code_aster_contact_folded_search_vnv.py", "tests/verification/test_code_aster_friction_contact_vnv.py"],
       "independent_references": ["Kuhn-Tucker conditions for frictionless unilateral contact", "regularized Coulomb friction law"],
       "formulas": ["FORM-CONTACT-001", "FORM-CONTACT-002"],
-      "artifacts": ["examples/frictionless_contact_plane.json", "examples/frictionless_contact_surface.json", "examples/frictional_contact_plane.json", "VNV-CONTACT-DEFORMABLE-MASTER-003", "VNV-CONTACT-TET4-MASTER-FACE-004", "VNV-CONTACT-MASTER-SURFACE-005", "VNV-CONTACT-ADDITIONAL-MODELS-008", "VNV-CONTACT-CODEASTER-ADDITIONAL-009", "VNV-CONTACT-CODEASTER-ADDITIONAL-H10K-010", "VNV-CONTACT-FRICTION-TET4-STRUCTURAL-002", "qualification/vnv/external/code_aster_contact/reference/summary.json", "qualification/vnv/external/code_aster_contact/reference/vnv_manifest.json", "qualification/external_reference_digests/contact_additional_models.json", "qualification/external_reference_digests/contact_code_aster_additional.json", "qualification/external_reference_digests/contact_code_aster_additional_h10k.json", "VNV-CONTACT-CODEASTER-TET4-MASTER-004", "VNV-CONTACT-CODEASTER-FOLDED-NORMAL-006", "VNV-CONTACT-CODEASTER-FOLDED-SEARCH-007", "qualification/reviews/contact_v1_linear_static_bounded_2026-07-29.json", "docs/elements/contact_sans_frottement.md", "docs/elements/contact_avec_frottement.md", "docs/verification/revue_contact_v1.md", "docs/verification/contact_deformable_master_vnv.md", "docs/verification/contact_tet4_master_vnv.md", "docs/verification/contact_master_surface_vnv.md", "docs/verification/contact_frottement_vnv.md", "docs/verification/contact_structurel_tet4_vnv.md", "docs/verification/contact_code_aster_vnv.md", "docs/verification/contact_code_aster_tet4_vnv.md", "docs/verification/contact_code_aster_folded_vnv.md", "docs/verification/contact_code_aster_folded_search_vnv.md", "docs/verification/contact_code_aster_friction_vnv.md"]
+      "artifacts": ["examples/frictionless_contact_plane.json", "examples/frictionless_contact_surface.json", "examples/frictional_contact_plane.json", "qualification/evidence/code_aster_correlation_campaign_2026-08-14/studies/contact_master/summary.json", "qualification/evidence/code_aster_correlation_campaign_2026-08-14/studies/contact_tet4/summary.json", "qualification/evidence/code_aster_correlation_campaign_2026-08-14/studies/contact_additional/summary.json", "qualification/evidence/code_aster_correlation_campaign_2026-08-14/studies/friction_contact/summary.json", "qualification/evidence/code_aster_correlation_campaign_2026-08-14/studies/contact_folded/summary.json", "qualification/evidence/code_aster_correlation_campaign_2026-08-14/studies/contact_folded_search/summary.json", "qualification/vnv/external/code_aster_contact/reference/summary.json", "qualification/vnv/external/code_aster_contact/reference/vnv_manifest.json", "qualification/external_reference_digests/contact_additional_models.json", "qualification/external_reference_digests/contact_code_aster_additional.json", "qualification/external_reference_digests/contact_code_aster_additional_h10k.json", "qualification/reviews/contact_v1_linear_static_bounded_2026-07-29.json", "docs/elements/contact_sans_frottement.md", "docs/elements/contact_avec_frottement.md", "docs/verification/revue_contact_v1.md", "docs/verification/contact_deformable_master_vnv.md", "docs/verification/contact_tet4_master_vnv.md", "docs/verification/contact_master_surface_vnv.md", "docs/verification/contact_frottement_vnv.md", "docs/verification/contact_structurel_tet4_vnv.md", "docs/verification/contact_code_aster_vnv.md", "docs/verification/contact_code_aster_tet4_vnv.md", "docs/verification/contact_code_aster_folded_vnv.md", "docs/verification/contact_code_aster_folded_search_vnv.md", "docs/verification/contact_code_aster_friction_vnv.md"]
     },
     {
       "id": "REQ-DOC-001",
@@ -671,7 +714,7 @@
       "tests": ["tests/unit/test_mitc3_element.py", "tests/integration/test_mitc3_workflow.py", "tests/verification/test_mitc3_campaign.py", "tests/unit/test_code_aster_mitc3_dynamic.py"],
       "independent_references": ["Lee, Lee and Bathe 2014 MITC3+ formulation, DOI 10.1016/j.compstruc.2014.02.005"],
       "formulas": ["FORM-MITC3-001", "FORM-MITC3-002", "FORM-MITC3-003", "FORM-MITC3-004"],
-      "artifacts": ["examples/mitc3_shell_static.json", "qualification/vnv/mitc3/reference/summary.json", "qualification/vnv/external/code_aster_mitc3/reference/summary.json"]
+      "artifacts": ["examples/mitc3_shell_static.json", "qualification/evidence/code_aster_correlation_campaign_2026-08-14/studies/mitc3_static/summary.json"]
     },
     {
       "id": "REQ-MITC3-002",
@@ -682,7 +725,7 @@
       "tests": ["tests/unit/test_mitc3_element.py", "tests/integration/test_mitc3_workflow.py", "tests/verification/test_mitc3_campaign.py"],
       "independent_references": ["consistent Reissner-Mindlin shell inertia", "Newmark 1959 average acceleration method"],
       "formulas": ["FORM-MITC3-005"],
-      "artifacts": ["examples/mitc3_modal_cantilever.json", "examples/mitc3_newmark_cantilever.json", "qualification/vnv/mitc3/reference/summary.json", "qualification/vnv/mitc3_dynamic_code_aster/reference/summary.json", "docs/verification/mitc3_dynamic_code_aster.md"]
+      "artifacts": ["examples/mitc3_modal_cantilever.json", "examples/mitc3_newmark_cantilever.json", "qualification/evidence/linear_dynamic_families_2026-08-14/mitc3/summary.json", "qualification/evidence/code_aster_correlation_campaign_2026-08-14/studies/mitc3_dynamic/summary.json", "docs/verification/mitc3_dynamic_code_aster.md"]
     },
     {
       "id": "REQ-MITC3-003",
@@ -690,9 +733,9 @@
       "design": ["docs/elements/mitc3/post_traitement_qualite.md", "docs/elements/mitc3/verification_limites.md", "docs/composites/theorie_stratifies.md"],
       "code": ["src/solveur/elements/shell/mitc3.py", "src/solveur/materials/laminate.py", "src/solveur/post/stress.py", "src/solveur/post/harmonic_shell.py", "src/solveur/mesh/gmsh_importer.py"],
       "functions": ["LaminateShellMaterial.oriented_for_frame", "StressPostProcessor._mitc3_result", "HarmonicShellStressPostProcessor.frequency_results", "GmshModelImporter.import_model"],
-      "tests": ["tests/integration/test_mitc3_workflow.py", "tests/unit/test_gmsh_importer.py", "tests/verification/test_mitc3_campaign.py"],
+      "tests": ["tests/integration/test_mitc3_workflow.py", "tests/unit/test_gmsh_importer.py", "tests/verification/test_mitc3_campaign.py", "tests/unit/test_code_aster_mitc3_curved_laminate.py"],
       "independent_references": ["classical laminate theory ABD", "Lee, Lee and Bathe 2014 MITC3+ formulation"],
-      "artifacts": ["examples/mitc3_laminate_harmonic.json", "qualification/vnv/mitc3/reference/summary.json"]
+      "artifacts": ["examples/mitc3_laminate_harmonic.json", "qualification/evidence/code_aster_correlation_campaign_2026-08-14/studies/mitc3_laminate_dynamic/summary.json", "qualification/vnv/external/code_aster_mitc3_curved_laminate/reference/summary.json", "docs/verification/mitc3_laminate_curved_code_aster.md"]
     },
     {
       "id": "REQ-REL-001",

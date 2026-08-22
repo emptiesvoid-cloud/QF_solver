@@ -1,0 +1,12 @@
+{
+  "review_id": "OWNER-REVIEW-TET10-J2-2026-08-20",
+  "review_mode": "owner_review",
+  "status": "accepted_for_bounded_engineering_use",
+  "scope": ["tet10-material-nonlinear"],
+  "decision": "accepted_for_bounded_engineering_use",
+  "promotion_target": "owner_accepted",
+  "responses": {"Q1": "yes", "Q2": "yes", "Q3": "yes for bounded small-strain J2 only; rupture, damage, contact and large deformation excluded.", "Q4": "accepted_for_bounded_engineering_use"},
+  "evidence": ["qualification/maturity_evidence_0_2_1/tet10_j2.json"],
+  "certification_claim": "none",
+  "signature": {"name": "Quentin Farinazzo", "mode": "electronic owner_review declaration", "date": "2026-08-20", "declaration": "Decision bounded acceptee; une preuve structurelle plus large reste requise avant stable."}
+}

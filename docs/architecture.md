@@ -2,7 +2,7 @@
 doc_id: DOC-ARCH-001
 revision: 2.1
 status: controlled
-applicable_version: 0.2.0a0
+applicable_version: 0.2.1a0
 reviewer: ""
 approver: ""
 ---
@@ -10,8 +10,9 @@ approver: ""
 # Architecture Du Solveur EF
 
 La formulation mathematique, les reperes locaux et les conventions des
-elements sont documentes dans les sections `fondements/` et `elements/` du
-site MkDocs. L'ancien manuel monolithique est uniquement une redirection.
+elements sont documentes dans les sections `fondements/` et `elements/` des
+sources Markdown et PDF versionnees. L'ancien manuel monolithique est
+uniquement une redirection.
 
 ## Principes
 
@@ -33,7 +34,7 @@ QF_solver/
       mesh/ loads/ post/  # validation, chargements et post-traitement
       large/              # chemin TET4 PETSc/MPI optionnel
       verification/       # campagnes et oracles reproductibles
-    mitc4/                # noyau MITC4 historique valide et protege
+    mitc4/                # facade de compatibilite et lanceur specialise
   examples/               # entrees JSON executables
   qualification/          # exigences, scopes et decisions controlees
   tests/                  # unitaires, integration, V&V et documentation
@@ -46,11 +47,27 @@ QF_solver/
 
 Le layout `src/` empeche qu'un test importe accidentellement le code du
 repertoire courant au lieu du paquet installe. Le paquet `solveur` reste le
-seul produit public generaliste. Le paquet `mitc4` contient la formulation
-historique sur laquelle reposent des benchmarks valides; l'adaptateur
-`solveur.elements.shell.mitc4` l'integre au modele commun. Une fusion de ces
-deux implementations est differee jusqu'a ce que l'equivalence numerique soit
-protegee sur toute la campagne MITC4.
+seul produit public generaliste. Toute l'implementation MITC4, y compris le
+maillage et le modele de coque, vit dans `solveur.elements.shell.mitc4`.
+Les visualisations, campagnes et verifications vivent respectivement dans
+`solveur.post` et `solveur.verification`. Le paquet historique `mitc4` et le
+lanceur `mitc4-solver` ne contiennent plus que des facades d'import compatibles
+durant la serie 0.2.x. Les deux chemins d'import sont proteges par une
+baseline matricielle et la campagne MITC4.
+
+## Etat de transition 0.2.1a0
+
+`src/solveur/elements/shell/mitc4` est l'unique implementation canonique de
+MITC4. `src/solveur/compat/mitc4` est une facade de compatibilite interne maintenue pour la serie
+`0.2.x`; son retrait est planifie pour `0.3.0` apres une periode de migration
+documentee et testee. Aucun nouveau calcul ne doit etre implemente dans cette
+facade.
+
+Les decisions de maturite ne sont pas portees par cette page : le registre
+machine-readable `qualification/element_analysis_matrix.json` est la source de
+verite. A la date de preparation de `0.2.1a0`, 28 scopes y sont `stable`; les
+scopes bornes et de recherche restent explicitement distincts et bloquent le
+gate de release lorsqu'ils font partie du perimetre requis.
 
 Docker ne fait pas partie du runtime standard. Le Dockerfile conserve dans
 `tools/containers/large/` sert seulement a reproduire un environnement
@@ -134,7 +151,7 @@ examples + API publique + campagne qualification + benchmarks Gmsh
     -> PNG/SVG + tableaux Markdown + resultats JSON
     -> scripts/docs_publication.py
     -> registre valide + manifeste SHA-256 + statut courant
-    -> MkDocs Material hors ligne -> site/
+    -> sources Markdown + dossier PDF optionnel
 ```
 
 `scripts/build_docs.py` est l'orchestrateur public. Le profil `engineering`
@@ -152,7 +169,7 @@ refactoring automatique.
 
 ## Garde-Fous
 
-- Aucun fichier Python sous `src/solveur`, `src/mitc4` ou `tests` ne depasse 700 lignes.
+- Aucun fichier Python sous `src/solveur`, `src/solveur/compat/mitc4` ou `tests` ne depasse 700 lignes.
 - `src/solveur/elements` ne depend pas de `solveur/io`, `solveur/cli` ou
   `solveur/api`.
 - `src/solveur/core` ne depend pas de `solveur/cli` ou `solveur/api`.
@@ -161,5 +178,5 @@ refactoring automatique.
 - Les formats publics JSON/CLI/API sont proteges par tests de regression.
 - Toute page Markdown publiee possede une entete de configuration et une
   entree dans `docs/document_registry.json`.
-- Toutes les ressources web sont locales; MathJax est fige avec sa licence
-  dans `docs/assets/vendor/`.
+- Aucune ressource web n'est requise pour la documentation publiee : les
+  sources Markdown, PDF et figures locales sont versionnees et controlees.

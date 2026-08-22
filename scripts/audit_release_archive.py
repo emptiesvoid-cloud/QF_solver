@@ -13,8 +13,10 @@ from typing import Sequence, cast
 
 if __package__:
     from scripts.audit_public_release import PDF_SUFFIXES, TEXT_SUFFIXES, _patterns, scan_pdf_bytes
+    from scripts.git_tools import git_command
 else:
     from audit_public_release import PDF_SUFFIXES, TEXT_SUFFIXES, _patterns, scan_pdf_bytes  # type: ignore[no-redef]
+    from git_tools import git_command  # type: ignore[no-redef]
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -37,7 +39,7 @@ def audit_release_archive(
 ) -> dict[str, object]:
     """Return exported paths using prospective or committed attribute rules."""
     base = Path(root).resolve()
-    command = ["git", "archive", "--format=tar"]
+    command = [git_command(), "archive", "--format=tar"]
     if use_worktree_attributes:
         command.append("--worktree-attributes")
     command.append(ref)

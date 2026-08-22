@@ -1,2 +1,0 @@
-"""Local technical-documentation utilities."""
-

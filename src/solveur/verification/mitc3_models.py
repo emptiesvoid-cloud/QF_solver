@@ -11,6 +11,17 @@ from solveur.core.model import FiniteElementModel
 
 NodeIndexer = Callable[[int, int], int]
 
+# Single source of truth for the laminate used by the MITC3 correlation decks.
+LAMINATE_MATERIAL: dict[str, float] = {
+    "E1": 130.0e9,
+    "E2": 9.0e9,
+    "nu12": 0.28,
+    "G12": 5.0e9,
+    "G13": 4.0e9,
+    "G23": 3.5e9,
+    "density": 1550.0,
+}
+
 
 def rectangular_tri_mesh(
     length: float,
@@ -356,13 +367,7 @@ def _laminate(thickness: float) -> dict[str, object]:
                 "name": f"ply-{index + 1}",
                 "thickness": ply_t,
                 "angle_deg": angle,
-                "E1": 130.0e9,
-                "E2": 9.0e9,
-                "nu12": 0.28,
-                "G12": 5.0e9,
-                "G13": 4.0e9,
-                "G23": 3.5e9,
-                "density": 1550.0,
+                **LAMINATE_MATERIAL,
             }
             for index, angle in enumerate((0.0, 90.0, 90.0, 0.0))
         ],

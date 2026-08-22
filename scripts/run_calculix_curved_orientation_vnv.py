@@ -23,9 +23,28 @@ def main() -> int:
         default=Path("results/VNV-COMP-CURVED-ORIENTATION-008"),
     )
     parser.add_argument("--image", default="qf-solver/calculix-nafems13h:2.20")
+    parser.add_argument(
+        "--mesh-sizes",
+        nargs="+",
+        default=None,
+        help="Optional levels written as NXxNY, for example 8x4 16x8 24x12 48x24 96x48 192x96.",
+    )
+    parser.add_argument(
+        "--faceted-geometry",
+        action="store_true",
+        help="Place S8R midside nodes on the same faceted bilinear surface as MITC4.",
+    )
     args = parser.parse_args()
     output = args.output.resolve()
-    campaign = CalculixCurvedOrientationCorrelation(output, image=args.image)
+    meshes = None
+    if args.mesh_sizes:
+        meshes = tuple(tuple(int(value) for value in item.lower().split("x")) for item in args.mesh_sizes)
+    campaign = CalculixCurvedOrientationCorrelation(
+        output,
+        image=args.image,
+        meshes=meshes,
+        faceted_geometry=args.faceted_geometry,
+    )
     summary = campaign.run()
     _publish(output)
     print(f"{summary['study_id']}: {summary['status']} -> {output}")

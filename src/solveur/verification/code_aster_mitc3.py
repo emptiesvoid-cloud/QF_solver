@@ -163,6 +163,10 @@ def code_aster_triangle_mesh(
             "TIP",
             *(f"N{int(node) + 1}" for node in tip),
             "FINSF",
+            *sum(
+                (["GROUP_NO", f"TIP_{index:04d}", f"N{int(node) + 1}", "FINSF"] for index, node in enumerate(tip)),
+                [],
+            ),
             "GROUP_NO",
             "NALL",
             *(f"N{index + 1}" for index in range(len(nodes))),

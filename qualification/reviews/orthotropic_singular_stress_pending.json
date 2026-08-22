@@ -2,7 +2,7 @@
   "schema_version": 1,
   "review_id": "REV-ORTHOTROPIC-SINGULAR-STRESS-PENDING",
   "scope": "orthotropic-solid-singular-stress-assessment",
-  "status": "additional_evidence_complete_pending_human_recheck",
+  "status": "additional_evidence_complete_pending_owner_recheck",
   "decision": "more_evidence_required",
   "decision_date": "2026-07-29",
   "validator": {
@@ -42,7 +42,7 @@
       "double_hole_coupon"
     ],
     "stress_fields_published": true,
-    "human_recheck_required": true
+    "owner_recheck_required": true
   },
   "recommendations": [
     "Keep the re-entrant-corner point peak informative only.",

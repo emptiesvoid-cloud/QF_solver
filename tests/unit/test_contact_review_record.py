@@ -23,7 +23,7 @@ def test_contact_v1_interim_review_requests_and_receives_more_evidence() -> None
     assert review["scope"] == "contact-v1-linear-static-bounded"
     assert (
         review["technical_status"]
-        == "external_correlation_complete_with_warning_pending_human_recheck"
+        == "external_correlation_complete_with_warning_pending_owner_recheck"
     )
     assert review["decision"] == "more_evidence_required"
     assert review["decision_date"] == "2026-07-29"

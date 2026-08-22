@@ -9,22 +9,33 @@ import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
-from mitc4.cli import main as mitc4_main
-
-from solveur.api.public import qualification_readiness, run_contact_verification, run_qualification_campaign, save_result, verify_evidence
+from solveur.api.public import (
+    qualification_readiness,
+    run_contact_verification,
+    run_qualification_campaign,
+    run_release_vv,
+    save_result,
+    verify_evidence,
+)
 from solveur.core.errors import ExitCode
 from solveur.core.qualification import verification_profile
 from solveur.io.manifest import write_json_file
+from solveur.verification.mitc4_mechanical import MechanicalVerifier, print_results_table
+from solveur.verification.maturity_promotion import audit_maturity_promotion, write_maturity_promotion_reports
+from solveur.verification.owner_review import validate_owner_review
 from solveur.verification.tet10 import Tet10MechanicalVerifier
 
 
 def command_verify(args: argparse.Namespace) -> int:
-    argv = ["verify"]
-    if args.quick:
-        argv.append("--quick")
-    return int(ExitCode.ACCEPTED if mitc4_main(argv) == 0 else ExitCode.QUALIFICATION_REJECTED)
+    results = MechanicalVerifier().run(
+        include_benchmark=not args.quick,
+        png=getattr(args, "png", None),
+    )
+    print_results_table(results)
+    passed = all(result.passed for result in results)
+    return int(ExitCode.ACCEPTED if passed else ExitCode.QUALIFICATION_REJECTED)
 
 
 def command_verify_tet10(args: argparse.Namespace) -> int:
@@ -39,7 +50,7 @@ def command_verify_tet10(args: argparse.Namespace) -> int:
 
 
 def command_verify_contact(args: argparse.Namespace) -> int:
-    summary = run_contact_verification(args.output)
+    summary = cast(dict[str, Any], run_contact_verification(args.output))
     if args.json_report is not None:
         write_json_file(args.json_report, summary)
     print("CONTACT V1 verification")
@@ -108,12 +119,84 @@ def command_qualification_readiness(args: argparse.Namespace) -> int:
     return int(ExitCode.ACCEPTED if report.status == "PASS" else ExitCode.QUALIFICATION_REJECTED)
 
 
+def command_maturity_promotion(args: argparse.Namespace) -> int:
+    report = audit_maturity_promotion(
+        plan_path=args.plan,
+        matrix_path=args.matrix,
+        coverage_path=args.coverage,
+        criteria_path=args.criteria,
+    )
+    paths = write_maturity_promotion_reports(args.output, report)
+    summary = report["summary"]
+    print(f"MATURITY PROMOTION AUDIT: {report['status']}")
+    print(f"scopes: {summary['scope_count']}")
+    print(f"blocked: {summary['blocked_scope_count']}")
+    print(f"json: {paths['json']}")
+    print(f"markdown: {paths['markdown']}")
+    print(f"owner packet json: {paths['owner_packet_json']}")
+    print(f"owner packet markdown: {paths['owner_packet_markdown']}")
+    if args.fail_on_blocking and report["status"] != "PASS":
+        return int(ExitCode.QUALIFICATION_REJECTED)
+    return int(ExitCode.ACCEPTED)
+
+
+def command_owner_review_check(args: argparse.Namespace) -> int:
+    """Validate one review record before it is considered by a release gate."""
+    report = validate_owner_review(
+        args.input,
+        scope=args.scope,
+        require_decision=args.require_decision,
+        target_maturity=args.target_maturity,
+    )
+    if args.json_report is not None:
+        write_json_file(args.json_report, report.to_dict())
+    print(f"OWNER REVIEW CHECK: {report.status}")
+    print(f"review: {report.review_id or 'unknown'}")
+    print(f"scope: {', '.join(report.scopes) or 'unknown'}")
+    print(f"decision: {report.decision or 'PENDING'}")
+    print(f"promotion target: {report.promotion_target or 'UNSPECIFIED'}")
+    for message in report.errors:
+        print(f"ERROR: {message}")
+    for message in report.warnings:
+        print(f"WARNING: {message}")
+    if report.status == "FAIL":
+        return int(ExitCode.QUALIFICATION_REJECTED)
+    return int(ExitCode.ACCEPTED)
+
+
 def command_qualify(args: argparse.Namespace) -> int:
     summary = run_qualification_campaign(args.manifest, args.output)
     print(f"QUALIFICATION CAMPAIGN STATUS: {summary['status']}")
     print(f"cases: {summary['passed_count']}/{summary['case_count']} passed")
     print(f"summary: {Path(args.output) / 'qualification_campaign_summary.json'}")
     return int(ExitCode.ACCEPTED if summary["status"] == "PASS" else ExitCode.QUALIFICATION_REJECTED)
+
+
+def command_release_vv(args: argparse.Namespace) -> int:
+    """Generate release V&V evidence without hiding open readiness items."""
+    summary = cast(
+        dict[str, Any],
+        run_release_vv(
+            args.output,
+            registry_path=args.registry,
+            execute_campaign=args.execute_campaign,
+        ),
+    )
+    print(f"RELEASE V&V STATUS: {summary['status']}")
+    print(f"release: {summary['release']['version']}")
+    scope_summary = summary["scope_summary"]
+    print(
+        "scopes: "
+        f"{scope_summary['pass_count']} PASS, "
+        f"{scope_summary['warning_count']} WARNING, "
+        f"{scope_summary['fail_count']} FAIL"
+    )
+    print(f"summary: {args.output / 'release_vv_summary.json'}")
+    if summary["status"] == "FAIL":
+        return int(ExitCode.QUALIFICATION_REJECTED)
+    if summary["status"] == "WARNING" and args.fail_on_warning:
+        return int(ExitCode.QUALIFICATION_REJECTED)
+    return int(ExitCode.ACCEPTED)
 
 
 def command_verify_evidence(args: argparse.Namespace) -> int:
@@ -135,7 +218,7 @@ def command_verify_evidence(args: argparse.Namespace) -> int:
 def _verify_all_commands(profile: str, scope: str) -> list[list[str]]:
     commands: list[list[str]] = []
     if profile in {"strict", "qualification"}:
-        commands.append([sys.executable, "-m", "ruff", "check", "src/solveur", "src/mitc4", "tests", "scripts"])
+        commands.append([sys.executable, "-m", "ruff", "check", "src/solveur", "tests", "scripts"])
     if profile == "qualification":
         commands.extend(
             [
@@ -153,7 +236,6 @@ def _verify_all_commands(profile: str, scope: str) -> list[list[str]]:
                     "-m",
                     "pytest",
                     "--cov=solveur",
-                    "--cov=mitc4",
                     "--cov-branch",
                     "--cov-report=json:coverage.json",
                     "--cov-fail-under=84",

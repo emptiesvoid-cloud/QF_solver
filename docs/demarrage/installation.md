@@ -24,27 +24,21 @@ python -m pip install -e ".[mesh]"
 qf-solver benchmarks
 ```
 
-Pour construire le site hors ligne:
+Pour regenerer les documents Markdown, figures et manifestes:
 
 ```powershell
 python -m pip install -e ".[docs]"
 python .\scripts\build_docs.py --profile engineering
-python .\scripts\serve_docs.py
+python .\scripts\build_technical_latex.py
 ```
 
-Le lanceur demarre un serveur limite a la boucle locale et ouvre le navigateur
-systeme. Arreter le serveur avec `Ctrl+C`. Toutes les ressources necessaires au site sont servies
-depuis le poste local, sans CDN, telemetrie ou appel reseau d'execution.
-
-Diagnostic sans ouverture du navigateur :
-
-```powershell
-python .\scripts\serve_docs.py --check
-```
+La premiere commande regenere les preuves documentaires. La seconde genere le
+PDF lorsque Pandoc et MiKTeX/LaTeX sont disponibles. Aucune interface web, CDN
+ou telemetrie n'est requise.
 
 ## Baselines
 
 La baseline standard verrouille NumPy, SciPy et Matplotlib. La baseline
-documentation verrouille MkDocs Material, ses extensions Markdown et les
-outils de controle du site. Un changement de version doit etre traite comme
-une modification de l'environnement de production de preuve.
+documentation verrouille les outils de generation de figures et PDF. Un
+changement de version doit etre traite comme une modification de
+l'environnement de production de preuve.

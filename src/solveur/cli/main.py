@@ -99,7 +99,7 @@ class SolverCli:
         vnv_compare.add_argument(
             "--require-approval",
             action="store_true",
-            help="return code 4 while the human decision is still pending",
+            help="return code 4 while the owner decision is still pending",
         )
         vnv_compare.set_defaults(func=vnv_cli.command_vnv_compare)
 
@@ -292,10 +292,67 @@ class SolverCli:
         readiness.add_argument("--json-report", type=Path, default=None)
         readiness.set_defaults(func=verification_cli.command_qualification_readiness)
 
+        maturity = sub.add_parser(
+            "maturity-promotion",
+            help="audit evidence readiness for the controlled maturity-promotion plan",
+        )
+        maturity.add_argument(
+            "--output",
+            type=Path,
+            default=Path("results/maturity_promotion_0_2_1"),
+        )
+        maturity.add_argument(
+            "--plan",
+            type=Path,
+            default=Path("qualification/maturity_promotion_0_2_1.json"),
+        )
+        maturity.add_argument(
+            "--matrix",
+            type=Path,
+            default=Path("qualification/element_analysis_matrix.json"),
+        )
+        maturity.add_argument(
+            "--coverage",
+            type=Path,
+            default=Path("qualification/technical_content_coverage.json"),
+        )
+        maturity.add_argument(
+            "--criteria",
+            type=Path,
+            default=Path("qualification/maturity_criteria_0_2_1.json"),
+        )
+        maturity.add_argument("--fail-on-blocking", action="store_true")
+        maturity.set_defaults(func=verification_cli.command_maturity_promotion)
+
+        owner_review = sub.add_parser(
+            "owner-review-check",
+            help="validate one Owner/external review record without changing maturity",
+        )
+        owner_review.add_argument("--input", required=True, type=Path)
+        owner_review.add_argument("--scope", default=None)
+        owner_review.add_argument("--require-decision", action="store_true")
+        owner_review.add_argument("--target-maturity", default=None, choices=("stable", "owner_accepted", "experimental", "research"))
+        owner_review.add_argument("--json-report", type=Path, default=None)
+        owner_review.set_defaults(func=verification_cli.command_owner_review_check)
+
         qualify = sub.add_parser("qualify", help="run a qualification campaign manifest")
         qualify.add_argument("--manifest", type=Path, default=Path("qualification/campaign.json"))
         qualify.add_argument("--output", type=Path, default=Path("results/qualification_campaign"))
         qualify.set_defaults(func=verification_cli.command_qualify)
+
+        release_vv = sub.add_parser(
+            "release-vv",
+            help="build the release-level verification and validation readiness package",
+        )
+        release_vv.add_argument("--output", required=True, type=Path)
+        release_vv.add_argument("--registry", type=Path, default=None)
+        release_vv.add_argument("--execute-campaign", action="store_true")
+        release_vv.add_argument(
+            "--fail-on-warning",
+            action="store_true",
+            help="return code 4 when readiness warnings remain",
+        )
+        release_vv.set_defaults(func=verification_cli.command_release_vv)
 
         methods = sub.add_parser("methods", help="list available analysis methods")
         methods.set_defaults(func=standard_cli.command_methods)

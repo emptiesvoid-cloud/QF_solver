@@ -14,7 +14,7 @@ approver: ""
 La baseline documentaire P0 est **fermee techniquement** pour la version
 `0.2.0` : les pages sont enregistrees, les liens et ressources publiees sont
 controles, les demonstrations sont regenerees et les preuves V&V possedent des
-empreintes. Cette decision ne vaut ni approbation humaine ni certification.
+empreintes. Cette decision ne vaut ni `owner_review` ni certification.
 
 Le fichier machine-readable associe est
 `qualification/baselines/documentation_baseline_p0.json`.
@@ -24,8 +24,8 @@ Le fichier machine-readable associe est
 | Registre documentaire | `docs/document_registry.json` | PASS automatique |
 | Formules tracees | `qualification/formulas.json` | 44/44 PASS |
 | Demonstrations et empreintes | `docs/generated/docs_manifest.json` | PASS engineering |
-| Liens, images et serveur local | tests documentation + `serve_docs.py --check` | PASS technique |
-| Construction hors ligne | `mkdocs build --strict` | PASS technique |
+| Liens et images documentaires | tests documentation cibles | PASS technique |
+| Generation controlee | `scripts/build_docs.py --profile engineering` | PASS technique |
 | Owner review complete | `docs/generated/review_readiness.json` | BLOCKED, attendu |
 | Revision Git propre approuvee | `docs/generated/review_readiness.json` | BLOCKED, attendu |
 
@@ -75,7 +75,7 @@ references historiques tracees.
 
 ## Owner review minimale
 
-1. Executer `python .\scripts\serve_docs.py --check`.
+1. Executer `python .\scripts\build_docs.py --profile engineering`.
 2. Ouvrir le site avec un navigateur systeme si une inspection visuelle est
    requise.
 3. Relire les pages de decision TET4, TET10, MITC4 et solides orthotropes.

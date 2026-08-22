@@ -95,7 +95,7 @@ class DemonstrationCatalog:
         """Check documentation, runner and traceability references without running a case.
 
         The check is deliberately opt-in: installed users can list the public
-        library catalog without bundling the documentation site, while CI can
+        library catalog without bundling documentation artifacts, while CI can
         reject an orphaned demonstration before publication.
         """
         base = Path(root).resolve()

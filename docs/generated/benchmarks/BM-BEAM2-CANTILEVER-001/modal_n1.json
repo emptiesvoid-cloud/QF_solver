@@ -10,8 +10,8 @@
   "modes": [
     {
       "index": 1,
-      "eigenvalue": 4196.5392075901245,
-      "frequency_hz": 10.310168763343665,
+      "eigenvalue": 4196.539207590129,
+      "frequency_hz": 10.31016876334367,
       "shape": [
         {
           "node": 0,
@@ -27,12 +27,12 @@
         {
           "node": 1,
           "dofs": {
-            "UX": 4.0657581468206416e-20,
-            "UY": 0.0,
+            "UX": 0.0,
+            "UY": 8.237361530730181e-16,
             "UZ": 0.1616619643729918,
-            "RX": -5.421010862427522e-20,
-            "RY": -0.11128652850581128,
-            "RZ": 1.3877787807814457e-17
+            "RX": 3.3306690738754696e-16,
+            "RY": -0.1112865285058108,
+            "RZ": 6.839147304038562e-16
           }
         }
       ]
@@ -40,28 +40,28 @@
   ],
   "solver": {
     "mode_count": 1,
-    "max_relative_residual": 1.884767155227696e-15,
+    "max_relative_residual": 1.281432858726099e-14,
     "relative_residuals": [
-      1.884767155227696e-15
+      1.281432858726099e-14
     ],
     "mass_orthogonality_error": 0.0,
-    "stiffness_diagonal_error": 0.0,
+    "stiffness_diagonal_error": 1.300349631135996e-15,
     "modal_masses": [
-      0.9999999999999993
+      1.0000000000000013
     ],
     "modal_stiffnesses": [
-      4196.539207590122
+      4196.539207590129
     ],
     "effective_modal_mass": {
       "by_direction": {
         "UX": [
-          4.469817269001751e-36
+          0.0
         ],
         "UY": [
-          5.143946636117499e-32
+          1.3360856586221937e-27
         ],
         "UZ": [
-          56.97858818222595
+          56.978588182225955
         ]
       },
       "total_direction_mass": {
@@ -75,7 +75,7 @@
     "arpack": {
       "shift_eigenvalue": 0.0,
       "shift_hz": null,
-      "which": "LM",
+      "which": "SM",
       "tolerance": 0.0,
       "maxiter": null,
       "ncv": null
@@ -109,7 +109,7 @@
       "candidate_drilling_dof_count": 0,
       "condensed_drilling_dof_count": 0,
       "retained_dof_count": 6,
-      "drilling_mass_tolerance": 1e-12,
+      "drilling_mass_tolerance": 1e-10,
       "maximum_candidate_mass_row_ratio": 0.0,
       "condensed_mass_coupling_ratio": 0.0,
       "condensed_stiffness_nnz": 10,
@@ -775,7 +775,7 @@
     ],
     "notes": [],
     "qualification": {
-      "solver_version": "0.2.0a0",
+      "solver_version": "0.2.1a0",
       "schema_version": 1,
       "units": {
         "system": "SI"

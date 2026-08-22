@@ -61,5 +61,5 @@ doivent parcourir leur arete commune en sens oppose. L'importeur detecte les
 orientations incoherentes et ne les repare jamais automatiquement, car la
 normale porte les conventions de face superieure et inferieure.
 
-Code: `mitc4/element.py`. Exigence: `REQ-SOL-002`.
+Code: `solveur/elements/shell/mitc4/element.py`. Exigence: `REQ-SOL-002`.
 

@@ -36,6 +36,13 @@
     "summary": "qualification/vnv/orthotropic_solid_convergence/reference/summary.json",
     "manifest": "qualification/vnv/orthotropic_solid_convergence/reference/vnv_manifest.json"
   },
+  "load_case_evidence": {
+    "study_id": "VNV-ORTHOTROPIC-SOLID-LOAD-CASES-007",
+    "summary": "qualification/vnv/orthotropic_load_cases_007/reference/summary.json",
+    "report": "qualification/vnv/orthotropic_load_cases_007/reference/report.md",
+    "manifest": "qualification/vnv/orthotropic_load_cases_007/reference/vnv_manifest.json",
+    "coverage": ["rotated axes", "biaxial strain", "combined shear", "mixed strain", "TET4", "TET10"]
+  },
   "performance_evidence": {
     "study_id": "VNV-ORTHOTROPIC-ISOTROPIC-NONREGRESSION-004",
     "summary": "qualification/vnv/orthotropic_isotropic_performance/reference/summary.json",
@@ -67,7 +74,7 @@
     {
       "scope": "orthotropic-solid-singular-stress-assessment",
       "status": "ready_for_owner_review",
-      "prerequisite": "human decision on the bounded path-and-band stress acceptance scope",
+      "prerequisite": "owner decision on the bounded path-and-band stress acceptance scope",
       "evidence": "qualification/external_reference_digests/orthotropic_singular_stress_h8.json"
     }
   ],

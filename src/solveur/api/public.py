@@ -25,6 +25,7 @@ from solveur.large.audit import inspect_large_model as _inspect_large_model
 from solveur.large.benchmark import benchmark_large_model as _benchmark_large_model
 from solveur.large.campaign import run_large_scale_campaign as _run_large_scale_campaign
 from solveur.large.generator import generate_tet4_block as _generate_tet4_block
+from solveur.large.generator import generate_tet4_cantilever_block as _generate_tet4_cantilever_block
 from solveur.large.distributed_model import load_distributed_large_model as _load_distributed_large_model
 from solveur.large.generator import recommended_block_for_dofs as _recommended_block_for_dofs
 from solveur.large.io import convert_model_to_large as _convert_model_to_large
@@ -54,6 +55,7 @@ from solveur.verification.campaign import QualificationCampaignRunner
 from solveur.verification.contact_campaign import ContactVerificationCampaign
 from solveur.verification.linear_solver_comparison import write_linear_solver_comparison
 from solveur.verification.mitc4_campaign import Mitc4ValidationCampaign
+from solveur.verification.release_vv import ReleaseVvRunner
 from solveur.verification.traceability import QualificationReadiness
 from solveur.verification.traceability import qualification_readiness as _qualification_readiness
 from solveur.verification.torsion_stress_probe import TorsionStressProbeRunner
@@ -231,6 +233,22 @@ def run_qualification_campaign(manifest_path: str | Path, output_dir: str | Path
     return QualificationCampaignRunner().run(manifest_path, output_dir)
 
 
+def run_release_vv(
+    output_dir: str | Path,
+    *,
+    registry_path: str | Path | None = None,
+    execute_campaign: bool = False,
+    campaign_manifest: str | Path | None = None,
+) -> dict[str, object]:
+    """Build the release-level V&V readiness package for the current alpha."""
+    runner = ReleaseVvRunner(registry_path) if registry_path is not None else ReleaseVvRunner()
+    return runner.run(
+        output_dir,
+        execute_campaign=execute_campaign,
+        campaign_manifest=campaign_manifest,
+    )
+
+
 def run_qualification_case(
     identifier: str,
     output_dir: str | Path,
@@ -300,6 +318,11 @@ def solve_large_model(
 def generate_large_tet4_block(path: str | Path, *, nx: int, ny: int, nz: int, **kwargs: object) -> LargeModel:
     """Generate a structured large-scale TET4 block model."""
     return _generate_tet4_block(path, nx=nx, ny=ny, nz=nz, **kwargs)
+
+
+def generate_large_tet4_cantilever(path: str | Path, *, nx: int, ny: int, nz: int, **kwargs: object) -> LargeModel:
+    """Generate a nested structured TET4 cantilever for flexion V&V."""
+    return _generate_tet4_cantilever_block(path, nx=nx, ny=ny, nz=nz, **kwargs)
 
 
 def recommended_large_block(target_dofs: int) -> tuple[int, int, int]:

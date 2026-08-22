@@ -13,7 +13,7 @@
     "converged": true
   },
   "assembly_time_seconds": 0.0,
-  "solve_time_seconds": 0.010158500052057207,
+  "solve_time_seconds": 0.01579369988758117,
   "estimated_core_memory_bytes": 21120,
   "audit_status": "PASS",
   "matrix_free_operator_memory_bytes": 10368

@@ -160,7 +160,8 @@ TET4 deformable. Il verifie fermeture normale, cone de Coulomb et les branches
 `stick`/`slip`; une transition vers l'adherence sous raffinement est possible
 si la reaction normale augmente. La campagne externe
 `VNV-CONTACT-FRICTION-CODEASTER-CONTINUE-003` couvre le glissement sature
-sur une surface triangulaire avec un ecart `UX` de `0,6070 %`; l'adherence et
+sur une surface triangulaire a trois niveaux de charge avec des ecarts `UX`
+de `0,6070 %`, `0,4559 %` et `0,3651 %`; l'adherence et
 les faces structurelles deformables restent a comparer. Restent obligatoires
 avant une hausse de maturite : une tangente consistante pour les cas fortement
 non lineaires et une correlation externe structurelle complete. Sont hors scope : grand

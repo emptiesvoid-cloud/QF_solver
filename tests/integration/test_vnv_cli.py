@@ -21,17 +21,17 @@ def _run(*args: object) -> subprocess.CompletedProcess[str]:
     )
 
 
-def test_vnv_cli_writes_markdown_and_exposes_pending_review(tmp_path: Path) -> None:
+def test_vnv_cli_writes_markdown_and_exposes_pending_owner_review(tmp_path: Path) -> None:
     study = build_vnv_study(tmp_path / "study")
     output = tmp_path / "output"
     completed = _run("vnv-compare", "--study", study, "--output", output)
     assert completed.returncode == 0, completed.stdout + completed.stderr
     assert "VNV PENDING_REVIEW" in completed.stdout
-    assert "human decision: pending" in completed.stdout
+    assert "owner decision: pending" in completed.stdout
     assert (output / "study_report.md").is_file()
 
 
-def test_vnv_cli_can_require_human_approval(tmp_path: Path) -> None:
+def test_vnv_cli_can_require_owner_approval(tmp_path: Path) -> None:
     pending = build_vnv_study(tmp_path / "pending")
     blocked = _run(
         "vnv-compare",

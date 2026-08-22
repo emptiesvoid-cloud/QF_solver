@@ -1,0 +1,32 @@
+{
+  "review_id": "OWNER-REVIEW-MITC4-CLASSIC-STABLE-PENDING-2026-08-21",
+  "review_mode": "owner_review",
+  "status": "owner_reviewed",
+  "scope": [
+    "mitc4-linear-static",
+    "mitc4-modal",
+    "mitc4-transient-dynamic",
+    "mitc4-harmonic-response"
+  ],
+  "decision": "accepted_with_recommendations",
+  "promotion_target": "stable",
+  "questions_document": "docs/verification/mitc4_classic_stable_owner_review.md",
+  "evidence": [
+    "qualification/maturity_evidence_0_2_1/mitc4_isotropic_linear.json",
+    "qualification/vnv/external/code_aster_mitc4_conical_cutout_refinement/reference/summary.json",
+    "qualification/vnv/external/code_aster_modal_refinement_048/reference/summary.json",
+    "qualification/evidence/code_aster_correlation_campaign_2026-08-14/studies/newmark_reference/summary.json",
+    "qualification/vnv/external/mitc4_harmonic_refinement_005/reference/summary.json",
+    "output/pdf/mitc4_static_code_aster_refinement_owner_review.pdf",
+    "output/pdf/mitc4_modal_refinement_owner_review.pdf",
+    "output/pdf/mitc4_harmonic_refinement_owner_review.pdf"
+  ],
+  "review_date": "2026-08-21",
+  "owner_comment": "Promotion stable acceptee dans le domaine isotrope documente. Les diagnostics spatiaux externes et les exclusions restent visibles dans les preuves.",
+  "signature": {
+    "name": "Quentin Farinazzo",
+    "date": "2026-08-21",
+    "type": "declared_owner_review",
+    "independence": "not_independent"
+  }
+}

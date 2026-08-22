@@ -1,4 +1,4 @@
-"""Deterministic geometry, table and plotting helpers for the documentation site."""
+"""Deterministic geometry, table and plotting helpers for documentation evidence."""
 
 from __future__ import annotations
 

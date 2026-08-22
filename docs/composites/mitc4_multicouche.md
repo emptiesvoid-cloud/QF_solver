@@ -9,6 +9,20 @@ approver: ""
 
 # MITC4 multicouche - statique bornee V1
 
+## Sous-perimetre de promotion stable
+
+La promotion vers `stable` est maintenant decoupee explicitement. Le
+sous-perimetre `planar_regular_meshes` couvre la plaque plane symetrique
+`[0/90/90/0]`, les chargements membrane, flexion et combine, trois niveaux de
+maillage et les observables de contraintes par pli hors singularite. La
+campagne dediee et sa decision Owner sont dans
+`docs/verification/mitc4_laminate_static_planar_stable_owner_review.md`.
+
+Les probes de maillage distordu et de coque courbe a orientation oblique ne
+sont pas supprimes : ils restent des preuves experimentales hors du
+sous-perimetre stable. Le probe oblique converge vers un plateau d'environ
+`2,043 %`; il ne doit donc pas etre extrapole au domaine stable plan.
+
 ## Separation avec le MITC4 isotrope
 
 Le type elementaire reste `MITC4`, mais le materiau `shell_laminate` suit un

@@ -65,7 +65,7 @@ positive agit suivant la normale opposee. Une traction d'arete est repartie
 lineairement entre les deux noeuds de l'arete. Les moments nodaux explicites
 restent des charges nodales sur `RX`, `RY` ou `RZ`.
 
-Code: `mitc4/material.py`, `solveur/loads/integration.py`.
+Code: `solveur/elements/shell/mitc4/material.py`, `solveur/loads/integration.py`.
 
 ## Matrice de masse coherente
 

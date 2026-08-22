@@ -4,8 +4,21 @@ Solveur FEM Python boite blanche, utilisable par CLI et API. Le projet couvre
 les solides TET4/TET10, les coques MITC3+/MITC4, la statique, le modal, Newmark,
 l'harmonique, un non-lineaire experimental et un chemin grand modele.
 
-La version publique preparee est **0.2.0a0**, correspondant au tag de release
-`v0.2.0-alpha`. Le projet vise un outil **qualifiable et verifiable**. Il n'est
+## Origine et objectif
+
+QF_solver est un projet personnel commence en aout 2024 par Quentin Farinazzo.
+Il est publie progressivement, par perimetres techniques et preuves V&V
+associees, plutot que comme un bloc opaque. Son objectif a long terme est de
+proposer un solveur FEM ouvert, fiable, explicable et utile a l'ingenieur : les
+hypotheses, limites, validations et resultats doivent pouvoir etre relus.
+
+Cette alpha ne revendique ni certification externe, ni equivalence generale a
+un logiciel commercial. Elle fournit un noyau ouvert et des domaines d'emploi
+documentes, a utiliser avec le jugement mecanique adapte au cas calcule.
+
+La version publique cible est **0.2.1a0**, une alpha de consolidation
+V&V construite sur la baseline immuable `0.2.0a0` (`v0.2.0-alpha`). Le projet vise
+un outil **qualifiable et verifiable**. Il n'est
 pas presente comme certifie et ne doit pas remplacer une Owner review
 mecanique adaptee au cas d'emploi.
 
@@ -25,25 +38,18 @@ contribution, de securite et de signalement V&V sont disponibles dans
 
 ## Documentation technique
 
-Le site MkDocs local est la source detaillee unique pour les formulations,
-reperes locaux, solveurs, demonstrations, limites et preuves.
+Les documents Markdown et PDF versionnes sont la source detaillee unique pour
+les formulations, reperes locaux, solveurs, demonstrations, limites et preuves.
 
 ```powershell
 python -m pip install -e ".[docs]"
 python .\scripts\build_docs.py --profile engineering
-python .\scripts\serve_docs.py
+python .\scripts\build_technical_latex.py
 ```
 
-Le dernier script ouvre directement le navigateur systeme, puis reste actif
-jusqu'a `Ctrl+C`. La construction
-est entierement hors ligne : MathJax, polices et ressources visuelles sont
-locales.
-
-Pour verifier la publication sans lancer de serveur ni de navigateur :
-
-```powershell
-python .\scripts\serve_docs.py --check
-```
+Le premier script regenere les tableaux, figures et manifestes Markdown. Le
+second produit le dossier PDF lorsque Pandoc et MiKTeX/LaTeX sont disponibles.
+La documentation ne depend d'aucun serveur, navigateur, CDN ou telemetrie.
 
 Une construction `qualification` refuse volontairement une source sans
 revision Git approuvee ou avec des exigences orphelines :
@@ -52,26 +58,37 @@ revision Git approuvee ou avec des exigences orphelines :
 python .\scripts\build_docs.py --profile qualification
 ```
 
-## Maturite
+## Maturite et perimetres
 
 | Capacite | Maturite actuelle | Usage recommande |
 | --- | --- | --- |
-| TET4 statique lineaire, maillage, audit, API/CLI | `stable` | Calcul engineering borne et revu |
-| MITC4 statique, modal, Newmark et harmonique isotropes | `owner_accepted_bounded` | Domaines lineaires documentes; masse coherente et drilling condense en dynamique |
-| MITC4 multicouche statique | `owner_accepted_bounded` | Stratifies documentes dans le domaine lineaire couvert |
-| MITC4 multicouche dynamique plane | `owner_accepted_experimental_bounded_use` | Trois empilements symetriques; reserve modale 10 000 QUAD4; dynamique courbe exclue |
-| MITC3+ statique et dynamique lineaire isotrope | `owner_accepted_bounded` | Statique, modal, Newmark et harmonique dans les domaines documentes |
-| MITC3+ multicouche courbe projete | `owner_accepted_experimental_bounded_use` | Statique courbe seulement; extension dynamique encore experimentale |
-| Modal, Newmark, harmonique solides | `stable_after_reinforced_tests` | Engineering avec revue des residus |
-| TET10 lineaire isotrope | `stable_after_reinforced_tests` | Validation interne avec recommandations du 2026-07-18 |
-| TET10 avance, materiaux non lineaires | `experimental` | Hors du scope lineaire accepte |
-| Lamelle, CLT et criteres premier pli | `experimental` | V&V analytique/structurelle disponible; dommage, rupture progressive et delaminage exclus |
-| Solides orthotropes TET4/TET10 | `engineering_internal_validated_with_recommendations` | Statique lineaire borne accepte; TET4 a raffiner en flexion, campagne complexe finale differee |
-| Contact sans frottement borne | `engineering_ready_bounded` | Owner review acceptee le 29 juillet 2026; statique lineaire, petites transformations et active-set noeud-triangle uniquement |
-| Grand modele PETSc/MPI | `experimental` | Campagne dediee, pas de qualification implicite |
+| TET4 et TET10 isotropes lineaires | `stable` | Statique, modal, Newmark et harmonique dans les cas documentes |
+| MITC3+ isotrope classique | `stable` | Statique, modal, Newmark et harmonique dans les domaines documentes |
+| MITC3+ multicouche mince plan et courbe mixte/transverse | `stable` | Sous-perimetres explicitement limites; domaine axial complet non promu |
+| MITC4 isotrope | `stable` | Statique, modal, Newmark et harmonique avec masse coherente et drilling condense |
+| MITC4 multicouche plan et orthotrope mono-pli | `stable` | Layups, geometries et exclusions explicitement documentes |
+| BEAM2 et entites discretes lineaires | `stable` | Statique, modal, Newmark et harmonique documentes |
+| Solides orthotropes TET4/TET10 | `stable` | Materiau homogene, statique, modal et Newmark dans le domaine teste |
+| J2 TET4/TET10, contact et grand modele TET4 | `accepted_for_bounded_engineering_use` | Usage borne; limites propres a chaque scope obligatoires |
+| TET4 total-lagrangien structurel | `research` | Preuves incompletes; aucune promotion engineering |
+| MITC4 orthotrope courbe | `out_of_acceptance` | Diagnostic interne uniquement, sans revendication d'usage |
 
-Le tableau de bord du site calcule le nombre de tests, la campagne courante,
-la revision source et les verdicts au moment de la construction.
+Le detail des 36 scopes de release, de leurs preuves et de leurs exclusions est
+dans le [registre de maturite](qualification/element_analysis_matrix.json) et
+dans le [paquet de cloture](docs/verification/release_vv_0_2_1_closure_package_2026-08-22.md).
+
+## Etat de la release 0.2.1a0
+
+La consolidation locale est avancee, mais la release n'est pas encore gelee :
+le dernier controle `release-vv` recense `28` scopes PASS et `8` scopes
+volontairement non stables. Le lot public a passe l'audit de confidentialite et
+de vocabulaire (`1550` fichiers analyses, `0` finding). Restent obligatoires
+avant toute publication : la campagne de release complete, la revalidation
+Owner finale et un checkout Git propre. Aucun tag ni push n'est cree par ces
+preparatifs.
+
+Les manifestes de documentation calculent le nombre de tests, la campagne
+courante, la revision source et les verdicts au moment de la generation.
 La page de revue publie aussi la couverture des 61 formules critiques et
 distingue explicitement controle automatique, Owner review et baseline Git.
 
@@ -95,20 +112,28 @@ figee sont consignes dans la
 
 ## Installation
 
-Installation de la version alpha distribuee sur PyPI :
+Preparation locale de l'alpha `0.2.1a0` :
 
 ```powershell
-python -m pip install "qf-solver==0.2.0a0"
+python -m pip install -e ".[test]"
 qf-solver --version
 ```
 
-Les fonctionnalites optionnelles s'installent avec les extras correspondants :
+Apres publication, la meme version pourra etre installee depuis PyPI avec
+`python -m pip install "qf-solver==0.2.1a0"`. Cette commande devient disponible
+apres publication effective sur PyPI ; le present checkout ne la declenche pas.
+
+Pendant la preparation locale, les extras s'installent depuis le checkout :
 
 ```powershell
-python -m pip install "qf-solver[mesh]==0.2.0a0"  # import Gmsh MSH 4.1
-python -m pip install "qf-solver[docs]==0.2.0a0"  # outils de construction documentaire
-python -m pip install "qf-solver[large]==0.2.0a0" # HDF5, PETSc et MPI
+python -m pip install -e ".[mesh]"  # import Gmsh MSH 4.1
+python -m pip install -e ".[docs]"  # outils de construction documentaire
+python -m pip install -e ".[large]" # HDF5, PETSc et MPI
 ```
+
+Apres publication, les memes extras seront disponibles avec la forme
+`qf-solver[mesh]==0.2.1a0`, `qf-solver[docs]==0.2.1a0` ou
+`qf-solver[large]==0.2.1a0`.
 
 Pour contribuer ou executer la suite de tests depuis un clone du depot :
 
@@ -128,17 +153,18 @@ Python 3.10 a 3.13 est cible par la CI. Les versions de baseline sont dans
 [`requirements/`](requirements/).
 
 Le code installable suit un layout `src/`: `src/solveur` porte le produit
-generaliste et `src/mitc4` conserve le noyau historique valide utilise par
-l'adaptateur coque. Les choix d'architecture et la place du conteneur
+generaliste et la formulation MITC4 canonique vit sous
+`src/solveur/elements/shell/mitc4`. `src/solveur/compat/mitc4` ne conserve que des facades
+de compatibilite depreciees pour la serie `0.2.x`. Les choix d'architecture et la place du conteneur
 PETSc/MPI optionnel sont detailles dans
 [`docs/architecture.md`](docs/architecture.md).
 
 La wheel PyPI contient le runtime, les exemples JSON et les registres
 machine-readable necessaires au fonctionnement courant. Le manuel complet,
-les tests et les preuves V&V restent dans le depot GitHub; construire le site
-ou executer `qualification-readiness` avec verification de tous les liens
+les tests et les preuves V&V restent dans le depot GitHub; generer les
+artefacts Markdown/PDF ou executer `qualification-readiness` avec verification de tous les liens
 necessite donc un clone source. L'extra `docs` installe les outils de
-construction, pas une copie preconstruite du site.
+construction, pas une livraison web preconstruite.
 
 ## Premier calcul
 
@@ -233,9 +259,9 @@ ce mode ne revendique aucune independence externe.
 ## Verification developpeur
 
 ```powershell
-python -m ruff check solveur mitc4 scripts tests
+python -m ruff check src scripts tests
 python -m pytest
-python -m compileall -q solveur mitc4 scripts tests qf_solver.py main_solveur.py mitc4_solver.py
+python -m compileall -q src scripts tests qf_solver.py main_solveur.py mitc4_solver.py
 python .\qf_solver.py verify --quick
 python .\mitc4_solver.py verify
 python .\scripts\build_docs.py --profile engineering
@@ -246,9 +272,9 @@ qui n'est pas inclus dans l'archive source. Les tests marques `evidence`
 s'executent lorsque ce corpus et le manifeste documentaire genere sont
 presents ; dans une archive publique legere, ils sont explicitement ignores.
 Les tests du noyau, de l'API, de la CLI et des formulations restent obligatoires.
-La copie publique fournit un snapshot documentaire leger, constructible avec
-`python -m mkdocs build --strict --clean`. La commande `build_docs.py`
-regenere toutes les preuves et requiert donc le corpus V&V de developpement.
+La copie publique fournit les sources Markdown, PDF et artefacts documentaires
+versionnes. La commande `build_docs.py` regenere toutes les preuves et requiert
+donc le corpus V&V de developpement.
 
 ## Documents de pilotage
 
@@ -260,9 +286,13 @@ regenere toutes les preuves et requiert donc le corpus V&V de developpement.
 - [Registre des formules](qualification/formulas.json)
 - [Perimetre V&V MITC4](docs/verification/mitc4_validation.md)
 - [Baseline engineering 0.2.0](qualification/baselines/qf_solver_0.2.0_engineering.md)
+- [Pack V&V release 0.2.1a0](docs/verification/release_vv_0_2_1.md)
+- [Paquet de cloture Owner 0.2.1a0](docs/verification/release_vv_0_2_1_closure_package_2026-08-22.md)
+- [Decision finale Owner 0.2.1a0](docs/verification/owner_final_release_decision_0_2_1a0.md)
+- [Audit hygiene et architecture 0.2.1a0](docs/verification/project_hygiene_architecture_audit_0_2_1.md)
 - [Cloture technique P0 documentaire](docs/verification/baseline_documentaire_p0.md)
 - [Changelog](CHANGELOG.md)
 
-Les fichiers generes du site ne sont pas edites a la main. Toute valeur
-numerique publiee doit provenir de `scripts/build_docs.py` et etre reliee a son
-entree, sa tolerance, son verdict et son empreinte SHA-256.
+Les artefacts generes ne sont pas edites a la main. Toute valeur numerique
+publiee doit provenir de `scripts/build_docs.py` et etre reliee a son entree,
+sa tolerance, son verdict et son empreinte SHA-256.

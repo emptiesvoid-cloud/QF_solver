@@ -170,15 +170,17 @@ champ extrapole complet.
 
 ## Tracabilite
 
-Code: `mitc4/element.py`, adapte par `solveur/elements/shell/mitc4.py`.
+Code: `solveur/elements/shell/mitc4/element.py`, adapte par
+`solveur/elements/shell/mitc4/adapter.py`. Les imports `mitc4.*` restent des
+facades de compatibilite pendant la serie 0.2.x.
 Verification: `tests/verification/test_mitc4_verification.py`, Scordelis-Lo,
 patchs membrane/cisaillement/flexion et etude de locking. Exigence:
 `REQ-SOL-002`.
 
 | Bloc d'equations | Reference primaire | Code | Preuve | Exigence |
 | --- | --- | --- | --- | --- |
-| Cinematique coque et base locale | [REF-MITC4-DVORKIN](../reference/references.md#ref-mitc4-dvorkin) | `mitc4/element.py` | modes rigides, patch membrane | `REQ-SOL-002` |
-| Tying du cisaillement tensoriel | [REF-MITC-BATHE](../reference/references.md#ref-mitc-bathe) | `mitc4/element.py` | patch cisaillement, locking | `REQ-SOL-002` |
+| Cinematique coque et base locale | [REF-MITC4-DVORKIN](../reference/references.md#ref-mitc4-dvorkin) | `solveur/elements/shell/mitc4/element.py` | modes rigides, patch membrane | `REQ-SOL-002` |
+| Tying du cisaillement tensoriel | [REF-MITC-BATHE](../reference/references.md#ref-mitc-bathe) | `solveur/elements/shell/mitc4/element.py` | patch cisaillement, locking | `REQ-SOL-002` |
 | Obstacle course Scordelis-Lo | [REF-SHELL-OBSTACLE](../reference/references.md#ref-shell-obstacle) | `mitc4/benchmarks.py` | convergence Scordelis-Lo | `REQ-CMP-003` |
 
 ## Contrat documentaire et demonstration

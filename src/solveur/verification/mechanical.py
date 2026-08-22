@@ -1,5 +1,5 @@
 """Mechanical verification entrypoints."""
 
-from mitc4.verification import MechanicalVerifier, VerificationResult
+from solveur.verification.mitc4_mechanical import MechanicalVerifier, VerificationResult
 
 __all__ = ["MechanicalVerifier", "VerificationResult"]

@@ -15,8 +15,8 @@ contracts.
 - Add explicit validation and use the project error taxonomy at public edges.
 - Do not change a numerical baseline without recording the reason, tolerance
   and verification evidence.
-- Do not mark a capability as certified or qualified without a recorded human
-  decision.
+- Do not mark a capability as certified or qualified without a recorded
+  owner decision or external audit.
 
 ## Proportionate Local Checks
 

@@ -41,8 +41,9 @@ source code and CC BY 4.0 for documentation and original examples.
   12.2 GB working V&V tree remains excluded from the source archive.
 - [x] Tracked files and reachable history were audited, then exported into a
   new one-commit public repository with a GitHub `noreply` author identity.
-- [x] Public documentation links were checked by the strict MkDocs build and
-  the release audit rejects local file URLs and workstation paths.
+- [x] Les liens de documentation Markdown/PDF sont controles par la generation
+  d'artefacts et l'audit de release rejette les URL de fichiers locaux et les
+  chemins de poste.
 - [x] The local `v0.2.0-alpha` tag, changelog section and immutable source
   archive are approved; no remote push is authorized by this checkbox.
 - [x] The project owner triages issues and security reports under the
@@ -62,18 +63,35 @@ copyright and attribution. It does not grant rights to the QF_solver name or
 to third-party materials. It does not provide a warranty, numerical guarantee
 or certification.
 
+## Alpha V&V 0.2.1a0 - 22 August 2026
+
+The next alpha is a V&V-process release built on the immutable `0.2.0a0`
+baseline. The machine-readable release registry is
+`qualification/release_vv_0_2_1.json`, and the local readiness command is:
+
+```powershell
+python .\qf_solver.py release-vv --output .\results\release_vv_0_2_1
+```
+
+The current preflight reports `FAIL` by design: 28 scopes are `PASS`, while
+eight explicitly bounded or research scopes remain outside the stable release
+target. The requested 13-case campaign, final Owner decision and clean Git
+checkout are also still required. This is intentional: passing numerical
+checks and being ready for a release are separate decisions.
+
 ## Scope Communication
 
 Public releases must retain the maturity labels `stable`,
-`stable_after_reinforced_tests`, `experimental` and `research`. They must not
-claim certification. Every release note must state that engineering review and
-application-specific validation remain the user's responsibility.
+`accepted_for_bounded_engineering_use`, `experimental`, `research` and
+`out_of_acceptance` where applicable. They must not claim certification. Every
+release note must state that engineering review and application-specific
+validation remain the user's responsibility.
 
 ## Separation Of Content
 
 The public repository contains only information intended to be public. Private
-working material is kept in a separate local or private repository. A public
-site is documentation, not an access-control mechanism: content that must be
+working material is kept in a separate local or private repository. Public
+documentation is not an access-control mechanism: content that must be
 restricted must not be committed or deployed to it.
 
 ## Alpha Baseline - 13 August 2026
@@ -81,7 +99,7 @@ restricted must not be committed or deployed to it.
 - Full Windows suite: `1117` tests collected, `1039 passed`, `78 skipped`,
   no failure.
 - Mechanical verification: full MITC4 campaign and TET10 campaign, PASS.
-- Documentation: strict MkDocs build, PASS.
+- Documentation: generation Markdown/PDF controlee, PASS.
 - Static analysis: Ruff, controlled mypy gate and `compileall`, PASS.
 - Public-source audit: `1009` files inspected, `0` finding.
 - PyPI distributions: wheel `917988` bytes and source archive `677398`

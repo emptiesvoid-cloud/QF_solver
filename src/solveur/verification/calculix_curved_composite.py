@@ -45,9 +45,13 @@ class CalculixCurvedCompositeCorrelation:
         output_dir: str | Path,
         *,
         image: str = "qf-solver/calculix-nafems13h:2.20",
+        layup: tuple[float, ...] = (0.0, 90.0, 90.0, 0.0),
     ):
         self.output_dir = Path(output_dir).resolve()
         self.image = image
+        self.layup = tuple(float(angle) for angle in layup)
+        if not self.layup:
+            raise ValueError("Curved composite correlation requires at least one ply.")
 
     def run(self) -> dict[str, object]:
         self.output_dir.mkdir(parents=True, exist_ok=True)
@@ -71,8 +75,9 @@ class CalculixCurvedCompositeCorrelation:
                 "element": "S8R COMPOSITE",
             },
             "qf_element": "MITC4 shell_laminate with projected reference_direction",
+            "layup_deg": list(self.layup),
             "comparison_basis": (
-                "Same cylindrical mid-surface, symmetric [0/90/90/0] layup, "
+                f"Same cylindrical mid-surface, layup {list(self.layup)}, "
                 "global axial reference direction, clamp, edge traction and "
                 "transverse edge load."
             ),
@@ -107,10 +112,12 @@ class CalculixCurvedCompositeCorrelation:
         return summary
 
     def _run_mesh(self, nx: int, ny: int) -> dict[str, object]:
-        qf = _solve_qf_curved(nx, ny)
+        qf = _solve_qf_curved(nx, ny, self.layup)
         mesh = build_curved_s8r_mesh(nx, ny)
         stem = f"curved_composite_s8r_{nx}x{ny}"
-        write_curved_calculix_input(self.output_dir / f"{stem}.inp", mesh)
+        write_curved_calculix_input(
+            self.output_dir / f"{stem}.inp", mesh, layup=self.layup
+        )
         self._execute(stem)
         displacement = parse_original_frd_displacement(
             self.output_dir / f"{stem}.frd",
@@ -268,7 +275,7 @@ class CalculixCurvedCompositeCorrelation:
         (self.output_dir / "report.md").write_text("\n".join(lines), encoding="utf-8")
 
 
-def build_curved_s8r_mesh(nx: int, ny: int) -> CurvedS8RMesh:
+def build_curved_s8r_mesh(nx: int, ny: int, *, faceted: bool = False) -> CurvedS8RMesh:
     if nx <= 0 or ny <= 0:
         raise ValueError("Curved S8R mesh dimensions must be positive.")
     length, radius, opening = 1.0, 0.5, radians(60.0)
@@ -287,6 +294,17 @@ def build_curved_s8r_mesh(nx: int, ny: int) -> CurvedS8RMesh:
                     radius * (cos(theta) - cos(0.5 * opening)),
                 )
             )
+    if faceted:
+        for j in range(0, 2 * ny + 1, 2):
+            for i in range(1, 2 * nx, 2):
+                left = np.asarray(coordinates[node_ids[(i - 1, j)] - 1])
+                right = np.asarray(coordinates[node_ids[(i + 1, j)] - 1])
+                coordinates[node_ids[(i, j)] - 1] = tuple(0.5 * (left + right))
+        for j in range(1, 2 * ny, 2):
+            for i in range(0, 2 * nx + 1, 2):
+                lower = np.asarray(coordinates[node_ids[(i, j - 1)] - 1])
+                upper = np.asarray(coordinates[node_ids[(i, j + 1)] - 1])
+                coordinates[node_ids[(i, j)] - 1] = tuple(0.5 * (lower + upper))
     elements = []
     corner_quads = []
     for j in range(ny):
@@ -320,7 +338,15 @@ def build_curved_s8r_mesh(nx: int, ny: int) -> CurvedS8RMesh:
     )
 
 
-def write_curved_calculix_input(path: str | Path, mesh: CurvedS8RMesh) -> Path:
+def write_curved_calculix_input(
+    path: str | Path,
+    mesh: CurvedS8RMesh,
+    *,
+    layup: tuple[float, ...] = (0.0, 90.0, 90.0, 0.0),
+) -> Path:
+    """Write a CalculiX composite-shell deck for the requested layup."""
+    if not layup:
+        raise ValueError("layup must contain at least one ply")
     target = Path(path)
     lines = ["*HEADING", "QF_solver curved composite correlation", "*NODE"]
     lines.extend(
@@ -333,7 +359,11 @@ def write_curved_calculix_input(path: str | Path, mesh: CurvedS8RMesh) -> Path:
         for index, element in enumerate(mesh.elements, start=1)
     )
     lines.extend(["*NSET,NSET=FIXED", *_csv_lines(mesh.fixed_nodes)])
-    for angle, name in ((0.0, "P0"), (90.0, "P90")):
+    orientations = {}
+    for angle in layup:
+        name = f"P{angle:g}".replace("-", "M").replace(".", "_")
+        orientations.setdefault(name, angle)
+    for name, angle in orientations.items():
         lines.extend(
             [
                 f"*ORIENTATION,NAME=ORI{name}",
@@ -350,10 +380,14 @@ def write_curved_calculix_input(path: str | Path, mesh: CurvedS8RMesh) -> Path:
             "*DENSITY",
             "1600.",
             "*SHELL SECTION,ELSET=EALL,COMPOSITE",
-            "2.0e-3,,LAMINA,ORIP0",
-            "2.0e-3,,LAMINA,ORIP90",
-            "2.0e-3,,LAMINA,ORIP90",
-            "2.0e-3,,LAMINA,ORIP0",
+        ]
+    )
+    ply_thickness = 8.0e-3 / len(layup)
+    for angle in layup:
+        name = f"P{angle:g}".replace("-", "M").replace(".", "_")
+        lines.append(f"{ply_thickness:.12g},,LAMINA,ORI{name}")
+    lines.extend(
+        [
             "*BOUNDARY",
             "FIXED,1,6",
             "*STEP",
@@ -369,9 +403,9 @@ def write_curved_calculix_input(path: str | Path, mesh: CurvedS8RMesh) -> Path:
     return target
 
 
-def _solve_qf_curved(nx: int, ny: int) -> dict[str, float]:
+def _solve_qf_curved(nx: int, ny: int, layup: tuple[float, ...]) -> dict[str, float]:
     mesh = _cylindrical_panel(nx, ny)
-    material = _laminate_definition([0.0, 90.0, 90.0, 0.0], 8.0e-3)
+    material = _laminate_definition(list(layup), 8.0e-3)
     material["reference_direction"] = [1.0, 0.0, 0.0]
     left = _nodes_at_x(mesh, 0.0)
     right = _nodes_at_x(mesh, 1.0)

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from mitc4.material import ShellMaterial
+from solveur.elements.shell.mitc4 import ShellMaterial
 
 from solveur.materials.failure import CompositeFailureEvaluator
 from solveur.materials.laminate import LaminateShellMaterial

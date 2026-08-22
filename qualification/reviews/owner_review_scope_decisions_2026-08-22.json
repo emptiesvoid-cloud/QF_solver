@@ -1,0 +1,228 @@
+{
+  "schema_version": 1,
+  "review_id": "OWNER-REVIEW-SCOPE-DECISIONS-2026-08-22",
+  "source_review": "qualification/reviews/owner_review_scope_closure_2026-08-21.json",
+  "revision": "0.2.1-alpha",
+  "status": "owner_decisions_applied_pending_release_audit",
+  "automatic_promotion": false,
+  "owner": "Quentin Farinazzo",
+  "recording_mode": "user_declared_owner_decision_applied_without_handwritten_signature",
+  "decision_date": "2026-08-22",
+  "application": {
+    "date": "2026-08-22",
+    "applied_to": [
+      "qualification/element_analysis_matrix.json",
+      "qualification/maturity_promotion_0_2_1.json",
+      "docs/verification/release_vv_0_2_1_closure_package_2026-08-22.md"
+    ],
+    "release_commit_created": false,
+    "release_tag_created": false,
+    "public_push_done": false,
+    "note": "Application de la decision dans les registres de maturite; la revalidation finale Owner et l'audit de release restent ouverts."
+  },
+  "certification_claim": "none",
+  "scopes": [
+    {
+      "scope": "mitc3-laminate-static",
+      "current_status": "verified_development_external_correlation",
+      "technical_status": "PASS_EXTERNAL_CORRELATION",
+      "owner_decision": "accepted_for_bounded_engineering_use",
+      "owner_observation": "Patch plan [0/90/90/0] accepte dans son domaine; pas de promotion stable.",
+      "next_action": "Ajouter au moins deux layups symetriques : [0/45/45/0] et [45/0/0/45].",
+      "evidence": [
+        "docs/verification/mitc3_laminate_dynamic.md",
+        "qualification/maturity_evidence_0_2_1/mitc3_laminate_static_campaign/summary.json",
+        "qualification/vnv/external/calculix_mitc3_laminate_ply_stress/reference/"
+      ],
+      "recorded_answers": null
+    },
+    {
+      "scope": "mitc3-laminate-dynamic-thin-planar",
+      "current_status": "verified_development_external_correlation",
+      "technical_status": "PASS_EXTERNAL_CORRELATION_DKT",
+      "owner_decision": "stable",
+      "owner_observation": "Stable uniquement pour le sous-perimetre mince, plan, symetrique et sans dommage.",
+      "next_action": "Conserver les niveaux intermediaires >1 % visibles dans la publication.",
+      "evidence": [
+        "docs/verification/mitc3_laminate_dynamic_dkt_thin_owner_review.md",
+        "qualification/vnv/external/code_aster_mitc3_laminate_dynamic_refinement_dkt_2026-08-21/reference/summary.json",
+        "qualification/vnv/mitc3_laminate_temporal_refinement_2026-08-21/summary.json"
+      ],
+      "recorded_answers": null
+    },
+    {
+      "scope": "mitc3-laminate-static-curved-mixed-transverse",
+      "current_status": "owner_accepted_experimental_bounded_use",
+      "technical_status": "PASS_WITH_AXIAL_EXCLUSION",
+      "owner_decision": "stable",
+      "owner_observation": "Stable comme sous-perimetre borne mixte/transverse; les increments proches de 5 % restent une recommandation.",
+      "next_action": "Ajouter une geometrie courbe et un raffinement avant toute extension generale.",
+      "evidence": [
+        "docs/verification/mitc3_laminate_curved_mixed_transverse_stable_owner_review.md",
+        "qualification/maturity_evidence_0_2_1/mitc3_laminate_curved_load_families/summary.json",
+        "qualification/vnv/external/code_aster_mitc3_curved_laminate_refinement_027/reference/"
+      ],
+      "recorded_answers": null
+    },
+    {
+      "scope": "mitc3-laminate-static-curved",
+      "current_status": "owner_accepted_experimental_bounded_use",
+      "technical_status": "BLOCKED_EXTERNAL_COMPARABILITY",
+      "owner_decision": "accepted_for_bounded_engineering_use",
+      "owner_observation": "Domaine axial complet accepte comme usage borne, sans promotion stable.",
+      "next_action": "Ajouter des geometries et une reference externe de formulation comparable.",
+      "evidence": [
+        "docs/verification/mitc3_laminate_curved_stable_owner_review.md",
+        "qualification/vnv/external/mitc3_curved_axial_reference_audit_2026-08-21/",
+        "qualification/vnv/external/calculix_mitc3_curved_laminate_axial_2026-08-21/reference/"
+      ],
+      "recorded_answers": null
+    },
+    {
+      "scope": "tet4-total-lagrangian-structural-v2",
+      "current_status": "owner_accepted / research",
+      "technical_status": "PASS_WITH_INDEPENDENT_REVIEW_REQUIRED",
+      "owner_decision": "more_evidence_required",
+      "owner_observation": "Le scope reste research / more_evidence_required. Deux sondes a 1 152 000 TET4 ont ete arretees pour limite de ressources avant production d'un resultat mecanique.",
+      "next_action": "Implementer une assemblage par blocs, matrix-free ou distribue avant une nouvelle sonde; conserver une revue independante avant toute promotion.",
+      "evidence": [
+        "docs/verification/revue_tet4_total_lagrangian_structural_v2.md",
+        "qualification/vnv/tet4_tl_buckling_h5/reference/summary.json",
+        "qualification/reviews/tet4_total_lagrangian_independent_review_pending.json"
+      ],
+      "recorded_answers": null
+    },
+    {
+      "scope": "tet4-material-nonlinear",
+      "current_status": "experimental",
+      "technical_status": "PASS_EXTERNAL_STRUCTURAL_BOUNDED",
+      "owner_decision": "accepted_for_bounded_engineering_use",
+      "owner_observation": "J2 petites deformations accepte en usage borne.",
+      "next_action": "Planifier chargement, decharge, rechargement, cyclage et correlation structurelle externe pour une version ulterieure.",
+      "evidence": [
+        "docs/verification/tet4_j2_structural_code_aster.md",
+        "qualification/maturity_evidence_0_2_1/tet4_j2.json",
+        "qualification/vnv/external/code_aster_tet4_j2_complex/reference/"
+      ],
+      "recorded_answers": null
+    },
+    {
+      "scope": "tet10-material-nonlinear",
+      "current_status": "owner_accepted_experimental_bounded_use",
+      "technical_status": "PASS_EXTERNAL_STRUCTURAL_BOUNDED",
+      "owner_decision": "accepted_for_bounded_engineering_use",
+      "owner_observation": "J2 TET10 accepte en usage borne, sans extension rupture/dommage/contact.",
+      "next_action": "Ajouter des chemins cycliques et une seconde structure avant une cible stable.",
+      "evidence": [
+        "docs/verification/tet10_j2_complex_code_aster.md",
+        "qualification/maturity_evidence_0_2_1/tet10_j2.json",
+        "qualification/vnv/external/code_aster_tet10_j2_complex/reference/"
+      ],
+      "recorded_answers": null
+    },
+    {
+      "scope": "orthotropic-solid-tet4-tet10",
+      "current_status": "supplementary_scope / accepted_with_recommendations",
+      "technical_status": "PASS_EXTERNAL_CORRELATION",
+      "owner_decision": "stable",
+      "owner_observation": "Stable dans le domaine statique orthotrope homogene documente, apres reconciliation de la valeur historique.",
+      "next_action": "Corriger le document qui cite 1,3293 % et conserver 0,8772 % comme resultat de la campagne CG finale source.",
+      "evidence": [
+        "docs/verification/orthotropic_static_extended_owner_review.md",
+        "qualification/maturity_evidence_0_2_1/orthotropic.json",
+        "qualification/vnv/external/orthotropic_solids/reference/summary.json"
+      ],
+      "recorded_answers": null
+    },
+    {
+      "scope": "orthotropic-solid-modal",
+      "current_status": "supplementary_scope / ready_for_owner_review",
+      "technical_status": "PASS_EXTERNAL_CORRELATION",
+      "owner_decision": "stable",
+      "owner_observation": "Stable pour le domaine modal TET4 orthotrope homogene teste.",
+      "next_action": "Maintenir les exclusions composite pli par pli, orientation courbe continue et dommage.",
+      "evidence": [
+        "qualification/vnv/orthotropic_modal_newmark/reference/summary.json",
+        "qualification/reviews/orthotropic_modal_owner_review_pending.json",
+        "tests/verification/test_orthotropic_modal_newmark_vnv.py"
+      ],
+      "recorded_answers": null
+    },
+    {
+      "scope": "orthotropic-solid-transient-dynamic",
+      "current_status": "supplementary_scope / ready_for_owner_review",
+      "technical_status": "PASS_EXTERNAL_CORRELATION",
+      "owner_decision": "stable",
+      "owner_observation": "Stable pour le domaine Newmark orthotrope homogene teste.",
+      "next_action": "Conserver les limites sur amortissement, non-linearite, dommage et orientation variable.",
+      "evidence": [
+        "qualification/vnv/orthotropic_modal_newmark/reference/summary.json",
+        "qualification/reviews/orthotropic_transient_dynamic_owner_review_pending.json",
+        "tests/verification/test_orthotropic_modal_newmark_vnv.py"
+      ],
+      "recorded_answers": null
+    },
+    {
+      "scope": "contact-v1-linear-static-bounded",
+      "current_status": "owner_accepted / engineering_ready_bounded",
+      "technical_status": "PASS_EXTERNAL_CORRELATION",
+      "owner_decision": "accepted_for_bounded_engineering_use",
+      "owner_observation": "Contact sans frottement accepte en domaine borne.",
+      "next_action": "Ajouter des geometries, branches et validations avant toute stabilite generale.",
+      "evidence": [
+        "docs/verification/revue_contact_v1.md",
+        "qualification/reviews/contact_v1_linear_static_bounded_2026-07-29.json",
+        "results/VNV-CONTACT-ADDITIONAL-MODELS-008/"
+      ],
+      "recorded_answers": null
+    },
+    {
+      "scope": "contact-frictional-static",
+      "current_status": "experimental",
+      "technical_status": "PASS_EXTERNAL_CORRELATION_SLIP_ONLY",
+      "owner_decision": "accepted_for_bounded_engineering_use",
+      "owner_observation": "Frottement accepte en domaine borne, principalement sur la branche slip corrélee.",
+      "next_action": "Renforcer stick, grand glissement, normales actualisees et seconde correlation externe.",
+      "evidence": [
+        "docs/verification/contact_frottement_vnv.md",
+        "qualification/maturity_evidence_0_2_1/contact_frictional_static.json",
+        "qualification/maturity_evidence_0_2_1/contact_frictional_family_survey/summary.json"
+      ],
+      "recorded_answers": null
+    },
+    {
+      "scope": "large-tet4-linear-static",
+      "current_status": "experimental / PASS_INTERNAL_WITH_LIMITATIONS",
+      "technical_status": "PASS_SCALABLE_PIPELINE_WITH_LIMITED_SCALING",
+      "owner_decision": "accepted_for_bounded_engineering_use",
+      "owner_observation": "Grand modele TET4 accepte pour la configuration PETSc/MPI mesuree.",
+      "next_action": "Reporter l'optimisation weak scaling, memoire, partitionnement et plusieurs configurations materielle.",
+      "evidence": [
+        "qualification/maturity_evidence_0_2_1/large_tet4_linear_static.json",
+        "results_large/qualification_matrix_free_1m/large_readiness.md",
+        "tests/integration/test_large_model.py"
+      ],
+      "recorded_answers": null
+    },
+    {
+      "scope": "mitc4-orthotropic-curved-out-of-acceptance",
+      "current_status": "out_of_acceptance",
+      "technical_status": "DIAGNOSTIC_ONLY",
+      "owner_decision": null,
+      "owner_observation": "Hors acceptance; aucune promotion ni decision de maturite.",
+      "next_action": "Conserver uniquement comme diagnostic experimental interne, non publie comme preuve d'acceptation.",
+      "evidence": [
+        "docs/verification/mitc4_stable_package/owner_review.md",
+        "qualification/vnv/mitc4_stable_package_2026-08-21/study.json",
+        "docs/verification/mitc4_same_order_oracle_probe.md"
+      ],
+      "recorded_answers": null
+    }
+  ],
+  "global_notes": [
+    "Les reponses detaillees Q1...Qn restent a revalider dans les fiches individuelles et le PDF de cloture.",
+    "Les niveaux intermediaires superieurs a 1 % restent publies et ne sont pas masques.",
+    "MITC4 orthotrope courbe reste hors acceptance et sans decision de promotion.",
+    "Les registres de maturite ont ete synchronises manuellement avec ce record; aucune promotion automatique n'est autorisee."
+  ]
+}

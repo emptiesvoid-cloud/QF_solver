@@ -99,7 +99,7 @@ un cas BEAM2 cree sans Gmsh :
 - [porte-a-faux modal, Newmark et harmonique](benchmarks/dynamic_cantilever.md);
 - [barre elastoplastique J2](benchmarks/j2_bar.md).
 
-La construction du site relance les onze cas. Un critere stable en echec
+La generation des artefacts documentaires relance les onze cas. Un critere stable en echec
 interrompt la publication. Les cas experimentaux doivent terminer avec des
 criteres `PASS` mais conservent un verdict global `WARNING`.
 

@@ -1,0 +1,26 @@
+{
+  "review_id": "OWNER-REVIEW-DISCRETE-LINEAR-2026-08-20",
+  "review_mode": "owner_review",
+  "status": "accepted_with_recommendations",
+  "scope": ["discrete-linear"],
+  "decision": "accepted_with_recommendations",
+  "promotion_target": "owner_accepted",
+  "responses": {
+    "Q1": "yes",
+    "Q2": "yes: the linear spring-mass domain and its exclusions are explicit.",
+    "Q3": "yes: static, modal, Newmark and harmonic evidence is sufficient without extrapolation to coupled multi-DOF or nonlinear systems.",
+    "Q4": "accepted_with_recommendations"
+  },
+  "evidence": [
+    "qualification/evidence/code_aster_correlation_campaign_2026-08-14/studies/discrete/summary.json",
+    "qualification/evidence/linear_dynamic_families_2026-08-14/spring_mass/summary.json",
+    "qualification/maturity_evidence_0_2_1/beam2_discrete_static.json"
+  ],
+  "certification_claim": "none",
+  "signature": {
+    "name": "Quentin Farinazzo",
+    "mode": "electronic owner_review declaration",
+    "date": "2026-08-20",
+    "declaration": "Decision Owner acceptee pour le domaine borne, sans revendication de certification externe."
+  }
+}

@@ -1,7 +1,7 @@
 {
   "status": "PASS",
   "solver_name": "QF_solver",
-  "solver_version": "0.2.0a0",
+  "solver_version": "0.2.1a0",
   "source_path": "lame_tet10.msh",
   "source_sha256": "f2f18581bfed3beaa8d353d749cdffd17a22de911d7f9947ae55e02dc5b89cf9",
   "setup_path": "result.setup.json",

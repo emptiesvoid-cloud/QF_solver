@@ -15,7 +15,7 @@ borne et MITC3+ disposent de preuves, limites et decisions Owner separees.
 Les priorites restantes sont volontairement de nature publication, evidence
 complementaire ou V2 :
 
-1. terminer la preparation de publication V1 : audit humain de l'historique,
+1. terminer la preparation de publication V1 : `external_audit` de l'historique,
    choix de licence, URLs publiques, archive relue, CI Linux et tag de la
    revision approuvee;
 2. conserver visibles les ecarts MITC4 statiques encore ouverts : audit

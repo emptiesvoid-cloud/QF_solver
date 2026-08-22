@@ -21,9 +21,10 @@
   },
   "cases": [
     {
-      "id": "slip",
+      "id": "slip_200",
       "load_x_n": 200.0,
       "load_z_n": -200.0,
+      "code_aster_tangential_penalty_n_per_m": 10000.0,
       "expected_state": "slip",
       "qf_state": "slip",
       "qf_ux_m": 0.15000000000000002,
@@ -34,29 +35,109 @@
       "code_aster_uz_m": -0.10004997501249376,
       "qf_code_aster_ux_difference": 0.006069922223380756,
       "qf_code_aster_uz_difference": 0.0004995004995003277
+    },
+    {
+      "id": "slip_250",
+      "load_x_n": 250.0,
+      "load_z_n": -200.0,
+      "code_aster_tangential_penalty_n_per_m": 10000.0,
+      "expected_state": "slip",
+      "qf_state": "slip",
+      "qf_ux_m": 0.19999999999999998,
+      "qf_uz_m": -0.10000000000000002,
+      "qf_tangential_force_n": 50.0,
+      "qf_friction_limit_n": 50.0,
+      "code_aster_ux_m": 0.2009160486777338,
+      "code_aster_uz_m": -0.10004997501249376,
+      "qf_code_aster_ux_difference": 0.004559360408302395,
+      "qf_code_aster_uz_difference": 0.0004995004995003277
+    },
+    {
+      "id": "slip_300",
+      "load_x_n": 300.0,
+      "load_z_n": -200.0,
+      "code_aster_tangential_penalty_n_per_m": 10000.0,
+      "expected_state": "slip",
+      "qf_state": "slip",
+      "qf_ux_m": 0.25,
+      "qf_uz_m": -0.10000000000000002,
+      "qf_tangential_force_n": 50.0,
+      "qf_friction_limit_n": 50.0,
+      "code_aster_ux_m": 0.2509160486777338,
+      "code_aster_uz_m": -0.10004997501249376,
+      "qf_code_aster_ux_difference": 0.003650817405108874,
+      "qf_code_aster_uz_difference": 0.0004995004995003277
     }
   ],
   "checks": [
     {
-      "id": "slip_qf_code_aster_ux",
+      "id": "slip_200_qf_code_aster_ux",
       "value": 0.006069922223380756,
       "limit": 0.02,
       "status": "PASS"
     },
     {
-      "id": "normal_penalty_displacement",
+      "id": "slip_200_normal_penalty_displacement",
       "value": 0.0004995004995003277,
       "limit": 0.001,
       "status": "PASS"
     },
     {
-      "id": "qf_slip_branch",
+      "id": "slip_200_qf_slip_branch",
       "value": 0.0,
       "limit": 0.0,
       "status": "PASS"
     },
     {
-      "id": "qf_slip_coulomb_limit",
+      "id": "slip_200_qf_slip_coulomb_limit",
+      "value": 0.0,
+      "limit": 1e-08,
+      "status": "PASS"
+    },
+    {
+      "id": "slip_250_qf_code_aster_ux",
+      "value": 0.004559360408302395,
+      "limit": 0.02,
+      "status": "PASS"
+    },
+    {
+      "id": "slip_250_normal_penalty_displacement",
+      "value": 0.0004995004995003277,
+      "limit": 0.001,
+      "status": "PASS"
+    },
+    {
+      "id": "slip_250_qf_slip_branch",
+      "value": 0.0,
+      "limit": 0.0,
+      "status": "PASS"
+    },
+    {
+      "id": "slip_250_qf_slip_coulomb_limit",
+      "value": 0.0,
+      "limit": 1e-08,
+      "status": "PASS"
+    },
+    {
+      "id": "slip_300_qf_code_aster_ux",
+      "value": 0.003650817405108874,
+      "limit": 0.02,
+      "status": "PASS"
+    },
+    {
+      "id": "slip_300_normal_penalty_displacement",
+      "value": 0.0004995004995003277,
+      "limit": 0.001,
+      "status": "PASS"
+    },
+    {
+      "id": "slip_300_qf_slip_branch",
+      "value": 0.0,
+      "limit": 0.0,
+      "status": "PASS"
+    },
+    {
+      "id": "slip_300_qf_slip_coulomb_limit",
       "value": 0.0,
       "limit": 1e-08,
       "status": "PASS"
@@ -69,6 +150,6 @@
     "Large sliding, updated normals, multiple contacts and dynamic contact are outside this study."
   ],
   "figure_path": "docs/assets/references/contact_friction_code_aster_comparison.png",
-  "figure_sha256": "1cec2877c753c32245e46d423a6104d85aedd511d0738385d46469191b5f7c88",
+  "figure_sha256": "bfa3dd28ab41ab2e76b6083ed8fdd7078af12aa04ae9ec26cd50de442856c819",
   "provenance": "Pinned Docker execution; raw decks and logs are retained in internal ignored evidence."
 }

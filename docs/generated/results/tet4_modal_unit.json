@@ -10,7 +10,7 @@
   "modes": [
     {
       "index": 1,
-      "eigenvalue": 103550295.85798816,
+      "eigenvalue": 103550295.85798815,
       "frequency_hz": 1619.5553821068938,
       "shape": [
         {
@@ -49,7 +49,7 @@
     },
     {
       "index": 2,
-      "eigenvalue": 103550295.85798816,
+      "eigenvalue": 103550295.85798815,
       "frequency_hz": 1619.5553821068938,
       "shape": [
         {
@@ -128,14 +128,14 @@
   ],
   "solver": {
     "mode_count": 3,
-    "max_relative_residual": 0.0,
+    "max_relative_residual": 2.0193754640700194e-16,
     "relative_residuals": [
-      0.0,
-      0.0,
+      2.0193754640700194e-16,
+      2.0193754640700194e-16,
       0.0
     ],
     "mass_orthogonality_error": 0.0,
-    "stiffness_diagonal_error": 0.0,
+    "stiffness_diagonal_error": 5.39108692432493e-17,
     "modal_masses": [
       1.0000000000000002,
       1.0000000000000002,
@@ -175,7 +175,7 @@
     "arpack": {
       "shift_eigenvalue": 0.0,
       "shift_hz": null,
-      "which": "LM",
+      "which": "SM",
       "tolerance": 0.0,
       "maxiter": null,
       "ncv": null
@@ -209,7 +209,7 @@
       "candidate_drilling_dof_count": 0,
       "condensed_drilling_dof_count": 0,
       "retained_dof_count": 3,
-      "drilling_mass_tolerance": 1e-12,
+      "drilling_mass_tolerance": 1e-10,
       "maximum_candidate_mass_row_ratio": 0.0,
       "condensed_mass_coupling_ratio": 0.0,
       "condensed_stiffness_nnz": 3,
@@ -907,7 +907,7 @@
     ],
     "notes": [],
     "qualification": {
-      "solver_version": "0.2.0a0",
+      "solver_version": "0.2.1a0",
       "schema_version": 1,
       "units": {
         "system": "SI"

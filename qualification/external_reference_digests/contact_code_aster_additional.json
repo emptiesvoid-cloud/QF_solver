@@ -84,16 +84,16 @@
           "value": 4.0245584642661925e-16
         },
         {
-          "id": "deformable_tet4_two_slaves:qf_calculix_precontact",
-          "limit": 1e-05,
-          "status": "PASS",
-          "value": 2.1027376317609138e-07
-        },
-        {
           "id": "deformable_tet4_two_slaves:code_aster_transition_curve",
           "limit": 0.05,
           "status": "PASS",
           "value": 0.04339979885207582
+        },
+        {
+          "id": "deformable_tet4_two_slaves:qf_calculix_precontact",
+          "limit": 1e-05,
+          "status": "PASS",
+          "value": 2.1027376317609138e-07
         },
         {
           "id": "deformable_tet4_two_slaves:final_max_abs_gap",
@@ -108,6 +108,7 @@
           -0.09566
         ],
         "code_aster_transition_observation": "Code_Aster closes the second slave at load factor 0.1; the refined-mesh curve difference remains below the accepted 5 percent limit.",
+        "contacts_closed_at_first_sample": false,
         "qf_calculix_precontact_error": 2.1027376317609138e-07,
         "qf_precontact_displacements_m": [
           -0.09255741982647325,
@@ -171,16 +172,16 @@
       "value": 4.0245584642661925e-16
     },
     {
-      "id": "deformable_tet4_two_slaves:qf_calculix_precontact",
-      "limit": 1e-05,
-      "status": "PASS",
-      "value": 2.1027376317609138e-07
-    },
-    {
       "id": "deformable_tet4_two_slaves:code_aster_transition_curve",
       "limit": 0.05,
       "status": "PASS",
       "value": 0.04339979885207582
+    },
+    {
+      "id": "deformable_tet4_two_slaves:qf_calculix_precontact",
+      "limit": 1e-05,
+      "status": "PASS",
+      "value": 2.1027376317609138e-07
     },
     {
       "id": "deformable_tet4_two_slaves:final_max_abs_gap",
@@ -195,7 +196,7 @@
     "role": "independent pre-contact TET4 tie-breaker",
     "version": "2.20"
   },
-  "evidence_manifest_sha256": "3ca7749b7176e2cc8596b76a9cdd82f6bace3abbd12387eae6ee0f096fa687a2",
+  "evidence_manifest_sha256": "74fe7f9edc9bf90ee9210adc1a787429afafdd43e0e25a963bada336da13a253",
   "external_solver": {
     "formulations": [
       "DEFI_CONTACT / LIAISON_UNIL",

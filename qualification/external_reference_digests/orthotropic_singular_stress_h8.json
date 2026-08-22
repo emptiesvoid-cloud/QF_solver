@@ -205,7 +205,7 @@
     }
   ],
   "diagnostic_external_oracle": "CalculiX nodal extrapolated stress on the same mesh",
-  "evidence_manifest_sha256": "23e16a8e000d64b1ed699faefcbeddd92c4619acbbfc0775e7bea5d1853df06d",
+  "evidence_manifest_sha256": "fc5918a75af2c647f93a1478c47615c94478857d03e86fdf1dbba7e7be219bd4",
   "limitations": [
     "The reported scalar is material-axis S11, not an anisotropic failure criterion.",
     "The re-entrant-corner nodal/element peak remains informative only.",

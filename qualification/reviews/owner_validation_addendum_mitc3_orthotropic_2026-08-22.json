@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "review_id": "OWNER-VALIDATION-ADDENDUM-MITC3-ORTHO-2026-08-22",
+  "revision": "0.1",
+  "date": "2026-08-22",
+  "status": "owner_confirmed_applied_pending_final_audit",
+  "owner": "Quentin Farinazzo",
+  "recording_mode": "user_declared_electronic_owner_decision_not_handwritten_signature",
+  "certification_claim": "none",
+  "source_plan": "docs/verification/vnv_plan_mitc3_tet4_orthotropic_2026-08-22.md",
+  "decisions": [
+    {
+      "scope": "mitc3-laminate-dynamic-thin-planar",
+      "decision": "stable",
+      "domain": "MITC3+ laminate [0/90/90/0], planar, thin t/L=0.01, small displacement, modal/Newmark/harmonic",
+      "evidence": "fine modal 0.3940 %, Newmark 0.1968 %, harmonic 0.0880 %, Code_Aster DKT reference",
+      "exclusions": ["thick shells", "curved dynamics", "non-symmetric layups", "calibrated damping", "damage", "delamination"],
+      "application": "Update the review dossier after audit; no automatic general maturity promotion."
+    },
+    {
+      "scope": "mitc3-laminate-static-curved-mixed-transverse",
+      "decision": "stable_bounded",
+      "domain": "Faceted cylindrical panel, [0/90/90/0], projected orientation, mixed and transverse loads",
+      "evidence": "external displacement errors 0.5780 % and 0.4975 %, final increments below 5 %",
+      "exclusions": ["axial curved load family", "continuous curved orientation", "curved dynamics", "S13/S23", "damage", "delamination"],
+      "application": "Update the review dossier after audit; retain the axial family as bounded only."
+    },
+    {
+      "scope": "orthotropic-solid-tet4-tet10-static",
+      "decision": "stable",
+      "domain": "Homogeneous orthotropic 3D solid, constant documented material orientation, linear static",
+      "evidence": "TET4 displacement 0.8772 %, energy 0.8647 %; TET10 displacement 0.2918 %, energy 0.3027 %",
+      "exclusions": ["continuous curved fibre orientation", "ply-by-ply composite", "damage", "anisotropic plasticity", "large deformation", "singular point stresses"],
+      "application": "Update the review dossier after audit; keep the homogeneous static scope explicit."
+    }
+  ],
+  "audit_requirements": [
+    "Verify evidence paths and SHA-256 manifests.",
+    "Revalidate the synchronized maturity ledger and the generated closure PDF.",
+    "Do not promote MITC3 axial curved, TET4 total-Lagrangian or MITC4 orthotropic curved."
+  ]
+}

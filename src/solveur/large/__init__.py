@@ -3,7 +3,7 @@
 from solveur.large.benchmark import benchmark_large_model
 from solveur.large.audit import inspect_large_model
 from solveur.large.campaign import run_large_scale_campaign
-from solveur.large.generator import generate_tet4_block, recommended_block_for_dofs
+from solveur.large.generator import generate_tet4_block, generate_tet4_cantilever_block, recommended_block_for_dofs
 from solveur.large.distributed_model import DistributedLargeModel, load_distributed_large_model
 from solveur.large.io import convert_model_to_large, load_large_model, save_large_model
 from solveur.large.model import LargeModel
@@ -28,6 +28,7 @@ __all__ = [
     "collect_runtime_environment",
     "convert_model_to_large",
     "generate_tet4_block",
+    "generate_tet4_cantilever_block",
     "inspect_large_model",
     "load_large_model",
     "load_distributed_large_model",

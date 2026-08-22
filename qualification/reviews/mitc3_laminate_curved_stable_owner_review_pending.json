@@ -1,0 +1,18 @@
+{
+  "review_id": "OWNER-REVIEW-MITC3-LAM-CURVED-STABLE-PENDING-2026-08-21",
+  "review_mode": "owner_review",
+  "status": "pending_owner_review",
+  "scope": ["mitc3-laminate-static-curved"],
+  "decision": null,
+  "promotion_target": "stable",
+  "questions_document": "docs/verification/mitc3_laminate_curved_stable_owner_review.md",
+  "evidence": [
+    "qualification/vnv/external/code_aster_mitc3_curved_laminate_material_fix_032/reference/summary.json",
+    "qualification/vnv/external/code_aster_mitc3_curved_laminate_material_fix_032/reference/vnv_manifest.json",
+    "qualification/vnv/external/code_aster_mitc3_curved_laminate_material_fix_033/reference/summary.json",
+    "qualification/vnv/external/code_aster_mitc3_curved_laminate_material_fix_033/reference/vnv_manifest.json",
+    "qualification/vnv/external/code_aster_mitc3_curved_laminate_material_fix_034_axial/reference/summary.json",
+    "qualification/vnv/external/code_aster_mitc3_curved_laminate_material_fix_034_axial/reference/vnv_manifest.json"
+  ],
+  "signature": null
+}

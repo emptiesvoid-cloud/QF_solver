@@ -34,10 +34,10 @@
         "static_tip_displacement": 0.0023831809523809514,
         "static_reference": 0.0023831809523809527,
         "static_relative_error": 5.45926907347417e-16,
-        "first_frequency_hz": 10.310168763343665,
+        "first_frequency_hz": 10.31016876334367,
         "euler_bernoulli_frequency_hz": 10.265692153022604,
-        "modal_relative_error": 0.004332548615142836,
-        "modal_residual": 1.884767155227696e-15,
+        "modal_relative_error": 0.004332548615143355,
+        "modal_residual": 1.281432858726099e-14,
         "free_relative_residual": 6.431098710768743e-16
       },
       {
@@ -45,10 +45,10 @@
         "static_tip_displacement": 0.0023831809523809522,
         "static_reference": 0.0023831809523809527,
         "static_relative_error": 1.8197563578247234e-16,
-        "first_frequency_hz": 10.265970102357032,
+        "first_frequency_hz": 10.265970102357235,
         "euler_bernoulli_frequency_hz": 10.265692153022604,
-        "modal_relative_error": 2.7075557135876686e-05,
-        "modal_residual": 7.463063183556538e-15,
+        "modal_relative_error": 2.707555715560304e-05,
+        "modal_residual": 1.3339115187772277e-12,
         "free_relative_residual": 1.8139576113240774e-15
       },
       {
@@ -56,10 +56,10 @@
         "static_tip_displacement": 0.0023831809523809475,
         "static_reference": 0.0023831809523809527,
         "static_relative_error": 2.183707629389668e-15,
-        "first_frequency_hz": 10.261179614354948,
+        "first_frequency_hz": 10.261179614174994,
         "euler_bernoulli_frequency_hz": 10.265692153022604,
-        "modal_relative_error": 0.00043957471161140064,
-        "modal_residual": 7.978053070185381e-14,
+        "modal_relative_error": 0.00043957472914103496,
+        "modal_residual": 5.761960866252549e-11,
         "free_relative_residual": 1.2777175616800192e-14
       },
       {
@@ -67,10 +67,10 @@
         "static_tip_displacement": 0.0023831809523811058,
         "static_reference": 0.0023831809523809527,
         "static_relative_error": 6.423739943121273e-14,
-        "first_frequency_hz": 10.260819169263522,
+        "first_frequency_hz": 10.260819169347869,
         "euler_bernoulli_frequency_hz": 10.265692153022604,
-        "modal_relative_error": 0.00047468633253795484,
-        "modal_residual": 1.569871956611577e-12,
+        "modal_relative_error": 0.0004746863243215822,
+        "modal_residual": 2.2397900635079587e-10,
         "free_relative_residual": 1.200324648779777e-12
       },
       {
@@ -78,16 +78,16 @@
         "static_tip_displacement": 0.0023831809523811517,
         "static_reference": 0.0023831809523809527,
         "static_relative_error": 8.35268168241548e-14,
-        "first_frequency_hz": 10.260787271691893,
+        "first_frequency_hz": 10.260787271617287,
         "euler_bernoulli_frequency_hz": 10.265692153022604,
-        "modal_relative_error": 0.0004777935338015312,
-        "modal_residual": 1.5097736903046054e-11,
+        "modal_relative_error": 0.0004777935410689624,
+        "modal_residual": 2.529658314474128e-09,
         "free_relative_residual": 5.659281234330947e-12
       }
     ],
     "static_reference": 0.0023831809523809527,
     "euler_bernoulli_frequency_hz": 10.265692153022604,
-    "final_modal_increment": 3.10868657392001e-06
+    "final_modal_increment": 3.108702065147965e-06
   },
   "checks": [
     {
@@ -101,7 +101,7 @@
     {
       "id": "beam2-modal-reference",
       "status": "PASS",
-      "value": 0.0004777935338015312,
+      "value": 0.0004777935410689624,
       "limit": 0.02,
       "operator": "less_equal",
       "detail": ""
@@ -109,7 +109,7 @@
     {
       "id": "beam2-modal-increment",
       "status": "PASS",
-      "value": 3.10868657392001e-06,
+      "value": 3.108702065147965e-06,
       "limit": 0.005,
       "operator": "less_equal",
       "detail": ""
@@ -117,7 +117,7 @@
     {
       "id": "beam2-modal-residual",
       "status": "PASS",
-      "value": 1.5097736903046054e-11,
+      "value": 2.529658314474128e-09,
       "limit": 1e-08,
       "operator": "less_equal",
       "detail": ""

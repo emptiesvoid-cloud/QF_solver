@@ -24,5 +24,23 @@ class CodeAsterTet4DynamicsCampaign(CodeAsterTet10DynamicsCampaign):
     deck_stem = "tet4_dynamic"
     require_static_spatial_convergence = False
 
-    def __init__(self, output_dir: str | Path, *, mesh_size: float = 0.60) -> None:
-        super().__init__(output_dir, mesh_size=mesh_size)
+    def __init__(
+        self,
+        output_dir: str | Path,
+        *,
+        mesh_size: float = 0.60,
+        length: float = 4.0,
+        width: float = 0.4,
+        height: float = 0.4,
+    ) -> None:
+        super().__init__(
+            output_dir,
+            mesh_size=mesh_size,
+            length=length,
+            width=width,
+            height=height,
+        )
+
+    def _spatial_mesh_sizes(self) -> tuple[float, float, float, float]:
+        """Use four ordered levels for the TET4 promotion evidence."""
+        return (0.95, self.mesh_size, 0.42, 0.30)

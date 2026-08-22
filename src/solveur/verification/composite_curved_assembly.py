@@ -7,7 +7,7 @@ from pathlib import Path
 
 import numpy as np
 
-from mitc4.mesh import QuadMesh
+from solveur.elements.shell.mitc4.mesh import QuadMesh
 
 from solveur.api import check_mesh, solve_model
 from solveur.core.model import FiniteElementModel
@@ -23,8 +23,11 @@ class CompositeCurvedAssemblyCampaign:
     curved_meshes = ((8, 4), (16, 8), (24, 12), (32, 16))
     folded_meshes = ((8, 2), (16, 4), (24, 6), (32, 8), (48, 12), (64, 16))
 
-    def __init__(self, output_dir: str | Path):
+    def __init__(self, output_dir: str | Path, *, layup: tuple[float, ...] = (0.0, 45.0, -45.0, 90.0)):
         self.output_dir = Path(output_dir).resolve()
+        self.layup = tuple(float(angle) for angle in layup)
+        if not self.layup:
+            raise ValueError("Curved assembly campaign requires at least one ply.")
 
     def run(self) -> dict[str, object]:
         self.output_dir.mkdir(parents=True, exist_ok=True)
@@ -78,6 +81,7 @@ class CompositeCurvedAssemblyCampaign:
             "study_id": self.study_id,
             "status": "PASS_TECHNICAL_VERIFICATION" if passed else "FAIL",
             "maturity": "experimental",
+            "layup_deg": list(self.layup),
             "models": {
                 "curved_panel": curved_runs,
                 "curved_panel_distorted": distorted,
@@ -110,7 +114,7 @@ class CompositeCurvedAssemblyCampaign:
         kind: str,
         verification_profile: str = "engineering",
     ) -> dict[str, object]:
-        material = _laminate_definition([0.0, 45.0, -45.0, 90.0], 8.0e-3)
+        material = _laminate_definition(list(self.layup), 8.0e-3)
         material["reference_direction"] = [1.0, 1.0, 0.0]
         left = _nodes_at_x(mesh, 0.0)
         right = _nodes_at_x(mesh, 1.0)

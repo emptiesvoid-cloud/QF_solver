@@ -1,0 +1,12 @@
+{
+  "review_id": "OWNER-REVIEW-TET4-J2-2026-08-20",
+  "review_mode": "owner_review",
+  "status": "accepted_for_bounded_engineering_use",
+  "scope": ["tet4-material-nonlinear"],
+  "decision": "accepted_for_bounded_engineering_use",
+  "promotion_target": "owner_accepted",
+  "responses": {"Q1": "yes", "Q2": "yes", "Q3": "yes for bounded small-strain J2; external evidence is mainly material-point and not a full structural correlation.", "Q4": "accepted_for_bounded_engineering_use"},
+  "evidence": ["qualification/maturity_evidence_0_2_1/tet4_j2.json"],
+  "certification_claim": "none",
+  "signature": {"name": "Quentin Farinazzo", "mode": "electronic owner_review declaration", "date": "2026-08-20", "declaration": "Decision bounded acceptee; une correlation structurelle externe complete reste requise avant stable."}
+}

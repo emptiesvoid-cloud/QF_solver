@@ -3,19 +3,33 @@
 from __future__ import annotations
 
 import math
-from dataclasses import dataclass
-from typing import Any
 
 import numpy as np
 from scipy.linalg import eigh
-from scipy.sparse import tril, triu
-from scipy.sparse.linalg import ArpackNoConvergence, LinearOperator, eigsh, lobpcg, spsolve_triangular, spilu
+from scipy.sparse import csr_matrix, diags, tril, triu
+from scipy.sparse.linalg import (
+    ArpackNoConvergence,
+    LinearOperator,
+    eigsh,
+    gmres,
+    lobpcg,
+    spsolve_triangular,
+    spsolve,
+    spilu,
+    splu,
+)
 
 from solveur.core.assembler import GlobalAssembler
 from solveur.core.audit import SolverAudit
 from solveur.core.dynamic_reduction import DynamicDofReducer
 from solveur.core.errors import InputValidationError, MeshValidationError, NumericalConvergenceError
 from solveur.core.model import FiniteElementModel
+from solveur.core.modal_options import (
+    ModalSolverOptions,
+    _nonnegative_int_parameter,
+    _positive_int_parameter,
+    _positive_parameter,
+)
 from solveur.core.results import ModalResult
 from solveur.mesh.validation import MeshValidator
 
@@ -58,6 +72,34 @@ class ModalAnalysisSolver:
             mode_count=mode_count,
             system_size=reducer.reduced_size,
         )
+        default_preconditioner = (
+            "spilu" if reducer.diagnostics.get("lazy_condensation", False) else "diagonal"
+        )
+        modal_preconditioner = str(
+            model.analysis.parameters.get("lobpcg_preconditioner", default_preconditioner)
+        )
+        default_drop_tol = 1.0e-6 if reducer.diagnostics.get("lazy_condensation", False) else 1.0e-4
+        default_fill_factor = 20.0 if reducer.diagnostics.get("lazy_condensation", False) else 10.0
+        lobpcg_drop_tol = _positive_parameter(
+            model.analysis.parameters.get("lobpcg_drop_tol", default_drop_tol),
+            "lobpcg_drop_tol",
+        )
+        lobpcg_fill_factor = _positive_parameter(
+            model.analysis.parameters.get("lobpcg_fill_factor", default_fill_factor),
+            "lobpcg_fill_factor",
+        )
+        inner_rtol = _positive_parameter(
+            model.analysis.parameters.get("modal_inner_rtol", 1.0e-8),
+            "modal_inner_rtol",
+        )
+        inner_maxiter = _positive_int_parameter(
+            model.analysis.parameters.get("modal_inner_maxiter", 500),
+            "modal_inner_maxiter",
+        )
+        inner_restart = _positive_int_parameter(
+            model.analysis.parameters.get("modal_inner_restart", 50),
+            "modal_inner_restart",
+        )
         try:
             values, vectors, used_method = self._solve_eigenproblem(
                 kff,
@@ -70,7 +112,13 @@ class ModalAnalysisSolver:
                 tolerance=options.tolerance,
                 maxiter=options.maxiter,
                 ncv=options.ncv,
-                lobpcg_preconditioner=str(model.analysis.parameters.get("lobpcg_preconditioner", "diagonal")),
+                lobpcg_preconditioner=modal_preconditioner,
+                lobpcg_drop_tol=lobpcg_drop_tol,
+                lobpcg_fill_factor=lobpcg_fill_factor,
+                inner_rtol=inner_rtol,
+                inner_maxiter=inner_maxiter,
+                inner_restart=inner_restart,
+                prefer_dense=bool(model.analysis.parameters.get("prefer_dense_modal", False)),
             )
         except InputValidationError:
             raise
@@ -107,6 +155,14 @@ class ModalAnalysisSolver:
         vectors = vectors[:, order]
         if values.size == 0:
             raise NumericalConvergenceError("Modal eigensolve found no positive physical eigenvalue.")
+        refinement_iterations = _nonnegative_int_parameter(
+            model.analysis.parameters.get("modal_eigenpair_refinement_iterations", 0),
+            "modal_eigenpair_refinement_iterations",
+        )
+        refinement = _refine_eigenpairs(
+            kff, mff, values, vectors, iterations=refinement_iterations
+        )
+        values, vectors = refinement["values"], refinement["vectors"]
         influences = {
             direction: reducer.reduce_state(_direction_vector(dofs, direction))
             for direction in ("UX", "UY", "UZ")
@@ -117,6 +173,12 @@ class ModalAnalysisSolver:
         diagnostics["arpack"] = options.to_dict()
         diagnostics["assembly"] = {"stiffness": stiffness_assembly, "mass": mass_assembly}
         diagnostics["dynamic_reduction"] = dict(reducer.diagnostics)
+        diagnostics["eigenpair_refinement"] = {
+            "iterations_requested": refinement_iterations,
+            "iterations_performed": int(refinement["iterations_performed"]),
+            "maximum_residual_before": float(refinement["maximum_residual_before"]),
+            "maximum_residual_after": float(refinement["maximum_residual_after"]),
+        }
         residual_limit = float(model.analysis.parameters.get("modal_residual_failure_tolerance", 1.0e-7))
         if diagnostics["max_relative_residual"] > residual_limit:
             raise NumericalConvergenceError(
@@ -153,9 +215,23 @@ class ModalAnalysisSolver:
         maxiter: int | None = None,
         ncv: int | None = None,
         lobpcg_preconditioner: str = "diagonal",
+        lobpcg_drop_tol: float = 1.0e-4,
+        lobpcg_fill_factor: float = 10.0,
+        inner_rtol: float = 1.0e-8,
+        inner_maxiter: int = 500,
+        inner_restart: int = 50,
+        prefer_dense: bool = False,
     ) -> tuple[np.ndarray, np.ndarray, str]:
+        if prefer_dense and kff.shape[0] <= dense_limit and hasattr(kff, "toarray"):
+            values, vectors = _dense_generalized_eigh(kff, mff, mode_count)
+            return values, vectors, "eigh"
         if method == "lobpcg" and mode_count < kff.shape[0] - 1:
-            preconditioner = _lobpcg_preconditioner(kff, lobpcg_preconditioner)
+            preconditioner = _lobpcg_preconditioner(
+                kff,
+                lobpcg_preconditioner,
+                drop_tol=lobpcg_drop_tol,
+                fill_factor=lobpcg_fill_factor,
+            )
             rng = np.random.default_rng(20260809)
             initial = rng.standard_normal((kff.shape[0], mode_count))
             values, vectors = lobpcg(
@@ -171,29 +247,76 @@ class ModalAnalysisSolver:
             )
             return values, vectors, "lobpcg"
         if method in {"eigsh", "lanczos"} and mode_count < kff.shape[0] - 1:
-            # For the smallest modes, avoid an implicit sparse LU when the
-            # caller explicitly selects SM without a physical shift.
-            sigma = shift if shift != 0.0 or which != "SM" else None
-            values, vectors = eigsh(
-                kff,
-                k=mode_count,
-                M=mff,
-                sigma=sigma,
-                which=which,
-                tol=tolerance,
-                maxiter=maxiter,
-                ncv=ncv,
-            )
-            return values, vectors, "eigsh"
+            # Shift-invert is also required for ordinary reduced sparse matrices.
+            # Falling back to ``which=SM`` makes fine shell models converge very
+            # slowly because the smallest generalized eigenvalues are clustered.
+            sigma = shift if shift != 0.0 else 0.0
+            op_inverse = None
+            if sigma is not None and hasattr(kff, "physical_stiffness"):
+                op_inverse = _shift_inverse_operator(
+                    kff,
+                    mff,
+                    sigma,
+                    preconditioner_name=lobpcg_preconditioner,
+                    drop_tol=lobpcg_drop_tol,
+                    fill_factor=lobpcg_fill_factor,
+                    rtol=inner_rtol,
+                    maxiter=inner_maxiter,
+                    restart=inner_restart,
+                )
+            try:
+                values, vectors = eigsh(
+                    kff,
+                    k=mode_count,
+                    M=mff,
+                    sigma=sigma,
+                    # With shift-invert ARPACK orders eigenvalues by the
+                    # transformed operator; LM returns the modes closest to
+                    # sigma. Passing SM here can stall on fine shell meshes.
+                    which="LM" if sigma is not None else which,
+                    OPinv=op_inverse,
+                    tol=tolerance,
+                    maxiter=maxiter,
+                    ncv=ncv,
+                )
+                return values, vectors, "eigsh"
+            except ArpackNoConvergence:
+                if kff.shape[0] > dense_limit or not hasattr(kff, "toarray"):
+                    raise
+                values, vectors = _dense_generalized_eigh(kff, mff, mode_count)
+                return values, vectors, "eigh"
         if kff.shape[0] > dense_limit:
             raise InputValidationError(
                 f"Dense modal solve refused for {kff.shape[0]} free dofs; limit={dense_limit}. "
                 "Use method='eigsh' and request fewer modes, or raise dense_modal_max_dofs explicitly."
             )
-        dense_k = kff.toarray()
-        dense_m = mff.toarray()
-        values, vectors = eigh(dense_k, dense_m)
-        return values[:mode_count], vectors[:, :mode_count], "eigh"
+        values, vectors = _dense_generalized_eigh(kff, mff, mode_count)
+        return values, vectors, "eigh"
+
+
+def _dense_generalized_eigh(
+    stiffness: object,
+    mass: object,
+    mode_count: int,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Solve a bounded dense modal problem after numerical scaling."""
+    dense_stiffness = np.asarray(stiffness.toarray(), dtype=float)
+    dense_mass = np.asarray(mass.toarray(), dtype=float)
+    mass_diagonal = np.maximum(np.abs(np.diag(dense_mass)), 1.0e-30)
+    inverse_mass_scale = 1.0 / np.sqrt(mass_diagonal)
+    dense_stiffness = (
+        inverse_mass_scale[:, None] * dense_stiffness * inverse_mass_scale[None, :]
+    )
+    dense_mass = inverse_mass_scale[:, None] * dense_mass * inverse_mass_scale[None, :]
+    stiffness_scale = max(float(np.max(np.abs(dense_stiffness), initial=0.0)), 1.0)
+    mass_scale = max(float(np.max(np.abs(dense_mass), initial=0.0)), 1.0)
+    values, vectors = eigh(
+        dense_stiffness / stiffness_scale,
+        dense_mass / mass_scale,
+    )
+    values = values * stiffness_scale / mass_scale
+    vectors = inverse_mass_scale[:, None] * vectors
+    return values[:mode_count], vectors[:, :mode_count]
 
 
 def _preconditioner_diagonal(matrix: object) -> np.ndarray:
@@ -209,7 +332,13 @@ def _preconditioner_diagonal(matrix: object) -> np.ndarray:
     return np.maximum(np.abs(diagonal), 1.0e-12 * scale)
 
 
-def _lobpcg_preconditioner(matrix: object, name: str) -> LinearOperator:
+def _lobpcg_preconditioner(
+    matrix: object,
+    name: str,
+    *,
+    drop_tol: float = 1.0e-4,
+    fill_factor: float = 10.0,
+) -> LinearOperator:
     normalized = str(name).strip().lower()
     if normalized not in {"diagonal", "ssor", "spilu"}:
         raise InputValidationError("lobpcg_preconditioner must be 'diagonal', 'ssor' or 'spilu'.")
@@ -232,11 +361,23 @@ def _lobpcg_preconditioner(matrix: object, name: str) -> LinearOperator:
         physical = getattr(matrix, "physical_stiffness", None)
         if physical is None:
             raise InputValidationError("spilu LOBPCG preconditioning requires a physical stiffness block.")
-        factor = spilu(physical.tocsc(), drop_tol=1.0e-4, fill_factor=10.0)
+        factor = spilu(
+            physical.tocsc(),
+            drop_tol=float(drop_tol),
+            fill_factor=float(fill_factor),
+        )
 
         def apply_factor(vector: np.ndarray) -> np.ndarray:
             values = np.asarray(vector, dtype=float)
-            return factor.solve(values)
+            def solve_symmetric(rhs: np.ndarray) -> np.ndarray:
+                forward = np.asarray(factor.solve(rhs), dtype=float)
+                return np.asarray(factor.solve(forward, trans="T"), dtype=float)
+
+            if values.ndim == 1:
+                return solve_symmetric(values)
+            return np.column_stack(
+                [solve_symmetric(values[:, index]) for index in range(values.shape[1])]
+            )
 
         return LinearOperator(shape=matrix.shape, dtype=float, matvec=apply_factor, matmat=apply_factor)
 
@@ -251,79 +392,169 @@ def _lobpcg_preconditioner(matrix: object, name: str) -> LinearOperator:
     return LinearOperator(shape=matrix.shape, dtype=float, matvec=apply_diagonal, matmat=apply_diagonal)
 
 
-@dataclass(frozen=True)
-class ModalSolverOptions:
-    """Validated sparse eigensolver controls and physical shift metadata."""
+def _shift_inverse_operator(
+    stiffness: object,
+    mass: object,
+    sigma: float,
+    *,
+    preconditioner_name: str,
+    drop_tol: float,
+    fill_factor: float,
+    rtol: float,
+    maxiter: int,
+    restart: int,
+) -> LinearOperator:
+    """Build a memory-bounded inverse for ``K - sigma M``.
 
-    shift_eigenvalue: float = 0.0
-    shift_hz: float | None = None
-    which: str = "LM"
-    tolerance: float = 0.0
-    maxiter: int | None = None
-    ncv: int | None = None
+    A lazy drilling Schur complement cannot be passed to SciPy's default
+    shift-invert factorization.  GMRES applies that operator matrix-free,
+    while the preconditioner is assembled only on the physical stiffness
+    block and therefore does not create the dense Schur transfer matrix.
+    """
+    physical = getattr(stiffness, "physical_stiffness", stiffness)
+    if not hasattr(physical, "tocsr") or not hasattr(mass, "tocsr"):
+        raise InputValidationError("Shift-invert modal solve requires sparse stiffness and mass matrices.")
+    shifted_physical = (physical - sigma * mass).tocsr()
+    shifted_operator = LinearOperator(
+        shape=stiffness.shape,
+        dtype=float,
+        matvec=lambda vector: np.asarray(stiffness @ vector - sigma * (mass @ vector)).ravel(),
+        matmat=lambda vectors: np.asarray(stiffness @ vectors - sigma * (mass @ vectors)),
+    )
+    exact_inverse = _exact_lazy_shift_inverse(stiffness, shifted_physical, max_dofs=6000)
+    if exact_inverse is not None:
+        return exact_inverse
+    preconditioner_matrix = _shifted_preconditioner_matrix(stiffness, shifted_physical)
+    preconditioner = _gmres_preconditioner(
+        preconditioner_matrix,
+        preconditioner_name,
+        drop_tol=drop_tol,
+        fill_factor=fill_factor,
+    )
 
-    @classmethod
-    def from_parameters(
-        cls,
-        parameters: dict[str, Any],
-        *,
-        method: str,
-        mode_count: int,
-        system_size: int,
-    ) -> "ModalSolverOptions":
-        if "modal_shift_hz" in parameters and "modal_shift_eigenvalue" in parameters:
-            raise InputValidationError("Define only one of modal_shift_hz and modal_shift_eigenvalue.")
-        shift_hz = _optional_nonnegative_float(parameters.get("modal_shift_hz"), "modal_shift_hz")
-        if shift_hz is not None:
-            shift = (2.0 * math.pi * shift_hz) ** 2
-        else:
-            shift = _optional_nonnegative_float(
-                parameters.get("modal_shift_eigenvalue"), "modal_shift_eigenvalue"
-            ) or 0.0
-        which = str(parameters.get("arpack_which", "LM")).upper()
-        if which not in {"LM", "SM", "LA", "SA", "BE"}:
-            raise InputValidationError("arpack_which must be one of LM, SM, LA, SA or BE.")
-        tolerance = _optional_nonnegative_float(parameters.get("arpack_tolerance"), "arpack_tolerance") or 0.0
-        maxiter = _optional_positive_int(parameters.get("arpack_maxiter"), "arpack_maxiter")
-        ncv = _optional_positive_int(parameters.get("arpack_ncv"), "arpack_ncv")
-        if ncv is not None and not mode_count < ncv <= system_size:
-            raise InputValidationError(
-                f"arpack_ncv must satisfy modes < arpack_ncv <= free dofs; "
-                f"got modes={mode_count}, arpack_ncv={ncv}, free dofs={system_size}."
+    def solve(vector: np.ndarray) -> np.ndarray:
+        values = np.asarray(vector, dtype=float)
+
+        def solve_one(rhs: np.ndarray) -> np.ndarray:
+            result, info = gmres(
+                shifted_operator,
+                rhs,
+                M=preconditioner,
+                rtol=rtol,
+                atol=0.0,
+                restart=restart,
+                maxiter=maxiter,
             )
-        if shift != 0.0 and method not in {"eigsh", "lanczos"}:
-            raise InputValidationError("A modal shift requires method='eigsh' or method='lanczos'.")
-        return cls(shift, shift_hz, which, tolerance, maxiter, ncv)
+            if info != 0 or not np.all(np.isfinite(result)):
+                raise NumericalConvergenceError(
+                    "Shift-invert GMRES failed for the condensed modal operator: "
+                    f"info={info}."
+                )
+            return np.asarray(result, dtype=float)
 
-    def to_dict(self) -> dict[str, object]:
-        return {
-            "shift_eigenvalue": self.shift_eigenvalue,
-            "shift_hz": self.shift_hz,
-            "which": self.which,
-            "tolerance": self.tolerance,
-            "maxiter": self.maxiter,
-            "ncv": self.ncv,
-        }
+        if values.ndim == 1:
+            return solve_one(values)
+        return np.column_stack([solve_one(values[:, index]) for index in range(values.shape[1])])
+
+    return LinearOperator(shape=stiffness.shape, dtype=float, matvec=solve, matmat=solve)
 
 
-def _optional_nonnegative_float(value: object, name: str) -> float | None:
-    if value is None:
+def _exact_lazy_shift_inverse(
+    stiffness: object,
+    shifted_physical: object,
+    *,
+    max_dofs: int,
+) -> LinearOperator | None:
+    """Factorize an exact sparse Schur complement for controlled-size cases."""
+    if not hasattr(stiffness, "physical_stiffness") or stiffness.shape[0] > max_dofs:
+        return None
+    coupling_pd = getattr(stiffness, "stiffness_pd", None)
+    coupling_dp = getattr(stiffness, "stiffness_dp", None)
+    drilling_factor = getattr(stiffness, "drilling_factor", None)
+    if coupling_pd is None or coupling_dp is None or drilling_factor is None:
         return None
     try:
-        result = float(value)
-    except (TypeError, ValueError) as exc:
-        raise InputValidationError(f"{name} must be a finite non-negative number.") from exc
-    if not np.isfinite(result) or result < 0.0:
-        raise InputValidationError(f"{name} must be a finite non-negative number.")
-    return result
-
-
-def _optional_positive_int(value: object, name: str) -> int | None:
-    if value is None:
+        transfer = np.asarray(drilling_factor.solve(coupling_dp.toarray()), dtype=float)
+        correction = csr_matrix(np.asarray(coupling_pd @ transfer, dtype=float))
+        schur = (shifted_physical - correction).tocsr()
+        schur = (0.5 * (schur + schur.T)).tocsr()
+        factor = splu(schur.tocsc())
+    except (MemoryError, RuntimeError, ValueError, np.linalg.LinAlgError):
         return None
-    if not isinstance(value, int) or isinstance(value, bool) or value <= 0:
-        raise InputValidationError(f"{name} must be a positive integer.")
-    return int(value)
+
+    def solve(values: np.ndarray) -> np.ndarray:
+        array = np.asarray(values, dtype=float)
+        if array.ndim == 1:
+            return np.asarray(factor.solve(array), dtype=float)
+        return np.asarray(factor.solve(array), dtype=float)
+
+    return LinearOperator(shape=stiffness.shape, dtype=float, matvec=solve, matmat=solve)
+
+
+def _shifted_preconditioner_matrix(stiffness: object, shifted_physical: object) -> object:
+    """Build a sparse Schur approximation for a lazy drilling condensation.
+
+    The exact condensed operator applies ``K_pd K_dd^-1 K_dp`` through a
+    sparse factorization.  For the inner GMRES solve, replacing ``K_dd^-1``
+    by its diagonal inverse preserves locality and captures the dominant
+    drilling coupling without materializing the dense transfer matrix.
+    """
+    coupling_pd = getattr(stiffness, "stiffness_pd", None)
+    coupling_dp = getattr(stiffness, "stiffness_dp", None)
+    drilling_diagonal = getattr(stiffness, "drilling_diagonal", None)
+    if coupling_pd is None or coupling_dp is None or drilling_diagonal is None:
+        return shifted_physical
+    diagonal = np.asarray(drilling_diagonal, dtype=float).ravel()
+    if diagonal.size == 0 or not np.all(np.isfinite(diagonal)):
+        return shifted_physical
+    scale = max(float(np.max(np.abs(diagonal), initial=0.0)), 1.0)
+    safe_diagonal = np.where(np.abs(diagonal) > 1.0e-14 * scale, diagonal, 1.0e-14 * scale)
+    correction = coupling_pd @ diags(1.0 / safe_diagonal, format="csr") @ coupling_dp
+    return (shifted_physical - correction).tocsr()
+
+
+def _gmres_preconditioner(
+    matrix: object,
+    name: str,
+    *,
+    drop_tol: float,
+    fill_factor: float,
+) -> LinearOperator:
+    normalized = str(name).strip().lower()
+    if normalized not in {"diagonal", "ssor", "spilu"}:
+        raise InputValidationError("Modal preconditioner must be 'diagonal', 'ssor' or 'spilu'.")
+    if normalized == "spilu":
+        factor = spilu(matrix.tocsc(), drop_tol=drop_tol, fill_factor=fill_factor)
+
+        def apply_ilu(vector: np.ndarray) -> np.ndarray:
+            values = np.asarray(vector, dtype=float)
+            if values.ndim == 1:
+                return np.asarray(factor.solve(values), dtype=float)
+            return np.column_stack(
+                [np.asarray(factor.solve(values[:, index]), dtype=float) for index in range(values.shape[1])]
+            )
+
+        return LinearOperator(shape=matrix.shape, dtype=float, matvec=apply_ilu, matmat=apply_ilu)
+    diagonal = np.asarray(matrix.diagonal(), dtype=float)
+    scale = max(float(np.max(np.abs(diagonal), initial=0.0)), 1.0)
+    diagonal = np.where(np.abs(diagonal) > 1.0e-14 * scale, diagonal, 1.0e-14 * scale)
+    if normalized == "diagonal":
+        return LinearOperator(
+            shape=matrix.shape,
+            dtype=float,
+            matvec=lambda vector: np.asarray(vector, dtype=float) / diagonal,
+            matmat=lambda vectors: np.asarray(vectors, dtype=float) / diagonal[:, None],
+        )
+    lower = tril(matrix, format="csr")
+    upper = triu(matrix, format="csr")
+
+    def apply_ssor(vector: np.ndarray) -> np.ndarray:
+        values = np.asarray(vector, dtype=float)
+        forward = spsolve_triangular(lower, values, lower=True)
+        scaled = forward * diagonal if forward.ndim == 1 else forward * diagonal[:, None]
+        return np.asarray(spsolve_triangular(upper, scaled, lower=False))
+
+    return LinearOperator(shape=matrix.shape, dtype=float, matvec=apply_ssor, matmat=apply_ssor)
 
 
 def _modal_diagnostics(
@@ -357,6 +588,71 @@ def _modal_diagnostics(
         "modal_stiffnesses": [float(value) for value in stiffness_diag],
         "effective_modal_mass": _effective_modal_mass(mass, vectors, influences),
     }
+
+
+def _refine_eigenpairs(
+    stiffness: object,
+    mass: object,
+    values: np.ndarray,
+    vectors: np.ndarray,
+    *,
+    iterations: int,
+) -> dict[str, object]:
+    """Apply bounded inverse/Rayleigh corrections to sparse eigenpairs."""
+    before = _maximum_modal_residual(stiffness, mass, values, vectors)
+    if iterations <= 0 or not hasattr(stiffness, "tocsc") or not hasattr(mass, "tocsc"):
+        return {
+            "values": values,
+            "vectors": vectors,
+            "iterations_performed": 0,
+            "maximum_residual_before": before,
+            "maximum_residual_after": before,
+        }
+    current_values = np.asarray(values, dtype=float).copy()
+    current_vectors = np.asarray(vectors, dtype=float).copy()
+    performed = 0
+    for _ in range(iterations):
+        for index, value in enumerate(current_values):
+            vector = current_vectors[:, index]
+            residual = np.asarray(stiffness @ vector - value * (mass @ vector)).ravel()
+            shift = 1.0e-2 * max(abs(float(value)), 1.0)
+            shifted = (stiffness - (float(value) - shift) * mass).tocsc()
+            try:
+                correction = np.asarray(spsolve(shifted, -residual), dtype=float).ravel()
+            except Exception:
+                correction = np.full_like(vector, np.nan)
+            if not np.all(np.isfinite(correction)):
+                continue
+            correction -= current_vectors @ (current_vectors.T @ (mass @ correction))
+            candidate = vector + correction
+            norm = float(np.sqrt(max(float(candidate @ (mass @ candidate)), 0.0)))
+            if not np.isfinite(norm) or norm <= 0.0:
+                continue
+            candidate /= norm
+            current_vectors[:, index] = candidate
+            current_values[index] = float(candidate @ (stiffness @ candidate))
+        performed += 1
+    after = _maximum_modal_residual(stiffness, mass, current_values, current_vectors)
+    return {
+        "values": current_values,
+        "vectors": current_vectors,
+        "iterations_performed": performed,
+        "maximum_residual_before": before,
+        "maximum_residual_after": after,
+    }
+
+
+def _maximum_modal_residual(
+    stiffness: object, mass: object, values: np.ndarray, vectors: np.ndarray
+) -> float:
+    if values.size == 0:
+        return 0.0
+    return float(
+        max(
+            _relative_modal_residual(stiffness, mass, float(value), vectors[:, index])
+            for index, value in enumerate(values)
+        )
+    )
 
 
 def _relative_modal_residual(stiffness: object, mass: object, value: float, vector: np.ndarray) -> float:

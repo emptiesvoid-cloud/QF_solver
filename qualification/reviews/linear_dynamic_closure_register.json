@@ -4,6 +4,8 @@
   "status": "owner_decisions_recorded",
   "owner_review_template": "qualification/reviews/owner_review_linear_dynamic_template.md",
   "owner_review_dossier": "qualification/reviews/owner_review_linear_dynamics_2026-08-02.md",
+  "stable_promotion_review_dossier": "docs/verification/beam2_discrete_dynamics_stable_owner_review.md",
+  "stable_promotion_review_record": "qualification/reviews/beam2_discrete_dynamics_stable_owner_review_pending.json",
   "principle": "Une campagne interne PASS rend un scope revisable; elle ne constitue pas une decision Owner ni une qualification externe.",
   "common_minimum_evidence": [
     "residu modal et orthogonalites masse/raideur",
@@ -23,8 +25,8 @@
     {"scope": "mitc3-modal", "status": "owner_accepted", "evidence": "qualification/vnv/mitc3_dynamic_code_aster/reference/summary.json", "remaining": ["modal mesh-frequency refinement"]},
     {"scope": "mitc3-transient-dynamic", "status": "owner_accepted", "evidence": "qualification/vnv/mitc3_dynamic_code_aster/reference/summary.json", "remaining": ["modal mesh-frequency refinement"]},
     {"scope": "mitc3-harmonic-response", "status": "owner_accepted", "evidence": "qualification/vnv/mitc3_dynamic_code_aster/reference/summary.json", "remaining": ["modal mesh-frequency refinement"]},
-    {"scope": "beam2-linear-dynamics", "status": "owner_accepted", "evidence": "qualification/vnv/external/code_aster_beam2_transverse/reference/summary.json", "remaining": []},
-    {"scope": "discrete-linear-dynamics", "status": "owner_accepted", "evidence": "qualification/vnv/external/code_aster_discrete/reference/summary.json", "remaining": []}
+    {"scope": "beam2-linear-dynamics", "status": "owner_accepted", "evidence": "qualification/vnv/external/code_aster_beam2_transverse/reference/summary.json", "remaining": ["stable promotion Owner decision"]},
+    {"scope": "discrete-linear-dynamics", "status": "owner_accepted", "evidence": "qualification/vnv/external/code_aster_discrete/reference/summary.json", "remaining": ["stable promotion Owner decision"]}
   ],
   "excluded": [
     "nonlinear dynamic for every family",

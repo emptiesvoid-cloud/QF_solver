@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.2.1a0 - 2026-08-13
+
+Cette alpha consolide le processus de verification et validation de QF_solver.
+Elle conserve la baseline `0.2.0a0` immuable et ne revendique aucune
+certification externe.
+
+- Ajout du registre machine-readable `qualification/release_vv_0_2_1.json`.
+- Ajout de `qf-solver release-vv`, de `run_release_vv()` et d'un pack JSON,
+  Markdown et manifeste SHA-256.
+- Separation explicite entre calcul numeriquement passe, readiness des preuves,
+  revue Owner et statut de publication.
+- Les scopes candidats dont les preuves publiques controlees manquent restent
+  en `WARNING`; ils ne sont pas presentes comme qualifies.
+- Ajout du controle de compatibilite avec le tag `v0.2.0-alpha` et son commit.
+- Retrait de la livraison web et de ses dependances : la documentation de
+  release reste en Markdown, PDF, figures locales et artefacts V&V versionnes.
+- Migration du noyau MITC4 canonique vers
+  `solveur.elements.shell.mitc4`; les imports et la commande historiques
+  restent des facades de compatibilite depreciees en `0.2.x`.
+
 ## 0.2.0a0 - 2026-08-13
 
 Cette version alpha est la premiere publication open source preparee de
@@ -19,7 +39,7 @@ qualification et doivent etre utilisees avec une revue mecanique adaptee.
   usage engineering experimental borne; la tentative modale a 10 000 QUAD4
   conserve une reserve numerique explicite.
 - Adoption d'un layout `src/` pour isoler le paquet installable du repertoire
-  de travail. Le noyau MITC4 historique reste dans `src/mitc4` et l'API
+  de travail. Le noyau MITC4 historique reste sous `src/solveur/elements/shell/mitc4` et l'API
   generaliste dans `src/solveur`.
 - Deplacement du conteneur PETSc/MPI dans `tools/containers/large`; Docker
   reste une aide de reproductibilite optionnelle et ne fait pas partie du

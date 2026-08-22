@@ -25,14 +25,14 @@ def test_element_analysis_matrix_is_complete_and_references_existing_evidence() 
                 assert coverage["scope"] is None
 
 
-def test_element_analysis_matrix_does_not_overclaim_dynamic_or_nonlinear_scope() -> None:
+def test_element_analysis_matrix_matches_current_owner_promotions_and_limits() -> None:
     families = json.loads(MATRIX.read_text(encoding="utf-8"))["families"]
-    assert families["MITC4"]["modal"]["status"] == "owner_accepted"
-    assert families["MITC3"]["modal"]["status"] == "owner_accepted"
-    assert families["TET10"]["harmonic"]["status"] == "owner_accepted"
+    assert families["MITC4"]["modal"]["status"] == "stable"
+    assert families["MITC3"]["modal"]["status"] == "stable"
+    assert families["TET10"]["harmonic"]["status"] == "stable"
     assert "qualification/vnv/linear_dynamic_families/tet10/summary.json" in families["TET10"]["evidence"]
-    assert families["BEAM2"]["transient_newmark"]["status"] == "owner_accepted"
-    assert families["SPRING_MASS"]["harmonic"]["status"] == "owner_accepted"
+    assert families["BEAM2"]["transient_newmark"]["status"] == "stable"
+    assert families["SPRING_MASS"]["harmonic"]["status"] == "stable"
     assert families["TET4"]["nonlinear_dynamic"]["status"] == "unsupported"
     assert families["MITC4"]["material_nonlinear_static"]["status"] == "unsupported"
 

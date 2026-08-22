@@ -1,0 +1,2843 @@
+{
+  "schema_version": 1,
+  "registry_id": "QF-MATURITY-CRITERIA-021-001",
+  "purpose": "Atomic, evidence-driven criteria for maturity promotion in QF_solver 0.2.1 alpha.",
+  "policy": {
+    "required_statuses": ["PASS", "NOT_APPLICABLE"],
+    "owner_review_is_separate": true,
+    "promotion_is_never_automatic": true,
+    "not_comparable_requires_reason": true,
+    "final_relative_error_limit": 0.01,
+    "engineering_primary_observable_limit": 0.01,
+    "engineering_primary_observable_limit_unit": "relative_fraction",
+    "primary_engineering_error_limit": 0.01,
+    "primary_engineering_error_limit_unit": "relative_fraction",
+    "primary_engineering_error_policy": "From QF_solver 0.2.1a0 onward, every primary engineering observable used for V&V or stable promotion must have a relative error <= 1 percent against its declared reference. A value > 1 percent blocks stable promotion unless a formal mechanical justification, reproducible additional refinement, and a dated Owner decision are recorded. Residuals, mesh increments and conditioning diagnostics remain separate acceptance criteria.",
+    "final_relative_error_policy": "From this baseline onward, every primary V&V comparison observable must be <= 1 percent relative error. Stable promotion and closure of a validated scope are blocked when the limit is exceeded, unless a formal mechanical justification, additional convergence study and explicit Owner decision are recorded.",
+    "primary_observable_rule_scope": "all_vv_comparisons_and_stable_promotions",
+    "singularity_policy": "Point peaks at singularities are informative only and cannot be the sole acceptance observable."
+  },
+  "scopes": [
+    {
+      "scope": "tet4-linear-static",
+      "criteria": [
+        {
+          "id": "TET4-LS-C01",
+          "title": "Campagne analytique executable",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/tet4_linear_static.json",
+          "assertions": [
+            {"path": "execution.status", "op": "equals", "expected": "PASS"},
+            {"path": "execution.case_count", "op": "greater_equal", "expected": 13},
+            {"path": "execution.failed_count", "op": "equals", "expected": 0},
+            {"path": "execution.evidence_verified_count", "op": "equals", "expected": 12}
+          ],
+          "reference": "Campagne qualification officielle executable et bundles verifies."
+        },
+        {
+          "id": "TET4-LS-C02",
+          "title": "Convergence multi-niveaux",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/reviews/tet4_linear_isotropic_2026-07-14.json",
+          "assertions": [
+            {"path": "convergence_summary.flexion_mesh_levels", "op": "greater_equal", "expected": 3},
+            {"path": "convergence_summary.traction_mesh_levels", "op": "greater_equal", "expected": 3},
+            {"path": "convergence_summary.compression_mesh_levels", "op": "greater_equal", "expected": 3},
+            {"path": "convergence_summary.torsion_mesh_levels", "op": "greater_equal", "expected": 3}
+          ],
+          "reference": "Revue owner datee et niveaux de maillage documentes."
+        },
+        {
+          "id": "TET4-LS-C03",
+          "title": "Familles de chargement couvertes",
+          "kind": "campaign_cases",
+          "required": true,
+          "source": "qualification/campaign.json",
+          "case_ids": [
+            "SOV-TET4-STATIC-001",
+            "SOV-TET4-COMPRESSION-001",
+            "SOV-TET4-PRESSURE-001",
+            "SOV-TET4-BODY-FORCE-001"
+          ],
+          "reference": "Traction, compression, pression et force volumique."
+        },
+        {
+          "id": "TET4-LS-C04",
+          "title": "Equilibre energie et matrices",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/tet4_linear_static.json",
+          "assertions": [
+            {"path": "static_case.run_verdict", "op": "equals", "expected": "PASS"},
+            {"path": "static_case.audit.equilibrium.free_relative_residual", "op": "less_equal", "expected": 1e-9},
+            {"path": "static_case.audit.equilibrium.force_balance_relative_error", "op": "less_equal", "expected": 1e-12},
+            {"path": "static_case.audit.equilibrium.linear_energy_identity_relative_error", "op": "less_equal", "expected": 1e-9},
+            {"path": "static_case.audit.matrices.1.symmetry_relative_error", "op": "less_equal", "expected": 1e-9}
+          ],
+          "reference": "Resultat strict avec audit d'equilibre, energie et matrice reduite."
+        },
+        {
+          "id": "TET4-LS-C05",
+          "title": "Registre de preuve et couverture des exports",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "qualification/maturity_evidence_0_2_1/tet4_linear_static.json",
+            "qualification/campaign.json",
+            "qualification/reviews/tet4_linear_isotropic_2026-07-14.json",
+            "tests/integration/test_api_and_cli.py",
+            "tests/integration/test_export_formats.py",
+            "docs/verification/maturity_promotion_0_2_1.md"
+          ],
+          "reference": "Resultats JSON, audit, maillage, VTU, manifeste et tests API/CLI/export."
+        },
+        {
+          "id": "TET4-LS-C06",
+          "title": "Oracle externe",
+          "kind": "not_comparable",
+          "required": true,
+          "reason": "La preuve analytique historique reste autoportee pour ses cas unitaires ; la comparaison 3D independante necessaire a la promotion stable est suivie separement par TET4-LS-C09.",
+          "reference": "La correlation externe TETRA10 est maintenant archivee et son ecart TET4 est controle par TET4-LS-C09."
+        },
+        {
+          "id": "TET4-LS-C07",
+          "title": "Porte de stabilite sur la campagne de discretisation corrigee",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/vnv/tet4_structured_petsc_refined_004_docker/summary.json",
+          "assertions": [
+            {"path": "plan.decomposition", "op": "equals", "expected": "centered"},
+            {"path": "plan.load_distribution", "op": "equals", "expected": "surface_consistent"},
+            {"path": "rows.0.relative_residual", "op": "less_equal", "expected": 1e-8},
+            {"path": "rows.0.relative_error", "op": "less_equal", "expected": 0.01},
+            {"path": "criteria.checks.final_relative_error", "op": "equals", "expected": true}
+          ],
+          "reference": "La porte stable exige une erreur finale inferieure ou egale a 1 pour cent apres correction de la decomposition TET4."
+        },
+        {
+          "id": "TET4-LS-C08",
+          "title": "Artefacts de la campagne corrigee",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "qualification/vnv/tet4_structured_petsc_corrected_002/reference/summary.json",
+            "qualification/vnv/tet4_structured_petsc_corrected_002/reference/report.md",
+            "qualification/vnv/tet4_structured_petsc_corrected_002/reference/vnv_manifest.json",
+            "qualification/vnv/tet4_structured_petsc_refined_003/summary.json",
+            "qualification/vnv/tet4_structured_petsc_refined_003/report.md",
+            "qualification/vnv/tet4_structured_petsc_refined_003/vnv_manifest.json",
+            "qualification/vnv/tet4_structured_petsc_refined_004_docker/summary.json",
+            "qualification/vnv/tet4_structured_petsc_refined_004_docker/report.md",
+            "qualification/vnv/tet4_structured_petsc_refined_004_docker/vnv_manifest.json",
+            "qualification/vnv/tet4_static_causal_audit_2026-08-21.json",
+            "qualification/vnv/tet4_tet10_corrected_reference_002/summary.json",
+            "qualification/vnv/tet4_tet10_corrected_reference_002/report.md",
+            "qualification/vnv/tet4_tet10_corrected_reference_002/vnv_manifest.json",
+            "docs/verification/tet4_structured_convergence_campaign.md",
+            "scripts/run_tet4_structured_convergence.py",
+            "src/solveur/large/matrix_free.py",
+            "src/solveur/large/solver.py",
+            "tests/unit/test_tet4_structured_convergence.py"
+          ],
+          "reference": "La correction, son rapport, son manifeste, le runner et le backend matrix-free sont archives."
+        },
+        {
+          "id": "TET4-LS-C09",
+          "title": "Correlation 3D independante de meme ordre",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/vnv/external/code_aster_tet4_static/reference/summary.json",
+          "assertions": [
+            {"path": "model.same_mesh", "op": "equals", "expected": true},
+            {"path": "fine_relative_difference", "op": "less_equal", "expected": 0.01},
+            {"path": "rows.3.finite_results", "op": "equals", "expected": true}
+          ],
+          "reference": "La corrélation primaire est TET4/TETRA4 sur maillage identique; le TETRA10 reste une référence d'ordre supérieur informative et non une identité de formulation."
+        },
+        {
+          "id": "TET4-LS-C10",
+          "title": "Audit causal des ecarts et faisabilite du seuil de 1 pour cent",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/vnv/tet4_error_audit_2026-08-21/summary.json",
+          "assertions": [
+            {"path": "status", "op": "equals", "expected": "PASS_DIAGNOSTIC"},
+            {"path": "conclusion.primary_static_cause", "op": "equals", "expected": "spatial_discretization_low_order_constant_strain"},
+            {"path": "conclusion.static_time_step_cause", "op": "equals", "expected": false},
+            {"path": "conclusion.static_linear_solver_cause", "op": "equals", "expected": false},
+            {"path": "conclusion.under_one_percent_demonstrated", "op": "equals", "expected": true},
+            {"path": "checks.2.status", "op": "equals", "expected": "WARNING"}
+          ],
+          "reference": "La preuve sous 1 pour cent est demontree sur le porte-a-faux documente, tandis que l'increment final de maillage reste suivi comme avertissement avant toute extrapolation generale."
+        }
+      ]
+    },
+    {
+      "scope": "tet4-modal",
+      "criteria": [
+        {
+          "id": "TET4-MOD-C01",
+          "title": "Reference modale analytique et verification interne",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/tet4_linear_dynamics.json",
+          "assertions": [
+            {"path": "internal_family.status", "op": "equals", "expected": "PASS"},
+            {"path": "internal_family.modal.status", "op": "equals", "expected": "PASS"},
+            {"path": "internal_family.modal.max_relative_residual", "op": "less_equal", "expected": 1e-8},
+            {"path": "internal_family.modal.mass_orthogonality_error", "op": "less_equal", "expected": 1e-8},
+            {"path": "internal_family.modal.stiffness_orthogonality_error", "op": "less_equal", "expected": 1e-8}
+          ],
+          "reference": "Oscillateur modal TET4 et invariants d'orthogonalite."
+        },
+        {
+          "id": "TET4-MOD-C02",
+          "title": "Convergence spatiale et correlation Code_Aster",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/tet4_linear_dynamics.json",
+          "assertions": [
+            {"path": "external_code_aster.status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "external_code_aster.same_mesh", "op": "equals", "expected": true},
+            {"path": "external_code_aster.modal.spatial_level_count", "op": "greater_equal", "expected": 3},
+            {"path": "external_code_aster.modal.final_frequency_increment", "op": "less_equal", "expected": 0.01},
+            {"path": "external_code_aster.modal.relative_frequency_error_max", "op": "less_equal", "expected": 0.01}
+          ],
+          "reference": "Correlation modale Code_Aster sur maillage identique."
+        },
+        {
+          "id": "TET4-MOD-C03",
+          "title": "Sorties et tests de regression",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "qualification/maturity_evidence_0_2_1/tet4_linear_dynamics.json",
+            "qualification/campaign.json",
+            "tests/unit/test_analysis_features.py",
+            "tests/integration/test_api_and_cli.py",
+            "tests/integration/test_export_formats.py"
+          ],
+          "reference": "Registre dynamique, campagne, API, exports et tests modaux."
+        }
+      ]
+    },
+    {
+      "scope": "tet4-transient-dynamic",
+      "criteria": [
+        {
+          "id": "TET4-NEW-C01",
+          "title": "Newmark analytique et invariants",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/tet4_linear_dynamics.json",
+          "assertions": [
+            {"path": "internal_family.newmark.status", "op": "equals", "expected": "PASS"},
+            {"path": "internal_family.newmark.relative_rms_error_to_single_mode", "op": "less_equal", "expected": 0.01},
+            {"path": "internal_family.newmark.maximum_energy_drift", "op": "less_equal", "expected": 1e-4},
+            {"path": "internal_family.newmark.maximum_dynamic_residual", "op": "less_equal", "expected": 1e-7}
+          ],
+          "reference": "Vibration libre, conservation d'energie et residu dynamique."
+        },
+        {
+          "id": "TET4-NEW-C02",
+          "title": "Raffinement temporel et correlation historique",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/tet4_linear_dynamics.json",
+          "assertions": [
+            {"path": "external_code_aster.status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "external_code_aster.same_time_grid", "op": "equals", "expected": true},
+            {"path": "external_code_aster.newmark.time_level_count", "op": "greater_equal", "expected": 3},
+            {"path": "external_code_aster.newmark.final_normalized_rms", "op": "less_equal", "expected": 0.01},
+            {"path": "external_code_aster.newmark.relative_history_error_max", "op": "less_equal", "expected": 0.01}
+          ],
+          "reference": "Historique Newmark QF_solver/Code_Aster et pas de temps raffines."
+        },
+        {
+          "id": "TET4-NEW-C03",
+          "title": "Sorties et tests de regression",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "qualification/maturity_evidence_0_2_1/tet4_linear_dynamics.json",
+            "qualification/campaign.json",
+            "tests/unit/test_analysis_features.py",
+            "tests/unit/test_dynamic_checkpoint.py",
+            "tests/integration/test_api_and_cli.py"
+          ],
+          "reference": "Registre dynamique, campagne, checkpoint et API Newmark."
+        }
+      ]
+    },
+    {
+      "scope": "tet4-harmonic-response",
+      "criteria": [
+        {
+          "id": "TET4-HAR-C01",
+          "title": "Limite statique et reponse finie",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/tet4_linear_dynamics.json",
+          "assertions": [
+            {"path": "internal_family.harmonic.status", "op": "equals", "expected": "PASS"},
+            {"path": "internal_family.harmonic.frequency_count", "op": "greater_equal", "expected": 3},
+            {"path": "internal_family.harmonic.zero_frequency_static_error", "op": "less_equal", "expected": 1e-8},
+            {"path": "internal_family.harmonic.maximum_relative_residual", "op": "less_equal", "expected": 1e-8},
+            {"path": "internal_family.harmonic.finite_response", "op": "equals", "expected": true}
+          ],
+          "reference": "Limite a frequence nulle, balayage et controle des valeurs finies."
+        },
+        {
+          "id": "TET4-HAR-C02",
+          "title": "Correlation frequence-reponse Code_Aster",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/tet4_linear_dynamics.json",
+          "assertions": [
+            {"path": "external_code_aster.status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "external_code_aster.same_frequency_grid", "op": "equals", "expected": true},
+            {"path": "external_code_aster.harmonic.frequency_count", "op": "greater_equal", "expected": 3},
+            {"path": "external_code_aster.harmonic.relative_response_error_max", "op": "less_equal", "expected": 0.01},
+            {"path": "external_code_aster.harmonic.finite_response", "op": "equals", "expected": true}
+          ],
+          "reference": "Comparaison amplitude/phase sur la meme grille de frequences."
+        },
+        {
+          "id": "TET4-HAR-C03",
+          "title": "Sorties et tests de regression",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "qualification/maturity_evidence_0_2_1/tet4_linear_dynamics.json",
+            "qualification/campaign.json",
+            "tests/unit/test_analysis_features.py",
+            "tests/integration/test_api_and_cli.py",
+            "tests/integration/test_export_formats.py"
+          ],
+          "reference": "Registre dynamique, campagne, API et exports harmoniques."
+        }
+      ]
+    },
+    {
+      "scope": "beam2-linear-static",
+      "criteria": [
+        {
+          "id": "BEAM2-LS-C01",
+          "title": "Reference analytique et convergence BEAM2",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/beam2_discrete_static.json",
+          "assertions": [
+            {"path": "scopes.beam2-linear-static.benchmark.status", "op": "equals", "expected": "PASS_TECHNICAL_VERIFICATION"},
+            {"path": "scopes.beam2-linear-static.benchmark.element_count_levels", "op": "exists"},
+            {"path": "scopes.beam2-linear-static.benchmark.static_relative_error_max", "op": "less_equal", "expected": 1e-10},
+            {"path": "scopes.beam2-linear-static.benchmark.modal_relative_error_max", "op": "less_equal", "expected": 0.01},
+            {"path": "scopes.beam2-linear-static.benchmark.final_modal_increment", "op": "less_equal", "expected": 0.005},
+            {"path": "scopes.beam2-linear-static.benchmark.modal_residual_max", "op": "less_equal", "expected": 1e-8},
+            {"path": "scopes.beam2-linear-static.benchmark.static_residual_max", "op": "less_equal", "expected": 1e-8},
+            {"path": "scopes.beam2-linear-static.benchmark.finite_results", "op": "equals", "expected": true}
+          ],
+          "reference": "Poutre Timoshenko, cinq niveaux, compliance analytique et limite modale."
+        },
+        {
+          "id": "BEAM2-LS-C02",
+          "title": "Correlation statique externe",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/beam2_discrete_static.json",
+          "assertions": [
+            {"path": "scopes.beam2-linear-static.external_static_correlation.status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "scopes.beam2-linear-static.external_static_correlation.same_mesh", "op": "equals", "expected": true},
+            {"path": "scopes.beam2-linear-static.external_static_correlation.mesh_level_count", "op": "greater_equal", "expected": 3},
+            {"path": "scopes.beam2-linear-static.external_static_correlation.fine_relative_difference", "op": "less_equal", "expected": 0.01},
+            {"path": "scopes.beam2-linear-static.external_static_correlation.qf_final_mesh_increment", "op": "less_equal", "expected": 0.01},
+            {"path": "scopes.beam2-linear-static.external_static_correlation.code_aster_final_mesh_increment", "op": "less_equal", "expected": 0.01},
+            {"path": "scopes.beam2-linear-static.external_static_correlation.all_checks_pass", "op": "equals", "expected": true}
+          ],
+          "reference": "Poutre BEAM2 Timoshenko et POU_D_E Euler-Bernoulli sur le meme maillage, trois niveaux et echelle Code_Aster epinglee."
+        },
+        {
+          "id": "BEAM2-LS-C03",
+          "title": "Dossier et tests BEAM2",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "docs/demonstrations/benchmarks/beam2_cantilever.md",
+            "docs/generated/benchmarks/BM-BEAM2-CANTILEVER-001/benchmark_summary.json",
+            "docs/generated/benchmarks/BM-BEAM2-CANTILEVER-001/benchmark_manifest.json",
+            "tests/verification/test_code_aster_beam2_vnv.py",
+            "qualification/maturity_evidence_0_2_1/beam2_static_code_aster/summary.json",
+            "qualification/maturity_evidence_0_2_1/beam2_static_code_aster/report.md",
+            "qualification/maturity_evidence_0_2_1/beam2_static_code_aster/beam2_static_code_aster.png",
+            "qualification/maturity_evidence_0_2_1/beam2_static_code_aster/vnv_manifest.json",
+            "qualification/reviews/beam2_linear_static_owner_review_2026-08-20.json",
+            "qualification/reviews/beam2_linear_static_owner_review_pending.json"
+          ],
+          "reference": "Benchmark, manifest, figures et tests presents."
+        },
+        {
+          "id": "BEAM2-LS-C04",
+          "title": "Decision Owner statique",
+          "required": true,
+          "source": "qualification/reviews/beam2_linear_static_owner_review_pending.json",
+          "kind": "json_assertions",
+          "assertions": [
+            {"path": "decision", "op": "equals", "expected": "accepted_with_recommendations"},
+            {"path": "promotion_target", "op": "equals", "expected": "stable"},
+            {"path": "signature.name", "op": "equals", "expected": "Quentin Farinazzo"}
+          ],
+          "reason": "Decision Owner datee et cible stable archivees."
+        }
+      ]
+    },
+    {
+      "scope": "discrete-linear",
+      "criteria": [
+        {
+          "id": "DISCRETE-LS-C01",
+          "title": "Correlation statique discrete Code_Aster",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/beam2_discrete_static.json",
+          "assertions": [
+            {"path": "scopes.discrete-linear.external_campaign.status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "scopes.discrete-linear.external_campaign.same_mesh", "op": "equals", "expected": true},
+            {"path": "scopes.discrete-linear.external_campaign.static_displacement_relative_error", "op": "less_equal", "expected": 1e-10},
+            {"path": "scopes.discrete-linear.external_campaign.first_frequency_relative_error", "op": "less_equal", "expected": 1e-10},
+            {"path": "scopes.discrete-linear.external_campaign.newmark_history_relative_error", "op": "less_equal", "expected": 1e-7},
+            {"path": "scopes.discrete-linear.external_campaign.harmonic_response_relative_error", "op": "less_equal", "expected": 1e-7},
+            {"path": "scopes.discrete-linear.external_campaign.finite_results", "op": "equals", "expected": true}
+          ],
+          "reference": "Ressort translatoire et masse ponctuelle, statique, modal, Newmark et harmonique."
+        },
+        {
+          "id": "DISCRETE-LS-C02",
+          "title": "Dossier et limites discrete",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "qualification/evidence/code_aster_correlation_campaign_2026-08-14/studies/discrete/summary.json",
+            "qualification/vnv/external/code_aster_discrete/reference/summary.json",
+            "qualification/vnv/discrete_multidof_2026-08-21/summary.json",
+            "qualification/vnv/discrete_multidof_2026-08-21/report.md",
+            "qualification/vnv/discrete_multidof_2026-08-21/discrete_multidof_results.png",
+            "qualification/vnv/discrete_multidof_2026-08-21/vnv_manifest.json",
+            "docs/verification/discrete_multidof_stable_candidate_2026-08-21.md",
+            "src/solveur/verification/discrete_multidof_campaign.py",
+            "scripts/run_discrete_multidof_campaign.py",
+            "tests/unit/test_discrete_entities.py",
+            "tests/unit/test_discrete_multidof_campaign.py",
+            "tests/verification/test_code_aster_discrete_vnv.py"
+          ],
+          "reference": "Resultats Code_Aster, limites et tests presents."
+        },
+        {
+          "id": "DISCRETE-LS-C03",
+          "title": "Decision Owner discrete",
+          "required": true,
+          "source": "qualification/reviews/discrete_linear_owner_review_pending.json",
+          "kind": "json_assertions",
+          "assertions": [
+            {"path": "decision", "op": "equals", "expected": "accepted_with_recommendations"},
+            {"path": "promotion_target", "op": "equals", "expected": "stable"},
+            {"path": "signature.name", "op": "equals", "expected": "Quentin Farinazzo"}
+          ],
+          "reason": "Decision Owner datee et cible stable archivees."
+        },
+        {
+          "id": "DISCRETE-LS-C04",
+          "title": "Verification multi-DDL independante",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/beam2_discrete_static.json",
+          "assertions": [
+            {"path": "scopes.discrete-linear.multi_dof_assembly.status", "op": "equals", "expected": "PASS_TECHNICAL_VERIFICATION"},
+            {"path": "scopes.discrete-linear.multi_dof_assembly.free_translation_dofs", "op": "greater_equal", "expected": 6},
+            {"path": "scopes.discrete-linear.multi_dof_assembly.static_relative_error", "op": "less_equal", "expected": 1e-10},
+            {"path": "scopes.discrete-linear.multi_dof_assembly.modal_relative_error_max", "op": "less_equal", "expected": 1e-10},
+            {"path": "scopes.discrete-linear.multi_dof_assembly.newmark_history_relative_error", "op": "less_equal", "expected": 1e-10},
+            {"path": "scopes.discrete-linear.multi_dof_assembly.harmonic_response_relative_error_max", "op": "less_equal", "expected": 1e-10},
+            {"path": "scopes.discrete-linear.multi_dof_assembly.energy_drift_max", "op": "less_equal", "expected": 1e-10}
+          ],
+          "reference": "Assemblage de ressorts et masses multi-DDL compare a une reference matricielle independante; la correlation externe mono-DDL reste obligatoire."
+        }
+      ]
+    },
+    {
+      "scope": "tet10-linear-static",
+      "criteria": [
+        {
+          "id": "TET10-LS-C01",
+          "title": "Convergence traction flexion torsion",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/tet10_linear_static.json",
+          "assertions": [
+            {"path": "internal_campaign.status", "op": "equals", "expected": "PASS_TECHNICAL_VERIFICATION"},
+            {"path": "internal_campaign.traction.mesh_level_count", "op": "greater_equal", "expected": 3},
+            {"path": "internal_campaign.bending.mesh_level_count", "op": "greater_equal", "expected": 3},
+            {"path": "internal_campaign.torsion.mesh_level_count", "op": "greater_equal", "expected": 3},
+            {"path": "stable_refinement.mesh_level_count", "op": "greater_equal", "expected": 6},
+            {"path": "stable_refinement.bending.finest_response_error", "op": "less_equal", "expected": 0.01},
+            {"path": "internal_campaign.torsion.finest_stress_error", "op": "less_equal", "expected": 0.01}
+          ],
+          "reference": "Hooke, Timoshenko et Saint-Venant sur quatre niveaux de maillage."
+        },
+        {
+          "id": "TET10-LS-C02",
+          "title": "Equilibre masse charges et post-traitement",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/tet10_linear_static.json",
+          "assertions": [
+            {"path": "static_campaign_case.run_verdict", "op": "equals", "expected": "PASS"},
+            {"path": "static_campaign_case.free_relative_residual", "op": "less_equal", "expected": 1e-8},
+            {"path": "static_campaign_case.force_balance_relative_error", "op": "less_equal", "expected": 1e-8},
+            {"path": "static_campaign_case.linear_energy_identity_relative_error", "op": "less_equal", "expected": 1e-8},
+            {"path": "internal_campaign.mass_modal_loads.mass_relative_error", "op": "less_equal", "expected": 1e-10},
+            {"path": "internal_campaign.mass_modal_loads.pressure_resultant_error", "op": "less_equal", "expected": 1e-10},
+            {"path": "internal_campaign.mass_modal_loads.pressure_moment_error", "op": "less_equal", "expected": 1e-10}
+          ],
+          "reference": "Audit statique, masse coherente et chargement de face T6."
+        },
+        {
+          "id": "TET10-LS-C03",
+          "title": "Correlation externe CalculiX",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/tet10_linear_static.json",
+          "assertions": [
+            {"path": "external_calculix.solver", "op": "equals", "expected": "CalculiX 2.20"},
+            {"path": "external_calculix.element", "op": "equals", "expected": "C3D10"},
+            {"path": "external_calculix.same_mesh", "op": "equals", "expected": true},
+            {"path": "external_calculix.full_displacement_relative_error", "op": "less_equal", "expected": 0.01},
+            {"path": "external_calculix.terminal_rotation_relative_error", "op": "less_equal", "expected": 0.01}
+          ],
+          "reference": "Correlation deplacement/rotation sur connectivite et maillage identiques."
+        },
+        {
+          "id": "TET10-LS-C04",
+          "title": "Sorties et limites documentees",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "qualification/maturity_evidence_0_2_1/tet10_linear_static.json",
+        "qualification/reviews/tet10_linear_2026-07-18.json",
+        "qualification/vnv/tet10_stable_refinement/reference/summary.json",
+        "qualification/vnv/tet10_stable_refinement/reference/report.md",
+      "qualification/vnv/tet10_stable_refinement/reference/vnv_manifest.json",
+      "qualification/vnv/external/code_aster_tet10_static_reference_001/summary.json",
+      "qualification/vnv/external/code_aster_tet10_static_reference_001/report.md",
+      "qualification/vnv/external/code_aster_tet10_static_reference_001/vnv_manifest.json",
+      "output/pdf/tet10_stable_refinement_owner_review.pdf",
+        "scripts/run_tet10_stable_refinement_vnv.py",
+        "scripts/build_tet10_stable_refinement_pdf.py",
+        "docs/verification/revue_tet10_lineaire.md",
+            "tests/unit/test_tet10_element.py",
+            "tests/integration/test_api_and_cli.py",
+            "tests/integration/test_export_formats.py"
+          ],
+          "reference": "Registre, owner review, dossier technique et tests de regression."
+        }
+      ]
+    },
+    {
+      "scope": "tet10-material-nonlinear",
+      "criteria": [
+        {
+          "id": "TET10-J2-C01",
+          "title": "Correlation TET10 J2 de reference",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/tet10_j2.json",
+          "assertions": [
+            {"path": "campaigns.straight_bar.status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "campaigns.straight_bar.same_mesh", "op": "equals", "expected": true},
+            {"path": "campaigns.straight_bar.load_level_count", "op": "greater_equal", "expected": 6},
+            {"path": "campaigns.straight_bar.final_tip_displacement_error", "op": "less_equal", "expected": 0.01},
+            {"path": "campaigns.straight_bar.peeq_path_rms", "op": "less_equal", "expected": 0.01},
+            {"path": "campaigns.straight_bar.maximum_qf_residual", "op": "less_equal", "expected": 1e-7}
+          ],
+          "reference": "Barre TET10 monotone, meme maillage Code_Aster et comparaison deplacement/PEEQ."
+        },
+        {
+          "id": "TET10-J2-C02",
+          "title": "Cas structural complexe a charges combinees",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/tet10_j2.json",
+          "assertions": [
+            {"path": "campaigns.combined_load_l_bracket.status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "campaigns.combined_load_l_bracket.same_mesh", "op": "equals", "expected": true},
+            {"path": "campaigns.combined_load_l_bracket.load_family_count", "op": "greater_equal", "expected": 2},
+            {"path": "campaigns.combined_load_l_bracket.final_tip_displacement_error", "op": "less_equal", "expected": 0.01},
+            {"path": "campaigns.strict_refined_campaign.status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "campaigns.strict_refined_campaign.level_count", "op": "greater_equal", "expected": 3},
+            {"path": "campaigns.strict_refined_campaign.fine_peeq_path_rms", "op": "less_equal", "expected": 0.01},
+            {"path": "campaigns.strict_refined_campaign.fine_maximum_qf_residual", "op": "less_equal", "expected": 1e-7}
+          ],
+          "reference": "Equerre re-entrante TET10 avec charges UX/UY combinees; les singularites restent exclues."
+        },
+        {
+          "id": "TET10-J2-C03",
+          "title": "Artefacts et tests non lineaires",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "docs/verification/tet10_j2_structural_code_aster.md",
+            "docs/verification/tet10_j2_complex_code_aster.md",
+            "qualification/vnv/external/code_aster_tet10_j2_structural/reference/summary.json",
+            "qualification/vnv/external/code_aster_tet10_j2_complex/reference/summary.json",
+            "qualification/vnv/external/code_aster_tet10_j2_complex_refinement_strict/reference/summary.json",
+            "qualification/vnv/external/code_aster_tet10_j2_complex_refinement_strict/reference/refinement_report.md",
+            "qualification/vnv/external/code_aster_tet10_j2_complex_refinement_strict/reference/refinement_convergence.png",
+            "output/pdf/tet10_j2_complex_refined_owner_review.pdf",
+            "qualification/reviews/tet10_j2_structural_code_aster_2026-08-09.json",
+            "tests/unit/test_code_aster_tet10_j2_structural.py",
+            "tests/unit/test_code_aster_tet10_j2_complex.py",
+            "tests/verification/test_tet10_j2_structural_vnv.py"
+          ],
+          "reference": "Dossiers Code_Aster, resultats, revue et tests presents."
+        },
+        {
+          "id": "TET10-J2-C04",
+          "title": "Decision Owner du cas complexe",
+          "required": true,
+          "source": "qualification/reviews/tet10_material_nonlinear_owner_review_2026-08-20.json",
+          "kind": "json_assertions",
+          "assertions": [
+            {"path": "decision", "op": "equals", "expected": "accepted_for_bounded_engineering_use"},
+            {"path": "promotion_target", "op": "equals", "expected": "owner_accepted"},
+            {"path": "signature.name", "op": "equals", "expected": "Quentin Farinazzo"}
+          ],
+          "reason": "Decision Owner datee et cible owner_accepted archivees; stable reste conditionne aux preuves structurelles complementaires."
+        }
+      ]
+    },
+    {
+      "scope": "tet10-modal",
+      "criteria": [
+        {
+          "id": "TET10-MOD-C01",
+          "title": "Invariants modaux internes",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/tet10_linear_dynamics.json",
+          "assertions": [
+            {"path": "internal_family.status", "op": "equals", "expected": "PASS"},
+            {"path": "internal_family.modal.status", "op": "equals", "expected": "PASS"},
+            {"path": "internal_family.modal.max_relative_residual", "op": "less_equal", "expected": 1e-8},
+            {"path": "internal_family.modal.mass_orthogonality_error", "op": "less_equal", "expected": 1e-8},
+            {"path": "internal_family.modal.stiffness_orthogonality_error", "op": "less_equal", "expected": 1e-8}
+          ],
+          "reference": "Campagne TET10 coherente interne."
+        },
+        {
+          "id": "TET10-MOD-C02",
+          "title": "Correlation modale externe",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/tet10_linear_dynamics.json",
+          "assertions": [
+            {"path": "external_correlation.status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "external_correlation.same_mesh", "op": "equals", "expected": true},
+            {"path": "external_correlation.modal_frequency_error_max", "op": "less_equal", "expected": 0.01},
+            {"path": "external_correlation.spatial_mesh_level_count", "op": "greater_equal", "expected": 3},
+            {"path": "external_correlation.all_checks_pass", "op": "equals", "expected": true}
+          ],
+          "reference": "Six frequences TET10/TETRA10 sur maillage identique et trois niveaux spatiaux."
+        },
+        {
+          "id": "TET10-MOD-C03",
+          "title": "Registre et tests",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "qualification/maturity_evidence_0_2_1/tet10_linear_dynamics.json",
+            "qualification/maturity_evidence_0_2_1/tet10_dynamic_code_aster/summary.json",
+            "qualification/maturity_evidence_0_2_1/tet10_dynamic_code_aster/report.md",
+            "qualification/maturity_evidence_0_2_1/tet10_dynamic_code_aster/comparison.png",
+            "qualification/maturity_evidence_0_2_1/tet10_dynamic_code_aster/vnv_manifest.json",
+            "tests/unit/test_tet10_element.py",
+            "tests/unit/test_analysis_features.py",
+            "tests/integration/test_api_and_cli.py"
+          ],
+          "reference": "Preuve interne et tests modaux TET10."
+        }
+      ]
+    },
+    {
+      "scope": "tet10-transient-dynamic",
+      "criteria": [
+        {
+          "id": "TET10-NEW-C01",
+          "title": "Invariants Newmark internes",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/tet10_linear_dynamics.json",
+          "assertions": [
+            {"path": "internal_family.newmark.status", "op": "equals", "expected": "PASS"},
+            {"path": "internal_family.newmark.relative_rms_error_to_single_mode", "op": "less_equal", "expected": 0.01},
+            {"path": "internal_family.newmark.maximum_energy_drift", "op": "less_equal", "expected": 1e-4},
+            {"path": "internal_family.newmark.maximum_dynamic_residual", "op": "less_equal", "expected": 1e-7}
+          ],
+          "reference": "Vibration libre TET10 et invariants d'energie."
+        },
+        {
+          "id": "TET10-NEW-C02",
+          "title": "Raffinement temporel",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/tet10_linear_dynamics.json",
+          "assertions": [
+            {"path": "internal_family.newmark.time_level_count", "op": "greater_equal", "expected": 3},
+            {"path": "internal_family.newmark.time_refinement_error_max", "op": "less_equal", "expected": 0.01},
+            {"path": "external_correlation.time_level_count", "op": "greater_equal", "expected": 3}
+          ],
+          "reference": "Au moins trois pas temporels sont requis pour la promotion."
+        },
+        {
+          "id": "TET10-NEW-C03",
+          "title": "Correlation historique externe",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/tet10_linear_dynamics.json",
+          "assertions": [
+            {"path": "external_correlation.status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "external_correlation.same_time_grid", "op": "equals", "expected": true},
+            {"path": "external_correlation.newmark_history_error_max", "op": "less_equal", "expected": 0.01}
+          ],
+          "reference": "Historique Newmark TET10/QF_solver et Code_Aster sur la meme grille temporelle."
+        },
+        {
+          "id": "TET10-NEW-C02B",
+          "title": "Raffinement temporel final sous la limite d'erreur d'ingenierie",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/tet10_dynamic_refinement_001.json",
+          "assertions": [
+            {"path": "status", "op": "equals", "expected": "PASS"},
+            {"path": "time_level_count", "op": "greater_equal", "expected": 4},
+            {"path": "final_relative_rms_error", "op": "less_equal", "expected": 0.01},
+            {"path": "final_adjacent_time_refinement_error", "op": "less_equal", "expected": 0.01},
+            {"path": "maximum_energy_drift", "op": "less_equal", "expected": 1e-4},
+            {"path": "maximum_dynamic_residual", "op": "less_equal", "expected": 1e-7},
+            {"path": "promotion_target", "op": "equals", "expected": "stable"}
+          ],
+          "reference": "Campagne T/30, T/60, T/120 et T/240; l'increment adjacent final vaut 0,472096 pour cent."
+        },
+        {
+          "id": "TET10-NEW-C04",
+          "title": "Registre et tests",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "qualification/maturity_evidence_0_2_1/tet10_linear_dynamics.json",
+            "qualification/maturity_evidence_0_2_1/tet10_dynamic_code_aster/summary.json",
+            "qualification/maturity_evidence_0_2_1/tet10_dynamic_code_aster/report.md",
+            "qualification/maturity_evidence_0_2_1/tet10_dynamic_code_aster/comparison.png",
+            "qualification/maturity_evidence_0_2_1/tet10_dynamic_code_aster/vnv_manifest.json",
+            "qualification/maturity_evidence_0_2_1/tet10_dynamic_refinement_001.json",
+            "qualification/vnv/external/tet10_dynamic_refinement_001/reference/summary.json",
+            "qualification/vnv/external/tet10_dynamic_refinement_001/reference/controlled_report.md",
+            "qualification/vnv/external/tet10_dynamic_refinement_001/reference/time_refinement.png",
+            "qualification/vnv/external/tet10_dynamic_refinement_001/reference/evidence_manifest.json",
+            "output/pdf/tet10_dynamic_refinement_owner_review.pdf",
+            "tests/unit/test_tet10_element.py",
+            "tests/unit/test_dynamic_checkpoint.py",
+            "tests/integration/test_api_and_cli.py"
+          ],
+          "reference": "Preuve interne, checkpoint et tests Newmark TET10."
+        }
+      ]
+    },
+    {
+      "scope": "tet10-harmonic-response",
+      "criteria": [
+        {
+          "id": "TET10-HAR-C01",
+          "title": "Limite statique et reponse harmonique interne",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/tet10_linear_dynamics.json",
+          "assertions": [
+            {"path": "internal_family.harmonic.status", "op": "equals", "expected": "PASS"},
+            {"path": "internal_family.harmonic.frequency_count", "op": "greater_equal", "expected": 3},
+            {"path": "internal_family.harmonic.zero_frequency_static_error", "op": "less_equal", "expected": 1e-8},
+            {"path": "internal_family.harmonic.maximum_relative_residual", "op": "less_equal", "expected": 1e-8},
+            {"path": "internal_family.harmonic.finite_response", "op": "equals", "expected": true}
+          ],
+          "reference": "Balayage harmonique TET10 et limite a frequence nulle."
+        },
+        {
+          "id": "TET10-HAR-C02",
+          "title": "Correlation harmonique externe",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/tet10_linear_dynamics.json",
+          "assertions": [
+            {"path": "external_correlation.status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "external_correlation.same_frequency_grid", "op": "equals", "expected": true},
+            {"path": "external_correlation.harmonic_response_error_max", "op": "less_equal", "expected": 0.01}
+          ],
+          "reference": "Amplitude et phase harmoniques TET10/QF_solver et Code_Aster hors resonance."
+        },
+        {
+          "id": "TET10-HAR-C03",
+          "title": "Registre et tests",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "qualification/maturity_evidence_0_2_1/tet10_linear_dynamics.json",
+            "qualification/maturity_evidence_0_2_1/tet10_dynamic_code_aster/summary.json",
+            "qualification/maturity_evidence_0_2_1/tet10_dynamic_code_aster/report.md",
+            "qualification/maturity_evidence_0_2_1/tet10_dynamic_code_aster/comparison.png",
+            "qualification/maturity_evidence_0_2_1/tet10_dynamic_code_aster/vnv_manifest.json",
+            "tests/unit/test_tet10_element.py",
+            "tests/unit/test_analysis_features.py",
+            "tests/integration/test_api_and_cli.py"
+          ],
+          "reference": "Preuve interne et tests harmoniques TET10."
+        }
+      ]
+    },
+    {
+      "scope": "mitc3-laminate-static-curved",
+      "criteria": [
+        {
+          "id": "MITC3-LAM-STAT-C01",
+          "title": "Correlation courbe et projection d'orientation",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/mitc3_laminate.json",
+          "assertions": [
+            {"path": "scopes.mitc3-laminate-static-curved.strict_extended_campaign.status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "scopes.mitc3-laminate-static-curved.strict_extended_campaign.mesh_level_count", "op": "greater_equal", "expected": 3},
+            {"path": "scopes.mitc3-laminate-static-curved.strict_extended_campaign.mixed_fine_vector_difference", "op": "less_equal", "expected": 0.01},
+            {"path": "scopes.mitc3-laminate-static-curved.strict_extended_campaign.mixed_qf_final_mesh_increment", "op": "less_equal", "expected": 0.05},
+            {"path": "scopes.mitc3-laminate-static-curved.strict_extended_campaign.mixed_qf_free_residual", "op": "less_equal", "expected": 1e-8},
+            {"path": "scopes.mitc3-laminate-static-curved.strict_extended_campaign_3loads.load_family_count", "op": "greater_equal", "expected": 3},
+            {"path": "scopes.mitc3-laminate-static-curved.strict_extended_campaign_3loads.mixed_fine_vector_difference", "op": "less_equal", "expected": 0.01},
+            {"path": "scopes.mitc3-laminate-static-curved.strict_extended_campaign_3loads.transverse_fine_vector_difference", "op": "less_equal", "expected": 0.01},
+            {"path": "scopes.mitc3-laminate-static-curved.strict_extended_campaign_3loads.axial_fine_vector_difference", "op": "less_equal", "expected": 0.01},
+            {"path": "scopes.mitc3-laminate-static-curved.strict_extended_campaign_3loads.axial_final_mesh_increment_max", "op": "less_equal", "expected": 0.05},
+            {"path": "scopes.mitc3-laminate-static-curved.internal_and_external_campaign.orientation_projection_error_deg", "op": "less_equal", "expected": 1e-4}
+          ],
+          "reference": "Panneau cylindrique facettise, projection par facette, convergence et double oracle externe."
+        },
+        {
+          "id": "MITC3-LAM-STAT-C01B",
+          "title": "Campagne courbe avec contrat materiau unique et porte stable",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/mitc3_laminate.json",
+          "assertions": [
+            {"path": "scopes.mitc3-laminate-static-curved.material_consistent_campaign.material_contract.constants_match", "op": "equals", "expected": true},
+            {"path": "scopes.mitc3-laminate-static-curved.material_consistent_campaign.geometry_count", "op": "equals", "expected": 1},
+            {"path": "scopes.mitc3-laminate-static-curved.material_consistent_campaign.load_family_count", "op": "greater_equal", "expected": 3},
+            {"path": "scopes.mitc3-laminate-static-curved.material_consistent_campaign.stable_one_percent_gate", "op": "equals", "expected": "PASS"},
+            {"path": "scopes.mitc3-laminate-static-curved.material_consistent_campaign.convergence_gate", "op": "equals", "expected": "PASS"},
+            {"path": "scopes.mitc3-laminate-static-curved.material_consistent_campaign.axial_refinement.stable_one_percent_gate", "op": "equals", "expected": "PASS"}
+          ],
+          "reference": "La campagne corrige la duplication des constantes matériau; la convergence axiale doit encore satisfaire la porte stable."
+        },
+        {
+          "id": "MITC3-LAM-STAT-C02",
+          "title": "Revue Owner et artefacts statiques",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "docs/verification/mitc3_laminate_curved_projected.md",
+            "docs/verification/mitc3_laminate_curved_code_aster.md",
+            "qualification/vnv/external/code_aster_mitc3_curved_laminate/reference/summary.json",
+            "results/VNV-MITC3-LAMINATE-CURVED-PROJECTED-CODEASTER-DST-025-R1-96/summary.json",
+            "qualification/reviews/mitc3_laminate_curved_projected_2026-08-09.json",
+            "qualification/reviews/mitc3_laminate_curved_promotion_owner_review_2026-08-20.json",
+            "tests/unit/test_code_aster_mitc3_curved_laminate.py",
+            "qualification/maturity_evidence_0_2_1/mitc3_laminate_curved_load_families/summary.json",
+            "qualification/maturity_evidence_0_2_1/mitc3_laminate_curved_load_families/report.md",
+            "qualification/maturity_evidence_0_2_1/mitc3_laminate_curved_load_families/convergence_qf_code_aster.png",
+            "qualification/maturity_evidence_0_2_1/mitc3_laminate_curved_load_families/curved_laminate_deformation_qf_code_aster.png",
+            "qualification/maturity_evidence_0_2_1/mitc3_laminate_curved_load_families/convergence_qf_code_aster_transverse.png",
+            "qualification/maturity_evidence_0_2_1/mitc3_laminate_curved_load_families/curved_laminate_deformation_qf_code_aster_transverse.png",
+            "qualification/maturity_evidence_0_2_1/mitc3_laminate_curved_load_families/vnv_manifest.json",
+            "qualification/vnv/external/code_aster_mitc3_curved_laminate_refinement_027/reference/summary.json",
+            "qualification/vnv/external/code_aster_mitc3_curved_laminate_refinement_027/reference/report.md",
+            "qualification/vnv/external/code_aster_mitc3_curved_laminate_refinement_027/reference/convergence_qf_code_aster.png",
+            "qualification/vnv/external/code_aster_mitc3_curved_laminate_refinement_027/reference/convergence_qf_code_aster_transverse.png",
+            "qualification/vnv/external/code_aster_mitc3_curved_laminate_refinement_027/reference/vnv_manifest.json",
+            "qualification/vnv/external/code_aster_mitc3_curved_laminate_material_fix_032/reference/summary.json",
+            "qualification/vnv/external/code_aster_mitc3_curved_laminate_material_fix_032/reference/report.md",
+            "qualification/vnv/external/code_aster_mitc3_curved_laminate_material_fix_032/reference/vnv_manifest.json",
+            "qualification/vnv/external/code_aster_mitc3_curved_laminate_material_fix_033/reference/summary.json",
+            "qualification/vnv/external/code_aster_mitc3_curved_laminate_material_fix_033/reference/report.md",
+            "qualification/vnv/external/code_aster_mitc3_curved_laminate_material_fix_033/reference/vnv_manifest.json",
+            "qualification/vnv/external/code_aster_mitc3_curved_laminate_material_fix_034_axial/reference/summary.json",
+            "qualification/vnv/external/code_aster_mitc3_curved_laminate_material_fix_034_axial/reference/report.md",
+            "qualification/vnv/external/code_aster_mitc3_curved_laminate_material_fix_034_axial/reference/vnv_manifest.json",
+            "qualification/vnv/external/calculix_mitc3_curved_laminate_axial_2026-08-21/reference/summary.json",
+            "qualification/vnv/external/calculix_mitc3_curved_laminate_axial_2026-08-21/reference/report.md",
+            "qualification/vnv/external/calculix_mitc3_curved_laminate_axial_2026-08-21/reference/mitc3_curved_composite_calculix_correlation.png",
+            "qualification/vnv/external/calculix_mitc3_curved_laminate_axial_2026-08-21/reference/vnv_manifest.json",
+            "qualification/vnv/external/mitc3_curved_axial_reference_audit_2026-08-21/summary.json",
+            "qualification/vnv/external/mitc3_curved_axial_reference_audit_2026-08-21/report.md",
+            "qualification/vnv/external/mitc3_curved_axial_reference_audit_2026-08-21/axial_external_comparison.png",
+            "qualification/vnv/external/mitc3_curved_axial_reference_audit_2026-08-21/vnv_manifest.json",
+            "docs/assets/generated/mitc3_curved_axial_reference_audit.png",
+            "docs/verification/mitc3_laminate_curved_stable_owner_review.md",
+            "output/pdf/mitc3_laminate_curved_stable_owner_review.pdf"
+          ],
+          "reference": "Rapports, figures, resultats et decision Owner disponibles."
+        },
+        {
+          "id": "MITC3-LAM-STAT-C03",
+          "title": "Decision Owner pour la promotion stable",
+          "kind": "pending",
+          "required": true,
+          "source": "qualification/reviews/mitc3_laminate_curved_stable_owner_review_pending.json",
+          "reason": "La campagne technique est sous les seuils; la promotion stable attend la decision Owner explicite et datee."
+        }
+      ]
+    },
+    {
+      "scope": "mitc3-laminate-dynamic",
+      "criteria": [
+        {
+          "id": "MITC3-LAM-DYN-C01",
+          "title": "Verification dynamique interne et externe",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/mitc3_laminate.json",
+          "assertions": [
+            {"path": "scopes.mitc3-laminate-dynamic.strict_extended_campaign_48x12.execution_status", "op": "equals", "expected": "WARNING_OVER_1_PERCENT"},
+            {"path": "scopes.mitc3-laminate-dynamic.strict_extended_campaign_48x12.mesh_level_count", "op": "greater_equal", "expected": 3},
+            {"path": "scopes.mitc3-laminate-dynamic.strict_extended_campaign_48x12.fine_modal_frequency_error_max", "op": "less_equal", "expected": 0.01},
+            {"path": "scopes.mitc3-laminate-dynamic.strict_extended_campaign_48x12.fine_newmark_history_error", "op": "less_equal", "expected": 0.01},
+            {"path": "scopes.mitc3-laminate-dynamic.strict_extended_campaign_48x12.fine_harmonic_response_error", "op": "less_equal", "expected": 0.01},
+            {"path": "scopes.mitc3-laminate-dynamic.strict_extended_campaign_48x12.fine_qf_modal_residual", "op": "less_equal", "expected": 1e-7},
+            {"path": "scopes.mitc3-laminate-dynamic.strict_extended_campaign_48x12.fine_qf_dynamic_residual", "op": "less_equal", "expected": 1e-7}
+          ],
+          "reference": "Patch, masse coherente, modal, Newmark, harmonique et correlation Code_Aster sur maillage commun."
+        },
+        {
+          "id": "MITC3-LAM-DYN-C02",
+          "title": "Dossier dynamique et tests",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "docs/verification/mitc3_laminate_dynamic.md",
+            "docs/verification/mitc3_laminate_dynamic_strict_owner_review.md",
+            "output/pdf/mitc3_laminate_dynamic_strict_owner_review.pdf",
+            "qualification/maturity_evidence_0_2_1/mitc3_laminate_dynamic_refinement.json",
+            "qualification/maturity_evidence_0_2_1/mitc3_laminate_dynamic_refinement/mesh_8x2/summary.json",
+            "qualification/maturity_evidence_0_2_1/mitc3_laminate_dynamic_refinement/mesh_12x3/summary.json",
+            "qualification/maturity_evidence_0_2_1/mitc3_laminate_dynamic_refinement/mesh_16x4/summary.json",
+            "qualification/vnv/external/code_aster_mitc3_laminate_dynamic_refinement_strict/reference/summary.json",
+            "qualification/vnv/external/code_aster_mitc3_laminate_dynamic_refinement_strict/reference/report.md",
+            "qualification/vnv/external/code_aster_mitc3_laminate_dynamic_refinement_strict/reference/mitc3_laminate_dynamic_refinement.png",
+            "qualification/vnv/external/code_aster_mitc3_laminate_dynamic_refinement_extended_021/reference/summary.json",
+            "qualification/vnv/external/code_aster_mitc3_laminate_dynamic_refinement_extended_021/reference/report.md",
+            "qualification/vnv/external/code_aster_mitc3_laminate_dynamic_refinement_extended_021/reference/mitc3_laminate_dynamic_refinement.png",
+            "qualification/vnv/external/code_aster_mitc3_laminate_dynamic_a_cis_035/reference/summary.json",
+            "qualification/vnv/external/code_aster_mitc3_laminate_dynamic_a_cis_035/reference/report.md",
+            "qualification/vnv/external/code_aster_mitc3_laminate_dynamic_a_cis_035/reference/mitc3_laminate_dynamic_refinement.png",
+            "qualification/vnv/external/code_aster_mitc3_laminate_dynamic_load_fix_036/reference/summary.json",
+            "qualification/vnv/external/code_aster_mitc3_laminate_dynamic_load_fix_036/reference/report.md",
+            "qualification/vnv/external/code_aster_mitc3_laminate_dynamic_load_fix_036/reference/mitc3_laminate_dynamic_refinement.png",
+            "qualification/vnv/external/code_aster_mitc3_laminate_dynamic_refinement_037/reference/summary.json",
+            "qualification/vnv/external/code_aster_mitc3_laminate_dynamic_refinement_037/reference/report.md",
+            "qualification/vnv/external/code_aster_mitc3_laminate_dynamic_refinement_037/reference/mitc3_laminate_code_aster_comparison.png",
+            "docs/verification/mitc3_laminate_dynamic_extended_owner_review.md",
+            "output/pdf/mitc3_laminate_dynamic_extended_owner_review.pdf",
+            "qualification/reviews/mitc3_laminate_dynamic_owner_review_2026-08-20.json",
+            "qualification/evidence/code_aster_correlation_campaign_2026-08-14/studies/mitc3_laminate_dynamic/summary.json",
+        "qualification/vnv/external/code_aster_mitc3_laminate_dynamic/reference/summary.json",
+        "qualification/vnv/mitc3_laminate_temporal_refinement_2026-08-21/summary.json",
+        "qualification/vnv/mitc3_laminate_temporal_refinement_2026-08-21/VNV-MITC3-LAMINATE-TEMPORAL-REFINEMENT-001.md",
+        "qualification/vnv/mitc3_laminate_temporal_refinement_2026-08-21/VNV-MITC3-LAMINATE-TEMPORAL-REFINEMENT-001-convergence.png",
+        "qualification/vnv/mitc3_laminate_temporal_refinement_2026-08-21/vnv_manifest.json",
+        "qualification/vnv/external/code_aster_mitc3_laminate_dynamic_temporal_refinement_2026-08-21/reference/summary.json",
+        "qualification/vnv/external/code_aster_mitc3_laminate_dynamic_temporal_refinement_2026-08-21/reference/report.md",
+        "qualification/vnv/external/code_aster_mitc3_laminate_dynamic_temporal_refinement_2026-08-21/reference/temporal_external_comparison.png",
+        "qualification/vnv/external/code_aster_mitc3_laminate_dynamic_temporal_refinement_2026-08-21/reference/vnv_manifest.json",
+        "qualification/vnv/mitc3_mass_quadrature_audit_2026-08-21/summary.json",
+        "qualification/vnv/mitc3_mass_quadrature_audit_2026-08-21/report.md",
+        "qualification/vnv/mitc3_mass_quadrature_audit_2026-08-21/vnv_manifest.json",
+        "qualification/vnv/mitc3_laminate_abd_audit_2026-08-21/summary.json",
+        "qualification/vnv/mitc3_laminate_abd_audit_2026-08-21/report.md",
+        "qualification/vnv/mitc3_laminate_abd_audit_2026-08-21/vnv_manifest.json",
+        "qualification/vnv/external/code_aster_mitc3_laminate_dynamic_refinement_dkt_2026-08-21/reference/summary.json",
+        "qualification/vnv/external/code_aster_mitc3_laminate_dynamic_refinement_dkt_2026-08-21/reference/report.md",
+        "qualification/vnv/external/code_aster_mitc3_laminate_dynamic_refinement_dkt_2026-08-21/reference/mitc3_laminate_dynamic_refinement.png",
+        "qualification/vnv/external/code_aster_mitc3_laminate_dynamic_refinement_dkt_2026-08-21/reference/vnv_manifest.json",
+        "qualification/reviews/mitc3_laminate_dynamic_dkt_thin_owner_review_pending.json",
+        "docs/verification/mitc3_laminate_dynamic_dkt_thin_owner_review.md",
+        "tests/verification/test_mitc3_laminate_dynamic_vnv.py",
+            "tests/unit/test_code_aster_mitc3_laminate_dynamic.py"
+          ],
+          "reference": "Rapport dynamique et sorties externes presents."
+        },
+        {
+          "id": "MITC3-LAM-DYN-C03",
+          "title": "Convergence spatiale dynamique",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/mitc3_laminate_dynamic_refinement.json",
+          "assertions": [
+            {"path": "status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "mesh_level_count", "op": "greater_equal", "expected": 3},
+            {"path": "mesh_levels.0.status", "op": "equals", "expected": "PASS"},
+            {"path": "mesh_levels.1.status", "op": "equals", "expected": "PASS"},
+            {"path": "mesh_levels.2.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.1.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.2.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.3.status", "op": "equals", "expected": "PASS"}
+          ],
+          "reference": "Trois maillages plans, erreurs modales/Newmark/harmoniques et residus Code_Aster archives."
+        },
+        {
+          "id": "MITC3-LAM-DYN-C04",
+          "title": "Decision Owner dediee",
+          "required": true,
+          "source": "qualification/reviews/mitc3_laminate_dynamic_owner_review_2026-08-20.json",
+          "kind": "json_assertions",
+          "assertions": [
+            {"path": "decision", "op": "equals", "expected": "accepted_for_bounded_engineering_use"},
+            {"path": "promotion_target", "op": "equals", "expected": "owner_accepted"},
+            {"path": "signature.name", "op": "equals", "expected": "Quentin Farinazzo"}
+          ],
+          "reason": "Decision Owner datee et cible owner_accepted archivees; le domaine reste borne."
+        },
+        {
+          "id": "MITC3-LAM-DYN-C05",
+          "title": "Raffinement temporel Newmark independant",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/vnv/mitc3_laminate_temporal_refinement_2026-08-21/summary.json",
+          "assertions": [
+            {"path": "status", "op": "equals", "expected": "PASS_INTERNAL"},
+            {"path": "time_level_count", "op": "greater_equal", "expected": 3},
+            {"path": "time_levels.0.steps_per_period", "op": "greater_equal", "expected": 80},
+            {"path": "time_levels.2.steps_per_period", "op": "greater_equal", "expected": 320},
+            {"path": "time_levels.2.normalized_rms_error", "op": "less_equal", "expected": 0.01},
+            {"path": "checks.strictly_decreasing_error", "op": "equals", "expected": true},
+            {"path": "checks.energy_drift", "op": "equals", "expected": true},
+            {"path": "checks.dynamic_residual", "op": "equals", "expected": true}
+          ],
+          "reference": "Trois niveaux 80/160/320 pas par periode sur un modele MITC3+ fixe; preuve de l'integrateur separee de l'ecart d'operateur externe."
+        },
+        {
+          "id": "MITC3-LAM-DYN-C06",
+          "title": "Diagnostic externe de sensibilite au pas de temps",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/vnv/external/code_aster_mitc3_laminate_dynamic_temporal_refinement_2026-08-21/reference/summary.json",
+          "assertions": [
+            {"path": "status", "op": "equals", "expected": "PASS_DIAGNOSTIC"},
+            {"path": "time_level_count", "op": "greater_equal", "expected": 3},
+            {"path": "stable_gate_status", "op": "equals", "expected": "BLOCKED_OVER_1_PERCENT"},
+            {"path": "checks.6.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.7.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.8.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.9.status", "op": "equals", "expected": "PASS"}
+          ],
+          "reference": "Les trois niveaux temporels externes montrent que l'ecart persistant ne disparait pas avec dt; le diagnostic bloque la promotion mais renforce l'analyse causale."
+        },
+        {
+          "id": "MITC3-LAM-DYN-C07",
+          "title": "Audit independant de quadrature de masse",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/vnv/mitc3_mass_quadrature_audit_2026-08-21/summary.json",
+          "assertions": [
+            {"path": "status", "op": "equals", "expected": "PASS_INDEPENDENT_QUADRATURE"},
+            {"path": "metrics.expanded_relative_difference", "op": "less_equal", "expected": 2e-7},
+            {"path": "metrics.condensed_relative_difference", "op": "less_equal", "expected": 2e-5},
+            {"path": "metrics.translation_mass_relative_errors.component_0", "op": "less_equal", "expected": 1e-12},
+            {"path": "metrics.translation_mass_relative_errors.component_1", "op": "less_equal", "expected": 1e-12},
+            {"path": "metrics.translation_mass_relative_errors.component_2", "op": "less_equal", "expected": 1e-12},
+            {"path": "checks.no_nodal_drilling_inertia", "op": "equals", "expected": true},
+            {"path": "checks.positive_semidefinite", "op": "equals", "expected": true}
+          ],
+          "reference": "Quadrature Duffy independante, bilan de masse translationnelle et controle de drilling; la formulation MITC3+/DST reste distincte."
+        },
+        {
+          "id": "MITC3-LAM-DYN-C08",
+          "title": "Reference DKT du sous-perimetre mince",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/vnv/external/code_aster_mitc3_laminate_dynamic_refinement_dkt_2026-08-21/reference/summary.json",
+          "assertions": [
+            {"path": "status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "modelisation", "op": "equals", "expected": "DKT"},
+            {"path": "mesh_level_count", "op": "greater_equal", "expected": 3},
+            {"path": "mesh_levels.2.modal_error", "op": "less_equal", "expected": 0.01},
+            {"path": "mesh_levels.2.newmark_error", "op": "less_equal", "expected": 0.01},
+            {"path": "mesh_levels.2.harmonic_error", "op": "less_equal", "expected": 0.01},
+            {"path": "mesh_levels.2.qf_modal_residual", "op": "less_equal", "expected": 1e-7},
+            {"path": "mesh_levels.2.qf_dynamic_residual", "op": "less_equal", "expected": 1e-7},
+            {"path": "stable_gate_status", "op": "equals", "expected": "PASS_FOR_THIN_PLANAR_SUBSCOPE"}
+          ],
+          "reference": "Trois niveaux DKT sur stratifie plan mince; le sous-perimetre reste borne et exige une Owner Review dediee."
+        },
+        {
+          "id": "MITC3-LAM-DYN-C10",
+          "title": "Coherence algebrique des matrices K/M condensees",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/vnv/mitc3_matrix_condensation_audit_2026-08-21/summary.json",
+          "assertions": [
+            {"path": "status", "op": "equals", "expected": "PASS_ALGEBRAIC_CONDENSATION"},
+            {"path": "metrics.stiffness_projection_relative_difference", "op": "less_equal", "expected": 1e-12},
+            {"path": "metrics.stiffness_component_sum_relative_difference", "op": "less_equal", "expected": 1e-12},
+            {"path": "metrics.mass_projection_relative_difference", "op": "less_equal", "expected": 1e-12},
+            {"path": "metrics.condensation_stationarity_relative_residual", "op": "less_equal", "expected": 1e-10},
+            {"path": "checks.stiffness_symmetry", "op": "equals", "expected": true},
+            {"path": "checks.mass_symmetry", "op": "equals", "expected": true}
+          ],
+          "reference": "Audit algebrique interne de la projection 20 DDL vers 18 DDL; ne remplace pas une formulation externe de meme ordre."
+        },
+        {
+          "id": "MITC3-LAM-DYN-C11",
+          "title": "Quadrature independante de rigidite MITC3+",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/vnv/mitc3_stiffness_quadrature_audit_2026-08-21/summary.json",
+          "assertions": [
+            {"path": "status", "op": "equals", "expected": "PASS_INDEPENDENT_QUADRATURE"},
+            {"path": "metrics.expanded_total_relative_difference", "op": "less_equal", "expected": 2e-7},
+            {"path": "metrics.condensed_independent_transform_relative_difference", "op": "less_equal", "expected": 2e-7},
+            {"path": "checks.finite_operators", "op": "equals", "expected": true},
+            {"path": "checks.implemented_symmetry", "op": "equals", "expected": true},
+            {"path": "checks.independent_symmetry", "op": "equals", "expected": true}
+          ],
+          "reference": "Quadrature Duffy independante de K; elle verifie l'integration et non l'identite de formulation avec DST."
+        },
+        {
+          "id": "MITC3-LAM-DYN-C12",
+          "title": "Audit independant des operateurs stratifies A/B/D et orientation",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/vnv/mitc3_laminate_abd_audit_2026-08-21/summary.json",
+          "assertions": [
+            {"path": "status", "op": "equals", "expected": "PASS_INDEPENDENT_ABD"},
+            {"path": "checks.symmetric_abd_matches_independent_quadrature", "op": "equals", "expected": true},
+            {"path": "checks.unsymmetric_abd_matches_independent_quadrature", "op": "equals", "expected": true},
+            {"path": "checks.abd_positive_definite", "op": "equals", "expected": true},
+            {"path": "checks.orientation_projection_exact", "op": "equals", "expected": true},
+            {"path": "checks.orientation_material_matrix_matches", "op": "equals", "expected": true}
+          ],
+          "reference": "Quadrature Gauss-Legendre independante dans l'epaisseur, couplage B symetrique/non symetrique et projection d'orientation."
+        }
+      ]
+    },
+    {
+      "scope": "mitc3-laminate-dynamic-thin-planar",
+      "criteria": [
+        {
+          "id": "MITC3-LAM-DYN-THIN-C01",
+          "title": "Correlation DKT du sous-perimetre mince plan",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/vnv/external/code_aster_mitc3_laminate_dynamic_refinement_dkt_2026-08-21/reference/summary.json",
+          "assertions": [
+            {"path": "status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "modelisation", "op": "equals", "expected": "DKT"},
+            {"path": "mesh_level_count", "op": "greater_equal", "expected": 3},
+            {"path": "mesh_levels.2.modal_error", "op": "less_equal", "expected": 0.01},
+            {"path": "mesh_levels.2.newmark_error", "op": "less_equal", "expected": 0.01},
+            {"path": "mesh_levels.2.harmonic_error", "op": "less_equal", "expected": 0.01},
+            {"path": "mesh_levels.2.qf_modal_residual", "op": "less_equal", "expected": 1e-7},
+            {"path": "mesh_levels.2.qf_dynamic_residual", "op": "less_equal", "expected": 1e-7}
+          ],
+          "reference": "Trois niveaux DKT sur stratifié plan mince; la référence reste explicitement distincte de DST."
+        },
+        {
+          "id": "MITC3-LAM-DYN-THIN-C02",
+          "title": "Dossier de preuve et limites du sous-perimetre",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "qualification/vnv/external/code_aster_mitc3_laminate_dynamic_refinement_dkt_2026-08-21/reference/summary.json",
+            "qualification/vnv/external/code_aster_mitc3_laminate_dynamic_refinement_dkt_2026-08-21/reference/report.md",
+            "qualification/vnv/external/code_aster_mitc3_laminate_dynamic_refinement_dkt_2026-08-21/reference/mitc3_laminate_dynamic_refinement.png",
+            "qualification/vnv/external/code_aster_mitc3_laminate_dynamic_refinement_dkt_2026-08-21/reference/vnv_manifest.json",
+            "qualification/vnv/mitc3_laminate_temporal_refinement_2026-08-21/summary.json",
+            "qualification/vnv/mitc3_mass_quadrature_audit_2026-08-21/summary.json",
+            "docs/verification/mitc3_laminate_dynamic_dkt_thin_owner_review.md",
+            "qualification/reviews/mitc3_laminate_dynamic_dkt_thin_owner_review_pending.json"
+          ],
+          "reference": "Rapport, figure, manifeste, controle temporel et audit de masse sont archives."
+        },
+        {
+          "id": "MITC3-LAM-DYN-THIN-C03",
+          "title": "Decision Owner de promotion stable",
+          "kind": "owner_review",
+          "required": true,
+          "source": "qualification/reviews/mitc3_laminate_dynamic_dkt_thin_owner_review_pending.json",
+          "assertions": [
+            {"path": "scope", "op": "equals", "expected": "mitc3-laminate-dynamic-thin-planar"},
+            {"path": "decision", "op": "equals", "expected": "accepted_with_recommendations"},
+            {"path": "promotion_target", "op": "equals", "expected": "stable"},
+            {"path": "signature.name", "op": "equals", "expected": "Quentin Farinazzo"},
+            {"path": "signature.date", "op": "exists"}
+          ],
+          "reference": "La promotion stable du sous-perimetre reste subordonnee a une Owner Review datee et signee."
+        }
+      ]
+    },
+    {
+      "scope": "mitc3-laminate-static-curved-mixed-transverse",
+      "criteria": [
+        {
+          "id": "MITC3-LAM-STAT-CURVE-MT-C01",
+          "title": "Correlation courbe mixte et transverse sous 1 pour cent",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/mitc3_laminate.json",
+          "assertions": [
+            {"path": "scopes.mitc3-laminate-static-curved.strict_extended_campaign.status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "scopes.mitc3-laminate-static-curved.strict_extended_campaign.mesh_level_count", "op": "greater_equal", "expected": 3},
+            {"path": "scopes.mitc3-laminate-static-curved.strict_extended_campaign.mixed_fine_vector_difference", "op": "less_equal", "expected": 0.01},
+            {"path": "scopes.mitc3-laminate-static-curved.strict_extended_campaign.transverse_fine_vector_difference", "op": "less_equal", "expected": 0.01},
+            {"path": "scopes.mitc3-laminate-static-curved.strict_extended_campaign.mixed_qf_final_mesh_increment", "op": "less_equal", "expected": 0.05},
+            {"path": "scopes.mitc3-laminate-static-curved.strict_extended_campaign.transverse_qf_final_mesh_increment", "op": "less_equal", "expected": 0.05},
+            {"path": "scopes.mitc3-laminate-static-curved.strict_extended_campaign.mixed_qf_free_residual", "op": "less_equal", "expected": 1e-8},
+            {"path": "scopes.mitc3-laminate-static-curved.internal_and_external_campaign.orientation_projection_error_deg", "op": "less_equal", "expected": 1e-4}
+          ],
+          "reference": "Le sous-scope exclut explicitement le chargement axial dont la convergence et la comparabilite restent ouvertes."
+        },
+        {
+          "id": "MITC3-LAM-STAT-CURVE-MT-C02",
+          "title": "Artefacts de preuve du sous-scope courbe",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "qualification/maturity_evidence_0_2_1/mitc3_laminate.json",
+            "qualification/maturity_evidence_0_2_1/mitc3_laminate_curved_load_families/summary.json",
+            "qualification/maturity_evidence_0_2_1/mitc3_laminate_curved_load_families/report.md",
+            "qualification/maturity_evidence_0_2_1/mitc3_laminate_curved_load_families/vnv_manifest.json",
+            "qualification/vnv/external/code_aster_mitc3_curved_laminate_refinement_027/reference/summary.json",
+            "qualification/vnv/external/code_aster_mitc3_curved_laminate_refinement_027/reference/vnv_manifest.json",
+            "docs/verification/mitc3_laminate_curved_mixed_transverse_stable_owner_review.md",
+            "qualification/reviews/mitc3_laminate_curved_mixed_transverse_stable_owner_review_pending.json"
+          ],
+          "reference": "Rapports, convergence, manifeste et limites du sous-scope sont archives."
+        },
+        {
+          "id": "MITC3-LAM-STAT-CURVE-MT-C03",
+          "title": "Decision Owner du sous-scope courbe",
+          "kind": "owner_review",
+          "required": true,
+          "source": "qualification/reviews/mitc3_laminate_curved_mixed_transverse_stable_owner_review_pending.json",
+          "assertions": [
+            {"path": "scope", "op": "equals", "expected": "mitc3-laminate-static-curved-mixed-transverse"},
+            {"path": "decision", "op": "equals", "expected": "accepted_with_recommendations"},
+            {"path": "promotion_target", "op": "equals", "expected": "stable"},
+            {"path": "signature.name", "op": "equals", "expected": "Quentin Farinazzo"},
+            {"path": "signature.date", "op": "exists"}
+          ],
+          "reference": "La promotion stable reste subordonnee a une Owner Review datee et signee."
+        }
+      ]
+    },
+    {
+      "scope": "mitc4-laminate-dynamic-refined-three-layups",
+      "criteria": [
+        {
+          "id": "MITC4-LAM-DYN-REF-C01",
+          "title": "Trois empilements et trois niveaux sous 1 pour cent",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/mitc4_laminate_dynamic.json",
+          "assertions": [
+            {"path": "strict_extended_campaign.refined_mesh_series.status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "strict_extended_campaign.refined_mesh_series.mesh_level_count", "op": "greater_equal", "expected": 3},
+            {"path": "strict_extended_campaign.refined_mesh_series.layup_count", "op": "greater_equal", "expected": 3},
+            {"path": "strict_extended_campaign.refined_mesh_series.final_level_maximum_primary_error_fraction", "op": "less_equal", "expected": 0.01},
+            {"path": "strict_extended_campaign.refined_three_layup_campaign.maximum_modal_residual", "op": "less_equal", "expected": 1e-7},
+            {"path": "internal_campaign.layups.2.damping_enabled", "op": "equals", "expected": true},
+            {"path": "internal_campaign.layups.2.late_envelope_ratio", "op": "less_equal", "expected": 0.95}
+          ],
+          "reference": "Trois empilements plans symetriques, dynamique modale/Newmark/harmonique, avec un cas amorti explicitement borne."
+        },
+        {
+          "id": "MITC4-LAM-DYN-REF-C02",
+          "title": "Dossier dynamique raffine et limites",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "qualification/maturity_evidence_0_2_1/mitc4_laminate_dynamic.json",
+            "qualification/vnv/external/code_aster_mitc4_laminate_dynamic_refinement_48x12_032/reference/layup_0090/summary.json",
+            "qualification/vnv/external/code_aster_mitc4_laminate_dynamic_refinement_48x12_032/reference/layup_4545/summary.json",
+            "qualification/vnv/external/code_aster_mitc4_laminate_dynamic_refinement_48x12_032/reference/layup_0045/summary.json",
+            "qualification/vnv/external/code_aster_mitc4_laminate_dynamic_refinement_48x12_032/reference/layup_4545/vnv_manifest.json",
+            "qualification/vnv/external/code_aster_mitc4_laminate_dynamic_refinement_48x12_032/reference/mesh_36x9_4545/summary.json",
+            "docs/verification/mitc4_laminate_dynamic_extended_owner_review.md",
+            "output/pdf/mitc4_laminate_dynamic_extended_owner_review.pdf"
+          ],
+          "reference": "Les résultats, les images, les manifestes, la revue technique et les exclusions sont archivés."
+        },
+        {
+          "id": "MITC4-LAM-DYN-REF-C03",
+          "title": "Decision Owner du sous-scope raffine",
+          "kind": "owner_review",
+          "required": true,
+          "source": "qualification/reviews/mitc4_laminate_dynamic_refined_three_layups_stable_owner_review_pending.json",
+          "assertions": [
+            {"path": "scope", "op": "equals", "expected": "mitc4-laminate-dynamic-refined-three-layups"},
+            {"path": "decision", "op": "equals", "expected": "accepted_with_recommendations"},
+            {"path": "promotion_target", "op": "equals", "expected": "stable"},
+            {"path": "signature.name", "op": "equals", "expected": "Quentin Farinazzo"},
+            {"path": "signature.date", "op": "exists"}
+          ],
+          "reference": "La promotion stable reste subordonnee a une Owner Review datee et signee."
+        }
+      ]
+    },
+    {
+      "scope": "mitc4-laminate-dynamic",
+      "criteria": [
+        {
+          "id": "MITC4-LAM-C01",
+          "title": "Domaine multicouche et convergence interne",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/mitc4_laminate_dynamic.json",
+          "assertions": [
+            {"path": "internal_campaign.status", "op": "equals", "expected": "PASS"},
+            {"path": "internal_campaign.layup_count", "op": "greater_equal", "expected": 3},
+            {"path": "internal_campaign.mesh_level_count", "op": "greater_equal", "expected": 3},
+            {"path": "internal_campaign.balanced_and_directional_refinement", "op": "equals", "expected": true},
+            {"path": "strict_extended_campaign.refined_mesh_series.status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "strict_extended_campaign.refined_mesh_series.mesh_level_count", "op": "greater_equal", "expected": 3},
+            {"path": "strict_extended_campaign.refined_mesh_series.layup_count", "op": "greater_equal", "expected": 3},
+            {"path": "strict_extended_campaign.refined_mesh_series.final_level_maximum_primary_error_fraction", "op": "less_equal", "expected": 0.01},
+            {"path": "internal_campaign.layups.2.late_envelope_ratio", "op": "less_equal", "expected": 0.95}
+          ],
+          "reference": "Trois empilements symetriques, trois niveaux externes 24x6/36x9/48x12, raffinement equilibre et Newmark amorti documentes."
+        },
+        {
+          "id": "MITC4-LAM-C02",
+          "title": "Correlation externe dynamique Code_Aster",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/mitc4_laminate_dynamic.json",
+          "assertions": [
+            {"path": "external_code_aster.status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "external_code_aster.same_mesh", "op": "equals", "expected": true},
+            {"path": "strict_extended_campaign.refined_three_layup_campaign.status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "strict_extended_campaign.refined_three_layup_campaign.layup_count", "op": "greater_equal", "expected": 3},
+            {"path": "strict_extended_campaign.refined_three_layup_campaign.maximum_primary_error_fraction", "op": "less_equal", "expected": 0.01},
+            {"path": "strict_extended_campaign.refined_three_layup_campaign.maximum_modal_residual", "op": "less_equal", "expected": 1e-7}
+          ],
+          "reference": "Correlation Code_Aster DST sur maillage QUAD4 commun, trois empilements et niveau final sous 1%; la difference de formulation reste une limitation."
+        },
+    {
+      "id": "MITC4-LAM-C03",
+          "title": "Sorties, post-traitement et revue Owner",
+          "kind": "file_set",
+          "required": true,
+      "paths": [
+            "docs/verification/mitc4_laminate_dynamic.md",
+            "qualification/vnv/external/code_aster_mitc4_laminate_dynamic/reference/summary.json",
+            "qualification/evidence/code_aster_correlation_campaign_2026-08-14/studies/mitc4_laminate_dynamic/summary.json",
+            "qualification/reviews/mitc4_laminate_dynamic_2026-08-10.json",
+            "tests/verification/test_mitc4_laminate_dynamic_vnv.py",
+            "tests/unit/test_code_aster_mitc4_laminate_dynamic.py",
+        "tests/unit/test_mitc4_laminate_mesh_refinement.py",
+        "qualification/vnv/external/code_aster_mitc4_laminate_dynamic_refinement_extended_023/reference/summary.json",
+        "qualification/vnv/external/code_aster_mitc4_laminate_dynamic_refinement_extended_023/reference/report.md",
+        "docs/verification/mitc4_laminate_dynamic_extended_owner_review.md",
+        "output/pdf/mitc4_laminate_dynamic_extended_owner_review.pdf"
+      ],
+      "reference": "Dossier technique, manifestes, tests et decision Owner disponibles."
+    },
+    {
+      "id": "MITC4-LAM-C05",
+      "title": "Campagne externe et regle d'erreur a 1 pourcent",
+      "kind": "json_assertions",
+      "required": true,
+      "source": "qualification/maturity_evidence_0_2_1/mitc4_laminate_dynamic.json",
+      "assertions": [
+        {
+          "path": "strict_extended_campaign.refined_three_layup_campaign.status",
+          "op": "equals",
+          "expected": "PASS_EXTERNAL_CORRELATION"
+        },
+        {
+          "path": "strict_extended_campaign.refined_three_layup_campaign.layup_count",
+          "op": "greater_equal",
+          "expected": 3
+        },
+        {
+          "path": "strict_extended_campaign.refined_three_layup_campaign.maximum_primary_error_fraction",
+          "op": "less_equal",
+          "expected": 0.01
+        },
+        {
+          "path": "strict_extended_campaign.refined_three_layup_campaign.maximum_modal_residual",
+          "op": "less_equal",
+          "expected": 1e-07
+        }
+      ],
+      "reference": "La campagne finale des trois layups passe le gate 1% et le residu modal; la decision Owner et le maintien des exclusions restent obligatoires."
+    },
+        {
+          "id": "MITC4-LAM-C04",
+          "title": "Reservation modale 10000 QUAD4",
+          "kind": "not_comparable",
+          "required": false,
+          "reason": "Le cas 10000 QUAD4 [45/-45/-45/45] est explicitement hors domaine borne actuel car le residu modal QF_solver reste a 7,383e-6; il bloque uniquement une extension ulterieure vers une maturite plus large."
+        }
+      ]
+    },
+    {
+      "scope": "mitc4-linear-static",
+      "criteria": [
+        {
+          "id": "MITC4-LS-C01",
+          "title": "Verification statique et resistance au shear locking",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/mitc4_isotropic_linear.json",
+          "assertions": [
+            {"path": "scopes.mitc4-linear-static.internal_family.status", "op": "equals", "expected": "PASS"},
+            {"path": "scopes.mitc4-linear-static.internal_family.static.free_relative_residual", "op": "less_equal", "expected": 1e-12},
+            {"path": "scopes.mitc4-linear-static.internal_family.static.finite_results", "op": "equals", "expected": true},
+            {"path": "scopes.mitc4-linear-static.internal_family.shear_locking.mesh_level_count", "op": "greater_equal", "expected": 3},
+            {"path": "scopes.mitc4-linear-static.internal_family.shear_locking.thin_mitc4_displacement_ratio", "op": "greater_equal", "expected": 0.9}
+          ],
+          "reference": "Patchs, chargements, bilan statique et campagne shear-locking documentes."
+        },
+        {
+          "id": "MITC4-LS-C02",
+          "title": "Dossier statique et limites bornees",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "docs/generated/mitc4_results.md",
+            "docs/generated/mitc4_locking_results.md",
+            "qualification/reviews/mitc4_linear_static_2026-07-14.json",
+            "qualification/maturity_evidence_0_2_1/mitc4_static_code_aster/summary.json",
+            "qualification/maturity_evidence_0_2_1/mitc4_static_code_aster/report.md",
+            "qualification/maturity_evidence_0_2_1/mitc4_static_code_aster/conical_cutout_code_aster_correlation.png",
+            "qualification/maturity_evidence_0_2_1/mitc4_static_code_aster/vnv_manifest.json",
+            "qualification/vnv/external/code_aster_mitc4_conical_cutout_refinement/reference/summary.json",
+            "qualification/vnv/external/code_aster_mitc4_conical_cutout_refinement/reference/report.md",
+            "qualification/vnv/external/code_aster_mitc4_conical_cutout_refinement/reference/conical_cutout_code_aster_correlation.png",
+            "qualification/vnv/external/code_aster_mitc4_conical_cutout_refinement/reference/vnv_manifest.json",
+            "output/pdf/mitc4_static_code_aster_refinement_owner_review.pdf",
+            "scripts/run_code_aster_mitc4_static_refinement_vnv.py",
+            "scripts/build_mitc4_static_refinement_pdf.py",
+            "tests/unit/test_analysis_features.py",
+            "tests/integration/test_export_formats.py"
+          ],
+          "reference": "Sorties et revue Owner disponibles; les limites statiques restent explicites."
+        },
+        {
+          "id": "MITC4-LS-C03",
+          "title": "Correlation externe statique comparable",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/mitc4_isotropic_linear.json",
+          "assertions": [
+            {"path": "scopes.mitc4-linear-static.external_correlation_refined.status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "scopes.mitc4-linear-static.external_correlation_refined.same_mesh", "op": "equals", "expected": true},
+            {"path": "scopes.mitc4-linear-static.external_correlation_refined.mesh_level_count", "op": "greater_equal", "expected": 5},
+            {"path": "scopes.mitc4-linear-static.external_correlation_refined.fine_displacement_vector_error", "op": "less_equal", "expected": 0.01},
+            {"path": "scopes.mitc4-linear-static.external_correlation_refined.fine_reaction_resultant_error", "op": "less_equal", "expected": 0.01},
+            {"path": "scopes.mitc4-linear-static.external_correlation_refined.all_checks_pass", "op": "equals", "expected": true}
+          ],
+          "reference": "Correlation statique locale MITC4/DKQ sur facettes QUAD4, trois niveaux et resultante de reaction."
+        }
+      ]
+    },
+    {
+      "scope": "mitc4-modal",
+      "criteria": [
+        {
+          "id": "MITC4-MOD-C01",
+          "title": "Convergence modale et invariants internes",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/mitc4_isotropic_linear.json",
+          "assertions": [
+            {"path": "scopes.mitc4-modal.internal_family.status", "op": "equals", "expected": "PASS"},
+            {"path": "scopes.mitc4-modal.internal_family.modal.mesh_level_count", "op": "greater_equal", "expected": 5},
+            {"path": "scopes.mitc4-modal.internal_family.modal.refined_mesh_size", "op": "greater_equal", "expected": 48},
+            {"path": "scopes.mitc4-modal.internal_family.modal.refined_mode_count", "op": "greater_equal", "expected": 10},
+            {"path": "scopes.mitc4-modal.internal_family.modal.refined_first_four_max_relative_frequency_error", "op": "less_equal", "expected": 0.01},
+            {"path": "scopes.mitc4-modal.internal_family.modal.minimum_mac", "op": "greater_equal", "expected": 0.95},
+            {"path": "scopes.mitc4-modal.internal_family.modal.max_relative_residual", "op": "less_equal", "expected": 1e-8},
+            {"path": "scopes.mitc4-modal.internal_family.modal.mass_orthogonality_error", "op": "less_equal", "expected": 1e-8},
+            {"path": "scopes.mitc4-modal.internal_family.modal.stiffness_orthogonality_error", "op": "less_equal", "expected": 1e-8}
+          ],
+          "reference": "Plaque, modes propres, masse coherente, orthogonalites et convergence."
+        },
+        {
+          "id": "MITC4-MOD-C02",
+          "title": "Correlation modale externe complementaire",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/mitc4_isotropic_linear.json",
+          "assertions": [
+            {"path": "scopes.mitc4-modal.external_code_aster.status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "scopes.mitc4-modal.external_code_aster.same_mesh", "op": "equals", "expected": true},
+            {"path": "scopes.mitc4-modal.external_code_aster.mode_count", "op": "greater_equal", "expected": 10},
+            {"path": "scopes.mitc4-modal.external_code_aster.minimum_mac", "op": "greater_equal", "expected": 0.95}
+          ],
+          "reference": "Correlation historique conservee pour contexte; la preuve de fermeture 1 % est portee par external_code_aster_refined.",
+          "status_policy": "The historical field is not the stable-promotion observable."
+        },
+        {
+          "id": "MITC4-MOD-C02-REFINED",
+          "title": "Correlation modale externe raffinee sous 1 %",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/mitc4_isotropic_linear.json",
+          "assertions": [
+            {"path": "scopes.mitc4-modal.external_code_aster_refined.status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "scopes.mitc4-modal.external_code_aster_refined.same_mesh", "op": "equals", "expected": true},
+            {"path": "scopes.mitc4-modal.external_code_aster_refined.mode_count", "op": "greater_equal", "expected": 10},
+            {"path": "scopes.mitc4-modal.external_code_aster_refined.mesh_size", "op": "greater_equal", "expected": 48},
+            {"path": "scopes.mitc4-modal.external_code_aster_refined.relative_frequency_error_max", "op": "less_equal", "expected": 0.01},
+            {"path": "scopes.mitc4-modal.external_code_aster_refined.minimum_mac", "op": "greater_equal", "expected": 0.99}
+          ],
+          "reference": "Campagne 48x48, dix modes, meme maillage et conditions aux limites; Code_Aster DKQ reste un oracle complementaire."
+        },
+        {
+          "id": "MITC4-MOD-C03",
+          "title": "Dossier modal et revue",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "docs/generated/mitc4_modal_plate_results.md",
+            "qualification/reviews/mitc4_modal_2026-07-16.json",
+            "qualification/evidence/code_aster_correlation_campaign_2026-08-14/studies/modal_reference/summary.json",
+            "qualification/vnv/external/code_aster_modal_refinement_048/reference/summary.json",
+            "qualification/vnv/external/code_aster_modal_refinement_048/reference/report.md",
+            "qualification/vnv/external/code_aster_modal_refinement_048/reference/vnv_manifest.json",
+            "output/pdf/mitc4_modal_refinement_owner_review.pdf",
+            "scripts/publish_mitc4_modal_refinement_vnv.py",
+            "scripts/build_mitc4_modal_refinement_pdf.py",
+            "tests/unit/test_analysis_features.py"
+          ],
+          "reference": "Dossier modal, correlation, tests et limitations disponibles."
+        }
+      ]
+    },
+    {
+      "scope": "mitc4-transient-dynamic",
+      "criteria": [
+        {
+          "id": "MITC4-NEW-C01",
+          "title": "Newmark et invariants dynamiques internes",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/mitc4_isotropic_linear.json",
+          "assertions": [
+            {"path": "scopes.mitc4-transient-dynamic.internal_family.status", "op": "equals", "expected": "PASS"},
+            {"path": "scopes.mitc4-transient-dynamic.internal_family.newmark.time_level_count", "op": "greater_equal", "expected": 4},
+            {"path": "scopes.mitc4-transient-dynamic.internal_family.newmark.finest_relative_rms_error", "op": "less_equal", "expected": 0.01},
+            {"path": "scopes.mitc4-transient-dynamic.internal_family.newmark.maximum_energy_drift", "op": "less_equal", "expected": 1e-4},
+            {"path": "scopes.mitc4-transient-dynamic.internal_family.newmark.maximum_dynamic_residual", "op": "less_equal", "expected": 1e-7}
+          ],
+          "reference": "Raffinement temporel, energie, historique et residu Newmark."
+        },
+        {
+          "id": "MITC4-NEW-C02",
+          "title": "Correlation historique externe",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/mitc4_isotropic_linear.json",
+          "assertions": [
+            {"path": "scopes.mitc4-transient-dynamic.external_code_aster.status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "scopes.mitc4-transient-dynamic.external_code_aster.same_time_grid", "op": "equals", "expected": true},
+            {"path": "scopes.mitc4-transient-dynamic.external_code_aster.time_level_count", "op": "greater_equal", "expected": 4},
+            {"path": "scopes.mitc4-transient-dynamic.external_code_aster.primary_observable_policy", "op": "equals", "expected": "secondary_model_form_correlation"},
+            {"path": "scopes.mitc4-transient-dynamic.external_code_aster.displacement_correlation", "op": "greater_equal", "expected": 0.9},
+            {"path": "scopes.mitc4-transient-dynamic.external_code_aster.stress_correlation", "op": "greater_equal", "expected": 0.85}
+          ],
+          "reference": "Code_Aster est une correlation complementaire; l'ecart spatial de formulation reste documente."
+        },
+        {
+          "id": "MITC4-NEW-C03",
+          "title": "Dossier Newmark et revue",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "docs/generated/mitc4_newmark_results.md",
+            "docs/generated/mitc4_newmark_broadband_results.md",
+            "qualification/reviews/mitc4_transient_dynamic_2026-07-16.json",
+            "qualification/evidence/code_aster_correlation_campaign_2026-08-14/studies/newmark_reference/summary.json",
+            "tests/unit/test_dynamic_checkpoint.py"
+          ],
+          "reference": "Dossier temporel, correlation, revue et tests disponibles."
+        }
+      ]
+    },
+    {
+      "scope": "mitc4-harmonic-response",
+      "criteria": [
+        {
+          "id": "MITC4-HAR-C01",
+          "title": "Verification harmonique interne",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/mitc4_isotropic_linear.json",
+          "assertions": [
+            {"path": "scopes.mitc4-harmonic-response.internal_family.status", "op": "equals", "expected": "PASS"},
+            {"path": "scopes.mitc4-harmonic-response.internal_family.harmonic.frequency_count", "op": "greater_equal", "expected": 4},
+            {"path": "scopes.mitc4-harmonic-response.internal_family.harmonic.zero_frequency_static_error", "op": "less_equal", "expected": 1e-8},
+            {"path": "scopes.mitc4-harmonic-response.internal_family.harmonic.complex_analytical_error", "op": "less_equal", "expected": 1e-6},
+            {"path": "scopes.mitc4-harmonic-response.internal_family.harmonic.peak_frequency_ratio", "op": "between", "expected": [0.95, 1.05]},
+            {"path": "scopes.mitc4-harmonic-response.internal_family.harmonic.maximum_relative_residual", "op": "less_equal", "expected": 1e-7},
+            {"path": "scopes.mitc4-harmonic-response.internal_family.harmonic.finite_response", "op": "equals", "expected": true}
+          ],
+          "reference": "Limite statique, amplitude/phase, resonance et residu complexe."
+        },
+        {
+          "id": "MITC4-HAR-C02",
+          "title": "Correlation harmonique externe",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/mitc4_isotropic_linear.json",
+          "assertions": [
+            {"path": "scopes.mitc4-harmonic-response.external_code_aster.status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "scopes.mitc4-harmonic-response.external_code_aster.same_frequency_grid", "op": "equals", "expected": true},
+            {"path": "scopes.mitc4-harmonic-response.external_code_aster.frequency_count", "op": "greater_equal", "expected": 3},
+            {"path": "scopes.mitc4-harmonic-response.external_code_aster.finite_response", "op": "equals", "expected": true}
+          ],
+          "reference": "NAFEMS 13H et Code_Aster historiques conserves pour contexte; la fermeture 1 % est portee par la campagne raffinee.",
+          "status_policy": "The historical correlation is informative and does not close the 1 percent gate."
+        },
+        {
+          "id": "MITC4-HAR-C02-REFINED",
+          "title": "Raffinement harmonique et observables primaires sous 1 %",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/mitc4_isotropic_linear.json",
+          "assertions": [
+            {"path": "scopes.mitc4-harmonic-response.external_code_aster_refined.status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "scopes.mitc4-harmonic-response.external_code_aster_refined.mesh_level_count", "op": "greater_equal", "expected": 3},
+            {"path": "scopes.mitc4-harmonic-response.external_code_aster_refined.final_mesh_size", "op": "greater_equal", "expected": 16},
+            {"path": "scopes.mitc4-harmonic-response.external_code_aster_refined.final_peak_displacement_error", "op": "less_equal", "expected": 0.01},
+            {"path": "scopes.mitc4-harmonic-response.external_code_aster_refined.final_peak_frequency_error", "op": "less_equal", "expected": 0.01},
+            {"path": "scopes.mitc4-harmonic-response.external_code_aster_refined.final_peak_stress_error", "op": "less_equal", "expected": 0.01},
+            {"path": "scopes.mitc4-harmonic-response.external_code_aster_refined.all_final_primary_observables_under_1_percent", "op": "equals", "expected": true}
+          ],
+          "reference": "Trois niveaux 8x8, 12x12, 16x16 avec theorie de plaque; les depassements intermediaires restent visibles."
+        },
+        {
+          "id": "MITC4-HAR-C03",
+          "title": "Dossier harmonique et revue",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "docs/generated/mitc4_harmonic_results.md",
+            "docs/generated/mitc4_nafems13h_results.md",
+            "qualification/reviews/mitc4_harmonic_response_2026-07-15.json",
+            "qualification/evidence/code_aster_correlation_campaign_2026-08-14/studies/nafems13h/summary.json",
+            "qualification/vnv/external/mitc4_harmonic_refinement_005/reference/summary.json",
+            "qualification/vnv/external/mitc4_harmonic_refinement_005/reference/report.md",
+            "qualification/vnv/external/mitc4_harmonic_refinement_005/reference/vnv_manifest.json",
+            "output/pdf/mitc4_harmonic_refinement_owner_review.pdf",
+            "scripts/run_mitc4_harmonic_refinement_vnv.py",
+            "scripts/publish_mitc4_harmonic_refinement_vnv.py",
+            "scripts/build_mitc4_harmonic_refinement_pdf.py",
+            "tests/integration/test_export_formats.py"
+          ],
+          "reference": "Dossier harmonique, comparaison externe, revue et exports disponibles."
+        }
+      ]
+    },
+    {
+      "scope": "orthotropic-solid-tet4-tet10",
+      "criteria": [
+        {
+          "id": "ORTHO-STAT-C01",
+          "title": "Verification statique et correlation externe orthotrope",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/orthotropic.json",
+          "assertions": [
+            {"path": "scopes.orthotropic-solid-tet4-tet10.static.status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "scopes.orthotropic-solid-tet4-tet10.static.kernel_status", "op": "equals", "expected": "PASS_TECHNICAL_VERIFICATION"},
+            {"path": "scopes.orthotropic-solid-tet4-tet10.static.external_case_count", "op": "greater_equal", "expected": 2},
+            {"path": "scopes.orthotropic-solid-tet4-tet10.static.same_mesh", "op": "equals", "expected": true},
+            {"path": "scopes.orthotropic-solid-tet4-tet10.static.calculix_displacement_l2_max", "op": "less_equal", "expected": 0.0002},
+            {"path": "scopes.orthotropic-solid-tet4-tet10.static.code_aster_displacement_l2_max", "op": "less_equal", "expected": 0.0002},
+            {"path": "scopes.orthotropic-solid-tet4-tet10.static.code_aster_von_mises_peak_difference_max", "op": "less_equal", "expected": 0.0002},
+            {"path": "scopes.orthotropic-solid-tet4-tet10.static.tet4_large_cg_level_count", "op": "greater_equal", "expected": 11},
+            {"path": "scopes.orthotropic-solid-tet4-tet10.static.tet4_large_cg_finest_deflection_error", "op": "less_equal", "expected": 0.01},
+            {"path": "scopes.orthotropic-solid-tet4-tet10.static.tet4_large_cg_finest_energy_error", "op": "less_equal", "expected": 0.01},
+            {"path": "scopes.orthotropic-solid-tet4-tet10.static.tet4_large_cg_maximum_free_residual", "op": "less_equal", "expected": 1e-8},
+            {"path": "scopes.orthotropic-solid-tet4-tet10.static.tet10_convergence_level_count", "op": "greater_equal", "expected": 2},
+            {"path": "scopes.orthotropic-solid-tet4-tet10.static.tet10_final_deflection_error", "op": "less_equal", "expected": 0.01},
+            {"path": "scopes.orthotropic-solid-tet4-tet10.static.patch_tet4_error", "op": "less_equal", "expected": 1e-10},
+            {"path": "scopes.orthotropic-solid-tet4-tet10.static.patch_tet10_error", "op": "less_equal", "expected": 1e-10},
+            {"path": "scopes.orthotropic-solid-tet4-tet10.static.rotation_objectivity_status", "op": "equals", "expected": "PASS"}
+          ],
+          "reference": "Correlation Code_Aster/CalculiX sur deux cas, patchs affines et objectivite par rotation."
+        },
+        {
+          "id": "ORTHO-STAT-C02",
+          "title": "Dossier statique, grand modele interne et limites",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "docs/verification/revue_solides_orthotropes.md",
+            "docs/verification/orthotropic_large_static.md",
+            "qualification/vnv/external/orthotropic_solids/reference/summary.json",
+            "qualification/vnv/orthotropic_solid_kernel/reference/summary.json",
+            "qualification/vnv/orthotropic_load_cases_007/reference/summary.json",
+            "qualification/vnv/orthotropic_load_cases_007/reference/report.md",
+            "qualification/vnv/orthotropic_load_cases_007/reference/vnv_manifest.json",
+            "qualification/vnv/orthotropic_solid_convergence/reference/summary.json",
+            "qualification/vnv/orthotropic_solid_convergence_refined/reference/summary.json",
+            "qualification/vnv/orthotropic_solid_convergence_refined/reference/report.md",
+            "qualification/vnv/orthotropic_solid_convergence_refined/reference/orthotropic_convergence.png",
+            "qualification/vnv/orthotropic_solid_convergence_extended_005/reference/summary.json",
+            "qualification/vnv/orthotropic_solid_convergence_extended_005/reference/report.md",
+            "qualification/vnv/orthotropic_solid_convergence_extended_005/reference/orthotropic_convergence.png",
+            "qualification/vnv/orthotropic_solid_convergence_large_cg_006/reference/summary.json",
+            "qualification/vnv/orthotropic_solid_convergence_large_cg_006/reference/report.md",
+            "qualification/vnv/orthotropic_solid_convergence_large_cg_006/reference/orthotropic_convergence.png",
+            "qualification/vnv/orthotropic_solid_convergence_large_cg_006/reference/tet4_h6.summary.json",
+            "qualification/vnv/orthotropic_solid_convergence_large_cg_006/reference/tet4_h6.mesh_summary.json",
+            "qualification/vnv/orthotropic_solid_convergence_large_cg_006/reference/tet4_h6.msh",
+            "qualification/vnv/orthotropic_solid_convergence_large_cg_006/reference/vnv_manifest.json",
+            "qualification/vnv/orthotropic_large_static/reference/summary.json",
+            "qualification/reviews/orthotropic_solids_2026-07-22.json",
+            "qualification/reviews/orthotropic_singular_stress_2026-07-29.json",
+            "docs/verification/orthotropic_static_refined_owner_review.md",
+            "output/pdf/orthotropic_static_refined_owner_review.pdf",
+            "docs/verification/orthotropic_static_extended_owner_review.md",
+            "output/pdf/orthotropic_static_extended_owner_review.pdf",
+            "tests/unit/test_orthotropic_external.py",
+            "tests/unit/test_orthotropic_solid.py",
+            "tests/verification/test_orthotropic_completion_vnv.py",
+            "tests/verification/test_orthotropic_large_static_vnv.py"
+          ],
+          "reference": "Le dossier contient les comparaisons, les limites et les tests associes."
+        }
+      ]
+    },
+    {
+      "scope": "orthotropic-solid-modal",
+      "criteria": [
+        {
+          "id": "ORTHO-MOD-C01",
+          "title": "Verification modale interne orthotrope",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/orthotropic.json",
+          "assertions": [
+            {"path": "scopes.orthotropic-solid-modal.internal.status", "op": "equals", "expected": "PASS_TECHNICAL_VERIFICATION"},
+            {"path": "scopes.orthotropic-solid-modal.internal.mesh_level_count", "op": "greater_equal", "expected": 4},
+            {"path": "scopes.orthotropic-solid-modal.internal.fine_theory_error", "op": "less_equal", "expected": 0.01},
+            {"path": "scopes.orthotropic-solid-modal.internal.modal_residual", "op": "less_equal", "expected": 1e-8},
+            {"path": "scopes.orthotropic-solid-modal.internal.mass_orthogonality_error", "op": "less_equal", "expected": 1e-8}
+          ],
+          "reference": "Trois niveaux spatiaux, frequence analytique, residu propre et orthogonalite de masse."
+        },
+        {
+          "id": "ORTHO-MOD-C02",
+          "title": "Correlation modale Code_Aster",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/orthotropic.json",
+          "assertions": [
+            {"path": "scopes.orthotropic-solid-modal.external_code_aster.status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "scopes.orthotropic-solid-modal.external_code_aster.same_mesh", "op": "equals", "expected": true},
+            {"path": "scopes.orthotropic-solid-modal.external_code_aster.frequency_relative_difference", "op": "less_equal", "expected": 0.01}
+          ],
+          "reference": "Correlation modale Code_Aster sur maillage identique."
+        },
+        {
+          "id": "ORTHO-MOD-C03",
+          "title": "Dossier modal et tests",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "qualification/vnv/orthotropic_modal_newmark/reference/summary.json",
+            "qualification/vnv/orthotropic_modal_newmark/reference/report.md",
+            "qualification/vnv/orthotropic_modal_newmark/reference/modal_convergence.png",
+            "qualification/vnv/orthotropic_modal_newmark/reference/newmark_convergence.png",
+            "qualification/vnv/orthotropic_modal_newmark/reference/code_aster_newmark.png",
+            "qualification/vnv/orthotropic_modal_newmark/reference/vnv_manifest.json",
+            "output/pdf/orthotropic_modal_newmark_stable_owner_review.pdf",
+            "qualification/reviews/orthotropic_modal_owner_review_pending.json",
+            "tests/unit/test_orthotropic_dynamic_large.py",
+            "tests/verification/test_orthotropic_modal_newmark_vnv.py"
+          ],
+          "reference": "Resultats, invariants et tests modaux disponibles."
+        },
+        {
+          "id": "ORTHO-MOD-C04",
+          "title": "Decision Owner dediee au modal",
+          "required": true,
+          "source": "qualification/reviews/orthotropic_modal_owner_review_2026-08-20.json",
+          "kind": "json_assertions",
+          "assertions": [
+            {"path": "decision", "op": "equals", "expected": "accepted_with_recommendations"},
+            {"path": "promotion_target", "op": "equals", "expected": "owner_accepted"},
+            {"path": "signature.name", "op": "equals", "expected": "Quentin Farinazzo"}
+          ],
+          "reason": "Decision Owner modale datee et cible owner_accepted archivees."
+        }
+      ]
+    },
+    {
+      "scope": "orthotropic-solid-transient-dynamic",
+      "criteria": [
+        {
+          "id": "ORTHO-NEW-C01",
+          "title": "Verification Newmark interne orthotrope",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/orthotropic.json",
+          "assertions": [
+            {"path": "scopes.orthotropic-solid-transient-dynamic.internal.status", "op": "equals", "expected": "PASS_TECHNICAL_VERIFICATION"},
+            {"path": "scopes.orthotropic-solid-transient-dynamic.internal.time_level_count", "op": "greater_equal", "expected": 8},
+            {"path": "scopes.orthotropic-solid-transient-dynamic.internal.time_refinement_error", "op": "less_equal", "expected": 0.01},
+            {"path": "scopes.orthotropic-solid-transient-dynamic.internal.maximum_dynamic_residual", "op": "less_equal", "expected": 1e-7},
+            {"path": "scopes.orthotropic-solid-transient-dynamic.internal.maximum_energy_drift", "op": "less_equal", "expected": 1e-4}
+          ],
+          "reference": "Raffinement temporel, residu dynamique et derive energetique Newmark."
+        },
+        {
+          "id": "ORTHO-NEW-C02",
+          "title": "Correlation Newmark Code_Aster",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/orthotropic.json",
+          "assertions": [
+            {"path": "scopes.orthotropic-solid-transient-dynamic.external_code_aster.status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "scopes.orthotropic-solid-transient-dynamic.external_code_aster.same_mesh", "op": "equals", "expected": true},
+            {"path": "scopes.orthotropic-solid-transient-dynamic.external_code_aster.same_time_grid", "op": "equals", "expected": true},
+            {"path": "scopes.orthotropic-solid-transient-dynamic.external_code_aster.newmark_history_relative_difference", "op": "less_equal", "expected": 0.01},
+            {"path": "scopes.orthotropic-solid-transient-dynamic.external_code_aster.newmark_peak_difference", "op": "less_equal", "expected": 0.01}
+          ],
+          "reference": "Correlation temporelle Code_Aster sur maillage et grille temporelle identiques."
+        },
+        {
+          "id": "ORTHO-NEW-C03",
+          "title": "Dossier transitoire et tests",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "qualification/vnv/orthotropic_modal_newmark/reference/summary.json",
+            "qualification/vnv/orthotropic_modal_newmark/reference/report.md",
+            "qualification/vnv/orthotropic_modal_newmark/reference/newmark_convergence.png",
+            "qualification/vnv/orthotropic_modal_newmark/reference/code_aster_newmark.png",
+            "qualification/vnv/orthotropic_modal_newmark/reference/vnv_manifest.json",
+            "output/pdf/orthotropic_modal_newmark_stable_owner_review.pdf",
+            "qualification/reviews/orthotropic_transient_dynamic_owner_review_pending.json",
+            "tests/unit/test_orthotropic_dynamic_large.py",
+            "tests/verification/test_orthotropic_modal_newmark_vnv.py"
+          ],
+          "reference": "Historique, mesures dynamiques et tests disponibles."
+        },
+        {
+          "id": "ORTHO-NEW-C04",
+          "title": "Decision Owner dediee au transitoire",
+          "required": true,
+          "source": "qualification/reviews/orthotropic_transient_dynamic_owner_review_2026-08-20.json",
+          "kind": "json_assertions",
+          "assertions": [
+            {"path": "decision", "op": "equals", "expected": "accepted_with_recommendations"},
+            {"path": "promotion_target", "op": "equals", "expected": "owner_accepted"},
+            {"path": "signature.name", "op": "equals", "expected": "Quentin Farinazzo"}
+          ],
+          "reason": "Decision Owner transitoire datee et cible owner_accepted archivees."
+        }
+      ]
+    },
+    {
+      "scope": "contact-frictional-static",
+      "criteria": [
+        {
+          "id": "CONTACT-FRIC-C01",
+          "title": "Verification du glissement et de la limite de Coulomb",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/contact_frictional_static.json",
+          "assertions": [
+            {"path": "status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "kernel_status", "op": "equals", "expected": "PASS_TECHNICAL_VERIFICATION"},
+            {"path": "campaign.same_loads_and_units", "op": "equals", "expected": true},
+            {"path": "campaign.case_count", "op": "greater_equal", "expected": 3},
+            {"path": "campaign.load_family_count", "op": "greater_equal", "expected": 3},
+            {"path": "campaign.contact_state", "op": "equals", "expected": "slip"},
+            {"path": "campaign.qf_ux_code_aster_difference", "op": "less_equal", "expected": 0.01},
+            {"path": "campaign.qf_uz_code_aster_difference", "op": "less_equal", "expected": 0.001},
+            {"path": "campaign.qf_slip_branch_status", "op": "equals", "expected": "PASS"},
+            {"path": "campaign.maximum_relative_residual", "op": "less_equal", "expected": 1e-10},
+            {"path": "campaign.finite_response", "op": "equals", "expected": true}
+          ],
+          "reference": "Cas de glissement controle, correlation Code_Aster et limite de Coulomb."
+        },
+        {
+          "id": "CONTACT-FRIC-C02",
+          "title": "Dossier, limites et artefacts reproductibles",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "qualification/maturity_evidence_0_2_1/contact_frictional_static.json",
+        "qualification/vnv/external/code_aster_friction_contact/reference/summary.json",
+        "qualification/maturity_evidence_0_2_1/contact_friction_code_aster_three_loads/summary.json",
+        "qualification/maturity_evidence_0_2_1/contact_friction_code_aster_three_loads/report.md",
+        "qualification/maturity_evidence_0_2_1/contact_friction_code_aster_three_loads/code_aster_friction_comparison.png",
+        "qualification/maturity_evidence_0_2_1/contact_friction_code_aster_three_loads/vnv_manifest.json",
+            "qualification/vnv/external/code_aster_friction_contact/reference/report.md",
+            "qualification/vnv/external/code_aster_friction_contact/reference/code_aster_friction_comparison.png",
+            "qualification/vnv/external/code_aster_friction_contact/reference/vnv_manifest.json",
+            "qualification/external_reference_digests/code_aster_friction_contact.json",
+            "qualification/maturity_evidence_0_2_1/contact_frictional_structural_campaign/summary.json",
+            "qualification/maturity_evidence_0_2_1/contact_frictional_structural_campaign/report.md",
+            "qualification/maturity_evidence_0_2_1/contact_frictional_structural_campaign/friction_structural_convergence.png",
+            "qualification/maturity_evidence_0_2_1/contact_frictional_structural_campaign/vnv_manifest.json",
+            "qualification/maturity_evidence_0_2_1/contact_frictional_family_survey/summary.json",
+            "qualification/maturity_evidence_0_2_1/contact_frictional_family_survey/report.md",
+            "qualification/maturity_evidence_0_2_1/contact_frictional_family_survey/frictional_contact_family_survey.png",
+            "qualification/maturity_evidence_0_2_1/contact_frictional_family_survey/vnv_manifest.json",
+            "qualification/reviews/contact_frictional_static_owner_review_2026-08-20.json",
+            "docs/elements/contact_avec_frottement.md",
+            "docs/verification/contact_frottement_vnv.md",
+            "tests/unit/test_contact_review_record.py"
+          ],
+          "reference": "Resultat, figure, manifeste, documentation et test sont archives."
+        },
+        {
+          "id": "CONTACT-FRIC-C03",
+          "title": "Extension du domaine de contact avec frottement",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/contact_frictional_static.json",
+          "assertions": [
+            {"path": "internal_structural_campaign.status", "op": "equals", "expected": "PASS_INTERNAL"},
+            {"path": "internal_family_survey.status", "op": "equals", "expected": "PASS_INTERNAL"},
+            {"path": "internal_family_survey.geometry_family_count", "op": "greater_equal", "expected": 3},
+            {"path": "internal_family_survey.mesh_level_count_per_family", "op": "greater_equal", "expected": 3},
+            {"path": "internal_family_survey.maximum_gap", "op": "less_equal", "expected": 1e-10},
+            {"path": "internal_family_survey.maximum_coulomb_cone_excess", "op": "less_equal", "expected": 1e-08},
+            {"path": "internal_family_survey.sliding_branch_exercised", "op": "equals", "expected": true},
+            {"path": "internal_family_survey.finite_response", "op": "equals", "expected": true},
+            {"path": "internal_structural_campaign.maximum_gap", "op": "less_equal", "expected": 1e-10},
+            {"path": "internal_structural_campaign.maximum_coulomb_cone_excess", "op": "less_equal", "expected": 1e-08},
+            {"path": "internal_structural_campaign.sliding_branch_exercised", "op": "equals", "expected": true}
+          ],
+          "reference": "Trois familles et trois niveaux de maillage par famille sont archives; la correlation externe et la decision Owner restent separees."
+        },
+        {
+          "id": "CONTACT-FRIC-C04",
+          "title": "Decision Owner dediee au frottement",
+          "required": true,
+          "source": "qualification/reviews/contact_frictional_static_owner_review_2026-08-20.json",
+          "kind": "json_assertions",
+          "assertions": [
+            {"path": "decision", "op": "equals", "expected": "accepted_for_bounded_engineering_use"},
+            {"path": "promotion_target", "op": "equals", "expected": "owner_accepted"},
+            {"path": "signature.name", "op": "equals", "expected": "Quentin Farinazzo"}
+          ],
+          "reason": "Decision Owner datee et cible owner_accepted archivees; stick et seconde correlation externe restent ouvertes."
+        }
+      ]
+    },
+    {
+      "scope": "large-tet4-linear-static",
+      "criteria": [
+        {
+          "id": "LARGE-TET4-C01",
+          "title": "Runs multi-echelle PETSc/MPI",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/large_tet4_linear_static.json",
+          "assertions": [
+            {"path": "status", "op": "equals", "expected": "PASS_INTERNAL_WITH_LIMITATIONS"},
+            {"path": "runs.100k_dof.status", "op": "equals", "expected": "PASS"},
+            {"path": "runs.1m_dof.status", "op": "equals", "expected": "PASS"},
+            {"path": "runs.3m_dof_baij.status", "op": "equals", "expected": "PASS"},
+            {"path": "runs.100k_dof.residual_norm", "op": "less_equal", "expected": 1e-10},
+            {"path": "runs.1m_dof.residual_norm", "op": "less_equal", "expected": 1e-10},
+            {"path": "runs.3m_dof_baij.residual_norm", "op": "less_equal", "expected": 1e-10}
+          ],
+          "reference": "Execution PETSc/MPI a 100k, 1M et 3M DDL avec residus finis."
+        },
+        {
+          "id": "LARGE-TET4-C02",
+          "title": "Assemblage distribue, I/O et optimisations",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/large_tet4_linear_static.json",
+          "assertions": [
+            {"path": "distributed_pipeline.partitioned_input_and_mpi_io_status", "op": "equals", "expected": "PASS"},
+            {"path": "distributed_pipeline.cross_rank_relative_displacement_error", "op": "less_equal", "expected": 1e-10},
+            {"path": "distributed_pipeline.batched_assembly_status", "op": "equals", "expected": "PASS"},
+            {"path": "distributed_pipeline.batched_assembly_relative_displacement_error_1m", "op": "less_equal", "expected": 1e-10},
+            {"path": "distributed_pipeline.baij_block_optimization_status", "op": "equals", "expected": "PASS"},
+            {"path": "distributed_pipeline.aij_baij_displacement_relative_error_100k", "op": "less_equal", "expected": 1e-10}
+          ],
+          "reference": "Equivalence de rangs, assemblage par blocs et sorties MPI-IO."
+        },
+        {
+          "id": "LARGE-TET4-C03",
+          "title": "Scaling et limites de performance",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/large_tet4_linear_static.json",
+          "assertions": [
+            {"path": "scaling.strong_scaling_status", "op": "equals", "expected": "PASS_WITH_LIMITED_EFFICIENCY"},
+            {"path": "scaling.weak_scaling_status", "op": "equals", "expected": "WARNING"},
+            {"path": "scaling.preconditioner_comparison_status", "op": "equals", "expected": "PASS"},
+            {"path": "scaling.default_preconditioner", "op": "equals", "expected": "gamg"}
+          ],
+          "reference": "Les limites de scaling sont conservees comme avertissement explicite et non masquees."
+        },
+        {
+          "id": "LARGE-TET4-C04",
+          "title": "Dossier reproductible et environnement epingle",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "qualification/maturity_evidence_0_2_1/large_tet4_linear_static.json",
+            "qualification/baselines/large_petsc_mpi_2026-07-16.json",
+            "docs/generated/large_model_results.md",
+            "docs/generated/large_run/audit_large.json",
+            "qualification/vnv/orthotropic_large_static/reference/summary.json",
+            "results_large/qualification_matrix_free_1m/large_qualification_summary.md",
+            "results_large/qualification_matrix_free_1m/large_readiness.md",
+            "docs/assets/generated/large_model_summary.png",
+            "tests/integration/test_large_model.py",
+            "tests/unit/test_p1_sparse_performance.py"
+          ],
+          "reference": "Baseline, rapport, audit, figure et tests sont archives."
+        },
+        {
+          "id": "LARGE-TET4-C05",
+          "title": "Decision Owner du perimetre grand modele",
+          "required": true,
+          "source": "qualification/reviews/large_tet4_linear_static_owner_review_2026-08-20.json",
+          "kind": "json_assertions",
+          "assertions": [
+            {"path": "decision", "op": "equals", "expected": "accepted_for_bounded_engineering_use"},
+            {"path": "promotion_target", "op": "equals", "expected": "owner_accepted"},
+            {"path": "signature.name", "op": "equals", "expected": "Quentin Farinazzo"}
+          ],
+          "reason": "Decision Owner datee et cible owner_accepted archivees; weak scaling reste borne a une configuration."
+        }
+      ]
+    },
+    {
+      "scope": "mitc3-linear-static",
+      "criteria": [
+        {
+          "id": "MITC3-STAT-C01",
+          "title": "Campagne statique et correlations MITC3",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/reviews/mitc3_linear_static_2026-08-01.json",
+          "assertions": [
+            {"path": "automated_evidence.internal_campaign.status", "op": "equals", "expected": "PASS"},
+            {"path": "automated_evidence.refined_curved_shells.status", "op": "equals", "expected": "PASS"},
+            {"path": "automated_evidence.code_aster_dkt.status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "automated_evidence.pinched_hemisphere_code_aster.status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "automated_evidence.explicit_bending_patch.status", "op": "equals", "expected": "PASS"},
+            {"path": "blocking_items", "op": "equals", "expected": []}
+          ],
+          "reference": "Patch, shear locking, coques courbes et correlations Code_Aster sont traces dans la revue Owner."
+        },
+        {
+          "id": "MITC3-STAT-C02",
+          "title": "Dossier statique MITC3 et tests",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "qualification/reviews/mitc3_linear_static_2026-08-01.json",
+            "qualification/reviews/mitc3_linear_static_stable_owner_review_2026-08-21.json",
+            "qualification/evidence/code_aster_correlation_campaign_2026-08-14/studies/mitc3_static/summary.json",
+            "qualification/vnv/external/code_aster_mitc3/hemisphere_v1/summary.json",
+            "docs/verification/revue_mitc3_lineaire.md",
+            "tests/verification/test_mitc3_campaign.py",
+            "tests/verification/test_mitc3_hemisphere_evidence.py",
+            "tests/verification/test_mitc3_external_evidence.py"
+          ],
+          "reference": "Dossier statique, figures, correlations et tests disponibles."
+        },
+        {
+          "id": "MITC3-STAT-C03",
+          "title": "Decision Owner stable MITC3 statique",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/reviews/mitc3_linear_static_stable_owner_review_2026-08-21.json",
+          "assertions": [
+            {"path": "decision", "op": "equals", "expected": "accepted_with_recommendations"},
+            {"path": "promotion_target", "op": "equals", "expected": "stable"},
+            {"path": "signature.name", "op": "equals", "expected": "Quentin Farinazzo"}
+          ],
+          "reference": "Decision Owner datee pour le domaine MITC3 isotrope statique explicitement borne."
+        }
+      ]
+    },
+    {
+      "scope": "mitc3-modal",
+      "criteria": [
+        {
+          "id": "MITC3-MOD-C01",
+          "title": "Verification modale interne MITC3",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/evidence/linear_dynamic_families_2026-08-14/mitc3/summary.json",
+          "assertions": [
+            {"path": "status", "op": "equals", "expected": "PASS"},
+            {"path": "studies.modal.status", "op": "equals", "expected": "PASS"},
+            {"path": "studies.modal.max_relative_residual", "op": "less_equal", "expected": 1e-8},
+            {"path": "studies.modal.mass_orthogonality_error", "op": "less_equal", "expected": 1e-8},
+            {"path": "studies.modal.stiffness_orthogonality_error", "op": "less_equal", "expected": 1e-8}
+          ],
+          "reference": "Residu propre et orthogonalites masse/raideur du lot dynamique interne."
+        },
+        {
+          "id": "MITC3-MOD-C02",
+          "title": "Correlation modale Code_Aster MITC3",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/evidence/code_aster_correlation_campaign_2026-08-14/studies/mitc3_dynamic/summary.json",
+          "assertions": [
+            {"path": "status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "model.same_mesh", "op": "equals", "expected": true},
+            {"path": "checks.0.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.0.value", "op": "less_equal", "expected": 0.1}
+          ],
+          "reference": "Comparaison des six frequences MITC3+ / DKT sur maillage identique."
+        },
+        {
+          "id": "MITC3-MOD-C03",
+          "title": "Dossier modal MITC3 et revue",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "qualification/evidence/linear_dynamic_families_2026-08-14/mitc3/summary.json",
+            "qualification/evidence/code_aster_correlation_campaign_2026-08-14/studies/mitc3_dynamic/summary.json",
+            "qualification/reviews/owner_review_linear_dynamics_2026-08-02.json",
+            "qualification/reviews/mitc3_dynamic_refinement_owner_review_pending.json",
+            "docs/verification/mitc3_dynamic_extended.md",
+            "tests/unit/test_code_aster_mitc3_dynamic.py",
+            "tests/verification/test_code_aster_mitc3_dynamic_vnv.py"
+          ],
+          "reference": "Resultats, correlation, revue Owner et tests modaux disponibles.",
+          "artifacts": [
+            "qualification/maturity_evidence_0_2_1/mitc3_dynamic_refinement/summary.json",
+            "qualification/maturity_evidence_0_2_1/mitc3_dynamic_refinement/report.md",
+            "qualification/maturity_evidence_0_2_1/mitc3_dynamic_refinement/mesh_frequency_refinement.png"
+          ]
+        },
+        {
+          "id": "MITC3-MOD-C04",
+          "title": "Raffinement frequence-maillage MITC3",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/mitc3_dynamic_refinement/summary.json",
+          "assertions": [
+            {"path": "status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "checks.0.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.0.value", "op": "greater_equal", "expected": 3},
+            {"path": "checks.1.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.2.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.3.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.4.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.5.status", "op": "equals", "expected": "PASS"}
+          ],
+          "reference": "Trois niveaux de maillage, frequences modales, historique Newmark et reponse harmonique compares a Code_Aster DKT."
+        }
+      ]
+    },
+    {
+      "scope": "mitc3-transient-dynamic",
+      "criteria": [
+        {
+          "id": "MITC3-NEW-C01",
+          "title": "Verification Newmark interne MITC3",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/evidence/linear_dynamic_families_2026-08-14/mitc3/summary.json",
+          "assertions": [
+            {"path": "studies.newmark.status", "op": "equals", "expected": "PASS"},
+            {"path": "studies.newmark.relative_rms_error_to_single_mode", "op": "less_equal", "expected": 0.01},
+            {"path": "studies.newmark.maximum_energy_drift", "op": "less_equal", "expected": 1e-4},
+            {"path": "studies.newmark.maximum_dynamic_residual", "op": "less_equal", "expected": 1e-7}
+          ],
+          "reference": "Historique Newmark, energie et residu dynamique du lot interne."
+        },
+        {
+          "id": "MITC3-NEW-C02",
+          "title": "Correlation Newmark Code_Aster MITC3",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/evidence/code_aster_correlation_campaign_2026-08-14/studies/mitc3_dynamic/summary.json",
+          "assertions": [
+            {"path": "status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "model.same_mesh", "op": "equals", "expected": true},
+            {"path": "model.same_time_grid", "op": "equals", "expected": true},
+            {"path": "checks.1.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.1.value", "op": "less_equal", "expected": 0.1}
+          ],
+          "reference": "Historique transitoire MITC3+ / DKT sur grille temporelle identique."
+        },
+        {
+          "id": "MITC3-NEW-C03",
+          "title": "Dossier Newmark MITC3 et revue",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "qualification/evidence/linear_dynamic_families_2026-08-14/mitc3/summary.json",
+            "qualification/evidence/code_aster_correlation_campaign_2026-08-14/studies/mitc3_dynamic/summary.json",
+              "qualification/reviews/owner_review_linear_dynamics_2026-08-02.json",
+              "qualification/reviews/mitc3_dynamic_refinement_owner_review_pending.json",
+              "docs/verification/mitc3_dynamic_extended.md",
+            "tests/unit/test_code_aster_mitc3_dynamic.py",
+            "tests/verification/test_code_aster_mitc3_dynamic_vnv.py"
+          ],
+          "reference": "Resultats, correlation, revue Owner et tests Newmark disponibles.",
+          "artifacts": [
+            "qualification/maturity_evidence_0_2_1/mitc3_dynamic_refinement/summary.json",
+            "qualification/maturity_evidence_0_2_1/mitc3_dynamic_refinement/report.md",
+            "qualification/maturity_evidence_0_2_1/mitc3_dynamic_refinement/mesh_frequency_refinement.png"
+          ]
+        },
+        {
+          "id": "MITC3-NEW-C04",
+          "title": "Raffinement frequence-maillage MITC3",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/mitc3_dynamic_refinement/summary.json",
+          "assertions": [
+            {"path": "status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "checks.0.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.0.value", "op": "greater_equal", "expected": 3},
+            {"path": "checks.1.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.2.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.3.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.4.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.5.status", "op": "equals", "expected": "PASS"}
+          ],
+          "reference": "Trois niveaux de maillage, frequences modales, historique Newmark et reponse harmonique compares a Code_Aster DKT."
+        }
+      ]
+    },
+    {
+      "scope": "mitc3-harmonic-response",
+      "criteria": [
+        {
+          "id": "MITC3-HAR-C01",
+          "title": "Verification harmonique interne MITC3",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/evidence/linear_dynamic_families_2026-08-14/mitc3/summary.json",
+          "assertions": [
+            {"path": "studies.harmonic.status", "op": "equals", "expected": "PASS"},
+            {"path": "studies.harmonic.zero_frequency_static_error", "op": "less_equal", "expected": 1e-8},
+            {"path": "studies.harmonic.maximum_relative_residual", "op": "less_equal", "expected": 1e-7},
+            {"path": "studies.harmonic.finite_response", "op": "equals", "expected": true}
+          ],
+          "reference": "Limite statique, resonance et reponse finie du lot harmonique interne."
+        },
+        {
+          "id": "MITC3-HAR-C02",
+          "title": "Correlation harmonique Code_Aster MITC3",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/evidence/code_aster_correlation_campaign_2026-08-14/studies/mitc3_dynamic/summary.json",
+          "assertions": [
+            {"path": "status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "model.same_mesh", "op": "equals", "expected": true},
+            {"path": "model.same_frequency_grid", "op": "equals", "expected": true},
+            {"path": "checks.2.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.2.value", "op": "less_equal", "expected": 0.1}
+          ],
+          "reference": "Reponse frequencielle MITC3+ / DKT sous la premiere resonance."
+        },
+        {
+          "id": "MITC3-HAR-C03",
+          "title": "Dossier harmonique MITC3 et revue",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "qualification/evidence/linear_dynamic_families_2026-08-14/mitc3/summary.json",
+            "qualification/evidence/code_aster_correlation_campaign_2026-08-14/studies/mitc3_dynamic/summary.json",
+              "qualification/reviews/owner_review_linear_dynamics_2026-08-02.json",
+              "qualification/reviews/mitc3_dynamic_refinement_owner_review_pending.json",
+              "docs/verification/mitc3_dynamic_extended.md",
+            "tests/unit/test_code_aster_mitc3_dynamic.py",
+            "tests/verification/test_code_aster_mitc3_dynamic_vnv.py"
+          ],
+          "reference": "Resultats, correlation, revue Owner et tests harmoniques disponibles.",
+          "artifacts": [
+            "qualification/maturity_evidence_0_2_1/mitc3_dynamic_refinement/summary.json",
+            "qualification/maturity_evidence_0_2_1/mitc3_dynamic_refinement/report.md",
+            "qualification/maturity_evidence_0_2_1/mitc3_dynamic_refinement/mesh_frequency_refinement.png"
+          ]
+        },
+        {
+          "id": "MITC3-HAR-C04",
+          "title": "Raffinement frequence-maillage MITC3",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/mitc3_dynamic_refinement/summary.json",
+          "assertions": [
+            {"path": "status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "checks.0.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.0.value", "op": "greater_equal", "expected": 3},
+            {"path": "checks.1.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.2.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.3.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.4.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.5.status", "op": "equals", "expected": "PASS"}
+          ],
+          "reference": "Trois niveaux de maillage, frequences modales, historique Newmark et reponse harmonique compares a Code_Aster DKT."
+        }
+      ]
+    },
+    {
+      "scope": "beam2-linear-dynamics",
+      "criteria": [
+        {
+          "id": "BEAM2-DYN-C01",
+          "title": "Verification modale Newmark harmonique BEAM2",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/evidence/linear_dynamic_families_2026-08-14/beam2/summary.json",
+          "assertions": [
+            {"path": "status", "op": "equals", "expected": "PASS"},
+            {"path": "studies.modal.status", "op": "equals", "expected": "PASS"},
+            {"path": "studies.modal.max_relative_residual", "op": "less_equal", "expected": 1e-8},
+            {"path": "studies.newmark.status", "op": "equals", "expected": "PASS"},
+            {"path": "studies.newmark.maximum_energy_drift", "op": "less_equal", "expected": 1e-4},
+            {"path": "studies.newmark.maximum_dynamic_residual", "op": "less_equal", "expected": 1e-7},
+            {"path": "studies.harmonic.status", "op": "equals", "expected": "PASS"},
+            {"path": "studies.harmonic.zero_frequency_static_error", "op": "less_equal", "expected": 1e-8},
+            {"path": "studies.harmonic.finite_response", "op": "equals", "expected": true}
+          ],
+          "reference": "Verification interne des trois methodes lineaires BEAM2."
+        },
+        {
+          "id": "BEAM2-DYN-C02",
+          "title": "Correlation dynamique Code_Aster BEAM2",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/evidence/code_aster_correlation_campaign_2026-08-14/studies/beam2_transverse_dynamic/summary.json",
+          "assertions": [
+            {"path": "status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "checks.0.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.1.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.2.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.3.status", "op": "equals", "expected": "PASS"}
+          ],
+          "reference": "Modes, historique Newmark et reponse harmonique transverse compares a Code_Aster."
+        },
+        {
+          "id": "BEAM2-DYN-C03",
+          "title": "Dossier dynamique BEAM2 et revue",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "qualification/evidence/linear_dynamic_families_2026-08-14/beam2/summary.json",
+            "qualification/evidence/code_aster_correlation_campaign_2026-08-14/studies/beam2_transverse_dynamic/summary.json",
+            "qualification/evidence/code_aster_correlation_campaign_2026-08-14/studies/beam2_newmark/summary.json",
+            "qualification/reviews/owner_review_linear_dynamics_2026-08-02.json",
+            "tests/verification/test_code_aster_beam2_vnv.py",
+            "tests/verification/test_code_aster_beam2_newmark_vnv.py",
+            "tests/verification/test_code_aster_beam2_transverse_vnv.py"
+          ],
+          "reference": "Dossier BEAM2, correlations et decision Owner disponibles."
+        }
+      ]
+    },
+    {
+      "scope": "discrete-linear-dynamics",
+      "criteria": [
+        {
+          "id": "DISCRETE-DYN-C01",
+          "title": "Verification dynamique spring-mass",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/evidence/linear_dynamic_families_2026-08-14/spring_mass/summary.json",
+          "assertions": [
+            {"path": "status", "op": "equals", "expected": "PASS"},
+            {"path": "studies.modal.status", "op": "equals", "expected": "PASS"},
+            {"path": "studies.modal.max_relative_residual", "op": "less_equal", "expected": 1e-8},
+            {"path": "studies.newmark.status", "op": "equals", "expected": "PASS"},
+            {"path": "studies.newmark.maximum_energy_drift", "op": "less_equal", "expected": 1e-4},
+            {"path": "studies.harmonic.status", "op": "equals", "expected": "PASS"},
+            {"path": "studies.harmonic.zero_frequency_static_error", "op": "less_equal", "expected": 1e-8}
+          ],
+          "reference": "Oscillateur spring-mass analytique pour les trois methodes lineaires."
+        },
+        {
+          "id": "DISCRETE-DYN-C02",
+          "title": "Correlation dynamique Code_Aster discrete",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/evidence/code_aster_correlation_campaign_2026-08-14/studies/discrete/summary.json",
+          "assertions": [
+            {"path": "status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "checks.0.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.1.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.2.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.3.status", "op": "equals", "expected": "PASS"}
+          ],
+          "reference": "Correlation statique, modale, Newmark et harmonique Code_Aster DIS_T."
+        },
+        {
+          "id": "DISCRETE-DYN-C03",
+          "title": "Dossier dynamique discrete et revue",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "qualification/evidence/linear_dynamic_families_2026-08-14/spring_mass/summary.json",
+            "qualification/evidence/code_aster_correlation_campaign_2026-08-14/studies/discrete/summary.json",
+            "qualification/reviews/owner_review_linear_dynamics_2026-08-02.json",
+            "tests/unit/test_discrete_entities.py",
+            "tests/verification/test_code_aster_discrete_vnv.py"
+          ],
+          "reference": "Dossier spring-mass, correlation et decision Owner disponibles."
+        }
+      ]
+    },
+    {
+      "scope": "mitc4-laminate-static",
+      "criteria": [
+        {
+          "id": "MITC4-LAM-STAT-C01",
+          "title": "Invariant ABD et contraintes par pli",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/reviews/mitc4_laminate_static_followup_2026-07-26.json",
+          "assertions": [
+            {"path": "decision_preserved", "op": "equals", "expected": "engineering_internal_validated_with_recommendations"},
+            {"path": "completed_recommendations.0.status", "op": "equals", "expected": "completed"},
+            {"path": "additional_completed_recommendations.0.status", "op": "equals", "expected": "completed_internal_verification"},
+            {"path": "additional_completed_recommendations.1.status", "op": "equals", "expected": "completed_bounded_scope"},
+            {"path": "additional_completed_recommendations.2.status", "op": "equals", "expected": "completed_bounded_scope"},
+            {"path": "additional_completed_recommendations.1.results.fine_vector_difference", "op": "less_equal", "expected": 0.01},
+            {"path": "additional_completed_recommendations.2.status", "op": "equals", "expected": "completed_bounded_scope"}
+          ],
+          "reference": "ABD, contraintes par pli et orientation courbe sont documentes dans le suivi de recommandations."
+        },
+        {
+          "id": "MITC4-LAM-STAT-C02",
+          "title": "Correlation NAFEMS et Code_Aster",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/vnv/external/code_aster_composite_nafems/reference/summary.json",
+          "assertions": [
+            {"path": "status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "checks.0.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.0.value", "op": "less_equal", "expected": 0.02},
+            {"path": "checks.1.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.2.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.3.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.4.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.5.status", "op": "equals", "expected": "PASS"}
+          ],
+          "reference": "NAFEMS R0031 et Code_Aster DST/DSQ sur cinq niveaux de maillage."
+        },
+    {
+      "id": "MITC4-LAM-STAT-C02B",
+      "title": "Raffinement courbe oblique et limite d'erreur a 1 pour cent",
+      "kind": "json_assertions",
+      "required": false,
+          "source": "qualification/maturity_evidence_0_2_1/mitc4_laminate_orientation_refinement_192.json",
+          "assertions": [
+            {"path": "status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "mesh_level_count", "op": "greater_equal", "expected": 6},
+            {"path": "final_qf_mesh_increment", "op": "less_equal", "expected": 0.01},
+            {"path": "final_external_mesh_increment", "op": "less_equal", "expected": 0.01},
+            {"path": "orientation_orthonormality_error", "op": "less_equal", "expected": 1e-10},
+            {"path": "final_primary_relative_error", "op": "less_equal", "expected": 0.01},
+            {"path": "stable_gate_status", "op": "equals", "expected": "BLOCKED_OVER_1_PERCENT"},
+            {"path": "promotion_decision", "op": "equals", "expected": "remain_accepted_for_bounded_engineering_use"}
+          ],
+      "reference": "Probe courbe oblique conserve comme preuve hors sous-perimetre stable; l'ecart de forme reste a 2,0434 pour cent et bloque toute extrapolation courbe."
+    },
+    {
+      "id": "MITC4-LAM-STAT-C04",
+      "title": "Sous-perimetre plan regulier sous 1 pourcent",
+      "kind": "json_assertions",
+      "required": true,
+      "source": "qualification/maturity_evidence_0_2_1/mitc4_laminate_static_planar.json",
+      "assertions": [
+        {
+          "path": "status",
+          "op": "equals",
+          "expected": "PASS_TECHNICAL_VERIFICATION"
+        },
+        {
+          "path": "promotion_target",
+          "op": "equals",
+          "expected": "stable"
+        },
+        {
+          "path": "domain.loading_count",
+          "op": "greater_equal",
+          "expected": 3
+        },
+        {
+          "path": "primary_observables.maximum_primary_error",
+          "op": "less_equal",
+          "expected": 0.01
+        },
+        {
+          "path": "invariants.qf_code_aster_relative_difference",
+          "op": "less_equal",
+          "expected": 0.01
+        },
+        {
+          "path": "invariants.maximum_free_relative_residual",
+          "op": "less_equal",
+          "expected": 1e-8
+        }
+      ],
+      "reference": "Trois chargements, trois niveaux de maillage, contraintes par pli hors singularite et correlations externes sous 1 pourcent."
+    },
+    {
+      "id": "MITC4-LAM-STAT-C05",
+      "title": "Dossier de promotion du sous-perimetre plan",
+      "kind": "file_set",
+      "required": true,
+      "paths": [
+        "qualification/maturity_evidence_0_2_1/mitc4_laminate_static_planar.json",
+        "qualification/vnv/mitc4_laminate_static_planar_stable_001/reference/ply_stress_summary.json",
+        "qualification/vnv/mitc4_laminate_static_planar_stable_001/reference/ply_stress_report.md",
+        "qualification/vnv/mitc4_laminate_static_planar_stable_001/reference/ply_stress_convergence.png",
+        "qualification/vnv/mitc4_laminate_static_planar_stable_001/reference/ply_stress_profile.png",
+        "qualification/vnv/mitc4_laminate_static_planar_stable_001/reference/nafems_code_aster_summary.json",
+        "qualification/vnv/mitc4_laminate_static_planar_stable_001/reference/nafems_vnv_manifest.json",
+        "docs/verification/mitc4_laminate_static_planar_stable_owner_review.md",
+        "output/pdf/mitc4_laminate_static_planar_stable_owner_review.pdf"
+      ],
+      "reference": "Evidence, figures, report et Owner review sont disponibles; la signature reste une action distincte."
+    },
+        {
+          "id": "MITC4-LAM-STAT-C03",
+          "title": "Dossier stratifie statique et exclusions",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "qualification/reviews/mitc4_laminate_static_followup_2026-07-26.json",
+            "qualification/vnv/external/code_aster_composite_nafems/reference/summary.json",
+            "qualification/maturity_evidence_0_2_1/mitc4_laminate_orientation_refinement_192.json",
+            "qualification/vnv/external/calculix_curved_orientation_refinement_192/reference/summary.json",
+            "qualification/vnv/external/calculix_curved_orientation_refinement_192/reference/controlled_report.md",
+            "qualification/vnv/external/calculix_curved_orientation_refinement_192/reference/curved_orientation_correlation.png",
+            "qualification/vnv/external/calculix_curved_orientation_refinement_192/reference/curved_orientation_deformation.png",
+            "qualification/vnv/external/calculix_curved_s4_same_order/reference/s4_composite_probe.log",
+            "docs/verification/mitc4_same_order_oracle_probe.md",
+            "qualification/vnv/external/calculix_curved_orientation_faceted_004/reference/summary.json",
+            "qualification/vnv/external/calculix_curved_orientation_faceted_004/reference/report.md",
+            "qualification/vnv/external/calculix_curved_orientation_faceted_004/reference/curved_orientation_correlation.png",
+            "qualification/vnv/external/calculix_curved_orientation_faceted_004/reference/curved_orientation_deformation.png",
+            "docs/verification/mitc4_curved_faceted_s8r_probe.md",
+            "output/pdf/mitc4_laminate_orientation_refinement_owner_review.pdf",
+            "docs/verification/composite_code_aster_nafems_2026-08-14.md",
+            "docs/verification/revue_composites_mitc4.md",
+            "docs/composites/mitc4_multicouche.md",
+            "tests/unit/test_composite_nafems.py",
+            "tests/verification/test_composite_structural_vnv.py",
+            "tests/verification/test_composite_ply_stress_vnv.py",
+            "tests/verification/test_composite_curved_assembly_vnv.py"
+          ],
+          "reference": "Dossier, tests et limites S13/dommage/delamination disponibles."
+        }
+      ]
+    },
+    {
+      "scope": "tet4-total-lagrangian-structural-v2",
+      "criteria": [
+        {
+          "id": "TET4-TL-C01",
+          "title": "Verification TL, convergence et domaine",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/reviews/tet4_total_lagrangian_structural_v2_2026-07-18.json",
+          "assertions": [
+            {"path": "validation_status", "op": "equals", "expected": "engineering_internal_validated_with_recommendations"},
+            {"path": "decision", "op": "equals", "expected": "accepted_with_recommendations"},
+            {"path": "accepted_observations.0", "op": "exists"},
+            {"path": "accepted_observations.3", "op": "exists"}
+          ],
+          "reference": "Green-Lagrange, Piola-Kirchhoff 2, tangente, convergence et politique d'increments."
+        },
+        {
+          "id": "TET4-TL-C01B",
+          "title": "Politique d'increments explicite",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/reviews/tet4_total_lagrangian_2026-07-18.json",
+          "assertions": [
+            {"path": "load_increment_policy.minimum", "op": "less_equal", "expected": 6},
+            {"path": "load_increment_policy.recommended", "op": "greater_equal", "expected": 10},
+            {"path": "load_increment_policy.default", "op": "greater_equal", "expected": 10},
+            {"path": "reviewed_observations.0", "op": "exists"},
+            {"path": "reviewed_observations.3", "op": "exists"}
+          ],
+          "reference": "Minimum six increments et valeur recommandee/par defaut dix."
+        },
+        {
+          "id": "TET4-TL-C02",
+          "title": "Correlation structurale Code_Aster",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/evidence/code_aster_correlation_campaign_2026-08-14/studies/tl_structural/summary.json",
+          "assertions": [
+            {"path": "status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "checks.0.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.0.value", "op": "less_equal", "expected": 0.0005},
+            {"path": "checks.1.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.1.value", "op": "less_equal", "expected": 0.02},
+            {"path": "linear_buckling.status", "op": "equals", "expected": "NOT_APPLICABLE_SAME_SOLID_FORMULATION"}
+          ],
+          "reference": "Patch PK2 et branche imparfaite jusqu'a 0,8 Pcr; le flambement lineaire non comparable reste hors oracle."
+        },
+        {
+          "id": "TET4-TL-C03",
+          "title": "Dossier TL et tests",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "qualification/reviews/tet4_total_lagrangian_structural_v2_2026-07-18.json",
+            "qualification/reviews/tet4_total_lagrangian_2026-07-18.json",
+            "qualification/evidence/code_aster_correlation_campaign_2026-08-14/studies/tl_structural/summary.json",
+            "docs/verification/revue_tet4_total_lagrangian_structural_v2.md",
+            "tests/verification/test_tet4_total_lagrangian_vnv.py",
+            "tests/verification/test_tet4_total_lagrangian_assembly_vnv.py",
+            "tests/verification/test_tet4_tl_buckling_vnv.py",
+            "tests/verification/test_tet4_tl_postbuckling_vnv.py",
+            "tests/unit/test_total_lagrangian_tet4.py",
+            "tests/unit/test_tet4_tl_buckling_refinement.py"
+          ],
+          "reference": "Dossier de formulation, flambement, post-flambement, correlation et tests presentes."
+        },
+        {
+          "id": "TET4-TL-C04",
+          "title": "Revue independante avant qualification externe",
+          "kind": "pending",
+          "required": true,
+          "source": "qualification/reviews/tet4_total_lagrangian_independent_review_pending.json",
+          "reason": "La revue actuelle est une self_review Owner et conserve une recommandation explicite de revue independante avant toute qualification externe.",
+          "artifacts": [
+            "output/pdf/qf_solver_tet4_total_lagrangian_independent_review_0_2_1.pdf",
+            "qualification/vnv/external/code_aster_tl_structural/reference/summary.json"
+          ]
+        }
+      ]
+    },
+    {
+      "scope": "contact-v1-linear-static-bounded",
+      "criteria": [
+        {
+          "id": "CONTACT-V1-C01",
+          "title": "Decision et condition de raffinement du contact borne",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/reviews/contact_v1_linear_static_bounded_2026-07-29.json",
+          "assertions": [
+            {"path": "decision", "op": "equals", "expected": "accepted_for_bounded_engineering_use"},
+            {"path": "acceptance_condition.status", "op": "equals", "expected": "PASS"},
+            {"path": "acceptance_condition.confirmation_elements", "op": "greater_equal", "expected": 9984},
+            {"path": "acceptance_condition.confirmation_code_aster_curve_error", "op": "less_equal", "expected": 0.01}
+          ],
+          "reference": "Contact unilateral statique borne, raffinement confirme et comparaison Code_Aster archivee."
+        },
+        {
+          "id": "CONTACT-V1-C02",
+          "title": "Dossier contact et limites explicites",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "qualification/reviews/contact_v1_linear_static_bounded_2026-07-29.json",
+            "qualification/external_reference_digests/contact_additional_models.json",
+            "qualification/external_reference_digests/contact_code_aster_additional.json",
+            "qualification/external_reference_digests/contact_code_aster_additional_h10k.json",
+            "docs/verification/revue_contact_v1.md",
+            "docs/verification/contact_master_surface_vnv.md",
+            "docs/verification/contact_tet4_master_vnv.md",
+            "tests/unit/test_contact_review_record.py",
+            "tests/integration/test_contact_verification_cli.py"
+          ],
+          "reference": "Rapports, empreintes, tests et exclusions du contact statique presents."
+        }
+      ]
+    },
+    {
+      "scope": "mitc3-laminate-static",
+      "criteria": [
+        {
+          "id": "MITC3-LAM-STAT-C01",
+          "title": "Correlation statique MITC3 multicouche par pli",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/mitc3_laminate_static_campaign/summary.json",
+          "assertions": [
+            {"path": "status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "rows.2", "op": "exists"},
+            {"path": "checks.0.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.0.value", "op": "less_equal", "expected": 0.02},
+            {"path": "checks.1.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.2.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.3.status", "op": "equals", "expected": "PASS"}
+          ],
+          "reference": "Patch affine MITC3+, trois maillages et contraintes S11/S22/S12 par pli comparees a CalculiX S6."
+        },
+        {
+          "id": "MITC3-LAM-STAT-C02",
+          "title": "Dossier technique et tests disponibles",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "qualification/vnv/composite_analytic/reference/summary.json",
+            "qualification/vnv/composite_ply_stress/reference/summary.json",
+            "qualification/maturity_evidence_0_2_1/mitc3_laminate.json",
+            "qualification/maturity_evidence_0_2_1/mitc3_laminate_static_campaign/summary.json",
+            "qualification/maturity_evidence_0_2_1/mitc3_laminate_static_campaign/report.md",
+            "qualification/maturity_evidence_0_2_1/mitc3_laminate_static_campaign/mitc3_laminate_ply_stress_calculix.png",
+            "qualification/maturity_evidence_0_2_1/mitc3_laminate_static_campaign/vnv_manifest.json",
+            "qualification/reviews/mitc3_laminate_static_owner_review_2026-08-20.json",
+            "docs/composites/mitc3_multicouche_dynamique.md",
+            "tests/unit/test_calculix_mitc3_laminate_ply_stress.py",
+            "tests/verification/test_mitc3_laminate_dynamic_vnv.py"
+          ],
+          "reference": "Les briques analytiques, contraintes par pli et dynamiques sont presentes, sans les confondre avec une preuve statique complete."
+        },
+        {
+          "id": "MITC3-LAM-STAT-C03",
+          "title": "Decision Owner dediee au statique multicouche",
+          "required": true,
+          "source": "qualification/reviews/mitc3_laminate_static_owner_review_2026-08-20.json",
+          "kind": "json_assertions",
+          "assertions": [
+            {"path": "decision", "op": "equals", "expected": "accepted_for_bounded_engineering_use"},
+            {"path": "promotion_target", "op": "equals", "expected": "owner_accepted"},
+            {"path": "signature.name", "op": "equals", "expected": "Quentin Farinazzo"}
+          ],
+          "reason": "Decision Owner datee et cible owner_accepted archivees; les layups et geometries supplementaires restent ouverts."
+        }
+      ]
+    },
+    {
+      "scope": "tet4-material-nonlinear",
+      "criteria": [
+        {
+          "id": "TET4-J2-C01",
+          "title": "Campagne structurelle J2 cyclique",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/maturity_evidence_0_2_1/tet4_j2.json",
+          "assertions": [
+            {"path": "status", "op": "equals", "expected": "PASS_INTERNAL_WITH_LIMITATIONS"},
+            {"path": "structural_campaign.status", "op": "equals", "expected": "PASS_INTERNAL"},
+            {"path": "structural_campaign.mesh_elements", "op": "greater_equal", "expected": 100},
+            {"path": "structural_campaign.load_path_count", "op": "greater_equal", "expected": 20},
+            {"path": "structural_campaign.material_point_path_error", "op": "less_equal", "expected": 1e-8},
+            {"path": "structural_campaign.maximum_step_residual", "op": "less_equal", "expected": 1e-7},
+            {"path": "structural_campaign.all_checks_pass", "op": "equals", "expected": true}
+          ],
+          "reference": "Chargement, decharge, inversion et rechargement avec retour d'etat controle."
+        },
+        {
+          "id": "TET4-J2-C02",
+          "title": "Dossier J2 et tests associes",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "qualification/maturity_evidence_0_2_1/tet4_j2.json",
+            "qualification/maturity_evidence_0_2_1/tet4_j2_structural_campaign/summary.json",
+            "qualification/maturity_evidence_0_2_1/tet4_j2_structural_campaign/report.md",
+            "qualification/maturity_evidence_0_2_1/tet4_j2_structural_campaign/cyclic_response.png",
+            "qualification/maturity_evidence_0_2_1/tet4_j2_structural_campaign/deformation.vtu",
+            "qualification/external_reference_digests/code_aster_j2.json",
+            "qualification/reviews/tet4_material_nonlinear_owner_review_2026-08-20.json",
+            "tests/verification/test_j2_material_vnv.py",
+            "tests/verification/test_j2_structural_vnv.py",
+            "tests/unit/test_calculix_j2.py"
+          ],
+          "reference": "Campagne structurelle, sortie graphique, VTU et tests presents."
+        },
+        {
+          "id": "TET4-J2-C03",
+          "title": "Reference constitutive externe traceable",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/external_reference_digests/code_aster_j2.json",
+          "assertions": [
+            {"path": "status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "external_solver.name", "op": "equals", "expected": "Code_Aster"},
+            {"path": "external_solver.version", "op": "equals", "expected": "18.1.0"},
+            {"path": "external_solver.image", "op": "exists"},
+            {"path": "evidence_manifest_sha256", "op": "exists"},
+            {"path": "checks.0.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.1.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.2.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.3.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.4.status", "op": "equals", "expected": "PASS"},
+            {"path": "checks.5.status", "op": "equals", "expected": "PASS"}
+          ],
+          "reference": "Comparaison constitutive material-point QF_solver / Code_Aster, image epinglee et empreinte de preuve."
+        },
+        {
+          "id": "TET4-J2-C03B",
+          "title": "Correlation structurelle externe TET4 monotone",
+          "kind": "json_assertions",
+          "required": true,
+          "source": "qualification/vnv/external/code_aster_tet4_j2_complex/reference/summary.json",
+          "assertions": [
+            {"path": "status", "op": "equals", "expected": "PASS_EXTERNAL_CORRELATION"},
+            {"path": "external_solver.element", "op": "equals", "expected": "TETRA4"},
+            {"path": "qf_solver.element", "op": "equals", "expected": "TET4"},
+            {"path": "model.same_mesh", "op": "equals", "expected": true},
+            {"path": "model.same_combined_loads", "op": "equals", "expected": true},
+            {"path": "checks.0.value", "op": "less_equal", "expected": 0.01},
+            {"path": "checks.1.value", "op": "less_equal", "expected": 0.01},
+            {"path": "checks.2.value", "op": "less_equal", "expected": 0.01},
+            {"path": "checks.4.value", "op": "less_equal", "expected": 1e-7}
+          ],
+          "reference": "Equerre TET4 rentrante, chargements UX/UY combines, comparaison Code_Aster 18.1.0 sur maillage identique."
+        },
+        {
+          "id": "TET4-J2-C03B-FILES",
+          "title": "Artefacts de correlation structurelle TET4",
+          "kind": "file_set",
+          "required": true,
+          "paths": [
+            "docs/verification/tet4_j2_structural_code_aster.md",
+            "qualification/vnv/external/code_aster_tet4_j2_complex/reference/summary.json",
+            "qualification/vnv/external/code_aster_tet4_j2_complex/reference/report.md",
+            "qualification/vnv/external/code_aster_tet4_j2_complex/reference/comparison.png",
+            "qualification/vnv/external/code_aster_tet4_j2_complex/reference/deformation.png",
+            "qualification/vnv/external/code_aster_tet4_j2_complex/reference/vnv_manifest.json",
+            "scripts/run_code_aster_tet4_j2_complex_vnv.py",
+            "tests/verification/test_code_aster_j2_vnv.py"
+          ],
+          "reference": "La campagne structurelle est reproductible, imagee et rattachee au registre de preuve."
+        },
+        {
+          "id": "TET4-J2-C04",
+          "title": "Decision Owner du domaine J2 TET4",
+          "required": true,
+          "source": "qualification/reviews/tet4_material_nonlinear_owner_review_2026-08-20.json",
+          "kind": "json_assertions",
+          "assertions": [
+            {"path": "decision", "op": "equals", "expected": "accepted_for_bounded_engineering_use"},
+            {"path": "promotion_target", "op": "equals", "expected": "owner_accepted"},
+            {"path": "signature.name", "op": "equals", "expected": "Quentin Farinazzo"}
+          ],
+          "reason": "Decision Owner datee et cible owner_accepted archivees; la correlation structurelle monotone est maintenant disponible, mais le cyclique structurel externe et la decision stable restent ouverts."
+        }
+      ]
+    }
+  ]
+}

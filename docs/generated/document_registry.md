@@ -1,6 +1,7 @@
 | ID | Titre | Statut | Exigences | Exemples | Tests | Source |
 | --- | --- | --- | --- | --- | --- | --- |
 | DOC-STATE-001 | Tableau de bord du solveur EF | draft | REQ-AUD-001, REQ-CMP-001 | 1 | 1 | index.md |
+| DOC-VNV-CODEASTER-CAMPAIGN-2026-08-14 | Campagne de correlation Code_Aster du 2026-08-14 | ready_for_owner_review | REQ-CMP-003, REQ-AUD-001 | 5 | 3 | verification/code_aster_correlation_campaign_2026-08-14.md |
 | DOC-STATE-002 | Capacites et maturite | draft | REQ-CMP-001, REQ-REL-001 | 0 | 0 | etat/capacites.md |
 | DOC-STATE-003 | Limites connues | draft | REQ-CMP-002, REQ-REL-001 | 0 | 0 | etat/limites.md |
 | DOC-START-001 | Installation locale | draft | REQ-REL-001 | 0 | 1 | demarrage/installation.md |
@@ -37,11 +38,11 @@
 | DOC-VNV-MITC3-001 | Perimetre V&V MITC3+ | draft | REQ-MITC3-001, REQ-MITC3-002, REQ-MITC3-003, REQ-CMP-003 | 4 | 4 | verification/mitc3_validation.md |
 | DOC-VNV-MITC3-LAMINATE-DYN-001 | V&V MITC3+ multicouche statique et dynamique | draft | REQ-COMP-001, REQ-COMP-002, REQ-COMP-003, REQ-MITC3-003 | 3 | 3 | verification/mitc3_laminate_dynamic.md |
 | DOC-VNV-MITC3-DYNAMIC-EXTENDED-001 | V&V MITC3+ dynamique etendue | draft | REQ-MITC3-001, REQ-MITC3-002, REQ-MITC3-003, REQ-MOD-001, REQ-DYN-001, REQ-HAR-001 | 1 | 1 | verification/mitc3_dynamic_extended.md |
-| DOC-VNV-MITC3-DYNAMICS-CODEASTER-DKT-017 | Correlation dynamique MITC3+ et Code_Aster DKT | draft | REQ-MITC3-001, REQ-MITC3-002, REQ-MOD-001, REQ-DYN-001, REQ-HAR-001 | 1 | 2 | verification/mitc3_dynamic_code_aster.md |
-| DOC-VNV-TET10-DYNAMICS-CODEASTER-TETRA10-018 | Correlation dynamique TET10 et Code_Aster TETRA10 | draft | REQ-SOL-003, REQ-MOD-001, REQ-DYN-001, REQ-HAR-001 | 1 | 2 | verification/tet10_dynamic_code_aster.md |
-| DOC-VNV-TET4-DYNAMICS-CODEASTER-TETRA4-020 | Correlation dynamique TET4 et Code_Aster TETRA4 | draft | REQ-SOL-001, REQ-MOD-001, REQ-DYN-001, REQ-HAR-001 | 1 | 2 | verification/tet4_dynamic_code_aster.md |
-| DOC-VNV-BEAM2-TRANSVERSE-DYNAMICS-CODEASTER-POUDE-019 | Correlation dynamique transverse BEAM2 et Code_Aster | draft | REQ-BEAM-001, REQ-MOD-001, REQ-DYN-001, REQ-HAR-001 | 1 | 2 | verification/beam2_transverse_dynamic_code_aster.md |
-| DOC-REV-MITC3-001 | Owner review MITC3+ statique lineaire | controlled | REQ-MITC3-001, REQ-MITC3-002, REQ-MITC3-003 | 5 | 4 | verification/revue_mitc3_lineaire.md |
+| DOC-VNV-MITC3-DYNAMICS-CODEASTER-DKT-017 | Correlation dynamique MITC3+ et Code_Aster DKT | owner_accepted_with_recommendations | REQ-MITC3-001, REQ-MITC3-002, REQ-MOD-001, REQ-DYN-001, REQ-HAR-001 | 1 | 2 | verification/mitc3_dynamic_code_aster.md |
+| DOC-VNV-TET10-DYNAMICS-CODEASTER-TETRA10-018 | Correlation dynamique TET10 et Code_Aster TETRA10 | owner_accepted | REQ-SOL-003, REQ-MOD-001, REQ-DYN-001, REQ-HAR-001 | 1 | 2 | verification/tet10_dynamic_code_aster.md |
+| DOC-VNV-TET4-DYNAMICS-CODEASTER-TETRA4-020 | Correlation dynamique TET4 et Code_Aster TETRA4 | owner_accepted | REQ-SOL-001, REQ-MOD-001, REQ-DYN-001, REQ-HAR-001 | 1 | 2 | verification/tet4_dynamic_code_aster.md |
+| DOC-VNV-BEAM2-TRANSVERSE-DYNAMICS-CODEASTER-POUDE-019 | Correlation dynamique transverse BEAM2 et Code_Aster | owner_accepted | REQ-BEAM-001, REQ-MOD-001, REQ-DYN-001, REQ-HAR-001 | 1 | 2 | verification/beam2_transverse_dynamic_code_aster.md |
+| DOC-REV-MITC3-001 | Owner review MITC3+ statique lineaire | controlled | REQ-MITC3-001, REQ-MITC3-002, REQ-MITC3-003 | 4 | 4 | verification/revue_mitc3_lineaire.md |
 | DOC-VNV-CONTACT-FRICTION-001 | V&V contact avec frottement | draft | REQ-CONTACT-001 | 2 | 2 | verification/contact_frottement_vnv.md |
 | DOC-VNV-CONTACT-TET4-001 | V&V contact unilateral : convergence structurelle TET4 | draft | REQ-CONTACT-001 | 1 | 1 | verification/contact_structurel_tet4_vnv.md |
 | DOC-VNV-CONTACT-DEFORMABLE-MASTER-003 | V&V contact avec maitre elastique | draft | REQ-CONTACT-001 | 1 | 1 | verification/contact_deformable_master_vnv.md |
@@ -124,7 +125,7 @@
 | DOC-VV-007 | Revue documentaire et tracabilite des formules | draft | REQ-SOL-001, REQ-SOL-002, REQ-SOL-003, REQ-SOL-004, REQ-REL-001 | 0 | 2 | verification/formules.md |
 | DOC-VV-008 | Etudes V&V comparees et Owner review | draft | REQ-CMP-003, REQ-CMP-004, REQ-EVD-001 | 4 | 5 | verification/etudes_vnv.md |
 | DOC-VV-OWNER-REVIEW-001 | Dossier Owner review | controlled | REQ-CMP-003, REQ-CMP-004, REQ-EVD-001, REQ-COMP-006 | 2 | 3 | verification/dossier_validation_owner.md |
-| DOC-VV-P0-CLOSURE-001 | Cloture technique de la baseline documentaire P0 | draft | REQ-REL-001, REQ-EVD-001, REQ-CMP-003 | 2 | 2 | verification/baseline_documentaire_p0.md |
+| DOC-VV-P0-CLOSURE-001 | Cloture technique de la baseline documentaire P0 | ready_for_owner_review | REQ-REL-001, REQ-EVD-001, REQ-CMP-003 | 2 | 2 | verification/baseline_documentaire_p0.md |
 | DOC-VV-TET4-REVIEW-001 | Decision interne TET4 lineaire isotrope | draft | REQ-SOL-001, REQ-SOL-004, REQ-CMP-003, REQ-CMP-004 | 4 | 1 | verification/revue_tet4_lineaire.md |
 | DOC-REV-TET10-LIN-001 | Revue mecanique TET10 lineaire | controlled | REQ-SOL-003, REQ-CMP-003, REQ-CMP-004 | 6 | 4 | verification/revue_tet10_lineaire.md |
 | DOC-REV-TET4-TL-001 | Revue TET4 total lagrangien | controlled | REQ-NL-001, REQ-SOL-001, REQ-CMP-003, REQ-CMP-004 | 4 | 6 | verification/revue_tet4_total_lagrangian.md |
@@ -138,11 +139,14 @@
 | DOC-VV-SINGULAR-STRESS-001 | Contraintes proches des singularites | draft | REQ-COMP-007 | 2 | 3 | verification/contraintes_singularites.md |
 | DOC-VV-SINGULAR-STRESS-REVIEW-001 | Owner review des contraintes orthotropes proches des singularites | controlled | REQ-COMP-007, REQ-CMP-003 | 7 | 4 | verification/revue_contraintes_singularites.md |
 | DOC-REV-MITC4-LAMINATE-001 | Revue mecanique MITC4 multicouche | controlled | REQ-COMP-001, REQ-COMP-002, REQ-COMP-003, REQ-COMP-004, REQ-COMP-005 | 8 | 11 | verification/revue_composites_mitc4.md |
+| DOC-VNV-COMP-CODEASTER-NAFEMS-001 | Correlation composite NAFEMS R0031 avec Code_Aster | draft | REQ-COMP-005 | 2 | 1 | verification/composite_code_aster_nafems_2026-08-14.md |
 | DOC-VNV-MITC4-01 | Perimetre de validation MITC4 | draft | REQ-SOL-002, REQ-SOL-005, REQ-MOD-002, REQ-DYN-003, REQ-HAR-001 | 8 | 7 | verification/mitc4_validation.md |
-| DOC-VNV-MITC4-LAMINATE-DYN-001 | V&V MITC4 multicouche dynamique | controlled | REQ-COMP-001, REQ-COMP-002, REQ-COMP-003 | 4 | 3 | verification/mitc4_laminate_dynamic.md |
-| DOC-VNV-MITC3-CURVED-PROJECTED-001 | Correlation MITC3+ multicouche courbe a orientation projetee | draft | REQ-COMP-001, REQ-COMP-002, REQ-MITC3-003 | 0 | 1 | verification/mitc3_laminate_curved_projected.md |
+| DOC-VNV-MITC4-LAMINATE-DYN-001 | V&V MITC4 multicouche dynamique | controlled | REQ-COMP-001, REQ-COMP-002, REQ-COMP-003 | 3 | 2 | verification/mitc4_laminate_dynamic.md |
+| DOC-VNV-MITC3-CURVED-PROJECTED-001 | Correlation MITC3+ multicouche courbe a orientation projetee | owner_accepted_experimental | REQ-COMP-001, REQ-COMP-002, REQ-MITC3-003 | 1 | 2 | verification/mitc3_laminate_curved_projected.md |
+| DOC-VNV-MITC3-CURVED-CODEASTER-025 | Correlation Code_Aster MITC3+ multicouche courbe | ready_for_owner_review | REQ-MITC3-003, REQ-CMP-003 | 1 | 1 | verification/mitc3_laminate_curved_code_aster.md |
 | DOC-VNV-TET10-J2-CODEASTER-COMPLEX-001 | Benchmark complexe TET10 J2 avec Code_Aster | draft | REQ-NL-001, REQ-CMP-003 | 0 | 1 | verification/tet10_j2_complex_code_aster.md |
 | DOC-VNV-TET10-J2-CODEASTER-STRUCTURAL-001 | Benchmark externe structurel TET10 J2 | draft | REQ-NL-001, REQ-CMP-003 | 0 | 1 | verification/tet10_j2_structural_code_aster.md |
+| DOC-VV-CODEASTER-OWNER-2026-08-14 | Owner review des correlations Code_Aster du 2026-08-14 | owner_accepted_with_recommendations | REQ-CMP-003, REQ-COMP-005, REQ-COMP-006, REQ-NL-003 | 1 | 1 | verification/owner_review_code_aster_2026-08-14.md |
 | DOC-RELEASE-V020-ALPHA-FREEZE-001 | Dossier de gel V0.2.0-alpha avant publication | controlled | REQ-REL-001, REQ-EVD-001 | 1 | 2 | verification/release_v020_alpha_freeze.md |
 | DOC-REF-001 | Interfaces CLI et API | draft | REQ-IO-001, REQ-IO-002 | 0 | 0 | reference/interfaces.md |
 | DOC-REF-GMSH-001 | Import Gmsh MSH 4.1 | draft | REQ-IO-001, REQ-MESH-001, REQ-MESH-002 | 0 | 2 | reference/import_gmsh.md |
@@ -152,7 +156,7 @@
 | DOC-REF-004 | Feuille de route | draft | REQ-CMP-002, REQ-REL-001 | 0 | 0 | reference/feuille_de_route.md |
 | DOC-REF-005 | Conventions de resultats | draft | REQ-AUD-001, REQ-SOL-001, REQ-SOL-002 | 0 | 0 | conventions_resultats.md |
 | DOC-IO-001 | Schema JSON du solveur EF | draft | REQ-IO-001, REQ-IO-002 | 0 | 2 | schema_json.md |
-| DOC-ARCH-001 | Architecture Du Solveur EF | draft | REQ-REL-001 | 0 | 1 | architecture.md |
+| DOC-ARCH-001 | Architecture Du Solveur EF | controlled | REQ-REL-001 | 0 | 1 | architecture.md |
 | DOC-QA-001 | Controle qualite projet | draft | REQ-REL-001 | 0 | 0 | controle_qualite.md |
 | DOC-AUD-001 | Audit de qualification industrielle du solveur EF | draft | REQ-CMP-001, REQ-CMP-002, REQ-REL-001 | 0 | 0 | audit_qualification_industrielle.md |
 | DOC-MESH-001 | Qualite de maillage | draft | REQ-MESH-001, REQ-MESH-002 | 0 | 0 | qualite_maillage.md |
@@ -162,11 +166,21 @@
 | DOC-QUAL-002 | Plan de qualification de l'outil | draft | REQ-CMP-001, REQ-CMP-002, REQ-REL-001 | 0 | 0 | qualification_plan.md |
 | DOC-CFG-001 | Gestion de configuration | draft | REQ-EVD-001, REQ-REL-001 | 0 | 0 | configuration_management.md |
 | DOC-GOV-001 | Perimetre souverain du solveur mecanique | draft | REQ-CMP-001, REQ-CMP-002 | 0 | 0 | perimetre_souverain.md |
+| DOC-GOV-REV-TERMS-001 | Terminologie de revue et d'audit | controlled | REQ-CMP-001, REQ-EVD-001 | 0 | 2 | reference/review_terminology.md |
+| DOC-ARCH-MITC4-MIGRATION-001 | Inventaire de migration MITC4 | controlled | REQ-SOL-002, REQ-REL-001 | 0 | 2 | verification/mitc4_migration_inventory.md |
 | DOC-LEGACY-CASE-001 | Creer un cas de calcul | superseded | REQ-IO-001 | 0 | 0 | creer_cas.md |
 | DOC-LEGACY-MANUAL-001 | Manuel theorique des elements finis | superseded |  | 0 | 0 | manuel_theorique_elements_finis.md |
 | DOC-REF-API-002 | Stabilite de l'API Python | draft | REQ-REL-001 | 0 | 2 | reference/api_stability.md |
 | DOC-REF-DEMO-001 | Demonstrations et API de reproductibilite | draft | REQ-DOC-001, REQ-CMP-003, REQ-EVD-001 | 2 | 2 | reference/demonstrations_api.md |
 | DOC-REF-OSS-001 | Preparation open source | controlled | REQ-REL-001 | 0 | 1 | reference/open_source.md |
-| DOC-VV-CONTENT-CLOSURE-001 | Complements de champs, convergence et correlation | draft | REQ-DOC-001, REQ-CMP-003, REQ-EVD-001 | 2 | 2 | verification/contenus_techniques_complementaires.md |
+| DOC-VV-CONTENT-CLOSURE-001 | Complements de champs, convergence et correlation | ready_for_owner_review | REQ-DOC-001, REQ-CMP-003, REQ-EVD-001 | 2 | 2 | verification/contenus_techniques_complementaires.md |
 | DOC-VV-OWNER-PAGES-001 | Owner review des pages techniques | controlled | REQ-DOC-001, REQ-CMP-003 | 2 | 1 | verification/owner_review_pages_techniques.md |
 | DOC-LATEX-BUILD-001 | Construction du dossier technique LaTeX | draft | REQ-DOC-001, REQ-EVD-001 | 0 | 2 | latex/README.md |
+| DOC-VNV-ORTHOTROPIC-LARGE-008 | V&V TET4 orthotrope grand modele | controlled_candidate | REQ-COMP-008, REQ-LRG-001, REQ-LRG-002 | 2 | 1 | verification/orthotropic_large_static.md |
+| DOC-RELEASE-VV-021-001 | Pack V&V release 0.2.1a0 | controlled_candidate | REQ-REL-001, REQ-EVD-001, REQ-CMP-003 | 1 | 2 | verification/release_vv_0_2_1.md |
+| DOC-PUB-AUD-021-001 | Audit documentaire de publication 0.2.1a0 | controlled_candidate | REQ-REL-001, REQ-EVD-001 | 1 | 2 | verification/publication_audit_0_2_1.md |
+| DOC-MATURITY-PROMOTION-021-001 | Plan de promotion des maturites 0.2.1a0 | controlled_candidate | REQ-CMP-003, REQ-EVD-001, REQ-REL-001 | 1 | 1 | verification/maturity_promotion_0_2_1.md |
+| DOC-LEGACY-ANALYSIS-001 | Analyse historique du solveur EF | draft |  | 0 | 0 | reference/legacy/analyse_solveur_ef.md |
+| DOC-LEGACY-SHEAR-001 | Correlation historique du cisaillement | draft |  | 0 | 0 | reference/legacy/correlation_litterature_cisaillement.md |
+| DOC-LEGACY-MECHANICS-001 | Verification mecanique historique | draft |  | 0 | 0 | reference/legacy/verification_mecanique.md |
+| DOC-VNV-MITC4-MODAL-10K-DIAGNOSTIC-2026-08-14 | Diagnostic MITC4 modal 10 000 QUAD4 | draft | REQ-MOD-001 | 1 | 1 | verification/mitc4_modal_10k_diagnostic_2026-08-14.md |

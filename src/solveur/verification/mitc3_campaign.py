@@ -7,7 +7,7 @@ from typing import Any
 
 import matplotlib
 import numpy as np
-from mitc4.material import ShellMaterial
+from solveur.elements.shell.mitc4 import ShellMaterial
 
 matplotlib.use("Agg")
 from matplotlib import pyplot as plt  # noqa: E402

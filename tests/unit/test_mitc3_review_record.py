@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parents[2]
 
 def test_mitc3_owner_review_records_bounded_acceptance_and_supersedes_pending() -> None:
     pending = json.loads(
-        (ROOT / "qualification" / "reviews" / "mitc3_linear_static_pending.json").read_text(
+        (ROOT / "qualification" / "reviews" / "archive" / "superseded" / "mitc3_linear_static_pending.json").read_text(
             encoding="utf-8"
         )
     )

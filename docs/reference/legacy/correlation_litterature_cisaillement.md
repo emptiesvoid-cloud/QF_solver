@@ -1,3 +1,12 @@
+---
+doc_id: DOC-LEGACY-SHEAR-001
+revision: 0.1
+status: draft
+applicable_version: 0.2.1-alpha
+reviewer: ""
+approver: ""
+---
+
 # Correlation avec la litterature du cisaillement
 
 Ce document racine est conserve pour compatibilite. La formulation maintenue
@@ -8,9 +17,9 @@ les references primaires sont dans :
 - [`docs/demonstrations/coques.md`](../../demonstrations/coques.md) ;
 - [`docs/reference/references.md`](../references.md).
 
-Construire le site local avec :
+Regenerer les artefacts documentaires locaux avec :
 
 ```powershell
 python .\scripts\build_docs.py --profile engineering
-python -m mkdocs serve --dev-addr 127.0.0.1:8000
+python .\scripts\build_technical_latex.py
 ```

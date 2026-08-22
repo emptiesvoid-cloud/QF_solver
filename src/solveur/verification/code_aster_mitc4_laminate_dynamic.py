@@ -52,23 +52,25 @@ class CodeAsterMitc4LaminateDynamicsCampaign:
         layup: tuple[float, ...] = (0.0, 90.0, 90.0, 0.0),
         damping_ratio: float = 0.0,
         publish_reference: bool = True,
+        modal_method: str = "eigh",
     ) -> None:
         self.output_dir = Path(output_dir).resolve()
         self.nx, self.ny = int(nx), int(ny)
         self.layup = tuple(float(angle) for angle in layup)
         self.damping_ratio = float(damping_ratio)
         self.publish_reference = bool(publish_reference)
+        self.modal_method = str(modal_method).lower()
         if self.nx < 4 or self.ny < 1:
             raise ValueError("MITC4 laminate dynamics requires nx >= 4 and ny >= 1.")
-        if len(self.layup) != 4:
-            raise ValueError("MITC4 laminate dynamics requires exactly four plies.")
+        if not self.layup:
+            raise ValueError("MITC4 laminate dynamics requires at least one ply.")
         if not 0.0 <= self.damping_ratio <= 0.10:
             raise ValueError("damping_ratio must be between 0 and 0.10.")
 
     def run(self) -> dict[str, Any]:
         """Execute the QF_solver and pinned Code_Aster calculations."""
         self.output_dir.mkdir(parents=True, exist_ok=True)
-        modal_model, nodes = self._model(_modal_analysis())
+        modal_model, nodes = self._model(_modal_analysis(self.modal_method))
         modal = solve_model(modal_model, enforce_policy=False)
         first_frequency = float(modal.frequencies_hz[0])
         time_step = 1.0 / first_frequency / 40.0
@@ -112,7 +114,9 @@ class CodeAsterMitc4LaminateDynamicsCampaign:
         (self.output_dir / f"{stem}.mail").write_text(_code_aster_mesh(modal_model), encoding="ascii")
         (self.output_dir / f"{stem}.comm").write_text(
             code_aster_dynamic_comm(
-                len(tip), time_step, load_table, frequencies, layup=self.layup, rayleigh_alpha=rayleigh_alpha
+                len(tip), time_step, load_table, frequencies, layup=self.layup,
+                ply_thickness=1.0e-2 if len(self.layup) == 1 else 2.5e-3,
+                rayleigh_alpha=rayleigh_alpha
             ),
         )
         run_code_aster(self.output_dir, stem, timeout=1800)
@@ -133,7 +137,13 @@ class CodeAsterMitc4LaminateDynamicsCampaign:
     ) -> tuple[FiniteElementModel, np.ndarray]:
         campaign = Mitc4LaminateDynamicStudy(mesh=(self.nx, self.ny), layup=self.layup)
         model, nodes = campaign.build_model()
-        model.analysis = model.analysis.from_raw(analysis)
+        settings = dict(analysis)
+        if str(settings.get("type", "")).lower() == "modal":
+            # Keep the same residual refinement used by the internal study.
+            # Without this, rebuilding the model for the external comparison
+            # silently removed the numerical safeguard from the campaign.
+            settings.setdefault("modal_eigenpair_refinement_iterations", 2)
+        model.analysis = model.analysis.from_raw(settings)
         if total_load:
             tip = _tip_nodes(nodes)
             model.loads = [
@@ -271,8 +281,8 @@ class CodeAsterMitc4LaminateDynamicsCampaign:
         shutil.copy2(self.output_dir / "mitc4_laminate_code_aster_comparison.png", assets / "mitc4_laminate_code_aster_comparison.png")
 
 
-def _modal_analysis() -> dict[str, object]:
-    return {"type": "modal", "method": "eigh", "modes": 4, "dense_modal_max_dofs": 6000}
+def _modal_analysis(method: str = "eigh") -> dict[str, object]:
+    return {"type": "modal", "method": method, "modes": 4, "dense_modal_max_dofs": 6000}
 
 
 def _tip_nodes(nodes: np.ndarray) -> np.ndarray:
@@ -317,15 +327,28 @@ def code_aster_dynamic_comm(
     frequencies: list[float],
     *,
     layup: tuple[float, ...] = (0.0, 90.0, 90.0, 0.0),
+    ply_thickness: float = 2.5e-3,
     rayleigh_alpha: float = 0.0,
+    probe_dof: str = "UZ",
 ) -> str:
     """Return a Code_Aster DST/DEFI_COMPOSITE dynamic deck."""
+    probe_dof = str(probe_dof).upper()
+    if probe_dof not in {"UX", "UY", "UZ"}:
+        raise ValueError("probe_dof must be UX, UY or UZ.")
     times = ", ".join(f"{row['time']:.16g}" for row in table)
     factors = ", ".join(f"{row['time']:.16g}, {row['factor']:.16g}" for row in table)
     frequency_text = ", ".join(f"{value:.16g}" for value in frequencies)
     layers = ",\n        ".join(
-        f"_F(EPAIS=0.0025, MATER=lamina, ORIENTATION={angle:.1f})" for angle in layup
+        f"_F(EPAIS={ply_thickness:.16g}, MATER=lamina, ORIENTATION={angle:.1f})" for angle in layup
     )
+    force_dof = {"UX": "FX", "UY": "FY", "UZ": "FZ"}[probe_dof]
+    displacement_field = {"UX": "DX", "UY": "DY", "UZ": "DZ"}[probe_dof]
+    output_key = {"UX": "tip_ux_m", "UY": "tip_uy_m", "UZ": "tip_uz_m"}[probe_dof]
+    harmonic_key = {
+        "UX": "harmonic_tip_ux_m",
+        "UY": "harmonic_tip_uy_m",
+        "UZ": "harmonic_tip_uz_m",
+    }[probe_dof]
     force = -1.0 / tip_count
     damping_definition = (
         f'damping = COMB_MATR_ASSE(COMB_R=_F(MATR_ASSE=mass, COEF_R={rayleigh_alpha:.16g}))\n'
@@ -345,9 +368,9 @@ laminate = DEFI_COMPOSITE(COUCHE=(
         {layers}
 ))
 field = AFFE_MATERIAU(MAILLAGE=mesh, AFFE=_F(GROUP_MA="SHELL", MATER=laminate))
-shell = AFFE_CARA_ELEM(MODELE=model, COQUE=_F(GROUP_MA="SHELL", EPAIS=0.01, COQUE_NCOU=4))
+shell = AFFE_CARA_ELEM(MODELE=model, COQUE=_F(GROUP_MA="SHELL", EPAIS={len(layup) * ply_thickness:.16g}, COQUE_NCOU=4))
 boundary = AFFE_CHAR_MECA(MODELE=model, DDL_IMPO=_F(GROUP_NO="ROOT", DX=0.0, DY=0.0, DZ=0.0, DRX=0.0, DRY=0.0, DRZ=0.0))
-force = AFFE_CHAR_MECA(MODELE=model, FORCE_NODALE=_F(GROUP_NO="TIP", FZ={force:.16g}))
+force = AFFE_CHAR_MECA(MODELE=model, FORCE_NODALE=_F(GROUP_NO="TIP", {force_dof}={force:.16g}))
 rigidity_e = CALC_MATR_ELEM(OPTION="RIGI_MECA", MODELE=model, CHAM_MATER=field, CARA_ELEM=shell, CHARGE=(boundary, force))
 mass_e = CALC_MATR_ELEM(OPTION="MASS_MECA", MODELE=model, CHAM_MATER=field, CARA_ELEM=shell, CHARGE=(boundary, force))
 numbering = NUME_DDL(MATR_RIGI=rigidity_e)
@@ -362,15 +385,15 @@ response = DYNA_VIBRA(TYPE_CALCUL="TRAN", BASE_CALCUL="PHYS", MATR_RIGI=rigidity
 harmonic = DYNA_VIBRA(TYPE_CALCUL="HARM", BASE_CALCUL="PHYS", MATR_RIGI=rigidity, MATR_MASS=mass{damping_argument}, EXCIT=_F(VECT_ASSE=load, COEF_MULT_C=1.0), FREQ=({frequency_text}))
 history = []
 for order in response.getIndexes():
-    values, _ = response.getField("DEPL", order).getValuesWithDescription("DZ", ["TIP"])
+    values, _ = response.getField("DEPL", order).getValuesWithDescription("{displacement_field}", ["TIP"])
     history.append(float(sum(values) / len(values)))
 harmonic_values = []
 for order in harmonic.getIndexes():
-    values, _ = harmonic.getField("DEPL", order).getValuesWithDescription("DZ", ["TIP"])
+    values, _ = harmonic.getField("DEPL", order).getValuesWithDescription("{displacement_field}", ["TIP"])
     value = sum(values) / len(values)
     harmonic_values.append([float(value.real), float(value.imag)])
 with open("/work/code_aster_raw.json", "w", encoding="utf-8") as stream:
-    json.dump({{"frequencies_hz": [float(value) for value in modes.getAccessParameters()["FREQ"]], "tip_uz_m": history, "harmonic_tip_uz_m": harmonic_values}}, stream, indent=2)
+    json.dump({{"frequencies_hz": [float(value) for value in modes.getAccessParameters()["FREQ"]], "{output_key}": history, "{harmonic_key}": harmonic_values}}, stream, indent=2)
 FIN()
 '''
 

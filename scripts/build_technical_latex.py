@@ -62,7 +62,6 @@ def _rebuild_documentation_assets() -> None:
         os.fspath(ROOT / "scripts" / "build_docs.py"),
         "--profile",
         "engineering",
-        "--assets-only",
     ]
     completed = subprocess.run(command, cwd=ROOT, text=True, capture_output=True)
     if completed.returncode != 0:

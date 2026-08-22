@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "review_id": "OWNER-REVIEW-ORTHOTROPIC-MODAL-2026-08-15",
+  "review_mode": "owner_review",
+  "status": "pending",
+  "promotion_target": "stable",
+  "scope": ["orthotropic-solid-modal"],
+  "purpose": "Statuer sur l'extension modale du solide orthotrope homogeneise, distincte de la revue statique.",
+  "evidence": [
+    "qualification/maturity_evidence_0_2_1/orthotropic.json",
+    "qualification/vnv/orthotropic_modal_newmark/reference/summary.json",
+    "tests/verification/test_orthotropic_modal_newmark_vnv.py",
+    "tests/unit/test_orthotropic_dynamic_large.py"
+  ],
+  "questions": [
+    {"id": "Q1", "question": "La masse, les frequences et les modes propres couvrent-ils le perimetre orthotrope modal teste, avec 4 niveaux de maillage et une erreur theorique fine de 0,00772 % ?", "answer": null},
+    {"id": "Q2", "question": "Les conventions d'axes materiau, la positivite et les limites d'anisotropie sont-elles acceptables, avec une correlation Code_Aster de 1,20e-13 ?", "answer": null},
+    {"id": "Q3", "question": "Le statut stable est-il approprie uniquement pour le domaine TET4 orthotrope modal axial teste, sans extrapolation aux structures composites pli par pli ?", "answer": null},
+    {"id": "Q4", "question": "Decision Owner pour la cible stable : accepted, accepted_with_recommendations ou more_evidence_required ?", "answer": null}
+  ],
+  "decision": null,
+  "signature": null,
+  "certification_claim": "none"
+}

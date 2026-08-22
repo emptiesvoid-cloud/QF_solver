@@ -111,4 +111,4 @@ remplace les exclusions temporaires ci-dessus pour le perimetre qu'elle borne.
 
 Les preuves automatisees de cette seconde etape sont maintenant disponibles
 dans [la campagne structurelle V2](tet4_total_lagrangian_structural_v2.md). Leur
-passage automatise ne vaut pas encore decision mecanique humaine.
+passage automatise ne vaut pas encore decision mecanique `owner_review`.

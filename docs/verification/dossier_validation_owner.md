@@ -60,12 +60,12 @@ numeriques.
 
 ## Etat du dossier au 26 juillet 2026
 
-| Point de controle | Reponse humaine | Statut |
+| Point de controle | Reponse Owner | Statut |
 | --- | --- | --- |
-| Rapports Markdown et images referencees | verification technique oui | PASS technique : liens, PNG autonomes et construction stricte controles; inspection humaine visuelle reste libre |
-| Limites explicites et acceptables | oui | PASS humain |
-| Recommandations compatibles avec usage interne | oui | PASS humain |
-| Decision Owner datee et signee | oui | PASS humain pour MITC4 multicouche |
+| Rapports Markdown et images referencees | verification technique oui | PASS technique : liens, PNG autonomes et construction stricte controles; inspection visuelle Owner reste libre |
+| Limites explicites et acceptables | oui | PASS Owner |
+| Recommandations compatibles avec usage interne | oui | PASS Owner |
+| Decision Owner datee et signee | oui | PASS Owner pour MITC4 multicouche |
 
 ## Decision orthotrope enregistree
 

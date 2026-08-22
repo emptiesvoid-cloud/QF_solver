@@ -1,0 +1,37 @@
+{
+  "review_id": "DOC-VV-CODEASTER-OWNER-2026-08-14",
+  "revision": "0.2",
+  "status": "superseded_by_owner_decision",
+  "decision": null,
+  "reviewer": null,
+  "review_date": null,
+  "scope": [
+    "composite-nafems-r0031-code-aster",
+    "tet4-total-lagrangian-structural-v2",
+    "orthotropic-solid-static-and-dynamic",
+    "mitc3-laminate-curved-projected-static",
+    "mitc3-pinched-hemisphere-static"
+  ],
+  "questions": [
+    "Q1: provenance Code_Aster et image Docker epinglee acceptees ?",
+    "Q2: convergence UZ NAFEMS R0031/1 et ecarts finaux acceptes ?",
+    "Q3: S11 informatif et S13/delaminage hors perimetre acceptes ?",
+    "Q4: campagnes composites internes maintenues en preuve technique ?",
+    "Q5: TET4 total-lagrangien maintenu en recherche borne ?",
+    "Q6: correlations orthotropes statiques, modal et Newmark acceptees ?",
+    "Q7: grand modele orthotrope, large-scale et MPC/RBE2 restent ouverts ?",
+    "Q8: correlation MITC3 multicouche courbe a orientation projetee acceptee comme preuve statique experimentale bornee ?",
+    "Q9: correlation MITC3 hemisphere pince acceptee comme evidence complementaire statique ?",
+    "Q10: decision globale"
+  ],
+  "artifacts": [
+    "docs/verification/owner_review_code_aster_2026-08-14.md",
+    "docs/verification/composite_code_aster_nafems_2026-08-14.md",
+    "docs/verification/mitc3_laminate_curved_code_aster.md",
+    "qualification/vnv/external/code_aster_mitc3/hemisphere_v1/summary.json",
+    "results/VNV-MITC3-LAMINATE-CURVED-PROJECTED-CODEASTER-DST-025-R1-96/summary.json",
+    "qualification/evidence/release_vv_artifacts_2026-08-14-r14/evidence_manifest.json"
+  ],
+  "superseded_by": "qualification/reviews/code_aster_correlation_owner_review_2026-08-14.json",
+  "certification_claim": "none"
+}

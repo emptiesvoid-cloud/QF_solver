@@ -1,0 +1,68 @@
+{
+  "doc_id": "OWNER-REVIEW-ST-01-A-TET4-001",
+  "review_id": "OWNER-REVIEW-ST-01-A-TET4-001",
+  "revision": "0.1",
+  "status": "owner_reviewed",
+  "scope": [
+    "tet4-linear-static",
+    "tet4-modal",
+    "tet4-transient-dynamic",
+    "tet4-harmonic-response"
+  ],
+  "owner": "Quentin Farinazzo",
+  "decision": "accepted_with_recommendations",
+  "maturity_before": "owner_accepted",
+  "maturity_target": "stable",
+  "promotion_target": "stable",
+  "evidence": [
+    "qualification/maturity_evidence_0_2_1/tet4_stable_batch_01/summary.json",
+    "qualification/maturity_evidence_0_2_1/tet4_stable_batch_01/report.md",
+    "qualification/maturity_evidence_0_2_1/tet4_stable_batch_01/code_aster_tet4_dynamic_final/summary.json",
+    "qualification/maturity_evidence_0_2_1/tet4_stable_batch_01/code_aster_tet4_second_dynamic/summary.json",
+    "qualification/maturity_evidence_0_2_1/tet4_stable_batch_01/code_aster_tet4_cylinder_dynamic/summary.json"
+  ],
+  "key_metrics_for_review": {
+    "second_geometry": {
+      "elements": 582,
+      "modal_frequency_error_max": 5.22645828413232e-13,
+      "newmark_history_error_max": 6.374525721583739e-14,
+      "harmonic_response_error_max": 1.6342076496813354e-13,
+      "modal_mesh_final_increment": 0.023964038045734003,
+      "static_mesh_final_increment": 0.04972486784181206
+    },
+    "circular_geometry": {
+      "elements": 504,
+      "modal_frequency_error_max": 5.668043292208431e-12,
+      "newmark_history_error_max": 6.869143806497213e-13,
+      "harmonic_response_error_max": 1.3071304241456728e-13,
+      "modal_mesh_final_increment": 0.03719525708934301,
+      "static_mesh_final_increment": 0.05199203571487298
+    },
+    "external_final_same_mesh": {
+      "modal_frequency_error_max": 2.73753159781719e-11,
+      "newmark_history_error_max": 6.379685558370908e-13,
+      "harmonic_response_error_max": 6.980830125558885e-13
+    }
+  },
+  "questions": [
+    {"id": "Q1", "question": "Les trois geometries TET4 et les quatre routes d'analyse couvrent-elles le domaine propose ?", "answer": null},
+    {"id": "Q2", "question": "Les correlations Code_Aster meme-maillage, les residus et les invariants sont-ils acceptables ?", "answer": null},
+    {"id": "Q3", "question": "Le raffinement supplementaire de la geometrie rectangulaire epaisse, avec un increment statique final de 4.972 %, est-il suffisant ?", "answer": null},
+    {"id": "Q4", "question": "Les exclusions petits deplacements, isotropie, absence d'amortissement et absence de non-linearite sont-elles suffisantes ?", "answer": null},
+    {"id": "Q5", "question": "La maturite stable est-elle acceptable pour ce domaine borne, sans extrapolation ?", "answer": null},
+    {"id": "Q6", "question": "Decision Owner : stable, accepted_with_recommendations ou maintien owner_accepted ?", "answer": null}
+  ],
+  "review_date": "2026-08-21",
+  "owner_comment": "Promotion stable acceptee pour le sous-perimetre isotrope lineaire documente. Le resultat statique raffine sous un pour cent est accepte; la poursuite du raffinement reste une recommandation non bloquante.",
+  "limitations": [
+    "La promotion ne couvrirait pas les geometries arbitraires, le non-lineaire, le contact, l'amortissement ou les grands deplacements.",
+    "Le resultat ne constitue pas une certification externe.",
+    "La decision reste manuelle et doit etre datee et signee par l'Owner."
+  ],
+  "signature": {
+    "name": "Quentin Farinazzo",
+    "date": "2026-08-21",
+    "type": "declared_owner_review",
+    "independence": "not_independent"
+  }
+}

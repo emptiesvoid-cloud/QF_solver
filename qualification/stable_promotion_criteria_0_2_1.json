@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "registry_id": "QF-STABLE-PROMOTION-CRITERIA-021-001",
+  "purpose": "Common V&V gate for promotion from Owner-accepted bounded use to stable.",
+  "applies_to": "All existing QF_solver elements, solvers and analysis scopes.",
+  "policy": {
+    "promotion_is_never_automatic": true,
+    "owner_review_required": true,
+    "technical_pass_does_not_change_maturity": true,
+    "certification_claim": "none",
+    "missing_evidence_blocks_stable": true,
+    "singular_observables_are_informative_only": true,
+    "owner_promotion_target_is_explicit": true,
+    "final_relative_error_limit": 0.01,
+    "engineering_primary_observable_limit": 0.01,
+    "engineering_primary_observable_limit_unit": "relative_fraction",
+    "primary_engineering_error_limit": 0.01,
+    "primary_engineering_error_limit_unit": "relative_fraction",
+    "final_relative_error_policy": "From this baseline onward, every primary V&V comparison observable must be <= 1 percent relative error. This limit applies to stable-promotion decisions and to any claim that a validated scope is closed. Values above 1 percent block stable or closure unless a formal mechanical justification, additional convergence study and explicit Owner decision are recorded.",
+    "primary_observable_rule_scope": "all_vv_comparisons_and_stable_promotions",
+    "accepted_observables": [
+      "primary_displacement",
+      "natural_frequency",
+      "harmonic_response",
+      "newmark_rms_response",
+      "reaction_or_resultant",
+      "global_energy",
+      "stress_or_strain_outside_singularity"
+    ],
+    "singularity_policy": "Point peaks at singularities are informative only and cannot be the sole acceptance observable."
+  },
+  "owner_review_contract": {
+    "decision_field_values": [
+      "accepted_with_recommendations",
+      "accepted_for_bounded_engineering_use",
+      "more_evidence_required"
+    ],
+    "promotion_target_field": "promotion_target",
+    "promotion_target_values": ["stable", "owner_accepted", "experimental", "research"],
+    "stable_rule": "promotion_target=stable requires a signed Owner decision and passing technical criteria; the matrix is changed only by an explicit controlled release action."
+  },
+  "allowed_statuses": [
+    "owner_accepted",
+    "accepted_with_recommendations",
+    "accepted_for_bounded_engineering_use",
+    "stable",
+    "experimental",
+    "research"
+  ],
+  "common_criteria": [
+    {
+      "id": "ST-C01",
+      "title": "Formulation and conventions frozen",
+      "required": true,
+      "evidence": ["technical_document", "units", "signs", "orientation", "limitations"]
+    },
+    {
+      "id": "ST-C02",
+      "title": "Analytical solution or mechanical invariant",
+      "required": true,
+      "evidence": ["closed_form", "patch_test", "energy_identity", "equilibrium", "rigid_modes"]
+    },
+    {
+      "id": "ST-C03",
+      "title": "Convergence with interpretable asymptote",
+      "required": true,
+      "minimum_levels": 4,
+      "allowed_refinements": ["mesh", "time_step", "frequency_step", "iteration_tolerance"]
+    },
+    {
+      "id": "ST-C04",
+      "title": "Independent representative cases",
+      "required": true,
+      "minimum_cases": 3,
+      "rule": "At least three independent geometries or loading families are required, and at least one must differ from the development case."
+    },
+    {
+      "id": "ST-C05",
+      "title": "Reference correlation",
+      "required": true,
+      "rule": "Use an analytical, published, experimental or external-solver reference when comparable; otherwise record a justified NOT_APPLICABLE."
+    },
+    {
+      "id": "ST-C06",
+      "title": "Accepted observables defined",
+      "required": true,
+      "observables": ["displacement", "reaction", "energy", "stress", "frequency", "residual", "time_history", "phase"]
+    },
+    {
+      "id": "ST-C07",
+      "title": "Failure modes and singularities documented",
+      "required": true,
+      "evidence": ["mesh_limits", "singular_zone_policy", "nonconvergence", "invalid_input", "unsupported_scope"]
+    },
+    {
+      "id": "ST-C08",
+      "title": "Recommendations closed or converted to explicit limits",
+      "required": true,
+      "rule": "Every critical recommendation must point to a passing artifact or an accepted scope boundary."
+    },
+    {
+      "id": "ST-C09",
+      "title": "Dated Owner decision for this scope",
+      "required": true,
+      "evidence": ["qualification/reviews/*.json", "owner", "decision_date", "signature", "accepted_domain", "excluded_domain"]
+    }
+  ],
+  "required_artifacts": [
+    "scope_vnv_report.md",
+    "scope_summary.json",
+    "scope_manifest.json",
+    "mesh_or_model_figure.png",
+    "deformation_or_field_figure.png",
+    "convergence_figure.png",
+    "tests/unit_or_verification.py",
+    "owner_review.json"
+  ],
+  "decision_rules": {
+    "stable": "All ST-C01..ST-C09 PASS or justified NOT_APPLICABLE; no critical recommendation open.",
+    "owner_accepted": "Owner decision exists but one or more stable criteria remain open without a critical safety concern.",
+    "accepted_with_recommendations": "Technical evidence is usable and recommendations remain active.",
+    "accepted_for_bounded_engineering_use": "Evidence supports only the explicitly bounded domain.",
+    "experimental": "Implementation is usable for development or controlled studies but lacks stable evidence.",
+    "research": "Evidence is insufficient for engineering use."
+  },
+  "promotion_record": {
+    "status": "active",
+    "created_date": "2026-08-16",
+    "next_step": "ST-01 recommendation closure ledger",
+    "source_plan": "prochaines_etapes.md",
+    "owner_review_reference": "qualification/reviews/owner_review_maturity_promotion_0_2_1_2026-08-20.json"
+  }
+}

@@ -3,15 +3,15 @@
   "study_id": "VNV-MITC4-HARMONIC-MODAL-001",
   "source": {
     "repository": ".",
-    "revision": "c8d7fcf4fb176c9cd595360ffd0f4417c19285ce",
+    "revision": "1804a03aee0c4e4bc6ac2c56e9461bedd9aac6d4",
     "dirty": true
   },
   "files": [
     {
       "role": "mitc4_harmonic_vnv",
       "path": "summary.json",
-      "size_bytes": 22048,
-      "sha256": "89f8394fed5479c70f0a75c0f170fe90e19ba2ea0cd95c94b94d7af5c3acda1e"
+      "size_bytes": 22080,
+      "sha256": "d5b8e8afc8cd5d1eb363abfc0b13ea5e22b594d15e6e18fdb27ca8340a055efb"
     },
     {
       "role": "mitc4_harmonic_vnv",
@@ -29,7 +29,7 @@
       "role": "mitc4_harmonic_vnv",
       "path": "VNV-MITC4-HARMONIC-MODAL-001.md",
       "size_bytes": 672,
-      "sha256": "ad3c0be095523ccff00006dc4e4d646f53c6c0487220945b141ed01bfd3c08c2"
+      "sha256": "c9d0d247b5e6bc2df19595efb5ea9b7a190584a92a77d44c0ff002d849aa0356"
     }
   ]
 }

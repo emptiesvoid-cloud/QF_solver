@@ -15,7 +15,7 @@ from scipy.linalg import eigh
 matplotlib.use("Agg")
 from matplotlib import pyplot as plt  # noqa: E402
 
-from mitc4.mesh import MeshFactory
+from solveur.elements.shell.mitc4.mesh import MeshFactory
 from solveur.api import solve_model
 from solveur.core.analysis import AnalysisSettings
 from solveur.core.assembler import GlobalAssembler
@@ -384,7 +384,12 @@ def _shell_model(
     }
     if sparse:
         analysis.update(
-            {"arpack_tolerance": 1.0e-10, "arpack_maxiter": 10000, "arpack_ncv": 30}
+            {
+                "arpack_tolerance": 1.0e-10,
+                "arpack_maxiter": 10000,
+                "arpack_ncv": 30,
+                "prefer_dense_modal": True,
+            }
         )
     return FiniteElementModel.from_raw(
         analysis=analysis,

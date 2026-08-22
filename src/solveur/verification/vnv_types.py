@@ -83,12 +83,12 @@ class VnvNormalizedResult:
 
 @dataclass
 class VnvStudyRun:
-    """Generated comparison, convergence and human-review status."""
+    """Generated comparison, convergence and owner-review status."""
 
     study: VnvStudy
     status: str
     automated_verdict: str
-    human_decision: str
+    owner_decision: str
     comparisons: list[dict[str, Any]]
     convergence: list[dict[str, Any]]
     checks: list[dict[str, Any]]
@@ -97,7 +97,7 @@ class VnvStudyRun:
 
     def to_dict(self) -> dict[str, Any]:
         return {
-            "schema_version": 1,
+            "schema_version": 2,
             "study": {
                 "id": self.study.identifier,
                 "title": self.study.title,
@@ -115,7 +115,7 @@ class VnvStudyRun:
             },
             "status": self.status,
             "automated_verdict": self.automated_verdict,
-            "human_decision": self.human_decision,
+            "owner_decision": self.owner_decision,
             "comparisons": self.comparisons,
             "convergence": self.convergence,
             "checks": self.checks,

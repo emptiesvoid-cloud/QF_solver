@@ -104,10 +104,25 @@ confiance. Des tests forcent separatement l'echec hybride et celui de Newton
 afin de verifier ces deux replis. La campagne controle quatre maillages, le
 gap et le cone de Coulomb. Une correlation
 Code_Aster distincte couvre maintenant le glissement sature
-`VNV-CONTACT-FRICTION-CODEASTER-CONTINUE-003`, mais pas l'adherence ni les
-faces structurelles deformables. La tangente est consistante seulement tant
+`VNV-CONTACT-FRICTION-CODEASTER-CONTINUE-003` sur trois niveaux de charge
+glissante (`200/250/300 N`, ecarts UX `0,607 %`, `0,456 %` et `0,365 %`), mais
+pas l'adherence ni les faces structurelles deformables. La tangente est consistante seulement tant
 que l'ensemble actif et la normale restent figes; leur linearisation et cette
 extension structurelle restent requises. Le perimetre reste `experimental`.
 
 La page est reliee a `REQ-CONTACT-001`, `FORM-CONTACT-002` et
 `tests/verification/test_frictional_contact_vnv.py`.
+
+## Trois modeles internes complementaires
+
+La campagne `VNV-CONTACT-ADDITIONAL-MODELS-008` ajoute trois configurations
+internes : `dual_stop_corner`, `faceted_ramp_patch` et
+`deformable_tet4_two_slaves`. Les controles de gap, pression, ensemble actif,
+iterations et positions finales sont `PASS_INTERNAL`. La figure et le rapport
+sont disponibles dans
+`qualification/maturity_evidence_0_2_1/contact_additional_models/`.
+
+Cette campagne elargit la verification geometrique interne, mais ne ferme pas
+la correlation externe sur une seconde geometrie. Le contact stick, le grand
+glissement, l'impact, l'usure et le contact surface-surface general restent
+hors du domaine stable.

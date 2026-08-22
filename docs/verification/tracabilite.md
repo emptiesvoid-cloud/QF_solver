@@ -40,4 +40,4 @@ detectee au prochain controle.
 
 La [revue documentaire et tracabilite des formules](formules.md) publie en
 plus la couverture formule par formule et distingue le verdict automatique
-des signatures humaines encore attendues.
+des signatures `owner_review` encore attendues.

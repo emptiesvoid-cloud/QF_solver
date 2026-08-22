@@ -97,7 +97,7 @@ def write_petsc_profile_report(
     *,
     labels: Sequence[str] | None = None,
 ) -> dict[str, Any]:
-    """Write a machine-readable and human-readable comparison of PETSc profiles."""
+    """Write a machine-readable and reader-oriented comparison of PETSc profiles."""
     paths = tuple(Path(path) for path in profile_paths)
     if not paths:
         raise ValueError("At least one PETSc profile is required.")

@@ -1,0 +1,13 @@
+{
+  "review_id": "OWNER-REVIEW-LARGE-TET4-2026-08-20",
+  "review_mode": "owner_review",
+  "status": "accepted_for_bounded_engineering_use",
+  "scope": ["large-tet4-linear-static"],
+  "decision": "accepted_for_bounded_engineering_use",
+  "promotion_target": "owner_accepted",
+  "responses": {"Q1": "partial: about 1.03 million DOF demonstrated on one configuration", "Q2": "yes: PETSc/MPI, memory and material limits are explicit.", "Q3": "not_applicable as a scalability supplement; weak scaling is not generalized.", "Q4": "accepted_for_bounded_engineering_use"},
+  "limitations": ["Weak scaling was measured at 41.6 percent on one hardware configuration.", "No general HPC claim is authorized."],
+  "evidence": ["qualification/maturity_evidence_0_2_1/large_tet4_linear_static/summary.json"],
+  "certification_claim": "none",
+  "signature": {"name": "Quentin Farinazzo", "mode": "electronic owner_review declaration", "date": "2026-08-20", "declaration": "Decision bounded acceptee; a second hardware configuration is required before stable scalability claims."}
+}

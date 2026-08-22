@@ -1,0 +1,200 @@
+{
+  "schema_version": 1,
+  "release": {
+    "name": "QF_solver",
+    "version": "0.2.1a0",
+    "channel": "alpha",
+    "purpose": "Consolider la verification et validation reproductible de la release alpha sans revendiquer de certification externe."
+  },
+  "profile": "engineering",
+  "baseline": {
+    "version": "0.2.0a0",
+    "tag": "v0.2.0-alpha",
+    "commit": "1804a03aee0c4e4bc6ac2c56e9461bedd9aac6d4"
+  },
+  "policy": {
+    "required_scope_failure": "FAIL",
+    "candidate_scope_missing_evidence": "FAIL",
+    "campaign_not_executed": "FAIL",
+    "owner_review_pending": "FAIL",
+    "certification_claim": "none",
+    "qualification_requires_owner_review": true,
+    "matrix_scope_policy": {
+      "include_all": true,
+      "exclude_statuses": [
+        "unsupported",
+        "owner_accepted",
+        "owner_accepted_experimental_bounded_use",
+        "experimental",
+        "research",
+        "out_of_acceptance"
+      ],
+      "target_status": "stable",
+      "proof_requirements": {
+        "analytical_or_invariant": true,
+        "convergence": true,
+        "external_correlation": true,
+        "owner_review": true
+      },
+      "description": "Only stable matrix scopes are release blockers. Bounded, experimental, research and out-of-acceptance capabilities remain distributed with their explicit maturity and exclusions, but cannot be presented as stable release claims."
+    }
+  },
+  "campaign": {
+    "manifest": "qualification/campaign.json",
+    "required": true
+  },
+  "evidence_bundles": [
+    {
+      "id": "code-aster-correlation-2026-08-14",
+      "path": "qualification/evidence/code_aster_correlation_campaign_2026-08-14",
+      "required": true
+    },
+    {
+      "id": "internal-linear-dynamics-2026-08-14",
+      "path": "qualification/evidence/linear_dynamic_families_2026-08-14",
+      "required": true
+    }
+  ],
+  "owner_review": {
+    "decision": "accepted_for_release_preparation",
+    "review_mode": "owner_review",
+    "reviewer": "Quentin Farinazzo",
+    "date": "2026-08-22",
+    "comment": "Q1 a Q4: OUI. Les scopes stables sont acceptes dans leurs limites; les huit scopes non stables restent exclus des revendications stables. Le nettoyage Git et le rejeu final sont obligatoires avant tag/PyPI."
+  },
+  "scopes": [
+    {
+      "id": "tet4-linear-static",
+      "required": true,
+      "role": "baseline_reference",
+      "declared_status": "stable"
+    },
+    {
+      "id": "tet4-modal",
+      "required": true,
+      "role": "baseline_reference",
+      "declared_status": "stable"
+    },
+    {
+      "id": "tet4-transient-dynamic",
+      "required": false,
+      "role": "alpha_candidate",
+      "declared_status": "stable"
+    },
+    {
+      "id": "tet4-harmonic-response",
+      "required": false,
+      "role": "alpha_candidate",
+      "declared_status": "stable"
+    },
+    {
+      "id": "tet10-linear-static",
+      "required": false,
+      "role": "alpha_candidate",
+      "declared_status": "stable"
+    },
+    {
+      "id": "tet10-modal",
+      "required": false,
+      "role": "alpha_candidate",
+      "declared_status": "stable"
+    },
+    {
+      "id": "tet10-transient-dynamic",
+      "required": false,
+      "role": "alpha_candidate",
+      "declared_status": "stable"
+    },
+    {
+      "id": "tet10-harmonic-response",
+      "required": false,
+      "role": "alpha_candidate",
+      "declared_status": "stable"
+    },
+    {
+      "id": "mitc4-linear-static",
+      "required": false,
+      "role": "alpha_candidate",
+      "declared_status": "stable"
+    },
+    {
+      "id": "mitc4-modal",
+      "required": false,
+      "role": "alpha_candidate",
+      "declared_status": "stable"
+    },
+    {
+      "id": "mitc4-transient-dynamic",
+      "required": false,
+      "role": "alpha_candidate",
+      "declared_status": "stable"
+    },
+    {
+      "id": "mitc4-harmonic-response",
+      "required": false,
+      "role": "alpha_candidate",
+      "declared_status": "stable"
+    },
+    {
+      "id": "mitc3-linear-static",
+      "required": false,
+      "role": "alpha_candidate",
+      "declared_status": "stable"
+    },
+    {
+      "id": "beam2-linear-dynamics",
+      "required": false,
+      "role": "alpha_candidate",
+      "declared_status": "stable"
+    },
+    {
+      "id": "discrete-linear-dynamics",
+      "required": false,
+      "role": "alpha_candidate",
+      "declared_status": "stable"
+    },
+    {
+      "id": "material-nonlinear",
+      "required": false,
+      "role": "experimental",
+      "declared_status": "development"
+    },
+    {
+      "id": "mitc3-laminate-dynamic-thin-planar",
+      "required": false,
+      "role": "owner_decision_2026_08_22",
+      "declared_status": "stable"
+    },
+    {
+      "id": "mitc3-laminate-static-curved-mixed-transverse",
+      "required": false,
+      "role": "owner_decision_2026_08_22",
+      "declared_status": "stable"
+    },
+    {
+      "id": "orthotropic-solid-tet4-tet10",
+      "required": false,
+      "role": "owner_decision_2026_08_22",
+      "declared_status": "stable"
+    },
+    {
+      "id": "orthotropic-solid-modal",
+      "required": false,
+      "role": "owner_decision_2026_08_22",
+      "declared_status": "stable"
+    },
+    {
+      "id": "orthotropic-solid-transient-dynamic",
+      "required": false,
+      "role": "owner_decision_2026_08_22",
+      "declared_status": "stable"
+    }
+  ],
+  "exclusions": [
+    "external certification",
+    "commercial solver equivalence",
+    "large distributed qualification",
+    "damage and delamination",
+    "unbounded extrapolation from candidate scopes"
+  ]
+}

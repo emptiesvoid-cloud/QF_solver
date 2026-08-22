@@ -10,7 +10,7 @@ from dataclasses import dataclass
 
 import numpy as np
 
-from mitc4.constants import DOF_PER_NODE, RX, RY, RZ, UX, UY, UZ
+from solveur.elements.shell.mitc4.constants import DOF_PER_NODE, RX, RY, RZ, UX, UY, UZ
 
 from solveur.elements.shell.mitc3_condensation import condense_matrix, condensation_transform
 

@@ -1,0 +1,31 @@
+{
+  "review_id": "OWNER-REVIEW-MITC4-LAM-DYN-REFINED-THREE-LAYUPS-STABLE-PENDING-2026-08-21",
+  "review_mode": "owner_review",
+  "status": "owner_reviewed",
+  "scope": "mitc4-laminate-dynamic-refined-three-layups",
+  "decision": "accepted_with_recommendations",
+  "maturity_before": "owner_accepted_experimental_bounded_use",
+  "maturity_target": "stable",
+  "promotion_target": "stable",
+  "questions_document": "docs/verification/mitc4_laminate_dynamic_refined_three_layups_stable_owner_review.md",
+  "evidence": [
+    "qualification/maturity_evidence_0_2_1/mitc4_laminate_dynamic.json",
+    "qualification/vnv/external/code_aster_mitc4_laminate_dynamic_refinement_48x12_032/reference/",
+    "docs/verification/mitc4_laminate_dynamic_extended_owner_review.md"
+  ],
+  "review_date": "2026-08-21",
+  "owner_answers": {
+    "Q1": "OUI",
+    "Q2": "OUI",
+    "Q3": "OUI",
+    "Q4": "stable"
+  },
+  "owner_comment": "Cloture et promotion stable acceptees pour le sous-perimetre MITC4 multicouche dynamique plan documente. Les trois empilements, le cas amorti et les niveaux finaux sous 1 % sont acceptes. Les geometries courbes dynamiques, empilements non symetriques, grandes deformations, dommage, rupture et delamination restent exclus.",
+  "signature": {
+    "name": "Quentin Farinazzo",
+    "date": "2026-08-21",
+    "type": "declared_owner_review",
+    "independence": "not_independent",
+    "declaration": "Decision stable declaree par l'Owner dans la revue du paquet MITC4 multicouche dynamique."
+  }
+}

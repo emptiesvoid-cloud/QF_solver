@@ -21,6 +21,7 @@ from solveur.api import check_mesh, solve_model
 from solveur.core.model import FiniteElementModel
 from solveur.io.manifest import write_json_file
 from solveur.verification.calculix_composite import parse_original_frd_displacement
+from solveur.verification.mitc3_models import LAMINATE_MATERIAL
 from solveur.verification.vnv_manifest import write_vnv_manifest
 
 
@@ -65,9 +66,18 @@ class CalculixMitc3CurvedCompositeCorrelation:
     # floating-point round-off without hiding a geometric orientation error.
     orientation_limit_deg = 1.0e-5
 
-    def __init__(self, output_dir: str | Path, *, image: str = CALCULIX_IMAGE) -> None:
+    def __init__(
+        self,
+        output_dir: str | Path,
+        *,
+        image: str = CALCULIX_IMAGE,
+        load_case: str = "mixed",
+    ) -> None:
         self.output_dir = Path(output_dir).resolve()
         self.image = image
+        self.load_case = str(load_case)
+        if self.load_case not in {"mixed", "transverse", "axial"}:
+            raise ValueError(f"Unsupported curved MITC3 load case: {self.load_case}")
 
     def run(self) -> dict[str, Any]:
         self.output_dir.mkdir(parents=True, exist_ok=True)
@@ -105,6 +115,7 @@ class CalculixMitc3CurvedCompositeCorrelation:
             "maturity": "verified_development_external_correlation" if passed else "experimental",
             "external_solver": {"name": "CalculiX", "version": "2.20", "image": self.image, "element": "S6 COMPOSITE"},
             "qf_element": "MITC3+ shell_laminate",
+            "load_case": self.load_case,
             "geometry": {"kind": "cylindrical_panel", "length_m": 1.0, "radius_m": 0.5, "opening_deg": 60.0},
             "layup_deg": list(LAYUP),
             "reference_direction_global": REFERENCE_DIRECTION.tolist(),
@@ -138,14 +149,14 @@ class CalculixMitc3CurvedCompositeCorrelation:
         return summary
 
     def _run_mesh(self, nx: int, ny: int) -> dict[str, Any]:
-        model, mesh = _qf_model(nx, ny)
+        model, mesh = _qf_model(nx, ny, load_case=self.load_case)
         mesh_report = check_mesh(model)
         qf = solve_model(model, enforce_policy=False)
         right = list(mesh.tip_nodes)
         qf_ux = _weighted_displacement(qf, right, mesh.tip_weights, "UX")
         qf_uz = _weighted_displacement(qf, right, mesh.tip_weights, "UZ")
         stem = f"mitc3_curved_composite_s6_{nx}x{ny}"
-        write_s6_input(self.output_dir / f"{stem}.inp", mesh)
+        write_s6_input(self.output_dir / f"{stem}.inp", mesh, load_case=self.load_case)
         self._execute(stem)
         displacement = parse_original_frd_displacement(self.output_dir / f"{stem}.frd", len(mesh.nodes))
         tip_indices = np.asarray(mesh.tip_nodes, dtype=int)
@@ -253,7 +264,9 @@ class CalculixMitc3CurvedCompositeCorrelation:
             shutil.copy2(self.output_dir / name, reference / name)
 
 
-def _qf_model(nx: int, ny: int) -> tuple[FiniteElementModel, CurvedS6Mesh]:
+def _qf_model(nx: int, ny: int, *, load_case: str = "mixed") -> tuple[FiniteElementModel, CurvedS6Mesh]:
+    if load_case not in {"mixed", "transverse", "axial"}:
+        raise ValueError(f"Unsupported curved MITC3 load case: {load_case}")
     mesh = build_curved_s6_mesh(nx, ny)
     material = {
         "type": "shell_laminate",
@@ -263,13 +276,7 @@ def _qf_model(nx: int, ny: int) -> tuple[FiniteElementModel, CurvedS6Mesh]:
         "plies": [
             {
                 "name": f"ply-{index + 1}",
-                "E1": 135.0e9,
-                "E2": 10.0e9,
-                "nu12": 0.3,
-                "G12": 5.0e9,
-                "G13": 4.5e9,
-                "G23": 3.8e9,
-                "density": 1600.0,
+                **LAMINATE_MATERIAL,
                 "thickness": 2.0e-3,
                 "angle_deg": angle,
             }
@@ -277,11 +284,13 @@ def _qf_model(nx: int, ny: int) -> tuple[FiniteElementModel, CurvedS6Mesh]:
         ],
     }
     loads = []
+    axial_force = 1000.0 if load_case in {"mixed", "axial"} else 0.0
+    transverse_force = -20.0 if load_case == "mixed" else (-1000.0 if load_case == "transverse" else 0.0)
     for index, node in enumerate(mesh.tip_nodes):
         loads.extend(
             (
-                {"node": node, "dof": "UX", "value": 1000.0 * float(mesh.tip_weights[index])},
-                {"node": node, "dof": "UZ", "value": -20.0 * float(mesh.tip_weights[index])},
+                {"node": node, "dof": "UX", "value": axial_force * float(mesh.tip_weights[index])},
+                {"node": node, "dof": "UZ", "value": transverse_force * float(mesh.tip_weights[index])},
             )
         )
     model = FiniteElementModel.from_raw(
@@ -334,7 +343,9 @@ def build_curved_s6_mesh(nx: int, ny: int) -> CurvedS6Mesh:
     return CurvedS6Mesh(all_nodes, tuple(elements), np.asarray(triangles, dtype=int), fixed, tip, weights, tuple(orientations))
 
 
-def write_s6_input(path: str | Path, mesh: CurvedS6Mesh) -> Path:
+def write_s6_input(path: str | Path, mesh: CurvedS6Mesh, *, load_case: str = "mixed") -> Path:
+    if load_case not in {"mixed", "transverse", "axial"}:
+        raise ValueError(f"Unsupported curved MITC3 load case: {load_case}")
     target = Path(path)
     lines = ["*HEADING", "QF_solver MITC3 curved projected laminate", "*NODE"]
     lines.extend(f"{index},{point[0]:.14g},{point[1]:.14g},{point[2]:.14g}" for index, point in enumerate(mesh.nodes, start=1))
@@ -348,7 +359,17 @@ def write_s6_input(path: str | Path, mesh: CurvedS6Mesh) -> Path:
             *_csv(tuple(node + 1 for node in mesh.tip_nodes)),
         ]
     )
-    lines.extend(["*MATERIAL,NAME=LAMINA", "*ELASTIC,TYPE=ENGINEERING CONSTANTS", "1.35e11,1.0e10,1.0e10,0.3,0.3,0.4,5.0e9,4.5e9", "3.8e9", "*DENSITY", "1600."])
+    material = LAMINATE_MATERIAL
+    lines.extend(
+        [
+            "*MATERIAL,NAME=LAMINA",
+            "*ELASTIC,TYPE=ENGINEERING CONSTANTS",
+            f"{material['E1']:.16g},{material['E2']:.16g},{material['E2']:.16g},{material['nu12']:.16g},{material['nu12']:.16g},{material['nu12']:.16g},{material['G12']:.16g},{material['G13']:.16g}",
+            f"{material['G23']:.16g}",
+            "*DENSITY",
+            f"{material['density']:.16g}",
+        ]
+    )
     for index, orientation in enumerate(mesh.orientations, start=1):
         e1, e2, normal = orientation.T
         base = ",".join(f"{value:.16g}" for value in (*e1, *normal))
@@ -364,8 +385,10 @@ def write_s6_input(path: str | Path, mesh: CurvedS6Mesh) -> Path:
             ]
         )
     lines.extend(["*BOUNDARY", "FIXED,1,6", "*STEP", "*STATIC", "*CLOAD"])
+    axial_force = 1000.0 if load_case in {"mixed", "axial"} else 0.0
+    transverse_force = -20.0 if load_case == "mixed" else (-1000.0 if load_case == "transverse" else 0.0)
     lines.extend(
-        f"{node + 1},1,{1000.0 * float(weight):.16g}\n{node + 1},3,{-20.0 * float(weight):.16g}"
+        f"{node + 1},1,{axial_force * float(weight):.16g}\n{node + 1},3,{transverse_force * float(weight):.16g}"
         for node, weight in zip(mesh.tip_nodes, mesh.tip_weights, strict=True)
     )
     lines.extend(["*NODE FILE,OUTPUT=2D", "U", "*END STEP"])

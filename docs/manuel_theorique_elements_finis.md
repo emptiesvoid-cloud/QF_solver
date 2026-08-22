@@ -10,7 +10,7 @@ approver: ""
 # Manuel theorique des elements finis
 
 !!! warning "Document remplace"
-    Le manuel monolithique a ete migre vers le site technique modulaire afin
+    Le manuel monolithique a ete migre vers les pages techniques modulaires afin
     d'eviter deux formulations concurrentes. Cette page ne contient plus de
     resultats ni de demonstrations maintenus.
 
@@ -25,9 +25,9 @@ Les formulations applicables sont maintenant reparties entre :
 - [demonstrations reproductibles](demonstrations/index.md) ;
 - [verification et preuves](verification/index.md).
 
-Construire et servir le site avec :
+Regenerer les preuves documentaires et le PDF avec :
 
 ```powershell
 python .\scripts\build_docs.py --profile engineering
-python .\scripts\serve_docs.py
+python .\scripts\build_technical_latex.py
 ```

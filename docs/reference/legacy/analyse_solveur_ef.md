@@ -1,3 +1,12 @@
+---
+doc_id: DOC-LEGACY-ANALYSIS-001
+revision: 0.1
+status: draft
+applicable_version: 0.2.1-alpha
+reviewer: ""
+approver: ""
+---
+
 # Analyse du solveur EF MITC4 + tetra 3D
 
 ## Objectif

@@ -117,34 +117,58 @@ class LinearDynamicFamilyCampaign:
         probe_initial: float,
     ) -> dict[str, Any]:
         period = 1.0 / frequency
-        steps = 120
-        model = self._model(
-            {
-                "type": "transient_dynamic",
-                "method": "newmark",
-                "time_step": period / steps,
-                "steps": steps,
-                "newmark_beta": 0.25,
-                "newmark_gamma": 0.5,
-                "rayleigh_alpha": 0.0,
-                "rayleigh_beta": 0.0,
-                "load_factors": [0.0],
-                "initial_displacements": initial,
-                "history_probes": [{"node": probe_node, "dof": probe_dof, "label": "modal_probe"}],
-            }
-        )
-        result = solve_model(model, enforce_policy=False)
-        history = result.solver["time_history"]
-        times = np.asarray([row["time"] for row in history], dtype=float)
-        values = np.asarray(
-            [row["probes"]["modal_probe"]["displacement"] for row in history], dtype=float
-        )
+        time_levels = (30, 60, 120, 240)
+        histories: dict[int, tuple[np.ndarray, np.ndarray, Any]] = {}
+        for steps in time_levels:
+            model = self._model(
+                {
+                    "type": "transient_dynamic",
+                    "method": "newmark",
+                    "time_step": period / steps,
+                    "steps": steps,
+                    "newmark_beta": 0.25,
+                    "newmark_gamma": 0.5,
+                    "rayleigh_alpha": 0.0,
+                    "rayleigh_beta": 0.0,
+                    "load_factors": [0.0],
+                    "initial_displacements": initial,
+                    "history_probes": [{"node": probe_node, "dof": probe_dof, "label": "modal_probe"}],
+                }
+            )
+            result = solve_model(model, enforce_policy=False)
+            history = result.solver["time_history"]
+            times = np.asarray([row["time"] for row in history], dtype=float)
+            values = np.asarray(
+                [row["probes"]["modal_probe"]["displacement"] for row in history], dtype=float
+            )
+            histories[steps] = (times, values, result)
+
+        steps = time_levels[-1]
+        times, values, result = histories[steps]
         expected = probe_initial * np.cos(2.0 * math.pi * frequency * times)
         scale = max(float(np.max(np.abs(expected))), 1.0e-18)
         relative_rms = float(np.sqrt(np.mean((values - expected) ** 2)) / scale)
-        energy_drift = float(max(abs(row["relative_energy_drift"]) for row in history))
+        energy_drift = float(max(abs(row["relative_energy_drift"]) for row in result.solver["time_history"]))
         residual = float(max(result.solver["residual_history"], default=0.0))
-        passed = relative_rms <= 2.0e-3 and energy_drift <= 1.0e-4 and residual <= 1.0e-7
+        refinement_errors = []
+        for coarse_steps, fine_steps in zip(time_levels[:-1], time_levels[1:]):
+            coarse_times, coarse_values, _ = histories[coarse_steps]
+            fine_times, fine_history_values, _ = histories[fine_steps]
+            fine_values = np.interp(coarse_times, fine_times, fine_history_values)
+            reference_scale = max(float(np.max(np.abs(fine_values))), 1.0e-30)
+            refinement_errors.append(
+                float(np.linalg.norm(fine_values - coarse_values) / reference_scale)
+            )
+        # The promotion metric is the final adjacent-level increment. Earlier
+        # levels remain diagnostic because they intentionally include the
+        # coarse transient start-up error.
+        time_refinement_error = refinement_errors[-1] if refinement_errors else 0.0
+        passed = (
+            relative_rms <= 2.0e-3
+            and energy_drift <= 1.0e-4
+            and residual <= 1.0e-7
+            and time_refinement_error <= 1.0e-2
+        )
         return {
             "status": "PASS" if passed else "FAIL",
             "period_s": period,
@@ -154,6 +178,10 @@ class LinearDynamicFamilyCampaign:
             "relative_rms_error_to_single_mode": relative_rms,
             "maximum_energy_drift": energy_drift,
             "maximum_dynamic_residual": residual,
+            "time_level_count": len(time_levels),
+            "time_levels_steps": list(time_levels),
+            "time_refinement_error_max": time_refinement_error,
+            "time_refinement_error_all_levels_max": max(refinement_errors, default=0.0),
         }
 
     def _harmonic_study(

@@ -63,7 +63,7 @@ def solve_structured_matrix_free(
     displacement[free] = solution
     solver_info = {
         "method": "matrix_free_cg",
-        "preconditioner": "diagonal",
+        "preconditioner": "nodal_block_jacobi",
         "iterations": iterations,
         "residual_norm": residual,
         "relative_residual": residual / max(rhs_norm, 1.0),
@@ -85,9 +85,17 @@ class StructuredBlockOperator(LinearOperator):
         self.free = np.asarray(free, dtype=np.int64)
         self.chunk_size = max(1, int(chunk_size))
         self.templates = _element_templates(model)
+        self.element_ids_by_template = tuple(
+            np.arange(local_index, model.element_count, len(self.templates), dtype=np.int64)
+            for local_index in range(len(self.templates))
+        )
         self.diagonal = self._build_diagonal()
+        self.block_inverse = self._build_block_inverse()
         self.memory_bytes = int(
-            sum(template.nbytes for template in self.templates) + self.diagonal.nbytes + self.free.nbytes
+            sum(template.nbytes for template in self.templates)
+            + self.diagonal.nbytes
+            + self.block_inverse.nbytes
+            + self.free.nbytes
         )
         super().__init__(dtype=float, shape=(self.free.size, self.free.size))
 
@@ -100,42 +108,80 @@ class StructuredBlockOperator(LinearOperator):
     def apply_full(self, displacement: np.ndarray) -> np.ndarray:
         u_nodes = displacement.reshape((self.model.node_count, 3))
         y_nodes = np.zeros_like(u_nodes)
-        indices = np.arange(self.model.element_count, dtype=np.int64)
-        for local_index, template in enumerate(self.templates):
-            selected = indices[local_index::6]
+        for template, selected in zip(self.templates, self.element_ids_by_template, strict=True):
             for start in range(0, selected.size, self.chunk_size):
                 element_ids = selected[start : start + self.chunk_size]
                 nodes = self.model.tet4[element_ids]
                 local_u = u_nodes[nodes].reshape((-1, 12))
                 local_f = local_u @ template.T
-                np.add.at(y_nodes, nodes, local_f.reshape((-1, 4, 3)))
+                _accumulate_node_values(y_nodes, nodes, local_f.reshape((-1, 4, 3)))
         return y_nodes.ravel()
 
     def preconditioner(self) -> LinearOperator:
-        inverse = np.divide(1.0, self.diagonal[self.free], out=np.ones(self.free.size), where=self.diagonal[self.free] > 0.0)
+        def apply(vector: np.ndarray) -> np.ndarray:
+            full = np.zeros(self.model.ndof, dtype=float)
+            full[self.free] = vector
+            values = full.reshape((self.model.node_count, 3))
+            corrected = np.einsum("nij,nj->ni", self.block_inverse, values, optimize=True)
+            return corrected.ravel()[self.free]
+
         return LinearOperator(
             shape=(self.free.size, self.free.size),
-            matvec=lambda vector: inverse * vector,
+            matvec=apply,
             dtype=float,
         )
 
     def _build_diagonal(self) -> np.ndarray:
         diagonal_nodes = np.zeros((self.model.node_count, 3), dtype=float)
-        indices = np.arange(self.model.element_count, dtype=np.int64)
-        for local_index, template in enumerate(self.templates):
+        for template, selected in zip(self.templates, self.element_ids_by_template, strict=True):
             local_diag = np.diag(template).reshape((4, 3))
-            selected = indices[local_index::6]
             for start in range(0, selected.size, self.chunk_size):
                 nodes = self.model.tet4[selected[start : start + self.chunk_size]]
                 tiled = np.broadcast_to(local_diag, (nodes.shape[0], 4, 3))
-                np.add.at(diagonal_nodes, nodes, tiled)
+                _accumulate_node_values(diagonal_nodes, nodes, tiled)
         return diagonal_nodes.ravel()
+
+    def _build_block_inverse(self) -> np.ndarray:
+        """Build a 3-by-3 nodal block-Jacobi inverse for faster CG convergence."""
+        blocks = np.zeros((self.model.node_count, 3, 3), dtype=float)
+        for template, selected in zip(self.templates, self.element_ids_by_template, strict=True):
+            for local_node in range(4):
+                node_block = template[3 * local_node : 3 * local_node + 3, 3 * local_node : 3 * local_node + 3]
+                nodes_by_element = self.model.tet4[selected]
+                for row in range(3):
+                    for column in range(3):
+                        blocks[:, row, column] += np.bincount(
+                            nodes_by_element[:, local_node],
+                            weights=np.full(nodes_by_element.shape[0], node_block[row, column]),
+                            minlength=self.model.node_count,
+                        )
+        try:
+            return np.linalg.inv(blocks)
+        except np.linalg.LinAlgError:
+            inverse = np.zeros_like(blocks)
+            for index, block in enumerate(blocks):
+                inverse[index] = np.linalg.pinv(block, rcond=1.0e-12)
+            return inverse
+
+
+def _accumulate_node_values(target: np.ndarray, nodes: np.ndarray, values: np.ndarray) -> None:
+    """Accumulate all three components in one vectorized scatter operation."""
+    if nodes.ndim != 2 or nodes.shape[1] != 4 or values.shape != (nodes.shape[0], 4, 3):
+        raise ValueError("Structured TET4 accumulation expects nodes (n, 4) and values (n, 4, 3).")
+    components = np.arange(3, dtype=nodes.dtype)
+    flat_dofs = (nodes[:, :, None] * 3 + components).reshape(-1)
+    target.ravel()[:] += np.bincount(
+        flat_dofs,
+        weights=values.reshape(-1),
+        minlength=target.size,
+    )
 
 
 def _element_templates(model: LargeModel) -> tuple[np.ndarray, ...]:
     material = _single_material(model)
     element = Tet4Element(material)
-    return tuple(element.stiffness(model.nodes[model.tet4[index]]) for index in range(6))
+    count = int(model.analysis.get("large_model", {}).get("tetrahedra_per_cell", 6))
+    return tuple(element.stiffness(model.nodes[model.tet4[index]]) for index in range(count))
 
 
 def _single_material(model: LargeModel) -> SolidConstitutiveMaterial:
@@ -149,7 +195,10 @@ def _validate_structured_model(model: LargeModel) -> None:
     metadata = dict(model.analysis.get("large_model", {}))
     if metadata.get("kind") != "structured_tet4_block":
         raise ValueError("Matrix-free backend supports generated structured_tet4_block models only.")
-    expected = 6 * int(metadata["nx"]) * int(metadata["ny"]) * int(metadata["nz"])
+    tetrahedra_per_cell = int(metadata.get("tetrahedra_per_cell", 6))
+    if tetrahedra_per_cell not in {6, 12}:
+        raise ValueError("Structured block metadata supports six or twelve TET4 per cell.")
+    expected = tetrahedra_per_cell * int(metadata["nx"]) * int(metadata["ny"]) * int(metadata["nz"])
     if model.element_count != expected:
         raise ValueError(f"Structured block metadata expects {expected} TET4 elements, got {model.element_count}.")
     if model.element_count < 6:

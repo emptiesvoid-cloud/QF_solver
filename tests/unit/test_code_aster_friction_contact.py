@@ -30,7 +30,9 @@ def test_code_aster_friction_deck_declares_traceable_continuous_coulomb_contact(
 def test_campaign_normalizes_saturated_sliding_evidence_without_docker(tmp_path, monkeypatch) -> None:
     """The campaign contract is testable without its opt-in Docker oracle."""
     values = {
-        "slip": {"ux_m": 0.15, "uz_m": -0.1},
+        "slip_200": {"ux_m": 0.15, "uz_m": -0.1},
+        "slip_250": {"ux_m": 0.2, "uz_m": -0.1},
+        "slip_300": {"ux_m": 0.25, "uz_m": -0.1},
     }
 
     def fake_code_aster(work, stem, **_kwargs) -> None:
@@ -42,6 +44,7 @@ def test_campaign_normalizes_saturated_sliding_evidence_without_docker(tmp_path,
     summary = friction.CodeAsterFrictionContactCampaign(tmp_path).run()
 
     assert summary["status"] == "PASS_EXTERNAL_CORRELATION"
-    assert [row["id"] for row in summary["cases"]] == ["slip"]
-    assert summary["cases"][0]["qf_state"] == "slip"
+    assert [row["id"] for row in summary["cases"]] == ["slip_200", "slip_250", "slip_300"]
+    assert all(row["qf_state"] == "slip" for row in summary["cases"])
+    assert summary["load_level_count"] == 3
     assert all(row["status"] == "PASS" for row in summary["checks"])

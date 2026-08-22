@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "review_id": "OWNER-REVIEW-TET10-J2-2026-08-15",
+  "review_mode": "owner_review",
+  "status": "pending",
+  "scope": ["tet10-material-nonlinear"],
+  "purpose": "Statuer sur le perimetre TET10 J2 experimental borne apres lecture du cas structural et de la reference constitutive.",
+  "evidence": [
+    "qualification/maturity_evidence_0_2_1/tet10_j2.json",
+    "qualification/maturity_evidence_0_2_1/tet10_dynamic_code_aster/summary.json",
+    "qualification/reviews/tet10_j2_structural_code_aster_2026-08-09.json",
+    "tests/verification/test_tet10_j2_structural_vnv.py",
+    "tests/unit/test_code_aster_tet10_j2_structural.py",
+    "tests/unit/test_code_aster_tet10_j2_complex.py"
+  ],
+  "questions": [
+    {"id": "Q1", "question": "La preuve constitutive et le cas structurel couvrent-ils le perimetre TET10 J2 revendique ?", "answer": null},
+    {"id": "Q2", "question": "Les limites petites deformations, chargement et regularisation sont-elles explicitement acceptables ?", "answer": null},
+    {"id": "Q3", "question": "Le statut experimental borne est-il approprie sans extrapolation a la rupture ou aux grandes deformations ?", "answer": null},
+    {"id": "Q4", "question": "Decision Owner : accepted_with_recommendations, accepted_for_bounded_engineering_use ou more_evidence_required ?", "answer": null}
+  ],
+  "decision": null,
+  "signature": null,
+  "certification_claim": "none"
+}

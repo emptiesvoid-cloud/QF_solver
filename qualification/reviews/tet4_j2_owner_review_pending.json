@@ -1,0 +1,30 @@
+{
+  "review_id": "TET4-J2-OWNER-REVIEW-2026-08-15",
+  "revision": "0.2.1-alpha",
+  "status": "pending_owner_review",
+  "decision": null,
+  "reviewer": null,
+  "review_date": null,
+  "scope": ["tet4-material-nonlinear"],
+  "questions": [
+    "Q1: Le domaine small-strain J2 isotrope avec ecrouissage lineaire est-il correctement defini ?",
+    "Q2: La campagne structurelle TET4 de 140 elements avec 24 points de chemin de charge, decharge, inversion et rechargement est-elle suffisante ?",
+    "Q3: La reference constitutive Code_Aster VMIS_ISOT_LINE, avec six checks PASS et image epinglee, est-elle acceptable comme oracle material-point ?",
+    "Q4: Les grandes deformations, l'anisotropie plastique, le dommage, le contact et la rupture doivent-ils rester exclus ?",
+    "Q5: Decision Owner pour le perimetre experimental TET4 J2"
+  ],
+  "evidence": [
+    "qualification/maturity_evidence_0_2_1/tet4_j2.json",
+    "qualification/maturity_evidence_0_2_1/tet4_j2_structural_campaign/summary.json",
+    "qualification/maturity_evidence_0_2_1/tet4_j2_structural_campaign/report.md",
+    "qualification/maturity_evidence_0_2_1/tet4_j2_structural_campaign/cyclic_response.png",
+    "qualification/maturity_evidence_0_2_1/tet4_j2_structural_campaign/deformation.vtu",
+    "qualification/external_reference_digests/code_aster_j2.json"
+  ],
+  "limitations": [
+    "La reference Code_Aster est constitutive et material-point; elle ne remplace pas une correlation structurelle externe.",
+    "La campagne ne couvre pas les grandes deformations ni l'ecrouissage cinematique.",
+    "Aucune maturite ne doit changer sans decision Owner explicite."
+  ],
+  "certification_claim": "none"
+}

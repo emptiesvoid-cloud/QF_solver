@@ -359,13 +359,13 @@
       "same_mesh_code_aster_status": "PASS"
     }
   ],
-  "evidence_manifest_sha256": "89b659a569b62c5505e3148218243f5df5bbdc8de79dc4f142bfce42750a1dc7",
+  "evidence_manifest_sha256": "843007ec86f15f8b5bc7940b683c7a852cdc1a1f1d05347d4130fbbb33761781",
   "limitations": [
     "The two new geometries contain finite-radius concentrations, not mathematical point singularities.",
     "S11 is a stress observable and not an anisotropic failure criterion.",
     "The accepted domain remains small-strain homogeneous orthotropy."
   ],
-  "maturity": "engineering_internal_pending_human_recheck",
+  "maturity": "engineering_internal_pending_owner_recheck",
   "observable": "material-axis S11 [Pa]",
   "status": "PASS_STRESS_ACCEPTANCE"
 }

@@ -1,0 +1,28 @@
+{
+  "review_id": "OWNER-REVIEW-BEAM2-DISCRETE-DYNAMICS-STABLE-PENDING-2026-08-21",
+  "review_mode": "owner_review",
+  "status": "owner_reviewed",
+  "scope": [
+    "beam2-linear-dynamics",
+    "discrete-linear-dynamics"
+  ],
+  "decision": "accepted_with_recommendations",
+  "promotion_target": "stable",
+  "questions_document": "docs/verification/beam2_discrete_dynamics_stable_owner_review.md",
+  "evidence": [
+    "qualification/vnv/linear_dynamic_families/beam2/summary.json",
+    "qualification/vnv/linear_dynamic_families/spring_mass/summary.json",
+    "qualification/vnv/external/code_aster_beam2_transverse/reference/summary.json",
+    "qualification/vnv/external/code_aster_discrete/reference/summary.json",
+    "qualification/reviews/linear_dynamic_closure_register.json",
+    "output/pdf/owner_review_dynamique_lineaire.pdf"
+  ],
+  "review_date": "2026-08-21",
+  "owner_comment": "Promotion stable acceptee pour les routes dynamiques lineaires documentees; les exclusions du domaine restent applicables.",
+  "signature": {
+    "name": "Quentin Farinazzo",
+    "date": "2026-08-21",
+    "type": "declared_owner_review",
+    "independence": "not_independent"
+  }
+}

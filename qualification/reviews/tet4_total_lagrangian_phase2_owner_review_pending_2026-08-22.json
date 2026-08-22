@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "review_id": "OWNER-REVIEW-TET4-TL-PHASE2-2026-08-22",
+  "revision": "0.1",
+  "status": "pending_owner_decision",
+  "review_mode": "owner_review",
+  "scope": "tet4-total-lagrangian-structural-v2",
+  "owner": null,
+  "decision_date": null,
+  "promotion_target": "research",
+  "proposed_decision": "research / more_evidence_required",
+  "recording_mode": "pending_owner_confirmation",
+  "certification_claim": "none",
+  "evidence": [
+    "results/VNV-TET4-TL-PHASE2-LARGE-011/summary.json",
+    "results/VNV-TET4-TL-PHASE2-LARGE-012/summary.json",
+    "docs/verification/tet4_total_lagrangian_phase2_roadmap_2026-08-22.md",
+    "qualification/tickets/tet4_total_lagrangian_phase2_2026-08-22.json"
+  ],
+  "observations": {
+    "target_elements": 1152000,
+    "attempt_011_status": "RESOURCE_LIMIT_ABORTED",
+    "attempt_011_private_memory_gb": 47.85,
+    "attempt_012_status": "RESOURCE_LIMIT_ABORTED",
+    "attempt_012_private_memory_gb": 30.02,
+    "mechanical_result_available": false,
+    "interpretation": "Resource limitation of the current dense tangent assembly path; no mechanical pass or fail is inferred."
+  },
+  "questions": [
+    {"id": "Q1", "question": "Confirmer le maintien du statut research / more_evidence_required.", "answer": null},
+    {"id": "Q2", "question": "Confirmer qu'un calcul interrompu pour limite de ressources ne constitue pas une validation mecanique.", "answer": null},
+    {"id": "Q3", "question": "Confirmer le maintien des exclusions contact, dommage, rupture, pression suiveuse, plasticite en deformation finie et extrapolation hors des cas testes.", "answer": null},
+    {"id": "Q4", "question": "Confirmer qu'une assemblage par blocs, matrix-free ou distribue est necessaire avant une nouvelle sonde a 1,2 million d'elements.", "answer": null}
+  ],
+  "decision": null,
+  "signature": null
+}

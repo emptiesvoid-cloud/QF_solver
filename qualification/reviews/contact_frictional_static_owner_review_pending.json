@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "review_id": "OWNER-REVIEW-CONTACT-FRICTIONAL-STATIC-PENDING",
+  "scope": "contact-frictional-static",
+  "review_type": "owner_review",
+  "review_mode": "pending_owner_decision",
+  "decision": null,
+  "decision_date": null,
+  "owner": null,
+  "certification_claim": "none",
+  "evidence": [
+    "qualification/maturity_evidence_0_2_1/contact_frictional_static.json",
+    "qualification/maturity_evidence_0_2_1/contact_frictional_structural_campaign/summary.json",
+    "qualification/maturity_evidence_0_2_1/contact_frictional_family_survey/summary.json",
+    "qualification/maturity_evidence_0_2_1/contact_frictional_family_survey/report.md",
+    "qualification/maturity_evidence_0_2_1/contact_friction_code_aster_three_loads/summary.json",
+    "qualification/maturity_evidence_0_2_1/contact_friction_code_aster_three_loads/report.md",
+    "qualification/maturity_evidence_0_2_1/contact_friction_code_aster_three_loads/code_aster_friction_comparison.png",
+    "qualification/vnv/external/code_aster_friction_contact/reference/summary.json",
+    "docs/verification/contact_frottement_vnv.md",
+    "docs/elements/contact_avec_frottement.md"
+  ],
+  "scope_under_review": {
+    "element": "node-to-triangle contact",
+    "material": "linear elastic structural support with regularized Coulomb friction",
+    "analysis": "linear_static_small_displacement",
+    "geometry_families": [
+      "dual_stop_corner",
+      "faceted_ramp_patch",
+      "deformable_tet4_two_slaves"
+    ],
+    "mesh_levels_per_family": 3,
+    "external_oracle": "Code_Aster 18.1 controlled slip case at three tangential load levels"
+  },
+  "review_questions": [
+    "Les trois familles et trois niveaux de maillage sont-ils suffisants pour le domaine borne declare ?",
+    "Les gaps, pressions, forces tangentielles, cone de Coulomb et branches stick/slip sont-ils correctement interpretes ?",
+    "La correlation Code_Aster sur trois niveaux de glissement peut-elle etre acceptee comme preuve externe partielle, sans extrapolation aux autres familles ?",
+    "Le statut owner_accepted est-il approprie, ou faut-il conserver experimental ?",
+    "Les exclusions surface-surface general, grand glissement, contact dynamique, impact, usure et dommage sont-elles explicites et acceptees ?"
+  ],
+  "known_limits": [
+    "La campagne de diversite est interne; la correlation externe couvre une seule geometrie/contact-law avec trois niveaux de glissement.",
+    "La branche stick, les normales mises a jour et le contact surface-surface general ne sont pas qualifies.",
+    "Aucune decision ne doit etre deduite de ce fichier tant qu'il reste pending."
+  ],
+  "signature": null
+}

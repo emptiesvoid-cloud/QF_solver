@@ -17,11 +17,13 @@ if __package__:
     from scripts.audit_public_release import audit_public_release
     from scripts.audit_git_history import audit_git_history_paths
     from scripts.audit_release_archive import audit_release_archive
+    from scripts.git_tools import git_command
 else:
     # Support direct execution with ``python scripts/release_readiness.py``.
     from audit_public_release import audit_public_release  # type: ignore[no-redef]
     from audit_git_history import audit_git_history_paths  # type: ignore[no-redef]
     from audit_release_archive import audit_release_archive  # type: ignore[no-redef]
+    from git_tools import git_command  # type: ignore[no-redef]
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -135,7 +137,7 @@ def _git_tag_check(root: Path, version: str) -> dict[str, str]:
 def _git(root: Path, *args: str) -> subprocess.CompletedProcess[str] | None:
     try:
         completed = subprocess.run(
-            ["git", *args], cwd=root, text=True, capture_output=True, check=False, timeout=10
+            [git_command(), *args], cwd=root, text=True, capture_output=True, check=False, timeout=10
         )
     except (FileNotFoundError, subprocess.TimeoutExpired):
         return None

@@ -5,7 +5,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[2]
-PENDING_REVIEW = ROOT / "qualification" / "reviews" / "orthotropic_solids_pending.json"
+PENDING_REVIEW = ROOT / "qualification" / "reviews" / "archive" / "superseded" / "orthotropic_solids_pending.json"
 SIGNED_REVIEW = ROOT / "qualification" / "reviews" / "orthotropic_solids_2026-07-22.json"
 SPECIFICATION = ROOT / "qualification" / "specifications" / "composite_solids.json"
 
@@ -42,7 +42,7 @@ def test_orthotropic_solids_review_covers_all_automated_evidence() -> None:
     assert recommendations["REC-ORTHO-003"]["blocking_total_or_external_acceptance"] is True
 
 
-def test_orthotropic_solids_review_records_partial_human_decisions() -> None:
+def test_orthotropic_solids_review_records_partial_owner_decisions() -> None:
     review = json.loads(PENDING_REVIEW.read_text(encoding="utf-8"))
 
     decisions = {item["item"]: item["decision"] for item in review["recorded_decisions"]}
@@ -95,7 +95,7 @@ def test_singular_stress_interim_review_has_completed_added_evidence() -> None:
 
     assert review["decision"] == "more_evidence_required"
     assert review["decision_date"] == "2026-07-29"
-    assert review["status"] == "additional_evidence_complete_pending_human_recheck"
+    assert review["status"] == "additional_evidence_complete_pending_owner_recheck"
     assert review["additional_evidence"]["status"] == "PASS_STRESS_ACCEPTANCE"
     assert review["additional_evidence"]["stress_fields_published"] is True
 

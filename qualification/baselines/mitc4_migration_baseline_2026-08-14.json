@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "baseline_id": "MITC4-MIGRATION-BASELINE-2026-08-14",
+  "purpose": "Numerical guardrail before moving the validated MITC4 implementation under solveur.elements.shell.",
+  "canonical_source_after_migration": [
+    "src/solveur/elements/shell/mitc4/element.py",
+    "src/solveur/elements/shell/mitc4/material.py",
+    "src/solveur/elements/shell/mitc4/adapter.py"
+  ],
+  "compatibility_contract": [
+    "import mitc4 remains available through the 0.2.x series",
+    "mitc4-solver remains a supported compatibility command through the 0.2.x series",
+    "the canonical implementation after migration is solveur.elements.shell.mitc4"
+  ],
+  "material": {
+    "E": 70000000000.0,
+    "nu": 0.29,
+    "t": 0.012,
+    "density": 2780.0
+  },
+  "coordinates": [
+    [0.0, 0.0, 0.0],
+    [1.8, 0.0, 0.05],
+    [1.8, 0.9, 0.12],
+    [0.0, 0.9, 0.02]
+  ],
+  "stiffness": {
+    "shape": [24, 24],
+    "frobenius_norm": 2347866282.8352876,
+    "trace": 5339451502.261288,
+    "symmetry_relative": 1.1098928047886957e-16,
+    "rounded_checksum_sha256": "6361beeac283d9fcc518447732b58770cc9c977b6561022be6a99df70e4105bb"
+  },
+  "mass": {
+    "shape": [24, 24],
+    "frobenius_norm": 26.056567093939993,
+    "trace": 72.21063839098781,
+    "sum": 162.47405232727868,
+    "symmetry_relative": 0.0,
+    "rounded_checksum_sha256": "42c515975d3687f11a5d1fbad52a7d38fa1b2acc8e960b73a73dfb58ca6edf6a"
+  },
+  "verification_command": "python -m mitc4.cli verify --quick",
+  "verification_status": "PASS",
+  "targeted_test_command": "python -m pytest tests/verification/test_mitc4_verification.py tests/unit/test_mitc4_dynamics.py tests/unit/test_mitc4_laminate.py tests/unit/test_mitc4_laminate_orientation.py tests/integration/test_mitc4_dynamic_cli.py tests/integration/test_packaging.py -q",
+  "targeted_test_status": "61 passed",
+  "recorded_on": "2026-08-14"
+}

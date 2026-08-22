@@ -1,4 +1,4 @@
-"""Write human-readable white-box audit Markdown reports."""
+"""Write reader-oriented white-box audit Markdown reports."""
 
 from __future__ import annotations
 

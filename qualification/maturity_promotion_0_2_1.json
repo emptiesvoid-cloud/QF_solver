@@ -1,0 +1,242 @@
+{
+  "schema_version": 1,
+  "plan_id": "QF-MATURITY-PROMOTION-021-001",
+  "release": {
+    "name": "QF_solver",
+    "version": "0.2.1a0",
+    "purpose": "Extend evidence for implemented scopes without adding elements, solvers, or model formats."
+  },
+  "policy": {
+    "status_changes_are_evidence_driven": true,
+    "new_capabilities_allowed": false,
+    "owner_review_required_for_promotion": true,
+    "external_audit_optional_but_recorded": true,
+    "bounded_label_rule": "A bounded acceptance is not removed by wording alone. The target owner_accepted status requires evidence over the declared expanded domain.",
+    "stable_rule": "A stable status requires analytical or invariant evidence, convergence, external correlation when comparable, diagnostics, reproducibility, and a dated owner_review.",
+    "primary_engineering_error_limit": 0.01,
+    "primary_engineering_error_limit_unit": "relative_fraction",
+    "primary_engineering_error_policy": "From QF_solver 0.2.1a0 onward, every primary engineering observable used for V&V or stable promotion must have a relative error <= 1 percent against its declared reference. A value > 1 percent blocks stable promotion unless a formal mechanical justification, reproducible additional refinement, and a dated Owner decision are recorded. Residuals, mesh increments and conditioning diagnostics remain separate acceptance criteria."
+  },
+  "current_snapshot": {
+    "date": "2026-08-21",
+    "status": "owner_reviewed_in_progress_toward_release",
+    "owner_stable_scope_count": 23,
+    "owner_stable_register": "qualification/reviews/owner_stable_promotion_2026-08-21.json",
+    "stable_element_families": [
+      "BEAM2 linear static/dynamic",
+      "discrete linear static/dynamic",
+      "MITC3 isotrope classique",
+      "MITC4 isotrope classique",
+      "MITC4 multicouche statique plane et dynamique sur trois layups",
+      "MITC4 orthotrope homogene mono-pli dans le domaine documente",
+      "TET4 isotrope lineaire statique/modal/Newmark/harmonique",
+      "TET10 isotrope lineaire statique/modal/Newmark/harmonique"
+    ],
+    "bounded_non_stable_scopes": [
+      "contact statique et contact frottant",
+      "TET4/TET10 J2 materiau non lineaire",
+      "orthotropie solide TET4/TET10 modal/transitoire",
+      "grand modele TET4 PETSc/MPI",
+      "MITC3 multicouche et MITC3 courbe",
+      "TET4 total-lagrangien structural"
+    ],
+    "open_owner_or_independent_gates": [
+      "mitc3-laminate-dynamic",
+      "mitc3-laminate-static-curved",
+      "mitc3-laminate-dynamic-thin-planar",
+      "mitc3-laminate-static-curved-mixed-transverse",
+      "tet4-total-lagrangian-structural-v2"
+    ],
+    "explicitly_out_of_acceptance": [
+      "MITC4 orthotrope courbe dynamique non convergee 32x16",
+      "dommage, rupture, delamination et grandes deformations non qualifiees",
+      "pics de contraintes exactement aux singularites"
+    ]
+  },
+  "evidence_templates": {
+    "linear_static": {
+      "required": [
+        "analytical_reference_or_patch_invariant",
+        "three_mesh_levels_and_convergence_indicator",
+        "three_geometry_or_loading_families",
+        "energy_reactions_and_free_residual",
+        "external_correlation_when_comparable",
+        "api_cli_and_export_regression"
+      ]
+    },
+    "modal": {
+      "required": [
+        "analytical_or_external_frequency_reference",
+        "mass_and_stiffness_orthogonality",
+        "eigenpair_residuals_and_rigid_modes",
+        "mesh_convergence_and_mode_tracking",
+        "external_mode_correlation_when_comparable",
+        "api_cli_and_export_regression"
+      ]
+    },
+    "transient_newmark": {
+      "required": [
+        "modal_basis_or_analytical_time_reference",
+        "time_step_refinement",
+        "energy_or_damping_invariant",
+        "dynamic_residual_and_equilibrium",
+        "external_history_correlation_when_comparable",
+        "api_cli_and_export_regression"
+      ]
+    },
+    "harmonic": {
+      "required": [
+        "zero_frequency_static_limit",
+        "frequency_refinement_and_resonance_tracking",
+        "amplitude_phase_and_finite_response_checks",
+        "modal_or_direct_consistency",
+        "external_frequency_response_when_comparable",
+        "api_cli_and_export_regression"
+      ]
+    },
+    "laminate_static": {
+      "required": [
+        "laminate_abd_and_ply_stress_invariants",
+        "layup_orientation_and_projected_axis_cases",
+        "flat_and_curved_mesh_refinement",
+        "non_singular_displacement_and_stress_observables",
+        "external_correlation_when_comparable",
+        "explicit_damage_delamination_and_s13_exclusions"
+      ]
+    },
+    "laminate_dynamic": {
+      "required": [
+        "laminate_mass_modal_and_dynamic_invariants",
+        "three_layups_and_orientation_cases",
+        "mesh_and_time_or_frequency_refinement",
+        "modal_newmark_and_harmonic_consistency",
+        "external_correlation_when_comparable",
+        "explicit_curved_damage_and_delamination_exclusions"
+      ]
+    },
+    "material_nonlinear": {
+      "required": [
+        "constitutive_tangent_finite_difference_check",
+        "monotonic_unloading_reloading_and_cyclic_paths",
+        "mesh_refinement_outside_singular_zones",
+        "global_equilibrium_and_internal_variable_checks",
+        "external_structural_correlation_when_comparable",
+        "explicit_small_strain_damage_and_contact_limits"
+      ]
+    },
+    "geometric_nonlinear": {
+      "required": [
+        "objectivity_and_total_lagrangian_invariants",
+        "increment_and_mesh_refinement",
+        "buckling_and_post_buckling_load_path_observables",
+        "external_structural_correlation_when_comparable",
+        "explicit_contact_damage_and_large_rotation_limits"
+      ]
+    },
+    "contact": {
+      "required": [
+        "gap_complementarity_and_penetration_checks",
+        "normal_and_tangential_equilibrium",
+        "three_contact_geometries_and_mesh_refinement",
+        "load_unload_branch_observables",
+        "external_correlation_when_mechanically_equivalent",
+        "explicit_regularization_and_friction_limits"
+      ]
+    },
+    "discrete_static": {
+      "required": [
+        "closed_form_stiffness_and_reaction_reference",
+        "series_parallel_and_rotated_entity_cases",
+        "mpc_rbe_constraint_rank_and_reaction_checks",
+        "api_cli_and_export_regression"
+      ]
+    },
+    "large_static": {
+      "required": [
+        "multi_scale_dof_and_element_runs",
+        "distributed_assembly_and_input_output",
+        "residual_memory_and_finite_response_checks",
+        "rank_scaling_and_preconditioner_sensitivity",
+        "reproducible_environment_and_sha256_manifest",
+        "explicit_weak_scaling_and_hardware_limits"
+      ]
+    }
+  },
+  "scope_plans": [
+    {"scope": "beam2-linear-dynamics", "current_status": "stable", "target_status": "stable", "template": "modal", "priority": "P1", "reason": "Maintain the stable modal, Newmark and harmonic beam domain on documented assemblies."},
+    {"scope": "beam2-linear-static", "current_status": "stable", "target_status": "stable", "template": "linear_static", "priority": "P1", "reason": "Maintain stable use for the documented straight-beam linear-static domain."},
+    {"scope": "contact-frictional-static", "current_status": "experimental", "target_status": "owner_accepted", "template": "contact", "priority": "P3", "reason": "Broaden evidence without claiming dynamic or rupture contact."},
+    {"scope": "contact-v1-linear-static-bounded", "current_status": "owner_accepted", "target_status": "owner_accepted", "template": "contact", "priority": "P2", "reason": "Extend the accepted static domain before considering stability."},
+    {"scope": "discrete-linear", "current_status": "stable", "target_status": "stable", "template": "discrete_static", "priority": "P1", "reason": "Maintain the stable bounded linear spring/mass domain."},
+    {"scope": "discrete-linear-dynamics", "current_status": "stable", "target_status": "stable", "template": "transient_newmark", "priority": "P1", "reason": "Maintain the stable linear dynamic discrete domain."},
+    {"scope": "mitc3-harmonic-response", "current_status": "stable", "target_status": "stable", "template": "harmonic", "priority": "P1", "reason": "Maintain the stable isotropic triangular-shell harmonic response domain."},
+    {"scope": "mitc3-laminate-dynamic", "current_status": "owner_accepted_experimental_bounded_use", "target_status": "owner_accepted", "template": "laminate_dynamic", "priority": "P2", "reason": "Owner accepted the planar bounded domain; curved dynamics, non-symmetric layups and calibrated damping remain separate."},
+    {"scope": "mitc3-laminate-static", "current_status": "owner_accepted_experimental_bounded_use", "target_status": "owner_accepted", "template": "laminate_static", "priority": "P2", "reason": "Owner accepted the planar [0/90/90/0] domain; additional layups and broader ply evidence remain recommended."},
+    {"scope": "mitc3-laminate-static-curved", "current_status": "owner_accepted_experimental_bounded_use", "target_status": "owner_accepted", "template": "laminate_static", "priority": "P2", "reason": "Owner accepted the curved axial domain for bounded engineering use; external comparability and general stable promotion remain open."},
+    {"scope": "mitc3-linear-static", "current_status": "stable", "target_status": "stable", "template": "linear_static", "priority": "P1", "reason": "Maintain the stable isotropic triangular-shell static package."},
+    {"scope": "mitc3-modal", "current_status": "stable", "target_status": "stable", "template": "modal", "priority": "P1", "reason": "Maintain the stable isotropic triangular-shell modal domain."},
+    {"scope": "mitc3-transient-dynamic", "current_status": "stable", "target_status": "stable", "template": "transient_newmark", "priority": "P1", "reason": "Maintain the stable isotropic triangular-shell Newmark domain."},
+    {"scope": "mitc4-harmonic-response", "current_status": "stable", "target_status": "stable", "template": "harmonic", "priority": "P1", "reason": "Maintain the stable isotropic MITC4 direct and modal harmonic routes."},
+    {"scope": "mitc4-laminate-dynamic-refined-three-layups", "current_status": "stable", "target_status": "stable", "template": "laminate_dynamic", "priority": "P2", "reason": "Maintain stable use for the three refined planar symmetric layups; curved dynamics and damage remain excluded."},
+    {"scope": "mitc4-laminate-static", "current_status": "stable", "target_status": "stable", "template": "laminate_static", "priority": "P2", "reason": "Maintain the stable bounded planar laminate static domain."},
+    {"scope": "mitc4-linear-static", "current_status": "stable", "target_status": "stable", "template": "linear_static", "priority": "P1", "reason": "Maintain the stable accepted isotropic shell static domain with release evidence."},
+    {"scope": "mitc4-modal", "current_status": "stable", "target_status": "stable", "template": "modal", "priority": "P1", "reason": "Maintain the stable coherent-mass modal path while retaining large-model solver limits."},
+    {"scope": "mitc4-orthotropic-homogeneous-ply", "current_status": "stable", "target_status": "stable", "template": "laminate_static", "priority": "P2", "reason": "Maintain stable bounded use for the documented homogeneous one-ply orthotropic shell cases; curved harmonic diagnostics remain excluded."},
+    {"scope": "mitc4-transient-dynamic", "current_status": "stable", "target_status": "stable", "template": "transient_newmark", "priority": "P1", "reason": "Maintain the stable isotropic Newmark path independently of laminate dynamics."},
+    {"scope": "tet10-harmonic-response", "current_status": "stable", "target_status": "stable", "template": "harmonic", "priority": "P1", "reason": "Maintain stable frequency response with refined direct and modal checks."},
+    {"scope": "tet10-linear-static", "current_status": "stable", "target_status": "stable", "template": "linear_static", "priority": "P1", "reason": "Maintain the stable quadratic solid static domain with structural convergence."},
+    {"scope": "tet10-material-nonlinear", "current_status": "owner_accepted_experimental_bounded_use", "target_status": "owner_accepted", "template": "material_nonlinear", "priority": "P2", "reason": "Owner accepted the bounded J2 domain; cyclic paths and a second structure remain required before stability."},
+    {"scope": "tet10-modal", "current_status": "stable", "target_status": "stable", "template": "modal", "priority": "P1", "reason": "Maintain the stable TET10 coherent-mass modal domain."},
+    {"scope": "tet10-transient-dynamic", "current_status": "stable", "target_status": "stable", "template": "transient_newmark", "priority": "P1", "reason": "Maintain the stable TET10 Newmark structural domain."},
+    {"scope": "tet4-harmonic-response", "current_status": "stable", "target_status": "stable", "template": "harmonic", "priority": "P1", "reason": "Maintain the stable baseline solid harmonic domain."},
+    {"scope": "tet4-linear-static", "current_status": "stable", "target_status": "stable", "template": "linear_static", "priority": "P1", "reason": "Maintain the stable baseline solid static reference scope."},
+    {"scope": "tet4-material-nonlinear", "current_status": "owner_accepted_experimental_bounded_use", "target_status": "owner_accepted", "template": "material_nonlinear", "priority": "P2", "reason": "Owner accepted the bounded small-strain J2 domain; cyclic structural correlation remains post-alpha work."},
+    {"scope": "tet4-modal", "current_status": "stable", "target_status": "stable", "template": "modal", "priority": "P1", "reason": "Maintain the stable baseline solid modal domain."},
+    {"scope": "tet4-total-lagrangian-structural-v2", "current_status": "research", "target_status": "research", "template": "geometric_nonlinear", "priority": "P3", "reason": "Two 1,152,000-element probes reached a resource limit without a mechanical result; chunked or matrix-free assembly and independent review are required before any promotion."},
+    {"scope": "tet4-transient-dynamic", "current_status": "stable", "target_status": "stable", "template": "transient_newmark", "priority": "P1", "reason": "Maintain the stable baseline solid transient dynamic domain."}
+  ],
+  "supplementary_material_scopes": [
+    {
+      "scope": "orthotropic-solid-tet4-tet10",
+      "current_status": "stable",
+      "target_status": "stable",
+      "template": "linear_static",
+      "reason": "The material scope is tracked in requirements rather than the element-analysis matrix."
+    },
+    {
+      "scope": "orthotropic-solid-modal",
+      "current_status": "stable",
+      "target_status": "stable",
+      "template": "modal",
+      "reason": "Close material-axis and mass-invariance evidence before acceptance."
+    },
+    {
+      "scope": "orthotropic-solid-transient-dynamic",
+      "current_status": "stable",
+      "target_status": "stable",
+      "template": "transient_newmark",
+      "reason": "Close time-history and orientation evidence before acceptance."
+    },
+    {
+      "scope": "large-tet4-linear-static",
+      "current_status": "owner_accepted",
+      "target_status": "owner_accepted",
+      "template": "large_static",
+      "reason": "Track the PETSc/MPI large-model capability separately from the standard SciPy scope and preserve its measured scaling limitations."
+    },
+    {
+      "scope": "mitc3-laminate-dynamic-thin-planar",
+      "current_status": "stable",
+      "target_status": "stable",
+      "template": "laminate_dynamic",
+      "reason": "Promote only the explicitly demonstrated thin planar symmetric laminate sub-scope; curved, thick, damped and damage cases remain excluded."
+    },
+    {
+      "scope": "mitc3-laminate-static-curved-mixed-transverse",
+      "current_status": "stable",
+      "target_status": "stable",
+      "template": "laminate_static",
+      "reason": "Promote only the curved faceted panel under mixed and transverse loads; axial loading remains outside the stable sub-scope because its convergence and external comparability are unresolved."
+    }
+  ]
+}

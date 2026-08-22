@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "review_id": "OWNER-REVIEW-MITC3-LAMINATE-STATIC-PENDING",
+  "scope": "mitc3-laminate-static",
+  "review_type": "owner_review",
+  "review_mode": "pending_owner_decision",
+  "decision": null,
+  "decision_date": null,
+  "owner": null,
+  "certification_claim": "none",
+  "evidence": [
+    "qualification/maturity_evidence_0_2_1/mitc3_laminate.json",
+    "qualification/maturity_evidence_0_2_1/mitc3_laminate_static_campaign/summary.json",
+    "qualification/maturity_evidence_0_2_1/mitc3_laminate_static_campaign/report.md",
+    "qualification/maturity_evidence_0_2_1/mitc3_laminate_static_campaign/mitc3_laminate_ply_stress_calculix.png",
+    "qualification/maturity_evidence_0_2_1/mitc3_laminate_static_campaign/vnv_manifest.json",
+    "docs/composites/mitc3_multicouche_dynamique.md",
+    "tests/unit/test_calculix_mitc3_laminate_ply_stress.py"
+  ],
+  "scope_under_review": {
+    "element": "MITC3+",
+    "material": "linear orthotropic laminate",
+    "layup": "[0/90/90/0]",
+    "analysis": "linear_static",
+    "geometry": "flat affine membrane patch",
+    "external_oracle": "CalculiX 2.20 S6 COMPOSITE"
+  },
+  "review_questions": [
+    "Les trois niveaux de maillage, le patch affine et l'ecart final de contraintes par pli sont-ils suffisants pour le domaine plane declare ?",
+    "Les conventions d'axes materiau, l'ordre des plis et les observables S11/S22/S12 sont-ils correctement compris ?",
+    "Les exclusions S13/S23, bords libres, dommage, delamination et extrapolation au courbe sont-elles acceptees ?",
+    "Le statut owner_accepted est-il approprie, ou faut-il conserver verified_development_external_correlation ?"
+  ],
+  "known_limits": [
+    "La comparaison CalculiX S6 et MITC3+ compare des observables, pas une identite de formulation.",
+    "La preuve ne couvre pas les stratifies courbes, dynamiques, non symetriques ou endommages.",
+    "Aucune decision de maturite ne doit etre deduite de ce fichier tant qu'il reste pending."
+  ],
+  "signature": null
+}

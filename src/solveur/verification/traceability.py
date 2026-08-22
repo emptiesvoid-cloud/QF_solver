@@ -60,6 +60,7 @@ class QualificationReadiness:
     orphan_formulas: tuple[str, ...]
     missing_paths: tuple[str, ...]
     missing_independent_references: tuple[str, ...]
+    artifact_aliases_used: tuple[str, ...]
     formula_issues: tuple[str, ...]
     checks: tuple[ReadinessCheck, ...]
 
@@ -76,6 +77,7 @@ class QualificationReadiness:
             "orphan_formulas": list(self.orphan_formulas),
             "missing_paths": list(self.missing_paths),
             "missing_independent_references": list(self.missing_independent_references),
+            "artifact_aliases_used": list(self.artifact_aliases_used),
             "formula_issues": list(self.formula_issues),
             "checks": [check.to_dict() for check in self.checks],
         }
@@ -194,6 +196,33 @@ class QualificationRegistry:
             for item in self.data.get("requirements", [])
             if isinstance(item, dict) and item.get("id")
         }
+        self.artifact_aliases = self._load_artifact_aliases()
+
+    def _load_artifact_aliases(self) -> dict[str, str]:
+        """Load optional controlled copies for historical artifact paths."""
+        declaration = self.data.get("artifact_aliases", {})
+        if not isinstance(declaration, dict):
+            return {}
+        inline = declaration.get("aliases", {})
+        aliases: dict[str, str] = {}
+        if isinstance(inline, dict):
+            aliases.update({str(source): str(target) for source, target in inline.items() if source and target})
+        path_value = declaration.get("path")
+        if path_value:
+            path = _resolve_registry_path(str(path_value), self.path)
+            if not path.is_file():
+                # The alias archive is generated after the source registry is
+                # edited.  Keep ordinary readiness usable during that short
+                # transition; unresolved historical paths remain failures.
+                return aliases
+            try:
+                payload = json.loads(path.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError) as exc:
+                raise InputValidationError(f"Cannot load artifact alias registry {path}: {exc}") from exc
+            if not isinstance(payload, dict) or not isinstance(payload.get("aliases"), dict):
+                raise InputValidationError("Artifact alias registry must contain an aliases object.")
+            aliases.update({str(source): str(target) for source, target in payload["aliases"].items() if source and target})
+        return aliases
 
     @property
     def scopes(self) -> tuple[str, ...]:
@@ -210,6 +239,7 @@ class QualificationRegistry:
         checks: list[ReadinessCheck] = []
         orphans: list[str] = []
         missing_paths: list[str] = []
+        artifact_aliases_used: list[str] = []
         missing_references: list[str] = []
         formula_identifiers: list[str] = []
 
@@ -242,7 +272,14 @@ class QualificationRegistry:
                 )
             for field in PATH_LINK_FIELDS:
                 for relative in requirement.get(field, []):
-                    if not _linked_path_exists(str(relative)):
+                    relative_path = str(relative)
+                    if field == "artifacts":
+                        exists, alias = self._artifact_path_exists(relative_path)
+                        if alias is not None:
+                            artifact_aliases_used.append(f"{relative_path}->{alias}")
+                    else:
+                        exists = _linked_path_exists(relative_path)
+                    if not exists:
                         missing_paths.append(f"{identifier}:{field}:{relative}")
             if identifier.startswith(MECHANICAL_PREFIXES) and not requirement.get("independent_references"):
                 missing_references.append(identifier)
@@ -260,7 +297,13 @@ class QualificationRegistry:
             ReadinessCheck(
                 "TRACE-PATHS",
                 "PASS" if not missing_paths else "FAIL",
-                "all linked paths exist" if not missing_paths else f"{len(missing_paths)} linked path(s) missing",
+                (
+                    "all linked paths exist"
+                    if not artifact_aliases_used
+                    else f"all linked paths exist ({len(artifact_aliases_used)} via controlled artifact alias(es))"
+                )
+                if not missing_paths
+                else f"{len(missing_paths)} linked path(s) missing",
             )
         )
         checks.append(
@@ -286,9 +329,20 @@ class QualificationRegistry:
             orphan_formulas=formula_report.orphan_formulas,
             missing_paths=tuple(sorted(set(missing_paths))),
             missing_independent_references=tuple(sorted(set(missing_references))),
+            artifact_aliases_used=tuple(sorted(set(artifact_aliases_used))),
             formula_issues=formula_report.issues,
             checks=tuple(checks),
         )
+
+    def _artifact_path_exists(self, relative: str) -> tuple[bool, str | None]:
+        direct = project_path(relative)
+        if direct.exists():
+            return True, None
+        target = self.artifact_aliases.get(relative)
+        if not target:
+            return False, None
+        resolved = _resolve_registry_path(target, self.path)
+        return resolved.exists(), target if resolved.exists() else None
 
 
 def qualification_readiness(scope: str, registry_path: str | Path = DEFAULT_REGISTRY) -> QualificationReadiness:
@@ -387,6 +441,27 @@ def model_traceability_summary(model: object) -> dict[str, Any]:
 
 def _linked_path_exists(relative: str) -> bool:
     return project_path(relative).exists()
+
+
+def _resolve_registry_path(relative: str, registry_path: Path) -> Path:
+    """Resolve a project-relative or test-registry-relative artifact path."""
+    candidate = Path(relative)
+    if candidate.is_absolute():
+        return candidate
+    project_candidate = project_path(relative)
+    root_relative = candidate.parts and candidate.parts[0] in {
+        "docs",
+        "examples",
+        "output",
+        "qualification",
+        "results",
+        "scripts",
+        "src",
+        "tests",
+    }
+    if project_candidate.exists() or root_relative:
+        return project_candidate
+    return (registry_path.parent / candidate).resolve()
 
 
 def _resolve_link(relative: str) -> Path | None:

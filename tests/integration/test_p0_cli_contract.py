@@ -1,7 +1,11 @@
 import json
+from pathlib import Path
 
 from tests.helpers.cli import run_solver_cli
 from tests.helpers.models import write_tet10_model
+
+
+ROOT = Path(__file__).resolve().parents[2]
 
 
 def test_tet10_qualification_run_is_accepted_after_signed_review(tmp_path):
@@ -22,6 +26,37 @@ def test_tet10_qualification_run_is_accepted_after_signed_review(tmp_path):
     data = json.loads(result.read_text(encoding="utf-8"))
     assert data["status"] == "PASS"
     assert data["run_verdict"] == "PASS"
+
+
+def test_owner_review_check_rejects_pending_record_for_release() -> None:
+    pending = ROOT / "qualification" / "reviews" / "tet4_total_lagrangian_independent_review_pending.json"
+    completed = run_solver_cli(
+        "owner-review-check",
+        "--input",
+        pending,
+        "--scope",
+        "tet4-total-lagrangian-structural-v2",
+        "--require-decision",
+    )
+
+    assert completed.returncode == 4
+    assert "OWNER REVIEW CHECK: FAIL" in completed.stdout
+    assert "Traceback" not in completed.stderr
+
+
+def test_owner_review_check_accepts_signed_record() -> None:
+    signed = ROOT / "qualification" / "reviews" / "orthotropic_solids_2026-07-22.json"
+    completed = run_solver_cli(
+        "owner-review-check",
+        "--input",
+        signed,
+        "--scope",
+        "orthotropic-solid-tet4-tet10",
+        "--require-decision",
+    )
+
+    assert completed.returncode == 0
+    assert "OWNER REVIEW CHECK: PASS" in completed.stdout
 
 
 def test_tet10_engineering_run_is_accepted(tmp_path):

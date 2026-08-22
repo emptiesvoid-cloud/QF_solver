@@ -54,8 +54,9 @@ python -m compileall -q solveur\core\solver.py tests\unit\test_solver.py
 ```
 
 Un changement de formulation ajoute le test unitaire de l'element et sa V&V
-directe. Un changement de documentation execute au minimum `mkdocs build
---strict` et les tests documentaires concernes. Ce niveau est la norme pendant
+directe. Un changement de documentation execute au minimum
+`python .\scripts\build_docs.py --profile engineering` et les tests
+documentaires concernes. Ce niveau est la norme pendant
 le developpement courant.
 
 ## Niveau 2 - Integration ciblee
@@ -66,7 +67,7 @@ JSON, export, preuve ou site. Il complete le niveau 1 :
 ```powershell
 python -m pytest tests\integration\test_api_and_cli.py tests\unit\test_json_io.py -q
 python -m pytest tests\documentation\test_docs_generation.py -q
-python -m mkdocs build --strict
+python .\scripts\build_docs.py --profile engineering
 ```
 
 Selectionner les fichiers exacts plutot que le repertoire entier lorsque le
@@ -93,7 +94,7 @@ leur formulation, leur assemblage, leur solveur, leurs donnees ou leur preuve.
 La baseline complete est obligatoire avant une livraison, une branche de
 publication, un tag, une mise a jour de dependances, un refactoring transverse,
 une modification de convention partagee ou une regeneration controlee des
-preuves et du site. Elle est egalement requise si le perimetre d'impact ne peut
+preuves documentaires. Elle est egalement requise si le perimetre d'impact ne peut
 pas etre borne avec confiance.
 
 ```powershell

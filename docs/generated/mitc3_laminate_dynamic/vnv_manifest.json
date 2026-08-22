@@ -3,15 +3,15 @@
   "study_id": "VNV-MITC3-LAMINATE-DYNAMIC-001",
   "source": {
     "repository": ".",
-    "revision": "c8d7fcf4fb176c9cd595360ffd0f4417c19285ce",
+    "revision": "1804a03aee0c4e4bc6ac2c56e9461bedd9aac6d4",
     "dirty": true
   },
   "files": [
     {
       "role": "mitc3_laminate_dynamic_vnv",
       "path": "summary.json",
-      "size_bytes": 35447,
-      "sha256": "78a6fd6807a755cb62d49a33d031c7d0a4864769827ac57840c8997f6e127a29"
+      "size_bytes": 35477,
+      "sha256": "a7e203a3ab4d0ff6a7364eb99a0fbe4238379d8cbcac595c63a6347d7b98bd20"
     },
     {
       "role": "mitc3_laminate_dynamic_vnv",
@@ -29,7 +29,7 @@
       "role": "mitc3_laminate_dynamic_vnv",
       "path": "VNV-MITC3-LAMINATE-DYNAMIC-001.md",
       "size_bytes": 1813,
-      "sha256": "da26e0d5fb1a0fa960b1dfdfcad81462bfff0dcadf32f701cbcbbf3e8949b0f3"
+      "sha256": "5a6407643dd8f10a228a3fedd011a4c4dfd704702768eb10e2c4afe1dd0a317a"
     }
   ]
 }

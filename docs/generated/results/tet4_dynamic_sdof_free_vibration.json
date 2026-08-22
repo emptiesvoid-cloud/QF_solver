@@ -600,7 +600,7 @@
       "candidate_drilling_dof_count": 0,
       "condensed_drilling_dof_count": 0,
       "retained_dof_count": 1,
-      "drilling_mass_tolerance": 1e-12,
+      "drilling_mass_tolerance": 1e-10,
       "maximum_candidate_mass_row_ratio": 0.0,
       "condensed_mass_coupling_ratio": 0.0,
       "condensed_stiffness_nnz": 1,
@@ -2677,7 +2677,7 @@
       "Transient dynamic audit uses the final Newmark state."
     ],
     "qualification": {
-      "solver_version": "0.2.0a0",
+      "solver_version": "0.2.1a0",
       "schema_version": 1,
       "units": {
         "system": "SI"

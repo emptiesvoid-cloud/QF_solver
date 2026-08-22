@@ -20,7 +20,7 @@ import numpy as np
 matplotlib.use("Agg")
 from matplotlib import pyplot as plt  # noqa: E402
 
-from mitc4.mesh import MeshFactory
+from solveur.elements.shell.mitc4.mesh import MeshFactory
 from solveur.api import solve_model
 from solveur.core.analysis import AnalysisSettings
 from solveur.core.model import FiniteElementModel
@@ -44,6 +44,9 @@ class Mitc4LaminateDynamicStudy:
     newmark_rms_limit = 0.01
     energy_drift_limit = 1.0e-4
     harmonic_error_limit = 1.0e-6
+    include_history_shell_stress_probe = True
+    drilling_mass_tolerance: float | None = None
+    dynamic_probe_dof = "UZ"
 
     def __init__(
         self,
@@ -52,19 +55,24 @@ class Mitc4LaminateDynamicStudy:
         layup: tuple[float, ...] = (0.0, 90.0, 90.0, 0.0),
         steps_per_period: tuple[int, ...] = (20, 40, 80),
         frequency_ratios: tuple[float, ...] = (0.0, 0.5, 0.95, 1.0, 1.05, 1.5, 2.0),
+        modal_method: str = "eigh",
     ) -> None:
         self.mesh = mesh
         self.layup = tuple(float(angle) for angle in layup)
-        if len(self.layup) != 4:
-            raise ValueError("MITC4 laminate dynamic study requires exactly four plies.")
+        if not self.layup:
+            raise ValueError("MITC4 laminate dynamic study requires at least one ply.")
         self.steps_per_period = steps_per_period
         self.frequency_ratios = frequency_ratios
+        self.modal_method = str(modal_method).lower()
+        if self.modal_method not in {"eigh", "eigsh", "lanczos"}:
+            raise ValueError("modal_method must be eigh, eigsh or lanczos.")
 
     def build_model(self) -> tuple[FiniteElementModel, np.ndarray]:
         """Build a planar cantilever with a symmetric carbon/epoxy layup."""
         nx, ny = self.mesh
         mesh = MeshFactory.rectangular_plate(nx, ny, 1.0, 0.2)
         root = np.flatnonzero(np.isclose(mesh.nodes[:, 0], 0.0))
+        ply_thickness = 1.0e-2 if len(self.layup) == 1 else 2.5e-3
         ply = {
             "E1": 135.0e9,
             "E2": 10.0e9,
@@ -73,7 +81,7 @@ class Mitc4LaminateDynamicStudy:
             "G13": 4.5e9,
             "G23": 3.8e9,
             "density": 1600.0,
-            "thickness": 2.5e-3,
+            "thickness": ply_thickness,
         }
         plies = [
             {"name": f"ply-{index + 1}", **ply, "angle_deg": angle}
@@ -82,10 +90,11 @@ class Mitc4LaminateDynamicStudy:
         model = FiniteElementModel.from_raw(
             analysis={
                 "type": "modal",
-                "method": "eigh",
+                "method": self.modal_method,
                 "modes": 4,
                 "dense_modal_max_dofs": 6000,
                 "modal_residual_failure_tolerance": self.residual_limit,
+                "modal_eigenpair_refinement_iterations": 2,
             },
             nodes=mesh.nodes.tolist(),
             elements=[{"type": "MITC4", "nodes": quad.tolist(), "material": "laminate"} for quad in mesh.quads],
@@ -108,7 +117,7 @@ class Mitc4LaminateDynamicStudy:
         omega = 2.0 * math.pi * frequency
         tip = _tip_midline_node(nodes)
         mode = np.asarray(modal.modes[:, 0], dtype=float)
-        tip_index = modal.dofs.index(tip, "UZ")
+        tip_index = modal.dofs.index(tip, self.dynamic_probe_dof)
         initial_mode = mode * (self.amplitude / mode[tip_index])
         initial = _initial_state(modal.dofs, initial_mode)
         newmark = [self._newmark_point(model, tip, initial, frequency, count) for count in self.steps_per_period]
@@ -151,8 +160,10 @@ class Mitc4LaminateDynamicStudy:
                 "element_count": self.mesh[0] * self.mesh[1],
                 "layup": list(self.layup),
                 "ply_thickness_m": 2.5e-3,
-                "total_thickness_m": 1.0e-2,
-                "probe": {"node": tip, "dof": "UZ"},
+                "total_thickness_m": sum(
+                    1.0e-2 if len(self.layup) == 1 else 2.5e-3 for _ in self.layup
+                ),
+                "probe": {"node": tip, "dof": self.dynamic_probe_dof},
             },
             "modal": {
                 "frequencies_hz": [float(value) for value in modal.frequencies_hz],
@@ -168,7 +179,7 @@ class Mitc4LaminateDynamicStudy:
             "limitations": [
                 "The oracle is the first numerical laminate eigenmode; this is an algorithmic invariant, not an independent structural reference.",
                 "No same-mesh Code_Aster, CalculiX, Abaqus or NAFEMS laminate-dynamics correlation is supplied.",
-                "The layup is symmetric and planar. Curved laminates, eccentric shell offsets, nonlinear plies, damage and delamination are outside this evidence.",
+                "The layup is planar. Curved laminates, eccentric shell offsets, nonlinear plies, damage and delamination are outside this evidence.",
                 "Only mass-proportional Rayleigh damping is exercised because drilling directions are statically condensed.",
             ],
         }
@@ -183,28 +194,34 @@ class Mitc4LaminateDynamicStudy:
     ) -> dict[str, Any]:
         period = 1.0 / frequency
         step = period / steps_per_period
-        model.analysis = AnalysisSettings.from_raw(
-            {
-                "type": "transient_dynamic",
-                "method": "newmark",
-                "time_step": step,
-                "steps": 2 * steps_per_period,
-                "newmark_beta": 0.25,
-                "newmark_gamma": 0.5,
-                "load_factors": [0.0],
-                "initial_displacements": initial,
-                "history_probes": [{"node": tip, "dof": "UZ", "label": "tip_uz"}],
-                "history_shell_stress_probes": [
-                    {"node": tip, "face": "top", "component": "S11", "label": "tip_top_s11"}
-                ],
-            }
-        )
+        probe_key = f"tip_{self.dynamic_probe_dof.lower()}"
+        settings: dict[str, object] = {
+            "type": "transient_dynamic",
+            "method": "newmark",
+            "time_step": step,
+            "steps": 2 * steps_per_period,
+            "newmark_beta": 0.25,
+            "newmark_gamma": 0.5,
+            "load_factors": [0.0],
+            "initial_displacements": initial,
+            "history_probes": [{"node": tip, "dof": self.dynamic_probe_dof, "label": probe_key}],
+        }
+        if self.include_history_shell_stress_probe:
+            settings["history_shell_stress_probes"] = [
+                {"node": tip, "face": "top", "component": "S11", "label": "tip_top_s11"}
+            ]
+        if self.drilling_mass_tolerance is not None:
+            settings["drilling_mass_tolerance"] = self.drilling_mass_tolerance
+        model.analysis = AnalysisSettings.from_raw(settings)
         result = solve_model(model, enforce_policy=False)
         history = result.solver["time_history"]
         times = np.asarray([row["time"] for row in history], dtype=float)
-        response = np.asarray([row["probes"]["tip_uz"]["displacement"] for row in history], dtype=float)
+        response = np.asarray([row["probes"][probe_key]["displacement"] for row in history], dtype=float)
         expected = self.amplitude * np.cos(2.0 * math.pi * frequency * times)
-        stresses = np.asarray([row["shell_stress_probes"]["tip_top_s11"] for row in history], dtype=float)
+        stresses = np.asarray(
+            [row.get("shell_stress_probes", {}).get("tip_top_s11", 0.0) for row in history],
+            dtype=float,
+        )
         return {
             "steps_per_period": steps_per_period,
             "time_step_s": step,
@@ -213,8 +230,8 @@ class Mitc4LaminateDynamicStudy:
             "maximum_dynamic_residual_norm": max(float(row["dynamic_residual_norm"]) for row in history),
             "maximum_top_s11_pa": float(np.max(np.abs(stresses))),
             "times_s": times.tolist(),
-            "tip_uz_m": response.tolist(),
-            "reference_tip_uz_m": expected.tolist(),
+            f"{probe_key}_m": response.tolist(),
+            f"reference_{probe_key}_m": expected.tolist(),
         }
 
     def _harmonic(
@@ -230,12 +247,17 @@ class Mitc4LaminateDynamicStudy:
                 "frequencies_hz": frequencies.tolist(),
                 "rayleigh_alpha": alpha,
                 "rayleigh_beta": 0.0,
+                **(
+                    {"drilling_mass_tolerance": self.drilling_mass_tolerance}
+                    if self.drilling_mass_tolerance is not None
+                    else {}
+                ),
             }
         )
         result = solve_model(model, enforce_policy=False)
-        index = result.dofs.index(tip, "UZ")
+        index = result.dofs.index(tip, self.dynamic_probe_dof)
         numerical = np.asarray([response[index] for response in result.responses], dtype=complex)
-        tip_mode = float(mode[modal.dofs.index(tip, "UZ")])
+        tip_mode = float(mode[modal.dofs.index(tip, self.dynamic_probe_dof)])
         reference = _analytical_response(tip_mode, omega, frequencies, alpha)
         errors = np.abs(numerical - reference) / np.maximum(np.abs(reference), 1.0e-30)
         static_error = self._static_limit(modal, mode, tip, numerical[0])
@@ -249,7 +271,7 @@ class Mitc4LaminateDynamicStudy:
             "zero_hz_static_limit": static_error <= 1.0e-9,
             "residual": float(result.solver["max_relative_residual_norm"]) <= self.residual_limit,
             "drilling_condensed": result.solver["dynamic_reduction"]["condensed_drilling_dof_count"] > 0,
-            "ply_stress_postprocess": ply_count == 4,
+            "ply_stress_postprocess": ply_count == len(self.layup),
             "resonance_peak": bool(0.95 <= self.frequency_ratios[peak] <= 1.05),
         }
         return {
@@ -269,7 +291,7 @@ class Mitc4LaminateDynamicStudy:
         model.loads = modal_nodal_loads(model, modal.dofs, mode)
         model.analysis = AnalysisSettings.from_raw({"type": "linear_static", "method": "direct"})
         static = solve_model(model, enforce_policy=False)
-        expected = float(static.displacements[static.dofs.index(tip, "UZ")])
+        expected = float(static.displacements[static.dofs.index(tip, self.dynamic_probe_dof)])
         return abs(value.real - expected) / max(abs(expected), 1.0e-30)
 
 
@@ -304,15 +326,15 @@ def _write_report(path: Path, summary: dict[str, Any]) -> None:
         "",
         "## Objet",
         "",
-        "CohÃ©rence interne modal, Newmark et harmonique pour un porte-a-faux MITC4 stratifiÃ© symÃ©trique `[0/90/90/0]`. Cette campagne ne constitue pas une corrÃ©lation externe.",
+        "Coherence interne modal, Newmark et harmonique pour un porte-a-faux MITC4 stratifie symetrique `[0/90/90/0]`. Cette campagne ne constitue pas une correlation externe.",
         "",
         "## Modal",
         "",
-        f"FrÃ©quence fondamentale : `{modal['frequencies_hz'][0]:.6f}` Hz. RÃ©sidu relatif : `{modal['max_relative_residual']:.3e}`. OrthogonalitÃ©s masse/raideur : `{modal['mass_orthogonality_error']:.3e}` / `{modal['stiffness_orthogonality_error']:.3e}`.",
+        f"Frequence fondamentale : `{modal['frequencies_hz'][0]:.6f}` Hz. Residu relatif : `{modal['max_relative_residual']:.3e}`. Orthogonalites masse/raideur : `{modal['mass_orthogonality_error']:.3e}` / `{modal['stiffness_orthogonality_error']:.3e}`.",
         "",
         "## Newmark",
         "",
-        "| Pas/pÃ©riode | Erreur RMS | DÃ©rive Ã©nergie | RÃ©sidu dynamique | Max S11 face supÃ©rieure (Pa) |",
+        "| Pas/periode | Erreur RMS | Derive energie | Residu dynamique | Max S11 face superieure (Pa) |",
         "| ---: | ---: | ---: | ---: | ---: |",
     ]
     lines.extend(
@@ -325,7 +347,7 @@ def _write_report(path: Path, summary: dict[str, Any]) -> None:
             "",
             "## Harmonique",
             "",
-            f"Erreur complexe maximale : `{harmonic['maximum_relative_error']:.3e}`. Limite statique Ã  0 Hz : `{harmonic['zero_hz_static_relative_error']:.3e}`. Post-traitement : `{harmonic['ply_count_at_first_frequency']}` plis.",
+            f"Erreur complexe maximale : `{harmonic['maximum_relative_error']:.3e}`. Limite statique a 0 Hz : `{harmonic['zero_hz_static_relative_error']:.3e}`. Post-traitement : `{harmonic['ply_count_at_first_frequency']}` plis.",
             "",
             f"![Newmark]({STUDY_ID}-newmark.png)",
             "",
@@ -336,14 +358,14 @@ def _write_report(path: Path, summary: dict[str, Any]) -> None:
         ]
     )
     lines.extend(f"- {item}" for item in summary["limitations"])
-    lines.extend(["", f"Statut interne : **{summary['status']}**. MaturitÃ© : `{summary['maturity']}`.", ""])
+    lines.extend(["", f"Statut interne : **{summary['status']}**. Maturite : `{summary['maturity']}`.", ""])
     path.write_text("\n".join(lines), encoding="utf-8")
 
 
 def _plot_newmark(summary: dict[str, Any], path: Path) -> None:
     coarse, fine = summary["newmark"]["points"][0], summary["newmark"]["points"][-1]
     figure, axis = plt.subplots(figsize=(7.2, 4.4))
-    axis.plot(fine["times_s"], fine["reference_tip_uz_m"], "k--", label="rÃ©fÃ©rence modale")
+    axis.plot(fine["times_s"], fine["reference_tip_uz_m"], "k--", label="reference modale")
     axis.plot(
         coarse["times_s"], coarse["tip_uz_m"], color="#bc4749", alpha=0.75, label=f"T/{coarse['steps_per_period']}"
     )
@@ -363,7 +385,7 @@ def _plot_harmonic(summary: dict[str, Any], path: Path) -> None:
     axes[1].plot(harmonic["frequency_ratios"], harmonic["phases_degrees"], color="#bc4749")
     axes[0].set_ylabel("amplitude UZ (m)")
     axes[1].set_ylabel("phase (deg)")
-    axes[1].set_xlabel("frÃ©quence / f1")
+    axes[1].set_xlabel("frequence / f1")
     for axis in axes:
         axis.axvline(1.0, color="#212529", linestyle="--", linewidth=0.9)
         axis.grid(alpha=0.25)

@@ -48,5 +48,5 @@ qf-solver benchmark --case BM-SHL-COOK-001 --output results/benchmarks
 ```
 
 Reference: [REF-SHELL-OBSTACLE](../../reference/references.md#ref-shell-obstacle).
-Code: `solveur/benchmarks/shell.py`, `mitc4/element.py`. Exigences:
+Code: `solveur/benchmarks/shell.py`, `solveur/elements/shell/mitc4/element.py`. Exigences:
 `REQ-SOL-002`, `REQ-MESH-002`, `REQ-CMP-003`.

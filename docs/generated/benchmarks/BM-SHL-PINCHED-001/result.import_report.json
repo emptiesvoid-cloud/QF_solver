@@ -1,7 +1,7 @@
 {
   "status": "PASS",
   "solver_name": "QF_solver",
-  "solver_version": "0.2.0a0",
+  "solver_version": "0.2.1a0",
   "source_path": "pinched_cylinder_mitc4.msh",
   "source_sha256": "3ae902a6a94b465e9b88d7c4a2aa47dbb62e767cb75ce5462aef1f64e6cf872b",
   "setup_path": "result.setup.json",

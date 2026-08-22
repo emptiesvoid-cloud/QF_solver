@@ -1,0 +1,40 @@
+{
+  "review_id": "OWNER-REVIEW-MITC4-LAMINATE-STATIC-STABLE-PENDING-2026-08-21",
+  "review_mode": "owner_review",
+  "status": "owner_reviewed",
+  "scope": ["mitc4-laminate-static"],
+  "decision": "accepted_with_recommendations",
+  "promotion_target": "stable",
+  "questions_document": "docs/verification/mitc4_laminate_static_planar_stable_owner_review.md",
+  "evidence": [
+    "qualification/maturity_evidence_0_2_1/mitc4_laminate_static_planar.json",
+    "qualification/vnv/mitc4_laminate_static_planar_stable_001/reference/ply_stress_summary.json",
+    "qualification/vnv/mitc4_laminate_static_planar_stable_001/reference/nafems_code_aster_summary.json",
+    "qualification/vnv/mitc4_laminate_static_planar_stable_001/reference/nafems_vnv_manifest.json",
+    "docs/verification/mitc4_laminate_static_planar_stable_owner_review.md",
+    "output/pdf/mitc4_laminate_static_planar_stable_owner_review.pdf"
+  ],
+  "technical_snapshot": {
+    "loadings": ["membrane", "bending", "combined membrane-bending"],
+    "maximum_primary_error": 0.002538932792,
+    "qf_nafems_error": 0.004576053729724386,
+    "code_aster_nafems_error": 0.007102861100962714,
+    "qf_code_aster_error": 0.008785171138020513,
+    "maximum_free_relative_residual": 2.4569269097978194e-10,
+    "stable_one_percent_gate": "PASS"
+  },
+  "questions": [
+    "Le domaine plan regulier [0/90/90/0] et les trois chargements sont-ils suffisamment definis pour stable ?",
+    "Les observables principales sous 1 % et le residu maximal sont-ils acceptables ?",
+    "Les coques courbes obliques, maillages distordus, S13/S23, singularites, dommage et delamination sont-ils explicitement exclus ?",
+    "Quelle decision Owner doit-elle etre enregistree : stable, accepted_with_recommendations ou maintien du domaine borne ?"
+  ],
+  "review_date": "2026-08-21",
+  "owner_comment": "Promotion stable acceptee uniquement pour la plaque stratifee plane reguliere et les chargements documentes.",
+  "signature": {
+    "name": "Quentin Farinazzo",
+    "date": "2026-08-21",
+    "type": "declared_owner_review",
+    "independence": "not_independent"
+  }
+}

@@ -82,7 +82,7 @@ Le scope `orthotropic-solid-tet4-tet10` est
 La commande `qualification-readiness` affiche encore `scope status: candidate`.
 Ce champ appartient au registre de traçabilite : il signifie que le domaine est
 eligible a une progression de qualification et que ses liens exigences/code/
-tests existent. Il ne remplace pas la decision mecanique humaine, qui est
+tests existent. Il ne remplace pas la decision mecanique `owner_review`, qui est
 enregistree separement dans
 `qualification/reviews/orthotropic_solids_2026-07-22.json`.
 Les huit specifications automatiques `SPEC-COMP-SOLID-001..008` sont couvertes :

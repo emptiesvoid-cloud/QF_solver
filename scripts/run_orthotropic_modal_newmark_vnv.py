@@ -39,7 +39,9 @@ def main() -> int:
         ("newmark_convergence.png", "orthotropic_newmark_convergence.png"),
         ("code_aster_newmark.png", "orthotropic_code_aster_newmark.png"),
     ):
-        shutil.copy2(output / source_name, DOCS_ASSETS / target_name)
+        source = output / source_name
+        if source.is_file():
+            shutil.copy2(source, DOCS_ASSETS / target_name)
     print(f"{summary['study_id']}: {summary['status']} -> {output}")
     return 0 if summary["status"] == "PASS_TECHNICAL_VERIFICATION" else 1
 

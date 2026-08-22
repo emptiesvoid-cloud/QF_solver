@@ -19,6 +19,7 @@ dist/
 release_dist/
 site/
 .docs-cache/
+
 output/
 git_history_audit.json
 release_readiness.json
@@ -29,6 +30,10 @@ results/
 results_large/
 VNV-*/
 qualification/vnv/**
+!qualification/vnv/mitc4_stable_package_2026-08-21/
+!qualification/vnv/mitc4_stable_package_2026-08-21/study.json
+qualification/evidence/
+qualification/maturity_evidence_*/
 tmp/
 docs/generated/
 docs/assets/generated/

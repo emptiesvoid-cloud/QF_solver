@@ -262,12 +262,12 @@
       "value": 2.3592239273284576e-16
     }
   ],
-  "evidence_manifest_sha256": "8a00bf36d43c4e45b9dceb2617cefbdd5290cb29391fa397cd000c0cd5cfe0a6",
+  "evidence_manifest_sha256": "b35ea2c6e3ce17962e74d59f1bcc0c2a2caaf77c8e3e4897ed12a537336f76cc",
   "limitations": [
     "The three models remain small-displacement node-to-triangle contact.",
     "They do not demonstrate general surface-to-surface or large-sliding contact.",
     "The external Code_Aster evidence remains provided by the preceding controlled campaigns."
   ],
-  "maturity": "experimental_ready_for_human_recheck",
+  "maturity": "experimental_ready_for_owner_recheck",
   "status": "PASS_INTERNAL"
 }
