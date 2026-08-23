@@ -6,6 +6,7 @@ from pathlib import Path
 import pytest
 
 from solveur.api import list_benchmarks, run_benchmark
+from solveur.version import __version__
 
 
 @pytest.mark.benchmark
@@ -20,7 +21,7 @@ def test_controlled_meshed_benchmark_campaign(descriptor: object, tmp_path: Path
     summary = json.loads((case_dir / "benchmark_summary.json").read_text(encoding="utf-8"))
     manifest = json.loads((case_dir / "benchmark_manifest.json").read_text(encoding="utf-8"))
     assert summary["status"] == expected
-    assert manifest["solver"] == {"name": "QF_solver", "version": "0.2.1a0"}
+    assert manifest["solver"] == {"name": "QF_solver", "version": __version__}
     assert manifest["benchmark_id"] == descriptor.identifier
     if descriptor.family == "BEAM2":
         assert any(path.name.endswith(".model.json") for path in case_dir.iterdir())
