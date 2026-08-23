@@ -8,7 +8,7 @@
   "status": "PASS",
   "classification": {
     "public_source_documentation": {
-      "count": 348,
+      "count": 349,
       "paths": [
         "README.md",
         "docs/** excluding generated evidence"
@@ -63,7 +63,7 @@
     {
       "id": "public_source_hygiene",
       "status": "PASS",
-      "detail": "1762 tracked release files scanned"
+      "detail": "1763 tracked release files scanned"
     },
     {
       "id": "controlled_review_vocabulary",
@@ -83,7 +83,7 @@
   ],
   "public_release_audit": {
     "status": "PASS",
-    "scanned_files": 1762,
+    "scanned_files": 1763,
     "finding_count": 0
   }
 }
