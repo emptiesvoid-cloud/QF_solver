@@ -5,7 +5,6 @@ from __future__ import annotations
 import math
 
 import numpy as np
-from scipy.linalg import eigh
 from scipy.sparse import csr_matrix, diags, tril, triu
 from scipy.sparse.linalg import (
     ArpackNoConvergence,
@@ -24,13 +23,17 @@ from solveur.core.audit import SolverAudit
 from solveur.core.dynamic_reduction import DynamicDofReducer
 from solveur.core.errors import InputValidationError, MeshValidationError, NumericalConvergenceError
 from solveur.core.model import FiniteElementModel
+from solveur.core.modal_dense import dense_generalized_eigh as _dense_generalized_eigh
 from solveur.core.modal_options import (
     ModalSolverOptions,
+    _boolean_parameter,
     _nonnegative_int_parameter,
     _positive_int_parameter,
     _positive_parameter,
+    validate_slepc_modal_scale,
 )
 from solveur.core.results import ModalResult
+from solveur.core.solver_backend import select_backend, solve_with_slepc
 from solveur.mesh.validation import MeshValidator
 
 
@@ -46,17 +49,23 @@ class ModalAnalysisSolver:
         if report.status == "FAIL":
             raise MeshValidationError("Mesh validation failed: " + "; ".join(report.errors))
         dofs = model.dof_manager()
-        stiffness = self.assembler.assemble_stiffness(model, dofs)
-        stiffness_assembly = dict(self.assembler.last_diagnostics)
-        mass = self.assembler.assemble_mass(model, dofs)
-        mass_assembly = dict(self.assembler.last_diagnostics)
+        parameters = model.analysis.parameters
+        requested_backend = str(parameters.get("backend", "auto")).strip().lower()
+        use_slepc_modal = _boolean_parameter(
+            parameters.get("use_slepc_modal", False), "use_slepc_modal"
+        )
+        slepc_requested = use_slepc_modal or requested_backend == "petsc"
+        # This is deliberately before K/M assembly.  A SLEPc shift-invert
+        # attempt can allocate a factorization much larger than K and M.
+        validate_slepc_modal_scale(dofs.ndof, requested=slepc_requested)
+        stiffness, mass, stiffness_assembly, mass_assembly = self.assembler.assemble_stiffness_and_mass(model, dofs)
         fixed = self.assembler.fixed_indices(model, dofs)
         reducer = DynamicDofReducer.from_system(model, dofs, mass, stiffness, fixed)
         free = reducer.free
 
         try:
-            requested = int(model.analysis.parameters.get("modes", 6))
-            dense_limit = int(model.analysis.parameters.get("dense_modal_max_dofs", 2000))
+            requested = int(parameters.get("modes", 6))
+            dense_limit = int(parameters.get("dense_modal_max_dofs", 2000))
         except (TypeError, ValueError) as exc:
             raise InputValidationError("modes and dense_modal_max_dofs must be integers.") from exc
         if requested <= 0:
@@ -67,59 +76,70 @@ class ModalAnalysisSolver:
         if dense_limit <= 0:
             raise InputValidationError("dense_modal_max_dofs must be a positive integer.")
         options = ModalSolverOptions.from_parameters(
-            model.analysis.parameters,
+            parameters,
             method=model.analysis.method,
             mode_count=mode_count,
             system_size=reducer.reduced_size,
+        )
+        backend_selection = select_backend(
+            "petsc" if use_slepc_modal else requested_backend,
+            problem_size=reducer.reduced_size,
+            parameters=parameters,
         )
         default_preconditioner = (
             "spilu" if reducer.diagnostics.get("lazy_condensation", False) else "diagonal"
         )
         modal_preconditioner = str(
-            model.analysis.parameters.get("lobpcg_preconditioner", default_preconditioner)
+            parameters.get("lobpcg_preconditioner", default_preconditioner)
         )
         default_drop_tol = 1.0e-6 if reducer.diagnostics.get("lazy_condensation", False) else 1.0e-4
         default_fill_factor = 20.0 if reducer.diagnostics.get("lazy_condensation", False) else 10.0
         lobpcg_drop_tol = _positive_parameter(
-            model.analysis.parameters.get("lobpcg_drop_tol", default_drop_tol),
+            parameters.get("lobpcg_drop_tol", default_drop_tol),
             "lobpcg_drop_tol",
         )
         lobpcg_fill_factor = _positive_parameter(
-            model.analysis.parameters.get("lobpcg_fill_factor", default_fill_factor),
+            parameters.get("lobpcg_fill_factor", default_fill_factor),
             "lobpcg_fill_factor",
         )
         inner_rtol = _positive_parameter(
-            model.analysis.parameters.get("modal_inner_rtol", 1.0e-8),
+            parameters.get("modal_inner_rtol", 1.0e-8),
             "modal_inner_rtol",
         )
         inner_maxiter = _positive_int_parameter(
-            model.analysis.parameters.get("modal_inner_maxiter", 500),
+            parameters.get("modal_inner_maxiter", 500),
             "modal_inner_maxiter",
         )
         inner_restart = _positive_int_parameter(
-            model.analysis.parameters.get("modal_inner_restart", 50),
+            parameters.get("modal_inner_restart", 50),
             "modal_inner_restart",
         )
         try:
-            values, vectors, used_method = self._solve_eigenproblem(
-                kff,
-                mff,
-                mode_count,
-                model.analysis.method,
-                dense_limit=dense_limit,
-                shift=options.shift_eigenvalue,
-                which=options.which,
-                tolerance=options.tolerance,
-                maxiter=options.maxiter,
-                ncv=options.ncv,
-                lobpcg_preconditioner=modal_preconditioner,
-                lobpcg_drop_tol=lobpcg_drop_tol,
-                lobpcg_fill_factor=lobpcg_fill_factor,
-                inner_rtol=inner_rtol,
-                inner_maxiter=inner_maxiter,
-                inner_restart=inner_restart,
-                prefer_dense=bool(model.analysis.parameters.get("prefer_dense_modal", False)),
-            )
+            if backend_selection.selected == "petsc":
+                if not hasattr(kff, "tocsr") or not hasattr(mff, "tocsr"):
+                    raise InputValidationError("SLEPc modal backend requires explicit sparse K and M operators.")
+                values, vectors = solve_with_slepc(kff, mff, mode_count, parameters)
+                used_method = "slepc"
+            else:
+                values, vectors, used_method = self._solve_eigenproblem(
+                    kff,
+                    mff,
+                    mode_count,
+                    model.analysis.method,
+                    dense_limit=dense_limit,
+                    shift=options.shift_eigenvalue,
+                    which=options.which,
+                    tolerance=options.tolerance,
+                    maxiter=options.maxiter,
+                    ncv=options.ncv,
+                    lobpcg_preconditioner=modal_preconditioner,
+                    lobpcg_drop_tol=lobpcg_drop_tol,
+                    lobpcg_fill_factor=lobpcg_fill_factor,
+                    inner_rtol=inner_rtol,
+                    inner_maxiter=inner_maxiter,
+                    inner_restart=inner_restart,
+                    prefer_dense=bool(parameters.get("prefer_dense_modal", False)),
+                )
         except InputValidationError:
             raise
         except (np.linalg.LinAlgError, ArpackNoConvergence, ValueError, RuntimeError) as exc:
@@ -156,7 +176,7 @@ class ModalAnalysisSolver:
         if values.size == 0:
             raise NumericalConvergenceError("Modal eigensolve found no positive physical eigenvalue.")
         refinement_iterations = _nonnegative_int_parameter(
-            model.analysis.parameters.get("modal_eigenpair_refinement_iterations", 0),
+            parameters.get("modal_eigenpair_refinement_iterations", 0),
             "modal_eigenpair_refinement_iterations",
         )
         refinement = _refine_eigenpairs(
@@ -170,6 +190,7 @@ class ModalAnalysisSolver:
         diagnostics = _modal_diagnostics(kff, mff, values, vectors, influences)
         diagnostics["dense_modal_max_dofs"] = dense_limit
         diagnostics["dense_conversion_used"] = used_method == "eigh"
+        diagnostics["backend"] = backend_selection.to_dict()
         diagnostics["arpack"] = options.to_dict()
         diagnostics["assembly"] = {"stiffness": stiffness_assembly, "mass": mass_assembly}
         diagnostics["dynamic_reduction"] = dict(reducer.diagnostics)
@@ -179,7 +200,7 @@ class ModalAnalysisSolver:
             "maximum_residual_before": float(refinement["maximum_residual_before"]),
             "maximum_residual_after": float(refinement["maximum_residual_after"]),
         }
-        residual_limit = float(model.analysis.parameters.get("modal_residual_failure_tolerance", 1.0e-7))
+        residual_limit = float(parameters.get("modal_residual_failure_tolerance", 1.0e-7))
         if diagnostics["max_relative_residual"] > residual_limit:
             raise NumericalConvergenceError(
                 "Modal eigenpair residual is abnormal: "
@@ -294,31 +315,6 @@ class ModalAnalysisSolver:
         return values, vectors, "eigh"
 
 
-def _dense_generalized_eigh(
-    stiffness: object,
-    mass: object,
-    mode_count: int,
-) -> tuple[np.ndarray, np.ndarray]:
-    """Solve a bounded dense modal problem after numerical scaling."""
-    dense_stiffness = np.asarray(stiffness.toarray(), dtype=float)
-    dense_mass = np.asarray(mass.toarray(), dtype=float)
-    mass_diagonal = np.maximum(np.abs(np.diag(dense_mass)), 1.0e-30)
-    inverse_mass_scale = 1.0 / np.sqrt(mass_diagonal)
-    dense_stiffness = (
-        inverse_mass_scale[:, None] * dense_stiffness * inverse_mass_scale[None, :]
-    )
-    dense_mass = inverse_mass_scale[:, None] * dense_mass * inverse_mass_scale[None, :]
-    stiffness_scale = max(float(np.max(np.abs(dense_stiffness), initial=0.0)), 1.0)
-    mass_scale = max(float(np.max(np.abs(dense_mass), initial=0.0)), 1.0)
-    values, vectors = eigh(
-        dense_stiffness / stiffness_scale,
-        dense_mass / mass_scale,
-    )
-    values = values * stiffness_scale / mass_scale
-    vectors = inverse_mass_scale[:, None] * vectors
-    return values[:mode_count], vectors[:, :mode_count]
-
-
 def _preconditioner_diagonal(matrix: object) -> np.ndarray:
     diagonal_method = getattr(matrix, "diagonal", None)
     if callable(diagonal_method):
@@ -391,7 +387,6 @@ def _lobpcg_preconditioner(
 
     return LinearOperator(shape=matrix.shape, dtype=float, matvec=apply_diagonal, matmat=apply_diagonal)
 
-
 def _shift_inverse_operator(
     stiffness: object,
     mass: object,
@@ -458,7 +453,6 @@ def _shift_inverse_operator(
 
     return LinearOperator(shape=stiffness.shape, dtype=float, matvec=solve, matmat=solve)
 
-
 def _exact_lazy_shift_inverse(
     stiffness: object,
     shifted_physical: object,
@@ -489,7 +483,6 @@ def _exact_lazy_shift_inverse(
         return np.asarray(factor.solve(array), dtype=float)
 
     return LinearOperator(shape=stiffness.shape, dtype=float, matvec=solve, matmat=solve)
-
 
 def _shifted_preconditioner_matrix(stiffness: object, shifted_physical: object) -> object:
     """Build a sparse Schur approximation for a lazy drilling condensation.
@@ -681,7 +674,6 @@ def _effective_modal_mass(
         by_direction[direction] = masses
         totals[direction] = total_mass
     return {"by_direction": by_direction, "total_direction_mass": totals}
-
 
 def _direction_vector(dofs: object, direction: str) -> np.ndarray:
     vector = np.zeros(dofs.ndof, dtype=float)

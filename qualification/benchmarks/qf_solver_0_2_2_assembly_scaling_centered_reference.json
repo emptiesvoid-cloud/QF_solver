@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "campaign": "qf-solver-tet4-assembly-scaling-0.2.2-alpha",
+  "environment": "local reproducibility sample; host identity intentionally omitted",
+  "configuration": {
+    "decomposition": "centered",
+    "material": {
+      "type": "isotropic_3d",
+      "E": 70000000000.0,
+      "nu": 0.27,
+      "density": 2700.0
+    }
+  },
+  "sizes": [
+    {
+      "target_dofs": 1000,
+      "dofs": 1677,
+      "nodes": 559,
+      "elements": 2592,
+      "assembly_seconds": 0.021363599982578307,
+      "assembly_seconds_samples": [
+        0.02119160001166165,
+        0.021363599982578307,
+        0.022155500017106533
+      ],
+      "repeat_count": 3,
+      "nnz": 62713,
+      "chunk_size": 4096,
+      "assembly_diagnostics": {
+        "chunk_size": 4096,
+        "chunk_count": 1,
+        "peak_chunk_nnz": 65619,
+        "accumulator_occupied_levels": 1,
+        "final_nnz": 62713,
+        "sparse_memory_bytes": 759268,
+        "assembly_phase_seconds": {
+          "chunk_build": 0.0200370000093244,
+          "element_kernel": 0.01002589997369796,
+          "chunk_sparse_conversion": 0.010093100019730628,
+          "chunk_fusion": 5.999987479299307e-06,
+          "sparse_finalize": 0.0005441999528557062
+        },
+        "sparse_conversion_method": "csr_constructor",
+        "material_cache_reused": true,
+        "repeat_count": 3,
+        "assembly_seconds_samples": [
+          0.02119160001166165,
+          0.021363599982578307,
+          0.022155500017106533
+        ]
+      }
+    },
+    {
+      "target_dofs": 10000,
+      "dofs": 18357,
+      "nodes": 6119,
+      "elements": 32928,
+      "assembly_seconds": 0.2722646000329405,
+      "assembly_seconds_samples": [
+        0.2722646000329405,
+        0.2766117000137456,
+        0.27100740000605583
+      ],
+      "repeat_count": 3,
+      "nnz": 734312,
+      "chunk_size": 4096,
+      "assembly_diagnostics": {
+        "chunk_size": 4096,
+        "chunk_count": 9,
+        "peak_chunk_nnz": 109764,
+        "accumulator_occupied_levels": 2,
+        "final_nnz": 734312,
+        "sparse_memory_bytes": 8885176,
+        "assembly_phase_seconds": {
+          "chunk_build": 0.251507900073193,
+          "element_kernel": 0.12925900000846013,
+          "chunk_sparse_conversion": 0.12224890006473288,
+          "chunk_fusion": 0.009822899766732007,
+          "sparse_finalize": 0.003495000011753291
+        },
+        "sparse_conversion_method": "csr_constructor",
+        "material_cache_reused": true,
+        "repeat_count": 3,
+        "assembly_seconds_samples": [
+          0.2722646000329405,
+          0.2766117000137456,
+          0.27100740000605583
+        ]
+      }
+    },
+    {
+      "target_dofs": 100000,
+      "dofs": 206115,
+      "nodes": 68705,
+      "elements": 393216,
+      "assembly_seconds": 3.5499725999543443,
+      "assembly_seconds_samples": [
+        3.557642699975986,
+        3.523204400029499,
+        3.5499725999543443
+      ],
+      "repeat_count": 3,
+      "nnz": 7715381,
+      "chunk_size": 4096,
+      "assembly_diagnostics": {
+        "chunk_size": 4096,
+        "chunk_count": 96,
+        "peak_chunk_nnz": 117828,
+        "accumulator_occupied_levels": 2,
+        "final_nnz": 7715381,
+        "sparse_memory_bytes": 93409036,
+        "assembly_phase_seconds": {
+          "chunk_build": 3.144072999304626,
+          "element_kernel": 1.5884689998347312,
+          "chunk_sparse_conversion": 1.552751799521502,
+          "chunk_fusion": 0.2776366001344286,
+          "sparse_finalize": 0.0463593999738805
+        },
+        "sparse_conversion_method": "csr_constructor",
+        "material_cache_reused": true,
+        "repeat_count": 3,
+        "assembly_seconds_samples": [
+          3.557642699975986,
+          3.523204400029499,
+          3.5499725999543443
+        ]
+      }
+    }
+  ]
+}

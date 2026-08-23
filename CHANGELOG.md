@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.2.2a0 - 2026-08-23
+
+Cette alpha prépare le renforcement du backend numérique et la publication
+contrôlée de QF_solver. Elle ne revendique pas une qualification générale des
+grands modèles ni une promotion automatique des scopes mécaniques.
+
+- Ajout d'une couche de résolution commune avec diagnostics de backend,
+  convergence, résidus et sélection sparse/directe ou itérative.
+- Réduction des copies inutiles dans l'assemblage et préparation des chemins
+  de scaling, de réutilisation K/M et de résolution grand modèle.
+- Ajout du support optionnel PETSc/SLEPc via l'extra `hpc`; SciPy reste le
+  chemin standard sans dépendance HPC obligatoire.
+- Ajout des plans V&V 0.2.2 alpha pour l'assemblage, le scaling, les modèles
+  multi-million de DDL et la couverture logicielle.
+- Stabilisation du contrat d'import public `from qf_solver import ...` et
+  vérification du contenu des distributions wheel/sdist.
+- Le gate de couverture CI global est fixé à `80 %`; la campagne locale de
+  référence du 23 août 2026 atteint `88,67 %` avec `1336 passed`.
+- Les limites modal 2M DDL et matrix-free 1M DDL restent documentées comme
+  limites de ressources ou de temps, sans être présentées comme des succès.
+
 ## 0.2.1a0 - 2026-08-13
 
 Cette alpha consolide le processus de verification et validation de QF_solver.

@@ -24,7 +24,7 @@ def test_release_vv_cli_writes_owner_and_machine_reports(tmp_path: Path) -> None
     assert "RELEASE V&V STATUS: FAIL" in completed.stdout
     summary = json.loads((output / "release_vv_summary.json").read_text(encoding="utf-8"))
     manifest = json.loads((output / "release_vv_manifest.json").read_text(encoding="utf-8"))
-    assert summary["release"]["version"] == "0.2.1a0"
+    assert summary["release"]["version"] == "0.2.2a0"
     assert summary["manifest"] == "release_vv_manifest.json"
     evidence = next(
         check for check in summary["checks"] if check["id"] == "EVIDENCE-BUNDLE-CODE-ASTER-CORRELATION-2026-08-14"

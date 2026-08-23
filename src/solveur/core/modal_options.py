@@ -11,6 +11,58 @@ import numpy as np
 from solveur.core.errors import InputValidationError
 
 
+# These are release-gate values, not claims about the maximum capability of
+# PETSc/SLEPc.  The first value is the largest modal campaign currently
+# archived; the second is the conservative pre-assembly protection limit.
+SLEPC_MODAL_TESTED_MAX_DOFS = 107_811
+SLEPC_MODAL_PROTECTION_LIMIT = 500_000
+
+
+def validate_slepc_modal_scale(global_dofs: int, *, requested: bool) -> None:
+    """Reject an unqualified large SLEPc modal request before assembly.
+
+    The check intentionally uses the global model DDL count rather than the
+    reduced free-DOF count.  It is therefore conservative and, importantly,
+    runs before allocating global stiffness and mass matrices.  The limit is
+    a protection gate for the current release, not a proof that a larger
+    model cannot be solved with a different factorization or machine.
+    """
+
+    if not requested:
+        return
+    try:
+        dofs = int(global_dofs)
+    except (TypeError, ValueError) as exc:
+        raise InputValidationError("The modal global DDL count must be an integer.") from exc
+    if dofs < 0:
+        raise InputValidationError("The modal global DDL count must be non-negative.")
+    if dofs <= SLEPC_MODAL_PROTECTION_LIMIT:
+        return
+    raise InputValidationError(
+        "SLEPc modal solve refused before sparse assembly: "
+        f"requested global DDL={dofs:,}, protection limit="
+        f"{SLEPC_MODAL_PROTECTION_LIMIT:,}. The currently tested SLEPc scope "
+        f"ends at {SLEPC_MODAL_TESTED_MAX_DOFS:,} DDL; the protection limit is "
+        "a theoretical R&D ceiling, not a validated capacity. "
+        "Use the SciPy modal path or an explicitly qualified R&D backend, "
+        "and do not infer 2M-DDL support from this release."
+    )
+
+
+def _boolean_parameter(value: object, name: str) -> bool:
+    """Parse a strict boolean analysis parameter without truthiness traps."""
+
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, str):
+        normalized = value.strip().lower()
+        if normalized in {"true", "1", "yes", "on"}:
+            return True
+        if normalized in {"false", "0", "no", "off"}:
+            return False
+    raise InputValidationError(f"{name} must be a boolean.")
+
+
 @dataclass(frozen=True)
 class ModalSolverOptions:
     """Validated sparse eigensolver controls and physical shift metadata."""

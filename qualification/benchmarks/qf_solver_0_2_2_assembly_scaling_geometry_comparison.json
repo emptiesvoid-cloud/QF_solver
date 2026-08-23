@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "campaign": "qf-solver-tet4-assembly-scaling-comparison-0.2.2-alpha",
+  "environment": "local reproducibility comparison; host identity intentionally omitted",
+  "baseline": "qf_solver_0_2_2_assembly_scaling_reference.json",
+  "candidate": "qf_solver_0_2_2_assembly_scaling_geometry_reference.json",
+  "numerical_identity": "PASS",
+  "max_absolute_relative_time_change": 0.05550420767683098,
+  "median_relative_time_change": -0.03403797902429481,
+  "performance_interpretation": "no_material_change",
+  "sizes": [
+    {
+      "dofs": 1029,
+      "elements": 1296,
+      "nnz": 30399,
+      "baseline_seconds": 0.012550399987958372,
+      "candidate_seconds": 0.011853799980599433,
+      "relative_time_change": -0.05550420767683098,
+      "phase_relative_changes": {
+        "chunk_build": -0.049196235405208955,
+        "chunk_fusion": -0.13636483900270754,
+        "chunk_sparse_conversion": -0.07141319036128731,
+        "element_kernel": -0.04890466652416545,
+        "sparse_finalize": -0.12276979792873739
+      },
+      "candidate_conversion_method": "csr_constructor"
+    },
+    {
+      "dofs": 10125,
+      "elements": 16464,
+      "nnz": 338727,
+      "baseline_seconds": 0.13781380001455545,
+      "candidate_seconds": 0.13368770002853125,
+      "relative_time_change": -0.029939672119834265,
+      "phase_relative_changes": {
+        "chunk_build": -0.03859090188459325,
+        "chunk_fusion": -0.02062907241404912,
+        "chunk_sparse_conversion": -0.004740965353834061,
+        "element_kernel": -0.04781098661332206,
+        "sparse_finalize": 0.23866103143790035
+      },
+      "candidate_conversion_method": "csr_constructor"
+    },
+    {
+      "dofs": 107811,
+      "elements": 196608,
+      "nnz": 3813789,
+      "baseline_seconds": 1.7307138000032865,
+      "candidate_seconds": 1.671803799981717,
+      "relative_time_change": -0.03403797902429481,
+      "phase_relative_changes": {
+        "chunk_build": -0.04036905974107402,
+        "chunk_fusion": 0.037042956110128165,
+        "chunk_sparse_conversion": -0.002534598207426324,
+        "element_kernel": -0.07564417991539102,
+        "sparse_finalize": -0.04846185483695761
+      },
+      "candidate_conversion_method": "csr_constructor"
+    }
+  ]
+}

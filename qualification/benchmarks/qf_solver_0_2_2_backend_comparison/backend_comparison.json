@@ -1,0 +1,118 @@
+{
+  "comparison_schema_version": 1,
+  "status": "PARTIAL",
+  "input": "qualification\\benchmarks\\qf_solver_0_2_2_backend_comparison_input.h5",
+  "ndof": 24,
+  "element_count": 6,
+  "backends_requested": [
+    "scipy",
+    "matrix_free",
+    "petsc"
+  ],
+  "backends_completed": [
+    "scipy",
+    "matrix_free"
+  ],
+  "chunk_size": 4096,
+  "displacement_tolerance": 1e-07,
+  "runs": [
+    {
+      "backend": "scipy",
+      "status": "PASS",
+      "result_backend": "scipy",
+      "summary": {
+        "analysis": "linear_static",
+        "node_count": 8,
+        "element_count": 6,
+        "ndof": 24,
+        "backend": "scipy",
+        "solver": {
+          "method": "cg",
+          "iterations": 7,
+          "residual_norm": 1.1494271893241288e-12,
+          "converged": true,
+          "preconditioner": "jacobi",
+          "residual_history": [
+            375.6433822576712,
+            72.19176387678665,
+            33.533743996735694,
+            28.002827593493066,
+            16.925093786589496,
+            5.102674868300566,
+            1.1494271893241288e-12
+          ],
+          "backend": "scipy",
+          "initial_residual_norm": 500.0,
+          "relative_residual_norm": 2.2988543786482575e-15,
+          "tolerance": 1e-12,
+          "termination_reason": "converged"
+        },
+        "assembly_time_seconds": 0.001069099991582334,
+        "solve_time_seconds": 0.0014418000355362892,
+        "estimated_core_memory_bytes": 576,
+        "audit_status": "PASS",
+        "assembly": {
+          "chunk_size": 4096,
+          "chunk_count": 1,
+          "peak_chunk_nnz": 414,
+          "accumulator_occupied_levels": 1,
+          "final_nnz": 324,
+          "sparse_memory_bytes": 3988,
+          "assembly_phase_seconds": {
+            "chunk_build": 0.0007810000097379088,
+            "element_kernel": 0.0004835000145249069,
+            "chunk_sparse_conversion": 0.00029749999521300197,
+            "chunk_fusion": 4.099973011761904e-06,
+            "sparse_finalize": 0.00015650002751499414
+          },
+          "sparse_conversion_method": "csr_constructor",
+          "material_cache_reused": true
+        }
+      },
+      "audit_status": "PASS",
+      "displacement_size": 24
+    },
+    {
+      "backend": "matrix_free",
+      "status": "PASS",
+      "result_backend": "matrix_free",
+      "summary": {
+        "analysis": "linear_static",
+        "node_count": 8,
+        "element_count": 6,
+        "ndof": 24,
+        "backend": "matrix_free",
+        "solver": {
+          "method": "matrix_free_cg",
+          "preconditioner": "nodal_block_jacobi",
+          "iterations": 7,
+          "residual_norm": 1.6437060912132203e-13,
+          "relative_residual": 3.287412182426441e-16,
+          "converged": true
+        },
+        "assembly_time_seconds": 0.0,
+        "solve_time_seconds": 0.0011130000348202884,
+        "estimated_core_memory_bytes": 8352,
+        "audit_status": "PASS",
+        "matrix_free_operator_memory_bytes": 7776
+      },
+      "audit_status": "PASS",
+      "displacement_size": 24
+    },
+    {
+      "backend": "petsc",
+      "status": "SKIP",
+      "reason": "PETSc backend requires optional dependency petsc4py."
+    }
+  ],
+  "comparisons": [
+    {
+      "reference_backend": "scipy",
+      "candidate_backend": "matrix_free",
+      "relative_displacement_error": 5.816018461808981e-16,
+      "tolerance": 1e-07,
+      "status": "PASS"
+    }
+  ],
+  "interpretation": "Some optional backends were unavailable; this is not a complete backend qualification."
+}

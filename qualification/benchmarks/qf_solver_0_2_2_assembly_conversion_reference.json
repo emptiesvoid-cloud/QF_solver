@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "campaign": "qf-solver-tet4-assembly-conversion-probe-0.2.2-alpha",
+  "environment": "local reproducibility sample; host identity intentionally omitted",
+  "target_dofs": 100000,
+  "dofs": 107811,
+  "elements_in_chunk": 4096,
+  "chunk_size": 4096,
+  "repeats": 3,
+  "variants": [
+    {
+      "name": "coo_tocsr",
+      "median_seconds": 0.011568100017029792,
+      "seconds_samples": [
+        0.010044399998150766,
+        0.011883800034411252,
+        0.011568100017029792
+      ],
+      "nnz": 140112,
+      "difference_nnz": 0,
+      "max_abs_difference": 0.0
+    },
+    {
+      "name": "csr_constructor",
+      "median_seconds": 0.010599899978842586,
+      "seconds_samples": [
+        0.010175300005357713,
+        0.010599899978842586,
+        0.011034600029233843
+      ],
+      "nnz": 140112,
+      "difference_nnz": 0,
+      "max_abs_difference": 0.0
+    }
+  ]
+}

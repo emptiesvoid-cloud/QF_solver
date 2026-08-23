@@ -24,6 +24,7 @@ def qualify_large_tet4_pipeline(
     solver_backend: str = "petsc",
     preconditioner: str | None = None,
     chunk_size: int = 4096,
+    memory_budget_bytes: int | None = None,
     length: float = 1.0,
     height: float = 1.0,
     depth: float = 1.0,
@@ -46,6 +47,9 @@ def qualify_large_tet4_pipeline(
             "dimensions": {"nx": dimensions[0], "ny": dimensions[1], "nz": dimensions[2]},
             "backend": solver_backend,
             "chunk_size": int(chunk_size),
+            "memory_budget_bytes": (
+                int(memory_budget_bytes) if memory_budget_bytes is not None else None
+            ),
         },
     )
     readiness = check_large_readiness(
@@ -56,6 +60,7 @@ def qualify_large_tet4_pipeline(
         nz=dimensions[2],
         solver_backend=solver_backend,
         chunk_size=chunk_size,
+        memory_budget_bytes=memory_budget_bytes,
     )
     readiness_paths = write_large_readiness_report(readiness, root)
     if readiness["status"] == "FAIL":

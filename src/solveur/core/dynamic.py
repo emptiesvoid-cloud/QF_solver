@@ -24,6 +24,7 @@ from solveur.core.linear_methods import LinearSystemSolver, ReusableSparseFactor
 from solveur.core.linear_policy import LinearSolverPolicy, linear_execution_settings
 from solveur.core.model import FiniteElementModel
 from solveur.core.results import DynamicResult
+from solveur.core.solver_backend import select_backend
 from solveur.mesh.validation import MeshValidator
 from solveur.post.audit import PostProcessingAuditor
 from solveur.post.harmonic_shell import HarmonicShellStressPostProcessor
@@ -51,10 +52,7 @@ class NewmarkDynamicSolver:
             raise MeshValidationError("Mesh validation failed: " + "; ".join(report.errors))
 
         dofs = model.dof_manager()
-        stiffness = self.assembler.assemble_stiffness(model, dofs)
-        stiffness_assembly = dict(self.assembler.last_diagnostics)
-        mass = self.assembler.assemble_mass(model, dofs)
-        mass_assembly = dict(self.assembler.last_diagnostics)
+        stiffness, mass, stiffness_assembly, mass_assembly = self.assembler.assemble_stiffness_and_mass(model, dofs)
         params = model.analysis.parameters
         damping_definition = rayleigh_damping_definition(params)
         damping = (
@@ -128,12 +126,29 @@ class NewmarkDynamicSolver:
 
         reduced = (reduced_mass, reduced_damping, reduced_stiffness)
         effective = self._effective_stiffness(*reduced, dt=dt, beta=beta, gamma=gamma)
-        linear_method = str(params.get("linear_method", "direct")).lower()
-        linear_selection = LinearSolverPolicy.assess(effective, linear_method, params)
+        requested_linear_method = str(params.get("linear_method", "direct")).lower()
+        linear_selection = LinearSolverPolicy.assess(effective, requested_linear_method, params)
         LinearSolverPolicy.enforce_method_contract(linear_selection, params)
-        effective_factorization = self._factorize_effective(effective, linear_method, params)
+        linear_method = (
+            linear_selection.recommended_method
+            if requested_linear_method in LinearSolverPolicy._AUTO
+            else requested_linear_method
+        )
+        backend_selection = select_backend(
+            params.get("backend", "auto"),
+            problem_size=reducer.reduced_size,
+            parameters=params,
+        )
+        effective_factorization = (
+            None
+            if backend_selection.selected == "petsc"
+            else self._factorize_effective(effective, linear_method, params)
+        )
         history = []
         residual_history = []
+        linear_iteration_history: list[int] = []
+        linear_relative_residual_history: list[float] = []
+        linear_backends: set[str] = set()
         checkpoint_files: list[str] = []
         for step in range(restart_step + 1, steps + 1):
             time = step * dt
@@ -165,6 +180,9 @@ class NewmarkDynamicSolver:
                 raise NumericalConvergenceError(
                     f"Dynamic linear solve did not converge; residual={info.residual_norm:.6e}."
                 )
+            linear_iteration_history.append(int(info.iterations))
+            linear_relative_residual_history.append(float(info.relative_residual_norm))
+            linear_backends.add(info.backend)
             next_a = (next_u - reduced_displacement) / (beta * dt**2)
             next_a -= reduced_velocity / (beta * dt)
             next_a -= (1.0 / (2.0 * beta) - 1.0) * reduced_acceleration
@@ -300,12 +318,18 @@ class NewmarkDynamicSolver:
                 "newmark_beta": beta,
                 "newmark_gamma": gamma,
                 "linear_method": linear_method,
+                "requested_linear_method": requested_linear_method,
+                "backend": backend_selection.to_dict(),
                 "linear_selection": linear_selection.to_dict(used_method=linear_method),
                 "linear_execution": {
-                    **linear_execution_settings(linear_method, params),
+                    **linear_execution_settings(requested_linear_method, params, used_method=linear_method),
                     "used_method": "splu_reuse" if effective_factorization is not None else linear_method,
                     "effective_matrix": "K + gamma/(beta*dt)*C + 1/(beta*dt^2)*M",
+                    "effective_matrix_nnz": int(getattr(effective, "nnz", 0)),
                     "factorization_reused": effective_factorization is not None,
+                    "backend_used": sorted(linear_backends),
+                    "iteration_count_total": int(sum(linear_iteration_history)),
+                    "max_relative_residual_norm": max(linear_relative_residual_history, default=0.0),
                 },
                 "postprocess_mode": postprocess_mode,
                 "effective_factorization_reused": effective_factorization is not None,
@@ -314,6 +338,15 @@ class NewmarkDynamicSolver:
                 ),
                 "effective_factorization_solve_count": (
                     effective_factorization.solve_count if effective_factorization is not None else 0
+                ),
+                "effective_factorization_seconds": (
+                    effective_factorization.factorization_seconds if effective_factorization is not None else 0.0
+                ),
+                "effective_factorization_solve_seconds_total": (
+                    effective_factorization.solve_seconds_total if effective_factorization is not None else 0.0
+                ),
+                "effective_factorization_last_solve_seconds": (
+                    effective_factorization.last_solve_seconds if effective_factorization is not None else 0.0
                 ),
                 "assembly": {"stiffness": stiffness_assembly, "mass": mass_assembly},
                 "dynamic_reduction": dict(reducer.diagnostics),
@@ -358,7 +391,7 @@ class NewmarkDynamicSolver:
         linear_method: str,
         parameters: dict[str, object],
     ) -> ReusableSparseFactorization | None:
-        if linear_method not in {"direct", "spsolve"}:
+        if linear_method not in {"direct", "spsolve"} or str(parameters.get("backend", "auto")).lower() == "petsc":
             return None
         return self.linear_solver.factorize(effective, parameters=parameters)
 

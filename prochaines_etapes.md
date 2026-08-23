@@ -1555,9 +1555,10 @@ test de non-regression et exemple CLI/API.
 - [x] stabiliser le partitionnement graphe sur `264 600` DDL et `1 029 000`
   DDL en quatre rangs: `PASS`, ecart graphe/contigu `2,24e-13` sur 1M,
   cut-face ratio `0,514 %`, imbalance `1,009` ;
-- [ ] conserver le graphe en option experimentale tant qu'il n'a pas demontre
-  un gain net de temps total et de memoire sur plusieurs topologies; le
-  partitionnement contigu reste le defaut ;
+- [x] conserver le graphe en option explicite et documenter son gain borne :
+  PT-Scotch passe a 2M DDL sur 2/4 rangs avec une efficacite forte `0,621`.
+  Le partitionnement contigu reste le defaut et aucune generalisation a
+  d'autres topologies ou machines n'est revendiquee ;
 - [x] tracer les tailles de halo nodal par rang dans `audit_large.json`
   (`local_owned_node_counts`, `local_halo_node_counts`,
   `halo_node_ratio_max`) ;
@@ -3878,3 +3879,276 @@ Le lot comprend la definition de l'observable, le raffinement vers environ
 ressources, la robustesse des imperfections et des increments, une correlation
 de la branche effectivement revendiquee et une revue independante. Le TET4-TL
 reste `research / more_evidence_required` jusqu'a fermeture de ces gates.
+# QF Solver 0.2.2 alpha : feuille de route backend numerique
+
+Objectif de release : renforcer le backend sparse et la scalabilite sans
+ajouter de nouvelle physique prioritaire ni modifier les formulations
+actuellement valides.
+
+## Etapes
+
+1. Cartographier les flux statique, modal, Newmark et harmonique, puis figer un
+   baseline de tests et de metriques.
+2. Centraliser la selection `method/backend` et les diagnostics de resolution.
+3. Maintenir les matrices en sparse et interdire les conversions denses non
+   necessaires sur les chemins grand modele.
+4. Ajouter la selection automatique prudente : direct sparse pour petits
+   systemes, CG pour SPD etabli, MINRES pour symetrique indefini et GMRES pour
+   non-symetrique.
+5. Reporter dans chaque resultat le backend, les iterations, les residus
+   initial/final/relatif, la tolerance et la raison de terminaison.
+6. Reutiliser les factorisations constantes dans Newmark et mesurer leur cout.
+7. Durcir la chaine modale sparse avec `eigsh`, shift-invert et operateurs
+   lineaires, sans former `inv(M) @ K`.
+8. Exposer PETSc et SLEPc comme backends optionnels et conserver SciPy sans
+   dependance HPC.
+9. Executer les benchmarks manuels 1k, 10k, 100k DDL, puis 1M si la machine
+   le permet ; enregistrer temps, NNZ, memoire et residus.
+10. Comparer les resultats avant/apres sur statique, modal, dynamique,
+    harmonique et campagnes V&V existantes.
+11. Completer la documentation d'architecture et le rapport de scaling.
+12. Executer lint, tests unitaires/integration pertinents, documentation et
+    regression complete avant toute decision de publication.
+
+13. [x] Mesurer separement le kernel elementaire, la construction du motif, la
+    conversion COO/CSR, la fusion des chunks et la reduction des contraintes.
+    La premiere reference instrumentee est archivee dans
+    `qualification/benchmarks/qf_solver_0_2_2_assembly_scaling_reference.json`.
+14. [x] Comparer la matrice assemblee avant/apres sur K et M : dimensions,
+    NNZ, symetrie, normes de difference et identite des valeurs. Les reactions,
+    champs et residus sont compares dans le dossier
+    `qf_solver_0_2_2_large_standard_field_comparison.json` ; les deux preuves
+    sont separees pour ne pas confondre identite algebrique et equivalence
+    mecanique.
+15. [x] Introduire `solveur.core.assembly_plan.AssemblyPlan` pour pre-calculer
+    les indices DDL et les specifications, sans cacher les matrices locales
+    variables par orientation, geometrie ou etat materiel. Le plan est reutilise
+    entre K et M dans les analyses statique, modale, Newmark et harmonique.
+16. [x] Partager le motif DDL temporaire entre K et M dans les analyses
+    modal/Newmark/harmonique, sans conserver de motif global ni de matrices
+    locales variables. Les diagnostics `paired_assembly` et
+    `shared_chunk_pattern` et le test d'identite K/M sont en place.
+17. [x] Executer `scripts/benchmark_assembly_scaling.py` sur environ 1k, 10k
+    et 100k DDL ; le runner accepte `--repeats` et archive la médiane, les
+    échantillons et les phases `element_kernel`/`chunk_sparse_conversion`.
+    Le cas 1M reste une campagne manuelle et tracée.
+18. [x] Ajouter les tests de non-convergence, de budget memoire, de chunks
+    vides, de doublons sparse, de discretisation et de reduction MPC. Les
+    contrats sont repartis dans les tests backend, assembleur, grand modele et
+    reduction ; les campagnes lourdes restent separees.
+19. [x] Maintenir un gate de couverture branchée globale à au moins `80 %`,
+    sans diminuer les exigences fonctionnelles. La campagne du 23 août 2026
+    produit `1336 passed`, `107 deselected` et `88,67 %`. Les seuils par module
+    restent des indicateurs de suivi et ne sont pas transformés en couverture
+    artificielle par exclusion.
+20. [x] Verifier que les tests V&V lourds restent hors CI rapide et sont
+    relances seulement lorsqu'un chemin partage ou une formulation concernee
+    change ; la CI conserve les contrats rapides et les campagnes manuelles
+    restent archivees separement.
+21. [x] Mesurer le gain reel de la paire K/M sur 1k, 10k et 100k DDL, avec
+    temps de preparation, kernel, conversion sparse, fusion, NNZ et memoire.
+    Le runner reproductible est `scripts/benchmark_standard_km_pair.py` et la
+    reference est `qualification/benchmarks/qf_solver_0_2_2_standard_km_pair_reference.json`.
+    Les matrices sont identiques et le gain de temps local mesure est d'environ
+    8,4 % a 11,2 % apres compactage des indices ; aucun gain memoire n'est
+    revendique.
+22. [x] Mesurer la reutilisation de la matrice effective Newmark et des
+    factorisations lorsque K, M, amortissement et pas de temps sont constants.
+    Le runner `scripts/benchmark_newmark_factorization.py` et la reference
+    `qualification/benchmarks/qf_solver_0_2_2_newmark_factorization_reference.json`
+    montrent une factorisation pour huit resolutions a `1 029` et `10 125`
+    DDL, avec des residus dynamiques maximum de `1,28e-11` et `2,21e-11`.
+    La campagne `100k` reste manuelle en raison du risque memoire de la LU
+    directe.
+23. [x] Mesurer le cout des cartes DDL et des copies d'indices sur les chunks :
+    comparer l'indexation globale int64, un index local compact et la fusion
+    sparse. L'index compact `int32` est retenu pour les DDL representables ;
+    l'identite des matrices K/M et le pic memoire estime sont documentes, sans
+    revendiquer de gain memoire.
+24. [x] Renforcer la couverture par lots fonctionnels : backend, assemblage,
+    modal, schemas IO, lecture Gmsh, chemins grands modeles et post-traitement
+    MITC4 ont reçu des contrats ciblés. La campagne complete atteint maintenant
+    `88,67 %` au gate global `80 %` sans exclusion nouvelle ; les branches PETSc/MPI reelles restent
+    explicitement conditionnees a leur environnement.
+25. [x] Mesurer le compromis de taille de chunk sur `100k` DDL avec trois
+    répétitions par configuration. Le runner
+    `scripts/benchmark_assembly_chunk_sweep.py` montre environ `1,937 s`,
+    `1,775 s`, `1,706 s`, `1,689 s` et `1,673 s` pour `1024` à `16384` ; le
+    gain maximal d'environ 2 % ne justifie pas l'augmentation du pic de
+    triplets. La référence est
+    `qualification/benchmarks/qf_solver_0_2_2_assembly_chunk_sweep_reference.json`.
+26. [x] Tester la construction CSR directe contre le chemin COO/CSR actuel.
+    L'identité des NNZ et des valeurs est PASS sur 1k, 10k et 100k DDL, mais
+    le changement médian reste dans le bruit (`+2,15 %` sur l'échantillon) :
+    aucune accélération n'est revendiquée. La preuve est archivée dans
+    `qualification/benchmarks/qf_solver_0_2_2_assembly_scaling_comparison.json`.
+27. [x] Isoler le kernel TET4 élémentaire et remplacer l'inversion batched
+    `4 x 4` par les gradients barycentriques issus des produits vectoriels et
+    du déterminant orienté. L'identité avec l'élément de référence, les NNZ et
+    les valeurs assemblées sont conservés ; la comparaison sur 1k/10k/100k
+    DDL est archivée dans
+    `qualification/benchmarks/qf_solver_0_2_2_assembly_scaling_geometry_comparison.json`.
+    Le kernel diminue d'environ 7,6 % à 100k DDL et le temps total médian de
+    3,4 % sur cette machine ; une confirmation multi-configuration reste
+    requise avant toute politique par défaut.
+28. [x] Définir une empreinte stricte de réutilisation des motifs DDL, incluant
+    modèle, DDL, contraintes et taille de chunk, sans mettre en cache les
+    matrices locales dépendantes de l'orientation ou de l'état matériau. Le
+    `AssemblyPlan` porte désormais une empreinte SHA-256 déterministe et
+    rejette toute réutilisation après changement du contenu du modèle, des
+    DDL ou du chunk effectif ; les matrices locales restent recalculées.
+29. [x] Ajouter un autotuning borné de la taille de chunk basé sur les mesures
+    du sweep et un budget mémoire explicite, avec une option CLI
+    `--memory-budget-mb`. Le runner `scripts/benchmark_assembly_chunk_sweep.py`
+    produit une recommandation advisory, bloque si aucune taille mesurée ne
+    respecte le budget et ne modifie pas la valeur par défaut de l'assembleur.
+    Sur la référence 100k avec 4 000 000 octets, il retient `4096` avec une
+    estimation de chunk de `3 433 320` octets ; cette décision reste à
+    comparer aux backends PETSc/matrix-free avant toute politique globale.
+30. [x] Comparer ensuite SciPy, matrix-free et PETSc/BAIJ sur la même
+    observable mécanique avant toute modification de la politique par défaut.
+    Le runner `scripts/compare_large_backends.py` est maintenant rejoué dans
+    Docker sur `1 029` DDL : SciPy, matrix-free et PETSc terminent, avec des
+    écarts de déplacement de `1,087e-13` et `1,417e-13` face à SciPy. Les
+    preuves modale à 107k DDL et Newmark à 2M DDL sont regroupées avec les
+    campagnes statique, graphe et matrix-free dans
+    `qualification/benchmarks/qf_solver_0_2_2_backend_campaign/`.
+31. [x] Rejouer le kernel TET4 optimisé sur une seconde configuration de
+    maillage et un matériau isotrope distinct, puis comparer directement le
+    chemin grand modèle au solveur sparse standard. Sur `1 677` et `18 357`
+    DDL, les déplacements, réactions fixées, déformations, contraintes et von
+    Mises restent finis et présentent des écarts relatifs de l'ordre de
+    `1e-13`, sous le seuil contractuel `1e-7`. La preuve est archivée dans
+    `qualification/benchmarks/qf_solver_0_2_2_large_standard_field_comparison.json`.
+    Cette fermeture concerne l'exactitude des champs ; elle ne constitue pas
+    une revendication de gain de performance ni de scaling multi-million.
+32. [x] Ajouter le gate de readiness `MULTI-MILLION-GATE` pour les campagnes
+    à partir de `2 000 000` DDL : backend `petsc`/`matrix_free`, budget mémoire
+    explicite et estimation PETSc tracée. Le contrôle est disponible via
+    `large-readiness --memory-budget-mb` et ne lance aucun calcul lourd.
+33. [x] Ajouter un dossier V&V multi-million avec au moins deux tailles au-delà de
+    2M DDL, deux configurations MPI et une comparaison champs/réactions,
+    résidus, mémoire et temps. La matrice de préparation est dans
+    `docs/verification/qf_solver_0_2_2_alpha_vnv_multi_million_plan.md` et
+     l'artefact plan-only est dans
+     `qualification/benchmarks/qf_solver_0_2_2_multi_million_campaign_plan/`.
+     Une tentative `--execute` reste archivee dans
+     `qualification/benchmarks/qf_solver_0_2_2_multi_million_campaign_execute_blocked/`
+     pour conserver la preuve du gate hôte. La campagne réelle Docker
+     `2M/4M x 2/4 rangs` est maintenant archivée dans
+     `qualification/benchmarks/qf_solver_0_2_2_multi_million_campaign_docker/` :
+     les quatre cas passent audit, convergence, résidu, mémoire, sorties
+     file-backed et temps. La campagne backend complémentaire ferme le
+     périmètre borné graphe, matrix-free, modal intermédiaire et Newmark
+     multi-million ; une limite de ressource modale à 2M, la seconde machine
+     et les extrapolations de maturité restent explicitement hors scope. Cette
+     campagne reste manuelle et hors CI.
+34. [x] Rendre les rapports runtime publiables par construction : ne plus
+    exporter de répertoire courant, d'exécutable absolu, d'origine de paquet
+    ou de variable d'environnement contenant un chemin local. Le contrôle
+    d'hygiène public repasse `PASS` sans finding et un test d'intégration
+    protège cette règle.
+
+35. [x] Consolider la couverture branchée au-dessus du gate CI de `80 %`, sans
+    abaisser les exigences de test. Un patch de `40` tests unitaires est archive dans
+    `tests/unit/test_backend_coverage_margin.py` ; il couvre les options
+    modales, validations de schemas, readiness multi-million, diagnostics
+    lineaires et chemins sparse. Prioriser les chemins encore sous-couverts de
+    `large/solver.py`, les branches CLI et les branches modales. Les lots
+    `large/optimization.py` et `large/partitioning.py` atteignent maintenant
+    respectivement `91 %` et `92 %`; les validateurs contact/laminate ont reçu
+    des cas de contrat supplémentaires. La régression pertinente complète
+    produit désormais `1336 passed, 107 deselected` et `88,67 %` de couverture branchée.
+    Le seuil CI est atteint sans abaissement des exigences. Les branches
+    PETSc/MPI multi-rangs ne sont pas simulées artificiellement : les quatre
+    cas réels statiques multi-million sont documentés séparément dans le lot
+    33. Chaque lot a passé les tests cibles, `ruff`, puis la campagne de
+    régression pertinente.
+
+### Etat de la tranche 0.2.2 alpha au 2026-08-23
+
+La tranche logicielle backend est **PASS local** : la régression pertinente
+produit `1336 passed`, la couverture branchée est `88,67 %` pour un gate de
+`80 %`, les tests de
+documentation produisent `42 passed, 6 skipped`, et les audits public et release
+produisent `PASS` sur `1742` fichiers sans finding.
+
+Le dossier technique agrégé
+`qualification/benchmarks/qf_solver_0_2_2_backend_campaign/campaign.json`
+est maintenant **PASS_BOUNDED_BACKEND_CAMPAIGN**. Cette décision ferme le gate
+technique de la tranche 0.2.2 alpha dans un périmètre de développement borné ;
+elle ne transforme aucun scope en `stable` et ne remplace pas la revue Owner.
+
+### Gates techniques fermés dans le périmètre borné
+
+- [x] PETSc statique contigu : campagnes `2 044 416` et `4 102 893` DDL,
+      2 puis 4 rangs MPI, efficacités fortes `0,651` et `0,615`, CG/GAMG/BAIJ.
+- [x] PETSc statique avec partitionnement graphe PT-Scotch : `2 044 416` DDL,
+      2 puis 4 rangs, efficacité forte `0,621`, résidus et sorties file-backed
+      vérifiés.
+- [x] Matrix-free : campagne réelle à `107 811` DDL, CG par opérateur,
+      préconditionneur nodal, résidu relatif `1,104e-12`. La tentative 1M
+      reste une limite de performance et n'est pas présentée comme un PASS.
+- [x] Comparaison du même cas mécanique : SciPy, matrix-free et PETSc ont
+      terminé et l'écart relatif de déplacement reste inférieur à `1,5e-13`.
+- [x] Modal SLEPc : `1 029` et `107 811` DDL, trois modes, shift-invert
+      explicite autour de zéro, résidu modal maximal `2,789e-12` à 107k DDL.
+- [x] Newmark PETSc/GAMG : `2 044 416` DDL, 10 pas, matrice effective
+      réutilisée, résidu relatif maximal `1,968e-6`, manifeste `PASS`.
+- [x] Produire et vérifier les manifestes d'évidence de chaque campagne.
+
+### Limites restantes, sans extrapolation
+
+- [ ] Modal SLEPc à plusieurs millions de DDL : la tentative à `2 044 416`
+      DDL et deux rangs a été arrêtée par le conteneur (signal `9`) pendant la
+      factorisation shift-invert, avec environ `33,5 GiB` observés. Le dossier
+      classe ce résultat `BLOCKED_RESOURCE_LIMIT`, pas `PASS`.
+- [ ] Mesurer une seconde configuration matérielle avant toute généralisation
+      de performance ou de scaling. La campagne actuelle est limitée à une
+      machine et à l'image Docker épinglée.
+- [ ] Ajouter, dans une tranche ultérieure, un modal distribué sans
+      factorisation shift-invert directe à cette échelle : SLEPc préconditionné,
+      réduction de domaine ou factorisation distribuée réutilisable.
+- [ ] Faire relire le dossier backend et la preuve multi-million par l'Owner ;
+      aucun statut `stable` ou décision de release n'est déduit automatiquement.
+      La fiche de décision est `docs/verification/qf_solver_0_2_2_alpha_backend_owner_review.md`
+      et son PDF est `output/pdf/qf_solver_0_2_2_alpha_backend_owner_review.pdf`.
+
+### Etat de la tranche assemblage
+
+La premiere optimisation de preparation est maintenant en place et couvre le
+chemin standard. Les analyses modal/Newmark/harmonique reutilisent aussi un
+motif DDL temporaire commun pour K et M par chunk ; les diagnostics distinguent
+`assembly_plan`, `element_kernel`, `chunk_sparse_conversion`, `chunk_fusion`,
+`sparse_finalize`, `discrete_merge`, `paired_assembly` et
+`shared_chunk_pattern`. La campagne instrumentee mesure deja un gain de temps
+local de 8,4 % a 11,2 % selon la taille, sans gain memoire revendique ; la
+suite doit isoler plus finement le kernel local de la construction des triplets
+COO. Aucune decision de release, commit, tag ou publication n'est associee a
+cette tranche.
+
+Le chemin grands modeles reutilise maintenant le cache matériau entre les
+chunks. La campagne d'assemblage à trois répétitions confirme les NNZ finaux
+à `30 399`, `338 727` et `3 813 789` pour les trois tailles ; elle donne à
+`100k` DDL une médiane de `0,860 s` pour le kernel, `0,714 s` pour la
+conversion COO/CSR, `0,093 s` pour la fusion et `0,024 s` pour la finalisation.
+La variation du temps total local ne permet pas encore de revendiquer un gain
+de performance ; la preuve établit d'abord la causalité et l'identité.
+
+La matrice effective Newmark est construite une fois par analyse lorsque les
+operateurs et le pas de temps sont constants. Le benchmark dedie mesure le
+nombre de factorisations, le nombre de resolutions, leurs temps cumules et le
+residu dynamique ; il ne pretend pas encore comparer une ancienne version qui
+refactoriserait a chaque pas.
+
+Le plan V&V detaille est dans
+`docs/verification/qf_solver_0_2_2_alpha_vnv_assembly_scaling_plan.md`. Le
+rapport d'etat du backend est dans
+`docs/verification/qf_solver_0_2_2_alpha_backend_report.md`.
+
+## Perimetre explicitement reporte
+
+HEX8, WEDGE, thermique, hyperelasticite, nouveaux materiaux complexes,
+interface graphique et nouvelles physiques sont hors priorite 0.2.2 alpha.
+
+La decision de release/publication reste reservee a l'Owner.

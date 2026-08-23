@@ -1,0 +1,17 @@
+{
+  "criterion_id": "BACKEND-NEWMARK-R2",
+  "status": "closed_for_bounded_campaign",
+  "observable": "maximum_normalized_physical_residual",
+  "threshold": 1e-05,
+  "observed_value": 1.968e-06,
+  "margin_ratio": 0.1968,
+  "result": "PASS_BOUNDED",
+  "scope": "QF_solver 0.2.2a0 backend Newmark campaign, 2044416 DDL, 10 steps, PETSc/GAMG",
+  "basis": [
+    "This is an engineering acceptance gate for the bounded campaign and is distinct from the KSP convergence tolerance 1e-8.",
+    "The observed residual is 5.08 times below the bounded threshold.",
+    "The threshold is not a universal production limit and requires domain calibration before production use."
+  ],
+  "production_status": "calibration_required",
+  "evidence": "qualification/benchmarks/qf_solver_0_2_2_backend_campaign/campaign.json"
+}

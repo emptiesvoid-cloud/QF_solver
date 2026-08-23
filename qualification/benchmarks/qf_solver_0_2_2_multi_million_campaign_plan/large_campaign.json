@@ -1,0 +1,149 @@
+{
+  "campaign_schema_version": 1,
+  "status": "BLOCKED",
+  "mode": "plan_only",
+  "backend": "petsc",
+  "preconditioner": "gamg",
+  "chunk_size": 4096,
+  "memory_budget_bytes": 34359738368,
+  "targets": [
+    2000000,
+    4000000
+  ],
+  "runtime_environment": "runtime_environment.json",
+  "scaling_interpretation": "size_scaling_single_configuration",
+  "strong_scaling_measured": false,
+  "weak_scaling_measured": false,
+  "stages": [
+    {
+      "target_dofs": 2000000,
+      "actual_dofs": 2044416,
+      "node_count": 681472,
+      "element_count": 3951018,
+      "dimensions": {
+        "nx": 87,
+        "ny": 87,
+        "nz": 87
+      },
+      "status": "BLOCKED",
+      "reason": "readiness failed",
+      "readiness_status": "FAIL",
+      "readiness_checks": [
+        {
+          "id": "DEP-H5PY",
+          "status": "PASS",
+          "detail": "h5py available"
+        },
+        {
+          "id": "DEP-MPI4PY",
+          "status": "PASS",
+          "detail": "mpi4py available"
+        },
+        {
+          "id": "DEP-PETSC4PY",
+          "status": "FAIL",
+          "detail": "petsc4py not installed"
+        },
+        {
+          "id": "BACKEND-SCALE",
+          "status": "PASS",
+          "detail": "PETSc selected for scalable solve"
+        },
+        {
+          "id": "DISK-FREE",
+          "status": "PASS",
+          "detail": "free=13859778560 bytes"
+        },
+        {
+          "id": "CHUNK-SIZE",
+          "status": "PASS",
+          "detail": "chunk_size=4096"
+        },
+        {
+          "id": "MULTI-MILLION-GATE",
+          "status": "PASS",
+          "detail": "backend=petsc, budget=34359738368 bytes, indicative requirement=4132385424 bytes"
+        }
+      ],
+      "readiness_reports": {
+        "json": "qualification\\benchmarks\\qf_solver_0_2_2_multi_million_campaign_plan\\dofs_2000000\\large_readiness.json",
+        "markdown": "qualification\\benchmarks\\qf_solver_0_2_2_multi_million_campaign_plan\\dofs_2000000\\large_readiness.md"
+      },
+      "estimated_memory_bytes": {
+        "model_arrays": 190751376,
+        "petsc_rule_of_thumb": 4132385424,
+        "scipy_upper_bound": 13861824912
+      },
+      "output_dir": "qualification\\benchmarks\\qf_solver_0_2_2_multi_million_campaign_plan\\dofs_2000000",
+      "qualification_summary": "",
+      "metrics": {}
+    },
+    {
+      "target_dofs": 4000000,
+      "actual_dofs": 4102893,
+      "node_count": 1367631,
+      "element_count": 7986000,
+      "dimensions": {
+        "nx": 110,
+        "ny": 110,
+        "nz": 110
+      },
+      "status": "BLOCKED",
+      "reason": "readiness failed",
+      "readiness_status": "FAIL",
+      "readiness_checks": [
+        {
+          "id": "DEP-H5PY",
+          "status": "PASS",
+          "detail": "h5py available"
+        },
+        {
+          "id": "DEP-MPI4PY",
+          "status": "PASS",
+          "detail": "mpi4py available"
+        },
+        {
+          "id": "DEP-PETSC4PY",
+          "status": "FAIL",
+          "detail": "petsc4py not installed"
+        },
+        {
+          "id": "BACKEND-SCALE",
+          "status": "PASS",
+          "detail": "PETSc selected for scalable solve"
+        },
+        {
+          "id": "DISK-FREE",
+          "status": "PASS",
+          "detail": "free=13859778560 bytes"
+        },
+        {
+          "id": "CHUNK-SIZE",
+          "status": "PASS",
+          "detail": "chunk_size=4096"
+        },
+        {
+          "id": "MULTI-MILLION-GATE",
+          "status": "PASS",
+          "detail": "backend=petsc, budget=34359738368 bytes, indicative requirement=8295463992 bytes"
+        }
+      ],
+      "readiness_reports": {
+        "json": "qualification\\benchmarks\\qf_solver_0_2_2_multi_million_campaign_plan\\dofs_4000000\\large_readiness.json",
+        "markdown": "qualification\\benchmarks\\qf_solver_0_2_2_multi_million_campaign_plan\\dofs_4000000\\large_readiness.md"
+      },
+      "estimated_memory_bytes": {
+        "model_arrays": 385086288,
+        "petsc_rule_of_thumb": 8295463992,
+        "scipy_upper_bound": 28017525432
+      },
+      "output_dir": "qualification\\benchmarks\\qf_solver_0_2_2_multi_million_campaign_plan\\dofs_4000000",
+      "qualification_summary": "",
+      "metrics": {}
+    }
+  ],
+  "scaling": [],
+  "manifest": "qualification\\benchmarks\\qf_solver_0_2_2_multi_million_campaign_plan\\evidence_manifest.json",
+  "json_report": "qualification\\benchmarks\\qf_solver_0_2_2_multi_million_campaign_plan\\large_campaign.json",
+  "markdown_report": "qualification\\benchmarks\\qf_solver_0_2_2_multi_million_campaign_plan\\large_campaign.md"
+}

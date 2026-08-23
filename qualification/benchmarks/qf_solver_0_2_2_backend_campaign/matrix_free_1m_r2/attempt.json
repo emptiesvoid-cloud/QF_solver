@@ -1,0 +1,25 @@
+{
+  "analysis": "linear_static",
+  "backend": "matrix_free",
+  "status": "BLOCKED_TIMEOUT",
+  "target_dofs": 1000000,
+  "input_dofs": 1029000,
+  "attempted": true,
+  "timeout_seconds": 900,
+  "telemetry_interval_seconds": 30,
+  "telemetry_samples": 31,
+  "peak_rss_observed_bytes": 308224000,
+  "peak_rss_observed_mib": 293.9453125,
+  "termination": "controlled_timeout",
+  "summary_manifest_produced": false,
+  "convergence_observed": null,
+  "relative_residual_observed": null,
+  "reason": "The current matrix-free backend did not produce a completed summary within 900 seconds. The process remained alive and its observed RSS stayed near 294 MiB; no numerical divergence was observed or claimed.",
+  "interpretation": "This closes the reproducibility action for R3 as a controlled negative result, not as a numerical PASS. The 1M matrix-free scope remains blocked until a scalable implementation or a justified timeout budget is available.",
+  "runner": "scripts/run_matrix_free_timed.py",
+  "artifacts": [
+    "run_metadata.json",
+    "telemetry.jsonl",
+    "runner.log"
+  ]
+}

@@ -7,6 +7,7 @@ import importlib.util
 import json
 import os
 import platform
+import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -24,6 +25,13 @@ TRACKED_ENVIRONMENT_VARIABLES = (
     "PETSC_DIR",
     "PETSC_ARCH",
 )
+_WINDOWS_PATH_PREFIX = r"[a-z]:[\\/]+"
+_UNIX_PATH_PREFIX = "/" + r"(?:home|users)/"
+_NETWORK_PATH_PREFIX = r"\\\\" + "users\\\\"
+_ABSOLUTE_PATH = re.compile(
+    rf"(?i)(?:{_WINDOWS_PATH_PREFIX}|{_UNIX_PATH_PREFIX}|{_NETWORK_PATH_PREFIX})"
+)
+_PATH_ENVIRONMENT_VARIABLES = {"PETSC_DIR", "PETSC_ARCH"}
 
 
 def collect_runtime_environment(
@@ -41,7 +49,7 @@ def collect_runtime_environment(
         "process": _process_report(),
         "environment": _environment_report(),
         "packages": {name: _package_report(name) for name in packages},
-        "metadata": metadata or {},
+        "metadata": _portable_value(metadata or {}),
     }
 
 
@@ -64,7 +72,7 @@ def _python_report() -> dict[str, Any]:
     return {
         "version": sys.version,
         "version_info": list(sys.version_info[:5]),
-        "executable": sys.executable,
+        "executable": Path(sys.executable).name,
         "implementation": platform.python_implementation(),
         "compiler": platform.python_compiler(),
         "build": list(platform.python_build()),
@@ -86,13 +94,17 @@ def _platform_report() -> dict[str, Any]:
 def _process_report() -> dict[str, Any]:
     return {
         "pid": os.getpid(),
-        "cwd": str(Path.cwd().resolve()),
-        "argv": list(sys.argv),
+        "cwd": ".",
+        "argv": [_portable_value(argument) for argument in sys.argv],
     }
 
 
 def _environment_report() -> dict[str, str | None]:
-    return {name: os.environ.get(name) for name in TRACKED_ENVIRONMENT_VARIABLES}
+    values: dict[str, str | None] = {}
+    for name in TRACKED_ENVIRONMENT_VARIABLES:
+        value = os.environ.get(name)
+        values[name] = "<set>" if value and name in _PATH_ENVIRONMENT_VARIABLES else value
+    return values
 
 
 def _package_report(name: str) -> dict[str, Any]:
@@ -104,5 +116,18 @@ def _package_report(name: str) -> dict[str, Any]:
     return {
         "available": spec is not None,
         "version": version,
-        "origin": str(spec.origin) if spec is not None and spec.origin is not None else None,
+        "origin": Path(spec.origin).name if spec is not None and spec.origin is not None else None,
     }
+
+
+def _portable_value(value: Any) -> Any:
+    """Remove absolute workstation paths from recursively stored evidence data."""
+    if isinstance(value, dict):
+        return {key: _portable_value(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [_portable_value(item) for item in value]
+    if isinstance(value, tuple):
+        return [_portable_value(item) for item in value]
+    if isinstance(value, str) and _ABSOLUTE_PATH.search(value):
+        return _ABSOLUTE_PATH.sub("<absolute-path>", value)
+    return value

@@ -53,7 +53,7 @@ def rbe2_constraints(nodes: np.ndarray, definition: Rbe2Definition) -> list[Line
                 constraints.append(
                     LinearConstraint(
                         (ConstraintTerm(slave, name, 1.0), ConstraintTerm(definition.master, name, -1.0)),
-                        name=f"{_name(definition.name, slave, 3)}:{name}",
+                        name=f"{definition.name or 'rbe2'}:slave_{slave}:{name}",
                     )
                 )
     return constraints

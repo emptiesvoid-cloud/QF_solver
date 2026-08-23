@@ -1,0 +1,103 @@
+{
+  "report_schema_version": 1,
+  "created_at_utc": "2026-08-23T12:20:47.466748Z",
+  "solver": {
+    "name": "QF_solver",
+    "version": "0.2.2a0"
+  },
+  "python": {
+    "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+    "version_info": [
+      3,
+      13,
+      1,
+      "final",
+      0
+    ],
+    "executable": "python.exe",
+    "implementation": "CPython",
+    "compiler": "MSC v.1942 64 bit (AMD64)",
+    "build": [
+      "tags/v3.13.1:0671451",
+      "Dec  3 2024 19:06:28"
+    ]
+  },
+  "platform": {
+    "platform": "Windows-10-10.0.19045-SP0",
+    "system": "Windows",
+    "release": "10",
+    "version": "10.0.19045",
+    "machine": "AMD64",
+    "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+    "architecture": [
+      "64bit",
+      "WindowsPE"
+    ]
+  },
+  "process": {
+    "pid": 23376,
+    "cwd": ".",
+    "argv": [
+      "qf_solver.py",
+      "large-campaign",
+      "--output",
+      "qualification/benchmarks/qf_solver_0_2_2_multi_million_campaign_execute_blocked",
+      "--targets",
+      "2000000",
+      "4000000",
+      "--solver-backend",
+      "petsc",
+      "--preconditioner",
+      "gamg",
+      "--memory-budget-mb",
+      "32768",
+      "--execute"
+    ]
+  },
+  "environment": {
+    "OMP_NUM_THREADS": null,
+    "MKL_NUM_THREADS": null,
+    "OPENBLAS_NUM_THREADS": null,
+    "NUMEXPR_NUM_THREADS": null,
+    "PYTHONHASHSEED": null,
+    "PETSC_DIR": null,
+    "PETSC_ARCH": null
+  },
+  "packages": {
+    "numpy": {
+      "available": true,
+      "version": "2.2.6",
+      "origin": "__init__.py"
+    },
+    "scipy": {
+      "available": true,
+      "version": "1.15.2",
+      "origin": "__init__.py"
+    },
+    "h5py": {
+      "available": true,
+      "version": "3.14.0",
+      "origin": "__init__.py"
+    },
+    "mpi4py": {
+      "available": true,
+      "version": "4.1.0",
+      "origin": "__init__.py"
+    },
+    "petsc4py": {
+      "available": false,
+      "version": null,
+      "origin": null
+    }
+  },
+  "metadata": {
+    "kind": "large_scale_campaign",
+    "targets": [
+      2000000,
+      4000000
+    ],
+    "backend": "petsc",
+    "execute": true,
+    "chunk_size": 4096
+  }
+}

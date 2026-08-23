@@ -1,0 +1,12 @@
+{
+  "analysis": "modal",
+  "backend": "slepc",
+  "status": "BLOCKED_RESOURCE_LIMIT",
+  "ndof": 2044416,
+  "mpi_size": 2,
+  "requested_modes": 3,
+  "spectral_transformation": "shift_invert",
+  "termination": "signal_9_killed",
+  "observed_peak_container_memory": "approximately 33.5 GiB",
+  "interpretation": "The direct shift-invert factorization did not complete within the available container memory. This is a backend resource limit, not a numerical PASS."
+}

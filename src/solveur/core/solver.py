@@ -17,6 +17,7 @@ from solveur.core.linear_methods import LinearSystemSolver
 from solveur.core.linear_policy import LinearSolverPolicy, linear_execution_settings
 from solveur.core.model import FiniteElementModel
 from solveur.core.results import SolveResult
+from solveur.core.solver_backend import select_backend
 from solveur.mesh.validation import MeshValidator
 from solveur.post.audit import PostProcessingAuditor
 from solveur.post.stress import StressPostProcessor
@@ -42,7 +43,8 @@ class LinearStaticSolver:
             raise MeshValidationError("Mesh validation failed: " + "; ".join(report.errors))
         dofs = model.dof_manager()
         assembly_started = perf_counter()
-        stiffness = self.assembler.assemble_stiffness(model, dofs)
+        plan = self.assembler.prepare_plan(model, dofs)
+        stiffness = self.assembler.assemble_stiffness(model, dofs, plan=plan)
         loads = self.assembler.assemble_loads(model, dofs)
         fixed = self.assembler.fixed_indices(model, dofs)
         assembly_seconds = perf_counter() - assembly_started
@@ -69,13 +71,22 @@ class LinearStaticSolver:
             )
             free = reduction.independent
             reduced = reduction.matrix
-            selection = LinearSolverPolicy.assess(reduced, model.analysis.method, model.analysis.parameters)
+            requested_method = model.analysis.method
+            selection = LinearSolverPolicy.assess(reduced, requested_method, model.analysis.parameters)
             LinearSolverPolicy.enforce_method_contract(selection, model.analysis.parameters)
+            backend_selection = select_backend(
+                model.analysis.parameters.get("backend", "auto"),
+                problem_size=reduced.shape[0],
+                parameters=model.analysis.parameters,
+            )
+            effective_method = (
+                selection.recommended_method if requested_method in LinearSolverPolicy._AUTO else requested_method
+            )
             linear_started = perf_counter()
             solution, info = self.linear_solver.solve(
                 reduced,
                 reduction.rhs,
-                method=model.analysis.method,
+                method=effective_method,
                 parameters=model.analysis.parameters,
             )
             if not info.converged:
@@ -87,9 +98,16 @@ class LinearStaticSolver:
             constraint_transform = reduction.transform
             solver_info = info.to_dict()
             solver_info["selection"] = selection.to_dict(used_method=info.method)
-            solver_info["execution"] = linear_execution_settings(model.analysis.method, model.analysis.parameters)
+            solver_info["execution"] = linear_execution_settings(
+                requested_method,
+                model.analysis.parameters,
+                used_method=info.method,
+            )
             solver_info["execution"]["used_method"] = info.method
+            solver_info["execution"]["backend_used"] = info.backend
+            solver_info["execution"]["fallback_used"] = backend_selection.fallback_used
             solver_info["execution"]["linear_solve_seconds"] = perf_counter() - linear_started
+            solver_info["backend"] = backend_selection.to_dict()
         if not np.all(np.isfinite(displacement)):
             raise NumericalConvergenceError("Linear solve produced non-finite displacements.")
         element_results = self.post.element_results(model, dofs, displacement) if include_detail else []

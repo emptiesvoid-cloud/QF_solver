@@ -1,0 +1,38 @@
+{
+  "status": "PASS",
+  "analysis": "modal",
+  "backend": "slepc",
+  "mode_count": 3,
+  "converged_modes": 3,
+  "eigenvalues": [
+    13065419.458683483,
+    13574617.47667577,
+    26384719.639551893
+  ],
+  "frequencies_hz": [
+    575.2833572113491,
+    586.3864575151683,
+    817.516211452506
+  ],
+  "relative_residuals": [
+    1.5671771013193209e-13,
+    1.3942032404299003e-13,
+    7.244160195053853e-14
+  ],
+  "slepc_error_estimates": [
+    3.6272969108237003e-12,
+    3.2389290934034807e-12,
+    1.4169601936241613e-12
+  ],
+  "max_relative_residual": 1.5671771013193209e-13,
+  "tolerance": 1e-08,
+  "assembly_time_seconds": 0.03155629601678811,
+  "solve_time_seconds": 0.019091865979135036,
+  "ndof": 1029,
+  "element_count": 1296,
+  "fixed_dof_count": 147,
+  "mpi_size": 1,
+  "distributed": false,
+  "mass_formulation": "consistent_tet4",
+  "constraint_treatment": "stiffness_penalty_above_physical_spectrum"
+}

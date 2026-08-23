@@ -1,0 +1,49 @@
+{
+  "analysis": "linear_static",
+  "node_count": 8,
+  "element_count": 6,
+  "ndof": 24,
+  "backend": "scipy",
+  "solver": {
+    "method": "cg",
+    "iterations": 7,
+    "residual_norm": 1.1494271893241288e-12,
+    "converged": true,
+    "preconditioner": "jacobi",
+    "residual_history": [
+      375.6433822576712,
+      72.19176387678665,
+      33.533743996735694,
+      28.002827593493066,
+      16.925093786589496,
+      5.102674868300566,
+      1.1494271893241288e-12
+    ],
+    "backend": "scipy",
+    "initial_residual_norm": 500.0,
+    "relative_residual_norm": 2.2988543786482575e-15,
+    "tolerance": 1e-12,
+    "termination_reason": "converged"
+  },
+  "assembly_time_seconds": 0.001069099991582334,
+  "solve_time_seconds": 0.0014418000355362892,
+  "estimated_core_memory_bytes": 576,
+  "audit_status": "PASS",
+  "assembly": {
+    "chunk_size": 4096,
+    "chunk_count": 1,
+    "peak_chunk_nnz": 414,
+    "accumulator_occupied_levels": 1,
+    "final_nnz": 324,
+    "sparse_memory_bytes": 3988,
+    "assembly_phase_seconds": {
+      "chunk_build": 0.0007810000097379088,
+      "element_kernel": 0.0004835000145249069,
+      "chunk_sparse_conversion": 0.00029749999521300197,
+      "chunk_fusion": 4.099973011761904e-06,
+      "sparse_finalize": 0.00015650002751499414
+    },
+    "sparse_conversion_method": "csr_constructor",
+    "material_cache_reused": true
+  }
+}

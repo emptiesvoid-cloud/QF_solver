@@ -89,9 +89,11 @@ symetrique; CG est alors le choix iteratif naturel.
 
 ## 5. Politique explicable de selection
 
-Le solveur conserve le choix fourni dans `analysis.method`: il ne bascule jamais
-silencieusement de LU vers une methode iterative. Avant le calcul statique, il
-produit toutefois `solver.selection` dans le resultat JSON et dans l'audit.
+Le solveur conserve le choix explicite fourni dans `analysis.method`. Avec
+`method=auto`, il applique une politique documentee et tracee ; avec une
+methode explicite, il ne bascule jamais silencieusement de LU vers une methode
+iterative. Avant le calcul statique, il produit `solver.selection` dans le
+resultat JSON et dans l'audit.
 Newmark produit le meme bloc pour $K_{eff}$; l'harmonique publie un echantillon
 par frequence de la rigidite dynamique complexe. Le bloc indique la symetrie
 mesuree, le caractere reel ou complexe, le signe de la diagonale, le stockage
@@ -100,9 +102,9 @@ creux, une estimation conservative de la memoire LU et la methode recommandee.
 Le bloc voisin `solver.execution` enregistre la methode demandee et utilisee,
 le preconditionneur, les tolerances effectives, la limite d'iterations, le
 residu controle, les temps d'assemblage et de resolution ainsi que l'estimation
-de stockage. `fallback_used` vaut toujours `false` dans cette version: le
-solveur refuse proprement une non-convergence au lieu de masquer un changement
-d'algorithme.
+de stockage. `fallback_used` distingue le fallback de backend automatique
+(PETSc absent, SciPy retenu) d'une non-convergence. Une non-convergence reste
+un echec : le solveur refuse proprement de retourner le dernier vecteur calcule.
 
 | Contrat observe | Recommendation | Limite importante |
 | --- | --- | --- |
@@ -130,6 +132,12 @@ Newmark et a chaque rigidite dynamique harmonique. L'estimation reste une garde
 operationnelle et non une prediction exacte du remplissage: elle doit etre
 calibree par les campagnes PETSc/MPI sur les grands modeles.
 
+Avec `backend: petsc`, les preconditionneurs `jacobi`, `gamg` (ou son alias
+`amg`), `hypre`, `ilu`, `sor`, `asm` et `bjacobi` sont transmis explicitement au
+type `PC` PETSc correspondant. Un nom inconnu est refuse avant l'iteration ;
+il ne devient jamais silencieusement un solveur non preconditionne. Cette
+branche est optionnelle et reste non executee sans `petsc4py`.
+
 ## 6. Criteres, diagnostics et demonstration
 
 Les parametres `rtol`, `atol`, `maxiter`, `preconditioner` et le seuil de
@@ -154,7 +162,7 @@ python .\scripts\run_linear_solver_vnv.py --output .\results\VNV-LINEAR-SOLVERS-
 ```
 
 ```python
-from solveur.api import run_linear_solver_verification
+from qf_solver import run_linear_solver_verification
 
 report = run_linear_solver_verification("results/VNV-LINEAR-SOLVERS-001")
 assert report["status"] == "PASS"

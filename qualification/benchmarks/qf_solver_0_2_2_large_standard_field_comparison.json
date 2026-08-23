@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "campaign": "qf-solver-tet4-large-standard-field-comparison-0.2.2-alpha",
+  "environment": "local numerical comparison; host identity and local paths intentionally omitted",
+  "configuration": {
+    "decomposition": "centered",
+    "material": {
+      "type": "isotropic_3d",
+      "E": 70000000000.0,
+      "nu": 0.27,
+      "density": 2700.0
+    },
+    "chunk_size": 4096,
+    "standard_backend": "scipy_sparse_direct",
+    "large_backend": "scipy_sparse_iterative"
+  },
+  "acceptance": {
+    "relative_field_tolerance": 1e-07,
+    "relative_displacement_tolerance": 1e-07,
+    "relative_reaction_tolerance": 1e-07,
+    "all_cases_pass": true
+  },
+  "sizes": [
+    {
+      "target_dofs": 1000,
+      "dofs": 1677,
+      "nodes": 559,
+      "elements": 2592,
+      "decomposition": "centered",
+      "matrix_nnz": 62713,
+      "displacement": {
+        "relative_l2": 9.476329458251614e-14,
+        "max_absolute": 2.5212465070616284e-21,
+        "finite": true
+      },
+      "fixed_reaction": {
+        "relative_l2": 1.9844040068725682e-13,
+        "max_absolute": 8.72546479513403e-12,
+        "finite": true
+      },
+      "free_residual_standard": 2.1427858004528814e-12,
+      "free_residual_large": 1.3304215259358363e-10,
+      "strain": {
+        "relative_l2": 3.8734149355336876e-13,
+        "max_absolute": 1.6803346963402204e-20,
+        "finite": true
+      },
+      "stress": {
+        "relative_l2": 2.5653220253491566e-13,
+        "max_absolute": 6.973550625843927e-10,
+        "finite": true
+      },
+      "von_mises": {
+        "relative_l2": 1.283371687515858e-13,
+        "max_absolute": 5.954916559858248e-10,
+        "finite": true
+      },
+      "standard_status": "PASS",
+      "large_status": "PASS"
+    },
+    {
+      "target_dofs": 10000,
+      "dofs": 18357,
+      "nodes": 6119,
+      "elements": 32928,
+      "decomposition": "centered",
+      "matrix_nnz": 734312,
+      "displacement": {
+        "relative_l2": 1.204857064221479e-13,
+        "max_absolute": 3.473331392110163e-21,
+        "finite": true
+      },
+      "fixed_reaction": {
+        "relative_l2": 2.2493081570948998e-13,
+        "max_absolute": 1.8491874698156607e-12,
+        "finite": true
+      },
+      "free_residual_standard": 6.896629417368933e-12,
+      "free_residual_large": 6.227493448436866e-11,
+      "strain": {
+        "relative_l2": 4.627636398371794e-13,
+        "max_absolute": 1.7721517443336065e-20,
+        "finite": true
+      },
+      "stress": {
+        "relative_l2": 2.6793828338198743e-13,
+        "max_absolute": 8.047322808124591e-10,
+        "finite": true
+      },
+      "von_mises": {
+        "relative_l2": 1.4094873019252907e-13,
+        "max_absolute": 7.460130291292444e-10,
+        "finite": true
+      },
+      "standard_status": "PASS",
+      "large_status": "PASS"
+    }
+  ]
+}

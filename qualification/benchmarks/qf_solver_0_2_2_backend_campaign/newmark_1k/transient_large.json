@@ -1,0 +1,53 @@
+{
+  "status": "PASS",
+  "analysis": "transient_dynamic",
+  "method": "newmark_average_acceleration",
+  "backend": "petsc",
+  "steps": 6,
+  "time_step_seconds": 0.0001,
+  "duration_seconds": 0.0006000000000000001,
+  "newmark_beta": 0.25,
+  "newmark_gamma": 0.5,
+  "assembly_time_seconds": 0.019224371993914247,
+  "preconditioner_setup_seconds": 0.004579332016874105,
+  "solve_time_seconds": 0.008834946987917647,
+  "iterations_total": 62,
+  "iterations_max": 11,
+  "residual_norm_max": 1.506952683335543e-05,
+  "residual_norm_final": 1.506952683335543e-05,
+  "relative_residual_norm_max": 1.05486687833488e-07,
+  "relative_residual_norm_final": 1.05486687833488e-07,
+  "force_norm": 142.85714285714286,
+  "energy_final": 3.261877872692264e-06,
+  "ndof": 1029,
+  "element_count": 1296,
+  "fixed_dof_count": 147,
+  "mpi_size": 1,
+  "distributed": false,
+  "mass_formulation": "consistent_tet4",
+  "effective_matrix": "K + 1/(beta*dt^2)*M",
+  "step_residuals": [
+    1.7243506434771456e-07,
+    6.19901072508221e-07,
+    5.904240407164509e-06,
+    9.28722359470021e-06,
+    1.2360269568275544e-05,
+    1.506952683335543e-05
+  ],
+  "step_relative_residuals": [
+    7.242272702604011e-09,
+    1.3017922522672641e-08,
+    8.265936570030312e-08,
+    9.751584774435221e-08,
+    1.0382626437351457e-07,
+    1.05486687833488e-07
+  ],
+  "step_iterations": [
+    11,
+    11,
+    10,
+    10,
+    10,
+    10
+  ]
+}

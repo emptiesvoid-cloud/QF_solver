@@ -41,7 +41,7 @@ meme API publique et produisent un dossier de preuve v2 :
 - MITC4 harmonique direct : [amplitude et phase](avancees.md).
 
 ```python
-from solveur.api import run_demonstration
+from qf_solver import run_demonstration
 
 run_demonstration(
     "DEMO-MITC4-LAMINATE-STATIC-001",
@@ -63,7 +63,7 @@ les estimations memoire, l'espace disque et la disponibilite HDF5/MPI/PETSc.
 Une execution reste une campagne controlee sur infrastructure identifiee.
 
 ```python
-from solveur.api import run_demonstration
+from qf_solver import run_demonstration
 
 plan = run_demonstration("DEMO-LARGE-PETSC-PLAN-001", "results/large_plan")
 ```

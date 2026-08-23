@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "campaign": "qf-solver-tet4-assembly-scaling-0.2.2-alpha",
+  "environment": "local reproducibility sample; host identity intentionally omitted",
+  "sizes": [
+    {
+      "target_dofs": 1000,
+      "dofs": 1029,
+      "nodes": 343,
+      "elements": 1296,
+      "assembly_seconds": 0.011853799980599433,
+      "assembly_seconds_samples": [
+        0.011853799980599433,
+        0.01196239999262616,
+        0.011575300013646483
+      ],
+      "repeat_count": 3,
+      "nnz": 30399,
+      "chunk_size": 4096,
+      "assembly_diagnostics": {
+        "chunk_size": 4096,
+        "chunk_count": 1,
+        "peak_chunk_nnz": 36459,
+        "accumulator_occupied_levels": 1,
+        "final_nnz": 30399,
+        "sparse_memory_bytes": 368908,
+        "assembly_phase_seconds": {
+          "chunk_build": 0.010971800016704947,
+          "element_kernel": 0.0058655000175349414,
+          "chunk_sparse_conversion": 0.005177800019737333,
+          "chunk_fusion": 5.699985194951296e-06,
+          "sparse_finalize": 0.0003293999470770359
+        },
+        "sparse_conversion_method": "csr_constructor",
+        "material_cache_reused": true,
+        "repeat_count": 3,
+        "assembly_seconds_samples": [
+          0.011853799980599433,
+          0.01196239999262616,
+          0.011575300013646483
+        ]
+      }
+    },
+    {
+      "target_dofs": 10000,
+      "dofs": 10125,
+      "nodes": 3375,
+      "elements": 16464,
+      "assembly_seconds": 0.13368770002853125,
+      "assembly_seconds_samples": [
+        0.13668509997660294,
+        0.13368770002853125,
+        0.1334719000151381
+      ],
+      "repeat_count": 3,
+      "nnz": 338727,
+      "chunk_size": 4096,
+      "assembly_diagnostics": {
+        "chunk_size": 4096,
+        "chunk_count": 5,
+        "peak_chunk_nnz": 112536,
+        "accumulator_occupied_levels": 2,
+        "final_nnz": 338727,
+        "sparse_memory_bytes": 4105228,
+        "assembly_phase_seconds": {
+          "chunk_build": 0.12459660007152706,
+          "element_kernel": 0.0669247000478208,
+          "chunk_sparse_conversion": 0.05903159995796159,
+          "chunk_fusion": 0.0030858999234624207,
+          "sparse_finalize": 0.0020018000504933298
+        },
+        "sparse_conversion_method": "csr_constructor",
+        "material_cache_reused": true,
+        "repeat_count": 3,
+        "assembly_seconds_samples": [
+          0.13668509997660294,
+          0.13368770002853125,
+          0.1334719000151381
+        ]
+      }
+    },
+    {
+      "target_dofs": 100000,
+      "dofs": 107811,
+      "nodes": 35937,
+      "elements": 196608,
+      "assembly_seconds": 1.671803799981717,
+      "assembly_seconds_samples": [
+        1.671803799981717,
+        1.6752006000024267,
+        1.6171380000305362
+      ],
+      "repeat_count": 3,
+      "nnz": 3813789,
+      "chunk_size": 4096,
+      "assembly_diagnostics": {
+        "chunk_size": 4096,
+        "chunk_count": 48,
+        "peak_chunk_nnz": 143055,
+        "accumulator_occupied_levels": 2,
+        "final_nnz": 3813789,
+        "sparse_memory_bytes": 46196716,
+        "assembly_phase_seconds": {
+          "chunk_build": 1.5105423001223244,
+          "element_kernel": 0.7951366999186575,
+          "chunk_sparse_conversion": 0.7120710001327097,
+          "chunk_fusion": 0.09602240019012243,
+          "sparse_finalize": 0.022623200027737767
+        },
+        "sparse_conversion_method": "csr_constructor",
+        "material_cache_reused": true,
+        "repeat_count": 3,
+        "assembly_seconds_samples": [
+          1.671803799981717,
+          1.6752006000024267,
+          1.6171380000305362
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "analysis": "linear_static",
+  "node_count": 343,
+  "element_count": 1296,
+  "ndof": 1029,
+  "backend": "petsc",
+  "solver": {
+    "method": "cg",
+    "preconditioner": "jacobi",
+    "preconditioner_subtype": null,
+    "iterations": 116,
+    "residual_norm": 3.424963387191437e-21,
+    "converged": true,
+    "mpi_size": 1,
+    "distributed": false,
+    "ownership_ranges": [
+      [
+        0,
+        1029
+      ]
+    ],
+    "matrix_format": "baij",
+    "setup_time_seconds": 1.0800024028867483e-05,
+    "iteration_time_seconds": 0.002372712013311684,
+    "automatic_petsc_options": {},
+    "explicit_petsc_options": {},
+    "preconditioner_diagnostics": {
+      "ksp_type": "cg",
+      "pc_type": "jacobi",
+      "pc_mg_levels": 0,
+      "matrix_global_size": [
+        1029,
+        1029
+      ],
+      "matrix_local_size": [
+        1029,
+        1029
+      ],
+      "matrix_ownership_range": [
+        0,
+        1029
+      ],
+      "matrix_info": {
+        "block_size": 1.0,
+        "nz_allocated": 36459.0,
+        "nz_used": 36459.0,
+        "nz_unneeded": 0.0,
+        "memory": 0.0,
+        "assemblies": 1.0,
+        "mallocs": 0.0,
+        "fill_ratio_given": 0.0,
+        "fill_ratio_needed": 0.0,
+        "factor_mallocs": 0.0
+      }
+    },
+    "restart_used": false,
+    "restart_source": null,
+    "initial_guess_norm": 0.0
+  },
+  "assembly_time_seconds": 0.008946425979956985,
+  "solve_time_seconds": 0.0023835120373405516,
+  "estimated_core_memory_bytes": 57936,
+  "audit_status": "PASS",
+  "mpi": {
+    "size": 1,
+    "distributed_assembly": false,
+    "element_partition": "contiguous",
+    "input_arrays_replicated_per_rank": true,
+    "boundary_arrays_distributed": false,
+    "local_fixed_dof_count": null,
+    "local_load_count": null,
+    "local_fixed_dof_counts": null,
+    "local_load_counts": null,
+    "partitioned_hdf5_input": false,
+    "global_connectivity_replicated": true,
+    "global_nodes_replicated": true,
+    "displacement_gathered_on_root_only": true,
+    "displacement_mpi_io": false
+  }
+}

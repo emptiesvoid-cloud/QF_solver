@@ -363,6 +363,7 @@ def run_large_scale_campaign(
     solver_backend: str = "petsc",
     preconditioner: str | None = None,
     chunk_size: int = 4096,
+    memory_budget_bytes: int | None = None,
     execute: bool = False,
     stop_on_failure: bool = True,
 ) -> dict[str, object]:
@@ -373,6 +374,7 @@ def run_large_scale_campaign(
         solver_backend=solver_backend,
         preconditioner=preconditioner,
         chunk_size=chunk_size,
+        memory_budget_bytes=memory_budget_bytes,
         execute=execute,
         stop_on_failure=stop_on_failure,
     )
@@ -510,6 +512,7 @@ def check_large_readiness(
     nz: int | None = None,
     solver_backend: str = "petsc",
     chunk_size: int = 4096,
+    memory_budget_bytes: int | None = None,
 ) -> dict[str, object]:
     """Check dependencies and sizing before a large TET4 qualification run."""
     return _check_large_readiness(
@@ -520,6 +523,7 @@ def check_large_readiness(
         nz=nz,
         solver_backend=solver_backend,
         chunk_size=chunk_size,
+        memory_budget_bytes=memory_budget_bytes,
     )
 
 

@@ -1,0 +1,487 @@
+{
+  "schema_version": 1,
+  "campaign_id": "QF-SOLVER-0.2.2-ALPHA-BACKEND-001",
+  "status": "PASS_BOUNDED_BACKEND_CAMPAIGN",
+  "scope_status": "development",
+  "checks": {
+    "static_contiguous": true,
+    "static_graph": true,
+    "matrix_free_bounded": true,
+    "backend_comparison": true,
+    "modal_bounded": true,
+    "newmark_multi_million": true,
+    "evidence_manifests": true
+  },
+  "image": {
+    "name": "qf-solver-large:0.2.0",
+    "digest": "sha256:f2a7931d0543ee142ce67847bb91bf59350a947d5d4874bfe7be43b6848a49c8"
+  },
+  "evidence": {
+    "static_contiguous": "../qf_solver_0_2_2_multi_million_campaign_docker/campaign.json",
+    "graph_2m": {
+      "r2": {
+        "analysis": "linear_static",
+        "node_count": 681472,
+        "element_count": 3951018,
+        "ndof": 2044416,
+        "backend": "petsc",
+        "solver": {
+          "method": "cg",
+          "preconditioner": "gamg",
+          "preconditioner_subtype": null,
+          "iterations": 54,
+          "residual_norm": 8.800507250331155e-19,
+          "converged": true,
+          "mpi_size": 2,
+          "distributed": true,
+          "ownership_ranges": [
+            [
+              0,
+              1022208
+            ],
+            [
+              1022208,
+              2044416
+            ]
+          ],
+          "matrix_format": "baij",
+          "setup_time_seconds": 7.90863144499599,
+          "iteration_time_seconds": 21.000821468012873,
+          "automatic_petsc_options": {},
+          "explicit_petsc_options": {},
+          "preconditioner_diagnostics": {
+            "ksp_type": "cg",
+            "pc_type": "gamg",
+            "pc_mg_levels": 5,
+            "matrix_global_size": [
+              2044416,
+              2044416
+            ],
+            "matrix_local_size": [
+              1022208,
+              1022208
+            ],
+            "matrix_ownership_range": [
+              0,
+              1022208
+            ],
+            "matrix_info": {
+              "block_size": 1.0,
+              "nz_allocated": 90335502.0,
+              "nz_used": 90335502.0,
+              "nz_unneeded": 0.0,
+              "memory": 0.0,
+              "assemblies": 2.0,
+              "mallocs": 0.0,
+              "fill_ratio_given": 0.0,
+              "fill_ratio_needed": 0.0,
+              "factor_mallocs": 0.0
+            }
+          },
+          "restart_used": false,
+          "restart_source": null,
+          "initial_guess_norm": 0.0
+        },
+        "assembly_time_seconds": 23.69780127800186,
+        "solve_time_seconds": 28.909452913008863,
+        "estimated_core_memory_bytes": 87623704,
+        "audit_status": "PASS",
+        "mpi": {
+          "size": 2,
+          "distributed_assembly": true,
+          "element_partition": "graph",
+          "input_arrays_replicated_per_rank": false,
+          "boundary_arrays_distributed": true,
+          "local_fixed_dof_count": 23232,
+          "local_load_count": 0,
+          "local_fixed_dof_counts": [
+            23232,
+            7518
+          ],
+          "local_load_counts": [
+            0,
+            7744
+          ],
+          "partitioned_hdf5_input": true,
+          "global_connectivity_replicated": false,
+          "global_nodes_replicated": false,
+          "displacement_gathered_on_root_only": false,
+          "displacement_mpi_io": true
+        }
+      },
+      "r4": {
+        "analysis": "linear_static",
+        "node_count": 681472,
+        "element_count": 3951018,
+        "ndof": 2044416,
+        "backend": "petsc",
+        "solver": {
+          "method": "cg",
+          "preconditioner": "gamg",
+          "preconditioner_subtype": null,
+          "iterations": 55,
+          "residual_norm": 5.476630697066099e-19,
+          "converged": true,
+          "mpi_size": 4,
+          "distributed": true,
+          "ownership_ranges": [
+            [
+              0,
+              511104
+            ],
+            [
+              511104,
+              1022208
+            ],
+            [
+              1022208,
+              1533312
+            ],
+            [
+              1533312,
+              2044416
+            ]
+          ],
+          "matrix_format": "baij",
+          "setup_time_seconds": 5.755921261996264,
+          "iteration_time_seconds": 20.26517782601877,
+          "automatic_petsc_options": {
+            "pc_gamg_repartition": true
+          },
+          "explicit_petsc_options": {},
+          "preconditioner_diagnostics": {
+            "ksp_type": "cg",
+            "pc_type": "gamg",
+            "pc_mg_levels": 5,
+            "matrix_global_size": [
+              2044416,
+              2044416
+            ],
+            "matrix_local_size": [
+              511104,
+              511104
+            ],
+            "matrix_ownership_range": [
+              0,
+              511104
+            ],
+            "matrix_info": {
+              "block_size": 1.0,
+              "nz_allocated": 90335502.0,
+              "nz_used": 90335502.0,
+              "nz_unneeded": 0.0,
+              "memory": 0.0,
+              "assemblies": 2.0,
+              "mallocs": 0.0,
+              "fill_ratio_given": 0.0,
+              "fill_ratio_needed": 0.0,
+              "factor_mallocs": 0.0
+            }
+          },
+          "restart_used": false,
+          "restart_source": null,
+          "initial_guess_norm": 0.0
+        },
+        "assembly_time_seconds": 16.32970921098604,
+        "solve_time_seconds": 26.021099088015035,
+        "estimated_core_memory_bytes": 51853024,
+        "audit_status": "PASS",
+        "mpi": {
+          "size": 4,
+          "distributed_assembly": true,
+          "element_partition": "graph",
+          "input_arrays_replicated_per_rank": false,
+          "boundary_arrays_distributed": true,
+          "local_fixed_dof_count": 23232,
+          "local_load_count": 0,
+          "local_fixed_dof_counts": [
+            23232,
+            10887,
+            1074,
+            6291
+          ],
+          "local_load_counts": [
+            0,
+            0,
+            0,
+            7744
+          ],
+          "partitioned_hdf5_input": true,
+          "global_connectivity_replicated": false,
+          "global_nodes_replicated": false,
+          "displacement_gathered_on_root_only": false,
+          "displacement_mpi_io": true
+        }
+      }
+    },
+    "matrix_free_100k": {
+      "analysis": "linear_static",
+      "node_count": 35937,
+      "element_count": 196608,
+      "ndof": 107811,
+      "backend": "matrix_free",
+      "solver": {
+        "method": "matrix_free_cg",
+        "preconditioner": "nodal_block_jacobi",
+        "iterations": 609,
+        "residual_norm": 3.346433792741906e-11,
+        "relative_residual": 1.1043231516048294e-12,
+        "converged": true
+      },
+      "assembly_time_seconds": 0.0,
+      "solve_time_seconds": 18.109681734989863,
+      "estimated_core_memory_bytes": 12309648,
+      "audit_status": "PASS",
+      "matrix_free_operator_memory_bytes": 4293216
+    },
+    "backend_comparison_1k": {
+      "status": "PASS",
+      "backends_completed": [
+        "scipy",
+        "matrix_free",
+        "petsc"
+      ],
+      "comparisons": [
+        {
+          "reference_backend": "scipy",
+          "candidate_backend": "matrix_free",
+          "relative_displacement_error": 1.087040122785899e-13,
+          "tolerance": 1e-07,
+          "status": "PASS"
+        },
+        {
+          "reference_backend": "scipy",
+          "candidate_backend": "petsc",
+          "relative_displacement_error": 1.4172462549582013e-13,
+          "tolerance": 1e-07,
+          "status": "PASS"
+        }
+      ]
+    },
+    "modal_100k": {
+      "status": "PASS",
+      "analysis": "modal",
+      "backend": "slepc",
+      "mode_count": 3,
+      "converged_modes": 3,
+      "eigenvalues": [
+        12075440.657494687,
+        12098924.038000688,
+        22378742.77129987
+      ],
+      "frequencies_hz": [
+        553.0592057863631,
+        553.5967179113698,
+        752.9011731322234
+      ],
+      "relative_residuals": [
+        2.7892180965366826e-12,
+        2.6365168385642773e-12,
+        1.4329368010244603e-12
+      ],
+      "slepc_error_estimates": [
+        6.09301663280054e-13,
+        5.759518207692496e-13,
+        3.030940088580617e-13
+      ],
+      "max_relative_residual": 2.7892180965366826e-12,
+      "tolerance": 1e-08,
+      "assembly_time_seconds": 1.679050060978625,
+      "solve_time_seconds": 11.910274274996482,
+      "ndof": 107811,
+      "element_count": 196608,
+      "fixed_dof_count": 3267,
+      "mpi_size": 2,
+      "distributed": true,
+      "mass_formulation": "consistent_tet4",
+      "constraint_treatment": "stiffness_penalty_above_physical_spectrum"
+    },
+    "modal_1k": {
+      "status": "PASS",
+      "analysis": "modal",
+      "backend": "slepc",
+      "mode_count": 3,
+      "converged_modes": 3,
+      "eigenvalues": [
+        13065419.458683483,
+        13574617.47667577,
+        26384719.639551893
+      ],
+      "frequencies_hz": [
+        575.2833572113491,
+        586.3864575151683,
+        817.516211452506
+      ],
+      "relative_residuals": [
+        1.5671771013193209e-13,
+        1.3942032404299003e-13,
+        7.244160195053853e-14
+      ],
+      "slepc_error_estimates": [
+        3.6272969108237003e-12,
+        3.2389290934034807e-12,
+        1.4169601936241613e-12
+      ],
+      "max_relative_residual": 1.5671771013193209e-13,
+      "tolerance": 1e-08,
+      "assembly_time_seconds": 0.03155629601678811,
+      "solve_time_seconds": 0.019091865979135036,
+      "ndof": 1029,
+      "element_count": 1296,
+      "fixed_dof_count": 147,
+      "mpi_size": 1,
+      "distributed": false,
+      "mass_formulation": "consistent_tet4",
+      "constraint_treatment": "stiffness_penalty_above_physical_spectrum"
+    },
+    "newmark_2m": {
+      "status": "PASS",
+      "analysis": "transient_dynamic",
+      "method": "newmark_average_acceleration",
+      "backend": "petsc",
+      "steps": 10,
+      "time_step_seconds": 0.0001,
+      "duration_seconds": 0.001,
+      "newmark_beta": 0.25,
+      "newmark_gamma": 0.5,
+      "assembly_time_seconds": 19.07942904700758,
+      "preconditioner_setup_seconds": 8.162268313986715,
+      "solve_time_seconds": 90.93942811700981,
+      "iterations_total": 222,
+      "iterations_max": 23,
+      "residual_norm_max": 1.9146035232903244e-05,
+      "residual_norm_final": 1.9146035232903244e-05,
+      "relative_residual_norm_max": 1.9684887069824436e-06,
+      "relative_residual_norm_final": 1.6848511004954847e-06,
+      "force_norm": 11.363636363636369,
+      "energy_final": 1.9091214685982132e-06,
+      "ndof": 2044416,
+      "element_count": 3951018,
+      "fixed_dof_count": 23232,
+      "mpi_size": 2,
+      "distributed": true,
+      "mass_formulation": "consistent_tet4",
+      "effective_matrix": "K + 1/(beta*dt^2)*M",
+      "step_residuals": [
+        4.859883091588998e-07,
+        1.6262613664947895e-06,
+        5.626161398254124e-06,
+        8.352123135418863e-06,
+        1.1167628954402679e-05,
+        1.3421513911243939e-05,
+        1.5364072508504887e-05,
+        1.669954808658506e-05,
+        1.777454309605261e-05,
+        1.9146035232903244e-05
+      ],
+      "step_relative_residuals": [
+        4.2766971205983163e-07,
+        7.15555001257707e-07,
+        1.6503406768212089e-06,
+        1.837467089792149e-06,
+        1.9655026959748708e-06,
+        1.9684887069824436e-06,
+        1.931483401069185e-06,
+        1.8369502895243557e-06,
+        1.7379553249473655e-06,
+        1.6848511004954847e-06
+      ],
+      "step_iterations": [
+        23,
+        23,
+        22,
+        22,
+        22,
+        22,
+        22,
+        22,
+        22,
+        22
+      ]
+    },
+    "newmark_1k": {
+      "status": "PASS",
+      "analysis": "transient_dynamic",
+      "method": "newmark_average_acceleration",
+      "backend": "petsc",
+      "steps": 6,
+      "time_step_seconds": 0.0001,
+      "duration_seconds": 0.0006000000000000001,
+      "newmark_beta": 0.25,
+      "newmark_gamma": 0.5,
+      "assembly_time_seconds": 0.019224371993914247,
+      "preconditioner_setup_seconds": 0.004579332016874105,
+      "solve_time_seconds": 0.008834946987917647,
+      "iterations_total": 62,
+      "iterations_max": 11,
+      "residual_norm_max": 1.506952683335543e-05,
+      "residual_norm_final": 1.506952683335543e-05,
+      "relative_residual_norm_max": 1.05486687833488e-07,
+      "relative_residual_norm_final": 1.05486687833488e-07,
+      "force_norm": 142.85714285714286,
+      "energy_final": 3.261877872692264e-06,
+      "ndof": 1029,
+      "element_count": 1296,
+      "fixed_dof_count": 147,
+      "mpi_size": 1,
+      "distributed": false,
+      "mass_formulation": "consistent_tet4",
+      "effective_matrix": "K + 1/(beta*dt^2)*M",
+      "step_residuals": [
+        1.7243506434771456e-07,
+        6.19901072508221e-07,
+        5.904240407164509e-06,
+        9.28722359470021e-06,
+        1.2360269568275544e-05,
+        1.506952683335543e-05
+      ],
+      "step_relative_residuals": [
+        7.242272702604011e-09,
+        1.3017922522672641e-08,
+        8.265936570030312e-08,
+        9.751584774435221e-08,
+        1.0382626437351457e-07,
+        1.05486687833488e-07
+      ],
+      "step_iterations": [
+        11,
+        11,
+        10,
+        10,
+        10,
+        10
+      ]
+    },
+    "modal_2m_resource_limit": {
+      "analysis": "modal",
+      "backend": "slepc",
+      "status": "BLOCKED_RESOURCE_LIMIT",
+      "ndof": 2044416,
+      "mpi_size": 2,
+      "requested_modes": 3,
+      "spectral_transformation": "shift_invert",
+      "termination": "signal_9_killed",
+      "observed_peak_container_memory": "approximately 33.5 GiB",
+      "interpretation": "The direct shift-invert factorization did not complete within the available container memory. This is a backend resource limit, not a numerical PASS."
+    }
+  },
+  "acceptance": {
+    "static_strong_scaling_efficiency": {
+      "2m": 0.6513684067407945,
+      "4m": 0.61502823199615
+    },
+    "graph_strong_scaling_efficiency_2m": 0.6210891397821511,
+    "modal_100k_max_relative_residual": 2.7892180965366826e-12,
+    "modal_1k_max_relative_residual": 1.5671771013193209e-13,
+    "newmark_2m_relative_residual_max": 1.9684887069824436e-06,
+    "newmark_1k_relative_residual_max": 1.05486687833488e-07,
+    "matrix_free_100k_relative_residual": 1.1043231516048294e-12
+  },
+  "limitations": [
+    "La preuve est executee dans une image Docker epinglee, sur une seule configuration hote.",
+    "Le statique couvre 2M et 4M DDL ; le Newmark couvre 2M DDL avec PETSc/GAMG.",
+    "Le modal SLEPc est demontre jusqu a 107811 DDL ; le shift-invert direct 2M a ete tue par la limite de ressources.",
+    "Le matrix-free est demontre a 107811 DDL ; la tentative 1M reste une limite de performance.",
+    "Les resultats restent development jusqu a la revue Owner et ne constituent pas une promotion stable."
+  ]
+}

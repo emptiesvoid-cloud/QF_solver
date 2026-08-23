@@ -4,17 +4,16 @@ from __future__ import annotations
 
 import math
 from time import perf_counter
-import warnings
 from typing import Any
 
 import numpy as np
-from scipy.sparse.linalg import MatrixRankWarning, spsolve
 
 from solveur.core.assembler import GlobalAssembler
 from solveur.core.audit import SolverAudit
 from solveur.core.dynamic_reduction import DynamicDofReducer
 from solveur.core.dynamic_controls import rayleigh_damping_definition
 from solveur.core.errors import InputValidationError, MeshValidationError, NumericalConvergenceError
+from solveur.core.linear_methods import LinearSystemSolver
 from solveur.core.linear_policy import LinearSolverPolicy, linear_execution_settings
 from solveur.core.model import FiniteElementModel
 from solveur.core.results import HarmonicResult
@@ -30,6 +29,7 @@ class HarmonicResponseSolver:
     def __init__(self) -> None:
         self.validator = MeshValidator()
         self.assembler = GlobalAssembler()
+        self.linear_solver = LinearSystemSolver()
 
     def solve(self, model: FiniteElementModel) -> HarmonicResult:
         if model.analysis.method not in self.supported_methods:
@@ -38,8 +38,7 @@ class HarmonicResponseSolver:
         if report.status == "FAIL":
             raise MeshValidationError("Mesh validation failed: " + "; ".join(report.errors))
         dofs = model.dof_manager()
-        stiffness = self.assembler.assemble_stiffness(model, dofs)
-        mass = self.assembler.assemble_mass(model, dofs)
+        stiffness, mass, _, _ = self.assembler.assemble_stiffness_and_mass(model, dofs)
         damping_definition = rayleigh_damping_definition(model.analysis.parameters)
         damping = (
             damping_definition.alpha * mass + damping_definition.beta * stiffness
@@ -56,11 +55,17 @@ class HarmonicResponseSolver:
         reduced_loads = reducer.reduce_load(loads)
 
         frequencies = frequency_grid(model.analysis.parameters)
+        if str(model.analysis.parameters.get("backend", "auto")).lower() == "petsc":
+            raise InputValidationError(
+                "The optional PETSc backend is not enabled for complex harmonic response yet; use backend='scipy'."
+            )
         responses: list[np.ndarray] = []
         residuals: list[float] = []
         relative_residuals: list[float] = []
         selections: list[dict[str, Any]] = []
         solve_seconds: list[float] = []
+        linear_iterations: list[int] = []
+        linear_relative_residuals: list[float] = []
         for frequency in frequencies:
             omega = 2.0 * math.pi * frequency
             dynamic_stiffness = reduced_stiffness + (1j * omega) * reduced_damping
@@ -68,18 +73,13 @@ class HarmonicResponseSolver:
             selection = LinearSolverPolicy.assess(dynamic_stiffness.tocsr(), model.analysis.method, model.analysis.parameters)
             selections.append({"frequency_hz": float(frequency), **selection.to_dict(used_method="spsolve")})
             solve_started = perf_counter()
-            try:
-                with warnings.catch_warnings():
-                    warnings.simplefilter("error", MatrixRankWarning)
-                    reduced_response = spsolve(dynamic_stiffness.astype(complex), reduced_loads.astype(complex))
-            except MatrixRankWarning as exc:
-                raise NumericalConvergenceError(
-                    f"Harmonic dynamic stiffness is singular at {frequency:.9g} Hz."
-                ) from exc
-            except (FloatingPointError, RuntimeError, ValueError) as exc:
-                raise NumericalConvergenceError(
-                    f"Harmonic solve failed at {frequency:.9g} Hz: {exc}"
-                ) from exc
+            reduced_response, linear_info = self.linear_solver.solve_complex(
+                dynamic_stiffness.tocsr(),
+                reduced_loads.astype(complex),
+                parameters={**model.analysis.parameters, "backend": "scipy"},
+            )
+            linear_iterations.append(int(linear_info.iterations))
+            linear_relative_residuals.append(float(linear_info.relative_residual_norm))
             solve_seconds.append(perf_counter() - solve_started)
             if not np.all(np.isfinite(reduced_response)):
                 raise NumericalConvergenceError(f"Harmonic solve produced non-finite response at {frequency:.9g} Hz.")
@@ -146,8 +146,15 @@ class HarmonicResponseSolver:
                 "frequency_count": len(frequencies),
                 "linear_selection": _harmonic_selection_summary(selections),
                 "linear_execution": {
-                    **linear_execution_settings(model.analysis.method, model.analysis.parameters),
+                    **linear_execution_settings(
+                        model.analysis.method,
+                        model.analysis.parameters,
+                        used_method="spsolve",
+                    ),
                     "used_method": "spsolve",
+                    "backend_used": "scipy",
+                    "iteration_count_total": int(sum(linear_iterations)),
+                    "max_linear_relative_residual_norm": max(linear_relative_residuals, default=0.0),
                     "frequency_solve_seconds": solve_seconds,
                     "total_frequency_solve_seconds": float(sum(solve_seconds)),
                     "fallback_used": False,

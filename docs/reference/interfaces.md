@@ -52,7 +52,7 @@ retourne un diagnostic court adapte a l'automatisation.
 ## API Python stable
 
 ```python
-from solveur.api import (
+from qf_solver import (
     check_mesh,
     import_gmsh_model,
     list_benchmarks,
@@ -89,7 +89,7 @@ les classes internes pour obtenir un resultat courant.
 ## Grand modele
 
 ```python
-from solveur.api import load_large_model, solve_large_model
+from qf_solver import load_large_model, solve_large_model
 
 model = load_large_model("model.h5")
 result = solve_large_model(model, "result_large", solver_backend="petsc", preconditioner="gamg")

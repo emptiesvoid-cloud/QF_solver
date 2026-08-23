@@ -6,8 +6,11 @@ from pathlib import Path
 import numpy as np
 import pytest
 
+import solveur.large.optimization as optimization
 from solveur.large.optimization import (
     _binary_relative_error,
+    _preconditioner_markdown,
+    _scaling_markdown,
     _validated_preconditioners,
     analyze_large_scaling,
 )
@@ -129,3 +132,89 @@ def test_gamg_repartition_is_automatic_only_for_four_or_more_ranks() -> None:
         "gamg", 4, explicit_keys=set(), existing_keys={"pc_gamg_repartition"}
     ) == {}
     assert _automatic_petsc_options("hypre", 4, explicit_keys=set(), existing_keys=set()) == {}
+
+
+def test_scaling_markdown_and_preconditioner_markdown_render_optional_metrics() -> None:
+    preconditioner = _preconditioner_markdown(
+        {
+            "status": "WARNING",
+            "runs": [
+                {
+                    "preconditioner": "gamg",
+                    "ranks": 2,
+                    "pipeline_time_seconds": 1.0,
+                    "ksp_setup_time_seconds": None,
+                    "ksp_iteration_time_seconds": 0.5,
+                    "iterations": None,
+                    "residual_norm": None,
+                    "peak_rss_per_rank_bytes": None,
+                    "relative_displacement_error": None,
+                }
+            ],
+        }
+    )
+    scaling = _scaling_markdown(
+        {
+            "mode": "weak",
+            "status": "PASS",
+            "runs": [
+                {
+                    "ranks": 1,
+                    "dofs": 100,
+                    "dofs_per_rank": 100.0,
+                    "pipeline_time_seconds": 1.0,
+                    "speedup": 1.0,
+                    "weak_efficiency": 1.0,
+                    "iterations": None,
+                    "peak_rss_per_rank_bytes": None,
+                }
+            ],
+        }
+    )
+    assert "gamg" in preconditioner
+    assert "Scalabilite weak" in scaling
+    assert "| 1 | 100 |" in scaling
+
+
+def test_preconditioner_campaign_archives_comparison_with_controlled_backend(tmp_path, monkeypatch) -> None:
+    def fake_benchmark(input_path, output_dir, **kwargs):
+        output_dir = Path(output_dir)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        values = np.asarray([1.0, 2.0, 3.0], dtype=np.float64)
+        values.tofile(output_dir / "displacements.bin")
+        metadata = {"dtype": "float64", "byte_order": "little", "shape": [1, 3], "flat_size": 3}
+        (output_dir / "displacements_metadata.json").write_text(json.dumps(metadata), encoding="utf-8")
+        return {
+            "status": "PASS",
+            "evidence_verification": {"status": "PASS"},
+            "ndof": 3,
+            "mpi": {"size": 1},
+            "solve_pipeline_time_seconds": 1.0,
+            "assembly_time_seconds": 0.2,
+            "solver": {"setup_time_seconds": 0.1, "iteration_time_seconds": 0.3, "iterations": 2, "residual_norm": 1.0e-10},
+            "memory_telemetry": {"process_peak_rss_bytes": 1000},
+        }
+
+    monkeypatch.setattr(optimization, "benchmark_large_model", fake_benchmark)
+    monkeypatch.setattr(optimization, "_mpi_rank", lambda: 0)
+    monkeypatch.setattr(optimization, "write_large_manifest", lambda root, payload: root / "evidence_manifest.json")
+
+    result = optimization.run_large_preconditioner_campaign(
+        "model.h5",
+        tmp_path / "campaign",
+        preconditioners=("gamg", "hypre"),
+    )
+
+    assert result["status"] == "PASS"
+    assert result["runs"][1]["relative_displacement_error"] == pytest.approx(0.0)
+    assert (tmp_path / "campaign" / "preconditioner_comparison.json").is_file()
+    assert (tmp_path / "campaign" / "preconditioner_comparison.md").is_file()
+
+
+def test_scaling_report_rejects_invalid_efficiency_controls(tmp_path) -> None:
+    first = _write_benchmark(tmp_path / "first.json", ranks=1, dofs=1000, time=10.0)
+    second = _write_benchmark(tmp_path / "second.json", ranks=2, dofs=1000, time=8.0)
+    with pytest.raises(ValueError, match="Efficiency warning"):
+        analyze_large_scaling((first, second), tmp_path / "bad", mode="strong", efficiency_warning_threshold=0.0)
+    with pytest.raises(ValueError, match="Weak-work tolerance"):
+        analyze_large_scaling((first, second), tmp_path / "bad2", mode="strong", weak_work_tolerance=1.0)

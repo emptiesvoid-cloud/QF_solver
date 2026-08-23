@@ -1,0 +1,191 @@
+{
+  "status": "PASS",
+  "errors": [],
+  "warnings": [],
+  "details": {
+    "node_count": 35937,
+    "element_count": 196608,
+    "ndof": 107811,
+    "analysis": "linear_static",
+    "method": "cg",
+    "fixed_dof_count": 3267,
+    "free_dof_count": 104544,
+    "load_count": 1089,
+    "quality_thresholds": {
+      "tet_min_signed_volume": 1e-14,
+      "tet_min_quality": 0.05,
+      "tet_min_radius_ratio": 0.05,
+      "tet_max_aspect_ratio": 20.0,
+      "tet_min_relative_volume": 0.0001,
+      "tet10_max_mid_edge_deviation_ratio": 0.05,
+      "tet10_min_sampled_jacobian": 1e-14,
+      "tet10_min_jacobian_ratio": 0.05,
+      "mitc4_max_aspect_ratio": 10.0,
+      "mitc4_max_planarity_ratio": 0.001,
+      "mitc4_min_angle_degrees": 30.0,
+      "mitc4_max_angle_degrees": 150.0,
+      "mitc4_max_warpage_degrees": 5.0,
+      "mitc3_max_aspect_ratio": 10.0,
+      "mitc3_min_angle_degrees": 20.0,
+      "mitc3_max_angle_degrees": 140.0,
+      "mitc3_min_relative_area": 1e-08
+    },
+    "tet4_quality": {
+      "signed_volume": {
+        "min": 5.086263020833333e-06,
+        "max": 5.086263020833333e-06,
+        "mean": 5.086263020833332e-06
+      },
+      "quality": {
+        "min": 0.6572670690061994,
+        "max": 0.6572670690061994,
+        "mean": 0.6572670690061992
+      },
+      "aspect_ratio": {
+        "min": 1.7320508075688772,
+        "max": 1.7320508075688772,
+        "mean": 1.7320508075688776
+      },
+      "relative_volume": {
+        "min": 0.03207501495497921,
+        "max": 0.03207501495497921,
+        "mean": 0.03207501495497921
+      },
+      "invalid_volume_count": 0,
+      "low_quality_count": 0
+    },
+    "sampled_elements": [
+      {
+        "index": 0,
+        "signed_volume": 5.086263020833333e-06
+      },
+      {
+        "index": 6342,
+        "signed_volume": 5.086263020833333e-06
+      },
+      {
+        "index": 12684,
+        "signed_volume": 5.086263020833333e-06
+      },
+      {
+        "index": 19026,
+        "signed_volume": 5.086263020833333e-06
+      },
+      {
+        "index": 25368,
+        "signed_volume": 5.086263020833333e-06
+      },
+      {
+        "index": 31710,
+        "signed_volume": 5.086263020833333e-06
+      },
+      {
+        "index": 38052,
+        "signed_volume": 5.086263020833333e-06
+      },
+      {
+        "index": 44395,
+        "signed_volume": 5.086263020833333e-06
+      },
+      {
+        "index": 50737,
+        "signed_volume": 5.086263020833333e-06
+      },
+      {
+        "index": 57079,
+        "signed_volume": 5.086263020833333e-06
+      },
+      {
+        "index": 63421,
+        "signed_volume": 5.086263020833333e-06
+      },
+      {
+        "index": 69763,
+        "signed_volume": 5.086263020833333e-06
+      },
+      {
+        "index": 76105,
+        "signed_volume": 5.086263020833333e-06
+      },
+      {
+        "index": 82448,
+        "signed_volume": 5.086263020833333e-06
+      },
+      {
+        "index": 88790,
+        "signed_volume": 5.086263020833333e-06
+      },
+      {
+        "index": 95132,
+        "signed_volume": 5.086263020833333e-06
+      },
+      {
+        "index": 101474,
+        "signed_volume": 5.086263020833333e-06
+      },
+      {
+        "index": 107816,
+        "signed_volume": 5.086263020833333e-06
+      },
+      {
+        "index": 114158,
+        "signed_volume": 5.086263020833333e-06
+      },
+      {
+        "index": 120501,
+        "signed_volume": 5.086263020833333e-06
+      },
+      {
+        "index": 126843,
+        "signed_volume": 5.086263020833333e-06
+      },
+      {
+        "index": 133185,
+        "signed_volume": 5.086263020833333e-06
+      },
+      {
+        "index": 139527,
+        "signed_volume": 5.086263020833333e-06
+      },
+      {
+        "index": 145869,
+        "signed_volume": 5.086263020833333e-06
+      },
+      {
+        "index": 152211,
+        "signed_volume": 5.086263020833333e-06
+      },
+      {
+        "index": 158554,
+        "signed_volume": 5.086263020833333e-06
+      },
+      {
+        "index": 164896,
+        "signed_volume": 5.086263020833333e-06
+      },
+      {
+        "index": 171238,
+        "signed_volume": 5.086263020833333e-06
+      },
+      {
+        "index": 177580,
+        "signed_volume": 5.086263020833333e-06
+      },
+      {
+        "index": 183922,
+        "signed_volume": 5.086263020833333e-06
+      },
+      {
+        "index": 190264,
+        "signed_volume": 5.086263020833333e-06
+      },
+      {
+        "index": 196607,
+        "signed_volume": 5.086263020833333e-06
+      }
+    ],
+    "load_norm": 30.30303030303029,
+    "error_count": 0,
+    "warning_count": 0
+  }
+}

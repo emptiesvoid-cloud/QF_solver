@@ -15,17 +15,7 @@ def tet4_stiffness_batch(coords: np.ndarray, elasticity: np.ndarray) -> np.ndarr
         raise ValueError("TET4 elasticity matrix must have shape (6, 6).")
     if points.shape[0] == 0:
         return np.empty((0, 12, 12), dtype=float)
-    edge_matrix = np.stack(
-        (points[:, 1] - points[:, 0], points[:, 2] - points[:, 0], points[:, 3] - points[:, 0]),
-        axis=2,
-    )
-    volumes = np.linalg.det(edge_matrix) / 6.0
-    invalid = np.flatnonzero(volumes <= 1.0e-14)
-    if invalid.size:
-        index = int(invalid[0])
-        raise ValueError(f"Invalid batched TET4 volume {volumes[index]:.6e} at batch index {index}.")
-    interpolation = np.concatenate((np.ones((points.shape[0], 4, 1)), points), axis=2)
-    gradients = np.linalg.inv(interpolation)[:, 1:, :].transpose(0, 2, 1)
+    _, volumes, gradients = _tet4_geometry_batch(points)
     b_matrix = _strain_displacement_batch(gradients)
     stiffness = volumes[:, None, None] * np.einsum(
         "eia,ij,ejb->eab",
@@ -35,6 +25,36 @@ def tet4_stiffness_batch(coords: np.ndarray, elasticity: np.ndarray) -> np.ndarr
         optimize=True,
     )
     return 0.5 * (stiffness + stiffness.transpose(0, 2, 1))
+
+
+def tet4_mass_batch(coords: np.ndarray, density: np.ndarray | float) -> np.ndarray:
+    """Return the consistent translational mass matrix for each TET4.
+
+    The scalar tetrahedral shape-function integral is ``rho * V / 20``;
+    each 3-by-3 nodal block is this scalar times 2 on the diagonal and 1
+    off-diagonal.  Keeping this kernel batched gives the modal/Newmark large
+    path the same chunked memory behaviour as the stiffness assembly.
+    """
+    points = np.asarray(coords, dtype=float)
+    if points.ndim != 3 or points.shape[1:] != (4, 3):
+        raise ValueError("Batched TET4 coordinates must have shape (n, 4, 3).")
+    _, volumes, _ = _tet4_geometry_batch(points)
+    values = np.asarray(density, dtype=float)
+    if values.ndim == 0:
+        values = np.full(points.shape[0], float(values), dtype=float)
+    if values.shape != (points.shape[0],):
+        raise ValueError("TET4 density must be a scalar or one value per element.")
+    if np.any(values <= 0.0):
+        raise ValueError("TET4 modal mass requires positive density.")
+    scalar = values * volumes / 20.0
+    mass = np.zeros((points.shape[0], 12, 12), dtype=float)
+    identity = np.eye(3)
+    for row in range(4):
+        for column in range(4):
+            mass[:, 3 * row : 3 * row + 3, 3 * column : 3 * column + 3] = (
+                scalar * (2.0 if row == column else 1.0)
+            )[:, None, None] * identity
+    return mass
 
 
 def element_dofs_batch(nodes: np.ndarray) -> np.ndarray:
@@ -89,17 +109,7 @@ def tet4_response_batch(
             "von_mises": np.empty(0, dtype=float),
             "strain_energy": np.empty(0, dtype=float),
         }
-    edge_matrix = np.stack(
-        (points[:, 1] - points[:, 0], points[:, 2] - points[:, 0], points[:, 3] - points[:, 0]),
-        axis=2,
-    )
-    volumes = np.linalg.det(edge_matrix) / 6.0
-    invalid = np.flatnonzero(volumes <= 1.0e-14)
-    if invalid.size:
-        index = int(invalid[0])
-        raise ValueError(f"Invalid batched TET4 volume {volumes[index]:.6e} at batch index {index}.")
-    interpolation = np.concatenate((np.ones((points.shape[0], 4, 1)), points), axis=2)
-    gradients = np.linalg.inv(interpolation)[:, 1:, :].transpose(0, 2, 1)
+    _, volumes, gradients = _tet4_geometry_batch(points)
     b_matrix = _strain_displacement_batch(gradients)
     strain = np.einsum("eij,ej->ei", b_matrix, displacement, optimize=True)
     stress = np.einsum("ij,ej->ei", constitutive, strain, optimize=True)
@@ -119,6 +129,37 @@ def tet4_response_batch(
         "von_mises": von_mises,
         "strain_energy": strain_energy,
     }
+
+
+def _tet4_geometry_batch(points: np.ndarray) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Return edges, signed volumes and shape-function gradients in batches.
+
+    The constant-strain TET4 gradients are the barycentric gradients of the
+    four nodes. Computing them from oriented face normals avoids forming one
+    small dense inverse per element while preserving the signed-volume check.
+    ``edge_matrix`` is returned because callers may use it for diagnostics.
+    """
+    edge_matrix = np.stack(
+        (points[:, 1] - points[:, 0], points[:, 2] - points[:, 0], points[:, 3] - points[:, 0]),
+        axis=2,
+    )
+    determinant = np.linalg.det(edge_matrix)
+    volumes = determinant / 6.0
+    invalid = np.flatnonzero(volumes <= 1.0e-14)
+    if invalid.size:
+        index = int(invalid[0])
+        raise ValueError(f"Invalid batched TET4 volume {volumes[index]:.6e} at batch index {index}.")
+
+    edge_01 = edge_matrix[:, :, 0]
+    edge_02 = edge_matrix[:, :, 1]
+    edge_03 = edge_matrix[:, :, 2]
+    safe_determinant = determinant[:, None]
+    gradient_1 = np.cross(edge_02, edge_03) / safe_determinant
+    gradient_2 = np.cross(edge_03, edge_01) / safe_determinant
+    gradient_3 = np.cross(edge_01, edge_02) / safe_determinant
+    gradient_0 = -(gradient_1 + gradient_2 + gradient_3)
+    gradients = np.stack((gradient_0, gradient_1, gradient_2, gradient_3), axis=1)
+    return edge_matrix, volumes, gradients
 
 
 def _strain_displacement_batch(gradients: np.ndarray) -> np.ndarray:

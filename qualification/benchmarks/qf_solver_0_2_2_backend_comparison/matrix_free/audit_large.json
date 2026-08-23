@@ -1,0 +1,87 @@
+{
+  "status": "PASS",
+  "errors": [],
+  "warnings": [],
+  "details": {
+    "node_count": 8,
+    "element_count": 6,
+    "ndof": 24,
+    "analysis": "linear_static",
+    "method": "cg",
+    "fixed_dof_count": 12,
+    "free_dof_count": 12,
+    "load_count": 4,
+    "quality_thresholds": {
+      "tet_min_signed_volume": 1e-14,
+      "tet_min_quality": 0.05,
+      "tet_min_radius_ratio": 0.05,
+      "tet_max_aspect_ratio": 20.0,
+      "tet_min_relative_volume": 0.0001,
+      "tet10_max_mid_edge_deviation_ratio": 0.05,
+      "tet10_min_sampled_jacobian": 1e-14,
+      "tet10_min_jacobian_ratio": 0.05,
+      "mitc4_max_aspect_ratio": 10.0,
+      "mitc4_max_planarity_ratio": 0.001,
+      "mitc4_min_angle_degrees": 30.0,
+      "mitc4_max_angle_degrees": 150.0,
+      "mitc4_max_warpage_degrees": 5.0,
+      "mitc3_max_aspect_ratio": 10.0,
+      "mitc3_min_angle_degrees": 20.0,
+      "mitc3_max_angle_degrees": 140.0,
+      "mitc3_min_relative_area": 1e-08
+    },
+    "tet4_quality": {
+      "signed_volume": {
+        "min": 0.16666666666666666,
+        "max": 0.16666666666666666,
+        "mean": 0.16666666666666666
+      },
+      "quality": {
+        "min": 0.6572670690061994,
+        "max": 0.6572670690061994,
+        "mean": 0.6572670690061994
+      },
+      "aspect_ratio": {
+        "min": 1.7320508075688772,
+        "max": 1.7320508075688772,
+        "mean": 1.732050807568877
+      },
+      "relative_volume": {
+        "min": 0.03207501495497921,
+        "max": 0.03207501495497921,
+        "mean": 0.03207501495497921
+      },
+      "invalid_volume_count": 0,
+      "low_quality_count": 0
+    },
+    "sampled_elements": [
+      {
+        "index": 0,
+        "signed_volume": 0.16666666666666666
+      },
+      {
+        "index": 1,
+        "signed_volume": 0.16666666666666666
+      },
+      {
+        "index": 2,
+        "signed_volume": 0.16666666666666666
+      },
+      {
+        "index": 3,
+        "signed_volume": 0.16666666666666666
+      },
+      {
+        "index": 4,
+        "signed_volume": 0.16666666666666666
+      },
+      {
+        "index": 5,
+        "signed_volume": 0.16666666666666666
+      }
+    ],
+    "load_norm": 500.0,
+    "error_count": 0,
+    "warning_count": 0
+  }
+}

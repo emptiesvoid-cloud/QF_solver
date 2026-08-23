@@ -16,7 +16,7 @@ Cette alpha ne revendique ni certification externe, ni équivalence générale �
 un logiciel commercial. Elle fournit un noyau ouvert et des domaines d'emploi
 documentés, à utiliser avec le jugement mécanique adapté au cas calculé.
 
-La version publique cible est **0.2.1a0**, une alpha de consolidation
+La version de développement cible est **0.2.2a0**, une alpha de renforcement
 V&V construite sur la baseline immuable `0.2.0a0` (`v0.2.0-alpha`). Le projet vise
 un outil **qualifiable et vérifiable**. Il n'est
 pas présenté comme certifié et ne doit pas remplacer une Owner review
@@ -77,15 +77,21 @@ Le détail des 36 scopes de release, de leurs preuves et de leurs exclusions est
 dans le [registre de maturité](qualification/element_analysis_matrix.json) et
 dans le [paquet de clôture](docs/verification/release_vv_0_2_1_closure_package_2026-08-22.md).
 
-## État de la release 0.2.1a0
+## État de la release 0.2.2a0
 
 La consolidation locale est avancée, mais la release n'est pas encore gelée :
 le dernier contrôle `release-vv` recense `28` scopes PASS et `8` scopes
-volontairement non stables. Le lot public a passé l'audit de confidentialité et
-de vocabulaire (`1550` fichiers analysés, `0` constat). Restent obligatoires
+volontairement non stables. Le lot public 0.2.2a0 a passé l'audit de
+confidentialité (`1755` fichiers analysés, `0` constat). Restent obligatoires
 avant toute publication : la campagne de release complète, la revalidation
 Owner finale et un checkout Git propre. La branche `main` contient les
 préparatifs ; aucun nouveau tag de release ni publication PyPI n'est effectué.
+
+Le chantier backend 0.2.2 alpha est décrit dans le [rapport de résolution
+sparse](docs/verification/qf_solver_0_2_2_alpha_backend_report.md) et dans la
+[feuille de route backend](prochaines_etapes.md#qf-solver-022-alpha--feuille-de-route-backend-numerique).
+La checklist de préparation du tag et de la publication PyPI est dans le
+[dossier de préparation de release 0.2.2a0](docs/verification/qf_solver_0_2_2_alpha_release_preparation.md).
 
 Les manifestes de documentation calculent le nombre de tests, la campagne
 courante, la révision source et les verdicts au moment de la génération.
@@ -112,7 +118,7 @@ figée sont consignés dans la
 
 ## Installation
 
-Préparation locale de l'alpha `0.2.1a0` :
+Préparation locale de l'alpha `0.2.2a0` :
 
 ```powershell
 python -m pip install -e ".[test]"
@@ -120,7 +126,7 @@ qf-solver --version
 ```
 
 Après publication, la même version pourra être installée depuis PyPI avec
-`python -m pip install "qf-solver==0.2.1a0"`. Cette commande devient disponible
+`python -m pip install "qf-solver==0.2.2a0"`. Cette commande devient disponible
 après publication effective sur PyPI ; le présent checkout ne la déclenche pas.
 
 Pendant la préparation locale, les extras s'installent depuis le checkout :
@@ -129,11 +135,12 @@ Pendant la préparation locale, les extras s'installent depuis le checkout :
 python -m pip install -e ".[mesh]"  # import Gmsh MSH 4.1
 python -m pip install -e ".[docs]"  # outils de construction documentaire
 python -m pip install -e ".[large]" # HDF5, PETSc et MPI
+python -m pip install -e ".[hpc]"   # PETSc/SLEPc et MPI, optionnels
 ```
 
 Après publication, les mêmes extras seront disponibles avec la forme
-`qf-solver[mesh]==0.2.1a0`, `qf-solver[docs]==0.2.1a0` ou
-`qf-solver[large]==0.2.1a0`.
+`qf-solver[mesh]==0.2.2a0`, `qf-solver[docs]==0.2.2a0`,
+`qf-solver[large]==0.2.2a0` ou `qf-solver[hpc]==0.2.2a0`.
 
 Pour contribuer ou exécuter la suite de tests depuis un clone du dépôt :
 
@@ -181,13 +188,18 @@ dépréciés conservés jusqu'à la version 0.3.0.
 API publique :
 
 ```python
-from solveur.api import check_mesh, load_model, save_result, solve_model
+from qf_solver import check_mesh, load_model, save_result, solve_model
 
 model = load_model("examples/tet4_static.json")
 report = check_mesh(model)
 result = solve_model(model)
 save_result(result, "results.json")
 ```
+
+`qf_solver` est l'unique namespace Python public pour les nouvelles
+integrations. Les imports `solveur.*` sont reserves a l'implementation interne
+et a la compatibilite de la serie 0.2.x ; ils peuvent evoluer sans constituer
+une rupture de l'API documentee.
 
 Les codes de sortie CLI stables sont `0` (accepté), `2` (entrée/maillage),
 `3` (numérique), `4` (refus de qualification) et `5` (infrastructure).
@@ -292,6 +304,16 @@ donc le corpus V&V de développement.
 - [Audit hygiène et architecture 0.2.1a0](docs/verification/project_hygiene_architecture_audit_0_2_1.md)
 - [Clôture technique P0 documentaire](docs/verification/baseline_documentaire_p0.md)
 - [Changelog](CHANGELOG.md)
+
+## Bilan des versions alpha
+
+- **0.1.0 Alpha** : première base qualifiable, avec les profils de vérification,
+  les métadonnées auditables et la matrice initiale de qualification.
+- **0.2.1 Alpha** : consolidation des éléments finis et des campagnes V&V,
+  corrélations externes, revues Owner et préparation du paquet public.
+- **0.2.2 Alpha** : renforcement du backend sparse, sélection et diagnostics
+  des solveurs, réduction des copies d'assemblage, préparation du scaling et
+  API publique `qf_solver`, avec PETSc/SLEPc optionnels.
 
 Les artefacts générés ne sont pas édités à la main. Toute valeur numérique
 publiée doit provenir de `scripts/build_docs.py` et être reliée à son entrée,

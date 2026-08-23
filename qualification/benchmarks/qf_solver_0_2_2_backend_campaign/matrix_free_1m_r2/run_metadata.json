@@ -1,0 +1,26 @@
+{
+  "runner": "scripts/run_matrix_free_timed.py",
+  "analysis": "linear_static",
+  "backend": "matrix_free",
+  "target_dofs": 1000000,
+  "timeout_seconds": 900.0,
+  "telemetry_interval_seconds": 30.0,
+  "input": "/workspace/results_large/qualification_matrix_free_1m/qualification_model.h5",
+  "command": [
+    "/dolfinx-env/bin/python3",
+    "scripts/compare_large_backends.py",
+    "--input",
+    "/workspace/results_large/qualification_matrix_free_1m/qualification_model.h5",
+    "--output",
+    "/workspace/qualification/benchmarks/qf_solver_0_2_2_backend_campaign/matrix_free_1m_r2",
+    "--backends",
+    "matrix_free",
+    "--chunk-size",
+    "4096"
+  ],
+  "started_epoch_s": 1787510027.670235,
+  "finished_epoch_s": 1787510928.728914,
+  "elapsed_seconds": 901.1035585320205,
+  "return_code": -15,
+  "termination": "timeout"
+}

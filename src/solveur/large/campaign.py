@@ -23,6 +23,7 @@ def run_large_scale_campaign(
     solver_backend: str = "petsc",
     preconditioner: str | None = None,
     chunk_size: int = 4096,
+    memory_budget_bytes: int | None = None,
     execute: bool = False,
     stop_on_failure: bool = True,
 ) -> dict[str, Any]:
@@ -50,6 +51,7 @@ def run_large_scale_campaign(
             target_dofs=target,
             solver_backend=solver_backend,
             chunk_size=chunk_size,
+            memory_budget_bytes=memory_budget_bytes,
         )
         readiness_paths = write_large_readiness_report(readiness, stage_dir)
         stage = _planned_stage(target, stage_dir, readiness, readiness_paths)
@@ -66,6 +68,7 @@ def run_large_scale_campaign(
                 solver_backend=solver_backend,
                 preconditioner=preconditioner,
                 chunk_size=chunk_size,
+                memory_budget_bytes=memory_budget_bytes,
             )
             halted = bool(stage["status"] != "PASS" and stop_on_failure)
         stages.append(stage)
@@ -77,6 +80,7 @@ def run_large_scale_campaign(
         "backend": solver_backend,
         "preconditioner": preconditioner or ("gamg" if solver_backend == "petsc" else "jacobi"),
         "chunk_size": int(chunk_size),
+        "memory_budget_bytes": int(memory_budget_bytes) if memory_budget_bytes is not None else None,
         "targets": list(normalized_targets),
         "runtime_environment": runtime.name,
         "scaling_interpretation": "size_scaling_single_configuration",
@@ -152,6 +156,7 @@ def _execute_stage(
     solver_backend: str,
     preconditioner: str | None,
     chunk_size: int,
+    memory_budget_bytes: int | None,
 ) -> dict[str, Any]:
     try:
         result = qualify_large_tet4_pipeline(
@@ -160,6 +165,7 @@ def _execute_stage(
             solver_backend=solver_backend,
             preconditioner=preconditioner,
             chunk_size=chunk_size,
+            memory_budget_bytes=memory_budget_bytes,
         )
     except (SolverError, ImportError, OSError, ValueError) as exc:
         return {**stage, "status": "FAIL", "reason": f"{type(exc).__name__}: {exc}"}
@@ -242,6 +248,7 @@ def _markdown(summary: dict[str, Any]) -> str:
         f"- Backend: `{summary['backend']}`",
         f"- Preconditionneur: `{summary['preconditioner']}`",
         f"- Taille de bloc: {summary['chunk_size']}",
+        f"- Budget mémoire explicite [octets]: {summary.get('memory_budget_bytes') or 'non fourni'}",
         "- Interpretation: campagne de taille sur une configuration; ce rapport ne revendique pas une scalabilite forte/faible.",
         "",
         "| Cible DDL | DDL estimes/reels | Elements | Statut | Temps pipeline [s] | Iterations | Residu | Pic RSS [octets] |",

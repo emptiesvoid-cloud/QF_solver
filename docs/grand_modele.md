@@ -181,7 +181,7 @@ execute les trois qualifications et ecrit `large_campaign.json`,
 API equivalente:
 
 ```python
-from solveur.api import (
+from qf_solver import (
     benchmark_large_model,
     check_large_readiness,
     generate_large_tet4_block,

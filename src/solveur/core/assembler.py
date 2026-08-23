@@ -4,10 +4,14 @@ from __future__ import annotations
 
 import numpy as np
 from scipy.sparse import coo_matrix, csr_matrix
+from time import perf_counter
+import warnings
 
+from solveur.core.assembly_plan import AssemblyElementPlan, AssemblyPlan
 from solveur.core.dofs import DOF_ORDER, DofManager
 from solveur.core.errors import InputValidationError
 from solveur.core.model import FiniteElementModel
+from solveur.core.sparse_accumulator import SparseCsrAccumulator
 from solveur.elements.registry import ElementRegistry
 from solveur.loads.integration import DistributedLoadIntegrator, load_balance
 from solveur.materials.factory import MaterialFactory
@@ -20,16 +24,159 @@ class GlobalAssembler:
         if chunk_size <= 0:
             raise ValueError("Assembly chunk_size must be positive.")
         self.chunk_size = int(chunk_size)
-        self.last_diagnostics: dict[str, int | str] = {}
+        self.last_diagnostics: dict[str, object] = {}
         self.last_load_diagnostics: dict[str, object] = {}
         self.last_load_vectors: list[np.ndarray] = []
         self.last_load_vector = np.zeros(0, dtype=float)
 
-    def assemble_stiffness(self, model: FiniteElementModel, dofs: DofManager) -> csr_matrix:
-        return self._assemble_matrix(model, dofs, "stiffness")
+    def assemble_stiffness(
+        self,
+        model: FiniteElementModel,
+        dofs: DofManager,
+        *,
+        plan: AssemblyPlan | None = None,
+    ) -> csr_matrix:
+        return self._assemble_matrix(model, dofs, "stiffness", plan=plan)
 
-    def assemble_mass(self, model: FiniteElementModel, dofs: DofManager) -> csr_matrix:
-        return self._assemble_matrix(model, dofs, "mass")
+    def assemble_mass(
+        self,
+        model: FiniteElementModel,
+        dofs: DofManager,
+        *,
+        plan: AssemblyPlan | None = None,
+    ) -> csr_matrix:
+        return self._assemble_matrix(model, dofs, "mass", plan=plan)
+
+    def assemble_stiffness_and_mass(
+        self,
+        model: FiniteElementModel,
+        dofs: DofManager,
+        *,
+        plan: AssemblyPlan | None = None,
+    ) -> tuple[csr_matrix, csr_matrix, dict[str, object], dict[str, object]]:
+        """Assemble K and M together while reusing each chunk's sparse motif.
+
+        The local element matrices remain separate and are never cached. Only
+        the DDL mapping and the temporary row/column buffers are shared; this
+        keeps the optimization valid for geometry-, orientation- and
+        state-dependent materials without retaining a global dense-like
+        assembly pattern.
+        """
+        chunk_size = self._configured_chunk_size(model)
+        plan_reused = plan is not None
+        if plan is None:
+            plan = self.prepare_plan(model, dofs)
+        elif not plan.matches(model, dofs, chunk_size=chunk_size):
+            raise InputValidationError("Assembly plan does not match the supplied model and DDL map.")
+        planned_peak_entries = self._planned_peak_entries(plan, chunk_size)
+        memory_estimate, memory_budget, budget_exceeded = self._assembly_memory_policy(
+            model,
+            planned_peak_entries,
+            matrix_count=2,
+            index_bytes=int(_assembly_index_dtype(dofs.ndof).itemsize),
+        )
+        stiffness_accumulator = SparseCsrAccumulator((dofs.ndof, dofs.ndof))
+        mass_accumulator = SparseCsrAccumulator((dofs.ndof, dofs.ndof))
+        material_cache: dict[str, object] = {}
+        element_cache: dict[tuple[str, str], object] = {}
+        total_entries = 0
+        peak_chunk_entries = 0
+        chunk_count = 0
+        element_kernel_seconds = 0.0
+        sparse_conversion_seconds = 0.0
+        chunk_fusion_seconds = 0.0
+        for start in range(0, len(plan.elements), chunk_size):
+            entries = plan.elements[start : start + chunk_size]
+            stiffness_chunk, mass_chunk, entry_count, kernel_seconds, conversion_seconds = (
+                self._matrix_chunk_pair(
+                    model,
+                    dofs,
+                    entries,
+                    material_cache=material_cache,
+                    element_cache=element_cache,
+                )
+            )
+            element_kernel_seconds += kernel_seconds
+            sparse_conversion_seconds += conversion_seconds
+            fusion_started = perf_counter()
+            stiffness_accumulator.add(stiffness_chunk)
+            mass_accumulator.add(mass_chunk)
+            chunk_fusion_seconds += perf_counter() - fusion_started
+            total_entries += entry_count
+            peak_chunk_entries = max(peak_chunk_entries, entry_count)
+            chunk_count += 1
+        finalize_started = perf_counter()
+        stiffness = stiffness_accumulator.finalize()
+        mass = mass_accumulator.finalize()
+        sparse_finalize_seconds = perf_counter() - finalize_started
+        discrete_started = perf_counter()
+        discrete_stiffness = self._discrete_matrix(model, dofs, "stiffness")
+        discrete_mass = self._discrete_matrix(model, dofs, "mass")
+        if discrete_stiffness.nnz:
+            stiffness = (stiffness + discrete_stiffness).tocsr()
+        if discrete_mass.nnz:
+            mass = (mass + discrete_mass).tocsr()
+        for matrix in (stiffness, mass):
+            matrix.sum_duplicates()
+            matrix.eliminate_zeros()
+        discrete_seconds = perf_counter() - discrete_started
+        common = {
+            "chunk_size": chunk_size,
+            "chunk_count": chunk_count,
+            "element_count": len(model.elements),
+            "coefficient_entry_count": total_entries,
+            "peak_chunk_entry_count": peak_chunk_entries,
+            "assembly_peak_memory_estimate_bytes": memory_estimate,
+            "assembly_memory_budget_bytes": memory_budget,
+            "assembly_memory_budget_exceeded": budget_exceeded,
+            "assembly_index_dtype": _assembly_index_dtype(dofs.ndof).name,
+            "assembly_plan_reused": plan_reused,
+            "paired_assembly": True,
+            "shared_chunk_pattern": True,
+            "assembly_phase_seconds": {
+                "assembly_plan": 0.0 if plan_reused else plan.build_seconds,
+                "element_kernel": element_kernel_seconds,
+                "chunk_sparse_conversion": sparse_conversion_seconds,
+                "chunk_fusion": chunk_fusion_seconds,
+                "sparse_finalize": sparse_finalize_seconds,
+                "discrete_merge": discrete_seconds,
+            },
+        }
+        stiffness_diagnostics = {
+            **common,
+            "matrix": "stiffness",
+            "accumulator_chunk_count": stiffness_accumulator.chunk_count,
+            "accumulator_occupied_levels": stiffness_accumulator.occupied_levels,
+            "final_nnz": int(stiffness.nnz),
+            "spring_count": len(model.springs),
+            "concentrated_mass_count": len(model.concentrated_masses),
+        }
+        mass_diagnostics = {
+            **common,
+            "matrix": "mass",
+            "accumulator_chunk_count": mass_accumulator.chunk_count,
+            "accumulator_occupied_levels": mass_accumulator.occupied_levels,
+            "final_nnz": int(mass.nnz),
+            "spring_count": len(model.springs),
+            "concentrated_mass_count": len(model.concentrated_masses),
+        }
+        self.last_diagnostics = mass_diagnostics
+        return stiffness, mass, stiffness_diagnostics, mass_diagnostics
+
+    def prepare_plan(self, model: FiniteElementModel, dofs: DofManager) -> AssemblyPlan:
+        """Build reusable element and DDL metadata for one model instance."""
+        started = perf_counter()
+        plan = AssemblyPlan.build(model, dofs, chunk_size=self._configured_chunk_size(model))
+        return AssemblyPlan(
+            model_token=plan.model_token,
+            node_count=plan.node_count,
+            ndof=plan.ndof,
+            dof_signature=plan.dof_signature,
+            elements=plan.elements,
+            chunk_size=plan.chunk_size,
+            fingerprint=plan.fingerprint,
+            build_seconds=perf_counter() - started,
+        )
 
     def assemble_loads(self, model: FiniteElementModel, dofs: DofManager) -> np.ndarray:
         total, _ = self._assemble_load_data(model, dofs, keep_vectors=False)
@@ -112,17 +259,39 @@ class GlobalAssembler:
             force[indices] += matrix @ np.asarray(displacement, dtype=float)[indices]
         return force
 
-    def _assemble_matrix(self, model: FiniteElementModel, dofs: DofManager, matrix_name: str) -> csr_matrix:
+    def _assemble_matrix(
+        self,
+        model: FiniteElementModel,
+        dofs: DofManager,
+        matrix_name: str,
+        *,
+        plan: AssemblyPlan | None,
+    ) -> csr_matrix:
         chunk_size = self._configured_chunk_size(model)
-        accumulator = _CsrAccumulator((dofs.ndof, dofs.ndof))
+        plan_reused = plan is not None
+        if plan is None:
+            plan = self.prepare_plan(model, dofs)
+        elif not plan.matches(model, dofs, chunk_size=chunk_size):
+            raise InputValidationError("Assembly plan does not match the supplied model and DDL map.")
+        planned_peak_entries = self._planned_peak_entries(plan, chunk_size)
+        memory_estimate, memory_budget, budget_exceeded = self._assembly_memory_policy(
+            model,
+            planned_peak_entries,
+            matrix_count=1,
+            index_bytes=int(_assembly_index_dtype(dofs.ndof).itemsize),
+        )
+        accumulator = SparseCsrAccumulator((dofs.ndof, dofs.ndof))
         material_cache: dict[str, object] = {}
         element_cache: dict[tuple[str, str], object] = {}
         total_entries = 0
         peak_chunk_entries = 0
         chunk_count = 0
-        for start in range(0, len(model.elements), chunk_size):
-            definitions = model.elements[start : start + chunk_size]
-            chunk, entry_count = self._matrix_chunk(
+        element_kernel_seconds = 0.0
+        sparse_conversion_seconds = 0.0
+        chunk_fusion_seconds = 0.0
+        for start in range(0, len(plan.elements), chunk_size):
+            definitions = plan.elements[start : start + chunk_size]
+            chunk, entry_count, kernel_seconds, conversion_seconds = self._matrix_chunk(
                 model,
                 dofs,
                 definitions,
@@ -130,16 +299,24 @@ class GlobalAssembler:
                 material_cache=material_cache,
                 element_cache=element_cache,
             )
+            element_kernel_seconds += kernel_seconds
+            sparse_conversion_seconds += conversion_seconds
+            fusion_started = perf_counter()
             accumulator.add(chunk)
+            chunk_fusion_seconds += perf_counter() - fusion_started
             total_entries += entry_count
             peak_chunk_entries = max(peak_chunk_entries, entry_count)
             chunk_count += 1
+        finalize_started = perf_counter()
         matrix = accumulator.finalize()
+        sparse_finalize_seconds = perf_counter() - finalize_started
+        discrete_started = perf_counter()
         discrete = self._discrete_matrix(model, dofs, matrix_name)
         if discrete.nnz:
             matrix = (matrix + discrete).tocsr()
         matrix.sum_duplicates()
         matrix.eliminate_zeros()
+        discrete_seconds = perf_counter() - discrete_started
         self.last_diagnostics = {
             "matrix": matrix_name,
             "chunk_size": chunk_size,
@@ -147,6 +324,21 @@ class GlobalAssembler:
             "element_count": len(model.elements),
             "coefficient_entry_count": total_entries,
             "peak_chunk_entry_count": peak_chunk_entries,
+            "assembly_peak_memory_estimate_bytes": memory_estimate,
+            "assembly_memory_budget_bytes": memory_budget,
+            "assembly_memory_budget_exceeded": budget_exceeded,
+            "assembly_index_dtype": _assembly_index_dtype(dofs.ndof).name,
+            "accumulator_chunk_count": accumulator.chunk_count,
+            "accumulator_occupied_levels": accumulator.occupied_levels,
+            "assembly_plan_reused": plan_reused,
+            "assembly_phase_seconds": {
+                "assembly_plan": 0.0 if plan_reused else plan.build_seconds,
+                "element_kernel": element_kernel_seconds,
+                "chunk_sparse_conversion": sparse_conversion_seconds,
+                "chunk_fusion": chunk_fusion_seconds,
+                "sparse_finalize": sparse_finalize_seconds,
+                "discrete_merge": discrete_seconds,
+            },
             "final_nnz": int(matrix.nnz),
             "spring_count": len(model.springs),
             "concentrated_mass_count": len(model.concentrated_masses),
@@ -190,20 +382,23 @@ class GlobalAssembler:
         self,
         model: FiniteElementModel,
         dofs: DofManager,
-        definitions: list[object],
+        definitions: list[AssemblyElementPlan],
         matrix_name: str,
         *,
         material_cache: dict[str, object],
         element_cache: dict[tuple[str, str], object],
-    ) -> tuple[csr_matrix, int]:
-        entry_count = sum(self._local_entry_count(definition) for definition in definitions)
-        rows = np.empty(entry_count, dtype=np.int64)
-        cols = np.empty(entry_count, dtype=np.int64)
+    ) -> tuple[csr_matrix, int, float, float]:
+        entry_count = sum(definition.entry_count for definition in definitions)
+        index_dtype = _assembly_index_dtype(dofs.ndof)
+        rows = np.empty(entry_count, dtype=index_dtype)
+        cols = np.empty(entry_count, dtype=index_dtype)
         values = np.empty(entry_count, dtype=float)
         offset = 0
-        for definition in definitions:
-            spec = ElementRegistry.get(definition.type)
-            coords = model.nodes[list(definition.nodes)]
+        kernel_started = perf_counter()
+        for entry in definitions:
+            definition = entry.definition
+            spec = entry.spec
+            coords = entry.coordinates
             material_data = model.materials[definition.material]
             cacheable_material = "orientation_field" not in material_data
             if cacheable_material:
@@ -224,16 +419,80 @@ class GlobalAssembler:
             if matrix_name == "mass" and not hasattr(element, "mass"):
                 raise InputValidationError(f"Element {definition.type} does not provide a mass matrix.")
             local = element.stiffness(coords) if matrix_name == "stiffness" else element.mass(coords)
-            edofs = np.asarray(self._element_dofs(definition.nodes, spec.dofs, dofs), dtype=np.int64)
+            edofs = entry.global_dofs
             local_size = edofs.size
             next_offset = offset + local_size**2
             rows[offset:next_offset] = np.repeat(edofs, local_size)
             cols[offset:next_offset] = np.tile(edofs, local_size)
             values[offset:next_offset] = np.asarray(local, dtype=float).reshape(-1)
             offset = next_offset
+        kernel_seconds = perf_counter() - kernel_started
+        conversion_started = perf_counter()
         chunk = coo_matrix((values, (rows, cols)), shape=(dofs.ndof, dofs.ndof)).tocsr()
         chunk.sum_duplicates()
-        return chunk, entry_count
+        conversion_seconds = perf_counter() - conversion_started
+        return chunk, entry_count, kernel_seconds, conversion_seconds
+
+    def _matrix_chunk_pair(
+        self,
+        model: FiniteElementModel,
+        dofs: DofManager,
+        definitions: tuple[AssemblyElementPlan, ...],
+        *,
+        material_cache: dict[str, object],
+        element_cache: dict[tuple[str, str], object],
+    ) -> tuple[csr_matrix, csr_matrix, int, float, float]:
+        """Build stiffness and mass chunks with one row/column motif."""
+        entry_count = sum(entry.entry_count for entry in definitions)
+        index_dtype = _assembly_index_dtype(dofs.ndof)
+        rows = np.empty(entry_count, dtype=index_dtype)
+        cols = np.empty(entry_count, dtype=index_dtype)
+        stiffness_values = np.empty(entry_count, dtype=float)
+        mass_values = np.empty(entry_count, dtype=float)
+        offset = 0
+        kernel_started = perf_counter()
+        for entry in definitions:
+            definition = entry.definition
+            spec = entry.spec
+            coords = entry.coordinates
+            material_data = model.materials[definition.material]
+            cacheable_material = "orientation_field" not in material_data
+            if cacheable_material:
+                material = material_cache.get(definition.material)
+                if material is None:
+                    material = MaterialFactory.create(material_data, coordinates=coords)
+                    material_cache[definition.material] = material
+            else:
+                material = MaterialFactory.create(material_data, coordinates=coords)
+            element_key = (str(definition.type), str(definition.material))
+            if cacheable_material:
+                element = element_cache.get(element_key)
+                if element is None:
+                    element = spec.factory(material)
+                    element_cache[element_key] = element
+            else:
+                element = spec.factory(material)
+            if not hasattr(element, "mass"):
+                raise InputValidationError(f"Element {definition.type} does not provide a mass matrix.")
+            local_stiffness = np.asarray(element.stiffness(coords), dtype=float)
+            local_mass = np.asarray(element.mass(coords), dtype=float)
+            edofs = entry.global_dofs
+            local_size = edofs.size
+            next_offset = offset + local_size**2
+            rows[offset:next_offset] = np.repeat(edofs, local_size)
+            cols[offset:next_offset] = np.tile(edofs, local_size)
+            stiffness_values[offset:next_offset] = local_stiffness.reshape(-1)
+            mass_values[offset:next_offset] = local_mass.reshape(-1)
+            offset = next_offset
+        kernel_seconds = perf_counter() - kernel_started
+        conversion_started = perf_counter()
+        shape = (dofs.ndof, dofs.ndof)
+        stiffness = coo_matrix((stiffness_values, (rows, cols)), shape=shape).tocsr()
+        mass = coo_matrix((mass_values, (rows, cols)), shape=shape).tocsr()
+        stiffness.sum_duplicates()
+        mass.sum_duplicates()
+        conversion_seconds = perf_counter() - conversion_started
+        return stiffness, mass, entry_count, kernel_seconds, conversion_seconds
 
     def _configured_chunk_size(self, model: FiniteElementModel) -> int:
         raw = model.analysis.parameters.get("assembly_chunk_size", self.chunk_size)
@@ -244,6 +503,53 @@ class GlobalAssembler:
         if chunk_size <= 0:
             raise InputValidationError("assembly_chunk_size must be a positive integer.")
         return chunk_size
+
+    @staticmethod
+    def _planned_peak_entries(plan: AssemblyPlan, chunk_size: int) -> int:
+        """Estimate the largest temporary COO chunk before allocating it."""
+        return max(
+            (
+                sum(entry.entry_count for entry in plan.elements[start : start + chunk_size])
+                for start in range(0, len(plan.elements), chunk_size)
+            ),
+            default=0,
+        )
+
+    @staticmethod
+    def _assembly_memory_policy(
+        model: FiniteElementModel,
+        peak_entries: int,
+        *,
+        matrix_count: int,
+        index_bytes: int,
+    ) -> tuple[int, int | None, bool]:
+        """Estimate chunk allocation and enforce an optional user budget."""
+        if matrix_count <= 0:
+            raise ValueError("matrix_count must be positive")
+        if index_bytes not in {4, 8}:
+            raise ValueError("assembly index storage must use 4 or 8 bytes")
+        # COO indices, values and conversion workspaces are deliberately
+        # estimated conservatively; this is a guard, not a platform profiler.
+        estimate = int(peak_entries * (2 * index_bytes + 8 * matrix_count) * 2)
+        raw_budget = model.analysis.parameters.get("assembly_memory_budget_mb")
+        budget = None
+        if raw_budget is not None:
+            try:
+                budget = int(float(raw_budget) * 1024**2)
+            except (TypeError, ValueError) as exc:
+                raise InputValidationError("assembly_memory_budget_mb must be positive.") from exc
+            if budget <= 0:
+                raise InputValidationError("assembly_memory_budget_mb must be positive.")
+        exceeded = budget is not None and estimate > budget
+        if exceeded:
+            message = (
+                "Estimated sparse assembly chunk memory exceeds assembly_memory_budget_mb: "
+                f"estimated={estimate / 1024**2:.1f} MiB, budget={budget / 1024**2:.1f} MiB."
+            )
+            if bool(model.analysis.parameters.get("enforce_assembly_memory_budget", False)):
+                raise InputValidationError(message)
+            warnings.warn(message, RuntimeWarning, stacklevel=3)
+        return estimate, budget, exceeded
 
     @staticmethod
     def _local_entry_count(definition: object) -> int:
@@ -257,33 +563,6 @@ class GlobalAssembler:
         for node in nodes:
             indices.extend(dofs.node_indices(int(node), names))
         return indices
-
-
-class _CsrAccumulator:
-    """Merge CSR chunks pairwise while keeping only logarithmically many blocks."""
-
-    def __init__(self, shape: tuple[int, int]) -> None:
-        self.shape = shape
-        self.levels: list[csr_matrix | None] = []
-
-    def add(self, matrix: csr_matrix) -> None:
-        carry = matrix
-        level = 0
-        while level < len(self.levels) and self.levels[level] is not None:
-            carry = (self.levels[level] + carry).tocsr()
-            self.levels[level] = None
-            level += 1
-        if level == len(self.levels):
-            self.levels.append(carry)
-        else:
-            self.levels[level] = carry
-
-    def finalize(self) -> csr_matrix:
-        result = csr_matrix(self.shape, dtype=float)
-        for matrix in self.levels:
-            if matrix is not None:
-                result = (result + matrix).tocsr()
-        return result
 
 
 def _append_dense_block(
@@ -304,3 +583,9 @@ def _append_dense_block(
                 rows.append(global_row)
                 cols.append(global_col)
                 values.append(value)
+
+
+def _assembly_index_dtype(ndof: int) -> np.dtype:
+    """Use compact COO indices while the global DDL range is int32-safe."""
+
+    return np.dtype(np.int32 if ndof <= np.iinfo(np.int32).max else np.int64)

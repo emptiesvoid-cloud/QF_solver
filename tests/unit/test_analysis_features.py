@@ -276,6 +276,10 @@ def test_transient_dynamic_newmark_returns_time_history():
     assert data["solver"]["effective_factorization_reused"] is True
     assert data["solver"]["effective_factorization_count"] == 1
     assert data["solver"]["effective_factorization_solve_count"] == 8
+    assert data["solver"]["effective_factorization_seconds"] >= 0.0
+    assert data["solver"]["effective_factorization_solve_seconds_total"] >= 0.0
+    assert data["solver"]["effective_factorization_last_solve_seconds"] >= 0.0
+    assert data["solver"]["linear_execution"]["effective_matrix_nnz"] > 0
     assert data["solver"]["linear_selection"]["recommended_method"] == "cg"
     assert data["solver"]["linear_execution"]["used_method"] == "splu_reuse"
     assert data["solver"]["linear_execution"]["factorization_reused"] is True

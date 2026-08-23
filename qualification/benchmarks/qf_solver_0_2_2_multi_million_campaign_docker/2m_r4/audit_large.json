@@ -1,0 +1,153 @@
+{
+  "status": "PASS",
+  "errors": [],
+  "warnings": [],
+  "details": {
+    "node_count": 681472,
+    "element_count": 3951018,
+    "ndof": 2044416,
+    "fixed_dof_count": 23232,
+    "local_fixed_dof_count": 23232,
+    "local_fixed_dof_counts": [
+      23232,
+      0,
+      0,
+      0
+    ],
+    "free_dof_count": 2021184,
+    "load_count": 7744,
+    "local_load_count": 0,
+    "local_load_counts": [
+      0,
+      0,
+      0,
+      7744
+    ],
+    "distributed_input": true,
+    "mpi_size": 4,
+    "local_element_counts": [
+      987754,
+      987755,
+      987754,
+      987755
+    ],
+    "local_compact_node_counts": [
+      176199,
+      176288,
+      176288,
+      176199
+    ],
+    "local_owned_node_counts": [
+      170368,
+      170368,
+      170368,
+      170368
+    ],
+    "local_halo_node_counts": [
+      5831,
+      5920,
+      5920,
+      5831
+    ],
+    "max_halo_node_count": 5920,
+    "halo_node_ratio_max": 0.03358141223452532,
+    "mpi_communication": {
+      "local_compact_node_counts": [
+        176199,
+        176288,
+        176288,
+        176199
+      ],
+      "local_owned_node_counts": [
+        170368,
+        170368,
+        170368,
+        170368
+      ],
+      "local_halo_node_counts": [
+        5831,
+        5920,
+        5920,
+        5831
+      ],
+      "max_halo_node_count": 5920,
+      "halo_node_ratio_max": 0.03358141223452532,
+      "estimated_halo_coordinate_bytes_by_rank": [
+        139944,
+        142080,
+        142080,
+        139944
+      ],
+      "estimated_halo_coordinate_bytes_total": 564048,
+      "local_fixed_dof_counts": [
+        23232,
+        0,
+        0,
+        0
+      ],
+      "local_load_counts": [
+        0,
+        0,
+        0,
+        7744
+      ],
+      "estimated_fixed_payload_bytes_by_rank": [
+        209088,
+        0,
+        0,
+        0
+      ],
+      "estimated_load_payload_bytes_by_rank": [
+        0,
+        0,
+        0,
+        131648
+      ],
+      "estimated_boundary_payload_bytes_total": 340736,
+      "graph_cut_face_count": 0,
+      "graph_cut_face_ratio": 0.0
+    },
+    "replicated_connectivity": false,
+    "replicated_global_nodes": false,
+    "partition_strategy": "contiguous",
+    "partition": {
+      "strategy": "contiguous",
+      "partitioner": "index_range",
+      "local_element_counts": [
+        987754,
+        987755,
+        987754,
+        987755
+      ],
+      "node_read": {
+        "method": "blocked_hdf5_ranges",
+        "local_time_s": 0.049761850998038426,
+        "max_time_s": 0.08605497499229386,
+        "block_size": 262144,
+        "local_node_count": 176199
+      },
+      "boundary_conditions": {
+        "method": "chunked_hdf5_filter",
+        "local_time_s": 0.20487903399043716,
+        "max_time_s": 0.20487903399043716,
+        "fixed_global_count": 23232,
+        "fixed_local_count": 23232,
+        "load_global_count": 7744,
+        "load_local_count": 0,
+        "loads_owned_by_dof_range": true,
+        "fixed_kept_for_element_halo_or_dof_owner": true
+      }
+    },
+    "minimum_signed_volume": 2.5309932781880425e-07,
+    "invalid_volume_count": 0,
+    "solution": {
+      "displacement_norm": 2.2174226778355884e-06,
+      "load_norm": 11.363636363636369,
+      "true_residual_norm": 4.659333945650462e-10,
+      "strain_energy": 2.312691812179898e-06,
+      "external_work": 4.62538362435981e-06
+    },
+    "error_count": 0,
+    "warning_count": 0
+  }
+}

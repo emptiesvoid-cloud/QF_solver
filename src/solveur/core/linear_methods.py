@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import warnings
 from dataclasses import dataclass, field
+from time import perf_counter
 from typing import Any
 
 import numpy as np
@@ -11,6 +12,7 @@ from scipy.sparse import csr_matrix
 from scipy.sparse.linalg import MatrixRankWarning, LinearOperator, bicgstab, cg, gmres, minres, spilu, splu, spsolve
 
 from solveur.core.errors import NumericalConvergenceError
+from solveur.core.solver_backend import select_backend, solve_with_petsc
 
 
 @dataclass(frozen=True)
@@ -23,6 +25,11 @@ class LinearSolveInfo:
     converged: bool
     preconditioner: str = "none"
     residual_history: list[float] = field(default_factory=list)
+    backend: str = "scipy"
+    initial_residual_norm: float = 0.0
+    relative_residual_norm: float = 0.0
+    tolerance: float | None = None
+    termination_reason: str = "converged"
 
     def to_dict(self) -> dict[str, float | int | str | bool | list[float]]:
         return {
@@ -32,6 +39,11 @@ class LinearSolveInfo:
             "converged": self.converged,
             "preconditioner": self.preconditioner,
             "residual_history": self.residual_history,
+            "backend": self.backend,
+            "initial_residual_norm": self.initial_residual_norm,
+            "relative_residual_norm": self.relative_residual_norm,
+            "tolerance": self.tolerance,
+            "termination_reason": self.termination_reason,
         }
 
 
@@ -43,21 +55,31 @@ class ReusableSparseFactorization:
         self.parameters = dict(parameters or {})
         self.factorization_count = 1
         self.solve_count = 0
+        self.factorization_seconds = 0.0
+        self.solve_seconds_total = 0.0
+        self.last_solve_seconds = 0.0
+        started = perf_counter()
         try:
             self._factor = splu(self.matrix.tocsc())
         except (RuntimeError, ValueError) as exc:
             raise NumericalConvergenceError(f"Sparse LU factorization failed: {exc}") from exc
+        self.factorization_seconds = perf_counter() - started
 
     def solve(self, rhs: np.ndarray) -> tuple[np.ndarray, LinearSolveInfo]:
         """Solve one right-hand side and validate the normalized residual."""
+        started = perf_counter()
         try:
             solution = np.asarray(self._factor.solve(np.asarray(rhs, dtype=float)), dtype=float)
         except (FloatingPointError, RuntimeError, ValueError) as exc:
             raise NumericalConvergenceError(f"Reusable sparse solve failed: {exc}") from exc
+        elapsed = perf_counter() - started
         self.solve_count += 1
-        residual = LinearSystemSolver._validated_residual(
+        self.last_solve_seconds = elapsed
+        self.solve_seconds_total += elapsed
+        rhs_array = np.asarray(rhs, dtype=float)
+        residual, relative = LinearSystemSolver._validated_residual_metrics(
             self.matrix,
-            np.asarray(rhs, dtype=float),
+            rhs_array,
             solution,
             "splu_reuse",
             self.parameters,
@@ -68,6 +90,9 @@ class ReusableSparseFactorization:
             residual,
             True,
             residual_history=[residual],
+            initial_residual_norm=float(np.linalg.norm(rhs_array)),
+            relative_residual_norm=relative,
+            tolerance=_reported_tolerance("splu_reuse", self.parameters),
         )
 
 
@@ -93,6 +118,25 @@ class LinearSystemSolver:
     ) -> tuple[np.ndarray, LinearSolveInfo]:
         parameters = parameters or {}
         normalized = method.lower()
+        if normalized == "auto":
+            raise ValueError("LinearSystemSolver.solve requires an effective method; resolve 'auto' through LinearSolverPolicy.")
+        backend = select_backend(parameters.get("backend", "auto"), problem_size=matrix.shape[0], parameters=parameters)
+        if backend.selected == "petsc":
+            solution, iterations, _ = solve_with_petsc(matrix, rhs, normalized, parameters)
+            residual, relative = self._validated_residual_metrics(matrix, rhs, solution, normalized, parameters)
+            initial = float(np.linalg.norm(np.asarray(rhs, dtype=float)))
+            return solution, LinearSolveInfo(
+                normalized,
+                iterations,
+                residual,
+                True,
+                str(parameters.get("preconditioner", "none")),
+                residual_history=[residual],
+                backend="petsc",
+                initial_residual_norm=initial,
+                relative_residual_norm=relative,
+                tolerance=_reported_tolerance(normalized, parameters),
+            )
         if normalized in {"direct", "spsolve"}:
             try:
                 with warnings.catch_warnings():
@@ -102,8 +146,18 @@ class LinearSystemSolver:
                 raise NumericalConvergenceError("Direct sparse solve failed because the matrix is singular.") from exc
             except (FloatingPointError, RuntimeError, ValueError) as exc:
                 raise NumericalConvergenceError(f"Direct sparse solve failed: {exc}") from exc
-            residual = self._validated_residual(matrix, rhs, solution, normalized, parameters)
-            return solution, LinearSolveInfo(normalized, 1, residual, True, residual_history=[residual])
+            residual, relative = self._validated_residual_metrics(matrix, rhs, solution, normalized, parameters)
+            initial = float(np.linalg.norm(np.asarray(rhs, dtype=float)))
+            return solution, LinearSolveInfo(
+                normalized,
+                1,
+                residual,
+                True,
+                residual_history=[residual],
+                initial_residual_norm=initial,
+                relative_residual_norm=relative,
+                tolerance=_reported_tolerance(normalized, parameters),
+            )
         if normalized in {"cg", "conjugate_gradient"}:
             return self._iterative(cg, matrix, rhs, "cg", parameters)
         if normalized == "gmres":
@@ -113,6 +167,37 @@ class LinearSystemSolver:
         if normalized == "minres":
             return self._iterative_minres(matrix, rhs, parameters)
         raise ValueError(f"Unsupported linear method {method!r}.")
+
+    def solve_complex(
+        self,
+        matrix: csr_matrix,
+        rhs: np.ndarray,
+        *,
+        parameters: dict[str, Any] | None = None,
+    ) -> tuple[np.ndarray, LinearSolveInfo]:
+        """Solve one complex sparse system used by harmonic response."""
+
+        params = parameters or {}
+        backend = select_backend("scipy", problem_size=matrix.shape[0], parameters=params)
+        try:
+            with warnings.catch_warnings():
+                warnings.simplefilter("error", MatrixRankWarning)
+                solution = np.asarray(spsolve(matrix.tocsc(), np.asarray(rhs, dtype=complex)), dtype=complex)
+        except MatrixRankWarning as exc:
+            raise NumericalConvergenceError("Complex sparse solve failed because the matrix is singular.") from exc
+        except (FloatingPointError, RuntimeError, ValueError) as exc:
+            raise NumericalConvergenceError(f"Complex sparse solve failed: {exc}") from exc
+        residual, relative = self._validated_residual_metrics(matrix, rhs, solution, "direct_frequency", params)
+        return solution, LinearSolveInfo(
+            "direct_frequency",
+            1,
+            residual,
+            True,
+            backend=backend.selected,
+            initial_residual_norm=float(np.linalg.norm(np.asarray(rhs, dtype=complex))),
+            relative_residual_norm=relative,
+            tolerance=_reported_tolerance("direct_frequency", params),
+        )
 
     @staticmethod
     def _iterative(
@@ -144,7 +229,7 @@ class LinearSystemSolver:
         if info != 0:
             reason = "iteration limit reached" if info > 0 else "illegal input or numerical breakdown"
             raise NumericalConvergenceError(f"{method} did not converge ({reason}, info={info}).")
-        residual = LinearSystemSolver._validated_residual(matrix, rhs, solution, method, parameters)
+        residual, relative = LinearSystemSolver._validated_residual_metrics(matrix, rhs, solution, method, parameters)
         LinearSystemSolver._append_final_residual(residual_history, residual)
         return solution, LinearSolveInfo(
             method,
@@ -153,6 +238,9 @@ class LinearSystemSolver:
             True,
             str(parameters.get("preconditioner", "none")),
             residual_history=residual_history,
+            initial_residual_norm=float(np.linalg.norm(np.asarray(rhs, dtype=float))),
+            relative_residual_norm=relative,
+            tolerance=_reported_tolerance(method, parameters),
         )
 
     @staticmethod
@@ -181,7 +269,7 @@ class LinearSystemSolver:
         if info != 0:
             reason = "iteration limit reached" if info > 0 else "illegal input or numerical breakdown"
             raise NumericalConvergenceError(f"minres did not converge ({reason}, info={info}).")
-        residual = LinearSystemSolver._validated_residual(matrix, rhs, solution, "minres", parameters)
+        residual, relative = LinearSystemSolver._validated_residual_metrics(matrix, rhs, solution, "minres", parameters)
         LinearSystemSolver._append_final_residual(residual_history, residual)
         return solution, LinearSolveInfo(
             "minres",
@@ -190,6 +278,9 @@ class LinearSystemSolver:
             True,
             str(parameters.get("preconditioner", "none")),
             residual_history=residual_history,
+            initial_residual_norm=float(np.linalg.norm(np.asarray(rhs, dtype=float))),
+            relative_residual_norm=relative,
+            tolerance=_reported_tolerance("minres", parameters),
         )
 
     @staticmethod
@@ -242,6 +333,19 @@ class LinearSystemSolver:
     ) -> float:
         if not np.all(np.isfinite(solution)):
             raise NumericalConvergenceError(f"{method} produced a non-finite solution.")
+        residual, _ = LinearSystemSolver._validated_residual_metrics(matrix, rhs, solution, method, parameters)
+        return residual
+
+    @staticmethod
+    def _validated_residual_metrics(
+        matrix: csr_matrix,
+        rhs: np.ndarray,
+        solution: np.ndarray,
+        method: str,
+        parameters: dict[str, Any],
+    ) -> tuple[float, float]:
+        if not np.all(np.isfinite(solution)):
+            raise NumericalConvergenceError(f"{method} produced a non-finite solution.")
         product = matrix @ solution
         residual = float(np.linalg.norm(product - rhs))
         reference = max(float(np.linalg.norm(rhs)), float(np.linalg.norm(product)), 1.0)
@@ -253,4 +357,10 @@ class LinearSystemSolver:
             raise NumericalConvergenceError(
                 f"{method} residual is abnormal: relative={relative:.6e}, allowed={limit:.6e}."
             )
-        return residual
+        return residual, relative
+
+
+def _reported_tolerance(method: str, parameters: dict[str, Any]) -> float | None:
+    if method.lower() in {"direct", "spsolve", "splu", "direct_frequency"}:
+        return float(parameters.get("residual_failure_tolerance", 1.0e-7))
+    return float(parameters.get("rtol", 1.0e-10))

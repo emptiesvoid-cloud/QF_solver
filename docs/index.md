@@ -2,7 +2,7 @@
 doc_id: DOC-STATE-001
 revision: 0.1
 status: draft technique
-applicable_version: 0.2.1a0
+applicable_version: 0.2.2a0
 reviewer: ""
 approver: ""
 ---
@@ -23,9 +23,11 @@ aeronautique sans revue independante.
 
 --8<-- "docs/generated/status.md"
 
-La release en preparation `0.2.1a0` est une alpha V&V. Son [pack de readiness](verification/release_vv_0_2_1.md)
-separe les deux scopes de reference, les scopes candidats, la campagne et la
-revue Owner.
+La release en preparation `0.2.2a0` est une alpha de renforcement du backend
+numerique. Son [rapport backend](verification/qf_solver_0_2_2_alpha_backend_report.md)
+decrit la selection des solveurs, les diagnostics et le benchmark sparse ; la
+[feuille de route](../prochaines_etapes.md#qf-solver-022-alpha--feuille-de-route-backend-numerique)
+separe les etapes implementees des travaux encore a mesurer.
 
 ## Lire ce site comme un ingenieur calcul
 

@@ -1,0 +1,212 @@
+{
+  "status": "PASS",
+  "input": "/workspace/results_large/qf_solver_0_2_2_multi_million_docker/model_2m.h5",
+  "node_count": 681472,
+  "element_count": 3951018,
+  "ndof": 2044416,
+  "backend": "petsc",
+  "chunk_size": 4096,
+  "matrix_format": "baij",
+  "partition_strategy": "graph",
+  "partition_details": {
+    "strategy": "graph",
+    "partitioner": "ptscotch",
+    "local_element_counts": [
+      979436,
+      986576,
+      989370,
+      995636
+    ],
+    "imbalance_ratio": 1.0079792094088156,
+    "interior_face_count": 7856622,
+    "cut_face_count": 31100,
+    "cut_face_ratio": 0.003958444227048215,
+    "non_manifold_face_count": 0,
+    "timings": {
+      "dual_graph_max_s": 3.5150209610001184,
+      "partition_apply_max_s": 1.5863783640088513,
+      "cut_faces_max_s": 2.234085161006078,
+      "redistribute_elements_max_s": 0.19638852900243364
+    },
+    "node_read": {
+      "method": "blocked_hdf5_ranges",
+      "local_time_s": 0.21101263098535128,
+      "max_time_s": 0.21101263098535128,
+      "block_size": 262144,
+      "local_node_count": 173156
+    },
+    "boundary_conditions": {
+      "method": "chunked_hdf5_filter",
+      "local_time_s": 0.23192624500370584,
+      "max_time_s": 0.24422903900267556,
+      "fixed_global_count": 23232,
+      "fixed_local_count": 23232,
+      "load_global_count": 7744,
+      "load_local_count": 0,
+      "loads_owned_by_dof_range": true,
+      "fixed_kept_for_element_halo_or_dof_owner": true
+    }
+  },
+  "restart": {
+    "used": false,
+    "source": null,
+    "validated_input_sha256": null
+  },
+  "load_time_seconds": 8.891257214010693,
+  "solve_pipeline_time_seconds": 43.24119451601291,
+  "assembly_time_seconds": 16.32970921098604,
+  "solve_time_seconds": 26.021099088015035,
+  "estimated_core_memory_bytes": 51853024,
+  "memory_telemetry": {
+    "python_tracemalloc_current_bytes": 89926409,
+    "python_tracemalloc_peak_bytes": 832140542,
+    "process_current_rss_before_bytes": 123985920,
+    "process_current_rss_after_bytes": 1293234176,
+    "process_peak_rss_bytes": 2409058304,
+    "process_peak_rss_sum_bytes": 9081450496,
+    "process_memory_source": "procfs+resource",
+    "rank_count": 4
+  },
+  "mpi": {
+    "size": 4,
+    "rank_telemetry": [
+      {
+        "rank": 0,
+        "load_time_seconds": 8.88303201799863,
+        "solve_pipeline_time_seconds": 43.237217324000085,
+        "python_tracemalloc_current_bytes": 88574341,
+        "python_tracemalloc_peak_bytes": 829594445,
+        "process_current_rss_before_bytes": 123985920,
+        "process_current_rss_after_bytes": 1254883328,
+        "process_peak_rss_bytes": 2281889792,
+        "process_memory_source": "procfs+resource"
+      },
+      {
+        "rank": 1,
+        "load_time_seconds": 8.883060819993261,
+        "solve_pipeline_time_seconds": 43.23738443199545,
+        "python_tracemalloc_current_bytes": 89053196,
+        "python_tracemalloc_peak_bytes": 832140542,
+        "process_current_rss_before_bytes": 123506688,
+        "process_current_rss_after_bytes": 1293197312,
+        "process_peak_rss_bytes": 2208235520,
+        "process_memory_source": "procfs+resource"
+      },
+      {
+        "rank": 2,
+        "load_time_seconds": 8.891257214010693,
+        "solve_pipeline_time_seconds": 43.229095432994654,
+        "python_tracemalloc_current_bytes": 89203455,
+        "python_tracemalloc_peak_bytes": 826399060,
+        "process_current_rss_before_bytes": 123654144,
+        "process_current_rss_after_bytes": 1293234176,
+        "process_peak_rss_bytes": 2182266880,
+        "process_memory_source": "procfs+resource"
+      },
+      {
+        "rank": 3,
+        "load_time_seconds": 8.879310238000471,
+        "solve_pipeline_time_seconds": 43.24119451601291,
+        "python_tracemalloc_current_bytes": 89926409,
+        "python_tracemalloc_peak_bytes": 823853101,
+        "process_current_rss_before_bytes": 123658240,
+        "process_current_rss_after_bytes": 1264021504,
+        "process_peak_rss_bytes": 2409058304,
+        "process_memory_source": "procfs+resource"
+      }
+    ]
+  },
+  "partitioned_input": {
+    "enabled": true,
+    "local_element_count": 979436,
+    "local_compact_node_count": 173156
+  },
+  "input_fingerprint": {
+    "path": "/workspace/results_large/qf_solver_0_2_2_multi_million_docker/model_2m.h5",
+    "size_bytes": 174899008,
+    "sha256": "16e600f043b825df79ce7a55d2d8c691601c60dfa20d952b0c7501bafc1f2877"
+  },
+  "runtime_environment": "runtime_environment.json",
+  "artifact_policy": {
+    "displacement_output": "displacements.bin",
+    "file_backed_displacements": true,
+    "json_files_checked": 5,
+    "largest_json_bytes": 3885,
+    "monolithic_displacements_in_json": false,
+    "offending_json_files": []
+  },
+  "solver": {
+    "method": "cg",
+    "preconditioner": "gamg",
+    "preconditioner_subtype": null,
+    "iterations": 55,
+    "residual_norm": 5.476630697066099e-19,
+    "converged": true,
+    "mpi_size": 4,
+    "distributed": true,
+    "ownership_ranges": [
+      [
+        0,
+        511104
+      ],
+      [
+        511104,
+        1022208
+      ],
+      [
+        1022208,
+        1533312
+      ],
+      [
+        1533312,
+        2044416
+      ]
+    ],
+    "matrix_format": "baij",
+    "setup_time_seconds": 5.755921261996264,
+    "iteration_time_seconds": 20.26517782601877,
+    "automatic_petsc_options": {
+      "pc_gamg_repartition": true
+    },
+    "explicit_petsc_options": {},
+    "preconditioner_diagnostics": {
+      "ksp_type": "cg",
+      "pc_type": "gamg",
+      "pc_mg_levels": 5,
+      "matrix_global_size": [
+        2044416,
+        2044416
+      ],
+      "matrix_local_size": [
+        511104,
+        511104
+      ],
+      "matrix_ownership_range": [
+        0,
+        511104
+      ],
+      "matrix_info": {
+        "block_size": 1.0,
+        "nz_allocated": 90335502.0,
+        "nz_used": 90335502.0,
+        "nz_unneeded": 0.0,
+        "memory": 0.0,
+        "assemblies": 2.0,
+        "mallocs": 0.0,
+        "fill_ratio_given": 0.0,
+        "fill_ratio_needed": 0.0,
+        "factor_mallocs": 0.0
+      }
+    },
+    "restart_used": false,
+    "restart_source": null,
+    "initial_guess_norm": 0.0
+  },
+  "audit_status": "PASS",
+  "output_files": {
+    "summary": "summary.json",
+    "audit_large": "audit_large.json",
+    "displacements": "displacements.bin",
+    "displacements_metadata": "displacements_metadata.json"
+  }
+}

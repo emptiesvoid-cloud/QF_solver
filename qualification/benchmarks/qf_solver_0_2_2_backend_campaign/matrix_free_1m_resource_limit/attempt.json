@@ -1,0 +1,14 @@
+{
+  "analysis": "linear_static",
+  "backend": "matrix_free",
+  "status": "BLOCKED_RESOURCE_LIMIT",
+  "target_dofs": 1000000,
+  "attempted": true,
+  "termination": "manual_stop_without_metrics",
+  "summary_manifest_produced": false,
+  "convergence_observed": null,
+  "relative_residual_observed": null,
+  "peak_memory_observed": null,
+  "reason": "The local matrix-free 1M run was stopped after sustained execution without producing solver metrics or a summary. No numerical divergence was observed or claimed.",
+  "interpretation": "This is an incomplete resource/time campaign, not a numerical PASS and not a numerical FAIL. A reproducible timed run with telemetry is required before any 1M matrix-free claim."
+}

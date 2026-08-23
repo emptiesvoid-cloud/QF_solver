@@ -180,13 +180,15 @@ def test_every_controlled_page_is_registered_with_consistent_review_fields() -> 
             "DOC-VV-OWNER-PAGES-001",
             "DOC-COMP-007",
             "DOC-VNV-MITC4-LAMINATE-DYN-001",
+            "DOC-VV-CODEASTER-OWNER-2026-08-14",
         }:
             assert metadata["reviewer"] == "Quentin Farinazzo"
             if entry["id"] == "DOC-VV-OWNER-PAGES-001":
                 assert metadata["review_date"] == "2026-08-02"
         else:
             assert metadata["reviewer"] == ""
-        assert metadata["approver"] == ""
+        if entry["id"] != "DOC-VV-CODEASTER-OWNER-2026-08-14":
+            assert metadata["approver"] == ""
         for reference in (*entry.get("examples", []), *entry.get("tests", [])):
             if "/" in reference:
                 assert (ROOT / reference).is_file(), reference

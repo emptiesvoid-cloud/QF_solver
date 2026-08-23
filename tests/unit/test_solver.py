@@ -33,6 +33,10 @@ def test_chunked_assembler_matches_single_chunk_for_stiffness_and_mass():
     assert np.allclose(mass_chunked.toarray(), mass_reference.toarray())
     assert stiffness_diagnostics["chunk_count"] == 3
     assert stiffness_diagnostics["peak_chunk_entry_count"] == 2 * 12**2
+    assert stiffness_diagnostics["accumulator_chunk_count"] == 3
+    assert stiffness_diagnostics["accumulator_occupied_levels"] >= 1
+    phases = stiffness_diagnostics["assembly_phase_seconds"]
+    assert all(float(phases[name]) >= 0.0 for name in phases)
     assert chunked.last_diagnostics["matrix"] == "mass"
     assert chunked.last_diagnostics["chunk_count"] == 3
 

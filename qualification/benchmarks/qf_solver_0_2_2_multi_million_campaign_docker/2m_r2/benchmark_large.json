@@ -1,0 +1,167 @@
+{
+  "status": "PASS",
+  "input": "/workspace/results_large/qf_solver_0_2_2_multi_million_docker/model_2m.h5",
+  "node_count": 681472,
+  "element_count": 3951018,
+  "ndof": 2044416,
+  "backend": "petsc",
+  "chunk_size": 4096,
+  "matrix_format": "baij",
+  "partition_strategy": "contiguous",
+  "partition_details": {
+    "strategy": "contiguous",
+    "partitioner": "index_range",
+    "local_element_counts": [
+      1975509,
+      1975509
+    ],
+    "node_read": {
+      "method": "blocked_hdf5_ranges",
+      "local_time_s": 0.08299343200633302,
+      "max_time_s": 0.08299343200633302,
+      "block_size": 262144,
+      "local_node_count": 344653
+    },
+    "boundary_conditions": {
+      "method": "chunked_hdf5_filter",
+      "local_time_s": 0.3237768159888219,
+      "max_time_s": 0.32891211000969633,
+      "fixed_global_count": 23232,
+      "fixed_local_count": 23232,
+      "load_global_count": 7744,
+      "load_local_count": 0,
+      "loads_owned_by_dof_range": true,
+      "fixed_kept_for_element_halo_or_dof_owner": true
+    }
+  },
+  "restart": {
+    "used": false,
+    "source": null,
+    "validated_input_sha256": null
+  },
+  "load_time_seconds": 1.4394057109893765,
+  "solve_pipeline_time_seconds": 48.23846324800979,
+  "assembly_time_seconds": 19.92097857198678,
+  "solve_time_seconds": 27.16125476799789,
+  "estimated_core_memory_bytes": 87843288,
+  "memory_telemetry": {
+    "python_tracemalloc_current_bytes": 173735745,
+    "python_tracemalloc_peak_bytes": 624611107,
+    "process_current_rss_before_bytes": 124837888,
+    "process_current_rss_after_bytes": 2099838976,
+    "process_peak_rss_bytes": 2524905472,
+    "process_peak_rss_sum_bytes": 5044473856,
+    "process_memory_source": "procfs+resource",
+    "rank_count": 2
+  },
+  "mpi": {
+    "size": 2,
+    "rank_telemetry": [
+      {
+        "rank": 0,
+        "load_time_seconds": 1.4325192510150373,
+        "solve_pipeline_time_seconds": 48.23846324800979,
+        "python_tracemalloc_current_bytes": 173735745,
+        "python_tracemalloc_peak_bytes": 624611107,
+        "process_current_rss_before_bytes": 124837888,
+        "process_current_rss_after_bytes": 2094100480,
+        "process_peak_rss_bytes": 2519568384,
+        "process_memory_source": "procfs+resource"
+      },
+      {
+        "rank": 1,
+        "load_time_seconds": 1.4394057109893765,
+        "solve_pipeline_time_seconds": 48.23156938800821,
+        "python_tracemalloc_current_bytes": 173652821,
+        "python_tracemalloc_peak_bytes": 624376907,
+        "process_current_rss_before_bytes": 124653568,
+        "process_current_rss_after_bytes": 2099838976,
+        "process_peak_rss_bytes": 2524905472,
+        "process_memory_source": "procfs+resource"
+      }
+    ]
+  },
+  "partitioned_input": {
+    "enabled": true,
+    "local_element_count": 1975509,
+    "local_compact_node_count": 344653
+  },
+  "input_fingerprint": {
+    "path": "/workspace/results_large/qf_solver_0_2_2_multi_million_docker/model_2m.h5",
+    "size_bytes": 174899008,
+    "sha256": "16e600f043b825df79ce7a55d2d8c691601c60dfa20d952b0c7501bafc1f2877"
+  },
+  "runtime_environment": "runtime_environment.json",
+  "artifact_policy": {
+    "displacement_output": "displacements.bin",
+    "file_backed_displacements": true,
+    "json_files_checked": 5,
+    "largest_json_bytes": 3016,
+    "monolithic_displacements_in_json": false,
+    "offending_json_files": []
+  },
+  "solver": {
+    "method": "cg",
+    "preconditioner": "gamg",
+    "preconditioner_subtype": null,
+    "iterations": 54,
+    "residual_norm": 8.800507247682323e-19,
+    "converged": true,
+    "mpi_size": 2,
+    "distributed": true,
+    "ownership_ranges": [
+      [
+        0,
+        1022208
+      ],
+      [
+        1022208,
+        2044416
+      ]
+    ],
+    "matrix_format": "baij",
+    "setup_time_seconds": 7.741224880999653,
+    "iteration_time_seconds": 19.420029886998236,
+    "automatic_petsc_options": {},
+    "explicit_petsc_options": {},
+    "preconditioner_diagnostics": {
+      "ksp_type": "cg",
+      "pc_type": "gamg",
+      "pc_mg_levels": 5,
+      "matrix_global_size": [
+        2044416,
+        2044416
+      ],
+      "matrix_local_size": [
+        1022208,
+        1022208
+      ],
+      "matrix_ownership_range": [
+        0,
+        1022208
+      ],
+      "matrix_info": {
+        "block_size": 1.0,
+        "nz_allocated": 90335502.0,
+        "nz_used": 90335502.0,
+        "nz_unneeded": 0.0,
+        "memory": 0.0,
+        "assemblies": 2.0,
+        "mallocs": 0.0,
+        "fill_ratio_given": 0.0,
+        "fill_ratio_needed": 0.0,
+        "factor_mallocs": 0.0
+      }
+    },
+    "restart_used": false,
+    "restart_source": null,
+    "initial_guess_norm": 0.0
+  },
+  "audit_status": "PASS",
+  "output_files": {
+    "summary": "summary.json",
+    "audit_large": "audit_large.json",
+    "displacements": "displacements.bin",
+    "displacements_metadata": "displacements_metadata.json"
+  }
+}

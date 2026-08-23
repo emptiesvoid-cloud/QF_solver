@@ -87,10 +87,57 @@ def test_large_readiness_matrix_free_accepts_1m_without_petsc(tmp_path: Path):
     assert statuses["DEP-PETSC4PY"] == "PASS"
 
 
+def test_large_readiness_adds_multi_million_gate_without_running_the_model(tmp_path: Path):
+    report = check_large_readiness(
+        tmp_path,
+        target_dofs=2_000_000,
+        solver_backend="matrix_free",
+    )
+    checks = {item["id"]: item for item in report["checks"]}
+    assert checks["MULTI-MILLION-GATE"]["status"] == "WARNING"
+    assert "explicit memory budget" in checks["MULTI-MILLION-GATE"]["detail"]
+    disk_check_failed = checks["DISK-FREE"]["status"] == "FAIL"
+    assert report["status"] == ("FAIL" if disk_check_failed else "WARNING")
+
+
+def test_large_readiness_multi_million_gate_checks_backend_and_memory(tmp_path: Path):
+    insufficient = check_large_readiness(
+        tmp_path,
+        target_dofs=2_000_000,
+        solver_backend="matrix_free",
+        memory_budget_bytes=1,
+    )
+    assert next(item for item in insufficient["checks"] if item["id"] == "MULTI-MILLION-GATE")["status"] == "FAIL"
+
+    sufficient_budget = int(
+        check_large_readiness(tmp_path, target_dofs=2_000_000, solver_backend="matrix_free")["sizing"][
+            "petsc_rule_of_thumb_bytes"
+        ]
+    )
+    accepted = check_large_readiness(
+        tmp_path,
+        target_dofs=2_000_000,
+        solver_backend="matrix_free",
+        memory_budget_bytes=sufficient_budget,
+    )
+    assert next(item for item in accepted["checks"] if item["id"] == "MULTI-MILLION-GATE")["status"] == "PASS"
+
+    scipy = check_large_readiness(
+        tmp_path,
+        target_dofs=2_000_000,
+        solver_backend="scipy",
+        memory_budget_bytes=sufficient_budget,
+    )
+    assert next(item for item in scipy["checks"] if item["id"] == "MULTI-MILLION-GATE")["status"] == "FAIL"
+
+
 def test_large_runtime_environment_report_api(tmp_path: Path):
     report = collect_large_runtime_environment({"kind": "unit_test"})
     assert report["solver"]["version"]
     assert report["python"]["executable"]
+    assert report["process"]["cwd"] == "."
+    forbidden_workstation_markers = ("C:" + "\\" + "Users", "/" + "home" + "/", "/" + "users" + "/")
+    assert not any(token in str(report) for token in forbidden_workstation_markers)
     assert report["packages"]["numpy"]["available"] is True
     assert "OMP_NUM_THREADS" in report["environment"]
 

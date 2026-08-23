@@ -1,0 +1,308 @@
+{
+  "schema_version": 1,
+  "campaign": "qf-solver-standard-km-pair-scaling-0.2.2-alpha",
+  "environment": "local reproducibility sample; host identity intentionally omitted",
+  "comparison": "separate K then M assembly versus paired K/M assembly",
+  "sizes": [
+    {
+      "target_dofs": 1000,
+      "dofs": 1029,
+      "nodes": 343,
+      "elements": 1296,
+      "chunk_size": 256,
+      "separate_seconds": 0.19697869999799877,
+      "paired_seconds": 0.18034239998087287,
+      "paired_over_separate_ratio": 0.9155426448783807,
+      "stiffness": {
+        "shape": [
+          1029,
+          1029
+        ],
+        "reference_nnz": 30399,
+        "candidate_nnz": 30399,
+        "difference_nnz": 0,
+        "max_absolute_difference": 0.0,
+        "relative_frobenius_difference": 0.0
+      },
+      "mass": {
+        "shape": [
+          1029,
+          1029
+        ],
+        "reference_nnz": 12153,
+        "candidate_nnz": 12153,
+        "difference_nnz": 0,
+        "max_absolute_difference": 0.0,
+        "relative_frobenius_difference": 0.0
+      },
+      "separate_diagnostics": {
+        "stiffness": {
+          "final_nnz": 30399,
+          "chunk_count": 6,
+          "assembly_peak_memory_estimate_bytes": 1179648,
+          "assembly_phase_seconds": {
+            "assembly_plan": 0.012461600010283291,
+            "element_kernel": 0.07358789996942505,
+            "chunk_sparse_conversion": 0.0042193999397568405,
+            "chunk_fusion": 0.00045930000487715006,
+            "sparse_finalize": 0.0002416000352241099,
+            "discrete_merge": 7.51999905332923e-05
+          },
+          "paired_assembly": false,
+          "shared_chunk_pattern": false,
+          "assembly_index_dtype": "int32"
+        },
+        "mass": {
+          "final_nnz": 12153,
+          "chunk_count": 6,
+          "assembly_peak_memory_estimate_bytes": 1179648,
+          "assembly_phase_seconds": {
+            "assembly_plan": 0.01246170001104474,
+            "element_kernel": 0.08707700006198138,
+            "chunk_sparse_conversion": 0.004019399872049689,
+            "chunk_fusion": 0.0005120999994687736,
+            "sparse_finalize": 0.00026430003345012665,
+            "discrete_merge": 4.569999873638153e-05
+          },
+          "paired_assembly": false,
+          "shared_chunk_pattern": false,
+          "assembly_index_dtype": "int32"
+        }
+      },
+      "paired_diagnostics": {
+        "stiffness": {
+          "final_nnz": 30399,
+          "chunk_count": 6,
+          "assembly_peak_memory_estimate_bytes": 1769472,
+          "assembly_phase_seconds": {
+            "assembly_plan": 0.012768300017341971,
+            "element_kernel": 0.15708800009451807,
+            "chunk_sparse_conversion": 0.007745500013697892,
+            "chunk_fusion": 0.0010352000244893134,
+            "sparse_finalize": 0.0004685999592766166,
+            "discrete_merge": 8.690002141520381e-05
+          },
+          "paired_assembly": true,
+          "shared_chunk_pattern": true,
+          "assembly_index_dtype": "int32"
+        },
+        "mass": {
+          "final_nnz": 12153,
+          "chunk_count": 6,
+          "assembly_peak_memory_estimate_bytes": 1769472,
+          "assembly_phase_seconds": {
+            "assembly_plan": 0.012768300017341971,
+            "element_kernel": 0.15708800009451807,
+            "chunk_sparse_conversion": 0.007745500013697892,
+            "chunk_fusion": 0.0010352000244893134,
+            "sparse_finalize": 0.0004685999592766166,
+            "discrete_merge": 8.690002141520381e-05
+          },
+          "paired_assembly": true,
+          "shared_chunk_pattern": true,
+          "assembly_index_dtype": "int32"
+        }
+      }
+    },
+    {
+      "target_dofs": 10000,
+      "dofs": 10125,
+      "nodes": 3375,
+      "elements": 16464,
+      "chunk_size": 256,
+      "separate_seconds": 2.5225108999875374,
+      "paired_seconds": 2.240868299966678,
+      "paired_over_separate_ratio": 0.8883483119845981,
+      "stiffness": {
+        "shape": [
+          10125,
+          10125
+        ],
+        "reference_nnz": 338727,
+        "candidate_nnz": 338727,
+        "difference_nnz": 0,
+        "max_absolute_difference": 0.0,
+        "relative_frobenius_difference": 0.0
+      },
+      "mass": {
+        "shape": [
+          10125,
+          10125
+        ],
+        "reference_nnz": 136209,
+        "candidate_nnz": 136209,
+        "difference_nnz": 0,
+        "max_absolute_difference": 0.0,
+        "relative_frobenius_difference": 0.0
+      },
+      "separate_diagnostics": {
+        "stiffness": {
+          "final_nnz": 338727,
+          "chunk_count": 65,
+          "assembly_peak_memory_estimate_bytes": 1179648,
+          "assembly_phase_seconds": {
+            "assembly_plan": 0.1607130999909714,
+            "element_kernel": 0.9484732996788807,
+            "chunk_sparse_conversion": 0.04795540025224909,
+            "chunk_fusion": 0.013074200018309057,
+            "sparse_finalize": 0.001707600022200495,
+            "discrete_merge": 0.0003692999598570168
+          },
+          "paired_assembly": false,
+          "shared_chunk_pattern": false,
+          "assembly_index_dtype": "int32"
+        },
+        "mass": {
+          "final_nnz": 136209,
+          "chunk_count": 65,
+          "assembly_peak_memory_estimate_bytes": 1179648,
+          "assembly_phase_seconds": {
+            "assembly_plan": 0.16255749994888902,
+            "element_kernel": 1.1161783001734875,
+            "chunk_sparse_conversion": 0.04681959986919537,
+            "chunk_fusion": 0.008667699876241386,
+            "sparse_finalize": 0.0007607999723404646,
+            "discrete_merge": 0.0001480000209994614
+          },
+          "paired_assembly": false,
+          "shared_chunk_pattern": false,
+          "assembly_index_dtype": "int32"
+        }
+      },
+      "paired_diagnostics": {
+        "stiffness": {
+          "final_nnz": 338727,
+          "chunk_count": 65,
+          "assembly_peak_memory_estimate_bytes": 1769472,
+          "assembly_phase_seconds": {
+            "assembly_plan": 0.16194950003409758,
+            "element_kernel": 1.959502599958796,
+            "chunk_sparse_conversion": 0.08549829997355118,
+            "chunk_fusion": 0.022591400076635182,
+            "sparse_finalize": 0.0026230000075884163,
+            "discrete_merge": 0.0005375999608077109
+          },
+          "paired_assembly": true,
+          "shared_chunk_pattern": true,
+          "assembly_index_dtype": "int32"
+        },
+        "mass": {
+          "final_nnz": 136209,
+          "chunk_count": 65,
+          "assembly_peak_memory_estimate_bytes": 1769472,
+          "assembly_phase_seconds": {
+            "assembly_plan": 0.16194950003409758,
+            "element_kernel": 1.959502599958796,
+            "chunk_sparse_conversion": 0.08549829997355118,
+            "chunk_fusion": 0.022591400076635182,
+            "sparse_finalize": 0.0026230000075884163,
+            "discrete_merge": 0.0005375999608077109
+          },
+          "paired_assembly": true,
+          "shared_chunk_pattern": true,
+          "assembly_index_dtype": "int32"
+        }
+      }
+    },
+    {
+      "target_dofs": 100000,
+      "dofs": 107811,
+      "nodes": 35937,
+      "elements": 196608,
+      "chunk_size": 256,
+      "separate_seconds": 31.307652999996208,
+      "paired_seconds": 27.85172649996821,
+      "paired_over_separate_ratio": 0.8896140026839949,
+      "stiffness": {
+        "shape": [
+          107811,
+          107811
+        ],
+        "reference_nnz": 3813789,
+        "candidate_nnz": 3813789,
+        "difference_nnz": 0,
+        "max_absolute_difference": 0.0,
+        "relative_frobenius_difference": 0.0
+      },
+      "mass": {
+        "shape": [
+          107811,
+          107811
+        ],
+        "reference_nnz": 1539939,
+        "candidate_nnz": 1539939,
+        "difference_nnz": 0,
+        "max_absolute_difference": 0.0,
+        "relative_frobenius_difference": 0.0
+      },
+      "separate_diagnostics": {
+        "stiffness": {
+          "final_nnz": 3813789,
+          "chunk_count": 768,
+          "assembly_peak_memory_estimate_bytes": 1179648,
+          "assembly_phase_seconds": {
+            "assembly_plan": 2.0736506000394,
+            "element_kernel": 11.172210200107656,
+            "chunk_sparse_conversion": 0.8013615005183965,
+            "chunk_fusion": 0.3992026008781977,
+            "sparse_finalize": 0.02310729998862371,
+            "discrete_merge": 0.005551400012336671
+          },
+          "paired_assembly": false,
+          "shared_chunk_pattern": false,
+          "assembly_index_dtype": "int32"
+        },
+        "mass": {
+          "final_nnz": 1539939,
+          "chunk_count": 768,
+          "assembly_peak_memory_estimate_bytes": 1179648,
+          "assembly_phase_seconds": {
+            "assembly_plan": 2.078627899987623,
+            "element_kernel": 13.442955599573907,
+            "chunk_sparse_conversion": 0.8018876005080529,
+            "chunk_fusion": 0.3177368989563547,
+            "sparse_finalize": 0.009486900002229959,
+            "discrete_merge": 0.0017604000167921185
+          },
+          "paired_assembly": false,
+          "shared_chunk_pattern": false,
+          "assembly_index_dtype": "int32"
+        }
+      },
+      "paired_diagnostics": {
+        "stiffness": {
+          "final_nnz": 3813789,
+          "chunk_count": 768,
+          "assembly_peak_memory_estimate_bytes": 1769472,
+          "assembly_phase_seconds": {
+            "assembly_plan": 2.0701103000319563,
+            "element_kernel": 23.387681999767665,
+            "chunk_sparse_conversion": 1.5226008000900038,
+            "chunk_fusion": 0.7345440005883574,
+            "sparse_finalize": 0.03305939998244867,
+            "discrete_merge": 0.006510699982754886
+          },
+          "paired_assembly": true,
+          "shared_chunk_pattern": true,
+          "assembly_index_dtype": "int32"
+        },
+        "mass": {
+          "final_nnz": 1539939,
+          "chunk_count": 768,
+          "assembly_peak_memory_estimate_bytes": 1769472,
+          "assembly_phase_seconds": {
+            "assembly_plan": 2.0701103000319563,
+            "element_kernel": 23.387681999767665,
+            "chunk_sparse_conversion": 1.5226008000900038,
+            "chunk_fusion": 0.7345440005883574,
+            "sparse_finalize": 0.03305939998244867,
+            "discrete_merge": 0.006510699982754886
+          },
+          "paired_assembly": true,
+          "shared_chunk_pattern": true,
+          "assembly_index_dtype": "int32"
+        }
+      }
+    }
+  ]
+}

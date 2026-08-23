@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "review_id": "OWNER-REVIEW-BACKEND-022-2026-08-23",
+  "review_mode": "owner_review",
+  "status": "accepted_with_recommendations",
+  "applicable_version": "0.2.2a0",
+  "scope": ["backend-scaling-vnv"],
+  "purpose": "Statuer sur la fermeture du gate technique backend dans un perimetre de developpement borne, sans promotion stable ni decision de release.",
+  "recommendation_not_owner_decision": "accepted_with_recommendations",
+  "owner_conditions": [
+    "R1 before signature: record the slepc4py version and the exact CPU/RAM profile. CLOSED by the runtime profile addendum.",
+    "R2 closed for the bounded gate: Newmark physical residual threshold fixed at 1e-5; production calibration remains required.",
+    "R3 executed as a controlled 900-second matrix-free 1M rerun with memory telemetry; result BLOCKED_TIMEOUT, follow-up remains for v0.3.0.",
+    "R4 for v0.3.0: define a memory strategy for modal 2M or document the 107k DDL limit formally."
+  ],
+  "condition_status": {
+    "R1": {
+      "status": "closed",
+      "evidence": "qualification/benchmarks/qf_solver_0_2_2_backend_campaign/runtime_profile.json"
+    },
+    "R2": {
+      "status": "closed_for_bounded_campaign",
+      "evidence": "qualification/benchmarks/qf_solver_0_2_2_backend_campaign/newmark_acceptance_threshold.json"
+    },
+    "R3": {
+      "status": "completed_blocked_timeout",
+      "evidence": "qualification/benchmarks/qf_solver_0_2_2_backend_campaign/matrix_free_1m_r2/attempt.json"
+    },
+    "R4": {
+      "status": "deferred_to_v0.3.0",
+      "evidence": null
+    }
+  },
+  "evidence": [
+    "docs/verification/qf_solver_0_2_2_alpha_backend_report.md",
+    "docs/verification/qf_solver_0_2_2_alpha_vnv_assembly_scaling_plan.md",
+    "docs/verification/qf_solver_0_2_2_alpha_vnv_multi_million_plan.md",
+    "qualification/benchmarks/qf_solver_0_2_2_backend_campaign/campaign.json",
+    "qualification/benchmarks/qf_solver_0_2_2_backend_campaign/modal_2m_resource_limit/attempt.json",
+    "qualification/benchmarks/qf_solver_0_2_2_backend_campaign/matrix_free_1m_resource_limit/attempt.json",
+    "qualification/benchmarks/qf_solver_0_2_2_backend_campaign/runtime_profile.json",
+    "qualification/benchmarks/qf_solver_0_2_2_backend_campaign/runtime_profile.md",
+    "qualification/benchmarks/qf_solver_0_2_2_backend_campaign/newmark_acceptance_threshold.json",
+    "qualification/benchmarks/qf_solver_0_2_2_backend_campaign/matrix_free_1m_r2/attempt.json",
+    "qualification/benchmarks/qf_solver_0_2_2_backend_campaign/matrix_free_1m_r2/attempt.md",
+    "qualification/publication_audit_0_2_2.json",
+    "prochaines_etapes.md"
+  ],
+  "quantitative_criteria": {
+    "static_minimum_dofs": 2000000,
+    "static_relative_residual_max": 1e-08,
+    "strong_scaling_efficiency_min": 0.6,
+    "backend_comparison_relative_error_max": 1e-07,
+    "modal_configured_tolerance": 1e-08,
+    "newmark_physical_residual_threshold": 1e-05,
+    "slepc4py_version": "3.25.1",
+    "runtime_profile_path": "qualification/benchmarks/qf_solver_0_2_2_backend_campaign/runtime_profile.json"
+  },
+  "questions": [
+    {"id": "Q1", "question": "Acceptez-vous de fermer le gate backend uniquement pour le perimetre numerique explicitement liste et ses seuils ?", "answer": "OUI - perimetre clair, exclusions assumees."},
+    {"id": "Q2", "question": "Acceptez-vous la scalabilite statique contigue jusqu'a 2 044 416 et 4 102 893 DDL avec residu <=1e-8 et efficacite >=0,60 a 2/4 rangs ?", "answer": "CONDITIONNELLEMENT - efficacites 0,651 et 0,615 superieures a 0,60; verifier le calcul."},
+    {"id": "Q3", "question": "Acceptez-vous le chemin graphe PT-Scotch a 2M DDL avec efficacite 0,621, sans remplacer le chemin contigu par defaut ?", "answer": "OUI - PT-Scotch accepte et chemin optionnel."},
+    {"id": "Q4", "question": "Acceptez-vous la coherence SciPy/matrix-free/PETSc a 1 029 DDL et la preuve matrix-free a 107 811 DDL, sans revendiquer 1M ?", "answer": "CONDITIONNELLEMENT - coherence validee; la relance 1M est classee BLOCKED_TIMEOUT, sans PASS."},
+    {"id": "Q5", "question": "Acceptez-vous le modal SLEPc jusqu'a 107 811 DDL avec residu 2,789e-12 et sans couverture modale 2M ?", "answer": "CONDITIONNELLEMENT - modal accepte jusqu'a 107k DDL; 2M reste inconnu et hors revendication."},
+    {"id": "Q6", "question": "Acceptez-vous Newmark a 2 044 416 DDL avec residu physique relatif max 1,968e-6 et seuil borne 1e-5 ?", "answer": "CONDITIONNELLEMENT - seuil borne defini et respecte; calibration production a maintenir."},
+    {"id": "Q7", "question": "Acceptez-vous le modal 2M BLOCKED_RESOURCE_LIMIT et le matrix-free 1M BLOCKED_TIMEOUT, sans les presenter comme PASS ou echec numerique ?", "answer": "OUI - classification honnete, BLOCKED_RESOURCE_LIMIT et BLOCKED_TIMEOUT, pas FAIL numerique."},
+    {"id": "Q8", "question": "Acceptez-vous l'environnement trace, avec les versions PETSc/SciPy/SLEPc et le profil hardware archive, et les 107 tests exclus par filtre explicite ?", "answer": "CONDITIONNELLEMENT - R1 est maintenant satisfaite par l'addendum de profil; confirmation Owner enregistree le 2026-08-23."},
+    {"id": "Q9", "question": "Decision Owner : accepted_with_recommendations, accepted_for_bounded_engineering_use ou more_evidence_required ?", "answer": "accepted_with_recommendations"}
+  ],
+  "decision": "accepted_with_recommendations",
+  "signature": {
+    "status": "signed_by_owner",
+    "signatory": "Owner",
+    "signed_at": "2026-08-23",
+    "method": "explicit_owner_confirmation_in_thread",
+    "scope": "bounded_backend_gate_only"
+  },
+  "certification_claim": "none"
+}

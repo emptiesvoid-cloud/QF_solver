@@ -1,0 +1,20 @@
+{
+  "analysis": "linear_static",
+  "node_count": 35937,
+  "element_count": 196608,
+  "ndof": 107811,
+  "backend": "matrix_free",
+  "solver": {
+    "method": "matrix_free_cg",
+    "preconditioner": "nodal_block_jacobi",
+    "iterations": 609,
+    "residual_norm": 3.346433792741906e-11,
+    "relative_residual": 1.1043231516048294e-12,
+    "converged": true
+  },
+  "assembly_time_seconds": 0.0,
+  "solve_time_seconds": 18.109681734989863,
+  "estimated_core_memory_bytes": 12309648,
+  "audit_status": "PASS",
+  "matrix_free_operator_memory_bytes": 4293216
+}

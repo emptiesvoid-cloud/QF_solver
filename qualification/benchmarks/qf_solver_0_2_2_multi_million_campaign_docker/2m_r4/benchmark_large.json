@@ -1,0 +1,201 @@
+{
+  "status": "PASS",
+  "input": "/workspace/results_large/qf_solver_0_2_2_multi_million_docker/model_2m.h5",
+  "node_count": 681472,
+  "element_count": 3951018,
+  "ndof": 2044416,
+  "backend": "petsc",
+  "chunk_size": 4096,
+  "matrix_format": "baij",
+  "partition_strategy": "contiguous",
+  "partition_details": {
+    "strategy": "contiguous",
+    "partitioner": "index_range",
+    "local_element_counts": [
+      987754,
+      987755,
+      987754,
+      987755
+    ],
+    "node_read": {
+      "method": "blocked_hdf5_ranges",
+      "local_time_s": 0.049761850998038426,
+      "max_time_s": 0.08605497499229386,
+      "block_size": 262144,
+      "local_node_count": 176199
+    },
+    "boundary_conditions": {
+      "method": "chunked_hdf5_filter",
+      "local_time_s": 0.20487903399043716,
+      "max_time_s": 0.20487903399043716,
+      "fixed_global_count": 23232,
+      "fixed_local_count": 23232,
+      "load_global_count": 7744,
+      "load_local_count": 0,
+      "loads_owned_by_dof_range": true,
+      "fixed_kept_for_element_halo_or_dof_owner": true
+    }
+  },
+  "restart": {
+    "used": false,
+    "source": null,
+    "validated_input_sha256": null
+  },
+  "load_time_seconds": 0.8669898319931235,
+  "solve_pipeline_time_seconds": 37.02855615102453,
+  "assembly_time_seconds": 12.584629444987513,
+  "solve_time_seconds": 23.5304218409874,
+  "estimated_core_memory_bytes": 52192232,
+  "memory_telemetry": {
+    "python_tracemalloc_current_bytes": 89331274,
+    "python_tracemalloc_peak_bytes": 314860773,
+    "process_current_rss_before_bytes": 123736064,
+    "process_current_rss_after_bytes": 1196920832,
+    "process_peak_rss_bytes": 1385066496,
+    "process_peak_rss_sum_bytes": 5472489472,
+    "process_memory_source": "procfs+resource",
+    "rank_count": 4
+  },
+  "mpi": {
+    "size": 4,
+    "rank_telemetry": [
+      {
+        "rank": 0,
+        "load_time_seconds": 0.8669898319931235,
+        "solve_pipeline_time_seconds": 37.02195719900192,
+        "python_tracemalloc_current_bytes": 89331274,
+        "python_tracemalloc_peak_bytes": 314860773,
+        "process_current_rss_before_bytes": 123736064,
+        "process_current_rss_after_bytes": 1160093696,
+        "process_peak_rss_bytes": 1348345856,
+        "process_memory_source": "procfs+resource"
+      },
+      {
+        "rank": 1,
+        "load_time_seconds": 0.8651936639798805,
+        "solve_pipeline_time_seconds": 37.02365816402016,
+        "python_tracemalloc_current_bytes": 89120500,
+        "python_tracemalloc_peak_bytes": 314467568,
+        "process_current_rss_before_bytes": 123457536,
+        "process_current_rss_after_bytes": 1196490752,
+        "process_peak_rss_bytes": 1384751104,
+        "process_memory_source": "procfs+resource"
+      },
+      {
+        "rank": 2,
+        "load_time_seconds": 0.8603694780031219,
+        "solve_pipeline_time_seconds": 37.02855615102453,
+        "python_tracemalloc_current_bytes": 89118206,
+        "python_tracemalloc_peak_bytes": 314465156,
+        "process_current_rss_before_bytes": 123514880,
+        "process_current_rss_after_bytes": 1196920832,
+        "process_peak_rss_bytes": 1385066496,
+        "process_memory_source": "procfs+resource"
+      },
+      {
+        "rank": 3,
+        "load_time_seconds": 0.8636195030121598,
+        "solve_pipeline_time_seconds": 37.025157822004985,
+        "python_tracemalloc_current_bytes": 89249775,
+        "python_tracemalloc_peak_bytes": 314627931,
+        "process_current_rss_before_bytes": 123146240,
+        "process_current_rss_after_bytes": 1166290944,
+        "process_peak_rss_bytes": 1354326016,
+        "process_memory_source": "procfs+resource"
+      }
+    ]
+  },
+  "partitioned_input": {
+    "enabled": true,
+    "local_element_count": 987754,
+    "local_compact_node_count": 176199
+  },
+  "input_fingerprint": {
+    "path": "/workspace/results_large/qf_solver_0_2_2_multi_million_docker/model_2m.h5",
+    "size_bytes": 174899008,
+    "sha256": "16e600f043b825df79ce7a55d2d8c691601c60dfa20d952b0c7501bafc1f2877"
+  },
+  "runtime_environment": "runtime_environment.json",
+  "artifact_policy": {
+    "displacement_output": "displacements.bin",
+    "file_backed_displacements": true,
+    "json_files_checked": 5,
+    "largest_json_bytes": 3401,
+    "monolithic_displacements_in_json": false,
+    "offending_json_files": []
+  },
+  "solver": {
+    "method": "cg",
+    "preconditioner": "gamg",
+    "preconditioner_subtype": null,
+    "iterations": 55,
+    "residual_norm": 5.476630697082108e-19,
+    "converged": true,
+    "mpi_size": 4,
+    "distributed": true,
+    "ownership_ranges": [
+      [
+        0,
+        511104
+      ],
+      [
+        511104,
+        1022208
+      ],
+      [
+        1022208,
+        1533312
+      ],
+      [
+        1533312,
+        2044416
+      ]
+    ],
+    "matrix_format": "baij",
+    "setup_time_seconds": 5.026879843004281,
+    "iteration_time_seconds": 18.50354199798312,
+    "automatic_petsc_options": {
+      "pc_gamg_repartition": true
+    },
+    "explicit_petsc_options": {},
+    "preconditioner_diagnostics": {
+      "ksp_type": "cg",
+      "pc_type": "gamg",
+      "pc_mg_levels": 5,
+      "matrix_global_size": [
+        2044416,
+        2044416
+      ],
+      "matrix_local_size": [
+        511104,
+        511104
+      ],
+      "matrix_ownership_range": [
+        0,
+        511104
+      ],
+      "matrix_info": {
+        "block_size": 1.0,
+        "nz_allocated": 90335502.0,
+        "nz_used": 90335502.0,
+        "nz_unneeded": 0.0,
+        "memory": 0.0,
+        "assemblies": 2.0,
+        "mallocs": 0.0,
+        "fill_ratio_given": 0.0,
+        "fill_ratio_needed": 0.0,
+        "factor_mallocs": 0.0
+      }
+    },
+    "restart_used": false,
+    "restart_source": null,
+    "initial_guess_norm": 0.0
+  },
+  "audit_status": "PASS",
+  "output_files": {
+    "summary": "summary.json",
+    "audit_large": "audit_large.json",
+    "displacements": "displacements.bin",
+    "displacements_metadata": "displacements_metadata.json"
+  }
+}

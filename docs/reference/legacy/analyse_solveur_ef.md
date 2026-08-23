@@ -125,7 +125,7 @@ python .\qf_solver.py verify --quick
 API Python:
 
 ```python
-from solveur.api import load_model, check_mesh, inspect_model, solve_model, save_result, save_audit_markdown, save_result_csv, save_result_vtu, list_methods
+from qf_solver import load_model, check_mesh, inspect_model, solve_model, save_result, save_audit_markdown, save_result_csv, save_result_vtu, list_methods
 
 model = load_model("model.json")
 report = check_mesh(model)

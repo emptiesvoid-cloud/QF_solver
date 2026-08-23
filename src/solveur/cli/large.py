@@ -145,6 +145,7 @@ def command_large_campaign(args: argparse.Namespace) -> int:
         solver_backend=args.solver_backend,
         preconditioner=args.preconditioner,
         chunk_size=args.chunk_size,
+        memory_budget_bytes=_memory_budget_bytes(args),
         execute=args.execute,
         stop_on_failure=not args.continue_on_failure,
     )
@@ -251,6 +252,7 @@ def command_large_readiness(args: argparse.Namespace) -> int:
         nz=dimensions[2] if dimensions is not None else None,
         solver_backend=args.solver_backend,
         chunk_size=args.chunk_size,
+        memory_budget_bytes=_memory_budget_bytes(args),
     )
     paths = save_large_readiness(report, args.output)
     print(f"LARGE READINESS STATUS: {report['status']}")
@@ -275,6 +277,7 @@ def command_qualify_large(args: argparse.Namespace) -> int:
         solver_backend=args.solver_backend,
         preconditioner=args.preconditioner,
         chunk_size=args.chunk_size,
+        memory_budget_bytes=_memory_budget_bytes(args),
         length=args.length,
         height=args.height,
         depth=args.depth,
@@ -328,6 +331,15 @@ def _optional_large_block_dimensions(args: argparse.Namespace) -> tuple[int, int
     if any(value is None for value in values):
         raise ValueError("Provide all of --nx --ny --nz, or omit them and use --target-dofs.")
     return int(args.nx), int(args.ny), int(args.nz)
+
+
+def _memory_budget_bytes(args: argparse.Namespace) -> int | None:
+    value = getattr(args, "memory_budget_mb", None)
+    if value is None:
+        return None
+    if int(value) <= 0:
+        raise ValueError("--memory-budget-mb must be positive")
+    return int(value) * 1024 * 1024
 
 
 def _reporting_rank(backend: str) -> bool:

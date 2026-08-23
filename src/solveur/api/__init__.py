@@ -66,6 +66,13 @@ from solveur.core.constraints import ConstraintTerm, LinearConstraint
 from solveur.core.model import FiniteElementModel
 from solveur.core.qualification import RunVerdict
 from solveur.core.rbe import Rbe2Definition, Rbe3Definition
+from solveur.materials.composite import OrthotropicLamina
+from solveur.mesh.quality import MeshQualityThresholds
+from solveur.mesh.validation import MeshValidator
+from solveur.verification.tet4_structured_convergence import (
+    StructuredTet4ConvergencePlan,
+    run_structured_tet4_study,
+)
 
 __all__ = [
     "assess_result",
@@ -83,6 +90,10 @@ __all__ = [
     "LinearConstraint",
     "Rbe2Definition",
     "Rbe3Definition",
+    "MeshQualityThresholds",
+    "MeshValidator",
+    "OrthotropicLamina",
+    "StructuredTet4ConvergencePlan",
     "benchmark_large_model",
     "collect_large_runtime_environment",
     "check_large_readiness",
@@ -117,6 +128,7 @@ __all__ = [
     "run_linear_solver_verification",
     "run_mitc4_validation",
     "run_torsion_stress_probe",
+    "run_structured_tet4_study",
     "run_vnv_study",
     "save_audit_markdown",
     "save_evidence",

@@ -1,0 +1,47 @@
+{
+  "scaling_schema_version": 1,
+  "status": "PASS",
+  "mode": "strong",
+  "baseline_ranks": 2,
+  "weak_work_tolerance": 0.1,
+  "efficiency_warning_threshold": 0.6,
+  "minimum_efficiency": 0.61502823199615,
+  "runs": [
+    {
+      "benchmark": "results_large\\qf_solver_0_2_2_multi_million_docker\\4m_r2\\benchmark_large.json",
+      "benchmark_sha256": "0f72b7e6cb2b15552c91da3c2f07705c02eef93601837702c7fb7a88fd81466c",
+      "ranks": 2,
+      "dofs": 4102893,
+      "dofs_per_rank": 2051446.5,
+      "elements": 7986000,
+      "pipeline_time_seconds": 121.39401219697902,
+      "assembly_time_seconds": 61.32778538198909,
+      "solve_time_seconds": 57.78117393399589,
+      "iterations": 57,
+      "residual_norm": 7.552111813960226e-19,
+      "peak_rss_per_rank_bytes": 4910538752,
+      "speedup": 1.0,
+      "strong_efficiency": 1.0,
+      "weak_efficiency": 1.0,
+      "throughput_dofs_per_second": 33798.149725395626
+    },
+    {
+      "benchmark": "results_large\\qf_solver_0_2_2_multi_million_docker\\4m_r4\\benchmark_large.json",
+      "benchmark_sha256": "db4e01584fd1eeb815e16b46b3da2c2fa21568f0cc8046861f6ebd3184cd6ee6",
+      "ranks": 4,
+      "dofs": 4102893,
+      "dofs_per_rank": 1025723.25,
+      "elements": 7986000,
+      "pipeline_time_seconds": 98.68978843701188,
+      "assembly_time_seconds": 47.22676977200899,
+      "solve_time_seconds": 49.6244082399935,
+      "iterations": 57,
+      "residual_norm": 1.0412032136862934e-18,
+      "peak_rss_per_rank_bytes": 2603835392,
+      "speedup": 1.2300564639923,
+      "strong_efficiency": 0.61502823199615,
+      "weak_efficiency": 1.2300564639923,
+      "throughput_dofs_per_second": 41573.63254070247
+    }
+  ]
+}

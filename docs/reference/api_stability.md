@@ -1,8 +1,8 @@
 ---
 doc_id: DOC-REF-API-002
-revision: 0.1
-status: draft
-applicable_version: 0.2.0
+revision: 0.2
+status: reviewed
+applicable_version: 0.2.2a0
 reviewer: ""
 approver: ""
 ---
@@ -11,18 +11,19 @@ approver: ""
 
 ## Contrat public
 
-Les imports pris en charge sont ceux de `solveur.api`. Ils couvrent le cycle
+Les imports pris en charge sont exclusivement ceux de `qf_solver`. Ils couvrent le cycle
 standard `load_model -> check_mesh -> solve_model -> save_result`, les exports
-de preuve et les fonctions de benchmark publiees. Les modules `solveur.core`,
-`solveur.elements`, `solveur.io` et `solveur.large` restent internes, meme si
-leur code est lisible.
+de preuve et les fonctions de benchmark publiees. Les modules `solveur`,
+`solveur.core`, `solveur.elements`, `solveur.io` et `solveur.large` sont des
+espaces d'implementation internes. Leur code reste lisible, mais ils ne
+constituent pas un contrat pour les nouvelles integrations.
 
 La version installee est disponible sans importer le noyau interne :
 
 ```python
-import solveur
+from qf_solver import __version__
 
-print(solveur.__version__)
+print(__version__)
 ```
 
 Les entrees JSON v1 restent compatibles tant que `schema_version` est absent
@@ -40,7 +41,8 @@ protege par une mise a jour de preuve ou de snapshot.
 
 Les alias `solveur-ef` et `main_solveur.py` sont deprecies et prevus pour
 retrait a partir de `0.3.0`. Les nouvelles integrations doivent utiliser
-`qf-solver` ou `python -m solveur.cli.main`.
+la commande installee `qf-solver`. Le lanceur source `qf_solver.py` reste
+disponible pendant la transition, mais ne definit pas une seconde API Python.
 
 ## Maturite
 

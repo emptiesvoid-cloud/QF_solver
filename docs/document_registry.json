@@ -3613,6 +3613,106 @@
       "requirements": [],
       "examples": [],
       "tests": []
+    },
+    {
+      "id": "DOC-BACKEND-022-001",
+      "path": "verification/qf_solver_0_2_2_alpha_backend_report.md",
+      "title": "Rapport du chantier backend numérique QF Solver 0.2.2 alpha",
+      "status": "draft",
+      "requirements": [],
+      "examples": [],
+      "tests": [
+        "tests/unit/test_solver_backend.py",
+        "tests/unit/test_sparse_scaling_benchmark.py",
+        "tests/unit/test_assembly_scaling_benchmark.py"
+      ]
+    },
+    {
+      "id": "DOC-BACKEND-022-002",
+      "path": "verification/qf_solver_0_2_2_alpha_vnv_assembly_scaling_plan.md",
+      "title": "Plan V&V 0.2.2 alpha : assemblage, scaling et couverture",
+      "status": "draft",
+      "requirements": [
+        "REQ-SOL-001",
+        "REQ-AUD-001",
+        "REQ-EVD-001"
+      ],
+      "examples": [
+        "qualification/benchmarks/qf_solver_0_2_2_sparse_scaling_reference.json",
+        "qualification/benchmarks/qf_solver_0_2_2_assembly_scaling_reference.json",
+        "qualification/benchmarks/qf_solver_0_2_2_standard_km_pair_reference.json",
+        "qualification/benchmarks/qf_solver_0_2_2_newmark_factorization_reference.json",
+        "qualification/benchmarks/qf_solver_0_2_2_assembly_chunk_sweep_reference.json",
+        "qualification/benchmarks/qf_solver_0_2_2_assembly_scaling_comparison.json",
+        "qualification/benchmarks/qf_solver_0_2_2_assembly_scaling_csr_reference.json",
+        "qualification/benchmarks/qf_solver_0_2_2_assembly_scaling_geometry_reference.json",
+        "qualification/benchmarks/qf_solver_0_2_2_assembly_scaling_geometry_comparison.json",
+        "qualification/benchmarks/qf_solver_0_2_2_assembly_scaling_centered_reference.json",
+        "qualification/benchmarks/qf_solver_0_2_2_large_standard_field_comparison.json",
+        "qualification/benchmarks/qf_solver_0_2_2_multi_million_campaign_plan/large_campaign.json"
+      ],
+      "tests": [
+        "tests/unit/test_sparse_accumulator.py",
+        "tests/unit/test_large_assembler.py",
+        "tests/unit/test_solver.py",
+        "tests/unit/test_assembly_plan.py",
+        "tests/unit/test_assembly_scaling_benchmark.py",
+        "tests/unit/test_newmark_factorization_benchmark.py",
+        "tests/unit/test_assembly_chunk_sweep.py",
+        "tests/unit/test_assembly_conversion.py",
+        "tests/unit/test_assembly_scaling_comparison.py",
+        "tests/unit/test_large_tet4_batch.py",
+        "tests/unit/test_large_standard_field_comparison.py"
+      ]
+    },
+    {
+      "id": "DOC-BACKEND-022-003",
+      "path": "verification/qf_solver_0_2_2_alpha_vnv_multi_million_plan.md",
+      "title": "Plan V&V multi-million DDL QF Solver 0.2.2 alpha",
+      "status": "draft",
+      "requirements": [
+        "REQ-SOL-001",
+        "REQ-AUD-001",
+        "REQ-EVD-001"
+      ],
+      "examples": [
+        "qualification/benchmarks/qf_solver_0_2_2_multi_million_campaign_plan/large_campaign.json"
+      ],
+      "tests": [
+        "tests/unit/test_large_campaign.py",
+        "tests/integration/test_large_model.py"
+      ]
+    },
+    {
+      "id": "DOC-AUDIT-CODE-API-0-2-2-001",
+      "path": "verification/qf_solver_0_2_2_alpha_code_documentation_api_audit.md",
+      "title": "Audit code, documentation et API publique 0.2.2a0",
+      "status": "draft",
+      "requirements": [
+        "REQ-AUD-001"
+      ],
+      "examples": [],
+      "tests": [
+        "tests/integration/test_public_qf_solver_api.py",
+        "tests/integration/test_packaging.py"
+      ]
+    },
+    {
+      "id": "DOC-RELEASE-PREP-0-2-2-001",
+      "path": "verification/qf_solver_0_2_2_alpha_release_preparation.md",
+      "title": "Préparation du tag et de la publication PyPI 0.2.2a0",
+      "status": "draft",
+      "requirements": [
+        "REQ-REL-001",
+        "REQ-AUD-001"
+      ],
+      "examples": [
+        "qualification/publication_audit_0_2_2.json"
+      ],
+      "tests": [
+        "tests/integration/test_packaging.py",
+        "tests/unit/test_public_release_audit.py"
+      ]
     }
   ]
 }

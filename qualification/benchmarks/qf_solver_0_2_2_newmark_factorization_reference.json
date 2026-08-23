@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "campaign": "qf-solver-newmark-factorization-reuse-0.2.2-alpha",
+  "comparison": "direct Newmark effective-matrix factorization reused across time steps",
+  "environment": "local reproducibility sample; host identity intentionally omitted",
+  "sizes": [
+    {
+      "target_dofs": 1000,
+      "dofs": 1029,
+      "nodes": 343,
+      "elements": 1296,
+      "steps": 8,
+      "time_step": 0.0001,
+      "elapsed_seconds": 1.5541996999527328,
+      "assembly_seconds": 0.1795780998072587,
+      "effective_nnz": 30676,
+      "backend": "scipy",
+      "used_method": "splu_reuse",
+      "factorization_count": 1,
+      "solve_count": 8,
+      "factorization_reused": true,
+      "factorization_seconds": 0.006063700013328344,
+      "solve_seconds_total": 0.001809899986255914,
+      "solve_seconds_last": 0.00023020000662654638,
+      "reuse_count_ratio": 8.0,
+      "max_relative_dynamic_residual": 1.2769192469885455e-11,
+      "status": "PASS"
+    },
+    {
+      "target_dofs": 10000,
+      "dofs": 10125,
+      "nodes": 3375,
+      "elements": 16464,
+      "steps": 8,
+      "time_step": 0.0001,
+      "elapsed_seconds": 30.969863900041673,
+      "assembly_seconds": 2.258054199803155,
+      "effective_nnz": 380044,
+      "backend": "scipy",
+      "used_method": "splu_reuse",
+      "factorization_count": 1,
+      "solve_count": 8,
+      "factorization_reused": true,
+      "factorization_seconds": 0.5716476999805309,
+      "solve_seconds_total": 0.0626864000223577,
+      "solve_seconds_last": 0.007753900019451976,
+      "reuse_count_ratio": 8.0,
+      "max_relative_dynamic_residual": 2.209231747346293e-11,
+      "status": "PASS"
+    }
+  ]
+}

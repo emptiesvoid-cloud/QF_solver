@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "campaign": "qf-solver-tet4-assembly-chunk-sweep-0.2.2-alpha",
+  "environment": "local reproducibility sample; host identity intentionally omitted",
+  "target_dofs": 100000,
+  "chunk_sizes": [
+    1024,
+    2048,
+    4096,
+    8192,
+    16384
+  ],
+  "repeats": 3,
+  "sizes": [
+    {
+      "chunk_size": 1024,
+      "target_dofs": 100000,
+      "dofs": 107811,
+      "elements": 196608,
+      "assembly_seconds": 1.9366998000186868,
+      "assembly_seconds_samples": [
+        2.116924799978733,
+        1.9366998000186868,
+        1.8873845000052825
+      ],
+      "repeat_count": 3,
+      "final_nnz": 3813789,
+      "peak_chunk_nnz": 37323,
+      "sparse_memory_bytes": 46196716,
+      "assembly_phase_seconds": {
+        "chunk_build": 1.6621650998713449,
+        "element_kernel": 0.8880219999700785,
+        "chunk_sparse_conversion": 0.7741430999012664,
+        "chunk_fusion": 0.20065849978709593,
+        "sparse_finalize": 0.02303590002702549
+      }
+    },
+    {
+      "chunk_size": 2048,
+      "target_dofs": 100000,
+      "dofs": 107811,
+      "elements": 196608,
+      "assembly_seconds": 1.7746897999895737,
+      "assembly_seconds_samples": [
+        1.7599265000317246,
+        1.7789584000129253,
+        1.7746897999895737
+      ],
+      "repeat_count": 3,
+      "final_nnz": 3813789,
+      "peak_chunk_nnz": 71658,
+      "sparse_memory_bytes": 46196716,
+      "assembly_phase_seconds": {
+        "chunk_build": 1.5745774999959394,
+        "element_kernel": 0.8426043998915702,
+        "chunk_sparse_conversion": 0.7266104000154883,
+        "chunk_fusion": 0.13622830010717735,
+        "sparse_finalize": 0.022897300019394606
+      }
+    },
+    {
+      "chunk_size": 4096,
+      "target_dofs": 100000,
+      "dofs": 107811,
+      "elements": 196608,
+      "assembly_seconds": 1.7061925000161864,
+      "assembly_seconds_samples": [
+        1.7061925000161864,
+        1.6561164999729954,
+        1.7447542999871075
+      ],
+      "repeat_count": 3,
+      "final_nnz": 3813789,
+      "peak_chunk_nnz": 143055,
+      "sparse_memory_bytes": 46196716,
+      "assembly_phase_seconds": {
+        "chunk_build": 1.5533758999663405,
+        "element_kernel": 0.8450198001228273,
+        "chunk_sparse_conversion": 0.7083560998435132,
+        "chunk_fusion": 0.09260520013049245,
+        "sparse_finalize": 0.023057299957145005
+      }
+    },
+    {
+      "chunk_size": 8192,
+      "target_dofs": 100000,
+      "dofs": 107811,
+      "elements": 196608,
+      "assembly_seconds": 1.6890382000128739,
+      "assembly_seconds_samples": [
+        1.6973428999772295,
+        1.6890382000128739,
+        1.6563087000395171
+      ],
+      "repeat_count": 3,
+      "final_nnz": 3813789,
+      "peak_chunk_nnz": 257481,
+      "sparse_memory_bytes": 46196716,
+      "assembly_phase_seconds": {
+        "chunk_build": 1.5618688000249676,
+        "element_kernel": 0.8400063000735827,
+        "chunk_sparse_conversion": 0.718752899847459,
+        "chunk_fusion": 0.06969230016693473,
+        "sparse_finalize": 0.02308960002847016
+      }
+    },
+    {
+      "chunk_size": 16384,
+      "target_dofs": 100000,
+      "dofs": 107811,
+      "elements": 196608,
+      "assembly_seconds": 1.672916500014253,
+      "assembly_seconds_samples": [
+        1.6372094000107609,
+        1.672916500014253,
+        1.6996821999782696
+      ],
+      "repeat_count": 3,
+      "final_nnz": 3813789,
+      "peak_chunk_nnz": 448551,
+      "sparse_memory_bytes": 46196716,
+      "assembly_phase_seconds": {
+        "chunk_build": 1.5652626001392491,
+        "element_kernel": 0.8492233001161367,
+        "chunk_sparse_conversion": 0.7147440999397077,
+        "chunk_fusion": 0.04147019993979484,
+        "sparse_finalize": 0.023255800013430417
+      }
+    }
+  ]
+}

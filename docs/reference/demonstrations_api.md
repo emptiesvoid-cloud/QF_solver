@@ -40,7 +40,7 @@ reproductible. Chaque entree relie au minimum :
 L'API publique disponible est :
 
 ```python
-from solveur.api import list_demonstrations, run_demonstration, run_qualification_case
+from qf_solver import list_demonstrations, run_demonstration, run_qualification_case
 
 catalog = list_demonstrations(family="MITC4", method="linear_static")
 run = run_demonstration(

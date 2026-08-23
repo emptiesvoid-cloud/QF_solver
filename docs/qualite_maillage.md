@@ -51,9 +51,7 @@ pas une preuve analytique de positivite en tout point d'une geometrie courbe.
 ## Usage API avec seuils relaxes
 
 ```python
-from solveur.api import load_model
-from solveur.mesh.quality import MeshQualityThresholds
-from solveur.mesh.validation import MeshValidator
+from qf_solver import MeshQualityThresholds, MeshValidator, load_model
 
 model = load_model("examples/tet4_static.json")
 thresholds = MeshQualityThresholds(tet_max_aspect_ratio=30.0)

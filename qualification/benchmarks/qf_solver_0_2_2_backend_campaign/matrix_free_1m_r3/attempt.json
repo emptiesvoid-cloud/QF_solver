@@ -1,0 +1,19 @@
+{
+  "study_id": "QF-BACKEND-R3-MATRIX-FREE-1M-RETRY-002",
+  "applicable_version": "0.2.2a0",
+  "analysis": "linear_static",
+  "backend": "matrix_free",
+  "target_dofs": 1000000,
+  "timeout_seconds": 900.0,
+  "elapsed_seconds": 901.1131751540233,
+  "telemetry_samples": 31,
+  "telemetry_interval_seconds": 30.0,
+  "peak_rss_mib": 293.77,
+  "peak_hwm_mib": 293.77,
+  "return_code": -15,
+  "termination": "timeout",
+  "solver_summary_produced": false,
+  "final_residual_available": false,
+  "verdict": "BLOCKED_TIMEOUT",
+  "interpretation": "The process remained active with bounded resident memory until the controlled timeout. This run is neither a numerical FAIL nor a matrix-free 1M PASS."
+}

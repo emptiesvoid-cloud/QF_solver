@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "campaign": "qf-solver-tet4-assembly-scaling-comparison-0.2.2-alpha",
+  "environment": "local reproducibility comparison; host identity intentionally omitted",
+  "baseline": "qf_solver_0_2_2_assembly_scaling_reference.json",
+  "candidate": "qf_solver_0_2_2_assembly_scaling_csr_reference.json",
+  "numerical_identity": "PASS",
+  "max_absolute_relative_time_change": 0.027066868452977337,
+  "median_relative_time_change": 0.02145648686401371,
+  "performance_interpretation": "no_material_change",
+  "sizes": [
+    {
+      "dofs": 1029,
+      "elements": 1296,
+      "nnz": 30399,
+      "baseline_seconds": 0.012550399987958372,
+      "candidate_seconds": 0.01289010001346469,
+      "relative_time_change": 0.027066868452977337,
+      "phase_relative_changes": {
+        "chunk_build": 0.04593786743917061,
+        "chunk_fusion": -0.196971434115022,
+        "chunk_sparse_conversion": 0.04659255002481864,
+        "element_kernel": 0.009372319696057303,
+        "sparse_finalize": 0.07296930836433996
+      },
+      "candidate_conversion_method": "csr_constructor"
+    },
+    {
+      "dofs": 10125,
+      "elements": 16464,
+      "nnz": 338727,
+      "baseline_seconds": 0.13781380001455545,
+      "candidate_seconds": 0.14077080000424758,
+      "relative_time_change": 0.02145648686401371,
+      "phase_relative_changes": {
+        "chunk_build": 0.0167379258928807,
+        "chunk_fusion": 0.017772668543447577,
+        "chunk_sparse_conversion": 0.008219139246921045,
+        "element_kernel": 0.012496246507702667,
+        "sparse_finalize": -0.035826976328595925
+      },
+      "candidate_conversion_method": "csr_constructor"
+    },
+    {
+      "dofs": 107811,
+      "elements": 196608,
+      "nnz": 3813789,
+      "baseline_seconds": 1.7307138000032865,
+      "candidate_seconds": 1.7274175999918953,
+      "relative_time_change": -0.001904532113504228,
+      "phase_relative_changes": {
+        "chunk_build": -0.00274311457271081,
+        "chunk_fusion": 0.025966466847805056,
+        "chunk_sparse_conversion": -0.012534732917137937,
+        "element_kernel": 0.0016376301631658827,
+        "sparse_finalize": -0.03366084194913408
+      },
+      "candidate_conversion_method": "csr_constructor"
+    }
+  ]
+}

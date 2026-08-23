@@ -28,6 +28,7 @@ class LinearSolverSelection:
     direct_memory_estimate_bytes: int
     direct_memory_budget_bytes: int | None
     direct_budget_exceeded: bool
+    dense_memory_estimate_bytes: int
 
     def to_dict(self, *, used_method: str) -> dict[str, object]:
         return {
@@ -50,6 +51,7 @@ class LinearSolverSelection:
                 "direct_memory_estimate_bytes": self.direct_memory_estimate_bytes,
                 "direct_memory_budget_bytes": self.direct_memory_budget_bytes,
                 "direct_budget_exceeded": self.direct_budget_exceeded,
+                "dense_memory_estimate_bytes": self.dense_memory_estimate_bytes,
             },
         }
 
@@ -59,6 +61,7 @@ class LinearSolverPolicy:
 
     _DIRECT = {"direct", "spsolve", "direct_frequency", "harmonic_direct"}
     _CG = {"cg", "conjugate_gradient"}
+    _AUTO = {"auto", "automatic"}
 
     @classmethod
     def assess(cls, matrix: csr_matrix, method: str, parameters: dict[str, Any]) -> LinearSolverSelection:
@@ -74,12 +77,15 @@ class LinearSolverPolicy:
         positive_definite_evidence = _positive_definite_evidence(reduced, parameters, matrix_real and symmetry)
         sparse_bytes = _sparse_storage_bytes(reduced)
         direct_bytes = int(sparse_bytes * _positive_float(parameters, "direct_fill_factor_estimate", 10.0))
+        dense_bytes = int(reduced.shape[0] * reduced.shape[1] * np.dtype(reduced.dtype).itemsize)
         budget_mb = parameters.get("direct_memory_budget_mb")
         budget_bytes = None if budget_mb is None else int(_positive_float(parameters, "direct_memory_budget_mb", 1.0) * 1024**2)
         direct_over_budget = budget_bytes is not None and direct_bytes > budget_bytes
         warnings: list[str] = []
 
-        if not matrix_real:
+        if requested in cls._AUTO and reduced.shape[0] <= int(parameters.get("auto_direct_max_dofs", 2000)) and not direct_over_budget:
+            recommended, rationale = "direct", "small reduced system; sparse direct solve is preferred by the automatic policy"
+        elif not matrix_real:
             recommended, rationale = "direct", "reduced matrix is complex; the standard direct complex route is required"
         elif positive_definite_evidence == "dense_cholesky":
             recommended, rationale = "cg", "reduced matrix is real symmetric positive definite (dense Cholesky verified)"
@@ -98,6 +104,8 @@ class LinearSolverPolicy:
                     "Direct solver refused by configured memory budget: "
                     f"estimated={direct_bytes / 1024**2:.1f} MiB, budget={budget_bytes / 1024**2:.1f} MiB."
                 )
+        if requested in cls._AUTO and direct_over_budget:
+            warnings.append("automatic policy avoided direct sparse factorization because its estimate exceeds the memory budget")
         if requested in cls._CG and positive_definite_evidence == "not_proven":
             warnings.append("CG requested without a positive-definite matrix proof or explicit user declaration")
         if requested == "minres" and not (matrix_real and symmetry):
@@ -119,13 +127,34 @@ class LinearSolverPolicy:
             direct_memory_estimate_bytes=direct_bytes,
             direct_memory_budget_bytes=budget_bytes,
             direct_budget_exceeded=direct_over_budget,
+            dense_memory_estimate_bytes=dense_bytes,
         )
 
     @classmethod
     def enforce_method_contract(cls, selection: LinearSolverSelection, parameters: dict[str, Any]) -> None:
         """Reject standard Krylov requests that contradict their declared contract."""
         requested = selection.requested_method
+        if requested in cls._AUTO:
+            return
         preconditioner = str(parameters.get("preconditioner", "none")).lower()
+        petsc_preconditioners = {
+            "gamg",
+            "amg",
+            "hypre",
+            "asm",
+            "bjacobi",
+            "block_jacobi",
+            "sor",
+        }
+        if preconditioner in petsc_preconditioners:
+            if str(parameters.get("backend", "auto")).lower() != "petsc":
+                raise InputValidationError(
+                    f"Preconditioner {preconditioner!r} requires backend='petsc'; "
+                    "use 'jacobi' or 'ilu' for the SciPy route."
+                )
+            # PETSc owns the PC contract and configures it in the optional
+            # adapter. Do not reject a valid PETSc KSP/PC pairing here.
+            return
         if requested in cls._CG and selection.positive_definite_evidence == "not_proven":
             raise InputValidationError(
                 "CG requires a verified real SPD reduced matrix. For matrices larger than "
@@ -141,7 +170,12 @@ class LinearSolverPolicy:
             )
 
 
-def linear_execution_settings(method: str, parameters: dict[str, Any]) -> dict[str, object]:
+def linear_execution_settings(
+    method: str,
+    parameters: dict[str, Any],
+    *,
+    used_method: str | None = None,
+) -> dict[str, object]:
     """Return the effective public settings recorded for one standard solve.
 
     The dictionary deliberately records only scalar options consumed by the
@@ -150,9 +184,12 @@ def linear_execution_settings(method: str, parameters: dict[str, Any]) -> dict[s
     the choice and stopping behavior.
     """
     normalized = str(method).lower()
-    iterative = normalized not in LinearSolverPolicy._DIRECT
+    effective = str(used_method or normalized).lower()
+    iterative = effective not in LinearSolverPolicy._DIRECT
     return {
         "requested_method": normalized,
+        "used_method": effective,
+        "backend": str(parameters.get("backend", "auto")).lower(),
         "preconditioner": str(parameters.get("preconditioner", "none")).lower(),
         "rtol": float(parameters.get("rtol", 1.0e-10)) if iterative else None,
         "atol": float(parameters.get("atol", 0.0)) if iterative else None,

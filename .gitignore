@@ -11,12 +11,14 @@ __pycache__/
 coverage*.json
 coverage*.xml
 htmlcov/
+schema-coverage.json
 
 # Editable/install metadata
 *.egg-info/
 build/
 dist/
 release_dist/
+release_dist_022/
 site/
 .docs-cache/
 

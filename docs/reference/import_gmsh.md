@@ -103,7 +103,7 @@ qf-solver import-mesh `
 ## API
 
 ```python
-from solveur.api import import_gmsh_model, save_model
+from qf_solver import import_gmsh_model, save_model
 
 imported = import_gmsh_model("modele.msh", "modele.setup.json")
 save_model(imported.model, "modele.json")

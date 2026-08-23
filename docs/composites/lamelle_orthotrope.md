@@ -118,7 +118,7 @@ cisaillement et que l'energie reste invariante pour plusieurs angles.
 ## Interface et limite volontaire
 
 ```python
-from solveur.materials import OrthotropicLamina
+from qf_solver import OrthotropicLamina
 
 ply = OrthotropicLamina(E1=135e9, E2=10e9, nu12=0.3, G12=5e9)
 q = ply.reduced_stiffness

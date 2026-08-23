@@ -47,8 +47,8 @@ avec le backend matrix-free ou PETSc/MPI selon la memoire disponible.
 ## Interface librairie
 
 ```python
-from solveur.api import generate_large_tet4_cantilever
-from solveur.verification.tet4_structured_convergence import (
+from qf_solver import (
+    generate_large_tet4_cantilever,
     StructuredTet4ConvergencePlan,
     run_structured_tet4_study,
 )

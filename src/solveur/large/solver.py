@@ -135,6 +135,7 @@ def _solve_scipy(
     displacement[free] = solution
     audit = inspect_large_model(model, stiffness=assembly.stiffness, loads=assembly.loads, displacement=displacement)
     summary = _summary(model, "scipy", info.to_dict(), assembly_time, solve_time, audit)
+    summary["assembly"] = dict(assembly.diagnostics or {})
     return LargeSolveResult("PASS", "scipy", summary, audit), displacement
 
 

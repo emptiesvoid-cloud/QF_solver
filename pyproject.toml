@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "qf-solver"
-version = "0.2.1a0"
+version = "0.2.2a0"
 description = "Solveur FEM Python boite blanche : TET4/TET10, MITC3+/MITC4, BEAM2 et analyses statiques/dynamiques."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -60,6 +60,11 @@ large = [
   "mpi4py>=3.1",
   "petsc4py>=3.20"
 ]
+hpc = [
+  "mpi4py>=3.1",
+  "petsc4py>=3.20",
+  "slepc4py>=3.20"
+]
 docs = [
   "gmsh==4.15.2",
   "reportlab==4.4.9",
@@ -78,7 +83,7 @@ mitc4-solver = "solveur.compat.mitc4.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["solveur*"]
+include = ["qf_solver*", "solveur*"]
 
 [tool.setuptools.data-files]
 examples = ["examples/*.json"]
@@ -119,6 +124,11 @@ omit = [
 
 [tool.coverage.report]
 fail_under = 80
+omit = [
+  "src/solveur/benchmarks/*",
+  "src/solveur/documentation/*",
+  "src/solveur/verification/*",
+]
 show_missing = true
 skip_covered = true
 exclude_also = [

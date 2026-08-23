@@ -1,0 +1,178 @@
+{
+  "status": "PASS",
+  "input": "/workspace/results_large/qf_solver_0_2_2_multi_million_docker/model_2m.h5",
+  "node_count": 681472,
+  "element_count": 3951018,
+  "ndof": 2044416,
+  "backend": "petsc",
+  "chunk_size": 4096,
+  "matrix_format": "baij",
+  "partition_strategy": "graph",
+  "partition_details": {
+    "strategy": "graph",
+    "partitioner": "ptscotch",
+    "local_element_counts": [
+      1969532,
+      1981486
+    ],
+    "imbalance_ratio": 1.003025549364746,
+    "interior_face_count": 7856622,
+    "cut_face_count": 15179,
+    "cut_face_ratio": 0.001932000801362214,
+    "non_manifold_face_count": 0,
+    "timings": {
+      "dual_graph_max_s": 4.20869261000189,
+      "partition_apply_max_s": 1.3593219890026376,
+      "cut_faces_max_s": 2.9016672389989253,
+      "redistribute_elements_max_s": 0.24275288401986472
+    },
+    "node_read": {
+      "method": "blocked_hdf5_ranges",
+      "local_time_s": 0.0917330420052167,
+      "max_time_s": 0.0917330420052167,
+      "block_size": 262144,
+      "local_node_count": 343473
+    },
+    "boundary_conditions": {
+      "method": "chunked_hdf5_filter",
+      "local_time_s": 0.3217849839711562,
+      "max_time_s": 0.33391969799413346,
+      "fixed_global_count": 23232,
+      "fixed_local_count": 23232,
+      "load_global_count": 7744,
+      "load_local_count": 0,
+      "loads_owned_by_dof_range": true,
+      "fixed_kept_for_element_halo_or_dof_owner": true
+    }
+  },
+  "restart": {
+    "used": false,
+    "source": null,
+    "validated_input_sha256": null
+  },
+  "load_time_seconds": 10.266732682008296,
+  "solve_pipeline_time_seconds": 53.673753873998066,
+  "assembly_time_seconds": 23.69780127800186,
+  "solve_time_seconds": 28.909452913008863,
+  "estimated_core_memory_bytes": 87623704,
+  "memory_telemetry": {
+    "python_tracemalloc_current_bytes": 174243133,
+    "python_tracemalloc_peak_bytes": 1651648043,
+    "process_current_rss_before_bytes": 122773504,
+    "process_current_rss_after_bytes": 2286137344,
+    "process_peak_rss_bytes": 3168931840,
+    "process_peak_rss_sum_bytes": 6328320000,
+    "process_memory_source": "procfs+resource",
+    "rank_count": 2
+  },
+  "mpi": {
+    "size": 2,
+    "rank_telemetry": [
+      {
+        "rank": 0,
+        "load_time_seconds": 10.260432763025165,
+        "solve_pipeline_time_seconds": 53.673753873998066,
+        "python_tracemalloc_current_bytes": 173230615,
+        "python_tracemalloc_peak_bytes": 1651647135,
+        "process_current_rss_before_bytes": 122773504,
+        "process_current_rss_after_bytes": 2277609472,
+        "process_peak_rss_bytes": 3159388160,
+        "process_memory_source": "procfs+resource"
+      },
+      {
+        "rank": 1,
+        "load_time_seconds": 10.266732682008296,
+        "solve_pipeline_time_seconds": 53.66746545501519,
+        "python_tracemalloc_current_bytes": 174243133,
+        "python_tracemalloc_peak_bytes": 1651648043,
+        "process_current_rss_before_bytes": 122363904,
+        "process_current_rss_after_bytes": 2286137344,
+        "process_peak_rss_bytes": 3168931840,
+        "process_memory_source": "procfs+resource"
+      }
+    ]
+  },
+  "partitioned_input": {
+    "enabled": true,
+    "local_element_count": 1969532,
+    "local_compact_node_count": 343473
+  },
+  "input_fingerprint": {
+    "path": "/workspace/results_large/qf_solver_0_2_2_multi_million_docker/model_2m.h5",
+    "size_bytes": 174899008,
+    "sha256": "16e600f043b825df79ce7a55d2d8c691601c60dfa20d952b0c7501bafc1f2877"
+  },
+  "runtime_environment": "runtime_environment.json",
+  "artifact_policy": {
+    "displacement_output": "displacements.bin",
+    "file_backed_displacements": true,
+    "json_files_checked": 5,
+    "largest_json_bytes": 3472,
+    "monolithic_displacements_in_json": false,
+    "offending_json_files": []
+  },
+  "solver": {
+    "method": "cg",
+    "preconditioner": "gamg",
+    "preconditioner_subtype": null,
+    "iterations": 54,
+    "residual_norm": 8.800507250331155e-19,
+    "converged": true,
+    "mpi_size": 2,
+    "distributed": true,
+    "ownership_ranges": [
+      [
+        0,
+        1022208
+      ],
+      [
+        1022208,
+        2044416
+      ]
+    ],
+    "matrix_format": "baij",
+    "setup_time_seconds": 7.90863144499599,
+    "iteration_time_seconds": 21.000821468012873,
+    "automatic_petsc_options": {},
+    "explicit_petsc_options": {},
+    "preconditioner_diagnostics": {
+      "ksp_type": "cg",
+      "pc_type": "gamg",
+      "pc_mg_levels": 5,
+      "matrix_global_size": [
+        2044416,
+        2044416
+      ],
+      "matrix_local_size": [
+        1022208,
+        1022208
+      ],
+      "matrix_ownership_range": [
+        0,
+        1022208
+      ],
+      "matrix_info": {
+        "block_size": 1.0,
+        "nz_allocated": 90335502.0,
+        "nz_used": 90335502.0,
+        "nz_unneeded": 0.0,
+        "memory": 0.0,
+        "assemblies": 2.0,
+        "mallocs": 0.0,
+        "fill_ratio_given": 0.0,
+        "fill_ratio_needed": 0.0,
+        "factor_mallocs": 0.0
+      }
+    },
+    "restart_used": false,
+    "restart_source": null,
+    "initial_guess_norm": 0.0
+  },
+  "audit_status": "PASS",
+  "output_files": {
+    "summary": "summary.json",
+    "audit_large": "audit_large.json",
+    "displacements": "displacements.bin",
+    "displacements_metadata": "displacements_metadata.json"
+  }
+}

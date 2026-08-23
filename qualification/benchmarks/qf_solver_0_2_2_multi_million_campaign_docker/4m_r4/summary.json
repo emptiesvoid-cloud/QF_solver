@@ -1,0 +1,104 @@
+{
+  "analysis": "linear_static",
+  "node_count": 1367631,
+  "element_count": 7986000,
+  "ndof": 4102893,
+  "backend": "petsc",
+  "solver": {
+    "method": "cg",
+    "preconditioner": "gamg",
+    "preconditioner_subtype": null,
+    "iterations": 57,
+    "residual_norm": 1.0412032136862934e-18,
+    "converged": true,
+    "mpi_size": 4,
+    "distributed": true,
+    "ownership_ranges": [
+      [
+        0,
+        1025724
+      ],
+      [
+        1025724,
+        2051448
+      ],
+      [
+        2051448,
+        3077172
+      ],
+      [
+        3077172,
+        4102893
+      ]
+    ],
+    "matrix_format": "baij",
+    "setup_time_seconds": 10.688066217000596,
+    "iteration_time_seconds": 38.9363420229929,
+    "automatic_petsc_options": {
+      "pc_gamg_repartition": true
+    },
+    "explicit_petsc_options": {},
+    "preconditioner_diagnostics": {
+      "ksp_type": "cg",
+      "pc_type": "gamg",
+      "pc_mg_levels": 5,
+      "matrix_global_size": [
+        4102893,
+        4102893
+      ],
+      "matrix_local_size": [
+        1025724,
+        1025724
+      ],
+      "matrix_ownership_range": [
+        0,
+        1025724
+      ],
+      "matrix_info": {
+        "block_size": 1.0,
+        "nz_allocated": 181980819.0,
+        "nz_used": 181980819.0,
+        "nz_unneeded": 0.0,
+        "memory": 0.0,
+        "assemblies": 2.0,
+        "mallocs": 0.0,
+        "fill_ratio_given": 0.0,
+        "fill_ratio_needed": 0.0,
+        "factor_mallocs": 0.0
+      }
+    },
+    "restart_used": false,
+    "restart_source": null,
+    "initial_guess_norm": 0.0
+  },
+  "assembly_time_seconds": 47.22676977200899,
+  "solve_time_seconds": 49.6244082399935,
+  "estimated_core_memory_bytes": 105140040,
+  "audit_status": "PASS",
+  "mpi": {
+    "size": 4,
+    "distributed_assembly": true,
+    "element_partition": "contiguous",
+    "input_arrays_replicated_per_rank": false,
+    "boundary_arrays_distributed": true,
+    "local_fixed_dof_count": 36963,
+    "local_load_count": 0,
+    "local_fixed_dof_counts": [
+      36963,
+      0,
+      0,
+      0
+    ],
+    "local_load_counts": [
+      0,
+      0,
+      0,
+      12321
+    ],
+    "partitioned_hdf5_input": true,
+    "global_connectivity_replicated": false,
+    "global_nodes_replicated": false,
+    "displacement_gathered_on_root_only": false,
+    "displacement_mpi_io": true
+  }
+}

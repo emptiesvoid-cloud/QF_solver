@@ -1,0 +1,21 @@
+{
+  "format": "qf_solver_mpi_binary_v1",
+  "dtype": "float64",
+  "byte_order": "little",
+  "shape": [
+    1367631,
+    3
+  ],
+  "flat_size": 4102893,
+  "layout": "node_by_translation_component",
+  "ownership_ranges": [
+    [
+      0,
+      2051448
+    ],
+    [
+      2051448,
+      4102893
+    ]
+  ]
+}

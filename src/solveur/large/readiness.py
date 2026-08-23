@@ -12,6 +12,7 @@ from solveur.large.generator import recommended_block_for_dofs
 
 
 SCIPY_DEFAULT_MAX_DOFS = 200_000
+MULTI_MILLION_DOF_GATE = 2_000_000
 
 
 def check_large_readiness(
@@ -24,6 +25,7 @@ def check_large_readiness(
     solver_backend: str = "petsc",
     chunk_size: int = 4096,
     scipy_max_dofs: int = SCIPY_DEFAULT_MAX_DOFS,
+    memory_budget_bytes: int | None = None,
 ) -> dict[str, Any]:
     """Return a machine-readable readiness report for a generated large TET4 run."""
     dimensions = _dimensions(target_dofs, nx, ny, nz)
@@ -35,12 +37,19 @@ def check_large_readiness(
         _backend_scale_check(solver_backend, sizing["ndof"], scipy_max_dofs),
         _disk_check(output_dir, sizing["recommended_free_disk_bytes"]),
         _chunk_check(chunk_size),
+        _multi_million_gate_check(
+            target_dofs,
+            solver_backend,
+            sizing,
+            memory_budget_bytes,
+        ),
     ]
     status = _overall_status(checks)
     report = {
         "status": status,
         "target_dofs": int(target_dofs),
         "backend": solver_backend,
+        "memory_budget_bytes": int(memory_budget_bytes) if memory_budget_bytes is not None else None,
         "dimensions": {"nx": dimensions[0], "ny": dimensions[1], "nz": dimensions[2]},
         "sizing": sizing,
         "checks": checks,
@@ -147,6 +156,45 @@ def _chunk_check(chunk_size: int) -> dict[str, str]:
     return {"id": "CHUNK-SIZE", "status": "PASS", "detail": f"chunk_size={chunk_size}"}
 
 
+def _multi_million_gate_check(
+    target_dofs: int,
+    backend: str,
+    sizing: dict[str, Any],
+    memory_budget_bytes: int | None,
+) -> dict[str, str]:
+    """Guard campaigns whose target is in the multi-million-DOF range."""
+    if target_dofs < MULTI_MILLION_DOF_GATE:
+        return {
+            "id": "MULTI-MILLION-GATE",
+            "status": "PASS",
+            "detail": f"not applicable below {MULTI_MILLION_DOF_GATE} target dofs",
+        }
+    if backend not in {"petsc", "matrix_free"}:
+        return {
+            "id": "MULTI-MILLION-GATE",
+            "status": "FAIL",
+            "detail": "multi-million-DOF campaigns require PETSc or matrix_free",
+        }
+    required = int(sizing["petsc_rule_of_thumb_bytes"])
+    if memory_budget_bytes is None:
+        return {
+            "id": "MULTI-MILLION-GATE",
+            "status": "WARNING",
+            "detail": f"explicit memory budget required; indicative requirement={required} bytes",
+        }
+    if memory_budget_bytes < required:
+        return {
+            "id": "MULTI-MILLION-GATE",
+            "status": "FAIL",
+            "detail": f"memory budget={memory_budget_bytes} bytes below indicative requirement={required} bytes",
+        }
+    return {
+        "id": "MULTI-MILLION-GATE",
+        "status": "PASS",
+        "detail": f"backend={backend}, budget={memory_budget_bytes} bytes, indicative requirement={required} bytes",
+    }
+
+
 def _overall_status(checks: list[dict[str, str]]) -> str:
     statuses = {item["status"] for item in checks}
     if "FAIL" in statuses:
@@ -165,6 +213,7 @@ def _markdown(report: dict[str, Any]) -> str:
         "",
         f"- Backend: `{report['backend']}`",
         f"- DDL cible: {report['target_dofs']}",
+        f"- Budget mémoire explicite: {report.get('memory_budget_bytes') or 'non fourni'} octets",
         f"- DDL estime: {sizing['ndof']}",
         f"- Noeuds estimes: {sizing['node_count']}",
         f"- Elements estimes: {sizing['element_count']}",

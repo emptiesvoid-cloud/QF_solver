@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "campaign": "qf-solver-sparse-scaling-0.2.2-alpha",
+  "environment": "local reproducibility sample; host identity intentionally omitted",
+  "backend_availability": {
+    "petsc": false,
+    "slepc": false
+  },
+  "cases": [
+    {
+      "dofs": 1000,
+      "nnz": 2998,
+      "method": "direct",
+      "backend": "scipy",
+      "iterations": 1,
+      "assembly_seconds": 0.0006799,
+      "solve_seconds": 0.0015940,
+      "total_seconds": 0.0022739,
+      "relative_residual_norm": 3.040470972244059e-17,
+      "sparse_memory_bytes": 39980,
+      "direct_memory_estimate_bytes": 399800,
+      "dense_memory_estimate_bytes": 8000000
+    },
+    {
+      "dofs": 10000,
+      "nnz": 29998,
+      "method": "cg",
+      "backend": "scipy",
+      "iterations": 12,
+      "assembly_seconds": 0.0009866,
+      "solve_seconds": 0.0025032,
+      "total_seconds": 0.0034898,
+      "relative_residual_norm": 3.3545144235471954e-9,
+      "sparse_memory_bytes": 399980,
+      "direct_memory_estimate_bytes": 3999800,
+      "dense_memory_estimate_bytes": 800000000
+    },
+    {
+      "dofs": 100000,
+      "nnz": 299998,
+      "method": "cg",
+      "backend": "scipy",
+      "iterations": 11,
+      "assembly_seconds": 0.0091267,
+      "solve_seconds": 0.0273980,
+      "total_seconds": 0.0365247,
+      "relative_residual_norm": 3.9595431362253e-9,
+      "sparse_memory_bytes": 3999980,
+      "direct_memory_estimate_bytes": 39999800,
+      "dense_memory_estimate_bytes": 80000000000
+    }
+  ]
+}

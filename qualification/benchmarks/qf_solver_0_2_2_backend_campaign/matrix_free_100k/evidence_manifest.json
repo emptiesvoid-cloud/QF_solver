@@ -1,0 +1,219 @@
+{
+  "manifest_schema_version": 2,
+  "created_at_utc": "2026-08-23T16:21:35.271819Z",
+  "solver": {
+    "name": "QF_solver",
+    "version": "0.2.2a0"
+  },
+  "source": {
+    "repository": ".",
+    "revision": "f5061fe5260e42582dc5f3202ccf3f626cd00ded",
+    "dirty": false
+  },
+  "runtime": {
+    "python": {
+      "version": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
+      "executable": "/dolfinx-env/bin/python3"
+    },
+    "platform": {
+      "system": "Linux",
+      "release": "6.18.33.2-microsoft-standard-WSL2",
+      "machine": "x86_64",
+      "processor": "x86_64"
+    },
+    "packages": {
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "matplotlib": "3.10.9",
+      "h5py": "3.13.0",
+      "mpi4py": "4.1.2",
+      "petsc4py": "3.25.1"
+    },
+    "blas": {
+      "name": "scipy-openblas",
+      "version": "0.3.31.188.0",
+      "configuration": "OpenBLAS 0.3.31.188.0  USE64BITINT DYNAMIC_ARCH NO_AFFINITY SkylakeX MAX_THREADS=64"
+    },
+    "parallel_environment": {
+      "OMP_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": "1",
+      "PETSC_ARCH": "linux-gnu-real64-32"
+    }
+  },
+  "locked_environments": [
+    {
+      "path": "requirements/baseline-standard.txt",
+      "sha256": "9e2d70a7972f86992c0a764f86f7c3b1184ecfe6d966987260bbb69c6d03d72e",
+      "size_bytes": 731
+    },
+    {
+      "path": "requirements/baseline-large-linux.txt",
+      "sha256": "17c7475ddeead8b660d4ee0127f76a3f3b46fee81a8d3f77450d0fd2c4e3c1f3",
+      "size_bytes": 157
+    },
+    {
+      "path": "requirements/baseline-large-container.txt",
+      "sha256": "08e264c1f393400713062be1d1464696c1946c7c61776f4d587b8a25e88a99f0",
+      "size_bytes": 221
+    }
+  ],
+  "command_line": [
+    "qf_solver.py",
+    "benchmark-large",
+    "--input",
+    "/workspace/results_large/qf_solver_0_2_2_matrix_free_docker/100k/model.h5",
+    "--output",
+    "/workspace/results_large/qf_solver_0_2_2_matrix_free_docker/100k",
+    "--solver-backend",
+    "matrix_free",
+    "--chunk-size",
+    "4096"
+  ],
+  "evidence_kind": "large_scale",
+  "input_sha256": "95a43d0e7fa8da342e2937be8643ac52c80da341418092a06b46b7ac0ed5e53d",
+  "traceability": {
+    "status": "FAIL",
+    "scope": "large-tet4-linear-static",
+    "scope_status": "development",
+    "requirement_count": 11,
+    "covered_requirement_count": 11,
+    "formula_count": 0,
+    "covered_formula_count": 0,
+    "orphan_requirements": [],
+    "orphan_formulas": [],
+    "missing_paths": [],
+    "missing_independent_references": [],
+    "artifact_aliases_used": [],
+    "formula_issues": [],
+    "checks": [
+      {
+        "id": "SCOPE-CANDIDATE",
+        "status": "FAIL",
+        "detail": "scope_status=development"
+      },
+      {
+        "id": "REQ-REQ-LRG-001",
+        "status": "PASS",
+        "detail": "design/code/function/test/artifact links present"
+      },
+      {
+        "id": "REQ-REQ-LRG-002",
+        "status": "PASS",
+        "detail": "design/code/function/test/artifact links present"
+      },
+      {
+        "id": "REQ-REQ-LRG-003",
+        "status": "PASS",
+        "detail": "design/code/function/test/artifact links present"
+      },
+      {
+        "id": "REQ-REQ-LRG-004",
+        "status": "PASS",
+        "detail": "design/code/function/test/artifact links present"
+      },
+      {
+        "id": "REQ-REQ-LRG-005",
+        "status": "PASS",
+        "detail": "design/code/function/test/artifact links present"
+      },
+      {
+        "id": "REQ-REQ-LRG-006",
+        "status": "PASS",
+        "detail": "design/code/function/test/artifact links present"
+      },
+      {
+        "id": "REQ-REQ-LRG-007",
+        "status": "PASS",
+        "detail": "design/code/function/test/artifact links present"
+      },
+      {
+        "id": "REQ-REQ-LRG-008",
+        "status": "PASS",
+        "detail": "design/code/function/test/artifact links present"
+      },
+      {
+        "id": "REQ-REQ-LRG-009",
+        "status": "PASS",
+        "detail": "design/code/function/test/artifact links present"
+      },
+      {
+        "id": "REQ-REQ-EVD-001",
+        "status": "PASS",
+        "detail": "design/code/function/test/artifact links present"
+      },
+      {
+        "id": "REQ-REQ-REL-001",
+        "status": "PASS",
+        "detail": "design/code/function/test/artifact links present"
+      },
+      {
+        "id": "TRACE-PATHS",
+        "status": "PASS",
+        "detail": "all linked paths exist"
+      },
+      {
+        "id": "MECHANICAL-REFERENCES",
+        "status": "PASS",
+        "detail": "independent references declared"
+      }
+    ]
+  },
+  "metadata": {
+    "input": "/workspace/results_large/qf_solver_0_2_2_matrix_free_docker/100k/model.h5",
+    "backend": "matrix_free",
+    "ndof": 107811,
+    "element_count": 196608
+  },
+  "file_count": 8,
+  "files": [
+    {
+      "role": "audit_large",
+      "path": "audit_large.json",
+      "size_bytes": 4585,
+      "sha256": "b34d5b9aed561247219637e37d0c0e060fd6fd8e032dacd3a45851761ff74de4"
+    },
+    {
+      "role": "benchmark",
+      "path": "benchmark_large.json",
+      "size_bytes": 2576,
+      "sha256": "d78a5959a71a0ebe5905b665859cf5886b3c9b01028e07b096b1428850a3cf62"
+    },
+    {
+      "role": "benchmark_markdown",
+      "path": "benchmark_large.md",
+      "size_bytes": 629,
+      "sha256": "192cb5ac56a5d6859ab5f516a3484ed3d62d46e70560e2ccd29a99e4f19e659a"
+    },
+    {
+      "role": "displacements",
+      "path": "displacements.h5",
+      "size_bytes": 873008,
+      "sha256": "0b1a7b1ab22b71c08a6fa96cc71952f849598a595adff8b747e8240fd5aa5cbe"
+    },
+    {
+      "role": "input_fingerprint",
+      "path": "input_fingerprint.json",
+      "size_bytes": 194,
+      "sha256": "95a43d0e7fa8da342e2937be8643ac52c80da341418092a06b46b7ac0ed5e53d"
+    },
+    {
+      "role": "model",
+      "path": "model.h5",
+      "size_bytes": 8816563,
+      "sha256": "5e6c88ae39d4ee88024e43c4ebd7fa5d0420620e9990c6f91f52ab391e657ebd"
+    },
+    {
+      "role": "runtime_environment",
+      "path": "runtime_environment.json",
+      "size_bytes": 2433,
+      "sha256": "7940b1e98530f997af18467a0a88291e48213399b89a0d5fa209cddb66b0b9a7"
+    },
+    {
+      "role": "summary",
+      "path": "summary.json",
+      "size_bytes": 555,
+      "sha256": "4ea6db28ec6478a2fdd98a741c0814c4a8fbed38a27c2dba5a29f64e180edcb4"
+    }
+  ]
+}

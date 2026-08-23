@@ -1,0 +1,59 @@
+{
+  "status": "FAIL",
+  "target_dofs": 2000000,
+  "backend": "petsc",
+  "memory_budget_bytes": 34359738368,
+  "dimensions": {
+    "nx": 87,
+    "ny": 87,
+    "nz": 87
+  },
+  "sizing": {
+    "node_count": 681472,
+    "element_count": 3951018,
+    "ndof": 2044416,
+    "model_arrays_bytes": 190751376,
+    "displacement_bytes": 16355328,
+    "scipy_sparse_upper_bound_bytes": 13861824912,
+    "petsc_rule_of_thumb_bytes": 4132385424,
+    "chunk_triplet_bytes_at_default_chunk": 14155776,
+    "recommended_free_disk_bytes": 828426816
+  },
+  "checks": [
+    {
+      "id": "DEP-H5PY",
+      "status": "PASS",
+      "detail": "h5py available"
+    },
+    {
+      "id": "DEP-MPI4PY",
+      "status": "PASS",
+      "detail": "mpi4py available"
+    },
+    {
+      "id": "DEP-PETSC4PY",
+      "status": "FAIL",
+      "detail": "petsc4py not installed"
+    },
+    {
+      "id": "BACKEND-SCALE",
+      "status": "PASS",
+      "detail": "PETSc selected for scalable solve"
+    },
+    {
+      "id": "DISK-FREE",
+      "status": "PASS",
+      "detail": "free=13526085632 bytes"
+    },
+    {
+      "id": "CHUNK-SIZE",
+      "status": "PASS",
+      "detail": "chunk_size=4096"
+    },
+    {
+      "id": "MULTI-MILLION-GATE",
+      "status": "PASS",
+      "detail": "backend=petsc, budget=34359738368 bytes, indicative requirement=4132385424 bytes"
+    }
+  ]
+}

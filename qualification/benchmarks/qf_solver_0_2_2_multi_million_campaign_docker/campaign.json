@@ -1,0 +1,568 @@
+{
+  "schema_version": 1,
+  "campaign_id": "QF-SOLVER-0.2.2-MULTI-MILLION-DOCKER-001",
+  "qualification_status": "PASS_BOUNDED_DOCKER",
+  "scope_status": "development",
+  "backend": "PETSc",
+  "preconditioner": "GAMG",
+  "matrix_format": "BAIJ",
+  "partition_strategy": "contiguous",
+  "image": "qf-solver-large:0.2.0",
+  "image_digest": "sha256:f2a7931d0543ee142ce67847bb91bf59350a947d5d4874bfe7be43b6848a49c8",
+  "base_image_digest": "sha256:2ae4bfbc0d9077268880faf04c72750528bee986c94ab223a2c159969bd56fa8",
+  "memory_budget_bytes": 34359738368,
+  "criteria": {
+    "minimum_target_dofs": 2000000,
+    "residual_relative_max": 1e-08,
+    "strong_scaling_efficiency_min": 0.6,
+    "required_ranks": [
+      2,
+      4
+    ]
+  },
+  "cases": [
+    {
+      "case": "2m_r2",
+      "target_dofs": 2000000,
+      "ranks": 2,
+      "status": "PASS",
+      "ndof": 2044416,
+      "nodes": 681472,
+      "elements": 3951018,
+      "matrix_format": "baij",
+      "partition_strategy": "contiguous",
+      "assembly_time_seconds": 19.92097857198678,
+      "solve_time_seconds": 27.16125476799789,
+      "pipeline_time_seconds": 48.23846324800979,
+      "iterations": 54,
+      "residual_norm": 8.800507247682323e-19,
+      "peak_rss_bytes": 2524905472,
+      "peak_rss_sum_bytes": 5044473856,
+      "input_fingerprint": {
+        "path": "/workspace/results_large/qf_solver_0_2_2_multi_million_docker/model_2m.h5",
+        "size_bytes": 174899008,
+        "sha256": "16e600f043b825df79ce7a55d2d8c691601c60dfa20d952b0c7501bafc1f2877"
+      },
+      "verification": {
+        "status": "PASS",
+        "manifest_path": "qualification\\benchmarks\\qf_solver_0_2_2_multi_million_campaign_docker\\2m_r2\\evidence_manifest.json",
+        "checked_file_count": 8,
+        "errors": [],
+        "warnings": [],
+        "files": [
+          {
+            "role": "audit_large",
+            "path": "audit_large.json",
+            "status": "PASS",
+            "expected_size_bytes": 3016,
+            "actual_size_bytes": 3016,
+            "expected_sha256": "1a039fa501cac55c0d997b9e17532a5c897f6de759b00c6da5ae03fc9e7fd240",
+            "actual_sha256": "1a039fa501cac55c0d997b9e17532a5c897f6de759b00c6da5ae03fc9e7fd240",
+            "message": ""
+          },
+          {
+            "role": "benchmark",
+            "path": "benchmark_large.json",
+            "status": "PASS",
+            "expected_size_bytes": 4905,
+            "actual_size_bytes": 4905,
+            "expected_sha256": "ce311b41bae53bd55bd3e30ec9f9b761a79487083a02f6225be59376232b07d4",
+            "actual_sha256": "ce311b41bae53bd55bd3e30ec9f9b761a79487083a02f6225be59376232b07d4",
+            "message": ""
+          },
+          {
+            "role": "benchmark_markdown",
+            "path": "benchmark_large.md",
+            "status": "PASS",
+            "expected_size_bytes": 634,
+            "actual_size_bytes": 634,
+            "expected_sha256": "3eb1f5223f665f13ed31a7b92e6bbc8d318c6ace04d4efaae171cad381086ed7",
+            "actual_sha256": "3eb1f5223f665f13ed31a7b92e6bbc8d318c6ace04d4efaae171cad381086ed7",
+            "message": ""
+          },
+          {
+            "role": "displacements",
+            "path": "displacements.bin",
+            "status": "PASS",
+            "expected_size_bytes": 16355328,
+            "actual_size_bytes": 16355328,
+            "expected_sha256": "fa79a89d33717b74188db7a95bfd44ec6bf2ef8f7efc85a41802ba7e593bff4f",
+            "actual_sha256": "fa79a89d33717b74188db7a95bfd44ec6bf2ef8f7efc85a41802ba7e593bff4f",
+            "message": ""
+          },
+          {
+            "role": "displacements_metadata",
+            "path": "displacements_metadata.json",
+            "status": "PASS",
+            "expected_size_bytes": 300,
+            "actual_size_bytes": 300,
+            "expected_sha256": "b09d6653aefe17b55fde9576b01b2bba7dddd3780c063c4d5912d435ca3106c7",
+            "actual_sha256": "b09d6653aefe17b55fde9576b01b2bba7dddd3780c063c4d5912d435ca3106c7",
+            "message": ""
+          },
+          {
+            "role": "input_fingerprint",
+            "path": "input_fingerprint.json",
+            "status": "PASS",
+            "expected_size_bytes": 196,
+            "actual_size_bytes": 196,
+            "expected_sha256": "ecda07642848c8a7b1f2ba95506dc18e698412e83762efa4481d58f4377cd8e4",
+            "actual_sha256": "ecda07642848c8a7b1f2ba95506dc18e698412e83762efa4481d58f4377cd8e4",
+            "message": ""
+          },
+          {
+            "role": "runtime_environment",
+            "path": "runtime_environment.json",
+            "status": "PASS",
+            "expected_size_bytes": 2523,
+            "actual_size_bytes": 2523,
+            "expected_sha256": "68007b98b80686f610841e2c48b991928c302877fe7be9db6ada9ca07e4b9350",
+            "actual_sha256": "68007b98b80686f610841e2c48b991928c302877fe7be9db6ada9ca07e4b9350",
+            "message": ""
+          },
+          {
+            "role": "summary",
+            "path": "summary.json",
+            "status": "PASS",
+            "expected_size_bytes": 2149,
+            "actual_size_bytes": 2149,
+            "expected_sha256": "aae6f30f0ee746f8ca31989cf6c5d545ece5ed6763915557efc609b0d6e6a22b",
+            "actual_sha256": "aae6f30f0ee746f8ca31989cf6c5d545ece5ed6763915557efc609b0d6e6a22b",
+            "message": ""
+          }
+        ]
+      },
+      "traceability_scope_status": "development",
+      "traceability_status": "FAIL",
+      "runtime_versions": {},
+      "command": [],
+      "checks": {
+        "target_dofs_reached": true,
+        "status_pass": true,
+        "audit_pass": true,
+        "solver_converged": true,
+        "residual_under_1e-8": true,
+        "petsc_gamg_baij": true,
+        "distributed": true,
+        "file_backed_output": true,
+        "evidence_integrity": true,
+        "memory_budget": true
+      },
+      "case_status": "PASS"
+    },
+    {
+      "case": "2m_r4",
+      "target_dofs": 2000000,
+      "ranks": 4,
+      "status": "PASS",
+      "ndof": 2044416,
+      "nodes": 681472,
+      "elements": 3951018,
+      "matrix_format": "baij",
+      "partition_strategy": "contiguous",
+      "assembly_time_seconds": 12.584629444987513,
+      "solve_time_seconds": 23.5304218409874,
+      "pipeline_time_seconds": 37.02855615102453,
+      "iterations": 55,
+      "residual_norm": 5.476630697082108e-19,
+      "peak_rss_bytes": 1385066496,
+      "peak_rss_sum_bytes": 5472489472,
+      "input_fingerprint": {
+        "path": "/workspace/results_large/qf_solver_0_2_2_multi_million_docker/model_2m.h5",
+        "size_bytes": 174899008,
+        "sha256": "16e600f043b825df79ce7a55d2d8c691601c60dfa20d952b0c7501bafc1f2877"
+      },
+      "verification": {
+        "status": "PASS",
+        "manifest_path": "qualification\\benchmarks\\qf_solver_0_2_2_multi_million_campaign_docker\\2m_r4\\evidence_manifest.json",
+        "checked_file_count": 8,
+        "errors": [],
+        "warnings": [],
+        "files": [
+          {
+            "role": "audit_large",
+            "path": "audit_large.json",
+            "status": "PASS",
+            "expected_size_bytes": 3401,
+            "actual_size_bytes": 3401,
+            "expected_sha256": "6c0effe5bc28d128bb776836a3d3d0b23a37ef6493002e37e01b2989013ded6f",
+            "actual_sha256": "6c0effe5bc28d128bb776836a3d3d0b23a37ef6493002e37e01b2989013ded6f",
+            "message": ""
+          },
+          {
+            "role": "benchmark",
+            "path": "benchmark_large.json",
+            "status": "PASS",
+            "expected_size_bytes": 5975,
+            "actual_size_bytes": 5975,
+            "expected_sha256": "f7799685633d91afa9cd8503a0d0c2db9923da5fdb2331ad233d965cada75352",
+            "actual_sha256": "f7799685633d91afa9cd8503a0d0c2db9923da5fdb2331ad233d965cada75352",
+            "message": ""
+          },
+          {
+            "role": "benchmark_markdown",
+            "path": "benchmark_large.md",
+            "status": "PASS",
+            "expected_size_bytes": 635,
+            "actual_size_bytes": 635,
+            "expected_sha256": "366a02d22cd9901b8c0583d711fa2a35405f1516f5394cac5e55b251ecdbbbb6",
+            "actual_sha256": "366a02d22cd9901b8c0583d711fa2a35405f1516f5394cac5e55b251ecdbbbb6",
+            "message": ""
+          },
+          {
+            "role": "displacements",
+            "path": "displacements.bin",
+            "status": "PASS",
+            "expected_size_bytes": 16355328,
+            "actual_size_bytes": 16355328,
+            "expected_sha256": "4d9b00fd7dd6804dbd2c54db6b07e222eecb55534d101d1c40635da86109b95f",
+            "actual_sha256": "4d9b00fd7dd6804dbd2c54db6b07e222eecb55534d101d1c40635da86109b95f",
+            "message": ""
+          },
+          {
+            "role": "displacements_metadata",
+            "path": "displacements_metadata.json",
+            "status": "PASS",
+            "expected_size_bytes": 382,
+            "actual_size_bytes": 382,
+            "expected_sha256": "2ca2ebccce8b8796c3b922ada57cfee8ec61f5860e57ac0d7f6aaed339220f19",
+            "actual_sha256": "2ca2ebccce8b8796c3b922ada57cfee8ec61f5860e57ac0d7f6aaed339220f19",
+            "message": ""
+          },
+          {
+            "role": "input_fingerprint",
+            "path": "input_fingerprint.json",
+            "status": "PASS",
+            "expected_size_bytes": 196,
+            "actual_size_bytes": 196,
+            "expected_sha256": "ecda07642848c8a7b1f2ba95506dc18e698412e83762efa4481d58f4377cd8e4",
+            "actual_sha256": "ecda07642848c8a7b1f2ba95506dc18e698412e83762efa4481d58f4377cd8e4",
+            "message": ""
+          },
+          {
+            "role": "runtime_environment",
+            "path": "runtime_environment.json",
+            "status": "PASS",
+            "expected_size_bytes": 2523,
+            "actual_size_bytes": 2523,
+            "expected_sha256": "6248f440fd76dbf13f073148d34bffe7043a9b83846199151af0691f61e694eb",
+            "actual_sha256": "6248f440fd76dbf13f073148d34bffe7043a9b83846199151af0691f61e694eb",
+            "message": ""
+          },
+          {
+            "role": "summary",
+            "path": "summary.json",
+            "status": "PASS",
+            "expected_size_bytes": 2318,
+            "actual_size_bytes": 2318,
+            "expected_sha256": "5efdc6117a4bdf76a97a712b6895f9b633ef0c1ecd2415ea6da513593e170ef7",
+            "actual_sha256": "5efdc6117a4bdf76a97a712b6895f9b633ef0c1ecd2415ea6da513593e170ef7",
+            "message": ""
+          }
+        ]
+      },
+      "traceability_scope_status": "development",
+      "traceability_status": "FAIL",
+      "runtime_versions": {},
+      "command": [],
+      "checks": {
+        "target_dofs_reached": true,
+        "status_pass": true,
+        "audit_pass": true,
+        "solver_converged": true,
+        "residual_under_1e-8": true,
+        "petsc_gamg_baij": true,
+        "distributed": true,
+        "file_backed_output": true,
+        "evidence_integrity": true,
+        "memory_budget": true
+      },
+      "case_status": "PASS"
+    },
+    {
+      "case": "4m_r2",
+      "target_dofs": 4000000,
+      "ranks": 2,
+      "status": "PASS",
+      "ndof": 4102893,
+      "nodes": 1367631,
+      "elements": 7986000,
+      "matrix_format": "baij",
+      "partition_strategy": "contiguous",
+      "assembly_time_seconds": 61.32778538198909,
+      "solve_time_seconds": 57.78117393399589,
+      "pipeline_time_seconds": 121.39401219697902,
+      "iterations": 57,
+      "residual_norm": 7.552111813960226e-19,
+      "peak_rss_bytes": 4910538752,
+      "peak_rss_sum_bytes": 9812455424,
+      "input_fingerprint": {
+        "path": "/workspace/results_large/qf_solver_0_2_2_multi_million_docker/model_4m.h5",
+        "size_bytes": 353012990,
+        "sha256": "0cfbb9527f755b04129e154aa2af5479f3ec46dbbe8e9a6fe255d6564966e53a"
+      },
+      "verification": {
+        "status": "PASS",
+        "manifest_path": "qualification\\benchmarks\\qf_solver_0_2_2_multi_million_campaign_docker\\4m_r2\\evidence_manifest.json",
+        "checked_file_count": 8,
+        "errors": [],
+        "warnings": [],
+        "files": [
+          {
+            "role": "audit_large",
+            "path": "audit_large.json",
+            "status": "PASS",
+            "expected_size_bytes": 3020,
+            "actual_size_bytes": 3020,
+            "expected_sha256": "2a9cd0c77b78e1156f11030e861bda4aed0189e0adff03e16ab64060c2f96448",
+            "actual_sha256": "2a9cd0c77b78e1156f11030e861bda4aed0189e0adff03e16ab64060c2f96448",
+            "message": ""
+          },
+          {
+            "role": "benchmark",
+            "path": "benchmark_large.json",
+            "status": "PASS",
+            "expected_size_bytes": 4911,
+            "actual_size_bytes": 4911,
+            "expected_sha256": "0f72b7e6cb2b15552c91da3c2f07705c02eef93601837702c7fb7a88fd81466c",
+            "actual_sha256": "0f72b7e6cb2b15552c91da3c2f07705c02eef93601837702c7fb7a88fd81466c",
+            "message": ""
+          },
+          {
+            "role": "benchmark_markdown",
+            "path": "benchmark_large.md",
+            "status": "PASS",
+            "expected_size_bytes": 638,
+            "actual_size_bytes": 638,
+            "expected_sha256": "0ef1c13e33d0e9489ad5f27ba350c08a103d6109f43583a1a8e15176ba19351d",
+            "actual_sha256": "0ef1c13e33d0e9489ad5f27ba350c08a103d6109f43583a1a8e15176ba19351d",
+            "message": ""
+          },
+          {
+            "role": "displacements",
+            "path": "displacements.bin",
+            "status": "PASS",
+            "expected_size_bytes": 32823144,
+            "actual_size_bytes": 32823144,
+            "expected_sha256": "b556f492a28302c8f9580e10d3265799f4ac39bb0fe77b3caa43df1c4fe06442",
+            "actual_sha256": "b556f492a28302c8f9580e10d3265799f4ac39bb0fe77b3caa43df1c4fe06442",
+            "message": ""
+          },
+          {
+            "role": "displacements_metadata",
+            "path": "displacements_metadata.json",
+            "status": "PASS",
+            "expected_size_bytes": 301,
+            "actual_size_bytes": 301,
+            "expected_sha256": "ddd1840f903a842c19de03e6f8b81d947f396698fd5158693cbfe546f580e056",
+            "actual_sha256": "ddd1840f903a842c19de03e6f8b81d947f396698fd5158693cbfe546f580e056",
+            "message": ""
+          },
+          {
+            "role": "input_fingerprint",
+            "path": "input_fingerprint.json",
+            "status": "PASS",
+            "expected_size_bytes": 196,
+            "actual_size_bytes": 196,
+            "expected_sha256": "dfac297f87224cbec093e4b5cd2788600d2fd1820e58bb74858618bf61559b21",
+            "actual_sha256": "dfac297f87224cbec093e4b5cd2788600d2fd1820e58bb74858618bf61559b21",
+            "message": ""
+          },
+          {
+            "role": "runtime_environment",
+            "path": "runtime_environment.json",
+            "status": "PASS",
+            "expected_size_bytes": 2524,
+            "actual_size_bytes": 2524,
+            "expected_sha256": "b497af13bc2a62b2b554b1d47351494339fcf512e06e85fd8caa1d1a3e11f8d7",
+            "actual_sha256": "b497af13bc2a62b2b554b1d47351494339fcf512e06e85fd8caa1d1a3e11f8d7",
+            "message": ""
+          },
+          {
+            "role": "summary",
+            "path": "summary.json",
+            "status": "PASS",
+            "expected_size_bytes": 2155,
+            "actual_size_bytes": 2155,
+            "expected_sha256": "a730f508d552258b67ac96663ce2f1498c4981640b02b124e133e44e8216d9b1",
+            "actual_sha256": "a730f508d552258b67ac96663ce2f1498c4981640b02b124e133e44e8216d9b1",
+            "message": ""
+          }
+        ]
+      },
+      "traceability_scope_status": "development",
+      "traceability_status": "FAIL",
+      "runtime_versions": {},
+      "command": [],
+      "checks": {
+        "target_dofs_reached": true,
+        "status_pass": true,
+        "audit_pass": true,
+        "solver_converged": true,
+        "residual_under_1e-8": true,
+        "petsc_gamg_baij": true,
+        "distributed": true,
+        "file_backed_output": true,
+        "evidence_integrity": true,
+        "memory_budget": true
+      },
+      "case_status": "PASS"
+    },
+    {
+      "case": "4m_r4",
+      "target_dofs": 4000000,
+      "ranks": 4,
+      "status": "PASS",
+      "ndof": 4102893,
+      "nodes": 1367631,
+      "elements": 7986000,
+      "matrix_format": "baij",
+      "partition_strategy": "contiguous",
+      "assembly_time_seconds": 47.22676977200899,
+      "solve_time_seconds": 49.6244082399935,
+      "pipeline_time_seconds": 98.68978843701188,
+      "iterations": 57,
+      "residual_norm": 1.0412032136862934e-18,
+      "peak_rss_bytes": 2603835392,
+      "peak_rss_sum_bytes": 10300719104,
+      "input_fingerprint": {
+        "path": "/workspace/results_large/qf_solver_0_2_2_multi_million_docker/model_4m.h5",
+        "size_bytes": 353012990,
+        "sha256": "0cfbb9527f755b04129e154aa2af5479f3ec46dbbe8e9a6fe255d6564966e53a"
+      },
+      "verification": {
+        "status": "PASS",
+        "manifest_path": "qualification\\benchmarks\\qf_solver_0_2_2_multi_million_campaign_docker\\4m_r4\\evidence_manifest.json",
+        "checked_file_count": 8,
+        "errors": [],
+        "warnings": [],
+        "files": [
+          {
+            "role": "audit_large",
+            "path": "audit_large.json",
+            "status": "PASS",
+            "expected_size_bytes": 3410,
+            "actual_size_bytes": 3410,
+            "expected_sha256": "95be9426ab171d1c9d287c7fd38db88d6153957e08606934a17b1584c4cde526",
+            "actual_sha256": "95be9426ab171d1c9d287c7fd38db88d6153957e08606934a17b1584c4cde526",
+            "message": ""
+          },
+          {
+            "role": "benchmark",
+            "path": "benchmark_large.json",
+            "status": "PASS",
+            "expected_size_bytes": 5988,
+            "actual_size_bytes": 5988,
+            "expected_sha256": "db4e01584fd1eeb815e16b46b3da2c2fa21568f0cc8046861f6ebd3184cd6ee6",
+            "actual_sha256": "db4e01584fd1eeb815e16b46b3da2c2fa21568f0cc8046861f6ebd3184cd6ee6",
+            "message": ""
+          },
+          {
+            "role": "benchmark_markdown",
+            "path": "benchmark_large.md",
+            "status": "PASS",
+            "expected_size_bytes": 639,
+            "actual_size_bytes": 639,
+            "expected_sha256": "a756746f48836b1e2f4e6f1b0d81ed51d67126a843e08a4e20d5c9357e1a2f8b",
+            "actual_sha256": "a756746f48836b1e2f4e6f1b0d81ed51d67126a843e08a4e20d5c9357e1a2f8b",
+            "message": ""
+          },
+          {
+            "role": "displacements",
+            "path": "displacements.bin",
+            "status": "PASS",
+            "expected_size_bytes": 32823144,
+            "actual_size_bytes": 32823144,
+            "expected_sha256": "88df7cd998a2bdfdd93a33fd122e8bbde3c8271f582ade84df10c10a9b352eef",
+            "actual_sha256": "88df7cd998a2bdfdd93a33fd122e8bbde3c8271f582ade84df10c10a9b352eef",
+            "message": ""
+          },
+          {
+            "role": "displacements_metadata",
+            "path": "displacements_metadata.json",
+            "status": "PASS",
+            "expected_size_bytes": 385,
+            "actual_size_bytes": 385,
+            "expected_sha256": "3a3a6698dc85018733f4c8ba5d60fd25e53e5e7a17f5ad4091593f63b33db7ef",
+            "actual_sha256": "3a3a6698dc85018733f4c8ba5d60fd25e53e5e7a17f5ad4091593f63b33db7ef",
+            "message": ""
+          },
+          {
+            "role": "input_fingerprint",
+            "path": "input_fingerprint.json",
+            "status": "PASS",
+            "expected_size_bytes": 196,
+            "actual_size_bytes": 196,
+            "expected_sha256": "dfac297f87224cbec093e4b5cd2788600d2fd1820e58bb74858618bf61559b21",
+            "actual_sha256": "dfac297f87224cbec093e4b5cd2788600d2fd1820e58bb74858618bf61559b21",
+            "message": ""
+          },
+          {
+            "role": "runtime_environment",
+            "path": "runtime_environment.json",
+            "status": "PASS",
+            "expected_size_bytes": 2524,
+            "actual_size_bytes": 2524,
+            "expected_sha256": "a217dfc60bed31f407f558bbc4cb4cf3eb13ab2f34395665b504dc7f84afabb9",
+            "actual_sha256": "a217dfc60bed31f407f558bbc4cb4cf3eb13ab2f34395665b504dc7f84afabb9",
+            "message": ""
+          },
+          {
+            "role": "summary",
+            "path": "summary.json",
+            "status": "PASS",
+            "expected_size_bytes": 2328,
+            "actual_size_bytes": 2328,
+            "expected_sha256": "ebaebee08ca79c0a5846cba8b0bb8686f5b0434dbae8965d9830e5b519036831",
+            "actual_sha256": "ebaebee08ca79c0a5846cba8b0bb8686f5b0434dbae8965d9830e5b519036831",
+            "message": ""
+          }
+        ]
+      },
+      "traceability_scope_status": "development",
+      "traceability_status": "FAIL",
+      "runtime_versions": {},
+      "command": [],
+      "checks": {
+        "target_dofs_reached": true,
+        "status_pass": true,
+        "audit_pass": true,
+        "solver_converged": true,
+        "residual_under_1e-8": true,
+        "petsc_gamg_baij": true,
+        "distributed": true,
+        "file_backed_output": true,
+        "evidence_integrity": true,
+        "memory_budget": true
+      },
+      "case_status": "PASS"
+    }
+  ],
+  "strong_scaling": [
+    {
+      "target_dofs": 2000000,
+      "baseline_ranks": 2,
+      "scaled_ranks": 4,
+      "speedup": 1.302736813481589,
+      "strong_efficiency": 0.6513684067407945,
+      "threshold": 0.6,
+      "status": "PASS"
+    },
+    {
+      "target_dofs": 4000000,
+      "baseline_ranks": 2,
+      "scaled_ranks": 4,
+      "speedup": 1.2300564639923,
+      "strong_efficiency": 0.61502823199615,
+      "threshold": 0.6,
+      "status": "PASS"
+    }
+  ],
+  "limitations": [
+    "Une seule image Docker et une seule machine ont ete mesurees.",
+    "La campagne couvre le statique lineaire TET4, pas le modal ou le dynamique multi-million.",
+    "Le partitionnement execute est contiguous; la variante graphe reste a mesurer.",
+    "Matrix-free et SLEPc ne sont pas des resultats de cette campagne.",
+    "Le statut de traceabilite reste development jusqu'a la revue Owner."
+  ]
+}

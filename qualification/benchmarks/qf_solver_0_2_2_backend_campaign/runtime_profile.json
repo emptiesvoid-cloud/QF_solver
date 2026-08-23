@@ -1,0 +1,34 @@
+{
+  "profile_id": "BACKEND-RUNTIME-PROFILE-022-2026-08-23",
+  "captured_at_utc": "2026-08-23T18:12:54.1270839Z",
+  "source": {
+    "kind": "pinned_docker_runtime_observation",
+    "image": "qf-solver-large:0.2.0",
+    "image_digest": "sha256:f2a7931d0543ee142ce67847bb91bf59350a947d5d4874bfe7be43b6848a49c8",
+    "command": "docker run --rm qf-solver-large:0.2.0 python3 -c <runtime profile probe>",
+    "purpose": "Close the Owner Review R1 traceability condition without changing historical evidence manifests."
+  },
+  "software": {
+    "slepc4py": "3.25.1",
+    "petsc4py": "3.25.1",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "python": "3.12.3"
+  },
+  "runtime": {
+    "os": "Linux under WSL2",
+    "architecture": "x86_64",
+    "cpu_model_visible_to_container": "AMD Ryzen 5 5500",
+    "logical_cpu_count_visible_to_container": 12,
+    "memory_total_kib_visible_to_container": 49275492,
+    "memory_total_gib_visible_to_container": 46.97,
+    "memory_available_kib_at_probe": 48270144,
+    "cgroup_memory_limit": "max",
+    "cgroup_cpu_limit": "max 100000"
+  },
+  "interpretation": {
+    "r1_status": "closed_for_signature_traceability",
+    "limitation": "The CPU and RAM values are the resources visible to the pinned container at probe time; they are not a general performance claim for other hosts.",
+    "historical_manifests_modified": false
+  }
+}

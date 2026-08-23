@@ -1,0 +1,108 @@
+{
+  "report_schema_version": 1,
+  "created_at_utc": "2026-08-23T15:22:17.839495Z",
+  "solver": {
+    "name": "QF_solver",
+    "version": "0.2.2a0"
+  },
+  "python": {
+    "version": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
+    "version_info": [
+      3,
+      12,
+      3,
+      "final",
+      0
+    ],
+    "executable": "python3",
+    "implementation": "CPython",
+    "compiler": "GCC 13.3.0",
+    "build": [
+      "main",
+      "Mar 23 2026 19:04:32"
+    ]
+  },
+  "platform": {
+    "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+    "system": "Linux",
+    "release": "6.18.33.2-microsoft-standard-WSL2",
+    "version": "#1 SMP PREEMPT_DYNAMIC Thu Jun 18 21:54:43 UTC 2026",
+    "machine": "x86_64",
+    "processor": "x86_64",
+    "architecture": [
+      "64bit",
+      ""
+    ]
+  },
+  "process": {
+    "pid": 8,
+    "cwd": ".",
+    "argv": [
+      "qf_solver.py",
+      "benchmark-large",
+      "--input",
+      "/workspace/results_large/qf_solver_0_2_2_multi_million_docker/model_2m.h5",
+      "--output",
+      "/workspace/results_large/qf_solver_0_2_2_multi_million_docker/2m_r2",
+      "--solver-backend",
+      "petsc",
+      "--preconditioner",
+      "gamg",
+      "--matrix-format",
+      "baij",
+      "--partition-strategy",
+      "contiguous"
+    ]
+  },
+  "environment": {
+    "OMP_NUM_THREADS": null,
+    "MKL_NUM_THREADS": null,
+    "OPENBLAS_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": null,
+    "PYTHONHASHSEED": null,
+    "PETSC_DIR": "<set>",
+    "PETSC_ARCH": "<set>"
+  },
+  "packages": {
+    "numpy": {
+      "available": true,
+      "version": "2.4.6",
+      "origin": "__init__.py"
+    },
+    "scipy": {
+      "available": true,
+      "version": "1.17.1",
+      "origin": "__init__.py"
+    },
+    "h5py": {
+      "available": true,
+      "version": "3.13.0",
+      "origin": "__init__.py"
+    },
+    "mpi4py": {
+      "available": true,
+      "version": "4.1.2",
+      "origin": "__init__.py"
+    },
+    "petsc4py": {
+      "available": true,
+      "version": "3.25.1",
+      "origin": "__init__.py"
+    }
+  },
+  "metadata": {
+    "kind": "large_benchmark",
+    "input": "/workspace/results_large/qf_solver_0_2_2_multi_million_docker/model_2m.h5",
+    "backend": "petsc",
+    "node_count": 681472,
+    "element_count": 3951018,
+    "ndof": 2044416,
+    "chunk_size": 4096,
+    "matrix_format": "baij",
+    "mpi_size": 2,
+    "partitioned_hdf5_input": true,
+    "partition_strategy": "contiguous",
+    "graph_partitioner": null,
+    "restart_from": null
+  }
+}

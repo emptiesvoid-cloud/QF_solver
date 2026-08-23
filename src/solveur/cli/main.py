@@ -177,6 +177,7 @@ class SolverCli:
         large_campaign.add_argument("--solver-backend", choices=("petsc", "scipy", "matrix_free"), default="petsc")
         large_campaign.add_argument("--preconditioner", default=None)
         large_campaign.add_argument("--chunk-size", type=int, default=4096)
+        large_campaign.add_argument("--memory-budget-mb", type=int, default=None)
         large_campaign.add_argument("--execute", action="store_true")
         large_campaign.add_argument("--continue-on-failure", action="store_true")
         large_campaign.set_defaults(func=large_cli.command_large_campaign)
@@ -234,6 +235,7 @@ class SolverCli:
         readiness.add_argument("--nz", type=int, default=None)
         readiness.add_argument("--solver-backend", choices=("petsc", "scipy", "matrix_free"), default="petsc")
         readiness.add_argument("--chunk-size", type=int, default=4096)
+        readiness.add_argument("--memory-budget-mb", type=int, default=None)
         readiness.set_defaults(func=large_cli.command_large_readiness)
 
         qualify_large = sub.add_parser("qualify-large", help="generate, solve and verify a large TET4 case")
@@ -245,6 +247,7 @@ class SolverCli:
         qualify_large.add_argument("--solver-backend", choices=("petsc", "scipy", "matrix_free"), default="petsc")
         qualify_large.add_argument("--preconditioner", default=None)
         qualify_large.add_argument("--chunk-size", type=int, default=4096)
+        qualify_large.add_argument("--memory-budget-mb", type=int, default=None)
         qualify_large.add_argument("--length", type=float, default=1.0)
         qualify_large.add_argument("--height", type=float, default=1.0)
         qualify_large.add_argument("--depth", type=float, default=1.0)

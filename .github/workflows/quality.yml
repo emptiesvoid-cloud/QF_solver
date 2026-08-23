@@ -35,7 +35,7 @@ jobs:
           python -m pip install -r requirements/baseline-standard.txt
           python -m pip install -e . --no-deps
       - name: Ruff
-        run: python -m ruff check src/solveur tests scripts
+        run: python -m ruff check src/qf_solver src/solveur tests scripts
       - name: Progressive typing gate
         run: >-
           python -m mypy
