@@ -3701,7 +3701,7 @@
       "id": "DOC-RELEASE-PREP-0-2-2-001",
       "path": "verification/qf_solver_0_2_2_alpha_release_preparation.md",
       "title": "Préparation du tag et de la publication PyPI 0.2.2a0",
-      "status": "draft",
+      "status": "controlled_candidate",
       "requirements": [
         "REQ-REL-001",
         "REQ-AUD-001"

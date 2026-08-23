@@ -1,7 +1,7 @@
 ---
 doc_id: DOC-RELEASE-PREP-0-2-2-001
 revision: 0.1
-status: draft
+status: controlled_candidate
 applicable_version: 0.2.2a0
 reviewer: ""
 approver: ""
@@ -11,10 +11,11 @@ approver: ""
 
 ## Objet
 
-Cette fiche prépare le tag `v0.2.2a0`, la construction des distributions et
-la publication PyPI. Elle ne crée pas le tag, ne pousse aucun commit et ne
-publie aucun paquet. La décision de release reste distincte de la revue
-Owner du backend numérique.
+Cette fiche trace la préparation du tag `v0.2.2a0`, la construction des
+distributions et la publication PyPI. Le commit de release et le tag sont
+désormais gelés et poussés ; la disponibilité PyPI reste conditionnée au
+workflow GitHub et à ses gates. La décision de release reste distincte de la
+revue Owner du backend numérique.
 
 ## État actuel
 
@@ -26,10 +27,10 @@ Owner du backend numérique.
 | Licence | `READY` | Apache-2.0 pour le code, CC BY 4.0 pour la documentation et les exemples originaux |
 | API publique | `READY` | contrat `from qf_solver import ...` vérifié |
 | Couverture CI | `PASS` | gate `80 %`, campagne locale à `88,67 %` |
-| Audit public | `PASS` | `qualification/publication_audit_0_2_2.json`, `1755` fichiers, zéro finding |
+| Audit public | `PASS` | `qualification/publication_audit_0_2_2.json`, `1763` fichiers, zéro finding |
 | Backend V&V | `PASS_BOUNDED` | périmètre borné, revue Owner `accepted_with_recommendations` |
-| Tag Git | `PENDING` | à créer uniquement après revue finale du commit |
-| Publication PyPI | `PENDING` | déclenchée uniquement par un tag `v*` ou une release GitHub publiée |
+| Tag Git | `PUSHED` | `v0.2.2a0` sur le commit `c54f4b6` |
+| Publication PyPI | `IN_PROGRESS` | workflow GitHub déclenché par le tag ; disponibilité externe à confirmer |
 
 ## Contrôles locaux avant tag
 
@@ -69,10 +70,10 @@ qf-solver methods
 python -c "from qf_solver import solve_model; print(solve_model.__name__)"
 ```
 
-## Création du tag, à faire séparément
+## Tag créé et poussé
 
-Le tag ne doit être créé qu'après validation du contenu staged et après
-confirmation Owner de la release :
+Le contenu staged a été validé, puis le tag a été créé après confirmation
+Owner de la release :
 
 ```powershell
 git status --short
@@ -87,8 +88,9 @@ Après création du tag, rejouer l'audit d'archive avec les attributs commités 
 python scripts/audit_release_archive.py --ref v0.2.2a0 --committed-attributes --output release_archive_audit_tag.json
 ```
 
-Le push du tag est une action séparée et n'est pas inclus dans cette fiche de
-préparation.
+Le tag et le commit sont maintenant présents sur `origin`. Le workflow de
+publication est suivi via GitHub Actions ; aucune publication manuelle avec un
+jeton n'est nécessaire.
 
 ## Publication PyPI
 
@@ -123,5 +125,6 @@ qf-solver --version
 ## Décision de préparation
 
 Le dossier technique et les métadonnées de distribution sont préparés. La
-release est prête pour la revue finale du commit candidat, mais elle n'est
-pas encore gelée, taguée ou publiée.
+release est gelée et taguée ; son état final dépend encore de la réussite du
+workflow de publication et de la confirmation de présence de `0.2.2a0` sur
+PyPI.

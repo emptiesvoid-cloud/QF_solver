@@ -16,7 +16,7 @@ Cette alpha ne revendique ni certification externe, ni équivalence générale �
 un logiciel commercial. Elle fournit un noyau ouvert et des domaines d'emploi
 documentés, à utiliser avec le jugement mécanique adapté au cas calculé.
 
-La version de développement cible est **0.2.2a0**, une alpha de renforcement
+La version alpha gelée et poussée est **0.2.2a0**, une alpha de renforcement
 V&V construite sur la baseline immuable `0.2.0a0` (`v0.2.0-alpha`). Le projet vise
 un outil **qualifiable et vérifiable**. Il n'est
 pas présenté comme certifié et ne doit pas remplacer une Owner review
@@ -79,13 +79,12 @@ dans le [paquet de clôture](docs/verification/release_vv_0_2_1_closure_package_
 
 ## État de la release 0.2.2a0
 
-La consolidation locale est avancée, mais la release n'est pas encore gelée :
-le dernier contrôle `release-vv` recense `28` scopes PASS et `8` scopes
-volontairement non stables. Le lot public 0.2.2a0 a passé l'audit de
-confidentialité (`1755` fichiers analysés, `0` constat). Restent obligatoires
-avant toute publication : la campagne de release complète, la revalidation
-Owner finale et un checkout Git propre. La branche `main` contient les
-préparatifs ; aucun nouveau tag de release ni publication PyPI n'est effectué.
+La release est gelée dans le commit `c54f4b6` et le tag `v0.2.2a0` est poussé
+sur `main`. Le dernier contrôle `release-vv` recense `28` scopes PASS et `8`
+scopes volontairement non stables. Le lot public 0.2.2a0 a passé l'audit de
+confidentialité (`1763` fichiers analysés, `0` constat). Le workflow GitHub de
+publication a été déclenché par le tag ; la disponibilité effective sur PyPI
+reste à confirmer après la fin de ses gates.
 
 Le chantier backend 0.2.2 alpha est décrit dans le [rapport de résolution
 sparse](docs/verification/qf_solver_0_2_2_alpha_backend_report.md) et dans la
@@ -126,8 +125,9 @@ qf-solver --version
 ```
 
 Après publication, la même version pourra être installée depuis PyPI avec
-`python -m pip install "qf-solver==0.2.2a0"`. Cette commande devient disponible
-après publication effective sur PyPI ; le présent checkout ne la déclenche pas.
+`python -m pip install "qf-solver==0.2.2a0"`. Le tag `v0.2.2a0` déclenche le
+workflow de publication ; la commande devient disponible dès que PyPI confirme
+l'upload.
 
 Pendant la préparation locale, les extras s'installent depuis le checkout :
 
