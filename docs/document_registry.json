@@ -3898,8 +3898,6 @@
       "examples": [
         "qualification/external_reference_digests/rqg08_j2_common_024.json",
         "docs/verification/rqg08_external_j2_common_024.md",
-        "qualification/vnv/external/rqg08_j2_common_024/reference/summary.json",
-        "qualification/vnv/external/rqg08_j2_common_024/reference/report.md",
         "qualification/external_reference_digests/robustness_nonlinear_solids_024.json"
       ],
       "tests": [
@@ -3929,7 +3927,7 @@
       ],
       "examples": [
         "qualification/external_reference_digests/rqg08_j2_common_024.json",
-        "qualification/vnv/external/rqg08_j2_common_024/reference/summary.json"
+        "docs/verification/rqg08_external_j2_common_024.md"
       ],
       "tests": [
         "tests/verification/test_j2_unified_nonlinear_evidence.py"
