@@ -1,20 +1,21 @@
 ---
 doc_id: DOC-HEX8-023-002
-revision: 0.1
-status: draft
+revision: 0.2
+status: accepted_for_release_0_2_3
 applicable_version: 0.2.3a0
-reviewer: ""
-approver: ""
+date: 2026-08-24
+reviewer: "Owner"
+approver: "Owner"
 ---
 
 # Gate de release 0.2.3 alpha - chaine HEX8 complete
 
 ## Regle non negociable
 
-La version `0.2.3a0` ne peut etre ni taggee, ni publiee, ni presentee comme
-complete tant que chaque ligne obligatoire de cette page n'est pas `PASS` et
-que la revue Owner n'est pas signee. `OPEN`, `WARNING`, `BLOCKED`, `FAIL`,
-`N/A` ou une preuve non rejouable maintiennent le gate ouvert.
+La version `0.2.3a0` ne peut etre presentee comme complete que lorsque chaque
+ligne obligatoire de cette page est `PASS` et que la revue Owner est signee.
+Le gate est ferme par la decision `accepted_for_release_0_2_3`; les limites
+de perimetre restent opposables apres fermeture.
 
 Les campagnes externes ne sont pas toutes executees par la CI rapide. Leur
 resultat archive, sa configuration et son test de lecture restent toutefois
@@ -47,7 +48,7 @@ obligatoires pour fermer ce gate.
 | H8-G09 | Correlation externe | PASS_EXTERNAL_CORRELATION | CalculiX 2.20/C3D8 et Code_Aster 18.1/HEXA8 sur meme maillage/BC/materiau/charge; erreurs CalculiX `1,20e-6`/`1,96e-6`, Code_Aster `4,18e-16`. |
 | H8-G10 | Benchmark TET4/TET10/HEX8 | PASS_INTERNAL | 3 modeles x 3 familles; precision via residu, temps, nnz, CSR estime et delta RSS traces, avec planche comparative. |
 | H8-G11 | Non-regression | PASS | `1429 passed, 14 skipped, 186 deselected` avec `verify-all --profile engineering`; verifications mecaniques et TET10 associees `GLOBAL STATUS: PASS`. |
-| H8-G12 | Documentation et Owner review | OPEN | Plans, limites, resultats, versions d'outils et decision Owner renseignes. |
+| H8-G12 | Documentation et Owner review | PASS | Revue Owner signee le 2026-08-24 avec decision `accepted_for_release_0_2_3`; limites et recommandations conservees. |
 
 ## Conditions complementaires de release
 
@@ -76,16 +77,17 @@ Le paquet de cloture contient :
 - les rapports de non-regression et la liste des exclusions;
 - les versions des outils et une empreinte de l'environnement;
 - la [revue Owner](qf_solver_0_2_3_alpha_hex8_owner_review.md) renseignee et
-  signee avec la decision `accepted_with_recommendations`.
+  signee avec la decision `accepted_for_release_0_2_3`.
 
 ## Etat courant
 
-Les gates H8-G01 a H8-G11 disposent maintenant de preuves internes, et H8-G09
+Les gates H8-G01 a H8-G12 disposent maintenant de preuves internes, et H8-G09
 dispose de deux correlations externes statiques : CalculiX C3D8 et Code_Aster
 HEXA8. La preuve Code_Aster est archivee dans
 `results/hex8_code_aster_external/summary.json` et a ete executee dans
 `simvia/code_aster:18.1.0`; elle reste bornee a un maillage structure et une
 charge nodale. La non-regression complete est egalement `PASS`. H8-G12 est
 ferme par la revue et la signature Owner du 2026-08-24 avec la decision
-`accepted_with_recommendations`. La release reste soumise aux gates CI apres
-push ; aucun upload PyPI n'est execute.
+`accepted_for_release_0_2_3`. La release reste soumise aux gates CI apres push ;
+aucun upload PyPI n'est execute. Les correlations externes restent statiques;
+les chemins modal, dynamique et les grandes tailles ne sont pas extrapoles.

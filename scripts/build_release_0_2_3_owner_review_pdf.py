@@ -95,11 +95,11 @@ def _load_data() -> dict[str, Any]:
 def _plot_gate_status(data: dict[str, Any]) -> Path:
     path = ASSET_DIR / "gate_status.png"
     labels = ["HEX8", "HEX20"]
-    passed = [11, 11]
-    open_count = [1, 1]
+    passed = [12, 12]
+    open_count = [0, 0]
     fig, ax = plt.subplots(figsize=(8.0, 3.6), dpi=180)
     ax.bar(labels, passed, label="PASS technique", color="#2e8b57")
-    ax.bar(labels, open_count, bottom=passed, label="OPEN Owner / release", color="#d9922e")
+    ax.bar(labels, open_count, bottom=passed, label="Limites hors perimetre", color="#d9922e")
     ax.set_ylim(0, 13)
     ax.set_ylabel("Nombre de gates")
     ax.set_title("Etat des chaines de release 0.2.3a0")
@@ -237,7 +237,7 @@ def _footer(canvas: Any, document: Any) -> None:
     canvas.saveState()
     canvas.setFont("Helvetica", 7)
     canvas.setFillColor(colors.HexColor("#425563"))
-    canvas.drawString(15 * mm, 9 * mm, "QF_solver 0.2.3a0 - dossier Owner - accepted_with_recommendations")
+    canvas.drawString(15 * mm, 9 * mm, "QF_solver 0.2.3a0 - dossier Owner - accepted_for_release_0_2_3")
     canvas.drawRightString(A4[0] - 15 * mm, 9 * mm, f"Page {document.page}")
     canvas.restoreState()
 
@@ -252,9 +252,9 @@ def _image_story(story: list[object], path: Path, caption: str, styles: dict[str
 def _gate_rows() -> list[list[object]]:
     return [
         ["Chaine", "Gates techniques", "Gate final", "Etat dossier"],
-        ["HEX8", "H8-G01 a H8-G11: PASS", "H8-G12 Owner / documentation", "OWNER_ACCEPTED_WITH_RECOMMENDATIONS"],
-        ["HEX20", "H20-G01 a H20-G11: PASS", "H20-G12 Owner / non-regression", "OWNER_ACCEPTED_WITH_RECOMMENDATIONS"],
-        ["Release 0.2.3a0", "Implementation + V&V externe disponibles", "CI apres push; PyPI desactive", "SIGNED - CI EN ATTENTE"],
+        ["HEX8", "H8-G01 a H8-G12: PASS", "Owner / documentation", "ACCEPTED_FOR_RELEASE_0_2_3"],
+        ["HEX20", "H20-G01 a H20-G12: PASS", "Owner / non-regression", "ACCEPTED_FOR_RELEASE_0_2_3"],
+        ["Release 0.2.3a0", "Implementation + V&V externe disponibles", "CI post-push; PyPI bloque", "SIGNED - CI EN ATTENTE"],
     ]
 
 
@@ -337,7 +337,7 @@ def _owner_questions() -> list[list[object]]:
         ["Q12", "Les limites J2, modal/dynamique externe, grandes tailles, contact et grandes transformations sont-elles explicites ?", "OUI", "Contact, grandes transformations, rupture, dommage, WEDGE, thermique et integration reduite sont explicitement exclus."],
         ["Q13", "La non-regression complete et les audits de documentation doivent-ils etre rejoues avant fermeture ?", "OUI - FAIT", "Blocker engineering PASS : 1429 passed, 14 skipped, 186 deselected; audits public et release PASS sur 1796 fichiers."],
         ["Q14", "La release 0.2.3a0 peut-elle etre consideree prete apres fermeture des gates Owner ?", "OUI SOUS CONDITION", "Les conditions techniques et la revue Owner sont fermees; les gates CI doivent encore etre observes apres push, et PyPI reste bloque."],
-        ["Q15", "Decision finale: accepted_for_release_0_2_3, accepted_with_recommendations ou more_evidence_required ?", "accepted_with_recommendations - SIGNE", "Decision Owner approuvee le 2026-08-24 par Quentin Farinazzo; les exclusions et recommandations restent applicables."],
+        ["Q15", "Decision finale: accepted_for_release_0_2_3, accepted_with_recommendations ou more_evidence_required ?", "accepted_for_release_0_2_3 - SIGNE", "Decision Owner approuvee le 2026-08-24 par Quentin Farinazzo; les exclusions et recommandations restent applicables."],
     ]
 
 
@@ -370,24 +370,24 @@ def build() -> Path:
             paragraph("HEX8 + HEX20 lineaire + HEX20 J2 | DOC-OWNER-023-COMPLETE | revision 0.2", styles["subtitle"]),
             Spacer(1, 5 * mm),
             paragraph(
-                "Statut du paquet : OWNER_ACCEPTED_WITH_RECOMMENDATIONS. La decision et la signature Owner sont enregistrees; le commit, le tag et le push sont autorises. Aucun upload PyPI n'est execute.",
+                "Statut du paquet : ACCEPTED_FOR_RELEASE_0_2_3. La decision et la signature Owner sont enregistrees; les gates CI post-push restent a observer. Aucun upload PyPI n'est execute.",
                 styles["note"],
             ),
             paragraph("Conclusion de preparation", styles["h1"]),
             paragraph(
-                "Les chaines HEX8 et HEX20 disposent des implementations, des verifications internes, des analyses communes et des correlations statiques externes attendues. Le blocker de non-regression, la generation documentaire et les audits publics sont PASS. L'Owner a accepte le dossier avec recommandations; le push est autorise, tandis que PyPI reste bloque jusqu'a une instruction ulterieure.",
+                "Les chaines HEX8 et HEX20 disposent des implementations, des verifications internes, des analyses communes et des correlations statiques externes attendues. Le blocker de non-regression, la generation documentaire et les audits publics sont PASS. L'Owner a accepte la release; les limites externes, la masse lumped et le scaling multi-million restent explicitement bornes.",
                 styles["body"],
             ),
             review_table(_gate_rows(), [36 * mm, 61 * mm, 47 * mm, 36 * mm], styles),
             Spacer(1, 4 * mm),
             paragraph(
-                "Decision Owner enregistree : accepted_with_recommendations. La decision couvre uniquement le domaine explicitement documente et conserve les exclusions publiees.",
+                "Decision Owner enregistree : accepted_for_release_0_2_3. La decision couvre uniquement le domaine explicitement documente et conserve les exclusions publiees.",
                 styles["pass"],
             ),
             paragraph("Vue graphique des gates", styles["h1"]),
         ]
     )
-    _image_story(story, charts["gates"], "Figure 1 - Onze gates techniques sont actuellement PASS dans chaque chaine; le douzieme gate regroupe revue, documentation et fermeture release.", styles, 70 * mm)
+    _image_story(story, charts["gates"], "Figure 1 - Les douze gates de chaque chaine sont PASS; les limites hors perimetre restent documentees separement.", styles, 70 * mm)
 
     story.extend(
         [
@@ -583,13 +583,13 @@ def build() -> Path:
                     ["Grandes transformations", "EXCLU", "petites deformations; pas de grandes transformations revendiquees"],
                     ["Masse lumped", "GAP DE VALIDATION", "option disponible mais campagne dediee non archivee"],
                     ["Non-regression complete apres HEX20", "PASS", "1429 passed, 14 skipped, 186 deselected; verifications mecaniques et TET10 PASS"],
-                    ["Owner / release", "SIGNED", "accepted_with_recommendations; CI apres push; PyPI bloque"],
+                    ["Owner / release", "SIGNED", "accepted_for_release_0_2_3; CI apres push; PyPI bloque"],
                 ],
                 [45 * mm, 42 * mm, 93 * mm],
                 styles,
             ),
             paragraph(
-                "La phrase correcte pour la release est donc : dossier technique et blocker de verification PASS, correlations statiques externes PASS, revue Owner prete a signer; release 0.2.3a0 encore non publiee tant que la decision Owner n'est pas enregistree.",
+                "La phrase correcte pour la release est donc : dossier technique et blocker de verification PASS, correlations statiques externes PASS, revue Owner signee; les preuves modal, dynamique, J2 externe et multi-million restent hors extrapolation.",
                 styles["fail"],
             ),
             paragraph("Audits et etat documentaire", styles["h2"]),
@@ -612,7 +612,7 @@ def build() -> Path:
             PageBreak(),
             paragraph("7. Questions de revue Owner", styles["h1"]),
             paragraph(
-                "Les reponses techniques et les conditions issues de l'analyse Owner sont enregistrees ci-dessous. La decision finale et la signature Owner sont confirmees pour la release 0.2.3a0.",
+                "Les reponses techniques et les conditions issues de l'analyse Owner sont enregistrees ci-dessous. La decision finale `accepted_for_release_0_2_3` et la signature Owner sont confirmees pour la release 0.2.3a0.",
                 styles["note"],
             ),
             review_table(_owner_questions(), [12 * mm, 88 * mm, 31 * mm, 49 * mm], styles),
@@ -626,7 +626,7 @@ def build() -> Path:
             review_table(
                 [
                     ["Champ", "Decision Owner enregistree"],
-                    ["Decision Owner", "accepted_with_recommendations - SIGNE"],
+                    ["Decision Owner", "accepted_for_release_0_2_3 - SIGNE"],
                     ["Perimetre accepte", "HEX8/HEX20 lineaire; J2 HEX20 interne borne; contact et grandes transformations exclus"],
                     ["Conditions / recommandations", "Maintenir les exclusions; qualifier masse lumped, J2 externe, modal/dynamique externes et scaling dans des campagnes ulterieures"],
                     ["Non-regression finale confirmee", "PASS - 1429 passed, 14 skipped, 186 deselected"],
@@ -642,11 +642,11 @@ def build() -> Path:
             review_table(
                 [
                     ["Action", "Etat courant", "A fermer"],
-                    ["Relecture et reponses Owner", "SIGNE - accepted_with_recommendations", "Ferme"],
+                    ["Relecture et reponses Owner", "SIGNE - accepted_for_release_0_2_3", "Ferme"],
                     ["Non-regression pertinente post-HEX20", "PASS", "Ferme"],
                     ["Audit documentaire et registry", "PASS", "Ferme"],
                     ["Archive des resultats externes", "Disponible localement", "Verifier inclusion dans le paquet de release"],
-                    ["Commit / tag / push", "AUTORISE - en attente d'execution", "Executer maintenant"],
+                    ["Commit / tag / push", "Pousse sur GitHub; CI post-push en cours", "Attendre les gates verts"],
                     ["Publication PyPI", "NON EXECUTEE", "Bloquee jusqu'a instruction Owner"],
                 ],
                 [62 * mm, 52 * mm, 66 * mm],

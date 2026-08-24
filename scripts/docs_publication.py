@@ -186,7 +186,7 @@ class DocumentationPublisher:
         for item in active_documents:
             metadata = read_document_metadata(self.docs / item["path"])
             if (
-                item.get("status") in {"controlled", "approved"}
+                item.get("status") in {"controlled", "approved", "accepted_for_release_0_2_3"}
                 and str(metadata.get("reviewer", "")).strip()
                 and str(metadata.get("approver", "")).strip()
             ):
@@ -433,6 +433,7 @@ def normalize_document_status(status: str) -> str:
         "owner_accepted",
         "owner_accepted_experimental",
         "owner_accepted_with_recommendations",
+        "accepted_for_release_0_2_3",
         "ready_for_owner_review",
         "verified_development_external_correlation",
     }:

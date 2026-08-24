@@ -3767,7 +3767,7 @@
       "id": "DOC-HEX8-023-002",
       "path": "verification/qf_solver_0_2_3_alpha_hex8_release_gate.md",
       "title": "Gate de release 0.2.3 alpha - chaine HEX8 complete",
-      "status": "draft",
+      "status": "accepted_for_release_0_2_3",
       "requirements": [
         "REQ-REL-001",
         "REQ-AUD-001",
@@ -3780,7 +3780,7 @@
       "id": "DOC-HEX8-023-003",
       "path": "verification/qf_solver_0_2_3_alpha_hex8_owner_review.md",
       "title": "Revue Owner HEX8 0.2.3 alpha",
-      "status": "owner_accepted_with_recommendations",
+      "status": "accepted_for_release_0_2_3",
       "requirements": [
         "REQ-SOL-001",
         "REQ-MESH-001",
@@ -3816,7 +3816,7 @@
       "id": "DOC-HEX20-023-002",
       "path": "verification/qf_solver_0_2_3_alpha_hex20_release_gate.md",
       "title": "Gate de release 0.2.3 alpha - chaine HEX20",
-      "status": "draft",
+      "status": "accepted_for_release_0_2_3",
       "requirements": [
         "REQ-REL-001",
         "REQ-AUD-001",
@@ -3836,7 +3836,7 @@
       "id": "DOC-HEX20-023-003",
       "path": "verification/qf_solver_0_2_3_alpha_hex20_owner_review.md",
       "title": "Revue Owner HEX20 lineaire et J2 - QF_solver 0.2.3 alpha",
-      "status": "owner_accepted_with_recommendations",
+      "status": "accepted_for_release_0_2_3",
       "requirements": [
         "REQ-SOL-001",
         "REQ-MESH-001",

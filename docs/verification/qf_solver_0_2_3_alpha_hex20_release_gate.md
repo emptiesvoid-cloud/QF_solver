@@ -1,10 +1,11 @@
 ---
 doc_id: DOC-HEX20-023-002
-revision: 0.1
-status: draft
+revision: 0.2
+status: accepted_for_release_0_2_3
 applicable_version: 0.2.3a0
-reviewer: ""
-approver: ""
+date: 2026-08-24
+reviewer: "Owner"
+approver: "Owner"
 ---
 
 # Gate de release 0.2.3 alpha - chaine HEX20
@@ -30,7 +31,7 @@ une correlation externe ni une revue Owner.
 | H20-G09 | Comparaison 3 modeles x 4 familles | PASS_INTERNAL | 12 lignes avec metriques et residus archives. |
 | H20-G10 | CalculiX C3D20 | PASS_EXTERNAL_CORRELATION | Meme maillage; ecart global `8.50e-7`, noeud charge `7.04e-7`, seuil `1 %`. |
 | H20-G11 | Code_Aster HEXA20 | PASS_EXTERNAL_CORRELATION | Meme maillage; ecart noeud charge `5.42e-15`, seuil `1 %`. |
-| H20-G12 | Non-regression, documentation, Owner | OPEN | Tests et audits `PASS`; signature et decision Owner encore a enregistrer. |
+| H20-G12 | Non-regression, documentation, Owner | PASS | Revue Owner signee le 2026-08-24 avec decision `accepted_for_release_0_2_3`; limites et recommandations conservees. |
 
 ## Limites obligatoires
 
@@ -60,5 +61,7 @@ results/hex20_external_code_aster/code_aster.log
 ```
 
 La fiche Owner contient les reponses techniques et a ete signee le 2026-08-24
-avec la decision `accepted_with_recommendations`. Les gates CI restent a
-observer apres push ; l'upload PyPI reste volontairement desactive.
+avec la decision `accepted_for_release_0_2_3`. Les gates CI restent a observer
+apres push ; l'upload PyPI reste volontairement desactive. Les correlations
+externes restent statiques; modal, dynamique, J2 externe et le scaling
+multi-million restent hors qualification de cette release.

@@ -215,6 +215,7 @@ def test_document_lifecycle_statuses_are_preserved() -> None:
         "owner_accepted",
         "owner_accepted_experimental",
         "owner_accepted_with_recommendations",
+        "accepted_for_release_0_2_3",
         "controlled_candidate",
         "verified_development_external_correlation",
     ):

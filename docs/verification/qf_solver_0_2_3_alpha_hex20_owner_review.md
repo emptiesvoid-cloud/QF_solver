@@ -1,11 +1,11 @@
 ---
 doc_id: DOC-HEX20-023-003
 revision: 0.2
-status: owner_accepted_with_recommendations
+status: accepted_for_release_0_2_3
 applicable_version: 0.2.3a0
 date: 2026-08-24
 owner_review: signed_by_owner
-decision: accepted_with_recommendations
+decision: accepted_for_release_0_2_3
 reviewer: "Owner"
 approver: "Owner"
 ---
@@ -15,11 +15,11 @@ approver: "Owner"
 ## Regle de soumission
 
 Cette fiche a ete acceptee par l'Owner apres execution et archivage des gates
-H20-G01 a H20-G12. La decision est `accepted_with_recommendations` et conserve
+H20-G01 a H20-G12. La decision est `accepted_for_release_0_2_3` et conserve
 les limites et exclusions du domaine HEX20 documente.
 
-La branche de travail reste non publiee : aucun commit, push, tag ou paquet
-PyPI n'est autorise par cette etude.
+Le code est pousse sur GitHub. Aucun upload PyPI n'est autorise par cette
+etude tant que les gates CI post-push ne sont pas verts.
 
 ## Dossier de preuves
 
@@ -52,14 +52,15 @@ PyPI n'est autorise par cette etude.
 
 | Champ | Valeur |
 | --- | --- |
-| Decision Owner | `accepted_with_recommendations` - acceptee et signee par l'Owner |
-| Justification | H20-G01 à H20-G11 sont PASS, les deux corrélations statiques externes sont PASS et la non-régression complète est PASS. |
+| Decision Owner | `accepted_for_release_0_2_3` - acceptee et signee par l'Owner |
+| Justification | H20-G01 à H20-G12 sont PASS, les deux corrélations statiques externes sont PASS et la non-régression complète est PASS. |
 | Conditions ou recommandations | Maintenir J2 comme preuve interne bornée ; qualifier séparément la masse lumped, la dynamique/modal externe et les grandes tailles avant toute extension. |
 | Nom / role | Quentin Farinazzo / Owner |
 | Date | 2026-08-24 |
 | Signature | Validation Owner approuvee dans le cadre de la release 0.2.3a0 |
 
 Decisions possibles : `accepted_for_release_0_2_3`,
-`accepted_with_recommendations` ou `more_evidence_required`. Une decision de
-release ne peut etre proposee que lorsque H20-G01 a H20-G12 sont fermes et que
-les deux correlations externes sont archivees.
+`accepted_with_recommendations` ou `more_evidence_required`. La decision de
+release est valable ici parce que H20-G01 a H20-G12 sont fermes et que les deux
+correlations externes sont archivees. Elle ne qualifie pas la masse lumped,
+la dynamique/modal externe ni le scaling multi-million.

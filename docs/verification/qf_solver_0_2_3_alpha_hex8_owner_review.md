@@ -1,11 +1,11 @@
 ---
 doc_id: DOC-HEX8-023-003
 revision: 0.2
-status: owner_accepted_with_recommendations
+status: accepted_for_release_0_2_3
 applicable_version: 0.2.3a0
 date: 2026-08-24
 owner_review: signed_by_owner
-decision: accepted_with_recommendations
+decision: accepted_for_release_0_2_3
 reviewer: "Owner"
 approver: "Owner"
 ---
@@ -15,12 +15,13 @@ approver: "Owner"
 ## Usage du document
 
 Cette revue a ete acceptee par l'Owner apres fermeture technique des gates
-H8-G01 a H8-G12. La decision est `accepted_with_recommendations` et couvre
+H8-G01 a H8-G12. La decision est `accepted_for_release_0_2_3` et couvre
 uniquement le perimetre HEX8 lineaire documente.
 
 ## Contexte de preuve a joindre
 
-- commit examine : `working tree non committe (aucun push/tag effectue)`;
+- commit examine : `a24b83c` (source poussee sur GitHub; tag de release a
+  aligner sur le HEAD final apres fermeture documentaire);
 - plateforme et versions : `Windows, Python 3.13.1, NumPy 2.2.6, SciPy 1.15.2, psutil 7.2.2; PETSc/Gmsh non requis pour cette campagne; CalculiX 2.20; Code_Aster 18.1`;
 - dossier V&V HEX8 : `results/hex8_full_campaign/summary.json` genere par `verify-hex8-campaign --external`;
 - correlation externe obligatoire : `results/hex8_full_campaign/external_hex8_calculix/summary.json`, C3D8, ecarts 1.20e-6 et 1.96e-6;
@@ -49,14 +50,14 @@ uniquement le perimetre HEX8 lineaire documente.
 
 | Champ | Valeur |
 | --- | --- |
-| Decision Owner | `accepted_with_recommendations` - acceptee et signee par l'Owner |
-| Justification | Les gates techniques H8-G01 à H8-G11 sont PASS, les corrélations statiques externes sont PASS et la non-régression complète est PASS. |
+| Decision Owner | `accepted_for_release_0_2_3` - acceptee et signee par l'Owner |
+| Justification | Les gates techniques H8-G01 à H8-G12 sont PASS, les corrélations statiques externes sont PASS et la non-régression complète est PASS. |
 | Conditions ou recommandations | Maintenir les exclusions publiées ; ne pas extrapoler aux contacts, grandes transformations, intégration réduite ou multi-million de DDL. |
 | Nom / role | Quentin Farinazzo / Owner |
 | Date | 2026-08-24 |
 | Signature | Validation Owner approuvee dans le cadre de la release 0.2.3a0 |
 
 Les decisions possibles sont `accepted_for_release_0_2_3`,
-`accepted_with_recommendations` ou `more_evidence_required`. Seule la
-premiere peut fermer le gate de release, et uniquement si tous les H8-G01 a
-H8-G12 sont `PASS`.
+`accepted_with_recommendations` ou `more_evidence_required`. La decision
+`accepted_for_release_0_2_3` ferme le gate de release lorsque tous les H8-G01 a
+H8-G12 sont `PASS`; elle ne leve aucune exclusion de perimetre.
