@@ -15,13 +15,15 @@ from solveur.core.model import FiniteElementModel
 from solveur.elements.registry import ElementRegistry
 from solveur.elements.beam.beam2 import Beam2Element
 from solveur.elements.shell.mitc3 import Mitc3ShellElement
+from solveur.elements.solid.hex8 import Hex8Element
+from solveur.elements.solid.hex20 import Hex20Element
 from solveur.elements.solid.quadrature import tetra_duffy_rule, triangle_duffy_rule, triangle_shape_functions
 from solveur.elements.solid.tet4 import Tet4Element
 from solveur.elements.solid.tet10 import Tet10Element
 from solveur.loads.entities import BodyLoad, DistributedLoad, EdgeLoad, GravityLoad, LineLoad, SurfaceLoad
 from solveur.materials.factory import MaterialFactory
 from solveur.materials.laminate import LaminateShellMaterial
-from solveur.mesh.topology import MITC3_EDGES, MITC4_EDGES, TET10_FACES, TET4_FACES
+from solveur.mesh.topology import HEX8_FACES, HEX20_FACES, MITC3_EDGES, MITC4_EDGES, TET10_FACES, TET4_FACES
 
 @dataclass(frozen=True)
 class IntegratedLoad:
@@ -133,6 +135,10 @@ class DistributedLoadIntegrator:
             return np.tile(force_density * volume / 4.0, 4)
         if definition.type == "TET10":
             return _tet10_body_vector(coords, force_density)
+        if definition.type == "HEX8":
+            return _hex8_body_vector(coords, force_density)
+        if definition.type == "HEX20":
+            return _hex20_body_vector(coords, force_density)
         if definition.type == "MITC4" and isinstance(material, (ShellMaterial, LaminateShellMaterial)):
             return _mitc4_surface_vector(coords, force_density * material.t, pressure=None)
         if definition.type == "MITC3" and isinstance(material, (ShellMaterial, LaminateShellMaterial)):
@@ -149,6 +155,10 @@ class DistributedLoadIntegrator:
             return _solid_face_vector(coords, TET4_FACES[int(load.face)], traction, pressure, load.coordinate_system)
         if definition.type == "TET10":
             return _solid_face_vector(coords, TET10_FACES[int(load.face)], traction, pressure, load.coordinate_system)
+        if definition.type == "HEX8":
+            return _solid_face_vector(coords, HEX8_FACES[int(load.face)], traction, pressure, load.coordinate_system)
+        if definition.type == "HEX20":
+            return _solid_face_vector(coords, HEX20_FACES[int(load.face)], traction, pressure, load.coordinate_system)
         if definition.type == "MITC4":
             if traction is not None and load.coordinate_system == "local":
                 traction = MITC4Element.local_frame(coords).T @ traction
@@ -283,6 +293,31 @@ def _tet10_body_vector(coords: np.ndarray, force_density: np.ndarray) -> np.ndar
     return local
 
 
+def _hex8_body_vector(coords: np.ndarray, force_density: np.ndarray) -> np.ndarray:
+    local = np.zeros(24, dtype=float)
+    for point in Hex8Element.integration_points:
+        weight = 1.0
+        shape = Hex8Element.shape_functions(point)
+        determinant = Hex8Element.jacobian_determinant(coords, point)
+        if determinant <= 1.0e-14:
+            raise InputValidationError(f"Invalid HEX8 Jacobian {determinant:.6e} during body load integration.")
+        for node, value in enumerate(shape):
+            local[3 * node : 3 * node + 3] += weight * determinant * value * force_density
+    return local
+
+
+def _hex20_body_vector(coords: np.ndarray, force_density: np.ndarray) -> np.ndarray:
+    local = np.zeros(60, dtype=float)
+    for point, weight in zip(Hex20Element.integration_points, Hex20Element.integration_weights):
+        shape = Hex20Element.shape_functions(point)
+        determinant = Hex20Element.jacobian_determinant(coords, point)
+        if determinant <= 1.0e-14:
+            raise InputValidationError(f"Invalid HEX20 Jacobian {determinant:.6e} during body load integration.")
+        for node, value in enumerate(shape):
+            local[3 * node : 3 * node + 3] += weight * determinant * value * force_density
+    return local
+
+
 def _solid_face_vector(
     coords: np.ndarray,
     face_nodes: tuple[int, ...],
@@ -292,6 +327,44 @@ def _solid_face_vector(
 ) -> np.ndarray:
     local = np.zeros(coords.shape[0] * 3, dtype=float)
     face_coords = coords[list(face_nodes)]
+    if len(face_nodes) in {4, 8}:
+        abscissa = 1.0 / math.sqrt(3.0)
+        points_1d = (-abscissa, 0.0, abscissa) if len(face_nodes) == 8 else (-abscissa, abscissa)
+        one_d_weights = {float(-abscissa): 5.0 / 9.0, 0.0: 8.0 / 9.0, float(abscissa): 5.0 / 9.0}
+        for xi in points_1d:
+            for eta in points_1d:
+                if len(face_nodes) == 8:
+                    shape, derivatives = _quad8_shape_data(xi, eta)
+                    quadrature_weight = one_d_weights[float(xi)] * one_d_weights[float(eta)]
+                else:
+                    signs = np.asarray(((-1.0, -1.0), (1.0, -1.0), (1.0, 1.0), (-1.0, 1.0)))
+                    shape = 0.25 * (1.0 + signs[:, 0] * xi) * (1.0 + signs[:, 1] * eta)
+                    derivatives = np.column_stack(
+                        (
+                            0.25 * signs[:, 0] * (1.0 + signs[:, 1] * eta),
+                            0.25 * signs[:, 1] * (1.0 + signs[:, 0] * xi),
+                        )
+                    )
+                    quadrature_weight = 1.0
+                tangent_u = derivatives[:, 0] @ face_coords
+                tangent_v = derivatives[:, 1] @ face_coords
+                area_vector = np.cross(tangent_u, tangent_v)
+                measure = float(np.linalg.norm(area_vector))
+                if measure <= 1.0e-14:
+                    raise InputValidationError("Degenerate quadrilateral face encountered during surface load integration.")
+                if pressure is not None:
+                    weighted_traction = -pressure * area_vector
+                else:
+                    applied = np.asarray(traction, dtype=float)
+                    if coordinate_system == "local":
+                        e1 = tangent_u / np.linalg.norm(tangent_u)
+                        e3 = area_vector / measure
+                        e2 = np.cross(e3, e1)
+                        applied = np.column_stack((e1, e2, e3)) @ applied
+                    weighted_traction = applied * measure
+                for face_node, value in zip(face_nodes, shape):
+                    local[3 * face_node : 3 * face_node + 3] += quadrature_weight * value * weighted_traction
+        return local
     for barycentric, weight in triangle_duffy_rule(5):
         shape, derivatives = triangle_shape_functions(len(face_nodes), barycentric)
         tangent_u = derivatives[:, 0] @ face_coords
@@ -313,6 +386,30 @@ def _solid_face_vector(
         for face_node, value in zip(face_nodes, shape):
             local[3 * face_node : 3 * face_node + 3] += value * weighted_traction
     return local
+
+
+def _quad8_shape_data(xi: float, eta: float) -> tuple[np.ndarray, np.ndarray]:
+    """Return QUAD8 shape functions and derivatives in edge-node order."""
+    point = np.asarray((xi, eta), dtype=float)
+    signs = np.asarray(((-1.0, -1.0), (1.0, -1.0), (1.0, 1.0), (-1.0, 1.0)))
+    shape = np.zeros(8, dtype=float)
+    derivatives = np.zeros((8, 2), dtype=float)
+    for index, sign in enumerate(signs):
+        factors = 1.0 + sign * point
+        product = float(np.prod(factors))
+        linear = float(sign @ point) - 1.0
+        shape[index] = 0.25 * product * linear
+        for axis in range(2):
+            other_product = float(np.prod(np.delete(factors, axis)))
+            derivatives[index, axis] = 0.25 * sign[axis] * (other_product * linear + product)
+    edge_data = ((0, 1, -1.0), (1, 0, 1.0), (0, 1, 1.0), (1, 0, -1.0))
+    for index, (free_axis, fixed_axis, fixed_sign) in enumerate(edge_data, start=4):
+        free_value = point[free_axis]
+        fixed_factor = 1.0 + fixed_sign * point[fixed_axis]
+        shape[index] = 0.5 * (1.0 - free_value**2) * fixed_factor
+        derivatives[index, free_axis] = -free_value * fixed_factor
+        derivatives[index, fixed_axis] = 0.5 * fixed_sign * (1.0 - free_value**2)
+    return shape, derivatives
 
 
 def _mitc4_surface_vector(

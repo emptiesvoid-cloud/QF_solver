@@ -203,18 +203,18 @@
     "audit_status": "PASS",
     "backend": "matrix_free",
     "element_count": 216,
-    "estimated_core_memory_bytes": 21120,
-    "matrix_free_operator_memory_bytes": 10368,
+    "estimated_core_memory_bytes": 26880,
+    "matrix_free_operator_memory_bytes": 16128,
     "ndof": 240,
     "node_count": 80,
-    "solve_time_seconds": 0.01579369988758117,
+    "solve_time_seconds": 0.014585199998691678,
     "solver": {
       "converged": true,
-      "iterations": 89,
+      "iterations": 82,
       "method": "matrix_free_cg",
-      "preconditioner": "diagonal",
-      "relative_residual": 6.972541605320002e-13,
-      "residual_norm": 1.7431354013300004e-10
+      "preconditioner": "nodal_block_jacobi",
+      "relative_residual": 9.383069584577329e-13,
+      "residual_norm": 2.345767396144332e-10
     }
   }
 }

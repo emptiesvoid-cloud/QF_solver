@@ -27,20 +27,20 @@
     "target_sigma_xx": 12500000.0,
     "mean_stress": [
       12500000.0,
-      -3.036921438963517e-10,
-      1.2451377899750419e-09,
-      -3.395798287055689e-09,
-      -1.093418790392971e-09,
-      -1.6759155046663328e-09
+      -2.049921971300374e-09,
+      -2.4548448298288427e-09,
+      -1.0684179818610008e-08,
+      -5.441033270133863e-10,
+      5.622607062296771e-10
     ],
-    "relative_stress_error": 1.5780105072324628e-15,
-    "free_relative_residual": 2.1943991412967048e-15
+    "relative_stress_error": 5.128432617551729e-15,
+    "free_relative_residual": 2.9922912331461e-15
   },
   "checks": [
     {
       "id": "constant-stress",
       "status": "PASS",
-      "value": 1.5780105072324628e-15,
+      "value": 5.128432617551729e-15,
       "limit": 1e-09,
       "operator": "less_equal",
       "detail": ""
@@ -48,7 +48,7 @@
     {
       "id": "free-residual",
       "status": "PASS",
-      "value": 2.1943991412967048e-15,
+      "value": 2.9922912331461e-15,
       "limit": 1e-08,
       "operator": "less_equal",
       "detail": ""

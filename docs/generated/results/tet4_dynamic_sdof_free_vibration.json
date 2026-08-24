@@ -533,6 +533,15 @@
     "newmark_beta": 0.25,
     "newmark_gamma": 0.5,
     "linear_method": "direct",
+    "requested_linear_method": "direct",
+    "backend": {
+      "requested": "auto",
+      "selected": "scipy",
+      "fallback_used": false,
+      "petsc_available": false,
+      "slepc_available": false,
+      "reason": "SciPy selected as the standard backend"
+    },
     "linear_selection": {
       "requested_method": "direct",
       "used_method": "direct",
@@ -552,44 +561,89 @@
         "sparse_memory_bytes": 20,
         "direct_memory_estimate_bytes": 200,
         "direct_memory_budget_bytes": null,
-        "direct_budget_exceeded": false
+        "direct_budget_exceeded": false,
+        "dense_memory_estimate_bytes": 8
       }
     },
     "linear_execution": {
       "requested_method": "direct",
+      "used_method": "splu_reuse",
+      "backend": "auto",
       "preconditioner": "none",
       "rtol": null,
       "atol": null,
       "maxiter": null,
       "residual_failure_tolerance": 1e-07,
       "fallback_used": false,
-      "used_method": "splu_reuse",
       "effective_matrix": "K + gamma/(beta*dt)*C + 1/(beta*dt^2)*M",
-      "factorization_reused": true
+      "effective_matrix_nnz": 1,
+      "factorization_reused": true,
+      "backend_used": [
+        "scipy"
+      ],
+      "iteration_count_total": 40,
+      "max_relative_residual_norm": 1.7212857561640078e-16
     },
     "postprocess_mode": "full",
     "effective_factorization_reused": true,
     "effective_factorization_count": 1,
     "effective_factorization_solve_count": 40,
+    "effective_factorization_seconds": 9.269994916394353e-05,
+    "effective_factorization_solve_seconds_total": 0.00025149970315396786,
+    "effective_factorization_last_solve_seconds": 5.599984433501959e-06,
     "assembly": {
       "stiffness": {
-        "matrix": "stiffness",
         "chunk_size": 256,
         "chunk_count": 1,
         "element_count": 1,
         "coefficient_entry_count": 144,
         "peak_chunk_entry_count": 144,
+        "assembly_peak_memory_estimate_bytes": 6912,
+        "assembly_memory_budget_bytes": null,
+        "assembly_memory_budget_exceeded": false,
+        "assembly_index_dtype": "int32",
+        "assembly_plan_reused": false,
+        "paired_assembly": true,
+        "shared_chunk_pattern": true,
+        "assembly_phase_seconds": {
+          "assembly_plan": 0.00014110002666711807,
+          "element_kernel": 0.00019610003801062703,
+          "chunk_sparse_conversion": 0.00016559998039156199,
+          "chunk_fusion": 1.9999570213258266e-06,
+          "sparse_finalize": 0.0001431000418961048,
+          "discrete_merge": 4.6900007873773575e-05
+        },
+        "matrix": "stiffness",
+        "accumulator_chunk_count": 1,
+        "accumulator_occupied_levels": 1,
         "final_nnz": 72,
         "spring_count": 0,
         "concentrated_mass_count": 0
       },
       "mass": {
-        "matrix": "mass",
         "chunk_size": 256,
         "chunk_count": 1,
         "element_count": 1,
         "coefficient_entry_count": 144,
         "peak_chunk_entry_count": 144,
+        "assembly_peak_memory_estimate_bytes": 6912,
+        "assembly_memory_budget_bytes": null,
+        "assembly_memory_budget_exceeded": false,
+        "assembly_index_dtype": "int32",
+        "assembly_plan_reused": false,
+        "paired_assembly": true,
+        "shared_chunk_pattern": true,
+        "assembly_phase_seconds": {
+          "assembly_plan": 0.00014110002666711807,
+          "element_kernel": 0.00019610003801062703,
+          "chunk_sparse_conversion": 0.00016559998039156199,
+          "chunk_fusion": 1.9999570213258266e-06,
+          "sparse_finalize": 0.0001431000418961048,
+          "discrete_merge": 4.6900007873773575e-05
+        },
+        "matrix": "mass",
+        "accumulator_chunk_count": 1,
+        "accumulator_occupied_levels": 1,
         "final_nnz": 48,
         "spring_count": 0,
         "concentrated_mass_count": 0
@@ -2360,7 +2414,8 @@
         "sparse_memory_bytes": 20,
         "direct_memory_estimate_bytes": 200,
         "direct_memory_budget_bytes": null,
-        "direct_budget_exceeded": false
+        "direct_budget_exceeded": false,
+        "dense_memory_estimate_bytes": 8
       }
     },
     "checks": [
@@ -2677,7 +2732,7 @@
       "Transient dynamic audit uses the final Newmark state."
     ],
     "qualification": {
-      "solver_version": "0.2.1a0",
+      "solver_version": "0.2.3a0",
       "schema_version": 1,
       "units": {
         "system": "SI"
@@ -2716,7 +2771,7 @@
       "traceability": {
         "status": "PASS",
         "scope": "tet4-transient-dynamic",
-        "scope_status": "candidate",
+        "scope_status": "qualified",
         "requirement_count": 10,
         "covered_requirement_count": 10,
         "formula_count": 7,

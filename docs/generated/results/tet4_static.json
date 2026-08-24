@@ -467,6 +467,18 @@
     "residual_history": [
       0.0
     ],
+    "backend": {
+      "requested": "auto",
+      "selected": "scipy",
+      "fallback_used": false,
+      "petsc_available": false,
+      "slepc_available": false,
+      "reason": "SciPy selected as the standard backend"
+    },
+    "initial_residual_norm": 1000.0,
+    "relative_residual_norm": 0.0,
+    "tolerance": 1e-07,
+    "termination_reason": "converged",
     "selection": {
       "requested_method": "direct",
       "used_method": "direct",
@@ -486,27 +498,31 @@
         "sparse_memory_bytes": 52,
         "direct_memory_estimate_bytes": 520,
         "direct_memory_budget_bytes": null,
-        "direct_budget_exceeded": false
+        "direct_budget_exceeded": false,
+        "dense_memory_estimate_bytes": 72
       }
     },
     "execution": {
       "requested_method": "direct",
+      "used_method": "direct",
+      "backend": "auto",
       "preconditioner": "none",
       "rtol": null,
       "atol": null,
       "maxiter": null,
       "residual_failure_tolerance": 1e-07,
       "fallback_used": false,
-      "used_method": "direct",
-      "linear_solve_seconds": 0.00021639990154653788,
-      "assembly_seconds": 0.0007130999583750963,
-      "total_seconds": 0.06774129997938871,
+      "backend_used": "scipy",
+      "linear_solve_seconds": 0.0012043000315316021,
+      "assembly_seconds": 0.000929799978621304,
+      "total_seconds": 0.0831766999908723,
       "resource_estimate": {
         "nnz": 3,
         "sparse_memory_bytes": 52,
         "direct_memory_estimate_bytes": 520,
         "direct_memory_budget_bytes": null,
-        "direct_budget_exceeded": false
+        "direct_budget_exceeded": false,
+        "dense_memory_estimate_bytes": 72
       }
     },
     "load_assembly": {
@@ -1725,7 +1741,8 @@
         "sparse_memory_bytes": 52,
         "direct_memory_estimate_bytes": 520,
         "direct_memory_budget_bytes": null,
-        "direct_budget_exceeded": false
+        "direct_budget_exceeded": false,
+        "dense_memory_estimate_bytes": 72
       }
     },
     "checks": [
@@ -2075,7 +2092,7 @@
     ],
     "notes": [],
     "qualification": {
-      "solver_version": "0.2.1a0",
+      "solver_version": "0.2.3a0",
       "schema_version": 1,
       "units": {
         "system": "SI"
@@ -2122,7 +2139,7 @@
       "traceability": {
         "status": "PASS",
         "scope": "tet4-linear-static",
-        "scope_status": "candidate",
+        "scope_status": "qualified",
         "requirement_count": 13,
         "covered_requirement_count": 13,
         "formula_count": 6,

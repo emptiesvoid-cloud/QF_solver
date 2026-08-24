@@ -52,6 +52,8 @@ def test_gmsh_vector_requires_three_finite_components() -> None:
     [
         (GmshCell(1, 1, 3, 1, "Tetrahedron 4", (1, 2, 3, 4)), "TET4"),
         (GmshCell(1, 1, 3, 2, "Tetrahedron 10", tuple(range(1, 11))), "TET10"),
+        (GmshCell(1, 1, 3, 1, "Hexahedron 8", tuple(range(1, 9))), "HEX8"),
+        (GmshCell(1, 17, 3, 2, "Hexahedron 20", tuple(range(1, 21))), "HEX20"),
         (GmshCell(1, 1, 2, 1, "Triangle 3", (1, 2, 3)), "MITC3"),
         (GmshCell(1, 1, 2, 1, "Quadrangle 4", (1, 2, 3, 4)), "MITC4"),
         (GmshCell(1, 1, 1, 1, "Line 2", (1, 2)), None),

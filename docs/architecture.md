@@ -2,7 +2,7 @@
 doc_id: DOC-ARCH-001
 revision: 2.1
 status: controlled
-applicable_version: 0.2.2a0
+applicable_version: 0.2.3a0
 reviewer: ""
 approver: ""
 ---
@@ -32,7 +32,7 @@ QF_solver/
       api/                # fonctions reexportees par qf_solver
       cli/                # adaptation des commandes
       core/               # analyses, assemblage et solveurs
-      elements/           # TET4, TET10, MITC3+, MITC4, BEAM2, discret
+      elements/           # TET4, TET10, HEX8, HEX20, MITC3+, MITC4, BEAM2, discret
       materials/          # lois isotropes, orthotropes, stratifies et J2
       mesh/ loads/ post/  # validation, chargements et post-traitement
       large/              # chemin TET4 PETSc/MPI optionnel
@@ -57,7 +57,7 @@ Les visualisations, campagnes et verifications vivent respectivement dans
 durant la serie 0.2.x. Les deux chemins d'import sont proteges par une
 baseline matricielle et la campagne MITC4.
 
-## Etat de transition 0.2.2a0
+## Etat de transition 0.2.3a0
 
 `src/solveur/elements/shell/mitc4` est l'unique implementation canonique de
 MITC4. `src/solveur/compat/mitc4` est une facade de compatibilite interne maintenue pour la serie
@@ -67,9 +67,12 @@ facade.
 
 Les decisions de maturite de la release precedente ne sont pas portees par cette page : le registre
 machine-readable `qualification/element_analysis_matrix.json` est la source de
-verite. A la date de preparation de `0.2.2a0`, 28 scopes y sont `stable`; les
-scopes bornes et de recherche restent explicitement distincts et bloquent le
-gate de release lorsqu'ils font partie du perimetre requis.
+verite. A la date de preparation de `0.2.3a0`, les formulations HEX8 et HEX20
+lineaires reutilisent le meme assembleur sparse, les memes backends et les
+memes contrats statique/modal/Newmark/harmonique que les solides existants.
+Les preuves externes sont statiques et les sous-perimetres J2, contact,
+grandes transformations et multi-million de DDL restent explicitement bornes
+ou exclus.
 
 Docker ne fait pas partie du runtime standard. Le Dockerfile conserve dans
 `tools/containers/large/` sert seulement a reproduire un environnement

@@ -119,6 +119,18 @@
     "residual_history": [
       5.084229945850415e-13
     ],
+    "backend": {
+      "requested": "auto",
+      "selected": "scipy",
+      "fallback_used": false,
+      "petsc_available": false,
+      "slepc_available": false,
+      "reason": "SciPy selected as the standard backend"
+    },
+    "initial_residual_norm": 790.5694150420949,
+    "relative_residual_norm": 6.431098710768743e-16,
+    "tolerance": 1e-07,
+    "termination_reason": "converged",
     "selection": {
       "requested_method": "direct",
       "used_method": "direct",
@@ -138,27 +150,31 @@
         "sparse_memory_bytes": 148,
         "direct_memory_estimate_bytes": 1480,
         "direct_memory_budget_bytes": null,
-        "direct_budget_exceeded": false
+        "direct_budget_exceeded": false,
+        "dense_memory_estimate_bytes": 288
       }
     },
     "execution": {
       "requested_method": "direct",
+      "used_method": "direct",
+      "backend": "auto",
       "preconditioner": "none",
       "rtol": null,
       "atol": null,
       "maxiter": null,
       "residual_failure_tolerance": 1e-07,
       "fallback_used": false,
-      "used_method": "direct",
-      "linear_solve_seconds": 0.0002128999913111329,
-      "assembly_seconds": 0.0018008999759331346,
-      "total_seconds": 0.044328899937681854,
+      "backend_used": "scipy",
+      "linear_solve_seconds": 0.0010917999898083508,
+      "assembly_seconds": 0.0010885000228881836,
+      "total_seconds": 0.05267840001033619,
       "resource_estimate": {
         "nnz": 10,
         "sparse_memory_bytes": 148,
         "direct_memory_estimate_bytes": 1480,
         "direct_memory_budget_bytes": null,
-        "direct_budget_exceeded": false
+        "direct_budget_exceeded": false,
+        "dense_memory_estimate_bytes": 288
       }
     },
     "load_assembly": {
@@ -1126,7 +1142,8 @@
         "sparse_memory_bytes": 148,
         "direct_memory_estimate_bytes": 1480,
         "direct_memory_budget_bytes": null,
-        "direct_budget_exceeded": false
+        "direct_budget_exceeded": false,
+        "dense_memory_estimate_bytes": 288
       }
     },
     "checks": [
@@ -1273,7 +1290,7 @@
     ],
     "notes": [],
     "qualification": {
-      "solver_version": "0.2.1a0",
+      "solver_version": "0.2.3a0",
       "schema_version": 1,
       "units": {
         "system": "SI"
@@ -1310,9 +1327,9 @@
         }
       },
       "traceability": {
-        "status": "FAIL",
+        "status": "PASS",
         "scope": "beam2-linear-static",
-        "scope_status": "development",
+        "scope_status": "qualified",
         "requirement_count": 6,
         "covered_requirement_count": 6,
         "formula_count": 4,
@@ -1327,8 +1344,7 @@
     "run_verdict": "WARNING",
     "blocking_errors": [],
     "warnings": [
-      "Maturity 'experimental' is used under profile 'engineering'.",
-      "Qualification scope 'beam2-linear-static' is not readiness PASS."
+      "Maturity 'experimental' is used under profile 'engineering'."
     ],
     "trust_score": 0.75,
     "trust_score_non_certifying": true,

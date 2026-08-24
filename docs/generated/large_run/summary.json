@@ -6,15 +6,15 @@
   "backend": "matrix_free",
   "solver": {
     "method": "matrix_free_cg",
-    "preconditioner": "diagonal",
-    "iterations": 89,
-    "residual_norm": 1.7431354013300004e-10,
-    "relative_residual": 6.972541605320002e-13,
+    "preconditioner": "nodal_block_jacobi",
+    "iterations": 82,
+    "residual_norm": 2.345767396144332e-10,
+    "relative_residual": 9.383069584577329e-13,
     "converged": true
   },
   "assembly_time_seconds": 0.0,
-  "solve_time_seconds": 0.01579369988758117,
-  "estimated_core_memory_bytes": 21120,
+  "solve_time_seconds": 0.014585199998691678,
+  "estimated_core_memory_bytes": 26880,
   "audit_status": "PASS",
-  "matrix_free_operator_memory_bytes": 10368
+  "matrix_free_operator_memory_bytes": 16128
 }

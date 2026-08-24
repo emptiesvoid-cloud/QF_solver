@@ -15,7 +15,7 @@ algorithme de reference sur le meme systeme discret.
 
 - erreur complexe plein champ maximale: `2.411e-07`;
 - erreur complexe a la sonde maximale: `2.404e-07`;
-- residu relatif maximal: `8.251e-11`.
+- residu relatif maximal: `2.030e-10`.
 
 Statut : **PASS**.
 

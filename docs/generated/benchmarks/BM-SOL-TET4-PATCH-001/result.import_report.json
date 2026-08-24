@@ -1,9 +1,9 @@
 {
   "status": "WARNING",
   "solver_name": "QF_solver",
-  "solver_version": "0.2.1a0",
+  "solver_version": "0.2.3a0",
   "source_path": "patch_tet4.msh",
-  "source_sha256": "bb71b98503206589289acb7fb5af424662503f08098f359214f576974c4ef0b1",
+  "source_sha256": "adf262fc724cc16ace6dfe2907b1112ca3e0781e914141e2859f6e575fd64b2e",
   "setup_path": "result.setup.json",
   "setup_sha256": "dc9550c48fde5ac9f92ba0a1453619650ea9e72032b48ac6a3fd96046f9228ca",
   "gmsh_version": "4.15.2",
@@ -18,21 +18,21 @@
       "name": "anchor_origin",
       "dimension": 0,
       "tag": 6,
-      "cell_count": 1,
+      "cell_count": 0,
       "node_count": 1
     },
     {
       "name": "anchor_x",
       "dimension": 0,
       "tag": 7,
-      "cell_count": 1,
+      "cell_count": 0,
       "node_count": 1
     },
     {
       "name": "anchor_xy",
       "dimension": 0,
       "tag": 8,
-      "cell_count": 1,
+      "cell_count": 0,
       "node_count": 1
     },
     {
@@ -77,10 +77,9 @@
     "surface_traction": 52
   },
   "orientation_repairs": 0,
-  "mesh_status": "WARNING",
+  "mesh_status": "PASS",
   "warnings": [
     "Physical group 'y_min' (dimension 2) is unused.",
-    "Physical group 'z_min' (dimension 2) is unused.",
-    "Component 0 has translation constraints on fewer than two nodes; rotations may remain free."
+    "Physical group 'z_min' (dimension 2) is unused."
   ]
 }

@@ -24,7 +24,7 @@ Six valeurs propres rigides restent separees du premier mode elastique avec un r
 | 40 | 1.048e-02 | 7.003e-12 | 1.368e-10 |
 | 80 | 2.623e-03 | 2.418e-11 | 1.037e-10 |
 
-Erreur harmonique complexe maximale : `4.821e-09`. Limite statique : `3.396e-12`.
+Erreur harmonique complexe maximale : `4.830e-09`. Limite statique : `3.403e-12`.
 
 ![Libre-libre](VNV-MITC3-MODAL-FREEFREE-013.png)
 

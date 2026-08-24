@@ -1,16 +1,16 @@
 {
   "manifest_schema_version": 1,
-  "created_at_utc": "2026-08-14T21:30:48.534628Z",
+  "created_at_utc": "2026-08-24T09:12:37.937065Z",
   "solver": {
     "name": "QF_solver",
-    "version": "0.2.1a0"
+    "version": "0.2.3a0"
   },
   "benchmark_id": "BM-SHL-COOK-001",
   "profile": "engineering",
   "status": "PASS",
   "source": {
     "repository": ".",
-    "revision": "1804a03aee0c4e4bc6ac2c56e9461bedd9aac6d4",
+    "revision": "uncommitted",
     "dirty": true
   },
   "runtime": {
@@ -61,13 +61,13 @@
       "role": "benchmark_artifact",
       "path": "result.import_report.json",
       "size_bytes": 1101,
-      "sha256": "c3e45ca2f16de62d55873f7fdfa6bdcf31b88dd86c1b59372832a80ee26f6a10"
+      "sha256": "dbbf80b0150a779b3a74dc97d439e4df67aa183f4bdda18f9c4f118c1fdbc29d"
     },
     {
       "role": "benchmark_artifact",
       "path": "result.json",
-      "size_bytes": 8259805,
-      "sha256": "476637d68716f1be0559a9b7db23bd35d4e82b62a2a6d673caf72566e83da27d"
+      "size_bytes": 8260419,
+      "sha256": "0bd97c1adfd20c0ed67d1be29324a96ac18b65c9d3aae484c567b7d8216593c1"
     },
     {
       "role": "benchmark_artifact",

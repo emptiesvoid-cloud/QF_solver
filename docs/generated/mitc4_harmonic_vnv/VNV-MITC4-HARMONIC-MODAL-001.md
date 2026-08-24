@@ -5,9 +5,9 @@
 Balayage harmonique du premier mode MITC4 avec charge `F0=M*phi1`.
 
 - erreur complexe maximale : `1.254e-07`;
-- erreur limite statique : `4.519e-11`;
+- erreur limite statique : `4.634e-11`;
 - pic : `8.363501 Hz`;
-- residu maximal : `1.748e-09`.
+- residu maximal : `2.027e-09`.
 
 | Amortissement | Amplitude a f1 (m) | Phase (deg) | Erreur analytique |
 | ---: | ---: | ---: | ---: |

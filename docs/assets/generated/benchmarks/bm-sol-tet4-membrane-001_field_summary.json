@@ -1,24 +1,24 @@
 {
-  "deformation_scale": 1301.162900240708,
+  "deformation_scale": 1398.0835035506127,
   "element_count": 2402,
   "fields": [
     {
       "element_count": 2402,
       "key": "von_mises",
       "label": "Contrainte equivalente de von Mises [unite du modele]",
-      "maximum": 10000000.000000605,
-      "minimum": 9999999.999999484,
+      "maximum": 10000000.00000088,
+      "minimum": 9999999.999998994,
       "path": "bm-sol-tet4-membrane-001_von_mises.png",
-      "sha256": "61bb0257dab48447a0d6fb15e1dd12d1ffe97cb642eb28f0b11b71cd5c80f528"
+      "sha256": "975afd041ee9df421d13c3775a3bf46371b74436dc38dab26f1e0ef981f96fb9"
     },
     {
       "element_count": 2402,
       "key": "strain_measure",
       "label": "Deformation equivalente de von Mises [-]",
-      "maximum": 0.00012380952380953132,
-      "minimum": 0.00012380952380951744,
+      "maximum": 0.0001238095238095347,
+      "minimum": 0.00012380952380951134,
       "path": "bm-sol-tet4-membrane-001_strain_measure.png",
-      "sha256": "f6838c2d91ceedaf53561b9e86c2e8e264e42762306b699dda568f7f0aa119e6"
+      "sha256": "464a6a06f41a87b1e682a69932aca81066fc0adbb7fcca4e9025b6776bfede90"
     }
   ],
   "schema_version": 1,

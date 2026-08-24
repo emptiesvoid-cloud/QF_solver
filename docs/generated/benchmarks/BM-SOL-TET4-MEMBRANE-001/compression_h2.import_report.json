@@ -1,9 +1,9 @@
 {
   "status": "WARNING",
   "solver_name": "QF_solver",
-  "solver_version": "0.2.1a0",
+  "solver_version": "0.2.3a0",
   "source_path": "h2.msh",
-  "source_sha256": "e20e7a50d23c0e057b2cca87a5ecbc42d8af9e90e63ee0da05b5bf95d87e8161",
+  "source_sha256": "0b881acdacbcbfbb3a9261151a0b88876a4b82967ad0adb395eb246df96eb5c3",
   "setup_path": "compression_h2.setup.json",
   "setup_sha256": "7eada286ee8e1cbb32ebe011781377e862e3a7266e263d975c0884d817ae558a",
   "gmsh_version": "4.15.2",
@@ -18,21 +18,21 @@
       "name": "anchor_origin",
       "dimension": 0,
       "tag": 6,
-      "cell_count": 1,
+      "cell_count": 0,
       "node_count": 1
     },
     {
       "name": "anchor_x",
       "dimension": 0,
       "tag": 7,
-      "cell_count": 1,
+      "cell_count": 0,
       "node_count": 1
     },
     {
       "name": "anchor_xy",
       "dimension": 0,
       "tag": 8,
-      "cell_count": 1,
+      "cell_count": 0,
       "node_count": 1
     },
     {

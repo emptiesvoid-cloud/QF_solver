@@ -1,7 +1,7 @@
 {
   "status": "WARNING",
   "solver_name": "QF_solver",
-  "solver_version": "0.2.1a0",
+  "solver_version": "0.2.3a0",
   "source_path": "dynamic_cantilever_tet4.msh",
   "source_sha256": "67c53306ffb228f3384f0e2593bfc5066297417a2ffaf493e433c9ecea3f02f9",
   "setup_path": "static.setup.json",

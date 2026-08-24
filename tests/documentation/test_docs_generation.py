@@ -177,6 +177,12 @@ def test_every_controlled_page_is_registered_with_consistent_review_fields() -> 
         assert metadata["doc_id"] == entry["id"]
         assert normalize_document_status(str(metadata["status"])) == entry["status"]
         if entry["id"] in {
+            "DOC-OWNER-BACKEND-022-001",
+            "DOC-HEX8-023-003",
+            "DOC-HEX20-023-003",
+        }:
+            assert metadata["reviewer"] == "Owner"
+        elif entry["id"] in {
             "DOC-VV-OWNER-PAGES-001",
             "DOC-COMP-007",
             "DOC-VNV-MITC4-LAMINATE-DYN-001",
@@ -187,7 +193,12 @@ def test_every_controlled_page_is_registered_with_consistent_review_fields() -> 
                 assert metadata["review_date"] == "2026-08-02"
         else:
             assert metadata["reviewer"] == ""
-        if entry["id"] != "DOC-VV-CODEASTER-OWNER-2026-08-14":
+        if entry["id"] not in {
+            "DOC-VV-CODEASTER-OWNER-2026-08-14",
+            "DOC-OWNER-BACKEND-022-001",
+            "DOC-HEX8-023-003",
+            "DOC-HEX20-023-003",
+        }:
             assert metadata["approver"] == ""
         for reference in (*entry.get("examples", []), *entry.get("tests", [])):
             if "/" in reference:

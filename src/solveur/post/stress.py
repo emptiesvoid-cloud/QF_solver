@@ -28,6 +28,8 @@ from solveur.post.shell_results import (
     shell_face_results as _shell_face_results,
     shell_nodal_results as _shell_nodal_results,
 )
+from solveur.post.solid_results import hex8_result as _hex8_result
+from solveur.post.solid_results import hex20_result as _hex20_result
 
 
 class StressPostProcessor:
@@ -57,6 +59,14 @@ class StressPostProcessor:
             elif definition.type == "TET10" and isinstance(material, SolidConstitutiveMaterial):
                 results.append(
                     self._tet10_result(index, definition.type, definition.nodes, material, coords, local_u, states)
+                )
+            elif definition.type == "HEX8" and isinstance(material, SolidConstitutiveMaterial):
+                results.append(
+                    _hex8_result(index, definition.type, definition.nodes, material, coords, local_u, states)
+                )
+            elif definition.type == "HEX20" and isinstance(material, SolidConstitutiveMaterial):
+                results.append(
+                    _hex20_result(index, definition.type, definition.nodes, material, coords, local_u, states)
                 )
             elif definition.type == "MITC4" and isinstance(material, ShellMaterial):
                 results.append(self._mitc4_result(index, definition.type, definition.nodes, material, coords, local_u))

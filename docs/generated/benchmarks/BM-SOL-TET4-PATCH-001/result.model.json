@@ -2268,9 +2268,22 @@
   },
   "fixed_dofs": [
     {
-      "node": 0,
+      "node": 1,
       "dofs": [
         "UX",
+        "UY",
+        "UZ"
+      ]
+    },
+    {
+      "node": 3,
+      "dofs": [
+        "UZ"
+      ]
+    },
+    {
+      "node": 5,
+      "dofs": [
         "UY",
         "UZ"
       ]

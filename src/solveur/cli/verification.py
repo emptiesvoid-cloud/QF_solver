@@ -26,6 +26,9 @@ from solveur.verification.mitc4_mechanical import MechanicalVerifier, print_resu
 from solveur.verification.maturity_promotion import audit_maturity_promotion, write_maturity_promotion_reports
 from solveur.verification.owner_review import validate_owner_review
 from solveur.verification.tet10 import Tet10MechanicalVerifier
+from solveur.verification.hex8 import Hex8MechanicalVerifier
+from solveur.verification.hex8_campaign import Hex8InternalCampaign
+from solveur.verification.hex8_calculix import run_hex8_calculix_correlation
 
 
 def command_verify(args: argparse.Namespace) -> int:
@@ -47,6 +50,36 @@ def command_verify_tet10(args: argparse.Namespace) -> int:
         print(f"{check['status']:>4}  {check['name']:<40} value={check['value']:.6e} limit={check['limit']:.6e}")
     print(f"GLOBAL STATUS: {report['status']}")
     return int(ExitCode.ACCEPTED if report["status"] == "PASS" else ExitCode.QUALIFICATION_REJECTED)
+
+
+def command_verify_hex8(args: argparse.Namespace) -> int:
+    report = Hex8MechanicalVerifier().run()
+    if args.json_report is not None:
+        write_json_file(args.json_report, report)
+    print("HEX8 mechanical verification")
+    for check in report["checks"]:
+        print(f"{check['status']:>4}  {check['name']:<40} value={check['value']:.6e} limit={check['limit']:.6e}")
+    print(f"GLOBAL STATUS: {report['status']}")
+    return int(ExitCode.ACCEPTED if report["status"] == "PASS" else ExitCode.QUALIFICATION_REJECTED)
+
+
+def command_verify_hex8_campaign(args: argparse.Namespace) -> int:
+    summary = Hex8InternalCampaign(args.output, run_external=args.external, external_image=args.image).run()
+    if args.json_report is not None:
+        write_json_file(args.json_report, summary)
+    print(f"HEX8 INTERNAL CAMPAIGN: {summary['status']}")
+    print(f"OPEN GATES: {', '.join(summary['open_gates'])}")
+    return int(ExitCode.ACCEPTED if summary["status"] == "PASS_INTERNAL" else ExitCode.QUALIFICATION_REJECTED)
+
+
+def command_verify_hex8_external(args: argparse.Namespace) -> int:
+    summary = run_hex8_calculix_correlation(args.output, image=args.image)
+    if args.json_report is not None:
+        write_json_file(args.json_report, summary)
+    print(f"HEX8 CALCULIX CORRELATION: {summary['status']}")
+    for check in summary["checks"]:
+        print(f"{check['status']:>4}  {check['id']:<45} value={check['value']:.6e} limit={check['limit']:.6e}")
+    return int(ExitCode.ACCEPTED if summary["status"] == "PASS_EXTERNAL_CORRELATION" else ExitCode.QUALIFICATION_REJECTED)
 
 
 def command_verify_contact(args: argparse.Namespace) -> int:

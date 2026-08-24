@@ -16,9 +16,11 @@ Cette alpha ne revendique ni certification externe, ni équivalence générale �
 un logiciel commercial. Elle fournit un noyau ouvert et des domaines d'emploi
 documentés, à utiliser avec le jugement mécanique adapté au cas calculé.
 
-La version alpha gelée et poussée est **0.2.2a0**, une alpha de renforcement
-V&V construite sur la baseline immuable `0.2.0a0` (`v0.2.0-alpha`). Le projet vise
-un outil **qualifiable et vérifiable**. Il n'est
+La version alpha en préparation pour cette branche est **0.2.3a0**, une alpha
+qui ajoute les solides HEX8/HEX20 et leurs campagnes V&V sur la base backend
+renforcée en `0.2.2a0`. La release précédente `v0.2.2a0` reste l'historique
+publié ; aucun tag, push ou paquet PyPI `0.2.3a0` n'est déclaré ici avant la
+signature Owner. Le projet vise un outil **qualifiable et vérifiable**. Il n'est
 pas présenté comme certifié et ne doit pas remplacer une Owner review
 mécanique adaptée au cas d'emploi.
 
@@ -69,6 +71,8 @@ python .\scripts\build_docs.py --profile qualification
 | MITC4 multicouche plan et orthotrope mono-pli | `stable` | Layups, géométries et exclusions explicitement documentés |
 | BEAM2 et entités discrètes linéaires | `stable` | Statique, modal, Newmark et harmonique documentés |
 | Solides orthotropes TET4/TET10 | `stable` | Matériau homogène, statique, modal et Newmark dans le domaine testé |
+| HEX8/HEX20 linéaires | `ready_for_owner_review` | Statique, modal, Newmark, harmonique, charges et import Gmsh dans le périmètre V&V 0.2.3a0 |
+| HEX20 J2 petites déformations | `accepted_for_bounded_engineering_use` | Preuve interne bornée ; pas de corrélation J2 externe, contact ou grandes transformations |
 | J2 TET4/TET10, contact et grand modèle TET4 | `accepted_for_bounded_engineering_use` | Usage borné ; limites propres à chaque scope obligatoires |
 | TET4 total-lagrangien structurel | `research` | Preuves incomplètes ; aucune promotion engineering |
 | MITC4 orthotrope courbe | `out_of_acceptance` | Diagnostic interne uniquement, sans revendication d'usage |
@@ -77,14 +81,15 @@ Le détail des 36 scopes de release, de leurs preuves et de leurs exclusions est
 dans le [registre de maturité](qualification/element_analysis_matrix.json) et
 dans le [paquet de clôture](docs/verification/release_vv_0_2_1_closure_package_2026-08-22.md).
 
-## État de la release 0.2.2a0
+## État de la release 0.2.3a0
 
-La release est gelée dans le commit `c54f4b6` et le tag `v0.2.2a0` est poussé
-sur `main`. Le dernier contrôle `release-vv` recense `28` scopes PASS et `8`
-scopes volontairement non stables. Le lot public 0.2.2a0 a passé l'audit de
-confidentialité (`1763` fichiers analysés, `0` constat). Le workflow GitHub de
-publication a été déclenché par le tag ; la disponibilité effective sur PyPI
-reste à confirmer après la fin de ses gates.
+La release précédente est gelée dans le commit `c54f4b6` et le tag `v0.2.2a0`
+reste poussé sur `main`. La branche courante prépare `0.2.3a0` sans commit,
+tag, push ou publication PyPI. La campagne HEX8/HEX20 comporte les preuves
+internes, les corrélations statiques CalculiX/Code_Aster, la comparaison
+TET4/TET10/HEX8/HEX20 et le blocker de non-régression : `1429 passed`, `14
+skipped`, `186 deselected`. Les audits public et release sont `PASS` sur
+`1796` fichiers ; la signature Owner reste la dernière validation requise.
 
 Le chantier backend 0.2.2 alpha est décrit dans le [rapport de résolution
 sparse](docs/verification/qf_solver_0_2_2_alpha_backend_report.md) et dans la
@@ -117,7 +122,7 @@ figée sont consignés dans la
 
 ## Installation
 
-Préparation locale de l'alpha `0.2.2a0` :
+Préparation locale de l'alpha `0.2.3a0` :
 
 ```powershell
 python -m pip install -e ".[test]"
@@ -125,9 +130,9 @@ qf-solver --version
 ```
 
 Après publication, la même version pourra être installée depuis PyPI avec
-`python -m pip install "qf-solver==0.2.2a0"`. Le tag `v0.2.2a0` déclenche le
-workflow de publication ; la commande devient disponible dès que PyPI confirme
-l'upload.
+`python -m pip install "qf-solver==0.2.3a0"`. Le tag `v0.2.3a0` déclenchera le
+workflow de publication ; la commande deviendra disponible dès que PyPI
+confirmera l'upload.
 
 Pendant la préparation locale, les extras s'installent depuis le checkout :
 
@@ -139,8 +144,8 @@ python -m pip install -e ".[hpc]"   # PETSc/SLEPc et MPI, optionnels
 ```
 
 Après publication, les mêmes extras seront disponibles avec la forme
-`qf-solver[mesh]==0.2.2a0`, `qf-solver[docs]==0.2.2a0`,
-`qf-solver[large]==0.2.2a0` ou `qf-solver[hpc]==0.2.2a0`.
+`qf-solver[mesh]==0.2.3a0`, `qf-solver[docs]==0.2.3a0`,
+`qf-solver[large]==0.2.3a0` ou `qf-solver[hpc]==0.2.3a0`.
 
 Pour contribuer ou exécuter la suite de tests depuis un clone du dépôt :
 
@@ -314,6 +319,10 @@ donc le corpus V&V de développement.
 - **0.2.2 Alpha** : renforcement du backend sparse, sélection et diagnostics
   des solveurs, réduction des copies d'assemblage, préparation du scaling et
   API publique `qf_solver`, avec PETSc/SLEPc optionnels.
+- **0.2.3 Alpha** : ajout des éléments solides HEX8 et HEX20, chargements et
+  post-traitement associés, import Gmsh, analyses communes, corrélations
+  CalculiX/Code_Aster et comparatif TET/HEX ; la revue Owner et les exclusions
+  restent explicitement tracées avant publication.
 
 Les artefacts générés ne sont pas édités à la main. Toute valeur numérique
 publiée doit provenir de `scripts/build_docs.py` et être reliée à son entrée,

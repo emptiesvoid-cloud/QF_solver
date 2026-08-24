@@ -15,12 +15,19 @@ from solveur.core.model import FiniteElementModel
 from solveur.io.manifest import sha256
 from solveur.mesh.gmsh_reader import GmshNativeReader
 from solveur.mesh.gmsh_types import GmshImportReport, GmshImportResult, GmshMeshData, GmshPhysicalGroup
-from solveur.mesh.topology import MITC3_EDGES, MITC4_EDGES, TET10_FACES, TET4_FACES
+from solveur.mesh.topology import (
+    HEX8_FACES,
+    HEX20_FACES,
+    MITC3_EDGES,
+    MITC4_EDGES,
+    TET10_FACES,
+    TET4_FACES,
+)
 from solveur.mesh.validation import MeshValidator
 from solveur.version import DISPLAY_NAME, __version__
 
 
-SUPPORTED_FAMILIES = {"TET4", "TET10", "MITC3", "MITC4"}
+SUPPORTED_FAMILIES = {"TET4", "TET10", "HEX8", "HEX20", "MITC3", "MITC4"}
 SUPPORTED_ACTIONS = {
     "elements",
     "fixed_dofs",
@@ -253,9 +260,12 @@ def _element_assignments(
             if material not in setup["materials"]:
                 raise InputValidationError(f"Element group {group.name!r} references unknown material {material!r}.")
             selected_families.add(family)
-            if len(selected_families) > 1 and not selected_families.issubset({"MITC3", "MITC4"}):
+            if len(selected_families) > 1 and not (
+                selected_families.issubset({"MITC3", "MITC4"})
+                or selected_families.issubset({"TET4", "TET10", "HEX8", "HEX20"})
+            ):
                 raise MeshValidationError(
-                    "Mixed imported families are supported only for MITC3/MITC4 shells: "
+                    "Mixed imported families must be all shells or all 3D solids: "
                     + ", ".join(sorted(selected_families))
                 )
             matching = [tag for tag in group.cell_tags if _cell_family(mesh.cells[tag]) == family]
@@ -278,7 +288,7 @@ def _element_assignments(
             "Structural cells are not assigned to a material: "
             f"{missing[:8]} (families={sorted(selected_families)})"
         )
-    if all(family.startswith("TET") for family in selected_families):
+    if all(family.startswith("TET") or family in {"HEX8", "HEX20"} for family in selected_families):
         unsupported = [cell.tag for cell in mesh.cells.values() if cell.dimension == 3 and cell.tag not in candidates]
     else:
         unsupported = [cell.tag for cell in mesh.cells.values() if cell.dimension == 2 and cell.tag not in candidates]
@@ -316,6 +326,15 @@ def _oriented_connectivities(
                 permutation = (0, 2, 1, 3) if family == "TET4" else (0, 2, 1, 3, 6, 5, 4, 7, 9, 8)
                 connectivity = tuple(connectivity[index] for index in permutation)
                 repairs += 1
+        if family in {"HEX8", "HEX20"}:
+            from solveur.elements.solid.hex8 import Hex8Element
+            from solveur.elements.solid.hex20 import Hex20Element
+
+            try:
+                element = Hex8Element if family == "HEX8" else Hex20Element
+                element.validate_geometry(np.asarray([mesh.nodes[node] for node in connectivity], dtype=float))
+            except ValueError as exc:
+                raise MeshValidationError(f"Gmsh {family} {tag} has invalid orientation or Jacobian: {exc}") from exc
         connectivities[tag] = tuple(connectivity)
     return connectivities, repairs
 
@@ -442,12 +461,20 @@ def _solid_face_map(
     element_index: dict[int, int],
 ) -> dict[frozenset[int], list[tuple[int, int]]]:
     family_set = set(families.values())
-    if len(family_set) != 1 or not family_set.issubset({"TET4", "TET10"}):
+    if not family_set or not family_set.issubset({"TET4", "TET10", "HEX8", "HEX20"}):
         return {}
-    family = next(iter(family_set))
-    faces = TET4_FACES if family == "TET4" else TET10_FACES
     mapping: dict[frozenset[int], list[tuple[int, int]]] = defaultdict(list)
     for tag, connectivity in connectivities.items():
+        family = families[tag]
+        faces = (
+            TET4_FACES
+            if family == "TET4"
+            else TET10_FACES
+            if family == "TET10"
+            else HEX8_FACES
+            if family == "HEX8"
+            else HEX20_FACES
+        )
         for face, local_nodes in enumerate(faces):
             mapping[frozenset(connectivity[index] for index in local_nodes)].append((element_index[tag], face))
     return mapping
@@ -479,14 +506,18 @@ def _surface_targets(
         if not targets:
             raise MeshValidationError(f"Shell surface group {group.name!r} has no shell elements.")
         return sorted(targets)
-    family = next(iter(family_set))
-    expected_nodes = 3 if family == "TET4" else 6
     targets: list[tuple[int, int | None]] = []
     for tag in group.cell_tags:
         cell = mesh.cells[tag]
         if cell.dimension != 2:
             continue
-        if len(cell.nodes) != expected_nodes:
+        allowed_face_sizes = {
+            *(3 for family in family_set if family == "TET4"),
+            *(6 for family in family_set if family == "TET10"),
+            *(4 for family in family_set if family == "HEX8"),
+            *(8 for family in family_set if family == "HEX20"),
+        }
+        if len(cell.nodes) not in allowed_face_sizes:
             raise MeshValidationError(
                 f"Solid surface group {group.name!r} has incompatible cell {tag} with {len(cell.nodes)} nodes."
             )
@@ -538,6 +569,10 @@ def _cell_family(cell: Any) -> str | None:
         return "TET4"
     if cell.dimension == 3 and "tetra" in name and cell.order == 2 and len(cell.nodes) == 10:
         return "TET10"
+    if cell.dimension == 3 and "hexa" in name and cell.order == 1 and len(cell.nodes) == 8:
+        return "HEX8"
+    if cell.dimension == 3 and "hexa" in name and cell.order == 2 and len(cell.nodes) == 20:
+        return "HEX20"
     if cell.dimension == 2 and ("quad" in name) and cell.order == 1 and len(cell.nodes) == 4:
         return "MITC4"
     if cell.dimension == 2 and ("triangle" in name or "tri" in name) and cell.order == 1 and len(cell.nodes) == 3:

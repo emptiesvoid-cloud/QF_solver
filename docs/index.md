@@ -2,7 +2,7 @@
 doc_id: DOC-STATE-001
 revision: 0.1
 status: draft technique
-applicable_version: 0.2.2a0
+applicable_version: 0.2.3a0
 reviewer: ""
 approver: ""
 ---
@@ -23,11 +23,12 @@ aeronautique sans revue independante.
 
 --8<-- "docs/generated/status.md"
 
-La release en preparation `0.2.2a0` est une alpha de renforcement du backend
-numerique. Son [rapport backend](verification/qf_solver_0_2_2_alpha_backend_report.md)
-decrit la selection des solveurs, les diagnostics et le benchmark sparse ; la
-[feuille de route](../prochaines_etapes.md#qf-solver-022-alpha--feuille-de-route-backend-numerique)
-separe les etapes implementees des travaux encore a mesurer.
+La release en preparation `0.2.3a0` ajoute les elements solides HEX8 et HEX20
+au backend commun. Les [plans V&V HEX8](verification/qf_solver_0_2_3_alpha_hex8_implementation_vnv_plan.md)
+et [HEX20](verification/qf_solver_0_2_3_alpha_hex20_implementation_vnv_plan.md)
+decrivent les formulations, correlations, comparatifs et exclusions ; la
+[feuille de route](../prochaines_etapes.md) separe les etapes implementees des
+travaux encore a mesurer.
 
 ## Lire ce site comme un ingenieur calcul
 

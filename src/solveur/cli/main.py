@@ -278,6 +278,23 @@ class SolverCli:
         verify_tet10.add_argument("--json-report", type=Path, default=None)
         verify_tet10.set_defaults(func=verification_cli.command_verify_tet10)
 
+        verify_hex8 = sub.add_parser("verify-hex8", help="run analytical HEX8 mechanical verification")
+        verify_hex8.add_argument("--json-report", type=Path, default=None)
+        verify_hex8.set_defaults(func=verification_cli.command_verify_hex8)
+
+        verify_hex8_campaign = sub.add_parser("verify-hex8-campaign", help="run the internal HEX8 V&V campaign")
+        verify_hex8_campaign.add_argument("--output", type=Path, default=None)
+        verify_hex8_campaign.add_argument("--json-report", type=Path, default=None)
+        verify_hex8_campaign.add_argument("--external", action="store_true", help="also run the CalculiX C3D8 correlation")
+        verify_hex8_campaign.add_argument("--image", default="qf-solver/calculix-nafems13h:2.20")
+        verify_hex8_campaign.set_defaults(func=verification_cli.command_verify_hex8_campaign)
+
+        verify_hex8_external = sub.add_parser("verify-hex8-external", help="run the HEX8/CalculiX C3D8 correlation")
+        verify_hex8_external.add_argument("--output", type=Path, required=True)
+        verify_hex8_external.add_argument("--image", default="qf-solver/calculix-nafems13h:2.20")
+        verify_hex8_external.add_argument("--json-report", type=Path, default=None)
+        verify_hex8_external.set_defaults(func=verification_cli.command_verify_hex8_external)
+
         verify_contact = sub.add_parser("verify-contact", help="run the internal V1 normal and frictional contact studies")
         verify_contact.add_argument("--output", required=True, type=Path)
         verify_contact.add_argument("--json-report", type=Path, default=None)

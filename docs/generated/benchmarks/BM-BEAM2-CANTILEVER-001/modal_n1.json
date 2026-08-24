@@ -10,8 +10,8 @@
   "modes": [
     {
       "index": 1,
-      "eigenvalue": 4196.539207590129,
-      "frequency_hz": 10.31016876334367,
+      "eigenvalue": 4196.5392075901245,
+      "frequency_hz": 10.310168763343665,
       "shape": [
         {
           "node": 0,
@@ -27,12 +27,12 @@
         {
           "node": 1,
           "dofs": {
-            "UX": 0.0,
-            "UY": 8.237361530730181e-16,
+            "UX": 4.0657581468206416e-20,
+            "UY": 0.0,
             "UZ": 0.1616619643729918,
-            "RX": 3.3306690738754696e-16,
-            "RY": -0.1112865285058108,
-            "RZ": 6.839147304038562e-16
+            "RX": -5.421010862427522e-20,
+            "RY": -0.11128652850581128,
+            "RZ": 1.3877787807814457e-17
           }
         }
       ]
@@ -40,28 +40,28 @@
   ],
   "solver": {
     "mode_count": 1,
-    "max_relative_residual": 1.281432858726099e-14,
+    "max_relative_residual": 1.884767155227696e-15,
     "relative_residuals": [
-      1.281432858726099e-14
+      1.884767155227696e-15
     ],
     "mass_orthogonality_error": 0.0,
-    "stiffness_diagonal_error": 1.300349631135996e-15,
+    "stiffness_diagonal_error": 0.0,
     "modal_masses": [
-      1.0000000000000013
+      0.9999999999999993
     ],
     "modal_stiffnesses": [
-      4196.539207590129
+      4196.539207590122
     ],
     "effective_modal_mass": {
       "by_direction": {
         "UX": [
-          0.0
+          4.469817269001751e-36
         ],
         "UY": [
-          1.3360856586221937e-27
+          5.143946636117499e-32
         ],
         "UZ": [
-          56.978588182225955
+          56.97858818222595
         ]
       },
       "total_direction_mass": {
@@ -72,6 +72,14 @@
     },
     "dense_modal_max_dofs": 2000,
     "dense_conversion_used": false,
+    "backend": {
+      "requested": "auto",
+      "selected": "scipy",
+      "fallback_used": false,
+      "petsc_available": false,
+      "slepc_available": false,
+      "reason": "SciPy selected as the standard backend"
+    },
     "arpack": {
       "shift_eigenvalue": 0.0,
       "shift_hz": null,
@@ -82,23 +90,57 @@
     },
     "assembly": {
       "stiffness": {
-        "matrix": "stiffness",
         "chunk_size": 256,
         "chunk_count": 1,
         "element_count": 1,
         "coefficient_entry_count": 144,
         "peak_chunk_entry_count": 144,
+        "assembly_peak_memory_estimate_bytes": 6912,
+        "assembly_memory_budget_bytes": null,
+        "assembly_memory_budget_exceeded": false,
+        "assembly_index_dtype": "int32",
+        "assembly_plan_reused": false,
+        "paired_assembly": true,
+        "shared_chunk_pattern": true,
+        "assembly_phase_seconds": {
+          "assembly_plan": 0.00012659997446462512,
+          "element_kernel": 0.00040790002094581723,
+          "chunk_sparse_conversion": 0.00016340002184733748,
+          "chunk_fusion": 1.700012944638729e-06,
+          "sparse_finalize": 0.00013800000306218863,
+          "discrete_merge": 4.630000330507755e-05
+        },
+        "matrix": "stiffness",
+        "accumulator_chunk_count": 1,
+        "accumulator_occupied_levels": 1,
         "final_nnz": 40,
         "spring_count": 0,
         "concentrated_mass_count": 0
       },
       "mass": {
-        "matrix": "mass",
         "chunk_size": 256,
         "chunk_count": 1,
         "element_count": 1,
         "coefficient_entry_count": 144,
         "peak_chunk_entry_count": 144,
+        "assembly_peak_memory_estimate_bytes": 6912,
+        "assembly_memory_budget_bytes": null,
+        "assembly_memory_budget_exceeded": false,
+        "assembly_index_dtype": "int32",
+        "assembly_plan_reused": false,
+        "paired_assembly": true,
+        "shared_chunk_pattern": true,
+        "assembly_phase_seconds": {
+          "assembly_plan": 0.00012659997446462512,
+          "element_kernel": 0.00040790002094581723,
+          "chunk_sparse_conversion": 0.00016340002184733748,
+          "chunk_fusion": 1.700012944638729e-06,
+          "sparse_finalize": 0.00013800000306218863,
+          "discrete_merge": 4.630000330507755e-05
+        },
+        "matrix": "mass",
+        "accumulator_chunk_count": 1,
+        "accumulator_occupied_levels": 1,
         "final_nnz": 40,
         "spring_count": 0,
         "concentrated_mass_count": 0
@@ -114,6 +156,12 @@
       "condensed_mass_coupling_ratio": 0.0,
       "condensed_stiffness_nnz": 10,
       "lazy_condensation": false
+    },
+    "eigenpair_refinement": {
+      "iterations_requested": 0,
+      "iterations_performed": 0,
+      "maximum_residual_before": 1.884767155227696e-15,
+      "maximum_residual_after": 1.884767155227696e-15
     }
   },
   "mesh_report": {
@@ -775,7 +823,7 @@
     ],
     "notes": [],
     "qualification": {
-      "solver_version": "0.2.1a0",
+      "solver_version": "0.2.3a0",
       "schema_version": 1,
       "units": {
         "system": "SI"
@@ -814,7 +862,7 @@
       "traceability": {
         "status": "PASS",
         "scope": "beam2-linear-dynamics",
-        "scope_status": "candidate",
+        "scope_status": "qualified",
         "requirement_count": 9,
         "covered_requirement_count": 9,
         "formula_count": 8,

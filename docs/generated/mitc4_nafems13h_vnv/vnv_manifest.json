@@ -3,7 +3,7 @@
   "study_id": "VNV-MITC4-HARMONIC-NAFEMS13H-004",
   "source": {
     "repository": ".",
-    "revision": "1804a03aee0c4e4bc6ac2c56e9461bedd9aac6d4",
+    "revision": "d33e315962d9f114b99f176a7d56a77ac5ce0b9a",
     "dirty": true
   },
   "external_reference": {
@@ -20,8 +20,8 @@
     {
       "role": "mitc4_nafems_13h_external_correlation",
       "path": "summary.json",
-      "size_bytes": 127983,
-      "sha256": "1bb87a26b4ae68c7e86d554b87b402fbe08ca8fcd3f92bbb128dc271ff795732"
+      "size_bytes": 127966,
+      "sha256": "1bc649cb132ba30cf9d3b791d601b4ee1ee769996c25b2c87ccdef019b074f31"
     },
     {
       "role": "mitc4_nafems_13h_external_correlation",
@@ -51,7 +51,7 @@
       "role": "mitc4_nafems_13h_external_correlation",
       "path": "VNV-MITC4-HARMONIC-NAFEMS13H-004.md",
       "size_bytes": 1608,
-      "sha256": "f6869af622a3a0e9c00827fa87ce7f13b14ffe26c1ac83e554c01b4599c922ca"
+      "sha256": "6811fbb70d2572ab673609c8d5c91a0acaf4ce9f2718e9771632966ae001aa53"
     }
   ]
 }

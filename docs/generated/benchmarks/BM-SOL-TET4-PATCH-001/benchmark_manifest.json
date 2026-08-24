@@ -1,16 +1,16 @@
 {
   "manifest_schema_version": 1,
-  "created_at_utc": "2026-08-14T21:32:08.924763Z",
+  "created_at_utc": "2026-08-24T09:13:58.964536Z",
   "solver": {
     "name": "QF_solver",
-    "version": "0.2.1a0"
+    "version": "0.2.3a0"
   },
   "benchmark_id": "BM-SOL-TET4-PATCH-001",
   "profile": "engineering",
   "status": "PASS",
   "source": {
     "repository": ".",
-    "revision": "1804a03aee0c4e4bc6ac2c56e9461bedd9aac6d4",
+    "revision": "uncommitted",
     "dirty": true
   },
   "runtime": {
@@ -48,32 +48,32 @@
     {
       "role": "benchmark_artifact",
       "path": "benchmark_summary.json",
-      "size_bytes": 1783,
-      "sha256": "2336dec99007d33235a6e2ec92f09a5e6968ec6931bf087be93a37de59fbe57f"
+      "size_bytes": 1775,
+      "sha256": "602fe10e255eb931a655dd9bce14f62bbe6d0b35169069fdaaa6a39f77771034"
     },
     {
       "role": "benchmark_artifact",
       "path": "patch_tet4.msh",
-      "size_bytes": 10156,
-      "sha256": "bb71b98503206589289acb7fb5af424662503f08098f359214f576974c4ef0b1"
+      "size_bytes": 10192,
+      "sha256": "adf262fc724cc16ace6dfe2907b1112ca3e0781e914141e2859f6e575fd64b2e"
     },
     {
       "role": "benchmark_artifact",
       "path": "result.import_report.json",
-      "size_bytes": 1965,
-      "sha256": "e697cb6708c5c5f509d221be40d42f8d333cd1cc72ba3f302169a4fa836906f8"
+      "size_bytes": 1862,
+      "sha256": "31941b199f878e0983194acbd3316662ec0a83bcdbdb43f7ace5f0ef0566b44a"
     },
     {
       "role": "benchmark_artifact",
       "path": "result.json",
-      "size_bytes": 5895332,
-      "sha256": "54c5ce8482d524186ea067fd149ef791bcc9a6535566d30b686c874d079fb738"
+      "size_bytes": 5911046,
+      "sha256": "a2b2e6bff1a9f7b9cf556588d3c98a797308427ea4133b84dc3323efc678b691"
     },
     {
       "role": "benchmark_artifact",
       "path": "result.model.json",
-      "size_bytes": 44972,
-      "sha256": "3d452d46ae61473081babae4680f8846f51aeec03db5ee37c46f50a6a498529c"
+      "size_bytes": 45133,
+      "sha256": "3c051aec138628b62c52fd21995b9380fc4b9d53d0140c6b22d28d97ed5e0f3e"
     },
     {
       "role": "benchmark_artifact",
@@ -84,8 +84,8 @@
     {
       "role": "benchmark_artifact",
       "path": "result.vtu",
-      "size_bytes": 45429,
-      "sha256": "cd0bf389811f7a36e12ac7075a4017073ffc2fd2d773e6cffaef3653f34b83ec"
+      "size_bytes": 45425,
+      "sha256": "0ed8aaf885f10fcd35e7cc805b3f113c85ddffec94691ccd81232cb2aaff36b1"
     }
   ]
 }

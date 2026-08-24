@@ -1,7 +1,7 @@
 {
   "status": "PASS",
   "solver_name": "QF_solver",
-  "solver_version": "0.2.1a0",
+  "solver_version": "0.2.3a0",
   "source_path": "scordelis_mitc4.msh",
   "source_sha256": "7315f62c1d117dd48517abc579724ecd9b31d133010c71d1da9998ed56df9400",
   "setup_path": "result.setup.json",
@@ -18,7 +18,7 @@
       "name": "anchor",
       "dimension": 0,
       "tag": 3,
-      "cell_count": 1,
+      "cell_count": 0,
       "node_count": 1
     },
     {

@@ -20,6 +20,7 @@ from solveur.materials.factory import MaterialFactory
 from solveur.mesh.constraint_validation import multipoint_constraint_errors
 from solveur.mesh.contact_validation import frictionless_contact_errors
 from solveur.mesh.quality import MeshQuality, MeshQualityThresholds
+from solveur.mesh.solid_validation import geometry_error, maximum_surface_face, quality_details
 from solveur.mesh.topology import MITC3_EDGES, MITC4_EDGES
 from solveur.mesh.validation_helpers import (
     distributed_element_indices as _distributed_element_indices,
@@ -173,8 +174,12 @@ class MeshValidator:
                 entry = {"index": index, "type": element.type, "length": length}
                 local_warnings = []
             else:
-                entry = {"index": index, "type": element.type}
-                local_warnings = []
+                solid_details = quality_details(index, element.type, coords)
+                if solid_details is None:
+                    entry = {"index": index, "type": element.type}
+                    local_warnings = []
+                else:
+                    entry, local_warnings = solid_details
             invalid_tet10_jacobian = (
                 element.type == "TET10"
                 and entry["sampled_jacobian_min"] <= self.thresholds.tet10_min_sampled_jacobian
@@ -364,11 +369,14 @@ class MeshValidator:
         if model.analysis.type not in {"modal", "transient_dynamic", "harmonic_response"}:
             if model.analysis.type == "nonlinear_static":
                 for index, element in enumerate(model.elements):
-                    if element.type not in {"TET4", "TET10"}:
-                        errors.append(f"Element {index}: nonlinear static analysis is currently implemented for TET4/TET10 only.")
+                    if element.type not in {"TET4", "TET10", "HEX20"}:
+                        errors.append(
+                            f"Element {index}: nonlinear static analysis is currently implemented for "
+                            "TET4/TET10/HEX20 only."
+                        )
             return
         for index, element in enumerate(model.elements):
-            if element.type not in {"TET4", "TET10", "MITC3", "MITC4", "BEAM2"}:
+            if element.type not in {"TET4", "TET10", "HEX8", "HEX20", "MITC3", "MITC4", "BEAM2"}:
                 errors.append(f"Element {index}: dynamic mass is not implemented for {element.type}.")
                 continue
             material = model.materials.get(element.material, {})
@@ -444,9 +452,10 @@ class MeshValidator:
                         errors.append(f"{path}: pressure must be a finite scalar.")
                 elif not _is_finite_vector3(load.value):
                     errors.append(f"{path}: surface traction must contain three finite components.")
-                if definition.type in {"TET4", "TET10"}:
-                    if not isinstance(load.face, int) or isinstance(load.face, bool) or not 0 <= load.face <= 3:
-                        errors.append(f"{path}: {definition.type} face must be an integer from 0 to 3.")
+                maximum_face = maximum_surface_face(definition.type)
+                if maximum_face is not None:
+                    if not isinstance(load.face, int) or isinstance(load.face, bool) or not 0 <= load.face <= maximum_face:
+                        errors.append(f"{path}: {definition.type} face must be an integer from 0 to {maximum_face}.")
                 elif definition.type in {"MITC3", "MITC4"}:
                     if load.face is not None and load.face != 0:
                         errors.append(f"{path}: {definition.type} face must be omitted or zero.")
@@ -665,7 +674,13 @@ class MeshValidator:
                         f"Element {index}: invalid TET10 sampled Jacobian {minimum:.6e}; "
                         "the curved mapping is inverted or degenerate."
                     )
-        elif element_type == "MITC4":
+        else:
+            error = geometry_error(index, element_type, coords)
+            if error is not None:
+                errors.append(error)
+            if element_type in {"HEX8", "HEX20"}:
+                return
+        if element_type == "MITC4":
             material = ShellMaterial(E=1.0, nu=0.3, t=1.0)
             element = MITC4Element(material)
             try:

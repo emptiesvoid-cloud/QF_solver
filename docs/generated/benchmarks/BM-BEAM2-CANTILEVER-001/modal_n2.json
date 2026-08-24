@@ -10,8 +10,8 @@
   "modes": [
     {
       "index": 1,
-      "eigenvalue": 4160.6360428839125,
-      "frequency_hz": 10.265970102357235,
+      "eigenvalue": 4160.636042883749,
+      "frequency_hz": 10.265970102357032,
       "shape": [
         {
           "node": 0,
@@ -27,23 +27,23 @@
         {
           "node": 1,
           "dofs": {
-            "UX": -1.3877787807814457e-17,
-            "UY": 2.321493691725962e-15,
-            "UZ": -0.05443315905937505,
-            "RX": 2.0539125955565396e-15,
-            "RY": 0.09313416712734518,
-            "RZ": 5.833685314329817e-15
+            "UX": -2.117582368135751e-21,
+            "UY": -2.42861286636753e-17,
+            "UZ": -0.05443315905937677,
+            "RX": 2.710505431213761e-20,
+            "RY": 0.09313416712734512,
+            "RZ": -2.0816681711721685e-17
           }
         },
         {
           "node": 2,
           "dofs": {
-            "UX": -2.7755575615628914e-17,
-            "UY": 1.019160884158099e-14,
-            "UZ": -0.16024468060252411,
-            "RX": 1.4085954624931674e-15,
-            "RY": 0.11023358679124447,
-            "RZ": 8.72045491373541e-15
+            "UX": 4.235164736271502e-22,
+            "UY": -4.163336342344337e-17,
+            "UZ": -0.16024468060252198,
+            "RX": 5.421010862427522e-20,
+            "RY": 0.11023358679124066,
+            "RZ": -2.0816681711721685e-17
           }
         }
       ]
@@ -51,28 +51,28 @@
   ],
   "solver": {
     "mode_count": 1,
-    "max_relative_residual": 1.3339115187772277e-12,
+    "max_relative_residual": 7.463063183556538e-15,
     "relative_residuals": [
-      1.3339115187772277e-12
+      7.463063183556538e-15
     ],
     "mass_orthogonality_error": 0.0,
-    "stiffness_diagonal_error": 3.934712015945999e-14,
+    "stiffness_diagonal_error": 4.371902239940001e-16,
     "modal_masses": [
-      1.0000000000000007
+      1.0000000000000004
     ],
     "modal_stiffnesses": [
-      4160.6360428837515
+      4160.636042883749
     ],
     "effective_modal_mass": {
       "by_direction": {
         "UX": [
-          3.938334143277456e-30
+          1.4671437976052825e-38
         ],
         "UY": [
-          2.6282972261894832e-25
+          1.0172355408337817e-29
         ],
         "UZ": [
-          89.44953256891839
+          89.44953256891951
         ]
       },
       "total_direction_mass": {
@@ -83,6 +83,14 @@
     },
     "dense_modal_max_dofs": 2000,
     "dense_conversion_used": false,
+    "backend": {
+      "requested": "auto",
+      "selected": "scipy",
+      "fallback_used": false,
+      "petsc_available": false,
+      "slepc_available": false,
+      "reason": "SciPy selected as the standard backend"
+    },
     "arpack": {
       "shift_eigenvalue": 0.0,
       "shift_hz": null,
@@ -93,23 +101,57 @@
     },
     "assembly": {
       "stiffness": {
-        "matrix": "stiffness",
         "chunk_size": 256,
         "chunk_count": 1,
         "element_count": 2,
         "coefficient_entry_count": 288,
         "peak_chunk_entry_count": 288,
+        "assembly_peak_memory_estimate_bytes": 13824,
+        "assembly_memory_budget_bytes": null,
+        "assembly_memory_budget_exceeded": false,
+        "assembly_index_dtype": "int32",
+        "assembly_plan_reused": false,
+        "paired_assembly": true,
+        "shared_chunk_pattern": true,
+        "assembly_phase_seconds": {
+          "assembly_plan": 0.0001420000335201621,
+          "element_kernel": 0.0006882000016048551,
+          "chunk_sparse_conversion": 0.00019240000983700156,
+          "chunk_fusion": 1.400010660290718e-06,
+          "sparse_finalize": 0.00014479999663308263,
+          "discrete_merge": 4.8200017772614956e-05
+        },
+        "matrix": "stiffness",
+        "accumulator_chunk_count": 1,
+        "accumulator_occupied_levels": 1,
         "final_nnz": 66,
         "spring_count": 0,
         "concentrated_mass_count": 0
       },
       "mass": {
-        "matrix": "mass",
         "chunk_size": 256,
         "chunk_count": 1,
         "element_count": 2,
         "coefficient_entry_count": 288,
         "peak_chunk_entry_count": 288,
+        "assembly_peak_memory_estimate_bytes": 13824,
+        "assembly_memory_budget_bytes": null,
+        "assembly_memory_budget_exceeded": false,
+        "assembly_index_dtype": "int32",
+        "assembly_plan_reused": false,
+        "paired_assembly": true,
+        "shared_chunk_pattern": true,
+        "assembly_phase_seconds": {
+          "assembly_plan": 0.0001420000335201621,
+          "element_kernel": 0.0006882000016048551,
+          "chunk_sparse_conversion": 0.00019240000983700156,
+          "chunk_fusion": 1.400010660290718e-06,
+          "sparse_finalize": 0.00014479999663308263,
+          "discrete_merge": 4.8200017772614956e-05
+        },
+        "matrix": "mass",
+        "accumulator_chunk_count": 1,
+        "accumulator_occupied_levels": 1,
         "final_nnz": 66,
         "spring_count": 0,
         "concentrated_mass_count": 0
@@ -125,6 +167,12 @@
       "condensed_mass_coupling_ratio": 0.0,
       "condensed_stiffness_nnz": 36,
       "lazy_condensation": false
+    },
+    "eigenpair_refinement": {
+      "iterations_requested": 0,
+      "iterations_performed": 0,
+      "maximum_residual_before": 7.463063183556538e-15,
+      "maximum_residual_after": 7.463063183556538e-15
     }
   },
   "mesh_report": {
@@ -1062,7 +1110,7 @@
     ],
     "notes": [],
     "qualification": {
-      "solver_version": "0.2.1a0",
+      "solver_version": "0.2.3a0",
       "schema_version": 1,
       "units": {
         "system": "SI"
@@ -1101,7 +1149,7 @@
       "traceability": {
         "status": "PASS",
         "scope": "beam2-linear-dynamics",
-        "scope_status": "candidate",
+        "scope_status": "qualified",
         "requirement_count": 9,
         "covered_requirement_count": 9,
         "formula_count": 8,

@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.2.3a0 - 2026-08-24
+
+Cette alpha ajoute les éléments solides HEX8 et HEX20 au chemin FEM commun.
+Elle reste soumise à la revue et à la signature Owner avant tout tag ou
+publication PyPI.
+
+- Ajout des formulations isoparamétriques HEX8 et HEX20, avec Jacobien,
+  intégration de Gauss, rigidité, masse cohérente, charges et post-traitement.
+- Ajout des chemins statique, modal, Newmark et harmonique via l'assemblage et
+  les backends sparse existants, sans backend HEX dédié.
+- Ajout de l'import Gmsh HEX8/HEX20 et des faces QUAD4/QUAD8, de campagnes
+  internes, d'un cas J2 HEX20 borné et d'un comparatif TET4/TET10/HEX8/HEX20.
+- Ajout de corrélations statiques externes CalculiX et Code_Aster, toutes sous
+  le seuil de 1 % dans le périmètre documenté.
+- Correction de la validation géométrique et du post-traitement solides par
+  extraction de modules communs, afin de conserver les limites de taille des
+  fichiers et les contrats d'architecture.
+- Le blocker de non-régression post-ajout passe : `1429 passed`, `14 skipped`,
+  `186 deselected`. Les contacts, grandes transformations, J2 externe,
+  scaling multi-million et masse lumped restent hors du périmètre qualifié.
+
 ## 0.2.2a0 - 2026-08-23
 
 Cette alpha prépare le renforcement du backend numérique et la publication

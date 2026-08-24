@@ -1,33 +1,33 @@
 {
-  "deformation_scale": 3.5246240172403915,
+  "deformation_scale": 3.6022508166311007,
   "element_count": 140,
   "fields": [
     {
       "element_count": 140,
       "key": "von_mises",
       "label": "Contrainte equivalente de von Mises [unite du modele]",
-      "maximum": 300000000.0000001,
-      "minimum": 299999999.9999997,
+      "maximum": 300000000.0000002,
+      "minimum": 299999999.99999976,
       "path": "bm-nl-j2-bar-001_von_mises.png",
-      "sha256": "2310742f0151788b79567a7c52a6aaf0f771676fbd4a77d94794e06283e1b143"
+      "sha256": "98fe0237d9233da840614947ae06afbe13329732d21b93c3a9ead42fc7866315"
     },
     {
       "element_count": 140,
       "key": "strain_measure",
       "label": "Deformation equivalente de von Mises [-]",
-      "maximum": 0.05123809523809529,
-      "minimum": 0.051238095238094875,
+      "maximum": 0.051238095238095346,
+      "minimum": 0.05123809523809502,
       "path": "bm-nl-j2-bar-001_strain_measure.png",
-      "sha256": "0960b28e6e07b6a8c1335b660331a4816d7e09f256c7e85974e19e9d69f29139"
+      "sha256": "d318b97a9627da773c6d43079726a29c74d77926fc44bdeaf0784b214d00945c"
     },
     {
       "element_count": 140,
       "key": "equivalent_plastic_strain",
       "label": "Deformation plastique equivalente cumulee [-]",
-      "maximum": 0.05000000000000005,
-      "minimum": 0.049999999999999635,
+      "maximum": 0.05000000000000011,
+      "minimum": 0.049999999999999774,
       "path": "bm-nl-j2-bar-001_plastic_strain.png",
-      "sha256": "53e027db53c5aa781d2d293a76ea8142334b9a161598eedb04f7d691aad7f5ab"
+      "sha256": "95d5a491e13699e88826957829bc2d79fd10831b7113aa5d0c32046dbda1cd25"
     }
   ],
   "schema_version": 1,

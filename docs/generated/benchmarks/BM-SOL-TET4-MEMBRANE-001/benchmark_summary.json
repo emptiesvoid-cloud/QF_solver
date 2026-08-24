@@ -32,55 +32,55 @@
         "mesh_size": 0.34,
         "node_count": 88,
         "element_count": 208,
-        "mean_end_ux": 0.00028571428571428503,
+        "mean_end_ux": 0.0002857142857142848,
         "reference_end_ux": 0.00028571428571428574,
-        "relative_displacement_error": 2.4665599424045226e-15,
-        "relative_stress_error": 7.437740684236324e-15,
-        "free_relative_residual": 1.6557809381540823e-14
+        "relative_displacement_error": 3.2255014631443753e-15,
+        "relative_stress_error": 8.078248118316771e-15,
+        "free_relative_residual": 1.761019355110981e-14
       },
       {
         "level": 2,
         "mesh_size": 0.24,
         "node_count": 170,
         "element_count": 431,
-        "mean_end_ux": 0.00028571428571428546,
+        "mean_end_ux": 0.00028571428571428595,
         "reference_end_ux": 0.00028571428571428574,
-        "relative_displacement_error": 9.486769009248164e-16,
-        "relative_stress_error": 8.374078346104705e-15,
-        "free_relative_residual": 2.8099623105620978e-14
+        "relative_displacement_error": 7.58941520739853e-16,
+        "relative_stress_error": 7.831291150439029e-15,
+        "free_relative_residual": 2.8595519986501736e-14
       },
       {
         "level": 3,
         "mesh_size": 0.17,
         "node_count": 254,
         "element_count": 640,
-        "mean_end_ux": 0.00028571428571428677,
+        "mean_end_ux": 0.0002857142857142849,
         "reference_end_ux": 0.00028571428571428574,
-        "relative_displacement_error": 3.604972223514302e-15,
-        "relative_stress_error": 1.0332396280163256e-14,
-        "free_relative_residual": 3.030170740322278e-14
+        "relative_displacement_error": 2.8460307027744487e-15,
+        "relative_stress_error": 1.57572835075245e-14,
+        "free_relative_residual": 3.348022934348623e-14
       },
       {
         "level": 4,
         "mesh_size": 0.13,
         "node_count": 419,
         "element_count": 1116,
-        "mean_end_ux": 0.0002857142857142862,
+        "mean_end_ux": 0.0002857142857142832,
         "reference_end_ux": 0.00028571428571428574,
-        "relative_displacement_error": 1.7076184216646693e-15,
-        "relative_stress_error": 1.4013585703084069e-14,
-        "free_relative_residual": 5.2680707653039373e-14
+        "relative_displacement_error": 8.917562868693274e-15,
+        "relative_stress_error": 2.6471633113300333e-14,
+        "free_relative_residual": 5.742589821554815e-14
       },
       {
         "level": 5,
         "mesh_size": 0.1,
         "node_count": 737,
         "element_count": 2402,
-        "mean_end_ux": 0.00028571428571428677,
+        "mean_end_ux": 0.00028571428571428823,
         "reference_end_ux": 0.00028571428571428574,
-        "relative_displacement_error": 3.604972223514302e-15,
-        "relative_stress_error": 2.350059319083831e-14,
-        "free_relative_residual": 7.247104343076946e-14
+        "relative_displacement_error": 8.72782748850831e-15,
+        "relative_stress_error": 3.426641356575712e-14,
+        "free_relative_residual": 7.175395777837018e-14
       }
     ],
     "compression_h_convergence": [
@@ -89,65 +89,65 @@
         "mesh_size": 0.34,
         "node_count": 88,
         "element_count": 208,
-        "mean_end_ux": -0.00028571428571428503,
+        "mean_end_ux": -0.0002857142857142848,
         "reference_end_ux": -0.00028571428571428574,
-        "relative_displacement_error": 2.4665599424045226e-15,
-        "relative_stress_error": 7.437740684236324e-15,
-        "free_relative_residual": 1.6557809381540823e-14
+        "relative_displacement_error": 3.2255014631443753e-15,
+        "relative_stress_error": 8.078248118316771e-15,
+        "free_relative_residual": 1.761019355110981e-14
       },
       {
         "level": 2,
         "mesh_size": 0.24,
         "node_count": 170,
         "element_count": 431,
-        "mean_end_ux": -0.00028571428571428546,
+        "mean_end_ux": -0.00028571428571428595,
         "reference_end_ux": -0.00028571428571428574,
-        "relative_displacement_error": 9.486769009248164e-16,
-        "relative_stress_error": 8.374078346104705e-15,
-        "free_relative_residual": 2.8099623105620978e-14
+        "relative_displacement_error": 7.58941520739853e-16,
+        "relative_stress_error": 7.831291150439029e-15,
+        "free_relative_residual": 2.8595519986501736e-14
       },
       {
         "level": 3,
         "mesh_size": 0.17,
         "node_count": 254,
         "element_count": 640,
-        "mean_end_ux": -0.00028571428571428677,
+        "mean_end_ux": -0.0002857142857142849,
         "reference_end_ux": -0.00028571428571428574,
-        "relative_displacement_error": 3.604972223514302e-15,
-        "relative_stress_error": 1.0332396280163256e-14,
-        "free_relative_residual": 3.030170740322278e-14
+        "relative_displacement_error": 2.8460307027744487e-15,
+        "relative_stress_error": 1.57572835075245e-14,
+        "free_relative_residual": 3.348022934348623e-14
       },
       {
         "level": 4,
         "mesh_size": 0.13,
         "node_count": 419,
         "element_count": 1116,
-        "mean_end_ux": -0.0002857142857142862,
+        "mean_end_ux": -0.0002857142857142832,
         "reference_end_ux": -0.00028571428571428574,
-        "relative_displacement_error": 1.7076184216646693e-15,
-        "relative_stress_error": 1.4013585703084069e-14,
-        "free_relative_residual": 5.2680707653039373e-14
+        "relative_displacement_error": 8.917562868693274e-15,
+        "relative_stress_error": 2.6471633113300333e-14,
+        "free_relative_residual": 5.742589821554815e-14
       },
       {
         "level": 5,
         "mesh_size": 0.1,
         "node_count": 737,
         "element_count": 2402,
-        "mean_end_ux": -0.00028571428571428677,
+        "mean_end_ux": -0.00028571428571428823,
         "reference_end_ux": -0.00028571428571428574,
-        "relative_displacement_error": 3.604972223514302e-15,
-        "relative_stress_error": 2.350059319083831e-14,
-        "free_relative_residual": 7.247104343076946e-14
+        "relative_displacement_error": 8.72782748850831e-15,
+        "relative_stress_error": 3.426641356575712e-14,
+        "free_relative_residual": 7.175395777837018e-14
       }
     ],
-    "max_relative_displacement_error": 3.604972223514302e-15,
-    "max_relative_stress_error": 2.350059319083831e-14
+    "max_relative_displacement_error": 8.917562868693274e-15,
+    "max_relative_stress_error": 3.426641356575712e-14
   },
   "checks": [
     {
       "id": "membrane-displacement",
       "status": "PASS",
-      "value": 3.604972223514302e-15,
+      "value": 8.917562868693274e-15,
       "limit": 1e-09,
       "operator": "less_equal",
       "detail": ""
@@ -155,7 +155,7 @@
     {
       "id": "membrane-constant-stress",
       "status": "PASS",
-      "value": 2.350059319083831e-14,
+      "value": 3.426641356575712e-14,
       "limit": 1e-09,
       "operator": "less_equal",
       "detail": ""
@@ -163,7 +163,7 @@
     {
       "id": "membrane-free-residual",
       "status": "PASS",
-      "value": 7.247104343076946e-14,
+      "value": 7.175395777837018e-14,
       "limit": 1e-08,
       "operator": "less_equal",
       "detail": ""
@@ -171,7 +171,7 @@
     {
       "id": "compression-displacement",
       "status": "PASS",
-      "value": 3.604972223514302e-15,
+      "value": 8.917562868693274e-15,
       "limit": 1e-09,
       "operator": "less_equal",
       "detail": ""
@@ -179,7 +179,7 @@
     {
       "id": "compression-constant-stress",
       "status": "PASS",
-      "value": 2.350059319083831e-14,
+      "value": 3.426641356575712e-14,
       "limit": 1e-09,
       "operator": "less_equal",
       "detail": ""
@@ -187,7 +187,7 @@
     {
       "id": "compression-free-residual",
       "status": "PASS",
-      "value": 7.247104343076946e-14,
+      "value": 7.175395777837018e-14,
       "limit": 1e-08,
       "operator": "less_equal",
       "detail": ""

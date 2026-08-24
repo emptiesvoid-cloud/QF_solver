@@ -16,8 +16,8 @@ eliminee est `ud=Kdd^-1*(fd/a-Kdp*up)`.
 | --- | ---: | ---: |
 | Complement de Schur | 7.922e-17 | 1.0e-11 |
 | Charge condensee | 1.248e-16 | 1.0e-11 |
-| Reponse condensee / systeme complet | 3.283e-11 | 1.0e-09 |
-| Equilibre complexe complet | 7.828e-11 | 1.0e-08 |
+| Reponse condensee / systeme complet | 3.320e-11 | 1.0e-09 |
+| Equilibre complexe complet | 6.104e-11 | 1.0e-08 |
 
 Statut : **PASS**.
 

@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "qf-solver"
-version = "0.2.2a0"
-description = "Solveur FEM Python boite blanche : TET4/TET10, MITC3+/MITC4, BEAM2 et analyses statiques/dynamiques."
+version = "0.2.3a0"
+description = "Solveur FEM Python boite blanche : TET4/TET10, HEX8/HEX20, MITC3+/MITC4, BEAM2 et analyses statiques/dynamiques."
 readme = "README.md"
 requires-python = ">=3.10"
 license = "Apache-2.0"
@@ -24,7 +24,7 @@ classifiers = [
   "Programming Language :: Python :: 3.13",
   "Topic :: Scientific/Engineering",
 ]
-keywords = ["finite-element", "mechanics", "mitc3", "mitc4", "beam", "tetrahedron", "white-box-audit"]
+keywords = ["finite-element", "mechanics", "mitc3", "mitc4", "hex8", "hex20", "beam", "tetrahedron", "white-box-audit"]
 dependencies = [
   "numpy>=1.24",
   "scipy>=1.10",

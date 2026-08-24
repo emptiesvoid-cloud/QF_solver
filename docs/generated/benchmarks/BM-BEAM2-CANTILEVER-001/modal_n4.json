@@ -10,8 +10,8 @@
   "modes": [
     {
       "index": 1,
-      "eigenvalue": 4156.753929999038,
-      "frequency_hz": 10.261179614174994,
+      "eigenvalue": 4156.753930144835,
+      "frequency_hz": 10.261179614354948,
       "shape": [
         {
           "node": 0,
@@ -27,45 +27,45 @@
         {
           "node": 1,
           "dofs": {
-            "UX": 1.8930589169465884e-18,
-            "UY": 4.744416250438206e-13,
-            "UZ": -0.015596066171505123,
-            "RX": 1.8774995032890746e-15,
-            "RY": 0.05824885868911443,
-            "RZ": 1.7730033191346755e-12
+            "UX": -7.274996509103787e-21,
+            "UY": 8.818987094243058e-19,
+            "UZ": 0.015596066171524857,
+            "RX": -1.658949750395613e-20,
+            "RY": -0.05824885868916791,
+            "RZ": 1.8736786174703772e-17
           }
         },
         {
           "node": 2,
           "dofs": {
-            "UX": 5.039493297679091e-17,
-            "UY": 1.6585176796793645e-12,
-            "UZ": -0.054383093526664116,
-            "RX": 3.337840405701913e-15,
-            "RY": 0.0930477208464596,
-            "RZ": 2.8452595801271386e-12
+            "UX": -2.1363403619394857e-20,
+            "UY": 1.1918950927197466e-17,
+            "UZ": 0.05438309352669718,
+            "RX": -2.0446068475917235e-20,
+            "RY": -0.09304772084644729,
+            "RZ": 3.2809086936454706e-17
           }
         },
         {
           "node": 3,
           "dofs": {
-            "UX": -2.9487144356633484e-17,
-            "UY": 3.2186022077793215e-12,
-            "UZ": -0.10532239734234654,
-            "RX": 4.9064784167616734e-15,
-            "RY": 0.10777197251298837,
-            "RZ": 3.3020183809462367e-12
+            "UX": -1.7382277721490326e-20,
+            "UY": 1.6401228264135638e-17,
+            "UZ": 0.1053223973423526,
+            "RX": -4.2894997137427485e-20,
+            "RY": -0.10777197251289898,
+            "RZ": 6.938893903907228e-18
           }
         },
         {
           "node": 4,
           "dofs": {
-            "UX": 6.279760024196395e-17,
-            "UY": 4.897202435238945e-12,
-            "UZ": -0.16009453198589235,
-            "RX": 4.357788001979612e-15,
-            "RY": 0.11012742949968013,
-            "RZ": 3.3739677718358507e-12
+            "UX": -3.3881317890172014e-20,
+            "UY": 2.0816681711721685e-17,
+            "UZ": 0.16009453198584628,
+            "RX": -4.404571325722362e-20,
+            "RY": -0.11012742949957036,
+            "RZ": 6.938893903907228e-18
           }
         }
       ]
@@ -73,28 +73,28 @@
   ],
   "solver": {
     "mode_count": 1,
-    "max_relative_residual": 5.761960866252549e-11,
+    "max_relative_residual": 7.978053070185381e-14,
     "relative_residuals": [
-      5.761960866252549e-11
+      7.978053070185381e-14
     ],
     "mass_orthogonality_error": 0.0,
-    "stiffness_diagonal_error": 3.505864371658981e-11,
+    "stiffness_diagonal_error": 9.84596689329535e-15,
     "modal_masses": [
-      1.0
+      0.9999999999999998
     ],
     "modal_stiffnesses": [
-      4156.753930144768
+      4156.753930144875
     ],
     "effective_modal_mass": {
       "by_direction": {
         "UX": [
-          4.4162239724358216e-30
+          5.7994496733619534e-36
         ],
         "UY": [
-          8.845556155128195e-20
+          2.3728861532139917e-30
         ],
         "UZ": [
-          94.8014037148869
+          94.80140371491628
         ]
       },
       "total_direction_mass": {
@@ -105,6 +105,14 @@
     },
     "dense_modal_max_dofs": 2000,
     "dense_conversion_used": false,
+    "backend": {
+      "requested": "auto",
+      "selected": "scipy",
+      "fallback_used": false,
+      "petsc_available": false,
+      "slepc_available": false,
+      "reason": "SciPy selected as the standard backend"
+    },
     "arpack": {
       "shift_eigenvalue": 0.0,
       "shift_hz": null,
@@ -115,23 +123,57 @@
     },
     "assembly": {
       "stiffness": {
-        "matrix": "stiffness",
         "chunk_size": 256,
         "chunk_count": 1,
         "element_count": 4,
         "coefficient_entry_count": 576,
         "peak_chunk_entry_count": 576,
+        "assembly_peak_memory_estimate_bytes": 27648,
+        "assembly_memory_budget_bytes": null,
+        "assembly_memory_budget_exceeded": false,
+        "assembly_index_dtype": "int32",
+        "assembly_plan_reused": false,
+        "paired_assembly": true,
+        "shared_chunk_pattern": true,
+        "assembly_phase_seconds": {
+          "assembly_plan": 0.00019210000755265355,
+          "element_kernel": 0.0014094000216573477,
+          "chunk_sparse_conversion": 0.00020730000687763095,
+          "chunk_fusion": 1.9000144675374031e-06,
+          "sparse_finalize": 0.000159099989105016,
+          "discrete_merge": 5.040003452450037e-05
+        },
+        "matrix": "stiffness",
+        "accumulator_chunk_count": 1,
+        "accumulator_occupied_levels": 1,
         "final_nnz": 118,
         "spring_count": 0,
         "concentrated_mass_count": 0
       },
       "mass": {
-        "matrix": "mass",
         "chunk_size": 256,
         "chunk_count": 1,
         "element_count": 4,
         "coefficient_entry_count": 576,
         "peak_chunk_entry_count": 576,
+        "assembly_peak_memory_estimate_bytes": 27648,
+        "assembly_memory_budget_bytes": null,
+        "assembly_memory_budget_exceeded": false,
+        "assembly_index_dtype": "int32",
+        "assembly_plan_reused": false,
+        "paired_assembly": true,
+        "shared_chunk_pattern": true,
+        "assembly_phase_seconds": {
+          "assembly_plan": 0.00019210000755265355,
+          "element_kernel": 0.0014094000216573477,
+          "chunk_sparse_conversion": 0.00020730000687763095,
+          "chunk_fusion": 1.9000144675374031e-06,
+          "sparse_finalize": 0.000159099989105016,
+          "discrete_merge": 5.040003452450037e-05
+        },
+        "matrix": "mass",
+        "accumulator_chunk_count": 1,
+        "accumulator_occupied_levels": 1,
         "final_nnz": 118,
         "spring_count": 0,
         "concentrated_mass_count": 0
@@ -147,6 +189,12 @@
       "condensed_mass_coupling_ratio": 0.0,
       "condensed_stiffness_nnz": 88,
       "lazy_condensation": false
+    },
+    "eigenpair_refinement": {
+      "iterations_requested": 0,
+      "iterations_performed": 0,
+      "maximum_residual_before": 7.978053070185381e-14,
+      "maximum_residual_after": 7.978053070185381e-14
     }
   },
   "mesh_report": {
@@ -1636,7 +1684,7 @@
     ],
     "notes": [],
     "qualification": {
-      "solver_version": "0.2.1a0",
+      "solver_version": "0.2.3a0",
       "schema_version": 1,
       "units": {
         "system": "SI"
@@ -1675,7 +1723,7 @@
       "traceability": {
         "status": "PASS",
         "scope": "beam2-linear-dynamics",
-        "scope_status": "candidate",
+        "scope_status": "qualified",
         "requirement_count": 9,
         "covered_requirement_count": 9,
         "formula_count": 8,

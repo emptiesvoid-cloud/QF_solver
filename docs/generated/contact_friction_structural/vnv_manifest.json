@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
   "study_id": "VNV-CONTACT-FRICTION-TET4-STRUCTURAL-002",
-  "generated_utc": "2026-08-14T21:29:14.341057Z",
+  "generated_utc": "2026-08-24T09:11:03.225023Z",
   "source": {
     "repository": ".",
-    "revision": "1804a03aee0c4e4bc6ac2c56e9461bedd9aac6d4",
+    "revision": "uncommitted",
     "dirty": true
   },
   "command": [
-    ".\\scripts\\build_docs.py",
+    "scripts/build_docs.py",
     "--profile",
     "engineering"
   ],

@@ -5,21 +5,21 @@
 | Verdict | WARNING |
 | Noeuds | 68 |
 | Elements | 140 |
-| Amplification graphique | 3.52462 |
-| Empreinte maillage/source | `90f225c6b2c98782d71035c8bbe4acc3f37aab9ae1e51eca9f1db3ef709bf771` |
+| Amplification graphique | 3.60225 |
+| Empreinte maillage/source | `cf3600914d19bcb66d2d2a0d644922fc67048fde124e70329c277cc15585248b` |
 | Empreinte configuration/source | `1855b312d0919562e35b73f7a72ff58d52317b6da359ca0fd3fab768185e766a` |
-| Empreinte modele | `af8151ca9f543f0f1724d7da321083af928a6a70008a1f7ecd981d309933fc43` |
-| Empreinte resultat | `184414d38e278cb7f4bf8ed54840462ced4be76f14c6b6b5e717377aa308564f` |
+| Empreinte modele | `573270442e4d309849ff33acaefbae30ad17286741eec704be347e8d37fa1826` |
+| Empreinte resultat | `0ee865dd4f536e4863d5ccdbe16af956d3a20c31c93fdc8e2183ab2812da3bb9` |
 
 ### Criteres d'acceptation
 
 | Critere | Operateur | Valeur | Limite | Verdict |
 | --- | :---: | ---: | ---: | --- |
-| uniaxial-stress | <= | 3.973643e-16 | 0.02 | PASS |
-| uniaxial-plastic-strain | <= | 1.387779e-15 | 1.000000e-06 | PASS |
-| load-step-sensitivity | <= | 4.955758e-13 | 1.000000e-06 | PASS |
-| free-residual | <= | 1.119792e-13 | 1.000000e-07 | PASS |
-| step-residual | <= | 1.140324e-13 | 1.000000e-07 | PASS |
+| uniaxial-stress | <= | 2.185504e-15 | 0.02 | PASS |
+| uniaxial-plastic-strain | <= | 1.387779e-16 | 1.000000e-06 | PASS |
+| load-step-sensitivity | <= | 1.138714e-11 | 1.000000e-06 | PASS |
+| free-residual | <= | 1.194836e-13 | 1.000000e-07 | PASS |
+| step-residual | <= | 1.206419e-13 | 1.000000e-07 | PASS |
 
 ### Metriques principales
 
@@ -27,12 +27,12 @@
 | --- | --- |
 | applied_axial_stress | 3.000000e+08 |
 | mean_axial_stress | 3.000000e+08 |
-| relative_stress_error | 3.973643e-16 |
+| relative_stress_error | 2.185504e-15 |
 | expected_uniaxial_equivalent_plastic_strain | 0.05 |
 | mean_equivalent_plastic_strain | 0.05 |
-| relative_plastic_strain_error | 1.387779e-15 |
-| load_step_sensitivity | 4.955758e-13 |
+| relative_plastic_strain_error | 1.387779e-16 |
+| load_step_sensitivity | 1.138714e-11 |
 | load_step_counts | [3, 6, 12] |
 | converged_steps | 6 |
 | max_step_iterations | 6 |
-| free_relative_residual | 1.119792e-13 |
+| free_relative_residual | 1.194836e-13 |

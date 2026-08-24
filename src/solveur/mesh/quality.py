@@ -8,6 +8,7 @@ import numpy as np
 
 from solveur.elements.solid.tet4 import Tet4Element
 from solveur.elements.solid.tet10 import Tet10Element
+from solveur.elements.solid.hex20 import Hex20Element
 
 
 @dataclass(frozen=True)
@@ -81,6 +82,51 @@ class MeshQuality:
         metrics = MeshQuality.tet_metrics(points)
         metrics.update(Tet10Element.geometry_diagnostics(points))
         return metrics
+
+    @staticmethod
+    def hex20_metrics(coords: np.ndarray) -> dict[str, float]:
+        """Return midside placement and sampled-Jacobian metrics for HEX20."""
+        points = np.asarray(coords, dtype=float)
+        edge_pairs = (
+            (0, 1),
+            (3, 0),
+            (0, 4),
+            (1, 2),
+            (1, 5),
+            (2, 3),
+            (2, 6),
+            (3, 7),
+            (4, 5),
+            (7, 4),
+            (5, 6),
+            (6, 7),
+        )
+        deviations = [
+            float(np.linalg.norm(points[8 + index] - 0.5 * (points[first] + points[second])))
+            for index, (first, second) in enumerate(edge_pairs)
+        ]
+        relative = [
+            deviation / float(np.linalg.norm(points[second] - points[first]))
+            if float(np.linalg.norm(points[second] - points[first])) > 0.0
+            else float("inf")
+            for deviation, (first, second) in zip(deviations, edge_pairs)
+        ]
+        determinants = np.asarray(
+            [Hex20Element.jacobian_determinant(points, point) for point in Hex20Element.integration_points],
+            dtype=float,
+        )
+        minimum = float(np.min(determinants))
+        maximum = float(np.max(determinants))
+        return {
+            "mid_edge_deviation_max": float(max(deviations)),
+            "mid_edge_deviation_mean": float(np.mean(deviations)),
+            "mid_edge_deviation_ratio_max": float(max(relative)),
+            "sampled_jacobian_min": minimum,
+            "sampled_jacobian_max": maximum,
+            "sampled_jacobian_ratio": minimum / maximum if maximum > 0.0 else float("-inf"),
+            "sampled_jacobian_nonpositive_count": float(np.count_nonzero(determinants <= 0.0)),
+            "sampled_jacobian_count": float(determinants.size),
+        }
 
     @staticmethod
     def quad_metrics(coords: np.ndarray) -> dict[str, float]:

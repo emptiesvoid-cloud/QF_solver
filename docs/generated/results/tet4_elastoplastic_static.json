@@ -2403,7 +2403,7 @@
       "Nonlinear audit uses the tangent matrix at the converged final displacement."
     ],
     "qualification": {
-      "solver_version": "0.2.1a0",
+      "solver_version": "0.2.3a0",
       "schema_version": 1,
       "units": {
         "system": "SI"

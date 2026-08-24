@@ -1,8 +1,8 @@
 <div class="status-grid">
-  <section class="status-panel"><h3>Version du solveur</h3><span class="value">0.2.1a0</span><span>schema JSON v1</span></section>
-  <section class="status-panel"><h3>Tests collectes</h3><span class="value">1169</span><span>campagne locale courante</span></section>
+  <section class="status-panel"><h3>Version du solveur</h3><span class="value">0.2.3a0</span><span>schema JSON v1</span></section>
+  <section class="status-panel"><h3>Tests collectes</h3><span class="value">1677</span><span>campagne locale courante</span></section>
   <section class="status-panel"><h3>Campagne souveraine</h3><span class="value">PASS</span><span>13/13 cas</span></section>
-  <section class="status-panel"><h3>Revision source</h3><span class="value">1804a03aee0c</span><span>dirty: true</span></section>
+  <section class="status-panel"><h3>Revision source</h3><span class="value">uncommitted</span><span>dirty: true</span></section>
 </div>
 
 | Perimetre | Maturite | Decision documentaire |

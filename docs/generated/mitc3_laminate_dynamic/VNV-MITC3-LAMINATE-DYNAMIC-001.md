@@ -27,7 +27,7 @@ Frequence fondamentale : `13.934772` Hz. Residu relatif : `1.347e-09`. Orthogona
 
 ## Harmonique
 
-Erreur complexe maximale : `6.313e-09`. Limite statique a 0 Hz : `7.483e-14`. Post-traitement : `4` plis.
+Erreur complexe maximale : `6.313e-09`. Limite statique a 0 Hz : `1.884e-14`. Post-traitement : `4` plis.
 
 ![Newmark](VNV-MITC3-LAMINATE-DYNAMIC-001-newmark.png)
 

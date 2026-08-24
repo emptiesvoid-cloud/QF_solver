@@ -1,9 +1,9 @@
 {
   "status": "WARNING",
   "solver_name": "QF_solver",
-  "solver_version": "0.2.1a0",
+  "solver_version": "0.2.3a0",
   "source_path": "j2_cyclic_bar_tet10.msh",
-  "source_sha256": "503d640c7fa94b6b00e50395469b66087df225afd8f521b41015007e99ea6103",
+  "source_sha256": "a2cae9586bd4607a0d62e045ad352bae5ddafea23b7ffb6d4915ec54f2c8143e",
   "setup_path": "model.setup.json",
   "setup_sha256": "1c3a334d5b78c70eec19ce1590d182323708cad8ee834a68fc544bc62709bd02",
   "gmsh_version": "4.15.2",
@@ -18,21 +18,21 @@
       "name": "anchor_origin",
       "dimension": 0,
       "tag": 6,
-      "cell_count": 1,
+      "cell_count": 0,
       "node_count": 1
     },
     {
       "name": "anchor_x",
       "dimension": 0,
       "tag": 7,
-      "cell_count": 1,
+      "cell_count": 0,
       "node_count": 1
     },
     {
       "name": "anchor_xy",
       "dimension": 0,
       "tag": 8,
-      "cell_count": 1,
+      "cell_count": 0,
       "node_count": 1
     },
     {

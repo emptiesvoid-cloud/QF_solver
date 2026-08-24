@@ -8244,7 +8244,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -8267,7 +8268,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -8290,7 +8292,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -8313,7 +8316,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -8336,7 +8340,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -8359,7 +8364,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -8382,7 +8388,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -8405,7 +8412,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -8428,7 +8436,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -8451,7 +8460,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -8474,7 +8484,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -8497,7 +8508,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -8520,7 +8532,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -8543,7 +8556,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -8566,7 +8580,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -8589,7 +8604,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -8612,7 +8628,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -8635,7 +8652,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -8658,7 +8676,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -8681,7 +8700,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -8704,7 +8724,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -8727,7 +8748,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -8750,7 +8772,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -8773,7 +8796,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -8796,7 +8820,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -8819,7 +8844,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -8842,7 +8868,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -8865,7 +8892,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -8888,7 +8916,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -8911,7 +8940,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -8934,7 +8964,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -8957,7 +8988,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -8980,7 +9012,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9003,7 +9036,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9026,7 +9060,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9049,7 +9084,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9072,7 +9108,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9095,7 +9132,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9118,7 +9156,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9141,7 +9180,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9164,7 +9204,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9187,7 +9228,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9210,7 +9252,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9233,7 +9276,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9256,7 +9300,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9279,7 +9324,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9302,7 +9348,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9325,7 +9372,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9348,7 +9396,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9371,7 +9420,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9394,7 +9444,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9417,7 +9468,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9440,7 +9492,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9463,7 +9516,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9486,7 +9540,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9509,7 +9564,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9532,7 +9588,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9555,7 +9612,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9578,7 +9636,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9601,7 +9660,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9624,7 +9684,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9647,7 +9708,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9670,7 +9732,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9693,7 +9756,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9716,7 +9780,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9739,7 +9804,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9762,7 +9828,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9785,7 +9852,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9808,7 +9876,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9831,7 +9900,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9854,7 +9924,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9877,7 +9948,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9900,7 +9972,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9923,7 +9996,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9946,7 +10020,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9969,7 +10044,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -9992,7 +10068,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -10015,7 +10092,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -10038,7 +10116,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -10061,7 +10140,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -10084,104 +10164,109 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         }
       ]
     },
     "linear_execution": {
       "requested_method": "direct_frequency",
+      "used_method": "spsolve",
+      "backend": "auto",
       "preconditioner": "none",
       "rtol": null,
       "atol": null,
       "maxiter": null,
       "residual_failure_tolerance": 1e-07,
       "fallback_used": false,
-      "used_method": "spsolve",
+      "backend_used": "scipy",
+      "iteration_count_total": 81,
+      "max_linear_relative_residual_norm": 2.2204502844110104e-16,
       "frequency_solve_seconds": [
-        0.00013240007683634758,
-        7.499998901039362e-05,
-        7.099995855242014e-05,
-        6.599992047995329e-05,
-        6.490002851933241e-05,
-        6.520003080368042e-05,
-        6.320001557469368e-05,
-        6.440002471208572e-05,
-        6.390002090483904e-05,
-        6.3000014051795e-05,
-        6.38000201433897e-05,
-        6.520003080368042e-05,
-        6.350001785904169e-05,
-        6.73000467941165e-05,
-        6.240000948309898e-05,
-        6.370001938194036e-05,
-        6.420002318918705e-05,
-        7.039995398372412e-05,
-        6.459990981966257e-05,
-        6.350001785904169e-05,
-        6.089999806135893e-05,
-        6.390002090483904e-05,
-        6.320001557469368e-05,
-        6.280001252889633e-05,
-        0.0001428000396117568,
-        0.00016000005416572094,
-        7.71000050008297e-05,
-        6.97999494150281e-05,
-        6.729993037879467e-05,
-        6.610003765672445e-05,
-        6.430002395063639e-05,
-        6.46000262349844e-05,
-        6.700004450976849e-05,
-        6.470002699643373e-05,
-        0.00010930001735687256,
-        6.799993570894003e-05,
-        6.299989763647318e-05,
-        6.370001938194036e-05,
-        6.97999494150281e-05,
-        6.38000201433897e-05,
-        6.310001481324434e-05,
-        6.470002699643373e-05,
-        6.289989687502384e-05,
-        6.310001481324434e-05,
-        7.650000043213367e-05,
-        6.340001709759235e-05,
-        6.290001329034567e-05,
-        7.499998901039362e-05,
-        6.160000339150429e-05,
-        6.250001024454832e-05,
-        6.43999082967639e-05,
-        6.200000643730164e-05,
-        6.210000719875097e-05,
-        6.609992124140263e-05,
-        7.690000347793102e-05,
-        6.230000872164965e-05,
-        6.289989687502384e-05,
-        6.38000201433897e-05,
-        6.360001862049103e-05,
-        6.340001709759235e-05,
-        6.349990144371986e-05,
-        6.54999166727066e-05,
-        6.470002699643373e-05,
-        6.370001938194036e-05,
-        6.999995093792677e-05,
-        6.360001862049103e-05,
-        6.450002547353506e-05,
-        7.399998139590025e-05,
-        6.620003841817379e-05,
-        6.389990448951721e-05,
-        6.670004222542048e-05,
-        6.630003917962313e-05,
-        6.500002928078175e-05,
-        6.689992733299732e-05,
-        6.400002166628838e-05,
-        6.260001100599766e-05,
-        6.140000186860561e-05,
-        6.420002318918705e-05,
-        6.150000263005495e-05,
-        6.130000110715628e-05,
-        6.230000872164965e-05
+        0.0013191999751143157,
+        0.0010207999730482697,
+        0.001012599968817085,
+        0.001298599992878735,
+        0.0010514999739825726,
+        0.0009954999550245702,
+        0.0009885999606922269,
+        0.0010060000349767506,
+        0.0009814000222831964,
+        0.0010454999865032732,
+        0.0010212999768555164,
+        0.0010173000046052039,
+        0.0009870000067166984,
+        0.0009819000260904431,
+        0.001188900030683726,
+        0.0010096000041812658,
+        0.001011699961964041,
+        0.0009943999466486275,
+        0.0009920999873429537,
+        0.0009764000424183905,
+        0.0009756000363267958,
+        0.0009851999930106103,
+        0.001038899994455278,
+        0.0010383999906480312,
+        0.0009934999980032444,
+        0.0010631000041030347,
+        0.001010799955110997,
+        0.0009785000002011657,
+        0.000972400011960417,
+        0.000971500005107373,
+        0.0009726000134833157,
+        0.0009827999747358263,
+        0.0009944000048562884,
+        0.0009742000256665051,
+        0.0010665999725461006,
+        0.00106519996188581,
+        0.0010268999612890184,
+        0.0012125000357627869,
+        0.0011085000005550683,
+        0.0009923999896273017,
+        0.001007599988952279,
+        0.000980100012384355,
+        0.0009994999854825437,
+        0.0009729000157676637,
+        0.0009742000256665051,
+        0.000978299998678267,
+        0.0010017000022344291,
+        0.0010507000260986388,
+        0.001054599997587502,
+        0.001096600026357919,
+        0.0009891000227071345,
+        0.0009985000360757113,
+        0.0010015000007115304,
+        0.0010025000083260238,
+        0.0009911999804899096,
+        0.0009973000269383192,
+        0.0010102999513037503,
+        0.001011699961964041,
+        0.0009921000455506146,
+        0.0010981999803334475,
+        0.0010313999955542386,
+        0.001316900015808642,
+        0.0010161999962292612,
+        0.0010044000227935612,
+        0.0009854999952949584,
+        0.0009879000135697424,
+        0.0009988999809138477,
+        0.0009819000260904431,
+        0.0009913999820128083,
+        0.0009811000199988484,
+        0.000976799987256527,
+        0.0010753999813459814,
+        0.0014529000036418438,
+        0.001038299989886582,
+        0.0010467999964021146,
+        0.0010041000205092132,
+        0.0010094000026583672,
+        0.0009996999870054424,
+        0.000989799969829619,
+        0.0009869999485090375,
+        0.0010041999630630016
       ],
-      "total_frequency_solve_seconds": 0.005574699840508401
+      "total_frequency_solve_seconds": 0.0834128997521475
     },
     "rayleigh_alpha": 0.05,
     "rayleigh_beta": 0.0,
@@ -11046,7 +11131,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11069,7 +11155,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11092,7 +11179,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11115,7 +11203,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11138,7 +11227,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11161,7 +11251,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11184,7 +11275,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11207,7 +11299,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11230,7 +11323,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11253,7 +11347,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11276,7 +11371,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11299,7 +11395,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11322,7 +11419,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11345,7 +11443,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11368,7 +11467,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11391,7 +11491,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11414,7 +11515,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11437,7 +11539,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11460,7 +11563,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11483,7 +11587,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11506,7 +11611,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11529,7 +11635,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11552,7 +11659,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11575,7 +11683,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11598,7 +11707,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11621,7 +11731,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11644,7 +11755,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11667,7 +11779,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11690,7 +11803,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11713,7 +11827,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11736,7 +11851,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11759,7 +11875,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11782,7 +11899,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11805,7 +11923,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11828,7 +11947,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11851,7 +11971,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11874,7 +11995,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11897,7 +12019,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11920,7 +12043,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11943,7 +12067,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11966,7 +12091,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -11989,7 +12115,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12012,7 +12139,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12035,7 +12163,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12058,7 +12187,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12081,7 +12211,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12104,7 +12235,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12127,7 +12259,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12150,7 +12283,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12173,7 +12307,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12196,7 +12331,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12219,7 +12355,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12242,7 +12379,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12265,7 +12403,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12288,7 +12427,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12311,7 +12451,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12334,7 +12475,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12357,7 +12499,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12380,7 +12523,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12403,7 +12547,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12426,7 +12571,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12449,7 +12595,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12472,7 +12619,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12495,7 +12643,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12518,7 +12667,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12541,7 +12691,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12564,7 +12715,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12587,7 +12739,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12610,7 +12763,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12633,7 +12787,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12656,7 +12811,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12679,7 +12835,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12702,7 +12859,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12725,7 +12883,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12748,7 +12907,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12771,7 +12931,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12794,7 +12955,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12817,7 +12979,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12840,7 +13003,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12863,7 +13027,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         },
         {
@@ -12886,7 +13051,8 @@
             "sparse_memory_bytes": 28,
             "direct_memory_estimate_bytes": 280,
             "direct_memory_budget_bytes": null,
-            "direct_budget_exceeded": false
+            "direct_budget_exceeded": false,
+            "dense_memory_estimate_bytes": 16
           }
         }
       ]
@@ -13067,7 +13233,7 @@
       "Rayleigh stiffness damping uses the exact scalar harmonic condensation factor."
     ],
     "qualification": {
-      "solver_version": "0.2.1a0",
+      "solver_version": "0.2.3a0",
       "schema_version": 1,
       "units": {
         "system": "SI"
@@ -13106,7 +13272,7 @@
       "traceability": {
         "status": "PASS",
         "scope": "tet4-harmonic-response",
-        "scope_status": "candidate",
+        "scope_status": "qualified",
         "requirement_count": 9,
         "covered_requirement_count": 9,
         "formula_count": 9,

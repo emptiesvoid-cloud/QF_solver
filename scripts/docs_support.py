@@ -10,6 +10,7 @@ import matplotlib
 import numpy as np
 
 matplotlib.use("Agg")
+from matplotlib.figure import Figure  # noqa: E402
 import matplotlib.pyplot as plt  # noqa: E402
 from mpl_toolkits.mplot3d.art3d import Line3DCollection, Poly3DCollection  # noqa: E402
 
@@ -385,7 +386,7 @@ def plot_tetra_formulation(output: str | Path, *, quadratic: bool) -> None:
     ax.set_axis_off()
     ax.set_title("TET10: sommets et noeuds d'arete" if quadratic else "TET4: orientation et coordonnees naturelles")
     fig.tight_layout()
-    fig.savefig(target, format="svg", bbox_inches="tight")
+    _save_clean_svg(fig, target)
     plt.close(fig)
 
 
@@ -415,8 +416,15 @@ def plot_mitc4_formulation(output: str | Path) -> None:
     ax.set_axis_off()
     ax.set_title("MITC4: base locale et points de tying")
     fig.tight_layout()
-    fig.savefig(target, format="svg", bbox_inches="tight")
+    _save_clean_svg(fig, target)
     plt.close(fig)
+
+
+def _save_clean_svg(figure: Figure, target: Path) -> None:
+    """Write an SVG without generator-dependent trailing whitespace."""
+    figure.savefig(target, format="svg", bbox_inches="tight")
+    content = target.read_text(encoding="utf-8")
+    target.write_text("\n".join(line.rstrip() for line in content.splitlines()) + "\n", encoding="utf-8")
 
 
 def _unique_edges(elements: Sequence[object]) -> list[tuple[int, int]]:

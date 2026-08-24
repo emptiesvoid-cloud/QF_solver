@@ -3628,6 +3628,39 @@
       ]
     },
     {
+      "id": "DOC-OWNER-BACKEND-022-001",
+      "path": "verification/qf_solver_0_2_2_alpha_backend_owner_review.md",
+      "title": "Revue Owner du backend numerique et du scaling 0.2.2a0",
+      "status": "owner_accepted_with_recommendations",
+      "requirements": [
+        "REQ-SOL-001",
+        "REQ-AUD-001",
+        "REQ-EVD-001"
+      ],
+      "examples": [],
+      "tests": [
+        "tests/unit/test_solver_backend.py",
+        "tests/unit/test_large_backend_comparison.py",
+        "tests/unit/test_modal_backend_edges.py"
+      ]
+    },
+    {
+      "id": "DOC-VNV-R4-MODAL-SCALE-001",
+      "path": "verification/qf_solver_0_2_2_alpha_r4_modal_scaling_plan.md",
+      "title": "R4 : protection modale SLEPc et passage a l'echelle",
+      "status": "draft",
+      "requirements": [
+        "REQ-SOL-001",
+        "REQ-AUD-001",
+        "REQ-EVD-001"
+      ],
+      "examples": [],
+      "tests": [
+        "tests/unit/test_modal_backend_edges.py",
+        "tests/unit/test_modal_preconditioner.py"
+      ]
+    },
+    {
       "id": "DOC-BACKEND-022-002",
       "path": "verification/qf_solver_0_2_2_alpha_vnv_assembly_scaling_plan.md",
       "title": "Plan V&V 0.2.2 alpha : assemblage, scaling et couverture",
@@ -3712,6 +3745,112 @@
       "tests": [
         "tests/integration/test_packaging.py",
         "tests/unit/test_public_release_audit.py"
+      ]
+    },
+    {
+      "id": "DOC-HEX8-023-001",
+      "path": "verification/qf_solver_0_2_3_alpha_hex8_implementation_vnv_plan.md",
+      "title": "Plan d'implementation et V&V HEX8 - QF_solver 0.2.3 alpha",
+      "status": "draft",
+      "requirements": [
+        "REQ-SOL-001",
+        "REQ-DYN-001",
+        "REQ-HAR-001",
+        "REQ-MESH-001",
+        "REQ-AUD-001",
+        "REQ-EVD-001"
+      ],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-HEX8-023-002",
+      "path": "verification/qf_solver_0_2_3_alpha_hex8_release_gate.md",
+      "title": "Gate de release 0.2.3 alpha - chaine HEX8 complete",
+      "status": "draft",
+      "requirements": [
+        "REQ-REL-001",
+        "REQ-AUD-001",
+        "REQ-EVD-001"
+      ],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-HEX8-023-003",
+      "path": "verification/qf_solver_0_2_3_alpha_hex8_owner_review.md",
+      "title": "Revue Owner HEX8 0.2.3 alpha",
+      "status": "owner_accepted_with_recommendations",
+      "requirements": [
+        "REQ-SOL-001",
+        "REQ-MESH-001",
+        "REQ-EVD-001"
+      ],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-HEX20-023-001",
+      "path": "verification/qf_solver_0_2_3_alpha_hex20_implementation_vnv_plan.md",
+      "title": "Plan d'implementation et V&V HEX20 - QF_solver 0.2.3 alpha",
+      "status": "draft",
+      "requirements": [
+        "REQ-SOL-001",
+        "REQ-DYN-001",
+        "REQ-HAR-001",
+        "REQ-MESH-001",
+        "REQ-AUD-001",
+        "REQ-EVD-001"
+      ],
+      "examples": [
+        "results/hex20_internal/summary.json"
+      ],
+      "tests": [
+        "tests/unit/test_hex20_element.py",
+        "tests/unit/test_hex20_campaign.py",
+        "tests/integration/test_hex20_workflow.py",
+        "tests/integration/test_hex20_gmsh_import.py"
+      ]
+    },
+    {
+      "id": "DOC-HEX20-023-002",
+      "path": "verification/qf_solver_0_2_3_alpha_hex20_release_gate.md",
+      "title": "Gate de release 0.2.3 alpha - chaine HEX20",
+      "status": "draft",
+      "requirements": [
+        "REQ-REL-001",
+        "REQ-AUD-001",
+        "REQ-EVD-001"
+      ],
+      "examples": [
+        "results/hex20_internal/summary.json",
+        "results/hex20_tet_multi_model/summary.json"
+      ],
+      "tests": [
+        "tests/unit/test_hex20_campaign.py",
+        "tests/unit/test_hex20_calculix.py",
+        "tests/unit/test_hex20_code_aster.py"
+      ]
+    },
+    {
+      "id": "DOC-HEX20-023-003",
+      "path": "verification/qf_solver_0_2_3_alpha_hex20_owner_review.md",
+      "title": "Revue Owner HEX20 lineaire et J2 - QF_solver 0.2.3 alpha",
+      "status": "owner_accepted_with_recommendations",
+      "requirements": [
+        "REQ-SOL-001",
+        "REQ-MESH-001",
+        "REQ-EVD-001"
+      ],
+      "examples": [
+        "results/hex20_internal/summary.json",
+        "src/solveur/verification/hex20_calculix.py",
+        "scripts/run_code_aster_hex20_vnv.py"
+      ],
+      "tests": [
+        "tests/unit/test_hex20_campaign.py",
+        "tests/unit/test_hex20_calculix.py",
+        "tests/unit/test_hex20_code_aster.py"
       ]
     }
   ]

@@ -17,7 +17,7 @@
           "limit": 0.02,
           "operator": "less_equal",
           "status": "PASS",
-          "value": 0.0004777935410689624
+          "value": 0.0004777935338015312
         },
         {
           "detail": "",
@@ -25,7 +25,7 @@
           "limit": 0.005,
           "operator": "less_equal",
           "status": "PASS",
-          "value": 3.108702065147965e-06
+          "value": 3.10868657392001e-06
         },
         {
           "detail": "",
@@ -33,7 +33,7 @@
           "limit": 1e-08,
           "operator": "less_equal",
           "status": "PASS",
-          "value": 2.529658314474128e-09
+          "value": 1.5097736903046054e-11
         },
         {
           "detail": "",
@@ -58,7 +58,7 @@
       "id": "BM-BEAM2-CANTILEVER-001",
       "maturity": "experimental",
       "mesh_sha256": "87ce202f5a0b6155334c332432d383ae6c3b3b554995ab8a0e581b3119d1d1ba",
-      "result_sha256": "c4ea00e072667004323f55d0b302ba2e58b6c1bdc013c6ff5b2f873735b2c05f",
+      "result_sha256": "2b146a6cc292c851e1b7adb61f9934dc48c4616c245badd255bb2092958a0500",
       "status": "WARNING"
     },
     {
@@ -69,7 +69,7 @@
           "limit": 1e-08,
           "operator": "less_equal",
           "status": "PASS",
-          "value": 4.3711306904867553e-10
+          "value": 6.900810205063198e-12
         },
         {
           "detail": "",
@@ -77,7 +77,7 @@
           "limit": 1e-06,
           "operator": "less_equal",
           "status": "PASS",
-          "value": 9.019986877212226e-13
+          "value": 2.963132479091744e-12
         },
         {
           "detail": "",
@@ -85,7 +85,7 @@
           "limit": 1e-08,
           "operator": "less_equal",
           "status": "PASS",
-          "value": 1.9334834147625453e-13
+          "value": 6.019756053434628e-13
         }
       ],
       "field_artifacts": [
@@ -111,7 +111,7 @@
       "id": "BM-DYN-CANTILEVER-001",
       "maturity": "stable_after_reinforced_tests",
       "mesh_sha256": "67c53306ffb228f3384f0e2593bfc5066297417a2ffaf493e433c9ecea3f02f9",
-      "result_sha256": "a4a1efddc0bc88ec88afa1f08b794df0e85114ef2d960963b3d326fa6303f9ac",
+      "result_sha256": "a057b269ad3d2a7d614c7a525e3a21e97a605d0580c6f4dc8aefe07f60d7a15c",
       "status": "PASS"
     },
     {
@@ -122,7 +122,7 @@
           "limit": 0.02,
           "operator": "less_equal",
           "status": "PASS",
-          "value": 3.9736429850260417e-16
+          "value": 2.1855036417643228e-15
         },
         {
           "detail": "",
@@ -130,7 +130,7 @@
           "limit": 1e-06,
           "operator": "less_equal",
           "status": "PASS",
-          "value": 1.3877787807814457e-15
+          "value": 1.3877787807814457e-16
         },
         {
           "detail": "",
@@ -138,7 +138,7 @@
           "limit": 1e-06,
           "operator": "less_equal",
           "status": "PASS",
-          "value": 4.95575802617055e-13
+          "value": 1.1387141229945995e-11
         },
         {
           "detail": "",
@@ -146,7 +146,7 @@
           "limit": 1e-07,
           "operator": "less_equal",
           "status": "PASS",
-          "value": 1.1197924259436353e-13
+          "value": 1.1948359396064877e-13
         },
         {
           "detail": "",
@@ -154,7 +154,7 @@
           "limit": 1e-07,
           "operator": "less_equal",
           "status": "PASS",
-          "value": 1.1403240356501012e-13
+          "value": 1.2064194530869203e-13
         }
       ],
       "field_artifacts": [
@@ -162,34 +162,34 @@
           "element_count": 140,
           "key": "von_mises",
           "label": "Contrainte equivalente de von Mises [unite du modele]",
-          "maximum": 300000000.0000001,
-          "minimum": 299999999.9999997,
+          "maximum": 300000000.0000002,
+          "minimum": 299999999.99999976,
           "path": "bm-nl-j2-bar-001_von_mises.png",
-          "sha256": "2310742f0151788b79567a7c52a6aaf0f771676fbd4a77d94794e06283e1b143"
+          "sha256": "98fe0237d9233da840614947ae06afbe13329732d21b93c3a9ead42fc7866315"
         },
         {
           "element_count": 140,
           "key": "strain_measure",
           "label": "Deformation equivalente de von Mises [-]",
-          "maximum": 0.05123809523809529,
-          "minimum": 0.051238095238094875,
+          "maximum": 0.051238095238095346,
+          "minimum": 0.05123809523809502,
           "path": "bm-nl-j2-bar-001_strain_measure.png",
-          "sha256": "0960b28e6e07b6a8c1335b660331a4816d7e09f256c7e85974e19e9d69f29139"
+          "sha256": "d318b97a9627da773c6d43079726a29c74d77926fc44bdeaf0784b214d00945c"
         },
         {
           "element_count": 140,
           "key": "equivalent_plastic_strain",
           "label": "Deformation plastique equivalente cumulee [-]",
-          "maximum": 0.05000000000000005,
-          "minimum": 0.049999999999999635,
+          "maximum": 0.05000000000000011,
+          "minimum": 0.049999999999999774,
           "path": "bm-nl-j2-bar-001_plastic_strain.png",
-          "sha256": "53e027db53c5aa781d2d293a76ea8142334b9a161598eedb04f7d691aad7f5ab"
+          "sha256": "95d5a491e13699e88826957829bc2d79fd10831b7113aa5d0c32046dbda1cd25"
         }
       ],
       "id": "BM-NL-J2-BAR-001",
       "maturity": "experimental",
-      "mesh_sha256": "90f225c6b2c98782d71035c8bbe4acc3f37aab9ae1e51eca9f1db3ef709bf771",
-      "result_sha256": "184414d38e278cb7f4bf8ed54840462ced4be76f14c6b6b5e717377aa308564f",
+      "mesh_sha256": "cf3600914d19bcb66d2d2a0d644922fc67048fde124e70329c277cc15585248b",
+      "result_sha256": "0ee865dd4f536e4863d5ccdbe16af956d3a20c31c93fdc8e2183ab2812da3bb9",
       "status": "WARNING"
     },
     {
@@ -234,7 +234,7 @@
       "id": "BM-SHL-COOK-001",
       "maturity": "stable",
       "mesh_sha256": "c72c2512784e0c3ba0bd3685e40a401db630256630f47366390b2267627f11e7",
-      "result_sha256": "476637d68716f1be0559a9b7db23bd35d4e82b62a2a6d673caf72566e83da27d",
+      "result_sha256": "0bd97c1adfd20c0ed67d1be29324a96ac18b65c9d3aae484c567b7d8216593c1",
       "status": "PASS"
     },
     {
@@ -279,7 +279,7 @@
       "id": "BM-SHL-PINCHED-001",
       "maturity": "stable_after_reinforced_tests",
       "mesh_sha256": "3ae902a6a94b465e9b88d7c4a2aa47dbb62e767cb75ce5462aef1f64e6cf872b",
-      "result_sha256": "cf13c6ff3e84019bb241cfc841ba8000b5d7d135e37f0a4dd12a8944c5e6100f",
+      "result_sha256": "0767e1d56e427ae2bbfb5a4439fed707d187a97e0a9b045d4560d89ac52d9ef7",
       "status": "PASS"
     },
     {
@@ -332,7 +332,7 @@
       "id": "BM-SHL-SCORDELIS-001",
       "maturity": "stable",
       "mesh_sha256": "7315f62c1d117dd48517abc579724ecd9b31d133010c71d1da9998ed56df9400",
-      "result_sha256": "b097ce4a1ea47009beb02f0727072f2d33675bff51340cbef2ec8e9664e08c77",
+      "result_sha256": "7a35350ffee401ad641ced69511734ab3fe6a0c200efcec68080ee2015012da5",
       "status": "PASS"
     },
     {
@@ -425,7 +425,7 @@
       "id": "BM-SOL-CANTILEVER-001",
       "maturity": "stable_after_reinforced_tests",
       "mesh_sha256": "dc62d5c0acdda593b13eeb67435357ffbefeff20169547654c8afeced7f9d05e",
-      "result_sha256": "6fec310ec7a76216dda3555574f4137b233438d2ba616b926424477530855a32",
+      "result_sha256": "e6a1cfb67c52350b6aab16493b04dabded9fcf236cc4bb5b8260ed70a4c862cd",
       "status": "PASS"
     },
     {
@@ -470,7 +470,7 @@
       "id": "BM-SOL-TET10-LAME-001",
       "maturity": "experimental",
       "mesh_sha256": "f2f18581bfed3beaa8d353d749cdffd17a22de911d7f9947ae55e02dc5b89cf9",
-      "result_sha256": "d6376ede293d25bb0fa0ae99a4c4be8ba9bf1299557e7cb4e32527b3cfebccec",
+      "result_sha256": "62edcf3955d0245a589215025c8401fe4c7129475103ae49c3018e14f735ecd4",
       "status": "WARNING"
     },
     {
@@ -481,7 +481,7 @@
           "limit": 1e-09,
           "operator": "less_equal",
           "status": "PASS",
-          "value": 3.604972223514302e-15
+          "value": 8.917562868693274e-15
         },
         {
           "detail": "",
@@ -489,7 +489,7 @@
           "limit": 1e-09,
           "operator": "less_equal",
           "status": "PASS",
-          "value": 2.350059319083831e-14
+          "value": 3.426641356575712e-14
         },
         {
           "detail": "",
@@ -497,7 +497,7 @@
           "limit": 1e-08,
           "operator": "less_equal",
           "status": "PASS",
-          "value": 7.247104343076946e-14
+          "value": 7.175395777837018e-14
         },
         {
           "detail": "",
@@ -505,7 +505,7 @@
           "limit": 1e-09,
           "operator": "less_equal",
           "status": "PASS",
-          "value": 3.604972223514302e-15
+          "value": 8.917562868693274e-15
         },
         {
           "detail": "",
@@ -513,7 +513,7 @@
           "limit": 1e-09,
           "operator": "less_equal",
           "status": "PASS",
-          "value": 2.350059319083831e-14
+          "value": 3.426641356575712e-14
         },
         {
           "detail": "",
@@ -521,7 +521,7 @@
           "limit": 1e-08,
           "operator": "less_equal",
           "status": "PASS",
-          "value": 7.247104343076946e-14
+          "value": 7.175395777837018e-14
         }
       ],
       "field_artifacts": [
@@ -529,25 +529,25 @@
           "element_count": 2402,
           "key": "von_mises",
           "label": "Contrainte equivalente de von Mises [unite du modele]",
-          "maximum": 10000000.000000605,
-          "minimum": 9999999.999999484,
+          "maximum": 10000000.00000088,
+          "minimum": 9999999.999998994,
           "path": "bm-sol-tet4-membrane-001_von_mises.png",
-          "sha256": "61bb0257dab48447a0d6fb15e1dd12d1ffe97cb642eb28f0b11b71cd5c80f528"
+          "sha256": "975afd041ee9df421d13c3775a3bf46371b74436dc38dab26f1e0ef981f96fb9"
         },
         {
           "element_count": 2402,
           "key": "strain_measure",
           "label": "Deformation equivalente de von Mises [-]",
-          "maximum": 0.00012380952380953132,
-          "minimum": 0.00012380952380951744,
+          "maximum": 0.0001238095238095347,
+          "minimum": 0.00012380952380951134,
           "path": "bm-sol-tet4-membrane-001_strain_measure.png",
-          "sha256": "f6838c2d91ceedaf53561b9e86c2e8e264e42762306b699dda568f7f0aa119e6"
+          "sha256": "464a6a06f41a87b1e682a69932aca81066fc0adbb7fcca4e9025b6776bfede90"
         }
       ],
       "id": "BM-SOL-TET4-MEMBRANE-001",
       "maturity": "stable_after_reinforced_tests",
-      "mesh_sha256": "1c499f5e23f879e0fbbe72b7140299808ff6584e62fc428f84af161ee235b708",
-      "result_sha256": "158787cb43946344de4f2dbda633aa2dd6f5b8e03a65b6c1cdd0feb6f5c6710c",
+      "mesh_sha256": "44f70b40993264088934c890dba30a9ebe9701f668cb44c667cc3b8017ddb656",
+      "result_sha256": "c599f81cb45411b9963d7ea599d8397c0bcdeb181ab8d4d2523838c3126da19c",
       "status": "PASS"
     },
     {
@@ -558,7 +558,7 @@
           "limit": 1e-09,
           "operator": "less_equal",
           "status": "PASS",
-          "value": 1.5780105072324628e-15
+          "value": 5.128432617551729e-15
         },
         {
           "detail": "",
@@ -566,7 +566,7 @@
           "limit": 1e-08,
           "operator": "less_equal",
           "status": "PASS",
-          "value": 2.1943991412967048e-15
+          "value": 2.9922912331461e-15
         }
       ],
       "field_artifacts": [
@@ -574,25 +574,25 @@
           "element_count": 184,
           "key": "von_mises",
           "label": "Contrainte equivalente de von Mises [unite du modele]",
-          "maximum": 12500000.000000028,
-          "minimum": 12499999.999999948,
+          "maximum": 12500000.00000008,
+          "minimum": 12499999.999999886,
           "path": "bm-sol-tet4-patch-001_von_mises.png",
-          "sha256": "c0727f13e6adb6bdce69d92134385c46cb3b79bfd6d721c5927910a28505fb55"
+          "sha256": "76c7b0b2fd1e56e243e393f3bdc1408b7719f62c0f609bc114d74e8f555c18cd"
         },
         {
           "element_count": 184,
           "key": "strain_measure",
           "label": "Deformation equivalente de von Mises [-]",
-          "maximum": 5.1587301587301715e-05,
-          "minimum": 5.158730158730138e-05,
+          "maximum": 5.158730158730193e-05,
+          "minimum": 5.1587301587301125e-05,
           "path": "bm-sol-tet4-patch-001_strain_measure.png",
-          "sha256": "3dbd73bfcfb2e569090c1b7290a36d7f4890644279a8e9d3034b525b0872cd9d"
+          "sha256": "5b8185130a57a04d2e427a85bb22263d9d8547754054ed61667dd37cd373c268"
         }
       ],
       "id": "BM-SOL-TET4-PATCH-001",
       "maturity": "stable",
-      "mesh_sha256": "bb71b98503206589289acb7fb5af424662503f08098f359214f576974c4ef0b1",
-      "result_sha256": "54c5ce8482d524186ea067fd149ef791bcc9a6535566d30b686c874d079fb738",
+      "mesh_sha256": "adf262fc724cc16ace6dfe2907b1112ca3e0781e914141e2859f6e575fd64b2e",
+      "result_sha256": "a2b2e6bff1a9f7b9cf556588d3c98a797308427ea4133b84dc3323efc678b691",
       "status": "PASS"
     },
     {
@@ -669,7 +669,7 @@
       "id": "BM-SOL-TET4-TORSION-001",
       "maturity": "stable_after_reinforced_tests",
       "mesh_sha256": "d2f885ce72dd368aeb62ab7458e21bfb77bdf999c101f7078007493e232295e2",
-      "result_sha256": "3b49187a7fb4953a7adbc0acf6f2855c96a5cbbf58ee8ca8cd1acb54feb131c8",
+      "result_sha256": "3de032e30c796d44bc46121d6a4ef7439437fe6660567649504ae35b473fe0ab",
       "status": "PASS"
     }
   ],

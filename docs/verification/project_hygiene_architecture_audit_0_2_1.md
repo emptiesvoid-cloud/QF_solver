@@ -11,20 +11,20 @@ approver: ''
 # Audit hygiene, architecture et manques - QF_solver 0.2.1 alpha
 ## Verdict
 **Le code publiable est propre du point de vue des marqueurs controles, mais la baseline de developpement n'est pas gelable aujourd'hui.**
-- Audit de confidentialite du lot publiable : `PASS`, 1755 fichiers, 0 finding.
+- Audit de confidentialite du lot publiable : `PASS`, 1796 fichiers, 0 finding.
 - Gate `release-vv` courant : `PENDING_FINAL_CAMPAIGN`.
-- Git : HEAD `f5061fe`, tag `none`, 44 fichiers modifies et 202 fichiers non suivis.
+- Git : HEAD `d33e315`, tag `none`, 248 fichiers modifies et 33 fichiers non suivis.
 - Tests collectes : 1187.
-- Limite 700 lignes : 1 depassement; 21 fichiers au-dessus de 600 lignes.
+- Limite 700 lignes : 0 depassement; 23 fichiers au-dessus de 600 lignes.
 ## Confidentialite et publication
 Le scanner controle les chemins de poste, adresses privees, secrets courants, ancienne marque et vocabulaire d'assistance interne dans les sources candidates. Aucun finding n'est present dans le lot courant. Les fichiers locaux de configuration et le cache de graphe ne sont pas suivis par Git : `aucun`.
-L'identite complete de l'auteur/Owner reste volontairement presente dans 146 fichiers de metadonnees, attribution et revues signees. Ce n'est pas une donnee de poste, mais c'est bien une information personnelle publiee; elle doit rester un choix explicite du proprietaire.
+L'identite complete de l'auteur/Owner reste volontairement presente dans 149 fichiers de metadonnees, attribution et revues signees. Ce n'est pas une donnee de poste, mais c'est bien une information personnelle publiee; elle doit rester un choix explicite du proprietaire.
 Cette verification ne prouve pas l'absence absolue de secret dans tout l'historique binaire. L'audit d'historique existant est un prefiltre sur les chemins; une revue manuelle de l'archive `git archive` reste obligatoire avant publication.
 ## Structure
 Points solides : paquet `src/solveur` organise par responsabilite, elements separes, API et CLI dediees, MITC4 canonique sous `src/solveur/elements/shell/mitc4`, facade `src/solveur/compat/mitc4` de compatibilite, tests unitaires/integration/V&V distincts, seuil de 700 lignes et imports de couches controles.
 Points a corriger :
-1. `scripts/` contient 222 fichiers Python a plat, dont 132 runners `run_*`. Les classer sous `scripts/vnv/code_aster`, `scripts/vnv/calculix`, `scripts/vnv/internal`, `scripts/docs` et `scripts/release`, avec wrappers temporaires si un chemin public est documente.
-2. `src/solveur/verification` contient 162 modules. Le separer progressivement par familles sans changer les imports publics.
+1. `scripts/` contient 226 fichiers Python a plat, dont 134 runners `run_*`. Les classer sous `scripts/vnv/code_aster`, `scripts/vnv/calculix`, `scripts/vnv/internal`, `scripts/docs` et `scripts/release`, avec wrappers temporaires si un chemin public est documente.
+2. `src/solveur/verification` contient 168 modules. Le separer progressivement par familles sans changer les imports publics.
 3. Plusieurs modules sont proches de la limite de 700 lignes. Les extractions doivent suivre les responsabilites et etre protegees par snapshots/V&V.
 4. `src/solveur/documentation` ne contient plus de source active. Supprimer le repertoire vide local; ne pas recreer un runtime web tant que cette decision produit reste retiree.
 5. La facade historique `src/solveur/compat/mitc4` est acceptable en 0.2.x, mais sa date de retrait 0.3.0 doit rester documentee et testee.
@@ -32,7 +32,7 @@ Points a corriger :
 ## Plus gros fichiers Python
 | Fichier | Lignes |
 | --- | ---: |
-| `src/solveur/core/modal.py` | 707 |
+| `src/solveur/mesh/validation.py` | 700 |
 | `src/solveur/io/schema.py` | 700 |
 | `src/solveur/core/nonlinear.py` | 700 |
 | `src/solveur/contact/solver.py` | 700 |
@@ -40,8 +40,8 @@ Points a corriger :
 | `src/solveur/verification/mitc4_modal_extended.py` | 697 |
 | `scripts/build_owner_review_audit_pack.py` | 697 |
 | `src/solveur/verification/maturity_promotion.py` | 694 |
+| `scripts/build_release_0_2_3_owner_review_pdf.py` | 692 |
 | `src/solveur/verification/release_vv.py` | 687 |
-| `src/solveur/mesh/validation.py` | 685 |
 ## Etat des Owner reviews
 Le paquet de promotion contient 33 scopes : 22 techniquement prets et 11 bloques uniquement par une decision Owner. Le total-lagrangien exige en plus une relecture independante; il ne peut pas etre ferme par auto-revue. Aucune promotion ne doit etre appliquee en bloc.
 ## Manques fonctionnels et industriels

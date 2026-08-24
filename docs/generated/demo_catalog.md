@@ -13,15 +13,15 @@
 | DOC-NEWMARK-SDOF-001 | Newmark | transient_dynamic/newmark | stable_after_reinforced_tests | analytic | PASS | 6797c44036be |
 | DOC-HARMONIC-SDOF-001 | Harmonique | harmonic_response/direct_frequency | stable_after_reinforced_tests | analytic | PASS | e1b6519a0893 |
 | DOC-NONLINEAR-J2-001 | Non-lineaire | nonlinear_static/newton_line_search | experimental | experimental | WARNING | 9182e4866ee5 |
-| DOC-LARGE-BLOCK-001 | Grand modele | linear_static/matrix_free | experimental | cross_backend_invariant | PASS | 194bf976e5ca |
+| DOC-LARGE-BLOCK-001 | Grand modele | linear_static/matrix_free | experimental | cross_backend_invariant | PASS | a4ef61bc92af |
 | BM-BEAM2-CANTILEVER-001 | BEAM2 | linear_static+modal/controlled_campaign | experimental | analytic_and_convergence | WARNING | 87ce202f5a0b |
 | BM-DYN-CANTILEVER-001 | TET4 | modal+transient_dynamic+harmonic_response/controlled_campaign | stable_after_reinforced_tests | analytic_and_invariants | PASS | e13385c5cd5f |
-| BM-NL-J2-BAR-001 | TET4 | nonlinear_static/controlled_campaign | experimental | analytic_material_path | WARNING | af8151ca9f54 |
+| BM-NL-J2-BAR-001 | TET4 | nonlinear_static/controlled_campaign | experimental | analytic_material_path | WARNING | 573270442e4d |
 | BM-SHL-COOK-001 | MITC4 | linear_static/controlled_campaign | stable | published_benchmark | PASS | 02a31a70d72b |
 | BM-SHL-PINCHED-001 | MITC4 | linear_static/controlled_campaign | stable_after_reinforced_tests | published_converged_value | PASS | 1fc99fb4fa68 |
 | BM-SHL-SCORDELIS-001 | MITC4 | linear_static/controlled_campaign | stable | published_converged_value | PASS | ff03275f9466 |
 | BM-SOL-CANTILEVER-001 | TET4+TET10 | linear_static/controlled_campaign | stable_after_reinforced_tests | analytic | PASS | d1febcc79a02 |
 | BM-SOL-TET10-LAME-001 | TET10 | linear_static/controlled_campaign | experimental | analytic | WARNING | 9656e551a36a |
-| BM-SOL-TET4-MEMBRANE-001 | TET4 | linear_static/controlled_campaign | stable_after_reinforced_tests | analytic_affine_field | PASS | 1afb9afde99d |
-| BM-SOL-TET4-PATCH-001 | TET4 | linear_static/controlled_campaign | stable | analytic | PASS | 3d452d46ae61 |
+| BM-SOL-TET4-MEMBRANE-001 | TET4 | linear_static/controlled_campaign | stable_after_reinforced_tests | analytic_affine_field | PASS | 85730b802dc8 |
+| BM-SOL-TET4-PATCH-001 | TET4 | linear_static/controlled_campaign | stable | analytic | PASS | 3c051aec1386 |
 | BM-SOL-TET4-TORSION-001 | TET4 | linear_static/controlled_campaign | stable_after_reinforced_tests | analytic_saint_venant | PASS | 2e73c903bd40 |

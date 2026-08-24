@@ -20,7 +20,7 @@ Rayleigh et les 200 frequences du fichier officiel `nfh13f4x.inp`.
 - ecart deplacement QF/NAFEMS: `2.528 %`;
 - ecart frequence QF/NAFEMS: `2.054 %`;
 - ecart S11 QF/NAFEMS: `2.626 %`;
-- residu relatif maximal: `3.881e-10`.
+- residu relatif maximal: `6.936e-10`.
 
 Statut : **PASS**.
 

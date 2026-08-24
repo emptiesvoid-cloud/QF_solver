@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "status": "PASS_DOCUMENTATION",
-  "pair_count": 34,
-  "loading_contract_count": 7,
+  "pair_count": 40,
+  "loading_contract_count": 8,
   "method_count": 12,
   "documented_vnv_gaps": [],
   "mechanical_pass_inferred_from_gaps": false,
@@ -27,14 +27,14 @@
     },
     {
       "path": "mitc4_conical_calculix_deformation.png",
-      "sha256": "0a67ff93d8a5070059dbf1950181a13158774cd4fec9ac941a01eaf9814a2e1c",
-      "size_bytes": 542074,
+      "sha256": "912e3e8b1e1abf3d4453d1336a6931f2c1a4606fcbde9157444ee92d0f40150e",
+      "size_bytes": 508049,
       "caption": "Panneau conique ajoure CalculiX."
     },
     {
       "path": "mitc4_modal_code_aster_frequencies.png",
-      "sha256": "1f659da2ab95e6e9cb64d26e3e5a5ffbf79f817a1dac0a95ec30f42234b6f459",
-      "size_bytes": 55077,
+      "sha256": "d880cd9797997c3300c0eef7ef289e2f6e3eba6f126bca0674a44baca7d3c62e",
+      "size_bytes": 55414,
       "caption": "Frequences MITC4 et Code_Aster."
     },
     {
@@ -57,8 +57,8 @@
     },
     {
       "path": "orthotropic_lbracket_qf.png",
-      "sha256": "abcddc44d6aa681cbff95243d21b12ec1d9db09776ce23721523f3db7e2c48a4",
-      "size_bytes": 351039,
+      "sha256": "df3ed2f05fe3dd100658eae27b362d556e91906d549056f6d40be809d5ad2d9f",
+      "size_bytes": 351046,
       "caption": "Equerre orthotrope QF_solver."
     },
     {
@@ -81,32 +81,32 @@
     },
     {
       "path": "contact_code_aster_comparison.png",
-      "sha256": "30ee4a8bcede5f61c0e044b9ef66447878cf296de00af483b29a8b9dfd329e84",
-      "size_bytes": 31030,
+      "sha256": "bfa3dd28ab41ab2e76b6083ed8fdd7078af12aa04ae9ec26cd50de442856c819",
+      "size_bytes": 27577,
       "caption": "Contact normal compare a Code_Aster."
     },
     {
       "path": "mitc3_dynamic_code_aster.png",
-      "sha256": "509f2d148a0cbb0c523a9cc1e937d8310b79bdd3ab3968576f6e06b6b3180408",
-      "size_bytes": 143091,
+      "sha256": "de92d228e8134e5e1ebc80800a83479bda94efd7fe2c9612db8ead0faa9778fa",
+      "size_bytes": 155344,
       "caption": "MITC3+ modal, Newmark et harmonique compares a Code_Aster DKT."
     },
     {
       "path": "tet10_dynamic_code_aster.png",
-      "sha256": "514142cde42ef7b832916ca9429e88fbd9327037fc1e01cadeede384dd55465c",
-      "size_bytes": 182755,
+      "sha256": "d7a02003b8d23213b36c92c5808a88c86b0d343424cef66963ff41f74351a9f7",
+      "size_bytes": 317431,
       "caption": "TET10 modal, Newmark et harmonique compares a Code_Aster TETRA10."
     },
     {
       "path": "beam2_transverse_dynamic_code_aster.png",
-      "sha256": "bd7003929f148678bc9f3791c51a93a2913a09ff959087b77110ce110ce61646",
-      "size_bytes": 116841,
+      "sha256": "283c62ac36c44ecf7169eaf1c7ea5aea52b59287d015180e7c7c75fa2f454957",
+      "size_bytes": 78257,
       "caption": "BEAM2 transverse modal, Newmark et harmonique compares a Code_Aster POU_D_E."
     },
     {
       "path": "tet4_dynamic_code_aster.png",
-      "sha256": "1d7ac0968c5d6d2c5f38b86d71f7403faec4c2d40abe48b9532469162a1531a7",
-      "size_bytes": 186311,
+      "sha256": "701e36818b0ba8b12644f70464e7f387599efd5fe8ae6df78c315784c76814d9",
+      "size_bytes": 29714,
       "caption": "TET4 modal, Newmark et harmonique compares a Code_Aster TETRA4."
     },
     {
@@ -123,5 +123,5 @@
     }
   ],
   "markdown": "technical_content_coverage.md",
-  "markdown_sha256": "c43224b9c344deb3488a343db409c6f9c508c17ecd3b2b07a7e47588020fa49d"
+  "markdown_sha256": "07ef23618ba3ebbe0b82be28f158cf903fad6b7321f77a6a6d64213098677475"
 }

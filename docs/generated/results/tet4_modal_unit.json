@@ -172,6 +172,14 @@
     },
     "dense_modal_max_dofs": 2000,
     "dense_conversion_used": true,
+    "backend": {
+      "requested": "auto",
+      "selected": "scipy",
+      "fallback_used": false,
+      "petsc_available": false,
+      "slepc_available": false,
+      "reason": "SciPy selected as the standard backend"
+    },
     "arpack": {
       "shift_eigenvalue": 0.0,
       "shift_hz": null,
@@ -182,23 +190,57 @@
     },
     "assembly": {
       "stiffness": {
-        "matrix": "stiffness",
         "chunk_size": 256,
         "chunk_count": 1,
         "element_count": 1,
         "coefficient_entry_count": 144,
         "peak_chunk_entry_count": 144,
+        "assembly_peak_memory_estimate_bytes": 6912,
+        "assembly_memory_budget_bytes": null,
+        "assembly_memory_budget_exceeded": false,
+        "assembly_index_dtype": "int32",
+        "assembly_plan_reused": false,
+        "paired_assembly": true,
+        "shared_chunk_pattern": true,
+        "assembly_phase_seconds": {
+          "assembly_plan": 0.00010920001659542322,
+          "element_kernel": 0.0001805999781936407,
+          "chunk_sparse_conversion": 0.00015350000467151403,
+          "chunk_fusion": 1.500011421740055e-06,
+          "sparse_finalize": 0.00013559998478740454,
+          "discrete_merge": 4.770001396536827e-05
+        },
+        "matrix": "stiffness",
+        "accumulator_chunk_count": 1,
+        "accumulator_occupied_levels": 1,
         "final_nnz": 72,
         "spring_count": 0,
         "concentrated_mass_count": 0
       },
       "mass": {
-        "matrix": "mass",
         "chunk_size": 256,
         "chunk_count": 1,
         "element_count": 1,
         "coefficient_entry_count": 144,
         "peak_chunk_entry_count": 144,
+        "assembly_peak_memory_estimate_bytes": 6912,
+        "assembly_memory_budget_bytes": null,
+        "assembly_memory_budget_exceeded": false,
+        "assembly_index_dtype": "int32",
+        "assembly_plan_reused": false,
+        "paired_assembly": true,
+        "shared_chunk_pattern": true,
+        "assembly_phase_seconds": {
+          "assembly_plan": 0.00010920001659542322,
+          "element_kernel": 0.0001805999781936407,
+          "chunk_sparse_conversion": 0.00015350000467151403,
+          "chunk_fusion": 1.500011421740055e-06,
+          "sparse_finalize": 0.00013559998478740454,
+          "discrete_merge": 4.770001396536827e-05
+        },
+        "matrix": "mass",
+        "accumulator_chunk_count": 1,
+        "accumulator_occupied_levels": 1,
         "final_nnz": 48,
         "spring_count": 0,
         "concentrated_mass_count": 0
@@ -214,6 +256,12 @@
       "condensed_mass_coupling_ratio": 0.0,
       "condensed_stiffness_nnz": 3,
       "lazy_condensation": false
+    },
+    "eigenpair_refinement": {
+      "iterations_requested": 0,
+      "iterations_performed": 0,
+      "maximum_residual_before": 2.0193754640700194e-16,
+      "maximum_residual_after": 2.0193754640700194e-16
     }
   },
   "mesh_report": {
@@ -907,7 +955,7 @@
     ],
     "notes": [],
     "qualification": {
-      "solver_version": "0.2.1a0",
+      "solver_version": "0.2.3a0",
       "schema_version": 1,
       "units": {
         "system": "SI"
@@ -946,7 +994,7 @@
       "traceability": {
         "status": "PASS",
         "scope": "tet4-modal",
-        "scope_status": "candidate",
+        "scope_status": "qualified",
         "requirement_count": 8,
         "covered_requirement_count": 8,
         "formula_count": 6,

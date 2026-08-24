@@ -1,16 +1,16 @@
 {
   "manifest_schema_version": 1,
-  "created_at_utc": "2026-08-14T21:31:34.586471Z",
+  "created_at_utc": "2026-08-24T09:13:24.186820Z",
   "solver": {
     "name": "QF_solver",
-    "version": "0.2.1a0"
+    "version": "0.2.3a0"
   },
   "benchmark_id": "BM-SOL-TET10-LAME-001",
   "profile": "engineering",
   "status": "WARNING",
   "source": {
     "repository": ".",
-    "revision": "1804a03aee0c4e4bc6ac2c56e9461bedd9aac6d4",
+    "revision": "uncommitted",
     "dirty": true
   },
   "runtime": {
@@ -61,13 +61,13 @@
       "role": "benchmark_artifact",
       "path": "result.import_report.json",
       "size_bytes": 1378,
-      "sha256": "4c29404034bd3eec12b4fa10b2f6605b16bf93f2c546ed11d1e2713230184c13"
+      "sha256": "757b1f88de2f06a05dbcad05777f3f1ed2da6f4f43eb827043913914065d6f3b"
     },
     {
       "role": "benchmark_artifact",
       "path": "result.json",
-      "size_bytes": 48550678,
-      "sha256": "d6376ede293d25bb0fa0ae99a4c4be8ba9bf1299557e7cb4e32527b3cfebccec"
+      "size_bytes": 48551291,
+      "sha256": "62edcf3955d0245a589215025c8401fe4c7129475103ae49c3018e14f735ecd4"
     },
     {
       "role": "benchmark_artifact",

@@ -3,21 +3,21 @@
   "study_id": "VNV-MITC4-HARMONIC-BROADBAND-003",
   "source": {
     "repository": ".",
-    "revision": "1804a03aee0c4e4bc6ac2c56e9461bedd9aac6d4",
+    "revision": "d33e315962d9f114b99f176a7d56a77ac5ce0b9a",
     "dirty": true
   },
   "files": [
     {
       "role": "mitc4_harmonic_broadband_vnv",
       "path": "summary.json",
-      "size_bytes": 196238,
-      "sha256": "f7e21602bae51078f5e28a1ec840397034b4411509f7158ba1bd40abbf4d642a"
+      "size_bytes": 196235,
+      "sha256": "3a4ca8d95b9841ac2adf1d6547340722f1ab0af5837d8196d483b39a478ebff0"
     },
     {
       "role": "mitc4_harmonic_broadband_vnv",
       "path": "VNV-MITC4-HARMONIC-BROADBAND-003-agreement.png",
-      "size_bytes": 53606,
-      "sha256": "dc52f16a4c0b93672f9b783ffbd241199743f39138dd6b0c06d5f0f378aecca1"
+      "size_bytes": 53665,
+      "sha256": "4de907e61880af6535066b26a822877fc318cfb75c00c0b0f3d2800961025208"
     },
     {
       "role": "mitc4_harmonic_broadband_vnv",
@@ -35,7 +35,7 @@
       "role": "mitc4_harmonic_broadband_vnv",
       "path": "VNV-MITC4-HARMONIC-BROADBAND-003.md",
       "size_bytes": 961,
-      "sha256": "1405c79ff0ab305a9cabb92c930859eb5932380a0a9436b3896944aa1d106caf"
+      "sha256": "0dce3028cd95ee88a18df07b53933ca530b8c27636be72153f52315cd139c480"
     }
   ]
 }

@@ -11,7 +11,15 @@ from solveur.core.dofs import TRANSLATION_DOFS
 from solveur.core.model import FiniteElementModel
 
 
-VTK_CELL_TYPES = {"BEAM2": 3, "MITC3": 5, "MITC4": 9, "TET4": 10, "TET10": 24}
+VTK_CELL_TYPES = {
+    "BEAM2": 3,
+    "MITC3": 5,
+    "MITC4": 9,
+    "TET4": 10,
+    "HEX8": 12,
+    "TET10": 24,
+    "HEX20": 25,
+}
 
 
 class VtuResultWriter:

@@ -1,5 +1,55 @@
 # Prochaines etapes du solveur EF
 
+## Campagne prioritaire 0.2.3 alpha - chaine HEX8 bloquante
+
+**Cible planifiee :** `0.2.3a0` (aucune version package, commit, tag ou
+publication n'est creee par cette feuille de route). Cette section est la
+source de priorite pour la campagne suivante et remplace les anciennes
+mentions qui reportaient HEX8 a une version ulterieure.
+
+La release `0.2.3a0` ne pourra pas etre proposee tant que la chaine HEX8
+complete n'aura pas obtenu `PASS` : formulation, matrices, chargements,
+post-traitement, analyses existantes, import Gmsh, backend sparse/HPC, V&V,
+correlation externe et comparaison TET/HEX. Un test absent, `BLOCKED`,
+`WARNING`, une preuve non rejouable ou une decision Owner absente laisse le
+gate de release ouvert.
+
+Les documents de reference sont :
+
+1. [Plan d'implementation et V&V HEX8](docs/verification/qf_solver_0_2_3_alpha_hex8_implementation_vnv_plan.md) ;
+2. [Gate de release 0.2.3 alpha](docs/verification/qf_solver_0_2_3_alpha_hex8_release_gate.md) ;
+3. [Modele de revue Owner HEX8](docs/verification/qf_solver_0_2_3_alpha_hex8_owner_review.md).
+
+Ordre d'execution impose :
+
+1. fermer H8-01 a H8-04 avant d'exposer HEX8 au solveur commun ;
+2. fermer H8-05 a H8-07 sans creer de branche de resolution particuliere ;
+3. produire les preuves H8-08 et H8-09 avec erreurs finales inferieures ou
+   egales a `1 %` pour chaque grandeur d'ingenierie revendiquee ;
+4. produire H8-10, qui compare TET4, TET10 et HEX8 a DDL comparables sans
+   revendiquer une superiorite universelle ;
+5. executer les non-regressions rapides puis la campagne V&V lourde, mettre
+   a jour les dossiers et seulement alors ouvrir la revue Owner.
+
+Les essais lourds restent hors du chemin CI rapide, mais sont obligatoires
+pour le gate de release. La couverture globale minimale demeure `80 %`; les
+tests HEX8 doivent cibler les branches numeriques et les chemins d'erreur
+plutot que gonfler artificiellement le pourcentage.
+
+### Etat d'execution au 24 aout 2026
+
+La campagne a ete executee localement avec :
+
+```text
+python qf_solver.py verify-hex8-campaign --output results/hex8_full_campaign --external
+```
+
+Resultat : `PASS_INTERNAL`, correlation CalculiX `PASS_EXTERNAL_CORRELATION`,
+et gate encore ouvert : `H8-G12` uniquement. Les tests de non-regression
+unitaires/integration hors `benchmark`, `large` et `evidence` donnent
+`1349 passed, 107 deselected`; les tests de documentation donnent `44 passed,
+6 skipped`. La release reste bloquee jusqu'a la revue Owner explicite.
+
 ## Lecture prioritaire - prepublication 0.2.1 alpha - 22 aout 2026
 
 L'etat courant est defini par
@@ -4146,9 +4196,67 @@ Le plan V&V detaille est dans
 rapport d'etat du backend est dans
 `docs/verification/qf_solver_0_2_2_alpha_backend_report.md`.
 
+## Campagne comparative TET4 / TET10 / HEX8
+
+Une campagne comparative interne a maintenant ete executee sur trois modeles
+mecaniques representatifs : `unit_cube`, `slender_beam` et `distorted_cube`.
+Chaque modele est resolu avec les trois familles `TET4`, `TET10` et `HEX8`,
+soit neuf calculs au total. Les metriques conservees sont les DDL, le nombre
+d'elements, le temps de resolution, les NNZ, la taille CSR estimee, le delta
+RSS, le deplacement maximal et le residu d'equilibre.
+
+- [x] Trois modeles et trois familles comparees, neuf cas executes.
+- [x] Tous les cas terminent en `PASS` avec residus d'equilibre inferieurs a
+      `1e-10`.
+- [x] Planche comparative generee :
+      `results/hex8_full_campaign/tet_hex_multi_model/tet_hex_multi_model_comparison.png`.
+- [x] Rapport et donnees :
+      `results/hex8_full_campaign/tet_hex_multi_model/report.md` et
+      `summary.json`.
+- [x] Comparaison externe Code_Aster HEXA8 realisee sur le cas de reference :
+      ecart relatif `4,18e-16`, statut `PASS_EXTERNAL_CORRELATION`.
+
+Cette campagne etablit une premiere base de robustesse comparative, mais ne
+constitue pas encore une certification generale de performance ou de
+scalabilite : les trois modeles utilisent une petite partition structuree et
+les DDL TET10 ne sont pas identiques a ceux de TET4/HEX8. Une campagne
+ulterieure devra ajouter des maillages plus grands, des geometries importees
+et, si necessaire, une correlation externe TET4/TET10 homologue.
+
+## Campagne HEX20 lineaire et J2 - 0.2.3 alpha
+
+Le chantier HEX20 est maintenant implemente sur les chemins communs. Le type
+Gmsh 17 (20 noeuds) et ses faces QUAD8 sont reconnus, avec fonctions de forme
+serendipity, Jacobien, integration `3x3x3`, rigidite, masse coherente, masse
+lumped, chargements volumiques/surfaces et post-traitement aux 27 points de
+Gauss.
+
+- [x] Statique, modal, Newmark et harmonique passent par les solveurs communs.
+- [x] Le chemin Newton-Raphson J2 fonctionne avec quatre increments et 27 etats
+      material commites.
+- [x] La comparaison interne couvre `unit_cube`, `slender_beam` et
+      `distorted_cube` pour TET4, TET10, HEX8 et HEX20 : 12 cas `PASS_INTERNAL`.
+- [x] Les mesures DDL, elements, temps, nnz, CSR estime, RSS et residu sont
+      conservees dans `results/hex20_tet_multi_model/`.
+- [x] Les decks/scripts CalculiX C3D20 et Code_Aster HEXA20 sont prepares.
+- [x] Executer les correlations externes : CalculiX C3D20 (`PASS_EXTERNAL_CORRELATION`,
+      ecart noeud charge `7,04e-7`) et Code_Aster HEXA20
+      (`PASS_EXTERNAL_CORRELATION`, ecart `5,42e-15`).
+- [ ] Archiver les logs et empreintes dans le paquet de qualification suivi
+      par Git avant toute release.
+- [ ] Rejouer la non-regression et soumettre la revue Owner HEX20.
+
+Le plan detaille est
+`docs/verification/qf_solver_0_2_3_alpha_hex20_implementation_vnv_plan.md` et
+le registre de gate est
+`docs/verification/qf_solver_0_2_3_alpha_hex20_release_gate.md`. Aucun statut
+`stable`, tag, commit, push ou publication n'est deduit de ces PASS internes.
+La revue Owner est preparee dans
+`docs/verification/qf_solver_0_2_3_alpha_hex20_owner_review.md`.
+
 ## Perimetre explicitement reporte
 
-HEX8, WEDGE, thermique, hyperelasticite, nouveaux materiaux complexes,
+WEDGE, thermique, hyperelasticite, nouveaux materiaux complexes,
 interface graphique et nouvelles physiques sont hors priorite 0.2.2 alpha.
 
 La decision de release/publication reste reservee a l'Owner.

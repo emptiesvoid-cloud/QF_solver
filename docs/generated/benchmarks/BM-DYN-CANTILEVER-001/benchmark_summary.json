@@ -27,37 +27,37 @@
   },
   "status": "PASS",
   "metrics": {
-    "first_frequency_hz": 39.077386802507725,
+    "first_frequency_hz": 39.07738680118627,
     "analytical_beam_frequency_hz": 26.193445449373574,
-    "frequency_relative_error": 0.491876541329246,
-    "modal_max_relative_residual": 4.3711306904867553e-10,
-    "mass_orthogonality_error": 3.677400927232802e-15,
-    "newmark_time_step": 0.0003198780937725814,
-    "newmark_max_energy_drift": 9.019986877212226e-13,
+    "frequency_relative_error": 0.49187654127879626,
+    "modal_max_relative_residual": 6.900810205063198e-12,
+    "mass_orthogonality_error": 2.035538299900017e-17,
+    "newmark_time_step": 0.0003198780937833985,
+    "newmark_max_energy_drift": 2.963132479091744e-12,
     "harmonic_frequencies_hz": [
       0.0,
-      19.538693401253862,
-      33.215778782131565,
-      39.077386802507725,
-      44.93899482288388,
-      58.616080203761584
+      19.538693400593136,
+      33.21577878100833,
+      39.07738680118627,
+      44.93899482136421,
+      58.61608020177941
     ],
     "harmonic_tip_amplitudes": [
-      8.308928740749987e-06,
-      1.0997910066385617e-05,
-      2.9221162728983016e-05,
-      0.000396880741050499,
-      2.48551626138325e-05,
-      6.224647611217137e-06
+      8.308928740756336e-06,
+      1.0997910066147048e-05,
+      2.922116272401447e-05,
+      0.00039688074108506594,
+      2.4855162620799498e-05,
+      6.22464761199913e-06
     ],
-    "harmonic_peak_frequency_hz": 39.077386802507725,
-    "harmonic_zero_hz_relative_error": 1.9334834147625453e-13
+    "harmonic_peak_frequency_hz": 39.07738680118627,
+    "harmonic_zero_hz_relative_error": 6.019756053434628e-13
   },
   "checks": [
     {
       "id": "modal-residual",
       "status": "PASS",
-      "value": 4.3711306904867553e-10,
+      "value": 6.900810205063198e-12,
       "limit": 1e-08,
       "operator": "less_equal",
       "detail": ""
@@ -65,7 +65,7 @@
     {
       "id": "newmark-energy",
       "status": "PASS",
-      "value": 9.019986877212226e-13,
+      "value": 2.963132479091744e-12,
       "limit": 1e-06,
       "operator": "less_equal",
       "detail": ""
@@ -73,7 +73,7 @@
     {
       "id": "harmonic-zero-hz",
       "status": "PASS",
-      "value": 1.9334834147625453e-13,
+      "value": 6.019756053434628e-13,
       "limit": 1e-08,
       "operator": "less_equal",
       "detail": ""

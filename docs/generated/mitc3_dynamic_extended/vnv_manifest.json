@@ -3,7 +3,7 @@
   "campaign": "VNV-MITC3-DYNAMIC-EXTENDED-001",
   "source": {
     "repository": ".",
-    "revision": "1804a03aee0c4e4bc6ac2c56e9461bedd9aac6d4",
+    "revision": "uncommitted",
     "dirty": true
   },
   "files": [
@@ -11,13 +11,13 @@
       "role": "mitc3_dynamic_extended_vnv",
       "path": "report.md",
       "size_bytes": 1763,
-      "sha256": "32a9f0a030cb098b6e379c904a02a359291f597d2d8ddcc582fb1c8b09bdd985"
+      "sha256": "6b7be068f7df5c9fae59efa2753f19833dc07b33c06f1ae8bac273f2b4721bd6"
     },
     {
       "role": "mitc3_dynamic_extended_vnv",
       "path": "summary.json",
       "size_bytes": 43987,
-      "sha256": "36f2a7e0c738d863303fc779e4f718e134e9b72e855a3621dde022e632b3e640"
+      "sha256": "cf30cf0deadcd819817710a8cf283e27c05bad6af76ddf7ad13b88b28b3fcf46"
     },
     {
       "role": "mitc3_dynamic_extended_vnv",
@@ -34,8 +34,8 @@
     {
       "role": "mitc3_dynamic_extended_vnv",
       "path": "VNV-MITC3-NEWMARK-HARMONIC-CURVED-016.png",
-      "size_bytes": 89310,
-      "sha256": "9804f59592c408eec60a5a218d4a1adfc79deb345e64b28a0037cfa90abf81a8"
+      "size_bytes": 89309,
+      "sha256": "04bc8cd13d49b0fe870a32cdb62bfad0b8673d0191bcb77872e72076b957f67b"
     }
   ]
 }
