@@ -13,7 +13,9 @@ approver: ''
 **Le code publiable est propre du point de vue des marqueurs controles, mais la baseline de developpement n'est pas gelable aujourd'hui.**
 - Audit de confidentialite du lot publiable : `PASS`, 1803 fichiers, 0 finding.
 - Gate `release-vv` courant : `PENDING_FINAL_CAMPAIGN`.
-- Git : HEAD `18884d9`, tag `none`, 79 fichiers modifies et 12 fichiers non suivis.
+- Ce rapport est un instantane historique de l'audit 0.2.1 ; l'etat courant de
+  la release 0.2.3a0 est trace par les revues Owner HEX8/HEX20 et le registre
+  de release correspondant.
 - Tests collectes : 1187.
 - Limite 700 lignes : 0 depassement; 23 fichiers au-dessus de 600 lignes.
 ## Confidentialite et publication

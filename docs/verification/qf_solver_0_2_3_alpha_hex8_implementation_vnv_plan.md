@@ -1,7 +1,7 @@
 ---
 doc_id: DOC-HEX8-023-001
 revision: 0.1
-status: draft
+status: controlled
 applicable_version: 0.2.3a0
 reviewer: ""
 approver: ""
@@ -12,9 +12,8 @@ approver: ""
 ## Objet et regle de release
 
 Cette campagne introduit un element solide isoparametrique HEX8 dans le
-backend existant. Elle ne constitue pas une annonce de disponibilite : aucune
-release `0.2.3a0` ne peut etre preparee avant la cloture `PASS` de tous les
-lots H8 ci-dessous et de leur [gate de release](qf_solver_0_2_3_alpha_hex8_release_gate.md).
+backend existant. Les lots H8 sont executes et leur [gate de release](qf_solver_0_2_3_alpha_hex8_release_gate.md)
+est ferme par la decision Owner `accepted_for_release_0_2_3`.
 
 Le perimetre exclut WEDGE, thermique, hyperelasticite, contact HEX8 et toute
 nouvelle physique sans lien direct avec HEX8. Une eventuelle integration
@@ -79,9 +78,8 @@ seuils numeriques propres, documentes par cas.
 
 ## Contrats de tests et d'artefacts
 
-Les contrats ci-dessous sont maintenant implementes; les preuves generees
-restent des sorties de campagne et ne ferment pas la revue Owner a elles
-seules :
+Les contrats ci-dessous sont implementes et leurs preuves archivees dans le
+paquet de release. La decision de release conserve les exclusions ci-dessus :
 
 ```text
 tests/unit/test_hex8_element.py

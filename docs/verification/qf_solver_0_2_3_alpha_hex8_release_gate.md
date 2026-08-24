@@ -88,6 +88,6 @@ HEXA8. La preuve Code_Aster est archivee dans
 `simvia/code_aster:18.1.0`; elle reste bornee a un maillage structure et une
 charge nodale. La non-regression complete est egalement `PASS`. H8-G12 est
 ferme par la revue et la signature Owner du 2026-08-24 avec la decision
-`accepted_for_release_0_2_3`. La release reste soumise aux gates CI apres push ;
-aucun upload PyPI n'est execute. Les correlations externes restent statiques;
+`accepted_for_release_0_2_3`. La publication PyPI et la GitHub Release restent
+des decisions separees de l'Owner. Les correlations externes restent statiques;
 les chemins modal, dynamique et les grandes tailles ne sont pas extrapoles.

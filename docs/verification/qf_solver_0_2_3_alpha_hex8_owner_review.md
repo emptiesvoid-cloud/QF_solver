@@ -4,7 +4,7 @@ revision: 0.2
 status: accepted_for_release_0_2_3
 applicable_version: 0.2.3a0
 date: 2026-08-24
-release_source_sha: 18884d9
+evidence_source_sha: 8c6c2f2
 owner_review: signed_by_owner
 decision: accepted_for_release_0_2_3
 reviewer: "Owner"
@@ -21,9 +21,9 @@ uniquement le perimetre HEX8 lineaire documente.
 
 ## Contexte de preuve a joindre
 
-- commit examine : `18884d9` (source poussee sur GitHub et verifiee par le
-  blocker engineering final; le tag de release sera aligne sur le commit
-  final contenant les artefacts documentaires);
+- commit source des preuves : `8c6c2f2` (source poussee sur GitHub et verifiee
+  par le blocker engineering final; les corrections documentaires ne changent
+  pas le code ni les resultats numeriques);
 - plateforme et versions : `Windows, Python 3.13.1, NumPy 2.2.6, SciPy 1.15.2, psutil 7.2.2; PETSc/Gmsh non requis pour cette campagne; CalculiX 2.20; Code_Aster 18.1`;
 - dossier V&V HEX8 : `docs/assets/verification/hex8/internal/summary.json` genere par `verify-hex8-campaign --external`;
 - correlation externe obligatoire : `docs/assets/verification/hex8/internal/summary.json` (section CalculiX C3D8), ecarts 1.20e-6 et 1.96e-6;

@@ -11,7 +11,7 @@ CLOSURE_REGISTER = ROOT / "qualification" / "reviews" / "linear_dynamic_closure_
 
 def test_element_analysis_matrix_is_complete_and_references_existing_evidence() -> None:
     data = json.loads(MATRIX.read_text(encoding="utf-8"))
-    expected = {"TET4", "TET10", "MITC4", "MITC3", "BEAM2", "SPRING_MASS", "CONTACT"}
+    expected = {"TET4", "TET10", "MITC4", "MITC3", "BEAM2", "SPRING_MASS", "ORTHOTROPIC_SOLID", "HEX8", "HEX20", "CONTACT"}
     assert set(data["families"]) == expected
     statuses = set(data["status_values"])
     for family in data["families"].values():

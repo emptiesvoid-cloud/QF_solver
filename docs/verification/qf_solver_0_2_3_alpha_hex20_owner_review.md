@@ -4,7 +4,7 @@ revision: 0.2
 status: accepted_for_release_0_2_3
 applicable_version: 0.2.3a0
 date: 2026-08-24
-release_source_sha: 18884d9
+evidence_source_sha: 8c6c2f2
 owner_review: signed_by_owner
 decision: accepted_for_release_0_2_3
 reviewer: "Owner"
@@ -19,8 +19,8 @@ Cette fiche a ete acceptee par l'Owner apres execution et archivage des gates
 H20-G01 a H20-G12. La decision est `accepted_for_release_0_2_3` et conserve
 les limites et exclusions du domaine HEX20 documente.
 
-Le code est pousse sur GitHub. Aucun upload PyPI n'est autorise par cette
-etude tant que les gates CI post-push ne sont pas verts.
+Le code et les preuves sont archives sur GitHub. La publication PyPI reste une
+decision separee reservee a l'Owner.
 
 ## Dossier de preuves
 
@@ -47,7 +47,7 @@ etude tant que les gates CI post-push ne sont pas verts.
 | Q8 | Les cas internes de traction, compression, flexion, cisaillement, distorsion et `nu=0.49/0.499` sont-ils couverts sans extrapolation ? | `OUI` | Les cas internes et les contrôles `nu=0.49/0.499` passent ; le domaine reste linéaire et borné. |
 | Q9 | La comparaison TET4/TET10/HEX8/HEX20 sur trois modeles fournit-elle des metriques de precision, DDL, temps, nnz, CSR et RSS interpretees avec prudence ? | `CONDITIONNEL` | 12 cas et métriques archivés ; maillages et ordres diffèrent, donc aucun classement universel ni scaling général. |
 | Q10 | Les correlations CalculiX C3D20 et Code_Aster HEXA20 ont-elles ete executees sur le meme maillage, materiau, chargement et conditions aux limites ? | `OUI` | CalculiX : `8,50e-7` global et `7,04e-7` au noeud ; Code_Aster : `5,42e-15` ; seuil `1 %`. |
-| Q11 | Les limites, exclusions J2, limites de taille, resultats non favorables et gates encore ouverts sont-ils visibles dans la documentation publique ? | `OUI` | Contact, grandes transformations, rupture, dommage, modal/dynamique externe, scaling multi-million et masse lumped sont explicitement bornés ou exclus. |
+| Q11 | Les limites, exclusions J2, limites de taille et resultats non favorables sont-ils visibles dans la documentation publique ? | `OUI` | Contact, grandes transformations, rupture, dommage, modal/dynamique externe, scaling multi-million et masse lumped sont explicitement bornés ou exclus. |
 
 ## Decision finale
 

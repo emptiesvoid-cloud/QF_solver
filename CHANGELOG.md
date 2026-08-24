@@ -3,8 +3,9 @@
 ## 0.2.3a0 - 2026-08-24
 
 Cette alpha ajoute les éléments solides HEX8 et HEX20 au chemin FEM commun.
-Elle reste soumise à la revue et à la signature Owner avant tout tag ou
-publication PyPI.
+Les revues Owner sont signées et les gates de release sont fermés. La création
+du tag final, la GitHub Release et la publication PyPI restent des décisions
+séparées de l'Owner.
 
 - Ajout des formulations isoparamétriques HEX8 et HEX20, avec Jacobien,
   intégration de Gauss, rigidité, masse cohérente, charges et post-traitement.

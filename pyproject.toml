@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "qf-solver"
 version = "0.2.3a0"
-description = "Solveur FEM Python boite blanche : TET4/TET10, HEX8/HEX20, MITC3+/MITC4, BEAM2 et analyses statiques/dynamiques."
+description = "Open-source white-box Python finite element solver for structural mechanics, dynamics and validated engineering simulation."
 readme = "README.md"
 requires-python = ">=3.10"
 license = "Apache-2.0"

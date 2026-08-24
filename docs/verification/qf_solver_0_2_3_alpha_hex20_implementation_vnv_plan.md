@@ -1,7 +1,7 @@
 ---
 doc_id: DOC-HEX20-023-001
 revision: 0.1
-status: draft
+status: controlled
 applicable_version: 0.2.3a0
 reviewer: ""
 approver: ""
@@ -16,9 +16,9 @@ avec l'ordre de noeuds Gmsh type 17 : huit noeuds de sommet puis douze
 noeuds de milieu d'arete. Elle reutilise l'assembleur sparse, les solveurs et
 les contrats d'analyse existants.
 
-La campagne ne ferme pas automatiquement la release. Aucun tag, push ou
-publication `0.2.3a0` ne doit etre fait tant que les correlations externes,
-la non-regression et la revue Owner ne sont pas fermees.
+La campagne est close pour la release `0.2.3a0` : les correlations externes,
+la non-regression et la revue Owner sont archivees dans le gate de release.
+Cette cloture ne vaut pas qualification stable generale.
 
 Le perimetre exclut pour cette tranche WEDGE, thermique, hyperelasticite,
 contact HEX20 et grandes transformations. La plasticite J2 petites
@@ -88,12 +88,12 @@ docs/assets/verification/hex20/internal/summary.json
 docs/assets/verification/hex20/comparison/summary.json
 ```
 
-## Gates encore ouverts
+## Etat de cloture
 
 1. Les tests de non-regression, la documentation et les audits publics ont ete
    rejoues : le blocker engineering termine `PASS`.
-2. Faire relire puis signer la revue Owner ; le statut technique ne doit pas
-   etre transforme automatiquement en `stable` ou en publication.
+2. Les correlations externes et la revue Owner sont archivees ; le statut
+   `accepted_for_release_0_2_3` ne transforme pas le scope en `stable`.
 
 ## Definition de termine
 

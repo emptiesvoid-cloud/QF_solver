@@ -135,6 +135,36 @@
         "tests/verification/test_frictionless_contact_structural_vnv.py",
         "tests/verification/test_frictional_contact_structural_vnv.py"
       ]
+    },
+    {
+      "family": "HEX8",
+      "documentation": "docs/verification/qf_solver_0_2_3_alpha_hex8_release_gate.md",
+      "supports": [
+        "nodal_load",
+        "pressure",
+        "surface_traction",
+        "gravity",
+        "body_force"
+      ],
+      "tests": [
+        "tests/unit/test_hex8_element.py",
+        "tests/integration/test_hex8_workflow.py"
+      ]
+    },
+    {
+      "family": "HEX20",
+      "documentation": "docs/verification/qf_solver_0_2_3_alpha_hex20_release_gate.md",
+      "supports": [
+        "nodal_load",
+        "pressure",
+        "surface_traction",
+        "gravity",
+        "body_force"
+      ],
+      "tests": [
+        "tests/unit/test_hex20_element.py",
+        "tests/integration/test_hex20_workflow.py"
+      ]
     }
   ],
   "element_analysis_pairs": [
@@ -748,6 +778,150 @@
           "tests/unit/test_orthotropic_dynamic_large.py"
         ],
         "note": "The stable declaration is limited to the documented homogeneous orthotropic Newmark domain with the recorded time-step and mass assumptions; nonlinear, damaged and ply-by-ply composite behavior remain excluded."
+      }
+    },
+    {
+      "id": "PAIR-HEX8-LINEAR-STATIC",
+      "family": "HEX8",
+      "analysis": "linear_static",
+      "status": "accepted_for_release_0_2_3",
+      "oracle": {
+        "kind": "internal_reference",
+        "status": "available",
+        "evidence": [
+          "docs/assets/verification/hex8/internal/summary.json",
+          "docs/assets/verification/hex8/code_aster/summary.json",
+          "tests/unit/test_hex8_campaign.py"
+        ],
+        "note": "HEX8 linear static release scope is covered by the internal campaign and bounded Code_Aster comparison; nonlinear, reduced-integration and large-scale claims remain excluded."
+      }
+    },
+    {
+      "id": "PAIR-HEX8-MODAL",
+      "family": "HEX8",
+      "analysis": "modal",
+      "status": "accepted_for_release_0_2_3",
+      "oracle": {
+        "kind": "internal_reference",
+        "status": "available",
+        "evidence": [
+          "docs/assets/verification/hex8/internal/summary.json",
+          "tests/unit/test_hex8_campaign.py",
+          "docs/verification/qf_solver_0_2_3_alpha_hex8_owner_review.md"
+        ],
+        "note": "HEX8 modal support is accepted only in the documented bounded internal domain; it is not a general large-scale or externally correlated modal qualification."
+      }
+    },
+    {
+      "id": "PAIR-HEX8-NEWMARK",
+      "family": "HEX8",
+      "analysis": "transient_newmark",
+      "status": "accepted_for_release_0_2_3",
+      "oracle": {
+        "kind": "internal_reference",
+        "status": "available",
+        "evidence": [
+          "docs/assets/verification/hex8/internal/summary.json",
+          "tests/unit/test_hex8_campaign.py",
+          "docs/verification/qf_solver_0_2_3_alpha_hex8_release_gate.md"
+        ],
+        "note": "HEX8 Newmark support reuses the common dynamic path and is accepted for the recorded bounded release scope; nonlinear dynamics and large-scale extrapolation remain excluded."
+      }
+    },
+    {
+      "id": "PAIR-HEX8-HARMONIC",
+      "family": "HEX8",
+      "analysis": "harmonic",
+      "status": "accepted_for_release_0_2_3",
+      "oracle": {
+        "kind": "internal_reference",
+        "status": "available",
+        "evidence": [
+          "docs/assets/verification/hex8/internal/summary.json",
+          "tests/unit/test_hex8_campaign.py",
+          "docs/verification/qf_solver_0_2_3_alpha_hex8_release_gate.md"
+        ],
+        "note": "HEX8 harmonic support is covered through the common analysis/backend contract in the bounded release domain; damping, nonlinear and multi-million-DOF claims are excluded."
+      }
+    },
+    {
+      "id": "PAIR-HEX20-LINEAR-STATIC",
+      "family": "HEX20",
+      "analysis": "linear_static",
+      "status": "accepted_for_release_0_2_3",
+      "oracle": {
+        "kind": "internal_reference",
+        "status": "available",
+        "evidence": [
+          "docs/assets/verification/hex20/internal/summary.json",
+          "docs/assets/verification/hex20/code_aster/summary.json",
+          "tests/unit/test_hex20_campaign.py"
+        ],
+        "note": "HEX20 linear static release scope is covered by the internal campaign and bounded Code_Aster comparison; reduced integration, contact and large-scale claims remain excluded."
+      }
+    },
+    {
+      "id": "PAIR-HEX20-MODAL",
+      "family": "HEX20",
+      "analysis": "modal",
+      "status": "accepted_for_release_0_2_3",
+      "oracle": {
+        "kind": "internal_reference",
+        "status": "available",
+        "evidence": [
+          "docs/assets/verification/hex20/internal/summary.json",
+          "docs/assets/verification/hex20/comparison/summary.json",
+          "docs/verification/qf_solver_0_2_3_alpha_hex20_owner_review.md"
+        ],
+        "note": "HEX20 modal support is accepted in the documented bounded domain with external static-oriented comparisons; general large-scale modal qualification is not claimed."
+      }
+    },
+    {
+      "id": "PAIR-HEX20-NEWMARK",
+      "family": "HEX20",
+      "analysis": "transient_newmark",
+      "status": "accepted_for_release_0_2_3",
+      "oracle": {
+        "kind": "internal_reference",
+        "status": "available",
+        "evidence": [
+          "docs/assets/verification/hex20/internal/summary.json",
+          "tests/unit/test_hex20_campaign.py",
+          "docs/verification/qf_solver_0_2_3_alpha_hex20_release_gate.md"
+        ],
+        "note": "HEX20 Newmark support uses the common dynamic path and is accepted for the recorded bounded release scope; nonlinear dynamics and external dynamic correlation remain excluded."
+      }
+    },
+    {
+      "id": "PAIR-HEX20-HARMONIC",
+      "family": "HEX20",
+      "analysis": "harmonic",
+      "status": "accepted_for_release_0_2_3",
+      "oracle": {
+        "kind": "internal_reference",
+        "status": "available",
+        "evidence": [
+          "docs/assets/verification/hex20/internal/summary.json",
+          "tests/unit/test_hex20_campaign.py",
+          "docs/verification/qf_solver_0_2_3_alpha_hex20_release_gate.md"
+        ],
+        "note": "HEX20 harmonic support is covered through the common analysis/backend contract in the bounded release domain; nonlinear, damping and large-scale claims remain excluded."
+      }
+    },
+    {
+      "id": "PAIR-HEX20-J2",
+      "family": "HEX20",
+      "analysis": "material_nonlinear_static",
+      "status": "owner_accepted_experimental_bounded_use",
+      "oracle": {
+        "kind": "internal_reference",
+        "status": "available",
+        "evidence": [
+          "docs/assets/verification/hex20/internal/summary.json",
+          "tests/unit/test_hex20_campaign.py",
+          "docs/verification/qf_solver_0_2_3_alpha_hex20_owner_review.md"
+        ],
+        "note": "HEX20 J2 is retained as bounded experimental use only; the evidence does not qualify general plasticity, contact, damage or large-deformation behavior."
       }
     }
   ],

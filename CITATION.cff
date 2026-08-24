@@ -2,8 +2,8 @@ cff-version: 1.2.0
 message: "If you use QF_solver, please cite the software and its release version."
 type: software
 title: "QF_solver"
-version: "0.2.2-alpha"
-date-released: 2026-08-23
+version: "0.2.3-alpha"
+date-released: 2026-08-24
 license: "Apache-2.0"
 authors:
   - family-names: "Farinazzo"

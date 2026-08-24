@@ -10,7 +10,7 @@ SOURCE_ROOT = Path(__file__).resolve().parent / "src"
 if SOURCE_ROOT.is_dir():
     sys.path.insert(0, str(SOURCE_ROOT))
 
-from solveur.compat.mitc4.cli import main
+from solveur.compat.mitc4.cli import main  # noqa: E402
 
 
 if __name__ == "__main__":

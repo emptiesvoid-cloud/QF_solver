@@ -3751,7 +3751,7 @@
       "id": "DOC-HEX8-023-001",
       "path": "verification/qf_solver_0_2_3_alpha_hex8_implementation_vnv_plan.md",
       "title": "Plan d'implementation et V&V HEX8 - QF_solver 0.2.3 alpha",
-      "status": "draft",
+        "status": "controlled",
       "requirements": [
         "REQ-SOL-001",
         "REQ-DYN-001",
@@ -3793,7 +3793,7 @@
       "id": "DOC-HEX20-023-001",
       "path": "verification/qf_solver_0_2_3_alpha_hex20_implementation_vnv_plan.md",
       "title": "Plan d'implementation et V&V HEX20 - QF_solver 0.2.3 alpha",
-      "status": "draft",
+        "status": "controlled",
       "requirements": [
         "REQ-SOL-001",
         "REQ-DYN-001",

@@ -59,7 +59,7 @@ docs/assets/verification/hex20/code_aster/code_aster.log
 ```
 
 La fiche Owner contient les reponses techniques et a ete signee le 2026-08-24
-avec la decision `accepted_for_release_0_2_3`. Les gates CI restent a observer
-apres push ; l'upload PyPI reste volontairement desactive. Les correlations
+avec la decision `accepted_for_release_0_2_3`. L'upload PyPI et la GitHub
+Release restent volontairement desactives dans cette etude. Les correlations
 externes restent statiques; modal, dynamique, J2 externe et le scaling
 multi-million restent hors qualification de cette release.

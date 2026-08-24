@@ -4,6 +4,7 @@
   "purpose": "Authoritative coverage matrix separating implementation, automated verification and Owner validation.",
   "status_values": {
     "stable": "All release proof requirements are complete and the scope is eligible for stable engineering use.",
+    "accepted_for_release_0_2_3": "The bounded scope is accepted for inclusion in release 0.2.3a0; this does not imply stable qualification or general extrapolation.",
     "owner_accepted": "Bounded scope accepted by a dated Owner review.",
     "ready_for_owner_review": "The required automated evidence is present; no Owner decision is implied.",
     "verified_development": "Dedicated numerical evidence exists, but no separate accepted scope.",
@@ -352,6 +353,98 @@
       "evidence": [
         "tests/verification/test_orthotropic_modal_newmark_vnv.py",
         "docs/verification/orthotropic_static_extended_owner_review.md"
+      ]
+    },
+    "HEX8": {
+      "linear_static": {
+        "status": "accepted_for_release_0_2_3",
+        "scope": "hex8-linear-static-release-0.2.3",
+        "owner_review": "docs/verification/qf_solver_0_2_3_alpha_hex8_owner_review.md"
+      },
+      "modal": {
+        "status": "accepted_for_release_0_2_3",
+        "scope": "hex8-modal-release-0.2.3",
+        "owner_review": "docs/verification/qf_solver_0_2_3_alpha_hex8_owner_review.md",
+        "note": "Internal modal path verified in the documented bounded cases; no general large-scale or external modal qualification."
+      },
+      "transient_newmark": {
+        "status": "accepted_for_release_0_2_3",
+        "scope": "hex8-transient-newmark-release-0.2.3",
+        "owner_review": "docs/verification/qf_solver_0_2_3_alpha_hex8_owner_review.md"
+      },
+      "harmonic": {
+        "status": "accepted_for_release_0_2_3",
+        "scope": "hex8-harmonic-release-0.2.3",
+        "owner_review": "docs/verification/qf_solver_0_2_3_alpha_hex8_owner_review.md"
+      },
+      "material_nonlinear_static": {
+        "status": "unsupported",
+        "scope": null
+      },
+      "geometric_nonlinear_static": {
+        "status": "unsupported",
+        "scope": null
+      },
+      "nonlinear_dynamic": {
+        "status": "unsupported",
+        "scope": null
+      },
+      "evidence": [
+        "docs/verification/qf_solver_0_2_3_alpha_hex8_implementation_vnv_plan.md",
+        "docs/verification/qf_solver_0_2_3_alpha_hex8_release_gate.md",
+        "docs/verification/qf_solver_0_2_3_alpha_hex8_owner_review.md",
+        "docs/assets/verification/hex8/internal/summary.json",
+        "docs/assets/verification/hex8/code_aster/summary.json",
+        "tests/unit/test_hex8_element.py",
+        "tests/integration/test_hex8_workflow.py"
+      ]
+    },
+    "HEX20": {
+      "linear_static": {
+        "status": "accepted_for_release_0_2_3",
+        "scope": "hex20-linear-static-release-0.2.3",
+        "owner_review": "docs/verification/qf_solver_0_2_3_alpha_hex20_owner_review.md"
+      },
+      "modal": {
+        "status": "accepted_for_release_0_2_3",
+        "scope": "hex20-modal-release-0.2.3",
+        "owner_review": "docs/verification/qf_solver_0_2_3_alpha_hex20_owner_review.md",
+        "note": "Internal modal path verified in the documented bounded cases; external modal evidence is not claimed."
+      },
+      "transient_newmark": {
+        "status": "accepted_for_release_0_2_3",
+        "scope": "hex20-transient-newmark-release-0.2.3",
+        "owner_review": "docs/verification/qf_solver_0_2_3_alpha_hex20_owner_review.md"
+      },
+      "harmonic": {
+        "status": "accepted_for_release_0_2_3",
+        "scope": "hex20-harmonic-release-0.2.3",
+        "owner_review": "docs/verification/qf_solver_0_2_3_alpha_hex20_owner_review.md"
+      },
+      "material_nonlinear_static": {
+        "status": "owner_accepted_experimental_bounded_use",
+        "scope": "hex20-j2-small-strain-bounded",
+        "owner_review": "docs/verification/qf_solver_0_2_3_alpha_hex20_owner_review.md",
+        "note": "Internal J2 evidence only; external J2, contact, damage and large deformation remain excluded."
+      },
+      "geometric_nonlinear_static": {
+        "status": "unsupported",
+        "scope": null
+      },
+      "nonlinear_dynamic": {
+        "status": "unsupported",
+        "scope": null
+      },
+      "evidence": [
+        "docs/verification/qf_solver_0_2_3_alpha_hex20_implementation_vnv_plan.md",
+        "docs/verification/qf_solver_0_2_3_alpha_hex20_release_gate.md",
+        "docs/verification/qf_solver_0_2_3_alpha_hex20_owner_review.md",
+        "docs/assets/verification/hex20/internal/summary.json",
+        "docs/assets/verification/hex20/comparison/summary.json",
+        "docs/assets/verification/hex20/calculix/summary.json",
+        "docs/assets/verification/hex20/code_aster/summary.json",
+        "tests/unit/test_hex20_campaign.py",
+        "tests/integration/test_hex20_workflow.py"
       ]
     },
     "CONTACT": {

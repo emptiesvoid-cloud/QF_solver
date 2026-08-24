@@ -16,13 +16,14 @@ Cette alpha ne revendique ni certification externe, ni équivalence générale �
 un logiciel commercial. Elle fournit un noyau ouvert et des domaines d'emploi
 documentés, à utiliser avec le jugement mécanique adapté au cas calculé.
 
-La version alpha en préparation pour cette branche est **0.2.3a0**, une alpha
-qui ajoute les solides HEX8/HEX20 et leurs campagnes V&V sur la base backend
-renforcée en `0.2.2a0`. La release précédente `v0.2.2a0` reste l'historique
-publié ; aucun tag, push ou paquet PyPI `0.2.3a0` n'est déclaré ici avant la
-signature Owner. Le projet vise un outil **qualifiable et vérifiable**. Il n'est
-pas présenté comme certifié et ne doit pas remplacer une Owner review
-mécanique adaptée au cas d'emploi.
+La release alpha courante est **0.2.3a0**. Elle ajoute les solides HEX8/HEX20
+et leurs campagnes V&V à la base backend renforcée en `0.2.2a0`. Les revues
+Owner HEX8 et HEX20 sont signées avec la décision
+`accepted_for_release_0_2_3`, et les gates H8-G01..H8-G12 et H20-G01..H20-G12
+sont fermés. Le périmètre reste explicitement borné : cette décision de
+release ne transforme pas les résultats en qualification stable générale.
+Le projet vise un outil **qualifiable et vérifiable** ; il n'est pas présenté
+comme certifié et ne remplace pas une revue mécanique adaptée au cas d'emploi.
 
 ## Licence et attribution
 
@@ -71,8 +72,8 @@ python .\scripts\build_docs.py --profile qualification
 | MITC4 multicouche plan et orthotrope mono-pli | `stable` | Layups, géométries et exclusions explicitement documentés |
 | BEAM2 et entités discrètes linéaires | `stable` | Statique, modal, Newmark et harmonique documentés |
 | Solides orthotropes TET4/TET10 | `stable` | Matériau homogène, statique, modal et Newmark dans le domaine testé |
-| HEX8/HEX20 linéaires | `ready_for_owner_review` | Statique, modal, Newmark, harmonique, charges et import Gmsh dans le périmètre V&V 0.2.3a0 |
-| HEX20 J2 petites déformations | `accepted_for_bounded_engineering_use` | Preuve interne bornée ; pas de corrélation J2 externe, contact ou grandes transformations |
+| HEX8/HEX20 linéaires | `accepted_for_release_0_2_3` | Statique, modal, Newmark, harmonique, charges et import Gmsh dans le périmètre V&V 0.2.3a0 ; pas de promotion stable générale |
+| HEX20 J2 petites déformations | `accepted_for_release_0_2_3` | Preuve interne bornée ; pas de qualification J2 externe, contact ou grandes transformations |
 | J2 TET4/TET10, contact et grand modèle TET4 | `accepted_for_bounded_engineering_use` | Usage borné ; limites propres à chaque scope obligatoires |
 | TET4 total-lagrangien structurel | `research` | Preuves incomplètes ; aucune promotion engineering |
 | MITC4 orthotrope courbe | `out_of_acceptance` | Diagnostic interne uniquement, sans revendication d'usage |
@@ -83,13 +84,15 @@ dans le [paquet de clôture](docs/verification/release_vv_0_2_1_closure_package_
 
 ## État de la release 0.2.3a0
 
-La release précédente est gelée dans le commit `c54f4b6` et le tag `v0.2.2a0`
-reste poussé sur `main`. La branche courante prépare `0.2.3a0` sans commit,
-tag, push ou publication PyPI. La campagne HEX8/HEX20 comporte les preuves
+La release précédente `v0.2.2a0` est conservée comme historique. La release
+Les preuves numériques de `0.2.3a0` ont été produites sur le commit vérifié
+`8c6c2f2`; les fichiers de clôture Owner et les gates HEX sont préparés dans
+le checkout courant. La campagne HEX8/HEX20 comporte les preuves
 internes, les corrélations statiques CalculiX/Code_Aster, la comparaison
 TET4/TET10/HEX8/HEX20 et le blocker de non-régression : `1429 passed`, `14
 skipped`, `186 deselected`. Les audits public et release sont `PASS` sur
-`1796` fichiers ; la signature Owner reste la dernière validation requise.
+`1803` fichiers. La publication PyPI et la création de la GitHub Release
+restent des décisions séparées réservées à l'Owner.
 
 Le chantier backend 0.2.2 alpha est décrit dans le [rapport de résolution
 sparse](docs/verification/qf_solver_0_2_2_alpha_backend_report.md) et dans la
@@ -122,17 +125,15 @@ figée sont consignés dans la
 
 ## Installation
 
-Préparation locale de l'alpha `0.2.3a0` :
+Installation locale de l'alpha `0.2.3a0` :
 
 ```powershell
 python -m pip install -e ".[test]"
 qf-solver --version
 ```
 
-Après publication, la même version pourra être installée depuis PyPI avec
-`python -m pip install "qf-solver==0.2.3a0"`. Le tag `v0.2.3a0` déclenchera le
-workflow de publication ; la commande deviendra disponible dès que PyPI
-confirmera l'upload.
+Après publication décidée par l'Owner, la même version pourra être installée
+depuis PyPI avec `python -m pip install "qf-solver==0.2.3a0"`.
 
 Pendant la préparation locale, les extras s'installent depuis le checkout :
 
