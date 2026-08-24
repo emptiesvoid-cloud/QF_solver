@@ -84,8 +84,8 @@ src/solveur/verification/hex20.py
 src/solveur/verification/hex20_calculix.py
 src/solveur/verification/hex8_tet_benchmark.py
 scripts/run_code_aster_hex20_vnv.py
-results/hex20_internal/summary.json
-results/hex20_tet_multi_model/summary.json
+docs/assets/verification/hex20/internal/summary.json
+docs/assets/verification/hex20/comparison/summary.json
 ```
 
 ## Gates encore ouverts

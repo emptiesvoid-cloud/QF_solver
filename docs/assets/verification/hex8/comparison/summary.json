@@ -1,0 +1,140 @@
+{
+  "study_id": "VNV-HEX8-TET-FAMILY-MULTI-MODEL-001",
+  "status": "PASS_INTERNAL",
+  "model_count": 3,
+  "models": [
+    "unit_cube",
+    "slender_beam",
+    "distorted_cube"
+  ],
+  "element_families": [
+    "TET4",
+    "TET10",
+    "HEX8"
+  ],
+  "comparison_basis": "three same-geometry cases with common boundary/load convention per case",
+  "rows": [
+    {
+      "model": "unit_cube",
+      "element": "HEX8",
+      "status": "PASS",
+      "dofs": 81,
+      "elements": 8,
+      "solve_seconds": 0.11178139998810366,
+      "nnz": 3016,
+      "estimated_csr_bytes": 36520,
+      "rss_delta_bytes": 2351104,
+      "max_displacement": 7.115006131943712e-11,
+      "equilibrium_residual": 8.206163446873306e-16
+    },
+    {
+      "model": "unit_cube",
+      "element": "TET4",
+      "status": "PASS",
+      "dofs": 81,
+      "elements": 48,
+      "solve_seconds": 0.2152522000251338,
+      "nnz": 1659,
+      "estimated_csr_bytes": 20236,
+      "rss_delta_bytes": 1650688,
+      "max_displacement": 3.4959233919534725e-11,
+      "equilibrium_residual": 8.808843139672866e-16
+    },
+    {
+      "model": "unit_cube",
+      "element": "TET10",
+      "status": "PASS",
+      "dofs": 375,
+      "elements": 48,
+      "solve_seconds": 0.6096323999809101,
+      "nnz": 21523,
+      "estimated_csr_bytes": 259780,
+      "rss_delta_bytes": 4083712,
+      "max_displacement": 1.2035611573723785e-10,
+      "equilibrium_residual": 5.094288526862707e-15
+    },
+    {
+      "model": "slender_beam",
+      "element": "HEX8",
+      "status": "PASS",
+      "dofs": 81,
+      "elements": 8,
+      "solve_seconds": 0.1088789000059478,
+      "nnz": 3046,
+      "estimated_csr_bytes": 36880,
+      "rss_delta_bytes": 49152,
+      "max_displacement": 2.279094064804019e-10,
+      "equilibrium_residual": 2.8294484936408984e-14
+    },
+    {
+      "model": "slender_beam",
+      "element": "TET4",
+      "status": "PASS",
+      "dofs": 81,
+      "elements": 48,
+      "solve_seconds": 0.21342429996002465,
+      "nnz": 1659,
+      "estimated_csr_bytes": 20236,
+      "rss_delta_bytes": 12288,
+      "max_displacement": 9.9043124469594e-11,
+      "equilibrium_residual": 1.968935324226525e-14
+    },
+    {
+      "model": "slender_beam",
+      "element": "TET10",
+      "status": "PASS",
+      "dofs": 375,
+      "elements": 48,
+      "solve_seconds": 0.6009311999659985,
+      "nnz": 21771,
+      "estimated_csr_bytes": 262756,
+      "rss_delta_bytes": 331776,
+      "max_displacement": 9.944498761508777e-10,
+      "equilibrium_residual": 9.056598350906073e-13
+    },
+    {
+      "model": "distorted_cube",
+      "element": "HEX8",
+      "status": "PASS",
+      "dofs": 81,
+      "elements": 8,
+      "solve_seconds": 0.10891379998065531,
+      "nnz": 3087,
+      "estimated_csr_bytes": 37372,
+      "rss_delta_bytes": 98304,
+      "max_displacement": 6.76732092115105e-11,
+      "equilibrium_residual": 1.1903692210648778e-15
+    },
+    {
+      "model": "distorted_cube",
+      "element": "TET4",
+      "status": "PASS",
+      "dofs": 81,
+      "elements": 48,
+      "solve_seconds": 0.21366310003213584,
+      "nnz": 1987,
+      "estimated_csr_bytes": 24172,
+      "rss_delta_bytes": 24576,
+      "max_displacement": 3.351189871436455e-11,
+      "equilibrium_residual": 1.001808955292859e-15
+    },
+    {
+      "model": "distorted_cube",
+      "element": "TET10",
+      "status": "PASS",
+      "dofs": 375,
+      "elements": 48,
+      "solve_seconds": 0.6036358999554068,
+      "nnz": 21935,
+      "estimated_csr_bytes": 264724,
+      "rss_delta_bytes": 610304,
+      "max_displacement": 1.1075769007984732e-10,
+      "equilibrium_residual": 6.650772681614959e-15
+    }
+  ],
+  "limitations": [
+    "The three cases use a compact 2x2x2 structured partition; this is a robustness matrix, not a large-scale performance campaign.",
+    "TET and HEX degrees of freedom are reported explicitly and are not asserted equal for every case.",
+    "External certification remains covered by the separate CalculiX and Code_Aster same-mesh studies."
+  ]
+}

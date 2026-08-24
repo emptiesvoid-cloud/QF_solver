@@ -1,0 +1,341 @@
+setting '--memory' value to 3686.40 MB (keyword RESERVE_MEMOIRE)
+WARNING: '/work/hex20_hexa20.mail' overwrites 'fort.20'
+copying (shutil) '/work/hex20_hexa20.mail' to 'fort.20'...
+checking MPI initialization...
+using COMM_WORLD.
+MPI is initialized.
+Ouverture en écriture du fichier ./vola.1
+
+<INFO> Démarrage de l'exécution.
+
+                        -- CODE_ASTER -- VERSION : EXPLOITATION (stable) --
+                               Version 18.1.0 modifiée le 09/07/2026
+                              révision spack-local - branche 'v18.1.0'
+                                     Copyright EDF 1991 - 2026
+
+                              Exécution du : Mon Aug 24 06:38:49 2026
+                                  Nom de la machine : fa25c0ce20bc
+                                        Architecture : 64bit
+                                    Type de processeur : x86_64
+       Système d'exploitation : Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.36
+                                  Langue des messages : en (utf-8)
+                                    Version de Python : 3.11.14
+                                     Version de NumPy : 1.26.4
+                                      Parallélisme MPI : actif
+                                   Rang du processeur courant : 0
+                               Nombre de processeurs MPI utilisés : 1
+                                    Parallélisme OpenMP : actif
+                              Nombre de processus OpenMP utilisés : 1
+                               Version de la librairie HDF5 : 1.10.7
+                                Version de la librairie MED : 4.2.0
+                               Version de la librairie MFront : 5.0.0
+                               Version de la librairie MUMPS : 5.6.2
+                              Version de la librairie PETSc : 3.24.0p0
+                              Version de la librairie SCOTCH : 7.0.10
+
+starting the execution...
+
+ ╔================================================================================================╗
+ ║ <I> <SUPERVIS_22>                                                                              ║
+ ║                                                                                                ║
+ ║ Les mots-clés CODE et DEBUG dans DEBUT/POURSUITE sont réservés aux cas-tests.                  ║
+ ║ De même pour l'option, "--test" de CA.init().                                                  ║
+ ║ Il ne faut pas les utiliser dans les études car ils modifient certaines valeurs par            ║
+ ║ défaut des commandes DEBUT/POURSUITE qui ont des conséquences sur le comportement              ║
+ ║ en cas d'erreur ou sur les performances.                                                       ║
+ ╚================================================================================================╝
+
+Valeur initiale du temps CPU maximum =   900 secondes
+  Valeur du temps CPU maximum passé aux commandes =   890 secondes
+  Réserve CPU prévue = 10 secondes
+
+Ouverture en écriture du fichier ./glob.1
+
+Ouverture en écriture du fichier ./vola.1
+
+Ouverture en lecture du fichier
+/opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/lib64/elem.1
+
+Nom de la base                          :  ELEMBASE
+     Créée avec la version                   :  18.01.00
+     Nombre d'enregistrements utilisés       :  50
+     Nombre d'enregistrements maximum        :  512
+     Nombre d'enregistrements par fichier    :  512
+     Longueur d'enregistrement (octets)      :  819200
+     Nombre d'identificateurs utilisés       :  123
+     Taille maximum du répertoire            :  300
+     Pourcentage d'utilisation du répertoire :  41 %
+
+Ouverture en lecture du fichier
+/opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/lib64/elem.1
+
+Nom de la base                          :  ELEMBASE
+     Nombre d'enregistrements utilisés       :  50
+     Nombre d'enregistrements maximum        :  512
+     Nombre d'enregistrements par fichier    :  512
+     Longueur d'enregistrement (octets)      :  819200
+     Nombre total d'accès en lecture         :  68
+     Volume des accès en lecture             :         53.12 Mo.
+     Nombre total d'accès en écriture        :  0
+     Volume des accès en écriture            :          0.00 Mo.
+     Nombre d'identificateurs utilisés       :  123
+     Taille maximum du répertoire            :  300
+     Pourcentage d'utilisation du répertoire :  41 %
+
+Relecture des catalogues des éléments faite.
+
+Fin de lecture (durée  0.041538  s.)
+
+                      Mémoire limite pour l'allocation dynamique : 4250.12 Mo
+                         ajouté à l'initialisation du processus : 647.08 Mo
+                               Limite cible du processus : 4897.20 Mo
+                         Taille limite des fichiers d'échange : 2048.00 Go
+# Mémoire (Mo) :   647.08 /   637.85 /   212.46 /   185.43 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0001   user+syst:        0.03s (syst:        0.17s, elaps:        0.75s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt6
+# ----------------------------------------------------------------------------------------------
+# Commande #0002 de /work/hex20_hexa20.comm, ligne 6
+mesh = LIRE_MAILLAGE(FORMAT='ASTER',
+                     INFO=1,
+                     UNITE=20,
+                     VERI_MAIL=_F(APLAT=0.001,
+                                  VERIF='OUI'))
+
+Vérification du maillage.
+
+
+------------ MAILLAGE 00000001 - IMPRESSIONS NIVEAU  1 ------------
+
+QF_solver HEX20 same-mesh Code_Aster HEXA20 correlation
+
+NOMBRE DE NOEUDS                          20
+
+NOMBRE DE MAILLES                          1
+                              HEXA20                  1
+
+NOMBRE DE GROUPES DE NOEUDS                2
+
+NOMBRE DE GROUPES DE MAILLES               1
+
+--------------------------------------------------------------------------------
+
+# Résultat commande #0002 (LIRE_MAILLAGE): mesh ('<00000001>') de type <Mesh>
+# Mémoire (Mo) :   647.08 /   638.61 /   212.46 /   185.43 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0002   user+syst:        0.01s (syst:        0.00s, elaps:        0.01s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt7
+# ----------------------------------------------------------------------------------------------
+# Commande #0003 de /work/hex20_hexa20.comm, ligne 7
+model = AFFE_MODELE(AFFE=_F(GROUP_MA='SOLID',
+                            MODELISATION='3D',
+                            PHENOMENE='MECANIQUE'),
+                    DISTRIBUTION=_F(METHODE='SOUS_DOMAINE',
+                                    PARTITIONNEUR='METIS'),
+                    INFO=1,
+                    MAILLAGE=mesh,
+                    VERI_FORMULATION_IFS='OUI',
+                    VERI_JACOBIEN='OUI',
+                    VERI_NORM_IFS='OUI',
+                    VERI_PLAN='OUI')
+
+Sur les 1 mailles du maillage 00000001, on a demandé l'affectation de 1, on a pu en affecter 1.
+Modélisation     Formulation      Type maille  Élément fini     Nombre
+3D               _                HEXA20       MECA_HEXA20      1
+#2      Calculs elementaires et assemblages               CPU (USER+SYST/SYST/ELAPS):      0.00      0.00      0.00
+# Résultat commande #0003 (AFFE_MODELE): model ('<00000002>') de type <Model>
+# Mémoire (Mo) :   767.87 /   767.55 /   212.46 /   200.92 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0003   user+syst:        0.01s (syst:        0.00s, elaps:        0.01s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt8
+# ----------------------------------------------------------------------------------------------
+# Commande #0004 de /work/hex20_hexa20.comm, ligne 8
+material = DEFI_MATERIAU(ELAS=_F(B_ENDOGE=0.0,
+                                 COEF_AMOR=1.0,
+                                 E=210000000,
+                                 K_DESSIC=0.0,
+                                 NU=0.3),
+                         INFO=1)
+
+# Résultat commande #0004 (DEFI_MATERIAU): material ('<00000003>') de type <Material>
+# Mémoire (Mo) :   768.21 /   768.21 /   212.46 /   200.92 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0004   user+syst:        0.06s (syst:        0.00s, elaps:        0.06s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt9
+# ----------------------------------------------------------------------------------------------
+# Commande #0005 de /work/hex20_hexa20.comm, ligne 9
+field = AFFE_MATERIAU(AFFE=_F(GROUP_MA='SOLID',
+                              MATER=material),
+                      INFO=1,
+                      MAILLAGE=mesh)
+
+# Résultat commande #0005 (AFFE_MATERIAU): field ('<00000004>') de type <MaterialField>
+# Mémoire (Mo) :   768.21 /   768.21 /   212.46 /   200.92 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0005   user+syst:        0.06s (syst:        0.00s, elaps:        0.05s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt10
+# ----------------------------------------------------------------------------------------------
+# Commande #0006 de /work/hex20_hexa20.comm, ligne 10
+boundary = AFFE_CHAR_MECA(DDL_IMPO=_F(DX=0.0,
+                                      DY=0.0,
+                                      DZ=0.0,
+                                      GROUP_NO='ROOT'),
+                          DOUBLE_LAGRANGE='OUI',
+                          INFO=1,
+                          MODELE=model,
+                          SYNTAXE='NON',
+                          VERI_AFFE='OUI',
+                          VERI_NORM='OUI')
+
+# Résultat commande #0006 (AFFE_CHAR_MECA): boundary ('<00000005>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   768.21 /   768.21 /   212.46 /   200.92 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0006   user+syst:        0.01s (syst:        0.00s, elaps:        0.01s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt11
+# ----------------------------------------------------------------------------------------------
+# Commande #0007 de /work/hex20_hexa20.comm, ligne 11
+force = AFFE_CHAR_MECA(DOUBLE_LAGRANGE='OUI',
+                       FORCE_NODALE=_F(FX=1.0,
+                                       NOEUD='N2'),
+                       INFO=1,
+                       MODELE=model,
+                       SYNTAXE='NON',
+                       VERI_AFFE='OUI',
+                       VERI_NORM='OUI')
+
+# Résultat commande #0007 (AFFE_CHAR_MECA): force ('<00000006>') de type <MechanicalLoadReal>
+# Mémoire (Mo) :   768.21 /   768.21 /   212.46 /   200.92 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0007   user+syst:        0.00s (syst:        0.00s, elaps:        0.00s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt12
+# ----------------------------------------------------------------------------------------------
+# Commande #0008 de /work/hex20_hexa20.comm, ligne 12
+static = MECA_STATIQUE(CHAM_MATER=field,
+                       EXCIT=(_F(CHARGE=boundary,
+                                 TYPE_CHARGE='FIXE_CSTE'),
+                              _F(CHARGE=force,
+                                 TYPE_CHARGE='FIXE_CSTE')),
+                       INFO=1,
+                       INST=0.0,
+                       MODELE=model,
+                       OPTION='SIEF_ELGA',
+                       SOLVEUR=_F(ACCELERATION='AUTO',
+                                  ELIM_LAGR='LAGR2',
+                                  GESTION_MEMOIRE='AUTO',
+                                  LOW_RANK_SEUIL=0.0,
+                                  MATR_DISTRIBUEE='NON',
+                                  METHODE='MUMPS',
+                                  NB_RHS=1,
+                                  NPREC=8,
+                                  PCENT_PIVOT=35,
+                                  POSTTRAITEMENTS='AUTO',
+                                  PRETRAITEMENTS='AUTO',
+                                  REDUCTION_MPI=0,
+                                  RENUM='AUTO',
+                                  RESI_RELA=1e-06,
+                                  STOP_SINGULIER='OUI',
+                                  TYPE_RESOL='AUTO'))
+
+Le système linéaire à résoudre a 108 degrés de liberté:
+   - 60 sont des degrés de liberté physiques
+     (ils sont portés par 20 noeuds du maillage)
+   - 48 sont les couples de paramètres de Lagrange associés
+     aux 24 relations linéaires dualisées.
+La matrice est de taille 108 équations.
+  Elle contient 2046 termes non nuls si elle est symétrique et 3984 termes non nuls si elle n'est
+pas symétrique.
+  Soit un taux de remplissage de  34.156 %.
+Champ stocké <DEPL> à l'instant  0.000000000000e+00 pour le numéro d'ordre 1
+Champ stocké <SIEF_ELGA> à l'instant  0.000000000000e+00 pour le numéro d'ordre 1
+# Résultat commande #0008 (MECA_STATIQUE): static ('<00000007>') de type <ElasticResult>
+# Mémoire (Mo) :   771.18 /   768.21 /   212.46 /   200.92 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0008   user+syst:        0.13s (syst:        0.01s, elaps:        0.13s)
+# ----------------------------------------------------------------------------------------------
+
+.. _stg1_txt76
+# ----------------------------------------------------------------------------------------------
+# Commande #0009 de
+/opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/lib/python3
+11/site-packages/code_aster/CodeCommands/fin.py, ligne 76
+FIN(INFO_RESU='NON',
+    RETASSAGE='NON')
+
+No database in results, objects not saved on processor #0
+
+ ╔================================================================================================╗
+ ║ <I> <CATAMESS_89>                                                                              ║
+ ║                                                                                                ║
+ ║ Liste des alarmes émises lors de l'exécution du calcul.                                        ║
+ ║                                                                                                ║
+ ║     Les alarmes que vous avez choisies d'ignorer sont précédées de (*).                        ║
+ ║     Nombre d'occurrences pour chacune des alarmes :                                            ║
+ ║            aucune alarme                                                                       ║
+ ╚================================================================================================╝
+
+<I> <FIN> ARRET NORMAL DANS "FIN" PAR APPEL A "JEFINI".
+
+ <I> <FIN> MEMOIRE JEVEUX MINIMALE REQUISE POUR L'EXECUTION :                     200.92 Mo
+ <I> <FIN> MEMOIRE JEVEUX OPTIMALE REQUISE POUR L'EXECUTION :                     212.46 Mo
+ <I> <FIN> MAXIMUM DE MEMOIRE UTILISEE PAR LE PROCESSUS LORS DE L'EXECUTION :     776.88 Mo
+
+ <I>       FERMETURE DES BASES EFFECTUEE
+
+   STATISTIQUES CONCERNANT L'ALLOCATION DYNAMIQUE :
+     TAILLE CUMULEE MAXIMUM            :                  212  Mo.
+     TAILLE CUMULEE LIBEREE            :                    2  Mo.
+     NOMBRE TOTAL D'ALLOCATIONS        :                 5332
+     NOMBRE TOTAL DE LIBERATIONS       :                 4880
+     APPELS AU MECANISME DE LIBERATION :                    0
+     TAILLE MEMOIRE CUMULEE RECUPEREE  :                    0  Mo.
+     VOLUME DES LECTURES               :                    0  Mo.
+     VOLUME DES ECRITURES              :                    0  Mo.
+
+   MEMOIRE JEVEUX MINIMALE REQUISE POUR L'EXECUTION :     200.92 Mo
+     - IMPOSE DE NOMBREUX ACCES DISQUE
+     - RALENTIT LA VITESSE D'EXECUTION
+   MEMOIRE JEVEUX OPTIMALE REQUISE POUR L'EXECUTION :     212.46 Mo
+     - LIMITE LES ACCES DISQUE
+     - AMELIORE LA VITESSE D'EXECUTION
+   MAXIMUM DE MEMOIRE UTILISEE PAR LE PROCESSUS     :     776.88 Mo
+     - COMPREND LA MEMOIRE CONSOMMEE PAR  JEVEUX,
+       LE SUPERVISEUR PYTHON, LES LIBRAIRIES EXTERNES
+
+ <I>       FIN D'EXECUTION LE : LU-24-AOUT-2026 06:38:50
+
+ ********************************************************************************
+ * COMMAND                  :       USER :     SYSTEM :   USER+SYS :    ELAPSED *
+ ********************************************************************************
+ * DEBUT                    :       0.03 :       0.17 :       0.20 :       0.75 *
+ * LIRE_MAILLAGE            :       0.01 :       0.00 :       0.01 :       0.01 *
+ * AFFE_MODELE              :       0.01 :       0.00 :       0.01 :       0.01 *
+ * DEFI_MATERIAU            :       0.06 :       0.00 :       0.06 :       0.06 *
+ * AFFE_MATERIAU            :       0.06 :       0.00 :       0.06 :       0.05 *
+ * AFFE_CHAR_MECA           :       0.01 :       0.00 :       0.01 :       0.01 *
+ * AFFE_CHAR_MECA           :       0.00 :       0.00 :       0.00 :       0.00 *
+ * MECA_STATIQUE            :       0.13 :       0.01 :       0.14 :       0.13 *
+ * FIN                      :       0.07 :       0.00 :       0.07 :       0.08 *
+ *  . sdveri                :       0.00 :       0.00 :       0.00 :       0.00 *
+ *  . check syntax          :       0.00 :       0.00 :       0.00 :       0.02 *
+ *  . fortran               :       0.11 :       0.17 :       0.28 :       0.83 *
+ *  . cleanup               :       0.17 :       0.00 :       0.17 :       0.16 *
+ ********************************************************************************
+ * TOTAL_JOB                :       0.45 :       0.19 :       0.64 :       1.23 *
+ ********************************************************************************
+
+# Mémoire (Mo) :   776.88 /   776.88 /   212.46 /   200.92 (VmPeak / VmSize / Optimum / Minimum)
+# Fin commande #0009   user+syst:        0.07s (syst:        0.00s, elaps:        0.08s)
+# ----------------------------------------------------------------------------------------------
+End of the Code_Aster execution
+Code_Aster MPI exits normally
+Exited
+INFO './glob.1' deleted
+Deleting './glob.2': No such file or directory
+INFO './vola.1' deleted
+Deleting './vola.2': No such file or directory

@@ -4,7 +4,7 @@ revision: 0.2
 status: accepted_for_release_0_2_3
 applicable_version: 0.2.3a0
 date: 2026-08-24
-reviewer: "Owner"
+reviewer: ""
 approver: "Owner"
 ---
 
@@ -73,7 +73,7 @@ Le paquet de cloture contient :
 - le tableau H8-G01 a H8-G12 complete avec liens vers les artefacts;
 - les resultats detailles H8-VV-01 a H8-VV-10 et H8-XV-01;
 - le comparatif TET4/TET10/HEX8 H8-PERF-01;
-- la correlation complementaire Code_Aster `results/hex8_code_aster_external/summary.json`;
+- la correlation complementaire Code_Aster `docs/assets/verification/hex8/code_aster/summary.json`;
 - les rapports de non-regression et la liste des exclusions;
 - les versions des outils et une empreinte de l'environnement;
 - la [revue Owner](qf_solver_0_2_3_alpha_hex8_owner_review.md) renseignee et
@@ -84,7 +84,7 @@ Le paquet de cloture contient :
 Les gates H8-G01 a H8-G12 disposent maintenant de preuves internes, et H8-G09
 dispose de deux correlations externes statiques : CalculiX C3D8 et Code_Aster
 HEXA8. La preuve Code_Aster est archivee dans
-`results/hex8_code_aster_external/summary.json` et a ete executee dans
+`docs/assets/verification/hex8/code_aster/summary.json` et a ete executee dans
 `simvia/code_aster:18.1.0`; elle reste bornee a un maillage structure et une
 charge nodale. La non-regression complete est egalement `PASS`. H8-G12 est
 ferme par la revue et la signature Owner du 2026-08-24 avec la decision

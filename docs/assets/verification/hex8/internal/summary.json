@@ -1,0 +1,385 @@
+{
+  "study_id": "VNV-HEX8-QF-SOLVER-0.2.3A0-INTERNAL-001",
+  "status": "PASS_INTERNAL",
+  "maturity": "research",
+  "execution_seconds": 6.450844699982554,
+  "kernel_verification": {
+    "status": "PASS",
+    "element": "HEX8",
+    "purpose": "mechanical_verification",
+    "integration": "2x2x2_gauss",
+    "checks": [
+      {
+        "name": "shape function partition",
+        "value": 0.0,
+        "limit": 1e-14,
+        "status": "PASS"
+      },
+      {
+        "name": "unit cube Jacobian",
+        "value": 2.7755575615628914e-17,
+        "limit": 1e-14,
+        "status": "PASS"
+      },
+      {
+        "name": "stiffness symmetry",
+        "value": 0.0,
+        "limit": 1e-13,
+        "status": "PASS"
+      },
+      {
+        "name": "consistent mass symmetry and total",
+        "value": 4.664075393707324e-16,
+        "limit": 1e-12,
+        "status": "PASS"
+      },
+      {
+        "name": "consistent mass positive definiteness",
+        "value": 0.0,
+        "limit": 1e-13,
+        "status": "PASS"
+      },
+      {
+        "name": "affine strain patch",
+        "value": 2.0876763579123056e-16,
+        "limit": 1e-11,
+        "status": "PASS"
+      },
+      {
+        "name": "affine analytical energy",
+        "value": 0.0,
+        "limit": 1e-11,
+        "status": "PASS"
+      },
+      {
+        "name": "rigid body modes",
+        "value": 7.20451299561138e-17,
+        "limit": 1e-10,
+        "status": "PASS"
+      },
+      {
+        "name": "positive Jacobian under bounded distortion",
+        "value": 0.0,
+        "limit": 0.0,
+        "status": "PASS"
+      },
+      {
+        "name": "near incompressible finite stiffness",
+        "value": 0.0,
+        "limit": 0.0,
+        "status": "PASS"
+      }
+    ]
+  },
+  "common_analysis_paths": [
+    {
+      "id": "static",
+      "status": "PASS",
+      "solver_status": "PASS"
+    },
+    {
+      "id": "modal",
+      "status": "PASS",
+      "solver_status": "PASS"
+    },
+    {
+      "id": "newmark",
+      "status": "PASS",
+      "solver_status": "PASS"
+    },
+    {
+      "id": "harmonic",
+      "status": "PASS",
+      "solver_status": "PASS"
+    }
+  ],
+  "load_cases": {
+    "status": "PASS",
+    "checks": [
+      {
+        "name": "unit-volume body resultant",
+        "value": 1.4217791915866692e-15,
+        "limit": 1e-12,
+        "status": "PASS"
+      },
+      {
+        "name": "QUAD4 traction resultant",
+        "value": 2.220446049250313e-16,
+        "limit": 1e-12,
+        "status": "PASS"
+      },
+      {
+        "name": "QUAD4 pressure resultant",
+        "value": 2.2887833992611187e-16,
+        "limit": 1e-12,
+        "status": "PASS"
+      }
+    ]
+  },
+  "field_cases": {
+    "status": "PASS",
+    "checks": [
+      {
+        "name": "tension",
+        "value": 1.4198859554884685e-20,
+        "limit": 1e-11,
+        "status": "PASS"
+      },
+      {
+        "name": "compression",
+        "value": 1.4198859554884685e-20,
+        "limit": 1e-11,
+        "status": "PASS"
+      },
+      {
+        "name": "shear",
+        "value": 2.839771910976937e-20,
+        "limit": 1e-11,
+        "status": "PASS"
+      },
+      {
+        "name": "bending_quadratic_field_at_final_h",
+        "value": 0.007349604094840264,
+        "limit": 0.01,
+        "status": "PASS"
+      }
+    ]
+  },
+  "h_convergence": {
+    "status": "PASS",
+    "target": 0.01,
+    "method": "reproducible 3D stratified sample of a quadratic displacement field over a structured cube",
+    "levels": [
+      {
+        "divisions": 1,
+        "dofs": 24,
+        "relative_strain_error": 0.49999999999999994
+      },
+      {
+        "divisions": 2,
+        "dofs": 81,
+        "relative_strain_error": 0.25000000000000006
+      },
+      {
+        "divisions": 4,
+        "dofs": 375,
+        "relative_strain_error": 0.12500000000000003
+      },
+      {
+        "divisions": 8,
+        "dofs": 2187,
+        "relative_strain_error": 0.05758167996310987
+      },
+      {
+        "divisions": 16,
+        "dofs": 14739,
+        "relative_strain_error": 0.02917051580812229
+      },
+      {
+        "divisions": 32,
+        "dofs": 107811,
+        "relative_strain_error": 0.014664080802545675
+      },
+      {
+        "divisions": 64,
+        "dofs": 823875,
+        "relative_strain_error": 0.007349604094840264
+      }
+    ]
+  },
+  "tet_hex_benchmark": {
+    "study_id": "VNV-HEX8-TET-FAMILY-MULTI-MODEL-001",
+    "status": "PASS_INTERNAL",
+    "model_count": 3,
+    "models": [
+      "unit_cube",
+      "slender_beam",
+      "distorted_cube"
+    ],
+    "element_families": [
+      "TET4",
+      "TET10",
+      "HEX8"
+    ],
+    "comparison_basis": "three same-geometry cases with common boundary/load convention per case",
+    "rows": [
+      {
+        "model": "unit_cube",
+        "element": "HEX8",
+        "status": "PASS",
+        "dofs": 81,
+        "elements": 8,
+        "solve_seconds": 0.1103476999560371,
+        "nnz": 3016,
+        "estimated_csr_bytes": 36520,
+        "rss_delta_bytes": 790528,
+        "max_displacement": 7.115006131943712e-11,
+        "equilibrium_residual": 8.206163446873306e-16
+      },
+      {
+        "model": "unit_cube",
+        "element": "TET4",
+        "status": "PASS",
+        "dofs": 81,
+        "elements": 48,
+        "solve_seconds": 0.24616129999049008,
+        "nnz": 1659,
+        "estimated_csr_bytes": 20236,
+        "rss_delta_bytes": 1474560,
+        "max_displacement": 3.4959233919534725e-11,
+        "equilibrium_residual": 8.808843139672866e-16
+      },
+      {
+        "model": "unit_cube",
+        "element": "TET10",
+        "status": "PASS",
+        "dofs": 375,
+        "elements": 48,
+        "solve_seconds": 0.6140113000292331,
+        "nnz": 21523,
+        "estimated_csr_bytes": 259780,
+        "rss_delta_bytes": 4124672,
+        "max_displacement": 1.2035611573723785e-10,
+        "equilibrium_residual": 5.094288526862707e-15
+      },
+      {
+        "model": "slender_beam",
+        "element": "HEX8",
+        "status": "PASS",
+        "dofs": 81,
+        "elements": 8,
+        "solve_seconds": 0.10929719998966902,
+        "nnz": 3046,
+        "estimated_csr_bytes": 36880,
+        "rss_delta_bytes": 110592,
+        "max_displacement": 2.279094064804019e-10,
+        "equilibrium_residual": 2.8294484936408984e-14
+      },
+      {
+        "model": "slender_beam",
+        "element": "TET4",
+        "status": "PASS",
+        "dofs": 81,
+        "elements": 48,
+        "solve_seconds": 0.20962619996862486,
+        "nnz": 1659,
+        "estimated_csr_bytes": 20236,
+        "rss_delta_bytes": 20480,
+        "max_displacement": 9.9043124469594e-11,
+        "equilibrium_residual": 1.968935324226525e-14
+      },
+      {
+        "model": "slender_beam",
+        "element": "TET10",
+        "status": "PASS",
+        "dofs": 375,
+        "elements": 48,
+        "solve_seconds": 0.5993402000167407,
+        "nnz": 21771,
+        "estimated_csr_bytes": 262756,
+        "rss_delta_bytes": 1331200,
+        "max_displacement": 9.944498761508777e-10,
+        "equilibrium_residual": 9.056598350906073e-13
+      },
+      {
+        "model": "distorted_cube",
+        "element": "HEX8",
+        "status": "PASS",
+        "dofs": 81,
+        "elements": 8,
+        "solve_seconds": 0.10914539999794215,
+        "nnz": 3087,
+        "estimated_csr_bytes": 37372,
+        "rss_delta_bytes": 49152,
+        "max_displacement": 6.76732092115105e-11,
+        "equilibrium_residual": 1.1903692210648778e-15
+      },
+      {
+        "model": "distorted_cube",
+        "element": "TET4",
+        "status": "PASS",
+        "dofs": 81,
+        "elements": 48,
+        "solve_seconds": 0.21091269998578355,
+        "nnz": 1987,
+        "estimated_csr_bytes": 24172,
+        "rss_delta_bytes": 86016,
+        "max_displacement": 3.351189871436455e-11,
+        "equilibrium_residual": 1.001808955292859e-15
+      },
+      {
+        "model": "distorted_cube",
+        "element": "TET10",
+        "status": "PASS",
+        "dofs": 375,
+        "elements": 48,
+        "solve_seconds": 0.6447021999629214,
+        "nnz": 21935,
+        "estimated_csr_bytes": 264724,
+        "rss_delta_bytes": 135168,
+        "max_displacement": 1.1075769007984732e-10,
+        "equilibrium_residual": 6.650772681614959e-15
+      }
+    ],
+    "limitations": [
+      "The three cases use a compact 2x2x2 structured partition; this is a robustness matrix, not a large-scale performance campaign.",
+      "TET and HEX degrees of freedom are reported explicitly and are not asserted equal for every case.",
+      "External certification remains covered by the separate CalculiX and Code_Aster same-mesh studies."
+    ]
+  },
+  "external_correlation": {
+    "study_id": "VNV-HEX8-CALCULIX-C3D8-001",
+    "status": "PASS_EXTERNAL_CORRELATION",
+    "external_solver": {
+      "name": "CalculiX",
+      "version": "2.20",
+      "image": "qf-solver/calculix-nafems13h:2.20",
+      "element": "C3D8"
+    },
+    "same_mesh": true,
+    "same_boundary_conditions": true,
+    "same_material": true,
+    "same_nodal_loads": true,
+    "nodes": 27,
+    "elements": 8,
+    "dofs": 81,
+    "qf_solver": {
+      "max_displacement": 7.115006131943712e-08,
+      "loaded_node": [
+        1.9391738531614304e-08,
+        2.9731463067086667e-09,
+        2.9731463067086576e-09
+      ]
+    },
+    "calculix": {
+      "max_displacement": 7.11501e-08,
+      "loaded_node": [
+        1.93917e-08,
+        2.97315e-09,
+        2.97315e-09
+      ]
+    },
+    "checks": [
+      {
+        "id": "full_displacement_relative_difference",
+        "value": 1.197604228900711e-06,
+        "limit": 0.01,
+        "status": "PASS"
+      },
+      {
+        "id": "loaded_node_relative_difference",
+        "value": 1.9596512749178366e-06,
+        "limit": 0.01,
+        "status": "PASS"
+      }
+    ],
+    "input_sha256": "1ba28bc0519536e44ab895022e19cda3606a273b77d1b2af073f8fb6258e2387",
+    "limitations": [
+      "One structured unit-cube mesh and one nodal-load case are covered.",
+      "The comparison is linear static C3D8 only; modal and dynamic external correlation remain separate gates."
+    ]
+  },
+  "open_gates": [
+    "H8-G12"
+  ]
+}

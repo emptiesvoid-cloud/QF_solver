@@ -1,0 +1,49 @@
+{
+  "study_id": "VNV-HEX20-CODE-ASTER-HEXA20-STATIC-001",
+  "status": "PASS_EXTERNAL_CORRELATION",
+  "external_solver": {
+    "name": "Code_Aster",
+    "version": "18.1.0",
+    "image": "simvia/code_aster:18.1.0",
+    "element": "3D/HEXA20"
+  },
+  "same_mesh": true,
+  "same_boundary_conditions": true,
+  "same_material": true,
+  "same_nodal_loads": true,
+  "nodes": 20,
+  "elements": 1,
+  "dofs": 60,
+  "qf_solver": {
+    "loaded_node_index": 1,
+    "loaded_node_displacement": [
+      7.387539663758864e-08,
+      2.784165839334928e-08,
+      2.784165839334937e-08
+    ]
+  },
+  "code_aster": {
+    "loaded_node_index": 1,
+    "loaded_node_displacement": [
+      7.387539663758901e-08,
+      2.7841658393349437e-08,
+      2.784165839334958e-08
+    ]
+  },
+  "checks": [
+    {
+      "id": "loaded_node_relative_difference",
+      "value": 5.4217799730589134e-15,
+      "limit": 0.01,
+      "status": "PASS"
+    }
+  ],
+  "input_sha256": {
+    "hex20_hexa20.mail": "1dcb9d144d18149463666bd5ad385158f2b865dbbeffcfbe482a45f35407c894",
+    "hex20_hexa20.comm": "0ee23da4aa581db0519f64f000c88819918ccca3597950224fd4a2280e171c67"
+  },
+  "limitations": [
+    "One structured unit-cube and one linear static nodal-load case are covered.",
+    "The Code_Aster comparison is an external correlation gate; J2 and multi-model external campaigns remain open."
+  ]
+}

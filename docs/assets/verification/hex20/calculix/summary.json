@@ -1,0 +1,52 @@
+{
+  "study_id": "VNV-HEX20-CALCULIX-C3D20-STATIC-001",
+  "status": "PASS_EXTERNAL_CORRELATION",
+  "external_solver": {
+    "name": "CalculiX",
+    "version": "2.20",
+    "image": "qf-solver/calculix-nafems13h:2.20",
+    "element": "C3D20"
+  },
+  "same_mesh": true,
+  "same_boundary_conditions": true,
+  "same_material": true,
+  "same_nodal_loads": true,
+  "nodes": 20,
+  "elements": 1,
+  "dofs": 60,
+  "qf_solver": {
+    "max_displacement": 7.387539663758864e-08,
+    "loaded_node": [
+      7.387539663758864e-08,
+      2.784165839334928e-08,
+      2.784165839334937e-08
+    ]
+  },
+  "calculix": {
+    "max_displacement": 7.38754e-08,
+    "loaded_node": [
+      7.38754e-08,
+      2.78417e-08,
+      2.78417e-08
+    ]
+  },
+  "checks": [
+    {
+      "id": "full_displacement_relative_difference",
+      "value": 8.495395403986182e-07,
+      "limit": 0.01,
+      "status": "PASS"
+    },
+    {
+      "id": "loaded_node_relative_difference",
+      "value": 7.040311697220178e-07,
+      "limit": 0.01,
+      "status": "PASS"
+    }
+  ],
+  "input_sha256": "86e0da077858e4de0e8ce33b886f41da889401bd7492c8a18117d12ac765b451",
+  "limitations": [
+    "One structured unit-cube mesh and one linear static nodal-load case are covered.",
+    "Modal, dynamic, J2 and multi-model external correlations remain separate gates."
+  ]
+}

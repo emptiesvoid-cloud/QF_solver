@@ -11,9 +11,9 @@ approver: ''
 # Audit hygiene, architecture et manques - QF_solver 0.2.1 alpha
 ## Verdict
 **Le code publiable est propre du point de vue des marqueurs controles, mais la baseline de developpement n'est pas gelable aujourd'hui.**
-- Audit de confidentialite du lot publiable : `PASS`, 1796 fichiers, 0 finding.
+- Audit de confidentialite du lot publiable : `PASS`, 1803 fichiers, 0 finding.
 - Gate `release-vv` courant : `PENDING_FINAL_CAMPAIGN`.
-- Git : HEAD `d33e315`, tag `none`, 248 fichiers modifies et 33 fichiers non suivis.
+- Git : HEAD `18884d9`, tag `none`, 79 fichiers modifies et 12 fichiers non suivis.
 - Tests collectes : 1187.
 - Limite 700 lignes : 0 depassement; 23 fichiers au-dessus de 600 lignes.
 ## Confidentialite et publication
@@ -40,7 +40,7 @@ Points a corriger :
 | `src/solveur/verification/mitc4_modal_extended.py` | 697 |
 | `scripts/build_owner_review_audit_pack.py` | 697 |
 | `src/solveur/verification/maturity_promotion.py` | 694 |
-| `scripts/build_release_0_2_3_owner_review_pdf.py` | 692 |
+| `scripts/build_release_0_2_3_owner_review_pdf.py` | 693 |
 | `src/solveur/verification/release_vv.py` | 687 |
 ## Etat des Owner reviews
 Le paquet de promotion contient 33 scopes : 22 techniquement prets et 11 bloques uniquement par une decision Owner. Le total-lagrangien exige en plus une relecture independante; il ne peut pas etre ferme par auto-revue. Aucune promotion ne doit etre appliquee en bloc.

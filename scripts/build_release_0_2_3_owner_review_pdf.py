@@ -37,6 +37,7 @@ except ImportError:  # pragma: no cover - supports direct script execution
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "output" / "pdf" / "qf_solver_0_2_3_alpha_owner_review_complete_final.pdf"
 ASSET_DIR = ROOT / "output" / "pdf" / "assets" / "qf_solver_0_2_3_owner_review"
+EVIDENCE_DIR = ROOT / "docs" / "assets" / "verification"
 
 
 def _json(path: Path, default: dict[str, Any] | None = None) -> dict[str, Any]:
@@ -75,14 +76,14 @@ def _metric(rows: Iterable[dict[str, Any]], key: str, fn: Any = max) -> float:
 
 
 def _load_data() -> dict[str, Any]:
-    h8 = _json(ROOT / "results" / "hex8_full_campaign" / "summary.json")
-    h20 = _json(ROOT / "results" / "hex20_internal" / "summary.json")
+    h8 = _json(EVIDENCE_DIR / "hex8" / "internal" / "summary.json")
+    h20 = _json(EVIDENCE_DIR / "hex20" / "internal" / "summary.json")
     data = {
         "h8": h8,
         "h20": h20,
-        "h8_code_aster": _json(ROOT / "results" / "hex8_code_aster_external" / "summary.json"),
-        "h20_calculix": _json(ROOT / "results" / "hex20_external_calculix" / "summary.json"),
-        "h20_code_aster": _json(ROOT / "results" / "hex20_external_code_aster" / "summary.json"),
+        "h8_code_aster": _json(EVIDENCE_DIR / "hex8" / "code_aster" / "summary.json"),
+        "h20_calculix": _json(EVIDENCE_DIR / "hex20" / "calculix" / "summary.json"),
+        "h20_code_aster": _json(EVIDENCE_DIR / "hex20" / "code_aster" / "summary.json"),
         "audit": _json(ROOT / "qualification" / "publication_audit_0_2_1.json"),
     }
     data["h8_calculix"] = h8.get("external_correlation", {})
@@ -348,8 +349,8 @@ def build() -> Path:
     styles = review_styles()
     rows = data["all_rows"]
     audit = data["audit"]
-    h8_hash = _sha256(ROOT / "results" / "hex8_full_campaign" / "summary.json")
-    h20_hash = _sha256(ROOT / "results" / "hex20_internal" / "summary.json")
+    h8_hash = _sha256(EVIDENCE_DIR / "hex8" / "internal" / "summary.json")
+    h20_hash = _sha256(EVIDENCE_DIR / "hex20" / "internal" / "summary.json")
 
     doc = SimpleDocTemplate(
         str(OUTPUT),
@@ -456,7 +457,7 @@ def build() -> Path:
     story.extend([PageBreak(), paragraph("HEX8 - analyses, convergence et comparaison externe", styles["h1"])])
     story.extend([review_table(_analysis_rows(data), [38 * mm, 28 * mm, 28 * mm, 86 * mm], styles)])
     _image_story(story, charts["h"], "Figure 3 - La convergence h HEX8 utilise la serie archivee jusqu'a 823875 DDL du cas de convergence; la valeur finale est 0,73496 %.", styles, 70 * mm)
-    _image_story(story, ROOT / "results" / "hex8_full_campaign" / "tet_hex_multi_model" / "tet_hex_multi_model_comparison.png", "Figure 4 - Planche produite par la campagne HEX8 historique TET4/TET10/HEX8.", styles, 72 * mm)
+    _image_story(story, EVIDENCE_DIR / "hex8" / "comparison" / "tet_hex_multi_model_comparison.png", "Figure 4 - Planche produite par la campagne HEX8 historique TET4/TET10/HEX8.", styles, 72 * mm)
     story.extend(
         [
             PageBreak(),
@@ -534,7 +535,7 @@ def build() -> Path:
     story.append(PageBreak())
     _image_story(story, charts["benchmark_residual"], "Figure 8 - Residus d'equilibre des 12 cas. Tous sont bas dans la campagne, avec des ordres de grandeur differents.", styles, 70 * mm)
     _image_story(story, charts["benchmark_displacement"], "Figure 9 - Deplacements maximaux. La grandeur depend du modele, de la charge et de la famille; elle ne sert pas seule de classement de precision.", styles, 70 * mm)
-    _image_story(story, ROOT / "results" / "hex20_tet_multi_model" / "tet_hex8_hex20_multi_model_comparison.png", "Figure 10 - Planche archivee de la comparaison TET4/TET10/HEX8/HEX20.", styles, 78 * mm)
+    _image_story(story, EVIDENCE_DIR / "hex20" / "comparison" / "tet_hex8_hex20_multi_model_comparison.png", "Figure 10 - Planche archivee de la comparaison TET4/TET10/HEX8/HEX20.", styles, 78 * mm)
 
     story.extend(
         [
@@ -666,11 +667,11 @@ def build() -> Path:
                     ["Plan HEX20", "docs/verification/qf_solver_0_2_3_alpha_hex20_implementation_vnv_plan.md"],
                     ["Gate HEX20", "docs/verification/qf_solver_0_2_3_alpha_hex20_release_gate.md"],
                     ["Owner HEX20", "docs/verification/qf_solver_0_2_3_alpha_hex20_owner_review.md"],
-                    ["HEX8 interne", "results/hex8_full_campaign/summary.json + report.md"],
-                    ["HEX20 interne", "results/hex20_internal/summary.json + report.md"],
-                    ["Benchmark commun", "results/hex20_tet_multi_model/summary.json + report.md + PNG"],
-                    ["CalculiX", "results/hex8_full_campaign/external_hex8_calculix/ et results/hex20_external_calculix/"],
-                    ["Code_Aster", "results/hex8_code_aster_external/ et results/hex20_external_code_aster/"],
+                    ["HEX8 interne", "docs/assets/verification/hex8/internal/summary.json"],
+                    ["HEX20 interne", "docs/assets/verification/hex20/internal/summary.json"],
+                    ["Benchmark commun", "docs/assets/verification/hex20/comparison/summary.json + PNG"],
+                    ["CalculiX", "docs/assets/verification/hex8/internal/summary.json (correlation) et docs/assets/verification/hex20/calculix/"],
+                    ["Code_Aster", "docs/assets/verification/hex8/code_aster/ et docs/assets/verification/hex20/code_aster/"],
                     ["Audit public", "qualification/publication_audit_0_2_1.json"],
                 ],
                 [40 * mm, 140 * mm],

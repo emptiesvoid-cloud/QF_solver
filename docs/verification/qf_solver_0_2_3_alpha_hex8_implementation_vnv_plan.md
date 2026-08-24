@@ -92,9 +92,9 @@ src/solveur/verification/hex8.py
 src/solveur/verification/hex8_campaign.py
 src/solveur/verification/hex8_calculix.py
 src/solveur/verification/hex8_tet_benchmark.py
-results/hex8_full_campaign/summary.json
-results/hex8_full_campaign/external_hex8_calculix/summary.json
-results/hex8_code_aster_external/summary.json
+docs/assets/verification/hex8/internal/summary.json
+docs/assets/verification/hex8/internal/summary.json (correlation CalculiX)
+docs/assets/verification/hex8/code_aster/summary.json
 ```
 
 Chaque campagne archive le commit, la version Python, SciPy, PETSc/petsc4py

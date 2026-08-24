@@ -4,7 +4,7 @@ revision: 0.2
 status: accepted_for_release_0_2_3
 applicable_version: 0.2.3a0
 date: 2026-08-24
-reviewer: "Owner"
+reviewer: ""
 approver: "Owner"
 ---
 
@@ -49,15 +49,13 @@ une correlation externe ni une revue Owner.
 ## Paquet minimal avant revue Owner
 
 ```text
-results/hex20_internal/summary.json
-results/hex20_internal/report.md
-results/hex20_tet_multi_model/summary.json
-results/hex20_tet_multi_model/report.md
-results/hex20_tet_multi_model/tet_hex8_hex20_multi_model_comparison.png
-results/hex20_external_calculix/summary.json
-results/hex20_external_calculix/calculix.log
-results/hex20_external_code_aster/summary.json
-results/hex20_external_code_aster/code_aster.log
+docs/assets/verification/hex20/internal/summary.json
+docs/assets/verification/hex20/comparison/summary.json
+docs/assets/verification/hex20/comparison/tet_hex8_hex20_multi_model_comparison.png
+docs/assets/verification/hex20/calculix/summary.json
+docs/assets/verification/hex20/calculix/calculix.log
+docs/assets/verification/hex20/code_aster/summary.json
+docs/assets/verification/hex20/code_aster/code_aster.log
 ```
 
 La fiche Owner contient les reponses techniques et a ete signee le 2026-08-24

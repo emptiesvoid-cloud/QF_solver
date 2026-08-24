@@ -3803,7 +3803,7 @@
         "REQ-EVD-001"
       ],
       "examples": [
-        "results/hex20_internal/summary.json"
+        "docs/assets/verification/hex20/internal/summary.json"
       ],
       "tests": [
         "tests/unit/test_hex20_element.py",
@@ -3823,8 +3823,8 @@
         "REQ-EVD-001"
       ],
       "examples": [
-        "results/hex20_internal/summary.json",
-        "results/hex20_tet_multi_model/summary.json"
+        "docs/assets/verification/hex20/internal/summary.json",
+        "docs/assets/verification/hex20/comparison/summary.json"
       ],
       "tests": [
         "tests/unit/test_hex20_campaign.py",
@@ -3843,7 +3843,7 @@
         "REQ-EVD-001"
       ],
       "examples": [
-        "results/hex20_internal/summary.json",
+        "docs/assets/verification/hex20/internal/summary.json",
         "src/solveur/verification/hex20_calculix.py",
         "scripts/run_code_aster_hex20_vnv.py"
       ],

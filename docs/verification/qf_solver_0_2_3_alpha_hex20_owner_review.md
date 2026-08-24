@@ -4,6 +4,7 @@ revision: 0.2
 status: accepted_for_release_0_2_3
 applicable_version: 0.2.3a0
 date: 2026-08-24
+release_source_sha: 18884d9
 owner_review: signed_by_owner
 decision: accepted_for_release_0_2_3
 reviewer: "Owner"
@@ -25,10 +26,10 @@ etude tant que les gates CI post-push ne sont pas verts.
 
 - plan V&V : `docs/verification/qf_solver_0_2_3_alpha_hex20_implementation_vnv_plan.md` ;
 - registre de gates : `docs/verification/qf_solver_0_2_3_alpha_hex20_release_gate.md` ;
-- campagne interne : `results/hex20_internal/summary.json` et `report.md` ;
-- comparaison trois modeles : `results/hex20_tet_multi_model/summary.json` ;
-- deck externe CalculiX : `results/hex20_external_calculix/` ;
-- resultat externe Code_Aster : `results/hex20_external_code_aster/` ;
+- campagne interne : `docs/assets/verification/hex20/internal/summary.json` ;
+- comparaison trois modeles : `docs/assets/verification/hex20/comparison/summary.json` ;
+- deck externe CalculiX : `docs/assets/verification/hex20/calculix/` ;
+- resultat externe Code_Aster : `docs/assets/verification/hex20/code_aster/` ;
 - tests unitaires et integration HEX20 ;
 - rapport de non-regression et environnement a joindre avant signature.
 

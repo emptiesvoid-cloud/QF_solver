@@ -1,0 +1,333 @@
+{
+  "study_id": "VNV-HEX20-QF-SOLVER-0.2.3A0-INTERNAL-001",
+  "status": "PASS_INTERNAL",
+  "maturity": "research",
+  "execution_seconds": 44.44720579998102,
+  "kernel_verification": {
+    "status": "PASS",
+    "element": "HEX20",
+    "purpose": "mechanical_verification",
+    "integration": "3x3x3_gauss",
+    "checks": [
+      {
+        "name": "shape function partition",
+        "value": 1.1102230246251565e-16,
+        "limit": 1e-14,
+        "status": "PASS"
+      },
+      {
+        "name": "Gmsh nodal interpolation",
+        "value": 0.0,
+        "limit": 1e-14,
+        "status": "PASS"
+      },
+      {
+        "name": "unit cube Jacobian",
+        "value": 8.326672684688674e-17,
+        "limit": 1e-14,
+        "status": "PASS"
+      },
+      {
+        "name": "stiffness symmetry",
+        "value": 0.0,
+        "limit": 1e-13,
+        "status": "PASS"
+      },
+      {
+        "name": "consistent mass symmetry and total",
+        "value": 1.2437534383219531e-15,
+        "limit": 1e-12,
+        "status": "PASS"
+      },
+      {
+        "name": "consistent mass positive definiteness",
+        "value": 0.0,
+        "limit": 1e-13,
+        "status": "PASS"
+      },
+      {
+        "name": "affine strain patch",
+        "value": 7.946132831108315e-16,
+        "limit": 1e-11,
+        "status": "PASS"
+      },
+      {
+        "name": "affine analytical energy",
+        "value": 4.3350955123692443e-16,
+        "limit": 1e-11,
+        "status": "PASS"
+      },
+      {
+        "name": "rigid body modes",
+        "value": 9.715800382653058e-17,
+        "limit": 1e-10,
+        "status": "PASS"
+      },
+      {
+        "name": "positive Jacobian under bounded distortion",
+        "value": 0.0,
+        "limit": 0.0,
+        "status": "PASS"
+      },
+      {
+        "name": "near incompressible finite stiffness",
+        "value": 0.0,
+        "limit": 0.0,
+        "status": "PASS"
+      }
+    ]
+  },
+  "common_analysis_paths": [
+    {
+      "id": "static",
+      "status": "PASS",
+      "solver_status": "PASS"
+    },
+    {
+      "id": "modal",
+      "status": "PASS",
+      "solver_status": "PASS"
+    },
+    {
+      "id": "newmark",
+      "status": "PASS",
+      "solver_status": "PASS"
+    },
+    {
+      "id": "harmonic",
+      "status": "PASS",
+      "solver_status": "PASS"
+    }
+  ],
+  "load_cases": {
+    "status": "PASS",
+    "checks": [
+      {
+        "name": "unit-volume body resultant",
+        "value": 6.661338147750939e-16,
+        "limit": 1e-12,
+        "status": "PASS"
+      },
+      {
+        "name": "QUAD8 traction resultant",
+        "value": 0.0,
+        "limit": 1e-12,
+        "status": "PASS"
+      },
+      {
+        "name": "QUAD8 pressure resultant",
+        "value": 7.753543005845802e-17,
+        "limit": 1e-12,
+        "status": "PASS"
+      }
+    ]
+  },
+  "j2_case": {
+    "status": "PASS",
+    "steps": 4,
+    "max_relative_residual": 1.6721605511967452e-10,
+    "integration_points": 27
+  },
+  "tet_hex20_benchmark": {
+    "study_id": "VNV-HEX20-TET-FAMILY-MULTI-MODEL-001",
+    "status": "PASS_INTERNAL",
+    "model_count": 3,
+    "models": [
+      "unit_cube",
+      "slender_beam",
+      "distorted_cube"
+    ],
+    "element_families": [
+      "TET4",
+      "TET10",
+      "HEX8",
+      "HEX20"
+    ],
+    "comparison_basis": "three common structured 2x2x2 geometries with explicit DDL and common boundary/load convention",
+    "rows": [
+      {
+        "model": "unit_cube",
+        "element": "TET4",
+        "status": "PASS",
+        "dofs": 81,
+        "elements": 48,
+        "solve_seconds": 0.22281090001342818,
+        "nnz": 1659,
+        "estimated_csr_bytes": 20236,
+        "rss_delta_bytes": 1466368,
+        "max_displacement": 3.4959233919534725e-11,
+        "equilibrium_residual": 8.808843139672866e-16
+      },
+      {
+        "model": "unit_cube",
+        "element": "TET10",
+        "status": "PASS",
+        "dofs": 375,
+        "elements": 48,
+        "solve_seconds": 0.6157588000060059,
+        "nnz": 21523,
+        "estimated_csr_bytes": 259780,
+        "rss_delta_bytes": 3788800,
+        "max_displacement": 1.2035611573723785e-10,
+        "equilibrium_residual": 5.094288526862707e-15
+      },
+      {
+        "model": "unit_cube",
+        "element": "HEX8",
+        "status": "PASS",
+        "dofs": 81,
+        "elements": 8,
+        "solve_seconds": 0.11111220001475886,
+        "nnz": 3016,
+        "estimated_csr_bytes": 36520,
+        "rss_delta_bytes": 217088,
+        "max_displacement": 7.115006131943712e-11,
+        "equilibrium_residual": 8.206163446873306e-16
+      },
+      {
+        "model": "unit_cube",
+        "element": "HEX20",
+        "status": "PASS",
+        "dofs": 243,
+        "elements": 8,
+        "solve_seconds": 7.51739599998109,
+        "nnz": 22196,
+        "estimated_csr_bytes": 267328,
+        "rss_delta_bytes": 0,
+        "max_displacement": 1.5574485811331337e-10,
+        "equilibrium_residual": 8.841807229654853e-15
+      },
+      {
+        "model": "slender_beam",
+        "element": "TET4",
+        "status": "PASS",
+        "dofs": 81,
+        "elements": 48,
+        "solve_seconds": 0.21730229997774586,
+        "nnz": 1659,
+        "estimated_csr_bytes": 20236,
+        "rss_delta_bytes": 36864,
+        "max_displacement": 9.9043124469594e-11,
+        "equilibrium_residual": 1.968935324226525e-14
+      },
+      {
+        "model": "slender_beam",
+        "element": "TET10",
+        "status": "PASS",
+        "dofs": 375,
+        "elements": 48,
+        "solve_seconds": 0.610297899984289,
+        "nnz": 21771,
+        "estimated_csr_bytes": 262756,
+        "rss_delta_bytes": 1310720,
+        "max_displacement": 9.944498761508777e-10,
+        "equilibrium_residual": 9.056598350906073e-13
+      },
+      {
+        "model": "slender_beam",
+        "element": "HEX8",
+        "status": "PASS",
+        "dofs": 81,
+        "elements": 8,
+        "solve_seconds": 0.11166609998326749,
+        "nnz": 3046,
+        "estimated_csr_bytes": 36880,
+        "rss_delta_bytes": 8192,
+        "max_displacement": 2.279094064804019e-10,
+        "equilibrium_residual": 2.8294484936408984e-14
+      },
+      {
+        "model": "slender_beam",
+        "element": "HEX20",
+        "status": "PASS",
+        "dofs": 243,
+        "elements": 8,
+        "solve_seconds": 7.4888221000437625,
+        "nnz": 22203,
+        "estimated_csr_bytes": 267412,
+        "rss_delta_bytes": 368640,
+        "max_displacement": 1.0047071574933893e-09,
+        "equilibrium_residual": 1.323414028151423e-12
+      },
+      {
+        "model": "distorted_cube",
+        "element": "TET4",
+        "status": "PASS",
+        "dofs": 81,
+        "elements": 48,
+        "solve_seconds": 0.28542709996690974,
+        "nnz": 1987,
+        "estimated_csr_bytes": 24172,
+        "rss_delta_bytes": 0,
+        "max_displacement": 3.351189871436455e-11,
+        "equilibrium_residual": 1.001808955292859e-15
+      },
+      {
+        "model": "distorted_cube",
+        "element": "TET10",
+        "status": "PASS",
+        "dofs": 375,
+        "elements": 48,
+        "solve_seconds": 0.6160321999923326,
+        "nnz": 21935,
+        "estimated_csr_bytes": 264724,
+        "rss_delta_bytes": 147456,
+        "max_displacement": 1.1075769007984732e-10,
+        "equilibrium_residual": 6.650772681614959e-15
+      },
+      {
+        "model": "distorted_cube",
+        "element": "HEX8",
+        "status": "PASS",
+        "dofs": 81,
+        "elements": 8,
+        "solve_seconds": 0.11121010000351816,
+        "nnz": 3087,
+        "estimated_csr_bytes": 37372,
+        "rss_delta_bytes": 0,
+        "max_displacement": 6.76732092115105e-11,
+        "equilibrium_residual": 1.1903692210648778e-15
+      },
+      {
+        "model": "distorted_cube",
+        "element": "HEX20",
+        "status": "PASS",
+        "dofs": 243,
+        "elements": 8,
+        "solve_seconds": 7.719960100017488,
+        "nnz": 22363,
+        "estimated_csr_bytes": 269332,
+        "rss_delta_bytes": 122880,
+        "max_displacement": 1.414713907616303e-10,
+        "equilibrium_residual": 1.2525239114844513e-14
+      }
+    ],
+    "external_correlation": {
+      "status": "OPEN",
+      "required": true,
+      "targets": [
+        "CalculiX C3D20",
+        "Code_Aster HEXA20"
+      ]
+    },
+    "limitations": [
+      "The campaign is a compact internal robustness and scaling comparison, not a production-size benchmark.",
+      "TET and HEX meshes have different interpolation orders and therefore their DDL counts are reported, not equalized.",
+      "External correlation remains a separate gate and is not inferred from the internal PASS."
+    ]
+  },
+  "external_correlation": {
+    "status": "OPEN",
+    "required": true,
+    "solvers": [
+      "CalculiX C3D20",
+      "Code_Aster HEXA20"
+    ],
+    "execution": "not_requested"
+  },
+  "open_gates": [
+    "H20-G09-CALCULIX",
+    "H20-G10-CODE-ASTER",
+    "H20-G11-OWNER-REVIEW"
+  ]
+}

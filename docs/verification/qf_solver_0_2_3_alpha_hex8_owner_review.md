@@ -4,6 +4,7 @@ revision: 0.2
 status: accepted_for_release_0_2_3
 applicable_version: 0.2.3a0
 date: 2026-08-24
+release_source_sha: 18884d9
 owner_review: signed_by_owner
 decision: accepted_for_release_0_2_3
 reviewer: "Owner"
@@ -20,12 +21,13 @@ uniquement le perimetre HEX8 lineaire documente.
 
 ## Contexte de preuve a joindre
 
-- commit examine : `a24b83c` (source poussee sur GitHub; tag de release a
-  aligner sur le HEAD final apres fermeture documentaire);
+- commit examine : `18884d9` (source poussee sur GitHub et verifiee par le
+  blocker engineering final; le tag de release sera aligne sur le commit
+  final contenant les artefacts documentaires);
 - plateforme et versions : `Windows, Python 3.13.1, NumPy 2.2.6, SciPy 1.15.2, psutil 7.2.2; PETSc/Gmsh non requis pour cette campagne; CalculiX 2.20; Code_Aster 18.1`;
-- dossier V&V HEX8 : `results/hex8_full_campaign/summary.json` genere par `verify-hex8-campaign --external`;
-- correlation externe obligatoire : `results/hex8_full_campaign/external_hex8_calculix/summary.json`, C3D8, ecarts 1.20e-6 et 1.96e-6;
-- correlation externe complementaire : `results/hex8_code_aster_external/summary.json`, HEXA8, ecart 4.18e-16 sur le noeud charge;
+- dossier V&V HEX8 : `docs/assets/verification/hex8/internal/summary.json` genere par `verify-hex8-campaign --external`;
+- correlation externe obligatoire : `docs/assets/verification/hex8/internal/summary.json` (section CalculiX C3D8), ecarts 1.20e-6 et 1.96e-6;
+- correlation externe complementaire : `docs/assets/verification/hex8/code_aster/summary.json`, HEXA8, ecart 4.18e-16 sur le noeud charge;
 - comparaison TET4/TET10/HEX8 : section `tet_hex_benchmark` du meme summary, 81 DDL par cas, nnz/temps/CSR/delta RSS;
 - rapport de non-regression : `1429 passed, 14 skipped, 186 deselected` avec
   `python qf_solver.py verify-all --profile engineering` ; les verifications

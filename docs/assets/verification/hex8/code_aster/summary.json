@@ -1,0 +1,49 @@
+{
+  "study_id": "VNV-HEX8-CODE-ASTER-HEXA8-STATIC-001",
+  "status": "PASS_EXTERNAL_CORRELATION",
+  "external_solver": {
+    "name": "Code_Aster",
+    "version": "18.1.0",
+    "image": "simvia/code_aster:18.1.0",
+    "element": "3D/HEXA8"
+  },
+  "same_mesh": true,
+  "same_boundary_conditions": true,
+  "same_material": true,
+  "same_nodal_loads": true,
+  "nodes": 27,
+  "elements": 8,
+  "dofs": 81,
+  "qf_solver": {
+    "loaded_node_index": 2,
+    "loaded_node_displacement": [
+      7.115006131943712e-08,
+      2.4444498307468894e-08,
+      2.4444498307468877e-08
+    ]
+  },
+  "code_aster": {
+    "loaded_node_index": 2,
+    "loaded_node_displacement": [
+      7.11500613194371e-08,
+      2.4444498307468894e-08,
+      2.4444498307468897e-08
+    ]
+  },
+  "checks": [
+    {
+      "id": "loaded_node_relative_difference",
+      "value": 4.182764765997338e-16,
+      "limit": 0.01,
+      "status": "PASS"
+    }
+  ],
+  "input_sha256": {
+    "hex8_hexa8.mail": "add5782d5eb67ff996536a7f96f72c1a71535d05843b9840df8fcfcf3e887054",
+    "hex8_hexa8.comm": "0c7ecd1e315d663ce8762988971daff17bf28821e5b7f45b8b6aea8adbc5598c"
+  },
+  "limitations": [
+    "One structured unit-cube mesh and one nodal-load linear static case are covered.",
+    "The Code_Aster comparison is a complementary external correlation; modal and dynamic external cases remain outside this study."
+  ]
+}
