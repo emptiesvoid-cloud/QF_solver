@@ -7,7 +7,10 @@ from time import perf_counter
 
 import matplotlib
 import numpy as np
-import psutil
+try:
+    import psutil
+except ModuleNotFoundError:  # pragma: no cover - exercised by the standard wheel smoke test
+    psutil = None  # type: ignore[assignment]
 
 matplotlib.use("Agg")
 from matplotlib import pyplot as plt  # noqa: E402
@@ -22,16 +25,22 @@ MULTI_MODEL_STUDY_ID = "VNV-HEX8-TET-FAMILY-MULTI-MODEL-001"
 HEX20_MULTI_MODEL_STUDY_ID = "VNV-HEX20-TET-FAMILY-MULTI-MODEL-001"
 
 
+def _rss_bytes() -> int:
+    """Return process RSS when the optional benchmark dependency is available."""
+    if psutil is None:
+        return 0
+    return int(psutil.Process().memory_info().rss)
+
+
 def run_tet10_hex8_benchmark(output_dir: str | Path | None = None) -> dict[str, object]:
     cases = {"HEX8": _hex8_model(), "TET4": _tet4_model(), "TET10": _tet10_model()}
     rows = []
-    process = psutil.Process()
     for name, model in cases.items():
-        rss_before = process.memory_info().rss
+        rss_before = _rss_bytes()
         started = perf_counter()
         result = solve_model(model)
         elapsed = perf_counter() - started
-        rss_after = process.memory_info().rss
+        rss_after = _rss_bytes()
         audit_matrices = result.audit.to_dict().get("matrices", []) if result.audit is not None else []
         stiffness = next((matrix for matrix in audit_matrices if matrix.get("name") == "stiffness"), None)
         rows.append(
@@ -150,12 +159,11 @@ def run_hex20_multi_model_benchmark(output_dir: str | Path | None = None) -> dic
 
 
 def _benchmark_row(case_name: str, family: str, model: FiniteElementModel) -> dict[str, object]:
-    process = psutil.Process()
-    rss_before = process.memory_info().rss
+    rss_before = _rss_bytes()
     started = perf_counter()
     result = solve_model(model)
     elapsed = perf_counter() - started
-    rss_after = process.memory_info().rss
+    rss_after = _rss_bytes()
     audit_matrices = result.audit.to_dict().get("matrices", []) if result.audit is not None else []
     stiffness = next((matrix for matrix in audit_matrices if matrix.get("name") == "stiffness"), None)
     residual = float(result.audit.equilibrium.get("free_relative_residual", np.inf)) if result.audit is not None else np.inf
