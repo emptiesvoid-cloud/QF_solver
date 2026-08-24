@@ -48,7 +48,9 @@ def test_release_readiness_supports_direct_script_execution(tmp_path) -> None:
         text=True,
         capture_output=True,
         check=False,
-        timeout=30,
+        # The direct readiness audit scans the complete public tree and is
+        # noticeably slower on Windows runners, especially on Python 3.13.
+        timeout=90,
     )
 
     report = json.loads(output.read_text(encoding="utf-8"))
@@ -73,7 +75,7 @@ def test_release_audit_commands_create_nested_output_directories(tmp_path) -> No
             text=True,
             capture_output=True,
             check=False,
-            timeout=30,
+            timeout=90,
         )
 
         status = json.loads(output.read_text(encoding="utf-8"))["status"]
