@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_on": "2026-08-14",
+  "generated_on": "2026-08-24",
   "purpose": "Authoritative coverage matrix separating implementation, automated verification and Owner validation.",
   "status_values": {
     "stable": "All release proof requirements are complete and the scope is eligible for stable engineering use.",
@@ -42,7 +42,8 @@
       "material_nonlinear_static": {
         "status": "owner_accepted_experimental_bounded_use",
         "scope": "tet4-material-nonlinear",
-        "owner_review": "qualification/reviews/tet4_material_nonlinear_owner_review_2026-08-20.json"
+        "owner_review": "qualification/reviews/tet4_material_nonlinear_owner_review_2026-08-20.json",
+        "note": "The 0.2.4a0 Owner review accepts the bounded small-strain J2 scope with Full Newton only. RQ-G08 provides a one-element affine Code_Aster correlation; multi-element, cyclic and physical validation claims remain excluded."
       },
       "geometric_nonlinear_static": {
         "status": "research",
@@ -61,7 +62,10 @@
         "tests/unit/test_analysis_features.py",
         "src/solveur/verification/code_aster_tet4_dynamic.py",
         "qualification/reviews/tet4_stable_promotion_owner_review_pending.json",
-        "qualification/reviews/owner_review_tet4_linear_dynamics_2026-08-02.md"
+        "qualification/reviews/owner_review_tet4_linear_dynamics_2026-08-02.md",
+        "docs/verification/qf_solver_0_2_4_alpha_unified_nonlinear_solid_mechanics_owner_review.md",
+        "docs/verification/rqg08_external_j2_common_024.md",
+        "qualification/external_reference_digests/rqg08_j2_common_024.json"
       ]
     },
     "TET10": {
@@ -88,7 +92,7 @@
       "material_nonlinear_static": {
         "status": "owner_accepted_experimental_bounded_use",
         "scope": "tet10-material-nonlinear",
-        "note": "The bounded monotone TET10 J2 structural correlation was accepted for experimental internal use by Owner review on 2026-08-09; complex geometry, combined loads and cyclic paths remain outside the family maturity."
+        "note": "The 0.2.4a0 Owner review accepts the bounded small-strain J2 scope with Full Newton only. RQ-G08 provides a one-element affine Code_Aster correlation; complex geometry, combined loads, cyclic paths and physical validation remain outside the family maturity."
       },
       "geometric_nonlinear_static": {
         "status": "unsupported",
@@ -104,7 +108,10 @@
         "src/solveur/verification/code_aster_tet10_dynamic.py",
         "tests/unit/test_code_aster_tet10_dynamic.py",
         "qualification/reviews/tet10_stable_promotion_owner_review_pending.json",
-        "docs/verification/tet10_stable_promotion_owner_review_0_2_1.md"
+        "docs/verification/tet10_stable_promotion_owner_review_0_2_1.md",
+        "docs/verification/qf_solver_0_2_4_alpha_unified_nonlinear_solid_mechanics_owner_review.md",
+        "docs/verification/rqg08_external_j2_common_024.md",
+        "qualification/external_reference_digests/rqg08_j2_common_024.json"
       ]
     },
     "MITC4": {
@@ -378,8 +385,10 @@
         "owner_review": "docs/verification/qf_solver_0_2_3_alpha_hex8_owner_review.md"
       },
       "material_nonlinear_static": {
-        "status": "unsupported",
-        "scope": null
+        "status": "owner_accepted_experimental_bounded_use",
+        "scope": "hex8-j2-small-strain-bounded",
+        "owner_review": "docs/verification/qf_solver_0_2_4_alpha_unified_nonlinear_solid_mechanics_owner_review.md",
+        "note": "Full Newton only. RQ-G08 provides a bounded one-element affine Code_Aster correlation; multi-element, cyclic, physical validation, contact and large-deformation claims remain excluded."
       },
       "geometric_nonlinear_static": {
         "status": "unsupported",
@@ -396,7 +405,11 @@
         "docs/assets/verification/hex8/internal/summary.json",
         "docs/assets/verification/hex8/code_aster/summary.json",
         "tests/unit/test_hex8_element.py",
-        "tests/integration/test_hex8_workflow.py"
+        "tests/integration/test_hex8_workflow.py",
+        "docs/verification/qf_solver_0_2_4_alpha_unified_nonlinear_solid_mechanics_owner_review.md",
+        "docs/verification/rqg08_external_j2_common_024.md",
+        "qualification/external_reference_digests/rqg08_j2_common_024.json",
+        "tests/verification/test_robustness_solid_matrix_vnv.py"
       ]
     },
     "HEX20": {
@@ -424,8 +437,8 @@
       "material_nonlinear_static": {
         "status": "owner_accepted_experimental_bounded_use",
         "scope": "hex20-j2-small-strain-bounded",
-        "owner_review": "docs/verification/qf_solver_0_2_3_alpha_hex20_owner_review.md",
-        "note": "Internal J2 evidence only; external J2, contact, damage and large deformation remain excluded."
+        "owner_review": "docs/verification/qf_solver_0_2_4_alpha_unified_nonlinear_solid_mechanics_owner_review.md",
+        "note": "Full Newton only. RQ-G08 provides a bounded one-element affine Code_Aster correlation; multi-element, cyclic, physical validation, contact, damage and large-deformation claims remain excluded."
       },
       "geometric_nonlinear_static": {
         "status": "unsupported",
@@ -444,7 +457,11 @@
         "docs/assets/verification/hex20/calculix/summary.json",
         "docs/assets/verification/hex20/code_aster/summary.json",
         "tests/unit/test_hex20_campaign.py",
-        "tests/integration/test_hex20_workflow.py"
+        "tests/integration/test_hex20_workflow.py",
+        "docs/verification/qf_solver_0_2_4_alpha_unified_nonlinear_solid_mechanics_owner_review.md",
+        "docs/verification/rqg08_external_j2_common_024.md",
+        "qualification/external_reference_digests/rqg08_j2_common_024.json",
+        "tests/verification/test_robustness_solid_matrix_vnv.py"
       ]
     },
     "CONTACT": {

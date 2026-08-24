@@ -72,6 +72,8 @@ class ElementRegistry:
                 "isotropic_3d",
                 "orthotropic_3d",
                 "composite_orthotropic_3d",
+                "nonlinear_isotropic_3d",
+                "von_mises_elastoplastic_3d",
             ),
             Hex8Element,
         ),

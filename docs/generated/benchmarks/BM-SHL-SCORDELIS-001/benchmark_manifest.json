@@ -1,9 +1,9 @@
 {
   "manifest_schema_version": 1,
-  "created_at_utc": "2026-08-24T09:12:54.989613Z",
+  "created_at_utc": "2026-08-24T20:06:53.262399Z",
   "solver": {
     "name": "QF_solver",
-    "version": "0.2.3a0"
+    "version": "0.2.4a0"
   },
   "benchmark_id": "BM-SHL-SCORDELIS-001",
   "profile": "engineering",
@@ -55,13 +55,13 @@
       "role": "benchmark_artifact",
       "path": "result.import_report.json",
       "size_bytes": 1108,
-      "sha256": "c148b9b08c06132e8d7c4e5ae506b45c2f9a458e3a018d0d19c92407dae24e74"
+      "sha256": "a0bf5e005c94a325b30532b47d4832b152d8fd01ce3f2a134a3b74e5024805bc"
     },
     {
       "role": "benchmark_artifact",
       "path": "result.json",
-      "size_bytes": 14648377,
-      "sha256": "7a35350ffee401ad641ced69511734ab3fe6a0c200efcec68080ee2015012da5"
+      "size_bytes": 14648376,
+      "sha256": "0ab2003a63f0d34294a615d59ad1b202a1a42e3d447f8927d517bc65c7139e34"
     },
     {
       "role": "benchmark_artifact",

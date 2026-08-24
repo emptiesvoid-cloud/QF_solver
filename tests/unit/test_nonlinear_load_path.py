@@ -7,6 +7,7 @@ from scipy.sparse import eye
 from solveur.api import solve_model
 from solveur.core.errors import InputValidationError, NumericalConvergenceError
 from solveur.core.nonlinear import NonlinearStaticSolver
+from solveur.core.nonlinear_contracts import NonlinearFailureReason
 from solveur.io.json_reader import JsonModelReader
 from tests.unit.test_analysis_features import elastoplastic_tet4_model
 
@@ -28,6 +29,9 @@ def test_signed_nonlinear_load_path_commits_each_cyclic_state():
     assert all(np.isfinite(step["incremental_external_work"]) for step in steps)
     assert max(step["relative_work_imbalance"] for step in steps) < 1.0e-12
     assert all(step["cumulative_correction_norm"] >= step["last_correction_norm"] for step in steps)
+    assert all(step["residual_history"] for step in steps)
+    assert all(step["residual_initial"] == pytest.approx(step["residual_history"][0]) for step in steps)
+    assert all(step["residual_norm"] == pytest.approx(step["residual_history"][-1]) for step in steps)
     assert np.all(np.diff(plastic) >= 0.0)
     assert plastic[-1] > plastic[1]
     assert data["audit"]["equilibrium"]["load_factor"] == 1.0
@@ -81,6 +85,7 @@ def test_adaptive_rejection_rolls_back_displacement_and_material_state(monkeypat
             "base_load_factor": 0.0,
             "rejected_increment": 1.0,
             "retry_increment": 0.5,
+            "failure_reason": "NumericalConvergenceError",
         }
     ]
     assert data["solver"]["steps"][0]["load_step_cutbacks"] == 1
@@ -123,8 +128,11 @@ def test_adaptive_load_steps_stop_after_maximum_cutbacks(monkeypatch):
         }
     )
 
-    with pytest.raises(NumericalConvergenceError, match="exceeded max_cutbacks=2"):
+    with pytest.raises(NumericalConvergenceError, match="exceeded max_cutbacks=2") as error:
         solve_model(model)
+
+    assert error.value.reason is NonlinearFailureReason.MAX_ITERATIONS
+    assert error.value.diagnostics["max_cutbacks"] == 2
 
 
 def test_adaptive_load_steps_grow_after_fast_convergence():
@@ -180,6 +188,43 @@ def test_line_search_zero_crossing_uses_reference_load_norm(monkeypatch):
 
     assert step.iterations == 0
     assert step.relative_residual == pytest.approx(1.0e-15)
+
+
+def test_newton_max_iterations_exposes_structured_diagnostics(monkeypatch):
+    model = elastoplastic_tet4_model()
+    model.analysis = replace(model.analysis, method="newton_raphson")
+    dofs = model.dof_manager()
+    free = np.arange(dofs.ndof)
+    solver = NonlinearStaticSolver()
+
+    def non_converging_assembly(*args, **kwargs):
+        return np.zeros(dofs.ndof), eye(dofs.ndof, format="csr"), {}
+
+    monkeypatch.setattr(solver, "_assemble_internal_tangent", non_converging_assembly)
+    with pytest.raises(NumericalConvergenceError) as error:
+        solver._solve_load_step(
+            model,
+            dofs,
+            np.zeros(dofs.ndof),
+            free,
+            np.ones(dofs.ndof),
+            {},
+            1,
+            1.0,
+            1.0,
+            None,
+            1,
+            1.0e-12,
+            "direct",
+            1.0e-4,
+            12,
+            1.0e-4,
+            reference_force_norm=1.0,
+        )
+
+    assert error.value.reason is NonlinearFailureReason.MAX_ITERATIONS
+    assert error.value.diagnostics["iterations"] == 1
+    assert error.value.diagnostics["residual_initial"] > 0.0
 
 
 @pytest.mark.parametrize("path", [[], [1.0, float("nan")], "not-a-list"])

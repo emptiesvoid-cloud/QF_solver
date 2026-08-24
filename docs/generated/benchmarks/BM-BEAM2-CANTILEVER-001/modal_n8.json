@@ -180,12 +180,12 @@
         "paired_assembly": true,
         "shared_chunk_pattern": true,
         "assembly_phase_seconds": {
-          "assembly_plan": 0.0002540999557822943,
-          "element_kernel": 0.0025106999673880637,
-          "chunk_sparse_conversion": 0.00023389997659251094,
+          "assembly_plan": 0.0002501000417396426,
+          "element_kernel": 0.00233339995611459,
+          "chunk_sparse_conversion": 0.00021269998978823423,
           "chunk_fusion": 1.500011421740055e-06,
-          "sparse_finalize": 0.0001650999765843153,
-          "discrete_merge": 4.9400026910007e-05
+          "sparse_finalize": 0.00015390000771731138,
+          "discrete_merge": 4.509999416768551e-05
         },
         "matrix": "stiffness",
         "accumulator_chunk_count": 1,
@@ -208,12 +208,12 @@
         "paired_assembly": true,
         "shared_chunk_pattern": true,
         "assembly_phase_seconds": {
-          "assembly_plan": 0.0002540999557822943,
-          "element_kernel": 0.0025106999673880637,
-          "chunk_sparse_conversion": 0.00023389997659251094,
+          "assembly_plan": 0.0002501000417396426,
+          "element_kernel": 0.00233339995611459,
+          "chunk_sparse_conversion": 0.00021269998978823423,
           "chunk_fusion": 1.500011421740055e-06,
-          "sparse_finalize": 0.0001650999765843153,
-          "discrete_merge": 4.9400026910007e-05
+          "sparse_finalize": 0.00015390000771731138,
+          "discrete_merge": 4.509999416768551e-05
         },
         "matrix": "mass",
         "accumulator_chunk_count": 1,
@@ -2832,7 +2832,7 @@
     ],
     "notes": [],
     "qualification": {
-      "solver_version": "0.2.3a0",
+      "solver_version": "0.2.4a0",
       "schema_version": 1,
       "units": {
         "system": "SI"

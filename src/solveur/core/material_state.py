@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from copy import deepcopy
+from dataclasses import dataclass
 from typing import Any
 
 from solveur.core.model import FiniteElementModel
@@ -11,6 +12,30 @@ from solveur.materials.factory import MaterialFactory
 
 
 MaterialStateTable = dict[int, list[dict[str, Any]]]
+
+
+@dataclass
+class MaterialStateSession:
+    """Transaction around committed and trial integration-point states."""
+
+    committed: MaterialStateTable
+    trial: MaterialStateTable | None = None
+
+    def begin_trial(self) -> MaterialStateTable:
+        """Create a detached trial view from the last committed state."""
+        self.trial = copy_material_states(self.committed)
+        return self.trial
+
+    def commit(self) -> None:
+        """Commit the current trial or reject an incomplete transaction."""
+        if self.trial is None:
+            raise RuntimeError("Cannot commit a material state session without a trial.")
+        commit_material_states(self.committed, self.trial)
+        self.trial = None
+
+    def rollback(self) -> None:
+        """Discard the current trial without touching committed state."""
+        self.trial = None
 
 
 def initial_material_states(model: FiniteElementModel) -> MaterialStateTable:

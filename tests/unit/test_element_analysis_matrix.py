@@ -38,6 +38,9 @@ def test_element_analysis_matrix_matches_current_owner_promotions_and_limits() -
     assert families["SPRING_MASS"]["harmonic"]["status"] == "stable"
     assert families["TET4"]["nonlinear_dynamic"]["status"] == "unsupported"
     assert families["MITC4"]["material_nonlinear_static"]["status"] == "unsupported"
+    for family_name in ("TET4", "TET10", "HEX8", "HEX20"):
+        assert families[family_name]["material_nonlinear_static"]["status"] == "owner_accepted_experimental_bounded_use"
+        assert "qualification/external_reference_digests/rqg08_j2_common_024.json" in families[family_name]["evidence"]
 
 
 def test_mitc3_static_owner_review_is_final_and_bounded() -> None:

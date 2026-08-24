@@ -1,7 +1,7 @@
 {
   "status": "WARNING",
   "solver_name": "QF_solver",
-  "solver_version": "0.2.3a0",
+  "solver_version": "0.2.4a0",
   "source_path": "h4.msh",
   "source_sha256": "dfdff8c9eb867ae1634ea00fb52d3b76ae520560eb92704be658e8eab56a10c0",
   "setup_path": "compression_h4.setup.json",

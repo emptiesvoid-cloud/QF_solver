@@ -2,7 +2,7 @@
 doc_id: DOC-STATE-001
 revision: 0.1
 status: draft technique
-applicable_version: 0.2.3a0
+applicable_version: 0.2.4a0
 reviewer: ""
 approver: ""
 ---
@@ -23,12 +23,11 @@ aeronautique sans revue independante.
 
 --8<-- "docs/generated/status.md"
 
-La release en preparation `0.2.3a0` ajoute les elements solides HEX8 et HEX20
-au backend commun. Les [plans V&V HEX8](verification/qf_solver_0_2_3_alpha_hex8_implementation_vnv_plan.md)
-et [HEX20](verification/qf_solver_0_2_3_alpha_hex20_implementation_vnv_plan.md)
-decrivent les formulations, correlations, comparatifs et exclusions ; la
-[feuille de route](../prochaines_etapes.md) separe les etapes implementees des
-travaux encore a mesurer.
+La release en preparation `0.2.4a0` consolide le moteur non lineaire J2 commun
+sur TET4, TET10, HEX8 et HEX20. La [revue Owner](verification/qf_solver_0_2_4_alpha_unified_nonlinear_solid_mechanics_owner_review.md)
+documente le périmètre, RQ-G08 et les exclusions ; la [feuille de route](../prochaines_etapes.md)
+sépare les preuves internes, la corrélation externe bornée et les travaux
+reportés.
 
 ## Lire ce site comme un ingenieur calcul
 

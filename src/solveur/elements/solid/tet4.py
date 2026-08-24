@@ -10,6 +10,7 @@ from solveur.elements.solid.common import (
     validate_coords_shape,
     von_mises_3d,
 )
+from solveur.core.nonlinear_contracts import evaluate_constitutive
 from solveur.materials.solid import SolidConstitutiveMaterial
 
 
@@ -70,12 +71,11 @@ class Tet4Element:
         b = self.strain_displacement_matrix(coords)
         strain = b @ np.asarray(local_displacement, dtype=float)
         updated_states: list[dict[str, object]] = []
-        if hasattr(self.material, "stress_tangent_state"):
-            previous = states[0] if states else None
-            stress, tangent, updated = self.material.stress_tangent_state(strain, previous)
-            updated_states.append(updated)
-        else:
-            stress, tangent = self.material.stress_tangent(strain)
+        previous = states[0] if states else None
+        response = evaluate_constitutive(self.material, strain, previous)
+        stress, tangent = response.stress, response.tangent
+        if response.diagnostics.get("stateful", False):
+            updated_states.append(response.trial_state)
         internal = volume * (b.T @ stress)
         stiffness = volume * (b.T @ tangent @ b)
         return internal, symmetrize(stiffness), updated_states

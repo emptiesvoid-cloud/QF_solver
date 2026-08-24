@@ -1,0 +1,146 @@
+{
+  "schema_version": 1,
+  "campaign_id": "VNV-J2-UNIFIED-NONLINEAR-024",
+  "applicable_version": "0.2.4a0",
+  "state": "development_worktree",
+  "base_head_sha": "d401b80",
+  "release_sha": null,
+  "release_claim": false,
+  "owner_decision": {
+    "status": "owner_accepted_with_recommendations",
+    "decision": "accepted_with_recommendations",
+    "scope": "experimental / PASS_INTERNAL",
+    "recorded_questions": {
+      "Q1-Q7": "YES",
+      "Q8": "CONDITIONAL",
+      "Q9-Q12": "YES"
+    },
+    "conditions": [
+      "RQ-G08 is closed for the bounded one-element affine external J2 correlation; broader multi-element and cyclic promotion remains separate.",
+      "Full Newton is the only qualified nonlinear path for 0.2.4a0.",
+      "Modified Newton is not qualified for production use.",
+      "No external or physical validation claim is made.",
+      "No automatic PyPI publication is permitted."
+    ],
+    "next_target": "0.2.5 for multi-element, cyclic and broader external J2 promotion"
+  },
+  "evidence": {
+    "unit_integration": {
+      "status": "PASS_CURRENT_WORKTREE",
+      "passed": 1380,
+      "deselected": 107,
+      "command_scope": "tests/unit tests/integration -m not benchmark and not large and not evidence"
+    },
+    "verification": {
+      "status": "PASS_INTERNAL_INITIAL",
+      "passed": 69,
+      "skipped": 14,
+      "deselected": 79,
+      "command_scope": "tests/verification -m not benchmark and not large and not evidence"
+    },
+    "final_verify_all": {
+      "status": "PENDING_FINAL_FULL_RERUN",
+      "passed": 1456,
+      "skipped": 14,
+      "deselected": 186,
+      "command_scope": "python qf_solver.py verify-all --profile engineering",
+      "note": "The first run exposed two stale evidence assertions; both were corrected and the focused rerun passed. The post-correction full rerun reached approximately 97% but was interrupted before its final summary; it is not claimed as final green evidence."
+    },
+    "documentation_contract": {
+      "status": "PASS_TARGETED",
+      "passed": 42,
+      "skipped": 6,
+      "test": "tests/documentation"
+    },
+    "packaging": {
+      "status": "PASS_LOCAL",
+      "artifacts": ["wheel", "sdist"],
+      "smoke_import": "PASS",
+      "package_version": "0.2.4a0",
+      "note": "The package version is frozen for the 0.2.4a0 release candidate; publication remains Owner-controlled."
+    },
+    "docker_external": {
+      "code_aster": "PASS_EXTERNAL_CORRELATION",
+      "calculix": "PARTIAL_EXTERNAL",
+      "linear_hex8_reference": "qualification/vnv/robustness_nonlinear_solids_024/reference/external/hex8/summary.json",
+      "linear_hex20_reference": "qualification/vnv/robustness_nonlinear_solids_024/reference/external/hex20/summary.json",
+      "j2_common_four_element": "PASS_EXTERNAL_CORRELATION_BOUNDED",
+      "j2_common_four_element_reference": "qualification/external_reference_digests/rqg08_j2_common_024.json"
+    },
+    "robustness_qualification": {
+      "status": "PASS_INTERNAL",
+      "evidence": "qualification/external_reference_digests/robustness_nonlinear_solids_024.json",
+      "elements": ["TET4", "TET10", "HEX8", "HEX20"],
+      "consistent_tangent_max_relative_error": 7.116804720252512e-11,
+      "transactions": "PASS",
+      "distorted_hex": "PASS_INTERNAL",
+      "external_correlation": "PASS_EXTERNAL_CORRELATION_BOUNDED"
+    }
+  },
+  "gates": {
+    "NL-G01": "ACCEPTED_WITH_RECOMMENDATIONS",
+    "NL-G02": "PASS_INTERNAL_INITIAL",
+    "NL-G03": "PASS_INTERNAL_INITIAL",
+    "NL-G04": "PASS_INTERNAL_INITIAL",
+    "NL-G05": "PASS_INTERNAL_INITIAL",
+    "NL-G06": "PASS_INTERNAL_INITIAL",
+    "NL-G07": "PASS_INTERNAL_INITIAL",
+    "NL-G08": "PASS_EXTERNAL_CORRELATION_BOUNDED",
+    "NL-G09": "PASS_INTERNAL_INITIAL",
+    "NL-G10": "PASS_INTERNAL_INITIAL",
+    "NL-G11": "PASS_CURRENT_WORKTREE_PENDING_SHA",
+    "NL-G12": "PARTIAL_SHA_PENDING",
+    "NL-G13": "ACCEPTED_WITH_RECOMMENDATIONS",
+    "RQ-G01": "ACCEPTED_WITH_RECOMMENDATIONS",
+    "RQ-G02": "PASS_INTERNAL_ACCEPTED_OWNER",
+    "RQ-G03": "PASS_INTERNAL_ACCEPTED_OWNER",
+    "RQ-G04": "PASS_INTERNAL_ACCEPTED_OWNER",
+    "RQ-G05": "PASS_INTERNAL_ACCEPTED_OWNER",
+    "RQ-G06": "PASS_INTERNAL_ACCEPTED_OWNER",
+    "RQ-G07": "PASS_INTERNAL_ACCEPTED_OWNER",
+    "RQ-G08": "PASS_EXTERNAL_CORRELATION_BOUNDED",
+    "RQ-G09": "PASS_INTERNAL_ACCEPTED_OWNER",
+    "RQ-G10": "ACCEPTED_WITH_RECOMMENDATIONS"
+  },
+  "limitations": [
+    "No release SHA exists yet; the worktree contains uncommitted changes.",
+    "Linear HEX8/HEX20 CalculiX correlations are available, but they do not qualify the common nonlinear J2 path.",
+    "The robustness campaign is internal evidence; it does not by itself promote any element.",
+    "RQ-G08 is closed only for the bounded one-element affine external J2 correlation; multi-element, cyclic and physical validation claims remain out of scope.",
+    "No HPC or multi-million-DOF claim is made.",
+    "Owner approval remains accepted_with_recommendations for the experimental scope; broader promotion requires the remaining nonlinear evidence packages."
+  ],
+  "next_work_packages": [
+    {
+      "id": "RQ-NL-10",
+      "title": "Common external J2 correlation",
+      "priority": "completed_bounded_RQ-G08",
+      "status": "PASS_EXTERNAL_CORRELATION_BOUNDED",
+      "scope": "Completed for TET4/TET10/HEX8/HEX20 on the one-element affine patch; broader multi-element and cyclic scope remains separate."
+    },
+    {
+      "id": "RQ-NL-11",
+      "title": "Multi-element mesh convergence",
+      "priority": "high",
+      "scope": "Global assembly, plastic redistribution, Gauss states and mesh convergence beyond the canonical one-element case."
+    },
+    {
+      "id": "RQ-NL-12",
+      "title": "Energy balance and plastic dissipation",
+      "priority": "high",
+      "scope": "External work, elastic energy, plastic dissipation and positivity/coherence checks."
+    },
+    {
+      "id": "RQ-NL-13",
+      "title": "Real failed increment, rollback, cutback and retry",
+      "priority": "high",
+      "scope": "Forced Newton failure, untouched committed state, reduced step and reference-equivalent final state."
+    },
+    {
+      "id": "RQ-NL-14",
+      "title": "PEEQ and HEX20 cost profiling",
+      "priority": "medium",
+      "scope": "Mesh/formulation/integration sensitivity and profiling of Gauss update, constitutive law, tangent assembly, Newton and copies."
+    }
+  ]
+}

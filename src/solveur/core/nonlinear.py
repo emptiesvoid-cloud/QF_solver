@@ -5,35 +5,37 @@ from __future__ import annotations
 from dataclasses import replace
 
 import numpy as np
-from scipy.sparse import coo_matrix, csr_matrix
+from scipy.sparse import csr_matrix
 
 from solveur.core.assembler import GlobalAssembler
 from solveur.core.audit import SolverAudit, static_equilibrium_summary
 from solveur.core.dofs import DofManager
 from solveur.core.errors import InputValidationError, MeshValidationError, NumericalConvergenceError
 from solveur.core.linear_methods import LinearSystemSolver
-from solveur.core.material_state import MaterialStateTable, commit_material_states
+from solveur.core.material_state import MaterialStateSession, MaterialStateTable, commit_material_states
 from solveur.core.material_state import copy_material_states
 from solveur.core.material_state import initial_material_states
+from solveur.core.nonlinear_contracts import NonlinearFailureReason
+from solveur.core.nonlinear_assembly import assemble_internal_tangent
+from solveur.core.nonlinear_iteration import line_search_factor, solve_arc_length_correction
 from solveur.core.model import FiniteElementModel
 from solveur.core.nonlinear_controls import (
     AdaptiveLoadControls,
     NonlinearStep,
+    NonlinearSolverOptions,
     incremental_work_diagnostics,
     maximum_equivalent_plastic_strain,
     validated_load_path,
 )
 from solveur.core.nonlinear_checkpoint import NonlinearCheckpointSession, NonlinearCheckpointStore
 from solveur.core.results import SolveResult
-from solveur.elements.registry import ElementRegistry
-from solveur.materials.factory import MaterialFactory
 from solveur.mesh.validation import MeshValidator
 from solveur.post.audit import PostProcessingAuditor
 from solveur.post.stress import StressPostProcessor
 
 
 class NonlinearStaticSolver:
-    """Load-control Newton solver for small-strain nonlinear TET4 models."""
+    """Common load-control Newton driver for supported nonlinear solid elements."""
 
     supported_methods = ("newton_raphson", "modified_newton", "newton_line_search", "arc_length")
 
@@ -60,14 +62,15 @@ class NonlinearStaticSolver:
             raise MeshValidationError("No free degree of freedom remains after boundary conditions.")
 
         params = model.analysis.parameters
-        load_steps = max(1, int(params.get("load_steps", 1)))
-        max_iterations = max(1, int(params.get("max_iterations", 25)))
-        tolerance = float(params.get("tolerance", 1.0e-8))
-        linear_method = str(params.get("linear_method", "direct")).lower()
-        min_alpha = float(params.get("line_search_min_alpha", 1.0e-4))
-        max_reductions = max(0, int(params.get("line_search_max_reductions", 12)))
-        armijo = float(params.get("line_search_c", 1.0e-4))
-        adaptive = bool(params.get("adaptive_load_steps", False))
+        options = NonlinearSolverOptions.from_parameters(params)
+        load_steps = options.load_steps
+        max_iterations = options.max_iterations
+        tolerance = options.tolerance
+        linear_method = options.linear_method
+        min_alpha = options.line_search_min_alpha
+        max_reductions = options.line_search_max_reductions
+        armijo = options.line_search_c
+        adaptive = options.adaptive_load_steps
         load_path = validated_load_path(params, load_steps)
         if load_path is not None and adaptive:
             raise InputValidationError("analysis.load_path is not yet compatible with adaptive_load_steps.")
@@ -77,7 +80,7 @@ class NonlinearStaticSolver:
         if checkpoint_requested and (adaptive or model.analysis.method == "arc_length"):
             raise InputValidationError("Nonlinear checkpoint/restart currently requires fixed load-control steps.")
         self._rejected_increments = 0
-        self._rejection_log: list[dict[str, float]] = []
+        self._rejection_log: list[dict[str, object]] = []
         reference_force_norm = max(float(np.linalg.norm(loads[free])), 1.0)
 
         displacement = np.zeros(dofs.ndof, dtype=float)
@@ -198,6 +201,16 @@ class NonlinearStaticSolver:
             analysis="nonlinear_static",
             method=model.analysis.method,
             solver={
+                "nonlinear_options": {
+                    "load_steps": options.load_steps,
+                    "max_iterations": options.max_iterations,
+                    "tolerance": options.tolerance,
+                    "linear_method": options.linear_method,
+                    "line_search_min_alpha": options.line_search_min_alpha,
+                    "line_search_max_reductions": options.line_search_max_reductions,
+                    "line_search_c": options.line_search_c,
+                    "adaptive_load_steps": options.adaptive_load_steps,
+                },
                 "adaptive_load_steps": adaptive,
                 "arc_length": model.analysis.method == "arc_length",
                 "path_dependent_material_state": bool(material_states),
@@ -273,7 +286,8 @@ class NonlinearStaticSolver:
             )
             step_radius = max(step_radius, min_radius)
             trial = displacement.copy()
-            trial_states = copy_material_states(material_states)
+            state_session = MaterialStateSession(material_states)
+            trial_states = state_session.begin_trial()
             try:
                 info, current_factor, previous_du = self._solve_arc_length_step(
                     model,
@@ -294,13 +308,18 @@ class NonlinearStaticSolver:
                     linear_method,
                 )
             except RuntimeError:
+                state_session.rollback()
                 radius *= 0.5
                 if radius < min_radius:
-                    raise NumericalConvergenceError("Arc-length continuation reached the minimum radius.")
+                    raise NumericalConvergenceError(
+                        "Arc-length continuation reached the minimum radius.",
+                        reason=NonlinearFailureReason.MIN_INCREMENT_REACHED,
+                        diagnostics={"minimum_radius": min_radius},
+                    )
                 step -= 1
                 continue
             displacement[:] = trial
-            commit_material_states(material_states, trial_states)
+            state_session.commit()
             history.append(info)
         return history
 
@@ -381,10 +400,12 @@ class NonlinearStaticSolver:
         load_factor = base_factor + delta_factor
         residual_norm = float("inf")
         relative = float("inf")
+        residual_history: list[float] = []
         for iteration in range(1, max_iterations + 1):
             internal, tangent, updated_states = self._assemble_internal_tangent(model, dofs, displacement, material_states)
             residual = load_factor * loads - internal
             residual_norm = float(np.linalg.norm(residual[free]))
+            residual_history.append(residual_norm)
             delta_u_step = displacement[free] - base_u[free]
             delta_lambda = load_factor - base_factor
             constraint = float(delta_u_step @ delta_u_step + (load_scale * delta_lambda) ** 2 - radius**2)
@@ -392,11 +413,21 @@ class NonlinearStaticSolver:
             if relative <= tolerance:
                 commit_material_states(material_states, updated_states)
                 return (
-                    NonlinearStep(step, load_factor, iteration - 1, residual_norm, relative, 0, 1.0, delta_lambda),
+                    NonlinearStep(
+                        step,
+                        load_factor,
+                        iteration - 1,
+                        residual_norm,
+                        relative,
+                        0,
+                        1.0,
+                        delta_lambda,
+                        residual_history=tuple(residual_history),
+                    ),
                     load_factor,
                     delta_u_step.copy(),
                 )
-            correction_u, correction_lambda = self._solve_arc_length_correction(
+            correction_u, correction_lambda = solve_arc_length_correction(
                 tangent[free, :][:, free],
                 loads[free],
                 residual[free],
@@ -411,33 +442,6 @@ class NonlinearStaticSolver:
             f"Arc-length step {step} did not converge in {max_iterations} iterations; "
             f"relative residual={relative:.6e}."
         )
-
-    @staticmethod
-    def _solve_arc_length_correction(
-        tangent: csr_matrix,
-        reference_load: np.ndarray,
-        residual: np.ndarray,
-        delta_u_step: np.ndarray,
-        delta_lambda: float,
-        constraint: float,
-        load_scale: float,
-    ) -> tuple[np.ndarray, float]:
-        size = residual.size
-        matrix = np.zeros((size + 1, size + 1), dtype=float)
-        matrix[:size, :size] = tangent.toarray()
-        matrix[:size, size] = -reference_load
-        matrix[size, :size] = 2.0 * delta_u_step
-        matrix[size, size] = 2.0 * load_scale**2 * delta_lambda
-        rhs = np.zeros(size + 1, dtype=float)
-        rhs[:size] = residual
-        rhs[size] = -constraint
-        try:
-            solution = np.linalg.solve(matrix, rhs)
-        except np.linalg.LinAlgError as exc:
-            raise NumericalConvergenceError("Arc-length augmented system is singular.") from exc
-        if not np.all(np.isfinite(solution)):
-            raise NumericalConvergenceError("Arc-length correction produced non-finite values.")
-        return solution[:size], float(solution[size])
 
     def _solve_adaptive_load_steps(
         self,
@@ -470,7 +474,8 @@ class NonlinearStaticSolver:
             proposed = min(increment, 1.0 - current_factor)
             target_factor = current_factor + proposed
             trial = displacement.copy()
-            trial_states = copy_material_states(material_states)
+            state_session = MaterialStateSession(material_states)
+            trial_states = state_session.begin_trial()
             try:
                 info = self._solve_load_step(
                     model,
@@ -492,7 +497,8 @@ class NonlinearStaticSolver:
                     current_factor * loads,
                     max(float(np.linalg.norm(loads[free])), 1.0),
                 )
-            except RuntimeError:
+            except RuntimeError as error:
+                state_session.rollback()
                 self._rejected_increments += 1
                 pending_cutbacks += 1
                 rejected = proposed
@@ -502,22 +508,30 @@ class NonlinearStaticSolver:
                         "base_load_factor": current_factor,
                         "rejected_increment": rejected,
                         "retry_increment": proposed,
+                        "failure_reason": _failure_reason_value(error),
                     }
                 )
                 if self._rejected_increments > controls.maximum_cutbacks:
                     raise NumericalConvergenceError(
-                        f"Adaptive nonlinear load stepping exceeded max_cutbacks={controls.maximum_cutbacks}."
+                        f"Adaptive nonlinear load stepping exceeded max_cutbacks={controls.maximum_cutbacks}.",
+                        reason=NonlinearFailureReason.MAX_ITERATIONS,
+                        diagnostics={
+                            "max_cutbacks": controls.maximum_cutbacks,
+                            "last_failure_reason": _failure_reason_value(error),
+                        },
                     )
                 if proposed < controls.minimum_increment:
                     raise NumericalConvergenceError(
-                        "Adaptive nonlinear load stepping reached the minimum load increment."
+                        "Adaptive nonlinear load stepping reached the minimum load increment.",
+                        reason=NonlinearFailureReason.MIN_INCREMENT_REACHED,
+                        diagnostics={"minimum_increment": controls.minimum_increment},
                     )
                 increment = proposed
                 continue
             info = replace(info, load_step_cutbacks=pending_cutbacks)
             pending_cutbacks = 0
             displacement[:] = trial
-            commit_material_states(material_states, trial_states)
+            state_session.commit()
             history.append(info)
             step += 1
             current_factor = target_factor
@@ -556,16 +570,21 @@ class NonlinearStaticSolver:
         force_scale = max(float(np.linalg.norm(target_load[free])), float(reference_force_norm or 0.0), 1.0)
         residual_norm = float("inf")
         relative = float("inf")
+        residual_history: list[float] = []
         total_reductions = 0
         min_factor = 1.0
         last_correction_norm = 0.0
         cumulative_correction_norm = 0.0
+        initial_residual_norm = 0.0
         for iteration in range(1, max_iterations + 1):
             internal, tangent, updated_states = self._assemble_internal_tangent(model, dofs, displacement, material_states)
             if base_internal is None:
                 base_internal = internal.copy()
             residual = target_load - internal
             residual_norm = float(np.linalg.norm(residual[free]))
+            residual_history.append(residual_norm)
+            if iteration == 1:
+                initial_residual_norm = residual_norm
             relative = residual_norm / force_scale
             if relative <= tolerance:
                 internal_work, external_work, work_imbalance = incremental_work_diagnostics(
@@ -590,6 +609,8 @@ class NonlinearStaticSolver:
                     work_imbalance,
                     0,
                     True,
+                    initial_residual_norm,
+                    residual_history=tuple(residual_history),
                 )
             if model.analysis.method == "modified_newton":
                 if cached_tangent is None:
@@ -600,10 +621,13 @@ class NonlinearStaticSolver:
             increment, info = self.linear_solver.solve(active_tangent, residual[free], method=linear_method)
             if not info.converged:
                 raise NumericalConvergenceError(
-                    f"Nonlinear linearization failed with {linear_method}; residual={info.residual_norm:.6e}."
+                    f"Nonlinear linearization failed with {linear_method}; residual={info.residual_norm:.6e}.",
+                    reason=NonlinearFailureReason.LINEAR_SOLVER_FAILURE,
+                    diagnostics={"linear_method": linear_method, "residual": info.residual_norm},
                 )
             if model.analysis.method == "newton_line_search":
-                factor, reductions = self._line_search_factor(
+                factor, reductions = line_search_factor(
+                    self._assemble_internal_tangent,
                     model,
                     dofs,
                     displacement,
@@ -627,35 +651,16 @@ class NonlinearStaticSolver:
             cumulative_correction_norm += last_correction_norm
         raise NumericalConvergenceError(
             f"Nonlinear step {step} did not converge in {max_iterations} iterations; "
-            f"relative residual={relative:.6e}."
+            f"relative residual={relative:.6e}.",
+            reason=NonlinearFailureReason.MAX_ITERATIONS,
+            diagnostics={
+                "step": step,
+                "iterations": max_iterations,
+                "residual_initial": initial_residual_norm,
+                "residual_final": residual_norm,
+                "relative_residual": relative,
+            },
         )
-
-    def _line_search_factor(
-        self,
-        model: FiniteElementModel,
-        dofs: DofManager,
-        displacement: np.ndarray,
-        free: np.ndarray,
-        target_load: np.ndarray,
-        material_states: MaterialStateTable,
-        increment: np.ndarray,
-        residual_norm: float,
-        min_alpha: float,
-        max_reductions: int,
-        armijo: float,
-    ) -> tuple[float, int]:
-        alpha = 1.0
-        for reductions in range(max_reductions + 1):
-            trial = displacement.copy()
-            trial[free] += alpha * increment
-            trial_internal, _, _ = self._assemble_internal_tangent(model, dofs, trial, material_states)
-            trial_norm = float(np.linalg.norm((target_load - trial_internal)[free]))
-            if trial_norm <= (1.0 - armijo * alpha) * residual_norm:
-                return alpha, reductions
-            alpha *= 0.5
-            if alpha < min_alpha:
-                break
-        raise NumericalConvergenceError("Newton line-search failed to reduce the residual.")
 
     @staticmethod
     def _assemble_internal_tangent(
@@ -664,37 +669,14 @@ class NonlinearStaticSolver:
         displacement: np.ndarray,
         material_states: MaterialStateTable | None = None,
     ) -> tuple[np.ndarray, csr_matrix, MaterialStateTable]:
-        rows: list[int] = []
-        cols: list[int] = []
-        vals: list[float] = []
-        internal = np.zeros(dofs.ndof, dtype=float)
-        updated_states: MaterialStateTable = {}
-        for element_index, definition in enumerate(model.elements):
-            spec = ElementRegistry.get(definition.type)
-            material = MaterialFactory.create(model.materials[definition.material])
-            element = spec.factory(material)
-            if not hasattr(element, "internal_force_and_tangent"):
-                raise InputValidationError(f"Element {definition.type} does not support nonlinear static analysis.")
-            coords = model.nodes[list(definition.nodes)]
-            edofs = []
-            for node in definition.nodes:
-                edofs.extend(dofs.node_indices(node, spec.dofs))
-            local_u = displacement[edofs]
-            states = (material_states or {}).get(element_index)
-            if hasattr(element, "internal_force_tangent_state"):
-                local_internal, local_tangent, element_states = element.internal_force_tangent_state(coords, local_u, states)
-                if element_states:
-                    updated_states[element_index] = element_states
-            else:
-                local_internal, local_tangent = element.internal_force_and_tangent(coords, local_u)
-            if not np.all(np.isfinite(local_internal)) or not np.all(np.isfinite(local_tangent)):
-                raise NumericalConvergenceError(
-                    f"Element {element_index} produced a non-finite nonlinear force or tangent."
-                )
-            internal[edofs] += local_internal
-            rr, cc = np.meshgrid(edofs, edofs, indexing="ij")
-            rows.extend(rr.ravel().tolist())
-            cols.extend(cc.ravel().tolist())
-            vals.extend(local_tangent.ravel().tolist())
-        tangent = coo_matrix((vals, (rows, cols)), shape=(dofs.ndof, dofs.ndof)).tocsr()
-        return internal, tangent, updated_states
+        return assemble_internal_tangent(model, dofs, displacement, material_states)
+
+
+def _failure_reason_value(error: BaseException) -> str:
+    """Return a stable failure code for adaptive-step telemetry."""
+    reason = getattr(error, "reason", None)
+    if isinstance(reason, NonlinearFailureReason):
+        return reason.value
+    if reason is not None:
+        return str(reason)
+    return type(error).__name__

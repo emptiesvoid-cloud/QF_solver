@@ -16,12 +16,14 @@ Cette alpha ne revendique ni certification externe, ni équivalence générale �
 un logiciel commercial. Elle fournit un noyau ouvert et des domaines d'emploi
 documentés, à utiliser avec le jugement mécanique adapté au cas calculé.
 
-La release alpha courante est **0.2.3a0**. Elle ajoute les solides HEX8/HEX20
-et leurs campagnes V&V à la base backend renforcée en `0.2.2a0`. Les revues
-Owner HEX8 et HEX20 sont signées avec la décision
-`accepted_for_release_0_2_3`, et les gates H8-G01..H8-G12 et H20-G01..H20-G12
-sont fermés. Le périmètre reste explicitement borné : cette décision de
-release ne transforme pas les résultats en qualification stable générale.
+La release alpha courante est **0.2.4a0**. Elle consolide une infrastructure
+expérimentale commune de mécanique solide non linéaire sur J2 petites
+déformations pour TET4, TET10, HEX8 et HEX20. Full Newton est le seul chemin
+non linéaire qualifié dans ce périmètre ; Modified Newton reste hors
+production. RQ-G08 est fermé comme `PASS_EXTERNAL_CORRELATION_BOUNDED` pour
+un patch affine à un élément corrélé à Code_Aster. Le périmètre reste
+explicitement borné : aucune revendication multi-éléments, cyclique ou de
+validation physique n'est faite.
 Le projet vise un outil **qualifiable et vérifiable** ; il n'est pas présenté
 comme certifié et ne remplace pas une revue mécanique adaptée au cas d'emploi.
 
@@ -73,8 +75,8 @@ python .\scripts\build_docs.py --profile qualification
 | BEAM2 et entités discrètes linéaires | `stable` | Statique, modal, Newmark et harmonique documentés |
 | Solides orthotropes TET4/TET10 | `stable` | Matériau homogène, statique, modal et Newmark dans le domaine testé |
 | HEX8/HEX20 linéaires | `accepted_for_release_0_2_3` | Statique, modal, Newmark, harmonique, charges et import Gmsh dans le périmètre V&V 0.2.3a0 ; pas de promotion stable générale |
-| HEX20 J2 petites déformations | `accepted_for_release_0_2_3` | Preuve interne bornée ; pas de qualification J2 externe, contact ou grandes transformations |
-| J2 TET4/TET10, contact et grand modèle TET4 | `accepted_for_bounded_engineering_use` | Usage borné ; limites propres à chaque scope obligatoires |
+| J2 petites déformations TET4/TET10/HEX8/HEX20 | `owner_accepted_experimental_bounded_use` | Full Newton qualifié ; corrélation externe RQ-G08 bornée à un élément ; pas de scope multi-éléments, cyclique ou physique |
+| Contact et grand modèle TET4 | `accepted_for_bounded_engineering_use` | Usage borné ; limites propres à chaque scope obligatoires |
 | TET4 total-lagrangien structurel | `research` | Preuves incomplètes ; aucune promotion engineering |
 | MITC4 orthotrope courbe | `out_of_acceptance` | Diagnostic interne uniquement, sans revendication d'usage |
 
@@ -82,17 +84,14 @@ Le détail des 36 scopes de release, de leurs preuves et de leurs exclusions est
 dans le [registre de maturité](qualification/element_analysis_matrix.json) et
 dans le [paquet de clôture](docs/verification/release_vv_0_2_1_closure_package_2026-08-22.md).
 
-## État de la release 0.2.3a0
+## État de la release 0.2.4a0
 
-La release précédente `v0.2.2a0` est conservée comme historique. La release
-Les preuves numériques de `0.2.3a0` ont été produites sur le commit vérifié
-`8c6c2f2`; les fichiers de clôture Owner et les gates HEX sont préparés dans
-le checkout courant. La campagne HEX8/HEX20 comporte les preuves
-internes, les corrélations statiques CalculiX/Code_Aster, la comparaison
-TET4/TET10/HEX8/HEX20 et le blocker de non-régression : `1429 passed`, `14
-skipped`, `186 deselected`. Les audits public et release sont `PASS` sur
-`1803` fichiers. La publication PyPI et la création de la GitHub Release
-restent des décisions séparées réservées à l'Owner.
+La release précédente `v0.2.3a0` est conservée comme historique. La campagne
+0.2.4a0 couvre les contrats J2 communs, la tangente cohérente, les transactions
+d'état, Full Newton et la corrélation externe RQ-G08 bornée. Les preuves de
+release seront attachées au SHA final du commit de préparation ; la
+publication PyPI et la création de la GitHub Release restent des décisions
+séparées réservées à l'Owner.
 
 Le chantier backend 0.2.2 alpha est décrit dans le [rapport de résolution
 sparse](docs/verification/qf_solver_0_2_2_alpha_backend_report.md) et dans la
@@ -125,7 +124,7 @@ figée sont consignés dans la
 
 ## Installation
 
-Installation locale de l'alpha `0.2.3a0` :
+Installation locale de l'alpha `0.2.4a0` :
 
 ```powershell
 python -m pip install -e ".[test]"
@@ -133,7 +132,7 @@ qf-solver --version
 ```
 
 Après publication décidée par l'Owner, la même version pourra être installée
-depuis PyPI avec `python -m pip install "qf-solver==0.2.3a0"`.
+depuis PyPI avec `python -m pip install "qf-solver==0.2.4a0"`.
 
 Pendant la préparation locale, les extras s'installent depuis le checkout :
 
@@ -145,8 +144,8 @@ python -m pip install -e ".[hpc]"   # PETSc/SLEPc et MPI, optionnels
 ```
 
 Après publication, les mêmes extras seront disponibles avec la forme
-`qf-solver[mesh]==0.2.3a0`, `qf-solver[docs]==0.2.3a0`,
-`qf-solver[large]==0.2.3a0` ou `qf-solver[hpc]==0.2.3a0`.
+`qf-solver[mesh]==0.2.4a0`, `qf-solver[docs]==0.2.4a0`,
+`qf-solver[large]==0.2.4a0` ou `qf-solver[hpc]==0.2.4a0`.
 
 Pour contribuer ou exécuter la suite de tests depuis un clone du dépôt :
 

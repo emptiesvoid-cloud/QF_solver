@@ -3,8 +3,8 @@
 Cette table ferme la lacune documentaire en distinguant une preuve disponible d'un ecart V&V documente.
 Un ecart documente n'est jamais transforme en validation mecanique.
 
-- couples element-analyse declares : **40** ;
-- contrats de chargement : **8** ;
+- couples element-analyse declares : **50** ;
+- contrats de chargement : **10** ;
 - methodes correlees : **12** ;
 - ecarts V&V explicites : **0**.
 
@@ -20,6 +20,8 @@ Un ecart documente n'est jamais transforme en validation mecanique.
 | SPRING_MASS | nodal_load, grounded_spring, concentrated_mass | `docs/elements/entites_discretes.md` |
 | ORTHOTROPIC_SOLID | nodal_load, pressure, surface_traction, gravity, body_force | `docs/verification/orthotropic_static_extended_owner_review.md` |
 | CONTACT | contact_normal, coulomb_regularized | `docs/elements/contact_sans_frottement.md` |
+| HEX8 | nodal_load, pressure, surface_traction, gravity, body_force | `docs/verification/qf_solver_0_2_3_alpha_hex8_release_gate.md` |
+| HEX20 | nodal_load, pressure, surface_traction, gravity, body_force | `docs/verification/qf_solver_0_2_3_alpha_hex20_release_gate.md` |
 
 ### Couples element-analyse et oracles
 
@@ -65,6 +67,16 @@ Un ecart documente n'est jamais transforme en validation mecanique.
 | ORTHOTROPIC_SOLID / linear_static | `stable` | internal_reference | `available` | TET4/TET10 homogeneous orthotropic static behavior is covered by the controlled review and external-correlation test route; the scope excludes ply-by-ply composites, damage and singular stress acceptance. |
 | ORTHOTROPIC_SOLID / modal | `stable` | internal_reference | `available` | The stable declaration is limited to the documented homogeneous orthotropic modal domain with the recorded mass and orientation conventions; nonlinear, damaged and ply-by-ply composite behavior remain excluded. |
 | ORTHOTROPIC_SOLID / transient_newmark | `stable` | internal_reference | `available` | The stable declaration is limited to the documented homogeneous orthotropic Newmark domain with the recorded time-step and mass assumptions; nonlinear, damaged and ply-by-ply composite behavior remain excluded. |
+| HEX8 / linear_static | `accepted_for_release_0_2_3` | internal_reference | `available` | HEX8 linear static release scope is covered by the internal campaign and bounded Code_Aster comparison; nonlinear, reduced-integration and large-scale claims remain excluded. |
+| HEX8 / modal | `accepted_for_release_0_2_3` | internal_reference | `available` | HEX8 modal support is accepted only in the documented bounded internal domain; it is not a general large-scale or externally correlated modal qualification. |
+| HEX8 / transient_newmark | `accepted_for_release_0_2_3` | internal_reference | `available` | HEX8 Newmark support reuses the common dynamic path and is accepted for the recorded bounded release scope; nonlinear dynamics and large-scale extrapolation remain excluded. |
+| HEX8 / harmonic | `accepted_for_release_0_2_3` | internal_reference | `available` | HEX8 harmonic support is covered through the common analysis/backend contract in the bounded release domain; damping, nonlinear and multi-million-DOF claims are excluded. |
+| HEX8 / material_nonlinear_static | `owner_accepted_experimental_bounded_use` | code_aster | `available` | HEX8 J2 is accepted only for the bounded one-element affine RQ-G08 correlation with Full Newton; multi-element, cyclic, physical-validation, contact and large-deformation claims remain excluded. |
+| HEX20 / linear_static | `accepted_for_release_0_2_3` | internal_reference | `available` | HEX20 linear static release scope is covered by the internal campaign and bounded Code_Aster comparison; reduced integration, contact and large-scale claims remain excluded. |
+| HEX20 / modal | `accepted_for_release_0_2_3` | internal_reference | `available` | HEX20 modal support is accepted in the documented bounded domain with external static-oriented comparisons; general large-scale modal qualification is not claimed. |
+| HEX20 / transient_newmark | `accepted_for_release_0_2_3` | internal_reference | `available` | HEX20 Newmark support uses the common dynamic path and is accepted for the recorded bounded release scope; nonlinear dynamics and external dynamic correlation remain excluded. |
+| HEX20 / harmonic | `accepted_for_release_0_2_3` | internal_reference | `available` | HEX20 harmonic support is covered through the common analysis/backend contract in the bounded release domain; nonlinear, damping and large-scale claims remain excluded. |
+| HEX20 / material_nonlinear_static | `owner_accepted_experimental_bounded_use` | internal_reference | `available` | HEX20 J2 is retained as bounded experimental use only; the evidence does not qualify general plasticity, contact, damage or large-deformation behavior. |
 
 ### Correlation des methodes
 

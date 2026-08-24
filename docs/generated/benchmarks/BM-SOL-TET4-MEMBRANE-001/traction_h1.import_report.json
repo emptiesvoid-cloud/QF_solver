@@ -1,7 +1,7 @@
 {
   "status": "WARNING",
   "solver_name": "QF_solver",
-  "solver_version": "0.2.3a0",
+  "solver_version": "0.2.4a0",
   "source_path": "h1.msh",
   "source_sha256": "0a9e86e8582c730523f6f6c0b174881fa06f181cce9131fef944eae9172c2c0b",
   "setup_path": "traction_h1.setup.json",

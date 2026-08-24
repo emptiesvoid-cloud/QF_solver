@@ -845,6 +845,22 @@
       }
     },
     {
+      "id": "PAIR-HEX8-J2",
+      "family": "HEX8",
+      "analysis": "material_nonlinear_static",
+      "status": "owner_accepted_experimental_bounded_use",
+      "oracle": {
+        "kind": "code_aster",
+        "status": "available",
+        "evidence": [
+          "docs/verification/rqg08_external_j2_common_024.md",
+          "qualification/external_reference_digests/rqg08_j2_common_024.json",
+          "tests/verification/test_j2_unified_nonlinear_evidence.py"
+        ],
+        "note": "HEX8 J2 is accepted only for the bounded one-element affine RQ-G08 correlation with Full Newton; multi-element, cyclic, physical-validation, contact and large-deformation claims remain excluded."
+      }
+    },
+    {
       "id": "PAIR-HEX20-LINEAR-STATIC",
       "family": "HEX20",
       "analysis": "linear_static",

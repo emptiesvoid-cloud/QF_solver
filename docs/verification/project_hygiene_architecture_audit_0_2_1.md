@@ -11,11 +11,9 @@ approver: ''
 # Audit hygiene, architecture et manques - QF_solver 0.2.1 alpha
 ## Verdict
 **Le code publiable est propre du point de vue des marqueurs controles, mais la baseline de developpement n'est pas gelable aujourd'hui.**
-- Audit de confidentialite du lot publiable : `PASS`, 1803 fichiers, 0 finding.
+- Audit de confidentialite du lot publiable : `PASS`, 1832 fichiers, 0 finding.
 - Gate `release-vv` courant : `PENDING_FINAL_CAMPAIGN`.
-- Ce rapport est un instantane historique de l'audit 0.2.1 ; l'etat courant de
-  la release 0.2.3a0 est trace par les revues Owner HEX8/HEX20 et le registre
-  de release correspondant.
+- Git : HEAD `d401b80`, tag `v0.2.3a0`, 144 fichiers modifies et 457 fichiers non suivis.
 - Tests collectes : 1187.
 - Limite 700 lignes : 0 depassement; 23 fichiers au-dessus de 600 lignes.
 ## Confidentialite et publication
@@ -25,8 +23,8 @@ Cette verification ne prouve pas l'absence absolue de secret dans tout l'histori
 ## Structure
 Points solides : paquet `src/solveur` organise par responsabilite, elements separes, API et CLI dediees, MITC4 canonique sous `src/solveur/elements/shell/mitc4`, facade `src/solveur/compat/mitc4` de compatibilite, tests unitaires/integration/V&V distincts, seuil de 700 lignes et imports de couches controles.
 Points a corriger :
-1. `scripts/` contient 226 fichiers Python a plat, dont 134 runners `run_*`. Les classer sous `scripts/vnv/code_aster`, `scripts/vnv/calculix`, `scripts/vnv/internal`, `scripts/docs` et `scripts/release`, avec wrappers temporaires si un chemin public est documente.
-2. `src/solveur/verification` contient 168 modules. Le separer progressivement par familles sans changer les imports publics.
+1. `scripts/` contient 229 fichiers Python a plat, dont 135 runners `run_*`. Les classer sous `scripts/vnv/code_aster`, `scripts/vnv/calculix`, `scripts/vnv/internal`, `scripts/docs` et `scripts/release`, avec wrappers temporaires si un chemin public est documente.
+2. `src/solveur/verification` contient 171 modules. Le separer progressivement par familles sans changer les imports publics.
 3. Plusieurs modules sont proches de la limite de 700 lignes. Les extractions doivent suivre les responsabilites et etre protegees par snapshots/V&V.
 4. `src/solveur/documentation` ne contient plus de source active. Supprimer le repertoire vide local; ne pas recreer un runtime web tant que cette decision produit reste retiree.
 5. La facade historique `src/solveur/compat/mitc4` est acceptable en 0.2.x, mais sa date de retrait 0.3.0 doit rester documentee et testee.
@@ -36,7 +34,6 @@ Points a corriger :
 | --- | ---: |
 | `src/solveur/mesh/validation.py` | 700 |
 | `src/solveur/io/schema.py` | 700 |
-| `src/solveur/core/nonlinear.py` | 700 |
 | `src/solveur/contact/solver.py` | 700 |
 | `scripts/build_scope_closure_owner_review_pack.py` | 699 |
 | `src/solveur/verification/mitc4_modal_extended.py` | 697 |
@@ -44,6 +41,7 @@ Points a corriger :
 | `src/solveur/verification/maturity_promotion.py` | 694 |
 | `scripts/build_release_0_2_3_owner_review_pdf.py` | 693 |
 | `src/solveur/verification/release_vv.py` | 687 |
+| `src/solveur/core/modal.py` | 683 |
 ## Etat des Owner reviews
 Le paquet de promotion contient 33 scopes : 22 techniquement prets et 11 bloques uniquement par une decision Owner. Le total-lagrangien exige en plus une relecture independante; il ne peut pas etre ferme par auto-revue. Aucune promotion ne doit etre appliquee en bloc.
 ## Manques fonctionnels et industriels

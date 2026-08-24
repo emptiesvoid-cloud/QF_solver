@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "qf-solver"
-version = "0.2.3a0"
+version = "0.2.4a0"
 description = "Open-source white-box Python finite element solver for structural mechanics, dynamics and validated engineering simulation."
 readme = "README.md"
 requires-python = ">=3.10"

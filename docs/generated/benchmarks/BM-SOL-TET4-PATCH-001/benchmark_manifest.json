@@ -1,9 +1,9 @@
 {
   "manifest_schema_version": 1,
-  "created_at_utc": "2026-08-24T09:13:58.964536Z",
+  "created_at_utc": "2026-08-24T20:07:56.639799Z",
   "solver": {
     "name": "QF_solver",
-    "version": "0.2.3a0"
+    "version": "0.2.4a0"
   },
   "benchmark_id": "BM-SOL-TET4-PATCH-001",
   "profile": "engineering",
@@ -61,13 +61,13 @@
       "role": "benchmark_artifact",
       "path": "result.import_report.json",
       "size_bytes": 1862,
-      "sha256": "31941b199f878e0983194acbd3316662ec0a83bcdbdb43f7ace5f0ef0566b44a"
+      "sha256": "585e1ed05c7c568b9eaa152d714f1173d8452a87d43d8c2338c7bfff678de540"
     },
     {
       "role": "benchmark_artifact",
       "path": "result.json",
-      "size_bytes": 5911046,
-      "sha256": "a2b2e6bff1a9f7b9cf556588d3c98a797308427ea4133b84dc3323efc678b691"
+      "size_bytes": 5911047,
+      "sha256": "dd0dd2a6ed4615d2bd4764a63cfe25b41a387ae055fa9e1dcc0ff1a8a70c03fa"
     },
     {
       "role": "benchmark_artifact",

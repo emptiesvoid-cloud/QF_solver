@@ -108,7 +108,7 @@ def test_readiness_promotion_owner_and_qualification_commands(monkeypatch, tmp_p
 def test_release_vv_and_evidence_commands_cover_pass_warning_and_fail(monkeypatch, tmp_path: Path) -> None:
     release = {
         "status": "PASS",
-        "release": {"version": "0.2.3a0"},
+        "release": {"version": "0.2.4a0"},
         "scope_summary": {"pass_count": 2, "warning_count": 0, "fail_count": 0},
     }
     monkeypatch.setattr(verification, "run_release_vv", lambda *_, **__: release)

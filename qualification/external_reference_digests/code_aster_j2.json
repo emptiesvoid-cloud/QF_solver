@@ -78,7 +78,7 @@
       ]
     ]
   },
-  "evidence_manifest_sha256": "26be4da37355fe81cf2baf3c810e9ec5a8d9ee0720ef8ab41acfef37285d528c",
+  "evidence_manifest_sha256": "ab00db2388459806b338fed03e8ac541125a0d46ec9a9629219fddba90fe8b7c",
   "external_solver": {
     "deformation": "PETIT",
     "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",

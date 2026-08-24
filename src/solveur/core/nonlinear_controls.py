@@ -12,6 +12,38 @@ from solveur.core.material_state import MaterialStateTable
 
 
 @dataclass(frozen=True)
+class NonlinearSolverOptions:
+    """Validated snapshot of the common Newton controls.
+
+    The defaults intentionally mirror the legacy parameter extraction so this
+    first migration changes ownership of configuration, not numerical results.
+    """
+
+    load_steps: int = 1
+    max_iterations: int = 25
+    tolerance: float = 1.0e-8
+    linear_method: str = "direct"
+    line_search_min_alpha: float = 1.0e-4
+    line_search_max_reductions: int = 12
+    line_search_c: float = 1.0e-4
+    adaptive_load_steps: bool = False
+
+    @classmethod
+    def from_parameters(cls, parameters: dict[str, object]) -> "NonlinearSolverOptions":
+        """Build options with the compatibility defaults of the current solver."""
+        return cls(
+            load_steps=max(1, int(parameters.get("load_steps", 1))),
+            max_iterations=max(1, int(parameters.get("max_iterations", 25))),
+            tolerance=float(parameters.get("tolerance", 1.0e-8)),
+            linear_method=str(parameters.get("linear_method", "direct")).lower(),
+            line_search_min_alpha=float(parameters.get("line_search_min_alpha", 1.0e-4)),
+            line_search_max_reductions=max(0, int(parameters.get("line_search_max_reductions", 12))),
+            line_search_c=float(parameters.get("line_search_c", 1.0e-4)),
+            adaptive_load_steps=bool(parameters.get("adaptive_load_steps", False)),
+        )
+
+
+@dataclass(frozen=True)
 class NonlinearStep:
     """Convergence data for one committed load step."""
 
@@ -32,8 +64,11 @@ class NonlinearStep:
     relative_work_imbalance: float = 0.0
     load_step_cutbacks: int = 0
     work_diagnostics_available: bool = False
+    residual_initial: float = 0.0
+    failure_reason: str | None = None
+    residual_history: tuple[float, ...] = ()
 
-    def to_dict(self) -> dict[str, float | int]:
+    def to_dict(self) -> dict[str, float | int | bool | str | None]:
         return {
             "step": self.step,
             "load_factor": self.load_factor,
@@ -52,6 +87,9 @@ class NonlinearStep:
             "relative_work_imbalance": self.relative_work_imbalance,
             "load_step_cutbacks": self.load_step_cutbacks,
             "work_diagnostics_available": self.work_diagnostics_available,
+            "residual_initial": self.residual_initial,
+            "failure_reason": self.failure_reason,
+            "residual_history": list(self.residual_history),
         }
 
 

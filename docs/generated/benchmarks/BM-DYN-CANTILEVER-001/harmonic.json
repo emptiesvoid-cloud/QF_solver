@@ -15052,14 +15052,14 @@
       "iteration_count_total": 6,
       "max_linear_relative_residual_norm": 1.9457671245973352e-10,
       "frequency_solve_seconds": [
-        0.002204699965659529,
-        0.0018050000071525574,
-        0.0017366999527439475,
-        0.001655499974731356,
-        0.0016764000174589455,
-        0.0016528999549336731
+        0.0020117999520152807,
+        0.0016862000338733196,
+        0.0017816000618040562,
+        0.0017365999519824982,
+        0.0016822000034153461,
+        0.001795099931769073
       ],
-      "total_frequency_solve_seconds": 0.010731199872680008
+      "total_frequency_solve_seconds": 0.010693499934859574
     },
     "rayleigh_alpha": 4.910609251843742,
     "rayleigh_beta": 0.0,
@@ -64393,7 +64393,7 @@
       "Rayleigh stiffness damping uses the exact scalar harmonic condensation factor."
     ],
     "qualification": {
-      "solver_version": "0.2.3a0",
+      "solver_version": "0.2.4a0",
       "schema_version": 1,
       "units": {
         "system": "SI"

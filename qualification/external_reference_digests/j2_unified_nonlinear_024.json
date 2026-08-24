@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "campaign_id": "VNV-J2-UNIFIED-NONLINEAR-024",
+  "status": "PASS_INTERNAL_INITIAL",
+  "maturity": "experimental",
+  "scope": "Small-strain isotropic J2 verification package for the 0.2.4a0 architecture work.",
+  "evidence": {
+    "V0_constitutive": {
+      "status": "PASS_INTERNAL",
+      "campaign_id": "VNV-J2-MATERIAL-CYCLIC-001",
+      "tangent_fd_max_relative_error": 2.0106113820700067e-11,
+      "analytical_uniaxial_relative_error": 2.4085720294860153e-14,
+      "hydrostatic_plastic_strain": 0.0,
+      "source": "qualification/vnv/j2_unified_nonlinear_024/reference/v0_material/results.json"
+    },
+    "V1_TET4": {
+      "status": "PASS_INTERNAL",
+      "campaign_id": "VNV-J2-TET4-CYCLIC-003",
+      "elements": 140,
+      "integration_points_per_element": 1,
+      "maximum_step_residual": 4.04018962703475e-09,
+      "source": "qualification/vnv/j2_unified_nonlinear_024/reference/v1_tet4/summary.json"
+    },
+    "V1_TET10": {
+      "status": "PASS_INTERNAL",
+      "campaign_id": "VNV-J2-TET10-CYCLIC-001",
+      "elements": 140,
+      "integration_points_per_element": 4,
+      "maximum_step_residual": 3.2456819340436472e-09,
+      "source": "qualification/vnv/j2_unified_nonlinear_024/reference/v1_tet10/summary.json"
+    },
+    "V2_step_sensitivity": {
+      "status": "PASS_INTERNAL",
+      "campaign_id": "VNV-J2-STEP-SENSITIVITY-005",
+      "increments": [12, 24, 48],
+      "maximum_state_relative_sensitivity": 2.979981966998937e-10,
+      "medium_to_fine_work_relative_sensitivity": 0.019297078165163295,
+      "source": "qualification/vnv/j2_unified_nonlinear_024/reference/v2_step_sensitivity/summary.json"
+    },
+    "V2_mesh_sensitivity": {
+      "status": "PASS_INTERNAL",
+      "campaign_id": "VNV-J2-MESH-SENSITIVITY-001",
+      "element_type": "TET4",
+      "mesh_sizes": [0.36, 0.24, 0.18],
+      "maximum_state_relative_sensitivity": 1.1668553682347042e-09,
+      "maximum_step_residual": 4.245472723492014e-09,
+      "source": "qualification/vnv/j2_unified_nonlinear_024/reference/v2_mesh_sensitivity/summary.json"
+    },
+    "V2_methods": {
+      "status": "PASS_CHARACTERIZATION",
+      "campaign_id": "VNV-J2-NONLINEAR-METHODS-004",
+      "newton_raphson": "CONVERGED",
+      "newton_line_search": "CONVERGED",
+      "modified_newton": "NON_CONVERGED",
+      "source": "qualification/vnv/j2_unified_nonlinear_024/reference/v2_methods/summary.json"
+    },
+    "V4_Code_Aster": {
+      "status": "PASS_EXTERNAL_CORRELATION",
+      "solver": "Code_Aster 18.1.0",
+      "container_digest": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+      "source": "qualification/vnv/external/code_aster_tet10_j2_structural/reference/summary.json"
+    },
+    "V4_CalculiX": {
+      "status": "PASS_INTERNAL",
+      "solver": "CalculiX 2.20",
+      "container_digest": "sha256:d9b16f92e61d0dc6fbe857549306c1efc5155c7bdc309c13c6a6f175193d1faf",
+      "scope": "Homogeneous material-point/C3D8 correlation; not an element qualification.",
+      "source": "qualification/vnv/external/calculix_j2/reference/summary.json"
+    },
+    "V4_RQ_G08": {
+      "status": "PASS_EXTERNAL_CORRELATION_BOUNDED",
+      "solver": "Code_Aster 18.1.0",
+      "container_digest": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+      "elements": ["TET4", "TET10", "HEX8", "HEX20"],
+      "checks": 80,
+      "maximum_relative_error": 2.621797980737677e-15,
+      "acceptance_limit": 5.0e-4,
+      "scope": "One affine displacement-controlled element per family; bounded external numerical correlation, not physical validation.",
+      "source": "qualification/external_reference_digests/rqg08_j2_common_024.json",
+      "raw_archive": "qualification/vnv/external/rqg08_j2_common_024/reference/summary.json"
+    }
+  },
+  "limitations": [
+    "Internal verification is not physical validation.",
+    "Small strains and isotropic hardening only.",
+    "HEX8 and HEX20 J2 external correlation is bounded to the RQ-G08 one-element affine patch and does not promote multi-element or physical validation claims.",
+    "Full non-regression, documentation closure and Owner release decision remain separate gates."
+  ]
+}

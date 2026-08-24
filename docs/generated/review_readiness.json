@@ -1,7 +1,7 @@
 {
   "automated_traceability": "PASS",
   "blockers": [
-    "Owner review incomplete: 0/242 documents",
+    "Owner review incomplete: 2/245 documents",
     "approved clean Git revision unavailable"
   ],
   "formula_coverage": {
@@ -9,8 +9,8 @@
     "total": 61
   },
   "owner_review": {
-    "active_documents": 242,
-    "reviewed_documents": 0,
+    "active_documents": 245,
+    "reviewed_documents": 2,
     "status": "BLOCKED"
   },
   "source_baseline": {

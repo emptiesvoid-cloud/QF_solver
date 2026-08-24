@@ -1,9 +1,9 @@
 {
   "manifest_schema_version": 1,
-  "created_at_utc": "2026-08-24T09:12:30.569539Z",
+  "created_at_utc": "2026-08-24T20:06:28.910835Z",
   "solver": {
     "name": "QF_solver",
-    "version": "0.2.3a0"
+    "version": "0.2.4a0"
   },
   "benchmark_id": "BM-DYN-CANTILEVER-001",
   "profile": "engineering",
@@ -60,32 +60,32 @@
     {
       "role": "benchmark_artifact",
       "path": "harmonic.json",
-      "size_bytes": 1769959,
-      "sha256": "861a0d9a49d9caa9c3835ddd5e0f59e0d696fcc3965c4a0c70dcf42e7fa24806"
+      "size_bytes": 1769960,
+      "sha256": "2069566d5630940d0c286f30483d56c238b485a6187fc11c449e7348c808d3e2"
     },
     {
       "role": "benchmark_artifact",
       "path": "modal.json",
-      "size_bytes": 1548461,
-      "sha256": "c75f27fa8dc17a2e983714a11f7e298624e3ef5f3f6d95d0c1ba90d65335a69f"
+      "size_bytes": 1548463,
+      "sha256": "e919101a38f2dc1d41476f7ba4c58daf25ad4492bd1d7da8190c9eabcc75308e"
     },
     {
       "role": "benchmark_artifact",
       "path": "newmark.json",
-      "size_bytes": 6394474,
-      "sha256": "f7fce6e9bd7b5097ef4a6a612abe22954a30368c80e04c058ee437673a6c1f3b"
+      "size_bytes": 6394475,
+      "sha256": "cd6d2381087ee51ad01ef6469582b02240d7b9b9c52757fb0444db580d2bafca"
     },
     {
       "role": "benchmark_artifact",
       "path": "static.import_report.json",
       "size_bytes": 1483,
-      "sha256": "c0e0d04cdc6fa16bcc0971dc66ece26c7865521402972fa61acf6842df4c56a6"
+      "sha256": "6225196d76e9aaa864938c84bd2ec17d113a24daec246e2ef91913e5dbdd8dc7"
     },
     {
       "role": "benchmark_artifact",
       "path": "static.json",
-      "size_bytes": 6093723,
-      "sha256": "a057b269ad3d2a7d614c7a525e3a21e97a605d0580c6f4dc8aefe07f60d7a15c"
+      "size_bytes": 6093722,
+      "sha256": "92e97e8a2b44af9d1b87cc2d9788cee991a57d015257e6d85fa367a15db32c87"
     },
     {
       "role": "benchmark_artifact",

@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
-  "audit_id": "QF-PUBLIC-DOC-AUDIT-023-001",
+  "audit_id": "QF-PUBLIC-DOC-AUDIT-024-001",
   "release": {
     "name": "QF_solver",
-    "version": "0.2.3a0"
+    "version": "0.2.4a0"
   },
   "status": "PASS",
   "classification": {
     "public_source_documentation": {
-      "count": 367,
+      "count": 370,
       "paths": [
         "README.md",
         "docs/** excluding generated evidence"
@@ -63,7 +63,7 @@
     {
       "id": "public_source_hygiene",
       "status": "PASS",
-      "detail": "1803 tracked release files scanned"
+      "detail": "1832 tracked release files scanned"
     },
     {
       "id": "controlled_review_vocabulary",
@@ -83,7 +83,7 @@
   ],
   "public_release_audit": {
     "status": "PASS",
-    "scanned_files": 1803,
+    "scanned_files": 1832,
     "finding_count": 0
   }
 }

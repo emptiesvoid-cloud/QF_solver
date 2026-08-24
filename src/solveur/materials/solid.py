@@ -8,6 +8,8 @@ from typing import Protocol, runtime_checkable
 
 import numpy as np
 
+from solveur.core.nonlinear_contracts import ConstitutiveResponse
+
 
 @runtime_checkable
 class SolidConstitutiveMaterial(Protocol):
@@ -55,6 +57,15 @@ class SolidMaterial:
         tangent = self.elasticity_matrix
         return tangent @ np.asarray(strain, dtype=float), tangent
 
+    def evaluate(
+        self,
+        strain: np.ndarray,
+        committed_state: dict[str, object] | None = None,
+    ) -> ConstitutiveResponse:
+        """Evaluate through the common constitutive contract."""
+        stress, tangent = self.stress_tangent(strain)
+        return ConstitutiveResponse(stress, tangent, {}, {"stateful": False, "elastic": True})
+
 
 @dataclass(frozen=True)
 class NonlinearSolidMaterial(SolidMaterial):
@@ -74,6 +85,14 @@ class NonlinearSolidMaterial(SolidMaterial):
         stress = elastic @ strain + self.hardening * strain_norm2 * strain
         tangent = elastic + self.hardening * (strain_norm2 * np.eye(6) + 2.0 * np.outer(strain, strain))
         return stress, tangent
+
+    def evaluate(
+        self,
+        strain: np.ndarray,
+        committed_state: dict[str, object] | None = None,
+    ) -> ConstitutiveResponse:
+        stress, tangent = self.stress_tangent(strain)
+        return ConstitutiveResponse(stress, tangent, {}, {"stateful": False, "elastic": False})
 
 
 @dataclass(frozen=True)
@@ -161,6 +180,24 @@ class VonMisesElastoplasticMaterial(SolidMaterial):
             "plastic_strain": _strain_tensor_to_voigt(plastic_strain).tolist(),
         }
         return stress, tangent, state
+
+    def evaluate(
+        self,
+        strain: np.ndarray,
+        committed_state: dict[str, object] | None = None,
+    ) -> ConstitutiveResponse:
+        """Evaluate J2 from committed state without mutating that state."""
+        stress, tangent, state = self.stress_tangent_state(strain, committed_state)
+        return ConstitutiveResponse(
+            stress,
+            tangent,
+            state,
+            {
+                "stateful": True,
+                "elastic": bool(state.get("elastic", False)),
+                "yield_function": float(state.get("yield_function", 0.0)),
+            },
+        )
 
     def _algorithmic_tangent(
         self,

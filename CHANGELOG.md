@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.2.4a0 - 2026-08-24
+
+Cette alpha consolide une infrastructure expérimentale commune de mécanique
+solide non linéaire. Elle reste strictement bornée au J2 petites déformations
+sur TET4, TET10, HEX8 et HEX20, avec Full Newton comme seul chemin qualifié.
+
+- Ajout et qualification interne des contrats constitutifs, tangent cohérent,
+  état `trial/commit/rollback`, diagnostics Newton et preuves de robustesse.
+- Ajout de la corrélation externe Code_Aster RQ-G08 bornée : 80 contrôles
+  réussis sur un patch affine à un élément pour les quatre familles.
+- Fermeture documentaire de `RQ-G08` en
+  `PASS_EXTERNAL_CORRELATION_BOUNDED`, sans revendication multi-éléments,
+  cyclique ou de validation physique.
+- Modified Newton reste hors production ; les travaux multi-éléments,
+  énergétiques, cutback/retry et profilage HEX20 restent reportés.
+- La publication, le tag et le push restent des décisions séparées de
+  l'Owner.
+
 ## 0.2.3a0 - 2026-08-24
 
 Cette alpha ajoute les éléments solides HEX8 et HEX20 au chemin FEM commun.

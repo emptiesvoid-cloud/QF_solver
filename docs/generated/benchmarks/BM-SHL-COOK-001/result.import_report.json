@@ -1,7 +1,7 @@
 {
   "status": "PASS",
   "solver_name": "QF_solver",
-  "solver_version": "0.2.3a0",
+  "solver_version": "0.2.4a0",
   "source_path": "cook_mitc4.msh",
   "source_sha256": "c72c2512784e0c3ba0bd3685e40a401db630256630f47366390b2267627f11e7",
   "setup_path": "result.setup.json",

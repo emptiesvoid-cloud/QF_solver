@@ -114,8 +114,8 @@ def public_document_audit(root: str | Path = ROOT) -> dict[str, Any]:
     ]
     return {
         "schema_version": 1,
-        "audit_id": "QF-PUBLIC-DOC-AUDIT-023-001",
-        "release": {"name": "QF_solver", "version": "0.2.3a0"},
+        "audit_id": "QF-PUBLIC-DOC-AUDIT-024-001",
+        "release": {"name": "QF_solver", "version": "0.2.4a0"},
         "status": "PASS" if all(check["status"] == "PASS" for check in checks) else "FAIL",
         "classification": {
             "public_source_documentation": {

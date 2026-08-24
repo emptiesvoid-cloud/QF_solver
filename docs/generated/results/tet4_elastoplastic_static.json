@@ -629,6 +629,16 @@
     }
   ],
   "solver": {
+    "nonlinear_options": {
+      "load_steps": 5,
+      "max_iterations": 80,
+      "tolerance": 1e-09,
+      "linear_method": "direct",
+      "line_search_min_alpha": 0.0001,
+      "line_search_max_reductions": 12,
+      "line_search_c": 0.0001,
+      "adaptive_load_steps": false
+    },
     "adaptive_load_steps": false,
     "arc_length": false,
     "path_dependent_material_state": true,
@@ -699,7 +709,14 @@
         "incremental_external_work": 0.012608695652173915,
         "relative_work_imbalance": 0.0,
         "load_step_cutbacks": 0,
-        "work_diagnostics_available": true
+        "work_diagnostics_available": true,
+        "residual_initial": 2.0,
+        "failure_reason": null,
+        "residual_history": [
+          2.0,
+          0.30769230769230793,
+          0.0
+        ]
       },
       {
         "step": 2,
@@ -718,7 +735,14 @@
         "incremental_external_work": 0.050869565217391305,
         "relative_work_imbalance": 2.728112133160106e-16,
         "load_step_cutbacks": 0,
-        "work_diagnostics_available": true
+        "work_diagnostics_available": true,
+        "residual_initial": 2.0,
+        "failure_reason": null,
+        "residual_history": [
+          2.0,
+          0.8205128205128203,
+          8.881784197001252e-16
+        ]
       },
       {
         "step": 3,
@@ -737,7 +761,14 @@
         "incremental_external_work": 0.08478260869565214,
         "relative_work_imbalance": 0.0,
         "load_step_cutbacks": 0,
-        "work_diagnostics_available": true
+        "work_diagnostics_available": true,
+        "residual_initial": 2.0,
+        "failure_reason": null,
+        "residual_history": [
+          2.0,
+          0.8205128205128203,
+          0.0
+        ]
       },
       {
         "step": 4,
@@ -756,7 +787,14 @@
         "incremental_external_work": 0.11869565217391308,
         "relative_work_imbalance": 0.0,
         "load_step_cutbacks": 0,
-        "work_diagnostics_available": true
+        "work_diagnostics_available": true,
+        "residual_initial": 2.0,
+        "failure_reason": null,
+        "residual_history": [
+          2.0,
+          0.8205128205128203,
+          0.0
+        ]
       },
       {
         "step": 5,
@@ -775,7 +813,13 @@
         "incremental_external_work": 0.15260869565217394,
         "relative_work_imbalance": 0.0,
         "load_step_cutbacks": 0,
-        "work_diagnostics_available": true
+        "work_diagnostics_available": true,
+        "residual_initial": 2.0,
+        "failure_reason": null,
+        "residual_history": [
+          2.0,
+          1.7763568394002505e-15
+        ]
       }
     ]
   },
@@ -2403,7 +2447,7 @@
       "Nonlinear audit uses the tangent matrix at the converged final displacement."
     ],
     "qualification": {
-      "solver_version": "0.2.3a0",
+      "solver_version": "0.2.4a0",
       "schema_version": 1,
       "units": {
         "system": "SI"

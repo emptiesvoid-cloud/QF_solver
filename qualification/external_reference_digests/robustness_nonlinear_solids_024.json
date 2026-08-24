@@ -1,0 +1,75 @@
+{
+  "campaign_id": "VNV-ROBUSTNESS-NONLINEAR-SOLIDS-024",
+  "applicable_version": "0.2.4a0",
+  "status": "PASS_INTERNAL",
+  "scope": {
+    "elements": ["TET4", "TET10", "HEX8", "HEX20"],
+    "material": "small-strain J2 isotropic hardening",
+    "large_scale_claim": false,
+    "external_correlation": "bounded_pass_external"
+  },
+  "constitutive_paths": {
+    "traction_unload_reload": {"status": "PASS", "maximum_equivalent_plastic_strain": 0.10402634063333421},
+    "pure_shear": {"status": "PASS", "maximum_equivalent_plastic_strain": 0.07959147184183432},
+    "non_proportional": {"status": "PASS", "maximum_equivalent_plastic_strain": 0.091008594371745}
+  },
+  "consistent_tangent": {
+    "status": "PASS",
+    "finite_difference_steps": [1.0e-5, 1.0e-6, 1.0e-7],
+    "maximum_relative_error": 7.116804720252512e-11,
+    "acceptance_limit": 1.0e-6
+  },
+  "transactions": {"status": "PASS", "rollback_untouched": true, "commit_changed": true},
+  "element_matrix": {
+    "TET4": {"status": "PASS", "integration_points": 1},
+    "TET10": {"status": "PASS", "integration_points": 4},
+    "HEX8": {"status": "PASS", "integration_points": 8, "distorted_geometry": true},
+    "HEX20": {"status": "PASS", "integration_points": 27, "distorted_geometry": true}
+  },
+  "common_global_benchmark": {
+    "load_path": [0.25, 0.5, 0.75, 1.0],
+    "rows": [
+      {"element": "TET4", "status": "PASS", "dof_count": 12, "newton_iterations": 8, "maximum_relative_residual": 6.981544407176144e-15, "final_peeq": 2.9980000000000104, "reaction_norm": 5.000000000000013},
+      {"element": "TET10", "status": "PASS", "dof_count": 30, "newton_iterations": 8, "maximum_relative_residual": 3.2791703186094183e-13, "final_peeq": 9.706203932499305, "reaction_norm": 4.999999999999964},
+      {"element": "HEX8", "status": "PASS", "dof_count": 24, "newton_iterations": 21, "maximum_relative_residual": 6.725042775095448e-10, "final_peeq": 1.5095812398714057, "reaction_norm": 4.999999999999745},
+      {"element": "HEX20", "status": "PASS", "dof_count": 60, "newton_iterations": 22, "maximum_relative_residual": 3.632488970099424e-10, "final_peeq": 5.72099746189124, "reaction_norm": 5.000000000000096}
+    ]
+  },
+  "newton_rate_study": {
+    "status": "PASS_CHARACTERIZED",
+    "full_newton": {"TET4": 8, "TET10": 8, "HEX8": 21, "HEX20": 22},
+    "modified_newton": {"TET4": "NON_CONVERGED", "TET10": "NON_CONVERGED", "HEX8": "NON_CONVERGED", "HEX20": "NON_CONVERGED"},
+    "interpretation": "Full Newton is the qualified path; modified Newton is characterized and non-convergence is explicit."
+  },
+  "external_correlations": {
+    "status": "PASS_EXTERNAL_CORRELATION_BOUNDED",
+    "solvers": ["Code_Aster", "CalculiX"],
+    "docker_image": "qf-solver/calculix-nafems13h:2.20",
+    "docker_digest": "sha256:d9b16f92e61d0dc6fbe857549306c1efc5155c7bdc309c13c6a6f175193d1faf",
+    "linear_element_correlations": {
+      "HEX8": {
+        "status": "PASS_EXTERNAL_CORRELATION",
+        "reference": "qualification/vnv/robustness_nonlinear_solids_024/reference/external/hex8/summary.json",
+        "element": "C3D8"
+      },
+      "HEX20": {
+        "status": "PASS_EXTERNAL_CORRELATION",
+        "reference": "qualification/vnv/robustness_nonlinear_solids_024/reference/external/hex20/summary.json",
+        "element": "C3D20"
+      }
+    },
+    "j2_external_correlation": {
+      "status": "PASS_EXTERNAL_CORRELATION_BOUNDED",
+      "solver": "Code_Aster 18.1.0",
+      "container_digest": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+      "reference": "qualification/external_reference_digests/rqg08_j2_common_024.json",
+      "scope": "One affine displacement-controlled element per family, common small-strain J2 history; 80 checks, maximum relative error below 3e-15."
+    }
+  },
+  "limitations": [
+    "Small-strain J2 only.",
+    "Canonical one-element benchmark; no multi-million-DOF claim.",
+    "Common nonlinear J2 external correlation is closed only for the bounded one-element affine patch; multi-element, cyclic and physical validation remain outside this gate.",
+    "No physical validation claim is made."
+  ]
+}

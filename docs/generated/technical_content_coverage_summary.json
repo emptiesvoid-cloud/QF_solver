@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "status": "PASS_DOCUMENTATION",
-  "pair_count": 40,
-  "loading_contract_count": 8,
+  "pair_count": 50,
+  "loading_contract_count": 10,
   "method_count": 12,
   "documented_vnv_gaps": [],
   "mechanical_pass_inferred_from_gaps": false,
@@ -123,5 +123,5 @@
     }
   ],
   "markdown": "technical_content_coverage.md",
-  "markdown_sha256": "07ef23618ba3ebbe0b82be28f158cf903fad6b7321f77a6a6d64213098677475"
+  "markdown_sha256": "f53af219de72185b61896f3f23a4b3a03e8afe4ca76a8a23bc9d680913af302b"
 }

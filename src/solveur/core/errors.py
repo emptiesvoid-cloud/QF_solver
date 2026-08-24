@@ -5,6 +5,8 @@ from __future__ import annotations
 from enum import IntEnum
 from typing import Any
 
+from solveur.core.nonlinear_contracts import NonlinearFailureReason
+
 
 class ExitCode(IntEnum):
     """Public process exit codes used by the CLI."""
@@ -38,6 +40,17 @@ class NumericalConvergenceError(RuntimeError, SolverError):
     """A numerical method failed, diverged or produced an invalid state."""
 
     exit_code = ExitCode.NUMERICAL_FAILURE
+
+    def __init__(
+        self,
+        message: str,
+        *,
+        reason: NonlinearFailureReason | None = None,
+        diagnostics: dict[str, Any] | None = None,
+    ) -> None:
+        super().__init__(message)
+        self.reason = reason
+        self.diagnostics = dict(diagnostics or {})
 
 
 class QualificationGateError(RuntimeError, SolverError):

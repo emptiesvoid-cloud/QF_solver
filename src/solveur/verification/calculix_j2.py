@@ -40,6 +40,10 @@ def parse_calculix_j2_dat(text: str) -> CalculixJ2State:
     plastic = np.asarray(blocks["plastic"][time], dtype=float)
     strain = np.asarray(blocks["strain"][time], dtype=float)
     energy = np.asarray(blocks["energy"][time], dtype=float)
+    stress = _collapse_repeated_c3d8_output(stress, "stress")
+    plastic = _collapse_repeated_c3d8_output(plastic, "plastic")
+    strain = _collapse_repeated_c3d8_output(strain, "strain")
+    energy = _collapse_repeated_c3d8_output(energy, "energy")
     if not (stress.shape == (8, 6) and plastic.shape == (8, 1) and strain.shape == (8, 6) and energy.shape == (8, 1)):
         raise ValueError("CalculiX J2 correlation requires eight C3D8 integration points for every field.")
     return CalculixJ2State(
@@ -285,3 +289,15 @@ def _is_number(value: str) -> bool:
     except ValueError:
         return False
     return True
+
+
+def _collapse_repeated_c3d8_output(values: np.ndarray, field: str) -> np.ndarray:
+    """Normalize CalculiX builds that print the same C3D8 block twice."""
+    if values.shape[0] == 8:
+        return values
+    if values.shape[0] % 8 != 0:
+        raise ValueError(f"CalculiX {field} output does not contain complete C3D8 blocks.")
+    blocks = values.reshape((-1, 8, values.shape[1]))
+    if not all(np.allclose(block, blocks[0], rtol=1.0e-10, atol=1.0e-12) for block in blocks[1:]):
+        raise ValueError(f"CalculiX {field} output contains non-identical C3D8 blocks.")
+    return blocks[0]

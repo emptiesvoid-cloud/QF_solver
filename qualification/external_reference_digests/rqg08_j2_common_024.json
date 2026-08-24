@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "campaign_id": "VNV-RQ-G08-J2-COMMON-024",
+  "applicable_version": "0.2.4a0",
+  "status": "PASS_EXTERNAL_CORRELATION_BOUNDED",
+  "maturity": "experimental",
+  "external_solver": {
+    "name": "Code_Aster",
+    "version": "18.1.0",
+    "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435"
+  },
+  "scope": {
+    "elements": ["TET4", "TET10", "HEX8", "HEX20"],
+    "material": "VMIS_ISOT_LINE / small-strain J2 isotropic hardening",
+    "history": [0.0, 0.25, 0.5, 0.75, 1.0],
+    "observables": ["force-displacement", "reactions", "von Mises", "PEEQ", "yield onset", "final state"],
+    "model": "One affine displacement-controlled element per family"
+  },
+  "checks": {
+    "total": 80,
+    "passed": 80,
+    "failed": 0,
+    "acceptance_limit": 5.0e-4,
+    "maximum_relative_error": 2.621797980737677e-15,
+    "maximum_relative_error_by_element": {
+      "TET4": 2.621797980737677e-15,
+      "TET10": 2.0599841277224604e-15,
+      "HEX8": 4.3368086899420177e-16,
+      "HEX20": 1.8727128433840566e-15
+    }
+  },
+  "raw_archive": {
+    "summary": "qualification/vnv/external/rqg08_j2_common_024/reference/summary.json",
+    "report": "qualification/vnv/external/rqg08_j2_common_024/reference/report.md",
+    "raw_digest": {
+      "TET4": "02c863581e626c2f3b040bd91a975670620524c3f2d612c695ae8ce8dc40424b",
+      "TET10": "b84d47cd07239a81b44c4196d626bf059a4068e58c1415f73d8f89b91cb90413",
+      "HEX8": "4a938ac304e0c0cdd7a72ba7e3a9884012151ea62eaaf80d1a72792bc2e7bbb6",
+      "HEX20": "9f4241df429b5d9bc08f089872d793d405fbb9c8501c6896faaa42ff187eef66"
+    }
+  },
+  "limitations": [
+    "This is a bounded external numerical correlation, not physical validation.",
+    "The campaign covers one affine element per family and does not claim multi-element mesh convergence.",
+    "No cyclic reversal, large-scale or multi-million-DOF claim is made.",
+    "The reaction resultant is reconstructed from uniform SIEF_ELGA traction because all affine displacements are prescribed."
+  ]
+}

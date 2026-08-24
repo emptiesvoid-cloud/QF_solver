@@ -155,6 +155,125 @@ class J2StepSensitivityCampaign:
         plt.close(fig)
 
 
+class J2MeshSensitivityCampaign:
+    """Compare the same bounded J2 path on three TET4 mesh levels."""
+
+    campaign_id = "VNV-J2-MESH-SENSITIVITY-001"
+    mesh_sizes = (0.36, 0.24, 0.18)
+
+    def __init__(self, output_dir: str | Path):
+        self.output_dir = Path(output_dir).resolve()
+
+    def run(self) -> dict[str, object]:
+        self.output_dir.mkdir(parents=True, exist_ok=True)
+        rows = [self._solve_level(mesh_size) for mesh_size in self.mesh_sizes]
+        reference = rows[-1]
+        for row in rows:
+            row["relative_errors_to_finest"] = {
+                key: _relative(float(row[key]), float(reference[key]))
+                for key in ("final_axial_displacement", "final_axial_stress", "final_equivalent_plastic_strain")
+            }
+        maximum_state_error = max(
+            max(row["relative_errors_to_finest"].values()) for row in rows
+        )
+        maximum_residual = max(float(row["maximum_step_residual"]) for row in rows)
+        summary: dict[str, object] = {
+            "campaign_id": self.campaign_id,
+            "status": (
+                "PASS_INTERNAL"
+                if maximum_state_error <= 1.0e-8 and maximum_residual <= 1.0e-7
+                else "FAIL"
+            ),
+            "maturity": "experimental",
+            "element_type": "TET4",
+            "mesh_sizes": list(self.mesh_sizes),
+            "levels": rows,
+            "maximum_state_relative_sensitivity": maximum_state_error,
+            "maximum_step_residual": maximum_residual,
+            "state_acceptance_limit": 1.0e-8,
+            "residual_acceptance_limit": 1.0e-7,
+            "interpretation": (
+                "The bounded homogeneous small-strain J2 path is insensitive to the tested TET4 mesh levels. "
+                "This does not qualify arbitrary geometries, localization, distortion, or geometric nonlinearity."
+            ),
+        }
+        write_json_file(self.output_dir / "summary.json", summary)
+        self._write_report(summary)
+        self._plot(summary)
+        return summary
+
+    def _solve_level(self, mesh_size: float) -> dict[str, object]:
+        mesh = BenchmarkMeshFactory().box_tetra(
+            self.output_dir / f"j2_mesh_sensitivity_h_{mesh_size:.3f}.msh",
+            length=1.0,
+            width=0.2,
+            height=0.2,
+            mesh_size=mesh_size,
+            anchors=True,
+        )
+        setup = J2StructuralCyclicCampaign._setup()
+        setup_path = self.output_dir / f"model_h_{mesh_size:.3f}.setup.json"
+        write_json_file(setup_path, setup)
+        imported = GmshModelImporter().import_model(mesh, setup_path)
+        model = imported.model
+        result = solve_model(model)
+        data = result.to_dict()
+        steps = data["solver"]["steps"]
+        x_max = float(np.max(model.nodes[:, 0]))
+        loaded_nodes = np.flatnonzero(np.isclose(model.nodes[:, 0], x_max))
+        axial_dofs = [result.dofs.node_indices(int(node), ("UX",))[0] for node in loaded_nodes]
+        return {
+            "mesh_size": mesh_size,
+            "nodes": model.node_count,
+            "elements": len(model.elements),
+            "increments": len(steps),
+            "maximum_step_residual": max(float(step["relative_residual"]) for step in steps),
+            "final_axial_displacement": float(np.mean(result.displacements[axial_dofs])),
+            "final_axial_stress": float(np.mean([row["stress"][0] for row in data["element_results"]])),
+            "final_equivalent_plastic_strain": float(steps[-1]["equivalent_plastic_strain_max"]),
+        }
+
+    def _write_report(self, summary: dict[str, object]) -> None:
+        lines = [
+            f"# {self.campaign_id}",
+            "",
+            f"Statut : **{summary['status']}**",
+            "",
+            "| h | Noeuds | Elements | UX final | S11 final [Pa] | PEEQ final | Ecart au niveau fin | Residus |",
+            "| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+        ]
+        for row in summary["levels"]:
+            error = max(row["relative_errors_to_finest"].values())
+            lines.append(
+                f"| {row['mesh_size']:.3f} | {row['nodes']} | {row['elements']} | "
+                f"{row['final_axial_displacement']:.6e} | {row['final_axial_stress']:.6e} | "
+                f"{row['final_equivalent_plastic_strain']:.6e} | {error:.6e} | "
+                f"{row['maximum_step_residual']:.6e} |"
+            )
+        lines.extend(["", "![Sensibilite au maillage](mesh_sensitivity.png)", "", str(summary["interpretation"]), ""])
+        (self.output_dir / "report.md").write_text("\n".join(lines), encoding="utf-8")
+
+    def _plot(self, summary: dict[str, object]) -> None:
+        import matplotlib
+
+        matplotlib.use("Agg")
+        import matplotlib.pyplot as plt
+
+        rows = summary["levels"]
+        sizes = [row["mesh_size"] for row in rows]
+        errors = [max(row["relative_errors_to_finest"].values()) for row in rows]
+        floor = np.finfo(float).eps
+        figure, axis = plt.subplots(figsize=(7.2, 4.4))
+        axis.semilogy(sizes, np.maximum(errors, floor), "o-", color="#006d77")
+        axis.axhline(float(summary["state_acceptance_limit"]), color="#bb3e03", linestyle="--")
+        axis.set(xlabel="Taille de maille h", ylabel="Ecart relatif maximal au niveau fin")
+        axis.invert_xaxis()
+        axis.grid(True, which="both", alpha=0.25)
+        figure.tight_layout()
+        figure.savefig(self.output_dir / "mesh_sensitivity.png", dpi=180)
+        plt.close(figure)
+
+
 def _subdivided_path(turning_points: tuple[float, ...], subdivisions: int) -> list[float]:
     path: list[float] = []
     for start, end in zip(turning_points[:-1], turning_points[1:], strict=True):

@@ -3852,6 +3852,88 @@
         "tests/unit/test_hex20_calculix.py",
         "tests/unit/test_hex20_code_aster.py"
       ]
+    },
+    {
+      "id": "DOC-NL-024-001",
+      "path": "verification/qf_solver_0_2_4_alpha_unified_nonlinear_solid_mechanics_plan.md",
+      "title": "Plan Unified Nonlinear Solid Mechanics - QF_solver 0.2.4 alpha",
+      "status": "controlled_candidate",
+      "requirements": [
+        "REQ-NL-001",
+        "REQ-AUD-001",
+        "REQ-EVD-001",
+        "REQ-REL-001"
+      ],
+      "examples": [],
+      "tests": [
+        "tests/unit/test_nonlinear_load_path.py",
+        "tests/unit/test_nonlinear_checkpoint.py",
+        "tests/unit/test_nonlinear_contracts.py",
+        "tests/unit/test_nonlinear_element_contracts.py",
+        "tests/unit/test_nonlinear_performance.py",
+        "tests/unit/test_robustness_j2_multiaxial.py",
+        "tests/unit/test_robustness_tangent_fd.py",
+        "tests/unit/test_robustness_state_transactions.py",
+        "tests/verification/test_robustness_solid_matrix_vnv.py",
+        "tests/verification/test_robustness_distorted_hex_vnv.py",
+        "tests/verification/test_robustness_common_benchmark_vnv.py",
+        "tests/verification/test_robustness_newton_rate_vnv.py",
+        "tests/integration/test_release_readiness_pipeline.py",
+        "tests/verification/test_j2_material_vnv.py",
+        "tests/verification/test_j2_step_sensitivity_vnv.py",
+        "tests/verification/test_j2_unified_nonlinear_evidence.py"
+      ]
+    },
+    {
+      "id": "DOC-NL-024-002",
+      "path": "verification/qf_solver_0_2_4_alpha_unified_nonlinear_solid_mechanics_owner_review.md",
+      "title": "Gates et revue Owner Unified Nonlinear Solid Mechanics - QF_solver 0.2.4 alpha",
+      "status": "controlled_candidate",
+      "requirements": [
+        "REQ-NL-001",
+        "REQ-AUD-001",
+        "REQ-EVD-001",
+        "REQ-REL-001"
+      ],
+      "examples": [
+        "qualification/external_reference_digests/rqg08_j2_common_024.json",
+        "docs/verification/rqg08_external_j2_common_024.md",
+        "qualification/vnv/external/rqg08_j2_common_024/reference/summary.json",
+        "qualification/vnv/external/rqg08_j2_common_024/reference/report.md",
+        "qualification/external_reference_digests/robustness_nonlinear_solids_024.json"
+      ],
+      "tests": [
+        "tests/unit/test_nonlinear_load_path.py",
+        "tests/unit/test_robustness_j2_multiaxial.py",
+        "tests/unit/test_robustness_tangent_fd.py",
+        "tests/unit/test_robustness_state_transactions.py",
+        "tests/verification/test_robustness_solid_matrix_vnv.py",
+        "tests/verification/test_robustness_common_benchmark_vnv.py",
+        "tests/verification/test_robustness_newton_rate_vnv.py",
+        "tests/integration/test_release_readiness_pipeline.py",
+        "tests/unit/test_nonlinear_checkpoint.py",
+        "tests/unit/test_nonlinear_contracts.py",
+        "tests/unit/test_nonlinear_element_contracts.py",
+        "tests/verification/test_j2_material_vnv.py",
+        "tests/verification/test_j2_unified_nonlinear_evidence.py"
+      ]
+    },
+    {
+      "id": "DOC-RQ-G08-024-001",
+      "path": "verification/rqg08_external_j2_common_024.md",
+      "title": "RQ-G08 - Correlation J2 externe commune TET4/TET10/HEX8/HEX20",
+      "status": "controlled_candidate",
+      "requirements": [
+        "REQ-NL-001",
+        "REQ-EVD-001"
+      ],
+      "examples": [
+        "qualification/external_reference_digests/rqg08_j2_common_024.json",
+        "qualification/vnv/external/rqg08_j2_common_024/reference/summary.json"
+      ],
+      "tests": [
+        "tests/verification/test_j2_unified_nonlinear_evidence.py"
+      ]
     }
   ]
 }

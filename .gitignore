@@ -53,3 +53,11 @@ venv/
 playwright-report/
 test-results/
 public_release_audit.json
+
+# Local 0.2.4 release-preparation outputs
+.tmp_release_final_024/
+.tmp_release_readiness_024/
+.tmp_release_readiness_targeted.json
+.tmp_rqg08_probe/
+.tmp_smoke_final/
+.tmp_smoke_final_2/

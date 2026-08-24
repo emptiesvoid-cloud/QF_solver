@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import numpy as np
 
+from solveur.core.nonlinear_contracts import evaluate_constitutive
+
 from solveur.elements.solid.common import (
     strain_displacement_from_gradients,
     symmetrize,
@@ -236,12 +238,11 @@ class Tet10Element:
         for point_index, (point, weight) in enumerate(rule):
             b, det_j = self.b_matrix(coords, point)
             strain = b @ local_displacement
-            if hasattr(self.material, "stress_tangent_state"):
-                previous = states[point_index] if states and point_index < len(states) else None
-                stress, material_tangent, updated = self.material.stress_tangent_state(strain, previous)
-                updated_states.append(updated)
-            else:
-                stress, material_tangent = self.material.stress_tangent(strain)
+            previous = states[point_index] if states and point_index < len(states) else None
+            response = evaluate_constitutive(self.material, strain, previous)
+            stress, material_tangent = response.stress, response.tangent
+            if response.diagnostics.get("stateful", False):
+                updated_states.append(response.trial_state)
             internal += weight * det_j * (b.T @ stress)
             tangent += weight * det_j * (b.T @ material_tangent @ b)
         return internal, symmetrize(tangent), updated_states

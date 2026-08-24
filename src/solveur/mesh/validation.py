@@ -369,10 +369,10 @@ class MeshValidator:
         if model.analysis.type not in {"modal", "transient_dynamic", "harmonic_response"}:
             if model.analysis.type == "nonlinear_static":
                 for index, element in enumerate(model.elements):
-                    if element.type not in {"TET4", "TET10", "HEX20"}:
+                    if element.type not in {"TET4", "TET10", "HEX8", "HEX20"}:
                         errors.append(
                             f"Element {index}: nonlinear static analysis is currently implemented for "
-                            "TET4/TET10/HEX20 only."
+                            "TET4/TET10/HEX8/HEX20 only."
                         )
             return
         for index, element in enumerate(model.elements):

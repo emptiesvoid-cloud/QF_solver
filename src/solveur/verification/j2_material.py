@@ -41,9 +41,18 @@ class J2MaterialVerificationCampaign:
         hardening_path, hardening_checks = self._cyclic_path(hardening=1000.0)
         perfect_path, perfect_checks = self._perfect_plasticity_path()
         non_proportional_path, non_proportional_checks = self._non_proportional_path()
+        hydrostatic_path, hydrostatic_checks = self._hydrostatic_path()
         theory_path, theory_checks = self._bilinear_uniaxial_path()
         abaqus_correlation, abaqus_checks = self._abaqus_published_correlation()
-        checks = tangent_checks + hardening_checks + perfect_checks + non_proportional_checks + theory_checks + abaqus_checks
+        checks = (
+            tangent_checks
+            + hardening_checks
+            + perfect_checks
+            + non_proportional_checks
+            + hydrostatic_checks
+            + theory_checks
+            + abaqus_checks
+        )
         status = "PASS_INTERNAL" if all(check.status == "PASS" for check in checks) else "FAIL"
         summary: dict[str, object] = {
             "campaign_id": self.campaign_id,
@@ -56,6 +65,7 @@ class J2MaterialVerificationCampaign:
                 "isotropic_hardening_cycle": hardening_path,
                 "perfect_plasticity": perfect_path,
                 "non_proportional_cycle": non_proportional_path,
+                "hydrostatic_loading": hydrostatic_path,
                 "uniaxial_bilinear": theory_path,
             },
             "external_correlations": {"abaqus_published": abaqus_correlation},
@@ -165,6 +175,33 @@ class J2MaterialVerificationCampaign:
                 1.0e-12,
                 "final equivalent plastic strain",
             )
+        )
+        return rows, checks
+
+    @staticmethod
+    def _hydrostatic_path() -> tuple[list[dict[str, object]], list[J2VerificationCheck]]:
+        """Check that a purely volumetric path cannot activate J2 plasticity."""
+        material = VonMisesElastoplasticMaterial(
+            E=210000.0, nu=0.3, yield_stress=250.0, hardening_modulus=1000.0
+        )
+        strains = [np.array([value, value, value, 0.0, 0.0, 0.0]) for value in (0.0, 1.0e-3, 4.0e-3, 1.0e-2)]
+        rows, metrics = _run_path(material, strains)
+        checks = _path_invariant_checks("hydrostatic loading", metrics)
+        checks.extend(
+            [
+                _upper_check(
+                    "hydrostatic loading - no plastic strain",
+                    max(float(row["equivalent_plastic_strain"]) for row in rows),
+                    1.0e-14,
+                    "maximum equivalent plastic strain",
+                ),
+                _upper_check(
+                    "hydrostatic loading - zero deviatoric stress",
+                    max(float(row["equivalent_stress"]) for row in rows),
+                    1.0e-10,
+                    "maximum von Mises stress",
+                ),
+            ]
         )
         return rows, checks
 
