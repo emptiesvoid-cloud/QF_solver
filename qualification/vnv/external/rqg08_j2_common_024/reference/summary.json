@@ -1,0 +1,1002 @@
+{
+  "campaign_id": "VNV-RQ-G08-J2-COMMON-024",
+  "status": "PASS_EXTERNAL_CORRELATION",
+  "maturity": "experimental",
+  "scope": {
+    "elements": [
+      "TET4",
+      "TET10",
+      "HEX8",
+      "HEX20"
+    ],
+    "material": "VMIS_ISOT_LINE / small-strain J2 isotropic hardening",
+    "history": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0
+    ],
+    "observables": [
+      "force-displacement",
+      "reactions",
+      "von Mises",
+      "PEEQ",
+      "yield onset",
+      "final state"
+    ]
+  },
+  "checks": [
+    {
+      "id": "TET4_stress_mpa_t0.00",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET4_von_mises_mpa_t0.00",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET4_equivalent_plastic_strain_t0.00",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET4_reaction_x_t0.00",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET4_stress_mpa_t0.25",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET4_von_mises_mpa_t0.25",
+      "value": 4.192706072002861e-16,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET4_equivalent_plastic_strain_t0.25",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET4_reaction_x_t0.25",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET4_stress_mpa_t0.50",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET4_von_mises_mpa_t0.50",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET4_equivalent_plastic_strain_t0.50",
+      "value": 2.621797980737677e-15,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET4_reaction_x_t0.50",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET4_stress_mpa_t0.75",
+      "value": 2.1901646810754926e-16,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET4_von_mises_mpa_t0.75",
+      "value": 2.0535233908123157e-16,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET4_equivalent_plastic_strain_t0.75",
+      "value": 2.0220703094208198e-16,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET4_reaction_x_t0.75",
+      "value": 2.1901646810754926e-16,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET4_stress_mpa_t1.00",
+      "value": 3.789561257387201e-16,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET4_von_mises_mpa_t1.00",
+      "value": 1.8947806286936006e-16,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET4_equivalent_plastic_strain_t1.00",
+      "value": 6.505213034913027e-16,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET4_reaction_x_t1.00",
+      "value": 3.789561257387201e-16,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET10_stress_mpa_t0.00",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET10_von_mises_mpa_t0.00",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET10_equivalent_plastic_strain_t0.00",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET10_reaction_x_t0.00",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET10_stress_mpa_t0.25",
+      "value": 2.463214817301681e-16,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET10_von_mises_mpa_t0.25",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET10_equivalent_plastic_strain_t0.25",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET10_reaction_x_t0.25",
+      "value": 2.463214817301681e-16,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET10_stress_mpa_t0.50",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET10_von_mises_mpa_t0.50",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET10_equivalent_plastic_strain_t0.50",
+      "value": 2.0599841277224604e-15,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET10_reaction_x_t0.50",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET10_stress_mpa_t0.75",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET10_von_mises_mpa_t0.75",
+      "value": 2.0535233908123157e-16,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET10_equivalent_plastic_strain_t0.75",
+      "value": 1.011035154710409e-15,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET10_reaction_x_t0.75",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET10_stress_mpa_t1.00",
+      "value": 1.8947806286936006e-16,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET10_von_mises_mpa_t1.00",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET10_equivalent_plastic_strain_t1.00",
+      "value": 4.3368086899420177e-16,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "TET10_reaction_x_t1.00",
+      "value": 1.8947806286936006e-16,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX8_stress_mpa_t0.00",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX8_von_mises_mpa_t0.00",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX8_equivalent_plastic_strain_t0.00",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX8_reaction_x_t0.00",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX8_stress_mpa_t0.25",
+      "value": 2.463214817301681e-16,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX8_von_mises_mpa_t0.25",
+      "value": 4.192706072002862e-16,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX8_equivalent_plastic_strain_t0.25",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX8_reaction_x_t0.25",
+      "value": 2.463214817301681e-16,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX8_stress_mpa_t0.50",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX8_von_mises_mpa_t0.50",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX8_equivalent_plastic_strain_t0.50",
+      "value": 3.745425686768112e-16,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX8_reaction_x_t0.50",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX8_stress_mpa_t0.75",
+      "value": 2.1901646810754931e-16,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX8_von_mises_mpa_t0.75",
+      "value": 2.0535233908123157e-16,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX8_equivalent_plastic_strain_t0.75",
+      "value": 4.0441406188416356e-16,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX8_reaction_x_t0.75",
+      "value": 2.1901646810754931e-16,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX8_stress_mpa_t1.00",
+      "value": 3.789561257387201e-16,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX8_von_mises_mpa_t1.00",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX8_equivalent_plastic_strain_t1.00",
+      "value": 4.3368086899420177e-16,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX8_reaction_x_t1.00",
+      "value": 3.789561257387201e-16,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX20_stress_mpa_t0.00",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX20_von_mises_mpa_t0.00",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX20_equivalent_plastic_strain_t0.00",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX20_reaction_x_t0.00",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX20_stress_mpa_t0.25",
+      "value": 2.463214817301682e-16,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX20_von_mises_mpa_t0.25",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX20_equivalent_plastic_strain_t0.25",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX20_reaction_x_t0.25",
+      "value": 2.463214817301682e-16,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX20_stress_mpa_t0.50",
+      "value": 6.486636386518637e-16,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX20_von_mises_mpa_t0.50",
+      "value": 1.1206484652195615e-16,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX20_equivalent_plastic_strain_t0.50",
+      "value": 1.8727128433840566e-15,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX20_reaction_x_t0.50",
+      "value": 6.486636386518637e-16,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX20_stress_mpa_t0.75",
+      "value": 2.1901646810754917e-16,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX20_von_mises_mpa_t0.75",
+      "value": 4.1070467816246315e-16,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX20_equivalent_plastic_strain_t0.75",
+      "value": 4.044140618841637e-16,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX20_reaction_x_t0.75",
+      "value": 2.1901646810754917e-16,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX20_stress_mpa_t1.00",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX20_von_mises_mpa_t1.00",
+      "value": 1.8947806286936006e-16,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX20_equivalent_plastic_strain_t1.00",
+      "value": 2.1684043449710089e-16,
+      "limit": 0.0005,
+      "status": "PASS"
+    },
+    {
+      "id": "HEX20_reaction_x_t1.00",
+      "value": 0.0,
+      "limit": 0.0005,
+      "status": "PASS"
+    }
+  ],
+  "rows": [
+    {
+      "element": "TET4",
+      "status": "PASS",
+      "qf_solver": [
+        {
+          "time": 0.0,
+          "stress_mpa": 0.0,
+          "von_mises_mpa": 0.0,
+          "equivalent_plastic_strain": 0.0,
+          "reaction_x": 0.0
+        },
+        {
+          "time": 0.25,
+          "stress_mpa": 115.38461538461536,
+          "von_mises_mpa": 135.57692307692307,
+          "equivalent_plastic_strain": 0.0,
+          "reaction_x": 57.69230769230768
+        },
+        {
+          "time": 0.5,
+          "stress_mpa": 219.07894736842098,
+          "von_mises_mpa": 253.61842105263156,
+          "equivalent_plastic_strain": 7.23684210526315e-05,
+          "reaction_x": 109.53947368421049
+        },
+        {
+          "time": 0.75,
+          "stress_mpa": 259.5394736842105,
+          "von_mises_mpa": 276.8092105263158,
+          "equivalent_plastic_strain": 0.0005361842105263153,
+          "reaction_x": 129.76973684210526
+        },
+        {
+          "time": 1.0,
+          "stress_mpa": 300.0,
+          "von_mises_mpa": 300.0,
+          "equivalent_plastic_strain": 0.001,
+          "reaction_x": 150.0
+        }
+      ],
+      "code_aster": [
+        {
+          "time": 0.0,
+          "stress_mpa": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "von_mises_mpa": 0.0,
+          "equivalent_plastic_strain": 0.0,
+          "reaction_x": 0.0,
+          "reaction_source": "SIEF_ELGA face resultant; all affine displacements are prescribed"
+        },
+        {
+          "time": 0.25,
+          "stress_mpa": [
+            115.38461538461536,
+            -20.192307692307658,
+            -20.19230769230768,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "von_mises_mpa": 135.576923076923,
+          "equivalent_plastic_strain": 0.0,
+          "reaction_x": 57.69230769230768,
+          "reaction_source": "SIEF_ELGA face resultant; all affine displacements are prescribed"
+        },
+        {
+          "time": 0.5,
+          "stress_mpa": [
+            219.07894736842098,
+            -34.53947368421056,
+            -34.53947368421058,
+            0.0,
+            -9.513010521289138e-18,
+            -9.513010521289269e-18
+          ],
+          "von_mises_mpa": 253.61842105263156,
+          "equivalent_plastic_strain": 7.236842105263131e-05,
+          "reaction_x": 109.53947368421049,
+          "reaction_source": "SIEF_ELGA face resultant; all affine displacements are prescribed"
+        },
+        {
+          "time": 0.75,
+          "stress_mpa": [
+            259.53947368421046,
+            -17.26973684210536,
+            -17.26973684210536,
+            0.0,
+            -4.95710732773835e-16,
+            -4.95710732773835e-16
+          ],
+          "von_mises_mpa": 276.80921052631584,
+          "equivalent_plastic_strain": 0.0005361842105263152,
+          "reaction_x": 129.76973684210523,
+          "reaction_source": "SIEF_ELGA face resultant; all affine displacements are prescribed"
+        },
+        {
+          "time": 1.0,
+          "stress_mpa": [
+            299.9999999999999,
+            -1.8474111129762605e-13,
+            -1.8474111129762605e-13,
+            0.0,
+            1.3949188840173973e-16,
+            1.3949188840173973e-16
+          ],
+          "von_mises_mpa": 300.00000000000006,
+          "equivalent_plastic_strain": 0.0009999999999999994,
+          "reaction_x": 149.99999999999994,
+          "reaction_source": "SIEF_ELGA face resultant; all affine displacements are prescribed"
+        }
+      ]
+    },
+    {
+      "element": "TET10",
+      "status": "PASS",
+      "qf_solver": [
+        {
+          "time": 0.0,
+          "stress_mpa": 0.0,
+          "von_mises_mpa": 0.0,
+          "equivalent_plastic_strain": 0.0,
+          "reaction_x": 0.0
+        },
+        {
+          "time": 0.25,
+          "stress_mpa": 115.38461538461536,
+          "von_mises_mpa": 135.57692307692307,
+          "equivalent_plastic_strain": 0.0,
+          "reaction_x": 57.69230769230768
+        },
+        {
+          "time": 0.5,
+          "stress_mpa": 219.07894736842098,
+          "von_mises_mpa": 253.61842105263156,
+          "equivalent_plastic_strain": 7.23684210526315e-05,
+          "reaction_x": 109.53947368421049
+        },
+        {
+          "time": 0.75,
+          "stress_mpa": 259.5394736842105,
+          "von_mises_mpa": 276.8092105263158,
+          "equivalent_plastic_strain": 0.0005361842105263158,
+          "reaction_x": 129.76973684210526
+        },
+        {
+          "time": 1.0,
+          "stress_mpa": 300.0,
+          "von_mises_mpa": 300.0,
+          "equivalent_plastic_strain": 0.001,
+          "reaction_x": 150.0
+        }
+      ],
+      "code_aster": [
+        {
+          "time": 0.0,
+          "stress_mpa": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "von_mises_mpa": 0.0,
+          "equivalent_plastic_strain": 0.0,
+          "reaction_x": 0.0,
+          "reaction_source": "SIEF_ELGA face resultant; all affine displacements are prescribed"
+        },
+        {
+          "time": 0.25,
+          "stress_mpa": [
+            115.38461538461539,
+            -20.192307692307686,
+            -20.192307692307686,
+            -9.74558363449081e-16,
+            -1.3135526320497457e-15,
+            7.881315792298476e-15
+          ],
+          "von_mises_mpa": 135.57692307692307,
+          "equivalent_plastic_strain": 0.0,
+          "reaction_x": 57.69230769230769,
+          "reaction_source": "SIEF_ELGA face resultant; all affine displacements are prescribed"
+        },
+        {
+          "time": 0.5,
+          "stress_mpa": [
+            219.07894736842098,
+            -34.53947368421058,
+            -34.53947368421058,
+            3.868061136279422e-16,
+            -5.3239577704196174e-15,
+            -6.14302819663802e-16
+          ],
+          "von_mises_mpa": 253.61842105263156,
+          "equivalent_plastic_strain": 7.236842105263136e-05,
+          "reaction_x": 109.53947368421049,
+          "reaction_source": "SIEF_ELGA face resultant; all affine displacements are prescribed"
+        },
+        {
+          "time": 0.75,
+          "stress_mpa": [
+            259.5394736842105,
+            -17.269736842105303,
+            -17.26973684210531,
+            -7.781976062320461e-15,
+            -1.0793414190677909e-14,
+            -3.3953532011586667e-15
+          ],
+          "von_mises_mpa": 276.80921052631584,
+          "equivalent_plastic_strain": 0.0005361842105263152,
+          "reaction_x": 129.76973684210526,
+          "reaction_source": "SIEF_ELGA face resultant; all affine displacements are prescribed"
+        },
+        {
+          "time": 1.0,
+          "stress_mpa": [
+            299.99999999999994,
+            -7.673861546209083e-14,
+            -7.673861546209083e-14,
+            8.479335689664234e-15,
+            3.137186772174459e-15,
+            -1.1959299000150192e-15
+          ],
+          "von_mises_mpa": 300.0,
+          "equivalent_plastic_strain": 0.0009999999999999996,
+          "reaction_x": 149.99999999999997,
+          "reaction_source": "SIEF_ELGA face resultant; all affine displacements are prescribed"
+        }
+      ]
+    },
+    {
+      "element": "HEX8",
+      "status": "PASS",
+      "qf_solver": [
+        {
+          "time": 0.0,
+          "stress_mpa": 0.0,
+          "von_mises_mpa": 0.0,
+          "equivalent_plastic_strain": 0.0,
+          "reaction_x": 0.0
+        },
+        {
+          "time": 0.25,
+          "stress_mpa": 115.38461538461536,
+          "von_mises_mpa": 135.57692307692304,
+          "equivalent_plastic_strain": 0.0,
+          "reaction_x": 115.38461538461536
+        },
+        {
+          "time": 0.5,
+          "stress_mpa": 219.078947368421,
+          "von_mises_mpa": 253.61842105263156,
+          "equivalent_plastic_strain": 7.236842105263146e-05,
+          "reaction_x": 219.078947368421
+        },
+        {
+          "time": 0.75,
+          "stress_mpa": 259.53947368421046,
+          "von_mises_mpa": 276.8092105263158,
+          "equivalent_plastic_strain": 0.0005361842105263159,
+          "reaction_x": 259.53947368421046
+        },
+        {
+          "time": 1.0,
+          "stress_mpa": 300.0,
+          "von_mises_mpa": 300.0,
+          "equivalent_plastic_strain": 0.001,
+          "reaction_x": 300.0
+        }
+      ],
+      "code_aster": [
+        {
+          "time": 0.0,
+          "stress_mpa": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "von_mises_mpa": 0.0,
+          "equivalent_plastic_strain": 0.0,
+          "reaction_x": 0.0,
+          "reaction_source": "SIEF_ELGA face resultant; all affine displacements are prescribed"
+        },
+        {
+          "time": 0.25,
+          "stress_mpa": [
+            115.38461538461539,
+            -20.192307692307704,
+            -20.1923076923077,
+            3.147053180952516e-15,
+            -4.652165571842849e-15,
+            3.779884527122315e-15
+          ],
+          "von_mises_mpa": 135.5769230769231,
+          "equivalent_plastic_strain": 0.0,
+          "reaction_x": 115.38461538461539,
+          "reaction_source": "SIEF_ELGA face resultant; all affine displacements are prescribed"
+        },
+        {
+          "time": 0.5,
+          "stress_mpa": [
+            219.078947368421,
+            -34.53947368421057,
+            -34.53947368421056,
+            4.38330657780942e-15,
+            -6.398987704831269e-15,
+            4.6072711474785144e-15
+          ],
+          "von_mises_mpa": 253.61842105263156,
+          "equivalent_plastic_strain": 7.236842105263144e-05,
+          "reaction_x": 219.078947368421,
+          "reaction_source": "SIEF_ELGA face resultant; all affine displacements are prescribed"
+        },
+        {
+          "time": 0.75,
+          "stress_mpa": [
+            259.5394736842105,
+            -17.269736842105296,
+            -17.269736842105296,
+            4.115059723264784e-15,
+            -4.429535345951247e-15,
+            5.940906373715016e-15
+          ],
+          "von_mises_mpa": 276.80921052631584,
+          "equivalent_plastic_strain": 0.0005361842105263157,
+          "reaction_x": 259.5394736842105,
+          "reaction_source": "SIEF_ELGA face resultant; all affine displacements are prescribed"
+        },
+        {
+          "time": 1.0,
+          "stress_mpa": [
+            299.9999999999999,
+            -1.0125233984581428e-13,
+            -1.0125233984581428e-13,
+            4.511567416038912e-15,
+            -4.964302949640934e-15,
+            5.2550306816822344e-15
+          ],
+          "von_mises_mpa": 300.0,
+          "equivalent_plastic_strain": 0.0009999999999999996,
+          "reaction_x": 299.9999999999999,
+          "reaction_source": "SIEF_ELGA face resultant; all affine displacements are prescribed"
+        }
+      ]
+    },
+    {
+      "element": "HEX20",
+      "status": "PASS",
+      "qf_solver": [
+        {
+          "time": 0.0,
+          "stress_mpa": 0.0,
+          "von_mises_mpa": 0.0,
+          "equivalent_plastic_strain": 0.0,
+          "reaction_x": 0.0
+        },
+        {
+          "time": 0.25,
+          "stress_mpa": 115.38461538461532,
+          "von_mises_mpa": 135.57692307692304,
+          "equivalent_plastic_strain": 0.0,
+          "reaction_x": 115.38461538461532
+        },
+        {
+          "time": 0.5,
+          "stress_mpa": 219.07894736842087,
+          "von_mises_mpa": 253.61842105263156,
+          "equivalent_plastic_strain": 7.236842105263145e-05,
+          "reaction_x": 219.07894736842087
+        },
+        {
+          "time": 0.75,
+          "stress_mpa": 259.53947368421063,
+          "von_mises_mpa": 276.8092105263158,
+          "equivalent_plastic_strain": 0.0005361842105263157,
+          "reaction_x": 259.53947368421063
+        },
+        {
+          "time": 1.0,
+          "stress_mpa": 299.99999999999994,
+          "von_mises_mpa": 300.0,
+          "equivalent_plastic_strain": 0.001,
+          "reaction_x": 299.99999999999994
+        }
+      ],
+      "code_aster": [
+        {
+          "time": 0.0,
+          "stress_mpa": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "von_mises_mpa": 0.0,
+          "equivalent_plastic_strain": 0.0,
+          "reaction_x": 0.0,
+          "reaction_source": "SIEF_ELGA face resultant; all affine displacements are prescribed"
+        },
+        {
+          "time": 0.25,
+          "stress_mpa": [
+            115.38461538461534,
+            -20.192307692307693,
+            -20.192307692307693,
+            -5.260291790384398e-15,
+            6.94277432834935e-15,
+            4.413982802914076e-15
+          ],
+          "von_mises_mpa": 135.57692307692304,
+          "equivalent_plastic_strain": 0.0,
+          "reaction_x": 115.38461538461534,
+          "reaction_source": "SIEF_ELGA face resultant; all affine displacements are prescribed"
+        },
+        {
+          "time": 0.5,
+          "stress_mpa": [
+            219.078947368421,
+            -34.53947368421057,
+            -34.53947368421058,
+            -1.099677887052486e-15,
+            -1.6779567759335332e-15,
+            1.730096675750686e-16
+          ],
+          "von_mises_mpa": 253.6184210526316,
+          "equivalent_plastic_strain": 7.236842105263131e-05,
+          "reaction_x": 219.078947368421,
+          "reaction_source": "SIEF_ELGA face resultant; all affine displacements are prescribed"
+        },
+        {
+          "time": 0.75,
+          "stress_mpa": [
+            259.5394736842106,
+            -17.269736842105292,
+            -17.26973684210529,
+            -1.960747184025049e-15,
+            5.150347235049371e-16,
+            3.3570634782571347e-16
+          ],
+          "von_mises_mpa": 276.8092105263159,
+          "equivalent_plastic_strain": 0.0005361842105263154,
+          "reaction_x": 259.5394736842106,
+          "reaction_source": "SIEF_ELGA face resultant; all affine displacements are prescribed"
+        },
+        {
+          "time": 1.0,
+          "stress_mpa": [
+            299.99999999999994,
+            -8.894942395811625e-14,
+            -9.737067119675447e-14,
+            -1.3139494441999007e-15,
+            2.354395034964108e-15,
+            -5.482963932750596e-15
+          ],
+          "von_mises_mpa": 300.00000000000006,
+          "equivalent_plastic_strain": 0.0009999999999999998,
+          "reaction_x": 299.99999999999994,
+          "reaction_source": "SIEF_ELGA face resultant; all affine displacements are prescribed"
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Code_Aster is the external numerical reference; no physical validation claim is made.",
+    "The comparison is a displacement-controlled affine one-element patch.",
+    "No cyclic reversal or multi-element mesh convergence is claimed by RQ-G08 itself.",
+    "The reaction resultant is reconstructed from the uniform SIEF_ELGA traction over the loaded face because every affine displacement is prescribed."
+  ],
+  "external_solver": {
+    "name": "Code_Aster",
+    "version": "18.1.0",
+    "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435"
+  },
+  "raw_digest": {
+    "TET4": "02c863581e626c2f3b040bd91a975670620524c3f2d612c695ae8ce8dc40424b",
+    "TET10": "b84d47cd07239a81b44c4196d626bf059a4068e58c1415f73d8f89b91cb90413",
+    "HEX8": "4a938ac304e0c0cdd7a72ba7e3a9884012151ea62eaaf80d1a72792bc2e7bbb6",
+    "HEX20": "9f4241df429b5d9bc08f089872d793d405fbb9c8501c6896faaa42ff187eef66"
+  }
+}

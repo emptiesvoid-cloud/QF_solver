@@ -3,6 +3,8 @@
 import json
 from pathlib import Path
 
+import pytest
+
 from solveur.verification.j2_step_sensitivity import J2MeshSensitivityCampaign
 from solveur.verification.rqg08_external_j2 import code_aster_mesh
 
@@ -24,6 +26,7 @@ def test_j2_unified_nonlinear_digest_keeps_bounded_scope() -> None:
     assert any("not physical validation" in limitation for limitation in digest["limitations"])
 
 
+@pytest.mark.benchmark
 def test_j2_mesh_sensitivity_campaign_is_reproducible(tmp_path: Path) -> None:
     summary = J2MeshSensitivityCampaign(tmp_path / "mesh").run()
 
