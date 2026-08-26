@@ -73,7 +73,11 @@ class DocumentationAssetBuilder:
         # working tree dirty during a normal documentation build.
         source_state = git_source_state(
             self.root,
-            ignored_prefixes=("docs/generated/", "docs/assets/generated/"),
+            ignored_prefixes=(
+                "docs/generated/",
+                "docs/assets/generated/",
+                "docs/verification/project_hygiene_architecture_audit_0_2_1.md",
+            ),
         )
         self._reset_outputs()
         self._build_formulation_figures()

@@ -10,7 +10,11 @@ from typing import Sequence
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 SOURCE_ROOT = PROJECT_ROOT / "src"
-GENERATED_DOC_PREFIXES = ("docs/generated/", "docs/assets/generated/")
+GENERATED_DOC_PREFIXES = (
+    "docs/generated/",
+    "docs/assets/generated/",
+    "docs/verification/project_hygiene_architecture_audit_0_2_1.md",
+)
 for candidate in (SOURCE_ROOT, PROJECT_ROOT):
     if str(candidate) not in sys.path:
         sys.path.insert(0, str(candidate))

@@ -159,6 +159,7 @@ def test_candidate_provenance_requires_matching_generated_manifest(monkeypatch, 
 def test_generated_evidence_changes_do_not_dirty_source_tree() -> None:
     assert _source_changes(" M README.md\n M docs/generated/docs_manifest.json\n") == [" M README.md"]
     assert _source_changes(" M docs/assets/generated/site.css\n?? .tmp_release_readiness_025/report.json\n") == []
+    assert _source_changes(" M docs/verification/project_hygiene_architecture_audit_0_2_1.md\n") == []
 
 
 def test_manifest_source_state_ignores_only_declared_generated_prefixes() -> None:

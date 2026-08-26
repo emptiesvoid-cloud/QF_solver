@@ -23,6 +23,7 @@ OUTPUT_DIR = ".tmp_release_readiness_025"
 GENERATED_EVIDENCE_PREFIXES = (
     "docs/generated/",
     "docs/assets/generated/",
+    "docs/verification/project_hygiene_architecture_audit_0_2_1.md",
     f"{OUTPUT_DIR}/",
     ".tmp_smoke_install_025/",
 )
