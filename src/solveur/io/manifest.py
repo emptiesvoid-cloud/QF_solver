@@ -213,5 +213,7 @@ def _git_output(root: Path, *arguments: str, allow_empty: bool = False) -> str:
         return ""
     if completed.returncode != 0:
         return ""
-    value = completed.stdout.strip()
+    # Preserve the leading porcelain status column; callers that parse Git
+    # status need to distinguish `` M`` from ``??``.
+    value = completed.stdout.rstrip()
     return value if value or allow_empty else ""
