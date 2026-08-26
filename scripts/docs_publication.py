@@ -46,6 +46,7 @@ class DocumentationPublisher:
         profile: str,
         records: Sequence[object],
         scales: dict[str, float],
+        source_state: dict[str, Any] | None = None,
     ) -> None:
         self.root = Path(project_root).resolve()
         self.docs = self.root / "docs"
@@ -53,7 +54,7 @@ class DocumentationPublisher:
         self.profile = profile
         self.records: list[Any] = list(records) or _cached_benchmark_records(self.root)
         self.scales = dict(scales)
-        self.source_state = git_source_state(self.root)
+        self.source_state = dict(source_state) if source_state is not None else git_source_state(self.root)
 
     def publish(self) -> dict[str, Any]:
         self._document_registry()

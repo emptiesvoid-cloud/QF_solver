@@ -36,7 +36,7 @@ from solveur.api import (
 from solveur.core.analysis import AnalysisSettings
 from solveur.elements.solid.tet10 import Tet10Element
 from solveur.elements.solid.tet4 import Tet4Element
-from solveur.io.manifest import sha256
+from solveur.io.manifest import git_source_state, sha256
 from solveur.materials.solid import SolidMaterial
 from solveur.verification.j2_structural import J2StructuralCyclicCampaign
 @dataclass(frozen=True)
@@ -69,6 +69,9 @@ class DocumentationAssetBuilder:
         self.scales: dict[str, float] = {}
 
     def build(self) -> dict[str, Any]:
+        # Capture provenance before resetting generated outputs, which makes the
+        # working tree dirty during a normal documentation build.
+        source_state = git_source_state(self.root)
         self._reset_outputs()
         self._build_formulation_figures()
         self._build_static_examples()
@@ -90,6 +93,7 @@ class DocumentationAssetBuilder:
             profile=self.profile,
             records=self.records,
             scales=self.scales,
+            source_state=source_state,
         ).publish()
 
     def _build_meshed_benchmarks(self) -> None:

@@ -11,6 +11,7 @@ from PIL import Image, ImageStat
 
 from scripts.build_docs import DocumentationEvidenceBuilder, DocumentationQualificationGateError
 from scripts.build_technical_latex import _pandoc, _pdflatex
+from scripts.docs_assets import DocumentationAssetBuilder
 from scripts.docs_models import upgrade_tet4_to_tet10
 from scripts.docs_publication import normalize_document_status, read_document_metadata
 from scripts.docs_publication import DocumentationPublisher
@@ -154,6 +155,55 @@ def test_public_api_demonstration_catalog_is_generated_from_its_registry(tmp_pat
     assert content.count("\n") == len(catalog.list()) + 2
     assert "| DEMO-MITC4-HARMONIC-001 | model | MITC4 | harmonic_response |" in content
     assert "| DEMO-ORTHO-TET10-NEWMARK-001 | model | TET10 | transient_dynamic |" in content
+
+
+def test_documentation_builder_captures_source_before_reset(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+    builder = DocumentationAssetBuilder(tmp_path)
+    captured: dict[str, object] = {}
+
+    def source_state(_root: Path) -> dict[str, object]:
+        captured["source_called"] = True
+        return {"revision": "abc123", "dirty": False}
+
+    def reset_outputs() -> None:
+        captured["reset_after_source"] = captured.get("source_called", False)
+
+    class Publisher:
+        def __init__(self, _root: Path, **kwargs: object) -> None:
+            captured["published_source"] = kwargs["source_state"]
+
+        def publish(self) -> dict[str, object]:
+            return {"qualification_campaign": {"status": "PASS"}}
+
+    monkeypatch.setattr("scripts.docs_assets.git_source_state", source_state)
+    monkeypatch.setattr(builder, "_reset_outputs", reset_outputs)
+    for method_name in (
+        "_build_formulation_figures",
+        "_build_static_examples",
+        "_build_solid_convergence",
+        "_build_linear_methods",
+        "_build_modal",
+        "_build_newmark",
+        "_build_harmonic",
+        "_build_nonlinear",
+        "_build_large_model",
+        "_build_meshed_benchmarks",
+    ):
+        monkeypatch.setattr(builder, method_name, lambda: None)
+    for function_name in (
+        "publish_assembly_element_examples",
+        "publish_mitc4_modal_plate",
+        "publish_contact_verification",
+        "publish_shell_verification",
+        "publish_technical_content_closure",
+    ):
+        monkeypatch.setattr(f"scripts.docs_assets.{function_name}", lambda *args: None)
+    monkeypatch.setattr("scripts.docs_assets.DocumentationPublisher", Publisher)
+
+    builder.build()
+
+    assert captured["reset_after_source"] is True
+    assert captured["published_source"] == {"revision": "abc123", "dirty": False}
 
 
 def test_standalone_tet4_review_references_eleven_existing_png_files() -> None:
