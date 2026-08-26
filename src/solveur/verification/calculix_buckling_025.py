@@ -230,7 +230,9 @@ def run_campaign(
 def _git_provenance() -> dict[str, str | bool | None]:
     """Record the source revision without making Git a runtime dependency."""
 
-    root = Path(__file__).resolve().parents[3]
+    root = _repository_root()
+    if root is None:
+        return {"sha": "unknown", "worktree_dirty": None}
     try:
         sha = subprocess.run(
             ["git", "rev-parse", "HEAD"],
@@ -251,6 +253,16 @@ def _git_provenance() -> dict[str, str | bool | None]:
     except (OSError, subprocess.CalledProcessError):
         return {"sha": "unknown", "worktree_dirty": None}
     return {"sha": sha or "unknown", "worktree_dirty": dirty}
+
+
+def _repository_root() -> Path | None:
+    """Find the checkout owning the current execution, including installed runs."""
+
+    candidates = [Path.cwd(), *Path.cwd().parents, *Path(__file__).resolve().parents]
+    for candidate in candidates:
+        if (candidate / ".git").exists():
+            return candidate
+    return None
 
 
 def _solve_qf(model: FiniteElementModel) -> Any:
