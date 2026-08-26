@@ -207,7 +207,7 @@
     "matrix_free_operator_memory_bytes": 16128,
     "ndof": 240,
     "node_count": 80,
-    "solve_time_seconds": 0.013805099995806813,
+    "solve_time_seconds": 0.013838500017300248,
     "solver": {
       "converged": true,
       "iterations": 82,

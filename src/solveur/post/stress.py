@@ -14,6 +14,12 @@ from solveur.elements.beam.beam2 import Beam2Element
 from solveur.elements.shell.mitc3 import Mitc3ShellElement
 from solveur.elements.solid.tet10 import Tet10Element
 from solveur.elements.solid.tet4 import Tet4Element
+from solveur.elements.solid.total_lagrangian_j2 import (
+    TotalLagrangianJ2Hex8Element,
+    TotalLagrangianJ2Hex20Element,
+    TotalLagrangianJ2Tet10Element,
+    TotalLagrangianJ2Tet4Element,
+)
 from solveur.materials.factory import MaterialFactory
 from solveur.materials.beam import BeamSectionMaterial
 from solveur.materials.laminate import LaminateShellMaterial
@@ -52,13 +58,44 @@ class StressPostProcessor:
             coords = model.nodes[list(definition.nodes)]
             material = MaterialFactory.create(model.materials[definition.material], coordinates=coords)
             states = (material_states or {}).get(index)
-            if definition.type == "TET4" and isinstance(material, SolidConstitutiveMaterial):
+            if (
+                str(model.analysis.parameters.get("kinematics", "small_strain")).lower()
+                == "total_lagrangian_j2"
+                and definition.type in {"TET4", "TET10", "HEX8", "HEX20"}
+                and isinstance(material, SolidConstitutiveMaterial)
+            ):
+                results.append(
+                    self._total_lagrangian_j2_result(
+                        index,
+                        definition.type,
+                        definition.nodes,
+                        material,
+                        coords,
+                        local_u,
+                        states,
+                        nonlinear_quadrature=str(
+                            model.analysis.parameters.get("tet10_nonlinear_quadrature", "hammer4")
+                        ),
+                    )
+                )
+            elif definition.type == "TET4" and isinstance(material, SolidConstitutiveMaterial):
                 results.append(
                     self._tet4_result(index, definition.type, definition.nodes, material, coords, local_u, states)
                 )
             elif definition.type == "TET10" and isinstance(material, SolidConstitutiveMaterial):
                 results.append(
-                    self._tet10_result(index, definition.type, definition.nodes, material, coords, local_u, states)
+                    self._tet10_result(
+                        index,
+                        definition.type,
+                        definition.nodes,
+                        material,
+                        coords,
+                        local_u,
+                        states,
+                        nonlinear_quadrature=str(
+                            model.analysis.parameters.get("tet10_nonlinear_quadrature", "hammer4")
+                        ),
+                    )
                 )
             elif definition.type == "HEX8" and isinstance(material, SolidConstitutiveMaterial):
                 results.append(
@@ -95,6 +132,86 @@ class StressPostProcessor:
             row["x"], row["y"], row["z"] = [float(value) for value in model.nodes[node]]
             rows.append(row)
         return rows
+
+    @staticmethod
+    def _total_lagrangian_j2_result(
+        index: int,
+        element_type: str,
+        nodes: tuple[int, ...],
+        material: SolidConstitutiveMaterial,
+        coords: np.ndarray,
+        local_u: np.ndarray,
+        states: list[dict[str, object]] | None,
+        *,
+        nonlinear_quadrature: str = "hammer4",
+    ) -> dict[str, object]:
+        """Recover objective Green-Lagrange/J2 fields for the research path."""
+        element_class = {
+            "TET4": TotalLagrangianJ2Tet4Element,
+            "TET10": TotalLagrangianJ2Tet10Element,
+            "HEX8": TotalLagrangianJ2Hex8Element,
+            "HEX20": TotalLagrangianJ2Hex20Element,
+        }[element_type]
+        if element_type == "TET10":
+            element = element_class(
+                material,
+                nonlinear_quadrature=nonlinear_quadrature,
+            )
+        else:
+            element = element_class(material)
+        raw_points = element.integration_point_results(coords, local_u, states)
+        points: list[dict[str, object]] = []
+        for raw in raw_points:
+            stress = np.asarray(raw["stress"], dtype=float)
+            strain = np.asarray(raw["strain"], dtype=float)
+            state = raw.get("material_state")
+            state_dict = state if isinstance(state, dict) else None
+            points.append(
+                _solid_point_result(
+                    index=int(raw["index"]),
+                    location="gauss",
+                    barycentric=[],
+                    coordinates=np.mean(coords, axis=0),
+                    weight=float(raw["weight"]),
+                    strain=strain,
+                    stress=stress,
+                    von_mises=Tet4Element.von_mises(stress),
+                    state=state_dict,
+                )
+            )
+            points[-1].update(
+                {
+                    "deformation_gradient": raw["deformation_gradient"],
+                    "green_lagrange_strain": raw["green_lagrange_strain"],
+                    "second_piola_stress": raw["second_piola_stress"],
+                    "cauchy_stress": raw["cauchy_stress"],
+                    "det_f": raw["det_f"],
+                }
+            )
+        weights = np.asarray([float(point["weight"]) for point in points], dtype=float)
+        normalized = weights / max(float(np.sum(weights)), np.finfo(float).eps)
+        strain = sum(normalized[i] * np.asarray(point["strain"], dtype=float) for i, point in enumerate(points))
+        stress = sum(normalized[i] * np.asarray(point["stress"], dtype=float) for i, point in enumerate(points))
+        aggregate_state: dict[str, object] = {
+            "model": "total_lagrangian_j2_green_lagrange",
+            "kinematics": "green_lagrange_second_piola",
+            "equivalent_plastic_strain": float(
+                sum(normalized[i] * float(point.get("equivalent_plastic_strain", 0.0)) for i, point in enumerate(points))
+            ),
+        }
+        result = _solid_result(strain, stress, aggregate_state)
+        result["kinematics"] = "green_lagrange_second_piola"
+        result["von_mises"] = Tet4Element.von_mises(stress)
+        return {
+            "element": index,
+            "type": f"{element_type}_TOTAL_LAGRANGIAN_J2",
+            "location": "integration_average",
+            **result,
+            "integration_points": points,
+            "nodal_results": _solid_nodal_results(
+                coords, nodes, result, float(result["von_mises"]), "total_lagrangian_j2_average"
+            ),
+        }
 
     @staticmethod
     def _tet4_result(
@@ -145,15 +262,16 @@ class StressPostProcessor:
         coords: np.ndarray,
         local_u: np.ndarray,
         states: list[dict[str, object]] | None = None,
+        nonlinear_quadrature: str = "hammer4",
     ) -> dict[str, object]:
-        element = Tet10Element(material)
+        element = Tet10Element(material, nonlinear_quadrature=nonlinear_quadrature)
         strain = element.strain(coords, local_u)
         stress = element.stress(coords, local_u)
         state = _material_state(material, strain)
         integration_points = []
         if states:
-            quadrature = Tet10Element.hammer_integration_rule()
-            quadrature_name = "hammer"
+            quadrature = element.nonlinear_integration_rule()
+            quadrature_name = element.nonlinear_quadrature
         else:
             quadrature = element.stiffness_integration_rule(coords)
             quadrature_name = "hammer" if len(quadrature) == 4 else "duffy_4"
@@ -552,6 +670,8 @@ def _stress_from_state(state: dict[str, object] | None, fallback: np.ndarray) ->
 def _jsonable_state(state: dict[str, object]) -> dict[str, object]:
     output: dict[str, object] = {}
     for key, value in state.items():
+        if key in {"strain", "plastic_dissipation"}:
+            continue
         if isinstance(value, np.ndarray):
             output[key] = value.tolist()
         elif isinstance(value, (bool, str)):

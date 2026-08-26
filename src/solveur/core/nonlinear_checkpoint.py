@@ -22,6 +22,7 @@ class NonlinearCheckpoint:
     load_factor: float
     displacement: np.ndarray
     material_states: MaterialStateTable
+    continuation_state: dict[str, object] = field(default_factory=dict)
     schema_version: int = 1
 
     def validate(self, expected_dofs: int | None = None) -> None:
@@ -36,6 +37,8 @@ class NonlinearCheckpoint:
                 f"Nonlinear checkpoint has {self.displacement.size} dofs; the model requires {expected_dofs}."
             )
         _validate_material_states(self.material_states)
+        if not isinstance(self.continuation_state, dict) or not _finite_tree(self.continuation_state):
+            raise InputValidationError("Nonlinear checkpoint continuation state is invalid.")
 
 
 class NonlinearCheckpointStore(Protocol):
@@ -128,12 +131,43 @@ class NonlinearCheckpointSession:
         self.restart_step = checkpoint.completed_step
         return checkpoint.displacement.copy(), copy_material_states(checkpoint.material_states)
 
+    def restore_continuation(
+        self,
+        displacement: np.ndarray,
+        material_states: MaterialStateTable,
+        target_load_factor: float,
+        load_factor_limit: float | None = None,
+    ) -> tuple[np.ndarray, MaterialStateTable, dict[str, object] | None]:
+        """Restore an arc-length checkpoint without assuming a fixed load path."""
+
+        if self.settings.restart_from is None:
+            return displacement, material_states, None
+        checkpoint = self.store.load(self.settings.restart_from)  # type: ignore[union-attr]
+        checkpoint.validate(displacement.size)
+        if checkpoint.model_signature != self.signature:
+            raise InputValidationError("Nonlinear checkpoint does not match the physical model or continuation path.")
+        limit = abs(float(load_factor_limit)) if load_factor_limit is not None else max(abs(target_load_factor), 1.0)
+        if not np.isfinite(limit) or limit <= 0.0:
+            raise InputValidationError("Arc-length checkpoint load-factor limit must be finite and positive.")
+        if abs(checkpoint.load_factor) > limit + 1.0e-12:
+            raise InputValidationError("Arc-length checkpoint load factor is outside the requested continuation envelope.")
+        _validate_state_topology(material_states, checkpoint.material_states)
+        if not checkpoint.continuation_state:
+            raise InputValidationError("Arc-length checkpoint does not contain continuation state.")
+        self.restart_step = checkpoint.completed_step
+        return (
+            checkpoint.displacement.copy(),
+            copy_material_states(checkpoint.material_states),
+            dict(checkpoint.continuation_state),
+        )
+
     def save(
         self,
         step: int,
         load_factor: float,
         displacement: np.ndarray,
         material_states: MaterialStateTable,
+        continuation_state: dict[str, object] | None = None,
     ) -> None:
         if not self.settings.should_save(step, self.total_steps):
             return
@@ -143,6 +177,7 @@ class NonlinearCheckpointSession:
             load_factor=load_factor,
             displacement=displacement.copy(),
             material_states=copy_material_states(material_states),
+            continuation_state=dict(continuation_state or {}),
         )
         written = self.store.save(  # type: ignore[union-attr]
             self.settings.path, checkpoint, keep_step=self.settings.keep_steps

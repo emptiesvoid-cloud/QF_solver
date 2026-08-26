@@ -1,0 +1,57 @@
+---
+doc_id: DOC-NL-025-014
+revision: 0.1
+status: controlled_candidate
+applicable_version: 0.2.5a0
+reviewer: ""
+approver: ""
+---
+
+# QF Solver 0.2.5a0 gate matrix
+
+All mandatory gates are `OPEN` at planning completion. Optional friction gate
+G07 is `NOT_IN_RELEASE_SCOPE` until an explicit Owner promotion. Status values
+are `OPEN`, `BLOCKED`, `PASS_INTERNAL`,
+`PASS_EXTERNAL_CORRELATION_BOUNDED`, `NOT_IN_RELEASE_SCOPE` and
+`OWNER_ACCEPTED`. Only evidence generated on the recorded SHA can close a gate.
+
+The current working tree contains provisional observations for parts of G01,
+G02, G03, G06, G08 and G09. Those observations are recorded in the V&V
+matrix and implementation status document, but their gate status remains
+`OPEN` until the corresponding controlled campaign is regenerated on a clean
+candidate SHA.
+
+| Gate | Name | Mandatory closure criteria | Dependencies | Initial status |
+|---|---|---|---|---|
+| 025-G00 | Baseline and architecture frozen | exact 0.2.4 SHA; provenance reconciled; tests/coverage/V&V/performance/API baselines; Owner audit approval | none | OPEN |
+| 025-G01 | 0.2.4 nonlinear V&V debt closed | multi-element four-family J2; mesh/load-step/cyclic/energy/rollback/tangent evidence; bounded external curves | G00 | OPEN |
+| 025-G02 | Geometric nonlinear core verified | approved measures; TET4/HEX8 objectivity, tangent, energy, mesh and external evidence; common Full Newton | G01 | OPEN |
+| 025-G03 | Linear buckling verified | sparse eigenpath; Euler + nontrivial benchmark; factor/mode convergence and external correlation | G02 | OPEN |
+| 025-G04 | Arc-length verified | one sparse method; branch, limit point, restart, cutback and external response evidence | G02 | OPEN |
+| 025-G05 | Frictionless contact verified | common residual/tangent/state/Newton; finite sliding, recontact, penetration sensitivity, rollback, external correlation | G02 | OPEN |
+| 025-G06 | Coupled nonlinear core verified | approved J2 finite-kinematics model; J2+geometry and geometry+contact; limit recovery, tangent, energy, mesh and external evidence | G01, G02, G05 | OPEN |
+| 025-G07 | Frictional contact verified | only after Owner promotion; objective stick/slip, state, dissipation and external evidence | G05, G06, Owner GO | NOT_IN_RELEASE_SCOPE |
+| 025-G08 | Performance characterized | reproducible cost/memory profiles for all mandatory paths; HEX20 explained; numerical non-regression after optimization | relevant functional gates | OPEN |
+| 025-G09 | Failure modes verified | complete mandatory failure matrix; structured reasons; no false convergence; exact rollback | relevant functional gates | OPEN |
+| 025-G10 | External correlation bounded | all mandatory external matrix cells complete or associated claim removed; full histories and provenance | G01-G06 | OPEN |
+| 025-G11 | Full regression | complete 0.2.4 + accepted 0.2.5 tests, coverage policy, docs, V&V, build and smoke pass on candidate SHA | G08-G10 and mandatory functional gates | OPEN |
+| 025-G12 | Documentation, traceability and Owner closure | final-SHA evidence, qualification/README/changelog/metadata consistency, limitations, artifacts and explicit Owner release decision | G11 | OPEN |
+
+## Gate closure record
+
+Every gate record includes:
+
+- gate ID/status and exact SHA;
+- requirements and V&V rows covered;
+- command/environment and artifact links/digests;
+- measured values and frozen thresholds;
+- skips/exclusions and justification;
+- known limits and residual risks;
+- reviewer, date and Owner decision where required.
+
+## STOP/GO policy
+
+An `OPEN` or `BLOCKED` prerequisite forbids dependent implementation. Optional
+independent branches may continue only when their full dependency chain is
+closed. `NOT_IN_RELEASE_SCOPE` is acceptable only for predeclared optional work
+and must not appear in README/package capability claims.

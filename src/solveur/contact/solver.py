@@ -14,6 +14,8 @@ from solveur.core.constraints import ConstraintReduction
 from solveur.core.dofs import DofManager
 from solveur.core.errors import InputValidationError, NumericalConvergenceError
 from solveur.core.model import FiniteElementModel
+from solveur.core.nonlinear_contracts import NonlinearFailureReason
+from solveur.core.material_state import StateTransaction
 
 @dataclass(frozen=True)
 class ContactSolveState:
@@ -24,6 +26,110 @@ class ContactSolveState:
     reduced_stiffness: csr_matrix
     details: dict[str, object]
     applied_loads: np.ndarray
+
+
+def assemble_penalty_contact(
+    model: FiniteElementModel,
+    dofs: DofManager,
+    displacement: np.ndarray,
+    *,
+    penalty: float,
+) -> tuple[np.ndarray, csr_matrix, dict[str, object]]:
+    """Assemble an opt-in sparse frictionless penalty contribution.
+
+    The contribution is deliberately small in scope: initial-configuration
+    node-to-triangle contact, no friction and no topology search. It is meant
+    to be composed with material and geometric residuals by the common Newton
+    driver; the established exact active-set solver remains available through
+    its existing API.
+    """
+    if penalty <= 0.0 or not np.isfinite(penalty):
+        raise InputValidationError("Penalty contact stiffness must be finite and positive.")
+    if any(contact.friction_coefficient > 0.0 for contact in model.contacts):
+        raise InputValidationError("The common penalty contact contribution is frictionless only.")
+    values = np.asarray(displacement, dtype=float)
+    if values.shape != (dofs.ndof,) or not np.all(np.isfinite(values)):
+        raise InputValidationError("Penalty contact displacement must be a finite global vector.")
+    search_mode = str(model.analysis.parameters.get("contact_search_mode", "initial")).lower()
+    if search_mode not in {"initial", "updated"}:
+        raise InputValidationError("contact_search_mode must be 'initial' or 'updated'.")
+    finite_sliding = _finite_sliding(model)
+    if finite_sliding and search_mode != "updated":
+        raise InputValidationError(
+            "contact_finite_sliding requires contact_search_mode='updated'."
+        )
+    penetration_limit_value = model.analysis.parameters.get("contact_max_penetration")
+    penetration_limit: float | None = None
+    if penetration_limit_value is not None:
+        if isinstance(penetration_limit_value, bool):
+            raise InputValidationError("contact_max_penetration must be finite and positive when configured.")
+        try:
+            penetration_limit = float(penetration_limit_value)
+        except (TypeError, ValueError) as error:
+            raise InputValidationError(
+                "contact_max_penetration must be finite and positive when configured."
+            ) from error
+        if not np.isfinite(penetration_limit) or penetration_limit <= 0.0:
+            raise InputValidationError("contact_max_penetration must be finite and positive when configured.")
+    reference = values if search_mode == "updated" else None
+    operators = [
+        _operator(contact, model.nodes, dofs, reference, finite_sliding=finite_sliding)
+        for contact in model.contacts
+    ]
+    internal = np.zeros(dofs.ndof, dtype=float)
+    rows: list[int] = []
+    cols: list[int] = []
+    data: list[float] = []
+    gaps: list[float] = []
+    active: list[int] = []
+    for index, operator in enumerate(operators):
+        gap = operator.gap(values)
+        gaps.append(gap)
+        if gap >= 0.0:
+            continue
+        active.append(index)
+        internal += penalty * gap * operator.vector
+        support = np.flatnonzero(operator.vector)
+        local_vector = operator.vector[support]
+        block = penalty * np.outer(local_vector, local_vector)
+        local_rows, local_cols = np.nonzero(block)
+        rows.extend(support[local_rows].tolist())
+        cols.extend(support[local_cols].tolist())
+        data.extend(block[local_rows, local_cols].tolist())
+    tangent = csr_matrix((data, (rows, cols)), shape=(dofs.ndof, dofs.ndof))
+    active_penetrations = [-float(gap) for gap in gaps if gap < 0.0]
+    maximum_penetration = max(active_penetrations, default=0.0)
+    if penetration_limit is not None and maximum_penetration > penetration_limit:
+        raise NumericalConvergenceError(
+            "Penalty contact trial exceeded contact_max_penetration.",
+            reason=NonlinearFailureReason.CONTACT_PENETRATION_EXCESSIVE,
+            diagnostics={
+                "maximum_penetration": maximum_penetration,
+                "contact_max_penetration": penetration_limit,
+                "active_contacts": active,
+                "gaps": gaps,
+                "search_mode": search_mode,
+                "finite_sliding": finite_sliding,
+            },
+        )
+    return internal, tangent, {
+        "formulation": "frictionless_penalty",
+        "search_mode": search_mode,
+        "finite_sliding": finite_sliding,
+        "penalty": float(penalty),
+        "active_contacts": active,
+        "gaps": gaps,
+        "master_face_indices": [int(operator.master_face_index) for operator in operators],
+        "master_face_counts": [int(operator.master_face_count) for operator in operators],
+        "projection_clamped": [bool(operator.projection_clamped) for operator in operators],
+        "closest_distances": [float(operator.closest_distance) for operator in operators],
+        "projection_modes": [operator.projection_mode for operator in operators],
+        "active_penetrations": active_penetrations,
+        "maximum_penetration": maximum_penetration,
+        "minimum_gap": min(gaps, default=0.0),
+        "contact_force_norm": float(np.linalg.norm(internal)),
+        "tangent_nnz": int(tangent.nnz),
+    }
 
 class FrictionlessActiveSetSolver:
     """Enforce normal contact exactly and optional regularized Coulomb friction."""
@@ -77,7 +183,10 @@ class FrictionlessActiveSetSolver:
                 return state
             prior_faces = faces
             reference = state.displacement
-        raise NumericalConvergenceError(f"Updated contact search did not converge within {maximum} iterations.")
+        raise NumericalConvergenceError(
+            f"Updated contact search did not converge within {maximum} iterations.",
+            reason=NonlinearFailureReason.CONTACT_UPDATE_FAILURE,
+        )
 
     def _solve_frictionless(
         self,
@@ -117,15 +226,20 @@ class FrictionlessActiveSetSolver:
             )
             if proposed == active:
                 contact_force = _contact_force(operators, active, multipliers, dofs.ndof)
+                details = _details(operators, gaps, pressures, active, history)
+                details["convergence"] = _contact_convergence_diagnostics(history, gaps, pressures, active)
                 return ContactSolveState(
                     displacement=displacement,
                     internal_force=np.asarray(stiffness @ displacement + contact_force).ravel(),
                     reduced_stiffness=reduction.matrix,
-                    details=_details(operators, gaps, pressures, active, history),
+                    details=details,
                     applied_loads=np.asarray(loads, dtype=float).copy(),
                 )
             active = proposed
-        raise NumericalConvergenceError(f"Contact active set did not converge within {max_iterations} iterations.")
+        raise NumericalConvergenceError(
+            f"Contact active set did not converge within {max_iterations} iterations.",
+            reason=NonlinearFailureReason.CONTACT_UPDATE_FAILURE,
+        )
 
     def _solve_with_friction(
         self,
@@ -147,22 +261,30 @@ class FrictionlessActiveSetSolver:
         slip_references: np.ndarray = np.zeros((len(operators), 2), dtype=float)
         step_details: list[dict[str, object]] = []
         final: _FrictionIncrementState | None = None
+        state_transaction = StateTransaction(np.asarray(slip_references, dtype=float).copy())
         max_iterations = _positive_int(model.analysis.parameters.get("contact_max_iterations", 25), "contact_max_iterations")
         tolerance = _positive_float(
             model.analysis.parameters.get("contact_friction_tolerance", 1.0e-9), "contact_friction_tolerance"
         )
         for step, step_loads in enumerate(path, start=1):
-            final = self._solve_friction_increment(
-                dofs,
-                stiffness,
-                step_loads,
-                fixed,
-                operators,
-                slip_references,
-                max_iterations,
-                tolerance,
-            )
-            slip_references = final.slip_references
+            trial_references = state_transaction.begin_trial()
+            try:
+                final = self._solve_friction_increment(
+                    dofs,
+                    stiffness,
+                    step_loads,
+                    fixed,
+                    operators,
+                    trial_references,
+                    max_iterations,
+                    tolerance,
+                )
+            except NumericalConvergenceError:
+                state_transaction.rollback()
+                raise
+            state_transaction.trial = np.asarray(final.slip_references, dtype=float).copy()
+            state_transaction.commit()
+            slip_references = np.asarray(state_transaction.committed, dtype=float).copy()
             step_details.append(
                 {
                     "step": step,
@@ -175,7 +297,10 @@ class FrictionlessActiveSetSolver:
                 }
             )
         if final is None:
-            raise NumericalConvergenceError("Frictional contact load path is empty.")
+            raise NumericalConvergenceError(
+                "Frictional contact load path is empty.",
+                reason=NonlinearFailureReason.CONTACT_UPDATE_FAILURE,
+            )
         details = _details(
             operators, final.gaps, final.pressures, final.active, final.history,
             tangential_states=final.states, tangential_forces=final.tangential_forces,
@@ -183,6 +308,14 @@ class FrictionlessActiveSetSolver:
         )
         details["load_steps"] = step_details
         details["slip_references"] = final.slip_references.tolist()
+        details["state_transaction"] = {
+            "committed": True,
+            "committed_digest": state_transaction.committed_digest,
+            "rollback_on_failure": True,
+        }
+        details["convergence"] = _contact_convergence_diagnostics(
+            final.history, final.gaps, final.pressures, final.active
+        )
         cumulative_dissipation = 0.0
         for item in step_details:
             cumulative_dissipation += float(cast(Any, item["local_dissipation_increment"]))
@@ -255,7 +388,8 @@ class FrictionlessActiveSetSolver:
                 )
             except NumericalConvergenceError as root_error:
                 raise NumericalConvergenceError(
-                    "Frictional contact active set did not converge with direct or active-slip root iterations."
+                    "Frictional contact active set did not converge with direct or active-slip root iterations.",
+                    reason=NonlinearFailureReason.CONTACT_UPDATE_FAILURE,
                 ) from root_error
 
     @staticmethod
@@ -320,7 +454,8 @@ class FrictionlessActiveSetSolver:
             states = next_states
             tangential_forces = next_forces
         raise NumericalConvergenceError(
-            f"Frictional contact {strategy} active set did not converge within {max_iterations} iterations."
+            f"Frictional contact {strategy} active set did not converge within {max_iterations} iterations.",
+            reason=NonlinearFailureReason.CONTACT_UPDATE_FAILURE,
         )
 
 @dataclass(frozen=True)
@@ -338,6 +473,9 @@ class _ContactOperator:
     tangential_vectors: tuple[np.ndarray, np.ndarray]
     friction_coefficient: float
     tangential_stiffness: float
+    projection_clamped: bool
+    closest_distance: float
+    projection_mode: str
 
     @property
     def has_friction(self) -> bool:
@@ -367,10 +505,18 @@ class _FrictionIncrementState:
 
 
 def _operator(
-    contact: FrictionlessContact, nodes: np.ndarray, dofs: DofManager, reference_displacement: np.ndarray | None = None
+    contact: FrictionlessContact,
+    nodes: np.ndarray,
+    dofs: DofManager,
+    reference_displacement: np.ndarray | None = None,
+    *,
+    finite_sliding: bool = False,
 ) -> _ContactOperator:
     geometry_nodes = nodes if reference_displacement is None else _deformed_nodes(nodes, dofs, reference_displacement)
-    geometry = contact.face_geometry(geometry_nodes)
+    geometry = contact.face_geometry(
+        geometry_nodes,
+        allow_clamped_projection=finite_sliding,
+    )
     normal, barycentric, initial_gap = geometry.normal, geometry.barycentric, geometry.gap
     vector = _relative_vector(contact.slave_node, geometry.master_nodes, dofs, normal, barycentric)
     if reference_displacement is not None:
@@ -404,6 +550,9 @@ def _operator(
         tangential_vectors=tangential_vectors,
         friction_coefficient=contact.friction_coefficient,
         tangential_stiffness=float(stiffness or 0.0),
+        projection_clamped=geometry.projection_clamped,
+        closest_distance=float(geometry.closest_distance),
+        projection_mode=geometry.projection_mode,
     )
 
 
@@ -422,6 +571,19 @@ def _search_mode(model: FiniteElementModel) -> str:
     value = str(model.analysis.parameters.get("contact_search_mode", "initial")).lower()
     if value not in {"initial", "updated"}:
         raise InputValidationError("contact_search_mode must be 'initial' or 'updated'.")
+    return value
+
+
+def _finite_sliding(model: FiniteElementModel) -> bool:
+    """Read the opt-in bounded finite-sliding contact mode."""
+
+    value = model.analysis.parameters.get("contact_finite_sliding", False)
+    if not isinstance(value, bool):
+        raise InputValidationError("contact_finite_sliding must be a boolean.")
+    if value and any(contact.friction_coefficient > 0.0 for contact in model.contacts):
+        raise InputValidationError(
+            "contact_finite_sliding is currently available for frictionless contact only."
+        )
     return value
 
 
@@ -611,9 +773,15 @@ def _sparse_solve(matrix: csr_matrix, rhs: np.ndarray, label: str) -> np.ndarray
             warnings.simplefilter("error", MatrixRankWarning)
             solution = np.asarray(spsolve(matrix.tocsc(), rhs), dtype=float)
     except (MatrixRankWarning, RuntimeError, ValueError) as exc:
-        raise NumericalConvergenceError(f"{label} is singular or failed: {exc}") from exc
+        raise NumericalConvergenceError(
+            f"{label} is singular or failed: {exc}",
+            reason=NonlinearFailureReason.LINEAR_SOLVER_FAILURE,
+        ) from exc
     if not np.all(np.isfinite(solution)):
-        raise NumericalConvergenceError(f"{label} produced non-finite values.")
+        raise NumericalConvergenceError(
+            f"{label} produced non-finite values.",
+            reason=NonlinearFailureReason.NAN_DETECTED,
+        )
     return solution
 
 
@@ -646,6 +814,9 @@ def _details(
             "master_nodes": list(operator.master_nodes),
             "master_face_index": operator.master_face_index,
             "master_face_count": operator.master_face_count,
+            "projection_clamped": operator.projection_clamped,
+            "closest_distance": operator.closest_distance,
+            "projection_mode": operator.projection_mode,
             "normal": operator.normal.tolist(),
             "initial_gap": operator.initial_gap,
             "gap": float(gaps[index]),
@@ -676,6 +847,29 @@ def _details(
         "active_contact_count": len(active),
         "contacts": rows,
         "history": history,
+    }
+
+
+def _contact_convergence_diagnostics(
+    history: list[dict[str, object]],
+    gaps: np.ndarray,
+    pressures: np.ndarray,
+    active: tuple[int, ...],
+) -> dict[str, object]:
+    """Return a stable convergence record for normal and frictional contact."""
+    active_gaps = [abs(float(gaps[index])) for index in active]
+    complementarity = [abs(float(gaps[index] * pressures[index])) for index in range(len(gaps))]
+    final_residual = max(active_gaps or [0.0])
+    return {
+        "converged": True,
+        "iterations": len(history),
+        "residual_initial": float(history[0].get("min_gap", 0.0)) if history else 0.0,
+        "residual_final": final_residual,
+        "relative_residual": final_residual,
+        "solver": "contact_active_set",
+        "backend": "scipy.sparse.linalg.spsolve",
+        "reason": "ACTIVE_SET_STABLE",
+        "complementarity_max": max(complementarity or [0.0]),
     }
 
 

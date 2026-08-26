@@ -5,7 +5,7 @@ from solveur.core.model import FiniteElementModel
 from solveur.elements.solid.tet10 import Tet10Element
 from solveur.elements.solid.quadrature import tetra_duffy_rule
 from solveur.elements.solid.tet4 import Tet4Element
-from solveur.materials.solid import NonlinearSolidMaterial, SolidMaterial
+from solveur.materials.solid import NonlinearSolidMaterial, SolidMaterial, VonMisesElastoplasticMaterial
 from solveur.post.stress import StressPostProcessor
 
 
@@ -265,6 +265,31 @@ def test_tet10_nonlinear_internal_force_and_tangent():
     assert tangent.shape == (30, 30)
     assert np.allclose(tangent, tangent.T)
     assert np.linalg.norm(internal) > 0.0
+
+
+def test_tet10_code_aster_nonlinear_rule_is_explicit_and_stateful():
+    element = Tet10Element(
+        VonMisesElastoplasticMaterial(E=1000.0, nu=0.25, yield_stress=5.0, hardening_modulus=100.0),
+        nonlinear_quadrature="code_aster_5",
+    )
+    rule = element.nonlinear_integration_rule()
+
+    assert len(rule) == 5
+    assert element.nonlinear_integration_point_count == 5
+    assert np.isclose(sum(weight for _, weight in rule), 1.0 / 6.0)
+    assert rule[0][0] == (0.25, 0.25, 0.25, 0.25)
+
+    internal, tangent, states = element.internal_force_tangent_state(
+        unit_tet10_coords(), np.zeros(30)
+    )
+    assert internal.shape == (30,)
+    assert tangent.shape == (30, 30)
+    assert len(states) == 5
+
+
+def test_tet10_rejects_unknown_nonlinear_quadrature():
+    with pytest.raises(ValueError, match="Unsupported TET10 nonlinear quadrature"):
+        Tet10Element(SolidMaterial(E=1000.0, nu=0.25), nonlinear_quadrature="unknown")
 
 
 def test_tet10_rejects_inverted_element():

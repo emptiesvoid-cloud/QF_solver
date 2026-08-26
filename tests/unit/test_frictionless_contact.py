@@ -6,6 +6,7 @@ import numpy as np
 import pytest
 
 from solveur.core.errors import MeshValidationError
+from solveur.core.nonlinear import NonlinearStaticSolver
 from solveur.core.solver import LinearStaticSolver
 from solveur.io.json_reader import JsonModelReader
 from solveur.mesh.validation import MeshValidator
@@ -232,6 +233,21 @@ def test_updated_contact_search_rejects_invalid_numerical_parameters(
     assert message in " ".join(report.errors)
     with pytest.raises(MeshValidationError, match=message):
         LinearStaticSolver().solve(model)
+
+
+def test_common_penalty_rejects_invalid_penetration_limit_before_assembly() -> None:
+    data = _model(-1.0)
+    data["analysis"]["type"] = "nonlinear_static"
+    data["analysis"]["method"] = "newton_raphson"
+    data["analysis"]["contact_mode"] = "penalty"
+    data["analysis"]["contact_max_penetration"] = 0.0
+    model = JsonModelReader().from_dict(data)
+
+    report = MeshValidator().validate(model)
+    assert report.status == "FAIL"
+    assert "contact_max_penetration must be a positive finite number" in " ".join(report.errors)
+    with pytest.raises(MeshValidationError, match="contact_max_penetration"):
+        NonlinearStaticSolver().solve(model)
 
 
 def test_updated_contact_search_recomputes_the_normal_on_a_folded_surface() -> None:

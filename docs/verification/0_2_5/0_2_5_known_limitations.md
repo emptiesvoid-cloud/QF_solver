@@ -1,0 +1,55 @@
+---
+doc_id: DOC-NL-025-015
+revision: 0.1
+status: controlled_candidate
+applicable_version: 0.2.5a0
+reviewer: ""
+approver: ""
+---
+
+# QF Solver 0.2.5a0 planned known limitations
+
+These are default release boundaries. They may be narrowed by evidence and may
+be expanded only through an Owner-reviewed scope/gate revision.
+
+- J2 remains the existing isotropic-hardening small-strain model until an
+  explicit finite-kinematic coupling model is approved and verified.
+- No general finite-strain plasticity, anisotropic/kinematic hardening, damage,
+  fracture, creep, viscoplasticity or cyclic-material qualification is claimed.
+- TET4 and HEX8 are the MUST geometric-nonlinear element scope. TET10 and HEX20
+  remain SHOULD until their own evidence closes.
+- Linear buckling is an idealized bifurcation analysis, not an imperfection-aware
+  collapse prediction.
+- The current Euler evidence is a bounded TET4 total-Lagrangian reference on two
+  structured levels; it does not qualify TET10/HEX8/HEX20 or post-buckling.
+- Arc-length includes a reduced scalar shallow-arch branch-following check, but
+  remains bounded to the verified benchmark/problem class; no FEM snap-through,
+  post-buckling, arbitrary branch switching or general snap-back behavior is
+  implied. The global solver's signed target and `max_steps` turning window
+  are opt-in research controls and do not change the default target-load path.
+- The finite-kinematic J2 arc-length path has bounded internal research evidence
+  on homogeneous TET4, TET10, HEX8 and HEX20 paths up to signed load factor
+  `0.5`, using an opt-in adaptive radius. It remains a monotone target-load
+  continuation contract; it does not qualify FEM snap-through, snap-back,
+  post-buckling, arbitrary branch switching or external response correlation.
+- Frictionless contact is the mandatory contact scope. Friction remains optional
+  and cannot be advertised unless G07 is promoted and closed.
+- The geometric-nonlinear contact composition is currently an internal TET4
+  patch with a fixed triangular master surface and penalty enforcement. It does
+  not qualify general surface-to-surface contact, finite sliding or recontact
+  on the geometric solver path.
+- Self-contact, cohesive, thermal and advanced mortar contact are excluded.
+- Triple J2+geometry+contact coupling is SHOULD, not a release prerequisite.
+- External numerical correlation is not physical validation.
+- The regular two-cell Code_Aster J2 campaign is convention-matched and reports
+  `PASS_EXTERNAL_CORRELATION` for TET4/TET10/HEX8/HEX20 when the explicit QF
+  TET10 `code_aster_5` nonlinear quadrature is selected. The legacy four-point
+  Hammer rule remains the default for existing models and linear paths, so
+  this bounded evidence does not by itself close G01/G10.
+- The release is not an HPC expansion and makes no new million-DOF nonlinear
+  claim. PETSc/SLEPc remain optional backends.
+- Performance claims are limited to recorded hardware/software/mesh histories.
+- Full Newton is the qualified global method. Modified Newton remains outside
+  production scope unless separately gated.
+- A capability with an OPEN gate remains experimental/research regardless of
+  whether code or tests for it exist.

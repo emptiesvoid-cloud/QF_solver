@@ -52,6 +52,16 @@ class NumericalConvergenceError(RuntimeError, SolverError):
         self.reason = reason
         self.diagnostics = dict(diagnostics or {})
 
+    def to_dict(self) -> dict[str, Any]:
+        """Return a stable non-converged record for API and evidence writers."""
+        reason = self.reason.value if isinstance(self.reason, NonlinearFailureReason) else self.reason
+        return {
+            "converged": False,
+            "reason": reason,
+            "message": str(self),
+            "diagnostics": dict(self.diagnostics),
+        }
+
 
 class QualificationGateError(RuntimeError, SolverError):
     """A numerically completed run was rejected by its verification profile."""

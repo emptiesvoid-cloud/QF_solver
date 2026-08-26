@@ -15,7 +15,7 @@ REGISTRY = PROJECT_ROOT / "qualification" / "release_vv_0_2_1.json"
 def test_release_vv_pack_keeps_required_scopes_and_baseline(tmp_path: Path) -> None:
     summary = run_release_vv(tmp_path / "release")
 
-    assert summary["release"]["version"] == "0.2.4a0"
+    assert summary["release"]["version"] == "0.2.5a0"
     assert summary["baseline"]["tag"] == "v0.2.0-alpha"
     assert summary["baseline"]["commit"] == "1804a03aee0c4e4bc6ac2c56e9461bedd9aac6d4"
     assert summary["status"] == "FAIL"

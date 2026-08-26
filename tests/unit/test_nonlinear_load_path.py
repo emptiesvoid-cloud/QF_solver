@@ -8,6 +8,7 @@ from solveur.api import solve_model
 from solveur.core.errors import InputValidationError, NumericalConvergenceError
 from solveur.core.nonlinear import NonlinearStaticSolver
 from solveur.core.nonlinear_contracts import NonlinearFailureReason
+from solveur.core.nonlinear_controls import ArcLengthControls
 from solveur.io.json_reader import JsonModelReader
 from tests.unit.test_analysis_features import elastoplastic_tet4_model
 
@@ -109,6 +110,97 @@ def test_adaptive_load_controls_reject_invalid_parameters(parameters, message):
 
     with pytest.raises(InputValidationError, match=message):
         solve_model(model)
+
+
+@pytest.mark.parametrize(
+    ("parameters", "message"),
+    [
+        ({"min_arc_length_radius": 0.0}, "strictly positive"),
+        ({"arc_length_growth_factor": 0.9}, "greater than or equal"),
+        ({"arc_length_shrink_factor": 1.0}, "strictly between"),
+        (
+            {
+                "arc_length_grow_below_iterations": 10,
+                "arc_length_shrink_above_iterations": 10,
+            },
+            "thresholds",
+        ),
+    ],
+)
+def test_arc_length_controls_reject_invalid_parameters(parameters, message):
+    with pytest.raises(InputValidationError, match=message):
+        ArcLengthControls.from_parameters(parameters, max_iterations=25)
+
+
+def test_arc_length_controls_preserve_fixed_radius_by_default():
+    controls = ArcLengthControls.from_parameters({}, max_iterations=25)
+
+    assert controls.adaptive_radius is False
+    assert controls.minimum_radius == pytest.approx(1.0e-10)
+    assert controls.growth_factor == pytest.approx(1.5)
+    assert controls.shrink_factor == pytest.approx(0.5)
+
+
+def test_arc_length_retry_records_failure_and_rollback_diagnostics(monkeypatch):
+    original = NonlinearStaticSolver._solve_arc_length_step
+    observations = {"calls": 0, "clean_retry": False}
+
+    def reject_once(self, model, dofs, displacement, free, loads, material_states, *args, **kwargs):
+        observations["calls"] += 1
+        if observations["calls"] == 1:
+            displacement[free] = 123.0
+            material_states[0][0]["equivalent_plastic_strain"] = 999.0
+            raise NumericalConvergenceError(
+                "controlled arc-length rejection",
+                reason=NonlinearFailureReason.MAX_ITERATIONS,
+                diagnostics={"controlled": True},
+            )
+        if observations["calls"] == 2:
+            observations["clean_retry"] = bool(
+                np.allclose(displacement, 0.0)
+                and material_states[0][0]["equivalent_plastic_strain"] == 0.0
+            )
+        return original(
+            self,
+            model,
+            dofs,
+            displacement,
+            free,
+            loads,
+            material_states,
+            *args,
+            **kwargs,
+        )
+
+    monkeypatch.setattr(NonlinearStaticSolver, "_solve_arc_length_step", reject_once)
+    model = elastoplastic_tet4_model()
+    model.analysis = replace(model.analysis, method="arc_length")
+    model.analysis.parameters.update(
+        {
+            "max_arc_steps": 2,
+            "target_load_factor": 1.0,
+            "arc_length_radius": 0.1,
+            "max_arc_length_radius": 0.1,
+            "min_arc_length_radius": 1.0e-6,
+            "arc_length_shrink_factor": 0.5,
+        }
+    )
+
+    data = solve_model(model).to_dict()
+
+    assert observations["calls"] >= 2
+    assert observations["clean_retry"] is True
+    assert data["solver"]["rejected_increments"] == 1
+    rejection = data["solver"]["rejection_log"]
+    assert len(rejection) == 1
+    assert rejection[0]["path"] == "arc_length"
+    assert rejection[0]["step"] == 1
+    assert rejection[0]["base_load_factor"] == pytest.approx(0.0)
+    assert rejection[0]["rejected_radius"] > rejection[0]["retry_radius"]
+    assert rejection[0]["retry_radius"] == pytest.approx(rejection[0]["previous_radius"] * 0.5)
+    assert rejection[0]["failure_reason"] == "MAX_ITERATIONS"
+    assert rejection[0]["failure_diagnostics"] == {"controlled": True}
+    assert rejection[0]["rollback_before_retry"] is True
 
 
 def test_adaptive_load_steps_stop_after_maximum_cutbacks(monkeypatch):

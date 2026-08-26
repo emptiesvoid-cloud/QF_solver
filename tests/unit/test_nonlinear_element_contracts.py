@@ -5,6 +5,8 @@ from __future__ import annotations
 import numpy as np
 import pytest
 
+from solveur.core.material_state import initial_material_states
+from solveur.core.model import FiniteElementModel
 from solveur.elements.solid.hex8 import Hex8Element
 from solveur.elements.solid.hex20 import Hex20Element
 from solveur.elements.solid.tet4 import Tet4Element
@@ -57,6 +59,31 @@ def test_solid_elements_share_stateful_internal_force_tangent_contract(element_t
     assert np.all(np.isfinite(internal))
     assert np.all(np.isfinite(tangent))
     assert all(float(state["equivalent_plastic_strain"]) > 0.0 for state in states)
+
+
+def test_tet10_state_table_uses_selected_nonlinear_quadrature() -> None:
+    model = FiniteElementModel.from_raw(
+        nodes=_tet10_coords().tolist(),
+        elements=[{"type": "TET10", "nodes": list(range(10)), "material": "j2"}],
+        materials={
+            "j2": {
+                "type": "von_mises_elastoplastic_3d",
+                "E": 1000.0,
+                "nu": 0.25,
+                "yield_stress": 5.0,
+                "hardening_modulus": 100.0,
+            }
+        },
+        analysis={
+            "type": "nonlinear_static",
+            "method": "newton_raphson",
+            "tet10_nonlinear_quadrature": "code_aster_5",
+        },
+    )
+
+    states = initial_material_states(model)
+
+    assert len(states[0]) == 5
 
 
 @pytest.mark.parametrize("element_type", [Tet4Element, Tet10Element])

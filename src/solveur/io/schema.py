@@ -328,6 +328,13 @@ class JsonSchemaValidator:
     def _validate_analysis_parameters(self, analysis_type: str, params: Mapping[str, Any], errors: list[str]) -> None:
         if "assembly_chunk_size" in params:
             self._positive_int("analysis.assembly_chunk_size", params["assembly_chunk_size"], errors)
+        if analysis_type in {"nonlinear_static", "geometric_nonlinear_static", "linear_buckling"}:
+            if "nonlinear_assembly_chunk_size" in params:
+                self._positive_int(
+                    "analysis.nonlinear_assembly_chunk_size",
+                    params["nonlinear_assembly_chunk_size"],
+                    errors,
+                )
         if analysis_type == "transient_dynamic":
             self._require_any("analysis", params, ("time_step", "dt"), errors)
             self._require_any("analysis", params, ("steps", "time_steps"), errors)
@@ -399,6 +406,60 @@ class JsonSchemaValidator:
         if analysis_type == "nonlinear_static":
             if "load_steps" in params:
                 self._positive_int("analysis.load_steps", params["load_steps"], errors)
+            if "max_arc_steps" in params:
+                self._positive_int("analysis.max_arc_steps", params["max_arc_steps"], errors)
+            if "adaptive_arc_length" in params and not isinstance(params["adaptive_arc_length"], bool):
+                errors.append("analysis.adaptive_arc_length must be a boolean.")
+            if "arc_length_allow_load_factor_turning" in params and not isinstance(
+                params["arc_length_allow_load_factor_turning"], bool
+            ):
+                errors.append("analysis.arc_length_allow_load_factor_turning must be a boolean.")
+            if "arc_length_stop_mode" in params:
+                stop_mode = params["arc_length_stop_mode"]
+                if not isinstance(stop_mode, str) or stop_mode.lower() not in {"target_load", "max_steps"}:
+                    errors.append("analysis.arc_length_stop_mode must be target_load or max_steps.")
+            for key in (
+                "min_arc_length_radius",
+                "max_arc_length_radius",
+                "arc_length_growth_factor",
+                "arc_length_shrink_factor",
+                "arc_length_load_factor_limit",
+            ):
+                if key in params:
+                    self._positive_number(f"analysis.{key}", params[key], errors)
+            if "arc_length_growth_factor" in params and _is_number(params["arc_length_growth_factor"]):
+                if float(params["arc_length_growth_factor"]) < 1.0:
+                    errors.append("analysis.arc_length_growth_factor must be greater than or equal to 1.")
+            if "arc_length_shrink_factor" in params and _is_number(params["arc_length_shrink_factor"]):
+                if not 0.0 < float(params["arc_length_shrink_factor"]) < 1.0:
+                    errors.append("analysis.arc_length_shrink_factor must be strictly between 0 and 1.")
+            if (
+                _is_number(params.get("min_arc_length_radius"))
+                and _is_number(params.get("max_arc_length_radius"))
+                and float(params["max_arc_length_radius"]) < float(params["min_arc_length_radius"])
+            ):
+                errors.append("analysis.max_arc_length_radius must be at least min_arc_length_radius.")
+            if "arc_length_grow_below_iterations" in params:
+                self._nonnegative_int(
+                    "analysis.arc_length_grow_below_iterations",
+                    params["arc_length_grow_below_iterations"],
+                    errors,
+                )
+            if "arc_length_shrink_above_iterations" in params:
+                self._positive_int(
+                    "analysis.arc_length_shrink_above_iterations",
+                    params["arc_length_shrink_above_iterations"],
+                    errors,
+                )
+            if (
+                _is_int(params.get("arc_length_grow_below_iterations"))
+                and _is_int(params.get("arc_length_shrink_above_iterations"))
+                and int(params["arc_length_grow_below_iterations"])
+                >= int(params["arc_length_shrink_above_iterations"])
+            ):
+                errors.append(
+                    "analysis arc-length iteration thresholds must grow_below < shrink_above."
+                )
             if "load_path" in params:
                 path = params["load_path"]
                 if not isinstance(path, list) or not path:
@@ -435,6 +496,19 @@ class JsonSchemaValidator:
                 self._positive_int("analysis.max_iterations", params["max_iterations"], errors)
             if "tolerance" in params:
                 self._positive_number("analysis.tolerance", params["tolerance"], errors)
+        if analysis_type == "linear_buckling":
+            for key in (
+                "preload_factor",
+                "initial_factor",
+                "maximum_factor",
+                "factor_tolerance",
+                "eigensolver_tolerance",
+            ):
+                if key in params:
+                    self._positive_number(f"analysis.{key}", params[key], errors)
+            for key in ("load_increments", "max_iterations", "bracket_iterations", "eigensolver_maxiter"):
+                if key in params:
+                    self._positive_int(f"analysis.{key}", params[key], errors)
 
     def _validate_dynamic_load_function(self, params: Mapping[str, Any], errors: list[str]) -> None:
         if any(key in params for key in ("load_table", "load_factors", "load_factors_by_load")):
@@ -647,6 +721,11 @@ class JsonSchemaValidator:
     def _positive_int(path: str, value: Any, errors: list[str]) -> None:
         if not _is_int(value) or int(value) <= 0:
             errors.append(f"{path} must be a positive integer.")
+
+    @staticmethod
+    def _nonnegative_int(path: str, value: Any, errors: list[str]) -> None:
+        if not _is_int(value) or int(value) < 0:
+            errors.append(f"{path} must be a non-negative integer.")
 
     @staticmethod
     def _element_type(path: str, value: Any, errors: list[str]) -> str | None:

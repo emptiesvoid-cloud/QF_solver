@@ -1,9 +1,9 @@
 {
   "manifest_schema_version": 1,
-  "created_at_utc": "2026-08-24T20:06:33.783760Z",
+  "created_at_utc": "2026-08-26T07:46:37.241406Z",
   "solver": {
     "name": "QF_solver",
-    "version": "0.2.4a0"
+    "version": "0.2.5a0"
   },
   "benchmark_id": "BM-NL-J2-BAR-001",
   "profile": "engineering",
@@ -48,8 +48,8 @@
     {
       "role": "benchmark_artifact",
       "path": "benchmark_summary.json",
-      "size_bytes": 2652,
-      "sha256": "668f907f7c680cf4e12c558ba3d52058a75ede7d0f5d325f25fca12fd692e29f"
+      "size_bytes": 2642,
+      "sha256": "8b63f5b77573ad9f134c7287413b80bdbbe4b22420bc2eda6b16a1eff944e8ce"
     },
     {
       "role": "benchmark_artifact",
@@ -61,13 +61,13 @@
       "role": "benchmark_artifact",
       "path": "result.import_report.json",
       "size_bytes": 1923,
-      "sha256": "b537c0e65e3244391ba92fbb494b0f8dc7b1fa073c9cb0f35f71676f8471b320"
+      "sha256": "c8890620163c89a2e17b4c4383cefa8628d34452f4f9756861dc254038edfd14"
     },
     {
       "role": "benchmark_artifact",
       "path": "result.json",
-      "size_bytes": 6270393,
-      "sha256": "2a7d691520b4e06357120576263457accb6a688d91c1e93d0754430e3a9ed3ff"
+      "size_bytes": 6267542,
+      "sha256": "2cfcc45e060000913395366c35030fded23fa6409bea6ac082991c407c565a6b"
     },
     {
       "role": "benchmark_artifact",
@@ -84,8 +84,8 @@
     {
       "role": "benchmark_artifact",
       "path": "result.vtu",
-      "size_bytes": 34246,
-      "sha256": "93574c4edc6d56b823fe2076ed507b78cbb9b44898dc45697a386f13bfc48bd9"
+      "size_bytes": 34264,
+      "sha256": "64eea56123215499167a6301a49259ab7ff904efdc5632edbe1451a9fbe25c8e"
     }
   ]
 }

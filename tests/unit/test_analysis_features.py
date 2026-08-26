@@ -517,6 +517,34 @@ def test_arc_length_solves_proportional_nonlinear_path():
     assert data["solver"]["steps"][-1]["relative_residual"] < 1.0e-9
 
 
+def test_arc_length_accepts_a_signed_target_load_factor():
+    model = nonlinear_tet4_model(method="arc_length")
+    model.analysis.parameters.update({"load_steps": 5, "max_arc_steps": 12, "target_load_factor": -1.0})
+    result = solve_model(model)
+    data = result.to_dict()
+    assert data["status"] == "PASS"
+    assert data["solver"]["load_path"][-1] == pytest.approx(-1.0, abs=1.0e-3)
+
+
+def test_arc_length_can_run_an_opt_in_bounded_turning_window():
+    model = nonlinear_tet4_model(method="arc_length")
+    model.analysis.parameters.update(
+        {
+            "load_steps": 5,
+            "max_arc_steps": 3,
+            "target_load_factor": 1.0,
+            "arc_length_stop_mode": "max_steps",
+            "arc_length_allow_load_factor_turning": True,
+            "arc_length_load_factor_limit": 2.0,
+        }
+    )
+    data = solve_model(model).to_dict()
+    assert data["status"] == "PASS"
+    assert len(data["solver"]["steps"]) == 3
+    assert data["solver"]["arc_length_stop_mode"] == "max_steps"
+    assert data["solver"]["arc_length_allow_load_factor_turning"] is True
+
+
 def test_available_methods_include_literature_families():
     methods = list_methods()
     assert "cg" in methods["linear_static"]

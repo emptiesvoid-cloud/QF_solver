@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.2.5a0 — local release candidate — 2026-08-26
+
+- Début de l'unification expérimentale des chemins J2, géométrie non linéaire
+  et contact autour du driver Full Newton commun.
+- Ajout de tests ciblés pour le tangent finite-kinematic, les transactions
+  d'état, les contributions contact sparse, les couplages bornés et les modes
+  d'échec.
+- Ajout du pack V&V, des benchmarks et du registre de gates dans
+  `docs/verification/0_2_5/`.
+- Ajout d'un chemin opt-in de projection finite-sliding bornée pour le contact
+  penalty frictionless, de diagnostics sérialisés dans les incréments Newton et
+  d'un profil de benchmark dédié ; ce chemin reste expérimental et limité au
+  modèle node-to-triangle documenté. Le mode de projection exact ou borné est
+  désormais sérialisé explicitement par incrément.
+- Le candidat est gelé localement pour qualification ; aucun tag, push ou upload
+  PyPI n'est effectué par cette étape. Les gates ouvertes et les limites
+  expérimentales restent explicitement reportées dans le pack 0.2.5.
+
 ## 0.2.4a0 - 2026-08-24
 
 Cette alpha consolide une infrastructure expérimentale commune de mécanique

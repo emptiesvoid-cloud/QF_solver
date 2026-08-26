@@ -1,0 +1,136 @@
+---
+doc_id: DOC-NL-025-010
+revision: 0.1
+status: controlled_candidate
+applicable_version: 0.2.5a0
+reviewer: ""
+approver: ""
+---
+
+# QF Solver 0.2.5a0 external correlation matrix
+
+`MUST` cells must close for the associated release claim. An unavailable or
+non-comparable solver is `N/A WITH JUSTIFICATION`, never `PASS`.
+
+| Capability | Analytical/published | Code_Aster | CalculiX | Abaqus if available | Required outputs | Gate |
+|---|---|---|---|---|---|---|
+| J2 multi-element | MUST | MUST | SHOULD | COULD | F-u, reactions, VM, PEEQ, yield onset, energy | G01/G10 |
+| Large deformation | MUST | MUST | SHOULD | COULD | load-u, reactions, stress/strain measure, energy | G02/G10 |
+| Linear buckling | MUST Euler | MUST | SHOULD | COULD | factors, modes, normalization/MAC | G03/G10 |
+| Arc-length | MUST published branch | MUST | SHOULD if supported | COULD | complete load-factor/displacement branch | G04/G10 |
+| Frictionless contact | simple analytical MUST | MUST | SHOULD | COULD | gap, pressure, reactions, active set/path | G05/G10 |
+| J2 + geometry | published if available | MUST after formulation approval | SHOULD | COULD | F-u, VM, PEEQ, energy | G06/G10 |
+| Geometry + contact | qualitative/analytical limits | MUST | SHOULD | COULD | load-gap-u, pressure, reactions | G06/G10 |
+| Triple coupling SHOULD | none required | SHOULD | COULD | COULD | full histories and limits | G06/G10 |
+| Friction COULD | simple block analytical | SHOULD if WP7 promoted | SHOULD | COULD | stick/slip, traction, dissipation | G07/G10 |
+
+## Reproducibility contract
+
+The existing 0.2.4 RQ-G08 Docker replay is a useful environment smoke check,
+but it is not a 0.2.5 multi-element closure: it covers the affine one-element
+TET4/TET10/HEX8/HEX20 patch only. The 0.2.5 G10 row remains open until a
+multi-element history with matched reactions and state fields is generated,
+executed and archived with its own provenance.
+
+The reproducible 0.2.5 entry point is:
+
+```text
+python scripts/run_j2_multielement_external_025.py --output results/vnv_0_2_5/j2_multielement_code_aster
+```
+
+On the current working tree this campaign executes in the pinned Docker image
+on a regular two-cell shared mesh. Displacements, reactions, `stress_xx` and
+aggregate PEEQ agree for all four families within the current 0.5% limit. The
+campaign currently reports `PASS_EXTERNAL_CORRELATION` with 64 checks; no
+tolerance was widened.
+
+The TET10 comparison uses the explicit QF analysis parameter
+`tet10_nonlinear_quadrature=code_aster_5`. This symmetric five-point rule
+matches the five `ELGA` values per `TETRA10` element exposed by the pinned
+Code_Aster run. The legacy QF Hammer four-point rule remains the default for
+existing models and for linear TET10 paths; this external evidence therefore
+records a matched comparison configuration, not a silent global change of
+historical behavior. The campaign is bounded numerical correlation, not
+physical validation, and does not by itself close G01 or G10.
+
+## Observed bounded contact oracle
+
+`VNV-CONTACT-CODEASTER-LIAISON-UNIL-001` was replayed with the pinned
+Code_Aster 18.1.0 image
+`simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435`.
+The QF Solver and Code_Aster results agree for compression/closure and
+separation/opening, including the active-set branch and scalar gap, with five
+checks passing. The controlled evidence is archived under
+`results/vnv_0_2_5/contact_code_aster_liaison_unil/`.
+
+This is an external correlation of the equivalent scalar unilateral normal
+inequality only. It does not close the general frictionless-contact cell:
+surface-to-surface finite sliding, updated normals, recontact, penetration
+sensitivity, contact rollback and multi-element external histories remain
+open requirements for `025-G05` and `025-G10`.
+
+## Observed bounded TET4-TL buckling correlation
+
+The existing CalculiX structural campaign was replayed under the dedicated
+0.2.5 output directory as `VNV-TET4-TL-CALCULIX-STRUCTURAL-008`. Four
+structured TET4/C3D4 levels passed the stress patch and linear-buckling
+checks. On the finest level the QF/CalculiX critical-load difference was
+`3.52e-4`, while the CalculiX/Euler relative error was `5.91 %`. The pinned
+campaign uses the CalculiX 2.20 image
+`qf-solver/calculix-nafems13h:2.20`; the machine-readable evidence is under
+`results/vnv_0_2_5/calculix_tl_structural/` and the existing controlled
+reference archive under
+`qualification/vnv/external/calculix_tl_structural/reference/`.
+
+This result is bounded to the TET4 Total-Lagrangian structural route and does
+not qualify the general sparse buckling API, HEX8, post-buckling or contact.
+
+## External solid-family buckling probe: blocked
+
+The new reproducible entry point is:
+
+```text
+python scripts/run_calculix_buckling_025.py --output results/vnv_0_2_5/calculix_buckling_solid_families_mode1_recorded --families TET4 TET10 HEX8 HEX20 --cells 1 --modes 1
+```
+
+The generator now applies the fixed node set with `*BOUNDARY`, requests only
+the first eigenfactor, and bounds the Lanczos subspace to the number of free
+equations. The resulting archive is
+`results/vnv_0_2_5/calculix_buckling_solid_families_mode1_recorded/summary.json`.
+It is retained as negative evidence: TET4, TET10 and HEX8 remain outside the
+10 % bounded band, with relative differences of approximately 24.6 %, 45.1 %
+and 13.4 %, respectively, and the C3D20 buckling job stops natively after
+selecting the buckling step. The Lanczos correction fixes the small-system
+ARPACK setup error but does not turn the correlation into a PASS.
+The same C3D20 ordering passes the existing linear-static replay, so the
+failure is isolated to this buckling formulation/campaign rather than hidden
+as an input success. The campaign status is `BLOCKED_EXTERNAL_TOOL`; it does
+not close `025-G03` or `025-G10`.
+An additional two-cell C3D20 probe is archived at
+`results/vnv_0_2_5/calculix_buckling_hex20_cells2_probe/`; the pinned external
+executable terminates with `double free or corruption (!prev)`. This is retained
+as an external-tool diagnostic, not as a QF Solver result or a PASS.
+The recorded provenance is SHA
+`e368c0ce00874c16ff1e8fa9158ea0a8cd2dd745` with `worktree_dirty=true`, so this
+archive is diagnostic working-tree evidence and cannot serve as final release
+evidence.
+
+Every external case must provide:
+
+- solver name/version and execution environment;
+- source deck and generated deck digest;
+- identical geometry and mesh where possible;
+- explicit element-formulation differences where not possible;
+- material parameters, stress/strain measures and hardening convention;
+- BC, loading history, increments and convergence options;
+- matched result locations and post-processing definitions;
+- full machine-readable curves plus summary plots;
+- threshold source and limitations;
+- QF Solver SHA and evidence digest.
+
+## Correlation decision rule
+
+Agreement of one final scalar cannot close a row. Mandatory rows compare complete
+histories, reactions and at least one relevant field/state quantity. Differences
+caused by incompatible integration, locking control, contact enforcement or
+stress recovery must be quantified rather than hidden in a broad tolerance.

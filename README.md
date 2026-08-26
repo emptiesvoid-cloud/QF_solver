@@ -16,14 +16,12 @@ Cette alpha ne revendique ni certification externe, ni équivalence générale �
 un logiciel commercial. Elle fournit un noyau ouvert et des domaines d'emploi
 documentés, à utiliser avec le jugement mécanique adapté au cas calculé.
 
-La release alpha courante est **0.2.4a0**. Elle consolide une infrastructure
-expérimentale commune de mécanique solide non linéaire sur J2 petites
-déformations pour TET4, TET10, HEX8 et HEX20. Full Newton est le seul chemin
-non linéaire qualifié dans ce périmètre ; Modified Newton reste hors
-production. RQ-G08 est fermé comme `PASS_EXTERNAL_CORRELATION_BOUNDED` pour
-un patch affine à un élément corrélé à Code_Aster. Le périmètre reste
-explicitement borné : aucune revendication multi-éléments, cyclique ou de
-validation physique n'est faite.
+Le candidat alpha courant est **0.2.5a0**. Il prolonge la release publiée
+`0.2.4a0` par une campagne de qualification du moteur de mécanique non linéaire
+structurelle. Le scope fonctionnel est gelé pour ce candidat : aucune nouvelle
+physique n'est ajoutée et le frottement reste hors périmètre. Les capacités dont
+la gate est encore ouverte restent expérimentales ou de recherche et ne sont
+pas promues par la seule présence du code.
 Le projet vise un outil **qualifiable et vérifiable** ; il n'est pas présenté
 comme certifié et ne remplace pas une revue mécanique adaptée au cas d'emploi.
 
@@ -84,16 +82,31 @@ Le détail des 36 scopes de release, de leurs preuves et de leurs exclusions est
 dans le [registre de maturité](qualification/element_analysis_matrix.json) et
 dans le [paquet de clôture](docs/verification/release_vv_0_2_1_closure_package_2026-08-22.md).
 
+## État du candidat 0.2.5a0
+
+Le candidat local `0.2.5a0` est rattaché à la baseline publiée `v0.2.4a0`.
+La [matrice des gates](docs/verification/0_2_5/0_2_5_gate_matrix.md) et le
+[rapport de readiness](docs/verification/0_2_5/0_2_5_release_readiness.md)
+décrivent l'état réel des preuves, les SHA, les limites et les actions Owner.
+Aucun tag, push GitHub ou upload PyPI n'est effectué dans cette préparation.
+
+Le périmètre revendicable reste strictement borné aux preuves effectivement
+fermées. Il n'inclut pas de qualification générale des grandes déformations,
+du flambement, de l'arc-length, du contact généralisé, du couplage triple,
+des modèles cycliques ou des calculs multi-million de DDL.
+
 ## État de la release 0.2.4a0
 
-La release précédente `v0.2.3a0` est conservée comme historique. La campagne
-0.2.4a0 couvre les contrats J2 communs, la tangente cohérente, les transactions
-d'état, Full Newton et la corrélation externe RQ-G08 bornée. Les preuves de
-release seront attachées au SHA final du commit de préparation ; la
-publication PyPI et la création de la GitHub Release restent des décisions
-séparées réservées à l'Owner.
+La release publiée `v0.2.4a0` couvre les contrats J2 communs, la tangente
+cohérente, les transactions d'état, Full Newton et la corrélation externe
+RQ-G08 bornée. Le périmètre reste expérimental et limité aux preuves déclarées :
+la corrélation J2 externe est affine et mono-élément, sans revendication
+multi-éléments, cyclique ou de validation physique.
 
-Le chantier backend 0.2.2 alpha est décrit dans le [rapport de résolution
+Le [pack de qualification 0.2.5a0](docs/verification/0_2_5/README.md) conserve
+la 0.2.4 comme baseline et sépare les observations internes des gates de release.
+
+Le chantier historique backend 0.2.2 alpha est décrit dans le [rapport de résolution
 sparse](docs/verification/qf_solver_0_2_2_alpha_backend_report.md) et dans la
 [feuille de route backend](prochaines_etapes.md#qf-solver-022-alpha--feuille-de-route-backend-numerique).
 La checklist de préparation du tag et de la publication PyPI est dans le
@@ -124,15 +137,15 @@ figée sont consignés dans la
 
 ## Installation
 
-Installation locale de l'alpha `0.2.4a0` :
+Installation locale du candidat `0.2.5a0` :
 
 ```powershell
 python -m pip install -e ".[test]"
 qf-solver --version
 ```
 
-Après publication décidée par l'Owner, la même version pourra être installée
-depuis PyPI avec `python -m pip install "qf-solver==0.2.4a0"`.
+Après décision explicite de l'Owner et publication, cette version pourra être
+installée depuis PyPI avec `python -m pip install "qf-solver==0.2.5a0"`.
 
 Pendant la préparation locale, les extras s'installent depuis le checkout :
 
@@ -144,8 +157,8 @@ python -m pip install -e ".[hpc]"   # PETSc/SLEPc et MPI, optionnels
 ```
 
 Après publication, les mêmes extras seront disponibles avec la forme
-`qf-solver[mesh]==0.2.4a0`, `qf-solver[docs]==0.2.4a0`,
-`qf-solver[large]==0.2.4a0` ou `qf-solver[hpc]==0.2.4a0`.
+`qf-solver[mesh]==0.2.5a0`, `qf-solver[docs]==0.2.5a0`,
+`qf-solver[large]==0.2.5a0` ou `qf-solver[hpc]==0.2.5a0`.
 
 Pour contribuer ou exécuter la suite de tests depuis un clone du dépôt :
 
@@ -321,8 +334,15 @@ donc le corpus V&V de développement.
   API publique `qf_solver`, avec PETSc/SLEPc optionnels.
 - **0.2.3 Alpha** : ajout des éléments solides HEX8 et HEX20, chargements et
   post-traitement associés, import Gmsh, analyses communes, corrélations
-  CalculiX/Code_Aster et comparatif TET/HEX ; la revue Owner et les exclusions
-  restent explicitement tracées avant publication.
+  CalculiX/Code_Aster et comparatif TET/HEX ; la release a été publiée avec ses
+  limites et exclusions explicitement tracées.
+- **0.2.4 Alpha** : consolidation du noyau J2 small-strain, des transactions
+  d'état, du Full Newton, de la corrélation RQ-G08 bornée et de la préparation
+  du moteur non linéaire commun.
+- **0.2.5 Alpha** : campagne de qualification du moteur non linéaire commun,
+  avec V&V multi-éléments, géométrie non linéaire, flambement sparse,
+  arc-length, contact, couplages, profiling et tests adversariaux ; les limites
+  et gates sont publiées séparément et aucune promotion n'est implicite.
 
 Les artefacts générés ne sont pas édités à la main. Toute valeur numérique
 publiée doit provenir de `scripts/build_docs.py` et être reliée à son entrée,

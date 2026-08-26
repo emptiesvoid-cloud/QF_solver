@@ -16,6 +16,8 @@ l'audit boite blanche.
 - `tet4_modal_unit.json`: solide TET4 modal avec frequence analytique de
   cisaillement.
 - `tet4_nonlinear_static.json`: solide TET4 avec materiau non-lineaire simple.
+- `tet4_linear_buckling.json`: facteur critique tangent sparse borne pour TET4;
+  preuve de recherche, sans revendication de post-flambement.
 - `tet4_elastoplastic_static.json`: solide TET4 avec loi Von Mises
   elastoplastique simple.
 - `tet4_transient_dynamic.json`: solide TET4 dynamique transitoire Newmark.

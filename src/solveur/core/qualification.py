@@ -27,6 +27,7 @@ MATURITY_BY_ANALYSIS = {
     "harmonic_response": "stable_after_reinforced_tests",
     "nonlinear_static": "experimental",
     "geometric_nonlinear_static": "research",
+    "linear_buckling": "research",
 }
 
 MATURITY_BY_ELEMENT = {
@@ -35,6 +36,8 @@ MATURITY_BY_ELEMENT = {
     "MITC4": "stable",
     "MITC3": "experimental",
     "TET10": "stable_after_reinforced_tests",
+    "HEX8": "stable_after_reinforced_tests",
+    "HEX20": "stable_after_reinforced_tests",
 }
 
 MATURITY_BY_MATERIAL = {

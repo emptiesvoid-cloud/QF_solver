@@ -58,7 +58,7 @@
       "id": "BM-BEAM2-CANTILEVER-001",
       "maturity": "experimental",
       "mesh_sha256": "87ce202f5a0b6155334c332432d383ae6c3b3b554995ab8a0e581b3119d1d1ba",
-      "result_sha256": "a805862ca6191c16d4ed00066f2fc5208c39d111584ad9e2dc08b0f7e13c0c06",
+      "result_sha256": "c59876613a621ca4a42dabb395b4089e5a1d6aa8c1444587ee20ff8ea54c6407",
       "status": "WARNING"
     },
     {
@@ -111,7 +111,7 @@
       "id": "BM-DYN-CANTILEVER-001",
       "maturity": "stable_after_reinforced_tests",
       "mesh_sha256": "67c53306ffb228f3384f0e2593bfc5066297417a2ffaf493e433c9ecea3f02f9",
-      "result_sha256": "92e97e8a2b44af9d1b87cc2d9788cee991a57d015257e6d85fa367a15db32c87",
+      "result_sha256": "032b05a0a7d16afbb219d92235f3e30db608f9ce87e90993ae9148e06f5137e3",
       "status": "PASS"
     },
     {
@@ -122,7 +122,7 @@
           "limit": 0.02,
           "operator": "less_equal",
           "status": "PASS",
-          "value": 2.1855036417643228e-15
+          "value": 9.934107462565104e-16
         },
         {
           "detail": "",
@@ -130,7 +130,7 @@
           "limit": 1e-06,
           "operator": "less_equal",
           "status": "PASS",
-          "value": 1.3877787807814457e-16
+          "value": 8.326672684688674e-16
         },
         {
           "detail": "",
@@ -138,7 +138,7 @@
           "limit": 1e-06,
           "operator": "less_equal",
           "status": "PASS",
-          "value": 1.1387141229945995e-11
+          "value": 1.815908534652523e-12
         },
         {
           "detail": "",
@@ -146,7 +146,7 @@
           "limit": 1e-07,
           "operator": "less_equal",
           "status": "PASS",
-          "value": 1.1948359396064877e-13
+          "value": 9.994980953501773e-14
         },
         {
           "detail": "",
@@ -154,7 +154,7 @@
           "limit": 1e-07,
           "operator": "less_equal",
           "status": "PASS",
-          "value": 1.2064194530869203e-13
+          "value": 9.662409649295937e-14
         }
       ],
       "field_artifacts": [
@@ -162,7 +162,7 @@
           "element_count": 140,
           "key": "von_mises",
           "label": "Contrainte equivalente de von Mises [unite du modele]",
-          "maximum": 300000000.0000002,
+          "maximum": 300000000.0000001,
           "minimum": 299999999.99999976,
           "path": "bm-nl-j2-bar-001_von_mises.png",
           "sha256": "98fe0237d9233da840614947ae06afbe13329732d21b93c3a9ead42fc7866315"
@@ -171,8 +171,8 @@
           "element_count": 140,
           "key": "strain_measure",
           "label": "Deformation equivalente de von Mises [-]",
-          "maximum": 0.051238095238095346,
-          "minimum": 0.05123809523809502,
+          "maximum": 0.05123809523809536,
+          "minimum": 0.051238095238094916,
           "path": "bm-nl-j2-bar-001_strain_measure.png",
           "sha256": "d318b97a9627da773c6d43079726a29c74d77926fc44bdeaf0784b214d00945c"
         },
@@ -180,8 +180,8 @@
           "element_count": 140,
           "key": "equivalent_plastic_strain",
           "label": "Deformation plastique equivalente cumulee [-]",
-          "maximum": 0.05000000000000011,
-          "minimum": 0.049999999999999774,
+          "maximum": 0.050000000000000114,
+          "minimum": 0.04999999999999968,
           "path": "bm-nl-j2-bar-001_plastic_strain.png",
           "sha256": "95d5a491e13699e88826957829bc2d79fd10831b7113aa5d0c32046dbda1cd25"
         }
@@ -189,7 +189,7 @@
       "id": "BM-NL-J2-BAR-001",
       "maturity": "experimental",
       "mesh_sha256": "cf3600914d19bcb66d2d2a0d644922fc67048fde124e70329c277cc15585248b",
-      "result_sha256": "2a7d691520b4e06357120576263457accb6a688d91c1e93d0754430e3a9ed3ff",
+      "result_sha256": "2cfcc45e060000913395366c35030fded23fa6409bea6ac082991c407c565a6b",
       "status": "WARNING"
     },
     {
@@ -234,7 +234,7 @@
       "id": "BM-SHL-COOK-001",
       "maturity": "stable",
       "mesh_sha256": "c72c2512784e0c3ba0bd3685e40a401db630256630f47366390b2267627f11e7",
-      "result_sha256": "ede320751e084408a85d2a6f2109ea9977921b0d20d1940b2594ecc4479cc153",
+      "result_sha256": "a8bf4667aa6ee6962506bac4f0870a8b7d1706790b6221f0d9562a4aaa666598",
       "status": "PASS"
     },
     {
@@ -279,7 +279,7 @@
       "id": "BM-SHL-PINCHED-001",
       "maturity": "stable_after_reinforced_tests",
       "mesh_sha256": "3ae902a6a94b465e9b88d7c4a2aa47dbb62e767cb75ce5462aef1f64e6cf872b",
-      "result_sha256": "372ffdbd88a63893a64ffe21217049967bbf4f0a3cd774f25a0411792deaf30c",
+      "result_sha256": "3bb8b75682ddbe784520ceaa3b28559a650899c3875d51c81efa194f095508e2",
       "status": "PASS"
     },
     {
@@ -332,7 +332,7 @@
       "id": "BM-SHL-SCORDELIS-001",
       "maturity": "stable",
       "mesh_sha256": "7315f62c1d117dd48517abc579724ecd9b31d133010c71d1da9998ed56df9400",
-      "result_sha256": "0ab2003a63f0d34294a615d59ad1b202a1a42e3d447f8927d517bc65c7139e34",
+      "result_sha256": "bc91fa8890eed5741990cd7fd720a64dd940253e30f9e449b5abde9a8aae3994",
       "status": "PASS"
     },
     {
@@ -425,7 +425,7 @@
       "id": "BM-SOL-CANTILEVER-001",
       "maturity": "stable_after_reinforced_tests",
       "mesh_sha256": "dc62d5c0acdda593b13eeb67435357ffbefeff20169547654c8afeced7f9d05e",
-      "result_sha256": "6eebfdca70f7c56a44d9d6a6e707f430b0b5c0ed4ec5d9cacea179a57e7e1a19",
+      "result_sha256": "7376dae3e4ccca4db0288377d6d881b9a6b11c4c8e032eb4864646cb7784be0c",
       "status": "PASS"
     },
     {
@@ -470,7 +470,7 @@
       "id": "BM-SOL-TET10-LAME-001",
       "maturity": "experimental",
       "mesh_sha256": "f2f18581bfed3beaa8d353d749cdffd17a22de911d7f9947ae55e02dc5b89cf9",
-      "result_sha256": "e37518d9b462dcf1a8d004e9e6fabca61b4f594399cad05113a44fc3bd0e7042",
+      "result_sha256": "1ee6685c5106d31935d1ee3d02e9137d0fde9e58931206cf07b7c0745ab9f734",
       "status": "WARNING"
     },
     {
@@ -547,7 +547,7 @@
       "id": "BM-SOL-TET4-MEMBRANE-001",
       "maturity": "stable_after_reinforced_tests",
       "mesh_sha256": "44f70b40993264088934c890dba30a9ebe9701f668cb44c667cc3b8017ddb656",
-      "result_sha256": "15d425fe08a9d0930fc99056ea45f901f14742e3040cf7d5ae399ba979c1d322",
+      "result_sha256": "3a04befbeec6ad11c8649e2b78f8ccd50cadfd3fd081d130dfbd66378166466c",
       "status": "PASS"
     },
     {
@@ -592,7 +592,7 @@
       "id": "BM-SOL-TET4-PATCH-001",
       "maturity": "stable",
       "mesh_sha256": "adf262fc724cc16ace6dfe2907b1112ca3e0781e914141e2859f6e575fd64b2e",
-      "result_sha256": "dd0dd2a6ed4615d2bd4764a63cfe25b41a387ae055fa9e1dcc0ff1a8a70c03fa",
+      "result_sha256": "7dfd517350a752bb3458e5aecb347b523d293d76946b1200ed2cae41835f9199",
       "status": "PASS"
     },
     {
@@ -669,7 +669,7 @@
       "id": "BM-SOL-TET4-TORSION-001",
       "maturity": "stable_after_reinforced_tests",
       "mesh_sha256": "d2f885ce72dd368aeb62ab7458e21bfb77bdf999c101f7078007493e232295e2",
-      "result_sha256": "e5c844b4605596349557ecaddc8bdb5c7714b7726436c1343c75263961fc5352",
+      "result_sha256": "53cdca87c395b0ef68508abeb8215742024c457cfc70b8c7a81347348bafd856",
       "status": "PASS"
     }
   ],

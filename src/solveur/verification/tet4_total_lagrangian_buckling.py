@@ -29,8 +29,14 @@ class TotalLagrangianBucklingCampaign:
     study_id = "VNV-TET4-TL-BUCKLING-EULER-006"
     levels = ((16, 4, 4), (24, 6, 6), (32, 8, 8), (40, 10, 10))
 
-    def __init__(self, output_dir: str | Path):
+    def __init__(
+        self,
+        output_dir: str | Path,
+        *,
+        levels: tuple[tuple[int, int, int], ...] | None = None,
+    ):
         self.output_dir = Path(output_dir).resolve()
+        self.levels = levels or self.levels
         self.young = 1.0e6
         self.poisson = 0.3
         self.length = 4.0

@@ -147,6 +147,20 @@ class Hex20Element:
     @classmethod
     def b_matrix(cls, coords: np.ndarray, point: tuple[float, float, float] | np.ndarray) -> tuple[np.ndarray, float]:
         cls.validate_geometry(coords)
+        return cls._b_matrix_validated(coords, point)
+
+    @classmethod
+    def _b_matrix_validated(
+        cls,
+        coords: np.ndarray,
+        point: tuple[float, float, float] | np.ndarray,
+    ) -> tuple[np.ndarray, float]:
+        """Build one B matrix after the element geometry was validated.
+
+        Integration loops validate the full element once and then reuse this
+        local kernel for every Gauss point.  Keeping the public ``b_matrix``
+        validation preserves its safety contract for direct callers.
+        """
         jacobian = cls.jacobian(coords, point)
         determinant = float(np.linalg.det(jacobian))
         gradients = cls.shape_derivatives_reference(point) @ np.linalg.inv(jacobian).T
@@ -156,7 +170,7 @@ class Hex20Element:
     def integration_data(cls, coords: np.ndarray) -> tuple[tuple[tuple[float, float, float], float, np.ndarray, float], ...]:
         cls.validate_geometry(coords)
         return tuple(
-            (point, weight, *cls.b_matrix(coords, point))
+            (point, weight, *cls._b_matrix_validated(coords, point))
             for point, weight in zip(cls.integration_points, cls.integration_weights)
         )
 

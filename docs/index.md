@@ -2,7 +2,7 @@
 doc_id: DOC-STATE-001
 revision: 0.1
 status: draft technique
-applicable_version: 0.2.4a0
+applicable_version: 0.2.5a0
 reviewer: ""
 approver: ""
 ---
@@ -23,11 +23,11 @@ aeronautique sans revue independante.
 
 --8<-- "docs/generated/status.md"
 
-La release en preparation `0.2.4a0` consolide le moteur non lineaire J2 commun
-sur TET4, TET10, HEX8 et HEX20. La [revue Owner](verification/qf_solver_0_2_4_alpha_unified_nonlinear_solid_mechanics_owner_review.md)
-documente le périmètre, RQ-G08 et les exclusions ; la [feuille de route](../prochaines_etapes.md)
-sépare les preuves internes, la corrélation externe bornée et les travaux
-reportés.
+Le candidat local `0.2.5a0` prolonge la baseline publiée `0.2.4a0` par un
+chantier de mécanique non linéaire structurelle unifiée. Le [pack de
+qualification](verification/0_2_5/README.md) sépare les preuves internes, les
+corrélations externes, les limites et les gates ; aucune publication n'est
+impliquée par sa présence dans le worktree.
 
 ## Lire ce site comme un ingenieur calcul
 
