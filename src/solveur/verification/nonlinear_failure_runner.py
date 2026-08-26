@@ -14,6 +14,7 @@ from solveur.verification.nonlinear_failure_campaign import (
     _run_contact_penetration_limit_case,
     _run_contact_retry_rollback_case,
     _run_case,
+    _run_checkpoint_failure_cases,
     _run_linear_backend_failure_case,
     _run_min_increment_case,
     _run_multistep_retry_rollback_case,
@@ -75,6 +76,7 @@ def run_failure_campaign() -> dict[str, object]:
     multi_step_cases = [_run_multistep_retry_rollback_case()]
     path_failure_cases = [_run_arc_length_failure_case(), _run_buckling_failure_case()]
     state_failure_cases = [_run_state_corruption_case()]
+    checkpoint_failure_cases = _run_checkpoint_failure_cases()
     return {
         "campaign": "qf-solver-nonlinear-failure-contract-0.2.5a0",
         "status": (
@@ -85,6 +87,7 @@ def run_failure_campaign() -> dict[str, object]:
             and all(case["passed"] for case in multi_step_cases)
             and all(case["passed"] for case in path_failure_cases)
             and all(case["passed"] for case in state_failure_cases)
+            and all(case["passed"] for case in checkpoint_failure_cases)
             else "FAIL"
         ),
         "release_claim": False,
@@ -94,4 +97,5 @@ def run_failure_campaign() -> dict[str, object]:
         "multi_step_cases": multi_step_cases,
         "path_failure_cases": path_failure_cases,
         "state_failure_cases": state_failure_cases,
+        "checkpoint_failure_cases": checkpoint_failure_cases,
     }

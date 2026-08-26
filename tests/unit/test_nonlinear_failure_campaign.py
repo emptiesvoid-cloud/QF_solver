@@ -44,3 +44,13 @@ def test_adversarial_failure_campaign_preserves_typed_reasons() -> None:
     assert report["state_failure_cases"][0]["converged"] is False
     assert report["state_failure_cases"][0]["failure_reason"] == "STATE_CORRUPTION"
     assert report["state_failure_cases"][0]["diagnostics"]["transaction"] == "generic"
+    assert {case["name"] for case in report["checkpoint_failure_cases"]} == {
+        "checkpoint_corruption",
+        "checkpoint_model_mismatch",
+    }
+    assert all(case["passed"] for case in report["checkpoint_failure_cases"])
+    assert all(case["converged"] is False for case in report["checkpoint_failure_cases"])
+    assert all(
+        case["failure_reason"] == "CHECKPOINT_FAILURE"
+        for case in report["checkpoint_failure_cases"]
+    )
