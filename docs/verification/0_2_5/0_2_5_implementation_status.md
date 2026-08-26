@@ -670,3 +670,39 @@ PASS_INTERNAL_FAILURE_CONTRACT`. Le passage ciblé associé couvre **76 tests
 passés**; il ne lance ni couverture ni suite complète. Les gates restent
 volontairement `OPEN`, car ces preuves proviennent encore d'un worktree dirty
 et doivent être régénérées sur le SHA candidat avant toute clôture.
+
+## Etat courant apres release hardening — 2026-08-26
+
+Les observations historiques ci-dessus sont supersedees par la qualification
+de release hardening suivante. Le candidat source est le commit
+`3e62a059d643f473744d91be434cd385095db7f2`; le calcul de propreté source est
+`PASS` et aucune modification source ne subsiste. Les sorties générées après
+checkout sont des preuves dérivées et sont exclues de ce calcul conformément
+au contrat `source_sha`.
+
+- `qf_solver.py verify-all --profile engineering` termine en `PASS` sur le
+  candidat : 1 635 tests sélectionnés, 187 désélections prévues, sans échec.
+- La campagne de couverture finale disponible mesure **88,36 %** avec la
+  politique `--cov-fail-under=80`. Elle a signalé uniquement un décalage du
+  compteur de l'audit public; l'audit a été régénéré à **1 901 fichiers, 0
+  finding** et les tests affectés ont ensuite produit **2 passed**. Les
+  derniers changements de code sont dans `solveur.verification`, explicitement
+  omis du périmètre coverage, et ne modifient donc pas ce résultat mesuré.
+- La documentation engineering a été générée depuis ce SHA exact : **706
+  artefacts**, campagne `PASS`; `docs/generated/docs_manifest.json` porte
+  `source_sha=3e62a059d643f473744d91be434cd385095db7f2`.
+- Le build isolé a produit `qf_solver-0.2.5a0-py3-none-any.whl` et
+  `qf_solver-0.2.5a0.tar.gz`; `twine check`, l'installation fraîche de la
+  wheel, les imports publics et l'aide CLI sont passants.
+- Ruff, le contrôle mypy progressif CI et `compileall` sont passants. Le
+  contrôle mypy exhaustif de tout `src/solveur` reste une dette historique
+  hors commande CI et ne constitue pas une nouvelle régression de ce candidat.
+- Les preuves Code_Aster J2 bornées et les campagnes internes restent
+  disponibles. Les corrélations CalculiX partielles, les profils répétés et
+  les capacités avancées non entièrement qualifiées restent documentés comme
+  limites; elles ne sont pas promues par ce hardening.
+
+Les gates `025-G00` à `025-G06`, `025-G08` à `025-G12` restent donc `OPEN` dans
+la matrice contrôlée tant que les preuves de périmètre correspondantes et la
+décision Owner ne sont pas formellement clôturées. `025-G07` reste
+`NOT_IN_RELEASE_SCOPE`. Aucun tag, push GitHub ou upload PyPI n'a été exécuté.
