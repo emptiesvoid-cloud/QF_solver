@@ -681,7 +681,8 @@ checkout sont des preuves dérivées et sont exclues de ce calcul conformément
 au contrat `source_sha`.
 
 - `qf_solver.py verify-all --profile engineering` termine en `PASS` sur le
-  candidat : 1 635 tests sélectionnés, 187 désélections prévues, sans échec.
+  candidat : 1 636 tests sélectionnés (`1 622 passed`, `14 skipped`),
+  187 désélections prévues, sans échec.
 - La campagne de couverture finale disponible mesure **88,36 %** avec la
   politique `--cov-fail-under=80`. Elle a signalé uniquement un décalage du
   compteur de l'audit public; l'audit a été régénéré à **1 901 fichiers, 0
