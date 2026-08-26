@@ -6,6 +6,7 @@ from types import SimpleNamespace
 from scripts.release_readiness_pipeline_025 import (
     _sha_consistency_command,
     _run_gate_check,
+    _source_changes,
     check_candidate_provenance,
     main,
     run_pipeline,
@@ -46,7 +47,7 @@ def test_sha_consistency_step_is_fail_closed_and_reports_provenance() -> None:
     assert "raise SystemExit" in command
 
 
-def _gate_document(status: str = "PASS_INTERNAL") -> str:
+def _gate_document(status: str = "PASS") -> str:
     lines = ["| Gate | Name | Criteria | Dependencies | Status |"]
     for index in (*range(0, 7), *range(8, 13)):
         lines.append(f"| 025-G{index:02d} | gate | criteria | none | {status} |")
@@ -64,9 +65,17 @@ def test_gate_check_accepts_closed_mandatory_gates_and_optional_friction_scope(t
     assert "MISSING_GATES=" in output
 
 
+def test_gate_check_keeps_evidence_labels_separate_from_gate_status(tmp_path, capsys) -> None:
+    path = tmp_path / "gates.md"
+    path.write_text(_gate_document("PASS_INTERNAL"), encoding="utf-8")
+
+    assert _run_gate_check(path) == 4
+    assert "025-G00:PASS_INTERNAL" in capsys.readouterr().out
+
+
 def test_gate_check_rejects_blocked_gate(tmp_path, capsys) -> None:
     path = tmp_path / "gates.md"
-    path.write_text(_gate_document().replace("025-G03 | gate | criteria | none | PASS_INTERNAL", "025-G03 | gate | criteria | none | BLOCKED"), encoding="utf-8")
+    path.write_text(_gate_document().replace("025-G03 | gate | criteria | none | PASS", "025-G03 | gate | criteria | none | BLOCKED"), encoding="utf-8")
 
     assert _run_gate_check(path) == 4
     assert "025-G03:BLOCKED" in capsys.readouterr().out
@@ -74,7 +83,7 @@ def test_gate_check_rejects_blocked_gate(tmp_path, capsys) -> None:
 
 def test_gate_check_rejects_missing_gate(tmp_path, capsys) -> None:
     path = tmp_path / "gates.md"
-    path.write_text(_gate_document().replace("| 025-G05 | gate | criteria | none | PASS_INTERNAL |\n", ""), encoding="utf-8")
+    path.write_text(_gate_document().replace("| 025-G05 | gate | criteria | none | PASS |\n", ""), encoding="utf-8")
 
     assert _run_gate_check(path) == 4
     assert "MISSING_GATES=025-G05" in capsys.readouterr().out
@@ -143,6 +152,36 @@ def test_candidate_provenance_requires_matching_generated_manifest(monkeypatch, 
     result = check_candidate_provenance(tmp_path, require_evidence=True)
 
     assert result["status"] == "PASS"
+    assert result["evidence_sha_match"] is True
+
+
+def test_generated_evidence_changes_do_not_dirty_source_tree() -> None:
+    assert _source_changes(" M README.md\n M docs/generated/docs_manifest.json\n") == [" M README.md"]
+    assert _source_changes(" M docs/assets/generated/site.css\n?? .tmp_release_readiness_025/report.json\n") == []
+
+
+def test_candidate_provenance_matches_explicit_source_sha_after_evidence_generation(monkeypatch, tmp_path) -> None:
+    manifest = tmp_path / "docs" / "generated" / "docs_manifest.json"
+    manifest.parent.mkdir(parents=True)
+    manifest.write_text(
+        '{"source_sha": "abc123", "source": {"revision": "abc123", "dirty": false}}\n',
+        encoding="utf-8",
+    )
+    responses = iter(
+        [
+            SimpleNamespace(returncode=0, stdout="abc123\n"),
+            SimpleNamespace(returncode=0, stdout=" M docs/generated/docs_manifest.json\n"),
+        ]
+    )
+    monkeypatch.setattr(
+        "scripts.release_readiness_pipeline_025.subprocess.run",
+        lambda *args, **kwargs: next(responses),
+    )
+
+    result = check_candidate_provenance(tmp_path, require_evidence=True)
+
+    assert result["status"] == "PASS"
+    assert result["tree_clean"] is True
     assert result["evidence_sha_match"] is True
 
 

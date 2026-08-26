@@ -58,10 +58,13 @@ G07 is optional unless the Owner promotes friction into release scope.
 The `sha_consistency` step in `scripts/release_readiness_pipeline_025.py` is
 fail-closed: it emits `FINAL_SHA`, `TREE_CLEAN` and `EVIDENCE_SHA_MATCH`, and
 returns a failure when the candidate has no resolvable Git revision, contains
-tracked/untracked changes, or its generated `docs/generated/docs_manifest.json`
-does not identify that same clean revision. This check is intentionally
-evaluated only during candidate readiness; it does not alter the development
-workflow or publish anything.
+source changes, or its generated `docs/generated/docs_manifest.json` does not
+identify that same revision through `source_sha`. Generated documentation and
+the readiness artifact directory are outputs produced after checkout; they are
+excluded from the source-tree cleanliness decision. This prevents a manifest
+from having to contain the SHA of the commit that contains the manifest itself.
+The check is evaluated only during candidate readiness; it does not alter the
+development workflow or publish anything.
 
 The `gate_check` step is also fail-closed. It parses every mandatory row rather
 than looking only for the literal `OPEN` marker: missing, malformed, `BLOCKED`

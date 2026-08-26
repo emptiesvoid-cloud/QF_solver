@@ -388,11 +388,16 @@ class DocumentationPublisher:
             if str(entry["path"]).startswith("generated/") or str(entry["path"]).startswith("assets/generated/")
         ]
         manifest = {
-            "manifest_version": 1,
+            "manifest_version": 2,
             "generated_at_utc": utc_timestamp(),
             "profile": self.profile,
             "solver_name": DISPLAY_NAME,
             "solver_version": solver_version(),
+            # The manifest is generated after checkout and may be written to a
+            # tracked documentation path.  This field identifies the source
+            # revision it was generated from without making the manifest part
+            # of that revision's own identity.
+            "source_sha": str(self.source_state["revision"]),
             "source": self.source_state,
             "runtime": runtime_fingerprint(),
             "test_count": test_count,

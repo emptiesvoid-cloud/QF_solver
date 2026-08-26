@@ -10,10 +10,12 @@ approver: ""
 # QF Solver 0.2.5a0 gate matrix
 
 All mandatory gates are `OPEN` at planning completion. Optional friction gate
-G07 is `NOT_IN_RELEASE_SCOPE` until an explicit Owner promotion. Status values
-are `OPEN`, `BLOCKED`, `PASS_INTERNAL`,
-`PASS_EXTERNAL_CORRELATION_BOUNDED`, `NOT_IN_RELEASE_SCOPE` and
-`OWNER_ACCEPTED`. Only evidence generated on the recorded SHA can close a gate.
+G07 is `NOT_IN_RELEASE_SCOPE` until an explicit Owner promotion. Gate status
+values are restricted to `PASS`, `OPEN`, `BLOCKED` and
+`NOT_IN_RELEASE_SCOPE`. Evidence labels such as
+`PASS_INTERNAL` or `PASS_EXTERNAL_CORRELATION_BOUNDED` describe the supporting
+proof, but do not replace the gate status. Only evidence generated on the
+recorded SHA can close a gate.
 
 The current working tree contains provisional observations for parts of G01,
 G02, G03, G06, G08 and G09. Those observations are recorded in the V&V

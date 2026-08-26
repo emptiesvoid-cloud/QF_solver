@@ -14,15 +14,21 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from scripts.git_tools import git_command
+
 
 ROOT = Path(__file__).resolve().parents[1]
 TARGET_VERSION = "0.2.5a0"
 OUTPUT_DIR = ".tmp_release_readiness_025"
+GENERATED_EVIDENCE_PREFIXES = (
+    "docs/generated/",
+    "docs/assets/generated/",
+    f"{OUTPUT_DIR}/",
+    ".tmp_smoke_install_025/",
+)
 MANDATORY_GATE_IDS = tuple(f"025-G{index:02d}" for index in (*range(0, 7), *range(8, 13)))
 CLOSED_GATE_STATUSES = {
-    "PASS_INTERNAL",
-    "PASS_EXTERNAL_CORRELATION_BOUNDED",
-    "OWNER_ACCEPTED",
+    "PASS",
 }
 TARGETED_TESTS = (
     "tests/unit/test_analysis_features.py",
@@ -142,11 +148,19 @@ def check_candidate_provenance(
 def _check_candidate_provenance(
     root: str | Path = ROOT, *, require_evidence: bool = False
 ) -> dict[str, object]:
-    """Inspect Git provenance and, for release runs, the generated doc manifest."""
+    """Inspect source provenance and optionally match a generated evidence manifest.
+
+    Generated documentation is evidence produced *from* the candidate source;
+    it is not part of the source revision it identifies.  Consequently, changes
+    below the generated-evidence prefixes do not make the source tree dirty and
+    the manifest is matched through its explicit ``source_sha`` field.  This
+    avoids the impossible requirement that a tracked manifest contain the SHA
+    of the commit that contains that same manifest.
+    """
     base = Path(root).resolve()
     try:
         revision_result = subprocess.run(
-            ["git", "rev-parse", "HEAD"],
+            [git_command(), "rev-parse", "HEAD"],
             cwd=base,
             text=True,
             capture_output=True,
@@ -154,7 +168,7 @@ def _check_candidate_provenance(
             timeout=10,
         )
         status_result = subprocess.run(
-            ["git", "status", "--porcelain", "--untracked-files=all"],
+            [git_command(), "status", "--porcelain", "--untracked-files=all"],
             cwd=base,
             text=True,
             capture_output=True,
@@ -170,16 +184,19 @@ def _check_candidate_provenance(
             "detail": f"Git provenance unavailable: {error}",
         }
     revision = revision_result.stdout.strip()
-    tree_clean = status_result.returncode == 0 and not status_result.stdout.strip()
+    tree_clean = status_result.returncode == 0 and not _source_changes(status_result.stdout)
     evidence_sha_match: bool | None = None
     if require_evidence:
         manifest_path = base / "docs" / "generated" / "docs_manifest.json"
         try:
             manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
             source = manifest.get("source", {})
+            source_sha = manifest.get("source_sha")
+            if not isinstance(source_sha, str) or not source_sha:
+                source_sha = source.get("revision") if isinstance(source, dict) else None
             evidence_sha_match = (
-                isinstance(source, dict)
-                and source.get("revision") == revision
+                source_sha == revision
+                and isinstance(source, dict)
                 and source.get("dirty") is False
             )
         except (FileNotFoundError, OSError, json.JSONDecodeError):
@@ -203,6 +220,24 @@ def _check_candidate_provenance(
             else "candidate requires a resolvable commit and a clean tree"
         ),
     }
+
+
+def _source_changes(status_output: str) -> list[str]:
+    """Return status rows that change source, not generated evidence outputs."""
+    changes: list[str] = []
+    for row in status_output.splitlines():
+        if not row.strip():
+            continue
+        path = row[3:].strip() if len(row) >= 3 else row.strip()
+        paths = path.split(" -> ")
+        normalized = [item.replace("\\", "/") for item in paths]
+        if all(
+            any(item == prefix.rstrip("/") or item.startswith(prefix) for prefix in GENERATED_EVIDENCE_PREFIXES)
+            for item in normalized
+        ):
+            continue
+        changes.append(row)
+    return changes
 
 
 def _run_sha_consistency() -> int:

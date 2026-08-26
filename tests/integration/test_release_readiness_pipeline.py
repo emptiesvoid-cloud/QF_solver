@@ -1,6 +1,7 @@
 import subprocess
 from pathlib import Path
 
+from scripts.git_tools import git_command
 from scripts.release_readiness import release_readiness
 
 
@@ -9,7 +10,7 @@ def test_release_readiness_remains_dry_run_and_reports_worktree_state() -> None:
     report = release_readiness(root)
 
     git_status = subprocess.run(
-        ["git", "status", "--porcelain"],
+        [git_command(), "status", "--porcelain"],
         cwd=root,
         check=False,
         capture_output=True,
