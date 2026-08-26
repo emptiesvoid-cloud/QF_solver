@@ -674,9 +674,9 @@ et doivent être régénérées sur le SHA candidat avant toute clôture.
 ## Etat courant apres release hardening — 2026-08-26
 
 Les observations historiques ci-dessus sont supersedees par la qualification
-de release hardening suivante. Le candidat source est le commit
-`3e62a059d643f473744d91be434cd385095db7f2`; le calcul de propreté source est
-`PASS` et aucune modification source ne subsiste. Les sorties générées après
+de release hardening suivante. Le candidat source est la révision indiquée par
+`source_sha` dans le manifeste généré; le calcul de propreté source est `PASS`
+et aucune modification source ne subsiste. Les sorties générées après
 checkout sont des preuves dérivées et sont exclues de ce calcul conformément
 au contrat `source_sha`.
 
@@ -689,8 +689,8 @@ au contrat `source_sha`.
   derniers changements de code sont dans `solveur.verification`, explicitement
   omis du périmètre coverage, et ne modifient donc pas ce résultat mesuré.
 - La documentation engineering a été générée depuis ce SHA exact : **706
-  artefacts**, campagne `PASS`; `docs/generated/docs_manifest.json` porte
-  `source_sha=3e62a059d643f473744d91be434cd385095db7f2`.
+  artefacts**, campagne `PASS`; `docs/generated/docs_manifest.json` porte un
+  `source_sha` égal au HEAD au moment de la génération.
 - Le build isolé a produit `qf_solver-0.2.5a0-py3-none-any.whl` et
   `qf_solver-0.2.5a0.tar.gz`; `twine check`, l'installation fraîche de la
   wheel, les imports publics et l'aide CLI sont passants.
