@@ -42,7 +42,7 @@ def run_failure_campaign() -> dict[str, object]:
         ),
         _run_case(
             "inf_detected",
-            NonlinearFailureReason.NAN_DETECTED,
+            NonlinearFailureReason.INF_DETECTED,
             _Assembly(lambda displacement: np.array([np.inf, 0.0]), np.eye(2)),
         ),
         _run_case(

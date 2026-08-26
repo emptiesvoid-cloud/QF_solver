@@ -132,7 +132,34 @@ def solve_full_newton(
                         step, iteration, residual_history, float("inf"), tolerance, line_search_iterations
                     ),
                 )
+            if not np.all(np.isfinite(internal)):
+                reason = _nonfinite_failure_reason(internal)
+                raise NumericalConvergenceError(
+                    f"Full Newton assembly returned non-finite internal force at increment {step}.",
+                    reason=reason,
+                    diagnostics=_failure_diagnostics(
+                        step, iteration, residual_history, float("inf"), tolerance, line_search_iterations
+                    ),
+                )
+            if not np.all(np.isfinite(tangent.data)):
+                reason = _nonfinite_failure_reason(tangent.data)
+                raise NumericalConvergenceError(
+                    f"Full Newton assembly returned a non-finite tangent at increment {step}.",
+                    reason=reason,
+                    diagnostics=_failure_diagnostics(
+                        step, iteration, residual_history, float("inf"), tolerance, line_search_iterations
+                    ),
+                )
             residual = target - internal
+            if not np.all(np.isfinite(residual)):
+                reason = _nonfinite_failure_reason(residual)
+                raise NumericalConvergenceError(
+                    f"Full Newton residual is non-finite at increment {step}.",
+                    reason=reason,
+                    diagnostics=_failure_diagnostics(
+                        step, iteration, residual_history, float("inf"), tolerance, line_search_iterations
+                    ),
+                )
             residual_norm = float(np.linalg.norm(residual[free]))
             relative = residual_norm / scale
             residual_history.append(residual_norm)
@@ -282,9 +309,21 @@ def _assembly_failure_reason(message: str) -> NonlinearFailureReason:
         return NonlinearFailureReason.MATERIAL_UPDATE_FAILURE
     if "contact" in lowered:
         return NonlinearFailureReason.CONTACT_UPDATE_FAILURE
-    if "nan" in lowered or "inf" in lowered or "finite" in lowered:
+    if "inf" in lowered:
+        return NonlinearFailureReason.INF_DETECTED
+    if "nan" in lowered or "finite" in lowered:
         return NonlinearFailureReason.NAN_DETECTED
     return NonlinearFailureReason.INVALID_ELEMENT
+
+
+def _nonfinite_failure_reason(values: np.ndarray) -> NonlinearFailureReason:
+    """Distinguish an infinite value from a NaN in a numerical payload."""
+
+    return (
+        NonlinearFailureReason.INF_DETECTED
+        if np.any(np.isinf(np.asarray(values)))
+        else NonlinearFailureReason.NAN_DETECTED
+    )
 
 
 def _line_search_assembly(

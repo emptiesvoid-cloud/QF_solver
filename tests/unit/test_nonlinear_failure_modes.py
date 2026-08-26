@@ -139,6 +139,37 @@ def test_full_newton_classifies_linear_backend_failure(monkeypatch: pytest.Monke
     assert error.value.diagnostics["backend_error"] == "controlled sparse factorization failure"
 
 
+@pytest.mark.parametrize(
+    ("value", "reason"),
+    [
+        (np.nan, NonlinearFailureReason.NAN_DETECTED),
+        (np.inf, NonlinearFailureReason.INF_DETECTED),
+        (-np.inf, NonlinearFailureReason.INF_DETECTED),
+    ],
+)
+def test_full_newton_distinguishes_nan_and_inf_residuals(
+    value: float, reason: NonlinearFailureReason
+) -> None:
+    class NonFiniteAssembly:
+        ndof = 2
+
+        def assemble(self, displacement: np.ndarray, *, tangent_required: bool = True):
+            return np.array([value, 0.0]), eye(2, format="csr")
+
+    with pytest.raises(NumericalConvergenceError) as error:
+        solve_full_newton(
+            NonFiniteAssembly(),
+            np.array([1.0, 0.0]),
+            np.array([1]),
+            increments=1,
+            tolerance=1.0e-8,
+            max_iterations=2,
+        )
+
+    assert error.value.reason is reason
+    assert error.value.to_dict()["converged"] is False
+
+
 def test_arc_length_does_not_hide_nonfinite_failure(monkeypatch: pytest.MonkeyPatch) -> None:
     model = elastoplastic_tet4_model()
     model.analysis = replace(
