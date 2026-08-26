@@ -251,7 +251,8 @@ def _git_provenance() -> dict[str, str | bool | None]:
             ).stdout.strip()
         )
     except (OSError, subprocess.CalledProcessError):
-        return {"sha": "unknown", "worktree_dirty": None}
+        fallback_sha = _read_git_head(root)
+        return {"sha": fallback_sha or "unknown", "worktree_dirty": None}
     return {"sha": sha or "unknown", "worktree_dirty": dirty}
 
 
@@ -263,6 +264,39 @@ def _repository_root() -> Path | None:
         if (candidate / ".git").exists():
             return candidate
     return None
+
+
+def _read_git_head(root: Path) -> str | None:
+    """Read a commit id directly when the Git subprocess is unavailable."""
+
+    git_entry = root / ".git"
+    if git_entry.is_dir():
+        git_dir = git_entry
+    elif git_entry.is_file():
+        marker = git_entry.read_text(encoding="utf-8").strip()
+        if not marker.startswith("gitdir:"):
+            return None
+        git_dir = (root / marker.partition(":")[2].strip()).resolve()
+    else:
+        return None
+    head = git_dir / "HEAD"
+    if not head.is_file():
+        return None
+    value = head.read_text(encoding="ascii").strip()
+    if value.startswith("ref: "):
+        reference = git_dir / value[5:]
+        if reference.is_file():
+            value = reference.read_text(encoding="ascii").strip()
+        else:
+            packed_refs = git_dir / "packed-refs"
+            if not packed_refs.is_file():
+                return None
+            ref_name = value[5:]
+            value = next(
+                (line.split(" ", maxsplit=1)[0] for line in packed_refs.read_text(encoding="ascii").splitlines() if line.endswith(f" {ref_name}")),
+                "",
+            )
+    return value if len(value) == 40 and all(character in "0123456789abcdef" for character in value.lower()) else None
 
 
 def _solve_qf(model: FiniteElementModel) -> Any:

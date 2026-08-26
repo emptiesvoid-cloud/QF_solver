@@ -61,6 +61,19 @@ def test_planned_campaign_writes_traceable_rows(tmp_path) -> None:
     assert persisted["rows"][0]["lanczos_vectors"] == 11
 
 
+def test_provenance_reads_git_head_when_git_subprocess_is_unavailable(monkeypatch) -> None:
+    from solveur.verification import calculix_buckling_025 as module
+
+    def unavailable(*args, **kwargs):
+        raise FileNotFoundError("git unavailable")
+
+    monkeypatch.setattr(module.subprocess, "run", unavailable)
+    provenance = module._git_provenance()
+
+    assert len(provenance["sha"]) == 40
+    assert provenance["worktree_dirty"] is None
+
+
 def test_buckling_deck_rejects_invalid_mode_count(tmp_path) -> None:
     model = _buckling_mesh_model("HEX8", 1)
     with pytest.raises(ValueError, match="modes"):
