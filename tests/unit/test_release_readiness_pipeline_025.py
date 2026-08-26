@@ -12,6 +12,7 @@ from scripts.release_readiness_pipeline_025 import (
     run_pipeline,
     steps,
 )
+from solveur.io.manifest import _source_status
 
 
 def test_targeted_pipeline_is_dry_run_and_never_publishes() -> None:
@@ -158,6 +159,12 @@ def test_candidate_provenance_requires_matching_generated_manifest(monkeypatch, 
 def test_generated_evidence_changes_do_not_dirty_source_tree() -> None:
     assert _source_changes(" M README.md\n M docs/generated/docs_manifest.json\n") == [" M README.md"]
     assert _source_changes(" M docs/assets/generated/site.css\n?? .tmp_release_readiness_025/report.json\n") == []
+
+
+def test_manifest_source_state_ignores_only_declared_generated_prefixes() -> None:
+    status = " M docs/generated/docs_manifest.json\n M README.md\n"
+
+    assert _source_status(status, ("docs/generated/", "docs/assets/generated/")) == [" M README.md"]
 
 
 def test_candidate_provenance_matches_explicit_source_sha_after_evidence_generation(monkeypatch, tmp_path) -> None:

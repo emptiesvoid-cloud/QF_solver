@@ -71,7 +71,10 @@ class DocumentationAssetBuilder:
     def build(self) -> dict[str, Any]:
         # Capture provenance before resetting generated outputs, which makes the
         # working tree dirty during a normal documentation build.
-        source_state = git_source_state(self.root)
+        source_state = git_source_state(
+            self.root,
+            ignored_prefixes=("docs/generated/", "docs/assets/generated/"),
+        )
         self._reset_outputs()
         self._build_formulation_figures()
         self._build_static_examples()

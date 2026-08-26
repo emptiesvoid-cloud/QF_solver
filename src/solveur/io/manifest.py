@@ -104,18 +104,42 @@ def is_relative_to(path: Path, root: Path) -> bool:
         return False
 
 
-def git_source_state(project_root: str | Path) -> dict[str, Any]:
-    """Return revision and dirty state without requiring a committed baseline."""
+def git_source_state(
+    project_root: str | Path,
+    *,
+    ignored_prefixes: tuple[str, ...] = (),
+) -> dict[str, Any]:
+    """Return revision and source dirty state without requiring a baseline.
+
+    Generated outputs can be produced after checkout and must not make the
+    source revision appear dirty. Callers may provide repository-relative
+    prefixes for those outputs; all other Git status rows remain significant.
+    """
     root = Path(project_root)
     revision = _git_output(root, "rev-parse", "HEAD")
     status = _git_output(root, "status", "--porcelain", allow_empty=True)
+    source_status = _source_status(status, ignored_prefixes)
     return {
         # Evidence may be published. The revision identifies the source; an
         # absolute workstation path adds no reproducible information.
         "repository": ".",
         "revision": revision or "uncommitted",
-        "dirty": bool(status) or not revision,
+        "dirty": bool(source_status) or not revision,
     }
+
+
+def _source_status(status: str, ignored_prefixes: tuple[str, ...]) -> list[str]:
+    """Keep Git status rows that do not belong to generated output paths."""
+    prefixes = tuple(prefix.replace("\\", "/").rstrip("/") for prefix in ignored_prefixes)
+    kept: list[str] = []
+    for row in status.splitlines():
+        path_text = row[3:].strip() if len(row) >= 3 else row.strip()
+        paths = path_text.split(" -> ")
+        normalized = [path.replace("\\", "/") for path in paths]
+        if all(any(path == prefix or path.startswith(prefix + "/") for prefix in prefixes) for path in normalized):
+            continue
+        kept.append(row)
+    return kept
 
 
 def runtime_fingerprint() -> dict[str, Any]:

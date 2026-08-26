@@ -161,7 +161,7 @@ def test_documentation_builder_captures_source_before_reset(monkeypatch: pytest.
     builder = DocumentationAssetBuilder(tmp_path)
     captured: dict[str, object] = {}
 
-    def source_state(_root: Path) -> dict[str, object]:
+    def source_state(_root: Path, **_kwargs: object) -> dict[str, object]:
         captured["source_called"] = True
         return {"revision": "abc123", "dirty": False}
 
@@ -275,7 +275,7 @@ def test_document_lifecycle_statuses_are_preserved() -> None:
 def test_qualification_build_requires_controlled_source(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr(
         "scripts.build_docs.git_source_state",
-        lambda _root: {"revision": "uncommitted", "dirty": True},
+        lambda _root, **_kwargs: {"revision": "uncommitted", "dirty": True},
     )
     with pytest.raises(DocumentationQualificationGateError, match="no committed source revision"):
         DocumentationEvidenceBuilder(ROOT)._enforce_qualification_gate()
@@ -300,7 +300,7 @@ def test_qualification_gate_accepts_controlled_and_superseded_documents(
     )
     monkeypatch.setattr(
         "scripts.build_docs.git_source_state",
-        lambda _root: {"revision": "abc123", "dirty": False},
+        lambda _root, **_kwargs: {"revision": "abc123", "dirty": False},
     )
     DocumentationEvidenceBuilder(tmp_path)._enforce_qualification_gate()
 
