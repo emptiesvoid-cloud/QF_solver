@@ -3,8 +3,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from pathlib import Path
-from tempfile import TemporaryDirectory
 from typing import Callable
 from unittest.mock import patch
 
@@ -14,14 +12,12 @@ from scipy.sparse import csr_matrix
 from solveur.api import solve_model
 from solveur.contact.entities import FrictionlessContact
 from solveur.core.buckling import LinearBucklingSolver
-from solveur.core.errors import InputValidationError, NumericalConvergenceError
+from solveur.core.errors import NumericalConvergenceError
 from solveur.core.material_state import StateTransaction
 from solveur.core.model import FiniteElementModel
 from solveur.core.nonlinear import NonlinearStaticSolver
-from solveur.core.nonlinear_checkpoint import NonlinearCheckpoint, NonlinearCheckpointSession, NonlinearCheckpointSettings
 from solveur.core.nonlinear_contracts import NonlinearFailureReason
 from solveur.core.nonlinear_iteration import solve_full_newton
-from solveur.io.nonlinear_checkpoint import NpzNonlinearCheckpointStore
 
 
 @dataclass(frozen=True)
@@ -186,75 +182,6 @@ def _run_state_corruption_case() -> dict[str, object]:
         "failure_reason": None,
         "diagnostics": {},
     }
-
-
-def _checkpoint_failure_record(name: str, error: InputValidationError) -> dict[str, object]:
-    """Represent a rejected checkpoint as a structured, non-converged failure."""
-
-    return {
-        "name": name,
-        "passed": True,
-        "converged": False,
-        "failure_reason": NonlinearFailureReason.CHECKPOINT_FAILURE.value,
-        "diagnostics": {
-            "solver": "nonlinear_checkpoint",
-            "error_type": type(error).__name__,
-            "message": str(error),
-        },
-    }
-
-
-def _run_checkpoint_failure_cases() -> list[dict[str, object]]:
-    """Exercise corruption and model-mismatch rejection without changing the loader API."""
-
-    store = NpzNonlinearCheckpointStore()
-    with TemporaryDirectory(prefix="qf_solver_failure_checkpoint_") as directory:
-        root = Path(directory)
-        corrupted = root / "corrupted.npz"
-        corrupted.write_bytes(b"not an npz")
-        try:
-            store.load(corrupted)
-        except InputValidationError as error:
-            corruption = _checkpoint_failure_record("checkpoint_corruption", error)
-        else:  # pragma: no cover - defensive contract failure
-            corruption = {
-                "name": "checkpoint_corruption",
-                "passed": False,
-                "converged": True,
-                "failure_reason": None,
-                "diagnostics": {"solver": "nonlinear_checkpoint"},
-            }
-
-        valid_path = root / "valid.npz"
-        store.save(
-            valid_path,
-            NonlinearCheckpoint(
-                model_signature="actual-model-signature",
-                completed_step=1,
-                load_factor=1.0,
-                displacement=np.zeros(1),
-                material_states={0: []},
-            ),
-        )
-        session = NonlinearCheckpointSession(
-            settings=NonlinearCheckpointSettings(None, 1, False, str(valid_path)),
-            store=store,
-            signature="different-model-signature",
-            total_steps=1,
-        )
-        try:
-            session.restore(np.zeros(1), {0: []}, [1.0])
-        except InputValidationError as error:
-            mismatch = _checkpoint_failure_record("checkpoint_model_mismatch", error)
-        else:  # pragma: no cover - defensive contract failure
-            mismatch = {
-                "name": "checkpoint_model_mismatch",
-                "passed": False,
-                "converged": True,
-                "failure_reason": None,
-                "diagnostics": {"solver": "nonlinear_checkpoint"},
-            }
-    return [corruption, mismatch]
 
 
 def _run_contact_retry_rollback_case() -> dict[str, object]:
