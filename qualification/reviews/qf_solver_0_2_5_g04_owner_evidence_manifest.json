@@ -1,41 +1,44 @@
 {
   "command": "python scripts/build_g04_owner_evidence_manifest.py",
   "contract_lowered": false,
-  "external_decision": "FAIL_EXTERNAL_BRANCH_REQUIREMENT",
+  "external_decision": "RESOLVED_CONFIGURATION_MATCH",
   "gate": "025-G04",
   "gate_status": "OPEN",
-  "generated_at_utc": "2026-08-27T18:49:42Z",
+  "generated_at_utc": "2026-08-27T19:18:59Z",
   "internal_claim": "PASS_INTERNAL_RESEARCH only for the minimal common-driver two-element TET4 path",
   "mesh_decision": "OPEN_MISSING_REQUIRED_LEVELS",
   "owner_decision": "REQUIRED",
   "owner_documents": [
     {
       "path": "docs/verification/0_2_5/0_2_5_g04_owner_review.md",
-      "sha256": "96738c9f67f6f81531f9656fb349b2bc02215fbf5bf5bdc86b2a6f778c07dc1f"
+      "sha256": "7c86cde4a0e35da1558ef4fee761a81fed4bdc82f662dd74d7b127e5b677b6ea"
     },
     {
       "path": "docs/verification/0_2_5/0_2_5_gate_matrix.md",
-      "sha256": "4de625dfa5dc87c83f46b144c90293fe7548b8cb40e6a20794f5acb9ae09bbf3"
+      "sha256": "ae0bc568eb8a146e2cf920de3ad64dc3a4ae07ee1806a8af5a0da1179bb118d6"
     },
     {
       "path": "docs/verification/0_2_5/0_2_5_vnv_matrix.md",
-      "sha256": "0e2a5b2b8f077660c4b50c89531e19a4d2a4a1569f5cb9624778cf8cc869ab4a"
+      "sha256": "956132913ef54bec400d4f696e5a19df28bba69b01d569f5c232c8f6a0f3db49"
+    },
+    {
+      "path": "docs/verification/0_2_5/0_2_5_g04_external_branch_diagnostic.md",
+      "sha256": "5ecbce4dfede5b5716d204b9e87cb4c0f9529ebfb4222555f0aad4f4871a8747"
     }
   ],
-  "owner_evidence_sha": "067859c1db8416758f82bc339cc5b2db4bcbaf63",
+  "owner_evidence_sha": "413a2e5922d98683fdaf15f00c952604e45c3c37",
   "owner_evidence_tree_clean": true,
   "qualified_evidence": {
     "artifact_count": 14,
     "path": "results/vnv_0_2_5/g04_latest/evidence_manifest.json",
-    "sha256": "94a430806fce73cb53dc1a4e76a83b31ed484efe776ccbe2637584d9cbbca2d3",
+    "sha256": "6cf55e31ce9535c1f0c6c4ad162e1318308fa5ea0a0503bcdd46b27bb7c37e88",
     "status": "OPEN"
   },
   "qualified_source_dirty": false,
-  "qualified_source_sha": "067859c1db8416758f82bc339cc5b2db4bcbaf63",
+  "qualified_source_sha": "413a2e5922d98683fdaf15f00c952604e45c3c37",
   "record_type": "owner_evidence_manifest",
   "remaining_blockers": [
     "No coarse/medium/fine/refined arc-length branch mesh study.",
-    "Code_Aster complete-path correlation does not reproduce the QF turning point.",
     "No published or externally reproducible FEM branch reference is linked."
   ],
   "schema_version": 1
