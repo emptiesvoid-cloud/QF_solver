@@ -23,7 +23,7 @@ as accepted equilibrium.
 | FM-03 | backend solve error | `LINEAR_SOLVER_FAILURE` | current trial rejected | G09 |
 | FM-04 | singular/ill-conditioned tangent | `SINGULAR_TANGENT` | current trial rejected | G09 |
 | FM-05 | NaN in residual/tangent/state | `NAN_DETECTED` | no NaN committed | G09 |
-| FM-06 | Inf in residual/tangent/state | explicit nonfinite classification | no Inf committed | G09 |
+| FM-06 | Inf in residual/tangent/state/correction | `INF_DETECTED` | no Inf committed | G09 |
 | FM-07 | constitutive return-map failure | `MATERIAL_UPDATE_FAILURE` | all integration-point trials rolled back | G09 |
 | FM-08 | inverted/degenerate element | `INVALID_ELEMENT` | no assembly accepted | G02/G09 |
 | FM-09 | transaction mismatch/corruption | `STATE_CORRUPTION` | fail closed | G09 |
@@ -48,13 +48,14 @@ as accepted equilibrium.
 
 ## Current internal evidence
 
-The adversarial campaign currently exercises the full Newton failure set, an
-injected contact assembly failure with cutback/rollback, sparse backend
-failure, an arc-length step-cap failure classified as `ARC_LENGTH_FAILURE`,
-and an unbracketed sparse buckling path classified as `BUCKLING_FAILURE`.
-These are `OBSERVED_INTERNAL` contracts only; they do not close G09 without a
-complete final-SHA failure matrix and the remaining contact/path-dependent
-cases.
+The controlled campaign at `results/vnv_0_2_5/g09_latest/` exercises the full
+Newton failure set, NaN/Inf correction payloads, an injected contact assembly
+failure with cutback/rollback, sparse backend failure, an arc-length step-cap
+failure classified as `ARC_LENGTH_FAILURE`, and an unbracketed sparse
+buckling path classified as `BUCKLING_FAILURE`. The final-SHA manifest records
+22/22 passing cases with `converged=false` for every intentional failure and
+`dirty=false`. This closes `025-G09` only; it does not close the functional
+contact, continuation or buckling gates.
 
 It also injects a failure at adaptive step 2 after step 1 has converged. The
 campaign records the committed prefix `[0.5]`, the cutback `0.5 -> 0.25`, the
