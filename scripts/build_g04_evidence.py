@@ -16,12 +16,16 @@ import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
+from tempfile import TemporaryDirectory
 from typing import Any
 
 import numpy as np
 
+from solveur.core.nonlinear import NonlinearStaticSolver
+from solveur.io.nonlinear_checkpoint import NpzNonlinearCheckpointStore
 from solveur.verification.robustness_arc_length import run_shallow_arch_arc_length_benchmark
 from solveur.verification.robustness_arc_length_extended import (
+    _common_fem_snap_through_model,
     run_common_fem_snap_through_benchmark,
     run_common_fem_snap_through_failure_rollback_benchmark,
     run_common_fem_snap_through_restart_benchmark,
@@ -146,6 +150,91 @@ def _branch_comparison(internal: dict[str, Any], external: dict[str, Any]) -> di
     }
 
 
+def _turning_diagnostics() -> dict[str, Any]:
+    """Record reduced-tangent behavior around the QF load extremum.
+
+    Checkpoint replay is used solely to inspect the committed equilibrium
+    states. It does not alter the nonlinear implementation or its trajectory.
+    """
+
+    with TemporaryDirectory(prefix="qf-g04-turn-") as temporary:
+        root = Path(temporary)
+        checkpoint_path = root / "g04.npz"
+        model = _common_fem_snap_through_model(
+            checkpoint_path=str(checkpoint_path),
+            checkpoint_keep_steps=True,
+        )
+        store = NpzNonlinearCheckpointStore()
+        solver = NonlinearStaticSolver(checkpoint_store=store)
+        result = solver.solve(model)
+        steps = list(result.to_dict()["solver"]["steps"])
+        peak_index = int(np.argmin([float(step["load_factor"]) for step in steps]))
+        selected_indices = sorted(
+            {
+                max(0, peak_index - 1),
+                peak_index,
+                min(len(steps) - 1, peak_index + 1),
+            }
+        )
+        dofs = model.dof_manager()
+        fixed = solver.assembler.fixed_indices(model, dofs)
+        free = np.setdiff1d(np.arange(dofs.ndof), fixed, assume_unique=True)
+        reference_load = np.zeros(dofs.ndof, dtype=float)
+        for load in model.loads:
+            reference_load[dofs.index(load.node, load.dof)] += load.value
+
+        records: list[dict[str, Any]] = []
+        for index in selected_indices:
+            step = steps[index]
+            checkpoint = store.load(checkpoint_path.with_name(f"g04.step{index + 1:08d}.npz"))
+            # The post-solve plan is tied to the solver's private DDL map.
+            # Rebuild an inspection-only plan for this explicit DDL map.
+            solver._assembly_plan = None
+            internal, tangent, _ = solver._assemble_internal_tangent(
+                model,
+                dofs,
+                checkpoint.displacement,
+                checkpoint.material_states,
+            )
+            reduced = tangent[free, :][:, free].toarray()
+            symmetric = 0.5 * (reduced + reduced.T)
+            eigenvalues = np.linalg.eigvalsh(symmetric)
+            residual = (internal - checkpoint.load_factor * reference_load)[free]
+            element_results = solver.post.element_results(
+                model,
+                dofs,
+                checkpoint.displacement,
+                checkpoint.material_states,
+            )
+            det_f = [
+                float(element["integration_points"][0]["det_f"])
+                for element in element_results
+            ]
+            records.append(
+                {
+                    "step": index + 1,
+                    "load_factor": float(checkpoint.load_factor),
+                    "control_displacement": float(step["arc_length_control_displacement"]),
+                    "relative_residual": float(step["relative_residual"]),
+                    "reassembled_free_residual_norm": float(np.linalg.norm(residual)),
+                    "reduced_tangent_minimum_eigenvalue": float(eigenvalues[0]),
+                    "reduced_tangent_maximum_eigenvalue": float(eigenvalues[-1]),
+                    "reduced_tangent_condition_number": float(np.linalg.cond(reduced)),
+                    "reduced_tangent_relative_asymmetry": float(
+                        np.linalg.norm(reduced - reduced.T) / np.linalg.norm(reduced)
+                    ),
+                    "minimum_det_f": min(det_f),
+                    "arc_length_constraint_residual": float(step["arc_length_constraint_residual"]),
+                    "work_diagnostics_available": bool(step["work_diagnostics_available"]),
+                }
+            )
+    return {
+        "free_dof_count": int(free.size),
+        "load_extremum_step": peak_index + 1,
+        "records": records,
+    }
+
+
 def _plot(summary: dict[str, Any]) -> list[str]:
     import matplotlib
 
@@ -199,6 +288,7 @@ def _report(summary: dict[str, Any], plot_names: list[str]) -> None:
     restart_after = summary["restart_after_turn"]
     rollback = summary["rollback"]
     comparison = summary["code_aster_branch_comparison"]
+    turning = summary["qf_turning_diagnostics"]
     lines = [
         "# 025-G04 controlled evidence audit",
         "",
@@ -216,12 +306,30 @@ def _report(summary: dict[str, Any], plot_names: list[str]) -> None:
         f"| Continuation steps | {internal['step_count']} |",
         f"| Load-factor range | `{internal['load_factor_range']}` |",
         f"| Control displacement range | `{internal['control_displacement_range']}` |",
-        f"| Turning points | {internal['branch_turn_count']} at step `{internal['turning_point_step']}` |",
+        f"| Turning point | transition after step `{internal['turning_point_step']}`; load extremum at step `{turning['load_extremum_step']}` |",
         f"| Maximum relative residual | `{internal['maximum_relative_residual']:.6e}` |",
         f"| Minimum det(F) | `{internal['minimum_det_f']:.12g}` |",
         "",
         "The common-driver path crosses a signed load-factor turning point and continues on the post-limit branch.",
         "This remains `PASS_INTERNAL_RESEARCH` because it is a minimal two-element path without the required mesh study or published FEM reference.",
+        "",
+        "## QF turning-point diagnostics",
+        "",
+        "| Step | Load factor | Min. tangent eigenvalue | Reassembled free residual | Min. det(F) |",
+        "|---:|---:|---:|---:|---:|",
+        *[
+            "| {step} | {load_factor:.10g} | {minimum_eigenvalue:.6e} | {residual:.6e} | {det_f:.6g} |".format(
+                step=record["step"],
+                load_factor=record["load_factor"],
+                minimum_eigenvalue=record["reduced_tangent_minimum_eigenvalue"],
+                residual=record["reassembled_free_residual_norm"],
+                det_f=record["minimum_det_f"],
+            )
+            for record in turning["records"]
+        ],
+        "",
+        "The smallest reduced-tangent eigenvalue crosses zero at the recorded load extremum. "
+        "The bounded benchmark has no work-energy diagnostic, so no energy-balance claim is made here.",
         "",
         "## Restart and rollback",
         "",
@@ -284,6 +392,7 @@ def main() -> int:
     restart_before = run_common_fem_snap_through_restart_benchmark(restart_position="before_turn")
     restart_after = run_common_fem_snap_through_restart_benchmark(restart_position="after_turn")
     rollback = run_common_fem_snap_through_failure_rollback_benchmark()
+    turning = _turning_diagnostics()
     reduced = run_shallow_arch_arc_length_benchmark(steps=80, radius=0.05)
     external_output = OUTPUT / "code_aster"
     subprocess.run(
@@ -322,6 +431,7 @@ def main() -> int:
         "restart_before_turn": restart_before,
         "restart_after_turn": restart_after,
         "rollback": rollback,
+        "qf_turning_diagnostics": turning,
         "analytical_reduced": reduced,
         "code_aster": external,
         "code_aster_branch_comparison": comparison,
