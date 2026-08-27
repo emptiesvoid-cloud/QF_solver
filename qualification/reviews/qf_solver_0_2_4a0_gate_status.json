@@ -2,9 +2,9 @@
   "schema_version": 1,
   "campaign_id": "VNV-J2-UNIFIED-NONLINEAR-024",
   "applicable_version": "0.2.4a0",
-  "state": "development_worktree",
-  "base_head_sha": "d401b80",
-  "release_sha": null,
+  "state": "archived_release_record",
+  "base_head_sha": "d401b80635105d9df47c57d9bdd30020a71683a2",
+  "release_sha": "e368c0ce00874c16ff1e8fa9158ea0a8cd2dd745",
   "release_claim": false,
   "owner_decision": {
     "status": "owner_accepted_with_recommendations",
@@ -103,7 +103,7 @@
     "RQ-G10": "ACCEPTED_WITH_RECOMMENDATIONS"
   },
   "limitations": [
-    "No release SHA exists yet; the worktree contains uncommitted changes.",
+    "The historical 0.2.4 release SHA is recorded, but final_verify_all.source_sha remains null because no final full rerun was executed on that release SHA; G00 remains open.",
     "Linear HEX8/HEX20 CalculiX correlations are available, but they do not qualify the common nonlinear J2 path.",
     "The robustness campaign is internal evidence; it does not by itself promote any element.",
     "RQ-G08 is closed only for the bounded one-element affine external J2 correlation; multi-element, cyclic and physical validation claims remain out of scope.",
