@@ -14,12 +14,15 @@ approver: ""
 | Field | Value |
 |---|---|
 | Candidate version | `0.2.5a0` |
+| Final release candidate SHA | PENDING (G11/G12) |
+| Final release tree clean | PENDING (G11/G12) |
+| Final release evidence manifest digest | PENDING (G12) |
 | Qualified source SHA for G02 | `fec5380db3bcdba13799ce31f3ed042ac5d2557b` |
 | G02 source tree clean | `true` |
 | G02 Owner-evidence manifest | `qualification/reviews/qf_solver_0_2_5_g02_owner_evidence_manifest.json` |
 | Wheel digest | PENDING |
 | sdist digest | PENDING |
-| Owner decision | PENDING |
+| Final release Owner decision | PENDING (G12); G02 is `APPROVED` |
 
 ## Mandatory gate status
 
