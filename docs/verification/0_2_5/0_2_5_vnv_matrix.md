@@ -111,6 +111,21 @@ bounded external row is therefore convention-matched, but it does not alone
 close G01/G10 because those gates also require energy, mesh, cyclic, rollback,
 threshold and final-SHA evidence.
 
+## G04 Owner audit outcome
+
+The controlled G04 audit is archived under
+`results/vnv_0_2_5/g04_latest/`. `VV-074`, `VV-075` and `VV-076` remain
+internal research evidence: the common-driver FEM path crosses a signed
+load-factor turn, restart reproduces the continuation suffix, and rollback
+records a radius cutback and clean retry. The required arc-length mesh study
+is absent. The identical two-element TET4 case executed in the pinned
+Code_Aster image completes but has no reaction-derived turning point, so the
+mandatory complete-branch external correlation is a recorded deviation.
+
+These observations do not satisfy G04 closure. No `PASS_EXTERNAL_CORRELATION`
+status is assigned to the Code_Aster path, and no arc-length production claim
+is promoted.
+
 ## Controlled G02 evidence
 
 The dedicated controlled pack is archived under

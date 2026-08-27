@@ -149,6 +149,22 @@ TET10/HEX20 finite-kinematic behavior, post-limit response, buckling,
 arc-length, contact or coupled paths; G03-G06 remain unchanged. The Code_Aster
 result is bounded numerical code-to-code correlation, not physical validation.
 
+## Owner audit: 025-G04 remains open
+
+The controlled audit is recorded in
+`0_2_5_g04_owner_review.md` and the targeted evidence pack is archived under
+`results/vnv_0_2_5/g04_latest/`. The common-driver QF Solver FEM path records
+one signed load-factor turn, exact restart suffixes and a controlled
+cutback/retry, but remains `PASS_INTERNAL_RESEARCH` on a two-element TET4
+model. No four-level arc-length mesh study is available.
+
+The same unperturbed two-element model was executed with the pinned Code_Aster
+18.1 Docker image. The external path completed but remained monotone and did
+not reproduce the QF turning point. This is an executed external deviation,
+not `N/A`, so the mandatory complete-branch correlation is not satisfied.
+Consequently `025-G04` remains `OPEN`, `CONTRACT LOWERED = NO`, and no
+arc-length production claim is promoted. G03, G05 and G06 are unchanged.
+
 ## STOP/GO policy
 
 An `OPEN` or `BLOCKED` prerequisite forbids dependent implementation. Optional

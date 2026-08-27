@@ -32,7 +32,7 @@ approver: ""
 | 025-G01 | PASS | `results/vnv_0_2_5/g01_latest/summary.json`, `g01_code_aster_latest/summary.json`, `0_2_5_j2_qualification_report.md` | Bounded J2 qualification only |
 | 025-G02 | PASS | `results/vnv_0_2_5/g02_latest/summary.json`, `0_2_5_g02_owner_review.md`, Owner-evidence manifest | Elastic Total-Lagrangian TET4/HEX8, bounded pre-limit domain only |
 | 025-G03 | OPEN | | |
-| 025-G04 | OPEN | | |
+| 025-G04 | OPEN | `results/vnv_0_2_5/g04_latest/summary.json`, `0_2_5_g04_owner_review.md` | Internal FEM turn/restart/rollback are research evidence; required arc-length mesh study and complete Code_Aster branch correlation remain open |
 | 025-G05 | OPEN | | |
 | 025-G06 | OPEN | | |
 | 025-G07 | NOT_IN_RELEASE_SCOPE | optional friction policy | Owner promotion required before any release claim |

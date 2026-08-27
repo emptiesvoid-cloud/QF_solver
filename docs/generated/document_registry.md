@@ -271,3 +271,4 @@
 | DOC-NL-025-026 | Rapport de campagne des modes d'echec QF_solver 0.2.5 alpha | controlled_candidate | REQ-NL-001, REQ-EVD-001 | 0 | 1 | verification/0_2_5/0_2_5_failure_campaign_report.md |
 | DOC-NL-025-027 | Rapport de qualification J2 QF_solver 0.2.5 alpha | controlled_candidate | REQ-NL-001, REQ-EVD-001 | 0 | 2 | verification/0_2_5/0_2_5_j2_qualification_report.md |
 | DOC-NL-025-028 | Revue Owner G02 QF_solver 0.2.5 alpha | controlled_candidate | REQ-NL-001, REQ-EVD-001, REQ-REL-001 | 0 | 0 | verification/0_2_5/0_2_5_g02_owner_review.md |
+| DOC-NL-025-029 | Revue Owner G04 QF_solver 0.2.5 alpha | controlled_candidate | REQ-NL-001, REQ-EVD-001, REQ-REL-001 | 0 | 2 | verification/0_2_5/0_2_5_g04_owner_review.md |
