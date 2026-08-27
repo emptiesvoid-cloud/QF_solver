@@ -14,9 +14,9 @@ approver: ""
 | Field | Value |
 |---|---|
 | Candidate version | `0.2.5a0` |
-| Candidate SHA | PENDING |
-| Tree clean | PENDING |
-| Evidence manifest digest | PENDING |
+| Qualified source SHA for G02 | `fec5380db3bcdba13799ce31f3ed042ac5d2557b` |
+| G02 source tree clean | `true` |
+| G02 Owner-evidence manifest | `qualification/reviews/qf_solver_0_2_5_g02_owner_evidence_manifest.json` |
 | Wheel digest | PENDING |
 | sdist digest | PENDING |
 | Owner decision | PENDING |
@@ -26,19 +26,23 @@ approver: ""
 | Gate | Status | Evidence | Blocker/limit |
 |---|---|---|---|
 | 025-G00 | OPEN | | |
-| 025-G01 | OPEN | `results/vnv_0_2_5/g01_latest/summary.json`, `g01_code_aster_latest/summary.json`, `0_2_5_j2_qualification_report.md` | Owner approval required for mesh/load-step and rollback/reference acceptance treatment |
-| 025-G02 | OPEN | | |
+| 025-G01 | PASS | `results/vnv_0_2_5/g01_latest/summary.json`, `g01_code_aster_latest/summary.json`, `0_2_5_j2_qualification_report.md` | Bounded J2 qualification only |
+| 025-G02 | PASS | `results/vnv_0_2_5/g02_latest/summary.json`, `0_2_5_g02_owner_review.md`, Owner-evidence manifest | Elastic Total-Lagrangian TET4/HEX8, bounded pre-limit domain only |
 | 025-G03 | OPEN | | |
 | 025-G04 | OPEN | | |
 | 025-G05 | OPEN | | |
 | 025-G06 | OPEN | | |
-| 025-G08 | OPEN | | |
+| 025-G07 | NOT_IN_RELEASE_SCOPE | optional friction policy | Owner promotion required before any release claim |
+| 025-G08 | PASS | `results/vnv_0_2_5/g08_latest/summary.json` + manifest | Bounded performance characterization only |
 | 025-G09 | PASS | `results/vnv_0_2_5/g09_latest/summary.json` + manifest | 22/22 failure cases; internal contract only |
 | 025-G10 | OPEN | | |
 | 025-G11 | OPEN | | |
 | 025-G12 | OPEN | | |
 
-G07 is optional unless the Owner promotes friction into release scope.
+G07 is optional unless the Owner promotes friction into release scope. G02 is
+closed independently of the source-pack's pre-Owner `OPEN` decision: the
+qualified numerical source SHA and the documentary Owner-evidence SHA are
+intentionally distinct.
 
 ## Final checks
 

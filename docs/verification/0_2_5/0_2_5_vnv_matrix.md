@@ -14,8 +14,9 @@ incremental implementation. The G01 rows below are promoted to
 `PASS_INTERNAL` only when the `g01_latest` manifest records the final clean
 source SHA. `PASS_INTERNAL` or `PASS_EXTERNAL_CORRELATION_BOUNDED` describes
 the evidence result; it does not by itself close a gate when an acceptance
-band still requires Owner approval. Element families marked SHOULD do not
-block release unless promoted.
+band still requires Owner approval. `owner_accepted_experimental_bounded_use`
+records an explicit Owner decision that accepts evidence only within the stated
+domain. Element families marked SHOULD do not block release unless promoted.
 
 | V&V ID | Scope | Model/path | Metrics | Reference | Status | Gate |
 |---|---|---|---|---|---|---|
@@ -29,8 +30,8 @@ block release unless promoted.
 | VV-008 | objectivity | rigid translation/rotation and translation+rotation, four families | spurious strain/stress/force/energy, det(F) | exact invariant | PASS_INTERNAL | G02 |
 | VV-009 | geometric element | TET4 TL | force/tangent/energy FD | numerical derivative | PASS_INTERNAL | G02 |
 | VV-010 | geometric element | HEX8 | force/tangent/energy FD | numerical derivative | PASS_INTERNAL | G02 |
-| VV-011 | geometric global | TET4/HEX8 large-rotation bounded dead-load path | load-displacement, reactions, energy, det(F), Newton residuals | internal bounded path; post-limit is G04 | PASS_INTERNAL_RESEARCH | G02 |
-| VV-012 | geometric distortion | TET4/HEX8 four-level pre-limit refinement | robustness, Jacobian, displacement, reaction, energy, stress/strain trends | bounded mesh-trend contract; Owner scope decision | PASS_INTERNAL_RESEARCH | G02 |
+| VV-011 | geometric global | TET4/HEX8 large-rotation bounded dead-load path | load-displacement, reactions, energy, det(F), Newton residuals | internal bounded path; post-limit is G04 | owner_accepted_experimental_bounded_use | G02 |
+| VV-012 | geometric distortion | TET4/HEX8 four-level pre-limit refinement | robustness, Jacobian, displacement, reaction, energy, stress/strain trends | bounded mesh-trend contract; Owner scope decision | owner_accepted_experimental_bounded_use | G02 |
 | VV-013 | high-order geometric | TET10/HEX20 | common TL J2 residual/state/recovery smoke | numerical/external | OBSERVED_INTERNAL_RESEARCH | G02 |
 | VV-014 | buckling | TET4 total-Lagrangian Euler column, levels 24x6x6 -> 32x8x8 | critical factor, mode, Euler error, refinement change | analytical Euler | OBSERVED_INTERNAL_RESEARCH | G03 |
 | VV-015 | buckling | solid/plate-relevant case | factor/mode/mesh trend | Code_Aster/CalculiX | PLANNED | G03/G10 |
@@ -120,12 +121,14 @@ contains four-family objectivity, sparse tangent finite-difference, bounded
 TET4/HEX8 large-rotation, four-level pre-limit mesh, four-family small-strain
 limit and pinned Code_Aster TET4/HEX8 correlation evidence.
 
-The pack deliberately reports `025-G02 = OPEN`: mesh/refinement acceptance and
-the exact release-scope decision remain Owner-controlled. The Code_Aster
-correlation is bounded numerical code-to-code evidence, not physical
-validation. It does not qualify `total_lagrangian_j2`, high-order plastic
-finite-kinematic paths, post-limit load control, buckling, arc-length, contact
-or coupling, and it does not alter G03-G06.
+The numerical source pack deliberately reports `025-G02 = OPEN`: it is the
+immutable pre-Owner evidence record. The Owner decision in
+`0_2_5_g02_owner_review.md` closes G02 for the bounded elastic TET4/HEX8 scope
+only, with `APPROVED_BOUNDED_REFINEMENT`. The Code_Aster correlation remains
+bounded numerical code-to-code evidence, not physical validation. This decision
+does not qualify `total_lagrangian_j2`, high-order plastic finite-kinematic
+paths, post-limit load control, buckling, arc-length, contact or coupling, and
+it does not alter G03-G06.
 
 ## Historical and exploratory evidence
 

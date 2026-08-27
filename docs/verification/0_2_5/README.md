@@ -33,11 +33,11 @@ buckling and path following, integrate frictionless contact, then prove coupled
 behavior. Friction is optional and cannot block the core release.
 
 Implementation has started incrementally under the controlled status record
-[`0_2_5_implementation_status.md`](0_2_5_implementation_status.md). The first
-slice provides shared nonlinear diagnostics and state transactions, a bounded
-Total-Lagrangian TET4/HEX8 path, sparse linear buckling routing, and internal
-multi-element J2 evidence. These changes are experimental/research only: no
-mandatory 0.2.5 gate is closed by their presence.
+[`0_2_5_implementation_status.md`](0_2_5_implementation_status.md). Controlled
+evidence closes G01, G02, G08 and G09 only within their documented bounded
+domains. In particular, G02 accepts the elastic Total-Lagrangian TET4/HEX8
+pre-limit scope; it does not promote finite-kinematic J2, high-order geometric
+paths, post-limit response, contact or coupling.
 
 The current robustness campaign also records provisional internal evidence for
 bounded TET4/HEX8 buckling factors, proportional arc-length continuation to a
@@ -117,6 +117,7 @@ assembly, one increment transaction or one convergence diagnostic contract.
 - [Known limitations](0_2_5_known_limitations.md)
 - [Release-readiness template](0_2_5_release_readiness.md)
 - [Owner Review template](0_2_5_owner_review_template.md)
+- [G02 Owner decision](0_2_5_g02_owner_review.md)
 - [Objective-mode execution plan](0_2_5_objective_execution_plan.md)
 
 The repeatable local readiness chain is
@@ -125,6 +126,7 @@ never tags, pushes or uploads artifacts.
 
 ## Planning status
 
-All mandatory gates are initially `OPEN`. Optional friction gate G07 is
-`NOT_IN_RELEASE_SCOPE` until an explicit Owner promotion. A planning document
-never closes an implementation, V&V, correlation or release gate.
+G01, G02, G08 and G09 are closed only by their controlled evidence and recorded
+Owner decisions. G03-G06 and G10-G12 remain `OPEN`; optional friction gate G07
+is `NOT_IN_RELEASE_SCOPE` until an explicit Owner promotion. A planning
+document never closes an implementation, V&V, correlation or release gate.

@@ -103,9 +103,12 @@ The current working tree now contains a bounded research candidate selected by
 HEX8 meshes. It evaluates the existing J2 law on Green-Lagrange strain, treats
 the returned stress as second Piola stress, forms `P = F S`, and assembles the
 material plus geometric tangent through the common nonlinear driver. This is
-an implementation experiment, not an approved finite-strain plasticity model:
-G02 and G06 remain open until objectivity, energy, tangent, mesh sensitivity
-and external correlation evidence are archived.
+an implementation experiment, not an approved finite-strain plasticity model.
+The bounded elastic Total-Lagrangian TET4/HEX8 decision for G02 is documented
+separately in `0_2_5_g02_owner_review.md`; it does not promote this J2 path.
+`total_lagrangian_j2` and G06 remain research/open until their own objectivity,
+energy, tangent, mesh-sensitivity and external-correlation evidence is
+archived.
 
 For contact, the current common-driver experiment is selected with
 `analysis.parameters.contact_mode = "penalty"`. It contributes a sparse

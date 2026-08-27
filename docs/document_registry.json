@@ -4154,6 +4154,15 @@
         "tests/unit/test_nonlinear_multielement.py",
         "tests/unit/test_robustness_tangent_fd.py"
       ]
+    },
+    {
+      "id": "DOC-NL-025-028",
+      "path": "verification/0_2_5/0_2_5_g02_owner_review.md",
+      "title": "Revue Owner G02 QF_solver 0.2.5 alpha",
+      "status": "controlled_candidate",
+      "requirements": ["REQ-NL-001", "REQ-EVD-001", "REQ-REL-001"],
+      "examples": [],
+      "tests": []
     }
   ]
 }

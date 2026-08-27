@@ -22,11 +22,11 @@ G01 is closed by controlled internal and Code_Aster evidence under the stable
 record the same clean candidate source revision and artifact digests. The
 Owner-approved treatment of mesh/load-step trends and rollback reference
 differences is bounded and does not create a universal convergence claim or
-lower any requirement. G02 now has a controlled evidence pack, but remains
-`OPEN` pending the Owner's explicit decision on the bounded pre-limit
-mesh/refinement treatment and the exact release scope. G03 and G06 retain
-provisional observations and remain `OPEN` until their own controlled
-campaigns close. G08 is closed by the controlled replay recorded below. G09 has a
+lower any requirement. G02 is closed for the Owner-approved bounded elastic
+Total-Lagrangian scope defined below. The qualified numerical source remains
+distinct from the documentary Owner decision. G03 and G06 retain provisional
+observations and remain `OPEN` until their own controlled campaigns close. G08
+is closed by the controlled replay recorded below. G09 has a
 separate controlled failure campaign and is closed below; this does not close
 any dependent functional gate.
 
@@ -34,7 +34,7 @@ any dependent functional gate.
 |---|---|---|---|---|
 | 025-G00 | Baseline and architecture frozen | exact 0.2.4 SHA; provenance reconciled; tests/coverage/V&V/performance/API baselines; Owner audit approval | none | OPEN |
 | 025-G01 | 0.2.4 nonlinear V&V debt closed | multi-element four-family J2; mesh/load-step/cyclic/energy/rollback/tangent evidence; bounded external curves; Owner-approved acceptance treatment | G00 | PASS |
-| 025-G02 | Geometric nonlinear core verified | approved measures; TET4/HEX8 objectivity, tangent, energy, mesh and external evidence; common Full Newton | G01 | OPEN |
+| 025-G02 | Geometric nonlinear core verified | approved measures; TET4/HEX8 objectivity, tangent, energy, mesh and external evidence; common Full Newton | G01 | PASS |
 | 025-G03 | Linear buckling verified | sparse eigenpath; Euler + nontrivial benchmark; factor/mode convergence and external correlation | G02 | OPEN |
 | 025-G04 | Arc-length verified | one sparse method; branch, limit point, restart, cutback and external response evidence | G02 | OPEN |
 | 025-G05 | Frictionless contact verified | common residual/tangent/state/Newton; finite sliding, recontact, penetration sensitivity, rollback, external correlation | G02 | OPEN |
@@ -111,7 +111,7 @@ memory-efficiency claim is inferred from this local bounded campaign. The
 closure therefore satisfies the existing G08 contract without changing any
 functional gate or acceptance threshold.
 
-## Controlled evidence: 025-G02 (gate remains OPEN)
+## Controlled closure: 025-G02
 
 The dedicated pack at `results/vnv_0_2_5/g02_latest/` records the exact clean
 source SHA, `dirty=false`, reproducible command, environment and SHA-256
@@ -127,13 +127,27 @@ digests. It contains:
 - twelve-step pinned Code_Aster 18.1 TET4/HEX8 histories for displacement,
   reactions, `SIEF_ELGA` stress and `EPSI_ELGA` strain.
 
-The pack status is intentionally `OPEN` because the mesh/refinement trend is
-reported as `PASS_INTERNAL_RESEARCH` with no invented universal threshold, and
-the Owner must decide whether that bounded treatment satisfies the existing
-G02 contract. The load-control line-search failure at the physical stability
-boundary is retained as a limitation and is not recast as a defect or a PASS.
-The evidence qualifies neither `total_lagrangian_j2` nor TET10/HEX20 plastic
-finite-kinematic behaviour, and does not close G03-G06.
+The source pack intentionally remains `OPEN`: it faithfully records the state
+before the Owner decision and is not rewritten after the numerical campaign.
+The Owner decision record `0_2_5_g02_owner_review.md` accepts the coherent
+four-level pre-limit trend as `APPROVED_BOUNDED_REFINEMENT`, without inventing a
+universal mesh-convergence band. The accompanying review manifest distinguishes
+the qualified source SHA from the documentary Owner-evidence SHA.
+
+`025-G02` is therefore `PASS` only for the following bounded scope:
+
+- elastic Total-Lagrangian finite-deformation statics using the common Full
+  Newton path;
+- TET4 and HEX8;
+- the recorded pre-limit, positive-`det(F)` load domain and the associated
+  objectivity, tangent, energy, mesh-trend and Code_Aster evidence.
+
+The load-control line-search failure at the physical stability boundary is
+retained as a limitation and is not recast as a defect or a PASS. This closure
+does not qualify `total_lagrangian_j2`, finite-kinematic plasticity,
+TET10/HEX20 finite-kinematic behavior, post-limit response, buckling,
+arc-length, contact or coupled paths; G03-G06 remain unchanged. The Code_Aster
+result is bounded numerical code-to-code correlation, not physical validation.
 
 ## STOP/GO policy
 
