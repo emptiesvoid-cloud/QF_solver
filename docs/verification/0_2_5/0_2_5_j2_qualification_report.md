@@ -31,7 +31,7 @@ describes.
 | Code_Aster correlation | `results/vnv_0_2_5/g01_code_aster_latest/summary.json` and `evidence_manifest.json` | `PASS_EXTERNAL_CORRELATION` |
 | Targeted regression | J2 constitutive, state, cyclic, sensitivity, multi-element and evidence tests | `68 passed` |
 
-The final replay must regenerate both manifests on the final clean source SHA.
+The controlled replay regenerates both manifests on the final clean source SHA.
 The recorded campaign used the pinned Code_Aster image
 `simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435`
 and the command documented in the external manifest. TET10 uses the explicit
@@ -81,8 +81,8 @@ This is an internal work-energy consistency check, not physical validation.
 
 Mesh levels `1/2/4` and load paths `2/4/8` steps were executed for all four
 families. The runs passed and provide trend evidence. No release threshold
-for coarse-to-refined PEEQ, stress, reaction or energy change was frozen
-before this campaign. Those acceptance bands therefore remain
+for coarse-to-refined displacement, reaction, stress, PEEQ or energy change
+was frozen before this campaign. Those acceptance bands therefore remain
 `OWNER_DECISION_REQUIRED`; the observations cannot honestly be converted to
 PASS by relabeling them.
 
@@ -110,6 +110,24 @@ for each comparable scalar. This is bounded numerical correlation, not
 physical validation and not an industrial qualification envelope.
 
 ## Acceptance bands and gate decision
+
+The following table records the observed coarse-to-refined changes and the
+only technically defensible proposal available without inventing a limit
+after seeing the results: use a documented asymptotic/convergence criterion
+for the selected observable and freeze its numerical band before promotion.
+The numerical band and the reference observable still require Owner approval.
+
+| Observable | Coarse-to-refined relative changes (TET4, TET10, HEX8, HEX20) | Proposed threshold | Margin |
+|---|---|---|---|
+| Displacement | `27.5%`, `31.7%`, `91.3%`, `52.5%` | `OWNER_DECISION_REQUIRED`: asymptotic trend criterion | not computable before approval |
+| Reaction | `58.5%`, `26.3%`, `45.0%`, `72.9%` | `OWNER_DECISION_REQUIRED`: equilibrium/convergence criterion | not computable before approval |
+| Stress / VM | `35.1%`, `25.3%`, `89.4%`, `39.5%` | `OWNER_DECISION_REQUIRED`: field-recovery criterion | not computable before approval |
+| PEEQ | `35.9%`, `9.5%`, `91.4%`, `34.8%` | `OWNER_DECISION_REQUIRED`: localization/convergence criterion | not computable before approval |
+| Energy | `31.3%`, `4.1%`, `88.5%`, `29.1%` | `OWNER_DECISION_REQUIRED`: energy asymptote criterion | not computable before approval |
+
+These are not failures of the solver by themselves: they are the measured
+response of the regular one-direction refinement study. They do demonstrate
+that a universal scalar band cannot be inferred from this campaign alone.
 
 | Requirement | Frozen criterion used | Result | Owner decision |
 |---|---|---|---|
