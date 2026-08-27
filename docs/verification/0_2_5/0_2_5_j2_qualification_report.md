@@ -129,17 +129,17 @@ These are not failures of the solver by themselves: they are the measured
 response of the regular one-direction refinement study. They do demonstrate
 that a universal scalar band cannot be inferred from this campaign alone.
 
-| Requirement | Frozen criterion used | Result | Owner decision |
-|---|---|---|---|
-| Constitutive paths | finite, physically signed/invariant path checks from existing tests | PASS | none |
-| Algorithmic tangent | relative FD error `< 1e-6` | PASS (`2.12e-10`) | none |
-| Connected four-family solve | existing residual/work contracts, including residual `< 1e-6` | PASS | none |
-| Energy | relative balance `< 1e-6`; `D_p >= 0` | PASS | none |
-| State transaction | rollback leaves committed digest unchanged; commit changes trial state | PASS | none |
-| Rollback reference difference | no release band frozen | evidence available | `OWNER_DECISION_REQUIRED` |
-| Load-step sensitivity | no release band frozen | trend evidence available | `OWNER_DECISION_REQUIRED` |
-| Mesh/PEEQ convergence | no release band frozen | trend evidence available | `OWNER_DECISION_REQUIRED` |
-| Code_Aster four-family correlation | existing runner tolerance `5e-3` on 64 comparable checks | PASS (`64/64`) | none |
+| Requirement | Frozen criterion used | Result | Margin | Owner decision |
+|---|---|---|---:|---|
+| Constitutive paths | finite, physically signed/invariant path checks from existing tests | PASS | n/a | none |
+| Algorithmic tangent | relative FD error `< 1e-6` | PASS (`2.12e-10`) | `9.998e-7` | none |
+| Connected four-family solve | existing residual/work contracts, including residual `< 1e-6` | PASS | `9.220e-7` on max residual | none |
+| Energy | relative balance `< 1e-6`; `D_p >= 0` | PASS | `9.914e-7` on max imbalance | none |
+| State transaction | rollback leaves committed digest unchanged; commit changes trial state | PASS | exact invariant | none |
+| Rollback reference difference | no release band frozen | evidence available | n/a | `OWNER_DECISION_REQUIRED` |
+| Load-step sensitivity | no release band frozen | trend evidence available | n/a | `OWNER_DECISION_REQUIRED` |
+| Mesh/PEEQ convergence | no release band frozen | trend evidence available | n/a | `OWNER_DECISION_REQUIRED` |
+| Code_Aster four-family correlation | existing runner tolerance `5e-3` on 64 comparable checks | PASS (`64/64`) | `3.387e-3` on max error | none |
 
 ### G01 status
 
