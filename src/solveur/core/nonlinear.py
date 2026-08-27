@@ -313,7 +313,7 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
             )
         if model.analysis.method == "modified_newton":
             raise InputValidationError(
-                f"{kinematics} is supported only with Full Newton; "
+                f"{kinematics} is qualified only with Full Newton; "
                 "modified_newton remains outside the 0.2.5 production scope."
             )
         families = {element.type for element in model.elements}
