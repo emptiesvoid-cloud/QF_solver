@@ -1,9 +1,9 @@
 """Build controlled, non-qualifying evidence for the 025-G04 owner audit.
 
-The script records the existing common-driver FEM path and its targeted
-Code_Aster diagnostic without changing solver behavior.  It deliberately
-keeps the gate open when the external path does not reproduce the turning
-point or when the required arc-length mesh study is absent.
+The script records the existing common-driver FEM path and a configuration-
+matched Code_Aster diagnostic without changing solver behavior. It deliberately
+keeps the gate open while the required mesh study and published FEM reference
+remain absent.
 """
 
 from __future__ import annotations
@@ -87,6 +87,65 @@ def _runtime() -> dict[str, str]:
     return versions
 
 
+def _branch_comparison(internal: dict[str, Any], external: dict[str, Any]) -> dict[str, Any]:
+    """Compare equilibrium branches through the shared apex displacement.
+
+    QF Solver and Code_Aster use different arc-length parameterizations. The
+    comparison therefore interpolates the Code_Aster reaction-derived load
+    factor on QF apex-displacement samples rather than comparing step numbers
+    or continuation parameters.
+    """
+
+    qf_displacement = np.abs(np.asarray(internal["control_displacements"], dtype=float))
+    qf_factor = np.asarray(internal["load_factors"], dtype=float)
+    points = list(external.get("raw", {}).get("points", []))
+    ca_displacement = np.abs(
+        np.asarray([float(point["control_displacement"]) for point in points], dtype=float)
+    )
+    ca_factor = np.asarray(
+        [float(point["load_factor_from_reaction"]) for point in points], dtype=float
+    )
+    if qf_displacement.size == 0 or ca_displacement.size < 2:
+        raise RuntimeError("G04 branch comparison requires non-empty QF and Code_Aster paths.")
+
+    ordering = np.argsort(ca_displacement)
+    ca_displacement = ca_displacement[ordering]
+    ca_factor = ca_factor[ordering]
+    unique_displacement, unique_indices = np.unique(ca_displacement, return_index=True)
+    ca_factor = ca_factor[unique_indices]
+    common = qf_displacement <= unique_displacement[-1] + 1.0e-12
+    if not np.any(common):
+        raise RuntimeError("QF and Code_Aster G04 paths have no common apex-displacement domain.")
+
+    interpolated = np.interp(qf_displacement[common], unique_displacement, ca_factor)
+    difference = qf_factor[common] - interpolated
+    qf_turn = int(np.argmin(qf_factor))
+    ca_turn = int(np.argmin(ca_factor))
+    peak_factor = max(float(np.max(np.abs(qf_factor))), np.finfo(float).eps)
+    return {
+        "comparison_parameter": "absolute_apex_uz",
+        "common_qf_sample_count": int(np.count_nonzero(common)),
+        "common_displacement_range": [
+            float(np.min(qf_displacement[common])),
+            float(np.max(qf_displacement[common])),
+        ],
+        "maximum_absolute_load_factor_difference": float(np.max(np.abs(difference))),
+        "mean_absolute_load_factor_difference": float(np.mean(np.abs(difference))),
+        "rms_load_factor_difference": float(np.sqrt(np.mean(difference**2))),
+        "maximum_relative_load_factor_difference": float(np.max(np.abs(difference)) / peak_factor),
+        "qf_turning_point": {
+            "step": qf_turn + 1,
+            "apex_displacement": float(qf_displacement[qf_turn]),
+            "load_factor": float(qf_factor[qf_turn]),
+        },
+        "code_aster_turning_point": {
+            "order": int(points[ordering[ca_turn]]["order"]),
+            "apex_displacement": float(ca_displacement[ca_turn]),
+            "load_factor": float(ca_factor[ca_turn]),
+        },
+    }
+
+
 def _plot(summary: dict[str, Any]) -> list[str]:
     import matplotlib
 
@@ -108,9 +167,9 @@ def _plot(summary: dict[str, Any]) -> list[str]:
     axis.plot(qf_u, qf_factor, "o-", markersize=2.5, label="QF Solver common FEM")
     if ca_u.size:
         axis.plot(ca_u, ca_factor, "-", linewidth=1.4, label="Code_Aster FEM")
-    axis.set_xlabel("Absolute crown displacement")
+    axis.set_xlabel("Absolute apex UZ displacement")
     axis.set_ylabel("Absolute load factor from reaction")
-    axis.set_title("G04 branch audit: internal path versus Code_Aster")
+    axis.set_title("G04 branch diagnostic: matched QF Solver and Code_Aster paths")
     axis.grid(True, alpha=0.25)
     axis.legend()
     figure.tight_layout()
@@ -139,6 +198,7 @@ def _report(summary: dict[str, Any], plot_names: list[str]) -> None:
     restart_before = summary["restart_before_turn"]
     restart_after = summary["restart_after_turn"]
     rollback = summary["rollback"]
+    comparison = summary["code_aster_branch_comparison"]
     lines = [
         "# 025-G04 controlled evidence audit",
         "",
@@ -161,7 +221,7 @@ def _report(summary: dict[str, Any], plot_names: list[str]) -> None:
         f"| Minimum det(F) | `{internal['minimum_det_f']:.12g}` |",
         "",
         "The common-driver path crosses a signed load-factor turning point and continues on the post-limit branch.",
-        "This remains `PASS_INTERNAL_RESEARCH` because it is a minimal two-element path without the required mesh study or external branch correlation.",
+        "This remains `PASS_INTERNAL_RESEARCH` because it is a minimal two-element path without the required mesh study or published FEM reference.",
         "",
         "## Restart and rollback",
         "",
@@ -173,7 +233,7 @@ def _report(summary: dict[str, Any], plot_names: list[str]) -> None:
         "",
         "These are internal transaction proofs and are not external qualification evidence.",
         "",
-        "## Code_Aster diagnostic",
+        "## Code_Aster configuration-matched diagnostic",
         "",
         "| Quantity | Result |",
         "|---|---:|",
@@ -182,17 +242,23 @@ def _report(summary: dict[str, Any], plot_names: list[str]) -> None:
         f"| Complete path samples | `{external['complete_path']}` |",
         f"| Load factor from reactions | `{external['load_factor_range']}` |",
         f"| External turning points | `{external['turning_point_count']}` |",
+        f"| Load direction | `{external['reference_load_sign']}` relative to the QF reference load |",
+        "| External control | `APEX/DZ` |",
+        f"| Max branch load-factor difference | `{comparison['maximum_absolute_load_factor_difference']:.6e}` |",
+        f"| RMS branch load-factor difference | `{comparison['rms_load_factor_difference']:.6e}` |",
+        f"| Relative peak difference | `{comparison['maximum_relative_load_factor_difference']:.6e}` |",
         "",
-        "The same unperturbed two-element TET4 geometry and apex control were executed in Code_Aster. "
-        "Code_Aster completes a monotone response and does not reproduce the QF turning point. "
-        "This is a real executed deviation, not an unavailable-tool N/A, and it blocks the G04 external MUST.",
-        "The Code_Aster output is therefore not classified as `PASS_EXTERNAL_CORRELATION_BOUNDED`.",
+        "The original external discrepancy was a continuation-configuration mismatch: QF Solver follows "
+        "a negative physical load factor while the former Code_Aster deck applied a positive `FZ`, and "
+        "the former post-processing averaged the crown instead of using the QF apex control DOF. "
+        "The corrected deck uses `FZ=-1/3`, `APEX/DZ`, and a matched continuation window. Both paths now "
+        "exhibit the same turning branch when compared by apex displacement. This is bounded numerical "
+        "code-to-code diagnostic evidence, not physical validation or a G04 closure.",
         "",
         "## Missing mandatory evidence",
         "",
         "- no coarse/medium/fine/refined arc-length branch study;",
         "- no published or externally reproducible FEM reference linked to the same branch;",
-        "- no complete QF-versus-Code_Aster branch correlation;",
         "- no controlled final-SHA G04 pack that satisfies all mandatory criteria.",
         "",
         "## Figures",
@@ -202,7 +268,7 @@ def _report(summary: dict[str, Any], plot_names: list[str]) -> None:
     lines.extend(
         [
             "",
-            "`CONTRACT LOWERED = NO`. G04 remains open until the external branch discrepancy is explained or corrected and the required mesh study is archived.",
+            "`CONTRACT LOWERED = NO`. The external branch diagnostic is resolved, but G04 remains open until the required mesh study and a published FEM branch reference are archived.",
             "",
         ]
     )
@@ -228,12 +294,19 @@ def main() -> int:
             str(external_output),
             "--imperfection-x",
             "0.0",
+            "--reference-load-sign",
+            "-1.0",
+            "--arc-length-end",
+            "0.96",
+            "--arc-length-steps",
+            "160",
         ],
         cwd=ROOT,
         check=True,
         env={**os.environ, "PYTHONPATH": str(ROOT / "src")},
     )
     external = json.loads((external_output / "summary.json").read_text(encoding="utf-8"))
+    comparison = _branch_comparison(internal, external)
     summary: dict[str, Any] = {
         "schema_version": 1,
         "study_id": "VNV-G04-ARC-LENGTH-OWNER-AUDIT-025",
@@ -251,6 +324,7 @@ def main() -> int:
         "rollback": rollback,
         "analytical_reduced": reduced,
         "code_aster": external,
+        "code_aster_branch_comparison": comparison,
         "decisions": {
             "internal_snap_through": "PASS_INTERNAL_RESEARCH",
             "turning_point": "PASS_INTERNAL_RESEARCH",
@@ -258,14 +332,15 @@ def main() -> int:
             "restart": "PASS_INTERNAL_RESEARCH",
             "rollback": "PASS_INTERNAL_RESEARCH",
             "published_reference": "OPEN_NOT_LINKED",
-            "code_aster": "FAIL_EXTERNAL_BRANCH_REQUIREMENT",
+            "code_aster": "RESOLVED_CONFIGURATION_MATCH",
             "gate": "OPEN",
             "contract_lowered": False,
         },
         "limitations": [
             "The common-driver FEM evidence is a minimal two-element TET4 research path.",
-            "The external Code_Aster path is complete but monotone and does not reproduce the QF turning point.",
+            "The matching Code_Aster branch is bounded two-element numerical correlation only.",
             "No four-level arc-length branch mesh study is available.",
+            "No exact published FEM branch reference is linked to this custom two-element benchmark.",
             "No production or physical-validation claim is made.",
         ],
     }

@@ -21,6 +21,7 @@ OUTPUT = ROOT / "qualification" / "reviews" / "qf_solver_0_2_5_g04_owner_evidenc
 OWNER_REVIEW = ROOT / "docs" / "verification" / "0_2_5" / "0_2_5_g04_owner_review.md"
 GATE_MATRIX = ROOT / "docs" / "verification" / "0_2_5" / "0_2_5_gate_matrix.md"
 VNV_MATRIX = ROOT / "docs" / "verification" / "0_2_5" / "0_2_5_vnv_matrix.md"
+DIAGNOSTIC = ROOT / "docs" / "verification" / "0_2_5" / "0_2_5_g04_external_branch_diagnostic.md"
 
 
 def _git(*args: str) -> str:
@@ -71,7 +72,7 @@ def main() -> int:
     if _git("status", "--porcelain", "--untracked-files=all"):
         raise RuntimeError("G04 Owner evidence must be generated from a clean documentation commit.")
     manifest, artifacts = _validate_pack()
-    documents = [OWNER_REVIEW, GATE_MATRIX, VNV_MATRIX]
+    documents = [OWNER_REVIEW, GATE_MATRIX, VNV_MATRIX, DIAGNOSTIC]
     if any(not path.is_file() for path in documents):
         raise FileNotFoundError("One or more G04 Owner documents are missing.")
     owner_evidence_sha = _git("rev-parse", "HEAD")
@@ -83,7 +84,7 @@ def main() -> int:
         "gate_status": "OPEN",
         "owner_decision": "REQUIRED",
         "mesh_decision": "OPEN_MISSING_REQUIRED_LEVELS",
-        "external_decision": "FAIL_EXTERNAL_BRANCH_REQUIREMENT",
+        "external_decision": "RESOLVED_CONFIGURATION_MATCH",
         "contract_lowered": False,
         "qualified_source_sha": source_sha,
         "qualified_source_dirty": False,
@@ -109,7 +110,6 @@ def main() -> int:
         "internal_claim": "PASS_INTERNAL_RESEARCH only for the minimal common-driver two-element TET4 path",
         "remaining_blockers": [
             "No coarse/medium/fine/refined arc-length branch mesh study.",
-            "Code_Aster complete-path correlation does not reproduce the QF turning point.",
             "No published or externally reproducible FEM branch reference is linked.",
         ],
         "command": "python scripts/build_g04_owner_evidence_manifest.py",

@@ -19,7 +19,7 @@ from solveur.verification.code_aster_tl_structural import run_code_aster
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def mesh_text(*, imperfection_x: float = 0.005) -> str:
+def mesh_text(*, imperfection_x: float = 0.0) -> str:
     """Return the deterministic ASTER mesh shared with the QF benchmark."""
 
     return "\n".join(
@@ -60,10 +60,22 @@ def mesh_text(*, imperfection_x: float = 0.005) -> str:
     )
 
 
-def command_text() -> str:
-    """Return the Code_Aster LONG_ARC command file."""
+def command_text(
+    *,
+    reference_load_sign: float = -1.0,
+    arc_length_end: float = 1.0,
+    arc_length_steps: int = 80,
+) -> str:
+    """Return the Code_Aster LONG_ARC command file in QF load convention."""
 
-    return '''# coding=utf-8
+    if not np.isfinite(reference_load_sign) or reference_load_sign == 0.0:
+        raise ValueError("reference_load_sign must be a finite non-zero scalar.")
+    if not np.isfinite(arc_length_end) or arc_length_end <= 0.0:
+        raise ValueError("arc_length_end must be finite and strictly positive.")
+    if isinstance(arc_length_steps, bool) or int(arc_length_steps) <= 0:
+        raise ValueError("arc_length_steps must be a strictly positive integer.")
+
+    template = '''# coding=utf-8
 import json
 import numpy as np
 from code_aster.Commands import *
@@ -85,11 +97,11 @@ fixed = AFFE_CHAR_MECA(
 )
 load = AFFE_CHAR_MECA(
     MODELE=model,
-    FORCE_NODALE=_F(GROUP_NO="CROWN", FZ=1.0 / 3.0),
+    FORCE_NODALE=_F(GROUP_NO="CROWN", FZ=__REFERENCE_LOAD__),
 )
 times = DEFI_LIST_REEL(
     DEBUT=0.0,
-    INTERVALLE=_F(JUSQU_A=100.0, NOMBRE=800),
+    INTERVALLE=_F(JUSQU_A=__ARC_LENGTH_END__, NOMBRE=__ARC_LENGTH_STEPS__),
 )
 result = STAT_NON_LINE(
     MODELE=model,
@@ -121,6 +133,7 @@ points = []
 for order, instant in zip(result.getIndexes(), access["INST"]):
     displacement = result.getField("DEPL", order)
     dz, dz_description = displacement.getValuesWithDescription("DZ", ["CROWN"])
+    apex_dz, apex_description = displacement.getValuesWithDescription("DZ", ["APEX"])
     reaction = result.getField("FORC_NODA", order)
     fixed_dz, fixed_description = reaction.getValuesWithDescription("DZ", ["FIXED"])
     points.append({
@@ -128,9 +141,12 @@ for order, instant in zip(result.getIndexes(), access["INST"]):
         "instant": float(instant),
         "displacement_values": np.asarray(dz, dtype=float).tolist(),
         "displacement_description": [list(item) for item in dz_description if isinstance(item, tuple)],
+        "apex_displacement_values": np.asarray(apex_dz, dtype=float).tolist(),
+        "apex_displacement_description": [list(item) for item in apex_description if isinstance(item, tuple)],
         "reaction_values": np.asarray(fixed_dz, dtype=float).tolist(),
         "reaction_description": [list(item) for item in fixed_description if isinstance(item, tuple)],
-        "control_displacement": float(np.mean(dz)),
+        "control_displacement": float(np.mean(apex_dz)),
+        "crown_mean_displacement": float(np.mean(dz)),
         "reaction_fixed_z": float(np.sum(fixed_dz)),
         "load_factor_from_reaction": float(-np.sum(fixed_dz)),
     })
@@ -138,9 +154,21 @@ with open("/work/code_aster_arc_length_raw.json", "w", encoding="utf-8") as stre
     json.dump({"eta_pilotage": eta_values, "points": points}, stream, indent=2)
 FIN()
 '''
+    return (
+        template.replace("__REFERENCE_LOAD__", f"{reference_load_sign / 3.0:.17g}")
+        .replace("__ARC_LENGTH_END__", f"{arc_length_end:.17g}")
+        .replace("__ARC_LENGTH_STEPS__", str(int(arc_length_steps)))
+    )
 
 
-def run(output: Path, *, imperfection_x: float = 0.005) -> dict[str, object]:
+def run(
+    output: Path,
+    *,
+    imperfection_x: float = 0.0,
+    reference_load_sign: float = -1.0,
+    arc_length_end: float = 1.0,
+    arc_length_steps: int = 80,
+) -> dict[str, object]:
     """Generate and execute the external deck, returning its raw history."""
 
     output = output.resolve()
@@ -148,7 +176,14 @@ def run(output: Path, *, imperfection_x: float = 0.005) -> dict[str, object]:
     work = output / "code_aster"
     work.mkdir(exist_ok=True)
     (work / "arc_length.mail").write_text(mesh_text(imperfection_x=imperfection_x), encoding="ascii")
-    (work / "arc_length.comm").write_text(command_text(), encoding="utf-8")
+    (work / "arc_length.comm").write_text(
+        command_text(
+            reference_load_sign=reference_load_sign,
+            arc_length_end=arc_length_end,
+            arc_length_steps=arc_length_steps,
+        ),
+        encoding="utf-8",
+    )
     run_code_aster(work, "arc_length", timeout=900)
     raw = json.loads((work / "code_aster_arc_length_raw.json").read_text(encoding="utf-8"))
     eta_series = raw.get("eta_pilotage", [])
@@ -161,13 +196,24 @@ def run(output: Path, *, imperfection_x: float = 0.005) -> dict[str, object]:
         "study_id": "VNV-G04-ARCLENGTH-CODEASTER-025",
         "solver": "Code_Aster",
         "version": "18.1.0",
-        "model": "two-element TET4 common FEM snap-through model with controlled crown imperfection",
+        "model": "two-element TET4 common FEM snap-through model",
         "imperfection_x": float(imperfection_x),
+        "reference_load_sign": float(reference_load_sign),
+        "arc_length_end": float(arc_length_end),
+        "arc_length_steps": int(arc_length_steps),
         "continuation_parameter_range": [
             float(value[0] if isinstance(value, list) else value)
             for value in (eta_series[0], eta_series[-1])
         ] if eta_series else [],
         "load_factor_range": [min(load_factors), max(load_factors)] if load_factors else [],
+        "control_displacement_range": (
+            [
+                min(float(point["control_displacement"]) for point in points),
+                max(float(point["control_displacement"]) for point in points),
+            ]
+            if points
+            else []
+        ),
         "turning_point_count": int(direction_changes.size),
         "turning_point_orders": [int(index + 1) for index in direction_changes],
         "complete_path": bool(points) and len(points) == len(eta_series),
@@ -182,9 +228,18 @@ def run(output: Path, *, imperfection_x: float = 0.005) -> dict[str, object]:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--imperfection-x", type=float, default=0.005)
+    parser.add_argument("--imperfection-x", type=float, default=0.0)
+    parser.add_argument("--reference-load-sign", type=float, default=-1.0)
+    parser.add_argument("--arc-length-end", type=float, default=1.0)
+    parser.add_argument("--arc-length-steps", type=int, default=80)
     args = parser.parse_args()
-    summary = run(args.output, imperfection_x=args.imperfection_x)
+    summary = run(
+        args.output,
+        imperfection_x=args.imperfection_x,
+        reference_load_sign=args.reference_load_sign,
+        arc_length_end=args.arc_length_end,
+        arc_length_steps=args.arc_length_steps,
+    )
     print(f"{summary['study_id']}: {summary['status']} -> {args.output.resolve()}")
     return 0
 

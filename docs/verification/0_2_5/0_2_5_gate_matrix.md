@@ -151,19 +151,26 @@ result is bounded numerical code-to-code correlation, not physical validation.
 
 ## Owner audit: 025-G04 remains open
 
-The controlled audit is recorded in
-`0_2_5_g04_owner_review.md` and the targeted evidence pack is archived under
-`results/vnv_0_2_5/g04_latest/`. The common-driver QF Solver FEM path records
-one signed load-factor turn, exact restart suffixes and a controlled
-cutback/retry, but remains `PASS_INTERNAL_RESEARCH` on a two-element TET4
-model. No four-level arc-length mesh study is available.
+The controlled audit is recorded in `0_2_5_g04_owner_review.md`, with the
+strict model/path comparison in `0_2_5_g04_external_branch_diagnostic.md` and
+the targeted pack under `results/vnv_0_2_5/g04_latest/`. The common-driver QF
+Solver path records one signed load-factor turn, exact restart suffixes and a
+controlled cutback/retry, but remains `PASS_INTERNAL_RESEARCH` on a two-element
+TET4 model. No four-level arc-length mesh study is available.
 
-The same unperturbed two-element model was executed with the pinned Code_Aster
-18.1 Docker image. The external path completed but remained monotone and did
-not reproduce the QF turning point. This is an executed external deviation,
-not `N/A`, so the mandatory complete-branch correlation is not satisfied.
-Consequently `025-G04` remains `OPEN`, `CONTRACT LOWERED = NO`, and no
-arc-length production claim is promoted. G03, G05 and G06 are unchanged.
+The historical monotone Code_Aster result has been resolved as a deck
+configuration mismatch: it had the opposite physical force direction and used
+mean crown displacement rather than the QF apex control DOF. The corrected
+pinned Code_Aster 18.1 Docker replay uses downward `FZ=-1/3`, `APEX/DZ`, and a
+matched continuation window; it produces one turn and agrees with the QF
+equilibrium branch by a peak-normalized load-factor difference of
+`1.3052e-05`. This is bounded code-to-code diagnostic evidence, not physical
+validation or a gate closure.
+
+`025-G04` therefore remains `OPEN`, `CONTRACT LOWERED = NO`, and no arc-length
+production claim is promoted. The remaining functional blockers are the missing
+published FEM branch reference and the required four-level mesh study. G03,
+G05 and G06 are unchanged.
 
 ## STOP/GO policy
 

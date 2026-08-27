@@ -53,6 +53,22 @@ records a matched comparison configuration, not a silent global change of
 historical behavior. The campaign is bounded numerical correlation, not
 physical validation, and does not by itself close G01 or G10.
 
+## Observed G04 Configuration-Matched Branch Diagnostic
+
+The historical G04 Code_Aster replay was not comparable to the QF branch: QF
+uses a positive reference load with negative load factor (physical downward
+load), while the historical deck used upward `FZ=+1/3`; it also post-processed
+mean crown displacement instead of QF apex `UZ`. The corrected deck uses
+`FZ=-1/3`, controls `APEX/DZ`, and samples the same apex-displacement domain.
+
+The corrected pinned Code_Aster 18.1 Docker run and the QF two-element TET4
+path both show one limit point. Comparison by apex displacement gives maximum
+and RMS load-factor differences of `4.8719e-07` and `2.0730e-07`, respectively.
+This removes an external configuration mismatch, but remains bounded numerical
+diagnostic evidence. It does not close the G04/G10 Arc-length row because the
+custom two-element model has no linked published FEM branch reference and no
+coarse/medium/fine/refined branch study. See `DOC-NL-025-030`.
+
 ## Observed bounded contact oracle
 
 `VNV-CONTACT-CODEASTER-LIAISON-UNIL-001` was replayed with the pinned
