@@ -4131,6 +4131,29 @@
         "tests/unit/test_nonlinear_contact_composition.py",
         "tests/unit/test_frictionless_contact.py"
       ]
+    },
+    {
+      "id": "DOC-NL-025-026",
+      "path": "verification/0_2_5/0_2_5_failure_campaign_report.md",
+      "title": "Rapport de campagne des modes d'echec QF_solver 0.2.5 alpha",
+      "status": "controlled_candidate",
+      "requirements": ["REQ-NL-001", "REQ-EVD-001"],
+      "examples": [],
+      "tests": [
+        "tests/unit/test_nonlinear_failure_campaign.py"
+      ]
+    },
+    {
+      "id": "DOC-NL-025-027",
+      "path": "verification/0_2_5/0_2_5_j2_qualification_report.md",
+      "title": "Rapport de qualification J2 QF_solver 0.2.5 alpha",
+      "status": "controlled_candidate",
+      "requirements": ["REQ-NL-001", "REQ-EVD-001"],
+      "examples": [],
+      "tests": [
+        "tests/unit/test_nonlinear_multielement.py",
+        "tests/unit/test_robustness_tangent_fd.py"
+      ]
     }
   ]
 }
