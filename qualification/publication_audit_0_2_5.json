@@ -63,7 +63,7 @@
     {
       "id": "public_source_hygiene",
       "status": "PASS",
-      "detail": "1901 tracked release files scanned"
+      "detail": "1902 tracked release files scanned"
     },
     {
       "id": "controlled_review_vocabulary",
