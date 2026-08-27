@@ -27,16 +27,15 @@ describes.
 
 | Evidence | Artifact | Result |
 |---|---|---|
-| Internal J2 campaign | `results/vnv_0_2_5/g01_latest/summary.json` and `evidence_manifest.json` (recorded by the report; not present in this checkout) | `PASS_INTERNAL_J2` recorded, candidate manifest not verified |
-| Code_Aster correlation | `results/vnv_0_2_5/g01_code_aster_latest/summary.json` and `evidence_manifest.json` (recorded by the report; not present in this checkout) | `PASS_EXTERNAL_CORRELATION` recorded, candidate manifest not verified |
+| Internal J2 campaign | `results/vnv_0_2_5/g01_latest/summary.json` and `evidence_manifest.json` | `PASS_INTERNAL_J2`, clean candidate SHA recorded in manifest |
+| Code_Aster correlation | `results/vnv_0_2_5/g01_code_aster_latest/summary.json` and `evidence_manifest.json` | `PASS_EXTERNAL_CORRELATION`, clean candidate SHA recorded in manifest |
 | Targeted regression | J2 constitutive, state, cyclic, sensitivity, multi-element and evidence tests | `68 passed` |
 
-The report records a controlled replay on a clean source revision, but the
-two G01 manifest directories are not available in the current candidate
-checkout. A manifest inspected in another worktree records SHA
-`d6ede9d8c3cf01ea6d381ff84441ad2067482095`, which is not the candidate SHA
-under review and is therefore excluded from this decision. The recorded
-campaign used the pinned Code_Aster image
+The report records a controlled replay on a clean source revision. The two
+G01 manifests are the source of truth for the exact candidate SHA, dirty
+state, artifact digests and commands; the SHA is deliberately not duplicated
+in this prose so that generated evidence can be regenerated after a
+documentation-only candidate change. The recorded campaign used the pinned Code_Aster image
 `simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435`
 and the command documented in the external manifest. TET10 uses the explicit
 comparison convention `tet10_nonlinear_quadrature=code_aster_5`; the legacy
@@ -84,11 +83,11 @@ This is an internal work-energy consistency check, not physical validation.
 ### Mesh and load-step studies
 
 Mesh levels `1/2/4` and load paths `2/4/8` steps were executed for all four
-families. The runs passed and provide trend evidence. No release threshold
-for coarse-to-refined displacement, reaction, stress, PEEQ or energy change
-was frozen before this campaign. Those acceptance bands therefore remain
-`OWNER_DECISION_REQUIRED`; the observations cannot honestly be converted to
-PASS by relabeling them.
+families. The runs passed and provide trend evidence. No universal release
+threshold for coarse-to-refined displacement, reaction, stress, PEEQ or
+energy change was frozen before this campaign. The Owner has explicitly
+approved these results as `ACCEPTED_BOUNDED_OBSERVATION`: they remain bounded
+observations and are not a universal convergence claim.
 
 For the reference-to-refined load-step comparison, displacement differences
 were `2.46e-08` (TET4), `7.29e-06` (TET10), `5.03e-05` (HEX8) and `3.67e-05`
@@ -123,11 +122,11 @@ The numerical band and the reference observable still require Owner approval.
 
 | Observable | Coarse-to-refined relative changes (TET4, TET10, HEX8, HEX20) | Proposed threshold | Margin |
 |---|---|---|---|
-| Displacement | `27.5%`, `31.7%`, `91.3%`, `52.5%` | `OWNER_DECISION_REQUIRED`: asymptotic trend criterion | not computable before approval |
-| Reaction | `58.5%`, `26.3%`, `45.0%`, `72.9%` | `OWNER_DECISION_REQUIRED`: equilibrium/convergence criterion | not computable before approval |
-| Stress / VM | `35.1%`, `25.3%`, `89.4%`, `39.5%` | `OWNER_DECISION_REQUIRED`: field-recovery criterion | not computable before approval |
-| PEEQ | `35.9%`, `9.5%`, `91.4%`, `34.8%` | `OWNER_DECISION_REQUIRED`: localization/convergence criterion | not computable before approval |
-| Energy | `31.3%`, `4.1%`, `88.5%`, `29.1%` | `OWNER_DECISION_REQUIRED`: energy asymptote criterion | not computable before approval |
+| Displacement | `27.5%`, `31.7%`, `91.3%`, `52.5%` | `ACCEPTED_BOUNDED_OBSERVATION`; no universal convergence claim | bounded trend recorded |
+| Reaction | `58.5%`, `26.3%`, `45.0%`, `72.9%` | `ACCEPTED_BOUNDED_OBSERVATION`; no universal equilibrium claim | bounded trend recorded |
+| Stress / VM | `35.1%`, `25.3%`, `89.4%`, `39.5%` | `ACCEPTED_BOUNDED_OBSERVATION`; field trend only | bounded trend recorded |
+| PEEQ | `35.9%`, `9.5%`, `91.4%`, `34.8%` | `ACCEPTED_BOUNDED_OBSERVATION`; localization trend only | bounded trend recorded |
+| Energy | `31.3%`, `4.1%`, `88.5%`, `29.1%` | `ACCEPTED_BOUNDED_OBSERVATION`; no universal energy asymptote | bounded trend recorded |
 
 These are not failures of the solver by themselves: they are the measured
 response of the regular one-direction refinement study. They do demonstrate
@@ -140,52 +139,49 @@ that a universal scalar band cannot be inferred from this campaign alone.
 | Connected four-family solve | existing residual/work contracts, including residual `< 1e-6` | PASS | `9.220e-7` on max residual | none |
 | Energy | relative balance `< 1e-6`; `D_p >= 0` | PASS | `9.914e-7` on max imbalance | none |
 | State transaction | rollback leaves committed digest unchanged; commit changes trial state | PASS | exact invariant | none |
-| Rollback reference difference | no release band frozen | evidence available | n/a | `OWNER_DECISION_REQUIRED` |
-| Load-step sensitivity | no release band frozen | trend evidence available | n/a | `OWNER_DECISION_REQUIRED` |
-| Mesh/PEEQ convergence | no release band frozen | trend evidence available | n/a | `OWNER_DECISION_REQUIRED` |
+| Rollback reference difference | no universal release band | `ACCEPTED_BOUNDED_OBSERVATION` | diagnostic only | `APPROVED` |
+| Load-step sensitivity | no universal release band | `ACCEPTED_BOUNDED_OBSERVATION` | diagnostic trend | `APPROVED` |
+| Mesh/PEEQ convergence | no universal release band | `ACCEPTED_BOUNDED_OBSERVATION` | diagnostic trend | `APPROVED` |
 | Code_Aster four-family correlation | existing runner tolerance `5e-3` on 64 comparable checks | PASS (`64/64`) | `3.387e-3` on max error | none |
 
 ### G01 status
 
-`025-G01 = OPEN`.
+`025-G01 = PASS`.
 
 ### Owner decision study
 
-The candidate source revision reviewed by this study is
-`fd59fa69e53f218c03673639e0e1f1b3b539261f`. The classifications below
-separate an already justified invariant from an observation for which no
-release band was frozen before the campaign.
+The Owner-approved classifications below separate an already justified
+invariant from bounded observations for which no universal release band was
+frozen before the campaign. The exact source revision is recorded by both
+final evidence manifests.
 
 | Metric | Classification | Basis for decision |
 |---|---|---|
-| Mesh / PEEQ | `ACCEPTED_BOUNDED_OBSERVATION` | Mesh levels `1/2/4` and four-family trends were executed, but the observed coarse-to-refined changes are family-dependent and no universal release band was pre-approved. |
-| Load-step sensitivity | `ACCEPTED_BOUNDED_OBSERVATION` | The step sweep provides diagnostic trend evidence. The existing tighter `1e-8`/`2e-2` sensitivity contract is specific to the established TET4 campaign and cannot be extended to the four-family G01 claim without a prior justification. |
-| Rollback | `ACCEPTED_BOUNDED_OBSERVATION` | Exact committed-state preservation, cutback and retry are `THRESHOLD_JUSTIFIED`; the final difference to the small-step reference (`1.25432459287778e-07` displacement relative and `3.34527073576896e-09` PEEQ absolute) has no pre-frozen release band. |
+| Mesh / PEEQ | `ACCEPTED_BOUNDED_OBSERVATION` | Mesh levels `1/2/4` and four-family trends were executed. The observed coarse-to-refined changes are family-dependent and are accepted as bounded evidence without a universal release band. |
+| Load-step sensitivity | `ACCEPTED_BOUNDED_OBSERVATION` | The step sweep provides diagnostic trend evidence. The existing tighter `1e-8`/`2e-2` sensitivity contract remains specific to the established TET4 campaign and is not silently extended to the four-family G01 claim. |
+| Rollback | `ACCEPTED_BOUNDED_OBSERVATION` | Exact committed-state preservation, cutback and retry are `THRESHOLD_JUSTIFIED`; the final difference to the small-step reference (`1.25432459287778e-07` displacement relative and `3.34527073576896e-09` PEEQ absolute) remains diagnostic. |
 
 This treatment does not lower any requirement. It records the available
-evidence honestly and keeps the broader claim bounded. The missing
-candidate-SHA G01 manifests also prevent these report-level results from
-being treated as final controlled artifacts.
+evidence honestly and keeps the broader claim bounded. The final manifests
+provide the required controlled artifacts for this decision.
 
-**G01 OWNER DECISION = OPEN**
+**G01 OWNER DECISION = APPROVED**
 
 **CONTRACT LOWERED = NO**
-**REMAINING BLOCKER =** Owner approval of the acceptance treatment plus
-candidate-SHA manifests for the internal and Code_Aster G01 campaigns.
+**REMAINING BLOCKER = NONE FOR G01**
 
 This is a governance/provenance blocker, not evidence of a failed numerical
 test. No other functional gate is changed by this report.
 
-## Owner questions
+## Owner decision record
 
-1. Approve the inherited `1e-6` tangent and energy criteria and the existing
-   `5e-3` Code_Aster correlation criterion for G01.
-2. Approve a release treatment for mesh/load-step trends: either define
-   numerical bands from an Owner-reviewed asymptotic basis, or accept these
-   as bounded observations while keeping the corresponding claim limited.
-3. Approve whether the rollback/reference differences remain diagnostic only
-   or receive a frozen acceptance band.
+1. The inherited `1e-6` tangent and energy criteria and the existing `5e-3`
+   Code_Aster correlation criterion are accepted for G01.
+2. Mesh/load-step trends are accepted as bounded observations with the
+   corresponding claim explicitly limited.
+3. Rollback/reference differences remain diagnostic; the exact transaction
+   invariant remains the frozen acceptance criterion.
 
-Until these decisions are recorded, the claim remains `EXPERIMENTAL` at the
-release level even though the controlled internal and external evidence
-artifacts report PASS statuses.
+No unanswered Owner decision remains for G01. The gate closure does not
+promote universal mesh convergence, universal load-step convergence or
+physical validation claims.

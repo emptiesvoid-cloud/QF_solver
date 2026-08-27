@@ -9,28 +9,28 @@ approver: ""
 
 # QF Solver 0.2.5a0 gate matrix
 
-All mandatory gates are `OPEN` at planning completion. Optional friction gate
-G07 is `NOT_IN_RELEASE_SCOPE` until an explicit Owner promotion. Gate status
-values are restricted to `PASS`, `OPEN`, `BLOCKED` and
+The matrix records the current controlled status after the G01 evidence
+replay. Optional friction gate G07 is `NOT_IN_RELEASE_SCOPE` until an explicit
+Owner promotion. Gate status values are restricted to `PASS`, `OPEN`, `BLOCKED` and
 `NOT_IN_RELEASE_SCOPE`. Evidence labels such as
 `PASS_INTERNAL` or `PASS_EXTERNAL_CORRELATION_BOUNDED` describe the supporting
 proof, but do not replace the gate status. Only evidence generated on the
 recorded SHA can close a gate.
 
-G01 is described by controlled internal and Code_Aster evidence under the
-stable `g01_latest` and `g01_code_aster_latest` output paths. Those G01
-directories are not present in the current candidate checkout, and manifests
-from another source revision are not eligible as final evidence. Its gate
-remains `OPEN` because the campaign records no pre-frozen release band for
-mesh/load-step trends and rollback reference differences. G02, G03, G06 and G08
-retain provisional observations and remain `OPEN` until their own controlled
-campaigns close. G09 has a separate controlled failure campaign and is closed
-below; this does not close any dependent functional gate.
+G01 is closed by controlled internal and Code_Aster evidence under the stable
+`g01_latest` and `g01_code_aster_latest` output paths. Both final manifests
+record the same clean candidate source revision and artifact digests. The
+Owner-approved treatment of mesh/load-step trends and rollback reference
+differences is bounded and does not create a universal convergence claim or
+lower any requirement. G02, G03, G06 and G08 retain provisional observations
+and remain `OPEN` until their own controlled campaigns close. G09 has a
+separate controlled failure campaign and is closed below; this does not close
+any dependent functional gate.
 
-| Gate | Name | Mandatory closure criteria | Dependencies | Initial status |
+| Gate | Name | Mandatory closure criteria | Dependencies | Status |
 |---|---|---|---|---|
 | 025-G00 | Baseline and architecture frozen | exact 0.2.4 SHA; provenance reconciled; tests/coverage/V&V/performance/API baselines; Owner audit approval | none | OPEN |
-| 025-G01 | 0.2.4 nonlinear V&V debt closed | multi-element four-family J2; mesh/load-step/cyclic/energy/rollback/tangent evidence; bounded external curves; Owner-approved acceptance treatment | G00 | OPEN |
+| 025-G01 | 0.2.4 nonlinear V&V debt closed | multi-element four-family J2; mesh/load-step/cyclic/energy/rollback/tangent evidence; bounded external curves; Owner-approved acceptance treatment | G00 | PASS |
 | 025-G02 | Geometric nonlinear core verified | approved measures; TET4/HEX8 objectivity, tangent, energy, mesh and external evidence; common Full Newton | G01 | OPEN |
 | 025-G03 | Linear buckling verified | sparse eigenpath; Euler + nontrivial benchmark; factor/mode convergence and external correlation | G02 | OPEN |
 | 025-G04 | Arc-length verified | one sparse method; branch, limit point, restart, cutback and external response evidence | G02 | OPEN |
@@ -66,6 +66,23 @@ failed`, with `converged=false` and a structured diagnostic for every case.
 The campaign is an internal failure-contract qualification; it does not
 promote contact, arc-length, buckling or coupled capabilities to qualified
 status and does not close their functional gates.
+
+## Controlled closure: 025-G01
+
+`025-G01` is `PASS`. The internal manifest at
+`results/vnv_0_2_5/g01_latest/evidence_manifest.json` records
+`PASS_INTERNAL_J2`, `dirty=false`, the exact candidate source revision and
+digests for the constitutive, tangent, transaction, four-family,
+mesh/load-step, cyclic, energy and rollback evidence. The Code_Aster manifest
+at `results/vnv_0_2_5/g01_code_aster_latest/evidence_manifest.json` records
+`PASS_EXTERNAL_CORRELATION`, `dirty=false` and `64/64` comparable checks for
+TET4, TET10, HEX8 and HEX20.
+
+The closure uses the Owner-approved bounded classifications in the J2 report:
+mesh/PEEQ, load-step sensitivity and rollback numerical comparison are
+`ACCEPTED_BOUNDED_OBSERVATION`; the rollback transaction invariant is
+`THRESHOLD_JUSTIFIED`. `CONTRACT LOWERED = NO`. This closure changes no other
+gate.
 
 ## STOP/GO policy
 

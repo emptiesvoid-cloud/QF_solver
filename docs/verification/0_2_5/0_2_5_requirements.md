@@ -116,5 +116,5 @@ pre-frozen release band remain evidence for Owner review and do not close
 | 025-REQ-003 | global residual/work contract | existing four-family test limits | diagnostic | failed existing test | existing multi-element V&V tests |
 | 025-REQ-007 | committed-state transaction | exact digest preservation on rollback | none | digest mutation or false convergence | state transaction contract |
 | 025-REQ-030 | Code_Aster comparable history error | `<= 5e-3` | none | `>5e-3` or non-comparable | existing external runner, 64 checks |
-| 025-REQ-004 | mesh/load-step trends | `OWNER_DECISION_REQUIRED` | observed trend only | gate remains OPEN | no band frozen before campaign |
-| 025-REQ-007 | rollback/reference difference | `OWNER_DECISION_REQUIRED` | diagnostic only | gate remains OPEN | no band frozen before campaign |
+| 025-REQ-004 | mesh/load-step trends | Owner-approved bounded observation; no universal claim | observed trend only | failed/non-finite trend or no Owner decision | G01 qualification report and Owner decision record |
+| 025-REQ-007 | rollback/reference difference | Owner-approved bounded observation; diagnostic only | no universal band | failed reference or no Owner decision | G01 qualification report and Owner decision record |
