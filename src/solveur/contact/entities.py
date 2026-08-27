@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 
 import numpy as np
 
@@ -39,6 +39,31 @@ class FrictionlessContact:
     friction_coefficient: float = 0.0
     tangential_stiffness: float | None = None
     master_faces: tuple[tuple[int, int, int], ...] | None = None
+    slave_patch_nodes: tuple[int, ...] | None = None
+
+    @property
+    def slave_nodes(self) -> tuple[int, ...]:
+        """Return the slave nodes represented by this contact surface patch.
+
+        ``slave_patch_nodes`` is optional so the historical single-node input
+        remains unchanged.  Each patch node is assembled as one node-to-
+        faceted-surface contribution; this is a bounded surface discretization,
+        not a mortar or segment-to-segment formulation.
+        """
+        if self.slave_patch_nodes is None:
+            return (self.slave_node,)
+        return tuple(self.slave_patch_nodes)
+
+    def expanded_slave_contacts(self) -> tuple["FrictionlessContact", ...]:
+        """Expand a slave patch into stateless point-to-surface contacts."""
+        nodes = self.slave_nodes
+        if not nodes:
+            raise InputValidationError("A contact slave surface must contain at least one node.")
+        if len(set(nodes)) != len(nodes):
+            raise InputValidationError("A contact slave surface must not repeat slave nodes.")
+        if self.slave_patch_nodes is None:
+            return (self,)
+        return tuple(replace(self, slave_node=node, slave_patch_nodes=None) for node in nodes)
 
     def geometry(
         self, nodes: np.ndarray, *, allow_clamped_projection: bool = False

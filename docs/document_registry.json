@@ -4106,6 +4106,31 @@
         "tests/unit/test_nonlinear_multielement.py",
         "tests/unit/test_linear_buckling.py"
       ]
+    },
+    {
+      "id": "DOC-NL-025-024",
+      "path": "verification/0_2_5/0_2_5_lot4_arc_length_implementation_report.md",
+      "title": "Rapport d'implementation du lot 4 arc-length QF_solver 0.2.5 alpha",
+      "status": "controlled_candidate",
+      "requirements": ["REQ-NL-001", "REQ-EVD-001"],
+      "examples": [],
+      "tests": [
+        "tests/unit/test_nonlinear_multielement.py",
+        "tests/unit/test_nonlinear_load_path.py"
+      ]
+    },
+    {
+      "id": "DOC-NL-025-025",
+      "path": "verification/0_2_5/0_2_5_lot5a_contact_implementation_report.md",
+      "title": "Rapport d'implementation du lot 5A contact QF_solver 0.2.5 alpha",
+      "status": "controlled_candidate",
+      "requirements": ["REQ-NL-001", "REQ-EVD-001"],
+      "examples": [],
+      "tests": [
+        "tests/unit/test_contact_finite_sliding.py",
+        "tests/unit/test_nonlinear_contact_composition.py",
+        "tests/unit/test_frictionless_contact.py"
+      ]
     }
   ]
 }

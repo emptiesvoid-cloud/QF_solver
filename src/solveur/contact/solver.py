@@ -22,6 +22,7 @@ from solveur.contact.support import (
     _contact_load_path,
     _details,
     _dissipation_increment,
+    _expanded_contacts,
     _finite_sliding,
     _friction_system,
     _friction_update,
@@ -56,11 +57,11 @@ def assemble_penalty_contact(
 ) -> tuple[np.ndarray, csr_matrix, dict[str, object]]:
     """Assemble an opt-in sparse frictionless penalty contribution.
 
-    The contribution is deliberately small in scope: initial-configuration
-    node-to-triangle contact, no friction and no topology search. It is meant
-    to be composed with material and geometric residuals by the common Newton
-    driver; the established exact active-set solver remains available through
-    its existing API.
+    The contribution supports legacy single-node pairs and bounded slave-node
+    patches against triangulated master surfaces. It remains frictionless and
+    penalty-based; updated finite sliding recomputes the selected facet and
+    normal from the current trial geometry. The contribution is composed with
+    material and geometric residuals by the common Newton driver.
     """
     if penalty <= 0.0 or not np.isfinite(penalty):
         raise InputValidationError("Penalty contact stiffness must be finite and positive.")
@@ -91,9 +92,10 @@ def assemble_penalty_contact(
         if not np.isfinite(penetration_limit) or penetration_limit <= 0.0:
             raise InputValidationError("contact_max_penetration must be finite and positive when configured.")
     reference = values if search_mode == "updated" else None
+    contacts = _expanded_contacts(model.contacts)
     operators = [
         _operator(contact, model.nodes, dofs, reference, finite_sliding=finite_sliding)
-        for contact in model.contacts
+        for contact in contacts
     ]
     internal = np.zeros(dofs.ndof, dtype=float)
     rows: list[int] = []
@@ -140,6 +142,11 @@ def assemble_penalty_contact(
         "gaps": gaps,
         "master_face_indices": [int(operator.master_face_index) for operator in operators],
         "master_face_counts": [int(operator.master_face_count) for operator in operators],
+        "normals": [operator.normal.tolist() for operator in operators],
+        "slave_surface_mode": "node_patch_to_faceted_surface" if any(
+            contact.slave_patch_nodes is not None for contact in model.contacts
+        ) else "single_node_to_faceted_surface",
+        "slave_node_count": len(operators),
         "projection_clamped": [bool(operator.projection_clamped) for operator in operators],
         "closest_distances": [float(operator.closest_distance) for operator in operators],
         "projection_modes": [operator.projection_mode for operator in operators],
@@ -163,7 +170,7 @@ class FrictionlessActiveSetSolver:
     ) -> ContactSolveState:
         if model.linear_constraints():
             raise InputValidationError("Frictionless contact cannot yet be combined with MPC or RBE links.")
-        contacts = list(model.contacts)
+        contacts = _expanded_contacts(model.contacts)
         operators = [_operator(contact, model.nodes, dofs) for contact in contacts]
         if any(operator.has_friction for operator in operators):
             if _search_mode(model) == "updated":

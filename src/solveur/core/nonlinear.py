@@ -263,6 +263,7 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
                         max(abs(float(params.get("target_load_factor", 1.0))), 1.0),
                     )
                 ),
+                "arc_length_control_dof": params.get("arc_length_control_dof"),
                 "kinematics": str(params.get("kinematics", "small_strain")).lower(),
                 "contact_mode": str(params.get("contact_mode", "none")).lower(),
                 "contact_search_mode": str(params.get("contact_search_mode", "initial")).lower(),
@@ -292,7 +293,7 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
 
     @staticmethod
     def _validate_kinematics_scope(model: FiniteElementModel, params: dict[str, object]) -> None:
-        """Validate the explicitly experimental finite-kinematic J2 branch."""
+        """Validate the supported common finite-kinematic nonlinear branches."""
         if model.contacts:
             contact_mode = str(params.get("contact_mode", "")).lower()
             if contact_mode != "penalty":
@@ -305,31 +306,37 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
         kinematics = str(params.get("kinematics", "small_strain")).lower()
         if kinematics == "small_strain":
             return
-        if kinematics != "total_lagrangian_j2":
+        if kinematics not in {"total_lagrangian", "total_lagrangian_j2"}:
             raise InputValidationError(
-                "nonlinear_static kinematics must be 'small_strain' or 'total_lagrangian_j2'."
+                "nonlinear_static kinematics must be 'small_strain', 'total_lagrangian' "
+                "or 'total_lagrangian_j2'."
             )
         if model.analysis.method == "modified_newton":
             raise InputValidationError(
-                "total_lagrangian_j2 is qualified only with Full Newton; "
+                f"{kinematics} is supported only with Full Newton; "
                 "modified_newton remains outside the 0.2.5 production scope."
             )
         families = {element.type for element in model.elements}
         if not families or not families <= {"TET4", "TET10", "HEX8", "HEX20"}:
             raise InputValidationError(
-                "total_lagrangian_j2 currently supports homogeneous TET4, TET10, HEX8 or HEX20 meshes."
+                f"{kinematics} currently supports homogeneous TET4, TET10, HEX8 or HEX20 meshes."
             )
         if len(families) != 1:
             raise InputValidationError(
-                "total_lagrangian_j2 currently requires one homogeneous element family."
+                f"{kinematics} currently requires one homogeneous element family."
             )
         material_types = {
             str(model.materials[element.material].get("type", "")).lower()
             for element in model.elements
         }
-        if material_types != {"von_mises_elastoplastic_3d"}:
+        expected_material = (
+            "von_mises_elastoplastic_3d"
+            if kinematics == "total_lagrangian_j2"
+            else "isotropic_3d"
+        )
+        if material_types != {expected_material}:
             raise InputValidationError(
-                "total_lagrangian_j2 requires material type 'von_mises_elastoplastic_3d'."
+                f"{kinematics} requires material type '{expected_material}'."
             )
 
     def _assemble_internal_tangent(

@@ -97,6 +97,11 @@ class NonlinearStep:
     contact_closest_distances: tuple[float, ...] = ()
     contact_projection_modes: tuple[str, ...] = ()
     arc_length_radius: float | None = None
+    arc_length_control_displacement: float | None = None
+    arc_length_predictor_sign: int | None = None
+    arc_length_branch_direction: int | None = None
+    arc_length_direction_alignment: float | None = None
+    arc_length_constraint_residual: float | None = None
 
     def to_dict(self) -> dict[str, float | int | bool | str | None]:
         return {
@@ -150,6 +155,11 @@ class NonlinearStep:
             "contact_projection_clamped": list(self.contact_projection_clamped),
             "contact_closest_distances": list(self.contact_closest_distances),
             "contact_projection_modes": list(self.contact_projection_modes),
+            "arc_length_control_displacement": self.arc_length_control_displacement,
+            "arc_length_predictor_sign": self.arc_length_predictor_sign,
+            "arc_length_branch_direction": self.arc_length_branch_direction,
+            "arc_length_direction_alignment": self.arc_length_direction_alignment,
+            "arc_length_constraint_residual": self.arc_length_constraint_residual,
         }
 
 

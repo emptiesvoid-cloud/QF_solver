@@ -68,9 +68,9 @@ class StressPostProcessor:
             coords = model.nodes[list(definition.nodes)]
             material = MaterialFactory.create(model.materials[definition.material], coordinates=coords)
             states = (material_states or {}).get(index)
+            kinematics = str(model.analysis.parameters.get("kinematics", "small_strain")).lower()
             if (
-                str(model.analysis.parameters.get("kinematics", "small_strain")).lower()
-                == "total_lagrangian_j2"
+                kinematics in {"total_lagrangian", "total_lagrangian_j2"}
                 and definition.type in {"TET4", "TET10", "HEX8", "HEX20"}
                 and isinstance(material, SolidConstitutiveMaterial)
             ):
@@ -86,6 +86,7 @@ class StressPostProcessor:
                         nonlinear_quadrature=str(
                             model.analysis.parameters.get("tet10_nonlinear_quadrature", "hammer4")
                         ),
+                        result_label=kinematics,
                     )
                 )
             elif definition.type == "TET4" and isinstance(material, SolidConstitutiveMaterial):
@@ -154,6 +155,7 @@ class StressPostProcessor:
         states: list[dict[str, object]] | None,
         *,
         nonlinear_quadrature: str = "hammer4",
+        result_label: str = "total_lagrangian_j2",
     ) -> dict[str, object]:
         """Recover objective Green-Lagrange/J2 fields for the research path."""
         element_class = {
@@ -203,7 +205,7 @@ class StressPostProcessor:
         strain = sum(normalized[i] * np.asarray(point["strain"], dtype=float) for i, point in enumerate(points))
         stress = sum(normalized[i] * np.asarray(point["stress"], dtype=float) for i, point in enumerate(points))
         aggregate_state: dict[str, object] = {
-            "model": "total_lagrangian_j2_green_lagrange",
+            "model": f"{result_label}_green_lagrange",
             "kinematics": "green_lagrange_second_piola",
             "equivalent_plastic_strain": float(
                 sum(normalized[i] * float(point.get("equivalent_plastic_strain", 0.0)) for i, point in enumerate(points))
@@ -214,12 +216,16 @@ class StressPostProcessor:
         result["von_mises"] = Tet4Element.von_mises(stress)
         return {
             "element": index,
-            "type": f"{element_type}_TOTAL_LAGRANGIAN_J2",
+            "type": (
+                f"{element_type}_TOTAL_LAGRANGIAN_J2"
+                if result_label == "total_lagrangian_j2"
+                else f"{element_type}_TOTAL_LAGRANGIAN"
+            ),
             "location": "integration_average",
             **result,
             "integration_points": points,
             "nodal_results": _solid_nodal_results(
-                coords, nodes, result, float(result["von_mises"]), "total_lagrangian_j2_average"
+                coords, nodes, result, float(result["von_mises"]), f"{result_label}_average"
             ),
         }
 

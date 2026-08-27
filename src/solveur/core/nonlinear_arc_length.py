@@ -58,6 +58,14 @@ class NonlinearArcLengthMixin:
         if not np.isfinite(load_factor_limit) or load_factor_limit <= 0.0:
             raise InputValidationError("arc_length_load_factor_limit must be finite and positive.")
         target_direction = 1.0 if target_factor >= 0.0 else -1.0
+        control_dof_value = params.get("arc_length_control_dof")
+        control_dof: int | None = None
+        if control_dof_value is not None:
+            if isinstance(control_dof_value, bool) or not isinstance(control_dof_value, int):
+                raise InputValidationError("arc_length_control_dof must be an integer global DDL index.")
+            if control_dof_value < 0 or control_dof_value >= dofs.ndof or control_dof_value not in set(free.tolist()):
+                raise InputValidationError("arc_length_control_dof must identify a free global DDL.")
+            control_dof = control_dof_value
         current_factor = float((continuation_state or {}).get("load_factor", 0.0))
         history: list[NonlinearStep] = []
         reference = max(float(np.linalg.norm(loads[free])), 1.0)
@@ -71,8 +79,11 @@ class NonlinearArcLengthMixin:
             )
             load_scale = float(continuation_state["load_scale"])
             previous_du = np.asarray(continuation_state["previous_du"], dtype=float)
+            previous_dlambda = float(continuation_state.get("previous_dlambda", 0.0))
             if previous_du.shape != (free.size,) or not np.all(np.isfinite(previous_du)):
                 raise InputValidationError("Arc-length checkpoint previous displacement increment is invalid.")
+            if not np.isfinite(previous_dlambda):
+                raise InputValidationError("Arc-length checkpoint previous load increment is invalid.")
             if not np.isfinite(radius) or radius <= 0.0 or not np.isfinite(load_scale) or load_scale <= 0.0:
                 raise InputValidationError("Arc-length checkpoint radius or load scale is invalid.")
             step = checkpoint_session.restart_step if checkpoint_session is not None else 0
@@ -94,6 +105,7 @@ class NonlinearArcLengthMixin:
             )
             load_scale = float(params.get("arc_length_load_scale", load_scale))
             previous_du = np.zeros(free.size, dtype=float)
+            previous_dlambda = 0.0
             step = 0
         if (
             not np.isfinite(maximum_radius)
@@ -150,6 +162,7 @@ class NonlinearArcLengthMixin:
                     step_radius,
                     load_scale,
                     previous_du,
+                    previous_dlambda,
                     max_iterations,
                     tolerance,
                     reference,
@@ -157,7 +170,9 @@ class NonlinearArcLengthMixin:
                     allow_load_factor_turning=allow_turning,
                     load_factor_limit=load_factor_limit,
                     target_direction=target_direction,
+                    control_dof=control_dof,
                 )
+                previous_dlambda = info.load_increment
             except NumericalConvergenceError as error:
                 state_session.rollback()
                 if error.reason not in {
@@ -187,9 +202,11 @@ class NonlinearArcLengthMixin:
                 if radius < controls.minimum_radius:
                     raise NumericalConvergenceError(
                         "Arc-length continuation reached the minimum radius.",
-                        reason=NonlinearFailureReason.MIN_INCREMENT_REACHED,
+                        reason=NonlinearFailureReason.ARC_LENGTH_FAILURE,
                         diagnostics={
+                            "failure_stage": "minimum_radius",
                             "minimum_radius": controls.minimum_radius,
+                            "last_radius": radius,
                             "last_failure_reason": _failure_reason_value(error),
                             "last_failure_diagnostics": dict(error.diagnostics),
                         },
@@ -217,9 +234,11 @@ class NonlinearArcLengthMixin:
                 if radius < controls.minimum_radius:
                     raise NumericalConvergenceError(
                         "Arc-length continuation reached the minimum radius.",
-                        reason=NonlinearFailureReason.MIN_INCREMENT_REACHED,
+                        reason=NonlinearFailureReason.ARC_LENGTH_FAILURE,
                         diagnostics={
+                            "failure_stage": "minimum_radius",
                             "minimum_radius": controls.minimum_radius,
+                            "last_radius": radius,
                             "last_failure_reason": _failure_reason_value(error),
                         },
                     ) from error
@@ -245,6 +264,7 @@ class NonlinearArcLengthMixin:
                         "maximum_radius": maximum_radius,
                         "load_scale": load_scale,
                         "previous_du": previous_du.tolist(),
+                        "previous_dlambda": previous_dlambda,
                     },
                 )
         return history
@@ -315,6 +335,7 @@ class NonlinearArcLengthMixin:
         radius: float,
         load_scale: float,
         previous_du: np.ndarray,
+        previous_dlambda: float,
         max_iterations: int,
         tolerance: float,
         reference: float,
@@ -323,6 +344,7 @@ class NonlinearArcLengthMixin:
         allow_load_factor_turning: bool = False,
         load_factor_limit: float | None = None,
         target_direction: float = 1.0,
+        control_dof: int | None = None,
     ) -> tuple[NonlinearStep, float, np.ndarray]:
         base_u = displacement.copy()
         assembly_seconds = 0.0
@@ -342,9 +364,27 @@ class NonlinearArcLengthMixin:
                 reason=NonlinearFailureReason.LINEAR_SOLVER_FAILURE,
             )
         direction = 1.0 if target_direction >= 0.0 else -1.0
-        if previous_du.size == predictor.size and float(previous_du @ predictor) < 0.0:
-            direction = -1.0
+        has_previous_direction = bool(
+            previous_du.size == predictor.size
+            and (float(np.linalg.norm(previous_du)) > 1.0e-14 or abs(previous_dlambda) > 1.0e-14)
+        )
+        displacement_orientation = float(previous_du @ predictor)
+        tangent_orientation = float(displacement_orientation + load_scale**2 * previous_dlambda)
+        if has_previous_direction:
+            # Preserve the physical displacement branch first.  The load
+            # factor is allowed to reverse at a limit point, so it must not
+            # override the displacement orientation.  The augmented term is
+            # only a tie-breaker when the displacement projection vanishes.
+            displacement_scale = max(
+                float(np.linalg.norm(previous_du)) * float(np.linalg.norm(predictor)),
+                1.0e-30,
+            )
+            if abs(displacement_orientation) > 1.0e-12 * displacement_scale:
+                direction = 1.0 if displacement_orientation > 0.0 else -1.0
+            elif tangent_orientation < 0.0:
+                direction = -1.0
         delta_factor = direction * radius / np.sqrt(float(predictor @ predictor) + load_scale**2)
+        predictor_sign = int(np.sign(delta_factor))
         if not allow_load_factor_turning and target_direction * (base_factor + delta_factor - target_factor) > 0.0:
             delta_factor = target_factor - base_factor
         displacement[free] += delta_factor * predictor
@@ -378,6 +418,16 @@ class NonlinearArcLengthMixin:
             constraint = float(delta_u_step @ delta_u_step + (load_scale * delta_lambda) ** 2 - radius**2)
             relative = max(residual_norm / reference, abs(constraint) / max(radius**2, 1.0e-30))
             if relative <= tolerance:
+                alignment = float(
+                    delta_u_step @ previous_du + load_scale**2 * delta_lambda * previous_dlambda
+                )
+                # A negative augmented-space dot product is not sufficient to
+                # reject a point: at a legitimate load-factor turning point,
+                # the displacement branch can remain continuous while the
+                # signed load increment changes direction.  The predictor
+                # selects the continuation branch; retain the alignment as a
+                # diagnostic for the evidence layer instead of treating every
+                # lambda reversal as a branch jump.
                 commit_material_states(material_states, updated_states)
                 return (
                     NonlinearStep(
@@ -390,6 +440,15 @@ class NonlinearArcLengthMixin:
                         1.0,
                         delta_lambda,
                         arc_length_radius=radius,
+                        arc_length_control_displacement=(
+                            float(displacement[control_dof]) if control_dof is not None else None
+                        ),
+                        arc_length_predictor_sign=predictor_sign,
+                        arc_length_branch_direction=(
+                            int(np.sign(alignment)) if has_previous_direction else predictor_sign
+                        ),
+                        arc_length_direction_alignment=alignment if has_previous_direction else None,
+                        arc_length_constraint_residual=constraint,
                         residual_history=tuple(residual_history),
                         assembly_seconds=assembly_seconds,
                         linear_solve_seconds=linear_solve_seconds,

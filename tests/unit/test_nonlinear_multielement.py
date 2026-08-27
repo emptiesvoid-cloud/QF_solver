@@ -19,6 +19,9 @@ from solveur.verification.robustness_nonlinear_solids import (
     run_euler_buckling_benchmark,
     run_fem_arc_length_benchmark,
     run_finite_kinematic_arc_length_benchmark,
+    run_common_fem_snap_through_benchmark,
+    run_common_fem_snap_through_restart_benchmark,
+    run_common_fem_snap_through_failure_rollback_benchmark,
     run_arc_length_benchmark,
     run_shallow_arch_arc_length_benchmark,
     run_common_contact_benchmark,
@@ -260,6 +263,49 @@ def test_finite_kinematic_arc_length_uses_common_adaptive_four_family_driver() -
     assert all(row["radius_history"] for row in result["rows"])
     assert all(np.all(np.isfinite(row["radius_history"])) for row in result["rows"])
     assert result["load_factor_ranges"]["HEX20"][1] == pytest.approx(0.5)
+
+
+def test_common_fem_arc_length_crosses_a_snap_through_turning_point() -> None:
+    result = run_common_fem_snap_through_benchmark()
+
+    assert result["status"] == "PASS_INTERNAL_RESEARCH"
+    assert result["common_driver"] is True
+    assert result["method"] == "arc_length"
+    assert result["kinematics"] == "total_lagrangian"
+    assert result["element_family"] == "TET4"
+    assert result["branch_turn_count"] >= 1
+    assert result["turning_point_step"] is not None
+    assert result["load_factor_range"][0] < result["load_factor_range"][1] < 0.0
+    assert result["maximum_relative_residual"] < 1.0e-7
+    assert result["minimum_det_f"] > 0.0
+    assert any(sign == 1 for sign in result["predictor_signs"])
+
+
+@pytest.mark.parametrize("restart_position", ["before_turn", "after_turn"])
+def test_common_fem_arc_length_restart_preserves_postcritical_branch(restart_position: str) -> None:
+    result = run_common_fem_snap_through_restart_benchmark(restart_position=restart_position)
+
+    assert result["status"] == "PASS_INTERNAL_RESEARCH"
+    assert result["common_driver"] is True
+    assert result["turning_point_crossed_after_restart"] is True
+    assert result["resumed_restart_step"] == result["checkpoint_step"]
+    assert result["suffix_load_factor_max_error"] <= 1.0e-14
+    assert result["final_displacement_relative_error"] <= 1.0e-14
+    assert result["material_state_match"] is True
+
+
+def test_common_fem_arc_length_rolls_back_after_failure_near_turning_point() -> None:
+    result = run_common_fem_snap_through_failure_rollback_benchmark()
+
+    assert result["status"] == "PASS_INTERNAL_RESEARCH"
+    assert result["common_driver"] is True
+    assert result["near_turning_point"] is True
+    assert result["corrections_completed"] == 2
+    assert result["retry_clean"] is True
+    assert result["rejected_increments"] == 1
+    assert result["rejection_log"][0]["rollback_before_retry"] is True
+    assert result["rejection_log"][0]["failure_reason"] == "MAX_ITERATIONS"
+    assert all(direction == 1 for direction in result["branch_directions_after_initial_step"])
 
 
 def test_reduced_shallow_arch_arc_length_follows_a_limit_point() -> None:

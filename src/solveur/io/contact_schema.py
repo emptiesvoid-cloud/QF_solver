@@ -26,6 +26,7 @@ class ContactSchemaValidator:
                 {
                     "name",
                     "slave_node",
+                    "slave_nodes",
                     "master_nodes",
                     "master_faces",
                     "gap_tolerance",
@@ -34,17 +35,37 @@ class ContactSchemaValidator:
                 },
                 errors,
             )
-            slave = item.get("slave_node")
-            if not is_int(slave):
-                errors.append(f"{path}.slave_node must reference an existing node.")
-            elif not 0 <= int(cast(Any, slave)) < node_count:
-                errors.append(f"{path}.slave_node must reference an existing node.")
+            has_slave_node = "slave_node" in item
+            has_slave_nodes = "slave_nodes" in item
+            if has_slave_node == has_slave_nodes:
+                errors.append(f"{path} must define exactly one of slave_node or slave_nodes.")
+            slave_nodes: set[int] = set()
+            if has_slave_node:
+                slave = item.get("slave_node")
+                if not is_int(slave):
+                    errors.append(f"{path}.slave_node must reference an existing node.")
+                elif not 0 <= int(cast(Any, slave)) < node_count:
+                    errors.append(f"{path}.slave_node must reference an existing node.")
+                else:
+                    slave_nodes.add(int(cast(Any, slave)))
+            elif has_slave_nodes:
+                raw_slaves = item.get("slave_nodes")
+                if not isinstance(raw_slaves, Sequence) or isinstance(raw_slaves, (str, bytes)) or not raw_slaves:
+                    errors.append(f"{path}.slave_nodes must contain one or more node indices.")
+                else:
+                    for node_index, node in enumerate(raw_slaves):
+                        if not is_int(node) or not 0 <= int(cast(Any, node)) < node_count:
+                            errors.append(f"{path}.slave_nodes[{node_index}] must reference an existing node.")
+                        else:
+                            slave_nodes.add(int(cast(Any, node)))
+                    if len(slave_nodes) != len(raw_slaves):
+                        errors.append(f"{path}.slave_nodes must not contain duplicates.")
             has_nodes = "master_nodes" in item
             has_faces = "master_faces" in item
             if has_nodes == has_faces:
                 errors.append(f"{path} must define exactly one of master_nodes or master_faces.")
             elif has_nodes:
-                self._validate_face(item["master_nodes"], f"{path}.master_nodes", slave, node_count, errors)
+                self._validate_face(item["master_nodes"], f"{path}.master_nodes", slave_nodes, node_count, errors)
             else:
                 faces = item["master_faces"]
                 if not isinstance(faces, Sequence) or isinstance(faces, (str, bytes)) or len(faces) == 0:
@@ -58,7 +79,7 @@ class ContactSchemaValidator:
                             if marker in seen:
                                 errors.append(f"{face_path} duplicates an earlier master face.")
                             seen.add(marker)
-                        self._validate_face(face, face_path, slave, node_count, errors)
+                        self._validate_face(face, face_path, slave_nodes, node_count, errors)
             if "gap_tolerance" in item and (not is_number(item["gap_tolerance"]) or float(item["gap_tolerance"]) <= 0.0):
                 errors.append(f"{path}.gap_tolerance must be a positive finite number.")
             coefficient = item.get("friction_coefficient", 0.0)
@@ -79,7 +100,7 @@ class ContactSchemaValidator:
                 errors.append(f"{path}.name must be a string.")
 
     @staticmethod
-    def _validate_face(value: Any, path: str, slave: object, node_count: int, errors: list[str]) -> None:
+    def _validate_face(value: Any, path: str, slave_nodes: set[int], node_count: int, errors: list[str]) -> None:
         if not isinstance(value, Sequence) or isinstance(value, (str, bytes)) or len(value) != 3:
             errors.append(f"{path} must contain exactly three node indices.")
             return
@@ -88,5 +109,5 @@ class ContactSchemaValidator:
         for node_index, node in enumerate(value):
             if not is_int(node) or not 0 <= int(node) < node_count:
                 errors.append(f"{path}[{node_index}] must reference an existing node.")
-            elif node == slave:
-                errors.append(f"{path}[{node_index}] must differ from slave_node.")
+            elif int(cast(Any, node)) in slave_nodes:
+                errors.append(f"{path}[{node_index}] must differ from slave node(s).")

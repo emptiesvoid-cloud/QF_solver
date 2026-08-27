@@ -80,7 +80,7 @@ def _create_nonlinear_element(
     nonlinear_quadrature: str,
 ) -> object:
     """Create one nonlinear kernel while keeping formulation dispatch local."""
-    if finite_kinematics == "total_lagrangian_j2":
+    if finite_kinematics in {"total_lagrangian", "total_lagrangian_j2"}:
         element_class = {
             "TET4": TotalLagrangianJ2Tet4Element,
             "TET10": TotalLagrangianJ2Tet10Element,
@@ -89,7 +89,7 @@ def _create_nonlinear_element(
         }.get(element_type)
         if element_class is None:
             raise InputValidationError(
-                "total_lagrangian_j2 supports TET4, TET10, HEX8 and HEX20."
+                "total_lagrangian supports TET4, TET10, HEX8 and HEX20."
             )
         if element_type == "TET10":
             return element_class(material, nonlinear_quadrature=nonlinear_quadrature)

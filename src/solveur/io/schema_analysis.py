@@ -271,6 +271,8 @@ class JsonSchemaAnalysisMixin:
                 self._positive_int("analysis.load_steps", params["load_steps"], errors)
             if "max_arc_steps" in params:
                 self._positive_int("analysis.max_arc_steps", params["max_arc_steps"], errors)
+            if "arc_length_control_dof" in params:
+                self._nonnegative_int("analysis.arc_length_control_dof", params["arc_length_control_dof"], errors)
             if "adaptive_arc_length" in params and not isinstance(params["adaptive_arc_length"], bool):
                 errors.append("analysis.adaptive_arc_length must be a boolean.")
             if "arc_length_allow_load_factor_turning" in params and not isinstance(

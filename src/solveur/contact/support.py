@@ -63,6 +63,11 @@ class _FrictionIncrementState:
     dissipation_increment: float
 
 
+def _expanded_contacts(contacts: list[FrictionlessContact]) -> list[FrictionlessContact]:
+    """Expand surface patches while retaining the legacy contact API."""
+    return [item for contact in contacts for item in contact.expanded_slave_contacts()]
+
+
 def _operator(
     contact: FrictionlessContact,
     nodes: np.ndarray,

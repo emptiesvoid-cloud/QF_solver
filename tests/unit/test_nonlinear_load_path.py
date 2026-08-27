@@ -203,6 +203,116 @@ def test_arc_length_retry_records_failure_and_rollback_diagnostics(monkeypatch):
     assert rejection[0]["rollback_before_retry"] is True
 
 
+def test_arc_length_adaptive_radius_grows_and_respects_its_upper_bound():
+    model = elastoplastic_tet4_model()
+    model.analysis = replace(model.analysis, method="arc_length")
+    model.analysis.parameters.update(
+        {
+            "max_arc_steps": 4,
+            "arc_length_stop_mode": "max_steps",
+            "target_load_factor": 1.0,
+            "arc_length_load_factor_limit": 5.0,
+            "arc_length_radius": 0.05,
+            "max_arc_length_radius": 0.2,
+            "min_arc_length_radius": 1.0e-6,
+            "adaptive_arc_length": True,
+            "arc_length_growth_factor": 2.0,
+            "arc_length_shrink_factor": 0.5,
+            "arc_length_grow_below_iterations": 10,
+            "arc_length_shrink_above_iterations": 50,
+        }
+    )
+
+    steps = solve_model(model, enforce_policy=False).to_dict()["solver"]["steps"]
+    radii = [float(step["arc_length_radius"]) for step in steps]
+
+    assert len(radii) == 4
+    assert radii[0] == pytest.approx(0.05)
+    assert max(radii) == pytest.approx(0.2)
+    assert all(1.0e-6 <= radius <= 0.2 for radius in radii)
+
+
+def test_arc_length_minimum_radius_fails_closed_with_structured_reason(monkeypatch):
+    def reject_always(*args, **kwargs):
+        raise NumericalConvergenceError(
+            "controlled arc-length failure",
+            reason=NonlinearFailureReason.MAX_ITERATIONS,
+            diagnostics={"controlled": True},
+        )
+
+    monkeypatch.setattr(NonlinearStaticSolver, "_solve_arc_length_step", reject_always)
+    model = elastoplastic_tet4_model()
+    model.analysis = replace(model.analysis, method="arc_length")
+    model.analysis.parameters.update(
+        {
+            "max_arc_steps": 1,
+            "target_load_factor": 1.0,
+            "arc_length_radius": 0.1,
+            "max_arc_length_radius": 0.1,
+            "min_arc_length_radius": 0.05,
+            "arc_length_shrink_factor": 0.5,
+        }
+    )
+
+    with pytest.raises(NumericalConvergenceError) as raised:
+        solve_model(model, enforce_policy=False)
+
+    assert raised.value.reason is NonlinearFailureReason.ARC_LENGTH_FAILURE
+    assert raised.value.diagnostics["failure_stage"] == "minimum_radius"
+    assert raised.value.diagnostics["minimum_radius"] == pytest.approx(0.05)
+    assert raised.value.diagnostics["last_radius"] < 0.05
+
+
+def test_arc_length_rolls_back_after_newton_correction_failure(monkeypatch):
+    original = NonlinearStaticSolver._assemble_internal_tangent
+    observations = {"calls": 0, "failed": False, "retry_clean": False}
+
+    def fail_after_two_corrections(self, model, dofs, displacement, material_states=None, **kwargs):
+        observations["calls"] += 1
+        if observations["failed"] and not observations["retry_clean"]:
+            observations["retry_clean"] = bool(
+                np.allclose(displacement, 0.0)
+                and material_states is not None
+                and material_states[0][0]["equivalent_plastic_strain"] == 0.0
+            )
+        if not observations["failed"] and observations["calls"] == 4:
+            displacement[:] = 456.0
+            if material_states is not None:
+                material_states[0][0]["equivalent_plastic_strain"] = 999.0
+            observations["failed"] = True
+            raise NumericalConvergenceError(
+                "controlled failure after Newton corrections",
+                reason=NonlinearFailureReason.MAX_ITERATIONS,
+                diagnostics={"corrections_completed": 2},
+            )
+        return original(self, model, dofs, displacement, material_states, **kwargs)
+
+    monkeypatch.setattr(NonlinearStaticSolver, "_assemble_internal_tangent", fail_after_two_corrections)
+    model = elastoplastic_tet4_model()
+    model.analysis = replace(model.analysis, method="arc_length")
+    model.analysis.parameters.update(
+        {
+            "max_arc_steps": 2,
+            "target_load_factor": 1.0,
+            "arc_length_radius": 0.1,
+            "max_arc_length_radius": 0.1,
+            "min_arc_length_radius": 1.0e-6,
+            "arc_length_shrink_factor": 0.5,
+        }
+    )
+
+    data = solve_model(model, enforce_policy=False).to_dict()
+
+    assert observations["failed"] is True
+    assert observations["retry_clean"] is True
+    assert data["solver"]["rejected_increments"] == 1
+    assert data["solver"]["rejection_log"][0]["rollback_before_retry"] is True
+    assert data["solver"]["rejection_log"][0]["failure_diagnostics"] == {
+        "corrections_completed": 2
+    }
+    assert data["solver"]["steps"]
+
+
 def test_adaptive_load_steps_stop_after_maximum_cutbacks(monkeypatch):
     def reject_always(*args, **kwargs):
         raise NumericalConvergenceError("controlled rejected increment")

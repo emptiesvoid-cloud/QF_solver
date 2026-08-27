@@ -298,7 +298,11 @@ class MeshValidator:
                 adjacency[spring.node_b].add(spring.node_a)
         referenced_nodes.update(mass.node for mass in model.concentrated_masses if 0 <= mass.node < model.node_count)
         for contact in model.contacts:
-            contact_nodes = {node for node in (contact.slave_node, *contact.referenced_master_nodes) if 0 <= node < model.node_count}
+            contact_nodes = {
+                node
+                for node in (*contact.slave_nodes, *contact.referenced_master_nodes)
+                if 0 <= node < model.node_count
+            }
             referenced_nodes.update(contact_nodes)
             for node in contact_nodes:
                 adjacency[node].update(contact_nodes - {node})

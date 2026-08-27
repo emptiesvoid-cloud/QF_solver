@@ -34,10 +34,13 @@ be expanded only through an Owner-reviewed scope/gate revision.
   post-buckling, arbitrary branch switching or external response correlation.
 - Frictionless contact is the mandatory contact scope. Friction remains optional
   and cannot be advertised unless G07 is promoted and closed.
-- The geometric-nonlinear contact composition is currently an internal TET4
-  patch with a fixed triangular master surface and penalty enforcement. It does
-  not qualify general surface-to-surface contact, finite sliding or recontact
-  on the geometric solver path.
+- The common contact path supports a bounded slave-node patch against a
+  triangulated master surface, updated facet search, current-configuration
+  normals and penalty enforcement. The patch expands to independent
+  node-to-faceted-surface contributions; it is not a mortar or segment-to-
+  segment formulation. The internal three-facet traversal and facet-transition
+  replay do not qualify general continuum surface-to-surface contact,
+  unrestricted finite sliding or external recontact behavior.
 - Self-contact, cohesive, thermal and advanced mortar contact are excluded.
 - Triple J2+geometry+contact coupling is SHOULD, not a release prerequisite.
 - External numerical correlation is not physical validation.
