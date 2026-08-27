@@ -53,3 +53,16 @@ be expanded only through an Owner-reviewed scope/gate revision.
   production scope unless separately gated.
 - A capability with an OPEN gate remains experimental/research regardless of
   whether code or tests for it exist.
+
+## Coverage provenance note
+
+The apparent change from approximately `88.37 %` to `63.64 %` was a
+measurement-environment discrepancy, not a numerical regression. The valid
+candidate run used the unit/integration command with `--cov=solveur`,
+`--cov-branch`, the configured exclusions (`not benchmark and not large and
+not evidence`), and an explicit `PYTHONPATH=src`; it selected `1550` tests,
+measured `17867` source statements and reported `88.341 %`. The invalid run
+imported `solveur` from the neighbouring `QF_solver_public` checkout because
+the source path was not explicit; it measured a different tree (`565` files
+and `58861` statements) and reported `63.64 %`. Future release evidence must
+record the resolved `solveur.__file__` and the candidate `source_sha`.
