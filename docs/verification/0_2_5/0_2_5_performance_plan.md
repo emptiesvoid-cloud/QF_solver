@@ -326,3 +326,32 @@ diagnostic evidence for the common driver only. They do not establish general
 surface contact, external coupled correlation, scaling, or close `025-G05`,
 `025-G06` or `025-G08`. Both reports carry the provenance
 `e368c0ce00874c16ff1e8fa9158ea0a8cd2dd745` with `worktree_dirty=true`.
+
+## Controlled G08 closure - final candidate
+
+The preceding exploratory sections are retained as historical records. They
+must not be read as the current G08 evidence. The authoritative controlled
+replay is `results/vnv_0_2_5/g08_latest/`, whose manifest records the exact
+source SHA, `dirty=false`, commands, environment, tool versions and artifact
+digests.
+
+The final load-control campaign covers TET4, TET10, HEX8 and HEX20 with three
+repetitions per family (12/12 samples `PASS`). It records total wall time,
+element setup/kernel/scatter, assembly, sparse conversion, sparse solve,
+line-search time, Python allocation peak, RSS observations, DOF, nonzeros,
+Newton iterations and residual/output fields. The same exact-SHA output path
+contains one-repeat path characterization for geometric-static, arc-length,
+contact and coupled runs. These path smokes characterize costs only and do
+not close G02, G04, G05 or G06.
+
+The aggregate report computes mean, minimum, maximum, standard deviation and
+coefficient of variation for each family. It also quantifies the HEX20
+element-kernel share of assembly and total time, which is the dominant measured
+hotspot in this bounded case. Repeated displacement, PEEQ, residual,
+plastic-dissipation and Newton-iteration fields are checked for numerical
+consistency; all controlled samples converge.
+
+This closes `025-G08` as a characterization gate only. It does not claim a
+performance improvement, a scaling law, multi-million-DOF support, or a
+general memory-efficiency guarantee. No new optimization, tolerance or
+functional claim is introduced by this closure.

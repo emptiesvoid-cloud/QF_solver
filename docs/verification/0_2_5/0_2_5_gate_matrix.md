@@ -22,8 +22,9 @@ G01 is closed by controlled internal and Code_Aster evidence under the stable
 record the same clean candidate source revision and artifact digests. The
 Owner-approved treatment of mesh/load-step trends and rollback reference
 differences is bounded and does not create a universal convergence claim or
-lower any requirement. G02, G03, G06 and G08 retain provisional observations
-and remain `OPEN` until their own controlled campaigns close. G09 has a
+lower any requirement. G02, G03 and G06 retain provisional observations and
+remain `OPEN` until their own controlled campaigns close. G08 is closed by the
+controlled replay recorded below. G09 has a
 separate controlled failure campaign and is closed below; this does not close
 any dependent functional gate.
 
@@ -37,7 +38,7 @@ any dependent functional gate.
 | 025-G05 | Frictionless contact verified | common residual/tangent/state/Newton; finite sliding, recontact, penetration sensitivity, rollback, external correlation | G02 | OPEN |
 | 025-G06 | Coupled nonlinear core verified | approved J2 finite-kinematics model; J2+geometry and geometry+contact; limit recovery, tangent, energy, mesh and external evidence | G01, G02, G05 | OPEN |
 | 025-G07 | Frictional contact verified | only after Owner promotion; objective stick/slip, state, dissipation and external evidence | G05, G06, Owner GO | NOT_IN_RELEASE_SCOPE |
-| 025-G08 | Performance characterized | reproducible cost/memory profiles for all mandatory paths; HEX20 explained; numerical non-regression after optimization | relevant functional gates | OPEN |
+| 025-G08 | Performance characterized | reproducible cost/memory profiles for all mandatory paths; HEX20 explained; numerical non-regression after optimization | relevant functional gates | PASS |
 | 025-G09 | Failure modes verified | complete mandatory failure matrix; structured reasons; no false convergence; exact rollback | relevant functional gates | PASS |
 | 025-G10 | External correlation bounded | all mandatory external matrix cells complete or associated claim removed; full histories and provenance | G01-G06 | OPEN |
 | 025-G11 | Full regression | complete 0.2.4 + accepted 0.2.5 tests, coverage policy, docs, V&V, build and smoke pass on candidate SHA | G08-G10 and mandatory functional gates | OPEN |
@@ -83,6 +84,30 @@ mesh/PEEQ, load-step sensitivity and rollback numerical comparison are
 `ACCEPTED_BOUNDED_OBSERVATION`; the rollback transaction invariant is
 `THRESHOLD_JUSTIFIED`. `CONTRACT LOWERED = NO`. This closure changes no other
 gate.
+
+## Controlled closure: 025-G08
+
+`025-G08` is `PASS` for bounded performance characterization. The final
+controlled replay is archived under `results/vnv_0_2_5/g08_latest/`. Its
+manifest records the exact clean source SHA, `dirty=false`, commands, runtime
+versions, environment data and SHA-256 digests for the raw samples, aggregate
+summary and report.
+
+The mandatory load-control profile contains 12 `PASS` samples: three repeats
+for each of TET4, TET10, HEX8 and HEX20. The same clean-SHA campaign also
+contains one-repeat characterization smokes for the geometric-static,
+arc-length, contact and coupled paths. These smokes document shared-driver
+costs; they are not claims that those functional gates are closed.
+
+The aggregate report quantifies total, element-kernel, assembly and sparse
+solve costs, Python allocation peaks, RSS observations, Newton iterations and
+residuals. It explicitly identifies the HEX20 kernel as the dominant measured
+cost and records the corresponding kernel/assembly and kernel/total ratios.
+The repeated numerical fields and convergence status are stable across the
+three load-control repeats. No speedup, multi-million-DOF scalability or
+memory-efficiency claim is inferred from this local bounded campaign. The
+closure therefore satisfies the existing G08 contract without changing any
+functional gate or acceptance threshold.
 
 ## STOP/GO policy
 
