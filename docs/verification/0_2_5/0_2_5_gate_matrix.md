@@ -18,10 +18,11 @@ proof, but do not replace the gate status. Only evidence generated on the
 recorded SHA can close a gate.
 
 The current working tree contains provisional observations for parts of G01,
-G02, G03, G06, G08 and G09. Those observations are recorded in the V&V
-matrix and implementation status document, but their gate status remains
-`OPEN` until the corresponding controlled campaign is regenerated on a clean
-candidate SHA.
+G02, G03, G06 and G08. Those observations are recorded in the V&V matrix and
+implementation status document, but their gate status remains `OPEN` until
+the corresponding controlled campaign is regenerated on a clean candidate
+SHA. G09 has a separate controlled failure campaign and is closed below; this
+does not close any dependent functional gate.
 
 | Gate | Name | Mandatory closure criteria | Dependencies | Initial status |
 |---|---|---|---|---|
@@ -34,7 +35,7 @@ candidate SHA.
 | 025-G06 | Coupled nonlinear core verified | approved J2 finite-kinematics model; J2+geometry and geometry+contact; limit recovery, tangent, energy, mesh and external evidence | G01, G02, G05 | OPEN |
 | 025-G07 | Frictional contact verified | only after Owner promotion; objective stick/slip, state, dissipation and external evidence | G05, G06, Owner GO | NOT_IN_RELEASE_SCOPE |
 | 025-G08 | Performance characterized | reproducible cost/memory profiles for all mandatory paths; HEX20 explained; numerical non-regression after optimization | relevant functional gates | OPEN |
-| 025-G09 | Failure modes verified | complete mandatory failure matrix; structured reasons; no false convergence; exact rollback | relevant functional gates | OPEN |
+| 025-G09 | Failure modes verified | complete mandatory failure matrix; structured reasons; no false convergence; exact rollback | relevant functional gates | PASS |
 | 025-G10 | External correlation bounded | all mandatory external matrix cells complete or associated claim removed; full histories and provenance | G01-G06 | OPEN |
 | 025-G11 | Full regression | complete 0.2.4 + accepted 0.2.5 tests, coverage policy, docs, V&V, build and smoke pass on candidate SHA | G08-G10 and mandatory functional gates | OPEN |
 | 025-G12 | Documentation, traceability and Owner closure | final-SHA evidence, qualification/README/changelog/metadata consistency, limitations, artifacts and explicit Owner release decision | G11 | OPEN |
@@ -50,6 +51,18 @@ Every gate record includes:
 - skips/exclusions and justification;
 - known limits and residual risks;
 - reviewer, date and Owner decision where required.
+
+## Controlled closure: 025-G09
+
+`025-G09` is closed by the controlled campaign at
+`results/vnv_0_2_5/g09_latest/summary.json` and its
+`evidence_manifest.json`. The manifest records the exact source SHA,
+`dirty=false`, command, tool versions and SHA-256 digest of the report. The
+campaign contains 22 intentional failure cases and reports `22 passed / 0
+failed`, with `converged=false` and a structured diagnostic for every case.
+The campaign is an internal failure-contract qualification; it does not
+promote contact, arc-length, buckling or coupled capabilities to qualified
+status and does not close their functional gates.
 
 ## STOP/GO policy
 

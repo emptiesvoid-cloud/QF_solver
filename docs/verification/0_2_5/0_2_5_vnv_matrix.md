@@ -43,7 +43,7 @@ block release unless promoted.
 | VV-024 | coupled SHOULD | J2 + geometry + contact | complete histories | external | PLANNED SHOULD | G06/G10 |
 | VV-025 | friction optional | stick/slip/cycle | traction, slip, dissipation | analytical/external | PLANNED COULD | G07 |
 | VV-026 | Newton | consistent tangent rate | residual histories, reduction ratios, observed-order estimates, iterations | expected local behavior | OBSERVED_INTERNAL | G01/G02/G06 |
-| VV-027 | failures | full taxonomy matrix | reason, rollback, converged=false | contract | OBSERVED_INTERNAL | G09 |
+| VV-027 | failures | full taxonomy matrix | reason, rollback, converged=false | contract | PASS_INTERNAL | G09 |
 | VV-028 | regression | complete 0.2.4 + 0.2.5 suite | tests, skips, coverage, artifacts | frozen baseline | PLANNED | G11 |
 | VV-029 | release | clean docs/build/smoke | hashes and imports | clean environment | PLANNED | G12 |
 | VV-030 | J2 mesh refinement | regular block levels 1/2/4, four families | displacement, reactions, VM, PEEQ, energy, cost | internal trend study | OBSERVED_INTERNAL | G01 |
@@ -82,13 +82,14 @@ block release unless promoted.
 | VV-065 | Geometric/contact composition | Total-Lagrangian elastic TET4 plus fixed master patch through the common sparse penalty contribution | active contact, final gap, penetration, residual, detF, strain energy | bounded geometric/contact composition contract | OBSERVED_INTERNAL_RESEARCH | G02/G05/G06 |
 | VV-048 | High-order geometric path | TET10/HEX20 common TL adapter | residual, detF, energy, state recovery and tangent contract | internal bounded research contract | OBSERVED_INTERNAL_RESEARCH | G02 |
 | VV-049 | High-order linear buckling | homogeneous TET10/HEX20 preload and sparse generalized/fallback tangent path, including indefinite-mass shift-invert refinement | critical factor, formulation, fallback reason, bracket width, tangent nnz, preload residual | internal sparse research contract | OBSERVED_INTERNAL_RESEARCH | G03 |
-| VV-050 | Path failure taxonomy | capped arc-length continuation and unbracketed buckling factor | reason, converged flag, solver diagnostics, no partial success | structured failure contract | OBSERVED_INTERNAL | G09 |
-| VV-051 | Multi-step rollback | injected failure after one accepted adaptive increment | committed prefix, cutback factor, retry path, final convergence | fixed-step/adaptive transaction contract | OBSERVED_INTERNAL | G01/G09 |
-| VV-054 | Contact penetration failure | configured penalty penetration limit exceeded on a trial | typed reason, converged=false, penetration diagnostics | failure contract | OBSERVED_INTERNAL | G05/G09 |
-| VV-068 | Contact penetration cutback/retry | regular multi-element TET4 contact guard with adaptive load control | typed guard failures, committed factors, retry log, final displacement/reaction/gap versus fine-step reference | fixed small-step reference | OBSERVED_INTERNAL | G05/G09 |
+| VV-050 | Path failure taxonomy | capped arc-length continuation and unbracketed buckling factor | reason, converged flag, solver diagnostics, no partial success | structured failure contract | PASS_INTERNAL | G09 |
+| VV-051 | Multi-step rollback | injected failure after one accepted adaptive increment | committed prefix, cutback factor, retry path, final convergence | fixed-step/adaptive transaction contract | PASS_INTERNAL | G01/G09 |
+| VV-054 | Contact penetration failure | configured penalty penetration limit exceeded on a trial | typed reason, converged=false, penetration diagnostics | failure contract | PASS_INTERNAL | G05/G09 |
+| VV-068 | Contact penetration cutback/retry | regular multi-element TET4 contact guard with adaptive load control | typed guard failures, committed factors, retry log, final displacement/reaction/gap versus fine-step reference | fixed small-step reference | PASS_INTERNAL | G05/G09 |
 | VV-052 | Arc-length limit point | reduced shallow-arch branch through the analytical turning point | branch turn, reference curve error, residual history | analytical reduced-order reference | OBSERVED_INTERNAL_RESEARCH | G04 |
-| VV-069 | State transaction corruption guard | committed material/contact state mutated during a detached trial | typed `STATE_CORRUPTION`, before/after digests, no silent rollback | transaction invariant | OBSERVED_INTERNAL | G01/G09 |
-| VV-072 | Arc-length retry telemetry | injected failed continuation trial followed by radius cutback/retry | failure reason, failed radius, retry radius, failure diagnostics, rollback flag and retry result | common transaction and continuation contract | OBSERVED_INTERNAL | G04/G09 |
+| VV-069 | State transaction corruption guard | committed material/contact state mutated during a detached trial | typed `STATE_CORRUPTION`, before/after digests, no silent rollback | transaction invariant | PASS_INTERNAL | G01/G09 |
+| VV-072 | Arc-length retry telemetry | injected failed continuation trial followed by radius cutback/retry | failure reason, failed radius, retry radius, failure diagnostics, rollback flag and retry result | common transaction and continuation contract | PASS_INTERNAL | G04/G09 |
+| VV-073 | Non-finite correction classification | sparse correction NaN, +Inf, -Inf and mixed payload policy | deterministic reason, converged=false, structured Full Newton diagnostics | non-finite failure contract | PASS_INTERNAL | G09 |
 
 `VV-033` uses the explicit QF parameter
 `tet10_nonlinear_quadrature=code_aster_5` for TET10. This matches the five
@@ -99,6 +100,14 @@ close G01/G10 because those gates also require energy, mesh, cyclic, rollback,
 threshold and final-SHA evidence.
 
 ## Current working-tree evidence
+
+The controlled G09 evidence is archived under
+`results/vnv_0_2_5/g09_latest/`. Its manifest is authoritative for the exact
+candidate SHA and reports `dirty=false`; the report contains 22 cases, all
+passed. In particular, the correction path now distinguishes NaN from both
+signs of Inf, and mixed arrays give `INF_DETECTED` deterministically when an
+infinite value is present. This closure is limited to failure handling and
+does not alter the status of functional gates.
 
 The observed rows are backed by the following implementation and test
 artifacts. They remain provisional until regenerated and attached to a final

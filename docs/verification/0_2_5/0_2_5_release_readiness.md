@@ -33,7 +33,7 @@ approver: ""
 | 025-G05 | OPEN | | |
 | 025-G06 | OPEN | | |
 | 025-G08 | OPEN | | |
-| 025-G09 | OPEN | | |
+| 025-G09 | PASS | `results/vnv_0_2_5/g09_latest/summary.json` + manifest | 22/22 failure cases; internal contract only |
 | 025-G10 | OPEN | | |
 | 025-G11 | OPEN | | |
 | 025-G12 | OPEN | | |
