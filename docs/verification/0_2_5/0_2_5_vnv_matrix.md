@@ -26,11 +26,11 @@ block release unless promoted.
 | VV-005 | state | true failed increment | state digests, retry result | small-step reference | PASS_INTERNAL | G01/G09 |
 | VV-006 | J2 elements | common multi-element mesh, 4 families | F-u, reactions, VM, PEEQ, energy | converged mesh/external | PASS_INTERNAL | G01 |
 | VV-007 | J2 load-step sensitivity | coarse/reference/refined on connected mesh | solution, PEEQ, dissipation and cost trends | step-sensitivity study | PASS_INTERNAL | G01 |
-| VV-008 | objectivity | rigid translation/rotation | spurious strain/stress/force | exact invariant | OBSERVED_INTERNAL | G02 |
-| VV-009 | geometric element | TET4 TL | force/tangent/energy FD | numerical derivative | OBSERVED_INTERNAL | G02 |
-| VV-010 | geometric element | HEX8 | force/tangent/energy FD | numerical derivative | OBSERVED_INTERNAL | G02 |
-| VV-011 | geometric global | large-rotation cantilever | load-displacement, energy | published/external | PLANNED | G02 |
-| VV-012 | geometric distortion | TET4/HEX8 | robustness, Jacobian, convergence | mesh family | PLANNED | G02 |
+| VV-008 | objectivity | rigid translation/rotation and translation+rotation, four families | spurious strain/stress/force/energy, det(F) | exact invariant | PASS_INTERNAL | G02 |
+| VV-009 | geometric element | TET4 TL | force/tangent/energy FD | numerical derivative | PASS_INTERNAL | G02 |
+| VV-010 | geometric element | HEX8 | force/tangent/energy FD | numerical derivative | PASS_INTERNAL | G02 |
+| VV-011 | geometric global | TET4/HEX8 large-rotation bounded dead-load path | load-displacement, reactions, energy, det(F), Newton residuals | internal bounded path; post-limit is G04 | PASS_INTERNAL_RESEARCH | G02 |
+| VV-012 | geometric distortion | TET4/HEX8 four-level pre-limit refinement | robustness, Jacobian, displacement, reaction, energy, stress/strain trends | bounded mesh-trend contract; Owner scope decision | PASS_INTERNAL_RESEARCH | G02 |
 | VV-013 | high-order geometric | TET10/HEX20 | common TL J2 residual/state/recovery smoke | numerical/external | OBSERVED_INTERNAL_RESEARCH | G02 |
 | VV-014 | buckling | TET4 total-Lagrangian Euler column, levels 24x6x6 -> 32x8x8 | critical factor, mode, Euler error, refinement change | analytical Euler | OBSERVED_INTERNAL_RESEARCH | G03 |
 | VV-015 | buckling | solid/plate-relevant case | factor/mode/mesh trend | Code_Aster/CalculiX | PLANNED | G03/G10 |
@@ -71,8 +71,8 @@ block release unless promoted.
 | VV-053 | Contact penalty sensitivity | TET4 node-to-triangle penalty sweep `1e2..1e6` | convergence, penetration trend, contact tangent nnz, residual | local penalty asymptotic trend | OBSERVED_INTERNAL_RESEARCH | G05/G08 |
 | VV-055 | Multi-face contact search | two-face planar master surface with two compatible slave positions | selected face index, face count, gap, active set | bounded geometry-search contract | OBSERVED_INTERNAL_RESEARCH | G05 |
 | VV-056 | Updated-contact face crossing | two connected TET4 elements with tangential/normal load and two-face master surface | face sequence, switch count, gaps, residual history, common-driver status | bounded updated-search contract | OBSERVED_INTERNAL_RESEARCH | G05/G06 |
-| VV-057 | Large-deflection geometric smoke | unit-block TET4/HEX8 transverse dead load | end-line angle, detF, strain energy, residual history | internal geometric research contract | OBSERVED_INTERNAL_RESEARCH | G02 |
-| VV-066 | Large-deflection mesh sensitivity | regular TET4/HEX8 block levels 1/2 at load scale 1.0 | displacement, end-line angle, detF, energy, residual and Newton cost | internal geometric mesh-trend contract | OBSERVED_INTERNAL_RESEARCH | G02 |
+| VV-057 | Large-deflection geometric smoke | unit-block TET4/HEX8 transverse dead load | end-line angle, detF, strain energy, residual history | internal geometric research contract | PASS_INTERNAL_RESEARCH | G02 |
+| VV-066 | Large-deflection mesh sensitivity | regular TET4/HEX8 block levels 1/2/3/4 at pre-limit load scale 0.2 | displacement, end-line angle, detF, energy, stress/strain, residual and Newton cost | bounded internal geometric mesh-trend contract | PASS_INTERNAL_RESEARCH | G02 |
 | VV-067 | High-order geometric mesh sensitivity | regular TET10/HEX20 block levels 1/2 at load scale 0.25 | displacement, detF, energy, residual and Newton cost | internal low-load geometric mesh-trend contract | OBSERVED_INTERNAL_RESEARCH | G02 |
 | VV-058 | Buckling mesh sensitivity | assembled homogeneous levels 1/2 on TET4/TET10/HEX8/HEX20 | critical factor, bracket, DDL, tangent nnz, preload residual, critical-mode residual, coarse/medium trend | internal sparse mesh-trend contract | OBSERVED_INTERNAL_RESEARCH | G03 |
 | VV-059 | Multi-family J2/geometric coupling | connected two-element TET4/TET10/HEX8/HEX20 meshes | shared driver, kinematics, residual, iterations, PEEQ | internal common-driver contract | OBSERVED_INTERNAL_RESEARCH | G02/G06 |
@@ -99,6 +99,8 @@ block release unless promoted.
 | VV-078 | Contact three-facet sliding | one slave node traversing three connected master facets | face sequence, facet switches, gap, active state, sparse tangent | bounded updated-search contract | OBSERVED_INTERNAL_RESEARCH | G05 |
 | VV-079 | Contact updated normals | deformed master facet under updated finite-sliding search | finite unit normal, updated orientation, active contact | current-configuration geometry contract | OBSERVED_INTERNAL_RESEARCH | G05 |
 | VV-080 | Contact facet-transition rollback | failed trial after a facet transition, followed by replay and retry | failure reason, committed facet, rollback facet, retry facet, deterministic force | common contact transaction contract | OBSERVED_INTERNAL_RESEARCH | G05/G09 |
+| VV-081 | Geometric small-strain limit | elastic Total-Lagrangian versus small-strain static, TET4/TET10/HEX8/HEX20 at 1e-2/1e-3/1e-4 load factors | relative displacement error and positive det(F) trend | finite-kinematic limit consistency | PASS_INTERNAL | G02 |
+| VV-082 | Geometric external correlation | TET4/HEX8, twelve-step Green-Lagrange Code_Aster ramp with initial state | full tip displacement, reactions, SIEF_ELGA stress and EPSI_ELGA strain histories | pinned Code_Aster 18.1 Docker image | PASS_EXTERNAL_CORRELATION_BOUNDED | G02/G10 |
 
 `VV-033` uses the explicit QF parameter
 `tet10_nonlinear_quadrature=code_aster_5` for TET10. This matches the five
@@ -108,7 +110,24 @@ bounded external row is therefore convention-matched, but it does not alone
 close G01/G10 because those gates also require energy, mesh, cyclic, rollback,
 threshold and final-SHA evidence.
 
-## Current working-tree evidence
+## Controlled G02 evidence
+
+The dedicated controlled pack is archived under
+`results/vnv_0_2_5/g02_latest/`. Its `summary.json`, `report.md`,
+`gate_decision.json` and `evidence_manifest.json` record the same source SHA,
+`dirty=false`, UTC timestamp, command, environment and SHA-256 digests. It
+contains four-family objectivity, sparse tangent finite-difference, bounded
+TET4/HEX8 large-rotation, four-level pre-limit mesh, four-family small-strain
+limit and pinned Code_Aster TET4/HEX8 correlation evidence.
+
+The pack deliberately reports `025-G02 = OPEN`: mesh/refinement acceptance and
+the exact release-scope decision remain Owner-controlled. The Code_Aster
+correlation is bounded numerical code-to-code evidence, not physical
+validation. It does not qualify `total_lagrangian_j2`, high-order plastic
+finite-kinematic paths, post-limit load control, buckling, arc-length, contact
+or coupling, and it does not alter G03-G06.
+
+## Historical and exploratory evidence
 
 The controlled G09 evidence is archived under
 `results/vnv_0_2_5/g09_latest/`. Its manifest is authoritative for the exact
