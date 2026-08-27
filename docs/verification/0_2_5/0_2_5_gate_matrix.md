@@ -17,17 +17,18 @@ values are restricted to `PASS`, `OPEN`, `BLOCKED` and
 proof, but do not replace the gate status. Only evidence generated on the
 recorded SHA can close a gate.
 
-The current working tree contains provisional observations for parts of G01,
-G02, G03, G06 and G08. Those observations are recorded in the V&V matrix and
-implementation status document, but their gate status remains `OPEN` until
-the corresponding controlled campaign is regenerated on a clean candidate
-SHA. G09 has a separate controlled failure campaign and is closed below; this
-does not close any dependent functional gate.
+G01 now has controlled internal and Code_Aster evidence under the stable
+`g01_latest` and `g01_code_aster_latest` output paths. Its gate remains
+`OPEN` because the campaign records no pre-frozen release band for mesh/
+load-step trends and rollback reference differences. G02, G03, G06 and G08
+retain provisional observations and remain `OPEN` until their own controlled
+campaigns close. G09 has a separate controlled failure campaign and is closed
+below; this does not close any dependent functional gate.
 
 | Gate | Name | Mandatory closure criteria | Dependencies | Initial status |
 |---|---|---|---|---|
 | 025-G00 | Baseline and architecture frozen | exact 0.2.4 SHA; provenance reconciled; tests/coverage/V&V/performance/API baselines; Owner audit approval | none | OPEN |
-| 025-G01 | 0.2.4 nonlinear V&V debt closed | multi-element four-family J2; mesh/load-step/cyclic/energy/rollback/tangent evidence; bounded external curves | G00 | OPEN |
+| 025-G01 | 0.2.4 nonlinear V&V debt closed | multi-element four-family J2; mesh/load-step/cyclic/energy/rollback/tangent evidence; bounded external curves; Owner-approved acceptance treatment | G00 | OPEN |
 | 025-G02 | Geometric nonlinear core verified | approved measures; TET4/HEX8 objectivity, tangent, energy, mesh and external evidence; common Full Newton | G01 | OPEN |
 | 025-G03 | Linear buckling verified | sparse eigenpath; Euler + nontrivial benchmark; factor/mode convergence and external correlation | G02 | OPEN |
 | 025-G04 | Arc-length verified | one sparse method; branch, limit point, restart, cutback and external response evidence | G02 | OPEN |

@@ -100,3 +100,21 @@ Each benchmark instantiates this table before its implementation changes begin.
 | Requirement | Metric | Target | Warning | Reject | Justification source |
 |---|---|---|---|---|---|
 | Example | named physical/numerical metric | frozen before change | investigation band | gate remains OPEN | analytical/reference/baseline provenance |
+
+## G01 controlled acceptance treatment
+
+The following criteria are inherited from existing tests or the existing
+Code_Aster runner. They are not relaxed for this campaign. Metrics without a
+pre-frozen release band remain evidence for Owner review and do not close
+`025-G01` by implication.
+
+| Requirement | Metric | Target | Warning | Reject | Justification source |
+|---|---|---|---|---|---|
+| 025-REQ-008 | algorithmic tangent FD relative error | `< 1e-6` | `1e-7` to `<1e-6` | `>=1e-6` | existing constitutive V&V test contract |
+| 025-REQ-006 | relative work-energy imbalance | `< 1e-6` | `1e-7` to `<1e-6` | `>=1e-6` | existing multi-element energy test contract |
+| 025-REQ-006 | plastic dissipation | `D_p >= 0` | none | `D_p < 0` | J2 dissipation invariant in existing campaign |
+| 025-REQ-003 | global residual/work contract | existing four-family test limits | diagnostic | failed existing test | existing multi-element V&V tests |
+| 025-REQ-007 | committed-state transaction | exact digest preservation on rollback | none | digest mutation or false convergence | state transaction contract |
+| 025-REQ-030 | Code_Aster comparable history error | `<= 5e-3` | none | `>5e-3` or non-comparable | existing external runner, 64 checks |
+| 025-REQ-004 | mesh/load-step trends | `OWNER_DECISION_REQUIRED` | observed trend only | gate remains OPEN | no band frozen before campaign |
+| 025-REQ-007 | rollback/reference difference | `OWNER_DECISION_REQUIRED` | diagnostic only | gate remains OPEN | no band frozen before campaign |

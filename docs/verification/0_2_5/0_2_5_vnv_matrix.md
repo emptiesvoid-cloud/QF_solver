@@ -9,21 +9,23 @@ approver: ""
 
 # QF Solver 0.2.5a0 V&V matrix
 
-Rows marked `OBSERVED_INTERNAL` record current working-tree evidence from the
-incremental implementation. They are not final-SHA controlled evidence and do
-not close a gate. `PASS_INTERNAL` or `PASS_EXTERNAL_CORRELATION_BOUNDED` still
-requires the controlled evidence rules. Element families marked SHOULD do not
+Rows marked `OBSERVED_INTERNAL` record exploratory evidence from the
+incremental implementation. The G01 rows below are promoted to
+`PASS_INTERNAL` only when the `g01_latest` manifest records the final clean
+source SHA. `PASS_INTERNAL` or `PASS_EXTERNAL_CORRELATION_BOUNDED` describes
+the evidence result; it does not by itself close a gate when an acceptance
+band still requires Owner approval. Element families marked SHOULD do not
 block release unless promoted.
 
 | V&V ID | Scope | Model/path | Metrics | Reference | Status | Gate |
 |---|---|---|---|---|---|---|
-| VV-001 | J2 constitutive | elastic/yield/uniaxial | stress, alpha, tangent | analytical | OBSERVED_INTERNAL | G01 |
-| VV-002 | J2 constitutive | unload/reload/reversal cycles | full stress-strain path | analytical law | OBSERVED_INTERNAL | G01 |
-| VV-003 | J2 constitutive | shear/hydrostatic/non-proportional | yield, flow, PEEQ | invariants/independent calc | OBSERVED_INTERNAL | G01 |
-| VV-004 | J2 tangent | eight elastic/near-yield/plastic, cyclic and non-proportional states with FD-step sweep | max/RMS relative derivative error | centered FD | OBSERVED_INTERNAL | G01 |
-| VV-005 | state | true failed increment | state digests, retry result | small-step reference | OBSERVED_INTERNAL | G01/G09 |
-| VV-006 | J2 elements | common multi-element mesh, 4 families | F-u, reactions, VM, PEEQ, energy | converged mesh/external | OBSERVED_INTERNAL | G01 |
-| VV-007 | J2 load-step sensitivity | coarse/reference/refined on connected mesh | solution, PEEQ, dissipation and cost trends | step-sensitivity study | OBSERVED_INTERNAL | G01 |
+| VV-001 | J2 constitutive | elastic/yield/uniaxial | stress, alpha, tangent | analytical | PASS_INTERNAL | G01 |
+| VV-002 | J2 constitutive | unload/reload/reversal cycles | full stress-strain path | analytical law | PASS_INTERNAL | G01 |
+| VV-003 | J2 constitutive | shear/hydrostatic/non-proportional | yield, flow, PEEQ | invariants/independent calc | PASS_INTERNAL | G01 |
+| VV-004 | J2 tangent | eight elastic/near-yield/plastic, cyclic and non-proportional states with FD-step sweep | max/RMS relative derivative error | centered FD | PASS_INTERNAL | G01 |
+| VV-005 | state | true failed increment | state digests, retry result | small-step reference | PASS_INTERNAL | G01/G09 |
+| VV-006 | J2 elements | common multi-element mesh, 4 families | F-u, reactions, VM, PEEQ, energy | converged mesh/external | PASS_INTERNAL | G01 |
+| VV-007 | J2 load-step sensitivity | coarse/reference/refined on connected mesh | solution, PEEQ, dissipation and cost trends | step-sensitivity study | PASS_INTERNAL | G01 |
 | VV-008 | objectivity | rigid translation/rotation | spurious strain/stress/force | exact invariant | OBSERVED_INTERNAL | G02 |
 | VV-009 | geometric element | TET4 TL | force/tangent/energy FD | numerical derivative | OBSERVED_INTERNAL | G02 |
 | VV-010 | geometric element | HEX8 | force/tangent/energy FD | numerical derivative | OBSERVED_INTERNAL | G02 |
@@ -46,14 +48,14 @@ block release unless promoted.
 | VV-027 | failures | full taxonomy matrix | reason, rollback, converged=false | contract | PASS_INTERNAL | G09 |
 | VV-028 | regression | complete 0.2.4 + 0.2.5 suite | tests, skips, coverage, artifacts | frozen baseline | PLANNED | G11 |
 | VV-029 | release | clean docs/build/smoke | hashes and imports | clean environment | PLANNED | G12 |
-| VV-030 | J2 mesh refinement | regular block levels 1/2/4, four families | displacement, reactions, VM, PEEQ, energy, cost | internal trend study | OBSERVED_INTERNAL | G01 |
-| VV-031 | J2 cyclic path | load/unload/reversal/reload, four families | PEEQ, dissipation, residual, iterations | constitutive limitations | OBSERVED_INTERNAL | G01 |
+| VV-030 | J2 mesh refinement | regular block levels 1/2/4, four families | displacement, reactions, VM, PEEQ, energy, cost | internal trend study | PASS_INTERNAL | G01 |
+| VV-031 | J2 cyclic path | load/unload/reversal/reload, four families | PEEQ, dissipation, residual, iterations | constitutive limitations | PASS_INTERNAL | G01 |
 | VV-032 | Nonlinear phase timing | regular two-cell shared J2 TET4/HEX8 smoke | assembly, sparse linear solve, line-search wall time | reproducible benchmark telemetry | OBSERVED_INTERNAL | G08 |
 | VV-033 | J2 external multi-element | regular two-cell shared TET4/TET10/HEX8/HEX20 | UX, reaction, SXX, PEEQ histories | Code_Aster Docker | PASS_EXTERNAL_CORRELATION_BOUNDED | G01/G10 |
 | VV-034 | J2 finite-kinematic candidate | TET4/TET10/HEX8/HEX20, `kinematics=total_lagrangian_j2` | objectivity, element tangent FD, residual and state recovery | internal research contract | OBSERVED_INTERNAL_RESEARCH | G02/G06 |
 | VV-035 | Common contact contribution | TET4 + initial node-to-triangle penalty contact | sparse contact residual/tangent, unilateral activation, common Newton | internal research contract | OBSERVED_INTERNAL_RESEARCH | G05/G06 |
-| VV-036 | J2 energy balance | connected two-element mesh, ten monotonic increments, four families | Wext, Ue, Dp, signed/relative imbalance, point dissipation | work-energy identity and non-negative dissipation | OBSERVED_INTERNAL | G01 |
-| VV-037 | J2 rollback adversarial | TET4 connected mesh, injected rejected trial, cutback/retry | state digest, clean displacement, retry log, final reference difference | fixed-step reference | OBSERVED_INTERNAL | G01/G09 |
+| VV-036 | J2 energy balance | connected two-element mesh, ten monotonic increments, four families | Wext, Ue, Dp, signed/relative imbalance, point dissipation | work-energy identity and non-negative dissipation | PASS_INTERNAL | G01 |
+| VV-037 | J2 rollback adversarial | TET4 connected mesh, injected rejected trial, cutback/retry | state digest, clean displacement, retry log, final reference difference | fixed-step reference | PASS_INTERNAL | G01/G09 |
 | VV-038 | Linear buckling bounded | homogeneous TET4/HEX8 preload with sparse generalized `eigsh(K, M=-Kg)` when positive definite, shift-invert `eigs` after a sparse bracket when indefinite, and diagnosed bracket fallback otherwise | critical factor, formulation, bracket/fallback reason, tangent nnz, preload residual, critical-mode residual | internal sparse contract | OBSERVED_INTERNAL_RESEARCH | G03 |
 | VV-039 | Arc-length continuation | proportional nonlinear TET4 path to target factor | load-factor path, monotonicity, residual histories, endpoint comparison | fixed load-control path | OBSERVED_INTERNAL_RESEARCH | G04 |
 | VV-040 | Common frictionless contact | TET4 penalty contact open/penetrating plus initial/updated common Newton | active set, sparse tangent, search mode, residual | unilateral contact contract | OBSERVED_INTERNAL_RESEARCH | G05/G06 |

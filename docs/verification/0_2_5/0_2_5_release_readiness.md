@@ -26,7 +26,7 @@ approver: ""
 | Gate | Status | Evidence | Blocker/limit |
 |---|---|---|---|
 | 025-G00 | OPEN | | |
-| 025-G01 | OPEN | | |
+| 025-G01 | OPEN | `results/vnv_0_2_5/g01_latest/summary.json`, `g01_code_aster_latest/summary.json`, `0_2_5_j2_qualification_report.md` | Owner approval required for mesh/load-step and rollback/reference acceptance treatment |
 | 025-G02 | OPEN | | |
 | 025-G03 | OPEN | | |
 | 025-G04 | OPEN | | |
