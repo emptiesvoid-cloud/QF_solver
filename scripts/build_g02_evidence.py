@@ -963,7 +963,6 @@ def main() -> int:
     }
     write_json(OUT / "summary.json", data)
     (OUT / "report.md").write_text(report(data, source_sha, dirty, timestamp, plot_paths), encoding="utf-8")
-    write_json(OUT / "evidence_manifest.json", manifest(source_sha, dirty, timestamp))
     write_json(
         OUT / "gate_decision.json",
         {
@@ -978,6 +977,7 @@ def main() -> int:
             "functional_scope_not_changed": ["025-G03", "025-G04", "025-G05", "025-G06"],
         },
     )
+    write_json(OUT / "evidence_manifest.json", manifest(source_sha, dirty, timestamp))
     print(json.dumps({"status": data["status"], "source_sha": source_sha, "dirty": dirty, "output": str(OUT)}, indent=2))
     return 0
 
