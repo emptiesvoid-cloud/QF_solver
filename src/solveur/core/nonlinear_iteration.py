@@ -200,7 +200,7 @@ def solve_full_newton(
             if not np.all(np.isfinite(correction)):
                 raise NumericalConvergenceError(
                     f"Full Newton correction is non-finite at increment {step}.",
-                    reason=NonlinearFailureReason.NAN_DETECTED,
+                    reason=_nonfinite_failure_reason(correction),
                     diagnostics=_failure_diagnostics(
                         step, iteration, residual_history, relative, tolerance, line_search_iterations
                     ),
@@ -317,7 +317,7 @@ def _assembly_failure_reason(message: str) -> NonlinearFailureReason:
 
 
 def _nonfinite_failure_reason(values: np.ndarray) -> NonlinearFailureReason:
-    """Distinguish an infinite value from a NaN in a numerical payload."""
+    """Classify a non-finite payload, giving Inf precedence for mixed arrays."""
 
     return (
         NonlinearFailureReason.INF_DETECTED

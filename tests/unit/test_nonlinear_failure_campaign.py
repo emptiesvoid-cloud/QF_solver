@@ -11,6 +11,13 @@ def test_adversarial_failure_campaign_preserves_typed_reasons() -> None:
     assert all(case["passed"] for case in report["cases"])
     assert all(case["converged"] is False for case in report["cases"])
     assert all(case["diagnostics"]["solver"] == "full_newton" for case in report["cases"])
+    assert len(report["nonfinite_correction_cases"]) == 3
+    assert all(case["passed"] for case in report["nonfinite_correction_cases"])
+    assert [case["failure_reason"] for case in report["nonfinite_correction_cases"]] == [
+        "NAN_DETECTED",
+        "INF_DETECTED",
+        "INF_DETECTED",
+    ]
     assert report["retry_cases"][0]["passed"] is True
     assert report["retry_cases"][0]["diagnostics"]["committed_steps"] == [0.5, 1.0]
     assert report["retry_cases"][1]["name"] == "linear_solver_failure"

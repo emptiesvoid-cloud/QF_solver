@@ -99,6 +99,53 @@ def _run_case(
     )
 
 
+def _run_nonfinite_correction_case(
+    value: float, expected_reason: NonlinearFailureReason
+) -> dict[str, object]:
+    """Verify that the sparse backend's non-finite correction fails closed."""
+
+    assembly = _Assembly(lambda _displacement: np.zeros(2), np.eye(2))
+    try:
+        with patch(
+            "solveur.core.nonlinear_iteration.spsolve",
+            return_value=np.array([value, 0.0]),
+        ):
+            solve_full_newton(
+                assembly,
+                np.array([1.0, 0.0]),
+                np.array([1]),
+                increments=1,
+                tolerance=1.0e-10,
+                max_iterations=3,
+            )
+    except NumericalConvergenceError as error:
+        payload = error.to_dict()
+        diagnostics = dict(payload.get("diagnostics", {}))
+        observed_reason = payload.get("reason")
+        return {
+            "name": f"nonfinite_correction_{expected_reason.value.lower()}",
+            "expected_reason": expected_reason.value,
+            "observed_reason": observed_reason,
+            "passed": (
+                payload.get("converged") is False
+                and observed_reason == expected_reason.value
+                and diagnostics.get("solver") == "full_newton"
+            ),
+            "converged": bool(payload.get("converged", True)),
+            "failure_reason": observed_reason,
+            "diagnostics": diagnostics,
+        }
+    return {
+        "name": f"nonfinite_correction_{expected_reason.value.lower()}",
+        "expected_reason": expected_reason.value,
+        "observed_reason": None,
+        "passed": False,
+        "converged": True,
+        "failure_reason": None,
+        "diagnostics": {},
+    }
+
+
 def _run_min_increment_case() -> FailureCaseResult:
     """Exhaust adaptive cutbacks without allowing a partial result through."""
 

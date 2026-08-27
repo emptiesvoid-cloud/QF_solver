@@ -10,7 +10,7 @@ from solveur.core.errors import NumericalConvergenceError
 from solveur.core.material_state import state_is_finite
 from solveur.core.nonlinear_assembly import assemble_internal_tangent
 from solveur.core.nonlinear_contracts import NonlinearFailureReason
-from solveur.core.nonlinear_iteration import solve_full_newton
+from solveur.core.nonlinear_iteration import _nonfinite_failure_reason, solve_full_newton
 from tests.unit.test_analysis_features import elastoplastic_tet4_model
 
 
@@ -168,6 +168,59 @@ def test_full_newton_distinguishes_nan_and_inf_residuals(
 
     assert error.value.reason is reason
     assert error.value.to_dict()["converged"] is False
+
+
+@pytest.mark.parametrize(
+    ("value", "reason"),
+    [
+        (np.nan, NonlinearFailureReason.NAN_DETECTED),
+        (np.inf, NonlinearFailureReason.INF_DETECTED),
+        (-np.inf, NonlinearFailureReason.INF_DETECTED),
+    ],
+)
+def test_full_newton_distinguishes_nonfinite_linear_corrections(
+    monkeypatch: pytest.MonkeyPatch,
+    value: float,
+    reason: NonlinearFailureReason,
+) -> None:
+    class ValidAssembly:
+        ndof = 2
+
+        def assemble(self, displacement: np.ndarray, *, tangent_required: bool = True):
+            return np.zeros(2), eye(2, format="csr")
+
+    monkeypatch.setattr(
+        "solveur.core.nonlinear_iteration.spsolve",
+        lambda *args, **kwargs: np.array([value, 0.0]),
+    )
+    with pytest.raises(NumericalConvergenceError) as error:
+        solve_full_newton(
+            ValidAssembly(),
+            np.array([1.0, 0.0]),
+            np.array([1]),
+            increments=1,
+            tolerance=1.0e-8,
+            max_iterations=2,
+        )
+
+    payload = error.value.to_dict()
+    assert error.value.reason is reason
+    assert payload["converged"] is False
+    assert payload["diagnostics"]["solver"] == "full_newton"
+
+
+@pytest.mark.parametrize(
+    ("values", "reason"),
+    [
+        (np.array([np.nan, 0.0]), NonlinearFailureReason.NAN_DETECTED),
+        (np.array([np.inf, 0.0]), NonlinearFailureReason.INF_DETECTED),
+        (np.array([np.nan, -np.inf]), NonlinearFailureReason.INF_DETECTED),
+    ],
+)
+def test_nonfinite_failure_reason_is_deterministic_for_arrays(
+    values: np.ndarray, reason: NonlinearFailureReason
+) -> None:
+    assert _nonfinite_failure_reason(values) is reason
 
 
 def test_arc_length_does_not_hide_nonfinite_failure(monkeypatch: pytest.MonkeyPatch) -> None:

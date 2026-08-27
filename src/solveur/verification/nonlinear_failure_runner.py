@@ -17,6 +17,7 @@ from solveur.verification.nonlinear_failure_campaign import (
     _run_linear_backend_failure_case,
     _run_min_increment_case,
     _run_multistep_retry_rollback_case,
+    _run_nonfinite_correction_case,
     _run_state_corruption_case,
 )
 from solveur.verification.nonlinear_checkpoint_failure import run_checkpoint_failure_cases
@@ -68,6 +69,11 @@ def run_failure_campaign() -> dict[str, object]:
         ),
         _run_min_increment_case(),
     ]
+    nonfinite_correction_cases = [
+        _run_nonfinite_correction_case(np.nan, NonlinearFailureReason.NAN_DETECTED),
+        _run_nonfinite_correction_case(np.inf, NonlinearFailureReason.INF_DETECTED),
+        _run_nonfinite_correction_case(-np.inf, NonlinearFailureReason.INF_DETECTED),
+    ]
     retry_cases = [_run_contact_retry_rollback_case(), _run_linear_backend_failure_case()]
     contact_failure_cases = [
         _run_contact_penetration_limit_case(),
@@ -83,6 +89,7 @@ def run_failure_campaign() -> dict[str, object]:
             "PASS_INTERNAL_FAILURE_CONTRACT"
             if all(case.passed for case in cases)
             and all(case["passed"] for case in retry_cases)
+            and all(case["passed"] for case in nonfinite_correction_cases)
             and all(case["passed"] for case in contact_failure_cases)
             and all(case["passed"] for case in multi_step_cases)
             and all(case["passed"] for case in path_failure_cases)
@@ -92,6 +99,7 @@ def run_failure_campaign() -> dict[str, object]:
         ),
         "release_claim": False,
         "cases": [case.to_dict() for case in cases],
+        "nonfinite_correction_cases": nonfinite_correction_cases,
         "retry_cases": retry_cases,
         "contact_failure_cases": contact_failure_cases,
         "multi_step_cases": multi_step_cases,
