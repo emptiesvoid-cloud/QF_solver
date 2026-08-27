@@ -27,12 +27,16 @@ describes.
 
 | Evidence | Artifact | Result |
 |---|---|---|
-| Internal J2 campaign | `results/vnv_0_2_5/g01_latest/summary.json` and `evidence_manifest.json` | `PASS_INTERNAL_J2` |
-| Code_Aster correlation | `results/vnv_0_2_5/g01_code_aster_latest/summary.json` and `evidence_manifest.json` | `PASS_EXTERNAL_CORRELATION` |
+| Internal J2 campaign | `results/vnv_0_2_5/g01_latest/summary.json` and `evidence_manifest.json` (recorded by the report; not present in this checkout) | `PASS_INTERNAL_J2` recorded, candidate manifest not verified |
+| Code_Aster correlation | `results/vnv_0_2_5/g01_code_aster_latest/summary.json` and `evidence_manifest.json` (recorded by the report; not present in this checkout) | `PASS_EXTERNAL_CORRELATION` recorded, candidate manifest not verified |
 | Targeted regression | J2 constitutive, state, cyclic, sensitivity, multi-element and evidence tests | `68 passed` |
 
-The controlled replay regenerates both manifests on the final clean source SHA.
-The recorded campaign used the pinned Code_Aster image
+The report records a controlled replay on a clean source revision, but the
+two G01 manifest directories are not available in the current candidate
+checkout. A manifest inspected in another worktree records SHA
+`d6ede9d8c3cf01ea6d381ff84441ad2067482095`, which is not the candidate SHA
+under review and is therefore excluded from this decision. The recorded
+campaign used the pinned Code_Aster image
 `simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435`
 and the command documented in the external manifest. TET10 uses the explicit
 comparison convention `tet10_nonlinear_quadrature=code_aster_5`; the legacy
@@ -145,11 +149,32 @@ that a universal scalar band cannot be inferred from this campaign alone.
 
 `025-G01 = OPEN`.
 
-The technical evidence is green, but the gate cannot be closed until the
-Owner explicitly approves the frozen acceptance treatment for rollback
-reference differences and mesh/load-step trends. This is a governance
-blocker, not a failed numerical test. No other functional gate is changed by
-this report.
+### Owner decision study
+
+The candidate source revision reviewed by this study is
+`fd59fa69e53f218c03673639e0e1f1b3b539261f`. The classifications below
+separate an already justified invariant from an observation for which no
+release band was frozen before the campaign.
+
+| Metric | Classification | Basis for decision |
+|---|---|---|
+| Mesh / PEEQ | `ACCEPTED_BOUNDED_OBSERVATION` | Mesh levels `1/2/4` and four-family trends were executed, but the observed coarse-to-refined changes are family-dependent and no universal release band was pre-approved. |
+| Load-step sensitivity | `ACCEPTED_BOUNDED_OBSERVATION` | The step sweep provides diagnostic trend evidence. The existing tighter `1e-8`/`2e-2` sensitivity contract is specific to the established TET4 campaign and cannot be extended to the four-family G01 claim without a prior justification. |
+| Rollback | `ACCEPTED_BOUNDED_OBSERVATION` | Exact committed-state preservation, cutback and retry are `THRESHOLD_JUSTIFIED`; the final difference to the small-step reference (`1.25432459287778e-07` displacement relative and `3.34527073576896e-09` PEEQ absolute) has no pre-frozen release band. |
+
+This treatment does not lower any requirement. It records the available
+evidence honestly and keeps the broader claim bounded. The missing
+candidate-SHA G01 manifests also prevent these report-level results from
+being treated as final controlled artifacts.
+
+**G01 OWNER DECISION = OPEN**
+
+**CONTRACT LOWERED = NO**
+**REMAINING BLOCKER =** Owner approval of the acceptance treatment plus
+candidate-SHA manifests for the internal and Code_Aster G01 campaigns.
+
+This is a governance/provenance blocker, not evidence of a failed numerical
+test. No other functional gate is changed by this report.
 
 ## Owner questions
 

@@ -17,10 +17,12 @@ values are restricted to `PASS`, `OPEN`, `BLOCKED` and
 proof, but do not replace the gate status. Only evidence generated on the
 recorded SHA can close a gate.
 
-G01 now has controlled internal and Code_Aster evidence under the stable
-`g01_latest` and `g01_code_aster_latest` output paths. Its gate remains
-`OPEN` because the campaign records no pre-frozen release band for mesh/
-load-step trends and rollback reference differences. G02, G03, G06 and G08
+G01 is described by controlled internal and Code_Aster evidence under the
+stable `g01_latest` and `g01_code_aster_latest` output paths. Those G01
+directories are not present in the current candidate checkout, and manifests
+from another source revision are not eligible as final evidence. Its gate
+remains `OPEN` because the campaign records no pre-frozen release band for
+mesh/load-step trends and rollback reference differences. G02, G03, G06 and G08
 retain provisional observations and remain `OPEN` until their own controlled
 campaigns close. G09 has a separate controlled failure campaign and is closed
 below; this does not close any dependent functional gate.
