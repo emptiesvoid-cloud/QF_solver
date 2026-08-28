@@ -214,18 +214,20 @@ G05 and G06 are unchanged.
 The targeted G06 campaign is archived under
 `results/vnv_0_2_5/g06_latest/`. Its `summary.json`, `report.md` and
 `evidence_manifest.json` record source SHA
-`6b0c5e708c22cad9fcdf6caa3084b2475f722a59`, `dirty=false`, and artifact
+`a56db0863835ee16485adf5c9d30954c2f425ecb`, `dirty=false`, and artifact
 digests. The replay covers the existing pairwise/triple composition checks,
 the four-family J2 plus Total-Lagrangian path, the four-family updated
 penalty-contact composition, and a three-level (`1/2/4`) J2 plus geometry
-mesh study. All targeted internal paths converged and remain classified
+mesh study. The complete step-level history capture is also archived as
+`results/vnv_0_2_5/g06_latest/coupled_histories.json`. All targeted internal paths converged and remain classified
 `PASS_INTERNAL_RESEARCH`.
 
 This evidence does not close `025-G06`. The required Code_Aster full-history
 correlations for J2 plus geometry and geometry plus contact are not present,
 the J2+geometry mesh study does not cover geometry plus contact, and the
-coupled campaign does not yet archive the complete energy and tangent
-histories required by the gate contract. The finite-kinematic J2 path remains
+coupled history includes work/energy and tangent-sparsity telemetry, but it does
+not independently verify the coupled tangent by finite differences. The
+finite-kinematic J2 path remains
 experimental/research; no qualified coupled or physical-validation claim is
 made. CalculiX remains supporting SHOULD evidence and cannot replace the
 missing Code_Aster MUST cells. `CONTRACT LOWERED = NO`.

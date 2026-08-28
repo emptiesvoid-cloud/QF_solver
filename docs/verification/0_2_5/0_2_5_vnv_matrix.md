@@ -272,9 +272,10 @@ release SHA:
   `VV-062` observations):
   `results/vnv_0_2_5/g06_latest/summary.json`,
   `results/vnv_0_2_5/g06_latest/report.md` and
-  `results/vnv_0_2_5/g06_latest/evidence_manifest.json`. The replay is
+  `results/vnv_0_2_5/g06_latest/evidence_manifest.json`, plus the complete
+  `results/vnv_0_2_5/g06_latest/coupled_histories.json` capture. The replay is
   internal research evidence only and does not satisfy the missing external
-  MUST correlation or complete coupled energy/tangent-history requirement.
+  MUST correlation or independent coupled tangent verification requirement.
 - aggregated adversarial failure contract `VV-027`, `VV-050`, `VV-051` and
   `VV-054`:
   `src/solveur/verification/nonlinear_failure_campaign.py`,
