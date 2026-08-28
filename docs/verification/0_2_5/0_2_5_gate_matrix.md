@@ -43,7 +43,7 @@ any dependent functional gate.
 | 025-G07 | Frictional contact verified | only after Owner promotion; objective stick/slip, state, dissipation and external evidence | G05, G06, Owner GO | NOT_IN_RELEASE_SCOPE |
 | 025-G08 | Performance characterized | reproducible cost/memory profiles for all mandatory paths; HEX20 explained; numerical non-regression after optimization | relevant functional gates | PASS |
 | 025-G09 | Failure modes verified | complete mandatory failure matrix; structured reasons; no false convergence; exact rollback | relevant functional gates | PASS |
-| 025-G10 | External correlation bounded | all mandatory external matrix cells complete or associated claim removed; full histories and provenance | G01-G06 | OPEN |
+| 025-G10 | External correlation bounded | all mandatory external matrix cells complete or associated claim removed; full histories and provenance | G01-G06 | BLOCKED |
 | 025-G11 | Full regression | complete 0.2.4 + accepted 0.2.5 tests, coverage policy, docs, V&V, build and smoke pass on candidate SHA | G08-G10 and mandatory functional gates | OPEN |
 | 025-G12 | Documentation, traceability and Owner closure | final-SHA evidence, qualification/README/changelog/metadata consistency, limitations, artifacts and explicit Owner release decision | G11 | OPEN |
 
@@ -58,6 +58,27 @@ Every gate record includes:
 - skips/exclusions and justification;
 - known limits and residual risks;
 - reviewer, date and Owner decision where required.
+
+## G10 sweep decision
+
+`025-G10` is `BLOCKED` by the still-open mandatory external cells associated
+with `025-G04` and `025-G06`. The external matrix is classified as follows:
+
+| Capability row | Current classification | Release consequence |
+|---|---|---|
+| J2 multi-element | `PASS_BOUNDED` | Two-cell Code_Aster history is supporting bounded evidence; it is not a complete G10 closure for every claimed path |
+| Large deformation | `PASS_BOUNDED` | Bounded TET4/HEX8 elastic evidence only |
+| Linear buckling | `PASS_BOUNDED` | Euler and bounded Code_Aster TET4 evidence; CalculiX remains a non-blocking SHOULD with recorded deviations/limits |
+| Arc-length | `OPEN` | G04 remains open: the required independent reproducible reference and four-level branch study are not closed |
+| Frictionless contact | `PASS_BOUNDED` | Bounded G05 contact contract only; no general external surface-to-surface claim |
+| J2 + geometry | `OPEN` | G06 MUST: finite-kinematic J2 is not an approved model and the Code_Aster comparison is incomplete/non-comparable for the required scope |
+| Geometry + contact | `OPEN` | G06 MUST: the finite-kinematic comparison has a mapped reaction deviation and no equivalent finite-sliding external history |
+| Triple coupling | `NOT_REQUIRED` | SHOULD not promoted to a 0.2.5 release requirement |
+| Friction | `NOT_REQUIRED` | COULD and G07 remains `NOT_IN_RELEASE_SCOPE` |
+
+CalculiX is not promoted from SHOULD to MUST. Its available positive or
+negative results remain supporting evidence and do not replace the Code_Aster
+MUST cells. No requirement or tolerance is lowered by this decision.
 
 ## Controlled closure: 025-G09
 
