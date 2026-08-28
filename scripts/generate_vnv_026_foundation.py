@@ -1,8 +1,8 @@
 """Generate authoritative 0.2.6 planning data and synchronized Markdown.
 
-The generator intentionally creates definitions, not solver results.  Only the
-ten READY smoke cases are executable in this foundation run; the remaining
-catalog entries are explicit future work and cannot be mistaken for evidence.
+The generator creates controlled definitions, not solver results.  The ten
+foundation smoke cases and the bounded G05 execution batch are READY; the
+remaining catalog entries stay explicit future work and are not evidence.
 """
 
 from __future__ import annotations
@@ -97,11 +97,87 @@ SMOKE_CASES = (
 )
 
 
+def _g05_case(case_id: str, title: str, prefix: str, capability: str, model: str, analysis_type: str, *, load_scale: float = 1.0, analysis: dict[str, Any] | None = None, material_updates: dict[str, dict[str, Any]] | None = None, expected_failure: str | None = None, maturity: str = "QUALIFIED_BOUNDED") -> dict[str, Any]:
+    case = _ready(case_id, title, prefix, capability, f"examples/{model}", analysis_type, expected_failure=expected_failure, maturity=maturity)
+    case.update({
+        "description": "A bounded G05 executable case using a maintained example with declared deterministic variation.",
+        "mesh_strategy": "maintained_example_or_declared_variant",
+        "mesh_levels": ["controlled"],
+        "oracle_types": ["internal_regression", "invariant"],
+        "metrics": ["solver_status", "displacement", "reaction", "residual", "numerical_fingerprint"],
+        "ci_profiles": ["G05", "FULL", "RELEASE"],
+        "tags": ["g05", prefix.lower(), capability],
+        "source_reference": "0.2.6 maintained example and controlled G05 variation",
+        "known_limitations": ["Executable robustness evidence; does not independently promote capability maturity."],
+        "model_overrides": {
+            **({"load_scale": load_scale} if load_scale != 1.0 else {}),
+            **({"analysis": analysis} if analysis else {}),
+            **({"material_updates": material_updates} if material_updates else {}),
+        },
+    })
+    return case
+
+
+G05_CASES = (
+    _g05_case("VNV026-LIN-G05-001", "TET4 static half load", "LIN", "linear_solids", "tet4_static.json", "linear_static", load_scale=0.5),
+    _g05_case("VNV026-LIN-G05-002", "TET4 static amplified load", "LIN", "linear_solids", "tet4_static.json", "linear_static", load_scale=1.5),
+    _g05_case("VNV026-LIN-G05-003", "TET4 body force", "LIN", "linear_solids", "tet4_body_force.json", "linear_static"),
+    _g05_case("VNV026-LIN-G05-004", "TET4 compression", "LIN", "linear_solids", "tet4_compression.json", "linear_static"),
+    _g05_case("VNV026-LIN-G05-005", "TET4 pressure", "LIN", "linear_solids", "tet4_pressure.json", "linear_static"),
+    _g05_case("VNV026-LIN-G05-006", "TET10 static", "LIN", "linear_solids", "tet10_static.json", "linear_static"),
+    _g05_case("VNV026-LIN-G05-007", "TET10 orthotropic static", "LIN", "linear_solids", "tet10_orthotropic_static.json", "linear_static"),
+    _g05_case("VNV026-LIN-G05-008", "TET4 orthotropic static", "LIN", "linear_solids", "tet4_orthotropic_static.json", "linear_static"),
+    _g05_case("VNV026-SHL-G05-001", "BEAM2 cantilever", "SHL", "shell_beam_discrete", "beam2_cantilever.json", "linear_static"),
+    _g05_case("VNV026-SHL-G05-002", "MITC3 shell static", "SHL", "shell_beam_discrete", "mitc3_shell_static.json", "linear_static"),
+    _g05_case("VNV026-SHL-G05-003", "MITC4 shell static", "SHL", "shell_beam_discrete", "mitc4_shell_static.json", "linear_static"),
+    _g05_case("VNV026-SHL-G05-004", "MITC4 laminate static", "SHL", "shell_beam_discrete", "mitc4_laminate_static.json", "linear_static"),
+    _g05_case("VNV026-SHL-G05-005", "RBE2 rigid arm", "SHL", "shell_beam_discrete", "rbe2_rigid_arm.json", "linear_static"),
+    _g05_case("VNV026-MOD-G05-001", "TET4 modal unit", "MOD", "modal", "tet4_modal_unit.json", "modal"),
+    _g05_case("VNV026-MOD-G05-002", "TET4 modal orthotropic", "MOD", "modal", "tet4_orthotropic_modal.json", "modal"),
+    _g05_case("VNV026-MOD-G05-003", "MITC3 modal", "MOD", "modal", "mitc3_modal_cantilever.json", "modal"),
+    _g05_case("VNV026-MOD-G05-004", "MITC4 modal", "MOD", "modal", "mitc4_modal_cantilever.json", "modal"),
+    _g05_case("VNV026-MOD-G05-005", "TET4 modal repeated mass", "MOD", "modal", "tet4_modal_unit.json", "modal", material_updates={"steel": {"density": 8000.0}}),
+    _g05_case("VNV026-DYN-G05-001", "TET4 free vibration", "DYN", "transient_dynamics", "tet4_dynamic_free_vibration.json", "transient_dynamic"),
+    _g05_case("VNV026-DYN-G05-002", "TET4 SDOF free vibration", "DYN", "transient_dynamics", "tet4_dynamic_sdof_free_vibration.json", "transient_dynamic"),
+    _g05_case("VNV026-DYN-G05-003", "TET4 tabulated transient", "DYN", "transient_dynamics", "tet4_dynamic_tabulated_load.json", "transient_dynamic"),
+    _g05_case("VNV026-DYN-G05-004", "TET4 transient", "DYN", "transient_dynamics", "tet4_transient_dynamic.json", "transient_dynamic"),
+    _g05_case("VNV026-DYN-G05-005", "MITC3 Newmark", "DYN", "transient_dynamics", "mitc3_newmark_cantilever.json", "transient_dynamic"),
+    _g05_case("VNV026-DYN-G05-006", "MITC4 Newmark", "DYN", "transient_dynamics", "mitc4_newmark_cantilever.json", "transient_dynamic"),
+    _g05_case("VNV026-HAR-G05-001", "TET4 harmonic response", "HAR", "harmonic", "tet4_harmonic_response.json", "harmonic"),
+    _g05_case("VNV026-HAR-G05-002", "TET4 SDOF harmonic", "HAR", "harmonic", "tet4_harmonic_sdof_response.json", "harmonic"),
+    _g05_case("VNV026-HAR-G05-003", "MITC3 laminate harmonic", "HAR", "harmonic", "mitc3_laminate_harmonic.json", "harmonic"),
+    _g05_case("VNV026-HAR-G05-004", "MITC4 harmonic", "HAR", "harmonic", "mitc4_harmonic_cantilever.json", "harmonic"),
+    _g05_case("VNV026-HAR-G05-005", "TET4 harmonic stiffness variant", "HAR", "harmonic", "tet4_harmonic_response.json", "harmonic", material_updates={"steel": {"E": 1100.0}}),
+    _g05_case("VNV026-J2-G05-001", "J2 TET4 elastoplastic nominal", "J2", "small_strain_j2", "tet4_elastoplastic_static.json", "nonlinear_static"),
+    _g05_case("VNV026-J2-G05-002", "J2 TET4 elastoplastic half load", "J2", "small_strain_j2", "tet4_elastoplastic_static.json", "nonlinear_static", load_scale=0.5),
+    _g05_case("VNV026-J2-G05-003", "J2 TET4 elastoplastic hardening", "J2", "small_strain_j2", "tet4_elastoplastic_static.json", "nonlinear_static", material_updates={"plastic_steel": {"hardening_modulus": 120.0}}),
+    _g05_case("VNV026-J2-G05-004", "Nonlinear TET4 route", "J2", "small_strain_j2", "tet4_nonlinear_static.json", "nonlinear_static"),
+    _g05_case("VNV026-J2-G05-005", "J2 load-step variant", "J2", "small_strain_j2", "tet4_elastoplastic_static.json", "nonlinear_static", analysis={"load_steps": 8}),
+    _g05_case("VNV026-J2-G05-006", "J2 stricter iteration budget", "J2", "small_strain_j2", "tet4_elastoplastic_static.json", "nonlinear_static", analysis={"max_iterations": 100}),
+    _g05_case("VNV026-GNL-G05-001", "TET4 geometric nonlinear nominal", "GNL", "geometric_nonlinear", "tet4_geometric_nonlinear_static.json", "geometric_nonlinear_static", maturity="EXPERIMENTAL"),
+    _g05_case("VNV026-GNL-G05-002", "TET4 geometric nonlinear half load", "GNL", "geometric_nonlinear", "tet4_geometric_nonlinear_static.json", "geometric_nonlinear_static", load_scale=0.5, maturity="EXPERIMENTAL"),
+    _g05_case("VNV026-GNL-G05-003", "TET4 geometric nonlinear steps", "GNL", "geometric_nonlinear", "tet4_geometric_nonlinear_static.json", "geometric_nonlinear_static", analysis={"load_steps": 8}, maturity="EXPERIMENTAL"),
+    _g05_case("VNV026-BUC-G05-001", "TET4 sparse buckling", "BUC", "linear_buckling", "tet4_linear_buckling.json", "linear_buckling"),
+    _g05_case("VNV026-BUC-G05-002", "TET4 buckling load variant", "BUC", "linear_buckling", "tet4_linear_buckling.json", "linear_buckling", load_scale=0.75),
+    _g05_case("VNV026-BUC-G05-003", "TET4 buckling modes variant", "BUC", "linear_buckling", "tet4_linear_buckling.json", "linear_buckling", analysis={"modes": 2}),
+    _g05_case("VNV026-CON-G05-001", "Frictionless plane contact", "CON", "frictionless_contact", "frictionless_contact_plane.json", "linear_static"),
+    _g05_case("VNV026-CON-G05-002", "Frictionless surface contact", "CON", "frictionless_contact", "frictionless_contact_surface.json", "linear_static"),
+    _g05_case("VNV026-CON-G05-003", "Frictionless plane contact load variant", "CON", "frictionless_contact", "frictionless_contact_plane.json", "linear_static", load_scale=0.75),
+    _g05_case("VNV026-CON-G05-004", "Frictionless surface contact load variant", "CON", "frictionless_contact", "frictionless_contact_surface.json", "linear_static", load_scale=0.75),
+    _g05_case("VNV026-ADV-G05-001", "Invalid inverted TET4 contract", "ADV", "adversarial", "invalid_inverted_tet4.json", "linear_static", expected_failure="INVALID_ELEMENT", maturity="QUALIFIED_BOUNDED"),
+    _g05_case("VNV026-ADV-G05-002", "Repeated invalid geometry contract", "ADV", "adversarial", "invalid_inverted_tet4.json", "linear_static", expected_failure="INVALID_ELEMENT", maturity="QUALIFIED_BOUNDED"),
+    _g05_case("VNV026-ADV-G05-003", "Invalid geometry deterministic repeat", "ADV", "adversarial", "invalid_inverted_tet4.json", "linear_static", expected_failure="INVALID_ELEMENT", maturity="QUALIFIED_BOUNDED"),
+    _g05_case("VNV026-SCL-G05-001", "Spring mass scaling baseline", "SCL", "scaling", "spring_mass_oscillator.json", "linear_static", maturity="EXPERIMENTAL"),
+    _g05_case("VNV026-SCL-G05-002", "TET4 scaling route baseline", "SCL", "scaling", "tet4_static.json", "linear_static", maturity="EXPERIMENTAL"),
+)
+
+
 def planned_cases() -> list[dict[str, Any]]:
-    smoke_prefixes = {case["family"] for case in SMOKE_CASES}
-    cases = list(SMOKE_CASES)
+    ready_cases = (*SMOKE_CASES, *G05_CASES)
+    ready_counts = {prefix: sum(case["family"] == prefix for case in ready_cases) for prefix, *_ in CAMPAIGNS}
+    cases = list(ready_cases)
     for prefix, title, capability, target, maturity in CAMPAIGNS:
-        count = target - (1 if prefix in smoke_prefixes else 0)
+        count = target - ready_counts[prefix]
         for index in range(1, count + 1):
             cases.append(
                 {
@@ -239,10 +315,12 @@ def write_data() -> None:
         "schema_version": 1,
         "target_case_count": 180,
         "foundation_smoke_case_count": len(SMOKE_CASES),
+        "g05_executable_case_count": len(G05_CASES),
         "campaigns": [{"prefix": prefix, "title": title, "capability": capability, "target_case_count": target, "maturity_target": maturity} for prefix, title, capability, target, maturity in CAMPAIGNS],
-        "profiles": {"SMOKE": "10 maintained executable cases", "STANDARD": "future routine selection", "FULL": "all ready cases after gate implementation", "EXTERNAL": "explicit external adapters only", "ADVERSARIAL": "expected failure and metamorphic cases", "SCALING": "machine-characterized profiles", "RELEASE": "controlled aggregation"},
+        "profiles": {"SMOKE": "10 maintained foundation executable cases", "G05": "50 bounded robustness executable cases", "STANDARD": "future routine selection", "FULL": "all ready cases after gate implementation", "EXTERNAL": "explicit external adapters only", "ADVERSARIAL": "expected failure and metamorphic cases", "SCALING": "machine-characterized profiles", "RELEASE": "controlled aggregation"},
     })
-    _write_json(QUALIFICATION / "case_registry.json", {"schema_version": 1, "metadata": {"release": "0.2.6a0", "target_case_count": 180, "ready_case_count": len(SMOKE_CASES), "planned_case_count": 180 - len(SMOKE_CASES), "generator": "scripts/generate_vnv_026_foundation.py"}, "cases": cases})
+    ready_case_count = len(SMOKE_CASES) + len(G05_CASES)
+    _write_json(QUALIFICATION / "case_registry.json", {"schema_version": 1, "metadata": {"release": "0.2.6a0", "target_case_count": 180, "ready_case_count": ready_case_count, "foundation_smoke_case_count": len(SMOKE_CASES), "g05_executable_case_count": len(G05_CASES), "planned_case_count": 180 - ready_case_count, "generator": "scripts/generate_vnv_026_foundation.py"}, "cases": cases})
     _write_json(QUALIFICATION / "gates.json", {"schema_version": 1, "gates": [{"id": f"026-G{index:02d}", "title": title, "status": status, "evidence_ids": evidence} for index, title, status, evidence in _gates()]})
     _write_json(QUALIFICATION / "capability_targets.json", {"schema_version": 1, "capabilities": [{"id": capability, "current_maturity": maturity, "target": target, "claim_boundary": limit} for capability, maturity, target, limit in _capabilities()]})
     _write_json(QUALIFICATION / "requirements.json", {"schema_version": 1, "requirements": _requirements()})
@@ -462,7 +540,7 @@ Results stay runtime artifacts, while small definitions and manifests remain
 versionable. External adapters are explicit, optional and must report an
 unavailable tool as `SKIPPED_EXTERNAL_UNAVAILABLE`.
 """,
-        "0_2_6_campaign_matrix.md": "# Campaign Matrix\n\nThe target is exactly 180 planned meaningful cases. Ten maintained models are READY as foundation smoke cases; the remaining definitions are PLANNED and are not evidence.\n\n| Prefix | Campaign | Target | Maturity target |\n| --- | --- | ---: | --- |\n" + campaign_rows + "\n",
+        "0_2_6_campaign_matrix.md": "# Campaign Matrix\n\nThe catalog contains exactly 180 meaningful case definitions. Ten maintained models are READY as foundation smoke cases and 50 bounded G05 variants are READY for execution; the remaining 120 definitions are PLANNED and are not evidence.\n\n`READY` means the controlled runner can execute the case. It does not by itself mean `QUALIFIED`; qualification still requires the applicable oracle, acceptance criteria and gate decision.\n\n| Prefix | Campaign | Target | Maturity target |\n| --- | --- | ---: | --- |\n" + campaign_rows + "\n",
         "0_2_6_external_correlation_plan.md": """# External Correlation Plan
 
 Analytical references come first for clean cases. Code_Aster is the primary

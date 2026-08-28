@@ -17,12 +17,13 @@ DOCS_ROOT = ROOT / "docs" / "verification" / "0_2_6"
 DATA_ROOT = ROOT / "qualification" / "0_2_6"
 
 
-def test_registry_has_exact_planned_corpus_and_only_ready_smoke_cases() -> None:
+def test_registry_has_exact_corpus_and_separate_smoke_and_g05_batches() -> None:
     registry = VnvRegistry.from_file(REGISTRY_PATH)
 
     assert len(registry.cases) == 180
     assert len(registry.select(profile="SMOKE")) == 10
-    assert len(registry.select(profile="FULL")) == 10
+    assert len(registry.select(profile="G05")) == 50
+    assert len(registry.select(profile="FULL")) == 60
     assert registry.digest == VnvRegistry.from_file(REGISTRY_PATH).digest
 
 

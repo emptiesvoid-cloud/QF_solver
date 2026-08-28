@@ -1,19 +1,21 @@
 {
-  "schema_version": 1,
   "completed_work_packages": [
     {
-      "id": "026-WP04-ARCH",
-      "title": "Numerical core architecture refactor",
-      "status": "PASS",
-      "depends_on": ["WP-026-03"],
-      "official_gate_collision": "026-G04",
+      "depends_on": [
+        "WP-026-03"
+      ],
       "evidence": [
         "g04_architecture_evidence.json",
         "0_2_6_g04_architecture_evidence.md"
       ],
-      "note": "Distinct work-package identifier. Official gate 026-G04 remains Linear / element robustness."
+      "id": "026-WP04-ARCH",
+      "note": "Distinct work-package identifier. Official gate 026-G04 remains Linear / element robustness.",
+      "official_gate_collision": "026-G04",
+      "status": "PASS",
+      "title": "Numerical core architecture refactor"
     }
   ],
+  "schema_version": 1,
   "work_packages": [
     {
       "depends_on": [],
