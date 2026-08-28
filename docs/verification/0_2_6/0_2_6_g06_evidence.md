@@ -86,6 +86,7 @@ verification results and do not constitute external physical validation.
 - `compileall`: `PASS`.
 - `git diff --check`: `PASS`.
 
-Raw result files remain reproducible under `results/vnv_026_g06_quantitative_release/`
-and are excluded from normal source history; the compact evidence and manifest
-digest above are the archived record.
+Raw result files remain reproducible under `results/vnv_026_g06_final_clean/g06/`
+and `results/vnv_026_g06_quantitative_clean/`; they are excluded from normal
+source history. The compact evidence and manifest digests above are the
+archived record.

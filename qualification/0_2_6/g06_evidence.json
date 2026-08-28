@@ -4,7 +4,7 @@
   "status": "PASS_WITH_LIMITATIONS",
   "source_sha": "b9d523725ab2a6856256731e44921adf2837a1f3",
   "source_dirty": false,
-  "captured_at_utc": "2026-08-28T21:27:30.410180Z",
+  "captured_at_utc": "2026-08-28T21:31:09.160647Z",
   "solver_version": "0.2.6a0",
   "registry_digest": "d2e5f587ac2d67c3c875782c8558aa7aac60cec09df9f43614319eff1b99ea59",
   "profile": "G06",
