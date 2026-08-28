@@ -1,6 +1,6 @@
 # Architecture Refactor Plan
 
-## 026-WP04-ARCH implementation result
+## G04 implementation result
 
 The first completed architectural batch groups the existing core
 implementations by responsibility without changing numerical bodies, public

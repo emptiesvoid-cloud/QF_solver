@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+from copy import deepcopy
 from pathlib import Path
 from time import perf_counter
 from typing import Any, Iterable
@@ -91,7 +92,9 @@ class VnvRunner:
         started = perf_counter()
         try:
             model_path = self._model_path(case)
-            model = JsonModelReader().read(model_path)
+            raw_model = json.loads(model_path.read_text(encoding="utf-8"))
+            _apply_model_overrides(raw_model, case.model_overrides)
+            model = JsonModelReader().from_dict(raw_model)
             result_data = AnalysisRouter().solve(model).to_dict()
             actual_status = str(result_data.get("status", "FAIL")).upper()
             if case.expected_failure:
@@ -176,3 +179,32 @@ def _metrics(result: dict[str, Any]) -> dict[str, Any]:
     }
     values["numerical_fingerprint"] = hashlib.sha256(canonical_json(values).encode("utf-8")).hexdigest()
     return values
+
+
+def _apply_model_overrides(model: dict[str, Any], overrides: dict[str, Any]) -> None:
+    """Apply only declared, deterministic model perturbations for V&V variants."""
+
+    if not overrides:
+        return
+    allowed = {"load_scale", "analysis", "material_updates"}
+    unknown = set(overrides).difference(allowed)
+    if unknown:
+        raise ValueError(f"Unsupported V&V model overrides: {', '.join(sorted(unknown))}.")
+    load_scale = overrides.get("load_scale", 1.0)
+    if not isinstance(load_scale, (int, float)) or isinstance(load_scale, bool) or load_scale <= 0:
+        raise ValueError("V&V load_scale must be a positive number.")
+    if load_scale != 1.0:
+        for load in model.get("loads", []):
+            if isinstance(load, dict) and isinstance(load.get("value"), (int, float)):
+                load["value"] *= load_scale
+    analysis_updates = overrides.get("analysis", {})
+    if not isinstance(analysis_updates, dict):
+        raise ValueError("V&V analysis overrides must be an object.")
+    model.setdefault("analysis", {}).update(deepcopy(analysis_updates))
+    material_updates = overrides.get("material_updates", {})
+    if not isinstance(material_updates, dict):
+        raise ValueError("V&V material_updates must be an object.")
+    for material_name, updates in material_updates.items():
+        if material_name not in model.get("materials", {}) or not isinstance(updates, dict):
+            raise ValueError(f"Invalid V&V material override for {material_name!r}.")
+        model["materials"][material_name].update(deepcopy(updates))

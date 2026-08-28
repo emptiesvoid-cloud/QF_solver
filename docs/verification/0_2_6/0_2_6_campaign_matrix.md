@@ -1,6 +1,8 @@
 # Campaign Matrix
 
-The target is exactly 180 planned meaningful cases. Ten maintained models are READY as foundation smoke cases; the remaining definitions are PLANNED and are not evidence.
+The catalog contains exactly 180 meaningful case definitions. Ten maintained models are READY as foundation smoke cases and 50 bounded G05 variants are READY for execution; the remaining 120 definitions are PLANNED and are not evidence.
+
+`READY` means the controlled runner can execute the case. It does not by itself mean `QUALIFIED`; qualification still requires the applicable oracle, acceptance criteria and gate decision.
 
 | Prefix | Campaign | Target | Maturity target |
 | --- | --- | ---: | --- |

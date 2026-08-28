@@ -86,13 +86,15 @@
     }
   ],
   "foundation_smoke_case_count": 10,
+  "g05_executable_case_count": 50,
   "profiles": {
     "ADVERSARIAL": "expected failure and metamorphic cases",
     "EXTERNAL": "explicit external adapters only",
     "FULL": "all ready cases after gate implementation",
+    "G05": "50 bounded robustness executable cases",
     "RELEASE": "controlled aggregation",
     "SCALING": "machine-characterized profiles",
-    "SMOKE": "10 maintained executable cases",
+    "SMOKE": "10 maintained foundation executable cases",
     "STANDARD": "future routine selection"
   },
   "schema_version": 1,

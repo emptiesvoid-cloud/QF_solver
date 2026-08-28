@@ -4,7 +4,7 @@
 
 | Work package | Status | Evidence | Registry note |
 | --- | --- | --- | --- |
-| `026-WP04-ARCH` Numerical core architecture refactor | PASS | `g04_architecture_evidence.json`, `0_2_6_g04_architecture_evidence.md` | Distinct identifier; official gate `026-G04` remains Linear / element robustness. |
+| `026-WP04-ARCH` Numerical core architecture refactor | PASS | g04_architecture_evidence.json, 0_2_6_g04_architecture_evidence.md | Distinct work-package identifier. Official gate 026-G04 remains Linear / element robustness. |
 
 ## Planned foundation work packages
 

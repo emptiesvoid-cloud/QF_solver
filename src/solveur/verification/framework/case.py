@@ -56,6 +56,7 @@ class VnvCase:
     known_limitations: tuple[str, ...] = ()
     input_model: str | None = None
     factory_id: str | None = None
+    model_overrides: Mapping[str, Any] = field(default_factory=dict)
 
     @classmethod
     def from_mapping(cls, raw: Mapping[str, Any]) -> "VnvCase":
@@ -111,6 +112,7 @@ class VnvCase:
             known_limitations=_strings(raw.get("known_limitations", ()), case_id, "known_limitations"),
             input_model=input_model,
             factory_id=_optional_text(raw.get("factory_id"), case_id, "factory_id"),
+            model_overrides=_mapping(raw.get("model_overrides"), case_id, "model_overrides"),
         )
 
     def to_mapping(self) -> dict[str, Any]:
@@ -149,6 +151,7 @@ class VnvCase:
             "execution_state": self.execution_state,
             "input_model": self.input_model,
             "factory_id": self.factory_id,
+            "model_overrides": dict(self.model_overrides),
         }
 
 
