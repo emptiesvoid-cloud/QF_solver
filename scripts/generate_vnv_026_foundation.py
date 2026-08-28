@@ -261,7 +261,7 @@ def write_data() -> None:
 def _gates() -> list[tuple[int, str, str, list[str]]]:
     titles = ["Baseline / provenance", "Architecture audit", "V&V infrastructure", "Corpus design", "Linear / element robustness", "Modal / dynamic / harmonic", "J2 maturity extension", "Geometric nonlinear and arc-length review", "Buckling maturity extension", "Contact maturity extension", "Existing coupled nonlinear review", "Adversarial / failure / metamorphic", "Performance / scalability", "External correlation aggregation", "Full regression / architecture freeze", "Owner release review"]
     foundation = {
-        0: ("PASS_WITH_LIMITATIONS", ["baseline_snapshot.json", "0_2_5_release_readiness.md"], "Baseline numerical routes are a refactor guard captured on the additive foundation worktree; the 0.2.5 qualified source remains immutable."),
+        0: ("PASS", ["baseline_snapshot.json", "0_2_5_release_readiness.md"], "Clean baseline snapshot captured on the committed foundation; the 0.2.5 qualified source remains immutable."),
         1: ("PASS", ["architecture_audit.json", "0_2_6_architecture_audit.md"], "Static audit captured before any high-risk verification-package migration."),
         2: ("PASS", ["test_vnv_026_framework.py", "VNV026-SMOKE"], "Validated registry, safe runner, manifest and expected-failure contract."),
         3: ("PASS", ["case_registry.json", "0_2_6_campaign_matrix.md"], "Exactly 180 deterministic definitions exist; only 10 are READY and no planned case is evidence."),

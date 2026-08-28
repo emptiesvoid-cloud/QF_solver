@@ -1,5 +1,5 @@
 {
-  "captured_at_utc": "2026-08-28T18:09:14.888119Z",
+  "captured_at_utc": "2026-08-28T18:16:25.143878Z",
   "dependency_domains": {
     "__init__.py": [
       "version"
@@ -432,6 +432,6 @@
   "python_module_count": 394,
   "schema_version": 1,
   "source_dirty": true,
-  "source_sha": "1e6c3e96d1e1366c4cc790546e82769cd9227902",
+  "source_sha": "62c7b8406a657538f8a2b06ce6ff8b646aff7873",
   "verification_flat_module_count": 188
 }

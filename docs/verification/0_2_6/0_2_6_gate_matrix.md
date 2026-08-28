@@ -2,7 +2,7 @@
 
 | Gate | Purpose | Current status |
 | --- | --- | --- |
-| `026-G00` | Baseline / provenance | PASS_WITH_LIMITATIONS |
+| `026-G00` | Baseline / provenance | PASS |
 | `026-G01` | Architecture audit | PASS |
 | `026-G02` | V&V infrastructure | PASS |
 | `026-G03` | Corpus design | PASS |
