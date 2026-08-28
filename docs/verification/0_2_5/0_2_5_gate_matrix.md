@@ -24,8 +24,9 @@ Owner-approved treatment of mesh/load-step trends and rollback reference
 differences is bounded and does not create a universal convergence claim or
 lower any requirement. G02 is closed for the Owner-approved bounded elastic
 Total-Lagrangian scope defined below. The qualified numerical source remains
-distinct from the documentary Owner decision. G03 and G06 retain provisional
-observations and remain `OPEN` until their own controlled campaigns close. G08
+distinct from the documentary Owner decision. G06 retains provisional
+observations and remains `OPEN` until its own controlled campaign closes. G03
+is closed for the bounded TET4 linear-buckling scope defined below. G08
 is closed by the controlled replay recorded below. G09 has a
 separate controlled failure campaign and is closed below; this does not close
 any dependent functional gate.
@@ -35,7 +36,7 @@ any dependent functional gate.
 | 025-G00 | Baseline and architecture frozen | exact 0.2.4 SHA; provenance reconciled; tests/coverage/V&V/performance/API baselines; Owner audit approval | none | OPEN |
 | 025-G01 | 0.2.4 nonlinear V&V debt closed | multi-element four-family J2; mesh/load-step/cyclic/energy/rollback/tangent evidence; bounded external curves; Owner-approved acceptance treatment | G00 | PASS |
 | 025-G02 | Geometric nonlinear core verified | approved measures; TET4/HEX8 objectivity, tangent, energy, mesh and external evidence; common Full Newton | G01 | PASS |
-| 025-G03 | Linear buckling verified | sparse eigenpath; Euler + nontrivial benchmark; factor/mode convergence and external correlation | G02 | OPEN |
+| 025-G03 | Linear buckling verified | sparse eigenpath; Euler + nontrivial benchmark; factor/mode convergence and external correlation | G02 | PASS |
 | 025-G04 | Arc-length verified | one sparse method; branch, limit point, restart, cutback and external response evidence | G02 | OPEN |
 | 025-G05 | Frictionless contact verified | common residual/tangent/state/Newton; finite sliding, recontact, penetration sensitivity, rollback, external correlation | G02 | OPEN |
 | 025-G06 | Coupled nonlinear core verified | approved J2 finite-kinematics model; J2+geometry and geometry+contact; limit recovery, tangent, energy, mesh and external evidence | G01, G02, G05 | OPEN |
@@ -148,6 +149,41 @@ does not qualify `total_lagrangian_j2`, finite-kinematic plasticity,
 TET10/HEX20 finite-kinematic behavior, post-limit response, buckling,
 arc-length, contact or coupled paths; G03-G06 remain unchanged. The Code_Aster
 result is bounded numerical code-to-code correlation, not physical validation.
+
+## Controlled closure: 025-G03
+
+`025-G03` is `PASS` for a bounded first tangent-instability scope. The final
+internal Euler campaign is archived under
+`results/vnv_0_2_5/g03_euler_final/`; it contains four structured TET4 levels
+(`16x4x4`, `24x6x6`, `32x8x8`, `40x10x10`) with sparse initial-stress
+geometric stiffness, positive precritical `det(F)`, relative brackets below
+`5e-3`, and a finest-level Euler error of `5.89 %`. The successive critical
+load changes are recorded as `15.63 %`, `6.57 %` and `3.31 %`; this is a
+bounded refinement trend, not a universal mesh-convergence claim.
+
+The nontrivial external probe is archived under
+`results/vnv_0_2_5/g03_final/` and is linked to qualified source SHA
+`85c75d06955976251dd54ad782f57f1eb5a7f8f4`. QF Solver computes a critical
+factor of `221.54828247814925` against `221.774` from the pinned Code_Aster
+18.1.0 execution, a relative difference of `1.018e-3`. The best modal MAC is
+`0.9999999989229131` and the QF critical-mode residual is `1.72e-15`.
+
+This closure follows a demonstrated numerical correction: the buckling path
+now assembles only the sparse initial-stress geometric contribution instead
+of treating a full tangent difference as `Kg`. The exact TET4 unit test and
+the targeted buckling suite are green. The current Docker image could not
+replay Code_Aster in this environment because its launcher lacks `mpi4py`;
+the archived Code_Aster deck, image digest and mode output remain preserved
+as the external execution evidence. CalculiX remains a SHOULD cell: its
+bounded TET4 campaign is retained as supporting evidence and its blocked
+high-order probe is retained as negative evidence, but neither is required
+to close G03.
+
+The qualified scope is limited to sparse linear buckling / first tangent
+instability with the supported total-Lagrangian solid path and the recorded
+TET4 external probe. TET10, HEX8 and HEX20 remain internal/research for this
+gate; post-buckling, imperfection-sensitive collapse and general stability
+prediction remain outside the claim. `CONTRACT LOWERED = NO`.
 
 ## Owner audit: 025-G04 remains open
 

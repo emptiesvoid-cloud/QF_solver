@@ -85,6 +85,23 @@ surface-to-surface finite sliding, updated normals, recontact, penetration
 sensitivity, contact rollback and multi-element external histories remain
 open requirements for `025-G05` and `025-G10`.
 
+## Controlled Code_Aster TET4 buckling correlation
+
+The bounded Code_Aster MUST cell for G03 is closed by the exact constrained
+five-TET4 unit-block probe archived under
+`results/vnv_0_2_5/g03_final/`. The pinned Code_Aster 18.1.0 execution uses
+`RIGI_GEOM` and `CALC_MODES(TYPE_RESU="MODE_FLAMB")`. QF Solver uses the
+sparse initial-stress geometric tangent and obtains a critical factor of
+`221.54828247814925`; Code_Aster reports `221.774`, for a relative difference
+of `1.018e-3`. The best modal MAC is `0.9999999989229131`, with QF critical
+mode residual `1.72e-15`. This is a bounded numerical correlation and not
+physical validation or a claim for all solid families.
+
+The current container could not replay the deck because its Code_Aster
+launcher lacks `mpi4py`; the prior execution is retained with its source deck,
+mode output and pinned image digest. This environment limitation is recorded
+in the final evidence manifest and does not alter the archived external result.
+
 ## Observed bounded TET4-TL buckling correlation
 
 The existing CalculiX structural campaign was replayed under the dedicated

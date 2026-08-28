@@ -20,8 +20,11 @@ be expanded only through an Owner-reviewed scope/gate revision.
   remain SHOULD until their own evidence closes.
 - Linear buckling is an idealized bifurcation analysis, not an imperfection-aware
   collapse prediction.
-- The current Euler evidence is a bounded TET4 total-Lagrangian reference on two
-  structured levels; it does not qualify TET10/HEX8/HEX20 or post-buckling.
+- Linear buckling is qualified only as a bounded first tangent-instability
+  analysis: the Euler TET4 total-Lagrangian evidence uses four structured
+  levels and the external Code_Aster probe uses a constrained five-TET4 block.
+  TET10/HEX8/HEX20 external buckling, imperfection-sensitive collapse and
+  post-buckling remain unqualified.
 - Arc-length includes a reduced scalar shallow-arch branch-following check, but
   remains bounded to the verified benchmark/problem class; no FEM snap-through,
   post-buckling, arbitrary branch switching or general snap-back behavior is

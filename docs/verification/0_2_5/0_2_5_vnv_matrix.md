@@ -33,8 +33,8 @@ domain. Element families marked SHOULD do not block release unless promoted.
 | VV-011 | geometric global | TET4/HEX8 large-rotation bounded dead-load path | load-displacement, reactions, energy, det(F), Newton residuals | internal bounded path; post-limit is G04 | owner_accepted_experimental_bounded_use | G02 |
 | VV-012 | geometric distortion | TET4/HEX8 four-level pre-limit refinement | robustness, Jacobian, displacement, reaction, energy, stress/strain trends | bounded mesh-trend contract; Owner scope decision | owner_accepted_experimental_bounded_use | G02 |
 | VV-013 | high-order geometric | TET10/HEX20 | common TL J2 residual/state/recovery smoke | numerical/external | OBSERVED_INTERNAL_RESEARCH | G02 |
-| VV-014 | buckling | TET4 total-Lagrangian Euler column, levels 24x6x6 -> 32x8x8 | critical factor, mode, Euler error, refinement change | analytical Euler | OBSERVED_INTERNAL_RESEARCH | G03 |
-| VV-015 | buckling | solid/plate-relevant case | factor/mode/mesh trend | Code_Aster/CalculiX | PLANNED | G03/G10 |
+| VV-014 | buckling | TET4 total-Lagrangian Euler column, four structured levels 16x4x4 -> 40x10x10 | critical factor, mode, Euler error, refinement change, bracket, det(F) | analytical Euler | PASS_INTERNAL | G03 |
+| VV-015 | buckling | constrained 5-TET4 unit-block solid probe | critical factor, mode residual, mode normalization/MAC | Code_Aster 18.1.0 pinned execution | PASS_EXTERNAL_CORRELATION_BOUNDED | G03 |
 | VV-016 | arc-length | reduced shallow-arch equilibrium `lambda = u - u^3` | lambda-u branch, limit point, equilibrium residual | analytical reduced-order reference | OBSERVED_INTERNAL_RESEARCH | G04 |
 | VV-017 | arc-length | restart from intermediate checkpoint | endpoint displacement, load-factor continuation state | continuous arc-length run | OBSERVED_INTERNAL_RESEARCH | G04 |
 | VV-018 | contact local | gap/projection/normal tangent | residual/tangent FD | analytical/FD | OBSERVED_INTERNAL_RESEARCH | G05 |
@@ -57,7 +57,7 @@ domain. Element families marked SHOULD do not block release unless promoted.
 | VV-035 | Common contact contribution | TET4 + initial node-to-triangle penalty contact | sparse contact residual/tangent, unilateral activation, common Newton | internal research contract | OBSERVED_INTERNAL_RESEARCH | G05/G06 |
 | VV-036 | J2 energy balance | connected two-element mesh, ten monotonic increments, four families | Wext, Ue, Dp, signed/relative imbalance, point dissipation | work-energy identity and non-negative dissipation | PASS_INTERNAL | G01 |
 | VV-037 | J2 rollback adversarial | TET4 connected mesh, injected rejected trial, cutback/retry | state digest, clean displacement, retry log, final reference difference | fixed-step reference | PASS_INTERNAL | G01/G09 |
-| VV-038 | Linear buckling bounded | homogeneous TET4/HEX8 preload with sparse generalized `eigsh(K, M=-Kg)` when positive definite, shift-invert `eigs` after a sparse bracket when indefinite, and diagnosed bracket fallback otherwise | critical factor, formulation, bracket/fallback reason, tangent nnz, preload residual, critical-mode residual | internal sparse contract | OBSERVED_INTERNAL_RESEARCH | G03 |
+| VV-038 | Linear buckling bounded | homogeneous TET4/HEX8 preload with sparse generalized `eigsh(K, M=-Kg)` when positive definite, shift-invert `eigs` after a sparse bracket when indefinite, and diagnosed bracket fallback otherwise | critical factor, formulation, bracket/fallback reason, tangent nnz, preload residual, critical-mode residual | internal sparse contract | PASS_INTERNAL | G03 |
 | VV-039 | Arc-length continuation | proportional nonlinear TET4 path to target factor | load-factor path, monotonicity, residual histories, endpoint comparison | fixed load-control path | OBSERVED_INTERNAL_RESEARCH | G04 |
 | VV-040 | Common frictionless contact | TET4 penalty contact open/penetrating plus initial/updated common Newton | active set, sparse tangent, search mode, residual | unilateral contact contract | OBSERVED_INTERNAL_RESEARCH | G05/G06 |
 | VV-041 | Coupled material/geometric path | connected two-element TET4 `total_lagrangian_j2` through common Newton | kinematics, residual history, PEEQ, iterations | common-driver contract | OBSERVED_INTERNAL_RESEARCH | G06 |
@@ -373,3 +373,18 @@ release SHA:
   `src/solveur/verification/nonlinear_failure_campaign.py`;
 - internal campaign runner:
   `src/solveur/verification/robustness_nonlinear_solids.py`.
+
+## G03 controlled closure update
+
+The earlier buckling observations in this document are historical and are
+superseded for G03 by the final bounded evidence in
+`results/vnv_0_2_5/g03_euler_final/` and
+`results/vnv_0_2_5/g03_final/`. The current qualified source is
+`85c75d06955976251dd54ad782f57f1eb5a7f8f4`; the source worktree was clean when
+the evidence was generated. The corrected path isolates the initial-stress
+geometric tangent from the material tangent. It passes the four-level Euler
+study, the exact TET4 Code_Aster factor/mode probe and the buckling failure
+contract. G03 is therefore `PASS` for its bounded TET4-first-instability
+scope. TET10/HEX8/HEX20 external buckling, post-buckling and
+imperfection-sensitive collapse remain research/unqualified, and CalculiX
+remains a SHOULD comparison with retained negative high-order evidence.
