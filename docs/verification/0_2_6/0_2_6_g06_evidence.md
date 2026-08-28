@@ -13,12 +13,13 @@ element, material or analysis capability is qualified. The official gate
 
 | Item | Value |
 | --- | --- |
-| Source SHA | `77b8f30314356b24c231c51a16d2b66bf6753548` |
+| Source SHA | `b9d523725ab2a6856256731e44921adf2837a1f3` |
 | Source worktree | `clean` |
-| Captured at | `2026-08-28T21:02:34.656502Z` |
+| Captured at | `2026-08-28T21:31:09.160647Z` |
 | Solver | `qf_solver 0.2.6a0` |
-| Registry digest | `c9ada9eb9ea2307f9e34032ea80099b6cb29b25dfcb483bd97edd890bd244731` |
-| Result manifest SHA-256 | `973cb5b044d6a60f6f1820d181258ae2918e46b8319d012c8de10527504ebc09` |
+| Registry digest | `d2e5f587ac2d67c3c875782c8558aa7aac60cec09df9f43614319eff1b99ea59` |
+| Campaign manifest SHA-256 | `f8847759716bd7007c7e783338d7f0e6d4522fa6b709d39e2b2eec1cef578804` |
+| Quantitative manifest SHA-256 | `4b5a7e96ac6c661edfdf3133cb6d12fb1e294b961756f1593b4973ab2bae34e1` |
 | Environment | Windows AMD64, CPython 3.13.1, NumPy 2.2.6, SciPy 1.15.2 |
 
 ## Corpus and execution
@@ -38,6 +39,25 @@ HEX8 and HEX20; 16 structured HEX8 mesh cases at `nx=1,2,4,8`; 20 HEX8/HEX20
 common analysis routes; and 24 robustness routes. The expected failure is an
 inverted TET4 returning `INVALID_ELEMENT`.
 
+## Quantitative studies
+
+The final clean-source replay also ran 20 independent analytical cases:
+TET4, TET10, HEX8 and HEX20 each use a constrained single-free-DOF model and
+an independently integrated effective stiffness. All 20 cases passed with a
+maximum relative displacement error of `0.0`.
+
+The HEX8 bar series was evaluated at four levels (`nx=1,2,4,8`). The relative
+tip-displacement error was respectively `9.000000e-2`, `5.777373e-2`,
+`4.412610e-2` and `3.999261e-2`; the trend is non-increasing. The observed
+successive orders were `0.6395`, `0.3888` and `0.1419`. This is a bounded
+quantitative mesh study for this bar configuration, not a universal
+convergence claim. The reference is `u_tip = F L / (E A)`.
+
+The machine-readable quantitative summary and graph are produced by
+`scripts/run_g06_quantitative.py` under the ignored raw result directory
+`results/vnv_026_g06_quantitative_clean/`; the campaign and quantitative
+manifest digests are recorded separately above.
+
 ## Internal verification
 
 The existing independent element verifiers passed for TET10, HEX8 and HEX20.
@@ -47,24 +67,25 @@ verification results and do not constitute external physical validation.
 
 ## Limits
 
-- The controlled runner records executable solver outcomes and provenance; it
-  does not calculate an analytical error merely because a case declares an
-  analytical oracle.
-- The 16 mesh cases are executable HEX8 refinements, not by themselves a
-  quantitative mesh-convergence claim.
+- The controlled runner records executable solver outcomes and provenance; the
+  analytical cases now also run the independent constrained free-DOF oracle
+  described above.
+- The 16 mesh cases remain executable corpus entries; the separate four-level
+  study above is the quantitative evidence and is limited to the stated HEX8
+  bar configuration.
 - No Code_Aster or CalculiX run was available in this local campaign.
-- No new maturity promotion is made. External correlation, quantitative mesh
+- No new maturity promotion is made. External correlation, general mesh
   convergence and official gate `026-G06` remain open evidence items.
 - No FEM formulation, tolerance or public solver API was changed.
 
 ## Checks
 
-- Framework tests: `6 passed`.
-- G06 controlled campaign: `79 PASS / 1 EXPECTED_FAILURE / 0 FAIL`.
+- Framework tests: `7 passed`.
+- G06 controlled campaign: `79 PASS / 1 EXPECTED_FAILURE / 0 FAIL / 0 BLOCKED`.
 - Ruff: `PASS`.
 - `compileall`: `PASS`.
 - `git diff --check`: `PASS`.
 
-Raw result files remain reproducible under `results/vnv_026_g06_final/g06/`
+Raw result files remain reproducible under `results/vnv_026_g06_quantitative_release/`
 and are excluded from normal source history; the compact evidence and manifest
 digest above are the archived record.
