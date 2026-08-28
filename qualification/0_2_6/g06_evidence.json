@@ -2,9 +2,9 @@
   "schema_version": 1,
   "work_package_id": "026-WP06-G06",
   "status": "PASS_WITH_LIMITATIONS",
-  "source_sha": "530acd56bbefd528f80299a4d4ca23b62533ceb6",
+  "source_sha": "77b8f30314356b24c231c51a16d2b66bf6753548",
   "source_dirty": false,
-  "captured_at_utc": "2026-08-28T20:43:51.593378Z",
+  "captured_at_utc": "2026-08-28T21:02:34.656502Z",
   "solver_version": "0.2.6a0",
   "registry_digest": "c9ada9eb9ea2307f9e34032ea80099b6cb29b25dfcb483bd97edd890bd244731",
   "profile": "G06",
@@ -21,7 +21,7 @@
   },
   "campaign": {
     "command": "python scripts/run_vnv_026.py --profile G06 --output results/vnv_026_g06_final",
-    "manifest_sha256": "97c48eccb1a02236c473ce1a66345b3cc0339df97289941793bea82dc7948c56",
+    "manifest_sha256": "973cb5b044d6a60f6f1820d181258ae2918e46b8319d012c8de10527504ebc09",
     "families": {
       "HEX8": {"pass": 10},
       "HEX20": {"pass": 10},

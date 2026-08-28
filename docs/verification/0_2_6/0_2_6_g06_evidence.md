@@ -13,12 +13,12 @@ element, material or analysis capability is qualified. The official gate
 
 | Item | Value |
 | --- | --- |
-| Source SHA | `530acd56bbefd528f80299a4d4ca23b62533ceb6` |
+| Source SHA | `77b8f30314356b24c231c51a16d2b66bf6753548` |
 | Source worktree | `clean` |
-| Captured at | `2026-08-28T20:43:51.593378Z` |
+| Captured at | `2026-08-28T21:02:34.656502Z` |
 | Solver | `qf_solver 0.2.6a0` |
 | Registry digest | `c9ada9eb9ea2307f9e34032ea80099b6cb29b25dfcb483bd97edd890bd244731` |
-| Result manifest SHA-256 | `97c48eccb1a02236c473ce1a66345b3cc0339df97289941793bea82dc7948c56` |
+| Result manifest SHA-256 | `973cb5b044d6a60f6f1820d181258ae2918e46b8319d012c8de10527504ebc09` |
 | Environment | Windows AMD64, CPython 3.13.1, NumPy 2.2.6, SciPy 1.15.2 |
 
 ## Corpus and execution
