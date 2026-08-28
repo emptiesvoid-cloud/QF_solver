@@ -41,9 +41,9 @@ domain. Element families marked SHOULD do not block release unless promoted.
 | VV-019 | contact global | block-plane open/close/recontact | reaction, gap, active set | analytical/external | PASS_EXTERNAL_CORRELATION_BOUNDED | G05 |
 | VV-020 | contact sliding | bounded faceted/finite-sliding projection | path, penetration, reactions | internal bounded contract + compatible external contact histories | OBSERVED_INTERNAL_RESEARCH | G05/G10 |
 | VV-021 | contact rollback | injected contact assembly failure with adaptive retry | rejection reason, retry increment, committed-step history | common transaction contract | OBSERVED_INTERNAL_RESEARCH | G05/G09 |
-| VV-022 | coupled | J2 + geometry | F-u, VM, PEEQ, energy, tangent | approved model/external | BLOCKED OWNER DECISION | G06 |
-| VV-023 | coupled | geometry + contact | load-gap-u, reactions, energy | external | PLANNED | G06/G10 |
-| VV-024 | coupled SHOULD | J2 + geometry + contact | complete histories | external | PLANNED SHOULD | G06/G10 |
+| VV-022 | coupled | J2 + geometry | F-u, VM, PEEQ, energy, tangent | approved model/external | OBSERVED_INTERNAL_RESEARCH | G06 |
+| VV-023 | coupled | geometry + contact | load-gap-u, reactions, energy | external | OBSERVED_INTERNAL_RESEARCH | G06/G10 |
+| VV-024 | coupled SHOULD | J2 + geometry + contact | complete histories | external | OBSERVED_INTERNAL_RESEARCH | G06/G10 |
 | VV-025 | friction optional | stick/slip/cycle | traction, slip, dissipation | analytical/external | PLANNED COULD | G07 |
 | VV-026 | Newton | consistent tangent rate | residual histories, reduction ratios, observed-order estimates, iterations | expected local behavior | OBSERVED_INTERNAL | G01/G02/G06 |
 | VV-027 | failures | full taxonomy matrix | reason, rollback, converged=false | contract | PASS_INTERNAL | G09 |
@@ -268,6 +268,13 @@ release SHA:
   `src/solveur/verification/robustness_nonlinear_solids.py`,
   `tests/unit/test_nonlinear_multielement.py`,
   `results/vnv_0_2_5/robustness_high_order_latest/summary.json`;
+- controlled G06 coupled replay (`VV-022`, `VV-023`, `VV-024`, `VV-059` and
+  `VV-062` observations):
+  `results/vnv_0_2_5/g06_latest/summary.json`,
+  `results/vnv_0_2_5/g06_latest/report.md` and
+  `results/vnv_0_2_5/g06_latest/evidence_manifest.json`. The replay is
+  internal research evidence only and does not satisfy the missing external
+  MUST correlation or complete coupled energy/tangent-history requirement.
 - aggregated adversarial failure contract `VV-027`, `VV-050`, `VV-051` and
   `VV-054`:
   `src/solveur/verification/nonlinear_failure_campaign.py`,
