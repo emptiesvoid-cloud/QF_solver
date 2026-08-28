@@ -1,0 +1,15 @@
+{
+  "anomalies": [],
+  "categories": [
+    "QF_DEFECT",
+    "TEST_DEFECT",
+    "REFERENCE_DEFECT",
+    "FORMULATION_MISMATCH",
+    "NUMERICAL_SENSITIVITY",
+    "UNSUPPORTED_DOMAIN",
+    "INFRASTRUCTURE_DEFECT",
+    "UNRESOLVED_ANOMALY"
+  ],
+  "next_id": "ANOM-026-0001",
+  "schema_version": 1
+}

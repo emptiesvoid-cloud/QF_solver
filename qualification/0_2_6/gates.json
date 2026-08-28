@@ -1,0 +1,113 @@
+{
+  "gates": [
+    {
+      "evidence_ids": [
+        "baseline_snapshot.json",
+        "0_2_5_release_readiness.md"
+      ],
+      "id": "026-G00",
+      "status": "PASS_WITH_LIMITATIONS",
+      "title": "Baseline / provenance"
+    },
+    {
+      "evidence_ids": [
+        "architecture_audit.json",
+        "0_2_6_architecture_audit.md"
+      ],
+      "id": "026-G01",
+      "status": "PASS",
+      "title": "Architecture audit"
+    },
+    {
+      "evidence_ids": [
+        "test_vnv_026_framework.py",
+        "VNV026-SMOKE"
+      ],
+      "id": "026-G02",
+      "status": "PASS",
+      "title": "V&V infrastructure"
+    },
+    {
+      "evidence_ids": [
+        "case_registry.json",
+        "0_2_6_campaign_matrix.md"
+      ],
+      "id": "026-G03",
+      "status": "PASS",
+      "title": "Corpus design"
+    },
+    {
+      "evidence_ids": [],
+      "id": "026-G04",
+      "status": "NOT_STARTED",
+      "title": "Linear / element robustness"
+    },
+    {
+      "evidence_ids": [],
+      "id": "026-G05",
+      "status": "NOT_STARTED",
+      "title": "Modal / dynamic / harmonic"
+    },
+    {
+      "evidence_ids": [],
+      "id": "026-G06",
+      "status": "NOT_STARTED",
+      "title": "J2 maturity extension"
+    },
+    {
+      "evidence_ids": [],
+      "id": "026-G07",
+      "status": "NOT_STARTED",
+      "title": "Geometric nonlinear and arc-length review"
+    },
+    {
+      "evidence_ids": [],
+      "id": "026-G08",
+      "status": "NOT_STARTED",
+      "title": "Buckling maturity extension"
+    },
+    {
+      "evidence_ids": [],
+      "id": "026-G09",
+      "status": "NOT_STARTED",
+      "title": "Contact maturity extension"
+    },
+    {
+      "evidence_ids": [],
+      "id": "026-G10",
+      "status": "NOT_STARTED",
+      "title": "Existing coupled nonlinear review"
+    },
+    {
+      "evidence_ids": [],
+      "id": "026-G11",
+      "status": "NOT_STARTED",
+      "title": "Adversarial / failure / metamorphic"
+    },
+    {
+      "evidence_ids": [],
+      "id": "026-G12",
+      "status": "NOT_STARTED",
+      "title": "Performance / scalability"
+    },
+    {
+      "evidence_ids": [],
+      "id": "026-G13",
+      "status": "NOT_STARTED",
+      "title": "External correlation aggregation"
+    },
+    {
+      "evidence_ids": [],
+      "id": "026-G14",
+      "status": "NOT_STARTED",
+      "title": "Full regression / architecture freeze"
+    },
+    {
+      "evidence_ids": [],
+      "id": "026-G15",
+      "status": "NOT_STARTED",
+      "title": "Owner release review"
+    }
+  ],
+  "schema_version": 1
+}

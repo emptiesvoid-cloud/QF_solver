@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.6a0 - Unreleased
+
+This development cycle starts the V&V, maturity and architecture foundation.
+It adds no new FEM physics or qualified numerical capability: the work is
+limited to controlled registries, safe evidence execution, provenance guards,
+baseline snapshots, audit documentation and planned gate work.
+
 ## 0.2.5a0 — 2026-08-28
 
 Cette alpha renforce le moteur de mecanique structurelle non lineaire et ferme

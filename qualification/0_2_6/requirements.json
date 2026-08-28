@@ -1,0 +1,54 @@
+{
+  "requirements": [
+    {
+      "gate": "026-G00",
+      "id": "REQ-026-001",
+      "priority": "MUST",
+      "requirement": "Preserve the immutable 0.2.5 numerical source and claims.",
+      "verification": "baseline snapshot plus provenance review"
+    },
+    {
+      "gate": "026-G02",
+      "id": "REQ-026-002",
+      "priority": "MUST",
+      "requirement": "Provide a versioned machine-readable registry for controlled V&V cases.",
+      "verification": "registry schema and unit tests"
+    },
+    {
+      "gate": "026-G03",
+      "id": "REQ-026-003",
+      "priority": "MUST",
+      "requirement": "Separate planned definitions from executable evidence.",
+      "verification": "execution-state and smoke-selection tests"
+    },
+    {
+      "gate": "026-G02",
+      "id": "REQ-026-004",
+      "priority": "MUST",
+      "requirement": "Produce digest-first evidence with source, environment and threshold provenance.",
+      "verification": "runner manifest contract tests"
+    },
+    {
+      "gate": "026-G13",
+      "id": "REQ-026-005",
+      "priority": "MUST",
+      "requirement": "Keep external tools optional and record unavailable tools as skipped, never passed.",
+      "verification": "oracle registry and future adapter tests"
+    },
+    {
+      "gate": "026-G15",
+      "id": "REQ-026-006",
+      "priority": "MUST",
+      "requirement": "Keep public claims bounded by recorded evidence and Owner decisions.",
+      "verification": "gate and claim audit before release decision"
+    },
+    {
+      "gate": "026-G12",
+      "id": "REQ-026-007",
+      "priority": "SHOULD",
+      "requirement": "Characterize performance with repeatable measurements and hardware metadata.",
+      "verification": "scaling profiles and benchmark manifests"
+    }
+  ],
+  "schema_version": 1
+}

@@ -17,7 +17,7 @@ except ModuleNotFoundError:
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_OUTPUT = Path("qualification/publication_audit_0_2_5.json")
+DEFAULT_OUTPUT = Path("qualification/publication_audit_0_2_6.json")
 WEB_RUNTIME_PATHS = (
     "mkdocs.yml",
     "scripts/serve_docs.py",
@@ -114,8 +114,8 @@ def public_document_audit(root: str | Path = ROOT) -> dict[str, Any]:
     ]
     return {
         "schema_version": 1,
-        "audit_id": "QF-PUBLIC-DOC-AUDIT-025-001",
-        "release": {"name": "QF_solver", "version": "0.2.5a0"},
+        "audit_id": "QF-PUBLIC-DOC-AUDIT-026-001",
+        "release": {"name": "QF_solver", "version": "0.2.6a0"},
         "status": "PASS" if all(check["status"] == "PASS" for check in checks) else "FAIL",
         "classification": {
             "public_source_documentation": {

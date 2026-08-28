@@ -1,0 +1,25 @@
+{
+  "baseline_release": "v0.2.5a0",
+  "baseline_release_head": "1e6c3e96d1e1366c4cc790546e82769cd9227902",
+  "historical_qualified_numerical_source": "8047fb63c420609b510beaa1e30aa3ab31d9ad87",
+  "maturity_vocabulary": [
+    "RESEARCH",
+    "EXPERIMENTAL",
+    "QUALIFIED_BOUNDED",
+    "STABLE_BOUNDED",
+    "DEFERRED",
+    "NOT_IN_SCOPE",
+    "BLOCKED",
+    "FAILED"
+  ],
+  "non_goals": [
+    "new_fem_elements",
+    "new_constitutive_models",
+    "friction_implementation",
+    "new_physics",
+    "release_publication"
+  ],
+  "purpose": "maturity_vnv_architecture_foundation",
+  "release": "0.2.6a0",
+  "schema_version": 1
+}

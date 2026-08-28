@@ -1,0 +1,24 @@
+{
+  "oracles": [
+    {
+      "availability": "local",
+      "claim": "verification_reference",
+      "id": "ANALYTICAL",
+      "kind": "analytical"
+    },
+    {
+      "availability": "optional_local_or_container",
+      "claim": "external_numerical_correlation",
+      "id": "CODE_ASTER",
+      "kind": "external"
+    },
+    {
+      "availability": "should_when_comparable",
+      "claim": "external_numerical_correlation",
+      "id": "CALCULIX",
+      "kind": "external"
+    }
+  ],
+  "rule": "External unavailability is SKIPPED_EXTERNAL_UNAVAILABLE, never PASS.",
+  "schema_version": 1
+}

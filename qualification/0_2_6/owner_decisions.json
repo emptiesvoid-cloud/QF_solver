@@ -1,0 +1,6 @@
+{
+  "decisions": [],
+  "release": "0.2.6a0",
+  "rule": "Automation can request Owner review but cannot promote maturity autonomously.",
+  "schema_version": 1
+}
