@@ -749,7 +749,7 @@
       ],
       "code": [
         "src/solveur/elements/solid/tet4.py",
-        "src/solveur/core/solver.py",
+        "src/solveur/core/solvers/static.py",
         "src/solveur/core/audit.py",
         "src/solveur/verification/analytical_references.py"
       ],
@@ -977,8 +977,8 @@
         "docs/manuel_theorique_elements_finis.md"
       ],
       "code": [
-        "src/solveur/core/modal.py",
-        "src/solveur/core/analysis.py"
+        "src/solveur/core/analyses/modal.py",
+        "src/solveur/core/analyses/settings.py"
       ],
       "functions": [
         "ModalAnalysisSolver.solve",
@@ -1007,8 +1007,8 @@
       ],
       "code": [
         "src/solveur/elements/shell/mitc4/element.py",
-        "src/solveur/core/dynamic_reduction.py",
-        "src/solveur/core/modal.py",
+        "src/solveur/core/analyses/dynamic_reduction.py",
+        "src/solveur/core/analyses/modal.py",
         "src/solveur/verification/mitc4_modal_external.py",
         "src/solveur/verification/mitc4_modal_extended.py"
       ],
@@ -1054,7 +1054,7 @@
       "code": [
         "src/solveur/loads/entities.py",
         "src/solveur/loads/integration.py",
-        "src/solveur/core/assembler.py",
+        "src/solveur/core/assembly/assembler.py",
         "src/solveur/core/audit.py",
         "src/solveur/mesh/validation.py"
       ],
@@ -1088,10 +1088,10 @@
         "docs/solveurs/newmark.md"
       ],
       "code": [
-        "src/solveur/core/dynamic.py",
-        "src/solveur/core/dynamic_controls.py",
-        "src/solveur/core/dynamic_history.py",
-        "src/solveur/core/linear_methods.py",
+        "src/solveur/core/analyses/dynamic.py",
+        "src/solveur/core/analyses/dynamic_controls.py",
+        "src/solveur/core/analyses/dynamic_history.py",
+        "src/solveur/core/solvers/linear.py",
         "src/solveur/verification/transient_modal_oracle.py"
       ],
       "functions": [
@@ -1135,9 +1135,9 @@
         "docs/manuel_theorique_elements_finis.md"
       ],
       "code": [
-        "src/solveur/core/dynamic_checkpoint.py",
+        "src/solveur/core/analyses/dynamic_checkpoint.py",
         "src/solveur/io/dynamic_checkpoint.py",
-        "src/solveur/core/dynamic.py"
+        "src/solveur/core/analyses/dynamic.py"
       ],
       "functions": [
         "DynamicCheckpoint.validate",
@@ -1165,10 +1165,10 @@
         "docs/verification/mitc4_validation.md"
       ],
       "code": [
-        "src/solveur/core/dynamic.py",
-        "src/solveur/core/dynamic_controls.py",
-        "src/solveur/core/dynamic_history.py",
-        "src/solveur/core/dynamic_reduction.py",
+        "src/solveur/core/analyses/dynamic.py",
+        "src/solveur/core/analyses/dynamic_controls.py",
+        "src/solveur/core/analyses/dynamic_history.py",
+        "src/solveur/core/analyses/dynamic_reduction.py",
         "src/solveur/verification/mitc4_newmark_broadband.py",
         "src/solveur/verification/mitc4_newmark_operational.py",
         "src/solveur/verification/code_aster_nafems.py"
@@ -1212,8 +1212,8 @@
         "docs/verification/mitc4_validation.md"
       ],
       "code": [
-        "src/solveur/core/harmonic.py",
-        "src/solveur/core/dynamic_reduction.py",
+        "src/solveur/core/analyses/harmonic.py",
+        "src/solveur/core/analyses/dynamic_reduction.py",
         "src/solveur/post/harmonic_shell.py",
         "src/solveur/verification/mitc4_harmonic_condensation.py",
         "src/solveur/verification/mitc4_harmonic_broadband.py",
@@ -1270,7 +1270,7 @@
         "docs/audit_qualification_industrielle.md"
       ],
       "code": [
-        "src/solveur/core/nonlinear.py",
+        "src/solveur/core/nonlinear/solver.py",
         "src/solveur/materials/solid.py",
         "src/solveur/verification/code_aster_j2.py",
         "src/solveur/verification/code_aster_tet10_j2_complex.py"
@@ -1307,7 +1307,7 @@
       "code": [
         "src/solveur/elements/solid/tet4_total_lagrangian.py",
         "src/solveur/elements/solid/tet4_total_lagrangian_batch.py",
-        "src/solveur/core/geometric_nonlinear_controls.py",
+        "src/solveur/core/analyses/geometric_nonlinear_controls.py",
         "src/solveur/verification/tet4_total_lagrangian_assembly.py",
         "src/solveur/verification/tet4_total_lagrangian_steps.py",
         "src/solveur/verification/code_aster_tl_structural.py"
@@ -1352,7 +1352,7 @@
       ],
       "code": [
         "src/solveur/elements/solid/tet4_total_lagrangian_batch.py",
-        "src/solveur/core/geometric_nonlinear.py",
+        "src/solveur/core/analyses/geometric_nonlinear.py",
         "src/solveur/verification/total_lagrangian_structural.py",
         "src/solveur/verification/tet4_total_lagrangian_stress.py",
         "src/solveur/verification/tet4_total_lagrangian_buckling.py",
@@ -1702,8 +1702,8 @@
         "qualification/specifications/composite_solids.json"
       ],
       "code": [
-        "src/solveur/core/modal.py",
-        "src/solveur/core/dynamic.py",
+        "src/solveur/core/analyses/modal.py",
+        "src/solveur/core/analyses/dynamic.py",
         "src/solveur/large/materials.py",
         "src/solveur/large/assembler.py",
         "src/solveur/large/matrix_free.py",
@@ -2134,7 +2134,7 @@
       ],
       "code": [
         "src/solveur/elements/discrete.py",
-        "src/solveur/core/assembler.py",
+        "src/solveur/core/assembly/assembler.py",
         "src/solveur/io/discrete_schema.py"
       ],
       "functions": [
@@ -2173,7 +2173,7 @@
       "code": [
         "src/solveur/core/constraints.py",
         "src/solveur/core/rbe.py",
-        "src/solveur/core/solver.py",
+        "src/solveur/core/solvers/static.py",
         "src/solveur/io/constraint_schema.py"
       ],
       "functions": [
@@ -2387,7 +2387,7 @@
       ],
       "code": [
         "src/solveur/elements/shell/mitc3.py",
-        "src/solveur/core/dynamic_reduction.py",
+        "src/solveur/core/analyses/dynamic_reduction.py",
         "src/solveur/post/harmonic_shell.py"
       ],
       "functions": [

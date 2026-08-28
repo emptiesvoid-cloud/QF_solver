@@ -279,19 +279,26 @@ def _read_git_head(root: Path) -> str | None:
         git_dir = (root / marker.partition(":")[2].strip()).resolve()
     else:
         return None
+    common_dir = git_dir
+    commondir = git_dir / "commondir"
+    if commondir.is_file():
+        common_dir = (git_dir / commondir.read_text(encoding="ascii").strip()).resolve()
+
     head = git_dir / "HEAD"
     if not head.is_file():
         return None
     value = head.read_text(encoding="ascii").strip()
     if value.startswith("ref: "):
-        reference = git_dir / value[5:]
+        ref_name = value[5:]
+        reference = git_dir / ref_name
+        if not reference.is_file():
+            reference = common_dir / ref_name
         if reference.is_file():
             value = reference.read_text(encoding="ascii").strip()
         else:
-            packed_refs = git_dir / "packed-refs"
+            packed_refs = common_dir / "packed-refs"
             if not packed_refs.is_file():
                 return None
-            ref_name = value[5:]
             value = next(
                 (line.split(" ", maxsplit=1)[0] for line in packed_refs.read_text(encoding="ascii").splitlines() if line.endswith(f" {ref_name}")),
                 "",

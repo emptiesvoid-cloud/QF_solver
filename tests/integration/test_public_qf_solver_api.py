@@ -34,7 +34,7 @@ def test_source_launcher_is_also_an_import_compatible_facade() -> None:
         text=True,
     )
     assert completed.returncode == 0, completed.stdout + completed.stderr
-    assert completed.stdout.strip() == "0.2.5a0 load_model"
+    assert completed.stdout.strip() == "0.2.6a0 load_model"
 
 
 def test_src_layout_package_exposes_the_same_facade(tmp_path: Path) -> None:
@@ -53,7 +53,7 @@ def test_src_layout_package_exposes_the_same_facade(tmp_path: Path) -> None:
         text=True,
     )
     assert completed.returncode == 0, completed.stdout + completed.stderr
-    assert completed.stdout.strip() == "0.2.5a0 load_model"
+    assert completed.stdout.strip() == "0.2.6a0 load_model"
 
 
 def test_public_markdown_examples_do_not_import_internal_namespace() -> None:
