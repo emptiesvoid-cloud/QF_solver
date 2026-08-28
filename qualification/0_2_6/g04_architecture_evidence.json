@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "task_gate": "G04_ARCHITECTURE_REFACTOR",
+  "status": "PASS",
+  "baseline_sha": "41154d7f0aca9004759d1c8a4ba21d6f60f24a42",
+  "implementation_sha": "6b77fd7b318dab0fea4a371c3567dea3cdc19b47",
+  "evidence_context_sha": "af2aa75895e6edf0db698384a3fabdde7fcd0640",
+  "worktree_dirty": false,
+  "functional_fem_change": false,
+  "implementation_packages": [
+    "solveur.core.assembly",
+    "solveur.core.solvers",
+    "solveur.core.analyses",
+    "solveur.core.nonlinear"
+  ],
+  "compatibility_facades": 30,
+  "numerical_routes_compared": 8,
+  "numerical_mismatches": 0,
+  "smoke": {
+    "cases": 10,
+    "pass": 9,
+    "expected_failure": 1,
+    "fail": 0,
+    "blocked": 0,
+    "source_sha": "af2aa75895e6edf0db698384a3fabdde7fcd0640",
+    "dirty": false
+  },
+  "targeted_framework_coverage_percent": 80.0,
+  "full_regression": {
+    "command": "python -m pytest tests -m \"not benchmark and not large and not evidence\" --ignore=tests/documentation -q",
+    "passed": 1663,
+    "failed": 0,
+    "skipped": 14,
+    "deselected": 187,
+    "duration_seconds": 1048.84
+  },
+  "quality_checks": {
+    "ruff": "PASS",
+    "compileall": "PASS",
+    "diff_check": "PASS",
+    "public_api_and_cli": "PASS",
+    "architecture_audit": "PASS"
+  },
+  "foundation_registry_note": "This evidence closes the separately authorized G04 architecture refactor task. Registry gate 026-G04 remains unchanged because it denotes the later linear/element robustness campaign.",
+  "g05_started": false
+}
