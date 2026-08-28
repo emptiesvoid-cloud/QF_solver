@@ -223,7 +223,8 @@ mesh study. All targeted internal paths converged and remain classified
 
 This evidence does not close `025-G06`. The required Code_Aster full-history
 correlations for J2 plus geometry and geometry plus contact are not present,
-and the coupled campaign does not yet archive the complete energy and tangent
+the J2+geometry mesh study does not cover geometry plus contact, and the
+coupled campaign does not yet archive the complete energy and tangent
 histories required by the gate contract. The finite-kinematic J2 path remains
 experimental/research; no qualified coupled or physical-validation claim is
 made. CalculiX remains supporting SHOULD evidence and cannot replace the
