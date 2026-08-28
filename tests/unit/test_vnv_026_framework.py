@@ -8,7 +8,10 @@ from pathlib import Path
 
 import pytest
 
+from solveur.core.router import AnalysisRouter
+from solveur.verification.g06_analytical import evaluate_free_dof_oracle
 from solveur.verification.framework import VnvCaseError, VnvRegistry, VnvRunner
+from solveur.io.json_reader import JsonModelReader
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -94,3 +97,22 @@ def test_runner_applies_declared_analysis_override_to_string_model(tmp_path: Pat
 
     assert summary["status"] == "PASS"
     assert summary["pass_count"] == 1
+
+
+def test_g06_analytical_oracle_matches_all_four_solid_families() -> None:
+    cases = {
+        "TET4": "examples/tet4_g06_analytic.json",
+        "TET10": "examples/tet10_g06_analytic.json",
+        "HEX8": "examples/hex8_g06_analytic.json",
+        "HEX20": "examples/hex20_g06_analytic.json",
+    }
+    for family, relative_path in cases.items():
+        raw = json.loads((ROOT / relative_path).read_text(encoding="utf-8"))
+        result = AnalysisRouter().solve(JsonModelReader().from_dict(raw)).to_dict()
+        oracle = evaluate_free_dof_oracle(
+            raw,
+            result,
+            {"type": "constrained_free_dof", "element_family": family, "free_node": 1, "free_dof": "UX"},
+        )
+        assert oracle["status"] == "PASS"
+        assert oracle["relative_error"] <= 1.0e-12

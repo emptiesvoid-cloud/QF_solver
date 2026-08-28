@@ -70,6 +70,8 @@ def _g06_case(
     material_updates: dict[str, dict[str, Any]] | None = None,
     expected_failure: str | None = None,
     maturity: str = "QUALIFIED_BOUNDED",
+    oracle_configuration: dict[str, Any] | None = None,
+    extra_tags: tuple[str, ...] = (),
 ) -> dict[str, Any]:
     case = _ready(case_id, title, prefix, capability, f"examples/{model}", analysis_type, expected_failure=expected_failure, maturity=maturity)
     case.update({
@@ -82,7 +84,7 @@ def _g06_case(
         "oracle_ids": list(oracle_ids),
         "metrics": ["solver_status", "displacement", "reaction", "residual", "reference_error", "energy", "numerical_fingerprint"],
         "ci_profiles": ["G06", "FULL", "RELEASE"],
-        "tags": ["g06", prefix.lower(), capability, element_family.lower()],
+        "tags": ["g06", prefix.lower(), capability, element_family.lower(), *extra_tags],
         "source_reference": "0.2.6 G06 V&V campaign definition",
         "known_limitations": ["Executable quantitative evidence; promotion requires the applicable gate and independent review."],
         "model_overrides": {
@@ -90,17 +92,31 @@ def _g06_case(
             **({"analysis": analysis} if analysis else {}),
             **({"material_updates": material_updates} if material_updates else {}),
         },
+        "oracle_configuration": dict(oracle_configuration or {}),
     })
     return case
 
 
-_ANALYTICAL_MODELS = (("TET4", "tet4_static.json"), ("TET10", "tet10_static.json"), ("HEX8", "hex8_g06_static.json"), ("HEX20", "hex20_g06_static.json"))
+_ANALYTICAL_MODELS = (
+    ("TET4", "tet4_g06_analytic.json"),
+    ("TET10", "tet10_g06_analytic.json"),
+    ("HEX8", "hex8_g06_analytic.json"),
+    ("HEX20", "hex20_g06_analytic.json"),
+)
 G06_ANALYTICAL_CASES = tuple(
     _g06_case(
         f"VNV026-LIN-G06-A{i:03d}",
         f"Analytical equilibrium {_ANALYTICAL_MODELS[(i - 1) % 4][0]} variant {i:02d}",
         "LIN", "linear_solids", _ANALYTICAL_MODELS[(i - 1) % 4][1], "linear_static",
         element_family=_ANALYTICAL_MODELS[(i - 1) % 4][0], load_scale=0.5 + 0.1 * ((i - 1) % 6),
+        oracle_configuration={
+            "type": "constrained_free_dof",
+            "element_family": _ANALYTICAL_MODELS[(i - 1) % 4][0],
+            "free_node": 1,
+            "free_dof": "UX",
+            "relative_tolerance": 1.0e-10,
+        },
+        extra_tags=("analytical",),
     ) for i in range(1, 21)
 )
 
