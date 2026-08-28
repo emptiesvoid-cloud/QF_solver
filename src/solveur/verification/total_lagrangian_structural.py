@@ -8,7 +8,7 @@ import numpy as np
 from scipy.sparse import csr_matrix
 from scipy.sparse.linalg import eigsh, spsolve
 
-from solveur.core.geometric_nonlinear_controls import GeometricNonlinearControls
+from solveur.core.analyses.geometric_nonlinear_controls import GeometricNonlinearControls
 from solveur.elements.solid.tet4_total_lagrangian_batch import TotalLagrangianTet4Assembly
 
 

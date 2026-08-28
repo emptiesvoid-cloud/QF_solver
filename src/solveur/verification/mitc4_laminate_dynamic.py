@@ -22,7 +22,7 @@ from matplotlib import pyplot as plt  # noqa: E402
 
 from solveur.elements.shell.mitc4.mesh import MeshFactory
 from solveur.api import solve_model
-from solveur.core.analysis import AnalysisSettings
+from solveur.core.analyses.settings import AnalysisSettings
 from solveur.core.model import FiniteElementModel
 from solveur.io.manifest import discovered_file_entries, git_source_state, write_json_file
 from solveur.verification.mitc4_harmonic import _analytical_response

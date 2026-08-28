@@ -14,7 +14,7 @@ matplotlib.use("Agg")
 from matplotlib import pyplot as plt  # noqa: E402
 
 from solveur.api import solve_model
-from solveur.core.analysis import AnalysisSettings
+from solveur.core.analyses.settings import AnalysisSettings
 from solveur.core.errors import SolverError
 from solveur.io.manifest import write_json_file
 from solveur.verification.code_aster_mitc4_laminate_dynamic import _code_aster_mesh

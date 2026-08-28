@@ -11,8 +11,8 @@ from typing import Any
 import numpy as np
 from scipy.sparse import csr_matrix, diags
 
-from solveur.core.linear_methods import LinearSystemSolver
-from solveur.core.linear_policy import LinearSolverPolicy
+from solveur.core.solvers.linear import LinearSystemSolver
+from solveur.core.solvers.policy import LinearSolverPolicy
 from solveur.verification.vnv_manifest import write_vnv_manifest
 
 

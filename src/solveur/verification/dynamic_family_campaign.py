@@ -15,7 +15,7 @@ from typing import Any
 import numpy as np
 
 from solveur.api import solve_model
-from solveur.core.assembler import GlobalAssembler
+from solveur.core.assembly.assembler import GlobalAssembler
 from solveur.core.model import FiniteElementModel, NodalLoad
 from solveur.io.manifest import write_json_file
 from solveur.verification.mitc3_models import cantilever_model

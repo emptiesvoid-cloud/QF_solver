@@ -8,8 +8,8 @@ from typing import Callable
 import numpy as np
 from scipy.linalg import eigh, expm
 
-from solveur.core.assembler import GlobalAssembler
-from solveur.core.dynamic_reduction import DynamicDofReducer
+from solveur.core.assembly.assembler import GlobalAssembler
+from solveur.core.analyses.dynamic_reduction import DynamicDofReducer
 from solveur.core.model import FiniteElementModel
 
 

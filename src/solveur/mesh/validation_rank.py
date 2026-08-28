@@ -17,7 +17,7 @@ def check_mechanical_rank(
         details["mechanical_rank"] = {"checked": False, "reason": "model too large", "ndof": dofs.ndof}
         return
     try:
-        from solveur.core.assembler import GlobalAssembler
+        from solveur.core.assembly.assembler import GlobalAssembler
 
         assembler = GlobalAssembler()
         stiffness = assembler.assemble_stiffness(model, dofs)

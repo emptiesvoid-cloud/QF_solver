@@ -5,7 +5,7 @@ from __future__ import annotations
 from enum import IntEnum
 from typing import Any
 
-from solveur.core.nonlinear_contracts import NonlinearFailureReason
+from solveur.core.nonlinear.contracts import NonlinearFailureReason
 
 
 class ExitCode(IntEnum):

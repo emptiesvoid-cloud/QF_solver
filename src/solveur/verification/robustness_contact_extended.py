@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from solveur.core.nonlinear_contracts import NonlinearFailureReason
+from solveur.core.nonlinear.contracts import NonlinearFailureReason
 from solveur.verification.robustness_support import *  # noqa: F401,F403
 
 

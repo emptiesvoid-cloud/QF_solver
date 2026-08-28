@@ -3,10 +3,10 @@
 from __future__ import annotations
 
 from solveur.api import solve_model
-from solveur.core.buckling import LinearBucklingSolver
+from solveur.core.analyses.buckling import LinearBucklingSolver
 from solveur.core.errors import NumericalConvergenceError
 from solveur.core.model import FiniteElementModel
-from solveur.core.nonlinear_contracts import NonlinearFailureReason
+from solveur.core.nonlinear.contracts import NonlinearFailureReason
 
 
 def _run_arc_length_failure_case() -> dict[str, object]:

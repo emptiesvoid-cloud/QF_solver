@@ -51,6 +51,29 @@ def test_product_code_keeps_mitc4_compatibility_inside_solver_namespace():
     assert violations == []
 
 
+def test_core_implementation_has_explicit_domain_packages_and_compatibility_facades():
+    core = PROJECT_ROOT / "src" / "solveur" / "core"
+    for package in ("assembly", "solvers", "analyses", "nonlinear"):
+        package_path = core / package
+        assert (package_path / "__init__.py").is_file()
+
+    ownership = {
+        "assembly": ("assembler.py", "plan.py", "sparse.py", "geometric.py", "nonlinear.py"),
+        "solvers": ("linear.py", "policy.py", "backend.py", "static.py"),
+        "analyses": ("settings.py", "buckling.py", "dynamic.py", "modal.py", "harmonic.py"),
+        "nonlinear": ("solver.py", "contracts.py", "controls.py", "iteration.py", "material_state.py"),
+    }
+    for package, modules in ownership.items():
+        for module in modules:
+            assert (core / package / module).is_file()
+
+    for facade in ("assembler.py", "solver.py", "analysis.py", "modal.py", "nonlinear_iteration.py"):
+        content = (core / facade).read_text(encoding="utf-8")
+        assert "Compatibility alias" in content
+
+    assert not (core / "nonlinear.py").is_file()
+
+
 def test_sha256_helper_is_centralized_outside_tests():
     definitions: list[str] = []
     for path in (PROJECT_ROOT / "src" / "solveur").rglob("*.py"):

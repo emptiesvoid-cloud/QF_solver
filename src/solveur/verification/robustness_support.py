@@ -17,10 +17,10 @@ from solveur.api import solve_model
 from solveur.contact.entities import FrictionlessContact
 from solveur.contact.solver import assemble_penalty_contact
 from solveur.core.errors import NumericalConvergenceError
-from solveur.core.material_state import MaterialStateSession
-from solveur.core.material_state import state_digest
+from solveur.core.nonlinear.material_state import MaterialStateSession
+from solveur.core.nonlinear.material_state import state_digest
 from solveur.core.model import FiniteElementModel
-from solveur.core.nonlinear import NonlinearStaticSolver
+from solveur.core.nonlinear.solver import NonlinearStaticSolver
 from solveur.elements.solid.hex20 import Hex20Element
 from solveur.elements.solid.hex8 import Hex8Element
 from solveur.elements.solid.tet10 import Tet10Element

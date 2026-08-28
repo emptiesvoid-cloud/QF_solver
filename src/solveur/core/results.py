@@ -9,7 +9,7 @@ import numpy as np
 
 from solveur.core.audit import SolverAudit
 from solveur.core.dofs import DofManager
-from solveur.core.material_state import MaterialStateTable, material_states_to_dict
+from solveur.core.nonlinear.material_state import MaterialStateTable, material_states_to_dict
 from solveur.core.qualification import RunVerdict, qualification_summary, run_verdict
 from solveur.core.result_serialization import complex_nodal_state, legacy_six_dof_vector, modal_shape, nodal_state
 from solveur.mesh.validation import MeshReport

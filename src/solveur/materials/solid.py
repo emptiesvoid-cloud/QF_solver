@@ -8,7 +8,7 @@ from typing import Protocol, runtime_checkable
 
 import numpy as np
 
-from solveur.core.nonlinear_contracts import ConstitutiveResponse
+from solveur.core.nonlinear.contracts import ConstitutiveResponse
 
 
 @runtime_checkable

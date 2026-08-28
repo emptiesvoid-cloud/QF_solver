@@ -6,28 +6,28 @@ from __future__ import annotations
 import numpy as np
 from scipy.sparse import csr_matrix
 
-from solveur.core.assembler import GlobalAssembler
+from solveur.core.assembly.assembler import GlobalAssembler
 from solveur.core.audit import SolverAudit, static_equilibrium_summary
 from solveur.core.dofs import DofManager
 from solveur.core.errors import InputValidationError, MeshValidationError
-from solveur.core.linear_methods import LinearSystemSolver
-from solveur.core.material_state import MaterialStateTable
-from solveur.core.material_state import copy_material_states
-from solveur.core.material_state import initial_material_states
-from solveur.core.nonlinear_assembly import (
+from solveur.core.solvers.linear import LinearSystemSolver
+from solveur.core.nonlinear.material_state import MaterialStateTable
+from solveur.core.nonlinear.material_state import copy_material_states
+from solveur.core.nonlinear.material_state import initial_material_states
+from solveur.core.assembly.nonlinear import (
     NonlinearAssemblyPlan,
     assemble_internal_tangent,
     build_nonlinear_assembly_plan,
 )
 from solveur.core.model import FiniteElementModel
-from solveur.core.nonlinear_controls import (
+from solveur.core.nonlinear.controls import (
     ArcLengthControls,
     NonlinearSolverOptions,
     validated_load_path,
 )
-from solveur.core.nonlinear_checkpoint import NonlinearCheckpointSession, NonlinearCheckpointStore
-from solveur.core.nonlinear_arc_length import NonlinearArcLengthMixin
-from solveur.core.nonlinear_load_control import NonlinearLoadControlMixin
+from solveur.core.nonlinear.checkpoint import NonlinearCheckpointSession, NonlinearCheckpointStore
+from solveur.core.nonlinear.arc_length import NonlinearArcLengthMixin
+from solveur.core.nonlinear.load_control import NonlinearLoadControlMixin
 from solveur.core.results import SolveResult
 from solveur.mesh.validation import MeshValidator
 from solveur.post.audit import PostProcessingAuditor

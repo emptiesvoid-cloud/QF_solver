@@ -10,7 +10,7 @@ from scipy.sparse import csr_matrix
 from time import perf_counter
 
 from solveur.core.errors import InfrastructureError
-from solveur.core.sparse_accumulator import SparseCsrAccumulator
+from solveur.core.assembly.sparse import SparseCsrAccumulator
 
 from solveur.large.dofs import dof_index
 from solveur.large.materials import create_large_material

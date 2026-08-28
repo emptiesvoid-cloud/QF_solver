@@ -12,7 +12,7 @@ import numpy as np
 matplotlib.use("Agg")
 from matplotlib import pyplot as plt  # noqa: E402
 
-from solveur.core.solver import LinearStaticSolver
+from solveur.core.solvers.static import LinearStaticSolver
 from solveur.io.json_reader import JsonModelReader
 from solveur.verification.contact_additional_models import (
     _deformable_tet4_two_slaves,

@@ -8,12 +8,12 @@ from tempfile import TemporaryDirectory
 import numpy as np
 
 from solveur.core.errors import InputValidationError
-from solveur.core.nonlinear_checkpoint import (
+from solveur.core.nonlinear.checkpoint import (
     NonlinearCheckpoint,
     NonlinearCheckpointSession,
     NonlinearCheckpointSettings,
 )
-from solveur.core.nonlinear_contracts import NonlinearFailureReason
+from solveur.core.nonlinear.contracts import NonlinearFailureReason
 from solveur.io.nonlinear_checkpoint import NpzNonlinearCheckpointStore
 
 

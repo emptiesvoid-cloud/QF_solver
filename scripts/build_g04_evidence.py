@@ -21,7 +21,7 @@ from typing import Any
 
 import numpy as np
 
-from solveur.core.nonlinear import NonlinearStaticSolver
+from solveur.core.nonlinear.solver import NonlinearStaticSolver
 from solveur.io.nonlinear_checkpoint import NpzNonlinearCheckpointStore
 from solveur.verification.robustness_arc_length import run_shallow_arch_arc_length_benchmark
 from solveur.verification.robustness_arc_length_extended import (

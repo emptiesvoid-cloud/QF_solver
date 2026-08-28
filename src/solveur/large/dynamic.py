@@ -15,7 +15,7 @@ from typing import Any
 import numpy as np
 
 from solveur.core.errors import InfrastructureError, NumericalConvergenceError
-from solveur.core.modal_options import validate_slepc_modal_scale
+from solveur.core.analyses.modal_options import validate_slepc_modal_scale
 from solveur.large.assembler import (
     PetscTET4Assembler,
     PetscTET4MassAssembler,

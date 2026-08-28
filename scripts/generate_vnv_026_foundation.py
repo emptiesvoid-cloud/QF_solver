@@ -394,16 +394,31 @@ paths remain experimental unless later gates establish stronger evidence.
         "0_2_6_debt_register.md": "# Debt Register\n\n| ID | Area | Status | Reason |\n| --- | --- | --- | --- |\n" + "\n".join(f"| `{row['id']}` | {row['area']} | {row['status']} | {row['reason']} |" for row in _debts()) + "\n",
         "0_2_6_architecture_refactor_plan.md": """# Architecture Refactor Plan
 
-The first refactor target is the verification boundary, not numerical kernels.
-Existing flat oracle and campaign modules remain authoritative until one narrow
-structural batch has baseline fingerprints, public API smoke and V&V smoke
-protection. Each migration is mechanical (`git mv` plus import updates) and is
-separate from behavior changes.
+## G04 implementation result
 
-Target stable domains are `framework`, `oracles`, `metrics`, `campaigns` and
-`reporting`. A new package is introduced only when at least three related
-modules share ownership. Modules near the repository 700-line limit are
-inventory candidates, not automatic refactor targets.
+The first completed architectural batch groups the existing core
+implementations by responsibility without changing numerical bodies, public
+API, file formats or solver options:
+
+| Domain | Implementation package |
+| --- | --- |
+| Assembly | `solveur.core.assembly` |
+| Linear solvers and backend policy | `solveur.core.solvers` |
+| Modal, dynamic, harmonic and stability analyses | `solveur.core.analyses` |
+| Nonlinear state, contracts and strategies | `solveur.core.nonlinear` |
+
+Legacy flat imports such as `solveur.core.assembler` and
+`solveur.core.nonlinear_iteration` remain compatibility facades. They resolve
+to the new implementation modules so existing 0.2.x callers and tests retain
+their import paths while new code has explicit ownership boundaries.
+
+The verification package remains intentionally flat in this batch. Its future
+oracle/campaign migration is separate work and is not required to reorganize
+the numerical core.
+
+Modules near the repository 700-line limit are inventory candidates, not
+automatic refactor targets. This batch did not split numerical functions or
+change algorithmic thresholds merely to satisfy a line count.
 
 ### Migration Guard
 
@@ -411,6 +426,16 @@ Before every migration: capture fingerprints, run focused tests and keep the
 compatibility facade. After it: rerun the same checks, compare results and
 record the evidence. Stop on numerical drift, changed output schema or import
 breakage.
+
+## G04 acceptance boundary
+
+- New implementation modules must be importable directly.
+- Legacy flat module paths must resolve to the same module objects.
+- Public `qf_solver` imports, CLI routes and serialized outputs must remain
+  unchanged.
+- The foundation smoke and representative route fingerprints must match the
+  baseline exactly within the existing comparison policy.
+- No verification maturity status is promoted by this structural refactor.
 """,
         "0_2_6_vnv_architecture.md": """# V&V Architecture
 

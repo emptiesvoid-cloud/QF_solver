@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from solveur.core.nonlinear_contracts import evaluate_constitutive
+from solveur.core.nonlinear.contracts import evaluate_constitutive
 from solveur.elements.solid.common import (
     strain_displacement_from_gradients,
     symmetrize,

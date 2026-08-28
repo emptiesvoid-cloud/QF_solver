@@ -8,7 +8,7 @@ from typing import Any
 
 import numpy as np
 
-from solveur.core.modal import ModalAnalysisSolver
+from solveur.core.analyses.modal import ModalAnalysisSolver
 from solveur.io.json_reader import JsonModelReader
 from solveur.io.manifest import write_json_file
 from solveur.verification.code_aster_tl_structural import CODE_ASTER_IMAGE, run_code_aster

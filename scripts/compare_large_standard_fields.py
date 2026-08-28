@@ -16,10 +16,10 @@ from typing import Any, Mapping
 
 import numpy as np
 
-from solveur.core.assembler import GlobalAssembler
-from solveur.core.analysis import AnalysisSettings
+from solveur.core.assembly.assembler import GlobalAssembler
+from solveur.core.analyses.settings import AnalysisSettings
 from solveur.core.model import BoundaryCondition, ElementDefinition, FiniteElementModel, NodalLoad
-from solveur.core.solver import LinearStaticSolver
+from solveur.core.solvers.static import LinearStaticSolver
 from solveur.large.assembler import ChunkedScipyAssembler, fixed_dof_indices
 from solveur.large.generator import generate_tet4_block, recommended_block_for_dofs
 from solveur.large.solver import solve_large_model

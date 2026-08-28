@@ -7,7 +7,7 @@ import numpy as np
 from solveur.elements.shell.mitc4 import MITC4Element, ShellMaterial
 
 from solveur.core.dofs import DofManager
-from solveur.core.material_state import MaterialStateTable
+from solveur.core.nonlinear.material_state import MaterialStateTable
 from solveur.core.model import FiniteElementModel
 from solveur.elements.registry import ElementRegistry
 from solveur.elements.beam.beam2 import Beam2Element

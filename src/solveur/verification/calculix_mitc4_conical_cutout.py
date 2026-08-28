@@ -12,7 +12,7 @@ matplotlib.use("Agg")
 from matplotlib import pyplot as plt  # noqa: E402
 
 from solveur.api import solve_model
-from solveur.core.assembler import GlobalAssembler
+from solveur.core.assembly.assembler import GlobalAssembler
 from solveur.core.model import FiniteElementModel
 from solveur.io.manifest import write_json_file
 from solveur.verification.calculix_composite import parse_original_frd_displacement

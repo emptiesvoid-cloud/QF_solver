@@ -15,8 +15,8 @@ from pathlib import Path
 import numpy as np
 from scipy.sparse.linalg import norm as sparse_norm
 
-from solveur.core.assembler import GlobalAssembler
-from solveur.core.analysis import AnalysisSettings
+from solveur.core.assembly.assembler import GlobalAssembler
+from solveur.core.analyses.settings import AnalysisSettings
 from solveur.core.model import ElementDefinition, FiniteElementModel
 from solveur.large.generator import generate_tet4_block, recommended_block_for_dofs
 

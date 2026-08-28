@@ -8,7 +8,7 @@ from pathlib import Path
 
 import numpy as np
 
-from solveur.core.dynamic_checkpoint import DynamicCheckpoint
+from solveur.core.analyses.dynamic_checkpoint import DynamicCheckpoint
 from solveur.core.errors import InputValidationError
 from solveur.io.checkpoint_common import checkpoint_signature
 

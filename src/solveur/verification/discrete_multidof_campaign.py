@@ -12,7 +12,7 @@ from scipy.linalg import eigh
 matplotlib.use("Agg")
 from matplotlib import pyplot as plt  # noqa: E402
 
-from solveur.core.assembler import GlobalAssembler
+from solveur.core.assembly.assembler import GlobalAssembler
 from solveur.core.model import FiniteElementModel
 from solveur.core.router import AnalysisRouter
 from solveur.io.manifest import write_json_file

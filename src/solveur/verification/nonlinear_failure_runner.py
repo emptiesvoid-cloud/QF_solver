@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from solveur.core.nonlinear_contracts import NonlinearFailureReason
+from solveur.core.nonlinear.contracts import NonlinearFailureReason
 from solveur.verification.nonlinear_failure_campaign import (
     _Assembly,
     _raising_internal,

@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
-from solveur.core.analysis import AnalysisSettings
-from solveur.core.dynamic import NewmarkDynamicSolver
-from solveur.core.harmonic import HarmonicResponseSolver
-from solveur.core.modal import ModalAnalysisSolver
+from solveur.core.analyses.settings import AnalysisSettings
+from solveur.core.analyses.dynamic import NewmarkDynamicSolver
+from solveur.core.analyses.harmonic import HarmonicResponseSolver
+from solveur.core.analyses.modal import ModalAnalysisSolver
 from solveur.core.model import FiniteElementModel
-from solveur.core.nonlinear import NonlinearStaticSolver
-from solveur.core.solver import LinearStaticSolver
+from solveur.core.nonlinear.solver import NonlinearStaticSolver
+from solveur.core.solvers.static import LinearStaticSolver
 
 
 class AnalysisRouter:
@@ -27,11 +27,11 @@ class AnalysisRouter:
 
             return NonlinearStaticSolver(checkpoint_store=NpzNonlinearCheckpointStore()).solve(model)
         if model.analysis.type == "geometric_nonlinear_static":
-            from solveur.core.geometric_nonlinear import GeometricNonlinearStaticSolver
+            from solveur.core.analyses.geometric_nonlinear import GeometricNonlinearStaticSolver
 
             return GeometricNonlinearStaticSolver().solve(model)
         if model.analysis.type == "linear_buckling":
-            from solveur.core.buckling import LinearBucklingSolver
+            from solveur.core.analyses.buckling import LinearBucklingSolver
 
             return LinearBucklingSolver().solve(model)
         if model.analysis.type == "transient_dynamic":

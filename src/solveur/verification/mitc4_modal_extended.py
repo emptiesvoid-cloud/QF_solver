@@ -17,9 +17,9 @@ from matplotlib import pyplot as plt  # noqa: E402
 
 from solveur.elements.shell.mitc4.mesh import MeshFactory
 from solveur.api import solve_model
-from solveur.core.analysis import AnalysisSettings
-from solveur.core.assembler import GlobalAssembler
-from solveur.core.dynamic_reduction import DynamicDofReducer
+from solveur.core.analyses.settings import AnalysisSettings
+from solveur.core.assembly.assembler import GlobalAssembler
+from solveur.core.analyses.dynamic_reduction import DynamicDofReducer
 from solveur.core.model import FiniteElementModel
 from solveur.io.manifest import discovered_file_entries, git_source_state, write_json_file
 from solveur.verification.mitc4_modal_external import build_modal_correlation_model
