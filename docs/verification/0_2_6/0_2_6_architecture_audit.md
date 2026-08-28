@@ -1,12 +1,14 @@
 # Architecture Audit
 
 The machine-readable authority is `qualification/0_2_6/architecture_audit.json`.
-This audit is descriptive; no numerical module is moved by the foundation run.
+This audit is descriptive; G04 moves implementation ownership without changing numerical bodies or public entry points.
 
-- Source SHA captured: `62c7b8406a657538f8a2b06ce6ff8b646aff7873`
-- Source dirty at capture: `True`
-- Python modules inspected: 394
+- Source SHA captured: `8fe4f5990e48a221f0e62387a87df95551ddc997`
+- Source dirty at capture: `False`
+- Python modules inspected: 428
 - Flat verification modules: 188
+- Core implementation packages: analyses, assembly, nonlinear, solvers
+- Core compatibility facades: 30
 
 ## Large Modules
 
@@ -16,8 +18,8 @@ This audit is descriptive; no numerical module is moved by the foundation run.
 | `src/solveur/verification/maturity_promotion.py` | 694 | over_500 |
 | `src/solveur/verification/release_vv.py` | 687 | over_500 |
 | `src/solveur/core/audit.py` | 684 | over_500 |
-| `src/solveur/core/modal.py` | 683 | over_500 |
-| `src/solveur/core/dynamic.py` | 674 | over_500 |
+| `src/solveur/core/analyses/modal.py` | 683 | over_500 |
+| `src/solveur/core/analyses/dynamic.py` | 674 | over_500 |
 | `src/solveur/mesh/validation.py` | 674 | over_500 |
 | `src/solveur/verification/code_aster_contact_additional.py` | 662 | over_500 |
 | `src/solveur/verification/nonlinear_failure_campaign.py` | 643 | over_500 |
@@ -26,13 +28,13 @@ This audit is descriptive; no numerical module is moved by the foundation run.
 | `src/solveur/verification/robustness_contact.py` | 618 | over_500 |
 | `src/solveur/mesh/gmsh_importer.py` | 613 | over_500 |
 | `src/solveur/verification/mitc4_campaign.py` | 605 | over_500 |
-| `src/solveur/core/assembler.py` | 591 | over_500 |
+| `src/solveur/core/assembly/assembler.py` | 591 | over_500 |
 | `src/solveur/verification/orthotropic_singularity_vnv.py` | 591 | over_500 |
 | `src/solveur/verification/robustness_mesh.py` | 589 | over_500 |
 | `src/solveur/api/public.py` | 565 | over_500 |
 | `src/solveur/verification/j2_material.py` | 556 | over_500 |
 | `src/solveur/verification/tet10_structural_convergence.py` | 552 | over_500 |
-| `src/solveur/core/nonlinear_arc_length.py` | 529 | over_500 |
+| `src/solveur/core/nonlinear/arc_length.py` | 529 | over_500 |
 | `src/solveur/post/stress.py` | 528 | over_500 |
 | `src/solveur/large/solver.py` | 525 | over_500 |
 | `src/solveur/verification/code_aster_tl_structural.py` | 524 | over_500 |
@@ -61,5 +63,5 @@ These are retained for provenance. The 0.2.6 policy prevents new equivalents fro
 ## Findings
 
 - Verification contains many flat, solver-specific modules and duplicated campaign entrypoints.
-- No mechanical migration is performed by this audit; the framework package is an additive boundary.
+- Core assembly, solver, analysis and nonlinear implementations are grouped under explicit subpackages; flat core imports remain compatibility facades.
 - Historical large benchmark displacement blobs exceed the proposed normal artifact size policy and must be preserved, not rewritten.
