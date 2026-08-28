@@ -102,11 +102,15 @@ The `sha_consistency` step in `scripts/release_readiness_pipeline_025.py` is
 fail-closed: it emits `FINAL_SHA`, `TREE_CLEAN` and `EVIDENCE_SHA_MATCH`, and
 returns a failure when the candidate has no resolvable Git revision, contains
 source changes, or its generated `docs/generated/docs_manifest.json` does not
-identify that same revision through `source_sha`. Generated documentation and
-the readiness artifact directory are outputs produced after checkout; they are
-excluded from the source-tree cleanliness decision. This prevents a manifest
-from having to contain the SHA of the commit that contains the manifest itself.
-The check is evaluated only during candidate readiness; it does not alter the
+identify the qualified source through `source_sha`. Generated documentation
+and the readiness artifact directory are outputs produced after checkout and
+are excluded from the source-tree cleanliness decision. A manifest archived by
+a later release commit may therefore identify an ancestor SHA, but only when
+every intervening path is explicitly documentation/governance-only; any change
+under `src`, `examples` or qualification data fails the check. This prevents a
+manifest from having to contain the SHA of the commit that contains the
+manifest itself without allowing numerical changes to hide behind it. The
+check is evaluated only during candidate readiness; it does not alter the
 development workflow or publish anything.
 
 The `gate_check` step is also fail-closed. It parses every mandatory row rather

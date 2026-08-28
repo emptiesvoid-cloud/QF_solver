@@ -27,6 +27,13 @@ GENERATED_EVIDENCE_PREFIXES = (
     f"{OUTPUT_DIR}/",
     ".tmp_smoke_install_025/",
 )
+NON_NUMERICAL_RELEASE_PREFIXES = (
+    "docs/",
+    "README.md",
+    "CHANGELOG.md",
+    "scripts/release_readiness_pipeline_025.py",
+    "tests/unit/test_release_readiness_pipeline_025.py",
+)
 MANDATORY_GATE_IDS = tuple(f"025-G{index:02d}" for index in (*range(0, 7), *range(8, 13)))
 CLOSED_GATE_STATUSES = {
     "PASS",
@@ -180,10 +187,10 @@ def _check_candidate_provenance(
 
     Generated documentation is evidence produced *from* the candidate source;
     it is not part of the source revision it identifies.  Consequently, changes
-    below the generated-evidence prefixes do not make the source tree dirty and
-    the manifest is matched through its explicit ``source_sha`` field.  This
-    avoids the impossible requirement that a tracked manifest contain the SHA
-    of the commit that contains that same manifest.
+    below the generated-evidence prefixes do not make the source tree dirty.
+    A tracked manifest may be archived in a later release-only commit; in that
+    case its source SHA is accepted only when every intervening path is an
+    explicitly non-numerical documentation or governance path.
     """
     base = Path(root).resolve()
     try:
@@ -223,9 +230,10 @@ def _check_candidate_provenance(
             if not isinstance(source_sha, str) or not source_sha:
                 source_sha = source.get("revision") if isinstance(source, dict) else None
             evidence_sha_match = (
-                source_sha == revision
-                and isinstance(source, dict)
+                isinstance(source, dict)
                 and source.get("dirty") is False
+                and isinstance(source_sha, str)
+                and _evidence_source_matches_release(base, source_sha, revision)
             )
         except (FileNotFoundError, OSError, json.JSONDecodeError):
             evidence_sha_match = False
@@ -266,6 +274,37 @@ def _source_changes(status_output: str) -> list[str]:
             continue
         changes.append(row)
     return changes
+
+
+def _evidence_source_matches_release(root: Path, source_sha: str, release_sha: str) -> bool:
+    """Accept an exact source SHA or a descendant containing release-only files."""
+    if source_sha == release_sha:
+        return True
+    ancestor = subprocess.run(
+        [git_command(), "merge-base", "--is-ancestor", source_sha, release_sha],
+        cwd=root,
+        text=True,
+        capture_output=True,
+        check=False,
+        timeout=10,
+    )
+    if ancestor.returncode != 0:
+        return False
+    changed = subprocess.run(
+        [git_command(), "diff", "--name-only", f"{source_sha}..{release_sha}"],
+        cwd=root,
+        text=True,
+        capture_output=True,
+        check=False,
+        timeout=10,
+    )
+    if changed.returncode != 0:
+        return False
+    paths = [line.replace("\\", "/").strip() for line in changed.stdout.splitlines() if line.strip()]
+    return bool(paths) and all(
+        any(path == prefix.rstrip("/") or path.startswith(prefix) for prefix in NON_NUMERICAL_RELEASE_PREFIXES)
+        for path in paths
+    )
 
 
 def _run_sha_consistency() -> int:

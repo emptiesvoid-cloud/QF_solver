@@ -241,6 +241,58 @@ def test_candidate_provenance_matches_explicit_source_sha_after_evidence_generat
     assert result["evidence_sha_match"] is True
 
 
+def test_candidate_provenance_accepts_release_only_commit_after_evidence(monkeypatch, tmp_path) -> None:
+    manifest = tmp_path / "docs" / "generated" / "docs_manifest.json"
+    manifest.parent.mkdir(parents=True)
+    manifest.write_text(
+        '{"source_sha": "source123", "source": {"revision": "source123", "dirty": false}}\n',
+        encoding="utf-8",
+    )
+    responses = iter(
+        [
+            SimpleNamespace(returncode=0, stdout="release456\n"),
+            SimpleNamespace(returncode=0, stdout=""),
+            SimpleNamespace(returncode=0, stdout=""),
+            SimpleNamespace(returncode=0, stdout="docs/generated/docs_manifest.json\nREADME.md\n"),
+        ]
+    )
+    monkeypatch.setattr(
+        "scripts.release_readiness_pipeline_025.subprocess.run",
+        lambda *args, **kwargs: next(responses),
+    )
+
+    result = check_candidate_provenance(tmp_path, require_evidence=True)
+
+    assert result["status"] == "PASS"
+    assert result["evidence_sha_match"] is True
+
+
+def test_candidate_provenance_rejects_numeric_change_after_evidence(monkeypatch, tmp_path) -> None:
+    manifest = tmp_path / "docs" / "generated" / "docs_manifest.json"
+    manifest.parent.mkdir(parents=True)
+    manifest.write_text(
+        '{"source_sha": "source123", "source": {"revision": "source123", "dirty": false}}\n',
+        encoding="utf-8",
+    )
+    responses = iter(
+        [
+            SimpleNamespace(returncode=0, stdout="release456\n"),
+            SimpleNamespace(returncode=0, stdout=""),
+            SimpleNamespace(returncode=0, stdout=""),
+            SimpleNamespace(returncode=0, stdout="src/solveur/core/solver.py\n"),
+        ]
+    )
+    monkeypatch.setattr(
+        "scripts.release_readiness_pipeline_025.subprocess.run",
+        lambda *args, **kwargs: next(responses),
+    )
+
+    result = check_candidate_provenance(tmp_path, require_evidence=True)
+
+    assert result["status"] == "FAIL"
+    assert result["evidence_sha_match"] is False
+
+
 def test_candidate_provenance_rejects_missing_generated_manifest(monkeypatch, tmp_path) -> None:
     responses = iter(
         [
