@@ -22,7 +22,7 @@ uniquement par une preuve reproductible liee a un SHA final.
 | WP2 | CLOSED_BOUNDED | Driver Full Newton commun pour la geometrie et TL StVK elastique TET4/HEX8, avec objectivite, tangent sparse, grande rotation, energie, raffinement pre-limit et correlation Code_Aster bornee; le chemin experimental `kinematics=total_lagrangian_j2` TET4/TET10/HEX8/HEX20 reste separe | 025-G02 PASS | Scope Owner: elastic Total-Lagrangian TET4/HEX8 dans le domaine pre-limit teste. J2 finite-kinematic, haut ordre, post-limit et contact restent recherche/ouverts |
 | WP3 | CLOSED_BOUNDED | Analyse publique `linear_buckling` avec contribution géométrique initial-stress sparse, route généralisée `eigsh(K, M=-Kg)`, raffinement shift-invert après bracket et fallback diagnostiqué; Euler TET4-TL sur quatre niveaux structurés; sonde externe Code_Aster TET4 avec facteur et mode corrélés; preuves internes TET10/HEX8/HEX20 conservées pour la recherche | 025-G03 PASS | Scope fermé pour la première instabilité tangentielle sparse, TET4 externe et tendance Euler bornée; TET10/HEX8/HEX20 externes, post-buckling, imperfections et prédiction de ruine restent hors qualification |
 | WP4 | PARTIAL | Correction arc-length augmentee sparse; cible signee et fenetre bornee `arc_length_stop_mode=max_steps` opt-in; chemin FEM TET4 total-Lagrangian sparse `VV-060` sur 24 pas; campagne interne monotone, restart depuis checkpoint intermédiaire, benchmark reduit shallow-arch traversant le point limite analytique avec erreur d'equilibre `< 1e-8`, chemin `total_lagrangian_j2` adaptatif borne sur TET4/TET10/HEX8/HEX20 `VV-064` vers le facteur 0,5 et télémétrie structurée des retries/cutbacks arc-length `VV-072` | 025-G04 OPEN | Les quatre chemins finite-kinematic restent des preuves internes monotones de recherche; snap-through FEM unifié, post-buckling qualifié, branchement général et corrélation externe restent hors fermeture |
-| WP5 | PARTIAL | Contact frictionnel conserve sa transaction trial/commit/rollback; contribution `contact_mode=penalty` frictionless assemblable avec le résidu/tangent commun en recherche initiale ou mise à jour; mode opt-in `contact_finite_sliding=true` avec projection bornée sur le triangle courant et diagnostics de franchissement d'arête; activation unilatérale ouverte/fermée, recontact par chemin de charge, recherche multi-face et sensibilités penalty observés; `VV-062` étend la composition finite-kinematic aux quatre familles; corrélation Docker Code_Aster bornée de la loi normale scalaire passée | 025-G05 OPEN | Pas de surface-to-surface généralisé, large sliding continu, acceptance band de pénétration ou corrélation externe de la projection finite-sliding; active-set historique et friction restent séparés |
+| WP5 | CLOSED_BOUNDED | Contact frictionless sur le résidu/tangent commun; mode opt-in `contact_finite_sliding=true` avec projection bornée, normales actualisées, transitions de facettes, recontact, rollback et sensibilités penalty; corrélation Docker Code_Aster bornée sur historiques compatibles, contrôlée sur 768 et 9 984 TET4 | 025-G05 PASS | Pas de surface-to-surface généralisé, mortar, friction, impact, self-contact ou large sliding non borné; CalculiX reste un support SHOULD |
 | WP6 | PARTIAL | Contrat `CompositeNonlinearAssembly` sparse et campagne interne sur un maillage TET4 connecté à deux éléments couvrant J2 + géométrie, géométrie + contact avec `geometric_nonlinear_static` (`VV-065`) et J2 + géométrie + contact mis à jour, complétée par `VV-059` sur J2 + géométrie et `VV-062` sur J2 actif + géométrie + contact pour TET4/TET10/HEX8/HEX20, tous via les chemins incrémentaux communs | 025-G06 OPEN | Aucune corrélation externe ni qualification multi-familles couplée; le contact reste une composition bornée penalty frictionless |
 | WP7 | OPEN | Aucun changement de friction qualifiant | 025-G07 NOT_IN_RELEASE_SCOPE | Promotion Owner requise |
 | WP8 | CLOSED_BOUNDED | Script reproductible `scripts/benchmark_nonlinear_025.py` avec chemins explicites load-control, geometric_static, arc-length, finite-sliding borné, couplé et finite-kinematic arc-length; temps, DOF, iterations, allocations Python, RSS optionnelle, timers du driver Newton et décomposition élémentaire/sparse/contact; résumés multi-répétitions avec moyenne, médiane, min/max et écart-type; plan d'assemblage nonlinear reutilisant noyaux, matériaux immuables et mappings DDL avec compteurs hit/miss; cache de géométrie de référence Total-Lagrangian avec compteurs hit/miss; accumulation de tangente CSR par chunks avec compteurs de pic et estimation des buffers de staging; vectorisation exploratoire du tangent TL TET4/HEX8 conservée sans écart numérique observé | 025-G08 PASS | Caracterisation de performance bornee, sans claim HPC ou gain universel |
@@ -581,9 +581,10 @@ un contact frictionless TET4 et ne ferme pas `025-G05` ou `025-G09`.
 Le readiness ciblé historique après la campagne arc-length adaptative avait
 produit **200 passed, 2 skipped en 169.46 s**, documentation `PASS` avec **706
 artifacts**, puis arrêt au gate check. Il ne doit pas être lu comme un run
-complet du HEAD après la correction d'audit. Les gates `025-G00`, `G01`, `G02`,
-`G03`, `G04`, `G05`, `G06`, `G08`, `G09`, `G10`, `G11` et `G12` restent `OPEN`;
-aucune couverture ni suite complète n'a été exécutée.
+complet du HEAD après la correction d'audit. Dans cet état historique, les
+gates `025-G00`, `G01`, `G02`, `G03`, `G04`, `G05`, `G06`, `G08`, `G09`, `G10`,
+`G11` et `G12` étaient `OPEN`; la matrice contrôlée courante fait foi.
+Aucune couverture ni suite complète n'a été exécutée dans ce run historique.
 
 Le rapport `results/vnv_0_2_5/release_readiness_targeted_latest.json` reste le
 rapport du run arrêté sur l'ancien échec d'audit; il ne doit pas être présenté
@@ -712,3 +713,18 @@ externes, post-buckling et imperfections restent explicitement hors scope.
 Les autres gates conservent les statuts indiqués dans la matrice contrôlée;
 `025-G07` reste `NOT_IN_RELEASE_SCOPE`. Aucun tag, push GitHub ou upload PyPI
 n'a été exécuté.
+
+## G05 controlled closure update
+
+The historical WP5 implementation observations above describe the pre-closure
+state and remain intentionally conservative. The current controlled replay is
+recorded in `results/vnv_0_2_5/g05_latest/` with source SHA
+`a3ab8de707ffc88fc5e39e4f999eb872c9223b73` and `dirty=false`. It reports
+`82 passed / 2 skipped` in the contact-focused unit selection, a bounded
+penalty sweep from `1e2` to `1e6`, and PASS internal observations for updated
+normals, three-facet traversal, recontact and facet-transition rollback.
+Code_Aster additional-contact histories pass for the 768- and 9,984-element
+TET4 confirmations. Accordingly `025-G05` and WP5 are now
+`CLOSED_BOUNDED` / `PASS` only for the explicit node/patch-to-triangulated-
+surface frictionless contract. This update does not qualify general
+surface-to-surface contact or close G06, G10, G11 or G12.

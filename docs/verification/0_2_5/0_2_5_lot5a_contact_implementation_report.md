@@ -1,25 +1,27 @@
 ---
 doc_id: DOC-NL-025-025
-revision: 0.1
-status: controlled_candidate
+revision: 1.0
+status: approved
 applicable_version: 0.2.5a0
-reviewer: ""
-approver: ""
+reviewer: Owner
+approver: Owner
 ---
 
 # QF Solver 0.2.5a0 - Lot 5A contact implementation report
 
 **Scope:** implementation blockers for `025-G05` only.
 
-**Base commit:** `d6ede9d8c3cf01ea6d381ff84441ad2067482095`
+**Implementation base commit:** `d6ede9d8c3cf01ea6d381ff84441ad2067482095`
 
-**Working tree:** dirty; the implementation and tests in this report are
-uncommitted local changes.
+The implementation snapshot above is historical. The controlled G05 replay
+was generated later on qualified source SHA
+`a3ab8de707ffc88fc5e39e4f999eb872c9223b73` with `dirty=false`; its evidence
+manifest is `results/vnv_0_2_5/g05_latest/evidence_manifest.json`.
 
-**Gate decision:** `025-G05 = OPEN`.
+**Gate decision:** `025-G05 = PASS` for the bounded contract below.
 
-This report records an implementation slice. It does not qualify general
-contact, does not provide an external correlation, and does not close G05.
+This report retains the implementation history and records the subsequent
+controlled closure. It does not qualify general contact.
 
 ## 1. Implementation result
 
@@ -129,9 +131,11 @@ Markdown source consistently.
    generalized broad-phase search, self-contact and arbitrary deformable
    surface pairing are not included.
 4. Friction is unchanged and remains outside this Lot 5A implementation.
-5. No new Code_Aster or CalculiX correlation was executed in this lot.
-6. The evidence is internal and uncommitted. It cannot close `025-G05` or
-   promote the contact claim to `QUALIFIED`.
+5. The current external correlation is bounded to compatible Code_Aster normal
+   contact histories; CalculiX is supporting pre-contact evidence only.
+6. The contact claim is qualified only for the bounded node/patch-to-faceted-
+   surface contract. General surface-to-surface contact, friction, impact,
+   self-contact and unrestricted large sliding remain outside scope.
 
 ## 6. Status
 
@@ -144,11 +148,31 @@ FACET_TRANSITIONS = PASS
 ROLLBACK = PASS
 FD_TANGENT = PASS
 TESTS = 55 passed in 2.86 s
-READY_FOR_G05_VNV = YES
-G05 = OPEN
+READY_FOR_G05_VNV = COMPLETE
+G05 = PASS
 ```
 
 The implementation blockers addressed here are complete within the bounded
-node-patch/faceted-surface scope. The remaining work is G05 V&V: acceptance
-bands, complete transition and recontact histories, broader finite-deformation
-coverage, external surface-contact correlation and final-SHA evidence.
+node-patch/faceted-surface scope. The controlled closure used the current
+internal contact suite, bounded penalty characterization and the archived
+Code_Aster additional-model campaigns. It does not promote the implementation
+to a general surface-contact claim.
+
+## Owner closure record
+
+| Field | Value |
+|---|---|
+| Gate | `025-G05` |
+| Owner decision | `APPROVED` |
+| Qualified source SHA | `a3ab8de707ffc88fc5e39e4f999eb872c9223b73` |
+| Source worktree | `CLEAN` |
+| Contract lowered | `NO` |
+| Internal targeted tests | `82 passed / 2 skipped` |
+| Code_Aster | `PASS_EXTERNAL_CORRELATION` on 768 and 9,984 TET4 confirmations |
+| CalculiX | supporting SHOULD evidence; not release-blocking |
+
+The resulting qualified scope is `025-REQ-018` through `025-REQ-021`: common
+sparse frictionless penalty contact, bounded open/close/recontact, opt-in
+updated finite-sliding projection over an explicitly supplied triangulated
+master surface, penetration/enforcement sensitivity, and exact transaction
+replay. This closure does not close G06 or promote G07.

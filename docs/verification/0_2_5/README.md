@@ -34,7 +34,7 @@ behavior. Friction is optional and cannot block the core release.
 
 Implementation has started incrementally under the controlled status record
 [`0_2_5_implementation_status.md`](0_2_5_implementation_status.md). Controlled
-evidence closes G01, G02, G08 and G09 only within their documented bounded
+evidence closes G01, G02, G03, G05, G08 and G09 only within their documented bounded
 domains. In particular, G02 accepts the elastic Total-Lagrangian TET4/HEX8
 pre-limit scope; it does not promote finite-kinematic J2, high-order geometric
 paths, post-limit response, contact or coupling.
@@ -46,8 +46,9 @@ point, unilateral sparse penalty-contact activation, and an
 adversarial `MIN_INCREMENT_REACHED` failure. It also records a bounded TET4
 composition smoke for J2, Total-Lagrangian geometry and initial/updated
 frictionless penalty contact through the same Newton driver. These observations
-are useful for the next work packages but do not close G03, G04, G05, G06 or
-G09.
+are useful for the next work packages. The bounded G05 contact contract is now
+closed; G04 and G06 remain open, while general surface-to-surface contact,
+friction and unrestricted large sliding remain outside the qualified claim.
 
 ## Audited baseline
 
@@ -61,7 +62,7 @@ G09.
 | Arc-length | sparse correction, existing FEM TET4 path, restart smoke and reduced shallow-arch limit-point path observed | `core/nonlinear.py`, `core/nonlinear_checkpoint.py`, `verification/total_lagrangian_structural.py`, robustness campaign | unify the FEM branch with the common driver, verify snap-through/post-buckling and external correlation as WP4 |
 | Geometric nonlinearity | research TET4/HEX8 Total Lagrangian with bounded large-deflection smoke | `core/geometric_nonlinear.py`, `elements/solid/*total_lagrangian*`, robustness campaign | merge contracts, mesh/external evidence and plastic large-rotation qualification after audit |
 | Buckling/post-buckling | bounded research TET4/TET10/HEX8/HEX20 linear-buckling route; assembled coarse/medium mesh sensitivity; bounded TET4 Euler reference now recorded | `core/buckling.py`, `tet4_total_lagrangian_buckling.py`, robustness campaign | add external/high-order correlation, true multi-family mesh convergence and post-buckling evidence |
-| Normal contact | bounded common penalty path with initial/updated geometry modes, open/close/recontact smoke, multi-face search, controlled updated face crossing, opt-in clamped finite-sliding projection and penalty-sensitivity observation | `contact/solver.py`, `core/nonlinear_assembly.py`, robustness campaign | generalize recontact/finite sliding, state and global Newton |
+| Normal contact | bounded common penalty path with initial/updated geometry modes, open/close/recontact, multi-face search, opt-in clamped finite-sliding projection, penalty sensitivity and bounded Code_Aster histories | `contact/solver.py`, `core/nonlinear_assembly.py`, `g05_latest` evidence | general surface-to-surface, friction and unrestricted large sliding remain outside scope |
 | Coupled nonlinear path | bounded connected two-element TET4 J2 + geometry + penalty-contact composition, plus J2/geometric coupling on TET4/TET10/HEX8/HEX20, through common Newton | robustness campaign, `tests/unit/test_nonlinear_multielement.py` | add broader multi-element histories, contact on high-order families and external correlation |
 | Friction | experimental separate path | friction tests and contact solver | optional WP7 after frictionless gate |
 | External J2 correlation | `PASS_EXTERNAL_CORRELATION_BOUNDED` | Code_Aster affine and regular two-cell campaigns; TET10 uses explicit `code_aster_5` comparison quadrature | broader external cells and final-SHA evidence remain required |

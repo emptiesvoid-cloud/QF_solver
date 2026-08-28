@@ -38,8 +38,8 @@ domain. Element families marked SHOULD do not block release unless promoted.
 | VV-016 | arc-length | reduced shallow-arch equilibrium `lambda = u - u^3` | lambda-u branch, limit point, equilibrium residual | analytical reduced-order reference | OBSERVED_INTERNAL_RESEARCH | G04 |
 | VV-017 | arc-length | restart from intermediate checkpoint | endpoint displacement, load-factor continuation state | continuous arc-length run | OBSERVED_INTERNAL_RESEARCH | G04 |
 | VV-018 | contact local | gap/projection/normal tangent | residual/tangent FD | analytical/FD | OBSERVED_INTERNAL_RESEARCH | G05 |
-| VV-019 | contact global | block-plane open/close/recontact | reaction, gap, active set | analytical/external | PLANNED | G05 |
-| VV-020 | contact sliding | curved/finite sliding | path, penetration, reactions | external | PLANNED | G05/G10 |
+| VV-019 | contact global | block-plane open/close/recontact | reaction, gap, active set | analytical/external | PASS_EXTERNAL_CORRELATION_BOUNDED | G05 |
+| VV-020 | contact sliding | bounded faceted/finite-sliding projection | path, penetration, reactions | internal bounded contract + compatible external contact histories | OBSERVED_INTERNAL_RESEARCH | G05/G10 |
 | VV-021 | contact rollback | injected contact assembly failure with adaptive retry | rejection reason, retry increment, committed-step history | common transaction contract | OBSERVED_INTERNAL_RESEARCH | G05/G09 |
 | VV-022 | coupled | J2 + geometry | F-u, VM, PEEQ, energy, tangent | approved model/external | BLOCKED OWNER DECISION | G06 |
 | VV-023 | coupled | geometry + contact | load-gap-u, reactions, energy | external | PLANNED | G06/G10 |

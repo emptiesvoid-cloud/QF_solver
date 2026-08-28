@@ -41,9 +41,11 @@ be expanded only through an Owner-reviewed scope/gate revision.
   triangulated master surface, updated facet search, current-configuration
   normals and penalty enforcement. The patch expands to independent
   node-to-faceted-surface contributions; it is not a mortar or segment-to-
-  segment formulation. The internal three-facet traversal and facet-transition
-  replay do not qualify general continuum surface-to-surface contact,
-  unrestricted finite sliding or external recontact behavior.
+  segment formulation. G05 is closed only for this bounded contract: the
+  finite-sliding, updated-normal and facet-transition paths are internally
+  qualified, while Code_Aster provides bounded compatible normal-contact
+  histories. This does not qualify general continuum surface-to-surface
+  contact, unrestricted finite sliding or self-contact.
 - Self-contact, cohesive, thermal and advanced mortar contact are excluded.
 - Triple J2+geometry+contact coupling is SHOULD, not a release prerequisite.
 - External numerical correlation is not physical validation.

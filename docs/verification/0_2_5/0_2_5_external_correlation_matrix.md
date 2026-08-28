@@ -83,7 +83,29 @@ This is an external correlation of the equivalent scalar unilateral normal
 inequality only. It does not close the general frictionless-contact cell:
 surface-to-surface finite sliding, updated normals, recontact, penetration
 sensitivity, contact rollback and multi-element external histories remain
-open requirements for `025-G05` and `025-G10`.
+open requirements for the general `025-G10` correlation matrix. The scalar
+oracle alone does not close G05; the bounded G05 closure additionally relies
+on the controlled faceted/contact histories recorded below.
+
+## Controlled bounded contact correlation for G05
+
+The Code_Aster campaign `VNV-CONTACT-CODEASTER-ADDITIONAL-009` was replayed
+on source SHA `a3ab8de707ffc88fc5e39e4f999eb872c9223b73` with a clean tree,
+using the pinned `simvia/code_aster:18.1.0` image. It compares ten load
+factors for a dual-stop corner, a three-facet ramp patch and a deformable
+TET4 model with two slave nodes. The 768-TET4 replay passes with a maximum
+QF/Code_Aster displacement-curve error of `4.33998 %`; its first-sample
+activation difference is retained explicitly, while the active-branch gap
+error is below `4.1e-16 m`. The 9,984-TET4 confirmation passes with
+`3.30291e-12 %` and has no first-sample activation mismatch. These are bounded
+normal-contact histories, not a claim of general surface-to-surface
+equivalence.
+
+The external evidence is archived in
+`results/vnv_0_2_5/g05_latest/code_aster_768/` and
+`results/vnv_0_2_5/g05_latest/code_aster_h10k/`, with the aggregate manifest
+at `results/vnv_0_2_5/g05_latest/evidence_manifest.json`. CalculiX remains a
+SHOULD/supporting pre-contact tie-breaker and is not required to close G05.
 
 ## Controlled Code_Aster TET4 buckling correlation
 

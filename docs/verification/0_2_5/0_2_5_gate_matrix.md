@@ -38,7 +38,7 @@ any dependent functional gate.
 | 025-G02 | Geometric nonlinear core verified | approved measures; TET4/HEX8 objectivity, tangent, energy, mesh and external evidence; common Full Newton | G01 | PASS |
 | 025-G03 | Linear buckling verified | sparse eigenpath; Euler + nontrivial benchmark; factor/mode convergence and external correlation | G02 | PASS |
 | 025-G04 | Arc-length verified | one sparse method; branch, limit point, restart, cutback and external response evidence | G02 | OPEN |
-| 025-G05 | Frictionless contact verified | common residual/tangent/state/Newton; finite sliding, recontact, penetration sensitivity, rollback, external correlation | G02 | OPEN |
+| 025-G05 | Frictionless contact verified | common residual/tangent/state/Newton; finite sliding, recontact, penetration sensitivity, rollback, external correlation | G02 | PASS |
 | 025-G06 | Coupled nonlinear core verified | approved J2 finite-kinematics model; J2+geometry and geometry+contact; limit recovery, tangent, energy, mesh and external evidence | G01, G02, G05 | OPEN |
 | 025-G07 | Frictional contact verified | only after Owner promotion; objective stick/slip, state, dissipation and external evidence | G05, G06, Owner GO | NOT_IN_RELEASE_SCOPE |
 | 025-G08 | Performance characterized | reproducible cost/memory profiles for all mandatory paths; HEX20 explained; numerical non-regression after optimization | relevant functional gates | PASS |
@@ -208,6 +208,37 @@ validation or a gate closure.
 production claim is promoted. The remaining functional blockers are the missing
 published FEM branch reference and the required four-level mesh study. G03,
 G05 and G06 are unchanged.
+
+## Controlled closure: 025-G05
+
+`025-G05` is `PASS` for the bounded contract in `025-REQ-018` through
+`025-REQ-021`. The controlled evidence pack is archived under
+`results/vnv_0_2_5/g05_latest/` and records source SHA
+`a3ab8de707ffc88fc5e39e4f999eb872c9223b73` with `dirty=false`.
+
+The targeted contact suite reports `82 passed / 2 skipped`. The internal pack
+covers sparse common-driver assembly, fixed-active tangent FD (approximately
+`6e-9`), open/close/recontact, updated normals, two-face and three-facet
+traversal, facet-transition rollback, and penalty values from `1e2` through
+`1e6`. The Code_Aster 18.1.0 Docker campaign compares ten-point histories for
+the bounded corner, faceted-ramp and deformable TET4 cases; the 768-element
+and 9,984-element replays both return `PASS_EXTERNAL_CORRELATION`. The 768-
+element case retains an explicit transition observation: the second contact
+activates at a different first load sample and the displacement-curve
+difference is `4.33998 %`; the active-branch gap check remains below
+`4.1e-16 m`. The 9,984-element confirmation removes that activation mismatch
+for the recorded ten-point history.
+
+The qualified claim is deliberately limited to frictionless penalty contact
+from a slave node/patch to an explicitly supplied triangulated master surface,
+with opt-in updated search and bounded finite-sliding projection. This is not
+a mortar or segment-to-segment formulation and does not qualify unrestricted
+surface-to-surface contact, self-contact, impact, friction or general large
+sliding. The finite-sliding and updated-normal paths are internally qualified;
+the external correlation is a bounded compatible normal-contact correlation.
+CalculiX remains supporting evidence only and is not a G05 closure condition.
+
+`CONTRACT_LOWERED = NO`. G05 closure does not close G06, G10, G11 or G12.
 
 ## STOP/GO policy
 

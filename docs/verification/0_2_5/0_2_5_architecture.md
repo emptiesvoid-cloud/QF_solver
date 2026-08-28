@@ -119,8 +119,8 @@ local geometry is frozen or rebuilt from the current displacement. The opt-in
 bounded closest-point projection when a slave leaves the current triangle; it
 remains a node-to-triangle approximation and does not claim general
 surface-to-surface or friction qualification. The path does not replace the
-historical exact active-set solver; general finite sliding and external
-correlation remain open under G05/G10.
+historical exact active-set solver. G05 is closed only for this bounded
+contract; general surface-to-surface correlation remains open under G10.
 
 ## Sparse and state invariants
 

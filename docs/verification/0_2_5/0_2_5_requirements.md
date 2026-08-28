@@ -86,6 +86,16 @@ all global displacement directions and records the maximum relative derivative
 error. This is a smooth local contact verification only; it does not cover the
 active-set kink, continuous sliding, or external correlation.
 
+The controlled G05 closure now combines this local evidence with the current
+82-test contact selection, the bounded penalty sweep, updated-normal and
+facet-transition replays, and the Code_Aster additional-contact histories at
+768 and 9,984 TET4. The resulting interpretation is deliberately bounded:
+`025-REQ-019` is satisfied for opt-in node/patch-to-triangulated-surface
+projection and finite-sliding traversal, not for general surface-to-surface
+contact. The evidence pack and provenance are recorded in
+`results/vnv_0_2_5/g05_latest/evidence_manifest.json` on clean source SHA
+`a3ab8de707ffc88fc5e39e4f999eb872c9223b73`.
+
 The retry path for `025-REQ-016`, `025-REQ-017`, `025-REQ-028` and
 `025-REQ-029` now records bounded arc-length rejection telemetry through
 `VV-072`: the attempted radius, cutback radius, typed failure reason,
