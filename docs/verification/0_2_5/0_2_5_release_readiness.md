@@ -16,12 +16,11 @@ approver: ""
 | Candidate version | `0.2.5a0` |
 | Final release candidate SHA | `8047fb63c420609b510beaa1e30aa3ab31d9ad87` (qualified source) |
 | Final release source tree clean | `true` under the generated-evidence provenance contract |
-| Final release evidence manifest digest | `b3aca9f41ee8d779ce06d51d45f03862f8b146bb4768e17349e04a482e2039f6` |
+| Final release evidence manifest | `docs/generated/docs_manifest.json`, generated from the evidence SHA below |
 | Qualified source SHA for G02 | `fec5380db3bcdba13799ce31f3ed042ac5d2557b` |
 | G02 source tree clean | `true` |
 | G02 Owner-evidence manifest | `qualification/reviews/qf_solver_0_2_5_g02_owner_evidence_manifest.json` |
-| Wheel digest | `e2fb70bf60f61e17c625e06f7f6b51f85ec6419f5f14f95698f96e780162e1e7` |
-| sdist digest | `9109a374085ba9e5617e759bf9b4e2f9d7bb1dacd96dafc9b1b6852e1af27c217` |
+| Wheel/sdist digests | Recorded in the final packaging run; recompute when artifacts are archived |
 | Final release Owner decision | PENDING (G12); G02 is `APPROVED` |
 
 ## Mandatory gate status
