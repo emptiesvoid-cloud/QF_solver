@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "qf-solver"
 version = "0.2.5a0"
-description = "Open-source white-box Python finite element solver for structural mechanics, dynamics and validated engineering simulation."
+description = "Open-source white-box Python finite element solver for structural mechanics, dynamics and verifiable engineering simulation."
 readme = "README.md"
 requires-python = ">=3.10"
 license = "Apache-2.0"
@@ -24,7 +24,7 @@ classifiers = [
   "Programming Language :: Python :: 3.13",
   "Topic :: Scientific/Engineering",
 ]
-keywords = ["finite-element", "mechanics", "mitc3", "mitc4", "hex8", "hex20", "beam", "tetrahedron", "white-box-audit"]
+keywords = ["finite-element-method", "fem", "structural-mechanics", "nonlinear-fem", "scientific-computing", "qf-solver", "white-box-audit"]
 dependencies = [
   "numpy>=1.24",
   "scipy>=1.10",

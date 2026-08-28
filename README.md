@@ -1,5 +1,12 @@
 # QF Solver
 
+**White-box finite-element tools for verifiable structural mechanics.**
+
+[![Quality and verification](https://github.com/emptiesvoid-cloud/QF_solver/actions/workflows/quality.yml/badge.svg?branch=main)](https://github.com/emptiesvoid-cloud/QF_solver/actions/workflows/quality.yml)
+[![PyPI](https://img.shields.io/pypi/v/qf-solver.svg)](https://pypi.org/project/qf-solver/)
+[![Python](https://img.shields.io/pypi/pyversions/qf-solver.svg)](https://pypi.org/project/qf-solver/)
+[![License](https://img.shields.io/github/license/emptiesvoid-cloud/QF_solver.svg)](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/LICENSE)
+
 QF Solver est un solveur d'elements finis Python open source pour la mecanique
 des structures, la dynamique et la simulation d'ingenierie verifiable. Le
 projet est concu comme un logiciel white-box : formulations, hypotheses,
