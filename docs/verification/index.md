@@ -2,7 +2,7 @@
 doc_id: DOC-VV-000
 revision: 0.1
 status: draft controle
-applicable_version: 0.2.0
+applicable_version: 0.2.5a0
 reviewer: ""
 approver: ""
 ---
@@ -21,5 +21,10 @@ suivants sont satisfaits:
 `PASS` signifie que les criteres programmes passent. `WARNING` impose une
 decision justifiee. `FAIL` interdit l'acceptation. Le profil `qualification`
 refuse en plus les fonctions experimentales et les preuves orphelines.
+
+Pour le candidat `0.2.5a0`, la campagne de regression de reference est
+documentee avec `1719` tests passes et `0` echec, une couverture de `88.37 %`
+et `64/64` controles externes passes. Ces chiffres s'appliquent au scope
+qualifie borne; ils ne constituent pas une validation physique generale.
 
 --8<-- "docs/generated/qualification_status.md"

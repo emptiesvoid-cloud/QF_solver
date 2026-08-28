@@ -7,17 +7,17 @@ reviewer: ""
 approver: ""
 ---
 
-# QF Solver 0.2.5a0 planning pack
+# QF Solver 0.2.5a0 qualification pack
 
 ## Executive summary
 
 QF Solver 0.2.4a0 provides a common small-strain J2 constitutive contract,
 material-state transactions and a bounded Full Newton path for TET4, TET10,
-HEX8 and HEX20. The 0.2.5 working tree now also contains a bounded,
-two-cell Code_Aster correlation with matched displacement, reaction, stress and
-PEEQ histories for all four families. Multi-element plastic redistribution,
-cyclic paths, energy balance and adversarial cutback still have internal V&V
-debt beyond that correlation.
+HEX8 and HEX20. The controlled 0.2.5a0 evidence closes a bounded four-family
+J2 qualification, including internal path, state, energy and rollback checks
+and a 64-check Code_Aster correlation with matched displacement, reaction,
+stress and PEEQ histories. These results remain limited to the documented
+configuration and are not a general physical validation.
 
 The current geometric-nonlinear TET4/HEX8 Total-Lagrangian path, the contact
 solvers and the small-strain nonlinear driver use separate global iteration and
@@ -32,10 +32,9 @@ gate at a time: close 0.2.4 V&V debt, unify geometric nonlinearity, verify
 buckling and path following, integrate frictionless contact, then prove coupled
 behavior. Friction is optional and cannot block the core release.
 
-Implementation has started incrementally under the controlled status record
-[`0_2_5_implementation_status.md`](0_2_5_implementation_status.md). Controlled
-evidence closes G01, G02, G03, G05, G08 and G09 only within their documented bounded
-domains. In particular, G02 accepts the elastic Total-Lagrangian TET4/HEX8
+The controlled evidence closes G01, G02, G03, G05, G08 and G09 only within
+their documented bounded domains. G10 and G12 aggregate that approved release
+scope. In particular, G02 accepts the elastic Total-Lagrangian TET4/HEX8
 pre-limit scope; it does not promote finite-kinematic J2, high-order geometric
 paths, post-limit response, contact or coupling.
 

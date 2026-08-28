@@ -50,6 +50,19 @@ Pour lancer tous les exemples:
 python -m pytest tests\integration\test_examples.py
 ```
 
+L'API correspondante utilise le namespace public `qf_solver` :
+
+```python
+from qf_solver import load_model, solve_model
+
+model = load_model("examples/tet4_static.json")
+result = solve_model(model)
+```
+
+Les exemples non lineaires, de flambement et de contact sont des entrees
+executables de demonstration. Leur statut de maturite est celui de la matrice
+de release ; ils ne doivent pas etre lus comme une qualification generale.
+
 ## Demonstrations documentaires
 
 Les modeles plus volumineux de poutres TET4/TET10 et de plaque MITC4 sont

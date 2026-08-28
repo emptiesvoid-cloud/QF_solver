@@ -1,25 +1,37 @@
 # Changelog
 
-## 0.2.5a0 — local release candidate — 2026-08-26
+## 0.2.5a0 — 2026-08-28
 
-- Début de l'unification expérimentale des chemins J2, géométrie non linéaire
-  et contact autour du driver Full Newton commun.
-- Ajout de tests ciblés pour le tangent finite-kinematic, les transactions
-  d'état, les contributions contact sparse, les couplages bornés et les modes
-  d'échec.
-- Ajout du pack V&V, des benchmarks et du registre de gates dans
-  `docs/verification/0_2_5/`.
-- Ajout d'un chemin opt-in de projection finite-sliding bornée pour le contact
-  penalty frictionless, de diagnostics sérialisés dans les incréments Newton et
-  d'un profil de benchmark dédié ; ce chemin reste expérimental et limité au
-  modèle node-to-triangle documenté. Le mode de projection exact ou borné est
-  désormais sérialisé explicitement par incrément.
-- Le candidat est gelé localement pour qualification ; aucun tag, push ou upload
-  PyPI n'est effectué par cette étape. Les gates ouvertes et les limites
-  expérimentales restent explicitement reportées dans le pack 0.2.5.
-- La décision Owner révise explicitement le scope qualifié : G00 est accepté
-  avec limitation historique, G10/G12 sont fermées pour le périmètre borné,
-  tandis que G04 et G06 restent exclus des claims qualifiés et différés.
+Cette alpha renforce le moteur de mecanique structurelle non lineaire et ferme
+un perimetre de qualification borne. La presence d'une implementation ou d'une
+preuve de recherche ne vaut pas qualification.
+
+### Qualifie / borne
+
+- qualification J2 small-strain sur TET4, TET10, HEX8 et HEX20, avec tangent,
+  etats `trial/commit/rollback`, sensibilite au pas, energie et correlation
+  Code_Aster dans le domaine documente ;
+- elasticite Total-Lagrangian TET4/HEX8 dans le domaine pre-limite teste ;
+- flambement lineaire sparse borne et correlation externe TET4 ;
+- contact sans frottement borne vers surface triangulee, avec diagnostics et
+  transitions couvertes par G05 ;
+- caracterisation de performance et matrice de modes d'echec ;
+- robustesse shift-invert et provenance des preuves rattachee a un SHA source.
+
+### Experimental / non qualifie
+
+- arc-length FEM complet et suivi general de branche ;
+- J2 finite-kinematic ;
+- couplages J2/geometrie/contact, y compris le couplage triple.
+
+### Hors scope et limites
+
+- le contact avec frottement est hors scope de cette alpha ;
+- aucune revendication de validation physique generale, de scaling non lineaire
+  multi-million de DDL ou de remplacement d'un solveur industriel n'est faite ;
+- les gates G04 et G06 restent exclues du claim qualifie selon la revision de
+  scope Owner tracee dans `docs/verification/0_2_5/` ;
+- la publication, le tag et le push restent des actions Owner separees.
 
 ## 0.2.4a0 - 2026-08-24
 

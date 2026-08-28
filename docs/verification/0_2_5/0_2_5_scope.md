@@ -90,7 +90,11 @@ promotes them before implementation and assigns new mandatory evidence.
 
 ## Release claim boundary
 
-The default proposed claim is **experimental bounded nonlinear structural
-mechanics**. It must list element, material, kinematic, load-path and contact
-limits. No claim covers arbitrary finite-strain plasticity, arbitrary contact,
-snap-back or friction unless its corresponding gate is explicitly closed.
+The public `0.2.5a0` claim is **qualified / bounded** only for the capabilities
+listed in the final readiness record: four-family J2 small-strain, the bounded
+TET4/HEX8 elastic Total-Lagrangian path, bounded sparse first-instability
+buckling, bounded frictionless contact, performance characterization and the
+failure contract. Each claim remains limited by its element, material,
+kinematic, load-path and contact envelope. No claim covers arbitrary
+finite-strain plasticity, arbitrary contact, snap-back, general arc-length or
+friction. Those capabilities remain experimental, research or out of scope.

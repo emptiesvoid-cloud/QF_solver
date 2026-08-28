@@ -1,54 +1,49 @@
 ---
 doc_id: DOC-STATE-001
-revision: 0.1
-status: draft technique
+revision: 0.2
+status: draft
 applicable_version: 0.2.5a0
 reviewer: ""
 approver: ""
 ---
 
-# QF_solver
+# QF Solver
 
 ## Tableau de bord mecanique et numerique
 
-Ce site decrit le comportement mecanique reel du solveur, ses formulations,
-ses methodes numeriques et les preuves actuellement disponibles. Il ne declare
-ni certification externe, ni aptitude generale a dimensionner une structure
-aeronautique sans revue independante.
+Ce site decrit les formulations, methodes numeriques, capacites et preuves de
+QF Solver. Il ne declare ni certification externe ni aptitude generale a
+dimensionner une structure sans revue independante.
 
 !!! warning "Position d'utilisation"
-    Un verdict numerique `PASS` signifie que les criteres programmes du cas ont
-    ete satisfaits. Il ne remplace ni la verification du modele par
-    l'ingenieur, ni une decision de qualification du logiciel.
+    Un verdict numerique `PASS` signifie que les criteres du cas ont ete
+    satisfaits. Il ne remplace ni la verification du modele par l'ingenieur,
+    ni la decision de qualification du logiciel.
 
 --8<-- "docs/generated/status.md"
 
-Le candidat local `0.2.5a0` prolonge la baseline publiée `0.2.4a0` par un
-chantier de mécanique non linéaire structurelle unifiée. Le [pack de
-qualification](verification/0_2_5/README.md) sépare les preuves internes, les
-corrélations externes, les limites et les gates ; aucune publication n'est
-impliquée par sa présence dans le worktree.
+La version candidate `0.2.5a0` est documentee par un scope Owner explicitement
+borne. Les pages [capacites](etat/capacites.md) et
+[limites](etat/limites.md) distinguent les claims qualifies, experimentaux,
+de recherche et hors scope.
 
-## Lire ce site comme un ingenieur calcul
+## Parcours recommande
 
-1. Verifier le [perimetre et la maturite](etat/capacites.md) de l'analyse.
-2. Controler les [hypotheses de formulation](fondements/travaux_virtuels.md).
-3. Examiner la page de l'[element fini](elements/index.md) utilise.
-4. Verifier les criteres du [solveur numerique](solveurs/index.md).
-5. Comparer le calcul aux [demonstrations executables](demonstrations/index.md).
-6. Relire le [dossier de preuve](verification/tracabilite.md) et les limites.
+1. Lire le [perimetre et la maturite](etat/capacites.md).
+2. Verifier les [hypotheses de formulation](fondements/travaux_virtuels.md).
+3. Examiner la page de l'[element fini](elements/index.md).
+4. Controler le [solveur numerique](solveurs/index.md).
+5. Reproduire une [demonstration](demonstrations/index.md).
+6. Relire la [tracabilite V&V](verification/tracabilite.md) et les limites.
 
 ## Regle de confiance
 
-Une capacite est presentee avec quatre informations inseparables:
-
-| Information | Question posee |
+| Information | Question |
 | --- | --- |
-| Formulation | Quelle equation discrete est effectivement resolue ? |
-| Domaine de validite | Quelles hypotheses rendent cette equation acceptable ? |
-| Verification | Quelle reference independante ou quel invariant est satisfait ? |
-| Maturite | Cette capacite est-elle stable, renforcee, experimentale ou de recherche ? |
+| Formulation | Quelle equation discrete est resolue ? |
+| Domaine | Quelles hypotheses bornent son emploi ? |
+| Verification | Quel invariant ou quelle reference est satisfait ? |
+| Maturite | Le chemin est-il qualifie, experimental, research ou hors scope ? |
 
-Les chiffres de cette page sont regeneres par `scripts/build_docs.py`. Un
-chiffre sans empreinte de modele ni revision source ne constitue pas une
-preuve controlable.
+Les chiffres generes sont toujours interpretes avec leur modele, leur
+configuration, leur revision source et leur empreinte d'artefact.

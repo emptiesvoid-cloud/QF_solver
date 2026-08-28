@@ -1,60 +1,56 @@
 ---
 doc_id: DOC-STATE-002
-revision: 0.3
-status: draft technique
-applicable_version: 0.2.0
+revision: 0.4
+status: draft
+applicable_version: 0.2.5a0
 reviewer: ""
 approver: ""
 ---
 
 # Capacites et maturite
 
-La maturite affichee provient du registre
-`qualification/requirements.json`, source autoritative. Elle qualifie le
-niveau de preuve logiciel et mecanique disponible, pas la complexite de la
-fonction.
+Cette page resume la maturite observable dans le depot. Elle ne remplace pas
+les matrices V&V de chaque release. `QUALIFIED / BOUNDED` signifie que les
+preuves et les gates sont fermees dans une enveloppe explicitement limitee ;
+cela ne constitue pas une qualification generale.
 
-| Capacite | Maturite courante | Usage recommande |
+## Release 0.2.5a0
+
+| Statut | Capacite | Enveloppe de preuve |
 | --- | --- | --- |
-| TET4 statique lineaire isotrope | `stable` | Cas bornes avec maillage et audit acceptes |
-| MITC4 statique lineaire | `engineering_internal_validated_with_recommendations` | Domaine borne; reserve Cook et correlation Abaqus partielle |
-| MITC3+ statique lineaire | `engineering_internal_validated` | Domaine borne accepte le 1er aout 2026; dynamique dans des scopes separes |
-| MITC4 modal | `engineering_internal_provisional` | Masse coherente uniquement; revue independante ouverte |
-| MITC4 Newmark | `engineering_internal_validated_with_recommendations` | Masse coherente, petit deplacement et pas justifie |
-| MITC3+ modal/Newmark/harmonique | `verified_development` | Routes et invariants testes; campagnes analytiques et externes dediees encore requises |
-| TET10 lineaire isotrope | `stable_after_reinforced_tests` | Validation interne avec recommandations; campagne complexe finale differee |
-| Charges reparties coherentes | `stable_after_reinforced_tests` | Pression, traction, gravite avec controle de resultante |
-| Modal lineaire | `stable_after_reinforced_tests` | Interpretation sous controle des residus et masses modales |
-| Newmark lineaire | `stable_after_reinforced_tests` | Petits deplacements et pas de temps justifie |
-| Harmonique direct | `stable_after_reinforced_tests` | Systeme lineaire et amortissement Rayleigh documente |
-| Condensation harmonique MITC4 | `candidate_technique` | Rayleigh complet prouve; integree au scope accepte avec recommandations |
-| Reponse harmonique MITC4 | `engineering_internal_validated_with_recommendations` | Large bande, contraintes complexes et NAFEMS 13H PASS |
-| Non-lineaire materiau | `experimental` | Recherche et verification chemin par chemin |
-| Arc-length | `experimental` | Cas pilotes, revue numerique obligatoire |
-| Lamelle, CLT et MITC4 multicouche | `experimental` | Statique lineaire exploratoire, contraintes par pli |
-| Solides orthotropes TET4/TET10 | `engineering_internal_validated_with_recommendations` | Statique lineaire borne; TET10 recommande en flexion, campagne complexe finale differee |
-| Grand modele PETSc/MPI | `experimental` | Benchmark et developpement, environnement trace |
-| Import Gmsh MSH 4.1 | `stable_after_reinforced_tests` | TET4/TET10/MITC4, groupes physiques stricts |
-| BEAM2 Timoshenko 3D | `experimental` | Statique et six modes d'une poutre elancee correles a Code_Aster; cisaillement epais, amortissement et assemblages dynamiques ouverts |
-| Ressorts et masses concentrees | `experimental` | SDOF statique/modal correle a Code_Aster; donnees physiques strictement validees, cas spatiaux avances ouverts |
-| MPC et RBE2/RBE3 | `experimental` | Statique lineaire avec elimination affine, audit des reactions et correlation Code_Aster RBE2 bornee; RBE3/dynamique ouverts |
-| Contact sans frottement borne | `engineering_ready_bounded` | Owner review acceptee; petites transformations, statique lineaire et active-set noeud-triangle, avec raffinement des transitions |
-| Contact sans frottement generalise | `experimental` | Grand glissement, changement topologique et surface-surface restent hors du domaine accepte |
-| Contact avec frottement | `experimental` | Coulomb regularise, adhesion/glissement et correlation Code_Aster en glissement sature; adhesion externe non comparable |
-| Onze benchmarks mailles | maturite par cas | Regeneration obligatoire avant publication |
+| `QUALIFIED / BOUNDED` | J2 small-strain | TET4, TET10, HEX8 et HEX20 ; chemins et correlation Code_Aster documentes |
+| `QUALIFIED / BOUNDED` | Elasticite Total-Lagrangian | TET4 et HEX8, domaine pre-limite avec `det(F) > 0` |
+| `QUALIFIED / BOUNDED` | Flambement lineaire sparse | Premier seuil d'instabilite tangentielle, evidence Euler et correlation TET4 bornee |
+| `QUALIFIED / BOUNDED` | Contact sans frottement | Noeud/patch vers surface triangulee, recherche et transitions dans le contrat G05 |
+| `QUALIFIED / BOUNDED` | Performance | Caracterisation reproductible des chemins mesures, sans claim HPC general |
+| `QUALIFIED / BOUNDED` | Modes d'echec | Diagnostics structures et transactions d'etat pour la matrice G09 |
+| `EXPERIMENTAL / NOT QUALIFIED` | Arc-length FEM complet | Branche et point limite observes, mais pas de claim qualifie 0.2.5a0 |
+| `EXPERIMENTAL / NOT QUALIFIED` | J2 finite-kinematic | Implementation de recherche, formulation et correlation externe non qualifiees |
+| `EXPERIMENTAL / NOT QUALIFIED` | Couplages non lineaires | J2 + geometrie, geometrie + contact et couplage triple hors claims qualifies |
+| `NOT IN RELEASE SCOPE` | Contact avec frottement | G07 non promue dans cette release |
 
-## Sens des niveaux
+## Autres capacites documentees
 
-**Stable.** Fonction couverte par tests, audit et au moins une preuve
-independante dans son perimetre borne.
+| Capacite | Maturite | Restriction principale |
+| --- | --- | --- |
+| TET4/TET10 lineaires | `stable_after_reinforced_tests` | Domaine de maillage et de chargement documente |
+| HEX8/HEX20 lineaires | `accepted_for_release_0_2_3` | Scope 0.2.3a0, sans promotion stable generale |
+| MITC3+/MITC4 | `engineering_internal_validated` ou `with_recommendations` | Voir les pages element et les revues Owner |
+| BEAM2 et entites discretes | `experimental` ou scope borne | Assemblages et domaines dynamiques avances ouverts |
+| Grands modeles PETSc/MPI | `experimental` | Environnement et tailles qualifies separement |
+| Import Gmsh MSH 4.1 | `stable_after_reinforced_tests` | Familles et groupes physiques supportes explicitement |
 
-**Stable apres tests renforces.** Fonction utilisable en profil engineering,
-mais dont la campagne de references industrielles doit encore etre elargie.
+Les gates, exigences et preuves faisant foi pour 0.2.5a0 sont dans le
+[pack de qualification](../verification/0_2_5/README.md). Le registre
+machine-readable reste la source d'autorite pour les scopes individuels.
 
-**Experimental.** Implementation disponible et testee, mais preuve mecanique
-insuffisante pour remplacer sans correlation un outil de reference.
+## Vocabulaire
 
-**Research.** Fonction exploratoire sans domaine d'emploi industriel etabli.
+- `QUALIFIED / BOUNDED` : exigences obligatoires fermees dans un domaine borne.
+- `EXPERIMENTAL / NOT QUALIFIED` : code ou essais disponibles, preuve de
+  release insuffisante pour une revendication qualifiee.
+- `RESEARCH` : voie exploratoire sans domaine d'emploi qualifie.
+- `NOT IN RELEASE SCOPE` : explicitement exclu de la release.
 
-La commande `qualification-readiness` reste l'autorite pour la completude des
-exigences; cette page n'eleve jamais seule un niveau de maturite.
+Une comparaison avec un solveur externe est une correlation numerique. Elle ne
+constitue pas, a elle seule, une validation physique.
