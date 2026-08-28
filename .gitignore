@@ -30,6 +30,7 @@ release_archive_audit.json
 # Generated solver outputs
 results/
 results_large/
+datasets/public_3d/
 VNV-*/
 qualification/vnv/**
 !qualification/studies/mitc4_stable_package_2026-08-21/
