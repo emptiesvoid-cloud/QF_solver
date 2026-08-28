@@ -2,7 +2,7 @@
 doc_id: DOC-REF-OSS-001
 revision: 0.1
 status: controlled
-applicable_version: 0.2.0
+applicable_version: 0.2.5a0
 reviewer: ""
 approver: ""
 ---
@@ -34,18 +34,14 @@ citer QF_solver et sa version au moyen de `CITATION.cff`. Les contributions
 sont regies par `CONTRIBUTING.md`; elles restent sous Apache-2.0 sauf accord
 explicite different.
 
-## Etat de la readiness locale
+## Etat de la readiness 0.2.5a0
 
-La baseline Windows du 29 juillet 2026 est techniquement verte :
+La documentation publique accompagne un candidat dont le scope qualifie est
+explicitement borne. La preuve de reference indique `1719` tests passes,
+`0` echec, `88.37 %` de couverture et `64/64` controles externes passes.
+Les gates G04 et G06 restent visibles comme experimentales/non qualifiees,
+et le frottement G07 est hors scope.
 
-- `926` tests passent et `12` tests optionnels sont ignores;
-- le profil engineering passe avec `886` tests;
-- le site strict regenere `625` artefacts;
-- l'audit de source analyse `579` fichiers sans constat;
-- l'archive prospective contient `407` fichiers sans contenu interdit et
-  exclut explicitement les instructions de travail internes.
-
-La publication reste `NOT_READY` pour deux raisons de release : l'arbre Git
-n'est pas fige et la revision n'est pas taggee `0.2.0`. Le prefiltre historique
-trouve aussi `145` chemins d'etudes dans `13` commits; ils doivent etre relus
-ou remplaces par un historique public propre avant mise en ligne.
+La creation du tag, le push Git et le televersement PyPI restent des actions
+separees controlees par l'Owner. Cette page ne transforme pas une readiness
+documentaire en publication automatique.

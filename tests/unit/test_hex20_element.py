@@ -87,6 +87,19 @@ def test_hex20_jacobian_stiffness_mass_and_rigid_modes() -> None:
     assert max(np.linalg.norm(stiffness @ mode, ord=np.inf) / scale for mode in modes) < 1.0e-10
 
 
+def test_hex20_integration_validates_geometry_once(monkeypatch: pytest.MonkeyPatch) -> None:
+    calls: list[int] = []
+    original = Hex20Element.validate_geometry
+
+    def wrapped(cls: type[Hex20Element], coords: np.ndarray) -> None:
+        calls.append(1)
+        original(coords)
+
+    monkeypatch.setattr(Hex20Element, "validate_geometry", classmethod(wrapped))
+    Hex20Element.integration_data(unit_hex20())
+    assert len(calls) == 1
+
+
 def test_hex20_affine_field_is_exact_at_all_gauss_points() -> None:
     gradient = np.asarray([[0.01, 0.02, 0.03], [0.04, 0.05, 0.06], [0.07, 0.08, 0.09]])
     coords = unit_hex20()

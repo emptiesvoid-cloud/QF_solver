@@ -3932,6 +3932,282 @@
       "tests": [
         "tests/verification/test_j2_unified_nonlinear_evidence.py"
       ]
+    },
+    {
+      "id": "DOC-NL-025-001",
+      "path": "verification/0_2_5/README.md",
+      "title": "Pack de planification Unified Nonlinear Structural Mechanics - QF_solver 0.2.5 alpha",
+      "status": "controlled_candidate",
+      "requirements": ["REQ-NL-001", "REQ-AUD-001", "REQ-EVD-001", "REQ-REL-001"],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-NL-025-002",
+      "path": "verification/0_2_5/0_2_5_scope.md",
+      "title": "Perimetre QF_solver 0.2.5 alpha",
+      "status": "controlled_candidate",
+      "requirements": ["REQ-NL-001", "REQ-REL-001"],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-NL-025-003",
+      "path": "verification/0_2_5/0_2_5_architecture.md",
+      "title": "Architecture cible non lineaire QF_solver 0.2.5 alpha",
+      "status": "controlled_candidate",
+      "requirements": ["REQ-NL-001", "REQ-AUD-001"],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-NL-025-004",
+      "path": "verification/0_2_5/0_2_5_work_packages.md",
+      "title": "Work packages QF_solver 0.2.5 alpha",
+      "status": "controlled_candidate",
+      "requirements": ["REQ-NL-001", "REQ-EVD-001", "REQ-REL-001"],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-NL-025-005",
+      "path": "verification/0_2_5/0_2_5_requirements.md",
+      "title": "Matrice des exigences QF_solver 0.2.5 alpha",
+      "status": "controlled_candidate",
+      "requirements": ["REQ-NL-001", "REQ-EVD-001", "REQ-REL-001"],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-NL-025-006",
+      "path": "verification/0_2_5/0_2_5_formula_inventory.md",
+      "title": "Inventaire des formulations QF_solver 0.2.5 alpha",
+      "status": "controlled_candidate",
+      "requirements": ["REQ-NL-001", "REQ-AUD-001"],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-NL-025-007",
+      "path": "verification/0_2_5/0_2_5_vnv_plan.md",
+      "title": "Plan V&V QF_solver 0.2.5 alpha",
+      "status": "controlled_candidate",
+      "requirements": ["REQ-NL-001", "REQ-EVD-001"],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-NL-025-008",
+      "path": "verification/0_2_5/0_2_5_vnv_matrix.md",
+      "title": "Matrice V&V QF_solver 0.2.5 alpha",
+      "status": "controlled_candidate",
+      "requirements": ["REQ-NL-001", "REQ-EVD-001"],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-NL-025-009",
+      "path": "verification/0_2_5/0_2_5_benchmark_plan.md",
+      "title": "Plan de benchmarks QF_solver 0.2.5 alpha",
+      "status": "controlled_candidate",
+      "requirements": ["REQ-NL-001", "REQ-EVD-001"],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-NL-025-010",
+      "path": "verification/0_2_5/0_2_5_external_correlation_matrix.md",
+      "title": "Matrice de correlation externe QF_solver 0.2.5 alpha",
+      "status": "controlled_candidate",
+      "requirements": ["REQ-NL-001", "REQ-EVD-001"],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-NL-025-011",
+      "path": "verification/0_2_5/0_2_5_performance_plan.md",
+      "title": "Plan de performance QF_solver 0.2.5 alpha",
+      "status": "controlled_candidate",
+      "requirements": ["REQ-NL-001", "REQ-EVD-001"],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-NL-025-012",
+      "path": "verification/0_2_5/0_2_5_failure_mode_plan.md",
+      "title": "Plan des modes d'echec QF_solver 0.2.5 alpha",
+      "status": "controlled_candidate",
+      "requirements": ["REQ-NL-001", "REQ-EVD-001"],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-NL-025-013",
+      "path": "verification/0_2_5/0_2_5_risk_register.md",
+      "title": "Registre des risques QF_solver 0.2.5 alpha",
+      "status": "controlled_candidate",
+      "requirements": ["REQ-NL-001", "REQ-AUD-001", "REQ-REL-001"],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-NL-025-014",
+      "path": "verification/0_2_5/0_2_5_gate_matrix.md",
+      "title": "Matrice des gates QF_solver 0.2.5 alpha",
+      "status": "controlled_candidate",
+      "requirements": ["REQ-NL-001", "REQ-EVD-001", "REQ-REL-001"],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-NL-025-015",
+      "path": "verification/0_2_5/0_2_5_known_limitations.md",
+      "title": "Limites planifiees QF_solver 0.2.5 alpha",
+      "status": "controlled_candidate",
+      "requirements": ["REQ-NL-001", "REQ-REL-001"],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-NL-025-016",
+      "path": "verification/0_2_5/0_2_5_release_readiness.md",
+      "title": "Modele de release readiness QF_solver 0.2.5 alpha",
+      "status": "controlled_candidate",
+      "requirements": ["REQ-AUD-001", "REQ-EVD-001", "REQ-REL-001"],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-NL-025-017",
+      "path": "verification/0_2_5/0_2_5_owner_review_template.md",
+      "title": "Modele de revue Owner QF_solver 0.2.5 alpha",
+      "status": "controlled_candidate",
+      "requirements": ["REQ-AUD-001", "REQ-EVD-001", "REQ-REL-001"],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-NL-025-018",
+      "path": "verification/0_2_5/0_2_5_objective_execution_plan.md",
+      "title": "Plan d'execution en mode objectif QF_solver 0.2.5 alpha",
+      "status": "controlled_candidate",
+      "requirements": ["REQ-NL-001", "REQ-AUD-001", "REQ-EVD-001", "REQ-REL-001"],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-NL-025-019",
+      "path": "verification/0_2_5/0_2_5_implementation_status.md",
+      "title": "Etat d'implementation QF_solver 0.2.5 alpha",
+      "status": "controlled_candidate",
+      "requirements": ["REQ-NL-001", "REQ-EVD-001", "REQ-REL-001"],
+      "examples": [],
+      "tests": [
+        "tests/unit/test_nonlinear_multielement.py",
+        "tests/unit/test_linear_buckling.py"
+      ]
+    },
+    {
+      "id": "DOC-NL-025-024",
+      "path": "verification/0_2_5/0_2_5_lot4_arc_length_implementation_report.md",
+      "title": "Rapport d'implementation du lot 4 arc-length QF_solver 0.2.5 alpha",
+      "status": "controlled_candidate",
+      "requirements": ["REQ-NL-001", "REQ-EVD-001"],
+      "examples": [],
+      "tests": [
+        "tests/unit/test_nonlinear_multielement.py",
+        "tests/unit/test_nonlinear_load_path.py"
+      ]
+    },
+    {
+      "id": "DOC-NL-025-025",
+      "path": "verification/0_2_5/0_2_5_lot5a_contact_implementation_report.md",
+      "title": "Rapport d'implementation du lot 5A contact QF_solver 0.2.5 alpha",
+      "status": "approved",
+      "requirements": ["REQ-NL-001", "REQ-EVD-001"],
+      "examples": [],
+      "tests": [
+        "tests/unit/test_contact_finite_sliding.py",
+        "tests/unit/test_nonlinear_contact_composition.py",
+        "tests/unit/test_frictionless_contact.py"
+      ]
+    },
+    {
+      "id": "DOC-NL-025-026",
+      "path": "verification/0_2_5/0_2_5_failure_campaign_report.md",
+      "title": "Rapport de campagne des modes d'echec QF_solver 0.2.5 alpha",
+      "status": "controlled_candidate",
+      "requirements": ["REQ-NL-001", "REQ-EVD-001"],
+      "examples": [],
+      "tests": [
+        "tests/unit/test_nonlinear_failure_campaign.py"
+      ]
+    },
+    {
+      "id": "DOC-NL-025-027",
+      "path": "verification/0_2_5/0_2_5_j2_qualification_report.md",
+      "title": "Rapport de qualification J2 QF_solver 0.2.5 alpha",
+      "status": "controlled_candidate",
+      "requirements": ["REQ-NL-001", "REQ-EVD-001"],
+      "examples": [],
+      "tests": [
+        "tests/unit/test_nonlinear_multielement.py",
+        "tests/unit/test_robustness_tangent_fd.py"
+      ]
+    },
+    {
+      "id": "DOC-NL-025-028",
+      "path": "verification/0_2_5/0_2_5_g02_owner_review.md",
+      "title": "Revue Owner G02 QF_solver 0.2.5 alpha",
+      "status": "controlled_candidate",
+      "requirements": ["REQ-NL-001", "REQ-EVD-001", "REQ-REL-001"],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-NL-025-029",
+      "path": "verification/0_2_5/0_2_5_g04_owner_review.md",
+      "title": "Revue Owner G04 QF_solver 0.2.5 alpha",
+      "status": "controlled_candidate",
+      "requirements": ["REQ-NL-001", "REQ-EVD-001", "REQ-REL-001"],
+      "examples": [],
+      "tests": [
+        "tests/unit/test_nonlinear_multielement.py",
+        "tests/unit/test_nonlinear_checkpoint.py"
+      ]
+    },
+    {
+      "id": "DOC-NL-025-030",
+      "path": "verification/0_2_5/0_2_5_g04_external_branch_diagnostic.md",
+      "title": "Diagnostic externe de branche G04 QF_solver 0.2.5 alpha",
+      "status": "controlled_candidate",
+      "requirements": ["REQ-NL-001", "REQ-EVD-001", "REQ-REL-001"],
+      "examples": [],
+      "tests": [
+        "tests/unit/test_nonlinear_multielement.py",
+        "tests/unit/test_nonlinear_checkpoint.py"
+      ]
+    },
+    {
+      "id": "DOC-NL-025-034",
+      "path": "verification/0_2_5/0_2_5_g03_owner_review.md",
+      "title": "Revue Owner G03 QF_solver 0.2.5 alpha",
+      "status": "approved",
+      "requirements": ["REQ-NL-001", "REQ-EVD-001", "REQ-REL-001"],
+      "examples": [],
+      "tests": [
+        "tests/unit/test_linear_buckling.py",
+        "tests/unit/test_calculix_buckling_025.py"
+      ]
+    },
+    {
+      "id": "DOC-NL-025-035",
+      "path": "verification/0_2_5/0_2_5_owner_scope_revision.md",
+      "title": "Decision Owner de revision du scope QF_solver 0.2.5 alpha",
+      "status": "approved",
+      "requirements": ["REQ-AUD-001", "REQ-EVD-001", "REQ-REL-001"],
+      "examples": [],
+      "tests": []
     }
   ]
 }

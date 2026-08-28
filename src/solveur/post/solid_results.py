@@ -61,16 +61,17 @@ def tet10_result(
     coords: np.ndarray,
     local_u: np.ndarray,
     states: list[dict[str, object]] | None = None,
+    nonlinear_quadrature: str = "hammer4",
 ) -> dict[str, object]:
     """Recover the quadrature and nodal result for a TET10 element."""
-    element = Tet10Element(material)
+    element = Tet10Element(material, nonlinear_quadrature=nonlinear_quadrature)
     strain = element.strain(coords, local_u)
     stress = element.stress(coords, local_u)
     state = material_state(material, strain)
     integration_points: list[dict[str, object]] = []
     if states:
-        quadrature = Tet10Element.hammer_integration_rule()
-        quadrature_name = "hammer"
+        quadrature = element.nonlinear_integration_rule()
+        quadrature_name = element.nonlinear_quadrature
     else:
         quadrature = element.stiffness_integration_rule(coords)
         quadrature_name = "hammer" if len(quadrature) == 4 else "duffy_4"
@@ -393,6 +394,8 @@ def stress_from_state(state: dict[str, object] | None, fallback: np.ndarray) -> 
 def jsonable_state(state: dict[str, object]) -> dict[str, object]:
     output: dict[str, object] = {}
     for key, value in state.items():
+        if key in {"strain", "plastic_dissipation"}:
+            continue
         if isinstance(value, np.ndarray):
             output[key] = value.tolist()
         elif isinstance(value, (bool, str)):

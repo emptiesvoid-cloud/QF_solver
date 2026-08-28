@@ -45,7 +45,9 @@ def test_j2_gate_status_does_not_claim_release_closure() -> None:
     )
 
     assert status["release_claim"] is False
-    assert status["release_sha"] is None
+    assert status["state"] == "archived_release_record"
+    assert status["base_head_sha"] == "d401b80635105d9df47c57d9bdd30020a71683a2"
+    assert status["release_sha"] == "e368c0ce00874c16ff1e8fa9158ea0a8cd2dd745"
     assert status["gates"]["NL-G12"] == "PARTIAL_SHA_PENDING"
     assert status["gates"]["NL-G13"] == "ACCEPTED_WITH_RECOMMENDATIONS"
     assert status["owner_decision"]["decision"] == "accepted_with_recommendations"

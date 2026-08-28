@@ -1,0 +1,56 @@
+{
+  "command": "python scripts/build_g03_owner_evidence_manifest.py",
+  "contract_lowered": false,
+  "excluded_scope": [
+    "TET10/HEX8/HEX20 external buckling qualification",
+    "post-buckling and imperfection-sensitive collapse",
+    "production-wide stability qualification",
+    "physical-validation claims"
+  ],
+  "gate": "025-G03",
+  "gate_status": "PASS",
+  "generated_at_utc": "2026-08-28T03:55:08Z",
+  "mesh_decision": "APPROVED_BOUNDED_REFINEMENT",
+  "owner_decision": "APPROVED",
+  "owner_documents": [
+    {
+      "path": "docs/verification/0_2_5/0_2_5_g03_owner_review.md",
+      "sha256": "53a295e523771efd5447f2ae56b732a7b60131190b751465a42af0ac787b0fc4"
+    },
+    {
+      "path": "docs/verification/0_2_5/0_2_5_gate_matrix.md",
+      "sha256": "56f9417a88b21f6d3c2d4fdcf99b84260127b7769bc4c47ad7b93beb4e8af002"
+    },
+    {
+      "path": "docs/verification/0_2_5/0_2_5_vnv_matrix.md",
+      "sha256": "015f1030129088305b1355b78d47397b8f30e275e8722087f40b37167724385e"
+    },
+    {
+      "path": "docs/verification/0_2_5/0_2_5_release_readiness.md",
+      "sha256": "e098fd99d89e0eb6bf67b013b00f8d1c693469aa6b90c2dc1e842ec9872f876b"
+    }
+  ],
+  "owner_evidence_sha": "16a526970c18530938db7087c387a724b4edc087",
+  "owner_evidence_tree_clean": true,
+  "qualified_evidence": {
+    "artifact_count": 5,
+    "path": "results/vnv_0_2_5/g03_final/evidence_manifest.json",
+    "sha256": "e393d008ed0936d1bcbda99902a7760dfe737cf4429986759ef8b185994b482f",
+    "status": "PASS_EXTERNAL_CORRELATION_BOUNDED"
+  },
+  "qualified_scope": [
+    "sparse linear buckling / first tangent instability",
+    "TET4 externally correlated bounded probe",
+    "four-level TET4 Euler refinement trend",
+    "recorded total-Lagrangian tested domain"
+  ],
+  "qualified_source_dirty": false,
+  "qualified_source_sha": "85c75d06955976251dd54ad782f57f1eb5a7f8f4",
+  "record_type": "owner_evidence_manifest",
+  "schema_version": 1,
+  "unchanged_functional_gates": [
+    "025-G04",
+    "025-G05",
+    "025-G06"
+  ]
+}

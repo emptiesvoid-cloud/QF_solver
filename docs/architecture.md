@@ -2,7 +2,7 @@
 doc_id: DOC-ARCH-001
 revision: 2.1
 status: controlled
-applicable_version: 0.2.4a0
+applicable_version: 0.2.5a0
 reviewer: ""
 approver: ""
 ---
@@ -57,7 +57,7 @@ Les visualisations, campagnes et verifications vivent respectivement dans
 durant la serie 0.2.x. Les deux chemins d'import sont proteges par une
 baseline matricielle et la campagne MITC4.
 
-## Etat de transition 0.2.3a0
+## Etat de transition 0.2.5a0
 
 `src/solveur/elements/shell/mitc4` est l'unique implementation canonique de
 MITC4. `src/solveur/compat/mitc4` est une facade de compatibilite interne maintenue pour la serie
@@ -65,14 +65,14 @@ MITC4. `src/solveur/compat/mitc4` est une facade de compatibilite interne mainte
 documentee et testee. Aucun nouveau calcul ne doit etre implemente dans cette
 facade.
 
-Les decisions de maturite de la release precedente ne sont pas portees par cette page : le registre
-machine-readable `qualification/element_analysis_matrix.json` est la source de
-verite. A la date de preparation de `0.2.3a0`, les formulations HEX8 et HEX20
-lineaires reutilisent le meme assembleur sparse, les memes backends et les
-memes contrats statique/modal/Newmark/harmonique que les solides existants.
-Les preuves externes sont statiques et les sous-perimetres J2, contact,
-grandes transformations et multi-million de DDL restent explicitement bornes
-ou exclus.
+Les decisions de maturite sont portees par le registre machine-readable
+`qualification/element_analysis_matrix.json` et par le pack V&V 0.2.5a0. Les
+formulations HEX8 et HEX20 lineaires reutilisent le meme assembleur sparse, les
+memes backends et les memes contrats statique/modal/Newmark/harmonique que les
+solides existants. Dans le scope 0.2.5a0, J2 small-strain est qualifie dans un
+domaine borne sur les quatre familles, tandis que l'elasticite Total-Lagrangian
+et le flambement sont limites aux enveloppes G02/G03 documentees. L'arc-length,
+le J2 finite-kinematic et les couplages G06 restent experimentaux ou differes.
 
 Docker ne fait pas partie du runtime standard. Le Dockerfile conserve dans
 `tools/containers/large/` sert seulement a reproduire un environnement

@@ -17,7 +17,7 @@ except ModuleNotFoundError:
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_OUTPUT = Path("qualification/publication_audit_0_2_1.json")
+DEFAULT_OUTPUT = Path("qualification/publication_audit_0_2_5.json")
 WEB_RUNTIME_PATHS = (
     "mkdocs.yml",
     "scripts/serve_docs.py",
@@ -62,15 +62,15 @@ def public_document_audit(root: str | Path = ROOT) -> dict[str, Any]:
     """Return a deterministic classification and hygiene report for tracked files."""
     base = Path(root).resolve()
     publication_candidates = _publication_candidates(base)
-    tracked = _tracked_files(base)
-    docs = [path for path in publication_candidates if path.startswith("docs/")]
+    tracked = _tracked_index_files(base)
+    docs = [path for path in tracked if path.startswith("docs/")]
     public_generated = [
         path
         for path in docs
         if path.startswith("docs/generated/") or path.startswith("docs/assets/generated/")
     ]
     public_source = [path for path in docs if path not in public_generated]
-    if "README.md" in publication_candidates:
+    if "README.md" in tracked:
         public_source.append("README.md")
     immutable = [path for path in tracked if path in IMMUTABLE_ARCHIVES]
     internal_tracked = [
@@ -114,8 +114,8 @@ def public_document_audit(root: str | Path = ROOT) -> dict[str, Any]:
     ]
     return {
         "schema_version": 1,
-        "audit_id": "QF-PUBLIC-DOC-AUDIT-024-001",
-        "release": {"name": "QF_solver", "version": "0.2.4a0"},
+        "audit_id": "QF-PUBLIC-DOC-AUDIT-025-001",
+        "release": {"name": "QF_solver", "version": "0.2.5a0"},
         "status": "PASS" if all(check["status"] == "PASS" for check in checks) else "FAIL",
         "classification": {
             "public_source_documentation": {
@@ -158,8 +158,8 @@ def public_document_audit(root: str | Path = ROOT) -> dict[str, Any]:
     }
 
 
-def _tracked_files(root: Path) -> list[str]:
-    """List existing index entries without leaking an absolute working path."""
+def _tracked_index_files(root: Path) -> list[str]:
+    """List candidate source entries from the index, independent of generated worktree state."""
     completed = subprocess.run(
         [git_command(), "ls-files", "--cached"],
         cwd=root,
@@ -170,11 +170,7 @@ def _tracked_files(root: Path) -> list[str]:
     )
     if completed.returncode != 0:
         raise RuntimeError("Git tracked-file inventory is unavailable.")
-    return sorted(
-        relative
-        for relative in completed.stdout.splitlines()
-        if relative and (root / relative).is_file()
-    )
+    return sorted(relative for relative in completed.stdout.splitlines() if relative)
 
 
 def _publication_candidates(root: Path) -> list[str]:

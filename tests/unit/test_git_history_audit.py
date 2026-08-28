@@ -20,6 +20,7 @@ def test_history_filter_covers_internal_instruction_and_generated_manual_paths()
 def test_history_filter_allows_reviewed_documentation_snapshots() -> None:
     assert not _is_sensitive_path("docs/generated/results/tet4_static.json")
     assert not _is_sensitive_path("docs/assets/generated/VNV-PUBLIC-001.png")
+    assert not _is_sensitive_path("qualification/vnv/external/rqg08_j2_common_024/reference/summary.json")
     assert _is_sensitive_path("qualification/vnv/private/result.json")
     assert _is_sensitive_path("results/private/result.json")
 

@@ -2,7 +2,7 @@
 doc_id: DOC-QA-001
 revision: 1.2
 status: draft
-applicable_version: 0.2.0
+applicable_version: 0.2.5a0
 reviewer: ""
 approver: ""
 ---
@@ -47,10 +47,10 @@ Utiliser ce niveau apres une modification isolee. Remplacer les chemins par
 les tests et modules reellement touches :
 
 ```powershell
-python -m ruff check solveur\core\solver.py tests\unit\test_solver.py
-python -m mypy solveur\core\solver.py
+python -m ruff check src\solveur\core\solver.py tests\unit\test_solver.py
+python -m mypy src\solveur\core\solver.py
 python -m pytest tests\unit\test_solver.py tests\unit\test_linear_policy.py -q
-python -m compileall -q solveur\core\solver.py tests\unit\test_solver.py
+python -m compileall -q src\solveur\core\solver.py tests\unit\test_solver.py
 ```
 
 Un changement de formulation ajoute le test unitaire de l'element et sa V&V
@@ -98,9 +98,9 @@ preuves documentaires. Elle est egalement requise si le perimetre d'impact ne pe
 pas etre borne avec confiance.
 
 ```powershell
-python -m ruff check solveur mitc4 scripts tests
+python -m ruff check src\solveur src\qf_solver scripts tests
 python -m pytest
-python -m compileall -q solveur mitc4 scripts tests qf_solver.py main_solveur.py mitc4_solver.py
+python -m compileall -q src\solveur src\qf_solver scripts tests qf_solver.py main_solveur.py mitc4_solver.py
 python .\qf_solver.py verify --quick
 python .\mitc4_solver.py verify --quick
 python .\qf_solver.py verify-all --profile engineering --json-report .\results\verification\verify_all_engineering.json

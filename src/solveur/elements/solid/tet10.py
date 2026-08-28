@@ -30,6 +30,18 @@ class Tet10Element:
     )
     integration_weight = 1.0 / 24.0
     integration_point_count = len(integration_points)
+    # Symmetric five-point rule used by the opt-in Code_Aster comparison
+    # configuration for stateful nonlinear TET10 calculations.  The negative
+    # centroid weight is intentional and the rule integrates cubic fields.
+    code_aster_integration_points = (
+        (0.25, 0.25, 0.25, 0.25),
+        (0.5, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0),
+        (1.0 / 6.0, 0.5, 1.0 / 6.0, 1.0 / 6.0),
+        (1.0 / 6.0, 1.0 / 6.0, 0.5, 1.0 / 6.0),
+        (1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 0.5),
+    )
+    code_aster_integration_weights = (-2.0 / 15.0, 3.0 / 40.0, 3.0 / 40.0, 3.0 / 40.0, 3.0 / 40.0)
+    nonlinear_quadrature_names = frozenset({"hammer4", "code_aster_5"})
     curved_quadrature_order = 4
     straight_sided_tolerance = 1.0e-12
     edge_nodes = ((0, 1, 4), (1, 2, 5), (2, 0, 6), (0, 3, 7), (1, 3, 8), (2, 3, 9))
@@ -49,8 +61,19 @@ class Tet10Element:
         dtype=float,
     )
 
-    def __init__(self, material: SolidConstitutiveMaterial):
+    def __init__(self, material: SolidConstitutiveMaterial, nonlinear_quadrature: str = "hammer4"):
         self.material = material
+        self.nonlinear_quadrature = self.normalize_nonlinear_quadrature(nonlinear_quadrature)
+        self.nonlinear_integration_point_count = len(self.nonlinear_integration_rule())
+
+    @classmethod
+    def normalize_nonlinear_quadrature(cls, value: str | None) -> str:
+        """Normalize the explicit stateful TET10 quadrature selection."""
+        normalized = str(value or "hammer4").strip().lower()
+        if normalized not in cls.nonlinear_quadrature_names:
+            allowed = ", ".join(sorted(cls.nonlinear_quadrature_names))
+            raise ValueError(f"Unsupported TET10 nonlinear quadrature {value!r}; allowed: {allowed}.")
+        return normalized
 
     @staticmethod
     def corner_signed_volume(coords: np.ndarray) -> float:
@@ -184,6 +207,21 @@ class Tet10Element:
         return tuple((point, cls.integration_weight) for point in cls.integration_points)
 
     @classmethod
+    def code_aster_integration_rule(
+        cls,
+    ) -> tuple[tuple[tuple[float, float, float, float], float], ...]:
+        """Return the symmetric five-point tetrahedral rule used for correlation."""
+        return tuple(zip(cls.code_aster_integration_points, cls.code_aster_integration_weights, strict=True))
+
+    def nonlinear_integration_rule(
+        self,
+    ) -> tuple[tuple[tuple[float, float, float, float], float], ...]:
+        """Return the selected rule for stateful constitutive integration."""
+        if self.nonlinear_quadrature == "code_aster_5":
+            return self.code_aster_integration_rule()
+        return self.hammer_integration_rule()
+
+    @classmethod
     def extrapolate_integration_values(
         cls,
         values: np.ndarray,
@@ -232,7 +270,7 @@ class Tet10Element:
         tangent = np.zeros((30, 30), dtype=float)
         updated_states: list[dict[str, object]] = []
         if hasattr(self.material, "stress_tangent_state"):
-            rule = self.hammer_integration_rule()
+            rule = self.nonlinear_integration_rule()
         else:
             rule = self.stiffness_integration_rule(coords)
         for point_index, (point, weight) in enumerate(rule):

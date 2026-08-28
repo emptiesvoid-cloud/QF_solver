@@ -2,17 +2,26 @@
 
 from __future__ import annotations
 
-import warnings
-
 import numpy as np
-from scipy.sparse.linalg import MatrixRankWarning, spsolve
 
-from solveur.core.errors import InputValidationError, MeshValidationError, NumericalConvergenceError
+from solveur.contact.solver import assemble_penalty_contact
+from solveur.core.dofs import DofManager
+from solveur.core.errors import InputValidationError, MeshValidationError
 from solveur.core.geometric_nonlinear_controls import GeometricNonlinearControls
+from solveur.core.geometric_assembly import (
+    TotalLagrangianHighOrderAssembly,
+    build_total_lagrangian_assembly,
+)
+from solveur.core.nonlinear_iteration import (
+    CompositeNonlinearAssembly,
+    NonlinearAssemblyProtocol,
+    _line_search_assembly,
+    solve_full_newton,
+)
 from solveur.core.model import FiniteElementModel
 from solveur.core.results import SolveResult
 from solveur.elements.solid.tet4_total_lagrangian_batch import TotalLagrangianTet4Assembly
-from solveur.materials.solid import SolidMaterial
+from solveur.elements.solid.hex8_total_lagrangian_batch import TotalLagrangianHex8Assembly
 from solveur.mesh.validation import MeshValidator
 
 
@@ -36,11 +45,12 @@ class GeometricNonlinearStaticSolver:
             raise InputValidationError("geometric nonlinear max_iterations must be at least 2.")
         dofs = model.dof_manager()
         connectivity = np.asarray([element.nodes for element in model.elements], dtype=int)
-        raw_material = model.materials[model.elements[0].material]
-        assembly = TotalLagrangianTet4Assembly(
-            model.nodes,
-            connectivity,
-            SolidMaterial(E=float(raw_material["E"]), nu=float(raw_material["nu"])),
+        geometric_assembly = build_total_lagrangian_assembly(model)
+        contact_assembly = _PenaltyContactAssembly(model, dofs) if model.contacts else None
+        assembly: NonlinearAssemblyProtocol = (
+            CompositeNonlinearAssembly((geometric_assembly, contact_assembly))
+            if contact_assembly is not None
+            else geometric_assembly
         )
         external = np.zeros(assembly.ndof, dtype=float)
         for load in model.loads:
@@ -55,12 +65,13 @@ class GeometricNonlinearStaticSolver:
             increments=controls.load_increments,
             tolerance=tolerance,
             max_iterations=max_iterations,
+            determinant_assembly=geometric_assembly,
         )
-        states = assembly.element_states(displacement)
+        states = geometric_assembly.element_states(displacement)
         element_results = [
             {
                 "index": index,
-                "type": "TET4_TOTAL_LAGRANGIAN",
+                "type": f"{model.elements[index].type}_TOTAL_LAGRANGIAN",
                 "det_f": float(states["det_f"][index]),
                 "green_lagrange_strain": states["green_lagrange_strain"][index].tolist(),
                 "second_piola_stress": states["second_piola_stress"][index].tolist(),
@@ -72,12 +83,24 @@ class GeometricNonlinearStaticSolver:
         diagnostics.update(
             {
                 "load_increments": controls.load_increments,
-                "strain_energy": assembly.strain_energy(displacement),
+                "strain_energy": geometric_assembly.strain_energy(displacement),
                 "minimum_det_f": float(np.min(states["det_f"])),
-                "scope": "tet4-total-lagrangian-structural-v2",
+                "scope": (
+                    {
+                        "TET4": "tet4-total-lagrangian-structural-v2",
+                        "TET10": "tet10-total-lagrangian-structural-research",
+                        "HEX8": "hex8-total-lagrangian-structural-v1",
+                        "HEX20": "hex20-total-lagrangian-structural-research",
+                    }[next(iter({element.type for element in model.elements}))]
+                ),
                 "maturity": "research",
             }
         )
+        assembly_diagnostics = getattr(geometric_assembly, "assembly_diagnostics", None)
+        if callable(assembly_diagnostics):
+            diagnostics["sparse_assembly"] = assembly_diagnostics()
+        if contact_assembly is not None:
+            diagnostics["contact"] = dict(contact_assembly.last_details)
         return SolveResult(
             status="success",
             displacements=displacement,
@@ -87,16 +110,21 @@ class GeometricNonlinearStaticSolver:
             element_count=len(model.elements),
             analysis="geometric_nonlinear_static",
             method="newton_raphson",
-            message="Total-Lagrangian TET4 dead-load equilibrium converged.",
+            message="Total-Lagrangian dead-load equilibrium converged.",
             solver=diagnostics,
             element_results=element_results,
         )
 
     @staticmethod
     def _validate_scope(model: FiniteElementModel) -> None:
-        if not model.elements or {element.type for element in model.elements} != {"TET4"}:
+        families = {element.type for element in model.elements}
+        if not families or not families <= {"TET4", "TET10", "HEX8", "HEX20"}:
             raise InputValidationError(
-                "geometric_nonlinear_static currently supports TET4 elements exclusively."
+                "geometric_nonlinear_static supports TET4, TET10, HEX8 and HEX20."
+            )
+        if len(families) != 1:
+            raise InputValidationError(
+                "geometric_nonlinear_static currently requires one homogeneous element family."
             )
         material_names = {element.material for element in model.elements}
         if len(material_names) != 1:
@@ -112,89 +140,72 @@ class GeometricNonlinearStaticSolver:
             raise InputValidationError(
                 "geometric_nonlinear_static currently accepts nodal dead loads only."
             )
+        if model.contacts:
+            if str(model.analysis.parameters.get("contact_mode", "")).lower() != "penalty":
+                raise InputValidationError(
+                    "geometric_nonlinear_static contact requires explicit contact_mode='penalty'."
+                )
+            if any(contact.friction_coefficient > 0.0 for contact in model.contacts):
+                raise InputValidationError(
+                    "geometric_nonlinear_static currently supports frictionless contact only."
+                )
+
+
+class _PenaltyContactAssembly:
+    """Adapt the existing sparse penalty contribution to the geometric driver."""
+
+    def __init__(self, model: FiniteElementModel, dofs: DofManager) -> None:
+        self.model = model
+        self.dofs = dofs
+        self.ndof = dofs.ndof
+        self.last_details: dict[str, object] = {}
+
+    def assemble(
+        self, displacement: np.ndarray, *, tangent_required: bool = True
+    ) -> tuple[np.ndarray, object | None]:
+        internal, tangent, details = assemble_penalty_contact(
+            self.model,
+            self.dofs,
+            displacement,
+            penalty=float(self.model.analysis.parameters.get("contact_penalty", 1.0e6)),
+        )
+        self.last_details = details
+        return internal, tangent if tangent_required else None
 
 
 def _newton_dead_load(
-    assembly: TotalLagrangianTet4Assembly,
+    assembly: NonlinearAssemblyProtocol,
     external: np.ndarray,
     fixed: np.ndarray,
     *,
     increments: int,
     tolerance: float,
     max_iterations: int,
+    determinant_assembly: TotalLagrangianTet4Assembly | TotalLagrangianHex8Assembly | TotalLagrangianHighOrderAssembly | None = None,
 ) -> tuple[np.ndarray, dict[str, object]]:
     if fixed.size == 0:
         raise MeshValidationError("geometric_nonlinear_static requires constrained dofs.")
-    free = np.setdiff1d(np.arange(assembly.ndof), fixed)
-    displacement = np.zeros(assembly.ndof, dtype=float)
-    history: list[dict[str, object]] = []
-    total_iterations = 0
-    for step in range(1, increments + 1):
-        target = (step / increments) * external
-        scale = max(float(np.linalg.norm(target[free])), 1.0)
-        for iteration in range(1, max_iterations + 1):
-            internal, tangent = assembly.assemble(displacement)
-            assert tangent is not None
-            residual = target - internal
-            relative = float(np.linalg.norm(residual[free]) / scale)
-            if relative <= tolerance:
-                break
-            try:
-                with warnings.catch_warnings():
-                    warnings.simplefilter("error", MatrixRankWarning)
-                    correction = spsolve(tangent[free, :][:, free], residual[free])
-            except MatrixRankWarning as exc:
-                raise NumericalConvergenceError(
-                    f"Geometric nonlinear tangent is singular at increment {step}."
-                ) from exc
-            if not np.all(np.isfinite(correction)):
-                raise NumericalConvergenceError(
-                    f"Geometric nonlinear correction is non-finite at increment {step}."
-                )
-            displacement = _line_search(
-                assembly, displacement, free, correction, target, np.linalg.norm(residual[free])
-            )
-            total_iterations += 1
-        else:
-            raise NumericalConvergenceError(
-                f"Geometric nonlinear solve did not converge at increment {step}; "
-                f"relative residual={relative:.6e}."
-            )
-        history.append(
-            {
-                "increment": step,
-                "load_factor": step / increments,
-                "iterations": iteration,
-                "relative_residual": relative,
-                "minimum_det_f": float(np.min(assembly.deformation_determinants(displacement))),
-            }
-        )
-    return displacement, {
-        "converged": True,
-        "newton_iterations": total_iterations,
-        "final_relative_residual": history[-1]["relative_residual"],
-        "increments": history,
-    }
+    displacement, diagnostics = solve_full_newton(
+        assembly,
+        external,
+        fixed,
+        increments=increments,
+        tolerance=tolerance,
+        max_iterations=max_iterations,
+    )
+    determinant_source = determinant_assembly or assembly
+    for item in diagnostics["increments"]:
+        item["minimum_det_f"] = float(np.min(determinant_source.deformation_determinants(displacement)))
+    return displacement, diagnostics
 
 
 def _line_search(
-    assembly: TotalLagrangianTet4Assembly,
+    assembly: TotalLagrangianTet4Assembly | TotalLagrangianHex8Assembly | TotalLagrangianHighOrderAssembly,
     displacement: np.ndarray,
     free: np.ndarray,
     correction: np.ndarray,
     target: np.ndarray,
     residual_norm: float,
 ) -> np.ndarray:
-    alpha = 1.0
-    for _ in range(14):
-        trial = displacement.copy()
-        trial[free] += alpha * correction
-        try:
-            internal, _ = assembly.assemble(trial, tangent_required=False)
-        except ValueError:
-            alpha *= 0.5
-            continue
-        if np.linalg.norm((target - internal)[free]) < residual_norm:
-            return trial
-        alpha *= 0.5
-    raise NumericalConvergenceError("Geometric nonlinear line search failed to reduce the residual.")
+    """Compatibility wrapper for the shared Newton line-search contract."""
+    return _line_search_assembly(assembly, displacement, free, correction, target, residual_norm)

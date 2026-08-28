@@ -112,16 +112,75 @@ def test_harmonic_modal_and_nonlinear_parameter_paths() -> None:
 
     nonlinear_errors = _errors()
     validator._validate_analysis(
-        {"type": "nonlinear_static", "method": "arc_length", "parameters": {"load_steps": 2, "load_path": [0.0, 1.0], "adaptive_load_steps": True}},
+        {
+            "type": "nonlinear_static",
+            "method": "arc_length",
+            "parameters": {
+                "load_steps": 2,
+                "load_path": [0.0, 1.0],
+                "adaptive_load_steps": True,
+                "nonlinear_assembly_chunk_size": 64,
+            },
+        },
         nonlinear_errors,
     )
     assert any("load_path" in error for error in nonlinear_errors)
+
+    invalid_arc_length_errors = _errors()
+    validator._validate_analysis(
+        {
+            "type": "nonlinear_static",
+            "method": "arc_length",
+            "parameters": {
+                "arc_length_stop_mode": "unknown",
+                "arc_length_allow_load_factor_turning": "yes",
+                "arc_length_growth_factor": 0.5,
+                "arc_length_shrink_factor": 1.0,
+                "min_arc_length_radius": 0.2,
+                "max_arc_length_radius": 0.1,
+                "arc_length_load_factor_limit": 2.0,
+            },
+        },
+        invalid_arc_length_errors,
+    )
+    assert any("arc_length_stop_mode" in error for error in invalid_arc_length_errors)
+    assert any("arc_length_allow_load_factor_turning" in error for error in invalid_arc_length_errors)
+    assert any("arc_length_growth_factor" in error for error in invalid_arc_length_errors)
+    assert any("arc_length_shrink_factor" in error for error in invalid_arc_length_errors)
+    assert any("max_arc_length_radius" in error for error in invalid_arc_length_errors)
     geometric_errors = _errors()
     validator._validate_analysis(
         {"type": "geometric_nonlinear_static", "parameters": {"load_increments": 2, "max_iterations": 0, "tolerance": 0.0}},
         geometric_errors,
     )
     assert len(geometric_errors) == 3
+
+    invalid_chunk_errors = _errors()
+    validator._validate_analysis(
+        {"type": "nonlinear_static", "parameters": {"nonlinear_assembly_chunk_size": 0}},
+        invalid_chunk_errors,
+    )
+    assert any("nonlinear_assembly_chunk_size" in error for error in invalid_chunk_errors)
+
+    buckling_errors = _errors()
+    validator._validate_analysis(
+        {
+            "type": "linear_buckling",
+            "parameters": {
+                "preload_factor": 0.0,
+                "maximum_factor": -1.0,
+                "load_increments": 0,
+                "eigensolver_maxiter": 0,
+                "nonlinear_assembly_chunk_size": 0,
+            },
+        },
+        buckling_errors,
+    )
+    assert any("preload_factor" in error for error in buckling_errors)
+    assert any("maximum_factor" in error for error in buckling_errors)
+    assert any("load_increments" in error for error in buckling_errors)
+    assert any("eigensolver_maxiter" in error for error in buckling_errors)
+    assert any("nonlinear_assembly_chunk_size" in error for error in buckling_errors)
 
 
 def test_orthotropic_material_orientation_variants_and_composite_metadata() -> None:

@@ -33,6 +33,7 @@ class NpzNonlinearCheckpointStore:
             "completed_step": checkpoint.completed_step,
             "load_factor": checkpoint.load_factor,
             "material_states": checkpoint.material_states,
+            "continuation_state": checkpoint.continuation_state,
         }
         np.savez_compressed(
             temporary,
@@ -59,6 +60,7 @@ class NpzNonlinearCheckpointStore:
                     load_factor=float(metadata["load_factor"]),
                     displacement=np.asarray(data["displacement"], dtype=float),
                     material_states=_restore_material_states(metadata["material_states"]),
+                    continuation_state=dict(metadata.get("continuation_state", {})),
                 )
         except (OSError, ValueError, TypeError, KeyError, json.JSONDecodeError) as exc:
             raise InputValidationError(f"Cannot read nonlinear checkpoint {source}: invalid or corrupted NPZ.") from exc

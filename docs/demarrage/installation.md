@@ -1,15 +1,28 @@
 ---
 doc_id: DOC-START-001
-revision: 0.1
-status: draft technique
-applicable_version: 0.2.0
+revision: 0.2
+status: draft
+applicable_version: 0.2.5a0
 reviewer: ""
 approver: ""
 ---
 
-# Installation locale
+# Installation
 
-Depuis la racine du depot:
+## Installation depuis PyPI
+
+Apres publication de la release :
+
+```powershell
+python -m pip install qf-solver==0.2.5a0
+qf-solver --version
+```
+
+La distribution standard ne rend pas PETSc, SLEPc ou MPI obligatoires.
+
+## Installation depuis le depot
+
+Pour executer les exemples et les tests :
 
 ```powershell
 python -m pip install -e ".[test]"
@@ -17,14 +30,36 @@ qf-solver --version
 qf-solver methods
 ```
 
-Pour importer Gmsh et executer les benchmarks structures:
+Extras optionnels :
 
 ```powershell
-python -m pip install -e ".[mesh]"
-qf-solver benchmarks
+python -m pip install -e ".[mesh]"  # import Gmsh et benchmarks
+python -m pip install -e ".[docs]"  # documentation et figures
+python -m pip install -e ".[hpc]"   # PETSc/SLEPc/MPI si disponibles
 ```
 
-Pour regenerer les documents Markdown, figures et manifestes:
+## Smoke test
+
+```powershell
+qf-solver check-mesh --input .\examples\tet4_static.json
+qf-solver solve --input .\examples\tet4_static.json --output .\results\tet4.json
+```
+
+API publique minimale :
+
+```python
+from qf_solver import check_mesh, load_model, save_result, solve_model
+
+model = load_model("examples/tet4_static.json")
+check_mesh(model)
+result = solve_model(model)
+save_result(result, "results/tet4.json")
+```
+
+Les imports documentes pour les nouvelles integrations passent par
+`qf_solver`. Les imports `solveur.*` sont internes ou de compatibilite.
+
+## Documentation locale
 
 ```powershell
 python -m pip install -e ".[docs]"
@@ -32,13 +67,5 @@ python .\scripts\build_docs.py --profile engineering
 python .\scripts\build_technical_latex.py
 ```
 
-La premiere commande regenere les preuves documentaires. La seconde genere le
-PDF lorsque Pandoc et MiKTeX/LaTeX sont disponibles. Aucune interface web, CDN
-ou telemetrie n'est requise.
-
-## Baselines
-
-La baseline standard verrouille NumPy, SciPy et Matplotlib. La baseline
-documentation verrouille les outils de generation de figures et PDF. Un
-changement de version doit etre traite comme une modification de
-l'environnement de production de preuve.
+Le second script produit le dossier PDF si Pandoc et MiKTeX/LaTeX sont
+disponibles. Les versions de reference sont dans `requirements/`.

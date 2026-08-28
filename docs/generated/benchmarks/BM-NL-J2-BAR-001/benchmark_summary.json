@@ -25,12 +25,12 @@
   "status": "WARNING",
   "metrics": {
     "applied_axial_stress": 300000000.0,
-    "mean_axial_stress": 300000000.00000066,
-    "relative_stress_error": 2.1855036417643228e-15,
+    "mean_axial_stress": 300000000.0000003,
+    "relative_stress_error": 9.934107462565104e-16,
     "expected_uniaxial_equivalent_plastic_strain": 0.05,
-    "mean_equivalent_plastic_strain": 0.05000000000000001,
-    "relative_plastic_strain_error": 1.3877787807814457e-16,
-    "load_step_sensitivity": 1.1387141229945995e-11,
+    "mean_equivalent_plastic_strain": 0.04999999999999996,
+    "relative_plastic_strain_error": 8.326672684688674e-16,
+    "load_step_sensitivity": 1.815908534652523e-12,
     "load_step_counts": [
       3,
       6,
@@ -38,13 +38,13 @@
     ],
     "converged_steps": 6,
     "max_step_iterations": 6,
-    "free_relative_residual": 1.1948359396064877e-13
+    "free_relative_residual": 9.994980953501773e-14
   },
   "checks": [
     {
       "id": "uniaxial-stress",
       "status": "PASS",
-      "value": 2.1855036417643228e-15,
+      "value": 9.934107462565104e-16,
       "limit": 0.02,
       "operator": "less_equal",
       "detail": ""
@@ -52,7 +52,7 @@
     {
       "id": "uniaxial-plastic-strain",
       "status": "PASS",
-      "value": 1.3877787807814457e-16,
+      "value": 8.326672684688674e-16,
       "limit": 1e-06,
       "operator": "less_equal",
       "detail": ""
@@ -60,7 +60,7 @@
     {
       "id": "load-step-sensitivity",
       "status": "PASS",
-      "value": 1.1387141229945995e-11,
+      "value": 1.815908534652523e-12,
       "limit": 1e-06,
       "operator": "less_equal",
       "detail": ""
@@ -68,7 +68,7 @@
     {
       "id": "free-residual",
       "status": "PASS",
-      "value": 1.1948359396064877e-13,
+      "value": 9.994980953501773e-14,
       "limit": 1e-07,
       "operator": "less_equal",
       "detail": ""
@@ -76,7 +76,7 @@
     {
       "id": "step-residual",
       "status": "PASS",
-      "value": 1.2064194530869203e-13,
+      "value": 9.662409649295937e-14,
       "limit": 1e-07,
       "operator": "less_equal",
       "detail": ""

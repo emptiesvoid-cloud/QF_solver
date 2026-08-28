@@ -156,7 +156,10 @@ complexes Code_Aster, avec courbure bilineaire au centre des quatre elements
 centraux. Cette reconstruction est testee et auditable, mais une extraction
 native des contraintes Code_Aster reste une recommandation de consolidation.
 
-![Correlation Code_Aster DKQ](../assets/generated/mitc4_code_aster_nafems13h.png){ .result-figure }
+La figure comparative Code_Aster de cette revue historique n'est pas
+reproductible dans le profil documentaire engineering courant ; les valeurs
+et la methode de reconstruction restent decrites et auditees dans l'archive
+de preuve correspondante.
 
 ## Figures de revue
 
