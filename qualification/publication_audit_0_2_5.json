@@ -8,7 +8,7 @@
   "status": "PASS",
   "classification": {
     "public_source_documentation": {
-      "count": 397,
+      "count": 398,
       "paths": [
         "README.md",
         "docs/** excluding generated evidence"
@@ -16,7 +16,7 @@
       "publication": "public"
     },
     "public_generated_documentation": {
-      "count": 517,
+      "count": 511,
       "paths": [
         "docs/generated/**",
         "docs/assets/generated/**"
@@ -63,7 +63,7 @@
     {
       "id": "public_source_hygiene",
       "status": "PASS",
-      "detail": "1928 tracked release files scanned"
+      "detail": "1929 tracked release files scanned"
     },
     {
       "id": "controlled_review_vocabulary",
@@ -83,7 +83,7 @@
   ],
   "public_release_audit": {
     "status": "PASS",
-    "scanned_files": 1928,
+    "scanned_files": 1929,
     "finding_count": 0
   }
 }

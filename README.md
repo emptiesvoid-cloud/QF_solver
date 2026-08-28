@@ -203,22 +203,21 @@ La documentation de developpement est indexee dans
 [`docs/reference/api_stability.md`](docs/reference/api_stability.md), et la
 feuille de route dans [`prochaines_etapes.md`](prochaines_etapes.md).
 
-## Historique des alphas
+## Evolution du projet
 
-- **0.1.0 Alpha** : premiere base qualifiable, profils de verification,
-  metadonnees auditables et matrice initiale de qualification.
-- **0.2.1 Alpha** : consolidation des elements, campagnes V&V, correlations
-  externes, revues Owner et paquet public.
-- **0.2.2 Alpha** : renforcement du backend sparse, selection et diagnostics
-  des solveurs, reduction des copies et support optionnel PETSc/SLEPc.
-- **0.2.3 Alpha** : ajout et integration des HEX8/HEX20, import Gmsh,
-  chargements, post-traitement et comparaisons TET/HEX.
-- **0.2.4 Alpha** : noyau J2 small-strain, etat `trial/commit/rollback`, Full
-  Newton et correlation RQ-G08 bornee.
-- **0.2.5 Alpha** : qualification bornee J2, Total-Lagrangian elastique,
-  flambement sparse, contact sans frottement, performance et modes d'echec ;
-  arc-length, J2 finite-kinematic et couplages restent experimentalement
-  exclus des claims qualifies.
+| Version | Contribution principale |
+| --- | --- |
+| `0.2.0a0` | Base open source, premier cadre V&V et packaging public initial. |
+| `0.2.1a0` | Registre de qualification, automatisation release V&V, correlations externes et tracabilite renforcee. |
+| `0.2.2a0` | Backend sparse renforce, selection/diagnostics des solveurs, optimisation memoire et preparation PETSc/SLEPc/HPC. |
+| `0.2.3a0` | Integration HEX8/HEX20, import Gmsh, chargements, post-traitement et benchmarks TET/HEX. |
+| `0.2.4a0` | J2 small-strain commun, Full Newton, tangent coherent et etats `trial/commit/rollback`. |
+| `0.2.5a0` | Qualification bornee J2, elasticite Total-Lagrangian, flambement sparse, contact sans frottement, performance et modes d'echec. |
+
+Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique detaille des releases.
+
+Les capacites arc-length, J2 finite-kinematic et les couplages non lineaires
+restent experimentaux et exclus des claims qualifies de `0.2.5a0`.
 
 ## Licence
 
