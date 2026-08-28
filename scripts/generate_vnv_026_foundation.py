@@ -342,7 +342,7 @@ def _gates() -> list[tuple[int, str, str, list[str]]]:
         0: ("PASS", ["baseline_snapshot.json", "0_2_5_release_readiness.md"], "Clean baseline snapshot captured on the committed foundation; the 0.2.5 qualified source remains immutable."),
         1: ("PASS", ["architecture_audit.json", "0_2_6_architecture_audit.md"], "Static audit captured before any high-risk verification-package migration."),
         2: ("PASS", ["test_vnv_026_framework.py", "VNV026-SMOKE"], "Validated registry, safe runner, manifest and expected-failure contract."),
-        3: ("PASS", ["case_registry.json", "0_2_6_campaign_matrix.md"], "Exactly 180 deterministic definitions exist; only 10 are READY and no planned case is evidence."),
+        3: ("PASS", ["case_registry.json", "0_2_6_campaign_matrix.md"], "Exactly 180 deterministic definitions exist; 60 are READY (10 foundation smoke and 50 G05 execution cases), and no planned case is evidence."),
     }
     return [
         (index, title, foundation[index][0], foundation[index][1]) if index in foundation else (index, title, "NOT_STARTED", [])
