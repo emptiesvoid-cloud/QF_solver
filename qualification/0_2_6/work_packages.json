@@ -13,6 +13,20 @@
       "official_gate_collision": "026-G04",
       "status": "PASS",
       "title": "Numerical core architecture refactor"
+    },
+    {
+      "depends_on": [
+        "026-WP04-ARCH"
+      ],
+      "evidence": [
+        "g05_evidence.json",
+        "0_2_6_g05_evidence.md"
+      ],
+      "id": "026-WP05-G05",
+      "note": "Distinct work-package identifier. Official gate 026-G05 remains Modal / dynamic / harmonic maturity.",
+      "official_gate_collision": "026-G05",
+      "status": "PASS_WITH_LIMITATIONS",
+      "title": "Bounded V&V and robustness execution batch"
     }
   ],
   "schema_version": 1,

@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "work_package_id": "026-WP05-G05",
+  "status": "PASS_WITH_LIMITATIONS",
+  "source_sha": "2a27b4423965f79ae2f3359dae6b7d93d3564eb8",
+  "source_dirty": false,
+  "captured_at_utc": "2026-08-28T19:42:56.565693Z",
+  "solver_version": "0.2.6a0",
+  "registry_digest": "ba2028115e08e1b02e5d773199ad08c2f1081b37e648d3c8216db59728b6d571",
+  "profile": "G05",
+  "case_counts": {
+    "ready_before": 10,
+    "ready_after": 60,
+    "new_executable_cases": 50,
+    "planned_after": 120,
+    "executed": 50,
+    "pass": 47,
+    "expected_failure": 3,
+    "fail": 0,
+    "blocked": 0
+  },
+  "campaign": {
+    "command": "python scripts/run_vnv_026.py --profile G05 --output results/vnv_026_g05_final_2a27b44",
+    "manifest_sha256": "431d393ecf63b67144e956ab06183fcd20e7d386bc635142676da30f57c7531f",
+    "total_wall_time_seconds": 3.338,
+    "families": {
+      "LIN": {"pass": 8},
+      "SHL": {"pass": 5},
+      "MOD": {"pass": 5},
+      "DYN": {"pass": 6},
+      "HAR": {"pass": 5},
+      "J2": {"pass": 6},
+      "GNL": {"pass": 3},
+      "BUC": {"pass": 3},
+      "CON": {"pass": 4},
+      "ADV": {"expected_failure": 3},
+      "SCL": {"pass": 2}
+    },
+    "analysis_types": {
+      "linear_static": 22,
+      "modal": 5,
+      "transient_dynamic": 6,
+      "harmonic": 5,
+      "nonlinear_static": 6,
+      "geometric_nonlinear_static": 3,
+      "linear_buckling": 3
+    },
+    "expected_failure_contract": "Three inverted-TET4 cases raised INVALID_ELEMENT as expected."
+  },
+  "environment": {
+    "python": "3.13.1",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "numpy": "2.2.6",
+    "scipy": "1.15.2",
+    "pytest": "8.4.1",
+    "matplotlib": "3.10.3"
+  },
+  "quality_checks": {
+    "framework_tests": "5 passed",
+    "ruff": "PASS",
+    "compileall": "PASS",
+    "diff_check": "PASS"
+  },
+  "claim_boundary": "Executable robustness evidence only; no automatic maturity promotion. G05 does not close official gate 026-G05, which remains Modal / dynamic / harmonic maturity."
+}

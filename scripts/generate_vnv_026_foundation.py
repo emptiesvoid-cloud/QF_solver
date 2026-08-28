@@ -397,15 +397,26 @@ def _work_packages() -> list[dict[str, Any]]:
 
 
 def _completed_work_packages() -> list[dict[str, Any]]:
-    return [{
-        "id": "026-WP04-ARCH",
-        "title": "Numerical core architecture refactor",
-        "status": "PASS",
-        "depends_on": ["WP-026-03"],
-        "official_gate_collision": "026-G04",
-        "evidence": ["g04_architecture_evidence.json", "0_2_6_g04_architecture_evidence.md"],
-        "note": "Distinct work-package identifier. Official gate 026-G04 remains Linear / element robustness.",
-    }]
+    return [
+        {
+            "id": "026-WP04-ARCH",
+            "title": "Numerical core architecture refactor",
+            "status": "PASS",
+            "depends_on": ["WP-026-03"],
+            "official_gate_collision": "026-G04",
+            "evidence": ["g04_architecture_evidence.json", "0_2_6_g04_architecture_evidence.md"],
+            "note": "Distinct work-package identifier. Official gate 026-G04 remains Linear / element robustness.",
+        },
+        {
+            "id": "026-WP05-G05",
+            "title": "Bounded V&V and robustness execution batch",
+            "status": "PASS_WITH_LIMITATIONS",
+            "depends_on": ["026-WP04-ARCH"],
+            "official_gate_collision": "026-G05",
+            "evidence": ["g05_evidence.json", "0_2_6_g05_evidence.md"],
+            "note": "Distinct work-package identifier. Official gate 026-G05 remains Modal / dynamic / harmonic maturity.",
+        },
+    ]
 
 
 def _risks() -> list[dict[str, str]]:

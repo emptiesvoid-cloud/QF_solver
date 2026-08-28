@@ -5,6 +5,7 @@
 | Work package | Status | Evidence | Registry note |
 | --- | --- | --- | --- |
 | `026-WP04-ARCH` Numerical core architecture refactor | PASS | g04_architecture_evidence.json, 0_2_6_g04_architecture_evidence.md | Distinct work-package identifier. Official gate 026-G04 remains Linear / element robustness. |
+| `026-WP05-G05` Bounded V&V and robustness execution batch | PASS_WITH_LIMITATIONS | g05_evidence.json, 0_2_6_g05_evidence.md | Distinct work-package identifier. Official gate 026-G05 remains Modal / dynamic / harmonic maturity. |
 
 ## Planned foundation work packages
 
