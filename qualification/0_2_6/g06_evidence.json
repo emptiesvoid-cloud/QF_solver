@@ -2,11 +2,11 @@
   "schema_version": 1,
   "work_package_id": "026-WP06-G06",
   "status": "PASS_WITH_LIMITATIONS",
-  "source_sha": "77b8f30314356b24c231c51a16d2b66bf6753548",
+  "source_sha": "b9d523725ab2a6856256731e44921adf2837a1f3",
   "source_dirty": false,
-  "captured_at_utc": "2026-08-28T21:02:34.656502Z",
+  "captured_at_utc": "2026-08-28T21:27:30.410180Z",
   "solver_version": "0.2.6a0",
-  "registry_digest": "c9ada9eb9ea2307f9e34032ea80099b6cb29b25dfcb483bd97edd890bd244731",
+  "registry_digest": "d2e5f587ac2d67c3c875782c8558aa7aac60cec09df9f43614319eff1b99ea59",
   "profile": "G06",
   "case_counts": {
     "ready_before": 60,
@@ -20,8 +20,8 @@
     "blocked": 0
   },
   "campaign": {
-    "command": "python scripts/run_vnv_026.py --profile G06 --output results/vnv_026_g06_final",
-    "manifest_sha256": "973cb5b044d6a60f6f1820d181258ae2918e46b8319d012c8de10527504ebc09",
+    "command": "python scripts/run_vnv_026.py --profile G06 --output results/vnv_026_g06_final_clean",
+    "manifest_sha256": "f8847759716bd7007c7e783338d7f0e6d4522fa6b709d39e2b2eec1cef578804",
     "families": {
       "HEX8": {"pass": 10},
       "HEX20": {"pass": 10},
@@ -35,6 +35,27 @@
       "24 robustness routes including one invalid-element expected failure"
     ],
     "expected_failure_contract": "One inverted-TET4 case raised INVALID_ELEMENT as expected."
+  },
+  "quantitative_studies": {
+    "status": "PASS",
+    "source_sha": "b9d523725ab2a6856256731e44921adf2837a1f3",
+    "manifest_sha256": "4b5a7e96ac6c661edfdf3133cb6d12fb1e294b961756f1593b4973ab2bae34e1",
+    "analytical": {
+      "case_count": 20,
+      "pass_count": 20,
+      "max_relative_error": 0.0,
+      "reference": "Independent constrained free-DOF stiffness integration for TET4/TET10/HEX8/HEX20."
+    },
+    "hex8_mesh": {
+      "levels": [
+        {"nx": 1, "elements": 1, "dofs": 24, "relative_error": 0.09, "tip_ux": 4.333333333333334e-12, "residual": 9.041388076098927e-17},
+        {"nx": 2, "elements": 2, "dofs": 36, "relative_error": 0.057773730935578894, "observed_order": 0.6395113368066142, "tip_ux": 4.486791757449624e-12, "residual": 2.1864704983579555e-16},
+        {"nx": 4, "elements": 4, "dofs": 60, "relative_error": 0.04412609763087707, "observed_order": 0.3887814989560669, "tip_ux": 4.551780487472014e-12, "residual": 6.599685279914824e-16},
+        {"nx": 8, "elements": 8, "dofs": 108, "relative_error": 0.03999260542853148, "observed_order": 0.14189889312425602, "tip_ux": 4.571463783673659e-12, "residual": 2.4604388212486544e-15}
+      ],
+      "reference": "Uniform axial bar response: u_tip = F L / (E A).",
+      "trend": "non-increasing relative error across nx=1,2,4,8"
+    }
   },
   "internal_oracles": {
     "TET10": {"status": "PASS", "verifier": "Tet10MechanicalVerifier"},
@@ -62,11 +83,11 @@
     "matplotlib": "3.10.3"
   },
   "quality_checks": {
-    "framework_tests": "6 passed",
+    "framework_tests": "7 passed",
     "g06_campaign": "79 PASS / 1 EXPECTED_FAILURE / 0 FAIL / 0 BLOCKED",
     "ruff": "PASS",
     "compileall": "PASS",
     "diff_check": "PASS"
   },
-  "claim_boundary": "Executable G06 corpus and internal oracle evidence only. READY does not mean QUALIFIED; official 026-G06 remains the J2 maturity-extension gate and is not closed by this work package. External correlation, quantitative mesh convergence and promotion remain open evidence items."
+  "claim_boundary": "Executable G06 corpus plus bounded independent analytical and HEX8 mesh evidence. READY does not mean QUALIFIED; official 026-G06 remains the J2 maturity-extension gate and is not closed by this work package. External correlation, general mesh convergence and promotion remain open evidence items."
 }
