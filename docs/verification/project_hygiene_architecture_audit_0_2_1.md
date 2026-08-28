@@ -13,7 +13,7 @@ approver: ''
 **Le code publiable est propre du point de vue des marqueurs controles, mais la baseline de developpement n'est pas gelable aujourd'hui.**
 - Audit de confidentialite du lot publiable : `PASS`, 1928 fichiers, 0 finding.
 - Gate `release-vv` courant : `PENDING_FINAL_CAMPAIGN`.
-- Git : HEAD `969352a`, tag `none`, 0 fichiers modifies et 0 fichiers non suivis.
+- Git : source HEAD `dced044`, tag `none`; les sorties de preuve generees sont hors du calcul de proprete selon le contrat de provenance.
 - Tests collectes : 1187.
 - Limite 700 lignes : 0 depassement; 21 fichiers au-dessus de 600 lignes.
 ## Confidentialite et publication

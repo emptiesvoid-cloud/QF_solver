@@ -1,6 +1,6 @@
 {
   "manifest_schema_version": 1,
-  "created_at_utc": "2026-08-26T07:46:29.105684Z",
+  "created_at_utc": "2026-08-28T12:54:31.280052Z",
   "solver": {
     "name": "QF_solver",
     "version": "0.2.5a0"
@@ -54,8 +54,8 @@
     {
       "role": "benchmark_artifact",
       "path": "modal_n1.json",
-      "size_bytes": 25341,
-      "sha256": "a9fa4b206d61ed90465933e04f92d0c405882876b629af09c7d3a31603ae793e"
+      "size_bytes": 25345,
+      "sha256": "f80963d055983bf686c37ec44fcfb5a3ed9617dbbe332e6c0ef74da122daab19"
     },
     {
       "role": "benchmark_artifact",
@@ -66,8 +66,8 @@
     {
       "role": "benchmark_artifact",
       "path": "modal_n16.json",
-      "size_bytes": 129826,
-      "sha256": "fad42beb26326b668640201704a32c5475467766047b6965c297891c26eeead0"
+      "size_bytes": 129830,
+      "sha256": "820159dd9e04bb3794572daec7af6dc195ca86e0a2d5a97f78eabed9a3f49482"
     },
     {
       "role": "benchmark_artifact",
@@ -78,8 +78,8 @@
     {
       "role": "benchmark_artifact",
       "path": "modal_n2.json",
-      "size_bytes": 32298,
-      "sha256": "700c331bab3e470aa22bcab7ca61fc75ce3f3feebebbbcc05acf376585221786"
+      "size_bytes": 32300,
+      "sha256": "bb7bb3951dbe9fefe88a93631e9609f960ed26c228f6e384919618ffd6317332"
     },
     {
       "role": "benchmark_artifact",
@@ -90,8 +90,8 @@
     {
       "role": "benchmark_artifact",
       "path": "modal_n4.json",
-      "size_bytes": 46199,
-      "sha256": "cace8a8e1b8e9a1448aac229706b38d67ecd6a26a91312f6f403378828a6284c"
+      "size_bytes": 46195,
+      "sha256": "27f90792bc12cc7e8504658e2d4ed25043918cea04372ecc5b04473455f0d109"
     },
     {
       "role": "benchmark_artifact",
@@ -102,8 +102,8 @@
     {
       "role": "benchmark_artifact",
       "path": "modal_n8.json",
-      "size_bytes": 73987,
-      "sha256": "f32019d1bc0ad4295eb91c5f8134fac2782ac983a033b0abd8d932aa9b81324d"
+      "size_bytes": 73991,
+      "sha256": "b53292b11fe88a0fbbdce697d5a81648ae82b9be7f3bfa6d2f94efa1614848da"
     },
     {
       "role": "benchmark_artifact",
@@ -114,8 +114,8 @@
     {
       "role": "benchmark_artifact",
       "path": "static_n1.json",
-      "size_bytes": 35348,
-      "sha256": "c4e5b5141b068bf0cd8ff92e7ec50a7b8e600fe5d2bea5aea4433ce57452597f"
+      "size_bytes": 35349,
+      "sha256": "d79ecb1b1dcce7b43b122dcff2d6d3b9540e98b88e81aabd4345540b803e8c8f"
     },
     {
       "role": "benchmark_artifact",
@@ -132,8 +132,8 @@
     {
       "role": "benchmark_artifact",
       "path": "static_n16.json",
-      "size_bytes": 205935,
-      "sha256": "c59876613a621ca4a42dabb395b4089e5a1d6aa8c1444587ee20ff8ea54c6407"
+      "size_bytes": 205934,
+      "sha256": "0cef96c056b36a298483d4b812c1058345dedc46afba78bd1b45504b9efa6094"
     },
     {
       "role": "benchmark_artifact",
@@ -151,7 +151,7 @@
       "role": "benchmark_artifact",
       "path": "static_n2.json",
       "size_bytes": 46663,
-      "sha256": "37f63aa6c3a7ed2fa6802b28656cefe42e6394c105f262d49ff73bcef162177c"
+      "sha256": "e9e748b9e0c3ec81e8f7d4c3596c94d7d25bc4475eb862bca2f2e339eac718f5"
     },
     {
       "role": "benchmark_artifact",
@@ -168,8 +168,8 @@
     {
       "role": "benchmark_artifact",
       "path": "static_n4.json",
-      "size_bytes": 69102,
-      "sha256": "dc906d31a8b1d4e749085bca257682817d7374ffcbb8334ce915f8c9dc932119"
+      "size_bytes": 69103,
+      "sha256": "acc953edd41bb3785ff072e4e291ba098c6499ed12248e71ca5266002a5e4956"
     },
     {
       "role": "benchmark_artifact",
@@ -187,7 +187,7 @@
       "role": "benchmark_artifact",
       "path": "static_n8.json",
       "size_bytes": 114932,
-      "sha256": "b341d0fe0821c57e7c55260b6ff1cf3cc5a0b6c57aa53b9f70440ba67486089c"
+      "sha256": "5f927c363404167559e16f5d27cf5353fd958f5b608ca17b56fd4ad044625836"
     },
     {
       "role": "benchmark_artifact",

@@ -1,7 +1,10 @@
-| Grandeur h9 | Valeur | Critere | Verdict |
+## Sonde h9 non incluse dans le checkout public
+
+La sonde h9 a quatre fois plus d'elements est une evidence V&V locale optionnelle. Elle n'est pas presente dans ce clone public; aucun resultat h9 ni aucune comparaison de contrainte Saint-Venant n'est revendique ici. Le tableau ci-dessous reprend uniquement le dernier niveau suivi de la campagne publique h1-h8.
+
+| Grandeur | Valeur h8 | Interpretation | Statut |
 | --- | --- | --- | --- |
-| TET4 | 105529 | 3.8 <= N/N_h8 <= 4.2 | PASS |
-| Multiplicateur N/N_h8 | 4.00702 | [3.8, 4.2] | PASS |
-| Erreur rotation | 0.0124167 | <= 5 % | PASS |
-| Erreur contrainte L2 | 0.188906 | <= 20 % | PASS |
-| Residu libre relatif | 9.493673e-11 | <= 1e-8 | PASS |
+| TET4 | 3508 | dernier niveau public | PASS |
+| Erreur rotation | 0.103597 | critere <= 15 % | PASS |
+| Erreur contrainte L2 | 0.504079 | informative, hors acceptance | WARNING |
+| Residu libre relatif | 2.548105e-13 | critere <= 1e-8 | PASS |

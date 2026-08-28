@@ -267,8 +267,11 @@
 | DOC-NL-025-018 | Plan d'execution en mode objectif QF_solver 0.2.5 alpha | controlled_candidate | REQ-NL-001, REQ-AUD-001, REQ-EVD-001, REQ-REL-001 | 0 | 0 | verification/0_2_5/0_2_5_objective_execution_plan.md |
 | DOC-NL-025-019 | Etat d'implementation QF_solver 0.2.5 alpha | controlled_candidate | REQ-NL-001, REQ-EVD-001, REQ-REL-001 | 0 | 2 | verification/0_2_5/0_2_5_implementation_status.md |
 | DOC-NL-025-024 | Rapport d'implementation du lot 4 arc-length QF_solver 0.2.5 alpha | controlled_candidate | REQ-NL-001, REQ-EVD-001 | 0 | 2 | verification/0_2_5/0_2_5_lot4_arc_length_implementation_report.md |
-| DOC-NL-025-025 | Rapport d'implementation du lot 5A contact QF_solver 0.2.5 alpha | controlled_candidate | REQ-NL-001, REQ-EVD-001 | 0 | 3 | verification/0_2_5/0_2_5_lot5a_contact_implementation_report.md |
+| DOC-NL-025-025 | Rapport d'implementation du lot 5A contact QF_solver 0.2.5 alpha | approved | REQ-NL-001, REQ-EVD-001 | 0 | 3 | verification/0_2_5/0_2_5_lot5a_contact_implementation_report.md |
 | DOC-NL-025-026 | Rapport de campagne des modes d'echec QF_solver 0.2.5 alpha | controlled_candidate | REQ-NL-001, REQ-EVD-001 | 0 | 1 | verification/0_2_5/0_2_5_failure_campaign_report.md |
 | DOC-NL-025-027 | Rapport de qualification J2 QF_solver 0.2.5 alpha | controlled_candidate | REQ-NL-001, REQ-EVD-001 | 0 | 2 | verification/0_2_5/0_2_5_j2_qualification_report.md |
 | DOC-NL-025-028 | Revue Owner G02 QF_solver 0.2.5 alpha | controlled_candidate | REQ-NL-001, REQ-EVD-001, REQ-REL-001 | 0 | 0 | verification/0_2_5/0_2_5_g02_owner_review.md |
 | DOC-NL-025-029 | Revue Owner G04 QF_solver 0.2.5 alpha | controlled_candidate | REQ-NL-001, REQ-EVD-001, REQ-REL-001 | 0 | 2 | verification/0_2_5/0_2_5_g04_owner_review.md |
+| DOC-NL-025-030 | Diagnostic externe de branche G04 QF_solver 0.2.5 alpha | controlled_candidate | REQ-NL-001, REQ-EVD-001, REQ-REL-001 | 0 | 2 | verification/0_2_5/0_2_5_g04_external_branch_diagnostic.md |
+| DOC-NL-025-034 | Revue Owner G03 QF_solver 0.2.5 alpha | approved | REQ-NL-001, REQ-EVD-001, REQ-REL-001 | 0 | 2 | verification/0_2_5/0_2_5_g03_owner_review.md |
+| DOC-NL-025-035 | Decision Owner de revision du scope QF_solver 0.2.5 alpha | approved | REQ-AUD-001, REQ-EVD-001, REQ-REL-001 | 0 | 0 | verification/0_2_5/0_2_5_owner_scope_revision.md |
