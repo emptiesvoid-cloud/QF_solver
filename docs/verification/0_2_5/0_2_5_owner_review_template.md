@@ -22,8 +22,14 @@ approver: ""
 Allowed decisions: `more_evidence_required`, `accepted_with_recommendations`,
 `accepted_for_bounded_experimental_use`, `accepted_for_release_0_2_5`.
 
-Only `accepted_for_release_0_2_5`, after G11 passes on the exact candidate SHA,
-can close G12.
+For the original unchanged scope, only `accepted_for_release_0_2_5`, after G11
+passes on the exact candidate SHA, can close G12. If the Owner explicitly
+approves a narrowed release scope, the decision must instead record
+`OWNER_SCOPE_REVISION = APPROVED` and `SCOPE_CHANGE = YES`; G12 then applies
+only to the remaining qualified scope and never promotes excluded gates.
+
+The final 0.2.5a0 decision is recorded separately in
+`0_2_5_owner_scope_revision.md`.
 
 ## Planning approval questions
 

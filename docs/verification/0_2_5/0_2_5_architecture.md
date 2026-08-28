@@ -108,7 +108,8 @@ The bounded elastic Total-Lagrangian TET4/HEX8 decision for G02 is documented
 separately in `0_2_5_g02_owner_review.md`; it does not promote this J2 path.
 `total_lagrangian_j2` and G06 remain research/open until their own objectivity,
 energy, tangent, mesh-sensitivity and external-correlation evidence is
-archived.
+archived. Under the final Owner scope revision, this research status is
+preserved and G06 is explicitly excluded from the qualified 0.2.5a0 claim.
 
 For contact, the current common-driver experiment is selected with
 `analysis.parameters.contact_mode = "penalty"`. It contributes a sparse
@@ -121,7 +122,9 @@ remains a node-to-triangle approximation and does not claim general
 surface-to-surface or friction qualification. The path does not replace the
   historical exact active-set solver. The external VV-089 static comparison
   uses that active-set multiplier route, not the penalty composition. G05 is closed only for this bounded
-contract; general surface-to-surface correlation remains open under G10.
+contract; general surface-to-surface correlation remains excluded from the
+qualified G10 scope. The final Owner matrix records G10 as PASS only for the
+remaining bounded MUST cells.
 
 ## Sparse and state invariants
 

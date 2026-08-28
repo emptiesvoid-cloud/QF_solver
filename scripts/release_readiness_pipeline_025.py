@@ -31,6 +31,7 @@ MANDATORY_GATE_IDS = tuple(f"025-G{index:02d}" for index in (*range(0, 7), *rang
 CLOSED_GATE_STATUSES = {
     "PASS",
 }
+EXCLUDED_GATE_STATUS = "NOT_IN_RELEASE_SCOPE"
 TARGETED_TESTS = (
     "tests/unit/test_analysis_features.py",
     "tests/unit/test_nonlinear_constitutive_vv.py",
@@ -83,8 +84,18 @@ def _gate_statuses(path: str | Path = ROOT / "docs/verification/0_2_5/0_2_5_gate
         lines = Path(path).read_text(encoding="utf-8").splitlines()
     except (FileNotFoundError, OSError):
         return statuses
+    in_gate_table = False
     for line in lines:
+        if line.startswith("| Gate | Name |"):
+            in_gate_table = True
+            continue
+        if not in_gate_table:
+            continue
+        if line.startswith("|---"):
+            continue
         if not line.startswith("| 025-G"):
+            if statuses:
+                break
             continue
         fields = [field.strip() for field in line.split("|")]
         if len(fields) < 4:
@@ -96,18 +107,34 @@ def _gate_statuses(path: str | Path = ROOT / "docs/verification/0_2_5/0_2_5_gate
 
 
 def _run_gate_check(path: str | Path = ROOT / "docs/verification/0_2_5/0_2_5_gate_matrix.md") -> int:
-    """Fail closed when mandatory gates are missing, malformed or not closed."""
+    """Fail closed unless mandatory gates pass or are Owner-excluded explicitly."""
     statuses = _gate_statuses(path)
+    scope_revision_approved = _scope_revision_approved(path)
+    allowed_statuses = set(CLOSED_GATE_STATUSES)
+    if scope_revision_approved:
+        allowed_statuses.add(EXCLUDED_GATE_STATUS)
     missing = [gate_id for gate_id in MANDATORY_GATE_IDS if gate_id not in statuses]
     open_gates = [
         f"{gate_id}:{statuses[gate_id]}"
         for gate_id in MANDATORY_GATE_IDS
-        if gate_id in statuses and statuses[gate_id] not in CLOSED_GATE_STATUSES
+        if gate_id in statuses and statuses[gate_id] not in allowed_statuses
     ]
     print("OPEN_GATES=" + ",".join(open_gates))
     print("MISSING_GATES=" + ",".join(missing))
+    print("SCOPE_REVISION_APPROVED=" + str(scope_revision_approved).lower())
     print("GATE_STATUS=" + ("PASS" if not missing and not open_gates else "FAIL"))
     return 0 if not missing and not open_gates else 4
+
+
+def _scope_revision_approved(path: str | Path) -> bool:
+    """Recognize only an explicit Owner-approved final-scope exclusion."""
+    try:
+        text = Path(path).read_text(encoding="utf-8")
+    except (FileNotFoundError, OSError):
+        return False
+    owner_revision = "OWNER_SCOPE_REVISION = APPROVED" in text or "OWNER_SCOPE_REVISION=APPROVED" in text
+    scope_change = "SCOPE_CHANGE = YES" in text or "SCOPE_CHANGE=YES" in text
+    return owner_revision and scope_change
 
 
 def _smoke_command() -> tuple[str, ...]:

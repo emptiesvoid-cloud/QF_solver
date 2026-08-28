@@ -66,6 +66,54 @@ def test_gate_check_accepts_closed_mandatory_gates_and_optional_friction_scope(t
     assert "MISSING_GATES=" in output
 
 
+def test_gate_check_accepts_owner_excluded_mandatory_gates_after_scope_revision(tmp_path, capsys) -> None:
+    path = tmp_path / "gates.md"
+    document = _gate_document()
+    document = document.replace(
+        "| 025-G04 | gate | criteria | none | PASS |",
+        "| 025-G04 | gate | criteria | none | NOT_IN_RELEASE_SCOPE |",
+    )
+    document = document.replace(
+        "| 025-G06 | gate | criteria | none | PASS |",
+        "| 025-G06 | gate | criteria | none | NOT_IN_RELEASE_SCOPE |",
+    )
+    path.write_text(
+        document + "\nOWNER_SCOPE_REVISION = APPROVED\nSCOPE_CHANGE = YES\n",
+        encoding="utf-8",
+    )
+
+    assert _run_gate_check(path) == 0
+    output = capsys.readouterr().out
+    assert "SCOPE_REVISION_APPROVED=true" in output
+    assert "OPEN_GATES=" in output
+
+
+def test_gate_check_ignores_later_owner_disposition_tables(tmp_path, capsys) -> None:
+    path = tmp_path / "gates.md"
+    path.write_text(
+        _gate_document()
+        + "\n| 025-G04 | disposition | excluded | Owner decision | NOT_IN_RELEASE_SCOPE |\n",
+        encoding="utf-8",
+    )
+
+    assert _run_gate_check(path) == 0
+    assert "OPEN_GATES=" in capsys.readouterr().out
+
+
+def test_gate_check_rejects_excluded_gate_without_owner_scope_revision(tmp_path, capsys) -> None:
+    path = tmp_path / "gates.md"
+    path.write_text(
+        _gate_document().replace(
+            "| 025-G04 | gate | criteria | none | PASS |",
+            "| 025-G04 | gate | criteria | none | NOT_IN_RELEASE_SCOPE |",
+        ),
+        encoding="utf-8",
+    )
+
+    assert _run_gate_check(path) == 4
+    assert "025-G04:NOT_IN_RELEASE_SCOPE" in capsys.readouterr().out
+
+
 def test_gate_check_keeps_evidence_labels_separate_from_gate_status(tmp_path, capsys) -> None:
     path = tmp_path / "gates.md"
     path.write_text(_gate_document("PASS_INTERNAL"), encoding="utf-8")

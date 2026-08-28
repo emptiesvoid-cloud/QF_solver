@@ -9,13 +9,14 @@ approver: ""
 
 # QF Solver 0.2.5a0 gate matrix
 
-The matrix records the current controlled status after the G01 evidence
-replay. Optional friction gate G07 is `NOT_IN_RELEASE_SCOPE` until an explicit
-Owner promotion. Gate status values are restricted to `PASS`, `OPEN`, `BLOCKED` and
-`NOT_IN_RELEASE_SCOPE`. Evidence labels such as
+The matrix records the final controlled status after the Owner scope decision
+dated `2026-08-28`. Gate status values are restricted to `PASS`, `OPEN`,
+`BLOCKED` and `NOT_IN_RELEASE_SCOPE`. Evidence labels such as
 `PASS_INTERNAL` or `PASS_EXTERNAL_CORRELATION_BOUNDED` describe the supporting
 proof, but do not replace the gate status. Only evidence generated on the
-recorded SHA can close a gate.
+recorded SHA can close a gate. `NOT_IN_RELEASE_SCOPE` is a closed governance
+status only when the controlled Owner decision records the explicit exclusion;
+it is never evidence of a functional PASS.
 
 G01 is closed by controlled internal and Code_Aster evidence under the stable
 `g01_latest` and `g01_code_aster_latest` output paths. Both final manifests
@@ -24,8 +25,9 @@ Owner-approved treatment of mesh/load-step trends and rollback reference
 differences is bounded and does not create a universal convergence claim or
 lower any requirement. G02 is closed for the Owner-approved bounded elastic
 Total-Lagrangian scope defined below. The qualified numerical source remains
-distinct from the documentary Owner decision. G06 retains provisional
-observations and remains `OPEN` until its own controlled campaign closes. G03
+distinct from the documentary Owner decision. G04 and G06 retain provisional
+observations and are excluded from the qualified 0.2.5a0 claim by the explicit
+Owner scope revision; neither is a functional PASS. G03
 is closed for the bounded TET4 linear-buckling scope defined below. G08
 is closed by the controlled replay recorded below. G09 has a
 separate controlled failure campaign and is closed below; this does not close
@@ -33,19 +35,42 @@ any dependent functional gate.
 
 | Gate | Name | Mandatory closure criteria | Dependencies | Status |
 |---|---|---|---|---|
-| 025-G00 | Baseline and architecture frozen | exact 0.2.4 SHA; provenance reconciled; tests/coverage/V&V/performance/API baselines; Owner audit approval | none | OPEN |
+| 025-G00 | Baseline and architecture frozen | exact 0.2.4 SHA; provenance reconciled; tests/coverage/V&V/performance/API baselines; Owner audit approval | none | PASS |
 | 025-G01 | 0.2.4 nonlinear V&V debt closed | multi-element four-family J2; mesh/load-step/cyclic/energy/rollback/tangent evidence; bounded external curves; Owner-approved acceptance treatment | G00 | PASS |
 | 025-G02 | Geometric nonlinear core verified | approved measures; TET4/HEX8 objectivity, tangent, energy, mesh and external evidence; common Full Newton | G01 | PASS |
 | 025-G03 | Linear buckling verified | sparse eigenpath; Euler + nontrivial benchmark; factor/mode convergence and external correlation | G02 | PASS |
-| 025-G04 | Arc-length verified | one sparse method; branch, limit point, restart, cutback and external response evidence | G02 | OPEN |
+| 025-G04 | Arc-length verified | one sparse method; branch, limit point, restart, cutback and external response evidence | G02 | NOT_IN_RELEASE_SCOPE |
 | 025-G05 | Frictionless contact verified | common residual/tangent/state/Newton; finite sliding, recontact, penetration sensitivity, rollback, external correlation | G02 | PASS |
-| 025-G06 | Coupled nonlinear core verified | approved J2 finite-kinematics model; J2+geometry and geometry+contact; limit recovery, tangent, energy, mesh and external evidence | G01, G02, G05 | OPEN |
+| 025-G06 | Coupled nonlinear core verified | approved J2 finite-kinematics model; J2+geometry and geometry+contact; limit recovery, tangent, energy, mesh and external evidence | G01, G02, G05 | NOT_IN_RELEASE_SCOPE |
 | 025-G07 | Frictional contact verified | only after Owner promotion; objective stick/slip, state, dissipation and external evidence | G05, G06, Owner GO | NOT_IN_RELEASE_SCOPE |
 | 025-G08 | Performance characterized | reproducible cost/memory profiles for all mandatory paths; HEX20 explained; numerical non-regression after optimization | relevant functional gates | PASS |
 | 025-G09 | Failure modes verified | complete mandatory failure matrix; structured reasons; no false convergence; exact rollback | relevant functional gates | PASS |
-| 025-G10 | External correlation bounded | all mandatory external matrix cells complete or associated claim removed; full histories and provenance | G01-G06 | BLOCKED |
+| 025-G10 | External correlation bounded | all mandatory external matrix cells complete for the Owner-approved qualified scope; excluded claims remain explicitly excluded | G01-G03, G05; approved G04/G06 exclusions | PASS |
 | 025-G11 | Full regression | complete 0.2.4 + accepted 0.2.5 tests, coverage policy, docs, V&V, build and smoke pass on candidate SHA | replay evidence; functional release gates remain reported separately | PASS |
-| 025-G12 | Aggregate release readiness and Owner closure | aggregate review of gate states, final-SHA evidence, qualification/README/changelog/metadata consistency, limitations, artifacts and explicit Owner release decision | G00-G11 | OPEN |
+| 025-G12 | Aggregate release readiness and Owner closure | aggregate review of gate states, final-SHA evidence, qualification/README/changelog/metadata consistency, limitations, artifacts and explicit Owner release decision | G00-G11 under approved final scope | PASS |
+
+OWNER_SCOPE_REVISION = APPROVED
+SCOPE_CHANGE = YES
+CONTRACT_LOWERED = NO (no requirement, tolerance or historical result was relaxed; the qualified release scope was explicitly narrowed)
+
+## Final Owner scope disposition
+
+The controlled Owner decision is recorded in
+`0_2_5_owner_scope_revision.md`. It accepts the 0.2.4 replay limitation and
+narrows the qualified 0.2.5a0 release claims without rewriting the original
+requirements. The original plan classified G04 and G06 as MUST; their
+historical evidence and blockers remain visible below and in the V&V pack.
+
+| Gate | Gate status in this final matrix | Evidence/claim classification | Release treatment |
+|---|---|---|---|
+| 025-G00 | `PASS` | `PASS_WITH_HISTORICAL_LIMITATION` | accepted by Owner; the exact 0.2.4 replay remains recorded as `1440 passed / 1 failed / 32 skipped / 187 deselected`, with two historical RQ-G08 governance findings |
+| 025-G04 | `NOT_IN_RELEASE_SCOPE` | `EXPERIMENTAL / NOT_QUALIFIED` | no arc-length qualified claim; published compatible reference and four-level closure remain future work |
+| 025-G06 | `NOT_IN_RELEASE_SCOPE` | `CODE_COMPLETE / EXPERIMENTAL / QUALIFICATION_DEFERRED` | no finite-kinematic J2 or coupled qualified claim; external gaps remain future work |
+| 025-G10 | `PASS` | bounded external correlation | evaluated only on the remaining qualified MUST cells; G04/G06 cells are excluded, not passed |
+| 025-G12 | `PASS` | aggregate readiness | applies to the final qualified scope and does not authorize tag, push or PyPI publication |
+
+CalculiX remains a SHOULD/supporting comparison. A positive or negative
+CalculiX result is not promoted to MUST and does not by itself block G10.
 
 ## Gate closure record
 
@@ -59,9 +84,10 @@ Every gate record includes:
 - known limits and residual risks;
 - reviewer, date and Owner decision where required.
 
-## G10 sweep decision
+## Historical G10 sweep before Owner scope revision
 
-`025-G10` is `BLOCKED` by the still-open mandatory external cells associated
+Before the explicit Owner scope revision, `025-G10` was `BLOCKED` by the
+still-open mandatory external cells associated
 with `025-G04` and `025-G06`. The external matrix is classified as follows:
 
 | Capability row | Current classification | Release consequence |
@@ -207,7 +233,7 @@ gate; post-buckling, imperfection-sensitive collapse and general stability
 prediction remain outside the claim. The Owner decision is `APPROVED` with
 mesh decision `APPROVED_BOUNDED_REFINEMENT`; `CONTRACT LOWERED = NO`.
 
-## Owner audit: 025-G04 remains open
+## Historical Owner audit: 025-G04 was open before scope revision
 
 The controlled audit is recorded in `0_2_5_g04_owner_review.md`, with the
 strict model/path comparison in `0_2_5_g04_external_branch_diagnostic.md` and
@@ -225,12 +251,13 @@ equilibrium branch by a peak-normalized load-factor difference of
 `1.3052e-05`. This is bounded code-to-code diagnostic evidence, not physical
 validation or a gate closure.
 
-`025-G04` therefore remains `OPEN`, `CONTRACT LOWERED = NO`, and no arc-length
-production claim is promoted. The remaining functional blockers are the missing
-published FEM branch reference and the required four-level mesh study. G03 and
-G05 are unchanged; the updated G06 evidence follows below.
+At the time of this audit, `025-G04` was `OPEN`, `CONTRACT LOWERED = NO`, and
+no arc-length production claim was promoted. The remaining functional blockers
+were the missing published FEM branch reference and the required four-level
+mesh study. The final Owner decision does not erase those blockers; it excludes
+G04 from the 0.2.5a0 qualified claim.
 
-## Controlled G06 targeted evidence
+## Historical controlled G06 targeted evidence
 
 The final controlled G06 evidence is archived under
 `results/vnv_0_2_5/g06_latest/`. Its `summary.json`, `report.md` and
@@ -252,7 +279,7 @@ SHA `a56db0863835ee16485adf5c9d30954c2f425ecb`. The aggregate manifest
 records that only documentation changed between that clean capture and the
 current qualified SHA; no solver source changed.
 
-This evidence does not close `025-G06`. The independent coupled tangent FD and
+This evidence did not close `025-G06`. The independent coupled tangent FD and
 the bounded geometry/contact mesh replay are now closed as internal
 sub-proofs, but they do not replace the external MUST. A separate pinned
 Code_Aster `GREEN_LAGRANGE` replay reaches the end of the bounded history for
@@ -308,11 +335,14 @@ sliding. The finite-sliding and updated-normal paths are internally qualified;
 the external correlation is a bounded compatible normal-contact correlation.
 CalculiX remains supporting evidence only and is not a G05 closure condition.
 
-`CONTRACT_LOWERED = NO`. G05 closure does not close G06, G10, G11 or G12.
+`CONTRACT_LOWERED = NO`. At capture time, G05 closure did not close G06, G10,
+G11 or G12. The final Owner scope revision is recorded separately and does not
+promote the G06 evidence.
 
 ## STOP/GO policy
 
 An `OPEN` or `BLOCKED` prerequisite forbids dependent implementation. Optional
 independent branches may continue only when their full dependency chain is
-closed. `NOT_IN_RELEASE_SCOPE` is acceptable only for predeclared optional work
-and must not appear in README/package capability claims.
+closed. `NOT_IN_RELEASE_SCOPE` is acceptable for predeclared optional work or
+for a formally approved final-scope exclusion. It must never be presented as a
+functional PASS or appear as an unqualified README/package capability claim.

@@ -91,11 +91,20 @@ décrivent l'état réel des preuves, les SHA, les limites et les actions Owner.
 Aucun tag, push GitHub ou upload PyPI n'est effectué dans cette préparation.
 
 Le périmètre revendicable reste strictement borné aux preuves effectivement
-fermées. Il n'inclut pas de qualification générale des grandes déformations,
-du flambement, de l'arc-length, du contact généralisé, du couplage triple,
-des modèles cycliques ou des calculs multi-million de DDL.
-Le couplage G06 est explicitement différé : son implémentation reste
-expérimentale et sa qualification est `OPEN` dans la 0.2.5a0.
+fermées et à la révision de scope approuvée par l'Owner. G01, G02, G03, G05,
+G08, G09 et G11 sont les gates fonctionnelles/documentaires qualifiées dans
+leurs domaines respectifs ; G10 et G12 agrègent uniquement ce périmètre.
+G04 reste `EXPERIMENTAL / NOT_QUALIFIED` et G06 reste
+`CODE_COMPLETE / EXPERIMENTAL / QUALIFICATION_DEFERRED` : l'arc-length FEM,
+le J2 finite-kinematic et les couplages G06 ne sont pas des claims qualifiés.
+G07 reste hors périmètre. Aucune qualification générale des grandes
+déformations, du flambement, du contact généralisé, du couplage triple, des
+modèles cycliques ou des calculs multi-million de DDL n'est revendiquée.
+
+La décision est tracée dans la [révision de scope Owner 0.2.5a0](docs/verification/0_2_5/0_2_5_owner_scope_revision.md) :
+`OWNER_SCOPE_REVISION = APPROVED`, `SCOPE_CHANGE = YES`, sans baisse
+silencieuse de test ou de tolérance. Le replay isolé de la baseline 0.2.4 est
+accepté avec une limitation historique de gouvernance, décrite dans le pack.
 
 ## État de la release 0.2.4a0
 

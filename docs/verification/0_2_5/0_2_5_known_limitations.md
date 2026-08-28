@@ -7,10 +7,28 @@ reviewer: ""
 approver: ""
 ---
 
-# QF Solver 0.2.5a0 planned known limitations
+# QF Solver 0.2.5a0 controlled known limitations and final scope
 
 These are default release boundaries. They may be narrowed by evidence and may
 be expanded only through an Owner-reviewed scope/gate revision.
+
+## Final Owner scope revision — 2026-08-28
+
+`OWNER_SCOPE_REVISION = APPROVED` and `SCOPE_CHANGE = YES` are recorded in
+`0_2_5_owner_scope_revision.md`. The qualified release scope includes only the
+bounded PASS gates G01, G02, G03, G05, G08, G09 and G11, plus the aggregate
+governance closure G10/G12. The original G04 and G06 requirements remain
+preserved for traceability but are excluded from the qualified 0.2.5a0 claim:
+
+- G04 is `EXPERIMENTAL / NOT_QUALIFIED`; its arc-length evidence and blockers
+  remain visible and are deferred.
+- G06 is `CODE_COMPLETE / EXPERIMENTAL / QUALIFICATION_DEFERRED`; finite-
+  kinematic J2 and coupled external correlations remain unqualified.
+- G07 is `NOT_IN_RELEASE_SCOPE`.
+
+This is an explicit scope change, not a silent lowering of requirements:
+`CONTRACT_LOWERED = NO`. No physical-validation, general finite-strain,
+general arc-length or triple-coupling claim is made.
 
 - J2 remains the existing isotropic-hardening small-strain model until an
   explicit finite-kinematic coupling model is approved and verified.
@@ -59,15 +77,16 @@ be expanded only through an Owner-reviewed scope/gate revision.
 - Performance claims are limited to recorded hardware/software/mesh histories.
 - Full Newton is the qualified global method. Modified Newton remains outside
   production scope unless separately gated.
-- A capability with an OPEN gate remains experimental/research regardless of
-  whether code or tests for it exist.
+- A capability whose qualification is open, deferred or excluded remains
+  experimental/research regardless of whether code or tests for it exist.
 
 ## Governance roadmap after 0.2.5
 
 - `0.2.5`: finish the current release without enlarging its functional scope.
-  `025-G06` remains `OPEN` and unqualified. Its implementation is
-  `CODE_COMPLETE / EXPERIMENTAL`, while its qualification is deferred. No
-  finite-strain J2 or coupled finite-kinematic claim is made.
+  The final gate matrix marks G04 and G06 `NOT_IN_RELEASE_SCOPE` under the
+  approved scope revision; their qualification records remain open/deferred.
+  G06 is `CODE_COMPLETE / EXPERIMENTAL`, and no finite-strain J2 or coupled
+  finite-kinematic claim is made.
 - `0.2.6`: focus on maturity, V&V, robustness, benchmarks and
   scalability/performance. Corrections are allowed only when a defect is
   demonstrated; no major new physics is planned.

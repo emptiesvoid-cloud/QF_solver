@@ -17,6 +17,9 @@
 - Le candidat est gelé localement pour qualification ; aucun tag, push ou upload
   PyPI n'est effectué par cette étape. Les gates ouvertes et les limites
   expérimentales restent explicitement reportées dans le pack 0.2.5.
+- La décision Owner révise explicitement le scope qualifié : G00 est accepté
+  avec limitation historique, G10/G12 sont fermées pour le périmètre borné,
+  tandis que G04 et G06 restent exclus des claims qualifiés et différés.
 
 ## 0.2.4a0 - 2026-08-24
 

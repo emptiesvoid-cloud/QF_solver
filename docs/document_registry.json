@@ -4199,6 +4199,15 @@
         "tests/unit/test_linear_buckling.py",
         "tests/unit/test_calculix_buckling_025.py"
       ]
+    },
+    {
+      "id": "DOC-NL-025-035",
+      "path": "verification/0_2_5/0_2_5_owner_scope_revision.md",
+      "title": "Decision Owner de revision du scope QF_solver 0.2.5 alpha",
+      "status": "controlled_owner_decision",
+      "requirements": ["REQ-AUD-001", "REQ-EVD-001", "REQ-REL-001"],
+      "examples": [],
+      "tests": []
     }
   ]
 }

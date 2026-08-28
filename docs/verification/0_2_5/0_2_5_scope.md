@@ -15,7 +15,26 @@ Unify material nonlinearity, geometric nonlinearity, stability, path following
 and contact around one inspectable nonlinear structural mechanics engine. The
 release is evidence-driven: code presence is not qualification.
 
-## MUST
+## Final Owner-approved release scope — 2026-08-28
+
+`OWNER_SCOPE_REVISION = APPROVED` and `SCOPE_CHANGE = YES` are recorded in
+`0_2_5_owner_scope_revision.md`. The original 0.2.5a0 plan is preserved below
+for traceability; its G04 and G06 MUST rows are not erased and are not marked
+as passed. They are explicitly excluded from the qualified 0.2.5a0 release
+claims because their required evidence is incomplete.
+
+The final qualified release scope is limited to G01, G02, G03, G05, G08, G09
+and G11, each within its documented bounded envelope. G04 remains
+`EXPERIMENTAL / NOT_QUALIFIED`, G06 remains
+`CODE_COMPLETE / EXPERIMENTAL / QUALIFICATION_DEFERRED`, and G07 remains
+`NOT_IN_RELEASE_SCOPE`. No finite-kinematic J2, general arc-length, triple
+coupling or physical-validation claim is made.
+
+No test, tolerance or historical numerical result was relaxed:
+`CONTRACT_LOWERED = NO`. The change is an explicit release-scope decision, not
+an implicit conversion of an unmet MUST into PASS.
+
+## Original MUST plan (preserved for traceability)
 
 | Scope | Required release claim |
 |---|---|
@@ -30,7 +49,7 @@ release is evidence-driven: code presence is not qualification.
 | Regression | full 0.2.4 linear and nonlinear release scope remains green |
 | V&V | analytical, numerical, mesh/load-step and bounded external correlation evidence |
 
-## SHOULD
+## Original SHOULD plan (preserved for traceability)
 
 | Scope | Condition |
 |---|---|
@@ -40,7 +59,7 @@ release is evidence-driven: code presence is not qualification.
 | Multiple external solvers | when comparable formulations and tools are available |
 | Targeted optimization | only for measured hotspots with numerical non-regression |
 
-## COULD
+## Original COULD plan (preserved for traceability)
 
 - Coulomb friction with stick/slip state and dissipation evidence.
 - Additional arc-length controls after the primary method is verified.

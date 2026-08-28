@@ -18,6 +18,23 @@ band still requires Owner approval. `owner_accepted_experimental_bounded_use`
 records an explicit Owner decision that accepts evidence only within the stated
 domain. Element families marked SHOULD do not block release unless promoted.
 
+## Final Owner scope disposition — 2026-08-28
+
+The Owner-approved scope revision is recorded in
+`0_2_5_owner_scope_revision.md`. The rows below retain their measured evidence
+labels and historical gate links; the disposition determines whether they are
+part of the qualified 0.2.5a0 claim.
+
+| Evidence group | Final treatment |
+|---|---|
+| G01, G02, G03, G05, G08 and G09 PASS rows | retained as qualified bounded evidence, subject to each gate's stated envelope |
+| G04 rows (`VV-016`, `VV-017`, `VV-039`, `VV-052`, `VV-060`, `VV-064`, `VV-072`, `VV-074`–`VV-076`) | retained as internal/research or observed evidence; excluded from qualified release claims; G04 is `NOT_IN_RELEASE_SCOPE` |
+| G06 rows (`VV-022`–`VV-024`, `VV-034`, `VV-035`, `VV-041`–`VV-043`, `VV-059`, `VV-062`–`VV-065`, `VV-083`–`VV-089`) | retained with their actual open/research/blocked labels; excluded from qualified release claims; G06 is `NOT_IN_RELEASE_SCOPE` and qualification is deferred |
+| G07 friction rows | optional and excluded from the release |
+
+No G04 or G06 observation is promoted by this table. G10 evaluates only the
+remaining external MUST cells in the final approved scope.
+
 | V&V ID | Scope | Model/path | Metrics | Reference | Status | Gate |
 |---|---|---|---|---|---|---|
 | VV-001 | J2 constitutive | elastic/yield/uniaxial | stress, alpha, tangent | analytical | PASS_INTERNAL | G01 |

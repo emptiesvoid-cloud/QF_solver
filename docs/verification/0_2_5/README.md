@@ -47,13 +47,23 @@ adversarial `MIN_INCREMENT_REACHED` failure. It also records a bounded TET4
 composition smoke for J2, Total-Lagrangian geometry and initial/updated
 frictionless penalty contact through the same Newton driver. These observations
 are useful for the next work packages. The bounded G05 contact contract is now
-closed; G04 and G06 remain open, while general surface-to-surface contact,
-friction and unrestricted large sliding remain outside the qualified claim.
+closed; G04 and G06 remain unqualified and are excluded from the final release
+claim, while general surface-to-surface contact, friction and unrestricted
+large sliding remain outside the qualified claim.
 
 G06 is intentionally deferred: its implementation is `CODE_COMPLETE /
-EXPERIMENTAL`, but its qualification remains `OPEN` because finite-kinematic
+EXPERIMENTAL`, but its qualification remains deferred because finite-kinematic
 J2 is still research and the required external coupled correlations are not
-comparable or complete. The 0.2.5 contract is unchanged.
+comparable or complete. The final gate status is
+`NOT_IN_RELEASE_SCOPE`, not PASS. The original MUST plan is preserved, while
+the Owner-approved final release scope is explicitly narrowed
+(`OWNER_SCOPE_REVISION = APPROVED`, `SCOPE_CHANGE = YES`).
+
+G04 is likewise `EXPERIMENTAL / NOT_QUALIFIED` and
+`NOT_IN_RELEASE_SCOPE` for this alpha. Its branch evidence and remaining
+reference/mesh blockers are retained for a future qualification campaign.
+See [`0_2_5_owner_scope_revision.md`](0_2_5_owner_scope_revision.md) for the
+controlled decision and the precise qualified claim boundary.
 
 The post-release roadmap is deliberately narrow. `0.2.6` targets maturity,
 V&V, robustness, benchmarks and scalability/performance. `0.2.7` targets an
@@ -129,6 +139,7 @@ assembly, one increment transaction or one convergence diagnostic contract.
 - [Known limitations](0_2_5_known_limitations.md)
 - [Release-readiness template](0_2_5_release_readiness.md)
 - [Owner Review template](0_2_5_owner_review_template.md)
+- [Owner scope revision](0_2_5_owner_scope_revision.md)
 - [G02 Owner decision](0_2_5_g02_owner_review.md)
 - [Objective-mode execution plan](0_2_5_objective_execution_plan.md)
 
@@ -139,8 +150,10 @@ never tags, pushes or uploads artifacts.
 ## Planning status
 
 G01, G02, G03, G05, G08, G09 and G11 are closed only by their controlled
-evidence and recorded replay decisions. G04 and G06 remain `OPEN`; G10 is
-`BLOCKED` by the mandatory external cells of G04/G06, and G12 remains `OPEN`
-until aggregate readiness and Owner closure. Optional friction gate G07 is
-`NOT_IN_RELEASE_SCOPE` until an explicit Owner promotion. A planning document
-never closes an implementation, V&V, correlation or release gate.
+evidence and recorded replay decisions. G04 and G06 are explicitly
+`NOT_IN_RELEASE_SCOPE` in the final Owner-approved scope, while their
+qualification evidence remains experimental/deferred and is not PASS. G10 and
+G12 are closed only for the remaining bounded qualified scope. Optional
+friction gate G07 is `NOT_IN_RELEASE_SCOPE`. The original MUST plan and all
+limitations remain visible in the matrices; the scope revision does not erase
+history or authorize publication.

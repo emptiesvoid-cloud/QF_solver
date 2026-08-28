@@ -24,13 +24,36 @@ non-comparable solver is `N/A WITH JUSTIFICATION`, never `PASS`.
 | Triple coupling SHOULD | none required | SHOULD | COULD | COULD | full histories and limits | G06/G10 |
 | Friction COULD | simple block analytical | SHOULD if WP7 promoted | SHOULD | COULD | stick/slip, traction, dissipation | G07/G10 |
 
+## Final Owner-approved applicability — 2026-08-28
+
+The table above is the original planning matrix and remains preserved. The
+Owner-approved final 0.2.5a0 scope evaluates G10 only on these required rows:
+
+| Final G10 row | Final status | Evidence basis |
+|---|---|---|
+| J2 multi-element | included | bounded 64-check Code_Aster campaign on the documented four-family comparison configuration |
+| Large deformation | included | bounded TET4/HEX8 Total-Lagrangian Code_Aster histories |
+| Linear buckling | included | bounded Euler and Code_Aster TET4 factor/mode correlation; CalculiX remains supporting SHOULD evidence |
+| Frictionless contact | included | bounded Code_Aster normal-contact histories supporting the G05 contract |
+| Arc-length | excluded | G04 `EXPERIMENTAL / NOT_QUALIFIED`; no qualified external claim |
+| J2 + geometry | excluded | G06 `EXPERIMENTAL / QUALIFICATION_DEFERRED`; finite-kinematic external comparison remains incomplete |
+| Geometry + contact | excluded | G06 external comparison is not equivalent and retains the mapped reaction deviation |
+| Triple coupling | excluded | SHOULD not promoted to the qualified release scope |
+| Friction | excluded | COULD and G07 remains `NOT_IN_RELEASE_SCOPE` |
+
+Therefore `025-G10 = PASS` for the final approved bounded scope, not for the
+original unmodified G04/G06 plan. CalculiX remains a SHOULD/supporting source:
+it is never promoted to MUST and an unsuccessful or unavailable CalculiX cell
+does not block the final G10 decision when the corresponding claim is not a
+MUST of the approved scope.
+
 ## Reproducibility contract
 
 The existing 0.2.4 RQ-G08 Docker replay is a useful environment smoke check,
 but it is not a 0.2.5 multi-element closure: it covers the affine one-element
-TET4/TET10/HEX8/HEX20 patch only. The 0.2.5 G10 row remains open until a
-multi-element history with matched reactions and state fields is generated,
-executed and archived with its own provenance.
+TET4/TET10/HEX8/HEX20 patch only. Before the Owner scope revision, the 0.2.5
+G10 row remained open until a multi-element history with matched reactions and
+state fields was generated, executed and archived with its own provenance.
 
 The reproducible 0.2.5 entry point is:
 
@@ -64,8 +87,8 @@ mean crown displacement instead of QF apex `UZ`. The corrected deck uses
 The corrected pinned Code_Aster 18.1 Docker run and the QF two-element TET4
 path both show one limit point. Comparison by apex displacement gives maximum
 and RMS load-factor differences of `4.8719e-07` and `2.0730e-07`, respectively.
-This removes an external configuration mismatch, but remains bounded numerical
-diagnostic evidence. It does not close the G04/G10 Arc-length row because the
+This removed an external configuration mismatch, but remains bounded numerical
+diagnostic evidence. It did not close the G04/G10 Arc-length row because the
 custom two-element model has no linked published FEM branch reference and no
 coarse/medium/fine/refined branch study. See `DOC-NL-025-030`.
 

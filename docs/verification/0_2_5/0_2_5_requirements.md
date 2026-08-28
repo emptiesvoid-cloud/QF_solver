@@ -17,6 +17,25 @@ load-step asymptote, or baseline repeatability before implementation. A target
 cannot be relaxed after observing a failure without an Owner-reviewed technical
 justification. `TBD-G00` means freeze during WP0, not choose after implementation.
 
+## Final Owner disposition — 2026-08-28
+
+The requirements table below is the preserved 0.2.5a0 plan. It is not rewritten
+to make incomplete work appear passed. The Owner approved an explicit final
+scope revision (`OWNER_SCOPE_REVISION = APPROVED`, `SCOPE_CHANGE = YES`) with
+no lowered test, tolerance or historical result (`CONTRACT_LOWERED = NO`).
+
+| Requirement family | Final disposition | Gate treatment |
+|---|---|---|
+| 025-REQ-001 through 025-REQ-015 | retained and covered within the bounded G01/G02/G03 evidence envelopes | qualified where the corresponding gate is PASS |
+| 025-REQ-016, 025-REQ-017 | retained historical MUST; arc-length qualification deferred | G04 `NOT_IN_RELEASE_SCOPE`; claim remains experimental/not qualified |
+| 025-REQ-018 through 025-REQ-021 | retained and covered only by the bounded G05 contact contract | G05 `PASS` within its documented envelope |
+| 025-REQ-022 through 025-REQ-024 | retained historical MUST; finite-kinematic coupled qualification deferred | G06 `NOT_IN_RELEASE_SCOPE`; claim remains experimental/deferred |
+| 025-REQ-025 | optional friction | G07 `NOT_IN_RELEASE_SCOPE` |
+| 025-REQ-026 through 025-REQ-036 | retained for performance, failures, external correlation, regression, packaging and governance | G08/G09/G10/G11/G12 according to the final gate matrix |
+
+The original MUST rows remain available for the future G04/G06 qualification
+work and are not reinterpreted as satisfied by this scope revision.
+
 ## Requirements
 
 | ID | Requirement | Formula / contract | Implementation target | Planned proof | Evidence | Gate |
