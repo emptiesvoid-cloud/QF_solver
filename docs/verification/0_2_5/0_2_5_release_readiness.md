@@ -16,7 +16,8 @@ approver: ""
 | Candidate version | `0.2.5a0` |
 | Final release candidate SHA | `8047fb63c420609b510beaa1e30aa3ab31d9ad87` (qualified source) |
 | Final release source tree clean | `true` under the generated-evidence provenance contract |
-| Final release evidence manifest | `docs/generated/docs_manifest.json`, generated from the evidence SHA below |
+| Final release evidence SHA | Recorded by `docs/generated/docs_manifest.json` as `source.revision` |
+| Final release evidence manifest | `docs/generated/docs_manifest.json`, generated from the evidence SHA above |
 | Qualified source SHA for G02 | `fec5380db3bcdba13799ce31f3ed042ac5d2557b` |
 | G02 source tree clean | `true` |
 | G02 Owner-evidence manifest | `qualification/reviews/qf_solver_0_2_5_g02_owner_evidence_manifest.json` |
@@ -27,7 +28,7 @@ approver: ""
 
 | Gate | Status | Evidence | Blocker/limit |
 |---|---|---|---|
-| 025-G00 | OPEN | candidate source `8047fb63c420609b510beaa1e30aa3ab31d9ad87`; architecture audit and SHA consistency pass | The historical 0.2.4 baseline approval remains a separate Owner decision; no closure is inferred from the corrective replay |
+| 025-G00 | OPEN | candidate source `8047fb63c420609b510beaa1e30aa3ab31d9ad87`; architecture audit and SHA consistency pass under the provenance contract | The historical 0.2.4 baseline approval remains a separate Owner decision; no closure is inferred from the corrective replay |
 | 025-G01 | PASS | `results/vnv_0_2_5/g01_latest/summary.json`, `g01_code_aster_latest/summary.json`, `0_2_5_j2_qualification_report.md` | Bounded J2 qualification only |
 | 025-G02 | PASS | `results/vnv_0_2_5/g02_latest/summary.json`, `0_2_5_g02_owner_review.md`, Owner-evidence manifest | Elastic Total-Lagrangian TET4/HEX8, bounded pre-limit domain only |
 | 025-G03 | PASS | `results/vnv_0_2_5/g03_euler_final/summary.json`, `results/vnv_0_2_5/g03_final/summary.json`, `0_2_5_g03_owner_review.md`, Owner-evidence manifest | Bounded first tangent-instability scope: TET4 Euler and Code_Aster probe; high-order external buckling and post-buckling excluded |
@@ -49,8 +50,11 @@ intentionally distinct.
 The final replay was executed with the candidate checkout explicitly first on
 `PYTHONPATH`; this was required because the machine also contains a neighboring
 `QF_solver_public` checkout. The replay reached tests, coverage, external V&V,
-documentation, provenance, package build, Twine and wheel smoke. The generated
-manifest records `source_sha=8047fb63c420609b510beaa1e30aa3ab31d9ad87` and
+documentation, provenance, package build, Twine and wheel smoke. The complete
+technical replay is qualified on source SHA
+`8047fb63c420609b510beaa1e30aa3ab31d9ad87`. The documentary evidence revision
+is recorded by `docs/generated/docs_manifest.json`; it does not change
+numerical behavior. The generated manifest records its exact `source_sha` and
 `source.dirty=false`; generated outputs are excluded from source-tree
 cleanliness by the documented provenance contract.
 

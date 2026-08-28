@@ -16,6 +16,8 @@ uniquement par une preuve reproductible liee a un SHA final.
 ## Etat courant controle (sprint correctif G00/G11)
 
 Le candidat source controle est `8047fb63c420609b510beaa1e30aa3ab31d9ad87`.
+La revision de preuve documentaire courante est celle enregistree dans
+`docs/generated/docs_manifest.json`; elle ne modifie pas le comportement numerique.
 Le replay final sur ce SHA a produit `1719 passed, 183 skipped`, une couverture
 de `88.37 %`, `64 checks PASS` pour la V&V externe J2, une reconstruction
 documentaire `700 artifacts, campaign=PASS`, un controle de provenance
