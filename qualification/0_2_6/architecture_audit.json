@@ -1,5 +1,5 @@
 {
-  "captured_at_utc": "2026-08-28T18:37:07.004379Z",
+  "captured_at_utc": "2026-08-28T19:02:27.097122Z",
   "core_compatibility_facade_count": 30,
   "core_compatibility_facades": [
     "src/solveur/core/analysis.py",
@@ -514,6 +514,6 @@
   "python_module_count": 428,
   "schema_version": 1,
   "source_dirty": false,
-  "source_sha": "8fe4f5990e48a221f0e62387a87df95551ddc997",
+  "source_sha": "6b77fd7b318dab0fea4a371c3567dea3cdc19b47",
   "verification_flat_module_count": 188
 }

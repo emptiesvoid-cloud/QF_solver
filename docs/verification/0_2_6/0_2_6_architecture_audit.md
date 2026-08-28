@@ -3,7 +3,7 @@
 The machine-readable authority is `qualification/0_2_6/architecture_audit.json`.
 This audit is descriptive; G04 moves implementation ownership without changing numerical bodies or public entry points.
 
-- Source SHA captured: `8fe4f5990e48a221f0e62387a87df95551ddc997`
+- Source SHA captured: `6b77fd7b318dab0fea4a371c3567dea3cdc19b47`
 - Source dirty at capture: `False`
 - Python modules inspected: 428
 - Flat verification modules: 188
