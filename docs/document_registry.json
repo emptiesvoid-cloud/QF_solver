@@ -4204,7 +4204,7 @@
       "id": "DOC-NL-025-035",
       "path": "verification/0_2_5/0_2_5_owner_scope_revision.md",
       "title": "Decision Owner de revision du scope QF_solver 0.2.5 alpha",
-      "status": "controlled_owner_decision",
+      "status": "approved",
       "requirements": ["REQ-AUD-001", "REQ-EVD-001", "REQ-REL-001"],
       "examples": [],
       "tests": []

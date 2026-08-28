@@ -1,7 +1,7 @@
 ---
 doc_id: DOC-NL-025-035
 revision: 1.0
-status: controlled_owner_decision
+status: approved
 applicable_version: 0.2.5a0
 reviewer: "Owner"
 approver: "Owner"
