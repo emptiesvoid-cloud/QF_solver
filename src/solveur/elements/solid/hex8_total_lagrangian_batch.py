@@ -48,6 +48,30 @@ class TotalLagrangianHex8Assembly:
         ).tocsr()
         return internal, 0.5 * (tangent + tangent.T)
 
+    def geometric_tangent(self, displacement: np.ndarray) -> csr_matrix:
+        """Assemble the initial-stress geometric tangent in sparse form."""
+        local_displacements = self._local_displacements(displacement)
+        local_tangents: list[np.ndarray] = []
+        identity = np.eye(3)
+        for element_index, local_u in enumerate(local_displacements):
+            local_tangent = np.zeros((24, 24), dtype=float)
+            for _, weight, gradients, determinant in self._reference_data[element_index]:
+                deformation = self._deformation_gradient(local_u, gradients)
+                green = 0.5 * (deformation.T @ deformation - identity)
+                second = self._second_piola(green)
+                scalar_blocks = np.einsum(
+                    "aJ,JL,bL->ab", gradients, second, gradients, optimize=True
+                )
+                local_tangent += (weight * determinant) * np.einsum(
+                    "ab,ik->aibk", scalar_blocks, identity, optimize=True
+                ).reshape(24, 24)
+            local_tangents.append(0.5 * (local_tangent + local_tangent.T))
+        tangent = coo_matrix(
+            (np.asarray(local_tangents).ravel(), (self._rows, self._cols)),
+            shape=(self.ndof, self.ndof),
+        ).tocsr()
+        return 0.5 * (tangent + tangent.T)
+
     def strain_energy(self, displacement: np.ndarray) -> float:
         """Return the integrated Saint-Venant-Kirchhoff energy."""
         local_displacements = self._local_displacements(displacement)

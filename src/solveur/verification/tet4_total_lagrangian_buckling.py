@@ -156,7 +156,10 @@ class TotalLagrangianBucklingCampaign:
             fixed,
             increments=6,
         )
-        tangent_rate = (equilibrium.tangent - initial_tangent) / preload
+        # Buckling uses only the initial-stress geometric contribution.  The
+        # full tangent difference also contains the material tangent and
+        # therefore does not represent the geometric eigenproblem.
+        tangent_rate = assembly.geometric_tangent(equilibrium.displacement) / preload
         evaluations: dict[float, tuple[float, np.ndarray]] = {}
 
         def evaluate(load_value: float) -> float:

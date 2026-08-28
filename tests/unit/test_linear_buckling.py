@@ -7,6 +7,7 @@ from scipy.sparse import csr_matrix
 from solveur.api import list_methods, solve_model
 from solveur.core.buckling import LinearBucklingSolver
 from solveur.core.errors import InputValidationError, NumericalConvergenceError
+from solveur.core.geometric_assembly import build_total_lagrangian_assembly
 from solveur.core.model import FiniteElementModel
 
 
@@ -43,6 +44,7 @@ def test_linear_buckling_is_routed_through_sparse_eigensolver() -> None:
     assert result.solver["critical_bracket"]["lower"] < result.solver["critical_factor"]
     assert result.solver["critical_eigenproblem"] == "(K + lambda * Kg) phi = 0"
     assert result.solver["eigen_formulation"] == "generalized_eigsh"
+    assert result.solver["geometric_tangent_source"] == "initial_stress_second_piola"
     assert result.solver["geometric_tangent_nnz"] > 0
     assert result.solver["critical_mode_norm"] == pytest.approx(1.0)
     assert np.isfinite(result.solver["critical_mode_residual_relative"])
@@ -105,6 +107,27 @@ def test_linear_buckling_supports_high_order_tl_assembly(family: str) -> None:
     assert result.solver["critical_factor"] > 0.0
     assert result.solver["critical_mode_residual_relative"] < 1.0e-3
     assert result.solver["scope"].endswith("tet4-tet10-hex8-hex20")
+
+
+def test_tet4_geometric_tangent_contains_only_initial_stress_contribution() -> None:
+    model = _model()
+    assembly = build_total_lagrangian_assembly(model)
+    displacement = np.zeros(assembly.ndof, dtype=float)
+    displacement[3] = -1.0e-3
+    displacement[4] = 2.0e-3
+    displacement[5] = -1.5e-3
+    geometric = assembly.geometric_tangent(displacement).toarray()
+    local = assembly._local_displacements(displacement)
+    _, stress = assembly._kinematics(local)
+    scalar = np.einsum("maJ,mJL,mbL->mab", assembly.gradients, stress, assembly.gradients)
+    expected_blocks = assembly.volumes[:, None, None, None, None] * np.einsum(
+        "mab,ik->maibk", scalar, np.eye(3)
+    )
+    expected_local = expected_blocks.reshape(-1, 12, 12)
+    expected = np.zeros_like(geometric)
+    for element_dofs, local_matrix in zip(assembly.element_dofs, expected_local, strict=True):
+        expected[np.ix_(element_dofs, element_dofs)] += local_matrix
+    np.testing.assert_allclose(geometric, expected, rtol=1.0e-12, atol=1.0e-12)
 
 
 def test_linear_buckling_rejects_tension_without_bracket() -> None:

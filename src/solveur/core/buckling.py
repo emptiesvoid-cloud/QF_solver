@@ -29,7 +29,7 @@ class LinearBucklingSolver:
     """Estimate the first tangent-instability factor for supported solid families.
 
     The implementation is deliberately bounded: it follows a converged
-    proportional preload, forms the sparse secant approximation
+    proportional preload, forms the sparse initial-stress decomposition
     ``K(alpha) = K0 + alpha * Kg`` and solves/refines the first loss of
     positive definiteness with sparse generalized paths. It is a research
     path and does not claim post-buckling continuation or physical validation.
@@ -72,7 +72,13 @@ class LinearBucklingSolver:
                 "linear_buckling requires sparse tangents from the geometric assembly.",
                 reason=NonlinearFailureReason.BUCKLING_FAILURE,
             )
-        geometric_tangent = ((preload_tangent - initial_tangent) / preload_factor).tocsr()
+        geometric_tangent_builder = getattr(assembly, "geometric_tangent", None)
+        if not callable(geometric_tangent_builder):
+            raise NumericalConvergenceError(
+                "linear_buckling requires an initial-stress geometric tangent from the assembly.",
+                reason=NonlinearFailureReason.BUCKLING_FAILURE,
+            )
+        geometric_tangent = geometric_tangent_builder(displacement).tocsr()
         reduced_initial = initial_tangent[free, :][:, free].tocsr()
         reduced_geometric = geometric_tangent[free, :][:, free].tocsr()
         critical_factor, mode, bracket = self._critical_factor(
@@ -103,6 +109,7 @@ class LinearBucklingSolver:
             "critical_bracket": bracket,
             "critical_eigenproblem": "(K + lambda * Kg) phi = 0",
             "eigen_formulation": eigen_formulation,
+            "geometric_tangent_source": "initial_stress_second_piola",
             "critical_mode_norm": mode_norm,
             "critical_mode_residual_norm": mode_residual_norm,
             "critical_mode_residual_relative": mode_residual_norm / max(mode_reference_norm, 1.0),
@@ -113,7 +120,7 @@ class LinearBucklingSolver:
             "scope": "bounded-linear-tangent-buckling-tet4-tet10-hex8-hex20",
             "limitations": [
                 "First tangent-instability factor only; no post-buckling continuation.",
-                "Geometric tangent is linearized from one converged proportional preload.",
+                "Geometric tangent is the initial-stress contribution from one converged proportional preload.",
                 "External correlation and broad solid-family qualification remain open.",
             ],
         }

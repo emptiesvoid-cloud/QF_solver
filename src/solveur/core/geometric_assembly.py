@@ -133,6 +133,41 @@ class TotalLagrangianHighOrderAssembly:
 
         return dict(self._last_assembly_metrics)
 
+    def geometric_tangent(self, displacement: np.ndarray) -> csr_matrix:
+        """Assemble the initial-stress geometric tangent in sparse form."""
+        values = self._validate_displacement(displacement)
+        local_tangents: list[np.ndarray] = []
+        identity = np.eye(3)
+        rows: list[np.ndarray] = []
+        cols: list[np.ndarray] = []
+        for index, kernel in enumerate(self._kernels):
+            edofs = self.element_dofs[index]
+            local_size = int(edofs.size)
+            local_tangent = np.zeros((local_size, local_size), dtype=float)
+            coords = self.nodes[self.elements[index]]
+            points = kernel.integration_point_results(coords, values[edofs])
+            for (measure, gradients), point in zip(
+                kernel._cached_reference_data(coords), points, strict=True
+            ):
+                second = np.asarray(point["second_piola_stress"], dtype=float)
+                scalar_blocks = np.einsum(
+                    "aJ,JL,bL->ab", gradients, second, gradients, optimize=True
+                )
+                local_tangent += np.einsum(
+                    "ab,ik->aibk", scalar_blocks, identity, optimize=True
+                ).reshape(local_size, local_size) * float(measure)
+            local_tangents.append(0.5 * (local_tangent + local_tangent.T))
+            rows.append(np.repeat(edofs, local_size))
+            cols.append(np.tile(edofs, local_size))
+        tangent = coo_matrix(
+            (
+                np.concatenate(local_tangents).ravel(),
+                (np.concatenate(rows), np.concatenate(cols)),
+            ),
+            shape=(self.ndof, self.ndof),
+        ).tocsr()
+        return 0.5 * (tangent + tangent.T)
+
     def strain_energy(self, displacement: np.ndarray) -> float:
         """Integrate the elastic energy in the reference configuration."""
         values = self._validate_displacement(displacement)
