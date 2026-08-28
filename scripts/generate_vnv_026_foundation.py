@@ -1,8 +1,9 @@
 """Generate authoritative 0.2.6 planning data and synchronized Markdown.
 
 The generator creates controlled definitions, not solver results.  The ten
-foundation smoke cases and the bounded G05 execution batch are READY; the
-remaining catalog entries stay explicit future work and are not evidence.
+foundation smoke cases, the bounded G05 execution batch and the G06 deep V&V
+batch are READY; the remaining catalog entries stay explicit future work and
+are not evidence.
 """
 
 from __future__ import annotations
@@ -21,17 +22,17 @@ QUALIFIED_SOURCE = "8047fb63c420609b510beaa1e30aa3ab31d9ad87"
 
 
 CAMPAIGNS = (
-    ("LIN", "Linear solids", "linear_solids", 24, "QUALIFIED_BOUNDED"),
-    ("SHL", "Shell / beam / discrete", "shell_beam_discrete", 18, "QUALIFIED_BOUNDED"),
+    ("LIN", "Linear solids", "linear_solids", 60, "QUALIFIED_BOUNDED"),
+    ("SHL", "Shell / beam / discrete", "shell_beam_discrete", 12, "QUALIFIED_BOUNDED"),
     ("MOD", "Modal", "modal", 14, "QUALIFIED_BOUNDED"),
     ("DYN", "Transient dynamics", "transient_dynamics", 16, "QUALIFIED_BOUNDED"),
     ("HAR", "Harmonic", "harmonic", 12, "QUALIFIED_BOUNDED"),
-    ("J2", "Small-strain J2", "small_strain_j2", 24, "QUALIFIED_BOUNDED"),
-    ("GNL", "Geometric nonlinear", "geometric_nonlinear", 18, "EXPERIMENTAL"),
-    ("BUC", "Buckling", "linear_buckling", 12, "QUALIFIED_BOUNDED"),
-    ("CON", "Frictionless contact", "frictionless_contact", 16, "QUALIFIED_BOUNDED"),
-    ("CPL", "Existing coupled workflows", "coupled_nonlinear", 10, "EXPERIMENTAL"),
-    ("ADV", "Failure / adversarial / metamorphic", "adversarial", 10, "QUALIFIED_BOUNDED"),
+    ("J2", "Small-strain J2", "small_strain_j2", 20, "QUALIFIED_BOUNDED"),
+    ("GNL", "Geometric nonlinear", "geometric_nonlinear", 8, "EXPERIMENTAL"),
+    ("BUC", "Buckling", "linear_buckling", 9, "QUALIFIED_BOUNDED"),
+    ("CON", "Frictionless contact", "frictionless_contact", 10, "QUALIFIED_BOUNDED"),
+    ("CPL", "Existing coupled workflows", "coupled_nonlinear", 4, "EXPERIMENTAL"),
+    ("ADV", "Failure / adversarial / metamorphic", "adversarial", 9, "QUALIFIED_BOUNDED"),
     ("SCL", "Scaling profiles", "scaling", 6, "EXPERIMENTAL"),
 )
 
@@ -172,8 +173,118 @@ G05_CASES = (
 )
 
 
+def _g06_case(case_id: str, title: str, prefix: str, capability: str, model: str, analysis_type: str, *, element_family: str, oracle_types: tuple[str, ...] = ("analytical", "internal_regression"), oracle_ids: tuple[str, ...] = ("ANALYTICAL",), mesh_strategy: str = "controlled_variant", mesh_levels: tuple[str, ...] = ("controlled",), load_scale: float = 1.0, analysis: dict[str, Any] | None = None, material_updates: dict[str, dict[str, Any]] | None = None, expected_failure: str | None = None, maturity: str = "QUALIFIED_BOUNDED") -> dict[str, Any]:
+    case = _ready(case_id, title, prefix, capability, f"examples/{model}", analysis_type, expected_failure=expected_failure, maturity=maturity)
+    case.update({
+        "description": "A G06 quantitative V&V case with an explicit oracle, metric set and deterministic configuration.",
+        "element_family": element_family,
+        "element_order": 2 if element_family in {"TET10", "HEX20"} else 1,
+        "mesh_strategy": mesh_strategy,
+        "mesh_levels": list(mesh_levels),
+        "oracle_types": list(oracle_types),
+        "oracle_ids": list(oracle_ids),
+        "metrics": ["solver_status", "displacement", "reaction", "residual", "reference_error", "energy", "numerical_fingerprint"],
+        "ci_profiles": ["G06", "FULL", "RELEASE"],
+        "tags": ["g06", prefix.lower(), capability, element_family.lower()],
+        "source_reference": "0.2.6 G06 V&V campaign definition",
+        "known_limitations": ["Executable quantitative evidence; promotion requires the applicable gate and independent review."],
+        "model_overrides": {
+            **({"load_scale": load_scale} if load_scale != 1.0 else {}),
+            **({"analysis": analysis} if analysis else {}),
+            **({"material_updates": material_updates} if material_updates else {}),
+        },
+    })
+    return case
+
+
+_ANALYTICAL_MODELS = (
+    ("TET4", "tet4_static.json"),
+    ("TET10", "tet10_static.json"),
+    ("HEX8", "hex8_g06_static.json"),
+    ("HEX20", "hex20_g06_static.json"),
+)
+G06_ANALYTICAL_CASES = tuple(
+    _g06_case(
+        f"VNV026-LIN-G06-A{i:03d}", f"Analytical equilibrium {_ANALYTICAL_MODELS[(i - 1) % 4][0]} variant {i:02d}", "LIN", "linear_solids", _ANALYTICAL_MODELS[(i - 1) % 4][1], "linear_static",
+        element_family=_ANALYTICAL_MODELS[(i - 1) % 4][0], oracle_ids=("ANALYTICAL",), load_scale=(0.5 + 0.1 * ((i - 1) % 6)),
+    ) for i in range(1, 21)
+)
+
+G06_MESH_CASES = tuple(
+    _g06_case(
+        f"VNV026-LIN-G06-M{i:03d}", f"HEX8 structured mesh level {nx} repeat {repeat}", "LIN", "linear_solids", f"vnv_026_g06/hex8_mesh_{nx:02d}.json", "linear_static",
+        element_family="HEX8", oracle_ids=("ANALYTICAL",), mesh_strategy="structured_hex8_refinement", mesh_levels=(f"nx={nx}",), load_scale=1.0 + 0.05 * repeat,
+    ) for i, (nx, repeat) in enumerate(((nx, repeat) for repeat in range(1, 5) for nx in (1, 2, 4, 8)), start=1)
+)
+
+_HEX_COMMON_ANALYSES = (
+    ("linear_static", None, "LIN", "QUALIFIED_BOUNDED"),
+    ("modal", {"type": "modal", "method": "eigh", "modes": 2}, "MOD", "QUALIFIED_BOUNDED"),
+    ("transient_dynamic", {"type": "transient_dynamic", "method": "newmark", "time_step": 0.01, "steps": 4, "newmark_beta": 0.25, "newmark_gamma": 0.5}, "DYN", "QUALIFIED_BOUNDED"),
+    ("harmonic", {"type": "harmonic_response", "method": "direct_frequency", "frequencies_hz": [1.0]}, "HAR", "QUALIFIED_BOUNDED"),
+    ("nonlinear_static", {"type": "nonlinear_static", "method": "newton_raphson", "load_path": [0.25, 0.5, 0.75, 1.0]}, "J2", "QUALIFIED_BOUNDED"),
+    ("linear_static", None, "LIN", "QUALIFIED_BOUNDED"),
+    ("modal", {"type": "modal", "method": "eigh", "modes": 3}, "MOD", "QUALIFIED_BOUNDED"),
+    ("linear_static", None, "LIN", "QUALIFIED_BOUNDED"),
+    ("transient_dynamic", {"type": "transient_dynamic", "method": "newmark", "time_step": 0.005, "steps": 2, "newmark_beta": 0.25, "newmark_gamma": 0.5}, "DYN", "QUALIFIED_BOUNDED"),
+    ("harmonic", {"type": "harmonic_response", "method": "direct_frequency", "frequencies_hz": [2.0]}, "HAR", "QUALIFIED_BOUNDED"),
+)
+
+
+def _hex_cases(family: str, static_model: str, j2_model: str) -> tuple[dict[str, Any], ...]:
+    return tuple(
+        _g06_case(
+            f"VNV026-HEX-G06-{family}-{index:03d}",
+            f"{family} common analysis {index:02d}",
+            prefix,
+            "small_strain_j2" if prefix == "J2" else family.lower(),
+            j2_model if prefix == "J2" else static_model,
+            kind,
+            element_family=family,
+            analysis=updates,
+            oracle_ids=("ANALYTICAL",),
+            maturity=maturity,
+        )
+        for index, (kind, updates, prefix, maturity) in enumerate(_HEX_COMMON_ANALYSES, start=1)
+    )
+
+
+G06_HEX_CASES = (*_hex_cases("HEX8", "hex8_g06_static.json", "hex8_g06_j2.json"), *_hex_cases("HEX20", "hex20_g06_static.json", "hex20_g06_j2.json"))
+
+G06_ROBUSTNESS_CASES = (
+    _g06_case(f"VNV026-RBT-G06-{i:03d}", f"Robustness route {i:02d}", prefix, capability, model, analysis_type, element_family=element, load_scale=scale, material_updates=updates, expected_failure="INVALID_ELEMENT" if prefix == "ADV" else None, maturity=maturity)
+    for i, (prefix, capability, model, analysis_type, element, scale, updates, maturity) in enumerate((
+        ("LIN", "linear_solids", "tet4_compression.json", "linear_static", "TET4", 0.75, None, "QUALIFIED_BOUNDED"),
+        ("LIN", "linear_solids", "tet4_pressure.json", "linear_static", "TET4", 1.25, None, "QUALIFIED_BOUNDED"),
+        ("LIN", "linear_solids", "tet10_orthotropic_static.json", "linear_static", "TET10", 0.8, None, "QUALIFIED_BOUNDED"),
+        ("SHL", "shell_beam_discrete", "beam2_cantilever.json", "linear_static", "BEAM2", 1.2, None, "QUALIFIED_BOUNDED"),
+        ("SHL", "shell_beam_discrete", "mitc3_shell_static.json", "linear_static", "MITC3", 0.9, None, "QUALIFIED_BOUNDED"),
+        ("SHL", "shell_beam_discrete", "mitc4_laminate_static.json", "linear_static", "MITC4", 1.1, None, "QUALIFIED_BOUNDED"),
+        ("MOD", "modal", "tet4_modal_unit.json", "modal", "TET4", 1.0, {"steel": {"density": 7900.0}}, "QUALIFIED_BOUNDED"),
+        ("MOD", "modal", "tet4_orthotropic_modal.json", "modal", "TET4", 1.0, None, "QUALIFIED_BOUNDED"),
+        ("DYN", "transient_dynamics", "tet4_dynamic_free_vibration.json", "transient_dynamic", "TET4", 1.0, {"steel": {"density": 12.0}}, "QUALIFIED_BOUNDED"),
+        ("DYN", "transient_dynamics", "mitc3_newmark_cantilever.json", "transient_dynamic", "MITC3", 1.0, None, "QUALIFIED_BOUNDED"),
+        ("HAR", "harmonic", "tet4_harmonic_response.json", "harmonic", "TET4", 1.0, {"steel": {"E": 1100.0}}, "QUALIFIED_BOUNDED"),
+        ("HAR", "harmonic", "mitc4_harmonic_cantilever.json", "harmonic", "MITC4", 1.0, None, "QUALIFIED_BOUNDED"),
+        ("J2", "small_strain_j2", "tet4_elastoplastic_static.json", "nonlinear_static", "TET4", 0.6, None, "QUALIFIED_BOUNDED"),
+        ("J2", "small_strain_j2", "tet4_elastoplastic_static.json", "nonlinear_static", "TET4", 1.0, {"plastic_steel": {"yield_stress": 6.0}}, "QUALIFIED_BOUNDED"),
+        ("J2", "small_strain_j2", "tet4_nonlinear_static.json", "nonlinear_static", "TET4", 1.0, None, "QUALIFIED_BOUNDED"),
+        ("GNL", "geometric_nonlinear", "tet4_geometric_nonlinear_static.json", "geometric_nonlinear_static", "TET4", 0.75, None, "EXPERIMENTAL"),
+        ("BUC", "linear_buckling", "tet4_linear_buckling.json", "linear_buckling", "TET4", 1.0, None, "QUALIFIED_BOUNDED"),
+        ("CON", "frictionless_contact", "frictionless_contact_plane.json", "linear_static", "TET4", 0.8, None, "QUALIFIED_BOUNDED"),
+        ("CON", "frictionless_contact", "frictionless_contact_surface.json", "linear_static", "TET4", 1.0, None, "QUALIFIED_BOUNDED"),
+        ("LIN", "hex8", "hex8_g06_static.json", "linear_static", "HEX8", 1.0, {"solid": {"nu": 0.49}}, "QUALIFIED_BOUNDED"),
+        ("LIN", "hex20", "hex20_g06_static.json", "linear_static", "HEX20", 1.0, {"solid": {"nu": 0.49}}, "QUALIFIED_BOUNDED"),
+        ("J2", "hex8", "hex8_g06_j2.json", "nonlinear_static", "HEX8", 1.0, None, "QUALIFIED_BOUNDED"),
+        ("J2", "hex20", "hex20_g06_j2.json", "nonlinear_static", "HEX20", 1.0, None, "QUALIFIED_BOUNDED"),
+        ("ADV", "adversarial", "invalid_inverted_tet4.json", "linear_static", "TET4", 1.0, None, "QUALIFIED_BOUNDED"),
+    ), start=1)
+)
+G06_CASES = (*G06_ANALYTICAL_CASES, *G06_MESH_CASES, *G06_HEX_CASES, *tuple(G06_ROBUSTNESS_CASES))
+
+
 def planned_cases() -> list[dict[str, Any]]:
-    ready_cases = (*SMOKE_CASES, *G05_CASES)
+    ready_cases = (*SMOKE_CASES, *G05_CASES, *G06_CASES)
     ready_counts = {prefix: sum(case["family"] == prefix for case in ready_cases) for prefix, *_ in CAMPAIGNS}
     cases = list(ready_cases)
     for prefix, title, capability, target, maturity in CAMPAIGNS:
@@ -316,11 +427,12 @@ def write_data() -> None:
         "target_case_count": 180,
         "foundation_smoke_case_count": len(SMOKE_CASES),
         "g05_executable_case_count": len(G05_CASES),
+        "g06_executable_case_count": len(G06_CASES),
         "campaigns": [{"prefix": prefix, "title": title, "capability": capability, "target_case_count": target, "maturity_target": maturity} for prefix, title, capability, target, maturity in CAMPAIGNS],
-        "profiles": {"SMOKE": "10 maintained foundation executable cases", "G05": "50 bounded robustness executable cases", "STANDARD": "future routine selection", "FULL": "all ready cases after gate implementation", "EXTERNAL": "explicit external adapters only", "ADVERSARIAL": "expected failure and metamorphic cases", "SCALING": "machine-characterized profiles", "RELEASE": "controlled aggregation"},
+        "profiles": {"SMOKE": "10 maintained foundation executable cases", "G05": "50 bounded robustness executable cases", "G06": "80 deep V&V and corpus expansion executable cases", "STANDARD": "future routine selection", "FULL": "all ready cases after gate implementation", "EXTERNAL": "explicit external adapters only", "ADVERSARIAL": "expected failure and metamorphic cases", "SCALING": "machine-characterized profiles", "RELEASE": "controlled aggregation"},
     })
-    ready_case_count = len(SMOKE_CASES) + len(G05_CASES)
-    _write_json(QUALIFICATION / "case_registry.json", {"schema_version": 1, "metadata": {"release": "0.2.6a0", "target_case_count": 180, "ready_case_count": ready_case_count, "foundation_smoke_case_count": len(SMOKE_CASES), "g05_executable_case_count": len(G05_CASES), "planned_case_count": 180 - ready_case_count, "generator": "scripts/generate_vnv_026_foundation.py"}, "cases": cases})
+    ready_case_count = len(SMOKE_CASES) + len(G05_CASES) + len(G06_CASES)
+    _write_json(QUALIFICATION / "case_registry.json", {"schema_version": 1, "metadata": {"release": "0.2.6a0", "target_case_count": 180, "ready_case_count": ready_case_count, "foundation_smoke_case_count": len(SMOKE_CASES), "g05_executable_case_count": len(G05_CASES), "g06_executable_case_count": len(G06_CASES), "planned_case_count": 180 - ready_case_count, "generator": "scripts/generate_vnv_026_foundation.py"}, "cases": cases})
     _write_json(QUALIFICATION / "gates.json", {"schema_version": 1, "gates": [{"id": f"026-G{index:02d}", "title": title, "status": status, "evidence_ids": evidence} for index, title, status, evidence in _gates()]})
     _write_json(QUALIFICATION / "capability_targets.json", {"schema_version": 1, "capabilities": [{"id": capability, "current_maturity": maturity, "target": target, "claim_boundary": limit} for capability, maturity, target, limit in _capabilities()]})
     _write_json(QUALIFICATION / "requirements.json", {"schema_version": 1, "requirements": _requirements()})
@@ -342,7 +454,7 @@ def _gates() -> list[tuple[int, str, str, list[str]]]:
         0: ("PASS", ["baseline_snapshot.json", "0_2_5_release_readiness.md"], "Clean baseline snapshot captured on the committed foundation; the 0.2.5 qualified source remains immutable."),
         1: ("PASS", ["architecture_audit.json", "0_2_6_architecture_audit.md"], "Static audit captured before any high-risk verification-package migration."),
         2: ("PASS", ["test_vnv_026_framework.py", "VNV026-SMOKE"], "Validated registry, safe runner, manifest and expected-failure contract."),
-        3: ("PASS", ["case_registry.json", "0_2_6_campaign_matrix.md"], "Exactly 180 deterministic definitions exist; 60 are READY (10 foundation smoke and 50 G05 execution cases), and no planned case is evidence."),
+        3: ("PASS", ["case_registry.json", "0_2_6_campaign_matrix.md"], "Exactly 180 deterministic definitions exist; 140 are READY (10 foundation smoke, 50 G05 and 80 G06 execution cases), and no planned case is evidence."),
     }
     return [
         (index, title, foundation[index][0], foundation[index][1]) if index in foundation else (index, title, "NOT_STARTED", [])
@@ -415,6 +527,15 @@ def _completed_work_packages() -> list[dict[str, Any]]:
             "official_gate_collision": "026-G05",
             "evidence": ["g05_evidence.json", "0_2_6_g05_evidence.md"],
             "note": "Distinct work-package identifier. Official gate 026-G05 remains Modal / dynamic / harmonic maturity.",
+        },
+        {
+            "id": "026-WP06-G06",
+            "title": "Deep V&V and corpus expansion",
+            "status": "PASS_WITH_LIMITATIONS",
+            "depends_on": ["026-WP05-G05"],
+            "official_gate_collision": "026-G06",
+            "evidence": ["g06_evidence.json", "0_2_6_g06_evidence.md"],
+            "note": "Distinct work-package identifier. Official gate 026-G06 remains J2 maturity extension; executable corpus expansion does not by itself promote maturity.",
         },
     ]
 
@@ -551,7 +672,7 @@ Results stay runtime artifacts, while small definitions and manifests remain
 versionable. External adapters are explicit, optional and must report an
 unavailable tool as `SKIPPED_EXTERNAL_UNAVAILABLE`.
 """,
-        "0_2_6_campaign_matrix.md": "# Campaign Matrix\n\nThe catalog contains exactly 180 meaningful case definitions. Ten maintained models are READY as foundation smoke cases and 50 bounded G05 variants are READY for execution; the remaining 120 definitions are PLANNED and are not evidence.\n\n`READY` means the controlled runner can execute the case. It does not by itself mean `QUALIFIED`; qualification still requires the applicable oracle, acceptance criteria and gate decision.\n\n| Prefix | Campaign | Target | Maturity target |\n| --- | --- | ---: | --- |\n" + campaign_rows + "\n",
+        "0_2_6_campaign_matrix.md": "# Campaign Matrix\n\nThe catalog contains exactly 180 meaningful case definitions. Ten foundation smoke cases, 50 bounded G05 variants and 80 G06 deep V&V cases are READY for execution; the remaining 40 definitions are PLANNED and are not evidence.\n\n`READY` means the controlled runner can execute the case. It does not by itself mean `QUALIFIED`; qualification still requires the applicable oracle, acceptance criteria and gate decision.\n\n| Prefix | Campaign | Target | Maturity target |\n| --- | --- | ---: | --- |\n" + campaign_rows + "\n",
         "0_2_6_external_correlation_plan.md": """# External Correlation Plan
 
 Analytical references come first for clean cases. Code_Aster is the primary

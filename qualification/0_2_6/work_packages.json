@@ -27,6 +27,20 @@
       "official_gate_collision": "026-G05",
       "status": "PASS_WITH_LIMITATIONS",
       "title": "Bounded V&V and robustness execution batch"
+    },
+    {
+      "depends_on": [
+        "026-WP05-G05"
+      ],
+      "evidence": [
+        "g06_evidence.json",
+        "0_2_6_g06_evidence.md"
+      ],
+      "id": "026-WP06-G06",
+      "note": "Distinct work-package identifier. Official gate 026-G06 remains J2 maturity extension; executable corpus expansion does not by itself promote maturity.",
+      "official_gate_collision": "026-G06",
+      "status": "PASS_WITH_LIMITATIONS",
+      "title": "Deep V&V and corpus expansion"
     }
   ],
   "schema_version": 1,
