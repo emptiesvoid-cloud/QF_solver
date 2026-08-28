@@ -9,7 +9,7 @@ from scripts.audit_public_documents import public_document_audit
 
 
 ROOT = Path(__file__).resolve().parents[2]
-RECORD = ROOT / "qualification" / "publication_audit_0_2_5.json"
+RECORD = ROOT / "qualification" / "publication_audit_0_2_6.json"
 
 
 def test_public_document_audit_passes_without_web_delivery_or_internal_paths() -> None:

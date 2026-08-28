@@ -1,0 +1,30 @@
+{
+  "current_to_target": [
+    {
+      "current": "src/solveur/verification/calculix_*.py",
+      "precondition": "baseline_fingerprint_and_smoke_pass",
+      "risk": "medium",
+      "target": "src/solveur/verification/oracles/calculix/"
+    },
+    {
+      "current": "src/solveur/verification/code_aster_*.py",
+      "precondition": "baseline_fingerprint_and_smoke_pass",
+      "risk": "medium",
+      "target": "src/solveur/verification/oracles/code_aster/"
+    },
+    {
+      "current": "src/solveur/verification/*_campaign.py",
+      "precondition": "one_domain_per_mechanical_commit",
+      "risk": "medium",
+      "target": "src/solveur/verification/campaigns/<domain>/"
+    },
+    {
+      "current": "scripts/run_*_vnv.py",
+      "precondition": "runner_registry_available",
+      "risk": "low",
+      "target": "scripts/run_vnv_026.py plus explicit adapters"
+    }
+  ],
+  "execution": "PLAN_ONLY",
+  "schema_version": 1
+}

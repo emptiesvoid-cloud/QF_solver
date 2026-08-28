@@ -1,0 +1,54 @@
+{
+  "policy": "Tolerance changes require an anomaly record; coverage is distinct from V&V.",
+  "schema_version": 1,
+  "tolerances": [
+    {
+      "applicability": "adversarial/metamorphic",
+      "category": "exact_invariant",
+      "id": "TOL-026-EXACT-001",
+      "metric": "boolean or identity",
+      "reason": "Invariants and expected failures are exact contracts.",
+      "value": 0.0
+    },
+    {
+      "applicability": "foundation_smoke",
+      "category": "floating_point",
+      "id": "TOL-026-FLOAT-001",
+      "metric": "relative numerical fingerprint comparison",
+      "reason": "Baseline guard for deterministic small examples.",
+      "value": 1e-12
+    },
+    {
+      "applicability": "linear/modal",
+      "category": "analytical_discretization",
+      "id": "TOL-026-ANALYTICAL-001",
+      "metric": "case-defined normalized error",
+      "reason": "Case-specific and justified before execution.",
+      "value": null
+    },
+    {
+      "applicability": "J2/geometric/coupled",
+      "category": "iterative_nonlinear",
+      "id": "TOL-026-NONLINEAR-001",
+      "metric": "residual, path and tangent",
+      "reason": "Reuse existing qualified limits until a documented anomaly changes them.",
+      "value": null
+    },
+    {
+      "applicability": "modal/dynamic/harmonic",
+      "category": "dynamic",
+      "id": "TOL-026-DYNAMIC-001",
+      "metric": "amplitude, phase, energy",
+      "reason": "Defined per oracle and time/frequency refinement study.",
+      "value": null
+    },
+    {
+      "applicability": "scaling",
+      "category": "performance",
+      "id": "TOL-026-PERF-001",
+      "metric": "median repeated measurement",
+      "reason": "No noisy two-percent CI gate; characterize machine metadata.",
+      "value": null
+    }
+  ]
+}

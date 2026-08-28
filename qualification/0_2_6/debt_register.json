@@ -1,0 +1,29 @@
+{
+  "debts": [
+    {
+      "area": "arc_length",
+      "id": "DEBT-026-001",
+      "reason": "Independent compatible published/reproducible reference remains incomplete after 0.2.5.",
+      "status": "OPEN"
+    },
+    {
+      "area": "coupled_nonlinear",
+      "id": "DEBT-026-002",
+      "reason": "Finite-kinematic J2 and equivalent external correlations are not qualified.",
+      "status": "DEFERRED"
+    },
+    {
+      "area": "verification_architecture",
+      "id": "DEBT-026-003",
+      "reason": "Flat campaign/oracle layout duplicates runner and evidence logic.",
+      "status": "OPEN"
+    },
+    {
+      "area": "repository_artifacts",
+      "id": "DEBT-026-004",
+      "reason": "Historical multi-million displacement blobs exceed the proposed normal Git size policy; preserve history and prevent recurrence.",
+      "status": "OPEN"
+    }
+  ],
+  "schema_version": 1
+}

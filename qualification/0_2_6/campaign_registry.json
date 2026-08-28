@@ -1,0 +1,100 @@
+{
+  "campaigns": [
+    {
+      "capability": "linear_solids",
+      "maturity_target": "QUALIFIED_BOUNDED",
+      "prefix": "LIN",
+      "target_case_count": 24,
+      "title": "Linear solids"
+    },
+    {
+      "capability": "shell_beam_discrete",
+      "maturity_target": "QUALIFIED_BOUNDED",
+      "prefix": "SHL",
+      "target_case_count": 18,
+      "title": "Shell / beam / discrete"
+    },
+    {
+      "capability": "modal",
+      "maturity_target": "QUALIFIED_BOUNDED",
+      "prefix": "MOD",
+      "target_case_count": 14,
+      "title": "Modal"
+    },
+    {
+      "capability": "transient_dynamics",
+      "maturity_target": "QUALIFIED_BOUNDED",
+      "prefix": "DYN",
+      "target_case_count": 16,
+      "title": "Transient dynamics"
+    },
+    {
+      "capability": "harmonic",
+      "maturity_target": "QUALIFIED_BOUNDED",
+      "prefix": "HAR",
+      "target_case_count": 12,
+      "title": "Harmonic"
+    },
+    {
+      "capability": "small_strain_j2",
+      "maturity_target": "QUALIFIED_BOUNDED",
+      "prefix": "J2",
+      "target_case_count": 24,
+      "title": "Small-strain J2"
+    },
+    {
+      "capability": "geometric_nonlinear",
+      "maturity_target": "EXPERIMENTAL",
+      "prefix": "GNL",
+      "target_case_count": 18,
+      "title": "Geometric nonlinear"
+    },
+    {
+      "capability": "linear_buckling",
+      "maturity_target": "QUALIFIED_BOUNDED",
+      "prefix": "BUC",
+      "target_case_count": 12,
+      "title": "Buckling"
+    },
+    {
+      "capability": "frictionless_contact",
+      "maturity_target": "QUALIFIED_BOUNDED",
+      "prefix": "CON",
+      "target_case_count": 16,
+      "title": "Frictionless contact"
+    },
+    {
+      "capability": "coupled_nonlinear",
+      "maturity_target": "EXPERIMENTAL",
+      "prefix": "CPL",
+      "target_case_count": 10,
+      "title": "Existing coupled workflows"
+    },
+    {
+      "capability": "adversarial",
+      "maturity_target": "QUALIFIED_BOUNDED",
+      "prefix": "ADV",
+      "target_case_count": 10,
+      "title": "Failure / adversarial / metamorphic"
+    },
+    {
+      "capability": "scaling",
+      "maturity_target": "EXPERIMENTAL",
+      "prefix": "SCL",
+      "target_case_count": 6,
+      "title": "Scaling profiles"
+    }
+  ],
+  "foundation_smoke_case_count": 10,
+  "profiles": {
+    "ADVERSARIAL": "expected failure and metamorphic cases",
+    "EXTERNAL": "explicit external adapters only",
+    "FULL": "all ready cases after gate implementation",
+    "RELEASE": "controlled aggregation",
+    "SCALING": "machine-characterized profiles",
+    "SMOKE": "10 maintained executable cases",
+    "STANDARD": "future routine selection"
+  },
+  "schema_version": 1,
+  "target_case_count": 180
+}

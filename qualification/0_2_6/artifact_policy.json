@@ -1,0 +1,32 @@
+{
+  "commit": [
+    "definitions",
+    "small_references",
+    "summary_json",
+    "compact_csv",
+    "digests",
+    "manifests"
+  ],
+  "commit_policy": [
+    {
+      "max_bytes": 1000000,
+      "rule": "normally_acceptable_if_useful"
+    },
+    {
+      "max_bytes": 10000000,
+      "rule": "requires_justification"
+    },
+    {
+      "max_bytes": 50000000,
+      "rule": "must_not_enter_normal_source_history"
+    }
+  ],
+  "exclude": [
+    "raw_external_workdirs",
+    "temporary_meshes",
+    "large_histories",
+    "ephemeral_logs",
+    "duplicate_pdfs"
+  ],
+  "schema_version": 1
+}

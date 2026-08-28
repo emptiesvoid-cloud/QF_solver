@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "work_packages": [
+    {
+      "depends_on": [],
+      "gate": "026-G00",
+      "id": "WP-026-00",
+      "stop_go": "STOP if historical source or baseline route is not reproducible.",
+      "title": "Baseline and provenance"
+    },
+    {
+      "depends_on": [
+        "WP-026-00"
+      ],
+      "gate": "026-G01",
+      "id": "WP-026-01",
+      "stop_go": "GO only after import and responsibility boundaries are mapped.",
+      "title": "Verification architecture inventory"
+    },
+    {
+      "depends_on": [
+        "WP-026-01"
+      ],
+      "gate": "026-G02",
+      "id": "WP-026-02",
+      "stop_go": "STOP if a planned case can execute or a path can escape controlled examples.",
+      "title": "Registry and safe runner"
+    },
+    {
+      "depends_on": [
+        "WP-026-02"
+      ],
+      "gate": "026-G03",
+      "id": "WP-026-03",
+      "stop_go": "GO only when every case has a capability, oracle and tolerance source.",
+      "title": "Corpus factory design"
+    },
+    {
+      "depends_on": [
+        "WP-026-03"
+      ],
+      "gate": "026-G04 to 026-G05",
+      "id": "WP-026-04",
+      "stop_go": "STOP on unexplained baseline drift.",
+      "title": "Linear, element, modal and dynamic maturity"
+    },
+    {
+      "depends_on": [
+        "WP-026-04"
+      ],
+      "gate": "026-G06 to 026-G10",
+      "id": "WP-026-05",
+      "stop_go": "STOP before maturity promotion when external equivalence is unresolved.",
+      "title": "J2, geometric, buckling and contact evidence"
+    },
+    {
+      "depends_on": [
+        "WP-026-05"
+      ],
+      "gate": "026-G11 to 026-G13",
+      "id": "WP-026-06",
+      "stop_go": "STOP on a fail-open contract or undocumented machine variance.",
+      "title": "Adversarial, performance and external aggregation"
+    },
+    {
+      "depends_on": [
+        "WP-026-06"
+      ],
+      "gate": "026-G14 to 026-G15",
+      "id": "WP-026-07",
+      "stop_go": "STOP if a claim lacks a manifest or Owner decision.",
+      "title": "Regression, architecture freeze and Owner review"
+    }
+  ]
+}

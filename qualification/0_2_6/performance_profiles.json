@@ -1,0 +1,38 @@
+{
+  "metrics": [
+    "model_generation",
+    "assembly",
+    "constraint_application",
+    "factorization",
+    "solve",
+    "post",
+    "wall_time",
+    "peak_rss",
+    "nnz",
+    "iterations"
+  ],
+  "profiles": [
+    {
+      "ci": true,
+      "dof_range": "1e3-1e4",
+      "id": "SMOKE"
+    },
+    {
+      "ci": false,
+      "dof_range": "1e4-1e5",
+      "id": "STANDARD"
+    },
+    {
+      "ci": false,
+      "dof_range": "1e5-5e5",
+      "id": "EXTENDED"
+    },
+    {
+      "ci": false,
+      "constraint": "hardware_and_backend_permit",
+      "dof_range": "5e5-1e6+",
+      "id": "LARGE"
+    }
+  ],
+  "schema_version": 1
+}

@@ -1,0 +1,47 @@
+{
+  "risks": [
+    {
+      "gate": "026-G03",
+      "id": "RISK-026-001",
+      "mitigation": "READY/PLANNED state and runner exclusion",
+      "risk": "Planned cases are mistaken for completed evidence.",
+      "severity": "high"
+    },
+    {
+      "gate": "026-G00/026-G14",
+      "id": "RISK-026-002",
+      "mitigation": "baseline fingerprints and focused API smoke",
+      "risk": "A V&V refactor changes numerical behavior or public API.",
+      "severity": "high"
+    },
+    {
+      "gate": "026-G13",
+      "id": "RISK-026-003",
+      "mitigation": "explicit SKIPPED_EXTERNAL_UNAVAILABLE outcome",
+      "risk": "External tool absence is represented as a pass.",
+      "severity": "high"
+    },
+    {
+      "gate": "026-G01",
+      "id": "RISK-026-004",
+      "mitigation": "artifact policy and digest-first summaries",
+      "risk": "Large artifacts obscure source history and inflate clones.",
+      "severity": "medium"
+    },
+    {
+      "gate": "026-G12",
+      "id": "RISK-026-005",
+      "mitigation": "hardware metadata, repeated medians and profile bands",
+      "risk": "Performance comparisons use incompatible hardware or one noisy sample.",
+      "severity": "medium"
+    },
+    {
+      "gate": "026-G15",
+      "id": "RISK-026-006",
+      "mitigation": "claim matrix and Owner-only maturity decision",
+      "risk": "Research paths are promoted by test count alone.",
+      "severity": "high"
+    }
+  ],
+  "schema_version": 1
+}
