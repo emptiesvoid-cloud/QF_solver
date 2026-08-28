@@ -30,6 +30,10 @@ class AnalysisRouter:
             from solveur.core.geometric_nonlinear import GeometricNonlinearStaticSolver
 
             return GeometricNonlinearStaticSolver().solve(model)
+        if model.analysis.type == "linear_buckling":
+            from solveur.core.buckling import LinearBucklingSolver
+
+            return LinearBucklingSolver().solve(model)
         if model.analysis.type == "transient_dynamic":
             from solveur.io.dynamic_checkpoint import NpzDynamicCheckpointStore
 

@@ -61,3 +61,8 @@ public_release_audit.json
 .tmp_rqg08_probe/
 .tmp_smoke_final/
 .tmp_smoke_final_2/
+
+# Local 0.2.5 release-candidate outputs and verification checkout
+.tmp_release_readiness_025/
+.tmp_smoke_install_025/
+.tmp_candidate_checkout_025/

@@ -93,7 +93,8 @@ class FiniteElementModel:
         for mass in self.concentrated_masses:
             requirements[mass.node].update(mass.active_dofs())
         for contact in self.contacts:
-            requirements[contact.slave_node].update(("UX", "UY", "UZ"))
+            for node in contact.slave_nodes:
+                requirements[node].update(("UX", "UY", "UZ"))
             for node in contact.referenced_master_nodes:
                 requirements[node].update(("UX", "UY", "UZ"))
         for constraint in self.linear_constraints():
@@ -256,6 +257,15 @@ def _parse_rbe3(item: dict[str, Any]) -> Rbe3Definition:
 
 
 def _parse_contact(item: dict[str, Any]) -> FrictionlessContact:
+    raw_slave_nodes = item.get("slave_nodes")
+    if raw_slave_nodes is not None:
+        parsed_slave_nodes = tuple(int(node) for node in raw_slave_nodes)
+        if not parsed_slave_nodes:
+            raise InputValidationError("A contact slave surface needs one or more nodes.")
+        raw_slave_node = parsed_slave_nodes[0]
+    else:
+        raw_slave_node = int(item["slave_node"])
+        parsed_slave_nodes = None
     raw_faces = item.get("master_faces")
     if raw_faces is not None:
         if not isinstance(raw_faces, list) or not raw_faces:
@@ -275,9 +285,10 @@ def _parse_contact(item: dict[str, Any]) -> FrictionlessContact:
         raw_master_nodes = (raw_master[0], raw_master[1], raw_master[2])
         parsed_faces = None
     return FrictionlessContact(
-        slave_node=int(item["slave_node"]),
+        slave_node=raw_slave_node,
         master_nodes=(raw_master_nodes[0], raw_master_nodes[1], raw_master_nodes[2]),
         master_faces=parsed_faces,
+        slave_patch_nodes=parsed_slave_nodes,
         name=str(item.get("name", "")),
         gap_tolerance=float(item.get("gap_tolerance", 1.0e-10)),
         friction_coefficient=float(item.get("friction_coefficient", 0.0)),

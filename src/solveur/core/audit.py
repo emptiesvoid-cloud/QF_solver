@@ -639,7 +639,6 @@ class ModelInspector:
             return SolverAudit.partial(model, report)
         dofs = model.dof_manager()
         from solveur.core.assembler import GlobalAssembler
-        from solveur.core.nonlinear import NonlinearStaticSolver
 
         assembler = GlobalAssembler()
         fixed = assembler.fixed_indices(model, dofs)
@@ -658,7 +657,9 @@ class ModelInspector:
                 matrices["reduced_mass"] = mass[free, :][:, free]
         elif model.analysis.type == "nonlinear_static":
             displacement = np.zeros(dofs.ndof, dtype=float)
-            internal, tangent = NonlinearStaticSolver._assemble_internal_tangent(model, dofs, displacement)
+            from solveur.core.nonlinear_assembly import assemble_internal_tangent
+
+            internal, tangent, _ = assemble_internal_tangent(model, dofs, displacement)
             vectors["initial_internal_force"] = internal
             matrices["initial_tangent"] = tangent
             if free.size:

@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "review_id": "OWNER-REVIEW-QF-SOLVER-025-G05",
+  "applicable_version": "0.2.5a0",
+  "gate": "025-G05",
+  "gate_status": "PASS",
+  "owner_decision": "APPROVED",
+  "qualified_source_sha": "a3ab8de707ffc88fc5e39e4f999eb872c9223b73",
+  "qualified_source_worktree": "CLEAN",
+  "evidence_manifest": "results/vnv_0_2_5/g05_latest/evidence_manifest.json",
+  "evidence_manifest_sha256": "403860a4cebc217c9cbac7dc051fdbd4a7ec3b4bf9020f2584256c6354159fa9",
+  "contract_lowered": false,
+  "qualified_requirements": [
+    "025-REQ-018",
+    "025-REQ-019",
+    "025-REQ-020",
+    "025-REQ-021"
+  ],
+  "qualified_scope": [
+    "common sparse frictionless penalty contact",
+    "slave node or node patch to an explicitly supplied triangulated master surface",
+    "bounded open/close/recontact",
+    "opt-in updated finite-sliding projection",
+    "bounded penalty/enforcement sensitivity",
+    "exact contact transaction replay"
+  ],
+  "evidence": {
+    "targeted_contact_tests": "82 passed / 2 skipped",
+    "code_aster": "PASS_EXTERNAL_CORRELATION on 768 and 9984 TET4 confirmation campaigns",
+    "calculix": "supporting SHOULD pre-contact tie-breaker; not release-blocking",
+    "internal": [
+      "updated normals",
+      "two-face and three-facet traversal",
+      "facet-transition rollback",
+      "fixed-active tangent finite difference",
+      "recontact",
+      "penalty sweep 1e2..1e6"
+    ]
+  },
+  "limitations": [
+    "No mortar or segment-to-segment formulation.",
+    "No unrestricted general surface-to-surface or self-contact claim.",
+    "No friction or impact claim.",
+    "No general large-sliding claim beyond the bounded opt-in faceted projection."
+  ]
+}

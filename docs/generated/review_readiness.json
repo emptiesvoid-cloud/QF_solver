@@ -1,23 +1,22 @@
 {
   "automated_traceability": "PASS",
   "blockers": [
-    "Owner review incomplete: 2/245 documents",
-    "approved clean Git revision unavailable"
+    "Owner review incomplete: 5/273 documents"
   ],
   "formula_coverage": {
     "covered": 61,
     "total": 61
   },
   "owner_review": {
-    "active_documents": 245,
-    "reviewed_documents": 2,
+    "active_documents": 273,
+    "reviewed_documents": 5,
     "status": "BLOCKED"
   },
   "source_baseline": {
-    "dirty": true,
+    "dirty": false,
     "repository": ".",
-    "revision": "uncommitted",
-    "status": "BLOCKED"
+    "revision": "cd107ec8f1d13996023dac2e4d83cb224f47fdb0",
+    "status": "PASS"
   },
   "status": "BLOCKED"
 }

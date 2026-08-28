@@ -1,0 +1,404 @@
+"""Analysis and material JSON schema validation."""
+
+from __future__ import annotations
+
+from collections.abc import Mapping
+from typing import Any
+
+from solveur.core.analysis import SUPPORTED_METHODS
+from solveur.io.laminate_schema import validate_laminate_plies
+from solveur.io.schema_values import (
+    is_int as _is_int,
+    is_number as _is_number,
+    is_numeric_matrix as _is_numeric_matrix,
+    is_numeric_vector as _is_numeric_vector,
+)
+
+
+
+class JsonSchemaAnalysisMixin:
+    def _validate_materials(self, value: Any, errors: list[str]) -> set[str]:
+        if not isinstance(value, Mapping):
+            errors.append("materials must be an object keyed by material name.")
+            return set()
+        names: set[str] = set()
+        for name, material in value.items():
+            path = f"materials.{name}"
+            if not isinstance(name, str) or not name:
+                errors.append("materials keys must be non-empty strings.")
+                continue
+            names.add(name)
+            if not isinstance(material, Mapping):
+                errors.append(f"{path} must be an object.")
+                continue
+            material_type = str(material.get("type", "")).lower()
+            allowed_fields = self._material_fields.get(material_type)
+            if allowed_fields is None:
+                errors.append(f"{path}.type has unsupported material type {material.get('type')!r}.")
+                continue
+            self._reject_unknown(path, material, allowed_fields, errors)
+            if material_type == "beam_isotropic":
+                required = ("type", "E", "A", "Iy", "Iz", "J")
+            elif material_type == "shell_isotropic":
+                required = ("type", "E", "nu", "t")
+            elif material_type == "orthotropic_lamina":
+                required = ("type", "E1", "E2", "nu12", "G12")
+            elif material_type in {"orthotropic_3d", "composite_orthotropic_3d"}:
+                required = ("type", "E1", "E2", "E3", "nu12", "nu13", "nu23", "G12", "G13", "G23")
+            elif material_type == "shell_laminate":
+                required = ("type", "plies")
+            elif material_type == "von_mises_elastoplastic_3d":
+                required = ("type", "E", "nu", "yield_stress")
+            else:
+                required = ("type", "E", "nu")
+            self._require_fields(path, material, required, errors)
+            structured_fields = {
+                "type",
+                "plies",
+                "orientation",
+                "e1",
+                "e2_hint",
+                "orientation_field",
+                "reference_direction",
+                "reference_vector",
+                "provenance",
+                "homogenization",
+                "layup",
+                "strengths",
+            }
+            numeric_fields = tuple(field for field in allowed_fields if field not in structured_fields)
+            for field in numeric_fields:
+                if field in material and not _is_number(material[field]):
+                    errors.append(f"{path}.{field} must be a finite number.")
+            if material_type == "shell_laminate":
+                validate_laminate_plies(path, material.get("plies"), errors)
+                if "shear_factor" in material and _is_number(material["shear_factor"]):
+                    if float(material["shear_factor"]) <= 0.0:
+                        errors.append(f"{path}.shear_factor must be positive.")
+                if "drilling_scale" in material and _is_number(material["drilling_scale"]):
+                    if float(material["drilling_scale"]) < 0.0:
+                        errors.append(f"{path}.drilling_scale must be non-negative.")
+                if "reference_direction" in material:
+                    direction = material["reference_direction"]
+                    if not _is_numeric_vector(direction, 3):
+                        errors.append(f"{path}.reference_direction must contain exactly 3 finite numbers.")
+                    elif sum(float(value) ** 2 for value in direction) <= 1.0e-28:
+                        errors.append(f"{path}.reference_direction must have a non-zero norm.")
+            if material_type == "orthotropic_lamina" and (("G13" in material) != ("G23" in material)):
+                errors.append(f"{path}.G13 and G23 must be defined together.")
+            if material_type == "beam_isotropic":
+                self._validate_beam_material(path, material, errors)
+            if material_type in {"orthotropic_3d", "composite_orthotropic_3d"}:
+                self._validate_orthotropic_solid(path, material, errors)
+        return names
+
+
+    @staticmethod
+    def _validate_beam_material(path: str, material: Mapping[str, Any], errors: list[str]) -> None:
+        if "G" not in material and "nu" not in material:
+            errors.append(f"{path} requires G or nu.")
+        for field in ("E", "G", "A", "Iy", "Iz", "J", "kappa_y", "kappa_z"):
+            if field in material and _is_number(material[field]) and float(material[field]) <= 0.0:
+                errors.append(f"{path}.{field} must be positive.")
+        if "nu" in material and _is_number(material["nu"]) and not -1.0 < float(material["nu"]) < 0.5:
+            errors.append(f"{path}.nu must satisfy -1 < nu < 0.5.")
+        for field in ("density", "rho"):
+            if field in material and _is_number(material[field]) and float(material[field]) < 0.0:
+                errors.append(f"{path}.{field} must be non-negative.")
+        if "reference_vector" in material:
+            direction = material["reference_vector"]
+            if not _is_numeric_vector(direction, 3):
+                errors.append(f"{path}.reference_vector must contain exactly 3 finite numbers.")
+            elif sum(float(value) ** 2 for value in direction) <= 1.0e-28:
+                errors.append(f"{path}.reference_vector must be non-zero.")
+
+
+    def _validate_orthotropic_solid(self, path: str, material: Mapping[str, Any], errors: list[str]) -> None:
+        for field in ("E1", "E2", "E3", "G12", "G13", "G23"):
+            if field in material and _is_number(material[field]) and float(material[field]) <= 0.0:
+                errors.append(f"{path}.{field} must be positive.")
+        for field in ("density", "rho"):
+            if field in material and _is_number(material[field]) and float(material[field]) < 0.0:
+                errors.append(f"{path}.{field} must be non-negative.")
+        has_matrix = "orientation" in material
+        has_e1 = "e1" in material
+        has_e2 = "e2_hint" in material
+        has_field = "orientation_field" in material
+        if sum((has_matrix, has_e1 or has_e2, has_field)) > 1:
+            errors.append(f"{path} must define only one of orientation, e1/e2_hint or orientation_field.")
+        if has_e1 != has_e2:
+            errors.append(f"{path}.e1 and e2_hint must be defined together.")
+        if has_matrix and not _is_numeric_matrix(material["orientation"], 3, 3):
+            errors.append(f"{path}.orientation must be a finite 3x3 numeric matrix.")
+        for field in ("e1", "e2_hint"):
+            if field in material and not _is_numeric_vector(material[field], 3):
+                errors.append(f"{path}.{field} must contain exactly 3 finite numbers.")
+        if has_field:
+            field = material["orientation_field"]
+            if not isinstance(field, Mapping):
+                errors.append(f"{path}.orientation_field must be an object.")
+            else:
+                if set(field) != {"type", "origin", "axis"}:
+                    errors.append(f"{path}.orientation_field must define only type, origin and axis.")
+                if str(field.get("type", "")).lower() != "cylindrical_tangent":
+                    errors.append(f"{path}.orientation_field.type must be 'cylindrical_tangent'.")
+                for name in ("origin", "axis"):
+                    if not _is_numeric_vector(field.get(name), 3):
+                        errors.append(f"{path}.orientation_field.{name} must contain exactly 3 finite numbers.")
+                    elif name == "axis" and sum(float(value) ** 2 for value in field[name]) <= 1.0e-28:
+                        errors.append(f"{path}.orientation_field.{name} must be non-zero.")
+        if str(material.get("type", "")).lower() == "composite_orthotropic_3d":
+            if not isinstance(material.get("homogenization"), str) or not material.get("homogenization"):
+                errors.append(f"{path}.homogenization must be a non-empty string.")
+            if not isinstance(material.get("provenance"), Mapping):
+                errors.append(f"{path}.provenance must be an object.")
+
+
+    def _validate_analysis(self, value: Any, errors: list[str]) -> None:
+        if isinstance(value, str):
+            analysis_type = value.lower()
+            method = None
+            params: dict[str, Any] = {}
+        elif isinstance(value, Mapping):
+            allowed = {"type", "method", "parameters"}
+            self._reject_unknown("analysis", value, allowed, errors, allow_extra=True)
+            raw_type = value.get("type", "linear_static")
+            raw_method = value.get("method")
+            if not isinstance(raw_type, str):
+                errors.append("analysis.type must be a string.")
+                return
+            if raw_method is not None and not isinstance(raw_method, str):
+                errors.append("analysis.method must be a string.")
+                return
+            if "parameters" in value and not isinstance(value["parameters"], Mapping):
+                errors.append("analysis.parameters must be an object when provided.")
+            analysis_type = raw_type.lower()
+            method = raw_method.lower() if raw_method is not None else None
+            params = dict(value.get("parameters", {})) if isinstance(value.get("parameters", {}), Mapping) else {}
+            params.update({str(key): item for key, item in value.items() if key not in allowed})
+        else:
+            errors.append("analysis must be a string or an object.")
+            return
+        if analysis_type not in SUPPORTED_METHODS:
+            errors.append(f"analysis.type {analysis_type!r} is unsupported.")
+            return
+        if method is not None and method not in SUPPORTED_METHODS[analysis_type]:
+            allowed = ", ".join(SUPPORTED_METHODS[analysis_type])
+            errors.append(f"analysis.method {method!r} is unsupported for {analysis_type}; allowed: {allowed}.")
+        self._validate_analysis_parameters(analysis_type, params, errors)
+
+
+    def _validate_analysis_parameters(self, analysis_type: str, params: Mapping[str, Any], errors: list[str]) -> None:
+        if "assembly_chunk_size" in params:
+            self._positive_int("analysis.assembly_chunk_size", params["assembly_chunk_size"], errors)
+        if analysis_type in {"nonlinear_static", "geometric_nonlinear_static", "linear_buckling"}:
+            if "nonlinear_assembly_chunk_size" in params:
+                self._positive_int(
+                    "analysis.nonlinear_assembly_chunk_size",
+                    params["nonlinear_assembly_chunk_size"],
+                    errors,
+                )
+        if analysis_type == "transient_dynamic":
+            self._require_any("analysis", params, ("time_step", "dt"), errors)
+            self._require_any("analysis", params, ("steps", "time_steps"), errors)
+            self._positive_number("analysis.time_step", params.get("time_step", params.get("dt")), errors)
+            self._positive_int("analysis.steps", params.get("steps", params.get("time_steps")), errors)
+            for key in ("newmark_beta", "newmark_gamma"):
+                if key in params:
+                    self._positive_number(f"analysis.{key}", params[key], errors)
+            beta = params.get("newmark_beta", 0.25)
+            gamma = params.get("newmark_gamma", 0.5)
+            if _is_number(beta) and _is_number(gamma):
+                minimum_beta = 0.25 * (float(gamma) + 0.5) ** 2
+                if float(gamma) < 0.5 or float(beta) < minimum_beta:
+                    errors.append(
+                        "analysis Newmark parameters are not unconditionally stable; require "
+                        "gamma >= 0.5 and beta >= 0.25 * (gamma + 0.5)^2."
+                    )
+            self._validate_rayleigh(params, errors)
+            self._validate_modal_damping_targets(params, errors)
+            if "load_table" in params:
+                self._validate_load_table(params["load_table"], errors)
+            if "load_factors_by_load" in params:
+                self._validate_load_factors_by_load(params["load_factors_by_load"], errors)
+            self._validate_dynamic_load_function(params, errors)
+            for key in ("checkpoint_path", "restart_from"):
+                if key in params and (not isinstance(params[key], str) or not str(params[key]).strip()):
+                    errors.append(f"analysis.{key} must be a non-empty path string.")
+                elif key in params and not str(params[key]).lower().endswith(".npz"):
+                    errors.append(f"analysis.{key} must use the .npz format.")
+            if "checkpoint_interval" in params:
+                self._positive_int("analysis.checkpoint_interval", params["checkpoint_interval"], errors)
+                if "checkpoint_path" not in params:
+                    errors.append("analysis.checkpoint_interval requires analysis.checkpoint_path.")
+            if "checkpoint_keep_steps" in params and not isinstance(params["checkpoint_keep_steps"], bool):
+                errors.append("analysis.checkpoint_keep_steps must be a boolean.")
+            if params.get("checkpoint_keep_steps") and "checkpoint_path" not in params:
+                errors.append("analysis.checkpoint_keep_steps requires analysis.checkpoint_path.")
+        if analysis_type == "harmonic_response":
+            if "frequencies_hz" not in params:
+                errors.append("analysis.frequencies_hz is required for harmonic_response.")
+            elif not isinstance(params["frequencies_hz"], list) or not params["frequencies_hz"]:
+                errors.append("analysis.frequencies_hz must be a non-empty list.")
+            else:
+                for index, frequency in enumerate(params["frequencies_hz"]):
+                    if not _is_number(frequency) or float(frequency) < 0.0:
+                        errors.append(f"analysis.frequencies_hz[{index}] must be a non-negative finite number.")
+            self._validate_rayleigh(params, errors)
+            self._validate_modal_damping_targets(params, errors)
+        if analysis_type == "modal":
+            if "modes" in params:
+                self._positive_int("analysis.modes", params["modes"], errors)
+            if "dense_modal_max_dofs" in params:
+                self._positive_int("analysis.dense_modal_max_dofs", params["dense_modal_max_dofs"], errors)
+            if "modal_shift_hz" in params and "modal_shift_eigenvalue" in params:
+                errors.append("analysis must define only one of modal_shift_hz and modal_shift_eigenvalue.")
+            for key in ("modal_shift_hz", "modal_shift_eigenvalue", "arpack_tolerance"):
+                if key in params:
+                    self._nonnegative_number(f"analysis.{key}", params[key], errors)
+            for key in ("arpack_maxiter", "arpack_ncv"):
+                if key in params:
+                    self._positive_int(f"analysis.{key}", params[key], errors)
+            if "arpack_which" in params:
+                value = params["arpack_which"]
+                if not isinstance(value, str) or value.upper() not in {"LM", "SM", "LA", "SA", "BE"}:
+                    errors.append("analysis.arpack_which must be one of LM, SM, LA, SA or BE.")
+            if _is_int(params.get("modes")) and _is_int(params.get("arpack_ncv")):
+                if int(params["arpack_ncv"]) <= int(params["modes"]):
+                    errors.append("analysis.arpack_ncv must be greater than analysis.modes.")
+        if analysis_type == "nonlinear_static":
+            if "load_steps" in params:
+                self._positive_int("analysis.load_steps", params["load_steps"], errors)
+            if "max_arc_steps" in params:
+                self._positive_int("analysis.max_arc_steps", params["max_arc_steps"], errors)
+            if "arc_length_control_dof" in params:
+                self._nonnegative_int("analysis.arc_length_control_dof", params["arc_length_control_dof"], errors)
+            if "adaptive_arc_length" in params and not isinstance(params["adaptive_arc_length"], bool):
+                errors.append("analysis.adaptive_arc_length must be a boolean.")
+            if "arc_length_allow_load_factor_turning" in params and not isinstance(
+                params["arc_length_allow_load_factor_turning"], bool
+            ):
+                errors.append("analysis.arc_length_allow_load_factor_turning must be a boolean.")
+            if "arc_length_stop_mode" in params:
+                stop_mode = params["arc_length_stop_mode"]
+                if not isinstance(stop_mode, str) or stop_mode.lower() not in {"target_load", "max_steps"}:
+                    errors.append("analysis.arc_length_stop_mode must be target_load or max_steps.")
+            for key in (
+                "min_arc_length_radius",
+                "max_arc_length_radius",
+                "arc_length_growth_factor",
+                "arc_length_shrink_factor",
+                "arc_length_load_factor_limit",
+            ):
+                if key in params:
+                    self._positive_number(f"analysis.{key}", params[key], errors)
+            if "arc_length_growth_factor" in params and _is_number(params["arc_length_growth_factor"]):
+                if float(params["arc_length_growth_factor"]) < 1.0:
+                    errors.append("analysis.arc_length_growth_factor must be greater than or equal to 1.")
+            if "arc_length_shrink_factor" in params and _is_number(params["arc_length_shrink_factor"]):
+                if not 0.0 < float(params["arc_length_shrink_factor"]) < 1.0:
+                    errors.append("analysis.arc_length_shrink_factor must be strictly between 0 and 1.")
+            if (
+                _is_number(params.get("min_arc_length_radius"))
+                and _is_number(params.get("max_arc_length_radius"))
+                and float(params["max_arc_length_radius"]) < float(params["min_arc_length_radius"])
+            ):
+                errors.append("analysis.max_arc_length_radius must be at least min_arc_length_radius.")
+            if "arc_length_grow_below_iterations" in params:
+                self._nonnegative_int(
+                    "analysis.arc_length_grow_below_iterations",
+                    params["arc_length_grow_below_iterations"],
+                    errors,
+                )
+            if "arc_length_shrink_above_iterations" in params:
+                self._positive_int(
+                    "analysis.arc_length_shrink_above_iterations",
+                    params["arc_length_shrink_above_iterations"],
+                    errors,
+                )
+            if (
+                _is_int(params.get("arc_length_grow_below_iterations"))
+                and _is_int(params.get("arc_length_shrink_above_iterations"))
+                and int(params["arc_length_grow_below_iterations"])
+                >= int(params["arc_length_shrink_above_iterations"])
+            ):
+                errors.append(
+                    "analysis arc-length iteration thresholds must grow_below < shrink_above."
+                )
+            if "load_path" in params:
+                path = params["load_path"]
+                if not isinstance(path, list) or not path:
+                    errors.append("analysis.load_path must be a non-empty list.")
+                else:
+                    for index, factor in enumerate(path):
+                        if not _is_number(factor):
+                            errors.append(f"analysis.load_path[{index}] must be a finite scalar.")
+                if params.get("adaptive_load_steps"):
+                    errors.append("analysis.load_path is not yet compatible with adaptive_load_steps.")
+                if str(params.get("method", "")).lower() == "arc_length":
+                    errors.append("analysis.load_path is not compatible with arc_length.")
+            for key in ("checkpoint_path", "restart_from"):
+                if key in params and (not isinstance(params[key], str) or not str(params[key]).strip()):
+                    errors.append(f"analysis.{key} must be a non-empty path string.")
+                elif key in params and not str(params[key]).lower().endswith(".npz"):
+                    errors.append(f"analysis.{key} must use the .npz format.")
+            if "checkpoint_interval" in params:
+                self._positive_int("analysis.checkpoint_interval", params["checkpoint_interval"], errors)
+                if "checkpoint_path" not in params:
+                    errors.append("analysis.checkpoint_interval requires analysis.checkpoint_path.")
+            if "checkpoint_keep_steps" in params and not isinstance(params["checkpoint_keep_steps"], bool):
+                errors.append("analysis.checkpoint_keep_steps must be a boolean.")
+            if params.get("checkpoint_keep_steps") and "checkpoint_path" not in params:
+                errors.append("analysis.checkpoint_keep_steps requires analysis.checkpoint_path.")
+            if params.get("adaptive_load_steps") and any(key in params for key in ("checkpoint_path", "restart_from")):
+                errors.append("analysis nonlinear checkpoint/restart requires fixed load-control steps.")
+        if analysis_type == "geometric_nonlinear_static":
+            if "load_increments" in params:
+                self._positive_int("analysis.load_increments", params["load_increments"], errors)
+                if _is_int(params["load_increments"]) and int(params["load_increments"]) < 6:
+                    errors.append("analysis.load_increments must be at least 6.")
+            if "max_iterations" in params:
+                self._positive_int("analysis.max_iterations", params["max_iterations"], errors)
+            if "tolerance" in params:
+                self._positive_number("analysis.tolerance", params["tolerance"], errors)
+        if analysis_type == "linear_buckling":
+            for key in (
+                "preload_factor",
+                "initial_factor",
+                "maximum_factor",
+                "factor_tolerance",
+                "eigensolver_tolerance",
+            ):
+                if key in params:
+                    self._positive_number(f"analysis.{key}", params[key], errors)
+            for key in ("load_increments", "max_iterations", "bracket_iterations", "eigensolver_maxiter"):
+                if key in params:
+                    self._positive_int(f"analysis.{key}", params[key], errors)
+
+
+    def _validate_dynamic_load_function(self, params: Mapping[str, Any], errors: list[str]) -> None:
+        if any(key in params for key in ("load_table", "load_factors", "load_factors_by_load")):
+            return
+        kind = params.get("load_function", "constant")
+        allowed = {"constant", "linear_ramp", "sine", "half_sine_pulse", "linear_chirp"}
+        if not isinstance(kind, str) or kind.lower() not in allowed:
+            errors.append(
+                "analysis.load_function must be one of constant, linear_ramp, sine, half_sine_pulse or linear_chirp."
+            )
+            return
+        required = {
+            "sine": (("load_frequency_hz", False),),
+            "half_sine_pulse": (("pulse_duration", True),),
+            "linear_chirp": (
+                ("chirp_start_hz", False),
+                ("chirp_end_hz", True),
+                ("chirp_duration", True),
+            ),
+        }.get(kind.lower(), ())
+        for key, strictly_positive in required:
+            if key not in params:
+                errors.append(f"analysis.{key} is required for load_function {kind!r}.")
+            elif strictly_positive:
+                self._positive_number(f"analysis.{key}", params[key], errors)
+            else:
+                self._nonnegative_number(f"analysis.{key}", params[key], errors)

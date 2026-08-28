@@ -1,6 +1,26 @@
 # Prochaines etapes du solveur EF
 
-## Campagne prioritaire 0.2.3 alpha - chaine HEX8 bloquante
+## Campagne prioritaire planifiee 0.2.5 alpha
+
+La release `v0.2.4a0` constitue la baseline publiee. Le chantier suivant est
+`0.2.5a0 - Unified Nonlinear Structural Mechanics`. Il est en phase de
+planification uniquement : aucune formulation, aucun solveur et aucun resultat
+numerique 0.2.5 ne sont encore implementes ou qualifies.
+
+Le pack de preparation controle est disponible dans
+[`docs/verification/0_2_5/README.md`](docs/verification/0_2_5/README.md). Il
+impose l'ordre suivant : baseline 0.2.4, fermeture de la dette V&V J2,
+geometrie non lineaire commune, flambement, arc-length, contact sans frottement,
+couplages, performance, modes d'echec, correlations externes, non-regression et
+revue Owner. Chaque work package possede sa gate et ses criteres STOP/GO.
+
+Avant toute implementation, l'Owner doit notamment arbitrer le modele de
+couplage J2 avec les grandes transformations, la formulation de contact normal,
+la methode arc-length initiale et la place optionnelle du frottement. Les
+sections plus anciennes ci-dessous sont conservees comme historique et ne
+definissent plus la priorite courante.
+
+## Historique 0.2.3 alpha - chaine HEX8
 
 **Cible planifiee :** `0.2.3a0` (aucune version package, commit, tag ou
 publication n'est creee par cette feuille de route). Cette section est la

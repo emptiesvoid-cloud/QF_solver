@@ -1,7 +1,7 @@
 {
   "status": "WARNING",
   "solver_name": "QF_solver",
-  "solver_version": "0.2.4a0",
+  "solver_version": "0.2.5a0",
   "source_path": "j2_bar_tet4.msh",
   "source_sha256": "cf3600914d19bcb66d2d2a0d644922fc67048fde124e70329c277cc15585248b",
   "setup_path": "result.setup.json",

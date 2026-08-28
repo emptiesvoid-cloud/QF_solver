@@ -1,8 +1,8 @@
 ---
 doc_id: DOC-REF-API-002
-revision: 0.2
-status: reviewed
-applicable_version: 0.2.2a0
+revision: 0.3
+status: draft
+applicable_version: 0.2.5a0
 reviewer: ""
 approver: ""
 ---
@@ -11,14 +11,14 @@ approver: ""
 
 ## Contrat public
 
-Les imports pris en charge sont exclusivement ceux de `qf_solver`. Ils couvrent le cycle
-standard `load_model -> check_mesh -> solve_model -> save_result`, les exports
-de preuve et les fonctions de benchmark publiees. Les modules `solveur`,
-`solveur.core`, `solveur.elements`, `solveur.io` et `solveur.large` sont des
-espaces d'implementation internes. Leur code reste lisible, mais ils ne
-constituent pas un contrat pour les nouvelles integrations.
+Les nouvelles integrations doivent importer exclusivement depuis `qf_solver` :
 
-La version installee est disponible sans importer le noyau interne :
+```python
+from qf_solver import check_mesh, load_model, save_result, solve_model
+```
+
+Le cycle standard est `load_model -> check_mesh -> solve_model -> save_result`.
+La version est disponible sans importer le noyau interne :
 
 ```python
 from qf_solver import __version__
@@ -26,26 +26,18 @@ from qf_solver import __version__
 print(__version__)
 ```
 
-Les entrees JSON v1 restent compatibles tant que `schema_version` est absent
-ou vaut `1`. Les codes de sortie CLI documentes sont egalement publics. Un
-changement de resultat numerique doit etre explique dans le changelog et
-protege par une mise a jour de preuve ou de snapshot.
+Le package `solveur` est l'espace d'implementation interne et une facade de
+compatibilite de la serie 0.2.x. Les alias `solveur-ef` et `main_solveur.py`
+sont deprecies pour les nouvelles integrations ; la commande recommandee est
+`qf-solver`.
 
-## Politique de version
+## Compatibilite
 
-- Correctif: correction sans changement volontaire de contrat public.
-- Mineure: ajout retrocompatible d'une fonctionnalite, d'un champ optionnel ou
-  d'une commande.
-- Majeure: retrait d'API, rupture JSON/CLI ou changement numerique intentionnel
-  d'une baseline publiee.
+Les entrees JSON v1 restent compatibles lorsque `schema_version` est absent ou
+vaut `1`. Les codes de sortie CLI et les commandes documentees font partie du
+contrat public. Un changement numerique volontaire doit etre explique dans le
+changelog et rattache a une nouvelle preuve.
 
-Les alias `solveur-ef` et `main_solveur.py` sont deprecies et prevus pour
-retrait a partir de `0.3.0`. Les nouvelles integrations doivent utiliser
-la commande installee `qf-solver`. Le lanceur source `qf_solver.py` reste
-disponible pendant la transition, mais ne definit pas une seconde API Python.
-
-## Maturite
-
-La stabilite d'interface ne vaut pas validation mecanique universelle. Chaque
-analyse conserve son statut de maturite et ses limites dans le tableau de bord
-et les rapports V&V.
+La stabilite d'interface ne vaut pas qualification mecanique universelle. Les
+limites et la maturite de chaque analyse restent celles du tableau de bord et
+des rapports V&V.

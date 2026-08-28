@@ -588,9 +588,9 @@
     "effective_factorization_reused": true,
     "effective_factorization_count": 1,
     "effective_factorization_solve_count": 40,
-    "effective_factorization_seconds": 9.350001346319914e-05,
-    "effective_factorization_solve_seconds_total": 0.00024209963157773018,
-    "effective_factorization_last_solve_seconds": 5.499925464391708e-06,
+    "effective_factorization_seconds": 9.109999518841505e-05,
+    "effective_factorization_solve_seconds_total": 0.00024840005789883435,
+    "effective_factorization_last_solve_seconds": 5.700014298781753e-06,
     "assembly": {
       "stiffness": {
         "chunk_size": 256,
@@ -606,12 +606,12 @@
         "paired_assembly": true,
         "shared_chunk_pattern": true,
         "assembly_phase_seconds": {
-          "assembly_plan": 0.00012400001287460327,
-          "element_kernel": 0.00017799995839595795,
-          "chunk_sparse_conversion": 0.00016060005873441696,
-          "chunk_fusion": 1.700012944638729e-06,
-          "sparse_finalize": 0.0001311999512836337,
-          "discrete_merge": 4.369998350739479e-05
+          "assembly_plan": 0.00012120002065785229,
+          "element_kernel": 0.00017819998902268708,
+          "chunk_sparse_conversion": 0.00015189999248832464,
+          "chunk_fusion": 1.500011421740055e-06,
+          "sparse_finalize": 0.00013449997641146183,
+          "discrete_merge": 4.360001184977591e-05
         },
         "matrix": "stiffness",
         "accumulator_chunk_count": 1,
@@ -634,12 +634,12 @@
         "paired_assembly": true,
         "shared_chunk_pattern": true,
         "assembly_phase_seconds": {
-          "assembly_plan": 0.00012400001287460327,
-          "element_kernel": 0.00017799995839595795,
-          "chunk_sparse_conversion": 0.00016060005873441696,
-          "chunk_fusion": 1.700012944638729e-06,
-          "sparse_finalize": 0.0001311999512836337,
-          "discrete_merge": 4.369998350739479e-05
+          "assembly_plan": 0.00012120002065785229,
+          "element_kernel": 0.00017819998902268708,
+          "chunk_sparse_conversion": 0.00015189999248832464,
+          "chunk_fusion": 1.500011421740055e-06,
+          "sparse_finalize": 0.00013449997641146183,
+          "discrete_merge": 4.360001184977591e-05
         },
         "matrix": "mass",
         "accumulator_chunk_count": 1,
@@ -2732,7 +2732,7 @@
       "Transient dynamic audit uses the final Newmark state."
     ],
     "qualification": {
-      "solver_version": "0.2.4a0",
+      "solver_version": "0.2.5a0",
       "schema_version": 1,
       "units": {
         "system": "SI"

@@ -9,17 +9,17 @@
 | Empreinte maillage/source | `cf3600914d19bcb66d2d2a0d644922fc67048fde124e70329c277cc15585248b` |
 | Empreinte configuration/source | `1855b312d0919562e35b73f7a72ff58d52317b6da359ca0fd3fab768185e766a` |
 | Empreinte modele | `573270442e4d309849ff33acaefbae30ad17286741eec704be347e8d37fa1826` |
-| Empreinte resultat | `2a7d691520b4e06357120576263457accb6a688d91c1e93d0754430e3a9ed3ff` |
+| Empreinte resultat | `f692c9041e674af22523f6fa66a02e18355fa0153b1c9baafa1f8ac01344215e` |
 
 ### Criteres d'acceptation
 
 | Critere | Operateur | Valeur | Limite | Verdict |
 | --- | :---: | ---: | ---: | --- |
-| uniaxial-stress | <= | 2.185504e-15 | 0.02 | PASS |
-| uniaxial-plastic-strain | <= | 1.387779e-16 | 1.000000e-06 | PASS |
-| load-step-sensitivity | <= | 1.138714e-11 | 1.000000e-06 | PASS |
-| free-residual | <= | 1.194836e-13 | 1.000000e-07 | PASS |
-| step-residual | <= | 1.206419e-13 | 1.000000e-07 | PASS |
+| uniaxial-stress | <= | 9.934107e-16 | 0.02 | PASS |
+| uniaxial-plastic-strain | <= | 8.326673e-16 | 1.000000e-06 | PASS |
+| load-step-sensitivity | <= | 1.815909e-12 | 1.000000e-06 | PASS |
+| free-residual | <= | 9.994981e-14 | 1.000000e-07 | PASS |
+| step-residual | <= | 9.662410e-14 | 1.000000e-07 | PASS |
 
 ### Metriques principales
 
@@ -27,12 +27,12 @@
 | --- | --- |
 | applied_axial_stress | 3.000000e+08 |
 | mean_axial_stress | 3.000000e+08 |
-| relative_stress_error | 2.185504e-15 |
+| relative_stress_error | 9.934107e-16 |
 | expected_uniaxial_equivalent_plastic_strain | 0.05 |
 | mean_equivalent_plastic_strain | 0.05 |
-| relative_plastic_strain_error | 1.387779e-16 |
-| load_step_sensitivity | 1.138714e-11 |
+| relative_plastic_strain_error | 8.326673e-16 |
+| load_step_sensitivity | 1.815909e-12 |
 | load_step_counts | [3, 6, 12] |
 | converged_steps | 6 |
 | max_step_iterations | 6 |
-| free_relative_residual | 1.194836e-13 |
+| free_relative_residual | 9.994981e-14 |

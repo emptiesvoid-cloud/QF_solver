@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "units": {"system": "SI"},
+  "analysis": {
+    "type": "linear_buckling",
+    "method": "eigsh",
+    "preload_factor": 1.0,
+    "load_increments": 4,
+    "maximum_factor": 100.0,
+    "factor_tolerance": 0.0001
+  },
+  "nodes": [
+    [0.0, 0.0, 0.0],
+    [1.0, 0.0, 0.0],
+    [0.0, 1.0, 0.0],
+    [0.0, 0.0, 1.0]
+  ],
+  "elements": [
+    {"type": "TET4", "nodes": [0, 1, 2, 3], "material": "steel"}
+  ],
+  "materials": {
+    "steel": {"type": "isotropic_3d", "E": 210000000000.0, "nu": 0.3}
+  },
+  "fixed_dofs": [
+    {"node": 0, "dofs": ["UX", "UY", "UZ"]},
+    {"node": 2, "dofs": ["UX", "UY", "UZ"]},
+    {"node": 3, "dofs": ["UX", "UY", "UZ"]}
+  ],
+  "loads": [{"node": 1, "dof": "UX", "value": -210000000.0}]
+}

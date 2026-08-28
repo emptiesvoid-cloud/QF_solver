@@ -11,6 +11,7 @@ DEFAULT_METHODS = {
     "modal": "eigsh",
     "nonlinear_static": "newton_raphson",
     "geometric_nonlinear_static": "newton_raphson",
+    "linear_buckling": "eigsh",
     "transient_dynamic": "newmark",
     "harmonic_response": "direct_frequency",
 }
@@ -20,6 +21,7 @@ SUPPORTED_METHODS = {
     "modal": ("eigh", "eigsh", "lanczos", "lobpcg"),
     "nonlinear_static": ("newton_raphson", "modified_newton", "newton_line_search", "arc_length"),
     "geometric_nonlinear_static": ("newton_raphson",),
+    "linear_buckling": ("eigsh",),
     "transient_dynamic": ("newmark", "newmark_average_acceleration"),
     "harmonic_response": ("direct_frequency", "harmonic_direct"),
 }

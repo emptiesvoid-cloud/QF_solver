@@ -49,6 +49,8 @@ Analyses supportees:
 
 - `linear_static`: statique lineaire.
 - `modal`: analyse modale TET4/TET10/MITC3/MITC4/BEAM2 avec densite positive.
+- `linear_buckling`: facteur critique tangent borne et sparse pour TET4/HEX8;
+  chemin de recherche sans qualification externe ni post-flambement.
 - `nonlinear_static`: petits deplacements TET4/TET10.
 - `geometric_nonlinear_static`: TET4 total lagrangien Saint-Venant-Kirchhoff,
   charges nodales mortes, Newton complet; statut `research`.

@@ -7229,9 +7229,9 @@
       "residual_failure_tolerance": 1e-07,
       "fallback_used": false,
       "backend_used": "scipy",
-      "linear_solve_seconds": 0.0014437999343499541,
-      "assembly_seconds": 0.004942900035530329,
-      "total_seconds": 0.11726670002099127,
+      "linear_solve_seconds": 0.0011866000131703913,
+      "assembly_seconds": 0.004777699999976903,
+      "total_seconds": 0.11291739999433048,
       "resource_estimate": {
         "nnz": 820,
         "sparse_memory_bytes": 10036,
@@ -27125,7 +27125,7 @@
     ],
     "notes": [],
     "qualification": {
-      "solver_version": "0.2.4a0",
+      "solver_version": "0.2.5a0",
       "schema_version": 1,
       "units": {
         "system": "SI"

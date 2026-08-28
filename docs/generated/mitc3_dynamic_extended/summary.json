@@ -60,7 +60,7 @@
           "retained_dof_count": 448,
           "method": "eigh",
           "dense_conversion_used": true,
-          "elapsed_seconds": 1.8001803000224754,
+          "elapsed_seconds": 1.7509122999908868,
           "frequencies_hz": [
             21.7476905287637,
             64.58452543636716,
@@ -87,7 +87,7 @@
           "retained_dof_count": 960,
           "method": "eigh",
           "dense_conversion_used": true,
-          "elapsed_seconds": 4.022185700014234,
+          "elapsed_seconds": 3.9608041000028607,
           "frequencies_hz": [
             19.17820208734675,
             63.82647319313536,
@@ -114,7 +114,7 @@
           "retained_dof_count": 1664,
           "method": "eigh",
           "dense_conversion_used": true,
-          "elapsed_seconds": 7.124832300003618,
+          "elapsed_seconds": 7.247597000008682,
           "frequencies_hz": [
             18.121072828438074,
             63.291421567320214,
@@ -179,7 +179,7 @@
           "retained_dof_count": 448,
           "method": "eigh",
           "dense_conversion_used": true,
-          "elapsed_seconds": 1.7483961000107229,
+          "elapsed_seconds": 1.7655292999988887,
           "frequencies_hz": [
             21.7476905287637,
             64.58452543636716,
@@ -206,7 +206,7 @@
           "retained_dof_count": 448,
           "method": "eigsh",
           "dense_conversion_used": false,
-          "elapsed_seconds": 1.707334499922581,
+          "elapsed_seconds": 1.7191650999884587,
           "frequencies_hz": [
             21.747690527683574,
             64.58452543546125,
@@ -246,7 +246,7 @@
         "retained_dof_count": 2560,
         "method": "eigsh",
         "dense_conversion_used": false,
-        "elapsed_seconds": 10.399372600018978,
+        "elapsed_seconds": 10.511793199984822,
         "frequencies_hz": [
           17.596353192705223,
           62.87711787676035,

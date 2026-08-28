@@ -2,7 +2,7 @@
 doc_id: DOC-VV-003
 revision: 0.1
 status: draft controle
-applicable_version: 0.2.0
+applicable_version: 0.2.5a0
 reviewer: ""
 approver: ""
 ---
@@ -12,6 +12,11 @@ approver: ""
 Le registre `qualification/requirements.json` relie chaque exigence a la
 conception, au code, aux tests, aux references et aux artefacts. Une exigence
 orpheline rend le scope non pret.
+
+Pour la release candidate `0.2.5a0`, les preuves numeriques qualifiees restent
+liees au `QUALIFIED_SOURCE_SHA` indique dans le pack de release. Les commits
+documentaires ulterieurs sont distingues des sources numeriques qualifiees et
+ne constituent pas une nouvelle execution de calcul.
 
 ## Dossier standard
 

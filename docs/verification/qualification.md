@@ -2,7 +2,7 @@
 doc_id: DOC-VV-004
 revision: 0.1
 status: draft controle
-applicable_version: 0.2.0
+applicable_version: 0.2.5a0
 reviewer: ""
 approver: ""
 ---
@@ -11,6 +11,16 @@ approver: ""
 
 Le projet vise un outil qualifiable et verifiable. Seule une autorite ou un
 processus externe peut attribuer le statut `qualified` a un scope.
+
+## Candidat 0.2.5a0
+
+Le candidat 0.2.5a0 applique une qualification **bornee** : J2 small-strain
+sur TET4/TET10/HEX8/HEX20, elasticite Total-Lagrangian TET4/HEX8 dans son
+domaine teste, flambement sparse borne, contact sans frottement borne,
+caracterisation de performance et contrats d'echec. Les chemins arc-length,
+J2 finite-kinematic et les couplages G06 restent experimentaux ou differes;
+le frottement est hors scope de cette release. Les preuves et les limites
+associees sont centralisees dans le [pack 0.2.5](0_2_5/README.md).
 
 ## Profils
 

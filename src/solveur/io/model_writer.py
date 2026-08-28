@@ -102,11 +102,15 @@ def _rbe3(definition: object) -> dict[str, Any]:
 
 
 def _contact(contact: object) -> dict[str, Any]:
+    slave_patch_nodes = getattr(contact, "slave_patch_nodes", None)
     result = {
         "name": contact.name,
-        "slave_node": contact.slave_node,
         "gap_tolerance": contact.gap_tolerance,
     }
+    if slave_patch_nodes is None:
+        result["slave_node"] = contact.slave_node
+    else:
+        result["slave_nodes"] = list(slave_patch_nodes)
     if contact.master_faces is None:
         result["master_nodes"] = list(contact.master_nodes)
     else:

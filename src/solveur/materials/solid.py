@@ -118,7 +118,13 @@ class VonMisesElastoplasticMaterial(SolidMaterial):
         return self.E / (3.0 * (1.0 - 2.0 * self.nu))
 
     def initial_state(self) -> dict[str, object]:
-        return {"equivalent_plastic_strain": 0.0, "plastic_strain": [0.0] * 6}
+        return {
+            "equivalent_plastic_strain": 0.0,
+            "plastic_strain": [0.0] * 6,
+            "plastic_dissipation": 0.0,
+            "strain": [0.0] * 6,
+            "stress": [0.0] * 6,
+        }
 
     def stress_tangent(self, strain: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
         stress, tangent, _ = self.stress_tangent_state(strain, self.initial_state())
@@ -155,6 +161,8 @@ class VonMisesElastoplasticMaterial(SolidMaterial):
                 "plastic_multiplier": 0.0,
                 "equivalent_plastic_strain": old_equivalent,
                 "plastic_strain": old_plastic.tolist(),
+                "plastic_dissipation": float(previous_state.get("plastic_dissipation", 0.0)),
+                "strain": strain.tolist(),
             }
             return trial, self.elasticity_matrix, state
         shear = self.shear_modulus
@@ -167,6 +175,10 @@ class VonMisesElastoplasticMaterial(SolidMaterial):
         plastic_increment = _plastic_strain_tensor(deviator, q_trial, delta_gamma)
         plastic_strain = _voigt_strain_tensor(old_plastic) + plastic_increment
         stress = _stress_tensor_to_voigt(stress_tensor)
+        old_stress = np.asarray(previous_state.get("stress", trial.tolist()), dtype=float)
+        plastic_increment_voigt = _strain_tensor_to_voigt(plastic_increment)
+        dissipation_increment = 0.5 * float((old_stress + stress) @ plastic_increment_voigt)
+        plastic_dissipation = float(previous_state.get("plastic_dissipation", 0.0)) + dissipation_increment
         tangent = self._algorithmic_tangent(deviator, q_trial, delta_gamma)
         state = {
             "model": "von_mises_isotropic_hardening",
@@ -178,6 +190,8 @@ class VonMisesElastoplasticMaterial(SolidMaterial):
             "plastic_multiplier": float(delta_gamma),
             "equivalent_plastic_strain": float(equivalent),
             "plastic_strain": _strain_tensor_to_voigt(plastic_strain).tolist(),
+            "plastic_dissipation": plastic_dissipation,
+            "strain": strain.tolist(),
         }
         return stress, tangent, state
 

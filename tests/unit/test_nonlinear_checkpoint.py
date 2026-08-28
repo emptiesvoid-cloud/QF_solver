@@ -12,7 +12,7 @@ from solveur.api import solve_model
 from solveur.core.errors import InputValidationError
 from solveur.core.nonlinear_checkpoint import NonlinearCheckpoint, NonlinearCheckpointSettings
 from solveur.io.nonlinear_checkpoint import NpzNonlinearCheckpointStore
-from tests.unit.test_analysis_features import elastoplastic_tet4_model
+from tests.unit.test_analysis_features import elastoplastic_tet4_model, nonlinear_tet4_model
 
 
 def test_nonlinear_checkpoint_round_trip_and_versioned_copy(tmp_path) -> None:
@@ -113,3 +113,34 @@ def test_nonlinear_checkpoint_rejects_adaptive_continuation(tmp_path) -> None:
 
     with pytest.raises(InputValidationError, match="fixed load-control"):
         solve_model(model)
+
+
+def test_arc_length_checkpoint_restart_matches_continuous_path(tmp_path) -> None:
+    continuous = nonlinear_tet4_model(method="arc_length")
+    continuous.analysis.parameters.update(
+        {
+            "max_arc_steps": 12,
+            "target_load_factor": 1.0,
+            "checkpoint_path": str(tmp_path / "arc.npz"),
+            "checkpoint_interval": 1,
+            "checkpoint_keep_steps": True,
+        }
+    )
+    reference = solve_model(continuous)
+    intermediate = tmp_path / "arc.step00000001.npz"
+    assert intermediate.is_file()
+
+    restarted = deepcopy(continuous)
+    restarted.analysis.parameters.update(
+        {
+            "checkpoint_path": str(tmp_path / "arc-restarted.npz"),
+            "restart_from": str(intermediate),
+            "checkpoint_keep_steps": False,
+        }
+    )
+    resumed = solve_model(restarted)
+
+    np.testing.assert_allclose(resumed.displacements, reference.displacements, rtol=1.0e-10, atol=1.0e-12)
+    assert resumed.solver["restart_step"] == 1
+    assert resumed.solver["history_is_partial"] is True
+    assert resumed.solver["arc_length"] is True

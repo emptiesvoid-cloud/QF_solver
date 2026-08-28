@@ -1,0 +1,53 @@
+{
+  "command": "python scripts/build_g02_owner_evidence_manifest.py",
+  "contract_lowered": false,
+  "excluded_scope": [
+    "TET10/HEX20 finite-kinematic promotion",
+    "total_lagrangian_j2 and finite-kinematic plasticity",
+    "post-limit response, buckling, arc-length, contact and coupling",
+    "friction, multi-million-DOF and physical-validation claims"
+  ],
+  "gate": "025-G02",
+  "gate_status": "PASS",
+  "generated_at_utc": "2026-08-27T18:06:59Z",
+  "mesh_decision": "APPROVED_BOUNDED_REFINEMENT",
+  "owner_decision": "APPROVED",
+  "owner_documents": [
+    {
+      "path": "docs/verification/0_2_5/0_2_5_g02_owner_review.md",
+      "sha256": "1408643f17cc6b248c3deb75ff77142abc73280b8f80935f292e57041957ec1f"
+    },
+    {
+      "path": "docs/verification/0_2_5/0_2_5_gate_matrix.md",
+      "sha256": "9918b8c0fe60d9e81dd726449489fff3a22f901e5a4d090c17fb359786a59152"
+    },
+    {
+      "path": "docs/verification/0_2_5/0_2_5_vnv_matrix.md",
+      "sha256": "9b52b37c4f9a9efc57bbb4db8eb36e6619c592f8651ab3b9ab9fe865ff815a11"
+    }
+  ],
+  "owner_evidence_sha": "bdb0c8801d6394093fb81e3f216d373cecc956b6",
+  "owner_evidence_tree_clean": true,
+  "qualified_evidence": {
+    "artifact_count": 25,
+    "path": "results/vnv_0_2_5/g02_latest/evidence_manifest.json",
+    "sha256": "18b1cc1c85465d4c79d1ce50e73c4c54e77e4eead5443b06357f90e2106a1f39",
+    "status_before_owner_decision": "OPEN"
+  },
+  "qualified_scope": [
+    "elastic Total-Lagrangian finite-deformation statics",
+    "common Full Newton with sparse tangent assembly",
+    "TET4 and HEX8",
+    "documented monotonic pre-limit positive-det(F) envelope"
+  ],
+  "qualified_source_dirty": false,
+  "qualified_source_sha": "fec5380db3bcdba13799ce31f3ed042ac5d2557b",
+  "record_type": "owner_evidence_manifest",
+  "schema_version": 1,
+  "unchanged_functional_gates": [
+    "025-G03",
+    "025-G04",
+    "025-G05",
+    "025-G06"
+  ]
+}

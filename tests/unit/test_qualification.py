@@ -1,4 +1,5 @@
 import pytest
+from types import SimpleNamespace
 
 from solveur.api import InputValidationError as PublicInputValidationError
 from solveur.api import RunVerdict
@@ -36,6 +37,20 @@ def test_model_maturity_marks_nonlinear_as_experimental():
     maturity = model_maturity(model)
     assert maturity["overall"] == "experimental"
     assert maturity["analysis"] == "experimental"
+
+
+@pytest.mark.parametrize("element_type", ["HEX8", "HEX20"])
+def test_model_maturity_classifies_hex_families_from_release_matrix(element_type: str):
+    model = SimpleNamespace(
+        analysis=SimpleNamespace(type="linear_static", method="direct"),
+        elements=[SimpleNamespace(type=element_type, material="steel")],
+        materials={"steel": {"type": "isotropic_3d"}},
+    )
+
+    maturity = model_maturity(model)
+
+    assert maturity["elements"][element_type] == "stable_after_reinforced_tests"
+    assert maturity["overall"] == "stable_after_reinforced_tests"
 
 
 def test_qualification_profile_blocks_experimental_maturity():

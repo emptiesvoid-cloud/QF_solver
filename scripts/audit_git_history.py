@@ -33,6 +33,7 @@ _SENSITIVE_PARTS = (
 )
 _REVIEWED_PUBLIC_HISTORY_PATHS = (
     "qualification/vnv/mitc4_stable_package_2026-08-21/study.json",
+    "qualification/vnv/external/rqg08_j2_common_024/reference/summary.json",
 )
 
 

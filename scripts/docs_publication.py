@@ -46,6 +46,7 @@ class DocumentationPublisher:
         profile: str,
         records: Sequence[object],
         scales: dict[str, float],
+        source_state: dict[str, Any] | None = None,
     ) -> None:
         self.root = Path(project_root).resolve()
         self.docs = self.root / "docs"
@@ -53,7 +54,7 @@ class DocumentationPublisher:
         self.profile = profile
         self.records: list[Any] = list(records) or _cached_benchmark_records(self.root)
         self.scales = dict(scales)
-        self.source_state = git_source_state(self.root)
+        self.source_state = dict(source_state) if source_state is not None else git_source_state(self.root)
 
     def publish(self) -> dict[str, Any]:
         self._document_registry()
@@ -259,11 +260,13 @@ class DocumentationPublisher:
 
 | Perimetre | Maturite | Decision documentaire |
 | --- | --- | --- |
-| TET4 statique lineaire | <span class="maturity stable">stable</span> | Candidat interne dans son domaine borne |
-| MITC4 statique lineaire | <span class="maturity stable">stable</span> | Benchmarks et patchs obligatoires |
-| Modal, Newmark, harmonique | <span class="maturity reinforced">tests renforces</span> | Engineering avec revue |
-| TET10 et non-lineaire | <span class="maturity experimental">experimental</span> | Pas de remplacement autonome |
-| Grand modele | <span class="maturity experimental">experimental</span> | Jalon 1M separe |
+| TET4 statique lineaire | <span class="maturity stable">stable</span> | Domaine borne documente |
+| MITC3+/MITC4 et BEAM2 | <span class="maturity reinforced">tests renforces</span> | Scopes propres a chaque formulation |
+| J2 small-strain / TET4-TET10-HEX8-HEX20 | <span class="maturity reinforced">qualifie borne</span> | G01, chemins et correlation documentes |
+| Total-Lagrangian TET4/HEX8 et flambement | <span class="maturity reinforced">qualifie borne</span> | G02/G03, domaine pre-limite ou premier seuil |
+| Contact sans frottement | <span class="maturity reinforced">qualifie borne</span> | G05, noeud/patch vers surface triangulee |
+| Arc-length et couplages non lineaires | <span class="maturity experimental">experimental</span> | G04/G06 non qualifies dans 0.2.5a0 |
+| Grand modele | <span class="maturity experimental">experimental</span> | Caracterisation separee, aucun claim nouveau |
 """.strip()
         (self.generated / "status.md").write_text(panels + "\n", encoding="utf-8")
         write_markdown_table(
@@ -276,8 +279,8 @@ class DocumentationPublisher:
                     "commit approuve et depot propre",
                 ),
                 ("Site engineering", "genere", "build strict et campagne PASS"),
-                ("Owner review des pages", "ouverte", "signatures mecanique/numerique"),
-                ("Scope 1M PETSc", "separe", "campagne environnement controle"),
+                ("Owner review 0.2.5a0", "approuvee", "publication reste une action Owner separee"),
+                ("Scope 1M PETSc", "hors scope", "requalification future avec environnement controle"),
             ],
         )
         return test_count
@@ -387,11 +390,16 @@ class DocumentationPublisher:
             if str(entry["path"]).startswith("generated/") or str(entry["path"]).startswith("assets/generated/")
         ]
         manifest = {
-            "manifest_version": 1,
+            "manifest_version": 2,
             "generated_at_utc": utc_timestamp(),
             "profile": self.profile,
             "solver_name": DISPLAY_NAME,
             "solver_version": solver_version(),
+            # The manifest is generated after checkout and may be written to a
+            # tracked documentation path.  This field identifies the source
+            # revision it was generated from without making the manifest part
+            # of that revision's own identity.
+            "source_sha": str(self.source_state["revision"]),
             "source": self.source_state,
             "runtime": runtime_fingerprint(),
             "test_count": test_count,

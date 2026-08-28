@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 from pathlib import Path
 from typing import Sequence
@@ -13,7 +14,7 @@ from solveur.cli import mesh as mesh_cli
 from solveur.cli import standard as standard_cli
 from solveur.cli import vnv as vnv_cli
 from solveur.cli import verification as verification_cli
-from solveur.core.errors import ExitCode, SolverError
+from solveur.core.errors import ExitCode, NumericalConvergenceError, SolverError
 from solveur.core.qualification import PROFILES
 from solveur.verification.traceability import QUALIFICATION_SCOPES
 from solveur.version import DISPLAY_NAME, LEGACY_CLI, __version__, legacy_entrypoint_warning
@@ -33,7 +34,14 @@ class SolverCli:
         solve.add_argument("--output", required=True, type=Path)
         solve.add_argument(
             "--analysis",
-            choices=("linear_static", "modal", "nonlinear_static", "transient_dynamic", "harmonic_response"),
+            choices=(
+                "linear_static",
+                "modal",
+                "linear_buckling",
+                "nonlinear_static",
+                "transient_dynamic",
+                "harmonic_response",
+            ),
             default=None,
         )
         solve.add_argument("--method", default=None)
@@ -394,6 +402,11 @@ class SolverCli:
             if args.debug:
                 raise
             print(f"ERROR[{type(exc).__name__}]: {exc}", file=sys.stderr)
+            if isinstance(exc, NumericalConvergenceError):
+                print(
+                    json.dumps(exc.to_dict(), sort_keys=True, default=str),
+                    file=sys.stderr,
+                )
             return int(exc.exit_code)
         except (FileNotFoundError, ValueError) as exc:
             if args.debug:

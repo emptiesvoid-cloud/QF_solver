@@ -1,329 +1,227 @@
-# QF_solver
+# QF Solver
 
-Solveur FEM Python boîte blanche, utilisable par CLI et API. Le projet couvre
-les solides TET4/TET10, les coques MITC3+/MITC4, la statique, le modal, Newmark,
-l'harmonique, un non-linéaire expérimental et un chemin grand modèle.
+**White-box finite-element tools for verifiable structural mechanics.**
 
-## Origine et objectif
+[![Quality and verification](https://github.com/emptiesvoid-cloud/QF_solver/actions/workflows/quality.yml/badge.svg?branch=main)](https://github.com/emptiesvoid-cloud/QF_solver/actions/workflows/quality.yml)
+[![PyPI](https://img.shields.io/pypi/v/qf-solver.svg)](https://pypi.org/project/qf-solver/)
+[![Python](https://img.shields.io/pypi/pyversions/qf-solver.svg)](https://pypi.org/project/qf-solver/)
+[![License](https://img.shields.io/github/license/emptiesvoid-cloud/QF_solver.svg)](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/LICENSE)
 
-QF_solver est un projet personnel commencé en août 2024 par Quentin Farinazzo.
-Il est publié progressivement, par périmètres techniques et preuves V&V
-associées, plutôt que comme un bloc opaque. Son objectif à long terme est de
-proposer un solveur FEM ouvert, fiable, explicable et utile à l'ingénieur : les
-hypothèses, limites, validations et résultats doivent pouvoir être relus.
+QF Solver est un solveur d'elements finis Python open source pour la mecanique
+des structures, la dynamique et la simulation d'ingenierie verifiable. Le
+projet est concu comme un logiciel white-box : formulations, hypotheses,
+resultats et preuves restent consultables dans le depot.
 
-Cette alpha ne revendique ni certification externe, ni équivalence générale à
-un logiciel commercial. Elle fournit un noyau ouvert et des domaines d'emploi
-documentés, à utiliser avec le jugement mécanique adapté au cas calculé.
-
-La release alpha courante est **0.2.4a0**. Elle consolide une infrastructure
-expérimentale commune de mécanique solide non linéaire sur J2 petites
-déformations pour TET4, TET10, HEX8 et HEX20. Full Newton est le seul chemin
-non linéaire qualifié dans ce périmètre ; Modified Newton reste hors
-production. RQ-G08 est fermé comme `PASS_EXTERNAL_CORRELATION_BOUNDED` pour
-un patch affine à un élément corrélé à Code_Aster. Le périmètre reste
-explicitement borné : aucune revendication multi-éléments, cyclique ou de
-validation physique n'est faite.
-Le projet vise un outil **qualifiable et vérifiable** ; il n'est pas présenté
-comme certifié et ne remplace pas une revue mécanique adaptée au cas d'emploi.
-
-## Licence et attribution
-
-Le code source de QF_solver est publié sous
-[Apache License 2.0](LICENSE). La documentation et les exemples originaux
-sont publies sous [CC BY 4.0](LICENSE-DOCS). Les composants tiers restent
-régis par leurs propres licences, recensées dans
-[`THIRD_PARTY_LICENSES.md`](THIRD_PARTY_LICENSES.md).
-
-QF_solver est un projet personnel de Quentin Farinazzo. La licence autorise
-la réutilisation et l'usage commercial, mais ne constitue ni une garantie de
-résultat mécanique ni une certification. Les contrats publics, les règles de
-contribution, de sécurité et de signalement V&V sont disponibles dans
-[`OPEN_SOURCE_READINESS.md`](OPEN_SOURCE_READINESS.md).
-
-## Documentation technique
-
-Les documents Markdown et PDF versionnés sont la source détaillée unique pour
-les formulations, repères locaux, solveurs, démonstrations, limites et preuves.
-
-```powershell
-python -m pip install -e ".[docs]"
-python .\scripts\build_docs.py --profile engineering
-python .\scripts\build_technical_latex.py
-```
-
-Le premier script régénère les tableaux, figures et manifestes Markdown. Le
-second produit le dossier PDF lorsque Pandoc et MiKTeX/LaTeX sont disponibles.
-La documentation ne dépend d'aucun serveur, navigateur, CDN ou télémétrie.
-
-Une construction `qualification` refuse volontairement une source sans
-révision Git approuvée ou avec des exigences orphelines :
-
-```powershell
-python .\scripts\build_docs.py --profile qualification
-```
-
-## Maturité et périmètres
-
-| Capacite | Maturite actuelle | Usage recommande |
-| --- | --- | --- |
-| TET4 et TET10 isotropes linéaires | `stable` | Statique, modal, Newmark et harmonique dans les cas documentés |
-| MITC3+ isotrope classique | `stable` | Statique, modal, Newmark et harmonique dans les domaines documentés |
-| MITC3+ multicouche mince plan et courbe mixte/transverse | `stable` | Sous-périmètres explicitement limités ; domaine axial complet non promu |
-| MITC4 isotrope | `stable` | Statique, modal, Newmark et harmonique avec masse cohérente et drilling condensé |
-| MITC4 multicouche plan et orthotrope mono-pli | `stable` | Layups, géométries et exclusions explicitement documentés |
-| BEAM2 et entités discrètes linéaires | `stable` | Statique, modal, Newmark et harmonique documentés |
-| Solides orthotropes TET4/TET10 | `stable` | Matériau homogène, statique, modal et Newmark dans le domaine testé |
-| HEX8/HEX20 linéaires | `accepted_for_release_0_2_3` | Statique, modal, Newmark, harmonique, charges et import Gmsh dans le périmètre V&V 0.2.3a0 ; pas de promotion stable générale |
-| J2 petites déformations TET4/TET10/HEX8/HEX20 | `owner_accepted_experimental_bounded_use` | Full Newton qualifié ; corrélation externe RQ-G08 bornée à un élément ; pas de scope multi-éléments, cyclique ou physique |
-| Contact et grand modèle TET4 | `accepted_for_bounded_engineering_use` | Usage borné ; limites propres à chaque scope obligatoires |
-| TET4 total-lagrangien structurel | `research` | Preuves incomplètes ; aucune promotion engineering |
-| MITC4 orthotrope courbe | `out_of_acceptance` | Diagnostic interne uniquement, sans revendication d'usage |
-
-Le détail des 36 scopes de release, de leurs preuves et de leurs exclusions est
-dans le [registre de maturité](qualification/element_analysis_matrix.json) et
-dans le [paquet de clôture](docs/verification/release_vv_0_2_1_closure_package_2026-08-22.md).
-
-## État de la release 0.2.4a0
-
-La release précédente `v0.2.3a0` est conservée comme historique. La campagne
-0.2.4a0 couvre les contrats J2 communs, la tangente cohérente, les transactions
-d'état, Full Newton et la corrélation externe RQ-G08 bornée. Les preuves de
-release seront attachées au SHA final du commit de préparation ; la
-publication PyPI et la création de la GitHub Release restent des décisions
-séparées réservées à l'Owner.
-
-Le chantier backend 0.2.2 alpha est décrit dans le [rapport de résolution
-sparse](docs/verification/qf_solver_0_2_2_alpha_backend_report.md) et dans la
-[feuille de route backend](prochaines_etapes.md#qf-solver-022-alpha--feuille-de-route-backend-numerique).
-La checklist de préparation du tag et de la publication PyPI est dans le
-[dossier de préparation de release 0.2.2a0](docs/verification/qf_solver_0_2_2_alpha_release_preparation.md).
-
-Les manifestes de documentation calculent le nombre de tests, la campagne
-courante, la révision source et les verdicts au moment de la génération.
-La page de revue publie aussi la couverture des 61 formules critiques et
-distingue explicitement contrôle automatique, Owner review et baseline Git.
-
-La validation engineering interne du TET4 linéaire isotrope est documentée
-dans la [décision de revue](docs/verification/revue_tet4_lineaire.md). Une
-[page HTML autonome](docs/reference/reports/REVUE_TET4_LINEAIRE.html) rassemble aussi les tableaux,
-conclusions et PNG pour une lecture locale sans serveur.
-
-Le MITC4 statique linéaire est valide pour l'usage engineering interne avec
-réserves, dans sa [décision de revue](docs/verification/revue_mitc4_lineaire.md).
-
-Le dossier Newmark MITC4 couvre vibration libre, amortissement, impulsion,
-chirp, table arbitraire, contraintes de face et corrélation Code_Aster. Quentin
-Farinazzo l'accepte avec recommandations le `2026-07-16` pour l'usage
-engineering interne. La [revue mécanique](docs/verification/revue_mitc4_transitoire.md)
-reste une auto-revue non indépendante.
-
-La configuration source, les contrôles passés et les réserves de la version
-figée sont consignés dans la
-[baseline engineering QF_solver 0.2.0](qualification/baselines/qf_solver_0.2.0_engineering.md).
+La version candidate `0.2.5a0` consolide le backend solide non lineaire et ses
+preuves de verification. Elle n'ajoute pas de nouvelle famille d'elements et
+ne revendique pas une validation physique generale ni un remplacement d'un
+solveur industriel.
 
 ## Installation
 
-Installation locale de l'alpha `0.2.4a0` :
+Depuis PyPI, apres publication de la release :
+
+```powershell
+python -m pip install qf-solver==0.2.5a0
+qf-solver --version
+```
+
+Pour travailler depuis un clone du depot :
 
 ```powershell
 python -m pip install -e ".[test]"
 qf-solver --version
 ```
 
-Après publication décidée par l'Owner, la même version pourra être installée
-depuis PyPI avec `python -m pip install "qf-solver==0.2.4a0"`.
-
-Pendant la préparation locale, les extras s'installent depuis le checkout :
+Extras optionnels :
 
 ```powershell
-python -m pip install -e ".[mesh]"  # import Gmsh MSH 4.1
-python -m pip install -e ".[docs]"  # outils de construction documentaire
-python -m pip install -e ".[large]" # HDF5, PETSc et MPI
-python -m pip install -e ".[hpc]"   # PETSc/SLEPc et MPI, optionnels
+python -m pip install -e ".[mesh]"  # import Gmsh et benchmarks mailles
+python -m pip install -e ".[docs]"  # construction de la documentation
+python -m pip install -e ".[hpc]"   # PETSc/SLEPc/MPI si disponibles
 ```
 
-Après publication, les mêmes extras seront disponibles avec la forme
-`qf-solver[mesh]==0.2.4a0`, `qf-solver[docs]==0.2.4a0`,
-`qf-solver[large]==0.2.4a0` ou `qf-solver[hpc]==0.2.4a0`.
-
-Pour contribuer ou exécuter la suite de tests depuis un clone du dépôt :
-
-```powershell
-python -m pip install -e ".[test]"
-```
-
-Extras en mode développement :
-
-```powershell
-python -m pip install -e ".[docs]"   # documentation locale
-python -m pip install -e ".[mesh]"   # import Gmsh MSH 4.1 et benchmarks mailles
-python -m pip install -e ".[large]"  # HDF5, PETSc et MPI si disponibles
-```
-
-Python 3.10 à 3.13 est ciblé par la CI. Les versions de baseline sont dans
-[`requirements/`](requirements/).
-
-Le code installable suit un layout `src/` : `src/solveur` porte le produit
-généraliste et la formulation MITC4 canonique vit sous
-`src/solveur/elements/shell/mitc4`. `src/solveur/compat/mitc4` ne conserve que des façades
-de compatibilité dépréciées pour la série `0.2.x`. Les choix d'architecture et la place du conteneur
-PETSc/MPI optionnel sont détaillés dans
-[`docs/architecture.md`](docs/architecture.md).
-
-La wheel PyPI contient le runtime, les exemples JSON et les registres
-machine-readable nécessaires au fonctionnement courant. Le manuel complet,
-les tests et les preuves V&V restent dans le dépôt GitHub ; générer les
-artefacts Markdown/PDF ou exécuter `qualification-readiness` avec vérification de tous les liens
-nécessite donc un clone source. L'extra `docs` installe les outils de
-construction, pas une livraison web préconstruite.
+PETSc et SLEPc ne sont pas requis pour l'installation standard. Python 3.10 a
+3.13 est couvert par la CI annoncee.
 
 ## Premier calcul
 
+Le cas JSON suivant est maintenu par les tests d'integration :
+`examples/tet4_static.json`.
+
 ```powershell
 qf-solver check-mesh --input .\examples\tet4_static.json
-qf-solver solve --input .\examples\tet4_static.json --output .\results.json
-qf-solver evidence --input .\examples\tet4_static.json --output .\evidence
+qf-solver solve --input .\examples\tet4_static.json --output .\results\tet4.json
 ```
 
-Sans entrée `Scripts` dans le `PATH`, la forme portable équivalente est
-`python -m solveur.cli.main`. `solveur-ef` et `main_solveur.py` sont des alias
-dépréciés conservés jusqu'à la version 0.3.0.
-
-API publique :
+La meme operation est disponible par l'API publique :
 
 ```python
 from qf_solver import check_mesh, load_model, save_result, solve_model
 
 model = load_model("examples/tet4_static.json")
-report = check_mesh(model)
+mesh_report = check_mesh(model)
 result = solve_model(model)
-save_result(result, "results.json")
+save_result(result, "results/tet4.json")
 ```
 
-`qf_solver` est l'unique namespace Python public pour les nouvelles
-integrations. Les imports `solveur.*` sont reserves a l'implementation interne
-et a la compatibilite de la serie 0.2.x ; ils peuvent evoluer sans constituer
-une rupture de l'API documentee.
+L'unique namespace Python public pour les nouvelles integrations est
+`qf_solver`. Le namespace `solveur` reste interne et sert uniquement aux
+compatibilites historiques de la serie 0.2.x.
 
-Les codes de sortie CLI stables sont `0` (accepté), `2` (entrée/maillage),
-`3` (numérique), `4` (refus de qualification) et `5` (infrastructure).
+## Capacites et maturite de 0.2.5a0
 
-## Grands modèles
+Les statuts ci-dessous sont limites aux enveloppes de preuves documentees.
+`QUALIFIED` signifie qualifie dans ce domaine borne, et non valide pour toute
+structure ou toute echelle.
 
-Le chemin large-scale v1 est limité à `linear_static + TET4` avec matériau
-`isotropic_3d`, `orthotropic_3d` ou `composite_orthotropic_3d` homogénéisé.
-Il utilise des tableaux compacts, HDF5/NPZ et, si installé, PETSc/MPI. La
-preuve orthotrope à `1 029 000` DDL est technique ; le modal et Newmark
-distribués restent hors scope.
+| Statut | Capacites dans le scope de la release |
+| --- | --- |
+| **QUALIFIED / BOUNDED** | J2 small-strain sur TET4/TET10/HEX8/HEX20 ; elasticite Total-Lagrangian TET4/HEX8 dans le domaine pre-limite teste ; flambement lineaire sparse borne ; contact sans frottement borne ; caracterisation de performance ; contrats de modes d'echec |
+| **EXPERIMENTAL / NOT QUALIFIED** | arc-length FEM complet ; J2 finite-kinematic ; workflows non lineaires couples ; couplage triple ; grandes transformations au-dela du domaine G02 |
+| **NOT IN RELEASE SCOPE** | contact avec frottement ; G07 |
 
-```powershell
-qf-solver generate-large-tet4-block --output model.npz --nx 20 --ny 8 --nz 8
-qf-solver solve-large --input model.npz --output results_large --solver-backend matrix_free
+Les chemins lineaires TET4/TET10, MITC3+/MITC4, BEAM2 et les entites discretes
+restent disponibles avec leurs propres domaines de maturite. Le detail par
+element et par analyse se trouve dans
+[`docs/etat/capacites.md`](docs/etat/capacites.md). Une implementation ou un
+test experimental ne devient pas une capacite qualifiee par sa seule presence.
+
+## Analyses disponibles
+
+Le routeur commun prend en charge, selon le modele et le scope de preuve :
+
+- statique lineaire sparse ;
+- modal generalise sparse ;
+- dynamique transitoire Newmark ;
+- reponse harmonique ;
+- statique non lineaire a chargement controle, avec Full Newton dans le scope
+  qualifie ;
+- flambement lineaire sparse dans son domaine borne ;
+- contact sans frottement borne.
+
+Les chemins arc-length, finite-kinematic J2 et couples sont exposes pour la
+recherche et les essais traces, mais ne sont pas des claims qualifies de
+`0.2.5a0`.
+
+## Architecture
+
+Le produit suit le flux :
+
+```text
+modele FEM -> assemblage sparse -> analyse du systeme -> backend
+           -> solveur -> convergence -> resultats et metriques
 ```
 
-## Gmsh et benchmarks maillés
+Pour les chemins non lineaires, les responsabilites sont separees entre
+cinematique, loi constitutive, etat materiau, assemblage du residu/tangente,
+strategie Full Newton, controle d'increments et diagnostics. Les elements
+conservent leurs fonctions de forme et leur quadrature ; ils ne choisissent
+pas le solveur global.
+
+Le backend standard utilise SciPy sparse. PETSc/SLEPc sont optionnels pour les
+environnements HPC. Les limites memoire, les conventions de quadrature et les
+choix de formulation sont decrits dans
+[`docs/architecture.md`](docs/architecture.md) et le pack 0.2.5.
+
+## Verification et validation
+
+QF Solver distingue :
+
+- **verification** : formules, invariants, tangentes, residus et convergence ;
+- **correlation externe** : comparaison numerique avec Code_Aster ou CalculiX
+  sous hypotheses documentees ;
+- **validation physique** : preuve separee du domaine d'application, non
+  revendiquee par une simple comparaison de codes.
+
+Pour le candidat 0.2.5a0, les preuves de release documentent notamment :
+
+- G11 : `1719 passed / 0 failed` ;
+- couverture de la campagne de reference : `88.37 %` ;
+- campagne externe disponible : `64/64 PASS` ;
+- provenance par SHA source, empreintes d'artefacts et etat de l'arbre source.
+
+Ces chiffres concernent le perimetre qualifie et borne, pas les capacites
+experimentalement exclues. Les preuves detaillees, les courbes et les limites
+sont dans [`docs/verification/0_2_5/README.md`](docs/verification/0_2_5/README.md),
+la [matrice V&V](docs/verification/0_2_5/0_2_5_vnv_matrix.md) et le
+[rapport de readiness](docs/verification/0_2_5/0_2_5_release_readiness.md).
+
+## Exemples, Gmsh et benchmarks
+
+Les exemples JSON sont dans [`examples/`](examples/) et leur catalogue est
+decrit dans [`examples/README.md`](examples/README.md). Quelques commandes :
 
 ```powershell
-qf-solver import-mesh --mesh modele.msh --setup modele.setup.json --output modele.json
+qf-solver methods
 qf-solver benchmarks
-qf-solver benchmark --case BM-SOL-TET4-PATCH-001 --output .\results\benchmarks
+qf-solver benchmark --case BM-SOL-TET4-PATCH-001 --output .\results\benchmark
+qf-solver import-mesh --mesh modele.msh --setup modele.setup.json --output modele.json
 ```
 
-Le catalogue contrôlé contient dix structures maillées : patch TET4, panneau
-mince TET4 en traction/compression, arbre circulaire TET4 en torsion, poutre
-TET4/TET10, cylindre de Lame TET10, Cook, Scordelis-Lo, cylindre pince,
-porte-a-faux dynamique et barre J2. Le registre autoritatif est
-[`qualification/benchmarks.json`](qualification/benchmarks.json).
-
-## Études V&V avec théorie, Code_Aster et CalculiX
-
-Le contrat V&V normalise les résultats externes, automatise les écarts et la
-convergence en maillage, puis produit un rapport Markdown avec les déformées
-QF_solver/reference et les liens VTU :
+Pour un cas V&V existant :
 
 ```powershell
-qf-solver vnv-compare --study .\study.json --output .\results\vnv_study
+qf-solver vnv-import-benchmark --case BM-SOL-CANTILEVER-001 --output .\VNV-CANTILEVER
 ```
 
-Un cas TET4 de porte-à-faux avec quatre niveaux de maillage, PNG et référence
-analytique peut être initialisé depuis le benchmark existant :
+Les sorties de campagne et les documents generes sont des artefacts traces ;
+ils ne doivent pas etre modifies manuellement.
+
+## Limites importantes
+
+- Les claims mecaniques sont bornes par element, formulation, maillage,
+  chargement et domaine de deformation documentes.
+- G02 ne qualifie que l'elasticite Total-Lagrangian TET4/HEX8 avant la zone de
+  perte de stabilite ; TET10/HEX20 et le J2 finite-kinematic restent exclus.
+- G03 est une analyse de premier seuil d'instabilite tangentielle, pas une
+  prediction generale de ruine avec imperfections.
+- G05 concerne un contact sans frottement borne entre noeuds/patchs esclaves et
+  surface triangulee fournie ; il ne constitue pas un contact mortar ou
+  surface-a-surface general.
+- L'arc-length, le couplage des non-linearites, le frottement et la
+  plasticite finite-strain sont experimentaux, differes ou hors scope.
+- Aucune revendication nouvelle de calcul non lineaire a plusieurs millions de
+  DDL n'est faite. PETSc/SLEPc restent optionnels.
+- Une correlation Code_Aster/CalculiX est une preuve numerique dans un cas
+  comparable, pas une certification ni une validation physique universelle.
+
+Voir [`docs/etat/limites.md`](docs/etat/limites.md) pour les details et les
+restrictions d'usage.
+
+## Documentation et developpement
 
 ```powershell
-qf-solver vnv-import-benchmark --case BM-SOL-CANTILEVER-001 --output .\VNV-TET4-CANTILEVER-ANALYTIC-001
-qf-solver vnv-import-benchmark --case BM-SOL-TET4-TORSION-001 --output .\VNV-TET4-TORSION-ANALYTIC-001
-```
-
-L'étude de torsion contient huit comparaisons QF_solver/Saint-Venant puis une
-sonde h9 à `105 529` TET4, soit `4,007` fois h8. L'erreur globale L2 de
-contrainte descend de `29,06 %` à `18,89 %` ; le cas est accepté pour l'usage
-engineering interne sous un seuil global borné à `20 %`. Les pics ponctuels
-et singularités restent exclus.
-
-```powershell
-python .\scripts\run_torsion_stress_probe.py `
-  --output .\VNV-TET4-TORSION-ANALYTIC-001\stress_probe_h9 `
-  --overwrite
-```
-
-Les formats, modèles et règles de revue sont décrits dans
-[Études V&V comparées](docs/verification/etudes_vnv.md). La politique active
-est [Code_Aster / CalculiX / théorie](qualification/external_oracle_policy.json) ;
-les références Abaqus publiées restent historiques et ne sont pas requises. La baseline déclare
-Quentin Farinazzo comme auteur et validateur mécanique en mode `self_review` ;
-ce mode ne revendique aucune indépendance externe.
-
-## Vérification développeur
-
-```powershell
-python -m ruff check src scripts tests
-python -m pytest
-python -m compileall -q src scripts tests qf_solver.py main_solveur.py mitc4_solver.py
-python .\qf_solver.py verify --quick
-python .\mitc4_solver.py verify
 python .\scripts\build_docs.py --profile engineering
+python .\scripts\build_technical_latex.py
+python -m ruff check src scripts tests
+python -m compileall -q src scripts tests qf_solver.py
 ```
 
-Le dépôt de développement contient un corpus V&V de travail d'environ 12,2 Go
-qui n'est pas inclus dans l'archive source. Les tests marqués `evidence`
-s'exécutent lorsque ce corpus et le manifeste documentaire généré sont
-présents ; dans une archive publique légère, ils sont explicitement ignorés.
-Les tests du noyau, de l'API, de la CLI et des formulations restent obligatoires.
-La copie publique fournit les sources Markdown, PDF et artefacts documentaires
-versionnés. La commande `build_docs.py` régénère toutes les preuves et requiert
-donc le corpus V&V de développement.
+La documentation de developpement est indexee dans
+[`docs/index.md`](docs/index.md). Les conventions d'API sont dans
+[`docs/reference/api_stability.md`](docs/reference/api_stability.md), et la
+feuille de route dans [`prochaines_etapes.md`](prochaines_etapes.md).
 
-## Documents de pilotage
+## Evolution du projet
 
-- [Prochaines étapes](prochaines_etapes.md)
-- [Analyse historique du solveur](docs/reference/legacy/analyse_solveur_ef.md)
-- [Audit de qualification industrielle](docs/audit_qualification_industrielle.md)
-- [Architecture](docs/architecture.md)
-- [Registre d'exigences](qualification/requirements.json)
-- [Registre des formules](qualification/formulas.json)
-- [Périmètre V&V MITC4](docs/verification/mitc4_validation.md)
-- [Baseline engineering 0.2.0](qualification/baselines/qf_solver_0.2.0_engineering.md)
-- [Pack V&V release 0.2.1a0](docs/verification/release_vv_0_2_1.md)
-- [Paquet de clôture Owner 0.2.1a0](docs/verification/release_vv_0_2_1_closure_package_2026-08-22.md)
-- [Décision finale Owner 0.2.1a0](docs/verification/owner_final_release_decision_0_2_1a0.md)
-- [Audit hygiène et architecture 0.2.1a0](docs/verification/project_hygiene_architecture_audit_0_2_1.md)
-- [Clôture technique P0 documentaire](docs/verification/baseline_documentaire_p0.md)
-- [Changelog](CHANGELOG.md)
+| Version | Contribution principale |
+| --- | --- |
+| `0.2.0a0` | Base open source, premier cadre V&V et packaging public initial. |
+| `0.2.1a0` | Registre de qualification, automatisation release V&V, correlations externes et tracabilite renforcee. |
+| `0.2.2a0` | Backend sparse renforce, selection/diagnostics des solveurs, optimisation memoire et preparation PETSc/SLEPc/HPC. |
+| `0.2.3a0` | Integration HEX8/HEX20, import Gmsh, chargements, post-traitement et benchmarks TET/HEX. |
+| `0.2.4a0` | J2 small-strain commun, Full Newton, tangent coherent et etats `trial/commit/rollback`. |
+| `0.2.5a0` | Qualification bornee J2, elasticite Total-Lagrangian, flambement sparse, contact sans frottement, performance et modes d'echec. |
 
-## Bilan des versions alpha
+Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique detaille des releases.
 
-- **0.1.0 Alpha** : première base qualifiable, avec les profils de vérification,
-  les métadonnées auditables et la matrice initiale de qualification.
-- **0.2.1 Alpha** : consolidation des éléments finis et des campagnes V&V,
-  corrélations externes, revues Owner et préparation du paquet public.
-- **0.2.2 Alpha** : renforcement du backend sparse, sélection et diagnostics
-  des solveurs, réduction des copies d'assemblage, préparation du scaling et
-  API publique `qf_solver`, avec PETSc/SLEPc optionnels.
-- **0.2.3 Alpha** : ajout des éléments solides HEX8 et HEX20, chargements et
-  post-traitement associés, import Gmsh, analyses communes, corrélations
-  CalculiX/Code_Aster et comparatif TET/HEX ; la revue Owner et les exclusions
-  restent explicitement tracées avant publication.
+Les capacites arc-length, J2 finite-kinematic et les couplages non lineaires
+restent experimentaux et exclus des claims qualifies de `0.2.5a0`.
 
-Les artefacts générés ne sont pas édités à la main. Toute valeur numérique
-publiée doit provenir de `scripts/build_docs.py` et être reliée à son entrée,
-sa tolérance, son verdict et son empreinte SHA-256.
+## Licence
+
+Le code est sous [Apache License 2.0](LICENSE). La documentation et les
+exemples originaux sont sous [CC BY 4.0](LICENSE-DOCS). Les composants tiers
+restent soumis a leurs licences, inventoriees dans
+[`THIRD_PARTY_LICENSES.md`](THIRD_PARTY_LICENSES.md).
