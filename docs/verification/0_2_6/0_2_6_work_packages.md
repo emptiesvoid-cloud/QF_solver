@@ -1,5 +1,13 @@
 # Work Packages
 
+## Completed work packages
+
+| Work package | Status | Evidence | Registry note |
+| --- | --- | --- | --- |
+| `026-WP04-ARCH` Numerical core architecture refactor | PASS | `g04_architecture_evidence.json`, `0_2_6_g04_architecture_evidence.md` | Distinct identifier; official gate `026-G04` remains Linear / element robustness. |
+
+## Planned foundation work packages
+
 | Work package | Dependencies | Gate | STOP / GO |
 | --- | --- | --- | --- |
 | `WP-026-00` Baseline and provenance | none | 026-G00 | STOP if historical source or baseline route is not reproducible. |

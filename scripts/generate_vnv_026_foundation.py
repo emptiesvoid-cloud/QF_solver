@@ -246,7 +246,7 @@ def write_data() -> None:
     _write_json(QUALIFICATION / "gates.json", {"schema_version": 1, "gates": [{"id": f"026-G{index:02d}", "title": title, "status": status, "evidence_ids": evidence} for index, title, status, evidence in _gates()]})
     _write_json(QUALIFICATION / "capability_targets.json", {"schema_version": 1, "capabilities": [{"id": capability, "current_maturity": maturity, "target": target, "claim_boundary": limit} for capability, maturity, target, limit in _capabilities()]})
     _write_json(QUALIFICATION / "requirements.json", {"schema_version": 1, "requirements": _requirements()})
-    _write_json(QUALIFICATION / "work_packages.json", {"schema_version": 1, "work_packages": _work_packages()})
+    _write_json(QUALIFICATION / "work_packages.json", {"schema_version": 1, "completed_work_packages": _completed_work_packages(), "work_packages": _work_packages()})
     _write_json(QUALIFICATION / "risk_register.json", {"schema_version": 1, "risks": _risks()})
     _write_json(QUALIFICATION / "debt_register.json", {"schema_version": 1, "debts": _debts()})
     _write_json(QUALIFICATION / "oracle_registry.json", {"schema_version": 1, "oracles": [{"id": "ANALYTICAL", "kind": "analytical", "availability": "local", "claim": "verification_reference"}, {"id": "CODE_ASTER", "kind": "external", "availability": "optional_local_or_container", "claim": "external_numerical_correlation"}, {"id": "CALCULIX", "kind": "external", "availability": "should_when_comparable", "claim": "external_numerical_correlation"}], "rule": "External unavailability is SKIPPED_EXTERNAL_UNAVAILABLE, never PASS."})
@@ -316,6 +316,18 @@ def _work_packages() -> list[dict[str, Any]]:
         {"id": "WP-026-06", "title": "Adversarial, performance and external aggregation", "depends_on": ["WP-026-05"], "gate": "026-G11 to 026-G13", "stop_go": "STOP on a fail-open contract or undocumented machine variance."},
         {"id": "WP-026-07", "title": "Regression, architecture freeze and Owner review", "depends_on": ["WP-026-06"], "gate": "026-G14 to 026-G15", "stop_go": "STOP if a claim lacks a manifest or Owner decision."},
     ]
+
+
+def _completed_work_packages() -> list[dict[str, Any]]:
+    return [{
+        "id": "026-WP04-ARCH",
+        "title": "Numerical core architecture refactor",
+        "status": "PASS",
+        "depends_on": ["WP-026-03"],
+        "official_gate_collision": "026-G04",
+        "evidence": ["g04_architecture_evidence.json", "0_2_6_g04_architecture_evidence.md"],
+        "note": "Distinct work-package identifier. Official gate 026-G04 remains Linear / element robustness.",
+    }]
 
 
 def _risks() -> list[dict[str, str]]:
@@ -491,7 +503,7 @@ their own gate review.
         "0_2_6_artifact_policy.md": "# Artifact Policy\n\nMachine-readable policy: `qualification/0_2_6/artifact_policy.json`. Commit small inputs, summaries, compact CSV, digests and manifests. Do not commit large raw histories, external working directories or duplicate generated documents. Historical large blobs remain preserved and are a cleanup planning item, not a rewritten record.\n",
         "0_2_6_gate_matrix.md": "# Gate Matrix\n\n| Gate | Purpose | Current status |\n| --- | --- | --- |\n" + gate_rows + "\n\nG00 is a refactor guard with an explicit dirty-worktree limitation, not a replacement for immutable 0.2.5 evidence. G01-G03 close only audit, infrastructure and corpus design. Capability-gate outcomes are not implied by this foundation.\n",
         "0_2_6_requirements_matrix.md": "# Requirements Matrix\n\n| ID | Priority | Requirement | Verification | Gate |\n| --- | --- | --- | --- | --- |\n" + "\n".join(f"| `{row['id']}` | {row['priority']} | {row['requirement']} | {row['verification']} | `{row['gate']}` |" for row in _requirements()) + "\n",
-        "0_2_6_work_packages.md": "# Work Packages\n\n| Work package | Dependencies | Gate | STOP / GO |\n| --- | --- | --- | --- |\n" + "\n".join(f"| `{row['id']}` {row['title']} | {', '.join(row['depends_on']) or 'none'} | {row['gate']} | {row['stop_go']} |" for row in _work_packages()) + "\n",
+        "0_2_6_work_packages.md": "# Work Packages\n\n## Completed work packages\n\n| Work package | Status | Evidence | Registry note |\n| --- | --- | --- | --- |\n" + "\n".join(f"| `{row['id']}` {row['title']} | {row['status']} | {', '.join(row['evidence'])} | {row['note']} |" for row in _completed_work_packages()) + "\n\n## Planned foundation work packages\n\n| Work package | Dependencies | Gate | STOP / GO |\n| --- | --- | --- | --- |\n" + "\n".join(f"| `{row['id']}` {row['title']} | {', '.join(row['depends_on']) or 'none'} | {row['gate']} | {row['stop_go']} |" for row in _work_packages()) + "\n",
         "0_2_6_risk_register.md": "# Risk Register\n\n| ID | Risk | Severity | Mitigation | Gate |\n| --- | --- | --- | --- | --- |\n" + "\n".join(f"| `{row['id']}` | {row['risk']} | {row['severity']} | {row['mitigation']} | `{row['gate']}` |" for row in _risks()) + "\n",
         "0_2_6_owner_review_template.md": "# Owner Review Template\n\n- Candidate source SHA and worktree state:\n- Gate evidence manifest and artifact digests:\n- Capability claims proposed for change:\n- Known limitations, anomalies and external-equivalence statement:\n- Regression, coverage and performance context:\n- Decision: `APPROVE`, `APPROVE_WITH_LIMITATIONS`, `DEFER`, or `REJECT`:\n\nNo automated process may fill the decision on behalf of the Owner.\n",
         "0_2_6_release_readiness_template.md": "# Release Readiness Template\n\n- Version and candidate SHA:\n- G00–G15 status with evidence IDs:\n- Full regression and coverage:\n- V&V corpus totals, expected failures and anomalies:\n- External correlation aggregation:\n- Performance profile and hardware:\n- Public claim matrix:\n- Owner decision:\n\nThis template is intentionally not a release approval.\n",

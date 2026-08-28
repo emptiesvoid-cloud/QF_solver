@@ -1,14 +1,14 @@
-# G04 Architecture Refactor Evidence
+# 026-WP04-ARCH Architecture Refactor Evidence
 
 ## Decision
 
-`G04_ARCHITECTURE_REFACTOR = PASS`
+`026-WP04-ARCH = PASS`
 
 This evidence covers the authorized internal reorganization of the numerical
 core. It does not introduce an FEM feature, change a formulation, or promote a
-verification maturity claim. The foundation registry entry `026-G04` is left
-unchanged because that entry names the later linear/element robustness batch,
-not this architecture task.
+verification maturity claim. The foundation gate `026-G04` is left unchanged:
+it officially names the later linear/element robustness batch, not this
+architecture work package.
 
 ## Provenance
 

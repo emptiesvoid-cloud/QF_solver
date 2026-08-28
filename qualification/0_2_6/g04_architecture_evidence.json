@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "task_gate": "G04_ARCHITECTURE_REFACTOR",
+  "task_gate": "026-WP04-ARCH",
   "status": "PASS",
   "baseline_sha": "41154d7f0aca9004759d1c8a4ba21d6f60f24a42",
   "implementation_sha": "6b77fd7b318dab0fea4a371c3567dea3cdc19b47",
@@ -41,6 +41,6 @@
     "public_api_and_cli": "PASS",
     "architecture_audit": "PASS"
   },
-  "foundation_registry_note": "This evidence closes the separately authorized G04 architecture refactor task. Registry gate 026-G04 remains unchanged because it denotes the later linear/element robustness campaign.",
+  "foundation_registry_note": "This evidence closes work package 026-WP04-ARCH. Registry gate 026-G04 remains unchanged because it denotes the later linear/element robustness campaign.",
   "g05_started": false
 }
