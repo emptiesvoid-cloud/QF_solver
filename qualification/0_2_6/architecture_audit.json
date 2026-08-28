@@ -1,5 +1,83 @@
 {
-  "captured_at_utc": "2026-08-28T18:16:25.143878Z",
+  "captured_at_utc": "2026-08-28T18:37:07.004379Z",
+  "core_compatibility_facade_count": 30,
+  "core_compatibility_facades": [
+    "src/solveur/core/analysis.py",
+    "src/solveur/core/assembler.py",
+    "src/solveur/core/assembly_plan.py",
+    "src/solveur/core/buckling.py",
+    "src/solveur/core/dynamic.py",
+    "src/solveur/core/dynamic_checkpoint.py",
+    "src/solveur/core/dynamic_controls.py",
+    "src/solveur/core/dynamic_history.py",
+    "src/solveur/core/dynamic_reduction.py",
+    "src/solveur/core/geometric_assembly.py",
+    "src/solveur/core/geometric_nonlinear.py",
+    "src/solveur/core/geometric_nonlinear_controls.py",
+    "src/solveur/core/harmonic.py",
+    "src/solveur/core/linear_methods.py",
+    "src/solveur/core/linear_policy.py",
+    "src/solveur/core/material_state.py",
+    "src/solveur/core/modal.py",
+    "src/solveur/core/modal_dense.py",
+    "src/solveur/core/modal_options.py",
+    "src/solveur/core/nonlinear_arc_length.py",
+    "src/solveur/core/nonlinear_assembly.py",
+    "src/solveur/core/nonlinear_checkpoint.py",
+    "src/solveur/core/nonlinear_contracts.py",
+    "src/solveur/core/nonlinear_controls.py",
+    "src/solveur/core/nonlinear_iteration.py",
+    "src/solveur/core/nonlinear_load_control.py",
+    "src/solveur/core/nonlinear_support.py",
+    "src/solveur/core/solver.py",
+    "src/solveur/core/solver_backend.py",
+    "src/solveur/core/sparse_accumulator.py"
+  ],
+  "core_implementation_packages": {
+    "analyses": [
+      "__init__.py",
+      "buckling.py",
+      "dynamic.py",
+      "dynamic_checkpoint.py",
+      "dynamic_controls.py",
+      "dynamic_history.py",
+      "dynamic_reduction.py",
+      "geometric_nonlinear.py",
+      "geometric_nonlinear_controls.py",
+      "harmonic.py",
+      "modal.py",
+      "modal_dense.py",
+      "modal_options.py",
+      "settings.py"
+    ],
+    "assembly": [
+      "__init__.py",
+      "assembler.py",
+      "geometric.py",
+      "nonlinear.py",
+      "plan.py",
+      "sparse.py"
+    ],
+    "nonlinear": [
+      "__init__.py",
+      "arc_length.py",
+      "checkpoint.py",
+      "contracts.py",
+      "controls.py",
+      "iteration.py",
+      "load_control.py",
+      "material_state.py",
+      "solver.py",
+      "support.py"
+    ],
+    "solvers": [
+      "__init__.py",
+      "backend.py",
+      "linear.py",
+      "policy.py",
+      "static.py"
+    ]
+  },
   "dependency_domains": {
     "__init__.py": [
       "version"
@@ -178,7 +256,7 @@
   ],
   "findings": [
     "Verification contains many flat, solver-specific modules and duplicated campaign entrypoints.",
-    "No mechanical migration is performed by this audit; the framework package is an additive boundary.",
+    "Core assembly, solver, analysis and nonlinear implementations are grouped under explicit subpackages; flat core imports remain compatibility facades.",
     "Historical large benchmark displacement blobs exceed the proposed normal artifact size policy and must be preserved, not rewritten."
   ],
   "large_tracked_files": [
@@ -272,7 +350,11 @@
     "src/solveur/compat": 1,
     "src/solveur/compat/mitc4": 13,
     "src/solveur/contact": 5,
-    "src/solveur/core": 43,
+    "src/solveur/core": 42,
+    "src/solveur/core/analyses": 14,
+    "src/solveur/core/assembly": 6,
+    "src/solveur/core/nonlinear": 10,
+    "src/solveur/core/solvers": 5,
     "src/solveur/elements": 3,
     "src/solveur/elements/beam": 2,
     "src/solveur/elements/shell": 4,
@@ -310,12 +392,12 @@
     },
     {
       "lines": 683,
-      "path": "src/solveur/core/modal.py",
+      "path": "src/solveur/core/analyses/modal.py",
       "threshold": "over_500"
     },
     {
       "lines": 674,
-      "path": "src/solveur/core/dynamic.py",
+      "path": "src/solveur/core/analyses/dynamic.py",
       "threshold": "over_500"
     },
     {
@@ -360,7 +442,7 @@
     },
     {
       "lines": 591,
-      "path": "src/solveur/core/assembler.py",
+      "path": "src/solveur/core/assembly/assembler.py",
       "threshold": "over_500"
     },
     {
@@ -390,7 +472,7 @@
     },
     {
       "lines": 529,
-      "path": "src/solveur/core/nonlinear_arc_length.py",
+      "path": "src/solveur/core/nonlinear/arc_length.py",
       "threshold": "over_500"
     },
     {
@@ -429,9 +511,9 @@
       "threshold": "over_500"
     }
   ],
-  "python_module_count": 394,
+  "python_module_count": 428,
   "schema_version": 1,
-  "source_dirty": true,
-  "source_sha": "62c7b8406a657538f8a2b06ce6ff8b646aff7873",
+  "source_dirty": false,
+  "source_sha": "8fe4f5990e48a221f0e62387a87df95551ddc997",
   "verification_flat_module_count": 188
 }
