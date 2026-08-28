@@ -3576,6 +3576,7 @@
         "numerical_fingerprint"
       ],
       "model_overrides": {},
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -3655,6 +3656,7 @@
           "type": "modal"
         }
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -3737,6 +3739,7 @@
           "type": "transient_dynamic"
         }
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -3818,6 +3821,7 @@
           "type": "harmonic_response"
         }
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -3902,6 +3906,7 @@
           "type": "nonlinear_static"
         }
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -3975,6 +3980,7 @@
         "numerical_fingerprint"
       ],
       "model_overrides": {},
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -4054,6 +4060,7 @@
           "type": "modal"
         }
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -4127,6 +4134,7 @@
         "numerical_fingerprint"
       ],
       "model_overrides": {},
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -4209,6 +4217,7 @@
           "type": "transient_dynamic"
         }
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -4290,6 +4299,7 @@
           "type": "harmonic_response"
         }
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -4363,6 +4373,7 @@
         "numerical_fingerprint"
       ],
       "model_overrides": {},
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -4442,6 +4453,7 @@
           "type": "modal"
         }
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -4524,6 +4536,7 @@
           "type": "transient_dynamic"
         }
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -4605,6 +4618,7 @@
           "type": "harmonic_response"
         }
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -4689,6 +4703,7 @@
           "type": "nonlinear_static"
         }
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -4762,6 +4777,7 @@
         "numerical_fingerprint"
       ],
       "model_overrides": {},
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -4841,6 +4857,7 @@
           "type": "modal"
         }
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -4914,6 +4931,7 @@
         "numerical_fingerprint"
       ],
       "model_overrides": {},
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -4996,6 +5014,7 @@
           "type": "transient_dynamic"
         }
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -5077,6 +5096,7 @@
           "type": "harmonic_response"
         }
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -6603,9 +6623,9 @@
       "factory_id": null,
       "family": "LIN",
       "geometry": {
-        "source": "examples/tet4_static.json"
+        "source": "examples/tet4_g06_analytic.json"
       },
-      "input_model": "examples/tet4_static.json",
+      "input_model": "examples/tet4_g06_analytic.json",
       "kinematics": "declared_by_model",
       "known_limitations": [
         "Executable quantitative evidence; promotion requires the applicable gate and independent review."
@@ -6633,6 +6653,13 @@
       "model_overrides": {
         "load_scale": 0.5
       },
+      "oracle_configuration": {
+        "element_family": "TET4",
+        "free_dof": "UX",
+        "free_node": 1,
+        "relative_tolerance": 1e-10,
+        "type": "constrained_free_dof"
+      },
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -6649,7 +6676,8 @@
         "g06",
         "lin",
         "linear_solids",
-        "tet4"
+        "tet4",
+        "analytical"
       ],
       "title": "Analytical equilibrium TET4 variant 01",
       "tolerance_ids": [
@@ -6678,9 +6706,9 @@
       "factory_id": null,
       "family": "LIN",
       "geometry": {
-        "source": "examples/tet10_static.json"
+        "source": "examples/tet10_g06_analytic.json"
       },
-      "input_model": "examples/tet10_static.json",
+      "input_model": "examples/tet10_g06_analytic.json",
       "kinematics": "declared_by_model",
       "known_limitations": [
         "Executable quantitative evidence; promotion requires the applicable gate and independent review."
@@ -6708,6 +6736,13 @@
       "model_overrides": {
         "load_scale": 0.6
       },
+      "oracle_configuration": {
+        "element_family": "TET10",
+        "free_dof": "UX",
+        "free_node": 1,
+        "relative_tolerance": 1e-10,
+        "type": "constrained_free_dof"
+      },
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -6724,7 +6759,8 @@
         "g06",
         "lin",
         "linear_solids",
-        "tet10"
+        "tet10",
+        "analytical"
       ],
       "title": "Analytical equilibrium TET10 variant 02",
       "tolerance_ids": [
@@ -6753,9 +6789,9 @@
       "factory_id": null,
       "family": "LIN",
       "geometry": {
-        "source": "examples/hex8_g06_static.json"
+        "source": "examples/hex8_g06_analytic.json"
       },
-      "input_model": "examples/hex8_g06_static.json",
+      "input_model": "examples/hex8_g06_analytic.json",
       "kinematics": "declared_by_model",
       "known_limitations": [
         "Executable quantitative evidence; promotion requires the applicable gate and independent review."
@@ -6783,6 +6819,13 @@
       "model_overrides": {
         "load_scale": 0.7
       },
+      "oracle_configuration": {
+        "element_family": "HEX8",
+        "free_dof": "UX",
+        "free_node": 1,
+        "relative_tolerance": 1e-10,
+        "type": "constrained_free_dof"
+      },
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -6799,7 +6842,8 @@
         "g06",
         "lin",
         "linear_solids",
-        "hex8"
+        "hex8",
+        "analytical"
       ],
       "title": "Analytical equilibrium HEX8 variant 03",
       "tolerance_ids": [
@@ -6828,9 +6872,9 @@
       "factory_id": null,
       "family": "LIN",
       "geometry": {
-        "source": "examples/hex20_g06_static.json"
+        "source": "examples/hex20_g06_analytic.json"
       },
-      "input_model": "examples/hex20_g06_static.json",
+      "input_model": "examples/hex20_g06_analytic.json",
       "kinematics": "declared_by_model",
       "known_limitations": [
         "Executable quantitative evidence; promotion requires the applicable gate and independent review."
@@ -6858,6 +6902,13 @@
       "model_overrides": {
         "load_scale": 0.8
       },
+      "oracle_configuration": {
+        "element_family": "HEX20",
+        "free_dof": "UX",
+        "free_node": 1,
+        "relative_tolerance": 1e-10,
+        "type": "constrained_free_dof"
+      },
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -6874,7 +6925,8 @@
         "g06",
         "lin",
         "linear_solids",
-        "hex20"
+        "hex20",
+        "analytical"
       ],
       "title": "Analytical equilibrium HEX20 variant 04",
       "tolerance_ids": [
@@ -6903,9 +6955,9 @@
       "factory_id": null,
       "family": "LIN",
       "geometry": {
-        "source": "examples/tet4_static.json"
+        "source": "examples/tet4_g06_analytic.json"
       },
-      "input_model": "examples/tet4_static.json",
+      "input_model": "examples/tet4_g06_analytic.json",
       "kinematics": "declared_by_model",
       "known_limitations": [
         "Executable quantitative evidence; promotion requires the applicable gate and independent review."
@@ -6933,6 +6985,13 @@
       "model_overrides": {
         "load_scale": 0.9
       },
+      "oracle_configuration": {
+        "element_family": "TET4",
+        "free_dof": "UX",
+        "free_node": 1,
+        "relative_tolerance": 1e-10,
+        "type": "constrained_free_dof"
+      },
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -6949,7 +7008,8 @@
         "g06",
         "lin",
         "linear_solids",
-        "tet4"
+        "tet4",
+        "analytical"
       ],
       "title": "Analytical equilibrium TET4 variant 05",
       "tolerance_ids": [
@@ -6978,9 +7038,9 @@
       "factory_id": null,
       "family": "LIN",
       "geometry": {
-        "source": "examples/tet10_static.json"
+        "source": "examples/tet10_g06_analytic.json"
       },
-      "input_model": "examples/tet10_static.json",
+      "input_model": "examples/tet10_g06_analytic.json",
       "kinematics": "declared_by_model",
       "known_limitations": [
         "Executable quantitative evidence; promotion requires the applicable gate and independent review."
@@ -7006,6 +7066,13 @@
         "numerical_fingerprint"
       ],
       "model_overrides": {},
+      "oracle_configuration": {
+        "element_family": "TET10",
+        "free_dof": "UX",
+        "free_node": 1,
+        "relative_tolerance": 1e-10,
+        "type": "constrained_free_dof"
+      },
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -7022,7 +7089,8 @@
         "g06",
         "lin",
         "linear_solids",
-        "tet10"
+        "tet10",
+        "analytical"
       ],
       "title": "Analytical equilibrium TET10 variant 06",
       "tolerance_ids": [
@@ -7051,9 +7119,9 @@
       "factory_id": null,
       "family": "LIN",
       "geometry": {
-        "source": "examples/hex8_g06_static.json"
+        "source": "examples/hex8_g06_analytic.json"
       },
-      "input_model": "examples/hex8_g06_static.json",
+      "input_model": "examples/hex8_g06_analytic.json",
       "kinematics": "declared_by_model",
       "known_limitations": [
         "Executable quantitative evidence; promotion requires the applicable gate and independent review."
@@ -7081,6 +7149,13 @@
       "model_overrides": {
         "load_scale": 0.5
       },
+      "oracle_configuration": {
+        "element_family": "HEX8",
+        "free_dof": "UX",
+        "free_node": 1,
+        "relative_tolerance": 1e-10,
+        "type": "constrained_free_dof"
+      },
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -7097,7 +7172,8 @@
         "g06",
         "lin",
         "linear_solids",
-        "hex8"
+        "hex8",
+        "analytical"
       ],
       "title": "Analytical equilibrium HEX8 variant 07",
       "tolerance_ids": [
@@ -7126,9 +7202,9 @@
       "factory_id": null,
       "family": "LIN",
       "geometry": {
-        "source": "examples/hex20_g06_static.json"
+        "source": "examples/hex20_g06_analytic.json"
       },
-      "input_model": "examples/hex20_g06_static.json",
+      "input_model": "examples/hex20_g06_analytic.json",
       "kinematics": "declared_by_model",
       "known_limitations": [
         "Executable quantitative evidence; promotion requires the applicable gate and independent review."
@@ -7156,6 +7232,13 @@
       "model_overrides": {
         "load_scale": 0.6
       },
+      "oracle_configuration": {
+        "element_family": "HEX20",
+        "free_dof": "UX",
+        "free_node": 1,
+        "relative_tolerance": 1e-10,
+        "type": "constrained_free_dof"
+      },
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -7172,7 +7255,8 @@
         "g06",
         "lin",
         "linear_solids",
-        "hex20"
+        "hex20",
+        "analytical"
       ],
       "title": "Analytical equilibrium HEX20 variant 08",
       "tolerance_ids": [
@@ -7201,9 +7285,9 @@
       "factory_id": null,
       "family": "LIN",
       "geometry": {
-        "source": "examples/tet4_static.json"
+        "source": "examples/tet4_g06_analytic.json"
       },
-      "input_model": "examples/tet4_static.json",
+      "input_model": "examples/tet4_g06_analytic.json",
       "kinematics": "declared_by_model",
       "known_limitations": [
         "Executable quantitative evidence; promotion requires the applicable gate and independent review."
@@ -7231,6 +7315,13 @@
       "model_overrides": {
         "load_scale": 0.7
       },
+      "oracle_configuration": {
+        "element_family": "TET4",
+        "free_dof": "UX",
+        "free_node": 1,
+        "relative_tolerance": 1e-10,
+        "type": "constrained_free_dof"
+      },
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -7247,7 +7338,8 @@
         "g06",
         "lin",
         "linear_solids",
-        "tet4"
+        "tet4",
+        "analytical"
       ],
       "title": "Analytical equilibrium TET4 variant 09",
       "tolerance_ids": [
@@ -7276,9 +7368,9 @@
       "factory_id": null,
       "family": "LIN",
       "geometry": {
-        "source": "examples/tet10_static.json"
+        "source": "examples/tet10_g06_analytic.json"
       },
-      "input_model": "examples/tet10_static.json",
+      "input_model": "examples/tet10_g06_analytic.json",
       "kinematics": "declared_by_model",
       "known_limitations": [
         "Executable quantitative evidence; promotion requires the applicable gate and independent review."
@@ -7306,6 +7398,13 @@
       "model_overrides": {
         "load_scale": 0.8
       },
+      "oracle_configuration": {
+        "element_family": "TET10",
+        "free_dof": "UX",
+        "free_node": 1,
+        "relative_tolerance": 1e-10,
+        "type": "constrained_free_dof"
+      },
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -7322,7 +7421,8 @@
         "g06",
         "lin",
         "linear_solids",
-        "tet10"
+        "tet10",
+        "analytical"
       ],
       "title": "Analytical equilibrium TET10 variant 10",
       "tolerance_ids": [
@@ -7351,9 +7451,9 @@
       "factory_id": null,
       "family": "LIN",
       "geometry": {
-        "source": "examples/hex8_g06_static.json"
+        "source": "examples/hex8_g06_analytic.json"
       },
-      "input_model": "examples/hex8_g06_static.json",
+      "input_model": "examples/hex8_g06_analytic.json",
       "kinematics": "declared_by_model",
       "known_limitations": [
         "Executable quantitative evidence; promotion requires the applicable gate and independent review."
@@ -7381,6 +7481,13 @@
       "model_overrides": {
         "load_scale": 0.9
       },
+      "oracle_configuration": {
+        "element_family": "HEX8",
+        "free_dof": "UX",
+        "free_node": 1,
+        "relative_tolerance": 1e-10,
+        "type": "constrained_free_dof"
+      },
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -7397,7 +7504,8 @@
         "g06",
         "lin",
         "linear_solids",
-        "hex8"
+        "hex8",
+        "analytical"
       ],
       "title": "Analytical equilibrium HEX8 variant 11",
       "tolerance_ids": [
@@ -7426,9 +7534,9 @@
       "factory_id": null,
       "family": "LIN",
       "geometry": {
-        "source": "examples/hex20_g06_static.json"
+        "source": "examples/hex20_g06_analytic.json"
       },
-      "input_model": "examples/hex20_g06_static.json",
+      "input_model": "examples/hex20_g06_analytic.json",
       "kinematics": "declared_by_model",
       "known_limitations": [
         "Executable quantitative evidence; promotion requires the applicable gate and independent review."
@@ -7454,6 +7562,13 @@
         "numerical_fingerprint"
       ],
       "model_overrides": {},
+      "oracle_configuration": {
+        "element_family": "HEX20",
+        "free_dof": "UX",
+        "free_node": 1,
+        "relative_tolerance": 1e-10,
+        "type": "constrained_free_dof"
+      },
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -7470,7 +7585,8 @@
         "g06",
         "lin",
         "linear_solids",
-        "hex20"
+        "hex20",
+        "analytical"
       ],
       "title": "Analytical equilibrium HEX20 variant 12",
       "tolerance_ids": [
@@ -7499,9 +7615,9 @@
       "factory_id": null,
       "family": "LIN",
       "geometry": {
-        "source": "examples/tet4_static.json"
+        "source": "examples/tet4_g06_analytic.json"
       },
-      "input_model": "examples/tet4_static.json",
+      "input_model": "examples/tet4_g06_analytic.json",
       "kinematics": "declared_by_model",
       "known_limitations": [
         "Executable quantitative evidence; promotion requires the applicable gate and independent review."
@@ -7529,6 +7645,13 @@
       "model_overrides": {
         "load_scale": 0.5
       },
+      "oracle_configuration": {
+        "element_family": "TET4",
+        "free_dof": "UX",
+        "free_node": 1,
+        "relative_tolerance": 1e-10,
+        "type": "constrained_free_dof"
+      },
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -7545,7 +7668,8 @@
         "g06",
         "lin",
         "linear_solids",
-        "tet4"
+        "tet4",
+        "analytical"
       ],
       "title": "Analytical equilibrium TET4 variant 13",
       "tolerance_ids": [
@@ -7574,9 +7698,9 @@
       "factory_id": null,
       "family": "LIN",
       "geometry": {
-        "source": "examples/tet10_static.json"
+        "source": "examples/tet10_g06_analytic.json"
       },
-      "input_model": "examples/tet10_static.json",
+      "input_model": "examples/tet10_g06_analytic.json",
       "kinematics": "declared_by_model",
       "known_limitations": [
         "Executable quantitative evidence; promotion requires the applicable gate and independent review."
@@ -7604,6 +7728,13 @@
       "model_overrides": {
         "load_scale": 0.6
       },
+      "oracle_configuration": {
+        "element_family": "TET10",
+        "free_dof": "UX",
+        "free_node": 1,
+        "relative_tolerance": 1e-10,
+        "type": "constrained_free_dof"
+      },
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -7620,7 +7751,8 @@
         "g06",
         "lin",
         "linear_solids",
-        "tet10"
+        "tet10",
+        "analytical"
       ],
       "title": "Analytical equilibrium TET10 variant 14",
       "tolerance_ids": [
@@ -7649,9 +7781,9 @@
       "factory_id": null,
       "family": "LIN",
       "geometry": {
-        "source": "examples/hex8_g06_static.json"
+        "source": "examples/hex8_g06_analytic.json"
       },
-      "input_model": "examples/hex8_g06_static.json",
+      "input_model": "examples/hex8_g06_analytic.json",
       "kinematics": "declared_by_model",
       "known_limitations": [
         "Executable quantitative evidence; promotion requires the applicable gate and independent review."
@@ -7679,6 +7811,13 @@
       "model_overrides": {
         "load_scale": 0.7
       },
+      "oracle_configuration": {
+        "element_family": "HEX8",
+        "free_dof": "UX",
+        "free_node": 1,
+        "relative_tolerance": 1e-10,
+        "type": "constrained_free_dof"
+      },
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -7695,7 +7834,8 @@
         "g06",
         "lin",
         "linear_solids",
-        "hex8"
+        "hex8",
+        "analytical"
       ],
       "title": "Analytical equilibrium HEX8 variant 15",
       "tolerance_ids": [
@@ -7724,9 +7864,9 @@
       "factory_id": null,
       "family": "LIN",
       "geometry": {
-        "source": "examples/hex20_g06_static.json"
+        "source": "examples/hex20_g06_analytic.json"
       },
-      "input_model": "examples/hex20_g06_static.json",
+      "input_model": "examples/hex20_g06_analytic.json",
       "kinematics": "declared_by_model",
       "known_limitations": [
         "Executable quantitative evidence; promotion requires the applicable gate and independent review."
@@ -7754,6 +7894,13 @@
       "model_overrides": {
         "load_scale": 0.8
       },
+      "oracle_configuration": {
+        "element_family": "HEX20",
+        "free_dof": "UX",
+        "free_node": 1,
+        "relative_tolerance": 1e-10,
+        "type": "constrained_free_dof"
+      },
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -7770,7 +7917,8 @@
         "g06",
         "lin",
         "linear_solids",
-        "hex20"
+        "hex20",
+        "analytical"
       ],
       "title": "Analytical equilibrium HEX20 variant 16",
       "tolerance_ids": [
@@ -7799,9 +7947,9 @@
       "factory_id": null,
       "family": "LIN",
       "geometry": {
-        "source": "examples/tet4_static.json"
+        "source": "examples/tet4_g06_analytic.json"
       },
-      "input_model": "examples/tet4_static.json",
+      "input_model": "examples/tet4_g06_analytic.json",
       "kinematics": "declared_by_model",
       "known_limitations": [
         "Executable quantitative evidence; promotion requires the applicable gate and independent review."
@@ -7829,6 +7977,13 @@
       "model_overrides": {
         "load_scale": 0.9
       },
+      "oracle_configuration": {
+        "element_family": "TET4",
+        "free_dof": "UX",
+        "free_node": 1,
+        "relative_tolerance": 1e-10,
+        "type": "constrained_free_dof"
+      },
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -7845,7 +8000,8 @@
         "g06",
         "lin",
         "linear_solids",
-        "tet4"
+        "tet4",
+        "analytical"
       ],
       "title": "Analytical equilibrium TET4 variant 17",
       "tolerance_ids": [
@@ -7874,9 +8030,9 @@
       "factory_id": null,
       "family": "LIN",
       "geometry": {
-        "source": "examples/tet10_static.json"
+        "source": "examples/tet10_g06_analytic.json"
       },
-      "input_model": "examples/tet10_static.json",
+      "input_model": "examples/tet10_g06_analytic.json",
       "kinematics": "declared_by_model",
       "known_limitations": [
         "Executable quantitative evidence; promotion requires the applicable gate and independent review."
@@ -7902,6 +8058,13 @@
         "numerical_fingerprint"
       ],
       "model_overrides": {},
+      "oracle_configuration": {
+        "element_family": "TET10",
+        "free_dof": "UX",
+        "free_node": 1,
+        "relative_tolerance": 1e-10,
+        "type": "constrained_free_dof"
+      },
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -7918,7 +8081,8 @@
         "g06",
         "lin",
         "linear_solids",
-        "tet10"
+        "tet10",
+        "analytical"
       ],
       "title": "Analytical equilibrium TET10 variant 18",
       "tolerance_ids": [
@@ -7947,9 +8111,9 @@
       "factory_id": null,
       "family": "LIN",
       "geometry": {
-        "source": "examples/hex8_g06_static.json"
+        "source": "examples/hex8_g06_analytic.json"
       },
-      "input_model": "examples/hex8_g06_static.json",
+      "input_model": "examples/hex8_g06_analytic.json",
       "kinematics": "declared_by_model",
       "known_limitations": [
         "Executable quantitative evidence; promotion requires the applicable gate and independent review."
@@ -7977,6 +8141,13 @@
       "model_overrides": {
         "load_scale": 0.5
       },
+      "oracle_configuration": {
+        "element_family": "HEX8",
+        "free_dof": "UX",
+        "free_node": 1,
+        "relative_tolerance": 1e-10,
+        "type": "constrained_free_dof"
+      },
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -7993,7 +8164,8 @@
         "g06",
         "lin",
         "linear_solids",
-        "hex8"
+        "hex8",
+        "analytical"
       ],
       "title": "Analytical equilibrium HEX8 variant 19",
       "tolerance_ids": [
@@ -8022,9 +8194,9 @@
       "factory_id": null,
       "family": "LIN",
       "geometry": {
-        "source": "examples/hex20_g06_static.json"
+        "source": "examples/hex20_g06_analytic.json"
       },
-      "input_model": "examples/hex20_g06_static.json",
+      "input_model": "examples/hex20_g06_analytic.json",
       "kinematics": "declared_by_model",
       "known_limitations": [
         "Executable quantitative evidence; promotion requires the applicable gate and independent review."
@@ -8052,6 +8224,13 @@
       "model_overrides": {
         "load_scale": 0.6
       },
+      "oracle_configuration": {
+        "element_family": "HEX20",
+        "free_dof": "UX",
+        "free_node": 1,
+        "relative_tolerance": 1e-10,
+        "type": "constrained_free_dof"
+      },
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -8068,7 +8247,8 @@
         "g06",
         "lin",
         "linear_solids",
-        "hex20"
+        "hex20",
+        "analytical"
       ],
       "title": "Analytical equilibrium HEX20 variant 20",
       "tolerance_ids": [
@@ -8127,6 +8307,7 @@
       "model_overrides": {
         "load_scale": 1.05
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -8202,6 +8383,7 @@
       "model_overrides": {
         "load_scale": 1.05
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -8277,6 +8459,7 @@
       "model_overrides": {
         "load_scale": 1.05
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -8352,6 +8535,7 @@
       "model_overrides": {
         "load_scale": 1.05
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -8427,6 +8611,7 @@
       "model_overrides": {
         "load_scale": 1.1
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -8502,6 +8687,7 @@
       "model_overrides": {
         "load_scale": 1.1
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -8577,6 +8763,7 @@
       "model_overrides": {
         "load_scale": 1.1
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -8652,6 +8839,7 @@
       "model_overrides": {
         "load_scale": 1.1
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -8727,6 +8915,7 @@
       "model_overrides": {
         "load_scale": 1.15
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -8802,6 +8991,7 @@
       "model_overrides": {
         "load_scale": 1.15
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -8877,6 +9067,7 @@
       "model_overrides": {
         "load_scale": 1.15
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -8952,6 +9143,7 @@
       "model_overrides": {
         "load_scale": 1.15
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -9027,6 +9219,7 @@
       "model_overrides": {
         "load_scale": 1.2
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -9102,6 +9295,7 @@
       "model_overrides": {
         "load_scale": 1.2
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -9177,6 +9371,7 @@
       "model_overrides": {
         "load_scale": 1.2
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -9252,6 +9447,7 @@
       "model_overrides": {
         "load_scale": 1.2
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -10223,6 +10419,7 @@
       "model_overrides": {
         "load_scale": 0.75
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -10298,6 +10495,7 @@
       "model_overrides": {
         "load_scale": 1.25
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -10373,6 +10571,7 @@
       "model_overrides": {
         "load_scale": 0.8
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -10448,6 +10647,7 @@
       "model_overrides": {
         "load_scale": 1.2
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -10523,6 +10723,7 @@
       "model_overrides": {
         "load_scale": 0.9
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -10598,6 +10799,7 @@
       "model_overrides": {
         "load_scale": 1.1
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -10677,6 +10879,7 @@
           }
         }
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -10750,6 +10953,7 @@
         "numerical_fingerprint"
       ],
       "model_overrides": {},
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -10829,6 +11033,7 @@
           }
         }
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -10902,6 +11107,7 @@
         "numerical_fingerprint"
       ],
       "model_overrides": {},
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -10981,6 +11187,7 @@
           }
         }
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -11054,6 +11261,7 @@
         "numerical_fingerprint"
       ],
       "model_overrides": {},
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -11129,6 +11337,7 @@
       "model_overrides": {
         "load_scale": 0.6
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -11208,6 +11417,7 @@
           }
         }
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -11281,6 +11491,7 @@
         "numerical_fingerprint"
       ],
       "model_overrides": {},
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -11356,6 +11567,7 @@
       "model_overrides": {
         "load_scale": 0.75
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -11429,6 +11641,7 @@
         "numerical_fingerprint"
       ],
       "model_overrides": {},
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -11504,6 +11717,7 @@
       "model_overrides": {
         "load_scale": 0.8
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -11577,6 +11791,7 @@
         "numerical_fingerprint"
       ],
       "model_overrides": {},
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -11656,6 +11871,7 @@
           }
         }
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -11735,6 +11951,7 @@
           }
         }
       },
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -11808,6 +12025,7 @@
         "numerical_fingerprint"
       ],
       "model_overrides": {},
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -11881,6 +12099,7 @@
         "numerical_fingerprint"
       ],
       "model_overrides": {},
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],
@@ -11954,6 +12173,7 @@
         "numerical_fingerprint"
       ],
       "model_overrides": {},
+      "oracle_configuration": {},
       "oracle_ids": [
         "ANALYTICAL"
       ],

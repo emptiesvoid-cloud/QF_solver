@@ -57,6 +57,7 @@ class VnvCase:
     input_model: str | None = None
     factory_id: str | None = None
     model_overrides: Mapping[str, Any] = field(default_factory=dict)
+    oracle_configuration: Mapping[str, Any] = field(default_factory=dict)
 
     @classmethod
     def from_mapping(cls, raw: Mapping[str, Any]) -> "VnvCase":
@@ -113,6 +114,7 @@ class VnvCase:
             input_model=input_model,
             factory_id=_optional_text(raw.get("factory_id"), case_id, "factory_id"),
             model_overrides=_mapping(raw.get("model_overrides"), case_id, "model_overrides"),
+            oracle_configuration=_mapping(raw.get("oracle_configuration"), case_id, "oracle_configuration"),
         )
 
     def to_mapping(self) -> dict[str, Any]:
@@ -152,6 +154,7 @@ class VnvCase:
             "input_model": self.input_model,
             "factory_id": self.factory_id,
             "model_overrides": dict(self.model_overrides),
+            "oracle_configuration": dict(self.oracle_configuration),
         }
 
 

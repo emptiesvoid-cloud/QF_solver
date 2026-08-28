@@ -11,6 +11,7 @@ from typing import Any, Iterable
 
 from solveur.core.router import AnalysisRouter
 from solveur.io.json_reader import JsonModelReader
+from solveur.verification.g06_analytical import evaluate_free_dof_oracle
 
 from .case import VnvCase
 from .environment import capture_environment
@@ -110,6 +111,15 @@ class VnvRunner:
                 failure_category = "SOLVER_REPORTED_FAILURE"
                 diagnostics = {"result_status": actual_status, "message": result_data.get("message", "")}
             metrics = _metrics(result_data)
+            if status == "PASS" and case.oracle_configuration:
+                oracle = evaluate_free_dof_oracle(raw_model, result_data, dict(case.oracle_configuration))
+                metrics["reference_displacement"] = oracle["reference_displacement"]
+                metrics["reference_error"] = oracle["relative_error"]
+                metrics["oracle_status"] = oracle["status"]
+                diagnostics["oracle"] = oracle
+                if oracle["status"] != "PASS":
+                    status = "FAIL"
+                    failure_category = "ANALYTICAL_ORACLE_MISMATCH"
         except Exception as exc:  # controlled expected-failure cases deliberately exercise this path
             if case.expected_failure:
                 status = "EXPECTED_FAILURE"

@@ -1,0 +1,23 @@
+{
+  "analysis": {"type": "linear_static", "method": "direct"},
+  "nodes": [
+    [0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1],
+    [0.5, 0, 0], [0.5, 0.5, 0], [0, 0.5, 0], [0, 0, 0.5],
+    [0.5, 0, 0.5], [0, 0.5, 0.5]
+  ],
+  "elements": [{"type": "TET10", "nodes": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], "material": "steel"}],
+  "materials": {"steel": {"type": "isotropic_3d", "E": 210000000000.0, "nu": 0.3, "density": 7800.0}},
+  "fixed_dofs": [
+    {"node": 0, "dofs": ["UX", "UY", "UZ"]},
+    {"node": 1, "dofs": ["UY", "UZ"]},
+    {"node": 2, "dofs": ["UX", "UY", "UZ"]},
+    {"node": 3, "dofs": ["UX", "UY", "UZ"]},
+    {"node": 4, "dofs": ["UX", "UY", "UZ"]},
+    {"node": 5, "dofs": ["UX", "UY", "UZ"]},
+    {"node": 6, "dofs": ["UX", "UY", "UZ"]},
+    {"node": 7, "dofs": ["UX", "UY", "UZ"]},
+    {"node": 8, "dofs": ["UX", "UY", "UZ"]},
+    {"node": 9, "dofs": ["UX", "UY", "UZ"]}
+  ],
+  "loads": [{"node": 1, "dof": "UX", "value": 1000.0}]
+}
