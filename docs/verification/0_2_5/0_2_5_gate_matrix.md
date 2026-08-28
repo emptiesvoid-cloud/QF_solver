@@ -183,7 +183,8 @@ The qualified scope is limited to sparse linear buckling / first tangent
 instability with the supported total-Lagrangian solid path and the recorded
 TET4 external probe. TET10, HEX8 and HEX20 remain internal/research for this
 gate; post-buckling, imperfection-sensitive collapse and general stability
-prediction remain outside the claim. `CONTRACT LOWERED = NO`.
+prediction remain outside the claim. The Owner decision is `APPROVED` with
+mesh decision `APPROVED_BOUNDED_REFINEMENT`; `CONTRACT LOWERED = NO`.
 
 ## Owner audit: 025-G04 remains open
 

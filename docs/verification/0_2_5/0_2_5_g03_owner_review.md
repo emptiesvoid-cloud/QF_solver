@@ -1,13 +1,28 @@
 ---
 doc_id: DOC-NL-025-034
-revision: 0.1
-status: controlled_candidate
+revision: 1.0
+status: approved
 applicable_version: 0.2.5a0
 reviewer: Owner
-approver: pending
+approver: Owner
 ---
 
 # QF Solver 0.2.5a0 — Owner Review 025-G03
+
+## Decision identity
+
+| Field | Value |
+|---|---|
+| Gate | `025-G03` |
+| Owner decision | `APPROVED` |
+| Mesh decision | `APPROVED_BOUNDED_REFINEMENT` |
+| Qualified source SHA | `85c75d06955976251dd54ad782f57f1eb5a7f8f4` |
+| Qualified source worktree | `CLEAN` |
+| Owner-evidence manifest | `qualification/reviews/qf_solver_0_2_5_g03_owner_evidence_manifest.json` |
+| Contract lowered | `NO` |
+
+This is an explicit Owner closure for the bounded G03 scope. It is not a
+whole-release decision and does not authorize a push, tag or PyPI publication.
 
 ## Decision scope
 
@@ -63,7 +78,7 @@ is retained as diagnostic evidence; it is not a G03 blocker.
 
 ## Owner decision
 
-**Recommended decision: APPROVED for the bounded scope above.**
+**Decision: APPROVED for the bounded scope above.**
 
-The release-level Owner signature remains a separate governance action. No
+The release-level Owner decision remains separate from this gate closure. No
 push, tag or PyPI publication is authorized by this document.
