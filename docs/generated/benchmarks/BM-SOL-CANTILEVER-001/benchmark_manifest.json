@@ -1,6 +1,6 @@
 {
   "manifest_schema_version": 1,
-  "created_at_utc": "2026-08-28T12:55:20.436156Z",
+  "created_at_utc": "2026-08-28T14:05:48.701283Z",
   "solver": {
     "name": "QF_solver",
     "version": "0.2.5a0"
@@ -66,32 +66,32 @@
     {
       "role": "benchmark_artifact",
       "path": "linear_method_bicgstab.json",
-      "size_bytes": 7908337,
-      "sha256": "b48c32f50fb74528c96dcfcfbcd27529cb4300499cc7778cbdd2717420a8f8bc"
+      "size_bytes": 7908336,
+      "sha256": "472e26fede73045d9c7a2202e22631afc1df44650939f6a3c64f3700eee68a0f"
     },
     {
       "role": "benchmark_artifact",
       "path": "linear_method_cg.json",
-      "size_bytes": 7915175,
-      "sha256": "27e83efe7a67c2acdec9124bc685c90d45f81dad5b27b656649d22e6c45b9994"
+      "size_bytes": 7915176,
+      "sha256": "e223b7ec65ccb1b1895aa375998c12c7463404af7cb4b8a7b7465ccbe7cb314d"
     },
     {
       "role": "benchmark_artifact",
       "path": "linear_method_direct.json",
-      "size_bytes": 7905016,
-      "sha256": "19fe4ceb1c2fdd7641705cef4d268b788cd7dc9906fa2e7da56c4ba0c7186df9"
+      "size_bytes": 7905015,
+      "sha256": "53b480725d2daf5105bb0e1d4f1b3c48346ca734e87f89b111cc1b283a800b23"
     },
     {
       "role": "benchmark_artifact",
       "path": "linear_method_gmres.json",
       "size_bytes": 7906160,
-      "sha256": "ef152ff6483213812d2b2134821ffff6ae980c9070ec32abeda91fbb8f25665c"
+      "sha256": "16d2afd7c6e7991ceacf09b9be6e0dcedfc742b99a0ebb8e4cba69401fe7a3cb"
     },
     {
       "role": "benchmark_artifact",
       "path": "linear_method_minres.json",
-      "size_bytes": 7915832,
-      "sha256": "3e1cf16760b60d5a9d9ae69cd238be68ee0ec1a1b55780c3335d6311ee5b3be9"
+      "size_bytes": 7915833,
+      "sha256": "5ebef6b1b9830c4fb91dd5a452e9a95090b39b964076311892685b626eb0aa6d"
     },
     {
       "role": "benchmark_artifact",
@@ -102,8 +102,8 @@
     {
       "role": "benchmark_artifact",
       "path": "tet10.json",
-      "size_bytes": 20824386,
-      "sha256": "f610d47bd41266777d9c8e9366d212e0cf4dc07959059489266397b0702cbfe0"
+      "size_bytes": 20824385,
+      "sha256": "e14e8adaa1759c2d65b787b4acc8630b0033a65bb214332e4aab628d9a5fffce"
     },
     {
       "role": "benchmark_artifact",
@@ -132,8 +132,8 @@
     {
       "role": "benchmark_artifact",
       "path": "tet4.json",
-      "size_bytes": 7905016,
-      "sha256": "19fe4ceb1c2fdd7641705cef4d268b788cd7dc9906fa2e7da56c4ba0c7186df9"
+      "size_bytes": 7905015,
+      "sha256": "53b480725d2daf5105bb0e1d4f1b3c48346ca734e87f89b111cc1b283a800b23"
     },
     {
       "role": "benchmark_artifact",
@@ -163,7 +163,7 @@
       "role": "benchmark_artifact",
       "path": "tet4_h1.json",
       "size_bytes": 7064183,
-      "sha256": "9870cd69e4db6f601f9aa844c2edd1f75a51541b3743a1793d0e11edc3de4016"
+      "sha256": "8a2be94533e2be77dd7314d66cd12b295169bc0bc820676424dcb9a5e6fdbb9d"
     },
     {
       "role": "benchmark_artifact",
@@ -199,7 +199,7 @@
       "role": "benchmark_artifact",
       "path": "tet4_h2.json",
       "size_bytes": 7905642,
-      "sha256": "b1e2d5b148ca6cb891e5e711e27cbcec2d220412ba2035cc20c938266fdb256c"
+      "sha256": "2b6ad54161e8261392956945e1f984074a615ce3113548e41dd5bfa8efee49f6"
     },
     {
       "role": "benchmark_artifact",
@@ -234,8 +234,8 @@
     {
       "role": "benchmark_artifact",
       "path": "tet4_h3.json",
-      "size_bytes": 10358780,
-      "sha256": "6c9ebaa11248a6de32acebb02c435dd556481669ed21ce9dc2a1b444f6caeb0b"
+      "size_bytes": 10358779,
+      "sha256": "cba5a94a0c1298b36beb5caba434fc9601d0c82531b5b73a6bdc0f24e6cd77bd"
     },
     {
       "role": "benchmark_artifact",
@@ -271,7 +271,7 @@
       "role": "benchmark_artifact",
       "path": "tet4_h4.json",
       "size_bytes": 21308958,
-      "sha256": "e539752e00f40c46a480d22fbb80dc8690fd2acea3cba87b3432e6906e1a836a"
+      "sha256": "df0918b206a6e398fcd24811be4e9a7532f5bf995df2eaa19c38dde0c73764fd"
     },
     {
       "role": "benchmark_artifact",
@@ -306,8 +306,8 @@
     {
       "role": "benchmark_artifact",
       "path": "tet4_h5.json",
-      "size_bytes": 37044186,
-      "sha256": "29b53a0e22199de431e0e4ad3d63baa99b324a1a0d6003b5e8af4350c7d446e4"
+      "size_bytes": 37044185,
+      "sha256": "0545e8d2e430c1e54ce0bc400d58eeb888d35f605f8935a7a3f0d097d0367564"
     },
     {
       "role": "benchmark_artifact",
@@ -342,8 +342,8 @@
     {
       "role": "benchmark_artifact",
       "path": "tet4_h6.json",
-      "size_bytes": 78500514,
-      "sha256": "bbfa6896e0c59108876cfdadb7167f412bdcbd55faea0ae56be827e479ce4cc2"
+      "size_bytes": 78500512,
+      "sha256": "347a6db38245df87a779298b98422aa099cc4ce013cb4c095cba11b8d6cf2c86"
     },
     {
       "role": "benchmark_artifact",

@@ -1455,9 +1455,9 @@
       "residual_failure_tolerance": 1e-07,
       "fallback_used": false,
       "backend_used": "scipy",
-      "linear_solve_seconds": 0.001180999999633059,
-      "assembly_seconds": 0.007994400017196313,
-      "total_seconds": 0.08029900002293289,
+      "linear_solve_seconds": 0.001277900009881705,
+      "assembly_seconds": 0.008022399997571483,
+      "total_seconds": 0.07789359998423606,
       "resource_estimate": {
         "nnz": 400,
         "sparse_memory_bytes": 5188,

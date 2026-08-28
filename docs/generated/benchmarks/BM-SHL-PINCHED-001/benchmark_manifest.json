@@ -1,6 +1,6 @@
 {
   "manifest_schema_version": 1,
-  "created_at_utc": "2026-08-28T12:54:53.122844Z",
+  "created_at_utc": "2026-08-28T14:05:21.439209Z",
   "solver": {
     "name": "QF_solver",
     "version": "0.2.5a0"
@@ -66,8 +66,8 @@
     {
       "role": "benchmark_artifact",
       "path": "result.json",
-      "size_bytes": 73458584,
-      "sha256": "d9e884bef16c82664cfcaf2e18b44c91f54c4b190a012cbf4f9a2cb5d85ee443"
+      "size_bytes": 73458586,
+      "sha256": "51cc90ad4047de203518f6144d5696890df23ca7ef365f6ff9c8b9cb59351bf4"
     },
     {
       "role": "benchmark_artifact",
