@@ -10,7 +10,7 @@ from typing import Any
 import numpy as np
 
 from solveur.api import solve_model
-from solveur.core.analysis import AnalysisSettings
+from solveur.core.analyses.settings import AnalysisSettings
 from solveur.core.model import FiniteElementModel, NodalLoad
 from solveur.io.manifest import write_json_file
 from solveur.verification.code_aster_mitc4_laminate_dynamic import (

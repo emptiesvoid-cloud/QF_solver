@@ -12,7 +12,7 @@ from typing import Any
 import numpy as np
 
 from solveur.core.errors import InfrastructureError, InputValidationError, MeshValidationError, NumericalConvergenceError
-from solveur.core.linear_methods import LinearSystemSolver
+from solveur.core.solvers.linear import LinearSystemSolver
 from solveur.large.assembler import (
     ChunkedScipyAssembler,
     PetscTET4Assembler,

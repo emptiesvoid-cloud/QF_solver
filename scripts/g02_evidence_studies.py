@@ -14,7 +14,7 @@ if str(ROOT / "src") not in sys.path:
     sys.path.insert(0, str(ROOT / "src"))
 
 from solveur.api import solve_model  # noqa: E402
-from solveur.core.geometric_assembly import build_total_lagrangian_assembly  # noqa: E402
+from solveur.core.assembly.geometric import build_total_lagrangian_assembly  # noqa: E402
 from solveur.core.model import FiniteElementModel  # noqa: E402
 from solveur.verification.robustness_foundations import element_coordinates  # noqa: E402
 from solveur.verification.robustness_geometric import (  # noqa: E402

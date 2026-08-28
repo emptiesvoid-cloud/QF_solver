@@ -7,7 +7,7 @@ from pathlib import Path
 from solveur.benchmarks.runner import BenchmarkRunner
 from solveur.benchmarks.demonstrations import DemonstrationDescriptor, DemonstrationRunner
 from solveur.benchmarks.types import BenchmarkDescriptor, BenchmarkRun
-from solveur.core.analysis import available_methods
+from solveur.core.analyses.settings import available_methods
 from solveur.core.audit import ModelInspector, SolverAudit
 from solveur.core.model import FiniteElementModel
 from solveur.core.qualification import enforce_qualification_policy, qualification_summary

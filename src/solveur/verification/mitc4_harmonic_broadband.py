@@ -18,8 +18,8 @@ matplotlib.use("Agg")
 from matplotlib import pyplot as plt  # noqa: E402
 
 from solveur.api import solve_model
-from solveur.core.assembler import GlobalAssembler
-from solveur.core.dynamic_reduction import DynamicDofReducer
+from solveur.core.assembly.assembler import GlobalAssembler
+from solveur.core.analyses.dynamic_reduction import DynamicDofReducer
 from solveur.core.model import NodalLoad
 from solveur.io.manifest import discovered_file_entries, git_source_state, write_json_file
 from solveur.verification.mitc4_harmonic_nafems import build_nafems_13h_model

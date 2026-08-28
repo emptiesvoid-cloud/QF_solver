@@ -13,7 +13,7 @@ import numpy as np
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-from solveur.core.solver import LinearStaticSolver
+from solveur.core.solvers.static import LinearStaticSolver
 from solveur.io.json_reader import JsonModelReader
 from solveur.io.manifest import write_json_file
 from solveur.verification.code_aster_tl_structural import CODE_ASTER_IMAGE, run_code_aster

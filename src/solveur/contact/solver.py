@@ -12,8 +12,8 @@ from solveur.core.constraints import ConstraintReduction
 from solveur.core.dofs import DofManager
 from solveur.core.errors import InputValidationError, NumericalConvergenceError
 from solveur.core.model import FiniteElementModel
-from solveur.core.nonlinear_contracts import NonlinearFailureReason
-from solveur.core.material_state import StateTransaction
+from solveur.core.nonlinear.contracts import NonlinearFailureReason
+from solveur.core.nonlinear.material_state import StateTransaction
 from solveur.contact.support import (
     _ContactOperator,
     _FrictionIncrementState,

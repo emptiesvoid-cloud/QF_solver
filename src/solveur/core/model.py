@@ -8,7 +8,7 @@ from typing import Any
 import numpy as np
 
 from solveur.contact.entities import FrictionlessContact
-from solveur.core.analysis import AnalysisSettings
+from solveur.core.analyses.settings import AnalysisSettings
 from solveur.core.constraints import ConstraintTerm, LinearConstraint
 from solveur.core.dofs import DOF_ORDER, DofManager, normalize_dof_name
 from solveur.core.errors import InputValidationError

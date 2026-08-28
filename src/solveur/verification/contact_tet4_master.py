@@ -12,7 +12,7 @@ import numpy as np
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-from solveur.core.solver import LinearStaticSolver
+from solveur.core.solvers.static import LinearStaticSolver
 from solveur.io.json_reader import JsonModelReader
 from solveur.io.manifest import write_json_file
 from solveur.verification.vnv_manifest import write_vnv_manifest

@@ -10,7 +10,7 @@ import numpy as np
 from solveur.benchmarks.gmsh_factory import BenchmarkMeshFactory
 from solveur.benchmarks.support import BenchmarkContext, run_status, upper_check
 from solveur.benchmarks.types import BenchmarkRun
-from solveur.core.analysis import AnalysisSettings
+from solveur.core.analyses.settings import AnalysisSettings
 from solveur.core.qualification import enforce_qualification_policy
 from solveur.core.router import AnalysisRouter
 from solveur.io.json_writer import JsonResultWriter

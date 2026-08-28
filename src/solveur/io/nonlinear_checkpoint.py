@@ -9,8 +9,8 @@ from pathlib import Path
 import numpy as np
 
 from solveur.core.errors import InputValidationError
-from solveur.core.material_state import MaterialStateTable, copy_material_states
-from solveur.core.nonlinear_checkpoint import NonlinearCheckpoint
+from solveur.core.nonlinear.material_state import MaterialStateTable, copy_material_states
+from solveur.core.nonlinear.checkpoint import NonlinearCheckpoint
 from solveur.io.checkpoint_common import checkpoint_signature
 
 

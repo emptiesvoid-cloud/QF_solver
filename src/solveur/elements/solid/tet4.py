@@ -10,7 +10,7 @@ from solveur.elements.solid.common import (
     validate_coords_shape,
     von_mises_3d,
 )
-from solveur.core.nonlinear_contracts import evaluate_constitutive
+from solveur.core.nonlinear.contracts import evaluate_constitutive
 from solveur.materials.solid import SolidConstitutiveMaterial
 
 

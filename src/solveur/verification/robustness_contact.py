@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from solveur.verification.robustness_support import *  # noqa: F401,F403
 from solveur.verification.robustness_mesh import _refinement_model
-from solveur.core.nonlinear_contracts import NonlinearFailureReason
+from solveur.core.nonlinear.contracts import NonlinearFailureReason
 from solveur.verification.robustness_contact_extended import (
     run_contact_facet_transition_rollback_benchmark,
     run_contact_surface_patch_benchmark,

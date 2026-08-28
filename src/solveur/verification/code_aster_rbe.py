@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from solveur.core.solver import LinearStaticSolver
+from solveur.core.solvers.static import LinearStaticSolver
 from solveur.io.json_reader import JsonModelReader
 from solveur.io.manifest import write_json_file
 from solveur.verification.code_aster_tl_structural import CODE_ASTER_IMAGE, run_code_aster

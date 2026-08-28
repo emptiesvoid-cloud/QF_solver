@@ -14,9 +14,9 @@ from pathlib import Path
 import numpy as np
 from scipy.sparse import diags
 
-from solveur.core.linear_methods import LinearSystemSolver
-from solveur.core.linear_policy import LinearSolverPolicy
-from solveur.core.solver_backend import optional_backend_status
+from solveur.core.solvers.linear import LinearSystemSolver
+from solveur.core.solvers.policy import LinearSolverPolicy
+from solveur.core.solvers.backend import optional_backend_status
 
 
 def run_campaign(sizes: list[int], output: Path | None = None) -> dict[str, object]:

@@ -8,7 +8,7 @@ from typing import Any
 import numpy as np
 
 from solveur.benchmarks.gmsh_factory import BenchmarkMeshFactory
-from solveur.core.assembler import GlobalAssembler
+from solveur.core.assembly.assembler import GlobalAssembler
 from solveur.core.model import FiniteElementModel
 from solveur.core.qualification import enforce_qualification_policy
 from solveur.core.router import AnalysisRouter

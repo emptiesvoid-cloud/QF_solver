@@ -16,7 +16,7 @@ matplotlib.use("Agg")
 from matplotlib import pyplot as plt  # noqa: E402
 
 from solveur.api import solve_model
-from solveur.core.assembler import GlobalAssembler
+from solveur.core.assembly.assembler import GlobalAssembler
 from solveur.core.model import FiniteElementModel
 from solveur.io.manifest import write_json_file
 from solveur.verification.code_aster_tl_structural import CODE_ASTER_IMAGE, run_code_aster

@@ -11,7 +11,7 @@ from typing import Any
 
 import numpy as np
 
-from solveur.core.nonlinear_contracts import evaluate_constitutive
+from solveur.core.nonlinear.contracts import evaluate_constitutive
 from solveur.elements.solid.hex8 import Hex8Element
 from solveur.elements.solid.hex20 import Hex20Element
 from solveur.elements.solid.tet4 import Tet4Element

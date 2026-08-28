@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from solveur.core.geometric_nonlinear_controls import (
+from solveur.core.analyses.geometric_nonlinear_controls import (
     DEFAULT_LOAD_INCREMENTS,
     MINIMUM_LOAD_INCREMENTS,
 )

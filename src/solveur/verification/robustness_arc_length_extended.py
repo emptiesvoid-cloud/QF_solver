@@ -10,9 +10,9 @@ from scipy.sparse import csr_matrix
 
 from solveur.core.dofs import DofManager
 from solveur.core.errors import NumericalConvergenceError
-from solveur.core.material_state import MaterialStateTable, copy_material_states
-from solveur.core.nonlinear import NonlinearStaticSolver
-from solveur.core.nonlinear_contracts import NonlinearFailureReason
+from solveur.core.nonlinear.material_state import MaterialStateTable, copy_material_states
+from solveur.core.nonlinear.solver import NonlinearStaticSolver
+from solveur.core.nonlinear.contracts import NonlinearFailureReason
 from solveur.verification.robustness_support import *  # noqa: F401,F403
 
 

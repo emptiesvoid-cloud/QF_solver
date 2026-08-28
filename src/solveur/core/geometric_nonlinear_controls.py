@@ -1,25 +1,6 @@
-"""Controls shared by future geometrically nonlinear analyses."""
+"""Compatibility alias for :mod:`solveur.core.analyses.geometric_nonlinear_controls`."""
 
-from __future__ import annotations
+from importlib import import_module as _import_module
+import sys as _sys
 
-from dataclasses import dataclass
-
-
-MINIMUM_LOAD_INCREMENTS = 6
-DEFAULT_LOAD_INCREMENTS = 10
-
-
-@dataclass(frozen=True)
-class GeometricNonlinearControls:
-    """Validated load controls for total-Lagrangian structural solves."""
-
-    load_increments: int = DEFAULT_LOAD_INCREMENTS
-
-    def __post_init__(self) -> None:
-        if isinstance(self.load_increments, bool) or not isinstance(self.load_increments, int):
-            raise ValueError("load_increments must be an integer.")
-        if self.load_increments < MINIMUM_LOAD_INCREMENTS:
-            raise ValueError(
-                f"load_increments must be at least {MINIMUM_LOAD_INCREMENTS}; "
-                f"the recommended default is {DEFAULT_LOAD_INCREMENTS}."
-            )
+_sys.modules[__name__] = _import_module("solveur.core.analyses.geometric_nonlinear_controls")

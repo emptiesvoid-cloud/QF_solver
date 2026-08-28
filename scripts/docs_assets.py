@@ -33,7 +33,7 @@ from solveur.api import (
     solve_large_model,
     solve_model,
 )
-from solveur.core.analysis import AnalysisSettings
+from solveur.core.analyses.settings import AnalysisSettings
 from solveur.elements.solid.tet10 import Tet10Element
 from solveur.elements.solid.tet4 import Tet4Element
 from solveur.io.manifest import git_source_state, sha256

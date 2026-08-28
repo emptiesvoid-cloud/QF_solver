@@ -12,11 +12,11 @@ from scipy.sparse import csr_matrix
 from solveur.api import solve_model
 from solveur.contact.entities import FrictionlessContact
 from solveur.core.errors import NumericalConvergenceError
-from solveur.core.material_state import StateTransaction
+from solveur.core.nonlinear.material_state import StateTransaction
 from solveur.core.model import FiniteElementModel
-from solveur.core.nonlinear import NonlinearStaticSolver
-from solveur.core.nonlinear_contracts import NonlinearFailureReason
-from solveur.core.nonlinear_iteration import solve_full_newton
+from solveur.core.nonlinear.solver import NonlinearStaticSolver
+from solveur.core.nonlinear.contracts import NonlinearFailureReason
+from solveur.core.nonlinear.iteration import solve_full_newton
 from solveur.verification.nonlinear_failure_paths import (  # noqa: F401
     _run_arc_length_failure_case,
     _run_buckling_failure_case,
@@ -110,7 +110,7 @@ def _run_nonfinite_correction_case(
     assembly = _Assembly(lambda _displacement: np.zeros(2), np.eye(2))
     try:
         with patch(
-            "solveur.core.nonlinear_iteration.spsolve",
+            "solveur.core.nonlinear.iteration.spsolve",
             return_value=np.array([value, 0.0]),
         ):
             solve_full_newton(
@@ -270,7 +270,7 @@ def _run_contact_retry_rollback_case() -> dict[str, object]:
     )
     model.contacts.append(FrictionlessContact(slave_node=1, master_nodes=(0, 2, 3)))
 
-    import solveur.core.nonlinear_assembly as nonlinear_assembly
+    import solveur.core.assembly.nonlinear as nonlinear_assembly
 
     original = nonlinear_assembly.assemble_penalty_contact
     calls = 0
@@ -601,7 +601,7 @@ def _run_linear_backend_failure_case() -> dict[str, object]:
     """Verify that a sparse backend runtime error has its own failure reason."""
 
     assembly = _Assembly(lambda _displacement: np.zeros(2), np.eye(2))
-    import solveur.core.nonlinear_iteration as nonlinear_iteration
+    import solveur.core.nonlinear.iteration as nonlinear_iteration
 
     def fail(*args: object, **kwargs: object):
         raise RuntimeError("controlled sparse factorization failure")

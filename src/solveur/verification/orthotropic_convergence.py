@@ -9,8 +9,8 @@ import numpy as np
 
 from solveur.benchmarks.gmsh_factory import BenchmarkMeshFactory
 from solveur.core.qualification import enforce_qualification_policy
-from solveur.core.solver import LinearStaticSolver
-from solveur.core.assembler import GlobalAssembler
+from solveur.core.solvers.static import LinearStaticSolver
+from solveur.core.assembly.assembler import GlobalAssembler
 from solveur.io.json_writer import JsonResultWriter
 from solveur.io.manifest import write_json_file
 from solveur.io.model_writer import JsonModelWriter
@@ -19,7 +19,7 @@ from solveur.large.audit import inspect_large_model
 from solveur.large.model import LargeModel
 from solveur.mesh.gmsh_importer import GmshModelImporter
 from solveur.verification.vnv_manifest import write_vnv_manifest
-from solveur.core.linear_methods import LinearSystemSolver
+from solveur.core.solvers.linear import LinearSystemSolver
 
 
 class OrthotropicStructuralConvergenceCampaign:

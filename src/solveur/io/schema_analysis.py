@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections.abc import Mapping
 from typing import Any
 
-from solveur.core.analysis import SUPPORTED_METHODS
+from solveur.core.analyses.settings import SUPPORTED_METHODS
 from solveur.io.laminate_schema import validate_laminate_plies
 from solveur.io.schema_values import (
     is_int as _is_int,

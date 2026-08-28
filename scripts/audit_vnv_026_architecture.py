@@ -38,12 +38,14 @@ def _write_markdown_report(report: dict[str, Any]) -> None:
         "# Architecture Audit",
         "",
         "The machine-readable authority is `qualification/0_2_6/architecture_audit.json`.",
-        "This audit is descriptive; no numerical module is moved by the foundation run.",
+        "This audit is descriptive; G04 moves implementation ownership without changing numerical bodies or public entry points.",
         "",
         f"- Source SHA captured: `{report['source_sha']}`",
         f"- Source dirty at capture: `{report['source_dirty']}`",
         f"- Python modules inspected: {report['python_module_count']}",
         f"- Flat verification modules: {report['verification_flat_module_count']}",
+        f"- Core implementation packages: {', '.join(sorted(report['core_implementation_packages']))}",
+        f"- Core compatibility facades: {report['core_compatibility_facade_count']}",
         "",
         "## Large Modules",
         "",
@@ -94,6 +96,15 @@ def audit(root: Path) -> dict[str, Any]:
                         dependencies[module].add(target)
     tracked_large = _large_tracked_files(root)
     verification_files = sorted((root / "src" / "solveur" / "verification").glob("*.py"))
+    core_packages = {
+        package: sorted(path.name for path in (root / "src" / "solveur" / "core" / package).glob("*.py"))
+        for package in ("assembly", "solvers", "analyses", "nonlinear")
+    }
+    compatibility_facades = sorted(
+        path.relative_to(root).as_posix()
+        for path in (root / "src" / "solveur" / "core").glob("*.py")
+        if "Compatibility alias" in path.read_text(encoding="utf-8")
+    )
     return {
         "schema_version": 1,
         "captured_at_utc": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
@@ -103,12 +114,15 @@ def audit(root: Path) -> dict[str, Any]:
         "modules_by_directory": dict(sorted(by_directory.items())),
         "oversized_modules": sorted(oversized, key=lambda row: row["lines"], reverse=True),
         "verification_flat_module_count": len(verification_files),
+        "core_implementation_packages": core_packages,
+        "core_compatibility_facade_count": len(compatibility_facades),
+        "core_compatibility_facades": compatibility_facades,
         "dependency_domains": {domain: sorted(targets) for domain, targets in sorted(dependencies.items())},
         "detected_two_way_domain_dependencies": _two_way(dependencies),
         "large_tracked_files": tracked_large,
         "findings": [
             "Verification contains many flat, solver-specific modules and duplicated campaign entrypoints.",
-            "No mechanical migration is performed by this audit; the framework package is an additive boundary.",
+            "Core assembly, solver, analysis and nonlinear implementations are grouped under explicit subpackages; flat core imports remain compatibility facades.",
             "Historical large benchmark displacement blobs exceed the proposed normal artifact size policy and must be preserved, not rewritten.",
         ],
     }
