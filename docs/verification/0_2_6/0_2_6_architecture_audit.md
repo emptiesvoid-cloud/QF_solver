@@ -3,7 +3,7 @@
 The machine-readable authority is `qualification/0_2_6/architecture_audit.json`.
 This audit is descriptive; no numerical module is moved by the foundation run.
 
-- Source SHA captured: `1e6c3e96d1e1366c4cc790546e82769cd9227902`
+- Source SHA captured: `62c7b8406a657538f8a2b06ce6ff8b646aff7873`
 - Source dirty at capture: `True`
 - Python modules inspected: 394
 - Flat verification modules: 188

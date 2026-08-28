@@ -2,7 +2,7 @@
   "baseline_release": "v0.2.5a0",
   "baseline_release_head": "1e6c3e96d1e1366c4cc790546e82769cd9227902",
   "capture_environment": {
-    "captured_at_utc": "2026-08-28T18:09:12.724017Z",
+    "captured_at_utc": "2026-08-28T18:16:04.674566Z",
     "dependencies": {
       "matplotlib": "3.10.3",
       "numpy": "2.2.6",
@@ -16,9 +16,9 @@
     "solver_version": "0.2.6a0",
     "source": {
       "branch": "chore/0.2.6-foundation",
-      "dirty": true,
-      "sha": "1e6c3e96d1e1366c4cc790546e82769cd9227902",
-      "short_sha": "1e6c3e9"
+      "dirty": false,
+      "sha": "62c7b8406a657538f8a2b06ce6ff8b646aff7873",
+      "short_sha": "62c7b84"
     }
   },
   "cli_commands": [
