@@ -5,7 +5,7 @@ import pytest
 from scipy.sparse import csr_matrix
 
 from solveur.api import list_methods, solve_model
-from solveur.core.buckling import LinearBucklingSolver
+from solveur.core.buckling import LinearBucklingSolver, _indefinite_generalized_critical_factor
 from solveur.core.errors import InputValidationError, NumericalConvergenceError
 from solveur.core.geometric_assembly import build_total_lagrangian_assembly
 from solveur.core.model import FiniteElementModel
@@ -182,6 +182,63 @@ def test_linear_buckling_refines_indefinite_tangent_with_sparse_generalized_shif
     assert np.linalg.norm(mode) == pytest.approx(1.0)
     assert bracket["method"] == "generalized_eigs_shift_invert"
     assert bracket["mass_matrix"] == "-geometric_tangent"
+    assert bracket["shift_invert_strategy"] == "strictly_interior_dyadic_bracket"
+    assert bracket["lower"] < bracket["shift_invert_sigma"] < bracket["upper"]
+
+
+def test_indefinite_shift_invert_retries_when_midpoint_is_exactly_singular() -> None:
+    initial = csr_matrix(np.diag([2.0, 3.0, 4.0, 5.0]))
+    geometric = csr_matrix(np.diag([-1.0, -1.0, 1.0, 2.0]))
+    result = _indefinite_generalized_critical_factor(
+        initial,
+        geometric,
+        np.arange(4, dtype=int),
+        4,
+        lower_factor=1.9999,
+        upper_factor=2.0001,
+        eigensolver_tolerance=1.0e-8,
+        eigensolver_maxiter=1000,
+    )
+
+    assert result is not None
+    factor, mode, shift, attempted_shifts = result
+    assert factor == pytest.approx(2.0, rel=1.0e-8)
+    assert attempted_shifts[0] == pytest.approx(2.0)
+    assert shift != pytest.approx(2.0)
+    assert 1.9999 < shift < 2.0001
+    assert np.linalg.norm(initial @ mode + factor * geometric @ mode) < 1.0e-8
+
+
+def test_indefinite_shift_invert_selects_first_factor_with_multiple_candidates() -> None:
+    initial = csr_matrix(np.diag([2.0, 3.0, 4.0, 5.0, 7.0]))
+    geometric = csr_matrix(np.diag([-1.0, -1.0, 1.0, 2.0, 3.0]))
+
+    factor, mode, bracket = LinearBucklingSolver._critical_factor(
+        initial,
+        geometric,
+        np.arange(5, dtype=int),
+        5,
+        {"initial_factor": 1.0, "maximum_factor": 10.0},
+    )
+
+    assert factor == pytest.approx(2.0, rel=1.0e-6)
+    assert bracket["method"] == "generalized_eigs_shift_invert"
+    assert abs(float(mode[0])) == pytest.approx(1.0, abs=1.0e-8)
+    assert np.linalg.norm(mode[1:]) < 1.0e-8
+
+
+def test_linear_buckling_rejects_a_rigid_initial_tangent_mode() -> None:
+    initial = csr_matrix(np.diag([0.0, 3.0, 4.0, 5.0]))
+    geometric = csr_matrix(np.diag([-1.0, -1.0, 1.0, 2.0]))
+
+    with pytest.raises(NumericalConvergenceError, match="initial constrained tangent is not positive definite"):
+        LinearBucklingSolver._critical_factor(
+            initial,
+            geometric,
+            np.arange(4, dtype=int),
+            4,
+            {"initial_factor": 1.0, "maximum_factor": 10.0},
+        )
 
 
 def test_linear_buckling_is_listed_as_a_bounded_method() -> None:

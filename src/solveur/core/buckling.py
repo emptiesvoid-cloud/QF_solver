@@ -204,10 +204,16 @@ class LinearBucklingSolver:
         )
 
         lower_pair = eigenpair(0.0)
-        if not np.isfinite(lower_pair.value) or lower_pair.value <= 0.0:
+        initial_scale = max(float(abs(initial).sum(axis=1).max()), 1.0)
+        definiteness_tolerance = max(np.finfo(float).eps * initial_scale, eigensolver_tolerance * initial_scale)
+        if not np.isfinite(lower_pair.value) or lower_pair.value <= definiteness_tolerance:
             raise NumericalConvergenceError(
                 "linear_buckling initial constrained tangent is not positive definite.",
                 reason=NonlinearFailureReason.BUCKLING_FAILURE,
+                diagnostics={
+                    "minimum_eigenvalue": lower_pair.value,
+                    "positive_definiteness_tolerance": definiteness_tolerance,
+                },
             )
         upper = initial_factor
         while upper < maximum:
@@ -247,13 +253,16 @@ class LinearBucklingSolver:
             eigensolver_maxiter=eigensolver_maxiter,
         )
         if indefinite_generalized is not None:
-            factor, mode = indefinite_generalized
+            factor, mode, shift, attempted_shifts = indefinite_generalized
             return factor, mode, {
                 "lower": float(lower_factor),
                 "upper": float(upper),
                 "method": "generalized_eigs_shift_invert",
                 "mass_matrix": "-geometric_tangent",
                 "generalized_fallback_reason": generalized_fallback,
+                "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+                "shift_invert_sigma": shift,
+                "shift_invert_attempted_shifts": list(attempted_shifts),
             }
         bracket: dict[str, object] = {
             "lower": float(lower_factor),
@@ -262,6 +271,12 @@ class LinearBucklingSolver:
         }
         if generalized_fallback is not None:
             bracket["generalized_fallback_reason"] = generalized_fallback
+        bracket["indefinite_shift_invert"] = {
+            "status": "FALLBACK",
+            "strategy": "strictly_interior_dyadic_bracket",
+            "attempted_shifts": list(_interior_shift_candidates(lower_factor, upper)),
+            "reason": "no real residual-qualified in-bracket eigenpair was recovered",
+        }
         return critical, candidate.mode, bracket
 
     @staticmethod
@@ -366,7 +381,7 @@ def _indefinite_generalized_critical_factor(
     upper_factor: float,
     eigensolver_tolerance: float,
     eigensolver_maxiter: int,
-) -> tuple[float, np.ndarray] | None:
+) -> tuple[float, np.ndarray, float, tuple[float, ...]] | None:
     """Refine a bracket with generalized shift-invert when ``-Kg`` is indefinite.
 
     ``eigsh`` requires a positive-definite generalized mass matrix. The
@@ -378,44 +393,67 @@ def _indefinite_generalized_critical_factor(
     if initial.shape[0] <= 3 or not upper_factor > lower_factor:
         return None
     mass = (-geometric).tocsr()
-    shift = float(upper_factor)
-    try:
-        values, vectors = eigs(
-            initial,
-            M=mass,
-            k=1,
-            sigma=shift,
-            which="LM",
-            tol=eigensolver_tolerance,
-            maxiter=eigensolver_maxiter,
-        )
-    except (TypeError, ValueError, RuntimeError, np.linalg.LinAlgError):
-        return None
-    value = complex(values[0])
-    scale = max(abs(value.real), 1.0)
-    if (
-        not np.isfinite(value.real)
-        or not np.isfinite(value.imag)
-        or abs(value.imag) > max(1.0e-8, 100.0 * eigensolver_tolerance) * scale
-    ):
-        return None
-    factor = float(value.real)
-    bracket_tolerance = max(1.0e-6, 100.0 * eigensolver_tolerance) * max(abs(upper_factor), 1.0)
-    if factor <= 0.0 or factor < lower_factor - bracket_tolerance or factor > upper_factor + bracket_tolerance:
-        return None
-    reduced_mode = np.real(np.asarray(vectors[:, 0], dtype=complex)).astype(float, copy=False)
-    mode_norm = float(np.linalg.norm(reduced_mode))
-    if mode_norm <= 0.0 or not np.isfinite(mode_norm):
-        return None
-    reduced_mode /= mode_norm
-    pivot = int(np.argmax(np.abs(reduced_mode)))
-    if reduced_mode[pivot] < 0.0:
-        reduced_mode = -reduced_mode
-    residual = initial @ reduced_mode + factor * geometric @ reduced_mode
-    residual_norm = float(np.linalg.norm(residual))
-    reference_norm = max(float(np.linalg.norm(initial @ reduced_mode)), 1.0)
-    if not np.isfinite(residual_norm) or residual_norm / reference_norm > max(1.0e-5, 100.0 * eigensolver_tolerance):
-        return None
-    mode = np.zeros(ndof, dtype=float)
-    mode[free] = reduced_mode
-    return factor, mode
+    attempted_shifts = _interior_shift_candidates(lower_factor, upper_factor)
+    for shift in attempted_shifts:
+        try:
+            values, vectors = eigs(
+                initial,
+                M=mass,
+                k=1,
+                sigma=shift,
+                which="LM",
+                tol=eigensolver_tolerance,
+                maxiter=eigensolver_maxiter,
+            )
+        except (TypeError, ValueError, RuntimeError, np.linalg.LinAlgError):
+            continue
+        value = complex(values[0])
+        scale = max(abs(value.real), 1.0)
+        if (
+            not np.isfinite(value.real)
+            or not np.isfinite(value.imag)
+            or abs(value.imag) > max(1.0e-8, 100.0 * eigensolver_tolerance) * scale
+        ):
+            continue
+        factor = float(value.real)
+        bracket_tolerance = max(1.0e-6, 100.0 * eigensolver_tolerance) * max(abs(upper_factor), 1.0)
+        if factor <= 0.0 or factor < lower_factor - bracket_tolerance or factor > upper_factor + bracket_tolerance:
+            continue
+        reduced_mode = np.real(np.asarray(vectors[:, 0], dtype=complex)).astype(float, copy=False)
+        mode_norm = float(np.linalg.norm(reduced_mode))
+        if mode_norm <= 0.0 or not np.isfinite(mode_norm):
+            continue
+        reduced_mode /= mode_norm
+        pivot = int(np.argmax(np.abs(reduced_mode)))
+        if reduced_mode[pivot] < 0.0:
+            reduced_mode = -reduced_mode
+        residual = initial @ reduced_mode + factor * geometric @ reduced_mode
+        residual_norm = float(np.linalg.norm(residual))
+        reference_norm = max(float(np.linalg.norm(initial @ reduced_mode)), 1.0)
+        if not np.isfinite(residual_norm) or residual_norm / reference_norm > max(
+            1.0e-5, 100.0 * eigensolver_tolerance
+        ):
+            continue
+        mode = np.zeros(ndof, dtype=float)
+        mode[free] = reduced_mode
+        return factor, mode, shift, attempted_shifts
+    return None
+
+
+def _interior_shift_candidates(lower_factor: float, upper_factor: float) -> tuple[float, ...]:
+    """Return deterministic strictly interior shifts from a verified bracket.
+
+    The endpoint can be the exact critical eigenvalue, making the shift-invert
+    factorization singular. Midpoint and quarter-point candidates are derived
+    solely from the bracket and retain the same physical search interval.
+    """
+
+    width = upper_factor - lower_factor
+    candidates = tuple(lower_factor + fraction * width for fraction in (0.5, 0.25, 0.75))
+    return tuple(
+        candidate
+        for index, candidate in enumerate(candidates)
+        if np.isfinite(candidate)
+        and lower_factor < candidate < upper_factor
+        and candidate not in candidates[:index]
+    )
