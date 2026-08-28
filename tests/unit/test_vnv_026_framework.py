@@ -17,13 +17,14 @@ DOCS_ROOT = ROOT / "docs" / "verification" / "0_2_6"
 DATA_ROOT = ROOT / "qualification" / "0_2_6"
 
 
-def test_registry_has_exact_corpus_and_separate_smoke_and_g05_batches() -> None:
+def test_registry_has_exact_corpus_and_separate_smoke_g05_and_g06_batches() -> None:
     registry = VnvRegistry.from_file(REGISTRY_PATH)
 
     assert len(registry.cases) == 180
     assert len(registry.select(profile="SMOKE")) == 10
     assert len(registry.select(profile="G05")) == 50
-    assert len(registry.select(profile="FULL")) == 60
+    assert len(registry.select(profile="G06")) == 80
+    assert len(registry.select(profile="FULL")) == 140
     assert registry.digest == VnvRegistry.from_file(REGISTRY_PATH).digest
 
 
@@ -79,3 +80,17 @@ def test_runner_records_expected_failure_and_manifest_digests(tmp_path: Path) ->
     assert result["artifact_digests"]["case_payload"]
     assert manifest["result_files"][0]["sha256"]
     assert manifest["threshold_source"] == "qualification/0_2_6/tolerance_policy.json"
+
+
+def test_runner_applies_declared_analysis_override_to_string_model(tmp_path: Path) -> None:
+    registry = VnvRegistry.from_file(REGISTRY_PATH)
+
+    summary = VnvRunner(ROOT).run(
+        registry,
+        tmp_path,
+        profile="G06",
+        case_ids=("VNV026-RBT-G06-002",),
+    )
+
+    assert summary["status"] == "PASS"
+    assert summary["pass_count"] == 1

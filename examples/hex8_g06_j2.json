@@ -1,0 +1,8 @@
+{
+  "analysis": {"type": "nonlinear_static", "method": "newton_raphson", "load_path": [0.25,0.5,0.75,1.0]},
+  "nodes": [[0,0,0],[1,0,0],[1,1,0],[0,1,0],[0,0,1],[1,0,1],[1,1,1],[0,1,1]],
+  "elements": [{"type": "HEX8", "nodes": [0,1,2,3,4,5,6,7], "material": "solid"}],
+  "materials": {"solid": {"type": "von_mises_elastoplastic_3d", "E": 1000.0, "nu": 0.3, "density": 1.0, "yield_stress": 0.02, "hardening_modulus": 10.0}},
+  "fixed_dofs": [{"node": 0, "dofs": ["UX","UY","UZ"]},{"node": 3, "dofs": ["UX","UY","UZ"]},{"node": 4, "dofs": ["UX","UY","UZ"]},{"node": 7, "dofs": ["UX","UY","UZ"]}],
+  "loads": [{"node": 1, "dof": "UX", "value": 5.0}]
+}

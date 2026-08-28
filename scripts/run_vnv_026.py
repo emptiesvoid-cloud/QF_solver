@@ -20,7 +20,7 @@ REGISTRY = ROOT / "qualification" / "0_2_6" / "case_registry.json"
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--profile", default="SMOKE", choices=("SMOKE", "G05", "STANDARD", "FULL", "EXTERNAL", "ADVERSARIAL", "SCALING", "RELEASE"))
+    parser.add_argument("--profile", default="SMOKE", choices=("SMOKE", "G05", "G06", "STANDARD", "FULL", "EXTERNAL", "ADVERSARIAL", "SCALING", "RELEASE"))
     parser.add_argument("--case", dest="case_ids", action="append", default=[])
     parser.add_argument("--tag", dest="tags", action="append", default=[])
     parser.add_argument("--output", type=Path, default=ROOT / "results" / "vnv_026")

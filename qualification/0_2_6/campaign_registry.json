@@ -4,14 +4,14 @@
       "capability": "linear_solids",
       "maturity_target": "QUALIFIED_BOUNDED",
       "prefix": "LIN",
-      "target_case_count": 24,
+      "target_case_count": 60,
       "title": "Linear solids"
     },
     {
       "capability": "shell_beam_discrete",
       "maturity_target": "QUALIFIED_BOUNDED",
       "prefix": "SHL",
-      "target_case_count": 18,
+      "target_case_count": 12,
       "title": "Shell / beam / discrete"
     },
     {
@@ -39,42 +39,42 @@
       "capability": "small_strain_j2",
       "maturity_target": "QUALIFIED_BOUNDED",
       "prefix": "J2",
-      "target_case_count": 24,
+      "target_case_count": 20,
       "title": "Small-strain J2"
     },
     {
       "capability": "geometric_nonlinear",
       "maturity_target": "EXPERIMENTAL",
       "prefix": "GNL",
-      "target_case_count": 18,
+      "target_case_count": 8,
       "title": "Geometric nonlinear"
     },
     {
       "capability": "linear_buckling",
       "maturity_target": "QUALIFIED_BOUNDED",
       "prefix": "BUC",
-      "target_case_count": 12,
+      "target_case_count": 9,
       "title": "Buckling"
     },
     {
       "capability": "frictionless_contact",
       "maturity_target": "QUALIFIED_BOUNDED",
       "prefix": "CON",
-      "target_case_count": 16,
+      "target_case_count": 10,
       "title": "Frictionless contact"
     },
     {
       "capability": "coupled_nonlinear",
       "maturity_target": "EXPERIMENTAL",
       "prefix": "CPL",
-      "target_case_count": 10,
+      "target_case_count": 4,
       "title": "Existing coupled workflows"
     },
     {
       "capability": "adversarial",
       "maturity_target": "QUALIFIED_BOUNDED",
       "prefix": "ADV",
-      "target_case_count": 10,
+      "target_case_count": 9,
       "title": "Failure / adversarial / metamorphic"
     },
     {
@@ -87,11 +87,13 @@
   ],
   "foundation_smoke_case_count": 10,
   "g05_executable_case_count": 50,
+  "g06_executable_case_count": 80,
   "profiles": {
     "ADVERSARIAL": "expected failure and metamorphic cases",
     "EXTERNAL": "explicit external adapters only",
     "FULL": "all ready cases after gate implementation",
     "G05": "50 bounded robustness executable cases",
+    "G06": "80 deep V&V and corpus expansion executable cases",
     "RELEASE": "controlled aggregation",
     "SCALING": "machine-characterized profiles",
     "SMOKE": "10 maintained foundation executable cases",

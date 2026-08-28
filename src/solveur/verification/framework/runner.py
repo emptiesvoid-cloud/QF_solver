@@ -200,7 +200,13 @@ def _apply_model_overrides(model: dict[str, Any], overrides: dict[str, Any]) -> 
     analysis_updates = overrides.get("analysis", {})
     if not isinstance(analysis_updates, dict):
         raise ValueError("V&V analysis overrides must be an object.")
-    model.setdefault("analysis", {}).update(deepcopy(analysis_updates))
+    if analysis_updates:
+        current_analysis = model.get("analysis", {})
+        if isinstance(current_analysis, str):
+            model["analysis"] = {"type": current_analysis}
+        elif not isinstance(current_analysis, dict):
+            raise ValueError("V&V model analysis must be an object or analysis type string.")
+        model.setdefault("analysis", {}).update(deepcopy(analysis_updates))
     material_updates = overrides.get("material_updates", {})
     if not isinstance(material_updates, dict):
         raise ValueError("V&V material_updates must be an object.")
