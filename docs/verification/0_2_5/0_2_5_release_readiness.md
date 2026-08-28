@@ -54,6 +54,22 @@ smoke-install steps were not reached after the full pytest failure. The
 generated documentation manifest still reports `source.dirty=true` and
 `revision=uncommitted`, so it cannot close G00 or G12.
 
+### Failure diagnosis recorded by the sweep
+
+The architecture failure is independent of solver numerics: the controlled
+700-line rule reports `scripts/build_g02_evidence.py` at 986 lines. No split or
+refactor was made during this sweep.
+
+The buckling failure is a genuine diagnostic-path defect, not an external-gate
+decision. The test uses an indefinite `-Kg` and expects the generalized
+shift-invert route. `_indefinite_generalized_critical_factor()` currently uses
+the upper bracket as its ARPACK shift; in the exercised diagonal case that is
+the exact singular eigenvalue (`sigma=2.0`), so SciPy raises `Factor is exactly
+singular`. The helper returns `None` by design and `_critical_factor()` reports
+the bracketed sparse fallback instead of `generalized_eigs_shift_invert`.
+Correction belongs to a separate numerical-fix run and was intentionally not
+attempted here.
+
 ## Final checks
 
 - [ ] Version, changelog, README, metadata and qualification registry agree.
