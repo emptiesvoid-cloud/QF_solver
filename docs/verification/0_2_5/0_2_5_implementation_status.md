@@ -13,6 +13,20 @@ Ce document suit l'implementation incrementale a partir du pack de planification
 0.2.5. Il ne ferme aucune gate par la seule presence de code. Une gate est fermee
 uniquement par une preuve reproductible liee a un SHA final.
 
+## Etat courant controle (sprint correctif G00/G11)
+
+Le candidat source controle est `8047fb63c420609b510beaa1e30aa3ab31d9ad87`.
+Le replay final sur ce SHA a produit `1719 passed, 183 skipped`, une couverture
+de `88.37 %`, `64 checks PASS` pour la V&V externe J2, une reconstruction
+documentaire `700 artifacts, campaign=PASS`, un controle de provenance
+`source_sha` concordant avec `dirty=false`, ainsi qu'une wheel, une sdist, un
+controle Twine et un smoke install passants. Le refactoring du builder G02 et
+la correction shift-invert buckling sont donc fermes par preuves. `025-G11`
+est `PASS` selon sa semantique officielle de full regression. `025-G00` reste
+`OPEN` pour sa decision de baseline historique, `025-G04` et `025-G06` restent
+`OPEN` sans modification, `025-G10` reste `BLOCKED`, et `025-G12` reste la gate
+agregate soumise a l'Owner.
+
 ## Etat par work package
 
 | WP | Etat | Ce qui est effectivement disponible | Gate | Limite actuelle |
@@ -28,8 +42,15 @@ uniquement par une preuve reproductible liee a un SHA final.
 | WP8 | CLOSED_BOUNDED | Script reproductible `scripts/benchmark_nonlinear_025.py` avec chemins explicites load-control, geometric_static, arc-length, finite-sliding borné, couplé et finite-kinematic arc-length; temps, DOF, iterations, allocations Python, RSS optionnelle, timers du driver Newton et décomposition élémentaire/sparse/contact; résumés multi-répétitions avec moyenne, médiane, min/max et écart-type; plan d'assemblage nonlinear reutilisant noyaux, matériaux immuables et mappings DDL avec compteurs hit/miss; cache de géométrie de référence Total-Lagrangian avec compteurs hit/miss; accumulation de tangente CSR par chunks avec compteurs de pic et estimation des buffers de staging; vectorisation exploratoire du tangent TL TET4/HEX8 conservée sans écart numérique observé | 025-G08 PASS | Caracterisation de performance bornee, sans claim HPC ou gain universel |
 | WP9 | CLOSED_BOUNDED | Raisons structurees pour stagnation, contact, pénétration excessive, buckling, solveur lineaire, éléments invalides et etats non finis; `NumericalConvergenceError.to_dict()`, historique de residu Full Newton, compteur de line-search et campagne adversariale couvrant limites Newton, cutback minimum, élément invalide, mise à jour matériau, contact, pénétration, arc-length et bracket buckling; retry contact injecté, échec au deuxième incrément adaptatif, retry arc-length avec journal de rayon et cas réel `VV-068` de garde de pénétration avec rollback/cutback vérifiés | 025-G09 PASS | Contrat de diagnostic/rollback interne seulement; les gates fonctionnelles restent independantes |
 | WP10 | PARTIAL | Archives externes 0.2.4 reutilisables et harnais Code_Aster multi-elements 0.2.5 execute sur maillage régulier partagé | 025-G10 BLOCKED | Les cellules J2 multi-element, grande deformation, flambement et contact restent bornées; G04 et G06 conservent des cellules Code_Aster MUST ouvertes. CalculiX reste SHOULD et non bloquant |
-| WP11 | OPEN | Le sweep final `pytest tests -q` a produit `1713 passed, 2 failed, 183 skipped` en `1519,64 s` | 025-G11 OPEN | Échec de la règle de taille `scripts/build_g02_evidence.py` (986 lignes) et d'une assertion de diagnostic buckling; couverture, packaging et smoke restent non exécutés après l'arrêt |
+| WP11 | CLOSED_BOUNDED | Replay final sur `8047fb63c420609b510beaa1e30aa3ab31d9ad87`: `1719 passed, 183 skipped`; couverture `88.37 %`; docs, V&V, build, Twine et smoke passants | 025-G11 PASS | Full regression technique fermée; les gates fonctionnelles G04/G06 et la readiness agrégée G12 restent indépendantes |
 | WP12 | PARTIAL | Pack de planification et present suivi disponibles | 025-G12 OPEN | Owner Review finale et preuves SHA final a produire |
+
+## Journal historique
+
+Les entrées ci-dessous conservent la chronologie des lots précédents. Elles ne
+constituent pas l'état courant et ne doivent pas être utilisées pour interpréter
+G11 ou G12 ; la section de contrôle ci-dessus et la release-readiness contrôlée
+font foi pour le candidat actuel.
 
 ## Tests ciblés observes
 

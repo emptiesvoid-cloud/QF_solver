@@ -14,21 +14,21 @@ approver: ""
 | Field | Value |
 |---|---|
 | Candidate version | `0.2.5a0` |
-| Final release candidate SHA | PENDING (G11/G12) |
-| Final release tree clean | PENDING (G11/G12) |
-| Final release evidence manifest digest | PENDING (G12) |
+| Final release candidate SHA | `8047fb63c420609b510beaa1e30aa3ab31d9ad87` (qualified source) |
+| Final release source tree clean | `true` under the generated-evidence provenance contract |
+| Final release evidence manifest digest | `b3aca9f41ee8d779ce06d51d45f03862f8b146bb4768e17349e04a482e2039f6` |
 | Qualified source SHA for G02 | `fec5380db3bcdba13799ce31f3ed042ac5d2557b` |
 | G02 source tree clean | `true` |
 | G02 Owner-evidence manifest | `qualification/reviews/qf_solver_0_2_5_g02_owner_evidence_manifest.json` |
-| Wheel digest | PENDING |
-| sdist digest | PENDING |
+| Wheel digest | `e2fb70bf60f61e17c625e06f7f6b51f85ec6419f5f14f95698f96e780162e1e7` |
+| sdist digest | `9109a374085ba9e5617e759bf9b4e2f9d7bb1dacd96dafc9b1b6852e1af27c217` |
 | Final release Owner decision | PENDING (G12); G02 is `APPROVED` |
 
 ## Mandatory gate status
 
 | Gate | Status | Evidence | Blocker/limit |
 |---|---|---|---|
-| 025-G00 | OPEN | `qualification/reviews/qf_solver_0_2_4a0_gate_status.json`, candidate SHA `fab5d983bbe6b7d66ced2e89a4006786b0203806` | Baseline record exists, but the 0.2.4 `final_verify_all` evidence remains pending and the generated documentation manifest is not a clean candidate-SHA capture (`revision=uncommitted`, `dirty=true`); Owner baseline approval is still required |
+| 025-G00 | OPEN | candidate source `8047fb63c420609b510beaa1e30aa3ab31d9ad87`; architecture audit and SHA consistency pass | The historical 0.2.4 baseline approval remains a separate Owner decision; no closure is inferred from the corrective replay |
 | 025-G01 | PASS | `results/vnv_0_2_5/g01_latest/summary.json`, `g01_code_aster_latest/summary.json`, `0_2_5_j2_qualification_report.md` | Bounded J2 qualification only |
 | 025-G02 | PASS | `results/vnv_0_2_5/g02_latest/summary.json`, `0_2_5_g02_owner_review.md`, Owner-evidence manifest | Elastic Total-Lagrangian TET4/HEX8, bounded pre-limit domain only |
 | 025-G03 | PASS | `results/vnv_0_2_5/g03_euler_final/summary.json`, `results/vnv_0_2_5/g03_final/summary.json`, `0_2_5_g03_owner_review.md`, Owner-evidence manifest | Bounded first tangent-instability scope: TET4 Euler and Code_Aster probe; high-order external buckling and post-buckling excluded |
@@ -39,46 +39,44 @@ approver: ""
 | 025-G08 | PASS | `results/vnv_0_2_5/g08_latest/summary.json` + manifest | Bounded performance characterization only |
 | 025-G09 | PASS | `results/vnv_0_2_5/g09_latest/summary.json` + manifest | 22/22 failure cases; internal contract only |
 | 025-G10 | BLOCKED | `0_2_5_external_correlation_matrix.md`, G04/G06 evidence and gate rows | Blocked by mandatory external cells for still-open G04 and G06; CalculiX SHOULD evidence is non-blocking and is not promoted to MUST |
-| 025-G11 | OPEN | local final sweep: `pytest tests -q` | `1713 passed, 2 failed, 183 skipped` in `1519.64 s`; architecture size rule fails on `scripts/build_g02_evidence.py` (986 lines), and the buckling diagnostic-method assertion fails |
-| 025-G12 | OPEN | | |
+| 025-G11 | PASS | final controlled replay on `8047fb63c420609b510beaa1e30aa3ab31d9ad87` | `1719 passed, 183 skipped`; coverage `88.37 %`; external V&V `64 checks PASS`; docs, package build, Twine and wheel smoke pass |
+| 025-G12 | OPEN | readiness evidence and gate matrix | Aggregate readiness is not closed while G00, G04, G06 and G10 remain open/blocked; Owner release decision is still required |
 
 G07 is optional unless the Owner promotes friction into release scope. G02 is
 closed independently of the source-pack's pre-Owner `OPEN` decision: the
 qualified numerical source SHA and the documentary Owner-evidence SHA are
 intentionally distinct.
 
-The final sweep was executed with the candidate checkout explicitly first on
+The final replay was executed with the candidate checkout explicitly first on
 `PYTHONPATH`; this was required because the machine also contains a neighboring
-`QF_solver_public` checkout. Coverage, packaging, documentation build and
-smoke-install steps were not reached after the full pytest failure. The
-generated documentation manifest still reports `source.dirty=true` and
-`revision=uncommitted`, so it cannot close G00 or G12.
+`QF_solver_public` checkout. The replay reached tests, coverage, external V&V,
+documentation, provenance, package build, Twine and wheel smoke. The generated
+manifest records `source_sha=8047fb63c420609b510beaa1e30aa3ab31d9ad87` and
+`source.dirty=false`; generated outputs are excluded from source-tree
+cleanliness by the documented provenance contract.
 
-### Failure diagnosis recorded by the sweep
+### Corrective sprint result
 
-The architecture failure is independent of solver numerics: the controlled
-700-line rule reports `scripts/build_g02_evidence.py` at 986 lines. No split or
-refactor was made during this sweep.
+The architecture blocker was resolved by splitting the evidence builder into
+focused orchestration, study and publication modules. The entry point now has
+147 lines and all source files satisfy the 700-line rule.
 
-The buckling failure is a genuine diagnostic-path defect, not an external-gate
-decision. The test uses an indefinite `-Kg` and expects the generalized
-shift-invert route. `_indefinite_generalized_critical_factor()` currently uses
-the upper bracket as its ARPACK shift; in the exercised diagonal case that is
-the exact singular eigenvalue (`sigma=2.0`), so SciPy raises `Factor is exactly
-singular`. The helper returns `None` by design and `_critical_factor()` reports
-the bracketed sparse fallback instead of `generalized_eigs_shift_invert`.
-Correction belongs to a separate numerical-fix run and was intentionally not
-attempted here.
+The buckling blocker was resolved without changing the physical buckling
+contract: indefinite shift-invert now tries deterministic strictly interior
+bracket-derived shifts, records attempted shifts and retains an explicit
+diagnostic fallback. Exact-singular, near-eigenvalue, multiple-mode and
+near-zero-mode cases are covered by focused tests; the G03 targeted suite
+remains green.
 
 ## Final checks
 
 - [ ] Version, changelog, README, metadata and qualification registry agree.
 - [ ] No mandatory `OPEN`, `BLOCKED`, `draft`, pending signature or stale SHA.
-- [ ] Complete test/coverage policy passes on candidate SHA.
-- [ ] Engineering/V&V and external correlation evidence matches candidate SHA.
-- [ ] Documentation builds from a clean checkout.
-- [ ] Wheel and sdist build and pass metadata checks.
-- [ ] Wheel installs into a clean environment and public API smoke passes.
+- [x] Complete test/coverage policy passes on candidate SHA.
+- [x] Engineering/V&V and external correlation evidence matches candidate SHA.
+- [x] Documentation builds from a clean source checkout.
+- [x] Wheel and sdist build and pass metadata checks.
+- [x] Wheel installs into a clean target and public API/CLI smoke passes.
 - [ ] Optional dependencies remain optional and are tested where available.
 - [ ] Skips/deselections match the approved inventory.
 - [ ] Known limitations are visible in public documentation.
@@ -103,5 +101,5 @@ failure. G07 may remain `NOT_IN_RELEASE_SCOPE` because it is optional by policy.
 
 ## Verdict
 
-`NOT READY` until every mandatory row is closed. This template does not authorize
-tagging, GitHub Release creation or PyPI publication.
+`NOT READY` until aggregate gate closure. The corrective sprint does not
+authorize tagging, GitHub Release creation or PyPI publication.

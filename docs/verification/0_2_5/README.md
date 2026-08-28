@@ -138,8 +138,9 @@ never tags, pushes or uploads artifacts.
 
 ## Planning status
 
-G01, G02, G08 and G09 are closed only by their controlled evidence and recorded
-Owner decisions. G03-G06 remain `OPEN`; G10 is `BLOCKED` by the mandatory
-external cells of G04/G06, and G11-G12 remain `OPEN`; optional friction gate G07
-is `NOT_IN_RELEASE_SCOPE` until an explicit Owner promotion. A planning
-document never closes an implementation, V&V, correlation or release gate.
+G01, G02, G03, G05, G08, G09 and G11 are closed only by their controlled
+evidence and recorded replay decisions. G04 and G06 remain `OPEN`; G10 is
+`BLOCKED` by the mandatory external cells of G04/G06, and G12 remains `OPEN`
+until aggregate readiness and Owner closure. Optional friction gate G07 is
+`NOT_IN_RELEASE_SCOPE` until an explicit Owner promotion. A planning document
+never closes an implementation, V&V, correlation or release gate.
