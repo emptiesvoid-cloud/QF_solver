@@ -206,31 +206,57 @@ validation or a gate closure.
 
 `025-G04` therefore remains `OPEN`, `CONTRACT LOWERED = NO`, and no arc-length
 production claim is promoted. The remaining functional blockers are the missing
-published FEM branch reference and the required four-level mesh study. G03,
-G05 and G06 are unchanged.
+published FEM branch reference and the required four-level mesh study. G03 and
+G05 are unchanged; the updated G06 evidence follows below.
 
 ## Controlled G06 targeted evidence
 
-The targeted G06 campaign is archived under
+The final controlled G06 evidence is archived under
 `results/vnv_0_2_5/g06_latest/`. Its `summary.json`, `report.md` and
-`evidence_manifest.json` record source SHA
-`a56db0863835ee16485adf5c9d30954c2f425ecb`, `dirty=false`, and artifact
-digests. The replay covers the existing pairwise/triple composition checks,
+`evidence_manifest.json` record qualified source SHA
+`8df4b4ac32e9416e89fe342871aab6e75cdd245c`, `dirty=true` at the current
+documentary capture, and artifact digests. The dirty flag reflects the
+uncommitted documentation updates; no solver source changed. The replay
+covers the existing pairwise/triple composition checks,
 the four-family J2 plus Total-Lagrangian path, the four-family updated
-penalty-contact composition, and a three-level (`1/2/4`) J2 plus geometry
-mesh study. The complete step-level history capture is also archived as
-`results/vnv_0_2_5/g06_latest/coupled_histories.json`. All targeted internal paths converged and remain classified
-`PASS_INTERNAL_RESEARCH`.
+penalty-contact composition, a three-level (`1/2/4`) J2 plus geometry mesh
+study, an independent global coupled tangent finite-difference check, and a
+three-level geometry/contact mesh replay. All targeted internal paths
+converged and remain classified `PASS_INTERNAL_RESEARCH`; the independent
+tangent checks are `PASS_INTERNAL`.
 
-This evidence does not close `025-G06`. The required Code_Aster full-history
-correlations for J2 plus geometry and geometry plus contact are not present,
-the J2+geometry mesh study does not cover geometry plus contact, and the
-coupled history includes work/energy and tangent-sparsity telemetry, but it does
-not independently verify the coupled tangent by finite differences. The
-finite-kinematic J2 path remains
-experimental/research; no qualified coupled or physical-validation claim is
-made. CalculiX remains supporting SHOULD evidence and cannot replace the
-missing Code_Aster MUST cells. `CONTRACT LOWERED = NO`.
+The original complete step-level history capture is archived as
+`results/vnv_0_2_5/g06_latest/coupled_histories.json` with original capture
+SHA `a56db0863835ee16485adf5c9d30954c2f425ecb`. The aggregate manifest
+records that only documentation changed between that clean capture and the
+current qualified SHA; no solver source changed.
+
+This evidence does not close `025-G06`. The independent coupled tangent FD and
+the bounded geometry/contact mesh replay are now closed as internal
+sub-proofs, but they do not replace the external MUST. A separate pinned
+Code_Aster `GREEN_LAGRANGE` replay reaches the end of the bounded history for
+TET4, HEX8 and HEX20; TET10 stops at the first load point after the configured
+Newton limit. The measured QF/Code_Aster deviations are archived for
+convention review, not promoted to unconditional external PASS. The historical
+`GDEF_LOG` replay remains archived separately, including its HEX20
+non-convergence.
+
+The Code_Aster `CONTINUE` frictionless surface oracle also executes and is
+recorded as bounded supporting evidence. Its discrete support springs require
+`DEFORMATION='PETIT'`; a direct `GREEN_LAGRANGE` probe is rejected by
+Code_Aster for that reason. It is therefore not a comparable finite-kinematic
+3D solid geometry/contact full-history correlation and does not close the G06
+MUST. A separate deformable TET4 `GREEN_LAGRANGE` probe reaches ten load
+points and agrees in displacement/gap after contact activation, but its mapped
+contact reaction differs by up to 76.7% and is not an identical multiplier
+observable; it remains open comparison evidence. The finite-kinematic J2 path
+remains experimental/research; no qualified coupled or physical-validation
+claim is made. In the compared QF static route, contact is solved by the
+historical exact active-set multiplier solver; the penalty formulation belongs
+to the separate bounded research composition. Neither route establishes an
+equivalent finite-sliding external correlation. CalculiX remains supporting
+SHOULD evidence and cannot replace the missing Code_Aster MUST cells.
+`CONTRACT LOWERED = NO`.
 
 ## Controlled closure: 025-G05
 

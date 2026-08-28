@@ -83,6 +83,13 @@ domain. Element families marked SHOULD do not block release unless promoted.
 | VV-063 | Finite-kinematic limit recovery | common small-load TET4/TET10/HEX8/HEX20 comparison between small-strain and `total_lagrangian_j2` | displacement recovery, residual, zero plastic strain | small-strain regime consistency | OBSERVED_INTERNAL_RESEARCH | G02/G06 |
 | VV-064 | Finite-kinematic arc-length | common nonlinear driver on homogeneous TET4/TET10/HEX8/HEX20 `total_lagrangian_j2` paths to signed load factor 0.5 with bounded adaptive radius | load-factor path, final PEEQ, residual history, step count, radius controls and common-driver contract | internal bounded monotone continuation contract | OBSERVED_INTERNAL_RESEARCH | G04/G06 |
 | VV-065 | Geometric/contact composition | Total-Lagrangian elastic TET4 plus fixed master patch through the common sparse penalty contribution | active contact, final gap, penetration, residual, detF, strain energy | bounded geometric/contact composition contract | OBSERVED_INTERNAL_RESEARCH | G02/G05/G06 |
+| VV-083 | Coupled global tangent FD | J2+geometry on TET4/TET10/HEX8/HEX20 and geometry+contact TET4 with fixed committed states | centered global internal-force derivative, sparse tangent, maximum/mean relative error | independent internal FD contract | PASS_INTERNAL | G06 |
+| VV-084 | Geometry/contact mesh replay | bounded TET4 geometry plus fixed node-to-triangle penalty contact at levels 1/2/4 | active contact, gap/penetration, detF, residual and displacement trend | bounded internal research mesh contract | PASS_INTERNAL_RESEARCH | G06 |
+| VV-085 | J2+geometry external replay | Code_Aster `GDEF_LOG` regular two-cell TET4/TET10/HEX8/HEX20, aligned load histories | complete displacement/reaction/stress/PEEQ histories and external execution status | pinned Code_Aster Docker replay; convention review required | OPEN | G06/G10 |
+| VV-086 | J2+geometry Green-Lagrange replay | Code_Aster `GREEN_LAGRANGE` regular two-cell TET4/TET10/HEX8/HEX20, aligned 16-point histories | execution, displacement/reaction/stress/PEEQ histories and measured deviations | pinned Code_Aster Docker replay; TET10 non-convergence and convention review remain | OPEN | G06/G10 |
+| VV-087 | External CONTINUE contact oracle | Code_Aster DKT surface pair with penalty contact and discrete support, independent of QF solid composition | external execution, surface-contact response and limitation classification | pinned Code_Aster Docker replay; bounded small-kinematic supporting oracle | PASS_EXTERNAL_CORRELATION_BOUNDED | G06/G10 |
+| VV-088 | Finite-kinematic contact probe | Same external contact oracle with `GREEN_LAGRANGE` requested | fail-closed model capability diagnostic | Code_Aster model constraint | BLOCKED_EXTERNAL_MODEL | G06/G10 |
+| VV-089 | TET4 finite-kinematic contact comparison | Code_Aster TET4 `GREEN_LAGRANGE` unilateral plane versus QF static active-set node-to-triangle path, ten load points | displacement, gap and contact-reaction histories | bounded observable mapping; reaction deviation requires review | OPEN | G06/G10 |
 | VV-048 | High-order geometric path | TET10/HEX20 common TL adapter | residual, detF, energy, state recovery and tangent contract | internal bounded research contract | OBSERVED_INTERNAL_RESEARCH | G02 |
 | VV-049 | High-order linear buckling | homogeneous TET10/HEX20 preload and sparse generalized/fallback tangent path, including indefinite-mass shift-invert refinement | critical factor, formulation, fallback reason, bracket width, tangent nnz, preload residual | internal sparse research contract | OBSERVED_INTERNAL_RESEARCH | G03 |
 | VV-050 | Path failure taxonomy | capped arc-length continuation and unbracketed buckling factor | reason, converged flag, solver diagnostics, no partial success | structured failure contract | PASS_INTERNAL | G09 |
@@ -275,7 +282,30 @@ release SHA:
   `results/vnv_0_2_5/g06_latest/evidence_manifest.json`, plus the complete
   `results/vnv_0_2_5/g06_latest/coupled_histories.json` capture. The replay is
   internal research evidence only and does not satisfy the missing external
-  MUST correlation or independent coupled tangent verification requirement.
+  MUST correlation. The companion `results/vnv_0_2_5/g06_diagnostic/summary.json`
+  records an independent global coupled tangent FD check, with maximum
+  relative errors below `2.4e-9` for J2+geometry and `1.2e-10` for
+  geometry+contact. The companion
+  `results/vnv_0_2_5/g06_geometry_contact_mesh/summary.json` records the
+  bounded three-level geometry/contact mesh replay. Neither sub-proof closes
+  the Code_Aster MUST or promotes finite-kinematic J2 beyond research.
+- external G06 probes `VV-086`, `VV-087`, `VV-088` and `VV-089`:
+  `results/vnv_0_2_5/g06_j2_geometry_code_aster/green_lagrange/green_comparison.json`,
+  `results/vnv_0_2_5/g06_geometry_contact_code_aster/summary_linear.json`,
+  `results/vnv_0_2_5/g06_geometry_contact_code_aster/summary.json` and
+  `results/vnv_0_2_5/g06_geometry_contact_code_aster/tet4_green_lagrange/comparison.json`.
+  The
+  Green-Lagrange replay completes TET4, HEX8 and HEX20 but TET10 fails at the
+  first load point; its measured deviations remain under convention review.
+  The independent CONTINUE contact oracle passes only in its required small-
+  kinematic setting. The deformable TET4 Green-Lagrange contact probe reaches
+  ten load points and agrees in displacement/gap after activation, but its
+  mapped reaction history differs by up to 76.7% and is not an identical
+  multiplier observable. QF uses its historical exact active-set multiplier
+  path for this static comparison; the penalty formulation belongs to the
+  separate bounded research composition. These results strengthen the evidence
+  record but do
+  not close the finite-kinematic solid MUST.
 - aggregated adversarial failure contract `VV-027`, `VV-050`, `VV-051` and
   `VV-054`:
   `src/solveur/verification/nonlinear_failure_campaign.py`,

@@ -62,6 +62,20 @@ be expanded only through an Owner-reviewed scope/gate revision.
 - A capability with an OPEN gate remains experimental/research regardless of
   whether code or tests for it exist.
 
+## Governance roadmap after 0.2.5
+
+- `0.2.5`: finish the current release without enlarging its functional scope.
+  `025-G06` remains `OPEN` and unqualified. Its implementation is
+  `CODE_COMPLETE / EXPERIMENTAL`, while its qualification is deferred. No
+  finite-strain J2 or coupled finite-kinematic claim is made.
+- `0.2.6`: focus on maturity, V&V, robustness, benchmarks and
+  scalability/performance. Corrections are allowed only when a defect is
+  demonstrated; no major new physics is planned.
+- `0.2.7`: target an approved finite-strain J2 formulation, coherent
+  stress/strain measures, constitutive tangent and state-transaction evidence,
+  independent V&V, Code_Aster correlation and G06 requalification. Friction
+  remains a separate possible work package and is not committed here.
+
 ## Coverage provenance note
 
 The apparent change from approximately `88.37 %` to `63.64 %` was a

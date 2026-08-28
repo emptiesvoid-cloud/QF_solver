@@ -50,6 +50,17 @@ are useful for the next work packages. The bounded G05 contact contract is now
 closed; G04 and G06 remain open, while general surface-to-surface contact,
 friction and unrestricted large sliding remain outside the qualified claim.
 
+G06 is intentionally deferred: its implementation is `CODE_COMPLETE /
+EXPERIMENTAL`, but its qualification remains `OPEN` because finite-kinematic
+J2 is still research and the required external coupled correlations are not
+comparable or complete. The 0.2.5 contract is unchanged.
+
+The post-release roadmap is deliberately narrow. `0.2.6` targets maturity,
+V&V, robustness, benchmarks and scalability/performance. `0.2.7` targets an
+approved finite-strain J2 formulation and G06 requalification with coherent
+measures, state transactions and independent Code_Aster evidence. Neither
+roadmap entry promotes a claim in 0.2.5.
+
 ## Audited baseline
 
 | Item | Current state | Evidence / implementation | 0.2.5 consequence |
@@ -63,7 +74,7 @@ friction and unrestricted large sliding remain outside the qualified claim.
 | Geometric nonlinearity | research TET4/HEX8 Total Lagrangian with bounded large-deflection smoke | `core/geometric_nonlinear.py`, `elements/solid/*total_lagrangian*`, robustness campaign | merge contracts, mesh/external evidence and plastic large-rotation qualification after audit |
 | Buckling/post-buckling | bounded research TET4/TET10/HEX8/HEX20 linear-buckling route; assembled coarse/medium mesh sensitivity; bounded TET4 Euler reference now recorded | `core/buckling.py`, `tet4_total_lagrangian_buckling.py`, robustness campaign | add external/high-order correlation, true multi-family mesh convergence and post-buckling evidence |
 | Normal contact | bounded common penalty path with initial/updated geometry modes, open/close/recontact, multi-face search, opt-in clamped finite-sliding projection, penalty sensitivity and bounded Code_Aster histories | `contact/solver.py`, `core/nonlinear_assembly.py`, `g05_latest` evidence | general surface-to-surface, friction and unrestricted large sliding remain outside scope |
-| Coupled nonlinear path | bounded connected two-element TET4 J2 + geometry + penalty-contact composition, plus four-family J2/geometric and updated-contact replay through common Newton | `results/vnv_0_2_5/g06_latest/`, robustness campaign, `tests/unit/test_nonlinear_multielement.py` | internal research evidence only; add Code_Aster MUST correlation, geometry+contact mesh sensitivity and independent coupled tangent verification before G06 closure |
+| Coupled nonlinear path | bounded connected two-element TET4 J2 + geometry + penalty-contact composition, four-family J2/geometric and updated-contact replay through common Newton, independent coupled tangent FD, bounded geometry/contact mesh replay, and a deformable TET4 Green-Lagrange contact comparison | `results/vnv_0_2_5/g06_latest/`, `g06_diagnostic/summary.json`, `g06_geometry_contact_mesh/summary.json`, `g06_geometry_contact_code_aster/tet4_green_lagrange/comparison.json`, `tests/unit/test_nonlinear_multielement.py` | internal research evidence only; Code_Aster J2+geometry MUST remains convention-limited/non-convergent for TET10/HEX20, and the contact comparison remains open because the mapped reaction history differs by up to 76.7% and does not use an identical multiplier observable |
 | Friction | experimental separate path | friction tests and contact solver | optional WP7 after frictionless gate |
 | External J2 correlation | `PASS_EXTERNAL_CORRELATION_BOUNDED` | Code_Aster affine and regular two-cell campaigns; TET10 uses explicit `code_aster_5` comparison quadrature | broader external cells and final-SHA evidence remain required |
 | 0.2.4 gate record | published release, but local gate JSON retains pre-release SHA placeholders | `qualification/reviews/qf_solver_0_2_4a0_gate_status.json` | repair provenance in WP0 without rewriting historical numerical evidence |

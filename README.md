@@ -94,6 +94,8 @@ Le périmètre revendicable reste strictement borné aux preuves effectivement
 fermées. Il n'inclut pas de qualification générale des grandes déformations,
 du flambement, de l'arc-length, du contact généralisé, du couplage triple,
 des modèles cycliques ou des calculs multi-million de DDL.
+Le couplage G06 est explicitement différé : son implémentation reste
+expérimentale et sa qualification est `OPEN` dans la 0.2.5a0.
 
 ## État de la release 0.2.4a0
 
