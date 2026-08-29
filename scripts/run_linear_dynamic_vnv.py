@@ -217,7 +217,7 @@ def _report(aggregate: dict[str, object]) -> str:
     lines = [
         "# G05-B Family Coverage",
         "",
-        "Status: **PASS_INTERNAL_PREQUAL** (official `026-G05` remains open).",
+        "Status: **PASS_INTERNAL_PREQUAL** (this batch is evidence for official `026-G05`, whose final status is recorded separately).",
         "",
         "| Analysis | Executed | Target |",
         "| --- | ---: | ---: |",

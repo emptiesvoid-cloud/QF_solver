@@ -8,7 +8,7 @@ This generated view is derived from `qualification/capability_registry.json`, th
 - Historical qualified source: `8047fb63c420609b510beaa1e30aa3ab31d9ad87`
 - Capability count: 33; public mappings: 33
 - Public element-analysis combinations: 44
-- V&V distribution: L0=0, L1=3, L2=17, L3=13
+- V&V distribution: L0=0, L1=3, L2=14, L3=16
 
 ## Maturity Meaning
 
@@ -19,19 +19,19 @@ This generated view is derived from `qualification/capability_registry.json`, th
 
 | ID | Domain | Element | Analysis | Maturity | V&V | 0.2.6 gate/WP | Status |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `ELE-BEAM2` | ELEMENT | BEAM2 | static/modal/Newmark/harmonic | EXPERIMENTAL | L2 | `026-G04/G05` | PRESENT_DEFERRED |
-| `ELE-MITC3` | ELEMENT | MITC3 | static/modal/Newmark/harmonic | EXPERIMENTAL | L2 | `026-G04/G05` | PRESENT_PARTIALLY_MAPPED |
-| `ELE-MITC4` | ELEMENT | MITC4 | static/modal/Newmark/harmonic | EXPERIMENTAL | L2 | `026-G04/G05` | PRESENT_PARTIALLY_MAPPED |
+| `ELE-BEAM2` | ELEMENT | BEAM2 | static/modal/Newmark/harmonic | EXPERIMENTAL | L2 | `026-G04/G05` | PRESENT_REQUALIFICATION_PENDING |
+| `ELE-MITC3` | ELEMENT | MITC3 | static/modal/Newmark/harmonic | EXPERIMENTAL | L2 | `026-G04/G05` | PRESENT_REQUALIFICATION_PENDING |
+| `ELE-MITC4` | ELEMENT | MITC4 | static/modal/Newmark/harmonic | EXPERIMENTAL | L2 | `026-G04/G05` | PRESENT_REQUALIFICATION_PENDING |
 | `ELE-TET4` | ELEMENT | TET4 | static/modal/Newmark/harmonic/buckling/nonlinear | QUALIFIED_BOUNDED | L3 | `026-G04/G05/G06/G07/G08` | PRESENT_REQUALIFICATION_PENDING |
-| `ELE-TET10` | ELEMENT | TET10 | static/modal/Newmark/harmonic/buckling/nonlinear | QUALIFIED_BOUNDED | L3 | `026-G04/G05/G06/G07/G08` | PRESENT_GAP_RECORDED |
-| `ELE-HEX8` | ELEMENT | HEX8 | static/modal/Newmark/harmonic/buckling/nonlinear | QUALIFIED_BOUNDED | L3 | `026-G04/G05/G06/G07/G08` | PRESENT_GAP_RECORDED |
-| `ELE-HEX20` | ELEMENT | HEX20 | static/modal/Newmark/harmonic/buckling/nonlinear | QUALIFIED_BOUNDED | L3 | `026-G04/G05/G06/G07/G08` | PRESENT_GAP_RECORDED |
-| `ELE-DISCRETE` | ELEMENT | discrete spring/mass | static/modal/Newmark/harmonic | EXPERIMENTAL | L2 | `026-G04/G05` | PRESENT_GAP_RECORDED |
+| `ELE-TET10` | ELEMENT | TET10 | static/modal/Newmark/harmonic/buckling/nonlinear | QUALIFIED_BOUNDED | L3 | `026-G04/G05/G06/G07/G08` | PRESENT_REQUALIFICATION_PENDING |
+| `ELE-HEX8` | ELEMENT | HEX8 | static/modal/Newmark/harmonic/buckling/nonlinear | QUALIFIED_BOUNDED | L3 | `026-G04/G05/G06/G07/G08` | PRESENT_REQUALIFICATION_PENDING |
+| `ELE-HEX20` | ELEMENT | HEX20 | static/modal/Newmark/harmonic/buckling/nonlinear | QUALIFIED_BOUNDED | L3 | `026-G04/G05/G06/G07/G08` | PRESENT_REQUALIFICATION_PENDING |
+| `ELE-DISCRETE` | ELEMENT | discrete spring/mass | static/modal/Newmark/harmonic | EXPERIMENTAL | L2 | `026-G04/G05` | PRESENT_REQUALIFICATION_PENDING |
 | `INF-RBE-CONSTRAINTS` | INFRASTRUCTURE | RBE2/RBE3 constraints | static/modal/dynamic where admissible | EXPERIMENTAL | L2 | `026-G04/G05` | PRESENT_GAP_RECORDED |
 | `ANA-STATIC` | ANALYSIS | multiple | linear_static | QUALIFIED_BOUNDED | L3 | `026-G04` | PRESENT_REQUALIFICATION_PENDING |
-| `ANA-MODAL` | ANALYSIS | multiple | modal | EXPERIMENTAL | L2 | `026-G05` | OPEN_QUALIFICATION |
-| `ANA-NEWMARK` | ANALYSIS | multiple | transient_dynamic | EXPERIMENTAL | L2 | `026-G05` | OPEN_QUALIFICATION |
-| `ANA-HARMONIC` | ANALYSIS | multiple | harmonic_response | EXPERIMENTAL | L2 | `026-G05` | OPEN_QUALIFICATION |
+| `ANA-MODAL` | ANALYSIS | multiple | modal | QUALIFIED_BOUNDED | L3 | `026-G05` | PRESENT_REQUALIFICATION_PENDING |
+| `ANA-NEWMARK` | ANALYSIS | multiple | transient_dynamic | QUALIFIED_BOUNDED | L3 | `026-G05` | PRESENT_REQUALIFICATION_PENDING |
+| `ANA-HARMONIC` | ANALYSIS | multiple | harmonic_response | QUALIFIED_BOUNDED | L3 | `026-G05` | PRESENT_REQUALIFICATION_PENDING |
 | `ANA-BUCKLING` | ANALYSIS | solid families | linear_buckling | QUALIFIED_BOUNDED | L3 | `026-G08` | PRESENT_REQUALIFICATION_PENDING |
 | `ANA-NONLINEAR-LOAD` | ANALYSIS | solid/contact-supported models | nonlinear_static | EXPERIMENTAL | L2 | `026-G06/G09` | PRESENT_DEFERRED |
 | `ANA-GEOMETRIC-NONLINEAR` | ANALYSIS | solid families | geometric_nonlinear_static | EXPERIMENTAL | L2 | `026-G07` | PRESENT_REQUALIFICATION_PENDING |
@@ -57,21 +57,21 @@ This generated view is derived from `qualification/capability_registry.json`, th
 
 | Family | Static | Modal | Newmark | Harmonic | Buckling | Load-control | Geometric | 0.2.6 gap |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| BEAM2 | code/tests | G05-B prequal | G05-B prequal | G05-B prequal | n/a | n/a | n/a | official G05 remains open |
-| MITC3 | READY corpus | READY corpus | READY corpus | READY corpus | n/a | n/a | n/a | G05 acceptance remains open |
-| MITC4 | READY corpus | READY corpus | READY corpus | READY corpus | n/a | n/a | n/a | G05 acceptance remains open |
-| TET4 | READY corpus | G05-B prequal | G05-B prequal | G05-B prequal | READY/planned | READY | bounded evidence | official G05 remains open |
-| TET10 | READY/planned | G05-B prequal | G05-B prequal | G05-B prequal | planned | READY/planned | research route | official G05 remains open |
-| HEX8 | READY/planned | G05-B prequal | G05-B prequal | G05-B prequal | planned | READY/planned | bounded evidence | official G05 remains open |
-| HEX20 | READY/planned | G05-B prequal | G05-B prequal | G05-B prequal | planned | READY/planned | research route | official G05 remains open |
-| Discrete | READY/planned | G05-B prequal | G05-B prequal | G05-B prequal | n/a | n/a | n/a | official G05 remains open |
+| BEAM2 | code/tests | G05-B verified | G05-B verified | G05-B verified | n/a | n/a | n/a | G05 bounded; other scopes separate |
+| MITC3 | READY corpus | G05-B verified | G05-B verified | G05-B verified | n/a | n/a | n/a | external deck pending |
+| MITC4 | READY corpus | G05-B verified | G05-B verified | G05-B verified | n/a | n/a | n/a | external deck pending |
+| TET4 | READY corpus | G05-B verified | G05-B verified | G05-B verified | READY/planned | READY | bounded evidence | external coverage bounded |
+| TET10 | READY/planned | G05-B verified | G05-B verified | G05-B verified | planned | READY/planned | research route | external deck pending |
+| HEX8 | READY/planned | G05-B verified | G05-B verified | G05-B verified | planned | READY/planned | bounded evidence | external deck pending |
+| HEX20 | READY/planned | G05-B verified | G05-B verified | G05-B verified | planned | READY/planned | research route | external deck pending |
+| Discrete | READY/planned | G05-B verified | G05-B verified | G05-B verified | n/a | n/a | n/a | G05 bounded; other scopes separate |
 
 ## G05-B Integration And Open Gaps
 
-- `G05-B` is supplemented by an all-family campaign with MOD 14, DYN 32 and HAR 12 controlled cases. It remains internal prequalification and does **not** close `026-G05`.
-- The family campaign executes MOD 14, DYN 32 time-level cases and HAR 12 across all eight requested family rows. See `0_2_6_g05_family_coverage.md`; it remains internal prequalification.
-- The G05-B family campaign covers TET4, TET10, HEX8, HEX20, BEAM2, MITC3/MITC3+, MITC4 and discrete; refinement policies are OWNER_APPROVED_BOUNDED and final clean provenance remains open.
-- The modal mesh, Newmark time-refinement, and harmonic frequency-refinement policies are `OWNER_APPROVED_BOUNDED`; final clean provenance and Owner closeout remain required.
+- `G05-B` is supplemented by an all-family campaign with MOD 14, DYN 32 and HAR 12 controlled cases. The Owner closed `026-G05` as `PASS_WITH_LIMITATIONS`.
+- The family campaign executes MOD 14, DYN 32 time-level cases and HAR 12 across all eight requested family rows. See `0_2_6_g05_family_coverage.md`; external correlation remains bounded.
+- The G05-B family campaign covers TET4, TET10, HEX8, HEX20, BEAM2, MITC3/MITC3+, MITC4 and discrete; refinement policies are OWNER_APPROVED_BOUNDED and the Owner closed G05 as PASS_WITH_LIMITATIONS.
+- The modal mesh, Newmark time-refinement, and harmonic frequency-refinement policies are `OWNER_APPROVED_BOUNDED`; their closeout is recorded in `owner_decisions.json`.
 
 ## Historical Continuity
 
@@ -79,19 +79,19 @@ All capabilities tracked from 0.2.5a0 remain represented. No historical capabili
 
 | Capability | Historical reference | Current maturity | Continuity assessment |
 | --- | --- | --- | --- |
-| `ELE-BEAM2` | 0.2.5 recorded | EXPERIMENTAL | present; no silent maturity downgrade |
+| `ELE-BEAM2` | 0.2.6 supplemental/current | EXPERIMENTAL | present; no silent maturity downgrade |
 | `ELE-MITC3` | 0.2.6 supplemental/current | EXPERIMENTAL | present; no silent maturity downgrade |
 | `ELE-MITC4` | 0.2.6 supplemental/current | EXPERIMENTAL | present; no silent maturity downgrade |
 | `ELE-TET4` | 0.2.6 supplemental/current | QUALIFIED_BOUNDED | present; no silent maturity downgrade |
-| `ELE-TET10` | 0.2.5 recorded | QUALIFIED_BOUNDED | explicit 0.2.6 mapping gap |
-| `ELE-HEX8` | 0.2.5 recorded | QUALIFIED_BOUNDED | explicit 0.2.6 mapping gap |
-| `ELE-HEX20` | 0.2.5 recorded | QUALIFIED_BOUNDED | explicit 0.2.6 mapping gap |
-| `ELE-DISCRETE` | 0.2.5 recorded | EXPERIMENTAL | explicit 0.2.6 mapping gap |
+| `ELE-TET10` | 0.2.6 supplemental/current | QUALIFIED_BOUNDED | present; no silent maturity downgrade |
+| `ELE-HEX8` | 0.2.6 supplemental/current | QUALIFIED_BOUNDED | present; no silent maturity downgrade |
+| `ELE-HEX20` | 0.2.6 supplemental/current | QUALIFIED_BOUNDED | present; no silent maturity downgrade |
+| `ELE-DISCRETE` | 0.2.6 supplemental/current | EXPERIMENTAL | present; no silent maturity downgrade |
 | `INF-RBE-CONSTRAINTS` | 0.2.5 recorded | EXPERIMENTAL | explicit 0.2.6 mapping gap |
 | `ANA-STATIC` | 0.2.5 recorded | QUALIFIED_BOUNDED | present; no silent maturity downgrade |
-| `ANA-MODAL` | 0.2.6 supplemental/current | EXPERIMENTAL | present; no silent maturity downgrade |
-| `ANA-NEWMARK` | 0.2.6 supplemental/current | EXPERIMENTAL | present; no silent maturity downgrade |
-| `ANA-HARMONIC` | 0.2.6 supplemental/current | EXPERIMENTAL | present; no silent maturity downgrade |
+| `ANA-MODAL` | 0.2.6 supplemental/current | QUALIFIED_BOUNDED | present; no silent maturity downgrade |
+| `ANA-NEWMARK` | 0.2.6 supplemental/current | QUALIFIED_BOUNDED | present; no silent maturity downgrade |
+| `ANA-HARMONIC` | 0.2.6 supplemental/current | QUALIFIED_BOUNDED | present; no silent maturity downgrade |
 | `ANA-BUCKLING` | 0.2.5 recorded | QUALIFIED_BOUNDED | present; no silent maturity downgrade |
 | `ANA-NONLINEAR-LOAD` | 0.2.5 recorded | EXPERIMENTAL | present; no silent maturity downgrade |
 | `ANA-GEOMETRIC-NONLINEAR` | 0.2.5 recorded | EXPERIMENTAL | present; no silent maturity downgrade |

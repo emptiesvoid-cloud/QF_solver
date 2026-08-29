@@ -7,7 +7,7 @@
 | `026-G02` | V&V infrastructure | PASS |
 | `026-G03` | Corpus design | PASS |
 | `026-G04` | Linear / element robustness | NOT_STARTED |
-| `026-G05` | Modal / dynamic / harmonic | NOT_STARTED |
+| `026-G05` | Modal / dynamic / harmonic | PASS_WITH_LIMITATIONS |
 | `026-G06` | J2 maturity extension | NOT_STARTED |
 | `026-G07` | Geometric nonlinear and arc-length review | NOT_STARTED |
 | `026-G08` | Buckling maturity extension | NOT_STARTED |
@@ -21,4 +21,4 @@
 
 G00 is a refactor guard with an explicit dirty-worktree limitation, not a replacement for immutable 0.2.5 evidence. G01-G03 close only audit, infrastructure and corpus design. Capability-gate outcomes are not implied by this foundation.
 
-`026-G05` now references the supplemental `G05-B` contract, registry and evidence, the all-family coverage record and the final-evidence pack. The controlled campaign reaches MOD `14/14`, DYN `32/16` and HAR `12/12` across eight family rows; its bounded refinement policies are Owner-approved. The official gate remains `NOT_STARTED` until its final evidence is cleanly reproduced and an Owner closeout decision is recorded.
+`026-G05` references the supplemental `G05-B` contract, registry and evidence, the all-family coverage record, the final-evidence pack and the Owner decision record. The controlled campaign reaches MOD `14/14`, DYN `32/16` and HAR `12/12` across eight family rows; its bounded refinement policies are Owner-approved. The gate is closed as `PASS_WITH_LIMITATIONS`: external correlation is bounded and not element-family complete.

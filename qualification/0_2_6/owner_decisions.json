@@ -1,5 +1,17 @@
 {
-  "decisions": [],
+  "decisions": [
+    {
+      "decision_id": "026-G05-OWNER-CLOSEOUT-2026-08-29",
+      "gate": "026-G05",
+      "status": "PASS_WITH_LIMITATIONS",
+      "qualified_source_sha": "6cd971756af0f1b8a114fd98b188714da39ff081",
+      "evidence_head": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "scope": "Modal, Newmark and harmonic response across eight internally verified family rows, with bounded external correlation coverage.",
+      "limitation": "TET10, HEX8, HEX20, MITC3 and MITC4 rely on internal quantitative V&V and analytical evidence pending comparable independent external decks.",
+      "contract_lowered": false,
+      "owner_approval": "OWNER_DIRECTION_2026-08-29"
+    }
+  ],
   "release": "0.2.6a0",
   "rule": "Automation can request Owner review but cannot promote maturity autonomously.",
   "schema_version": 1

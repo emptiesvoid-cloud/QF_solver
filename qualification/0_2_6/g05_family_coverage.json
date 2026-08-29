@@ -3,7 +3,7 @@
   "gate": "026-G05",
   "work_package": "026-WP05-G05B",
   "status": "PASS_INTERNAL_PREQUAL",
-  "qualification_status": "NOT_CLOSED",
+  "qualification_status": "OWNER_CLOSED_WITH_LIMITATIONS",
   "source_of_truth": "qualification/vnv/g05b_family_coverage/summary.json",
   "generated_by": "scripts/run_linear_dynamic_vnv.py",
   "targets": {
@@ -86,8 +86,8 @@
   },
   "acceptance_policy_status": "OWNER_APPROVED_BOUNDED",
   "limitations": [
-    "Internal prequalification evidence does not close official 026-G05.",
+    "Official 026-G05 is closed as PASS_WITH_LIMITATIONS; external correlation coverage remains bounded and not element-family complete.",
     "Existing modal mesh studies remain family-specific and are referenced by the generated aggregate.",
-    "External element correlations and final clean-worktree provenance remain required."
+    "TET10, HEX8, HEX20, MITC3 and MITC4 rely on internal quantitative V&V and analytical evidence pending comparable independent external decks."
   ]
 }

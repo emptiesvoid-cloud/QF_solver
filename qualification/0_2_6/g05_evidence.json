@@ -61,5 +61,5 @@
     "compileall": "PASS",
     "diff_check": "PASS"
   },
-  "claim_boundary": "Executable robustness evidence only; no automatic maturity promotion. G05 does not close official gate 026-G05, which remains Modal / dynamic / harmonic maturity."
+  "claim_boundary": "Executable robustness evidence only; no automatic maturity promotion. This historical batch does not itself establish the final gate decision; official 026-G05 closeout is recorded separately as PASS_WITH_LIMITATIONS for Modal / dynamic / harmonic maturity."
 }
