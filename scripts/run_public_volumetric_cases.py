@@ -45,6 +45,22 @@ def _peak_rss(process: subprocess.Popen[str]) -> int | None:
         return None
 
 
+def _portable_path(root: Path, path: Path) -> str:
+    """Serialize repository-local paths without leaking a workstation path."""
+    try:
+        return path.resolve().relative_to(root.resolve()).as_posix()
+    except ValueError:
+        return str(path)
+
+
+def _portable_output(root: Path, text: str) -> str:
+    """Remove the local checkout prefix from captured CLI output."""
+    sanitized = text.replace(str(root.resolve()), "<repo>").replace(
+        str(root.resolve()).replace("\\", "/"), "<repo>"
+    )
+    return sanitized.replace("\\", "/")
+
+
 def _run_case(root: Path, case: dict[str, Any], timeout: float, output_dir: Path) -> dict[str, Any]:
     case_id = str(case["id"])
     case_path = root / str(case["qf_case"])
@@ -54,9 +70,9 @@ def _run_case(root: Path, case: dict[str, Any], timeout: float, output_dir: Path
         "qf_solver.py",
         "solve",
         "--input",
-        str(case_path),
+        _portable_path(root, case_path),
         "--output",
-        str(result_path),
+        _portable_path(root, result_path),
         "--analysis",
         "linear_static",
         "--method",
@@ -86,8 +102,8 @@ def _run_case(root: Path, case: dict[str, Any], timeout: float, output_dir: Path
         "duration_seconds": elapsed,
         "peak_rss_bytes": peak_rss or None,
         "return_code": process.returncode,
-        "stdout": stdout.strip()[-4000:],
-        "stderr": stderr.strip()[-4000:],
+        "stdout": _portable_output(root, stdout).strip()[-4000:],
+        "stderr": _portable_output(root, stderr).strip()[-4000:],
     }
     if timed_out:
         result_path.unlink(missing_ok=True)
