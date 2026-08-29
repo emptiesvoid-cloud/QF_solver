@@ -14,6 +14,7 @@ from solveur.core.errors import NumericalConvergenceError
 from solveur.core.nonlinear.material_state import MaterialStateTable
 from solveur.core.nonlinear.contracts import NonlinearFailureReason, NonlinearIterationDiagnostics
 from solveur.core.nonlinear.controls import AdaptiveLoadControls
+from solveur.core.nonlinear.robustness import NonlinearRobustnessOptions, solve_scaled_system
 from solveur.core.model import FiniteElementModel
 from scipy.sparse import bmat, csr_matrix, csc_matrix
 from scipy.sparse.linalg import MatrixRankWarning, spsolve
@@ -79,6 +80,7 @@ def solve_full_newton(
     increments: int,
     tolerance: float,
     max_iterations: int,
+    robustness_options: NonlinearRobustnessOptions | None = None,
 ) -> tuple[np.ndarray, dict[str, object]]:
     """Solve a dead-load path with the shared Full Newton contract.
 
@@ -104,6 +106,7 @@ def solve_full_newton(
         assembly_seconds = 0.0
         linear_solve_seconds = 0.0
         line_search_seconds = 0.0
+        linear_diagnostics: list[dict[str, object]] = []
         for iteration in range(1, max_iterations + 1):
             assembly_started = perf_counter()
             try:
@@ -176,9 +179,15 @@ def solve_full_newton(
                 )
             try:
                 linear_solve_started = perf_counter()
-                with warnings.catch_warnings():
-                    warnings.simplefilter("error", MatrixRankWarning)
-                    correction = spsolve(tangent[free, :][:, free], residual[free])
+                if robustness_options is None:
+                    with warnings.catch_warnings():
+                        warnings.simplefilter("error", MatrixRankWarning)
+                        correction = spsolve(tangent[free, :][:, free], residual[free])
+                else:
+                    correction, solve_diagnostics = solve_scaled_system(
+                        tangent[free, :][:, free], residual[free], robustness_options
+                    )
+                    linear_diagnostics.append(solve_diagnostics)
                 linear_solve_seconds += perf_counter() - linear_solve_started
             except (MatrixRankWarning, ValueError) as exc:
                 raise NumericalConvergenceError(
@@ -208,9 +217,26 @@ def solve_full_newton(
                 )
             try:
                 line_search_started = perf_counter()
-                displacement, reductions = _line_search_assembly_with_diagnostics(
-                    assembly, displacement, free, correction, target, residual_norm
-                )
+                if robustness_options is None or robustness_options.line_search == "existing":
+                    displacement, reductions = _line_search_assembly_with_diagnostics(
+                        assembly, displacement, free, correction, target, residual_norm
+                    )
+                elif robustness_options.line_search == "off":
+                    displacement = displacement.copy()
+                    displacement[free] += correction
+                    reductions = 0
+                else:
+                    displacement, reductions = _line_search_assembly_with_diagnostics(
+                        assembly,
+                        displacement,
+                        free,
+                        correction,
+                        target,
+                        residual_norm,
+                        min_alpha=robustness_options.line_search_min_alpha,
+                        max_reductions=robustness_options.line_search_max_reductions,
+                        armijo=robustness_options.line_search_c,
+                    )
                 line_search_seconds += perf_counter() - line_search_started
                 line_search_iterations += reductions
             except NumericalConvergenceError as exc:
@@ -245,7 +271,11 @@ def solve_full_newton(
             relative_residual=relative,
             tolerance=tolerance,
             solver="full_newton",
-            backend="scipy.sparse.linalg.spsolve",
+            backend=(
+                "scipy.sparse.linalg.splu"
+                if robustness_options is not None and robustness_options.linear_solver == "splu"
+                else "scipy.sparse.linalg.spsolve"
+            ),
             residual_history=tuple(residual_history),
             line_search_iterations=line_search_iterations,
         ).to_dict()
@@ -254,6 +284,10 @@ def solve_full_newton(
                 "assembly_seconds": assembly_seconds,
                 "linear_solve_seconds": linear_solve_seconds,
                 "line_search_seconds": line_search_seconds,
+                "linear_system_diagnostics": linear_diagnostics,
+                "robustness_options": (
+                    robustness_options.to_dict() if robustness_options is not None else None
+                ),
             }
         )
         history.append(
@@ -276,6 +310,7 @@ def solve_full_newton(
         "newton_iterations": total_iterations,
         "final_relative_residual": history[-1]["relative_residual"],
         "increments": history,
+        "robustness_options": robustness_options.to_dict() if robustness_options is not None else None,
     }
 
 
@@ -308,6 +343,7 @@ def solve_adaptive_full_newton(
     tolerance: float,
     max_iterations: int,
     controls: AdaptiveLoadControls,
+    robustness_options: NonlinearRobustnessOptions | None = None,
 ) -> tuple[np.ndarray, dict[str, object]]:
     """Solve a dead-load path with deterministic cutback/retry continuation.
 
@@ -352,6 +388,7 @@ def solve_adaptive_full_newton(
                     increments=1,
                     tolerance=tolerance,
                     max_iterations=max_iterations,
+                    robustness_options=robustness_options,
                 )
             except NumericalConvergenceError as exc:
                 displacement[:] = committed
@@ -540,10 +577,14 @@ def _line_search_assembly_with_diagnostics(
     correction: np.ndarray,
     target: np.ndarray,
     residual_norm: float,
+    *,
+    min_alpha: float = 0.0,
+    max_reductions: int = 14,
+    armijo: float = 0.0,
 ) -> tuple[np.ndarray, int]:
     """Return the accepted trial and the number of reductions used."""
     alpha = 1.0
-    for reductions in range(15):
+    for reductions in range(max_reductions + 1):
         trial = displacement.copy()
         trial[free] += alpha * correction
         try:
@@ -551,9 +592,17 @@ def _line_search_assembly_with_diagnostics(
         except ValueError:
             alpha *= 0.5
             continue
-        if np.linalg.norm((target - trial_internal)[free]) < residual_norm:
+        trial_norm = np.linalg.norm((target - trial_internal)[free])
+        accepted = (
+            trial_norm < residual_norm
+            if armijo == 0.0
+            else trial_norm <= (1.0 - armijo * alpha) * residual_norm
+        )
+        if accepted:
             return trial, reductions
         alpha *= 0.5
+        if alpha < min_alpha:
+            break
     raise NumericalConvergenceError(
         "Full Newton line search failed to reduce the residual.",
         reason=NonlinearFailureReason.LINE_SEARCH_FAILURE,
