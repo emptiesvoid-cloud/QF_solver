@@ -365,12 +365,18 @@ def _run_stage(
 ) -> dict[str, Any]:
     if stage == "increments":
         cases = _increment_cases()
+        if selected_ids is not None:
+            cases = [case for case in cases if case["id"] in selected_ids]
         runs = [_run(case, {"cutback_factor": 0.25, "min_load_increment": 1.0e-4, "max_cutbacks": 25}, 100) for case in cases]
     elif stage == "frontier":
         cases = _frontier_cases()
+        if selected_ids is not None:
+            cases = [case for case in cases if case["id"] in selected_ids]
         runs = [_run(case, {"cutback_factor": 0.25, "min_load_increment": 1.0e-4, "max_cutbacks": 25}, 100) for case in cases]
     elif stage == "controls":
         cases = list(BASELINES)
+        if selected_ids is not None:
+            cases = [case for case in cases if case["id"] in selected_ids]
         runs = []
         for case in cases:
             configurations = _control_configs()
