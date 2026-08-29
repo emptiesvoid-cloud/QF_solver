@@ -32,6 +32,8 @@ results/
 results_large/
 datasets/public_3d/
 datasets/public_volumetric/
+qualification/0_2_6/public_volumetric_tet10_cases/
+qualification/0_2_6/public_volumetric_tet10_runtime/
 VNV-*/
 qualification/vnv/**
 !qualification/studies/mitc4_stable_package_2026-08-21/

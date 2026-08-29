@@ -102,6 +102,7 @@ def _run_case(root: Path, case: dict[str, Any], timeout: float, output_dir: Path
     qf_status = payload.get("status", "FAIL")
     run_verdict = payload.get("run_verdict")
     qualification = payload.get("qualification_summary", {})
+    equilibrium = payload.get("audit", {}).get("equilibrium", {})
     blocking_errors = qualification.get("blocking_errors", [])
     solver_failed = qf_status != "PASS" or run_verdict not in {"PASS", "WARNING"}
     if process.returncode != 0 and solver_failed:
@@ -122,6 +123,11 @@ def _run_case(root: Path, case: dict[str, Any], timeout: float, output_dir: Path
         "element_count": payload.get("element_count"),
         "ndof": payload.get("ndof"),
         "max_displacement": payload.get("max_displacement"),
+        "reaction_norm": equilibrium.get("fixed_reaction_norm"),
+        "force_balance_relative_error": equilibrium.get("force_balance_relative_error"),
+        "external_work": equilibrium.get("external_work_at_final_load"),
+        "strain_energy": equilibrium.get("secant_internal_energy"),
+        "energy_identity_relative_error": equilibrium.get("linear_energy_identity_relative_error"),
         "solver": {
             "backend": payload.get("solver", {}).get("backend"),
             "method": payload.get("solver", {}).get("method"),
