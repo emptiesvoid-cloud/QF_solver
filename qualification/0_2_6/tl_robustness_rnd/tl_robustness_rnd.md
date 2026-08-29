@@ -8,11 +8,17 @@ change the default path, or qualify a new numerical domain.
 
 - R&D starting reference: `de7633ab9806fe49f463bf28847c18a8120cc8af`
 - Clean opt-in controls commit: `491ab821b88da7479862293212bf68279b51db87`
-- Full adaptive replay source SHA: `491ab821b88da7479862293212bf68279b51db87`
-- Full adaptive replay: `dirty_at_start=false`
+- Full adaptive-growth replay source SHA: `491ab821b88da7479862293212bf68279b51db87`
+- Full adaptive-growth replay: `dirty_at_start=false`
+- Full extended-cutback replay source SHA: `e0920e01ca7c8833884debc667e850b8d863d1c8`
+- Holdout runner source SHA: `cd6a6c62947ec12338747ee979a82699f9334572`
 - Historical 150-case boundary record consumed for comparison: `5d16ab839679dcee64e6251085ba52c4b494847c`
-- Full replay artifact: `adaptive_growth_150.json`
-- Full replay artifact SHA-256: `2e8abe49af253fee1729b55572d9ed8bdf2917c91c362a4950c9a738d3537ac5`
+- Adaptive-growth replay artifact: `adaptive_growth_150.json`
+- Adaptive-growth artifact SHA-256: `2e8abe49af253fee1729b55572d9ed8bdf2917c91c362a4950c9a738d3537ac5`
+- Extended-cutback replay artifact: `adaptive_cutback_extended_150.json`
+- Extended-cutback artifact SHA-256: `609e51576a88f940c0b711671b1d8c2e3b08b440d3a53ba22de298feb8279224`
+- Holdout artifact: `holdouts.json`
+- Holdout artifact SHA-256: `4f49041752c2fb33e8d3feb6020a32ed7fbc90115b0a6ab67585c1dff8e6652d`
 
 The default Total-Lagrangian path remains unchanged. No formulation, material
 tangent, convergence tolerance, or default solver behavior was changed. The
@@ -66,6 +72,7 @@ after runtime-only timing fields were excluded from the comparison digest.
 | Existing line search disabled | One fixed-path status change; persistent failures remain | Rejected negative control |
 | Conservative adaptive cutback | One selected persistent case recovered; 13,246 Newton iterations, 4 cutbacks, about 46,114 assembly calls | Rejected: cost and no independent reference |
 | Adaptive growth | 4 targeted recoveries, then full replay showed large state/branch differences | Rejected: physical equivalence not established |
+| Extended recovery-only cutback | 1 recovery on the full corpus, 0 regressions; 90,343 Newton iterations and 44 cutbacks | Retained for experimental holdout only |
 
 All rejected mechanisms remain experimental observations. A status change alone
 is not treated as a recovery suitable for retention.
@@ -126,14 +133,68 @@ executed diagnostic campaign with zero status regressions, but it is not a
 qualified or retained solver policy. The four default-path persistent failures
 and their original histories remain preserved.
 
+## Full 150-case extended-cutback replay
+
+The retained candidate is deliberately conservative: it keeps the existing
+adaptive driver, disables growth, uses `cutback_factor=0.25`, and raises the
+retry budget to `max_cutbacks=25`. It is an opt-in R&D policy, not the default
+path and not a release qualification.
+
+| Measurement | Candidate | Existing adaptive reference |
+| --- | ---: | ---: |
+| Physical cases | 150 | 150 |
+| Successful cases | 147 | 146 |
+| Persistent failures | 3 | 4 |
+| Recoveries | 1 | - |
+| Status regressions | 0 | - |
+| Status changes | 1 | - |
+| Newton iterations, all cases | 90,343 | 74,448 |
+| Assembly calls, all cases | 363,741 | 349,320 |
+| Accepted steps, all cases | 27,713 | 21,355 |
+| Cutbacks/rejected increments | 44 | 78 |
+
+The recovered case is
+`HEX8_m4_a7_compression_l0.2_n16_d0.12`. The remaining persistent failures
+are:
+
+- `HEX8_m4_a10_compression_l0.2_n16_d0.12`
+- `HEX8_m4_a10_compression_l0.2_n8_d0.12`
+- `HEX8_m4_a10_compression_l0.2_n32_d0.12`
+
+For the 146 cases already successful with the existing adaptive reference, the
+largest absolute candidate-minus-reference differences were:
+
+| Metric | Maximum absolute difference |
+| --- | ---: |
+| Displacement norm | `4.0616241e-08` |
+| Maximum displacement | `1.1367402e-08` |
+| Free residual norm | `3.4349697e-09` |
+| Reaction norm | `4.5723467e-09` |
+| Strain energy | `1.4168696e-09` |
+| Minimum `det(F)` | `5.3541327e-10` |
+| Maximum `det(F)` | `2.2329893e-10` |
+
+These are measured comparisons, not newly imposed acceptance thresholds. The
+full replay supports retaining the policy for further bounded experimentation,
+but it does not provide an independent converged reference for the recovered
+case and does not justify promotion.
+
 ## Reproducibility and holdouts
 
 - Targeted repeated signatures: `PASS` on the eight-case development corpus.
-- Full 150 replay: executed once on the clean source SHA; candidate status
-  comparison is reproducible from the archived raw artifact and digest.
-- New holdouts: `NOT_RUN`, because no mechanism was retained after the full
-  replay. The default path remains unchanged and its original boundary corpus
-  remains the reference.
+- Full 150 adaptive-growth replay: executed once on a clean source SHA;
+  candidate status comparison is reproducible from its archived raw artifact
+  and digest.
+- Full 150 extended-cutback replay: executed once on a clean source SHA;
+  `147/150` candidate successes, one recovery, zero regressions, and three
+  persistent failures.
+- New holdouts: `8` cases, four TET4 and four HEX8, selected from the controlled
+  corpus but excluded from the eight-case development set. Baseline and
+  candidate both succeeded on all eight; status changes `0`, recoveries `0`,
+  regressions `0`. The largest measured state-metric difference was
+  `3.4349697e-09` on the degraded HEX8 holdout.
+- A repeated candidate signature for the recovered persistent case was
+  deterministic (`912ffb3c50e10643253d0b2ca9cbf01fdc4fbf2f3d79a9a9cc745a82421e7b7e`).
 - Failure zoo: preserved at
   `qualification/0_2_6/tl_boundary_study/tl_boundary_failure_zoo.json`.
 
@@ -150,23 +211,28 @@ and their original histories remain preserved.
 - Full 150-case TL boundary replay for the adaptive candidate: `150/150`
   executed, `0` status regressions, mechanism rejected on state/branch
   equivalence.
+- Extended-cutback full replay: `150/150` executed, `1` recovery, `0`
+  regressions, three persistent failures; retained for experimental holdout
+  only.
 
 ## Final R&D decision
 
-- `MECHANISMS_ACCEPTED=NONE`
+- `MECHANISMS_ACCEPTED=adaptive_cutback_extended (experimental holdout only)`
 - `MECHANISMS_REJECTED=system_scaling,residual_row_scaling,splu_colamd,splu_natural,line_search_armijo,line_search_off,adaptive_cutback,adaptive_growth`
 - `PERSISTENT_FAILURES_BEFORE=4`
-- `PERSISTENT_FAILURES_AFTER=4` on the default path;
-  `0` only for the rejected adaptive-growth candidate.
+- `PERSISTENT_FAILURES_AFTER=4` on the default path and `3` under the
+  extended-cutback experiment.
 - `TL_ROBUSTNESS_LEVEL=DIAGNOSTIC_ONLY`
 - `TL_PROMOTION=DEFERRED`
 - `READY_FOR_TL_PROMOTION_CAMPAIGN=NO`
 
-Recommended correction-planning topics are diagnostic only: characterize the
-branch-selection/path-dependence introduced by adaptive load growth, define an
-independent reference before accepting recovered cases, and preserve explicit
-failure histories. No universal condition-number cutoff or numerical tolerance
-change is justified by this campaign.
+Recommended correction-planning topics are diagnostic only: establish an
+independent converged reference for the recovered HEX8 case, characterize the
+high cost of extended retries, investigate the three remaining persistent
+failures, and preserve explicit failure histories. No universal
+condition-number cutoff or numerical tolerance change is justified by this
+campaign. The extended policy remains opt-in and is not accepted as a default
+solver behavior.
 
 No TL promotion, G07 closeout, Arc-Length/G08 work, push, merge, tag, release,
 or PyPI publication was performed.

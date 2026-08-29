@@ -1,7 +1,10 @@
 {
   "status": "DIAGNOSTIC_ONLY",
   "start_sha": "de7633ab9806fe49f463bf28847c18a8120cc8af",
-  "final_source_sha": "491ab821b88da7479862293212bf68279b51db87",
+  "final_source_sha": "cd6a6c62947ec12338747ee979a82699f9334572",
+  "full_adaptive_growth_source_sha": "491ab821b88da7479862293212bf68279b51db87",
+  "full_extended_cutback_source_sha": "e0920e01ca7c8833884debc667e850b8d863d1c8",
+  "holdout_source_sha": "cd6a6c62947ec12338747ee979a82699f9334572",
   "baseline_boundary_record_sha": "5d16ab839679dcee64e6251085ba52c4b494847c",
   "formulation_changed": false,
   "tangent_changed": false,
@@ -28,7 +31,7 @@
   },
   "mechanism_screening": {
     "screening_corpus_cases": 8,
-    "accepted": [],
+    "accepted": ["adaptive_cutback_extended"],
     "rejected": [
       "system_scaling",
       "residual_row_scaling",
@@ -57,6 +60,38 @@
       "final_free_residual": 1.43956877466819e-14,
       "decision": "REJECTED_COST_AND_NO_INDEPENDENT_REFERENCE"
     },
+    "adaptive_cutback_extended": {
+      "full_candidate_successes": 147,
+      "full_baseline_adaptive_successes": 146,
+      "full_recoveries": 1,
+      "full_status_regressions": 0,
+      "full_status_changes": 1,
+      "full_candidate_newton_iterations": 90343,
+      "full_baseline_newton_iterations": 74448,
+      "full_candidate_assembly_calls": 363741,
+      "full_baseline_assembly_calls": 349320,
+      "full_candidate_accepted_steps": 27713,
+      "full_baseline_accepted_steps": 21355,
+      "full_candidate_cutbacks": 44,
+      "full_baseline_cutbacks": 78,
+      "full_persistent_failures": 3,
+      "max_abs_displacement_norm_difference": 4.061624103712802e-08,
+      "max_abs_displacement_max_difference": 1.1367401686612766e-08,
+      "max_abs_free_residual_difference": 3.4349697427468748e-09,
+      "max_abs_reaction_norm_difference": 4.572346723463738e-09,
+      "max_abs_strain_energy_difference": 1.4168696493843669e-09,
+      "max_abs_det_f_min_difference": 5.354132692758528e-10,
+      "max_abs_det_f_max_difference": 2.232989348982528e-10,
+      "artifact_sha256": "609e51576a88f940c0b711671b1d8c2e3b08b440d3a53ba22de298feb8279224",
+      "source_sha": "e0920e01ca7c8833884debc667e850b8d863d1c8",
+      "dirty_at_start": false,
+      "persistent_failure_ids": [
+        "HEX8_m4_a10_compression_l0.2_n16_d0.12",
+        "HEX8_m4_a10_compression_l0.2_n8_d0.12",
+        "HEX8_m4_a10_compression_l0.2_n32_d0.12"
+      ],
+      "decision": "RETAINED_EXPERIMENTAL_HOLDOUT_ONLY"
+    },
     "adaptive_growth": {
       "targeted_recoveries": 4,
       "targeted_repeat_signatures": "PASS",
@@ -79,7 +114,21 @@
     }
   },
   "passive_eigen_diagnostics": "OBSERVATIONAL_ONLY_NO_CUTOFF",
-  "holdout_result": "NOT_RUN_NO_MECHANISM_RETAINED",
+  "holdout_result": "PASS_STATUS_EQUIVALENCE_NO_RECOVERY",
+  "holdout": {
+    "source_sha": "cd6a6c62947ec12338747ee979a82699f9334572",
+    "artifact_sha256": "4f49041752c2fb33e8d3feb6020a32ed7fbc90115b0a6ab67585c1dff8e6652d",
+    "cases": 8,
+    "tet4_cases": 4,
+    "hex8_cases": 4,
+    "baseline_successes": 8,
+    "candidate_successes": 8,
+    "recoveries": 0,
+    "regressions": 0,
+    "status_changes": 0,
+    "max_abs_state_metric_difference": 3.4349697427468748e-09,
+    "decision": "PASS_STATUS_EQUIVALENCE_NO_RECOVERY"
+  },
   "targeted_tests": "39 passed",
   "earlier_r_and_d_targeted_tests": "64 passed",
   "registry": "PASS",
@@ -89,6 +138,7 @@
   "diff_check": "PASS",
   "full_regression": "NOT_RERUN_DEFAULT_PATH_UNCHANGED",
   "full_150_adaptive_replay": "EXECUTED_NO_STATUS_REGRESSIONS_REJECTED_ON_EQUIVALENCE",
+  "full_150_extended_cutback_replay": "147_SUCCESS_1_RECOVERY_0_REGRESSIONS_3_PERSISTENT",
   "tl_robustness_level": "DIAGNOSTIC_ONLY",
   "ready_for_tl_promotion_campaign": false
 }
