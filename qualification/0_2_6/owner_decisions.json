@@ -25,6 +25,60 @@
       "limitation": "TET10, HEX8, HEX20, MITC3 and MITC4 rely on internal quantitative V&V and analytical evidence pending comparable independent external decks.",
       "contract_lowered": false,
       "owner_approval": "OWNER_DIRECTION_2026-08-29"
+    },
+    {
+      "decision_id": "026-TL-BOUNDARY-OWNER-PREVALIDATION-2026-08-29",
+      "gate": "TL_BOUNDARY_STUDY",
+      "status": "PASS_DIAGNOSTIC",
+      "start_sha": "3601e13263960e854d2b1c3231ba115b6ddc3990",
+      "campaign_source_sha": "5d16ab839679dcee64e6251085ba52c4b494847c",
+      "mesh_policy": {
+        "status": "OWNER_APPROVED_BOUNDED",
+        "rules": [
+          "No universal threshold based only on nominal aspect ratio.",
+          "Check Jacobian, mesh quality/distortion and measured diagnostics.",
+          "Observed zones describe the tested domain only, not universal laws."
+        ]
+      },
+      "conditioning_policy": {
+        "status": "OWNER_APPROVED_BOUNDED",
+        "rules": [
+          "Retain tangent conditioning as a mandatory diagnostic.",
+          "No universal numeric cutoff is approved.",
+          "Severe conditioning with Newton failure remains explicit and fail-closed."
+        ]
+      },
+      "adaptive_cutback_policy": {
+        "status": "OWNER_APPROVED_BOUNDED",
+        "rules": [
+          "Opt-in cutback is permitted as a robustness mechanism.",
+          "Rollback is mandatory.",
+          "Reaching minimum increment is an explicit failure.",
+          "Recovered adaptive cases retain their fixed-step history."
+        ]
+      },
+      "evidence": {
+        "tet4_cases": 75,
+        "hex8_cases": 75,
+        "fixed_successes": "134/150",
+        "adaptive_successes": "146/150",
+        "recovered_by_cutback": 12,
+        "failed_in_both_modes": 4,
+        "conditioning_medians": {
+          "stable": 3972.0652527034244,
+          "degraded": 92544.64255077158,
+          "out_of_scope": 8223202.0490325475
+        },
+        "failure_zoo": "qualification/0_2_6/tl_boundary_study/tl_boundary_failure_zoo.json"
+      },
+      "technical_decision": {
+        "tl_formulation_fix_required": false,
+        "newton_fix_required": false,
+        "tl_promotion": "DEFERRED",
+        "next_phase": "Separate TL numerical robustness R&D; implementation not started."
+      },
+      "owner_approval": "OWNER_DIRECTION_2026-08-29",
+      "contract_lowered": false
     }
   ],
   "release": "0.2.6a0",
