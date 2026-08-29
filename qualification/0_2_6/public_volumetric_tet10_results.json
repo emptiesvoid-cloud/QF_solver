@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-29T07:03:26.267818Z",
+  "generated_at_utc": "2026-08-29T07:42:09.295997Z",
   "manifest": "qualification/0_2_6/public_volumetric_dataset_manifest.json",
   "manifest_sha256": "630a7b455085e4b8d9809c4eef6e43f5b3cb96a9e24da7ce7ef3645745553ab5",
-  "qf_source_sha": "c9324bb7662f689c81d743e084fe0dbc58077fb8",
-  "qf_worktree_dirty": false,
+  "qf_source_sha": "96f82692c5e00f21d48b286134d13ea81c1f84af",
+  "qf_worktree_dirty": true,
   "requested_cases": 24,
   "selected_cases": 24,
   "selection_max_nodes": 10000,
@@ -26,19 +26,19 @@
         "qf_solver.py",
         "solve",
         "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_cases\\FCL-0086.json",
+        "qualification/0_2_6/public_volumetric_tet10_cases/FCL-0086.json",
         "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0086.json",
+        "qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0086.json",
         "--analysis",
         "linear_static",
         "--method",
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.02772250000271,
-      "peak_rss_bytes": 122384384,
+      "duration_seconds": 3.0245016000117175,
+      "peak_rss_bytes": 122212352,
       "return_code": 0,
-      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0086.json",
+      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0086.json",
       "stderr": "",
       "status": "PASS",
       "solve_status": "PASS",
@@ -73,7 +73,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "daef372ee4465017ad9f294ac3c092776b1a5f006780f197fdfb9dfd522bb34d",
+      "qf_result_sha256": "38346315a8f4f9fe9db3a2a203709b493f280583de9ecf1a4de1b2f506492045",
       "comparison": {
         "tet4_status": "PASS",
         "tet4_run_verdict": "PASS",
@@ -89,8 +89,8 @@
         "tet4_strain_energy": 8.083563160543886e-06,
         "tet10_strain_energy": 1.770286612283544e-05,
         "relative_difference_strain_energy": 0.5433754565811993,
-        "duration_ratio_tet10_over_tet4": 1.502280246675904,
-        "rss_ratio_tet10_over_tet4": 1.0273346169715307
+        "duration_ratio_tet10_over_tet4": 1.5018926966493613,
+        "rss_ratio_tet10_over_tet4": 1.0352879944482998
       }
     },
     {
@@ -102,19 +102,19 @@
         "qf_solver.py",
         "solve",
         "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_cases\\FCL-0083.json",
+        "qualification/0_2_6/public_volumetric_tet10_cases/FCL-0083.json",
         "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0083.json",
+        "qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0083.json",
         "--analysis",
         "linear_static",
         "--method",
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 6.0268708000076,
-      "peak_rss_bytes": 177680384,
+      "duration_seconds": 6.0238551999791525,
+      "peak_rss_bytes": 178155520,
       "return_code": 0,
-      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0083.json",
+      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0083.json",
       "stderr": "",
       "status": "PASS",
       "solve_status": "PASS",
@@ -149,7 +149,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "50d78dd1a52d37f98872dd201ba133137303535cf94395349cdba705084575a3",
+      "qf_result_sha256": "6629bbdd30b4efbce8672742e3618cb0a27abe1a29d3b8dd1c4ebd1e63984a38",
       "comparison": {
         "tet4_status": "PASS",
         "tet4_run_verdict": "PASS",
@@ -165,8 +165,8 @@
         "tet4_strain_energy": 5.923783147423075e-06,
         "tet10_strain_energy": 7.55228094999143e-06,
         "relative_difference_strain_energy": 0.21562992867342984,
-        "duration_ratio_tet10_over_tet4": 2.4972826603745717,
-        "rss_ratio_tet10_over_tet4": 1.3348206043448827
+        "duration_ratio_tet10_over_tet4": 2.4943143462161377,
+        "rss_ratio_tet10_over_tet4": 1.339255473104043
       }
     },
     {
@@ -178,19 +178,19 @@
         "qf_solver.py",
         "solve",
         "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_cases\\FCL-0100.json",
+        "qualification/0_2_6/public_volumetric_tet10_cases/FCL-0100.json",
         "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0100.json",
+        "qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0100.json",
         "--analysis",
         "linear_static",
         "--method",
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 9.638547699985793,
-      "peak_rss_bytes": 263700480,
+      "duration_seconds": 9.837618299992755,
+      "peak_rss_bytes": 211558400,
       "return_code": 0,
-      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0100.json\nQUALIFICATION GATE: WARNING 2 audit warning(s) present.",
+      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0100.json\nQUALIFICATION GATE: WARNING 2 audit warning(s) present.",
       "stderr": "",
       "status": "PASS",
       "solve_status": "PASS",
@@ -227,7 +227,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "d1938beed774da56a3e43e107b173b1cdf7de8c03f529fced96ac13659ca3ba0",
+      "qf_result_sha256": "a967c3683133dc02b44877b441b55d4335947fa7a8899b8bea15182cdcb70d48",
       "comparison": {
         "tet4_status": "PASS",
         "tet4_run_verdict": "WARNING",
@@ -243,8 +243,8 @@
         "tet4_strain_energy": 2.6439844021187358e-06,
         "tet10_strain_energy": 3.3154583774265107e-06,
         "relative_difference_strain_energy": 0.20252824764127464,
-        "duration_ratio_tet10_over_tet4": 3.42211437939187,
-        "rss_ratio_tet10_over_tet4": 1.816027756621816
+        "duration_ratio_tet10_over_tet4": 3.4978721992582544,
+        "rss_ratio_tet10_over_tet4": 1.4462925627240144
       }
     },
     {
@@ -256,19 +256,19 @@
         "qf_solver.py",
         "solve",
         "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_cases\\FCL-0048.json",
+        "qualification/0_2_6/public_volumetric_tet10_cases/FCL-0048.json",
         "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0048.json",
+        "qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0048.json",
         "--analysis",
         "linear_static",
         "--method",
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 9.84230910000042,
-      "peak_rss_bytes": 229199872,
+      "duration_seconds": 9.840079400019022,
+      "peak_rss_bytes": 289173504,
       "return_code": 0,
-      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0048.json",
+      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0048.json",
       "stderr": "",
       "status": "PASS",
       "solve_status": "PASS",
@@ -303,7 +303,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "4ddc7af51b6ce533294697c52d736f84c45466a313f6952540aaee74e2c3995e",
+      "qf_result_sha256": "04ee119ad7e4beae452a51431b76309e6db6cf6e56de579db8d256410acc812f",
       "comparison": {
         "tet4_status": "PASS",
         "tet4_run_verdict": "PASS",
@@ -319,8 +319,8 @@
         "tet4_strain_energy": 3.6454216551250867e-09,
         "tet10_strain_energy": 5.48637386521386e-09,
         "relative_difference_strain_energy": 0.33554990150439057,
-        "duration_ratio_tet10_over_tet4": 3.2630859495564266,
-        "rss_ratio_tet10_over_tet4": 1.5003485628485629
+        "duration_ratio_tet10_over_tet4": 3.2637063033073574,
+        "rss_ratio_tet10_over_tet4": 1.8993543179983858
       }
     },
     {
@@ -332,19 +332,19 @@
         "qf_solver.py",
         "solve",
         "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_cases\\FCL-0099.json",
+        "qualification/0_2_6/public_volumetric_tet10_cases/FCL-0099.json",
         "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0099.json",
+        "qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0099.json",
         "--analysis",
         "linear_static",
         "--method",
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 12.850454100000206,
-      "peak_rss_bytes": 356048896,
+      "duration_seconds": 13.259308999986388,
+      "peak_rss_bytes": 356151296,
       "return_code": 0,
-      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0099.json\nQUALIFICATION GATE: WARNING 95 audit warning(s) present.",
+      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0099.json\nQUALIFICATION GATE: WARNING 95 audit warning(s) present.",
       "stderr": "",
       "status": "PASS",
       "solve_status": "PASS",
@@ -381,7 +381,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "da28417c106ba9b8a403251be3586bd44719d5281d09cd16e719e862cef48fef",
+      "qf_result_sha256": "71aa5ea326bc2dbc1af5e82708aa1b358b3030a3511027d4bd72c02593774f21",
       "comparison": {
         "tet4_status": "PASS",
         "tet4_run_verdict": "WARNING",
@@ -397,8 +397,8 @@
         "tet4_strain_energy": 6.738040167722392e-08,
         "tet10_strain_energy": 2.5301014850480164e-07,
         "relative_difference_strain_energy": 0.7336849842766479,
-        "duration_ratio_tet10_over_tet4": 3.756116217220573,
-        "rss_ratio_tet10_over_tet4": 2.0689277638938472
+        "duration_ratio_tet10_over_tet4": 3.879484922664615,
+        "rss_ratio_tet10_over_tet4": 2.0839564758891767
       }
     },
     {
@@ -410,19 +410,19 @@
         "qf_solver.py",
         "solve",
         "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_cases\\FCL-0098.json",
+        "qualification/0_2_6/public_volumetric_tet10_cases/FCL-0098.json",
         "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0098.json",
+        "qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0098.json",
         "--analysis",
         "linear_static",
         "--method",
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 12.844083200005116,
-      "peak_rss_bytes": 355340288,
+      "duration_seconds": 13.046640999993542,
+      "peak_rss_bytes": 380325888,
       "return_code": 0,
-      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0098.json\nQUALIFICATION GATE: WARNING 3 audit warning(s) present.",
+      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0098.json\nQUALIFICATION GATE: WARNING 3 audit warning(s) present.",
       "stderr": "",
       "status": "PASS",
       "solve_status": "PASS",
@@ -459,7 +459,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "9248dfd19ddded6eb102673ae2dd4a61f610541a740afe8e4ef8fe15b027fd9a",
+      "qf_result_sha256": "bb8842f5af43fe2dff8e7b14c3321c8667a3d6a4a9f792f03c929864c19264b9",
       "comparison": {
         "tet4_status": "PASS",
         "tet4_run_verdict": "WARNING",
@@ -475,8 +475,8 @@
         "tet4_strain_energy": 6.292386820490023e-08,
         "tet10_strain_energy": 1.349416821138165e-07,
         "relative_difference_strain_energy": 0.5336958364589889,
-        "duration_ratio_tet10_over_tet4": 3.757793025373038,
-        "rss_ratio_tet10_over_tet4": 2.0527424163551182
+        "duration_ratio_tet10_over_tet4": 3.818977924188204,
+        "rss_ratio_tet10_over_tet4": 1.9825134511913913
       }
     },
     {
@@ -488,19 +488,19 @@
         "qf_solver.py",
         "solve",
         "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_cases\\FCL-0027.json",
+        "qualification/0_2_6/public_volumetric_tet10_cases/FCL-0027.json",
         "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0027.json",
+        "qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0027.json",
         "--analysis",
         "linear_static",
         "--method",
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 14.858062999992399,
-      "peak_rss_bytes": 353099776,
+      "duration_seconds": 14.85761679999996,
+      "peak_rss_bytes": 352436224,
       "return_code": 0,
-      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0027.json",
+      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0027.json",
       "stderr": "",
       "status": "PASS",
       "solve_status": "PASS",
@@ -535,7 +535,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "341a1fd4ca6e42dcd9492545189a4c34975868480265ce489db62447d4247a9f",
+      "qf_result_sha256": "160522621cd38fc859da73a3e9a87fbbd29a05b867a61ae6e3fa3f360035868e",
       "comparison": {
         "tet4_status": "PASS",
         "tet4_run_verdict": "PASS",
@@ -551,8 +551,8 @@
         "tet4_strain_energy": 1.650642542591609e-06,
         "tet10_strain_energy": 1.7631159545827042e-06,
         "relative_difference_strain_energy": 0.06379240781002152,
-        "duration_ratio_tet10_over_tet4": 4.346436427259532,
-        "rss_ratio_tet10_over_tet4": 2.0026948542223253
+        "duration_ratio_tet10_over_tet4": 4.106159082444966,
+        "rss_ratio_tet10_over_tet4": 2.1620725180289972
       }
     },
     {
@@ -564,19 +564,19 @@
         "qf_solver.py",
         "solve",
         "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_cases\\FCL-0072.json",
+        "qualification/0_2_6/public_volumetric_tet10_cases/FCL-0072.json",
         "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0072.json",
+        "qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0072.json",
         "--analysis",
         "linear_static",
         "--method",
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 15.055809499986935,
-      "peak_rss_bytes": 336035840,
+      "duration_seconds": 15.250501500006067,
+      "peak_rss_bytes": 329973760,
       "return_code": 0,
-      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0072.json\nQUALIFICATION GATE: WARNING 17 audit warning(s) present.",
+      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0072.json\nQUALIFICATION GATE: WARNING 17 audit warning(s) present.",
       "stderr": "",
       "status": "PASS",
       "solve_status": "PASS",
@@ -613,7 +613,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "59957e41621f47ea6da0506076372c0f91a777b4606a7ea89c058d7361706865",
+      "qf_result_sha256": "00575714d2817d107675cfe5e0348dd70d4f6365ddfd1047fbc17fd793b65661",
       "comparison": {
         "tet4_status": "PASS",
         "tet4_run_verdict": "WARNING",
@@ -629,8 +629,8 @@
         "tet4_strain_energy": 4.611866347057923e-08,
         "tet10_strain_energy": 4.712303901611072e-08,
         "relative_difference_strain_energy": 0.021313895845896217,
-        "duration_ratio_tet10_over_tet4": 4.160519579660995,
-        "rss_ratio_tet10_over_tet4": 2.091523263224984
+        "duration_ratio_tet10_over_tet4": 4.214690169095987,
+        "rss_ratio_tet10_over_tet4": 1.8543839053472366
       }
     },
     {
@@ -642,19 +642,19 @@
         "qf_solver.py",
         "solve",
         "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_cases\\FCL-0051.json",
+        "qualification/0_2_6/public_volumetric_tet10_cases/FCL-0051.json",
         "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0051.json",
+        "qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0051.json",
         "--analysis",
         "linear_static",
         "--method",
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 14.450259999983246,
-      "peak_rss_bytes": 395608064,
+      "duration_seconds": 14.653652500011958,
+      "peak_rss_bytes": 428093440,
       "return_code": 4,
-      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0051.json\nQUALIFICATION GATE: FAIL 27 audit check(s) failed.",
+      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0051.json\nQUALIFICATION GATE: FAIL 27 audit check(s) failed.",
       "stderr": "",
       "status": "FAIL",
       "solve_status": "PASS",
@@ -671,8 +671,8 @@
         "tet10_external_work": null,
         "tet4_strain_energy": null,
         "tet10_strain_energy": null,
-        "duration_ratio_tet10_over_tet4": 3.780298646585123,
-        "rss_ratio_tet10_over_tet4": 2.2074829154572257
+        "duration_ratio_tet10_over_tet4": 3.8363350648773404,
+        "rss_ratio_tet10_over_tet4": 2.4217953471128
       },
       "node_count": 2335,
       "element_count": 1161
@@ -686,19 +686,19 @@
         "qf_solver.py",
         "solve",
         "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_cases\\FCL-0057.json",
+        "qualification/0_2_6/public_volumetric_tet10_cases/FCL-0057.json",
         "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0057.json",
+        "qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0057.json",
         "--analysis",
         "linear_static",
         "--method",
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 13.851444800005993,
-      "peak_rss_bytes": 371355648,
+      "duration_seconds": 14.047736000007717,
+      "peak_rss_bytes": 374059008,
       "return_code": 4,
-      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0057.json\nQUALIFICATION GATE: FAIL 2 audit check(s) failed.",
+      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0057.json\nQUALIFICATION GATE: FAIL 2 audit check(s) failed.",
       "stderr": "",
       "status": "FAIL",
       "solve_status": "PASS",
@@ -715,8 +715,8 @@
         "tet10_external_work": null,
         "tet4_strain_energy": null,
         "tet10_strain_energy": null,
-        "duration_ratio_tet10_over_tet4": 3.827226987207276,
-        "rss_ratio_tet10_over_tet4": 1.7702776584527669
+        "duration_ratio_tet10_over_tet4": 3.883028962144375,
+        "rss_ratio_tet10_over_tet4": 1.9892611309575674
       },
       "node_count": 2339,
       "element_count": 1078
@@ -730,19 +730,19 @@
         "qf_solver.py",
         "solve",
         "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_cases\\FCL-0004.json",
+        "qualification/0_2_6/public_volumetric_tet10_cases/FCL-0004.json",
         "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0004.json",
+        "qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0004.json",
         "--analysis",
         "linear_static",
         "--method",
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 16.86409220000496,
-      "peak_rss_bytes": 415952896,
+      "duration_seconds": 16.85712220001733,
+      "peak_rss_bytes": 415510528,
       "return_code": 4,
-      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0004.json\nQUALIFICATION GATE: FAIL 38 audit check(s) failed.",
+      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0004.json\nQUALIFICATION GATE: FAIL 38 audit check(s) failed.",
       "stderr": "",
       "status": "FAIL",
       "solve_status": "PASS",
@@ -759,8 +759,8 @@
         "tet10_external_work": null,
         "tet4_strain_energy": null,
         "tet10_strain_energy": null,
-        "duration_ratio_tet10_over_tet4": 4.19493041550354,
-        "rss_ratio_tet10_over_tet4": 2.259752108413627
+        "duration_ratio_tet10_over_tet4": 4.193897787360939,
+        "rss_ratio_tet10_over_tet4": 1.8396684922563564
       },
       "node_count": 2575,
       "element_count": 1243
@@ -774,19 +774,19 @@
         "qf_solver.py",
         "solve",
         "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_cases\\FCL-0002.json",
+        "qualification/0_2_6/public_volumetric_tet10_cases/FCL-0002.json",
         "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0002.json",
+        "qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0002.json",
         "--analysis",
         "linear_static",
         "--method",
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 29.3006078999897,
-      "peak_rss_bytes": 441761792,
+      "duration_seconds": 29.895046699995873,
+      "peak_rss_bytes": 441577472,
       "return_code": 0,
-      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0002.json",
+      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0002.json",
       "stderr": "",
       "status": "PASS",
       "solve_status": "PASS",
@@ -821,7 +821,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "3b2ecfc2c3db089c01212b3e0029f89af88ef2721bd9e0adfb749f5e59a37bf9",
+      "qf_result_sha256": "437a152f8ab1089d084971b459e4339b6282e836ad95de1efd075d8e4caee580",
       "comparison": {
         "tet4_status": "PASS",
         "tet4_run_verdict": "PASS",
@@ -837,8 +837,8 @@
         "tet4_strain_energy": 3.6328960429483756e-08,
         "tet10_strain_energy": 4.489619712974543e-08,
         "relative_difference_strain_energy": 0.19082321550538534,
-        "duration_ratio_tet10_over_tet4": 6.3148116351385974,
-        "rss_ratio_tet10_over_tet4": 1.8759805882659895
+        "duration_ratio_tet10_over_tet4": 5.702268662045237,
+        "rss_ratio_tet10_over_tet4": 2.0746877585974635
       }
     },
     {
@@ -850,19 +850,19 @@
         "qf_solver.py",
         "solve",
         "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_cases\\FCL-0097.json",
+        "qualification/0_2_6/public_volumetric_tet10_cases/FCL-0097.json",
         "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0097.json",
+        "qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0097.json",
         "--analysis",
         "linear_static",
         "--method",
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 21.277730100002373,
+      "duration_seconds": 21.26948249997804,
       "peak_rss_bytes": 443867136,
       "return_code": 0,
-      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0097.json\nQUALIFICATION GATE: WARNING 3 audit warning(s) present.",
+      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0097.json\nQUALIFICATION GATE: WARNING 3 audit warning(s) present.",
       "stderr": "",
       "status": "PASS",
       "solve_status": "PASS",
@@ -899,7 +899,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "7cb59b1e1f9acae942b1c109f29fa936a5c2e41b12f7ed06b41769ac67a78a8d",
+      "qf_result_sha256": "34618fb838a33a6bb0064ba98f7aa72dc1256daa84cdae79e6afd91bb6d6db3f",
       "comparison": {
         "tet4_status": "PASS",
         "tet4_run_verdict": "WARNING",
@@ -915,8 +915,8 @@
         "tet4_strain_energy": 8.708434927251231e-07,
         "tet10_strain_energy": 1.2279318550769601e-06,
         "relative_difference_strain_energy": 0.2908047062020853,
-        "duration_ratio_tet10_over_tet4": 4.812262632076394,
-        "rss_ratio_tet10_over_tet4": 2.076335000287406
+        "duration_ratio_tet10_over_tet4": 4.809816973546158,
+        "rss_ratio_tet10_over_tet4": 2.0504446546830652
       }
     },
     {
@@ -928,19 +928,19 @@
         "qf_solver.py",
         "solve",
         "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_cases\\FCL-0091.json",
+        "qualification/0_2_6/public_volumetric_tet10_cases/FCL-0091.json",
         "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0091.json",
+        "qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0091.json",
         "--analysis",
         "linear_static",
         "--method",
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 28.300048400007654,
-      "peak_rss_bytes": 480026624,
+      "duration_seconds": 29.90244740000344,
+      "peak_rss_bytes": 480362496,
       "return_code": 0,
-      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0091.json",
+      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0091.json",
       "stderr": "",
       "status": "PASS",
       "solve_status": "PASS",
@@ -975,7 +975,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "05eb5e0182dd4b9f95d406eeada90c4db99458e2784e77ea47759d411255038f",
+      "qf_result_sha256": "77ddb0448a8e8d83e9a3e82a046608ebdd08ed7f755b4175359ed7a40c490413",
       "comparison": {
         "tet4_status": "PASS",
         "tet4_run_verdict": "PASS",
@@ -991,8 +991,8 @@
         "tet4_strain_energy": 1.1987718481779174e-07,
         "tet10_strain_energy": 1.258327733836358e-07,
         "relative_difference_strain_energy": 0.04732939126825726,
-        "duration_ratio_tet10_over_tet4": 5.868804976296119,
-        "rss_ratio_tet10_over_tet4": 2.306650658373846
+        "duration_ratio_tet10_over_tet4": 6.200350305620181,
+        "rss_ratio_tet10_over_tet4": 2.3671080251897303
       }
     },
     {
@@ -1004,19 +1004,19 @@
         "qf_solver.py",
         "solve",
         "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_cases\\FCL-0039.json",
+        "qualification/0_2_6/public_volumetric_tet10_cases/FCL-0039.json",
         "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0039.json",
+        "qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0039.json",
         "--analysis",
         "linear_static",
         "--method",
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 25.88867869999376,
-      "peak_rss_bytes": 527577088,
+      "duration_seconds": 27.885674600023776,
+      "peak_rss_bytes": 526536704,
       "return_code": 0,
-      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0039.json",
+      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0039.json",
       "stderr": "",
       "status": "PASS",
       "solve_status": "PASS",
@@ -1051,7 +1051,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "ad859b90fc90cdb6d051469c0c6551fa5e97b8d8171ff5acb1926a37adc4b1ed",
+      "qf_result_sha256": "4601be742485eabe25d8d81573ec20afe13963e3449fe406ebd72340ca798378",
       "comparison": {
         "tet4_status": "PASS",
         "tet4_run_verdict": "PASS",
@@ -1067,8 +1067,8 @@
         "tet4_strain_energy": 1.5256944615136713e-06,
         "tet10_strain_energy": 1.8328777919547549e-06,
         "relative_difference_strain_energy": 0.16759618769425655,
-        "duration_ratio_tet10_over_tet4": 5.151632213522567,
-        "rss_ratio_tet10_over_tet4": 2.0949708857877103
+        "duration_ratio_tet10_over_tet4": 5.554253395541553,
+        "rss_ratio_tet10_over_tet4": 1.9756708572833739
       }
     },
     {
@@ -1080,19 +1080,19 @@
         "qf_solver.py",
         "solve",
         "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_cases\\FCL-0040.json",
+        "qualification/0_2_6/public_volumetric_tet10_cases/FCL-0040.json",
         "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0040.json",
+        "qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0040.json",
         "--analysis",
         "linear_static",
         "--method",
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 25.484205599990673,
-      "peak_rss_bytes": 613773312,
+      "duration_seconds": 25.683498600003077,
+      "peak_rss_bytes": 612651008,
       "return_code": 4,
-      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0040.json\nQUALIFICATION GATE: FAIL 4 audit check(s) failed.",
+      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0040.json\nQUALIFICATION GATE: FAIL 4 audit check(s) failed.",
       "stderr": "",
       "status": "FAIL",
       "solve_status": "PASS",
@@ -1109,8 +1109,8 @@
         "tet10_external_work": null,
         "tet4_strain_energy": null,
         "tet10_strain_energy": null,
-        "duration_ratio_tet10_over_tet4": 4.696556952447423,
-        "rss_ratio_tet10_over_tet4": 2.0529798602548293
+        "duration_ratio_tet10_over_tet4": 4.734618843216315,
+        "rss_ratio_tet10_over_tet4": 2.1270335608646187
       },
       "node_count": 3960,
       "element_count": 2101
@@ -1124,19 +1124,19 @@
         "qf_solver.py",
         "solve",
         "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_cases\\FCL-0033.json",
+        "qualification/0_2_6/public_volumetric_tet10_cases/FCL-0033.json",
         "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0033.json",
+        "qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0033.json",
         "--analysis",
         "linear_static",
         "--method",
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 25.48782530002063,
-      "peak_rss_bytes": 569438208,
+      "duration_seconds": 26.08785920002265,
+      "peak_rss_bytes": 706183168,
       "return_code": 0,
-      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0033.json",
+      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0033.json",
       "stderr": "",
       "status": "PASS",
       "solve_status": "PASS",
@@ -1171,7 +1171,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "01aa82324b064915e7ff63f7b49ed990e6d3c8713b80268f372963a4e4f022c2",
+      "qf_result_sha256": "1052e07facbe8b9a2e8ebeb885a8e9ebe5803a825a803aff505be968fa33997a",
       "comparison": {
         "tet4_status": "PASS",
         "tet4_run_verdict": "PASS",
@@ -1187,8 +1187,8 @@
         "tet4_strain_energy": 3.2657496354341557e-06,
         "tet10_strain_energy": 3.4690117177902036e-06,
         "relative_difference_strain_energy": 0.05859365689474463,
-        "duration_ratio_tet10_over_tet4": 4.880441910504796,
-        "rss_ratio_tet10_over_tet4": 2.5556168311917498
+        "duration_ratio_tet10_over_tet4": 4.994690375013375,
+        "rss_ratio_tet10_over_tet4": 3.188489421512058
       }
     },
     {
@@ -1200,19 +1200,19 @@
         "qf_solver.py",
         "solve",
         "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_cases\\FCL-0024.json",
+        "qualification/0_2_6/public_volumetric_tet10_cases/FCL-0024.json",
         "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0024.json",
+        "qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0024.json",
         "--analysis",
         "linear_static",
         "--method",
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 28.29616690002149,
-      "peak_rss_bytes": 694300672,
+      "duration_seconds": 28.69117069998174,
+      "peak_rss_bytes": 652980224,
       "return_code": 0,
-      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0024.json\nQUALIFICATION GATE: WARNING 64 audit warning(s) present.",
+      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0024.json\nQUALIFICATION GATE: WARNING 64 audit warning(s) present.",
       "stderr": "",
       "status": "PASS",
       "solve_status": "PASS",
@@ -1249,7 +1249,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "25754cbb80fe9657df2889f25dd453f65374fe1baee5f1b118b118aad09d88f9",
+      "qf_result_sha256": "43912d39767b533be17d6f364ae92074d52f7de419f05b96251ad0088e5a29af",
       "comparison": {
         "tet4_status": "PASS",
         "tet4_run_verdict": "WARNING",
@@ -1265,8 +1265,8 @@
         "tet4_strain_energy": 3.827358750563899e-06,
         "tet10_strain_energy": 1.1218233557029875e-05,
         "relative_difference_strain_energy": 0.6588269685145309,
-        "duration_ratio_tet10_over_tet4": 5.0299138031309365,
-        "rss_ratio_tet10_over_tet4": 2.2032781345049
+        "duration_ratio_tet10_over_tet4": 5.102673862733866,
+        "rss_ratio_tet10_over_tet4": 2.0757682291666666
       }
     },
     {
@@ -1278,19 +1278,19 @@
         "qf_solver.py",
         "solve",
         "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_cases\\FCL-0035.json",
+        "qualification/0_2_6/public_volumetric_tet10_cases/FCL-0035.json",
         "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0035.json",
+        "qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0035.json",
         "--analysis",
         "linear_static",
         "--method",
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 26.290277799998876,
-      "peak_rss_bytes": 525135872,
+      "duration_seconds": 27.693644400016638,
+      "peak_rss_bytes": 524353536,
       "return_code": 0,
-      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0035.json\nQUALIFICATION GATE: WARNING 91 audit warning(s) present.",
+      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0035.json\nQUALIFICATION GATE: WARNING 91 audit warning(s) present.",
       "stderr": "",
       "status": "PASS",
       "solve_status": "PASS",
@@ -1327,7 +1327,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "afbef089ff8fd4f0da66bb7d9fe14720a8370b4e3f8920aa5ae21c55551220f0",
+      "qf_result_sha256": "5b08654ff7d48d5e99a92532b7179edf498d03be0e6923afe7428c7fa3e6e061",
       "comparison": {
         "tet4_status": "PASS",
         "tet4_run_verdict": "WARNING",
@@ -1343,8 +1343,8 @@
         "tet4_strain_energy": 0.0004833563695756521,
         "tet10_strain_energy": 0.0016104280031571678,
         "relative_difference_strain_energy": 0.6998584422103598,
-        "duration_ratio_tet10_over_tet4": 5.031955989811872,
-        "rss_ratio_tet10_over_tet4": 1.983830037446229
+        "duration_ratio_tet10_over_tet4": 5.302250014021263,
+        "rss_ratio_tet10_over_tet4": 1.9897416767695608
       }
     },
     {
@@ -1356,19 +1356,19 @@
         "qf_solver.py",
         "solve",
         "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_cases\\FCL-0014.json",
+        "qualification/0_2_6/public_volumetric_tet10_cases/FCL-0014.json",
         "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0014.json",
+        "qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0014.json",
         "--analysis",
         "linear_static",
         "--method",
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 31.11162680000416,
-      "peak_rss_bytes": 698580992,
+      "duration_seconds": 30.70464810001431,
+      "peak_rss_bytes": 698142720,
       "return_code": 4,
-      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0014.json\nQUALIFICATION GATE: FAIL 9 audit check(s) failed.",
+      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0014.json\nQUALIFICATION GATE: FAIL 9 audit check(s) failed.",
       "stderr": "",
       "status": "FAIL",
       "solve_status": "PASS",
@@ -1385,8 +1385,8 @@
         "tet10_external_work": null,
         "tet4_strain_energy": null,
         "tet10_strain_energy": null,
-        "duration_ratio_tet10_over_tet4": 5.163419284764011,
-        "rss_ratio_tet10_over_tet4": 2.116765129325324
+        "duration_ratio_tet10_over_tet4": 5.096102271111214,
+        "rss_ratio_tet10_over_tet4": 2.1003955686453315
       },
       "node_count": 4805,
       "element_count": 2439
@@ -1400,19 +1400,19 @@
         "qf_solver.py",
         "solve",
         "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_cases\\FCL-0030.json",
+        "qualification/0_2_6/public_volumetric_tet10_cases/FCL-0030.json",
         "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0030.json",
+        "qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0030.json",
         "--analysis",
         "linear_static",
         "--method",
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 53.9825664999953,
-      "peak_rss_bytes": 751804416,
+      "duration_seconds": 56.176805199997034,
+      "peak_rss_bytes": 750690304,
       "return_code": 0,
-      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0030.json\nQUALIFICATION GATE: WARNING 56 audit warning(s) present.",
+      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0030.json\nQUALIFICATION GATE: WARNING 56 audit warning(s) present.",
       "stderr": "",
       "status": "PASS",
       "solve_status": "PASS",
@@ -1449,7 +1449,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "266ab9bd5244787505f71edad692ac6c6a50c1da279d8a0e29a80b11984fdc49",
+      "qf_result_sha256": "5b8d9248292d938565846c69c0fda2f44c0b29879650dda3890b63224bc18b87",
       "comparison": {
         "tet4_status": "PASS",
         "tet4_run_verdict": "WARNING",
@@ -1465,8 +1465,8 @@
         "tet4_strain_energy": 3.7842858297565037e-07,
         "tet10_strain_energy": 4.6348728467172203e-07,
         "relative_difference_strain_energy": 0.18351895404491386,
-        "duration_ratio_tet10_over_tet4": 7.2660859261045525,
-        "rss_ratio_tet10_over_tet4": 2.137387334932576
+        "duration_ratio_tet10_over_tet4": 7.771101136618758,
+        "rss_ratio_tet10_over_tet4": 2.1292608685549643
       }
     },
     {
@@ -1478,19 +1478,19 @@
         "qf_solver.py",
         "solve",
         "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_cases\\FCL-0034.json",
+        "qualification/0_2_6/public_volumetric_tet10_cases/FCL-0034.json",
         "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0034.json",
+        "qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0034.json",
         "--analysis",
         "linear_static",
         "--method",
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 85.47690559999319,
-      "peak_rss_bytes": 828145664,
+      "duration_seconds": 85.46190950000891,
+      "peak_rss_bytes": 828010496,
       "return_code": 0,
-      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0034.json\nQUALIFICATION GATE: WARNING 63 audit warning(s) present.",
+      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0034.json\nQUALIFICATION GATE: WARNING 63 audit warning(s) present.",
       "stderr": "",
       "status": "PASS",
       "solve_status": "PASS",
@@ -1527,7 +1527,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "2226502c93913fb7d18a60101ffc37acff9d21a01ccf2376c8ae83bc20901c63",
+      "qf_result_sha256": "c0c793b0b7c5d071dae3b4ebfa28cada0a19b24cb6cc0697de2c04401e7543e0",
       "comparison": {
         "tet4_status": "PASS",
         "tet4_run_verdict": "WARNING",
@@ -1543,8 +1543,8 @@
         "tet4_strain_energy": 7.0333458447881395e-06,
         "tet10_strain_energy": 1.8814811577234093e-05,
         "relative_difference_strain_energy": 0.6261803730578688,
-        "duration_ratio_tet10_over_tet4": 8.866275706601229,
-        "rss_ratio_tet10_over_tet4": 2.1838370309563415
+        "duration_ratio_tet10_over_tet4": 8.689366864322311,
+        "rss_ratio_tet10_over_tet4": 2.188349787823677
       }
     },
     {
@@ -1556,19 +1556,19 @@
         "qf_solver.py",
         "solve",
         "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_cases\\FCL-0050.json",
+        "qualification/0_2_6/public_volumetric_tet10_cases/FCL-0050.json",
         "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0050.json",
+        "qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0050.json",
         "--analysis",
         "linear_static",
         "--method",
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 88.69582640001317,
-      "peak_rss_bytes": 2272710656,
+      "duration_seconds": 88.47762540000258,
+      "peak_rss_bytes": 2022658048,
       "return_code": 4,
-      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0050.json\nQUALIFICATION GATE: FAIL 31 audit check(s) failed.",
+      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0050.json\nQUALIFICATION GATE: FAIL 31 audit check(s) failed.",
       "stderr": "",
       "status": "FAIL",
       "solve_status": "PASS",
@@ -1585,8 +1585,8 @@
         "tet10_external_work": null,
         "tet4_strain_energy": null,
         "tet10_strain_energy": null,
-        "duration_ratio_tet10_over_tet4": 6.052241269848751,
-        "rss_ratio_tet10_over_tet4": 3.116828913442796
+        "duration_ratio_tet10_over_tet4": 6.296317193908293,
+        "rss_ratio_tet10_over_tet4": 2.7791641340807276
       },
       "node_count": 12067,
       "element_count": 7027
@@ -1600,19 +1600,19 @@
         "qf_solver.py",
         "solve",
         "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_cases\\FCL-0047.json",
+        "qualification/0_2_6/public_volumetric_tet10_cases/FCL-0047.json",
         "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0047.json",
+        "qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0047.json",
         "--analysis",
         "linear_static",
         "--method",
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 99.73436689999653,
-      "peak_rss_bytes": 1924894720,
+      "duration_seconds": 99.91786069999216,
+      "peak_rss_bytes": 1925255168,
       "return_code": 4,
-      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_tet10_runtime\\FCL-0047.json\nQUALIFICATION GATE: FAIL 98 audit check(s) failed.",
+      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0047.json\nQUALIFICATION GATE: FAIL 98 audit check(s) failed.",
       "stderr": "",
       "status": "FAIL",
       "solve_status": "PASS",
@@ -1629,8 +1629,8 @@
         "tet10_external_work": null,
         "tet4_strain_energy": null,
         "tet10_strain_energy": null,
-        "duration_ratio_tet10_over_tet4": 6.367849257662119,
-        "rss_ratio_tet10_over_tet4": 1.9931588479041815
+        "duration_ratio_tet10_over_tet4": 6.382361222324783,
+        "rss_ratio_tet10_over_tet4": 2.3103121159990168
       },
       "node_count": 16476,
       "element_count": 7555
