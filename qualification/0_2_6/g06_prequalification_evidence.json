@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "gate": "026-G06",
+  "work_package_id": "026-WP06-G06",
+  "official_gate_status": "NOT_STARTED",
+  "prequalification_status": "PASS_WITH_LIMITATIONS",
+  "proposed_gate_decision": "PASS_WITH_LIMITATIONS",
+  "source_sha": "ad99f699a3b07368401f7607060bc06bb1860205",
+  "source_dirty": false,
+  "branch": "chore/0.2.6-foundation",
+  "captured_at_utc": "2026-08-29T12:10:41.337155Z",
+  "solver_version": "0.2.6a0",
+  "registry_digest": "d2e5f587ac2d67c3c875782c8558aa7aac60cec09df9f43614319eff1b99ea59",
+  "official_scope": {
+    "title": "J2 maturity extension",
+    "small_strain_j2": "In-scope capability under maturity extension; this run adds controlled evidence but does not promote the gate.",
+    "element_families": ["TET4", "TET10", "HEX8", "HEX20"],
+    "finite_kinematic_j2": "RESEARCH_NOT_QUALIFIED",
+    "coupled_nonlinear": "EXPERIMENTAL_NOT_QUALIFIED",
+    "promotion_rule": "READY, SUPPORTED, TESTED, VERIFIED and QUALIFIED remain distinct states."
+  },
+  "controlled_campaign": {
+    "profile": "G06",
+    "command": "python scripts/run_vnv_026.py --profile G06 --output results/vnv_026_g06_prequalification",
+    "case_count": 80,
+    "pass_count": 79,
+    "expected_failure_count": 1,
+    "fail_count": 0,
+    "blocked_count": 0,
+    "family_counts": {
+      "TET4": 19,
+      "TET10": 6,
+      "HEX8": 33,
+      "HEX20": 17,
+      "MITC3": 2,
+      "MITC4": 2,
+      "BEAM2": 1
+    },
+    "j2_case_count": 7,
+    "j2_case_families": {
+      "TET4": 3,
+      "TET10": 0,
+      "HEX8": 2,
+      "HEX20": 2
+    },
+    "j2_case_status": "7 PASS",
+    "expected_failure": {
+      "case_id": "VNV026-RBT-G06-024",
+      "status": "EXPECTED_FAILURE",
+      "failure_category": "INVALID_ELEMENT",
+      "reason": "Inverted TET4 is rejected by mesh validation."
+    },
+    "manifest": {
+      "path": "results/vnv_026_g06_prequalification/g06/manifest.json",
+      "sha256": "9bb8f3ab3642b9a9bf3f1e13f4053d25aa8ebdca7bcd3145eb5deed6601851c8"
+    }
+  },
+  "quantitative_studies": {
+    "command": "python scripts/run_g06_quantitative.py --output results/vnv_026_g06_quantitative_prequalification",
+    "status": "PASS",
+    "analytical": {
+      "case_count": 20,
+      "pass_count": 20,
+      "families": ["TET4", "TET10", "HEX8", "HEX20"],
+      "max_relative_error": 0.0,
+      "relative_tolerance": 1.0e-10,
+      "reference": "Independent constrained free-DOF stiffness integration."
+    },
+    "hex8_mesh": {
+      "levels": ["nx=1", "nx=2", "nx=4", "nx=8"],
+      "relative_errors": [0.09, 0.057773730935578894, 0.04412609763087707, 0.03999260542853148],
+      "residuals": [9.041388076098927e-17, 2.1864704983579555e-16, 6.599685279914824e-16, 2.4604388212486544e-15],
+      "trend": "non-increasing relative error",
+      "scope": "Uniform axial HEX8 bar only; bounded quantitative study, not universal J2 mesh convergence."
+    },
+    "summary_sha256": "caa4a3f797b1f4ab7695a7453f712228672e474ae9a6dbe07b4587bc02ca58de",
+    "manifest_sha256": "ee9c3d7b894f034e87384c2a6251100b9416291af35c5d7ed82c1a9bb543e5b5",
+    "plot_sha256": "d85d7553ea8eae444cfe0d536908e7230b0359c8fe2ed6c6a0977d6ff8e3427d"
+  },
+  "targeted_tests": {
+    "command": "python -m pytest tests/unit/test_analysis_features.py tests/unit/test_nonlinear_checkpoint.py tests/unit/test_j2_plastic_dissipation.py tests/unit/test_nonlinear_constitutive_vv.py tests/unit/test_nonlinear_state_transaction_contract.py tests/unit/test_nonlinear_multielement.py tests/unit/test_robustness_j2_multiaxial.py tests/unit/test_robustness_state_transactions.py tests/unit/test_robustness_tangent_fd.py tests/unit/test_total_lagrangian_hex8.py tests/unit/test_total_lagrangian_tet4.py tests/verification/test_j2_material_vnv.py tests/verification/test_j2_methods_vnv.py tests/verification/test_j2_step_sensitivity_vnv.py tests/verification/test_j2_structural_vnv.py tests/verification/test_tet10_j2_structural_vnv.py tests/verification/test_robustness_distorted_hex_vnv.py tests/verification/test_robustness_common_benchmark_vnv.py tests/verification/test_robustness_solid_matrix_vnv.py -q",
+    "passed": 102,
+    "skipped": 3,
+    "failed": 0,
+    "duration": "186.66s"
+  },
+  "checks": {
+    "ruff": "PASS",
+    "compileall": "PASS",
+    "diff_check": "PASS",
+    "registry": "PASS",
+    "anti_forgetting": "PASS",
+    "full_regression": "NOT_REQUIRED_NO_FUNCTIONAL_CODE_CHANGED"
+  },
+  "external_correlations": {
+    "status": "SKIPPED",
+    "code_aster": "SKIPPED_NO_COMPATIBLE_G06_DECK_IN_THIS_LOCAL_PREQUALIFICATION",
+    "calculix": "SKIPPED_NO_COMPATIBLE_G06_DECK_IN_THIS_LOCAL_PREQUALIFICATION",
+    "claim_boundary": "No external correlation or maturity promotion is claimed by this pack."
+  },
+  "limitations": [
+    "The official G06 gate remains NOT_STARTED; this pack is prequalification evidence only.",
+    "The G06 corpus contains seven J2 cases covering TET4, HEX8 and HEX20; no dedicated G06 TET10 J2 case is registered.",
+    "The 20-case analytical study is linear elastic, not a constitutive J2 oracle.",
+    "The four-level mesh study is limited to a uniform axial HEX8 bar and is not general J2 mesh convergence.",
+    "No compatible Code_Aster or CalculiX G06 external deck was executed in this run.",
+    "Finite-kinematic J2 and coupled nonlinear workflows remain research/experimental and are not promoted."
+  ],
+  "next_required_for_official_closeout": [
+    "Owner review of the bounded evidence scope.",
+    "Dedicated TET10 small-strain J2 executable evidence if the family-wide claim is retained.",
+    "Compatible external correlation and explicit promotion decision under the G06 contract."
+  ],
+  "evidence_head_contract": "The execution source SHA is recorded above. The evidence pack may be committed afterwards; that commit does not change the numerical source represented by the campaign."
+}

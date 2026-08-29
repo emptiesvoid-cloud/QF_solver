@@ -1,5 +1,9 @@
 # 026-WP06-G06 Deep V&V and Corpus Expansion
 
+This document is the historical replay recorded at source SHA
+`b9d523725ab2a6856256731e44921adf2837a1f3`. The current clean-source replay
+is recorded separately in `0_2_6_g06_prequalification_evidence.md`.
+
 ## Status
 
 `026-WP06-G06 = PASS_WITH_LIMITATIONS`
