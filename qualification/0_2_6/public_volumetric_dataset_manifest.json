@@ -1,6 +1,9 @@
 {
   "schema_version": 1,
   "manifest_id": "QF-PUBLIC-VOLUMETRIC-DATASET-026-001",
+  "generated_at_utc": "2026-08-29T02:24:32.711707Z",
+  "qf_source_sha": "93ff1f8664679ae189106a178c6e2bbbbc249a58",
+  "qf_worktree_dirty": false,
   "source": {
     "repository": "FreeCAD/FreeCAD-library",
     "branch": "master",
@@ -35,7 +38,9 @@
       "piston",
       "spark plug",
       "exhaust",
-      "intake manifold"
+      "intake manifold",
+      "motor",
+      "motors"
     ],
     "raw_cache": "local and ignored; manifest is the tracked index"
   },
@@ -1295,28 +1300,6 @@
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
-      "source_path": "Electronics Parts/Motors/DC motor/FAULHABER 2342L-012CPR/FAULHABER_2342L-012CPR.step",
-      "source_url": "https://github.com/FreeCAD/FreeCAD-library/blob/be5e71491051cef75da46831b6fd77c6313cb497/Electronics%20Parts/Motors/DC%20motor/FAULHABER%202342L-012CPR/FAULHABER_2342L-012CPR.step",
-      "download_url": "https://raw.githubusercontent.com/FreeCAD/FreeCAD-library/be5e71491051cef75da46831b6fd77c6313cb497/Electronics%20Parts/Motors/DC%20motor/FAULHABER%202342L-012CPR/FAULHABER_2342L-012CPR.step",
-      "source_blob_sha": "88166061efaa35c7229034cf09e6c229e318fe1c",
-      "author": "respective FreeCAD-library contributor(s); see pinned source history",
-      "license": "Creative Commons Attribution 3.0 Unported",
-      "license_url": "https://creativecommons.org/licenses/by/3.0/",
-      "original_format": "STEP",
-      "source_filesize": 18231708,
-      "transformations": [
-        "native STEP imported by Gmsh OCC"
-      ],
-      "original_sha256": "cab5913c34d79867a8e7508dbe191bbe84fb8fb1c555b3257311d9da8bbd0701",
-      "category": "MESH_ONLY",
-      "status": "MESH_FAILED",
-      "reason": "Exception: PLC Error:  A segment and a facet intersect at point"
-    },
-    {
-      "id": "FCL-0040",
-      "dataset": "FreeCAD-library",
-      "repository": "FreeCAD/FreeCAD-library",
-      "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
       "source_path": "Electronics Parts/Optical/Reflective sensor/Component_IR.step",
       "source_url": "https://github.com/FreeCAD/FreeCAD-library/blob/be5e71491051cef75da46831b6fd77c6313cb497/Electronics%20Parts/Optical/Reflective%20sensor/Component_IR.step",
       "download_url": "https://raw.githubusercontent.com/FreeCAD/FreeCAD-library/be5e71491051cef75da46831b6fd77c6313cb497/Electronics%20Parts/Optical/Reflective%20sensor/Component_IR.step",
@@ -1344,12 +1327,12 @@
       "quality_mean": 0.7366671361152247,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0040/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0040/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0040/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0039/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0039/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0039/qf_case.json"
     },
     {
-      "id": "FCL-0041",
+      "id": "FCL-0040",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -1380,12 +1363,12 @@
       "quality_mean": 0.6384291999907493,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0041/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0041/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0041/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0040/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0040/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0040/qf_case.json"
     },
     {
-      "id": "FCL-0042",
+      "id": "FCL-0041",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -1416,11 +1399,11 @@
       "quality_mean": 0.45470628371575494,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0042/mesh_tet4.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0042/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0041/mesh_tet4.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0041/qf_case.json"
     },
     {
-      "id": "FCL-0043",
+      "id": "FCL-0042",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -1451,12 +1434,12 @@
       "quality_mean": 0.7246341207875094,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0043/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0043/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0043/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0042/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0042/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0042/qf_case.json"
     },
     {
-      "id": "FCL-0044",
+      "id": "FCL-0043",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -1478,7 +1461,7 @@
       "reason": "Exception: Invalid boundary mesh (overlapping facets) on surface 7 surface 7"
     },
     {
-      "id": "FCL-0045",
+      "id": "FCL-0044",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -1509,12 +1492,12 @@
       "quality_mean": 0.4370914116492324,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0045/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0045/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0045/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0044/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0044/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0044/qf_case.json"
     },
     {
-      "id": "FCL-0046",
+      "id": "FCL-0045",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -1545,12 +1528,12 @@
       "quality_mean": 0.6042758815497178,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0046/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0046/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0046/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0045/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0045/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0045/qf_case.json"
     },
     {
-      "id": "FCL-0047",
+      "id": "FCL-0046",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -1581,12 +1564,12 @@
       "quality_mean": 0.6651755486403873,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0047/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0047/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0047/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0046/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0046/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0046/qf_case.json"
     },
     {
-      "id": "FCL-0048",
+      "id": "FCL-0047",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -1617,12 +1600,12 @@
       "quality_mean": 0.4483575519588967,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0048/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0048/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0048/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0047/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0047/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0047/qf_case.json"
     },
     {
-      "id": "FCL-0049",
+      "id": "FCL-0048",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -1653,12 +1636,12 @@
       "quality_mean": 0.7421911328595345,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0049/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0049/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0049/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0048/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0048/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0048/qf_case.json"
     },
     {
-      "id": "FCL-0050",
+      "id": "FCL-0049",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -1689,12 +1672,12 @@
       "quality_mean": 0.6828734311069458,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0050/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0050/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0050/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0049/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0049/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0049/qf_case.json"
     },
     {
-      "id": "FCL-0051",
+      "id": "FCL-0050",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -1725,12 +1708,12 @@
       "quality_mean": 0.7295066120746008,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0051/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0051/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0051/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0050/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0050/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0050/qf_case.json"
     },
     {
-      "id": "FCL-0052",
+      "id": "FCL-0051",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -1761,12 +1744,12 @@
       "quality_mean": 0.5559051673865892,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0052/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0052/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0052/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0051/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0051/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0051/qf_case.json"
     },
     {
-      "id": "FCL-0053",
+      "id": "FCL-0052",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -1788,7 +1771,7 @@
       "reason": "Exception: Invalid boundary mesh (overlapping facets) on surface 7 surface 7"
     },
     {
-      "id": "FCL-0054",
+      "id": "FCL-0053",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -1819,12 +1802,12 @@
       "quality_mean": 0.7308879444094115,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0054/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0054/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0054/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0053/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0053/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0053/qf_case.json"
     },
     {
-      "id": "FCL-0055",
+      "id": "FCL-0054",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -1846,7 +1829,7 @@
       "reason": "Exception: PLC Error:  A segment and a facet intersect at point"
     },
     {
-      "id": "FCL-0056",
+      "id": "FCL-0055",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -1877,12 +1860,12 @@
       "quality_mean": 0.30449681550086155,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0056/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0056/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0056/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0055/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0055/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0055/qf_case.json"
     },
     {
-      "id": "FCL-0057",
+      "id": "FCL-0056",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -1913,11 +1896,11 @@
       "quality_mean": 0.31130524643457,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0057/mesh_tet4.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0057/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0056/mesh_tet4.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0056/qf_case.json"
     },
     {
-      "id": "FCL-0058",
+      "id": "FCL-0057",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -1948,12 +1931,12 @@
       "quality_mean": 0.5540458231016306,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0058/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0058/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0058/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0057/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0057/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0057/qf_case.json"
     },
     {
-      "id": "FCL-0059",
+      "id": "FCL-0058",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -1975,7 +1958,7 @@
       "reason": "Exception: Invalid boundary mesh (overlapping facets) on surface 1 surface 1"
     },
     {
-      "id": "FCL-0060",
+      "id": "FCL-0059",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -2006,12 +1989,12 @@
       "quality_mean": 0.8095874027732813,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0060/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0060/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0060/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0059/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0059/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0059/qf_case.json"
     },
     {
-      "id": "FCL-0061",
+      "id": "FCL-0060",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -2042,12 +2025,12 @@
       "quality_mean": 0.7069247456791243,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0061/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0061/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0061/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0060/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0060/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0060/qf_case.json"
     },
     {
-      "id": "FCL-0062",
+      "id": "FCL-0061",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -2069,7 +2052,7 @@
       "reason": "Exception: PLC Error:  A segment and a facet intersect at point"
     },
     {
-      "id": "FCL-0063",
+      "id": "FCL-0062",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -2100,11 +2083,11 @@
       "quality_mean": 0.26568574718020654,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0063/mesh_tet4.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0063/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0062/mesh_tet4.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0062/qf_case.json"
     },
     {
-      "id": "FCL-0064",
+      "id": "FCL-0063",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -2126,7 +2109,7 @@
       "reason": "Exception: Could not recover boundary mesh: error 2"
     },
     {
-      "id": "FCL-0065",
+      "id": "FCL-0064",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -2148,7 +2131,7 @@
       "reason": "Exception: Invalid boundary mesh (overlapping facets) on surface 50 surface 96"
     },
     {
-      "id": "FCL-0066",
+      "id": "FCL-0065",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -2179,12 +2162,12 @@
       "quality_mean": 0.5551293694782058,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0066/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0066/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0066/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0065/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0065/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0065/qf_case.json"
     },
     {
-      "id": "FCL-0067",
+      "id": "FCL-0066",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -2206,7 +2189,7 @@
       "reason": "Exception: PLC Error:  A segment and a facet intersect at point"
     },
     {
-      "id": "FCL-0068",
+      "id": "FCL-0067",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -2228,7 +2211,7 @@
       "reason": "Exception: PLC Error:  A segment and a facet intersect at point"
     },
     {
-      "id": "FCL-0069",
+      "id": "FCL-0068",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -2259,12 +2242,12 @@
       "quality_mean": 0.7498958830697465,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0069/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0069/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0069/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0068/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0068/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0068/qf_case.json"
     },
     {
-      "id": "FCL-0070",
+      "id": "FCL-0069",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -2295,12 +2278,12 @@
       "quality_mean": 0.6226507072331663,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0070/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0070/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0070/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0069/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0069/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0069/qf_case.json"
     },
     {
-      "id": "FCL-0071",
+      "id": "FCL-0070",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -2331,11 +2314,11 @@
       "quality_mean": 0.38152484912093687,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0071/mesh_tet4.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0071/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0070/mesh_tet4.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0070/qf_case.json"
     },
     {
-      "id": "FCL-0072",
+      "id": "FCL-0071",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -2366,12 +2349,12 @@
       "quality_mean": 0.5428346842185,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0072/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0072/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0072/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0071/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0071/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0071/qf_case.json"
     },
     {
-      "id": "FCL-0073",
+      "id": "FCL-0072",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -2402,12 +2385,12 @@
       "quality_mean": 0.7393125853060528,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0073/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0073/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0073/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0072/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0072/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0072/qf_case.json"
     },
     {
-      "id": "FCL-0074",
+      "id": "FCL-0073",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -2429,7 +2412,7 @@
       "reason": "Exception: Invalid boundary mesh (overlapping facets) on surface 11 surface 11"
     },
     {
-      "id": "FCL-0075",
+      "id": "FCL-0074",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -2451,7 +2434,7 @@
       "reason": "Exception: PLC Error:  A segment and a facet intersect at point"
     },
     {
-      "id": "FCL-0076",
+      "id": "FCL-0075",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -2473,7 +2456,7 @@
       "reason": "Exception: PLC Error:  A segment and a facet intersect at point"
     },
     {
-      "id": "FCL-0077",
+      "id": "FCL-0076",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -2504,12 +2487,12 @@
       "quality_mean": 0.6175249546451033,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0077/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0077/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0077/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0076/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0076/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0076/qf_case.json"
     },
     {
-      "id": "FCL-0078",
+      "id": "FCL-0077",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -2540,12 +2523,12 @@
       "quality_mean": 0.7399944090102859,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0078/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0078/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0078/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0077/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0077/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0077/qf_case.json"
     },
     {
-      "id": "FCL-0079",
+      "id": "FCL-0078",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -2576,12 +2559,12 @@
       "quality_mean": 0.49683693408124974,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0079/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0079/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0079/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0078/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0078/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0078/qf_case.json"
     },
     {
-      "id": "FCL-0080",
+      "id": "FCL-0079",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -2603,7 +2586,7 @@
       "reason": "Exception: Invalid boundary mesh (overlapping facets) on surface 5 surface 7"
     },
     {
-      "id": "FCL-0081",
+      "id": "FCL-0080",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -2634,12 +2617,12 @@
       "quality_mean": 0.32593133870556573,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0081/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0081/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0081/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0080/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0080/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0080/qf_case.json"
     },
     {
-      "id": "FCL-0082",
+      "id": "FCL-0081",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -2670,12 +2653,12 @@
       "quality_mean": 0.42176426759448327,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0082/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0082/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0082/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0081/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0081/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0081/qf_case.json"
     },
     {
-      "id": "FCL-0083",
+      "id": "FCL-0082",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -2706,12 +2689,12 @@
       "quality_mean": 0.5699250073546666,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0083/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0083/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0083/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0082/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0082/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0082/qf_case.json"
     },
     {
-      "id": "FCL-0084",
+      "id": "FCL-0083",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -2742,12 +2725,12 @@
       "quality_mean": 0.6705121028012488,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0084/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0084/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0084/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0083/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0083/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0083/qf_case.json"
     },
     {
-      "id": "FCL-0085",
+      "id": "FCL-0084",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -2778,12 +2761,12 @@
       "quality_mean": 0.5549479025919669,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0085/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0085/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0085/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0084/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0084/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0084/qf_case.json"
     },
     {
-      "id": "FCL-0086",
+      "id": "FCL-0085",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -2814,12 +2797,12 @@
       "quality_mean": 0.504659718040297,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0086/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0086/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0086/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0085/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0085/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0085/qf_case.json"
     },
     {
-      "id": "FCL-0087",
+      "id": "FCL-0086",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -2850,12 +2833,12 @@
       "quality_mean": 0.8173411361839504,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0087/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0087/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0087/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0086/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0086/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0086/qf_case.json"
     },
     {
-      "id": "FCL-0088",
+      "id": "FCL-0087",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -2886,12 +2869,12 @@
       "quality_mean": 0.5332964203769772,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0088/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0088/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0088/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0087/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0087/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0087/qf_case.json"
     },
     {
-      "id": "FCL-0089",
+      "id": "FCL-0088",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -2922,12 +2905,12 @@
       "quality_mean": 0.7801821028787889,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0089/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0089/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0089/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0088/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0088/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0088/qf_case.json"
     },
     {
-      "id": "FCL-0090",
+      "id": "FCL-0089",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -2958,12 +2941,12 @@
       "quality_mean": 0.5602075126375907,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0090/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0090/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0090/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0089/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0089/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0089/qf_case.json"
     },
     {
-      "id": "FCL-0091",
+      "id": "FCL-0090",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -2994,12 +2977,12 @@
       "quality_mean": 0.5531873130232894,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0091/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0091/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0091/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0090/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0090/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0090/qf_case.json"
     },
     {
-      "id": "FCL-0092",
+      "id": "FCL-0091",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -3030,12 +3013,12 @@
       "quality_mean": 0.7308879444094115,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0092/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0092/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0092/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0091/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0091/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0091/qf_case.json"
     },
     {
-      "id": "FCL-0093",
+      "id": "FCL-0092",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -3066,12 +3049,12 @@
       "quality_mean": 0.7435176602120745,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0093/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0093/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0093/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0092/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0092/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0092/qf_case.json"
     },
     {
-      "id": "FCL-0094",
+      "id": "FCL-0093",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -3093,7 +3076,7 @@
       "reason": "Exception: PLC Error:  A segment and a facet intersect at point"
     },
     {
-      "id": "FCL-0095",
+      "id": "FCL-0094",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -3124,12 +3107,12 @@
       "quality_mean": 0.5678444372058065,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0095/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0095/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0095/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0094/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0094/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0094/qf_case.json"
     },
     {
-      "id": "FCL-0096",
+      "id": "FCL-0095",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -3160,12 +3143,12 @@
       "quality_mean": 0.5075894506032785,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0096/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0096/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0096/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0095/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0095/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0095/qf_case.json"
     },
     {
-      "id": "FCL-0097",
+      "id": "FCL-0096",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -3196,12 +3179,12 @@
       "quality_mean": 0.4595408369671032,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0097/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0097/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0097/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0096/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0096/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0096/qf_case.json"
     },
     {
-      "id": "FCL-0098",
+      "id": "FCL-0097",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -3232,12 +3215,12 @@
       "quality_mean": 0.4532410259593198,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0098/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0098/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0098/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0097/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0097/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0097/qf_case.json"
     },
     {
-      "id": "FCL-0099",
+      "id": "FCL-0098",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -3268,12 +3251,12 @@
       "quality_mean": 0.6627351740495723,
       "quality_status": "POSITIVE",
       "status": "PASS",
-      "mesh_tet4": "datasets/public_volumetric/FCL-0099/mesh_tet4.msh",
-      "mesh_tet10": "datasets/public_volumetric/FCL-0099/mesh_tet10.msh",
-      "qf_case": "datasets/public_volumetric/FCL-0099/qf_case.json"
+      "mesh_tet4": "datasets/public_volumetric/FCL-0098/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0098/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0098/qf_case.json"
     },
     {
-      "id": "FCL-0100",
+      "id": "FCL-0099",
       "dataset": "FreeCAD-library",
       "repository": "FreeCAD/FreeCAD-library",
       "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
@@ -3304,6 +3287,42 @@
       "quality_mean": 0.5762218179518591,
       "quality_status": "POSITIVE",
       "status": "PASS",
+      "mesh_tet4": "datasets/public_volumetric/FCL-0099/mesh_tet4.msh",
+      "mesh_tet10": "datasets/public_volumetric/FCL-0099/mesh_tet10.msh",
+      "qf_case": "datasets/public_volumetric/FCL-0099/qf_case.json"
+    },
+    {
+      "id": "FCL-0100",
+      "dataset": "FreeCAD-library",
+      "repository": "FreeCAD/FreeCAD-library",
+      "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
+      "source_path": "Sports/Archery/Arrow Rest.step",
+      "source_url": "https://github.com/FreeCAD/FreeCAD-library/blob/be5e71491051cef75da46831b6fd77c6313cb497/Sports/Archery/Arrow%20Rest.step",
+      "download_url": "https://raw.githubusercontent.com/FreeCAD/FreeCAD-library/be5e71491051cef75da46831b6fd77c6313cb497/Sports/Archery/Arrow%20Rest.step",
+      "source_blob_sha": "24d9219ec97cdd52897ff0cfc2282dac7dab235e",
+      "author": "respective FreeCAD-library contributor(s); see pinned source history",
+      "license": "Creative Commons Attribution 3.0 Unported",
+      "license_url": "https://creativecommons.org/licenses/by/3.0/",
+      "original_format": "STEP",
+      "source_filesize": 93130,
+      "transformations": [
+        "native STEP imported by Gmsh OCC"
+      ],
+      "original_sha256": "75de048593614da9752375338aaa63c04063683d907b5b4334d40c1c556eb2b3",
+      "category": "TET4_READY",
+      "mesh_type": "TET4+TET10",
+      "volumes": 1,
+      "nodes": 245,
+      "tet4_elements": 623,
+      "tet10_elements": 623,
+      "tet10_status": "PASS",
+      "tet10_reason": null,
+      "hex8_elements": 0,
+      "hex20_elements": 0,
+      "quality_min": 0.05132499407959557,
+      "quality_mean": 0.6740963993713448,
+      "quality_status": "POSITIVE",
+      "status": "PASS",
       "mesh_tet4": "datasets/public_volumetric/FCL-0100/mesh_tet4.msh",
       "mesh_tet10": "datasets/public_volumetric/FCL-0100/mesh_tet10.msh",
       "qf_case": "datasets/public_volumetric/FCL-0100/qf_case.json"
@@ -3314,6 +3333,131 @@
       "reason": "empty STEP file"
     },
     {
+      "path": "Electronics Parts/Motors/DC motor/FAULHABER 2342L-012CPR/FAULHABER_2342L-012CPR.step",
+      "status": "REJECTED",
+      "reason": "excluded-domain keyword: motor"
+    },
+    {
+      "path": "Electronics Parts/Motors/DC motor/Mabuchi-Encoder/DCMotorEncoder.step",
+      "status": "REJECTED",
+      "reason": "excluded-domain keyword: motor"
+    },
+    {
+      "path": "Electronics Parts/Motors/DC motor/Motors/Motor-CC-12V-MITSUMI.step",
+      "status": "REJECTED",
+      "reason": "excluded-domain keyword: motor"
+    },
+    {
+      "path": "Electronics Parts/Motors/DC motor/Motors/Motor-CC-3.3V-WlToy911.step",
+      "status": "REJECTED",
+      "reason": "excluded-domain keyword: motor"
+    },
+    {
+      "path": "Electronics Parts/Motors/DC motor/Motors/Motor-CC-6V-Servo-2.step",
+      "status": "REJECTED",
+      "reason": "excluded-domain keyword: motor"
+    },
+    {
+      "path": "Electronics Parts/Motors/DC motor/Motors/Motor-CC-6V-Servo.step",
+      "status": "REJECTED",
+      "reason": "excluded-domain keyword: motor"
+    },
+    {
+      "path": "Electronics Parts/Motors/DC motor/Pololu-Micro/Pololu-298_1-6V.step",
+      "status": "REJECTED",
+      "reason": "excluded-domain keyword: motor"
+    },
+    {
+      "path": "Electronics Parts/Motors/DC motor/Yellow_gearmotor/L_shape/Yellow_gearmotor_L.step",
+      "status": "REJECTED",
+      "reason": "excluded-domain keyword: motor"
+    },
+    {
+      "path": "Electronics Parts/Motors/DC motor/Yellow_gearmotor/straight/Yellow_gearmotor_straight.step",
+      "status": "REJECTED",
+      "reason": "excluded-domain keyword: motor"
+    },
+    {
+      "path": "Electronics Parts/Motors/DC motor/Yellow_wheel_65mm/Yellow_wheel_65mm.step",
+      "status": "REJECTED",
+      "reason": "excluded-domain keyword: motor"
+    },
+    {
+      "path": "Electronics Parts/Motors/Stepper/28BYJ-48/28BYJ-48.step",
+      "status": "REJECTED",
+      "reason": "excluded-domain keyword: motors"
+    },
+    {
+      "path": "Electronics Parts/Motors/Stepper/28BYJ-48/28BYJ-48_2_arms_horn.step",
+      "status": "REJECTED",
+      "reason": "excluded-domain keyword: motors"
+    },
+    {
+      "path": "Electronics Parts/Motors/Stepper/28BYJ-48/28BYJ-48_4_arms_horn.step",
+      "status": "REJECTED",
+      "reason": "excluded-domain keyword: motors"
+    },
+    {
+      "path": "Electronics Parts/Motors/Stepper/28BYJ-48/28BYJ-48_Stepper_Motor.step",
+      "status": "REJECTED",
+      "reason": "excluded-domain keyword: motors"
+    },
+    {
+      "path": "Electronics Parts/Motors/Stepper/28BYJ-48/28BYJ-48_gear_horn.step",
+      "status": "REJECTED",
+      "reason": "excluded-domain keyword: motors"
+    },
+    {
+      "path": "Electronics Parts/Motors/Stepper/EM-286/EM-286.step",
+      "status": "REJECTED",
+      "reason": "excluded-domain keyword: motors"
+    },
+    {
+      "path": "Electronics Parts/Motors/Stepper/NEMA/NEMA_17_with_connector.step",
+      "status": "REJECTED",
+      "reason": "excluded-domain keyword: motors"
+    },
+    {
+      "path": "Electronics Parts/Motors/Stepper/NEMA/NEMA_23_with_connector.step",
+      "status": "REJECTED",
+      "reason": "excluded-domain keyword: motors"
+    },
+    {
+      "path": "Electronics Parts/Motors/Stepper/NEMA/Nema-17_Mount_Bracket/Nema-17_MountBracket.step",
+      "status": "REJECTED",
+      "reason": "excluded-domain keyword: motors"
+    },
+    {
+      "path": "Electronics Parts/Motors/Stepper/NEMA/Old/NEMA-17_Stepper_Motor_26mm_with_connector.stp",
+      "status": "REJECTED",
+      "reason": "excluded-domain keyword: motors"
+    },
+    {
+      "path": "Electronics Parts/Motors/Stepper/NEMA/Old/NEMA-17_Stepper_Motor_40mm.step",
+      "status": "REJECTED",
+      "reason": "excluded-domain keyword: motors"
+    },
+    {
+      "path": "Electronics Parts/Motors/Stepper/NEMA/Old/NEMA-17_Stepper_Motor_40mm_with_connector.step",
+      "status": "REJECTED",
+      "reason": "excluded-domain keyword: motors"
+    },
+    {
+      "path": "Electronics Parts/Motors/Stepper/NEMA/Old/NEMA-17_Stepper_Motor_47mm.step",
+      "status": "REJECTED",
+      "reason": "excluded-domain keyword: motors"
+    },
+    {
+      "path": "Electronics Parts/Motors/Stepper/NEMA/Old/NEMA-23_Stepper_Motor.step",
+      "status": "REJECTED",
+      "reason": "excluded-domain keyword: motors"
+    },
+    {
+      "path": "Electronics Parts/Motors/Vacuum Pump/Mini vacuum pump.step",
+      "status": "REJECTED",
+      "reason": "excluded-domain keyword: motors"
+    },
+    {
       "path": "Mechanical Parts/Bearings/linear_bearings/LM8suu.step",
       "status": "REJECTED",
       "reason": "empty STEP file"
@@ -3321,12 +3465,12 @@
   ],
   "summary": {
     "status_counts": {
-      "MESH_FAILED": 23,
-      "PASS": 77,
-      "REJECTED": 2
+      "MESH_FAILED": 22,
+      "PASS": 78,
+      "REJECTED": 27
     },
     "accepted_categories": {
-      "TET4_READY": 77
+      "TET4_READY": 78
     },
     "downloaded": 100
   }
