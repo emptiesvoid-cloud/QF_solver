@@ -13,6 +13,7 @@ from solveur.core.dofs import DofManager
 from solveur.core.errors import NumericalConvergenceError
 from solveur.core.nonlinear.material_state import MaterialStateTable
 from solveur.core.nonlinear.contracts import NonlinearFailureReason, NonlinearIterationDiagnostics
+from solveur.core.nonlinear.controls import AdaptiveLoadControls
 from solveur.core.model import FiniteElementModel
 from scipy.sparse import bmat, csr_matrix, csc_matrix
 from scipy.sparse.linalg import MatrixRankWarning, spsolve
@@ -51,7 +52,7 @@ class CompositeNonlinearAssembly:
         values = np.asarray(displacement, dtype=float)
         if values.shape != (self.ndof,) or not np.all(np.isfinite(values)):
             raise ValueError(f"Composite nonlinear displacement must be a finite vector of size {self.ndof}.")
-        internal = np.zeros(self.ndof, dtype=float)
+        internal: np.ndarray = np.zeros(self.ndof, dtype=float)
         tangent = csr_matrix((self.ndof, self.ndof)) if tangent_required else None
         for component in self.components:
             component_internal, component_tangent = component.assemble(
@@ -92,7 +93,7 @@ def solve_full_newton(
     free = np.setdiff1d(np.arange(assembly.ndof), fixed)
     if free.size == 0:
         raise ValueError("Full Newton requires at least one free degree of freedom.")
-    displacement = np.zeros(assembly.ndof, dtype=float)
+    displacement: np.ndarray = np.zeros(assembly.ndof, dtype=float)
     history: list[dict[str, object]] = []
     total_iterations = 0
     for step in range(1, increments + 1):
@@ -275,6 +276,197 @@ def solve_full_newton(
         "newton_iterations": total_iterations,
         "final_relative_residual": history[-1]["relative_residual"],
         "increments": history,
+    }
+
+
+class _OffsetNonlinearAssembly:
+    """Evaluate an assembly around a committed displacement for one retry."""
+
+    def __init__(self, assembly: NonlinearAssemblyProtocol, offset: np.ndarray) -> None:
+        self.assembly = assembly
+        self.offset = np.asarray(offset, dtype=float).copy()
+        self.ndof = assembly.ndof
+
+    def assemble(
+        self, displacement: np.ndarray, *, tangent_required: bool = True
+    ) -> tuple[np.ndarray, csr_matrix | None]:
+        values = np.asarray(displacement, dtype=float)
+        if values.shape != (self.ndof,) or not np.all(np.isfinite(values)):
+            raise ValueError(f"Adaptive Full Newton displacement must be a finite vector of size {self.ndof}.")
+        return self.assembly.assemble(
+            self.offset + values,
+            tangent_required=tangent_required,
+        )
+
+
+def solve_adaptive_full_newton(
+    assembly: NonlinearAssemblyProtocol,
+    external: np.ndarray,
+    fixed: np.ndarray,
+    *,
+    increments: int,
+    tolerance: float,
+    max_iterations: int,
+    controls: AdaptiveLoadControls,
+) -> tuple[np.ndarray, dict[str, object]]:
+    """Solve a dead-load path with deterministic cutback/retry continuation.
+
+    The existing Full Newton driver is reused for every attempt through an
+    offset assembly.  Each retry therefore starts from an exact copy of the
+    last accepted displacement and uses the same residual, tangent, line
+    search and convergence criteria as fixed-step Full Newton.  This helper is
+    intended for stateless assemblies such as the total-Lagrangian elastic
+    path; stateful material routes own their transactions in
+    ``NonlinearLoadControlMixin``.
+    """
+    if increments < 1 or max_iterations < 1:
+        raise ValueError("Adaptive Full Newton requires positive increments and max_iterations.")
+    external_values = np.asarray(external, dtype=float)
+    if external_values.shape != (assembly.ndof,) or not np.all(np.isfinite(external_values)):
+        raise ValueError(f"Adaptive Full Newton external load must be a finite vector of size {assembly.ndof}.")
+    fixed = np.asarray(fixed, dtype=int)
+    free = np.setdiff1d(np.arange(assembly.ndof), fixed)
+    if free.size == 0:
+        raise ValueError("Adaptive Full Newton requires at least one free degree of freedom.")
+
+    displacement: np.ndarray = np.zeros(assembly.ndof, dtype=float)
+    history: list[dict[str, object]] = []
+    rejection_log: list[dict[str, object]] = []
+    current_factor = 0.0
+    increment = controls.initial_increment
+    accepted_step = 0
+    total_iterations = 0
+    rejected_increments = 0
+    pending_cutbacks = 0
+    while current_factor < 1.0 - 1.0e-12:
+        proposed = min(increment, 1.0 - current_factor)
+        target_factor = current_factor + proposed
+        committed = displacement.copy()
+        while True:
+            attempt = _OffsetNonlinearAssembly(assembly, committed)
+            try:
+                trial_delta, attempt_diagnostics = solve_full_newton(
+                    attempt,
+                    target_factor * external_values,
+                    fixed,
+                    increments=1,
+                    tolerance=tolerance,
+                    max_iterations=max_iterations,
+                )
+            except NumericalConvergenceError as exc:
+                displacement[:] = committed
+                rejected_increments += 1
+                pending_cutbacks += 1
+                failure_reason = (
+                    exc.reason.value
+                    if isinstance(exc.reason, NonlinearFailureReason)
+                    else (str(exc.reason) if exc.reason is not None else type(exc).__name__)
+                )
+                retry_increment = proposed * controls.cutback_factor
+                failure_diagnostics = dict(exc.diagnostics)
+                failure_diagnostics.update(
+                    {
+                        "adaptive_load_step": accepted_step + 1,
+                        "base_load_factor": current_factor,
+                        "rejected_increment": proposed,
+                        "retry_increment": retry_increment,
+                        "rollback_verified": bool(np.array_equal(displacement, committed)),
+                    }
+                )
+                rejection_log.append(
+                    {
+                        "step": accepted_step + 1,
+                        "base_load_factor": current_factor,
+                        "rejected_increment": proposed,
+                        "retry_increment": retry_increment,
+                        "failure_reason": failure_reason,
+                        "failure_diagnostics": failure_diagnostics,
+                        "rollback_before_retry": bool(np.array_equal(displacement, committed)),
+                    }
+                )
+                if rejected_increments >= controls.maximum_cutbacks:
+                    raise NumericalConvergenceError(
+                        "Adaptive Full Newton exceeded the configured maximum number of cutbacks.",
+                        reason=NonlinearFailureReason.MAX_ITERATIONS,
+                        diagnostics={
+                            **failure_diagnostics,
+                            "max_cutbacks": controls.maximum_cutbacks,
+                            "rejected_increments": rejected_increments,
+                            "rejection_log": rejection_log,
+                        },
+                    ) from exc
+                if retry_increment < controls.minimum_increment:
+                    raise NumericalConvergenceError(
+                        "Adaptive Full Newton reached the minimum load increment.",
+                        reason=NonlinearFailureReason.MIN_INCREMENT_REACHED,
+                        diagnostics={
+                            **failure_diagnostics,
+                            "minimum_increment": controls.minimum_increment,
+                            "rejected_increments": rejected_increments,
+                            "rejection_log": rejection_log,
+                        },
+                    ) from exc
+                proposed = retry_increment
+                target_factor = current_factor + proposed
+                increment = proposed
+                continue
+
+            attempt_steps = attempt_diagnostics.get("increments")
+            attempt_total_iterations = attempt_diagnostics.get("newton_iterations")
+            if (
+                not isinstance(attempt_steps, list)
+                or not attempt_steps
+                or not isinstance(attempt_steps[0], dict)
+                or not isinstance(attempt_total_iterations, int)
+            ):
+                raise NumericalConvergenceError(
+                    "Adaptive Full Newton received an invalid attempt diagnostic payload.",
+                    reason=NonlinearFailureReason.INVALID_ELEMENT,
+                    diagnostics={"adaptive_load_step": accepted_step + 1},
+                )
+            step_diagnostics = dict(attempt_steps[0])
+            displacement[:] = committed + trial_delta
+            accepted_step += 1
+            total_iterations += attempt_total_iterations
+            step_diagnostics.update(
+                {
+                    "increment": accepted_step,
+                    "load_factor": target_factor,
+                    "load_increment": proposed,
+                    "load_step_cutbacks": pending_cutbacks,
+                    "state_committed": True,
+                }
+            )
+            history.append(step_diagnostics)
+            current_factor = target_factor
+            pending_cutbacks = 0
+            iterations = int(step_diagnostics["iterations"])
+            if iterations <= controls.grow_below_iterations:
+                increment = min(controls.maximum_increment, proposed * controls.growth_factor)
+            elif iterations >= controls.shrink_above_iterations:
+                increment = max(controls.minimum_increment, proposed * controls.cutback_factor)
+            else:
+                increment = proposed
+            break
+
+    return displacement, {
+        "converged": True,
+        "newton_iterations": total_iterations,
+        "final_relative_residual": history[-1]["relative_residual"],
+        "increments": history,
+        "adaptive_load_steps": True,
+        "rejected_increments": rejected_increments,
+        "rejection_log": rejection_log,
+        "adaptive_controls": {
+            "initial_increment": controls.initial_increment,
+            "minimum_increment": controls.minimum_increment,
+            "maximum_increment": controls.maximum_increment,
+            "cutback_factor": controls.cutback_factor,
+            "growth_factor": controls.growth_factor,
+            "grow_below_iterations": controls.grow_below_iterations,
+            "shrink_above_iterations": controls.shrink_above_iterations,
+            "max_cutbacks": controls.maximum_cutbacks,
+        },
     }
 
 

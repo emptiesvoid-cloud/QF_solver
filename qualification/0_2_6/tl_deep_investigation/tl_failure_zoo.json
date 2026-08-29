@@ -1,0 +1,14 @@
+[
+  {
+    "case": "invalid_current_configuration",
+    "classification": "EXPECTED_LIMITATION",
+    "provenance": "existing unit contract; intentionally retained as a diagnostic boundary",
+    "symptoms": "Existing TL assembly rejects current det(F) <= 1e-10."
+  },
+  {
+    "case": "unsupported_distributed_load",
+    "classification": "EXPECTED_LIMITATION",
+    "provenance": "existing public API contract; no workaround applied",
+    "symptoms": "Public geometric nonlinear scope accepts nodal dead loads only."
+  }
+]

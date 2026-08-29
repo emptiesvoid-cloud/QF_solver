@@ -1,0 +1,309 @@
+[
+  {
+    "case": "TET4_cells4_compression_scale0.2",
+    "classification": "NUMERICAL_CONVERGENCE",
+    "model_audit": {
+      "aspect_or_jacobian_metrics": [
+        {
+          "aspect_ratio": 2.692582403567252,
+          "edge_length_max": 2.692582403567252,
+          "edge_length_min": 1.0,
+          "quality": 0.4220064386804796,
+          "radius_ratio": 0.5398183822231409,
+          "relative_volume": 0.021344291744488722,
+          "signed_volume": 0.4166666666666667,
+          "skew": 0.5779935613195204
+        },
+        {
+          "aspect_ratio": 2.771545429667702,
+          "edge_length_max": 2.771545429667702,
+          "edge_length_min": 1.0,
+          "quality": 0.41085445175481,
+          "radius_ratio": 0.5212326419854705,
+          "relative_volume": 0.01957143875734734,
+          "signed_volume": 0.4166666666666667,
+          "skew": 0.5891455482451899
+        },
+        {
+          "aspect_ratio": 1.9597785676846156,
+          "edge_length_max": 2.771545429667702,
+          "edge_length_min": 1.4142135623730951,
+          "quality": 0.5361607280843949,
+          "radius_ratio": 0.7013313724664314,
+          "relative_volume": 0.039807154173713756,
+          "signed_volume": 0.8474754689570642,
+          "skew": 0.46383927191560514
+        },
+        {
+          "aspect_ratio": 2.771545429667702,
+          "edge_length_max": 2.771545429667702,
+          "edge_length_min": 1.0,
+          "quality": 0.41085445175481,
+          "radius_ratio": 0.5212326419854705,
+          "relative_volume": 0.01957143875734734,
+          "signed_volume": 0.4166666666666667,
+          "skew": 0.5891455482451899
+        },
+        {
+          "aspect_ratio": 2.771545429667702,
+          "edge_length_max": 2.771545429667702,
+          "edge_length_min": 1.0,
+          "quality": 0.40420934680532994,
+          "radius_ratio": 0.528507095104433,
+          "relative_volume": 0.020235715416366422,
+          "signed_volume": 0.4308088022903976,
+          "skew": 0.5957906531946701
+        },
+        {
+          "aspect_ratio": 2.692582403567252,
+          "edge_length_max": 2.692582403567252,
+          "edge_length_min": 1.0,
+          "quality": 0.4220064386804796,
+          "radius_ratio": 0.5398183822231409,
+          "relative_volume": 0.021344291744488722,
+          "signed_volume": 0.4166666666666667,
+          "skew": 0.5779935613195204
+        },
+        {
+          "aspect_ratio": 2.8043537579984448,
+          "edge_length_max": 2.8043537579984448,
+          "edge_length_min": 1.0,
+          "quality": 0.4060745130769795,
+          "radius_ratio": 0.5127176969167824,
+          "relative_volume": 0.018892540700887753,
+          "signed_volume": 0.4166666666666667,
+          "skew": 0.5939254869230205
+        },
+        {
+          "aspect_ratio": 1.9829775591266785,
+          "edge_length_max": 2.8043537579984448,
+          "edge_length_min": 1.4142135623730951,
+          "quality": 0.5310682291947731,
+          "radius_ratio": 0.6968382148726181,
+          "relative_volume": 0.038691923355418115,
+          "signed_volume": 0.8533333333333332,
+          "skew": 0.46893177080522686
+        },
+        {
+          "aspect_ratio": 2.8043537579984448,
+          "edge_length_max": 2.8043537579984448,
+          "edge_length_min": 1.0,
+          "quality": 0.4060745130769795,
+          "radius_ratio": 0.5127176969167824,
+          "relative_volume": 0.018892540700887753,
+          "signed_volume": 0.4166666666666667,
+          "skew": 0.5939254869230205
+        },
+        {
+          "aspect_ratio": 2.794312276054346,
+          "edge_length_max": 2.8043537579984448,
+          "edge_length_min": 1.0035935432235503,
+          "quality": 0.3935819791102361,
+          "radius_ratio": 0.49996258672646826,
+          "relative_volume": 0.01915814855964522,
+          "signed_volume": 0.42252453104293575,
+          "skew": 0.6064180208897638
+        },
+        {
+          "aspect_ratio": 2.692582403567252,
+          "edge_length_max": 2.692582403567252,
+          "edge_length_min": 1.0,
+          "quality": 0.4220064386804796,
+          "radius_ratio": 0.5398183822231409,
+          "relative_volume": 0.021344291744488722,
+          "signed_volume": 0.4166666666666667,
+          "skew": 0.5779935613195204
+        },
+        {
+          "aspect_ratio": 2.7715454296677025,
+          "edge_length_max": 2.7715454296677025,
+          "edge_length_min": 1.0,
+          "quality": 0.41085445175481,
+          "radius_ratio": 0.5212326419854704,
+          "relative_volume": 0.019571438757347334,
+          "signed_volume": 0.4166666666666667,
+          "skew": 0.5891455482451899
+        },
+        {
+          "aspect_ratio": 1.9597785676846158,
+          "edge_length_max": 2.7715454296677025,
+          "edge_length_min": 1.4142135623730951,
+          "quality": 0.5361607280843949,
+          "radius_ratio": 0.7013313724664316,
+          "relative_volume": 0.039807154173713756,
+          "signed_volume": 0.8474754689570645,
+          "skew": 0.46383927191560514
+        },
+        {
+          "aspect_ratio": 2.7715454296677025,
+          "edge_length_max": 2.7715454296677025,
+          "edge_length_min": 1.0,
+          "quality": 0.41085445175481,
+          "radius_ratio": 0.5212326419854704,
+          "relative_volume": 0.019571438757347334,
+          "signed_volume": 0.4166666666666667,
+          "skew": 0.5891455482451899
+        },
+        {
+          "aspect_ratio": 2.7518032639313463,
+          "edge_length_max": 2.7715454296677025,
+          "edge_length_min": 1.0071742649611337,
+          "quality": 0.39862117200275515,
+          "radius_ratio": 0.4927176296869129,
+          "relative_volume": 0.019296286356013742,
+          "signed_volume": 0.4108088022903977,
+          "skew": 0.6013788279972448
+        },
+        {
+          "aspect_ratio": 2.692582403567252,
+          "edge_length_max": 2.692582403567252,
+          "edge_length_min": 1.0,
+          "quality": 0.4220064386804796,
+          "radius_ratio": 0.5398183822231409,
+          "relative_volume": 0.021344291744488722,
+          "signed_volume": 0.4166666666666667,
+          "skew": 0.5779935613195204
+        },
+        {
+          "aspect_ratio": 2.692582403567252,
+          "edge_length_max": 2.692582403567252,
+          "edge_length_min": 1.0,
+          "quality": 0.4220064386804796,
+          "radius_ratio": 0.5398183822231409,
+          "relative_volume": 0.021344291744488722,
+          "signed_volume": 0.4166666666666667,
+          "skew": 0.5779935613195204
+        },
+        {
+          "aspect_ratio": 1.903943276465977,
+          "edge_length_max": 2.692582403567252,
+          "edge_length_min": 1.4142135623730951,
+          "quality": 0.5482024446868431,
+          "radius_ratio": 0.7106690545187017,
+          "relative_volume": 0.04268858348897745,
+          "signed_volume": 0.8333333333333335,
+          "skew": 0.4517975553131569
+        },
+        {
+          "aspect_ratio": 2.692582403567252,
+          "edge_length_max": 2.692582403567252,
+          "edge_length_min": 1.0,
+          "quality": 0.4220064386804796,
+          "radius_ratio": 0.5398183822231409,
+          "relative_volume": 0.021344291744488722,
+          "signed_volume": 0.4166666666666667,
+          "skew": 0.5779935613195204
+        },
+        {
+          "aspect_ratio": 2.6829411386193818,
+          "edge_length_max": 2.692582403567252,
+          "edge_length_min": 1.0035935432235503,
+          "quality": 0.4178383564748085,
+          "radius_ratio": 0.5143994748382443,
+          "relative_volume": 0.02061984245974542,
+          "signed_volume": 0.4025245310429357,
+          "skew": 0.5821616435251915
+        }
+      ],
+      "aspect_x": 10.0,
+      "distortion": 0.12,
+      "load_mode": "compression",
+      "load_scale": 0.2,
+      "mesh_errors": [],
+      "mesh_quality": "PASS",
+      "mesh_warnings": []
+    },
+    "provenance": "diagnostic-only; same source SHA as report",
+    "status": "REPRODUCED_EXCEPTION",
+    "symptoms": "Full Newton did not converge at increment 28; relative residual=2.927069e-03."
+  },
+  {
+    "case": "HEX8_cells4_compression_scale0.2",
+    "classification": "NUMERICAL_CONVERGENCE",
+    "model_audit": {
+      "aspect_or_jacobian_metrics": [
+        {
+          "aspect_ratio_xy": 2.5,
+          "jacobian_max": 0.3190973960844117,
+          "jacobian_min": 0.31297367172745366
+        },
+        {
+          "aspect_ratio_xy": 2.5,
+          "jacobian_max": 0.31523273093451043,
+          "jacobian_min": 0.31269620125362396
+        },
+        {
+          "aspect_ratio_xy": 2.5,
+          "jacobian_max": 0.3123037987463759,
+          "jacobian_min": 0.3097672690654894
+        },
+        {
+          "aspect_ratio_xy": 2.5,
+          "jacobian_max": 0.31202632827254617,
+          "jacobian_min": 0.30590260391558816
+        }
+      ],
+      "aspect_x": 10.0,
+      "distortion": 0.12,
+      "load_mode": "compression",
+      "load_scale": 0.2,
+      "mesh_errors": [],
+      "mesh_quality": "PASS",
+      "mesh_warnings": []
+    },
+    "provenance": "diagnostic-only; same source SHA as report",
+    "status": "REPRODUCED_EXCEPTION",
+    "symptoms": "Full Newton did not converge at increment 12; relative residual=1.530478e-04."
+  },
+  {
+    "case": "HEX8_cells4_bending_z_scale0.2",
+    "classification": "NUMERICAL_CONVERGENCE",
+    "model_audit": {
+      "aspect_or_jacobian_metrics": [
+        {
+          "aspect_ratio_xy": 2.5,
+          "jacobian_max": 0.3190973960844117,
+          "jacobian_min": 0.31297367172745366
+        },
+        {
+          "aspect_ratio_xy": 2.5,
+          "jacobian_max": 0.31523273093451043,
+          "jacobian_min": 0.31269620125362396
+        },
+        {
+          "aspect_ratio_xy": 2.5,
+          "jacobian_max": 0.3123037987463759,
+          "jacobian_min": 0.3097672690654894
+        },
+        {
+          "aspect_ratio_xy": 2.5,
+          "jacobian_max": 0.31202632827254617,
+          "jacobian_min": 0.30590260391558816
+        }
+      ],
+      "aspect_x": 10.0,
+      "distortion": 0.12,
+      "load_mode": "bending_z",
+      "load_scale": 0.2,
+      "mesh_errors": [],
+      "mesh_quality": "PASS",
+      "mesh_warnings": []
+    },
+    "provenance": "diagnostic-only; same source SHA as report",
+    "status": "REPRODUCED_EXCEPTION",
+    "symptoms": "Full Newton did not converge at increment 1; relative residual=1.046399e-02."
+  },
+  {
+    "case": "TET4_degenerate_reference_mesh",
+    "classification": "MESH_QUALITY",
+    "exception": "Singular matrix",
+    "exception_type": "LinAlgError",
+    "status": "EXPECTED_REJECTION"
+  },
+  {
+    "case": "distributed_load_scope",
+    "classification": "EXPECTED_LIMITATION",
+    "status": "DOCUMENTED_BOUNDARY",
+    "symptom": "geometric_nonlinear_static accepts nodal dead loads only"
+  }
+]
