@@ -11,6 +11,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+import numpy as np
+
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
@@ -41,7 +43,7 @@ def _git(*arguments: str) -> str | None:
         return None
 
 
-def _read_tet10_mesh(path: Path) -> tuple[list[tuple[float, float, float]], list[list[int]]]:
+def _read_tet4_mesh(path: Path) -> tuple[list[tuple[float, float, float]], list[list[int]]]:
     import gmsh  # type: ignore
 
     gmsh.initialize(["-noenv"])
@@ -58,15 +60,41 @@ def _read_tet10_mesh(path: Path) -> tuple[list[tuple[float, float, float]], list
         types, _, nodes_by_type = gmsh.model.mesh.getElements(3)
         for element_type, flat_nodes in zip(types, nodes_by_type):
             name, _, _, nodes_per_element, _, _ = gmsh.model.mesh.getElementProperties(element_type)
-            if name != "Tetrahedron 10":
+            if name != "Tetrahedron 4":
                 continue
             for offset in range(0, len(flat_nodes), nodes_per_element):
                 elements.append([node_index[int(tag)] for tag in flat_nodes[offset : offset + nodes_per_element]])
         if not elements:
-            raise ValueError(f"No Tetrahedron 10 elements found in {path}")
+            raise ValueError(f"No Tetrahedron 4 elements found in {path}")
         return nodes, elements
     finally:
         gmsh.finalize()
+
+
+def _elevate_tet4_mesh(
+    nodes: list[tuple[float, float, float]],
+    elements: list[list[int]],
+) -> tuple[list[tuple[float, float, float]], list[list[int]]]:
+    """Create a deterministic straight-sided TET10 mesh from TET4 connectivity."""
+    elevated_nodes = list(nodes)
+    edge_midpoints: dict[tuple[int, int], int] = {}
+    elevated_elements: list[list[int]] = []
+    for element in elements:
+        if len(element) != 4:
+            raise ValueError("TET4 elevation expects four corner nodes per element")
+        midpoint_indices: list[int] = []
+        for first, second in ((0, 1), (1, 2), (2, 0), (0, 3), (1, 3), (2, 3)):
+            edge = tuple(sorted((element[first], element[second])))
+            midpoint = edge_midpoints.get(edge)
+            if midpoint is None:
+                first_point = np.asarray(elevated_nodes[edge[0]], dtype=float)
+                second_point = np.asarray(elevated_nodes[edge[1]], dtype=float)
+                midpoint = len(elevated_nodes)
+                edge_midpoints[edge] = midpoint
+                elevated_nodes.append(tuple((0.5 * (first_point + second_point)).tolist()))
+            midpoint_indices.append(midpoint)
+        elevated_elements.append(list(element) + midpoint_indices)
+    return elevated_nodes, elevated_elements
 
 
 def _sample(records: list[dict[str, Any]], count: int, max_nodes: int) -> list[dict[str, Any]]:
@@ -112,7 +140,8 @@ def run(count: int, timeout: float, max_nodes: int) -> dict[str, Any]:
     RESULT_DIR.mkdir(parents=True, exist_ok=True)
     rows = []
     for record in selected:
-        nodes, elements = _read_tet10_mesh(ROOT / str(record["mesh_tet10"]))
+        tet4_nodes, tet4_elements = _read_tet4_mesh(ROOT / str(record["mesh_tet4"]))
+        nodes, elements = _elevate_tet4_mesh(tet4_nodes, tet4_elements)
         case_path = CASE_DIR / f"{record['id']}.json"
         _write_qf_case(nodes, elements, case_path, "TET10")
         case = {"id": record["id"], "source_path": record["source_path"], "mesh_type": "TET10", "qf_case": str(case_path.relative_to(ROOT)).replace("\\", "/")}
@@ -133,6 +162,8 @@ def run(count: int, timeout: float, max_nodes: int) -> dict[str, Any]:
         "requested_cases": count,
         "selected_cases": len(rows),
         "selection_max_nodes": max_nodes,
+        "selection_source_mesh": "TET4",
+        "tet10_transformation": "straight_sided_mid_edge_elevation",
         "timeout_seconds": timeout,
         "status_counts": counts,
         "results": rows,
@@ -147,12 +178,12 @@ def _write_markdown(report: dict[str, Any]) -> None:
     lines = [
         "# Public Volumetric TET10 Sample",
         "",
-        "This is a bounded paired TET10/TET4 execution sample. It is not a TET10 qualification campaign.",
+        "This is a bounded paired TET10/TET4 execution sample. TET10 connectivity is created by deterministic straight-sided mid-edge elevation of the accepted TET4 mesh; it is not a TET10 qualification campaign.",
         "",
         f"- QF source SHA: `{report['qf_source_sha']}`",
         f"- Worktree dirty at capture: `{report['qf_worktree_dirty']}`",
         f"- Selected cases: `{report['selected_cases']}` of `{report['requested_cases']}` requested",
-        f"- Selection limit: `{report['selection_max_nodes']}` nodes",
+        f"- Selection limit (source TET4 nodes): `{report['selection_max_nodes']}` nodes",
         f"- Status counts: `{report['status_counts']}`",
         "",
         "| Case | TET4 status | TET10 status | TET10 nodes | TET10 elements | displacement relative difference | duration ratio | RSS ratio |",
@@ -167,7 +198,7 @@ def _write_markdown(report: dict[str, Any]) -> None:
         "",
         "## Interpretation",
         "",
-        "The paired comparison uses the same neutral support and 1,000 N loading convention, while changing only the element order. Reactions, external work and strain energy are retained when the QF result is available. A failed or timed-out TET10 case is evidence about the current robustness envelope, not evidence of a solver defect by itself.",
+        "The paired comparison uses the same neutral support and 1,000 N loading convention, while changing only the element order. Reactions, external work and strain energy are retained when the QF result is available. The TET10 mesh is a straight-sided elevation of the same TET4 geometry, which avoids treating curved Gmsh high-order node placement as a QF TET10 ordering contract. A failed or timed-out TET10 case is evidence about the current robustness envelope, not evidence of a solver defect by itself.",
         "",
         "Large TET10 meshes above the selection limit were intentionally not executed in this bounded run to avoid an uncontrolled memory experiment. HEX8/HEX20 are absent from this corpus and are not inferred.",
     ])
