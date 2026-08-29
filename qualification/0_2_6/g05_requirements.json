@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "gate": "026-G05",
+  "title": "Modal / dynamic / harmonic qualification contract",
+  "status": "OPEN",
+  "policy": "A case marked READY is executable evidence, not qualification by itself.",
+  "requirements": [
+    {
+      "id": "G05-MOD-001",
+      "family": "MOD",
+      "target_case_count": 14,
+      "phenomenon": "Generalized eigenvalue solution and mode quality",
+      "oracle": ["analytical_or_reference_frequency", "K_phi_minus_lambda_M_phi"],
+      "metrics": ["eigenfrequency", "relative_residual", "mass_orthogonality", "normalization", "rigid_body_mode_count"],
+      "threshold": {"status": "DEFINED_FROM_EXISTING_CONTRACT", "residual": "<= 1e-7", "other_metrics": "case-defined before execution"},
+      "domain": "Supported sparse/modal models with documented constraints and mass matrix",
+      "justification": "1e-7 is the existing modal residual contract; frequency and mode acceptance remain reference-specific.",
+      "evidence_status": "CONTRACT_DEFINED"
+    },
+    {
+      "id": "G05-MOD-002",
+      "family": "MOD",
+      "target_case_count": 14,
+      "phenomenon": "Modal mesh sensitivity",
+      "oracle": ["mesh_refinement_trend"],
+      "metrics": ["frequency_sequence", "successive_relative_change", "mode_tracking"],
+      "threshold": {"status": "UNDEFINED_POLICY", "value": null},
+      "domain": "At least coarse, medium and fine compatible meshes",
+      "justification": "No repository-wide frequency convergence band is currently approved; Owner decision is required before PASS.",
+      "evidence_status": "OWNER_DECISION_REQUIRED"
+    },
+    {
+      "id": "G05-DYN-001",
+      "family": "DYN",
+      "target_case_count": 16,
+      "phenomenon": "Newmark transient response and residual control",
+      "oracle": ["analytical_or_reference_time_history", "static_or_modal_limit"],
+      "metrics": ["displacement_history", "relative_residual", "energy_drift", "stability"],
+      "threshold": {"status": "DEFINED_FROM_EXISTING_CONTRACT", "residual": "<= 1e-7", "energy": "case-defined from existing benchmark descriptor"},
+      "domain": "Supported Newmark configurations; beta/gamma and time step recorded per case",
+      "justification": "The residual failure tolerance and existing dynamic benchmark energy policy are reused without relaxation.",
+      "evidence_status": "CONTRACT_DEFINED"
+    },
+    {
+      "id": "G05-DYN-002",
+      "family": "DYN",
+      "target_case_count": 16,
+      "phenomenon": "Time-step refinement and response stability",
+      "oracle": ["time_refinement_sequence"],
+      "metrics": ["history_difference", "phase_or_period_error", "energy_drift"],
+      "threshold": {"status": "UNDEFINED_POLICY", "value": null},
+      "domain": "At least three time steps in a common physical time interval",
+      "justification": "A general-purpose temporal convergence band is not present in the current gate contract.",
+      "evidence_status": "OWNER_DECISION_REQUIRED"
+    },
+    {
+      "id": "G05-HAR-001",
+      "family": "HAR",
+      "target_case_count": 12,
+      "phenomenon": "Complex harmonic response and equilibrium",
+      "oracle": ["analytical_or_reference_frequency_response", "complex_equilibrium_residual"],
+      "metrics": ["amplitude", "phase", "complex_relative_residual", "zero_frequency_limit"],
+      "threshold": {"status": "DEFINED_FROM_EXISTING_CONTRACT", "residual": "<= 1e-7", "zero_frequency": "existing benchmark criterion"},
+      "domain": "Supported direct-frequency harmonic models; damping and frequency list recorded",
+      "justification": "The existing harmonic residual contract and zero-frequency benchmark criterion are retained.",
+      "evidence_status": "CONTRACT_DEFINED"
+    },
+    {
+      "id": "G05-HAR-002",
+      "family": "HAR",
+      "target_case_count": 12,
+      "phenomenon": "Frequency refinement and near-resonance sensitivity",
+      "oracle": ["frequency_refinement_sequence"],
+      "metrics": ["amplitude_sequence", "phase_sequence", "peak_location", "response_difference"],
+      "threshold": {"status": "UNDEFINED_POLICY", "value": null},
+      "domain": "At least coarse and refined frequency grids, with resonance handling documented",
+      "justification": "No common peak/phase convergence band is approved for all supported harmonic models.",
+      "evidence_status": "OWNER_DECISION_REQUIRED"
+    }
+  ]
+}
