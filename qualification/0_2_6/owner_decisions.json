@@ -1,6 +1,21 @@
 {
   "decisions": [
     {
+      "decision_id": "026-G06-OWNER-CLOSEOUT-2026-08-29",
+      "gate": "026-G06",
+      "status": "PASS_WITH_LIMITATIONS",
+      "execution_source_sha": "8bd0f2d8fdce7bf27ffc4c28e6aa26e69288fa63",
+      "closeout_start_sha": "2662c984b64816b3deaf18b0a6bb270141551b40",
+      "scope": "Small-strain J2 within the tested bounded TET4/TET10/HEX8/HEX20 scope.",
+      "limitations": [
+        "Algorithmic tangent symmetry has not been independently qualified.",
+        "Independent increment-refinement evidence is currently limited to TET4.",
+        "Finite-kinematic J2 remains research-only and outside the qualified G06 scope."
+      ],
+      "contract_lowered": false,
+      "owner_approval": "OWNER_DIRECTION_2026-08-29"
+    },
+    {
       "decision_id": "026-G05-OWNER-CLOSEOUT-2026-08-29",
       "gate": "026-G05",
       "status": "PASS_WITH_LIMITATIONS",

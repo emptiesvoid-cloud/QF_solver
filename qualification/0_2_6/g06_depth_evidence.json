@@ -2,9 +2,11 @@
   "schema_version": 1,
   "pack_id": "VNV026-G06-J2-DEPTH-001",
   "gate": "026-G06",
-  "official_gate_status": "NOT_STARTED",
+  "official_gate_status": "PASS_WITH_LIMITATIONS",
   "prequalification_status": "PASS_WITH_LIMITATIONS",
   "proposed_decision": "PASS_WITH_LIMITATIONS",
+  "owner_decision": "PASS_WITH_LIMITATIONS",
+  "closeout_start_sha": "2662c984b64816b3deaf18b0a6bb270141551b40",
   "start_sha": "b952520f5db8095e1fa214e451999aaedc672341",
   "execution_source_sha": "8bd0f2d8fdce7bf27ffc4c28e6aa26e69288fa63",
   "source_dirty": false,
@@ -101,12 +103,14 @@
   "external_skipped": [],
   "unexpected_failures": [],
   "limitations": [
-    "The official G06 gate remains NOT_STARTED; this pack is evidence for Owner closeout and does not close the gate automatically.",
+    "Small-strain J2 is qualified within the tested TET4/TET10/HEX8/HEX20 scope under PASS_WITH_LIMITATIONS.",
     "Mesh refinement is a bounded regular unit-block study with levels 1/2/4/8; it is not a universal localization or distortion qualification.",
-    "Load-increment refinement is the existing TET4 cyclic path and is not a universal path-independence claim for every family.",
+    "Independent increment-refinement evidence is currently limited to TET4; no universal path-independence claim is made for every family.",
     "Code_Aster correlation is bounded to the regular two-cell shared benchmark and is numerical correlation, not physical validation.",
     "The dedicated structural cyclic campaign uses four integration points per TET10 element; the external correlation explicitly uses code_aster_5 and leaves QF's historical hammer4 default unchanged.",
-    "The rollback evidence covers deterministic rejection before the first accepted increment; broader material-update and sparse-backend failure matrices remain separate evidence work."
+    "The rollback evidence covers deterministic rejection before the first accepted increment; broader material-update and sparse-backend failure matrices remain separate evidence work.",
+    "Algorithmic tangent symmetry has not been independently qualified.",
+    "Finite-kinematic J2 remains research-only and outside the qualified G06 scope."
   ],
   "artifact_digests": {
     "aggregate_summary": "87d4cb3392fa251c121031a1f3de824823efceee9143f3341546594fd74a5b83",
@@ -114,5 +118,5 @@
     "aggregate_report": "829844a45ec76646d30ce0417725f31842c28793a5cbd5911f2ffb395647bb40"
   },
   "evidence_head_contract": "The execution source SHA identifies the code used for the numerical run. The tracked evidence commit is separate and does not replace that source SHA.",
-  "owner_action": "Review bounded evidence and decide whether 026-G06 may be closed under the official contract."
+  "owner_action": "Owner decision recorded: close 026-G06 as PASS_WITH_LIMITATIONS within the bounded scope."
 }
