@@ -1,10 +1,12 @@
 {
   "status": "DIAGNOSTIC_ONLY",
   "start_sha": "de7633ab9806fe49f463bf28847c18a8120cc8af",
-  "final_source_sha": "46e9a56e4e7530e6f093bb88f7d028c42c185f1d",
+  "final_source_sha": "491ab821b88da7479862293212bf68279b51db87",
+  "baseline_boundary_record_sha": "5d16ab839679dcee64e6251085ba52c4b494847c",
   "formulation_changed": false,
   "tangent_changed": false,
   "default_path_changed": false,
+  "functional_code_changed": true,
   "baseline_150": {
     "physical_cases": 150,
     "tet4_cases": 75,
@@ -16,16 +18,14 @@
     "stable_zone": 134,
     "degraded_zone": 12,
     "out_of_recommended_scope_zone": 4,
-    "repeated_nominal_signatures": "PASS",
-    "historical_counter_equivalence": "PASS",
-    "runner_dirty_field": "SELF_GENERATED_OUTPUT_ARTIFACTS"
+    "persistent_failure_ids": [
+      "HEX8_m4_a7_compression_l0.2_n16_d0.12",
+      "HEX8_m4_a10_compression_l0.2_n16_d0.12",
+      "HEX8_m4_a10_compression_l0.2_n8_d0.12",
+      "HEX8_m4_a10_compression_l0.2_n32_d0.12"
+    ],
+    "historical_counter_equivalence": "PASS"
   },
-  "persistent_failure_ids": [
-    "HEX8_m4_a7_compression_l0.2_n16_d0.12",
-    "HEX8_m4_a10_compression_l0.2_n16_d0.12",
-    "HEX8_m4_a10_compression_l0.2_n8_d0.12",
-    "HEX8_m4_a10_compression_l0.2_n32_d0.12"
-  ],
   "mechanism_screening": {
     "screening_corpus_cases": 8,
     "accepted": [],
@@ -36,7 +36,8 @@
       "splu_natural",
       "line_search_armijo",
       "line_search_off",
-      "adaptive_cutback"
+      "adaptive_cutback",
+      "adaptive_growth"
     ],
     "system_scaling": {"recoveries": 0, "regressions": 0},
     "residual_row_scaling": {"recoveries": 0, "regressions": 0},
@@ -55,18 +56,39 @@
       "assembly_calls": 46114,
       "final_free_residual": 1.43956877466819e-14,
       "decision": "REJECTED_COST_AND_NO_INDEPENDENT_REFERENCE"
+    },
+    "adaptive_growth": {
+      "targeted_recoveries": 4,
+      "targeted_repeat_signatures": "PASS",
+      "full_candidate_successes": 150,
+      "full_baseline_adaptive_successes": 146,
+      "full_recoveries": 4,
+      "full_status_regressions": 0,
+      "full_status_changes": 4,
+      "full_candidate_newton_iterations": 15456,
+      "full_candidate_cutbacks": 16,
+      "full_persistent_failures": 0,
+      "max_abs_displacement_norm_difference": 26.325642429862384,
+      "max_abs_reaction_norm_difference": 2.2543681590338873,
+      "max_abs_strain_energy_difference": 1.134826225245036,
+      "max_abs_det_f_min_difference": 0.3367899300704331,
+      "artifact_sha256": "2e8abe49af253fee1729b55572d9ed8bdf2917c91c362a4950c9a738d3537ac5",
+      "source_sha": "491ab821b88da7479862293212bf68279b51db87",
+      "dirty_at_start": false,
+      "decision": "REJECTED_NO_PHYSICAL_STATE_OR_BRANCH_EQUIVALENCE"
     }
   },
   "passive_eigen_diagnostics": "OBSERVATIONAL_ONLY_NO_CUTOFF",
-  "holdout_result": "DEFAULT_PATH_REPRODUCIBLE",
-  "targeted_tests": "64 passed",
+  "holdout_result": "NOT_RUN_NO_MECHANISM_RETAINED",
+  "targeted_tests": "39 passed",
+  "earlier_r_and_d_targeted_tests": "64 passed",
   "registry": "PASS",
   "anti_forgetting": "PASS",
   "ruff": "PASS",
   "compileall": "PASS",
   "diff_check": "PASS",
   "full_regression": "NOT_RERUN_DEFAULT_PATH_UNCHANGED",
-  "full_150_boundary_replay": "PASS",
+  "full_150_adaptive_replay": "EXECUTED_NO_STATUS_REGRESSIONS_REJECTED_ON_EQUIVALENCE",
   "tl_robustness_level": "DIAGNOSTIC_ONLY",
   "ready_for_tl_promotion_campaign": false
 }
