@@ -2,7 +2,7 @@
   "schema_version": 1,
   "manifest": "qualification/0_2_6/public_volumetric_dataset_manifest.json",
   "results": "qualification/0_2_6/public_volumetric_qf_results.json",
-  "qf_source_sha": "96f82692c5e00f21d48b286134d13ea81c1f84af",
+  "qf_source_sha": "61e291e02f50acbd669a31b0f56e3f02b70eef38",
   "qf_worktree_dirty": false,
   "non_pass_count": 22,
   "category_counts": {
@@ -33,8 +33,8 @@
           "direct"
         ],
         "timeout_seconds": 120.0,
-        "duration_seconds": 4.019440400006715,
-        "peak_rss_bytes": 225861632,
+        "duration_seconds": 4.020105000003241,
+        "peak_rss_bytes": 183799808,
         "return_code": 4,
         "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0004.json\nQUALIFICATION GATE: FAIL 38 audit check(s) failed.",
         "stderr": "",
@@ -119,8 +119,8 @@
           "direct"
         ],
         "timeout_seconds": 120.0,
-        "duration_seconds": 5.827752799988957,
-        "peak_rss_bytes": 240664576,
+        "duration_seconds": 5.8408514999900945,
+        "peak_rss_bytes": 305483776,
         "return_code": 4,
         "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0006.json\nQUALIFICATION GATE: FAIL 1718 audit check(s) failed.",
         "stderr": "",
@@ -205,8 +205,8 @@
           "direct"
         ],
         "timeout_seconds": 120.0,
-        "duration_seconds": 6.022509899979923,
-        "peak_rss_bytes": 278949888,
+        "duration_seconds": 6.026665299985325,
+        "peak_rss_bytes": 307093504,
         "return_code": 4,
         "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0009.json\nQUALIFICATION GATE: FAIL 44 audit check(s) failed.",
         "stderr": "",
@@ -291,13 +291,13 @@
           "direct"
         ],
         "timeout_seconds": 120.0,
-        "duration_seconds": 1.82429950000369,
-        "peak_rss_bytes": 110919680,
+        "duration_seconds": 1.8127737999893725,
+        "peak_rss_bytes": 111071232,
         "return_code": 3,
         "stdout": "",
         "stderr": "ERROR[NumericalConvergenceError]: direct residual is abnormal: relative=4.810602e-02, allowed=1.000000e-07.\n{\"converged\": false, \"diagnostics\": {}, \"message\": \"direct residual is abnormal: relative=4.810602e-02, allowed=1.000000e-07.\", \"reason\": null}",
         "status": "FAIL",
-        "reason": "missing or invalid QF result: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_foundation\\\\qualification\\\\0_2_6\\\\public_volumetric_qf_results\\\\FCL-0010.json'"
+        "reason": "missing or invalid QF result: [Errno 2] No such file or directory: 'C://Users//fari//Documents//Codex//2026-07-06//yeah//qf_solver_026_foundation//qualification//0_2_6//public_volumetric_qf_results//FCL-0010.json'"
       },
       "mesh": {
         "id": "FCL-0010",
@@ -375,8 +375,8 @@
           "direct"
         ],
         "timeout_seconds": 120.0,
-        "duration_seconds": 6.02512399997795,
-        "peak_rss_bytes": 332386304,
+        "duration_seconds": 6.237635800003773,
+        "peak_rss_bytes": 332357632,
         "return_code": 4,
         "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0014.json\nQUALIFICATION GATE: FAIL 9 audit check(s) failed.",
         "stderr": "",
@@ -461,8 +461,8 @@
           "direct"
         ],
         "timeout_seconds": 120.0,
-        "duration_seconds": 9.038098999997601,
-        "peak_rss_bytes": 474427392,
+        "duration_seconds": 9.033430800016504,
+        "peak_rss_bytes": 473751552,
         "return_code": 4,
         "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0015.json\nQUALIFICATION GATE: FAIL 99 audit check(s) failed.",
         "stderr": "",
@@ -547,8 +547,8 @@
           "direct"
         ],
         "timeout_seconds": 120.0,
-        "duration_seconds": 3.8188664999906905,
-        "peak_rss_bytes": 177700864,
+        "duration_seconds": 3.820445799996378,
+        "peak_rss_bytes": 176480256,
         "return_code": 4,
         "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0023.json\nQUALIFICATION GATE: FAIL 8 audit check(s) failed.",
         "stderr": "",
@@ -633,13 +633,13 @@
           "direct"
         ],
         "timeout_seconds": 120.0,
-        "duration_seconds": 1.8130599999858532,
-        "peak_rss_bytes": 110710784,
+        "duration_seconds": 1.813242399977753,
+        "peak_rss_bytes": 111644672,
         "return_code": 3,
         "stdout": "",
         "stderr": "ERROR[NumericalConvergenceError]: direct residual is abnormal: relative=1.183107e-03, allowed=1.000000e-07.\n{\"converged\": false, \"diagnostics\": {}, \"message\": \"direct residual is abnormal: relative=1.183107e-03, allowed=1.000000e-07.\", \"reason\": null}",
         "status": "FAIL",
-        "reason": "missing or invalid QF result: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_foundation\\\\qualification\\\\0_2_6\\\\public_volumetric_qf_results\\\\FCL-0036.json'"
+        "reason": "missing or invalid QF result: [Errno 2] No such file or directory: 'C://Users//fari//Documents//Codex//2026-07-06//yeah//qf_solver_026_foundation//qualification//0_2_6//public_volumetric_qf_results//FCL-0036.json'"
       },
       "mesh": {
         "id": "FCL-0036",
@@ -717,8 +717,8 @@
           "direct"
         ],
         "timeout_seconds": 120.0,
-        "duration_seconds": 5.424617999990005,
-        "peak_rss_bytes": 288030720,
+        "duration_seconds": 5.439897900010692,
+        "peak_rss_bytes": 298405888,
         "return_code": 4,
         "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0040.json\nQUALIFICATION GATE: FAIL 4 audit check(s) failed.",
         "stderr": "",
@@ -803,8 +803,8 @@
           "direct"
         ],
         "timeout_seconds": 120.0,
-        "duration_seconds": 15.655312700022478,
-        "peak_rss_bytes": 833331200,
+        "duration_seconds": 15.649683900002856,
+        "peak_rss_bytes": 784691200,
         "return_code": 4,
         "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0047.json\nQUALIFICATION GATE: FAIL 98 audit check(s) failed.",
         "stderr": "",
@@ -889,8 +889,8 @@
           "direct"
         ],
         "timeout_seconds": 120.0,
-        "duration_seconds": 14.05228210001951,
-        "peak_rss_bytes": 727793664,
+        "duration_seconds": 14.049396399990655,
+        "peak_rss_bytes": 726716416,
         "return_code": 4,
         "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0050.json\nQUALIFICATION GATE: FAIL 31 audit check(s) failed.",
         "stderr": "",
@@ -975,8 +975,8 @@
           "direct"
         ],
         "timeout_seconds": 120.0,
-        "duration_seconds": 3.8197008999995887,
-        "peak_rss_bytes": 176766976,
+        "duration_seconds": 3.8183774999924935,
+        "peak_rss_bytes": 177254400,
         "return_code": 4,
         "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0051.json\nQUALIFICATION GATE: FAIL 27 audit check(s) failed.",
         "stderr": "",
@@ -1061,8 +1061,8 @@
           "direct"
         ],
         "timeout_seconds": 120.0,
-        "duration_seconds": 5.627082899998641,
-        "peak_rss_bytes": 315740160,
+        "duration_seconds": 5.8237716000003275,
+        "peak_rss_bytes": 315957248,
         "return_code": 4,
         "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0055.json\nQUALIFICATION GATE: FAIL 107 audit check(s) failed.",
         "stderr": "",
@@ -1147,8 +1147,8 @@
           "direct"
         ],
         "timeout_seconds": 120.0,
-        "duration_seconds": 3.617726299999049,
-        "peak_rss_bytes": 188039168,
+        "duration_seconds": 3.6178283000190277,
+        "peak_rss_bytes": 208781312,
         "return_code": 4,
         "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0057.json\nQUALIFICATION GATE: FAIL 2 audit check(s) failed.",
         "stderr": "",
@@ -1233,8 +1233,8 @@
           "direct"
         ],
         "timeout_seconds": 120.0,
-        "duration_seconds": 120.30060940000112,
-        "peak_rss_bytes": 1789145088,
+        "duration_seconds": 120.28249219999998,
+        "peak_rss_bytes": 1789173760,
         "return_code": 1,
         "stdout": "",
         "stderr": "",
@@ -1317,8 +1317,8 @@
           "direct"
         ],
         "timeout_seconds": 120.0,
-        "duration_seconds": 4.626203299994813,
-        "peak_rss_bytes": 256262144,
+        "duration_seconds": 4.620947300019907,
+        "peak_rss_bytes": 243412992,
         "return_code": 4,
         "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0065.json\nQUALIFICATION GATE: FAIL 17 audit check(s) failed.",
         "stderr": "",
@@ -1403,8 +1403,8 @@
           "direct"
         ],
         "timeout_seconds": 120.0,
-        "duration_seconds": 3.6176445999881253,
-        "peak_rss_bytes": 179924992,
+        "duration_seconds": 3.819176899996819,
+        "peak_rss_bytes": 216985600,
         "return_code": 4,
         "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0071.json\nQUALIFICATION GATE: FAIL 5 audit check(s) failed.",
         "stderr": "",
@@ -1489,8 +1489,8 @@
           "direct"
         ],
         "timeout_seconds": 120.0,
-        "duration_seconds": 3.8204002999991644,
-        "peak_rss_bytes": 176861184,
+        "duration_seconds": 3.8180741999822203,
+        "peak_rss_bytes": 177774592,
         "return_code": 4,
         "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0076.json\nQUALIFICATION GATE: FAIL 1 audit check(s) failed.",
         "stderr": "",
@@ -1575,8 +1575,8 @@
           "direct"
         ],
         "timeout_seconds": 120.0,
-        "duration_seconds": 5.431093999999575,
-        "peak_rss_bytes": 293122048,
+        "duration_seconds": 5.224572500010254,
+        "peak_rss_bytes": 293654528,
         "return_code": 4,
         "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0085.json\nQUALIFICATION GATE: FAIL 80 audit check(s) failed.",
         "stderr": "",
@@ -1661,8 +1661,8 @@
           "direct"
         ],
         "timeout_seconds": 120.0,
-        "duration_seconds": 4.218714800023008,
-        "peak_rss_bytes": 235700224,
+        "duration_seconds": 4.01958019999438,
+        "peak_rss_bytes": 233836544,
         "return_code": 4,
         "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0090.json\nQUALIFICATION GATE: FAIL 1 audit check(s) failed.",
         "stderr": "",
@@ -1747,8 +1747,8 @@
           "direct"
         ],
         "timeout_seconds": 120.0,
-        "duration_seconds": 3.818656999996165,
-        "peak_rss_bytes": 177102848,
+        "duration_seconds": 3.8181328999926336,
+        "peak_rss_bytes": 176697344,
         "return_code": 4,
         "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0095.json\nQUALIFICATION GATE: FAIL 4 audit check(s) failed.",
         "stderr": "",
@@ -1833,8 +1833,8 @@
           "direct"
         ],
         "timeout_seconds": 120.0,
-        "duration_seconds": 4.220566100004362,
-        "peak_rss_bytes": 200007680,
+        "duration_seconds": 4.2191310999915,
+        "peak_rss_bytes": 200159232,
         "return_code": 4,
         "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0096.json\nQUALIFICATION GATE: FAIL 4 audit check(s) failed.",
         "stderr": "",
