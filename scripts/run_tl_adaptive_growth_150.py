@@ -57,9 +57,12 @@ STATE_METRICS = (
 
 
 def _controls(increments: int) -> AdaptiveLoadControls:
+    parameters = dict(POLICY)
+    for key in ("initial_load_increment", "max_load_increment"):
+        if parameters.get(key) == "1/increments":
+            parameters[key] = 1.0 / increments
     return AdaptiveLoadControls.from_parameters(
-        {key: value for key, value in POLICY.items() if key != "initial_load_increment"}
-        | {"initial_load_increment": 1.0 / increments},
+        parameters,
         load_steps=increments,
         max_iterations=MAX_ITERATIONS,
     )
