@@ -62,6 +62,24 @@ and repeated connectivity; the generator now keeps those as `MESH_ONLY` or
 demonstrates pipeline diversity and fail-closed behavior, not universal solve
 success.
 
+### Paired TET10 sample
+
+A separate bounded sample executed 24 of the connected TET10-ready records on
+the same neutral cases. The TET10 connectivity was created by deterministic
+straight-sided mid-edge elevation of each accepted TET4 mesh; the curved
+high-order Gmsh output is not treated as a QF node-ordering contract. The
+sample produced 17 PASS, 7 audit FAIL and 0 timeout results. Every TET10 FAIL
+also had a TET4 audit FAIL, so no TET10-specific numerical defect was
+demonstrated. The largest sampled elevated mesh had 16,476 nodes; among the
+17 passing pairs, the median TET10/TET4 duration ratio was about 4.68 and the
+median RSS ratio was about 2.04. These figures characterize this exploratory
+sample only and do not qualify TET10 or establish formulation equivalence.
+
+The detailed paired report is
+[`public_volumetric_tet10_results.md`](public_volumetric_tet10_results.md),
+with machine-readable results in
+[`public_volumetric_tet10_results.json`](public_volumetric_tet10_results.json).
+
 ## Reproduction
 
 With the optional pinned Gmsh dependency installed:
@@ -69,6 +87,7 @@ With the optional pinned Gmsh dependency installed:
 ```text
 python scripts/public_volumetric_dataset.py --limit 100
 python scripts/run_public_volumetric_cases.py --timeout 120
+python scripts/run_public_volumetric_tet10.py --count 24 --timeout 120 --max-nodes 10000
 ```
 
 The second command writes the compact report
@@ -91,8 +110,9 @@ The case-by-case failure classification is recorded in
   transverse DOFs at one maximum-x node and distributes 1,000 N across the
   maximum-x nodes. This is a reproducible smoke convention, not a physical
   load case for the represented object.
-- TET10 availability is recorded as a mesh capability; the generated QF smoke
-  cases currently use TET4. HEX8/HEX20 comparison is not available in this
-  corpus snapshot.
+- TET10 availability is recorded as a mesh capability; the main 56-case QF
+  campaign uses TET4, while the separate 24-case paired sample uses
+  deterministic straight-sided TET4-to-TET10 elevation. HEX8/HEX20 comparison
+  is not available in this corpus snapshot.
 - The corpus does not qualify stresses, convergence, element formulations or
   material behavior, and it is not a replacement for element-level V&V.
