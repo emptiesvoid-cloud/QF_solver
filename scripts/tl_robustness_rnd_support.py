@@ -156,6 +156,15 @@ MECHANISMS: dict[str, dict[str, Any]] = {
             "max_cutbacks": 8,
         },
     },
+    "adaptive_cutback_extended": {
+        "description": "Existing adaptive driver with recovery-only cutback and an extended retry budget.",
+        "adaptive_parameters": {
+            "min_load_increment": 1.0e-4,
+            "cutback_factor": 0.25,
+            "growth_factor": 1.0,
+            "max_cutbacks": 25,
+        },
+    },
     "adaptive_growth": {
         "description": "Existing adaptive driver with measured growth after easy increments.",
         "adaptive_parameters": {
