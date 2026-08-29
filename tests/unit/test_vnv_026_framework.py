@@ -55,9 +55,20 @@ def test_g05_contract_has_modal_dynamic_and_harmonic_targets() -> None:
     assert requirements["G05-DYN-001"]["target_case_count"] == 16
     assert requirements["G05-HAR-001"]["target_case_count"] == 12
     assert all(
-        row["threshold"]["status"] in {"DEFINED_FROM_EXISTING_CONTRACT", "PROPOSED_OWNER_REVIEW"}
+        row["threshold"]["status"] in {"DEFINED_FROM_EXISTING_CONTRACT", "OWNER_APPROVED_BOUNDED"}
         for row in requirements.values()
     )
+    assert contract["policy_governance"]["status"] == "OWNER_APPROVED_BOUNDED"
+    assert contract["policy_governance"]["contract_not_closed_by_this_file"] is True
+
+
+def test_g05_final_evidence_preserves_the_open_gate_boundary() -> None:
+    evidence = json.loads((DATA_ROOT / "g05_final_evidence.json").read_text(encoding="utf-8"))
+
+    assert evidence["qualified_source_sha"] == "6cd971756af0f1b8a114fd98b188714da39ff081"
+    assert evidence["status"] == "PASS_WITH_LIMITATIONS"
+    assert evidence["qualification_status"] == "PENDING_OWNER_CLOSEOUT"
+    assert evidence["internal_campaign"]["counts"] == {"MOD": 14, "DYN": 32, "HAR": 12}
 
 
 def test_g05b_deep_registry_has_requested_family_counts() -> None:

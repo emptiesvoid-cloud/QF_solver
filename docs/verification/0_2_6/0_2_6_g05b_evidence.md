@@ -4,8 +4,9 @@
 
 This document records the dedicated modal/dynamic/harmonic execution batch
 prepared for `026-G05`. It is evidence for the gate review; it does not close
-the official gate. `026-G05` remains `NOT_STARTED` until the complete contract,
-including approved refinement policies and required external evidence, is met.
+the official gate. The bounded refinement policies were Owner-approved on
+2026-08-29; external evidence and final clean-worktree provenance remain
+separate closeout requirements.
 
 | Field | Value |
 | --- | --- |
@@ -55,11 +56,10 @@ prequalification rather than an automatic qualification claim.
 `G05B` execution is complete for the added 12-case batch, but `026-G05`
 closeout is not recommended. The remaining items are:
 
-1. approve frequency, time-step and modal refinement acceptance policies;
-2. attach the required analytical/reference and external correlations with
+1. attach the required analytical/reference and external correlations with
    complete provenance;
-3. aggregate the case histories into a final gate decision without treating
+2. aggregate the case histories into a final gate decision without treating
    `READY` as `QUALIFIED`.
 
-The proposed policies in `qualification/0_2_6/g05_requirements.json` remain
-`PROPOSED_OWNER_REVIEW`; they are not approved gate criteria.
+The policies in `qualification/0_2_6/g05_requirements.json` are now
+`OWNER_APPROVED_BOUNDED`; their scope is limited to G05 refinement decisions.

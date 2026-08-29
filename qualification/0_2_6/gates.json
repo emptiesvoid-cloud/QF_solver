@@ -47,8 +47,10 @@
         "g05_requirements.json",
         "g05_deep_case_registry.json",
         "g05_family_coverage.json",
+        "g05_final_evidence.json",
         "0_2_6_g05b_evidence.md",
-        "0_2_6_g05_family_coverage.md"
+        "0_2_6_g05_family_coverage.md",
+        "0_2_6_g05_final_evidence.md"
       ],
       "id": "026-G05",
       "status": "NOT_STARTED",
