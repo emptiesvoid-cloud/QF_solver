@@ -31,6 +31,7 @@ release_archive_audit.json
 results/
 results_large/
 datasets/public_3d/
+datasets/public_volumetric/
 VNV-*/
 qualification/vnv/**
 !qualification/studies/mitc4_stable_package_2026-08-21/
