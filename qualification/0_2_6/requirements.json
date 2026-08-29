@@ -48,6 +48,20 @@
       "priority": "SHOULD",
       "requirement": "Characterize performance with repeatable measurements and hardware metadata.",
       "verification": "scaling profiles and benchmark manifests"
+    },
+    {
+      "gate": "026-G07",
+      "id": "REQ-026-008",
+      "priority": "MUST",
+      "requirement": "Qualify only the declared bounded Total-Lagrangian elasticity scope through reproducible geometric V&V; retain high-order routes as research unless separately evidenced.",
+      "verification": "qualification/0_2_6/g07_requirements.json and g07_capability_matrix.json"
+    },
+    {
+      "gate": "026-G07",
+      "id": "REQ-026-009",
+      "priority": "MUST",
+      "requirement": "Exercise the existing arc-length route as controlled internal research evidence without promoting it to production qualification.",
+      "verification": "qualification/0_2_6/g07_requirements.json and bounded Step 2 evidence manifest"
     }
   ],
   "schema_version": 1

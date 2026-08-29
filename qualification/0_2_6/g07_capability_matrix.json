@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "gate": "026-G07",
+  "status": "CONTRACT_DEFINED_GATE_NOT_STARTED",
+  "rows": [
+    {
+      "capability": "ANA-GEOMETRIC-NONLINEAR",
+      "element": "TET4",
+      "supported": true,
+      "current_maturity": "EXPERIMENTAL",
+      "target_maturity": "QUALIFIED_BOUNDED_CANDIDATE",
+      "required_evidence": ["G07-TL-001", "G07-TL-002", "G07-TL-003", "G07-TL-004", "G07-TL-005", "G07-TL-006", "G07-TL-007", "G07-TL-008"],
+      "tests": ["tests/unit/test_total_lagrangian_tet4.py", "tests/verification/test_tet4_total_lagrangian_assembly_vnv.py"],
+      "refinement": ["coarse", "medium", "fine", "refined"],
+      "oracle": ["existing linear route", "analytical/external when compatible"],
+      "limitation": "bounded tested domain; no universal large-deformation claim",
+      "status": "CANDIDATE_NOT_QUALIFIED"
+    },
+    {
+      "capability": "ANA-GEOMETRIC-NONLINEAR",
+      "element": "HEX8",
+      "supported": true,
+      "current_maturity": "EXPERIMENTAL",
+      "target_maturity": "QUALIFIED_BOUNDED_CANDIDATE",
+      "required_evidence": ["G07-TL-001", "G07-TL-002", "G07-TL-003", "G07-TL-004", "G07-TL-005", "G07-TL-006", "G07-TL-007", "G07-TL-008"],
+      "tests": ["tests/unit/test_total_lagrangian_hex8.py"],
+      "refinement": ["coarse", "medium", "fine", "refined"],
+      "oracle": ["existing linear route", "analytical/external when compatible"],
+      "limitation": "bounded tested domain; no universal large-deformation claim",
+      "status": "CANDIDATE_NOT_QUALIFIED"
+    },
+    {
+      "capability": "ANA-GEOMETRIC-NONLINEAR",
+      "element": "TET10",
+      "supported": true,
+      "current_maturity": "EXPERIMENTAL",
+      "target_maturity": "RESEARCH",
+      "required_evidence": ["G07-TL-001", "G07-TL-002", "G07-TL-003", "G07-TL-004", "G07-TL-005"],
+      "tests": ["tests/unit/test_total_lagrangian_tet4_batch.py"],
+      "refinement": ["research smoke only"],
+      "oracle": ["internal diagnostics"],
+      "limitation": "not promoted to qualified G07 scope",
+      "status": "RESEARCH_ONLY"
+    },
+    {
+      "capability": "ANA-GEOMETRIC-NONLINEAR",
+      "element": "HEX20",
+      "supported": true,
+      "current_maturity": "EXPERIMENTAL",
+      "target_maturity": "RESEARCH",
+      "required_evidence": ["G07-TL-001", "G07-TL-002", "G07-TL-003", "G07-TL-004", "G07-TL-005"],
+      "tests": ["tests/unit/test_total_lagrangian_tet4_batch.py"],
+      "refinement": ["research smoke only"],
+      "oracle": ["internal diagnostics"],
+      "limitation": "not promoted to qualified G07 scope",
+      "status": "RESEARCH_ONLY"
+    },
+    {
+      "capability": "ANA-ARC-LENGTH",
+      "element": "TET4",
+      "supported": true,
+      "current_maturity": "EXPERIMENTAL",
+      "target_maturity": "PASS_INTERNAL_RESEARCH",
+      "required_evidence": ["G07-ARC-001", "G07-ARC-002", "G07-ARC-003", "G07-ARC-004"],
+      "tests": ["tests/unit/test_nonlinear_load_path.py", "tests/unit/test_nonlinear_checkpoint.py"],
+      "refinement": ["coarse", "medium", "fine", "refined", "nominal/smaller/larger arc-step"],
+      "oracle": ["existing shallow-arch analytical model", "external when compatible"],
+      "limitation": "internal research evidence only; no production qualification",
+      "status": "EXPERIMENTAL_NOT_QUALIFIED"
+    },
+    {
+      "capability": "MAT-FINITE-J2",
+      "element": "TET4/TET10/HEX8/HEX20",
+      "supported": true,
+      "current_maturity": "RESEARCH",
+      "target_maturity": "NOT_IN_G07_SCOPE",
+      "required_evidence": [],
+      "tests": ["tests/unit/test_total_lagrangian_tet4.py"],
+      "refinement": [],
+      "oracle": [],
+      "limitation": "finite-kinematic J2 is excluded and remains research-only",
+      "status": "EXCLUDED"
+    },
+    {
+      "capability": "MAT-COUPLED-NL",
+      "element": "solid/contact workflows",
+      "supported": true,
+      "current_maturity": "EXPERIMENTAL",
+      "target_maturity": "NOT_IN_G07_SCOPE",
+      "required_evidence": [],
+      "tests": ["tests/unit/test_geometric_nonlinear_contracts.py"],
+      "refinement": [],
+      "oracle": [],
+      "limitation": "coupled nonlinear workflows are governed separately and are not promoted by G07",
+      "status": "EXCLUDED"
+    }
+  ],
+  "state_semantics": ["SUPPORTED", "TESTED", "VERIFIED", "EXPERIMENTAL", "RESEARCH", "EXCLUDED", "NOT_SUPPORTED"],
+  "rule": "Presence of code or tests never upgrades maturity; every promotion requires the linked evidence and Owner decision."
+}
