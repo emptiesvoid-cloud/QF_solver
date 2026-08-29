@@ -2,7 +2,7 @@
 
 This report classifies every non-PASS execution in the recorded campaign. It is a diagnostic corpus report, not a FEM qualification claim.
 
-- QF source SHA: `96f82692c5e00f21d48b286134d13ea81c1f84af`
+- QF source SHA: `61e291e02f50acbd669a31b0f56e3f02b70eef38`
 - Runner worktree dirty: `False`
 - Non-PASS cases classified: `22`
 - Categories: `{'B': 21, 'G': 1}`

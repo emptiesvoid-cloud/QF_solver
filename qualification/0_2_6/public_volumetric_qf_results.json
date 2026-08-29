@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-29T07:29:00.184827Z",
+  "generated_at_utc": "2026-08-29T07:50:59.975197Z",
   "manifest": "qualification/0_2_6/public_volumetric_dataset_manifest.json",
   "manifest_sha256": "630a7b455085e4b8d9809c4eef6e43f5b3cb96a9e24da7ce7ef3645745553ab5",
   "dataset_manifest_id": "QF-PUBLIC-VOLUMETRIC-DATASET-026-001",
   "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
-  "qf_source_sha": "96f82692c5e00f21d48b286134d13ea81c1f84af",
+  "qf_source_sha": "61e291e02f50acbd669a31b0f56e3f02b70eef38",
   "qf_worktree_dirty": false,
   "solver_version": "0.2.6a0",
   "timeout_seconds": 120.0,
@@ -40,8 +40,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 5.24265839997679,
-      "peak_rss_bytes": 212840448,
+      "duration_seconds": 5.246583600004669,
+      "peak_rss_bytes": 190742528,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0002.json",
       "stderr": "",
@@ -78,7 +78,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "c777ec557a3a0e71155b7ddd9778d04c1676332ff62a787771c4cf4ecb801563"
+      "qf_result_sha256": "73a254a50dc0456f9229ea2fbc66ffb020ddbba4d2a0be14079004daae7d8fe5"
     },
     {
       "id": "FCL-0004",
@@ -98,8 +98,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 4.019440400006715,
-      "peak_rss_bytes": 225861632,
+      "duration_seconds": 4.020105000003241,
+      "peak_rss_bytes": 183799808,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0004.json\nQUALIFICATION GATE: FAIL 38 audit check(s) failed.",
       "stderr": "",
@@ -126,8 +126,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 5.827752799988957,
-      "peak_rss_bytes": 240664576,
+      "duration_seconds": 5.8408514999900945,
+      "peak_rss_bytes": 305483776,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0006.json\nQUALIFICATION GATE: FAIL 1718 audit check(s) failed.",
       "stderr": "",
@@ -154,8 +154,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 4.222170399996685,
-      "peak_rss_bytes": 177537024,
+      "duration_seconds": 4.019994900008896,
+      "peak_rss_bytes": 184954880,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0007.json",
       "stderr": "",
@@ -192,7 +192,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "dbd75c4ecc6d96476ac88d08f0a84eea0279e7ab8a8f7eeb70f2cfa765e5f4ff"
+      "qf_result_sha256": "b3add636780aba59bad3fa2bb17701cab27276b9d2fb4fb02ad0392f2dfc4795"
     },
     {
       "id": "FCL-0008",
@@ -212,8 +212,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.8191417999914847,
-      "peak_rss_bytes": 209268736,
+      "duration_seconds": 3.817133200005628,
+      "peak_rss_bytes": 171311104,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0008.json",
       "stderr": "",
@@ -250,7 +250,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "873c4b072549155fe1773d46967807eddf4d28d2c7858b101fc2b3d4ba6226e2"
+      "qf_result_sha256": "60825eb0c6d225f01c8ac3412627defb538837a80d3948d62804e7a2a96c40d0"
     },
     {
       "id": "FCL-0009",
@@ -270,8 +270,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 6.022509899979923,
-      "peak_rss_bytes": 278949888,
+      "duration_seconds": 6.026665299985325,
+      "peak_rss_bytes": 307093504,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0009.json\nQUALIFICATION GATE: FAIL 44 audit check(s) failed.",
       "stderr": "",
@@ -298,13 +298,13 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 1.82429950000369,
-      "peak_rss_bytes": 110919680,
+      "duration_seconds": 1.8127737999893725,
+      "peak_rss_bytes": 111071232,
       "return_code": 3,
       "stdout": "",
       "stderr": "ERROR[NumericalConvergenceError]: direct residual is abnormal: relative=4.810602e-02, allowed=1.000000e-07.\n{\"converged\": false, \"diagnostics\": {}, \"message\": \"direct residual is abnormal: relative=4.810602e-02, allowed=1.000000e-07.\", \"reason\": null}",
       "status": "FAIL",
-      "reason": "missing or invalid QF result: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_foundation\\\\qualification\\\\0_2_6\\\\public_volumetric_qf_results\\\\FCL-0010.json'"
+      "reason": "missing or invalid QF result: [Errno 2] No such file or directory: 'C://Users//fari//Documents//Codex//2026-07-06//yeah//qf_solver_026_foundation//qualification//0_2_6//public_volumetric_qf_results//FCL-0010.json'"
     },
     {
       "id": "FCL-0012",
@@ -324,8 +324,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 5.8298219999996945,
-      "peak_rss_bytes": 315387904,
+      "duration_seconds": 5.824309300020104,
+      "peak_rss_bytes": 315150336,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0012.json\nQUALIFICATION GATE: WARNING 12 audit warning(s) present.",
       "stderr": "",
@@ -364,7 +364,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "35a63c06175c879d4d030a76b3eccdac741a6f6f4c1250e70cf739230fa7376e"
+      "qf_result_sha256": "df3c636f6f406943d3878688fd8dafe490058263d2bef4fdd59be3b8e3132d8d"
     },
     {
       "id": "FCL-0014",
@@ -384,8 +384,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 6.02512399997795,
-      "peak_rss_bytes": 332386304,
+      "duration_seconds": 6.237635800003773,
+      "peak_rss_bytes": 332357632,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0014.json\nQUALIFICATION GATE: FAIL 9 audit check(s) failed.",
       "stderr": "",
@@ -412,8 +412,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 9.038098999997601,
-      "peak_rss_bytes": 474427392,
+      "duration_seconds": 9.033430800016504,
+      "peak_rss_bytes": 473751552,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0015.json\nQUALIFICATION GATE: FAIL 99 audit check(s) failed.",
       "stderr": "",
@@ -440,8 +440,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.2163432000088505,
-      "peak_rss_bytes": 155697152,
+      "duration_seconds": 3.016015899978811,
+      "peak_rss_bytes": 151425024,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0019.json\nQUALIFICATION GATE: WARNING 2 audit warning(s) present.",
       "stderr": "",
@@ -480,7 +480,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "278734fea4e4f6788b2c5f0a445f3fb19bc921057fca7abe16fed804b74bd66f"
+      "qf_result_sha256": "eb570568fecafb8623934037681d2293be5ec5f3dd317271a5ed96cbd251acb4"
     },
     {
       "id": "FCL-0023",
@@ -500,8 +500,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.8188664999906905,
-      "peak_rss_bytes": 177700864,
+      "duration_seconds": 3.820445799996378,
+      "peak_rss_bytes": 176480256,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0023.json\nQUALIFICATION GATE: FAIL 8 audit check(s) failed.",
       "stderr": "",
@@ -528,8 +528,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 5.622771800000919,
-      "peak_rss_bytes": 314572800,
+      "duration_seconds": 5.825674699997762,
+      "peak_rss_bytes": 312844288,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0024.json\nQUALIFICATION GATE: WARNING 64 audit warning(s) present.",
       "stderr": "",
@@ -568,7 +568,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "b3cebacbe974de722d7bdf135c453cd83773286734873dfca61c6a65c249b49c"
+      "qf_result_sha256": "45b23ff3591c9266a1ddedb34f2658d8f78b0a084ba85f950b5587c1b57bc419"
     },
     {
       "id": "FCL-0027",
@@ -588,8 +588,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.6183733999787364,
-      "peak_rss_bytes": 163008512,
+      "duration_seconds": 3.6179877999820746,
+      "peak_rss_bytes": 201838592,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0027.json",
       "stderr": "",
@@ -626,7 +626,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "b77f31fc980b778d331d885a5a70ca52b70bf2e728aea77a9ad38e8055706544"
+      "qf_result_sha256": "faf22f357388419e10fa2ddf4403929aa4b9e8c77d4602461d1825502b2b56df"
     },
     {
       "id": "FCL-0030",
@@ -646,8 +646,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 7.2289376000117045,
-      "peak_rss_bytes": 352559104,
+      "duration_seconds": 7.438233200024115,
+      "peak_rss_bytes": 351809536,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0030.json\nQUALIFICATION GATE: WARNING 56 audit warning(s) present.",
       "stderr": "",
@@ -686,7 +686,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "c345d8b243f20ffc5912ae65719c7759629aa1ad9cd7e57a0b54b77da34c5d4c"
+      "qf_result_sha256": "e93fdf9e3ab438c5972147a2b2349b19a057958b4cf51f3236550db58c4f58ff"
     },
     {
       "id": "FCL-0031",
@@ -706,8 +706,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 2.2131119999976363,
-      "peak_rss_bytes": 122224640,
+      "duration_seconds": 2.213681199995335,
+      "peak_rss_bytes": 122249216,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0031.json\nQUALIFICATION GATE: WARNING 1 audit warning(s) present.",
       "stderr": "",
@@ -746,7 +746,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "3fd015db16fb7b967c12185aaaefb62adfea2ee58f02c59ac0b3c6ae543ba2e4"
+      "qf_result_sha256": "ae94ad7555fdea58de491d4f4cdda94da4d263498ba1d66ea30a196f5544acfb"
     },
     {
       "id": "FCL-0033",
@@ -766,8 +766,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 5.223118399997475,
-      "peak_rss_bytes": 221478912,
+      "duration_seconds": 5.221073799999431,
+      "peak_rss_bytes": 220008448,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0033.json",
       "stderr": "",
@@ -804,7 +804,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "776a5302aff52977e2f3dda2e42a236fb6e7b4062a1f93383f9935565e6fc49d"
+      "qf_result_sha256": "6da6cf8646fbd1288c9ec75b4dda8917f04648187b7e80b7de25c7ca1eed8fab"
     },
     {
       "id": "FCL-0034",
@@ -824,8 +824,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 9.835228600015398,
-      "peak_rss_bytes": 378372096,
+      "duration_seconds": 9.835304600012023,
+      "peak_rss_bytes": 378966016,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0034.json\nQUALIFICATION GATE: WARNING 63 audit warning(s) present.",
       "stderr": "",
@@ -864,7 +864,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "caacd5b79e90cb70dc7723e3bd6493475915e8378b6368e1685c1c96da682ade"
+      "qf_result_sha256": "dc8fcbee2c74b8d4dac923445a00e416f222353fcf24ddc0d54ae4a184a36087"
     },
     {
       "id": "FCL-0035",
@@ -884,8 +884,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 5.222998599987477,
-      "peak_rss_bytes": 263528448,
+      "duration_seconds": 5.224845499993535,
+      "peak_rss_bytes": 214896640,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0035.json\nQUALIFICATION GATE: WARNING 91 audit warning(s) present.",
       "stderr": "",
@@ -924,7 +924,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "426586d2dfeba5b4cb0ff99e360758343cb2c3deb349fda9878c13caba91dd0d"
+      "qf_result_sha256": "af07647f614cac2092c0a63de2dbfacc37b4572ce9b056258a81b5b36aedf634"
     },
     {
       "id": "FCL-0036",
@@ -944,13 +944,13 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 1.8130599999858532,
-      "peak_rss_bytes": 110710784,
+      "duration_seconds": 1.813242399977753,
+      "peak_rss_bytes": 111644672,
       "return_code": 3,
       "stdout": "",
       "stderr": "ERROR[NumericalConvergenceError]: direct residual is abnormal: relative=1.183107e-03, allowed=1.000000e-07.\n{\"converged\": false, \"diagnostics\": {}, \"message\": \"direct residual is abnormal: relative=1.183107e-03, allowed=1.000000e-07.\", \"reason\": null}",
       "status": "FAIL",
-      "reason": "missing or invalid QF result: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_foundation\\\\qualification\\\\0_2_6\\\\public_volumetric_qf_results\\\\FCL-0036.json'"
+      "reason": "missing or invalid QF result: [Errno 2] No such file or directory: 'C://Users//fari//Documents//Codex//2026-07-06//yeah//qf_solver_026_foundation//qualification//0_2_6//public_volumetric_qf_results//FCL-0036.json'"
     },
     {
       "id": "FCL-0039",
@@ -970,8 +970,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 5.020598200004315,
-      "peak_rss_bytes": 266510336,
+      "duration_seconds": 5.021139400021639,
+      "peak_rss_bytes": 265977856,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0039.json",
       "stderr": "",
@@ -1008,7 +1008,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "b61cb6bbfd147fae88f1713671f3d582be0261783dd950117e3adfc9aa0a7290"
+      "qf_result_sha256": "b82f55bcc8790df9e622cd9ea4bdaf9af8b3857a3bdfdb7ecf5b73e27bf1fd58"
     },
     {
       "id": "FCL-0040",
@@ -1028,8 +1028,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 5.424617999990005,
-      "peak_rss_bytes": 288030720,
+      "duration_seconds": 5.439897900010692,
+      "peak_rss_bytes": 298405888,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0040.json\nQUALIFICATION GATE: FAIL 4 audit check(s) failed.",
       "stderr": "",
@@ -1056,8 +1056,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 15.655312700022478,
-      "peak_rss_bytes": 833331200,
+      "duration_seconds": 15.649683900002856,
+      "peak_rss_bytes": 784691200,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0047.json\nQUALIFICATION GATE: FAIL 98 audit check(s) failed.",
       "stderr": "",
@@ -1084,8 +1084,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.0150014999962877,
-      "peak_rss_bytes": 152248320,
+      "duration_seconds": 3.0160371999954805,
+      "peak_rss_bytes": 149307392,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0048.json",
       "stderr": "",
@@ -1122,7 +1122,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "eda9c5bee6ecc9e49861f6a49fad97acf3d8d51291e414b0d7c286e3d464422b"
+      "qf_result_sha256": "0d710c376bf2ed26c4165a9a76f533c73babbe8730e4530a8e515683d931a6df"
     },
     {
       "id": "FCL-0049",
@@ -1142,8 +1142,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 18.459502100013196,
-      "peak_rss_bytes": 849534976,
+      "duration_seconds": 18.06133110000519,
+      "peak_rss_bytes": 1022869504,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0049.json\nQUALIFICATION GATE: WARNING 30 audit warning(s) present.",
       "stderr": "",
@@ -1182,7 +1182,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "2f8f061e471d37d74666385c5e9d5762b396b75c28db3072ff35d3f70350f33f"
+      "qf_result_sha256": "abdb0e62d93a987a23a6135d151c9007164f2bd8dcc4742c52df516aa658cc8b"
     },
     {
       "id": "FCL-0050",
@@ -1202,8 +1202,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 14.05228210001951,
-      "peak_rss_bytes": 727793664,
+      "duration_seconds": 14.049396399990655,
+      "peak_rss_bytes": 726716416,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0050.json\nQUALIFICATION GATE: FAIL 31 audit check(s) failed.",
       "stderr": "",
@@ -1230,8 +1230,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.8197008999995887,
-      "peak_rss_bytes": 176766976,
+      "duration_seconds": 3.8183774999924935,
+      "peak_rss_bytes": 177254400,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0051.json\nQUALIFICATION GATE: FAIL 27 audit check(s) failed.",
       "stderr": "",
@@ -1258,8 +1258,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 4.823873800021829,
-      "peak_rss_bytes": 198873088,
+      "duration_seconds": 4.822169599996414,
+      "peak_rss_bytes": 199802880,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0053.json",
       "stderr": "",
@@ -1296,7 +1296,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "710c2ece6b49f157c6a8b07b318c17c9613bb551370509db566ea95b677844fa"
+      "qf_result_sha256": "a7a0ab326e6d6d0f119e6973811d56aeb05b9a67a9a2c98b1cd1d65e41b966b0"
     },
     {
       "id": "FCL-0055",
@@ -1316,8 +1316,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 5.627082899998641,
-      "peak_rss_bytes": 315740160,
+      "duration_seconds": 5.8237716000003275,
+      "peak_rss_bytes": 315957248,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0055.json\nQUALIFICATION GATE: FAIL 107 audit check(s) failed.",
       "stderr": "",
@@ -1344,8 +1344,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.617726299999049,
-      "peak_rss_bytes": 188039168,
+      "duration_seconds": 3.6178283000190277,
+      "peak_rss_bytes": 208781312,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0057.json\nQUALIFICATION GATE: FAIL 2 audit check(s) failed.",
       "stderr": "",
@@ -1372,8 +1372,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 5.822945599997183,
-      "peak_rss_bytes": 284942336,
+      "duration_seconds": 5.822924600011902,
+      "peak_rss_bytes": 237023232,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0059.json",
       "stderr": "",
@@ -1410,7 +1410,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "be2a528ddfcb2611bac0605c65c89e93ee83c7b1333726251eafe367dfc8e8a6"
+      "qf_result_sha256": "1dbc7c7684ced0a9422005fa3afdcde3280fad1fa4d3740be86122b0ed6dcedb"
     },
     {
       "id": "FCL-0060",
@@ -1430,8 +1430,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 120.30060940000112,
-      "peak_rss_bytes": 1789145088,
+      "duration_seconds": 120.28249219999998,
+      "peak_rss_bytes": 1789173760,
       "return_code": 1,
       "stdout": "",
       "stderr": "",
@@ -1456,8 +1456,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 4.626203299994813,
-      "peak_rss_bytes": 256262144,
+      "duration_seconds": 4.620947300019907,
+      "peak_rss_bytes": 243412992,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0065.json\nQUALIFICATION GATE: FAIL 17 audit check(s) failed.",
       "stderr": "",
@@ -1484,8 +1484,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 5.223520100000314,
-      "peak_rss_bytes": 214753280,
+      "duration_seconds": 5.223514000012074,
+      "peak_rss_bytes": 252289024,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0068.json\nQUALIFICATION GATE: WARNING 12 audit warning(s) present.",
       "stderr": "",
@@ -1524,7 +1524,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "9dac84b7ac1c44f90a1d2e4e8987817d8fe2b137ae2dec04bce941ecd2c4b5a1"
+      "qf_result_sha256": "63d0e095f0d86c2bc36c41be55be4095fa1927c35ab9e4f7ba38c49d1f2399ed"
     },
     {
       "id": "FCL-0071",
@@ -1544,8 +1544,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.6176445999881253,
-      "peak_rss_bytes": 179924992,
+      "duration_seconds": 3.819176899996819,
+      "peak_rss_bytes": 216985600,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0071.json\nQUALIFICATION GATE: FAIL 5 audit check(s) failed.",
       "stderr": "",
@@ -1572,8 +1572,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.6184158000105526,
-      "peak_rss_bytes": 177942528,
+      "duration_seconds": 3.6176901000144426,
+      "peak_rss_bytes": 196689920,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0072.json\nQUALIFICATION GATE: WARNING 17 audit warning(s) present.",
       "stderr": "",
@@ -1612,7 +1612,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "a37d7cbeb6530f74b78e9e516da8d52e7708bc3d4ed0a1b6be39a6a25009a7b6"
+      "qf_result_sha256": "41f218f4cccefed7328ee239d7dc40eb0a2d75e2d332f2af4a0411b6673c4926"
     },
     {
       "id": "FCL-0076",
@@ -1632,8 +1632,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.8204002999991644,
-      "peak_rss_bytes": 176861184,
+      "duration_seconds": 3.8180741999822203,
+      "peak_rss_bytes": 177774592,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0076.json\nQUALIFICATION GATE: FAIL 1 audit check(s) failed.",
       "stderr": "",
@@ -1660,8 +1660,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.2308282000012696,
-      "peak_rss_bytes": 147132416,
+      "duration_seconds": 3.015447799989488,
+      "peak_rss_bytes": 152158208,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0077.json",
       "stderr": "",
@@ -1698,7 +1698,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "e244254152dcaac5f6a6cd10b9cf7373b170aafc4a2893380cf139f08591ec05"
+      "qf_result_sha256": "0c900e1e3315c21cbae5dfa136a62ec6fae9158aead50ea3701b1f7d51ff2275"
     },
     {
       "id": "FCL-0081",
@@ -1718,8 +1718,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 4.820278800005326,
-      "peak_rss_bytes": 245235712,
+      "duration_seconds": 4.82189799999469,
+      "peak_rss_bytes": 243417088,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0081.json\nQUALIFICATION GATE: WARNING 12 audit warning(s) present.",
       "stderr": "",
@@ -1758,7 +1758,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "94e09917c33d21e2b42400697c599c1228d4b37b8fddd0ac88f10d73ebf032cb"
+      "qf_result_sha256": "272930a834222269799996f6ca0d618587ad62c72a3cb665b02179092173e65b"
     },
     {
       "id": "FCL-0082",
@@ -1778,8 +1778,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.4174281999876257,
-      "peak_rss_bytes": 199991296,
+      "duration_seconds": 3.417502299998887,
+      "peak_rss_bytes": 200495104,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0082.json\nQUALIFICATION GATE: WARNING 3 audit warning(s) present.",
       "stderr": "",
@@ -1818,7 +1818,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "379cba0ec0dce9e6c6a22be7f37796e4ffc188b05b7920e27b50e95b3cdfdf08"
+      "qf_result_sha256": "c48efc160fd44d9cc7a911868bbaefaf2eacee37b01e13db5d775ac99b4fff74"
     },
     {
       "id": "FCL-0083",
@@ -1838,8 +1838,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 2.4150345000089146,
-      "peak_rss_bytes": 133025792,
+      "duration_seconds": 2.414582799974596,
+      "peak_rss_bytes": 133603328,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0083.json",
       "stderr": "",
@@ -1876,7 +1876,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "1e15901c646ffa97f01f5bb4df09f80fdc57b28bf402549d8ea6336046c97f92"
+      "qf_result_sha256": "5d7cbb544fcf43bca9220cacf0bfa22dba26624ba1e01fbb2825d8a8bd46279f"
     },
     {
       "id": "FCL-0084",
@@ -1896,8 +1896,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 8.231481499999063,
-      "peak_rss_bytes": 441106432,
+      "duration_seconds": 8.23355140001513,
+      "peak_rss_bytes": 441843712,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0084.json\nQUALIFICATION GATE: WARNING 51 audit warning(s) present.",
       "stderr": "",
@@ -1936,7 +1936,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "33009532f6ccaab2fa591bb7d02b05fa66797decc142b4757ccf3fb35544f59b"
+      "qf_result_sha256": "378fcd9f3268e2ee22f378f35bca90e4d8e0d642c749e1db579c683d7c1ce174"
     },
     {
       "id": "FCL-0085",
@@ -1956,8 +1956,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 5.431093999999575,
-      "peak_rss_bytes": 293122048,
+      "duration_seconds": 5.224572500010254,
+      "peak_rss_bytes": 293654528,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0085.json\nQUALIFICATION GATE: FAIL 80 audit check(s) failed.",
       "stderr": "",
@@ -1984,8 +1984,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 2.0137933999940287,
-      "peak_rss_bytes": 118046720,
+      "duration_seconds": 2.017212400009157,
+      "peak_rss_bytes": 118026240,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0086.json",
       "stderr": "",
@@ -2022,7 +2022,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "fc25937a5df20280d9b6ecc67dfc3b20db11547fcf0a3ec092e4f5f2453d74c4"
+      "qf_result_sha256": "e888d214bf70a9eff0ad93510aa233cae427392eec7bca4aa46a42350f95e7cd"
     },
     {
       "id": "FCL-0087",
@@ -2042,8 +2042,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 9.030357499985257,
-      "peak_rss_bytes": 407830528,
+      "duration_seconds": 9.033876300003612,
+      "peak_rss_bytes": 409567232,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0087.json\nQUALIFICATION GATE: WARNING 141 audit warning(s) present.",
       "stderr": "",
@@ -2082,7 +2082,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "5fd11c315c4370097c2472b532d072f3b04c4251dd01dd50a8c9c4fe4f4c4b19"
+      "qf_result_sha256": "4236cfb2b11d251a74762faf8a8e2b9fcf6d30a317ca7c4a7e216ddcdb46d0cb"
     },
     {
       "id": "FCL-0088",
@@ -2102,8 +2102,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.4171196999959648,
-      "peak_rss_bytes": 152424448,
+      "duration_seconds": 3.4375288000155706,
+      "peak_rss_bytes": 154099712,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0088.json",
       "stderr": "",
@@ -2140,7 +2140,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "23d8ba963c47882d34cb16bc6ec3609369b45de3ea14e5b52e9fb147c5b481a7"
+      "qf_result_sha256": "d9d2750ef56dda04649a0b197be2a4351ec08c2c0ce4e087f40897dcd17342f3"
     },
     {
       "id": "FCL-0090",
@@ -2160,8 +2160,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 4.218714800023008,
-      "peak_rss_bytes": 235700224,
+      "duration_seconds": 4.01958019999438,
+      "peak_rss_bytes": 233836544,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0090.json\nQUALIFICATION GATE: FAIL 1 audit check(s) failed.",
       "stderr": "",
@@ -2188,8 +2188,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 4.822702900011791,
-      "peak_rss_bytes": 202932224,
+      "duration_seconds": 4.823181699990528,
+      "peak_rss_bytes": 202743808,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0091.json",
       "stderr": "",
@@ -2226,7 +2226,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "183ea0ddac4a7ad0f7e05beaf0e41d97a91ef97f5596b8f11aa739f355a920f1"
+      "qf_result_sha256": "8e2eb2a6afeb0415afea596f10190862099db089f62bb1b660d7e0263113a809"
     },
     {
       "id": "FCL-0092",
@@ -2246,8 +2246,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 4.220455700007733,
-      "peak_rss_bytes": 194920448,
+      "duration_seconds": 4.216139800002566,
+      "peak_rss_bytes": 230187008,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0092.json\nQUALIFICATION GATE: WARNING 2 audit warning(s) present.",
       "stderr": "",
@@ -2286,7 +2286,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "49e644ffa0f990de1bb6cebc0ff5a99763eaaa047afd480efe37612b6668af0c"
+      "qf_result_sha256": "219fa6fc895aa23f9b881651f419e1d60ced72bd9365aa37230dadfd58ae3be7"
     },
     {
       "id": "FCL-0094",
@@ -2306,8 +2306,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.4204390000086278,
-      "peak_rss_bytes": 171843584,
+      "duration_seconds": 3.4165732999972533,
+      "peak_rss_bytes": 170688512,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0094.json",
       "stderr": "",
@@ -2344,7 +2344,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "ee7fdecd20613f0f6b20de487dd1299b1f757824197a08802993295c3d4f725f"
+      "qf_result_sha256": "b688b9c0fc43869b1efa3889e553f7f102a151a83d75cdd552550be40be48105"
     },
     {
       "id": "FCL-0095",
@@ -2364,8 +2364,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.818656999996165,
-      "peak_rss_bytes": 177102848,
+      "duration_seconds": 3.8181328999926336,
+      "peak_rss_bytes": 176697344,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0095.json\nQUALIFICATION GATE: FAIL 4 audit check(s) failed.",
       "stderr": "",
@@ -2392,8 +2392,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 4.220566100004362,
-      "peak_rss_bytes": 200007680,
+      "duration_seconds": 4.2191310999915,
+      "peak_rss_bytes": 200159232,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0096.json\nQUALIFICATION GATE: FAIL 4 audit check(s) failed.",
       "stderr": "",
@@ -2420,8 +2420,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 4.4220980999816675,
-      "peak_rss_bytes": 216473600,
+      "duration_seconds": 4.419811500003561,
+      "peak_rss_bytes": 200249344,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0097.json\nQUALIFICATION GATE: WARNING 3 audit warning(s) present.",
       "stderr": "",
@@ -2460,7 +2460,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "39f0d2925b46c5e84ebcedcc01b7f63d5fef5df46f1d6c18137179766b58e21f"
+      "qf_result_sha256": "5d2b3e8861cc0ead60009188b27ab8a1234bc7aeb21a8be7ce0864e47c80d669"
     },
     {
       "id": "FCL-0098",
@@ -2480,8 +2480,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.416265099978773,
-      "peak_rss_bytes": 191840256,
+      "duration_seconds": 3.4190400000079535,
+      "peak_rss_bytes": 202989568,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0098.json\nQUALIFICATION GATE: WARNING 3 audit warning(s) present.",
       "stderr": "",
@@ -2520,7 +2520,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "9a5b1ab4b785fdf97238c14731325b30b6c1c3dd865d3662a3049276dc2ebee8"
+      "qf_result_sha256": "56457f328f1b6587d464e7b7a7b41bcb615c2da62400026d3b9c8e3fd3a072f9"
     },
     {
       "id": "FCL-0099",
@@ -2540,8 +2540,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.417801400006283,
-      "peak_rss_bytes": 170901504,
+      "duration_seconds": 3.4182205999968573,
+      "peak_rss_bytes": 173113344,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0099.json\nQUALIFICATION GATE: WARNING 95 audit warning(s) present.",
       "stderr": "",
@@ -2580,7 +2580,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "0555a7b023ceadba1a1f26f1bf9aae52bed5828049401b2e3d5a03d7e7c38f54"
+      "qf_result_sha256": "9242e725260ac319e6128b27409deadfa33ea721e5892fe4b858fce3ab1ffc29"
     },
     {
       "id": "FCL-0100",
@@ -2600,8 +2600,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 2.812457899999572,
-      "peak_rss_bytes": 146276352,
+      "duration_seconds": 2.8164510000206064,
+      "peak_rss_bytes": 148262912,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: qualification/0_2_6/public_volumetric_qf_results/FCL-0100.json\nQUALIFICATION GATE: WARNING 2 audit warning(s) present.",
       "stderr": "",
@@ -2640,7 +2640,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "87e18426db4436436ec84976ef0e402744ddf117edd088d5aee453ad281e26ba"
+      "qf_result_sha256": "5e16b9df9d329c7ca7d48215281d1b86e08fe124d2bb1d1558d6405fa24f51a0"
     }
   ]
 }
