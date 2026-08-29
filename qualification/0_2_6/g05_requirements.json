@@ -24,11 +24,11 @@
       "phenomenon": "Modal mesh sensitivity",
       "oracle": ["mesh_refinement_trend"],
       "metrics": ["frequency_sequence", "successive_relative_change", "mode_tracking"],
-      "threshold": {"status": "PROPOSED_OWNER_REVIEW", "successive_relative_frequency_change": "<= 1e-2", "minimum_compatible_levels": 3},
+      "threshold": {"status": "OWNER_APPROVED_BOUNDED", "successive_relative_frequency_change": "<= 1e-2", "minimum_compatible_levels": 3, "mode_identity": "tracked_same_mode", "residual_and_mac": "retained_when_available"},
       "domain": "At least coarse, medium and fine compatible meshes",
-      "justification": "Existing family-specific studies use a one-percent final adjacent-level band, but no repository-wide Owner policy is approved; Owner decision is required before PASS.",
-      "evidence_status": "OWNER_APPROVAL_REQUIRED",
-      "policy_note": "Proposal only: retain full tracked-mode sequence; exclude rigid-body modes and mode crossings from this metric."
+      "justification": "Owner-approved bounded policy on 2026-08-29. Existing family-specific studies use a one-percent final adjacent-level band; it is retained without relaxation.",
+      "evidence_status": "OWNER_APPROVED_BOUNDED",
+      "policy_note": "Retain the full tracked-mode sequence; exclude rigid-body modes and mode crossings from this metric."
     },
     {
       "id": "G05-DYN-001",
@@ -49,11 +49,11 @@
       "phenomenon": "Time-step refinement and response stability",
       "oracle": ["time_refinement_sequence"],
       "metrics": ["history_difference", "phase_or_period_error", "energy_drift"],
-      "threshold": {"status": "PROPOSED_OWNER_REVIEW", "final_adjacent_level_history_error": "<= 1e-2", "minimum_time_levels": 3},
+      "threshold": {"status": "OWNER_APPROVED_BOUNDED", "final_adjacent_level_history_error": "<= 1e-2", "minimum_time_levels": 3, "common_physical_interval": true, "common_comparison_times": true, "residual_and_energy": "separate_criteria"},
       "domain": "At least three time steps in a common physical time interval",
-      "justification": "Existing dynamic studies use a one-percent final adjacent-level band, but no general-purpose temporal policy is approved in the current gate contract.",
-      "evidence_status": "OWNER_APPROVAL_REQUIRED",
-      "policy_note": "Proposal only: same physical interval, load history and compatible output times are required; all adjacent errors remain diagnostic."
+      "justification": "Owner-approved bounded policy on 2026-08-29. Existing dynamic studies use a one-percent final adjacent-level band; residual and energy requirements are not relaxed.",
+      "evidence_status": "OWNER_APPROVED_BOUNDED",
+      "policy_note": "The same physical interval, load history and compatible output times are required; all adjacent errors remain diagnostic."
     },
     {
       "id": "G05-HAR-001",
@@ -74,16 +74,18 @@
       "phenomenon": "Frequency refinement and near-resonance sensitivity",
       "oracle": ["frequency_refinement_sequence"],
       "metrics": ["amplitude_sequence", "phase_sequence", "peak_location", "response_difference"],
-      "threshold": {"status": "PROPOSED_OWNER_REVIEW", "final_grid_amplitude_change": "<= 1e-2", "phase_and_peak": "reported_separately"},
+      "threshold": {"status": "OWNER_APPROVED_BOUNDED", "final_grid_amplitude_change": "<= 1e-2", "phase_and_peak": "reported_separately", "exact_singular_resonance": "not_applicable"},
       "domain": "At least coarse and refined frequency grids, with resonance handling documented",
-      "justification": "Existing harmonic refinement evidence supports a one-percent final-grid amplitude proposal, but no common peak/phase policy is approved for all supported models.",
-      "evidence_status": "OWNER_APPROVAL_REQUIRED",
-      "policy_note": "Proposal only: local sampling is required near resonance; do not apply across changed damping/materials or singular exact resonance."
+      "justification": "Owner-approved bounded policy on 2026-08-29. Existing harmonic refinement evidence supports a one-percent final-grid amplitude band; phase, peak location and complex residual remain recorded separately.",
+      "evidence_status": "OWNER_APPROVED_BOUNDED",
+      "policy_note": "Local sampling is required near resonance; do not apply across changed damping/materials or singular exact resonance."
     }
   ],
   "policy_governance": {
-    "status": "PROPOSED_OWNER_REVIEW",
-    "approval_required_before_026_G05_closeout": true,
+    "status": "OWNER_APPROVED_BOUNDED",
+    "approval_record": "OWNER_DIRECTION_2026-08-29",
+    "approval_required_before_026_G05_closeout": false,
+    "scope": "Bounded G05 refinement promotion only; this approval does not close the gate or broaden element claims.",
     "contract_not_closed_by_this_file": true
   }
 }

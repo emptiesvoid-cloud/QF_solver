@@ -84,10 +84,10 @@
     "newmark_time": "EXECUTED_30_60_120_240_STEPS_PER_PERIOD",
     "harmonic_frequency": "EXECUTED_BASELINE_AND_REFINED_GRIDS"
   },
-  "acceptance_policy_status": "PROPOSED_OWNER_REVIEW",
+  "acceptance_policy_status": "OWNER_APPROVED_BOUNDED",
   "limitations": [
     "Internal prequalification evidence does not close official 026-G05.",
     "Existing modal mesh studies remain family-specific and are referenced by the generated aggregate.",
-    "External element correlations and Owner approval of the proposed refinement policies remain required."
+    "External element correlations and final clean-worktree provenance remain required."
   ]
 }

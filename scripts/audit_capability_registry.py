@@ -169,7 +169,7 @@ def render_document(registry: dict[str, Any]) -> str:
     counts = {level: sum(row["VNV_LEVEL"] == level for row in rows) for level in sorted(VNV_LEVELS)}
     g05_gaps = (
         "The G05-B family campaign covers TET4, TET10, HEX8, HEX20, BEAM2, MITC3/MITC3+, MITC4 and discrete; "
-        "refinement policies remain PROPOSED_OWNER_REVIEW."
+        "refinement policies are OWNER_APPROVED_BOUNDED and final clean provenance remains open."
     )
     lines = [
         "# Capability Coverage Register",
@@ -218,10 +218,10 @@ def render_document(registry: dict[str, Any]) -> str:
         "",
         "## G05-B Integration And Open Gaps",
         "",
-        "- `G05-B` executed 4 modal, 4 Newmark, and 4 harmonic TET4 cases on `fbae9d983da451052d95e111a85970f93899e409` with 12 PASS. It supplements the official G05 evidence; it does **not** close `026-G05`.",
+        "- `G05-B` is supplemented by an all-family campaign with MOD 14, DYN 32 and HAR 12 controlled cases. It remains internal prequalification and does **not** close `026-G05`.",
         "- The family campaign executes MOD 14, DYN 32 time-level cases and HAR 12 across all eight requested family rows. See `0_2_6_g05_family_coverage.md`; it remains internal prequalification.",
         f"- {g05_gaps}",
-        "- The modal mesh, Newmark time-refinement, and harmonic frequency-refinement policies require Owner approval before any G05 closeout.",
+        "- The modal mesh, Newmark time-refinement, and harmonic frequency-refinement policies are `OWNER_APPROVED_BOUNDED`; final clean provenance and Owner closeout remain required.",
         "",
         "## Historical Continuity",
         "",

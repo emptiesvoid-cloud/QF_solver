@@ -21,4 +21,4 @@
 
 G00 is a refactor guard with an explicit dirty-worktree limitation, not a replacement for immutable 0.2.5 evidence. G01-G03 close only audit, infrastructure and corpus design. Capability-gate outcomes are not implied by this foundation.
 
-`026-G05` now references the supplemental `G05-B` contract, registry and evidence. That batch executed 12 TET4 cases (4 modal, 4 Newmark and 4 harmonic) without an unexplained failure, but it is not a substitute for the 14/16/12 target corpus, family coverage, refinement policies or an Owner-approved acceptance policy. The official gate therefore remains `NOT_STARTED`.
+`026-G05` now references the supplemental `G05-B` contract, registry and evidence, the all-family coverage record and the final-evidence pack. The controlled campaign reaches MOD `14/14`, DYN `32/16` and HAR `12/12` across eight family rows; its bounded refinement policies are Owner-approved. The official gate remains `NOT_STARTED` until its final evidence is cleanly reproduced and an Owner closeout decision is recorded.

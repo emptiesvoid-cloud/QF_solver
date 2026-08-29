@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "gate": "026-G05",
+  "title": "Modal / dynamic / harmonic final qualification evidence",
+  "status": "PASS_WITH_LIMITATIONS",
+  "qualification_status": "PENDING_OWNER_CLOSEOUT",
+  "proposed_gate_decision": "PASS_WITH_LIMITATIONS",
+  "qualified_source_sha": "6cd971756af0f1b8a114fd98b188714da39ff081",
+  "evidence_head": null,
+  "evidence_head_contract": "The local evidence commit is recorded by g05_final_provenance.json after this immutable content is committed. It is distinct from the qualified numerical source SHA.",
+  "solver_version": "0.2.6a0",
+  "policy_governance": {
+    "status": "OWNER_APPROVED_BOUNDED",
+    "approval_record": "OWNER_DIRECTION_2026-08-29",
+    "scope": "G05 modal, Newmark and harmonic refinement only",
+    "contract_lowered": false
+  },
+  "internal_campaign": {
+    "status": "PASS_INTERNAL_PREQUAL",
+    "source_sha": "6cd971756af0f1b8a114fd98b188714da39ff081",
+    "source_dirty": false,
+    "counts": {"MOD": 14, "DYN": 32, "HAR": 12},
+    "targets": {"MOD": 14, "DYN": 16, "HAR": 12},
+    "family_count": 8,
+    "unexpected_failures": 0,
+    "summary": {
+      "path": "qualification/vnv/g05b_family_coverage/summary.json",
+      "sha256": "3d0b16cfd20da1e089f537ad5815b32ee5a101a11f32b1710335da77d3626ba8"
+    },
+    "manifest": {
+      "path": "qualification/vnv/g05b_family_coverage/vnv_manifest.json",
+      "sha256": "a1ec549ec62eb099812390e2cee5af995bc464b042745f0cb67fcccfb4860188"
+    }
+  },
+  "family_coverage": {
+    "TET4": {"MOD": "VERIFIED_INTERNAL_PREQUAL", "DYN": "VERIFIED_INTERNAL_PREQUAL", "HAR": "VERIFIED_INTERNAL_PREQUAL"},
+    "TET10": {"MOD": "VERIFIED_INTERNAL_PREQUAL", "DYN": "VERIFIED_INTERNAL_PREQUAL", "HAR": "VERIFIED_INTERNAL_PREQUAL"},
+    "HEX8": {"MOD": "VERIFIED_INTERNAL_PREQUAL", "DYN": "VERIFIED_INTERNAL_PREQUAL", "HAR": "VERIFIED_INTERNAL_PREQUAL"},
+    "HEX20": {"MOD": "VERIFIED_INTERNAL_PREQUAL", "DYN": "VERIFIED_INTERNAL_PREQUAL", "HAR": "VERIFIED_INTERNAL_PREQUAL"},
+    "BEAM2": {"MOD": "VERIFIED_INTERNAL_PREQUAL", "DYN": "VERIFIED_INTERNAL_PREQUAL", "HAR": "VERIFIED_INTERNAL_PREQUAL"},
+    "MITC3": {"alias": "MITC3+ maps to the registered MITC3 route", "MOD": "VERIFIED_INTERNAL_PREQUAL", "DYN": "VERIFIED_INTERNAL_PREQUAL", "HAR": "VERIFIED_INTERNAL_PREQUAL"},
+    "MITC4": {"MOD": "VERIFIED_INTERNAL_PREQUAL", "DYN": "VERIFIED_INTERNAL_PREQUAL", "HAR": "VERIFIED_INTERNAL_PREQUAL"},
+    "DISCRETE": {"alias": "SPRING_MASS legacy campaign label", "MOD": "VERIFIED_INTERNAL_PREQUAL", "DYN": "VERIFIED_INTERNAL_PREQUAL", "HAR": "VERIFIED_INTERNAL_PREQUAL"}
+  },
+  "refinement": {
+    "modal": {"status": "BOUNDED_EXISTING_FAMILY_EVIDENCE", "policy": "final adjacent tracked-mode frequency change <= 1%, at least three compatible levels"},
+    "newmark": {"status": "EXECUTED", "levels": [30, 60, 120, 240], "worst_final_adjacent_error": 0.004720960909695235, "policy": "final adjacent history error <= 1%"},
+    "harmonic": {"status": "EXECUTED", "policy": "final-grid amplitude change <= 1%; phase, peak and complex residual retained separately", "singular_exact_resonance": "not_applicable"}
+  },
+  "analytical_oracles": [
+    {"id": "G05-INTERNAL-MODAL-OSCILLATOR", "status": "PASS_INTERNAL", "scope": "assembled first-eigenmode closed-form oscillator reference in the all-family campaign"},
+    {"id": "G05-NEWMARK-SDOF-CLOSED-FORM", "status": "PASS", "test": "tests/unit/test_analysis_features.py::test_transient_dynamic_sdof_matches_closed_form_initial_energy"},
+    {"id": "G05-HARMONIC-SDOF-CLOSED-FORM", "status": "PASS", "test": "tests/unit/test_analysis_features.py::test_harmonic_sdof_matches_closed_form_amplitude_and_phase"}
+  ],
+  "external_correlations": [
+    {"id": "VNV-DISCRETE-CODEASTER-SDOF-001", "family": "DISCRETE", "analyses": ["modal", "Newmark", "harmonic"], "status": "PASS_EXTERNAL_CORRELATION", "provenance": "REPLAY_REQUIRED_CLEAN_WORKTREE", "summary": {"path": "qualification/vnv/g05_final_external/discrete/summary.json", "sha256": "534b3f9cb98a174b6ab6a8bb7ca4541e19b26174365c409d3c048f399373c9b1"}, "manifest": {"path": "qualification/vnv/g05_final_external/discrete/vnv_manifest.json", "sha256": "24384f1e0ffd3af2c9ebe0e0ac06ce718597995f3b9e85fb07e932820c937903"}, "maximum_recorded_error": 3.050412883780916e-11, "threshold": 1e-7},
+    {"id": "VNV-BEAM2-MODAL-CODEASTER-POUDE-002", "family": "BEAM2", "analyses": ["modal"], "status": "PASS_EXTERNAL_CORRELATION", "provenance": "REPLAY_REQUIRED_CLEAN_WORKTREE", "summary": {"path": "qualification/vnv/g05_final_external/beam2_modal/summary.json", "sha256": "015123833bc9b68f85611198c628bd4c4b692cc1a7d5dd5609660a0f32e49dfb"}, "manifest": {"path": "qualification/vnv/g05_final_external/beam2_modal/vnv_manifest.json", "sha256": "d6ae9be7140bcddf1211381b62abfee56122fa87a029dff09293de3d2797f6c9"}, "maximum_recorded_error": 0.0002648629332861158, "threshold": 0.01},
+    {"id": "VNV-BEAM2-NEWMARK-CODEASTER-POUDE-003", "family": "BEAM2", "analyses": ["Newmark", "harmonic"], "status": "PASS_EXTERNAL_CORRELATION", "provenance": "REPLAY_REQUIRED_CLEAN_WORKTREE", "summary": {"path": "qualification/vnv/g05_final_external/beam2_newmark/summary.json", "sha256": "07b573123420d5616e19604e35e56aa49ca491d007a3e9e0b74c7750cf7ebfc5"}, "manifest": {"path": "qualification/vnv/g05_final_external/beam2_newmark/vnv_manifest.json", "sha256": "3dd42c8b5b9dd1df16519739b818aa3643a49082ddb324a91257fba94368a2a3"}, "maximum_recorded_error": 4.747275113911135e-13, "threshold": 1e-7},
+    {"id": "VNV-TET4-DYNAMICS-CODEASTER-TETRA4-020", "family": "TET4", "analyses": ["modal", "Newmark", "harmonic"], "status": "PASS_EXTERNAL_CORRELATION", "provenance": "REPLAY_REQUIRED_CLEAN_WORKTREE", "summary": {"path": "qualification/vnv/g05_final_external/tet4_dynamic/summary.json", "sha256": "4b4231fa985e676c99590c7a4390b94116affd03032e2ebdb2eefcb5ce9d474a"}, "manifest": {"path": "qualification/vnv/g05_final_external/tet4_dynamic/vnv_manifest.json", "sha256": "7bbaa5b9e7d59ed0e9323806a53fbf86b7f67ac04b0a38e6946f36d0bec16858"}, "maximum_recorded_error": 0.046430813744359783, "threshold": 0.1}
+  ],
+  "external_not_executed": [
+    {"families": ["TET10", "HEX8", "HEX20", "MITC3", "MITC4"], "status": "NOT_EXECUTED_NO_CURRENT_COMPARABLE_DECK", "reason": "Code_Aster was available, but no current same-SHA formulation-compatible G05 deck was selected in this bounded run."}
+  ],
+  "limitations": [
+    "The external replay manifests were generated while pre-existing pytest temporary directories were untracked; their source provenance is dirty and must be replayed from a clean worktree before final gate promotion.",
+    "Modal mesh refinement remains family-specific bounded evidence rather than a universal convergence claim.",
+    "No external same-SHA G05 deck was executed for TET10, HEX8, HEX20, MITC3 or MITC4.",
+    "SUPPORTED, TESTED, VERIFIED and QUALIFIED remain distinct states."
+  ],
+  "remaining_blockers": [
+    "Remove the five pre-existing pytest temporary directories and replay the selected external correlations with dirty=false.",
+    "Record a local evidence-commit provenance wrapper and perform the targeted final checks on that commit.",
+    "Owner closeout must decide whether the bounded external family coverage is sufficient for 026-G05."
+  ]
+}

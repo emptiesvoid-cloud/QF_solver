@@ -53,9 +53,10 @@ that one-element family models constitute a universal mesh proof:
 - `qualification/vnv/external/code_aster_modal_refinement_048/reference/summary.json`
 - `qualification/vnv/tet10_stable_refinement/reference/summary.json`
 
-The proposed policy is a final adjacent-level tracked-mode relative frequency
-change of `<= 1e-2` over at least three compatible levels. This is marked
-`PROPOSED_OWNER_REVIEW`, not approved.
+The Owner-approved bounded policy is a final adjacent-level tracked-mode
+relative frequency change of `<= 1e-2` over at least three compatible levels.
+It retains mode tracking and residual evidence; it is not a universal mesh
+convergence claim.
 
 ### Newmark time
 
@@ -67,7 +68,8 @@ are intentionally less accurate. The proposed metric is
 `||u_(dt/2) - u_dt|| / max(||u_(dt/2)||, u_floor) <= 1e-2`.
 
 It applies only to the same physical interval, load history and compatible
-output times. It remains `PROPOSED_OWNER_REVIEW`.
+output times. It is `OWNER_APPROVED_BOUNDED`; residual and energy criteria
+remain separate requirements.
 
 ### Harmonic frequency
 
@@ -76,6 +78,7 @@ points. TET4, HEX8, MITC4 and discrete receive a refined grid with local
 sampling around the first resonance. The proposed final-grid amplitude band is
 `<= 1e-2`, with phase and peak-bin movement reported separately. It is not
 applied at singular exact resonance or across changed damping/material data.
+This bounded policy is Owner-approved.
 
 ## Observed internal bounds
 
