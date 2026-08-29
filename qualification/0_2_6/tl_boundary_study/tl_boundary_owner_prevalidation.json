@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "decision_id": "026-TL-BOUNDARY-OWNER-PREVALIDATION-2026-08-29",
+  "status": "PASS_DIAGNOSTIC",
+  "start_sha": "3601e13263960e854d2b1c3231ba115b6ddc3990",
+  "campaign_source_sha": "5d16ab839679dcee64e6251085ba52c4b494847c",
+  "source_worktree_dirty_at_capture": false,
+  "policies": {
+    "mesh": {
+      "status": "OWNER_APPROVED_BOUNDED",
+      "rules": [
+        "No universal threshold based only on nominal aspect ratio.",
+        "Jacobian, mesh quality/distortion and measured diagnostics are mandatory checks.",
+        "Observed zones are limited to the tested domain."
+      ]
+    },
+    "conditioning": {
+      "status": "OWNER_APPROVED_BOUNDED",
+      "rules": [
+        "Tangent conditioning remains a mandatory diagnostic.",
+        "No universal numeric cutoff is approved.",
+        "Severe conditioning with Newton failure remains explicit and fail-closed."
+      ]
+    },
+    "adaptive_cutback": {
+      "status": "OWNER_APPROVED_BOUNDED",
+      "rules": [
+        "Opt-in cutback is allowed as a robustness mechanism.",
+        "Rollback is mandatory.",
+        "Minimum-increment exhaustion is an explicit failure.",
+        "Adaptive recovery does not erase fixed-step history."
+      ]
+    }
+  },
+  "campaign": {
+    "tet4_cases": 75,
+    "hex8_cases": 75,
+    "fixed_successes": 134,
+    "adaptive_successes": 146,
+    "recovered_by_cutback": 12,
+    "failed_in_both_modes": 4,
+    "conditioning_medians": {
+      "stable": 3972.0652527034244,
+      "degraded": 92544.64255077158,
+      "out_of_scope": 8223202.0490325475
+    },
+    "persistent_failures_preserved": true,
+    "degraded_cases_preserved": true
+  },
+  "technical_decision": {
+    "tl_boundary_study": "PASS_DIAGNOSTIC",
+    "tl_formulation_fix_required": false,
+    "newton_fix_required": false,
+    "tl_promotion": "DEFERRED",
+    "g07_status_unchanged": "NOT_STARTED",
+    "next_action": "Prepare a separate TL robustness R&D plan; do not implement it here."
+  },
+  "contract_lowered": false,
+  "owner_approval": "OWNER_DIRECTION_2026-08-29"
+}
