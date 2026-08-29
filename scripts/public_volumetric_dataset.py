@@ -135,6 +135,28 @@ def _write_qf_case(nodes: list[tuple[float, float, float]], elements: list[list[
     destination.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
 
 
+def _tet_topology(elements: list[list[int]], node_count: int) -> tuple[int, int]:
+    parent = list(range(node_count))
+
+    def find(index: int) -> int:
+        while parent[index] != index:
+            parent[index] = parent[parent[index]]
+            index = parent[index]
+        return index
+
+    repeated = 0
+    for element in elements:
+        if len(element) != len(set(element)):
+            repeated += 1
+        first = element[0]
+        for other in element[1:]:
+            left, right = find(first), find(other)
+            if left != right:
+                parent[left] = right
+    used = {node for element in elements for node in element}
+    return repeated, len({find(node) for node in used})
+
+
 def _mesh_step(step: Path, mesh4: Path, mesh10: Path, qf_case: Path) -> dict[str, Any]:
     import gmsh  # type: ignore
 
@@ -170,10 +192,32 @@ def _mesh_step(step: Path, mesh4: Path, mesh10: Path, qf_case: Path) -> dict[str
                 qualities.extend(float(value) for value in gmsh.model.mesh.getElementQualities(tags))
         if not tet4:
             raise RuntimeError("Gmsh produced no TET4 elements")
+        mesh10.unlink(missing_ok=True)
+        qf_case.unlink(missing_ok=True)
         gmsh.write(str(mesh4))
+        repeated, components = _tet_topology(tet4, len(nodes))
+        if repeated:
+            return {
+                "category": "REJECTED",
+                "status": "REJECTED",
+                "reason": f"{repeated} TET4 elements have repeated node connectivity",
+                "component_count": components,
+                "tet4_elements": len(tet4),
+            }
+        if components > 1:
+            return {
+                "category": "MESH_ONLY",
+                "status": "MESH_ONLY",
+                "reason": f"mesh contains {components} disconnected components; neutral single-domain BC not applicable",
+                "component_count": components,
+                "nodes": len(nodes),
+                "tet4_elements": len(tet4),
+                "quality_min": min(qualities) if qualities else None,
+                "quality_mean": sum(qualities) / len(qualities) if qualities else None,
+                "quality_status": "POSITIVE" if qualities and min(qualities) > 0.0 else "CHECK_REQUIRED",
+            }
         second_counts: Counter[str] = Counter()
         tet10_error = None
-        mesh10.unlink(missing_ok=True)
         try:
             gmsh.model.mesh.setOrder(2)
             second_types, second_tags, _ = gmsh.model.mesh.getElements(3)
@@ -192,6 +236,7 @@ def _mesh_step(step: Path, mesh4: Path, mesh10: Path, qf_case: Path) -> dict[str
             "category": "TET4_READY",
             "mesh_type": "TET4+TET10" if second_counts.get("Tetrahedron 10", 0) else "TET4",
             "volumes": len(volumes),
+            "component_count": components,
             "nodes": len(nodes),
             "tet4_elements": counts.get("Tetrahedron 4", 0),
             "tet10_elements": second_counts.get("Tetrahedron 10", 0),
@@ -264,11 +309,12 @@ def process(limit: int, cache: Path, manifest_path: Path) -> dict[str, Any]:
             result = _mesh_isolated(step, model_dir / "mesh_tet4.msh", model_dir / "mesh_tet10.msh", model_dir / "qf_case.json")
             record.update(result)
             record["transformations"].append("native STEP imported by Gmsh OCC")
-            if result.get("status") == "PASS":
+            if result.get("status") in {"PASS", "MESH_ONLY"}:
                 record["mesh_tet4"] = str((model_dir / "mesh_tet4.msh").relative_to(ROOT)).replace("\\", "/")
                 if (model_dir / "mesh_tet10.msh").exists():
                     record["mesh_tet10"] = str((model_dir / "mesh_tet10.msh").relative_to(ROOT)).replace("\\", "/")
-                record["qf_case"] = str((model_dir / "qf_case.json").relative_to(ROOT)).replace("\\", "/")
+                if (model_dir / "qf_case.json").exists():
+                    record["qf_case"] = str((model_dir / "qf_case.json").relative_to(ROOT)).replace("\\", "/")
         except Exception as exc:
             record.update({"category": "REJECTED", "status": "REJECTED", "reason": f"{type(exc).__name__}: {exc}"})
         records.append(record)
