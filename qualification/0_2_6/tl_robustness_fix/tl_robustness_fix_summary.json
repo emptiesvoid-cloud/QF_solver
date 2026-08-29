@@ -31,7 +31,7 @@
       "id": "CASE_3"
     }
   ],
-  "dirty": true,
+  "dirty": false,
   "formulation_changed": false,
   "limitations": [
     "CASE_1 and CASE_2 remain mesh-conditioning stress cases if cutback exhaustion is reached.",
@@ -77,7 +77,7 @@
       "status": "SUCCESS"
     }
   ],
-  "source_sha": "e522a24394e58d79266bcfde1b431b631381a231",
+  "source_sha": "f7b3dc200cbd7178ce26813d7fb096c01828353d",
   "status": "ROBUSTNESS_QUALIFICATION_PREPARATION",
   "tangent_changed": false
 }
