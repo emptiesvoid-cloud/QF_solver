@@ -55,6 +55,20 @@ def _git(*arguments: str) -> str | None:
         return None
 
 
+def _worktree_dirty_except(path: Path) -> bool:
+    status = _git("status", "--porcelain", "--untracked-files=all")
+    if status is None:
+        return True
+    excluded = path.relative_to(ROOT).as_posix()
+    for line in status.splitlines():
+        changed = line[3:].strip()
+        if " -> " in changed:
+            changed = changed.split(" -> ", 1)[1]
+        if changed != excluded:
+            return True
+    return False
+
+
 def fetch_tree() -> tuple[str, list[dict[str, Any]]]:
     ref = _get_json(f"{API}/repos/{REPOSITORY}/git/ref/heads/{BRANCH}")
     commit = str(ref["object"]["sha"])
@@ -266,7 +280,7 @@ def process(limit: int, cache: Path, manifest_path: Path) -> dict[str, Any]:
         "manifest_id": "QF-PUBLIC-VOLUMETRIC-DATASET-026-001",
         "generated_at_utc": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "qf_source_sha": _git("rev-parse", "HEAD"),
-        "qf_worktree_dirty": bool(_git("status", "--porcelain")),
+        "qf_worktree_dirty": _worktree_dirty_except(manifest_path),
         "source": {"repository": REPOSITORY, "branch": BRANCH, "commit": commit, "license": LICENSE, "license_url": LICENSE_URL},
         "selection": {"requested": limit, "step_candidates": sum(str(row.get("path", "")).casefold().endswith((".step", ".stp")) for row in tree), "selected": len(selected)},
         "policy": {"excluded_terms": list(EXCLUDED_TERMS), "raw_cache": "local and ignored; manifest is the tracked index"},
