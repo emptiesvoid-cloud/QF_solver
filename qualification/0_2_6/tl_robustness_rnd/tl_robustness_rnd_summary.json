@@ -1,0 +1,72 @@
+{
+  "status": "DIAGNOSTIC_ONLY",
+  "start_sha": "de7633ab9806fe49f463bf28847c18a8120cc8af",
+  "final_source_sha": "46e9a56e4e7530e6f093bb88f7d028c42c185f1d",
+  "formulation_changed": false,
+  "tangent_changed": false,
+  "default_path_changed": false,
+  "baseline_150": {
+    "physical_cases": 150,
+    "tet4_cases": 75,
+    "hex8_cases": 75,
+    "fixed_successes": 134,
+    "adaptive_successes": 146,
+    "recovered_by_cutback": 12,
+    "failed_in_both_modes": 4,
+    "stable_zone": 134,
+    "degraded_zone": 12,
+    "out_of_recommended_scope_zone": 4,
+    "repeated_nominal_signatures": "PASS",
+    "historical_counter_equivalence": "PASS",
+    "runner_dirty_field": "SELF_GENERATED_OUTPUT_ARTIFACTS"
+  },
+  "persistent_failure_ids": [
+    "HEX8_m4_a7_compression_l0.2_n16_d0.12",
+    "HEX8_m4_a10_compression_l0.2_n16_d0.12",
+    "HEX8_m4_a10_compression_l0.2_n8_d0.12",
+    "HEX8_m4_a10_compression_l0.2_n32_d0.12"
+  ],
+  "mechanism_screening": {
+    "screening_corpus_cases": 8,
+    "accepted": [],
+    "rejected": [
+      "system_scaling",
+      "residual_row_scaling",
+      "splu_colamd",
+      "splu_natural",
+      "line_search_armijo",
+      "line_search_off",
+      "adaptive_cutback"
+    ],
+    "system_scaling": {"recoveries": 0, "regressions": 0},
+    "residual_row_scaling": {"recoveries": 0, "regressions": 0},
+    "splu_colamd": {"recoveries": 0, "regressions": 0},
+    "splu_natural": {"recoveries": 0, "regressions": 0},
+    "line_search_armijo": {"status_changes": 0, "regressions": 0},
+    "line_search_off": {
+      "fixed_recoveries": 1,
+      "persistent_failures_recovered": 0,
+      "decision": "REJECTED_NEGATIVE_CONTROL"
+    },
+    "adaptive_cutback": {
+      "selected_case_recovered": 1,
+      "newton_iterations": 13246,
+      "cutbacks": 4,
+      "assembly_calls": 46114,
+      "final_free_residual": 1.43956877466819e-14,
+      "decision": "REJECTED_COST_AND_NO_INDEPENDENT_REFERENCE"
+    }
+  },
+  "passive_eigen_diagnostics": "OBSERVATIONAL_ONLY_NO_CUTOFF",
+  "holdout_result": "DEFAULT_PATH_REPRODUCIBLE",
+  "targeted_tests": "64 passed",
+  "registry": "PASS",
+  "anti_forgetting": "PASS",
+  "ruff": "PASS",
+  "compileall": "PASS",
+  "diff_check": "PASS",
+  "full_regression": "NOT_RERUN_DEFAULT_PATH_UNCHANGED",
+  "full_150_boundary_replay": "PASS",
+  "tl_robustness_level": "DIAGNOSTIC_ONLY",
+  "ready_for_tl_promotion_campaign": false
+}
