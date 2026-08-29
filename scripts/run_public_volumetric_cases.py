@@ -111,11 +111,18 @@ def _run_case(root: Path, case: dict[str, Any], timeout: float, output_dir: Path
         return result
     try:
         payload = json.loads(result_path.read_text(encoding="utf-8"))
-    except (FileNotFoundError, json.JSONDecodeError) as exc:
+    except FileNotFoundError:
         result_path.unlink(missing_ok=True)
         result.update({
             "status": "FAIL",
-            "reason": _portable_output(root, f"missing or invalid QF result: {exc}"),
+            "reason": f"missing QF result: {_portable_path(root, result_path)}",
+        })
+        return result
+    except json.JSONDecodeError as exc:
+        result_path.unlink(missing_ok=True)
+        result.update({
+            "status": "FAIL",
+            "reason": f"invalid QF result: {_portable_path(root, result_path)} ({exc.msg})",
         })
         return result
     qf_status = payload.get("status", "FAIL")
