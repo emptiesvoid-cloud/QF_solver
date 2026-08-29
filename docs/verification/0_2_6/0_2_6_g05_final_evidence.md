@@ -10,6 +10,7 @@ promote a capability merely because its runner is executable.
 | Item | Result |
 | --- | --- |
 | Qualified numerical source | `6cd971756af0f1b8a114fd98b188714da39ff081` |
+| Final evidence replay SHA | `77f147ee261d97fd5e6b88281daafb4deba9ce53` |
 | Internal family campaign | `PASS_INTERNAL_PREQUAL`, `dirty=false` |
 | Modal cases | `14 / 14` |
 | Newmark cases | `32 / 16` |
@@ -58,19 +59,14 @@ The pinned Code_Aster image is
 The raw results and their digests are listed in
 `qualification/0_2_6/g05_final_evidence.json`.
 
-These four correlations were replayed successfully, but their manifests report
-`dirty=true` because five pre-existing pytest temporary directories remained
-untracked in the worktree. They are useful numerical evidence, but they are
-not final provenance evidence. TET10, HEX8, HEX20, MITC3 and MITC4 have no
-same-SHA, formulation-compatible external deck in this run and are not claimed
-as externally correlated.
+These four correlations were replayed successfully on the final evidence replay
+SHA with `dirty=false`. TET10, HEX8, HEX20, MITC3 and MITC4 have no same-SHA,
+formulation-compatible external deck in this run and are not claimed as
+externally correlated.
 
 ## Remaining Closeout Conditions
 
-1. Remove the temporary pytest directories and replay the external cells with
-   `dirty=false`.
-2. Record the evidence-commit provenance wrapper and rerun the targeted checks.
-3. Ask the Owner whether the bounded external-family coverage is sufficient to
+1. Ask the Owner whether the bounded external-family coverage is sufficient to
    close `026-G05` as `PASS_WITH_LIMITATIONS`.
 
 No numerical formulation, solver API, physics model or gate requirement was
