@@ -31,27 +31,15 @@ These 12 cases are a deep supplemental batch. They are not silently added to
 the 180-case foundation catalog, whose separate corpus contract remains
 unchanged.
 
-## Existing independent dynamic studies
+## Extended family coverage
 
-The targeted dynamic-family campaign also passed for TET4, TET10, MITC3,
-BEAM2 and SPRING_MASS. Each run includes four time levels (`30, 60, 120, 240`
-steps), a first-mode oscillator oracle, energy drift, dynamic residual and a
-frequency sweep including zero frequency and near-resonance points. This is
-useful supporting evidence, but the campaign itself states that it does not
-constitute a complete external element correlation.
-
-Representative observed bounds from the controlled runs were:
-
-| Family | Max modal residual | Max dynamic residual | Max energy drift | Max time-refinement error |
-| --- | ---: | ---: | ---: | ---: |
-| TET4 | 1.78e-16 | 8.52e-08 | 5.76e-13 | 4.72e-03 |
-| TET10 | 1.28e-16 | 3.67e-08 | 4.73e-13 | 4.72e-03 |
-| MITC3 | 4.39e-09 | 6.56e-14 | 6.88e-13 | 4.72e-03 |
-| BEAM2 | 1.18e-12 | 3.07e-12 | 2.36e-13 | 4.72e-03 |
-| SPRING_MASS | 1.80e-16 | 1.54e-14 | 3.80e-13 | 4.72e-03 |
-
-The existing accepted limits were used unchanged. No general frequency,
-time-step, phase or mesh-convergence band was invented in this batch.
+The complete family campaign is recorded in
+`0_2_6_g05_family_coverage.md` and its generated source of truth
+`qualification/vnv/g05b_family_coverage/summary.json`. It executes MOD 14,
+DYN 32 time-level cases and HAR 12 across TET4, TET10, HEX8, HEX20, BEAM2,
+MITC3/MITC3+, MITC4 and discrete. Every case is run through the common
+`solve_model` routes, while the resulting status remains internal
+prequalification rather than an automatic qualification claim.
 
 ## Checks performed
 
@@ -67,13 +55,11 @@ time-step, phase or mesh-convergence band was invented in this batch.
 `G05B` execution is complete for the added 12-case batch, but `026-G05`
 closeout is not recommended. The remaining items are:
 
-1. run and archive the full 14/16/12 campaign under the approved case-count
-   interpretation;
-2. approve frequency, time-step and modal refinement acceptance policies;
-3. attach the required analytical/reference and external correlations with
+1. approve frequency, time-step and modal refinement acceptance policies;
+2. attach the required analytical/reference and external correlations with
    complete provenance;
-4. aggregate the case histories into a final gate decision without treating
+3. aggregate the case histories into a final gate decision without treating
    `READY` as `QUALIFIED`.
 
-`UNDEFINED_POLICY` remains an explicit outcome for the general refinement
-thresholds in `qualification/0_2_6/g05_requirements.json`.
+The proposed policies in `qualification/0_2_6/g05_requirements.json` remain
+`PROPOSED_OWNER_REVIEW`; they are not approved gate criteria.

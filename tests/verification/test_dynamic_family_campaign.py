@@ -23,6 +23,7 @@ def test_linear_dynamic_family_campaign_is_reproducible(tmp_path, family: str) -
     assert (tmp_path / family / "vnv_manifest.json").is_file()
     stored = json.loads((tmp_path / family / "summary.json").read_text(encoding="utf-8"))
     assert stored["study_id"] == f"VNV-{family}-LINEAR-DYNAMICS-001"
+    assert stored["studies"]["modal"]["max_relative_residual"] <= stored["studies"]["modal"]["residual_limit"]
     assert stored["studies"]["harmonic"]["zero_frequency_static_error"] <= 1.0e-8
     assert stored["studies"]["newmark"]["maximum_energy_drift"] <= 1.0e-4
     assert stored["studies"]["newmark"]["time_refinement_error_max"] <= 1.0e-2

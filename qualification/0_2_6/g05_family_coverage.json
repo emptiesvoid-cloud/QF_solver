@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "gate": "026-G05",
+  "work_package": "026-WP05-G05B",
+  "status": "PASS_INTERNAL_PREQUAL",
+  "qualification_status": "NOT_CLOSED",
+  "source_of_truth": "qualification/vnv/g05b_family_coverage/summary.json",
+  "generated_by": "scripts/run_linear_dynamic_vnv.py",
+  "targets": {
+    "MOD": 14,
+    "DYN": 16,
+    "HAR": 12
+  },
+  "executed_counts": {
+    "MOD": 14,
+    "DYN": 32,
+    "HAR": 12
+  },
+  "family_matrix": [
+    {
+      "element": "TET4",
+      "route_alias": null,
+      "MOD": "SUPPORTED_TESTED_VERIFIED_INTERNAL_PREQUAL",
+      "DYN": "SUPPORTED_TESTED_VERIFIED_INTERNAL_PREQUAL",
+      "HAR": "SUPPORTED_TESTED_VERIFIED_INTERNAL_PREQUAL"
+    },
+    {
+      "element": "TET10",
+      "route_alias": null,
+      "MOD": "SUPPORTED_TESTED_VERIFIED_INTERNAL_PREQUAL",
+      "DYN": "SUPPORTED_TESTED_VERIFIED_INTERNAL_PREQUAL",
+      "HAR": "SUPPORTED_TESTED_VERIFIED_INTERNAL_PREQUAL"
+    },
+    {
+      "element": "HEX8",
+      "route_alias": null,
+      "MOD": "SUPPORTED_TESTED_VERIFIED_INTERNAL_PREQUAL",
+      "DYN": "SUPPORTED_TESTED_VERIFIED_INTERNAL_PREQUAL",
+      "HAR": "SUPPORTED_TESTED_VERIFIED_INTERNAL_PREQUAL"
+    },
+    {
+      "element": "HEX20",
+      "route_alias": null,
+      "MOD": "SUPPORTED_TESTED_VERIFIED_INTERNAL_PREQUAL",
+      "DYN": "SUPPORTED_TESTED_VERIFIED_INTERNAL_PREQUAL",
+      "HAR": "SUPPORTED_TESTED_VERIFIED_INTERNAL_PREQUAL"
+    },
+    {
+      "element": "BEAM2",
+      "route_alias": null,
+      "MOD": "SUPPORTED_TESTED_VERIFIED_INTERNAL_PREQUAL",
+      "DYN": "SUPPORTED_TESTED_VERIFIED_INTERNAL_PREQUAL",
+      "HAR": "SUPPORTED_TESTED_VERIFIED_INTERNAL_PREQUAL"
+    },
+    {
+      "element": "MITC3",
+      "route_alias": "MITC3+ terminology maps to the registered MITC3 route",
+      "MOD": "SUPPORTED_TESTED_VERIFIED_INTERNAL_PREQUAL",
+      "DYN": "SUPPORTED_TESTED_VERIFIED_INTERNAL_PREQUAL",
+      "HAR": "SUPPORTED_TESTED_VERIFIED_INTERNAL_PREQUAL"
+    },
+    {
+      "element": "MITC4",
+      "route_alias": null,
+      "MOD": "SUPPORTED_TESTED_VERIFIED_INTERNAL_PREQUAL",
+      "DYN": "SUPPORTED_TESTED_VERIFIED_INTERNAL_PREQUAL",
+      "HAR": "SUPPORTED_TESTED_VERIFIED_INTERNAL_PREQUAL"
+    },
+    {
+      "element": "DISCRETE",
+      "route_alias": "SPRING_MASS legacy campaign label",
+      "MOD": "SUPPORTED_TESTED_VERIFIED_INTERNAL_PREQUAL",
+      "DYN": "SUPPORTED_TESTED_VERIFIED_INTERNAL_PREQUAL",
+      "HAR": "SUPPORTED_TESTED_VERIFIED_INTERNAL_PREQUAL"
+    }
+  ],
+  "case_count_basis": {
+    "MOD": "Eight baseline family solves plus six declared mode-count variants",
+    "DYN": "Four executed Newmark time levels for each of eight baseline families",
+    "HAR": "Eight baseline frequency sweeps plus four declared refined-grid sweeps"
+  },
+  "refinement_status": {
+    "modal_mesh": "AGGREGATED_EXISTING_EVIDENCE",
+    "newmark_time": "EXECUTED_30_60_120_240_STEPS_PER_PERIOD",
+    "harmonic_frequency": "EXECUTED_BASELINE_AND_REFINED_GRIDS"
+  },
+  "acceptance_policy_status": "PROPOSED_OWNER_REVIEW",
+  "limitations": [
+    "Internal prequalification evidence does not close official 026-G05.",
+    "Existing modal mesh studies remain family-specific and are referenced by the generated aggregate.",
+    "External element correlations and Owner approval of the proposed refinement policies remain required."
+  ]
+}

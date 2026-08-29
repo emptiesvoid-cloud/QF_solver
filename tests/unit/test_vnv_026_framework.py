@@ -54,7 +54,10 @@ def test_g05_contract_has_modal_dynamic_and_harmonic_targets() -> None:
     assert requirements["G05-MOD-001"]["target_case_count"] == 14
     assert requirements["G05-DYN-001"]["target_case_count"] == 16
     assert requirements["G05-HAR-001"]["target_case_count"] == 12
-    assert all(row["threshold"]["status"] in {"DEFINED_FROM_EXISTING_CONTRACT", "UNDEFINED_POLICY"} for row in requirements.values())
+    assert all(
+        row["threshold"]["status"] in {"DEFINED_FROM_EXISTING_CONTRACT", "PROPOSED_OWNER_REVIEW"}
+        for row in requirements.values()
+    )
 
 
 def test_g05b_deep_registry_has_requested_family_counts() -> None:
