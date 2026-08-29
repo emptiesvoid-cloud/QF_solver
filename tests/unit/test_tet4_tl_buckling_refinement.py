@@ -5,6 +5,7 @@ import numpy as np
 
 from solveur.verification.tet4_tl_buckling_refinement import _relative, _sample_edges
 from solveur.verification.vnv_manifest import write_vnv_manifest
+from solveur.io import manifest as manifest_helpers
 
 
 def test_refinement_probe_helpers() -> None:
@@ -21,3 +22,13 @@ def test_vnv_manifest_uses_portable_repository_path(tmp_path: Path) -> None:
 
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     assert manifest["source"]["repository"] == "."
+
+
+def test_git_provenance_uses_the_pre_resolved_executable_when_path_changes(monkeypatch) -> None:
+    """Native meshing libraries must not erase Git provenance from manifests."""
+    assert Path(manifest_helpers.GIT_EXECUTABLE).is_file()
+    monkeypatch.setenv("PATH", "")
+
+    revision = manifest_helpers._git_output(Path(__file__).resolve().parents[2], "rev-parse", "HEAD")
+
+    assert revision

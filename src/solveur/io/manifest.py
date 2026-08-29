@@ -7,11 +7,16 @@ import importlib.metadata
 import json
 import os
 import platform
+import shutil
 import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
+
+
+# Resolve Git before optional native libraries can adjust PATH in-process.
+GIT_EXECUTABLE = shutil.which("git") or "git"
 
 
 def utc_timestamp() -> str:
@@ -202,7 +207,7 @@ def locked_environment_fingerprints(project_root: str | Path) -> list[dict[str, 
 def _git_output(root: Path, *arguments: str, allow_empty: bool = False) -> str:
     try:
         completed = subprocess.run(
-            ["git", *arguments],
+            [GIT_EXECUTABLE, *arguments],
             cwd=root,
             text=True,
             capture_output=True,
