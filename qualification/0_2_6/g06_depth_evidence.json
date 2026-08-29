@@ -6,7 +6,7 @@
   "prequalification_status": "PASS_WITH_LIMITATIONS",
   "proposed_decision": "PASS_WITH_LIMITATIONS",
   "start_sha": "b952520f5db8095e1fa214e451999aaedc672341",
-  "execution_source_sha": "6efd6035805c7e5fceb42202f154b423a731e68a",
+  "execution_source_sha": "4f86c5385987140602eda8bb7e7ad54136c243ae",
   "source_dirty": false,
   "solver_version": "0.2.6a0",
   "campaigns": {
@@ -17,6 +17,12 @@
       "elements": 140,
       "integration_points_per_element": 4,
       "summary_sha256": "8ffc579a0c5c5fe47f1e8c92880d42ac8411b8f4fc1fdedd19c5461f5e8aa0cd"
+    },
+    "tet10_invalid_case": {
+      "status": "EXPECTED_FAILURE",
+      "failure_category": "INVALID_ELEMENT",
+      "message": "Inverted TET10 is rejected by mesh validation before solve.",
+      "artifact_sha256": "fb95b4ca268064ec1ea852d79d2e6e62ff85f2502935d7826dc22282b1b990ae"
     },
     "j2_mesh_refinement": {
       "status": "PASS_INTERNAL_MESH_REFINEMENT",
@@ -70,7 +76,7 @@
     "command": "python -m pytest tests/unit/test_robustness_tangent_fd.py tests/unit/test_nonlinear_multielement.py tests/unit/test_nonlinear_cyclic.py tests/unit/test_j2_multielement_external.py tests/verification/test_tet10_j2_structural_vnv.py -q",
     "passed": 38,
     "failed": 0,
-    "duration_seconds": 160.04
+    "duration_seconds": 160.77
   },
   "checks": {
     "tangent_fd": "PASS_INTERNAL_TARGETED",
@@ -94,9 +100,9 @@
     "The rollback evidence covers deterministic rejection before the first accepted increment; broader material-update and sparse-backend failure matrices remain separate evidence work."
   ],
   "artifact_digests": {
-    "aggregate_summary": "00305574b344e5f0adc152552b3a3492fcec5a8d246f094698a3ae3b2158a81c",
-    "aggregate_manifest": "a631d3bf76bc44afd09ee5039bffc6afa8437ea6b8a207f6438a08c3fb3a6d3e",
-    "aggregate_report": "2f8e9591a298f4a05fa41ff5725eb17a760c26c66048ff1990832e2fd22c4185"
+    "aggregate_summary": "ae141ae9a2b6f3858fc2401db6997ed6b36cb27c96af38cdbc7574113c96433d",
+    "aggregate_manifest": "3cd7590d69c4334ec7e11bc06f9273864accc17f54cc894aa37c3ad686ae17a4",
+    "aggregate_report": "f89448f990dd18e1059848bab57a5b2b8203b794cdcde5fd35f56597d910c059"
   },
   "evidence_head_contract": "The execution source SHA identifies the code used for the numerical run. The tracked evidence commit is separate and does not replace that source SHA.",
   "owner_action": "Review bounded evidence and decide whether 026-G06 may be closed under the official contract."

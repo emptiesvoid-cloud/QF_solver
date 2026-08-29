@@ -6,7 +6,7 @@
 for Owner closeout; it does not close the official gate automatically.
 
 - Start SHA: `b952520f5db8095e1fa214e451999aaedc672341`
-- Execution source SHA: `6efd6035805c7e5fceb42202f154b423a731e68a`
+- Execution source SHA: `4f86c5385987140602eda8bb7e7ad54136c243ae`
 - Source dirty state: `false`
 - Proposed decision: `PASS_WITH_LIMITATIONS`
 - Finite-kinematic J2: `RESEARCH_NOT_QUALIFIED`
@@ -16,6 +16,7 @@ for Owner closeout; it does not close the official gate automatically.
 | Evidence | Result |
 | --- | --- |
 | Dedicated TET10 cyclic J2 | `PASS_INTERNAL`, 341 nodes, 140 elements, 4 integration points/element |
+| Inverted TET10 rejection | `EXPECTED_FAILURE / INVALID_ELEMENT`, rejected before solve |
 | J2 mesh series | `PASS_INTERNAL_MESH_REFINEMENT`, levels 1/2/4/8, TET4/TET10/HEX8/HEX20 |
 | Load-increment sensitivity | `PASS_INTERNAL`, subdivisions 4/8/16, maximum state sensitivity `3.444e-09` |
 | Multi-element invariant matrix | All four families `PASS` |
@@ -52,7 +53,7 @@ Command:
 python -m pytest tests/unit/test_robustness_tangent_fd.py tests/unit/test_nonlinear_multielement.py tests/unit/test_nonlinear_cyclic.py tests/unit/test_j2_multielement_external.py tests/verification/test_tet10_j2_structural_vnv.py -q
 ```
 
-Result: **38 passed, 0 failed** in approximately 160.04 seconds.
+Result: **38 passed, 0 failed** in approximately 160.77 seconds.
 
 Registry, anti-forgetting, Ruff, compileall and `git diff --check` also passed.
 Full regression was not rerun because no solver or functional FEM code changed.
