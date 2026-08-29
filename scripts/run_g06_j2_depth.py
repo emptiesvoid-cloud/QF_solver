@@ -79,7 +79,7 @@ def _successive_mesh_changes(mesh: dict[str, Any]) -> dict[str, list[dict[str, A
     for family in mesh["rows"]:
         levels = family["levels"]
         rows = []
-        for previous, current in zip(levels, levels[1:], strict=True):
+        for previous, current in zip(levels, levels[1:]):
             values = {}
             for metric in metrics:
                 before = float(previous[metric])
