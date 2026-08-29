@@ -6,7 +6,7 @@
 for Owner closeout; it does not close the official gate automatically.
 
 - Start SHA: `b952520f5db8095e1fa214e451999aaedc672341`
-- Execution source SHA: `4f86c5385987140602eda8bb7e7ad54136c243ae`
+- Execution source SHA: `8bd0f2d8fdce7bf27ffc4c28e6aa26e69288fa63`
 - Source dirty state: `false`
 - Proposed decision: `PASS_WITH_LIMITATIONS`
 - Finite-kinematic J2: `RESEARCH_NOT_QUALIFIED`
@@ -28,6 +28,11 @@ for Owner closeout; it does not close the official gate automatically.
 The mesh study is deliberately reported as bounded evidence. Its regular
 unit-block topology and the non-monotone field trends do not justify a universal
 mesh-convergence claim.
+
+Cross-family proof coverage is explicit: homogeneous constitutive response,
+yield threshold, shared tangent FD, equilibrium/residuals and rollback are
+covered in bounded form. Tangent symmetry is not separately assessed, and
+increment-independence beyond the existing TET4 study is not claimed.
 
 ## Code_Aster correlation
 
