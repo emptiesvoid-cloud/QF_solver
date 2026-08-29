@@ -45,7 +45,11 @@ def _run_internal(output: Path) -> dict[str, Any]:
     multi = run_multi_element_benchmark()
     energy = run_energy_balance_benchmark()
     cyclic = run_cyclic_load_benchmark()
-    rollback = run_adversarial_rollback_benchmark()
+    rollback_rows = [run_adversarial_rollback_benchmark(family) for family in ELEMENT_TYPES]
+    rollback = {
+        "status": "PASS_INTERNAL_ROLLBACK" if all(row["status"] == "PASS_INTERNAL_ROLLBACK" for row in rollback_rows) else "FAIL",
+        "rows": rollback_rows,
+    }
     write_json_file(output / "multi_element.json", multi)
     write_json_file(output / "energy_balance.json", energy)
     write_json_file(output / "cyclic.json", cyclic)
@@ -112,6 +116,7 @@ def _invariant_matrix(internal: dict[str, Any], external: dict[str, Any]) -> lis
     multi_rows = {row["element"]: row for row in internal["multi_element"]["rows"]}
     energy_rows = {row["element"]: row for row in internal["energy_balance"]["rows"]}
     cyclic_rows = {row["element"]: row for row in internal["cyclic"]["rows"]}
+    rollback_rows = {row["element"]: row for row in internal["rollback"]["rows"]}
     rows = []
     for family in ELEMENT_TYPES:
         checks = {
@@ -119,12 +124,13 @@ def _invariant_matrix(internal: dict[str, Any], external: dict[str, Any]) -> lis
             "multi_element": multi_rows[family]["status"],
             "energy_balance": energy_rows[family]["status"],
             "cyclic": cyclic_rows[family]["status"],
+            "rollback": rollback_rows[family]["status"],
             "external": external_families.get(family, {}).get("status", "SKIPPED"),
         }
         rows.append({
             "element": family,
             "checks": checks,
-            "internal_pass": all(value in {"PASS", "PASS_INTERNAL_ENERGY"} for key, value in checks.items() if key != "external"),
+            "internal_pass": all(value in {"PASS", "PASS_INTERNAL_ENERGY", "PASS_INTERNAL_ROLLBACK"} for key, value in checks.items() if key != "external"),
             "external_pass": checks["external"] == "PASS",
         })
     return rows
@@ -165,14 +171,14 @@ def _write_report(path: Path, summary: dict[str, Any]) -> None:
         "",
         "## Common invariants",
         "",
-        "| Family | Mesh | Multi-element | Energy | Cyclic | External |",
-        "| --- | --- | --- | --- | --- | --- |",
+        "| Family | Mesh | Multi-element | Energy | Cyclic | Rollback | External |",
+        "| --- | --- | --- | --- | --- | --- | --- |",
     ])
     for row in summary["invariant_matrix"]:
         values = row["checks"]
         lines.append(
             f"| {row['element']} | {values['mesh_refinement']} | {values['multi_element']} | "
-            f"{values['energy_balance']} | {values['cyclic']} | {values['external']} |"
+            f"{values['energy_balance']} | {values['cyclic']} | {values['rollback']} | {values['external']} |"
         )
     lines.extend([
         "",
