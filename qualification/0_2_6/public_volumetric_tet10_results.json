@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-29T07:42:09.295997Z",
+  "generated_at_utc": "2026-08-29T08:04:21.604922Z",
   "manifest": "qualification/0_2_6/public_volumetric_dataset_manifest.json",
   "manifest_sha256": "630a7b455085e4b8d9809c4eef6e43f5b3cb96a9e24da7ce7ef3645745553ab5",
-  "qf_source_sha": "96f82692c5e00f21d48b286134d13ea81c1f84af",
-  "qf_worktree_dirty": true,
+  "qf_source_sha": "b9e947a300108869e1642957c1be572aa69011ca",
+  "qf_worktree_dirty": false,
   "requested_cases": 24,
   "selected_cases": 24,
   "selection_max_nodes": 10000,
@@ -35,8 +35,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.0245016000117175,
-      "peak_rss_bytes": 122212352,
+      "duration_seconds": 3.027454299997771,
+      "peak_rss_bytes": 123031552,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0086.json",
       "stderr": "",
@@ -73,7 +73,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "38346315a8f4f9fe9db3a2a203709b493f280583de9ecf1a4de1b2f506492045",
+      "qf_result_sha256": "fe38e76c69a64d247edd39f68225504f3b6e42addc311ee4b1ccba76cf0e6e21",
       "comparison": {
         "tet4_status": "PASS",
         "tet4_run_verdict": "PASS",
@@ -89,8 +89,8 @@
         "tet4_strain_energy": 8.083563160543886e-06,
         "tet10_strain_energy": 1.770286612283544e-05,
         "relative_difference_strain_energy": 0.5433754565811993,
-        "duration_ratio_tet10_over_tet4": 1.5018926966493613,
-        "rss_ratio_tet10_over_tet4": 1.0352879944482998
+        "duration_ratio_tet10_over_tet4": 1.5008108714699693,
+        "rss_ratio_tet10_over_tet4": 1.0424084678119034
       }
     },
     {
@@ -111,8 +111,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 6.0238551999791525,
-      "peak_rss_bytes": 178155520,
+      "duration_seconds": 6.026097800000571,
+      "peak_rss_bytes": 176455680,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0083.json",
       "stderr": "",
@@ -149,7 +149,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "6629bbdd30b4efbce8672742e3618cb0a27abe1a29d3b8dd1c4ebd1e63984a38",
+      "qf_result_sha256": "4751d17ffd6dd1cae443e30bf0d98d51617775e35b80f20a4d0308d45ad32e17",
       "comparison": {
         "tet4_status": "PASS",
         "tet4_run_verdict": "PASS",
@@ -165,8 +165,8 @@
         "tet4_strain_energy": 5.923783147423075e-06,
         "tet10_strain_energy": 7.55228094999143e-06,
         "relative_difference_strain_energy": 0.21562992867342984,
-        "duration_ratio_tet10_over_tet4": 2.4943143462161377,
-        "rss_ratio_tet10_over_tet4": 1.339255473104043
+        "duration_ratio_tet10_over_tet4": 2.4957097350581523,
+        "rss_ratio_tet10_over_tet4": 1.3207431479551168
       }
     },
     {
@@ -187,8 +187,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 9.837618299992755,
-      "peak_rss_bytes": 211558400,
+      "duration_seconds": 9.631998999975622,
+      "peak_rss_bytes": 240476160,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0100.json\nQUALIFICATION GATE: WARNING 2 audit warning(s) present.",
       "stderr": "",
@@ -227,7 +227,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "a967c3683133dc02b44877b441b55d4335947fa7a8899b8bea15182cdcb70d48",
+      "qf_result_sha256": "fbd624b7cb07bc598f47fc3b7807ba4d074cd13be14275ce845f2a745e6fcc12",
       "comparison": {
         "tet4_status": "PASS",
         "tet4_run_verdict": "WARNING",
@@ -243,8 +243,8 @@
         "tet4_strain_energy": 2.6439844021187358e-06,
         "tet10_strain_energy": 3.3154583774265107e-06,
         "relative_difference_strain_energy": 0.20252824764127464,
-        "duration_ratio_tet10_over_tet4": 3.4978721992582544,
-        "rss_ratio_tet10_over_tet4": 1.4462925627240144
+        "duration_ratio_tet10_over_tet4": 3.4199064709114944,
+        "rss_ratio_tet10_over_tet4": 1.6219576207973037
       }
     },
     {
@@ -265,8 +265,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 9.840079400019022,
-      "peak_rss_bytes": 289173504,
+      "duration_seconds": 9.83362789999228,
+      "peak_rss_bytes": 288362496,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0048.json",
       "stderr": "",
@@ -303,7 +303,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "04ee119ad7e4beae452a51431b76309e6db6cf6e56de579db8d256410acc812f",
+      "qf_result_sha256": "9691438184ae4467473e9578d320e56c97c0e29e687d059f58c04ff4e0b35d82",
       "comparison": {
         "tet4_status": "PASS",
         "tet4_run_verdict": "PASS",
@@ -319,8 +319,8 @@
         "tet4_strain_energy": 3.6454216551250867e-09,
         "tet10_strain_energy": 5.48637386521386e-09,
         "relative_difference_strain_energy": 0.33554990150439057,
-        "duration_ratio_tet10_over_tet4": 3.2637063033073574,
-        "rss_ratio_tet10_over_tet4": 1.8993543179983858
+        "duration_ratio_tet10_over_tet4": 3.2604464891901914,
+        "rss_ratio_tet10_over_tet4": 1.9313343575112476
       }
     },
     {
@@ -341,8 +341,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 13.259308999986388,
-      "peak_rss_bytes": 356151296,
+      "duration_seconds": 13.048711200011894,
+      "peak_rss_bytes": 322797568,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0099.json\nQUALIFICATION GATE: WARNING 95 audit warning(s) present.",
       "stderr": "",
@@ -381,7 +381,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "71aa5ea326bc2dbc1af5e82708aa1b358b3030a3511027d4bd72c02593774f21",
+      "qf_result_sha256": "569222a2fc4e47f72cc8c836ff22bfbcb5b2539acfaa48f53947f25eff9d2356",
       "comparison": {
         "tet4_status": "PASS",
         "tet4_run_verdict": "WARNING",
@@ -397,8 +397,8 @@
         "tet4_strain_energy": 6.738040167722392e-08,
         "tet10_strain_energy": 2.5301014850480164e-07,
         "relative_difference_strain_energy": 0.7336849842766479,
-        "duration_ratio_tet10_over_tet4": 3.879484922664615,
-        "rss_ratio_tet10_over_tet4": 2.0839564758891767
+        "duration_ratio_tet10_over_tet4": 3.817398795157893,
+        "rss_ratio_tet10_over_tet4": 1.8646602309293963
       }
     },
     {
@@ -419,8 +419,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 13.046640999993542,
-      "peak_rss_bytes": 380325888,
+      "duration_seconds": 12.846372800006066,
+      "peak_rss_bytes": 354140160,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0098.json\nQUALIFICATION GATE: WARNING 3 audit warning(s) present.",
       "stderr": "",
@@ -459,7 +459,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "bb8842f5af43fe2dff8e7b14c3321c8667a3d6a4a9f792f03c929864c19264b9",
+      "qf_result_sha256": "f1b5b82b18b9390c809aba079c1c1ff956aa308d8847c379a31e0a4afe37abe4",
       "comparison": {
         "tet4_status": "PASS",
         "tet4_run_verdict": "WARNING",
@@ -475,8 +475,8 @@
         "tet4_strain_energy": 6.292386820490023e-08,
         "tet10_strain_energy": 1.349416821138165e-07,
         "relative_difference_strain_energy": 0.5336958364589889,
-        "duration_ratio_tet10_over_tet4": 3.818977924188204,
-        "rss_ratio_tet10_over_tet4": 1.9825134511913913
+        "duration_ratio_tet10_over_tet4": 3.757304038553565,
+        "rss_ratio_tet10_over_tet4": 1.744622462569111
       }
     },
     {
@@ -497,8 +497,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 14.85761679999996,
-      "peak_rss_bytes": 352436224,
+      "duration_seconds": 15.046350799995707,
+      "peak_rss_bytes": 353705984,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0027.json",
       "stderr": "",
@@ -535,7 +535,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "160522621cd38fc859da73a3e9a87fbbd29a05b867a61ae6e3fa3f360035868e",
+      "qf_result_sha256": "f30bf50227a42f1c6db1c193223f0b0cbf96b92a85669cfe0773c7d2bb47d269",
       "comparison": {
         "tet4_status": "PASS",
         "tet4_run_verdict": "PASS",
@@ -551,8 +551,8 @@
         "tet4_strain_energy": 1.650642542591609e-06,
         "tet10_strain_energy": 1.7631159545827042e-06,
         "relative_difference_strain_energy": 0.06379240781002152,
-        "duration_ratio_tet10_over_tet4": 4.106159082444966,
-        "rss_ratio_tet10_over_tet4": 2.1620725180289972
+        "duration_ratio_tet10_over_tet4": 4.158762171633153,
+        "rss_ratio_tet10_over_tet4": 1.7524199931002293
       }
     },
     {
@@ -573,8 +573,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 15.250501500006067,
-      "peak_rss_bytes": 329973760,
+      "duration_seconds": 15.251822999998694,
+      "peak_rss_bytes": 336134144,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0072.json\nQUALIFICATION GATE: WARNING 17 audit warning(s) present.",
       "stderr": "",
@@ -613,7 +613,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "00575714d2817d107675cfe5e0348dd70d4f6365ddfd1047fbc17fd793b65661",
+      "qf_result_sha256": "1e687bc1229d181865bcda2c7fe695607ea64a10cdc6f308b21360585a7b5f15",
       "comparison": {
         "tet4_status": "PASS",
         "tet4_run_verdict": "WARNING",
@@ -629,8 +629,8 @@
         "tet4_strain_energy": 4.611866347057923e-08,
         "tet10_strain_energy": 4.712303901611072e-08,
         "relative_difference_strain_energy": 0.021313895845896217,
-        "duration_ratio_tet10_over_tet4": 4.214690169095987,
-        "rss_ratio_tet10_over_tet4": 1.8543839053472366
+        "duration_ratio_tet10_over_tet4": 4.215900914215346,
+        "rss_ratio_tet10_over_tet4": 1.708954602249063
       }
     },
     {
@@ -651,8 +651,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 14.653652500011958,
-      "peak_rss_bytes": 428093440,
+      "duration_seconds": 14.849807499995222,
+      "peak_rss_bytes": 396779520,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0051.json\nQUALIFICATION GATE: FAIL 27 audit check(s) failed.",
       "stderr": "",
@@ -671,8 +671,8 @@
         "tet10_external_work": null,
         "tet4_strain_energy": null,
         "tet10_strain_energy": null,
-        "duration_ratio_tet10_over_tet4": 3.8363350648773404,
-        "rss_ratio_tet10_over_tet4": 2.4217953471128
+        "duration_ratio_tet10_over_tet4": 3.889035984531235,
+        "rss_ratio_tet10_over_tet4": 2.238474870017331
       },
       "node_count": 2335,
       "element_count": 1161
@@ -695,8 +695,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 14.047736000007717,
-      "peak_rss_bytes": 374059008,
+      "duration_seconds": 13.64893860000302,
+      "peak_rss_bytes": 373485568,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0057.json\nQUALIFICATION GATE: FAIL 2 audit check(s) failed.",
       "stderr": "",
@@ -715,8 +715,8 @@
         "tet10_external_work": null,
         "tet4_strain_energy": null,
         "tet10_strain_energy": null,
-        "duration_ratio_tet10_over_tet4": 3.883028962144375,
-        "rss_ratio_tet10_over_tet4": 1.9892611309575674
+        "duration_ratio_tet10_over_tet4": 3.772688327948354,
+        "rss_ratio_tet10_over_tet4": 1.7888840932276544
       },
       "node_count": 2339,
       "element_count": 1078
@@ -739,8 +739,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 16.85712220001733,
-      "peak_rss_bytes": 415510528,
+      "duration_seconds": 16.855222800018964,
+      "peak_rss_bytes": 415457280,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0004.json\nQUALIFICATION GATE: FAIL 38 audit check(s) failed.",
       "stderr": "",
@@ -759,8 +759,8 @@
         "tet10_external_work": null,
         "tet4_strain_energy": null,
         "tet10_strain_energy": null,
-        "duration_ratio_tet10_over_tet4": 4.193897787360939,
-        "rss_ratio_tet10_over_tet4": 1.8396684922563564
+        "duration_ratio_tet10_over_tet4": 4.192731980882433,
+        "rss_ratio_tet10_over_tet4": 2.2603792926704256
       },
       "node_count": 2575,
       "element_count": 1243
@@ -783,8 +783,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 29.895046699995873,
-      "peak_rss_bytes": 441577472,
+      "duration_seconds": 29.696611499995925,
+      "peak_rss_bytes": 440786944,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0002.json",
       "stderr": "",
@@ -821,7 +821,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "437a152f8ab1089d084971b459e4339b6282e836ad95de1efd075d8e4caee580",
+      "qf_result_sha256": "c74f54c0961cbd263081a55de0699fb97a2c8dc7c5813f3033a6b7560fb58f13",
       "comparison": {
         "tet4_status": "PASS",
         "tet4_run_verdict": "PASS",
@@ -837,8 +837,8 @@
         "tet4_strain_energy": 3.6328960429483756e-08,
         "tet10_strain_energy": 4.489619712974543e-08,
         "relative_difference_strain_energy": 0.19082321550538534,
-        "duration_ratio_tet10_over_tet4": 5.702268662045237,
-        "rss_ratio_tet10_over_tet4": 2.0746877585974635
+        "duration_ratio_tet10_over_tet4": 5.660180750759312,
+        "rss_ratio_tet10_over_tet4": 2.310900188970967
       }
     },
     {
@@ -859,8 +859,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 21.26948249997804,
-      "peak_rss_bytes": 443867136,
+      "duration_seconds": 20.86526699998649,
+      "peak_rss_bytes": 442597376,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0097.json\nQUALIFICATION GATE: WARNING 3 audit warning(s) present.",
       "stderr": "",
@@ -899,7 +899,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "34618fb838a33a6bb0064ba98f7aa72dc1256daa84cdae79e6afd91bb6d6db3f",
+      "qf_result_sha256": "00d2d0ef52a951777e5caf08b77cc6d6689c08d0a7a86cbd8c4213e683484b50",
       "comparison": {
         "tet4_status": "PASS",
         "tet4_run_verdict": "WARNING",
@@ -915,8 +915,8 @@
         "tet4_strain_energy": 8.708434927251231e-07,
         "tet10_strain_energy": 1.2279318550769601e-06,
         "relative_difference_strain_energy": 0.2908047062020853,
-        "duration_ratio_tet10_over_tet4": 4.809816973546158,
-        "rss_ratio_tet10_over_tet4": 2.0504446546830652
+        "duration_ratio_tet10_over_tet4": 4.720849972893567,
+        "rss_ratio_tet10_over_tet4": 2.2102313403833174
       }
     },
     {
@@ -937,8 +937,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 29.90244740000344,
-      "peak_rss_bytes": 480362496,
+      "duration_seconds": 28.89456919999793,
+      "peak_rss_bytes": 587841536,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0091.json",
       "stderr": "",
@@ -975,7 +975,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "77ddb0448a8e8d83e9a3e82a046608ebdd08ed7f755b4175359ed7a40c490413",
+      "qf_result_sha256": "20275fbff3894da792cebd6dbe2c7fcce0c8ae4b7b0773b98b93e29d23021b3d",
       "comparison": {
         "tet4_status": "PASS",
         "tet4_run_verdict": "PASS",
@@ -991,8 +991,8 @@
         "tet4_strain_energy": 1.1987718481779174e-07,
         "tet10_strain_energy": 1.258327733836358e-07,
         "relative_difference_strain_energy": 0.04732939126825726,
-        "duration_ratio_tet10_over_tet4": 6.200350305620181,
-        "rss_ratio_tet10_over_tet4": 2.3671080251897303
+        "duration_ratio_tet10_over_tet4": 5.99076937119219,
+        "rss_ratio_tet10_over_tet4": 2.8994302800113134
       }
     },
     {
@@ -1013,8 +1013,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 27.885674600023776,
-      "peak_rss_bytes": 526536704,
+      "duration_seconds": 25.88082399999257,
+      "peak_rss_bytes": 631599104,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0039.json",
       "stderr": "",
@@ -1051,7 +1051,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "4601be742485eabe25d8d81573ec20afe13963e3449fe406ebd72340ca798378",
+      "qf_result_sha256": "116adf9f92462a96b5e4777202a9cffc9ed9cb8c2d12bda4e2b71ab4a14501a1",
       "comparison": {
         "tet4_status": "PASS",
         "tet4_run_verdict": "PASS",
@@ -1067,8 +1067,8 @@
         "tet4_strain_energy": 1.5256944615136713e-06,
         "tet10_strain_energy": 1.8328777919547549e-06,
         "relative_difference_strain_energy": 0.16759618769425655,
-        "duration_ratio_tet10_over_tet4": 5.554253395541553,
-        "rss_ratio_tet10_over_tet4": 1.9756708572833739
+        "duration_ratio_tet10_over_tet4": 5.154372730595975,
+        "rss_ratio_tet10_over_tet4": 2.374630405322163
       }
     },
     {
@@ -1089,8 +1089,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 25.683498600003077,
-      "peak_rss_bytes": 612651008,
+      "duration_seconds": 25.48672179999994,
+      "peak_rss_bytes": 614215680,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0040.json\nQUALIFICATION GATE: FAIL 4 audit check(s) failed.",
       "stderr": "",
@@ -1109,8 +1109,8 @@
         "tet10_external_work": null,
         "tet4_strain_energy": null,
         "tet10_strain_energy": null,
-        "duration_ratio_tet10_over_tet4": 4.734618843216315,
-        "rss_ratio_tet10_over_tet4": 2.1270335608646187
+        "duration_ratio_tet10_over_tet4": 4.685147087034455,
+        "rss_ratio_tet10_over_tet4": 2.058322924244712
       },
       "node_count": 3960,
       "element_count": 2101
@@ -1133,8 +1133,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 26.08785920002265,
-      "peak_rss_bytes": 706183168,
+      "duration_seconds": 25.68279980000807,
+      "peak_rss_bytes": 695906304,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0033.json",
       "stderr": "",
@@ -1171,7 +1171,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "1052e07facbe8b9a2e8ebeb885a8e9ebe5803a825a803aff505be968fa33997a",
+      "qf_result_sha256": "e6f6067daa907cb03b83f832e292b5bd94541d2a996e2f8b477d9abaf78472ed",
       "comparison": {
         "tet4_status": "PASS",
         "tet4_run_verdict": "PASS",
@@ -1187,8 +1187,8 @@
         "tet4_strain_energy": 3.2657496354341557e-06,
         "tet10_strain_energy": 3.4690117177902036e-06,
         "relative_difference_strain_energy": 0.05859365689474463,
-        "duration_ratio_tet10_over_tet4": 4.994690375013375,
-        "rss_ratio_tet10_over_tet4": 3.188489421512058
+        "duration_ratio_tet10_over_tet4": 4.919064695084538,
+        "rss_ratio_tet10_over_tet4": 3.1630890101092843
       }
     },
     {
@@ -1209,8 +1209,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 28.69117069998174,
-      "peak_rss_bytes": 652980224,
+      "duration_seconds": 27.892536300001666,
+      "peak_rss_bytes": 653225984,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0024.json\nQUALIFICATION GATE: WARNING 64 audit warning(s) present.",
       "stderr": "",
@@ -1249,7 +1249,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "43912d39767b533be17d6f364ae92074d52f7de419f05b96251ad0088e5a29af",
+      "qf_result_sha256": "e5de5461ecac0138c260445ec9d3c0d511c5b0afce4483805043d1a0ce17d20c",
       "comparison": {
         "tet4_status": "PASS",
         "tet4_run_verdict": "WARNING",
@@ -1265,8 +1265,8 @@
         "tet4_strain_energy": 3.827358750563899e-06,
         "tet10_strain_energy": 1.1218233557029875e-05,
         "relative_difference_strain_energy": 0.6588269685145309,
-        "duration_ratio_tet10_over_tet4": 5.102673862733866,
-        "rss_ratio_tet10_over_tet4": 2.0757682291666666
+        "duration_ratio_tet10_over_tet4": 4.787863678693282,
+        "rss_ratio_tet10_over_tet4": 2.088022729058106
       }
     },
     {
@@ -1287,8 +1287,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 27.693644400016638,
-      "peak_rss_bytes": 524353536,
+      "duration_seconds": 26.28166959999362,
+      "peak_rss_bytes": 526229504,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0035.json\nQUALIFICATION GATE: WARNING 91 audit warning(s) present.",
       "stderr": "",
@@ -1327,7 +1327,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "5b08654ff7d48d5e99a92532b7179edf498d03be0e6923afe7428c7fa3e6e061",
+      "qf_result_sha256": "de75849040982cc797e1d64b9b8c0e086e6d465496020d0fef5d4d9a62af2b0d",
       "comparison": {
         "tet4_status": "PASS",
         "tet4_run_verdict": "WARNING",
@@ -1343,8 +1343,8 @@
         "tet4_strain_energy": 0.0004833563695756521,
         "tet10_strain_energy": 0.0016104280031571678,
         "relative_difference_strain_energy": 0.6998584422103598,
-        "duration_ratio_tet10_over_tet4": 5.302250014021263,
-        "rss_ratio_tet10_over_tet4": 1.9897416767695608
+        "duration_ratio_tet10_over_tet4": 5.0301333503595735,
+        "rss_ratio_tet10_over_tet4": 2.448756313732965
       }
     },
     {
@@ -1365,8 +1365,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 30.70464810001431,
-      "peak_rss_bytes": 698142720,
+      "duration_seconds": 30.501151600008598,
+      "peak_rss_bytes": 699637760,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0014.json\nQUALIFICATION GATE: FAIL 9 audit check(s) failed.",
       "stderr": "",
@@ -1385,8 +1385,8 @@
         "tet10_external_work": null,
         "tet4_strain_energy": null,
         "tet10_strain_energy": null,
-        "duration_ratio_tet10_over_tet4": 5.096102271111214,
-        "rss_ratio_tet10_over_tet4": 2.1003955686453315
+        "duration_ratio_tet10_over_tet4": 4.889857724619022,
+        "rss_ratio_tet10_over_tet4": 2.1050750536097214
       },
       "node_count": 4805,
       "element_count": 2439
@@ -1409,8 +1409,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 56.176805199997034,
-      "peak_rss_bytes": 750690304,
+      "duration_seconds": 53.56195319999824,
+      "peak_rss_bytes": 753799168,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0030.json\nQUALIFICATION GATE: WARNING 56 audit warning(s) present.",
       "stderr": "",
@@ -1449,7 +1449,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "5b8d9248292d938565846c69c0fda2f44c0b29879650dda3890b63224bc18b87",
+      "qf_result_sha256": "0b193bfcd05868f6a84df3b3ba089ee9f6b0d13ec578587e8e0cc5ded4670e31",
       "comparison": {
         "tet4_status": "PASS",
         "tet4_run_verdict": "WARNING",
@@ -1465,8 +1465,8 @@
         "tet4_strain_energy": 3.7842858297565037e-07,
         "tet10_strain_energy": 4.6348728467172203e-07,
         "relative_difference_strain_energy": 0.18351895404491386,
-        "duration_ratio_tet10_over_tet4": 7.771101136618758,
-        "rss_ratio_tet10_over_tet4": 2.1292608685549643
+        "duration_ratio_tet10_over_tet4": 7.200897277571856,
+        "rss_ratio_tet10_over_tet4": 2.14263426901538
       }
     },
     {
@@ -1487,8 +1487,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 85.46190950000891,
-      "peak_rss_bytes": 828010496,
+      "duration_seconds": 91.6736847999855,
+      "peak_rss_bytes": 826155008,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0034.json\nQUALIFICATION GATE: WARNING 63 audit warning(s) present.",
       "stderr": "",
@@ -1527,7 +1527,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "c0c793b0b7c5d071dae3b4ebfa28cada0a19b24cb6cc0697de2c04401e7543e0",
+      "qf_result_sha256": "87c4669cde3e73e8349d82770adcc34284332947bb01393b8e649ecc852347d9",
       "comparison": {
         "tet4_status": "PASS",
         "tet4_run_verdict": "WARNING",
@@ -1543,8 +1543,8 @@
         "tet4_strain_energy": 7.0333458447881395e-06,
         "tet10_strain_energy": 1.8814811577234093e-05,
         "relative_difference_strain_energy": 0.6261803730578688,
-        "duration_ratio_tet10_over_tet4": 8.689366864322311,
-        "rss_ratio_tet10_over_tet4": 2.188349787823677
+        "duration_ratio_tet10_over_tet4": 9.320879070677021,
+        "rss_ratio_tet10_over_tet4": 2.180023994552588
       }
     },
     {
@@ -1565,8 +1565,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 88.47762540000258,
-      "peak_rss_bytes": 2022658048,
+      "duration_seconds": 88.27672570000868,
+      "peak_rss_bytes": 1767575552,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0050.json\nQUALIFICATION GATE: FAIL 31 audit check(s) failed.",
       "stderr": "",
@@ -1585,8 +1585,8 @@
         "tet10_external_work": null,
         "tet4_strain_energy": null,
         "tet10_strain_energy": null,
-        "duration_ratio_tet10_over_tet4": 6.296317193908293,
-        "rss_ratio_tet10_over_tet4": 2.7791641340807276
+        "duration_ratio_tet10_over_tet4": 6.283310911497051,
+        "rss_ratio_tet10_over_tet4": 2.4322769007051024
       },
       "node_count": 12067,
       "element_count": 7027
@@ -1609,8 +1609,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 99.91786069999216,
-      "peak_rss_bytes": 1925255168,
+      "duration_seconds": 100.50671089999378,
+      "peak_rss_bytes": 1925599232,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: qualification/0_2_6/public_volumetric_tet10_runtime/FCL-0047.json\nQUALIFICATION GATE: FAIL 98 audit check(s) failed.",
       "stderr": "",
@@ -1629,8 +1629,8 @@
         "tet10_external_work": null,
         "tet4_strain_energy": null,
         "tet10_strain_energy": null,
-        "duration_ratio_tet10_over_tet4": 6.382361222324783,
-        "rss_ratio_tet10_over_tet4": 2.3103121159990168
+        "duration_ratio_tet10_over_tet4": 6.422283768937687,
+        "rss_ratio_tet10_over_tet4": 2.453957979903432
       },
       "node_count": 16476,
       "element_count": 7555
