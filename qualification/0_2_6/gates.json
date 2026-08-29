@@ -58,10 +58,13 @@
       "title": "Modal / dynamic / harmonic"
     },
     {
-      "evidence_ids": [],
       "id": "026-G06",
       "status": "NOT_STARTED",
-      "title": "J2 maturity extension"
+      "title": "J2 maturity extension",
+      "evidence_ids": [
+        "g06_prequalification_evidence.json",
+        "0_2_6_g06_prequalification_evidence.md"
+      ]
     },
     {
       "evidence_ids": [],

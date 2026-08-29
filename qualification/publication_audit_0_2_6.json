@@ -63,7 +63,7 @@
     {
       "id": "public_source_hygiene",
       "status": "PASS",
-      "detail": "2064 tracked release files scanned"
+      "detail": "2066 tracked release files scanned"
     },
     {
       "id": "controlled_review_vocabulary",
@@ -83,7 +83,7 @@
   ],
   "public_release_audit": {
     "status": "PASS",
-    "scanned_files": 2064,
+    "scanned_files": 2066,
     "finding_count": 0
   }
 }

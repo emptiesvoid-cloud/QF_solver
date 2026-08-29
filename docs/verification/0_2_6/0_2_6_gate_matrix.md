@@ -22,3 +22,5 @@
 G00 is a refactor guard with an explicit dirty-worktree limitation, not a replacement for immutable 0.2.5 evidence. G01-G03 close only audit, infrastructure and corpus design. Capability-gate outcomes are not implied by this foundation.
 
 `026-G05` references the supplemental `G05-B` contract, registry and evidence, the all-family coverage record, the final-evidence pack and the Owner decision record. The controlled campaign reaches MOD `14/14`, DYN `32/16` and HAR `12/12` across eight family rows; its bounded refinement policies are Owner-approved. The gate is closed as `PASS_WITH_LIMITATIONS`: external correlation is bounded and not element-family complete.
+
+`026-G06` remains `NOT_STARTED`. The current controlled prequalification replay is archived in `g06_prequalification_evidence.json` and `0_2_6_g06_prequalification_evidence.md`; it records `79 PASS / 1 EXPECTED_FAILURE / 0 FAIL` on 80 cases without promoting the official J2 maturity gate.
