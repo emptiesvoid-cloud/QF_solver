@@ -6,7 +6,7 @@
 for Owner closeout; it does not close the official gate automatically.
 
 - Start SHA: `b952520f5db8095e1fa214e451999aaedc672341`
-- Execution source SHA: `1e9b9435978f8cb5c445199432acf816100830ad`
+- Execution source SHA: `6efd6035805c7e5fceb42202f154b423a731e68a`
 - Source dirty state: `false`
 - Proposed decision: `PASS_WITH_LIMITATIONS`
 - Finite-kinematic J2: `RESEARCH_NOT_QUALIFIED`
@@ -21,7 +21,7 @@ for Owner closeout; it does not close the official gate automatically.
 | Multi-element invariant matrix | All four families `PASS` |
 | Energy and plastic dissipation | All four families `PASS_INTERNAL_ENERGY` |
 | Cyclic paths | All four families `PASS_INTERNAL_CYCLIC` |
-| Adversarial rollback | `PASS_INTERNAL_ROLLBACK`, deterministic rejected increment and clean retry |
+| Adversarial rollback | `PASS_INTERNAL_ROLLBACK` for TET4/TET10/HEX8/HEX20, deterministic rejected increment and clean retry |
 | Consistent tangent checks | Targeted tests `PASS` |
 
 The mesh study is deliberately reported as bounded evidence. Its regular
@@ -65,8 +65,8 @@ Full regression was not rerun because no solver or functional FEM code changed.
 - Increment refinement is inherited from the TET4 cyclic structural path and is
   not a universal path-independence statement for all families.
 - Rollback evidence covers deterministic rejection before the first accepted
-  increment; broader material-update and sparse-backend failure matrices remain
-  separate work.
+  increment for all four families; broader material-update and sparse-backend
+  failure matrices remain separate work.
 - Finite-kinematic J2 and coupled nonlinear workflows remain research/experimental.
 
 The generated aggregate artifacts are under the ignored `results/g06_depth`

@@ -6,7 +6,7 @@
   "prequalification_status": "PASS_WITH_LIMITATIONS",
   "proposed_decision": "PASS_WITH_LIMITATIONS",
   "start_sha": "b952520f5db8095e1fa214e451999aaedc672341",
-  "execution_source_sha": "1e9b9435978f8cb5c445199432acf816100830ad",
+  "execution_source_sha": "6efd6035805c7e5fceb42202f154b423a731e68a",
   "source_dirty": false,
   "solver_version": "0.2.6a0",
   "campaigns": {
@@ -38,14 +38,16 @@
       "multi_element": "PASS",
       "energy_balance": "PASS_INTERNAL_ENERGY",
       "cyclic": "PASS_INTERNAL_CYCLIC",
+      "rollback": "PASS_INTERNAL_ROLLBACK",
       "external": "PASS_EXTERNAL_CORRELATION"
     },
     "rollback": {
       "status": "PASS_INTERNAL_ROLLBACK",
-      "rejected_increments": 1,
-      "clean_retry": true,
-      "final_displacement_relative_error": 1.254324592877779e-07,
-      "final_peeq_absolute_error": 3.345270735768957e-09,
+      "families": ["TET4", "TET10", "HEX8", "HEX20"],
+      "rejected_increments_per_family": 1,
+      "clean_retry_per_family": true,
+      "final_displacement_relative_error_max": 1.254324592877779e-07,
+      "final_peeq_absolute_error_max": 3.345270735768957e-09,
       "committed_state_digest_equals_retry_state_digest": true
     }
   },
@@ -92,9 +94,9 @@
     "The rollback evidence covers deterministic rejection before the first accepted increment; broader material-update and sparse-backend failure matrices remain separate evidence work."
   ],
   "artifact_digests": {
-    "aggregate_summary": "a01479fbdfd1a5c2bbeb43dd715898e5fddf913113846e3e231812179e6069a2",
-    "aggregate_manifest": "9ceb4de7200c23a0cc68740a93ac6156da4f2242d10f225be1fc6aa8ef705c56",
-    "aggregate_report": "9c270b6c15a8de30e600ea3fe00a921697497c3fb4036cac5e1fe5c29ae56a70"
+    "aggregate_summary": "00305574b344e5f0adc152552b3a3492fcec5a8d246f094698a3ae3b2158a81c",
+    "aggregate_manifest": "a631d3bf76bc44afd09ee5039bffc6afa8437ea6b8a207f6438a08c3fb3a6d3e",
+    "aggregate_report": "2f8e9591a298f4a05fa41ff5725eb17a760c26c66048ff1990832e2fd22c4185"
   },
   "evidence_head_contract": "The execution source SHA identifies the code used for the numerical run. The tracked evidence commit is separate and does not replace that source SHA.",
   "owner_action": "Review bounded evidence and decide whether 026-G06 may be closed under the official contract."
