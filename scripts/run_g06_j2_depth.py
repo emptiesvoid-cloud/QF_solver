@@ -18,6 +18,9 @@ if str(SOURCE_ROOT) not in sys.path:
     sys.path.insert(0, str(SOURCE_ROOT))
 
 from solveur.io.manifest import sha256, write_json_file  # noqa: E402
+from solveur.api import solve_model  # noqa: E402
+from solveur.core.errors import MeshValidationError  # noqa: E402
+from solveur.core.model import FiniteElementModel  # noqa: E402
 from solveur.verification.framework.environment import capture_environment  # noqa: E402
 from solveur.verification.j2_step_sensitivity import J2StepSensitivityCampaign  # noqa: E402
 from solveur.verification.j2_structural import J2StructuralCyclicCampaign  # noqa: E402
@@ -39,6 +42,7 @@ EXTERNAL_COMMAND = "python scripts/run_j2_multielement_external_025.py --output 
 
 def _run_internal(output: Path) -> dict[str, Any]:
     tet10 = J2StructuralCyclicCampaign(output / "tet10_cyclic", element_type="TET10").run()
+    invalid_tet10 = _invalid_tet10_case()
     mesh = run_mesh_refinement_benchmark(levels=(1, 2, 4, 8))
     write_json_file(output / "mesh_refinement.json", mesh)
     increment = J2StepSensitivityCampaign(output / "increment_sensitivity").run()
@@ -54,14 +58,63 @@ def _run_internal(output: Path) -> dict[str, Any]:
     write_json_file(output / "energy_balance.json", energy)
     write_json_file(output / "cyclic.json", cyclic)
     write_json_file(output / "rollback.json", rollback)
+    write_json_file(output / "invalid_tet10.json", invalid_tet10)
     return {
         "tet10_dedicated": tet10,
+        "invalid_tet10": invalid_tet10,
         "mesh_refinement": mesh,
         "increment_refinement": increment,
         "multi_element": multi,
         "energy_balance": energy,
         "cyclic": cyclic,
         "rollback": rollback,
+    }
+
+
+def _invalid_tet10_case() -> dict[str, Any]:
+    """Record the expected rejection of an inverted TET10 before solving."""
+    from solveur.verification.robustness_nonlinear_solids import mesh_refinement_mesh
+
+    nodes, elements = mesh_refinement_mesh("TET10", 1)
+    elements[0][0], elements[0][1] = elements[0][1], elements[0][0]
+    fixed = [
+        {"node": int(index), "dofs": ["UX", "UY", "UZ"]}
+        for index, point in enumerate(nodes)
+        if point[0] == 0.0
+    ]
+    model = FiniteElementModel.from_raw(
+        nodes=nodes.tolist(),
+        elements=[{"type": "TET10", "nodes": item, "material": "j2"} for item in elements],
+        materials={
+            "j2": {
+                "type": "von_mises_elastoplastic_3d",
+                "E": 1000.0,
+                "nu": 0.3,
+                "yield_stress": 0.02,
+                "hardening_modulus": 10.0,
+            }
+        },
+        fixed_dofs=fixed,
+        loads=[
+            {"node": int(index), "dof": "UX", "value": 0.1}
+            for index, point in enumerate(nodes)
+            if point[0] == 1.0
+        ],
+        analysis={"type": "nonlinear_static", "method": "newton_raphson", "load_path": [1.0]},
+    )
+    try:
+        solve_model(model, enforce_policy=False)
+    except MeshValidationError as error:
+        return {
+            "status": "EXPECTED_FAILURE",
+            "failure_category": "INVALID_ELEMENT",
+            "element": "TET10",
+            "message": str(error),
+        }
+    return {
+        "status": "FAIL",
+        "failure_category": "INVALID_ELEMENT_NOT_REJECTED",
+        "element": "TET10",
     }
 
 
@@ -150,6 +203,8 @@ def _write_report(path: Path, summary: dict[str, Any]) -> None:
         f"`{internal['tet10_dedicated']['campaign_id']}`: **{internal['tet10_dedicated']['status']}**, "
         f"{internal['tet10_dedicated']['mesh']['nodes']} nodes, {internal['tet10_dedicated']['mesh']['elements']} elements, "
         f"{internal['tet10_dedicated']['mesh']['integration_points_per_element']} integration points/element.",
+        "",
+        f"Inverted TET10 rejection: **{internal['invalid_tet10']['status']}** ({internal['invalid_tet10'].get('failure_category', 'n/a')}).",
         "",
         "![TET10 cyclic response](tet10_cyclic/cyclic_response.png)",
         "",
@@ -251,9 +306,10 @@ def main() -> int:
     }
     summary["invariant_matrix"] = _invariant_matrix(internal, external)
     internal_items = (internal["tet10_dedicated"], internal["mesh_refinement"], internal["increment_refinement"], internal["multi_element"], internal["energy_balance"], internal["cyclic"], internal["rollback"])
+    expected_failure_ok = internal["invalid_tet10"]["status"] == "EXPECTED_FAILURE"
     internal_ok = all(_status(item).startswith("PASS") for item in internal_items)
     external_ok = external.get("status") == "PASS_EXTERNAL_CORRELATION"
-    if not internal_ok or not external_ok:
+    if not internal_ok or not expected_failure_ok or not external_ok:
         summary["proposed_decision"] = "OPEN_WITH_BLOCKERS"
         if not external_ok:
             summary["limitations"].append("External TET/HEX correlation is not PASS_EXTERNAL_CORRELATION in the archived input.")
