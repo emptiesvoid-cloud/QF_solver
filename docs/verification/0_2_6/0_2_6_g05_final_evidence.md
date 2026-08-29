@@ -2,10 +2,9 @@
 
 ## Decision Boundary
 
-This pack assembles the available evidence for `026-G05` without closing the
-gate. The proposed decision is `PASS_WITH_LIMITATIONS`, pending an Owner
-closeout after the listed provenance blocker has been removed. It does not
-promote a capability merely because its runner is executable.
+This pack records the Owner closeout for `026-G05` as
+`PASS_WITH_LIMITATIONS`. It does not promote a capability merely because its
+runner is executable.
 
 | Item | Result |
 | --- | --- |
@@ -17,7 +16,7 @@ promote a capability merely because its runner is executable.
 | Harmonic cases | `12 / 12` |
 | Covered family rows | TET4, TET10, HEX8, HEX20, BEAM2, MITC3/MITC3+, MITC4, discrete |
 | Unexpected failures | `0` |
-| Official gate | `NOT_STARTED`; no automatic closeout |
+| Official gate | `PASS_WITH_LIMITATIONS`; Owner decision recorded |
 
 ## Owner-Approved Bounded Policies
 
@@ -64,10 +63,12 @@ SHA with `dirty=false`. TET10, HEX8, HEX20, MITC3 and MITC4 have no same-SHA,
 formulation-compatible external deck in this run and are not claimed as
 externally correlated.
 
-## Remaining Closeout Conditions
+## Bounded Limitation
 
-1. Ask the Owner whether the bounded external-family coverage is sufficient to
-   close `026-G05` as `PASS_WITH_LIMITATIONS`.
+TET10, HEX8, HEX20, MITC3 and MITC4 rely on internal quantitative V&V and
+analytical evidence pending comparable independent external decks. This
+limitation is part of the approved G05 scope and is not an unresolved gate
+blocker.
 
 No numerical formulation, solver API, physics model or gate requirement was
 modified by this pack.

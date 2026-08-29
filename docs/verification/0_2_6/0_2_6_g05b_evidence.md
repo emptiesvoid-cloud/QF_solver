@@ -3,8 +3,8 @@
 ## Status
 
 This document records the dedicated modal/dynamic/harmonic execution batch
-prepared for `026-G05`. It is evidence for the gate review; it does not close
-the official gate. The bounded refinement policies were Owner-approved on
+prepared for `026-G05`. It is part of the evidence supporting the official
+gate, which is closed as `PASS_WITH_LIMITATIONS`. The bounded refinement policies were Owner-approved on
 2026-08-29; external evidence and final clean-worktree provenance remain
 separate closeout requirements.
 
@@ -53,7 +53,7 @@ prequalification rather than an automatic qualification claim.
 
 ## Open qualification items
 
-`G05B` execution is complete for the added 12-case batch, but `026-G05`
+`G05B` execution is complete for the added 12-case batch, and `026-G05`
 closeout is not recommended. The remaining items are:
 
 1. attach the required analytical/reference and external correlations with

@@ -3,8 +3,15 @@
   "gate": "026-G05",
   "title": "Modal / dynamic / harmonic final qualification evidence",
   "status": "PASS_WITH_LIMITATIONS",
-  "qualification_status": "PENDING_OWNER_CLOSEOUT",
+  "qualification_status": "OWNER_CLOSED_WITH_LIMITATIONS",
   "proposed_gate_decision": "PASS_WITH_LIMITATIONS",
+  "owner_decision": {
+    "status": "PASS_WITH_LIMITATIONS",
+    "record": "qualification/0_2_6/owner_decisions.json#026-G05-OWNER-CLOSEOUT-2026-08-29",
+    "scope": "Modal, Newmark and harmonic response across eight internally verified family rows, with bounded external correlation coverage.",
+    "limitation": "TET10, HEX8, HEX20, MITC3 and MITC4 rely on internal quantitative V&V and analytical evidence pending comparable independent external decks.",
+    "contract_lowered": false
+  },
   "qualified_source_sha": "6cd971756af0f1b8a114fd98b188714da39ff081",
   "evidence_head": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
   "evidence_head_contract": "All final evidence campaigns were replayed on evidence_head with dirty=false. This pack may be committed afterwards; evidence_head is distinct from the qualified numerical source SHA.",
@@ -67,7 +74,5 @@
     "No external same-SHA G05 deck was executed for TET10, HEX8, HEX20, MITC3 or MITC4.",
     "SUPPORTED, TESTED, VERIFIED and QUALIFIED remain distinct states."
   ],
-  "remaining_blockers": [
-    "Owner closeout must decide whether the bounded external family coverage is sufficient for 026-G05."
-  ]
+  "remaining_blockers": []
 }

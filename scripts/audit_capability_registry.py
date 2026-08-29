@@ -169,7 +169,7 @@ def render_document(registry: dict[str, Any]) -> str:
     counts = {level: sum(row["VNV_LEVEL"] == level for row in rows) for level in sorted(VNV_LEVELS)}
     g05_gaps = (
         "The G05-B family campaign covers TET4, TET10, HEX8, HEX20, BEAM2, MITC3/MITC3+, MITC4 and discrete; "
-        "refinement policies are OWNER_APPROVED_BOUNDED and final clean provenance remains open."
+        "refinement policies are OWNER_APPROVED_BOUNDED and the Owner closed G05 as PASS_WITH_LIMITATIONS."
     )
     lines = [
         "# Capability Coverage Register",
@@ -207,21 +207,21 @@ def render_document(registry: dict[str, Any]) -> str:
         "",
         "| Family | Static | Modal | Newmark | Harmonic | Buckling | Load-control | Geometric | 0.2.6 gap |",
         "| --- | --- | --- | --- | --- | --- | --- | --- |",
-        "| BEAM2 | code/tests | G05-B prequal | G05-B prequal | G05-B prequal | n/a | n/a | n/a | official G05 remains open |",
-        "| MITC3 | READY corpus | READY corpus | READY corpus | READY corpus | n/a | n/a | n/a | G05 acceptance remains open |",
-        "| MITC4 | READY corpus | READY corpus | READY corpus | READY corpus | n/a | n/a | n/a | G05 acceptance remains open |",
-        "| TET4 | READY corpus | G05-B prequal | G05-B prequal | G05-B prequal | READY/planned | READY | bounded evidence | official G05 remains open |",
-        "| TET10 | READY/planned | G05-B prequal | G05-B prequal | G05-B prequal | planned | READY/planned | research route | official G05 remains open |",
-        "| HEX8 | READY/planned | G05-B prequal | G05-B prequal | G05-B prequal | planned | READY/planned | bounded evidence | official G05 remains open |",
-        "| HEX20 | READY/planned | G05-B prequal | G05-B prequal | G05-B prequal | planned | READY/planned | research route | official G05 remains open |",
-        "| Discrete | READY/planned | G05-B prequal | G05-B prequal | G05-B prequal | n/a | n/a | n/a | official G05 remains open |",
+        "| BEAM2 | code/tests | G05-B verified | G05-B verified | G05-B verified | n/a | n/a | n/a | G05 bounded; other scopes separate |",
+        "| MITC3 | READY corpus | G05-B verified | G05-B verified | G05-B verified | n/a | n/a | n/a | external deck pending |",
+        "| MITC4 | READY corpus | G05-B verified | G05-B verified | G05-B verified | n/a | n/a | n/a | external deck pending |",
+        "| TET4 | READY corpus | G05-B verified | G05-B verified | G05-B verified | READY/planned | READY | bounded evidence | external coverage bounded |",
+        "| TET10 | READY/planned | G05-B verified | G05-B verified | G05-B verified | planned | READY/planned | research route | external deck pending |",
+        "| HEX8 | READY/planned | G05-B verified | G05-B verified | G05-B verified | planned | READY/planned | bounded evidence | external deck pending |",
+        "| HEX20 | READY/planned | G05-B verified | G05-B verified | G05-B verified | planned | READY/planned | research route | external deck pending |",
+        "| Discrete | READY/planned | G05-B verified | G05-B verified | G05-B verified | n/a | n/a | n/a | G05 bounded; other scopes separate |",
         "",
         "## G05-B Integration And Open Gaps",
         "",
-        "- `G05-B` is supplemented by an all-family campaign with MOD 14, DYN 32 and HAR 12 controlled cases. It remains internal prequalification and does **not** close `026-G05`.",
-        "- The family campaign executes MOD 14, DYN 32 time-level cases and HAR 12 across all eight requested family rows. See `0_2_6_g05_family_coverage.md`; it remains internal prequalification.",
+        "- `G05-B` is supplemented by an all-family campaign with MOD 14, DYN 32 and HAR 12 controlled cases. The Owner closed `026-G05` as `PASS_WITH_LIMITATIONS`.",
+        "- The family campaign executes MOD 14, DYN 32 time-level cases and HAR 12 across all eight requested family rows. See `0_2_6_g05_family_coverage.md`; external correlation remains bounded.",
         f"- {g05_gaps}",
-        "- The modal mesh, Newmark time-refinement, and harmonic frequency-refinement policies are `OWNER_APPROVED_BOUNDED`; final clean provenance and Owner closeout remain required.",
+        "- The modal mesh, Newmark time-refinement, and harmonic frequency-refinement policies are `OWNER_APPROVED_BOUNDED`; their closeout is recorded in `owner_decisions.json`.",
         "",
         "## Historical Continuity",
         "",

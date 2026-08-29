@@ -3,8 +3,8 @@
 ## Status
 
 This document records the controlled internal prequalification campaign for
-`026-G05` modal, Newmark and harmonic routes. It does **not** close the
-official gate. The distinction is deliberate:
+`026-G05` modal, Newmark and harmonic routes. The official gate is closed as
+`PASS_WITH_LIMITATIONS`; the bounded external limitation remains explicit:
 
 `SUPPORTED` != `TESTED` != `VERIFIED` != `QUALIFIED`.
 
@@ -97,12 +97,13 @@ The identical HEX8/HEX20 values in this compact constrained block are an
 observed result of this particular model and are not evidence of formulation
 equivalence in general. Larger or element-specific studies remain necessary.
 
-## Remaining G05 requirements
+## Bounded limitation and traceability
 
-1. Owner approval of the three proposed refinement policies.
-2. Family-specific external correlations and analytical oracles where the
-   G05 contract requires them.
-3. Complete gate aggregation with exact-SHA evidence and no promotion from
-   internal prequalification to `QUALIFIED` by implication.
+1. The three refinement policies are `OWNER_APPROVED_BOUNDED`.
+2. Final aggregation is recorded in `g05_final_evidence.json` and
+   `owner_decisions.json`.
+3. External correlation coverage remains bounded and is not element-family
+   complete; the corresponding limitation is part of the Owner decision.
 
-`026-G05` remains `NOT_STARTED` until its official contract is satisfied.
+`026-G05` is `PASS_WITH_LIMITATIONS` by Owner decision. This closeout does
+not promote unsupported external coverage or broaden any element claim.

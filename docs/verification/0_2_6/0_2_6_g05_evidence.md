@@ -6,7 +6,8 @@
 
 This report records the bounded execution batch for G05. `READY` means that a
 case has a controlled executable model; it does not mean that the capability
-is qualified. The official foundation gate `026-G05` remains unchanged and
+is qualified. The official foundation gate `026-G05` is closed as
+`PASS_WITH_LIMITATIONS`, with bounded external coverage and no broader claim.
 continues to mean Modal / dynamic / harmonic maturity.
 
 ## Controlled provenance
