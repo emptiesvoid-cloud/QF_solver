@@ -111,7 +111,12 @@ def select_models(tree: list[dict[str, Any]], limit: int) -> tuple[list[dict[str
     return selected, rejected
 
 
-def _write_qf_case(nodes: list[tuple[float, float, float]], elements: list[list[int]], destination: Path) -> None:
+def _write_qf_case(
+    nodes: list[tuple[float, float, float]],
+    elements: list[list[int]],
+    destination: Path,
+    element_type: str = "TET4",
+) -> None:
     x_values = [node[0] for node in nodes]
     minimum, maximum = min(x_values), max(x_values)
     tolerance = max((maximum - minimum) * 1.0e-6, 1.0e-12)
@@ -127,7 +132,7 @@ def _write_qf_case(nodes: list[tuple[float, float, float]], elements: list[list[
     payload = {
         "analysis": {"type": "linear_static", "method": "direct"},
         "nodes": [list(node) for node in nodes],
-        "elements": [{"type": "TET4", "nodes": element, "material": "steel"} for element in elements],
+        "elements": [{"type": element_type, "nodes": element, "material": "steel"} for element in elements],
         "materials": {"steel": {"type": "isotropic_3d", "E": 210000000000.0, "nu": 0.3, "density": 7800.0}},
         "fixed_dofs": fixed,
         "loads": loads,
