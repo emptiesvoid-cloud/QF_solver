@@ -41,6 +41,7 @@ qualification/vnv/**
 qualification/0_2_6/tl_stress_campaign/tl_stress_campaign.json
 qualification/0_2_6/tl_failure_isolation/tl_failure_isolation.json
 qualification/0_2_6/tl_robustness_fix/tl_robustness_fix.json
+qualification/0_2_6/tl_boundary_study/tl_boundary_study.json
 qualification/evidence/
 qualification/maturity_evidence_*/
 tmp/
