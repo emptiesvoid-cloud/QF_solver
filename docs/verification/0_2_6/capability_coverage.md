@@ -38,7 +38,7 @@ This generated view is derived from `qualification/capability_registry.json`, th
 | `ANA-ARC-LENGTH` | ANALYSIS | TET4 bounded benchmark | arc_length | EXPERIMENTAL | L2 | `026-G07` | EXPERIMENTAL_NOT_QUALIFIED |
 | `MAT-ELASTIC` | MATERIAL | multiple | all linear analyses | QUALIFIED_BOUNDED | L3 | `026-G04` | PRESENT_REQUALIFICATION_PENDING |
 | `MAT-ORTHOTROPIC-LAMINATE` | MATERIAL | MITC3/MITC4/solids where supported | static/modal/Newmark/harmonic | EXPERIMENTAL | L2 | `026-G04/G05` | PRESENT_DEFERRED |
-| `MAT-J2-SMALL` | MATERIAL | TET4/TET10/HEX8/HEX20 | nonlinear_static | QUALIFIED_BOUNDED | L3 | `026-G06` | PRESENT_REQUALIFICATION_PENDING |
+| `MAT-J2-SMALL` | MATERIAL | TET4/TET10/HEX8/HEX20 | nonlinear_static | QUALIFIED_BOUNDED | L3 | `026-G06` | PRESENT_QUALIFIED_BOUNDED |
 | `MAT-TL-ELASTIC` | MATERIAL | TET4/HEX8 bounded; high-order research | geometric_nonlinear_static | QUALIFIED_BOUNDED | L3 | `026-G07` | PRESENT_REQUALIFICATION_PENDING |
 | `MAT-FINITE-J2` | MATERIAL | TET4/TET10/HEX8/HEX20 | geometric_nonlinear_static | RESEARCH | L1 | `026-G10` | RESEARCH_DEFERRED |
 | `MAT-COUPLED-NL` | MATERIAL | bounded solid/contact workflows | coupled nonlinear | EXPERIMENTAL | L1 | `026-G10` | EXPERIMENTAL_DEFERRED |

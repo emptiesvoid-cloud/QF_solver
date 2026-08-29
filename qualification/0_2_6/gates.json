@@ -59,7 +59,7 @@
     },
     {
       "id": "026-G06",
-      "status": "NOT_STARTED",
+      "status": "PASS_WITH_LIMITATIONS",
       "title": "J2 maturity extension",
       "evidence_ids": [
         "g06_prequalification_evidence.json",

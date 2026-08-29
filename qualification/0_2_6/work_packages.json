@@ -48,7 +48,7 @@
         "0_2_6_g06_depth_evidence.md"
       ],
       "id": "026-WP06-G06",
-      "note": "Distinct work-package identifier. Official gate 026-G06 remains J2 maturity extension; executable corpus expansion does not by itself promote maturity.",
+      "note": "Distinct work-package identifier. The Owner closed official gate 026-G06 as PASS_WITH_LIMITATIONS for the bounded small-strain J2 scope; this package does not promote finite-kinematic J2.",
       "related_official_gate": "026-G06",
       "status": "PASS_WITH_LIMITATIONS",
       "title": "Deep V&V and corpus expansion"

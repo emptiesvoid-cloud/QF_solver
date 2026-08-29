@@ -2,13 +2,15 @@
 
 ## Status
 
-`026-G06` remains **NOT_STARTED**. This pack is a controlled evidence package
-for Owner closeout; it does not close the official gate automatically.
+`026-G06` is **PASS_WITH_LIMITATIONS** by Owner decision. This pack is the
+controlled evidence package for the bounded closeout.
 
 - Start SHA: `b952520f5db8095e1fa214e451999aaedc672341`
 - Execution source SHA: `8bd0f2d8fdce7bf27ffc4c28e6aa26e69288fa63`
 - Source dirty state: `false`
 - Proposed decision: `PASS_WITH_LIMITATIONS`
+- Owner decision: `PASS_WITH_LIMITATIONS`
+- Closeout start SHA: `2662c984b64816b3deaf18b0a6bb270141551b40`
 - Finite-kinematic J2: `RESEARCH_NOT_QUALIFIED`
 
 ## Internal evidence
@@ -65,10 +67,11 @@ Full regression was not rerun because no solver or functional FEM code changed.
 
 ## Limitations and remaining Owner decision
 
-- G06 remains officially `NOT_STARTED` until the Owner reviews this pack.
+- Small-strain J2 is qualified within the tested TET4/TET10/HEX8/HEX20 scope.
+- Algorithmic tangent symmetry has not been independently qualified.
 - The mesh series is bounded and does not qualify arbitrary distortion,
   localization or industrial geometries.
-- Increment refinement is inherited from the TET4 cyclic structural path and is
+- Independent increment-refinement evidence is currently limited to TET4 and is
   not a universal path-independence statement for all families.
 - Rollback evidence covers deterministic rejection before the first accepted
   increment for all four families; broader material-update and sparse-backend

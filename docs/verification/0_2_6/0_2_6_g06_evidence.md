@@ -11,7 +11,9 @@ is recorded separately in `0_2_6_g06_prequalification_evidence.md`.
 This work package expands the executable 0.2.6 V&V corpus. `READY` means that
 the controlled runner can execute a case; it does not mean that the associated
 element, material or analysis capability is qualified. The official gate
-`026-G06` remains the J2 maturity-extension gate and is unchanged.
+`026-G06` is the J2 maturity-extension gate. This historical package is
+retained as supporting evidence; the later deep pack records the Owner's
+bounded closeout decision.
 
 ## Controlled provenance
 
