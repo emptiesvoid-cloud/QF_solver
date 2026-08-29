@@ -42,10 +42,26 @@ def test_foundation_documents_and_machine_data_are_present() -> None:
         "0_2_6_risk_register.md",
         "0_2_6_work_packages.md",
     }
-    required_data = {"requirements.json", "risk_register.json", "work_packages.json", "gates.json"}
+    required_data = {"requirements.json", "g05_requirements.json", "risk_register.json", "work_packages.json", "gates.json"}
 
     assert required_documents.issubset(path.name for path in DOCS_ROOT.iterdir())
     assert required_data.issubset(path.name for path in DATA_ROOT.iterdir())
+
+
+def test_g05_contract_has_modal_dynamic_and_harmonic_targets() -> None:
+    contract = json.loads((DATA_ROOT / "g05_requirements.json").read_text(encoding="utf-8"))
+    requirements = {row["id"]: row for row in contract["requirements"]}
+    assert requirements["G05-MOD-001"]["target_case_count"] == 14
+    assert requirements["G05-DYN-001"]["target_case_count"] == 16
+    assert requirements["G05-HAR-001"]["target_case_count"] == 12
+    assert all(row["threshold"]["status"] in {"DEFINED_FROM_EXISTING_CONTRACT", "UNDEFINED_POLICY"} for row in requirements.values())
+
+
+def test_g05b_deep_registry_has_requested_family_counts() -> None:
+    registry = VnvRegistry.from_file(DATA_ROOT / "g05_deep_case_registry.json")
+    assert len(registry.select(profile="G05B", tags=("modal",))) == 4
+    assert len(registry.select(profile="G05B", tags=("dynamic",))) == 4
+    assert len(registry.select(profile="G05B", tags=("harmonic",))) == 4
 
 
 def test_registry_rejects_duplicate_case_ids() -> None:
