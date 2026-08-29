@@ -16,8 +16,10 @@ from solveur.core.nonlinear.iteration import (
     CompositeNonlinearAssembly,
     NonlinearAssemblyProtocol,
     _line_search_assembly,
+    solve_adaptive_full_newton,
     solve_full_newton,
 )
+from solveur.core.nonlinear.controls import AdaptiveLoadControls
 from solveur.core.model import FiniteElementModel
 from solveur.core.results import SolveResult
 from solveur.elements.solid.tet4_total_lagrangian_batch import TotalLagrangianTet4Assembly
@@ -52,11 +54,20 @@ class GeometricNonlinearStaticSolver:
             if contact_assembly is not None
             else geometric_assembly
         )
-        external = np.zeros(assembly.ndof, dtype=float)
+        external: np.ndarray = np.zeros(assembly.ndof, dtype=float)
         for load in model.loads:
             external[dofs.index(load.node, load.dof)] += load.value
         fixed = np.unique(
             [dofs.index(condition.node, name) for condition in model.fixed_dofs for name in condition.dofs]
+        )
+        adaptive_controls = (
+            AdaptiveLoadControls.from_parameters(
+                parameters,
+                load_steps=controls.load_increments,
+                max_iterations=max_iterations,
+            )
+            if bool(parameters.get("adaptive_load_steps", False))
+            else None
         )
         displacement, diagnostics = _newton_dead_load(
             assembly,
@@ -66,6 +77,7 @@ class GeometricNonlinearStaticSolver:
             tolerance=tolerance,
             max_iterations=max_iterations,
             determinant_assembly=geometric_assembly,
+            adaptive_controls=adaptive_controls,
         )
         states = geometric_assembly.element_states(displacement)
         element_results = [
@@ -83,6 +95,7 @@ class GeometricNonlinearStaticSolver:
         diagnostics.update(
             {
                 "load_increments": controls.load_increments,
+                "adaptive_load_steps": adaptive_controls is not None,
                 "strain_energy": geometric_assembly.strain_energy(displacement),
                 "minimum_det_f": float(np.min(states["det_f"])),
                 "scope": (
@@ -182,20 +195,37 @@ def _newton_dead_load(
     tolerance: float,
     max_iterations: int,
     determinant_assembly: TotalLagrangianTet4Assembly | TotalLagrangianHex8Assembly | TotalLagrangianHighOrderAssembly | None = None,
+    adaptive_controls: AdaptiveLoadControls | None = None,
 ) -> tuple[np.ndarray, dict[str, object]]:
     if fixed.size == 0:
         raise MeshValidationError("geometric_nonlinear_static requires constrained dofs.")
-    displacement, diagnostics = solve_full_newton(
-        assembly,
-        external,
-        fixed,
-        increments=increments,
-        tolerance=tolerance,
-        max_iterations=max_iterations,
-    )
-    determinant_source = determinant_assembly or assembly
-    for item in diagnostics["increments"]:
-        item["minimum_det_f"] = float(np.min(determinant_source.deformation_determinants(displacement)))
+    if adaptive_controls is None:
+        displacement, diagnostics = solve_full_newton(
+            assembly,
+            external,
+            fixed,
+            increments=increments,
+            tolerance=tolerance,
+            max_iterations=max_iterations,
+        )
+    else:
+        displacement, diagnostics = solve_adaptive_full_newton(
+            assembly,
+            external,
+            fixed,
+            increments=increments,
+            tolerance=tolerance,
+            max_iterations=max_iterations,
+            controls=adaptive_controls,
+        )
+    determinant_source: object = determinant_assembly or assembly
+    deformation_determinants = getattr(determinant_source, "deformation_determinants", None)
+    increment_items = diagnostics.get("increments")
+    if callable(deformation_determinants) and isinstance(increment_items, list):
+        minimum_det_f = float(np.min(deformation_determinants(displacement)))
+        for item in increment_items:
+            if isinstance(item, dict):
+                item["minimum_det_f"] = minimum_det_f
     return displacement, diagnostics
 
 

@@ -1,0 +1,83 @@
+{
+  "cases": [
+    {
+      "adaptive_accepted_steps": 334,
+      "adaptive_reason": null,
+      "adaptive_rejected_increments": 3,
+      "adaptive_status": "SUCCESS",
+      "baseline_reason": "MAX_ITERATIONS",
+      "baseline_status": "FAILURE",
+      "baseline_step": 28,
+      "id": "CASE_1"
+    },
+    {
+      "adaptive_accepted_steps": 0,
+      "adaptive_reason": "MIN_INCREMENT_REACHED",
+      "adaptive_rejected_increments": 8,
+      "adaptive_status": "FAILURE",
+      "baseline_reason": "MAX_ITERATIONS",
+      "baseline_status": "FAILURE",
+      "baseline_step": 12,
+      "id": "CASE_2"
+    },
+    {
+      "adaptive_accepted_steps": 63,
+      "adaptive_reason": null,
+      "adaptive_rejected_increments": 2,
+      "adaptive_status": "SUCCESS",
+      "baseline_reason": "MAX_ITERATIONS",
+      "baseline_status": "FAILURE",
+      "baseline_step": 1,
+      "id": "CASE_3"
+    }
+  ],
+  "dirty": true,
+  "formulation_changed": false,
+  "limitations": [
+    "CASE_1 and CASE_2 remain mesh-conditioning stress cases if cutback exhaustion is reached.",
+    "Adaptive stepping is an opt-in robustness mechanism, not a TL promotion or qualification result.",
+    "No new acceptance criterion is introduced by this campaign."
+  ],
+  "line_search_added": false,
+  "paired_increment_study": [
+    {
+      "family": "TET4",
+      "final_displacement": 0.3581038712071078,
+      "id": "PAIRED_TET4_16",
+      "increments": 16,
+      "reason": null,
+      "relative_residual": 1.147513890079785e-11,
+      "status": "SUCCESS"
+    },
+    {
+      "family": "TET4",
+      "final_displacement": 0.3581038712987276,
+      "id": "PAIRED_TET4_32",
+      "increments": 32,
+      "reason": null,
+      "relative_residual": 1.1217766819820617e-13,
+      "status": "SUCCESS"
+    },
+    {
+      "family": "HEX8",
+      "final_displacement": 0.3299777959648277,
+      "id": "PAIRED_HEX8_16",
+      "increments": 16,
+      "reason": null,
+      "relative_residual": 7.012726230530734e-10,
+      "status": "SUCCESS"
+    },
+    {
+      "family": "HEX8",
+      "final_displacement": 0.3299777961023633,
+      "id": "PAIRED_HEX8_32",
+      "increments": 32,
+      "reason": null,
+      "relative_residual": 3.336727650714235e-11,
+      "status": "SUCCESS"
+    }
+  ],
+  "source_sha": "e522a24394e58d79266bcfde1b431b631381a231",
+  "status": "ROBUSTNESS_QUALIFICATION_PREPARATION",
+  "tangent_changed": false
+}

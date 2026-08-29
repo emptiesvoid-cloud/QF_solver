@@ -1,0 +1,317 @@
+{
+  "classification_policy": [
+    "An exception is preserved for manual model/mesh/BC audit; it is not called a solver bug automatically.",
+    "Existing PASS/FAIL labels are observations from existing harnesses, not release decisions.",
+    "No source solver module, tolerance, or formulation is changed by this runner."
+  ],
+  "dirty": true,
+  "failure_zoo": [
+    {
+      "case": "invalid_current_configuration",
+      "classification": "EXPECTED_LIMITATION",
+      "provenance": "existing unit contract; intentionally retained as a diagnostic boundary",
+      "symptoms": "Existing TL assembly rejects current det(F) <= 1e-10."
+    },
+    {
+      "case": "unsupported_distributed_load",
+      "classification": "EXPECTED_LIMITATION",
+      "provenance": "existing public API contract; no workaround applied",
+      "symptoms": "Public geometric nonlinear scope accepts nodal dead loads only."
+    }
+  ],
+  "families": [
+    "TET4",
+    "HEX8"
+  ],
+  "no_release_thresholds": true,
+  "results": [
+    {
+      "name": "large_rotation",
+      "result": {
+        "limitations": [
+          "One unit-block low-order TET4/HEX8 elastic Saint-Venant-Kirchhoff path.",
+          "This is a large-deflection smoke benchmark, not a large-rotation plasticity, post-buckling or external-correlation qualification."
+        ],
+        "owner_acceptance_band_required": true,
+        "rows": [
+          {
+            "dof_count": 24,
+            "element": "TET4",
+            "element_count": 5,
+            "end_line_angle_deg": 33.89665511384116,
+            "end_line_angle_rad": 0.5916082371495016,
+            "load_increments": 60,
+            "maximum_displacement_norm": 0.6665356670224065,
+            "maximum_relative_residual": 3.6442392639150724e-14,
+            "minimum_det_f": 0.6405447185109916,
+            "status": "PASS",
+            "strain_energy": 0.4144251502699057
+          },
+          {
+            "dof_count": 24,
+            "element": "HEX8",
+            "element_count": 1,
+            "end_line_angle_deg": 41.58746677346182,
+            "end_line_angle_rad": 0.7258382227606515,
+            "load_increments": 60,
+            "maximum_displacement_norm": 0.8067722198723887,
+            "maximum_relative_residual": 4.1663103049465535e-14,
+            "minimum_det_f": 0.6380177100018198,
+            "status": "PASS",
+            "strain_energy": 0.4871664427383323
+          }
+        ],
+        "status": "PASS_INTERNAL_RESEARCH"
+      },
+      "status": "COMPLETED"
+    },
+    {
+      "name": "large_rotation_mesh_sensitivity",
+      "result": {
+        "levels": [
+          1,
+          2
+        ],
+        "limitations": [
+          "Internal elastic mesh sensitivity only; no plasticity or external correlation.",
+          "The recorded coarse-to-refined changes are observations and do not define an acceptance band.",
+          "The low-order load scale 1.5 smoke is not stable on refined HEX8.",
+          "The TET10/HEX20 extension is deliberately limited to the recorded low-load study and remains research evidence."
+        ],
+        "load_increments": 30,
+        "load_scale": 1.0,
+        "rows": [
+          {
+            "coarse_to_refined": {
+              "end_line_angle_rad": 0.15509994818028042,
+              "maximum_displacement_norm": 0.13652174043423346,
+              "strain_energy": 0.14565086254839194
+            },
+            "element": "TET4",
+            "levels": [
+              {
+                "cells": 1,
+                "dof_count": 24,
+                "element": "TET4",
+                "element_count": 5,
+                "end_line_angle_deg": 21.987177693424883,
+                "end_line_angle_rad": 0.3837486439713166,
+                "maximum_displacement_norm": 0.4354912537577839,
+                "maximum_relative_residual": 1.4563014234142727e-14,
+                "minimum_det_f": 0.8117681379642423,
+                "newton_iterations": 120,
+                "status": "PASS",
+                "strain_energy": 0.18550025211346502
+              },
+              {
+                "cells": 2,
+                "dof_count": 36,
+                "element": "TET4",
+                "element_count": 10,
+                "end_line_angle_deg": 26.023406728487682,
+                "end_line_angle_rad": 0.4541941299977561,
+                "maximum_displacement_norm": 0.5043453600983394,
+                "maximum_relative_residual": 5.858680255732308e-13,
+                "minimum_det_f": 0.7566919277021762,
+                "newton_iterations": 120,
+                "status": "PASS",
+                "strain_energy": 0.21712464375721582
+              }
+            ],
+            "owner_acceptance_band_required": true,
+            "status": "PASS_INTERNAL_RESEARCH"
+          },
+          {
+            "coarse_to_refined": {
+              "end_line_angle_rad": 0.17095141861944932,
+              "maximum_displacement_norm": 0.14736553994062407,
+              "strain_energy": 0.14706947132592613
+            },
+            "element": "HEX8",
+            "levels": [
+              {
+                "cells": 1,
+                "dof_count": 24,
+                "element": "HEX8",
+                "element_count": 1,
+                "end_line_angle_deg": 26.559692170105446,
+                "end_line_angle_rad": 0.4635540766844979,
+                "maximum_displacement_norm": 0.5149539304957075,
+                "maximum_relative_residual": 9.645648673652491e-14,
+                "minimum_det_f": 0.8125329775982864,
+                "newton_iterations": 120,
+                "status": "PASS",
+                "strain_energy": 0.22186036885361216
+              },
+              {
+                "cells": 2,
+                "dof_count": 36,
+                "element": "HEX8",
+                "element_count": 2,
+                "end_line_angle_deg": 32.03635199022672,
+                "end_line_angle_rad": 0.5591398225572946,
+                "maximum_displacement_norm": 0.6039562727265879,
+                "maximum_relative_residual": 8.796978060482553e-11,
+                "minimum_det_f": 0.6735865831034985,
+                "newton_iterations": 120,
+                "status": "PASS",
+                "strain_energy": 0.26011540376976067
+              }
+            ],
+            "owner_acceptance_band_required": true,
+            "status": "PASS_INTERNAL_RESEARCH"
+          }
+        ],
+        "status": "PASS_INTERNAL_RESEARCH"
+      },
+      "status": "COMPLETED"
+    },
+    {
+      "name": "load_step_sensitivity",
+      "result": {
+        "limitations": [
+          "The function records sensitivity; it does not invent a release tolerance.",
+          "Meshes remain the connected two-element internal benchmark."
+        ],
+        "paths": {
+          "coarse": [
+            0.5,
+            1.0
+          ],
+          "reference": [
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "refined": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875,
+            1.0
+          ]
+        },
+        "rows": [
+          {
+            "element": "TET4",
+            "histories": {
+              "coarse": {
+                "displacement_norm": 0.008290491670094775,
+                "iterations": 6.0,
+                "maximum_relative_residual": 6.150144988553163e-09,
+                "peeq": 0.005305442636481652,
+                "plastic_dissipation": 0.0002206401460476265
+              },
+              "reference": {
+                "displacement_norm": 0.00829049110695478,
+                "iterations": 13.0,
+                "maximum_relative_residual": 2.388816049643791e-08,
+                "peeq": 0.0053054459817523875,
+                "plastic_dissipation": 0.0002340639186227107
+              },
+              "refined": {
+                "displacement_norm": 0.008290490903388776,
+                "iterations": 23.0,
+                "maximum_relative_residual": 8.980468493622269e-08,
+                "peeq": 0.005305453844489975,
+                "plastic_dissipation": 0.00024077599589748398
+              }
+            },
+            "owner_acceptance_band_required": true,
+            "reference_to_refined": {
+              "displacement_norm": 2.4554155683073523e-08,
+              "peeq": 1.4820103648471181e-06,
+              "plastic_dissipation": 0.02787685396027227
+            },
+            "status": "PASS"
+          },
+          {
+            "element": "HEX8",
+            "histories": {
+              "coarse": {
+                "displacement_norm": 0.3454353808434771,
+                "iterations": 9.0,
+                "maximum_relative_residual": 5.360909135810636e-08,
+                "peeq": 0.09646853088563068,
+                "plastic_dissipation": 0.04798272270385854
+              },
+              "reference": {
+                "displacement_norm": 0.3454428849910469,
+                "iterations": 21.0,
+                "maximum_relative_residual": 3.394483324904203e-08,
+                "peeq": 0.09648521206257397,
+                "plastic_dissipation": 0.04824265828629867
+              },
+              "refined": {
+                "displacement_norm": 0.34546026299277655,
+                "iterations": 40.0,
+                "maximum_relative_residual": 4.1410085657301e-08,
+                "peeq": 0.09649976005747166,
+                "plastic_dissipation": 0.04837876858252496
+              }
+            },
+            "owner_acceptance_band_required": true,
+            "reference_to_refined": {
+              "displacement_norm": 5.030390928056506e-05,
+              "peeq": 0.00015075679865957727,
+              "plastic_dissipation": 0.0028134303582802054
+            },
+            "status": "PASS"
+          }
+        ],
+        "status": "PASS_INTERNAL_SENSITIVITY"
+      },
+      "status": "COMPLETED"
+    },
+    {
+      "name": "finite_kinematic_limit_diagnostic",
+      "result": {
+        "comparison": "small_strain_vs_total_lagrangian_j2",
+        "limitations": [
+          "Single small-load recovery point per family; no finite-strain material validation claim.",
+          "This is a regime-consistency check and does not close the geometric nonlinearity gate."
+        ],
+        "load_factor": 0.0001,
+        "owner_acceptance_band_required": true,
+        "rows": [
+          {
+            "element": "TET4",
+            "finite_kinematic_displacement_norm": 2.1540321224588505e-07,
+            "finite_kinematic_peeq": 0.0,
+            "finite_kinematic_relative_residual": 1.1006547384658326e-11,
+            "finite_kinematic_status": "PASS",
+            "load_factor": 0.0001,
+            "relative_displacement_error": 0.0,
+            "small_strain_displacement_norm": 2.1540321224588505e-07,
+            "small_strain_relative_residual": 1.0181659589320276e-20,
+            "small_strain_status": "PASS",
+            "status": "PASS"
+          },
+          {
+            "element": "HEX8",
+            "finite_kinematic_displacement_norm": 1.9017360489826135e-07,
+            "finite_kinematic_peeq": 0.0,
+            "finite_kinematic_relative_residual": 7.879232164792468e-12,
+            "finite_kinematic_status": "PASS",
+            "load_factor": 0.0001,
+            "relative_displacement_error": 2.9008982576481685e-16,
+            "small_strain_displacement_norm": 1.9017360489826135e-07,
+            "small_strain_relative_residual": 1.5001454223705796e-20,
+            "small_strain_status": "PASS",
+            "status": "PASS"
+          }
+        ],
+        "status": "PASS_INTERNAL_RESEARCH"
+      },
+      "status": "COMPLETED"
+    }
+  ],
+  "solver_scope": "Total-Lagrangian elastic TET4/HEX8; finite-kinematic J2 retained as research diagnostic",
+  "source_sha": "e522a24394e58d79266bcfde1b431b631381a231",
+  "status": "DIAGNOSTIC_ONLY",
+  "timestamp_utc": "2026-08-29T14:03:43.169016+00:00"
+}

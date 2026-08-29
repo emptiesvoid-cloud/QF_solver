@@ -75,6 +75,26 @@ def test_public_geometric_nonlinear_hex8_is_supported() -> None:
     assert result.solver["minimum_det_f"] > 0.99
 
 
+def test_public_geometric_nonlinear_adaptive_load_steps_are_opt_in() -> None:
+    model = _model(increments=6)
+    model.analysis.parameters.update(
+        {
+            "adaptive_load_steps": True,
+            "initial_load_increment": 0.5,
+            "min_load_increment": 0.05,
+            "max_load_increment": 0.5,
+            "max_cutbacks": 4,
+        }
+    )
+
+    result = solve_model(model, enforce_policy=False)
+    data = result.to_dict()
+
+    assert data["solver"]["adaptive_load_steps"] is True
+    assert data["solver"]["rejected_increments"] == 0
+    assert data["solver"]["increments"][-1]["load_factor"] == pytest.approx(1.0)
+
+
 @pytest.mark.parametrize("family", ["TET10", "HEX20"])
 def test_public_geometric_nonlinear_high_order_families_use_common_tl_assembly(family: str) -> None:
     if family == "TET10":
