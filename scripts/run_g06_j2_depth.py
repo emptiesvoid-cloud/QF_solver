@@ -62,13 +62,17 @@ def _run_internal(output: Path) -> dict[str, Any]:
 
 
 def _external_evidence(path: Path, source: dict[str, Any]) -> dict[str, Any]:
+    command = (
+        "python scripts/run_j2_multielement_external_025.py --output "
+        f"{path.relative_to(ROOT).as_posix()}"
+    )
     summary_path = path / "summary.json"
     if not summary_path.is_file():
         return {
             "status": "SKIPPED_WITH_REASON",
             "executed": False,
             "reason": "Code_Aster summary is absent; run the opt-in external command first.",
-            "command": EXTERNAL_COMMAND,
+            "command": command,
             "source": source,
         }
     summary = json.loads(summary_path.read_text(encoding="utf-8"))
@@ -87,7 +91,7 @@ def _external_evidence(path: Path, source: dict[str, Any]) -> dict[str, Any]:
     return {
         "status": summary.get("status", "UNKNOWN"),
         "executed": True,
-        "command": EXTERNAL_COMMAND,
+        "command": command,
         "external_solver": summary.get("external_solver", {}),
         "checks": len(summary.get("checks", [])),
         "families": family_rows,
