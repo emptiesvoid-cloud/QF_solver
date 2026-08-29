@@ -20,17 +20,17 @@ Raw STEP files and generated meshes remain in the ignored local cache
 | STEP candidates in pinned tree | 2,894 |
 | Selected records | 100 |
 | Downloaded records | 100 |
-| Volumes with a valid Gmsh TET4 mesh | 77 |
-| Records rejected or not meshed | 25 |
-| TET4-ready records | 77 |
+| Volumes with a valid Gmsh TET4 mesh | 78 |
+| Records rejected or not meshed | 49 |
+| TET4-ready records | 78 |
 | TET10-ready records | 67 |
 | HEX8-ready records | 0 |
 | HEX20-ready records | 0 |
 
-The 23 non-meshed records and 2 pre-selection rejections remain visible in
-the manifest with their reasons. No HEX result is inferred from a tetrahedral
-mesh and no recombination success is claimed where Gmsh did not produce a
-coherent hexahedral mesh.
+The 22 non-meshed selected records and 27 pre-selection rejections remain
+visible in the manifest with their reasons. No HEX result is inferred from a
+tetrahedral mesh and no recombination success is claimed where Gmsh did not
+produce a coherent hexahedral mesh.
 
 ## QF execution
 
@@ -41,10 +41,10 @@ of each result before deleting the large runtime JSON.
 
 | Metric | Result |
 | --- | ---: |
-| QF cases attempted | 77 |
-| Numerical solve status PASS | 38 |
+| QF cases attempted | 78 |
+| Numerical solve status PASS | 39 |
 | PASS with `run_verdict=PASS` | 15 |
-| PASS with `run_verdict=WARNING` | 23 |
+| PASS with `run_verdict=WARNING` | 24 |
 | True QF FAIL | 38 |
 | Timeout | 1 |
 | Maximum completed-case DDL | 8,178 |
