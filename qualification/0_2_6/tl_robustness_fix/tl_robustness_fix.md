@@ -3,9 +3,9 @@
 This report evaluates opt-in adaptive load cutback on the existing TL failure zoo.
 The TL formulation, tangent, assembly and convergence tolerance are unchanged.
 
-- Source SHA at execution: `e522a24394e58d79266bcfde1b431b631381a231`
-- Worktree dirty at execution: `True`
-- Generated: `2026-08-29T14:51:39.761291+00:00`
+- Source SHA at execution: `f7b3dc200cbd7178ce26813d7fb096c01828353d`
+- Worktree dirty at execution: `False`
+- Generated: `2026-08-29T14:59:04.845921+00:00`
 
 ## Failure zoo replay
 
