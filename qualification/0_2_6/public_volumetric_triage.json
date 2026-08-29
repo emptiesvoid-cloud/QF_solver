@@ -297,7 +297,7 @@
         "stdout": "",
         "stderr": "ERROR[NumericalConvergenceError]: direct residual is abnormal: relative=4.810602e-02, allowed=1.000000e-07.\n{\"converged\": false, \"diagnostics\": {}, \"message\": \"direct residual is abnormal: relative=4.810602e-02, allowed=1.000000e-07.\", \"reason\": null}",
         "status": "FAIL",
-        "reason": "missing or invalid QF result: [Errno 2] No such file or directory: 'C://Users//fari//Documents//Codex//2026-07-06//yeah//qf_solver_026_foundation//qualification//0_2_6//public_volumetric_qf_results//FCL-0010.json'"
+        "reason": "missing QF result: qualification/0_2_6/public_volumetric_qf_results/FCL-0010.json"
       },
       "mesh": {
         "id": "FCL-0010",
@@ -639,7 +639,7 @@
         "stdout": "",
         "stderr": "ERROR[NumericalConvergenceError]: direct residual is abnormal: relative=1.183107e-03, allowed=1.000000e-07.\n{\"converged\": false, \"diagnostics\": {}, \"message\": \"direct residual is abnormal: relative=1.183107e-03, allowed=1.000000e-07.\", \"reason\": null}",
         "status": "FAIL",
-        "reason": "missing or invalid QF result: [Errno 2] No such file or directory: 'C://Users//fari//Documents//Codex//2026-07-06//yeah//qf_solver_026_foundation//qualification//0_2_6//public_volumetric_qf_results//FCL-0036.json'"
+        "reason": "missing QF result: qualification/0_2_6/public_volumetric_qf_results/FCL-0036.json"
       },
       "mesh": {
         "id": "FCL-0036",
