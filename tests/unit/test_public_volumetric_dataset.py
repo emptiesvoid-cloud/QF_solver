@@ -3,6 +3,7 @@ from pathlib import Path
 
 from scripts import public_volumetric_dataset as dataset
 from scripts.public_volumetric_dataset import _tet_topology, _worktree_dirty_except, _write_qf_case, select_models
+from scripts.run_public_volumetric_tet10 import _elevate_tet4_mesh
 
 
 def test_selection_round_robins_nonempty_step_files_and_excludes_domains() -> None:
@@ -62,3 +63,20 @@ def test_manifest_dirty_check_ignores_its_own_output(monkeypatch) -> None:
 def test_tet_topology_identifies_repeated_elements_and_components() -> None:
     assert _tet_topology([[0, 1, 2, 3], [1, 2, 3, 4]], node_count=5) == (0, 1)
     assert _tet_topology([[0, 1, 2, 3], [4, 4, 5, 6]], node_count=7) == (1, 2)
+
+
+def test_tet10_elevation_uses_shared_mid_edge_nodes() -> None:
+    nodes = [
+        (0.0, 0.0, 0.0),
+        (1.0, 0.0, 0.0),
+        (0.0, 1.0, 0.0),
+        (0.0, 0.0, 1.0),
+        (1.0, 1.0, 1.0),
+    ]
+
+    elevated_nodes, elements = _elevate_tet4_mesh(nodes, [[0, 1, 2, 3], [1, 2, 3, 4]])
+
+    assert len(elevated_nodes) == 14
+    assert elements[0][5] == elements[1][4]
+    assert elevated_nodes[elements[0][4]] == (0.5, 0.0, 0.0)
+    assert elevated_nodes[elements[1][9]] == (0.5, 0.5, 1.0)
