@@ -43,7 +43,9 @@
         "g06_evidence.json",
         "0_2_6_g06_evidence.md",
         "g06_prequalification_evidence.json",
-        "0_2_6_g06_prequalification_evidence.md"
+        "0_2_6_g06_prequalification_evidence.md",
+        "g06_depth_evidence.json",
+        "0_2_6_g06_depth_evidence.md"
       ],
       "id": "026-WP06-G06",
       "note": "Distinct work-package identifier. Official gate 026-G06 remains J2 maturity extension; executable corpus expansion does not by itself promote maturity.",
