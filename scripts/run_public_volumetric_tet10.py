@@ -6,14 +6,18 @@ import argparse
 import hashlib
 import json
 import subprocess
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 from scripts.public_volumetric_dataset import _write_qf_case
 from scripts.run_public_volumetric_cases import _run_case
 
-ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "qualification" / "0_2_6" / "public_volumetric_dataset_manifest.json"
 TET4_RESULTS = ROOT / "qualification" / "0_2_6" / "public_volumetric_qf_results.json"
 OUTPUT = ROOT / "qualification" / "0_2_6" / "public_volumetric_tet10_results.json"
