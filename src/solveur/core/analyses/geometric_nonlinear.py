@@ -20,6 +20,7 @@ from solveur.core.nonlinear.iteration import (
     solve_full_newton,
 )
 from solveur.core.nonlinear.controls import AdaptiveLoadControls
+from solveur.core.nonlinear.robustness import NonlinearRobustnessOptions
 from solveur.core.model import FiniteElementModel
 from solveur.core.results import SolveResult
 from solveur.elements.solid.tet4_total_lagrangian_batch import TotalLagrangianTet4Assembly
@@ -69,6 +70,7 @@ class GeometricNonlinearStaticSolver:
             if bool(parameters.get("adaptive_load_steps", False))
             else None
         )
+        robustness_options = NonlinearRobustnessOptions.from_parameters(parameters)
         displacement, diagnostics = _newton_dead_load(
             assembly,
             external,
@@ -78,6 +80,7 @@ class GeometricNonlinearStaticSolver:
             max_iterations=max_iterations,
             determinant_assembly=geometric_assembly,
             adaptive_controls=adaptive_controls,
+            robustness_options=robustness_options,
         )
         states = geometric_assembly.element_states(displacement)
         element_results = [
@@ -196,6 +199,7 @@ def _newton_dead_load(
     max_iterations: int,
     determinant_assembly: TotalLagrangianTet4Assembly | TotalLagrangianHex8Assembly | TotalLagrangianHighOrderAssembly | None = None,
     adaptive_controls: AdaptiveLoadControls | None = None,
+    robustness_options: NonlinearRobustnessOptions | None = None,
 ) -> tuple[np.ndarray, dict[str, object]]:
     if fixed.size == 0:
         raise MeshValidationError("geometric_nonlinear_static requires constrained dofs.")
@@ -207,6 +211,7 @@ def _newton_dead_load(
             increments=increments,
             tolerance=tolerance,
             max_iterations=max_iterations,
+            robustness_options=robustness_options,
         )
     else:
         displacement, diagnostics = solve_adaptive_full_newton(
@@ -217,6 +222,7 @@ def _newton_dead_load(
             tolerance=tolerance,
             max_iterations=max_iterations,
             controls=adaptive_controls,
+            robustness_options=robustness_options,
         )
     determinant_source: object = determinant_assembly or assembly
     deformation_determinants = getattr(determinant_source, "deformation_determinants", None)
