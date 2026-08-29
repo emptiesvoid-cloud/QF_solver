@@ -4,9 +4,9 @@
 
 | Work package | Status | Evidence | Registry note |
 | --- | --- | --- | --- |
-| `026-WP04-ARCH` Numerical core architecture refactor | PASS | g04_architecture_evidence.json, 0_2_6_g04_architecture_evidence.md | Distinct work-package identifier. Official gate 026-G04 remains Linear / element robustness. |
-| `026-WP05-G05` Bounded V&V and robustness execution batch | PASS_WITH_LIMITATIONS | g05_evidence.json, 0_2_6_g05_evidence.md | Distinct work-package identifier. Official gate 026-G05 remains Modal / dynamic / harmonic maturity. |
-| `026-WP06-G06` Deep V&V and corpus expansion | PASS_WITH_LIMITATIONS | g06_evidence.json, 0_2_6_g06_evidence.md | Distinct work-package identifier. Official gate 026-G06 remains J2 maturity extension; executable corpus expansion does not by itself promote maturity. |
+| `026-WP04-ARCH` Numerical core architecture refactor | PASS | g04_architecture_evidence.json, 0_2_6_g04_architecture_evidence.md | Distinct work-package identifier; related official gate `026-G04` remains Linear / element robustness. |
+| `026-WP05-G05` Bounded V&V and robustness execution batch | PASS_WITH_LIMITATIONS | g05_evidence.json, 0_2_6_g05_evidence.md | Distinct work-package identifier; related official gate `026-G05` remains Modal / dynamic / harmonic maturity. |
+| `026-WP06-G06` Deep V&V and corpus expansion | PASS_WITH_LIMITATIONS | g06_evidence.json, 0_2_6_g06_evidence.md | Distinct work-package identifier; related official gate `026-G06` remains J2 maturity extension; executable corpus expansion does not by itself promote maturity. |
 
 ## Planned foundation work packages
 
