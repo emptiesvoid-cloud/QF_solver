@@ -4,6 +4,7 @@ from pathlib import Path
 from scripts import public_volumetric_dataset as dataset
 from scripts.public_volumetric_dataset import _tet_topology, _worktree_dirty_except, _write_qf_case, select_models
 from scripts.run_public_volumetric_tet10 import _elevate_tet4_mesh
+from scripts.run_public_volumetric_cases import _portable_output, _portable_path
 
 
 def test_selection_round_robins_nonempty_step_files_and_excludes_domains() -> None:
@@ -80,3 +81,11 @@ def test_tet10_elevation_uses_shared_mid_edge_nodes() -> None:
     assert elements[0][5] == elements[1][4]
     assert elevated_nodes[elements[0][4]] == (0.5, 0.0, 0.0)
     assert elevated_nodes[elements[1][9]] == (0.5, 0.5, 1.0)
+
+
+def test_volumetric_evidence_serializes_repository_paths_portably(tmp_path: Path) -> None:
+    root = tmp_path / "checkout"
+    result = root / "qualification" / "result.json"
+
+    assert _portable_path(root, result) == "qualification/result.json"
+    assert _portable_output(root, f"output: {result}") == "output: <repo>/qualification/result.json"
