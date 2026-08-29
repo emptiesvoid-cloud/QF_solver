@@ -46,6 +46,15 @@ def test_registry_rejects_an_unregistered_source_family() -> None:
     assert any("Implemented capability is unregistered: ELE-TET4" in error for error in AUDIT.validate_registry(registry))
 
 
+def test_registry_rejects_an_unregistered_analysis_route() -> None:
+    registry = AUDIT.load_registry()
+    registry["capabilities"] = [
+        row for row in registry["capabilities"] if row["CAPABILITY_ID"] != "ANA-GEOMETRIC-NONLINEAR"
+    ]
+
+    assert any("Public analysis route is unregistered: geometric_nonlinear_static" in error for error in AUDIT.validate_registry(registry))
+
+
 def test_registry_rejects_a_missing_status_and_silent_historical_removal() -> None:
     registry = AUDIT.load_registry()
     registry["capabilities"][0].pop("STATUS")
@@ -55,6 +64,13 @@ def test_registry_rejects_a_missing_status_and_silent_historical_removal() -> No
 
     assert any("missing required fields: STATUS" in error for error in errors)
     assert any("Historical capability silently removed: ANA-ARC-LENGTH" in error for error in errors)
+
+
+def test_registry_rejects_a_rewritten_historical_release_inventory() -> None:
+    registry = AUDIT.load_registry()
+    registry["historical_releases"][0]["elements"].remove("TET10")
+
+    assert any("Historical element inventory changed unexpectedly" in error for error in AUDIT.validate_registry(registry))
 
 
 def test_registry_requires_implemented_capabilities_to_explain_evidence_or_scope() -> None:
@@ -73,3 +89,4 @@ def test_coverage_document_is_generated_from_the_controlled_registry() -> None:
     assert "# Capability Coverage Register" in document
     assert "G05-B Integration And Open Gaps" in document
     assert "UNDEFINED_POLICY" in document
+    assert "v0.2.0-alpha" in document
