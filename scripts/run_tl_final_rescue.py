@@ -20,6 +20,7 @@ if str(ROOT / "scripts") not in sys.path:
     sys.path.insert(0, str(ROOT / "scripts"))
 
 from run_tl_failure_isolation import _external, _fixed_indices, _model  # noqa: E402
+from run_tl_boundary_study import _case_corpus  # noqa: E402
 from run_tl_robustness_rnd import _safe_state_metrics  # noqa: E402
 from solveur.core.analyses.geometric_nonlinear import _newton_dead_load  # noqa: E402
 from solveur.core.assembly.geometric import build_total_lagrangian_assembly  # noqa: E402
@@ -321,6 +322,26 @@ def _frontier_cases() -> list[dict[str, Any]]:
     return cases
 
 
+def _holdout_cases() -> list[dict[str, Any]]:
+    holdout_ids = (
+        "TET4_m1_a4_compression_l0.2_n16_d0.12",
+        "HEX8_m1_a4_compression_l0.2_n16_d0.12",
+        "TET4_m2_a7_bending_z_l0.2_n16_d0.12",
+        "HEX8_m2_a7_bending_z_l0.2_n16_d0.12",
+        "TET4_m3_a7_traction_l0.2_n16_d0.12",
+        "HEX8_m3_a7_traction_l0.2_n16_d0.12",
+        "TET4_m4_a8_compression_l0.2_n16_d0.12",
+        "HEX8_m4_a8_compression_l0.2_n16_d0.12",
+        "TET4_m4_a6_traction_l0.05_n16_d0.12",
+        "HEX8_m4_a6_traction_l0.05_n16_d0.12",
+    )
+    cases = {case["id"]: case for case in _case_corpus()}
+    missing = [case_id for case_id in holdout_ids if case_id not in cases]
+    if missing:
+        raise RuntimeError(f"Holdout definitions missing from boundary corpus: {missing}")
+    return [cases[case_id] for case_id in holdout_ids]
+
+
 def _control_configs() -> list[tuple[str, dict[str, Any], int]]:
     configs: list[tuple[str, dict[str, Any], int]] = []
     for cutback in (0.20, 0.25, 0.35, 0.50):
@@ -391,6 +412,19 @@ def _run_stage(
                 run = _run(case, policy, max_iterations)
                 run["configuration_name"] = name
                 runs.append(run)
+    elif stage in ("full150", "holdouts"):
+        cases = _case_corpus() if stage == "full150" else _holdout_cases()
+        if selected_ids is not None:
+            cases = [case for case in cases if case["id"] in selected_ids]
+        policy = {
+            "cutback_factor": 0.25,
+            "min_load_increment": 1.0e-6,
+            "max_cutbacks": 64,
+        }
+        runs = []
+        for index, case in enumerate(cases, start=1):
+            print(f"[{index}/{len(cases)}] {case['id']} max_iterations_200", flush=True)
+            runs.append(_run(case, policy, 200))
     else:
         raise ValueError(f"Unsupported stage: {stage}")
     if selected_ids is not None:
@@ -414,7 +448,7 @@ def _run_stage(
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("stage", choices=("increments", "frontier", "controls"))
+    parser.add_argument("stage", choices=("increments", "frontier", "controls", "full150", "holdouts"))
     parser.add_argument("--output", type=Path, default=None)
     parser.add_argument("--case-id", action="append", dest="case_ids")
     parser.add_argument("--config-name", action="append", dest="config_names")
