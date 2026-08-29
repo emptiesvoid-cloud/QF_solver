@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-29T06:12:50.068461Z",
+  "generated_at_utc": "2026-08-29T06:24:35.054764Z",
   "manifest": "qualification/0_2_6/public_volumetric_dataset_manifest.json",
   "manifest_sha256": "630a7b455085e4b8d9809c4eef6e43f5b3cb96a9e24da7ce7ef3645745553ab5",
   "dataset_manifest_id": "QF-PUBLIC-VOLUMETRIC-DATASET-026-001",
   "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
-  "qf_source_sha": "1874c994bfffc83b5dc1d8e90e711bd8d2bfeddd",
+  "qf_source_sha": "78a57db3409b1995c55585b7d968c0498c078d68",
   "qf_worktree_dirty": false,
   "solver_version": "0.2.6a0",
   "timeout_seconds": 120.0,
@@ -40,8 +40,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 4.640489899989916,
-      "peak_rss_bytes": 235520000,
+      "duration_seconds": 4.639981299987994,
+      "peak_rss_bytes": 235483136,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0002.json",
       "stderr": "",
@@ -52,6 +52,11 @@
       "element_count": 1358,
       "ndof": 1398,
       "max_displacement": 9.219089273892307e-11,
+      "reaction_norm": 168.15689698942438,
+      "force_balance_relative_error": 8.072184781770637e-16,
+      "external_work": 7.265792085896738e-08,
+      "strain_energy": 3.6328960429483756e-08,
+      "energy_identity_relative_error": 1.3234889800848443e-22,
       "solver": {
         "backend": {
           "requested": "auto",
@@ -73,7 +78,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "9906de2abea7df8c4d0f0c39ca68c4278bafd73dac68adf4727cf22122f49d23"
+      "qf_result_sha256": "c301c5732d66fbd6d36169f414007ed7a4de48adb54f2d381d4a434a89f8a384"
     },
     {
       "id": "FCL-0004",
@@ -93,8 +98,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 5.02842009998858,
-      "peak_rss_bytes": 192274432,
+      "duration_seconds": 4.020112500002142,
+      "peak_rss_bytes": 184070144,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0004.json\nQUALIFICATION GATE: FAIL 38 audit check(s) failed.",
       "stderr": "",
@@ -121,8 +126,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 6.030986300000222,
-      "peak_rss_bytes": 258670592,
+      "duration_seconds": 5.8290259999921545,
+      "peak_rss_bytes": 277053440,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0006.json\nQUALIFICATION GATE: FAIL 1718 audit check(s) failed.",
       "stderr": "",
@@ -149,8 +154,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 4.022405499999877,
-      "peak_rss_bytes": 248057856,
+      "duration_seconds": 4.019251000019722,
+      "peak_rss_bytes": 220172288,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0007.json",
       "stderr": "",
@@ -161,6 +166,11 @@
       "element_count": 1188,
       "ndof": 1218,
       "max_displacement": 1.1185458039918471e-10,
+      "reaction_norm": 200.61530978871178,
+      "force_balance_relative_error": 2.9864146058450036e-15,
+      "external_work": 9.920523783455608e-08,
+      "strain_energy": 4.960261891727799e-08,
+      "energy_identity_relative_error": 9.26442286059391e-23,
       "solver": {
         "backend": {
           "requested": "auto",
@@ -182,7 +192,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "f6bf83b2857945f96d6f216adf2b8d8e83a8c2895eb531d0e77b014b1c7fcd34"
+      "qf_result_sha256": "581d9f41488aaa9b0c3b3ebaba0018b192e53b65922bf53543eda7df56ddf000"
     },
     {
       "id": "FCL-0008",
@@ -202,8 +212,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.822093599999789,
-      "peak_rss_bytes": 208908288,
+      "duration_seconds": 3.81828070001211,
+      "peak_rss_bytes": 212434944,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0008.json",
       "stderr": "",
@@ -214,6 +224,11 @@
       "element_count": 1049,
       "ndof": 1350,
       "max_displacement": 3.6626119946419485e-10,
+      "reaction_norm": 301.1418937302286,
+      "force_balance_relative_error": 1.9792186079484203e-14,
+      "external_work": 1.609486673380408e-07,
+      "strain_energy": 8.047433366901984e-08,
+      "energy_identity_relative_error": 1.1117307432712692e-21,
       "solver": {
         "backend": {
           "requested": "auto",
@@ -235,7 +250,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "a6bc672e95bd261eb0843e7b2210ce16842befa27013924e390f77cf976a9fe6"
+      "qf_result_sha256": "069f9104504af97884b35227ec998101d3810b5728f926d28b6fe7e5dd648871"
     },
     {
       "id": "FCL-0009",
@@ -255,8 +270,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 5.825970000005327,
-      "peak_rss_bytes": 307236864,
+      "duration_seconds": 5.824641499988502,
+      "peak_rss_bytes": 269144064,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0009.json\nQUALIFICATION GATE: FAIL 44 audit check(s) failed.",
       "stderr": "",
@@ -283,8 +298,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 1.8148861000081524,
-      "peak_rss_bytes": 111366144,
+      "duration_seconds": 1.814238299994031,
+      "peak_rss_bytes": 111419392,
       "return_code": 3,
       "stdout": "",
       "stderr": "ERROR[NumericalConvergenceError]: direct residual is abnormal: relative=4.810602e-02, allowed=1.000000e-07.\n{\"converged\": false, \"diagnostics\": {}, \"message\": \"direct residual is abnormal: relative=4.810602e-02, allowed=1.000000e-07.\", \"reason\": null}",
@@ -309,8 +324,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 6.026340200012783,
-      "peak_rss_bytes": 261935104,
+      "duration_seconds": 5.826131800014991,
+      "peak_rss_bytes": 313643008,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0012.json\nQUALIFICATION GATE: WARNING 12 audit warning(s) present.",
       "stderr": "",
@@ -321,6 +336,11 @@
       "element_count": 2265,
       "ndof": 2478,
       "max_displacement": 9.580321180240172e-09,
+      "reaction_norm": 348.96978974178535,
+      "force_balance_relative_error": 4.048017419881904e-14,
+      "external_work": 7.682415002009498e-06,
+      "strain_energy": 3.841207501004585e-06,
+      "energy_identity_relative_error": 3.2864878353466853e-19,
       "solver": {
         "backend": {
           "requested": "auto",
@@ -344,7 +364,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "0a51b4221adfe21e028ec697a39732aa8f0e90fe694f06d5d43c5160a4f4e7fa"
+      "qf_result_sha256": "7020f7605ed4ba4d3927ad123cc5e2796c4dda530dcebf968d69b51810693a77"
     },
     {
       "id": "FCL-0014",
@@ -364,8 +384,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 6.027998000005027,
-      "peak_rss_bytes": 331186176,
+      "duration_seconds": 6.0253922999836504,
+      "peak_rss_bytes": 330022912,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0014.json\nQUALIFICATION GATE: FAIL 9 audit check(s) failed.",
       "stderr": "",
@@ -392,8 +412,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 9.038615400000708,
-      "peak_rss_bytes": 472424448,
+      "duration_seconds": 9.037918800022453,
+      "peak_rss_bytes": 474329088,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0015.json\nQUALIFICATION GATE: FAIL 99 audit check(s) failed.",
       "stderr": "",
@@ -420,8 +440,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.018831699999282,
-      "peak_rss_bytes": 149630976,
+      "duration_seconds": 3.219462300010491,
+      "peak_rss_bytes": 185659392,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0019.json\nQUALIFICATION GATE: WARNING 2 audit warning(s) present.",
       "stderr": "",
@@ -432,6 +452,11 @@
       "element_count": 721,
       "ndof": 828,
       "max_displacement": 2.594989677009214e-09,
+      "reaction_norm": 528.8940499931522,
+      "force_balance_relative_error": 5.883655333896068e-15,
+      "external_work": 1.094036871549918e-06,
+      "strain_energy": 5.470184357749667e-07,
+      "energy_identity_relative_error": 1.545835128739098e-20,
       "solver": {
         "backend": {
           "requested": "auto",
@@ -455,7 +480,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "132b140800c1b0f48807013b4ad8247af1b71526d457cb1d89fb9ef388cf9320"
+      "qf_result_sha256": "a9d7b645031b1e2e678c0a90e774e4be85cc0f1cb56655b9624fb2508a519e9d"
     },
     {
       "id": "FCL-0023",
@@ -475,8 +500,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.820224400027655,
-      "peak_rss_bytes": 175452160,
+      "duration_seconds": 3.818479400011711,
+      "peak_rss_bytes": 174260224,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0023.json\nQUALIFICATION GATE: FAIL 8 audit check(s) failed.",
       "stderr": "",
@@ -503,8 +528,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 5.625378400000045,
-      "peak_rss_bytes": 311304192,
+      "duration_seconds": 5.625576900027227,
+      "peak_rss_bytes": 315121664,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0024.json\nQUALIFICATION GATE: WARNING 64 audit warning(s) present.",
       "stderr": "",
@@ -515,6 +540,11 @@
       "element_count": 2264,
       "ndof": 2214,
       "max_displacement": 1.1231732347161047e-08,
+      "reaction_norm": 530.3126840986707,
+      "force_balance_relative_error": 6.021632240459585e-14,
+      "external_work": 7.654717501127398e-06,
+      "strain_energy": 3.827358750563899e-06,
+      "energy_identity_relative_error": 3.9979955110402976e-19,
       "solver": {
         "backend": {
           "requested": "auto",
@@ -538,7 +568,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "b81d3171ff8ffa0bfaf111bd2b1d058efac92d241648267fc8a17652e551e33d"
+      "qf_result_sha256": "57bbad325e256cdf2fee67336fb1916688624cfe5f626a6b06c02cbb4752465f"
     },
     {
       "id": "FCL-0027",
@@ -558,8 +588,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.6182116999989375,
-      "peak_rss_bytes": 166322176,
+      "duration_seconds": 3.4184470999753103,
+      "peak_rss_bytes": 176312320,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0027.json",
       "stderr": "",
@@ -570,6 +600,11 @@
       "element_count": 993,
       "ndof": 1050,
       "max_displacement": 3.556771534859219e-09,
+      "reaction_norm": 209.4023345974159,
+      "force_balance_relative_error": 1.6229163242308715e-15,
+      "external_work": 3.3012850851832196e-06,
+      "strain_energy": 1.650642542591609e-06,
+      "energy_identity_relative_error": 1.6940658945086007e-21,
       "solver": {
         "backend": {
           "requested": "auto",
@@ -591,7 +626,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "b4224a63a662b87a7dfc0734f527229ce2dd828df8f312184fcd654b772b03c1"
+      "qf_result_sha256": "22adb5ea2861ee5520f9d37642b9ad1eb79c46e54a9349a2ef869bf1dc6d0113"
     },
     {
       "id": "FCL-0030",
@@ -611,8 +646,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 7.431741200009128,
-      "peak_rss_bytes": 352403456,
+      "duration_seconds": 7.429387299984228,
+      "peak_rss_bytes": 351739904,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0030.json\nQUALIFICATION GATE: WARNING 56 audit warning(s) present.",
       "stderr": "",
@@ -623,6 +658,11 @@
       "element_count": 2682,
       "ndof": 2595,
       "max_displacement": 2.157415439390516e-09,
+      "reaction_norm": 173.1568435366721,
+      "force_balance_relative_error": 2.7991807124229738e-15,
+      "external_work": 7.568571659512987e-07,
+      "strain_energy": 3.7842858297565037e-07,
+      "energy_identity_relative_error": 2.0117032497289633e-21,
       "solver": {
         "backend": {
           "requested": "auto",
@@ -646,7 +686,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "cfd4fcfb76df68b7f382c3d75b75fbfde97a5670d6185356bf7db2c185de95e1"
+      "qf_result_sha256": "2f21b559110d9356238cfca09f174842efe18c6596f7a01d55e196000a04832f"
     },
     {
       "id": "FCL-0031",
@@ -666,8 +706,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 2.214672599977348,
-      "peak_rss_bytes": 124477440,
+      "duration_seconds": 2.215166899986798,
+      "peak_rss_bytes": 121507840,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0031.json\nQUALIFICATION GATE: WARNING 1 audit warning(s) present.",
       "stderr": "",
@@ -678,6 +718,11 @@
       "element_count": 299,
       "ndof": 399,
       "max_displacement": 5.853395251666679e-07,
+      "reaction_norm": 1447.4275237728893,
+      "force_balance_relative_error": 1.3033194391202713e-13,
+      "external_work": 0.0005849167590438282,
+      "strain_energy": 0.00029245837952191785,
+      "energy_identity_relative_error": 7.48099499014998e-18,
       "solver": {
         "backend": {
           "requested": "auto",
@@ -701,7 +746,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "a8361aa7f78430522b7e0d0ccbb065c53b18e4da541c6d6f4c7c647df989aff5"
+      "qf_result_sha256": "f554a7812283c6de390f302b00179aac94e53a43c0aff1d15376be9e98f34484"
     },
     {
       "id": "FCL-0033",
@@ -721,8 +766,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 5.224298400018597,
-      "peak_rss_bytes": 220983296,
+      "duration_seconds": 5.222442099999171,
+      "peak_rss_bytes": 222818304,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0033.json",
       "stderr": "",
@@ -733,6 +778,11 @@
       "element_count": 1881,
       "ndof": 2124,
       "max_displacement": 8.466587575787372e-07,
+      "reaction_norm": 336.2661036782872,
+      "force_balance_relative_error": 3.7110930131912786e-14,
+      "external_work": 6.531499270859072e-06,
+      "strain_energy": 3.2657496354341557e-06,
+      "energy_identity_relative_error": 9.239435388649908e-18,
       "solver": {
         "backend": {
           "requested": "auto",
@@ -754,7 +804,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "a36cd13a83f1b6cd828a97fe5e5055745b9a363dd337d689bc117817373f88db"
+      "qf_result_sha256": "3154a635896395212a99cec8d488287e1352067d16eafaa699854afc9608b1a5"
     },
     {
       "id": "FCL-0034",
@@ -774,8 +824,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 9.84060940000927,
-      "peak_rss_bytes": 378077184,
+      "duration_seconds": 9.640677599993069,
+      "peak_rss_bytes": 379215872,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0034.json\nQUALIFICATION GATE: WARNING 63 audit warning(s) present.",
       "stderr": "",
@@ -786,6 +836,11 @@
       "element_count": 2963,
       "ndof": 3792,
       "max_displacement": 3.530460320904792e-08,
+      "reaction_norm": 388.3695677456106,
+      "force_balance_relative_error": 4.8167234179663416e-14,
+      "external_work": 1.4066691689575662e-05,
+      "strain_energy": 7.0333458447881395e-06,
+      "energy_identity_relative_error": 6.166399856011306e-19,
       "solver": {
         "backend": {
           "requested": "auto",
@@ -809,7 +864,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "348efcbee38bb4782a16606c460582f138a39e1148b8ea737b1db6dff9bfddf5"
+      "qf_result_sha256": "d15ee71559146850ec810bffbbf372288f65d0fe5352ba6e17bb2859a892a0d7"
     },
     {
       "id": "FCL-0035",
@@ -829,8 +884,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 5.224114499986172,
-      "peak_rss_bytes": 220721152,
+      "duration_seconds": 5.224663700006204,
+      "peak_rss_bytes": 264708096,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0035.json\nQUALIFICATION GATE: WARNING 91 audit warning(s) present.",
       "stderr": "",
@@ -841,6 +896,11 @@
       "element_count": 1693,
       "ndof": 2319,
       "max_displacement": 1.1310152296602136e-06,
+      "reaction_norm": 1413.8122597075806,
+      "force_balance_relative_error": 3.4074825785502603e-13,
+      "external_work": 0.000966712739151556,
+      "strain_energy": 0.0004833563695756521,
+      "energy_identity_relative_error": 2.518601646683827e-16,
       "solver": {
         "backend": {
           "requested": "auto",
@@ -864,7 +924,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "0d7fd9015af6cc190398c0fba9d7fdfd169b7f39d57c8522f2453bfbde06ca73"
+      "qf_result_sha256": "eb48deabf6d2a8821c953470955149a6e003e1a01866ba769b9ffef314ed8f92"
     },
     {
       "id": "FCL-0036",
@@ -884,8 +944,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 1.8142803000228014,
-      "peak_rss_bytes": 111128576,
+      "duration_seconds": 1.814221800013911,
+      "peak_rss_bytes": 111312896,
       "return_code": 3,
       "stdout": "",
       "stderr": "ERROR[NumericalConvergenceError]: direct residual is abnormal: relative=1.183107e-03, allowed=1.000000e-07.\n{\"converged\": false, \"diagnostics\": {}, \"message\": \"direct residual is abnormal: relative=1.183107e-03, allowed=1.000000e-07.\", \"reason\": null}",
@@ -910,8 +970,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 5.023043399996823,
-      "peak_rss_bytes": 267673600,
+      "duration_seconds": 5.02533519998542,
+      "peak_rss_bytes": 251830272,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0039.json",
       "stderr": "",
@@ -922,6 +982,11 @@
       "element_count": 1736,
       "ndof": 1728,
       "max_displacement": 3.959396180104913e-09,
+      "reaction_norm": 288.5973264992507,
+      "force_balance_relative_error": 5.1124366103806125e-15,
+      "external_work": 3.0513889230273162e-06,
+      "strain_energy": 1.5256944615136713e-06,
+      "energy_identity_relative_error": 2.625802136488331e-20,
       "solver": {
         "backend": {
           "requested": "auto",
@@ -943,7 +1008,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "2d5f55486c087bac96cfc9664afa95ea239b5a4fa18d5407c1785a68e656f9c5"
+      "qf_result_sha256": "9e3c08f2f13a5bc4f3cdb5c26510f0f85c695def00ddefb4ce7db94a6084d01d"
     },
     {
       "id": "FCL-0040",
@@ -963,8 +1028,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 5.424879500002135,
-      "peak_rss_bytes": 232632320,
+      "duration_seconds": 5.426146400015568,
+      "peak_rss_bytes": 298967040,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0040.json\nQUALIFICATION GATE: FAIL 4 audit check(s) failed.",
       "stderr": "",
@@ -991,8 +1056,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 15.662034500011941,
-      "peak_rss_bytes": 785424384,
+      "duration_seconds": 15.66217460000189,
+      "peak_rss_bytes": 965750784,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0047.json\nQUALIFICATION GATE: FAIL 98 audit check(s) failed.",
       "stderr": "",
@@ -1019,8 +1084,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.0173507999861613,
-      "peak_rss_bytes": 156721152,
+      "duration_seconds": 3.0162579999887384,
+      "peak_rss_bytes": 152764416,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0048.json",
       "stderr": "",
@@ -1031,6 +1096,11 @@
       "element_count": 711,
       "ndof": 828,
       "max_displacement": 8.544053246587025e-12,
+      "reaction_norm": 529.1257459879283,
+      "force_balance_relative_error": 6.173369961923986e-15,
+      "external_work": 7.290843310250176e-09,
+      "strain_energy": 3.6454216551250867e-09,
+      "energy_identity_relative_error": 2.481541837659083e-24,
       "solver": {
         "backend": {
           "requested": "auto",
@@ -1052,7 +1122,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "2270525e74a3e711a9dbdbaf74621e9684996906a2b44c7efcbd09da76598ec0"
+      "qf_result_sha256": "927ef7afc36de8be4b80f3ce407843cf1bf092ad913f9cc0156f1c6d64c8cea3"
     },
     {
       "id": "FCL-0049",
@@ -1072,8 +1142,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 18.27917460000026,
-      "peak_rss_bytes": 850178048,
+      "duration_seconds": 18.464369199995417,
+      "peak_rss_bytes": 1098727424,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0049.json\nQUALIFICATION GATE: WARNING 30 audit warning(s) present.",
       "stderr": "",
@@ -1084,6 +1154,11 @@
       "element_count": 8359,
       "ndof": 8178,
       "max_displacement": 3.792249983860525e-09,
+      "reaction_norm": 398.50560545313584,
+      "force_balance_relative_error": 4.7933384377456375e-14,
+      "external_work": 2.544907024010467e-06,
+      "strain_energy": 1.2724535120052802e-06,
+      "energy_identity_relative_error": 9.359714067160019e-20,
       "solver": {
         "backend": {
           "requested": "auto",
@@ -1107,7 +1182,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "915cc836f9943ab5266278479dabb84787bc4758a2206450e91c38722ca4375f"
+      "qf_result_sha256": "2f1deb2dad7c1bdfdb91973515d2d284cf5e6e15684e3bb70f59de78da24f4dc"
     },
     {
       "id": "FCL-0050",
@@ -1127,8 +1202,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 14.053653699986171,
-      "peak_rss_bytes": 727330816,
+      "duration_seconds": 14.65503809999791,
+      "peak_rss_bytes": 729174016,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0050.json\nQUALIFICATION GATE: FAIL 31 audit check(s) failed.",
       "stderr": "",
@@ -1155,8 +1230,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.8214770999911707,
-      "peak_rss_bytes": 217612288,
+      "duration_seconds": 3.8225181000016164,
+      "peak_rss_bytes": 179212288,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0051.json\nQUALIFICATION GATE: FAIL 27 audit check(s) failed.",
       "stderr": "",
@@ -1183,8 +1258,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 4.825427800009493,
-      "peak_rss_bytes": 207044608,
+      "duration_seconds": 4.82177270000102,
+      "peak_rss_bytes": 250327040,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0053.json",
       "stderr": "",
@@ -1195,6 +1270,11 @@
       "element_count": 1534,
       "ndof": 1449,
       "max_displacement": 3.1954220372923336e-10,
+      "reaction_norm": 163.8477425279899,
+      "force_balance_relative_error": 3.154050409122112e-16,
+      "external_work": 2.397543696355831e-07,
+      "strain_energy": 1.1987718481779174e-07,
+      "energy_identity_relative_error": 3.705769144237564e-22,
       "solver": {
         "backend": {
           "requested": "auto",
@@ -1216,7 +1296,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "b3d7ac41e3c843b30fe8be29fd145eb0cef63e5931978d1fa5c2a90399e3a19c"
+      "qf_result_sha256": "485b94651b7c53408220e46ec6baa9e25afd5ae731400b758a2a6e8313f24160"
     },
     {
       "id": "FCL-0055",
@@ -1236,8 +1316,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 5.628979300003266,
-      "peak_rss_bytes": 315830272,
+      "duration_seconds": 5.823726400005398,
+      "peak_rss_bytes": 316514304,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0055.json\nQUALIFICATION GATE: FAIL 107 audit check(s) failed.",
       "stderr": "",
@@ -1264,8 +1344,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.6202853999857325,
-      "peak_rss_bytes": 222892032,
+      "duration_seconds": 3.619185599993216,
+      "peak_rss_bytes": 209772544,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0057.json\nQUALIFICATION GATE: FAIL 2 audit check(s) failed.",
       "stderr": "",
@@ -1292,8 +1372,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 5.826471600012155,
-      "peak_rss_bytes": 236691456,
+      "duration_seconds": 5.827734500024235,
+      "peak_rss_bytes": 284049408,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0059.json",
       "stderr": "",
@@ -1304,6 +1384,11 @@
       "element_count": 1935,
       "ndof": 1974,
       "max_displacement": 6.827763470134506e-09,
+      "reaction_norm": 219.06890641899705,
+      "force_balance_relative_error": 6.3367415917488764e-15,
+      "external_work": 2.5206892390824763e-06,
+      "strain_energy": 1.2603446195412496e-06,
+      "energy_identity_relative_error": 2.286988957586611e-20,
       "solver": {
         "backend": {
           "requested": "auto",
@@ -1325,7 +1410,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "f586ac38ffc5b195c48530975ebdd9dec8c58b0bb64fce42e6cd5249592fef7f"
+      "qf_result_sha256": "50a2cef5a59d96cb620311b0d31a73630afe56a33b7300c95de9052d5cf84062"
     },
     {
       "id": "FCL-0060",
@@ -1345,8 +1430,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 120.12616060001892,
-      "peak_rss_bytes": 1789661184,
+      "duration_seconds": 120.3195979000011,
+      "peak_rss_bytes": 1789620224,
       "return_code": 1,
       "stdout": "",
       "stderr": "",
@@ -1371,8 +1456,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 4.824705700011691,
-      "peak_rss_bytes": 215367680,
+      "duration_seconds": 4.824364300002344,
+      "peak_rss_bytes": 246460416,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0065.json\nQUALIFICATION GATE: FAIL 17 audit check(s) failed.",
       "stderr": "",
@@ -1399,8 +1484,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 5.223519199993461,
-      "peak_rss_bytes": 202670080,
+      "duration_seconds": 5.22398000000976,
+      "peak_rss_bytes": 251998208,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0068.json\nQUALIFICATION GATE: WARNING 12 audit warning(s) present.",
       "stderr": "",
@@ -1411,6 +1496,11 @@
       "element_count": 1543,
       "ndof": 1395,
       "max_displacement": 1.3831175104087408e-11,
+      "reaction_norm": 134.04993052593784,
+      "force_balance_relative_error": 1.7316727400544118e-15,
+      "external_work": 6.998491356142171e-09,
+      "strain_energy": 3.4992456780710827e-09,
+      "energy_identity_relative_error": 5.790264287871194e-24,
       "solver": {
         "backend": {
           "requested": "auto",
@@ -1434,7 +1524,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "6d1ecda1af46f90446a1a4cc83474870f3946920874240fa29a22bca9bc78466"
+      "qf_result_sha256": "40a4adff01e1d7c5f726a7669b57dee25957c4b54b1aa3b72bf55e50ac20ce52"
     },
     {
       "id": "FCL-0071",
@@ -1454,8 +1544,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.82620019998285,
-      "peak_rss_bytes": 177074176,
+      "duration_seconds": 3.619482100009918,
+      "peak_rss_bytes": 180371456,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0071.json\nQUALIFICATION GATE: FAIL 5 audit check(s) failed.",
       "stderr": "",
@@ -1482,8 +1572,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.6279216000111774,
-      "peak_rss_bytes": 162406400,
+      "duration_seconds": 3.618732999981148,
+      "peak_rss_bytes": 160665600,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0072.json\nQUALIFICATION GATE: WARNING 17 audit warning(s) present.",
       "stderr": "",
@@ -1494,6 +1584,11 @@
       "element_count": 912,
       "ndof": 1098,
       "max_displacement": 1.1192616648828747e-10,
+      "reaction_norm": 255.65942514385645,
+      "force_balance_relative_error": 1.982129901772647e-14,
+      "external_work": 9.223732694115885e-08,
+      "strain_energy": 4.611866347057923e-08,
+      "energy_identity_relative_error": 3.8381180422460484e-22,
       "solver": {
         "backend": {
           "requested": "auto",
@@ -1517,7 +1612,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "89f3d3b1bf930fddec4e505843b249aa5f36bc66ac7d128b115e5bd90f03cd85"
+      "qf_result_sha256": "c1a1b1f19dd3f7500291be62b24ce760e6f39862be1eef5732ca1db2106b8b5a"
     },
     {
       "id": "FCL-0076",
@@ -1537,8 +1632,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.817863000003854,
-      "peak_rss_bytes": 177491968,
+      "duration_seconds": 3.821770899987314,
+      "peak_rss_bytes": 178155520,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0076.json\nQUALIFICATION GATE: FAIL 1 audit check(s) failed.",
       "stderr": "",
@@ -1565,8 +1660,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.2192519000091124,
-      "peak_rss_bytes": 152354816,
+      "duration_seconds": 3.016811700013932,
+      "peak_rss_bytes": 149508096,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0077.json",
       "stderr": "",
@@ -1577,6 +1672,11 @@
       "element_count": 725,
       "ndof": 828,
       "max_displacement": 6.262917605201151e-10,
+      "reaction_norm": 254.23179882372287,
+      "force_balance_relative_error": 1.1915520321226271e-15,
+      "external_work": 5.770200005517518e-07,
+      "strain_energy": 2.8851000027587544e-07,
+      "energy_identity_relative_error": 9.529120656610879e-22,
       "solver": {
         "backend": {
           "requested": "auto",
@@ -1598,7 +1698,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "d652ddf291d54382f9389f9d0a01754c1c1a077ed2ba73c04eb8aa40858fcbc4"
+      "qf_result_sha256": "a7c87bb496b6c28d69712e7a5a7c6fc7170b237b6ae7b3f785687978a0d9e6ff"
     },
     {
       "id": "FCL-0081",
@@ -1618,8 +1718,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 4.822742300020764,
-      "peak_rss_bytes": 244301824,
+      "duration_seconds": 4.821834100002889,
+      "peak_rss_bytes": 197677056,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0081.json\nQUALIFICATION GATE: WARNING 12 audit warning(s) present.",
       "stderr": "",
@@ -1630,6 +1730,11 @@
       "element_count": 1454,
       "ndof": 1842,
       "max_displacement": 2.3451673353970245e-10,
+      "reaction_norm": 230.82024692280302,
+      "force_balance_relative_error": 5.171023362129507e-14,
+      "external_work": 2.115030066213724e-07,
+      "strain_energy": 1.0575150331068474e-07,
+      "energy_identity_relative_error": 2.9116757561866574e-21,
       "solver": {
         "backend": {
           "requested": "auto",
@@ -1653,7 +1758,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "d3fdc95bd491d880083e8cb3dd8196c55d6dff8f96b07093863565b3bc97936d"
+      "qf_result_sha256": "605f0ca3a18ed4b9fc02450c8c077be515739fba925c77b9bc1d378601f21a5c"
     },
     {
       "id": "FCL-0082",
@@ -1673,8 +1778,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.420861699996749,
-      "peak_rss_bytes": 221618176,
+      "duration_seconds": 3.4185105999931693,
+      "peak_rss_bytes": 167682048,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0082.json\nQUALIFICATION GATE: WARNING 3 audit warning(s) present.",
       "stderr": "",
@@ -1685,6 +1790,11 @@
       "element_count": 975,
       "ndof": 996,
       "max_displacement": 4.23657699951398e-09,
+      "reaction_norm": 761.0381802702017,
+      "force_balance_relative_error": 5.4218162031328107e-14,
+      "external_work": 3.890867236352571e-06,
+      "strain_energy": 1.9454336181762043e-06,
+      "energy_identity_relative_error": 1.6263032587282567e-19,
       "solver": {
         "backend": {
           "requested": "auto",
@@ -1708,7 +1818,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "582dd5bdf0cbfd8098634ab52d212b7621be2b440bb774be9f2438036442406a"
+      "qf_result_sha256": "76c4555e47667ecce9386afc25cbb79c172db155248aa86c8afe6979a138550e"
     },
     {
       "id": "FCL-0083",
@@ -1728,8 +1838,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 2.4159342999919318,
-      "peak_rss_bytes": 129564672,
+      "duration_seconds": 2.4133715000061784,
+      "peak_rss_bytes": 133111808,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0083.json",
       "stderr": "",
@@ -1740,6 +1850,11 @@
       "element_count": 398,
       "ndof": 561,
       "max_displacement": 1.186146973483736e-08,
+      "reaction_norm": 479.26144575084595,
+      "force_balance_relative_error": 2.213724205558534e-14,
+      "external_work": 1.184756629484575e-05,
+      "strain_energy": 5.923783147423075e-06,
+      "energy_identity_relative_error": 3.9979955110402976e-19,
       "solver": {
         "backend": {
           "requested": "auto",
@@ -1761,7 +1876,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "eaca9b3d9d8bd3c2a1d504486d91fa0098a2d3d12d1fdf3b0b72c923bbcedb88"
+      "qf_result_sha256": "707b52096baf8e12dfc3a13bd3e559c22e130969b24ae58432644507e7cfaaba"
     },
     {
       "id": "FCL-0084",
@@ -1781,8 +1896,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 8.239321600005496,
-      "peak_rss_bytes": 441618432,
+      "duration_seconds": 8.432226900011301,
+      "peak_rss_bytes": 441724928,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0084.json\nQUALIFICATION GATE: WARNING 51 audit warning(s) present.",
       "stderr": "",
@@ -1793,6 +1908,11 @@
       "element_count": 3690,
       "ndof": 3849,
       "max_displacement": 6.319956981685553e-10,
+      "reaction_norm": 505.2793986627947,
+      "force_balance_relative_error": 2.7694617266310728e-14,
+      "external_work": 6.097801178339052e-07,
+      "strain_energy": 3.0489005891694755e-07,
+      "energy_identity_relative_error": 1.0058516248644817e-20,
       "solver": {
         "backend": {
           "requested": "auto",
@@ -1816,7 +1936,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "e87f5611b73035190b2e96534054f4eb85e664ae6977575b5fb234bb8781a436"
+      "qf_result_sha256": "d53b94a736f3c30101ab6fa1c640036d1af59ce91cdd612594b61c0a92911c07"
     },
     {
       "id": "FCL-0085",
@@ -1836,8 +1956,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 5.224907299998449,
-      "peak_rss_bytes": 295018496,
+      "duration_seconds": 5.224182300007669,
+      "peak_rss_bytes": 294690816,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0085.json\nQUALIFICATION GATE: FAIL 80 audit check(s) failed.",
       "stderr": "",
@@ -1864,8 +1984,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 2.0168364999990445,
-      "peak_rss_bytes": 116789248,
+      "duration_seconds": 2.015417900023749,
+      "peak_rss_bytes": 119128064,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0086.json",
       "stderr": "",
@@ -1876,6 +1996,11 @@
       "element_count": 108,
       "ndof": 198,
       "max_displacement": 3.9583781585034796e-08,
+      "reaction_norm": 973.0814181052552,
+      "force_balance_relative_error": 5.700219215980328e-15,
+      "external_work": 1.616712632108745e-05,
+      "strain_energy": 8.083563160543886e-06,
+      "energy_identity_relative_error": 3.2187251995663413e-19,
       "solver": {
         "backend": {
           "requested": "auto",
@@ -1897,7 +2022,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "1a5d7f785459935865ac725ccada4079685bca026e9440a55d85bd1528ebb25e"
+      "qf_result_sha256": "f05a5532149346d169e6e99afbe4a70d5e6ac842c2f09ad60f632bceca105440"
     },
     {
       "id": "FCL-0087",
@@ -1917,8 +2042,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 9.036426200007554,
-      "peak_rss_bytes": 408780800,
+      "duration_seconds": 9.038407400017604,
+      "peak_rss_bytes": 410214400,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0087.json\nQUALIFICATION GATE: WARNING 141 audit warning(s) present.",
       "stderr": "",
@@ -1929,6 +2054,11 @@
       "element_count": 3355,
       "ndof": 3285,
       "max_displacement": 3.0613233023518504e-09,
+      "reaction_norm": 175.36561103683943,
+      "force_balance_relative_error": 2.741716414372545e-14,
+      "external_work": 1.5144613419611286e-06,
+      "strain_energy": 7.572306709805784e-07,
+      "energy_identity_relative_error": 2.8163845496205486e-20,
       "solver": {
         "backend": {
           "requested": "auto",
@@ -1952,7 +2082,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "0548a721b46b44df2b8004b74523c4177cf735e4d858d2b4583c3cd253a0f08e"
+      "qf_result_sha256": "787d71f745a7137a48a632987584d918cb917a9fca72b75ab6130d81df7c62cd"
     },
     {
       "id": "FCL-0088",
@@ -1972,8 +2102,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.219313500012504,
-      "peak_rss_bytes": 154120192,
+      "duration_seconds": 3.6155831000069156,
+      "peak_rss_bytes": 158511104,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0088.json",
       "stderr": "",
@@ -1984,6 +2114,11 @@
       "element_count": 816,
       "ndof": 954,
       "max_displacement": 5.049851048850065e-10,
+      "reaction_norm": 224.76521581881806,
+      "force_balance_relative_error": 2.1919040951622245e-15,
+      "external_work": 4.4271584417997396e-07,
+      "strain_energy": 2.213579220899869e-07,
+      "energy_identity_relative_error": 1.5881867761018131e-22,
       "solver": {
         "backend": {
           "requested": "auto",
@@ -2005,7 +2140,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "a24c6726ea51cd739c85fd6495f29b54a413bef8ea16e7985088ee1f6501490d"
+      "qf_result_sha256": "73a52a8096501f112a06e6695a1bbc1f926dcb80f7a44b81d90f3aa1029ab310"
     },
     {
       "id": "FCL-0090",
@@ -2025,8 +2160,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 4.021453099994687,
-      "peak_rss_bytes": 235405312,
+      "duration_seconds": 4.019787299999734,
+      "peak_rss_bytes": 235515904,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0090.json\nQUALIFICATION GATE: FAIL 1 audit check(s) failed.",
       "stderr": "",
@@ -2053,8 +2188,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 4.822111500019673,
-      "peak_rss_bytes": 204566528,
+      "duration_seconds": 4.822114299982786,
+      "peak_rss_bytes": 208105472,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0091.json",
       "stderr": "",
@@ -2065,6 +2200,11 @@
       "element_count": 1534,
       "ndof": 1449,
       "max_displacement": 3.1954220372923336e-10,
+      "reaction_norm": 163.8477425279899,
+      "force_balance_relative_error": 3.154050409122112e-16,
+      "external_work": 2.397543696355831e-07,
+      "strain_energy": 1.1987718481779174e-07,
+      "energy_identity_relative_error": 3.705769144237564e-22,
       "solver": {
         "backend": {
           "requested": "auto",
@@ -2086,7 +2226,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "53174969521d6da71e15a5654b2fc9bb83faa7d2ce4dc374d55dc1c68e9c6b56"
+      "qf_result_sha256": "115f06ccb20dfa75da41d0fb08333a6a606096d3cb73a62fe8cc07dbd68cb53e"
     },
     {
       "id": "FCL-0092",
@@ -2106,8 +2246,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 4.020287299994379,
-      "peak_rss_bytes": 185458688,
+      "duration_seconds": 4.022461899992777,
+      "peak_rss_bytes": 185786368,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0092.json\nQUALIFICATION GATE: WARNING 2 audit warning(s) present.",
       "stderr": "",
@@ -2118,6 +2258,11 @@
       "element_count": 1302,
       "ndof": 1488,
       "max_displacement": 1.3622926262902859e-08,
+      "reaction_norm": 713.2801240999415,
+      "force_balance_relative_error": 1.936643260113272e-14,
+      "external_work": 1.0075061885913504e-05,
+      "strain_energy": 5.037530942956806e-06,
+      "energy_identity_relative_error": 1.0842021724855044e-19,
       "solver": {
         "backend": {
           "requested": "auto",
@@ -2141,7 +2286,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "4e49381756823b20b99030b510ba968a948c3f5f097917768c2bb89b9de41f27"
+      "qf_result_sha256": "4c245f6d4b32fe5a05adbe1610bfca6d7ca5c337a5208b5d3a33f37b6225c52b"
     },
     {
       "id": "FCL-0094",
@@ -2161,8 +2306,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.616858500026865,
-      "peak_rss_bytes": 165224448,
+      "duration_seconds": 3.4188158999895677,
+      "peak_rss_bytes": 172699648,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0094.json",
       "stderr": "",
@@ -2173,6 +2318,11 @@
       "element_count": 950,
       "ndof": 1002,
       "max_displacement": 3.809233935089523e-09,
+      "reaction_norm": 502.92672863485484,
+      "force_balance_relative_error": 2.160573495513961e-14,
+      "external_work": 3.3708220392791177e-06,
+      "strain_energy": 1.6854110196396298e-06,
+      "energy_identity_relative_error": 1.418780186650953e-19,
       "solver": {
         "backend": {
           "requested": "auto",
@@ -2194,7 +2344,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "7b4d81f8f8ea8fcf5d127ee9e77db8797d76b6b512debc5d0589a0f63b49ac5d"
+      "qf_result_sha256": "835a156f0e968d99c4e9933544656d20fa294edbf0bf2f2b269759f18d758d9e"
     },
     {
       "id": "FCL-0095",
@@ -2214,8 +2364,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.8200595999951474,
-      "peak_rss_bytes": 177381376,
+      "duration_seconds": 3.618588199984515,
+      "peak_rss_bytes": 180043776,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0095.json\nQUALIFICATION GATE: FAIL 4 audit check(s) failed.",
       "stderr": "",
@@ -2242,8 +2392,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 4.017800599976908,
-      "peak_rss_bytes": 226029568,
+      "duration_seconds": 4.019532000005711,
+      "peak_rss_bytes": 226279424,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0096.json\nQUALIFICATION GATE: FAIL 4 audit check(s) failed.",
       "stderr": "",
@@ -2270,8 +2420,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 4.222766999999294,
-      "peak_rss_bytes": 233824256,
+      "duration_seconds": 4.421564600022975,
+      "peak_rss_bytes": 213774336,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0097.json\nQUALIFICATION GATE: WARNING 3 audit warning(s) present.",
       "stderr": "",
@@ -2282,6 +2432,11 @@
       "element_count": 1377,
       "ndof": 1422,
       "max_displacement": 1.7586656197991672e-09,
+      "reaction_norm": 279.6097679497649,
+      "force_balance_relative_error": 1.8746924449404125e-14,
+      "external_work": 1.7416869854502644e-06,
+      "strain_energy": 8.708434927251231e-07,
+      "energy_identity_relative_error": 1.8211208365967457e-20,
       "solver": {
         "backend": {
           "requested": "auto",
@@ -2305,7 +2460,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "89a9faffe900673b7c88e4e8a6935a927c2493b8dd710d89cc2b88a0b4dede19"
+      "qf_result_sha256": "8d44fca0af4b0449fbdc4aeb337e476c3669a20e01ab67101e0595d0d10d6bd9"
     },
     {
       "id": "FCL-0098",
@@ -2325,8 +2480,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.419193699985044,
-      "peak_rss_bytes": 202424320,
+      "duration_seconds": 3.417985799984308,
+      "peak_rss_bytes": 173105152,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0098.json\nQUALIFICATION GATE: WARNING 3 audit warning(s) present.",
       "stderr": "",
@@ -2337,6 +2492,11 @@
       "element_count": 985,
       "ndof": 969,
       "max_displacement": 1.3159384724038467e-10,
+      "reaction_norm": 792.2741801013453,
+      "force_balance_relative_error": 3.7419941205009845e-14,
+      "external_work": 1.2584773640980208e-07,
+      "strain_energy": 6.292386820490023e-08,
+      "energy_identity_relative_error": 1.61465655570351e-21,
       "solver": {
         "backend": {
           "requested": "auto",
@@ -2360,7 +2520,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "2df7e53f1bc94354128ebfcb774d4006d9c56f6a3bbc052c4efc9c45939f7f9c"
+      "qf_result_sha256": "9647fd9369ceca48827b9dfeb1e8369c7c43cb0395e27d1db3baa35b8c32fb8c"
     },
     {
       "id": "FCL-0099",
@@ -2380,8 +2540,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.420718000008492,
-      "peak_rss_bytes": 171909120,
+      "duration_seconds": 3.4212077999836765,
+      "peak_rss_bytes": 172093440,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0099.json\nQUALIFICATION GATE: WARNING 95 audit warning(s) present.",
       "stderr": "",
@@ -2392,6 +2552,11 @@
       "element_count": 1000,
       "ndof": 945,
       "max_displacement": 1.3476080335444975e-10,
+      "reaction_norm": 999.9999999999449,
+      "force_balance_relative_error": 5.594268217154186e-14,
+      "external_work": 1.3476080335444975e-07,
+      "strain_energy": 6.738040167722392e-08,
+      "energy_identity_relative_error": 1.9058241313221758e-21,
       "solver": {
         "backend": {
           "requested": "auto",
@@ -2415,7 +2580,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "758d196e5bae0efa67020bb34ef9c9cb978d4dbf54ba0d6746dcfc353c214f4c"
+      "qf_result_sha256": "dd111a5973f4b37ed883af73f351ae0397161874d7149026d32b24fda2feca22"
     },
     {
       "id": "FCL-0100",
@@ -2435,8 +2600,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 2.8168931000109296,
-      "peak_rss_bytes": 145166336,
+      "duration_seconds": 2.8165474999987055,
+      "peak_rss_bytes": 145207296,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0100.json\nQUALIFICATION GATE: WARNING 2 audit warning(s) present.",
       "stderr": "",
@@ -2447,6 +2612,11 @@
       "element_count": 623,
       "ndof": 735,
       "max_displacement": 6.064655188280825e-09,
+      "reaction_norm": 525.7036800367845,
+      "force_balance_relative_error": 1.8803945167346553e-14,
+      "external_work": 5.287968804237536e-06,
+      "strain_energy": 2.6439844021187358e-06,
+      "energy_identity_relative_error": 6.437450399132683e-20,
       "solver": {
         "backend": {
           "requested": "auto",
@@ -2470,7 +2640,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "260a3b34657ce58f9b9a7186b4e0f4fab51b4b1305dd94b9501b4e45bff185a6"
+      "qf_result_sha256": "cce5deddcd95b2f1b1ae863c121f6ffacd30d5ea62270428c57714995e615afe"
     }
   ]
 }
