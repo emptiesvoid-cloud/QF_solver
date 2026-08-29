@@ -167,7 +167,10 @@ def validate_registry(registry: dict[str, Any]) -> list[str]:
 def render_document(registry: dict[str, Any]) -> str:
     rows = registry["capabilities"]
     counts = {level: sum(row["VNV_LEVEL"] == level for row in rows) for level in sorted(VNV_LEVELS)}
-    g05_gaps = "TET10, HEX8, HEX20, BEAM2, and discrete have no G05 READY mapping; refinement policies remain UNDEFINED_POLICY."
+    g05_gaps = (
+        "The G05-B family campaign covers TET4, TET10, HEX8, HEX20, BEAM2, MITC3/MITC3+, MITC4 and discrete; "
+        "refinement policies remain PROPOSED_OWNER_REVIEW."
+    )
     lines = [
         "# Capability Coverage Register",
         "",
@@ -204,20 +207,21 @@ def render_document(registry: dict[str, Any]) -> str:
         "",
         "| Family | Static | Modal | Newmark | Harmonic | Buckling | Load-control | Geometric | 0.2.6 gap |",
         "| --- | --- | --- | --- | --- | --- | --- | --- |",
-        "| BEAM2 | code/tests | historical tests | historical tests | historical tests | n/a | n/a | n/a | G05 READY mapping missing |",
+        "| BEAM2 | code/tests | G05-B prequal | G05-B prequal | G05-B prequal | n/a | n/a | n/a | official G05 remains open |",
         "| MITC3 | READY corpus | READY corpus | READY corpus | READY corpus | n/a | n/a | n/a | G05 acceptance remains open |",
         "| MITC4 | READY corpus | READY corpus | READY corpus | READY corpus | n/a | n/a | n/a | G05 acceptance remains open |",
-        "| TET4 | READY corpus | G05-B READY | G05-B READY | G05-B READY | READY/planned | READY | bounded evidence | family evidence is partial |",
-        "| TET10 | READY/planned | historical only | historical only | historical only | planned | READY/planned | research route | G05 READY mapping missing |",
-        "| HEX8 | READY/planned | planned only | planned only | planned only | planned | READY/planned | bounded evidence | G05 READY mapping missing |",
-        "| HEX20 | READY/planned | planned only | planned only | planned only | planned | READY/planned | research route | G05 READY mapping missing |",
-        "| Discrete | READY/planned | historical only | historical only | historical only | n/a | n/a | n/a | G05 READY mapping missing |",
+        "| TET4 | READY corpus | G05-B prequal | G05-B prequal | G05-B prequal | READY/planned | READY | bounded evidence | official G05 remains open |",
+        "| TET10 | READY/planned | G05-B prequal | G05-B prequal | G05-B prequal | planned | READY/planned | research route | official G05 remains open |",
+        "| HEX8 | READY/planned | G05-B prequal | G05-B prequal | G05-B prequal | planned | READY/planned | bounded evidence | official G05 remains open |",
+        "| HEX20 | READY/planned | G05-B prequal | G05-B prequal | G05-B prequal | planned | READY/planned | research route | official G05 remains open |",
+        "| Discrete | READY/planned | G05-B prequal | G05-B prequal | G05-B prequal | n/a | n/a | n/a | official G05 remains open |",
         "",
         "## G05-B Integration And Open Gaps",
         "",
         "- `G05-B` executed 4 modal, 4 Newmark, and 4 harmonic TET4 cases on `fbae9d983da451052d95e111a85970f93899e409` with 12 PASS. It supplements the official G05 evidence; it does **not** close `026-G05`.",
+        "- The family campaign executes MOD 14, DYN 32 time-level cases and HAR 12 across all eight requested family rows. See `0_2_6_g05_family_coverage.md`; it remains internal prequalification.",
         f"- {g05_gaps}",
-        "- The modal mesh, Newmark time-refinement, and harmonic frequency-refinement policies remain `UNDEFINED_POLICY` until an Owner approves justified acceptance bands.",
+        "- The modal mesh, Newmark time-refinement, and harmonic frequency-refinement policies require Owner approval before any G05 closeout.",
         "",
         "## Historical Continuity",
         "",

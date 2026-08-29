@@ -17,12 +17,24 @@ import numpy as np
 from solveur.api import solve_model
 from solveur.core.assembly.assembler import GlobalAssembler
 from solveur.core.model import FiniteElementModel, NodalLoad
+from solveur.elements.shell.mitc4.mesh import MeshFactory
 from solveur.io.manifest import write_json_file
 from solveur.verification.mitc3_models import cantilever_model
+from solveur.verification.mitc4_newmark_extended import modal_nodal_loads
 from solveur.verification.vnv_manifest import write_vnv_manifest
 
 
-SUPPORTED_FAMILIES = ("TET4", "TET10", "MITC3", "BEAM2", "SPRING_MASS")
+SUPPORTED_FAMILIES = (
+    "TET4",
+    "TET10",
+    "HEX8",
+    "HEX20",
+    "BEAM2",
+    "MITC3",
+    "MITC4",
+    "DISCRETE",
+    "SPRING_MASS",
+)
 
 
 class LinearDynamicFamilyCampaign:
@@ -34,21 +46,41 @@ class LinearDynamicFamilyCampaign:
     the static and external correlations declared in its own scope.
     """
 
-    def __init__(self, family: str, output_dir: str | Path) -> None:
+    def __init__(
+        self,
+        family: str,
+        output_dir: str | Path,
+        *,
+        variant: str = "baseline",
+        modal_modes: int = 3,
+        time_levels: tuple[int, ...] = (30, 60, 120, 240),
+        harmonic_frequency_ratios: tuple[float, ...] = (0.0, 0.8, 1.0, 1.2),
+    ) -> None:
         name = str(family).upper()
         if name not in SUPPORTED_FAMILIES:
             raise ValueError(f"Unsupported dynamic V&V family {family!r}.")
         self.family = name
         self.output_dir = Path(output_dir).resolve()
+        self.variant = str(variant).lower().replace(" ", "-")
+        self.modal_modes = int(modal_modes)
+        self.time_levels = tuple(int(level) for level in time_levels)
+        self.harmonic_frequency_ratios = tuple(float(value) for value in harmonic_frequency_ratios)
+        if self.modal_modes < 1:
+            raise ValueError("modal_modes must be positive.")
+        if len(self.time_levels) < 2 or any(level <= 0 for level in self.time_levels):
+            raise ValueError("time_levels must contain at least two positive values.")
+        if not self.harmonic_frequency_ratios or self.harmonic_frequency_ratios[0] != 0.0:
+            raise ValueError("harmonic_frequency_ratios must start at zero frequency.")
 
     @property
     def study_id(self) -> str:
-        return f"VNV-{self.family}-LINEAR-DYNAMICS-001"
+        suffix = "" if self.variant == "baseline" else f"-{self.variant.upper()}"
+        return f"VNV-{self.family}-LINEAR-DYNAMICS-001{suffix}"
 
     def run(self) -> dict[str, Any]:
         """Run the three analysis paths and write a compact review bundle."""
         self.output_dir.mkdir(parents=True, exist_ok=True)
-        modal_model = self._model({"type": "modal", "method": "eigh", "modes": 3})
+        modal_model = self._model({"type": "modal", "method": "eigh", "modes": self.modal_modes})
         modal = solve_model(modal_model, enforce_policy=False)
         frequency = float(modal.frequencies_hz[0])
         mode = np.asarray(modal.modes[:, 0], dtype=float)
@@ -68,6 +100,12 @@ class LinearDynamicFamilyCampaign:
             "schema_version": 1,
             "study_id": self.study_id,
             "family": self.family,
+            "variant": self.variant,
+            "configuration": {
+                "modal_modes": self.modal_modes,
+                "newmark_time_levels_steps": list(self.time_levels),
+                "harmonic_frequency_ratios": list(self.harmonic_frequency_ratios),
+            },
             "status": status,
             "maturity": "technical_verification",
             "scope": _scope_for(self.family),
@@ -75,6 +113,7 @@ class LinearDynamicFamilyCampaign:
                 "type": "first_eigenmode_closed_form_oscillator",
                 "description": "q(t)=q0 cos(2 pi f1 t) for undamped free vibration",
             },
+            "qualification_status": "INTERNAL_PREQUALIFICATION_ONLY",
             "studies": studies,
             "limitations": [
                 "The modal oscillator oracle validates the assembled linear dynamic route, not a complete external element correlation.",
@@ -93,10 +132,11 @@ class LinearDynamicFamilyCampaign:
         residual = float(solver.get("max_relative_residual", math.inf))
         mass_error = float(solver.get("mass_orthogonality_error", math.inf))
         stiffness_error = float(solver.get("stiffness_diagonal_error", math.inf))
+        residual_limit = 1.0e-7
         passed = (
             frequency > 0.0
             and np.isfinite(frequency)
-            and residual <= 1.0e-8
+            and residual <= residual_limit
             and mass_error <= 1.0e-8
             and stiffness_error <= 1.0e-8
         )
@@ -104,6 +144,7 @@ class LinearDynamicFamilyCampaign:
             "status": "PASS" if passed else "FAIL",
             "first_frequency_hz": frequency,
             "max_relative_residual": residual,
+            "residual_limit": residual_limit,
             "mass_orthogonality_error": mass_error,
             "stiffness_orthogonality_error": stiffness_error,
         }
@@ -117,7 +158,7 @@ class LinearDynamicFamilyCampaign:
         probe_initial: float,
     ) -> dict[str, Any]:
         period = 1.0 / frequency
-        time_levels = (30, 60, 120, 240)
+        time_levels = self.time_levels
         histories: dict[int, tuple[np.ndarray, np.ndarray, Any]] = {}
         for steps in time_levels:
             model = self._model(
@@ -191,16 +232,23 @@ class LinearDynamicFamilyCampaign:
         frequency: float,
     ) -> dict[str, Any]:
         mode = np.asarray(modal.modes[:, 0], dtype=float)
-        mass = GlobalAssembler().assemble_mass(modal_model, modal.dofs)
-        modal_force = np.asarray(mass @ mode).ravel()
-        loads = _state_entries(modal.dofs, modal_force)
-        frequencies = [0.0, 0.8 * frequency, frequency, 1.2 * frequency]
+        if self.family == "MITC4":
+            loads = [
+                {"node": load.node, "dof": load.dof, "value": load.value}
+                for load in modal_nodal_loads(modal_model, modal.dofs, mode)
+            ]
+        else:
+            mass = GlobalAssembler().assemble_mass(modal_model, modal.dofs)
+            modal_force = np.asarray(mass @ mode).ravel()
+            loads = _state_entries(modal.dofs, modal_force)
+        damping_alpha = 0.04 * (2.0 * math.pi * frequency) if self.family == "MITC4" else 0.02
+        frequencies = [ratio * frequency for ratio in self.harmonic_frequency_ratios]
         harmonic_model = self._model(
             {
                 "type": "harmonic_response",
                 "method": "direct_frequency",
                 "frequencies_hz": frequencies,
-                "rayleigh_alpha": 0.02,
+                "rayleigh_alpha": damping_alpha,
                 "rayleigh_beta": 0.0,
             },
             loads=loads,
@@ -214,7 +262,12 @@ class LinearDynamicFamilyCampaign:
         )
         amplitudes = [float(np.max(np.abs(response))) for response in harmonic.responses]
         finite = bool(np.all(np.isfinite(np.asarray(harmonic.responses))))
-        resonance_ratio = amplitudes[2] / max(amplitudes[1], amplitudes[3], 1.0e-30)
+        resonance_index = min(
+            range(len(self.harmonic_frequency_ratios)),
+            key=lambda index: abs(self.harmonic_frequency_ratios[index] - 1.0),
+        )
+        off_resonance = [value for index, value in enumerate(amplitudes) if index != resonance_index]
+        resonance_ratio = amplitudes[resonance_index] / max(*off_resonance, 1.0e-30)
         residual = float(harmonic.solver["max_relative_residual_norm"])
         passed = finite and static_error <= 1.0e-8 and resonance_ratio > 1.0 and residual <= 1.0e-7
         return {
@@ -222,6 +275,11 @@ class LinearDynamicFamilyCampaign:
             "frequencies_hz": frequencies,
             "zero_frequency_static_error": static_error,
             "resonance_amplitude_ratio": resonance_ratio,
+            "resonance_frequency_ratio": self.harmonic_frequency_ratios[resonance_index],
+            "frequency_grid_count": len(self.harmonic_frequency_ratios),
+            "frequency_ratio_step_min": min(
+                np.diff(self.harmonic_frequency_ratios), default=0.0
+            ),
             "maximum_relative_residual": residual,
             "finite_response": finite,
         }
@@ -238,6 +296,9 @@ class LinearDynamicFamilyCampaign:
             model = cantilever_model(4, 1, analysis=analysis, transverse_force=0.0)
             model.loads = [NodalLoad(**item) for item in (loads or [])]
             return model
+        if self.family == "MITC4":
+            model = _mitc4_model(analysis, loads or [])
+            return model
         if self.family == "BEAM2":
             return _beam_model(analysis, loads or [])
         return _spring_mass_model(analysis, loads or [])
@@ -252,7 +313,7 @@ def _solid_model(
         nodes = [[0.0, 0.0, 0.0], [1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
         element_nodes = list(range(4))
         fixed_nodes = (0, 2, 3)
-    else:
+    elif family == "TET10":
         nodes = [
             [0.0, 0.0, 0.0], [1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0],
             [0.5, 0.0, 0.0], [0.5, 0.5, 0.0], [0.0, 0.5, 0.0], [0.0, 0.0, 0.5],
@@ -260,11 +321,60 @@ def _solid_model(
         ]
         element_nodes = list(range(10))
         fixed_nodes = (0, 2, 3, 4, 5, 6, 7, 8, 9)
+    elif family == "HEX8":
+        nodes = [
+            [0.0, 0.0, 0.0], [1.0, 0.0, 0.0], [1.0, 1.0, 0.0], [0.0, 1.0, 0.0],
+            [0.0, 0.0, 1.0], [1.0, 0.0, 1.0], [1.0, 1.0, 1.0], [0.0, 1.0, 1.0],
+        ]
+        element_nodes = list(range(8))
+        fixed_nodes = (0, 3, 4, 7)
+    else:
+        nodes = [
+            [0.0, 0.0, 0.0], [1.0, 0.0, 0.0], [1.0, 1.0, 0.0], [0.0, 1.0, 0.0],
+            [0.0, 0.0, 1.0], [1.0, 0.0, 1.0], [1.0, 1.0, 1.0], [0.0, 1.0, 1.0],
+            [0.5, 0.0, 0.0], [0.0, 0.5, 0.0], [0.0, 0.0, 0.5], [1.0, 0.5, 0.0],
+            [1.0, 0.0, 0.5], [0.5, 1.0, 0.0], [1.0, 1.0, 0.5], [0.0, 1.0, 0.5],
+            [0.5, 0.0, 1.0], [0.0, 0.5, 1.0], [1.0, 0.5, 1.0], [0.5, 1.0, 1.0],
+        ]
+        element_nodes = list(range(20))
+        fixed_nodes = (0, 3, 4, 7, 9, 10, 15, 17)
     return FiniteElementModel.from_raw(
         nodes=nodes,
         elements=[{"type": family, "nodes": element_nodes, "material": "solid"}],
         materials={"solid": {"type": "isotropic_3d", "E": 70.0e9, "nu": 0.3, "density": 2700.0}},
         fixed_dofs=[{"node": node, "dofs": ["UX", "UY", "UZ"]} for node in fixed_nodes],
+        loads=loads,
+        analysis=analysis,
+        verification_profile="quick",
+    )
+
+
+def _mitc4_model(analysis: str | dict[str, Any], loads: list[dict[str, Any]]) -> FiniteElementModel:
+    """Build the small isotropic MITC4 cantilever used by the family campaign."""
+    mesh = MeshFactory.rectangular_plate(4, 2, 1.0, 0.2)
+    root = np.flatnonzero(np.isclose(mesh.nodes[:, 0], 0.0))
+    if isinstance(analysis, dict) and str(analysis.get("type", "")).lower() == "modal":
+        analysis = {
+            **analysis,
+            "modal_eigenpair_refinement_iterations": 3,
+        }
+    return FiniteElementModel.from_raw(
+        nodes=mesh.nodes.tolist(),
+        elements=[{"type": "MITC4", "nodes": quad.tolist(), "material": "shell"} for quad in mesh.quads],
+        materials={
+            "shell": {
+                "type": "shell_isotropic",
+                "E": 70.0e9,
+                "nu": 0.3,
+                "t": 0.01,
+                "density": 2700.0,
+                "drilling_scale": 1.0e-4,
+            }
+        },
+        fixed_dofs=[
+            {"node": int(node), "dofs": ["UX", "UY", "UZ", "RX", "RY", "RZ"]}
+            for node in root
+        ],
         loads=loads,
         analysis=analysis,
         verification_profile="quick",
@@ -328,8 +438,12 @@ def _scope_for(family: str) -> str:
     return {
         "TET4": "linear-dynamics",
         "TET10": "tet10-linear-dynamics",
-        "MITC3": "mitc3-linear-dynamics",
-        "BEAM2": "beam2-linear-dynamics",
+            "MITC3": "mitc3-linear-dynamics",
+            "MITC4": "mitc4-linear-dynamics",
+            "HEX8": "hex8-linear-dynamics",
+            "HEX20": "hex20-linear-dynamics",
+            "BEAM2": "beam2-linear-dynamics",
+        "DISCRETE": "discrete-linear-dynamics",
         "SPRING_MASS": "discrete-linear-dynamics",
     }[family]
 

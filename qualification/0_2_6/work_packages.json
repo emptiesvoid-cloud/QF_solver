@@ -23,10 +23,12 @@
         "0_2_6_g05_evidence.md",
         "g05_requirements.json",
         "g05_deep_case_registry.json",
-        "0_2_6_g05b_evidence.md"
+        "g05_family_coverage.json",
+        "0_2_6_g05b_evidence.md",
+        "0_2_6_g05_family_coverage.md"
       ],
       "id": "026-WP05-G05",
-      "note": "Distinct work-package identifier. G05-B adds 12 executed TET4 cases as supplemental evidence; official gate 026-G05 remains Modal / dynamic / harmonic maturity and is not closed.",
+      "note": "Distinct work-package identifier. G05-B adds the controlled family campaign (MOD 14, DYN 32 time levels, HAR 12) as supplemental internal prequalification evidence; official gate 026-G05 remains Modal / dynamic / harmonic maturity and is not closed.",
       "related_official_gate": "026-G05",
       "status": "PASS_WITH_LIMITATIONS",
       "title": "Bounded V&V and robustness execution batch"

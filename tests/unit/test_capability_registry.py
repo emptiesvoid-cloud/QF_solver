@@ -88,5 +88,5 @@ def test_coverage_document_is_generated_from_the_controlled_registry() -> None:
 
     assert "# Capability Coverage Register" in document
     assert "G05-B Integration And Open Gaps" in document
-    assert "UNDEFINED_POLICY" in document
+    assert "PROPOSED_OWNER_REVIEW" in document
     assert "v0.2.0-alpha" in document
