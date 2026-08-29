@@ -6,7 +6,7 @@
   "prequalification_status": "PASS_WITH_LIMITATIONS",
   "proposed_decision": "PASS_WITH_LIMITATIONS",
   "start_sha": "b952520f5db8095e1fa214e451999aaedc672341",
-  "execution_source_sha": "4f86c5385987140602eda8bb7e7ad54136c243ae",
+  "execution_source_sha": "8bd0f2d8fdce7bf27ffc4c28e6aa26e69288fa63",
   "source_dirty": false,
   "solver_version": "0.2.6a0",
   "campaigns": {
@@ -28,7 +28,7 @@
       "status": "PASS_INTERNAL_MESH_REFINEMENT",
       "families": ["TET4", "TET10", "HEX8", "HEX20"],
       "levels": [1, 2, 4, 8],
-      "mesh_summary_sha256": "14c7a270a05bc4795bc9b05d3e38155a8954b652a2b80381f1a4c8518c26bf7a",
+      "mesh_summary_sha256": "87542a5dfefba4e580b719a17d6fafd4302b31a07efc2bbaf8368073357a95f5",
       "interpretation": "Bounded regular unit-block J2 study; trends are recorded without inventing a universal convergence threshold."
     },
     "increment_refinement": {
@@ -47,6 +47,15 @@
       "rollback": "PASS_INTERNAL_ROLLBACK",
       "external": "PASS_EXTERNAL_CORRELATION"
     },
+    "cross_family_proof_matrix": [
+      {"proof": "homogeneous_constitutive_response", "status": "PASS_BOUNDED_SHARED_J2_ORACLE"},
+      {"proof": "yield_threshold", "status": "PASS_SHARED_J2_ORACLE"},
+      {"proof": "consistent_tangent_fd", "status": "PASS_TARGETED_SHARED_MATERIAL"},
+      {"proof": "tangent_symmetry", "status": "NOT_SEPARATELY_ASSESSED"},
+      {"proof": "rollback_after_rejected_increment", "status": "PASS_FOUR_FAMILIES"},
+      {"proof": "increment_independence", "status": "PASS_BOUNDED_TET4_ONLY"},
+      {"proof": "equilibrium_reaction_and_newton_residual", "status": "PASS_FOUR_FAMILIES"}
+    ],
     "rollback": {
       "status": "PASS_INTERNAL_ROLLBACK",
       "families": ["TET4", "TET10", "HEX8", "HEX20"],
@@ -100,9 +109,9 @@
     "The rollback evidence covers deterministic rejection before the first accepted increment; broader material-update and sparse-backend failure matrices remain separate evidence work."
   ],
   "artifact_digests": {
-    "aggregate_summary": "ae141ae9a2b6f3858fc2401db6997ed6b36cb27c96af38cdbc7574113c96433d",
-    "aggregate_manifest": "3cd7590d69c4334ec7e11bc06f9273864accc17f54cc894aa37c3ad686ae17a4",
-    "aggregate_report": "f89448f990dd18e1059848bab57a5b2b8203b794cdcde5fd35f56597d910c059"
+    "aggregate_summary": "87d4cb3392fa251c121031a1f3de824823efceee9143f3341546594fd74a5b83",
+    "aggregate_manifest": "74e50a935f1dd26c2a2f74a446f3e6136bd06b979a2c0770e1a74dcfcc4b765c",
+    "aggregate_report": "829844a45ec76646d30ce0417725f31842c28793a5cbd5911f2ffb395647bb40"
   },
   "evidence_head_contract": "The execution source SHA identifies the code used for the numerical run. The tracked evidence commit is separate and does not replace that source SHA.",
   "owner_action": "Review bounded evidence and decide whether 026-G06 may be closed under the official contract."
