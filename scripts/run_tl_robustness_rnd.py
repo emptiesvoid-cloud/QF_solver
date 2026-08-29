@@ -169,6 +169,37 @@ def _jsonable(value: Any) -> Any:
     return value
 
 
+_RUNTIME_DIAGNOSTIC_KEYS = {
+    "assembly_seconds",
+    "linear_solve_seconds",
+    "line_search_seconds",
+}
+
+
+def _deterministic_value(value: Any) -> Any:
+    """Remove runtime measurements before comparing repeated outcomes."""
+    if isinstance(value, dict):
+        return {
+            str(key): _deterministic_value(item)
+            for key, item in value.items()
+            if key not in _RUNTIME_DIAGNOSTIC_KEYS
+        }
+    if isinstance(value, (list, tuple)):
+        return [_deterministic_value(item) for item in value]
+    return _jsonable(value)
+
+
+def _deterministic_signature(row: dict[str, Any]) -> str:
+    """Digest numerical/status outcomes while excluding wall-clock timing."""
+    payload = {
+        "status": row["status"],
+        "failure_reason": row.get("failure_reason"),
+        "displacement_sha256": row.get("displacement_sha256"),
+        "diagnostics": _deterministic_value(row.get("diagnostics", {})),
+    }
+    return hashlib.sha256(json.dumps(payload, sort_keys=True).encode("utf-8")).hexdigest()
+
+
 def _run_variant(
     definition: dict[str, Any],
     mechanism: str,
@@ -547,10 +578,7 @@ def main(argv: list[str] | None = None) -> int:
                             baseline_rows[(definition["id"], row["variant"])] = _reference_record(row)
                 # Keep repeat equality as an explicit diagnostic, not a hidden pass criterion.
                 if len(repeated) > 1:
-                    signatures = [
-                        (item["status"], item["failure_reason"], item["displacement_sha256"], item["diagnostic_digest"])
-                        for item in repeated
-                    ]
+                    signatures = [_deterministic_signature(item) for item in repeated]
                     repeat_checks.append(
                         {
                             "id": definition["id"],
