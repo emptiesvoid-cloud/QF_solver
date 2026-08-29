@@ -1,7 +1,8 @@
 import json
 from pathlib import Path
 
-from scripts.public_volumetric_dataset import _write_qf_case, select_models
+from scripts import public_volumetric_dataset as dataset
+from scripts.public_volumetric_dataset import _worktree_dirty_except, _write_qf_case, select_models
 
 
 def test_selection_round_robins_nonempty_step_files_and_excludes_domains() -> None:
@@ -41,3 +42,18 @@ def test_qf_case_generation_rejects_mesh_without_x_extremes(tmp_path: Path) -> N
         assert str(exc) == "volume mesh has no distinct x-extreme nodes"
     else:
         raise AssertionError("Expected an unusable one-node mesh to be rejected")
+
+
+def test_manifest_dirty_check_ignores_its_own_output(monkeypatch) -> None:
+    manifest = dataset.ROOT / "qualification" / "0_2_6" / "public_volumetric_dataset_manifest.json"
+    responses = {
+        ("diff", "--name-only"): "qualification/0_2_6/public_volumetric_dataset_manifest.json",
+        ("diff", "--cached", "--name-only"): "",
+        ("ls-files", "--others", "--exclude-standard"): "",
+    }
+    monkeypatch.setattr(dataset, "_git", lambda *arguments: responses[arguments])
+
+    assert _worktree_dirty_except(manifest) is False
+
+    responses[("diff", "--name-only")] = "scripts/public_volumetric_dataset.py"
+    assert _worktree_dirty_except(manifest) is True
