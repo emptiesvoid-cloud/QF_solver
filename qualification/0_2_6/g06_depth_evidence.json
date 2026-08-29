@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "pack_id": "VNV026-G06-J2-DEPTH-001",
+  "gate": "026-G06",
+  "official_gate_status": "NOT_STARTED",
+  "prequalification_status": "PASS_WITH_LIMITATIONS",
+  "proposed_decision": "PASS_WITH_LIMITATIONS",
+  "start_sha": "b952520f5db8095e1fa214e451999aaedc672341",
+  "execution_source_sha": "1e9b9435978f8cb5c445199432acf816100830ad",
+  "source_dirty": false,
+  "solver_version": "0.2.6a0",
+  "campaigns": {
+    "tet10_dedicated": {
+      "campaign_id": "VNV-J2-TET10-CYCLIC-001",
+      "status": "PASS_INTERNAL",
+      "nodes": 341,
+      "elements": 140,
+      "integration_points_per_element": 4,
+      "summary_sha256": "8ffc579a0c5c5fe47f1e8c92880d42ac8411b8f4fc1fdedd19c5461f5e8aa0cd"
+    },
+    "j2_mesh_refinement": {
+      "status": "PASS_INTERNAL_MESH_REFINEMENT",
+      "families": ["TET4", "TET10", "HEX8", "HEX20"],
+      "levels": [1, 2, 4, 8],
+      "mesh_summary_sha256": "14c7a270a05bc4795bc9b05d3e38155a8954b652a2b80381f1a4c8518c26bf7a",
+      "interpretation": "Bounded regular unit-block J2 study; trends are recorded without inventing a universal convergence threshold."
+    },
+    "increment_refinement": {
+      "status": "PASS_INTERNAL",
+      "campaign_id": "VNV-J2-STEP-SENSITIVITY-005",
+      "subdivisions_per_branch": [4, 8, 16],
+      "maximum_state_relative_sensitivity": 3.443732523314891e-09,
+      "medium_to_fine_work_relative_sensitivity": 1.9297078104210892e-02
+    },
+    "common_invariants": {
+      "families": ["TET4", "TET10", "HEX8", "HEX20"],
+      "mesh_refinement": "PASS",
+      "multi_element": "PASS",
+      "energy_balance": "PASS_INTERNAL_ENERGY",
+      "cyclic": "PASS_INTERNAL_CYCLIC",
+      "external": "PASS_EXTERNAL_CORRELATION"
+    },
+    "rollback": {
+      "status": "PASS_INTERNAL_ROLLBACK",
+      "rejected_increments": 1,
+      "clean_retry": true,
+      "final_displacement_relative_error": 1.254324592877779e-07,
+      "final_peeq_absolute_error": 3.345270735768957e-09,
+      "committed_state_digest_equals_retry_state_digest": true
+    }
+  },
+  "external_correlation": {
+    "status": "PASS_EXTERNAL_CORRELATION",
+    "solver": "Code_Aster 18.1.0",
+    "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+    "checks": 64,
+    "families": ["TET4", "TET10", "HEX8", "HEX20"],
+    "max_relative_errors": {
+      "TET4": 0.0016128455770859642,
+      "TET10": 0.0006229921333257515,
+      "HEX8": 2.733985590837845e-07,
+      "HEX20": 0.0006339004303117072
+    },
+    "summary_sha256": "1489abe272f1a4ff424bf8dc0c14379291efeb16c98370bfa446b35ce1b40ab4",
+    "quadrature_convention": "TET10 uses code_aster_5 for this external comparison; QF default remains hammer4."
+  },
+  "targeted_tests": {
+    "command": "python -m pytest tests/unit/test_robustness_tangent_fd.py tests/unit/test_nonlinear_multielement.py tests/unit/test_nonlinear_cyclic.py tests/unit/test_j2_multielement_external.py tests/verification/test_tet10_j2_structural_vnv.py -q",
+    "passed": 38,
+    "failed": 0,
+    "duration_seconds": 160.04
+  },
+  "checks": {
+    "tangent_fd": "PASS_INTERNAL_TARGETED",
+    "rollback": "PASS_INTERNAL_ROLLBACK",
+    "registry": "PASS",
+    "anti_forgetting": "PASS",
+    "ruff": "PASS",
+    "compileall": "PASS",
+    "diff_check": "PASS",
+    "full_regression": "NOT_REQUIRED_NO_FUNCTIONAL_CODE_CHANGED"
+  },
+  "finite_kinematic_j2": "RESEARCH_NOT_QUALIFIED",
+  "external_skipped": [],
+  "unexpected_failures": [],
+  "limitations": [
+    "The official G06 gate remains NOT_STARTED; this pack is evidence for Owner closeout and does not close the gate automatically.",
+    "Mesh refinement is a bounded regular unit-block study with levels 1/2/4/8; it is not a universal localization or distortion qualification.",
+    "Load-increment refinement is the existing TET4 cyclic path and is not a universal path-independence claim for every family.",
+    "Code_Aster correlation is bounded to the regular two-cell shared benchmark and is numerical correlation, not physical validation.",
+    "The dedicated structural cyclic campaign uses four integration points per TET10 element; the external correlation explicitly uses code_aster_5 and leaves QF's historical hammer4 default unchanged.",
+    "The rollback evidence covers deterministic rejection before the first accepted increment; broader material-update and sparse-backend failure matrices remain separate evidence work."
+  ],
+  "artifact_digests": {
+    "aggregate_summary": "a01479fbdfd1a5c2bbeb43dd715898e5fddf913113846e3e231812179e6069a2",
+    "aggregate_manifest": "9ceb4de7200c23a0cc68740a93ac6156da4f2242d10f225be1fc6aa8ef705c56",
+    "aggregate_report": "9c270b6c15a8de30e600ea3fe00a921697497c3fb4036cac5e1fe5c29ae56a70"
+  },
+  "evidence_head_contract": "The execution source SHA identifies the code used for the numerical run. The tracked evidence commit is separate and does not replace that source SHA.",
+  "owner_action": "Review bounded evidence and decide whether 026-G06 may be closed under the official contract."
+}
