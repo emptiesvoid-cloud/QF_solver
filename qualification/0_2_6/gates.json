@@ -43,7 +43,11 @@
       "title": "Linear / element robustness"
     },
     {
-      "evidence_ids": [],
+      "evidence_ids": [
+        "g05_requirements.json",
+        "g05_deep_case_registry.json",
+        "0_2_6_g05b_evidence.md"
+      ],
       "id": "026-G05",
       "status": "NOT_STARTED",
       "title": "Modal / dynamic / harmonic"

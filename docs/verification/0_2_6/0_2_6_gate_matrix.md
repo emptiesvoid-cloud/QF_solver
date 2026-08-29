@@ -20,3 +20,5 @@
 | `026-G15` | Owner release review | NOT_STARTED |
 
 G00 is a refactor guard with an explicit dirty-worktree limitation, not a replacement for immutable 0.2.5 evidence. G01-G03 close only audit, infrastructure and corpus design. Capability-gate outcomes are not implied by this foundation.
+
+`026-G05` now references the supplemental `G05-B` contract, registry and evidence. That batch executed 12 TET4 cases (4 modal, 4 Newmark and 4 harmonic) without an unexplained failure, but it is not a substitute for the 14/16/12 target corpus, family coverage, refinement policies or an Owner-approved acceptance policy. The official gate therefore remains `NOT_STARTED`.

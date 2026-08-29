@@ -1,11 +1,5 @@
 # Capability Inventory
 
-| Capability | 0.2.5 maturity | 0.2.6 intent | Claim boundary |
-| --- | --- | --- | --- |
-| `small_strain_j2` | QUALIFIED_BOUNDED | maturity_extension | No finite-strain J2 claim. |
-| `total_lagrangian_elasticity` | QUALIFIED_BOUNDED | bounded_refinement | TET4/HEX8 bounded domain. |
-| `linear_buckling` | QUALIFIED_BOUNDED | maturity_extension | No nonlinear collapse claim. |
-| `frictionless_contact` | QUALIFIED_BOUNDED | maturity_extension | No general mortar or arbitrary large sliding claim. |
-| `arc_length` | EXPERIMENTAL | review_only | Promotion requires independent reproducible reference. |
-| `coupled_nonlinear` | EXPERIMENTAL | review_only | Finite-kinematic J2 remains deferred. |
-| `friction` | NOT_IN_SCOPE | not_in_scope | No implementation in 0.2.6 foundation. |
+This legacy shortlist remains a high-level view of the 0.2.5 maturity targets. The controlled, complete 0.2.6 source of truth is now [capability_registry.json](../../../qualification/capability_registry.json), rendered for review in [Capability Coverage Register](capability_coverage.md). It contains the element, analysis, material, contact and infrastructure capabilities, along with evidence, maturity, gate ownership, historical continuity and explicit gaps.
+
+The shortlist does not close any gate and must not be used as a capability census.
