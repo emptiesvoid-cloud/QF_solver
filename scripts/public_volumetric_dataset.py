@@ -56,17 +56,18 @@ def _git(*arguments: str) -> str | None:
 
 
 def _worktree_dirty_except(path: Path) -> bool:
-    status = _git("status", "--porcelain", "--untracked-files=all")
-    if status is None:
-        return True
     excluded = path.relative_to(ROOT).as_posix()
-    for line in status.splitlines():
-        changed = line[3:].strip()
-        if " -> " in changed:
-            changed = changed.split(" -> ", 1)[1]
-        if changed != excluded:
+    changed_paths: list[str] = []
+    for arguments in (
+        ("diff", "--name-only"),
+        ("diff", "--cached", "--name-only"),
+        ("ls-files", "--others", "--exclude-standard"),
+    ):
+        output = _git(*arguments)
+        if output is None:
             return True
-    return False
+        changed_paths.extend(output.splitlines())
+    return any(changed != excluded for changed in changed_paths)
 
 
 def fetch_tree() -> tuple[str, list[dict[str, Any]]]:
