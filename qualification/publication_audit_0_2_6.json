@@ -8,7 +8,7 @@
   "status": "PASS",
   "classification": {
     "public_source_documentation": {
-      "count": 422,
+      "count": 423,
       "paths": [
         "README.md",
         "docs/** excluding generated evidence"
