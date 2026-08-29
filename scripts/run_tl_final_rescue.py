@@ -297,11 +297,8 @@ def _base_for(definition: dict[str, Any], **updates: Any) -> dict[str, Any]:
 
 
 def _increment_cases() -> list[dict[str, Any]]:
-    cases = []
-    for definition in BASELINES:
-        for increments in (32, 64, 128, 256):
-            cases.append(_base_for(definition, increments=increments))
-    return cases
+    definition = BASELINES[0]
+    return [_base_for(definition, increments=increments) for increments in (32, 64, 128, 256)]
 
 
 def _frontier_cases() -> list[dict[str, Any]]:
@@ -342,6 +339,14 @@ def _control_configs() -> list[tuple[str, dict[str, Any], int]]:
                 100,
             )
         )
+    for minimum in (1.0e-5, 1.0e-6, 1.0e-7):
+        configs.append(
+            (
+                f"min_increment_{minimum:.0e}",
+                {"cutback_factor": 0.25, "min_load_increment": minimum, "max_cutbacks": 64},
+                100,
+            )
+        )
     for max_iterations in (100, 200, 400):
         configs.append(
             (
@@ -353,7 +358,11 @@ def _control_configs() -> list[tuple[str, dict[str, Any], int]]:
     return configs
 
 
-def _run_stage(stage: str, selected_ids: set[str] | None) -> dict[str, Any]:
+def _run_stage(
+    stage: str,
+    selected_ids: set[str] | None,
+    selected_config_names: set[str] | None,
+) -> dict[str, Any]:
     if stage == "increments":
         cases = _increment_cases()
         runs = [_run(case, {"cutback_factor": 0.25, "min_load_increment": 1.0e-4, "max_cutbacks": 25}, 100) for case in cases]
@@ -361,10 +370,17 @@ def _run_stage(stage: str, selected_ids: set[str] | None) -> dict[str, Any]:
         cases = _frontier_cases()
         runs = [_run(case, {"cutback_factor": 0.25, "min_load_increment": 1.0e-4, "max_cutbacks": 25}, 100) for case in cases]
     elif stage == "controls":
-        cases = [_base_for(definition, increments=128) for definition in BASELINES]
+        cases = list(BASELINES)
         runs = []
         for case in cases:
-            for name, policy, max_iterations in _control_configs():
+            configurations = _control_configs()
+            if selected_config_names is not None:
+                configurations = [
+                    configuration
+                    for configuration in configurations
+                    if configuration[0] in selected_config_names
+                ]
+            for name, policy, max_iterations in configurations:
                 print(f"{case['id']} {name}", flush=True)
                 run = _run(case, policy, max_iterations)
                 run["configuration_name"] = name
@@ -395,11 +411,13 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("stage", choices=("increments", "frontier", "controls"))
     parser.add_argument("--output", type=Path, default=None)
     parser.add_argument("--case-id", action="append", dest="case_ids")
+    parser.add_argument("--config-name", action="append", dest="config_names")
     args = parser.parse_args(argv)
     output = args.output or OUTPUT / f"{args.stage}.json"
     output.parent.mkdir(parents=True, exist_ok=True)
     selected = set(args.case_ids) if args.case_ids else None
-    report = _run_stage(args.stage, selected)
+    selected_configs = set(args.config_names) if args.config_names else None
+    report = _run_stage(args.stage, selected, selected_configs)
     output.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     digest = hashlib.sha256(output.read_bytes()).hexdigest()
     print(
