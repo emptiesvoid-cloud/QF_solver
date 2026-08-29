@@ -1,25 +1,25 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-29T02:34:28.798290Z",
+  "generated_at_utc": "2026-08-29T06:12:50.068461Z",
   "manifest": "qualification/0_2_6/public_volumetric_dataset_manifest.json",
-  "manifest_sha256": "2e3c28a46d65197b97c0b258e78e7c7cfcaf8baa1c11485f5cab384c3b7351da",
+  "manifest_sha256": "630a7b455085e4b8d9809c4eef6e43f5b3cb96a9e24da7ce7ef3645745553ab5",
   "dataset_manifest_id": "QF-PUBLIC-VOLUMETRIC-DATASET-026-001",
   "source_commit": "be5e71491051cef75da46831b6fd77c6313cb497",
-  "qf_source_sha": "e7a10d552cfaaf4ecc1150f44aed4d1528697bd2",
+  "qf_source_sha": "1874c994bfffc83b5dc1d8e90e711bd8d2bfeddd",
   "qf_worktree_dirty": false,
   "solver_version": "0.2.6a0",
   "timeout_seconds": 120.0,
-  "cases_attempted": 78,
+  "cases_attempted": 56,
   "status_counts": {
-    "PASS": 39,
+    "PASS": 34,
     "EXPECTED_FAILURE": 0,
-    "FAIL": 38,
+    "FAIL": 21,
     "TIMEOUT": 1
   },
   "run_verdict_counts": {
     "PASS": 15,
-    "WARNING": 24,
-    "FAIL": 24
+    "WARNING": 19,
+    "FAIL": 19
   },
   "results": [
     {
@@ -40,8 +40,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 5.045905600010883,
-      "peak_rss_bytes": 234704896,
+      "duration_seconds": 4.640489899989916,
+      "peak_rss_bytes": 235520000,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0002.json",
       "stderr": "",
@@ -73,62 +73,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "d690e5515638055568691690950f1fd07249d7f65aca10fed2785801fa8c5bb4"
-    },
-    {
-      "id": "FCL-0003",
-      "source_path": "Architectural Parts/Doors/Generic/Simple door.step",
-      "mesh_type": "TET4",
-      "command": [
-        "C:\\Python313\\python.exe",
-        "qf_solver.py",
-        "solve",
-        "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\datasets\\public_volumetric\\FCL-0003\\qf_case.json",
-        "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0003.json",
-        "--analysis",
-        "linear_static",
-        "--method",
-        "direct"
-      ],
-      "timeout_seconds": 120.0,
-      "duration_seconds": 3.620793500012951,
-      "peak_rss_bytes": 199593984,
-      "return_code": 0,
-      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0003.json\nQUALIFICATION GATE: WARNING 3 audit warning(s) present.",
-      "stderr": "",
-      "status": "PASS",
-      "solve_status": "PASS",
-      "run_verdict": "WARNING",
-      "node_count": 404,
-      "element_count": 824,
-      "ndof": 1212,
-      "max_displacement": 1.4243577479574655e-06,
-      "solver": {
-        "backend": {
-          "requested": "auto",
-          "selected": "scipy",
-          "fallback_used": false,
-          "petsc_available": false,
-          "slepc_available": false,
-          "reason": "SciPy selected as the standard backend"
-        },
-        "method": "direct",
-        "iterations": 1,
-        "converged": true,
-        "residual_norm": 1.8096992766734224e-08,
-        "relative_residual_norm": 1.2004186968206617e-10,
-        "termination_reason": "converged"
-      },
-      "qualification_summary": {
-        "blocking_errors": [],
-        "warnings": [
-          "3 audit warning(s) present."
-        ],
-        "verification_profile": "engineering"
-      },
-      "qf_result_sha256": "0f8e983811bc0127dd32d6a8efa533e2215825771ebc1e895ea7d29e8aef2d95"
+      "qf_result_sha256": "9906de2abea7df8c4d0f0c39ca68c4278bafd73dac68adf4727cf22122f49d23"
     },
     {
       "id": "FCL-0004",
@@ -148,8 +93,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 4.020192900003167,
-      "peak_rss_bytes": 181923840,
+      "duration_seconds": 5.02842009998858,
+      "peak_rss_bytes": 192274432,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0004.json\nQUALIFICATION GATE: FAIL 38 audit check(s) failed.",
       "stderr": "",
@@ -176,8 +121,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 5.832840599992778,
-      "peak_rss_bytes": 305012736,
+      "duration_seconds": 6.030986300000222,
+      "peak_rss_bytes": 258670592,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0006.json\nQUALIFICATION GATE: FAIL 1718 audit check(s) failed.",
       "stderr": "",
@@ -204,8 +149,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 4.0206219000101555,
-      "peak_rss_bytes": 247767040,
+      "duration_seconds": 4.022405499999877,
+      "peak_rss_bytes": 248057856,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0007.json",
       "stderr": "",
@@ -237,7 +182,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "e9403960e916e90877d831c3d63248a6e87e6847d9f72304c6dc0013bcda5b4e"
+      "qf_result_sha256": "f6bf83b2857945f96d6f216adf2b8d8e83a8c2895eb531d0e77b014b1c7fcd34"
     },
     {
       "id": "FCL-0008",
@@ -257,8 +202,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.820348400011426,
-      "peak_rss_bytes": 170041344,
+      "duration_seconds": 3.822093599999789,
+      "peak_rss_bytes": 208908288,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0008.json",
       "stderr": "",
@@ -290,7 +235,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "006a85c8b43e1c4e3f510c3e8c29e0051be5a44f5b35ab8aba3e330234656d57"
+      "qf_result_sha256": "a6bc672e95bd261eb0843e7b2210ce16842befa27013924e390f77cf976a9fe6"
     },
     {
       "id": "FCL-0009",
@@ -310,8 +255,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 5.826685899985023,
-      "peak_rss_bytes": 278769664,
+      "duration_seconds": 5.825970000005327,
+      "peak_rss_bytes": 307236864,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0009.json\nQUALIFICATION GATE: FAIL 44 audit check(s) failed.",
       "stderr": "",
@@ -338,39 +283,13 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 1.8141901999770198,
-      "peak_rss_bytes": 111300608,
+      "duration_seconds": 1.8148861000081524,
+      "peak_rss_bytes": 111366144,
       "return_code": 3,
       "stdout": "",
       "stderr": "ERROR[NumericalConvergenceError]: direct residual is abnormal: relative=4.810602e-02, allowed=1.000000e-07.\n{\"converged\": false, \"diagnostics\": {}, \"message\": \"direct residual is abnormal: relative=4.810602e-02, allowed=1.000000e-07.\", \"reason\": null}",
       "status": "FAIL",
       "reason": "missing or invalid QF result: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_foundation\\\\qualification\\\\0_2_6\\\\public_volumetric_qf_results\\\\FCL-0010.json'"
-    },
-    {
-      "id": "FCL-0011",
-      "source_path": "Electrical Parts/Electrical Switches/EmergencyButton-Disk_LAY37.step",
-      "mesh_type": "TET4",
-      "command": [
-        "C:\\Python313\\python.exe",
-        "qf_solver.py",
-        "solve",
-        "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\datasets\\public_volumetric\\FCL-0011\\qf_case.json",
-        "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0011.json",
-        "--analysis",
-        "linear_static",
-        "--method",
-        "direct"
-      ],
-      "timeout_seconds": 120.0,
-      "duration_seconds": 4.0285257999785244,
-      "peak_rss_bytes": 119181312,
-      "return_code": 2,
-      "stdout": "",
-      "stderr": "ERROR[MeshValidationError]: Mesh validation failed: Element 1756: repeated node in connectivity.; Element 1759: repeated node in connectivity.; Element 4639: repeated node in connectivity.; Element 4993: repeated node in connectivity.; Element 6061: repeated node in connectivity.; Element 6062: repeated node in connectivity.; Element 6063: repeated node in connectivity.; Element 6213: repeated node in connectivity.; Element 6215: repeated node in connectivity.; Element 6834: repeated node in connectivity.; Element 6836: repeated node in connectivity.",
-      "status": "FAIL",
-      "reason": "missing or invalid QF result: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_foundation\\\\qualification\\\\0_2_6\\\\public_volumetric_qf_results\\\\FCL-0011.json'"
     },
     {
       "id": "FCL-0012",
@@ -390,8 +309,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 5.826568899996346,
-      "peak_rss_bytes": 314097664,
+      "duration_seconds": 6.026340200012783,
+      "peak_rss_bytes": 261935104,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0012.json\nQUALIFICATION GATE: WARNING 12 audit warning(s) present.",
       "stderr": "",
@@ -425,7 +344,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "bcbb65b8f68656bfa6b19184898edafd19a4d5c4c42a56630add3321697ad40c"
+      "qf_result_sha256": "0a51b4221adfe21e028ec697a39732aa8f0e90fe694f06d5d43c5160a4f4e7fa"
     },
     {
       "id": "FCL-0014",
@@ -445,8 +364,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 6.230500700010452,
-      "peak_rss_bytes": 329539584,
+      "duration_seconds": 6.027998000005027,
+      "peak_rss_bytes": 331186176,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0014.json\nQUALIFICATION GATE: FAIL 9 audit check(s) failed.",
       "stderr": "",
@@ -473,8 +392,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 9.034858699975302,
-      "peak_rss_bytes": 473223168,
+      "duration_seconds": 9.038615400000708,
+      "peak_rss_bytes": 472424448,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0015.json\nQUALIFICATION GATE: FAIL 99 audit check(s) failed.",
       "stderr": "",
@@ -482,34 +401,6 @@
       "solve_status": "PASS",
       "run_verdict": "FAIL",
       "reason": "99 audit check(s) failed."
-    },
-    {
-      "id": "FCL-0017",
-      "source_path": "Electrical Parts/fans/blower-50x50mm.step",
-      "mesh_type": "TET4+TET10",
-      "command": [
-        "C:\\Python313\\python.exe",
-        "qf_solver.py",
-        "solve",
-        "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\datasets\\public_volumetric\\FCL-0017\\qf_case.json",
-        "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0017.json",
-        "--analysis",
-        "linear_static",
-        "--method",
-        "direct"
-      ],
-      "timeout_seconds": 120.0,
-      "duration_seconds": 8.247681600012584,
-      "peak_rss_bytes": 519811072,
-      "return_code": 4,
-      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0017.json\nQUALIFICATION GATE: FAIL 64 audit check(s) failed.",
-      "stderr": "",
-      "status": "FAIL",
-      "solve_status": "PASS",
-      "run_verdict": "FAIL",
-      "reason": "64 audit check(s) failed."
     },
     {
       "id": "FCL-0019",
@@ -529,8 +420,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.2175013999803923,
-      "peak_rss_bytes": 146055168,
+      "duration_seconds": 3.018831699999282,
+      "peak_rss_bytes": 149630976,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0019.json\nQUALIFICATION GATE: WARNING 2 audit warning(s) present.",
       "stderr": "",
@@ -564,7 +455,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "cdab2f3cdfe477639762e8fd12dd7c300211cb532bd44f19ae0c247fd0f75a6d"
+      "qf_result_sha256": "132b140800c1b0f48807013b4ad8247af1b71526d457cb1d89fb9ef388cf9320"
     },
     {
       "id": "FCL-0023",
@@ -584,8 +475,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.61981500001275,
-      "peak_rss_bytes": 184487936,
+      "duration_seconds": 3.820224400027655,
+      "peak_rss_bytes": 175452160,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0023.json\nQUALIFICATION GATE: FAIL 8 audit check(s) failed.",
       "stderr": "",
@@ -612,8 +503,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 5.624900599999819,
-      "peak_rss_bytes": 313167872,
+      "duration_seconds": 5.625378400000045,
+      "peak_rss_bytes": 311304192,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0024.json\nQUALIFICATION GATE: WARNING 64 audit warning(s) present.",
       "stderr": "",
@@ -647,61 +538,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "dcdc3770214307df1c2bb65fd1534ad230947f1c2db7ccefd2c86e8c3d3d8740"
-    },
-    {
-      "id": "FCL-0025",
-      "source_path": "Electronics Parts/Cameras/Wide-170-Angle-Raspi-Camera.step",
-      "mesh_type": "TET4",
-      "command": [
-        "C:\\Python313\\python.exe",
-        "qf_solver.py",
-        "solve",
-        "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\datasets\\public_volumetric\\FCL-0025\\qf_case.json",
-        "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0025.json",
-        "--analysis",
-        "linear_static",
-        "--method",
-        "direct"
-      ],
-      "timeout_seconds": 120.0,
-      "duration_seconds": 20.67697590001626,
-      "peak_rss_bytes": 994775040,
-      "return_code": 4,
-      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0025.json\nQUALIFICATION GATE: FAIL 2747 audit check(s) failed.",
-      "stderr": "",
-      "status": "FAIL",
-      "solve_status": "PASS",
-      "run_verdict": "FAIL",
-      "reason": "2747 audit check(s) failed."
-    },
-    {
-      "id": "FCL-0026",
-      "source_path": "Electronics Parts/Capacitors/SMD/C_0402.step",
-      "mesh_type": "TET4+TET10",
-      "command": [
-        "C:\\Python313\\python.exe",
-        "qf_solver.py",
-        "solve",
-        "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\datasets\\public_volumetric\\FCL-0026\\qf_case.json",
-        "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0026.json",
-        "--analysis",
-        "linear_static",
-        "--method",
-        "direct"
-      ],
-      "timeout_seconds": 120.0,
-      "duration_seconds": 2.414185900008306,
-      "peak_rss_bytes": 114028544,
-      "return_code": 3,
-      "stdout": "",
-      "stderr": "ERROR[NumericalConvergenceError]: direct residual is abnormal: relative=1.005638e+00, allowed=1.000000e-07.\n{\"converged\": false, \"diagnostics\": {}, \"message\": \"direct residual is abnormal: relative=1.005638e+00, allowed=1.000000e-07.\", \"reason\": null}",
-      "status": "FAIL",
-      "reason": "missing or invalid QF result: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_foundation\\\\qualification\\\\0_2_6\\\\public_volumetric_qf_results\\\\FCL-0026.json'"
+      "qf_result_sha256": "b81d3171ff8ffa0bfaf111bd2b1d058efac92d241648267fc8a17652e551e33d"
     },
     {
       "id": "FCL-0027",
@@ -721,8 +558,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.6176787999866065,
-      "peak_rss_bytes": 164835328,
+      "duration_seconds": 3.6182116999989375,
+      "peak_rss_bytes": 166322176,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0027.json",
       "stderr": "",
@@ -754,59 +591,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "b5b3935d3eafd200c092cc26b87a2cdfaa0c498ee3618f89784dcad7d815bd30"
-    },
-    {
-      "id": "FCL-0028",
-      "source_path": "Electronics Parts/Crystals/xtal-smd-10x4x3mm.step",
-      "mesh_type": "TET4+TET10",
-      "command": [
-        "C:\\Python313\\python.exe",
-        "qf_solver.py",
-        "solve",
-        "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\datasets\\public_volumetric\\FCL-0028\\qf_case.json",
-        "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0028.json",
-        "--analysis",
-        "linear_static",
-        "--method",
-        "direct"
-      ],
-      "timeout_seconds": 120.0,
-      "duration_seconds": 2.2150661000050604,
-      "peak_rss_bytes": 113381376,
-      "return_code": 3,
-      "stdout": "",
-      "stderr": "ERROR[NumericalConvergenceError]: direct residual is abnormal: relative=9.994166e-01, allowed=1.000000e-07.\n{\"converged\": false, \"diagnostics\": {}, \"message\": \"direct residual is abnormal: relative=9.994166e-01, allowed=1.000000e-07.\", \"reason\": null}",
-      "status": "FAIL",
-      "reason": "missing or invalid QF result: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_foundation\\\\qualification\\\\0_2_6\\\\public_volumetric_qf_results\\\\FCL-0028.json'"
-    },
-    {
-      "id": "FCL-0029",
-      "source_path": "Electronics Parts/Diodes/SMD/DO-214AC.step",
-      "mesh_type": "TET4+TET10",
-      "command": [
-        "C:\\Python313\\python.exe",
-        "qf_solver.py",
-        "solve",
-        "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\datasets\\public_volumetric\\FCL-0029\\qf_case.json",
-        "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0029.json",
-        "--analysis",
-        "linear_static",
-        "--method",
-        "direct"
-      ],
-      "timeout_seconds": 120.0,
-      "duration_seconds": 2.41650180000579,
-      "peak_rss_bytes": 113577984,
-      "return_code": 3,
-      "stdout": "",
-      "stderr": "ERROR[NumericalConvergenceError]: direct residual is abnormal: relative=9.938077e-01, allowed=1.000000e-07.\n{\"converged\": false, \"diagnostics\": {}, \"message\": \"direct residual is abnormal: relative=9.938077e-01, allowed=1.000000e-07.\", \"reason\": null}",
-      "status": "FAIL",
-      "reason": "missing or invalid QF result: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_foundation\\\\qualification\\\\0_2_6\\\\public_volumetric_qf_results\\\\FCL-0029.json'"
+      "qf_result_sha256": "b4224a63a662b87a7dfc0734f527229ce2dd828df8f312184fcd654b772b03c1"
     },
     {
       "id": "FCL-0030",
@@ -826,8 +611,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 7.226778700016439,
-      "peak_rss_bytes": 351358976,
+      "duration_seconds": 7.431741200009128,
+      "peak_rss_bytes": 352403456,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0030.json\nQUALIFICATION GATE: WARNING 56 audit warning(s) present.",
       "stderr": "",
@@ -861,7 +646,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "22faf17b615486e08cd01a4b6299bf27cb768fe2e281e0ce2801c4713966499a"
+      "qf_result_sha256": "cfd4fcfb76df68b7f382c3d75b75fbfde97a5670d6185356bf7db2c185de95e1"
     },
     {
       "id": "FCL-0031",
@@ -881,8 +666,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 2.216740200005006,
-      "peak_rss_bytes": 124456960,
+      "duration_seconds": 2.214672599977348,
+      "peak_rss_bytes": 124477440,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0031.json\nQUALIFICATION GATE: WARNING 1 audit warning(s) present.",
       "stderr": "",
@@ -916,33 +701,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "de47ac56ceebed63fafda6f3a84e1b599ef8c32f0fe78aa5b7786de0d9985fbe"
-    },
-    {
-      "id": "FCL-0032",
-      "source_path": "Electronics Parts/Fuses/SMD/F1812-505k.step",
-      "mesh_type": "TET4",
-      "command": [
-        "C:\\Python313\\python.exe",
-        "qf_solver.py",
-        "solve",
-        "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\datasets\\public_volumetric\\FCL-0032\\qf_case.json",
-        "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0032.json",
-        "--analysis",
-        "linear_static",
-        "--method",
-        "direct"
-      ],
-      "timeout_seconds": 120.0,
-      "duration_seconds": 3.019121000019368,
-      "peak_rss_bytes": 115134464,
-      "return_code": 3,
-      "stdout": "",
-      "stderr": "ERROR[NumericalConvergenceError]: direct residual is abnormal: relative=9.978472e-01, allowed=1.000000e-07.\n{\"converged\": false, \"diagnostics\": {}, \"message\": \"direct residual is abnormal: relative=9.978472e-01, allowed=1.000000e-07.\", \"reason\": null}",
-      "status": "FAIL",
-      "reason": "missing or invalid QF result: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_foundation\\\\qualification\\\\0_2_6\\\\public_volumetric_qf_results\\\\FCL-0032.json'"
+      "qf_result_sha256": "a8361aa7f78430522b7e0d0ccbb065c53b18e4da541c6d6f4c7c647df989aff5"
     },
     {
       "id": "FCL-0033",
@@ -962,8 +721,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 5.22274609998567,
-      "peak_rss_bytes": 234881024,
+      "duration_seconds": 5.224298400018597,
+      "peak_rss_bytes": 220983296,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0033.json",
       "stderr": "",
@@ -995,7 +754,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "7b80e9a9710ba785a162c6f82fa0d2ff868fa250ad2ead16d7d6fb847b970a76"
+      "qf_result_sha256": "a36cd13a83f1b6cd828a97fe5e5055745b9a363dd337d689bc117817373f88db"
     },
     {
       "id": "FCL-0034",
@@ -1015,8 +774,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 9.63963910000166,
-      "peak_rss_bytes": 379138048,
+      "duration_seconds": 9.84060940000927,
+      "peak_rss_bytes": 378077184,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0034.json\nQUALIFICATION GATE: WARNING 63 audit warning(s) present.",
       "stderr": "",
@@ -1050,7 +809,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "e6e5b5d695828646ad1801ee613f863aa779b8bbc290d1acd9e253a171a793f1"
+      "qf_result_sha256": "348efcbee38bb4782a16606c460582f138a39e1148b8ea737b1db6dff9bfddf5"
     },
     {
       "id": "FCL-0035",
@@ -1070,8 +829,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 5.2250179999973625,
-      "peak_rss_bytes": 264957952,
+      "duration_seconds": 5.224114499986172,
+      "peak_rss_bytes": 220721152,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0035.json\nQUALIFICATION GATE: WARNING 91 audit warning(s) present.",
       "stderr": "",
@@ -1105,7 +864,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "b6ee3e2945e5b3dc5ceb2ead505519fe3a566fd8fd80dad2bcebf0cc50015a64"
+      "qf_result_sha256": "0d7fd9015af6cc190398c0fba9d7fdfd169b7f39d57c8522f2453bfbde06ca73"
     },
     {
       "id": "FCL-0036",
@@ -1125,94 +884,13 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 1.8135801999887917,
-      "peak_rss_bytes": 110985216,
+      "duration_seconds": 1.8142803000228014,
+      "peak_rss_bytes": 111128576,
       "return_code": 3,
       "stdout": "",
       "stderr": "ERROR[NumericalConvergenceError]: direct residual is abnormal: relative=1.183107e-03, allowed=1.000000e-07.\n{\"converged\": false, \"diagnostics\": {}, \"message\": \"direct residual is abnormal: relative=1.183107e-03, allowed=1.000000e-07.\", \"reason\": null}",
       "status": "FAIL",
       "reason": "missing or invalid QF result: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_foundation\\\\qualification\\\\0_2_6\\\\public_volumetric_qf_results\\\\FCL-0036.json'"
-    },
-    {
-      "id": "FCL-0037",
-      "source_path": "Electronics Parts/Jumpers/jumper-cap-2.54mm.step",
-      "mesh_type": "TET4+TET10",
-      "command": [
-        "C:\\Python313\\python.exe",
-        "qf_solver.py",
-        "solve",
-        "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\datasets\\public_volumetric\\FCL-0037\\qf_case.json",
-        "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0037.json",
-        "--analysis",
-        "linear_static",
-        "--method",
-        "direct"
-      ],
-      "timeout_seconds": 120.0,
-      "duration_seconds": 6.828698199999053,
-      "peak_rss_bytes": 335540224,
-      "return_code": 0,
-      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0037.json\nQUALIFICATION GATE: WARNING 12 audit warning(s) present.",
-      "stderr": "",
-      "status": "PASS",
-      "solve_status": "PASS",
-      "run_verdict": "WARNING",
-      "node_count": 994,
-      "element_count": 2610,
-      "ndof": 2982,
-      "max_displacement": 2.523511065907694e-08,
-      "solver": {
-        "backend": {
-          "requested": "auto",
-          "selected": "scipy",
-          "fallback_used": false,
-          "petsc_available": false,
-          "slepc_available": false,
-          "reason": "SciPy selected as the standard backend"
-        },
-        "method": "direct",
-        "iterations": 1,
-        "converged": true,
-        "residual_norm": 3.4575636640070277e-11,
-        "relative_residual_norm": 2.21392096994703e-13,
-        "termination_reason": "converged"
-      },
-      "qualification_summary": {
-        "blocking_errors": [],
-        "warnings": [
-          "12 audit warning(s) present."
-        ],
-        "verification_profile": "engineering"
-      },
-      "qf_result_sha256": "856ca84938518c9034e4d3074bcaa5276420b1393c12bc05b4383bd130bc9e29"
-    },
-    {
-      "id": "FCL-0038",
-      "source_path": "Electronics Parts/LEDs/LED_0603.step",
-      "mesh_type": "TET4+TET10",
-      "command": [
-        "C:\\Python313\\python.exe",
-        "qf_solver.py",
-        "solve",
-        "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\datasets\\public_volumetric\\FCL-0038\\qf_case.json",
-        "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0038.json",
-        "--analysis",
-        "linear_static",
-        "--method",
-        "direct"
-      ],
-      "timeout_seconds": 120.0,
-      "duration_seconds": 2.4159809999982826,
-      "peak_rss_bytes": 114388992,
-      "return_code": 3,
-      "stdout": "",
-      "stderr": "ERROR[NumericalConvergenceError]: direct residual is abnormal: relative=9.555813e-01, allowed=1.000000e-07.\n{\"converged\": false, \"diagnostics\": {}, \"message\": \"direct residual is abnormal: relative=9.555813e-01, allowed=1.000000e-07.\", \"reason\": null}",
-      "status": "FAIL",
-      "reason": "missing or invalid QF result: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_foundation\\\\qualification\\\\0_2_6\\\\public_volumetric_qf_results\\\\FCL-0038.json'"
     },
     {
       "id": "FCL-0039",
@@ -1232,8 +910,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 5.024103899981128,
-      "peak_rss_bytes": 265523200,
+      "duration_seconds": 5.023043399996823,
+      "peak_rss_bytes": 267673600,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0039.json",
       "stderr": "",
@@ -1265,7 +943,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "629c5cfae06ed2998434c005ba8f90d0737209481ef2b90646e6c29f56aeaf5b"
+      "qf_result_sha256": "2d5f55486c087bac96cfc9664afa95ea239b5a4fa18d5407c1785a68e656f9c5"
     },
     {
       "id": "FCL-0040",
@@ -1285,8 +963,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 5.426430199993774,
-      "peak_rss_bytes": 291524608,
+      "duration_seconds": 5.424879500002135,
+      "peak_rss_bytes": 232632320,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0040.json\nQUALIFICATION GATE: FAIL 4 audit check(s) failed.",
       "stderr": "",
@@ -1294,140 +972,6 @@
       "solve_status": "PASS",
       "run_verdict": "FAIL",
       "reason": "4 audit check(s) failed."
-    },
-    {
-      "id": "FCL-0041",
-      "source_path": "Electronics Parts/Potentiometer/Potentiometer.step",
-      "mesh_type": "TET4",
-      "command": [
-        "C:\\Python313\\python.exe",
-        "qf_solver.py",
-        "solve",
-        "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\datasets\\public_volumetric\\FCL-0041\\qf_case.json",
-        "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0041.json",
-        "--analysis",
-        "linear_static",
-        "--method",
-        "direct"
-      ],
-      "timeout_seconds": 120.0,
-      "duration_seconds": 9.839911400020355,
-      "peak_rss_bytes": 432627712,
-      "return_code": 4,
-      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0041.json\nQUALIFICATION GATE: FAIL 227 audit check(s) failed.",
-      "stderr": "",
-      "status": "FAIL",
-      "solve_status": "PASS",
-      "run_verdict": "FAIL",
-      "reason": "227 audit check(s) failed."
-    },
-    {
-      "id": "FCL-0042",
-      "source_path": "Electronics Parts/Resistors/R_0402.step",
-      "mesh_type": "TET4+TET10",
-      "command": [
-        "C:\\Python313\\python.exe",
-        "qf_solver.py",
-        "solve",
-        "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\datasets\\public_volumetric\\FCL-0042\\qf_case.json",
-        "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0042.json",
-        "--analysis",
-        "linear_static",
-        "--method",
-        "direct"
-      ],
-      "timeout_seconds": 120.0,
-      "duration_seconds": 2.631001000001561,
-      "peak_rss_bytes": 113967104,
-      "return_code": 3,
-      "stdout": "",
-      "stderr": "ERROR[NumericalConvergenceError]: direct residual is abnormal: relative=9.751146e-01, allowed=1.000000e-07.\n{\"converged\": false, \"diagnostics\": {}, \"message\": \"direct residual is abnormal: relative=9.751146e-01, allowed=1.000000e-07.\", \"reason\": null}",
-      "status": "FAIL",
-      "reason": "missing or invalid QF result: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_foundation\\\\qualification\\\\0_2_6\\\\public_volumetric_qf_results\\\\FCL-0042.json'"
-    },
-    {
-      "id": "FCL-0044",
-      "source_path": "Electronics Parts/Rotatory encoders/rotatory-encoder.step",
-      "mesh_type": "TET4+TET10",
-      "command": [
-        "C:\\Python313\\python.exe",
-        "qf_solver.py",
-        "solve",
-        "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\datasets\\public_volumetric\\FCL-0044\\qf_case.json",
-        "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0044.json",
-        "--analysis",
-        "linear_static",
-        "--method",
-        "direct"
-      ],
-      "timeout_seconds": 120.0,
-      "duration_seconds": 3.2201621000131126,
-      "peak_rss_bytes": 118812672,
-      "return_code": 3,
-      "stdout": "",
-      "stderr": "ERROR[NumericalConvergenceError]: direct residual is abnormal: relative=1.000792e+00, allowed=1.000000e-07.\n{\"converged\": false, \"diagnostics\": {}, \"message\": \"direct residual is abnormal: relative=1.000792e+00, allowed=1.000000e-07.\", \"reason\": null}",
-      "status": "FAIL",
-      "reason": "missing or invalid QF result: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_foundation\\\\qualification\\\\0_2_6\\\\public_volumetric_qf_results\\\\FCL-0044.json'"
-    },
-    {
-      "id": "FCL-0045",
-      "source_path": "Electronics Parts/Switch/Box/RoundRockerSwitch2Pins.step",
-      "mesh_type": "TET4+TET10",
-      "command": [
-        "C:\\Python313\\python.exe",
-        "qf_solver.py",
-        "solve",
-        "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\datasets\\public_volumetric\\FCL-0045\\qf_case.json",
-        "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0045.json",
-        "--analysis",
-        "linear_static",
-        "--method",
-        "direct"
-      ],
-      "timeout_seconds": 120.0,
-      "duration_seconds": 5.221422700007679,
-      "peak_rss_bytes": 229388288,
-      "return_code": 4,
-      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0045.json\nQUALIFICATION GATE: FAIL 2 audit check(s) failed.",
-      "stderr": "",
-      "status": "FAIL",
-      "solve_status": "PASS",
-      "run_verdict": "FAIL",
-      "reason": "2 audit check(s) failed."
-    },
-    {
-      "id": "FCL-0046",
-      "source_path": "Electronics Parts/Transistors/Mosfet/SMD/SOT23-3.step",
-      "mesh_type": "TET4+TET10",
-      "command": [
-        "C:\\Python313\\python.exe",
-        "qf_solver.py",
-        "solve",
-        "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\datasets\\public_volumetric\\FCL-0046\\qf_case.json",
-        "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0046.json",
-        "--analysis",
-        "linear_static",
-        "--method",
-        "direct"
-      ],
-      "timeout_seconds": 120.0,
-      "duration_seconds": 1.814078299998073,
-      "peak_rss_bytes": 111767552,
-      "return_code": 3,
-      "stdout": "",
-      "stderr": "ERROR[NumericalConvergenceError]: direct residual is abnormal: relative=9.785172e-01, allowed=1.000000e-07.\n{\"converged\": false, \"diagnostics\": {}, \"message\": \"direct residual is abnormal: relative=9.785172e-01, allowed=1.000000e-07.\", \"reason\": null}",
-      "status": "FAIL",
-      "reason": "missing or invalid QF result: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_foundation\\\\qualification\\\\0_2_6\\\\public_volumetric_qf_results\\\\FCL-0046.json'"
     },
     {
       "id": "FCL-0047",
@@ -1447,8 +991,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 15.654689699993469,
-      "peak_rss_bytes": 784433152,
+      "duration_seconds": 15.662034500011941,
+      "peak_rss_bytes": 785424384,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0047.json\nQUALIFICATION GATE: FAIL 98 audit check(s) failed.",
       "stderr": "",
@@ -1475,8 +1019,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.016255499998806,
-      "peak_rss_bytes": 154619904,
+      "duration_seconds": 3.0173507999861613,
+      "peak_rss_bytes": 156721152,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0048.json",
       "stderr": "",
@@ -1508,7 +1052,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "7b152e41653f62a7e9890e64b0528186640e32f2a946baf2a7bb8c741fc7a2c6"
+      "qf_result_sha256": "2270525e74a3e711a9dbdbaf74621e9684996906a2b44c7efcbd09da76598ec0"
     },
     {
       "id": "FCL-0049",
@@ -1528,8 +1072,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 18.06444940000074,
-      "peak_rss_bytes": 849645568,
+      "duration_seconds": 18.27917460000026,
+      "peak_rss_bytes": 850178048,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0049.json\nQUALIFICATION GATE: WARNING 30 audit warning(s) present.",
       "stderr": "",
@@ -1563,7 +1107,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "806315153ed4ffe21c3599e7b02d1190e81902a78a169235c13659efd022668a"
+      "qf_result_sha256": "915cc836f9943ab5266278479dabb84787bc4758a2206450e91c38722ca4375f"
     },
     {
       "id": "FCL-0050",
@@ -1583,8 +1127,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 14.053878800012171,
-      "peak_rss_bytes": 728760320,
+      "duration_seconds": 14.053653699986171,
+      "peak_rss_bytes": 727330816,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0050.json\nQUALIFICATION GATE: FAIL 31 audit check(s) failed.",
       "stderr": "",
@@ -1611,8 +1155,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.8207021999987774,
-      "peak_rss_bytes": 218292224,
+      "duration_seconds": 3.8214770999911707,
+      "peak_rss_bytes": 217612288,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0051.json\nQUALIFICATION GATE: FAIL 27 audit check(s) failed.",
       "stderr": "",
@@ -1639,8 +1183,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 4.824833699996816,
-      "peak_rss_bytes": 201478144,
+      "duration_seconds": 4.825427800009493,
+      "peak_rss_bytes": 207044608,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0053.json",
       "stderr": "",
@@ -1672,7 +1216,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "448b69be60513849ed6773294d12a14ad3b13c2773517971ec00545eb0c6ad5f"
+      "qf_result_sha256": "b3d7ac41e3c843b30fe8be29fd145eb0cef63e5931978d1fa5c2a90399e3a19c"
     },
     {
       "id": "FCL-0055",
@@ -1692,8 +1236,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 5.628833499999018,
-      "peak_rss_bytes": 316944384,
+      "duration_seconds": 5.628979300003266,
+      "peak_rss_bytes": 315830272,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0055.json\nQUALIFICATION GATE: FAIL 107 audit check(s) failed.",
       "stderr": "",
@@ -1701,32 +1245,6 @@
       "solve_status": "PASS",
       "run_verdict": "FAIL",
       "reason": "107 audit check(s) failed."
-    },
-    {
-      "id": "FCL-0056",
-      "source_path": "Generic objects/euro-coin.step",
-      "mesh_type": "TET4",
-      "command": [
-        "C:\\Python313\\python.exe",
-        "qf_solver.py",
-        "solve",
-        "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\datasets\\public_volumetric\\FCL-0056\\qf_case.json",
-        "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0056.json",
-        "--analysis",
-        "linear_static",
-        "--method",
-        "direct"
-      ],
-      "timeout_seconds": 120.0,
-      "duration_seconds": 29.704535299999407,
-      "peak_rss_bytes": 599588864,
-      "return_code": 3,
-      "stdout": "",
-      "stderr": "ERROR[NumericalConvergenceError]: direct residual is abnormal: relative=7.374324e-06, allowed=1.000000e-07.\n{\"converged\": false, \"diagnostics\": {}, \"message\": \"direct residual is abnormal: relative=7.374324e-06, allowed=1.000000e-07.\", \"reason\": null}",
-      "status": "FAIL",
-      "reason": "missing or invalid QF result: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_foundation\\\\qualification\\\\0_2_6\\\\public_volumetric_qf_results\\\\FCL-0056.json'"
     },
     {
       "id": "FCL-0057",
@@ -1746,8 +1264,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.6201768000028096,
-      "peak_rss_bytes": 208474112,
+      "duration_seconds": 3.6202853999857325,
+      "peak_rss_bytes": 222892032,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0057.json\nQUALIFICATION GATE: FAIL 2 audit check(s) failed.",
       "stderr": "",
@@ -1774,8 +1292,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 5.824852000019746,
-      "peak_rss_bytes": 285130752,
+      "duration_seconds": 5.826471600012155,
+      "peak_rss_bytes": 236691456,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0059.json",
       "stderr": "",
@@ -1807,7 +1325,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "eabc86816cf2364aec5cae95e5c4fe6e145debf5cf338b7191fdc7839c1408a6"
+      "qf_result_sha256": "f586ac38ffc5b195c48530975ebdd9dec8c58b0bb64fce42e6cd5249592fef7f"
     },
     {
       "id": "FCL-0060",
@@ -1827,39 +1345,13 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 120.32067490002373,
-      "peak_rss_bytes": 1860956160,
+      "duration_seconds": 120.12616060001892,
+      "peak_rss_bytes": 1789661184,
       "return_code": 1,
       "stdout": "",
       "stderr": "",
       "status": "TIMEOUT",
       "reason": "QF execution exceeded 120 seconds"
-    },
-    {
-      "id": "FCL-0062",
-      "source_path": "Generic objects/plastic_part_PcBox.step",
-      "mesh_type": "TET4",
-      "command": [
-        "C:\\Python313\\python.exe",
-        "qf_solver.py",
-        "solve",
-        "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\datasets\\public_volumetric\\FCL-0062\\qf_case.json",
-        "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0062.json",
-        "--analysis",
-        "linear_static",
-        "--method",
-        "direct"
-      ],
-      "timeout_seconds": 120.0,
-      "duration_seconds": 1.8137874999956694,
-      "peak_rss_bytes": 109289472,
-      "return_code": 2,
-      "stdout": "",
-      "stderr": "ERROR[MeshValidationError]: Mesh validation failed: Element 249: repeated node in connectivity.; Element 250: repeated node in connectivity.; Element 282: repeated node in connectivity.; Element 283: repeated node in connectivity.",
-      "status": "FAIL",
-      "reason": "missing or invalid QF result: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_foundation\\\\qualification\\\\0_2_6\\\\public_volumetric_qf_results\\\\FCL-0062.json'"
     },
     {
       "id": "FCL-0065",
@@ -1879,8 +1371,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 4.6196319999871776,
-      "peak_rss_bytes": 260558848,
+      "duration_seconds": 4.824705700011691,
+      "peak_rss_bytes": 215367680,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0065.json\nQUALIFICATION GATE: FAIL 17 audit check(s) failed.",
       "stderr": "",
@@ -1907,8 +1399,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 5.225586699991254,
-      "peak_rss_bytes": 250773504,
+      "duration_seconds": 5.223519199993461,
+      "peak_rss_bytes": 202670080,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0068.json\nQUALIFICATION GATE: WARNING 12 audit warning(s) present.",
       "stderr": "",
@@ -1942,88 +1434,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "b6146f30f746da313c6d3ef6aa09f6f591313a51049792e64f5ec85b812fac41"
-    },
-    {
-      "id": "FCL-0069",
-      "source_path": "Industrial Design/Beds/SingleBed_900x2000mm.step",
-      "mesh_type": "TET4+TET10",
-      "command": [
-        "C:\\Python313\\python.exe",
-        "qf_solver.py",
-        "solve",
-        "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\datasets\\public_volumetric\\FCL-0069\\qf_case.json",
-        "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0069.json",
-        "--analysis",
-        "linear_static",
-        "--method",
-        "direct"
-      ],
-      "timeout_seconds": 120.0,
-      "duration_seconds": 3.420464799972251,
-      "peak_rss_bytes": 170393600,
-      "return_code": 0,
-      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0069.json\nQUALIFICATION GATE: WARNING 40 audit warning(s) present.",
-      "stderr": "",
-      "status": "PASS",
-      "solve_status": "PASS",
-      "run_verdict": "WARNING",
-      "node_count": 388,
-      "element_count": 965,
-      "ndof": 1164,
-      "max_displacement": 1.0592388040247504e-10,
-      "solver": {
-        "backend": {
-          "requested": "auto",
-          "selected": "scipy",
-          "fallback_used": false,
-          "petsc_available": false,
-          "slepc_available": false,
-          "reason": "SciPy selected as the standard backend"
-        },
-        "method": "direct",
-        "iterations": 1,
-        "converged": true,
-        "residual_norm": 4.795001606269236e-11,
-        "relative_residual_norm": 1.5163126459976444e-13,
-        "termination_reason": "converged"
-      },
-      "qualification_summary": {
-        "blocking_errors": [],
-        "warnings": [
-          "40 audit warning(s) present."
-        ],
-        "verification_profile": "engineering"
-      },
-      "qf_result_sha256": "5d83f100401f208ba6d32285d16dd303028f3b32fc08a04c1c805b200eaac9f6"
-    },
-    {
-      "id": "FCL-0070",
-      "source_path": "Industrial Design/Chairs/Adirondack Chair.step",
-      "mesh_type": "TET4",
-      "command": [
-        "C:\\Python313\\python.exe",
-        "qf_solver.py",
-        "solve",
-        "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\datasets\\public_volumetric\\FCL-0070\\qf_case.json",
-        "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0070.json",
-        "--analysis",
-        "linear_static",
-        "--method",
-        "direct"
-      ],
-      "timeout_seconds": 120.0,
-      "duration_seconds": 2.415183299977798,
-      "peak_rss_bytes": 115445760,
-      "return_code": 3,
-      "stdout": "",
-      "stderr": "ERROR[NumericalConvergenceError]: Direct sparse solve failed because the matrix is singular.\n{\"converged\": false, \"diagnostics\": {}, \"message\": \"Direct sparse solve failed because the matrix is singular.\", \"reason\": null}",
-      "status": "FAIL",
-      "reason": "missing or invalid QF result: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_foundation\\\\qualification\\\\0_2_6\\\\public_volumetric_qf_results\\\\FCL-0070.json'"
+      "qf_result_sha256": "6d1ecda1af46f90446a1a4cc83474870f3946920874240fa29a22bca9bc78466"
     },
     {
       "id": "FCL-0071",
@@ -2043,8 +1454,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.6192486999789253,
-      "peak_rss_bytes": 187162624,
+      "duration_seconds": 3.82620019998285,
+      "peak_rss_bytes": 177074176,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0071.json\nQUALIFICATION GATE: FAIL 5 audit check(s) failed.",
       "stderr": "",
@@ -2071,8 +1482,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.4162631000217516,
-      "peak_rss_bytes": 169447424,
+      "duration_seconds": 3.6279216000111774,
+      "peak_rss_bytes": 162406400,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0072.json\nQUALIFICATION GATE: WARNING 17 audit warning(s) present.",
       "stderr": "",
@@ -2106,7 +1517,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "fc6fefb850cd543a78898bd64898844d855c3586c7bf678caead94724ab474d3"
+      "qf_result_sha256": "89f3d3b1bf930fddec4e505843b249aa5f36bc66ac7d128b115e5bd90f03cd85"
     },
     {
       "id": "FCL-0076",
@@ -2126,8 +1537,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.821178599988343,
-      "peak_rss_bytes": 178704384,
+      "duration_seconds": 3.817863000003854,
+      "peak_rss_bytes": 177491968,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0076.json\nQUALIFICATION GATE: FAIL 1 audit check(s) failed.",
       "stderr": "",
@@ -2154,8 +1565,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.018413199984934,
-      "peak_rss_bytes": 153485312,
+      "duration_seconds": 3.2192519000091124,
+      "peak_rss_bytes": 152354816,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0077.json",
       "stderr": "",
@@ -2187,90 +1598,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "24cc04dae79331a39bbd690258fb0f483153447c281147bed6dbbc6d801849af"
-    },
-    {
-      "id": "FCL-0078",
-      "source_path": "Industrial Design/Shelf/Cloud_shelf.step",
-      "mesh_type": "TET4+TET10",
-      "command": [
-        "C:\\Python313\\python.exe",
-        "qf_solver.py",
-        "solve",
-        "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\datasets\\public_volumetric\\FCL-0078\\qf_case.json",
-        "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0078.json",
-        "--analysis",
-        "linear_static",
-        "--method",
-        "direct"
-      ],
-      "timeout_seconds": 120.0,
-      "duration_seconds": 7.033685300004436,
-      "peak_rss_bytes": 393461760,
-      "return_code": 4,
-      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0078.json\nQUALIFICATION GATE: FAIL 188 audit check(s) failed.",
-      "stderr": "",
-      "status": "FAIL",
-      "solve_status": "PASS",
-      "run_verdict": "FAIL",
-      "reason": "188 audit check(s) failed."
-    },
-    {
-      "id": "FCL-0080",
-      "source_path": "Industrial Design/Tables/ComputerDesk (100 x 50 x 75 cm WDH).step",
-      "mesh_type": "TET4+TET10",
-      "command": [
-        "C:\\Python313\\python.exe",
-        "qf_solver.py",
-        "solve",
-        "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\datasets\\public_volumetric\\FCL-0080\\qf_case.json",
-        "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0080.json",
-        "--analysis",
-        "linear_static",
-        "--method",
-        "direct"
-      ],
-      "timeout_seconds": 120.0,
-      "duration_seconds": 5.022546099993633,
-      "peak_rss_bytes": 216174592,
-      "return_code": 0,
-      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0080.json\nQUALIFICATION GATE: WARNING 1 audit warning(s) present.",
-      "stderr": "",
-      "status": "PASS",
-      "solve_status": "PASS",
-      "run_verdict": "WARNING",
-      "node_count": 803,
-      "element_count": 1848,
-      "ndof": 2409,
-      "max_displacement": 4.928435316500554e-10,
-      "solver": {
-        "backend": {
-          "requested": "auto",
-          "selected": "scipy",
-          "fallback_used": false,
-          "petsc_available": false,
-          "slepc_available": false,
-          "reason": "SciPy selected as the standard backend"
-        },
-        "method": "direct",
-        "iterations": 1,
-        "converged": true,
-        "residual_norm": 1.1539075025619188e-10,
-        "relative_residual_norm": 4.895614919541349e-13,
-        "termination_reason": "converged"
-      },
-      "qualification_summary": {
-        "blocking_errors": [],
-        "warnings": [
-          "1 audit warning(s) present."
-        ],
-        "verification_profile": "engineering"
-      },
-      "qf_result_sha256": "83728edc2db8485c6deac2d3d443d3e49cda03ca680a8a914950f278b4f78714"
+      "qf_result_sha256": "d652ddf291d54382f9389f9d0a01754c1c1a077ed2ba73c04eb8aa40858fcbc4"
     },
     {
       "id": "FCL-0081",
@@ -2290,8 +1618,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 4.823353500018129,
-      "peak_rss_bytes": 206053376,
+      "duration_seconds": 4.822742300020764,
+      "peak_rss_bytes": 244301824,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0081.json\nQUALIFICATION GATE: WARNING 12 audit warning(s) present.",
       "stderr": "",
@@ -2325,7 +1653,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "1b28e487f94bbceb72443d7a8ca379b641f4f36b672f8fcf332fc80732f9928a"
+      "qf_result_sha256": "d3fdc95bd491d880083e8cb3dd8196c55d6dff8f96b07093863565b3bc97936d"
     },
     {
       "id": "FCL-0082",
@@ -2345,8 +1673,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.619344300008379,
-      "peak_rss_bytes": 161382400,
+      "duration_seconds": 3.420861699996749,
+      "peak_rss_bytes": 221618176,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0082.json\nQUALIFICATION GATE: WARNING 3 audit warning(s) present.",
       "stderr": "",
@@ -2380,7 +1708,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "de7699e5fe7c9f0849aa207f1fee17fde4870001dd486c8488d37d334a8d10c2"
+      "qf_result_sha256": "582dd5bdf0cbfd8098634ab52d212b7621be2b440bb774be9f2438036442406a"
     },
     {
       "id": "FCL-0083",
@@ -2400,8 +1728,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 2.413779800001066,
-      "peak_rss_bytes": 132648960,
+      "duration_seconds": 2.4159342999919318,
+      "peak_rss_bytes": 129564672,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0083.json",
       "stderr": "",
@@ -2433,7 +1761,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "8d8a0579eb4773ae510dcd4ce2d3d91a01923577cfea9747007f1b3eb83a586e"
+      "qf_result_sha256": "eaca9b3d9d8bd3c2a1d504486d91fa0098a2d3d12d1fdf3b0b72c923bbcedb88"
     },
     {
       "id": "FCL-0084",
@@ -2453,8 +1781,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 8.23892960001831,
-      "peak_rss_bytes": 442015744,
+      "duration_seconds": 8.239321600005496,
+      "peak_rss_bytes": 441618432,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0084.json\nQUALIFICATION GATE: WARNING 51 audit warning(s) present.",
       "stderr": "",
@@ -2488,7 +1816,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "38120d34ee25f173dc0d68daba01ec3a5e84e263e7dc7d56ea0e18fa42a3a898"
+      "qf_result_sha256": "e87f5611b73035190b2e96534054f4eb85e664ae6977575b5fb234bb8781a436"
     },
     {
       "id": "FCL-0085",
@@ -2508,8 +1836,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 5.223054300004151,
-      "peak_rss_bytes": 293416960,
+      "duration_seconds": 5.224907299998449,
+      "peak_rss_bytes": 295018496,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0085.json\nQUALIFICATION GATE: FAIL 80 audit check(s) failed.",
       "stderr": "",
@@ -2536,8 +1864,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 2.0133842999930494,
-      "peak_rss_bytes": 115965952,
+      "duration_seconds": 2.0168364999990445,
+      "peak_rss_bytes": 116789248,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0086.json",
       "stderr": "",
@@ -2569,7 +1897,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "6635c166111b0e2aba37d5a89891ab1e9e2914e9fe3b6f50acac8ab8d94e271e"
+      "qf_result_sha256": "1a5d7f785459935865ac725ccada4079685bca026e9440a55d85bd1528ebb25e"
     },
     {
       "id": "FCL-0087",
@@ -2589,8 +1917,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 9.038590299984207,
-      "peak_rss_bytes": 409010176,
+      "duration_seconds": 9.036426200007554,
+      "peak_rss_bytes": 408780800,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0087.json\nQUALIFICATION GATE: WARNING 141 audit warning(s) present.",
       "stderr": "",
@@ -2624,7 +1952,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "6464c3673af88b5af142138f10a124262713a16eb7993a677f526078efdab3ef"
+      "qf_result_sha256": "0548a721b46b44df2b8004b74523c4177cf735e4d858d2b4583c3cd253a0f08e"
     },
     {
       "id": "FCL-0088",
@@ -2644,8 +1972,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.41964989999542,
-      "peak_rss_bytes": 152956928,
+      "duration_seconds": 3.219313500012504,
+      "peak_rss_bytes": 154120192,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0088.json",
       "stderr": "",
@@ -2677,62 +2005,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "01af2905262f4559f156c49f7497a870d65b3cc9609918e303f943f36b5bd07c"
-    },
-    {
-      "id": "FCL-0089",
-      "source_path": "Mechanical Parts/Pulleys/GT2Pulley-V2.stp",
-      "mesh_type": "TET4+TET10",
-      "command": [
-        "C:\\Python313\\python.exe",
-        "qf_solver.py",
-        "solve",
-        "--input",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\datasets\\public_volumetric\\FCL-0089\\qf_case.json",
-        "--output",
-        "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0089.json",
-        "--analysis",
-        "linear_static",
-        "--method",
-        "direct"
-      ],
-      "timeout_seconds": 120.0,
-      "duration_seconds": 7.229917200020282,
-      "peak_rss_bytes": 397799424,
-      "return_code": 0,
-      "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0089.json\nQUALIFICATION GATE: WARNING 23 audit warning(s) present.",
-      "stderr": "",
-      "status": "PASS",
-      "solve_status": "PASS",
-      "run_verdict": "WARNING",
-      "node_count": 987,
-      "element_count": 3305,
-      "ndof": 2961,
-      "max_displacement": 6.6647209083103345e-09,
-      "solver": {
-        "backend": {
-          "requested": "auto",
-          "selected": "scipy",
-          "fallback_used": false,
-          "petsc_available": false,
-          "slepc_available": false,
-          "reason": "SciPy selected as the standard backend"
-        },
-        "method": "direct",
-        "iterations": 1,
-        "converged": true,
-        "residual_norm": 3.8620018610837264e-11,
-        "relative_residual_norm": 7.724003722167411e-14,
-        "termination_reason": "converged"
-      },
-      "qualification_summary": {
-        "blocking_errors": [],
-        "warnings": [
-          "23 audit warning(s) present."
-        ],
-        "verification_profile": "engineering"
-      },
-      "qf_result_sha256": "5e1f3e3fd74a82a939d7c81ebec72132e0bd5d0aab92d53ff5b2403a8f4d3b3f"
+      "qf_result_sha256": "a24c6726ea51cd739c85fd6495f29b54a413bef8ea16e7985088ee1f6501490d"
     },
     {
       "id": "FCL-0090",
@@ -2752,8 +2025,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 4.020861300028628,
-      "peak_rss_bytes": 234942464,
+      "duration_seconds": 4.021453099994687,
+      "peak_rss_bytes": 235405312,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0090.json\nQUALIFICATION GATE: FAIL 1 audit check(s) failed.",
       "stderr": "",
@@ -2780,8 +2053,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 4.820435100002214,
-      "peak_rss_bytes": 211607552,
+      "duration_seconds": 4.822111500019673,
+      "peak_rss_bytes": 204566528,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0091.json",
       "stderr": "",
@@ -2813,7 +2086,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "4cf63f7b601f83d4ae5533f39c9a7d8f43db87c48ca00d843109b11f6355233e"
+      "qf_result_sha256": "53174969521d6da71e15a5654b2fc9bb83faa7d2ce4dc374d55dc1c68e9c6b56"
     },
     {
       "id": "FCL-0092",
@@ -2833,8 +2106,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 4.22801759999129,
-      "peak_rss_bytes": 231096320,
+      "duration_seconds": 4.020287299994379,
+      "peak_rss_bytes": 185458688,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0092.json\nQUALIFICATION GATE: WARNING 2 audit warning(s) present.",
       "stderr": "",
@@ -2868,7 +2141,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "9a696773503c521013e2856c047107a840c31447ddf43840faa282cc25dfc334"
+      "qf_result_sha256": "4e49381756823b20b99030b510ba968a948c3f5f097917768c2bb89b9de41f27"
     },
     {
       "id": "FCL-0094",
@@ -2888,8 +2161,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.631848800025182,
-      "peak_rss_bytes": 168099840,
+      "duration_seconds": 3.616858500026865,
+      "peak_rss_bytes": 165224448,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: PASS\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0094.json",
       "stderr": "",
@@ -2921,7 +2194,7 @@
         "warnings": [],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "5103a05ec1c70b17294ad1636ef9650fa6e9df7e2abf0bafb5347887f2e25ca6"
+      "qf_result_sha256": "7b4d81f8f8ea8fcf5d127ee9e77db8797d76b6b512debc5d0589a0f63b49ac5d"
     },
     {
       "id": "FCL-0095",
@@ -2941,8 +2214,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.8187660000112373,
-      "peak_rss_bytes": 203730944,
+      "duration_seconds": 3.8200595999951474,
+      "peak_rss_bytes": 177381376,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0095.json\nQUALIFICATION GATE: FAIL 4 audit check(s) failed.",
       "stderr": "",
@@ -2969,8 +2242,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 4.024199699983001,
-      "peak_rss_bytes": 225783808,
+      "duration_seconds": 4.017800599976908,
+      "peak_rss_bytes": 226029568,
       "return_code": 4,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: FAIL\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0096.json\nQUALIFICATION GATE: FAIL 4 audit check(s) failed.",
       "stderr": "",
@@ -2997,8 +2270,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 4.4215904000157025,
-      "peak_rss_bytes": 273743872,
+      "duration_seconds": 4.222766999999294,
+      "peak_rss_bytes": 233824256,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0097.json\nQUALIFICATION GATE: WARNING 3 audit warning(s) present.",
       "stderr": "",
@@ -3032,7 +2305,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "b29e2089c8ecab41fca0bc1e5ae31bd1d9897822fadaa18da5ae34783080f99a"
+      "qf_result_sha256": "89a9faffe900673b7c88e4e8a6935a927c2493b8dd710d89cc2b88a0b4dede19"
     },
     {
       "id": "FCL-0098",
@@ -3052,8 +2325,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.419918100000359,
-      "peak_rss_bytes": 181522432,
+      "duration_seconds": 3.419193699985044,
+      "peak_rss_bytes": 202424320,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0098.json\nQUALIFICATION GATE: WARNING 3 audit warning(s) present.",
       "stderr": "",
@@ -3087,7 +2360,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "ee1136c1034d384011267f3a4f6ba75ebf26e479b1e6240e23de7638ea876001"
+      "qf_result_sha256": "2df7e53f1bc94354128ebfcb774d4006d9c56f6a3bbc052c4efc9c45939f7f9c"
     },
     {
       "id": "FCL-0099",
@@ -3107,8 +2380,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 3.4214165000012144,
-      "peak_rss_bytes": 202940416,
+      "duration_seconds": 3.420718000008492,
+      "peak_rss_bytes": 171909120,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0099.json\nQUALIFICATION GATE: WARNING 95 audit warning(s) present.",
       "stderr": "",
@@ -3142,7 +2415,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "e96dd6e0ffd77b1dca4cd90cdb8c0b724ab2c867ab8505fa659760cba50d4c12"
+      "qf_result_sha256": "758d196e5bae0efa67020bb34ef9c9cb978d4dbf54ba0d6746dcfc353c214f4c"
     },
     {
       "id": "FCL-0100",
@@ -3162,8 +2435,8 @@
         "direct"
       ],
       "timeout_seconds": 120.0,
-      "duration_seconds": 2.8160059000074398,
-      "peak_rss_bytes": 148209664,
+      "duration_seconds": 2.8168931000109296,
+      "peak_rss_bytes": 145166336,
       "return_code": 0,
       "stdout": "SOLVE STATUS: PASS\nRUN VERDICT: WARNING\noutput: C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\qualification\\0_2_6\\public_volumetric_qf_results\\FCL-0100.json\nQUALIFICATION GATE: WARNING 2 audit warning(s) present.",
       "stderr": "",
@@ -3197,7 +2470,7 @@
         ],
         "verification_profile": "engineering"
       },
-      "qf_result_sha256": "1490a18c4bf6463a6c88d614704b61f592840673ab73c368db7f0c2c56d936ac"
+      "qf_result_sha256": "260a3b34657ce58f9b9a7186b4e0f4fab51b4b1305dd94b9501b4e45bff185a6"
     }
   ]
 }

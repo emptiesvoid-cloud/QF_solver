@@ -20,17 +20,20 @@ Raw STEP files and generated meshes remain in the ignored local cache
 | STEP candidates in pinned tree | 2,894 |
 | Selected records | 100 |
 | Downloaded records | 100 |
-| Volumes with a valid Gmsh TET4 mesh | 78 |
-| Records rejected or not meshed | 49 |
-| TET4-ready records | 78 |
-| TET10-ready records | 67 |
+| Volumes with a valid Gmsh TET4 mesh | 76 |
+| Usable neutral QF cases | 56 |
+| Records rejected or not meshed | 51 |
+| TET4-ready records | 56 |
+| TET10-ready records | 54 |
 | HEX8-ready records | 0 |
 | HEX20-ready records | 0 |
 
-The 22 non-meshed selected records and 27 pre-selection rejections remain
-visible in the manifest with their reasons. No HEX result is inferred from a
-tetrahedral mesh and no recombination success is claimed where Gmsh did not
-produce a coherent hexahedral mesh.
+The 22 non-meshed selected records and 29 rejections remain visible in the
+manifest with their reasons. Twenty additional valid meshes are retained as
+`MESH_ONLY` because they contain disconnected components and are not suitable
+for the single-domain neutral boundary convention. No HEX result is inferred
+from a tetrahedral mesh and no recombination success is claimed where Gmsh did
+not produce a coherent hexahedral mesh.
 
 ## QF execution
 
@@ -41,21 +44,23 @@ of each result before deleting the large runtime JSON.
 
 | Metric | Result |
 | --- | ---: |
-| QF cases attempted | 78 |
-| Numerical solve status PASS | 39 |
+| QF cases attempted | 56 |
+| Numerical solve status PASS | 34 |
 | PASS with `run_verdict=PASS` | 15 |
-| PASS with `run_verdict=WARNING` | 24 |
-| True QF FAIL | 38 |
+| PASS with `run_verdict=WARNING` | 19 |
+| True QF FAIL | 21 |
 | Timeout | 1 |
 | Maximum completed-case DDL | 8,178 |
 | Maximum observed RSS | about 1.79 GiB |
 
 Warnings are not promoted to qualification: they principally report mesh
 quality below the bounded TET4 audit threshold. The true failures are retained
-as diagnostic evidence. They include audit-gate rejection for low-quality
-meshes, abnormal direct residuals, repeated-node connectivity, one singular
-matrix and one 120-second timeout. The campaign therefore demonstrates
-pipeline diversity and fail-closed behavior, not universal solve success.
+as diagnostic evidence. They are low-quality connected meshes plus one
+120-second timeout. Earlier triage also identified disconnected assemblies
+and repeated connectivity; the generator now keeps those as `MESH_ONLY` or
+`REJECTED` instead of sending ambiguous cases to QF. The campaign therefore
+demonstrates pipeline diversity and fail-closed behavior, not universal solve
+success.
 
 ## Reproduction
 
@@ -69,6 +74,8 @@ python scripts/run_public_volumetric_cases.py --timeout 120
 The second command writes the compact report
 `public_volumetric_qf_results.json` and removes per-case runtime results to
 avoid turning a large displacement field into versioned evidence.
+The case-by-case failure classification is recorded in
+[`public_volumetric_triage.md`](public_volumetric_triage.md).
 
 ## Provenance and limitations
 
@@ -85,7 +92,7 @@ avoid turning a large displacement field into versioned evidence.
   maximum-x nodes. This is a reproducible smoke convention, not a physical
   load case for the represented object.
 - TET10 availability is recorded as a mesh capability; the generated QF smoke
-  case currently uses TET4. HEX8/HEX20 comparison is not available in this
+  cases currently use TET4. HEX8/HEX20 comparison is not available in this
   corpus snapshot.
 - The corpus does not qualify stresses, convergence, element formulations or
   material behavior, and it is not a replacement for element-level V&V.
