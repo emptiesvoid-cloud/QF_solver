@@ -30,7 +30,7 @@ EXCLUDED_TERMS = (
     "aircraft", "aerospace", "airplane", "helicopter", "jet engine", "rocket",
     "turbine", "compressor", "turbomach", "casing", "engine", "turbojet",
     "propeller", "fuselage", "airframe", "rotorcraft", "crankshaft", "piston",
-    "spark plug", "exhaust", "intake manifold",
+    "spark plug", "exhaust", "intake manifold", "motor", "motors",
 )
 
 
