@@ -69,7 +69,12 @@
       ]
     },
     {
-      "evidence_ids": [],
+      "evidence_ids": [
+        "g07_requirements.json",
+        "g07_capability_matrix.json",
+        "0_2_6_master_plan.md",
+        "0_2_6_gate_matrix.md"
+      ],
       "id": "026-G07",
       "status": "NOT_STARTED",
       "title": "Geometric nonlinear and arc-length review"

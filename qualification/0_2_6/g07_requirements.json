@@ -1,0 +1,210 @@
+{
+  "schema_version": 1,
+  "gate": "026-G07",
+  "title": "Geometric nonlinear and arc-length review",
+  "status": "CONTRACT_DEFINED_GATE_NOT_STARTED",
+  "policy": "This contract defines the evidence required for Step 2. It does not close the gate or promote a capability.",
+  "scope": {
+    "total_lagrangian_elasticity": {
+      "candidate_qualified_families": ["TET4", "HEX8"],
+      "research_families": ["TET10", "HEX20"],
+      "material": "existing Total-Lagrangian elasticity route only",
+      "analysis": "existing geometric nonlinear static route",
+      "claim_boundary": "bounded tested domain only; no universal large-deformation claim"
+    },
+    "arc_length": {
+      "families": ["TET4"],
+      "target_maturity": "PASS_INTERNAL_RESEARCH",
+      "claim_boundary": "controlled internal branch evidence; not production qualification"
+    },
+    "excluded": [
+      "finite-kinematic J2",
+      "coupled nonlinear workflows",
+      "contact and friction qualification",
+      "new formulations",
+      "new physics"
+    ]
+  },
+  "requirements": [
+    {
+      "id": "G07-TL-001",
+      "priority": "MUST",
+      "route": "total_lagrangian_elasticity",
+      "phenomenon": "Small-strain limit",
+      "metric": "relative difference against the existing linear solution at a documented small-strain load",
+      "threshold": {
+        "status": "PROPOSED_OWNER_REVIEW",
+        "value": null,
+        "source": "TOL-026-NONLINEAR-001 is case-defined and has no numeric value"
+      },
+      "oracle": ["existing linear route", "case configuration"],
+      "evidence": "case result, comparison metric, configuration and digest"
+    },
+    {
+      "id": "G07-TL-002",
+      "priority": "MUST",
+      "route": "total_lagrangian_elasticity",
+      "phenomenon": "Rigid-body invariance and objectivity",
+      "metric": "spurious strain, stress, internal force and energy under rigid translation/rotation",
+      "threshold": {
+        "status": "PROPOSED_OWNER_REVIEW",
+        "value": null,
+        "source": "No G07-specific numeric band exists"
+      },
+      "oracle": ["exact rigid-motion invariant"],
+      "evidence": "translation, rotation and combined-motion result records"
+    },
+    {
+      "id": "G07-TL-003",
+      "priority": "MUST",
+      "route": "total_lagrangian_elasticity",
+      "phenomenon": "Large-rotation and bounded finite-deformation response",
+      "metric": "load-displacement, rotation, det(F), residual and Newton history within the declared domain",
+      "threshold": {
+        "status": "PROPOSED_OWNER_REVIEW",
+        "value": null,
+        "source": "TOL-026-NONLINEAR-001 remains case-defined"
+      },
+      "oracle": ["controlled benchmark", "compatible external reference when available"],
+      "evidence": "complete history and determinant bounds"
+    },
+    {
+      "id": "G07-TL-004",
+      "priority": "MUST",
+      "route": "total_lagrangian_elasticity",
+      "phenomenon": "Global equilibrium and residual control",
+      "metric": "relative residual, reaction balance and accepted Newton increments",
+      "threshold": {
+        "status": "EXISTING_POLICY_REFERENCE",
+        "value": null,
+        "source": "TOL-026-NONLINEAR-001; reuse existing qualified limits"
+      },
+      "oracle": ["global equilibrium identity"],
+      "evidence": "residual history, reactions and convergence reason"
+    },
+    {
+      "id": "G07-TL-005",
+      "priority": "MUST",
+      "route": "total_lagrangian_elasticity",
+      "phenomenon": "Element tangent consistency",
+      "metric": "finite-difference comparison of element internal force and tangent",
+      "threshold": {
+        "status": "PROPOSED_OWNER_REVIEW",
+        "value": null,
+        "source": "No G07-specific tangent band exists"
+      },
+      "oracle": ["finite-difference derivative"],
+      "evidence": "perturbation size, norm, error and tangent record"
+    },
+    {
+      "id": "G07-TL-006",
+      "priority": "MUST",
+      "route": "total_lagrangian_elasticity",
+      "phenomenon": "Mesh refinement",
+      "metric": "successive change in declared observables across coarse, medium, fine and refined compatible meshes",
+      "threshold": {
+        "status": "PROPOSED_OWNER_REVIEW",
+        "value": null,
+        "source": "No G07-specific mesh band exists"
+      },
+      "oracle": ["bounded refinement trend"],
+      "evidence": "mesh descriptors, DOF, curves, observable differences and limitation"
+    },
+    {
+      "id": "G07-TL-007",
+      "priority": "MUST",
+      "route": "total_lagrangian_elasticity",
+      "phenomenon": "Increment refinement and reproducibility",
+      "metric": "same physical load history compared across documented increment partitions and repeated runs",
+      "threshold": {
+        "status": "PROPOSED_OWNER_REVIEW",
+        "value": null,
+        "source": "No G07-specific increment or reproducibility band exists"
+      },
+      "oracle": ["same-input deterministic replay"],
+      "evidence": "input digest, source SHA, environment, partition, output digest and dirty=false"
+    },
+    {
+      "id": "G07-TL-008",
+      "priority": "MUST",
+      "route": "total_lagrangian_elasticity",
+      "phenomenon": "Independent correlation",
+      "metric": "documented comparison of complete compatible response histories",
+      "threshold": {
+        "status": "PROPOSED_OWNER_REVIEW",
+        "value": null,
+        "source": "Oracle-specific; no new threshold is approved here"
+      },
+      "oracle": ["analytical when available", "Code_Aster or CalculiX when compatible"],
+      "evidence": "source, assumptions, deck, metrics, error, tool version and digest"
+    },
+    {
+      "id": "G07-ARC-001",
+      "priority": "MUST",
+      "route": "arc_length",
+      "phenomenon": "Branch tracking and limit point",
+      "metric": "load factor versus controlled displacement, branch direction and turning point",
+      "threshold": {
+        "status": "EXISTING_POLICY_REFERENCE",
+        "value": null,
+        "source": "Analytical/benchmark-specific; route remains research"
+      },
+      "oracle": ["existing shallow-arch analytical model", "compatible FEM reference when available"],
+      "evidence": "complete branch, turning-point diagnostics and residual history"
+    },
+    {
+      "id": "G07-ARC-002",
+      "priority": "MUST",
+      "route": "arc_length",
+      "phenomenon": "Arc-step sensitivity and mesh sensitivity",
+      "metric": "branch and turning-point changes under documented arc-step and mesh levels",
+      "threshold": {
+        "status": "PROPOSED_OWNER_REVIEW",
+        "value": null,
+        "source": "No G07-specific sensitivity band exists"
+      },
+      "oracle": ["bounded internal trend"],
+      "evidence": "radius, step count, mesh, branch curves and limitation"
+    },
+    {
+      "id": "G07-ARC-003",
+      "priority": "MUST",
+      "route": "arc_length",
+      "phenomenon": "Restart, rollback and controlled failure",
+      "metric": "state equality at checkpoint, correct rollback and deterministic retry outcome",
+      "threshold": {
+        "status": "EXISTING_POLICY_REFERENCE",
+        "value": 0.0,
+        "source": "TOL-026-EXACT-001 for transaction invariants"
+      },
+      "oracle": ["checkpoint/replay identity"],
+      "evidence": "checkpoint digest, failure classification, rollback record and retry history"
+    },
+    {
+      "id": "G07-ARC-004",
+      "priority": "MUST",
+      "route": "arc_length",
+      "phenomenon": "External reference boundary",
+      "metric": "independent reproducible reference comparison when formulation-compatible",
+      "threshold": {
+        "status": "PROPOSED_OWNER_REVIEW",
+        "value": null,
+        "source": "Absence or non-comparability is recorded as SKIPPED, never PASS"
+      },
+      "oracle": ["Code_Aster/CalculiX/literature when compatible"],
+      "evidence": "reference provenance and explicit research-only limitation"
+    }
+  ],
+  "threshold_governance": {
+    "status": "OWNER_REVIEW_REQUIRED",
+    "approved_policies": ["TOL-026-EXACT-001", "TOL-026-NONLINEAR-001"],
+    "proposed_owner_review_count": 9,
+    "rule": "No null policy may be converted into a numerical pass band by the runner."
+  },
+  "gate_boundary": {
+    "maximum_arc_length_maturity": "PASS_INTERNAL_RESEARCH",
+    "gate_closure": "not permitted by this contract alone",
+    "finite_kinematic_j2": "excluded",
+    "coupled_nonlinear": "excluded"
+  }
+}
