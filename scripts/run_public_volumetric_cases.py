@@ -113,7 +113,10 @@ def _run_case(root: Path, case: dict[str, Any], timeout: float, output_dir: Path
         payload = json.loads(result_path.read_text(encoding="utf-8"))
     except (FileNotFoundError, json.JSONDecodeError) as exc:
         result_path.unlink(missing_ok=True)
-        result.update({"status": "FAIL", "reason": f"missing or invalid QF result: {exc}"})
+        result.update({
+            "status": "FAIL",
+            "reason": _portable_output(root, f"missing or invalid QF result: {exc}"),
+        })
         return result
     qf_status = payload.get("status", "FAIL")
     run_verdict = payload.get("run_verdict")
@@ -127,7 +130,10 @@ def _run_case(root: Path, case: dict[str, Any], timeout: float, output_dir: Path
             "status": "FAIL",
             "solve_status": qf_status,
             "run_verdict": run_verdict,
-            "reason": reason or stderr.strip() or stdout.strip() or f"exit code {process.returncode}",
+            "reason": (
+                _portable_output(root, reason or stderr.strip() or stdout.strip())
+                or f"exit code {process.returncode}"
+            ),
         })
         result_path.unlink(missing_ok=True)
         return result
