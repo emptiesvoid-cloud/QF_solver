@@ -455,10 +455,13 @@ def run_energy_balance_benchmark(
     }
 
 
-def run_adversarial_rollback_benchmark() -> dict[str, Any]:
+def run_adversarial_rollback_benchmark(element_type: str = "TET4") -> dict[str, Any]:
     """Reject one trial increment and verify clean cutback/retry semantics."""
 
-    model = _multi_element_model("TET4")
+    family = str(element_type).upper()
+    if family not in ELEMENT_TYPES:
+        raise ValueError(f"Unsupported rollback benchmark element {element_type!r}.")
+    model = _multi_element_model(family)
     parameters = dict(model.analysis.parameters)
     parameters.pop("load_path", None)
     parameters.update(
@@ -542,7 +545,7 @@ def run_adversarial_rollback_benchmark() -> dict[str, Any]:
     solver = RejectFirstTrialSolver()
     result = solver.solve(model)
 
-    reference_model = _multi_element_model("TET4")
+    reference_model = _multi_element_model(family)
     reference_model.analysis = replace(
         reference_model.analysis,
         parameters={
@@ -565,6 +568,7 @@ def run_adversarial_rollback_benchmark() -> dict[str, Any]:
     )
     data = result.to_dict()["solver"]
     return {
+        "element": family,
         "status": "PASS_INTERNAL_ROLLBACK" if result.status == "PASS" and solver.clean_retry and data["rejected_increments"] == 1 else "FAIL",
         "solver_status": result.status,
         "clean_retry": solver.clean_retry,
