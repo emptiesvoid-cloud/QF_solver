@@ -20,10 +20,13 @@
       ],
       "evidence": [
         "g05_evidence.json",
-        "0_2_6_g05_evidence.md"
+        "0_2_6_g05_evidence.md",
+        "g05_requirements.json",
+        "g05_deep_case_registry.json",
+        "0_2_6_g05b_evidence.md"
       ],
       "id": "026-WP05-G05",
-      "note": "Distinct work-package identifier. Official gate 026-G05 remains Modal / dynamic / harmonic maturity.",
+      "note": "Distinct work-package identifier. G05-B adds 12 executed TET4 cases as supplemental evidence; official gate 026-G05 remains Modal / dynamic / harmonic maturity and is not closed.",
       "related_official_gate": "026-G05",
       "status": "PASS_WITH_LIMITATIONS",
       "title": "Bounded V&V and robustness execution batch"
