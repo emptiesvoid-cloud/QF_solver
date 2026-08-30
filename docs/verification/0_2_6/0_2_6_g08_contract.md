@@ -3,9 +3,10 @@
 ## Status
 
 `026-G08` is **PASS_WITH_LIMITATIONS** by explicit Owner closeout. This
-document defines the contract and summarizes the archived evidence; the
+document defines the contract and summarizes the archived evidence; the active
 machine-readable decision is recorded in
-`qualification/0_2_6/g08_owner_closeout.json`.
+`qualification/0_2_6/g08_owner_final_review.json`. The earlier
+`g08_owner_closeout.json` remains retained historical evidence.
 
 ## Audited route
 
@@ -162,7 +163,29 @@ limitation for this benchmark. This is diagnostic evidence only: it does not
 modify the buckling formulation, create a universal locking threshold, or
 promote HEX8.
 
-## Owner closeout
+## Active Owner final review
+
+The active Owner review is archived in
+`qualification/0_2_6/g08_owner_final_review.json`, with the human-readable
+record in `0_2_6_g08_owner_final_review.md`. It confirms
+`PASS_WITH_LIMITATIONS` without lowering the contract and makes the family
+boundary explicit: TET4 is `QUALIFIED_BOUNDED`, TET10 and HEX20 are
+`PASS_WITH_LIMITATIONS`, and HEX8 is `MORE_EVIDENCE_REQUIRED`. HEX8 remains
+outside the qualified family subset because its corrected Euler screen is still
+`298.413%` from the continuum oracle, even though the same-model C3D8 check
+agrees with QF within `0.0003835%` and `0.0004065%`. That agreement supports a
+low-order discretization/locking diagnosis; it does not promote HEX8 or prove a
+QF defect.
+
+The active requirement disposition is six `OWNER_APPROVED_FULL` requirements
+(`G08-001`, `G08-002`, `G08-004`, `G08-006`, `G08-007`, `G08-009`) and three
+`OWNER_APPROVED_BOUNDED` requirements (`G08-003`, `G08-005`, `G08-008`). The
+superseded positive-load Euler screen is explicitly excluded from active
+metrics. The bounded claim remains limited to first linearized factor/first
+mode, homogeneous isotropic solid, nodal dead loads, sparse SciPy, and the
+tested domain; it is not a general physical-validation claim.
+
+## Historical Owner closeout
 
 The Owner decision is `PASS_WITH_LIMITATIONS`, with no solver or numerical
 formulation change. TET4 is `QUALIFIED_BOUNDED` for the tested first

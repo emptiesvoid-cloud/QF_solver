@@ -106,7 +106,9 @@
         "g08_high_order_analytical_evidence.json",
         "g08_high_order_analytical_evidence.md",
         "g08_euler_prevalidation_evidence.json",
-        "g08_euler_prevalidation_evidence.md"
+        "g08_euler_prevalidation_evidence.md",
+        "g08_owner_final_review.json",
+        "0_2_6_g08_owner_final_review.md"
       ],
       "id": "026-G08",
       "status": "PASS_WITH_LIMITATIONS",
