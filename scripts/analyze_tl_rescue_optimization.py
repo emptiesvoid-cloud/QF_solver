@@ -79,7 +79,11 @@ def _final_candidate_state(case: dict[str, Any]) -> dict[str, Any]:
 
 
 def _state_comparison(candidate: dict[str, Any], baseline: dict[str, Any]) -> dict[str, Any]:
-    current = _final_candidate_state(candidate)
+    current = (
+        candidate["final_state"]
+        if "final_state" in candidate
+        else _final_candidate_state(candidate)
+    )
     reference = baseline.get("final_state", {})
     differences: dict[str, float | None] = {}
     normalized: dict[str, float | None] = {}
