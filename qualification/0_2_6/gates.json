@@ -133,22 +133,27 @@
         "docs/verification/0_2_6/0_2_6_g09_lot3_contract.md",
         "docs/verification/0_2_6/0_2_6_g09_lot3_evidence.md",
         "g09_lot3_evidence.json",
-        "g09_lot3_manifest.json"
+        "g09_lot3_manifest.json",
+        "g09_owner_closeout.json",
+        "docs/verification/0_2_6/0_2_6_g09_owner_closeout.md"
       ],
       "id": "026-G09",
-      "status": "NOT_STARTED",
+      "status": "PASS_WITH_LIMITATIONS",
       "title": "Contact maturity extension",
       "lot1_status": "PASS_WITH_LIMITATIONS",
-      "lot1_gate_closure": false,
+      "lot1_gate_closure": true,
       "lot2_status": "PASS_WITH_LIMITATIONS",
-      "lot2_gate_closure": false,
+      "lot2_gate_closure": true,
       "lot3_status": "PASS_WITH_LIMITATIONS",
-      "lot3_gate_closure": false,
+      "lot3_gate_closure": true,
+      "owner_closeout": "g09_owner_closeout.json",
+      "penalty_policy_status": "EXPERIMENTAL_ONLY",
       "limitations": [
         "Lot 1 is bounded TET4 node-to-triangle frictionless penalty evidence.",
         "Lot 2 adds bounded mesh, load-path, rollback and adversarial evidence without changing the official gate status.",
         "Lot 3 adds bounded Code_Aster unilateral and CalculiX pre-contact comparisons; it does not validate the QF penalty law identically.",
-        "The Lot 3 candidate penalty interval, conditioning policy and mesh-dependent transition warning remain Owner-review items.",
+        "The Lot 3 candidate penalty interval remains experimental; no production interval or conditioning cutoff is approved.",
+        "The mesh-dependent transition warning is retained explicitly in the Owner closeout.",
         "General surface-to-surface, finite sliding and friction remain outside scope."
       ]
     },

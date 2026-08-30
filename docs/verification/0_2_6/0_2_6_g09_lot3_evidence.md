@@ -1,7 +1,8 @@
 # 026-G09 Contact Lot 3 Evidence
 
-Status: **PASS_WITH_LIMITATIONS**. The official `026-G09` gate remains
-`NOT_STARTED` pending the Owner decision on the bounded penalty candidate.
+Status: **PASS_WITH_LIMITATIONS**. This document records Lot 3 evidence before
+the final Owner decision. The current official `026-G09` status is
+`PASS_WITH_LIMITATIONS`, recorded in `0_2_6_g09_owner_closeout.md`.
 
 ## External runs
 
@@ -69,4 +70,5 @@ The external evidence is adequate for a bounded correlation statement about
 unilateral normal kinematics and the tested TET4 path. It is not evidence for
 finite sliding, surface-to-surface contact, friction, contact tangent
 qualification or a universal penalty range. The proposed lot status is
-`PASS_WITH_LIMITATIONS`; official G09 closure remains an Owner action.
+`PASS_WITH_LIMITATIONS`; the final bounded gate decision is recorded in
+`0_2_6_g09_owner_closeout.md`.

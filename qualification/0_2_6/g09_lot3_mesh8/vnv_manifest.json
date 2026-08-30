@@ -1,0 +1,274 @@
+{
+  "schema_version": 1,
+  "study_id": "VNV-CONTACT-CODEASTER-G09-LOT3-010",
+  "generated_utc": "2026-08-30T14:13:41.814183Z",
+  "source": {
+    "repository": ".",
+    "revision": "c76d4af39dc270a05596a53ef2d93baa9171c29b",
+    "dirty": false
+  },
+  "command": [
+    "-c"
+  ],
+  "runtime": {
+    "python": {
+      "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+      "executable": "C:\\Python313\\python.exe"
+    },
+    "platform": {
+      "system": "Windows",
+      "release": "10",
+      "machine": "AMD64",
+      "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+    },
+    "packages": {
+      "numpy": "2.2.6",
+      "scipy": "1.15.2",
+      "matplotlib": "3.10.3",
+      "h5py": "3.14.0",
+      "mpi4py": "4.1.0",
+      "petsc4py": null
+    },
+    "blas": {
+      "name": "scipy-openblas",
+      "version": "0.3.29",
+      "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+    },
+    "parallel_environment": {
+      "OMP_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "PETSC_ARCH": null
+    }
+  },
+  "files": [
+    {
+      "role": "figure",
+      "path": "contact_code_aster_curves.png",
+      "size_bytes": 296337,
+      "sha256": "514c1ac71c53cb475cd6b7eefeca00e94011cfc118822b9d7b3ec6aff5210e54"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "deformable_tet4_two_slaves/calculix_precontact.12d",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "deformable_tet4_two_slaves/calculix_precontact.cvg",
+      "size_bytes": 274,
+      "sha256": "65086dedb4572132b815ace04b294909c7f6f337111f9704fc310b02320f67f7"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "deformable_tet4_two_slaves/calculix_precontact.dat",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "deformable_tet4_two_slaves/calculix_precontact.frd",
+      "size_bytes": 79851,
+      "sha256": "9fc3047f6bde6b1a412596e2d5eaa866c776857b1692097e99532374c3be1003"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "deformable_tet4_two_slaves/calculix_precontact.inp",
+      "size_bytes": 19197,
+      "sha256": "cd401d5891250a15e3ae2fbe4e8bb6a9f64db67deab4e628d7fe793024793b5f"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "deformable_tet4_two_slaves/calculix_precontact.log",
+      "size_bytes": 2342,
+      "sha256": "aee74c3c279f8d97d5abe925bd1104a0c2324207a78b10395838120481f278a0"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "deformable_tet4_two_slaves/calculix_precontact.sta",
+      "size_bytes": 170,
+      "sha256": "01e324ec0ea28f4d1fd7f5e2da1277af53812b873e218be1604c17a4c8e4990d"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "deformable_tet4_two_slaves/code_aster_raw.json",
+      "size_bytes": 813,
+      "sha256": "bf9d21647675a49e989aab4febbdd4d8112f394e268cde75ca4ecc08def6ebb3"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "deformable_tet4_two_slaves/code_aster_stderr.log",
+      "size_bytes": 146,
+      "sha256": "37a7793e664f49fbbfde578e6e960f8c5869a52c95f7d9dfa216c84c2029bdb0"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "deformable_tet4_two_slaves/code_aster_stdout.log",
+      "size_bytes": 50563,
+      "sha256": "f8271a7e4f54b7e1edea7ea797ab57f32c5151e5dee84fc9c2a392216805dbde"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "deformable_tet4_two_slaves/deformable_tet4_two_slaves.comm",
+      "size_bytes": 2011,
+      "sha256": "97fe3906c21f8e3123206589f196d8d1de90b1a521cc40ac7825759ee6529f6d"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "deformable_tet4_two_slaves/deformable_tet4_two_slaves.mail",
+      "size_bytes": 26946,
+      "sha256": "ab049bdd76908a01152142c3afe711084b8554237785efa2830ef55825969edf"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "deformable_tet4_two_slaves/fort.15",
+      "size_bytes": 25921,
+      "sha256": "f32d89793476b2b905ed209cfe5b687bf642abca9a426642f4753aa547fdc6b1"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "deformable_tet4_two_slaves/fort.20",
+      "size_bytes": 26946,
+      "sha256": "ab049bdd76908a01152142c3afe711084b8554237785efa2830ef55825969edf"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "deformable_tet4_two_slaves/fort.8",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "deformable_tet4_two_slaves/fort.9",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "deformable_tet4_two_slaves/spooles.out",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "dual_stop_corner/code_aster_raw.json",
+      "size_bytes": 678,
+      "sha256": "0c4e2be4eb9786a461a6c0c84a7c23e94946c3f6dfd29d4882bb1fffe5e7883f"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "dual_stop_corner/code_aster_stderr.log",
+      "size_bytes": 146,
+      "sha256": "37a7793e664f49fbbfde578e6e960f8c5869a52c95f7d9dfa216c84c2029bdb0"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "dual_stop_corner/code_aster_stdout.log",
+      "size_bytes": 51511,
+      "sha256": "cb9103d52443a76c121b9367206c1c70e1925e6a8e965224681b477c995b19e9"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "dual_stop_corner/dual_stop_corner.comm",
+      "size_bytes": 2113,
+      "sha256": "7b1abe73ca58ba23aaa2205d80365b85fdcd9b36c1d85ea6da06254544590c92"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "dual_stop_corner/dual_stop_corner.mail",
+      "size_bytes": 159,
+      "sha256": "c048bd28dc962b7f7f5155773573bb9a1e27539d0fe82586cbd11b300dec9903"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "dual_stop_corner/fort.15",
+      "size_bytes": 16523,
+      "sha256": "2211ee062d6709b45a746fbcbc8510ba55c9c3c66935110353ba00857da6bfdc"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "dual_stop_corner/fort.20",
+      "size_bytes": 159,
+      "sha256": "c048bd28dc962b7f7f5155773573bb9a1e27539d0fe82586cbd11b300dec9903"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "dual_stop_corner/fort.8",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "dual_stop_corner/fort.9",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "faceted_ramp_patch/code_aster_raw.json",
+      "size_bytes": 972,
+      "sha256": "c1c6b26049068f2cd64140a1b53a27788791bb9ff8839e4929fc5fe78858d180"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "faceted_ramp_patch/code_aster_stderr.log",
+      "size_bytes": 146,
+      "sha256": "37a7793e664f49fbbfde578e6e960f8c5869a52c95f7d9dfa216c84c2029bdb0"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "faceted_ramp_patch/code_aster_stdout.log",
+      "size_bytes": 57195,
+      "sha256": "ce0840fcaa33d521d8d85c38f4949f6600346961de392ea7b34b5c846d67f690"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "faceted_ramp_patch/faceted_ramp_patch.comm",
+      "size_bytes": 2567,
+      "sha256": "39f0b542942a039b15f0ae0f61fd5f95bd57042c416be761bfe8b61b31d26cea"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "faceted_ramp_patch/faceted_ramp_patch.mail",
+      "size_bytes": 280,
+      "sha256": "82e370746db167f1fdc9ccac4ca0f581d72591ab8ba8f9b2408356a15a0e0c14"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "faceted_ramp_patch/fort.15",
+      "size_bytes": 22232,
+      "sha256": "0cf63fee7be07b7fb2260214888b721b6da8ab59e6be4c764e1420baaf038e66"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "faceted_ramp_patch/fort.20",
+      "size_bytes": 280,
+      "sha256": "82e370746db167f1fdc9ccac4ca0f581d72591ab8ba8f9b2408356a15a0e0c14"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "faceted_ramp_patch/fort.8",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "faceted_ramp_patch/fort.9",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "role": "owner_review_report",
+      "path": "report.md",
+      "size_bytes": 998,
+      "sha256": "2bd59270ca388ddd8280cca3573e4530443b333708eee379bbeb197e1650bad7"
+    },
+    {
+      "role": "normalized_results",
+      "path": "summary.json",
+      "size_bytes": 19854,
+      "sha256": "b0a7d16ed50e950586aa24d484a38d6b39d985ca3c8e5e4ecbb50b7308698c8a"
+    }
+  ]
+}

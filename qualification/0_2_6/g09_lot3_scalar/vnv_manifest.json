@@ -1,0 +1,172 @@
+{
+  "schema_version": 1,
+  "study_id": "VNV-CONTACT-CODEASTER-LIAISON-UNIL-001",
+  "generated_utc": "2026-08-30T14:13:13.453640Z",
+  "source": {
+    "repository": ".",
+    "revision": "c76d4af39dc270a05596a53ef2d93baa9171c29b",
+    "dirty": false
+  },
+  "command": [
+    "-c"
+  ],
+  "runtime": {
+    "python": {
+      "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+      "executable": "C:\\Python313\\python.exe"
+    },
+    "platform": {
+      "system": "Windows",
+      "release": "10",
+      "machine": "AMD64",
+      "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+    },
+    "packages": {
+      "numpy": "2.2.6",
+      "scipy": "1.15.2",
+      "matplotlib": "3.10.3",
+      "h5py": "3.14.0",
+      "mpi4py": "4.1.0",
+      "petsc4py": null
+    },
+    "blas": {
+      "name": "scipy-openblas",
+      "version": "0.3.29",
+      "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+    },
+    "parallel_environment": {
+      "OMP_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "PETSC_ARCH": null
+    }
+  },
+  "files": [
+    {
+      "role": "figure",
+      "path": "code_aster_contact_comparison.png",
+      "size_bytes": 31030,
+      "sha256": "30ee4a8bcede5f61c0e044b9ef66447878cf296de00af483b29a8b9dfd329e84"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "compression/code_aster_raw.json",
+      "size_bytes": 18,
+      "sha256": "3d43de3a28c76cafd24c8dca99e649bc78b41be4abea843551a27ba0fa9b6cf4"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "compression/code_aster_stderr.log",
+      "size_bytes": 146,
+      "sha256": "37a7793e664f49fbbfde578e6e960f8c5869a52c95f7d9dfa216c84c2029bdb0"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "compression/code_aster_stdout.log",
+      "size_bytes": 31367,
+      "sha256": "2c1a2724f5fd895e794cb5baa33253463a971a8403c22a6198d5ab54307e7825"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "compression/compression.comm",
+      "size_bytes": 1598,
+      "sha256": "84c0db32686d753b9466f492263bf39253f1fba0d6fcc5ede3147353146352cf"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "compression/compression.mail",
+      "size_bytes": 180,
+      "sha256": "9659128c992e18f3044beceac198dac7f1487a3326dcb10082f77a4b8874b8ff"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "compression/fort.15",
+      "size_bytes": 9936,
+      "sha256": "24c5d3a03f4642a87b17034746a5890ef95abbbf06dfbc31a1d16e8bb6323008"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "compression/fort.20",
+      "size_bytes": 180,
+      "sha256": "9659128c992e18f3044beceac198dac7f1487a3326dcb10082f77a4b8874b8ff"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "compression/fort.8",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "compression/fort.9",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "role": "owner_review_report",
+      "path": "report.md",
+      "size_bytes": 1087,
+      "sha256": "0b8d5c1c2dfdc009461a84579c8fd20434575005278814152379a04496068b66"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "separation/code_aster_raw.json",
+      "size_bytes": 18,
+      "sha256": "803c986b24ef9496d6d4a70d627107dbb096015d0201e4751fbdd1313c99ba50"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "separation/code_aster_stderr.log",
+      "size_bytes": 146,
+      "sha256": "37a7793e664f49fbbfde578e6e960f8c5869a52c95f7d9dfa216c84c2029bdb0"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "separation/code_aster_stdout.log",
+      "size_bytes": 31352,
+      "sha256": "bc9e867f95406473c24ec0f9292eb3bb988c0f691dc4c2d302045f845b3e0960"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "separation/fort.15",
+      "size_bytes": 9835,
+      "sha256": "1986d2c87b4c1aa8155a61f05eff5e68c8068c9542074674a5954a8c86714f5b"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "separation/fort.20",
+      "size_bytes": 180,
+      "sha256": "9659128c992e18f3044beceac198dac7f1487a3326dcb10082f77a4b8874b8ff"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "separation/fort.8",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "separation/fort.9",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "separation/separation.comm",
+      "size_bytes": 1596,
+      "sha256": "b44aadb93281fb19c84f3379227fec55dec417bea792fd072923cbfa2faa213d"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "separation/separation.mail",
+      "size_bytes": 180,
+      "sha256": "9659128c992e18f3044beceac198dac7f1487a3326dcb10082f77a4b8874b8ff"
+    },
+    {
+      "role": "normalized_results",
+      "path": "summary.json",
+      "size_bytes": 2371,
+      "sha256": "b28e18a718ecf402875247dbd08f80ff02057ded4bc16ad351ec8323e56b2dfa"
+    }
+  ]
+}

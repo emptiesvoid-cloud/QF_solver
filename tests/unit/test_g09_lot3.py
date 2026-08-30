@@ -38,8 +38,10 @@ def test_g09_lot3_contract_preserves_external_limitations() -> None:
     assert unsupported["expected"] == "UNSUPPORTED_EXPLICIT"
 
 
-def test_g09_lot3_keeps_official_gate_open_until_owner_action() -> None:
+def test_g09_lot3_run_evidence_preserves_pre_closeout_status() -> None:
+    evidence = json.loads((DATA / "g09_lot3_evidence.json").read_text(encoding="utf-8"))
     gates = json.loads((DATA / "gates.json").read_text(encoding="utf-8"))
     gate = next(item for item in gates["gates"] if item["id"] == "026-G09")
-    assert gate["status"] == "NOT_STARTED"
-    assert gate["lot3_gate_closure"] is False
+    assert evidence["official_gate_status"] == "NOT_STARTED"
+    assert gate["status"] == "PASS_WITH_LIMITATIONS"
+    assert gate["lot3_gate_closure"] is True
