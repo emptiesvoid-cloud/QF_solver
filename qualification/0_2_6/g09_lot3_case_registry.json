@@ -53,6 +53,16 @@
       "status": "NOT_SUPPORTED",
       "oracle": "explicit scope limitation",
       "expected": "UNSUPPORTED_EXPLICIT"
+    },
+    {
+      "case_id": "G09-L3-006",
+      "name": "code_aster_tet4_external_mesh_sensitivity",
+      "family": "TET4",
+      "route": "linear_static",
+      "requirements": ["G09-L3-002", "G09-L3-005"],
+      "status": "EXECUTED",
+      "oracle": "two-level complete displacement and gap curves with active-branch and transition diagnostics",
+      "expected": "PASS_WITH_EXTERNAL_WARNING"
     }
   ],
   "coverage_rule": "EXECUTED is not equivalent to QUALIFIED; the exact external comparator and limitations are retained per case."

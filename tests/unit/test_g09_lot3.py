@@ -19,6 +19,11 @@ def test_g09_lot3_external_evidence_is_bounded_and_provenanced() -> None:
     assert evidence["penalty_governance"]["status"] == "OWNER_REVIEW_REQUIRED"
     assert evidence["cases"]["tet4_two_slave_curve"]["overall_gap_curve_error"] > 0.5
     assert evidence["cases"]["tet4_two_slave_curve"]["active_gap_curve_error"] < 1e-8
+    mesh_levels = evidence["external_mesh_study"]["levels"]
+    assert len(mesh_levels) == 2
+    assert mesh_levels[0]["transition_warning_value"] < mesh_levels[0]["transition_warning_limit"]
+    assert mesh_levels[1]["transition_warning_value"] > mesh_levels[1]["transition_warning_limit"]
+    assert mesh_levels[1]["active_gap_curve_error"] < 1e-8
 
 
 def test_g09_lot3_contract_preserves_external_limitations() -> None:
@@ -28,8 +33,9 @@ def test_g09_lot3_contract_preserves_external_limitations() -> None:
     assert contract["penalty_policy"]["candidate_status"] == "OWNER_REVIEW_REQUIRED"
     assert contract["scope"]["finite_sliding"] is False
     assert contract["scope"]["surface_to_surface"] is False
-    assert len(registry["cases"]) == 5
-    assert registry["cases"][-1]["expected"] == "UNSUPPORTED_EXPLICIT"
+    assert len(registry["cases"]) == 6
+    unsupported = next(case for case in registry["cases"] if case["case_id"] == "G09-L3-005")
+    assert unsupported["expected"] == "UNSUPPORTED_EXPLICIT"
 
 
 def test_g09_lot3_keeps_official_gate_open_until_owner_action() -> None:

@@ -148,7 +148,7 @@
         "Lot 1 is bounded TET4 node-to-triangle frictionless penalty evidence.",
         "Lot 2 adds bounded mesh, load-path, rollback and adversarial evidence without changing the official gate status.",
         "Lot 3 adds bounded Code_Aster unilateral and CalculiX pre-contact comparisons; it does not validate the QF penalty law identically.",
-        "The Lot 3 candidate penalty interval and conditioning policy remain Owner-review items.",
+        "The Lot 3 candidate penalty interval, conditioning policy and mesh-dependent transition warning remain Owner-review items.",
         "General surface-to-surface, finite sliding and friction remain outside scope."
       ]
     },
