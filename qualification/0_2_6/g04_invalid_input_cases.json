@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "campaign_id": "026-G04-INVALID-001",
+  "gate": "026-G04",
+  "status": "CONTROLLED_EXECUTION",
+  "source_sha": "171bc93803690fb70b8831f17db81f60f4401ea6",
+  "policy": "Every case must reject with the declared stable error class and message fragment on two independent executions.",
+  "cases": [
+    {"case_id": "VNV026-G04-INV-001", "category": "invalid_connectivity", "operation": "read", "expected_exception": "InputValidationError", "message_fragment": "must contain exactly 4 node indices"},
+    {"case_id": "VNV026-G04-INV-002", "category": "incomplete_material", "operation": "read", "expected_exception": "InputValidationError", "message_fragment": "materials.steel.nu is required"},
+    {"case_id": "VNV026-G04-INV-003", "category": "insufficient_boundary_conditions", "operation": "solve", "expected_exception": "NumericalConvergenceError", "message_fragment": "matrix is singular"},
+    {"case_id": "VNV026-G04-INV-004", "category": "incoherent_boundary_dof", "operation": "solve", "expected_exception": "MeshValidationError", "message_fragment": "Fixed DOF RX is not active"},
+    {"case_id": "VNV026-G04-INV-005", "category": "degenerate_geometry", "operation": "solve", "expected_exception": "MeshValidationError", "message_fragment": "invalid TET4 signed corner volume"},
+    {"case_id": "VNV026-G04-INV-006", "category": "invalid_element_parameter", "operation": "read", "expected_exception": "InputValidationError", "message_fragment": "materials.beam.A must be positive"}
+  ]
+}

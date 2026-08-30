@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "campaign_id": "026-G04-TARGETED-CLOSURE-001",
+  "gate": "026-G04",
+  "status": "OWNER_CLOSEOUT_REQUIRED",
+  "source_sha": "171bc93803690fb70b8831f17db81f60f4401ea6",
+  "baseline_execution": "qualification/0_2_6/g04_execution_evidence.json",
+  "scope": "internal blocker closure only; no formulation, nonlinear, TL or global gate change",
+  "analytical_oracle_closure": {
+    "existing_executable_pass": 20,
+    "new_executable_pass": 0,
+    "not_applicable": 30,
+    "fail": 0,
+    "policy_id": "TOL-026-ANALYTICAL-001",
+    "records": [
+      {"case_ids": ["VNV026-HEX-G06-HEX20-001", "VNV026-HEX-G06-HEX20-006", "VNV026-HEX-G06-HEX20-008", "VNV026-HEX-G06-HEX8-001", "VNV026-HEX-G06-HEX8-006", "VNV026-HEX-G06-HEX8-008"], "requirement_ids": ["G04-LIN-001", "G04-LIN-003", "G04-LIN-005", "G04-LIN-008"], "families": ["HEX8", "HEX20"], "oracle": "constrained_free_dof", "result": "NOT_APPLICABLE", "justification": "These multi-constraint static models do not satisfy the oracle preconditions (single element, one free-node UX load); no substitute closed form was invented."},
+      {"case_ids": ["VNV026-LIN-G06-M001", "VNV026-LIN-G06-M002", "VNV026-LIN-G06-M003", "VNV026-LIN-G06-M004", "VNV026-LIN-G06-M005", "VNV026-LIN-G06-M006", "VNV026-LIN-G06-M007", "VNV026-LIN-G06-M008", "VNV026-LIN-G06-M009", "VNV026-LIN-G06-M010", "VNV026-LIN-G06-M011", "VNV026-LIN-G06-M012", "VNV026-LIN-G06-M013", "VNV026-LIN-G06-M014", "VNV026-LIN-G06-M015", "VNV026-LIN-G06-M016"], "requirement_ids": ["G04-LIN-001", "G04-LIN-005", "G04-LIN-008"], "families": ["HEX8"], "oracle": "constrained_free_dof", "result": "NOT_APPLICABLE", "justification": "These are multi-element refinement records; the declared per-case oracle is not applicable. A separate new controlled series-level q_ref study is reported below."},
+      {"case_ids": ["VNV026-RBT-G06-001", "VNV026-RBT-G06-002"], "requirement_ids": ["G04-LIN-001", "G04-LIN-003", "G04-LIN-005", "G04-LIN-008"], "families": ["TET4"], "oracle": "constrained_free_dof", "result": "NOT_APPLICABLE", "justification": "The nodal compression and distributed-pressure cases have multi-constraint/load conventions outside the one-element oracle contract."},
+      {"case_ids": ["VNV026-RBT-G06-003"], "requirement_ids": ["G04-LIN-001", "G04-LIN-003", "G04-LIN-004", "G04-LIN-008"], "families": ["TET10"], "oracle": "constrained_free_dof", "result": "NOT_APPLICABLE", "justification": "The model uses orthotropic material data, while the controlled oracle is isotropic-only."},
+      {"case_ids": ["VNV026-RBT-G06-004"], "requirement_ids": ["G04-LIN-001", "G04-LIN-003", "G04-LIN-004", "G04-LIN-008"], "families": ["BEAM2"], "oracle": "constrained_free_dof", "result": "NOT_APPLICABLE", "justification": "The oracle is a continuum solid oracle and does not apply to BEAM2 kinematics."},
+      {"case_ids": ["VNV026-RBT-G06-005", "VNV026-RBT-G06-006"], "requirement_ids": ["G04-LIN-001", "G04-LIN-003", "G04-LIN-004", "G04-LIN-008"], "families": ["MITC3", "MITC4"], "oracle": "constrained_free_dof", "result": "NOT_APPLICABLE", "justification": "The oracle is not defined for shell kinematics; MITC3/MITC4 material/orientation limits remain explicit."},
+      {"case_ids": ["VNV026-RBT-G06-020", "VNV026-RBT-G06-021"], "requirement_ids": ["G04-LIN-001", "G04-LIN-003", "G04-LIN-005", "G04-LIN-008"], "families": ["HEX8", "HEX20"], "oracle": "constrained_free_dof", "result": "NOT_APPLICABLE", "justification": "The static mixed-constraint models do not satisfy the one-element oracle preconditions."}
+    ]
+  },
+  "new_mesh_series": {
+    "study": "qualification/0_2_6/g04_mesh_refinement_study.json",
+    "case_linkage": [
+      {"case_id": "VNV026-G04-MESH-HEX8-001", "requirement_ids": ["G04-LIN-001", "G04-LIN-005", "G04-LIN-008"], "family": "HEX8", "oracle": "mesh_refinement_trend", "policy": "G04-POL-003", "result": "PASS", "q": 4.333333333333333e-09, "q_ref": 4.761904761904762e-09},
+      {"case_id": "VNV026-G04-MESH-HEX8-002", "requirement_ids": ["G04-LIN-001", "G04-LIN-005", "G04-LIN-008"], "family": "HEX8", "oracle": "mesh_refinement_trend", "policy": "G04-POL-003", "result": "PASS", "q": 4.486791757449624e-09, "q_ref": 4.761904761904762e-09},
+      {"case_id": "VNV026-G04-MESH-HEX8-004", "requirement_ids": ["G04-LIN-001", "G04-LIN-005", "G04-LIN-008"], "family": "HEX8", "oracle": "mesh_refinement_trend", "policy": "G04-POL-003", "result": "PASS", "q": 4.551780487472014e-09, "q_ref": 4.761904761904762e-09},
+      {"case_id": "VNV026-G04-MESH-HEX8-008", "requirement_ids": ["G04-LIN-001", "G04-LIN-005", "G04-LIN-008"], "family": "HEX8", "oracle": "mesh_refinement_trend", "policy": "G04-POL-003", "result": "PASS", "q": 4.571463783673658e-09, "q_ref": 4.761904761904762e-09}
+    ],
+    "final_adjacent_change": 0.004133492202345242,
+    "threshold": 0.01,
+    "policy_result": "PASS"
+  },
+  "invalid_input_closure": {
+    "case_definition": "qualification/0_2_6/g04_invalid_input_cases.json",
+    "cases_total": 6,
+    "pass": 6,
+    "expected_failure": 6,
+    "fail": 0,
+    "result": "PASS",
+    "linkage": "Each case maps to G04-LIN-006, its declared category, expected exception class/message and two identical executions."
+  },
+  "discrete_and_rbe2": {
+    "discrete_status": "NOT_APPLICABLE",
+    "rbe2_status": "DIAGNOSTIC_ONLY",
+    "reason": "The executable prior case contains RBE2 plus springs and no DISCRETE element; no qualifying DISCRETE case is claimed."
+  },
+  "external": {
+    "code_aster": "SKIPPED_UNAVAILABLE",
+    "calculix": "SKIPPED_UNAVAILABLE",
+    "result": "No external PASS claimed; G04-LIN-007 remains NOT_COVERED pending Owner decision or available compatible executables."
+  },
+  "requirements": {
+    "G04-LIN-001": {"status": "FULL", "note": "Prior 65/65 route dispatch plus new HEX8 controlled series; no DISCRETE promotion."},
+    "G04-LIN-002": {"status": "PARTIAL", "note": "Foundation and family-specific invariant tests exist, but a universal family-wide patch claim is not made."},
+    "G04-LIN-003": {"status": "FULL", "note": "Prior 65/65 cases report residual, force and moment equilibrium under the approved policies."},
+    "G04-LIN-004": {"status": "PARTIAL", "note": "Linear isotropic routes are exercised; orthotropic/laminate extensions remain explicitly bounded/deferred."},
+    "G04-LIN-005": {"status": "PARTIAL", "note": "New predeclared four-level HEX8 trend passes; family-wide quality/distortion coverage remains limited."},
+    "G04-LIN-006": {"status": "FULL", "note": "Six dedicated invalid-input cases reject deterministically and fail closed."},
+    "G04-LIN-007": {"status": "NOT_COVERED", "note": "Code_Aster and CalculiX executables are unavailable; no external result is converted to PASS."},
+    "G04-LIN-008": {"status": "FULL", "note": "Baseline SHA, case mappings, policies, new study definitions and closure evidence are recorded."}
+  },
+  "proposed_gate_decision": "PASS_WITH_LIMITATIONS",
+  "official_closeout": "DEFERRED_TO_OWNER",
+  "other_gates_changed": false
+}
