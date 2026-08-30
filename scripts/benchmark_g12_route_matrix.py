@@ -31,6 +31,7 @@ from scripts.benchmark_g12_lot1 import build_model as build_linear_model  # noqa
 from scripts.benchmark_nonlinear_025 import _benchmark_model  # noqa: E402
 from solveur.api import solve_model  # noqa: E402
 from solveur.core.model import FiniteElementModel  # noqa: E402
+from solveur.core.solvers.static import LinearStaticSolver  # noqa: E402
 
 try:
     import psutil
@@ -248,10 +249,19 @@ def _measure(spec: dict[str, Any], repetition: int) -> dict[str, Any]:
     sampler = _RssSampler()
     sampler.start()
     try:
-        result = solve_model(model, enforce_policy=False)
+        linear_assembler = None
+        if str(getattr(model.analysis, "type", "")) == "linear_static":
+            linear_solver = LinearStaticSolver()
+            result = linear_solver.solve(model, detail_level="summary")
+            linear_assembler = linear_solver.assembler
+        else:
+            result = solve_model(model, enforce_policy=False)
         result_data = result.to_dict()
         solver = result_data.get("solver", {})
         assembly, solve, nnz, nnz_scope = _timings(str(result_data.get("analysis")), solver)
+        if linear_assembler is not None:
+            nnz = linear_assembler.last_diagnostics.get("final_nnz")
+            nnz_scope = "global_stiffness"
         steps = solver.get("steps") or solver.get("increments") or []
         sampler.stop()
         raw_status = str(result_data.get("status"))
