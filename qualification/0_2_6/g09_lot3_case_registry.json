@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "gate": "026-G09",
+  "lot": "LOT3",
+  "status": "EVIDENCE_READY_OWNER_REVIEW_REQUIRED",
+  "cases": [
+    {
+      "case_id": "G09-L3-001",
+      "name": "code_aster_scalar_open_close",
+      "family": "CONTACT_OPERATOR",
+      "route": "linear_static",
+      "requirements": ["G09-L3-001"],
+      "status": "EXECUTED",
+      "oracle": "scalar unilateral displacement, gap and active branch",
+      "expected": "PASS_EXTERNAL_CORRELATION_BOUNDED"
+    },
+    {
+      "case_id": "G09-L3-002",
+      "name": "code_aster_tet4_active_face",
+      "family": "TET4",
+      "route": "linear_static",
+      "requirements": ["G09-L3-001", "G09-L3-002"],
+      "status": "EXECUTED",
+      "oracle": "active planar face displacement mapping",
+      "expected": "PASS_EXTERNAL_CORRELATION_BOUNDED"
+    },
+    {
+      "case_id": "G09-L3-003",
+      "name": "code_aster_tet4_two_slave_curve",
+      "family": "TET4",
+      "route": "linear_static",
+      "requirements": ["G09-L3-002"],
+      "status": "EXECUTED",
+      "oracle": "ten-point displacement and gap curves",
+      "expected": "PASS_WITH_LIMITATIONS"
+    },
+    {
+      "case_id": "G09-L3-004",
+      "name": "calculix_tet4_precontact_tiebreaker",
+      "family": "TET4",
+      "route": "linear_static",
+      "requirements": ["G09-L3-003"],
+      "status": "EXECUTED",
+      "oracle": "pre-contact elastic displacement on the same refined structural mesh",
+      "expected": "PASS_EXTERNAL_TIE_BREAKER"
+    },
+    {
+      "case_id": "G09-L3-005",
+      "name": "general_surface_contact",
+      "family": "SURFACE",
+      "route": "frictionless_contact",
+      "requirements": ["G09-L3-005"],
+      "status": "NOT_SUPPORTED",
+      "oracle": "explicit scope limitation",
+      "expected": "UNSUPPORTED_EXPLICIT"
+    }
+  ],
+  "coverage_rule": "EXECUTED is not equivalent to QUALIFIED; the exact external comparator and limitations are retained per case."
+}

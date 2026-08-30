@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "gate": "026-G09",
+  "lot": "LOT3",
+  "status": "EVIDENCE_READY_OWNER_REVIEW_REQUIRED",
+  "title": "Contact external correlation and bounded penalty governance",
+  "scope": {
+    "formulation": "frictionless_penalty",
+    "qf_geometry": "bounded node-to-triangle master surface",
+    "qf_search_mode": "initial",
+    "qf_family": "TET4 plus controlled contact-operator probes",
+    "external_comparator": "Code_Aster unilateral exact constraint; CalculiX elastic pre-contact tie-breaker",
+    "friction": false,
+    "finite_sliding": false,
+    "surface_to_surface": false
+  },
+  "requirements": [
+    {
+      "id": "G09-L3-001",
+      "name": "Unilateral normal operator external correlation",
+      "evidence": "Code_Aster LIAISON_UNIL compression/opening and an active planar TET4 face comparison.",
+      "policy": "Compare the declared displacement, gap and active-branch observables using the existing predeclared adapter limits.",
+      "status": "PASS_WITH_LIMITATIONS"
+    },
+    {
+      "id": "G09-L3-002",
+      "name": "Bounded structural contact-path correlation",
+      "evidence": "Code_Aster ten-point curves for two unilateral stop probes and a deformable TET4 two-slave model.",
+      "policy": "Report complete displacement and gap curves; keep transition differences explicit when exact unilateral and penalty formulations are not identical.",
+      "status": "PASS_WITH_LIMITATIONS"
+    },
+    {
+      "id": "G09-L3-003",
+      "name": "Independent CalculiX tie-breaker",
+      "evidence": "CalculiX 2.20 C3D4 pre-contact displacement probe on the same refined TET4 structural mesh.",
+      "policy": "Use only as an elastic pre-contact comparison; it is not a contact-law or active-set qualification.",
+      "status": "PASS_WITH_LIMITATIONS"
+    },
+    {
+      "id": "G09-L3-004",
+      "name": "Bounded penalty governance",
+      "evidence": "Lot 1 and Lot 2 sweeps over 1e4, 1e5 and 1e6 at three TET4 mesh levels.",
+      "policy": "Candidate interval is limited to the tested TET4 initial-search benchmark. No universal production interval or conditioning cutoff is inferred.",
+      "status": "OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "id": "G09-L3-005",
+      "name": "Lot aggregation and limitation traceability",
+      "evidence": "Lot 1, Lot 2 and Lot 3 manifests with source SHA, dirty state, commands, tool images and digests.",
+      "policy": "A bounded external result cannot promote finite sliding, surface-to-surface contact, friction or a general penalty policy.",
+      "status": "PASS_WITH_LIMITATIONS"
+    }
+  ],
+  "predeclared_adapter_policies": {
+    "scalar_unilateral_displacement_and_gap": "1e-10 absolute/normalized adapter limit",
+    "active_tet4_displacement": "1e-10 normalized adapter limit",
+    "structural_active_displacement_curve": "5e-4 normalized curve limit",
+    "structural_active_gap_curve": "1e-8 absolute gap limit",
+    "transition_curve": "5e-2 warning limit",
+    "calculix_precontact_displacement": "1e-5 normalized adapter limit",
+    "source": "Existing Code_Aster/CalculiX verification adapters at the qualified source SHA; no new threshold selected after observation."
+  },
+  "penalty_policy": {
+    "candidate_range": [10000.0, 1000000.0],
+    "candidate_status": "OWNER_REVIEW_REQUIRED",
+    "scope": "TET4 initial-search node-to-triangle penalty benchmark at the Lot 2 mesh levels",
+    "conditioning_cutoff": "NONE_APPROVED",
+    "universal_range_claim": false
+  },
+  "dependencies": ["026-G00", "026-G04", "026-G08", "026-G09-LOT1", "026-G09-LOT2"],
+  "out_of_scope": [
+    "Coulomb friction",
+    "finite sliding qualification",
+    "general surface-to-surface contact",
+    "self-contact",
+    "contact tangent qualification across active-set discontinuities",
+    "universal penalty selection or conditioning cutoff",
+    "official gate closure without Owner decision"
+  ],
+  "provenance": {
+    "source_sha_required": true,
+    "source_dirty_must_be_false": true,
+    "artifact_digests_required": true,
+    "external_images_pinned": true,
+    "thresholds_must_be_declared_before_execution": true
+  }
+}

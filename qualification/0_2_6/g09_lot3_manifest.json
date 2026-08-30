@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "gate": "026-G09",
+  "lot": "LOT3",
+  "status": "PASS_WITH_LIMITATIONS",
+  "official_gate_status": "NOT_STARTED",
+  "generated_utc": "2026-08-30T14:13:41.814183Z",
+  "source_sha": "c76d4af39dc270a05596a53ef2d93baa9171c29b",
+  "source_dirty": false,
+  "artifacts": {
+    "qualification/0_2_6/g09_lot3_requirements.json": "e709aa549361344650cddc54bde5b799a9fe2e1711074412e52e7f8097a81cad",
+    "qualification/0_2_6/g09_lot3_case_registry.json": "234a0ae4e384a6fc3e4e57130e8e4198d5108c77f3520d471e375d9280f14634",
+    "qualification/0_2_6/g09_lot3_evidence.json": "387fa3a108fe370b8892dd0373f939a9499ba29471e9143e60a8fe5ef9ffbad0",
+    "docs/verification/0_2_6/0_2_6_g09_lot3_contract.md": "dcc8f56159de0d4ccdd68a77151d59a4752963aded06dde94749cc7be4549aef",
+    "docs/verification/0_2_6/0_2_6_g09_lot3_evidence.md": "511151f6374dfe613e028343a8502eecf92300e02db07565d6f4a8809261d579"
+  },
+  "external_manifests": {
+    "code_aster_scalar": "4ed140e7d7288ff76b95633570fa4288b621380efb0447ac325ad95269913b04",
+    "code_aster_tet4": "c6f48aa3819d47f4d278122b5179217dd8152a0d7f2fe712d653b3610dcf88ab",
+    "code_aster_additional": "835e69cef260b06238990851ee8300f8ec556757c0d7611569b121ca42cf8755"
+  },
+  "owner_action": "Review the bounded candidate penalty range; do not infer a universal range or conditioning cutoff."
+}
