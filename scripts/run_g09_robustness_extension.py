@@ -174,7 +174,7 @@ def _run_activation_matrix() -> dict[str, Any]:
                 [0.0, 0.0, 0.0],
                 [0.0, 1.0, 0.0],
                 [0.0, 0.0, 1.0],
-                [0.1, 0.25, 0.25 + gap],
+                [0.1 + gap, 0.25, 0.25],
             ]
         )
         dofs = model.dof_manager()
@@ -346,7 +346,7 @@ def _run_rollback_matrix() -> dict[str, Any]:
         _run_contact_cutback(-20.0, 1, 1.0),
         _run_contact_cutback(-30.0, 1, 1.0),
         _run_contact_cutback(-20.0, 2, 0.5),
-        _run_contact_cutback(-20.0, 3, 0.5),
+        _run_contact_cutback(-20.0, 3, 0.25),
     ]
     return {
         "rows": rows,
