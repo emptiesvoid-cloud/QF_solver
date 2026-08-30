@@ -51,6 +51,13 @@ rollback/state integrity with no-NaN/no-silent-PASS checks. They must not be
 executed as part of this review. Any aggregate threshold or maturity promotion
 requires a separate Owner review.
 
+The route-neutral runner is `src/solveur/verification/g11_runner.py` with
+focused tests in `tests/unit/test_g11_runner.py`. It accepts injected
+route-native adapters, emits the approved envelope, checks repeatability,
+NaN/Inf, silent PASS and state preservation, and can archive JSON provenance.
+It does not call or modify solver implementations. Only an in-memory smoke
+path is permitted in this step; the full G11 campaign remains unexecuted.
+
 ## Coverage boundary
 
 The contract is transverse, but evidence remains route-specific. Linear static
