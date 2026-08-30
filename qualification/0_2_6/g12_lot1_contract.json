@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "contract_id": "026-G12-LOT1",
+  "status": "CONTROLLED_EXECUTION",
+  "scope": {
+    "route": "linear_static",
+    "strain_regime": "small_strain",
+    "materials": ["isotropic_3d"],
+    "families": ["TET4", "HEX8", "TET10", "HEX20"],
+    "purpose": "reproducible FEM assembly/solve scaling and initial memory envelope"
+  },
+  "environment_policy": {
+    "record": ["os", "python", "numpy", "scipy", "psutil", "cpu", "ram", "thread_environment", "git_head"],
+    "backend": "scipy",
+    "method": "cg",
+    "preconditioner": "jacobi",
+    "thread_environment": ["OMP_NUM_THREADS", "MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS", "NUMEXPR_NUM_THREADS"]
+  },
+  "repetition_policy": {
+    "warmup_runs": 1,
+    "measured_repetitions": 3,
+    "same_model_each_repetition": true,
+    "invariance": "solution checksum and finite residual must be identical within recorded tolerance",
+    "case_order": "family then target_dofs ascending"
+  },
+  "metrics": {
+    "required": [
+      "total_dofs", "free_dofs", "element_count", "nnz", "assembly_seconds",
+      "linear_solve_seconds", "total_seconds", "peak_rss_bytes", "tracemalloc_peak_bytes",
+      "solution_norm", "solution_checksum", "relative_residual_norm"
+    ],
+    "derived": ["assembly_exponent", "solve_exponent", "total_exponent", "memory_exponent", "high_order_ratio"],
+    "memory_measurement": "psutil RSS sampler plus tracemalloc peak; unavailable metrics are explicit null, never zero"
+  },
+  "size_policy": {
+    "low_order_target_dofs": [1000, 3000, 10000, 30000, 100000, 300000],
+    "high_order_target_dofs": [1000, 3000, 10000, 30000],
+    "approximate": true,
+    "resource_limits": {
+      "case_timeout_seconds": 180,
+      "max_peak_rss_bytes": 4294967296,
+      "stop_after_first_resource_limit": true,
+      "classification": "RESOURCE_LIMIT_REACHED"
+    },
+    "adaptation": "If a limit is reached, retain completed rows and record the first blocked target; do not extrapolate beyond measured rows."
+  },
+  "numerical_invariance": {
+    "finite_solution_required": true,
+    "relative_residual_max": 1e-8,
+    "checksum_algorithm": "sha256(float64 displacement bytes)",
+    "no_solver_or_formulation_change": true
+  },
+  "interpretation": {
+    "connected_meshes": ["TET4", "HEX8"],
+    "high_order_topology": "independent valid elements with constrained local fanout; ratios are implementation/resource indicators, not geometry-equivalent refinement claims",
+    "exponent_policy": "ordinary least-squares slope over at least three measured points; fewer than three is NOT_ESTIMABLE",
+    "external_correlation": "NOT_IN_SCOPE_FOR_LOT1"
+  }
+}
