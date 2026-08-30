@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 import json
+import hashlib
 import math
-from dataclasses import dataclass, field
+from dataclasses import asdict, dataclass, field
+from datetime import datetime, timezone
 from enum import Enum
 from numbers import Number
 from pathlib import Path
@@ -32,6 +34,7 @@ ENVELOPE_FIELDS = (
     "NO_SILENT_PASS",
     "EVIDENCE_ID",
 )
+RUNNER_VERSION = "026-G11-runner-1"
 
 
 @dataclass(frozen=True)
@@ -48,6 +51,7 @@ class G11CaseSpec:
     expected_error_types: tuple[str, ...] = ()
     expected_error_codes: tuple[str, ...] = ()
     expected_failure: bool = True
+    definition_sha256: str | None = field(default=None, repr=False, compare=False)
 
     def __post_init__(self) -> None:
         required = {
@@ -73,7 +77,7 @@ class G11CaseSpec:
             raise ValueError(f"G11 case mapping is missing required field(s): {', '.join(missing)}")
         error_type_or_code = str(data["error_type_or_code"])
         error_parts = [part.strip() for part in error_type_or_code.split("/") if part.strip()]
-        return cls(
+        parsed = cls(
             case_id=str(data["case_id"]),
             failure_class=str(data["failure_class"]),
             route=str(data["route"]),
@@ -89,6 +93,18 @@ class G11CaseSpec:
             ),
             expected_failure=bool(data.get("expected_failure", True)),
         )
+        encoded = json.dumps(dict(data), sort_keys=True, separators=(",", ":")).encode("utf-8")
+        return cls(**{**asdict(parsed), "definition_sha256": hashlib.sha256(encoded).hexdigest()})
+
+    def definition_hash(self) -> str:
+        """Return a stable digest of the case definition used for execution."""
+
+        if self.definition_sha256:
+            return self.definition_sha256
+        payload = asdict(self)
+        payload.pop("definition_sha256", None)
+        encoded = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
+        return hashlib.sha256(encoded).hexdigest()
 
 
 @dataclass(frozen=True)
@@ -161,7 +177,17 @@ class G11Runner:
         return {
             "status": status,
             "envelope": envelope,
-            "provenance": {"source_sha": self._source_sha, **self._provenance},
+            "provenance": {
+                "source_sha": self._source_sha,
+                "runner_version": RUNNER_VERSION,
+                "case_definition_sha256": case.definition_hash(),
+                "captured_at_utc": datetime.now(timezone.utc).isoformat(),
+                **self._provenance,
+            },
+            "observations": {
+                "first": _archive_observation(first),
+                "replay": _archive_observation(second),
+            },
             "requirements": list(case.requirements),
             "checks": {
                 "expected_failure_observed": expected_failure_observed,
@@ -196,6 +222,7 @@ class G11Runner:
                 "state_preserved": False if case.stateful else "NOT_APPLICABLE",
                 "no_nan_inf": not _contains_nonfinite(diagnostics),
                 "no_silent_pass": True,
+                "diagnostics": dict(diagnostics),
             }
         if isinstance(raw, G11AdapterResult):
             observed_failure = not raw.success
@@ -215,6 +242,7 @@ class G11Runner:
             "state_preserved": state_preserved,
             "no_nan_inf": not _contains_nonfinite(value),
             "no_silent_pass": not (case.expected_failure and not observed_failure),
+            "diagnostics": dict(raw.diagnostics) if isinstance(raw, G11AdapterResult) else {},
         }
 
     @staticmethod
@@ -242,6 +270,22 @@ def _error_type_or_code(error: BaseException) -> str:
     if reason is None:
         return type(error).__name__
     return f"{type(error).__name__}:{reason}"
+
+
+def _archive_observation(observation: Mapping[str, object]) -> dict[str, object]:
+    """Keep stable diagnostics while excluding potentially large solver payloads."""
+
+    return {
+        key: observation.get(key)
+        for key in (
+            "observed_failure",
+            "error_type_or_code",
+            "state_preserved",
+            "no_nan_inf",
+            "no_silent_pass",
+            "diagnostics",
+        )
+    }
 
 
 def _contains_nonfinite(value: object) -> bool:

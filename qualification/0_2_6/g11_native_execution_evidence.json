@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "gate": "026-G11",
+  "evidence_id": "G11-NATIVE-EXECUTION-001",
+  "status": "FOCUSED_NATIVE_CASES_PASS",
+  "official_gate_status": "NOT_STARTED",
+  "source_sha": "1b6887c794452bb6e571bdacc3ecc0983b3bca2d",
+  "runner_version": "026-G11-runner-1",
+  "execution_mode": "native_route",
+  "routes": {
+    "linear_static": "READY",
+    "nonlinear_static": "READY",
+    "geometric_nonlinear_static": "PARTIAL",
+    "modal": "PARTIAL",
+    "linear_buckling": "PARTIAL",
+    "linear_static_contact": "PARTIAL"
+  },
+  "cases": {
+    "VNV026-ADV-PLN-001": {
+      "status": "PASS",
+      "route": "linear_static",
+      "failure_class": "singular_linear_system",
+      "error_type_or_code": "NumericalConvergenceError:singular",
+      "deterministic": true,
+      "no_nan_inf": true,
+      "no_silent_pass": true,
+      "state_preserved": "NOT_APPLICABLE",
+      "native_exception": "NumericalConvergenceError",
+      "classification_basis": "linear sparse solve reported singular matrix",
+      "case_definition_sha256": "bb5ca81e29e56188ad5bea81b7f8907d1055323a34bf262928b44122a39b0a0e",
+      "captured_at_utc": "2026-08-30T09:53:06.935478+00:00"
+    },
+    "VNV026-ADV-PLN-002": {
+      "status": "PASS",
+      "route": "linear_static",
+      "failure_class": "unsupported_load_element_pair",
+      "error_type_or_code": "MeshValidationError:UNSUPPORTED_EXPLICIT",
+      "deterministic": true,
+      "no_nan_inf": true,
+      "no_silent_pass": true,
+      "state_preserved": "NOT_APPLICABLE",
+      "native_exception": "MeshValidationError",
+      "classification_basis": "TET4 local body force is outside the supported load-element pairing",
+      "case_definition_sha256": "8b3ecd35ba883da2bbe288f151b4a3b456d35b62de4088d6b425dc363fce7f06",
+      "captured_at_utc": "2026-08-30T09:53:06.937801+00:00"
+    },
+    "VNV026-ADV-PLN-003": {
+      "status": "PASS",
+      "route": "nonlinear_static",
+      "failure_class": "MAX_ITERATIONS",
+      "error_type_or_code": "NumericalConvergenceError:MAX_ITERATIONS",
+      "deterministic": true,
+      "no_nan_inf": true,
+      "no_silent_pass": true,
+      "state_preserved": "NOT_APPLICABLE",
+      "failure_reason": "MAX_ITERATIONS",
+      "case_definition_sha256": "8c3091a61661c5864232c56facd77f078fac2c7f5fe7152020d6fda765e4de95",
+      "captured_at_utc": "2026-08-30T09:53:06.942776+00:00"
+    },
+    "VNV026-ADV-PLN-004": {
+      "status": "PASS",
+      "route": "nonlinear_static",
+      "failure_class": "rejected_increment",
+      "error_type_or_code": "NumericalConvergenceError:rejected_increment",
+      "deterministic": true,
+      "no_nan_inf": true,
+      "no_silent_pass": true,
+      "state_preserved": true,
+      "rejected_increments": 1,
+      "rollback_verified": true,
+      "committed_digest_before_failure": "26eab8accafe41b6c6fb0b15ceb744a1b469893f3d47064c2a24a8240789bc3c",
+      "retry_state_digest": "26eab8accafe41b6c6fb0b15ceb744a1b469893f3d47064c2a24a8240789bc3c",
+      "case_definition_sha256": "d463b92792c9968d70f2151e4b1a37465388b3033fa03ee05832b24cc42cb3d5",
+      "captured_at_utc": "2026-08-30T09:53:07.192601+00:00"
+    }
+  },
+  "all_common_envelopes_valid": true,
+  "deterministic_replay": true,
+  "no_nan_inf": true,
+  "no_silent_pass": true,
+  "campaign_scope": "Four approved adversarial cases only; this evidence does not close G11."
+}

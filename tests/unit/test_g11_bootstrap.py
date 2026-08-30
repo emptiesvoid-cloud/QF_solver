@@ -51,9 +51,9 @@ def test_g11_candidate_contract_defines_all_failure_categories_without_closeout(
     assert contract["runner"]["full_campaign_executed"] is False
 
 
-def test_g11_mapping_preserves_historical_boundaries_and_planned_cases() -> None:
+def test_g11_mapping_preserves_historical_boundaries_and_native_case_limitations() -> None:
     mapping = json.loads(MAPPING.read_text(encoding="utf-8"))
-    assert mapping["status"] == "BOOTSTRAP_ONLY"
+    assert mapping["status"] == "FOCUSED_NATIVE_EVIDENCE"
     assert mapping["official_gate_closeout"] == "DEFERRED"
     assert mapping["other_gates_changed"] is False
     assert len(mapping["mappings"]) >= 8
@@ -62,20 +62,16 @@ def test_g11_mapping_preserves_historical_boundaries_and_planned_cases() -> None
         assert row["requirements"]
         assert row["classification"] in {"READY", "PARTIAL", "PLANNED", "NOT_APPLICABLE"}
         assert row["requalification"]
-    assert set(mapping["classifications"]["PLANNED"]) == {
-        "VNV026-ADV-PLN-001",
-        "VNV026-ADV-PLN-002",
-        "VNV026-ADV-PLN-003",
-        "VNV026-ADV-PLN-004",
-    }
+    assert "four focused native adversarial cases" in mapping["classifications"]["PARTIAL"]
+    assert "complete cross-route adversarial campaign" in mapping["classifications"]["PLANNED"]
     assert mapping["future_g11_campaign_gaps"]
 
 
-def test_g11_owner_review_keeps_four_priority_cases_planned() -> None:
+def test_g11_owner_review_keeps_four_priority_cases_bounded() -> None:
     cases = json.loads(ADVERSARIAL.read_text(encoding="utf-8"))
-    assert cases["status"] == "OWNER_APPROVED_FOR_LATER_EXECUTION"
-    assert cases["execution_state"] == "PLANNED"
-    assert cases["execution_prohibited_in_this_review"] is True
+    assert cases["status"] == "OWNER_APPROVED_FOR_EXECUTION"
+    assert cases["execution_state"] == "NATIVE_EXECUTION_RECORDED"
+    assert cases["execution_prohibited_in_this_review"] is False
     assert [case["case_id"] for case in cases["cases"]] == [
         "VNV026-ADV-PLN-001",
         "VNV026-ADV-PLN-002",
