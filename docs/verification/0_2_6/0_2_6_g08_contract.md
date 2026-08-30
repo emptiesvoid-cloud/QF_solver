@@ -59,6 +59,23 @@ external tolerances must still be declared before execution and cannot be
 changed after observing results. No policy may be converted into a numerical
 PASS by a runner without its required evidence.
 
+## Execution evidence
+
+The controlled execution record is archived in
+`qualification/0_2_6/g08_execution_evidence.json`, with the concise report in
+`qualification/0_2_6/g08_execution_evidence.md`. On source SHA
+`1b7b8c7ca85ac184a900bd5a5530aa47e733827f`, the campaign executed 23 cases:
+21 PASS, 2 controlled expected failures and 0 FAIL. All four families were
+run on four mesh levels, and deterministic first-mode replay was checked for
+each family within the declared floating-point tolerance.
+
+The TET4 Euler record passed its existing case-specific analytical screen.
+CalculiX completed comparable TET4, TET10 and HEX8 rows; the HEX20 deck
+failed in the external tool and is retained as an explicit blocked row. This
+is partial external evidence, not a G08 closure or a universal correlation
+claim. The mesh final-adjacent `<=1%` eligibility is reached by TET4 only in
+this campaign; TET10, HEX8 and HEX20 remain bounded trend evidence.
+
 ## Case plan
 
 The registry deliberately separates executable definitions from results:

@@ -93,7 +93,11 @@
         "g08_requirements.json",
         "g08_case_registry.json",
         "g08_owner_contract_review.json",
-        "0_2_6_g08_contract.md"
+        "0_2_6_g08_contract.md",
+        "g08_execution_evidence.json",
+        "g08_execution_evidence.md",
+        "g08_euler_reference.json",
+        "g08_calculix_correlation.json"
       ],
       "id": "026-G08",
       "status": "NOT_STARTED",

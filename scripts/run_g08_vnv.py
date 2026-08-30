@@ -331,6 +331,15 @@ def run(output: Path) -> dict[str, Any]:
     repeatability = _run_repeatability()
     external = _run_external(output)
     all_rows = cases + [row for family in mesh_study["families"] for row in family["levels"]] + failure_cases
+    provenance = {
+        "source_sha": source_sha,
+        "source_dirty": source_dirty,
+        "captured_at_utc": _utc_now(),
+        "solver_version": "0.2.6a0",
+        "runtime": {"platform": platform.platform(), **runtime_fingerprint()},
+    }
+    for row in all_rows:
+        row["provenance"] = provenance
     counts = {
         "executed": len(all_rows),
         "pass": sum(row["status"] == "PASS" for row in all_rows),
@@ -356,9 +365,9 @@ def run(output: Path) -> dict[str, Any]:
         "status": status,
         "source_sha": source_sha,
         "source_dirty": source_dirty,
-        "captured_at_utc": _utc_now(),
+        "captured_at_utc": provenance["captured_at_utc"],
         "solver_version": "0.2.6a0",
-        "runtime": {"platform": platform.platform(), **runtime_fingerprint()},
+        "runtime": provenance["runtime"],
         "policies": {
             "critical_factor": "oracle-specific tolerance declared before execution",
             "euler_relative_tolerance": EULER_RELATIVE_TOLERANCE,
@@ -367,6 +376,13 @@ def run(output: Path) -> dict[str, Any]:
             "eigenpair_residual_warning": RESIDUAL_WARNING,
             "mesh_levels": list(MESH_LEVELS),
             "repeatability_absolute_tolerance": REPEATABILITY_ABSOLUTE_TOLERANCE,
+        },
+        "threshold_sources": {
+            "eigenpair_residual": "Owner-approved bounded G08 policy G08-004",
+            "mesh_final_adjacent_change": "Owner-approved bounded G08 policy G08-005",
+            "euler_relative": "Existing TET4 Euler case-specific screen; declared before execution",
+            "calculix_relative": "Existing CalculiX bounded correlation screen; declared before execution",
+            "repeatability": "Floating-point replay invariant for same-input deterministic execution",
         },
         "case_counts": counts,
         "cases": cases,
