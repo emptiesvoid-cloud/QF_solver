@@ -67,6 +67,8 @@ import json
 import numpy as np
 from code_aster.Commands import *
 
+NODAL_FORCE = {force:.16g}
+
 DEBUT(CODE="OUI", ERREUR=_F(ALARME="EXCEPTION"))
 mesh = LIRE_MAILLAGE(FORMAT="ASTER", UNITE=20)
 model = AFFE_MODELE(MAILLAGE=mesh, AFFE=_F(GROUP_MA="SOLID", PHENOMENE="MECANIQUE", MODELISATION="3D"))
@@ -113,7 +115,7 @@ for order, instant in zip(result.getIndexes(), result.getAccessParameters()["INS
         "loaded_mean_displacement": [float(np.mean(ux)), float(np.mean(uy)), float(np.mean(uz))],
         "loaded_mean_ux": float(np.mean(ux)),
         "reaction_resultant_fixed": [float(np.sum(rx)), float(np.sum(ry)), float(np.sum(rz))],
-        "external_work_current_load": float(force * np.sum(ux)),
+        "external_work_current_load": float(NODAL_FORCE * np.sum(ux)),
         "stress_sief_elga": stress_data,
     }})
 with open("/work/code_aster_raw.json", "w", encoding="utf-8") as stream:
