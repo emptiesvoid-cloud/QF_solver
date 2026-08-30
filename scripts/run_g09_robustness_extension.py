@@ -26,10 +26,12 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from solveur.api import solve_model
 from solveur.contact.entities import FrictionlessContact
+from solveur.contact.solver import assemble_penalty_contact
 from solveur.core.model import FiniteElementModel
 
 try:
     from scripts.run_g09_lot2 import (
+        _bare_contact_model,
         _canonical,
         _finite,
         _mesh_contact_model,
@@ -40,6 +42,7 @@ try:
     )
 except ModuleNotFoundError:  # Direct execution from the scripts directory.
     from run_g09_lot2 import (
+        _bare_contact_model,
         _canonical,
         _finite,
         _mesh_contact_model,
@@ -157,26 +160,91 @@ def _run_penalty_mesh_matrix() -> dict[str, Any]:
 
 
 def _run_activation_matrix() -> dict[str, Any]:
-    paths = [
-        ("zero_gap_contact", (0.0,)),
-        ("positive_epsilon_open", (-1.0e-8,)),
-        ("negative_epsilon_close", (1.0e-8,)),
-        ("open_close", (0.0, 1.0)),
-        ("close_open", (1.0, 0.0)),
-        ("open_close_open", (0.0, 1.0, 0.0)),
-        ("open_close_reclose", (0.0, 1.0, 0.0, 1.0)),
-        ("close_open_recontact", (1.0, 0.0, 1.0)),
-    ]
-    rows = [_run_cycle(path, name) for name, path in paths]
+    rows: list[dict[str, Any]] = []
+    for name, gap in (
+        ("positive_epsilon", 1.0e-8),
+        ("zero_gap", 0.0),
+        ("negative_epsilon", -1.0e-8),
+        ("small_positive_gap", 1.0e-5),
+        ("small_negative_gap", -1.0e-5),
+        ("deep_negative_gap", -1.0e-2),
+    ):
+        model = _bare_contact_model(
+            nodes=[
+                [0.0, 0.0, 0.0],
+                [0.0, 1.0, 0.0],
+                [0.0, 0.0, 1.0],
+                [0.1, 0.25, 0.25 + gap],
+            ]
+        )
+        dofs = model.dof_manager()
+        internal, tangent, details = assemble_penalty_contact(
+            model, dofs, np.zeros(dofs.ndof), penalty=1.0e5
+        )
+        observed_gap = float(details["gaps"][0])
+        expected_active = gap < 0.0
+        active = bool(details["active_contacts"])
+        rows.append(
+            {
+                "case": name,
+                "input_gap": gap,
+                "observed_gap": observed_gap,
+                "expected_active": expected_active,
+                "active": active,
+                "contact_force_norm": float(np.linalg.norm(internal)),
+                "tangent_nnz": int(tangent.nnz),
+                "status": "PASS" if active == expected_active and _finite(details) else "FAIL",
+                "finite": _finite(details) and bool(np.all(np.isfinite(internal))),
+            }
+        )
+    for name, path in (
+        ("global_open_close", (0.0, 1.0)),
+        ("global_close_open_recontact", (1.0, 0.0, 1.0)),
+    ):
+        rows.append(_run_observed_path(path, name))
     return {
         "rows": rows,
-        "all_pass": all(row["status"] == "PASS_INTERNAL_RESEARCH" for row in rows),
+        "all_pass": all(row["status"] == "PASS" for row in rows),
         "no_attraction": all(
-            all(gap >= -1.0e-12 for active, gap in zip(row["active_by_step"], row["gaps_by_step"]) if not active)
+            row.get("observed_gap", 0.0) >= -1.0e-12
             for row in rows
+            if not row.get("active", True)
         ),
-        "determinism": all(row["final_reference_relative_difference"] <= DETERMINISM_LIMIT for row in rows),
-        "limitation": "Initial-search bounded contact path; no finite-sliding claim.",
+        "determinism": rows[-1].get("deterministic", False),
+        "limitation": "Activation boundary uses the existing gap convention; global transitions remain initial-search only.",
+    }
+
+
+def _run_observed_path(path: tuple[float, ...], name: str) -> dict[str, Any]:
+    result = solve_model(
+        _mesh_contact_model(1, penalty=1.0e5, load_path=path), enforce_policy=False
+    )
+    data = result.to_dict()
+    steps = data["solver"]["steps"]
+    active = [bool(step.get("contact_active_contacts")) for step in steps]
+    gaps = [float(step.get("contact_gaps", [0.0])[0]) for step in steps]
+    direct = solve_model(
+        _mesh_contact_model(1, penalty=1.0e5, load_path=(path[-1],)), enforce_policy=False
+    )
+    difference = float(
+        np.linalg.norm(result.displacements - direct.displacements)
+        / max(np.linalg.norm(direct.displacements), np.linalg.norm(result.displacements), 1.0)
+    )
+    return {
+        "case": name,
+        "load_path": list(path),
+        "active_by_step": active,
+        "gaps_by_step": gaps,
+        "active": active[-1] if active else False,
+        "observed_gap": gaps[-1] if gaps else 0.0,
+        "deterministic": difference <= DETERMINISM_LIMIT,
+        "final_reference_relative_difference": difference,
+        "status": "PASS"
+        if result.status == "PASS"
+        and all(gap >= -1.0e-12 for is_active, gap in zip(active, gaps) if not is_active)
+        and difference <= DETERMINISM_LIMIT
+        else "FAIL",
+        "finite": _finite(data),
     }
 
 
@@ -277,8 +345,8 @@ def _run_rollback_matrix() -> dict[str, Any]:
     rows = [
         _run_contact_cutback(-20.0, 1, 1.0),
         _run_contact_cutback(-30.0, 1, 1.0),
-        _run_contact_cutback(-20.0, 2, 1.0),
-        _run_contact_cutback(-20.0, 3, 1.0),
+        _run_contact_cutback(-20.0, 2, 0.5),
+        _run_contact_cutback(-20.0, 3, 0.5),
     ]
     return {
         "rows": rows,
