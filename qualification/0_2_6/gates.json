@@ -37,9 +37,18 @@
       "title": "Corpus design"
     },
     {
-      "evidence_ids": [],
+      "evidence_ids": [
+        "g04_requirements.json",
+        "g04_case_mapping.json",
+        "g04_execution_evidence.json",
+        "g04_invalid_input_cases.json",
+        "g04_mesh_refinement_study.json",
+        "g04_targeted_blocker_closure.json",
+        "g04_owner_closeout.json",
+        "0_2_6_g04_owner_closeout.md"
+      ],
       "id": "026-G04",
-      "status": "NOT_STARTED",
+      "status": "PASS_WITH_LIMITATIONS",
       "title": "Linear / element robustness"
     },
     {

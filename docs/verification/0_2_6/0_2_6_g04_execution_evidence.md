@@ -4,7 +4,9 @@
 
 This is the official execution of the controlled G04 READY selection. It does
 not close the global gate, change maturity, or replace missing family-wide and
-external evidence. The global `026-G04` status remains `NOT_STARTED`.
+external evidence. The branch-local record originally left the global gate
+unchanged; multi-agent consolidation now records `026-G04` globally as
+`PASS_WITH_LIMITATIONS` with the bounded scope and limitations preserved.
 
 The complete machine-readable per-case relation is in
 `qualification/0_2_6/g04_execution_evidence.json`. Every row records:
