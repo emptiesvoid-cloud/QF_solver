@@ -181,8 +181,13 @@
   },
   "external_correlation": {
     "status": "DEFERRED_LIMITATION",
-    "new_runs": 0,
+    "new_runs": 3,
     "reusable_evidence": ["g06_depth_evidence.json", "g09_robustness_extension_evidence.json"],
+    "selected_campaign_evidence": [
+      "g10_selected_external_evidence.json",
+      "g10_selected_external_manifest.json",
+      "0_2_6_g10_selected_external_campaign.md"
+    ],
     "required_for_future_closeout": [
       "formulation-compatible finite-kinematic J2 correlation",
       "independent J2 plus geometry correlation",
@@ -190,6 +195,42 @@
       "triple-coupling correlation only if it remains in the approved scope"
     ],
     "not_claimed": ["external validation of arc-length branch selection", "external validation of finite-kinematic J2", "external validation of triple coupling"]
+  },
+  "selected_external_campaign": {
+    "status": "PARTIAL",
+    "evidence": [
+      "g10_selected_external_evidence.json",
+      "g10_selected_external_manifest.json",
+      "0_2_6_g10_selected_external_campaign.md"
+    ],
+    "execution_source_sha": "efed8c3e1bcf173d335b3b9a605febd0fa1084cb",
+    "execution_worktree_dirty": false,
+    "routes": {
+      "arc_length_continuation": {
+        "status": "PASS_WITH_LIMITATIONS",
+        "owner_gate": "026-G07",
+        "qf_steps": 80,
+        "external_points": 81,
+        "turning_point_lambda_relative_difference": 0.00013254565861720098,
+        "turning_point_displacement_relative_difference": 0.006621907971698846
+      },
+      "total_lagrangian_elasticity_tet4": {
+        "status": "PASS_WITH_LIMITATIONS",
+        "owner_gate": "026-G07",
+        "stress_relative_error": 8.544216665475574e-05,
+        "column_max_relative_difference": 1.6929857737642425e-09
+      },
+      "total_lagrangian_elasticity_hex8": {
+        "status": "PASS_WITH_LIMITATIONS",
+        "owner_gate": "026-G07",
+        "matched_point_displacement_relative_difference": 2.3429736004890488e-09,
+        "matched_point_reaction_relative_difference": 1.3193915239112222e-11,
+        "full_qf_path": "NOT_COMPLETED_WITHIN_BOUNDED_CAMPAIGN_BUDGET"
+      }
+    },
+    "new_thresholds_introduced": false,
+    "g10_status_unchanged": "IN_PROGRESS",
+    "g07_status_unchanged": true
   },
   "audit_findings": {
     "real_bugs_found": [],

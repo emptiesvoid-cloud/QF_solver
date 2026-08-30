@@ -1,0 +1,59 @@
+# coding=utf-8
+import json
+import numpy as np
+from code_aster.Commands import *
+
+NODAL_FORCE = -0.05
+
+DEBUT(CODE="OUI", ERREUR=_F(ALARME="EXCEPTION"))
+mesh = LIRE_MAILLAGE(FORMAT="ASTER", UNITE=20)
+model = AFFE_MODELE(MAILLAGE=mesh, AFFE=_F(GROUP_MA="SOLID", PHENOMENE="MECANIQUE", MODELISATION="3D"))
+material = DEFI_MATERIAU(ELAS=_F(E=10.0, NU=0.3))
+field = AFFE_MATERIAU(MAILLAGE=mesh, AFFE=_F(GROUP_MA="SOLID", MATER=material))
+fixed = AFFE_CHAR_MECA(MODELE=model, DDL_IMPO=_F(GROUP_NO="FIXED", DX=0.0, DY=0.0, DZ=0.0))
+load = AFFE_CHAR_MECA(MODELE=model, FORCE_NODALE=_F(GROUP_NO="LOAD", FX=-0.05))
+ramp = DEFI_FONCTION(NOM_PARA="INST", PROL_GAUCHE="CONSTANT", PROL_DROITE="CONSTANT", VALE=(0.0, 0.0, 1.0, 1.0))
+times = DEFI_LIST_REEL(DEBUT=0.0, INTERVALLE=_F(JUSQU_A=1.0, NOMBRE=128))
+result = STAT_NON_LINE(
+    MODELE=model,
+    CHAM_MATER=field,
+    EXCIT=(_F(CHARGE=fixed), _F(CHARGE=load, FONC_MULT=ramp)),
+    COMPORTEMENT=_F(RELATION="ELAS", DEFORMATION="GREEN_LAGRANGE"),
+    INCREMENT=_F(LIST_INST=times),
+    NEWTON=_F(MATRICE="TANGENTE", REAC_ITER=1),
+    CONVERGENCE=_F(RESI_GLOB_RELA=1.0e-10, ITER_GLOB_MAXI=80),
+    SOLVEUR=_F(METHODE="MUMPS"),
+)
+CALC_CHAMP(reuse=result, RESULTAT=result, FORCE=("REAC_NODA",))
+rows = []
+for order, instant in zip(result.getIndexes(), result.getAccessParameters()["INST"]):
+    if float(instant) <= 0.0:
+        continue
+    displacement = result.getField("DEPL", order)
+    ux, _ = displacement.getValuesWithDescription("DX", ["LOAD"])
+    uy, _ = displacement.getValuesWithDescription("DY", ["LOAD"])
+    uz, _ = displacement.getValuesWithDescription("DZ", ["LOAD"])
+    reaction = result.getField("REAC_NODA", order)
+    rx, _ = reaction.getValuesWithDescription("DX", ["FIXED"])
+    ry, _ = reaction.getValuesWithDescription("DY", ["FIXED"])
+    rz, _ = reaction.getValuesWithDescription("DZ", ["FIXED"])
+    stress_data = {}
+    try:
+        stress = result.getField("SIEF_ELGA", order)
+        for name in ("SIXX", "SIYY", "SIZZ", "SIXY", "SIXZ", "SIYZ"):
+            values, _ = stress.getValuesWithDescription(name, ["SOLID"])
+            stress_data[name] = [float(value) for value in values]
+    except Exception:
+        stress_data = {"status": "NOT_AVAILABLE"}
+    rows.append({
+        "order": int(order),
+        "load_factor": float(instant),
+        "loaded_mean_displacement": [float(np.mean(ux)), float(np.mean(uy)), float(np.mean(uz))],
+        "loaded_mean_ux": float(np.mean(ux)),
+        "reaction_resultant_fixed": [float(np.sum(rx)), float(np.sum(ry)), float(np.sum(rz))],
+        "external_work_current_load": float(NODAL_FORCE * np.sum(ux)),
+        "stress_sief_elga": stress_data,
+    })
+with open("/work/code_aster_raw.json", "w", encoding="utf-8") as stream:
+    json.dump({"case": "HEX8_m4_a10_compression_l0.2_d0.12", "rows": rows}, stream, indent=2)
+FIN()
