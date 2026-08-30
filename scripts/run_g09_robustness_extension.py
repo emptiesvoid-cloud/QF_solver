@@ -384,6 +384,41 @@ def _external_extension_summary() -> dict[str, Any]:
     }
 
 
+def _requirements_reassessment(source_sha: str) -> dict[str, Any]:
+    closeout_path = ROOT / "qualification" / "0_2_6" / "g09_owner_closeout.json"
+    closeout = json.loads(closeout_path.read_text(encoding="utf-8"))
+    decision_map = {
+        "OWNER_APPROVED_FULL": "FULL_CANDIDATE",
+        "OWNER_APPROVED_BOUNDED": "BOUNDED",
+        "DEFERRED_LIMITATION": "DEFERRED",
+    }
+    rows = []
+    for item in closeout["requirements"]:
+        rows.append(
+            {
+                "requirement_id": item["requirement_id"],
+                "decision": decision_map.get(item["decision"], "FAIL"),
+                "historical_decision": item["decision"],
+                "historical_evidence": item["evidence"],
+                "extension_effect": "SUPPORTING_EVIDENCE_ONLY",
+                "limitation": item["limitation"],
+            }
+        )
+    counts = {category: sum(row["decision"] == category for row in rows) for category in (
+        "FULL_CANDIDATE", "BOUNDED", "DEFERRED", "FAIL"
+    )}
+    return {
+        "schema_version": 1,
+        "source_sha": source_sha,
+        "source_closeout": "qualification/0_2_6/g09_owner_closeout.json",
+        "extension_effect": "SUPPORTING_EVIDENCE_ONLY",
+        "requirement_count": len(rows),
+        "counts": counts,
+        "requirements": rows,
+        "interpretation": "The extension adds evidence without promoting deferred requirements or changing the Owner closeout.",
+    }
+
+
 def _build_case_registry(evidence: dict[str, Any]) -> dict[str, Any]:
     cases: list[dict[str, Any]] = []
     for row in evidence["penalty_mesh"]["rows"]:
@@ -499,6 +534,11 @@ def _render_report(evidence: dict[str, Any]) -> str:
         [
             "| Total extension cases | 45 | PASS_WITH_LIMITATIONS |",
             "",
+            "## Requirement reassessment",
+            "",
+            f"The 18 historical requirements are preserved as `{evidence['requirements_reassessment']['extension_effect']}`.",
+            f"Counts: `{evidence['requirements_reassessment']['counts']}`. Deferred requirements remain deferred; no acceptance criterion was weakened.",
+            "",
             "## Penalty and mesh matrix",
             "",
             "The five penalty values are observational probes. The normalized value uses the benchmark `E=10`, `L=1` only as a reporting coordinate; it is not a universal scaling law.",
@@ -610,6 +650,7 @@ def run(output: Path, expected_sha: str = SOURCE_SHA_DEFAULT) -> dict[str, Any]:
     rollback = _run_rollback_matrix()
     adversarial = _run_adversarial()
     external = _external_extension_summary()
+    requirements = _requirements_reassessment(source["sha"])
     unexpected = []
     for group_name, group in (
         ("penalty_mesh", penalty_mesh),
@@ -654,6 +695,7 @@ def run(output: Path, expected_sha: str = SOURCE_SHA_DEFAULT) -> dict[str, Any]:
         "rollback": rollback,
         "adversarial": adversarial,
         "external_extension": external,
+        "requirements_reassessment": requirements,
         "force_equilibrium": {
             "status": "PASS" if penalty_mesh["equilibrium_pass"] else "FAIL",
             "limit": EQUILIBRIUM_LIMIT,
@@ -682,6 +724,8 @@ def run(output: Path, expected_sha: str = SOURCE_SHA_DEFAULT) -> dict[str, Any]:
     registry = _build_case_registry(evidence)
     registry_path = output.with_name(output.name.replace("_evidence", "_case_registry") + ".json")
     registry_path.write_text(json.dumps(registry, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    requirements_path = output.with_name(output.name.replace("_evidence", "_requirements") + ".json")
+    requirements_path.write_text(json.dumps(requirements, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     report_path = output.with_suffix(".md")
     report_path.write_text(_render_report(evidence), encoding="utf-8")
     manifest = {
@@ -695,6 +739,7 @@ def run(output: Path, expected_sha: str = SOURCE_SHA_DEFAULT) -> dict[str, Any]:
         "artifacts": {
             json_path.name: _sha256(json_path),
             registry_path.name: _sha256(registry_path),
+            requirements_path.name: _sha256(requirements_path),
             report_path.name: _sha256(report_path),
         },
     }
