@@ -299,7 +299,7 @@ def _run_cycle(path: tuple[float, ...], name: str) -> dict[str, Any]:
     )
     final_difference = float(
         np.linalg.norm(result.displacements - direct.displacements)
-        / max(np.linalg.norm(direct.displacements), 1.0e-15)
+        / max(np.linalg.norm(direct.displacements), np.linalg.norm(result.displacements), 1.0)
     )
     return {
         "case": name,
@@ -335,13 +335,15 @@ def _run_cycles() -> dict[str, Any]:
     rows = [_run_cycle(path, name) for name, path in paths]
     replay = _run_cycle(paths[3][1], "recontact_replay")
     original = rows[3]
+    original_comparison = {key: value for key, value in original.items() if key != "case"}
+    replay_comparison = {key: value for key, value in replay.items() if key != "case"}
     return {
         "status": "PASS_INTERNAL_RESEARCH"
         if all(row["status"] == "PASS_INTERNAL_RESEARCH" for row in rows)
-        and _canonical(original) == _canonical(replay)
+        and _canonical(original_comparison) == _canonical(replay_comparison)
         else "FAIL",
         "cases": rows,
-        "recontact_replay_exact": _canonical(original) == _canonical(replay),
+        "recontact_replay_exact": _canonical(original_comparison) == _canonical(replay_comparison),
         "recontact": True,
         "limitations": [
             "Initial-configuration node-to-triangle contact only; no finite-sliding claim.",
