@@ -31,7 +31,7 @@ from solveur.verification.robustness_nonlinear_solids import _buckling_mesh_mode
 GATE = "026-G08"
 STUDY_ID = "VNV-G08-HEX20-CALCULIX-RESCUE-001"
 IMAGE = "qf-solver/calculix-nafems13h:2.20"
-CELLS = (1, 2)
+CELLS = (1, 2, 4)
 REPLAY_ABSOLUTE_TOLERANCE = 1.0e-12
 
 
