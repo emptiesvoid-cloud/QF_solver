@@ -5,9 +5,9 @@
   "gate": "026-G08",
   "status": "PARTIAL_ANALYTICAL_SCREEN",
   "gate_status_unchanged": "PASS_WITH_LIMITATIONS",
-  "source_sha": "db2659a84b2fe1ace535dfefb38b90cbd67bc2e8",
+  "source_sha": "c58fcc7c9a17ed770ecc49bb45d1c965851ed23b",
   "source_dirty": false,
-  "captured_at_utc": "2026-08-30T11:52:20.657588Z",
+  "captured_at_utc": "2026-08-30T11:56:36.831962Z",
   "solver_version": "0.2.6a0",
   "runtime": {
     "python": {
@@ -426,8 +426,10 @@
   "artifact_digests": {
     "results/vnv_026_g08_high_order_analytical/euler_high_order_comparison.png": "24b718e6fa7bfc5e22c8064d0e96367f85f36fa112231dc6fb6aef0bf5082be2",
     "results/vnv_026_g08_high_order_analytical/euler_high_order_error.png": "3b99fb787c59b33091bc761aa1aa676884e5dbda1d4defdebab16e990d9b3d11",
-    "results/vnv_026_g08_high_order_analytical/g08_high_order_analytical_report.md": "c5522b223e8c30d281790baa61b6e642b06bcdf795b3e2347e17dd25cb660687",
-    "qualification/0_2_6/g08_high_order_analytical_evidence.md": "c5522b223e8c30d281790baa61b6e642b06bcdf795b3e2347e17dd25cb660687"
+    "results/vnv_026_g08_high_order_analytical/g08_high_order_analytical_report.md": "72527ccd205fd45cec95c067856bf06b1612edf56942adb2522c5fa1d63279c2",
+    "qualification/0_2_6/g08_high_order_analytical_evidence.md": "72527ccd205fd45cec95c067856bf06b1612edf56942adb2522c5fa1d63279c2",
+    "qualification/0_2_6/euler_high_order_comparison.png": "24b718e6fa7bfc5e22c8064d0e96367f85f36fa112231dc6fb6aef0bf5082be2",
+    "qualification/0_2_6/euler_high_order_error.png": "3b99fb787c59b33091bc761aa1aa676884e5dbda1d4defdebab16e990d9b3d11"
   },
   "limitations": [
     "The screening mesh retains one solid layer through each transverse direction; it is not a universal 3D Euler convergence proof.",
@@ -444,5 +446,5 @@
       "HEX20": "MORE_EVIDENCE_REQUIRED"
     }
   },
-  "report_sha256": "c5522b223e8c30d281790baa61b6e642b06bcdf795b3e2347e17dd25cb660687"
+  "report_sha256": "72527ccd205fd45cec95c067856bf06b1612edf56942adb2522c5fa1d63279c2"
 }
