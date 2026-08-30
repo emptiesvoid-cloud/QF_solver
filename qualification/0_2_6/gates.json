@@ -100,7 +100,9 @@
         "g08_calculix_correlation.json",
         "g08_owner_closeout.json",
         "g08_mesh_extension_evidence.json",
-        "g08_mesh_extension_evidence.md"
+        "g08_mesh_extension_evidence.md",
+        "g08_hex20_calculix_rescue_evidence.json",
+        "g08_hex20_calculix_rescue_evidence.md"
       ],
       "id": "026-G08",
       "status": "PASS_WITH_LIMITATIONS",
