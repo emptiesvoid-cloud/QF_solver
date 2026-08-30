@@ -106,11 +106,11 @@ def _screen_row(candidate: dict[str, Any], baseline: dict[str, Any]) -> dict[str
         "candidate_assemblies": int(candidate["assembly_calls"]),
         "assembly_reduction": float(1.0 - candidate["assembly_calls"] / baseline["assembly_calls"]),
         "baseline_accepted_steps": baseline["diagnostics"]["accepted_steps"],
-        "candidate_accepted_steps": candidate["accepted_count"],
+        "candidate_accepted_steps": candidate["diagnostics"]["accepted_steps"],
         "baseline_newton_iterations": baseline["diagnostics"]["newton_iterations"],
         "candidate_newton_iterations": candidate["diagnostics"].get("newton_iterations"),
         "baseline_rejected_increments": baseline["diagnostics"]["rejected_increments"],
-        "candidate_rejected_increments": candidate["rejected_count"],
+        "candidate_rejected_increments": candidate["diagnostics"]["rejected_increments"],
         "state_comparison": state,
         "candidate_displacement_sha256": candidate["final_state"]["displacement_sha256"],
     }
