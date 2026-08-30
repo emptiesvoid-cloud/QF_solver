@@ -142,6 +142,26 @@ promote any family. The remaining HEX8 discrepancy is a real analytical-screen
 limitation requiring separate investigation; it is not converted into a solver
 defect by this evidence alone.
 
+## Euler pre-validation and HEX8 cross-check
+
+The consolidated pre-validation is archived in
+`qualification/0_2_6/g08_euler_prevalidation_evidence.json` and
+`qualification/0_2_6/g08_euler_prevalidation_evidence.md`. It preserves the
+historical TET4 evidence and records provisional family decisions without
+changing the Owner closeout: TET4 `PREQUALIFIED_BOUNDED`, TET10 and HEX20
+`PASS_WITH_LIMITATIONS`, and HEX8 `MORE_EVIDENCE_REQUIRED`.
+
+For HEX8, the same-model CalculiX C3D8 cross-check passes at one and two axial
+cells, with relative QF/CalculiX factor differences of `3.84e-6` and `4.07e-6`.
+Both codes remain much stiffer than the Euler screening value on this solid
+mesh. The first mode remains a global-bending candidate, the assembled `K_G`
+is symmetric with the expected destabilizing negative direction, and the load
+sum is the same signed compression in both decks. The bounded diagnosis is
+therefore `LOCKING_LIKELY`, also described as a low-order solid-discretization
+limitation for this benchmark. This is diagnostic evidence only: it does not
+modify the buckling formulation, create a universal locking threshold, or
+promote HEX8.
+
 ## Owner closeout
 
 The Owner decision is `PASS_WITH_LIMITATIONS`, with no solver or numerical
