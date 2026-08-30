@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import shutil
 import subprocess
 import sys
 from datetime import UTC, datetime
@@ -375,6 +376,10 @@ def run(output: Path, evidence_dir: Path) -> dict[str, Any]:
     archived_json = evidence_dir / "g08_high_order_analytical_evidence.json"
     archived_report.write_text(_render_report(summary), encoding="utf-8")
     summary["artifact_digests"]["qualification/0_2_6/g08_high_order_analytical_evidence.md"] = sha256(archived_report)
+    for image_name in ("euler_high_order_comparison.png", "euler_high_order_error.png"):
+        archived_image = evidence_dir / image_name
+        shutil.copyfile(output / image_name, archived_image)
+        summary["artifact_digests"][f"qualification/0_2_6/{image_name}"] = sha256(archived_image)
     write_json_file(archived_json, summary)
     return summary
 

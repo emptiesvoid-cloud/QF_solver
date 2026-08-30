@@ -102,7 +102,9 @@
         "g08_mesh_extension_evidence.json",
         "g08_mesh_extension_evidence.md",
         "g08_hex20_calculix_rescue_evidence.json",
-        "g08_hex20_calculix_rescue_evidence.md"
+        "g08_hex20_calculix_rescue_evidence.md",
+        "g08_high_order_analytical_evidence.json",
+        "g08_high_order_analytical_evidence.md"
       ],
       "id": "026-G08",
       "status": "PASS_WITH_LIMITATIONS",
