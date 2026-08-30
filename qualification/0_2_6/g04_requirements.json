@@ -196,11 +196,67 @@
       {"id": "TOL-026-ANALYTICAL-001", "use": "case-defined analytical error", "status": "EXISTING_VALUE_UNDEFINED"},
       {"id": "EXTERNAL_UNAVAILABLE", "use": "skip external evidence when unavailable", "status": "EXISTING"}
     ],
-    "proposed_owner_review": [
-      {"id": "G04-POL-001", "metric": "free_relative_residual", "proposed_value": 1e-8, "formula": "||r_free|| / max(||f_free||, 1)", "justification": "matches existing static benchmark practice without relaxing it", "domain": "linear_static_supported_routes", "limits": "not approved; scale and denominator must be reviewed"},
-      {"id": "G04-POL-002", "metric": "force_balance_relative_error", "proposed_value": 1e-8, "formula": "||R + F|| / max(||F||, 1)", "justification": "matches existing qualification campaign checks", "domain": "linear_static_with_reactions", "limits": "not approved; vector norm and reference load require Owner confirmation"},
-      {"id": "G04-POL-003", "metric": "final_adjacent_mesh_response_change", "proposed_value": 1e-2, "formula": "|q_fine-q_medium| / max(|q_fine|, 1)", "justification": "consistent with existing bounded refinement practice", "domain": "compatible_continuum_mesh_sequences", "limits": "not approved; observable and minimum levels remain case-specific"}
+    "owner_approved_bounded": [
+      {
+        "id": "G04-POL-001",
+        "status": "OWNER_APPROVED_BOUNDED",
+        "metric": "free_relative_residual",
+        "definition": "r_free is the free-DOF part of K u - f after the declared constraint reduction.",
+        "normalization": "||r_free||_2 / max(||f_free||_2, 1.0)",
+        "threshold": {"pass": 1e-8, "warning": 1e-6, "warning_is_not_pass": true},
+        "quasi_zero_load": "When ||f_free||_2 < 1.0 in the declared model units, report ||r_free||_2 as an absolute diagnostic; the PASS bound remains 1e-8 in those units. A zero-load rigid-body case is accepted only through its explicit invariant or expected-failure contract, not by claiming a meaningful relative error.",
+        "justification": "This is the existing linear audit definition and PASS/WARNING boundary in src/solveur/core/audit.py and src/solveur/core/audit_checks.py; existing static tests observe residuals below this bound.",
+        "domain": "linear_static_supported_routes",
+        "limitations": "The unit floor is intentionally retained for compatibility with the current audit schema; every case must record units and the absolute numerator."
+      },
+      {
+        "id": "G04-POL-002",
+        "status": "OWNER_APPROVED_BOUNDED",
+        "metric": "force_and_moment_balance_relative_error",
+        "definition": "Compare the external resultant F_ext with the support reaction resultant R using ||F_ext + R||_2; report the analogous moment imbalance about the declared origin separately.",
+        "normalization": "force: ||F_ext + R||_2 / max(||F_ext||_2, ||R||_2, 1.0); moment: ||M_ext + M_R||_2 / max(||M_ext||_2, ||M_R||_2, 1.0)",
+        "threshold": {"pass": 1e-10, "warning": 1e-8, "warning_is_not_pass": true},
+        "quasi_zero_resultant": "If both compared resultants are below the unit floor, the metric is interpreted as the absolute imbalance in declared model units and must still be <= 1e-10 for PASS. A self-equilibrated load with near-zero net resultant is not certified by this metric alone; free residual, moment balance and the load-vector audit remain mandatory.",
+        "justification": "These are the existing force_balance_relative_error and moment_balance_relative_error definitions and PASS/WARNING boundaries in src/solveur/core/audit.py and src/solveur/core/audit_checks.py; distributed-load and solver tests exercise the same resultants.",
+        "domain": "linear_static_with_reactions",
+        "limitations": "This is a global resultant check, not a substitute for local equilibrium or free-DOF residual evidence; the origin and model units must be recorded."
+      },
+      {
+        "id": "G04-POL-003",
+        "status": "OWNER_APPROVED_BOUNDED",
+        "metric": "final_adjacent_mesh_response_change",
+        "minimum_levels": 3,
+        "observable": "A predeclared scalar or vector response q at the same physical location/DOF or the same declared norm; stress/strain peaks at singularities are not eligible as the sole observable.",
+        "normalization": "scalar: |q_fine-q_medium| / max(|q_fine|, |q_medium|, |q_ref|); vector: ||q_fine-q_medium||_2 / max(||q_fine||_2, ||q_medium||_2, ||q_ref||_2)",
+        "reference": "q_ref is declared before execution and is an analytical reference, a dimensional scale from the same case, or another explicitly justified nonzero response scale. If all scales are zero, use an absolute analytical/invariant check instead and do not claim mesh convergence from this policy.",
+        "threshold": {"final_adjacent_change": 1e-2, "operator": "less_equal", "pass": 1e-2, "monotonicity_required": false},
+        "non_monotone_conditions": ["stress/strain singularity or discontinuity", "near-incompressibility", "shell locking or formulation-transition region", "poor/distorted quality outside the declared quality bound", "changed topology, load transfer or boundary discretization", "mixed element order or non-compatible meshes"],
+        "justification": "The 1% bound follows the existing Owner-approved bounded refinement convention in G05, while the three-level requirement and observable restrictions prevent a universal or artificial convergence claim.",
+        "domain": "compatible_continuum_mesh_sequences",
+        "limitations": "This policy establishes bounded stabilization of a declared response only; it does not require monotone convergence and does not qualify all fields or all mesh qualities."
+      }
     ]
+  },
+  "owner_review": {
+    "status": "PASS",
+    "reviewed_base_sha": "2127b2c90b18f2266c1a6bb47a497de7734ab121",
+    "requirements_reviewed": [
+      {"id": "G04-LIN-001", "status": "APPROVED_BOUNDED", "measurable": true, "reproducible": true, "family_adaptation": "All eight registered element routes use explicit dispatch/material/load/BC declarations.", "sufficiency": "Required to prevent unsupported combinations from being silently qualified.", "artificial_overqualification": "NO"},
+      {"id": "G04-LIN-002", "status": "APPROVED_BOUNDED", "measurable": true, "reproducible": true, "family_adaptation": "Patch/constant-strain or rigid-body invariant is required only where mathematically applicable to the family.", "sufficiency": "Covers element kinematics without forcing a continuum patch oracle onto BEAM2 or DISCRETE.", "artificial_overqualification": "NO"},
+      {"id": "G04-LIN-003", "status": "APPROVED_BOUNDED", "measurable": true, "reproducible": true, "family_adaptation": "Load types are restricted by the element route and reaction/moment/residual fields are recorded.", "sufficiency": "Exercises both nodal and compatible distributed loading with global and free-DOF checks.", "artificial_overqualification": "NO"},
+      {"id": "G04-LIN-004", "status": "APPROVED_BOUNDED", "measurable": true, "reproducible": true, "family_adaptation": "Isotropic routes are base scope; orientation/laminate extensions remain formulation-specific and deferred.", "sufficiency": "Preserves maturity boundaries while testing declared material matrices.", "artificial_overqualification": "NO"},
+      {"id": "G04-LIN-005", "status": "APPROVED_BOUNDED", "measurable": true, "reproducible": true, "family_adaptation": "Continuum families receive compatible refinement/quality evidence; BEAM2 and DISCRETE are not forced into continuum mesh claims.", "sufficiency": "Three-level bounded response study plus quality/distortion reporting is proportionate to the gate.", "artificial_overqualification": "NO"},
+      {"id": "G04-LIN-006", "status": "APPROVED_BOUNDED", "measurable": true, "reproducible": true, "family_adaptation": "Invalid mesh, material and boundary inputs are checked through deterministic expected-failure contracts.", "sufficiency": "Separates safe rejection from an unexpected solver failure.", "artificial_overqualification": "NO"},
+      {"id": "G04-LIN-007", "status": "APPROVED_BOUNDED", "measurable": true, "reproducible": true, "family_adaptation": "External comparison is attempted only for genuinely comparable formulations and load conventions.", "sufficiency": "Requires pinned provenance and prevents non-comparable tools from becoming false PASS evidence.", "artificial_overqualification": "NO"},
+      {"id": "G04-LIN-008", "status": "APPROVED_BOUNDED", "measurable": true, "reproducible": true, "family_adaptation": "Every claim remains linked to a registry capability, case ID, source SHA and artifact manifest.", "sufficiency": "Prevents silent maturity promotion or cross-gate evidence reuse.", "artificial_overqualification": "NO"}
+    ],
+    "case_dependent_analytical_tolerance": {
+      "status": "APPROVED",
+      "policy_id": "TOL-026-ANALYTICAL-001",
+      "conditions": ["The normalized observable and reference are declared before execution.", "The tolerance is justified by element order, conditioning, mesh and oracle precision.", "A case-specific value may be stricter or looser than another case; no universal value is inferred from existing PASS results."]
+    },
+    "external_correlation": "Code_Aster or CalculiX may provide evidence only when geometry, material, formulation, loads, BCs and output convention are comparable; otherwise record SKIPPED_EXTERNAL_UNAVAILABLE or NOT_COMPARABLE, never PASS.",
+    "gate_decision": "This review approves bounded contract policies only; it does not execute or close G04."
   },
   "evidence_requirements": {
     "per_case": ["case_id", "input_fingerprint", "source_sha", "clean_worktree", "element", "material", "loads", "boundary_conditions", "solver_settings", "result", "audit", "checks"],

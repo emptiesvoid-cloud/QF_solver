@@ -54,10 +54,11 @@ are explicitly reuse candidates and cannot be counted twice for a future G04
 closeout. The three planned SHL records declare `mixed` and have no executable
 input model, so they remain traceability records rather than G04 base claims.
 
-## Proposed minimums and policies
+## Proposed minimums and Owner-approved policies
 
-The proposed per-element minimums are deliberately marked
-`PROPOSED_OWNER_REVIEW` in the JSON contract. They are not approved thresholds:
+The per-element minimums remain deliberately marked
+`PROPOSED_OWNER_REVIEW` in the JSON contract. They are not gate-close
+thresholds. The Owner approved bounded policies for execution are:
 
 | Element | Proposed unique cases | Required route samples |
 |---|---:|---|
@@ -69,10 +70,13 @@ The proposed per-element minimums are deliberately marked
 
 Existing policies remain authoritative: exact invariants, the existing
 deterministic floating-point foundation policy, case-defined analytical error,
-and `SKIPPED_EXTERNAL_UNAVAILABLE` for unavailable external tools. The contract
-also records three proposed owner-review policies for free residual, force
-balance, and final adjacent-mesh response change. No tolerance is weakened by
-this contract.
+and `SKIPPED_EXTERNAL_UNAVAILABLE` for unavailable external tools. The Owner
+approved bounded policies require free residual `<=1e-8`, force and moment
+balance `<=1e-10`, and a final adjacent-mesh response change `<=1%` over at
+least three compatible levels. Warning bands are not PASS criteria. The mesh
+policy requires a predeclared observable and explicitly does not require
+monotonicity for singular, discontinuous or formulation-dependent fields. No
+tolerance is weakened by this contract.
 
 ## Execution and approval
 
