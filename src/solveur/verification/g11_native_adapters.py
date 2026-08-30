@@ -23,6 +23,10 @@ CASE_SINGULAR = "VNV026-ADV-PLN-001"
 CASE_UNSUPPORTED = "VNV026-ADV-PLN-002"
 CASE_NONCONVERGENCE = "VNV026-ADV-PLN-003"
 CASE_ROLLBACK = "VNV026-ADV-PLN-004"
+CASE_GEO_FAILURE = "VNV026-G11-XR-GEO-001"
+CASE_MODAL_FAILURE = "VNV026-G11-XR-MODAL-001"
+CASE_BUCKLING_FAILURE = "VNV026-G11-XR-BUCKLING-001"
+CASE_CONTACT_FAILURE = "VNV026-G11-XR-CONTACT-001"
 
 NATIVE_ROUTE_STATUS = {
     "linear_static": "READY",
@@ -175,6 +179,126 @@ def _rollback_state_integrity(case: G11CaseSpec) -> object:
     )
 
 
+def _geometric_nonlinear_failure(case: G11CaseSpec) -> object:
+    """Exercise geometric-nonlinear fail-closed handling for missing BCs."""
+
+    model = _tet4_model(
+        fixed=False,
+        analysis={"type": "geometric_nonlinear_static", "method": "newton_raphson", "parameters": {}},
+    )
+    try:
+        solve_model(model, enforce_policy=False)
+    except MeshValidationError as error:
+        if "constrained dofs" not in str(error).lower():
+            raise
+        return G11AdapterResult(
+            success=False,
+            error_type_or_code="MeshValidationError:CONSTRAINTS_REQUIRED",
+            diagnostics={
+                "native_exception_type": type(error).__name__,
+                "native_message": str(error),
+                "classification_basis": "geometric nonlinear route rejects an unconstrained model",
+            },
+        )
+    return G11AdapterResult(success=True)
+
+
+def _modal_failure(case: G11CaseSpec) -> object:
+    """Exercise modal input rejection without accepting invalid eigenpairs."""
+
+    model = _tet4_model(
+        fixed=True,
+        analysis={"type": "modal", "method": "eigsh", "modes": 0},
+    )
+    model.materials["solid"]["density"] = 1.0
+    try:
+        solve_model(model, enforce_policy=False)
+    except InputValidationError as error:
+        if "modes" not in str(error).lower():
+            raise
+        return G11AdapterResult(
+            success=False,
+            error_type_or_code="InputValidationError:INVALID_MODE_REQUEST",
+            diagnostics={
+                "native_exception_type": type(error).__name__,
+                "native_message": str(error),
+                "classification_basis": "modal route rejects a non-positive requested mode count",
+            },
+        )
+    return G11AdapterResult(success=True)
+
+
+def _buckling_failure(case: G11CaseSpec) -> object:
+    """Exercise the existing buckling bracket failure on a tensile preload."""
+
+    model = _tet4_model(
+        fixed=True,
+        analysis={
+            "type": "linear_buckling",
+            "method": "eigsh",
+            "preload_factor": 1.0,
+            "load_increments": 4,
+            "maximum_factor": 100.0,
+        },
+    )
+    try:
+        solve_model(model, enforce_policy=False)
+    except NumericalConvergenceError as error:
+        reason = getattr(error.reason, "value", error.reason)
+        if reason != NonlinearFailureReason.BUCKLING_FAILURE.value:
+            raise
+        return G11AdapterResult(
+            success=False,
+            error_type_or_code="NumericalConvergenceError:BUCKLING_FAILURE",
+            diagnostics={
+                "native_exception_type": type(error).__name__,
+                "native_message": str(error),
+                "classification_basis": "tensile preload has no compressive buckling bracket",
+            },
+        )
+    return G11AdapterResult(success=True)
+
+
+def _contact_failure_model() -> FiniteElementModel:
+    """Build a contact-only model whose slave projection is outside the facet."""
+
+    return FiniteElementModel.from_raw(
+        nodes=[[0.0, 0.0, 0.0], [1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [2.0, 2.0, 0.1]],
+        elements=[],
+        materials={},
+        fixed_dofs=[
+            {"node": 0, "dofs": ["UX", "UY", "UZ"]},
+            {"node": 1, "dofs": ["UX", "UY", "UZ"]},
+            {"node": 2, "dofs": ["UX", "UY", "UZ"]},
+            {"node": 3, "dofs": ["UX", "UY"]},
+        ],
+        springs=[{"node_a": 3, "dofs": ["UZ"], "stiffness": 1000.0}],
+        loads=[{"node": 3, "dof": "UZ", "value": -1.0}],
+        contacts=[{"name": "plane", "slave_node": 3, "master_nodes": [0, 1, 2]}],
+        analysis={"type": "linear_static", "method": "direct"},
+    )
+
+
+def _contact_failure(case: G11CaseSpec) -> object:
+    """Exercise contact geometry validation before the active-set solve."""
+
+    try:
+        solve_model(_contact_failure_model(), enforce_policy=False)
+    except MeshValidationError as error:
+        if "projection lies outside" not in str(error).lower():
+            raise
+        return G11AdapterResult(
+            success=False,
+            error_type_or_code="MeshValidationError:CONTACT_CONFIGURATION_INVALID",
+            diagnostics={
+                "native_exception_type": type(error).__name__,
+                "native_message": str(error),
+                "classification_basis": "contact slave projection is outside the compatible master triangle",
+            },
+        )
+    return G11AdapterResult(success=True)
+
+
 def native_adapters() -> dict[str, Callable[[G11CaseSpec], object]]:
     """Return the four approved case adapters keyed by their stable case IDs."""
 
@@ -183,6 +307,17 @@ def native_adapters() -> dict[str, Callable[[G11CaseSpec], object]]:
         CASE_UNSUPPORTED: _unsupported_combination,
         CASE_NONCONVERGENCE: _controlled_nonconvergence,
         CASE_ROLLBACK: _rollback_state_integrity,
+    }
+
+
+def cross_route_adapters() -> dict[str, Callable[[G11CaseSpec], object]]:
+    """Return one focused adapter for each route previously marked PARTIAL."""
+
+    return {
+        CASE_GEO_FAILURE: _geometric_nonlinear_failure,
+        CASE_MODAL_FAILURE: _modal_failure,
+        CASE_BUCKLING_FAILURE: _buckling_failure,
+        CASE_CONTACT_FAILURE: _contact_failure,
     }
 
 
@@ -211,12 +346,37 @@ def run_native_g11_cases(
     return results
 
 
+def run_cross_route_g11_cases(
+    cases_path: str | Path,
+    archive_dir: str | Path,
+    *,
+    source_sha: str,
+) -> dict[str, dict[str, object]]:
+    """Execute and archive exactly one focused failure case per partial route."""
+
+    cases = load_case_specs(cases_path)
+    runner = G11Runner(cross_route_adapters(), source_sha=source_sha, provenance={"execution_mode": "native_route"})
+    results: dict[str, dict[str, object]] = {}
+    target_dir = Path(archive_dir)
+    for case in cases:
+        result = runner.run_case(case, evidence_id=f"G11-NATIVE-{case.case_id}")
+        runner.archive_result(result, target_dir / f"{case.case_id}.json")
+        results[case.case_id] = result
+    return results
+
+
 __all__ = [
     "CASE_NONCONVERGENCE",
     "CASE_ROLLBACK",
     "CASE_SINGULAR",
     "CASE_UNSUPPORTED",
+    "CASE_BUCKLING_FAILURE",
+    "CASE_CONTACT_FAILURE",
+    "CASE_GEO_FAILURE",
+    "CASE_MODAL_FAILURE",
+    "cross_route_adapters",
     "native_adapters",
     "native_route_status",
+    "run_cross_route_g11_cases",
     "run_native_g11_cases",
 ]

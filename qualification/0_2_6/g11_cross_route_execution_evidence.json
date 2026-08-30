@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "gate": "026-G11",
+  "evidence_id": "G11-CROSS-ROUTE-EXECUTION-001",
+  "status": "FOCUSED_CROSS_ROUTE_PASS",
+  "official_gate_status": "NOT_STARTED",
+  "source_sha": "3beff93b8ad5f1455ba67097d098adacf5054e78",
+  "runner_version": "026-G11-runner-1",
+  "execution_mode": "native_route",
+  "scope": "One adversarial failure case per previously PARTIAL route; no broad campaign.",
+  "routes": {
+    "geometric_nonlinear_static": "PARTIAL_WITH_RUNTIME_FAILURE_EVIDENCE",
+    "modal": "PARTIAL_WITH_RUNTIME_FAILURE_EVIDENCE",
+    "linear_buckling": "PARTIAL_WITH_RUNTIME_FAILURE_EVIDENCE",
+    "linear_static_contact": "PARTIAL_WITH_RUNTIME_FAILURE_EVIDENCE"
+  },
+  "cases": {
+    "VNV026-G11-XR-GEO-001": {
+      "status": "PASS",
+      "failure_class": "geometric_constraints_failure",
+      "route": "geometric_nonlinear_static",
+      "error_type_or_code": "MeshValidationError:CONSTRAINTS_REQUIRED",
+      "deterministic": true,
+      "no_nan_inf": true,
+      "no_silent_pass": true,
+      "state_preserved": "NOT_APPLICABLE",
+      "replay_classification_identical": true,
+      "classification_basis": "geometric nonlinear route rejects an unconstrained model",
+      "case_definition_sha256": "6586eaffcdbbf74a787bbea72a9aeba44c4ce20e5aa4a730d801c3ea4b7bbe6b",
+      "captured_at_utc": "2026-08-30T10:00:45.993770+00:00"
+    },
+    "VNV026-G11-XR-MODAL-001": {
+      "status": "PASS",
+      "failure_class": "invalid_eigenvalue_request",
+      "route": "modal",
+      "error_type_or_code": "InputValidationError:INVALID_MODE_REQUEST",
+      "deterministic": true,
+      "no_nan_inf": true,
+      "no_silent_pass": true,
+      "state_preserved": "NOT_APPLICABLE",
+      "replay_classification_identical": true,
+      "classification_basis": "modal route rejects a non-positive requested mode count",
+      "case_definition_sha256": "3c912c478fe17e9e79c3d2bfe4cc27e9850cf1dbc791a70cc02ac8c87ac01c4d",
+      "captured_at_utc": "2026-08-30T10:00:46.001315+00:00"
+    },
+    "VNV026-G11-XR-BUCKLING-001": {
+      "status": "PASS",
+      "failure_class": "buckling_bracket_failure",
+      "route": "linear_buckling",
+      "error_type_or_code": "NumericalConvergenceError:BUCKLING_FAILURE",
+      "deterministic": true,
+      "no_nan_inf": true,
+      "no_silent_pass": true,
+      "state_preserved": "NOT_APPLICABLE",
+      "replay_classification_identical": true,
+      "classification_basis": "tensile preload has no compressive buckling bracket",
+      "case_definition_sha256": "1102cd6d2a324fc1bae5f86d534f3769851fed0ff0b61749e5ba92870632e359",
+      "captured_at_utc": "2026-08-30T10:00:46.031862+00:00"
+    },
+    "VNV026-G11-XR-CONTACT-001": {
+      "status": "PASS",
+      "failure_class": "invalid_contact_geometry",
+      "route": "linear_static_contact",
+      "error_type_or_code": "MeshValidationError:CONTACT_CONFIGURATION_INVALID",
+      "deterministic": true,
+      "no_nan_inf": true,
+      "no_silent_pass": true,
+      "state_preserved": "NOT_APPLICABLE",
+      "replay_classification_identical": true,
+      "classification_basis": "contact slave projection is outside the compatible master triangle",
+      "case_definition_sha256": "29e59d22eb939470ccfcd3974758a12bda73c17fd66d7b66c35864b36ee47682",
+      "captured_at_utc": "2026-08-30T10:00:46.033420+00:00"
+    }
+  },
+  "new_runtime_envelopes": 4,
+  "envelopes_valid": 4,
+  "deterministic_replays": 4,
+  "no_nan_inf": true,
+  "no_silent_pass": true,
+  "state_integrity": "NOT_APPLICABLE_FOR_THESE_PRE-SOLVE_FAILURES",
+  "external_correlation": "NOT_RUN",
+  "official_closeout": "NOT_PERFORMED"
+}
