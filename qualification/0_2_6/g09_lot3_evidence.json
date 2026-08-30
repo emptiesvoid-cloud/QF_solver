@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "gate": "026-G09",
+  "lot": "LOT3",
+  "status": "PASS_WITH_LIMITATIONS",
+  "official_gate_status": "NOT_STARTED",
+  "gate_closure_granted": false,
+  "owner_decision": "OWNER_REVIEW_REQUIRED",
+  "source_sha": "c76d4af39dc270a05596a53ef2d93baa9171c29b",
+  "source_dirty": false,
+  "generated_utc": "2026-08-30T14:13:41.814183Z",
+  "external_solvers": {
+    "code_aster": {
+      "name": "Code_Aster",
+      "version": "18.1.0",
+      "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+      "role": "bounded unilateral normal and TET4 structural comparator",
+      "formulation": "LIAISON_UNIL; exact unilateral constraint, not the QF penalty law"
+    },
+    "calculix": {
+      "name": "CalculiX",
+      "version": "2.20",
+      "image": "qf-solver/calculix-nafems13h:2.20",
+      "role": "independent elastic pre-contact tie-breaker only",
+      "formulation": "C3D4 elastic pre-contact probe; no external contact active-set claim"
+    }
+  },
+  "commands": [
+    "PYTHONPATH=src python -c \"CodeAsterFrictionlessContactCampaign(...).run()\"",
+    "PYTHONPATH=src python -c \"CodeAsterTet4MasterContactCampaign(...).run()\"",
+    "PYTHONPATH=src python -c \"CodeAsterAdditionalContactCampaign(..., tet4_grid=(8,4,4)).run()\""
+  ],
+  "cases": {
+    "scalar_open_close": {
+      "status": "PASS_EXTERNAL_CORRELATION_BOUNDED",
+      "checks": [
+        {"id": "compression_qf_code_aster_uz", "value": 0.0, "limit": 1e-10, "status": "PASS"},
+        {"id": "separation_qf_code_aster_uz", "value": 0.0, "limit": 1e-10, "status": "PASS"},
+        {"id": "compression_exact_closure", "value": 0.0, "limit": 1e-10, "status": "PASS"},
+        {"id": "separation_open_gap", "value": 0.0, "limit": 1e-12, "status": "PASS"},
+        {"id": "qf_active_set_branch", "value": 0.0, "limit": 0.0, "status": "PASS"}
+      ],
+      "limitation": "The comparator validates the equivalent scalar unilateral inequality; it does not validate a general deformable contact surface."
+    },
+    "tet4_active_face": {
+      "status": "PASS_EXTERNAL_CORRELATION_BOUNDED",
+      "checks": [
+        {"id": "slave_uz_m", "value": 1.3877787807814457e-17, "limit": 1e-10, "status": "PASS"},
+        {"id": "master_1_uz_m", "value": 0.0, "limit": 1e-10, "status": "PASS"},
+        {"id": "master_2_uz_m", "value": 0.0, "limit": 1e-10, "status": "PASS"},
+        {"id": "master_3_uz_m", "value": 0.0, "limit": 1e-10, "status": "PASS"}
+      ],
+      "limitation": "The active state is imposed by LIAISON_DDL in Code_Aster; active-set detection remains an internal QF result."
+    },
+    "tet4_two_slave_curve": {
+      "status": "PASS_WITH_LIMITATIONS",
+      "load_points": 10,
+      "overall_displacement_curve_error": 0.04339979885207582,
+      "overall_gap_curve_error": 0.5499121110155485,
+      "active_displacement_curve_error": 4.024558464266181e-15,
+      "active_gap_curve_error": 4.0245584642661925e-16,
+      "transition_curve_warning_value": 0.04339979885207582,
+      "transition_curve_warning_limit": 0.05,
+      "final_gap_max_abs_m": 1.1102230246251565e-16,
+      "limitation": "The 4.34 percent transition difference and 54.99 percent normalized gap-curve difference are retained because Code_Aster uses an exact unilateral constraint while QF uses penalty contact; the active branch agrees within the adapter limits."
+    },
+    "calculix_precontact": {
+      "status": "PASS_EXTERNAL_TIE_BREAKER",
+      "qf_displacements_m": [-0.09255741982647325, -0.09566002011479241],
+      "calculix_displacements_m": [-0.0925574, -0.09566],
+      "normalized_error": 2.1027376317609138e-07,
+      "limit": 1e-5,
+      "status_check": "PASS",
+      "limitation": "The available deck is pre-contact elastic C3D4 and does not exercise CalculiX contact detection, penalty enforcement or recontact."
+    }
+  },
+  "penalty_governance": {
+    "candidate_range": [10000.0, 1000000.0],
+    "status": "OWNER_REVIEW_REQUIRED",
+    "basis": "Lot 1 and Lot 2 tested 1e4, 1e5 and 1e6 over TET4 mesh levels 1, 2 and 4 with convergence and non-increasing penetration.",
+    "approved_production_range": null,
+    "conditioning_cutoff": "NONE_APPROVED"
+  },
+  "aggregate_requirements": {
+    "full": [],
+    "bounded": ["G09-L3-001", "G09-L3-002", "G09-L3-003", "G09-L3-005"],
+    "deferred": ["G09-L3-004"],
+    "blocking": []
+  },
+  "limitations": [
+    "External evidence is bounded to unilateral normal kinematics and the tested TET4 structural path.",
+    "Code_Aster exact unilateral constraints are not an identical numerical penalty formulation.",
+    "CalculiX is a pre-contact elastic tie-breaker only.",
+    "No external proof is claimed for finite sliding, surface-to-surface search, friction, contact tangent discontinuities or universal penalty selection.",
+    "The official G09 gate remains open pending explicit Owner disposition of the candidate penalty policy."
+  ],
+  "artifact_digests": {
+    "code_aster_scalar_summary.json": "b28e18a718ecf402875247dbd08f80ff02057ded4bc16ad351ec8323e56b2dfa",
+    "code_aster_scalar_report.md": "0b8d5c1c2dfdc009461a84579c8fd20434575005278814152379a04496068b66",
+    "code_aster_scalar_vnv_manifest.json": "4ed140e7d7288ff76b95633570fa4288b621380efb0447ac325ad95269913b04",
+    "code_aster_scalar_figure.png": "30ee4a8bcede5f61c0e044b9ef66447878cf296de00af483b29a8b9dfd329e84",
+    "code_aster_tet4_summary.json": "323c2af0ae779f38406c6e7422490cddf972ec8c81d9c02a43a5cbccbf9d9dbf",
+    "code_aster_tet4_report.md": "97a9c2e455f724f3af14aac98cc67bb7c2e5727b1f16f669825c332970f1ad1d",
+    "code_aster_tet4_vnv_manifest.json": "c6f48aa3819d47f4d278122b5179217dd8152a0d7f2fe712d653b3610dcf88ab",
+    "code_aster_additional_summary.json": "b0a7d16ed50e950586aa24d484a38d6b39d985ca3c8e5e4ecbb50b7308698c8a",
+    "code_aster_additional_report.md": "2bd59270ca388ddd8280cca3573e4530443b333708eee379bbeb197e1650bad7",
+    "code_aster_additional_vnv_manifest.json": "835e69cef260b06238990851ee8300f8ec556757c0d7611569b121ca42cf8755",
+    "code_aster_additional_figure.png": "514c1ac71c53cb475cd6b7eefeca00e94011cfc118822b9d7b3ec6aff5210e54",
+    "calculix_precontact_input.inp": "cd401d5891250a15e3ae2fbe4e8bb6a9f64db67deab4e628d7fe793024793b5f",
+    "calculix_precontact_log": "aee74c3c279f8d97d5abe925bd1104a0c2324207a78b10395838120481f278a0",
+    "calculix_precontact_result.frd": "9fc3047f6bde6b1a412596e2d5eaa866c776857b1692097e99532374c3be1003"
+  }
+}
