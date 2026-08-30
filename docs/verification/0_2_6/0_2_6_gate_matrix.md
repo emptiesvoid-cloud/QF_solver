@@ -32,3 +32,9 @@ constitute numerical evidence or gate closure. The bounded candidate scope is
 Total-Lagrangian elasticity on TET4 and HEX8. TET10 and HEX20 remain research
 routes. Arc-length and snap-through remain `EXPERIMENTAL` / `PASS_INTERNAL_RESEARCH`
 and cannot be promoted by this contract.
+
+`026-G08` remains `NOT_STARTED`. Its controlled candidate contract is recorded
+in `qualification/0_2_6/g08_requirements.json` and
+`qualification/0_2_6/g08_case_registry.json`; these files define the audited
+linear-buckling scope and future evidence mapping but do not constitute
+numerical evidence or gate closure.

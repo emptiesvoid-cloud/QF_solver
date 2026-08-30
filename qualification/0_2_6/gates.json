@@ -80,7 +80,11 @@
       "title": "Geometric nonlinear and arc-length review"
     },
     {
-      "evidence_ids": [],
+      "evidence_ids": [
+        "g08_requirements.json",
+        "g08_case_registry.json",
+        "0_2_6_g08_contract.md"
+      ],
       "id": "026-G08",
       "status": "NOT_STARTED",
       "title": "Buckling maturity extension"

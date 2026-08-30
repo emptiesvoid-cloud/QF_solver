@@ -1,0 +1,187 @@
+{
+  "schema_version": 1,
+  "gate": "026-G08",
+  "status": "CONTRACT_DEFINED_GATE_NOT_STARTED",
+  "case_state_vocabulary": ["READY", "PLANNED", "NOT_APPLICABLE", "NOT_SUPPORTED"],
+  "policy": "READY identifies a controlled executable definition, not a completed or qualified result.",
+  "cases": [
+    {
+      "case_id": "G08-BUC-TET4-SMOKE-001",
+      "status": "READY",
+      "family": "TET4",
+      "route": "linear_buckling",
+      "requirements": ["G08-001", "G08-002", "G08-004", "G08-006", "G08-009"],
+      "oracle": ["internal_regression", "finite-norm_invariant"],
+      "policy": ["TOL-026-FLOAT-001", "TOL-026-EXACT-001"],
+      "input": "examples/tet4_linear_buckling.json",
+      "purpose": "Maintained public smoke route; no independent qualification claim."
+    },
+    {
+      "case_id": "G08-BUC-TET4-EULER-001",
+      "status": "READY",
+      "family": "TET4",
+      "route": "linear_buckling",
+      "requirements": ["G08-002", "G08-003", "G08-004", "G08-005", "G08-006", "G08-009"],
+      "oracle": ["Euler analytical reference"],
+      "policy": ["TOL-026-ANALYTICAL-001", "TOL-026-EXACT-001"],
+      "input": "src/solveur/verification/tet4_total_lagrangian_buckling.py",
+      "purpose": "Existing TET4 Euler campaign factory; replay is required for 0.2.6 evidence."
+    },
+    {
+      "case_id": "G08-BUC-TET4-CALCULIX-001",
+      "status": "READY",
+      "family": "TET4",
+      "route": "linear_buckling",
+      "requirements": ["G08-003", "G08-004", "G08-008", "G08-009"],
+      "oracle": ["CalculiX same-model solid correlation"],
+      "policy": ["oracle-specific", "TOL-026-EXACT-001"],
+      "input": "src/solveur/verification/calculix_buckling_025.py",
+      "purpose": "Existing external adapter; availability and comparability remain explicit."
+    },
+    {
+      "case_id": "G08-BUC-TET4-FAIL-BC-001",
+      "status": "PLANNED",
+      "family": "TET4",
+      "route": "linear_buckling",
+      "requirements": ["G08-001", "G08-007", "G08-009"],
+      "oracle": ["structured failure contract"],
+      "policy": ["TOL-026-EXACT-001"],
+      "input": "controlled invalid-BC fixture to be defined before G08 execution",
+      "purpose": "Failure contract; not a successful buckling result."
+    },
+    {
+      "case_id": "G08-BUC-TET4-MESH-001",
+      "status": "PLANNED",
+      "family": "TET4",
+      "route": "linear_buckling",
+      "requirements": ["G08-003", "G08-005", "G08-006", "G08-009"],
+      "oracle": ["bounded mesh-refinement trend"],
+      "policy": ["TOL-026-ANALYTICAL-001", "PROPOSED_OWNER_REVIEW:G08-005"],
+      "input": "FACTORY-026-G08-TET4-MESH",
+      "mesh_levels": ["coarse", "medium", "fine", "refined"],
+      "purpose": "Four-level trend; no acceptance band is approved by this bootstrap."
+    },
+    {
+      "case_id": "G08-BUC-HEX8-ANALYTICAL-001",
+      "status": "PLANNED",
+      "family": "HEX8",
+      "route": "linear_buckling",
+      "requirements": ["G08-002", "G08-003", "G08-004", "G08-006", "G08-009"],
+      "oracle": ["analytical or controlled solid reference"],
+      "policy": ["TOL-026-ANALYTICAL-001", "PROPOSED_OWNER_REVIEW:G08-003"],
+      "input": "FACTORY-026-G08-HEX8",
+      "purpose": "Supported route, not yet 0.2.6-qualified."
+    },
+    {
+      "case_id": "G08-BUC-TET10-ANALYTICAL-001",
+      "status": "PLANNED",
+      "family": "TET10",
+      "route": "linear_buckling",
+      "requirements": ["G08-002", "G08-003", "G08-004", "G08-006", "G08-009"],
+      "oracle": ["analytical or controlled solid reference"],
+      "policy": ["TOL-026-ANALYTICAL-001", "PROPOSED_OWNER_REVIEW:G08-003"],
+      "input": "FACTORY-026-G08-TET10",
+      "purpose": "High-order route requires independent requalification."
+    },
+    {
+      "case_id": "G08-BUC-HEX20-ANALYTICAL-001",
+      "status": "PLANNED",
+      "family": "HEX20",
+      "route": "linear_buckling",
+      "requirements": ["G08-002", "G08-003", "G08-004", "G08-006", "G08-009"],
+      "oracle": ["analytical or controlled solid reference"],
+      "policy": ["TOL-026-ANALYTICAL-001", "PROPOSED_OWNER_REVIEW:G08-003"],
+      "input": "FACTORY-026-G08-HEX20",
+      "purpose": "High-order route requires independent requalification."
+    },
+    {
+      "case_id": "G08-BUC-SOLIDS-MESH-001",
+      "status": "PLANNED",
+      "family": "TET4/TET10/HEX8/HEX20",
+      "route": "linear_buckling",
+      "requirements": ["G08-003", "G08-005", "G08-006", "G08-009"],
+      "oracle": ["cross-family bounded refinement trend"],
+      "policy": ["TOL-026-ANALYTICAL-001", "PROPOSED_OWNER_REVIEW:G08-005"],
+      "input": "FACTORY-026-G08-SOLID-FAMILIES",
+      "mesh_levels": ["coarse", "medium", "fine", "refined"],
+      "purpose": "Cross-family comparison with identical physical model and documented mapping."
+    },
+    {
+      "case_id": "G08-BUC-TET4-MODE-001",
+      "status": "PLANNED",
+      "family": "TET4",
+      "route": "linear_buckling",
+      "requirements": ["G08-004", "G08-006", "G08-009"],
+      "oracle": ["eigen-equation residual", "deterministic mode sign"],
+      "policy": ["PROPOSED_OWNER_REVIEW:G08-004", "PROPOSED_OWNER_REVIEW:G08-006"],
+      "input": "FACTORY-026-G08-TET4-MODE",
+      "purpose": "First-mode vector quality and repeatability; no multi-mode claim."
+    },
+    {
+      "case_id": "G08-BUC-TET4-FAIL-PRELOAD-001",
+      "status": "PLANNED",
+      "family": "TET4",
+      "route": "linear_buckling",
+      "requirements": ["G08-001", "G08-002", "G08-007", "G08-009"],
+      "oracle": ["structured failure contract"],
+      "policy": ["TOL-026-EXACT-001"],
+      "input": "FACTORY-026-G08-INVALID-PRELOAD",
+      "purpose": "Zero/invalid preload and singularity diagnostics."
+    },
+    {
+      "case_id": "G08-BUC-SOLID-EXTERNAL-CALCULIX-001",
+      "status": "PLANNED",
+      "family": "TET4/TET10/HEX8/HEX20",
+      "route": "linear_buckling",
+      "requirements": ["G08-003", "G08-004", "G08-008", "G08-009"],
+      "oracle": ["CalculiX same-model solid correlation"],
+      "policy": ["oracle-specific", "PROPOSED_OWNER_REVIEW:G08-008"],
+      "input": "src/solveur/verification/calculix_buckling_025.py",
+      "purpose": "External matrix extension; a blocked tool or non-comparable family is not PASS."
+    },
+    {
+      "case_id": "G08-BUC-SOLID-EXTERNAL-CODEASTER-001",
+      "status": "NOT_APPLICABLE",
+      "family": "TET4/TET10/HEX8/HEX20",
+      "route": "linear_buckling",
+      "requirements": ["G08-008", "G08-009"],
+      "oracle": ["Code_Aster"],
+      "policy": ["SKIPPED_NOT_COMPARABLE"],
+      "input": "src/solveur/verification/code_aster_tl_structural.py",
+      "purpose": "Current controlled evidence documents no equivalent 3D solid eigen-buckling modelisation."
+    },
+    {
+      "case_id": "G08-BUC-MULTI-MODE-001",
+      "status": "NOT_SUPPORTED",
+      "family": "TET4/TET10/HEX8/HEX20",
+      "route": "linear_buckling",
+      "requirements": ["G08-001", "G08-006"],
+      "oracle": ["route capability audit"],
+      "policy": ["NOT_SUPPORTED:first mode only"],
+      "input": "none",
+      "purpose": "The current public route computes one critical mode; no multi-mode qualification is claimed."
+    },
+    {
+      "case_id": "G08-BUC-BEAM-SHELL-001",
+      "status": "NOT_SUPPORTED",
+      "family": "BEAM2/MITC3/MITC4/DISCRETE",
+      "route": "linear_buckling",
+      "requirements": ["G08-001", "G08-007"],
+      "oracle": ["route capability audit"],
+      "policy": ["NOT_SUPPORTED:solid homogeneous scope only"],
+      "input": "none",
+      "purpose": "Existing element families are not silently presented as supported by this buckling route."
+    },
+    {
+      "case_id": "G08-BUC-POSTCRITICAL-001",
+      "status": "NOT_APPLICABLE",
+      "family": "solid families",
+      "route": "post_buckling",
+      "requirements": [],
+      "oracle": [],
+      "policy": ["NOT_APPLICABLE:outside linear buckling scope"],
+      "input": "none",
+      "purpose": "Post-buckling, collapse and arc-length are outside G08."
+    }
+  ]
+}

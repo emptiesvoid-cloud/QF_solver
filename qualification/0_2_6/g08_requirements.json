@@ -1,0 +1,179 @@
+{
+  "schema_version": 1,
+  "gate": "026-G08",
+  "title": "Linear buckling maturity extension",
+  "status": "CONTRACT_DEFINED_GATE_NOT_STARTED",
+  "policy": "This candidate contract defines the evidence required for 0.2.6 requalification. It does not close G08 or upgrade historical evidence.",
+  "scope": {
+    "analysis": "linear_buckling",
+    "formulation": "first tangent-instability factor from a converged proportional preload",
+    "families_supported_by_route": ["TET4", "TET10", "HEX8", "HEX20"],
+    "target_maturity": "QUALIFIED_BOUNDED",
+    "material": "homogeneous isotropic_3d",
+    "loads": "homogeneous nodal dead loads only",
+    "assembly": "existing Total-Lagrangian solid assembly with initial-stress geometric tangent",
+    "eigensolvers": [
+      "scipy.sparse.linalg.eigsh",
+      "scipy.sparse.linalg.eigs fallback for indefinite shift-invert brackets"
+    ],
+    "first_mode_only": true,
+    "claim_boundary": "bounded linearized tangent buckling only; no universal stability or physical-validation claim"
+  },
+  "dependencies": {
+    "required_before_execution": ["026-G00", "026-G01", "026-G02", "026-G03"],
+    "not_required_before_execution": ["026-G07"],
+    "rationale": "G08 requalifies an existing linear buckling route. G07 geometric-nonlinear review is not silently treated as a prerequisite or as evidence for G08."
+  },
+  "requirements": [
+    {
+      "id": "G08-001",
+      "priority": "MUST",
+      "phenomenon": "Declared route and input-scope enforcement",
+      "metric": "accepted/rejected element family, material, load and boundary-condition combinations",
+      "threshold": {
+        "status": "DEFINED_FROM_IMPLEMENTATION_SCOPE",
+        "value": "TET4|TET10|HEX8|HEX20; one homogeneous family; isotropic_3d; nodal dead loads",
+        "source": "src/solveur/core/analyses/buckling.py::_validate_scope"
+      },
+      "oracle": ["implementation contract", "invalid-input failure matrix"],
+      "evidence": "case result, structured diagnostic and exact input configuration"
+    },
+    {
+      "id": "G08-002",
+      "priority": "MUST",
+      "phenomenon": "Preload equilibrium and initial-stress geometric stiffness",
+      "metric": "preload residual, constrained initial tangent, geometric tangent decomposition and finite critical factor",
+      "threshold": {
+        "status": "EXISTING_POLICY_REFERENCE",
+        "value": null,
+        "source": "TOL-026-NONLINEAR-001 and existing preload diagnostics; no new numeric value approved here"
+      },
+      "oracle": ["global equilibrium identity", "assembly decomposition check"],
+      "evidence": "preload history, residuals, tangent metadata and determinant/mesh diagnostics when applicable"
+    },
+    {
+      "id": "G08-003",
+      "priority": "MUST",
+      "phenomenon": "Critical factor against an analytical or controlled reference",
+      "metric": "case-defined relative error of the first critical factor and reported bracket width",
+      "threshold": {
+        "status": "PROPOSED_OWNER_REVIEW",
+        "value": null,
+        "source": "TOL-026-ANALYTICAL-001 is case-defined; no G08 band exists"
+      },
+      "oracle": ["Euler analytical reference", "published/reproducible reference when compatible"],
+      "evidence": "reference derivation, units, geometry, boundary conditions, factor, error and digest"
+    },
+    {
+      "id": "G08-004",
+      "priority": "MUST",
+      "phenomenon": "Critical mode quality",
+      "metric": "relative eigenpair residual, finite mode norm and deterministic sign convention",
+      "threshold": {
+        "status": "PROPOSED_OWNER_REVIEW",
+        "value": null,
+        "source": "No G08-specific mode-residual band is currently controlled"
+      },
+      "oracle": ["(K + lambda * Kg) phi = 0", "finite-norm invariant"],
+      "evidence": "mode vector, norm, residual, free-DOF mapping and solver diagnostics"
+    },
+    {
+      "id": "G08-005",
+      "priority": "MUST",
+      "phenomenon": "Mesh refinement and factor stability",
+      "metric": "critical-factor sequence, successive changes, mode tracking and mesh-quality metadata",
+      "threshold": {
+        "status": "PROPOSED_OWNER_REVIEW",
+        "value": null,
+        "candidate_minimum_compatible_levels": 3,
+        "source": "Existing TOL-026-ANALYTICAL-001 is case-defined; the minimum level count is not Owner-approved here"
+      },
+      "oracle": ["bounded refinement trend"],
+      "evidence": "coarse/medium/fine/refined definitions when applicable, DOF, factors, changes, quality and limitation"
+    },
+    {
+      "id": "G08-006",
+      "priority": "MUST",
+      "phenomenon": "Mode normalization and repeatability",
+      "metric": "mode norm, deterministic sign, repeated-run equality and mode identity where the route exposes one mode",
+      "threshold": {
+        "status": "PROPOSED_OWNER_REVIEW",
+        "value": null,
+        "source": "The route exposes the first mode only; no multi-mode orthogonality policy is currently controlled"
+      },
+      "oracle": ["finite-norm invariant", "same-input deterministic replay"],
+      "evidence": "mode metadata, repeat digests and configuration"
+    },
+    {
+      "id": "G08-007",
+      "priority": "MUST",
+      "phenomenon": "Fail-closed buckling diagnostics",
+      "metric": "invalid inputs and numerical failures are rejected with structured reasons and never reported as PASS",
+      "threshold": {
+        "status": "DEFINED_FROM_EXISTING_CONTRACT",
+        "value": 0.0,
+        "source": "TOL-026-EXACT-001; expected-failure and invariant contracts"
+      },
+      "oracle": ["structured failure taxonomy", "no-false-convergence invariant"],
+      "evidence": "failure category, message, diagnostics and input provenance"
+    },
+    {
+      "id": "G08-008",
+      "priority": "MUST",
+      "phenomenon": "Independent external correlation when formulation-compatible",
+      "metric": "critical factor and mode comparison over the declared comparable scope",
+      "threshold": {
+        "status": "PROPOSED_OWNER_REVIEW",
+        "value": null,
+        "source": "Oracle-specific; unavailable or non-comparable tools must be SKIPPED with justification"
+      },
+      "oracle": ["CalculiX when the solid deck is comparable", "Code_Aster only where an equivalent modelisation exists", "Abaqus if available"],
+      "evidence": "deck, solver/version, model mapping, factors, modes, differences, skips and digest"
+    },
+    {
+      "id": "G08-009",
+      "priority": "MUST",
+      "phenomenon": "Evidence provenance and reproducibility",
+      "metric": "exact source SHA, dirty state, environment, command, thresholds and artifact digests",
+      "threshold": {
+        "status": "DEFINED_FROM_EXISTING_EVIDENCE_CONTRACT",
+        "value": "source_sha present; dirty=false; digest present",
+        "source": "0.2.6 V&V architecture and artifact policy"
+      },
+      "oracle": ["manifest/digest verification"],
+      "evidence": "machine-readable manifest linked to every executed G08 case and aggregate report"
+    }
+  ],
+  "failure_modes": [
+    {"id": "INSUFFICIENT_BC", "expected": "FAIL_CLOSED", "diagnostic": "insufficient constrained/free DOF information"},
+    {"id": "ZERO_OR_INVALID_PRELOAD", "expected": "FAIL_CLOSED", "diagnostic": "missing, zero or invalid preload configuration/load"},
+    {"id": "SINGULAR_INITIAL_TANGENT", "expected": "FAIL_CLOSED", "diagnostic": "constrained initial tangent is not positive definite"},
+    {"id": "SHIFT_INVERT_SINGULARITY", "expected": "FAIL_CLOSED_OR_DETERMINISTIC_FALLBACK", "diagnostic": "shift is singular or no residual-qualified in-bracket eigenpair is recovered"},
+    {"id": "INVALID_MODE_REQUEST", "expected": "FAIL_CLOSED_OR_NOT_SUPPORTED", "diagnostic": "route currently returns the first mode only"},
+    {"id": "RIGID_BODY_MODE", "expected": "FAIL_CLOSED", "diagnostic": "unconstrained rigid mode prevents positive-definite initial tangent"},
+    {"id": "NONPHYSICAL_EIGENVALUE", "expected": "FAIL_CLOSED", "diagnostic": "non-finite, non-positive or out-of-bracket factor"},
+    {"id": "UNSUPPORTED_ELEMENT_OR_LOAD", "expected": "FAIL_CLOSED", "diagnostic": "family/material/load falls outside _validate_scope"},
+    {"id": "INVALID_MESH_OR_JACOBIAN", "expected": "FAIL_CLOSED", "diagnostic": "mesh validation rejects geometry before solve"},
+    {"id": "EXTERNAL_TOOL_UNAVAILABLE", "expected": "SKIPPED_NOT_PASS", "diagnostic": "optional external executable is unavailable"}
+  ],
+  "threshold_governance": {
+    "status": "OWNER_REVIEW_REQUIRED",
+    "approved_policies": ["TOL-026-EXACT-001", "TOL-026-FLOAT-001", "TOL-026-ANALYTICAL-001 case-defined only"],
+    "proposed_owner_review_count": 5,
+    "rule": "No proposed or null policy may be converted into a numerical pass band by the runner."
+  },
+  "gate_boundary": {
+    "current_gate_status": "NOT_STARTED",
+    "gate_closure": "not permitted by this contract alone",
+    "historical_evidence": "0.2.5 evidence remains historical/bounded and must be replayed or explicitly accepted under the 0.2.6 contract",
+    "excluded": [
+      "nonlinear buckling",
+      "post-buckling continuation",
+      "imperfection-sensitive collapse",
+      "arc-length/path following",
+      "finite-kinematic J2",
+      "shell/beam/discrete buckling through this solid route",
+      "general physical validation"
+    ]
+  }
+}
