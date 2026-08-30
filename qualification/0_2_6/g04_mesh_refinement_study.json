@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "study_id": "026-G04-MESH-HEX8-001",
+  "gate": "026-G04",
+  "status": "CONTROLLED_EXECUTION",
+  "source_sha": "171bc93803690fb70b8831f17db81f60f4401ea6",
+  "family": "HEX8",
+  "analysis": "linear_static",
+  "model_definition": {
+    "geometry": "unit square-prism bar, length L=1, section A=1",
+    "material": "isotropic_3d, E=210000000000.0, nu=0.3",
+    "boundary": "all translations fixed on x=0 face; all four x=1 face nodes receive UX=250",
+    "mesh_levels": [1, 2, 4, 8],
+    "topology": "compatible structured HEX8 sequence; same physical domain and load transfer at every level"
+  },
+  "observable": {
+    "name": "q",
+    "definition": "arithmetic mean of UX at the four x=1 face nodes",
+    "units": "m",
+    "location": "x=1 end face"
+  },
+  "reference": {
+    "name": "q_ref",
+    "definition": "F_total*L/(E*A)",
+    "value": 4.761904761904762e-09,
+    "units": "m",
+    "justification": "dimensional axial-response scale for the declared unit bar; used in the approved normalization, not as a claim of exact 3-D end-effect solution"
+  },
+  "metric": {
+    "name": "final_adjacent_mesh_response_change",
+    "definition": "abs(q_fine-q_medium)/max(abs(q_fine),abs(q_medium),abs(q_ref))",
+    "fine_level": 8,
+    "medium_level": 4,
+    "threshold": 0.01,
+    "monotonicity_required": false,
+    "policy_id": "G04-POL-003"
+  },
+  "case_ids": [
+    "VNV026-G04-MESH-HEX8-001",
+    "VNV026-G04-MESH-HEX8-002",
+    "VNV026-G04-MESH-HEX8-004",
+    "VNV026-G04-MESH-HEX8-008"
+  ]
+}
