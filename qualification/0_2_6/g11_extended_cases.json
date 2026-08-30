@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "campaign_id": "026-G11-EXTENDED-FOCUSED-001",
+  "gate": "026-G11",
+  "status": "TARGETED_EXTENSION_FOR_EXECUTION",
+  "source_sha": "18576cc83d8ce35f85eaaa79471fad0030e18deb",
+  "execution_state": "NATIVE_ROUTE_EXECUTION_REQUESTED",
+  "common_envelope": "qualification/0_2_6/g11_requirements.json#common_failure_envelope",
+  "scope": "Focused coverage of inexpensive missing failure classes using existing route/verification helpers; no solver implementation change and no broad campaign.",
+  "cases": [
+    {
+      "case_id": "VNV026-G11-EXT-SINGULAR-TANGENT-001",
+      "failure_class": "singular_tangent",
+      "route": "nonlinear_static",
+      "expected_behavior": "terminate with explicit singular tangent reason",
+      "error_type_or_code": "NumericalConvergenceError / SINGULAR_TANGENT",
+      "expected_error_types": ["NumericalConvergenceError"],
+      "expected_error_codes": ["SINGULAR_TANGENT"],
+      "adapter_id": "VNV026-G11-EXT-SINGULAR-TANGENT-001",
+      "requirements": ["G11-DIAG-002", "G11-DIAG-004", "G11-DIAG-005", "G11-DIAG-008"]
+    },
+    {
+      "case_id": "VNV026-G11-EXT-MIN-INCREMENT-001",
+      "failure_class": "MIN_INCREMENT_REACHED",
+      "route": "nonlinear_static",
+      "expected_behavior": "terminate when adaptive retry reaches the minimum increment",
+      "error_type_or_code": "NumericalConvergenceError / MIN_INCREMENT_REACHED",
+      "expected_error_types": ["NumericalConvergenceError"],
+      "expected_error_codes": ["MIN_INCREMENT_REACHED"],
+      "adapter_id": "VNV026-G11-EXT-MIN-INCREMENT-001",
+      "requirements": ["G11-DIAG-004", "G11-DIAG-005", "G11-DIAG-008"]
+    },
+    {
+      "case_id": "VNV026-G11-EXT-LINEAR-FAILURE-001",
+      "failure_class": "LINEAR_SOLVER_FAILURE",
+      "route": "nonlinear_static",
+      "expected_behavior": "terminate with explicit sparse linear solver failure",
+      "error_type_or_code": "NumericalConvergenceError / LINEAR_SOLVER_FAILURE",
+      "expected_error_types": ["NumericalConvergenceError"],
+      "expected_error_codes": ["LINEAR_SOLVER_FAILURE"],
+      "adapter_id": "VNV026-G11-EXT-LINEAR-FAILURE-001",
+      "requirements": ["G11-DIAG-004", "G11-DIAG-005", "G11-DIAG-008"]
+    },
+    {
+      "case_id": "VNV026-G11-EXT-NAN-001",
+      "failure_class": "NAN_DETECTED",
+      "route": "nonlinear_static",
+      "expected_behavior": "terminate before non-finite correction continuation",
+      "error_type_or_code": "NumericalConvergenceError / NAN_DETECTED",
+      "expected_error_types": ["NumericalConvergenceError"],
+      "expected_error_codes": ["NAN_DETECTED"],
+      "adapter_id": "VNV026-G11-EXT-NAN-001",
+      "requirements": ["G11-DIAG-004", "G11-DIAG-005", "G11-DIAG-008"]
+    },
+    {
+      "case_id": "VNV026-G11-EXT-INF-001",
+      "failure_class": "INF_DETECTED",
+      "route": "nonlinear_static",
+      "expected_behavior": "terminate before infinite correction continuation",
+      "error_type_or_code": "NumericalConvergenceError / INF_DETECTED",
+      "expected_error_types": ["NumericalConvergenceError"],
+      "expected_error_codes": ["INF_DETECTED"],
+      "adapter_id": "VNV026-G11-EXT-INF-001",
+      "requirements": ["G11-DIAG-004", "G11-DIAG-005", "G11-DIAG-008"]
+    },
+    {
+      "case_id": "VNV026-G11-EXT-MATERIAL-001",
+      "failure_class": "MATERIAL_UPDATE_FAILURE",
+      "route": "nonlinear_static",
+      "expected_behavior": "terminate with explicit material update failure",
+      "error_type_or_code": "NumericalConvergenceError / MATERIAL_UPDATE_FAILURE",
+      "expected_error_types": ["NumericalConvergenceError"],
+      "expected_error_codes": ["MATERIAL_UPDATE_FAILURE"],
+      "adapter_id": "VNV026-G11-EXT-MATERIAL-001",
+      "requirements": ["G11-DIAG-004", "G11-DIAG-005", "G11-DIAG-008"]
+    },
+    {
+      "case_id": "VNV026-G11-EXT-CONTACT-UPDATE-001",
+      "failure_class": "CONTACT_UPDATE_FAILURE",
+      "route": "nonlinear_static",
+      "expected_behavior": "terminate with explicit contact update failure",
+      "error_type_or_code": "NumericalConvergenceError / CONTACT_UPDATE_FAILURE",
+      "expected_error_types": ["NumericalConvergenceError"],
+      "expected_error_codes": ["CONTACT_UPDATE_FAILURE"],
+      "adapter_id": "VNV026-G11-EXT-CONTACT-UPDATE-001",
+      "requirements": ["G11-DIAG-004", "G11-DIAG-005", "G11-DIAG-008"]
+    },
+    {
+      "case_id": "VNV026-G11-EXT-CHECKPOINT-001",
+      "failure_class": "CHECKPOINT_FAILURE",
+      "route": "nonlinear_static",
+      "expected_behavior": "reject corrupted or inconsistent checkpoint with explicit diagnostic",
+      "error_type_or_code": "InputValidationError / CHECKPOINT_FAILURE",
+      "expected_error_types": ["InputValidationError"],
+      "expected_error_codes": ["CHECKPOINT_FAILURE"],
+      "adapter_id": "VNV026-G11-EXT-CHECKPOINT-001",
+      "requirements": ["G11-DIAG-004", "G11-DIAG-005", "G11-DIAG-008"]
+    },
+    {
+      "case_id": "VNV026-G11-MUTABLE-CONTACT-001",
+      "failure_class": "CONTACT_UPDATE_FAILURE",
+      "route": "nonlinear_static",
+      "expected_behavior": "rollback contact trial and retry from committed state",
+      "error_type_or_code": "NumericalConvergenceError / CONTACT_UPDATE_FAILURE",
+      "expected_error_types": ["NumericalConvergenceError"],
+      "expected_error_codes": ["CONTACT_UPDATE_FAILURE"],
+      "adapter_id": "VNV026-G11-MUTABLE-CONTACT-001",
+      "stateful": true,
+      "state_preserved": true,
+      "requirements": ["G11-DIAG-004", "G11-DIAG-005", "G11-DIAG-006", "G11-DIAG-008"]
+    }
+  ],
+  "no_new_thresholds": true,
+  "official_gate_closeout": "NOT_PERFORMED"
+}
