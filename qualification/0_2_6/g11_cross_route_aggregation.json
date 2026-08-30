@@ -7,7 +7,21 @@
   "qualification_scope": "All route-native G11 cases currently executed in this worktree; focused evidence only, not full route qualification.",
   "source_evidence": [
     "qualification/0_2_6/g11_native_execution_evidence.json",
-    "qualification/0_2_6/g11_cross_route_execution_evidence.json"
+    "qualification/0_2_6/g11_cross_route_execution_evidence.json",
+    "qualification/0_2_6/g11_mutable_execution_evidence.json"
+  ],
+  "matrix_definition": "Each row is ROUTE × FAILURE_CLASS × RUNTIME_EVIDENCE × DETERMINISTIC × NO_NAN_INF × NO_SILENT_PASS × STATE_INTEGRITY, with provenance_valid required for every runtime result.",
+  "new_runtime_cases_this_expansion": 1,
+  "total_runtime_cases": 9,
+  "failure_classes_covered": [
+    "singular_linear_system",
+    "unsupported_load_element_pair",
+    "MAX_ITERATIONS",
+    "rejected_increment",
+    "geometric_constraints_failure",
+    "invalid_eigenvalue_request",
+    "buckling_bracket_failure",
+    "invalid_contact_geometry"
   ],
   "routes": {
     "linear_static": "READY_FOCUSED_EVIDENCE",
@@ -23,6 +37,7 @@
       "route": "linear_static",
       "failure_class": "singular_linear_system",
       "expected_behavior": "terminate_without_valid_result",
+      "runtime_evidence": true,
       "runtime_result": "PASS",
       "evidence_id": "G11-NATIVE-EXECUTION-001",
       "deterministic": true,
@@ -36,6 +51,7 @@
       "route": "linear_static",
       "failure_class": "unsupported_load_element_pair",
       "expected_behavior": "reject_explicitly",
+      "runtime_evidence": true,
       "runtime_result": "PASS",
       "evidence_id": "G11-NATIVE-EXECUTION-001",
       "deterministic": true,
@@ -49,6 +65,7 @@
       "route": "nonlinear_static",
       "failure_class": "MAX_ITERATIONS",
       "expected_behavior": "terminate_nonconverged",
+      "runtime_evidence": true,
       "runtime_result": "PASS",
       "evidence_id": "G11-NATIVE-EXECUTION-001",
       "deterministic": true,
@@ -62,6 +79,7 @@
       "route": "nonlinear_static",
       "failure_class": "rejected_increment",
       "expected_behavior": "rollback_then_retry",
+      "runtime_evidence": true,
       "runtime_result": "PASS",
       "evidence_id": "G11-NATIVE-EXECUTION-001",
       "deterministic": true,
@@ -75,6 +93,7 @@
       "route": "geometric_nonlinear_static",
       "failure_class": "geometric_constraints_failure",
       "expected_behavior": "reject_before_nonlinear_continuation",
+      "runtime_evidence": true,
       "runtime_result": "PASS",
       "evidence_id": "G11-CROSS-ROUTE-EXECUTION-001",
       "deterministic": true,
@@ -88,6 +107,7 @@
       "route": "modal",
       "failure_class": "invalid_eigenvalue_request",
       "expected_behavior": "reject_without_eigenpairs",
+      "runtime_evidence": true,
       "runtime_result": "PASS",
       "evidence_id": "G11-CROSS-ROUTE-EXECUTION-001",
       "deterministic": true,
@@ -101,6 +121,7 @@
       "route": "linear_buckling",
       "failure_class": "buckling_bracket_failure",
       "expected_behavior": "terminate_without_bracket",
+      "runtime_evidence": true,
       "runtime_result": "PASS",
       "evidence_id": "G11-CROSS-ROUTE-EXECUTION-001",
       "deterministic": true,
@@ -114,12 +135,27 @@
       "route": "linear_static_contact",
       "failure_class": "invalid_contact_geometry",
       "expected_behavior": "reject_before_active_set_continuation",
+      "runtime_evidence": true,
       "runtime_result": "PASS",
       "evidence_id": "G11-CROSS-ROUTE-EXECUTION-001",
       "deterministic": true,
       "no_nan_inf": true,
       "no_silent_pass": true,
       "state_integrity": "NOT_APPLICABLE",
+      "provenance_valid": true
+    },
+    {
+      "case_id": "VNV026-G11-MUTABLE-HEX8-001",
+      "route": "nonlinear_static",
+      "failure_class": "rejected_increment",
+      "expected_behavior": "rollback_then_retry",
+      "runtime_evidence": true,
+      "runtime_result": "PASS",
+      "evidence_id": "G11-MUTABLE-EXECUTION-001",
+      "deterministic": true,
+      "no_nan_inf": true,
+      "no_silent_pass": true,
+      "state_integrity": true,
       "provenance_valid": true
     }
   ],
@@ -142,8 +178,15 @@
   "deferred_limitations": [
     "This focused set does not cover every failure class listed by the four requirements.",
     "The four partial routes remain partial for broader success/failure corpus coverage.",
-    "The prior nonlinear rollback case is the only mutable/retry state-integrity runtime proof in this focused set."
+    "The TET4 and additional HEX8 nonlinear rollback cases do not qualify contact, material-update or checkpoint rollback classes."
   ],
+  "gaps_remaining_by_requirement": {
+    "G11-DIAG-002": ["singular_tangent", "singular_contact_jacobian", "modal_backend_failure"],
+    "G11-DIAG-004": ["MIN_INCREMENT_REACHED", "LINEAR_SOLVER_FAILURE", "NAN_DETECTED", "INF_DETECTED", "MATERIAL_UPDATE_FAILURE", "CONTACT_UPDATE_FAILURE", "CHECKPOINT_FAILURE"],
+    "G11-DIAG-005": ["complete all-public-route deterministic corpus", "complete essential-diagnostic equality across failure classes"],
+    "G11-DIAG-008": ["complete all-public-route no-silent-PASS and no-NaN corpus", "unsupported fallback and hidden state-corruption variants"]
+  },
+  "owner_closeout_readiness": "READY_WITH_LIMITATIONS",
   "new_thresholds": [],
   "official_closeout": "NOT_PERFORMED"
 }

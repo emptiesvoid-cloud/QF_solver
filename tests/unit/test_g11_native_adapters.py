@@ -8,6 +8,7 @@ from pathlib import Path
 from solveur.verification.g11_native_adapters import (
     native_route_status,
     run_cross_route_g11_cases,
+    run_mutable_g11_cases,
     run_native_g11_cases,
 )
 
@@ -57,10 +58,11 @@ def test_cross_route_aggregation_is_bounded_and_complete_for_executed_cases() ->
     aggregation = json.loads(aggregation_path.read_text(encoding="utf-8"))
 
     rows = aggregation["aggregation"]
-    assert len(rows) == 8
+    assert len(rows) == 9
     assert aggregation["official_gate_status"] == "NOT_STARTED"
     assert all(
-        row["runtime_result"] == "PASS"
+        row["runtime_evidence"]
+        and row["runtime_result"] == "PASS"
         and row["deterministic"]
         and row["no_nan_inf"]
         and row["no_silent_pass"]
@@ -73,6 +75,30 @@ def test_cross_route_aggregation_is_bounded_and_complete_for_executed_cases() ->
         "G11-DIAG-005": "SATISFIED_BOUNDED",
         "G11-DIAG-008": "SATISFIED_BOUNDED",
     }
+
+
+def test_additional_mutable_hex8_case_preserves_state_and_replays(tmp_path: Path) -> None:
+    cases = ROOT / "qualification" / "0_2_6" / "g11_mutable_cases.json"
+    results = run_mutable_g11_cases(
+        cases,
+        tmp_path,
+        source_sha="325ea7a98fa7f6d61c25d5c9048a7f7cf419c7f0",
+    )
+
+    result = results["VNV026-G11-MUTABLE-HEX8-001"]
+    assert result["status"] == "PASS"
+    assert result["envelope"]["STATE_PRESERVED"] is True
+    assert all(
+        result["envelope"][field] is True
+        for field in ("DETERMINISTIC", "NO_NAN_INF", "NO_SILENT_PASS")
+    )
+    record = json.loads(
+        (tmp_path / "VNV026-G11-MUTABLE-HEX8-001.json").read_text(encoding="utf-8")
+    )
+    first = record["observations"]["first"]["diagnostics"]
+    replay = record["observations"]["replay"]["diagnostics"]
+    assert first["committed_digest_before_failure"] == first["retry_state_digest"]
+    assert first == replay
 
 def test_cross_route_introspection_does_not_overclaim_unexecuted_routes() -> None:
     status = native_route_status()
