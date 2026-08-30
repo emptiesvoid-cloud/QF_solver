@@ -48,24 +48,19 @@ MODES = ("traction", "compression", "shear_y", "bending_z")
 # These values intentionally differ from the historical stress/rescue grids.
 PRIMARY_CASES = tuple(
     {
-        "id": f"TL-PQ-{family}-M{cells}-A{aspect:g}-{mode}-D{distortion:g}-R{angle:g}",
+        "id": f"TL-PQ-{family}-M{cells}-A6.5-{mode}-D0.07-R0.261799",
         "family": family,
         "cells": cells,
         "mode": mode,
         "load_scale": 0.01 if mode == "bending_z" else 0.0125,
         "increments": 16,
-        "distortion": distortion,
-        "angle": angle,
-        "aspect": aspect,
+        "distortion": 0.07,
+        "angle": np.pi / 12.0,
+        "aspect": 6.5,
         "group": "primary_mesh_mode",
     }
     for family in FAMILIES
-    for cells, aspect, distortion, angle in (
-        (1, 3.5, 0.03, np.pi / 12.0),
-        (2, 5.5, 0.09, np.pi / 6.0),
-        (3, 8.5, 0.15, np.pi / 12.0),
-        (4, 3.5, 0.09, np.pi / 6.0),
-    )
+    for cells in MESH_LEVELS
     for mode in MODES
 )
 
@@ -381,6 +376,43 @@ def _reproducibility(definitions: tuple[dict[str, Any], ...]) -> list[dict[str, 
     return rows
 
 
+def _successive_refinement(rows: list[dict[str, Any]], key: str) -> list[dict[str, Any]]:
+    grouped: dict[tuple[str, str], list[dict[str, Any]]] = {}
+    for row in rows:
+        definition = row["definition"]
+        if row.get("status") != "SUCCESS":
+            continue
+        grouped.setdefault((definition["family"], definition["mode"]), []).append(row)
+    studies: list[dict[str, Any]] = []
+    for (family, mode), group in sorted(grouped.items()):
+        ordered = sorted(group, key=lambda item: item["definition"][key])
+        previous: dict[str, float] | None = None
+        for row in ordered:
+            state = row["final_state"]
+            values = {
+                "displacement_max": float(state["displacement_max"]),
+                "reaction_norm": float(state["reaction_norm"]),
+                "strain_energy": float(state["strain_energy"]),
+            }
+            change = {
+                name: None if previous is None else abs(value - previous[name]) / max(abs(value), abs(previous[name]), 1.0e-15)
+                for name, value in values.items()
+            }
+            studies.append(
+                {
+                    "family": family,
+                    "mode": mode,
+                    key: row["definition"][key],
+                    "case_id": row["definition"]["id"],
+                    "values": values,
+                    "relative_change_from_previous": change,
+                    "classification": "OBSERVED_TREND_ONLY",
+                }
+            )
+            previous = values
+    return studies
+
+
 def _plot(results: dict[str, Any], output: Path) -> None:
     try:
         import matplotlib.pyplot as plt
@@ -476,6 +508,14 @@ def main(argv: list[str] | None = None) -> int:
         "tangent_fd": tangent_fd,
         "small_strain": small_strain,
         "reproducibility": repeats,
+        "mesh_refinement": _successive_refinement(
+            [item for item in global_results if item["definition"]["group"] == "primary_mesh_mode"],
+            "cells",
+        ),
+        "increment_refinement": _successive_refinement(
+            [item for item in global_results if item["definition"]["group"] == "increment_refinement"],
+            "increments",
+        ),
         "external_correlations": {
             "status": "EXISTING_BOUNDED_ONLY",
             "new_run": "SKIPPED_NOT_COMPARABLE",
