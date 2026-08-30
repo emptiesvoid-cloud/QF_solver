@@ -1,0 +1,179 @@
+{
+  "study_id": "VNV-TET4-TL-BUCKLING-EULER-006",
+  "status": "PASS_BUCKLING_RESEARCH",
+  "maturity": "research",
+  "reference": {
+    "type": "euler_clamped_free_column",
+    "formula": "pi^2 E I / (4 L^2)",
+    "critical_load": 803.1904623282354,
+    "young": 1000000.0,
+    "inertia": 0.005208333333333333,
+    "length": 4.0
+  },
+  "levels": [
+    {
+      "cells": [
+        16,
+        4,
+        4
+      ],
+      "elements": 1536,
+      "dofs": 1275,
+      "critical_load": 1115.775256013866,
+      "euler_relative_error": 0.38917891626791795,
+      "relative_bracket_width": 0.0008283633856250695,
+      "normalized_tangent_eigenvalue": 2.373850490708421e-05,
+      "minimum_det_f": 0.9998554432235887,
+      "axial_tip_displacement": -0.0006411624316289707,
+      "evaluations": [
+        {
+          "load": 0.0,
+          "smallest_eigenvalue": 3.0809279971525756
+        },
+        {
+          "load": 1003.9880779102942,
+          "smallest_eigenvalue": 0.3310343365123531
+        },
+        {
+          "load": 1082.6885755711162,
+          "smallest_eigenvalue": 0.09864126914163109
+        },
+        {
+          "load": 1115.775256013866,
+          "smallest_eigenvalue": 7.313662437877954e-05
+        },
+        {
+          "load": 1116.6995233825344,
+          "smallest_eigenvalue": -0.00268784480224462
+        },
+        {
+          "load": 1125.0179297005486,
+          "smallest_eigenvalue": -0.02755516874211279
+        },
+        {
+          "load": 1505.9821168654414,
+          "smallest_eigenvalue": -1.2045355902084929
+        }
+      ],
+      "elapsed_seconds": 1.0290185999474488,
+      "change_from_previous": null
+    },
+    {
+      "cells": [
+        24,
+        6,
+        6
+      ],
+      "elements": 5184,
+      "dofs": 3675,
+      "critical_load": 941.4158371119848,
+      "euler_relative_error": 0.17209538866170154,
+      "relative_bracket_width": 0.0006646610172850005,
+      "normalized_tangent_eigenvalue": 0.0002719905893392939,
+      "minimum_det_f": 0.9998543328484927,
+      "axial_tip_displacement": -0.0006413290561723879,
+      "evaluations": [
+        {
+          "load": 0.0,
+          "smallest_eigenvalue": 0.9210453676423139
+        },
+        {
+          "load": 903.5892701192648,
+          "smallest_eigenvalue": 0.04024931095047028
+        },
+        {
+          "load": 941.4158371119848,
+          "smallest_eigenvalue": 0.0002505156723532596
+        },
+        {
+          "load": 942.0415595199679,
+          "smallest_eigenvalue": -0.0004136544504543788
+        },
+        {
+          "load": 947.6730611918158,
+          "smallest_eigenvalue": -0.006394901967188422
+        },
+        {
+          "load": 1003.9880779102942,
+          "smallest_eigenvalue": -0.06657991398594422
+        }
+      ],
+      "elapsed_seconds": 4.502067600027658,
+      "change_from_previous": 0.15626750814029022
+    },
+    {
+      "cells": [
+        32,
+        8,
+        8
+      ],
+      "elements": 12288,
+      "dofs": 8019,
+      "critical_load": 879.5759132610759,
+      "euler_relative_error": 0.0951025373376813,
+      "relative_bracket_width": 0.0002886069829399811,
+      "normalized_tangent_eigenvalue": 3.746711042523342e-06,
+      "minimum_det_f": 0.9998507166679671,
+      "axial_tip_displacement": -0.0006412152287646935,
+      "evaluations": [
+        {
+          "load": 0.0,
+          "smallest_eigenvalue": 0.3981747687720306
+        },
+        {
+          "load": 868.5729144177509,
+          "smallest_eigenvalue": 0.005410027496062423
+        },
+        {
+          "load": 879.5759132610759,
+          "smallest_eigenvalue": 1.4918458030123454e-06
+        },
+        {
+          "load": 879.8297650116689,
+          "smallest_eigenvalue": -0.0001234418390992204
+        },
+        {
+          "load": 882.1144307670053,
+          "smallest_eigenvalue": -0.001248155134965334
+        },
+        {
+          "load": 1003.9880779102942,
+          "smallest_eigenvalue": -0.06207757635179627
+        }
+      ],
+      "elapsed_seconds": 17.199832299957052,
+      "change_from_previous": 0.0656882128099921
+    }
+  ],
+  "checks": [
+    {
+      "id": "euler_critical_load_error",
+      "value": 0.0951025373376813,
+      "limit": 0.1,
+      "status": "PASS"
+    },
+    {
+      "id": "critical_load_refinement_change",
+      "value": 0.0656882128099921,
+      "limit": 0.1,
+      "status": "PASS"
+    },
+    {
+      "id": "critical_load_bracket",
+      "value": 0.0008283633856250695,
+      "limit": 0.005,
+      "status": "PASS"
+    },
+    {
+      "id": "positive_precritical_jacobian",
+      "value": 0.9998507166679671,
+      "limit": 0.9,
+      "status": "PASS"
+    }
+  ],
+  "limitations": [
+    "The square TET4 section converges slowly in bending because of first-order solid locking.",
+    "The benchmark detects a bifurcation from the precritical tangent; it is not a postbuckling solve.",
+    "The load is a conservative nodal dead load with a perfectly straight reference geometry."
+  ]
+}

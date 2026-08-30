@@ -1,0 +1,1695 @@
+{
+  "schema_version": 1,
+  "gate": "026-G08",
+  "status": "PASS_WITH_LIMITATIONS",
+  "source_sha": "1b7b8c7ca85ac184a900bd5a5530aa47e733827f",
+  "source_dirty": false,
+  "captured_at_utc": "2026-08-30T09:45:05.894018Z",
+  "solver_version": "0.2.6a0",
+  "runtime": {
+    "platform": {
+      "system": "Windows",
+      "release": "10",
+      "machine": "AMD64",
+      "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+    },
+    "python": {
+      "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+      "executable": "C:\\Python313\\python.exe"
+    },
+    "packages": {
+      "numpy": "2.2.6",
+      "scipy": "1.15.2",
+      "matplotlib": "3.10.3",
+      "h5py": "3.14.0",
+      "mpi4py": "4.1.0",
+      "petsc4py": null
+    },
+    "blas": {
+      "name": "scipy-openblas",
+      "version": "0.3.29",
+      "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+    },
+    "parallel_environment": {
+      "OMP_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "PETSC_ARCH": null
+    }
+  },
+  "policies": {
+    "critical_factor": "oracle-specific tolerance declared before execution",
+    "euler_relative_tolerance": 0.1,
+    "calculix_relative_tolerance": 0.1,
+    "eigenpair_residual_pass": 1E-07,
+    "eigenpair_residual_warning": 1E-05,
+    "mesh_levels": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "repeatability_absolute_tolerance": 1E-12
+  },
+  "case_counts": {
+    "executed": 23,
+    "pass": 21,
+    "expected_failure": 2,
+    "fail": 0,
+    "skip": 0
+  },
+  "cases": [
+    {
+      "case_id": "G08-BUC-TET4-SMOKE-001",
+      "family": "TET4",
+      "requirements": [
+        "G08-001",
+        "G08-002",
+        "G08-004",
+        "G08-006",
+        "G08-009"
+      ],
+      "status": "PASS",
+      "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+      "critical_factor": 63.81491665017616,
+      "critical_mode_norm": 1.0,
+      "critical_mode_residual_relative": 2.216893335571513E-16,
+      "eigenpair_residual_status": "PASS",
+      "eigen_backend": "scipy.sparse.linalg.eigsh",
+      "eigen_formulation": "generalized_eigsh",
+      "critical_bracket": {
+        "lower": 0.0,
+        "upper": 63.81491665017616,
+        "method": "generalized_eigsh",
+        "mass_matrix": "-geometric_tangent"
+      },
+      "preload_residual_max": 1.2339936850125355E-09,
+      "node_count": 4,
+      "element_count": 1,
+      "dof_count": 12,
+      "configuration": {
+        "analysis": "linear_buckling",
+        "method": "eigsh",
+        "material": "homogeneous isotropic_3d",
+        "loads": "nodal dead loads",
+        "first_mode_only": true
+      }
+    },
+    {
+      "case_id": "G08-BUC-TET4-ROUTE-001",
+      "family": "TET4",
+      "requirements": [
+        "G08-001",
+        "G08-002",
+        "G08-004",
+        "G08-006",
+        "G08-009"
+      ],
+      "status": "PASS",
+      "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+      "critical_factor": 63.81491665017616,
+      "critical_mode_norm": 1.0,
+      "critical_mode_residual_relative": 2.4500683295230907E-16,
+      "eigenpair_residual_status": "PASS",
+      "eigen_backend": "scipy.sparse.linalg.eigsh",
+      "eigen_formulation": "generalized_eigsh",
+      "critical_bracket": {
+        "lower": 0.0,
+        "upper": 63.81491665017616,
+        "method": "generalized_eigsh",
+        "mass_matrix": "-geometric_tangent"
+      },
+      "preload_residual_max": 1.2339936850125355E-09,
+      "node_count": 4,
+      "element_count": 1,
+      "dof_count": 12,
+      "configuration": {
+        "analysis": "linear_buckling",
+        "method": "eigsh",
+        "material": "homogeneous isotropic_3d",
+        "loads": "nodal dead loads",
+        "first_mode_only": true
+      }
+    },
+    {
+      "case_id": "G08-BUC-TET10-ROUTE-001",
+      "family": "TET10",
+      "requirements": [
+        "G08-001",
+        "G08-002",
+        "G08-004",
+        "G08-006",
+        "G08-009"
+      ],
+      "status": "PASS",
+      "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+      "critical_factor": 75.36389259405125,
+      "critical_mode_norm": 1.0,
+      "critical_mode_residual_relative": 1.3091562994379297E-14,
+      "eigenpair_residual_status": "PASS",
+      "eigen_backend": "scipy.sparse.linalg.eigs",
+      "eigen_formulation": "generalized_eigs_shift_invert",
+      "critical_bracket": {
+        "lower": 75.36328125,
+        "upper": 75.3671875,
+        "method": "generalized_eigs_shift_invert",
+        "mass_matrix": "-geometric_tangent",
+        "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+        "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+        "shift_invert_sigma": 75.365234375,
+        "shift_invert_attempted_shifts": [
+          75.365234375,
+          75.3642578125,
+          75.3662109375
+        ]
+      },
+      "preload_residual_max": 1.6191048555639007E-09,
+      "node_count": 10,
+      "element_count": 1,
+      "dof_count": 30,
+      "configuration": {
+        "analysis": "linear_buckling",
+        "method": "eigsh",
+        "material": "homogeneous isotropic_3d",
+        "loads": "nodal dead loads",
+        "first_mode_only": true
+      }
+    },
+    {
+      "case_id": "G08-BUC-HEX8-ROUTE-001",
+      "family": "HEX8",
+      "requirements": [
+        "G08-001",
+        "G08-002",
+        "G08-004",
+        "G08-006",
+        "G08-009"
+      ],
+      "status": "PASS",
+      "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+      "critical_factor": 103.07822492660719,
+      "critical_mode_norm": 1.0,
+      "critical_mode_residual_relative": 1.4092802188267846E-15,
+      "eigenpair_residual_status": "PASS",
+      "eigen_backend": "scipy.sparse.linalg.eigs",
+      "eigen_formulation": "generalized_eigs_shift_invert",
+      "critical_bracket": {
+        "lower": 103.078125,
+        "upper": 103.0859375,
+        "method": "generalized_eigs_shift_invert",
+        "mass_matrix": "-geometric_tangent",
+        "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+        "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+        "shift_invert_sigma": 103.08203125,
+        "shift_invert_attempted_shifts": [
+          103.08203125,
+          103.080078125,
+          103.083984375
+        ]
+      },
+      "preload_residual_max": 4.815787943712171E-09,
+      "node_count": 8,
+      "element_count": 1,
+      "dof_count": 24,
+      "configuration": {
+        "analysis": "linear_buckling",
+        "method": "eigsh",
+        "material": "homogeneous isotropic_3d",
+        "loads": "nodal dead loads",
+        "first_mode_only": true
+      }
+    },
+    {
+      "case_id": "G08-BUC-HEX20-ROUTE-001",
+      "family": "HEX20",
+      "requirements": [
+        "G08-001",
+        "G08-002",
+        "G08-004",
+        "G08-006",
+        "G08-009"
+      ],
+      "status": "PASS",
+      "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+      "critical_factor": 3.864454372996771,
+      "critical_mode_norm": 0.9999999999999999,
+      "critical_mode_residual_relative": 2.7490792660085037E-15,
+      "eigenpair_residual_status": "PASS",
+      "eigen_backend": "scipy.sparse.linalg.eigs",
+      "eigen_formulation": "generalized_eigs_shift_invert",
+      "critical_bracket": {
+        "lower": 3.8642578125,
+        "upper": 3.864501953125,
+        "method": "generalized_eigs_shift_invert",
+        "mass_matrix": "-geometric_tangent",
+        "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+        "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+        "shift_invert_sigma": 3.8643798828125,
+        "shift_invert_attempted_shifts": [
+          3.8643798828125,
+          3.86431884765625,
+          3.86444091796875
+        ]
+      },
+      "preload_residual_max": 1.7753573215602805E-14,
+      "node_count": 20,
+      "element_count": 1,
+      "dof_count": 60,
+      "configuration": {
+        "analysis": "linear_buckling",
+        "method": "eigsh",
+        "material": "homogeneous isotropic_3d",
+        "loads": "nodal dead loads",
+        "first_mode_only": true
+      }
+    }
+  ],
+  "mesh_study": {
+    "status": "PASS_WITH_LIMITATIONS",
+    "levels": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "families": [
+      {
+        "family": "TET4",
+        "levels": [
+          {
+            "case_id": "G08-BUC-TET4-MESH-001",
+            "family": "TET4",
+            "requirements": [
+              "G08-003",
+              "G08-005",
+              "G08-006",
+              "G08-009"
+            ],
+            "status": "PASS",
+            "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+            "critical_factor": 221.5482824852666,
+            "critical_mode_norm": 0.9999999999999999,
+            "critical_mode_residual_relative": 3.866364135198577E-15,
+            "eigenpair_residual_status": "PASS",
+            "eigen_backend": "scipy.sparse.linalg.eigsh",
+            "eigen_formulation": "generalized_eigsh",
+            "critical_bracket": {
+              "lower": 0.0,
+              "upper": 221.5482824852666,
+              "method": "generalized_eigsh",
+              "mass_matrix": "-geometric_tangent"
+            },
+            "preload_residual_max": 2.484694732933528E-11,
+            "node_count": 8,
+            "element_count": 5,
+            "dof_count": 24,
+            "configuration": {
+              "analysis": "linear_buckling",
+              "method": "eigsh",
+              "material": "homogeneous isotropic_3d",
+              "loads": "nodal dead loads",
+              "first_mode_only": true
+            },
+            "mesh_level": 1
+          },
+          {
+            "case_id": "G08-BUC-TET4-MESH-002",
+            "family": "TET4",
+            "requirements": [
+              "G08-003",
+              "G08-005",
+              "G08-006",
+              "G08-009"
+            ],
+            "status": "PASS",
+            "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+            "critical_factor": 177.84698132880047,
+            "critical_mode_norm": 0.9999999999999999,
+            "critical_mode_residual_relative": 1.30275927155949E-14,
+            "eigenpair_residual_status": "PASS",
+            "eigen_backend": "scipy.sparse.linalg.eigsh",
+            "eigen_formulation": "generalized_eigsh",
+            "critical_bracket": {
+              "lower": 0.0,
+              "upper": 177.84698132880047,
+              "method": "generalized_eigsh",
+              "mass_matrix": "-geometric_tangent"
+            },
+            "preload_residual_max": 3.8405026211856785E-11,
+            "node_count": 12,
+            "element_count": 10,
+            "dof_count": 36,
+            "configuration": {
+              "analysis": "linear_buckling",
+              "method": "eigsh",
+              "material": "homogeneous isotropic_3d",
+              "loads": "nodal dead loads",
+              "first_mode_only": true
+            },
+            "mesh_level": 2
+          },
+          {
+            "case_id": "G08-BUC-TET4-MESH-004",
+            "family": "TET4",
+            "requirements": [
+              "G08-003",
+              "G08-005",
+              "G08-006",
+              "G08-009"
+            ],
+            "status": "PASS",
+            "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+            "critical_factor": 157.30142274778416,
+            "critical_mode_norm": 0.9999999999999999,
+            "critical_mode_residual_relative": 1.382319893616526E-11,
+            "eigenpair_residual_status": "PASS",
+            "eigen_backend": "scipy.sparse.linalg.eigsh",
+            "eigen_formulation": "generalized_eigsh",
+            "critical_bracket": {
+              "lower": 0.0,
+              "upper": 157.30142274778416,
+              "method": "generalized_eigsh",
+              "mass_matrix": "-geometric_tangent"
+            },
+            "preload_residual_max": 3.021750579139586E-11,
+            "node_count": 20,
+            "element_count": 20,
+            "dof_count": 60,
+            "configuration": {
+              "analysis": "linear_buckling",
+              "method": "eigsh",
+              "material": "homogeneous isotropic_3d",
+              "loads": "nodal dead loads",
+              "first_mode_only": true
+            },
+            "mesh_level": 4
+          },
+          {
+            "case_id": "G08-BUC-TET4-MESH-008",
+            "family": "TET4",
+            "requirements": [
+              "G08-003",
+              "G08-005",
+              "G08-006",
+              "G08-009"
+            ],
+            "status": "PASS",
+            "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+            "critical_factor": 155.91311235445917,
+            "critical_mode_norm": 1.0,
+            "critical_mode_residual_relative": 1.003841026829398E-09,
+            "eigenpair_residual_status": "PASS",
+            "eigen_backend": "scipy.sparse.linalg.eigsh",
+            "eigen_formulation": "generalized_eigsh",
+            "critical_bracket": {
+              "lower": 0.0,
+              "upper": 155.91311235445917,
+              "method": "generalized_eigsh",
+              "mass_matrix": "-geometric_tangent"
+            },
+            "preload_residual_max": 2.493881251422779E-11,
+            "node_count": 36,
+            "element_count": 40,
+            "dof_count": 108,
+            "configuration": {
+              "analysis": "linear_buckling",
+              "method": "eigsh",
+              "material": "homogeneous isotropic_3d",
+              "loads": "nodal dead loads",
+              "first_mode_only": true
+            },
+            "mesh_level": 8
+          }
+        ],
+        "success_count": 4,
+        "successive_relative_changes": [
+          0.24572416596530205,
+          0.1306126684814472,
+          0.008904385092183553
+        ],
+        "final_adjacent_change": 0.008904385092183553,
+        "eligible_for_quantitative_convergence": true,
+        "status": "PASS"
+      },
+      {
+        "family": "TET10",
+        "levels": [
+          {
+            "case_id": "G08-BUC-TET10-MESH-001",
+            "family": "TET10",
+            "requirements": [
+              "G08-003",
+              "G08-005",
+              "G08-006",
+              "G08-009"
+            ],
+            "status": "PASS",
+            "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+            "critical_factor": 12.384498258696217,
+            "critical_mode_norm": 1.0,
+            "critical_mode_residual_relative": 6.384258432245204E-15,
+            "eigenpair_residual_status": "PASS",
+            "eigen_backend": "scipy.sparse.linalg.eigs",
+            "eigen_formulation": "generalized_eigs_shift_invert",
+            "critical_bracket": {
+              "lower": 12.3828125,
+              "upper": 12.390625,
+              "method": "generalized_eigs_shift_invert",
+              "mass_matrix": "-geometric_tangent",
+              "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+              "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+              "shift_invert_sigma": 12.38671875,
+              "shift_invert_attempted_shifts": [
+                12.38671875,
+                12.384765625,
+                12.388671875
+              ]
+            },
+            "preload_residual_max": 1.5244892054157183E-13,
+            "node_count": 26,
+            "element_count": 5,
+            "dof_count": 78,
+            "configuration": {
+              "analysis": "linear_buckling",
+              "method": "eigsh",
+              "material": "homogeneous isotropic_3d",
+              "loads": "nodal dead loads",
+              "first_mode_only": true
+            },
+            "mesh_level": 1
+          },
+          {
+            "case_id": "G08-BUC-TET10-MESH-002",
+            "family": "TET10",
+            "requirements": [
+              "G08-003",
+              "G08-005",
+              "G08-006",
+              "G08-009"
+            ],
+            "status": "PASS",
+            "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+            "critical_factor": 10.61969155153809,
+            "critical_mode_norm": 1.0,
+            "critical_mode_residual_relative": 6.944925744964113E-15,
+            "eigenpair_residual_status": "PASS",
+            "eigen_backend": "scipy.sparse.linalg.eigs",
+            "eigen_formulation": "generalized_eigs_shift_invert",
+            "critical_bracket": {
+              "lower": 10.6171875,
+              "upper": 10.625,
+              "method": "generalized_eigs_shift_invert",
+              "mass_matrix": "-geometric_tangent",
+              "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+              "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+              "shift_invert_sigma": 10.62109375,
+              "shift_invert_attempted_shifts": [
+                10.62109375,
+                10.619140625,
+                10.623046875
+              ]
+            },
+            "preload_residual_max": 3.338578401783766E-13,
+            "node_count": 43,
+            "element_count": 10,
+            "dof_count": 129,
+            "configuration": {
+              "analysis": "linear_buckling",
+              "method": "eigsh",
+              "material": "homogeneous isotropic_3d",
+              "loads": "nodal dead loads",
+              "first_mode_only": true
+            },
+            "mesh_level": 2
+          },
+          {
+            "case_id": "G08-BUC-TET10-MESH-004",
+            "family": "TET10",
+            "requirements": [
+              "G08-003",
+              "G08-005",
+              "G08-006",
+              "G08-009"
+            ],
+            "status": "PASS",
+            "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+            "critical_factor": 9.85121878099574,
+            "critical_mode_norm": 1.0,
+            "critical_mode_residual_relative": 1.754386136964866E-14,
+            "eigenpair_residual_status": "PASS",
+            "eigen_backend": "scipy.sparse.linalg.eigs",
+            "eigen_formulation": "generalized_eigs_shift_invert",
+            "critical_bracket": {
+              "lower": 9.84375,
+              "upper": 9.8515625,
+              "method": "generalized_eigs_shift_invert",
+              "mass_matrix": "-geometric_tangent",
+              "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+              "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+              "shift_invert_sigma": 9.84765625,
+              "shift_invert_attempted_shifts": [
+                9.84765625,
+                9.845703125,
+                9.849609375
+              ]
+            },
+            "preload_residual_max": 7.815207874430371E-13,
+            "node_count": 77,
+            "element_count": 20,
+            "dof_count": 231,
+            "configuration": {
+              "analysis": "linear_buckling",
+              "method": "eigsh",
+              "material": "homogeneous isotropic_3d",
+              "loads": "nodal dead loads",
+              "first_mode_only": true
+            },
+            "mesh_level": 4
+          },
+          {
+            "case_id": "G08-BUC-TET10-MESH-008",
+            "family": "TET10",
+            "requirements": [
+              "G08-003",
+              "G08-005",
+              "G08-006",
+              "G08-009"
+            ],
+            "status": "PASS",
+            "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+            "critical_factor": 9.547869571608057,
+            "critical_mode_norm": 0.9999999999999999,
+            "critical_mode_residual_relative": 5.0885158197157664E-14,
+            "eigenpair_residual_status": "PASS",
+            "eigen_backend": "scipy.sparse.linalg.eigs",
+            "eigen_formulation": "generalized_eigs_shift_invert",
+            "critical_bracket": {
+              "lower": 9.546875,
+              "upper": 9.5546875,
+              "method": "generalized_eigs_shift_invert",
+              "mass_matrix": "-geometric_tangent",
+              "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+              "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+              "shift_invert_sigma": 9.55078125,
+              "shift_invert_attempted_shifts": [
+                9.55078125,
+                9.548828125,
+                9.552734375
+              ]
+            },
+            "preload_residual_max": 7.102692265715076E-13,
+            "node_count": 145,
+            "element_count": 40,
+            "dof_count": 435,
+            "configuration": {
+              "analysis": "linear_buckling",
+              "method": "eigsh",
+              "material": "homogeneous isotropic_3d",
+              "loads": "nodal dead loads",
+              "first_mode_only": true
+            },
+            "mesh_level": 8
+          }
+        ],
+        "success_count": 4,
+        "successive_relative_changes": [
+          0.16618248266377605,
+          0.07800788791990197,
+          0.03177140273153028
+        ],
+        "final_adjacent_change": 0.03177140273153028,
+        "eligible_for_quantitative_convergence": false,
+        "status": "PASS"
+      },
+      {
+        "family": "HEX8",
+        "levels": [
+          {
+            "case_id": "G08-BUC-HEX8-MESH-001",
+            "family": "HEX8",
+            "requirements": [
+              "G08-003",
+              "G08-005",
+              "G08-006",
+              "G08-009"
+            ],
+            "status": "PASS",
+            "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+            "critical_factor": 213.52351970926247,
+            "critical_mode_norm": 0.9999999999999999,
+            "critical_mode_residual_relative": 5.654661150724596E-15,
+            "eigenpair_residual_status": "PASS",
+            "eigen_backend": "scipy.sparse.linalg.eigsh",
+            "eigen_formulation": "generalized_eigsh",
+            "critical_bracket": {
+              "lower": 0.0,
+              "upper": 213.52351970926247,
+              "method": "generalized_eigsh",
+              "mass_matrix": "-geometric_tangent"
+            },
+            "preload_residual_max": 6.114841342636412E-12,
+            "node_count": 8,
+            "element_count": 1,
+            "dof_count": 24,
+            "configuration": {
+              "analysis": "linear_buckling",
+              "method": "eigsh",
+              "material": "homogeneous isotropic_3d",
+              "loads": "nodal dead loads",
+              "first_mode_only": true
+            },
+            "mesh_level": 1
+          },
+          {
+            "case_id": "G08-BUC-HEX8-MESH-002",
+            "family": "HEX8",
+            "requirements": [
+              "G08-003",
+              "G08-005",
+              "G08-006",
+              "G08-009"
+            ],
+            "status": "PASS",
+            "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+            "critical_factor": 158.53951269993019,
+            "critical_mode_norm": 1.0,
+            "critical_mode_residual_relative": 5.811603099423945E-15,
+            "eigenpair_residual_status": "PASS",
+            "eigen_backend": "scipy.sparse.linalg.eigsh",
+            "eigen_formulation": "generalized_eigsh",
+            "critical_bracket": {
+              "lower": 0.0,
+              "upper": 158.53951269993019,
+              "method": "generalized_eigsh",
+              "mass_matrix": "-geometric_tangent"
+            },
+            "preload_residual_max": 9.26565745273141E-12,
+            "node_count": 12,
+            "element_count": 2,
+            "dof_count": 36,
+            "configuration": {
+              "analysis": "linear_buckling",
+              "method": "eigsh",
+              "material": "homogeneous isotropic_3d",
+              "loads": "nodal dead loads",
+              "first_mode_only": true
+            },
+            "mesh_level": 2
+          },
+          {
+            "case_id": "G08-BUC-HEX8-MESH-004",
+            "family": "HEX8",
+            "requirements": [
+              "G08-003",
+              "G08-005",
+              "G08-006",
+              "G08-009"
+            ],
+            "status": "PASS",
+            "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+            "critical_factor": 143.61528663031888,
+            "critical_mode_norm": 1.0,
+            "critical_mode_residual_relative": 5.641748405801032E-14,
+            "eigenpair_residual_status": "PASS",
+            "eigen_backend": "scipy.sparse.linalg.eigsh",
+            "eigen_formulation": "generalized_eigsh",
+            "critical_bracket": {
+              "lower": 0.0,
+              "upper": 143.61528663031888,
+              "method": "generalized_eigsh",
+              "mass_matrix": "-geometric_tangent"
+            },
+            "preload_residual_max": 8.557484614097214E-12,
+            "node_count": 20,
+            "element_count": 4,
+            "dof_count": 60,
+            "configuration": {
+              "analysis": "linear_buckling",
+              "method": "eigsh",
+              "material": "homogeneous isotropic_3d",
+              "loads": "nodal dead loads",
+              "first_mode_only": true
+            },
+            "mesh_level": 4
+          },
+          {
+            "case_id": "G08-BUC-HEX8-MESH-008",
+            "family": "HEX8",
+            "requirements": [
+              "G08-003",
+              "G08-005",
+              "G08-006",
+              "G08-009"
+            ],
+            "status": "PASS",
+            "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+            "critical_factor": 139.92636934295825,
+            "critical_mode_norm": 1.0,
+            "critical_mode_residual_relative": 9.90203034686154E-15,
+            "eigenpair_residual_status": "PASS",
+            "eigen_backend": "scipy.sparse.linalg.eigsh",
+            "eigen_formulation": "generalized_eigsh",
+            "critical_bracket": {
+              "lower": 0.0,
+              "upper": 139.92636934295825,
+              "method": "generalized_eigsh",
+              "mass_matrix": "-geometric_tangent"
+            },
+            "preload_residual_max": 8.388139304090206E-12,
+            "node_count": 36,
+            "element_count": 8,
+            "dof_count": 108,
+            "configuration": {
+              "analysis": "linear_buckling",
+              "method": "eigsh",
+              "material": "homogeneous isotropic_3d",
+              "loads": "nodal dead loads",
+              "first_mode_only": true
+            },
+            "mesh_level": 8
+          }
+        ],
+        "success_count": 4,
+        "successive_relative_changes": [
+          0.3468157942014193,
+          0.10391808852512939,
+          0.026363274518465648
+        ],
+        "final_adjacent_change": 0.026363274518465648,
+        "eligible_for_quantitative_convergence": false,
+        "status": "PASS"
+      },
+      {
+        "family": "HEX20",
+        "levels": [
+          {
+            "case_id": "G08-BUC-HEX20-MESH-001",
+            "family": "HEX20",
+            "requirements": [
+              "G08-003",
+              "G08-005",
+              "G08-006",
+              "G08-009"
+            ],
+            "status": "PASS",
+            "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+            "critical_factor": 12.504536591799754,
+            "critical_mode_norm": 0.9999999999999999,
+            "critical_mode_residual_relative": 9.083471668839159E-15,
+            "eigenpair_residual_status": "PASS",
+            "eigen_backend": "scipy.sparse.linalg.eigs",
+            "eigen_formulation": "generalized_eigs_shift_invert",
+            "critical_bracket": {
+              "lower": 12.5,
+              "upper": 12.5078125,
+              "method": "generalized_eigs_shift_invert",
+              "mass_matrix": "-geometric_tangent",
+              "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+              "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+              "shift_invert_sigma": 12.50390625,
+              "shift_invert_attempted_shifts": [
+                12.50390625,
+                12.501953125,
+                12.505859375
+              ]
+            },
+            "preload_residual_max": 1.969272917643823E-13,
+            "node_count": 20,
+            "element_count": 1,
+            "dof_count": 60,
+            "configuration": {
+              "analysis": "linear_buckling",
+              "method": "eigsh",
+              "material": "homogeneous isotropic_3d",
+              "loads": "nodal dead loads",
+              "first_mode_only": true
+            },
+            "mesh_level": 1
+          },
+          {
+            "case_id": "G08-BUC-HEX20-MESH-002",
+            "family": "HEX20",
+            "requirements": [
+              "G08-003",
+              "G08-005",
+              "G08-006",
+              "G08-009"
+            ],
+            "status": "PASS",
+            "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+            "critical_factor": 10.985393350332476,
+            "critical_mode_norm": 0.9999999999999999,
+            "critical_mode_residual_relative": 6.1205586357192026E-15,
+            "eigenpair_residual_status": "PASS",
+            "eigen_backend": "scipy.sparse.linalg.eigs",
+            "eigen_formulation": "generalized_eigs_shift_invert",
+            "critical_bracket": {
+              "lower": 10.984375,
+              "upper": 10.9921875,
+              "method": "generalized_eigs_shift_invert",
+              "mass_matrix": "-geometric_tangent",
+              "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+              "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+              "shift_invert_sigma": 10.98828125,
+              "shift_invert_attempted_shifts": [
+                10.98828125,
+                10.986328125,
+                10.990234375
+              ]
+            },
+            "preload_residual_max": 4.776261552119475E-13,
+            "node_count": 32,
+            "element_count": 2,
+            "dof_count": 96,
+            "configuration": {
+              "analysis": "linear_buckling",
+              "method": "eigsh",
+              "material": "homogeneous isotropic_3d",
+              "loads": "nodal dead loads",
+              "first_mode_only": true
+            },
+            "mesh_level": 2
+          },
+          {
+            "case_id": "G08-BUC-HEX20-MESH-004",
+            "family": "HEX20",
+            "requirements": [
+              "G08-003",
+              "G08-005",
+              "G08-006",
+              "G08-009"
+            ],
+            "status": "PASS",
+            "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+            "critical_factor": 9.960021405780681,
+            "critical_mode_norm": 0.9999999999999999,
+            "critical_mode_residual_relative": 1.1370430452208122E-14,
+            "eigenpair_residual_status": "PASS",
+            "eigen_backend": "scipy.sparse.linalg.eigs",
+            "eigen_formulation": "generalized_eigs_shift_invert",
+            "critical_bracket": {
+              "lower": 9.953125,
+              "upper": 9.9609375,
+              "method": "generalized_eigs_shift_invert",
+              "mass_matrix": "-geometric_tangent",
+              "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+              "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+              "shift_invert_sigma": 9.95703125,
+              "shift_invert_attempted_shifts": [
+                9.95703125,
+                9.955078125,
+                9.958984375
+              ]
+            },
+            "preload_residual_max": 4.56396769709322E-12,
+            "node_count": 56,
+            "element_count": 4,
+            "dof_count": 168,
+            "configuration": {
+              "analysis": "linear_buckling",
+              "method": "eigsh",
+              "material": "homogeneous isotropic_3d",
+              "loads": "nodal dead loads",
+              "first_mode_only": true
+            },
+            "mesh_level": 4
+          },
+          {
+            "case_id": "G08-BUC-HEX20-MESH-008",
+            "family": "HEX20",
+            "requirements": [
+              "G08-003",
+              "G08-005",
+              "G08-006",
+              "G08-009"
+            ],
+            "status": "PASS",
+            "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+            "critical_factor": 8.74142540427213,
+            "critical_mode_norm": 1.0,
+            "critical_mode_residual_relative": 8.568491079899255E-15,
+            "eigenpair_residual_status": "PASS",
+            "eigen_backend": "scipy.sparse.linalg.eigs",
+            "eigen_formulation": "generalized_eigs_shift_invert",
+            "critical_bracket": {
+              "lower": 8.734375,
+              "upper": 8.7421875,
+              "method": "generalized_eigs_shift_invert",
+              "mass_matrix": "-geometric_tangent",
+              "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+              "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+              "shift_invert_sigma": 8.73828125,
+              "shift_invert_attempted_shifts": [
+                8.73828125,
+                8.736328125,
+                8.740234375
+              ]
+            },
+            "preload_residual_max": 1.1371948558093793E-11,
+            "node_count": 104,
+            "element_count": 8,
+            "dof_count": 312,
+            "configuration": {
+              "analysis": "linear_buckling",
+              "method": "eigsh",
+              "material": "homogeneous isotropic_3d",
+              "loads": "nodal dead loads",
+              "first_mode_only": true
+            },
+            "mesh_level": 8
+          }
+        ],
+        "success_count": 4,
+        "successive_relative_changes": [
+          0.13828755994625358,
+          0.10294876916194987,
+          0.13940472464742376
+        ],
+        "final_adjacent_change": 0.13940472464742376,
+        "eligible_for_quantitative_convergence": false,
+        "status": "PASS"
+      }
+    ],
+    "policy": {
+      "minimum_compatible_levels": 3,
+      "quantitative_final_adjacent_change": 0.01,
+      "monotonicity_required": false,
+      "declared_before_execution": true
+    }
+  },
+  "euler_oracle": {
+    "status": "PASS",
+    "study_id": "VNV-TET4-TL-BUCKLING-EULER-006",
+    "reference": {
+      "type": "euler_clamped_free_column",
+      "formula": "pi^2 E I / (4 L^2)",
+      "critical_load": 803.1904623282354,
+      "young": 1000000.0,
+      "inertia": 0.005208333333333333,
+      "length": 4.0
+    },
+    "levels": [
+      {
+        "cells": [
+          16,
+          4,
+          4
+        ],
+        "elements": 1536,
+        "dofs": 1275,
+        "critical_load": 1115.775256013866,
+        "euler_relative_error": 0.38917891626791795,
+        "relative_bracket_width": 0.0008283633856250695,
+        "normalized_tangent_eigenvalue": 2.373850490708421E-05,
+        "minimum_det_f": 0.9998554432235887,
+        "axial_tip_displacement": -0.0006411624316289707,
+        "evaluations": [
+          {
+            "load": 0.0,
+            "smallest_eigenvalue": 3.0809279971525756
+          },
+          {
+            "load": 1003.9880779102942,
+            "smallest_eigenvalue": 0.3310343365123531
+          },
+          {
+            "load": 1082.6885755711162,
+            "smallest_eigenvalue": 0.09864126914163109
+          },
+          {
+            "load": 1115.775256013866,
+            "smallest_eigenvalue": 7.313662437877954E-05
+          },
+          {
+            "load": 1116.6995233825344,
+            "smallest_eigenvalue": -0.00268784480224462
+          },
+          {
+            "load": 1125.0179297005486,
+            "smallest_eigenvalue": -0.02755516874211279
+          },
+          {
+            "load": 1505.9821168654414,
+            "smallest_eigenvalue": -1.2045355902084929
+          }
+        ],
+        "elapsed_seconds": 1.0290185999474488,
+        "change_from_previous": null
+      },
+      {
+        "cells": [
+          24,
+          6,
+          6
+        ],
+        "elements": 5184,
+        "dofs": 3675,
+        "critical_load": 941.4158371119848,
+        "euler_relative_error": 0.17209538866170154,
+        "relative_bracket_width": 0.0006646610172850005,
+        "normalized_tangent_eigenvalue": 0.0002719905893392939,
+        "minimum_det_f": 0.9998543328484927,
+        "axial_tip_displacement": -0.0006413290561723879,
+        "evaluations": [
+          {
+            "load": 0.0,
+            "smallest_eigenvalue": 0.9210453676423139
+          },
+          {
+            "load": 903.5892701192648,
+            "smallest_eigenvalue": 0.04024931095047028
+          },
+          {
+            "load": 941.4158371119848,
+            "smallest_eigenvalue": 0.0002505156723532596
+          },
+          {
+            "load": 942.0415595199679,
+            "smallest_eigenvalue": -0.0004136544504543788
+          },
+          {
+            "load": 947.6730611918158,
+            "smallest_eigenvalue": -0.006394901967188422
+          },
+          {
+            "load": 1003.9880779102942,
+            "smallest_eigenvalue": -0.06657991398594422
+          }
+        ],
+        "elapsed_seconds": 4.502067600027658,
+        "change_from_previous": 0.15626750814029022
+      },
+      {
+        "cells": [
+          32,
+          8,
+          8
+        ],
+        "elements": 12288,
+        "dofs": 8019,
+        "critical_load": 879.5759132610759,
+        "euler_relative_error": 0.0951025373376813,
+        "relative_bracket_width": 0.0002886069829399811,
+        "normalized_tangent_eigenvalue": 3.746711042523342E-06,
+        "minimum_det_f": 0.9998507166679671,
+        "axial_tip_displacement": -0.0006412152287646935,
+        "evaluations": [
+          {
+            "load": 0.0,
+            "smallest_eigenvalue": 0.3981747687720306
+          },
+          {
+            "load": 868.5729144177509,
+            "smallest_eigenvalue": 0.005410027496062423
+          },
+          {
+            "load": 879.5759132610759,
+            "smallest_eigenvalue": 1.4918458030123454E-06
+          },
+          {
+            "load": 879.8297650116689,
+            "smallest_eigenvalue": -0.0001234418390992204
+          },
+          {
+            "load": 882.1144307670053,
+            "smallest_eigenvalue": -0.001248155134965334
+          },
+          {
+            "load": 1003.9880779102942,
+            "smallest_eigenvalue": -0.06207757635179627
+          }
+        ],
+        "elapsed_seconds": 17.199832299957052,
+        "change_from_previous": 0.0656882128099921
+      }
+    ],
+    "checks": [
+      {
+        "id": "euler_critical_load_error",
+        "value": 0.0951025373376813,
+        "limit": 0.1,
+        "status": "PASS"
+      },
+      {
+        "id": "critical_load_refinement_change",
+        "value": 0.0656882128099921,
+        "limit": 0.1,
+        "status": "PASS"
+      },
+      {
+        "id": "critical_load_bracket",
+        "value": 0.0008283633856250695,
+        "limit": 0.005,
+        "status": "PASS"
+      },
+      {
+        "id": "positive_precritical_jacobian",
+        "value": 0.9998507166679671,
+        "limit": 0.9,
+        "status": "PASS"
+      }
+    ],
+    "tolerance_declared_before_execution": 0.1
+  },
+  "repeatability": {
+    "status": "PASS",
+    "families": [
+      {
+        "family": "TET4",
+        "baseline": {
+          "case_id": "G08-BUC-TET4-REPEAT-BASELINE",
+          "family": "TET4",
+          "requirements": [
+            "G08-006",
+            "G08-009"
+          ],
+          "status": "PASS",
+          "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+          "critical_factor": 63.81491665017616,
+          "critical_mode_norm": 1.0,
+          "critical_mode_residual_relative": 2.323417492111212E-16,
+          "eigenpair_residual_status": "PASS",
+          "eigen_backend": "scipy.sparse.linalg.eigsh",
+          "eigen_formulation": "generalized_eigsh",
+          "critical_bracket": {
+            "lower": 0.0,
+            "upper": 63.81491665017616,
+            "method": "generalized_eigsh",
+            "mass_matrix": "-geometric_tangent"
+          },
+          "preload_residual_max": 1.2339936850125355E-09,
+          "node_count": 4,
+          "element_count": 1,
+          "dof_count": 12,
+          "configuration": {
+            "analysis": "linear_buckling",
+            "method": "eigsh",
+            "material": "homogeneous isotropic_3d",
+            "loads": "nodal dead loads",
+            "first_mode_only": true
+          }
+        },
+        "repeat": {
+          "case_id": "G08-BUC-TET4-REPEAT-SECOND",
+          "family": "TET4",
+          "requirements": [
+            "G08-006",
+            "G08-009"
+          ],
+          "status": "PASS",
+          "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+          "critical_factor": 63.814916650176144,
+          "critical_mode_norm": 0.9999999999999999,
+          "critical_mode_residual_relative": 6.954514946040218E-17,
+          "eigenpair_residual_status": "PASS",
+          "eigen_backend": "scipy.sparse.linalg.eigsh",
+          "eigen_formulation": "generalized_eigsh",
+          "critical_bracket": {
+            "lower": 0.0,
+            "upper": 63.814916650176144,
+            "method": "generalized_eigsh",
+            "mass_matrix": "-geometric_tangent"
+          },
+          "preload_residual_max": 1.2339936850125355E-09,
+          "node_count": 4,
+          "element_count": 1,
+          "dof_count": 12,
+          "configuration": {
+            "analysis": "linear_buckling",
+            "method": "eigsh",
+            "material": "homogeneous isotropic_3d",
+            "loads": "nodal dead loads",
+            "first_mode_only": true
+          }
+        },
+        "factor_absolute_delta": 1.4210854715202004E-14,
+        "mode_norm_absolute_delta": 1.1102230246251565E-16,
+        "residual_absolute_delta": 1.6279659975071904E-16,
+        "deterministic": true,
+        "status": "PASS"
+      },
+      {
+        "family": "TET10",
+        "baseline": {
+          "case_id": "G08-BUC-TET10-REPEAT-BASELINE",
+          "family": "TET10",
+          "requirements": [
+            "G08-006",
+            "G08-009"
+          ],
+          "status": "PASS",
+          "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+          "critical_factor": 75.36389259405125,
+          "critical_mode_norm": 1.0,
+          "critical_mode_residual_relative": 5.164736653287789E-15,
+          "eigenpair_residual_status": "PASS",
+          "eigen_backend": "scipy.sparse.linalg.eigs",
+          "eigen_formulation": "generalized_eigs_shift_invert",
+          "critical_bracket": {
+            "lower": 75.36328125,
+            "upper": 75.3671875,
+            "method": "generalized_eigs_shift_invert",
+            "mass_matrix": "-geometric_tangent",
+            "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+            "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+            "shift_invert_sigma": 75.365234375,
+            "shift_invert_attempted_shifts": [
+              75.365234375,
+              75.3642578125,
+              75.3662109375
+            ]
+          },
+          "preload_residual_max": 1.6191048555639007E-09,
+          "node_count": 10,
+          "element_count": 1,
+          "dof_count": 30,
+          "configuration": {
+            "analysis": "linear_buckling",
+            "method": "eigsh",
+            "material": "homogeneous isotropic_3d",
+            "loads": "nodal dead loads",
+            "first_mode_only": true
+          }
+        },
+        "repeat": {
+          "case_id": "G08-BUC-TET10-REPEAT-SECOND",
+          "family": "TET10",
+          "requirements": [
+            "G08-006",
+            "G08-009"
+          ],
+          "status": "PASS",
+          "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+          "critical_factor": 75.36389259405125,
+          "critical_mode_norm": 1.0,
+          "critical_mode_residual_relative": 7.2201480764778E-15,
+          "eigenpair_residual_status": "PASS",
+          "eigen_backend": "scipy.sparse.linalg.eigs",
+          "eigen_formulation": "generalized_eigs_shift_invert",
+          "critical_bracket": {
+            "lower": 75.36328125,
+            "upper": 75.3671875,
+            "method": "generalized_eigs_shift_invert",
+            "mass_matrix": "-geometric_tangent",
+            "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+            "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+            "shift_invert_sigma": 75.365234375,
+            "shift_invert_attempted_shifts": [
+              75.365234375,
+              75.3642578125,
+              75.3662109375
+            ]
+          },
+          "preload_residual_max": 1.6191048555639007E-09,
+          "node_count": 10,
+          "element_count": 1,
+          "dof_count": 30,
+          "configuration": {
+            "analysis": "linear_buckling",
+            "method": "eigsh",
+            "material": "homogeneous isotropic_3d",
+            "loads": "nodal dead loads",
+            "first_mode_only": true
+          }
+        },
+        "factor_absolute_delta": 0.0,
+        "mode_norm_absolute_delta": 0.0,
+        "residual_absolute_delta": 2.055411423190012E-15,
+        "deterministic": true,
+        "status": "PASS"
+      },
+      {
+        "family": "HEX8",
+        "baseline": {
+          "case_id": "G08-BUC-HEX8-REPEAT-BASELINE",
+          "family": "HEX8",
+          "requirements": [
+            "G08-006",
+            "G08-009"
+          ],
+          "status": "PASS",
+          "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+          "critical_factor": 103.07822492660719,
+          "critical_mode_norm": 1.0,
+          "critical_mode_residual_relative": 1.416732191347278E-15,
+          "eigenpair_residual_status": "PASS",
+          "eigen_backend": "scipy.sparse.linalg.eigs",
+          "eigen_formulation": "generalized_eigs_shift_invert",
+          "critical_bracket": {
+            "lower": 103.078125,
+            "upper": 103.0859375,
+            "method": "generalized_eigs_shift_invert",
+            "mass_matrix": "-geometric_tangent",
+            "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+            "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+            "shift_invert_sigma": 103.08203125,
+            "shift_invert_attempted_shifts": [
+              103.08203125,
+              103.080078125,
+              103.083984375
+            ]
+          },
+          "preload_residual_max": 4.815787943712171E-09,
+          "node_count": 8,
+          "element_count": 1,
+          "dof_count": 24,
+          "configuration": {
+            "analysis": "linear_buckling",
+            "method": "eigsh",
+            "material": "homogeneous isotropic_3d",
+            "loads": "nodal dead loads",
+            "first_mode_only": true
+          }
+        },
+        "repeat": {
+          "case_id": "G08-BUC-HEX8-REPEAT-SECOND",
+          "family": "HEX8",
+          "requirements": [
+            "G08-006",
+            "G08-009"
+          ],
+          "status": "PASS",
+          "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+          "critical_factor": 103.07822492660719,
+          "critical_mode_norm": 1.0,
+          "critical_mode_residual_relative": 8.138226075233104E-16,
+          "eigenpair_residual_status": "PASS",
+          "eigen_backend": "scipy.sparse.linalg.eigs",
+          "eigen_formulation": "generalized_eigs_shift_invert",
+          "critical_bracket": {
+            "lower": 103.078125,
+            "upper": 103.0859375,
+            "method": "generalized_eigs_shift_invert",
+            "mass_matrix": "-geometric_tangent",
+            "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+            "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+            "shift_invert_sigma": 103.08203125,
+            "shift_invert_attempted_shifts": [
+              103.08203125,
+              103.080078125,
+              103.083984375
+            ]
+          },
+          "preload_residual_max": 4.815787943712171E-09,
+          "node_count": 8,
+          "element_count": 1,
+          "dof_count": 24,
+          "configuration": {
+            "analysis": "linear_buckling",
+            "method": "eigsh",
+            "material": "homogeneous isotropic_3d",
+            "loads": "nodal dead loads",
+            "first_mode_only": true
+          }
+        },
+        "factor_absolute_delta": 0.0,
+        "mode_norm_absolute_delta": 0.0,
+        "residual_absolute_delta": 6.029095838239676E-16,
+        "deterministic": true,
+        "status": "PASS"
+      },
+      {
+        "family": "HEX20",
+        "baseline": {
+          "case_id": "G08-BUC-HEX20-REPEAT-BASELINE",
+          "family": "HEX20",
+          "requirements": [
+            "G08-006",
+            "G08-009"
+          ],
+          "status": "PASS",
+          "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+          "critical_factor": 3.864454372996771,
+          "critical_mode_norm": 1.0000000000000002,
+          "critical_mode_residual_relative": 4.3096549231378726E-15,
+          "eigenpair_residual_status": "PASS",
+          "eigen_backend": "scipy.sparse.linalg.eigs",
+          "eigen_formulation": "generalized_eigs_shift_invert",
+          "critical_bracket": {
+            "lower": 3.8642578125,
+            "upper": 3.864501953125,
+            "method": "generalized_eigs_shift_invert",
+            "mass_matrix": "-geometric_tangent",
+            "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+            "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+            "shift_invert_sigma": 3.8643798828125,
+            "shift_invert_attempted_shifts": [
+              3.8643798828125,
+              3.86431884765625,
+              3.86444091796875
+            ]
+          },
+          "preload_residual_max": 1.7753573215602805E-14,
+          "node_count": 20,
+          "element_count": 1,
+          "dof_count": 60,
+          "configuration": {
+            "analysis": "linear_buckling",
+            "method": "eigsh",
+            "material": "homogeneous isotropic_3d",
+            "loads": "nodal dead loads",
+            "first_mode_only": true
+          }
+        },
+        "repeat": {
+          "case_id": "G08-BUC-HEX20-REPEAT-SECOND",
+          "family": "HEX20",
+          "requirements": [
+            "G08-006",
+            "G08-009"
+          ],
+          "status": "PASS",
+          "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+          "critical_factor": 3.864454372996771,
+          "critical_mode_norm": 1.0,
+          "critical_mode_residual_relative": 4.070995091706389E-15,
+          "eigenpair_residual_status": "PASS",
+          "eigen_backend": "scipy.sparse.linalg.eigs",
+          "eigen_formulation": "generalized_eigs_shift_invert",
+          "critical_bracket": {
+            "lower": 3.8642578125,
+            "upper": 3.864501953125,
+            "method": "generalized_eigs_shift_invert",
+            "mass_matrix": "-geometric_tangent",
+            "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+            "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+            "shift_invert_sigma": 3.8643798828125,
+            "shift_invert_attempted_shifts": [
+              3.8643798828125,
+              3.86431884765625,
+              3.86444091796875
+            ]
+          },
+          "preload_residual_max": 1.7753573215602805E-14,
+          "node_count": 20,
+          "element_count": 1,
+          "dof_count": 60,
+          "configuration": {
+            "analysis": "linear_buckling",
+            "method": "eigsh",
+            "material": "homogeneous isotropic_3d",
+            "loads": "nodal dead loads",
+            "first_mode_only": true
+          }
+        },
+        "factor_absolute_delta": 0.0,
+        "mode_norm_absolute_delta": 2.220446049250313E-16,
+        "residual_absolute_delta": 2.386598314314834E-16,
+        "deterministic": true,
+        "status": "PASS"
+      }
+    ]
+  },
+  "external_correlation": {
+    "study_id": "VNV-BUCKLING-CALCULIX-SOLID-FAMILIES-025",
+    "status": "BLOCKED_EXTERNAL_TOOL",
+    "maturity": "research",
+    "release_claim": false,
+    "provenance": {
+      "sha": "1b7b8c7ca85ac184a900bd5a5530aa47e733827f",
+      "worktree_dirty": false
+    },
+    "external_solver": {
+      "name": "CalculiX",
+      "version": "2.20",
+      "image": "qf-solver/calculix-nafems13h:2.20"
+    },
+    "scope": {
+      "elements": [
+        "TET4",
+        "TET10",
+        "HEX8",
+        "HEX20"
+      ],
+      "mesh": "regular shared mesh cells=1",
+      "analysis": "linearized tangent buckling",
+      "same_qf_model": true,
+      "requested_modes": 1
+    },
+    "rows": [
+      {
+        "element": "TET4",
+        "calculix_element": "C3D4",
+        "cells": 1,
+        "node_count": 8,
+        "element_count": 5,
+        "dof_count": 24,
+        "free_equation_count": 12,
+        "lanczos_vectors": 11,
+        "qf_critical_factor": 221.54828248526647,
+        "qf_mode_residual_relative": 3.842526400515284E-15,
+        "deck_sha256": "8681336c0c83a4476fb552bbd0d110aca7dd28e25697c9ba70361733e90c2c59",
+        "status": "PASS",
+        "calculix_factors": [
+          221.7744
+        ],
+        "calculix_critical_factor": 221.7744,
+        "relative_difference": 0.0010206240923965747,
+        "tolerance": 0.1
+      },
+      {
+        "element": "TET10",
+        "calculix_element": "C3D10",
+        "cells": 1,
+        "node_count": 26,
+        "element_count": 5,
+        "dof_count": 78,
+        "free_equation_count": 51,
+        "lanczos_vectors": 30,
+        "qf_critical_factor": 12.384498258696217,
+        "qf_mode_residual_relative": 6.829608805641129E-15,
+        "deck_sha256": "bc93e16a165162de734553789bc4011c0ee8bec25c71255bcde3f9959d9cc850",
+        "status": "PASS",
+        "calculix_factors": [
+          12.6176
+        ],
+        "calculix_critical_factor": 12.6176,
+        "relative_difference": 0.01882205773981208,
+        "tolerance": 0.1
+      },
+      {
+        "element": "HEX8",
+        "calculix_element": "C3D8",
+        "cells": 1,
+        "node_count": 8,
+        "element_count": 1,
+        "dof_count": 24,
+        "free_equation_count": 12,
+        "lanczos_vectors": 11,
+        "qf_critical_factor": 213.5235197092626,
+        "qf_mode_residual_relative": 1.6146424503251908E-15,
+        "deck_sha256": "915e3e9c87230420aeae0bb588d97e15fe01d7f9506a0b9a6983eea03d0f5204",
+        "status": "PASS",
+        "calculix_factors": [
+          213.715
+        ],
+        "calculix_critical_factor": 213.715,
+        "relative_difference": 0.0008967643985924344,
+        "tolerance": 0.1
+      },
+      {
+        "element": "HEX20",
+        "calculix_element": "C3D20",
+        "cells": 1,
+        "node_count": 20,
+        "element_count": 1,
+        "dof_count": 60,
+        "free_equation_count": 36,
+        "lanczos_vectors": 30,
+        "qf_critical_factor": 12.504536591799754,
+        "qf_mode_residual_relative": 1.06004654984921E-14,
+        "deck_sha256": "26b6a3520c9c233da238615acdeb625420895eb288cc6d5689240733caa1bc76",
+        "status": "BLOCKED_EXTERNAL_TOOL",
+        "error_type": "RuntimeError",
+        "error": "CalculiX buckling failed:\n  number of:\n\n   nodes:           20\n   elements:            1\n   one-dimensional elements:            0\n   two-dimensional elements:            0\n   integration points per element:           27\n   degrees of freedom per node:            3\n   layers per element:            1\n\n   distributed facial loads:            0\n   distributed volumetric loads:            0\n   concentrated loads:            8\n   single point constraints:           24\n   multiple point constraints:            1\n   terms in all multiple point constraints:            1\n   tie constraints:            0\n   dependent nodes tied by cyclic constraints:            0\n   dependent nodes in pre-tension constraints:            0\n\n   sets:            2\n   terms in all sets:           17\n\n   materials:            1\n   constants per material and temperature:            2\n   temperature points per material:            1\n   plastic data points per material:            0\n\n   orientations:            0\n   amplitudes:            2\n   data points in all amplitudes:            2\n   print requests:            0\n   transformations:            0\n   property cards:            0\n\n\n STEP            1\n\n Buckling analysis was selected\n"
+      }
+    ],
+    "limitations": [
+      "Numerical correlation only; no physical validation claim.",
+      "First linearized tangent-instability factor only; no post-buckling path.",
+      "The 10 percent band is a bounded correlation screen, not a release-wide tolerance.",
+      "The campaign does not close the general external-correlation matrix by itself.",
+      "A BLOCKED_EXTERNAL_TOOL row records an external executable or input failure; it is not a correlation pass."
+    ],
+    "tolerance_declared_before_execution": 0.1
+  },
+  "failure_cases": [
+    {
+      "case_id": "G08-BUC-FAIL-BC-001",
+      "family": "TET4",
+      "requirements": [
+        "G08-001",
+        "G08-007",
+        "G08-009"
+      ],
+      "status": "EXPECTED_FAILURE",
+      "failure_type": "NumericalConvergenceError",
+      "failure_reason": "NonlinearFailureReason.LINE_SEARCH_FAILURE",
+      "failure_message": "Full Newton line search failed to reduce the residual."
+    },
+    {
+      "case_id": "G08-BUC-FAIL-PRELOAD-001",
+      "family": "TET4",
+      "requirements": [
+        "G08-001",
+        "G08-002",
+        "G08-007",
+        "G08-009"
+      ],
+      "status": "EXPECTED_FAILURE",
+      "failure_type": "NumericalConvergenceError",
+      "failure_reason": "NonlinearFailureReason.BUCKLING_FAILURE",
+      "failure_message": "linear_buckling could not bracket a loss of tangent positive definiteness."
+    }
+  ],
+  "requirements": {
+    "G08-001": {
+      "status": "PASS",
+      "basis": "scope and controlled invalid-input cases"
+    },
+    "G08-002": {
+      "status": "PASS",
+      "basis": "preload residual and initial-stress route diagnostics"
+    },
+    "G08-003": {
+      "status": "PASS_WITH_LIMITATIONS",
+      "basis": "TET4 Euler oracle; other-family factors retained as bounded route evidence"
+    },
+    "G08-004": {
+      "status": "PASS",
+      "basis": "normalized first-mode residual and finite mode norm"
+    },
+    "G08-005": {
+      "status": "PASS_WITH_LIMITATIONS",
+      "basis": "four-level studies executed; final adjacent eligibility is family-dependent"
+    },
+    "G08-006": {
+      "status": "PASS",
+      "basis": "four-family same-input repeatability"
+    },
+    "G08-007": {
+      "status": "PASS",
+      "basis": "controlled BC/preload failures are fail-closed"
+    },
+    "G08-008": {
+      "status": "PASS_WITH_LIMITATIONS",
+      "basis": "CalculiX same-model solid correlation; partial external execution is retained explicitly"
+    },
+    "G08-009": {
+      "status": "PASS",
+      "basis": "source SHA, clean state, environment and artifact manifest"
+    }
+  },
+  "limitations": [
+    "First linearized tangent-instability factor and first mode only.",
+    "TET4 Euler is the only analytical factor oracle in this campaign.",
+    "Mesh final-adjacent <=1% eligibility is not reached by every family; no universal mesh claim is made.",
+    "CalculiX is bounded numerical correlation; Code_Aster is not comparable for this solid eigen-buckling route.",
+    "No post-buckling, collapse, multi-mode or physical-validation claim."
+  ],
+  "artifact_digests": {
+    "g08_execution_evidence.md": "f86c4bc5c1ae235da0273e9ee6e46609bc691b86276c3d0e7a15881b90eaa1bf",
+    "g08_euler_reference.json": "0803f26326ded192e147c4e69785cda5932d8a9da4a5a128708628605d0c791d",
+    "g08_calculix_correlation.json": "fd61088b15ee5e2d7f191b5ff646f67311c91dfcc33d77b117e9974446925aeb"
+  }
+}
