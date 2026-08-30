@@ -19,7 +19,7 @@ from typing import Any
 import numpy as np
 
 from solveur.api import solve_model
-from solveur.core.errors import QFSolverError
+from solveur.core.errors import InfrastructureError
 from solveur.io.manifest import runtime_fingerprint, write_json_file
 from solveur.verification.calculix_buckling_025 import run_campaign as run_calculix_campaign
 from solveur.verification.robustness_buckling import _buckling_mesh_model, _buckling_model
@@ -179,7 +179,7 @@ def _run_external(output: Path) -> dict[str, Any]:
         return {"status": "SKIPPED_EXTERNAL_UNAVAILABLE", "tool": "CalculiX", "reason": "docker executable unavailable"}
     try:
         result = run_calculix_campaign(output / "calculix", element_types=FAMILIES, cells=1, modes=1, execute=True)
-    except (QFSolverError, OSError, RuntimeError, ValueError) as exc:
+    except (InfrastructureError, OSError, RuntimeError, ValueError) as exc:
         return {"status": "SKIPPED_EXTERNAL_UNAVAILABLE", "tool": "CalculiX", "reason": str(exc)}
     result["tolerance_declared_before_execution"] = CALCULIX_RELATIVE_TOLERANCE
     return result
