@@ -1,0 +1,218 @@
+{
+  "schema_version": 1,
+  "gate": "026-G04",
+  "title": "Linear / element robustness qualification contract",
+  "status": "OPEN",
+  "contract_status": "CONTROLLED_CANDIDATE",
+  "policy": "This contract defines evidence to collect; it does not close G04 or promote any capability.",
+  "scope": {
+    "analysis_routes": ["linear_static"],
+    "kinematics": ["small_displacement_linear_elastic"],
+    "included_material_class": "linear elastic materials declared by each element route",
+    "excluded_routes": [
+      "modal",
+      "transient_dynamic",
+      "harmonic",
+      "linear_buckling",
+      "material_nonlinear",
+      "geometric_nonlinear",
+      "total_lagrangian",
+      "arc_length",
+      "contact",
+      "RBE3_or_unmapped_constraint_extensions"
+    ],
+    "no_new_combinations": true
+  },
+  "element_routes": [
+    {
+      "element": "BEAM2",
+      "capability_id": "ELE-BEAM2",
+      "status": "REGISTERED_REQUIRES_REQUALIFICATION",
+      "materials": ["beam_isotropic"],
+      "loads": ["nodal", "line_load"],
+      "boundary_conditions": ["fixed_dofs", "prescribed_dofs"],
+      "vnv_level_expected": "L2",
+      "existing_limitations": ["variable_section_properties_and_curved_beams_are_out_of_scope"]
+    },
+    {
+      "element": "MITC3",
+      "capability_id": "ELE-MITC3",
+      "aliases": ["MITC3+"],
+      "status": "REGISTERED_REQUIRES_REQUALIFICATION",
+      "materials": ["shell_isotropic"],
+      "loads": ["nodal"],
+      "boundary_conditions": ["fixed_dofs", "prescribed_dofs"],
+      "vnv_level_expected": "L2",
+      "existing_limitations": ["shell_laminate_is_present_but_deferred_from_the_G04_base_claim"]
+    },
+    {
+      "element": "MITC4",
+      "capability_id": "ELE-MITC4",
+      "status": "REGISTERED_REQUIRES_REQUALIFICATION",
+      "materials": ["shell_isotropic"],
+      "loads": ["nodal", "pressure", "surface_traction", "edge_traction"],
+      "boundary_conditions": ["fixed_dofs", "prescribed_dofs"],
+      "vnv_level_expected": "L2",
+      "existing_limitations": ["shell_laminate_is_present_but_deferred_from_the_G04_base_claim"]
+    },
+    {
+      "element": "TET4",
+      "capability_id": "ELE-TET4",
+      "status": "REGISTERED_REQUIRES_REQUALIFICATION",
+      "materials": ["isotropic_3d"],
+      "loads": ["nodal", "gravity", "body_force", "pressure", "surface_traction"],
+      "boundary_conditions": ["fixed_dofs", "prescribed_dofs"],
+      "vnv_level_expected": "L3",
+      "existing_limitations": ["near_incompressibility_and_coarse_flexure_are_bounded_by_existing_limits"]
+    },
+    {
+      "element": "TET10",
+      "capability_id": "ELE-TET10",
+      "status": "REGISTERED_REQUIRES_REQUALIFICATION",
+      "materials": ["isotropic_3d"],
+      "loads": ["nodal", "gravity", "body_force", "pressure", "surface_traction"],
+      "boundary_conditions": ["fixed_dofs", "prescribed_dofs"],
+      "vnv_level_expected": "L3",
+      "existing_limitations": ["curved_geometry_positivity_is_sampled_not_globally_proven"]
+    },
+    {
+      "element": "HEX8",
+      "capability_id": "ELE-HEX8",
+      "status": "REGISTERED_REQUIRES_REQUALIFICATION",
+      "materials": ["isotropic_3d"],
+      "loads": ["nodal", "gravity", "body_force", "pressure", "surface_traction"],
+      "boundary_conditions": ["fixed_dofs", "prescribed_dofs"],
+      "vnv_level_expected": "L3",
+      "existing_limitations": ["finite_kinematic_and_J2_routes_are_not_G04_routes"]
+    },
+    {
+      "element": "HEX20",
+      "capability_id": "ELE-HEX20",
+      "status": "REGISTERED_REQUIRES_REQUALIFICATION",
+      "materials": ["isotropic_3d"],
+      "loads": ["nodal", "gravity", "body_force", "pressure", "surface_traction"],
+      "boundary_conditions": ["fixed_dofs", "prescribed_dofs"],
+      "vnv_level_expected": "L3",
+      "existing_limitations": ["finite_kinematic_and_J2_routes_are_not_G04_routes"]
+    },
+    {
+      "element": "DISCRETE",
+      "capability_id": "ELE-DISCRETE",
+      "status": "REGISTERED_REQUIRES_REQUALIFICATION",
+      "materials": ["discrete_linear"],
+      "loads": ["nodal"],
+      "boundary_conditions": ["fixed_dofs", "prescribed_dofs"],
+      "vnv_level_expected": "L2",
+      "existing_limitations": ["the_existing_0_2_6_case_is_planned_and_mixed_route_only"]
+    }
+  ],
+  "requirements": [
+    {
+      "id": "G04-LIN-001",
+      "title": "Linear static route and element dispatch",
+      "acceptance": ["declared element and material are accepted", "unsupported combinations are rejected", "route is deterministic"],
+      "tests": ["tests/unit/test_beam2_element.py", "tests/unit/test_mitc3_element.py", "tests/unit/test_tet4_element.py", "tests/unit/test_tet10_element.py", "tests/unit/test_hex8_element.py", "tests/unit/test_hex20_element.py", "tests/unit/test_discrete_entities.py"],
+      "vnv_level": "L2_or_L3_per_element",
+      "oracle": ["internal_regression", "analytical_when_available"]
+    },
+    {
+      "id": "G04-LIN-002",
+      "title": "Element patch and constant-strain behaviour",
+      "acceptance": ["patch or constant-strain test is supplied where mathematically applicable", "rigid-body energy is recorded where applicable"],
+      "tests": ["tests/unit/test_tet4_element.py", "tests/unit/test_tet10_element.py", "tests/unit/test_hex8_element.py", "tests/unit/test_hex20_element.py", "tests/verification/test_mitc3_refined.py", "tests/verification/test_mitc4_verification.py"],
+      "vnv_level": "L2_or_L3_per_element",
+      "oracle": ["analytical_patch", "rigid_body_invariant"]
+    },
+    {
+      "id": "G04-LIN-003",
+      "title": "Static load diversity and equilibrium",
+      "acceptance": ["supported nodal and distributed loads are exercised only on compatible elements", "reaction resultant and moment balance are reported", "free residual is reported"],
+      "tests": ["tests/unit/test_distributed_loads.py", "tests/unit/test_mesh_validation.py", "tests/integration/test_qualification_campaign.py"],
+      "vnv_level": "L2",
+      "oracle": ["equilibrium_invariant", "closed_form_resultant_when_available"]
+    },
+    {
+      "id": "G04-LIN-004",
+      "title": "Material route and orientation boundaries",
+      "acceptance": ["isotropic elastic routes are covered per element", "orientation is tested only where the selected formulation supports it", "laminate and orthotropic extensions remain explicitly separate or deferred"],
+      "tests": ["tests/unit/test_solid_material.py", "tests/unit/test_orthotropic_solid.py", "tests/unit/test_mitc3_element.py", "tests/unit/test_mitc4_laminate_orientation.py"],
+      "vnv_level": "L2",
+      "oracle": ["material_matrix_invariant", "orientation_objectivity"],
+      "policy_status": "PROPOSED_OWNER_REVIEW"
+    },
+    {
+      "id": "G04-LIN-005",
+      "title": "Mesh refinement, quality and distortion",
+      "acceptance": ["continuum families include compatible coarse/medium/fine meshes", "quality metrics and distortion parameters are recorded", "no threshold is treated as approved without Owner review"],
+      "tests": ["tests/unit/test_mesh_validation.py", "tests/unit/test_tet4_structured_convergence.py", "tests/unit/test_tet10_structural_evidence.py", "tests/unit/test_hex8_campaign.py", "tests/unit/test_hex20_campaign.py"],
+      "vnv_level": "L2_or_L3_per_element",
+      "oracle": ["mesh_refinement_trend", "mesh_quality_invariant"],
+      "policy_status": "PROPOSED_OWNER_REVIEW"
+    },
+    {
+      "id": "G04-LIN-006",
+      "title": "Invalid inputs and failure modes",
+      "acceptance": ["inverted or degenerate meshes reject safely", "invalid material and boundary data reject safely", "expected failures are distinguished from solver failures"],
+      "tests": ["tests/unit/test_mesh_validation.py", "tests/unit/test_mesh_validation_edge_contracts.py", "tests/unit/test_json_io.py"],
+      "vnv_level": "L2",
+      "oracle": ["expected_failure_contract", "deterministic_error_class"]
+    },
+    {
+      "id": "G04-LIN-007",
+      "title": "External correlation where formulation-compatible",
+      "acceptance": ["external tool and version are pinned", "same geometry, material, loads and boundary conditions are demonstrated", "unavailable external tools are SKIPPED_EXTERNAL_UNAVAILABLE and never PASS"],
+      "tests": ["tests/unit/test_code_aster_beam2_static.py", "tests/unit/test_code_aster_tet4_static.py", "tests/unit/test_code_aster_tet10_static.py", "tests/unit/test_hex8_code_aster.py", "tests/unit/test_hex20_code_aster.py"],
+      "vnv_level": "L2",
+      "oracle": ["CODE_ASTER", "CALCULIX"],
+      "policy_status": "EXISTING_EXTERNAL_AVAILABILITY_POLICY"
+    },
+    {
+      "id": "G04-LIN-008",
+      "title": "Evidence provenance and anti-forgetting",
+      "acceptance": ["source SHA, clean state, environment, case IDs and artifact digests are recorded", "every G04 claim maps to a registry capability and requirement", "no other gate is silently closed"],
+      "tests": ["tests/unit/test_capability_registry.py", "tests/unit/test_vnv_026_framework.py"],
+      "vnv_level": "L2",
+      "oracle": ["registry_consistency", "manifest_digest"]
+    }
+  ],
+  "minimum_targets": {
+    "status": "PROPOSED_OWNER_REVIEW",
+    "counting_rule": "Minimums are unique physical cases; reused G05/G06 cases are not counted twice for a gate closeout.",
+    "per_element": {
+      "BEAM2": {"minimum_cases": 2, "required_routes": ["nodal", "line_load"]},
+      "MITC3": {"minimum_cases": 2, "required_routes": ["membrane", "bending_or_shear"]},
+      "MITC4": {"minimum_cases": 3, "required_routes": ["membrane", "bending", "pressure_or_edge_traction"]},
+      "TET4": {"minimum_cases": 3, "required_routes": ["traction_or_compression", "distributed_load", "mesh_refinement"]},
+      "TET10": {"minimum_cases": 3, "required_routes": ["traction_or_compression", "distributed_load", "mesh_refinement"]},
+      "HEX8": {"minimum_cases": 3, "required_routes": ["traction_or_compression", "distributed_load", "mesh_refinement"]},
+      "HEX20": {"minimum_cases": 3, "required_routes": ["traction_or_compression", "distributed_load", "mesh_refinement"]},
+      "DISCRETE": {"minimum_cases": 1, "required_routes": ["nodal_static_spring_or_mass"]}
+    }
+  },
+  "policies": {
+    "existing": [
+      {"id": "TOL-026-EXACT-001", "use": "boolean invariants and expected failures", "status": "EXISTING"},
+      {"id": "TOL-026-FLOAT-001", "use": "deterministic foundation fingerprint", "status": "EXISTING"},
+      {"id": "TOL-026-ANALYTICAL-001", "use": "case-defined analytical error", "status": "EXISTING_VALUE_UNDEFINED"},
+      {"id": "EXTERNAL_UNAVAILABLE", "use": "skip external evidence when unavailable", "status": "EXISTING"}
+    ],
+    "proposed_owner_review": [
+      {"id": "G04-POL-001", "metric": "free_relative_residual", "proposed_value": 1e-8, "formula": "||r_free|| / max(||f_free||, 1)", "justification": "matches existing static benchmark practice without relaxing it", "domain": "linear_static_supported_routes", "limits": "not approved; scale and denominator must be reviewed"},
+      {"id": "G04-POL-002", "metric": "force_balance_relative_error", "proposed_value": 1e-8, "formula": "||R + F|| / max(||F||, 1)", "justification": "matches existing qualification campaign checks", "domain": "linear_static_with_reactions", "limits": "not approved; vector norm and reference load require Owner confirmation"},
+      {"id": "G04-POL-003", "metric": "final_adjacent_mesh_response_change", "proposed_value": 1e-2, "formula": "|q_fine-q_medium| / max(|q_fine|, 1)", "justification": "consistent with existing bounded refinement practice", "domain": "compatible_continuum_mesh_sequences", "limits": "not approved; observable and minimum levels remain case-specific"}
+    ]
+  },
+  "evidence_requirements": {
+    "per_case": ["case_id", "input_fingerprint", "source_sha", "clean_worktree", "element", "material", "loads", "boundary_conditions", "solver_settings", "result", "audit", "checks"],
+    "per_campaign": ["case_mapping", "requirements_coverage", "oracle_provenance", "tolerance_provenance", "environment", "artifact_manifest"],
+    "gate_governance": ["Owner decision required before closeout", "no automatic maturity promotion", "G07/G06/TL evidence excluded"]
+  },
+  "source_references": [
+    "qualification/capability_registry.json",
+    "qualification/0_2_6/case_registry.json",
+    "qualification/0_2_6/tolerance_policy.json",
+    "qualification/0_2_6/oracle_registry.json",
+    "docs/verification/0_2_6/0_2_6_gate_matrix.md",
+    "docs/schema_json.md"
+  ]
+}
