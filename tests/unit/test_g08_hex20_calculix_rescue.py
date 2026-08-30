@@ -35,6 +35,8 @@ def test_hex20_rescue_evidence_is_bounded_and_does_not_close_g08() -> None:
     gates = json.loads((ROOT / "qualification" / "0_2_6" / "gates.json").read_text(encoding="utf-8"))
     g08 = next(item for item in gates["gates"] if item["id"] == "026-G08")
     assert g08["status"] == "PASS_WITH_LIMITATIONS"
+    assert "g08_hex20_calculix_rescue_evidence.json" in g08["evidence_ids"]
+    assert "g08_hex20_calculix_rescue_evidence.md" in g08["evidence_ids"]
 
 
 def test_rescue_runner_forces_local_source_and_preserves_gate_status() -> None:

@@ -1,0 +1,278 @@
+{
+  "schema_version": 1,
+  "evidence_id": "026-G08-HEX20-CALCULIX-RESCUE-001",
+  "study_id": "VNV-G08-HEX20-CALCULIX-RESCUE-001",
+  "gate": "026-G08",
+  "status": "PASS_EXTERNAL_CORRELATION_BOUNDED",
+  "gate_status_unchanged": "PASS_WITH_LIMITATIONS",
+  "source_sha": "7681984d9456cfa295cd923bfc5cec7e2bd75355",
+  "source_dirty": false,
+  "captured_at_utc": "2026-08-30T11:29:21.154587Z",
+  "solver_version": "0.2.6a0",
+  "runtime": {
+    "python": {
+      "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+      "executable": "C:\\Python313\\python.exe"
+    },
+    "platform": {
+      "system": "Windows",
+      "release": "10",
+      "machine": "AMD64",
+      "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+    },
+    "packages": {
+      "numpy": "2.2.6",
+      "scipy": "1.15.2",
+      "matplotlib": "3.10.3",
+      "h5py": "3.14.0",
+      "mpi4py": "4.1.0",
+      "petsc4py": null
+    },
+    "blas": {
+      "name": "scipy-openblas",
+      "version": "0.3.29",
+      "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+    },
+    "parallel_environment": {
+      "OMP_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "PETSC_ARCH": null
+    }
+  },
+  "command": "python scripts/run_g08_hex20_calculix_rescue.py --output results/vnv_026_g08_hex20_calculix_rescue --evidence-dir qualification/0_2_6",
+  "root_cause": {
+    "classification": "DECK_GENERATION",
+    "defect": "C3D20 continuation line started with an empty field.",
+    "correction": "Continuation now starts with the next node, matching CalculiX input syntax and the existing HEX20 static writer.",
+    "functional_solver_code_changed": false,
+    "verification_infrastructure_changed": true
+  },
+  "external_solver": {
+    "name": "CalculiX",
+    "version": "2.20",
+    "image": "qf-solver/calculix-nafems13h:2.20",
+    "element": "C3D20"
+  },
+  "policies": {
+    "correlation_tolerance": 0.1,
+    "correlation_tolerance_source": "Existing CORRELATION_TOLERANCE in calculix_buckling_025.py; unchanged.",
+    "replay_absolute_tolerance": 1e-12,
+    "mode_policy": "Diagnostic sign-aligned comparison; no external MAC threshold exists in the G08 contract."
+  },
+  "scope": {
+    "families": [
+      "HEX20"
+    ],
+    "calculix_element": "C3D20",
+    "analysis": "first linearized tangent-instability factor and first mode",
+    "material": "homogeneous isotropic linear elasticity",
+    "loads": "nodal dead loads",
+    "route": "same QF model factory and CalculiX external deck",
+    "mesh_levels": [
+      1,
+      2
+    ]
+  },
+  "mesh_levels": [
+    {
+      "cells": 1,
+      "first": {
+        "cells": 1,
+        "node_count": 20,
+        "element_count": 1,
+        "qf_critical_factor": 12.504536591799754,
+        "qf_mode_residual_relative": 7.062636387931724e-15,
+        "calculix_critical_factor": 12.71666,
+        "relative_difference": 0.01696371605960607,
+        "correlation_tolerance": 0.1,
+        "status": "PASS",
+        "deck_sha256": "9c15d694ab929d202bea61b404b992bd3a74b380d9dee529bc350fa6e65f4283",
+        "provenance": {
+          "sha": "7681984d9456cfa295cd923bfc5cec7e2bd75355",
+          "worktree_dirty": false
+        },
+        "calculix_summary": "results/vnv_026_g08_hex20_calculix_rescue/cells1/summary.json",
+        "deck": "results/vnv_026_g08_hex20_calculix_rescue/cells1/hex20/buckling.inp",
+        "dat": "results/vnv_026_g08_hex20_calculix_rescue/cells1/hex20/buckling.dat",
+        "frd": "results/vnv_026_g08_hex20_calculix_rescue/cells1/hex20/buckling.frd",
+        "calculix_log": "results/vnv_026_g08_hex20_calculix_rescue/cells1/hex20/calculix.log",
+        "mode_comparison": {
+          "status": "RECORDED_NO_OWNER_MAC_THRESHOLD",
+          "raw_cosine": -0.9354790081608141,
+          "sign_alignment": "OPPOSITE_ARBITRARY_EIGENVECTOR_SIGN",
+          "sign_aligned_cosine": 0.9354790081608141,
+          "mac": 0.8751209747095404,
+          "qf_norm": 1.0,
+          "calculix_norm": 0.24628334739462188,
+          "reference": "CalculiX first eigenmode from the final FRD DISP block",
+          "policy": "The G08 contract defines MAC only when a compatible reference exists; no external MAC threshold is invented here."
+        }
+      },
+      "replay": {
+        "cells": 1,
+        "node_count": 20,
+        "element_count": 1,
+        "qf_critical_factor": 12.504536591799754,
+        "qf_mode_residual_relative": 6.679496835235626e-15,
+        "calculix_critical_factor": 12.71666,
+        "relative_difference": 0.01696371605960607,
+        "correlation_tolerance": 0.1,
+        "status": "PASS",
+        "deck_sha256": "9c15d694ab929d202bea61b404b992bd3a74b380d9dee529bc350fa6e65f4283",
+        "provenance": {
+          "sha": "7681984d9456cfa295cd923bfc5cec7e2bd75355",
+          "worktree_dirty": false
+        },
+        "calculix_summary": "results/vnv_026_g08_hex20_calculix_rescue/cells1_replay/summary.json",
+        "deck": "results/vnv_026_g08_hex20_calculix_rescue/cells1_replay/hex20/buckling.inp",
+        "dat": "results/vnv_026_g08_hex20_calculix_rescue/cells1_replay/hex20/buckling.dat",
+        "frd": "results/vnv_026_g08_hex20_calculix_rescue/cells1_replay/hex20/buckling.frd",
+        "calculix_log": "results/vnv_026_g08_hex20_calculix_rescue/cells1_replay/hex20/calculix.log",
+        "mode_comparison": {
+          "status": "RECORDED_NO_OWNER_MAC_THRESHOLD",
+          "raw_cosine": -0.9354784618878513,
+          "sign_alignment": "OPPOSITE_ARBITRARY_EIGENVECTOR_SIGN",
+          "sign_aligned_cosine": 0.9354784618878513,
+          "mac": 0.8751199526560601,
+          "qf_norm": 1.0,
+          "calculix_norm": 0.24628334739462188,
+          "reference": "CalculiX first eigenmode from the final FRD DISP block",
+          "policy": "The G08 contract defines MAC only when a compatible reference exists; no external MAC threshold is invented here."
+        }
+      },
+      "replay_factor_absolute_difference": 0.0,
+      "replay_within_tolerance": true
+    },
+    {
+      "cells": 2,
+      "first": {
+        "cells": 2,
+        "node_count": 32,
+        "element_count": 2,
+        "qf_critical_factor": 10.985393350332476,
+        "qf_mode_residual_relative": 1.1376848703335896e-14,
+        "calculix_critical_factor": 11.21546,
+        "relative_difference": 0.020942959649283843,
+        "correlation_tolerance": 0.1,
+        "status": "PASS",
+        "deck_sha256": "114e7802f6ee70f9e71f81da065cd1f55da921b0b78084e7e72010794098ebfc",
+        "provenance": {
+          "sha": "7681984d9456cfa295cd923bfc5cec7e2bd75355",
+          "worktree_dirty": false
+        },
+        "calculix_summary": "results/vnv_026_g08_hex20_calculix_rescue/cells2/summary.json",
+        "deck": "results/vnv_026_g08_hex20_calculix_rescue/cells2/hex20/buckling.inp",
+        "dat": "results/vnv_026_g08_hex20_calculix_rescue/cells2/hex20/buckling.dat",
+        "frd": "results/vnv_026_g08_hex20_calculix_rescue/cells2/hex20/buckling.frd",
+        "calculix_log": "results/vnv_026_g08_hex20_calculix_rescue/cells2/hex20/calculix.log",
+        "mode_comparison": {
+          "status": "RECORDED_NO_OWNER_MAC_THRESHOLD",
+          "raw_cosine": -0.8906559279919056,
+          "sign_alignment": "OPPOSITE_ARBITRARY_EIGENVECTOR_SIGN",
+          "sign_aligned_cosine": 0.8906559279919056,
+          "mac": 0.7932679820671226,
+          "qf_norm": 1.0,
+          "calculix_norm": 0.2747490826518406,
+          "reference": "CalculiX first eigenmode from the final FRD DISP block",
+          "policy": "The G08 contract defines MAC only when a compatible reference exists; no external MAC threshold is invented here."
+        }
+      },
+      "replay": {
+        "cells": 2,
+        "node_count": 32,
+        "element_count": 2,
+        "qf_critical_factor": 10.985393350332476,
+        "qf_mode_residual_relative": 7.467701999161265e-15,
+        "calculix_critical_factor": 11.21546,
+        "relative_difference": 0.020942959649283843,
+        "correlation_tolerance": 0.1,
+        "status": "PASS",
+        "deck_sha256": "114e7802f6ee70f9e71f81da065cd1f55da921b0b78084e7e72010794098ebfc",
+        "provenance": {
+          "sha": "7681984d9456cfa295cd923bfc5cec7e2bd75355",
+          "worktree_dirty": false
+        },
+        "calculix_summary": "results/vnv_026_g08_hex20_calculix_rescue/cells2_replay/summary.json",
+        "deck": "results/vnv_026_g08_hex20_calculix_rescue/cells2_replay/hex20/buckling.inp",
+        "dat": "results/vnv_026_g08_hex20_calculix_rescue/cells2_replay/hex20/buckling.dat",
+        "frd": "results/vnv_026_g08_hex20_calculix_rescue/cells2_replay/hex20/buckling.frd",
+        "calculix_log": "results/vnv_026_g08_hex20_calculix_rescue/cells2_replay/hex20/calculix.log",
+        "mode_comparison": {
+          "status": "RECORDED_NO_OWNER_MAC_THRESHOLD",
+          "raw_cosine": -0.8906639875610338,
+          "sign_alignment": "OPPOSITE_ARBITRARY_EIGENVECTOR_SIGN",
+          "sign_aligned_cosine": 0.8906639875610338,
+          "mac": 0.7932823387381214,
+          "qf_norm": 1.0,
+          "calculix_norm": 0.2747490826518406,
+          "reference": "CalculiX first eigenmode from the final FRD DISP block",
+          "policy": "The G08 contract defines MAC only when a compatible reference exists; no external MAC threshold is invented here."
+        }
+      },
+      "replay_factor_absolute_difference": 0.0,
+      "replay_within_tolerance": true
+    }
+  ],
+  "external_result": "PASS_EXTERNAL_CORRELATION_BOUNDED",
+  "limitations": [
+    "This rescue corrects only external HEX20 C3D20 deck generation.",
+    "The historical G08 Owner closeout is not rewritten and the official gate remains PASS_WITH_LIMITATIONS.",
+    "HEX20 mesh sensitivity and the existing bounded family decision remain subject to Owner review.",
+    "No independent high-order analytical oracle or Code_Aster equivalent is added by this study.",
+    "No post-buckling, multi-mode or physical-validation claim is made."
+  ],
+  "artifact_digests": {
+    "results/vnv_026_g08_hex20_calculix_rescue/cells1/buckling_external_comparison.png": "db46c8b66cfedc8b236ab97f3de2dc56721dfde482938bb018378cd0afd54534",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells1/hex20/buckling.12d": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells1/hex20/buckling.cvg": "65086dedb4572132b815ace04b294909c7f6f337111f9704fc310b02320f67f7",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells1/hex20/buckling.dat": "5204c5638ec313dce4a98c66631ba1c99cf8d90831b12873fe0d865b491d97b7",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells1/hex20/buckling.frd": "4dd9ad7312d0a25ea3f186fb69bee75054378afb39edc146663c8b6e5462585d",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells1/hex20/buckling.inp": "9c15d694ab929d202bea61b404b992bd3a74b380d9dee529bc350fa6e65f4283",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells1/hex20/buckling.sta": "20946efba93047e4092386fb9fedd29e43961806698459a19066356660f2e1a9",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells1/hex20/calculix.log": "e99aa6d3389a006279ba17bb94af8c7a2734d11d060b44cca79f4975cb538028",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells1/hex20/spooles.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells1/report.md": "5e644c8644941f55dae9bf36b588d59f3cb03894794002f40a3f246def1600d4",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells1/summary.json": "178d654415c76bb715b8702bcbbea5c4674c7146eec2ae219ff4ba365e75f49a",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells1/vnv_manifest.json": "56ea4ddc9b4d241fa6f67eaff3d831bbede21f72a8a656b5e8eae99d59ab2f5f",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells1_replay/buckling_external_comparison.png": "db46c8b66cfedc8b236ab97f3de2dc56721dfde482938bb018378cd0afd54534",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells1_replay/hex20/buckling.12d": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells1_replay/hex20/buckling.cvg": "65086dedb4572132b815ace04b294909c7f6f337111f9704fc310b02320f67f7",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells1_replay/hex20/buckling.dat": "5204c5638ec313dce4a98c66631ba1c99cf8d90831b12873fe0d865b491d97b7",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells1_replay/hex20/buckling.frd": "7311c2525931c6eec95527c2b775652dfc82c1fa2b4ef7f7b08773675a1b30d9",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells1_replay/hex20/buckling.inp": "9c15d694ab929d202bea61b404b992bd3a74b380d9dee529bc350fa6e65f4283",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells1_replay/hex20/buckling.sta": "20946efba93047e4092386fb9fedd29e43961806698459a19066356660f2e1a9",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells1_replay/hex20/calculix.log": "52843b40b565a0d9dbd0f9c16cfc826d03374062f9a45e4f3068bde9a2bfe2bd",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells1_replay/hex20/spooles.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells1_replay/report.md": "5e644c8644941f55dae9bf36b588d59f3cb03894794002f40a3f246def1600d4",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells1_replay/summary.json": "8620dad87db0729f15484d25dfdc79f6981f43131d383d8ca8eefcfe7bc60d1f",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells1_replay/vnv_manifest.json": "08ff7ed2f0c02b972cfa50c67d8349566763a1a4e0fc0623fda6d9b3388f9ef9",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells2/buckling_external_comparison.png": "6b07cc8008939b3f3727b6345c14a76ce5dc8c64ceb0e022e15eef3835b106fa",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells2/hex20/buckling.12d": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells2/hex20/buckling.cvg": "65086dedb4572132b815ace04b294909c7f6f337111f9704fc310b02320f67f7",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells2/hex20/buckling.dat": "ceaaf333fb2c0bc4af98ddea8369bf4931790590d2465da0c0ef2726e5e2a5be",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells2/hex20/buckling.frd": "d55a0df670853748aaa3c48bfb6271ab7ca2d160b4ac19f9d1e28ad5cef16f55",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells2/hex20/buckling.inp": "114e7802f6ee70f9e71f81da065cd1f55da921b0b78084e7e72010794098ebfc",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells2/hex20/buckling.sta": "20946efba93047e4092386fb9fedd29e43961806698459a19066356660f2e1a9",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells2/hex20/calculix.log": "f3550c15195bbe9f6a5ffb1e04462502f740b9786670662d6582731047683a43",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells2/hex20/spooles.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells2/report.md": "48f75b659693eaa077d7aaa69408ab6b1bfb43577425617430a9fd705935c07d",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells2/summary.json": "9aac2b6c647fbe3e6a2041fa5add73ddfe983f6992fba52d27b998b60aaf154a",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells2/vnv_manifest.json": "2de3b5fb2f7073d8b319c4197c820cd3edd4adac517d250eac8c2d09bf7ef26b",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells2_replay/buckling_external_comparison.png": "6b07cc8008939b3f3727b6345c14a76ce5dc8c64ceb0e022e15eef3835b106fa",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells2_replay/hex20/buckling.12d": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells2_replay/hex20/buckling.cvg": "65086dedb4572132b815ace04b294909c7f6f337111f9704fc310b02320f67f7",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells2_replay/hex20/buckling.dat": "ceaaf333fb2c0bc4af98ddea8369bf4931790590d2465da0c0ef2726e5e2a5be",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells2_replay/hex20/buckling.frd": "53342c20b5de75941815cb02b9fe477396994b247dc280e945dcc298c7632ff7",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells2_replay/hex20/buckling.inp": "114e7802f6ee70f9e71f81da065cd1f55da921b0b78084e7e72010794098ebfc",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells2_replay/hex20/buckling.sta": "20946efba93047e4092386fb9fedd29e43961806698459a19066356660f2e1a9",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells2_replay/hex20/calculix.log": "98b47cb29082e1dd75381eaaa1600d3efe15573fc0025bacb1011426281551a0",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells2_replay/hex20/spooles.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells2_replay/report.md": "48f75b659693eaa077d7aaa69408ab6b1bfb43577425617430a9fd705935c07d",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells2_replay/summary.json": "a94e5697b2053063b564e10512a95d0002a59c43f686f165d7450c92a57c2fd7",
+    "results/vnv_026_g08_hex20_calculix_rescue/cells2_replay/vnv_manifest.json": "be43c431228359ed0e8bfd6f5d203f8f9b447a9ce587600ecbe6435dd79c8114",
+    "results/vnv_026_g08_hex20_calculix_rescue/g08_hex20_calculix_rescue_report.md": "0752ccb30095e291d096c17f88ba208981688284871c6bd5bfd65d2fed06f5d9",
+    "qualification/0_2_6/g08_hex20_calculix_rescue_evidence.md": "0752ccb30095e291d096c17f88ba208981688284871c6bd5bfd65d2fed06f5d9"
+  },
+  "report_sha256": "0752ccb30095e291d096c17f88ba208981688284871c6bd5bfd65d2fed06f5d9"
+}
