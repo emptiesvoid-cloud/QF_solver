@@ -174,6 +174,7 @@
   "focused_extended_case_specification": "qualification/0_2_6/g11_extended_cases.json",
   "focused_extended_evidence": "qualification/0_2_6/g11_extended_execution_evidence.json",
   "full_promotion_blocker": "qualification/0_2_6/g11_full_promotion_blocker.json",
+  "full_replay_evidence": "qualification/0_2_6/g11_full_replay_evidence.json",
   "runner": {
     "path": "src/solveur/verification/g11_runner.py",
     "tests": ["tests/unit/test_g11_runner.py", "tests/unit/test_g11_native_adapters.py"],
