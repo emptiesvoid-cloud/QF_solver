@@ -14,7 +14,7 @@
 | `026-G09` | Contact maturity extension | PASS_WITH_LIMITATIONS |
 | `026-G10` | Existing coupled nonlinear review | NOT_STARTED |
 | `026-G11` | Adversarial / failure / metamorphic | PASS_WITH_LIMITATIONS |
-| `026-G12` | Performance / scalability | NOT_STARTED |
+| `026-G12` | Performance / scalability | IN_PROGRESS |
 | `026-G13` | External correlation aggregation | NOT_STARTED |
 | `026-G14` | Full regression / architecture freeze | NOT_STARTED |
 | `026-G15` | Owner release review | NOT_STARTED |
@@ -52,6 +52,11 @@ itself, finite sliding, general surface-to-surface contact, friction, or a
 universal conditioning cutoff. The candidate `1e4..1e6` interval remains
 `EXPERIMENTAL_ONLY`, and the mesh-dependent transition warning is retained
 explicitly.
+
+`026-G12` is `IN_PROGRESS`. The optimization checkpoint is qualified for
+integration only; its evidence records sparse load accumulation, load-balance
+vectorization and controlled mesh-quality cache reuse. No G12 Owner closeout
+or final release-readiness claim is implied.
 
 `026-G11` is closed as `PASS_WITH_LIMITATIONS` by Owner decision. The bounded
 closeout covers 20 route-native runtime cases across linear static, nonlinear

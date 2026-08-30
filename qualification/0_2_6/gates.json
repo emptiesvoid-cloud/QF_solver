@@ -159,7 +159,7 @@
         "Lot 3 adds bounded Code_Aster unilateral and CalculiX pre-contact comparisons; it does not validate the QF penalty law identically.",
         "The Lot 3 candidate penalty interval remains experimental; no production interval or conditioning cutoff is approved.",
         "The mesh-dependent transition warning is retained explicitly in the Owner closeout.",
-        "The robustness extension adds 45 controlled internal cases and reuses the archived Lot 3 external evidence; it does not change the official closeout or approve a universal penalty range.",
+        "The robustness extension adds 55 controlled internal cases and reuses the archived Lot 3 external evidence; it does not change the official closeout or approve a universal penalty range.",
         "General surface-to-surface, finite sliding and friction remain outside scope."
       ]
     },
@@ -187,10 +187,23 @@
       "title": "Adversarial / failure / metamorphic"
     },
     {
-      "evidence_ids": [],
+      "evidence_ids": [
+        "g12_optimization_contract.json",
+        "g12_optimization_evidence.json",
+        "g12_optimization_assembly_probes.json",
+        "g12_optimization_cache_proof.json",
+        "g12_optimization_regression_triage.json",
+        "0_2_6_g12_optimization.md"
+      ],
       "id": "026-G12",
-      "status": "NOT_STARTED",
-      "title": "Performance / scalability"
+      "status": "IN_PROGRESS",
+      "title": "Performance / scalability",
+      "checkpoint_status": "QUALIFIED_FOR_INTEGRATION",
+      "owner_closeout": false,
+      "limitations": [
+        "This checkpoint records the validated optimization only; G12 remains open.",
+        "No final release readiness or full G12 closure is implied."
+      ]
     },
     {
       "evidence_ids": [],
