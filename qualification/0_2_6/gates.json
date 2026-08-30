@@ -170,18 +170,21 @@
         "0_2_6_g10_owner_review_lot1.md",
         "g10_selected_external_evidence.json",
         "g10_selected_external_manifest.json",
-        "0_2_6_g10_selected_external_campaign.md"
+        "0_2_6_g10_selected_external_campaign.md",
+        "g10_owner_closeout.json",
+        "0_2_6_g10_owner_closeout.md"
       ],
       "id": "026-G10",
-      "status": "IN_PROGRESS",
+      "status": "PASS_WITH_LIMITATIONS",
       "title": "Advanced Nonlinear / Research Audit",
       "lot1_status": "PASS_WITH_LIMITATIONS",
-      "owner_closeout": false,
+      "owner_closeout": true,
       "limitations": [
         "Lot 1 audits existing nonlinear and research routes without adding physics, elements, or solver behavior.",
         "Finite-kinematic J2 and coupled nonlinear routes remain experimental or not qualified pending formulation-compatible external evidence.",
         "Total-Lagrangian promotion remains owned by G07 and is not changed by G10.",
-        "Full regression is intentionally deferred to the G10 Owner closeout or a high-risk functional change checkpoint."
+        "The selected Arc-Length and Total-Lagrangian campaigns are bounded external evidence and do not close or promote G07.",
+        "Full regression was skipped by policy because this closeout changed no functional source."
       ]
     },
     {

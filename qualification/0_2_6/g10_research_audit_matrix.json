@@ -2,7 +2,7 @@
   "schema_version": 1,
   "gate": "026-G10",
   "title": "Advanced Nonlinear / Research Audit",
-  "status": "IN_PROGRESS",
+  "status": "PASS_WITH_LIMITATIONS",
   "lot": "G10-LOT1",
   "applicable_version": "0.2.6a0",
   "purpose": "Audit and bound nonlinear and research routes already present without adding physics, elements, or solver behavior.",
@@ -157,7 +157,7 @@
     {"id": "G10-REQ-004", "statement": "Audit determinism and finite-value behavior for the existing paths.", "status": "SATISFIED_BOUNDED", "evidence": ["tests/unit/test_nonlinear_failure_campaign.py", "tests/unit/test_nonlinear_multielement.py"]},
     {"id": "G10-REQ-005", "statement": "Preserve the existing G06/G07/G09 ownership and limitations.", "status": "SATISFIED", "evidence": ["qualification/0_2_6/gates.json", "capability_registry.json"]},
     {"id": "G10-REQ-006", "statement": "Do not promote finite-kinematic J2 or coupled workflows without independent qualification.", "status": "SATISFIED", "evidence": ["route_inventory", "docs/verification/0_2_6/0_2_6_debt_register.md"]},
-    {"id": "G10-REQ-007", "statement": "Record external-correlation status and missing formulation-compatible evidence.", "status": "DEFERRED_LIMITATION", "evidence": ["external_correlation"]},
+    {"id": "G10-REQ-007", "statement": "Record external-correlation status and missing formulation-compatible evidence.", "status": "SATISFIED_BOUNDED", "evidence": ["external_correlation", "selected_external_campaign"]},
     {"id": "G10-REQ-008", "statement": "Provide a compact discriminating campaign without launching a release-scale campaign in Lot 1.", "status": "SATISFIED_BOUNDED", "evidence": ["bounded_campaign"]},
     {"id": "G10-REQ-009", "statement": "Keep a controlled provenance record with the audited source SHA and no numerical source changes.", "status": "SATISFIED", "evidence": ["provenance"]}
   ],
@@ -335,13 +335,47 @@
   },
   "decision": {
     "lot_status": "PASS_WITH_LIMITATIONS",
-    "gate_status": "IN_PROGRESS",
-    "owner_closeout": false,
-    "qualified_bounded": ["nonlinear_static_small_strain within the existing G06 bounded scope"],
-    "pass_with_limitations": ["transaction_checkpoint_retry", "structured_failure_diagnostics"],
-    "experimental_only": ["total_lagrangian_elasticity", "arc_length_continuation", "j2_plus_geometry", "geometry_plus_frictionless_contact", "j2_plus_geometry_plus_contact"],
-    "not_qualified": ["finite_kinematic_j2", "modified_newton_finite_kinematic"],
-    "blocked": ["G10 closeout pending formulation-compatible external evidence and Owner review"],
-    "next_step": "Run only the selected G07-routed external campaigns after Owner acceptance of the existing policies; keep all other routes deferred or blocked."
+    "gate_status": "PASS_WITH_LIMITATIONS",
+    "owner_closeout": true,
+    "qualified_bounded": ["nonlinear_static_small_strain within the existing G06 bounded scope", "transaction_checkpoint_retry", "structured_failure_diagnostics"],
+    "pass_with_limitations": [],
+    "experimental_only": ["geometry_plus_frictionless_contact"],
+    "not_qualified": ["finite_kinematic_j2", "j2_plus_geometry_plus_contact", "modified_newton_finite_kinematic"],
+    "deferred": ["total_lagrangian_elasticity", "arc_length_continuation", "j2_plus_geometry"],
+    "blocked": [],
+    "next_step": "Keep G07-owned Arc-Length and Total-Lagrangian promotion decisions separate; retain unqualified coupled routes as experimental or deferred."
+  },
+  "owner_closeout": {
+    "status": "PASS_WITH_LIMITATIONS",
+    "execution_source_sha": "9b4a44d61132a28fe9161f4aa8f04e838afc5f32",
+    "execution_worktree_dirty": false,
+    "functional_source_changed": false,
+    "numerical_regression_detected": false,
+    "full_regression": "SKIPPED_BY_POLICY",
+    "g07_state_changed": false,
+    "blocking_requirements": [],
+    "route_classifications": {
+      "nonlinear_static_small_strain": "OWNER_APPROVED_BOUNDED",
+      "transaction_checkpoint_retry": "OWNER_APPROVED_BOUNDED",
+      "structured_failure_diagnostics": "OWNER_APPROVED_BOUNDED",
+      "arc_length_continuation": "OWNER_DEFERRED",
+      "total_lagrangian_elasticity": "OWNER_DEFERRED",
+      "finite_kinematic_j2": "OWNER_NOT_QUALIFIED",
+      "j2_plus_geometry": "OWNER_DEFERRED",
+      "geometry_plus_frictionless_contact": "OWNER_EXPERIMENTAL_ONLY",
+      "j2_plus_geometry_plus_contact": "OWNER_NOT_QUALIFIED",
+      "modified_newton_finite_kinematic": "OWNER_NOT_QUALIFIED"
+    },
+    "selected_external_evidence": {
+      "arc_length_continuation": "PASS_WITH_LIMITATIONS",
+      "total_lagrangian_tet4": "PASS_WITH_LIMITATIONS",
+      "total_lagrangian_hex8": "PASS_WITH_LIMITATIONS"
+    },
+    "limitations": [
+      "Arc-Length and Total-Lagrangian evidence remains bounded research evidence owned by G07; G10 does not promote or close G07.",
+      "Finite-kinematic J2, J2-plus-geometry, coupled contact and triple coupling lack formulation-compatible external qualification.",
+      "The external HEX8 TL comparison is a matched-point comparison because the full QF instrumented path exceeded the bounded campaign budget.",
+      "No general physical validation, industrial-solver equivalence or exhaustive route-combination claim is made."
+    ]
   }
 }
