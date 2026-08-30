@@ -1,6 +1,7 @@
 {
   "schema_version": 1,
   "contract_id": "026-G12-OPTIMIZATION",
+  "status": "REGRESSION_NEUTRAL",
   "command": "python -m pytest -q --tb=short -ra",
   "environment": {
     "os": "Windows-10-10.0.19045-SP0",
