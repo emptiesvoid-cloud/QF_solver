@@ -1,0 +1,112 @@
+{
+  "study_id": "VNV-BUCKLING-CALCULIX-SOLID-FAMILIES-025",
+  "status": "BLOCKED_EXTERNAL_TOOL",
+  "maturity": "research",
+  "release_claim": false,
+  "provenance": {
+    "sha": "1b7b8c7ca85ac184a900bd5a5530aa47e733827f",
+    "worktree_dirty": false
+  },
+  "external_solver": {
+    "name": "CalculiX",
+    "version": "2.20",
+    "image": "qf-solver/calculix-nafems13h:2.20"
+  },
+  "scope": {
+    "elements": [
+      "TET4",
+      "TET10",
+      "HEX8",
+      "HEX20"
+    ],
+    "mesh": "regular shared mesh cells=1",
+    "analysis": "linearized tangent buckling",
+    "same_qf_model": true,
+    "requested_modes": 1
+  },
+  "rows": [
+    {
+      "element": "TET4",
+      "calculix_element": "C3D4",
+      "cells": 1,
+      "node_count": 8,
+      "element_count": 5,
+      "dof_count": 24,
+      "free_equation_count": 12,
+      "lanczos_vectors": 11,
+      "qf_critical_factor": 221.54828248526647,
+      "qf_mode_residual_relative": 3.842526400515284e-15,
+      "deck_sha256": "8681336c0c83a4476fb552bbd0d110aca7dd28e25697c9ba70361733e90c2c59",
+      "status": "PASS",
+      "calculix_factors": [
+        221.7744
+      ],
+      "calculix_critical_factor": 221.7744,
+      "relative_difference": 0.0010206240923965747,
+      "tolerance": 0.1
+    },
+    {
+      "element": "TET10",
+      "calculix_element": "C3D10",
+      "cells": 1,
+      "node_count": 26,
+      "element_count": 5,
+      "dof_count": 78,
+      "free_equation_count": 51,
+      "lanczos_vectors": 30,
+      "qf_critical_factor": 12.384498258696217,
+      "qf_mode_residual_relative": 6.829608805641129e-15,
+      "deck_sha256": "bc93e16a165162de734553789bc4011c0ee8bec25c71255bcde3f9959d9cc850",
+      "status": "PASS",
+      "calculix_factors": [
+        12.6176
+      ],
+      "calculix_critical_factor": 12.6176,
+      "relative_difference": 0.01882205773981208,
+      "tolerance": 0.1
+    },
+    {
+      "element": "HEX8",
+      "calculix_element": "C3D8",
+      "cells": 1,
+      "node_count": 8,
+      "element_count": 1,
+      "dof_count": 24,
+      "free_equation_count": 12,
+      "lanczos_vectors": 11,
+      "qf_critical_factor": 213.5235197092626,
+      "qf_mode_residual_relative": 1.6146424503251908e-15,
+      "deck_sha256": "915e3e9c87230420aeae0bb588d97e15fe01d7f9506a0b9a6983eea03d0f5204",
+      "status": "PASS",
+      "calculix_factors": [
+        213.715
+      ],
+      "calculix_critical_factor": 213.715,
+      "relative_difference": 0.0008967643985924344,
+      "tolerance": 0.1
+    },
+    {
+      "element": "HEX20",
+      "calculix_element": "C3D20",
+      "cells": 1,
+      "node_count": 20,
+      "element_count": 1,
+      "dof_count": 60,
+      "free_equation_count": 36,
+      "lanczos_vectors": 30,
+      "qf_critical_factor": 12.504536591799754,
+      "qf_mode_residual_relative": 1.06004654984921e-14,
+      "deck_sha256": "26b6a3520c9c233da238615acdeb625420895eb288cc6d5689240733caa1bc76",
+      "status": "BLOCKED_EXTERNAL_TOOL",
+      "error_type": "RuntimeError",
+      "error": "CalculiX buckling failed:\n  number of:\n\n   nodes:           20\n   elements:            1\n   one-dimensional elements:            0\n   two-dimensional elements:            0\n   integration points per element:           27\n   degrees of freedom per node:            3\n   layers per element:            1\n\n   distributed facial loads:            0\n   distributed volumetric loads:            0\n   concentrated loads:            8\n   single point constraints:           24\n   multiple point constraints:            1\n   terms in all multiple point constraints:            1\n   tie constraints:            0\n   dependent nodes tied by cyclic constraints:            0\n   dependent nodes in pre-tension constraints:            0\n\n   sets:            2\n   terms in all sets:           17\n\n   materials:            1\n   constants per material and temperature:            2\n   temperature points per material:            1\n   plastic data points per material:            0\n\n   orientations:            0\n   amplitudes:            2\n   data points in all amplitudes:            2\n   print requests:            0\n   transformations:            0\n   property cards:            0\n\n\n STEP            1\n\n Buckling analysis was selected\n"
+    }
+  ],
+  "limitations": [
+    "Numerical correlation only; no physical validation claim.",
+    "First linearized tangent-instability factor only; no post-buckling path.",
+    "The 10 percent band is a bounded correlation screen, not a release-wide tolerance.",
+    "The campaign does not close the general external-correlation matrix by itself.",
+    "A BLOCKED_EXTERNAL_TOOL row records an external executable or input failure; it is not a correlation pass."
+  ]
+}
