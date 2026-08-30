@@ -20,7 +20,7 @@
     "rejected_increment",
     "geometric_constraints_failure",
     "invalid_eigenvalue_request",
-    "buckling_bracket_failure",
+    "buckling_bracketing_failure",
     "invalid_contact_geometry"
   ],
   "routes": {
@@ -119,7 +119,7 @@
     {
       "case_id": "VNV026-G11-XR-BUCKLING-001",
       "route": "linear_buckling",
-      "failure_class": "buckling_bracket_failure",
+      "failure_class": "buckling_bracketing_failure",
       "expected_behavior": "terminate_without_bracket",
       "runtime_evidence": true,
       "runtime_result": "PASS",

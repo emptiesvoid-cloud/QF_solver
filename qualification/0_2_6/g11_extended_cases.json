@@ -108,6 +108,28 @@
       "stateful": true,
       "state_preserved": true,
       "requirements": ["G11-DIAG-004", "G11-DIAG-005", "G11-DIAG-006", "G11-DIAG-008"]
+    },
+    {
+      "case_id": "VNV026-G11-EXT-MODAL-BACKEND-001",
+      "failure_class": "modal_backend_failure",
+      "route": "modal",
+      "expected_behavior": "terminate when the modal backend encounters a rigid-body singular system",
+      "error_type_or_code": "NumericalConvergenceError / MODAL_BACKEND_FAILURE",
+      "expected_error_types": ["NumericalConvergenceError"],
+      "expected_error_codes": ["MODAL_BACKEND_FAILURE"],
+      "adapter_id": "VNV026-G11-EXT-MODAL-BACKEND-001",
+      "requirements": ["G11-DIAG-002", "G11-DIAG-005", "G11-DIAG-008"]
+    },
+    {
+      "case_id": "VNV026-G11-EXT-SINGULAR-CONTACT-JACOBIAN-001",
+      "failure_class": "singular_contact_jacobian",
+      "route": "linear_static_contact",
+      "expected_behavior": "terminate when dependent active contact constraints make the saddle Jacobian singular",
+      "error_type_or_code": "NumericalConvergenceError / LINEAR_SOLVER_FAILURE",
+      "expected_error_types": ["NumericalConvergenceError"],
+      "expected_error_codes": ["LINEAR_SOLVER_FAILURE"],
+      "adapter_id": "VNV026-G11-EXT-SINGULAR-CONTACT-JACOBIAN-001",
+      "requirements": ["G11-DIAG-002", "G11-DIAG-004", "G11-DIAG-005", "G11-DIAG-008"]
     }
   ],
   "no_new_thresholds": true,

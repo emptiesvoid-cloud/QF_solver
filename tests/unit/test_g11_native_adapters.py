@@ -8,6 +8,7 @@ from pathlib import Path
 from solveur.verification.g11_native_adapters import (
     native_route_status,
     run_cross_route_g11_cases,
+    run_extended_g11_cases,
     run_mutable_g11_cases,
     run_native_g11_cases,
 )
@@ -143,3 +144,20 @@ def test_partial_routes_emit_valid_deterministic_failure_envelopes(tmp_path: Pat
         assert record["observations"]["first"]["error_type_or_code"] == record["observations"]["replay"]["error_type_or_code"]
         assert record["observations"]["first"]["observed_failure"] is True
         assert record["observations"]["replay"]["observed_failure"] is True
+
+
+def test_extended_missing_singularity_cases_use_real_modal_and_contact_routes(tmp_path: Path) -> None:
+    cases = ROOT / "qualification" / "0_2_6" / "g11_extended_cases.json"
+    results = run_extended_g11_cases(cases, tmp_path, source_sha="test-g11-promotion")
+
+    modal = results["VNV026-G11-EXT-MODAL-BACKEND-001"]
+    assert modal["status"] == "PASS"
+    assert modal["envelope"]["FAILURE_CLASS"] == "modal_backend_failure"
+    assert modal["envelope"]["ERROR_TYPE_OR_CODE"] == "NumericalConvergenceError:MODAL_BACKEND_FAILURE"
+
+    contact = results["VNV026-G11-EXT-SINGULAR-CONTACT-JACOBIAN-001"]
+    assert contact["status"] == "PASS"
+    assert contact["envelope"]["FAILURE_CLASS"] == "singular_contact_jacobian"
+    assert contact["envelope"]["ERROR_TYPE_OR_CODE"] == "NumericalConvergenceError:LINEAR_SOLVER_FAILURE"
+    assert contact["observations"]["first"]["diagnostics"]["contact_jacobian_singular"] is True
+    assert contact["observations"]["first"] == contact["observations"]["replay"]
