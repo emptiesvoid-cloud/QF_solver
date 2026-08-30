@@ -5,7 +5,11 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from solveur.verification.g11_native_adapters import native_route_status, run_native_g11_cases
+from solveur.verification.g11_native_adapters import (
+    native_route_status,
+    run_cross_route_g11_cases,
+    run_native_g11_cases,
+)
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -57,3 +61,27 @@ def test_cross_route_introspection_does_not_overclaim_unexecuted_routes() -> Non
     assert status["modal"] == "PARTIAL"
     assert status["linear_buckling"] == "PARTIAL"
     assert status["linear_static_contact"] == "PARTIAL"
+
+
+def test_partial_routes_emit_valid_deterministic_failure_envelopes(tmp_path: Path) -> None:
+    cases = ROOT / "qualification" / "0_2_6" / "g11_cross_route_cases.json"
+    results = run_cross_route_g11_cases(
+        cases,
+        tmp_path,
+        source_sha="3beff93b8ad5f1455ba67097d098adacf5054e78",
+    )
+
+    assert len(results) == 4
+    assert all(result["status"] == "PASS" for result in results.values())
+    assert all(
+        result["envelope"][field] is True
+        for result in results.values()
+        for field in ("DETERMINISTIC", "NO_NAN_INF", "NO_SILENT_PASS")
+    )
+    assert {result["envelope"]["ROUTE"] for result in results.values()} == {
+        "geometric_nonlinear_static",
+        "modal",
+        "linear_buckling",
+        "linear_static_contact",
+    }
+    assert all((tmp_path / f"{case_id}.json").exists() for case_id in results)

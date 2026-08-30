@@ -62,13 +62,22 @@ PASS and state preservation, and archives JSON provenance and diagnostics. It
 does not change solver implementations. The four-case focused execution is
 recorded; the full G11 campaign remains unexecuted.
 
+The focused cross-route extension is specified in
+`qualification/0_2_6/g11_cross_route_cases.json` and recorded in
+`qualification/0_2_6/g11_cross_route_execution_evidence.json`. It exercises
+one fail-closed case each for `geometric_nonlinear_static`, `modal`,
+`linear_buckling` and `linear_static_contact`. These routes remain
+`PARTIAL_WITH_RUNTIME_FAILURE_EVIDENCE`; one failure mode per route is not a
+qualification of all route capabilities.
+
 ## Coverage boundary
 
 The contract is transverse, but evidence remains route-specific. Linear static
 input rejection, nonlinear transaction rollback and provenance controls are
 the strongest mapped areas. Modal/buckling, contact, geometric-nonlinear route
 execution, deterministic cross-route diagnostics and a unified no-silent-PASS
-assertion across every route remain partial.
+assertion across every route now have focused runtime evidence, but remain
+partial pending broader route coverage.
 G04, G08, G09, G07/TL and Agent A evidence is reused only at its historical
 diagnostic level.
 
