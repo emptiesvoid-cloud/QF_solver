@@ -48,13 +48,13 @@ MODES = ("traction", "compression", "shear_y", "bending_z")
 # These values intentionally differ from the historical stress/rescue grids.
 PRIMARY_CASES = tuple(
     {
-        "id": f"TL-PQ-{family}-M{cells}-A6.5-{mode}-D0.07-R0.261799",
+        "id": f"TL-PQ-{family}-M{cells}-A6.5-{mode}-D0-R0.261799",
         "family": family,
         "cells": cells,
         "mode": mode,
         "load_scale": 0.01 if mode == "bending_z" else 0.0125,
         "increments": 16,
-        "distortion": 0.07,
+        "distortion": 0.0,
         "angle": np.pi / 12.0,
         "aspect": 6.5,
         "group": "primary_mesh_mode",
