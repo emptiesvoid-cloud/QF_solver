@@ -36,11 +36,12 @@ def test_g09_extension_has_45_cases_and_preserves_closeout() -> None:
         "activation": 8,
         "cycles": 4,
         "geometry": 8,
+        "phase_rollback": 5,
         "penalty_mesh": 15,
         "rollback": 4,
     }
-    assert registry["case_count"] == 45
-    assert len(registry["cases"]) == 45
+    assert registry["case_count"] == 50
+    assert len(registry["cases"]) == 50
     assert requirements["requirement_count"] == 18
     assert requirements["counts"] == {"BOUNDED": 11, "DEFERRED": 3, "FAIL": 0, "FULL_CANDIDATE": 4}
     assert gate["status"] == "PASS_WITH_LIMITATIONS"
@@ -61,6 +62,16 @@ def test_g09_extension_has_no_unexpected_failures_or_external_overclaim() -> Non
     assert len(external["mesh_levels"]) >= 2
     assert external["load_intensity_points"] >= 2
     assert "universal" in " ".join(evidence["limitations"])
+    phases = evidence["phase_rollback"]
+    assert phases["phase_coverage"] == [
+        "before_activation",
+        "during_activation",
+        "just_after_activation",
+        "during_separation",
+        "during_recontact",
+    ]
+    assert all(row["status"] == "PASS_INTERNAL_ROLLBACK" for row in phases["rows"])
+    assert phases["state_integrity"] is True
 
 
 def test_g09_extension_manifest_digests_match_archived_artifacts() -> None:
