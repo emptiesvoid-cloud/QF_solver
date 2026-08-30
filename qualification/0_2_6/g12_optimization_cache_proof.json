@@ -1,6 +1,7 @@
 {
   "schema_version": 1,
   "contract_id": "026-G12-OPTIMIZATION",
+  "status": "PASS",
   "measurement_commit_sha": "7860ade85f0020b68e23c43787c77f28a863d8d6",
   "target_dofs": 10000,
   "reuse": "same model and LinearStaticSolver; second validation uses mutation-sensitive quality cache",

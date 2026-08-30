@@ -3,7 +3,7 @@
   "contract_id": "026-G12-OPTIMIZATION",
   "status": "PASS",
   "start_sha": "c967903956c82fcae6a23c9a946ddcd8bf93306e",
-  "optimization_commit_sha": "237f88b340538d6706f383875f46df55bee0c97b",
+  "optimization_commit_sha": "414e810f6ada51200ed7e04070bcd066a3880728",
   "baseline_source": "qualification\\0_2_6\\g12_lot2_scaling.json",
   "optimized_source": "qualification\\0_2_6\\g12_optimization_optimized_scaling.json",
   "assembly_probe_source": "qualification\\0_2_6\\g12_optimization_assembly_probes.json",
@@ -454,6 +454,7 @@
   "cache_proof": {
     "schema_version": 1,
     "contract_id": "026-G12-OPTIMIZATION",
+    "status": "PASS",
     "measurement_commit_sha": "7860ade85f0020b68e23c43787c77f28a863d8d6",
     "target_dofs": 10000,
     "reuse": "same model and LinearStaticSolver; second validation uses mutation-sensitive quality cache",
@@ -786,6 +787,7 @@
   "full_regression": {
     "schema_version": 1,
     "contract_id": "026-G12-OPTIMIZATION",
+    "status": "REGRESSION_NEUTRAL",
     "command": "python -m pytest -q --tb=short -ra",
     "environment": {
       "os": "Windows-10-10.0.19045-SP0",
