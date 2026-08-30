@@ -1,0 +1,6006 @@
+{
+  "dirty": false,
+  "external_correlation": {
+    "available_executables": {
+      "as_run": null,
+      "calculix": null,
+      "ccx": null,
+      "code_aster": null
+    },
+    "owner_interpretation": "External correlation remains an open Owner decision for TL promotion.",
+    "reason": "No Code_Aster/CalculiX executable is available in the current environment; no exact comparable deck was executed.",
+    "required_comparison": [
+      "displacement",
+      "reaction",
+      "load_displacement_curve"
+    ],
+    "status": "SKIPPED_NOT_COMPARABLE"
+  },
+  "families": [
+    "TET4",
+    "HEX8"
+  ],
+  "mesh_adjacent_changes": [
+    {
+      "classification": "OBSERVED_TREND_ONLY",
+      "family": "TET4",
+      "from_cells": 1,
+      "mode": "bending_z",
+      "relative_changes": {
+        "maximum_displacement": 0.6185784075904642,
+        "reaction_norm": 0.07071676627607422,
+        "strain_energy": 0.6186793083772383
+      },
+      "to_cells": 2
+    },
+    {
+      "classification": "OBSERVED_TREND_ONLY",
+      "family": "TET4",
+      "from_cells": 2,
+      "mode": "bending_z",
+      "relative_changes": {
+        "maximum_displacement": 0.4256645901935938,
+        "reaction_norm": 0.052533062431672196,
+        "strain_energy": 0.42543522580119975
+      },
+      "to_cells": 3
+    },
+    {
+      "classification": "OBSERVED_TREND_ONLY",
+      "family": "TET4",
+      "from_cells": 3,
+      "mode": "bending_z",
+      "relative_changes": {
+        "maximum_displacement": 0.28433039330578813,
+        "reaction_norm": 0.019656721378164498,
+        "strain_energy": 0.2838696099965814
+      },
+      "to_cells": 4
+    },
+    {
+      "classification": "OBSERVED_TREND_ONLY",
+      "family": "TET4",
+      "from_cells": 1,
+      "mode": "shear_y",
+      "relative_changes": {
+        "maximum_displacement": 0.6186345920436358,
+        "reaction_norm": 0.07069335050347617,
+        "strain_energy": 0.6186556672410931
+      },
+      "to_cells": 2
+    },
+    {
+      "classification": "OBSERVED_TREND_ONLY",
+      "family": "TET4",
+      "from_cells": 2,
+      "mode": "shear_y",
+      "relative_changes": {
+        "maximum_displacement": 0.42571465493311944,
+        "reaction_norm": 0.052455108635824345,
+        "strain_energy": 0.42532250441400427
+      },
+      "to_cells": 3
+    },
+    {
+      "classification": "OBSERVED_TREND_ONLY",
+      "family": "TET4",
+      "from_cells": 3,
+      "mode": "shear_y",
+      "relative_changes": {
+        "maximum_displacement": 0.28432597168033563,
+        "reaction_norm": 0.01952920968132104,
+        "strain_energy": 0.2836524789735435
+      },
+      "to_cells": 4
+    },
+    {
+      "classification": "OBSERVED_TREND_ONLY",
+      "family": "HEX8",
+      "from_cells": 1,
+      "mode": "bending_z",
+      "relative_changes": {
+        "maximum_displacement": 0.6971404484292535,
+        "reaction_norm": 0.013594486992179555,
+        "strain_energy": 0.6965112865937082
+      },
+      "to_cells": 2
+    },
+    {
+      "classification": "OBSERVED_TREND_ONLY",
+      "family": "HEX8",
+      "from_cells": 2,
+      "mode": "bending_z",
+      "relative_changes": {
+        "maximum_displacement": 0.4312335692027454,
+        "reaction_norm": 0.0064897803524802756,
+        "strain_energy": 0.42990338045508547
+      },
+      "to_cells": 3
+    },
+    {
+      "classification": "OBSERVED_TREND_ONLY",
+      "family": "HEX8",
+      "from_cells": 3,
+      "mode": "bending_z",
+      "relative_changes": {
+        "maximum_displacement": 0.26583866938668455,
+        "reaction_norm": 0.001684683424286079,
+        "strain_energy": 0.26418095416274684
+      },
+      "to_cells": 4
+    },
+    {
+      "classification": "OBSERVED_TREND_ONLY",
+      "family": "HEX8",
+      "from_cells": 1,
+      "mode": "shear_y",
+      "relative_changes": {
+        "maximum_displacement": 0.6971510891811902,
+        "reaction_norm": 0.013427008117201105,
+        "strain_energy": 0.6963317739841522
+      },
+      "to_cells": 2
+    },
+    {
+      "classification": "OBSERVED_TREND_ONLY",
+      "family": "HEX8",
+      "from_cells": 2,
+      "mode": "shear_y",
+      "relative_changes": {
+        "maximum_displacement": 0.4310230750179413,
+        "reaction_norm": 0.006034628665797001,
+        "strain_energy": 0.4292397695680971
+      },
+      "to_cells": 3
+    },
+    {
+      "classification": "OBSERVED_TREND_ONLY",
+      "family": "HEX8",
+      "from_cells": 3,
+      "mode": "shear_y",
+      "relative_changes": {
+        "maximum_displacement": 0.2653838898988817,
+        "reaction_norm": 0.0010846012075903379,
+        "strain_energy": 0.263121552016069
+      },
+      "to_cells": 4
+    }
+  ],
+  "mesh_policy": {
+    "levels": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "modes": [
+      "bending_z",
+      "shear_y"
+    ],
+    "observables": [
+      "maximum_displacement",
+      "reaction_norm",
+      "strain_energy"
+    ],
+    "status": "OBSERVED_TREND_ONLY",
+    "threshold": "NONE"
+  },
+  "mesh_sensitivity": [
+    {
+      "cells": 1,
+      "classification": "OBSERVATION_ONLY",
+      "dof_count": 24,
+      "element_count": 5,
+      "family": "TET4",
+      "free_residual_norm": 2.105097964704321e-13,
+      "increment_history": [
+        {
+          "increment": 1,
+          "iterations": 3,
+          "load_factor": 0.0625,
+          "relative_residual": 2.0786843065063498e-13
+        },
+        {
+          "increment": 2,
+          "iterations": 3,
+          "load_factor": 0.125,
+          "relative_residual": 2.023150254904611e-13
+        },
+        {
+          "increment": 3,
+          "iterations": 3,
+          "load_factor": 0.1875,
+          "relative_residual": 2.0580923141541524e-13
+        },
+        {
+          "increment": 4,
+          "iterations": 3,
+          "load_factor": 0.25,
+          "relative_residual": 2.1159028693263973e-13
+        },
+        {
+          "increment": 5,
+          "iterations": 3,
+          "load_factor": 0.3125,
+          "relative_residual": 2.0118109352262906e-13
+        },
+        {
+          "increment": 6,
+          "iterations": 3,
+          "load_factor": 0.375,
+          "relative_residual": 2.104729825909953e-13
+        },
+        {
+          "increment": 7,
+          "iterations": 3,
+          "load_factor": 0.4375,
+          "relative_residual": 2.0499531518198933e-13
+        },
+        {
+          "increment": 8,
+          "iterations": 3,
+          "load_factor": 0.5,
+          "relative_residual": 2.0923426570983034e-13
+        },
+        {
+          "increment": 9,
+          "iterations": 3,
+          "load_factor": 0.5625,
+          "relative_residual": 2.08171834954861e-13
+        },
+        {
+          "increment": 10,
+          "iterations": 3,
+          "load_factor": 0.625,
+          "relative_residual": 2.0985168024029674e-13
+        },
+        {
+          "increment": 11,
+          "iterations": 3,
+          "load_factor": 0.6875,
+          "relative_residual": 2.058588413897659e-13
+        },
+        {
+          "increment": 12,
+          "iterations": 3,
+          "load_factor": 0.75,
+          "relative_residual": 2.1109597748312734e-13
+        },
+        {
+          "increment": 13,
+          "iterations": 3,
+          "load_factor": 0.8125,
+          "relative_residual": 2.0161166210320227e-13
+        },
+        {
+          "increment": 14,
+          "iterations": 3,
+          "load_factor": 0.875,
+          "relative_residual": 1.988719278600242e-13
+        },
+        {
+          "increment": 15,
+          "iterations": 3,
+          "load_factor": 0.9375,
+          "relative_residual": 2.0993890164388842e-13
+        },
+        {
+          "increment": 16,
+          "iterations": 3,
+          "load_factor": 1.0,
+          "relative_residual": 2.105097964704321e-13
+        }
+      ],
+      "load_increments": 16,
+      "load_scale": 0.008,
+      "maximum_displacement": 0.02968956057524209,
+      "mesh_level_role": "coarse_medium_fine_refined",
+      "mesh_observables": [
+        "maximum_displacement",
+        "reaction_norm",
+        "strain_energy"
+      ],
+      "minimum_det_f": 0.9995353629919924,
+      "minimum_tangent_eigenvalue": 0.050874747984908236,
+      "mode": "bending_z",
+      "newton_iterations": 48,
+      "quality": {
+        "errors": [],
+        "metrics": [
+          {
+            "aspect_ratio": 6.576473218982953,
+            "edge_length_max": 6.576473218982953,
+            "edge_length_min": 1.0,
+            "quality": 0.08832902475965447,
+            "radius_ratio": 0.25220177234785623,
+            "relative_volume": 0.00380875413352839,
+            "signed_volume": 1.0833333333333333,
+            "skew": 0.9116709752403456
+          },
+          {
+            "aspect_ratio": 6.576473218982953,
+            "edge_length_max": 6.576473218982953,
+            "edge_length_min": 1.0,
+            "quality": 0.08832902475965447,
+            "radius_ratio": 0.25220177234785623,
+            "relative_volume": 0.00380875413352839,
+            "signed_volume": 1.0833333333333333,
+            "skew": 0.9116709752403456
+          },
+          {
+            "aspect_ratio": 4.650268809434568,
+            "edge_length_max": 6.576473218982953,
+            "edge_length_min": 1.4142135623730951,
+            "quality": 0.11474276900004815,
+            "radius_ratio": 0.31702602580977074,
+            "relative_volume": 0.00761750826705678,
+            "signed_volume": 2.1666666666666665,
+            "skew": 0.8852572309999518
+          },
+          {
+            "aspect_ratio": 6.576473218982953,
+            "edge_length_max": 6.576473218982953,
+            "edge_length_min": 1.0,
+            "quality": 0.08832902475965447,
+            "radius_ratio": 0.25220177234785623,
+            "relative_volume": 0.00380875413352839,
+            "signed_volume": 1.0833333333333333,
+            "skew": 0.9116709752403456
+          },
+          {
+            "aspect_ratio": 6.576473218982953,
+            "edge_length_max": 6.576473218982953,
+            "edge_length_min": 1.0,
+            "quality": 0.08832902475965447,
+            "radius_ratio": 0.25220177234785623,
+            "relative_volume": 0.00380875413352839,
+            "signed_volume": 1.0833333333333333,
+            "skew": 0.9116709752403456
+          }
+        ],
+        "status": "PASS",
+        "warnings": []
+      },
+      "reaction_norm": 0.05322369166090099,
+      "residual_history": [
+        0.00025,
+        3.4927942785194493e-06,
+        2.0786843065063498e-13,
+        0.00024999999999999735,
+        3.492794652398773e-06,
+        2.023150254904611e-13,
+        0.0002499999999999951,
+        3.4927958022535276e-06,
+        2.0580923141541524e-13,
+        0.00024999999999999214,
+        3.4927977033190084e-06,
+        2.1159028693263973e-13,
+        0.00024999999999998916,
+        3.492800366206472e-06,
+        2.0118109352262906e-13,
+        0.0002499999999999872,
+        3.4928037972166676e-06,
+        2.104729825909953e-13,
+        0.0002499999999999845,
+        3.492807981503076e-06,
+        2.0499531518198933e-13,
+        0.000249999999999982,
+        3.4928129311737208e-06,
+        2.0923426570983034e-13,
+        0.00024999999999997973,
+        3.492818640109881e-06,
+        2.08171834954861e-13,
+        0.0002499999999999755,
+        3.492825105255261e-06,
+        2.0985168024029674e-13,
+        0.0002499999999999724,
+        3.4928323473152563e-06,
+        2.058588413897659e-13,
+        0.0002499999999999719,
+        3.492840337494791e-06,
+        2.1109597748312734e-13,
+        0.0002499999999999675,
+        3.4928490944467246e-06,
+        2.0161166210320227e-13,
+        0.00024999999999996997,
+        3.492858616418321e-06,
+        1.988719278600242e-13,
+        0.00024999999999996564,
+        3.492868892516546e-06,
+        2.0993890164388842e-13,
+        0.0002499999999999612,
+        3.4928799241384633e-06,
+        2.105097964704321e-13
+      ],
+      "status": "success",
+      "strain_energy": 0.00011834014986380215,
+      "tangent_condition_number": 1241.126523736328
+    },
+    {
+      "cells": 2,
+      "classification": "OBSERVATION_ONLY",
+      "dof_count": 36,
+      "element_count": 10,
+      "family": "TET4",
+      "free_residual_norm": 1.641851352997983e-11,
+      "increment_history": [
+        {
+          "increment": 1,
+          "iterations": 3,
+          "load_factor": 0.0625,
+          "relative_residual": 1.6424682538188158e-11
+        },
+        {
+          "increment": 2,
+          "iterations": 3,
+          "load_factor": 0.125,
+          "relative_residual": 1.6425498405333267e-11
+        },
+        {
+          "increment": 3,
+          "iterations": 3,
+          "load_factor": 0.1875,
+          "relative_residual": 1.6425673062426734e-11
+        },
+        {
+          "increment": 4,
+          "iterations": 3,
+          "load_factor": 0.25,
+          "relative_residual": 1.6423940221571687e-11
+        },
+        {
+          "increment": 5,
+          "iterations": 3,
+          "load_factor": 0.3125,
+          "relative_residual": 1.6426768464961286e-11
+        },
+        {
+          "increment": 6,
+          "iterations": 3,
+          "load_factor": 0.375,
+          "relative_residual": 1.6426120638457748e-11
+        },
+        {
+          "increment": 7,
+          "iterations": 3,
+          "load_factor": 0.4375,
+          "relative_residual": 1.6422673477291406e-11
+        },
+        {
+          "increment": 8,
+          "iterations": 3,
+          "load_factor": 0.5,
+          "relative_residual": 1.642265713035409e-11
+        },
+        {
+          "increment": 9,
+          "iterations": 3,
+          "load_factor": 0.5625,
+          "relative_residual": 1.6424151945545055e-11
+        },
+        {
+          "increment": 10,
+          "iterations": 3,
+          "load_factor": 0.625,
+          "relative_residual": 1.6427130049704016e-11
+        },
+        {
+          "increment": 11,
+          "iterations": 3,
+          "load_factor": 0.6875,
+          "relative_residual": 1.642562355177264e-11
+        },
+        {
+          "increment": 12,
+          "iterations": 3,
+          "load_factor": 0.75,
+          "relative_residual": 1.6420131172610054e-11
+        },
+        {
+          "increment": 13,
+          "iterations": 3,
+          "load_factor": 0.8125,
+          "relative_residual": 1.642279754814902e-11
+        },
+        {
+          "increment": 14,
+          "iterations": 3,
+          "load_factor": 0.875,
+          "relative_residual": 1.6418222813207594e-11
+        },
+        {
+          "increment": 15,
+          "iterations": 3,
+          "load_factor": 0.9375,
+          "relative_residual": 1.6421545126613447e-11
+        },
+        {
+          "increment": 16,
+          "iterations": 3,
+          "load_factor": 1.0,
+          "relative_residual": 1.641851352997983e-11
+        }
+      ],
+      "load_increments": 16,
+      "load_scale": 0.008,
+      "maximum_displacement": 0.07783922348938271,
+      "mesh_level_role": "coarse_medium_fine_refined",
+      "mesh_observables": [
+        "maximum_displacement",
+        "reaction_norm",
+        "strain_energy"
+      ],
+      "minimum_det_f": 0.9980390782765325,
+      "minimum_tangent_eigenvalue": 0.018771337248173633,
+      "mode": "bending_z",
+      "newton_iterations": 48,
+      "quality": {
+        "errors": [],
+        "metrics": [
+          {
+            "aspect_ratio": 3.400367627183861,
+            "edge_length_max": 3.400367627183861,
+            "edge_length_min": 1.0,
+            "quality": 0.2919639564151013,
+            "radius_ratio": 0.4508211376007727,
+            "relative_volume": 0.013776994720316396,
+            "signed_volume": 0.5416666666666666,
+            "skew": 0.7080360435848987
+          },
+          {
+            "aspect_ratio": 3.400367627183861,
+            "edge_length_max": 3.400367627183861,
+            "edge_length_min": 1.0,
+            "quality": 0.2919639564151013,
+            "radius_ratio": 0.4508211376007727,
+            "relative_volume": 0.013776994720316396,
+            "signed_volume": 0.5416666666666666,
+            "skew": 0.7080360435848987
+          },
+          {
+            "aspect_ratio": 2.404423007708918,
+            "edge_length_max": 3.400367627183861,
+            "edge_length_min": 1.4142135623730951,
+            "quality": 0.37927230486733543,
+            "radius_ratio": 0.5848236656972121,
+            "relative_volume": 0.02755398944063279,
+            "signed_volume": 1.0833333333333333,
+            "skew": 0.6207276951326646
+          },
+          {
+            "aspect_ratio": 3.400367627183861,
+            "edge_length_max": 3.400367627183861,
+            "edge_length_min": 1.0,
+            "quality": 0.2919639564151013,
+            "radius_ratio": 0.4508211376007727,
+            "relative_volume": 0.013776994720316396,
+            "signed_volume": 0.5416666666666666,
+            "skew": 0.7080360435848987
+          },
+          {
+            "aspect_ratio": 3.400367627183861,
+            "edge_length_max": 3.400367627183861,
+            "edge_length_min": 1.0,
+            "quality": 0.2919639564151013,
+            "radius_ratio": 0.4508211376007727,
+            "relative_volume": 0.013776994720316396,
+            "signed_volume": 0.5416666666666666,
+            "skew": 0.7080360435848987
+          },
+          {
+            "aspect_ratio": 3.400367627183861,
+            "edge_length_max": 3.400367627183861,
+            "edge_length_min": 1.0,
+            "quality": 0.2919639564151013,
+            "radius_ratio": 0.4508211376007727,
+            "relative_volume": 0.013776994720316396,
+            "signed_volume": 0.5416666666666666,
+            "skew": 0.7080360435848987
+          },
+          {
+            "aspect_ratio": 3.400367627183861,
+            "edge_length_max": 3.400367627183861,
+            "edge_length_min": 1.0,
+            "quality": 0.2919639564151013,
+            "radius_ratio": 0.4508211376007727,
+            "relative_volume": 0.013776994720316396,
+            "signed_volume": 0.5416666666666666,
+            "skew": 0.7080360435848987
+          },
+          {
+            "aspect_ratio": 2.404423007708918,
+            "edge_length_max": 3.400367627183861,
+            "edge_length_min": 1.4142135623730951,
+            "quality": 0.37927230486733543,
+            "radius_ratio": 0.5848236656972121,
+            "relative_volume": 0.02755398944063279,
+            "signed_volume": 1.0833333333333333,
+            "skew": 0.6207276951326646
+          },
+          {
+            "aspect_ratio": 3.400367627183861,
+            "edge_length_max": 3.400367627183861,
+            "edge_length_min": 1.0,
+            "quality": 0.2919639564151013,
+            "radius_ratio": 0.4508211376007727,
+            "relative_volume": 0.013776994720316396,
+            "signed_volume": 0.5416666666666666,
+            "skew": 0.7080360435848987
+          },
+          {
+            "aspect_ratio": 3.400367627183861,
+            "edge_length_max": 3.400367627183861,
+            "edge_length_min": 1.0,
+            "quality": 0.2919639564151013,
+            "radius_ratio": 0.4508211376007727,
+            "relative_volume": 0.013776994720316396,
+            "signed_volume": 0.5416666666666666,
+            "skew": 0.7080360435848987
+          }
+        ],
+        "status": "PASS",
+        "warnings": []
+      },
+      "reaction_norm": 0.05727391792878601,
+      "residual_history": [
+        0.00025,
+        2.917547655471866e-05,
+        1.6424682538188158e-11,
+        0.00024999999999742833,
+        2.9175443655459217e-05,
+        1.6425498405333267e-11,
+        0.0002499999999918227,
+        2.9175346270913975e-05,
+        1.6425673062426734e-11,
+        0.0002499999999862158,
+        2.9175184395383424e-05,
+        1.6423940221571687e-11,
+        0.0002499999999806102,
+        2.9174958043400694e-05,
+        1.6426768464961286e-11,
+        0.0002499999999750016,
+        2.917466719987466e-05,
+        1.6426120638457748e-11,
+        0.0002499999999693958,
+        2.9174311887335666e-05,
+        1.6422673477291406e-11,
+        0.00024999999996379394,
+        2.9173892095064558e-05,
+        1.642265713035409e-11,
+        0.0002499999999581873,
+        2.9173407832535094e-05,
+        1.6424151945545055e-11,
+        0.0002499999999525836,
+        2.9172859097535547e-05,
+        1.6427130049704016e-11,
+        0.0002499999999469733,
+        2.9172245912969717e-05,
+        1.642562355177264e-11,
+        0.00024999999994137795,
+        2.917156827355909e-05,
+        1.6420131172610054e-11,
+        0.0002499999999357813,
+        2.917082618738164e-05,
+        1.642279754814902e-11,
+        0.0002499999999301734,
+        2.9170019664006738e-05,
+        1.6418222813207594e-11,
+        0.000249999999924579,
+        2.9169148713343033e-05,
+        1.6421545126613447e-11,
+        0.00024999999991897,
+        2.9168213338060507e-05,
+        1.641851352997983e-11
+      ],
+      "status": "success",
+      "strain_energy": 0.0003103428491126187,
+      "tangent_condition_number": 3078.6143475681233
+    },
+    {
+      "cells": 3,
+      "classification": "OBSERVATION_ONLY",
+      "dof_count": 48,
+      "element_count": 15,
+      "family": "TET4",
+      "free_residual_norm": 1.591545588057699e-10,
+      "increment_history": [
+        {
+          "increment": 1,
+          "iterations": 3,
+          "load_factor": 0.0625,
+          "relative_residual": 1.5935422040679784e-10
+        },
+        {
+          "increment": 2,
+          "iterations": 3,
+          "load_factor": 0.125,
+          "relative_residual": 1.5935543440058635e-10
+        },
+        {
+          "increment": 3,
+          "iterations": 3,
+          "load_factor": 0.1875,
+          "relative_residual": 1.5935042449471306e-10
+        },
+        {
+          "increment": 4,
+          "iterations": 3,
+          "load_factor": 0.25,
+          "relative_residual": 1.5934492606618303e-10
+        },
+        {
+          "increment": 5,
+          "iterations": 3,
+          "load_factor": 0.3125,
+          "relative_residual": 1.5934227308021538e-10
+        },
+        {
+          "increment": 6,
+          "iterations": 3,
+          "load_factor": 0.375,
+          "relative_residual": 1.5933244540067126e-10
+        },
+        {
+          "increment": 7,
+          "iterations": 3,
+          "load_factor": 0.4375,
+          "relative_residual": 1.5932402814873072e-10
+        },
+        {
+          "increment": 8,
+          "iterations": 3,
+          "load_factor": 0.5,
+          "relative_residual": 1.593117754840276e-10
+        },
+        {
+          "increment": 9,
+          "iterations": 3,
+          "load_factor": 0.5625,
+          "relative_residual": 1.5929907968410535e-10
+        },
+        {
+          "increment": 10,
+          "iterations": 3,
+          "load_factor": 0.625,
+          "relative_residual": 1.5928219087198444e-10
+        },
+        {
+          "increment": 11,
+          "iterations": 3,
+          "load_factor": 0.6875,
+          "relative_residual": 1.592687888470321e-10
+        },
+        {
+          "increment": 12,
+          "iterations": 3,
+          "load_factor": 0.75,
+          "relative_residual": 1.592483558838116e-10
+        },
+        {
+          "increment": 13,
+          "iterations": 3,
+          "load_factor": 0.8125,
+          "relative_residual": 1.5922673325011587e-10
+        },
+        {
+          "increment": 14,
+          "iterations": 3,
+          "load_factor": 0.875,
+          "relative_residual": 1.592035605869484e-10
+        },
+        {
+          "increment": 15,
+          "iterations": 3,
+          "load_factor": 0.9375,
+          "relative_residual": 1.5918250449080685e-10
+        },
+        {
+          "increment": 16,
+          "iterations": 3,
+          "load_factor": 1.0,
+          "relative_residual": 1.591545588057699e-10
+        }
+      ],
+      "load_increments": 16,
+      "load_scale": 0.008,
+      "maximum_displacement": 0.13552920847353,
+      "mesh_level_role": "coarse_medium_fine_refined",
+      "mesh_observables": [
+        "maximum_displacement",
+        "reaction_norm",
+        "strain_energy"
+      ],
+      "minimum_det_f": 0.9962600197069242,
+      "minimum_tangent_eigenvalue": 0.009770695824624148,
+      "mode": "bending_z",
+      "newton_iterations": 48,
+      "quality": {
+        "errors": [],
+        "metrics": [
+          {
+            "aspect_ratio": 2.386303510546039,
+            "edge_length_max": 2.386303510546039,
+            "edge_length_min": 1.0,
+            "quality": 0.5003573463163358,
+            "radius_ratio": 0.5872043353138963,
+            "relative_volume": 0.02657442100976971,
+            "signed_volume": 0.36111111111110744,
+            "skew": 0.49964265368366423
+          },
+          {
+            "aspect_ratio": 2.386303510546039,
+            "edge_length_max": 2.386303510546039,
+            "edge_length_min": 1.0,
+            "quality": 0.5003573463163355,
+            "radius_ratio": 0.5872043353138963,
+            "relative_volume": 0.02657442100976971,
+            "signed_volume": 0.36111111111110744,
+            "skew": 0.49964265368366445
+          },
+          {
+            "aspect_ratio": 1.6873713942763682,
+            "edge_length_max": 2.386303510546039,
+            "edge_length_min": 1.4142135623730951,
+            "quality": 0.6499832593201721,
+            "radius_ratio": 0.7794199809409857,
+            "relative_volume": 0.05314884201953942,
+            "signed_volume": 0.7222222222222149,
+            "skew": 0.3500167406798279
+          },
+          {
+            "aspect_ratio": 2.386303510546039,
+            "edge_length_max": 2.386303510546039,
+            "edge_length_min": 1.0,
+            "quality": 0.5003573463163355,
+            "radius_ratio": 0.5872043353138963,
+            "relative_volume": 0.02657442100976971,
+            "signed_volume": 0.36111111111110744,
+            "skew": 0.49964265368366445
+          },
+          {
+            "aspect_ratio": 2.386303510546039,
+            "edge_length_max": 2.386303510546039,
+            "edge_length_min": 1.0,
+            "quality": 0.5003573463163355,
+            "radius_ratio": 0.5872043353138963,
+            "relative_volume": 0.02657442100976971,
+            "signed_volume": 0.36111111111110744,
+            "skew": 0.49964265368366445
+          },
+          {
+            "aspect_ratio": 2.3863035105460977,
+            "edge_length_max": 2.3863035105460977,
+            "edge_length_min": 1.0,
+            "quality": 0.5003573463163191,
+            "radius_ratio": 0.5872043353138866,
+            "relative_volume": 0.026574421009768548,
+            "signed_volume": 0.36111111111111827,
+            "skew": 0.4996426536836809
+          },
+          {
+            "aspect_ratio": 2.3863035105460977,
+            "edge_length_max": 2.3863035105460977,
+            "edge_length_min": 1.0,
+            "quality": 0.5003573463163191,
+            "radius_ratio": 0.5872043353138866,
+            "relative_volume": 0.026574421009768548,
+            "signed_volume": 0.36111111111111827,
+            "skew": 0.4996426536836809
+          },
+          {
+            "aspect_ratio": 1.6873713942764095,
+            "edge_length_max": 2.3863035105460977,
+            "edge_length_min": 1.4142135623730951,
+            "quality": 0.6499832593201508,
+            "radius_ratio": 0.7794199809409716,
+            "relative_volume": 0.05314884201953709,
+            "signed_volume": 0.7222222222222364,
+            "skew": 0.3500167406798492
+          },
+          {
+            "aspect_ratio": 2.3863035105460977,
+            "edge_length_max": 2.3863035105460977,
+            "edge_length_min": 1.0,
+            "quality": 0.5003573463163191,
+            "radius_ratio": 0.5872043353138866,
+            "relative_volume": 0.026574421009768548,
+            "signed_volume": 0.36111111111111827,
+            "skew": 0.4996426536836809
+          },
+          {
+            "aspect_ratio": 2.3863035105460977,
+            "edge_length_max": 2.3863035105460977,
+            "edge_length_min": 1.0,
+            "quality": 0.5003573463163191,
+            "radius_ratio": 0.5872043353138866,
+            "relative_volume": 0.026574421009768548,
+            "signed_volume": 0.36111111111111827,
+            "skew": 0.4996426536836809
+          },
+          {
+            "aspect_ratio": 2.38630351054604,
+            "edge_length_max": 2.38630351054604,
+            "edge_length_min": 1.0,
+            "quality": 0.5003573463163354,
+            "radius_ratio": 0.5872043353138963,
+            "relative_volume": 0.02657442100976969,
+            "signed_volume": 0.3611111111111076,
+            "skew": 0.49964265368366456
+          },
+          {
+            "aspect_ratio": 2.38630351054604,
+            "edge_length_max": 2.38630351054604,
+            "edge_length_min": 1.0,
+            "quality": 0.5003573463163354,
+            "radius_ratio": 0.5872043353138963,
+            "relative_volume": 0.02657442100976969,
+            "signed_volume": 0.3611111111111076,
+            "skew": 0.49964265368366456
+          },
+          {
+            "aspect_ratio": 1.6873713942763688,
+            "edge_length_max": 2.38630351054604,
+            "edge_length_min": 1.4142135623730951,
+            "quality": 0.649983259320172,
+            "radius_ratio": 0.7794199809409856,
+            "relative_volume": 0.05314884201953938,
+            "signed_volume": 0.7222222222222152,
+            "skew": 0.350016740679828
+          },
+          {
+            "aspect_ratio": 2.38630351054604,
+            "edge_length_max": 2.38630351054604,
+            "edge_length_min": 1.0,
+            "quality": 0.5003573463163354,
+            "radius_ratio": 0.5872043353138963,
+            "relative_volume": 0.02657442100976969,
+            "signed_volume": 0.3611111111111076,
+            "skew": 0.49964265368366456
+          },
+          {
+            "aspect_ratio": 2.38630351054604,
+            "edge_length_max": 2.38630351054604,
+            "edge_length_min": 1.0,
+            "quality": 0.5003573463163354,
+            "radius_ratio": 0.5872043353138963,
+            "relative_volume": 0.02657442100976969,
+            "signed_volume": 0.3611111111111076,
+            "skew": 0.49964265368366456
+          }
+        ],
+        "status": "PASS",
+        "warnings": []
+      },
+      "reaction_norm": 0.0604495161338077,
+      "residual_history": [
+        0.00025,
+        8.404209672679876e-05,
+        1.5935422040679784e-10,
+        0.0002499999999355742,
+        8.404166206222274e-05,
+        1.5935543440058635e-10,
+        0.00024999999978908024,
+        8.404036337129031e-05,
+        1.5935042449471306e-10,
+        0.000249999999642589,
+        8.403820072914072e-05,
+        1.5934492606618303e-10,
+        0.00024999999949612637,
+        8.403517424437338e-05,
+        1.5934227308021538e-10,
+        0.0002499999993496863,
+        8.403128407145201e-05,
+        1.5933244540067126e-10,
+        0.000249999999203301,
+        8.402653041003569e-05,
+        1.5932402814873072e-10,
+        0.0002499999990569533,
+        8.402091350012809e-05,
+        1.593117754840276e-10,
+        0.00024999999891068555,
+        8.401443362716629e-05,
+        1.5929907968410535e-10,
+        0.0002499999987644815,
+        8.400709111858284e-05,
+        1.5928219087198444e-10,
+        0.00024999999861837234,
+        8.39988863441332e-05,
+        1.592687888470321e-10,
+        0.0002499999984723253,
+        8.398981972431565e-05,
+        1.592483558838116e-10,
+        0.00024999999832641583,
+        8.397989171917253e-05,
+        1.5922673325011587e-10,
+        0.00024999999818061893,
+        8.396910282623816e-05,
+        1.592035605869484e-10,
+        0.0002499999980349374,
+        8.395745359414066e-05,
+        1.5918250449080685e-10,
+        0.00024999999788938277,
+        8.394494461432587e-05,
+        1.591545588057699e-10
+      ],
+      "status": "success",
+      "strain_energy": 0.0005401355304897958,
+      "tangent_condition_number": 4157.869408829828
+    },
+    {
+      "cells": 4,
+      "classification": "OBSERVATION_ONLY",
+      "dof_count": 60,
+      "element_count": 20,
+      "family": "TET4",
+      "free_residual_norm": 5.884467757850837e-10,
+      "increment_history": [
+        {
+          "increment": 1,
+          "iterations": 3,
+          "load_factor": 0.0625,
+          "relative_residual": 5.898915612568737e-10
+        },
+        {
+          "increment": 2,
+          "iterations": 3,
+          "load_factor": 0.125,
+          "relative_residual": 5.89883066742877e-10
+        },
+        {
+          "increment": 3,
+          "iterations": 3,
+          "load_factor": 0.1875,
+          "relative_residual": 5.898624982662593e-10
+        },
+        {
+          "increment": 4,
+          "iterations": 3,
+          "load_factor": 0.25,
+          "relative_residual": 5.898294721791873e-10
+        },
+        {
+          "increment": 5,
+          "iterations": 3,
+          "load_factor": 0.3125,
+          "relative_residual": 5.897855626707451e-10
+        },
+        {
+          "increment": 6,
+          "iterations": 3,
+          "load_factor": 0.375,
+          "relative_residual": 5.897279865446209e-10
+        },
+        {
+          "increment": 7,
+          "iterations": 3,
+          "load_factor": 0.4375,
+          "relative_residual": 5.896592116737542e-10
+        },
+        {
+          "increment": 8,
+          "iterations": 3,
+          "load_factor": 0.5,
+          "relative_residual": 5.89572855473304e-10
+        },
+        {
+          "increment": 9,
+          "iterations": 3,
+          "load_factor": 0.5625,
+          "relative_residual": 5.894788677046363e-10
+        },
+        {
+          "increment": 10,
+          "iterations": 3,
+          "load_factor": 0.625,
+          "relative_residual": 5.893696130396929e-10
+        },
+        {
+          "increment": 11,
+          "iterations": 3,
+          "load_factor": 0.6875,
+          "relative_residual": 5.892474191122985e-10
+        },
+        {
+          "increment": 12,
+          "iterations": 3,
+          "load_factor": 0.75,
+          "relative_residual": 5.891119644547326e-10
+        },
+        {
+          "increment": 13,
+          "iterations": 3,
+          "load_factor": 0.8125,
+          "relative_residual": 5.889649973610137e-10
+        },
+        {
+          "increment": 14,
+          "iterations": 3,
+          "load_factor": 0.875,
+          "relative_residual": 5.888051577858491e-10
+        },
+        {
+          "increment": 15,
+          "iterations": 3,
+          "load_factor": 0.9375,
+          "relative_residual": 5.886350167298173e-10
+        },
+        {
+          "increment": 16,
+          "iterations": 3,
+          "load_factor": 1.0,
+          "relative_residual": 5.884467757850837e-10
+        }
+      ],
+      "load_increments": 16,
+      "load_scale": 0.008,
+      "maximum_displacement": 0.1893739893462296,
+      "mesh_level_role": "coarse_medium_fine_refined",
+      "mesh_observables": [
+        "maximum_displacement",
+        "reaction_norm",
+        "strain_energy"
+      ],
+      "minimum_det_f": 0.9946797540905209,
+      "minimum_tangent_eigenvalue": 0.0062584214989712715,
+      "mode": "bending_z",
+      "newton_iterations": 48,
+      "quality": {
+        "errors": [],
+        "metrics": [
+          {
+            "aspect_ratio": 1.9080421903092184,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.0,
+            "quality": 0.6502025129299239,
+            "radius_ratio": 0.6699018353987726,
+            "relative_volume": 0.038988649691767394,
+            "signed_volume": 0.2708333333333333,
+            "skew": 0.3497974870700761
+          },
+          {
+            "aspect_ratio": 1.9080421903092184,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.0,
+            "quality": 0.6502025129299239,
+            "radius_ratio": 0.6699018353987726,
+            "relative_volume": 0.038988649691767394,
+            "signed_volume": 0.2708333333333333,
+            "skew": 0.3497974870700761
+          },
+          {
+            "aspect_ratio": 1.3491895715576814,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.4142135623730951,
+            "quality": 0.8446378407026914,
+            "radius_ratio": 0.9029492525224135,
+            "relative_volume": 0.07797729938353479,
+            "signed_volume": 0.5416666666666666,
+            "skew": 0.15536215929730857
+          },
+          {
+            "aspect_ratio": 1.9080421903092184,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.0,
+            "quality": 0.6502025129299239,
+            "radius_ratio": 0.6699018353987726,
+            "relative_volume": 0.038988649691767394,
+            "signed_volume": 0.2708333333333333,
+            "skew": 0.3497974870700761
+          },
+          {
+            "aspect_ratio": 1.9080421903092184,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.0,
+            "quality": 0.6502025129299239,
+            "radius_ratio": 0.6699018353987726,
+            "relative_volume": 0.038988649691767394,
+            "signed_volume": 0.2708333333333333,
+            "skew": 0.3497974870700761
+          },
+          {
+            "aspect_ratio": 1.9080421903092184,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.0,
+            "quality": 0.6502025129299239,
+            "radius_ratio": 0.6699018353987726,
+            "relative_volume": 0.038988649691767394,
+            "signed_volume": 0.2708333333333333,
+            "skew": 0.3497974870700761
+          },
+          {
+            "aspect_ratio": 1.9080421903092184,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.0,
+            "quality": 0.6502025129299239,
+            "radius_ratio": 0.6699018353987726,
+            "relative_volume": 0.038988649691767394,
+            "signed_volume": 0.2708333333333333,
+            "skew": 0.3497974870700761
+          },
+          {
+            "aspect_ratio": 1.3491895715576814,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.4142135623730951,
+            "quality": 0.8446378407026914,
+            "radius_ratio": 0.9029492525224135,
+            "relative_volume": 0.07797729938353479,
+            "signed_volume": 0.5416666666666666,
+            "skew": 0.15536215929730857
+          },
+          {
+            "aspect_ratio": 1.9080421903092184,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.0,
+            "quality": 0.6502025129299239,
+            "radius_ratio": 0.6699018353987726,
+            "relative_volume": 0.038988649691767394,
+            "signed_volume": 0.2708333333333333,
+            "skew": 0.3497974870700761
+          },
+          {
+            "aspect_ratio": 1.9080421903092184,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.0,
+            "quality": 0.6502025129299239,
+            "radius_ratio": 0.6699018353987726,
+            "relative_volume": 0.038988649691767394,
+            "signed_volume": 0.2708333333333333,
+            "skew": 0.3497974870700761
+          },
+          {
+            "aspect_ratio": 1.9080421903092184,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.0,
+            "quality": 0.6502025129299239,
+            "radius_ratio": 0.6699018353987726,
+            "relative_volume": 0.038988649691767394,
+            "signed_volume": 0.2708333333333333,
+            "skew": 0.3497974870700761
+          },
+          {
+            "aspect_ratio": 1.9080421903092184,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.0,
+            "quality": 0.6502025129299239,
+            "radius_ratio": 0.6699018353987726,
+            "relative_volume": 0.038988649691767394,
+            "signed_volume": 0.2708333333333333,
+            "skew": 0.3497974870700761
+          },
+          {
+            "aspect_ratio": 1.3491895715576814,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.4142135623730951,
+            "quality": 0.8446378407026914,
+            "radius_ratio": 0.9029492525224135,
+            "relative_volume": 0.07797729938353479,
+            "signed_volume": 0.5416666666666666,
+            "skew": 0.15536215929730857
+          },
+          {
+            "aspect_ratio": 1.9080421903092184,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.0,
+            "quality": 0.6502025129299239,
+            "radius_ratio": 0.6699018353987726,
+            "relative_volume": 0.038988649691767394,
+            "signed_volume": 0.2708333333333333,
+            "skew": 0.3497974870700761
+          },
+          {
+            "aspect_ratio": 1.9080421903092184,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.0,
+            "quality": 0.6502025129299239,
+            "radius_ratio": 0.6699018353987726,
+            "relative_volume": 0.038988649691767394,
+            "signed_volume": 0.2708333333333333,
+            "skew": 0.3497974870700761
+          },
+          {
+            "aspect_ratio": 1.9080421903092184,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.0,
+            "quality": 0.6502025129299239,
+            "radius_ratio": 0.6699018353987726,
+            "relative_volume": 0.038988649691767394,
+            "signed_volume": 0.2708333333333333,
+            "skew": 0.3497974870700761
+          },
+          {
+            "aspect_ratio": 1.9080421903092184,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.0,
+            "quality": 0.6502025129299239,
+            "radius_ratio": 0.6699018353987726,
+            "relative_volume": 0.038988649691767394,
+            "signed_volume": 0.2708333333333333,
+            "skew": 0.3497974870700761
+          },
+          {
+            "aspect_ratio": 1.3491895715576814,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.4142135623730951,
+            "quality": 0.8446378407026914,
+            "radius_ratio": 0.9029492525224135,
+            "relative_volume": 0.07797729938353479,
+            "signed_volume": 0.5416666666666666,
+            "skew": 0.15536215929730857
+          },
+          {
+            "aspect_ratio": 1.9080421903092184,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.0,
+            "quality": 0.6502025129299239,
+            "radius_ratio": 0.6699018353987726,
+            "relative_volume": 0.038988649691767394,
+            "signed_volume": 0.2708333333333333,
+            "skew": 0.3497974870700761
+          },
+          {
+            "aspect_ratio": 1.9080421903092184,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.0,
+            "quality": 0.6502025129299239,
+            "radius_ratio": 0.6699018353987726,
+            "relative_volume": 0.038988649691767394,
+            "signed_volume": 0.2708333333333333,
+            "skew": 0.3497974870700761
+          }
+        ],
+        "status": "PASS",
+        "warnings": []
+      },
+      "reaction_norm": 0.061661580644269326,
+      "residual_history": [
+        0.00025,
+        0.0001527551084237174,
+        5.898915612568737e-10,
+        0.00024999999959536264,
+        0.00015275333596259465,
+        5.89883066742877e-10,
+        0.0002499999986623282,
+        0.0001527480289449987,
+        5.898624982662593e-10,
+        0.0002499999977293018,
+        0.000152739188173262,
+        5.898294721791873e-10,
+        0.00024999999679660336,
+        0.00015272681467007516,
+        5.897855626707451e-10,
+        0.00024999999586435755,
+        0.0001527109098811126,
+        5.897279865446209e-10,
+        0.0002499999949327248,
+        0.0001526914756535011,
+        5.896592116737542e-10,
+        0.0002499999940018415,
+        0.00015266851424472773,
+        5.89572855473304e-10,
+        0.00024999999307184263,
+        0.00015264202832621698,
+        5.894788677046363e-10,
+        0.0002499999921428903,
+        0.00015261202096852734,
+        5.893696130396929e-10,
+        0.0002499999912150942,
+        0.0001525784956616394,
+        5.892474191122985e-10,
+        0.0002499999902886257,
+        0.00015254145629459243,
+        5.891119644547326e-10,
+        0.00024999998936359234,
+        0.00015250090716008478,
+        5.889649973610137e-10,
+        0.00024999998844017394,
+        0.00015245685296206603,
+        5.888051577858491e-10,
+        0.000249999987518507,
+        0.00015240929880311398,
+        5.886350167298173e-10,
+        0.00024999998659868295,
+        0.0001523582501837805,
+        5.884467757850837e-10
+      ],
+      "status": "success",
+      "strain_energy": 0.0007542418783361747,
+      "tangent_condition_number": 4982.576118042412
+    },
+    {
+      "cells": 1,
+      "classification": "OBSERVATION_ONLY",
+      "dof_count": 24,
+      "element_count": 5,
+      "family": "TET4",
+      "free_residual_norm": 4.962383260210257e-13,
+      "increment_history": [
+        {
+          "increment": 1,
+          "iterations": 3,
+          "load_factor": 0.0625,
+          "relative_residual": 5.040027231019635e-13
+        },
+        {
+          "increment": 2,
+          "iterations": 3,
+          "load_factor": 0.125,
+          "relative_residual": 4.981025512665381e-13
+        },
+        {
+          "increment": 3,
+          "iterations": 3,
+          "load_factor": 0.1875,
+          "relative_residual": 5.039064630567612e-13
+        },
+        {
+          "increment": 4,
+          "iterations": 3,
+          "load_factor": 0.25,
+          "relative_residual": 4.971153708911795e-13
+        },
+        {
+          "increment": 5,
+          "iterations": 3,
+          "load_factor": 0.3125,
+          "relative_residual": 4.995769154356211e-13
+        },
+        {
+          "increment": 6,
+          "iterations": 3,
+          "load_factor": 0.375,
+          "relative_residual": 5.02235999635317e-13
+        },
+        {
+          "increment": 7,
+          "iterations": 3,
+          "load_factor": 0.4375,
+          "relative_residual": 5.002087909206546e-13
+        },
+        {
+          "increment": 8,
+          "iterations": 3,
+          "load_factor": 0.5,
+          "relative_residual": 4.973531982121657e-13
+        },
+        {
+          "increment": 9,
+          "iterations": 3,
+          "load_factor": 0.5625,
+          "relative_residual": 5.077339653832562e-13
+        },
+        {
+          "increment": 10,
+          "iterations": 3,
+          "load_factor": 0.625,
+          "relative_residual": 5.03108278787276e-13
+        },
+        {
+          "increment": 11,
+          "iterations": 3,
+          "load_factor": 0.6875,
+          "relative_residual": 4.983435054471959e-13
+        },
+        {
+          "increment": 12,
+          "iterations": 3,
+          "load_factor": 0.75,
+          "relative_residual": 4.989574068065133e-13
+        },
+        {
+          "increment": 13,
+          "iterations": 3,
+          "load_factor": 0.8125,
+          "relative_residual": 5.093371199615765e-13
+        },
+        {
+          "increment": 14,
+          "iterations": 3,
+          "load_factor": 0.875,
+          "relative_residual": 4.953214811864292e-13
+        },
+        {
+          "increment": 15,
+          "iterations": 3,
+          "load_factor": 0.9375,
+          "relative_residual": 4.948874937952406e-13
+        },
+        {
+          "increment": 16,
+          "iterations": 3,
+          "load_factor": 1.0,
+          "relative_residual": 4.962383260210257e-13
+        }
+      ],
+      "load_increments": 16,
+      "load_scale": 0.01,
+      "maximum_displacement": 0.03711372571387692,
+      "mesh_level_role": "coarse_medium_fine_refined",
+      "mesh_observables": [
+        "maximum_displacement",
+        "reaction_norm",
+        "strain_energy"
+      ],
+      "minimum_det_f": 0.9994156289283906,
+      "minimum_tangent_eigenvalue": 0.05087416748682529,
+      "mode": "shear_y",
+      "newton_iterations": 48,
+      "quality": {
+        "errors": [],
+        "metrics": [
+          {
+            "aspect_ratio": 6.576473218982953,
+            "edge_length_max": 6.576473218982953,
+            "edge_length_min": 1.0,
+            "quality": 0.08832902475965447,
+            "radius_ratio": 0.25220177234785623,
+            "relative_volume": 0.00380875413352839,
+            "signed_volume": 1.0833333333333333,
+            "skew": 0.9116709752403456
+          },
+          {
+            "aspect_ratio": 6.576473218982953,
+            "edge_length_max": 6.576473218982953,
+            "edge_length_min": 1.0,
+            "quality": 0.08832902475965447,
+            "radius_ratio": 0.25220177234785623,
+            "relative_volume": 0.00380875413352839,
+            "signed_volume": 1.0833333333333333,
+            "skew": 0.9116709752403456
+          },
+          {
+            "aspect_ratio": 4.650268809434568,
+            "edge_length_max": 6.576473218982953,
+            "edge_length_min": 1.4142135623730951,
+            "quality": 0.11474276900004815,
+            "radius_ratio": 0.31702602580977074,
+            "relative_volume": 0.00761750826705678,
+            "signed_volume": 2.1666666666666665,
+            "skew": 0.8852572309999518
+          },
+          {
+            "aspect_ratio": 6.576473218982953,
+            "edge_length_max": 6.576473218982953,
+            "edge_length_min": 1.0,
+            "quality": 0.08832902475965447,
+            "radius_ratio": 0.25220177234785623,
+            "relative_volume": 0.00380875413352839,
+            "signed_volume": 1.0833333333333333,
+            "skew": 0.9116709752403456
+          },
+          {
+            "aspect_ratio": 6.576473218982953,
+            "edge_length_max": 6.576473218982953,
+            "edge_length_min": 1.0,
+            "quality": 0.08832902475965447,
+            "radius_ratio": 0.25220177234785623,
+            "relative_volume": 0.00380875413352839,
+            "signed_volume": 1.0833333333333333,
+            "skew": 0.9116709752403456
+          }
+        ],
+        "status": "PASS",
+        "warnings": []
+      },
+      "reaction_norm": 0.06652963344009971,
+      "residual_history": [
+        0.0003125,
+        5.457491162984185e-06,
+        5.040027231019635e-13,
+        0.0003124999999999924,
+        5.457492093636071e-06,
+        4.981025512665381e-13,
+        0.00031249999999998526,
+        5.457494886216565e-06,
+        5.039064630567612e-13,
+        0.0003124999999999767,
+        5.457499529787292e-06,
+        4.971153708911795e-13,
+        0.00031249999999997003,
+        5.457506043632202e-06,
+        4.995769154356211e-13,
+        0.00031249999999996114,
+        5.45751440389719e-06,
+        5.02235999635317e-13,
+        0.0003124999999999538,
+        5.457524630040339e-06,
+        5.002087909206546e-13,
+        0.0003124999999999466,
+        5.457536708715202e-06,
+        4.973531982121657e-13,
+        0.0003124999999999387,
+        5.457550657198705e-06,
+        5.077339653832562e-13,
+        0.00031249999999992953,
+        5.457566444618263e-06,
+        5.03108278787276e-13,
+        0.0003124999999999219,
+        5.457584108367991e-06,
+        4.983435054471959e-13,
+        0.0003124999999999179,
+        5.4576036289869044e-06,
+        4.989574068065133e-13,
+        0.00031249999999990855,
+        5.457624995752286e-06,
+        5.093371199615765e-13,
+        0.0003124999999998964,
+        5.457648235880548e-06,
+        4.953214811864292e-13,
+        0.0003124999999998938,
+        5.457673334124917e-06,
+        4.948874937952406e-13,
+        0.00031249999999988644,
+        5.457700282283562e-06,
+        4.962383260210257e-13
+      ],
+      "status": "success",
+      "strain_energy": 0.0001849064699825393,
+      "tangent_condition_number": 1241.140929620721
+    },
+    {
+      "cells": 2,
+      "classification": "OBSERVATION_ONLY",
+      "dof_count": 36,
+      "element_count": 10,
+      "family": "TET4",
+      "free_residual_norm": 4.0080870185400725e-11,
+      "increment_history": [
+        {
+          "increment": 1,
+          "iterations": 3,
+          "load_factor": 0.0625,
+          "relative_residual": 4.0103659324001135e-11
+        },
+        {
+          "increment": 2,
+          "iterations": 3,
+          "load_factor": 0.125,
+          "relative_residual": 4.010508115149969e-11
+        },
+        {
+          "increment": 3,
+          "iterations": 3,
+          "load_factor": 0.1875,
+          "relative_residual": 4.010155218831298e-11
+        },
+        {
+          "increment": 4,
+          "iterations": 3,
+          "load_factor": 0.25,
+          "relative_residual": 4.0102040660530387e-11
+        },
+        {
+          "increment": 5,
+          "iterations": 3,
+          "load_factor": 0.3125,
+          "relative_residual": 4.0100058783388014e-11
+        },
+        {
+          "increment": 6,
+          "iterations": 3,
+          "load_factor": 0.375,
+          "relative_residual": 4.010049020047826e-11
+        },
+        {
+          "increment": 7,
+          "iterations": 3,
+          "load_factor": 0.4375,
+          "relative_residual": 4.010288186356034e-11
+        },
+        {
+          "increment": 8,
+          "iterations": 3,
+          "load_factor": 0.5,
+          "relative_residual": 4.0096588943751574e-11
+        },
+        {
+          "increment": 9,
+          "iterations": 3,
+          "load_factor": 0.5625,
+          "relative_residual": 4.009615934074844e-11
+        },
+        {
+          "increment": 10,
+          "iterations": 3,
+          "load_factor": 0.625,
+          "relative_residual": 4.0092037795340357e-11
+        },
+        {
+          "increment": 11,
+          "iterations": 3,
+          "load_factor": 0.6875,
+          "relative_residual": 4.009267428516806e-11
+        },
+        {
+          "increment": 12,
+          "iterations": 3,
+          "load_factor": 0.75,
+          "relative_residual": 4.0091657200928757e-11
+        },
+        {
+          "increment": 13,
+          "iterations": 3,
+          "load_factor": 0.8125,
+          "relative_residual": 4.009001448828634e-11
+        },
+        {
+          "increment": 14,
+          "iterations": 3,
+          "load_factor": 0.875,
+          "relative_residual": 4.0088480501558155e-11
+        },
+        {
+          "increment": 15,
+          "iterations": 3,
+          "load_factor": 0.9375,
+          "relative_residual": 4.008785647876776e-11
+        },
+        {
+          "increment": 16,
+          "iterations": 3,
+          "load_factor": 1.0,
+          "relative_residual": 4.0080870185400725e-11
+        }
+      ],
+      "load_increments": 16,
+      "load_scale": 0.01,
+      "maximum_displacement": 0.0973180182040094,
+      "mesh_level_role": "coarse_medium_fine_refined",
+      "mesh_observables": [
+        "maximum_displacement",
+        "reaction_norm",
+        "strain_energy"
+      ],
+      "minimum_det_f": 0.9975358151761018,
+      "minimum_tangent_eigenvalue": 0.018771681078301957,
+      "mode": "shear_y",
+      "newton_iterations": 48,
+      "quality": {
+        "errors": [],
+        "metrics": [
+          {
+            "aspect_ratio": 3.400367627183861,
+            "edge_length_max": 3.400367627183861,
+            "edge_length_min": 1.0,
+            "quality": 0.2919639564151013,
+            "radius_ratio": 0.4508211376007727,
+            "relative_volume": 0.013776994720316396,
+            "signed_volume": 0.5416666666666666,
+            "skew": 0.7080360435848987
+          },
+          {
+            "aspect_ratio": 3.400367627183861,
+            "edge_length_max": 3.400367627183861,
+            "edge_length_min": 1.0,
+            "quality": 0.2919639564151013,
+            "radius_ratio": 0.4508211376007727,
+            "relative_volume": 0.013776994720316396,
+            "signed_volume": 0.5416666666666666,
+            "skew": 0.7080360435848987
+          },
+          {
+            "aspect_ratio": 2.404423007708918,
+            "edge_length_max": 3.400367627183861,
+            "edge_length_min": 1.4142135623730951,
+            "quality": 0.37927230486733543,
+            "radius_ratio": 0.5848236656972121,
+            "relative_volume": 0.02755398944063279,
+            "signed_volume": 1.0833333333333333,
+            "skew": 0.6207276951326646
+          },
+          {
+            "aspect_ratio": 3.400367627183861,
+            "edge_length_max": 3.400367627183861,
+            "edge_length_min": 1.0,
+            "quality": 0.2919639564151013,
+            "radius_ratio": 0.4508211376007727,
+            "relative_volume": 0.013776994720316396,
+            "signed_volume": 0.5416666666666666,
+            "skew": 0.7080360435848987
+          },
+          {
+            "aspect_ratio": 3.400367627183861,
+            "edge_length_max": 3.400367627183861,
+            "edge_length_min": 1.0,
+            "quality": 0.2919639564151013,
+            "radius_ratio": 0.4508211376007727,
+            "relative_volume": 0.013776994720316396,
+            "signed_volume": 0.5416666666666666,
+            "skew": 0.7080360435848987
+          },
+          {
+            "aspect_ratio": 3.400367627183861,
+            "edge_length_max": 3.400367627183861,
+            "edge_length_min": 1.0,
+            "quality": 0.2919639564151013,
+            "radius_ratio": 0.4508211376007727,
+            "relative_volume": 0.013776994720316396,
+            "signed_volume": 0.5416666666666666,
+            "skew": 0.7080360435848987
+          },
+          {
+            "aspect_ratio": 3.400367627183861,
+            "edge_length_max": 3.400367627183861,
+            "edge_length_min": 1.0,
+            "quality": 0.2919639564151013,
+            "radius_ratio": 0.4508211376007727,
+            "relative_volume": 0.013776994720316396,
+            "signed_volume": 0.5416666666666666,
+            "skew": 0.7080360435848987
+          },
+          {
+            "aspect_ratio": 2.404423007708918,
+            "edge_length_max": 3.400367627183861,
+            "edge_length_min": 1.4142135623730951,
+            "quality": 0.37927230486733543,
+            "radius_ratio": 0.5848236656972121,
+            "relative_volume": 0.02755398944063279,
+            "signed_volume": 1.0833333333333333,
+            "skew": 0.6207276951326646
+          },
+          {
+            "aspect_ratio": 3.400367627183861,
+            "edge_length_max": 3.400367627183861,
+            "edge_length_min": 1.0,
+            "quality": 0.2919639564151013,
+            "radius_ratio": 0.4508211376007727,
+            "relative_volume": 0.013776994720316396,
+            "signed_volume": 0.5416666666666666,
+            "skew": 0.7080360435848987
+          },
+          {
+            "aspect_ratio": 3.400367627183861,
+            "edge_length_max": 3.400367627183861,
+            "edge_length_min": 1.0,
+            "quality": 0.2919639564151013,
+            "radius_ratio": 0.4508211376007727,
+            "relative_volume": 0.013776994720316396,
+            "signed_volume": 0.5416666666666666,
+            "skew": 0.7080360435848987
+          }
+        ],
+        "status": "PASS",
+        "warnings": []
+      },
+      "reaction_norm": 0.07159061379378258,
+      "residual_history": [
+        0.0003125,
+        4.5586689120873795e-05,
+        4.0103659324001135e-11,
+        0.0003124999999921529,
+        4.558660879737807e-05,
+        4.010508115149969e-11,
+        0.00031249999997504205,
+        4.5586371042818256e-05,
+        4.010155218831298e-11,
+        0.0003124999999579331,
+        4.558597585105871e-05,
+        4.0102040660530387e-11,
+        0.00031249999994082366,
+        4.558542322737417e-05,
+        4.0100058783388014e-11,
+        0.0003124999999237173,
+        4.5584713186292144e-05,
+        4.010049020047826e-11,
+        0.0003124999999066125,
+        4.558384573499061e-05,
+        4.010288186356034e-11,
+        0.00031249999988950083,
+        4.558282089281257e-05,
+        4.0096588943751574e-11,
+        0.00031249999987240665,
+        4.558163868298682e-05,
+        4.009615934074844e-11,
+        0.00031249999985530954,
+        4.558029910941221e-05,
+        4.0092037795340357e-11,
+        0.0003124999998382172,
+        4.557880220619681e-05,
+        4.009267428516806e-11,
+        0.0003124999998211216,
+        4.557714799151675e-05,
+        4.0091657200928757e-11,
+        0.00031249999980403664,
+        4.5575336496812575e-05,
+        4.009001448828634e-11,
+        0.0003124999997869465,
+        4.557336775100005e-05,
+        4.0088480501558155e-11,
+        0.0003124999997698766,
+        4.5571241795051796e-05,
+        4.008785647876776e-11,
+        0.00031249999975280365,
+        4.5568958652945805e-05,
+        4.0080870185400725e-11
+      ],
+      "status": "success",
+      "strain_energy": 0.0004848806029049885,
+      "tangent_condition_number": 3078.5544151762465
+    },
+    {
+      "cells": 3,
+      "classification": "OBSERVATION_ONLY",
+      "dof_count": 48,
+      "element_count": 15,
+      "family": "TET4",
+      "free_residual_norm": 3.882853355525681e-10,
+      "increment_history": [
+        {
+          "increment": 1,
+          "iterations": 3,
+          "load_factor": 0.0625,
+          "relative_residual": 3.8904749541970444e-10
+        },
+        {
+          "increment": 2,
+          "iterations": 3,
+          "load_factor": 0.125,
+          "relative_residual": 3.890433297623195e-10
+        },
+        {
+          "increment": 3,
+          "iterations": 3,
+          "load_factor": 0.1875,
+          "relative_residual": 3.8903592211154137e-10
+        },
+        {
+          "increment": 4,
+          "iterations": 3,
+          "load_factor": 0.25,
+          "relative_residual": 3.8901855792082307e-10
+        },
+        {
+          "increment": 5,
+          "iterations": 3,
+          "load_factor": 0.3125,
+          "relative_residual": 3.889917093934492e-10
+        },
+        {
+          "increment": 6,
+          "iterations": 3,
+          "load_factor": 0.375,
+          "relative_residual": 3.889634140248609e-10
+        },
+        {
+          "increment": 7,
+          "iterations": 3,
+          "load_factor": 0.4375,
+          "relative_residual": 3.889256689862814e-10
+        },
+        {
+          "increment": 8,
+          "iterations": 3,
+          "load_factor": 0.5,
+          "relative_residual": 3.888814983421317e-10
+        },
+        {
+          "increment": 9,
+          "iterations": 3,
+          "load_factor": 0.5625,
+          "relative_residual": 3.8883179018141565e-10
+        },
+        {
+          "increment": 10,
+          "iterations": 3,
+          "load_factor": 0.625,
+          "relative_residual": 3.887703152405815e-10
+        },
+        {
+          "increment": 11,
+          "iterations": 3,
+          "load_factor": 0.6875,
+          "relative_residual": 3.8870692530283454e-10
+        },
+        {
+          "increment": 12,
+          "iterations": 3,
+          "load_factor": 0.75,
+          "relative_residual": 3.886386411809957e-10
+        },
+        {
+          "increment": 13,
+          "iterations": 3,
+          "load_factor": 0.8125,
+          "relative_residual": 3.885605755430655e-10
+        },
+        {
+          "increment": 14,
+          "iterations": 3,
+          "load_factor": 0.875,
+          "relative_residual": 3.8847573860888516e-10
+        },
+        {
+          "increment": 15,
+          "iterations": 3,
+          "load_factor": 0.9375,
+          "relative_residual": 3.883879566336085e-10
+        },
+        {
+          "increment": 16,
+          "iterations": 3,
+          "load_factor": 1.0,
+          "relative_residual": 3.882853355525681e-10
+        }
+      ],
+      "load_increments": 16,
+      "load_scale": 0.01,
+      "maximum_displacement": 0.16945934462714848,
+      "mesh_level_role": "coarse_medium_fine_refined",
+      "mesh_observables": [
+        "maximum_displacement",
+        "reaction_norm",
+        "strain_energy"
+      ],
+      "minimum_det_f": 0.9953025681340156,
+      "minimum_tangent_eigenvalue": 0.009772231119822236,
+      "mode": "shear_y",
+      "newton_iterations": 48,
+      "quality": {
+        "errors": [],
+        "metrics": [
+          {
+            "aspect_ratio": 2.386303510546039,
+            "edge_length_max": 2.386303510546039,
+            "edge_length_min": 1.0,
+            "quality": 0.5003573463163358,
+            "radius_ratio": 0.5872043353138963,
+            "relative_volume": 0.02657442100976971,
+            "signed_volume": 0.36111111111110744,
+            "skew": 0.49964265368366423
+          },
+          {
+            "aspect_ratio": 2.386303510546039,
+            "edge_length_max": 2.386303510546039,
+            "edge_length_min": 1.0,
+            "quality": 0.5003573463163355,
+            "radius_ratio": 0.5872043353138963,
+            "relative_volume": 0.02657442100976971,
+            "signed_volume": 0.36111111111110744,
+            "skew": 0.49964265368366445
+          },
+          {
+            "aspect_ratio": 1.6873713942763682,
+            "edge_length_max": 2.386303510546039,
+            "edge_length_min": 1.4142135623730951,
+            "quality": 0.6499832593201721,
+            "radius_ratio": 0.7794199809409857,
+            "relative_volume": 0.05314884201953942,
+            "signed_volume": 0.7222222222222149,
+            "skew": 0.3500167406798279
+          },
+          {
+            "aspect_ratio": 2.386303510546039,
+            "edge_length_max": 2.386303510546039,
+            "edge_length_min": 1.0,
+            "quality": 0.5003573463163355,
+            "radius_ratio": 0.5872043353138963,
+            "relative_volume": 0.02657442100976971,
+            "signed_volume": 0.36111111111110744,
+            "skew": 0.49964265368366445
+          },
+          {
+            "aspect_ratio": 2.386303510546039,
+            "edge_length_max": 2.386303510546039,
+            "edge_length_min": 1.0,
+            "quality": 0.5003573463163355,
+            "radius_ratio": 0.5872043353138963,
+            "relative_volume": 0.02657442100976971,
+            "signed_volume": 0.36111111111110744,
+            "skew": 0.49964265368366445
+          },
+          {
+            "aspect_ratio": 2.3863035105460977,
+            "edge_length_max": 2.3863035105460977,
+            "edge_length_min": 1.0,
+            "quality": 0.5003573463163191,
+            "radius_ratio": 0.5872043353138866,
+            "relative_volume": 0.026574421009768548,
+            "signed_volume": 0.36111111111111827,
+            "skew": 0.4996426536836809
+          },
+          {
+            "aspect_ratio": 2.3863035105460977,
+            "edge_length_max": 2.3863035105460977,
+            "edge_length_min": 1.0,
+            "quality": 0.5003573463163191,
+            "radius_ratio": 0.5872043353138866,
+            "relative_volume": 0.026574421009768548,
+            "signed_volume": 0.36111111111111827,
+            "skew": 0.4996426536836809
+          },
+          {
+            "aspect_ratio": 1.6873713942764095,
+            "edge_length_max": 2.3863035105460977,
+            "edge_length_min": 1.4142135623730951,
+            "quality": 0.6499832593201508,
+            "radius_ratio": 0.7794199809409716,
+            "relative_volume": 0.05314884201953709,
+            "signed_volume": 0.7222222222222364,
+            "skew": 0.3500167406798492
+          },
+          {
+            "aspect_ratio": 2.3863035105460977,
+            "edge_length_max": 2.3863035105460977,
+            "edge_length_min": 1.0,
+            "quality": 0.5003573463163191,
+            "radius_ratio": 0.5872043353138866,
+            "relative_volume": 0.026574421009768548,
+            "signed_volume": 0.36111111111111827,
+            "skew": 0.4996426536836809
+          },
+          {
+            "aspect_ratio": 2.3863035105460977,
+            "edge_length_max": 2.3863035105460977,
+            "edge_length_min": 1.0,
+            "quality": 0.5003573463163191,
+            "radius_ratio": 0.5872043353138866,
+            "relative_volume": 0.026574421009768548,
+            "signed_volume": 0.36111111111111827,
+            "skew": 0.4996426536836809
+          },
+          {
+            "aspect_ratio": 2.38630351054604,
+            "edge_length_max": 2.38630351054604,
+            "edge_length_min": 1.0,
+            "quality": 0.5003573463163354,
+            "radius_ratio": 0.5872043353138963,
+            "relative_volume": 0.02657442100976969,
+            "signed_volume": 0.3611111111111076,
+            "skew": 0.49964265368366456
+          },
+          {
+            "aspect_ratio": 2.38630351054604,
+            "edge_length_max": 2.38630351054604,
+            "edge_length_min": 1.0,
+            "quality": 0.5003573463163354,
+            "radius_ratio": 0.5872043353138963,
+            "relative_volume": 0.02657442100976969,
+            "signed_volume": 0.3611111111111076,
+            "skew": 0.49964265368366456
+          },
+          {
+            "aspect_ratio": 1.6873713942763688,
+            "edge_length_max": 2.38630351054604,
+            "edge_length_min": 1.4142135623730951,
+            "quality": 0.649983259320172,
+            "radius_ratio": 0.7794199809409856,
+            "relative_volume": 0.05314884201953938,
+            "signed_volume": 0.7222222222222152,
+            "skew": 0.350016740679828
+          },
+          {
+            "aspect_ratio": 2.38630351054604,
+            "edge_length_max": 2.38630351054604,
+            "edge_length_min": 1.0,
+            "quality": 0.5003573463163354,
+            "radius_ratio": 0.5872043353138963,
+            "relative_volume": 0.02657442100976969,
+            "signed_volume": 0.3611111111111076,
+            "skew": 0.49964265368366456
+          },
+          {
+            "aspect_ratio": 2.38630351054604,
+            "edge_length_max": 2.38630351054604,
+            "edge_length_min": 1.0,
+            "quality": 0.5003573463163354,
+            "radius_ratio": 0.5872043353138963,
+            "relative_volume": 0.02657442100976969,
+            "signed_volume": 0.3611111111111076,
+            "skew": 0.49964265368366456
+          }
+        ],
+        "status": "PASS",
+        "warnings": []
+      },
+      "reaction_norm": 0.07555379639133923,
+      "residual_history": [
+        0.0003125,
+        0.00013131584831771028,
+        3.8904749541970444e-10,
+        0.000312499999803477,
+        0.00013131478705866897,
+        3.890433297623195e-10,
+        0.0003124999993564602,
+        0.00013131161637268255,
+        3.8903592211154137e-10,
+        0.00031249999890945124,
+        0.0001313063365487986,
+        3.8901855792082307e-10,
+        0.00031249999846255774,
+        0.00013129894801855858,
+        3.889917093934492e-10,
+        0.0003124999980158221,
+        0.00013128945136123873,
+        3.889634140248609e-10,
+        0.0003124999975692908,
+        0.0001312778473307876,
+        3.889256689862814e-10,
+        0.00031249999712301257,
+        0.00013126413683920516,
+        3.888814983421317e-10,
+        0.000312499996677038,
+        0.00013124832098719165,
+        3.8883179018141565e-10,
+        0.0003124999962313996,
+        0.00013123040101694345,
+        3.887703152405815e-10,
+        0.0003124999957861783,
+        0.00013121037834958084,
+        3.8870692530283454e-10,
+        0.00031249999534140304,
+        0.0001311882545692059,
+        3.886386411809957e-10,
+        0.00031249999489708897,
+        0.0001311640314283692,
+        3.885605755430655e-10,
+        0.00031249999445332626,
+        0.00013113771084082614,
+        3.8847573860888516e-10,
+        0.00031249999401018513,
+        0.0001311092948913171,
+        3.883879566336085e-10,
+        0.00031249999356761543,
+        0.00013107878582372398,
+        3.882853355525681e-10
+      ],
+      "status": "success",
+      "strain_energy": 0.0008437438504713991,
+      "tangent_condition_number": 4157.206528753965
+    },
+    {
+      "cells": 4,
+      "classification": "OBSERVATION_ONLY",
+      "dof_count": 60,
+      "element_count": 20,
+      "family": "TET4",
+      "free_residual_norm": 1.4346333048564573e-09,
+      "increment_history": [
+        {
+          "increment": 1,
+          "iterations": 3,
+          "load_factor": 0.0625,
+          "relative_residual": 1.4401337506919817e-09
+        },
+        {
+          "increment": 2,
+          "iterations": 3,
+          "load_factor": 0.125,
+          "relative_residual": 1.4401085964691672e-09
+        },
+        {
+          "increment": 3,
+          "iterations": 3,
+          "load_factor": 0.1875,
+          "relative_residual": 1.4400363108841726e-09
+        },
+        {
+          "increment": 4,
+          "iterations": 3,
+          "load_factor": 0.25,
+          "relative_residual": 1.4399100892410953e-09
+        },
+        {
+          "increment": 5,
+          "iterations": 3,
+          "load_factor": 0.3125,
+          "relative_residual": 1.4397418766665105e-09
+        },
+        {
+          "increment": 6,
+          "iterations": 3,
+          "load_factor": 0.375,
+          "relative_residual": 1.4395235395383123e-09
+        },
+        {
+          "increment": 7,
+          "iterations": 3,
+          "load_factor": 0.4375,
+          "relative_residual": 1.4392512402155793e-09
+        },
+        {
+          "increment": 8,
+          "iterations": 3,
+          "load_factor": 0.5,
+          "relative_residual": 1.4389346835424277e-09
+        },
+        {
+          "increment": 9,
+          "iterations": 3,
+          "load_factor": 0.5625,
+          "relative_residual": 1.4385686476193005e-09
+        },
+        {
+          "increment": 10,
+          "iterations": 3,
+          "load_factor": 0.625,
+          "relative_residual": 1.4381502474546554e-09
+        },
+        {
+          "increment": 11,
+          "iterations": 3,
+          "load_factor": 0.6875,
+          "relative_residual": 1.437686901158614e-09
+        },
+        {
+          "increment": 12,
+          "iterations": 3,
+          "load_factor": 0.75,
+          "relative_residual": 1.4371762831343509e-09
+        },
+        {
+          "increment": 13,
+          "iterations": 3,
+          "load_factor": 0.8125,
+          "relative_residual": 1.4366141942126635e-09
+        },
+        {
+          "increment": 14,
+          "iterations": 3,
+          "load_factor": 0.875,
+          "relative_residual": 1.436000698800257e-09
+        },
+        {
+          "increment": 15,
+          "iterations": 3,
+          "load_factor": 0.9375,
+          "relative_residual": 1.4353419120139376e-09
+        },
+        {
+          "increment": 16,
+          "iterations": 3,
+          "load_factor": 1.0,
+          "relative_residual": 1.4346333048564573e-09
+        }
+      ],
+      "load_increments": 16,
+      "load_scale": 0.01,
+      "maximum_displacement": 0.23678286191972506,
+      "mesh_level_role": "coarse_medium_fine_refined",
+      "mesh_observables": [
+        "maximum_displacement",
+        "reaction_norm",
+        "strain_energy"
+      ],
+      "minimum_det_f": 0.9933213357480034,
+      "minimum_tangent_eigenvalue": 0.006260762392647788,
+      "mode": "shear_y",
+      "newton_iterations": 48,
+      "quality": {
+        "errors": [],
+        "metrics": [
+          {
+            "aspect_ratio": 1.9080421903092184,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.0,
+            "quality": 0.6502025129299239,
+            "radius_ratio": 0.6699018353987726,
+            "relative_volume": 0.038988649691767394,
+            "signed_volume": 0.2708333333333333,
+            "skew": 0.3497974870700761
+          },
+          {
+            "aspect_ratio": 1.9080421903092184,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.0,
+            "quality": 0.6502025129299239,
+            "radius_ratio": 0.6699018353987726,
+            "relative_volume": 0.038988649691767394,
+            "signed_volume": 0.2708333333333333,
+            "skew": 0.3497974870700761
+          },
+          {
+            "aspect_ratio": 1.3491895715576814,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.4142135623730951,
+            "quality": 0.8446378407026914,
+            "radius_ratio": 0.9029492525224135,
+            "relative_volume": 0.07797729938353479,
+            "signed_volume": 0.5416666666666666,
+            "skew": 0.15536215929730857
+          },
+          {
+            "aspect_ratio": 1.9080421903092184,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.0,
+            "quality": 0.6502025129299239,
+            "radius_ratio": 0.6699018353987726,
+            "relative_volume": 0.038988649691767394,
+            "signed_volume": 0.2708333333333333,
+            "skew": 0.3497974870700761
+          },
+          {
+            "aspect_ratio": 1.9080421903092184,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.0,
+            "quality": 0.6502025129299239,
+            "radius_ratio": 0.6699018353987726,
+            "relative_volume": 0.038988649691767394,
+            "signed_volume": 0.2708333333333333,
+            "skew": 0.3497974870700761
+          },
+          {
+            "aspect_ratio": 1.9080421903092184,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.0,
+            "quality": 0.6502025129299239,
+            "radius_ratio": 0.6699018353987726,
+            "relative_volume": 0.038988649691767394,
+            "signed_volume": 0.2708333333333333,
+            "skew": 0.3497974870700761
+          },
+          {
+            "aspect_ratio": 1.9080421903092184,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.0,
+            "quality": 0.6502025129299239,
+            "radius_ratio": 0.6699018353987726,
+            "relative_volume": 0.038988649691767394,
+            "signed_volume": 0.2708333333333333,
+            "skew": 0.3497974870700761
+          },
+          {
+            "aspect_ratio": 1.3491895715576814,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.4142135623730951,
+            "quality": 0.8446378407026914,
+            "radius_ratio": 0.9029492525224135,
+            "relative_volume": 0.07797729938353479,
+            "signed_volume": 0.5416666666666666,
+            "skew": 0.15536215929730857
+          },
+          {
+            "aspect_ratio": 1.9080421903092184,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.0,
+            "quality": 0.6502025129299239,
+            "radius_ratio": 0.6699018353987726,
+            "relative_volume": 0.038988649691767394,
+            "signed_volume": 0.2708333333333333,
+            "skew": 0.3497974870700761
+          },
+          {
+            "aspect_ratio": 1.9080421903092184,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.0,
+            "quality": 0.6502025129299239,
+            "radius_ratio": 0.6699018353987726,
+            "relative_volume": 0.038988649691767394,
+            "signed_volume": 0.2708333333333333,
+            "skew": 0.3497974870700761
+          },
+          {
+            "aspect_ratio": 1.9080421903092184,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.0,
+            "quality": 0.6502025129299239,
+            "radius_ratio": 0.6699018353987726,
+            "relative_volume": 0.038988649691767394,
+            "signed_volume": 0.2708333333333333,
+            "skew": 0.3497974870700761
+          },
+          {
+            "aspect_ratio": 1.9080421903092184,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.0,
+            "quality": 0.6502025129299239,
+            "radius_ratio": 0.6699018353987726,
+            "relative_volume": 0.038988649691767394,
+            "signed_volume": 0.2708333333333333,
+            "skew": 0.3497974870700761
+          },
+          {
+            "aspect_ratio": 1.3491895715576814,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.4142135623730951,
+            "quality": 0.8446378407026914,
+            "radius_ratio": 0.9029492525224135,
+            "relative_volume": 0.07797729938353479,
+            "signed_volume": 0.5416666666666666,
+            "skew": 0.15536215929730857
+          },
+          {
+            "aspect_ratio": 1.9080421903092184,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.0,
+            "quality": 0.6502025129299239,
+            "radius_ratio": 0.6699018353987726,
+            "relative_volume": 0.038988649691767394,
+            "signed_volume": 0.2708333333333333,
+            "skew": 0.3497974870700761
+          },
+          {
+            "aspect_ratio": 1.9080421903092184,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.0,
+            "quality": 0.6502025129299239,
+            "radius_ratio": 0.6699018353987726,
+            "relative_volume": 0.038988649691767394,
+            "signed_volume": 0.2708333333333333,
+            "skew": 0.3497974870700761
+          },
+          {
+            "aspect_ratio": 1.9080421903092184,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.0,
+            "quality": 0.6502025129299239,
+            "radius_ratio": 0.6699018353987726,
+            "relative_volume": 0.038988649691767394,
+            "signed_volume": 0.2708333333333333,
+            "skew": 0.3497974870700761
+          },
+          {
+            "aspect_ratio": 1.9080421903092184,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.0,
+            "quality": 0.6502025129299239,
+            "radius_ratio": 0.6699018353987726,
+            "relative_volume": 0.038988649691767394,
+            "signed_volume": 0.2708333333333333,
+            "skew": 0.3497974870700761
+          },
+          {
+            "aspect_ratio": 1.3491895715576814,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.4142135623730951,
+            "quality": 0.8446378407026914,
+            "radius_ratio": 0.9029492525224135,
+            "relative_volume": 0.07797729938353479,
+            "signed_volume": 0.5416666666666666,
+            "skew": 0.15536215929730857
+          },
+          {
+            "aspect_ratio": 1.9080421903092184,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.0,
+            "quality": 0.6502025129299239,
+            "radius_ratio": 0.6699018353987726,
+            "relative_volume": 0.038988649691767394,
+            "signed_volume": 0.2708333333333333,
+            "skew": 0.3497974870700761
+          },
+          {
+            "aspect_ratio": 1.9080421903092184,
+            "edge_length_max": 1.9080421903092184,
+            "edge_length_min": 1.0,
+            "quality": 0.6502025129299239,
+            "radius_ratio": 0.6699018353987726,
+            "relative_volume": 0.038988649691767394,
+            "signed_volume": 0.2708333333333333,
+            "skew": 0.3497974870700761
+          }
+        ],
+        "status": "PASS",
+        "warnings": []
+      },
+      "reaction_norm": 0.07705869174009992,
+      "residual_history": [
+        0.0003125,
+        0.0002386801329041642,
+        1.4401337506919817e-09,
+        0.00031249999876635547,
+        0.00023867580483400217,
+        1.4401085964691672e-09,
+        0.00031249999591972174,
+        0.00023866284753715434,
+        1.4400363108841726e-09,
+        0.00031249999307313874,
+        0.00023864126406353058,
+        1.4399100892410953e-09,
+        0.00031249999022808816,
+        0.0002386110583389871,
+        1.4397418766665105e-09,
+        0.0003124999873852385,
+        0.00023857223584207614,
+        1.4395235395383123e-09,
+        0.000312499984545295,
+        0.00023852480363905956,
+        1.4392512402155793e-09,
+        0.0003124999817089078,
+        0.00023846877032705552,
+        1.4389346835424277e-09,
+        0.0003124999788767499,
+        0.00023840414607780665,
+        1.4385686476193005e-09,
+        0.0003124999760495357,
+        0.00023833094261464726,
+        1.4381502474546554e-09,
+        0.00031249997322788743,
+        0.00023824917319131679,
+        1.437686901158614e-09,
+        0.00031249997041249053,
+        0.00023815885262606345,
+        1.4371762831343509e-09,
+        0.00031249996760399887,
+        0.0002380599972541129,
+        1.4366141942126635e-09,
+        0.00031249996480309814,
+        0.00023795262494906568,
+        1.436000698800257e-09,
+        0.000312499962010422,
+        0.00023783675510315535,
+        1.4353419120139376e-09,
+        0.00031249995922660525,
+        0.00023771240861057705,
+        1.4346333048564573e-09
+      ],
+      "status": "success",
+      "strain_energy": 0.0011778415164505575,
+      "tangent_condition_number": 4980.698121933483
+    },
+    {
+      "cells": 1,
+      "classification": "OBSERVATION_ONLY",
+      "dof_count": 24,
+      "element_count": 1,
+      "family": "HEX8",
+      "free_residual_norm": 1.7975528707335938e-12,
+      "increment_history": [
+        {
+          "increment": 1,
+          "iterations": 3,
+          "load_factor": 0.0625,
+          "relative_residual": 1.792987063883309e-12
+        },
+        {
+          "increment": 2,
+          "iterations": 3,
+          "load_factor": 0.125,
+          "relative_residual": 1.7959070734708856e-12
+        },
+        {
+          "increment": 3,
+          "iterations": 3,
+          "load_factor": 0.1875,
+          "relative_residual": 1.7953247452530003e-12
+        },
+        {
+          "increment": 4,
+          "iterations": 3,
+          "load_factor": 0.25,
+          "relative_residual": 1.7899734457152994e-12
+        },
+        {
+          "increment": 5,
+          "iterations": 3,
+          "load_factor": 0.3125,
+          "relative_residual": 1.7912919836213074e-12
+        },
+        {
+          "increment": 6,
+          "iterations": 3,
+          "load_factor": 0.375,
+          "relative_residual": 1.7938402015718133e-12
+        },
+        {
+          "increment": 7,
+          "iterations": 3,
+          "load_factor": 0.4375,
+          "relative_residual": 1.796893102418259e-12
+        },
+        {
+          "increment": 8,
+          "iterations": 3,
+          "load_factor": 0.5,
+          "relative_residual": 1.7882241861582418e-12
+        },
+        {
+          "increment": 9,
+          "iterations": 3,
+          "load_factor": 0.5625,
+          "relative_residual": 1.7938703273886281e-12
+        },
+        {
+          "increment": 10,
+          "iterations": 3,
+          "load_factor": 0.625,
+          "relative_residual": 1.7926141870418045e-12
+        },
+        {
+          "increment": 11,
+          "iterations": 3,
+          "load_factor": 0.6875,
+          "relative_residual": 1.7910740129081771e-12
+        },
+        {
+          "increment": 12,
+          "iterations": 3,
+          "load_factor": 0.75,
+          "relative_residual": 1.7917930371358379e-12
+        },
+        {
+          "increment": 13,
+          "iterations": 3,
+          "load_factor": 0.8125,
+          "relative_residual": 1.7968135977589542e-12
+        },
+        {
+          "increment": 14,
+          "iterations": 3,
+          "load_factor": 0.875,
+          "relative_residual": 1.7927616814295062e-12
+        },
+        {
+          "increment": 15,
+          "iterations": 3,
+          "load_factor": 0.9375,
+          "relative_residual": 1.7950173114389315e-12
+        },
+        {
+          "increment": 16,
+          "iterations": 3,
+          "load_factor": 1.0,
+          "relative_residual": 1.7975528707335938e-12
+        }
+      ],
+      "load_increments": 16,
+      "load_scale": 0.008,
+      "maximum_displacement": 0.05131120931330516,
+      "mesh_level_role": "coarse_medium_fine_refined",
+      "mesh_observables": [
+        "maximum_displacement",
+        "reaction_norm",
+        "strain_energy"
+      ],
+      "minimum_det_f": 0.999516976194827,
+      "minimum_tangent_eigenvalue": 0.03849885557014257,
+      "mode": "bending_z",
+      "newton_iterations": 48,
+      "quality": {
+        "errors": [],
+        "metrics": [
+          {
+            "aspect_ratio_xy": 6.5,
+            "jacobian_max": 0.8124999999999999,
+            "jacobian_min": 0.8124999999999997
+          }
+        ],
+        "status": "PASS",
+        "warnings": []
+      },
+      "reaction_norm": 0.05222779924482112,
+      "residual_history": [
+        0.00025,
+        9.439375512222499e-06,
+        1.792987063883309e-12,
+        0.00024999999999994477,
+        9.439373990236302e-06,
+        1.7959070734708856e-12,
+        0.00024999999999984643,
+        9.439369291273131e-06,
+        1.7953247452530003e-12,
+        0.0002499999999997489,
+        9.439361396525665e-06,
+        1.7899734457152994e-12,
+        0.00024999999999965284,
+        9.439350318642661e-06,
+        1.7912919836213074e-12,
+        0.0002499999999995548,
+        9.439336040530667e-06,
+        1.7938402015718133e-12,
+        0.0002499999999994546,
+        9.439318576014609e-06,
+        1.796893102418259e-12,
+        0.00024999999999935637,
+        9.439297928340815e-06,
+        1.7882241861582418e-12,
+        0.0002499999999992635,
+        9.439274087587994e-06,
+        1.7938703273886281e-12,
+        0.00024999999999916213,
+        9.439247057091027e-06,
+        1.7926141870418045e-12,
+        0.0002499999999990674,
+        9.439216835557744e-06,
+        1.7910740129081771e-12,
+        0.0002499999999989697,
+        9.439183427984187e-06,
+        1.7917930371358379e-12,
+        0.0002499999999988709,
+        9.439146816514769e-06,
+        1.7968135977589542e-12,
+        0.0002499999999987688,
+        9.43910703786364e-06,
+        1.7927616814295062e-12,
+        0.00024999999999867684,
+        9.43906406201089e-06,
+        1.7950173114389315e-12,
+        0.0002499999999985758,
+        9.439017890249734e-06,
+        1.7975528707335938e-12
+      ],
+      "status": "success",
+      "strain_energy": 0.00020514075150756706,
+      "tangent_condition_number": 1086.1806482833813
+    },
+    {
+      "cells": 2,
+      "classification": "OBSERVATION_ONLY",
+      "dof_count": 36,
+      "element_count": 2,
+      "family": "HEX8",
+      "free_residual_norm": 3.9952583988606377e-10,
+      "increment_history": [
+        {
+          "increment": 1,
+          "iterations": 3,
+          "load_factor": 0.0625,
+          "relative_residual": 3.997287717134095e-10
+        },
+        {
+          "increment": 2,
+          "iterations": 3,
+          "load_factor": 0.125,
+          "relative_residual": 3.997319029580576e-10
+        },
+        {
+          "increment": 3,
+          "iterations": 3,
+          "load_factor": 0.1875,
+          "relative_residual": 3.997304645874049e-10
+        },
+        {
+          "increment": 4,
+          "iterations": 3,
+          "load_factor": 0.25,
+          "relative_residual": 3.9973359313157784e-10
+        },
+        {
+          "increment": 5,
+          "iterations": 3,
+          "load_factor": 0.3125,
+          "relative_residual": 3.997225818105262e-10
+        },
+        {
+          "increment": 6,
+          "iterations": 3,
+          "load_factor": 0.375,
+          "relative_residual": 3.997194055142996e-10
+        },
+        {
+          "increment": 7,
+          "iterations": 3,
+          "load_factor": 0.4375,
+          "relative_residual": 3.9970705702172074e-10
+        },
+        {
+          "increment": 8,
+          "iterations": 3,
+          "load_factor": 0.5,
+          "relative_residual": 3.996992707024886e-10
+        },
+        {
+          "increment": 9,
+          "iterations": 3,
+          "load_factor": 0.5625,
+          "relative_residual": 3.996849369466822e-10
+        },
+        {
+          "increment": 10,
+          "iterations": 3,
+          "load_factor": 0.625,
+          "relative_residual": 3.996670433707306e-10
+        },
+        {
+          "increment": 11,
+          "iterations": 3,
+          "load_factor": 0.6875,
+          "relative_residual": 3.9965133738555736e-10
+        },
+        {
+          "increment": 12,
+          "iterations": 3,
+          "load_factor": 0.75,
+          "relative_residual": 3.996306180329646e-10
+        },
+        {
+          "increment": 13,
+          "iterations": 3,
+          "load_factor": 0.8125,
+          "relative_residual": 3.9960971798224403e-10
+        },
+        {
+          "increment": 14,
+          "iterations": 3,
+          "load_factor": 0.875,
+          "relative_residual": 3.995823184839242e-10
+        },
+        {
+          "increment": 15,
+          "iterations": 3,
+          "load_factor": 0.9375,
+          "relative_residual": 3.9955378962380804e-10
+        },
+        {
+          "increment": 16,
+          "iterations": 3,
+          "load_factor": 1.0,
+          "relative_residual": 3.9952583988606377e-10
+        }
+      ],
+      "load_increments": 16,
+      "load_scale": 0.008,
+      "maximum_displacement": 0.16942245686882063,
+      "mesh_level_role": "coarse_medium_fine_refined",
+      "mesh_observables": [
+        "maximum_displacement",
+        "reaction_norm",
+        "strain_energy"
+      ],
+      "minimum_det_f": 0.9975240833109453,
+      "minimum_tangent_eigenvalue": 0.010544916955842348,
+      "mode": "bending_z",
+      "newton_iterations": 48,
+      "quality": {
+        "errors": [],
+        "metrics": [
+          {
+            "aspect_ratio_xy": 3.25,
+            "jacobian_max": 0.40624999999999994,
+            "jacobian_min": 0.4062499999999999
+          },
+          {
+            "aspect_ratio_xy": 3.25,
+            "jacobian_max": 0.40625,
+            "jacobian_min": 0.4062499999999999
+          }
+        ],
+        "status": "PASS",
+        "warnings": []
+      },
+      "reaction_norm": 0.05294759463130357,
+      "residual_history": [
+        0.00025,
+        0.00014212784801970443,
+        3.997287717134095e-10,
+        0.0002499999997811333,
+        0.00014212586367875959,
+        3.997319029580576e-10,
+        0.0002499999992440583,
+        0.00014211991279798955,
+        3.997304645874049e-10,
+        0.00024999999870704793,
+        0.00014210999652483692,
+        3.9973359313157784e-10,
+        0.00024999999817023905,
+        0.000142096116443737,
+        3.997225818105262e-10,
+        0.00024999999763376183,
+        0.00014207827471320525,
+        3.997194055142996e-10,
+        0.00024999999709766224,
+        0.0001420564741334951,
+        3.9970705702172074e-10,
+        0.0002499999965620773,
+        0.00014203071813027909,
+        3.996992707024886e-10,
+        0.00024999999602706333,
+        0.00014200101072699047,
+        3.996849369466822e-10,
+        0.00024999999549276075,
+        0.00014196735658875736,
+        3.996670433707306e-10,
+        0.0002499999949592221,
+        0.00014192976097801053,
+        3.9965133738555736e-10,
+        0.00024999999442655015,
+        0.00014188822977723037,
+        3.996306180329646e-10,
+        0.00024999999389486055,
+        0.00014184276947188838,
+        3.9960971798224403e-10,
+        0.00024999999336419926,
+        0.00014179338717181956,
+        3.995823184839242e-10,
+        0.0002499999928347202,
+        0.00014174009057627934,
+        3.9955378962380804e-10,
+        0.00024999999230649635,
+        0.00014168288799106215,
+        3.9952583988606377e-10
+      ],
+      "status": "success",
+      "strain_energy": 0.0006759419459297564,
+      "tangent_condition_number": 4387.606025463309
+    },
+    {
+      "cells": 3,
+      "classification": "OBSERVATION_ONLY",
+      "dof_count": 48,
+      "element_count": 3,
+      "family": "HEX8",
+      "free_residual_norm": 2.5419288390642945e-10,
+      "increment_history": [
+        {
+          "increment": 1,
+          "iterations": 4,
+          "load_factor": 0.0625,
+          "relative_residual": 2.751353802726161e-10
+        },
+        {
+          "increment": 2,
+          "iterations": 4,
+          "load_factor": 0.125,
+          "relative_residual": 2.738549654470048e-10
+        },
+        {
+          "increment": 3,
+          "iterations": 4,
+          "load_factor": 0.1875,
+          "relative_residual": 2.725514322001901e-10
+        },
+        {
+          "increment": 4,
+          "iterations": 4,
+          "load_factor": 0.25,
+          "relative_residual": 2.7122473503670383e-10
+        },
+        {
+          "increment": 5,
+          "iterations": 4,
+          "load_factor": 0.3125,
+          "relative_residual": 2.698845553640915e-10
+        },
+        {
+          "increment": 6,
+          "iterations": 4,
+          "load_factor": 0.375,
+          "relative_residual": 2.685243761489212e-10
+        },
+        {
+          "increment": 7,
+          "iterations": 4,
+          "load_factor": 0.4375,
+          "relative_residual": 2.671498001047956e-10
+        },
+        {
+          "increment": 8,
+          "iterations": 4,
+          "load_factor": 0.5,
+          "relative_residual": 2.657589251929641e-10
+        },
+        {
+          "increment": 9,
+          "iterations": 4,
+          "load_factor": 0.5625,
+          "relative_residual": 2.643507196473889e-10
+        },
+        {
+          "increment": 10,
+          "iterations": 4,
+          "load_factor": 0.625,
+          "relative_residual": 2.629315955012299e-10
+        },
+        {
+          "increment": 11,
+          "iterations": 4,
+          "load_factor": 0.6875,
+          "relative_residual": 2.6149973630960034e-10
+        },
+        {
+          "increment": 12,
+          "iterations": 4,
+          "load_factor": 0.75,
+          "relative_residual": 2.6005889716617894e-10
+        },
+        {
+          "increment": 13,
+          "iterations": 4,
+          "load_factor": 0.8125,
+          "relative_residual": 2.586026029895981e-10
+        },
+        {
+          "increment": 14,
+          "iterations": 4,
+          "load_factor": 0.875,
+          "relative_residual": 2.571428697886684e-10
+        },
+        {
+          "increment": 15,
+          "iterations": 4,
+          "load_factor": 0.9375,
+          "relative_residual": 2.5567375779003325e-10
+        },
+        {
+          "increment": 16,
+          "iterations": 4,
+          "load_factor": 1.0,
+          "relative_residual": 2.5419288390642945e-10
+        }
+      ],
+      "load_increments": 16,
+      "load_scale": 0.008,
+      "maximum_displacement": 0.2978770329875777,
+      "mesh_level_role": "coarse_medium_fine_refined",
+      "mesh_observables": [
+        "maximum_displacement",
+        "reaction_norm",
+        "strain_energy"
+      ],
+      "minimum_det_f": 0.9952622626723906,
+      "minimum_tangent_eigenvalue": 0.005077192862174646,
+      "mode": "bending_z",
+      "newton_iterations": 64,
+      "quality": {
+        "errors": [],
+        "metrics": [
+          {
+            "aspect_ratio_xy": 2.1666666666666448,
+            "jacobian_max": 0.27083333333333065,
+            "jacobian_min": 0.2708333333333305
+          },
+          {
+            "aspect_ratio_xy": 2.1666666666667096,
+            "jacobian_max": 0.2708333333333387,
+            "jacobian_min": 0.2708333333333386
+          },
+          {
+            "aspect_ratio_xy": 2.1666666666666456,
+            "jacobian_max": 0.27083333333333076,
+            "jacobian_min": 0.27083333333333065
+          }
+        ],
+        "status": "PASS",
+        "warnings": []
+      },
+      "reaction_norm": 0.05329345746447225,
+      "residual_history": [
+        0.00025,
+        0.00016269683406136068,
+        0.00010409828602946779,
+        2.751353802726161e-10,
+        0.0002500000178593566,
+        0.00016262974409873618,
+        0.00010408812400390386,
+        2.738549654470048e-10,
+        0.0002500000171805234,
+        0.00016255732196060414,
+        0.00010406980309177583,
+        2.725514322001901e-10,
+        0.0002500000164993291,
+        0.00016247968428622885,
+        0.00010404335114116883,
+        2.7122473503670383e-10,
+        0.00025000001581615547,
+        0.00016239685104198301,
+        0.00010400877896886947,
+        2.698845553640915e-10,
+        0.0002500000151313377,
+        0.00016230884504517205,
+        0.0001039661007062166,
+        2.685243761489212e-10,
+        0.000250000014445211,
+        0.0001622156919422309,
+        0.00010391533380110646,
+        2.671498001047956e-10,
+        0.000250000013758106,
+        0.00016211742020398766,
+        0.00010385649895724209,
+        2.657589251929641e-10,
+        0.0002500000130704008,
+        0.00016201406109034417,
+        0.00010378962015972543,
+        2.643507196473889e-10,
+        0.0002500000123824265,
+        0.00016190564863347362,
+        0.00010371472461348097,
+        2.629315955012299e-10,
+        0.00025000001169450756,
+        0.00016179221960324535,
+        0.00010363184274784682,
+        2.6149973630960034e-10,
+        0.0002500000110069419,
+        0.00016167381347639704,
+        0.00010354100816451974,
+        2.6005889716617894e-10,
+        0.00025000001032008924,
+        0.00016155047240532379,
+        0.00010344225762887414,
+        2.586026029895981e-10,
+        0.0002500000096343518,
+        0.00016142224117444675,
+        0.00010333563099535803,
+        2.571428697886684e-10,
+        0.00025000000894996745,
+        0.00016128916716677064,
+        0.00010322117121569546,
+        2.5567375779003325e-10,
+        0.00025000000826726465,
+        0.00016115130031857258,
+        0.00010309892426543462,
+        2.5419288390642945e-10
+      ],
+      "status": "success",
+      "strain_energy": 0.0011856620838575293,
+      "tangent_condition_number": 7130.50994659727
+    },
+    {
+      "cells": 4,
+      "classification": "OBSERVATION_ONLY",
+      "dof_count": 60,
+      "element_count": 4,
+      "family": "HEX8",
+      "free_residual_norm": 9.643767717446513e-10,
+      "increment_history": [
+        {
+          "increment": 1,
+          "iterations": 4,
+          "load_factor": 0.0625,
+          "relative_residual": 1.1288495563403592e-09
+        },
+        {
+          "increment": 2,
+          "iterations": 4,
+          "load_factor": 0.125,
+          "relative_residual": 1.119327204163658e-09
+        },
+        {
+          "increment": 3,
+          "iterations": 4,
+          "load_factor": 0.1875,
+          "relative_residual": 1.1095318768571871e-09
+        },
+        {
+          "increment": 4,
+          "iterations": 4,
+          "load_factor": 0.25,
+          "relative_residual": 1.0994949066237977e-09
+        },
+        {
+          "increment": 5,
+          "iterations": 4,
+          "load_factor": 0.3125,
+          "relative_residual": 1.0892142400678673e-09
+        },
+        {
+          "increment": 6,
+          "iterations": 4,
+          "load_factor": 0.375,
+          "relative_residual": 1.0787131500974775e-09
+        },
+        {
+          "increment": 7,
+          "iterations": 4,
+          "load_factor": 0.4375,
+          "relative_residual": 1.0679992786212648e-09
+        },
+        {
+          "increment": 8,
+          "iterations": 4,
+          "load_factor": 0.5,
+          "relative_residual": 1.0570868918376991e-09
+        },
+        {
+          "increment": 9,
+          "iterations": 4,
+          "load_factor": 0.5625,
+          "relative_residual": 1.0459937650921415e-09
+        },
+        {
+          "increment": 10,
+          "iterations": 4,
+          "load_factor": 0.625,
+          "relative_residual": 1.0347310544670042e-09
+        },
+        {
+          "increment": 11,
+          "iterations": 4,
+          "load_factor": 0.6875,
+          "relative_residual": 1.0233135810228668e-09
+        },
+        {
+          "increment": 12,
+          "iterations": 4,
+          "load_factor": 0.75,
+          "relative_residual": 1.011750373096644e-09
+        },
+        {
+          "increment": 13,
+          "iterations": 4,
+          "load_factor": 0.8125,
+          "relative_residual": 1.0000623913374134e-09
+        },
+        {
+          "increment": 14,
+          "iterations": 4,
+          "load_factor": 0.875,
+          "relative_residual": 9.88262570562528e-10
+        },
+        {
+          "increment": 15,
+          "iterations": 4,
+          "load_factor": 0.9375,
+          "relative_residual": 9.763619910264514e-10
+        },
+        {
+          "increment": 16,
+          "iterations": 4,
+          "load_factor": 1.0,
+          "relative_residual": 9.643767717446513e-10
+        }
+      ],
+      "load_increments": 16,
+      "load_scale": 0.008,
+      "maximum_displacement": 0.4057378406715216,
+      "mesh_level_role": "coarse_medium_fine_refined",
+      "mesh_observables": [
+        "maximum_displacement",
+        "reaction_norm",
+        "strain_energy"
+      ],
+      "minimum_det_f": 0.9933218050216218,
+      "minimum_tangent_eigenvalue": 0.0031841082923370462,
+      "mode": "bending_z",
+      "newton_iterations": 64,
+      "quality": {
+        "errors": [],
+        "metrics": [
+          {
+            "aspect_ratio_xy": 1.625,
+            "jacobian_max": 0.20312499999999997,
+            "jacobian_min": 0.20312499999999994
+          },
+          {
+            "aspect_ratio_xy": 1.625,
+            "jacobian_max": 0.20312499999999997,
+            "jacobian_min": 0.20312499999999994
+          },
+          {
+            "aspect_ratio_xy": 1.625,
+            "jacobian_max": 0.20312499999999997,
+            "jacobian_min": 0.20312499999999994
+          },
+          {
+            "aspect_ratio_xy": 1.625,
+            "jacobian_max": 0.20312500000000003,
+            "jacobian_min": 0.20312499999999997
+          }
+        ],
+        "status": "PASS",
+        "warnings": []
+      },
+      "reaction_norm": 0.05338339157939823,
+      "residual_history": [
+        0.00025,
+        0.00021793667623012903,
+        0.00017819207681940387,
+        1.1288495563403592e-09,
+        0.00025000012685002805,
+        0.00021779857910889937,
+        0.0001781608944708827,
+        1.119327204163658e-09,
+        0.00025000012321263894,
+        0.0002176391513600533,
+        0.00017810440190932665,
+        1.1095318768571871e-09,
+        0.00025000011954296847,
+        0.0002174590851303099,
+        0.0001780228764743366,
+        1.0994949066237977e-09,
+        0.00025000011584532986,
+        0.00021725845789499545,
+        0.00017791637729194768,
+        1.0892142400678673e-09,
+        0.00025000011212327947,
+        0.0002170373649226466,
+        0.0001777849814877934,
+        1.0787131500974775e-09,
+        0.00025000010838029666,
+        0.0002167959191543096,
+        0.0001776287840596643,
+        1.0679992786212648e-09,
+        0.0002500001046199365,
+        0.00021653425105209664,
+        0.00017744789770805048,
+        1.0570868918376991e-09,
+        0.0002500001008457241,
+        0.00021625250840490314,
+        0.000177242452654065,
+        1.0459937650921415e-09,
+        0.00025000009706099694,
+        0.00021595085610690362,
+        0.00017701259641134324,
+        1.0347310544670042e-09,
+        0.00025000009326951256,
+        0.00021562947591932872,
+        0.00017675849352718237,
+        1.0233135810228668e-09,
+        0.0002500000894745011,
+        0.00021528856618652852,
+        0.0001764803253184469,
+        1.011750373096644e-09,
+        0.0002500000856796028,
+        0.0002149283415198898,
+        0.00017617828955114446,
+        1.0000623913374134e-09,
+        0.0002500000818879747,
+        0.000214549032483545,
+        0.0001758526001149651,
+        9.88262570562528e-10,
+        0.0002500000781030724,
+        0.00021415088520757803,
+        0.00017550348666683287,
+        9.763619910264514e-10,
+        0.00025000007432819736,
+        0.00021373416102698207,
+        0.00017513119425517735,
+        9.643767717446513e-10
+      ],
+      "status": "success",
+      "strain_energy": 0.001611350087450402,
+      "tangent_condition_number": 9076.823450719961
+    },
+    {
+      "cells": 1,
+      "classification": "OBSERVATION_ONLY",
+      "dof_count": 24,
+      "element_count": 1,
+      "family": "HEX8",
+      "free_residual_norm": 4.385323165165491e-12,
+      "increment_history": [
+        {
+          "increment": 1,
+          "iterations": 3,
+          "load_factor": 0.0625,
+          "relative_residual": 4.37603130031017e-12
+        },
+        {
+          "increment": 2,
+          "iterations": 3,
+          "load_factor": 0.125,
+          "relative_residual": 4.381765340649035e-12
+        },
+        {
+          "increment": 3,
+          "iterations": 3,
+          "load_factor": 0.1875,
+          "relative_residual": 4.3798273463069286e-12
+        },
+        {
+          "increment": 4,
+          "iterations": 3,
+          "load_factor": 0.25,
+          "relative_residual": 4.3729125395798124e-12
+        },
+        {
+          "increment": 5,
+          "iterations": 3,
+          "load_factor": 0.3125,
+          "relative_residual": 4.376137421696682e-12
+        },
+        {
+          "increment": 6,
+          "iterations": 3,
+          "load_factor": 0.375,
+          "relative_residual": 4.377138284128895e-12
+        },
+        {
+          "increment": 7,
+          "iterations": 3,
+          "load_factor": 0.4375,
+          "relative_residual": 4.3795526367683104e-12
+        },
+        {
+          "increment": 8,
+          "iterations": 3,
+          "load_factor": 0.5,
+          "relative_residual": 4.378308041082239e-12
+        },
+        {
+          "increment": 9,
+          "iterations": 3,
+          "load_factor": 0.5625,
+          "relative_residual": 4.377690384258134e-12
+        },
+        {
+          "increment": 10,
+          "iterations": 3,
+          "load_factor": 0.625,
+          "relative_residual": 4.382642297595117e-12
+        },
+        {
+          "increment": 11,
+          "iterations": 3,
+          "load_factor": 0.6875,
+          "relative_residual": 4.3769902450525e-12
+        },
+        {
+          "increment": 12,
+          "iterations": 3,
+          "load_factor": 0.75,
+          "relative_residual": 4.379143012111971e-12
+        },
+        {
+          "increment": 13,
+          "iterations": 3,
+          "load_factor": 0.8125,
+          "relative_residual": 4.379025435770871e-12
+        },
+        {
+          "increment": 14,
+          "iterations": 3,
+          "load_factor": 0.875,
+          "relative_residual": 4.375711120424974e-12
+        },
+        {
+          "increment": 15,
+          "iterations": 3,
+          "load_factor": 0.9375,
+          "relative_residual": 4.37818090796692e-12
+        },
+        {
+          "increment": 16,
+          "iterations": 3,
+          "load_factor": 1.0,
+          "relative_residual": 4.385323165165491e-12
+        }
+      ],
+      "load_increments": 16,
+      "load_scale": 0.01,
+      "maximum_displacement": 0.06414656197242095,
+      "mesh_level_role": "coarse_medium_fine_refined",
+      "mesh_observables": [
+        "maximum_displacement",
+        "reaction_norm",
+        "strain_energy"
+      ],
+      "minimum_det_f": 0.9993895357203914,
+      "minimum_tangent_eigenvalue": 0.03849836388906013,
+      "mode": "shear_y",
+      "newton_iterations": 48,
+      "quality": {
+        "errors": [],
+        "metrics": [
+          {
+            "aspect_ratio_xy": 6.5,
+            "jacobian_max": 0.8124999999999999,
+            "jacobian_min": 0.8124999999999997
+          }
+        ],
+        "status": "PASS",
+        "warnings": []
+      },
+      "reaction_norm": 0.06528393166012661,
+      "residual_history": [
+        0.0003125,
+        1.4749025150182615e-05,
+        4.37603130031017e-12,
+        0.00031249999999983125,
+        1.474902144902738e-05,
+        4.381765340649035e-12,
+        0.0003124999999995327,
+        1.474900996446632e-05,
+        4.3798273463069286e-12,
+        0.00031249999999923526,
+        1.474899070442219e-05,
+        4.3729125395798124e-12,
+        0.0003124999999989382,
+        1.4748963641428323e-05,
+        4.376137421696682e-12,
+        0.0003124999999986403,
+        1.4748928797936595e-05,
+        4.377138284128895e-12,
+        0.00031249999999834465,
+        1.4748886159317953e-05,
+        4.3795526367683104e-12,
+        0.00031249999999804015,
+        1.4748835743666507e-05,
+        4.378308041082239e-12,
+        0.00031249999999774514,
+        1.4748777532460088e-05,
+        4.377690384258134e-12,
+        0.00031249999999744476,
+        1.4748711539171313e-05,
+        4.382642297595117e-12,
+        0.0003124999999971439,
+        1.4748637770998644e-05,
+        4.3769902450525e-12,
+        0.00031249999999684606,
+        1.4748556195573203e-05,
+        4.379143012111971e-12,
+        0.0003124999999965508,
+        1.4748466856132881e-05,
+        4.379025435770871e-12,
+        0.0003124999999962568,
+        1.474836971522871e-05,
+        4.375711120424974e-12,
+        0.00031249999999595886,
+        1.4748264811032689e-05,
+        4.37818090796692e-12,
+        0.0003124999999956544,
+        1.4748152093471925e-05,
+        4.385323165165491e-12
+      ],
+      "status": "success",
+      "strain_energy": 0.000320528860173947,
+      "tangent_condition_number": 1086.1944396397557
+    },
+    {
+      "cells": 2,
+      "classification": "OBSERVATION_ONLY",
+      "dof_count": 36,
+      "element_count": 2,
+      "family": "HEX8",
+      "free_residual_norm": 9.75089067311634e-10,
+      "increment_history": [
+        {
+          "increment": 1,
+          "iterations": 3,
+          "load_factor": 0.0625,
+          "relative_residual": 9.758962513550796e-10
+        },
+        {
+          "increment": 2,
+          "iterations": 3,
+          "load_factor": 0.125,
+          "relative_residual": 9.759078600769588e-10
+        },
+        {
+          "increment": 3,
+          "iterations": 3,
+          "load_factor": 0.1875,
+          "relative_residual": 9.759036866188536e-10
+        },
+        {
+          "increment": 4,
+          "iterations": 3,
+          "load_factor": 0.25,
+          "relative_residual": 9.758928713021243e-10
+        },
+        {
+          "increment": 5,
+          "iterations": 3,
+          "load_factor": 0.3125,
+          "relative_residual": 9.758747077951633e-10
+        },
+        {
+          "increment": 6,
+          "iterations": 3,
+          "load_factor": 0.375,
+          "relative_residual": 9.758484185220846e-10
+        },
+        {
+          "increment": 7,
+          "iterations": 3,
+          "load_factor": 0.4375,
+          "relative_residual": 9.75813292284546e-10
+        },
+        {
+          "increment": 8,
+          "iterations": 3,
+          "load_factor": 0.5,
+          "relative_residual": 9.757681797606954e-10
+        },
+        {
+          "increment": 9,
+          "iterations": 3,
+          "load_factor": 0.5625,
+          "relative_residual": 9.757223266743398e-10
+        },
+        {
+          "increment": 10,
+          "iterations": 3,
+          "load_factor": 0.625,
+          "relative_residual": 9.756582131121446e-10
+        },
+        {
+          "increment": 11,
+          "iterations": 3,
+          "load_factor": 0.6875,
+          "relative_residual": 9.755886124971281e-10
+        },
+        {
+          "increment": 12,
+          "iterations": 3,
+          "load_factor": 0.75,
+          "relative_residual": 9.755126625560707e-10
+        },
+        {
+          "increment": 13,
+          "iterations": 3,
+          "load_factor": 0.8125,
+          "relative_residual": 9.754232568791267e-10
+        },
+        {
+          "increment": 14,
+          "iterations": 3,
+          "load_factor": 0.875,
+          "relative_residual": 9.75319801690523e-10
+        },
+        {
+          "increment": 15,
+          "iterations": 3,
+          "load_factor": 0.9375,
+          "relative_residual": 9.752081765876785e-10
+        },
+        {
+          "increment": 16,
+          "iterations": 3,
+          "load_factor": 1.0,
+          "relative_residual": 9.75089067311634e-10
+        }
+      ],
+      "load_increments": 16,
+      "load_scale": 0.01,
+      "maximum_displacement": 0.2118104430324299,
+      "mesh_level_role": "coarse_medium_fine_refined",
+      "mesh_observables": [
+        "maximum_displacement",
+        "reaction_norm",
+        "strain_energy"
+      ],
+      "minimum_det_f": 0.9968709410402554,
+      "minimum_tangent_eigenvalue": 0.01054882688466329,
+      "mode": "shear_y",
+      "newton_iterations": 48,
+      "quality": {
+        "errors": [],
+        "metrics": [
+          {
+            "aspect_ratio_xy": 3.25,
+            "jacobian_max": 0.40624999999999994,
+            "jacobian_min": 0.4062499999999999
+          },
+          {
+            "aspect_ratio_xy": 3.25,
+            "jacobian_max": 0.40625,
+            "jacobian_min": 0.4062499999999999
+          }
+        ],
+        "status": "PASS",
+        "warnings": []
+      },
+      "reaction_norm": 0.06617242940690808,
+      "residual_history": [
+        0.0003125,
+        0.0002220749516759981,
+        9.758962513550796e-10,
+        0.0003124999993326447,
+        0.00022207010663072245,
+        9.759078600769588e-10,
+        0.0003124999976939358,
+        0.00022205557781558824,
+        9.759036866188536e-10,
+        0.0003124999960555461,
+        0.000222031369661183,
+        9.758928713021243e-10,
+        0.00031249999441817155,
+        0.00022199748811458156,
+        9.758747077951633e-10,
+        0.00031249999278225315,
+        0.00022195394145966939,
+        9.758484185220846e-10,
+        0.00031249999114825883,
+        0.0002219007403791205,
+        9.75813292284546e-10,
+        0.0003124999895166268,
+        0.0002218378978891165,
+        9.757681797606954e-10,
+        0.00031249998788780703,
+        0.00022176542936643692,
+        9.757223266743398e-10,
+        0.00031249998626223105,
+        0.0002216833525205033,
+        9.756582131121446e-10,
+        0.0003124999846403917,
+        0.00022159168740168097,
+        9.755886124971281e-10,
+        0.0003124999830226718,
+        0.00022149045635970905,
+        9.755126625560707e-10,
+        0.0003124999814095269,
+        0.0002213796840643669,
+        9.754232568791267e-10,
+        0.0003124999798014113,
+        0.00022125939747398088,
+        9.75319801690523e-10,
+        0.00031249997819877376,
+        0.0002211296258129021,
+        9.752081765876785e-10,
+        0.0003124999766020427,
+        0.00022099040055186618,
+        9.75089067311634e-10
+      ],
+      "status": "success",
+      "strain_energy": 0.0010555232082701312,
+      "tangent_condition_number": 4385.94949996201
+    },
+    {
+      "cells": 3,
+      "classification": "OBSERVATION_ONLY",
+      "dof_count": 48,
+      "element_count": 3,
+      "family": "HEX8",
+      "free_residual_norm": 6.2896400905321e-10,
+      "increment_history": [
+        {
+          "increment": 1,
+          "iterations": 4,
+          "load_factor": 0.0625,
+          "relative_residual": 7.083820627566814e-10
+        },
+        {
+          "increment": 2,
+          "iterations": 4,
+          "load_factor": 0.125,
+          "relative_residual": 7.035976365940593e-10
+        },
+        {
+          "increment": 3,
+          "iterations": 4,
+          "load_factor": 0.1875,
+          "relative_residual": 6.987182489170213e-10
+        },
+        {
+          "increment": 4,
+          "iterations": 4,
+          "load_factor": 0.25,
+          "relative_residual": 6.937378069315637e-10
+        },
+        {
+          "increment": 5,
+          "iterations": 4,
+          "load_factor": 0.3125,
+          "relative_residual": 6.886767233840091e-10
+        },
+        {
+          "increment": 6,
+          "iterations": 4,
+          "load_factor": 0.375,
+          "relative_residual": 6.835327484668838e-10
+        },
+        {
+          "increment": 7,
+          "iterations": 4,
+          "load_factor": 0.4375,
+          "relative_residual": 6.783136598885059e-10
+        },
+        {
+          "increment": 8,
+          "iterations": 4,
+          "load_factor": 0.5,
+          "relative_residual": 6.730262222630675e-10
+        },
+        {
+          "increment": 9,
+          "iterations": 4,
+          "load_factor": 0.5625,
+          "relative_residual": 6.676753313602209e-10
+        },
+        {
+          "increment": 10,
+          "iterations": 4,
+          "load_factor": 0.625,
+          "relative_residual": 6.622707666253991e-10
+        },
+        {
+          "increment": 11,
+          "iterations": 4,
+          "load_factor": 0.6875,
+          "relative_residual": 6.568107501277354e-10
+        },
+        {
+          "increment": 12,
+          "iterations": 4,
+          "load_factor": 0.75,
+          "relative_residual": 6.51308812315965e-10
+        },
+        {
+          "increment": 13,
+          "iterations": 4,
+          "load_factor": 0.8125,
+          "relative_residual": 6.457696097084769e-10
+        },
+        {
+          "increment": 14,
+          "iterations": 4,
+          "load_factor": 0.875,
+          "relative_residual": 6.401939626060299e-10
+        },
+        {
+          "increment": 15,
+          "iterations": 4,
+          "load_factor": 0.9375,
+          "relative_residual": 6.345905331572669e-10
+        },
+        {
+          "increment": 16,
+          "iterations": 4,
+          "load_factor": 1.0,
+          "relative_residual": 6.2896400905321e-10
+        }
+      ],
+      "load_increments": 16,
+      "load_scale": 0.01,
+      "maximum_displacement": 0.37226543596492745,
+      "mesh_level_role": "coarse_medium_fine_refined",
+      "mesh_observables": [
+        "maximum_displacement",
+        "reaction_norm",
+        "strain_energy"
+      ],
+      "minimum_det_f": 0.9940196093144458,
+      "minimum_tangent_eigenvalue": 0.005082579672128683,
+      "mode": "shear_y",
+      "newton_iterations": 64,
+      "quality": {
+        "errors": [],
+        "metrics": [
+          {
+            "aspect_ratio_xy": 2.1666666666666448,
+            "jacobian_max": 0.27083333333333065,
+            "jacobian_min": 0.2708333333333305
+          },
+          {
+            "aspect_ratio_xy": 2.1666666666667096,
+            "jacobian_max": 0.2708333333333387,
+            "jacobian_min": 0.2708333333333386
+          },
+          {
+            "aspect_ratio_xy": 2.1666666666666456,
+            "jacobian_max": 0.27083333333333076,
+            "jacobian_min": 0.27083333333333065
+          }
+        ],
+        "status": "PASS",
+        "warnings": []
+      },
+      "reaction_norm": 0.0665741798610998,
+      "residual_history": [
+        0.0003125,
+        0.0002255920791228177,
+        0.00016257290190558013,
+        7.083820627566814e-10,
+        0.00031250005441872783,
+        0.0002254714841173938,
+        0.00016254814114494397,
+        7.035976365940593e-10,
+        0.00031250005231617245,
+        0.0002253362007508281,
+        0.0001625034630947921,
+        6.987182489170213e-10,
+        0.000312500050202405,
+        0.00022518658055319473,
+        0.0001624389737694324,
+        6.937378069315637e-10,
+        0.00031250004807934455,
+        0.00022502268341994633,
+        0.00016235471434520516,
+        6.886767233840091e-10,
+        0.0003125000459485859,
+        0.0002248445808985537,
+        0.00016225073855665283,
+        6.835327484668838e-10,
+        0.0003125000438118485,
+        0.00022465235609382084,
+        0.000162127112611542,
+        6.783136598885059e-10,
+        0.000312500041670807,
+        0.0002244461035648514,
+        0.00016198391510691498,
+        6.730262222630675e-10,
+        0.0003125000395271014,
+        0.0002242259292222138,
+        0.0001618212368789954,
+        6.676753313602209e-10,
+        0.0003125000373823774,
+        0.0002239919501591777,
+        0.00016163918089175753,
+        6.622707666253991e-10,
+        0.00031250003523827574,
+        0.0002237442945179982,
+        0.00016143786207458555,
+        6.568107501277354e-10,
+        0.0003125000330964489,
+        0.00022348310129573855,
+        0.00016121740714308624,
+        6.51308812315965e-10,
+        0.0003125000309585603,
+        0.0002232085201684488,
+        0.00016097795440629187,
+        6.457696097084769e-10,
+        0.00031250002882608026,
+        0.00022292071125744602,
+        0.00016071965358477992,
+        6.401939626060299e-10,
+        0.0003125000267007497,
+        0.0002226198449188422,
+        0.0001604426655553011,
+        6.345905331572669e-10,
+        0.00031250002458403517,
+        0.0002223061014898769,
+        0.00016014716213988214,
+        6.2896400905321e-10
+      ],
+      "status": "success",
+      "strain_energy": 0.001849328583162497,
+      "tangent_condition_number": 7122.817349589779
+    },
+    {
+      "cells": 4,
+      "classification": "OBSERVATION_ONLY",
+      "dof_count": 60,
+      "element_count": 4,
+      "family": "HEX8",
+      "free_residual_norm": 2.518493667258558e-09,
+      "increment_history": [
+        {
+          "increment": 1,
+          "iterations": 5,
+          "load_factor": 0.0625,
+          "relative_residual": 9.41659058992671e-10
+        },
+        {
+          "increment": 2,
+          "iterations": 5,
+          "load_factor": 0.125,
+          "relative_residual": 9.312734774684363e-10
+        },
+        {
+          "increment": 3,
+          "iterations": 5,
+          "load_factor": 0.1875,
+          "relative_residual": 9.205163775500792e-10
+        },
+        {
+          "increment": 4,
+          "iterations": 5,
+          "load_factor": 0.25,
+          "relative_residual": 9.094113105159358e-10
+        },
+        {
+          "increment": 5,
+          "iterations": 5,
+          "load_factor": 0.3125,
+          "relative_residual": 8.97983645612355e-10
+        },
+        {
+          "increment": 6,
+          "iterations": 5,
+          "load_factor": 0.375,
+          "relative_residual": 8.862545295658323e-10
+        },
+        {
+          "increment": 7,
+          "iterations": 5,
+          "load_factor": 0.4375,
+          "relative_residual": 8.742459606432491e-10
+        },
+        {
+          "increment": 8,
+          "iterations": 5,
+          "load_factor": 0.5,
+          "relative_residual": 8.619795383582696e-10
+        },
+        {
+          "increment": 9,
+          "iterations": 5,
+          "load_factor": 0.5625,
+          "relative_residual": 8.494820668840564e-10
+        },
+        {
+          "increment": 10,
+          "iterations": 5,
+          "load_factor": 0.625,
+          "relative_residual": 8.367778337087078e-10
+        },
+        {
+          "increment": 11,
+          "iterations": 5,
+          "load_factor": 0.6875,
+          "relative_residual": 8.238866140102941e-10
+        },
+        {
+          "increment": 12,
+          "iterations": 5,
+          "load_factor": 0.75,
+          "relative_residual": 8.108363072251558e-10
+        },
+        {
+          "increment": 13,
+          "iterations": 5,
+          "load_factor": 0.8125,
+          "relative_residual": 7.976468073365466e-10
+        },
+        {
+          "increment": 14,
+          "iterations": 5,
+          "load_factor": 0.875,
+          "relative_residual": 7.843467786105243e-10
+        },
+        {
+          "increment": 15,
+          "iterations": 4,
+          "load_factor": 0.9375,
+          "relative_residual": 2.564584591776319e-09
+        },
+        {
+          "increment": 16,
+          "iterations": 4,
+          "load_factor": 1.0,
+          "relative_residual": 2.518493667258558e-09
+        }
+      ],
+      "load_increments": 16,
+      "load_scale": 0.01,
+      "maximum_displacement": 0.5067482605488817,
+      "mesh_level_role": "coarse_medium_fine_refined",
+      "mesh_observables": [
+        "maximum_displacement",
+        "reaction_norm",
+        "strain_energy"
+      ],
+      "minimum_det_f": 0.9915832587982507,
+      "minimum_tangent_eigenvalue": 0.003190076343684554,
+      "mode": "shear_y",
+      "newton_iterations": 78,
+      "quality": {
+        "errors": [],
+        "metrics": [
+          {
+            "aspect_ratio_xy": 1.625,
+            "jacobian_max": 0.20312499999999997,
+            "jacobian_min": 0.20312499999999994
+          },
+          {
+            "aspect_ratio_xy": 1.625,
+            "jacobian_max": 0.20312499999999997,
+            "jacobian_min": 0.20312499999999994
+          },
+          {
+            "aspect_ratio_xy": 1.625,
+            "jacobian_max": 0.20312499999999997,
+            "jacobian_min": 0.20312499999999994
+          },
+          {
+            "aspect_ratio_xy": 1.625,
+            "jacobian_max": 0.20312500000000003,
+            "jacobian_min": 0.20312499999999997
+          }
+        ],
+        "status": "PASS",
+        "warnings": []
+      },
+      "reaction_norm": 0.066646464697192,
+      "residual_history": [
+        0.0003125,
+        0.0002445124962581286,
+        0.00022462025960651811,
+        0.0001567226183162667,
+        9.41659058992671e-10,
+        0.0003125001117914768,
+        0.0002444058293832486,
+        0.00022443735656452977,
+        0.00015667601293996154,
+        9.312734774684363e-10,
+        0.00031250010815913086,
+        0.0002442945432749114,
+        0.00022421794785201896,
+        0.0001565947968162846,
+        9.205163775500792e-10,
+        0.00031250010448444937,
+        0.0002441790086713062,
+        0.00022396260875040183,
+        0.00015647920980371637,
+        9.094113105159358e-10,
+        0.00031250010077349204,
+        0.00024405932711525288,
+        0.00022367152531157364,
+        0.00015632938283103516,
+        8.97983645612355e-10,
+        0.000312500097031811,
+        0.00024393560734665878,
+        0.00022334493037623224,
+        0.00015614548526974626,
+        8.862545295658323e-10,
+        0.000312500093264981,
+        0.00024380796503998279,
+        0.00022298310305345623,
+        0.00015592772446669975,
+        8.742459606432491e-10,
+        0.000312500089478695,
+        0.00024367652253255766,
+        0.00022258636805935747,
+        0.0001556763452133555,
+        8.619795383582696e-10,
+        0.00031250008567841456,
+        0.00024354140851392183,
+        0.0002221550949827826,
+        0.0001553916290543667,
+        8.494820668840564e-10,
+        0.00031250008186975913,
+        0.0002434027577047056,
+        0.00022168969736538613,
+        0.00015507389357025534,
+        8.367778337087078e-10,
+        0.0003125000780580287,
+        0.00024326071050431364,
+        0.0002211906317178518,
+        0.00015472349153027818,
+        8.238866140102941e-10,
+        0.000312500074248756,
+        0.00024311541263006807,
+        0.00022065839639284115,
+        0.00015434080996422217,
+        8.108363072251558e-10,
+        0.0003125000704471651,
+        0.00024296701472760186,
+        0.00022009353037006322,
+        0.00015392626916185096,
+        7.976468073365466e-10,
+        0.00031250006665845285,
+        0.00024281567197867449,
+        0.00021949661192930217,
+        0.00015348032158287502,
+        7.843467786105243e-10,
+        0.0003125000628875679,
+        0.00031159934916281246,
+        0.00027156695009370244,
+        2.564584591776319e-09,
+        0.00031250021549906305,
+        0.0003106476172681524,
+        0.00027067507821149236,
+        2.518493667258558e-09
+      ],
+      "status": "success",
+      "strain_energy": 0.00250967929408464,
+      "tangent_condition_number": 9059.617016008184
+    }
+  ],
+  "qualification_decision": "OWNER_REVIEW_REQUIRED; no G07 closure",
+  "small_strain": [
+    {
+      "classification": "OBSERVATION_ONLY",
+      "family": "TET4",
+      "linear_displacement_norm": 0.013698465780790021,
+      "load_factor": 1.0,
+      "load_scale": 0.01,
+      "relative_tl_vs_linear": 0.0014218279639689017,
+      "status": "success",
+      "tl_displacement_norm": 0.013679000422834433
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "family": "TET4",
+      "linear_displacement_norm": 0.0068492328903950106,
+      "load_factor": 0.5,
+      "load_scale": 0.005,
+      "relative_tl_vs_linear": 0.0007118169368758038,
+      "status": "success",
+      "tl_displacement_norm": 0.006844360372305516
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "family": "TET4",
+      "linear_displacement_norm": 0.0034246164451975053,
+      "load_factor": 0.25,
+      "load_scale": 0.0025,
+      "relative_tl_vs_linear": 0.0003561347395728638,
+      "status": "success",
+      "tl_displacement_norm": 0.0034233975415294843
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "family": "TET4",
+      "linear_displacement_norm": 0.0017123082225987526,
+      "load_factor": 0.125,
+      "load_scale": 0.00125,
+      "relative_tl_vs_linear": 0.00017534249804814983,
+      "status": "success",
+      "tl_displacement_norm": 0.0017120081597799962
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "family": "TET4",
+      "linear_displacement_norm": 0.0008561541112993763,
+      "load_factor": 0.0625,
+      "load_scale": 0.000625,
+      "relative_tl_vs_linear": 8.768477367914505e-05,
+      "status": "success",
+      "tl_displacement_norm": 0.0008560790840266138
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "family": "HEX8",
+      "linear_displacement_norm": 0.013750864221096424,
+      "load_factor": 1.0,
+      "load_scale": 0.01,
+      "relative_tl_vs_linear": 0.0014158450060747373,
+      "status": "success",
+      "tl_displacement_norm": 0.013731404870091418
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "family": "HEX8",
+      "linear_displacement_norm": 0.006875432110548212,
+      "load_factor": 0.5,
+      "load_scale": 0.005,
+      "relative_tl_vs_linear": 0.000708820639901686,
+      "status": "success",
+      "tl_displacement_norm": 0.006870561102434438
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "family": "HEX8",
+      "linear_displacement_norm": 0.003437716055274106,
+      "load_factor": 0.25,
+      "load_scale": 0.0025,
+      "relative_tl_vs_linear": 0.0003546353826500855,
+      "status": "success",
+      "tl_displacement_norm": 0.0034364975301357775
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "family": "HEX8",
+      "linear_displacement_norm": 0.001718858027637053,
+      "load_factor": 0.125,
+      "load_scale": 0.00125,
+      "relative_tl_vs_linear": 0.00017460422483630986,
+      "status": "success",
+      "tl_displacement_norm": 0.0017185580581064645
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "family": "HEX8",
+      "linear_displacement_norm": 0.0008594290138185265,
+      "load_factor": 0.0625,
+      "load_scale": 0.000625,
+      "relative_tl_vs_linear": 8.73155663378846e-05,
+      "status": "success",
+      "tl_displacement_norm": 0.000859354009881979
+    }
+  ],
+  "small_strain_policy": {
+    "domain": "two-cell aspect-6.5 traction model; load factors 1, 1/2, 1/4, 1/8, 1/16",
+    "justification": "Existing nonlinear tolerance policy is case-defined; asymptotic trend is evidence, not an auto-approved threshold.",
+    "metric": "norm(u_TL-u_linear)/norm(u_linear)",
+    "status": "PROPOSED_OWNER_REVIEW",
+    "threshold": "UNDEFINED_OWNER_BAND"
+  },
+  "solver_version": "0.2.6a0",
+  "source_sha": "bb44c121c1c6c676f808ff4498aa7e8c980dff0e",
+  "status": "DIAGNOSTIC_ONLY",
+  "tangent_fd": [
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "TET4",
+      "fd_step": 0.0001,
+      "minimum_det_f": 1.0,
+      "relative_error": 3.3024239554044535e-09,
+      "state": "zero"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "TET4",
+      "fd_step": 1e-05,
+      "minimum_det_f": 1.0,
+      "relative_error": 3.451711924262463e-11,
+      "state": "zero"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "TET4",
+      "fd_step": 1e-06,
+      "minimum_det_f": 1.0,
+      "relative_error": 1.722637293192255e-10,
+      "state": "zero"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "TET4",
+      "fd_step": 1e-07,
+      "minimum_det_f": 1.0,
+      "relative_error": 2.088763541938587e-09,
+      "state": "zero"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "TET4",
+      "fd_step": 1e-08,
+      "minimum_det_f": 1.0,
+      "relative_error": 2.0532313168264933e-08,
+      "state": "zero"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "TET4",
+      "fd_step": 0.0001,
+      "minimum_det_f": 1.0,
+      "relative_error": 9.871268569268554e-09,
+      "state": "zero"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "TET4",
+      "fd_step": 1e-05,
+      "minimum_det_f": 1.0,
+      "relative_error": 9.842730441642995e-11,
+      "state": "zero"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "TET4",
+      "fd_step": 1e-06,
+      "minimum_det_f": 1.0,
+      "relative_error": 3.373512022049285e-11,
+      "state": "zero"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "TET4",
+      "fd_step": 1e-07,
+      "minimum_det_f": 1.0,
+      "relative_error": 4.448502338071271e-10,
+      "state": "zero"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "TET4",
+      "fd_step": 1e-08,
+      "minimum_det_f": 1.0,
+      "relative_error": 5.8958949499794155e-09,
+      "state": "zero"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "TET4",
+      "fd_step": 0.0001,
+      "minimum_det_f": 1.0,
+      "relative_error": 2.747749172074421e-08,
+      "state": "zero"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "TET4",
+      "fd_step": 1e-05,
+      "minimum_det_f": 1.0,
+      "relative_error": 2.786103451541627e-10,
+      "state": "zero"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "TET4",
+      "fd_step": 1e-06,
+      "minimum_det_f": 1.0,
+      "relative_error": 1.28823412320097e-10,
+      "state": "zero"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "TET4",
+      "fd_step": 1e-07,
+      "minimum_det_f": 1.0,
+      "relative_error": 3.375513617730158e-09,
+      "state": "zero"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "TET4",
+      "fd_step": 1e-08,
+      "minimum_det_f": 1.0,
+      "relative_error": 2.0911208145695746e-08,
+      "state": "zero"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "TET4",
+      "fd_step": 0.0001,
+      "minimum_det_f": 1.03,
+      "relative_error": 8.692893319739533e-09,
+      "state": "tension"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "TET4",
+      "fd_step": 1e-05,
+      "minimum_det_f": 1.03,
+      "relative_error": 8.883567685696733e-11,
+      "state": "tension"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "TET4",
+      "fd_step": 1e-06,
+      "minimum_det_f": 1.03,
+      "relative_error": 1.8385225624473047e-11,
+      "state": "tension"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "TET4",
+      "fd_step": 1e-07,
+      "minimum_det_f": 1.03,
+      "relative_error": 4.74184967528853e-10,
+      "state": "tension"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "TET4",
+      "fd_step": 1e-08,
+      "minimum_det_f": 1.03,
+      "relative_error": 6.229998877168551e-09,
+      "state": "tension"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "TET4",
+      "fd_step": 0.0001,
+      "minimum_det_f": 1.03,
+      "relative_error": 3.1340398994444047e-09,
+      "state": "tension"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "TET4",
+      "fd_step": 1e-05,
+      "minimum_det_f": 1.03,
+      "relative_error": 2.747436071832423e-11,
+      "state": "tension"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "TET4",
+      "fd_step": 1e-06,
+      "minimum_det_f": 1.03,
+      "relative_error": 1.4446264330014033e-10,
+      "state": "tension"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "TET4",
+      "fd_step": 1e-07,
+      "minimum_det_f": 1.03,
+      "relative_error": 4.826671802799781e-10,
+      "state": "tension"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "TET4",
+      "fd_step": 1e-08,
+      "minimum_det_f": 1.03,
+      "relative_error": 1.1830886808787995e-08,
+      "state": "tension"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "TET4",
+      "fd_step": 0.0001,
+      "minimum_det_f": 1.03,
+      "relative_error": 5.8881544651903265e-09,
+      "state": "tension"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "TET4",
+      "fd_step": 1e-05,
+      "minimum_det_f": 1.03,
+      "relative_error": 5.3515869810618285e-11,
+      "state": "tension"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "TET4",
+      "fd_step": 1e-06,
+      "minimum_det_f": 1.03,
+      "relative_error": 9.698204871429417e-11,
+      "state": "tension"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "TET4",
+      "fd_step": 1e-07,
+      "minimum_det_f": 1.03,
+      "relative_error": 1.807680398372352e-09,
+      "state": "tension"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "TET4",
+      "fd_step": 1e-08,
+      "minimum_det_f": 1.03,
+      "relative_error": 4.9567335238074736e-09,
+      "state": "tension"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "TET4",
+      "fd_step": 0.0001,
+      "minimum_det_f": 0.97,
+      "relative_error": 2.0627842784475104e-09,
+      "state": "compression"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "TET4",
+      "fd_step": 1e-05,
+      "minimum_det_f": 0.97,
+      "relative_error": 1.4587913695736355e-11,
+      "state": "compression"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "TET4",
+      "fd_step": 1e-06,
+      "minimum_det_f": 0.97,
+      "relative_error": 9.556851125522787e-11,
+      "state": "compression"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "TET4",
+      "fd_step": 1e-07,
+      "minimum_det_f": 0.97,
+      "relative_error": 1.2331932854992746e-09,
+      "state": "compression"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "TET4",
+      "fd_step": 1e-08,
+      "minimum_det_f": 0.97,
+      "relative_error": 8.722750849983209e-09,
+      "state": "compression"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "TET4",
+      "fd_step": 0.0001,
+      "minimum_det_f": 0.97,
+      "relative_error": 1.1040022636424353e-08,
+      "state": "compression"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "TET4",
+      "fd_step": 1e-05,
+      "minimum_det_f": 0.97,
+      "relative_error": 1.0746443146342785e-10,
+      "state": "compression"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "TET4",
+      "fd_step": 1e-06,
+      "minimum_det_f": 0.97,
+      "relative_error": 3.5392769818120267e-11,
+      "state": "compression"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "TET4",
+      "fd_step": 1e-07,
+      "minimum_det_f": 0.97,
+      "relative_error": 5.24903340222575e-10,
+      "state": "compression"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "TET4",
+      "fd_step": 1e-08,
+      "minimum_det_f": 0.97,
+      "relative_error": 2.574390666115266e-09,
+      "state": "compression"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "TET4",
+      "fd_step": 0.0001,
+      "minimum_det_f": 0.97,
+      "relative_error": 5.189940022400101e-09,
+      "state": "compression"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "TET4",
+      "fd_step": 1e-05,
+      "minimum_det_f": 0.97,
+      "relative_error": 5.6435639307702804e-11,
+      "state": "compression"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "TET4",
+      "fd_step": 1e-06,
+      "minimum_det_f": 0.97,
+      "relative_error": 1.8558918511466837e-10,
+      "state": "compression"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "TET4",
+      "fd_step": 1e-07,
+      "minimum_det_f": 0.97,
+      "relative_error": 2.508357915644496e-09,
+      "state": "compression"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "TET4",
+      "fd_step": 1e-08,
+      "minimum_det_f": 0.97,
+      "relative_error": 7.207646840125796e-09,
+      "state": "compression"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "TET4",
+      "fd_step": 0.0001,
+      "minimum_det_f": 1.0,
+      "relative_error": 5.7950560467370045e-09,
+      "state": "shear"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "TET4",
+      "fd_step": 1e-05,
+      "minimum_det_f": 1.0,
+      "relative_error": 5.673899678156952e-11,
+      "state": "shear"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "TET4",
+      "fd_step": 1e-06,
+      "minimum_det_f": 1.0,
+      "relative_error": 7.906971513266387e-11,
+      "state": "shear"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "TET4",
+      "fd_step": 1e-07,
+      "minimum_det_f": 1.0,
+      "relative_error": 3.580343448969142e-09,
+      "state": "shear"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "TET4",
+      "fd_step": 1e-08,
+      "minimum_det_f": 1.0,
+      "relative_error": 1.751718966100758e-08,
+      "state": "shear"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "TET4",
+      "fd_step": 0.0001,
+      "minimum_det_f": 1.0,
+      "relative_error": 9.436265082088326e-09,
+      "state": "shear"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "TET4",
+      "fd_step": 1e-05,
+      "minimum_det_f": 1.0,
+      "relative_error": 1.0316676208387937e-10,
+      "state": "shear"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "TET4",
+      "fd_step": 1e-06,
+      "minimum_det_f": 1.0,
+      "relative_error": 4.948177116541032e-11,
+      "state": "shear"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "TET4",
+      "fd_step": 1e-07,
+      "minimum_det_f": 1.0,
+      "relative_error": 3.3331277032356735e-10,
+      "state": "shear"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "TET4",
+      "fd_step": 1e-08,
+      "minimum_det_f": 1.0,
+      "relative_error": 3.396044512394503e-09,
+      "state": "shear"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "TET4",
+      "fd_step": 0.0001,
+      "minimum_det_f": 1.0,
+      "relative_error": 6.90470308059862e-09,
+      "state": "shear"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "TET4",
+      "fd_step": 1e-05,
+      "minimum_det_f": 1.0,
+      "relative_error": 7.432327536066896e-11,
+      "state": "shear"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "TET4",
+      "fd_step": 1e-06,
+      "minimum_det_f": 1.0,
+      "relative_error": 9.149664643303813e-11,
+      "state": "shear"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "TET4",
+      "fd_step": 1e-07,
+      "minimum_det_f": 1.0,
+      "relative_error": 1.749984608026418e-09,
+      "state": "shear"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "TET4",
+      "fd_step": 1e-08,
+      "minimum_det_f": 1.0,
+      "relative_error": 9.924834993371774e-09,
+      "state": "shear"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "TET4",
+      "fd_step": 0.0001,
+      "minimum_det_f": 1.01455,
+      "relative_error": 1.042453887168084e-08,
+      "state": "biaxial"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "TET4",
+      "fd_step": 1e-05,
+      "minimum_det_f": 1.01455,
+      "relative_error": 1.0526796453792243e-10,
+      "state": "biaxial"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "TET4",
+      "fd_step": 1e-06,
+      "minimum_det_f": 1.01455,
+      "relative_error": 1.7705637599995681e-10,
+      "state": "biaxial"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "TET4",
+      "fd_step": 1e-07,
+      "minimum_det_f": 1.01455,
+      "relative_error": 1.1581410527084156e-09,
+      "state": "biaxial"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "TET4",
+      "fd_step": 1e-08,
+      "minimum_det_f": 1.01455,
+      "relative_error": 1.0618531790882055e-08,
+      "state": "biaxial"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "TET4",
+      "fd_step": 0.0001,
+      "minimum_det_f": 1.01455,
+      "relative_error": 6.322186625196631e-09,
+      "state": "biaxial"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "TET4",
+      "fd_step": 1e-05,
+      "minimum_det_f": 1.01455,
+      "relative_error": 6.238069439269427e-11,
+      "state": "biaxial"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "TET4",
+      "fd_step": 1e-06,
+      "minimum_det_f": 1.01455,
+      "relative_error": 2.2723158495552302e-10,
+      "state": "biaxial"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "TET4",
+      "fd_step": 1e-07,
+      "minimum_det_f": 1.01455,
+      "relative_error": 1.2146685828305093e-09,
+      "state": "biaxial"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "TET4",
+      "fd_step": 1e-08,
+      "minimum_det_f": 1.01455,
+      "relative_error": 5.9962331191475556e-09,
+      "state": "biaxial"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "TET4",
+      "fd_step": 0.0001,
+      "minimum_det_f": 1.01455,
+      "relative_error": 8.387605126702262e-09,
+      "state": "biaxial"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "TET4",
+      "fd_step": 1e-05,
+      "minimum_det_f": 1.01455,
+      "relative_error": 8.084939680926617e-11,
+      "state": "biaxial"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "TET4",
+      "fd_step": 1e-06,
+      "minimum_det_f": 1.01455,
+      "relative_error": 1.842502310971944e-10,
+      "state": "biaxial"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "TET4",
+      "fd_step": 1e-07,
+      "minimum_det_f": 1.01455,
+      "relative_error": 5.768173531914719e-10,
+      "state": "biaxial"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "TET4",
+      "fd_step": 1e-08,
+      "minimum_det_f": 1.01455,
+      "relative_error": 2.09641137079784e-09,
+      "state": "biaxial"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "TET4",
+      "fd_step": 0.0001,
+      "minimum_det_f": 1.0,
+      "relative_error": 8.484450442340262e-09,
+      "state": "rotation"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "TET4",
+      "fd_step": 1e-05,
+      "minimum_det_f": 1.0,
+      "relative_error": 8.143688437332044e-11,
+      "state": "rotation"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "TET4",
+      "fd_step": 1e-06,
+      "minimum_det_f": 1.0,
+      "relative_error": 1.8559329371760744e-10,
+      "state": "rotation"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "TET4",
+      "fd_step": 1e-07,
+      "minimum_det_f": 1.0,
+      "relative_error": 1.2145871544361336e-09,
+      "state": "rotation"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "TET4",
+      "fd_step": 1e-08,
+      "minimum_det_f": 1.0,
+      "relative_error": 4.338125142123375e-09,
+      "state": "rotation"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "TET4",
+      "fd_step": 0.0001,
+      "minimum_det_f": 1.0,
+      "relative_error": 6.535732849663725e-09,
+      "state": "rotation"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "TET4",
+      "fd_step": 1e-05,
+      "minimum_det_f": 1.0,
+      "relative_error": 6.60660317150875e-11,
+      "state": "rotation"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "TET4",
+      "fd_step": 1e-06,
+      "minimum_det_f": 1.0,
+      "relative_error": 5.681012841565742e-11,
+      "state": "rotation"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "TET4",
+      "fd_step": 1e-07,
+      "minimum_det_f": 1.0,
+      "relative_error": 7.381465731479358e-10,
+      "state": "rotation"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "TET4",
+      "fd_step": 1e-08,
+      "minimum_det_f": 1.0,
+      "relative_error": 4.752971520675336e-09,
+      "state": "rotation"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "TET4",
+      "fd_step": 0.0001,
+      "minimum_det_f": 1.0,
+      "relative_error": 4.9605555907215146e-09,
+      "state": "rotation"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "TET4",
+      "fd_step": 1e-05,
+      "minimum_det_f": 1.0,
+      "relative_error": 4.8190461438648164e-11,
+      "state": "rotation"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "TET4",
+      "fd_step": 1e-06,
+      "minimum_det_f": 1.0,
+      "relative_error": 5.781133200808241e-10,
+      "state": "rotation"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "TET4",
+      "fd_step": 1e-07,
+      "minimum_det_f": 1.0,
+      "relative_error": 1.5599547748546944e-09,
+      "state": "rotation"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "TET4",
+      "fd_step": 1e-08,
+      "minimum_det_f": 1.0,
+      "relative_error": 1.5023913016385718e-08,
+      "state": "rotation"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "HEX8",
+      "fd_step": 0.0001,
+      "minimum_det_f": 1.0,
+      "relative_error": 3.446868780854384e-09,
+      "state": "zero"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "HEX8",
+      "fd_step": 1e-05,
+      "minimum_det_f": 1.0,
+      "relative_error": 3.987608878626527e-11,
+      "state": "zero"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "HEX8",
+      "fd_step": 1e-06,
+      "minimum_det_f": 1.0,
+      "relative_error": 3.4861961957322153e-10,
+      "state": "zero"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "HEX8",
+      "fd_step": 1e-07,
+      "minimum_det_f": 1.0,
+      "relative_error": 2.629246933598978e-09,
+      "state": "zero"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "HEX8",
+      "fd_step": 1e-08,
+      "minimum_det_f": 1.0,
+      "relative_error": 1.848039078093111e-08,
+      "state": "zero"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "HEX8",
+      "fd_step": 0.0001,
+      "minimum_det_f": 1.0,
+      "relative_error": 1.6163734797803923e-09,
+      "state": "zero"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "HEX8",
+      "fd_step": 1e-05,
+      "minimum_det_f": 1.0,
+      "relative_error": 2.0766956046538293e-11,
+      "state": "zero"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "HEX8",
+      "fd_step": 1e-06,
+      "minimum_det_f": 1.0,
+      "relative_error": 1.4185992626291712e-10,
+      "state": "zero"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "HEX8",
+      "fd_step": 1e-07,
+      "minimum_det_f": 1.0,
+      "relative_error": 9.435352596857981e-10,
+      "state": "zero"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "HEX8",
+      "fd_step": 1e-08,
+      "minimum_det_f": 1.0,
+      "relative_error": 1.5093603992774063e-08,
+      "state": "zero"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "HEX8",
+      "fd_step": 0.0001,
+      "minimum_det_f": 1.0,
+      "relative_error": 2.568214210034165e-09,
+      "state": "zero"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "HEX8",
+      "fd_step": 1e-05,
+      "minimum_det_f": 1.0,
+      "relative_error": 3.12205325712467e-11,
+      "state": "zero"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "HEX8",
+      "fd_step": 1e-06,
+      "minimum_det_f": 1.0,
+      "relative_error": 1.3224065871385778e-10,
+      "state": "zero"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "HEX8",
+      "fd_step": 1e-07,
+      "minimum_det_f": 1.0,
+      "relative_error": 1.2580639865757354e-09,
+      "state": "zero"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "HEX8",
+      "fd_step": 1e-08,
+      "minimum_det_f": 1.0,
+      "relative_error": 1.0340257078333494e-08,
+      "state": "zero"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "HEX8",
+      "fd_step": 0.0001,
+      "minimum_det_f": 1.03,
+      "relative_error": 2.3966345900572246e-09,
+      "state": "tension"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "HEX8",
+      "fd_step": 1e-05,
+      "minimum_det_f": 1.03,
+      "relative_error": 2.8246181021238203e-11,
+      "state": "tension"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "HEX8",
+      "fd_step": 1e-06,
+      "minimum_det_f": 1.03,
+      "relative_error": 2.0381301965062404e-10,
+      "state": "tension"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "HEX8",
+      "fd_step": 1e-07,
+      "minimum_det_f": 1.03,
+      "relative_error": 2.323435740488641e-09,
+      "state": "tension"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "HEX8",
+      "fd_step": 1e-08,
+      "minimum_det_f": 1.03,
+      "relative_error": 1.5356098234438636e-08,
+      "state": "tension"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "HEX8",
+      "fd_step": 0.0001,
+      "minimum_det_f": 1.03,
+      "relative_error": 3.467239074622687e-09,
+      "state": "tension"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "HEX8",
+      "fd_step": 1e-05,
+      "minimum_det_f": 1.03,
+      "relative_error": 4.0623243492761865e-11,
+      "state": "tension"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "HEX8",
+      "fd_step": 1e-06,
+      "minimum_det_f": 1.03,
+      "relative_error": 2.2086061100413507e-10,
+      "state": "tension"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "HEX8",
+      "fd_step": 1e-07,
+      "minimum_det_f": 1.03,
+      "relative_error": 2.0683200642278963e-09,
+      "state": "tension"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "HEX8",
+      "fd_step": 1e-08,
+      "minimum_det_f": 1.03,
+      "relative_error": 2.5905175211822825e-08,
+      "state": "tension"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "HEX8",
+      "fd_step": 0.0001,
+      "minimum_det_f": 1.03,
+      "relative_error": 2.1429749313203353e-09,
+      "state": "tension"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "HEX8",
+      "fd_step": 1e-05,
+      "minimum_det_f": 1.03,
+      "relative_error": 2.689558805839941e-11,
+      "state": "tension"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "HEX8",
+      "fd_step": 1e-06,
+      "minimum_det_f": 1.03,
+      "relative_error": 1.3993125097320166e-10,
+      "state": "tension"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "HEX8",
+      "fd_step": 1e-07,
+      "minimum_det_f": 1.03,
+      "relative_error": 1.5731392301546254e-09,
+      "state": "tension"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "HEX8",
+      "fd_step": 1e-08,
+      "minimum_det_f": 1.03,
+      "relative_error": 2.038225131211735e-08,
+      "state": "tension"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "HEX8",
+      "fd_step": 0.0001,
+      "minimum_det_f": 0.97,
+      "relative_error": 3.0426451525436765e-09,
+      "state": "compression"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "HEX8",
+      "fd_step": 1e-05,
+      "minimum_det_f": 0.97,
+      "relative_error": 3.6146709837664144e-11,
+      "state": "compression"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "HEX8",
+      "fd_step": 1e-06,
+      "minimum_det_f": 0.97,
+      "relative_error": 1.3308833077341734e-10,
+      "state": "compression"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "HEX8",
+      "fd_step": 1e-07,
+      "minimum_det_f": 0.97,
+      "relative_error": 3.460027791091672e-09,
+      "state": "compression"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "HEX8",
+      "fd_step": 1e-08,
+      "minimum_det_f": 0.97,
+      "relative_error": 1.3755168940751939e-08,
+      "state": "compression"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "HEX8",
+      "fd_step": 0.0001,
+      "minimum_det_f": 0.97,
+      "relative_error": 2.602833127203577e-09,
+      "state": "compression"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "HEX8",
+      "fd_step": 1e-05,
+      "minimum_det_f": 0.97,
+      "relative_error": 2.6408634359290664e-11,
+      "state": "compression"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "HEX8",
+      "fd_step": 1e-06,
+      "minimum_det_f": 0.97,
+      "relative_error": 1.8622705968367747e-10,
+      "state": "compression"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "HEX8",
+      "fd_step": 1e-07,
+      "minimum_det_f": 0.97,
+      "relative_error": 8.713535494821757e-10,
+      "state": "compression"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "HEX8",
+      "fd_step": 1e-08,
+      "minimum_det_f": 0.97,
+      "relative_error": 8.729437295081121e-09,
+      "state": "compression"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "HEX8",
+      "fd_step": 0.0001,
+      "minimum_det_f": 0.97,
+      "relative_error": 1.7611920015557458e-09,
+      "state": "compression"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "HEX8",
+      "fd_step": 1e-05,
+      "minimum_det_f": 0.97,
+      "relative_error": 2.833966028585627e-11,
+      "state": "compression"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "HEX8",
+      "fd_step": 1e-06,
+      "minimum_det_f": 0.97,
+      "relative_error": 1.6471526278093987e-10,
+      "state": "compression"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "HEX8",
+      "fd_step": 1e-07,
+      "minimum_det_f": 0.97,
+      "relative_error": 1.2845835748127605e-09,
+      "state": "compression"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "HEX8",
+      "fd_step": 1e-08,
+      "minimum_det_f": 0.97,
+      "relative_error": 2.441664290748631e-08,
+      "state": "compression"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "HEX8",
+      "fd_step": 0.0001,
+      "minimum_det_f": 1.0,
+      "relative_error": 2.3598646769219306e-09,
+      "state": "shear"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "HEX8",
+      "fd_step": 1e-05,
+      "minimum_det_f": 1.0,
+      "relative_error": 3.301003873840865e-11,
+      "state": "shear"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "HEX8",
+      "fd_step": 1e-06,
+      "minimum_det_f": 1.0,
+      "relative_error": 1.5224329339126275e-10,
+      "state": "shear"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "HEX8",
+      "fd_step": 1e-07,
+      "minimum_det_f": 1.0,
+      "relative_error": 2.2493481298967935e-09,
+      "state": "shear"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "HEX8",
+      "fd_step": 1e-08,
+      "minimum_det_f": 1.0,
+      "relative_error": 2.5081157914239614e-08,
+      "state": "shear"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "HEX8",
+      "fd_step": 0.0001,
+      "minimum_det_f": 1.0,
+      "relative_error": 2.021440399019637e-09,
+      "state": "shear"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "HEX8",
+      "fd_step": 1e-05,
+      "minimum_det_f": 1.0,
+      "relative_error": 3.3614858157478445e-11,
+      "state": "shear"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "HEX8",
+      "fd_step": 1e-06,
+      "minimum_det_f": 1.0,
+      "relative_error": 2.763166139255028e-10,
+      "state": "shear"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "HEX8",
+      "fd_step": 1e-07,
+      "minimum_det_f": 1.0,
+      "relative_error": 1.4187883342477619e-09,
+      "state": "shear"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "HEX8",
+      "fd_step": 1e-08,
+      "minimum_det_f": 1.0,
+      "relative_error": 3.6269560054542846e-08,
+      "state": "shear"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "HEX8",
+      "fd_step": 0.0001,
+      "minimum_det_f": 1.0,
+      "relative_error": 1.616212017509309e-09,
+      "state": "shear"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "HEX8",
+      "fd_step": 1e-05,
+      "minimum_det_f": 1.0,
+      "relative_error": 2.2175495459696958e-11,
+      "state": "shear"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "HEX8",
+      "fd_step": 1e-06,
+      "minimum_det_f": 1.0,
+      "relative_error": 1.12398111951822e-10,
+      "state": "shear"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "HEX8",
+      "fd_step": 1e-07,
+      "minimum_det_f": 1.0,
+      "relative_error": 8.113745935338212e-10,
+      "state": "shear"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "HEX8",
+      "fd_step": 1e-08,
+      "minimum_det_f": 1.0,
+      "relative_error": 1.9999705616159426e-08,
+      "state": "shear"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "HEX8",
+      "fd_step": 0.0001,
+      "minimum_det_f": 1.01455,
+      "relative_error": 1.6028270363565575e-09,
+      "state": "biaxial"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "HEX8",
+      "fd_step": 1e-05,
+      "minimum_det_f": 1.01455,
+      "relative_error": 2.075008460587224e-11,
+      "state": "biaxial"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "HEX8",
+      "fd_step": 1e-06,
+      "minimum_det_f": 1.01455,
+      "relative_error": 1.1454387947695292e-10,
+      "state": "biaxial"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "HEX8",
+      "fd_step": 1e-07,
+      "minimum_det_f": 1.01455,
+      "relative_error": 1.002381681282236e-09,
+      "state": "biaxial"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "HEX8",
+      "fd_step": 1e-08,
+      "minimum_det_f": 1.01455,
+      "relative_error": 1.9824424694469703e-08,
+      "state": "biaxial"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "HEX8",
+      "fd_step": 0.0001,
+      "minimum_det_f": 1.01455,
+      "relative_error": 3.2116024649268202e-09,
+      "state": "biaxial"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "HEX8",
+      "fd_step": 1e-05,
+      "minimum_det_f": 1.01455,
+      "relative_error": 4.1706943436139156e-11,
+      "state": "biaxial"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "HEX8",
+      "fd_step": 1e-06,
+      "minimum_det_f": 1.01455,
+      "relative_error": 2.0802015098351614e-10,
+      "state": "biaxial"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "HEX8",
+      "fd_step": 1e-07,
+      "minimum_det_f": 1.01455,
+      "relative_error": 1.8864323036166028e-09,
+      "state": "biaxial"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "HEX8",
+      "fd_step": 1e-08,
+      "minimum_det_f": 1.01455,
+      "relative_error": 4.642728738905384e-08,
+      "state": "biaxial"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "HEX8",
+      "fd_step": 0.0001,
+      "minimum_det_f": 1.01455,
+      "relative_error": 1.9710300921594453e-09,
+      "state": "biaxial"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "HEX8",
+      "fd_step": 1e-05,
+      "minimum_det_f": 1.01455,
+      "relative_error": 3.1157812368473035e-11,
+      "state": "biaxial"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "HEX8",
+      "fd_step": 1e-06,
+      "minimum_det_f": 1.01455,
+      "relative_error": 2.1372460588834235e-10,
+      "state": "biaxial"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "HEX8",
+      "fd_step": 1e-07,
+      "minimum_det_f": 1.01455,
+      "relative_error": 1.2260976269468684e-09,
+      "state": "biaxial"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "HEX8",
+      "fd_step": 1e-08,
+      "minimum_det_f": 1.01455,
+      "relative_error": 1.297578073875793e-08,
+      "state": "biaxial"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "HEX8",
+      "fd_step": 0.0001,
+      "minimum_det_f": 1.0,
+      "relative_error": 2.1306439791479336e-09,
+      "state": "rotation"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "HEX8",
+      "fd_step": 1e-05,
+      "minimum_det_f": 1.0,
+      "relative_error": 2.439356028845082e-11,
+      "state": "rotation"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "HEX8",
+      "fd_step": 1e-06,
+      "minimum_det_f": 1.0,
+      "relative_error": 1.4240965833194274e-10,
+      "state": "rotation"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "HEX8",
+      "fd_step": 1e-07,
+      "minimum_det_f": 1.0,
+      "relative_error": 1.263533580070167e-09,
+      "state": "rotation"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 0,
+      "family": "HEX8",
+      "fd_step": 1e-08,
+      "minimum_det_f": 1.0,
+      "relative_error": 1.1326130458590306e-08,
+      "state": "rotation"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "HEX8",
+      "fd_step": 0.0001,
+      "minimum_det_f": 1.0,
+      "relative_error": 1.318291068871271e-09,
+      "state": "rotation"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "HEX8",
+      "fd_step": 1e-05,
+      "minimum_det_f": 1.0,
+      "relative_error": 1.471612877787009e-11,
+      "state": "rotation"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "HEX8",
+      "fd_step": 1e-06,
+      "minimum_det_f": 1.0,
+      "relative_error": 6.1927154049527e-11,
+      "state": "rotation"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "HEX8",
+      "fd_step": 1e-07,
+      "minimum_det_f": 1.0,
+      "relative_error": 7.538267538918285e-10,
+      "state": "rotation"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 1,
+      "family": "HEX8",
+      "fd_step": 1e-08,
+      "minimum_det_f": 1.0,
+      "relative_error": 9.984343172379596e-09,
+      "state": "rotation"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "HEX8",
+      "fd_step": 0.0001,
+      "minimum_det_f": 1.0,
+      "relative_error": 2.4375792173247457e-09,
+      "state": "rotation"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "HEX8",
+      "fd_step": 1e-05,
+      "minimum_det_f": 1.0,
+      "relative_error": 3.189644808181746e-11,
+      "state": "rotation"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "HEX8",
+      "fd_step": 1e-06,
+      "minimum_det_f": 1.0,
+      "relative_error": 1.4160490949567875e-10,
+      "state": "rotation"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "HEX8",
+      "fd_step": 1e-07,
+      "minimum_det_f": 1.0,
+      "relative_error": 1.320903618537033e-09,
+      "state": "rotation"
+    },
+    {
+      "classification": "OBSERVATION_ONLY",
+      "direction": 2,
+      "family": "HEX8",
+      "fd_step": 1e-08,
+      "minimum_det_f": 1.0,
+      "relative_error": 1.8130972215473647e-08,
+      "state": "rotation"
+    }
+  ],
+  "tangent_fd_policy": {
+    "fd_steps": [
+      0.0001,
+      1e-05,
+      1e-06,
+      1e-07,
+      1e-08
+    ],
+    "justification": "Multiple-state and step stability must be reviewed before setting a numerical band.",
+    "metric": "relative norm of analytic tangent action versus centered FD action",
+    "states": [
+      "zero",
+      "tension",
+      "compression",
+      "shear",
+      "biaxial",
+      "rotation"
+    ],
+    "status": "PROPOSED_OWNER_REVIEW",
+    "threshold": "UNDEFINED_OWNER_BAND"
+  },
+  "timestamp_utc": "2026-08-30T08:51:22.678749+00:00",
+  "unexpected_failures": []
+}
