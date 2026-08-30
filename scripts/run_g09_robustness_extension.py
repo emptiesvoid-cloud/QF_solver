@@ -356,6 +356,34 @@ def _run_rollback_matrix() -> dict[str, Any]:
     }
 
 
+def _external_extension_summary() -> dict[str, Any]:
+    """Reuse the controlled Lot 3 archive instead of rerunning an external tool."""
+
+    archive_path = ROOT / "qualification" / "0_2_6" / "g09_lot3_evidence.json"
+    archive = json.loads(archive_path.read_text(encoding="utf-8"))
+    mesh_study = archive["external_mesh_study"]
+    curve = archive["cases"]["tet4_two_slave_curve"]
+    return {
+        "status": "PASS_WITH_LIMITATIONS",
+        "execution": "REUSED_CONTROLLED_ARCHIVE",
+        "archive": "qualification/0_2_6/g09_lot3_evidence.json",
+        "execution_source_sha": archive["source_sha"],
+        "source_dirty": archive["source_dirty"],
+        "external_solvers": archive["external_solvers"],
+        "mesh_levels": [level["label"] for level in mesh_study["levels"]],
+        "load_intensity_points": curve["load_points"],
+        "active_branch_errors": {
+            "displacement": curve["active_displacement_curve_error"],
+            "gap": curve["active_gap_curve_error"],
+        },
+        "transition_warnings": [
+            level["transition_warning_value"] for level in mesh_study["levels"]
+        ],
+        "interpretation": mesh_study["interpretation"],
+        "new_external_run": False,
+    }
+
+
 def run(output: Path, expected_sha: str = SOURCE_SHA_DEFAULT) -> dict[str, Any]:
     source = _source_state(expected_sha)
     penalty_mesh = _run_penalty_mesh_matrix()
@@ -364,6 +392,7 @@ def run(output: Path, expected_sha: str = SOURCE_SHA_DEFAULT) -> dict[str, Any]:
     cycles = _run_long_cycles()
     rollback = _run_rollback_matrix()
     adversarial = _run_adversarial()
+    external = _external_extension_summary()
     unexpected = []
     for group_name, group in (
         ("penalty_mesh", penalty_mesh),
@@ -407,6 +436,7 @@ def run(output: Path, expected_sha: str = SOURCE_SHA_DEFAULT) -> dict[str, Any]:
         "cycles": cycles,
         "rollback": rollback,
         "adversarial": adversarial,
+        "external_extension": external,
         "force_equilibrium": {
             "status": "PASS" if penalty_mesh["equilibrium_pass"] else "FAIL",
             "limit": EQUILIBRIUM_LIMIT,
