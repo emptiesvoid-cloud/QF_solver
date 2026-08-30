@@ -825,6 +825,19 @@
     }
   ],
   "status": "COMPLETE_WITH_RESOURCE_LIMIT",
+  "requested_targets": {
+    "low_order": [
+      1000,
+      2000,
+      3000
+    ],
+    "high_order": [
+      100,
+      1000,
+      2000
+    ],
+    "measured_repetitions": 3
+  },
   "by_family": {
     "TET4": {
       "rows": [
@@ -895,6 +908,33 @@
           "finite_metrics": true,
           "max_relative_residual_norm": 1.1133502710150395e-11,
           "actual_dofs": 1029,
+          "repetition_statistics": {
+            "assembly_seconds": {
+              "mean": 2.4255264999810606,
+              "median": 2.429408199968748,
+              "population_stddev": 0.02422975710702701
+            },
+            "linear_solve_seconds": {
+              "mean": 0.014954199975666901,
+              "median": 0.015081399993505329,
+              "population_stddev": 0.0005977048256208691
+            },
+            "total_seconds": {
+              "mean": 4.253224166672832,
+              "median": 4.293320400000084,
+              "population_stddev": 0.061298726256218926
+            },
+            "peak_rss_bytes": {
+              "mean": 89867605.33333333,
+              "median": 90595328.0,
+              "population_stddev": 1385047.0551403258
+            },
+            "tracemalloc_peak_bytes": {
+              "mean": 4094239.6666666665,
+              "median": 4089314.0,
+              "population_stddev": 18732.519857782674
+            }
+          },
           "assembly_seconds": 2.4255264999810606,
           "linear_solve_seconds": 0.014954199975666901,
           "total_seconds": 4.253224166672832,
@@ -968,6 +1008,33 @@
           "finite_metrics": true,
           "max_relative_residual_norm": 8.695491596783681e-12,
           "actual_dofs": 2187,
+          "repetition_statistics": {
+            "assembly_seconds": {
+              "mean": 8.39494976667144,
+              "median": 8.586305600008927,
+              "population_stddev": 0.49836541361955944
+            },
+            "linear_solve_seconds": {
+              "mean": 0.02310910002173235,
+              "median": 0.022974100022111088,
+              "population_stddev": 0.0006796124332926936
+            },
+            "total_seconds": {
+              "mean": 12.530168299990086,
+              "median": 12.53153989999555,
+              "population_stddev": 0.6518552576120958
+            },
+            "peak_rss_bytes": {
+              "mean": 104413866.66666667,
+              "median": 106364928.0,
+              "population_stddev": 2814426.613702731
+            },
+            "tracemalloc_peak_bytes": {
+              "mean": 9168878.0,
+              "median": 9050048.0,
+              "population_stddev": 168198.80457561722
+            }
+          },
           "assembly_seconds": 8.39494976667144,
           "linear_solve_seconds": 0.02310910002173235,
           "total_seconds": 12.530168299990086,
@@ -1041,6 +1108,33 @@
           "finite_metrics": true,
           "max_relative_residual_norm": 8.585237738069959e-12,
           "actual_dofs": 3000,
+          "repetition_statistics": {
+            "assembly_seconds": {
+              "mean": 13.531443399998048,
+              "median": 13.003847100015264,
+              "population_stddev": 0.7714907143766017
+            },
+            "linear_solve_seconds": {
+              "mean": 0.030274633356990915,
+              "median": 0.030465100018773228,
+              "population_stddev": 0.0004943105579936541
+            },
+            "total_seconds": {
+              "mean": 19.248684500014253,
+              "median": 19.038046100002248,
+              "population_stddev": 0.6736061238191575
+            },
+            "peak_rss_bytes": {
+              "mean": 117660330.66666667,
+              "median": 119222272.0,
+              "population_stddev": 2361128.3748520655
+            },
+            "tracemalloc_peak_bytes": {
+              "mean": 12845306.0,
+              "median": 12754869.0,
+              "population_stddev": 128646.78448371727
+            }
+          },
           "assembly_seconds": 13.531443399998048,
           "linear_solve_seconds": 0.030274633356990915,
           "total_seconds": 19.248684500014253,
@@ -1122,6 +1216,33 @@
           "finite_metrics": true,
           "max_relative_residual_norm": 9.112949606511341e-12,
           "actual_dofs": 1029,
+          "repetition_statistics": {
+            "assembly_seconds": {
+              "mean": 4.270517066683776,
+              "median": 4.260626900009811,
+              "population_stddev": 0.029204139036660855
+            },
+            "linear_solve_seconds": {
+              "mean": 0.0088921666610986,
+              "median": 0.008822700008749962,
+              "population_stddev": 0.00011231178169549302
+            },
+            "total_seconds": {
+              "mean": 4.675713633322933,
+              "median": 4.667426300002262,
+              "population_stddev": 0.03462415683997846
+            },
+            "peak_rss_bytes": {
+              "mean": 102001322.66666667,
+              "median": 102023168.0,
+              "population_stddev": 36838.70737266562
+            },
+            "tracemalloc_peak_bytes": {
+              "mean": 4591720.333333333,
+              "median": 4590460.0,
+              "population_stddev": 1960.3592074469982
+            }
+          },
           "assembly_seconds": 4.270517066683776,
           "linear_solve_seconds": 0.0088921666610986,
           "total_seconds": 4.675713633322933,
@@ -1195,6 +1316,33 @@
           "finite_metrics": true,
           "max_relative_residual_norm": 6.41378657926164e-12,
           "actual_dofs": 2187,
+          "repetition_statistics": {
+            "assembly_seconds": {
+              "mean": 12.41699306666851,
+              "median": 12.454644299985375,
+              "population_stddev": 0.15773048926775532
+            },
+            "linear_solve_seconds": {
+              "mean": 0.016699200011013698,
+              "median": 0.016449299990199506,
+              "population_stddev": 0.0008258653196747996
+            },
+            "total_seconds": {
+              "mean": 13.350266599988876,
+              "median": 13.37564929999644,
+              "population_stddev": 0.20416826651899914
+            },
+            "peak_rss_bytes": {
+              "mean": 107046229.33333333,
+              "median": 106582016.0,
+              "population_stddev": 703346.7987033296
+            },
+            "tracemalloc_peak_bytes": {
+              "mean": 9671771.333333334,
+              "median": 9671649.0,
+              "population_stddev": 309.14541705949466
+            }
+          },
           "assembly_seconds": 12.41699306666851,
           "linear_solve_seconds": 0.016699200011013698,
           "total_seconds": 13.350266599988876,
@@ -1268,6 +1416,33 @@
           "finite_metrics": true,
           "max_relative_residual_norm": 9.67963408296239e-12,
           "actual_dofs": 3000,
+          "repetition_statistics": {
+            "assembly_seconds": {
+              "mean": 20.452839399998386,
+              "median": 20.75589080003556,
+              "population_stddev": 0.8225400905618392
+            },
+            "linear_solve_seconds": {
+              "mean": 0.02228503334724034,
+              "median": 0.022439500025939196,
+              "population_stddev": 0.0003130404193420239
+            },
+            "total_seconds": {
+              "mean": 21.776384200008277,
+              "median": 22.09753400000045,
+              "population_stddev": 0.8803072037188788
+            },
+            "peak_rss_bytes": {
+              "mean": 111247360.0,
+              "median": 111443968.0,
+              "population_stddev": 582045.2991672269
+            },
+            "tracemalloc_peak_bytes": {
+              "mean": 13789224.333333334,
+              "median": 13734250.0,
+              "population_stddev": 102500.9347415373
+            }
+          },
           "assembly_seconds": 20.452839399998386,
           "linear_solve_seconds": 0.02228503334724034,
           "total_seconds": 21.776384200008277,
@@ -1349,6 +1524,33 @@
           "finite_metrics": true,
           "max_relative_residual_norm": 3.8080335583170215e-17,
           "actual_dofs": 1020,
+          "repetition_statistics": {
+            "assembly_seconds": {
+              "mean": 1.7738937000006747,
+              "median": 1.7640151000232436,
+              "population_stddev": 0.015033745405279157
+            },
+            "linear_solve_seconds": {
+              "mean": 0.0026556000035877028,
+              "median": 0.002609000017400831,
+              "population_stddev": 6.989955815122656e-05
+            },
+            "total_seconds": {
+              "mean": 2.5308839333010837,
+              "median": 2.5206107999547385,
+              "population_stddev": 0.017230360133781084
+            },
+            "peak_rss_bytes": {
+              "mean": 102189738.66666667,
+              "median": 102137856.0,
+              "population_stddev": 145175.4509764727
+            },
+            "tracemalloc_peak_bytes": {
+              "mean": 2212092.6666666665,
+              "median": 2211760.0,
+              "population_stddev": 480.3952076733859
+            }
+          },
           "assembly_seconds": 1.7738937000006747,
           "linear_solve_seconds": 0.0026556000035877028,
           "total_seconds": 2.5308839333010837,
@@ -1422,6 +1624,33 @@
           "finite_metrics": true,
           "max_relative_residual_norm": 4.8904013718776074e-17,
           "actual_dofs": 2010,
+          "repetition_statistics": {
+            "assembly_seconds": {
+              "mean": 6.202362366660964,
+              "median": 6.199175700021442,
+              "population_stddev": 0.061388349571417845
+            },
+            "linear_solve_seconds": {
+              "mean": 0.002794933330733329,
+              "median": 0.002617499965708703,
+              "population_stddev": 0.0002777214924258568
+            },
+            "total_seconds": {
+              "mean": 7.574929933315919,
+              "median": 7.583744300005492,
+              "population_stddev": 0.0825869176474346
+            },
+            "peak_rss_bytes": {
+              "mean": 105708202.66666667,
+              "median": 105947136.0,
+              "population_stddev": 776112.4415398125
+            },
+            "tracemalloc_peak_bytes": {
+              "mean": 4041939.3333333335,
+              "median": 4041698.0,
+              "population_stddev": 1376.6167061152335
+            }
+          },
           "assembly_seconds": 6.202362366660964,
           "linear_solve_seconds": 0.002794933330733329,
           "total_seconds": 7.574929933315919,
@@ -1495,6 +1724,33 @@
           "finite_metrics": true,
           "max_relative_residual_norm": 0.0,
           "actual_dofs": 120,
+          "repetition_statistics": {
+            "assembly_seconds": {
+              "mean": 0.05989360000239685,
+              "median": 0.06006450002314523,
+              "population_stddev": 0.0009486994898182386
+            },
+            "linear_solve_seconds": {
+              "mean": 0.0027734666558293006,
+              "median": 0.002727899991441518,
+              "population_stddev": 0.0002354472936736952
+            },
+            "total_seconds": {
+              "mean": 0.31207273332014057,
+              "median": 0.31465439999010414,
+              "population_stddev": 0.00448404661905741
+            },
+            "peak_rss_bytes": {
+              "mean": 80287061.33333333,
+              "median": 80445440.0,
+              "population_stddev": 265563.4755073738
+            },
+            "tracemalloc_peak_bytes": {
+              "mean": 583402.0,
+              "median": 583400.0,
+              "population_stddev": 1414.1727852941685
+            }
+          },
           "assembly_seconds": 0.05989360000239685,
           "linear_solve_seconds": 0.0027734666558293006,
           "total_seconds": 0.31207273332014057,
@@ -1576,6 +1832,33 @@
           "finite_metrics": true,
           "max_relative_residual_norm": 0.0,
           "actual_dofs": 120,
+          "repetition_statistics": {
+            "assembly_seconds": {
+              "mean": 0.4359964666655287,
+              "median": 0.44143190002068877,
+              "population_stddev": 0.02741845213009955
+            },
+            "linear_solve_seconds": {
+              "mean": 0.002721466628524164,
+              "median": 0.0026930999592877924,
+              "population_stddev": 7.385211485546384e-05
+            },
+            "total_seconds": {
+              "mean": 1.0939667000008437,
+              "median": 1.1051219000364654,
+              "population_stddev": 0.04165916182191106
+            },
+            "peak_rss_bytes": {
+              "mean": 80661162.66666667,
+              "median": 80662528.0,
+              "population_stddev": 18419.353686332815
+            },
+            "tracemalloc_peak_bytes": {
+              "mean": 594335.0,
+              "median": 592989.0,
+              "population_stddev": 2379.499667297028
+            }
+          },
           "assembly_seconds": 0.4359964666655287,
           "linear_solve_seconds": 0.002721466628524164,
           "total_seconds": 1.0939667000008437,
@@ -1649,6 +1932,33 @@
           "finite_metrics": true,
           "max_relative_residual_norm": 0.0,
           "actual_dofs": 1020,
+          "repetition_statistics": {
+            "assembly_seconds": {
+              "mean": 4.043587533330235,
+              "median": 4.050265700032469,
+              "population_stddev": 0.010540436205193206
+            },
+            "linear_solve_seconds": {
+              "mean": 0.0026077666552737355,
+              "median": 0.0025507999816909432,
+              "population_stddev": 0.00011211993698586532
+            },
+            "total_seconds": {
+              "mean": 6.037391566671431,
+              "median": 6.032542300003115,
+              "population_stddev": 0.0074672971985908524
+            },
+            "peak_rss_bytes": {
+              "mean": 85602304.0,
+              "median": 85852160.0,
+              "population_stddev": 777830.2921537576
+            },
+            "tracemalloc_peak_bytes": {
+              "mean": 3619894.6666666665,
+              "median": 3616166.0,
+              "population_stddev": 5371.718553891504
+            }
+          },
           "assembly_seconds": 4.043587533330235,
           "linear_solve_seconds": 0.0026077666552737355,
           "total_seconds": 6.037391566671431,
@@ -1722,6 +2032,33 @@
           "finite_metrics": true,
           "max_relative_residual_norm": 2.6926863520719043e-17,
           "actual_dofs": 2040,
+          "repetition_statistics": {
+            "assembly_seconds": {
+              "mean": 9.658449833300741,
+              "median": 9.640017999976408,
+              "population_stddev": 0.14582564226800077
+            },
+            "linear_solve_seconds": {
+              "mean": 0.0029272333291980126,
+              "median": 0.00279119994957,
+              "population_stddev": 0.00031724214722288224
+            },
+            "total_seconds": {
+              "mean": 13.824482633344209,
+              "median": 13.927339299989399,
+              "population_stddev": 0.23427176785821857
+            },
+            "peak_rss_bytes": {
+              "mean": 91372202.66666667,
+              "median": 91721728.0,
+              "population_stddev": 1219252.6046627455
+            },
+            "tracemalloc_peak_bytes": {
+              "mean": 7157889.666666667,
+              "median": 7157845.0,
+              "population_stddev": 293.1954221258503
+            }
+          },
           "assembly_seconds": 9.658449833300741,
           "linear_solve_seconds": 0.0029272333291980126,
           "total_seconds": 13.824482633344209,
