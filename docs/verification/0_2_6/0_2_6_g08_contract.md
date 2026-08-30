@@ -103,17 +103,36 @@ eigensolver or solver behavior changed. The regression test is
 The controlled rescue evidence is archived in
 `qualification/0_2_6/g08_hex20_calculix_rescue_evidence.json` and
 `qualification/0_2_6/g08_hex20_calculix_rescue_evidence.md`. It runs the same
-HEX20/C3D20 model at one and two cells, with deterministic replays. The QF /
-CalculiX factor differences are `1.696%` and `2.094%`, respectively, inside
-the pre-existing 10% bounded correlation screen. First-mode comparisons are
-reported after arbitrary eigenvector sign alignment without inventing an
-external MAC threshold.
+HEX20/C3D20 model at one, two and four cells, with deterministic replays. The
+QF / CalculiX factor differences are `1.696%`, `2.094%` and `0.738%`,
+respectively, inside the pre-existing 10% bounded correlation screen.
+First-mode comparisons are reported after arbitrary eigenvector sign alignment
+without inventing an external MAC threshold.
 
 This rescue resolves the malformed-deck blocker for the tested cases, but it
 does not rewrite the historical closeout, promote HEX20 automatically, or
 change the G08 status from `PASS_WITH_LIMITATIONS`. Mesh-sensitivity limits,
-absence of a high-order analytical oracle and the lack of a Code_Aster
-equivalent remain explicit.
+the failed high-order analytical screen and the lack of a Code_Aster equivalent
+remain explicit.
+
+## Independent high-order analytical screen
+
+The supplemental analytical evidence is archived in
+`qualification/0_2_6/g08_high_order_analytical_evidence.json` and
+`qualification/0_2_6/g08_high_order_analytical_evidence.md`. It declares a
+fixed-free homogeneous isotropic solid column, `Pcr = pi^2 E I / (4 L^2)`,
+`E=1e6`, `L=4`, `b=h=0.5`, and a uniformly distributed nodal dead load before
+execution. TET10, HEX8 and HEX20 are each tested at lengthwise levels 1, 2 and
+3, with a replay of the final level.
+
+The QF eigenpair residuals and mode norms are finite and replay-deterministic,
+but the Euler relative-error screen fails for all three families and the
+critical-load trend moves away from the declared Euler oracle. This is retained
+as a diagnostic negative result: the study does not promote TET10, HEX8 or
+HEX20, does not alter the G08 policy, and does not identify a solver defect by
+itself. The one-layer transverse discretization is a stated limitation of this
+screen, so a future correction campaign must first establish a comparable solid
+Euler model before any analytical promotion decision.
 
 ## Owner closeout
 
