@@ -12,7 +12,7 @@
 | `026-G07` | Geometric nonlinear and arc-length review | NOT_STARTED |
 | `026-G08` | Buckling maturity extension | PASS_WITH_LIMITATIONS |
 | `026-G09` | Contact maturity extension | PASS_WITH_LIMITATIONS |
-| `026-G10` | Advanced Nonlinear / Research Audit | IN_PROGRESS |
+| `026-G10` | Advanced Nonlinear / Research Audit | PASS_WITH_LIMITATIONS |
 | `026-G11` | Adversarial / failure / metamorphic | PASS_WITH_LIMITATIONS |
 | `026-G12` | Performance / scalability | IN_PROGRESS |
 | `026-G13` | External correlation aggregation | NOT_STARTED |
@@ -53,16 +53,21 @@ universal conditioning cutoff. The candidate `1e4..1e6` interval remains
 `EXPERIMENTAL_ONLY`, and the mesh-dependent transition warning is retained
 explicitly.
 
-`026-G10` is `IN_PROGRESS`. Lot 1 records a controlled audit of existing
-nonlinear and research routes in
+`026-G10` is `PASS_WITH_LIMITATIONS`. Lot 1 records a controlled audit of
+existing nonlinear and research routes in
 `qualification/0_2_6/g10_research_audit_matrix.json` and
 `0_2_6_g10_lot1.md`; the adversarial review is recorded in
-`0_2_6_g10_owner_review_lot1.md`. The targeted audit passed 171 tests with no failures;
-full regression is deferred by policy. Existing small-strain J2 remains within
-the bounded G06 scope. Total-Lagrangian elasticity, arc-length, J2 plus
-geometry, geometry plus contact and triple coupling remain experimental or
-not qualified under their existing ownership and limitations. Finite-kinematic
-J2 remains research-only. G10-LOT1 does not change G07, G08, G09, G11 or G12.
+`0_2_6_g10_owner_review_lot1.md`. The selected external campaign and final
+Owner classification are recorded in
+`0_2_6_g10_selected_external_campaign.md` and
+`0_2_6_g10_owner_closeout.md`. The closeout passed the applicable targeted
+controls with no functional source change or numerical regression; full
+regression was skipped by policy. Existing small-strain J2, transaction and
+failure diagnostics retain their bounded ownership. Total-Lagrangian
+elasticity and arc-length remain G07-owned and deferred; finite-kinematic J2
+and the coupled routes remain experimental, deferred or not qualified under
+their explicit classifications. G10 does not change G07, G08, G09, G11 or
+G12.
 
 `026-G12` is `IN_PROGRESS`. The optimization checkpoint is qualified for
 integration only; its evidence records sparse load accumulation, load-balance

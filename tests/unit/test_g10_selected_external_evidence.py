@@ -9,6 +9,7 @@ ROOT = Path(__file__).parents[2]
 EVIDENCE = ROOT / "qualification" / "0_2_6" / "g10_selected_external_evidence.json"
 MANIFEST = ROOT / "qualification" / "0_2_6" / "g10_selected_external_manifest.json"
 GATES = ROOT / "qualification" / "0_2_6" / "gates.json"
+CLOSEOUT = ROOT / "qualification" / "0_2_6" / "g10_owner_closeout.json"
 SOURCE_SHA = "efed8c3e1bcf173d335b3b9a605febd0fa1084cb"
 
 
@@ -50,11 +51,28 @@ def test_selected_external_manifest_matches_committed_artifacts() -> None:
         assert _sha256(path) == artifact["sha256"], artifact["path"]
 
 
-def test_gate_registry_links_selected_external_pack_without_closing_g10() -> None:
+def test_gate_registry_links_selected_external_pack_and_owner_closeout() -> None:
     gates = _load(GATES)
     gate = next(item for item in gates["gates"] if item["id"] == "026-G10")
 
-    assert gate["status"] == "IN_PROGRESS"
+    assert gate["status"] == "PASS_WITH_LIMITATIONS"
     assert "g10_selected_external_evidence.json" in gate["evidence_ids"]
     assert "g10_selected_external_manifest.json" in gate["evidence_ids"]
     assert "0_2_6_g10_selected_external_campaign.md" in gate["evidence_ids"]
+    assert "g10_owner_closeout.json" in gate["evidence_ids"]
+    assert "0_2_6_g10_owner_closeout.md" in gate["evidence_ids"]
+
+
+def test_owner_closeout_keeps_g07_routes_deferred_and_bounded() -> None:
+    closeout = _load(CLOSEOUT)
+
+    assert closeout["status"] == "PASS_WITH_LIMITATIONS"
+    assert closeout["execution_source_sha"] == "9b4a44d61132a28fe9161f4aa8f04e838afc5f32"
+    assert closeout["execution_worktree_dirty"] is False
+    assert closeout["blocking_requirements"] == []
+    assert closeout["functional_source_changed"] is False
+    assert closeout["numerical_regression_detected"] is False
+    assert closeout["route_classifications"]["arc_length_continuation"] == "OWNER_DEFERRED"
+    assert closeout["route_classifications"]["total_lagrangian_elasticity"] == "OWNER_DEFERRED"
+    assert closeout["route_classifications"]["finite_kinematic_j2"] == "OWNER_NOT_QUALIFIED"
+    assert closeout["decision"]["g07_state_unchanged"] is True

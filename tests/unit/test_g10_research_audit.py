@@ -7,6 +7,7 @@ from pathlib import Path
 ROOT = Path(__file__).parents[2]
 MATRIX_PATH = ROOT / "qualification" / "0_2_6" / "g10_research_audit_matrix.json"
 GATES_PATH = ROOT / "qualification" / "0_2_6" / "gates.json"
+GATE_DOC_PATH = ROOT / "docs" / "verification" / "0_2_6" / "0_2_6_gate_matrix.md"
 
 
 def _load_json(path: Path) -> dict:
@@ -21,7 +22,7 @@ def test_g10_audit_matrix_has_controlled_provenance_and_scope() -> None:
     matrix = _load_json(MATRIX_PATH)
 
     assert matrix["gate"] == "026-G10"
-    assert matrix["status"] == "IN_PROGRESS"
+    assert matrix["status"] == "PASS_WITH_LIMITATIONS"
     assert matrix["lot"] == "G10-LOT1"
     assert matrix["provenance"]["execution_source_sha"] == (
         "51b3a7c8ace6731830109984a01ce31f79c44401"
@@ -57,9 +58,9 @@ def test_g10_audit_does_not_promote_deferred_research_routes() -> None:
     decision = matrix["decision"]
 
     assert "finite_kinematic_j2" in decision["not_qualified"]
-    assert "arc_length_continuation" in decision["experimental_only"]
-    assert "j2_plus_geometry_plus_contact" in decision["experimental_only"]
-    assert decision["owner_closeout"] is False
+    assert "arc_length_continuation" in decision["deferred"]
+    assert "j2_plus_geometry_plus_contact" in decision["not_qualified"]
+    assert decision["owner_closeout"] is True
     assert matrix["external_correlation"]["status"] == "DEFERRED_LIMITATION"
 
 
@@ -85,7 +86,7 @@ def test_g10_gate_registry_points_to_controlled_evidence() -> None:
     gates = _load_json(GATES_PATH)
     gate = _gate_record(gates, "026-G10")
 
-    assert gate["status"] == "IN_PROGRESS"
+    assert gate["status"] == "PASS_WITH_LIMITATIONS"
     assert gate["title"] == "Advanced Nonlinear / Research Audit"
     assert gate["evidence_ids"] == [
         "g10_research_audit_matrix.json",
@@ -94,5 +95,14 @@ def test_g10_gate_registry_points_to_controlled_evidence() -> None:
         "g10_selected_external_evidence.json",
         "g10_selected_external_manifest.json",
         "0_2_6_g10_selected_external_campaign.md",
+        "g10_owner_closeout.json",
+        "0_2_6_g10_owner_closeout.md",
     ]
     assert matrix["decision"]["gate_status"] == gate["status"]
+
+
+def test_public_gate_matrix_matches_g10_closeout() -> None:
+    document = GATE_DOC_PATH.read_text(encoding="utf-8")
+
+    assert "| `026-G10` | Advanced Nonlinear / Research Audit | PASS_WITH_LIMITATIONS |" in document
+    assert "`0_2_6_g10_owner_closeout.md`" in document

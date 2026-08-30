@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "evidence_id": "026-G10-OWNER-CLOSEOUT-001",
+  "gate": "026-G10",
+  "status": "PASS_WITH_LIMITATIONS",
+  "execution_source_sha": "9b4a44d61132a28fe9161f4aa8f04e838afc5f32",
+  "execution_worktree_dirty": false,
+  "evidence_sha_policy": "The execution source SHA identifies the reviewed state. The commit carrying this closeout is recorded by Git and is intentionally not embedded as a self-referential field.",
+  "functional_source_changed": false,
+  "numerical_regression_detected": false,
+  "full_regression": "SKIPPED_BY_POLICY",
+  "g07_state_changed": false,
+  "blocking_requirements": [],
+  "route_classifications": {
+    "nonlinear_static_small_strain": "OWNER_APPROVED_BOUNDED",
+    "transaction_checkpoint_retry": "OWNER_APPROVED_BOUNDED",
+    "structured_failure_diagnostics": "OWNER_APPROVED_BOUNDED",
+    "arc_length_continuation": "OWNER_DEFERRED",
+    "total_lagrangian_elasticity": "OWNER_DEFERRED",
+    "finite_kinematic_j2": "OWNER_NOT_QUALIFIED",
+    "j2_plus_geometry": "OWNER_DEFERRED",
+    "geometry_plus_frictionless_contact": "OWNER_EXPERIMENTAL_ONLY",
+    "j2_plus_geometry_plus_contact": "OWNER_NOT_QUALIFIED",
+    "modified_newton_finite_kinematic": "OWNER_NOT_QUALIFIED"
+  },
+  "selected_external_evidence": {
+    "source_pack": "g10_selected_external_evidence.json",
+    "arc_length_continuation": {
+      "status": "PASS_WITH_LIMITATIONS",
+      "turning_load_factor_relative_difference": 0.00013254565861720098,
+      "turning_displacement_relative_difference": 0.006621907971698846,
+      "branch_turns_qf": 1,
+      "branch_turns_code_aster": 1
+    },
+    "total_lagrangian_tet4": {
+      "status": "PASS_WITH_LIMITATIONS",
+      "stress_relative_error": 8.544216665475574e-05,
+      "column_max_relative_difference": 1.6929857737642425e-09
+    },
+    "total_lagrangian_hex8": {
+      "status": "PASS_WITH_LIMITATIONS",
+      "matched_point_displacement_relative_difference": 2.3429736004890488e-09,
+      "matched_point_reaction_relative_difference": 1.3193915239112222e-11,
+      "full_qf_path": "NOT_COMPLETED_WITHIN_BOUNDED_CAMPAIGN_BUDGET"
+    }
+  },
+  "limitations": [
+    "Arc-Length and Total-Lagrangian evidence remains bounded research evidence owned by G07; G10 does not promote or close G07.",
+    "Finite-kinematic J2, J2-plus-geometry, coupled contact and triple coupling lack formulation-compatible external qualification.",
+    "The external HEX8 TL comparison is a matched-point comparison because the full QF instrumented path exceeded the bounded campaign budget.",
+    "No general physical validation, industrial-solver equivalence or exhaustive route-combination claim is made."
+  ],
+  "decision": {
+    "owner_decision": "PASS_WITH_LIMITATIONS",
+    "g10_status": "PASS_WITH_LIMITATIONS",
+    "ready_for_integration": true,
+    "ready_to_leave_g10_closed": true,
+    "g07_state_unchanged": true
+  }
+}
