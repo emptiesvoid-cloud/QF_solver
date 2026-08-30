@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "gate": "026-G11",
+  "evidence_id": "G11-CROSS-ROUTE-AGGREGATION-001",
+  "status": "FOCUSED_BOUNDED_AGGREGATION",
+  "official_gate_status": "NOT_STARTED",
+  "qualification_scope": "All route-native G11 cases currently executed in this worktree; focused evidence only, not full route qualification.",
+  "source_evidence": [
+    "qualification/0_2_6/g11_native_execution_evidence.json",
+    "qualification/0_2_6/g11_cross_route_execution_evidence.json"
+  ],
+  "routes": {
+    "linear_static": "READY_FOCUSED_EVIDENCE",
+    "nonlinear_static": "READY_FOCUSED_EVIDENCE",
+    "geometric_nonlinear_static": "PARTIAL_WITH_RUNTIME_FAILURE_EVIDENCE",
+    "modal": "PARTIAL_WITH_RUNTIME_FAILURE_EVIDENCE",
+    "linear_buckling": "PARTIAL_WITH_RUNTIME_FAILURE_EVIDENCE",
+    "linear_static_contact": "PARTIAL_WITH_RUNTIME_FAILURE_EVIDENCE"
+  },
+  "aggregation": [
+    {
+      "case_id": "VNV026-ADV-PLN-001",
+      "route": "linear_static",
+      "failure_class": "singular_linear_system",
+      "expected_behavior": "terminate_without_valid_result",
+      "runtime_result": "PASS",
+      "evidence_id": "G11-NATIVE-EXECUTION-001",
+      "deterministic": true,
+      "no_nan_inf": true,
+      "no_silent_pass": true,
+      "state_integrity": "NOT_APPLICABLE",
+      "provenance_valid": true
+    },
+    {
+      "case_id": "VNV026-ADV-PLN-002",
+      "route": "linear_static",
+      "failure_class": "unsupported_load_element_pair",
+      "expected_behavior": "reject_explicitly",
+      "runtime_result": "PASS",
+      "evidence_id": "G11-NATIVE-EXECUTION-001",
+      "deterministic": true,
+      "no_nan_inf": true,
+      "no_silent_pass": true,
+      "state_integrity": "NOT_APPLICABLE",
+      "provenance_valid": true
+    },
+    {
+      "case_id": "VNV026-ADV-PLN-003",
+      "route": "nonlinear_static",
+      "failure_class": "MAX_ITERATIONS",
+      "expected_behavior": "terminate_nonconverged",
+      "runtime_result": "PASS",
+      "evidence_id": "G11-NATIVE-EXECUTION-001",
+      "deterministic": true,
+      "no_nan_inf": true,
+      "no_silent_pass": true,
+      "state_integrity": "NOT_APPLICABLE",
+      "provenance_valid": true
+    },
+    {
+      "case_id": "VNV026-ADV-PLN-004",
+      "route": "nonlinear_static",
+      "failure_class": "rejected_increment",
+      "expected_behavior": "rollback_then_retry",
+      "runtime_result": "PASS",
+      "evidence_id": "G11-NATIVE-EXECUTION-001",
+      "deterministic": true,
+      "no_nan_inf": true,
+      "no_silent_pass": true,
+      "state_integrity": true,
+      "provenance_valid": true
+    },
+    {
+      "case_id": "VNV026-G11-XR-GEO-001",
+      "route": "geometric_nonlinear_static",
+      "failure_class": "geometric_constraints_failure",
+      "expected_behavior": "reject_before_nonlinear_continuation",
+      "runtime_result": "PASS",
+      "evidence_id": "G11-CROSS-ROUTE-EXECUTION-001",
+      "deterministic": true,
+      "no_nan_inf": true,
+      "no_silent_pass": true,
+      "state_integrity": "NOT_APPLICABLE",
+      "provenance_valid": true
+    },
+    {
+      "case_id": "VNV026-G11-XR-MODAL-001",
+      "route": "modal",
+      "failure_class": "invalid_eigenvalue_request",
+      "expected_behavior": "reject_without_eigenpairs",
+      "runtime_result": "PASS",
+      "evidence_id": "G11-CROSS-ROUTE-EXECUTION-001",
+      "deterministic": true,
+      "no_nan_inf": true,
+      "no_silent_pass": true,
+      "state_integrity": "NOT_APPLICABLE",
+      "provenance_valid": true
+    },
+    {
+      "case_id": "VNV026-G11-XR-BUCKLING-001",
+      "route": "linear_buckling",
+      "failure_class": "buckling_bracket_failure",
+      "expected_behavior": "terminate_without_bracket",
+      "runtime_result": "PASS",
+      "evidence_id": "G11-CROSS-ROUTE-EXECUTION-001",
+      "deterministic": true,
+      "no_nan_inf": true,
+      "no_silent_pass": true,
+      "state_integrity": "NOT_APPLICABLE",
+      "provenance_valid": true
+    },
+    {
+      "case_id": "VNV026-G11-XR-CONTACT-001",
+      "route": "linear_static_contact",
+      "failure_class": "invalid_contact_geometry",
+      "expected_behavior": "reject_before_active_set_continuation",
+      "runtime_result": "PASS",
+      "evidence_id": "G11-CROSS-ROUTE-EXECUTION-001",
+      "deterministic": true,
+      "no_nan_inf": true,
+      "no_silent_pass": true,
+      "state_integrity": "NOT_APPLICABLE",
+      "provenance_valid": true
+    }
+  ],
+  "requirements_assessment": {
+    "G11-DIAG-002": "SATISFIED_BOUNDED",
+    "G11-DIAG-004": "SATISFIED_BOUNDED",
+    "G11-DIAG-005": "SATISFIED_BOUNDED",
+    "G11-DIAG-008": "SATISFIED_BOUNDED"
+  },
+  "official_requirement_status_unchanged": {
+    "G11-DIAG-001": "READY",
+    "G11-DIAG-002": "PARTIAL",
+    "G11-DIAG-003": "READY",
+    "G11-DIAG-004": "PARTIAL",
+    "G11-DIAG-005": "PARTIAL",
+    "G11-DIAG-006": "READY",
+    "G11-DIAG-007": "READY",
+    "G11-DIAG-008": "PARTIAL"
+  },
+  "deferred_limitations": [
+    "This focused set does not cover every failure class listed by the four requirements.",
+    "The four partial routes remain partial for broader success/failure corpus coverage.",
+    "The prior nonlinear rollback case is the only mutable/retry state-integrity runtime proof in this focused set."
+  ],
+  "new_thresholds": [],
+  "official_closeout": "NOT_PERFORMED"
+}
