@@ -628,6 +628,74 @@ def _child_fair_case(args: argparse.Namespace) -> int:
     return 0 if report.get("status") == "PASS" else 1
 
 
+def _assembly_only_case(factory: Callable[[], tuple[Any, dict[str, Any]]], label: str) -> dict[str, Any]:
+    """Measure mesh validation and stiffness assembly without loads or solve."""
+    wall_started = time.perf_counter()
+    model, topology = factory()
+    validation_started = time.perf_counter()
+    validation = LinearStaticSolver().validator.validate(model)
+    validation_seconds = time.perf_counter() - validation_started
+    if validation.status == "FAIL":
+        return {
+            "label": label,
+            "status": "FAIL",
+            "error_type": "MeshValidationError",
+            "error": "; ".join(validation.errors),
+            "mesh_validation_seconds": validation_seconds,
+            "topology": topology,
+        }
+    dofs = model.dof_manager()
+    assembler = _TimingAssembler()
+    plan_started = time.perf_counter()
+    plan = assembler.prepare_plan(model, dofs)
+    plan_seconds = time.perf_counter() - plan_started
+    assembly_started = time.perf_counter()
+    stiffness = assembler.assemble_stiffness(model, dofs, plan=plan)
+    assembly_seconds = time.perf_counter() - assembly_started
+    diagnostics = assembler.stiffness_diagnostics
+    assembly_phases = diagnostics.get("assembly_phase_seconds", {})
+    storage = _csr_storage_bytes(stiffness)
+    wall_total = time.perf_counter() - wall_started
+    return {
+        "label": label,
+        "status": "PASS",
+        "total_dofs": int(dofs.ndof),
+        "node_count": model.node_count,
+        "element_count": len(model.elements),
+        "global_stiffness_nnz": int(stiffness.nnz),
+        "global_matrix_storage_bytes": storage,
+        "mesh_validation_seconds": validation_seconds,
+        "assembly_plan_seconds": plan_seconds,
+        "assembly_seconds": assembly_seconds,
+        "element_kernel_seconds": float(assembly_phases.get("element_kernel", 0.0)),
+        "sparse_conversion_seconds": float(assembly_phases.get("chunk_sparse_conversion", 0.0)),
+        "sparse_finalize_seconds": float(assembly_phases.get("sparse_finalize", 0.0)),
+        "linear_solve_seconds": None,
+        "wall_total_seconds": wall_total,
+        "finite_metrics": bool(np.all(np.isfinite(stiffness.data))),
+        "topology": topology,
+        "phase_notes": {
+            "solve": "NOT_RUN: controlled assembly-only probe",
+            "loads": "NOT_RUN: controlled assembly-only probe",
+        },
+    }
+
+
+def _child_assembly_case(args: argparse.Namespace) -> int:
+    try:
+        report = _assembly_only_case(lambda: build_model(args.family, args.target), f"assembly-only {args.family} target {args.target}")
+    except Exception as exc:  # pragma: no cover - surfaced as machine-readable child failure
+        report = {
+            "label": f"assembly-only {args.family} target {args.target}",
+            "status": "FAIL",
+            "error_type": type(exc).__name__,
+            "error": str(exc),
+        }
+    _write(args.output, report)
+    print(json.dumps({"status": report.get("status"), "target": args.target}))
+    return 0 if report.get("status") == "PASS" else 1
+
+
 def _profile_case(args: argparse.Namespace) -> int:
     profiler = cProfile.Profile()
 
@@ -659,7 +727,13 @@ def _profile_case(args: argparse.Namespace) -> int:
     return 0 if status == "PASS" else 1
 
 
-def _spawn(command: list[str], output: Path, timeout: float) -> tuple[dict[str, Any] | None, str, int | None, str]:
+def _spawn(
+    command: list[str],
+    output: Path,
+    timeout: float,
+    *,
+    max_rss_bytes: int | None = None,
+) -> tuple[dict[str, Any] | None, str, int | None, str]:
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     child_process = psutil.Process(process.pid) if psutil is not None else None
     peak = 0
@@ -670,10 +744,24 @@ def _spawn(command: list[str], output: Path, timeout: float) -> tuple[dict[str, 
                 peak = max(peak, int(child_process.memory_info().rss))
             except psutil.Error:
                 pass
+        if max_rss_bytes is not None and peak >= max_rss_bytes:
+            process.kill()
+            stdout, stderr = process.communicate()
+            return (
+                None,
+                "RESOURCE_LIMITED",
+                peak or None,
+                stderr.strip() or stdout.strip() or f"RSS limit reached at {peak} bytes",
+            )
         if time.perf_counter() - started >= timeout:
             process.kill()
             stdout, stderr = process.communicate()
-            return None, "RESOURCE_LIMITED", peak or None, stderr.strip() or stdout.strip()
+            return (
+                None,
+                "RESOURCE_LIMITED",
+                peak or None,
+                stderr.strip() or stdout.strip() or f"timeout after {timeout:.1f} seconds",
+            )
         time.sleep(0.05)
     stdout, stderr = process.communicate()
     if output.is_file():
@@ -740,14 +828,78 @@ def run_fair_driver(output: Path, repetitions: int, timeout: float) -> dict[str,
     return {"schema_version": 1, "contract_id": CONTRACT_ID, "environment": _environment(), "status": "PASS" if all(row.get("status") == "PASS" for row in rows) else "FAIL", "rows": rows, "memory_measurement": "parent sampler; timing runs have no RSS/tracemalloc instrumentation"}
 
 
+def run_assembly_driver(
+    output: Path,
+    targets: tuple[int, ...],
+    timeout: float,
+    max_rss_bytes: int,
+) -> dict[str, Any]:
+    rows = []
+    with tempfile.TemporaryDirectory(prefix="qf_g12_assembly_") as temporary:
+        for target in targets:
+            child_output = Path(temporary) / f"assembly_TET4_{target}.json"
+            command = [
+                sys.executable,
+                str(Path(__file__).resolve()),
+                "--mode",
+                "assembly-case",
+                "--family",
+                "TET4",
+                "--target",
+                str(target),
+                "--output",
+                str(child_output),
+            ]
+            report, status, peak, detail = _spawn(
+                command,
+                child_output,
+                timeout,
+                max_rss_bytes=max_rss_bytes,
+            )
+            if report is None:
+                rows.append(
+                    {
+                        "family": "TET4",
+                        "target_dofs": target,
+                        "status": status,
+                        "timeout_seconds": timeout,
+                        "case_peak_rss_bytes": peak,
+                        "max_rss_bytes": max_rss_bytes,
+                        "reason": detail or "assembly child did not produce a report",
+                    }
+                )
+            else:
+                report["family"] = "TET4"
+                report["target_dofs"] = target
+                report["case_peak_rss_bytes"] = peak
+                report["case_peak_rss_scope"] = "parent sampler over isolated assembly-only child"
+                rows.append(report)
+            if status == "RESOURCE_LIMITED":
+                break
+    completed = [row for row in rows if row.get("status") == "PASS"]
+    return {
+        "schema_version": 1,
+        "contract_id": CONTRACT_ID,
+        "environment": _environment(),
+        "status": "PASS_WITH_RESOURCE_LIMIT" if len(completed) < len(rows) else "PASS",
+        "route": "linear_static",
+        "probe": "assembly_only",
+        "timeout_seconds": timeout,
+        "max_rss_bytes": max_rss_bytes,
+        "rows": rows,
+        "resource_policy": {"stop_after_first_limit": True, "timeout_seconds": timeout, "max_rss_bytes": max_rss_bytes},
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--mode", choices=("case", "fair", "fair-case", "profile", "scaling-driver", "profile-driver", "aggregate"), default="scaling-driver")
+    parser.add_argument("--mode", choices=("case", "fair", "fair-case", "profile", "scaling-driver", "profile-driver", "assembly-case", "assembly-driver", "aggregate"), default="scaling-driver")
     parser.add_argument("--family", default="TET4")
     parser.add_argument("--target", type=int, default=3_000)
     parser.add_argument("--targets", nargs="+", type=int, default=list(DEFAULT_TARGETS))
     parser.add_argument("--repetitions", type=int, default=1)
     parser.add_argument("--timeout", type=float, default=DEFAULT_TIMEOUT_SECONDS)
+    parser.add_argument("--max-rss-gb", type=float, default=4.0)
     parser.add_argument("--output", type=Path, default=Path("qualification/0_2_6/g12_lot2_evidence.json"))
     parser.add_argument("--scaling-input", type=Path, default=Path("qualification/0_2_6/g12_lot2_scaling.json"))
     parser.add_argument("--profiles-input", type=Path, default=Path("qualification/0_2_6/g12_lot2_profiles.json"))
@@ -755,6 +907,11 @@ def main() -> int:
     args = parser.parse_args()
     if args.mode == "aggregate":
         _write(args.output, build_diagnostic_report(args.scaling_input, args.profiles_input, args.fair_input))
+        return 0
+    if args.mode == "assembly-case":
+        return _child_assembly_case(args)
+    if args.mode == "assembly-driver":
+        _write(args.output, run_assembly_driver(args.output, tuple(args.targets), args.timeout, int(args.max_rss_gb * (1024**3))))
         return 0
     if args.mode == "case":
         return _child_case(args)

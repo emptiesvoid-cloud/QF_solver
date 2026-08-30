@@ -9,7 +9,7 @@ import numpy as np
 
 from solveur.elements.shell.mitc4 import MITC4Element, ShellMaterial
 
-from solveur.core.dofs import DofManager
+from solveur.core.dofs import DOF_ORDER, TRANSLATION_DOFS, DofManager
 from solveur.core.errors import InputValidationError
 from solveur.core.model import FiniteElementModel
 from solveur.elements.registry import ElementRegistry
@@ -452,18 +452,24 @@ def _mitc3_surface_vector(
 
 def load_balance(model: FiniteElementModel, dofs: DofManager, vector: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     """Return global force and moment about the origin for one nodal vector."""
-    resultant = np.zeros(3, dtype=float)
-    moment = np.zeros(3, dtype=float)
-    for node, position in enumerate(model.nodes):
-        force = np.array(
-            [vector[dofs.index(node, name)] if dofs.has(node, name) else 0.0 for name in ("UX", "UY", "UZ")]
-        )
-        couple = np.array(
-            [vector[dofs.index(node, name)] if dofs.has(node, name) else 0.0 for name in ("RX", "RY", "RZ")]
-        )
-        resultant += force
-        moment += np.cross(position, force) + couple
-    return resultant, moment
+    values = np.asarray(vector, dtype=float)
+    node_count = model.node_count
+    if node_count and dofs.ndof == 3 * node_count and all(
+        dofs.node_dofs.get(node) == TRANSLATION_DOFS for node in range(node_count)
+    ):
+        forces = values.reshape(node_count, 3)
+        return np.sum(forces, axis=0), np.sum(np.cross(model.nodes, forces), axis=0)
+
+    indices = np.full((node_count, len(DOF_ORDER)), -1, dtype=int)
+    for (node, name), index in dofs._indices.items():
+        if 0 <= node < node_count:
+            indices[node, DOF_ORDER.index(name)] = index
+    active = indices >= 0
+    components = np.zeros((node_count, len(DOF_ORDER)), dtype=float)
+    components[active] = values[indices[active]]
+    forces = components[:, :3]
+    couples = components[:, 3:]
+    return np.sum(forces, axis=0), np.sum(np.cross(model.nodes, forces), axis=0) + np.sum(couples, axis=0)
 
 
 def _significant_entry_count(vector: np.ndarray) -> int:

@@ -1,7 +1,7 @@
 import numpy as np
 
 from solveur.core.model import FiniteElementModel
-from solveur.mesh.quality import MeshQualityThresholds
+from solveur.mesh.quality import MeshQuality, MeshQualityThresholds
 from solveur.mesh.validation import MeshValidator
 
 
@@ -51,6 +51,28 @@ def test_mesh_validation_accepts_valid_tet4():
     assert report.details["mechanical_rank"]["checked"] is True
     assert report.details["mechanical_rank"]["zero_mode_count"] == 0
     assert report.to_dict()["details"]["element_types"] == {"TET4": 1}
+
+
+def test_mesh_quality_cache_reuses_unchanged_geometry_and_invalidates_on_mutation(monkeypatch):
+    model = valid_tet4_model()
+    validator = MeshValidator()
+    original = MeshQuality.tet_metrics
+    calls = 0
+
+    def counted(coords):
+        nonlocal calls
+        calls += 1
+        return original(coords)
+
+    monkeypatch.setattr(MeshQuality, "tet_metrics", staticmethod(counted))
+    first = validator.validate(model)
+    second = validator.validate(model)
+    assert first.details["element_quality"] == second.details["element_quality"]
+    assert calls == 1
+
+    model.nodes[1, 0] = 1.1
+    validator.validate(model)
+    assert calls == 2
 
 
 def test_mesh_validation_rejects_inverted_tet4():
