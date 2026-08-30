@@ -13,7 +13,7 @@
 | `026-G08` | Buckling maturity extension | PASS_WITH_LIMITATIONS |
 | `026-G09` | Contact maturity extension | NOT_STARTED |
 | `026-G10` | Existing coupled nonlinear review | NOT_STARTED |
-| `026-G11` | Adversarial / failure / metamorphic | NOT_STARTED |
+| `026-G11` | Adversarial / failure / metamorphic | PASS_WITH_LIMITATIONS |
 | `026-G12` | Performance / scalability | NOT_STARTED |
 | `026-G13` | External correlation aggregation | NOT_STARTED |
 | `026-G14` | Full regression / architecture freeze | NOT_STARTED |
@@ -33,32 +33,20 @@ Total-Lagrangian elasticity on TET4 and HEX8. TET10 and HEX20 remain research
 routes. Arc-length and snap-through remain `EXPERIMENTAL` / `PASS_INTERNAL_RESEARCH`
 and cannot be promoted by this contract.
 
-`026-G08` is closed as `PASS_WITH_LIMITATIONS` by the Owner closeout recorded in
-`qualification/0_2_6/g08_owner_closeout.json`. The campaign executed 23 cases
-(21 PASS, 2 EXPECTED_FAILURE, 0 FAIL) across TET4, TET10, HEX8 and HEX20 at
-four mesh levels, with deterministic first-mode replay and a maximum
-eigenpair residual of approximately `1.00e-9`.
+`026-G08` is closed as `PASS_WITH_LIMITATIONS` by the active Owner review in
+`qualification/0_2_6/g08_owner_final_review.json`. The review preserves the
+bounded first-factor/first-mode scope and records the later corrected evidence:
+TET4 is `QUALIFIED_BOUNDED`, TET10 and HEX20 are
+`PASS_WITH_LIMITATIONS`, and HEX8 is `MORE_EVIDENCE_REQUIRED`. The superseded
+positive-load Euler screen is excluded from active metrics. No post-buckling,
+multi-mode or general physical-validation claim is made.
 
-The bounded qualified scope is TET4 only: first linearized tangent-instability
-factor and first mode, homogeneous isotropic 3D material, nodal dead loads and
-sparse SciPy route. TET10 and HEX8 remain `PASS_WITH_LIMITATIONS` because the
-final mesh changes are 3.177% and 2.636%; HEX20 remains
-`MORE_EVIDENCE_REQUIRED` because its final change is 13.940% and its CalculiX
-row is `BLOCKED_EXTERNAL_TOOL`. CalculiX passed for TET4, TET10 and HEX8;
-Code_Aster is `SKIPPED_NOT_COMPARABLE`. No post-buckling, multi-mode or
-general physical-validation claim is made. Numerical evidence is tied to
-execution source SHA `6589443e1404a2749ac6c0a9b911f00dd9cb8753`, with the
-Owner/documentation commit kept separate.
-
-Supplemental mesh-extension evidence is archived in
-`qualification/0_2_6/g08_mesh_extension_evidence.json` and
-`qualification/0_2_6/g08_mesh_extension_evidence.md`. It reuses the historical
-1/2/4/8 levels and adds 16/32 for TET10, HEX8 and HEX20 on source SHA
-`151662ac4781718a7fbe3d1e527675ec9e513ad4`. The 12 extension observations
-including deterministic replays are PASS. The final direct changes are TET10
-`0.081448%`, HEX8 `0.167113%` and HEX20 `0.912621%`, so each is classified
-`CONVERGED_BOUNDED` by the unchanged diagnostic rule. This evidence is
-supplemental only: the historical Owner family decisions are unchanged, no
-universal convergence claim is made, HEX20 CalculiX remains
-`BLOCKED_EXTERNAL_TOOL`, and no comparable high-order analytical oracle was
-identified.
+`026-G11` is closed as `PASS_WITH_LIMITATIONS` by Owner decision. The bounded
+closeout covers 20 route-native runtime cases across linear static, nonlinear
+static, geometric nonlinear static, modal, linear buckling and linear static
+contact. All cases have deterministic replay, finite diagnostics and explicit
+failure classification; mutable retry cases preserve committed state. DIAG-005
+and DIAG-008 remain bounded because the evidence does not claim exhaustive
+coverage of every public failure class, structured nonlinear reason or route
+combination. The 18 historical full-regression failures remain release
+blockers outside G11.

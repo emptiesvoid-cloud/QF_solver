@@ -2,7 +2,7 @@
   "schema_version": 1,
   "mapping_id": "026-G11-BOOTSTRAP-MAPPING-001",
   "gate": "026-G11",
-  "status": "FOCUSED_NATIVE_EVIDENCE",
+  "status": "OWNER_CLOSED_WITH_LIMITATIONS",
   "source_sha": "1b6887c794452bb6e571bdacc3ecc0983b3bca2d",
   "contract": "qualification/0_2_6/g11_requirements.json",
   "rule": "Historical or cross-gate evidence is mapped for diagnostics only and is not automatically requalified for G11.",
@@ -49,12 +49,10 @@
     ,{"evidence": "qualification/0_2_6/g11_promotion_resume_evidence.json", "requirements": ["G11-DIAG-002", "G11-DIAG-004", "G11-DIAG-005", "G11-DIAG-008"], "classification": "PARTIAL", "claim": "Twenty-case route-native promotion-resume corpus adds real modal backend and singular contact Jacobian failures, normalizes buckling bracketing taxonomy, and joins per-case provenance from the prior corpus with the new envelopes", "requalification": "promotion attempt only; DIAG-002 and DIAG-004 are proposed FULL, DIAG-005 and DIAG-008 remain bounded under the unchanged contract"}
   ],
   "future_g11_campaign_gaps": [
-    "complete cross-route evidence aggregation beyond the eight currently executed focused cases",
-    "complete modal/buckling/contact failure cases with deterministic repeat checks",
-    "metamorphic numbering/order/load-scaling cases tied to failure status",
-    "explicit no-NaN/no-silent-PASS assertion across every public analysis route",
-    "owner-approved thresholds for any aggregate diagnostic score"
+    "exhaustive enumeration of all public failure classes and all structured nonlinear reasons for a future unbounded claim",
+    "future public-route combinations beyond the bounded 20-case G11 corpus",
+    "any new aggregate diagnostic threshold requires a separate Owner review"
   ],
-  "official_gate_closeout": "DEFERRED",
+  "official_gate_closeout": "qualification/0_2_6/g11_owner_closeout.json",
   "other_gates_changed": false
 }

@@ -4,9 +4,9 @@
   "title": "Diagnostics, failure modes and fail-closed behavior",
   "status": "OPEN",
   "contract_status": "OWNER_REVIEWED_CANDIDATE",
-  "official_gate_status": "NOT_STARTED",
+  "official_gate_status": "PASS_WITH_LIMITATIONS",
   "source_sha": "a301a5d0d3e81c9b3b90083c5643e5cd16e909b8",
-  "policy": "This bootstrap inventories and maps existing evidence. It does not close G11, promote a capability, or replace route-specific validation.",
+  "policy": "This contract defines the controlled G11 evidence boundary. The Owner closeout is recorded separately and does not replace route-specific validation or make an unbounded public-route claim.",
   "scope": {
     "included": ["public input rejection", "solver failure diagnostics", "state integrity after rejected trials", "provenance and no silent continuation"],
     "routes_reused_as_evidence": ["linear_static", "modal", "linear_buckling", "nonlinear_static", "geometric_nonlinear_static", "linear_static_contact"],
@@ -175,6 +175,7 @@
   "focused_extended_evidence": "qualification/0_2_6/g11_extended_execution_evidence.json",
   "full_promotion_blocker": "qualification/0_2_6/g11_full_promotion_blocker.json",
   "full_replay_evidence": "qualification/0_2_6/g11_full_replay_evidence.json",
+  "owner_closeout": "qualification/0_2_6/g11_owner_closeout.json",
   "runner": {
     "path": "src/solveur/verification/g11_runner.py",
     "tests": ["tests/unit/test_g11_runner.py", "tests/unit/test_g11_native_adapters.py"],
@@ -185,8 +186,8 @@
     "full_campaign_executed": false
   },
   "governance": {
-    "official_gate_closeout": "not performed",
-    "maturity_promotion": "not performed",
+    "official_gate_closeout": "qualification/0_2_6/g11_owner_closeout.json",
+    "maturity_promotion": "PASS_WITH_LIMITATIONS within the bounded G11 scope; no unbounded promotion",
     "G04_G08_G07_TL_G09_untouched": true,
     "future_campaign_required": true
   }

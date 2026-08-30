@@ -79,6 +79,23 @@
       },
       "owner_approval": "OWNER_DIRECTION_2026-08-29",
       "contract_lowered": false
+    },
+    {
+      "decision_id": "026-G11-OWNER-CLOSEOUT-2026-08-30",
+      "gate": "026-G11",
+      "status": "PASS_WITH_LIMITATIONS",
+      "closeout_start_sha": "236b6ceffdfb9187940f68f3c52d7dc70290570f",
+      "evidence_head": "236b6ceffdfb9187940f68f3c52d7dc70290570f",
+      "scope": "Diagnostics, fail-closed behavior, deterministic failure classification, provenance and mutable-state integrity over the six route-native routes and the 20-case bounded corpus.",
+      "requirements_full": ["G11-DIAG-001", "G11-DIAG-002", "G11-DIAG-003", "G11-DIAG-004", "G11-DIAG-006", "G11-DIAG-007"],
+      "requirements_bounded": ["G11-DIAG-005", "G11-DIAG-008"],
+      "limitations": [
+        "DIAG-005 is bounded because all public failure classes and all structured nonlinear reasons were not exhaustively enumerated.",
+        "DIAG-008 is bounded to the 20-case route-native aggregation and makes no universal public-route claim.",
+        "The 18 full-regression failures are pre-existing and outside G11."
+      ],
+      "contract_lowered": false,
+      "owner_approval": "OWNER_DIRECTION_2026-08-30"
     }
   ],
   "release": "0.2.6a0",
