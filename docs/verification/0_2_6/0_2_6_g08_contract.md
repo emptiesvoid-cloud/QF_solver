@@ -166,7 +166,7 @@ promote HEX8.
 ## Active Owner final review
 
 The active Owner review is archived in
-`qualification/0_2_6/g08_owner_final_review.json`, with the human-readable
+`qualification/0_2_6/g08_owner_final_review.json`, with the readable
 record in `0_2_6_g08_owner_final_review.md`. It confirms
 `PASS_WITH_LIMITATIONS` without lowering the contract and makes the family
 boundary explicit: TET4 is `QUALIFIED_BOUNDED`, TET10 and HEX20 are

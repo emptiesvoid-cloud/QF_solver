@@ -12,10 +12,18 @@ from typing import Any
 
 CONTRACT_ID = "026-G12-OPTIMIZATION"
 START_SHA = "c967903956c82fcae6a23c9a946ddcd8bf93306e"
+ROOT = Path(__file__).resolve().parents[1]
 
 
 def _read(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _portable_repo_path(path: Path) -> str:
+    try:
+        return path.resolve().relative_to(ROOT).as_posix()
+    except ValueError:
+        return path.name
 
 
 def _git_head() -> str:
@@ -140,10 +148,10 @@ def build_evidence(
         "status": "PASS" if regression_neutral and optimized and profiles else "PARTIAL",
         "start_sha": START_SHA,
         "optimization_commit_sha": _git_head(),
-        "baseline_source": str(baseline_path),
-        "optimized_source": str(optimized_path),
-        "assembly_probe_source": str(assembly_path),
-        "profile_source": str(profiles_path),
+        "baseline_source": _portable_repo_path(baseline_path),
+        "optimized_source": _portable_repo_path(optimized_path),
+        "assembly_probe_source": _portable_repo_path(assembly_path),
+        "profile_source": _portable_repo_path(profiles_path),
         "optimization_method": {
             "load_balance": "direct nodal contribution balance plus vectorized contiguous translation layout",
             "load_storage": "no global dense temporary vector per nodal load when only the total is requested",

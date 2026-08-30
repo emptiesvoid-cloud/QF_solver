@@ -216,8 +216,8 @@
     "tolerance": 1e-08
   },
   "screen_artifacts": [
-    "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\.tmp_tl_rescue_optimization\\bounded_growth_1p02.json",
-    "C:\\Users\\fari\\Documents\\Codex\\2026-07-06\\yeah\\qf_solver_026_foundation\\.tmp_tl_rescue_optimization\\bounded_growth_1p02_n8_n32.json"
+    "bounded_growth_1p02.json",
+    "bounded_growth_1p02_n8_n32.json"
   ],
   "screen_artifact_source_sha": "31e7b4899ac36b8a873b5c2376c4371fd0260a2f",
   "source_sha": "cebaa51177191f85a47df70b18fae388eae492a7",

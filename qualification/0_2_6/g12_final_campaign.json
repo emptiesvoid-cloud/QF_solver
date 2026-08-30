@@ -1876,7 +1876,7 @@
         "profiled_wall_seconds": 3.156648900010623,
         "top_functions": [
           {
-            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\scripts\\\\benchmark_g12_lot2.py', 195, '_run_once')",
+            "function": "('scripts/benchmark_g12_lot2.py', 195, '_run_once')",
             "calls": 1,
             "primitive_calls": 1,
             "self_seconds": 8.04e-05,
@@ -1884,7 +1884,7 @@
             "percent_profile_cumulative": 100.00000000000001
           },
           {
-            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\scripts\\\\benchmark_g12_lot2.py', 158, '_run_with_load_balance_timer')",
+            "function": "('scripts/benchmark_g12_lot2.py', 158, '_run_with_load_balance_timer')",
             "calls": 1,
             "primitive_calls": 1,
             "self_seconds": 1.13e-05,
@@ -1892,7 +1892,7 @@
             "percent_profile_cumulative": 98.85603008106163
           },
           {
-            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\scripts\\\\benchmark_g12_lot2.py', 140, '_run_with_constraint_timer')",
+            "function": "('scripts/benchmark_g12_lot2.py', 140, '_run_with_constraint_timer')",
             "calls": 1,
             "primitive_calls": 1,
             "self_seconds": 0.0015185,
@@ -1900,7 +1900,7 @@
             "percent_profile_cumulative": 98.85567199431091
           },
           {
-            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\core\\\\solvers\\\\static.py', 36, 'solve')",
+            "function": "('src/solveur/core/solvers/static.py', 36, 'solve')",
             "calls": 1,
             "primitive_calls": 1,
             "self_seconds": 0.00024290000000000002,
@@ -1908,7 +1908,7 @@
             "percent_profile_cumulative": 98.80755210661324
           },
           {
-            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\scripts\\\\benchmark_g12_lot2.py', 130, 'validate')",
+            "function": "('scripts/benchmark_g12_lot2.py', 130, 'validate')",
             "calls": 1,
             "primitive_calls": 1,
             "self_seconds": 5.9000000000000004e-05,
@@ -1916,7 +1916,7 @@
             "percent_profile_cumulative": 70.18523130455218
           },
           {
-            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\validation.py', 55, 'validate')",
+            "function": "('src/solveur/mesh/validation.py', 55, 'validate')",
             "calls": 1,
             "primitive_calls": 1,
             "self_seconds": 0.00030010000000000003,
@@ -1924,7 +1924,7 @@
             "percent_profile_cumulative": 70.18334897242887
           },
           {
-            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\validation.py', 154, '_element_quality_details')",
+            "function": "('src/solveur/mesh/validation.py', 154, '_element_quality_details')",
             "calls": 1,
             "primitive_calls": 1,
             "self_seconds": 0.0406376,
@@ -1932,7 +1932,7 @@
             "percent_profile_cumulative": 64.21011655913871
           },
           {
-            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\quality.py', 59, 'tet_metrics')",
+            "function": "('src/solveur/mesh/quality.py', 59, 'tet_metrics')",
             "calls": 4374,
             "primitive_calls": 4374,
             "self_seconds": 0.028225300000000002,
@@ -1940,7 +1940,7 @@
             "percent_profile_cumulative": 61.729852447027
           },
           {
-            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\quality.py', 235, '_tet_radius_ratio')",
+            "function": "('src/solveur/mesh/quality.py', 235, '_tet_radius_ratio')",
             "calls": 4374,
             "primitive_calls": 4374,
             "self_seconds": 0.07311290000000001,
@@ -1956,7 +1956,7 @@
             "percent_profile_cumulative": 25.39731230225412
           },
           {
-            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\quality.py', 237, '<genexpr>')",
+            "function": "('src/solveur/mesh/quality.py', 237, '<genexpr>')",
             "calls": 21870,
             "primitive_calls": 21870,
             "self_seconds": 0.0175459,
@@ -1964,7 +1964,7 @@
             "percent_profile_cumulative": 25.13884021532232
           },
           {
-            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\quality.py', 260, '_triangle_area')",
+            "function": "('src/solveur/mesh/quality.py', 260, '_triangle_area')",
             "calls": 17496,
             "primitive_calls": 17496,
             "self_seconds": 0.0562751,
@@ -1972,7 +1972,7 @@
             "percent_profile_cumulative": 24.582826558717557
           },
           {
-            "function": "('C:\\\\Users\\\\fari\\\\AppData\\\\Roaming\\\\Python\\\\Python313\\\\site-packages\\\\numpy\\\\_core\\\\numeric.py', 1522, 'cross')",
+            "function": "('site-packages/numpy/_core/numeric.py', 1522, 'cross')",
             "calls": 17601,
             "primitive_calls": 17601,
             "self_seconds": 0.2601306,
@@ -1980,7 +1980,7 @@
             "percent_profile_cumulative": 20.39624422137506
           },
           {
-            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\quality.py', 47, 'tet4_quality')",
+            "function": "('src/solveur/mesh/quality.py', 47, 'tet4_quality')",
             "calls": 8748,
             "primitive_calls": 8748,
             "self_seconds": 0.1569645,
@@ -1988,7 +1988,7 @@
             "percent_profile_cumulative": 20.115066899319537
           },
           {
-            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\scripts\\\\benchmark_g12_lot2.py', 105, 'assemble_stiffness')",
+            "function": "('scripts/benchmark_g12_lot2.py', 105, 'assemble_stiffness')",
             "calls": 1,
             "primitive_calls": 1,
             "self_seconds": 9.4e-06,
@@ -1996,7 +1996,7 @@
             "percent_profile_cumulative": 16.04460924322041
           },
           {
-            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\core\\\\assembly\\\\assembler.py', 32, 'assemble_stiffness')",
+            "function": "('src/solveur/core/assembly/assembler.py', 32, 'assemble_stiffness')",
             "calls": 1,
             "primitive_calls": 1,
             "self_seconds": 1.3300000000000001e-05,
@@ -2004,7 +2004,7 @@
             "percent_profile_cumulative": 16.04430185901846
           },
           {
-            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\core\\\\assembly\\\\assembler.py', 273, '_assemble_matrix')",
+            "function": "('src/solveur/core/assembly/assembler.py', 273, '_assemble_matrix')",
             "calls": 1,
             "primitive_calls": 1,
             "self_seconds": 0.00030220000000000003,
@@ -2012,7 +2012,7 @@
             "percent_profile_cumulative": 16.043880394081757
           },
           {
-            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\elements\\\\solid\\\\tet4.py', 25, 'signed_volume')",
+            "function": "('src/solveur/elements/solid/tet4.py', 25, 'signed_volume')",
             "calls": 21870,
             "primitive_calls": 21870,
             "self_seconds": 0.101357,
@@ -2020,7 +2020,7 @@
             "percent_profile_cumulative": 14.602486155114496
           },
           {
-            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\core\\\\assembly\\\\assembler.py', 392, '_matrix_chunk')",
+            "function": "('src/solveur/core/assembly/assembler.py', 392, '_matrix_chunk')",
             "calls": 18,
             "primitive_calls": 18,
             "self_seconds": 0.031242600000000002,
@@ -2028,7 +2028,7 @@
             "percent_profile_cumulative": 12.889735044007752
           },
           {
-            "function": "('C:\\\\Users\\\\fari\\\\AppData\\\\Roaming\\\\Python\\\\Python313\\\\site-packages\\\\numpy\\\\linalg\\\\_linalg.py', 2575, 'norm')",
+            "function": "('site-packages/numpy/linalg/_linalg.py', 2575, 'norm')",
             "calls": 100976,
             "primitive_calls": 100976,
             "self_seconds": 0.2091821,
@@ -2117,7 +2117,7 @@
         "profiled_wall_seconds": 11.66918229998555,
         "top_functions": [
           {
-            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\scripts\\\\benchmark_g12_lot2.py', 195, '_run_once')",
+            "function": "('scripts/benchmark_g12_lot2.py', 195, '_run_once')",
             "calls": 1,
             "primitive_calls": 1,
             "self_seconds": 0.0001061,
@@ -2125,7 +2125,7 @@
             "percent_profile_cumulative": 100.0
           },
           {
-            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\scripts\\\\benchmark_g12_lot2.py', 158, '_run_with_load_balance_timer')",
+            "function": "('scripts/benchmark_g12_lot2.py', 158, '_run_with_load_balance_timer')",
             "calls": 1,
             "primitive_calls": 1,
             "self_seconds": 1.22e-05,
@@ -2133,7 +2133,7 @@
             "percent_profile_cumulative": 98.89929269641978
           },
           {
-            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\scripts\\\\benchmark_g12_lot2.py', 140, '_run_with_constraint_timer')",
+            "function": "('scripts/benchmark_g12_lot2.py', 140, '_run_with_constraint_timer')",
             "calls": 1,
             "primitive_calls": 1,
             "self_seconds": 0.0049673,
@@ -2141,7 +2141,7 @@
             "percent_profile_cumulative": 98.89918811313983
           },
           {
-            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\core\\\\solvers\\\\static.py', 36, 'solve')",
+            "function": "('src/solveur/core/solvers/static.py', 36, 'solve')",
             "calls": 1,
             "primitive_calls": 1,
             "self_seconds": 0.000368,
@@ -2149,7 +2149,7 @@
             "percent_profile_cumulative": 98.85660643064072
           },
           {
-            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\scripts\\\\benchmark_g12_lot2.py', 130, 'validate')",
+            "function": "('scripts/benchmark_g12_lot2.py', 130, 'validate')",
             "calls": 1,
             "primitive_calls": 1,
             "self_seconds": 0.0002679,
@@ -2157,7 +2157,7 @@
             "percent_profile_cumulative": 71.45252528587969
           },
           {
-            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\validation.py', 55, 'validate')",
+            "function": "('src/solveur/mesh/validation.py', 55, 'validate')",
             "calls": 1,
             "primitive_calls": 1,
             "self_seconds": 0.0007684,
@@ -2165,7 +2165,7 @@
             "percent_profile_cumulative": 71.4502261682008
           },
           {
-            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\validation.py', 154, '_element_quality_details')",
+            "function": "('src/solveur/mesh/validation.py', 154, '_element_quality_details')",
             "calls": 1,
             "primitive_calls": 1,
             "self_seconds": 0.1518901,
@@ -2173,7 +2173,7 @@
             "percent_profile_cumulative": 65.45673927198001
           },
           {
-            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\quality.py', 59, 'tet_metrics')",
+            "function": "('src/solveur/mesh/quality.py', 59, 'tet_metrics')",
             "calls": 16464,
             "primitive_calls": 16464,
             "self_seconds": 0.1024907,
@@ -2181,7 +2181,7 @@
             "percent_profile_cumulative": 62.93734177385552
           },
           {
-            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\quality.py', 235, '_tet_radius_ratio')",
+            "function": "('src/solveur/mesh/quality.py', 235, '_tet_radius_ratio')",
             "calls": 16464,
             "primitive_calls": 16464,
             "self_seconds": 0.27583840000000004,
@@ -2197,7 +2197,7 @@
             "percent_profile_cumulative": 25.576038276657506
           },
           {
-            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\quality.py', 237, '<genexpr>')",
+            "function": "('src/solveur/mesh/quality.py', 237, '<genexpr>')",
             "calls": 82320,
             "primitive_calls": 82320,
             "self_seconds": 0.06661220000000001,
@@ -2205,7 +2205,7 @@
             "percent_profile_cumulative": 25.301787484272005
           },
           {
-            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\quality.py', 260, '_triangle_area')",
+            "function": "('src/solveur/mesh/quality.py', 260, '_triangle_area')",
             "calls": 65856,
             "primitive_calls": 65856,
             "self_seconds": 0.21259560000000002,
@@ -2213,7 +2213,7 @@
             "percent_profile_cumulative": 24.73076106127203
           },
           {
-            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\quality.py', 47, 'tet4_quality')",
+            "function": "('src/solveur/mesh/quality.py', 47, 'tet4_quality')",
             "calls": 32928,
             "primitive_calls": 32928,
             "self_seconds": 0.5905471,
@@ -2221,7 +2221,7 @@
             "percent_profile_cumulative": 20.748466359064953
           },
           {
-            "function": "('C:\\\\Users\\\\fari\\\\AppData\\\\Roaming\\\\Python\\\\Python313\\\\site-packages\\\\numpy\\\\_core\\\\numeric.py', 1522, 'cross')",
+            "function": "('site-packages/numpy/_core/numeric.py', 1522, 'cross')",
             "calls": 66086,
             "primitive_calls": 66086,
             "self_seconds": 0.9639974000000001,
@@ -2229,7 +2229,7 @@
             "percent_profile_cumulative": 20.439857387496293
           },
           {
-            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\scripts\\\\benchmark_g12_lot2.py', 105, 'assemble_stiffness')",
+            "function": "('scripts/benchmark_g12_lot2.py', 105, 'assemble_stiffness')",
             "calls": 1,
             "primitive_calls": 1,
             "self_seconds": 1.95e-05,
@@ -2237,7 +2237,7 @@
             "percent_profile_cumulative": 17.10681397273082
           },
           {
-            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\core\\\\assembly\\\\assembler.py', 32, 'assemble_stiffness')",
+            "function": "('src/solveur/core/assembly/assembler.py', 32, 'assemble_stiffness')",
             "calls": 1,
             "primitive_calls": 1,
             "self_seconds": 0.0001808,
@@ -2245,7 +2245,7 @@
             "percent_profile_cumulative": 17.106643381970905
           },
           {
-            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\core\\\\assembly\\\\assembler.py', 273, '_assemble_matrix')",
+            "function": "('src/solveur/core/assembly/assembler.py', 273, '_assemble_matrix')",
             "calls": 1,
             "primitive_calls": 1,
             "self_seconds": 0.0014274000000000001,
@@ -2253,7 +2253,7 @@
             "percent_profile_cumulative": 17.10509349205166
           },
           {
-            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\elements\\\\solid\\\\tet4.py', 25, 'signed_volume')",
+            "function": "('src/solveur/elements/solid/tet4.py', 25, 'signed_volume')",
             "calls": 82320,
             "primitive_calls": 82320,
             "self_seconds": 0.37650930000000005,
@@ -2261,7 +2261,7 @@
             "percent_profile_cumulative": 15.087987199280851
           },
           {
-            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\core\\\\assembly\\\\assembler.py', 392, '_matrix_chunk')",
+            "function": "('src/solveur/core/assembly/assembler.py', 392, '_matrix_chunk')",
             "calls": 65,
             "primitive_calls": 65,
             "self_seconds": 0.121799,
@@ -2269,7 +2269,7 @@
             "percent_profile_cumulative": 13.911836775057635
           },
           {
-            "function": "('C:\\\\Users\\\\fari\\\\AppData\\\\Roaming\\\\Python\\\\Python313\\\\site-packages\\\\numpy\\\\linalg\\\\_linalg.py', 2575, 'norm')",
+            "function": "('site-packages/numpy/linalg/_linalg.py', 2575, 'norm')",
             "calls": 379226,
             "primitive_calls": 379226,
             "self_seconds": 0.8069669,

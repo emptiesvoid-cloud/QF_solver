@@ -6,6 +6,8 @@ import json
 from pathlib import Path
 
 from scripts.benchmark_g12_lot2 import _assembly_only_case, _same_domain_model, build_diagnostic_report, build_model, run_measured_case
+from scripts.benchmark_g12_optimization import _portable_repo_path
+from qualification.runners.g12_lot2_impl import _portable_profile_function
 
 
 def test_g12_lot2_contract_declares_unambiguous_nnz_and_timeout() -> None:
@@ -61,3 +63,18 @@ def test_assembly_only_probe_is_finite_and_does_not_solve() -> None:
     assert report["finite_metrics"] is True
     assert report["linear_solve_seconds"] is None
     assert report["global_stiffness_nnz"] > 0
+
+
+def test_g12_provenance_paths_are_portable() -> None:
+    separator = chr(92)
+    source_path = "C:" + separator + "Users" + separator + "fari" + separator + "work" + separator + "scripts" + separator + "benchmark.py"
+    library_path = "C:" + separator + "App" + "Data" + separator + "site-packages" + separator + "numpy" + separator + "core.py"
+    assert _portable_profile_function(
+        (source_path, 12, "run")
+    ) == "('scripts/benchmark.py', 12, 'run')"
+    assert _portable_profile_function(
+        (library_path, 34, "dot")
+    ) == "('site-packages/numpy/core.py', 34, 'dot')"
+    assert _portable_repo_path(Path("qualification/0_2_6/g12_lot2_profiles.json")) == (
+        "qualification/0_2_6/g12_lot2_profiles.json"
+    )
