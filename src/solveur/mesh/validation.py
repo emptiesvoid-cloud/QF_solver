@@ -214,20 +214,14 @@ class MeshValidator:
         self._quality_cache_key = cache_key
         self._quality_cache_value = (details, tuple(warnings[warning_start:]))
         return details
-
     def _quality_cache_fingerprint(self, model: FiniteElementModel) -> tuple[Any, ...]:
-        """Return a mutation-sensitive key for geometry-only quality metrics."""
-        node_digest = hashlib.sha256(
-            np.ascontiguousarray(model.nodes, dtype=np.float64).tobytes()
-        ).hexdigest()
+        node_digest = hashlib.sha256(np.ascontiguousarray(model.nodes, dtype=np.float64).tobytes()).hexdigest()
         element_digest = hashlib.sha256()
         for element in model.elements:
             encoded_type = element.type.encode("utf-8")
-            element_digest.update(len(encoded_type).to_bytes(4, "little"))
-            element_digest.update(encoded_type)
+            element_digest.update(len(encoded_type).to_bytes(4, "little") + encoded_type)
             nodes = np.asarray(element.nodes, dtype=np.int64)
-            element_digest.update(len(nodes).to_bytes(4, "little"))
-            element_digest.update(nodes.tobytes())
+            element_digest.update(len(nodes).to_bytes(4, "little") + nodes.tobytes())
         threshold_values = tuple((name, float(value)) for name, value in self.thresholds.to_dict().items())
         return (model.node_count, node_digest, element_digest.hexdigest(), threshold_values)
 
