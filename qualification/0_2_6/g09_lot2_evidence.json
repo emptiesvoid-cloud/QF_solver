@@ -1,0 +1,983 @@
+{
+  "adversarial": {
+    "cases": [
+      {
+        "case": "invalid_penalty",
+        "deterministic": true,
+        "fail_closed": true,
+        "finite": true,
+        "first": {
+          "converged": false,
+          "fail_closed": true,
+          "status": "EXPECTED_FAILURE",
+          "variants": [
+            {
+              "exception": "InputValidationError",
+              "fail_closed": true,
+              "message": "Penalty contact stiffness must be finite and positive.",
+              "penalty": "0.0"
+            },
+            {
+              "exception": "InputValidationError",
+              "fail_closed": true,
+              "message": "Penalty contact stiffness must be finite and positive.",
+              "penalty": "-1.0"
+            },
+            {
+              "exception": "InputValidationError",
+              "fail_closed": true,
+              "message": "Penalty contact stiffness must be finite and positive.",
+              "penalty": "nan"
+            }
+          ]
+        },
+        "no_silent_pass": true,
+        "second": {
+          "converged": false,
+          "fail_closed": true,
+          "status": "EXPECTED_FAILURE",
+          "variants": [
+            {
+              "exception": "InputValidationError",
+              "fail_closed": true,
+              "message": "Penalty contact stiffness must be finite and positive.",
+              "penalty": "0.0"
+            },
+            {
+              "exception": "InputValidationError",
+              "fail_closed": true,
+              "message": "Penalty contact stiffness must be finite and positive.",
+              "penalty": "-1.0"
+            },
+            {
+              "exception": "InputValidationError",
+              "fail_closed": true,
+              "message": "Penalty contact stiffness must be finite and positive.",
+              "penalty": "nan"
+            }
+          ]
+        },
+        "state_preservation": "N/A - direct validation/assembly failure has no persistent contact state",
+        "status": "EXPECTED_FAILURE"
+      },
+      {
+        "case": "invalid_target",
+        "deterministic": true,
+        "fail_closed": true,
+        "finite": true,
+        "first": {
+          "converged": false,
+          "exception": "MeshValidationError",
+          "fail_closed": true,
+          "message": "Mesh validation failed: Contact 0: contact slave must reference an existing node.",
+          "reason": null,
+          "status": "EXPECTED_FAILURE"
+        },
+        "no_silent_pass": true,
+        "second": {
+          "converged": false,
+          "exception": "MeshValidationError",
+          "fail_closed": true,
+          "message": "Mesh validation failed: Contact 0: contact slave must reference an existing node.",
+          "reason": null,
+          "status": "EXPECTED_FAILURE"
+        },
+        "state_preservation": "N/A - direct validation/assembly failure has no persistent contact state",
+        "status": "EXPECTED_FAILURE"
+      },
+      {
+        "case": "invalid_master_geometry",
+        "deterministic": true,
+        "fail_closed": true,
+        "finite": true,
+        "first": {
+          "converged": false,
+          "exception": "InputValidationError",
+          "fail_closed": true,
+          "message": "Contact master triangle has a zero or non-finite area.",
+          "reason": null,
+          "status": "EXPECTED_FAILURE"
+        },
+        "no_silent_pass": true,
+        "second": {
+          "converged": false,
+          "exception": "InputValidationError",
+          "fail_closed": true,
+          "message": "Contact master triangle has a zero or non-finite area.",
+          "reason": null,
+          "status": "EXPECTED_FAILURE"
+        },
+        "state_preservation": "N/A - direct validation/assembly failure has no persistent contact state",
+        "status": "EXPECTED_FAILURE"
+      },
+      {
+        "case": "unsupported_contact_route",
+        "deterministic": true,
+        "fail_closed": true,
+        "finite": true,
+        "first": {
+          "converged": false,
+          "exception": "MeshValidationError",
+          "fail_closed": true,
+          "message": "Mesh validation failed: Frictionless contact is supported for linear_static or explicit nonlinear/geometric nonlinear contact_mode='penalty' only.; Frictionless contact currently requires the direct sparse method.",
+          "reason": null,
+          "status": "EXPECTED_FAILURE"
+        },
+        "no_silent_pass": true,
+        "second": {
+          "converged": false,
+          "exception": "MeshValidationError",
+          "fail_closed": true,
+          "message": "Mesh validation failed: Frictionless contact is supported for linear_static or explicit nonlinear/geometric nonlinear contact_mode='penalty' only.; Frictionless contact currently requires the direct sparse method.",
+          "reason": null,
+          "status": "EXPECTED_FAILURE"
+        },
+        "state_preservation": "N/A - direct validation/assembly failure has no persistent contact state",
+        "status": "EXPECTED_FAILURE"
+      },
+      {
+        "case": "excessive_penetration",
+        "deterministic": true,
+        "fail_closed": true,
+        "finite": true,
+        "first": {
+          "converged": false,
+          "exception": "NumericalConvergenceError",
+          "fail_closed": true,
+          "message": "Penalty contact trial exceeded contact_max_penetration.",
+          "reason": "CONTACT_PENETRATION_EXCESSIVE",
+          "status": "EXPECTED_FAILURE"
+        },
+        "no_silent_pass": true,
+        "second": {
+          "converged": false,
+          "exception": "NumericalConvergenceError",
+          "fail_closed": true,
+          "message": "Penalty contact trial exceeded contact_max_penetration.",
+          "reason": "CONTACT_PENETRATION_EXCESSIVE",
+          "status": "EXPECTED_FAILURE"
+        },
+        "state_preservation": "N/A - direct validation/assembly failure has no persistent contact state",
+        "status": "EXPECTED_FAILURE"
+      },
+      {
+        "case": "newton_max_iterations",
+        "deterministic": true,
+        "fail_closed": true,
+        "finite": true,
+        "first": {
+          "converged": false,
+          "exception": "NumericalConvergenceError",
+          "fail_closed": true,
+          "message": "Nonlinear step 1 did not converge in 1 iterations; relative residual=1.000000e+00.",
+          "reason": "MAX_ITERATIONS",
+          "status": "EXPECTED_FAILURE"
+        },
+        "no_silent_pass": true,
+        "second": {
+          "converged": false,
+          "exception": "NumericalConvergenceError",
+          "fail_closed": true,
+          "message": "Nonlinear step 1 did not converge in 1 iterations; relative residual=1.000000e+00.",
+          "reason": "MAX_ITERATIONS",
+          "status": "EXPECTED_FAILURE"
+        },
+        "state_preservation": "N/A - direct validation/assembly failure has no persistent contact state",
+        "status": "EXPECTED_FAILURE"
+      }
+    ],
+    "deterministic": true,
+    "limitations": [
+      "Adversarial cases cover the currently accessible bounded penalty path; no external contact failure oracle is claimed.",
+      "State preservation is N/A for direct validation failures; common-driver state integrity is covered by the cutback cases."
+    ],
+    "no_nan_inf": true,
+    "no_silent_pass": true,
+    "status": "PASS"
+  },
+  "bugs_found": [],
+  "configuration": {
+    "comparison_tolerance": 1e-08,
+    "family": "TET4",
+    "formulation": "frictionless_penalty_node_to_triangle",
+    "mesh_levels": [
+      1,
+      2,
+      4
+    ],
+    "penalties": [
+      10000.0,
+      100000.0,
+      1000000.0
+    ],
+    "search_mode": "initial",
+    "solver_tolerance": 1e-08,
+    "threshold_source": "g09_lot2_requirements.json"
+  },
+  "contract": {
+    "registered_cases": 13,
+    "requirements_total": 5,
+    "thresholds_predeclared": true
+  },
+  "cutback_retry_rollback": {
+    "cases": [
+      {
+        "adaptive_load_path": [
+          0.5,
+          1.0
+        ],
+        "attempts": 3,
+        "case": "failure_before_first_commit",
+        "clean_retry": true,
+        "committed_digest_before_failure": "266cf1b444c416b73ac54c2ad81130b9f3d7ab7adef544daa83e4fedb34b056c",
+        "committed_displacement_norm": 0.0,
+        "contact_state_transaction": "N/A - frictionless active set has no persistent state; common material/displacement transaction checked",
+        "final_contact_active": [
+          0
+        ],
+        "final_contact_gap": -0.00017389302151848973,
+        "final_displacement_relative_error": 4.5137812780420494e-09,
+        "load": -20.0,
+        "reference_comparison_tolerance": 1e-08,
+        "reference_load_path": [
+          0.25,
+          0.5,
+          0.75,
+          1.0
+        ],
+        "reject_on_attempt": 1,
+        "rejected_increments": 1,
+        "rejection_log": [
+          {
+            "base_load_factor": 0.0,
+            "failure_reason": "NumericalConvergenceError",
+            "rejected_increment": 1.0,
+            "retry_increment": 0.5
+          }
+        ],
+        "retry_displacement_norm": 0.0,
+        "retry_state_digest": "266cf1b444c416b73ac54c2ad81130b9f3d7ab7adef544daa83e4fedb34b056c",
+        "solver_status": "PASS",
+        "status": "PASS_INTERNAL_ROLLBACK"
+      },
+      {
+        "adaptive_load_path": [
+          0.5,
+          0.75,
+          1.0
+        ],
+        "attempts": 4,
+        "case": "failure_after_one_committed_increment",
+        "clean_retry": true,
+        "committed_digest_before_failure": "d9a21ea9ccd5d5edf96a8ce4b154464d4ae6556936b55e7d8d0454d5e8faa979",
+        "committed_displacement_norm": 1.5904695909744768,
+        "contact_state_transaction": "N/A - frictionless active set has no persistent state; common material/displacement transaction checked",
+        "final_contact_active": [
+          0
+        ],
+        "final_contact_gap": -0.00037388780990976755,
+        "final_displacement_relative_error": 9.118224165042263e-09,
+        "load": -40.0,
+        "reference_comparison_tolerance": 1e-08,
+        "reference_load_path": [
+          0.25,
+          0.5,
+          0.75,
+          1.0
+        ],
+        "reject_on_attempt": 2,
+        "rejected_increments": 1,
+        "rejection_log": [
+          {
+            "base_load_factor": 0.5,
+            "failure_reason": "NumericalConvergenceError",
+            "rejected_increment": 0.5,
+            "retry_increment": 0.25
+          }
+        ],
+        "retry_displacement_norm": 1.5904695909744768,
+        "retry_state_digest": "d9a21ea9ccd5d5edf96a8ce4b154464d4ae6556936b55e7d8d0454d5e8faa979",
+        "solver_status": "PASS",
+        "status": "PASS_INTERNAL_ROLLBACK"
+      }
+    ],
+    "limitations": [
+      "The rejected failures are deterministic harness fault injections, not material/contact-instability claims.",
+      "The contact active set itself is stateless; its recomputation is recorded as N/A for persistent contact state."
+    ],
+    "rollback_state_integrity": true,
+    "status": "PASS_INTERNAL_ROLLBACK"
+  },
+  "cycles": {
+    "cases": [
+      {
+        "active_by_step": [
+          false,
+          true
+        ],
+        "active_penalty_pressure_nonnegative": true,
+        "case": "open_to_close",
+        "contact_state_transaction": "N/A - active set recomputed from each trial displacement",
+        "expected_active_by_step": [
+          false,
+          true
+        ],
+        "final_reference_relative_difference": 0.0,
+        "gaps_by_step": [
+          1.0,
+          -0.00016243522002490351
+        ],
+        "inactive_gaps_nonnegative": true,
+        "iterations_by_step": [
+          0,
+          2
+        ],
+        "load_path": [
+          0.0,
+          1.0
+        ],
+        "residuals_by_step": [
+          0.0,
+          8.28848149882596e-13
+        ],
+        "solver_status": "PASS",
+        "status": "PASS_INTERNAL_RESEARCH"
+      },
+      {
+        "active_by_step": [
+          true,
+          false
+        ],
+        "active_penalty_pressure_nonnegative": true,
+        "case": "close_to_open",
+        "contact_state_transaction": "N/A - active set recomputed from each trial displacement",
+        "expected_active_by_step": [
+          true,
+          false
+        ],
+        "final_reference_relative_difference": 1.402412086088909e-15,
+        "gaps_by_step": [
+          -0.00016243522002490351,
+          0.9999999999999994
+        ],
+        "inactive_gaps_nonnegative": true,
+        "iterations_by_step": [
+          2,
+          2
+        ],
+        "load_path": [
+          1.0,
+          0.0
+        ],
+        "residuals_by_step": [
+          8.28848149882596e-13,
+          8.940940491646879e-17
+        ],
+        "solver_status": "PASS",
+        "status": "PASS_INTERNAL_RESEARCH"
+      },
+      {
+        "active_by_step": [
+          false,
+          true,
+          false
+        ],
+        "active_penalty_pressure_nonnegative": true,
+        "case": "open_close_open",
+        "contact_state_transaction": "N/A - active set recomputed from each trial displacement",
+        "expected_active_by_step": [
+          false,
+          true,
+          false
+        ],
+        "final_reference_relative_difference": 1.402412086088909e-15,
+        "gaps_by_step": [
+          1.0,
+          -0.00016243522002490351,
+          0.9999999999999994
+        ],
+        "inactive_gaps_nonnegative": true,
+        "iterations_by_step": [
+          0,
+          2,
+          2
+        ],
+        "load_path": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "residuals_by_step": [
+          0.0,
+          8.28848149882596e-13,
+          8.940940491646879e-17
+        ],
+        "solver_status": "PASS",
+        "status": "PASS_INTERNAL_RESEARCH"
+      },
+      {
+        "active_by_step": [
+          false,
+          true,
+          false,
+          true
+        ],
+        "active_penalty_pressure_nonnegative": true,
+        "case": "open_close_open_reclose",
+        "contact_state_transaction": "N/A - active set recomputed from each trial displacement",
+        "expected_active_by_step": [
+          false,
+          true,
+          false,
+          true
+        ],
+        "final_reference_relative_difference": 5.756858246422575e-16,
+        "gaps_by_step": [
+          1.0,
+          -0.00016243522002490351,
+          0.9999999999999994,
+          -0.00016243522002490351
+        ],
+        "inactive_gaps_nonnegative": true,
+        "iterations_by_step": [
+          0,
+          2,
+          2,
+          2
+        ],
+        "load_path": [
+          0.0,
+          1.0,
+          0.0,
+          1.0
+        ],
+        "residuals_by_step": [
+          0.0,
+          8.28848149882596e-13,
+          8.940940491646879e-17,
+          8.288481518443785e-13
+        ],
+        "solver_status": "PASS",
+        "status": "PASS_INTERNAL_RESEARCH"
+      },
+      {
+        "active_by_step": [
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false
+        ],
+        "active_penalty_pressure_nonnegative": true,
+        "case": "load_up_down",
+        "contact_state_transaction": "N/A - active set recomputed from each trial displacement",
+        "expected_active_by_step": [
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false
+        ],
+        "final_reference_relative_difference": 1.4692114489307568e-15,
+        "gaps_by_step": [
+          1.0,
+          -1.2440853615292014e-05,
+          -6.243897575197721e-05,
+          -0.00011243709788844036,
+          -0.00016243522002512556,
+          -0.00011243709788844036,
+          -6.243897575197721e-05,
+          -1.2440853615292014e-05,
+          0.9999999999999994
+        ],
+        "inactive_gaps_nonnegative": true,
+        "iterations_by_step": [
+          0,
+          2,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "load_path": [
+          0.0,
+          0.25,
+          0.5,
+          0.75,
+          1.0,
+          0.75,
+          0.5,
+          0.25,
+          0.0
+        ],
+        "residuals_by_step": [
+          0.0,
+          2.76978442905337e-13,
+          2.7942093208492843e-13,
+          2.7462476832776723e-13,
+          2.8173019524319976e-13,
+          2.7462476786686057e-13,
+          2.794209315622414e-13,
+          2.769340314955704e-13,
+          8.686552581026906e-17
+        ],
+        "solver_status": "PASS",
+        "status": "PASS_INTERNAL_RESEARCH"
+      }
+    ],
+    "limitations": [
+      "Initial-configuration node-to-triangle contact only; no finite-sliding claim.",
+      "The cycle oracle is a controlled load-path transition check, not a cyclic material qualification."
+    ],
+    "recontact": true,
+    "recontact_replay_exact": true,
+    "status": "PASS_INTERNAL_RESEARCH"
+  },
+  "gate": "026-G09",
+  "gate_status_unchanged": "NOT_STARTED",
+  "generated_utc": "2026-08-30T13:31:50.490132Z",
+  "limitations": [
+    "Official 026-G09 remains NOT_STARTED; Lot 2 evidence does not close the gate.",
+    "Scope remains TET4 frictionless node-to-triangle penalty contact in the initial configuration.",
+    "General surface-to-surface, finite sliding, friction, self-contact and external correlation remain out of scope.",
+    "No Owner-approved penalty range or conditioning threshold is claimed."
+  ],
+  "lot": "LOT2",
+  "mesh_sensitivity": {
+    "limitations": [
+      "Three x-direction subdivisions of the bounded TET4 benchmark; this is not a universal mesh-convergence claim.",
+      "Penalty results are a sensitivity study; no production interval or conditioning cutoff is approved."
+    ],
+    "mesh_levels": [
+      {
+        "active_contacts": [
+          0
+        ],
+        "displacement_norm": 1.6019510425227625,
+        "dof_count": 24,
+        "element_count": 5,
+        "finite": true,
+        "gap": -0.00016243522002490351,
+        "iterations": 2,
+        "mesh_level": 1,
+        "node_count": 8,
+        "penetration": 0.00016243522002490351,
+        "reaction_norm": 19.350049306188613,
+        "residual": 8.28848149882596e-13
+      },
+      {
+        "active_contacts": [
+          0
+        ],
+        "displacement_norm": 1.5574809973298287,
+        "dof_count": 36,
+        "element_count": 10,
+        "finite": true,
+        "gap": -0.0001704681434349098,
+        "iterations": 2,
+        "mesh_level": 2,
+        "node_count": 12,
+        "penetration": 0.0001704681434349098,
+        "reaction_norm": 19.18637299035956,
+        "residual": 1.3955059851684764e-12
+      },
+      {
+        "active_contacts": [
+          0
+        ],
+        "displacement_norm": 1.8214008680266216,
+        "dof_count": 60,
+        "element_count": 20,
+        "finite": true,
+        "gap": -0.00017184030216021995,
+        "iterations": 2,
+        "mesh_level": 4,
+        "node_count": 20,
+        "penetration": 0.00017184030216021995,
+        "reaction_norm": 19.09603405555795,
+        "residual": 5.492509364653396e-13
+      }
+    ],
+    "mesh_step_changes": [
+      {
+        "from_mesh": 1.0,
+        "relative_displacement_change": 0.027759927745920464,
+        "relative_reaction_change": 0.008458702778432019,
+        "to_mesh": 2.0
+      },
+      {
+        "from_mesh": 2.0,
+        "relative_displacement_change": 0.16945302777321938,
+        "relative_reaction_change": 0.0047084946616538555,
+        "to_mesh": 4.0
+      }
+    ],
+    "penalty_rows": [
+      {
+        "iterations": 2,
+        "mesh_level": 1,
+        "penalty": 10000.0,
+        "penetration": 0.0016238033296911425,
+        "reaction_norm": 19.349544422767774,
+        "residual": 2.2009074432482638e-13,
+        "status": "PASS"
+      },
+      {
+        "iterations": 2,
+        "mesh_level": 1,
+        "penalty": 100000.0,
+        "penetration": 0.00016243522002490351,
+        "reaction_norm": 19.350049306188613,
+        "residual": 8.28848149882596e-13,
+        "status": "PASS"
+      },
+      {
+        "iterations": 2,
+        "mesh_level": 1,
+        "penalty": 1000000.0,
+        "penetration": 1.6244071077586852e-05,
+        "reaction_norm": 19.350099886997537,
+        "residual": 2.17269757751405e-11,
+        "status": "PASS"
+      },
+      {
+        "iterations": 2,
+        "mesh_level": 2,
+        "penalty": 10000.0,
+        "penetration": 0.0017042285636197363,
+        "reaction_norm": 19.185310923524675,
+        "residual": 3.712588711339574e-13,
+        "status": "PASS"
+      },
+      {
+        "iterations": 2,
+        "mesh_level": 2,
+        "penalty": 100000.0,
+        "penetration": 0.0001704681434349098,
+        "reaction_norm": 19.18637299035956,
+        "residual": 1.3955059851684764e-12,
+        "status": "PASS"
+      },
+      {
+        "iterations": 2,
+        "mesh_level": 2,
+        "penalty": 1000000.0,
+        "penetration": 1.7047267346192996e-05,
+        "reaction_norm": 19.186479260185497,
+        "residual": 1.8907542202000865e-11,
+        "status": "PASS"
+      },
+      {
+        "iterations": 2,
+        "mesh_level": 4,
+        "penalty": 10000.0,
+        "penetration": 0.0017179677115981562,
+        "reaction_norm": 19.094790920115386,
+        "residual": 1.4595488686109072e-14,
+        "status": "PASS"
+      },
+      {
+        "iterations": 2,
+        "mesh_level": 4,
+        "penalty": 100000.0,
+        "penetration": 0.00017184030216021995,
+        "reaction_norm": 19.09603405555795,
+        "residual": 5.492509364653396e-13,
+        "status": "PASS"
+      },
+      {
+        "iterations": 2,
+        "mesh_level": 4,
+        "penalty": 1000000.0,
+        "penetration": 1.718446564602516e-05,
+        "reaction_norm": 19.09615842979529,
+        "residual": 6.618652294125504e-11,
+        "status": "PASS"
+      }
+    ],
+    "penalty_values": [
+      10000.0,
+      100000.0,
+      1000000.0
+    ],
+    "penetration_monotone_by_mesh": true,
+    "raw_rows": [
+      {
+        "active_contacts": [
+          0
+        ],
+        "contact_force_norm": 22.96404691475804,
+        "displacement_norm": 1.6042917024839347,
+        "dof_count": 24,
+        "element_count": 5,
+        "finite": true,
+        "gap": -0.0016238033296911425,
+        "iterations": 2,
+        "mesh_level": 1,
+        "minimum_det_f": 1.0,
+        "node_count": 8,
+        "penalty": 10000.0,
+        "penetration": 0.0016238033296911425,
+        "reaction_norm": 19.349544422767774,
+        "residual": 2.2009074432482638e-13,
+        "residual_history": [
+          20.0,
+          43250.00896517923,
+          4.4018148864965275e-12
+        ],
+        "run_verdict": "WARNING",
+        "solver_status": "PASS",
+        "status": "PASS"
+      },
+      {
+        "active_contacts": [
+          0
+        ],
+        "contact_force_norm": 22.971809116627632,
+        "displacement_norm": 1.6019510425227625,
+        "dof_count": 24,
+        "element_count": 5,
+        "finite": true,
+        "gap": -0.00016243522002490351,
+        "iterations": 2,
+        "mesh_level": 1,
+        "minimum_det_f": 1.0,
+        "node_count": 8,
+        "penalty": 100000.0,
+        "penetration": 0.00016243522002490351,
+        "reaction_norm": 19.350049306188613,
+        "residual": 8.28848149882596e-13,
+        "residual_history": [
+          20.0,
+          432500.0896517923,
+          1.657696299765192e-11
+        ],
+        "run_verdict": "WARNING",
+        "solver_status": "PASS",
+        "status": "PASS"
+      },
+      {
+        "active_contacts": [
+          0
+        ],
+        "contact_force_norm": 22.972585626075865,
+        "displacement_norm": 1.601716889493996,
+        "dof_count": 24,
+        "element_count": 5,
+        "finite": true,
+        "gap": -1.6244071077586852e-05,
+        "iterations": 2,
+        "mesh_level": 1,
+        "minimum_det_f": 1.0,
+        "node_count": 8,
+        "penalty": 1000000.0,
+        "penetration": 1.6244071077586852e-05,
+        "reaction_norm": 19.350099886997537,
+        "residual": 2.17269757751405e-11,
+        "residual_history": [
+          20.0,
+          4325000.896517923,
+          4.3453951550281e-10
+        ],
+        "run_verdict": "WARNING",
+        "solver_status": "PASS",
+        "status": "PASS"
+      },
+      {
+        "active_contacts": [
+          0
+        ],
+        "contact_force_norm": 24.101431480546502,
+        "displacement_norm": 1.559869392893366,
+        "dof_count": 36,
+        "element_count": 10,
+        "finite": true,
+        "gap": -0.0017042285636197363,
+        "iterations": 2,
+        "mesh_level": 2,
+        "minimum_det_f": 1.0,
+        "node_count": 12,
+        "penalty": 10000.0,
+        "penetration": 0.0017042285636197363,
+        "reaction_norm": 19.185310923524675,
+        "residual": 3.712588711339574e-13,
+        "residual_history": [
+          20.0,
+          57735.02139491562,
+          7.425177422679149e-12
+        ],
+        "run_verdict": "WARNING",
+        "solver_status": "PASS",
+        "status": "PASS"
+      },
+      {
+        "active_contacts": [
+          0
+        ],
+        "contact_force_norm": 24.10783603982115,
+        "displacement_norm": 1.5574809973298287,
+        "dof_count": 36,
+        "element_count": 10,
+        "finite": true,
+        "gap": -0.0001704681434349098,
+        "iterations": 2,
+        "mesh_level": 2,
+        "minimum_det_f": 1.0,
+        "node_count": 12,
+        "penalty": 100000.0,
+        "penetration": 0.0001704681434349098,
+        "reaction_norm": 19.18637299035956,
+        "residual": 1.3955059851684764e-12,
+        "residual_history": [
+          20.0,
+          577350.2139491562,
+          2.7910119703369528e-11
+        ],
+        "run_verdict": "WARNING",
+        "solver_status": "PASS",
+        "status": "PASS"
+      },
+      {
+        "active_contacts": [
+          0
+        ],
+        "contact_force_norm": 24.108476682386137,
+        "displacement_norm": 1.557242087957163,
+        "dof_count": 36,
+        "element_count": 10,
+        "finite": true,
+        "gap": -1.7047267346192996e-05,
+        "iterations": 2,
+        "mesh_level": 2,
+        "minimum_det_f": 1.0,
+        "node_count": 12,
+        "penalty": 1000000.0,
+        "penetration": 1.7047267346192996e-05,
+        "reaction_norm": 19.186479260185497,
+        "residual": 1.8907542202000865e-11,
+        "residual_history": [
+          20.0,
+          5773502.139491562,
+          3.781508440400173e-10
+        ],
+        "run_verdict": "WARNING",
+        "solver_status": "PASS",
+        "status": "PASS"
+      },
+      {
+        "active_contacts": [
+          0
+        ],
+        "contact_force_norm": 24.295732374611827,
+        "displacement_norm": 1.824216501992861,
+        "dof_count": 60,
+        "element_count": 20,
+        "finite": true,
+        "gap": -0.0017179677115981562,
+        "iterations": 2,
+        "mesh_level": 4,
+        "minimum_det_f": 1.0,
+        "node_count": 20,
+        "penalty": 10000.0,
+        "penetration": 0.0017179677115981562,
+        "reaction_norm": 19.094790920115386,
+        "residual": 1.4595488686109072e-14,
+        "residual_history": [
+          20.0,
+          61035.69406098897,
+          2.9190977372218143e-13
+        ],
+        "run_verdict": "WARNING",
+        "solver_status": "PASS",
+        "status": "PASS"
+      },
+      {
+        "active_contacts": [
+          0
+        ],
+        "contact_force_norm": 24.301888587727372,
+        "displacement_norm": 1.8214008680266216,
+        "dof_count": 60,
+        "element_count": 20,
+        "finite": true,
+        "gap": -0.00017184030216021995,
+        "iterations": 2,
+        "mesh_level": 4,
+        "minimum_det_f": 1.0,
+        "node_count": 20,
+        "penalty": 100000.0,
+        "penetration": 0.00017184030216021995,
+        "reaction_norm": 19.09603405555795,
+        "residual": 5.492509364653396e-13,
+        "residual_history": [
+          20.0,
+          610356.9406098897,
+          1.0985018729306792e-11
+        ],
+        "run_verdict": "WARNING",
+        "solver_status": "PASS",
+        "status": "PASS"
+      },
+      {
+        "active_contacts": [
+          0
+        ],
+        "contact_force_norm": 24.30250437874331,
+        "displacement_norm": 1.821119226149175,
+        "dof_count": 60,
+        "element_count": 20,
+        "finite": true,
+        "gap": -1.718446564602516e-05,
+        "iterations": 2,
+        "mesh_level": 4,
+        "minimum_det_f": 1.0,
+        "node_count": 20,
+        "penalty": 1000000.0,
+        "penetration": 1.718446564602516e-05,
+        "reaction_norm": 19.09615842979529,
+        "residual": 6.618652294125504e-11,
+        "residual_history": [
+          20.0,
+          6103569.406098897,
+          1.3237304588251007e-09
+        ],
+        "run_verdict": "WARNING",
+        "solver_status": "PASS",
+        "status": "PASS"
+      }
+    ],
+    "replay_exact": true,
+    "same_physical_problem": true,
+    "status": "PASS_WITH_LIMITATIONS",
+    "total_load_preserved": true
+  },
+  "penalty_candidate": {
+    "candidate_range": "1e4..1e6",
+    "conditioning_limitation": "No universal conditioning cutoff approved; residual and contact penetration remain diagnostic outputs.",
+    "mesh_dependence": "Observed bounded dependence across mesh levels; no universal range inferred.",
+    "rationale": "The interval is an experimental candidate for the tested TET4 benchmark because all three values converged at all three mesh levels and penetration was non-increasing. It is not a production policy.",
+    "status": "OWNER_REVIEW_REQUIRED"
+  },
+  "schema_version": 1,
+  "solver": {
+    "name": "QF_solver",
+    "version": "0.2.6a0"
+  },
+  "source": {
+    "dirty": false,
+    "sha": "341e82d61a2074bd744c84c9c7a9140bd1ac0bb0"
+  },
+  "status": "PASS_WITH_LIMITATIONS",
+  "unexpected_failures": []
+}
