@@ -80,18 +80,20 @@ def _git_dirty() -> bool:
     return bool(subprocess.check_output(("git", "status", "--porcelain"), cwd=ROOT, text=True).strip())
 
 
-def _controls(increments: int) -> AdaptiveLoadControls:
+def _controls(increments: int, policy: dict[str, Any]) -> AdaptiveLoadControls:
     return AdaptiveLoadControls.from_parameters(
         {
             "initial_load_increment": 1.0 / increments,
-            "min_load_increment": 1.0e-6,
+            "min_load_increment": policy["min_load_increment"],
             "max_load_increment": 1.0 / increments,
-            "cutback_factor": 0.25,
-            "growth_factor": 1.0,
-            "max_cutbacks": 64,
+            "cutback_factor": policy["cutback_factor"],
+            "growth_factor": policy["growth_factor"],
+            "grow_below_iterations": policy["grow_below_iterations"],
+            "shrink_above_iterations": policy["shrink_above_iterations"],
+            "max_cutbacks": policy["max_cutbacks"],
         },
         load_steps=increments,
-        max_iterations=MAX_ITERATIONS,
+        max_iterations=int(policy["max_iterations"]),
     )
 
 
@@ -230,7 +232,7 @@ def _json_safe(value: Any) -> Any:
     return value
 
 
-def _run_case(definition: dict[str, Any]) -> dict[str, Any]:
+def _run_case(definition: dict[str, Any], policy: dict[str, Any]) -> dict[str, Any]:
     model, _, _, _, loaded_nodes = _model(
         definition["family"],
         definition["cells"],
@@ -275,9 +277,9 @@ def _run_case(definition: dict[str, Any]) -> dict[str, Any]:
                 fixed,
                 increments=int(definition["increments"]),
                 tolerance=TOLERANCE,
-                max_iterations=MAX_ITERATIONS,
+                max_iterations=int(policy["max_iterations"]),
                 determinant_assembly=assembly,
-                adaptive_controls=_controls(int(definition["increments"])),
+                adaptive_controls=_controls(int(definition["increments"]), policy),
             )
             status = "SUCCESS"
             failure = None
@@ -325,7 +327,7 @@ def _run_case(definition: dict[str, Any]) -> dict[str, Any]:
     )
 
 
-def run(output: Path = OUTPUT) -> dict[str, Any]:
+def run(output: Path, policy_name: str, policy: dict[str, Any]) -> dict[str, Any]:
     output.mkdir(parents=True, exist_ok=True)
     report = {
         "status": "DIAGNOSTIC_ONLY",
@@ -333,21 +335,13 @@ def run(output: Path = OUTPUT) -> dict[str, Any]:
         "source_sha": _git_head(),
         "dirty_at_start": _git_dirty(),
         "timestamp_utc": datetime.now(timezone.utc).isoformat(),
-        "solver_controls": {
-            "tolerance": TOLERANCE,
-            "max_iterations": MAX_ITERATIONS,
-            "initial_increment": "1/increments",
-            "min_load_increment": 1.0e-6,
-            "max_load_increment": "1/increments",
-            "cutback_factor": 0.25,
-            "growth_factor": 1.0,
-            "max_cutbacks": 64,
-        },
+        "policy_name": policy_name,
+        "solver_controls": {"tolerance": TOLERANCE, **policy},
         "cases": [],
     }
     for definition in BASELINES:
         print(definition["id"], flush=True)
-        case = _run_case(definition)
+        case = _run_case(definition, policy)
         report["cases"].append(case)
         (output / f"{definition['id']}.json").write_text(json.dumps(case, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     report["sha256"] = {
@@ -361,8 +355,36 @@ def run(output: Path = OUTPUT) -> dict[str, Any]:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, default=OUTPUT)
+    parser.add_argument("--policy-name", default="baseline_rescue")
+    parser.add_argument("--max-iterations", type=int, default=MAX_ITERATIONS)
+    parser.add_argument("--min-load-increment", type=float, default=1.0e-6)
+    parser.add_argument("--cutback-factor", type=float, default=0.25)
+    parser.add_argument("--max-cutbacks", type=int, default=64)
+    parser.add_argument("--growth-factor", type=float, default=1.0)
+    parser.add_argument("--grow-below-iterations", type=int)
+    parser.add_argument("--shrink-above-iterations", type=int)
     args = parser.parse_args()
-    report = run(args.output.resolve())
+    max_iterations = int(args.max_iterations)
+    policy = {
+        "initial_increment": "1/increments",
+        "max_increment": "1/increments",
+        "max_iterations": max_iterations,
+        "min_load_increment": float(args.min_load_increment),
+        "cutback_factor": float(args.cutback_factor),
+        "growth_factor": float(args.growth_factor),
+        "grow_below_iterations": int(
+            args.grow_below_iterations
+            if args.grow_below_iterations is not None
+            else max(2, max_iterations // 4)
+        ),
+        "shrink_above_iterations": int(
+            args.shrink_above_iterations
+            if args.shrink_above_iterations is not None
+            else max(3, max_iterations // 2)
+        ),
+        "max_cutbacks": int(args.max_cutbacks),
+    }
+    report = run(args.output.resolve(), args.policy_name, policy)
     print(
         json.dumps(
             {
