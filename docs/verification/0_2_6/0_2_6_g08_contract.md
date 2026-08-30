@@ -39,23 +39,25 @@ comparison; that row is `NOT_APPLICABLE`, not PASS.
 
 The machine-readable contract is `qualification/0_2_6/g08_requirements.json`.
 The case-to-requirement mapping is
-`qualification/0_2_6/g08_case_registry.json`.
+`qualification/0_2_6/g08_case_registry.json`. The Owner bounded policy review
+is recorded in `qualification/0_2_6/g08_owner_contract_review.json`.
 
 | Requirement | Evidence required | Policy status |
 | --- | --- | --- |
 | `G08-001` | input-scope and invalid-input matrix | existing implementation scope |
 | `G08-002` | preload equilibrium and initial-stress tangent diagnostics | existing policy reference; no new numeric band |
-| `G08-003` | analytical/reference critical factor | `PROPOSED_OWNER_REVIEW`, case-defined |
-| `G08-004` | mode residual, norm and free-DOF mapping | `PROPOSED_OWNER_REVIEW` |
-| `G08-005` | compatible mesh sequence and successive factor changes | `PROPOSED_OWNER_REVIEW`; candidate four-level sequence |
-| `G08-006` | first-mode normalization and deterministic replay | `PROPOSED_OWNER_REVIEW` |
+| `G08-003` | analytical/reference critical factor | `OWNER_APPROVED_BOUNDED`; case-defined before execution, sign-consistent |
+| `G08-004` | mode residual, norm and free-DOF mapping | `OWNER_APPROVED_BOUNDED`; normalized residual bands with near-zero rule |
+| `G08-005` | compatible mesh sequence and successive factor changes | `OWNER_APPROVED_BOUNDED`; at least three levels and final adjacent change `<=1%` when eligible |
+| `G08-006` | first-mode normalization and deterministic replay | `OWNER_APPROVED_BOUNDED`; first mode only |
 | `G08-007` | fail-closed structured failure behavior | existing exact invariant policy |
-| `G08-008` | formulation-compatible external comparison | `PROPOSED_OWNER_REVIEW`; unavailable/non-comparable is skipped |
+| `G08-008` | formulation-compatible external comparison | `OWNER_APPROVED_BOUNDED`; CalculiX when comparable, Code_Aster non-comparable is skipped |
 | `G08-009` | SHA, environment, command and artifact digest | existing V&V provenance contract |
 
-No null or proposed policy may be converted into a numerical PASS by a runner.
-The Owner must approve the case-specific analytical, mode, mesh and external
-correlation bands before G08 closeout.
+The bounded policy review is approved, but case-specific analytical and
+external tolerances must still be declared before execution and cannot be
+changed after observing results. No policy may be converted into a numerical
+PASS by a runner without its required evidence.
 
 ## Case plan
 

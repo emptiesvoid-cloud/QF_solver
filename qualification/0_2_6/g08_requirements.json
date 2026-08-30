@@ -57,9 +57,11 @@
       "phenomenon": "Critical factor against an analytical or controlled reference",
       "metric": "case-defined relative error of the first critical factor and reported bracket width",
       "threshold": {
-        "status": "PROPOSED_OWNER_REVIEW",
-        "value": null,
-        "source": "TOL-026-ANALYTICAL-001 is case-defined; no G08 band exists"
+        "status": "OWNER_APPROVED_BOUNDED",
+        "value": "case-defined before execution; no universal percentage band",
+        "metric_definition": "abs(lambda_qf - lambda_oracle) / abs(lambda_oracle) when lambda_oracle != 0; otherwise use a pre-declared, justified case scale",
+        "sign_rule": "sign(lambda_qf) must equal sign(lambda_oracle) when the oracle factor is non-zero",
+        "source": "TOL-026-ANALYTICAL-001, with oracle-specific tolerance declared before execution"
       },
       "oracle": ["Euler analytical reference", "published/reproducible reference when compatible"],
       "evidence": "reference derivation, units, geometry, boundary conditions, factor, error and digest"
@@ -70,9 +72,11 @@
       "phenomenon": "Critical mode quality",
       "metric": "relative eigenpair residual, finite mode norm and deterministic sign convention",
       "threshold": {
-        "status": "PROPOSED_OWNER_REVIEW",
-        "value": null,
-        "source": "No G08-specific mode-residual band is currently controlled"
+        "status": "OWNER_APPROVED_BOUNDED",
+        "value": "PASS <= 1e-7; WARNING > 1e-7 and <= 1e-5; FAIL > 1e-5",
+        "metric_definition": "norm(K phi + lambda Kg phi) / max(norm(K phi) + abs(lambda) * norm(Kg phi), scale_floor)",
+        "near_zero_rule": "scale_floor is declared per case; if the denominator is numerically near zero, report absolute residual and do not auto-pass without a finite-zero invariant",
+        "source": "Existing eigen residual convention plus explicit G08 near-zero handling"
       },
       "oracle": ["(K + lambda * Kg) phi = 0", "finite-norm invariant"],
       "evidence": "mode vector, norm, residual, free-DOF mapping and solver diagnostics"
@@ -83,10 +87,12 @@
       "phenomenon": "Mesh refinement and factor stability",
       "metric": "critical-factor sequence, successive changes, mode tracking and mesh-quality metadata",
       "threshold": {
-        "status": "PROPOSED_OWNER_REVIEW",
-        "value": null,
+        "status": "OWNER_APPROVED_BOUNDED",
+        "value": "minimum 3 compatible levels; final adjacent relative factor change <= 1% when the case is eligible for a quantitative convergence claim",
         "candidate_minimum_compatible_levels": 3,
-        "source": "Existing TOL-026-ANALYTICAL-001 is case-defined; the minimum level count is not Owner-approved here"
+        "monotonicity": "not required",
+        "exception_rule": "mode switching, near-degenerate factors, formulation changes or documented mesh sensitivity require bounded limitation or Owner disposition; they cannot be hidden by selecting endpoints",
+        "source": "Existing Owner-approved bounded refinement convention; carried without a universal buckling claim"
       },
       "oracle": ["bounded refinement trend"],
       "evidence": "coarse/medium/fine/refined definitions when applicable, DOF, factors, changes, quality and limitation"
@@ -97,9 +103,11 @@
       "phenomenon": "Mode normalization and repeatability",
       "metric": "mode norm, deterministic sign, repeated-run equality and mode identity where the route exposes one mode",
       "threshold": {
-        "status": "PROPOSED_OWNER_REVIEW",
-        "value": null,
-        "source": "The route exposes the first mode only; no multi-mode orthogonality policy is currently controlled"
+        "status": "OWNER_APPROVED_BOUNDED",
+        "value": "first mode finite and normalized; deterministic sign; repeatability required; MAC only when DOF-compatible",
+        "mode_scope": "first critical mode only; no multi-mode qualification",
+        "mac_rule": "report MAC when a comparable reference exists; do not infer qualification from MAC across incompatible DOF spaces",
+        "source": "Current route contract and first-mode-only limitation"
       },
       "oracle": ["finite-norm invariant", "same-input deterministic replay"],
       "evidence": "mode metadata, repeat digests and configuration"
@@ -123,9 +131,11 @@
       "phenomenon": "Independent external correlation when formulation-compatible",
       "metric": "critical factor and mode comparison over the declared comparable scope",
       "threshold": {
-        "status": "PROPOSED_OWNER_REVIEW",
-        "value": null,
-        "source": "Oracle-specific; unavailable or non-comparable tools must be SKIPPED with justification"
+        "status": "OWNER_APPROVED_BOUNDED",
+        "value": "CalculiX is required when a comparable solid deck is in the claimed external scope and the tool is available; Code_Aster non-comparable solid eigen-buckling is SKIPPED_NOT_COMPARABLE; Abaqus is COULD",
+        "unavailable_rule": "SKIPPED_EXTERNAL_UNAVAILABLE is never PASS and blocks the affected external-correlation claim unless the Owner explicitly excludes that claim",
+        "tolerance_rule": "oracle-specific tolerance must be declared before execution; the historical CalculiX 10% screen is not a universal G08 acceptance band",
+        "source": "026-G08 external matrix and existing external-tool policy"
       },
       "oracle": ["CalculiX when the solid deck is comparable", "Code_Aster only where an equivalent modelisation exists", "Abaqus if available"],
       "evidence": "deck, solver/version, model mapping, factors, modes, differences, skips and digest"
@@ -157,10 +167,11 @@
     {"id": "EXTERNAL_TOOL_UNAVAILABLE", "expected": "SKIPPED_NOT_PASS", "diagnostic": "optional external executable is unavailable"}
   ],
   "threshold_governance": {
-    "status": "OWNER_REVIEW_REQUIRED",
+    "status": "OWNER_APPROVED_BOUNDED",
     "approved_policies": ["TOL-026-EXACT-001", "TOL-026-FLOAT-001", "TOL-026-ANALYTICAL-001 case-defined only"],
-    "proposed_owner_review_count": 5,
-    "rule": "No proposed or null policy may be converted into a numerical pass band by the runner."
+    "proposed_owner_review_count": 0,
+    "approval_record": "qualification/0_2_6/g08_owner_contract_review.json",
+    "rule": "Approved bounded policies govern future execution; case-specific values must still be declared before execution and cannot be changed after observing results."
   },
   "gate_boundary": {
     "current_gate_status": "NOT_STARTED",

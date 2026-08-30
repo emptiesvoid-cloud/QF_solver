@@ -56,7 +56,7 @@
       "route": "linear_buckling",
       "requirements": ["G08-003", "G08-005", "G08-006", "G08-009"],
       "oracle": ["bounded mesh-refinement trend"],
-      "policy": ["TOL-026-ANALYTICAL-001", "PROPOSED_OWNER_REVIEW:G08-005"],
+      "policy": ["TOL-026-ANALYTICAL-001", "OWNER_APPROVED_BOUNDED:G08-005"],
       "input": "FACTORY-026-G08-TET4-MESH",
       "mesh_levels": ["coarse", "medium", "fine", "refined"],
       "purpose": "Four-level trend; no acceptance band is approved by this bootstrap."
@@ -68,7 +68,7 @@
       "route": "linear_buckling",
       "requirements": ["G08-002", "G08-003", "G08-004", "G08-006", "G08-009"],
       "oracle": ["analytical or controlled solid reference"],
-      "policy": ["TOL-026-ANALYTICAL-001", "PROPOSED_OWNER_REVIEW:G08-003"],
+      "policy": ["TOL-026-ANALYTICAL-001", "OWNER_APPROVED_BOUNDED:G08-003"],
       "input": "FACTORY-026-G08-HEX8",
       "purpose": "Supported route, not yet 0.2.6-qualified."
     },
@@ -79,7 +79,7 @@
       "route": "linear_buckling",
       "requirements": ["G08-002", "G08-003", "G08-004", "G08-006", "G08-009"],
       "oracle": ["analytical or controlled solid reference"],
-      "policy": ["TOL-026-ANALYTICAL-001", "PROPOSED_OWNER_REVIEW:G08-003"],
+      "policy": ["TOL-026-ANALYTICAL-001", "OWNER_APPROVED_BOUNDED:G08-003"],
       "input": "FACTORY-026-G08-TET10",
       "purpose": "High-order route requires independent requalification."
     },
@@ -90,7 +90,7 @@
       "route": "linear_buckling",
       "requirements": ["G08-002", "G08-003", "G08-004", "G08-006", "G08-009"],
       "oracle": ["analytical or controlled solid reference"],
-      "policy": ["TOL-026-ANALYTICAL-001", "PROPOSED_OWNER_REVIEW:G08-003"],
+      "policy": ["TOL-026-ANALYTICAL-001", "OWNER_APPROVED_BOUNDED:G08-003"],
       "input": "FACTORY-026-G08-HEX20",
       "purpose": "High-order route requires independent requalification."
     },
@@ -101,7 +101,7 @@
       "route": "linear_buckling",
       "requirements": ["G08-003", "G08-005", "G08-006", "G08-009"],
       "oracle": ["cross-family bounded refinement trend"],
-      "policy": ["TOL-026-ANALYTICAL-001", "PROPOSED_OWNER_REVIEW:G08-005"],
+      "policy": ["TOL-026-ANALYTICAL-001", "OWNER_APPROVED_BOUNDED:G08-005"],
       "input": "FACTORY-026-G08-SOLID-FAMILIES",
       "mesh_levels": ["coarse", "medium", "fine", "refined"],
       "purpose": "Cross-family comparison with identical physical model and documented mapping."
@@ -113,7 +113,7 @@
       "route": "linear_buckling",
       "requirements": ["G08-004", "G08-006", "G08-009"],
       "oracle": ["eigen-equation residual", "deterministic mode sign"],
-      "policy": ["PROPOSED_OWNER_REVIEW:G08-004", "PROPOSED_OWNER_REVIEW:G08-006"],
+      "policy": ["OWNER_APPROVED_BOUNDED:G08-004", "OWNER_APPROVED_BOUNDED:G08-006"],
       "input": "FACTORY-026-G08-TET4-MODE",
       "purpose": "First-mode vector quality and repeatability; no multi-mode claim."
     },
@@ -135,7 +135,7 @@
       "route": "linear_buckling",
       "requirements": ["G08-003", "G08-004", "G08-008", "G08-009"],
       "oracle": ["CalculiX same-model solid correlation"],
-      "policy": ["oracle-specific", "PROPOSED_OWNER_REVIEW:G08-008"],
+      "policy": ["oracle-specific", "OWNER_APPROVED_BOUNDED:G08-008"],
       "input": "src/solveur/verification/calculix_buckling_025.py",
       "purpose": "External matrix extension; a blocked tool or non-comparable family is not PASS."
     },

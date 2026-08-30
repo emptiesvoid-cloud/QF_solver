@@ -92,6 +92,7 @@
       "evidence_ids": [
         "g08_requirements.json",
         "g08_case_registry.json",
+        "g08_owner_contract_review.json",
         "0_2_6_g08_contract.md"
       ],
       "id": "026-G08",
