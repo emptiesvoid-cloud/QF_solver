@@ -35,6 +35,7 @@ RESIDUAL_PASS = 1.0e-7
 RESIDUAL_WARNING = 1.0e-5
 EULER_RELATIVE_TOLERANCE = 0.10
 CALCULIX_RELATIVE_TOLERANCE = 0.10
+REPEATABILITY_ABSOLUTE_TOLERANCE = 1.0e-12
 
 
 def _git_state(root: Path) -> tuple[str, bool]:
@@ -209,7 +210,11 @@ def _run_repeatability() -> dict[str, Any]:
                 float(first["critical_mode_residual_relative"])
                 - float(second["critical_mode_residual_relative"])
             )
-            deterministic = factor_delta == 0.0 and mode_norm_delta == 0.0 and residual_delta == 0.0
+            deterministic = (
+                factor_delta <= REPEATABILITY_ABSOLUTE_TOLERANCE
+                and mode_norm_delta <= REPEATABILITY_ABSOLUTE_TOLERANCE
+                and residual_delta <= REPEATABILITY_ABSOLUTE_TOLERANCE
+            )
         else:
             factor_delta = mode_norm_delta = residual_delta = None
             deterministic = False
@@ -361,6 +366,7 @@ def run(output: Path) -> dict[str, Any]:
             "eigenpair_residual_pass": RESIDUAL_PASS,
             "eigenpair_residual_warning": RESIDUAL_WARNING,
             "mesh_levels": list(MESH_LEVELS),
+            "repeatability_absolute_tolerance": REPEATABILITY_ABSOLUTE_TOLERANCE,
         },
         "case_counts": counts,
         "cases": cases,

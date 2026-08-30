@@ -16,6 +16,7 @@ def test_g08_execution_harness_declares_owner_policies_before_execution() -> Non
     assert "CALCULIX_RELATIVE_TOLERANCE = 0.10" in source
     assert "RESIDUAL_PASS = 1.0e-7" in source
     assert "RESIDUAL_WARNING = 1.0e-5" in source
+    assert "REPEATABILITY_ABSOLUTE_TOLERANCE = 1.0e-12" in source
 
 
 def test_g08_execution_contract_remains_open_before_numeric_campaign() -> None:
