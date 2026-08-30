@@ -208,16 +208,18 @@ def _rotated_spring_model(angle: float, barycentric: tuple[float, float]) -> Fin
         ],
         "contacts": [{"name": "geometry", "slave_node": 3, "master_nodes": [0, 1, 2]}],
     }
-    return FiniteElementModel.from_raw(
+    model = FiniteElementModel.from_raw(
         nodes=data["nodes"],
         elements=[],
         materials={},
         fixed_dofs=data["fixed_dofs"],
         loads=data["loads"],
         springs=data["springs"],
-        contacts=[FrictionlessContact(name="geometry", slave_node=3, master_nodes=(0, 1, 2))],
+        contacts=[],
         analysis=data["analysis"],
     )
+    model.contacts.append(FrictionlessContact(name="geometry", slave_node=3, master_nodes=(0, 1, 2)))
+    return model
 
 
 def _run_geometry_matrix() -> dict[str, Any]:
