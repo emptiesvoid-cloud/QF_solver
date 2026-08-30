@@ -79,3 +79,6 @@ public_release_audit.json
 .tmp_release_readiness_025/
 .tmp_smoke_install_025/
 .tmp_candidate_checkout_025/
+
+# Local TL physical branch diagnostic outputs
+.tmp_tl_physical_branch_validation/
