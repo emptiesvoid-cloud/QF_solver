@@ -88,6 +88,7 @@ def _mesh_contact_model(
     load: float = -20.0,
     load_path: tuple[float, ...] | None = (1.0,),
     max_iterations: int = 80,
+    path_dependent: bool = False,
 ) -> FiniteElementModel:
     """Build one reproducible physical problem at a mesh level.
 
@@ -96,7 +97,17 @@ def _mesh_contact_model(
     """
 
     model = _refinement_model("TET4", cells)
-    model.materials["j2"] = {"type": "isotropic_3d", "E": 10.0, "nu": 0.3}
+    model.materials["j2"] = (
+        {
+            "type": "von_mises_elastoplastic_3d",
+            "E": 10.0,
+            "nu": 0.3,
+            "yield_stress": 0.02,
+            "hardening_modulus": 10.0,
+        }
+        if path_dependent
+        else {"type": "isotropic_3d", "E": 10.0, "nu": 0.3}
+    )
     nodes = model.nodes
     slave = int(np.flatnonzero(np.all(np.isclose(nodes, [1.0, 0.0, 0.0]), axis=1))[0])
     master_nodes = tuple(
@@ -341,7 +352,12 @@ def _run_cycles() -> dict[str, Any]:
 
 def _run_contact_cutback(load: float, reject_on_attempt: int, initial_increment: float) -> dict[str, Any]:
     model = _mesh_contact_model(
-        1, penalty=1.0e5, load=load, load_path=None, max_iterations=80
+        1,
+        penalty=1.0e5,
+        load=load,
+        load_path=None,
+        max_iterations=80,
+        path_dependent=True,
     )
     parameters = dict(model.analysis.parameters)
     parameters.update(
@@ -393,7 +409,8 @@ def _run_contact_cutback(load: float, reject_on_attempt: int, initial_increment:
                 self.committed_digest_before_failure = state_digest(material_states)
                 self.committed_displacement = displacement.copy()
                 displacement[:] = 123.0
-                material_states[0][0]["equivalent_plastic_strain"] = 999.0
+                first_element = min(material_states)
+                material_states[first_element][0]["equivalent_plastic_strain"] = 999.0
                 raise NumericalConvergenceError("controlled contact increment rejection")
             if self.attempts == reject_on_attempt + 1:
                 self.retry_state_digest = state_digest(material_states)
@@ -431,6 +448,7 @@ def _run_contact_cutback(load: float, reject_on_attempt: int, initial_increment:
         load=load,
         load_path=(0.25, 0.5, 0.75, 1.0),
         max_iterations=80,
+        path_dependent=True,
     )
     reference = solve_model(reference_model, enforce_policy=False)
     data = result.to_dict()["solver"]
