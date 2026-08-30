@@ -1,0 +1,141 @@
+{
+  "schema_version": 1,
+  "gate": "026-G04",
+  "contract": "qualification/0_2_6/g04_requirements.json",
+  "source_registry": "qualification/0_2_6/case_registry.json",
+  "mapping_status": "CONTROLLED_CANDIDATE",
+  "mapping_policy": {
+    "status_meaning": {
+      "READY": "The source registry marks the case executable and its declared analysis route is linear_static.",
+      "PLANNED": "The case is in the G04 inventory but is not executable in the source registry yet.",
+      "NOT_APPLICABLE": "The case is recorded for traceability but its declared route is outside this linear_static contract or lacks an input model."
+    },
+    "reuse": "READY cases originating in G05 or G06 are eligibility and traceability mappings only; their evidence cannot be double-counted as new G04 closure evidence.",
+    "no_double_counting": true,
+    "source_gate_does_not_override_g04_scope": true,
+    "closure": "This mapping does not close or promote G04. Owner review and an approved campaign remain required."
+  },
+  "groups": [
+    {
+      "group_id": "LIN-READY-FOUNDATION",
+      "family": "LIN",
+      "status": "READY",
+      "source_scope": "foundation linear static",
+      "requirements": ["G04-LIN-001", "G04-LIN-002", "G04-LIN-003", "G04-LIN-006", "G04-LIN-008"],
+      "case_ids": ["VNV026-LIN-TET4-STATIC-001"]
+    },
+    {
+      "group_id": "LIN-READY-G05",
+      "family": "LIN",
+      "status": "READY",
+      "source_scope": "reused G05 linear inventory",
+      "requirements": ["G04-LIN-001", "G04-LIN-003", "G04-LIN-004", "G04-LIN-008"],
+      "case_ids": [
+        "VNV026-LIN-G05-001", "VNV026-LIN-G05-002", "VNV026-LIN-G05-003", "VNV026-LIN-G05-004",
+        "VNV026-LIN-G05-005", "VNV026-LIN-G05-006", "VNV026-LIN-G05-007", "VNV026-LIN-G05-008"
+      ]
+    },
+    {
+      "group_id": "LIN-READY-G06-A",
+      "family": "LIN",
+      "status": "READY",
+      "source_scope": "reused G06 analytical linear inventory",
+      "requirements": ["G04-LIN-001", "G04-LIN-003", "G04-LIN-004", "G04-LIN-008"],
+      "case_ids": [
+        "VNV026-LIN-G06-A001", "VNV026-LIN-G06-A002", "VNV026-LIN-G06-A003", "VNV026-LIN-G06-A004",
+        "VNV026-LIN-G06-A005", "VNV026-LIN-G06-A006", "VNV026-LIN-G06-A007", "VNV026-LIN-G06-A008",
+        "VNV026-LIN-G06-A009", "VNV026-LIN-G06-A010", "VNV026-LIN-G06-A011", "VNV026-LIN-G06-A012",
+        "VNV026-LIN-G06-A013", "VNV026-LIN-G06-A014", "VNV026-LIN-G06-A015", "VNV026-LIN-G06-A016",
+        "VNV026-LIN-G06-A017", "VNV026-LIN-G06-A018", "VNV026-LIN-G06-A019", "VNV026-LIN-G06-A020"
+      ]
+    },
+    {
+      "group_id": "LIN-READY-G06-M",
+      "family": "LIN",
+      "status": "READY",
+      "source_scope": "reused G06 matrix linear inventory",
+      "requirements": ["G04-LIN-001", "G04-LIN-005", "G04-LIN-008"],
+      "case_ids": [
+        "VNV026-LIN-G06-M001", "VNV026-LIN-G06-M002", "VNV026-LIN-G06-M003", "VNV026-LIN-G06-M004",
+        "VNV026-LIN-G06-M005", "VNV026-LIN-G06-M006", "VNV026-LIN-G06-M007", "VNV026-LIN-G06-M008",
+        "VNV026-LIN-G06-M009", "VNV026-LIN-G06-M010", "VNV026-LIN-G06-M011", "VNV026-LIN-G06-M012",
+        "VNV026-LIN-G06-M013", "VNV026-LIN-G06-M014", "VNV026-LIN-G06-M015", "VNV026-LIN-G06-M016"
+      ]
+    },
+    {
+      "group_id": "LIN-READY-HEX",
+      "family": "LIN",
+      "status": "READY",
+      "source_scope": "reused G06 HEX element inventory",
+      "requirements": ["G04-LIN-001", "G04-LIN-003", "G04-LIN-005", "G04-LIN-008"],
+      "case_ids": [
+        "VNV026-HEX-G06-HEX20-001", "VNV026-HEX-G06-HEX20-006", "VNV026-HEX-G06-HEX20-008",
+        "VNV026-HEX-G06-HEX8-001", "VNV026-HEX-G06-HEX8-006", "VNV026-HEX-G06-HEX8-008"
+      ]
+    },
+    {
+      "group_id": "LIN-READY-RBT",
+      "family": "LIN",
+      "status": "READY",
+      "source_scope": "reused G06 rigid-body and equilibrium inventory",
+      "requirements": ["G04-LIN-001", "G04-LIN-003", "G04-LIN-005", "G04-LIN-008"],
+      "case_ids": [
+        "VNV026-RBT-G06-001", "VNV026-RBT-G06-002", "VNV026-RBT-G06-003",
+        "VNV026-RBT-G06-020", "VNV026-RBT-G06-021"
+      ]
+    },
+    {
+      "group_id": "SHL-READY-G05",
+      "family": "SHL",
+      "status": "READY",
+      "source_scope": "reused G05 shell linear inventory",
+      "requirements": ["G04-LIN-001", "G04-LIN-003", "G04-LIN-004", "G04-LIN-008"],
+      "case_ids": [
+        "VNV026-SHL-G05-001", "VNV026-SHL-G05-002", "VNV026-SHL-G05-003",
+        "VNV026-SHL-G05-004", "VNV026-SHL-G05-005"
+      ]
+    },
+    {
+      "group_id": "SHL-READY-FOUNDATION",
+      "family": "SHL",
+      "status": "READY",
+      "source_scope": "foundation shell linear static",
+      "requirements": ["G04-LIN-001", "G04-LIN-002", "G04-LIN-003", "G04-LIN-008"],
+      "case_ids": ["VNV026-SHL-MITC3-STATIC-001"]
+    },
+    {
+      "group_id": "SHL-READY-RBT",
+      "family": "SHL",
+      "status": "READY",
+      "source_scope": "reused G06 shell rigid-body inventory",
+      "requirements": ["G04-LIN-001", "G04-LIN-003", "G04-LIN-004", "G04-LIN-008"],
+      "case_ids": ["VNV026-RBT-G06-004", "VNV026-RBT-G06-005", "VNV026-RBT-G06-006"]
+    },
+    {
+      "group_id": "LIN-PLANNED",
+      "family": "LIN",
+      "status": "PLANNED",
+      "source_scope": "unexecuted G04 linear inventory",
+      "requirements": ["G04-LIN-001", "G04-LIN-003", "G04-LIN-005", "G04-LIN-008"],
+      "case_ids": [
+        "VNV026-LIN-PLN-001", "VNV026-LIN-PLN-002", "VNV026-LIN-PLN-003", "VNV026-LIN-PLN-004"
+      ]
+    },
+    {
+      "group_id": "SHL-NOT-APPLICABLE-MIXED",
+      "family": "SHL",
+      "status": "NOT_APPLICABLE",
+      "source_scope": "mixed-route planned records",
+      "requirements": [],
+      "reason": "The source registry declares mixed analysis and no executable input model; these records are retained for traceability but are outside the G04 linear_static base claim.",
+      "case_ids": ["VNV026-SHL-PLN-001", "VNV026-SHL-PLN-002", "VNV026-SHL-PLN-003"]
+    }
+  ],
+  "summary": {
+    "source_case_count": 72,
+    "mapped_case_count": 72,
+    "ready_count": 65,
+    "planned_count": 4,
+    "not_applicable_count": 3
+  }
+}
