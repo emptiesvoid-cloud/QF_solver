@@ -1,0 +1,442 @@
+{
+  "schema_version": 1,
+  "contract_id": "026-G12-LOT2",
+  "environment": {
+    "os": "Windows-10-10.0.19045-SP0",
+    "python": "3.13.1",
+    "numpy": "2.2.6",
+    "scipy": "1.15.2",
+    "psutil": "7.2.2",
+    "cpu": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+    "logical_cpus": 12,
+    "ram_bytes": 102963109888,
+    "thread_environment": {
+      "OMP_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "NUMEXPR_NUM_THREADS": null
+    },
+    "git_head": "4dc8af83d8d45d6a4d61f242aa6b1f974d87bdb3"
+  },
+  "status": "PASS",
+  "timeout_seconds": 120.0,
+  "scaling_route": "linear_static",
+  "rows": [
+    {
+      "label": "TET4 target 3000",
+      "status": "PASS",
+      "measurements": [
+        {
+          "label": "TET4 target 3000 repetition 1",
+          "status": "PASS",
+          "total_dofs": 3000,
+          "free_dofs": 2700,
+          "node_count": 1000,
+          "element_count": 4374,
+          "nnz": 95172,
+          "global_stiffness_nnz": 95172,
+          "reduced_stiffness_nnz": 85252,
+          "nnz_per_dof": 31.724,
+          "global_matrix_storage_bytes": 1154068,
+          "reduced_matrix_storage_estimate_bytes": 1033828,
+          "global_matrix_storage_per_dof": 384.6893333333333,
+          "mesh_build_seconds": 0.017595000041183084,
+          "mesh_validation_seconds": 1.2361315000453033,
+          "assembly_seconds": 2.6713459999882616,
+          "assembly_plan_seconds": 0.06877529999474064,
+          "element_kernel_seconds": 0.2603203000035137,
+          "sparse_conversion_seconds": 0.01335390005260706,
+          "chunk_fusion_seconds": 0.0021418999531306326,
+          "sparse_finalize_seconds": 0.0004493999877013266,
+          "discrete_merge_seconds": 0.00011850002920255065,
+          "load_assembly_seconds": 2.3003216000506654,
+          "load_balance_seconds": 2.3947638002573512,
+          "load_balance_calls": 105,
+          "load_balance_node_visits": 105000,
+          "bc_application_seconds": 0.0001306000049225986,
+          "constraint_reduction_seconds": 0.006463000026997179,
+          "linear_solve_seconds": 0.020442000008188188,
+          "factorization_seconds": null,
+          "sparse_solve_seconds": 0.020442000008188188,
+          "post_processing_seconds": 0.0,
+          "post_processing_mode": "summary; element/nodal serialization omitted",
+          "solver_unattributed_seconds": 1.4346479000523686,
+          "solver_total_seconds": 4.126435900048818,
+          "wall_total_seconds": 4.145531699992716,
+          "peak_rss_bytes": null,
+          "rss_delta_bytes": null,
+          "tracemalloc_peak_bytes": null,
+          "solution_norm": 8.84874688262762e-11,
+          "solution_checksum": "d1efed98df1ac7c777368ff0967d08b4a86639e7a91d6be81f3a880f1352584f",
+          "relative_residual_norm": 8.585237738069959e-12,
+          "finite_metrics": true,
+          "topology": {
+            "topology": "connected_structured_block",
+            "cells_per_axis": 9
+          },
+          "phase_notes": {
+            "copies_conversions": "Not independently observable in the public route; sparse conversion is taken from GlobalAssembler diagnostics and remaining attribution is reported as solver_unattributed_seconds.",
+            "factorization": "NOT_APPLICABLE: CG route; no factorization phase is executed."
+          }
+        }
+      ],
+      "deterministic": true,
+      "finite_metrics": true,
+      "metric_statistics": {
+        "assembly_seconds": {
+          "mean": 2.6713459999882616,
+          "median": 2.6713459999882616,
+          "population_stddev": 0.0
+        },
+        "sparse_conversion_seconds": {
+          "mean": 0.01335390005260706,
+          "median": 0.01335390005260706,
+          "population_stddev": 0.0
+        },
+        "bc_application_seconds": {
+          "mean": 0.0001306000049225986,
+          "median": 0.0001306000049225986,
+          "population_stddev": 0.0
+        },
+        "linear_solve_seconds": {
+          "mean": 0.020442000008188188,
+          "median": 0.020442000008188188,
+          "population_stddev": 0.0
+        },
+        "solver_total_seconds": {
+          "mean": 4.126435900048818,
+          "median": 4.126435900048818,
+          "population_stddev": 0.0
+        },
+        "wall_total_seconds": {
+          "mean": 4.145531699992716,
+          "median": 4.145531699992716,
+          "population_stddev": 0.0
+        },
+        "global_matrix_storage_bytes": {
+          "mean": 1154068.0,
+          "median": 1154068.0,
+          "population_stddev": 0.0
+        }
+      },
+      "max_relative_residual_norm": 8.585237738069959e-12,
+      "family": "TET4",
+      "target_dofs": 3000,
+      "case_peak_rss_bytes": 94396416,
+      "case_peak_rss_scope": "parent sampler over child warmup and measured repetitions"
+    },
+    {
+      "label": "TET4 target 5000",
+      "status": "PASS",
+      "measurements": [
+        {
+          "label": "TET4 target 5000 repetition 1",
+          "status": "PASS",
+          "total_dofs": 5184,
+          "free_dofs": 4752,
+          "node_count": 1728,
+          "element_count": 7986,
+          "nnz": 168924,
+          "global_stiffness_nnz": 168924,
+          "reduced_stiffness_nnz": 154360,
+          "nnz_per_dof": 32.585648148148145,
+          "global_matrix_storage_bytes": 2047828,
+          "reduced_matrix_storage_estimate_bytes": 1871332,
+          "global_matrix_storage_per_dof": 395.02854938271605,
+          "mesh_build_seconds": 0.05198069999460131,
+          "mesh_validation_seconds": 2.191807399969548,
+          "assembly_seconds": 6.557606599992141,
+          "assembly_plan_seconds": 0.1245041000074707,
+          "element_kernel_seconds": 0.4813618998741731,
+          "sparse_conversion_seconds": 0.027327299991156906,
+          "chunk_fusion_seconds": 0.006182200042530894,
+          "sparse_finalize_seconds": 0.0008841000380925834,
+          "discrete_merge_seconds": 0.00019130000146105886,
+          "load_assembly_seconds": 5.870501700032037,
+          "load_balance_seconds": 6.050474899995606,
+          "load_balance_calls": 149,
+          "load_balance_node_visits": 257472,
+          "bc_application_seconds": 0.00019489997066557407,
+          "constraint_reduction_seconds": 0.01342339999973774,
+          "linear_solve_seconds": 0.037939700006973,
+          "factorization_seconds": null,
+          "sparse_solve_seconds": 0.037939700006973,
+          "post_processing_seconds": 0.0,
+          "post_processing_mode": "summary; element/nodal serialization omitted",
+          "solver_unattributed_seconds": 2.5037215999909677,
+          "solver_total_seconds": 9.099267899990082,
+          "wall_total_seconds": 9.154057100007776,
+          "peak_rss_bytes": null,
+          "rss_delta_bytes": null,
+          "tracemalloc_peak_bytes": null,
+          "solution_norm": 1.1510569644774867e-10,
+          "solution_checksum": "6f6377464b00d939cd15d618cd6b3694c6b14c56136aacf30a8e419c4bdf9ca3",
+          "relative_residual_norm": 7.134724907144452e-12,
+          "finite_metrics": true,
+          "topology": {
+            "topology": "connected_structured_block",
+            "cells_per_axis": 11
+          },
+          "phase_notes": {
+            "copies_conversions": "Not independently observable in the public route; sparse conversion is taken from GlobalAssembler diagnostics and remaining attribution is reported as solver_unattributed_seconds.",
+            "factorization": "NOT_APPLICABLE: CG route; no factorization phase is executed."
+          }
+        }
+      ],
+      "deterministic": true,
+      "finite_metrics": true,
+      "metric_statistics": {
+        "assembly_seconds": {
+          "mean": 6.557606599992141,
+          "median": 6.557606599992141,
+          "population_stddev": 0.0
+        },
+        "sparse_conversion_seconds": {
+          "mean": 0.027327299991156906,
+          "median": 0.027327299991156906,
+          "population_stddev": 0.0
+        },
+        "bc_application_seconds": {
+          "mean": 0.00019489997066557407,
+          "median": 0.00019489997066557407,
+          "population_stddev": 0.0
+        },
+        "linear_solve_seconds": {
+          "mean": 0.037939700006973,
+          "median": 0.037939700006973,
+          "population_stddev": 0.0
+        },
+        "solver_total_seconds": {
+          "mean": 9.099267899990082,
+          "median": 9.099267899990082,
+          "population_stddev": 0.0
+        },
+        "wall_total_seconds": {
+          "mean": 9.154057100007776,
+          "median": 9.154057100007776,
+          "population_stddev": 0.0
+        },
+        "global_matrix_storage_bytes": {
+          "mean": 2047828.0,
+          "median": 2047828.0,
+          "population_stddev": 0.0
+        }
+      },
+      "max_relative_residual_norm": 7.134724907144452e-12,
+      "family": "TET4",
+      "target_dofs": 5000,
+      "case_peak_rss_bytes": 105160704,
+      "case_peak_rss_scope": "parent sampler over child warmup and measured repetitions"
+    },
+    {
+      "label": "TET4 target 7500",
+      "status": "PASS",
+      "measurements": [
+        {
+          "label": "TET4 target 7500 repetition 1",
+          "status": "PASS",
+          "total_dofs": 8232,
+          "free_dofs": 7644,
+          "node_count": 2744,
+          "element_count": 13182,
+          "nnz": 273348,
+          "global_stiffness_nnz": 273348,
+          "reduced_stiffness_nnz": 253252,
+          "nnz_per_dof": 33.20553935860058,
+          "global_matrix_storage_bytes": 3313108,
+          "reduced_matrix_storage_estimate_bytes": 3069604,
+          "global_matrix_storage_per_dof": 402.4669582118562,
+          "mesh_build_seconds": 0.05387750000227243,
+          "mesh_validation_seconds": 3.712340000027325,
+          "assembly_seconds": 13.804221600003075,
+          "assembly_plan_seconds": 0.21151790005387738,
+          "element_kernel_seconds": 0.8040591998724267,
+          "sparse_conversion_seconds": 0.041337399859912694,
+          "chunk_fusion_seconds": 0.008810000086668879,
+          "sparse_finalize_seconds": 0.002264399954583496,
+          "discrete_merge_seconds": 0.00042420002864673734,
+          "load_assembly_seconds": 12.658799199969508,
+          "load_balance_seconds": 12.943345400388353,
+          "load_balance_calls": 201,
+          "load_balance_node_visits": 551544,
+          "bc_application_seconds": 0.0002530000056140125,
+          "constraint_reduction_seconds": 0.022615700028836727,
+          "linear_solve_seconds": 0.06881580001208931,
+          "factorization_seconds": null,
+          "sparse_solve_seconds": 0.06881580001208931,
+          "post_processing_seconds": 0.0,
+          "post_processing_mode": "summary; element/nodal serialization omitted",
+          "solver_unattributed_seconds": 4.19154890003847,
+          "solver_total_seconds": 18.064586300053634,
+          "wall_total_seconds": 18.123613300034776,
+          "peak_rss_bytes": null,
+          "rss_delta_bytes": null,
+          "tracemalloc_peak_bytes": null,
+          "solution_norm": 1.440637573404591e-10,
+          "solution_checksum": "0df8ea312c08d67e8264435dc84b615c7ff15cb62a49a110e4ddec1bb157ce2d",
+          "relative_residual_norm": 6.068195839635251e-12,
+          "finite_metrics": true,
+          "topology": {
+            "topology": "connected_structured_block",
+            "cells_per_axis": 13
+          },
+          "phase_notes": {
+            "copies_conversions": "Not independently observable in the public route; sparse conversion is taken from GlobalAssembler diagnostics and remaining attribution is reported as solver_unattributed_seconds.",
+            "factorization": "NOT_APPLICABLE: CG route; no factorization phase is executed."
+          }
+        }
+      ],
+      "deterministic": true,
+      "finite_metrics": true,
+      "metric_statistics": {
+        "assembly_seconds": {
+          "mean": 13.804221600003075,
+          "median": 13.804221600003075,
+          "population_stddev": 0.0
+        },
+        "sparse_conversion_seconds": {
+          "mean": 0.041337399859912694,
+          "median": 0.041337399859912694,
+          "population_stddev": 0.0
+        },
+        "bc_application_seconds": {
+          "mean": 0.0002530000056140125,
+          "median": 0.0002530000056140125,
+          "population_stddev": 0.0
+        },
+        "linear_solve_seconds": {
+          "mean": 0.06881580001208931,
+          "median": 0.06881580001208931,
+          "population_stddev": 0.0
+        },
+        "solver_total_seconds": {
+          "mean": 18.064586300053634,
+          "median": 18.064586300053634,
+          "population_stddev": 0.0
+        },
+        "wall_total_seconds": {
+          "mean": 18.123613300034776,
+          "median": 18.123613300034776,
+          "population_stddev": 0.0
+        },
+        "global_matrix_storage_bytes": {
+          "mean": 3313108.0,
+          "median": 3313108.0,
+          "population_stddev": 0.0
+        }
+      },
+      "max_relative_residual_norm": 6.068195839635251e-12,
+      "family": "TET4",
+      "target_dofs": 7500,
+      "case_peak_rss_bytes": 119975936,
+      "case_peak_rss_scope": "parent sampler over child warmup and measured repetitions"
+    },
+    {
+      "label": "TET4 target 10000",
+      "status": "PASS",
+      "measurements": [
+        {
+          "label": "TET4 target 10000 repetition 1",
+          "status": "PASS",
+          "total_dofs": 10125,
+          "free_dofs": 9450,
+          "node_count": 3375,
+          "element_count": 16464,
+          "nnz": 338727,
+          "global_stiffness_nnz": 338727,
+          "reduced_stiffness_nnz": 315532,
+          "nnz_per_dof": 33.45451851851852,
+          "global_matrix_storage_bytes": 4105228,
+          "reduced_matrix_storage_estimate_bytes": 3824188,
+          "global_matrix_storage_per_dof": 405.4546172839506,
+          "mesh_build_seconds": 0.05991760001052171,
+          "mesh_validation_seconds": 4.415093399991747,
+          "assembly_seconds": 19.29638369998429,
+          "assembly_plan_seconds": 0.2862542999791913,
+          "element_kernel_seconds": 0.968623899971135,
+          "sparse_conversion_seconds": 0.045291399699635804,
+          "chunk_fusion_seconds": 0.012106899928767234,
+          "sparse_finalize_seconds": 0.0015720000374130905,
+          "discrete_merge_seconds": 0.0003011999651789665,
+          "load_assembly_seconds": 17.88299360004021,
+          "load_balance_seconds": 18.149961499671917,
+          "load_balance_calls": 230,
+          "load_balance_node_visits": 776250,
+          "bc_application_seconds": 0.0002750999992713332,
+          "constraint_reduction_seconds": 0.02601410000352189,
+          "linear_solve_seconds": 0.08676189999096096,
+          "factorization_seconds": null,
+          "sparse_solve_seconds": 0.08676189999096096,
+          "post_processing_seconds": 0.0,
+          "post_processing_mode": "summary; element/nodal serialization omitted",
+          "solver_unattributed_seconds": 4.884001500031445,
+          "solver_total_seconds": 24.267147100006696,
+          "wall_total_seconds": 24.33205690002069,
+          "peak_rss_bytes": null,
+          "rss_delta_bytes": null,
+          "tracemalloc_peak_bytes": null,
+          "solution_norm": 1.593643571831215e-10,
+          "solution_checksum": "b0ab615d269925fdf2d52740a1a72b4f71712fe2d563966c5a7362824b8d3e72",
+          "relative_residual_norm": 6.0231592271280606e-12,
+          "finite_metrics": true,
+          "topology": {
+            "topology": "connected_structured_block",
+            "cells_per_axis": 14
+          },
+          "phase_notes": {
+            "copies_conversions": "Not independently observable in the public route; sparse conversion is taken from GlobalAssembler diagnostics and remaining attribution is reported as solver_unattributed_seconds.",
+            "factorization": "NOT_APPLICABLE: CG route; no factorization phase is executed."
+          }
+        }
+      ],
+      "deterministic": true,
+      "finite_metrics": true,
+      "metric_statistics": {
+        "assembly_seconds": {
+          "mean": 19.29638369998429,
+          "median": 19.29638369998429,
+          "population_stddev": 0.0
+        },
+        "sparse_conversion_seconds": {
+          "mean": 0.045291399699635804,
+          "median": 0.045291399699635804,
+          "population_stddev": 0.0
+        },
+        "bc_application_seconds": {
+          "mean": 0.0002750999992713332,
+          "median": 0.0002750999992713332,
+          "population_stddev": 0.0
+        },
+        "linear_solve_seconds": {
+          "mean": 0.08676189999096096,
+          "median": 0.08676189999096096,
+          "population_stddev": 0.0
+        },
+        "solver_total_seconds": {
+          "mean": 24.267147100006696,
+          "median": 24.267147100006696,
+          "population_stddev": 0.0
+        },
+        "wall_total_seconds": {
+          "mean": 24.33205690002069,
+          "median": 24.33205690002069,
+          "population_stddev": 0.0
+        },
+        "global_matrix_storage_bytes": {
+          "mean": 4105228.0,
+          "median": 4105228.0,
+          "population_stddev": 0.0
+        }
+      },
+      "max_relative_residual_norm": 6.0231592271280606e-12,
+      "family": "TET4",
+      "target_dofs": 10000,
+      "case_peak_rss_bytes": 130805760,
+      "case_peak_rss_scope": "parent sampler over child warmup and measured repetitions"
+    }
+  ],
+  "resource_policy": {
+    "stop_after_first_timeout": true,
+    "timeout_seconds": 120.0
+  }
+}

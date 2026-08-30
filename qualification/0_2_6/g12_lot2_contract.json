@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "contract_id": "026-G12-LOT2",
+  "status": "CONTROLLED_DIAGNOSTIC_EXECUTION",
+  "scope": {
+    "route": "linear_static",
+    "families": ["TET4", "HEX8", "TET10", "HEX20"],
+    "purpose": "diagnose scaling wall and validate lot-1 nnz semantics without solver optimization"
+  },
+  "artifacts": {
+    "runner": "scripts/benchmark_g12_lot2.py",
+    "scaling": "qualification/0_2_6/g12_lot2_scaling.json",
+    "profiles": "qualification/0_2_6/g12_lot2_profiles.json",
+    "fair_high_order": "qualification/0_2_6/g12_lot2_high_order_fair.json",
+    "diagnostic_aggregate": "qualification/0_2_6/g12_lot2_diagnostic.json",
+    "documentation": "docs/verification/0_2_6/0_2_6_g12_lot2.md"
+  },
+  "measurement_semantics": {
+    "total_dofs": "result.ndof from the route DofManager",
+    "free_dofs": "total DOF minus fixed indices from the actual model",
+    "nnz": "global assembled stiffness CSR final_nnz before constraint reduction",
+    "reduced_stiffness_nnz": "reduced CSR nnz after fixed/MPC constraint elimination",
+    "assembly_seconds": "existing LinearStaticSolver execution assembly_seconds",
+    "sparse_conversion_seconds": "GlobalAssembler assembly_phase_seconds.chunk_sparse_conversion",
+    "solve_seconds": "existing LinearStaticSolver execution linear_solve_seconds",
+    "total_seconds": "existing route execution total_seconds; wall_total also includes model construction",
+    "peak_rss": "parent psutil sampler around an isolated child containing warmup and measured repetitions; null if unavailable",
+    "timing_overhead_control": "performance timings run without the RSS sampler and tracemalloc; memory is measured in the parent and tracemalloc is used only in separate lot-1 evidence",
+    "matrix_storage": "CSR data + indices + indptr nbytes for global stiffness",
+    "residual": "existing route solver relative_residual_norm",
+    "checksum": "SHA-256 of float64 displacement bytes"
+  },
+  "profiling": {
+    "tool": "cProfile/pstats",
+    "cases": ["TET4 approximately 3000 DOF", "largest completed TET4 case near 10000 DOF"],
+    "top_function_count": 20,
+    "reported": ["cumulative_seconds", "self_seconds", "calls", "percent_profile_cumulative"]
+  },
+  "scaling": {
+    "target_dofs": [3000, 5000, 7500, 10000],
+    "route": "linear_static",
+    "family": "TET4",
+    "repetitions": "one measured run per expensive intermediate size; Lot-1 repetition evidence remains separate",
+    "timeout_seconds": 120,
+    "stop_after_first_timeout": true,
+    "timeout_classification": "RESOURCE_LIMITED",
+    "lot_1_intrusive_timeout": "HARNESS_ERROR when RSS/tracemalloc are active during timed execution; Lot-2 timing separates performance and memory measurement"
+  },
+  "memory": {
+    "required": ["global_matrix_storage_bytes", "peak_rss_bytes", "nnz_per_dof", "global_matrix_storage_per_dof", "tracemalloc_peak_bytes"],
+    "copy_audit": "Use phase diagnostics and cProfile; do not infer an unmeasured copy as a bottleneck"
+  },
+  "high_order": {
+    "comparison": "same unit tetrahedron or unit cube, same isotropic material, same all-fixed-except-node-1-UX boundary convention",
+    "families": ["TET4", "TET10", "HEX8", "HEX20"],
+    "interpretation": "implementation/resource comparison only; not equal-accuracy or mesh-convergence evidence"
+  },
+  "numeric_policy": {
+    "finite_metrics_required": true,
+    "relative_residual_max": 1e-8,
+    "numerical_regression_detected": "YES only if checksum/residual/status changes are observed against the same case; otherwise NO",
+    "no_solver_optimization": true
+  }
+}

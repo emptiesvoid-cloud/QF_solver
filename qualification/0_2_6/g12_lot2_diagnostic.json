@@ -1,0 +1,841 @@
+{
+  "schema_version": 1,
+  "contract_id": "026-G12-LOT2",
+  "diagnostic_type": "performance_wall_diagnosis",
+  "status": "PASS",
+  "baseline_sha": "4dc8af83d8d45d6a4d61f242aa6b1f974d87bdb3",
+  "evidence_inputs": {
+    "scaling": "qualification\\0_2_6\\g12_lot2_scaling.json",
+    "profiles": "qualification\\0_2_6\\g12_lot2_profiles.json",
+    "fair_high_order": "qualification\\0_2_6\\g12_lot2_high_order_fair.json"
+  },
+  "harness_audit": {
+    "harness_valid": true,
+    "nnz_measurement_valid": true,
+    "nnz_definition": "global assembled stiffness CSR final_nnz before constraint reduction",
+    "reduced_nnz_reported_separately": true,
+    "timing_overhead_control": "performance child runs disable RSS sampler and tracemalloc; parent samples RSS separately",
+    "lot1_10k_resource_observation": {
+      "classification": "HARNESS_ERROR",
+      "reason": "Lot-1 timed the case while in-process RSS sampling and tracemalloc were active; it is not a solver resource boundary.",
+      "controlled_lot2_retest": "PASS",
+      "clean_10k_wall_seconds": 24.33205690002069
+    }
+  },
+  "numerical_regression": {
+    "detected": "NO",
+    "basis": "corrected Lot-1 checksums/residuals remained stable; all Lot-2 rows are finite and PASS",
+    "max_scaling_relative_residual_norm": 8.585237738069959e-12
+  },
+  "scaling": {
+    "route": "linear_static",
+    "family": "TET4",
+    "timeout_seconds": 120.0,
+    "completed_rows": [
+      {
+        "target_dofs": 3000,
+        "actual_dofs": 3000,
+        "status": "PASS",
+        "assembly_seconds": 2.6713459999882616,
+        "load_assembly_seconds": 2.3003216000506654,
+        "load_balance_seconds": 2.3947638002573512,
+        "sparse_conversion_seconds": 0.01335390005260706,
+        "bc_application_seconds": 0.0001306000049225986,
+        "linear_solve_seconds": 0.020442000008188188,
+        "solver_total_seconds": 4.126435900048818,
+        "wall_total_seconds": 4.145531699992716,
+        "global_stiffness_nnz": 95172,
+        "reduced_stiffness_nnz": 85252,
+        "global_matrix_storage_bytes": 1154068,
+        "global_matrix_storage_per_dof": 384.6893333333333,
+        "nnz_per_dof": 31.724,
+        "case_peak_rss_bytes": 94396416,
+        "case_peak_rss_scope": "parent sampler over child warmup and measured repetitions",
+        "relative_residual_norm": 8.585237738069959e-12,
+        "finite_metrics": true,
+        "deterministic": true,
+        "solution_checksum": "d1efed98df1ac7c777368ff0967d08b4a86639e7a91d6be81f3a880f1352584f",
+        "load_balance_calls": 105,
+        "load_balance_node_visits": 105000
+      },
+      {
+        "target_dofs": 5000,
+        "actual_dofs": 5184,
+        "status": "PASS",
+        "assembly_seconds": 6.557606599992141,
+        "load_assembly_seconds": 5.870501700032037,
+        "load_balance_seconds": 6.050474899995606,
+        "sparse_conversion_seconds": 0.027327299991156906,
+        "bc_application_seconds": 0.00019489997066557407,
+        "linear_solve_seconds": 0.037939700006973,
+        "solver_total_seconds": 9.099267899990082,
+        "wall_total_seconds": 9.154057100007776,
+        "global_stiffness_nnz": 168924,
+        "reduced_stiffness_nnz": 154360,
+        "global_matrix_storage_bytes": 2047828,
+        "global_matrix_storage_per_dof": 395.02854938271605,
+        "nnz_per_dof": 32.585648148148145,
+        "case_peak_rss_bytes": 105160704,
+        "case_peak_rss_scope": "parent sampler over child warmup and measured repetitions",
+        "relative_residual_norm": 7.134724907144452e-12,
+        "finite_metrics": true,
+        "deterministic": true,
+        "solution_checksum": "6f6377464b00d939cd15d618cd6b3694c6b14c56136aacf30a8e419c4bdf9ca3",
+        "load_balance_calls": 149,
+        "load_balance_node_visits": 257472
+      },
+      {
+        "target_dofs": 7500,
+        "actual_dofs": 8232,
+        "status": "PASS",
+        "assembly_seconds": 13.804221600003075,
+        "load_assembly_seconds": 12.658799199969508,
+        "load_balance_seconds": 12.943345400388353,
+        "sparse_conversion_seconds": 0.041337399859912694,
+        "bc_application_seconds": 0.0002530000056140125,
+        "linear_solve_seconds": 0.06881580001208931,
+        "solver_total_seconds": 18.064586300053634,
+        "wall_total_seconds": 18.123613300034776,
+        "global_stiffness_nnz": 273348,
+        "reduced_stiffness_nnz": 253252,
+        "global_matrix_storage_bytes": 3313108,
+        "global_matrix_storage_per_dof": 402.4669582118562,
+        "nnz_per_dof": 33.20553935860058,
+        "case_peak_rss_bytes": 119975936,
+        "case_peak_rss_scope": "parent sampler over child warmup and measured repetitions",
+        "relative_residual_norm": 6.068195839635251e-12,
+        "finite_metrics": true,
+        "deterministic": true,
+        "solution_checksum": "0df8ea312c08d67e8264435dc84b615c7ff15cb62a49a110e4ddec1bb157ce2d",
+        "load_balance_calls": 201,
+        "load_balance_node_visits": 551544
+      },
+      {
+        "target_dofs": 10000,
+        "actual_dofs": 10125,
+        "status": "PASS",
+        "assembly_seconds": 19.29638369998429,
+        "load_assembly_seconds": 17.88299360004021,
+        "load_balance_seconds": 18.149961499671917,
+        "sparse_conversion_seconds": 0.045291399699635804,
+        "bc_application_seconds": 0.0002750999992713332,
+        "linear_solve_seconds": 0.08676189999096096,
+        "solver_total_seconds": 24.267147100006696,
+        "wall_total_seconds": 24.33205690002069,
+        "global_stiffness_nnz": 338727,
+        "reduced_stiffness_nnz": 315532,
+        "global_matrix_storage_bytes": 4105228,
+        "global_matrix_storage_per_dof": 405.4546172839506,
+        "nnz_per_dof": 33.45451851851852,
+        "case_peak_rss_bytes": 130805760,
+        "case_peak_rss_scope": "parent sampler over child warmup and measured repetitions",
+        "relative_residual_norm": 6.0231592271280606e-12,
+        "finite_metrics": true,
+        "deterministic": true,
+        "solution_checksum": "b0ab615d269925fdf2d52740a1a72b4f71712fe2d563966c5a7362824b8d3e72",
+        "load_balance_calls": 230,
+        "load_balance_node_visits": 776250
+      }
+    ],
+    "log_log_exponents": {
+      "assembly": 1.6246280288001533,
+      "load_assembly": 1.6847566391483468,
+      "load_balance": 1.6647432614426185,
+      "sparse_conversion": 1.0182262664098232,
+      "linear_solve": 1.1988317298927533,
+      "solver_total": 1.4597824666591823,
+      "wall_total": 1.4578991020149994,
+      "global_matrix_storage": 1.0432985769783578,
+      "peak_rss": 0.26347574681115193
+    }
+  },
+  "memory": {
+    "matrix_storage_is_csr_bytes": true,
+    "matrix_storage_scaling_exponent": 1.0432985769783578,
+    "rss_scaling_exponent": 0.26347574681115193,
+    "rows": [
+      {
+        "actual_dofs": 3000,
+        "global_stiffness_nnz": 95172,
+        "nnz_per_dof": 31.724,
+        "global_matrix_storage_bytes": 1154068,
+        "global_matrix_storage_per_dof": 384.6893333333333,
+        "case_peak_rss_bytes": 94396416,
+        "case_peak_rss_per_dof": 31465.472
+      },
+      {
+        "actual_dofs": 5184,
+        "global_stiffness_nnz": 168924,
+        "nnz_per_dof": 32.585648148148145,
+        "global_matrix_storage_bytes": 2047828,
+        "global_matrix_storage_per_dof": 395.02854938271605,
+        "case_peak_rss_bytes": 105160704,
+        "case_peak_rss_per_dof": 20285.62962962963
+      },
+      {
+        "actual_dofs": 8232,
+        "global_stiffness_nnz": 273348,
+        "nnz_per_dof": 33.20553935860058,
+        "global_matrix_storage_bytes": 3313108,
+        "global_matrix_storage_per_dof": 402.4669582118562,
+        "case_peak_rss_bytes": 119975936,
+        "case_peak_rss_per_dof": 14574.336248785228
+      },
+      {
+        "actual_dofs": 10125,
+        "global_stiffness_nnz": 338727,
+        "nnz_per_dof": 33.45451851851852,
+        "global_matrix_storage_bytes": 4105228,
+        "global_matrix_storage_per_dof": 405.4546172839506,
+        "case_peak_rss_bytes": 130805760,
+        "case_peak_rss_per_dof": 12919.087407407407
+      }
+    ],
+    "copy_audit": "No independent public-route copy counter exists; sparse conversion and solver_unattributed_seconds are reported, so unmeasured copies are not promoted to a bottleneck."
+  },
+  "profiles": {
+    "completed_targets": [
+      3000,
+      10000
+    ],
+    "largest_completed_target_dofs": 10000,
+    "profiled_cases": [
+      {
+        "schema_version": 1,
+        "contract_id": "026-G12-LOT2",
+        "status": "PASS",
+        "family": "TET4",
+        "target_dofs": 3000,
+        "environment": {
+          "os": "Windows-10-10.0.19045-SP0",
+          "python": "3.13.1",
+          "numpy": "2.2.6",
+          "scipy": "1.15.2",
+          "psutil": "7.2.2",
+          "cpu": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+          "logical_cpus": 12,
+          "ram_bytes": 102963109888,
+          "thread_environment": {
+            "OMP_NUM_THREADS": null,
+            "MKL_NUM_THREADS": null,
+            "OPENBLAS_NUM_THREADS": null,
+            "NUMEXPR_NUM_THREADS": null
+          },
+          "git_head": "4dc8af83d8d45d6a4d61f242aa6b1f974d87bdb3"
+        },
+        "profiled_case": {
+          "label": "profile TET4 target 3000",
+          "status": "PASS",
+          "total_dofs": 3000,
+          "free_dofs": 2700,
+          "node_count": 1000,
+          "element_count": 4374,
+          "nnz": 95172,
+          "global_stiffness_nnz": 95172,
+          "reduced_stiffness_nnz": 85252,
+          "nnz_per_dof": 31.724,
+          "global_matrix_storage_bytes": 1154068,
+          "reduced_matrix_storage_estimate_bytes": 1033828,
+          "global_matrix_storage_per_dof": 384.6893333333333,
+          "mesh_build_seconds": 0.03531080001266673,
+          "mesh_validation_seconds": 2.20716029999312,
+          "assembly_seconds": 5.777485900034662,
+          "assembly_plan_seconds": 0.19662900001276284,
+          "element_kernel_seconds": 0.39637080003740266,
+          "sparse_conversion_seconds": 0.014403000066522509,
+          "chunk_fusion_seconds": 0.0031388000352308154,
+          "sparse_finalize_seconds": 0.0005721999914385378,
+          "discrete_merge_seconds": 0.0001476999605074525,
+          "load_assembly_seconds": 5.069979899970349,
+          "load_balance_seconds": 5.280065099766944,
+          "load_balance_calls": 105,
+          "load_balance_node_visits": 105000,
+          "bc_application_seconds": 0.000443600001744926,
+          "constraint_reduction_seconds": 0.010890400037169456,
+          "linear_solve_seconds": 0.02625389996683225,
+          "factorization_seconds": null,
+          "sparse_solve_seconds": 0.02625389996683225,
+          "post_processing_seconds": 0.0,
+          "post_processing_mode": "summary; element/nodal serialization omitted",
+          "solver_unattributed_seconds": 2.5992546000052243,
+          "solver_total_seconds": 8.402994400006719,
+          "wall_total_seconds": 8.440764900005888,
+          "peak_rss_bytes": null,
+          "rss_delta_bytes": null,
+          "tracemalloc_peak_bytes": null,
+          "solution_norm": 8.84874688262762e-11,
+          "solution_checksum": "d1efed98df1ac7c777368ff0967d08b4a86639e7a91d6be81f3a880f1352584f",
+          "relative_residual_norm": 8.585237738069959e-12,
+          "finite_metrics": true,
+          "topology": {
+            "topology": "connected_structured_block",
+            "cells_per_axis": 9
+          },
+          "phase_notes": {
+            "copies_conversions": "Not independently observable in the public route; sparse conversion is taken from GlobalAssembler diagnostics and remaining attribution is reported as solver_unattributed_seconds.",
+            "factorization": "NOT_APPLICABLE: CG route; no factorization phase is executed."
+          }
+        },
+        "profiled_wall_seconds": 8.446674400009215,
+        "top_functions": [
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\scripts\\\\benchmark_g12_lot2.py', 195, '_run_once')",
+            "calls": 1,
+            "primitive_calls": 1,
+            "self_seconds": 0.00010760000000000001,
+            "cumulative_seconds": 8.441110700000001,
+            "percent_profile_cumulative": 100.0
+          },
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\scripts\\\\benchmark_g12_lot2.py', 158, '_run_with_load_balance_timer')",
+            "calls": 1,
+            "primitive_calls": 1,
+            "self_seconds": 1.87e-05,
+            "cumulative_seconds": 8.405389300000001,
+            "percent_profile_cumulative": 99.57681635427433
+          },
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\scripts\\\\benchmark_g12_lot2.py', 140, '_run_with_constraint_timer')",
+            "calls": 1,
+            "primitive_calls": 1,
+            "self_seconds": 0.0023306,
+            "cumulative_seconds": 8.405370600000001,
+            "percent_profile_cumulative": 99.57659481944717
+          },
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\core\\\\solvers\\\\static.py', 36, 'solve')",
+            "calls": 1,
+            "primitive_calls": 1,
+            "self_seconds": 0.000275,
+            "cumulative_seconds": 8.40304,
+            "percent_profile_cumulative": 99.54898470884879
+          },
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\scripts\\\\benchmark_g12_lot2.py', 164, 'timed')",
+            "calls": 105,
+            "primitive_calls": 105,
+            "self_seconds": 0.0008403000000000001,
+            "cumulative_seconds": 5.2802221000000005,
+            "percent_profile_cumulative": 62.55364119321406
+          },
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\loads\\\\integration.py', 453, 'load_balance')",
+            "calls": 105,
+            "primitive_calls": 105,
+            "self_seconds": 0.6206053,
+            "cumulative_seconds": 5.279091500000001,
+            "percent_profile_cumulative": 62.54024722125727
+          },
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\scripts\\\\benchmark_g12_lot2.py', 113, 'assemble_loads')",
+            "calls": 1,
+            "primitive_calls": 1,
+            "self_seconds": 7.8e-06,
+            "cumulative_seconds": 5.0699832,
+            "percent_profile_cumulative": 60.06298673467224
+          },
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\core\\\\assembly\\\\assembler.py', 181, 'assemble_loads')",
+            "calls": 1,
+            "primitive_calls": 1,
+            "self_seconds": 8.8e-06,
+            "cumulative_seconds": 5.069975100000001,
+            "percent_profile_cumulative": 60.06289077573641
+          },
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\core\\\\assembly\\\\assembler.py', 190, '_assemble_load_data')",
+            "calls": 1,
+            "primitive_calls": 1,
+            "self_seconds": 0.002094,
+            "cumulative_seconds": 5.0699663,
+            "percent_profile_cumulative": 60.06278652405304
+          },
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\AppData\\\\Roaming\\\\Python\\\\Python313\\\\site-packages\\\\numpy\\\\_core\\\\numeric.py', 1522, 'cross')",
+            "calls": 122496,
+            "primitive_calls": 122496,
+            "self_seconds": 1.6509876,
+            "cumulative_seconds": 4.1003892,
+            "percent_profile_cumulative": 48.57641779298072
+          },
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\scripts\\\\benchmark_g12_lot2.py', 130, 'validate')",
+            "calls": 1,
+            "primitive_calls": 1,
+            "self_seconds": 6.900000000000001e-05,
+            "cumulative_seconds": 2.2071618,
+            "percent_profile_cumulative": 26.147765127638948
+          },
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\validation.py', 51, 'validate')",
+            "calls": 1,
+            "primitive_calls": 1,
+            "self_seconds": 0.0002673,
+            "cumulative_seconds": 2.2070923000000002,
+            "percent_profile_cumulative": 26.146941776275956
+          },
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\AppData\\\\Roaming\\\\Python\\\\Python313\\\\site-packages\\\\numpy\\\\_core\\\\numeric.py', 1448, 'moveaxis')",
+            "calls": 367490,
+            "primitive_calls": 367490,
+            "self_seconds": 0.6923044,
+            "cumulative_seconds": 2.1077365,
+            "percent_profile_cumulative": 24.969895253239596
+          },
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\validation.py', 150, '_element_quality_details')",
+            "calls": 1,
+            "primitive_calls": 1,
+            "self_seconds": 0.039166,
+            "cumulative_seconds": 2.0176324,
+            "percent_profile_cumulative": 23.902451605095045
+          },
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\quality.py', 59, 'tet_metrics')",
+            "calls": 4374,
+            "primitive_calls": 4374,
+            "self_seconds": 0.027656,
+            "cumulative_seconds": 1.9564497,
+            "percent_profile_cumulative": 23.1776334837073
+          },
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\AppData\\\\Roaming\\\\Python\\\\Python313\\\\site-packages\\\\numpy\\\\_core\\\\numeric.py', 1386, 'normalize_axis_tuple')",
+            "calls": 734980,
+            "primitive_calls": 734980,
+            "self_seconds": 0.8087642,
+            "cumulative_seconds": 1.101693,
+            "percent_profile_cumulative": 13.051517023701631
+          },
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\quality.py', 235, '_tet_radius_ratio')",
+            "calls": 4374,
+            "primitive_calls": 4374,
+            "self_seconds": 0.07404780000000001,
+            "cumulative_seconds": 1.0335114,
+            "percent_profile_cumulative": 12.243784458365177
+          },
+          {
+            "function": "('~', 0, '<built-in method builtins.sum>')",
+            "calls": 4411,
+            "primitive_calls": 4411,
+            "self_seconds": 0.007592300000000001,
+            "cumulative_seconds": 0.8089131,
+            "percent_profile_cumulative": 9.583017315481953
+          },
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\quality.py', 237, '<genexpr>')",
+            "calls": 21870,
+            "primitive_calls": 21870,
+            "self_seconds": 0.017434500000000002,
+            "cumulative_seconds": 0.8007791000000001,
+            "percent_profile_cumulative": 9.486655589056543
+          },
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\quality.py', 260, '_triangle_area')",
+            "calls": 17496,
+            "primitive_calls": 17496,
+            "self_seconds": 0.0572736,
+            "cumulative_seconds": 0.7833446000000001,
+            "percent_profile_cumulative": 9.280112864767903
+          }
+        ],
+        "case_peak_rss_bytes": 94023680
+      },
+      {
+        "schema_version": 1,
+        "contract_id": "026-G12-LOT2",
+        "status": "PASS",
+        "family": "TET4",
+        "target_dofs": 10000,
+        "environment": {
+          "os": "Windows-10-10.0.19045-SP0",
+          "python": "3.13.1",
+          "numpy": "2.2.6",
+          "scipy": "1.15.2",
+          "psutil": "7.2.2",
+          "cpu": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+          "logical_cpus": 12,
+          "ram_bytes": 102963109888,
+          "thread_environment": {
+            "OMP_NUM_THREADS": null,
+            "MKL_NUM_THREADS": null,
+            "OPENBLAS_NUM_THREADS": null,
+            "NUMEXPR_NUM_THREADS": null
+          },
+          "git_head": "4dc8af83d8d45d6a4d61f242aa6b1f974d87bdb3"
+        },
+        "profiled_case": {
+          "label": "profile TET4 target 10000",
+          "status": "PASS",
+          "total_dofs": 10125,
+          "free_dofs": 9450,
+          "node_count": 3375,
+          "element_count": 16464,
+          "nnz": 338727,
+          "global_stiffness_nnz": 338727,
+          "reduced_stiffness_nnz": 315532,
+          "nnz_per_dof": 33.45451851851852,
+          "global_matrix_storage_bytes": 4105228,
+          "reduced_matrix_storage_estimate_bytes": 3824188,
+          "global_matrix_storage_per_dof": 405.4546172839506,
+          "mesh_build_seconds": 0.14018759998725727,
+          "mesh_validation_seconds": 8.461006500001531,
+          "assembly_seconds": 41.40822310000658,
+          "assembly_plan_seconds": 0.7543828000198118,
+          "element_kernel_seconds": 1.4541410001111217,
+          "sparse_conversion_seconds": 0.05531510029686615,
+          "chunk_fusion_seconds": 0.015296000055968761,
+          "sparse_finalize_seconds": 0.0017198999994434416,
+          "discrete_merge_seconds": 0.0003418999840505421,
+          "load_assembly_seconds": 38.773534499981906,
+          "load_balance_seconds": 39.42661789985141,
+          "load_balance_calls": 230,
+          "load_balance_node_visits": 776250,
+          "bc_application_seconds": 0.000972100009676069,
+          "constraint_reduction_seconds": 0.03642040002159774,
+          "linear_solve_seconds": 0.09614429995417595,
+          "factorization_seconds": null,
+          "sparse_solve_seconds": 0.09614429995417595,
+          "post_processing_seconds": 0.0,
+          "post_processing_mode": "summary; element/nodal serialization omitted",
+          "solver_unattributed_seconds": 9.446985800052062,
+          "solver_total_seconds": 50.95135320001282,
+          "wall_total_seconds": 51.09746220003581,
+          "peak_rss_bytes": null,
+          "rss_delta_bytes": null,
+          "tracemalloc_peak_bytes": null,
+          "solution_norm": 1.593643571831215e-10,
+          "solution_checksum": "b0ab615d269925fdf2d52740a1a72b4f71712fe2d563966c5a7362824b8d3e72",
+          "relative_residual_norm": 6.0231592271280606e-12,
+          "finite_metrics": true,
+          "topology": {
+            "topology": "connected_structured_block",
+            "cells_per_axis": 14
+          },
+          "phase_notes": {
+            "copies_conversions": "Not independently observable in the public route; sparse conversion is taken from GlobalAssembler diagnostics and remaining attribution is reported as solver_unattributed_seconds.",
+            "factorization": "NOT_APPLICABLE: CG route; no factorization phase is executed."
+          }
+        },
+        "profiled_wall_seconds": 51.10566060000565,
+        "top_functions": [
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\scripts\\\\benchmark_g12_lot2.py', 195, '_run_once')",
+            "calls": 1,
+            "primitive_calls": 1,
+            "self_seconds": 0.00011250000000000001,
+            "cumulative_seconds": 51.0979461,
+            "percent_profile_cumulative": 100.0
+          },
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\scripts\\\\benchmark_g12_lot2.py', 158, '_run_with_load_balance_timer')",
+            "calls": 1,
+            "primitive_calls": 1,
+            "self_seconds": 1.8200000000000002e-05,
+            "cumulative_seconds": 50.957203400000004,
+            "percent_profile_cumulative": 99.72456290175626
+          },
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\scripts\\\\benchmark_g12_lot2.py', 140, '_run_with_constraint_timer')",
+            "calls": 1,
+            "primitive_calls": 1,
+            "self_seconds": 0.005796900000000001,
+            "cumulative_seconds": 50.957185200000005,
+            "percent_profile_cumulative": 99.72452728388627
+          },
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\core\\\\solvers\\\\static.py', 36, 'solve')",
+            "calls": 1,
+            "primitive_calls": 1,
+            "self_seconds": 0.0003324,
+            "cumulative_seconds": 50.951388300000005,
+            "percent_profile_cumulative": 99.7131826008952
+          },
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\scripts\\\\benchmark_g12_lot2.py', 164, 'timed')",
+            "calls": 230,
+            "primitive_calls": 230,
+            "self_seconds": 0.0018218000000000002,
+            "cumulative_seconds": 39.427033300000005,
+            "percent_profile_cumulative": 77.15972227697817
+          },
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\loads\\\\integration.py', 453, 'load_balance')",
+            "calls": 230,
+            "primitive_calls": 230,
+            "self_seconds": 4.558897900000001,
+            "cumulative_seconds": 39.424536100000005,
+            "percent_profile_cumulative": 77.15483519209396
+          },
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\scripts\\\\benchmark_g12_lot2.py', 113, 'assemble_loads')",
+            "calls": 1,
+            "primitive_calls": 1,
+            "self_seconds": 1.2100000000000001e-05,
+            "cumulative_seconds": 38.7735385,
+            "percent_profile_cumulative": 75.88081607843725
+          },
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\core\\\\assembly\\\\assembler.py', 181, 'assemble_loads')",
+            "calls": 1,
+            "primitive_calls": 1,
+            "self_seconds": 1.1000000000000001e-05,
+            "cumulative_seconds": 38.773526000000004,
+            "percent_profile_cumulative": 75.88079161561447
+          },
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\core\\\\assembly\\\\assembler.py', 190, '_assemble_load_data')",
+            "calls": 1,
+            "primitive_calls": 1,
+            "self_seconds": 0.006955200000000001,
+            "cumulative_seconds": 38.773515,
+            "percent_profile_cumulative": 75.88077008833042
+          },
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\AppData\\\\Roaming\\\\Python\\\\Python313\\\\site-packages\\\\numpy\\\\_core\\\\numeric.py', 1522, 'cross')",
+            "calls": 842106,
+            "primitive_calls": 842106,
+            "self_seconds": 11.3280308,
+            "cumulative_seconds": 28.089347,
+            "percent_profile_cumulative": 54.97157741923407
+          },
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\AppData\\\\Roaming\\\\Python\\\\Python313\\\\site-packages\\\\numpy\\\\_core\\\\numeric.py', 1448, 'moveaxis')",
+            "calls": 2526320,
+            "primitive_calls": 2526320,
+            "self_seconds": 4.745588000000001,
+            "cumulative_seconds": 14.423350800000001,
+            "percent_profile_cumulative": 28.22686996415302
+          },
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\scripts\\\\benchmark_g12_lot2.py', 130, 'validate')",
+            "calls": 1,
+            "primitive_calls": 1,
+            "self_seconds": 0.0002615,
+            "cumulative_seconds": 8.461008300000001,
+            "percent_profile_cumulative": 16.55841172841192
+          },
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\validation.py', 51, 'validate')",
+            "calls": 1,
+            "primitive_calls": 1,
+            "self_seconds": 0.0007907000000000001,
+            "cumulative_seconds": 8.4607462,
+            "percent_profile_cumulative": 16.557898791943813
+          },
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\validation.py', 150, '_element_quality_details')",
+            "calls": 1,
+            "primitive_calls": 1,
+            "self_seconds": 0.1529153,
+            "cumulative_seconds": 7.7162068,
+            "percent_profile_cumulative": 15.10081596019375
+          },
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\AppData\\\\Roaming\\\\Python\\\\Python313\\\\site-packages\\\\numpy\\\\_core\\\\numeric.py', 1386, 'normalize_axis_tuple')",
+            "calls": 5052640,
+            "primitive_calls": 5052640,
+            "self_seconds": 5.5387636,
+            "cumulative_seconds": 7.54844,
+            "percent_profile_cumulative": 14.772492000417214
+          },
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\quality.py', 59, 'tet_metrics')",
+            "calls": 16464,
+            "primitive_calls": 16464,
+            "self_seconds": 0.10382880000000001,
+            "cumulative_seconds": 7.4791984000000005,
+            "percent_profile_cumulative": 14.636984401218427
+          },
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\core\\\\dofs.py', 51, 'has')",
+            "calls": 4659075,
+            "primitive_calls": 4659075,
+            "self_seconds": 2.4197433,
+            "cumulative_seconds": 5.6751564000000005,
+            "percent_profile_cumulative": 11.106427622146638
+          },
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\core\\\\dofs.py', 14, 'normalize_dof_name')",
+            "calls": 7209018,
+            "primitive_calls": 7209018,
+            "self_seconds": 3.2868949,
+            "cumulative_seconds": 4.8891581,
+            "percent_profile_cumulative": 9.568208652519598
+          },
+          {
+            "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\quality.py', 235, '_tet_radius_ratio')",
+            "calls": 16464,
+            "primitive_calls": 16464,
+            "self_seconds": 0.28355650000000004,
+            "cumulative_seconds": 3.9370306000000004,
+            "percent_profile_cumulative": 7.704870548603128
+          },
+          {
+            "function": "('~', 0, '<built-in method builtins.sum>')",
+            "calls": 16595,
+            "primitive_calls": 16595,
+            "self_seconds": 0.028971100000000003,
+            "cumulative_seconds": 3.0774561,
+            "percent_profile_cumulative": 6.022661055646618
+          }
+        ],
+        "case_peak_rss_bytes": 131121152
+      }
+    ]
+  },
+  "high_order_comparison": {
+    "interpretation": "same-domain implementation/resource comparison only; not equal-accuracy evidence",
+    "rows": [
+      {
+        "family": "TET4",
+        "status": "PASS",
+        "total_dofs": 12,
+        "global_stiffness_nnz": 72,
+        "global_matrix_storage_bytes": 916,
+        "nnz_per_dof": 6.0,
+        "global_matrix_storage_per_dof": 76.33333333333333,
+        "assembly_seconds": 0.0008210000232793391,
+        "linear_solve_seconds": 0.0013226000010035932,
+        "wall_total_seconds": 0.0798573000356555,
+        "case_peak_rss_bytes": 78995456,
+        "finite_metrics": true,
+        "deterministic": true,
+        "solution_checksum": "b384bd9a12ec2e7c888fc2e348f8d29791ae7b9e4bb37ec25805a161bb76b36e"
+      },
+      {
+        "family": "TET10",
+        "status": "PASS",
+        "total_dofs": 30,
+        "global_stiffness_nnz": 690,
+        "global_matrix_storage_bytes": 8404,
+        "nnz_per_dof": 23.0,
+        "global_matrix_storage_per_dof": 280.1333333333333,
+        "assembly_seconds": 0.0025568000273779035,
+        "linear_solve_seconds": 0.0012210000422783196,
+        "wall_total_seconds": 0.09102749999146909,
+        "case_peak_rss_bytes": 79048704,
+        "finite_metrics": true,
+        "deterministic": true,
+        "solution_checksum": "344cb97d09dbe4026e1cfe12c0795944c383bc49967a3457a894916ccf223023"
+      },
+      {
+        "family": "HEX8",
+        "status": "PASS",
+        "total_dofs": 24,
+        "global_stiffness_nnz": 576,
+        "global_matrix_storage_bytes": 7012,
+        "nnz_per_dof": 24.0,
+        "global_matrix_storage_per_dof": 292.1666666666667,
+        "assembly_seconds": 0.00365209998562932,
+        "linear_solve_seconds": 0.0012920000008307397,
+        "wall_total_seconds": 0.016223200014792383,
+        "case_peak_rss_bytes": 78786560,
+        "finite_metrics": true,
+        "deterministic": true,
+        "solution_checksum": "43ccde36df5285cb0c8e81fd393b716679f99ec3f38aa232dddd1e9ed046fb00"
+      },
+      {
+        "family": "HEX20",
+        "status": "PASS",
+        "total_dofs": 60,
+        "global_stiffness_nnz": 3600,
+        "global_matrix_storage_bytes": 43444,
+        "nnz_per_dof": 60.0,
+        "global_matrix_storage_per_dof": 724.0666666666667,
+        "assembly_seconds": 0.032675999973434955,
+        "linear_solve_seconds": 0.0013132999883964658,
+        "wall_total_seconds": 0.09201590000884607,
+        "case_peak_rss_bytes": 78749696,
+        "finite_metrics": true,
+        "deterministic": true,
+        "solution_checksum": "8cfe4fcbeb679f415e5adc7c0c4d4c04fbd98cf6b89731a95dbefc76f573e486"
+      }
+    ],
+    "ratios": {
+      "TET10_over_TET4": {
+        "assembly": 3.1142508585629742,
+        "global_nnz": 9.583333333333334,
+        "matrix_storage": 9.174672489082969
+      },
+      "HEX20_over_HEX8": {
+        "assembly": 8.947181101835117,
+        "global_nnz": 6.25,
+        "matrix_storage": 6.195664575014261
+      }
+    }
+  },
+  "bottleneck_classification": {
+    "primary": "PYTHON_ASSEMBLY",
+    "primary_component": "load_balance inside load assembly",
+    "profile_case": "TET4 target 10000",
+    "profile_share_percent": {
+      "load_balance": 77.14726203900601,
+      "mesh_validation": 16.555908681475092,
+      "sparse_conversion": 0.10823673864585567,
+      "sparse_solver": 0.1881284750561767
+    },
+    "evidence": {
+      "load_balance_calls": 230,
+      "load_balance_node_visits": 776250,
+      "load_balance_seconds": 39.42661789985141,
+      "mesh_validation_seconds": 8.461006500001531,
+      "solver_total_seconds": 50.95135320001282
+    },
+    "secondary": [
+      {
+        "category": "PYTHON_ASSEMBLY",
+        "component": "mesh quality validation",
+        "classification": "secondary"
+      },
+      {
+        "category": "SPARSE_CONSTRUCTION",
+        "component": "COO/CSR conversion",
+        "classification": "not_primary"
+      },
+      {
+        "category": "SPARSE_SOLVER",
+        "component": "CG solve",
+        "classification": "not_primary"
+      },
+      {
+        "category": "MEMORY_COPY",
+        "component": "direct copy accounting unavailable",
+        "classification": "not_observable"
+      }
+    ]
+  },
+  "optimization_candidates": [
+    {
+      "priority": "HIGH",
+      "category": "PYTHON_ASSEMBLY",
+      "candidate": "batch/vectorize load_balance and avoid a full node scan per nodal load",
+      "evidence": "load_balance dominates the 7500-DOF clean profile and node visits grow with load calls",
+      "implemented": false
+    },
+    {
+      "priority": "MEDIUM_HIGH",
+      "category": "PYTHON_ASSEMBLY",
+      "candidate": "cache immutable mesh-quality validation when the route contract permits",
+      "evidence": "mesh validation is the second visible phase in the 7500-DOF profile",
+      "implemented": false
+    },
+    {
+      "priority": "MEDIUM",
+      "category": "PYTHON_ASSEMBLY",
+      "candidate": "reduce repeated DOF-name normalization/index lookup in hot loops",
+      "evidence": "DOF normalization/has appears among the top profile functions",
+      "implemented": false
+    },
+    {
+      "priority": "LOW",
+      "category": "SPARSE_CONSTRUCTION",
+      "candidate": "investigate sparse assembly only after load/validation costs are addressed",
+      "evidence": "sparse conversion is a small fraction of the clean 7500-DOF profile",
+      "implemented": false
+    }
+  ],
+  "bugs_found": [],
+  "functional_code_changed": false,
+  "verification_infrastructure_changed": true
+}

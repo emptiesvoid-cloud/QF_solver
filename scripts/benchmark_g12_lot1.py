@@ -31,7 +31,7 @@ except ImportError:  # pragma: no cover - optional measurement dependency
     psutil = None
 
 
-BASELINE_SHA = "f776bc8f0cdd56d326392efb7db8b5899a04dcdd"
+BASELINE_SHA = "4dc8af83d8d45d6a4d61f242aa6b1f974d87bdb3"
 CONTRACT_ID = "026-G12-LOT1"
 MATERIAL = {"type": "isotropic_3d", "E": 210.0e9, "nu": 0.3}
 THREAD_KEYS = ("OMP_NUM_THREADS", "MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS", "NUMEXPR_NUM_THREADS")
@@ -201,7 +201,8 @@ def run_case(family: str, target_dofs: int, repetitions: int = 3) -> dict[str, A
         tracemalloc.start()
         sampler.start_sampling()
         started = time.perf_counter()
-        result = LinearStaticSolver().solve(model, detail_level="summary")
+        solver = LinearStaticSolver()
+        result = solver.solve(model, detail_level="summary")
         elapsed = time.perf_counter() - started
         sampler.stop_sampling()
         _, trace_peak = tracemalloc.get_traced_memory()
@@ -209,14 +210,19 @@ def run_case(family: str, target_dofs: int, repetitions: int = 3) -> dict[str, A
         execution = result.solver.get("execution", {})
         displacement = np.asarray(result.displacements, dtype=float)
         solver_info = result.solver
-        fixed_count = len(LinearStaticSolver().assembler.fixed_indices(model, result.dofs))
+        assembly_diagnostics = solver.assembler.last_diagnostics
+        global_nnz = int(assembly_diagnostics.get("final_nnz", 0))
+        reduced_nnz = int(solver_info.get("selection", {}).get("resource_estimate", {}).get("nnz", 0))
+        fixed_count = len(solver.assembler.fixed_indices(model, result.dofs))
         measurements.append({
             "repetition": repetition + 1,
             "total_dofs": int(result.ndof),
             "free_dofs": int(result.ndof - fixed_count),
             "node_count": int(result.node_count),
             "element_count": int(result.element_count),
-            "nnz": int(solver_info.get("selection", {}).get("resource_estimate", {}).get("nnz", 0)),
+            "nnz": global_nnz,
+            "global_stiffness_nnz": global_nnz,
+            "reduced_stiffness_nnz": reduced_nnz,
             "assembly_seconds": float(execution.get("assembly_seconds", 0.0)),
             "linear_solve_seconds": float(execution.get("linear_solve_seconds", 0.0)),
             "total_seconds": float(execution.get("total_seconds", elapsed)),

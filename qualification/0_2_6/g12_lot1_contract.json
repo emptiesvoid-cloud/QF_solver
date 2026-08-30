@@ -25,11 +25,12 @@
   },
   "metrics": {
     "required": [
-      "total_dofs", "free_dofs", "element_count", "nnz", "assembly_seconds",
+      "total_dofs", "free_dofs", "element_count", "nnz", "global_stiffness_nnz", "reduced_stiffness_nnz", "assembly_seconds",
       "linear_solve_seconds", "total_seconds", "peak_rss_bytes", "tracemalloc_peak_bytes",
       "solution_norm", "solution_checksum", "relative_residual_norm"
     ],
     "derived": ["assembly_exponent", "solve_exponent", "total_exponent", "memory_exponent", "high_order_ratio"],
+    "nnz_semantics": "nnz/global_stiffness_nnz are the final global stiffness CSR nonzero count; reduced_stiffness_nnz is reported separately after constraint elimination",
     "memory_measurement": "psutil RSS sampler plus tracemalloc peak; unavailable metrics are explicit null, never zero"
   },
   "size_policy": {
