@@ -10,12 +10,24 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Callable
 
+import numpy as np
+
 from solveur.api.public import solve_model
 from solveur.core.errors import InputValidationError, MeshValidationError, NumericalConvergenceError
 from solveur.core.model import FiniteElementModel
 from solveur.core.nonlinear.contracts import NonlinearFailureReason
 from solveur.core.nonlinear.solver import NonlinearStaticSolver
 from solveur.verification.g11_runner import G11AdapterResult, G11CaseSpec, G11Runner, load_case_specs
+from solveur.verification.nonlinear_checkpoint_failure import run_checkpoint_failure_cases
+from solveur.verification.nonlinear_failure_campaign import (
+    _Assembly,
+    _raising_internal,
+    _run_case,
+    _run_contact_retry_rollback_case,
+    _run_linear_backend_failure_case,
+    _run_min_increment_case,
+    _run_nonfinite_correction_case,
+)
 from solveur.verification.robustness_mesh import run_adversarial_rollback_benchmark
 
 
@@ -28,6 +40,15 @@ CASE_MODAL_FAILURE = "VNV026-G11-XR-MODAL-001"
 CASE_BUCKLING_FAILURE = "VNV026-G11-XR-BUCKLING-001"
 CASE_CONTACT_FAILURE = "VNV026-G11-XR-CONTACT-001"
 CASE_MUTABLE_ROLLBACK = "VNV026-G11-MUTABLE-HEX8-001"
+CASE_SINGULAR_TANGENT = "VNV026-G11-EXT-SINGULAR-TANGENT-001"
+CASE_MIN_INCREMENT = "VNV026-G11-EXT-MIN-INCREMENT-001"
+CASE_LINEAR_FAILURE = "VNV026-G11-EXT-LINEAR-FAILURE-001"
+CASE_NAN_FAILURE = "VNV026-G11-EXT-NAN-001"
+CASE_INF_FAILURE = "VNV026-G11-EXT-INF-001"
+CASE_MATERIAL_FAILURE = "VNV026-G11-EXT-MATERIAL-001"
+CASE_CONTACT_UPDATE_FAILURE = "VNV026-G11-EXT-CONTACT-UPDATE-001"
+CASE_CHECKPOINT_FAILURE = "VNV026-G11-EXT-CHECKPOINT-001"
+CASE_CONTACT_RETRY = "VNV026-G11-MUTABLE-CONTACT-001"
 
 NATIVE_ROUTE_STATUS = {
     "linear_static": "READY",
@@ -205,6 +226,120 @@ def _mutable_hex8_rollback(case: G11CaseSpec) -> object:
     )
 
 
+def _wrapped_failure_record(record: object, *, error_type: str, expected_reason: str) -> G11AdapterResult:
+    """Normalize an existing deterministic failure helper for the G11 runner."""
+
+    if hasattr(record, "to_dict"):
+        record = record.to_dict()  # type: ignore[union-attr]
+    data = dict(record)  # type: ignore[arg-type]
+    passed = bool(data.get("passed"))
+    observed_reason = data.get("observed_reason", data.get("failure_reason"))
+    diagnostics = dict(data.get("diagnostics", {}))
+    diagnostics.update({"expected_reason": expected_reason, "route_native": True})
+    return G11AdapterResult(
+        success=not passed,
+        error_type_or_code=f"{error_type}:{observed_reason}" if passed else None,
+        payload=data,
+        diagnostics=diagnostics,
+    )
+
+
+def _singular_tangent_failure(case: G11CaseSpec) -> object:
+    record = _run_case(
+        "singular_tangent",
+        NonlinearFailureReason.SINGULAR_TANGENT,
+        _Assembly(lambda _displacement: np.zeros(2), np.zeros((2, 2))),
+    )
+    return _wrapped_failure_record(
+        record,
+        error_type="NumericalConvergenceError",
+        expected_reason=NonlinearFailureReason.SINGULAR_TANGENT.value,
+    )
+
+
+def _min_increment_failure(case: G11CaseSpec) -> object:
+    return _wrapped_failure_record(
+        _run_min_increment_case(),
+        error_type="NumericalConvergenceError",
+        expected_reason=NonlinearFailureReason.MIN_INCREMENT_REACHED.value,
+    )
+
+
+def _linear_solver_failure(case: G11CaseSpec) -> object:
+    return _wrapped_failure_record(
+        _run_linear_backend_failure_case(),
+        error_type="NumericalConvergenceError",
+        expected_reason=NonlinearFailureReason.LINEAR_SOLVER_FAILURE.value,
+    )
+
+
+def _nan_failure(case: G11CaseSpec) -> object:
+    return _wrapped_failure_record(
+        _run_nonfinite_correction_case(np.nan, NonlinearFailureReason.NAN_DETECTED),
+        error_type="NumericalConvergenceError",
+        expected_reason=NonlinearFailureReason.NAN_DETECTED.value,
+    )
+
+
+def _inf_failure(case: G11CaseSpec) -> object:
+    return _wrapped_failure_record(
+        _run_nonfinite_correction_case(np.inf, NonlinearFailureReason.INF_DETECTED),
+        error_type="NumericalConvergenceError",
+        expected_reason=NonlinearFailureReason.INF_DETECTED.value,
+    )
+
+
+def _material_update_failure(case: G11CaseSpec) -> object:
+    record = _run_case(
+        "material_update_failure",
+        NonlinearFailureReason.MATERIAL_UPDATE_FAILURE,
+        _Assembly(_raising_internal("material constitutive update failed"), np.eye(2)),
+    )
+    return _wrapped_failure_record(
+        record,
+        error_type="NumericalConvergenceError",
+        expected_reason=NonlinearFailureReason.MATERIAL_UPDATE_FAILURE.value,
+    )
+
+
+def _contact_update_failure(case: G11CaseSpec) -> object:
+    record = _run_case(
+        "contact_update_failure",
+        NonlinearFailureReason.CONTACT_UPDATE_FAILURE,
+        _Assembly(_raising_internal("contact projection produced a non-finite gap"), np.eye(2)),
+    )
+    return _wrapped_failure_record(
+        record,
+        error_type="NumericalConvergenceError",
+        expected_reason=NonlinearFailureReason.CONTACT_UPDATE_FAILURE.value,
+    )
+
+
+def _checkpoint_failure(case: G11CaseSpec) -> object:
+    record = run_checkpoint_failure_cases()[1]
+    return _wrapped_failure_record(
+        record,
+        error_type="InputValidationError",
+        expected_reason=NonlinearFailureReason.CHECKPOINT_FAILURE.value,
+    )
+
+
+def _contact_retry_rollback(case: G11CaseSpec) -> object:
+    record = _run_contact_retry_rollback_case()
+    passed = bool(record.get("passed"))
+    diagnostics = dict(record.get("diagnostics", {}))
+    diagnostics.update({"route_native": True, "rollback_verified": passed})
+    return G11AdapterResult(
+        success=not passed,
+        error_type_or_code=(
+            "NumericalConvergenceError:CONTACT_UPDATE_FAILURE" if passed else None
+        ),
+        state_preserved=passed,
+        payload=record,
+        diagnostics=diagnostics,
+    )
+
+
 def _geometric_nonlinear_failure(case: G11CaseSpec) -> object:
     """Exercise geometric-nonlinear fail-closed handling for missing BCs."""
 
@@ -353,6 +488,24 @@ def mutable_adapters() -> dict[str, Callable[[G11CaseSpec], object]]:
     return {CASE_MUTABLE_ROLLBACK: _mutable_hex8_rollback}
 
 
+def extended_adapters() -> dict[str, Callable[[G11CaseSpec], object]]:
+    """Return focused adapters for the remaining inexpensive failure classes."""
+
+    return {
+        CASE_SINGULAR_TANGENT: _singular_tangent_failure,
+        CASE_MIN_INCREMENT: _min_increment_failure,
+        CASE_LINEAR_FAILURE: _linear_solver_failure,
+        CASE_NAN_FAILURE: _nan_failure,
+        CASE_INF_FAILURE: _inf_failure,
+        CASE_MATERIAL_FAILURE: _material_update_failure,
+        CASE_CONTACT_UPDATE_FAILURE: _contact_update_failure,
+        CASE_CHECKPOINT_FAILURE: _checkpoint_failure,
+        CASE_CONTACT_RETRY: _contact_retry_rollback,
+    }
+
+
+
+
 def native_route_status() -> dict[str, str]:
     """Return route introspection status without claiming unexecuted coverage."""
 
@@ -416,6 +569,25 @@ def run_mutable_g11_cases(
     return results
 
 
+def run_extended_g11_cases(
+    cases_path: str | Path,
+    archive_dir: str | Path,
+    *,
+    source_sha: str,
+) -> dict[str, dict[str, object]]:
+    """Execute and archive the focused extension failure-class cases."""
+
+    cases = load_case_specs(cases_path)
+    runner = G11Runner(extended_adapters(), source_sha=source_sha, provenance={"execution_mode": "native_route"})
+    results: dict[str, dict[str, object]] = {}
+    target_dir = Path(archive_dir)
+    for case in cases:
+        result = runner.run_case(case, evidence_id=f"G11-NATIVE-{case.case_id}")
+        runner.archive_result(result, target_dir / f"{case.case_id}.json")
+        results[case.case_id] = result
+    return results
+
+
 __all__ = [
     "CASE_NONCONVERGENCE",
     "CASE_ROLLBACK",
@@ -427,10 +599,12 @@ __all__ = [
     "CASE_MODAL_FAILURE",
     "CASE_MUTABLE_ROLLBACK",
     "cross_route_adapters",
+    "extended_adapters",
     "mutable_adapters",
     "native_adapters",
     "native_route_status",
     "run_cross_route_g11_cases",
+    "run_extended_g11_cases",
     "run_mutable_g11_cases",
     "run_native_g11_cases",
 ]

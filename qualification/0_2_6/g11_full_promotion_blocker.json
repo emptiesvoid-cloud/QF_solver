@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "gate": "026-G11",
+  "evidence_id": "G11-FULL-PROMOTION-BLOCKER-001",
+  "status": "REAL_BUG_REPRODUCED",
+  "official_gate_status": "NOT_STARTED",
+  "source_sha": "18576cc83d8ce35f85eaaa79471fad0030e18deb",
+  "bug_id": "G11-REAL-BUG-NONFINITE-DIAGNOSTICS-001",
+  "affected_cases": [
+    "VNV026-G11-EXT-MATERIAL-001",
+    "VNV026-G11-EXT-CONTACT-UPDATE-001"
+  ],
+  "reproduction_count": 2,
+  "observed_failure": true,
+  "observed_no_nan_inf": false,
+  "observed_no_silent_pass": true,
+  "observed_deterministic": true,
+  "diagnostic_violation": {
+    "relative_residual": "Infinity",
+    "residual_final": null,
+    "residual_initial": null
+  },
+  "required_action": "Owner/core correction and regression proof are required before any G11 FULL promotion attempt can resume.",
+  "solver_core_modified": false,
+  "official_closeout": "NOT_PERFORMED"
+}
