@@ -2,7 +2,7 @@
 
 Status: **PASS_WITH_LIMITATIONS**
 
-Source SHA: `1b7b8c7ca85ac184a900bd5a5530aa47e733827f`; dirty: `False`
+Source SHA: `6589443e1404a2749ac6c0a9b911f00dd9cb8753`; dirty: `False`
 
 This is a bounded first-mode linearized tangent-buckling campaign. It does not qualify post-buckling, multi-mode behavior, physical validation, or unsupported element routes.
 
@@ -36,6 +36,12 @@ This is a bounded first-mode linearized tangent-buckling campaign. It does not q
 | G08-007 | PASS | controlled BC/preload failures are fail-closed |
 | G08-008 | PASS_WITH_LIMITATIONS | CalculiX same-model solid correlation; partial external execution is retained explicitly |
 | G08-009 | PASS | source SHA, clean state, environment and artifact manifest |
+
+## Repeatability
+
+Same-input first-mode replay was executed for TET4, TET10, HEX8 and HEX20.
+All four rows passed within the declared absolute floating-point tolerance
+`1e-12`; the largest observed factor difference was `1.421e-14`.
 
 ## External correlation
 
