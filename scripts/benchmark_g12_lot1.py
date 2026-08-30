@@ -272,8 +272,15 @@ def _summarize(rows: list[dict[str, Any]]) -> dict[str, Any]:
         measurements = row["measured_repetitions"]
         summary_row = dict(row)
         summary_row["actual_dofs"] = int(measurements[0]["total_dofs"])
+        summary_row["repetition_statistics"] = {}
         for key in ("assembly_seconds", "linear_solve_seconds", "total_seconds", "peak_rss_bytes", "tracemalloc_peak_bytes"):
-            summary_row[key] = float(np.mean([measurement[key] for measurement in measurements]))
+            values = np.asarray([measurement[key] for measurement in measurements], dtype=float)
+            summary_row[key] = float(np.mean(values))
+            summary_row["repetition_statistics"][key] = {
+                "mean": float(np.mean(values)),
+                "median": float(np.median(values)),
+                "population_stddev": float(np.std(values)),
+            }
         summary_rows.append(summary_row)
     return {
         "rows": summary_rows,
