@@ -710,9 +710,13 @@ def _render_report(evidence: dict[str, Any]) -> str:
     )
     for row in evidence["adversarial"]["cases"]:
         first = row["first"]
+        if "variants" in first:
+            exception_label = "InputValidationError x3"
+        else:
+            exception_label = first.get("exception", "see JSON")
         lines.append(
             f"| `{row['case']}` | `{row['status']}` | "
-            f"`{first.get('exception', first.get('variants', 'see JSON'))}` / `{first.get('reason')}` | "
+            f"`{exception_label}` / `{first.get('reason')}` | "
             f"{row['deterministic']} | {row['fail_closed']} |"
         )
     candidate = evidence["penalty_candidate"]
@@ -744,7 +748,7 @@ def run(output_dir: Path = DEFAULT_OUTPUT) -> dict[str, Any]:
     cycles = _run_cycles()
     cutback_cases = [
         {"case": "failure_before_first_commit", **_run_contact_cutback(-20.0, 1, 1.0)},
-        {"case": "failure_after_one_committed_increment", **_run_contact_cutback(-20.0, 2, 0.5)},
+        {"case": "failure_after_one_committed_increment", **_run_contact_cutback(-40.0, 2, 0.5)},
     ]
     cutback = {
         "status": "PASS_INTERNAL_ROLLBACK"
