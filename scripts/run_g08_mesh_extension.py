@@ -497,7 +497,6 @@ def run(output: Path, evidence_dir: Path | None = None) -> dict[str, Any]:
     write_json_file(summary_path, summary)
     _write_report(report_path, summary)
     summary["artifact_digests"] = {
-        "g08_mesh_extension_summary.json": _sha256(summary_path),
         "g08_mesh_extension_report.md": _sha256(report_path),
     }
     calculix_summary = output / "calculix_hex20" / "summary.json"
@@ -508,11 +507,13 @@ def run(output: Path, evidence_dir: Path | None = None) -> dict[str, Any]:
         archived_report = evidence_dir / "g08_mesh_extension_evidence.md"
         archived_json = evidence_dir / "g08_mesh_extension_evidence.json"
         summary["evidence_content_sha256"] = _content_digest(summary)
+        summary["canonical_summary_content_sha256"] = summary["evidence_content_sha256"]
         _write_report(archived_report, summary)
         summary["artifact_digests"]["g08_mesh_extension_evidence.md"] = _sha256(archived_report)
         write_json_file(archived_json, summary)
     else:
         summary["evidence_content_sha256"] = _content_digest(summary)
+        summary["canonical_summary_content_sha256"] = summary["evidence_content_sha256"]
     write_json_file(summary_path, summary)
     return summary
 
