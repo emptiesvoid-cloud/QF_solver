@@ -97,10 +97,11 @@
         "g08_execution_evidence.json",
         "g08_execution_evidence.md",
         "g08_euler_reference.json",
-        "g08_calculix_correlation.json"
+        "g08_calculix_correlation.json",
+        "g08_owner_closeout.json"
       ],
       "id": "026-G08",
-      "status": "NOT_STARTED",
+      "status": "PASS_WITH_LIMITATIONS",
       "title": "Buckling maturity extension"
     },
     {

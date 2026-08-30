@@ -2,9 +2,10 @@
 
 ## Status
 
-`026-G08` is **NOT_STARTED**. This document and the accompanying JSON files
-define a controlled candidate contract; they are not numerical evidence and do
-not close the gate.
+`026-G08` is **PASS_WITH_LIMITATIONS** by explicit Owner closeout. This
+document defines the contract and summarizes the archived evidence; the
+machine-readable decision is recorded in
+`qualification/0_2_6/g08_owner_closeout.json`.
 
 ## Audited route
 
@@ -64,7 +65,7 @@ PASS by a runner without its required evidence.
 The controlled execution record is archived in
 `qualification/0_2_6/g08_execution_evidence.json`, with the concise report in
 `qualification/0_2_6/g08_execution_evidence.md`. On source SHA
-`1b7b8c7ca85ac184a900bd5a5530aa47e733827f`, the campaign executed 23 cases:
+`6589443e1404a2749ac6c0a9b911f00dd9cb8753`, the campaign executed 23 cases:
 21 PASS, 2 controlled expected failures and 0 FAIL. All four families were
 run on four mesh levels, and deterministic first-mode replay was checked for
 each family within the declared floating-point tolerance.
@@ -72,9 +73,31 @@ each family within the declared floating-point tolerance.
 The TET4 Euler record passed its existing case-specific analytical screen.
 CalculiX completed comparable TET4, TET10 and HEX8 rows; the HEX20 deck
 failed in the external tool and is retained as an explicit blocked row. This
-is partial external evidence, not a G08 closure or a universal correlation
-claim. The mesh final-adjacent `<=1%` eligibility is reached by TET4 only in
-this campaign; TET10, HEX8 and HEX20 remain bounded trend evidence.
+is partial external evidence, not a universal correlation claim. The mesh
+final-adjacent `<=1%` eligibility is reached by TET4 only in this campaign;
+TET10, HEX8 and HEX20 remain bounded trend evidence.
+
+## Owner closeout
+
+The Owner decision is `PASS_WITH_LIMITATIONS`, with no solver or numerical
+formulation change. TET4 is `QUALIFIED_BOUNDED` for the tested first
+linearized tangent-instability factor and first mode. TET10 and HEX8 are
+`PASS_WITH_LIMITATIONS`: their routes and CalculiX rows passed, but their final
+mesh changes are 3.177% and 2.636%, respectively, above the quantitative 1%
+eligibility band. HEX20 is `MORE_EVIDENCE_REQUIRED` because its final mesh
+change is 13.940% and its CalculiX row is `BLOCKED_EXTERNAL_TOOL`.
+
+Requirement disposition is six fully satisfied and three satisfied only within
+bounded limitations (`G08-003`, `G08-005`, `G08-008`). The qualified bounded
+scope is therefore TET4, homogeneous isotropic 3D material, nodal dead loads,
+sparse SciPy, first factor and first mode. TET10/HEX8 evidence remains
+explicitly limited, and HEX20 is not qualified.
+
+The numerical evidence is tied to `EXECUTION_SOURCE_SHA =
+6589443e1404a2749ac6c0a9b911f00dd9cb8753` with `dirty=false`. The later
+documentation/Owner commit is separate and does not replace that execution
+SHA. This closeout does not claim post-buckling, multi-mode qualification,
+Code_Aster correlation, or general physical validation.
 
 ## Case plan
 
@@ -106,8 +129,9 @@ it cannot be counted as PASS.
 G08 execution depends on the clean baseline and V&V foundation gates
 `026-G00` through `026-G03`. It does not require `026-G07` to be silently
 closed, and G07 evidence cannot be used as a substitute for buckling evidence.
-The contract itself cannot close G08; closeout requires archived results,
-approved policies, final-SHA provenance and an explicit Owner decision.
+The contract itself did not close G08; closeout required archived results,
+approved policies, final-SHA provenance and the explicit Owner decision now
+recorded in the closeout artifact.
 
 Out of scope: nonlinear/post-buckling response, imperfection-sensitive
 collapse, arc-length/path following, finite-kinematic J2, shell/beam/discrete

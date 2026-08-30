@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "gate": "026-G08",
-  "status": "CONTRACT_DEFINED_GATE_NOT_STARTED",
+  "status": "EXECUTION_ARCHIVED_OWNER_CLOSEOUT_RECORDED",
   "case_state_vocabulary": ["READY", "PLANNED", "NOT_APPLICABLE", "NOT_SUPPORTED"],
   "policy": "READY identifies a controlled executable definition, not a completed or qualified result.",
   "cases": [
