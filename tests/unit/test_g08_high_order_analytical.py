@@ -13,7 +13,11 @@ def test_high_order_euler_harness_declares_scope_before_execution() -> None:
     source = (ROOT / "scripts" / "run_g08_high_order_analytical.py").read_text(encoding="utf-8")
     assert "EULER_RELATIVE_TOLERANCE = 0.10" in source
     assert "EIGENPAIR_RESIDUAL_PASS = 1.0e-7" in source
+    assert "REFERENCE_LOAD = -1.0" in source
     assert "MESH_LEVELS = (1, 2, 3)" in source
+    assert "TRANSVERSE_LEVELS = (1, 2, 3)" in source
+    assert "pcr_qf_signed" in source
+    assert "loaded_node_count" in source
     assert "gate_status_unchanged" in source
     assert "No family is promoted automatically" in source
 
