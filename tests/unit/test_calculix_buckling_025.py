@@ -36,12 +36,12 @@ def test_hex20_deck_maps_qf_edges_to_calculix_order(tmp_path) -> None:
     path = write_buckling_input(tmp_path / "hex20.inp", model, "HEX20")
     lines = path.read_text(encoding="ascii").splitlines()
     element_start = lines.index("*ELEMENT,TYPE=C3D20,ELSET=EALL") + 1
-    element_line = lines[element_start] + lines[element_start + 1]
     expected = [
         str(index + 1)
         for index in (0, 1, 2, 3, 4, 5, 6, 7, 8, 11, 13, 9, 16, 18, 19, 17, 10, 12, 14, 15)
     ]
-    assert element_line.split(",")[1:] == expected
+    assert lines[element_start].split(",") == ["1", *expected[:15]]
+    assert lines[element_start + 1].split(",") == expected[15:]
 
 
 def test_planned_campaign_writes_traceable_rows(tmp_path) -> None:

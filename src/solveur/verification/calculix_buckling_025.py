@@ -94,7 +94,10 @@ def write_buckling_input(
         ordered = [connectivity[position] for position in order]
         lines.append(f"{index}," + ",".join(str(node) for node in ordered[:15]))
         if len(ordered) > 15:
-            lines.append("," + ",".join(str(node) for node in ordered[15:]))
+            # CalculiX continuation data starts with the next node, not an
+            # empty field.  The leading comma made C3D20 buckling decks
+            # malformed while the same connectivity passed static replay.
+            lines.append(",".join(str(node) for node in ordered[15:]))
     lines.extend(
         [
             "*SOLID SECTION,ELSET=EALL,MATERIAL=MAT",
