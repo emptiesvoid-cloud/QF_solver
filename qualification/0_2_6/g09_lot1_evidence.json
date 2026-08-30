@@ -1,0 +1,424 @@
+{
+  "artifact_digests": {
+    "g09_lot1_evidence.md": "aac1c89e064a4af6a0e8c787ff1b2323b1001db84150f6f29092c0ac961e45d1"
+  },
+  "bugs_found": [],
+  "cases": [
+    {
+      "case_id": "G09-L1-001",
+      "detail": "open/closed active=[]/[0]; common driver residual=1.638e-08",
+      "result": {
+        "closed": {
+          "active_contacts": [
+            0
+          ],
+          "active_penetrations": [
+            0.19999999999999996
+          ],
+          "closest_distances": [
+            1.0
+          ],
+          "contact_force_norm": 282842.7124746189,
+          "finite_sliding": false,
+          "formulation": "frictionless_penalty",
+          "gaps": [
+            -0.19999999999999996
+          ],
+          "master_face_counts": [
+            1
+          ],
+          "master_face_indices": [
+            0
+          ],
+          "maximum_penetration": 0.19999999999999996,
+          "minimum_gap": -0.19999999999999996,
+          "normals": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "penalty": 1000000.0,
+          "projection_clamped": [
+            false
+          ],
+          "projection_modes": [
+            "exact_node_to_triangle"
+          ],
+          "search_mode": "initial",
+          "slave_node_count": 1,
+          "slave_surface_mode": "single_node_to_faceted_surface",
+          "tangent_nnz": 4
+        },
+        "closed_internal_norm": 282842.7124746189,
+        "closed_tangent_nnz": 4,
+        "contact_mode": "penalty",
+        "global_max_relative_residual": 1.6383777342303932e-08,
+        "global_solver_status": "PASS",
+        "limitations": [
+          "Initial-configuration node-to-triangle frictionless penalty only.",
+          "No finite-sliding, recontact-search or friction qualification is claimed."
+        ],
+        "open": {
+          "active_contacts": [],
+          "active_penetrations": [],
+          "closest_distances": [
+            1.0
+          ],
+          "contact_force_norm": 0.0,
+          "finite_sliding": false,
+          "formulation": "frictionless_penalty",
+          "gaps": [
+            1.0
+          ],
+          "master_face_counts": [
+            1
+          ],
+          "master_face_indices": [
+            0
+          ],
+          "maximum_penetration": 0.0,
+          "minimum_gap": 1.0,
+          "normals": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "penalty": 1000000.0,
+          "projection_clamped": [
+            false
+          ],
+          "projection_modes": [
+            "exact_node_to_triangle"
+          ],
+          "search_mode": "initial",
+          "slave_node_count": 1,
+          "slave_surface_mode": "single_node_to_faceted_surface",
+          "tangent_nnz": 0
+        },
+        "open_tangent_nnz": 0,
+        "owner_acceptance_band_required": true,
+        "status": "PASS_INTERNAL_RESEARCH",
+        "updated_contact_search_mode": "updated",
+        "updated_global_max_relative_residual": 1.6383777342303932e-08,
+        "updated_global_solver_status": "PASS"
+      },
+      "status": "PASS_INTERNAL_RESEARCH"
+    },
+    {
+      "case_id": "G09-L1-002",
+      "detail": "active sequence=[False, True, False, True]; gaps=[0.6448103565750625, -1.5802542735032787e-05, 0.9999999999999996, -1.5802542735032787e-05]",
+      "result": {
+        "active_by_step": [
+          false,
+          true,
+          false,
+          true
+        ],
+        "common_driver": true,
+        "expected_active_by_step": [
+          false,
+          true,
+          false,
+          true
+        ],
+        "gaps_by_step": [
+          0.6448103565750625,
+          -1.5802542735032787e-05,
+          0.9999999999999996,
+          -1.5802542735032787e-05
+        ],
+        "limitations": [
+          "One elastic TET4 contact path with a fixed planar master triangle.",
+          "This verifies common load-path active-set transitions, not finite sliding or friction."
+        ],
+        "load_path": [
+          0.25,
+          1.0,
+          0.0,
+          1.0
+        ],
+        "maximum_relative_residual": 1.702639592348447e-13,
+        "owner_acceptance_band_required": true,
+        "search_mode": "initial",
+        "state_transaction": "no material state; contact active set recomputed per Newton increment",
+        "status": "PASS_INTERNAL_RESEARCH"
+      },
+      "status": "PASS_INTERNAL_RESEARCH"
+    },
+    {
+      "case_id": "G09-L1-003",
+      "detail": "penetration monotone=True",
+      "result": {
+        "common_driver": true,
+        "limitations": [
+          "One TET4 node-to-triangle frictionless penalty case in the initial configuration.",
+          "Penalty selection, conditioning and finite-sliding behaviour are not qualified.",
+          "No surface-to-surface or external correlation claim is made."
+        ],
+        "owner_acceptance_band_required": true,
+        "penetration_monotone_nonincreasing": true,
+        "rows": [
+          {
+            "active_contacts": [
+              0
+            ],
+            "contact_tangent_nnz": 4,
+            "converged": true,
+            "gap": -0.015231077119459924,
+            "iterations": 2,
+            "maximum_penetration": 0.015231077119459924,
+            "penalty": 100.0,
+            "relative_residual": 7.298584734744796e-16,
+            "solver_status": "PASS"
+          },
+          {
+            "active_contacts": [
+              0
+            ],
+            "contact_tangent_nnz": 4,
+            "converged": true,
+            "gap": -0.00157440038587775,
+            "iterations": 2,
+            "maximum_penetration": 0.00157440038587775,
+            "penalty": 1000.0,
+            "relative_residual": 5.066423921464998e-15,
+            "solver_status": "PASS"
+          },
+          {
+            "active_contacts": [
+              0
+            ],
+            "contact_tangent_nnz": 4,
+            "converged": true,
+            "gap": -0.0001579720303688248,
+            "iterations": 2,
+            "maximum_penetration": 0.0001579720303688248,
+            "penalty": 10000.0,
+            "relative_residual": 2.6730507091480036e-15,
+            "solver_status": "PASS"
+          },
+          {
+            "active_contacts": [
+              0
+            ],
+            "contact_tangent_nnz": 4,
+            "converged": true,
+            "gap": -1.5802542735032787e-05,
+            "iterations": 2,
+            "maximum_penetration": 1.5802542735032787e-05,
+            "penalty": 100000.0,
+            "relative_residual": 1.7026388604732188e-13,
+            "solver_status": "PASS"
+          },
+          {
+            "active_contacts": [
+              0
+            ],
+            "contact_tangent_nnz": 4,
+            "converged": true,
+            "gap": -1.5803076904852276e-06,
+            "iterations": 2,
+            "maximum_penetration": 1.5803076904852276e-06,
+            "penalty": 1000000.0,
+            "relative_residual": 1.4400125538262853e-11,
+            "solver_status": "PASS"
+          }
+        ],
+        "status": "PASS_INTERNAL_RESEARCH"
+      },
+      "status": "PASS_INTERNAL_RESEARCH"
+    },
+    {
+      "case_id": "G09-L1-004",
+      "detail": "Penalty contact trial exceeded contact_max_penetration.",
+      "result": {
+        "converged": false,
+        "exception": "NumericalConvergenceError",
+        "fail_closed": true,
+        "message": "Penalty contact trial exceeded contact_max_penetration.",
+        "reason": "CONTACT_PENETRATION_EXCESSIVE",
+        "status": "EXPECTED_FAILURE"
+      },
+      "status": "EXPECTED_FAILURE"
+    },
+    {
+      "case_id": "G09-L1-005",
+      "detail": "exact deterministic replay",
+      "result": {
+        "exact": true,
+        "status": "PASS"
+      },
+      "status": "PASS"
+    }
+  ],
+  "configuration": {
+    "contact_mode": "penalty",
+    "contact_search_mode": "initial",
+    "families": [
+      "TET4"
+    ],
+    "penalties": [
+      100.0,
+      1000.0,
+      10000.0,
+      100000.0,
+      1000000.0
+    ],
+    "threshold_source": "g09_requirements.json"
+  },
+  "contract": {
+    "case_registry_not_supported": 1,
+    "case_registry_ready": 5,
+    "requirements_total": 8
+  },
+  "determinism": {
+    "exact": true,
+    "status": "PASS"
+  },
+  "failure_mode": {
+    "converged": false,
+    "exception": "NumericalConvergenceError",
+    "fail_closed": true,
+    "message": "Penalty contact trial exceeded contact_max_penetration.",
+    "reason": "CONTACT_PENETRATION_EXCESSIVE",
+    "status": "EXPECTED_FAILURE"
+  },
+  "gate": "026-G09",
+  "gate_status_unchanged": "NOT_STARTED",
+  "generated_utc": "2026-08-30T13:08:10.674507Z",
+  "limitations": [
+    "Bounded TET4 node-to-triangle penalty contact only.",
+    "Initial-configuration search only in this lot; finite sliding is not qualified.",
+    "Penalty production range and conditioning band require Owner decision.",
+    "The exact linear active-set route and external contact studies are separate evidence.",
+    "Official G09 remains NOT_STARTED; this is Lot 1 evidence, not gate closure."
+  ],
+  "lot": "LOT1",
+  "no_nan_inf": true,
+  "no_silent_pass": true,
+  "penalty_sensitivity": {
+    "common_driver": true,
+    "limitations": [
+      "One TET4 node-to-triangle frictionless penalty case in the initial configuration.",
+      "Penalty selection, conditioning and finite-sliding behaviour are not qualified.",
+      "No surface-to-surface or external correlation claim is made."
+    ],
+    "owner_acceptance_band_required": true,
+    "penetration_monotone_nonincreasing": true,
+    "rows": [
+      {
+        "active_contacts": [
+          0
+        ],
+        "contact_tangent_nnz": 4,
+        "converged": true,
+        "gap": -0.015231077119459924,
+        "iterations": 2,
+        "maximum_penetration": 0.015231077119459924,
+        "penalty": 100.0,
+        "relative_residual": 7.298584734744796e-16,
+        "solver_status": "PASS"
+      },
+      {
+        "active_contacts": [
+          0
+        ],
+        "contact_tangent_nnz": 4,
+        "converged": true,
+        "gap": -0.00157440038587775,
+        "iterations": 2,
+        "maximum_penetration": 0.00157440038587775,
+        "penalty": 1000.0,
+        "relative_residual": 5.066423921464998e-15,
+        "solver_status": "PASS"
+      },
+      {
+        "active_contacts": [
+          0
+        ],
+        "contact_tangent_nnz": 4,
+        "converged": true,
+        "gap": -0.0001579720303688248,
+        "iterations": 2,
+        "maximum_penetration": 0.0001579720303688248,
+        "penalty": 10000.0,
+        "relative_residual": 2.6730507091480036e-15,
+        "solver_status": "PASS"
+      },
+      {
+        "active_contacts": [
+          0
+        ],
+        "contact_tangent_nnz": 4,
+        "converged": true,
+        "gap": -1.5802542735032787e-05,
+        "iterations": 2,
+        "maximum_penetration": 1.5802542735032787e-05,
+        "penalty": 100000.0,
+        "relative_residual": 1.7026388604732188e-13,
+        "solver_status": "PASS"
+      },
+      {
+        "active_contacts": [
+          0
+        ],
+        "contact_tangent_nnz": 4,
+        "converged": true,
+        "gap": -1.5803076904852276e-06,
+        "iterations": 2,
+        "maximum_penetration": 1.5803076904852276e-06,
+        "penalty": 1000000.0,
+        "relative_residual": 1.4400125538262853e-11,
+        "solver_status": "PASS"
+      }
+    ],
+    "status": "PASS_INTERNAL_RESEARCH"
+  },
+  "reaction_sensitivity": [
+    {
+      "contact_force_norm": 2.153999583189076,
+      "global_reaction_norm": 11.02336601114122,
+      "penalty": 100.0,
+      "run_verdict": "WARNING"
+    },
+    {
+      "contact_force_norm": 2.2265383783137485,
+      "global_reaction_norm": 11.013120670272631,
+      "penalty": 1000.0,
+      "run_verdict": "WARNING"
+    },
+    {
+      "contact_force_norm": 2.2340618782320645,
+      "global_reaction_norm": 11.012069318145357,
+      "penalty": 10000.0,
+      "run_verdict": "WARNING"
+    },
+    {
+      "contact_force_norm": 2.234817025586379,
+      "global_reaction_norm": 11.011963909037304,
+      "penalty": 100000.0,
+      "run_verdict": "WARNING"
+    },
+    {
+      "contact_force_norm": 2.2348925686067123,
+      "global_reaction_norm": 11.0119533654343,
+      "penalty": 1000000.0,
+      "run_verdict": "WARNING"
+    }
+  ],
+  "schema_version": 1,
+  "solver": {
+    "name": "QF_solver",
+    "version": "0.2.6a0"
+  },
+  "source": {
+    "dirty": false,
+    "sha": "341ff7111630f6244401ca82addc04414408b9b1"
+  },
+  "status": "PASS_WITH_LIMITATIONS",
+  "unexpected_failures": []
+}

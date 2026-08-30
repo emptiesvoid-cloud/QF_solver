@@ -1,0 +1,14 @@
+{
+  "artifacts": {
+    "g09_lot1_evidence.json": "3b7a81d0baeffc45564ce2cb04b398e98bfb69fb74fa257e2dda010ef2e9b6fa",
+    "g09_lot1_evidence.md": "aac1c89e064a4af6a0e8c787ff1b2323b1001db84150f6f29092c0ac961e45d1"
+  },
+  "gate": "026-G09",
+  "generated_utc": "2026-08-30T13:08:10.674507Z",
+  "lot": "LOT1",
+  "schema_version": 1,
+  "solver_version": "0.2.6a0",
+  "source_dirty": false,
+  "source_sha": "341ff7111630f6244401ca82addc04414408b9b1",
+  "status": "PASS_WITH_LIMITATIONS"
+}
