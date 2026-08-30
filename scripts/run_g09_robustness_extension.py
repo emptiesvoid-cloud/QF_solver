@@ -128,11 +128,32 @@ def _result_metrics(result: Any, penalty: float) -> dict[str, Any]:
     }
 
 
+def _solve_contact_case_with_equilibrium(model: FiniteElementModel, penalty: float) -> dict[str, Any]:
+    """Retain the existing case metrics and archive global force/moment audits."""
+    row = _solve_contact_case(model, penalty)
+    audit = solve_model(model, enforce_policy=False).to_dict().get("audit", {}).get("equilibrium", {})
+    force_error = float(audit.get("force_balance_relative_error", math.inf))
+    moment_error = float(audit.get("moment_balance_relative_error", math.inf))
+    row.update(
+        {
+            "force_balance_relative_error": force_error,
+            "moment_balance_relative_error": moment_error,
+            "external_moment_about_origin": audit.get("external_moment_about_origin", []),
+            "reaction_moment_about_origin": audit.get("reaction_moment_about_origin", []),
+            "force_moment_equilibrium_pass": force_error <= EQUILIBRIUM_LIMIT
+            and moment_error <= EQUILIBRIUM_LIMIT,
+        }
+    )
+    return row
+
+
 def _run_penalty_mesh_matrix() -> dict[str, Any]:
     rows: list[dict[str, Any]] = []
     for mesh_level in MESH_LEVELS:
         for penalty in PENALTIES:
-            row = _solve_contact_case(_mesh_contact_model(mesh_level, penalty=penalty), penalty)
+            row = _solve_contact_case_with_equilibrium(
+                _mesh_contact_model(mesh_level, penalty=penalty), penalty
+            )
             rows.append(
                 {
                     "mesh_level": mesh_level,
@@ -140,7 +161,9 @@ def _run_penalty_mesh_matrix() -> dict[str, Any]:
                     "normalized_penalty_E10_L1": penalty / 10.0,
                     **row,
                     "penalty_energy": 0.5 * penalty * row["penetration"] ** 2,
-                    "equilibrium_pass": row["finite"] and row["residual"] <= EQUILIBRIUM_LIMIT,
+                    "equilibrium_pass": row["finite"]
+                    and row["residual"] <= EQUILIBRIUM_LIMIT
+                    and row["force_moment_equilibrium_pass"],
                 }
             )
     reference = [row for row in rows if row["penalty"] == 1.0e5]
@@ -158,7 +181,7 @@ def _run_penalty_mesh_matrix() -> dict[str, Any]:
                 / max(abs(left["displacement_norm"]), 1.0e-15),
             }
         )
-    replay = _solve_contact_case(_mesh_contact_model(4, penalty=1.0e5), 1.0e5)
+    replay = _solve_contact_case_with_equilibrium(_mesh_contact_model(4, penalty=1.0e5), 1.0e5)
     replay_reference = next(row for row in reference if row["mesh_level"] == 4)
     replay_exact = _canonical(replay) == _canonical(
         {key: value for key, value in replay_reference.items() if key in replay}
@@ -1032,7 +1055,7 @@ def _render_report(evidence: dict[str, Any]) -> str:
     lines.extend(
         [
             "",
-            f"Force/equilibrium check: `{evidence['force_equilibrium']['status']}`; deterministic mesh replay: `{evidence['penalty_mesh']['replay_exact']}`.",
+            f"Force/moment equilibrium check: `{evidence['force_equilibrium']['status']}`; moment evidence: `{evidence['force_equilibrium']['moment_equilibrium_pass']}`; deterministic mesh replay: `{evidence['penalty_mesh']['replay_exact']}`.",
             f"Mesh changes at `1e5`: `{evidence['penalty_mesh']['mesh_changes_at_1e5']}`.",
             "",
             "## Activation and geometry",
@@ -1194,6 +1217,10 @@ def run(output: Path, expected_sha: str = SOURCE_SHA_DEFAULT) -> dict[str, Any]:
         "force_equilibrium": {
             "status": "PASS" if penalty_mesh["equilibrium_pass"] else "FAIL",
             "limit": EQUILIBRIUM_LIMIT,
+            "moment_equilibrium_pass": all(
+                row["force_moment_equilibrium_pass"] for row in penalty_mesh["rows"]
+            ),
+            "action_reaction_interpretation": "Global support reaction balance is the applicable action/reaction check for the constrained benchmark.",
             "scope": "penalty mesh matrix; other groups retain route-specific residuals",
         },
         "energy_check": {
