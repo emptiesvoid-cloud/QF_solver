@@ -1,0 +1,2809 @@
+{
+  "schema_version": 1,
+  "gate": "026-G04",
+  "status": "PASS_WITH_LIMITATIONS",
+  "contract": "qualification/0_2_6/g04_requirements.json",
+  "mapping": "qualification/0_2_6/g04_case_mapping.json",
+  "execution": {
+    "runner": "scripts/run_vnv_026.py",
+    "profile": "FULL",
+    "selection_rule": "case family LIN or SHL, execution_state READY, explicit case IDs",
+    "source_sha": "5e798e2fd052cb4fe8618d06495a2287f29e01b3",
+    "branch": "agent-b/026-work",
+    "worktree_dirty": false,
+    "registry_digest": "d2e5f587ac2d67c3c875782c8558aa7aac60cec09df9f43614319eff1b99ea59",
+    "run_id": "vnv026-full-d2e5f587ac2d",
+    "result_root": "results/vnv_026_g04_official/full",
+    "planned_not_executed": 4,
+    "not_applicable_not_executed": 3
+  },
+  "counts": {
+    "cases_total": 65,
+    "pass": 65,
+    "warning": 0,
+    "expected_failure": 0,
+    "fail": 0,
+    "skip": 0
+  },
+  "family_summary": {
+    "HEX20": 9,
+    "HEX8": 25,
+    "TET4": 14,
+    "TET10": 8,
+    "BEAM2": 2,
+    "MITC3": 3,
+    "MITC4": 3,
+    "RBE2": 1
+  },
+  "oracle_summary": {
+    "configured_analytical_pass": 20,
+    "declared_analytical_without_executable_configuration": 30,
+    "internal_only": 15,
+    "maximum_configured_analytical_error": 0,
+    "configured_analytical_tolerance": 1e-10
+  },
+  "policy_summary": {
+    "residual": {
+      "status": "PASS",
+      "maximum_observed": 2.674097991279872e-14,
+      "threshold": 1e-8
+    },
+    "force_equilibrium": {
+      "status": "PASS",
+      "maximum_observed": 1.4872764748158969e-12,
+      "threshold": 1e-10
+    },
+    "moment_equilibrium": {
+      "status": "PASS",
+      "maximum_observed": 3.2411225535969526e-12,
+      "threshold": 1e-10
+    },
+    "mesh_convergence": {
+      "status": "NOT_EVALUATED",
+      "reason": "The four-level records are present, but the G04 registry did not predeclare q_ref for the approved normalization.",
+      "studies": [
+        {
+          "case_ids": [
+            "VNV026-LIN-G06-M001",
+            "VNV026-LIN-G06-M002",
+            "VNV026-LIN-G06-M003",
+            "VNV026-LIN-G06-M004"
+          ],
+          "observable": "max_displacement",
+          "levels": [
+            "nx=1",
+            "nx=2",
+            "nx=4",
+            "nx=8"
+          ],
+          "values": [
+            4.5500000000000014e-12,
+            4.711131345322108e-12,
+            4.77936951184562e-12,
+            4.800036972857374e-12
+          ],
+          "final_adjacent_change_without_qref": 0.0043056878787853135,
+          "policy_status": "NOT_EVALUATED_PREDECLARED_REFERENCE_MISSING"
+        },
+        {
+          "case_ids": [
+            "VNV026-LIN-G06-M005",
+            "VNV026-LIN-G06-M006",
+            "VNV026-LIN-G06-M007",
+            "VNV026-LIN-G06-M008"
+          ],
+          "observable": "max_displacement",
+          "levels": [
+            "nx=1",
+            "nx=2",
+            "nx=4",
+            "nx=8"
+          ],
+          "values": [
+            4.766666666666668e-12,
+            4.93547093319459e-12,
+            5.0069585362192205e-12,
+            5.0286101620410606e-12
+          ],
+          "final_adjacent_change_without_qref": 0.004305687878785947,
+          "policy_status": "NOT_EVALUATED_PREDECLARED_REFERENCE_MISSING"
+        },
+        {
+          "case_ids": [
+            "VNV026-LIN-G06-M009",
+            "VNV026-LIN-G06-M010",
+            "VNV026-LIN-G06-M011",
+            "VNV026-LIN-G06-M012"
+          ],
+          "observable": "max_displacement",
+          "levels": [
+            "nx=1",
+            "nx=2",
+            "nx=4",
+            "nx=8"
+          ],
+          "values": [
+            4.9833333333333336e-12,
+            5.159810521067069e-12,
+            5.234547560592822e-12,
+            5.257183351224742e-12
+          ],
+          "final_adjacent_change_without_qref": 0.004305687878785146,
+          "policy_status": "NOT_EVALUATED_PREDECLARED_REFERENCE_MISSING"
+        },
+        {
+          "case_ids": [
+            "VNV026-LIN-G06-M013",
+            "VNV026-LIN-G06-M014",
+            "VNV026-LIN-G06-M015",
+            "VNV026-LIN-G06-M016"
+          ],
+          "observable": "max_displacement",
+          "levels": [
+            "nx=1",
+            "nx=2",
+            "nx=4",
+            "nx=8"
+          ],
+          "values": [
+            5.2000000000000005e-12,
+            5.384150108939551e-12,
+            5.4621365849664226e-12,
+            5.4857565404084255e-12
+          ],
+          "final_adjacent_change_without_qref": 0.004305687878785147,
+          "policy_status": "NOT_EVALUATED_PREDECLARED_REFERENCE_MISSING"
+        }
+      ]
+    }
+  },
+  "requirement_summary": {
+    "G04-LIN-001": {
+      "status": "PASS",
+      "note": "All 65 READY routes dispatched and completed."
+    },
+    "G04-LIN-002": {
+      "status": "PARTIAL",
+      "note": "Foundation patch/invariant cases executed; family-wide patch coverage is not established by this corpus."
+    },
+    "G04-LIN-003": {
+      "status": "PASS",
+      "note": "Loads, reactions, force/moment balance and residuals audited for all 65 cases."
+    },
+    "G04-LIN-004": {
+      "status": "PASS_WITH_LIMITATIONS",
+      "note": "Linear isotropic routes pass; orthotropic/laminate records remain deferred from the G04 base claim."
+    },
+    "G04-LIN-005": {
+      "status": "PARTIAL",
+      "note": "Four-level HEX8 mesh records executed; quality/distortion and predeclared q_ref evidence remain incomplete."
+    },
+    "G04-LIN-006": {
+      "status": "PARTIAL",
+      "note": "No invalid-input case was included in the 65 READY G04 selection; existing deterministic rejection tests are separate evidence."
+    },
+    "G04-LIN-007": {
+      "status": "NOT_COVERED",
+      "note": "Code_Aster and CalculiX executables were unavailable; no external PASS is claimed."
+    },
+    "G04-LIN-008": {
+      "status": "PASS",
+      "note": "Runner source, registry digest, clean state and per-case result files are recorded."
+    }
+  },
+  "external_correlations": [
+    {
+      "tool": "Code_Aster",
+      "status": "SKIP",
+      "reason": "executable unavailable; no comparable run"
+    },
+    {
+      "tool": "CalculiX",
+      "status": "SKIP",
+      "reason": "executable unavailable; no comparable run"
+    }
+  ],
+  "requirements_covered": {
+    "fully_covered": 3,
+    "total": 8,
+    "partial": 4,
+    "not_covered": 1
+  },
+  "case_results": [
+    {
+      "case_id": "VNV026-HEX-G06-HEX20-001",
+      "registry_family": "LIN",
+      "element": "HEX20",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-005",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "DECLARED_NOT_EXECUTED"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 3.3903094910848823e-15
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 6.2287656635918324e-15,
+          "moment": 2.196319718979427e-15
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 7.387539663758855e-11,
+      "free_relative_residual": 3.3903094910848823e-15,
+      "force_balance_relative_error": 6.2287656635918324e-15,
+      "moment_balance_relative_error": 2.196319718979427e-15,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-hex-g06-hex20-001.json"
+    },
+    {
+      "case_id": "VNV026-HEX-G06-HEX20-006",
+      "registry_family": "LIN",
+      "element": "HEX20",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-005",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "DECLARED_NOT_EXECUTED"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 3.3903094910848823e-15
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 6.2287656635918324e-15,
+          "moment": 2.196319718979427e-15
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 7.387539663758855e-11,
+      "free_relative_residual": 3.3903094910848823e-15,
+      "force_balance_relative_error": 6.2287656635918324e-15,
+      "moment_balance_relative_error": 2.196319718979427e-15,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-hex-g06-hex20-006.json"
+    },
+    {
+      "case_id": "VNV026-HEX-G06-HEX20-008",
+      "registry_family": "LIN",
+      "element": "HEX20",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-005",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "DECLARED_NOT_EXECUTED"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 3.3903094910848823e-15
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 6.2287656635918324e-15,
+          "moment": 2.196319718979427e-15
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 7.387539663758855e-11,
+      "free_relative_residual": 3.3903094910848823e-15,
+      "force_balance_relative_error": 6.2287656635918324e-15,
+      "moment_balance_relative_error": 2.196319718979427e-15,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-hex-g06-hex20-008.json"
+    },
+    {
+      "case_id": "VNV026-HEX-G06-HEX8-001",
+      "registry_family": "LIN",
+      "element": "HEX8",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-005",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "DECLARED_NOT_EXECUTED"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 5.091465118357602e-16
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 9.539401966176745e-16,
+          "moment": 4.2457866502527573e-16
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 3.2541950113378686e-11,
+      "free_relative_residual": 5.091465118357602e-16,
+      "force_balance_relative_error": 9.539401966176745e-16,
+      "moment_balance_relative_error": 4.2457866502527573e-16,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-hex-g06-hex8-001.json"
+    },
+    {
+      "case_id": "VNV026-HEX-G06-HEX8-006",
+      "registry_family": "LIN",
+      "element": "HEX8",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-005",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "DECLARED_NOT_EXECUTED"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 5.091465118357602e-16
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 9.539401966176745e-16,
+          "moment": 4.2457866502527573e-16
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 3.2541950113378686e-11,
+      "free_relative_residual": 5.091465118357602e-16,
+      "force_balance_relative_error": 9.539401966176745e-16,
+      "moment_balance_relative_error": 4.2457866502527573e-16,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-hex-g06-hex8-006.json"
+    },
+    {
+      "case_id": "VNV026-HEX-G06-HEX8-008",
+      "registry_family": "LIN",
+      "element": "HEX8",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-005",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "DECLARED_NOT_EXECUTED"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 5.091465118357602e-16
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 9.539401966176745e-16,
+          "moment": 4.2457866502527573e-16
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 3.2541950113378686e-11,
+      "free_relative_residual": 5.091465118357602e-16,
+      "force_balance_relative_error": 9.539401966176745e-16,
+      "moment_balance_relative_error": 4.2457866502527573e-16,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-hex-g06-hex8-008.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G05-001",
+      "registry_family": "LIN",
+      "element": "TET4",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-004",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "INTERNAL_ONLY"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 0
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 5.684341886080802e-16,
+          "moment": 0
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 1.0612244897959185e-8,
+      "free_relative_residual": 0,
+      "force_balance_relative_error": 5.684341886080802e-16,
+      "moment_balance_relative_error": 0,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g05-001.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G05-002",
+      "registry_family": "LIN",
+      "element": "TET4",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-004",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "INTERNAL_ONLY"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 1.5158245029548803e-16
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 4.547473508864639e-16,
+          "moment": 0
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 3.1836734693877555e-8,
+      "free_relative_residual": 1.5158245029548803e-16,
+      "force_balance_relative_error": 4.547473508864639e-16,
+      "moment_balance_relative_error": 0,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g05-002.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G05-003",
+      "registry_family": "LIN",
+      "element": "TET4",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "body_force"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-004",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "INTERNAL_ONLY"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 0
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 5.684341886080799e-16,
+          "moment": 5.684341886080799e-16
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 5.306122448979592e-9,
+      "free_relative_residual": 0,
+      "force_balance_relative_error": 5.684341886080799e-16,
+      "moment_balance_relative_error": 5.684341886080799e-16,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g05-003.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G05-004",
+      "registry_family": "LIN",
+      "element": "TET4",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-004",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "INTERNAL_ONLY"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 0
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 5.684341886080802e-16,
+          "moment": 0
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 2.122448979591837e-8,
+      "free_relative_residual": 0,
+      "force_balance_relative_error": 5.684341886080802e-16,
+      "moment_balance_relative_error": 0,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g05-004.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G05-005",
+      "registry_family": "LIN",
+      "element": "TET4",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "pressure"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-004",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "INTERNAL_ONLY"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 0
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 6.563712636189231e-17,
+          "moment": 7.055786435464805e-30
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 1.2380952380952385e-8,
+      "free_relative_residual": 0,
+      "force_balance_relative_error": 6.563712636189231e-17,
+      "moment_balance_relative_error": 7.055786435464805e-30,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g05-005.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G05-006",
+      "registry_family": "LIN",
+      "element": "TET10",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-004",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "INTERNAL_ONLY"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 4.476306449306546e-15
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 4.457046039513578e-15,
+          "moment": 1.0744007665514232e-12
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 1.4425139967491435e-7,
+      "free_relative_residual": 4.476306449306546e-15,
+      "force_balance_relative_error": 4.457046039513578e-15,
+      "moment_balance_relative_error": 1.0744007665514232e-12,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g05-006.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G05-007",
+      "registry_family": "LIN",
+      "element": "TET10",
+      "material_types": [
+        "orthotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-004",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "INTERNAL_ONLY"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 2.1500855072342996e-15
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 3.6404846195221115e-15,
+          "moment": 1.0062705786393175e-12
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 2.6458917533864143e-7,
+      "free_relative_residual": 2.1500855072342996e-15,
+      "force_balance_relative_error": 3.6404846195221115e-15,
+      "moment_balance_relative_error": 1.0062705786393175e-12,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g05-007.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G05-008",
+      "registry_family": "LIN",
+      "element": "TET4",
+      "material_types": [
+        "orthotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-004",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "INTERNAL_ONLY"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 0
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 9.094947017729283e-16,
+          "moment": 0
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 4.700254916978629e-7,
+      "free_relative_residual": 0,
+      "force_balance_relative_error": 9.094947017729283e-16,
+      "moment_balance_relative_error": 0,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g05-008.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G06-A001",
+      "registry_family": "LIN",
+      "element": "TET4",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-004",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "PASS",
+        "reference": 1.0612244897959185e-8,
+        "qf": 1.0612244897959185e-8,
+        "error": 0,
+        "tolerance": 1e-10
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 0
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 5.684341886080802e-16,
+          "moment": 0
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 1.0612244897959185e-8,
+      "free_relative_residual": 0,
+      "force_balance_relative_error": 5.684341886080802e-16,
+      "moment_balance_relative_error": 0,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g06-a001.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G06-A002",
+      "registry_family": "LIN",
+      "element": "TET10",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-004",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "PASS",
+        "reference": 2.1224489795918366e-8,
+        "qf": 2.1224489795918366e-8,
+        "error": 0,
+        "tolerance": 1e-10
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 0
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 3.804335431380206e-16,
+          "moment": 1.4210854715202004e-14
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 2.1224489795918366e-8,
+      "free_relative_residual": 0,
+      "force_balance_relative_error": 3.804335431380206e-16,
+      "moment_balance_relative_error": 1.4210854715202004e-14,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g06-a002.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G06-A003",
+      "registry_family": "LIN",
+      "element": "HEX8",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-004",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "PASS",
+        "reference": 1.418181818181818e-8,
+        "qf": 1.418181818181818e-8,
+        "error": 0,
+        "tolerance": 1e-10
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 0
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 1.6740815720309896e-16,
+          "moment": 1.2710574864626038e-13
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 1.418181818181818e-8,
+      "free_relative_residual": 0,
+      "force_balance_relative_error": 1.6740815720309896e-16,
+      "moment_balance_relative_error": 1.2710574864626038e-13,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g06-a003.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G06-A004",
+      "registry_family": "LIN",
+      "element": "HEX20",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-004",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "PASS",
+        "reference": 9.923138086403387e-9,
+        "qf": 9.923138086403387e-9,
+        "error": 0,
+        "tolerance": 1e-10
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 0
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 5.720310336735898e-16,
+          "moment": 2.1090076642815105e-13
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 9.923138086403387e-9,
+      "free_relative_residual": 0,
+      "force_balance_relative_error": 5.720310336735898e-16,
+      "moment_balance_relative_error": 2.1090076642815105e-13,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g06-a004.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G06-A005",
+      "registry_family": "LIN",
+      "element": "TET4",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-004",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "PASS",
+        "reference": 1.910204081632653e-8,
+        "qf": 1.910204081632653e-8,
+        "error": 0,
+        "tolerance": 1e-10
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 0
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 2.526374171591467e-16,
+          "moment": 0
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 1.910204081632653e-8,
+      "free_relative_residual": 0,
+      "force_balance_relative_error": 2.526374171591467e-16,
+      "moment_balance_relative_error": 0,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g06-a005.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G06-A006",
+      "registry_family": "LIN",
+      "element": "TET10",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-004",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "PASS",
+        "reference": 3.5374149659863945e-8,
+        "qf": 3.5374149659863945e-8,
+        "error": 0,
+        "tolerance": 1e-10
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 0
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 1.0247593068766006e-16,
+          "moment": 0
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 3.5374149659863945e-8,
+      "free_relative_residual": 0,
+      "force_balance_relative_error": 1.0247593068766006e-16,
+      "moment_balance_relative_error": 0,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g06-a006.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G06-A007",
+      "registry_family": "LIN",
+      "element": "HEX8",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-004",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "PASS",
+        "reference": 1.012987012987013e-8,
+        "qf": 1.012987012987013e-8,
+        "error": 0,
+        "tolerance": 1e-10
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 1.1368683772161603e-16
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 5.684341886080802e-17,
+          "moment": 1.449228509952941e-13
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 1.012987012987013e-8,
+      "free_relative_residual": 1.1368683772161603e-16,
+      "force_balance_relative_error": 5.684341886080802e-17,
+      "moment_balance_relative_error": 1.449228509952941e-13,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g06-a007.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G06-A008",
+      "registry_family": "LIN",
+      "element": "HEX20",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-004",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "PASS",
+        "reference": 7.442353564802541e-9,
+        "qf": 7.442353564802541e-9,
+        "error": 0,
+        "tolerance": 1e-10
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 0
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 1.3240182150652123e-16,
+          "moment": 1.6077746776921858e-13
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 7.442353564802541e-9,
+      "free_relative_residual": 0,
+      "force_balance_relative_error": 1.3240182150652123e-16,
+      "moment_balance_relative_error": 1.6077746776921858e-13,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g06-a008.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G06-A009",
+      "registry_family": "LIN",
+      "element": "TET4",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-004",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "PASS",
+        "reference": 1.4857142857142857e-8,
+        "qf": 1.4857142857142857e-8,
+        "error": 0,
+        "tolerance": 1e-10
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 0
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 3.2481953634747427e-16,
+          "moment": 0
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 1.4857142857142857e-8,
+      "free_relative_residual": 0,
+      "force_balance_relative_error": 3.2481953634747427e-16,
+      "moment_balance_relative_error": 0,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g06-a009.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G06-A010",
+      "registry_family": "LIN",
+      "element": "TET10",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-004",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "PASS",
+        "reference": 2.8299319727891156e-8,
+        "qf": 2.8299319727891156e-8,
+        "error": 0,
+        "tolerance": 1e-10
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 0
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 5.689890293342244e-16,
+          "moment": 0
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 2.8299319727891156e-8,
+      "free_relative_residual": 0,
+      "force_balance_relative_error": 5.689890293342244e-16,
+      "moment_balance_relative_error": 0,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g06-a010.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G06-A011",
+      "registry_family": "LIN",
+      "element": "HEX8",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-004",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "PASS",
+        "reference": 1.8233766233766232e-8,
+        "qf": 1.8233766233766232e-8,
+        "error": 0,
+        "tolerance": 1e-10
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 0
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 2.716586546285645e-16,
+          "moment": 1.797546735911271e-13
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 1.8233766233766232e-8,
+      "free_relative_residual": 0,
+      "force_balance_relative_error": 2.716586546285645e-16,
+      "moment_balance_relative_error": 1.797546735911271e-13,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g06-a011.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G06-A012",
+      "registry_family": "LIN",
+      "element": "HEX20",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-004",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "PASS",
+        "reference": 1.2403922608004235e-8,
+        "qf": 1.2403922608004235e-8,
+        "error": 0,
+        "tolerance": 1e-10
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 0
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 3.0511999048007804e-16,
+          "moment": 7.947921548128285e-13
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 1.2403922608004235e-8,
+      "free_relative_residual": 0,
+      "force_balance_relative_error": 3.0511999048007804e-16,
+      "moment_balance_relative_error": 7.947921548128285e-13,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g06-a012.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G06-A013",
+      "registry_family": "LIN",
+      "element": "TET4",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-004",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "PASS",
+        "reference": 1.0612244897959185e-8,
+        "qf": 1.0612244897959185e-8,
+        "error": 0,
+        "tolerance": 1e-10
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 0
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 5.684341886080802e-16,
+          "moment": 0
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 1.0612244897959185e-8,
+      "free_relative_residual": 0,
+      "force_balance_relative_error": 5.684341886080802e-16,
+      "moment_balance_relative_error": 0,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g06-a013.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G06-A014",
+      "registry_family": "LIN",
+      "element": "TET10",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-004",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "PASS",
+        "reference": 2.1224489795918366e-8,
+        "qf": 2.1224489795918366e-8,
+        "error": 0,
+        "tolerance": 1e-10
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 0
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 3.804335431380206e-16,
+          "moment": 1.4210854715202004e-14
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 2.1224489795918366e-8,
+      "free_relative_residual": 0,
+      "force_balance_relative_error": 3.804335431380206e-16,
+      "moment_balance_relative_error": 1.4210854715202004e-14,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g06-a014.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G06-A015",
+      "registry_family": "LIN",
+      "element": "HEX8",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-004",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "PASS",
+        "reference": 1.418181818181818e-8,
+        "qf": 1.418181818181818e-8,
+        "error": 0,
+        "tolerance": 1e-10
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 0
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 1.6740815720309896e-16,
+          "moment": 1.2710574864626038e-13
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 1.418181818181818e-8,
+      "free_relative_residual": 0,
+      "force_balance_relative_error": 1.6740815720309896e-16,
+      "moment_balance_relative_error": 1.2710574864626038e-13,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g06-a015.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G06-A016",
+      "registry_family": "LIN",
+      "element": "HEX20",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-004",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "PASS",
+        "reference": 9.923138086403387e-9,
+        "qf": 9.923138086403387e-9,
+        "error": 0,
+        "tolerance": 1e-10
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 0
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 5.720310336735898e-16,
+          "moment": 2.1090076642815105e-13
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 9.923138086403387e-9,
+      "free_relative_residual": 0,
+      "force_balance_relative_error": 5.720310336735898e-16,
+      "moment_balance_relative_error": 2.1090076642815105e-13,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g06-a016.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G06-A017",
+      "registry_family": "LIN",
+      "element": "TET4",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-004",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "PASS",
+        "reference": 1.910204081632653e-8,
+        "qf": 1.910204081632653e-8,
+        "error": 0,
+        "tolerance": 1e-10
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 0
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 2.526374171591467e-16,
+          "moment": 0
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 1.910204081632653e-8,
+      "free_relative_residual": 0,
+      "force_balance_relative_error": 2.526374171591467e-16,
+      "moment_balance_relative_error": 0,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g06-a017.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G06-A018",
+      "registry_family": "LIN",
+      "element": "TET10",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-004",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "PASS",
+        "reference": 3.5374149659863945e-8,
+        "qf": 3.5374149659863945e-8,
+        "error": 0,
+        "tolerance": 1e-10
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 0
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 1.0247593068766006e-16,
+          "moment": 0
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 3.5374149659863945e-8,
+      "free_relative_residual": 0,
+      "force_balance_relative_error": 1.0247593068766006e-16,
+      "moment_balance_relative_error": 0,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g06-a018.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G06-A019",
+      "registry_family": "LIN",
+      "element": "HEX8",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-004",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "PASS",
+        "reference": 1.012987012987013e-8,
+        "qf": 1.012987012987013e-8,
+        "error": 0,
+        "tolerance": 1e-10
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 1.1368683772161603e-16
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 5.684341886080802e-17,
+          "moment": 1.449228509952941e-13
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 1.012987012987013e-8,
+      "free_relative_residual": 1.1368683772161603e-16,
+      "force_balance_relative_error": 5.684341886080802e-17,
+      "moment_balance_relative_error": 1.449228509952941e-13,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g06-a019.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G06-A020",
+      "registry_family": "LIN",
+      "element": "HEX20",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-004",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "PASS",
+        "reference": 7.442353564802541e-9,
+        "qf": 7.442353564802541e-9,
+        "error": 0,
+        "tolerance": 1e-10
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 0
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 1.3240182150652123e-16,
+          "moment": 1.6077746776921858e-13
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 7.442353564802541e-9,
+      "free_relative_residual": 0,
+      "force_balance_relative_error": 1.3240182150652123e-16,
+      "moment_balance_relative_error": 1.6077746776921858e-13,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g06-a020.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G06-M001",
+      "registry_family": "LIN",
+      "element": "HEX8",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-005",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "DECLARED_NOT_EXECUTED"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 1.4175063370623683e-16
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 6.73934388929009e-17,
+          "moment": 1.1857187100668868e-16
+        },
+        "G04-POL-003": "NOT_EVALUATED_PREDECLARED_REFERENCE_MISSING"
+      },
+      "result": "PASS",
+      "max_displacement": 4.5500000000000014e-12,
+      "free_relative_residual": 1.4175063370623683e-16,
+      "force_balance_relative_error": 6.73934388929009e-17,
+      "moment_balance_relative_error": 1.1857187100668868e-16,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g06-m001.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G06-M002",
+      "registry_family": "LIN",
+      "element": "HEX8",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-005",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "DECLARED_NOT_EXECUTED"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 2.8843185079378374e-16
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 6.348604477638496e-16,
+          "moment": 4.0053709487069576e-16
+        },
+        "G04-POL-003": "NOT_EVALUATED_PREDECLARED_REFERENCE_MISSING"
+      },
+      "result": "PASS",
+      "max_displacement": 4.711131345322108e-12,
+      "free_relative_residual": 2.8843185079378374e-16,
+      "force_balance_relative_error": 6.348604477638496e-16,
+      "moment_balance_relative_error": 4.0053709487069576e-16,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g06-m002.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G06-M003",
+      "registry_family": "LIN",
+      "element": "HEX8",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-005",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "DECLARED_NOT_EXECUTED"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 5.359156530502956e-16
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 6.396576048562469e-16,
+          "moment": 5.978733960281817e-16
+        },
+        "G04-POL-003": "NOT_EVALUATED_PREDECLARED_REFERENCE_MISSING"
+      },
+      "result": "PASS",
+      "max_displacement": 4.77936951184562e-12,
+      "free_relative_residual": 5.359156530502956e-16,
+      "force_balance_relative_error": 6.396576048562469e-16,
+      "moment_balance_relative_error": 5.978733960281817e-16,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g06-m003.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G06-M004",
+      "registry_family": "LIN",
+      "element": "HEX8",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-005",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "DECLARED_NOT_EXECUTED"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 2.1283272989121495e-15
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 1.513224281890446e-15,
+          "moment": 1.4944418729947473e-15
+        },
+        "G04-POL-003": "NOT_EVALUATED_PREDECLARED_REFERENCE_MISSING"
+      },
+      "result": "PASS",
+      "max_displacement": 4.800036972857374e-12,
+      "free_relative_residual": 2.1283272989121495e-15,
+      "force_balance_relative_error": 1.513224281890446e-15,
+      "moment_balance_relative_error": 1.4944418729947473e-15,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g06-m004.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G06-M005",
+      "registry_family": "LIN",
+      "element": "HEX8",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-005",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "DECLARED_NOT_EXECUTED"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 6.927228925552248e-17
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 2.380414333338304e-16,
+          "moment": 1.7772239894833365e-16
+        },
+        "G04-POL-003": "NOT_EVALUATED_PREDECLARED_REFERENCE_MISSING"
+      },
+      "result": "PASS",
+      "max_displacement": 4.766666666666668e-12,
+      "free_relative_residual": 6.927228925552248e-17,
+      "force_balance_relative_error": 2.380414333338304e-16,
+      "moment_balance_relative_error": 1.7772239894833365e-16,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g06-m005.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G06-M006",
+      "registry_family": "LIN",
+      "element": "HEX8",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-005",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "DECLARED_NOT_EXECUTED"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 3.3603765002460404e-16
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 1.9947917435094893e-17,
+          "moment": 1.5716250041522723e-16
+        },
+        "G04-POL-003": "NOT_EVALUATED_PREDECLARED_REFERENCE_MISSING"
+      },
+      "result": "PASS",
+      "max_displacement": 4.93547093319459e-12,
+      "free_relative_residual": 3.3603765002460404e-16,
+      "force_balance_relative_error": 1.9947917435094893e-17,
+      "moment_balance_relative_error": 1.5716250041522723e-16,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g06-m006.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G06-M007",
+      "registry_family": "LIN",
+      "element": "HEX8",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-005",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "DECLARED_NOT_EXECUTED"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 7.174154776828707e-16
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 8.095266989572707e-16,
+          "moment": 5.578801654593729e-16
+        },
+        "G04-POL-003": "NOT_EVALUATED_PREDECLARED_REFERENCE_MISSING"
+      },
+      "result": "PASS",
+      "max_displacement": 5.0069585362192205e-12,
+      "free_relative_residual": 7.174154776828707e-16,
+      "force_balance_relative_error": 8.095266989572707e-16,
+      "moment_balance_relative_error": 5.578801654593729e-16,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g06-m007.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G06-M008",
+      "registry_family": "LIN",
+      "element": "HEX8",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-005",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "DECLARED_NOT_EXECUTED"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 2.228818330111668e-15
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 1.672546933339229e-15,
+          "moment": 1.7345708135934807e-15
+        },
+        "G04-POL-003": "NOT_EVALUATED_PREDECLARED_REFERENCE_MISSING"
+      },
+      "result": "PASS",
+      "max_displacement": 5.0286101620410606e-12,
+      "free_relative_residual": 2.228818330111668e-15,
+      "force_balance_relative_error": 1.672546933339229e-15,
+      "moment_balance_relative_error": 1.7345708135934807e-15,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g06-m008.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G06-M009",
+      "registry_family": "LIN",
+      "element": "HEX8",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-005",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "DECLARED_NOT_EXECUTED"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 3.136924976725381e-17
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 2.0936575628855924e-16,
+          "moment": 2.2247786310271853e-16
+        },
+        "G04-POL-003": "NOT_EVALUATED_PREDECLARED_REFERENCE_MISSING"
+      },
+      "result": "PASS",
+      "max_displacement": 4.9833333333333336e-12,
+      "free_relative_residual": 3.136924976725381e-17,
+      "force_balance_relative_error": 2.0936575628855924e-16,
+      "moment_balance_relative_error": 2.2247786310271853e-16,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g06-m009.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G06-M010",
+      "registry_family": "LIN",
+      "element": "HEX8",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-005",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "DECLARED_NOT_EXECUTED"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 3.422767875280081e-16
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 2.0840715673946109e-16,
+          "moment": 3.1676639673831405e-16
+        },
+        "G04-POL-003": "NOT_EVALUATED_PREDECLARED_REFERENCE_MISSING"
+      },
+      "result": "PASS",
+      "max_displacement": 5.159810521067069e-12,
+      "free_relative_residual": 3.422767875280081e-16,
+      "force_balance_relative_error": 2.0840715673946109e-16,
+      "moment_balance_relative_error": 3.1676639673831405e-16,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g06-m010.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G06-M011",
+      "registry_family": "LIN",
+      "element": "HEX8",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-005",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "DECLARED_NOT_EXECUTED"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 6.248131587990439e-16
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 5.912528642230102e-16,
+          "moment": 5.046346073116689e-16
+        },
+        "G04-POL-003": "NOT_EVALUATED_PREDECLARED_REFERENCE_MISSING"
+      },
+      "result": "PASS",
+      "max_displacement": 5.234547560592822e-12,
+      "free_relative_residual": 6.248131587990439e-16,
+      "force_balance_relative_error": 5.912528642230102e-16,
+      "moment_balance_relative_error": 5.046346073116689e-16,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g06-m011.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G06-M012",
+      "registry_family": "LIN",
+      "element": "HEX8",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-005",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "DECLARED_NOT_EXECUTED"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 2.392025434214482e-15
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 1.5711703215089327e-15,
+          "moment": 1.808164448713604e-15
+        },
+        "G04-POL-003": "NOT_EVALUATED_PREDECLARED_REFERENCE_MISSING"
+      },
+      "result": "PASS",
+      "max_displacement": 5.257183351224742e-12,
+      "free_relative_residual": 2.392025434214482e-15,
+      "force_balance_relative_error": 1.5711703215089327e-15,
+      "moment_balance_relative_error": 1.808164448713604e-15,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g06-m012.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G06-M013",
+      "registry_family": "LIN",
+      "element": "HEX8",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-005",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "DECLARED_NOT_EXECUTED"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 1.0476243399072686e-16
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 1.882616816617928e-16,
+          "moment": 1.1102230246251565e-16
+        },
+        "G04-POL-003": "NOT_EVALUATED_PREDECLARED_REFERENCE_MISSING"
+      },
+      "result": "PASS",
+      "max_displacement": 5.2000000000000005e-12,
+      "free_relative_residual": 1.0476243399072686e-16,
+      "force_balance_relative_error": 1.882616816617928e-16,
+      "moment_balance_relative_error": 1.1102230246251565e-16,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g06-m013.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G06-M014",
+      "registry_family": "LIN",
+      "element": "HEX8",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-005",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "DECLARED_NOT_EXECUTED"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 3.444155367029928e-16
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 1.886165579082417e-16,
+          "moment": 1.5716250041522723e-16
+        },
+        "G04-POL-003": "NOT_EVALUATED_PREDECLARED_REFERENCE_MISSING"
+      },
+      "result": "PASS",
+      "max_displacement": 5.384150108939551e-12,
+      "free_relative_residual": 3.444155367029928e-16,
+      "force_balance_relative_error": 1.886165579082417e-16,
+      "moment_balance_relative_error": 1.5716250041522723e-16,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g06-m014.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G06-M015",
+      "registry_family": "LIN",
+      "element": "HEX8",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-005",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "DECLARED_NOT_EXECUTED"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 8.586964420252139e-16
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 3.792221729246127e-16,
+          "moment": 4.603264516961909e-16
+        },
+        "G04-POL-003": "NOT_EVALUATED_PREDECLARED_REFERENCE_MISSING"
+      },
+      "result": "PASS",
+      "max_displacement": 5.4621365849664226e-12,
+      "free_relative_residual": 8.586964420252139e-16,
+      "force_balance_relative_error": 3.792221729246127e-16,
+      "moment_balance_relative_error": 4.603264516961909e-16,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g06-m015.json"
+    },
+    {
+      "case_id": "VNV026-LIN-G06-M016",
+      "registry_family": "LIN",
+      "element": "HEX8",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-005",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "DECLARED_NOT_EXECUTED"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 2.9555997614750005e-15
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 1.8677278935484404e-15,
+          "moment": 1.8935045108792025e-15
+        },
+        "G04-POL-003": "NOT_EVALUATED_PREDECLARED_REFERENCE_MISSING"
+      },
+      "result": "PASS",
+      "max_displacement": 5.4857565404084255e-12,
+      "free_relative_residual": 2.9555997614750005e-15,
+      "force_balance_relative_error": 1.8677278935484404e-15,
+      "moment_balance_relative_error": 1.8935045108792025e-15,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-g06-m016.json"
+    },
+    {
+      "case_id": "VNV026-LIN-TET4-STATIC-001",
+      "registry_family": "LIN",
+      "element": "TET4",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-002",
+        "G04-LIN-003",
+        "G04-LIN-006",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "INTERNAL_ONLY"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 0
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 5.684341886080802e-16,
+          "moment": 0
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 2.122448979591837e-8,
+      "free_relative_residual": 0,
+      "force_balance_relative_error": 5.684341886080802e-16,
+      "moment_balance_relative_error": 0,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-lin-tet4-static-001.json"
+    },
+    {
+      "case_id": "VNV026-RBT-G06-001",
+      "registry_family": "LIN",
+      "element": "TET4",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-005",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "DECLARED_NOT_EXECUTED"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 1.5158245029548803e-16
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 4.547473508864639e-16,
+          "moment": 0
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 1.5918367346938778e-8,
+      "free_relative_residual": 1.5158245029548803e-16,
+      "force_balance_relative_error": 4.547473508864639e-16,
+      "moment_balance_relative_error": 0,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-rbt-g06-001.json"
+    },
+    {
+      "case_id": "VNV026-RBT-G06-002",
+      "registry_family": "LIN",
+      "element": "TET4",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "pressure"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-005",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "DECLARED_NOT_EXECUTED"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 0
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 6.563712636189231e-17,
+          "moment": 7.055786435464805e-30
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 1.2380952380952385e-8,
+      "free_relative_residual": 0,
+      "force_balance_relative_error": 6.563712636189231e-17,
+      "moment_balance_relative_error": 7.055786435464805e-30,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-rbt-g06-002.json"
+    },
+    {
+      "case_id": "VNV026-RBT-G06-003",
+      "registry_family": "LIN",
+      "element": "TET10",
+      "material_types": [
+        "orthotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-005",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "DECLARED_NOT_EXECUTED"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 2.016842281735902e-15
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 2.9904124572758514e-15,
+          "moment": 3.578649575402231e-13
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 2.1167134027091314e-7,
+      "free_relative_residual": 2.016842281735902e-15,
+      "force_balance_relative_error": 2.9904124572758514e-15,
+      "moment_balance_relative_error": 3.578649575402231e-13,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-rbt-g06-003.json"
+    },
+    {
+      "case_id": "VNV026-RBT-G06-004",
+      "registry_family": "SHL",
+      "element": "BEAM2",
+      "material_types": [
+        "beam_isotropic"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-004",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "DECLARED_NOT_EXECUTED"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 8.473716576417359e-16
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 3.7895612573872e-16,
+          "moment": 1.8947806286936001e-16
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 0.005082930793650792,
+      "free_relative_residual": 8.473716576417359e-16,
+      "force_balance_relative_error": 3.7895612573872e-16,
+      "moment_balance_relative_error": 1.8947806286936001e-16,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-rbt-g06-004.json"
+    },
+    {
+      "case_id": "VNV026-RBT-G06-005",
+      "registry_family": "SHL",
+      "element": "MITC3",
+      "material_types": [
+        "shell_isotropic"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-004",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "DECLARED_NOT_EXECUTED"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 2.516882437952325e-15
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 1.4872764748158969e-12,
+          "moment": 3.2411225535969526e-12
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 0.08129536491746292,
+      "free_relative_residual": 2.516882437952325e-15,
+      "force_balance_relative_error": 1.4872764748158969e-12,
+      "moment_balance_relative_error": 3.2411225535969526e-12,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-rbt-g06-005.json"
+    },
+    {
+      "case_id": "VNV026-RBT-G06-006",
+      "registry_family": "SHL",
+      "element": "MITC4",
+      "material_types": [
+        "shell_laminate"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-004",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "DECLARED_NOT_EXECUTED"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 4.806253625950446e-18
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 4.134571442272517e-16,
+          "moment": 5.167583532800726e-16
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 0.00009054298178802421,
+      "free_relative_residual": 4.806253625950446e-18,
+      "force_balance_relative_error": 4.134571442272517e-16,
+      "moment_balance_relative_error": 5.167583532800726e-16,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-rbt-g06-006.json"
+    },
+    {
+      "case_id": "VNV026-RBT-G06-020",
+      "registry_family": "LIN",
+      "element": "HEX8",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-005",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "DECLARED_NOT_EXECUTED"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 1.967320211922957e-15
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 3.4115938258994584e-15,
+          "moment": 2.1449601497805657e-15
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 7.986074388843642e-12,
+      "free_relative_residual": 1.967320211922957e-15,
+      "force_balance_relative_error": 3.4115938258994584e-15,
+      "moment_balance_relative_error": 2.1449601497805657e-15,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-rbt-g06-020.json"
+    },
+    {
+      "case_id": "VNV026-RBT-G06-021",
+      "registry_family": "LIN",
+      "element": "HEX20",
+      "material_types": [
+        "isotropic_3d"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-005",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "DECLARED_NOT_EXECUTED"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 2.674097991279872e-14
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 2.60015678212985e-14,
+          "moment": 2.5131941887797432e-14
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 5.512832216116612e-11,
+      "free_relative_residual": 2.674097991279872e-14,
+      "force_balance_relative_error": 2.60015678212985e-14,
+      "moment_balance_relative_error": 2.5131941887797432e-14,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-rbt-g06-021.json"
+    },
+    {
+      "case_id": "VNV026-SHL-G05-001",
+      "registry_family": "SHL",
+      "element": "BEAM2",
+      "material_types": [
+        "beam_isotropic"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-004",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "INTERNAL_ONLY"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 4.547473508864641e-16
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 7.958078640513122e-16,
+          "moment": 5.684341886080802e-16
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 0.004235775661375659,
+      "free_relative_residual": 4.547473508864641e-16,
+      "force_balance_relative_error": 7.958078640513122e-16,
+      "moment_balance_relative_error": 5.684341886080802e-16,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-shl-g05-001.json"
+    },
+    {
+      "case_id": "VNV026-SHL-G05-002",
+      "registry_family": "SHL",
+      "element": "MITC3",
+      "material_types": [
+        "shell_isotropic"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-004",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "INTERNAL_ONLY"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 2.890922386302785e-15
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 1.4847501006443054e-12,
+          "moment": 3.2396778722626224e-12
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 0.0903281832416255,
+      "free_relative_residual": 2.890922386302785e-15,
+      "force_balance_relative_error": 1.4847501006443054e-12,
+      "moment_balance_relative_error": 3.2396778722626224e-12,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-shl-g05-002.json"
+    },
+    {
+      "case_id": "VNV026-SHL-G05-003",
+      "registry_family": "SHL",
+      "element": "MITC4",
+      "material_types": [
+        "shell_isotropic"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-004",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "INTERNAL_ONLY"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 1.2173244360929028e-16
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 6.938893903907228e-17,
+          "moment": 2.2204460492503126e-16
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 0.01958955106406101,
+      "free_relative_residual": 1.2173244360929028e-16,
+      "force_balance_relative_error": 6.938893903907228e-17,
+      "moment_balance_relative_error": 2.2204460492503126e-16,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-shl-g05-003.json"
+    },
+    {
+      "case_id": "VNV026-SHL-G05-004",
+      "registry_family": "SHL",
+      "element": "MITC4",
+      "material_types": [
+        "shell_laminate"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-003",
+        "G04-LIN-004",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "INTERNAL_ONLY"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 1.80261040222717e-16
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 1.2434497875801754e-17,
+          "moment": 3.581665803660205e-32
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 0.00008231180162547656,
+      "free_relative_residual": 1.80261040222717e-16,
+      "force_balance_relative_error": 1.2434497875801754e-17,
+      "moment_balance_relative_error": 3.581665803660205e-32,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-shl-g05-004.json"
+    },
+    {
+      "case_id": "VNV026-SHL-G05-005",
+      "registry_family": "SHL",
+      "element": "RBE2",
+      "material_types": [],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "INTERNAL_ONLY"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 0
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 0,
+          "moment": 0
+        },
+        "G04-POL-003": "NOT_APPLICABLE_SINGLE_CASE"
+      },
+      "result": "PASS",
+      "max_displacement": 0.02,
+      "free_relative_residual": 0,
+      "force_balance_relative_error": 0,
+      "moment_balance_relative_error": 0,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-shl-g05-005.json"
+    },
+    {
+      "case_id": "VNV026-SHL-MITC3-STATIC-001",
+      "registry_family": "SHL",
+      "element": "MITC3",
+      "material_types": [
+        "shell_isotropic"
+      ],
+      "load_types": [
+        "nodal"
+      ],
+      "requirements": [
+        "G04-LIN-001",
+        "G04-LIN-002",
+        "G04-LIN-003",
+        "G04-LIN-008"
+      ],
+      "oracle": {
+        "status": "INTERNAL_ONLY"
+      },
+      "policies": {
+        "TOL-026-FLOAT-001": "RECORDED",
+        "G04-POL-001": {
+          "status": "PASS",
+          "value": 2.890922386302785e-15
+        },
+        "G04-POL-002": {
+          "status": "PASS",
+          "force": 1.4847501006443054e-12,
+          "moment": 3.2396778722626224e-12
+        },
+        "G04-POL-003": "NOT_EVALUATED_PREDECLARED_REFERENCE_MISSING"
+      },
+      "result": "PASS",
+      "max_displacement": 0.0903281832416255,
+      "free_relative_residual": 2.890922386302785e-15,
+      "force_balance_relative_error": 1.4847501006443054e-12,
+      "moment_balance_relative_error": 3.2396778722626224e-12,
+      "vnv_result_file": "results/vnv_026_g04_official/full/vnv026-shl-mitc3-static-001.json"
+    }
+  ]
+}

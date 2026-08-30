@@ -92,8 +92,18 @@
       "requirements": ["G04-LIN-001", "G04-LIN-003", "G04-LIN-004", "G04-LIN-008"],
       "case_ids": [
         "VNV026-SHL-G05-001", "VNV026-SHL-G05-002", "VNV026-SHL-G05-003",
-        "VNV026-SHL-G05-004", "VNV026-SHL-G05-005"
+        "VNV026-SHL-G05-004"
       ]
+    },
+    {
+      "group_id": "SHL-READY-RBE2-DIAGNOSTIC",
+      "family": "SHL",
+      "status": "READY",
+      "claim_role": "diagnostic_only",
+      "source_scope": "reused G05 RBE2 linear record",
+      "requirements": ["G04-LIN-008"],
+      "reason": "The executable model uses RBE2 plus springs and has no DISCRETE element; it is retained for provenance and is not a DISCRETE G04 base-family claim.",
+      "case_ids": ["VNV026-SHL-G05-005"]
     },
     {
       "group_id": "SHL-READY-FOUNDATION",
