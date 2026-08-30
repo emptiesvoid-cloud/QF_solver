@@ -72,6 +72,8 @@ def test_g08_contract_is_attached_to_unclosed_gate_and_documented() -> None:
     assert "g08_requirements.json" in g08["evidence_ids"]
     assert "g08_case_registry.json" in g08["evidence_ids"]
     assert "g08_owner_contract_review.json" in g08["evidence_ids"]
+    assert "g08_execution_evidence.json" in g08["evidence_ids"]
+    assert "g08_calculix_correlation.json" in g08["evidence_ids"]
     document = (DOCS / "0_2_6_g08_contract.md").read_text(encoding="utf-8")
     assert "`026-G08` is **NOT_STARTED**" in document
     assert "not numerical evidence" in document
