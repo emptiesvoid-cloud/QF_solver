@@ -90,6 +90,17 @@ def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def _artifact_paths(output: Path) -> tuple[Path, Path, Path, Path, Path]:
+    """Resolve canonical evidence paths for either a stem or ``*.json`` input."""
+    evidence_path = output if output.suffix.lower() == ".json" else output.with_suffix(".json")
+    stem = evidence_path.stem.removesuffix("_evidence")
+    registry_path = evidence_path.with_name(f"{stem}_case_registry.json")
+    requirements_path = evidence_path.with_name(f"{stem}_requirements.json")
+    report_path = ROOT / "docs" / "verification" / "0_2_6" / "0_2_6_g09_robustness_extension_evidence.md"
+    manifest_path = evidence_path.with_name(f"{stem}_manifest.json")
+    return evidence_path, registry_path, requirements_path, report_path, manifest_path
+
+
 def _result_metrics(result: Any, penalty: float) -> dict[str, Any]:
     data = result.to_dict()
     solver = data["solver"]
@@ -1088,15 +1099,13 @@ def run(output: Path, expected_sha: str = SOURCE_SHA_DEFAULT) -> dict[str, Any]:
         ],
         "official_gate_closeout_unchanged": True,
     }
-    output.parent.mkdir(parents=True, exist_ok=True)
-    json_path = output.with_suffix(".json")
+    json_path, registry_path, requirements_path, report_path, manifest_path = _artifact_paths(output)
+    json_path.parent.mkdir(parents=True, exist_ok=True)
+    report_path.parent.mkdir(parents=True, exist_ok=True)
     json_path.write_text(json.dumps(evidence, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     registry = _build_case_registry(evidence)
-    registry_path = output.with_name(output.name.replace("_evidence", "_case_registry") + ".json")
     registry_path.write_text(json.dumps(registry, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    requirements_path = output.with_name(output.name.replace("_evidence", "_requirements") + ".json")
     requirements_path.write_text(json.dumps(requirements, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    report_path = output.with_suffix(".md")
     report_path.write_text(_render_report(evidence), encoding="utf-8")
     manifest = {
         "schema_version": 1,
@@ -1113,7 +1122,6 @@ def run(output: Path, expected_sha: str = SOURCE_SHA_DEFAULT) -> dict[str, Any]:
             report_path.name: _sha256(report_path),
         },
     }
-    manifest_path = output.with_name(output.name + "_manifest.json")
     manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     evidence["manifest"] = manifest
     return evidence
