@@ -1,0 +1,448 @@
+{
+  "schema_version": 1,
+  "evidence_id": "026-G08-HIGH-ORDER-EULER-001",
+  "study_id": "VNV-G08-HIGH-ORDER-EULER-001",
+  "gate": "026-G08",
+  "status": "PARTIAL_ANALYTICAL_SCREEN",
+  "gate_status_unchanged": "PASS_WITH_LIMITATIONS",
+  "source_sha": "db2659a84b2fe1ace535dfefb38b90cbd67bc2e8",
+  "source_dirty": false,
+  "captured_at_utc": "2026-08-30T11:52:20.657588Z",
+  "solver_version": "0.2.6a0",
+  "runtime": {
+    "python": {
+      "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+      "executable": "C:\\Python313\\python.exe"
+    },
+    "platform": {
+      "system": "Windows",
+      "release": "10",
+      "machine": "AMD64",
+      "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+    },
+    "packages": {
+      "numpy": "2.2.6",
+      "scipy": "1.15.2",
+      "matplotlib": "3.10.3",
+      "h5py": "3.14.0",
+      "mpi4py": "4.1.0",
+      "petsc4py": null
+    },
+    "blas": {
+      "name": "scipy-openblas",
+      "version": "0.3.29",
+      "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+    },
+    "parallel_environment": {
+      "OMP_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "PETSC_ARCH": null
+    }
+  },
+  "command": "python scripts/run_g08_high_order_analytical.py --output results/vnv_026_g08_high_order_analytical --evidence-dir qualification/0_2_6",
+  "policies": {
+    "euler_relative_tolerance": 0.1,
+    "eigenpair_residual_pass": 1e-07,
+    "repeatability_absolute_tolerance": 1e-12,
+    "tolerance_source": "Existing G08 Owner-approved bounded policy; declared before execution."
+  },
+  "benchmark": {
+    "formula": "pi^2 E I / (4 L^2)",
+    "boundary_condition": "fixed-free",
+    "young": 1000000.0,
+    "poisson": 0.3,
+    "length": 4.0,
+    "width": 0.5,
+    "height": 0.5,
+    "inertia": 0.005208333333333333,
+    "reference_load": 1.0,
+    "euler_reference": 803.1904623282354,
+    "load": "uniformly distributed nodal axial dead load on x=L",
+    "assumptions": [
+      "slender fixed-free column screening problem",
+      "homogeneous isotropic linear elasticity",
+      "first linearized tangent-instability factor"
+    ]
+  },
+  "euler_reference": 803.1904623282354,
+  "families": [
+    "TET10",
+    "HEX8",
+    "HEX20"
+  ],
+  "mesh_levels": [
+    1,
+    2,
+    3
+  ],
+  "rows": [
+    {
+      "family": "TET10",
+      "cells_x": 1,
+      "length": 4.0,
+      "width": 0.5,
+      "height": 0.5,
+      "slenderness_length_over_height": 8.0,
+      "node_count": 26,
+      "element_count": 5,
+      "status": "PASS",
+      "critical_load_qf": 21780.006622631903,
+      "euler_reference": 803.1904623282354,
+      "euler_relative_error": 26.116864111530234,
+      "euler_status": "FAIL",
+      "critical_factor": 21780.006622631903,
+      "eigenpair_residual_relative": 9.509848893116373e-14,
+      "eigenpair_residual_status": "PASS",
+      "critical_mode_norm": 0.9999999999999999,
+      "mode_finite_unit_status": "PASS",
+      "eigen_backend": "scipy.sparse.linalg.eigs",
+      "eigen_formulation": "generalized_eigs_shift_invert",
+      "critical_bracket": {
+        "lower": 21780.0,
+        "upper": 21782.0,
+        "method": "generalized_eigs_shift_invert",
+        "mass_matrix": "-geometric_tangent",
+        "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+        "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+        "shift_invert_sigma": 21781.0,
+        "shift_invert_attempted_shifts": [
+          21781.0,
+          21780.5,
+          21781.5
+        ]
+      },
+      "preload_residual_max": 2.2266016877844727e-10
+    },
+    {
+      "family": "TET10",
+      "cells_x": 2,
+      "length": 4.0,
+      "width": 0.5,
+      "height": 0.5,
+      "slenderness_length_over_height": 8.0,
+      "node_count": 43,
+      "element_count": 10,
+      "status": "PASS",
+      "critical_load_qf": 124743.12005450185,
+      "euler_reference": 803.1904623282354,
+      "euler_relative_error": 154.30951362757065,
+      "euler_status": "FAIL",
+      "critical_factor": 124743.12005450185,
+      "eigenpair_residual_relative": 4.060496332891088e-14,
+      "eigenpair_residual_status": "PASS",
+      "critical_mode_norm": 0.9999999999999998,
+      "mode_finite_unit_status": "PASS",
+      "eigen_backend": "scipy.sparse.linalg.eigs",
+      "eigen_formulation": "generalized_eigs_shift_invert",
+      "critical_bracket": {
+        "lower": 124736.0,
+        "upper": 124744.0,
+        "method": "generalized_eigs_shift_invert",
+        "mass_matrix": "-geometric_tangent",
+        "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+        "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+        "shift_invert_sigma": 124740.0,
+        "shift_invert_attempted_shifts": [
+          124740.0,
+          124738.0,
+          124742.0
+        ]
+      },
+      "preload_residual_max": 1.3133535647565707e-10,
+      "critical_load_relative_change": 0.8254011394526933
+    },
+    {
+      "family": "TET10",
+      "cells_x": 3,
+      "length": 4.0,
+      "width": 0.5,
+      "height": 0.5,
+      "slenderness_length_over_height": 8.0,
+      "node_count": 60,
+      "element_count": 15,
+      "status": "PASS",
+      "critical_load_qf": 499857.9044974404,
+      "euler_reference": 803.1904623282354,
+      "euler_relative_error": 621.3404384664694,
+      "euler_status": "FAIL",
+      "critical_factor": 499857.9044974404,
+      "eigenpair_residual_relative": 9.099149995476502e-15,
+      "eigenpair_residual_status": "PASS",
+      "critical_mode_norm": 1.0,
+      "mode_finite_unit_status": "PASS",
+      "eigen_backend": "scipy.sparse.linalg.eigs",
+      "eigen_formulation": "generalized_eigs_shift_invert",
+      "critical_bracket": {
+        "lower": 499840.0,
+        "upper": 499872.0,
+        "method": "generalized_eigs_shift_invert",
+        "mass_matrix": "-geometric_tangent",
+        "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+        "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+        "shift_invert_sigma": 499856.0,
+        "shift_invert_attempted_shifts": [
+          499856.0,
+          499848.0,
+          499864.0
+        ]
+      },
+      "preload_residual_max": 1.2306697764550412e-10,
+      "critical_load_relative_change": 0.75044283799029
+    },
+    {
+      "family": "HEX8",
+      "cells_x": 1,
+      "length": 4.0,
+      "width": 0.5,
+      "height": 0.5,
+      "slenderness_length_over_height": 8.0,
+      "node_count": 8,
+      "element_count": 1,
+      "status": "PASS",
+      "critical_load_qf": 5999.220081431473,
+      "euler_reference": 803.1904623282354,
+      "euler_relative_error": 6.4692372018977045,
+      "euler_status": "FAIL",
+      "critical_factor": 5999.220081431473,
+      "eigenpair_residual_relative": 5.299854202372401e-14,
+      "eigenpair_residual_status": "PASS",
+      "critical_mode_norm": 1.0,
+      "mode_finite_unit_status": "PASS",
+      "eigen_backend": "scipy.sparse.linalg.eigs",
+      "eigen_formulation": "generalized_eigs_shift_invert",
+      "critical_bracket": {
+        "lower": 5999.0,
+        "upper": 5999.5,
+        "method": "generalized_eigs_shift_invert",
+        "mass_matrix": "-geometric_tangent",
+        "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+        "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+        "shift_invert_sigma": 5999.25,
+        "shift_invert_attempted_shifts": [
+          5999.25,
+          5999.125,
+          5999.375
+        ]
+      },
+      "preload_residual_max": 1.5652957702865897e-10
+    },
+    {
+      "family": "HEX8",
+      "cells_x": 2,
+      "length": 4.0,
+      "width": 0.5,
+      "height": 0.5,
+      "slenderness_length_over_height": 8.0,
+      "node_count": 12,
+      "element_count": 2,
+      "status": "PASS",
+      "critical_load_qf": 21495.047624337698,
+      "euler_reference": 803.1904623282354,
+      "euler_relative_error": 25.762080269266736,
+      "euler_status": "FAIL",
+      "critical_factor": 21495.047624337698,
+      "eigenpair_residual_relative": 6.105664614332081e-14,
+      "eigenpair_residual_status": "PASS",
+      "critical_mode_norm": 1.0,
+      "mode_finite_unit_status": "PASS",
+      "eigen_backend": "scipy.sparse.linalg.eigs",
+      "eigen_formulation": "generalized_eigs_shift_invert",
+      "critical_bracket": {
+        "lower": 21494.0,
+        "upper": 21496.0,
+        "method": "generalized_eigs_shift_invert",
+        "mass_matrix": "-geometric_tangent",
+        "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+        "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+        "shift_invert_sigma": 21495.0,
+        "shift_invert_attempted_shifts": [
+          21495.0,
+          21494.5,
+          21495.5
+        ]
+      },
+      "preload_residual_max": 1.5680630016335104e-10,
+      "critical_load_relative_change": 0.720902219605279
+    },
+    {
+      "family": "HEX8",
+      "cells_x": 3,
+      "length": 4.0,
+      "width": 0.5,
+      "height": 0.5,
+      "slenderness_length_over_height": 8.0,
+      "node_count": 16,
+      "element_count": 3,
+      "status": "PASS",
+      "critical_load_qf": 65648.2694788444,
+      "euler_reference": 803.1904623282354,
+      "euler_relative_error": 80.73437379790036,
+      "euler_status": "FAIL",
+      "critical_factor": 65648.2694788444,
+      "eigenpair_residual_relative": 4.2490039095699e-14,
+      "eigenpair_residual_status": "PASS",
+      "critical_mode_norm": 1.0,
+      "mode_finite_unit_status": "PASS",
+      "eigen_backend": "scipy.sparse.linalg.eigs",
+      "eigen_formulation": "generalized_eigs_shift_invert",
+      "critical_bracket": {
+        "lower": 65648.0,
+        "upper": 65652.0,
+        "method": "generalized_eigs_shift_invert",
+        "mass_matrix": "-geometric_tangent",
+        "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+        "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+        "shift_invert_sigma": 65650.0,
+        "shift_invert_attempted_shifts": [
+          65650.0,
+          65649.0,
+          65651.0
+        ]
+      },
+      "preload_residual_max": 1.562602299852515e-10,
+      "critical_load_relative_change": 0.6725725172197475
+    },
+    {
+      "family": "HEX20",
+      "cells_x": 1,
+      "length": 4.0,
+      "width": 0.5,
+      "height": 0.5,
+      "slenderness_length_over_height": 8.0,
+      "node_count": 20,
+      "element_count": 1,
+      "status": "PASS",
+      "critical_load_qf": 20647.78631477404,
+      "euler_reference": 803.1904623282354,
+      "euler_relative_error": 24.707210534997643,
+      "euler_status": "FAIL",
+      "critical_factor": 20647.78631477404,
+      "eigenpair_residual_relative": 1.3801790431017968e-13,
+      "eigenpair_residual_status": "PASS",
+      "critical_mode_norm": 1.0,
+      "mode_finite_unit_status": "PASS",
+      "eigen_backend": "scipy.sparse.linalg.eigs",
+      "eigen_formulation": "generalized_eigs_shift_invert",
+      "critical_bracket": {
+        "lower": 20646.0,
+        "upper": 20648.0,
+        "method": "generalized_eigs_shift_invert",
+        "mass_matrix": "-geometric_tangent",
+        "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+        "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+        "shift_invert_sigma": 20647.0,
+        "shift_invert_attempted_shifts": [
+          20647.0,
+          20646.5,
+          20647.5
+        ]
+      },
+      "preload_residual_max": 2.0419032185355634e-10
+    },
+    {
+      "family": "HEX20",
+      "cells_x": 2,
+      "length": 4.0,
+      "width": 0.5,
+      "height": 0.5,
+      "slenderness_length_over_height": 8.0,
+      "node_count": 32,
+      "element_count": 2,
+      "status": "PASS",
+      "critical_load_qf": 212786.3916680536,
+      "euler_reference": 803.1904623282354,
+      "euler_relative_error": 263.9264422927066,
+      "euler_status": "FAIL",
+      "critical_factor": 212786.3916680536,
+      "eigenpair_residual_relative": 9.157438709473218e-14,
+      "eigenpair_residual_status": "PASS",
+      "critical_mode_norm": 0.9999999999999999,
+      "mode_finite_unit_status": "PASS",
+      "eigen_backend": "scipy.sparse.linalg.eigs",
+      "eigen_formulation": "generalized_eigs_shift_invert",
+      "critical_bracket": {
+        "lower": 212784.0,
+        "upper": 212800.0,
+        "method": "generalized_eigs_shift_invert",
+        "mass_matrix": "-geometric_tangent",
+        "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+        "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+        "shift_invert_sigma": 212792.0,
+        "shift_invert_attempted_shifts": [
+          212792.0,
+          212788.0,
+          212796.0
+        ]
+      },
+      "preload_residual_max": 1.178841082773019e-10,
+      "critical_load_relative_change": 0.902964723669996
+    },
+    {
+      "family": "HEX20",
+      "cells_x": 3,
+      "length": 4.0,
+      "width": 0.5,
+      "height": 0.5,
+      "slenderness_length_over_height": 8.0,
+      "node_count": 44,
+      "element_count": 3,
+      "status": "PASS",
+      "critical_load_qf": 1662126.911424916,
+      "euler_reference": 803.1904623282354,
+      "euler_relative_error": 2068.405688168722,
+      "euler_status": "FAIL",
+      "critical_factor": 1662126.911424916,
+      "eigenpair_residual_relative": 9.42125318916188e-16,
+      "eigenpair_residual_status": "PASS",
+      "critical_mode_norm": 0.9999999999999998,
+      "mode_finite_unit_status": "PASS",
+      "eigen_backend": "scipy.sparse.linalg.eigs",
+      "eigen_formulation": "generalized_eigs_shift_invert",
+      "critical_bracket": {
+        "lower": 1662080.0,
+        "upper": 1662208.0,
+        "method": "generalized_eigs_shift_invert",
+        "mass_matrix": "-geometric_tangent",
+        "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+        "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+        "shift_invert_sigma": 1662144.0,
+        "shift_invert_attempted_shifts": [
+          1662144.0,
+          1662112.0,
+          1662176.0
+        ]
+      },
+      "preload_residual_max": 9.850446638296733e-11,
+      "critical_load_relative_change": 0.8719794558373193
+    }
+  ],
+  "replay_final_level_absolute_deltas": {
+    "TET10": 0.0,
+    "HEX8": 0.0,
+    "HEX20": 0.0
+  },
+  "replay_final_level_status": "PASS",
+  "artifact_digests": {
+    "results/vnv_026_g08_high_order_analytical/euler_high_order_comparison.png": "24b718e6fa7bfc5e22c8064d0e96367f85f36fa112231dc6fb6aef0bf5082be2",
+    "results/vnv_026_g08_high_order_analytical/euler_high_order_error.png": "3b99fb787c59b33091bc761aa1aa676884e5dbda1d4defdebab16e990d9b3d11",
+    "results/vnv_026_g08_high_order_analytical/g08_high_order_analytical_report.md": "c5522b223e8c30d281790baa61b6e642b06bcdf795b3e2347e17dd25cb660687",
+    "qualification/0_2_6/g08_high_order_analytical_evidence.md": "c5522b223e8c30d281790baa61b6e642b06bcdf795b3e2347e17dd25cb660687"
+  },
+  "limitations": [
+    "The screening mesh retains one solid layer through each transverse direction; it is not a universal 3D Euler convergence proof.",
+    "A failed analytical screen remains a diagnostic limitation and does not trigger solver changes.",
+    "Only the first linearized factor and first mode route are considered; no post-buckling or multi-mode claim is made.",
+    "This numerical correlation is not physical validation."
+  ],
+  "promotion": {
+    "automatic": false,
+    "owner_review_required": true,
+    "family_candidates": {
+      "TET10": "MORE_EVIDENCE_REQUIRED",
+      "HEX8": "MORE_EVIDENCE_REQUIRED",
+      "HEX20": "MORE_EVIDENCE_REQUIRED"
+    }
+  },
+  "report_sha256": "c5522b223e8c30d281790baa61b6e642b06bcdf795b3e2347e17dd25cb660687"
+}
