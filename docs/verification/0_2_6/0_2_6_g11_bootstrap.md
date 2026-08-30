@@ -22,22 +22,47 @@ inverted-element expected failures, G06 J2 rollback, historical buckling and
 contact diagnostics, and the TL failure/cutback/rollback zoos. These are
 mapped as diagnostic evidence only and are not automatically requalified.
 
-## Candidate contract
+## Owner contract review
 
 The machine-readable contract is in
 `qualification/0_2_6/g11_requirements.json`. It defines eight requirements:
 invalid inputs, singular systems, unsupported combinations, numerical
 non-convergence, deterministic diagnostics, rollback/state integrity,
 provenance, and no silent fail-open. Each records failure classes, expected
-behavior, oracle and evidence references.
+behavior, oracle, evidence references and the Owner review decision `KEEP`.
+
+All eight requirements are retained. The review requires fail-closed behavior,
+determinism, no silent NaN/Inf continuation, no silent PASS, exploitable
+diagnostics and provenance; state preservation is mandatory whenever mutable
+trial state exists.
+
+The transverse failure envelope is `OWNER_APPROVED_BOUNDED` as a qualitative
+evidence schema. It requires `FAILURE_CLASS`, `ROUTE`, `EXPECTED_BEHAVIOR`,
+`ERROR_TYPE_OR_CODE`, `STATE_PRESERVED`, `DETERMINISTIC`, `NO_NAN_INF`,
+`NO_SILENT_PASS` and `EVIDENCE_ID`. Route-native exception types remain
+allowed; this schema does not require a common Python exception or imply a
+successful qualification result. No numerical threshold is introduced.
 
 Current mapping is in `qualification/0_2_6/g11_evidence_mapping.json`.
-Four adversarial factory cases remain `PLANNED`; no new policy threshold is
-introduced. Any aggregate threshold or maturity promotion requires a separate
-Owner review.
+The four reviewed cases are specified in
+`qualification/0_2_6/g11_adversarial_cases.json` and remain `PLANNED`:
+singular system, unsupported combination, controlled non-convergence, and
+rollback/state integrity with no-NaN/no-silent-PASS checks. They must not be
+executed as part of this review. Any aggregate threshold or maturity promotion
+requires a separate Owner review.
+
+## Coverage boundary
+
+The contract is transverse, but evidence remains route-specific. Linear static
+input rejection, nonlinear transaction rollback and provenance controls are
+the strongest mapped areas. Modal/buckling, contact, deterministic
+cross-route diagnostics and a unified no-silent-PASS assertion remain partial.
+G04, G08, G09, G07/TL and Agent A evidence is reused only at its historical
+diagnostic level.
 
 ## Boundary
 
-G04, G08, G09, G07/TL and Agent A work are untouched. G11 execution is not
-ready until the cross-route failure schema, planned adversarial cases and
-no-silent-PASS assertions are defined and approved.
+G04, G08, G09, G07/TL and Agent A work are untouched. The contract is ready
+for execution planning, but G11 execution is not approved in this run: the
+planned adversarial cases, route adapters and cross-route no-silent-PASS
+assertions remain future work.
