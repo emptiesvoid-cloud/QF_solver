@@ -122,6 +122,21 @@ except ImportError:  # Direct execution by the child-process driver.
         tracemalloc,
     )
 
+
+def _portable_profile_function(function: tuple[str, int, str]) -> str:
+    filename, line_number, name = function
+    normalized = str(filename).replace("\\", "/")
+    while "//" in normalized:
+        normalized = normalized.replace("//", "/")
+    for marker in ("/src/", "/scripts/", "/site-packages/"):
+        if marker in normalized:
+            normalized = marker.lstrip("/") + normalized.split(marker, 1)[1]
+            break
+    else:
+        normalized = _Path(normalized).name
+    return str((normalized, int(line_number), name))
+
+
 def _child_case(args: argparse.Namespace) -> int:
     def factory() -> tuple[Any, dict[str, Any]]:
         return build_model(args.family, args.target)
@@ -167,7 +182,7 @@ def _profile_case(args: argparse.Namespace) -> int:
         total_cumulative = max((values[3] for values in stats.stats.values()), default=elapsed)
         for function, values in sorted(stats.stats.items(), key=lambda item: item[1][3], reverse=True)[:20]:
             primitive_calls, calls, self_time, cumulative, _ = values
-            entries.append({"function": str(function), "calls": int(calls), "primitive_calls": int(primitive_calls), "self_seconds": float(self_time), "cumulative_seconds": float(cumulative), "percent_profile_cumulative": float(100.0 * cumulative / max(total_cumulative, 1.0e-12))})
+            entries.append({"function": _portable_profile_function(function), "calls": int(calls), "primitive_calls": int(primitive_calls), "self_seconds": float(self_time), "cumulative_seconds": float(cumulative), "percent_profile_cumulative": float(100.0 * cumulative / max(total_cumulative, 1.0e-12))})
         payload = {"schema_version": 1, "contract_id": CONTRACT_ID, "status": status, "family": args.family, "target_dofs": args.target, "environment": _environment(), "profiled_case": report, "profiled_wall_seconds": elapsed, "top_functions": entries}
     else:
         payload = {"schema_version": 1, "contract_id": CONTRACT_ID, "status": status, "family": args.family, "target_dofs": args.target, "environment": _environment(), **(error or {})}

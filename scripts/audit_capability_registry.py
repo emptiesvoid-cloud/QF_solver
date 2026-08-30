@@ -9,6 +9,11 @@ import re
 import subprocess
 from typing import Any
 
+try:
+    from scripts.git_tools import git_command
+except ImportError:
+    from git_tools import git_command  # type: ignore[no-redef]
+
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_REGISTRY = ROOT / "qualification" / "capability_registry.json"
@@ -82,7 +87,7 @@ def _current_source(path_text: str) -> str:
 
 def _revision_source(revision: str, path_text: str) -> str:
     completed = subprocess.run(
-        ["git", "show", f"{revision}:{path_text}"],
+        [git_command(), "show", f"{revision}:{path_text}"],
         cwd=ROOT,
         capture_output=True,
         check=False,

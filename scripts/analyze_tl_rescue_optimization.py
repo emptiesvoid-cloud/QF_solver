@@ -251,7 +251,7 @@ def run(
         "source_sha": candidate_payload["source_sha"],
         "trajectory_source_sha": candidate_payload["source_sha"],
         "policy": candidate_payload["solver_controls"],
-        "screen_artifacts": [str(path) for path in candidate_screens],
+        "screen_artifacts": [path.name for path in candidate_screens],
         "external_image": external_payload["external_solver"]["image"],
         "external_raw_summary_sha256": _sha256(external_path),
         "case_metrics": case_metrics,
