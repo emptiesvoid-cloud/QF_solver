@@ -6,7 +6,7 @@
 | `026-G01` | Architecture audit | PASS |
 | `026-G02` | V&V infrastructure | PASS |
 | `026-G03` | Corpus design | PASS |
-| `026-G04` | Linear / element robustness | NOT_STARTED |
+| `026-G04` | Linear / element robustness | PASS_WITH_LIMITATIONS |
 | `026-G05` | Modal / dynamic / harmonic | PASS_WITH_LIMITATIONS |
 | `026-G06` | J2 maturity extension | PASS_WITH_LIMITATIONS |
 | `026-G07` | Geometric nonlinear and arc-length review | NOT_STARTED |
