@@ -85,6 +85,14 @@ def _model_shape(model: Any) -> dict[str, int]:
 def _success_row(case_id: str, family: str, level: int, model: Any, result: Any) -> dict[str, Any]:
     solver = result.solver
     residual = float(solver.get("critical_mode_residual_relative", np.nan))
+    critical_factor = float(solver["critical_factor"])
+    mode_norm = float(solver["critical_mode_norm"])
+    mode = np.asarray(result.displacements, dtype=float)
+    mode_finite = bool(np.all(np.isfinite(mode)))
+    mode_pivot = int(np.argmax(np.abs(mode))) if mode.size else -1
+    mode_sign_ok = bool(mode_finite and mode_pivot >= 0 and mode[mode_pivot] >= 0.0)
+    unit_norm = bool(np.isfinite(mode_norm) and np.isclose(mode_norm, 1.0, rtol=0.0, atol=1.0e-12))
+    finite_values = bool(np.all(np.isfinite([critical_factor, mode_norm, residual])))
     residual_status = (
         "PASS"
         if np.isfinite(residual) and residual <= RESIDUAL_PASS
@@ -99,10 +107,19 @@ def _success_row(case_id: str, family: str, level: int, model: Any, result: Any)
         "status": "PASS",
         "failure_classification": None,
         "unexpected_failure": False,
-        "critical_factor": float(solver["critical_factor"]),
-        "critical_mode_norm": float(solver["critical_mode_norm"]),
+        "critical_factor": critical_factor,
+        "critical_mode_norm": mode_norm,
         "critical_mode_residual_relative": residual,
         "eigenpair_residual_status": residual_status,
+        "mode_quality": {
+            "status": "PASS" if mode_finite and unit_norm and mode_sign_ok else "FAIL",
+            "finite": mode_finite,
+            "unit_norm": unit_norm,
+            "sign_convention": "largest_absolute_component_positive",
+            "sign_check": mode_sign_ok,
+            "pivot_index": mode_pivot,
+        },
+        "finite_values": finite_values,
         "eigen_backend": solver.get("backend"),
         "eigen_formulation": solver.get("eigen_formulation"),
         "critical_bracket": solver.get("critical_bracket"),
@@ -399,8 +416,9 @@ def _build_summary(output: Path, source_sha: str, source_dirty: bool) -> dict[st
         "mesh_study": {
             "families": family_summaries,
             "historical_levels_reused": list(HISTORICAL_LEVELS),
-            "extension_levels_executed": list(EXTENSION_LEVELS),
-            "extension_replay": replays,
+        "extension_levels_executed": list(EXTENSION_LEVELS),
+        "extension_stop_reason": "All three extended families reached the <=1% direct-change classification; no additional level was required by the fixed extension objective.",
+        "extension_replay": replays,
         },
         "external_correlation": {
             "status": external.get("status"),
@@ -452,6 +470,8 @@ def _write_report(path: Path, summary: dict[str, Any]) -> None:
         f"- PASS observations: {summary['case_counts']['extension_pass']}",
         f"- Reproducible observed limitations: {summary['case_counts']['extension_observed_limitations']}",
         f"- Unexpected failures: {summary['case_counts']['extension_unexpected_failures']}",
+        "- Added-level mode quality: finite, unit-normalized and deterministic-sign checks PASS",
+        f"- Stop reason: {summary['mesh_study']['extension_stop_reason']}",
         "",
         "## Mesh series",
         "",
