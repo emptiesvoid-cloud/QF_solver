@@ -92,6 +92,29 @@ closeout or promote any family retrospectively. HEX20 remains bounded evidence
 with strong coarse-history sensitivity, no comparable high-order analytical
 oracle, and a `BLOCKED_EXTERNAL_TOOL` CalculiX retry.
 
+## Targeted HEX20 CalculiX rescue
+
+The blocked HEX20 buckling retry was reproduced as a verification-deck defect:
+the C3D20 continuation line began with an empty field. The correction is limited
+to `src/solveur/verification/calculix_buckling_025.py`; no FEM formulation,
+eigensolver or solver behavior changed. The regression test is
+`tests/unit/test_calculix_buckling_025.py`.
+
+The controlled rescue evidence is archived in
+`qualification/0_2_6/g08_hex20_calculix_rescue_evidence.json` and
+`qualification/0_2_6/g08_hex20_calculix_rescue_evidence.md`. It runs the same
+HEX20/C3D20 model at one and two cells, with deterministic replays. The QF /
+CalculiX factor differences are `1.696%` and `2.094%`, respectively, inside
+the pre-existing 10% bounded correlation screen. First-mode comparisons are
+reported after arbitrary eigenvector sign alignment without inventing an
+external MAC threshold.
+
+This rescue resolves the malformed-deck blocker for the tested cases, but it
+does not rewrite the historical closeout, promote HEX20 automatically, or
+change the G08 status from `PASS_WITH_LIMITATIONS`. Mesh-sensitivity limits,
+absence of a high-order analytical oracle and the lack of a Code_Aster
+equivalent remain explicit.
+
 ## Owner closeout
 
 The Owner decision is `PASS_WITH_LIMITATIONS`, with no solver or numerical
