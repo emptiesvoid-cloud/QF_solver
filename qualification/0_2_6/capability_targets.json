@@ -7,10 +7,11 @@
       "target": "maturity_extension"
     },
     {
-      "claim_boundary": "TET4/HEX8 bounded domain.",
-      "current_maturity": "QUALIFIED_BOUNDED",
+      "claim_boundary": "Historical bounded evidence exists; 0.2.6 promotion is parked pending comparable external evidence.",
+      "current_maturity": "EXPERIMENTAL",
       "id": "total_lagrangian_elasticity",
-      "target": "bounded_refinement"
+      "target": "bounded_refinement",
+      "work_status": "PARKED_PENDING_EXTERNAL_EVIDENCE"
     },
     {
       "claim_boundary": "No nonlinear collapse claim.",

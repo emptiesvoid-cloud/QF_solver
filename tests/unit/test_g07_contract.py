@@ -21,6 +21,7 @@ def test_g07_contract_is_bounded_and_not_closed() -> None:
 
     assert contract["gate"] == "026-G07"
     assert contract["status"] == "CONTRACT_DEFINED_GATE_NOT_STARTED"
+    assert contract["tl_work_status"] == "PARKED_PENDING_EXTERNAL_EVIDENCE"
     scope = contract["scope"]
     assert scope["total_lagrangian_elasticity"]["candidate_qualified_families"] == ["TET4", "HEX8"]
     assert scope["total_lagrangian_elasticity"]["research_families"] == ["TET10", "HEX20"]
@@ -42,10 +43,13 @@ def test_g07_matrix_does_not_promote_research_routes() -> None:
     matrix = _load("g07_capability_matrix.json")
 
     assert matrix["status"] == "CONTRACT_DEFINED_GATE_NOT_STARTED"
+    assert matrix["tl_work_status"] == "PARKED_PENDING_EXTERNAL_EVIDENCE"
     rows = matrix["rows"]
     by_key = {(row["capability"], row["element"]): row for row in rows}
     assert by_key[("ANA-GEOMETRIC-NONLINEAR", "TET4")]["target_maturity"] == "QUALIFIED_BOUNDED_CANDIDATE"
+    assert by_key[("ANA-GEOMETRIC-NONLINEAR", "TET4")]["work_status"] == "PARKED_PENDING_EXTERNAL_EVIDENCE"
     assert by_key[("ANA-GEOMETRIC-NONLINEAR", "HEX8")]["target_maturity"] == "QUALIFIED_BOUNDED_CANDIDATE"
+    assert by_key[("ANA-GEOMETRIC-NONLINEAR", "HEX8")]["work_status"] == "PARKED_PENDING_EXTERNAL_EVIDENCE"
     assert by_key[("ANA-GEOMETRIC-NONLINEAR", "TET10")]["status"] == "RESEARCH_ONLY"
     assert by_key[("ANA-GEOMETRIC-NONLINEAR", "HEX20")]["status"] == "RESEARCH_ONLY"
     assert by_key[("ANA-ARC-LENGTH", "TET4")]["status"] == "EXPERIMENTAL_NOT_QUALIFIED"

@@ -2,6 +2,8 @@
 
 Status: `OWNER_REVIEW_PACKAGE`; G07 remains open and this document records a bounded recommendation, not an automatic gate closure.
 
+`TL_WORK_STATUS = PARKED_PENDING_EXTERNAL_EVIDENCE`
+
 Execution source SHA: `bb44c121c1c6c676f808ff4498aa7e8c980dff0e`; initial evidence-pack parent SHA: `a503a63c7f0669804e3c225425e6dc15d2ca6a8d`; dirty at capture: `False`. The final Owner-decision commit is reported externally to avoid a self-referential SHA.
 
 ## Small-strain asymptotic study
