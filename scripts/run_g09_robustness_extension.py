@@ -27,7 +27,12 @@ sys.path.insert(0, str(ROOT / "src"))
 from solveur.api import solve_model
 from solveur.contact.entities import FrictionlessContact
 from solveur.contact.solver import assemble_penalty_contact
+from solveur.core.assembly.nonlinear import build_nonlinear_assembly_plan
+from solveur.core.errors import NumericalConvergenceError
 from solveur.core.model import FiniteElementModel
+from solveur.core.nonlinear.controls import NonlinearSolverOptions
+from solveur.core.nonlinear.material_state import MaterialStateSession, initial_material_states, state_digest
+from solveur.core.nonlinear.solver import NonlinearStaticSolver
 
 try:
     from scripts.run_g09_lot2 import (
@@ -59,6 +64,7 @@ MESH_LEVELS = (1, 2, 4)
 PENALTIES = (1.0e2, 1.0e3, 1.0e4, 1.0e5, 1.0e6)
 EQUILIBRIUM_LIMIT = 1.0e-8
 DETERMINISM_LIMIT = 1.0e-12
+COMPARISON_TOLERANCE = 1.0e-8
 
 
 def _now() -> str:
@@ -356,6 +362,338 @@ def _run_rollback_matrix() -> dict[str, Any]:
     }
 
 
+def _contact_phase(model: FiniteElementModel, dofs: Any, displacement: np.ndarray, penalty: float) -> dict[str, Any]:
+    """Observe active-set status without adding persistent contact state."""
+    _, _, details = assemble_penalty_contact(model, dofs, displacement, penalty=penalty)
+    gaps = [float(value) for value in details.get("gaps", [])]
+    active = [int(value) for value in details.get("active_contacts", [])]
+    return {
+        "active": bool(active),
+        "active_contacts": active,
+        "gaps": gaps,
+        "penetration": max(-min(gaps, default=0.0), 0.0),
+    }
+
+
+def _run_transactional_contact_path(
+    model: FiniteElementModel,
+    path: tuple[float, ...],
+    *,
+    reject_attempt: int | None = None,
+) -> dict[str, Any]:
+    """Run a fixed path with explicit trial/commit/rollback transactions.
+
+    This is a verification-only driver. It reuses the production assembly and
+    load-step routine while keeping the cutback orchestration local to the
+    evidence harness, because the production adaptive route intentionally
+    accepts monotonic paths only.
+    """
+
+    class PhaseRejectingSolver(NonlinearStaticSolver):
+        def __init__(self, injected_attempt: int | None) -> None:
+            super().__init__()
+            self.injected_attempt = injected_attempt
+            self.attempts = 0
+            self.rejected = False
+            self.failed_candidate: dict[str, Any] = {}
+            self.failed_trial_state_digest = ""
+            self.failed_trial_displacement_norm = 0.0
+
+        def _solve_load_step(
+            self,
+            model: FiniteElementModel,
+            dofs: Any,
+            displacement: np.ndarray,
+            free: np.ndarray,
+            target_load: np.ndarray,
+            material_states: Any,
+            step: int,
+            load_factor: float,
+            load_increment: float,
+            cached_tangent: Any,
+            max_iterations: int,
+            tolerance: float,
+            linear_method: str,
+            min_alpha: float,
+            max_reductions: int,
+            armijo: float,
+            previous_load: np.ndarray | None = None,
+            reference_force_norm: float | None = None,
+        ) -> Any:
+            self.attempts += 1
+            info = super()._solve_load_step(
+                model,
+                dofs,
+                displacement,
+                free,
+                target_load,
+                material_states,
+                step,
+                load_factor,
+                load_increment,
+                cached_tangent,
+                max_iterations,
+                tolerance,
+                linear_method,
+                min_alpha,
+                max_reductions,
+                armijo,
+                previous_load,
+                reference_force_norm,
+            )
+            if (
+                self.injected_attempt is not None
+                and not self.rejected
+                and self.attempts == self.injected_attempt
+            ):
+                self.failed_candidate = info.to_dict()
+                self.failed_trial_state_digest = state_digest(material_states)
+                self.failed_trial_displacement_norm = float(np.linalg.norm(displacement))
+                displacement[:] = 123.0
+                first_element = min(material_states)
+                material_states[first_element][0]["equivalent_plastic_strain"] = 999.0
+                self.rejected = True
+                raise NumericalConvergenceError(
+                    "Controlled phase-specific contact increment rejection."
+                )
+            return info
+
+    solver = PhaseRejectingSolver(reject_attempt)
+    report = solver.validator.validate(model)
+    if report.status == "FAIL":
+        raise RuntimeError("Contact phase model validation failed: " + "; ".join(report.errors))
+    dofs = model.dof_manager()
+    loads = solver.assembler.assemble_loads(model, dofs)
+    fixed = solver.assembler.fixed_indices(model, dofs)
+    free = np.setdiff1d(np.arange(dofs.ndof, dtype=int), fixed)
+    solver._validate_kinematics_scope(model, model.analysis.parameters)
+    solver._assembly_plan = build_nonlinear_assembly_plan(model, dofs)
+    options = NonlinearSolverOptions.from_parameters(model.analysis.parameters)
+    solver._rejected_increments = 0
+    solver._rejection_log = []
+    displacement = np.zeros(dofs.ndof, dtype=float)
+    material_states = initial_material_states(model)
+    reference_force_norm = max(float(np.linalg.norm(loads[free])), 1.0)
+    penalty = float(model.analysis.parameters["contact_penalty"])
+    current_factor = 0.0
+    history: list[dict[str, Any]] = []
+    transactions: list[dict[str, Any]] = []
+    rejected = 0
+    for path_index, target_factor in enumerate(path, start=1):
+        trial = displacement.copy()
+        session = MaterialStateSession(material_states)
+        trial_states = session.begin_trial()
+        committed_digest = state_digest(material_states)
+        committed_displacement = displacement.copy()
+        before_contact = _contact_phase(model, dofs, displacement, penalty)
+        try:
+            info = solver._solve_load_step(
+                model,
+                dofs,
+                trial,
+                free,
+                target_factor * loads,
+                trial_states,
+                len(history) + 1,
+                target_factor,
+                target_factor - current_factor,
+                None,
+                options.max_iterations,
+                options.tolerance,
+                options.linear_method,
+                options.line_search_min_alpha,
+                options.line_search_max_reductions,
+                options.line_search_c,
+                current_factor * loads,
+                reference_force_norm,
+            )
+        except NumericalConvergenceError as error:
+            session.rollback()
+            rejected += 1
+            rollback_digest = state_digest(material_states)
+            transactions.append(
+                {
+                    "path_index": path_index,
+                    "base_factor": current_factor,
+                    "target_factor": target_factor,
+                    "before_contact": before_contact,
+                    "failed_trial": solver.failed_candidate,
+                    "failed_trial_contact": {
+                        "active": bool(solver.failed_candidate.get("contact_active_contacts", [])),
+                        "active_contacts": solver.failed_candidate.get("contact_active_contacts", []),
+                        "gaps": solver.failed_candidate.get("contact_gaps", []),
+                    },
+                    "failure": type(error).__name__,
+                    "rollback_digest": rollback_digest,
+                    "committed_digest": committed_digest,
+                    "state_preserved": rollback_digest == committed_digest,
+                    "displacement_preserved": bool(np.array_equal(displacement, committed_displacement)),
+                    "failed_trial_state_digest": solver.failed_trial_state_digest,
+                    "failed_trial_displacement_norm": solver.failed_trial_displacement_norm,
+                }
+            )
+            midpoint = current_factor + 0.5 * (target_factor - current_factor)
+            solver._rejection_log.append(
+                {
+                    "base_load_factor": current_factor,
+                    "rejected_increment": target_factor - current_factor,
+                    "retry_increment": midpoint - current_factor,
+                    "failure_reason": type(error).__name__,
+                }
+            )
+            retry_trial = displacement.copy()
+            retry_session = MaterialStateSession(material_states)
+            retry_states = retry_session.begin_trial()
+            retry_info = solver._solve_load_step(
+                model,
+                dofs,
+                retry_trial,
+                free,
+                midpoint * loads,
+                retry_states,
+                len(history) + 1,
+                midpoint,
+                midpoint - current_factor,
+                None,
+                options.max_iterations,
+                options.tolerance,
+                options.linear_method,
+                options.line_search_min_alpha,
+                options.line_search_max_reductions,
+                options.line_search_c,
+                current_factor * loads,
+                reference_force_norm,
+            )
+            displacement[:] = retry_trial
+            retry_session.commit()
+            history.append(retry_info.to_dict())
+            current_factor = midpoint
+            retry_trial = displacement.copy()
+            retry_session = MaterialStateSession(material_states)
+            retry_states = retry_session.begin_trial()
+            retry_info = solver._solve_load_step(
+                model,
+                dofs,
+                retry_trial,
+                free,
+                target_factor * loads,
+                retry_states,
+                len(history) + 1,
+                target_factor,
+                target_factor - current_factor,
+                None,
+                options.max_iterations,
+                options.tolerance,
+                options.linear_method,
+                options.line_search_min_alpha,
+                options.line_search_max_reductions,
+                options.line_search_c,
+                current_factor * loads,
+                reference_force_norm,
+            )
+            displacement[:] = retry_trial
+            retry_session.commit()
+            history.append(retry_info.to_dict())
+            current_factor = target_factor
+            continue
+        displacement[:] = trial
+        session.commit()
+        history.append(info.to_dict())
+        current_factor = target_factor
+    final_contact = _contact_phase(model, dofs, displacement, penalty)
+    return {
+        "status": "PASS" if current_factor == path[-1] else "FAIL",
+        "attempts": solver.attempts,
+        "rejected_increments": rejected,
+        "history": history,
+        "transactions": transactions,
+        "final_displacement": displacement.copy(),
+        "final_contact": final_contact,
+        "rejection_log": list(solver._rejection_log),
+    }
+
+
+def _run_phase_rollback_matrix() -> dict[str, Any]:
+    """Check rollback around activation, separation and recontact transitions."""
+    cases = {
+        "before_activation": ((0.10,), 1),
+        "during_activation": ((0.10, 0.25), 2),
+        "just_after_activation": ((0.10, 0.25, 0.75), 3),
+        "during_separation": ((0.10, 0.25, 0.75, 0.0), 4),
+        "during_recontact": ((0.10, 0.25, 0.75, 0.0, 0.25), 5),
+    }
+    rows: list[dict[str, Any]] = []
+    for phase, (path, reject_step) in cases.items():
+        model = _mesh_contact_model(
+            1,
+            penalty=1.0e5,
+            load=-20.0,
+            load_path=None,
+            max_iterations=80,
+            path_dependent=True,
+        )
+        observed = _run_transactional_contact_path(model, path, reject_attempt=reject_step)
+        expanded_path: list[float] = []
+        current = 0.0
+        for index, target in enumerate(path, start=1):
+            if index == reject_step:
+                expanded_path.append(current + 0.5 * (target - current))
+            expanded_path.append(target)
+            current = target
+        reference_model = _mesh_contact_model(
+            1,
+            penalty=1.0e5,
+            load=-20.0,
+            load_path=None,
+            max_iterations=80,
+            path_dependent=True,
+        )
+        reference = _run_transactional_contact_path(reference_model, tuple(expanded_path))
+        reference_error = float(
+            np.linalg.norm(observed["final_displacement"] - reference["final_displacement"])
+            / max(np.linalg.norm(reference["final_displacement"]), 1.0e-15)
+        )
+        transaction = observed["transactions"][-1] if observed["transactions"] else {}
+        rows.append(
+            {
+                "phase": phase,
+                "path": list(path),
+                "expanded_reference_path": expanded_path,
+                "reject_step": reject_step,
+                "status": "PASS_INTERNAL_ROLLBACK"
+                if observed["status"] == "PASS"
+                and observed["rejected_increments"] == 1
+                and transaction.get("state_preserved")
+                and transaction.get("displacement_preserved")
+                and reference["status"] == "PASS"
+                and reference_error <= COMPARISON_TOLERANCE
+                else "FAIL",
+                "attempts": observed["attempts"],
+                "rejected_increments": observed["rejected_increments"],
+                "before_contact": transaction.get("before_contact", {}),
+                "failed_trial_contact": transaction.get("failed_trial_contact", {}),
+                "rollback_digest": transaction.get("rollback_digest", ""),
+                "committed_digest": transaction.get("committed_digest", ""),
+                "state_preserved": bool(transaction.get("state_preserved", False)),
+                "displacement_preserved": bool(transaction.get("displacement_preserved", False)),
+                "failed_trial_state_digest": transaction.get("failed_trial_state_digest", ""),
+                "failed_trial_displacement_norm": transaction.get("failed_trial_displacement_norm", 0.0),
+                "final_contact": observed["final_contact"],
+                "reference_final_contact": reference["final_contact"],
+                "final_reference_relative_error": reference_error,
+                "rejection_log": observed["rejection_log"],
+                "contact_state_transaction": "N/A - frictionless active set is recomputed; displacement/material transaction checked",
+            }
+        )
+    return {
+        "rows": rows,
+        "all_pass": all(row["status"] == "PASS_INTERNAL_ROLLBACK" for row in rows),
+        "state_integrity": all(row["state_preserved"] and row["displacement_preserved"] for row in rows),
+        "phase_coverage": [row["phase"] for row in rows],
+        "limitation": "Contact active set is stateless; phase-specific rollback covers mutable common-driver state across activation, separation and recontact.",
+    }
+
+
 def _external_extension_summary() -> dict[str, Any]:
     """Reuse the controlled Lot 3 archive instead of rerunning an external tool."""
 
@@ -480,6 +818,19 @@ def _build_case_registry(evidence: dict[str, Any]) -> dict[str, Any]:
                 "reject_on_attempt": row["reject_on_attempt"],
             }
         )
+    for row in evidence["phase_rollback"]["rows"]:
+        cases.append(
+            {
+                "case_id": f"G09-EXT-RB-PHASE-{row['phase']}",
+                "category": "rollback_phase",
+                "family": "TET4",
+                "requirement": "G09-EXT-005",
+                "status": row["status"],
+                "expected": "PASS_INTERNAL_ROLLBACK",
+                "phase": row["phase"],
+                "reject_step": row["reject_step"],
+            }
+        )
     for row in evidence["adversarial"]["cases"]:
         cases.append(
             {
@@ -532,7 +883,7 @@ def _render_report(evidence: dict[str, Any]) -> str:
         lines.append(f"| {category} | {count} | PASS |")
     lines.extend(
         [
-            "| Total extension cases | 45 | PASS_WITH_LIMITATIONS |",
+            f"| Total extension cases | {sum(evidence['case_counts'].values())} | PASS_WITH_LIMITATIONS |",
             "",
             "## Requirement reassessment",
             "",
@@ -603,7 +954,22 @@ def _render_report(evidence: dict[str, Any]) -> str:
     lines.extend(
         [
             "",
-            f"State integrity: `{evidence['rollback']['state_integrity']}`. Contact state remains stateless and is recomputed from trial geometry.",
+            "### Phase-specific rollback",
+            "",
+            "| Phase | Rejected increments | Attempted contact | Failed-trial contact | State preserved | Reference error | Status |",
+            "|---|---:|---|---|---:|---:|---|",
+        ]
+    )
+    for row in evidence["phase_rollback"]["rows"]:
+        lines.append(
+            f"| `{row['phase']}` | {row['rejected_increments']} | {row['before_contact'].get('active', False)} | "
+            f"{row['failed_trial_contact'].get('active', False)} | {row['state_preserved'] and row['displacement_preserved']} | "
+            f"{row['final_reference_relative_error']:.3e} | `{row['status']}` |"
+        )
+    lines.extend(
+        [
+            "",
+            f"State integrity: `{evidence['rollback']['state_integrity'] and evidence['phase_rollback']['state_integrity']}`. Contact state remains stateless and is recomputed from trial geometry.",
             "",
             "## Failure contract",
             "",
@@ -648,6 +1014,7 @@ def run(output: Path, expected_sha: str = SOURCE_SHA_DEFAULT) -> dict[str, Any]:
     geometry = _run_geometry_matrix()
     cycles = _run_long_cycles()
     rollback = _run_rollback_matrix()
+    phase_rollback = _run_phase_rollback_matrix()
     adversarial = _run_adversarial()
     external = _external_extension_summary()
     requirements = _requirements_reassessment(source["sha"])
@@ -658,6 +1025,7 @@ def run(output: Path, expected_sha: str = SOURCE_SHA_DEFAULT) -> dict[str, Any]:
         ("geometry", geometry),
         ("cycles", cycles),
         ("rollback", rollback),
+        ("phase_rollback", phase_rollback),
         ("adversarial", adversarial),
     ):
         if not group.get("all_pass", group.get("status") != "FAIL"):
@@ -686,6 +1054,7 @@ def run(output: Path, expected_sha: str = SOURCE_SHA_DEFAULT) -> dict[str, Any]:
             "geometry": len(geometry["rows"]),
             "cycles": len(cycles["rows"]),
             "rollback": len(rollback["rows"]),
+            "phase_rollback": len(phase_rollback["rows"]),
             "adversarial": len(adversarial.get("cases", [])),
         },
         "penalty_mesh": penalty_mesh,
@@ -693,6 +1062,7 @@ def run(output: Path, expected_sha: str = SOURCE_SHA_DEFAULT) -> dict[str, Any]:
         "geometry": geometry,
         "cycles": cycles,
         "rollback": rollback,
+        "phase_rollback": phase_rollback,
         "adversarial": adversarial,
         "external_extension": external,
         "requirements_reassessment": requirements,
@@ -714,7 +1084,7 @@ def run(output: Path, expected_sha: str = SOURCE_SHA_DEFAULT) -> dict[str, Any]:
             "No friction, general surface-to-surface, self-contact or new contact physics is qualified.",
             "Penalty candidate values are observational and remain Owner-reviewable; no universal range is approved.",
             "External evidence is reused from the controlled Lot 3 Code_Aster/CalculiX archive; no new external claim is created.",
-            "The active set is stateless in the exercised frictionless route; rollback covers common-driver mutable state.",
+            "The active set is stateless in the exercised frictionless route; generic and phase-specific rollback cover common-driver mutable state before activation, during activation, after activation, separation and recontact.",
         ],
         "official_gate_closeout_unchanged": True,
     }
