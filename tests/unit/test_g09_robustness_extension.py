@@ -29,7 +29,7 @@ def test_g09_extension_has_45_cases_and_preserves_closeout() -> None:
 
     assert evidence["status"] == "PASS_WITH_LIMITATIONS"
     assert evidence["official_gate_status_unchanged"] == "PASS_WITH_LIMITATIONS"
-    assert evidence["source"]["sha"] == "cd5b163c59d8ed1d93bc853701d61cc58ddd61f9"
+    assert evidence["source"]["sha"] == "2b5f0e3935975907600e0833a95d446a4cdb8920"
     assert evidence["source"]["dirty"] is False
     assert evidence["case_counts"] == {
         "adversarial": 6,
@@ -76,6 +76,8 @@ def test_g09_extension_has_no_unexpected_failures_or_external_overclaim() -> Non
     assert all(evidence["geometry"]["coverage"].values())
     assert all(row["energy_trace_valid"] and row["work_trace_finite"] for row in evidence["cycles"]["rows"])
     assert all(row["energy_trace_valid"] and row["work_trace_finite"] for row in phases["rows"])
+    assert evidence["force_equilibrium"]["status"] == "PASS"
+    assert evidence["force_equilibrium"]["moment_equilibrium_pass"] is True
 
 
 def test_g09_extension_manifest_digests_match_archived_artifacts() -> None:
@@ -87,7 +89,7 @@ def test_g09_extension_manifest_digests_match_archived_artifacts() -> None:
         "g09_robustness_extension_evidence.md": DOC / "0_2_6_g09_robustness_extension_evidence.md",
     }
 
-    assert manifest["source_sha"] == "cd5b163c59d8ed1d93bc853701d61cc58ddd61f9"
+    assert manifest["source_sha"] == "2b5f0e3935975907600e0833a95d446a4cdb8920"
     assert manifest["source_dirty"] is False
     for artifact, path in expected.items():
         assert manifest["artifacts"][artifact] == _sha256(path)
