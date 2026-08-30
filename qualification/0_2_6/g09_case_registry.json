@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "gate": "026-G09",
+  "lot": "LOT1",
+  "cases": [
+    {"case_id": "G09-L1-001", "name": "common_driver_open_closed", "family": "TET4", "route": "nonlinear_static", "requirements": ["G09-001", "G09-002", "G09-003", "G09-008"], "status": "READY", "oracle": "signed gap, active contact list, common-driver convergence", "expected": "PASS_INTERNAL_RESEARCH"},
+    {"case_id": "G09-L1-002", "name": "open_close_recontact", "family": "TET4", "route": "nonlinear_static", "requirements": ["G09-001", "G09-002", "G09-005"], "status": "READY", "oracle": "active contact sequence [false, true, false, true]", "expected": "PASS_INTERNAL_RESEARCH"},
+    {"case_id": "G09-L1-003", "name": "penalty_sensitivity", "family": "TET4", "route": "nonlinear_static", "requirements": ["G09-003", "G09-004"], "status": "READY", "oracle": "predeclared penalty sweep and non-increasing penetration", "expected": "PASS_INTERNAL_RESEARCH"},
+    {"case_id": "G09-L1-004", "name": "excessive_penetration_fail_closed", "family": "CONTACT_OPERATOR", "route": "penalty_assembly", "requirements": ["G09-006"], "status": "READY", "oracle": "structured NumericalConvergenceError", "expected": "EXPECTED_FAILURE"},
+    {"case_id": "G09-L1-005", "name": "deterministic_replay", "family": "TET4", "route": "nonlinear_static", "requirements": ["G09-007"], "status": "READY", "oracle": "canonical replay equality for controlled summary", "expected": "PASS_INTERNAL_RESEARCH"},
+    {"case_id": "G09-L1-006", "name": "surface_to_surface_generalization", "family": "SURFACE", "route": "nonlinear_static", "requirements": ["G09-008"], "status": "NOT_SUPPORTED", "oracle": "explicit limitation", "expected": "UNSUPPORTED_EXPLICIT"}
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "gate": "026-G09",
+  "lot": "LOT1",
+  "status": "CONTRACT_READY_NOT_CLOSED",
+  "title": "Contact maturity extension - elementary frictionless penalty qualification",
+  "scope": {
+    "formulation": "frictionless_penalty",
+    "geometry": "bounded node-to-triangle master surface",
+    "routes": ["nonlinear_static", "geometric_nonlinear_static"],
+    "driver": "common nonlinear residual and tangent assembly",
+    "search_modes": ["initial"],
+    "families_in_lot": ["TET4"],
+    "friction": false,
+    "finite_sliding": false,
+    "surface_to_surface": false,
+    "external_correlation": false
+  },
+  "requirements": [
+    {"id": "G09-001", "name": "Gap and unilateral activation", "evidence": "open and penetrating node-to-triangle states with signed gap and active-set details", "policy": "record signed gap; g>0 is open and g<0 is active penetration"},
+    {"id": "G09-002", "name": "Common nonlinear driver", "evidence": "nonlinear static contact solve with contact residual and tangent diagnostics", "policy": "contact is assembled by the common Newton path; no contact-specific global driver"},
+    {"id": "G09-003", "name": "Equilibrium and convergence observability", "evidence": "relative residual, iterations, active contacts, gap and contact tangent sparsity", "policy": "record-only in Lot 1; Owner release band remains open"},
+    {"id": "G09-004", "name": "Penalty sensitivity", "evidence": "predeclared penalty sweep [1e2, 1e3, 1e4, 1e5, 1e6]", "policy": "penetration trend must be non-increasing; conditioning/production band requires Owner review"},
+    {"id": "G09-005", "name": "Open-close-recontact path", "evidence": "load path [0.25, 1.0, 0.0, 1.0] with expected active sequence [false, true, false, true]", "policy": "all transitions are recorded; no finite-sliding claim"},
+    {"id": "G09-006", "name": "Excessive penetration failure contract", "evidence": "controlled penetration-limit violation raises structured contact failure", "policy": "fail closed; no converged verdict for an invalid contact state"},
+    {"id": "G09-007", "name": "Determinism and finite outputs", "evidence": "replay comparison and recursive finite-value audit", "policy": "exact deterministic replay for the controlled case; NaN/Inf is failure"},
+    {"id": "G09-008", "name": "Bounded limitation traceability", "evidence": "machine-readable scope, case mapping and evidence manifest", "policy": "unsupported physics is explicit and cannot be counted as PASS"}
+  ],
+  "penalty_policy": {
+    "values": [100.0, 1000.0, 10000.0, 100000.0, 1000000.0],
+    "predeclared": true,
+    "trend_metric": "maximum_penetration",
+    "production_acceptance_band": "OWNER_DECISION_REQUIRED",
+    "conditioning_cutoff": "NONE_APPROVED"
+  },
+  "failure_policy": {
+    "structured_failure_required": true,
+    "expected_failure_status": "EXPECTED_FAILURE",
+    "silent_pass_forbidden": true,
+    "contact_max_penetration": "NumericalConvergenceError with contact failure reason"
+  },
+  "dependencies": ["026-G00", "026-G04", "026-G08"],
+  "out_of_scope": ["Coulomb friction", "augmented Lagrangian", "general mortar or surface-to-surface contact", "general finite sliding qualification", "self-contact", "contact external correlation", "contact qualification for elements beyond the Lot 1 TET4 case"],
+  "provenance": {"source_sha_required": true, "source_dirty_must_be_false": true, "artifact_digests_required": true, "thresholds_must_be_declared_before_execution": true}
+}
