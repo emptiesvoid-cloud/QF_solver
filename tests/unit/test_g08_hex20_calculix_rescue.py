@@ -23,6 +23,9 @@ def test_hex20_rescue_evidence_is_bounded_and_does_not_close_g08() -> None:
     assert evidence["root_cause"]["functional_solver_code_changed"] is False
     assert evidence["policies"]["correlation_tolerance"] == 0.10
     assert evidence["scope"]["mesh_levels"] == [1, 2, 4]
+    assert "4-cell" in (ROOT / "qualification" / "0_2_6" / "g08_hex20_calculix_rescue_evidence.md").read_text(
+        encoding="utf-8"
+    )
     for level in evidence["mesh_levels"]:
         assert level["first"]["status"] == "PASS"
         assert level["replay"]["status"] == "PASS"
