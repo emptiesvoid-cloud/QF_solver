@@ -1,0 +1,508 @@
+{
+  "schema_version": 1,
+  "contract_id": "026-G12-LOT2",
+  "environment": {
+    "os": "Windows-10-10.0.19045-SP0",
+    "python": "3.13.1",
+    "numpy": "2.2.6",
+    "scipy": "1.15.2",
+    "psutil": "7.2.2",
+    "cpu": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+    "logical_cpus": 12,
+    "ram_bytes": 102963109888,
+    "thread_environment": {
+      "OMP_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "NUMEXPR_NUM_THREADS": null
+    },
+    "git_head": "7860ade85f0020b68e23c43787c77f28a863d8d6"
+  },
+  "status": "PASS",
+  "timeout_seconds": 180.0,
+  "profiles": [
+    {
+      "schema_version": 1,
+      "contract_id": "026-G12-LOT2",
+      "status": "PASS",
+      "family": "TET4",
+      "target_dofs": 3000,
+      "environment": {
+        "os": "Windows-10-10.0.19045-SP0",
+        "python": "3.13.1",
+        "numpy": "2.2.6",
+        "scipy": "1.15.2",
+        "psutil": "7.2.2",
+        "cpu": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+        "logical_cpus": 12,
+        "ram_bytes": 102963109888,
+        "thread_environment": {
+          "OMP_NUM_THREADS": null,
+          "MKL_NUM_THREADS": null,
+          "OPENBLAS_NUM_THREADS": null,
+          "NUMEXPR_NUM_THREADS": null
+        },
+        "git_head": "7860ade85f0020b68e23c43787c77f28a863d8d6"
+      },
+      "profiled_case": {
+        "label": "profile TET4 target 3000",
+        "status": "PASS",
+        "total_dofs": 3000,
+        "free_dofs": 2700,
+        "node_count": 1000,
+        "element_count": 4374,
+        "nnz": 95172,
+        "global_stiffness_nnz": 95172,
+        "reduced_stiffness_nnz": 85252,
+        "nnz_per_dof": 31.724,
+        "global_matrix_storage_bytes": 1154068,
+        "reduced_matrix_storage_estimate_bytes": 1033828,
+        "global_matrix_storage_per_dof": 384.6893333333333,
+        "mesh_build_seconds": 0.03578650002600625,
+        "mesh_validation_seconds": 2.2148053999990225,
+        "assembly_seconds": 0.7086682999506593,
+        "assembly_plan_seconds": 0.19658729998627678,
+        "element_kernel_seconds": 0.3910553999594413,
+        "sparse_conversion_seconds": 0.01481180009432137,
+        "chunk_fusion_seconds": 0.003277899988461286,
+        "sparse_finalize_seconds": 0.0007670000195503235,
+        "discrete_merge_seconds": 0.00016270001651719213,
+        "load_assembly_seconds": 0.005288500047754496,
+        "load_balance_seconds": 0.0023586999741382897,
+        "load_balance_calls": 5,
+        "load_balance_node_visits": 5000,
+        "bc_application_seconds": 0.0004515000036917627,
+        "constraint_reduction_seconds": 0.01088410004740581,
+        "linear_solve_seconds": 0.025732900016009808,
+        "factorization_seconds": null,
+        "sparse_solve_seconds": 0.025732900016009808,
+        "post_processing_seconds": 0.0,
+        "post_processing_mode": "summary; element/nodal serialization omitted",
+        "solver_unattributed_seconds": 2.383595500024967,
+        "solver_total_seconds": 3.117996699991636,
+        "wall_total_seconds": 3.155411100015044,
+        "peak_rss_bytes": null,
+        "rss_delta_bytes": null,
+        "tracemalloc_peak_bytes": null,
+        "solution_norm": 8.84874688262762e-11,
+        "solution_checksum": "d1efed98df1ac7c777368ff0967d08b4a86639e7a91d6be81f3a880f1352584f",
+        "relative_residual_norm": 8.585237738069959e-12,
+        "finite_metrics": true,
+        "topology": {
+          "topology": "connected_structured_block",
+          "cells_per_axis": 9
+        },
+        "phase_notes": {
+          "copies_conversions": "Not independently observable in the public route; sparse conversion is taken from GlobalAssembler diagnostics and remaining attribution is reported as solver_unattributed_seconds.",
+          "factorization": "NOT_APPLICABLE: CG route; no factorization phase is executed."
+        }
+      },
+      "profiled_wall_seconds": 3.156648900010623,
+      "top_functions": [
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\scripts\\\\benchmark_g12_lot2.py', 195, '_run_once')",
+          "calls": 1,
+          "primitive_calls": 1,
+          "self_seconds": 8.04e-05,
+          "cumulative_seconds": 3.1556599000000003,
+          "percent_profile_cumulative": 100.00000000000001
+        },
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\scripts\\\\benchmark_g12_lot2.py', 158, '_run_with_load_balance_timer')",
+          "calls": 1,
+          "primitive_calls": 1,
+          "self_seconds": 1.13e-05,
+          "cumulative_seconds": 3.1195601,
+          "percent_profile_cumulative": 98.85603008106163
+        },
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\scripts\\\\benchmark_g12_lot2.py', 140, '_run_with_constraint_timer')",
+          "calls": 1,
+          "primitive_calls": 1,
+          "self_seconds": 0.0015185,
+          "cumulative_seconds": 3.1195488,
+          "percent_profile_cumulative": 98.85567199431091
+        },
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\core\\\\solvers\\\\static.py', 36, 'solve')",
+          "calls": 1,
+          "primitive_calls": 1,
+          "self_seconds": 0.00024290000000000002,
+          "cumulative_seconds": 3.1180303,
+          "percent_profile_cumulative": 98.80755210661324
+        },
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\scripts\\\\benchmark_g12_lot2.py', 130, 'validate')",
+          "calls": 1,
+          "primitive_calls": 1,
+          "self_seconds": 5.9000000000000004e-05,
+          "cumulative_seconds": 2.2148072,
+          "percent_profile_cumulative": 70.18523130455218
+        },
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\validation.py', 55, 'validate')",
+          "calls": 1,
+          "primitive_calls": 1,
+          "self_seconds": 0.00030010000000000003,
+          "cumulative_seconds": 2.2147478,
+          "percent_profile_cumulative": 70.18334897242887
+        },
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\validation.py', 154, '_element_quality_details')",
+          "calls": 1,
+          "primitive_calls": 1,
+          "self_seconds": 0.0406376,
+          "cumulative_seconds": 2.0262529000000002,
+          "percent_profile_cumulative": 64.21011655913871
+        },
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\quality.py', 59, 'tet_metrics')",
+          "calls": 4374,
+          "primitive_calls": 4374,
+          "self_seconds": 0.028225300000000002,
+          "cumulative_seconds": 1.9479842,
+          "percent_profile_cumulative": 61.729852447027
+        },
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\quality.py', 235, '_tet_radius_ratio')",
+          "calls": 4374,
+          "primitive_calls": 4374,
+          "self_seconds": 0.07311290000000001,
+          "cumulative_seconds": 1.0244673,
+          "percent_profile_cumulative": 32.4644395297478
+        },
+        {
+          "function": "('~', 0, '<built-in method builtins.sum>')",
+          "calls": 4411,
+          "primitive_calls": 4411,
+          "self_seconds": 0.007606600000000001,
+          "cumulative_seconds": 0.8014528000000001,
+          "percent_profile_cumulative": 25.39731230225412
+        },
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\quality.py', 237, '<genexpr>')",
+          "calls": 21870,
+          "primitive_calls": 21870,
+          "self_seconds": 0.0175459,
+          "cumulative_seconds": 0.7932963000000001,
+          "percent_profile_cumulative": 25.13884021532232
+        },
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\quality.py', 260, '_triangle_area')",
+          "calls": 17496,
+          "primitive_calls": 17496,
+          "self_seconds": 0.0562751,
+          "cumulative_seconds": 0.7757504000000001,
+          "percent_profile_cumulative": 24.582826558717557
+        },
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\AppData\\\\Roaming\\\\Python\\\\Python313\\\\site-packages\\\\numpy\\\\_core\\\\numeric.py', 1522, 'cross')",
+          "calls": 17601,
+          "primitive_calls": 17601,
+          "self_seconds": 0.2601306,
+          "cumulative_seconds": 0.6436361,
+          "percent_profile_cumulative": 20.39624422137506
+        },
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\quality.py', 47, 'tet4_quality')",
+          "calls": 8748,
+          "primitive_calls": 8748,
+          "self_seconds": 0.1569645,
+          "cumulative_seconds": 0.6347631,
+          "percent_profile_cumulative": 20.115066899319537
+        },
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\scripts\\\\benchmark_g12_lot2.py', 105, 'assemble_stiffness')",
+          "calls": 1,
+          "primitive_calls": 1,
+          "self_seconds": 9.4e-06,
+          "cumulative_seconds": 0.5063133000000001,
+          "percent_profile_cumulative": 16.04460924322041
+        },
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\core\\\\assembly\\\\assembler.py', 32, 'assemble_stiffness')",
+          "calls": 1,
+          "primitive_calls": 1,
+          "self_seconds": 1.3300000000000001e-05,
+          "cumulative_seconds": 0.5063036000000001,
+          "percent_profile_cumulative": 16.04430185901846
+        },
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\core\\\\assembly\\\\assembler.py', 273, '_assemble_matrix')",
+          "calls": 1,
+          "primitive_calls": 1,
+          "self_seconds": 0.00030220000000000003,
+          "cumulative_seconds": 0.5062903000000001,
+          "percent_profile_cumulative": 16.043880394081757
+        },
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\elements\\\\solid\\\\tet4.py', 25, 'signed_volume')",
+          "calls": 21870,
+          "primitive_calls": 21870,
+          "self_seconds": 0.101357,
+          "cumulative_seconds": 0.4608048,
+          "percent_profile_cumulative": 14.602486155114496
+        },
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\core\\\\assembly\\\\assembler.py', 392, '_matrix_chunk')",
+          "calls": 18,
+          "primitive_calls": 18,
+          "self_seconds": 0.031242600000000002,
+          "cumulative_seconds": 0.4067562,
+          "percent_profile_cumulative": 12.889735044007752
+        },
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\AppData\\\\Roaming\\\\Python\\\\Python313\\\\site-packages\\\\numpy\\\\linalg\\\\_linalg.py', 2575, 'norm')",
+          "calls": 100976,
+          "primitive_calls": 100976,
+          "self_seconds": 0.2091821,
+          "cumulative_seconds": 0.3751877,
+          "percent_profile_cumulative": 11.889357912112139
+        }
+      ],
+      "case_peak_rss_bytes": 95592448
+    },
+    {
+      "schema_version": 1,
+      "contract_id": "026-G12-LOT2",
+      "status": "PASS",
+      "family": "TET4",
+      "target_dofs": 10000,
+      "environment": {
+        "os": "Windows-10-10.0.19045-SP0",
+        "python": "3.13.1",
+        "numpy": "2.2.6",
+        "scipy": "1.15.2",
+        "psutil": "7.2.2",
+        "cpu": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+        "logical_cpus": 12,
+        "ram_bytes": 102963109888,
+        "thread_environment": {
+          "OMP_NUM_THREADS": null,
+          "MKL_NUM_THREADS": null,
+          "OPENBLAS_NUM_THREADS": null,
+          "NUMEXPR_NUM_THREADS": null
+        },
+        "git_head": "7860ade85f0020b68e23c43787c77f28a863d8d6"
+      },
+      "profiled_case": {
+        "label": "profile TET4 target 10000",
+        "status": "PASS",
+        "total_dofs": 10125,
+        "free_dofs": 9450,
+        "node_count": 3375,
+        "element_count": 16464,
+        "nnz": 338727,
+        "global_stiffness_nnz": 338727,
+        "reduced_stiffness_nnz": 315532,
+        "nnz_per_dof": 33.45451851851852,
+        "global_matrix_storage_bytes": 4105228,
+        "reduced_matrix_storage_estimate_bytes": 3824188,
+        "global_matrix_storage_per_dof": 405.4546172839506,
+        "mesh_build_seconds": 0.12785260000964627,
+        "mesh_validation_seconds": 8.335181900009047,
+        "assembly_seconds": 2.7717455999809317,
+        "assembly_plan_seconds": 0.7606850999873132,
+        "element_kernel_seconds": 1.561926599999424,
+        "sparse_conversion_seconds": 0.05740800022613257,
+        "chunk_fusion_seconds": 0.017988199891988188,
+        "sparse_finalize_seconds": 0.002221599977929145,
+        "discrete_merge_seconds": 0.0003951000398956239,
+        "load_assembly_seconds": 0.014429699978791177,
+        "load_balance_seconds": 0.009356899943668395,
+        "load_balance_calls": 5,
+        "load_balance_node_visits": 16875,
+        "bc_application_seconds": 0.0010211000335402787,
+        "constraint_reduction_seconds": 0.04655349999666214,
+        "linear_solve_seconds": 0.10340730001917109,
+        "factorization_seconds": null,
+        "sparse_solve_seconds": 0.10340730001917109,
+        "post_processing_seconds": 0.0,
+        "post_processing_mode": "summary; element/nodal serialization omitted",
+        "solver_unattributed_seconds": 8.656777900003362,
+        "solver_total_seconds": 11.531930800003465,
+        "wall_total_seconds": 11.664862699981313,
+        "peak_rss_bytes": null,
+        "rss_delta_bytes": null,
+        "tracemalloc_peak_bytes": null,
+        "solution_norm": 1.593643571831215e-10,
+        "solution_checksum": "b0ab615d269925fdf2d52740a1a72b4f71712fe2d563966c5a7362824b8d3e72",
+        "relative_residual_norm": 6.0231592271280606e-12,
+        "finite_metrics": true,
+        "topology": {
+          "topology": "connected_structured_block",
+          "cells_per_axis": 14
+        },
+        "phase_notes": {
+          "copies_conversions": "Not independently observable in the public route; sparse conversion is taken from GlobalAssembler diagnostics and remaining attribution is reported as solver_unattributed_seconds.",
+          "factorization": "NOT_APPLICABLE: CG route; no factorization phase is executed."
+        }
+      },
+      "profiled_wall_seconds": 11.66918229998555,
+      "top_functions": [
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\scripts\\\\benchmark_g12_lot2.py', 195, '_run_once')",
+          "calls": 1,
+          "primitive_calls": 1,
+          "self_seconds": 0.0001061,
+          "cumulative_seconds": 11.665344600000001,
+          "percent_profile_cumulative": 100.0
+        },
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\scripts\\\\benchmark_g12_lot2.py', 158, '_run_with_load_balance_timer')",
+          "calls": 1,
+          "primitive_calls": 1,
+          "self_seconds": 1.22e-05,
+          "cumulative_seconds": 11.5369433,
+          "percent_profile_cumulative": 98.89929269641978
+        },
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\scripts\\\\benchmark_g12_lot2.py', 140, '_run_with_constraint_timer')",
+          "calls": 1,
+          "primitive_calls": 1,
+          "self_seconds": 0.0049673,
+          "cumulative_seconds": 11.5369311,
+          "percent_profile_cumulative": 98.89918811313983
+        },
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\core\\\\solvers\\\\static.py', 36, 'solve')",
+          "calls": 1,
+          "primitive_calls": 1,
+          "self_seconds": 0.000368,
+          "cumulative_seconds": 11.531963800000002,
+          "percent_profile_cumulative": 98.85660643064072
+        },
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\scripts\\\\benchmark_g12_lot2.py', 130, 'validate')",
+          "calls": 1,
+          "primitive_calls": 1,
+          "self_seconds": 0.0002679,
+          "cumulative_seconds": 8.3351833,
+          "percent_profile_cumulative": 71.45252528587969
+        },
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\validation.py', 55, 'validate')",
+          "calls": 1,
+          "primitive_calls": 1,
+          "self_seconds": 0.0007684,
+          "cumulative_seconds": 8.3349151,
+          "percent_profile_cumulative": 71.4502261682008
+        },
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\validation.py', 154, '_element_quality_details')",
+          "calls": 1,
+          "primitive_calls": 1,
+          "self_seconds": 0.1518901,
+          "cumulative_seconds": 7.6357542,
+          "percent_profile_cumulative": 65.45673927198001
+        },
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\quality.py', 59, 'tet_metrics')",
+          "calls": 16464,
+          "primitive_calls": 16464,
+          "self_seconds": 0.1024907,
+          "cumulative_seconds": 7.3418578000000005,
+          "percent_profile_cumulative": 62.93734177385552
+        },
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\quality.py', 235, '_tet_radius_ratio')",
+          "calls": 16464,
+          "primitive_calls": 16464,
+          "self_seconds": 0.27583840000000004,
+          "cumulative_seconds": 3.8292324000000004,
+          "percent_profile_cumulative": 32.82571180966227
+        },
+        {
+          "function": "('~', 0, '<built-in method builtins.sum>')",
+          "calls": 16595,
+          "primitive_calls": 16595,
+          "self_seconds": 0.029848100000000002,
+          "cumulative_seconds": 2.983533,
+          "percent_profile_cumulative": 25.576038276657506
+        },
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\quality.py', 237, '<genexpr>')",
+          "calls": 82320,
+          "primitive_calls": 82320,
+          "self_seconds": 0.06661220000000001,
+          "cumulative_seconds": 2.9515407000000002,
+          "percent_profile_cumulative": 25.301787484272005
+        },
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\quality.py', 260, '_triangle_area')",
+          "calls": 65856,
+          "primitive_calls": 65856,
+          "self_seconds": 0.21259560000000002,
+          "cumulative_seconds": 2.8849285,
+          "percent_profile_cumulative": 24.73076106127203
+        },
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\mesh\\\\quality.py', 47, 'tet4_quality')",
+          "calls": 32928,
+          "primitive_calls": 32928,
+          "self_seconds": 0.5905471,
+          "cumulative_seconds": 2.4203801,
+          "percent_profile_cumulative": 20.748466359064953
+        },
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\AppData\\\\Roaming\\\\Python\\\\Python313\\\\site-packages\\\\numpy\\\\_core\\\\numeric.py', 1522, 'cross')",
+          "calls": 66086,
+          "primitive_calls": 66086,
+          "self_seconds": 0.9639974000000001,
+          "cumulative_seconds": 2.3843798,
+          "percent_profile_cumulative": 20.439857387496293
+        },
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\scripts\\\\benchmark_g12_lot2.py', 105, 'assemble_stiffness')",
+          "calls": 1,
+          "primitive_calls": 1,
+          "self_seconds": 1.95e-05,
+          "cumulative_seconds": 1.9955688,
+          "percent_profile_cumulative": 17.10681397273082
+        },
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\core\\\\assembly\\\\assembler.py', 32, 'assemble_stiffness')",
+          "calls": 1,
+          "primitive_calls": 1,
+          "self_seconds": 0.0001808,
+          "cumulative_seconds": 1.9955489000000002,
+          "percent_profile_cumulative": 17.106643381970905
+        },
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\core\\\\assembly\\\\assembler.py', 273, '_assemble_matrix')",
+          "calls": 1,
+          "primitive_calls": 1,
+          "self_seconds": 0.0014274000000000001,
+          "cumulative_seconds": 1.9953681,
+          "percent_profile_cumulative": 17.10509349205166
+        },
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\elements\\\\solid\\\\tet4.py', 25, 'signed_volume')",
+          "calls": 82320,
+          "primitive_calls": 82320,
+          "self_seconds": 0.37650930000000005,
+          "cumulative_seconds": 1.7600657000000002,
+          "percent_profile_cumulative": 15.087987199280851
+        },
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\Documents\\\\Codex\\\\2026-07-06\\\\yeah\\\\qf_solver_026_agent_b\\\\src\\\\solveur\\\\core\\\\assembly\\\\assembler.py', 392, '_matrix_chunk')",
+          "calls": 65,
+          "primitive_calls": 65,
+          "self_seconds": 0.121799,
+          "cumulative_seconds": 1.6228637000000001,
+          "percent_profile_cumulative": 13.911836775057635
+        },
+        {
+          "function": "('C:\\\\Users\\\\fari\\\\AppData\\\\Roaming\\\\Python\\\\Python313\\\\site-packages\\\\numpy\\\\linalg\\\\_linalg.py', 2575, 'norm')",
+          "calls": 379226,
+          "primitive_calls": 379226,
+          "self_seconds": 0.8069669,
+          "cumulative_seconds": 1.4412294,
+          "percent_profile_cumulative": 12.354794902501208
+        }
+      ],
+      "case_peak_rss_bytes": 130985984
+    }
+  ],
+  "largest_completed_target_dofs": 10000
+}

@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "contract_id": "026-G12-OPTIMIZATION",
+  "command": "python -m pytest -q --tb=short -ra",
+  "environment": {
+    "os": "Windows-10-10.0.19045-SP0",
+    "python": "3.13.1",
+    "numpy": "2.2.6",
+    "scipy": "1.15.2",
+    "logical_cpus": 12,
+    "same_environment": true
+  },
+  "baseline": {
+    "sha": "c967903956c82fcae6a23c9a946ddcd8bf93306e",
+    "passed": 1828,
+    "skipped": 184,
+    "failed": 20,
+    "raw_output": "tmp/g12_baseline_full_regression.txt"
+  },
+  "optimized_measurement": {
+    "sha": "7860ade85f0020b68e23c43787c77f28a863d8d6",
+    "passed": 1830,
+    "skipped": 184,
+    "failed": 20,
+    "raw_output": "tmp/g12_optimization_full_regression.txt"
+  },
+  "optimized_final_after_runner_extraction": {
+    "sha": "WORKTREE_FINAL_PENDING_COMMIT",
+    "passed": 1831,
+    "skipped": 184,
+    "failed": 19,
+    "raw_output": "tmp/g12_optimization_full_regression_final.txt"
+  },
+  "comparison": {
+    "initial_exact_a_b_common_failures": 20,
+    "initial_fix_only_failures": [],
+    "initial_base_only_failures": [],
+    "initial_different_failures": [],
+    "final_common_failures": 19,
+    "final_fix_only_failures": [],
+    "final_base_only_failures": [
+      "tests/documentation/test_owner_review_audit_pack.py::test_pack_page_counts_and_project_audit_verdict"
+    ],
+    "regression_introduced": false,
+    "regression_neutral": true,
+    "interpretation": "The initial A/B run had the same 20 failing test names. The later B run passed the audit-pack test after the audit generated its controlled snapshot; this stateful release-audit difference is not a solver regression. No fix-only failure or numerical behavior change was observed."
+  },
+  "failed_tests": [
+    "tests/documentation/test_owner_review_audit_pack.py::test_pack_page_counts_and_project_audit_verdict",
+    "tests/integration/test_packaging.py::test_solver_cli_version_runs",
+    "tests/integration/test_packaging.py::test_mitc4_cli_version_runs",
+    "tests/unit/test_architecture_rules.py::test_python_source_files_stay_under_700_lines",
+    "tests/unit/test_capability_registry.py::test_controlled_capability_registry_passes_its_contract",
+    "tests/unit/test_capability_registry.py::test_registry_rejects_duplicate_capability_ids",
+    "tests/unit/test_capability_registry.py::test_registry_rejects_orphaned_public_capability",
+    "tests/unit/test_capability_registry.py::test_registry_rejects_orphaned_public_element_analysis_combination",
+    "tests/unit/test_capability_registry.py::test_registry_rejects_an_unregistered_source_family",
+    "tests/unit/test_capability_registry.py::test_registry_rejects_an_unregistered_analysis_route",
+    "tests/unit/test_capability_registry.py::test_registry_rejects_a_missing_status_and_silent_historical_removal",
+    "tests/unit/test_capability_registry.py::test_registry_rejects_a_rewritten_historical_release_inventory",
+    "tests/unit/test_capability_registry.py::test_registry_requires_implemented_capabilities_to_explain_evidence_or_scope",
+    "tests/unit/test_public_document_audit.py::test_public_document_audit_passes_without_web_delivery_or_internal_paths",
+    "tests/unit/test_public_document_audit.py::test_controlled_public_document_audit_record_matches_current_classification",
+    "tests/unit/test_public_release_audit.py::test_current_public_release_candidates_are_clean",
+    "tests/unit/test_public_release_audit.py::test_current_git_archive_excludes_runtime_and_private_evidence_trees",
+    "tests/unit/test_release_readiness.py::test_current_open_source_tree_reports_its_actual_release_state",
+    "tests/unit/test_release_readiness.py::test_release_audit_commands_create_nested_output_directories",
+    "tests/unit/test_review_vocabulary.py::test_published_sources_use_controlled_review_vocabulary"
+  ],
+  "failure_observations": [
+    {
+      "tests": [
+        "tests/integration/test_packaging.py::test_solver_cli_version_runs",
+        "tests/integration/test_packaging.py::test_mitc4_cli_version_runs"
+      ],
+      "classification": "PRE_EXISTING_IDENTICAL",
+      "cause_class": "VERSIONING_HISTORICAL",
+      "error_type": "AssertionError",
+      "traceback_excerpt": "CLI reports 0.2.5a0 while the test expects 0.2.6a0",
+      "external_tool": null
+    },
+    {
+      "tests": [
+        "tests/unit/test_architecture_rules.py::test_python_source_files_stay_under_700_lines"
+      ],
+      "classification": "PRE_EXISTING_IDENTICAL",
+      "cause_class": "VERSIONING_HISTORICAL",
+      "error_type": "AssertionError",
+      "traceback_excerpt": "oversized contains scripts\\benchmark_g12_lot2.py: 776 on both final A and B",
+      "external_tool": null,
+      "repair_note": "The temporary optimization additions were extracted to scripts/benchmark_g12_assembly.py; the final B count is restored to the baseline count."
+    },
+    {
+      "tests": [
+        "tests/unit/test_capability_registry.py::test_controlled_capability_registry_passes_its_contract",
+        "tests/unit/test_capability_registry.py::test_registry_rejects_duplicate_capability_ids",
+        "tests/unit/test_capability_registry.py::test_registry_rejects_orphaned_public_capability",
+        "tests/unit/test_capability_registry.py::test_registry_rejects_orphaned_public_element_analysis_combination",
+        "tests/unit/test_capability_registry.py::test_registry_rejects_an_unregistered_source_family",
+        "tests/unit/test_capability_registry.py::test_registry_rejects_an_unregistered_analysis_route",
+        "tests/unit/test_capability_registry.py::test_registry_rejects_a_missing_status_and_silent_historical_removal",
+        "tests/unit/test_capability_registry.py::test_registry_rejects_a_rewritten_historical_release_inventory",
+        "tests/unit/test_capability_registry.py::test_registry_requires_implemented_capabilities_to_explain_evidence_or_scope"
+      ],
+      "classification": "PRE_EXISTING_IDENTICAL",
+      "cause_class": "EXTERNAL_TOOL_UNAVAILABLE",
+      "error_type": "FileNotFoundError",
+      "traceback_excerpt": "scripts/audit_capability_registry.py:84 _revision_source -> [WinError 2] for the historical git show subprocess",
+      "external_tool": "git invoked from Python subprocess; unavailable to this controlled test process"
+    },
+    {
+      "tests": [
+        "tests/unit/test_public_document_audit.py::test_public_document_audit_passes_without_web_delivery_or_internal_paths",
+        "tests/unit/test_public_document_audit.py::test_controlled_public_document_audit_record_matches_current_classification",
+        "tests/unit/test_public_release_audit.py::test_current_public_release_candidates_are_clean",
+        "tests/unit/test_public_release_audit.py::test_current_git_archive_excludes_runtime_and_private_evidence_trees",
+        "tests/unit/test_release_readiness.py::test_current_open_source_tree_reports_its_actual_release_state",
+        "tests/unit/test_release_readiness.py::test_release_audit_commands_create_nested_output_directories"
+      ],
+      "classification": "PRE_EXISTING_IDENTICAL",
+      "cause_class": "ENVIRONMENTAL",
+      "error_type": "AssertionError",
+      "traceback_excerpt": "controlled public/release audit reports FAIL because the existing evidence tree contains workstation/internal markers",
+      "external_tool": "release-audit/git archive environment"
+    },
+    {
+      "tests": [
+        "tests/unit/test_review_vocabulary.py::test_published_sources_use_controlled_review_vocabulary"
+      ],
+      "classification": "PRE_EXISTING_IDENTICAL",
+      "cause_class": "VERSIONING_HISTORICAL",
+      "error_type": "AssertionError",
+      "traceback_excerpt": "generic review vocabulary remains in docs/verification/0_2_6/0_2_6_g08_contract.md",
+      "external_tool": null
+    }
+  ],
+  "base_only_observation": {
+    "test": "tests/documentation/test_owner_review_audit_pack.py::test_pack_page_counts_and_project_audit_verdict",
+    "classification": "BASE_ONLY_FAILURE",
+    "cause_class": "ENVIRONMENTAL",
+    "error_type": "AssertionError",
+    "traceback_excerpt": "audit pack expected 0 finding; initial optimized run showed the same failure, while the later run passed after controlled audit snapshot generation",
+    "not_a_fix_effect": true
+  }
+}

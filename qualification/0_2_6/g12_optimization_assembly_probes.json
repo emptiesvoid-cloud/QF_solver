@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "contract_id": "026-G12-OPTIMIZATION",
+  "measurement_commit_sha": "7860ade85f0020b68e23c43787c77f28a863d8d6",
+  "status": "PASS_WITH_RESOURCE_LIMIT",
+  "route": "linear_static",
+  "probe": "assembly_only",
+  "environment": {
+    "os": "Windows-10-10.0.19045-SP0",
+    "python": "3.13.1",
+    "numpy": "2.2.6",
+    "scipy": "1.15.2",
+    "psutil": "7.2.2",
+    "logical_cpus": 12,
+    "ram_bytes": 102963109888,
+    "git_head": "7860ade85f0020b68e23c43787c77f28a863d8d6"
+  },
+  "resource_policy": {
+    "stop_after_first_limit": true,
+    "timeout_seconds": 300.0,
+    "max_rss_bytes": 4294967296,
+    "scope": "isolated child process; assembly only; no solve or load phase"
+  },
+  "rows": [
+    {
+      "label": "assembly-only TET4 target 300000",
+      "family": "TET4",
+      "target_dofs": 300000,
+      "status": "PASS",
+      "total_dofs": 311469,
+      "node_count": 103823,
+      "element_count": 584016,
+      "global_stiffness_nnz": 11168199,
+      "global_matrix_storage_bytes": 135264268,
+      "mesh_validation_seconds": 163.08548970002448,
+      "assembly_plan_seconds": 10.504569800046738,
+      "assembly_seconds": 46.277520999952685,
+      "element_kernel_seconds": 34.251622499316,
+      "sparse_conversion_seconds": 4.248597098514438,
+      "sparse_finalize_seconds": 0.07112039998173714,
+      "linear_solve_seconds": null,
+      "wall_total_seconds": 222.95894929999486,
+      "finite_metrics": true,
+      "case_peak_rss_bytes": 1483046912,
+      "topology": "connected_structured_block",
+      "cells_per_axis": 46,
+      "solve": "NOT_RUN"
+    },
+    {
+      "label": "assembly-only TET4 target 1000000",
+      "family": "TET4",
+      "target_dofs": 1000000,
+      "status": "RESOURCE_LIMITED",
+      "total_dofs": null,
+      "global_stiffness_nnz": null,
+      "global_matrix_storage_bytes": null,
+      "linear_solve_seconds": null,
+      "wall_total_seconds": null,
+      "finite_metrics": null,
+      "case_peak_rss_bytes": 1472012288,
+      "timeout_seconds": 300.0,
+      "reason": "timeout after 300.0 seconds; assembly child did not produce a report",
+      "solve": "NOT_RUN"
+    }
+  ]
+}

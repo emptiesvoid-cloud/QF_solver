@@ -90,6 +90,8 @@ def _compare_rows(baseline: list[dict[str, Any]], optimized: list[dict[str, Any]
                 "baseline": old,
                 "optimized": new,
                 "assembly_speedup": old["assembly_seconds"] / new["assembly_seconds"],
+                "load_assembly_speedup": old["load_assembly_seconds"] / new["load_assembly_seconds"],
+                "load_balance_speedup": old["load_balance_seconds"] / new["load_balance_seconds"],
                 "total_speedup": old["wall_total_seconds"] / new["wall_total_seconds"],
                 "memory_ratio": new["case_peak_rss_bytes"] / old["case_peak_rss_bytes"],
                 "nnz_equal": old["global_stiffness_nnz"] == new["global_stiffness_nnz"],
@@ -109,6 +111,7 @@ def build_evidence(
     assembly_path: Path,
     profiles_path: Path,
     cache_path: Path | None = None,
+    regression_path: Path | None = None,
 ) -> dict[str, Any]:
     baseline_source = _read(baseline_path)
     optimized_source = _read(optimized_path)
@@ -117,12 +120,14 @@ def build_evidence(
     baseline = _baseline_rows(baseline_source)
     optimized = _optimized_rows(optimized_source)
     comparisons = _compare_rows(baseline, optimized)
-    completed_assembly = [row for row in assembly_source.get("rows", []) if row.get("status") == "PASS"]
+    assembly_rows = assembly_source.get("rows", [])
+    completed_assembly = [row for row in assembly_rows if row.get("status") == "PASS"]
     profiles = [row for row in profiles_source.get("profiles", []) if row.get("status") == "PASS"]
     largest_profile = max(profiles, key=lambda row: row.get("target_dofs", 0), default={})
     profile_case = largest_profile.get("profiled_case", {})
     profile_wall = float(largest_profile.get("profiled_wall_seconds") or profile_case.get("wall_total_seconds") or 0.0)
     cache_proof = _read(cache_path) if cache_path is not None and cache_path.is_file() else None
+    regression = _read(regression_path) if regression_path is not None and regression_path.is_file() else None
     regression_neutral = all(
         row.get("status") == "PASS"
         and row.get("nnz_equal")
@@ -161,7 +166,9 @@ def build_evidence(
             "memory_exponent": _log_slope(optimized, "actual_dofs", "case_peak_rss_bytes"),
         },
         "assembly_only_probes": {
-            "rows": completed_assembly,
+            "rows": assembly_rows,
+            "completed_rows": completed_assembly,
+            "resource_limited_rows": [row for row in assembly_rows if row.get("status") == "RESOURCE_LIMITED"],
             "resource_policy": assembly_source.get("resource_policy"),
         },
         "cache_proof": cache_proof,
@@ -197,7 +204,7 @@ def build_evidence(
         "bugs_found": [],
         "functional_code_changed": True,
         "verification_infrastructure_changed": True,
-        "full_regression": "PENDING_FINAL_RUN",
+        "full_regression": regression or "PENDING_FINAL_RUN",
         "optimization_candidates_deferred": [
             "vectorize/cache TET4 mesh-quality metrics",
             "reduce Python DOF-name normalization in stiffness assembly",
@@ -213,11 +220,12 @@ def main() -> int:
     parser.add_argument("--assembly", type=Path, required=True)
     parser.add_argument("--profiles", type=Path, required=True)
     parser.add_argument("--cache-proof", type=Path, default=None)
+    parser.add_argument("--regression-triage", type=Path, default=None)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(
-        json.dumps(build_evidence(args.baseline, args.optimized, args.assembly, args.profiles, args.cache_proof), indent=2)
+        json.dumps(build_evidence(args.baseline, args.optimized, args.assembly, args.profiles, args.cache_proof, args.regression_triage), indent=2)
         + "\n",
         encoding="utf-8",
     )

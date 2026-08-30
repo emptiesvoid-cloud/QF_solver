@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "contract_id": "026-G12-OPTIMIZATION",
+  "measurement_commit_sha": "7860ade85f0020b68e23c43787c77f28a863d8d6",
+  "target_dofs": 10000,
+  "reuse": "same model and LinearStaticSolver; second validation uses mutation-sensitive quality cache",
+  "runs": [
+    {
+      "seconds": 6.810739099979401,
+      "status": "PASS",
+      "checksum": "b0ab615d269925fdf2d52740a1a72b4f71712fe2d563966c5a7362824b8d3e72",
+      "residual": 6.0231592271280606e-12,
+      "finite": true
+    },
+    {
+      "seconds": 2.1775501999654807,
+      "status": "PASS",
+      "checksum": "b0ab615d269925fdf2d52740a1a72b4f71712fe2d563966c5a7362824b8d3e72",
+      "residual": 6.0231592271280606e-12,
+      "finite": true
+    }
+  ],
+  "first_seconds": 6.810739099979401,
+  "second_seconds": 2.1775501999654807,
+  "first_over_second": 3.1277070444058497,
+  "checksums_equal": true,
+  "finite": true,
+  "cache_key_present": true,
+  "mutation_invalidation_test": "PASS"
+}
