@@ -164,10 +164,21 @@
       ]
     },
     {
-      "evidence_ids": [],
+      "evidence_ids": [
+        "g10_research_audit_matrix.json",
+        "0_2_6_g10_lot1.md"
+      ],
       "id": "026-G10",
-      "status": "NOT_STARTED",
-      "title": "Existing coupled nonlinear review"
+      "status": "IN_PROGRESS",
+      "title": "Advanced Nonlinear / Research Audit",
+      "lot1_status": "PASS_WITH_LIMITATIONS",
+      "owner_closeout": false,
+      "limitations": [
+        "Lot 1 audits existing nonlinear and research routes without adding physics, elements, or solver behavior.",
+        "Finite-kinematic J2 and coupled nonlinear routes remain experimental or not qualified pending formulation-compatible external evidence.",
+        "Total-Lagrangian promotion remains owned by G07 and is not changed by G10.",
+        "Full regression is intentionally deferred to the G10 Owner closeout or a high-risk functional change checkpoint."
+      ]
     },
     {
       "evidence_ids": [
