@@ -1,5 +1,5 @@
 {
-  "case_count": 45,
+  "case_count": 50,
   "cases": [
     {
       "case_id": "G09-EXT-PM-M1-P1e+02",
@@ -352,6 +352,56 @@
       "status": "PASS_INTERNAL_ROLLBACK"
     },
     {
+      "case_id": "G09-EXT-RB-PHASE-before_activation",
+      "category": "rollback_phase",
+      "expected": "PASS_INTERNAL_ROLLBACK",
+      "family": "TET4",
+      "phase": "before_activation",
+      "reject_step": 1,
+      "requirement": "G09-EXT-005",
+      "status": "PASS_INTERNAL_ROLLBACK"
+    },
+    {
+      "case_id": "G09-EXT-RB-PHASE-during_activation",
+      "category": "rollback_phase",
+      "expected": "PASS_INTERNAL_ROLLBACK",
+      "family": "TET4",
+      "phase": "during_activation",
+      "reject_step": 2,
+      "requirement": "G09-EXT-005",
+      "status": "PASS_INTERNAL_ROLLBACK"
+    },
+    {
+      "case_id": "G09-EXT-RB-PHASE-just_after_activation",
+      "category": "rollback_phase",
+      "expected": "PASS_INTERNAL_ROLLBACK",
+      "family": "TET4",
+      "phase": "just_after_activation",
+      "reject_step": 3,
+      "requirement": "G09-EXT-005",
+      "status": "PASS_INTERNAL_ROLLBACK"
+    },
+    {
+      "case_id": "G09-EXT-RB-PHASE-during_separation",
+      "category": "rollback_phase",
+      "expected": "PASS_INTERNAL_ROLLBACK",
+      "family": "TET4",
+      "phase": "during_separation",
+      "reject_step": 4,
+      "requirement": "G09-EXT-005",
+      "status": "PASS_INTERNAL_ROLLBACK"
+    },
+    {
+      "case_id": "G09-EXT-RB-PHASE-during_recontact",
+      "category": "rollback_phase",
+      "expected": "PASS_INTERNAL_ROLLBACK",
+      "family": "TET4",
+      "phase": "during_recontact",
+      "reject_step": 5,
+      "requirement": "G09-EXT-005",
+      "status": "PASS_INTERNAL_ROLLBACK"
+    },
+    {
       "case_id": "G09-EXT-ADV-invalid_penalty",
       "category": "adversarial",
       "expected": "EXPECTED_FAILURE",
@@ -412,7 +462,7 @@
     "No friction, general surface-to-surface, self-contact or new contact physics is qualified.",
     "Penalty candidate values are observational and remain Owner-reviewable; no universal range is approved.",
     "External evidence is reused from the controlled Lot 3 Code_Aster/CalculiX archive; no new external claim is created.",
-    "The active set is stateless in the exercised frictionless route; rollback covers common-driver mutable state."
+    "The active set is stateless in the exercised frictionless route; generic and phase-specific rollback cover common-driver mutable state before activation, during activation, after activation, separation and recontact."
   ],
   "lot": "ROBUSTNESS_EXTENSION",
   "official_gate_status_unchanged": "PASS_WITH_LIMITATIONS",
@@ -450,6 +500,6 @@
   ],
   "schema_version": 1,
   "source_dirty": false,
-  "source_sha": "80b458aaa583f21be68bc007a557232a8855aa4a",
+  "source_sha": "cd5b163c59d8ed1d93bc853701d61cc58ddd61f9",
   "status": "PASS_WITH_LIMITATIONS"
 }

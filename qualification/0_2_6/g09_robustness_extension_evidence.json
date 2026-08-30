@@ -321,6 +321,7 @@
     "cycles": 4,
     "geometry": 8,
     "penalty_mesh": 15,
+    "phase_rollback": 5,
     "rollback": 4
   },
   "configuration": {
@@ -1595,7 +1596,7 @@
   },
   "functional_code_changed": false,
   "gate": "026-G09",
-  "generated_utc": "2026-08-30T15:08:15.605306Z",
+  "generated_utc": "2026-08-30T15:22:42.276764Z",
   "geometry": {
     "all_pass": true,
     "limitation": "Geometry cases exercise rotated planar triangles and valid projections only.",
@@ -1720,7 +1721,7 @@
     "No friction, general surface-to-surface, self-contact or new contact physics is qualified.",
     "Penalty candidate values are observational and remain Owner-reviewable; no universal range is approved.",
     "External evidence is reused from the controlled Lot 3 Code_Aster/CalculiX archive; no new external claim is created.",
-    "The active set is stateless in the exercised frictionless route; rollback covers common-driver mutable state."
+    "The active set is stateless in the exercised frictionless route; generic and phase-specific rollback cover common-driver mutable state before activation, during activation, after activation, separation and recontact."
   ],
   "lot": "ROBUSTNESS_EXTENSION",
   "official_gate_closeout_unchanged": true,
@@ -2210,6 +2211,367 @@
       }
     ]
   },
+  "phase_rollback": {
+    "all_pass": true,
+    "limitation": "Contact active set is stateless; phase-specific rollback covers mutable common-driver state across activation, separation and recontact.",
+    "phase_coverage": [
+      "before_activation",
+      "during_activation",
+      "just_after_activation",
+      "during_separation",
+      "during_recontact"
+    ],
+    "rows": [
+      {
+        "attempts": 3,
+        "before_contact": {
+          "active": false,
+          "active_contacts": [],
+          "gaps": [
+            1.0
+          ],
+          "penetration": 0.0
+        },
+        "committed_digest": "266cf1b444c416b73ac54c2ad81130b9f3d7ab7adef544daa83e4fedb34b056c",
+        "contact_state_transaction": "N/A - frictionless active set is recomputed; displacement/material transaction checked",
+        "displacement_preserved": true,
+        "expanded_reference_path": [
+          0.05,
+          0.1
+        ],
+        "failed_trial_contact": {
+          "active": false,
+          "active_contacts": [],
+          "gaps": [
+            0.23418059859072782
+          ]
+        },
+        "failed_trial_displacement_norm": 1.2178984152995753,
+        "failed_trial_state_digest": "90f071969b05062c2c5be2f42d5335d2d815f9b1bf23db59cceba842894fd3b3",
+        "final_contact": {
+          "active": false,
+          "active_contacts": [],
+          "gaps": [
+            0.23418065763857043
+          ],
+          "penetration": 0.0
+        },
+        "final_reference_relative_error": 0.0,
+        "path": [
+          0.1
+        ],
+        "phase": "before_activation",
+        "reference_final_contact": {
+          "active": false,
+          "active_contacts": [],
+          "gaps": [
+            0.23418065763857043
+          ],
+          "penetration": 0.0
+        },
+        "reject_step": 1,
+        "rejected_increments": 1,
+        "rejection_log": [
+          {
+            "base_load_factor": 0.0,
+            "failure_reason": "NumericalConvergenceError",
+            "rejected_increment": 0.1,
+            "retry_increment": 0.05
+          }
+        ],
+        "rollback_digest": "266cf1b444c416b73ac54c2ad81130b9f3d7ab7adef544daa83e4fedb34b056c",
+        "state_preserved": true,
+        "status": "PASS_INTERNAL_ROLLBACK"
+      },
+      {
+        "attempts": 4,
+        "before_contact": {
+          "active": false,
+          "active_contacts": [],
+          "gaps": [
+            0.23418059859072782
+          ],
+          "penetration": 0.0
+        },
+        "committed_digest": "90f071969b05062c2c5be2f42d5335d2d815f9b1bf23db59cceba842894fd3b3",
+        "contact_state_transaction": "N/A - frictionless active set is recomputed; displacement/material transaction checked",
+        "displacement_preserved": true,
+        "expanded_reference_path": [
+          0.1,
+          0.175,
+          0.25
+        ],
+        "failed_trial_contact": {
+          "active": true,
+          "active_contacts": [
+            0
+          ],
+          "gaps": [
+            -2.3896929745692574e-05
+          ]
+        },
+        "failed_trial_displacement_norm": 1.5902211001808855,
+        "failed_trial_state_digest": "bfedc1f4f79fb023ac6cc615fcdc01a4fe331b60225e94bdb9c4c9487b3ccd5b",
+        "final_contact": {
+          "active": true,
+          "active_contacts": [
+            0
+          ],
+          "gaps": [
+            -2.3896929746358708e-05
+          ],
+          "penetration": 2.3896929746358708e-05
+        },
+        "final_reference_relative_error": 0.0,
+        "path": [
+          0.1,
+          0.25
+        ],
+        "phase": "during_activation",
+        "reference_final_contact": {
+          "active": true,
+          "active_contacts": [
+            0
+          ],
+          "gaps": [
+            -2.3896929746358708e-05
+          ],
+          "penetration": 2.3896929746358708e-05
+        },
+        "reject_step": 2,
+        "rejected_increments": 1,
+        "rejection_log": [
+          {
+            "base_load_factor": 0.1,
+            "failure_reason": "NumericalConvergenceError",
+            "rejected_increment": 0.15,
+            "retry_increment": 0.07499999999999998
+          }
+        ],
+        "rollback_digest": "90f071969b05062c2c5be2f42d5335d2d815f9b1bf23db59cceba842894fd3b3",
+        "state_preserved": true,
+        "status": "PASS_INTERNAL_ROLLBACK"
+      },
+      {
+        "attempts": 5,
+        "before_contact": {
+          "active": true,
+          "active_contacts": [
+            0
+          ],
+          "gaps": [
+            -2.3896929745692574e-05
+          ],
+          "penetration": 2.3896929745692574e-05
+        },
+        "committed_digest": "bfedc1f4f79fb023ac6cc615fcdc01a4fe331b60225e94bdb9c4c9487b3ccd5b",
+        "contact_state_transaction": "N/A - frictionless active set is recomputed; displacement/material transaction checked",
+        "displacement_preserved": true,
+        "expanded_reference_path": [
+          0.1,
+          0.25,
+          0.5,
+          0.75
+        ],
+        "failed_trial_contact": {
+          "active": true,
+          "active_contacts": [
+            0
+          ],
+          "gaps": [
+            -0.00012389432394166455
+          ]
+        },
+        "failed_trial_displacement_norm": 1.5903800693491368,
+        "failed_trial_state_digest": "0ede9a58941f91c3b27c93eabf907fb31ff8cf33803af1a26f731e2dc3e1e6a9",
+        "final_contact": {
+          "active": true,
+          "active_contacts": [
+            0
+          ],
+          "gaps": [
+            -0.0001238943239418866
+          ],
+          "penetration": 0.0001238943239418866
+        },
+        "final_reference_relative_error": 0.0,
+        "path": [
+          0.1,
+          0.25,
+          0.75
+        ],
+        "phase": "just_after_activation",
+        "reference_final_contact": {
+          "active": true,
+          "active_contacts": [
+            0
+          ],
+          "gaps": [
+            -0.0001238943239418866
+          ],
+          "penetration": 0.0001238943239418866
+        },
+        "reject_step": 3,
+        "rejected_increments": 1,
+        "rejection_log": [
+          {
+            "base_load_factor": 0.25,
+            "failure_reason": "NumericalConvergenceError",
+            "rejected_increment": 0.5,
+            "retry_increment": 0.25
+          }
+        ],
+        "rollback_digest": "bfedc1f4f79fb023ac6cc615fcdc01a4fe331b60225e94bdb9c4c9487b3ccd5b",
+        "state_preserved": true,
+        "status": "PASS_INTERNAL_ROLLBACK"
+      },
+      {
+        "attempts": 6,
+        "before_contact": {
+          "active": true,
+          "active_contacts": [
+            0
+          ],
+          "gaps": [
+            -0.00012389432394166455
+          ],
+          "penetration": 0.00012389432394166455
+        },
+        "committed_digest": "0ede9a58941f91c3b27c93eabf907fb31ff8cf33803af1a26f731e2dc3e1e6a9",
+        "contact_state_transaction": "N/A - frictionless active set is recomputed; displacement/material transaction checked",
+        "displacement_preserved": true,
+        "expanded_reference_path": [
+          0.1,
+          0.25,
+          0.75,
+          0.375,
+          0.0
+        ],
+        "failed_trial_contact": {
+          "active": false,
+          "active_contacts": [],
+          "gaps": [
+            0.6949398477448597
+          ]
+        },
+        "failed_trial_displacement_norm": 0.48291078128538856,
+        "failed_trial_state_digest": "276050c00d102f006cf0e051a16db0d77a029373779a8130a74fddcbf1bd0ec2",
+        "final_contact": {
+          "active": false,
+          "active_contacts": [],
+          "gaps": [
+            0.6949398477448597
+          ],
+          "penetration": 0.0
+        },
+        "final_reference_relative_error": 0.0,
+        "path": [
+          0.1,
+          0.25,
+          0.75,
+          0.0
+        ],
+        "phase": "during_separation",
+        "reference_final_contact": {
+          "active": false,
+          "active_contacts": [],
+          "gaps": [
+            0.6949398477448597
+          ],
+          "penetration": 0.0
+        },
+        "reject_step": 4,
+        "rejected_increments": 1,
+        "rejection_log": [
+          {
+            "base_load_factor": 0.75,
+            "failure_reason": "NumericalConvergenceError",
+            "rejected_increment": -0.75,
+            "retry_increment": -0.375
+          }
+        ],
+        "rollback_digest": "0ede9a58941f91c3b27c93eabf907fb31ff8cf33803af1a26f731e2dc3e1e6a9",
+        "state_preserved": true,
+        "status": "PASS_INTERNAL_ROLLBACK"
+      },
+      {
+        "attempts": 7,
+        "before_contact": {
+          "active": false,
+          "active_contacts": [],
+          "gaps": [
+            0.6949398477448597
+          ],
+          "penetration": 0.0
+        },
+        "committed_digest": "276050c00d102f006cf0e051a16db0d77a029373779a8130a74fddcbf1bd0ec2",
+        "contact_state_transaction": "N/A - frictionless active set is recomputed; displacement/material transaction checked",
+        "displacement_preserved": true,
+        "expanded_reference_path": [
+          0.1,
+          0.25,
+          0.75,
+          0.0,
+          0.125,
+          0.25
+        ],
+        "failed_trial_contact": {
+          "active": true,
+          "active_contacts": [
+            0
+          ],
+          "gaps": [
+            -2.3898079668738248e-05
+          ]
+        },
+        "failed_trial_displacement_norm": 1.5902201584901583,
+        "failed_trial_state_digest": "6d463d6ff3065b841f668f93eb38e5b7058d19d8b60f40acea355f653f2d058c",
+        "final_contact": {
+          "active": true,
+          "active_contacts": [
+            0
+          ],
+          "gaps": [
+            -2.3898079668738248e-05
+          ],
+          "penetration": 2.3898079668738248e-05
+        },
+        "final_reference_relative_error": 0.0,
+        "path": [
+          0.1,
+          0.25,
+          0.75,
+          0.0,
+          0.25
+        ],
+        "phase": "during_recontact",
+        "reference_final_contact": {
+          "active": true,
+          "active_contacts": [
+            0
+          ],
+          "gaps": [
+            -2.3898079668738248e-05
+          ],
+          "penetration": 2.3898079668738248e-05
+        },
+        "reject_step": 5,
+        "rejected_increments": 1,
+        "rejection_log": [
+          {
+            "base_load_factor": 0.0,
+            "failure_reason": "NumericalConvergenceError",
+            "rejected_increment": 0.25,
+            "retry_increment": 0.125
+          }
+        ],
+        "rollback_digest": "276050c00d102f006cf0e051a16db0d77a029373779a8130a74fddcbf1bd0ec2",
+        "state_preserved": true,
+        "status": "PASS_INTERNAL_ROLLBACK"
+      }
+    ],
+    "state_integrity": true
+  },
   "requirements_reassessment": {
     "counts": {
       "BOUNDED": 11,
@@ -2419,7 +2781,7 @@
     ],
     "schema_version": 1,
     "source_closeout": "qualification/0_2_6/g09_owner_closeout.json",
-    "source_sha": "80b458aaa583f21be68bc007a557232a8855aa4a"
+    "source_sha": "cd5b163c59d8ed1d93bc853701d61cc58ddd61f9"
   },
   "rollback": {
     "all_pass": true,
@@ -2592,7 +2954,7 @@
   },
   "source": {
     "dirty": false,
-    "sha": "80b458aaa583f21be68bc007a557232a8855aa4a"
+    "sha": "cd5b163c59d8ed1d93bc853701d61cc58ddd61f9"
   },
   "status": "PASS_WITH_LIMITATIONS",
   "unexpected_failures": []

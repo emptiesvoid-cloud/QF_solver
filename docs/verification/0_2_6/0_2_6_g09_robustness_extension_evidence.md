@@ -1,7 +1,7 @@
 # 026-G09 Robustness Extension Evidence
 
 Status: **PASS_WITH_LIMITATIONS**; official G09 closeout remains **PASS_WITH_LIMITATIONS**.
-Source SHA: `80b458aaa583f21be68bc007a557232a8855aa4a`; dirty: `False`.
+Source SHA: `cd5b163c59d8ed1d93bc853701d61cc58ddd61f9`; dirty: `False`.
 
 This extension adds controlled evidence only. It does not add contact physics or alter the numerical solver.
 
@@ -14,8 +14,9 @@ This extension adds controlled evidence only. It does not add contact physics or
 | geometry | 8 | PASS |
 | cycles | 4 | PASS |
 | rollback | 4 | PASS |
+| phase_rollback | 5 | PASS |
 | adversarial | 6 | PASS |
-| Total extension cases | 45 | PASS_WITH_LIMITATIONS |
+| Total extension cases | 50 | PASS_WITH_LIMITATIONS |
 
 ## Requirement reassessment
 
@@ -79,6 +80,16 @@ Geometry orientation cases: `8`; all PASS: `True`.
 | `RB-03` | 1 | 4 | True | 4.534e-09 | `PASS_INTERNAL_ROLLBACK` |
 | `RB-04` | 1 | 7 | True | 4.903e-12 | `PASS_INTERNAL_ROLLBACK` |
 
+### Phase-specific rollback
+
+| Phase | Rejected increments | Attempted contact | Failed-trial contact | State preserved | Reference error | Status |
+|---|---:|---|---|---:|---:|---|
+| `before_activation` | 1 | False | False | True | 0.000e+00 | `PASS_INTERNAL_ROLLBACK` |
+| `during_activation` | 1 | False | True | True | 0.000e+00 | `PASS_INTERNAL_ROLLBACK` |
+| `just_after_activation` | 1 | True | True | True | 0.000e+00 | `PASS_INTERNAL_ROLLBACK` |
+| `during_separation` | 1 | True | False | True | 0.000e+00 | `PASS_INTERNAL_ROLLBACK` |
+| `during_recontact` | 1 | False | True | True | 0.000e+00 | `PASS_INTERNAL_ROLLBACK` |
+
 State integrity: `True`. Contact state remains stateless and is recomputed from trial geometry.
 
 ## Failure contract
@@ -106,6 +117,6 @@ The two levels support a bounded mesh-sensitivity observation only. They do not 
 - No friction, general surface-to-surface, self-contact or new contact physics is qualified.
 - Penalty candidate values are observational and remain Owner-reviewable; no universal range is approved.
 - External evidence is reused from the controlled Lot 3 Code_Aster/CalculiX archive; no new external claim is created.
-- The active set is stateless in the exercised frictionless route; rollback covers common-driver mutable state.
+- The active set is stateless in the exercised frictionless route; generic and phase-specific rollback cover common-driver mutable state before activation, during activation, after activation, separation and recontact.
 
 No bug was found. The official G09 status remains `PASS_WITH_LIMITATIONS`; this extension does not create an Owner-approved production penalty range.
