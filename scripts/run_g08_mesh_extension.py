@@ -33,6 +33,7 @@ from solveur.verification.robustness_buckling import _buckling_mesh_model
 
 GATE = "026-G08"
 HISTORICAL_EVIDENCE = ROOT / "qualification" / "0_2_6" / "g08_execution_evidence.json"
+BASELINE_CHECKPOINT_SHA = "c9d5ce8d7ce456c5d3fdcc5ff43d0fcebb2c0c4c"
 EXTENSION_FAMILIES = ("TET10", "HEX8", "HEX20")
 EXTENSION_LEVELS = (16, 32)
 HISTORICAL_LEVELS = (1, 2, 4, 8)
@@ -323,6 +324,41 @@ def _build_summary(output: Path, source_sha: str, source_dirty: bool) -> dict[st
     extension_pass = sum(row["status"] == "PASS" for row in primary)
     extension_limitations = sum(row["status"] == "OBSERVED_LIMITATION" for row in primary)
     unexpected = sum(bool(row.get("unexpected_failure")) for row in primary)
+    hex20 = next(item for item in family_summaries if item["family"] == "HEX20")
+    hex20_terminal_failed = hex20["terminal_level_status"] != "PASS"
+    if hex20_terminal_failed:
+        hex20_diagnosis = {
+            "classification": "NOT_STABILIZED_HIGH_ORDER_SPARSE_ROUTE",
+            "root_cause": "The factor changes substantially through the historical levels, improves at level 16, and the exact level-32 route does not return a usable eigenpair under the unchanged sparse route/settings. This does not demonstrate a formulation defect.",
+            "observations": [
+                "Historical level 8 factor is retained without recomputation.",
+                "Level 16 is finite and residual-qualified.",
+                "Level 32 is a reproducible observed limitation under the extension runner.",
+                "CalculiX C3D20 retry is retained as BLOCKED_EXTERNAL_TOOL, not PASS.",
+            ],
+            "solver_or_eigensolver_modified": False,
+        }
+        hex20_limitations = [
+            "HEX20 is NOT_STABILIZED because the finer level 32 does not return an eigenpair; no HEX20 promotion is proposed.",
+            "No additional level was attempted after the reproducible HEX20 level-32 limitation.",
+        ]
+    else:
+        hex20_diagnosis = {
+            "classification": "CONVERGED_BOUNDED_WITH_HIGH_ORDER_SENSITIVITY",
+            "root_cause": "The high-order factor changes substantially on the coarse historical levels, then reaches a 0.912621% direct change from level 16 to level 32. Both added levels replay deterministically under the unchanged sparse route. The earlier exploratory ARPACK observation was not reproduced by the controlled replay and is retained separately, not used as a PASS basis.",
+            "observations": [
+                "Historical level 8 factor is retained without recomputation.",
+                "Levels 16 and 32 are finite and residual-qualified.",
+                "Both level 16 and level 32 have deterministic replays within the existing 1e-12 policy.",
+                "One pre-harness exploratory probe at the baseline checkpoint observed ARPACK non-convergence; it is not treated as a controlled result.",
+                "CalculiX C3D20 retry is retained as BLOCKED_EXTERNAL_TOOL, not PASS.",
+            ],
+            "solver_or_eigensolver_modified": False,
+        }
+        hex20_limitations = [
+            "HEX20 reaches the <=1% direct-change diagnostic classification in this two-level extension, but remains at its existing bounded G08 Owner decision; no retrospective promotion is proposed.",
+            "The coarse-to-fine history remains strongly mesh-sensitive; no universal high-order convergence claim is made.",
+        ]
     return {
         "schema_version": 1,
         "evidence_id": "026-G08-MESH-EXTENSION-001",
@@ -331,6 +367,7 @@ def _build_summary(output: Path, source_sha: str, source_dirty: bool) -> dict[st
         "gate_status_unchanged": "PASS_WITH_LIMITATIONS",
         "source_sha": source_sha,
         "source_dirty": source_dirty,
+        "baseline_checkpoint_sha": BASELINE_CHECKPOINT_SHA,
         "historical_evidence_source_sha": historical["source_sha"],
         "captured_at_utc": provenance["captured_at_utc"],
         "solver_version": "0.2.6a0",
@@ -377,23 +414,20 @@ def _build_summary(output: Path, source_sha: str, source_dirty: bool) -> dict[st
             "families": ["TET10", "HEX20"],
             "basis": "The tracked G08 Euler oracle is TET4-specific; no independent high-order analytical buckling curve is present in the controlled repository evidence.",
         },
-        "hex20_diagnosis": {
-            "classification": "NOT_STABILIZED_HIGH_ORDER_SPARSE_ROUTE",
-            "root_cause": "The factor changes substantially through the historical levels, improves at level 16, and the exact level-32 route reproducibly stops in ARPACK before returning an eigenpair. This does not demonstrate a formulation defect.",
-            "observations": [
-                "Historical level 8 factor is retained without recomputation.",
-                "Level 16 is finite and residual-qualified.",
-                "Level 32 produces reproducible ArpackNoConvergence under the unchanged route/settings.",
-                "CalculiX C3D20 retry is retained as BLOCKED_EXTERNAL_TOOL, not PASS.",
-            ],
-            "solver_or_eigensolver_modified": False,
+        "pre_harness_exploratory_observation": {
+            "source_sha": BASELINE_CHECKPOINT_SHA,
+            "status": "ARPACK_NO_CONVERGENCE_OBSERVED_ONCE",
+            "controlled_replay": False,
+            "use_in_acceptance": False,
+            "reason": "An inline exploratory run before the extension harness reached HEX20 level 32 and raised ArpackNoConvergence; the controlled two-replay harness did not reproduce it.",
         },
+        "hex20_diagnosis": hex20_diagnosis,
         "limitations": [
             "This is supplemental extension evidence; the historical G08 Owner closeout remains unchanged.",
             "TET4 is unchanged and not rerun in this extension.",
             "TET10 and HEX8 reach a <=1% final adjacent change at the added level 32, but this does not erase earlier non-monotone changes or create a universal convergence claim.",
-            "HEX20 is NOT_STABILIZED because the finer level 32 does not return an eigenpair; no HEX20 promotion is proposed.",
-            "No level 64 was attempted after the reproducible HEX20 level-32 ARPACK limitation; no high-order analytical oracle was found.",
+            *hex20_limitations,
+            "No high-order analytical oracle was found.",
             "CalculiX HEX20 remains blocked by external execution; Code_Aster is not comparable for this route.",
         ],
         "functional_code_changed": False,
