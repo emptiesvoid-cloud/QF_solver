@@ -74,6 +74,46 @@
       "limitation": "The available deck is pre-contact elastic C3D4 and does not exercise CalculiX contact detection, penalty enforcement or recontact."
     }
   },
+  "external_mesh_study": {
+    "purpose": "Repeat the comparable Code_Aster TET4 structural contact path at a second mesh while preserving the predeclared adapter limits.",
+    "generated_utc": "2026-08-30T14:24:27.497630Z",
+    "source_sha": "c76d4af39dc270a05596a53ef2d93baa9171c29b",
+    "source_dirty": false,
+    "external_solver": "Code_Aster 18.1.0",
+    "formulation_limit": "Exact unilateral LIAISON_UNIL is a bounded comparator, not an identical QF penalty formulation.",
+    "levels": [
+      {
+        "label": "mesh8",
+        "tet4_grid": [8, 4, 4],
+        "source_manifest_sha256": "835e69cef260b06238990851ee8300f8ec556757c0d7611569b121ca42cf8755",
+        "overall_displacement_curve_error": 0.04339979885207582,
+        "overall_gap_curve_error": 0.5499121110155485,
+        "active_displacement_curve_error": 4.024558464266181e-15,
+        "active_gap_curve_error": 4.0245584642661925e-16,
+        "transition_warning_value": 0.04339979885207582,
+        "transition_warning_limit": 0.05,
+        "status": "PASS_WITH_EXTERNAL_WARNING"
+      },
+      {
+        "label": "mesh6",
+        "tet4_grid": [6, 4, 4],
+        "nodes": 178,
+        "elements": 576,
+        "source_manifest_sha256": "9c6b5af8ca52da9f93783d823cf07e74b355e6552387d71ff415421c5a53fc5f",
+        "overall_displacement_curve_error": 0.052565319500610296,
+        "overall_gap_curve_error": 0.5700417573383535,
+        "active_displacement_curve_error": 7.216449660063467e-15,
+        "active_gap_curve_error": 7.216449660063518e-16,
+        "transition_warning_value": 0.052565319500610296,
+        "transition_warning_limit": 0.05,
+        "final_gap_max_abs_m": 4.579669976578771e-16,
+        "calculix_precontact_error": 4.775140638142289e-07,
+        "status": "PASS_WITH_EXTERNAL_WARNING",
+        "warning": "The transition warning exceeds the predeclared 5 percent warning limit at this mesh; the active branch remains within the predeclared active-branch limits."
+      }
+    ],
+    "interpretation": "The two levels support a bounded mesh-sensitivity observation only. They do not establish a universal external curve tolerance for the exact-unilateral versus penalty transition."
+  },
   "penalty_governance": {
     "candidate_range": [10000.0, 1000000.0],
     "status": "OWNER_REVIEW_REQUIRED",
@@ -92,7 +132,7 @@
     "Code_Aster exact unilateral constraints are not an identical numerical penalty formulation.",
     "CalculiX is a pre-contact elastic tie-breaker only.",
     "No external proof is claimed for finite sliding, surface-to-surface search, friction, contact tangent discontinuities or universal penalty selection.",
-    "The official G09 gate remains open pending explicit Owner disposition of the candidate penalty policy."
+    "The official G09 gate remains open pending explicit Owner disposition of the candidate penalty policy and review of the mesh-dependent transition warning."
   ],
   "artifact_digests": {
     "code_aster_scalar_summary.json": "b28e18a718ecf402875247dbd08f80ff02057ded4bc16ad351ec8323e56b2dfa",
@@ -108,6 +148,10 @@
     "code_aster_additional_figure.png": "514c1ac71c53cb475cd6b7eefeca00e94011cfc118822b9d7b3ec6aff5210e54",
     "calculix_precontact_input.inp": "cd401d5891250a15e3ae2fbe4e8bb6a9f64db67deab4e628d7fe793024793b5f",
     "calculix_precontact_log": "aee74c3c279f8d97d5abe925bd1104a0c2324207a78b10395838120481f278a0",
-    "calculix_precontact_result.frd": "9fc3047f6bde6b1a412596e2d5eaa866c776857b1692097e99532374c3be1003"
+    "calculix_precontact_result.frd": "9fc3047f6bde6b1a412596e2d5eaa866c776857b1692097e99532374c3be1003",
+    "qualification/0_2_6/g09_lot3_mesh6/summary.json": "5ee2680ece8d64ad7fba6feba1525487f543b5753139595f5743e071b5364152",
+    "qualification/0_2_6/g09_lot3_mesh6/report.md": "666e4c25f519713c2ce57b7201975c38caaffa4074116b24fd50903df02c0cb9",
+    "qualification/0_2_6/g09_lot3_mesh6/vnv_manifest.json": "9c6b5af8ca52da9f93783d823cf07e74b355e6552387d71ff415421c5a53fc5f",
+    "docs/assets/reviews/g09_lot3_contact_code_aster_curves_mesh6.png": "197bbb989c949737e8e7f9ef016159311293ba64a13063314c5ceb0373aa0bf1"
   }
 }

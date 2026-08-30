@@ -9,15 +9,20 @@
   "source_dirty": false,
   "artifacts": {
     "qualification/0_2_6/g09_lot3_requirements.json": "e709aa549361344650cddc54bde5b799a9fe2e1711074412e52e7f8097a81cad",
-    "qualification/0_2_6/g09_lot3_case_registry.json": "234a0ae4e384a6fc3e4e57130e8e4198d5108c77f3520d471e375d9280f14634",
-    "qualification/0_2_6/g09_lot3_evidence.json": "387fa3a108fe370b8892dd0373f939a9499ba29471e9143e60a8fe5ef9ffbad0",
+    "qualification/0_2_6/g09_lot3_case_registry.json": "01cd07603d252e9f542692a673cfe7da90d17ae002a98416b89c4713cb7cdf73",
+    "qualification/0_2_6/g09_lot3_evidence.json": "7417719fad519509a6c3ba2b401224d26004bef0a086becb945fa1f6511d0964",
     "docs/verification/0_2_6/0_2_6_g09_lot3_contract.md": "dcc8f56159de0d4ccdd68a77151d59a4752963aded06dde94749cc7be4549aef",
-    "docs/verification/0_2_6/0_2_6_g09_lot3_evidence.md": "511151f6374dfe613e028343a8502eecf92300e02db07565d6f4a8809261d579"
+    "docs/verification/0_2_6/0_2_6_g09_lot3_evidence.md": "60123bf4b5717cd9cf3551e2577317d8b93f9db72d4f720b4d8efb83748c9380",
+    "docs/assets/reviews/g09_lot3_contact_code_aster_curves_mesh6.png": "197bbb989c949737e8e7f9ef016159311293ba64a13063314c5ceb0373aa0bf1",
+    "qualification/0_2_6/g09_lot3_mesh6/summary.json": "5ee2680ece8d64ad7fba6feba1525487f543b5753139595f5743e071b5364152",
+    "qualification/0_2_6/g09_lot3_mesh6/report.md": "666e4c25f519713c2ce57b7201975c38caaffa4074116b24fd50903df02c0cb9",
+    "qualification/0_2_6/g09_lot3_mesh6/vnv_manifest.json": "9c6b5af8ca52da9f93783d823cf07e74b355e6552387d71ff415421c5a53fc5f"
   },
   "external_manifests": {
     "code_aster_scalar": "4ed140e7d7288ff76b95633570fa4288b621380efb0447ac325ad95269913b04",
     "code_aster_tet4": "c6f48aa3819d47f4d278122b5179217dd8152a0d7f2fe712d653b3610dcf88ab",
-    "code_aster_additional": "835e69cef260b06238990851ee8300f8ec556757c0d7611569b121ca42cf8755"
+    "code_aster_additional": "835e69cef260b06238990851ee8300f8ec556757c0d7611569b121ca42cf8755",
+    "code_aster_additional_mesh6": "9c6b5af8ca52da9f93783d823cf07e74b355e6552387d71ff415421c5a53fc5f"
   },
-  "owner_action": "Review the bounded candidate penalty range; do not infer a universal range or conditioning cutoff."
+  "owner_action": "Review the bounded candidate penalty range and the mesh-dependent transition warning; do not infer a universal range or conditioning cutoff."
 }
