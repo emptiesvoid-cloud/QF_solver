@@ -42,7 +42,7 @@ try:
         _mesh_contact_model,
         _run_adversarial,
         _run_contact_cutback,
-        _run_cycle,
+        _run_cycle as _run_cycle_base,
         _solve_contact_case,
     )
 except ModuleNotFoundError:  # Direct execution from the scripts directory.
@@ -53,7 +53,7 @@ except ModuleNotFoundError:  # Direct execution from the scripts directory.
         _mesh_contact_model,
         _run_adversarial,
         _run_contact_cutback,
-        _run_cycle,
+        _run_cycle as _run_cycle_base,
         _solve_contact_case,
     )
 
@@ -307,37 +307,133 @@ def _rotated_spring_model(angle: float, barycentric: tuple[float, float]) -> Fin
     return model
 
 
+def _distorted_spring_model() -> FiniteElementModel:
+    """Build a valid skew planar triangle without changing contact physics."""
+    master = np.array([[0.0, 0.0, 0.0], [1.0, 0.0, 0.0], [0.15, 1.0, 0.0]])
+    weights = np.array([0.20, 0.35, 0.45])
+    slave = weights @ master + np.array([0.0, 0.0, 0.1])
+    normal = np.cross(master[1] - master[0], master[2] - master[0])
+    normal /= np.linalg.norm(normal)
+    model = FiniteElementModel.from_raw(
+        nodes=np.vstack((master, slave)).tolist(),
+        elements=[],
+        materials={},
+        fixed_dofs=[{"node": index, "dofs": ["UX", "UY", "UZ"]} for index in range(3)],
+        springs=[{"node_a": 3, "dofs": ["UX", "UY", "UZ"], "stiffness": [1000.0] * 3}],
+        loads=[
+            {"node": 3, "dof": dof, "value": float(-200.0 * normal[index])}
+            for index, dof in enumerate(("UX", "UY", "UZ"))
+        ],
+        analysis={"type": "linear_static", "method": "direct", "contact_max_iterations": 12},
+    )
+    model.contacts.append(FrictionlessContact(name="distorted", slave_node=3, master_nodes=(0, 1, 2)))
+    return model
+
+
+def _multi_face_patch_model() -> FiniteElementModel:
+    """Build two coplanar master triangles and two slave patch nodes."""
+    master = np.array(
+        [[0.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 1.0, 1.0], [0.0, 0.0, 1.0]]
+    )
+    slaves = np.array([[0.1, 0.25, 0.25], [0.1, 0.75, 0.75]])
+    nodes = np.vstack((master, slaves))
+    model = FiniteElementModel.from_raw(
+        nodes=nodes.tolist(),
+        elements=[],
+        materials={},
+        fixed_dofs=[{"node": index, "dofs": ["UX", "UY", "UZ"]} for index in range(4)],
+        springs=[
+            {"node_a": index, "dofs": ["UX", "UY", "UZ"], "stiffness": [1000.0] * 3}
+            for index in (4, 5)
+        ],
+        loads=[
+            {"node": index, "dof": "UX", "value": -200.0}
+            for index in (4, 5)
+        ],
+        analysis={"type": "linear_static", "method": "direct", "contact_max_iterations": 12},
+    )
+    model.contacts.append(
+        FrictionlessContact(
+            name="coplanar_patch",
+            slave_node=4,
+            master_nodes=(0, 1, 2),
+            master_faces=((0, 1, 2), (0, 2, 3)),
+            slave_patch_nodes=(4, 5),
+        )
+    )
+    return model
+
+
+def _geometry_solver_row(model: FiniteElementModel, name: str) -> dict[str, Any]:
+    result = solve_model(model, enforce_policy=False)
+    data = result.to_dict()
+    solver = data["solver"]
+    details = solver.get("contact", {})
+    contact_convergence = details.get("convergence", {})
+    return {
+        "case": name,
+        "status": "PASS" if result.status == "PASS" else "FAIL",
+        "active_contact_count": int(details.get("active_contact_count", 0)),
+        "gaps": details.get("gaps", []),
+        "normals": details.get("normals", []),
+        "master_face_indices": details.get("master_face_indices", []),
+        "slave_node_count": details.get("slave_node_count", 0),
+        "residual": float(
+            contact_convergence.get("relative_residual", solver.get("residual_norm", math.inf))
+        ),
+        "finite": _finite(data),
+    }
+
+
 def _run_geometry_matrix() -> dict[str, Any]:
     rows: list[dict[str, Any]] = []
     for index, angle in enumerate((0.0, 0.2, 0.5, 1.0)):
-        for position in ((0.25, 0.25), (0.60, 0.20)):
+        positions = ((0.25, 0.25), (0.60, 0.20))
+        if index == 0:
+            positions += ((0.50, 0.50), (0.0, 0.0), (0.999, 0.0005))
+        for position in positions:
             model = _rotated_spring_model(angle, position)
-            result = solve_model(model, enforce_policy=False)
-            data = result.to_dict()
-            solver = data["solver"]
-            details = solver.get("contact", {})
-            contact_convergence = details.get("convergence", {})
-            rows.append(
-                {
-                    "case": f"orientation_{index}_bary_{position[0]:.2f}_{position[1]:.2f}",
-                    "angle": angle,
-                    "barycentric": list(position),
-                    "status": "PASS" if result.status == "PASS" else "FAIL",
-                    "active_contact_count": int(details.get("active_contact_count", 0)),
-                    "gaps": details.get("gaps", []),
-                    "normals": details.get("normals", []),
-                    "residual": float(
-                        contact_convergence.get("relative_residual", solver.get("residual_norm", math.inf))
-                    ),
-                    "finite": _finite(data),
-                }
+            row = _geometry_solver_row(
+                model, f"orientation_{index}_bary_{position[0]:.3f}_{position[1]:.3f}"
             )
+            row.update({"angle": angle, "barycentric": list(position)})
+            rows.append(row)
+    rows.append(_geometry_solver_row(_distorted_spring_model(), "valid_distorted_triangle"))
+    surface_row = _geometry_solver_row(_multi_face_patch_model(), "coplanar_faces_multi_slave_patch")
+    surface_row["geometry_features"] = ["multiple_coplanar_triangles", "multiple_active_slave_nodes"]
+    rows.append(surface_row)
     return {
         "rows": rows,
         "all_pass": all(row["status"] == "PASS" for row in rows),
         "normal_finite": all(_finite(row["normals"]) for row in rows),
-        "limitation": "Geometry cases exercise rotated planar triangles and valid projections only.",
+        "coverage": {
+            "orientations": True,
+            "center_edge_vertex": True,
+            "multiple_coplanar_triangles": True,
+            "multiple_active_slave_nodes": True,
+            "regular_and_valid_distorted_triangles": True,
+        },
+        "limitation": "Geometry cases remain bounded to valid node-to-faceted-surface projections; no self-contact or general surface claim is made.",
     }
+
+
+def _run_cycle(path: tuple[float, ...], name: str) -> dict[str, Any]:
+    """Add an explicit penalty-energy/work trace to the existing cycle probe."""
+    row = _run_cycle_base(path, name)
+    result = solve_model(_mesh_contact_model(1, penalty=1.0e5, load_path=path), enforce_policy=False)
+    steps = result.to_dict()["solver"]["steps"]
+    penalty_energy = [0.5 * 1.0e5 * max(-float(gap), 0.0) ** 2 for gap in row["gaps_by_step"]]
+    work_imbalance = [float(step.get("relative_work_imbalance", 0.0)) for step in steps]
+    row["penalty_energy_by_step"] = penalty_energy
+    row["energy_trace_valid"] = all(np.isfinite(value) and value >= 0.0 for value in penalty_energy)
+    row["work_trace_finite"] = all(np.isfinite(value) and value >= 0.0 for value in work_imbalance)
+    row["relative_work_imbalance_by_step"] = work_imbalance
+    row["status"] = (
+        row["status"]
+        if row["energy_trace_valid"] and row["work_trace_finite"]
+        else "FAIL"
+    )
+    return row
 
 
 def _run_long_cycles() -> dict[str, Any]:
@@ -665,6 +761,18 @@ def _run_phase_rollback_matrix() -> dict[str, Any]:
             / max(np.linalg.norm(reference["final_displacement"]), 1.0e-15)
         )
         transaction = observed["transactions"][-1] if observed["transactions"] else {}
+        energy_trace = [
+            0.5 * 1.0e5 * max(-float(gap), 0.0) ** 2
+            for step in observed["history"]
+            for gap in step.get("contact_gaps", [])[:1]
+        ]
+        energy_trace.extend(
+            0.5 * 1.0e5 * max(-float(gap), 0.0) ** 2
+            for gap in transaction.get("failed_trial_contact", {}).get("gaps", [])[:1]
+        )
+        work_trace = [float(step.get("relative_work_imbalance", 0.0)) for step in observed["history"]]
+        energy_trace_valid = all(np.isfinite(value) and value >= 0.0 for value in energy_trace)
+        work_trace_finite = all(np.isfinite(value) and value >= 0.0 for value in work_trace)
         rows.append(
             {
                 "phase": phase,
@@ -676,6 +784,8 @@ def _run_phase_rollback_matrix() -> dict[str, Any]:
                 and observed["rejected_increments"] == 1
                 and transaction.get("state_preserved")
                 and transaction.get("displacement_preserved")
+                and energy_trace_valid
+                and work_trace_finite
                 and reference["status"] == "PASS"
                 and reference_error <= COMPARISON_TOLERANCE
                 else "FAIL",
@@ -689,6 +799,10 @@ def _run_phase_rollback_matrix() -> dict[str, Any]:
                 "displacement_preserved": bool(transaction.get("displacement_preserved", False)),
                 "failed_trial_state_digest": transaction.get("failed_trial_state_digest", ""),
                 "failed_trial_displacement_norm": transaction.get("failed_trial_displacement_norm", 0.0),
+                "penalty_energy_trace": energy_trace,
+                "relative_work_imbalance_trace": work_trace,
+                "energy_trace_valid": energy_trace_valid,
+                "work_trace_finite": work_trace_finite,
                 "final_contact": observed["final_contact"],
                 "reference_final_contact": reference["final_contact"],
                 "final_reference_relative_error": reference_error,
@@ -941,14 +1055,14 @@ def _render_report(evidence: dict[str, Any]) -> str:
             "",
             "## Cycles and transactions",
             "",
-            "| Case | Cycles | Steps | Final reference difference | Status |",
-            "|---|---:|---:|---:|---|",
+            "| Case | Cycles | Steps | Final reference difference | Energy trace | Status |",
+            "|---|---:|---:|---:|---:|---|",
         ]
     )
     for row in evidence["cycles"]["rows"]:
         lines.append(
             f"| `{row['case']}` | {row['cycle_count']} | {len(row['active_by_step'])} | "
-            f"{row['final_reference_relative_difference']:.3e} | `{row['status']}` |"
+            f"{row['final_reference_relative_difference']:.3e} | {row['energy_trace_valid']} | `{row['status']}` |"
         )
     lines.extend(
         [
@@ -967,15 +1081,15 @@ def _render_report(evidence: dict[str, Any]) -> str:
             "",
             "### Phase-specific rollback",
             "",
-            "| Phase | Rejected increments | Attempted contact | Failed-trial contact | State preserved | Reference error | Status |",
-            "|---|---:|---|---|---:|---:|---|",
+            "| Phase | Rejected increments | Attempted contact | Failed-trial contact | State preserved | Energy trace | Reference error | Status |",
+            "|---|---:|---|---|---:|---:|---:|---|",
         ]
     )
     for row in evidence["phase_rollback"]["rows"]:
         lines.append(
             f"| `{row['phase']}` | {row['rejected_increments']} | {row['before_contact'].get('active', False)} | "
             f"{row['failed_trial_contact'].get('active', False)} | {row['state_preserved'] and row['displacement_preserved']} | "
-            f"{row['final_reference_relative_error']:.3e} | `{row['status']}` |"
+            f"{row['energy_trace_valid']} | {row['final_reference_relative_error']:.3e} | `{row['status']}` |"
         )
     lines.extend(
         [
@@ -1083,9 +1197,13 @@ def run(output: Path, expected_sha: str = SOURCE_SHA_DEFAULT) -> dict[str, Any]:
             "scope": "penalty mesh matrix; other groups retain route-specific residuals",
         },
         "energy_check": {
-            "status": "PASS" if all(row["penalty_energy"] >= 0.0 for row in penalty_mesh["rows"]) else "FAIL",
+            "status": "PASS"
+            if all(row["penalty_energy"] >= 0.0 for row in penalty_mesh["rows"])
+            and all(row["energy_trace_valid"] and row["work_trace_finite"] for row in cycles["rows"])
+            and all(row["energy_trace_valid"] and row["work_trace_finite"] for row in phase_rollback["rows"])
+            else "FAIL",
             "definition": "penalty energy = 0.5 * penalty * penetration^2",
-            "scope": "diagnostic contact penalty energy; no global energy balance claim",
+            "scope": "diagnostic contact penalty energy and finite nonnegative work-imbalance traces for mesh, cycles and rollback; no global energy balance claim",
         },
         "unexpected_failures": unexpected,
         "bugs_found": [],

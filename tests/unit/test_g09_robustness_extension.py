@@ -35,13 +35,13 @@ def test_g09_extension_has_45_cases_and_preserves_closeout() -> None:
         "adversarial": 6,
         "activation": 8,
         "cycles": 4,
-        "geometry": 8,
+        "geometry": 13,
         "phase_rollback": 5,
         "penalty_mesh": 15,
         "rollback": 4,
     }
-    assert registry["case_count"] == 50
-    assert len(registry["cases"]) == 50
+    assert registry["case_count"] == 55
+    assert len(registry["cases"]) == 55
     assert requirements["requirement_count"] == 18
     assert requirements["counts"] == {"BOUNDED": 11, "DEFERRED": 3, "FAIL": 0, "FULL_CANDIDATE": 4}
     assert gate["status"] == "PASS_WITH_LIMITATIONS"
@@ -72,6 +72,10 @@ def test_g09_extension_has_no_unexpected_failures_or_external_overclaim() -> Non
     ]
     assert all(row["status"] == "PASS_INTERNAL_ROLLBACK" for row in phases["rows"])
     assert phases["state_integrity"] is True
+    assert len(evidence["geometry"]["rows"]) == 13
+    assert all(evidence["geometry"]["coverage"].values())
+    assert all(row["energy_trace_valid"] and row["work_trace_finite"] for row in evidence["cycles"]["rows"])
+    assert all(row["energy_trace_valid"] and row["work_trace_finite"] for row in phases["rows"])
 
 
 def test_g09_extension_manifest_digests_match_archived_artifacts() -> None:
