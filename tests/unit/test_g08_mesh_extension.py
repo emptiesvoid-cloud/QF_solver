@@ -43,6 +43,11 @@ def test_g08_mesh_extension_evidence_is_supplemental_and_consistent() -> None:
     }
     families = {row["family"]: row for row in data["mesh_study"]["families"]}
     assert all(families[name]["classification"] == "CONVERGED_BOUNDED" for name in ("TET10", "HEX8", "HEX20"))
+    added_rows = [row for family in families.values() for row in family["levels"][4:]]
+    assert all(row["mode_quality"]["status"] == "PASS" for row in added_rows)
+    assert all(row["mode_quality"]["sign_convention"] == "largest_absolute_component_positive" for row in added_rows)
+    assert all(row["finite_values"] is True for row in added_rows)
+    assert data["mesh_study"]["extension_stop_reason"].startswith("All three extended families")
     assert data["external_correlation"]["status"] == "BLOCKED_EXTERNAL_TOOL"
     assert data["high_order_oracle"]["status"] == "NO_COMPARABLE_ANALYTICAL_ORACLE"
     assert data["hex20_diagnosis"]["solver_or_eigensolver_modified"] is False
