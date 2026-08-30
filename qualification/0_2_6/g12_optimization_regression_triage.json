@@ -25,7 +25,7 @@
     "raw_output": "tmp/g12_optimization_full_regression.txt"
   },
   "optimized_final_after_runner_extraction": {
-    "sha": "WORKTREE_FINAL_PENDING_COMMIT",
+    "sha": "237f88b340538d6706f383875f46df55bee0c97b",
     "passed": 1831,
     "skipped": 184,
     "failed": 19,

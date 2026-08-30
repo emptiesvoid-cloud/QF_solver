@@ -3,7 +3,7 @@
   "contract_id": "026-G12-OPTIMIZATION",
   "status": "PASS",
   "start_sha": "c967903956c82fcae6a23c9a946ddcd8bf93306e",
-  "optimization_commit_sha": "7860ade85f0020b68e23c43787c77f28a863d8d6",
+  "optimization_commit_sha": "237f88b340538d6706f383875f46df55bee0c97b",
   "baseline_source": "qualification\\0_2_6\\g12_lot2_scaling.json",
   "optimized_source": "qualification\\0_2_6\\g12_optimization_optimized_scaling.json",
   "assembly_probe_source": "qualification\\0_2_6\\g12_optimization_assembly_probes.json",
@@ -810,7 +810,7 @@
       "raw_output": "tmp/g12_optimization_full_regression.txt"
     },
     "optimized_final_after_runner_extraction": {
-      "sha": "WORKTREE_FINAL_PENDING_COMMIT",
+      "sha": "237f88b340538d6706f383875f46df55bee0c97b",
       "passed": 1831,
       "skipped": 184,
       "failed": 19,
