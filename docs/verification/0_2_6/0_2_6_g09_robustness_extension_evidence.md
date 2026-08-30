@@ -1,7 +1,7 @@
 # 026-G09 Robustness Extension Evidence
 
 Status: **PASS_WITH_LIMITATIONS**; official G09 closeout remains **PASS_WITH_LIMITATIONS**.
-Source SHA: `cd5b163c59d8ed1d93bc853701d61cc58ddd61f9`; dirty: `False`.
+Source SHA: `b09d8ddc98f8f54d9204d3d45cd9a8e07e7edbd6`; dirty: `False`.
 
 This extension adds controlled evidence only. It does not add contact physics or alter the numerical solver.
 
@@ -11,12 +11,12 @@ This extension adds controlled evidence only. It does not add contact physics or
 |---|---:|---|
 | penalty_mesh | 15 | PASS |
 | activation | 8 | PASS |
-| geometry | 8 | PASS |
+| geometry | 13 | PASS |
 | cycles | 4 | PASS |
 | rollback | 4 | PASS |
 | phase_rollback | 5 | PASS |
 | adversarial | 6 | PASS |
-| Total extension cases | 50 | PASS_WITH_LIMITATIONS |
+| Total extension cases | 55 | PASS_WITH_LIMITATIONS |
 
 ## Requirement reassessment
 
@@ -45,7 +45,7 @@ The five penalty values are observational probes. The normalized value uses the 
 | 4 | 1e+05 | 1.71840302e-04 | 1.90960341e+01 | 1.82140087e+00 | 5.493e-13 | 2 | 1.47645447e-03 |
 | 4 | 1e+06 | 1.71844656e-05 | 1.90961584e+01 | 1.82111923e+00 | 6.619e-11 | 2 | 1.47652930e-04 |
 
-Force/equilibrium check: `PASS`; deterministic mesh replay: `True`.
+Force/moment equilibrium check: `PASS`; moment evidence: `True`; deterministic mesh replay: `True`.
 Mesh changes at `1e5`: `[{'from': 1, 'to': 2, 'reaction_relative_change': 0.008458702778432019, 'displacement_relative_change': 0.027759927745920464}, {'from': 2, 'to': 4, 'reaction_relative_change': 0.0047084946616538555, 'displacement_relative_change': 0.16945302777321938}]`.
 
 ## Activation and geometry
@@ -62,16 +62,16 @@ Mesh changes at `1e5`: `[{'from': 1, 'to': 2, 'reaction_relative_change': 0.0084
 | `global_close_open_recontact` | `PASS` | True | -1.62435220e-04 | 0.000e+00 |
 
 Activation boundary: `gap >= 0` is inactive and negative gap is active in the existing operator. No attraction was observed: `True`.
-Geometry orientation cases: `8`; all PASS: `True`.
+Geometry orientation cases: `13`; all PASS: `True`.
 
 ## Cycles and transactions
 
-| Case | Cycles | Steps | Final reference difference | Status |
-|---|---:|---:|---:|---|
-| `10_cycles_amp_1` | 10 | 21 | 1.530e-15 | `PASS_INTERNAL_RESEARCH` |
-| `20_cycles_amp_1` | 20 | 41 | 1.305e-15 | `PASS_INTERNAL_RESEARCH` |
-| `50_cycles_amp_1` | 50 | 101 | 1.305e-15 | `PASS_INTERNAL_RESEARCH` |
-| `10_cycles_amp_0.5` | 10 | 21 | 1.410e-15 | `PASS_INTERNAL_RESEARCH` |
+| Case | Cycles | Steps | Final reference difference | Energy trace | Status |
+|---|---:|---:|---:|---:|---|
+| `10_cycles_amp_1` | 10 | 21 | 1.530e-15 | True | `PASS_INTERNAL_RESEARCH` |
+| `20_cycles_amp_1` | 20 | 41 | 1.305e-15 | True | `PASS_INTERNAL_RESEARCH` |
+| `50_cycles_amp_1` | 50 | 101 | 1.305e-15 | True | `PASS_INTERNAL_RESEARCH` |
+| `10_cycles_amp_0.5` | 10 | 21 | 1.410e-15 | True | `PASS_INTERNAL_RESEARCH` |
 
 | Rollback case | Rejected increments | Attempts | Retry digest clean | Reference error | Status |
 |---|---:|---:|---:|---:|---|
@@ -82,13 +82,13 @@ Geometry orientation cases: `8`; all PASS: `True`.
 
 ### Phase-specific rollback
 
-| Phase | Rejected increments | Attempted contact | Failed-trial contact | State preserved | Reference error | Status |
-|---|---:|---|---|---:|---:|---|
-| `before_activation` | 1 | False | False | True | 0.000e+00 | `PASS_INTERNAL_ROLLBACK` |
-| `during_activation` | 1 | False | True | True | 0.000e+00 | `PASS_INTERNAL_ROLLBACK` |
-| `just_after_activation` | 1 | True | True | True | 0.000e+00 | `PASS_INTERNAL_ROLLBACK` |
-| `during_separation` | 1 | True | False | True | 0.000e+00 | `PASS_INTERNAL_ROLLBACK` |
-| `during_recontact` | 1 | False | True | True | 0.000e+00 | `PASS_INTERNAL_ROLLBACK` |
+| Phase | Rejected increments | Attempted contact | Failed-trial contact | State preserved | Energy trace | Reference error | Status |
+|---|---:|---|---|---:|---:|---:|---|
+| `before_activation` | 1 | False | False | True | True | 0.000e+00 | `PASS_INTERNAL_ROLLBACK` |
+| `during_activation` | 1 | False | True | True | True | 0.000e+00 | `PASS_INTERNAL_ROLLBACK` |
+| `just_after_activation` | 1 | True | True | True | True | 0.000e+00 | `PASS_INTERNAL_ROLLBACK` |
+| `during_separation` | 1 | True | False | True | True | 0.000e+00 | `PASS_INTERNAL_ROLLBACK` |
+| `during_recontact` | 1 | False | True | True | True | 0.000e+00 | `PASS_INTERNAL_ROLLBACK` |
 
 State integrity: `True`. Contact state remains stateless and is recomputed from trial geometry.
 

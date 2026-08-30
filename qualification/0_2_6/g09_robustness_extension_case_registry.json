@@ -1,5 +1,5 @@
 {
-  "case_count": 50,
+  "case_count": 55,
   "cases": [
     {
       "case_id": "G09-EXT-PM-M1-P1e+02",
@@ -216,7 +216,7 @@
       "status": "PASS"
     },
     {
-      "case_id": "G09-EXT-GEO-orientation_0_bary_0.25_0.25",
+      "case_id": "G09-EXT-GEO-orientation_0_bary_0.250_0.250",
       "category": "geometry",
       "expected": "PASS_INTERNAL_RESEARCH",
       "family": "CONTACT_OPERATOR",
@@ -224,7 +224,7 @@
       "status": "PASS"
     },
     {
-      "case_id": "G09-EXT-GEO-orientation_0_bary_0.60_0.20",
+      "case_id": "G09-EXT-GEO-orientation_0_bary_0.600_0.200",
       "category": "geometry",
       "expected": "PASS_INTERNAL_RESEARCH",
       "family": "CONTACT_OPERATOR",
@@ -232,7 +232,7 @@
       "status": "PASS"
     },
     {
-      "case_id": "G09-EXT-GEO-orientation_1_bary_0.25_0.25",
+      "case_id": "G09-EXT-GEO-orientation_0_bary_0.500_0.500",
       "category": "geometry",
       "expected": "PASS_INTERNAL_RESEARCH",
       "family": "CONTACT_OPERATOR",
@@ -240,7 +240,7 @@
       "status": "PASS"
     },
     {
-      "case_id": "G09-EXT-GEO-orientation_1_bary_0.60_0.20",
+      "case_id": "G09-EXT-GEO-orientation_0_bary_0.000_0.000",
       "category": "geometry",
       "expected": "PASS_INTERNAL_RESEARCH",
       "family": "CONTACT_OPERATOR",
@@ -248,7 +248,7 @@
       "status": "PASS"
     },
     {
-      "case_id": "G09-EXT-GEO-orientation_2_bary_0.25_0.25",
+      "case_id": "G09-EXT-GEO-orientation_0_bary_0.999_0.001",
       "category": "geometry",
       "expected": "PASS_INTERNAL_RESEARCH",
       "family": "CONTACT_OPERATOR",
@@ -256,7 +256,7 @@
       "status": "PASS"
     },
     {
-      "case_id": "G09-EXT-GEO-orientation_2_bary_0.60_0.20",
+      "case_id": "G09-EXT-GEO-orientation_1_bary_0.250_0.250",
       "category": "geometry",
       "expected": "PASS_INTERNAL_RESEARCH",
       "family": "CONTACT_OPERATOR",
@@ -264,7 +264,7 @@
       "status": "PASS"
     },
     {
-      "case_id": "G09-EXT-GEO-orientation_3_bary_0.25_0.25",
+      "case_id": "G09-EXT-GEO-orientation_1_bary_0.600_0.200",
       "category": "geometry",
       "expected": "PASS_INTERNAL_RESEARCH",
       "family": "CONTACT_OPERATOR",
@@ -272,7 +272,47 @@
       "status": "PASS"
     },
     {
-      "case_id": "G09-EXT-GEO-orientation_3_bary_0.60_0.20",
+      "case_id": "G09-EXT-GEO-orientation_2_bary_0.250_0.250",
+      "category": "geometry",
+      "expected": "PASS_INTERNAL_RESEARCH",
+      "family": "CONTACT_OPERATOR",
+      "requirement": "G09-EXT-003",
+      "status": "PASS"
+    },
+    {
+      "case_id": "G09-EXT-GEO-orientation_2_bary_0.600_0.200",
+      "category": "geometry",
+      "expected": "PASS_INTERNAL_RESEARCH",
+      "family": "CONTACT_OPERATOR",
+      "requirement": "G09-EXT-003",
+      "status": "PASS"
+    },
+    {
+      "case_id": "G09-EXT-GEO-orientation_3_bary_0.250_0.250",
+      "category": "geometry",
+      "expected": "PASS_INTERNAL_RESEARCH",
+      "family": "CONTACT_OPERATOR",
+      "requirement": "G09-EXT-003",
+      "status": "PASS"
+    },
+    {
+      "case_id": "G09-EXT-GEO-orientation_3_bary_0.600_0.200",
+      "category": "geometry",
+      "expected": "PASS_INTERNAL_RESEARCH",
+      "family": "CONTACT_OPERATOR",
+      "requirement": "G09-EXT-003",
+      "status": "PASS"
+    },
+    {
+      "case_id": "G09-EXT-GEO-valid_distorted_triangle",
+      "category": "geometry",
+      "expected": "PASS_INTERNAL_RESEARCH",
+      "family": "CONTACT_OPERATOR",
+      "requirement": "G09-EXT-003",
+      "status": "PASS"
+    },
+    {
+      "case_id": "G09-EXT-GEO-coplanar_faces_multi_slave_patch",
       "category": "geometry",
       "expected": "PASS_INTERNAL_RESEARCH",
       "family": "CONTACT_OPERATOR",
@@ -500,6 +540,6 @@
   ],
   "schema_version": 1,
   "source_dirty": false,
-  "source_sha": "cd5b163c59d8ed1d93bc853701d61cc58ddd61f9",
+  "source_sha": "b09d8ddc98f8f54d9204d3d45cd9a8e07e7edbd6",
   "status": "PASS_WITH_LIMITATIONS"
 }
