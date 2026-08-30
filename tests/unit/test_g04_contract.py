@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[2]
 DATA_ROOT = ROOT / "qualification" / "0_2_6"
 CONTRACT_PATH = DATA_ROOT / "g04_requirements.json"
 MAPPING_PATH = DATA_ROOT / "g04_case_mapping.json"
+EVIDENCE_PATH = DATA_ROOT / "g04_execution_evidence.json"
 CASE_REGISTRY_PATH = DATA_ROOT / "case_registry.json"
 CAPABILITY_PATH = ROOT / "qualification" / "capability_registry.json"
 
@@ -143,3 +144,37 @@ def test_g04_owner_review_covers_all_requirements_and_analytical_policy() -> Non
         for row in review["requirements_reviewed"]
     )
     assert review["case_dependent_analytical_tolerance"]["status"] == "APPROVED"
+
+
+def test_g04_execution_evidence_is_explicit_and_preserves_limitations() -> None:
+    evidence = _load(EVIDENCE_PATH)
+
+    assert evidence["gate"] == "026-G04"
+    assert evidence["status"] == "PASS_WITH_LIMITATIONS"
+    assert evidence["execution"]["source_sha"] == "5e798e2fd052cb4fe8618d06495a2287f29e01b3"
+    assert evidence["counts"] == {
+        "cases_total": 65,
+        "pass": 65,
+        "warning": 0,
+        "expected_failure": 0,
+        "fail": 0,
+        "skip": 0,
+    }
+    assert len(evidence["case_results"]) == 65
+    assert {row["result"] for row in evidence["case_results"]} == {"PASS"}
+    assert all(row["requirements"] for row in evidence["case_results"])
+    mapped = {
+        case_id for group in _load(MAPPING_PATH)["groups"] for case_id in group["case_ids"]
+        if case_id.startswith(("VNV026-LIN-", "VNV026-HEX-", "VNV026-RBT-", "VNV026-SHL-"))
+    }
+    assert {row["case_id"] for row in evidence["case_results"]} == {
+        case_id for case_id in mapped if case_id not in {"VNV026-LIN-PLN-001", "VNV026-LIN-PLN-002", "VNV026-LIN-PLN-003", "VNV026-LIN-PLN-004"}
+        and not case_id.startswith("VNV026-SHL-PLN-")
+    }
+    assert all(row["policies"]["G04-POL-001"]["status"] == "PASS" for row in evidence["case_results"])
+    assert all(row["policies"]["G04-POL-002"]["status"] == "PASS" for row in evidence["case_results"])
+    assert evidence["oracle_summary"]["configured_analytical_pass"] == 20
+    assert evidence["oracle_summary"]["declared_analytical_without_executable_configuration"] == 30
+    assert evidence["policy_summary"]["mesh_convergence"]["status"] == "NOT_EVALUATED"
+    assert evidence["requirement_summary"]["G04-LIN-007"]["status"] == "NOT_COVERED"
+    assert all(item["status"] == "SKIP" for item in evidence["external_correlations"])
