@@ -52,6 +52,28 @@ def test_four_approved_cases_execute_on_native_routes_and_archive(tmp_path: Path
     assert rollback_observation["committed_digest_before_failure"] == rollback_observation["retry_state_digest"]
 
 
+def test_cross_route_aggregation_is_bounded_and_complete_for_executed_cases() -> None:
+    aggregation_path = ROOT / "qualification" / "0_2_6" / "g11_cross_route_aggregation.json"
+    aggregation = json.loads(aggregation_path.read_text(encoding="utf-8"))
+
+    rows = aggregation["aggregation"]
+    assert len(rows) == 8
+    assert aggregation["official_gate_status"] == "NOT_STARTED"
+    assert all(
+        row["runtime_result"] == "PASS"
+        and row["deterministic"]
+        and row["no_nan_inf"]
+        and row["no_silent_pass"]
+        and row["provenance_valid"]
+        for row in rows
+    )
+    assert aggregation["requirements_assessment"] == {
+        "G11-DIAG-002": "SATISFIED_BOUNDED",
+        "G11-DIAG-004": "SATISFIED_BOUNDED",
+        "G11-DIAG-005": "SATISFIED_BOUNDED",
+        "G11-DIAG-008": "SATISFIED_BOUNDED",
+    }
+
 def test_cross_route_introspection_does_not_overclaim_unexecuted_routes() -> None:
     status = native_route_status()
 
@@ -85,3 +107,13 @@ def test_partial_routes_emit_valid_deterministic_failure_envelopes(tmp_path: Pat
         "linear_static_contact",
     }
     assert all((tmp_path / f"{case_id}.json").exists() for case_id in results)
+
+    for case_id, result in results.items():
+        record = json.loads((tmp_path / f"{case_id}.json").read_text(encoding="utf-8"))
+        assert result["envelope"]["EVIDENCE_ID"] == f"G11-NATIVE-{case_id}"
+        assert record["provenance"]["runner_version"] == "026-G11-runner-1"
+        assert len(record["provenance"]["case_definition_sha256"]) == 64
+        assert record["provenance"]["captured_at_utc"]
+        assert record["observations"]["first"]["error_type_or_code"] == record["observations"]["replay"]["error_type_or_code"]
+        assert record["observations"]["first"]["observed_failure"] is True
+        assert record["observations"]["replay"]["observed_failure"] is True

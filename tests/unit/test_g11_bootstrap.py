@@ -31,7 +31,7 @@ def test_g11_candidate_contract_defines_all_failure_categories_without_closeout(
         assert row["status"] in {"READY", "PARTIAL", "PLANNED", "NOT_APPLICABLE"}
     assert contract["policies"]["new"] == []
     assert contract["failure_taxonomy"]["UNCONTROLLED"]["observed_in_reviewed_evidence"] == []
-    assert "single cross-route failure envelope" in contract["failure_taxonomy"]["MISSING"]
+    assert "complete cross-route failure corpus beyond the focused envelope" in contract["failure_taxonomy"]["MISSING"]
     envelope = contract["common_failure_envelope"]
     assert envelope["status"] == "OWNER_APPROVED_BOUNDED"
     assert set(envelope["required_fields"]) == {

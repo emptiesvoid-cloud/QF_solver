@@ -64,10 +64,10 @@
       "note": "No uncontrolled failure was demonstrated by the reviewed evidence; raw low-level exceptions and cross-route continuation still require explicit future audit."
     },
     "MISSING": [
-      "single cross-route failure envelope",
+      "complete cross-route failure corpus beyond the focused envelope",
       "complete eigenvalue/mode failure corpus",
       "complete contact failure corpus under one G11 oracle",
-      "cross-route proof that no failed solve can be reported as PASS"
+      "cross-route proof that no failed solve can be reported as PASS across every public route"
     ]
   },
   "requirements": [
@@ -168,6 +168,7 @@
   "planned_case_specification": "qualification/0_2_6/g11_adversarial_cases.json",
   "focused_cross_route_case_specification": "qualification/0_2_6/g11_cross_route_cases.json",
   "focused_cross_route_evidence": "qualification/0_2_6/g11_cross_route_execution_evidence.json",
+  "focused_cross_route_aggregation": "qualification/0_2_6/g11_cross_route_aggregation.json",
   "runner": {
     "path": "src/solveur/verification/g11_runner.py",
     "tests": ["tests/unit/test_g11_runner.py", "tests/unit/test_g11_native_adapters.py"],

@@ -81,6 +81,14 @@ partial pending broader route coverage.
 G04, G08, G09, G07/TL and Agent A evidence is reused only at its historical
 diagnostic level.
 
+The focused blocker-closure aggregation is recorded in
+`qualification/0_2_6/g11_cross_route_aggregation.json`. It joins the four
+previous native cases and the four partial-route cases by route, failure class,
+expected behavior and runtime result. The four formerly partial requirements
+are assessed as `SATISFIED_BOUNDED` for this evidence envelope only; their
+official contract statuses remain `PARTIAL`, and the prior nonlinear rollback
+case remains the bounded mutable/retry proof.
+
 ## Boundary
 
 G04, G08, G09, G07/TL and Agent A work are untouched. The contract remains
