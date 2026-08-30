@@ -130,6 +130,10 @@ def _digest(value: Any) -> str:
     return hashlib.sha256(json.dumps(_jsonable(value), sort_keys=True).encode("utf-8")).hexdigest()
 
 
+def _file_digest(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
 def _state_metrics(model: Any, assembly: Any, displacement: np.ndarray) -> dict[str, Any]:
     dofs = model.dof_manager()
     fixed = _fixed_indices(model, dofs)
@@ -482,6 +486,8 @@ def main(argv: list[str] | None = None) -> int:
     small_strain = _small_strain()
     report: dict[str, Any] = {
         "status": "DIAGNOSTIC_ONLY",
+        "proposed_decision": "NOT_A_PROMOTION_DECISION",
+        "functional_code_changed": False,
         "source_sha": _git("rev-parse", "HEAD"),
         "dirty": bool(_git("status", "--porcelain")),
         "timestamp_utc": datetime.now(timezone.utc).isoformat(),
@@ -564,6 +570,30 @@ def main(argv: list[str] | None = None) -> int:
         "",
     ]
     (args.output / "README.md").write_text("\n".join(summary), encoding="utf-8")
+    artifact_paths = (
+        "README.md",
+        "tl_promotion_prequal.json",
+        "tl_promotion_failure_zoo.json",
+        "tet4_mesh_increment_observations.png",
+        "hex8_mesh_increment_observations.png",
+        "tangent_fd_observations.png",
+    )
+    manifest = {
+        "schema_version": 1,
+        "status": "DIAGNOSTIC_ONLY",
+        "promotion_decision": "NOT_PERFORMED",
+        "source_sha": report["source_sha"],
+        "dirty": report["dirty"],
+        "solver_version": report["solver_version"],
+        "default_path": report["controls"]["default_path"],
+        "bounded_growth_1p02": report["controls"]["bounded_growth_1p02"],
+        "historical_corpus_overlap": report["corpus"]["historical_id_overlap"],
+        "artifacts": {name: _file_digest(args.output / name) for name in artifact_paths if (args.output / name).exists()},
+        "manifest_digest_policy": "manifest digest intentionally excluded to avoid self-reference",
+    }
+    (args.output / "tl_promotion_prequal_manifest.json").write_text(
+        json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
     print(json.dumps({"source_sha": report["source_sha"], "dirty": report["dirty"], "total": len(definitions), "success": success, "failures": failures, "holdouts": len(HOLDOUT_CASES)}, indent=2))
     return 0
 
