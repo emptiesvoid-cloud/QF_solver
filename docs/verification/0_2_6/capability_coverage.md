@@ -50,7 +50,7 @@ This generated view is derived from `qualification/capability_registry.json`, th
 | `INF-SPARSE-SCIPY` | INFRASTRUCTURE | multiple | linear and eigen paths | QUALIFIED_BOUNDED | L3 | `026-G04/G12` | PRESENT_REQUALIFICATION_PENDING |
 | `INF-PETSC-SLEPC` | INFRASTRUCTURE | large sparse/modal paths | PETSc/SLEPc optional backends | EXPERIMENTAL | L2 | `026-G05/G12` | PRESENT_DEFERRED |
 | `INF-DIAGNOSTICS-FAILURES` | INFRASTRUCTURE | multiple | solver/failure paths | QUALIFIED_BOUNDED | L3 | `026-G11` | PRESENT_QUALIFIED_BOUNDED |
-| `INF-PERF-SCALING` | INFRASTRUCTURE | large TET4 and bounded solid benchmarks | assembly/solve performance | QUALIFIED_BOUNDED | L3 | `026-G12` | PRESENT_REQUALIFICATION_PENDING |
+| `INF-PERF-SCALING` | INFRASTRUCTURE | large TET4 and bounded solid benchmarks | assembly/solve performance | QUALIFIED_BOUNDED | L3 | `026-G12` | PRESENT_QUALIFIED_BOUNDED |
 | `INF-EXTERNAL-CORRELATION` | INFRASTRUCTURE | multiple | verification adapters | EXPERIMENTAL | L2 | `026-G13` | PRESENT_DEFERRED |
 
 ## Element x Analysis Coverage
@@ -110,7 +110,7 @@ All capabilities tracked from 0.2.5a0 remain represented. No historical capabili
 | `INF-SPARSE-SCIPY` | 0.2.5 recorded | QUALIFIED_BOUNDED | present; no silent maturity downgrade |
 | `INF-PETSC-SLEPC` | 0.2.5 recorded | EXPERIMENTAL | present; no silent maturity downgrade |
 | `INF-DIAGNOSTICS-FAILURES` | 0.2.6 supplemental/current | QUALIFIED_BOUNDED | present; no silent maturity downgrade |
-| `INF-PERF-SCALING` | 0.2.5 recorded | QUALIFIED_BOUNDED | present; no silent maturity downgrade |
+| `INF-PERF-SCALING` | 0.2.6 supplemental/current | QUALIFIED_BOUNDED | present; no silent maturity downgrade |
 | `INF-EXTERNAL-CORRELATION` | 0.2.5 recorded | EXPERIMENTAL | present; no silent maturity downgrade |
 
 No capability is removed, renamed, or retired in this foundation registry. Any future removal must enter `retired_capabilities` with a rationale and retained evidence reference; the audit otherwise fails.

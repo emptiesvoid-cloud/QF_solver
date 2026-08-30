@@ -1,0 +1,185 @@
+{
+  "schema_version": 1,
+  "closeout_id": "026-G12-OWNER-CLOSEOUT-001",
+  "gate": "026-G12",
+  "status": "PASS_WITH_LIMITATIONS",
+  "official_gate_status": "PASS_WITH_LIMITATIONS",
+  "owner_decision": "PASS_WITH_LIMITATIONS",
+  "closeout_base_sha": "c883f47f83ba18dc4a4294e84b2744962eca614d",
+  "execution_source_sha": "81443c20b3f1ec9b742292bc5f880cc10e112a96",
+  "optimization_source_sha": "414e810f6ada51200ed7e04070bcd066a3880728",
+  "evidence_source_dirty": false,
+  "contract_unchanged": true,
+  "functional_code_changed_in_closeout": false,
+  "no_other_gate_changed": true,
+  "requirements": [
+    {
+      "requirement_id": "REQ-026-007",
+      "decision": "OWNER_APPROVED_FULL",
+      "evidence_level": "L3",
+      "evidence": [
+        "qualification/0_2_6/g12_final_campaign.json",
+        "qualification/0_2_6/g12_optimization_evidence.json",
+        "qualification/0_2_6/g12_optimization_assembly_probes.json",
+        "qualification/0_2_6/g12_optimization_regression_triage.json"
+      ],
+      "basis": "Repeatable route measurements, scaling profiles, benchmark manifests and hardware metadata are recorded and internally consistent.",
+      "limitation": "FULL applies to the declared measured G12 scope; it is not a universal route-by-family or HPC qualification."
+    }
+  ],
+  "performance_claims": {
+    "route_matrix": {
+      "rows": 9,
+      "repetitions": 2,
+      "executions": 18,
+      "pass": 18,
+      "deterministic": true,
+      "finite_metrics": true,
+      "routes": [
+        "linear_static",
+        "modal",
+        "linear_buckling",
+        "nonlinear_static",
+        "geometric_nonlinear_static",
+        "nonlinear_static/contact_g09_bounded"
+      ],
+      "families": ["TET4", "TET10", "HEX8", "HEX20"]
+    },
+    "full_solve_scaling": {
+      "actual_dofs": [3000, 10125, 31944, 107811],
+      "status": "PASS",
+      "assembly_exponent": 1.0499947788124662,
+      "solve_exponent": 1.487217238031206,
+      "total_exponent": 1.056362576710898,
+      "memory_exponent": 0.5442395427397902,
+      "scope": "existing optimized TET4 linear_static scaling evidence"
+    },
+    "large_scale": {
+      "300000": {
+        "status": "PASS",
+        "scope": "assembly_only",
+        "actual_dofs": 311469,
+        "source": "qualification/0_2_6/g12_optimization_assembly_probes.json"
+      },
+      "1000000": {
+        "status": "RESOURCE_LIMITED",
+        "scope": "assembly_only",
+        "solve_run": false,
+        "source": "qualification/0_2_6/g12_optimization_assembly_probes.json"
+      }
+    }
+  },
+  "numerical_neutrality": {
+    "status": "PASS",
+    "source": "qualification/0_2_6/g12_optimization_evidence.json",
+    "same_global_nnz": true,
+    "same_solution_checksum": true,
+    "finite_residuals": true,
+    "residual_absolute_delta": 0.0,
+    "formulation_changed": false,
+    "solver_policy_changed": false
+  },
+  "regression": {
+    "command": "python -m pytest -q",
+    "environment": {
+      "os": "Windows-10-10.0.19045-SP0",
+      "python": "3.13.1",
+      "numpy": "2.2.6",
+      "scipy": "1.15.2",
+      "same_worktree": true
+    },
+    "passed": 1849,
+    "skipped": 184,
+    "failed": 18,
+    "new_fix_only_failures": [],
+    "base_only_failures": [],
+    "different_failures": [],
+    "regression_introduced": false,
+    "regression_neutral": true,
+    "failure_groups": [
+      {
+        "classification": "PRE_EXISTING_IDENTICAL",
+        "cause_class": "VERSIONING_HISTORICAL",
+        "count": 2,
+        "error_type": "AssertionError",
+        "tests": [
+          "tests/integration/test_packaging.py::test_solver_cli_version_runs",
+          "tests/integration/test_packaging.py::test_mitc4_cli_version_runs"
+        ],
+        "observation": "CLI reports 0.2.5a0 while the tests expect 0.2.6a0."
+      },
+      {
+        "classification": "PRE_EXISTING_IDENTICAL",
+        "cause_class": "EXTERNAL_TOOL_UNAVAILABLE",
+        "count": 9,
+        "error_type": "FileNotFoundError",
+        "external_tool": "git invoked by the Python subprocess in the registry audit",
+        "tests": [
+          "tests/unit/test_capability_registry.py::test_controlled_capability_registry_passes_its_contract",
+          "tests/unit/test_capability_registry.py::test_registry_rejects_duplicate_capability_ids",
+          "tests/unit/test_capability_registry.py::test_registry_rejects_orphaned_public_capability",
+          "tests/unit/test_capability_registry.py::test_registry_rejects_orphaned_public_element_analysis_combination",
+          "tests/unit/test_capability_registry.py::test_registry_rejects_an_unregistered_source_family",
+          "tests/unit/test_capability_registry.py::test_registry_rejects_an_unregistered_analysis_route",
+          "tests/unit/test_capability_registry.py::test_registry_rejects_a_missing_status_and_silent_historical_removal",
+          "tests/unit/test_capability_registry.py::test_registry_rejects_a_rewritten_historical_release_inventory",
+          "tests/unit/test_capability_registry.py::test_registry_requires_implemented_capabilities_to_explain_evidence_or_scope"
+        ],
+        "observation": "The historical git-show subprocess raises WinError 2; the direct registry command and targeted registry tests pass."
+      },
+      {
+        "classification": "PRE_EXISTING_IDENTICAL",
+        "cause_class": "ENVIRONMENTAL",
+        "count": 6,
+        "error_type": "AssertionError",
+        "external_tool": "public/release audit environment",
+        "tests": [
+          "tests/unit/test_public_document_audit.py::test_public_document_audit_passes_without_web_delivery_or_internal_paths",
+          "tests/unit/test_public_document_audit.py::test_controlled_public_document_audit_record_matches_current_classification",
+          "tests/unit/test_public_release_audit.py::test_current_public_release_candidates_are_clean",
+          "tests/unit/test_public_release_audit.py::test_current_git_archive_excludes_runtime_and_private_evidence_trees",
+          "tests/unit/test_release_readiness.py::test_current_open_source_tree_reports_its_actual_release_state",
+          "tests/unit/test_release_readiness.py::test_release_audit_commands_create_nested_output_directories"
+        ],
+        "observation": "The existing evidence tree and workstation/release state produce the historically recorded audit findings."
+      },
+      {
+        "classification": "PRE_EXISTING_IDENTICAL",
+        "cause_class": "VERSIONING_HISTORICAL",
+        "count": 1,
+        "error_type": "AssertionError",
+        "tests": [
+          "tests/unit/test_review_vocabulary.py::test_published_sources_use_controlled_review_vocabulary"
+        ],
+        "observation": "The pre-existing G08 controlled document contains the vocabulary flagged by this historical audit."
+      }
+    ],
+    "historical_reference": "qualification/0_2_6/g12_optimization_regression_triage.json",
+    "interpretation": "All 18 current failures belong to the documented historical failure families. Two previously observed historical failures (stateful audit-pack and architecture snapshot) passed in this run; neither is a fix-only failure."
+  },
+  "quick_checks": {
+    "targeted_g12_tests": "89 passed",
+    "capability_registry": "PASS",
+    "anti_forgetting": "PASS via capability registry contract",
+    "ruff": "PASS",
+    "compileall": "PASS",
+    "diff_check": "PASS"
+  },
+  "limitations": [
+    "The route matrix is a compact bounded characterization, not a universal route-by-family scaling law.",
+    "Modal solve timing is not exposed as a separate public phase.",
+    "J2, TL and contact rows are bounded measurements and do not promote those gates or routes.",
+    "The 300k result is assembly-only; no full solve claim is made.",
+    "The 1M probe is RESOURCE_LIMITED after the controlled timeout; it is not a PASS.",
+    "The optimization speedup claim is local to the measured linear_static TET4 load/assembly path and is not a global solver speedup claim."
+  ],
+  "release_blockers_outside_g12": [
+    "2 historical CLI version assertions",
+    "9 historical registry subprocess/git availability assertions",
+    "6 historical public/release audit assertions",
+    "1 historical controlled-vocabulary assertion"
+  ],
+  "official_closeout": "RECORDED_BY_OWNER_REVIEW",
+  "ready_for_multi_agent_integration": true,
+  "ready_for_next_gate": true
+}
