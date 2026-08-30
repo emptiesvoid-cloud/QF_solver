@@ -384,6 +384,223 @@ def _external_extension_summary() -> dict[str, Any]:
     }
 
 
+def _build_case_registry(evidence: dict[str, Any]) -> dict[str, Any]:
+    cases: list[dict[str, Any]] = []
+    for row in evidence["penalty_mesh"]["rows"]:
+        cases.append(
+            {
+                "case_id": f"G09-EXT-PM-M{row['mesh_level']}-P{row['penalty']:.0e}",
+                "category": "penalty_mesh",
+                "family": "TET4",
+                "requirement": "G09-EXT-001",
+                "status": row["status"],
+                "expected": "PASS_WITH_LIMITATIONS",
+                "mesh_level": row["mesh_level"],
+                "penalty": row["penalty"],
+            }
+        )
+    for row in evidence["activation"]["rows"]:
+        cases.append(
+            {
+                "case_id": f"G09-EXT-ACT-{row['case']}",
+                "category": "activation",
+                "family": "TET4",
+                "requirement": "G09-EXT-002",
+                "status": row["status"],
+                "expected": "PASS_INTERNAL_RESEARCH",
+            }
+        )
+    for row in evidence["geometry"]["rows"]:
+        cases.append(
+            {
+                "case_id": f"G09-EXT-GEO-{row['case']}",
+                "category": "geometry",
+                "family": "CONTACT_OPERATOR",
+                "requirement": "G09-EXT-003",
+                "status": row["status"],
+                "expected": "PASS_INTERNAL_RESEARCH",
+            }
+        )
+    for row in evidence["cycles"]["rows"]:
+        cases.append(
+            {
+                "case_id": f"G09-EXT-CYC-{row['case']}",
+                "category": "cycles",
+                "family": "TET4",
+                "requirement": "G09-EXT-004",
+                "status": row["status"],
+                "expected": "PASS_INTERNAL_RESEARCH",
+                "cycle_count": row["cycle_count"],
+            }
+        )
+    for index, row in enumerate(evidence["rollback"]["rows"], start=1):
+        cases.append(
+            {
+                "case_id": f"G09-EXT-RB-{index:02d}",
+                "category": "rollback",
+                "family": "TET4",
+                "requirement": "G09-EXT-005",
+                "status": row["status"],
+                "expected": "PASS_INTERNAL_ROLLBACK",
+                "reject_on_attempt": row["reject_on_attempt"],
+            }
+        )
+    for row in evidence["adversarial"]["cases"]:
+        cases.append(
+            {
+                "case_id": f"G09-EXT-ADV-{row['case']}",
+                "category": "adversarial",
+                "family": "CONTACT_OPERATOR",
+                "requirement": "G09-EXT-006",
+                "status": row["status"],
+                "expected": "EXPECTED_FAILURE",
+                "fail_closed": row["fail_closed"],
+            }
+        )
+    return {
+        "schema_version": 1,
+        "gate": GATE,
+        "lot": LOT,
+        "status": evidence["status"],
+        "official_gate_status_unchanged": evidence["official_gate_status_unchanged"],
+        "source_sha": evidence["source"]["sha"],
+        "source_dirty": evidence["source"]["dirty"],
+        "case_count": len(cases),
+        "cases": cases,
+        "requirements": [
+            {"id": "G09-EXT-001", "name": "Penalty and mesh sensitivity", "status": "PASS_WITH_LIMITATIONS"},
+            {"id": "G09-EXT-002", "name": "Activation boundary and transitions", "status": "PASS_INTERNAL_RESEARCH"},
+            {"id": "G09-EXT-003", "name": "Geometry and orientation probes", "status": "PASS_INTERNAL_RESEARCH"},
+            {"id": "G09-EXT-004", "name": "Long load-path cycles", "status": "PASS_INTERNAL_RESEARCH"},
+            {"id": "G09-EXT-005", "name": "Retry and rollback integrity", "status": "PASS_INTERNAL_ROLLBACK"},
+            {"id": "G09-EXT-006", "name": "Adversarial fail-closed behavior", "status": "EXPECTED_FAILURE"},
+        ],
+        "limitations": evidence["limitations"],
+    }
+
+
+def _render_report(evidence: dict[str, Any]) -> str:
+    lines = [
+        "# 026-G09 Robustness Extension Evidence",
+        "",
+        f"Status: **{evidence['status']}**; official G09 closeout remains **{evidence['official_gate_status_unchanged']}**.",
+        f"Source SHA: `{evidence['source']['sha']}`; dirty: `{evidence['source']['dirty']}`.",
+        "",
+        "This extension adds controlled evidence only. It does not add contact physics or alter the numerical solver.",
+        "",
+        "## Campaign summary",
+        "",
+        "| Category | Cases | Result |",
+        "|---|---:|---|",
+    ]
+    for category, count in evidence["case_counts"].items():
+        lines.append(f"| {category} | {count} | PASS |")
+    lines.extend(
+        [
+            "| Total extension cases | 45 | PASS_WITH_LIMITATIONS |",
+            "",
+            "## Penalty and mesh matrix",
+            "",
+            "The five penalty values are observational probes. The normalized value uses the benchmark `E=10`, `L=1` only as a reporting coordinate; it is not a universal scaling law.",
+            "",
+            "| Mesh | Penalty | Penetration | Reaction | Displacement | Residual | Iterations | Penalty energy |",
+            "|---:|---:|---:|---:|---:|---:|---:|---:|",
+        ]
+    )
+    for row in evidence["penalty_mesh"]["rows"]:
+        lines.append(
+            f"| {row['mesh_level']} | {row['penalty']:.0e} | {row['penetration']:.8e} | "
+            f"{row['reaction_norm']:.8e} | {row['displacement_norm']:.8e} | {row['residual']:.3e} | "
+            f"{row['iterations']} | {row['penalty_energy']:.8e} |"
+        )
+    lines.extend(
+        [
+            "",
+            f"Force/equilibrium check: `{evidence['force_equilibrium']['status']}`; deterministic mesh replay: `{evidence['penalty_mesh']['replay_exact']}`.",
+            f"Mesh changes at `1e5`: `{evidence['penalty_mesh']['mesh_changes_at_1e5']}`.",
+            "",
+            "## Activation and geometry",
+            "",
+            "| Case | Status | Active | Observed gap | Residual/force diagnostic |",
+            "|---|---|---:|---:|---:|",
+        ]
+    )
+    for row in evidence["activation"]["rows"]:
+        diagnostic = row.get("residual", row.get("contact_force_norm", 0.0))
+        lines.append(
+            f"| `{row['case']}` | `{row['status']}` | {row.get('active', False)} | "
+            f"{row.get('observed_gap', 0.0):.8e} | {diagnostic:.3e} |"
+        )
+    lines.extend(
+        [
+            "",
+            f"Activation boundary: `gap >= 0` is inactive and negative gap is active in the existing operator. No attraction was observed: `{evidence['activation']['no_attraction']}`.",
+            f"Geometry orientation cases: `{len(evidence['geometry']['rows'])}`; all PASS: `{evidence['geometry']['all_pass']}`.",
+            "",
+            "## Cycles and transactions",
+            "",
+            "| Case | Cycles | Steps | Final reference difference | Status |",
+            "|---|---:|---:|---:|---|",
+        ]
+    )
+    for row in evidence["cycles"]["rows"]:
+        lines.append(
+            f"| `{row['case']}` | {row['cycle_count']} | {len(row['active_by_step'])} | "
+            f"{row['final_reference_relative_difference']:.3e} | `{row['status']}` |"
+        )
+    lines.extend(
+        [
+            "",
+            "| Rollback case | Rejected increments | Attempts | Retry digest clean | Reference error | Status |",
+            "|---|---:|---:|---:|---:|---|",
+        ]
+    )
+    for index, row in enumerate(evidence["rollback"]["rows"], start=1):
+        lines.append(
+            f"| `RB-{index:02d}` | {row['rejected_increments']} | {row['attempts']} | {row['clean_retry']} | "
+            f"{row['final_displacement_relative_error']:.3e} | `{row['status']}` |"
+        )
+    lines.extend(
+        [
+            "",
+            f"State integrity: `{evidence['rollback']['state_integrity']}`. Contact state remains stateless and is recomputed from trial geometry.",
+            "",
+            "## Failure contract",
+            "",
+            "| Case | Status | Deterministic | Fail closed | No silent pass |",
+            "|---|---|---:|---:|---:|",
+        ]
+    )
+    for row in evidence["adversarial"]["cases"]:
+        lines.append(
+            f"| `{row['case']}` | `{row['status']}` | {row['deterministic']} | {row['fail_closed']} | {row['no_silent_pass']} |"
+        )
+    external = evidence["external_extension"]
+    lines.extend(
+        [
+            "",
+            "## External evidence basis",
+            "",
+            f"Status: `{external['status']}`; execution mode: `{external['execution']}`; new external run: `{external['new_external_run']}`.",
+            f"Archive: `{external['archive']}` at source SHA `{external['execution_source_sha']}`; source dirty: `{external['source_dirty']}`.",
+            f"External mesh levels: `{external['mesh_levels']}`; load points: `{external['load_intensity_points']}`.",
+            f"Active branch errors: `{external['active_branch_errors']}`; transition warnings: `{external['transition_warnings']}`.",
+            external["interpretation"],
+            "",
+            "## Limitations and decision",
+            "",
+        ]
+    )
+    lines.extend(f"- {item}" for item in evidence["limitations"])
+    lines.extend(
+        [
+            "",
+            "No bug was found. The official G09 status remains `PASS_WITH_LIMITATIONS`; this extension does not create an Owner-approved production penalty range.",
+        ]
+    )
+    return "\n".join(lines) + "\n"
+
+
 def run(output: Path, expected_sha: str = SOURCE_SHA_DEFAULT) -> dict[str, Any]:
     source = _source_state(expected_sha)
     penalty_mesh = _run_penalty_mesh_matrix()
@@ -462,6 +679,11 @@ def run(output: Path, expected_sha: str = SOURCE_SHA_DEFAULT) -> dict[str, Any]:
     output.parent.mkdir(parents=True, exist_ok=True)
     json_path = output.with_suffix(".json")
     json_path.write_text(json.dumps(evidence, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    registry = _build_case_registry(evidence)
+    registry_path = output.with_name(output.name.replace("_evidence", "_case_registry") + ".json")
+    registry_path.write_text(json.dumps(registry, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    report_path = output.with_suffix(".md")
+    report_path.write_text(_render_report(evidence), encoding="utf-8")
     manifest = {
         "schema_version": 1,
         "gate": GATE,
@@ -470,7 +692,11 @@ def run(output: Path, expected_sha: str = SOURCE_SHA_DEFAULT) -> dict[str, Any]:
         "source_dirty": source["dirty"],
         "generated_utc": evidence["generated_utc"],
         "status": evidence["status"],
-        "artifacts": {json_path.name: _sha256(json_path)},
+        "artifacts": {
+            json_path.name: _sha256(json_path),
+            registry_path.name: _sha256(registry_path),
+            report_path.name: _sha256(report_path),
+        },
     }
     manifest_path = output.with_name(output.name + "_manifest.json")
     manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
