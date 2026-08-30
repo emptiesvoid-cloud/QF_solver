@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "gate": "026-G09",
+  "lot": "LOT2",
+  "status": "EVIDENCE_READY_NOT_CLOSED",
+  "cases": [
+    {"case_id": "G09-L2-001", "name": "mesh_penalty_sensitivity", "family": "TET4", "route": "nonlinear_static", "requirements": ["G09-L2-001"], "status": "READY", "oracle": "same physical problem over mesh levels and Lot 1 penalties", "expected": "PASS_WITH_LIMITATIONS"},
+    {"case_id": "G09-L2-002", "name": "open_close_cycle", "family": "TET4", "route": "nonlinear_static", "requirements": ["G09-L2-002"], "status": "READY", "oracle": "active path and signed gaps", "expected": "PASS_INTERNAL_RESEARCH"},
+    {"case_id": "G09-L2-003", "name": "close_open_cycle", "family": "TET4", "route": "nonlinear_static", "requirements": ["G09-L2-002"], "status": "READY", "oracle": "active path and signed gaps", "expected": "PASS_INTERNAL_RESEARCH"},
+    {"case_id": "G09-L2-004", "name": "open_close_open_cycle", "family": "TET4", "route": "nonlinear_static", "requirements": ["G09-L2-002"], "status": "READY", "oracle": "active path and signed gaps", "expected": "PASS_INTERNAL_RESEARCH"},
+    {"case_id": "G09-L2-005", "name": "recontact_cycle", "family": "TET4", "route": "nonlinear_static", "requirements": ["G09-L2-002"], "status": "READY", "oracle": "active path and final replay", "expected": "PASS_INTERNAL_RESEARCH"},
+    {"case_id": "G09-L2-006", "name": "load_up_down_cycle", "family": "TET4", "route": "nonlinear_static", "requirements": ["G09-L2-002"], "status": "READY", "oracle": "active path and no residual contact state after opening", "expected": "PASS_INTERNAL_RESEARCH"},
+    {"case_id": "G09-L2-007", "name": "rollback_before_first_commit", "family": "TET4", "route": "adaptive_nonlinear_static", "requirements": ["G09-L2-003"], "status": "READY", "oracle": "state digest and reference displacement", "expected": "PASS_INTERNAL_ROLLBACK"},
+    {"case_id": "G09-L2-008", "name": "rollback_after_one_commit", "family": "TET4", "route": "adaptive_nonlinear_static", "requirements": ["G09-L2-003"], "status": "READY", "oracle": "nonzero committed state survives retry", "expected": "PASS_INTERNAL_ROLLBACK"},
+    {"case_id": "G09-L2-009", "name": "invalid_penalty", "family": "CONTACT_OPERATOR", "route": "penalty_assembly", "requirements": ["G09-L2-004"], "status": "READY", "oracle": "InputValidationError", "expected": "EXPECTED_FAILURE"},
+    {"case_id": "G09-L2-010", "name": "invalid_target_or_geometry", "family": "CONTACT_OPERATOR", "route": "penalty_assembly", "requirements": ["G09-L2-004"], "status": "READY", "oracle": "typed validation failure", "expected": "EXPECTED_FAILURE"},
+    {"case_id": "G09-L2-011", "name": "unsupported_route", "family": "TET4", "route": "nonlinear_static", "requirements": ["G09-L2-004"], "status": "READY", "oracle": "MeshValidationError", "expected": "EXPECTED_FAILURE"},
+    {"case_id": "G09-L2-012", "name": "excessive_penetration", "family": "CONTACT_OPERATOR", "route": "penalty_assembly", "requirements": ["G09-L2-004"], "status": "READY", "oracle": "CONTACT_PENETRATION_EXCESSIVE", "expected": "EXPECTED_FAILURE"},
+    {"case_id": "G09-L2-013", "name": "newton_max_iterations", "family": "TET4", "route": "nonlinear_static", "requirements": ["G09-L2-004"], "status": "READY", "oracle": "MAX_ITERATIONS", "expected": "EXPECTED_FAILURE"}
+  ]
+}

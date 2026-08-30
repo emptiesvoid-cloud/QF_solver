@@ -121,15 +121,24 @@
         "docs/verification/0_2_6/0_2_6_g09_lot1_contract.md",
         "g09_lot1_evidence.json",
         "g09_lot1_evidence.md",
-        "g09_lot1_manifest.json"
+        "g09_lot1_manifest.json",
+        "g09_lot2_requirements.json",
+        "g09_lot2_case_registry.json",
+        "docs/verification/0_2_6/0_2_6_g09_lot2_contract.md",
+        "g09_lot2_evidence.json",
+        "g09_lot2_evidence.md",
+        "g09_lot2_manifest.json"
       ],
       "id": "026-G09",
       "status": "NOT_STARTED",
       "title": "Contact maturity extension",
       "lot1_status": "PASS_WITH_LIMITATIONS",
       "lot1_gate_closure": false,
+      "lot2_status": "PASS_WITH_LIMITATIONS",
+      "lot2_gate_closure": false,
       "limitations": [
         "Lot 1 is bounded TET4 node-to-triangle frictionless penalty evidence.",
+        "Lot 2 adds bounded mesh, load-path, rollback and adversarial evidence without changing the official gate status.",
         "General surface-to-surface, finite sliding, friction and external correlation remain open."
       ]
     },
