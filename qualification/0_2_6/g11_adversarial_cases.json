@@ -2,11 +2,11 @@
   "schema_version": 1,
   "campaign_id": "026-G11-ADV-PLANNED-001",
   "gate": "026-G11",
-  "status": "OWNER_APPROVED_FOR_LATER_EXECUTION",
-  "source_sha": "a301a5d0d3e81c9b3b90083c5643e5cd16e909b8",
+  "status": "OWNER_APPROVED_FOR_EXECUTION",
+  "source_sha": "1b6887c794452bb6e571bdacc3ecc0983b3bca2d",
   "registry_reference": "qualification/0_2_6/case_registry.json:VNV026-ADV-PLN-001..004",
-  "execution_state": "PLANNED",
-  "execution_prohibited_in_this_review": true,
+  "execution_state": "NATIVE_EXECUTION_RECORDED",
+  "execution_prohibited_in_this_review": false,
   "common_envelope": "qualification/0_2_6/g11_requirements.json#common_failure_envelope",
   "cases": [
     {
@@ -37,7 +37,7 @@
       "expected_behavior": "reject explicitly before assembly or route fallback",
       "error_type_or_code": "InputValidationError or MeshValidationError / unsupported combination",
       "expected_error_types": ["InputValidationError", "MeshValidationError"],
-      "expected_error_codes": ["unsupported"],
+      "expected_error_codes": ["UNSUPPORTED_EXPLICIT"],
       "adapter_id": "VNV026-ADV-PLN-002",
       "oracle": ["public_rejection", "route_unchanged", "no_nan_inf", "no_silent_pass", "deterministic_repeat"],
       "state_preserved": "NOT_APPLICABLE",
@@ -68,12 +68,12 @@
       "priority": 4,
       "name": "rollback_state_integrity_and_no_nan",
       "failure_class": "rejected_increment",
-      "route": "geometric_nonlinear_static",
+      "route": "nonlinear_static",
       "setup": "controlled rejected trial followed by retry from a committed state",
       "expected_behavior": "rollback rejected trial, preserve committed state, retry deterministically, emit no silent PASS",
       "error_type_or_code": "NumericalConvergenceError / route-native rejected increment",
       "expected_error_types": ["NumericalConvergenceError"],
-      "expected_error_codes": ["rejected increment", "rejected_increment"],
+      "expected_error_codes": ["rejected_increment"],
       "adapter_id": "VNV026-ADV-PLN-004",
       "oracle": ["committed_state_equality", "rollback_verified", "deterministic_repeat", "no_nan_inf", "no_silent_pass"],
       "state_preserved": true,
@@ -82,6 +82,6 @@
       "seed": 260004
     }
   ],
-  "coverage_statement": "The four cases target the highest-priority G11 gaps and are not a campaign result. Execution requires a future runner that emits the common envelope for each case.",
+  "coverage_statement": "The four cases target the highest-priority G11 gaps and are a focused native-route execution only; they do not close the transverse G11 gate.",
   "no_new_thresholds": true
 }

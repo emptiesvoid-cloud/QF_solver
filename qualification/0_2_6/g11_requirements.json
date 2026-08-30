@@ -168,10 +168,11 @@
   "planned_case_specification": "qualification/0_2_6/g11_adversarial_cases.json",
   "runner": {
     "path": "src/solveur/verification/g11_runner.py",
-    "tests": ["tests/unit/test_g11_runner.py"],
-    "execution_model": "inject route-native adapters; runner captures and normalizes evidence without importing solver route implementations",
+    "tests": ["tests/unit/test_g11_runner.py", "tests/unit/test_g11_native_adapters.py"],
+    "native_adapter_path": "src/solveur/verification/g11_native_adapters.py",
+    "execution_model": "inject route-native adapters; runner captures and normalizes evidence without changing solver route implementations",
     "supported_routes": ["linear_static", "nonlinear_static", "geometric_nonlinear_static", "modal", "linear_buckling", "linear_static_contact"],
-    "smoke_only_in_this_step": true,
+    "focused_native_cases_executed": true,
     "full_campaign_executed": false
   },
   "governance": {

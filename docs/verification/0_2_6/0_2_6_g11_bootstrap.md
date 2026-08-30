@@ -14,7 +14,7 @@ maps historical evidence; it does not requalify another gate or close G11.
 | Eigenvalue/mode and buckling boundaries | `INTERNAL_DIAGNOSTIC` plus public failure | backend/buckling diagnostics and explicit convergence errors |
 | Trial/commit/rollback | `INTERNAL_DIAGNOSTIC` | transaction equality and `rollback_before_retry` evidence |
 | Unsupported combinations | `PUBLIC_FAIL_CLOSED` | schema/mesh/route rejection tests |
-| Unified cross-route failure envelope | `MISSING` | future G11 campaign required |
+| Unified cross-route failure envelope | `OWNER_APPROVED_BOUNDED` | focused runner and four native adapters; broad cross-route campaign remains future work |
 | Observed uncontrolled failures | none in reviewed evidence | no uncontrolled failure was promoted or hidden |
 
 The reviewed evidence includes the six G04 invalid-input cases, G05/G06
@@ -44,32 +44,37 @@ allowed; this schema does not require a common Python exception or imply a
 successful qualification result. No numerical threshold is introduced.
 
 Current mapping is in `qualification/0_2_6/g11_evidence_mapping.json`.
-The four reviewed cases are specified in
-`qualification/0_2_6/g11_adversarial_cases.json` and remain `PLANNED`:
-singular system, unsupported combination, controlled non-convergence, and
-rollback/state integrity with no-NaN/no-silent-PASS checks. They must not be
-executed as part of this review. Any aggregate threshold or maturity promotion
-requires a separate Owner review.
+The four cases remain planned specifications in
+`qualification/0_2_6/g11_adversarial_cases.json`; focused native-route
+execution is recorded separately in
+`qualification/0_2_6/g11_native_execution_evidence.json`. The execution covers
+one singular system, one explicit unsupported combination, one controlled
+non-convergence, and one rollback/state-integrity rejection/retry. It is not a
+transverse campaign and does not close G11. Any aggregate threshold or
+maturity promotion requires a separate Owner review.
 
-The route-neutral runner is `src/solveur/verification/g11_runner.py` with
-focused tests in `tests/unit/test_g11_runner.py`. It accepts injected
-route-native adapters, emits the approved envelope, checks repeatability,
-NaN/Inf, silent PASS and state preservation, and can archive JSON provenance.
-It does not call or modify solver implementations. Only an in-memory smoke
-path is permitted in this step; the full G11 campaign remains unexecuted.
+The route-neutral runner is `src/solveur/verification/g11_runner.py`, with
+route-native adapters in `src/solveur/verification/g11_native_adapters.py` and
+focused tests in `tests/unit/test_g11_runner.py` and
+`tests/unit/test_g11_native_adapters.py`. It accepts injected route-native
+adapters, emits the approved envelope, checks repeatability, NaN/Inf, silent
+PASS and state preservation, and archives JSON provenance and diagnostics. It
+does not change solver implementations. The four-case focused execution is
+recorded; the full G11 campaign remains unexecuted.
 
 ## Coverage boundary
 
 The contract is transverse, but evidence remains route-specific. Linear static
 input rejection, nonlinear transaction rollback and provenance controls are
-the strongest mapped areas. Modal/buckling, contact, deterministic
-cross-route diagnostics and a unified no-silent-PASS assertion remain partial.
+the strongest mapped areas. Modal/buckling, contact, geometric-nonlinear route
+execution, deterministic cross-route diagnostics and a unified no-silent-PASS
+assertion across every route remain partial.
 G04, G08, G09, G07/TL and Agent A evidence is reused only at its historical
 diagnostic level.
 
 ## Boundary
 
-G04, G08, G09, G07/TL and Agent A work are untouched. The contract is ready
-for execution planning, but G11 execution is not approved in this run: the
-planned adversarial cases, route adapters and cross-route no-silent-PASS
-assertions remain future work.
+G04, G08, G09, G07/TL and Agent A work are untouched. The contract remains
+open and G11 remains `NOT_STARTED`: focused native evidence is recorded, while
+the broader adversarial/cross-route campaign and any maturity decision remain
+future Owner work.
