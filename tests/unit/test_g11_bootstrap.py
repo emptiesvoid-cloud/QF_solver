@@ -47,6 +47,8 @@ def test_g11_candidate_contract_defines_all_failure_categories_without_closeout(
     }
     assert envelope["thresholds"] == "none"
     assert contract["planned_case_specification"].endswith("g11_adversarial_cases.json")
+    assert contract["runner"]["path"] == "src/solveur/verification/g11_runner.py"
+    assert contract["runner"]["full_campaign_executed"] is False
 
 
 def test_g11_mapping_preserves_historical_boundaries_and_planned_cases() -> None:
