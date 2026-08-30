@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "gate": "026-G09",
+  "lot": "LOT2",
+  "status": "CONTRACT_READY_NOT_CLOSED",
+  "title": "Contact maturity extension - mesh, path and failure robustness",
+  "scope": {
+    "formulation": "frictionless_penalty",
+    "geometry": "bounded node-to-triangle master surface",
+    "driver": "common nonlinear residual and tangent assembly",
+    "families_in_lot": ["TET4"],
+    "search_mode": "initial",
+    "friction": false,
+    "finite_sliding": false,
+    "surface_to_surface": false,
+    "external_correlation": false
+  },
+  "requirements": [
+    {
+      "id": "G09-L2-001",
+      "name": "Mesh and penalty sensitivity",
+      "evidence": "At least three controlled mesh levels and the Lot 1 penalty values 1e4, 1e5 and 1e6.",
+      "policy": "Keep geometry, total load and boundary conditions fixed; report penetration, reaction, displacement, active set, residual, iterations and determinism without a universal penalty range."
+    },
+    {
+      "id": "G09-L2-002",
+      "name": "Contact load-path cycles",
+      "evidence": "Open/close, close/open, open/close/open, reclose and load up/down paths.",
+      "policy": "Record signed gap and active set at every accepted step; inactive contact must not create attraction and final replay must be deterministic."
+    },
+    {
+      "id": "G09-L2-003",
+      "name": "Contact-compatible cutback and rollback",
+      "evidence": "Controlled rejected increments before the first commit and after one committed increment, with retry and reference comparison.",
+      "policy": "Rollback must preserve committed material state and displacement; contact state is stateless and is recomputed from the trial geometry."
+    },
+    {
+      "id": "G09-L2-004",
+      "name": "Adversarial failure contract",
+      "evidence": "Invalid penalty, invalid target/geometry, unsupported route, excessive penetration and Newton non-convergence.",
+      "policy": "Expected failures are fail-closed, typed or reason-coded, finite, deterministic and never reported as converged."
+    },
+    {
+      "id": "G09-L2-005",
+      "name": "Penalty candidate governance",
+      "evidence": "Candidate interval is derived from Lot 1 and Lot 2 observations and remains explicitly Owner-reviewable.",
+      "policy": "No production penalty interval or conditioning cutoff is approved by the campaign."
+    }
+  ],
+  "penalty_policy": {
+    "lot1_values": [100.0, 1000.0, 10000.0, 100000.0, 1000000.0],
+    "lot2_values": [10000.0, 100000.0, 1000000.0],
+    "candidate_status": "OWNER_REVIEW_REQUIRED",
+    "conditioning_cutoff": "NONE_APPROVED"
+  },
+  "failure_policy": {
+    "fail_closed_required": true,
+    "silent_pass_forbidden": true,
+    "state_preservation": "contact active set is stateless; material/displacement transaction must be checked where the common driver is exercised"
+  },
+  "dependencies": ["026-G00", "026-G04", "026-G08", "026-G09-LOT1"],
+  "out_of_scope": [
+    "Coulomb friction",
+    "finite sliding qualification",
+    "general mortar or surface-to-surface contact",
+    "self-contact",
+    "contact external correlation",
+    "new contact formulation",
+    "official 026-G09 gate closure"
+  ],
+  "provenance": {
+    "source_sha_required": true,
+    "source_dirty_must_be_false": true,
+    "artifact_digests_required": true,
+    "thresholds_must_be_declared_before_execution": true
+  }
+}
