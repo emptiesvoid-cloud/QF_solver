@@ -12,6 +12,7 @@ import json
 import platform
 import shutil
 import subprocess
+from dataclasses import replace
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -152,7 +153,7 @@ def _run_failure_cases() -> list[dict[str, Any]]:
     insufficient_bc = _buckling_model("TET4")
     insufficient_bc.fixed_dofs = []
     zero_preload = _buckling_model("TET4")
-    zero_preload.loads[0].value = 0.0
+    zero_preload.loads[0] = replace(zero_preload.loads[0], value=0.0)
     return [
         _run_model_case("G08-BUC-FAIL-BC-001", "TET4", ["G08-001", "G08-007", "G08-009"], insufficient_bc),
         _run_model_case(
