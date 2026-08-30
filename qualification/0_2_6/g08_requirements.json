@@ -2,7 +2,7 @@
   "schema_version": 1,
   "gate": "026-G08",
   "title": "Linear buckling maturity extension",
-  "status": "CONTRACT_DEFINED_GATE_NOT_STARTED",
+  "status": "CONTRACT_EXECUTED_OWNER_CLOSED_WITH_LIMITATIONS",
   "policy": "This candidate contract defines the evidence required for 0.2.6 requalification. It does not close G08 or upgrade historical evidence.",
   "scope": {
     "analysis": "linear_buckling",
@@ -174,8 +174,8 @@
     "rule": "Approved bounded policies govern future execution; case-specific values must still be declared before execution and cannot be changed after observing results."
   },
   "gate_boundary": {
-    "current_gate_status": "NOT_STARTED",
-    "gate_closure": "not permitted by this contract alone",
+    "current_gate_status": "PASS_WITH_LIMITATIONS",
+    "gate_closure": "recorded by qualification/0_2_6/g08_owner_closeout.json; the contract alone did not close the gate",
     "historical_evidence": "0.2.5 evidence remains historical/bounded and must be replayed or explicitly accepted under the 0.2.6 contract",
     "excluded": [
       "nonlinear buckling",

@@ -19,9 +19,9 @@ def test_g08_execution_harness_declares_owner_policies_before_execution() -> Non
     assert "REPEATABILITY_ABSOLUTE_TOLERANCE = 1.0e-12" in source
 
 
-def test_g08_execution_contract_remains_open_before_numeric_campaign() -> None:
+def test_g08_execution_contract_records_owner_closeout() -> None:
     contract = json.loads((DATA / "g08_requirements.json").read_text(encoding="utf-8"))
-    assert contract["gate_boundary"]["current_gate_status"] == "NOT_STARTED"
+    assert contract["gate_boundary"]["current_gate_status"] == "PASS_WITH_LIMITATIONS"
     assert contract["scope"]["first_mode_only"] is True
     assert contract["scope"]["families_supported_by_route"] == ["TET4", "TET10", "HEX8", "HEX20"]
 

@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "closeout_id": "026-G08-OWNER-CLOSEOUT-001",
+  "gate": "026-G08",
+  "status": "PASS_WITH_LIMITATIONS",
+  "owner_decision": "PASS_WITH_LIMITATIONS",
+  "closeout_base_sha": "f2c2f5389513d16e18f377817a07fd55166a57b7",
+  "execution_source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+  "execution_source_dirty": false,
+  "functional_code_changed": false,
+  "contract_lowered": false,
+  "gate_closure_granted": true,
+  "provenance_contract": "The numerical campaign remains identified by execution_source_sha. The documentation/owner commit is reported separately and is not embedded self-referentially.",
+  "campaign": {
+    "executed": 23,
+    "pass": 21,
+    "expected_failure": 2,
+    "fail": 0,
+    "skip": 0,
+    "families": ["TET4", "TET10", "HEX8", "HEX20"],
+    "mesh_levels": [1, 2, 4, 8],
+    "repeatability_absolute_tolerance": 1e-12,
+    "max_eigenpair_residual": 1.003841026829398e-09,
+    "max_repeatability_factor_delta": 1.4210854715202004e-14
+  },
+  "family_decisions": {
+    "TET4": {
+      "decision": "QUALIFIED_BOUNDED",
+      "basis": ["Euler analytical screen PASS at 9.510%", "final mesh change 0.890%", "CalculiX PASS", "eigenpair residual PASS", "first-mode repeatability PASS"],
+      "scope": "Tested first linearized tangent-instability factor and first mode only."
+    },
+    "TET10": {
+      "decision": "PASS_WITH_LIMITATIONS",
+      "basis": ["CalculiX PASS", "four-level trend executed", "final mesh change 3.177% exceeds the 1% quantitative eligibility band"],
+      "limitation": "No quantitative mesh-converged claim; bounded route and external evidence remain visible."
+    },
+    "HEX8": {
+      "decision": "PASS_WITH_LIMITATIONS",
+      "basis": ["CalculiX PASS", "four-level trend executed", "final mesh change 2.636% exceeds the 1% quantitative eligibility band"],
+      "limitation": "No quantitative mesh-converged claim; bounded route and external evidence remain visible."
+    },
+    "HEX20": {
+      "decision": "MORE_EVIDENCE_REQUIRED",
+      "basis": ["four-level trend executed", "final mesh change 13.940%", "CalculiX external row BLOCKED_EXTERNAL_TOOL"],
+      "limitation": "Not included in the qualified bounded family scope."
+    }
+  },
+  "requirements": {
+    "satisfied": ["G08-001", "G08-002", "G08-004", "G08-006", "G08-007", "G08-009"],
+    "satisfied_bounded": ["G08-003", "G08-005", "G08-008"],
+    "deferred": [],
+    "blocking_claims": ["G08-005 quantitative mesh convergence for TET10/HEX8/HEX20", "G08-008 external correlation claim for HEX20"],
+    "summary": "6/9 fully satisfied; 3/9 satisfied only within explicitly bounded evidence and family limitations."
+  },
+  "evidence": {
+    "execution": ["qualification/0_2_6/g08_execution_evidence.json", "qualification/0_2_6/g08_execution_evidence.md"],
+    "analytical": ["qualification/0_2_6/g08_euler_reference.json"],
+    "external": ["qualification/0_2_6/g08_calculix_correlation.json"],
+    "contract": ["qualification/0_2_6/g08_requirements.json", "qualification/0_2_6/g08_case_registry.json", "qualification/0_2_6/g08_owner_contract_review.json"]
+  },
+  "external_evidence": {
+    "CalculiX": {"TET4": "PASS", "TET10": "PASS", "HEX8": "PASS", "HEX20": "BLOCKED_EXTERNAL_TOOL"},
+    "Code_Aster": "SKIPPED_NOT_COMPARABLE",
+    "Abaqus": "NOT_RUN_OPTIONAL"
+  },
+  "qualified_bounded_scope": {
+    "analysis": "linear_buckling",
+    "families": ["TET4"],
+    "limited_evidence_families": ["TET10", "HEX8"],
+    "material": "homogeneous isotropic_3d",
+    "loads": "nodal dead loads",
+    "route": "sparse SciPy",
+    "mode_scope": "first critical mode only",
+    "claim": "bounded first linearized tangent-instability factor and first-mode evidence within the tested domain"
+  },
+  "explicit_limitations": [
+    "TET10 and HEX8 do not meet the <=1% final-adjacent mesh eligibility band in this campaign.",
+    "HEX20 has 13.940% final-adjacent mesh change and no executable CalculiX correlation.",
+    "TET4 is the only family with both the case-specific Euler screen and <=1% final mesh-change eligibility in this campaign.",
+    "The CalculiX 10% screens are oracle-specific bounded correlation screens, not universal tolerances.",
+    "Code_Aster is explicitly non-comparable for this 3D solid eigen-buckling route.",
+    "Only the first linearized instability factor and first mode are covered; post-buckling, collapse, arc-length and multi-mode qualification are excluded.",
+    "No general physical-validation claim is made."
+  ],
+  "required_follow_up": [
+    "Independent mesh/refinement evidence for TET10 and HEX8 if their quantitative convergence claim is needed.",
+    "Reproducible external correlation for HEX20 before any HEX20 external or full-family qualification claim."
+  ],
+  "owner_review_required": false,
+  "ready_for_multi_agent_integration": true,
+  "ready_for_next_agent_gate": true
+}
