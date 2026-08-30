@@ -1,0 +1,19 @@
+{
+  "artifacts": {
+    "README.md": "bb141f632a60dbdba20a67b0ded0a1418d7bbc116118cd62192dee5f14faf8f8",
+    "mesh_flexion_shear.png": "cace86ea93073fb4b4a09000b0891a801ecccd13508b901a62cb4135d3964b85",
+    "small_strain_asymptotic.png": "4bb40e8820f841cf0363775ecfd155ad7793485c097c153ef1e36dc830b3308b",
+    "tangent_fd_policy.png": "7d75d93aa214b70b4d14a62d97856506f3572b5182bb04a974f4480e31de0981",
+    "tl_blocker_resolution.json": "7fc5b4565a2cb94534b0f8b2fec5c692b9032da221e54bf66b36afebed62a26b"
+  },
+  "dirty": false,
+  "policy_statuses": {
+    "external": "SKIPPED_NOT_COMPARABLE",
+    "mesh": "OBSERVED_TREND_ONLY",
+    "small_strain": "PROPOSED_OWNER_REVIEW",
+    "tangent_fd": "PROPOSED_OWNER_REVIEW"
+  },
+  "solver_version": "0.2.6a0",
+  "source_sha": "bb44c121c1c6c676f808ff4498aa7e8c980dff0e",
+  "status": "DIAGNOSTIC_ONLY"
+}
