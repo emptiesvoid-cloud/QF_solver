@@ -174,7 +174,7 @@ def _run_activation_matrix() -> dict[str, Any]:
                 [0.0, 0.0, 0.0],
                 [0.0, 1.0, 0.0],
                 [0.0, 0.0, 1.0],
-                [0.1 + gap, 0.25, 0.25],
+                [gap, 0.25, 0.25],
             ]
         )
         dofs = model.dof_manager()
