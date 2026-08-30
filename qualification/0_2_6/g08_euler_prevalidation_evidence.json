@@ -1,0 +1,308 @@
+{
+  "schema_version": 1,
+  "evidence_id": "026-G08-EULER-PREVALIDATION-001",
+  "study_id": "VNV-G08-EULER-PREVALIDATION-001",
+  "gate": "026-G08",
+  "status": "PASS_WITH_LIMITATIONS",
+  "gate_status_unchanged": "PASS_WITH_LIMITATIONS",
+  "source_sha": "75fbe03a414969d26dee9f0df84ff1c5dcd1661e",
+  "source_dirty": false,
+  "analytical_source_sha": "4c45b46cfa7c9a664986bb49a53ef25fa570c030",
+  "captured_at_utc": "2026-08-30T12:28:52.978449Z",
+  "solver_version": "0.2.6a0",
+  "runtime": {
+    "python": {
+      "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+      "executable": "C:\\Python313\\python.exe"
+    },
+    "platform": {
+      "system": "Windows",
+      "release": "10",
+      "machine": "AMD64",
+      "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+    },
+    "packages": {
+      "numpy": "2.2.6",
+      "scipy": "1.15.2",
+      "matplotlib": "3.10.3",
+      "h5py": "3.14.0",
+      "mpi4py": "4.1.0",
+      "petsc4py": null
+    },
+    "blas": {
+      "name": "scipy-openblas",
+      "version": "0.3.29",
+      "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+    },
+    "parallel_environment": {
+      "OMP_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "PETSC_ARCH": null
+    }
+  },
+  "old_comparison_valid": false,
+  "invalidated_old_evidence": "retained historical but excluded from active interpretation",
+  "family_predecisions": {
+    "TET4": {
+      "mesh": "PASS historical bounded",
+      "analytical": "PASS historical case-specific",
+      "external": "BOUNDED historical",
+      "eigenpair": "PASS",
+      "mode": "PASS",
+      "determinism": "PASS",
+      "provisional_decision": "PREQUALIFIED_BOUNDED"
+    },
+    "TET10": {
+      "mesh": "PASS bounded (0.081448%)",
+      "analytical": "PASS at final axial level; 3.269%",
+      "external": "PASS bounded historical",
+      "eigenpair": "PASS",
+      "mode": "PASS",
+      "determinism": "PASS",
+      "provisional_decision": "PASS_WITH_LIMITATIONS"
+    },
+    "HEX8": {
+      "mesh": "PASS bounded (0.167113%), absolute Euler gap remains",
+      "analytical": "LIMITATION; 298.413% final axial error",
+      "external": "PASS same-model C3D8 cross-check",
+      "eigenpair": "PASS",
+      "mode": "PASS global-bending candidate",
+      "determinism": "PASS",
+      "provisional_decision": "MORE_EVIDENCE_REQUIRED"
+    },
+    "HEX20": {
+      "mesh": "PASS bounded (0.912621%)",
+      "analytical": "PASS at final axial level; 3.622%",
+      "external": "PASS bounded C3D20, 3 levels",
+      "eigenpair": "PASS",
+      "mode": "PASS",
+      "determinism": "PASS",
+      "provisional_decision": "PASS_WITH_LIMITATIONS"
+    }
+  },
+  "hex8_root_cause": "LOCKING_LIKELY",
+  "hex8_diagnostics": [
+    {
+      "cells_x": 1,
+      "cells_y": 1,
+      "cells_z": 1,
+      "node_count": 8,
+      "element_count": 1,
+      "loaded_node_count": 4,
+      "nodal_force": -0.25,
+      "reference_total_load": -1.0,
+      "qf_critical_factor": 26084.669958232203,
+      "qf_pcr": 26084.669958232203,
+      "euler_error": 31.47631935595909,
+      "mode_classification": "GLOBAL_BENDING_CANDIDATE",
+      "mode_lateral_to_axial_ratio": 10.978220781888309,
+      "mode_by_x": [
+        {
+          "x": 0.0,
+          "mean_lateral_norm": 0.0
+        },
+        {
+          "x": 4.0,
+          "mean_lateral_norm": 0.4979365153356307
+        }
+      ],
+      "mesh_aspect_ratio_max": 8.0,
+      "jacobian_min": 0.12499999999999997,
+      "jacobian_max": 0.12500000000000003,
+      "initial_tangent_condition_number": 1665.197000767886,
+      "kg_symmetry_relative": 0.0,
+      "kg_eigenvalue_min": -0.06250023004898195,
+      "kg_eigenvalue_max": 0.3339126688200083,
+      "kg_source": "initial_stress_second_piola"
+    },
+    {
+      "cells_x": 2,
+      "cells_y": 1,
+      "cells_z": 1,
+      "node_count": 12,
+      "element_count": 2,
+      "loaded_node_count": 4,
+      "nodal_force": -0.25,
+      "reference_total_load": -1.0,
+      "qf_critical_factor": 6236.7816451717035,
+      "qf_pcr": 6236.7816451717035,
+      "euler_error": 6.7650095932326355,
+      "mode_classification": "GLOBAL_BENDING_CANDIDATE",
+      "mode_lateral_to_axial_ratio": 8.752586876432272,
+      "mode_by_x": [
+        {
+          "x": 0.0,
+          "mean_lateral_norm": 0.0
+        },
+        {
+          "x": 2.0,
+          "mean_lateral_norm": 0.13892466706310883
+        },
+        {
+          "x": 4.0,
+          "mean_lateral_norm": 0.4769450780941804
+        }
+      ],
+      "mesh_aspect_ratio_max": 4.0,
+      "jacobian_min": 0.06249999999999998,
+      "jacobian_max": 0.0625,
+      "initial_tangent_condition_number": 7114.063963188658,
+      "kg_symmetry_relative": 0.0,
+      "kg_eigenvalue_min": -0.32725553585208905,
+      "kg_eigenvalue_max": 0.13683313441861583,
+      "kg_source": "initial_stress_second_piola"
+    },
+    {
+      "cells_x": 3,
+      "cells_y": 1,
+      "cells_z": 1,
+      "node_count": 16,
+      "element_count": 3,
+      "loaded_node_count": 4,
+      "nodal_force": -0.25,
+      "reference_total_load": -1.0,
+      "qf_critical_factor": 3200.016679982052,
+      "qf_pcr": 3200.016679982052,
+      "euler_error": 2.9841318218670767,
+      "mode_classification": "GLOBAL_BENDING_CANDIDATE",
+      "mode_lateral_to_axial_ratio": 8.16446854008568,
+      "mode_by_x": [
+        {
+          "x": 0.0,
+          "mean_lateral_norm": 0.0
+        },
+        {
+          "x": 1.33333333333332,
+          "mean_lateral_norm": 0.058422288719799195
+        },
+        {
+          "x": 2.66666666666668,
+          "mean_lateral_norm": 0.2195532245132377
+        },
+        {
+          "x": 4.0,
+          "mean_lateral_norm": 0.4412315277547639
+        }
+      ],
+      "mesh_aspect_ratio_max": 2.66666666666672,
+      "jacobian_min": 0.041666666666666234,
+      "jacobian_max": 0.0416666666666675,
+      "initial_tangent_condition_number": 12321.346466163259,
+      "kg_symmetry_relative": 0.0,
+      "kg_eigenvalue_min": -0.6088111072157181,
+      "kg_eigenvalue_max": 0.05630174721685555,
+      "kg_source": "initial_stress_second_piola"
+    },
+    {
+      "cells_x": 2,
+      "cells_y": 2,
+      "cells_z": 2,
+      "node_count": 27,
+      "element_count": 8,
+      "loaded_node_count": 9,
+      "nodal_force": -0.1111111111111111,
+      "reference_total_load": -1.0,
+      "qf_critical_factor": 6177.354161948481,
+      "qf_pcr": 6177.354161948481,
+      "euler_error": 6.691020314212865,
+      "mode_classification": "GLOBAL_BENDING_CANDIDATE",
+      "mode_lateral_to_axial_ratio": 10.70127454905527,
+      "mode_by_x": [
+        {
+          "x": 0.0,
+          "mean_lateral_norm": 0.0
+        },
+        {
+          "x": 2.0,
+          "mean_lateral_norm": 0.09263872534181146
+        },
+        {
+          "x": 4.0,
+          "mean_lateral_norm": 0.31869559224897004
+        }
+      ],
+      "mesh_aspect_ratio_max": 8.0,
+      "jacobian_min": 0.015624999999999991,
+      "jacobian_max": 0.015625000000000007,
+      "initial_tangent_condition_number": 28109.511738531826,
+      "kg_symmetry_relative": 0.0,
+      "kg_eigenvalue_min": -0.16918189464235256,
+      "kg_eigenvalue_max": 0.4920991246628132,
+      "kg_source": "initial_stress_second_piola"
+    },
+    {
+      "cells_x": 2,
+      "cells_y": 3,
+      "cells_z": 3,
+      "node_count": 48,
+      "element_count": 18,
+      "loaded_node_count": 16,
+      "nodal_force": -0.0625,
+      "reference_total_load": -1.0,
+      "qf_critical_factor": 6165.355534267716,
+      "qf_pcr": 6165.355534267716,
+      "euler_error": 6.676081606342774,
+      "mode_classification": "GLOBAL_BENDING_CANDIDATE",
+      "mode_lateral_to_axial_ratio": 11.722612587353161,
+      "mode_by_x": [
+        {
+          "x": 0.0,
+          "mean_lateral_norm": 0.0
+        },
+        {
+          "x": 2.0,
+          "mean_lateral_norm": 0.06951704651329463
+        },
+        {
+          "x": 4.0,
+          "mean_lateral_norm": 0.23919799182582846
+        }
+      ],
+      "mesh_aspect_ratio_max": 12.00000000000012,
+      "jacobian_min": 0.006944444444444302,
+      "jacobian_max": 0.006944444444444722,
+      "initial_tangent_condition_number": 62309.758389756505,
+      "kg_symmetry_relative": 0.0,
+      "kg_eigenvalue_min": -0.10453472743028629,
+      "kg_eigenvalue_max": 0.5522746028648673,
+      "kg_source": "initial_stress_second_piola"
+    }
+  ],
+  "hex8_c3d8": [
+    {
+      "cells_x": 1,
+      "element": "HEX8/C3D8",
+      "qf_critical_factor": 26084.6699582323,
+      "qf_pcr": 26084.6699582323,
+      "reference_total_load": -1.0,
+      "deck_sha256": "642b004c42d8eb050e18ee35f71ec10826d85c5691f5a9945cecf96b53825449",
+      "status": "PASS",
+      "calculix_critical_factor": 26084.77,
+      "relative_error": 3.835270596059029e-06
+    },
+    {
+      "cells_x": 2,
+      "element": "HEX8/C3D8",
+      "qf_critical_factor": 6236.7816451717035,
+      "qf_pcr": 6236.7816451717035,
+      "reference_total_load": -1.0,
+      "deck_sha256": "6ecb6dd89cfc56022955ed11ecf1ebe93863d9c7862f99d4a1362cc7f6477cd2",
+      "status": "PASS",
+      "calculix_critical_factor": 6236.807,
+      "relative_error": 4.065370529027124e-06
+    }
+  ],
+  "conclusions": [
+    "Signed load totals are constant at -1.0 across active axial screens.",
+    "The corrected Euler comparison separates lambda from physical critical load.",
+    "HEX8 and same-model CalculiX C3D8 agree closely while both exceed Euler substantially.",
+    "No QF-specific geometric-stiffness, boundary-condition or load-factor defect is demonstrated.",
+    "No family is promoted automatically; Owner review remains required."
+  ],
+  "functional_code_changed": false,
+  "artifact_digests": {
+    "results/vnv_g08_euler_prevalidation/g08_euler_prevalidation_report.md": "43ba6bccd232f043d4f0835ede922d7755d377f572242fb919926b41368cde2c",
+    "qualification/0_2_6/g08_euler_prevalidation_evidence.md": "43ba6bccd232f043d4f0835ede922d7755d377f572242fb919926b41368cde2c"
+  }
+}
