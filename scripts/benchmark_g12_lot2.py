@@ -48,7 +48,7 @@ except ImportError:  # pragma: no cover - optional measurement dependency
     psutil = None
 
 
-BASELINE_SHA = "4dc8af83d8d45d6a4d61f242aa6b1f974d87bdb3"
+BASELINE_SHA = os.environ.get("QF_G12_MEASUREMENT_SHA", "4dc8af83d8d45d6a4d61f242aa6b1f974d87bdb3")
 CONTRACT_ID = "026-G12-LOT2"
 THREAD_KEYS = ("OMP_NUM_THREADS", "MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS", "NUMEXPR_NUM_THREADS")
 DEFAULT_TARGETS = (3_000, 5_000, 7_500, 10_000)
