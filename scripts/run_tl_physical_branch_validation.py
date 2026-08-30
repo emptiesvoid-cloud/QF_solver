@@ -132,6 +132,9 @@ class _AttemptContext:
         self.external = external
         self.loaded_nodes = loaded_nodes
         self.attempts: list[dict[str, Any]] = []
+        self.accepted_states: list[dict[str, Any]] = []
+        self.accepted_displacement: np.ndarray | None = None
+        self._last_snapshot_bin = -1
 
     def _target_factor(self, target: np.ndarray) -> float:
         denominator = float(np.dot(self.external, self.external))
@@ -145,9 +148,25 @@ class _AttemptContext:
         diagnostics: dict[str, Any],
     ) -> None:
         displacement = np.asarray(offset + trial_delta, dtype=float).copy()
-        row = self._state_row(displacement, target, diagnostics)
-        row.update({"attempt_status": "SUCCESS", "committed_displacement": np.asarray(offset).tolist()})
-        self.attempts.append(row)
+        step = diagnostics.get("increments", [{}])[0]
+        target_factor = self._target_factor(target)
+        acceptance = {
+            "attempt_status": "SUCCESS",
+            "load_factor": target_factor,
+            "displacement_sha256": hashlib.sha256(displacement.tobytes()).hexdigest(),
+            "iterations": step.get("iterations"),
+            "residual_initial": step.get("residual_initial"),
+            "residual_final": step.get("residual_final"),
+            "residual_history": step.get("residual_history", []),
+        }
+        self.attempts.append(_json_safe(acceptance))
+        self.accepted_displacement = displacement
+        snapshot_bin = min(512, int(np.floor(target_factor * 512.0 + 1.0e-12)))
+        if target_factor >= 1.0 - 1.0e-12 or snapshot_bin > self._last_snapshot_bin:
+            row = self._state_row(displacement, target, diagnostics)
+            row.update({"attempt_status": "SUCCESS", "load_factor": target_factor})
+            self.accepted_states.append(row)
+            self._last_snapshot_bin = snapshot_bin
 
     def record_failure(self, offset: np.ndarray, target: np.ndarray, error: Exception) -> None:
         diagnostics = getattr(error, "diagnostics", {})
@@ -173,7 +192,6 @@ class _AttemptContext:
         loaded = displacement_matrix[self.loaded_nodes]
         row: dict[str, Any] = {
             "load_factor": self._target_factor(target),
-            "displacement": displacement.tolist(),
             "displacement_sha256": hashlib.sha256(displacement.tobytes()).hexdigest(),
             "displacement_norm": float(np.linalg.norm(displacement)),
             "displacement_max": float(np.max(np.abs(displacement))),
@@ -189,7 +207,6 @@ class _AttemptContext:
             "tangent_min_eigenvalue": float(np.min(eigenvalues)),
             "tangent_max_eigenvalue": float(np.max(eigenvalues)),
             "tangent_condition_number": float(np.linalg.cond(reduced_tangent)),
-            "tangent_fd_relative_error": _finite_difference_error(self.assembly, displacement, tangent, int(len(self.attempts) + 260700)),
             "von_mises_min": float(np.min(_von_mises(states["cauchy_stress"]))),
             "von_mises_max": float(np.max(_von_mises(states["cauchy_stress"]))),
             "iterations": diagnostics.get("increments", [{}])[0].get("iterations"),
@@ -278,18 +295,32 @@ def _run_case(definition: dict[str, Any]) -> dict[str, Any]:
 
     accepted = [row for row in context.attempts if row.get("attempt_status") == "SUCCESS"]
     rejected = [row for row in context.attempts if row.get("attempt_status") == "FAILURE"]
+    final_tangent_fd = None
+    if context.accepted_displacement is not None:
+        _, final_tangent = assembly.assemble(context.accepted_displacement, tangent_required=True)
+        final_tangent_fd = _finite_difference_error(
+            assembly, context.accepted_displacement, final_tangent, 260700 + int(definition["increments"])
+        )
     return _json_safe(
         {
             "id": definition["id"],
             "definition": definition,
             "status": status,
             "failure": failure,
-            "diagnostics": diagnostics,
-            "accepted_states": accepted,
-            "attempts": context.attempts,
+            "diagnostics": {
+                "converged": diagnostics.get("converged", status == "SUCCESS"),
+                "newton_iterations": diagnostics.get("newton_iterations"),
+                "rejected_increments": diagnostics.get("rejected_increments", 0),
+                "final_relative_residual": diagnostics.get("final_relative_residual"),
+                "adaptive_controls": diagnostics.get("adaptive_controls"),
+            },
+            "accepted_states": context.accepted_states,
+            "accepted_attempts": accepted,
+            "rejected_attempts": rejected,
+            "final_tangent_fd_relative_error": final_tangent_fd,
             "accepted_count": len(accepted),
             "rejected_count": len(rejected),
-            "final_displacement": np.asarray(displacement, dtype=float).tolist(),
+            "final_displacement_sha256": hashlib.sha256(np.asarray(displacement, dtype=float).tobytes()).hexdigest(),
         }
     )
 
