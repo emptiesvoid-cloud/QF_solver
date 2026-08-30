@@ -80,7 +80,7 @@ def test_g10_owner_review_selects_only_comparable_high_value_routes() -> None:
     assert review["g07_reopened"] is False
 
 
-def test_g10_gate_registry_points_to_lot1_evidence() -> None:
+def test_g10_gate_registry_points_to_controlled_evidence() -> None:
     matrix = _load_json(MATRIX_PATH)
     gates = _load_json(GATES_PATH)
     gate = _gate_record(gates, "026-G10")
@@ -91,5 +91,8 @@ def test_g10_gate_registry_points_to_lot1_evidence() -> None:
         "g10_research_audit_matrix.json",
         "0_2_6_g10_lot1.md",
         "0_2_6_g10_owner_review_lot1.md",
+        "g10_selected_external_evidence.json",
+        "g10_selected_external_manifest.json",
+        "0_2_6_g10_selected_external_campaign.md",
     ]
     assert matrix["decision"]["gate_status"] == gate["status"]
