@@ -26,6 +26,7 @@ if str(ROOT / "scripts") not in sys.path:
     sys.path.insert(0, str(ROOT / "scripts"))
 
 from run_tl_failure_isolation import _external, _fixed_indices, _model  # noqa: E402
+from run_tl_boundary_study import _case_corpus  # noqa: E402
 from run_tl_robustness_rnd import _safe_state_metrics  # noqa: E402
 from solveur.core.analyses.geometric_nonlinear import _newton_dead_load  # noqa: E402
 from solveur.core.assembly.geometric import build_total_lagrangian_assembly  # noqa: E402
@@ -70,6 +71,18 @@ CASES: tuple[dict[str, Any], ...] = (
         "distortion": 0.12,
         "angle": 0.0,
     },
+)
+HOLDOUT_IDS = (
+    "TET4_m1_a4_compression_l0.2_n16_d0.12",
+    "HEX8_m1_a4_compression_l0.2_n16_d0.12",
+    "TET4_m2_a7_bending_z_l0.2_n16_d0.12",
+    "HEX8_m2_a7_bending_z_l0.2_n16_d0.12",
+    "TET4_m3_a7_traction_l0.2_n16_d0.12",
+    "HEX8_m3_a7_traction_l0.2_n16_d0.12",
+    "TET4_m4_a8_compression_l0.2_n16_d0.12",
+    "HEX8_m4_a8_compression_l0.2_n16_d0.12",
+    "TET4_m4_a6_traction_l0.05_n16_d0.12",
+    "HEX8_m4_a6_traction_l0.05_n16_d0.12",
 )
 
 
@@ -220,6 +233,7 @@ def _policy_from_args(args: argparse.Namespace) -> dict[str, Any]:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--policy-name", required=True)
+    parser.add_argument("--scope", choices=("targets", "full150", "holdouts"), default="targets")
     parser.add_argument("--case-id", action="append", dest="case_ids")
     parser.add_argument("--max-iterations", type=int, default=200)
     parser.add_argument("--min-load-increment", type=float, default=1.0e-6)
@@ -231,7 +245,16 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--output", type=Path)
     args = parser.parse_args(argv)
     selected = set(args.case_ids) if args.case_ids else None
-    cases = [case for case in CASES if selected is None or case["id"] in selected]
+    if args.scope == "targets":
+        available_cases = list(CASES)
+    else:
+        corpus = {case["id"]: case for case in _case_corpus()}
+        available_cases = (
+            list(corpus.values())
+            if args.scope == "full150"
+            else [corpus[case_id] for case_id in HOLDOUT_IDS]
+        )
+    cases = [case for case in available_cases if selected is None or case["id"] in selected]
     if not cases:
         raise ValueError("No configured rescue case matches --case-id.")
     policy = _policy_from_args(args)
@@ -244,6 +267,7 @@ def main(argv: list[str] | None = None) -> int:
         "dirty_at_start": git_dirty(),
         "timestamp_utc": datetime.now(timezone.utc).isoformat(),
         "policy_name": args.policy_name,
+        "scope": args.scope,
         "policy": policy,
         "tolerance": TOLERANCE,
         "runs": [],
