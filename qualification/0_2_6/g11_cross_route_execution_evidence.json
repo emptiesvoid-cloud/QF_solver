@@ -45,7 +45,7 @@
     },
     "VNV026-G11-XR-BUCKLING-001": {
       "status": "PASS",
-      "failure_class": "buckling_bracket_failure",
+      "failure_class": "buckling_bracketing_failure",
       "route": "linear_buckling",
       "error_type_or_code": "NumericalConvergenceError:BUCKLING_FAILURE",
       "deterministic": true,

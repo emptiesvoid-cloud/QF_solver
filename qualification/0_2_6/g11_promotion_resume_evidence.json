@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "gate": "026-G11",
+  "evidence_id": "G11-PROMOTION-RESUME-001",
+  "status": "PROMOTION_ATTEMPT_PASS_WITH_BOUNDED_LIMITATIONS",
+  "official_gate_status": "NOT_STARTED",
+  "source_sha": "8de5d43c18e11e3d1db7c9ed0bc8def734901064",
+  "runner_version": "026-G11-runner-1",
+  "scope": "Minimum route-native additions and complete aggregation for the existing G11 corpus; no contract or solver-core change.",
+  "reused_evidence": [
+    {
+      "evidence": "qualification/0_2_6/g11_full_replay_evidence.json",
+      "cases": 18,
+      "envelopes_valid": 18,
+      "deterministic_replays": "18/18",
+      "role": "existing 18-case corpus baseline"
+    },
+    {
+      "evidence": "qualification/0_2_6/g11_cross_route_execution_evidence.json",
+      "cases": 4,
+      "role": "cross-route runtime detail"
+    },
+    {
+      "evidence": "qualification/0_2_6/g11_mutable_execution_evidence.json",
+      "cases": 1,
+      "role": "mutable rollback/state-integrity detail"
+    },
+    {
+      "evidence": "qualification/0_2_6/g11_extended_execution_evidence.json",
+      "cases": 9,
+      "role": "structured nonlinear failure detail"
+    }
+  ],
+  "aggregation": {
+    "key": "ROUTE × FAILURE_CLASS × EXPECTED_BEHAVIOR × RESULT",
+    "existing_corpus_cases": 18,
+    "new_corpus_cases": 2,
+    "joined_cases": 20,
+    "per_case_provenance": true,
+    "per_case_deterministic": true,
+    "per_case_no_nan_inf": true,
+    "per_case_no_silent_pass": true,
+    "state_integrity_or_not_applicable_recorded": true,
+    "error_type_or_code_recorded": true
+  },
+  "new_runtime_cases": [
+    {
+      "case_id": "VNV026-G11-EXT-MODAL-BACKEND-001",
+      "route": "modal",
+      "failure_class": "modal_backend_failure",
+      "expected_behavior": "terminate on a rigid-body singular modal system",
+      "runtime_result": "PASS",
+      "error_type_or_code": "NumericalConvergenceError:MODAL_BACKEND_FAILURE",
+      "state_integrity": "NOT_APPLICABLE",
+      "deterministic": true,
+      "no_nan_inf": true,
+      "no_silent_pass": true,
+      "evidence_id": "G11-NATIVE-VNV026-G11-EXT-MODAL-BACKEND-001",
+      "provenance": {"source_sha": "8de5d43c18e11e3d1db7c9ed0bc8def734901064", "case_definition_sha256": "02c0c157444ccd5d505497e3beb1da8e29b6828b20e50a0835a385bbcac40650"}
+    },
+    {
+      "case_id": "VNV026-G11-EXT-SINGULAR-CONTACT-JACOBIAN-001",
+      "route": "linear_static_contact",
+      "failure_class": "singular_contact_jacobian",
+      "expected_behavior": "terminate on dependent active contact constraints",
+      "runtime_result": "PASS",
+      "error_type_or_code": "NumericalConvergenceError:LINEAR_SOLVER_FAILURE",
+      "state_integrity": "NOT_APPLICABLE",
+      "deterministic": true,
+      "no_nan_inf": true,
+      "no_silent_pass": true,
+      "evidence_id": "G11-NATIVE-VNV026-G11-EXT-SINGULAR-CONTACT-JACOBIAN-001",
+      "provenance": {"source_sha": "8de5d43c18e11e3d1db7c9ed0bc8def734901064", "case_definition_sha256": "f5a3cd9f97909eb8b958c9c4b4d6bbb7bce0d25d41697b42c58b217c1678dbfc"}
+    }
+  ],
+  "total_runtime_cases": 20,
+  "pass": 20,
+  "fail": 0,
+  "envelopes_valid": 20,
+  "deterministic_replays": "20/20",
+  "no_nan_inf": true,
+  "no_silent_pass": true,
+  "state_integrity": "PASS for 3 mutable/retry cases; NOT_APPLICABLE for pre-solve/stateless cases",
+  "failure_class_coverage": {
+    "G11-DIAG-002": ["singular_linear_system", "singular_tangent", "singular_contact_jacobian", "modal_backend_failure", "buckling_bracketing_failure"],
+    "G11-DIAG-004": ["MAX_ITERATIONS", "MIN_INCREMENT_REACHED", "LINEAR_SOLVER_FAILURE", "NAN_DETECTED", "INF_DETECTED", "MATERIAL_UPDATE_FAILURE", "CONTACT_UPDATE_FAILURE", "BUCKLING_FAILURE", "CHECKPOINT_FAILURE"]
+  },
+  "routes": ["linear_static", "nonlinear_static", "geometric_nonlinear_static", "modal", "linear_buckling", "linear_static_contact"],
+  "requirements_assessment": {
+    "G11-DIAG-002": "FULL",
+    "G11-DIAG-004": "FULL",
+    "G11-DIAG-005": "SATISFIED_BOUNDED",
+    "G11-DIAG-008": "SATISFIED_BOUNDED"
+  },
+  "bounded_limitations": [
+    "DIAG-005 contract names all public failure classes and all structured nonlinear reasons; this corpus is representative, not exhaustive.",
+    "DIAG-008 aggregation is exhaustive for the 20-case bounded corpus, not a claim over unexecuted public route/failure combinations.",
+    "No solver formulation, nonlinear core, contact core, eigensolver core, G04, G08 or G07/TL file was changed."
+  ],
+  "official_closeout": "NOT_PERFORMED",
+  "promotion_status": "No official G11 closure or automatic maturity promotion performed."
+}

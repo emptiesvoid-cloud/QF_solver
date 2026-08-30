@@ -41,7 +41,7 @@
     {
       "case_id": "VNV026-G11-XR-BUCKLING-001",
       "name": "buckling_tensile_preload_no_bracket",
-      "failure_class": "buckling_bracket_failure",
+      "failure_class": "buckling_bracketing_failure",
       "route": "linear_buckling",
       "expected_behavior": "terminate explicitly when no compressive loss-of-positivity bracket exists",
       "error_type_or_code": "NumericalConvergenceError / BUCKLING_FAILURE",

@@ -49,6 +49,8 @@ CASE_MATERIAL_FAILURE = "VNV026-G11-EXT-MATERIAL-001"
 CASE_CONTACT_UPDATE_FAILURE = "VNV026-G11-EXT-CONTACT-UPDATE-001"
 CASE_CHECKPOINT_FAILURE = "VNV026-G11-EXT-CHECKPOINT-001"
 CASE_CONTACT_RETRY = "VNV026-G11-MUTABLE-CONTACT-001"
+CASE_MODAL_BACKEND_FAILURE = "VNV026-G11-EXT-MODAL-BACKEND-001"
+CASE_SINGULAR_CONTACT_JACOBIAN = "VNV026-G11-EXT-SINGULAR-CONTACT-JACOBIAN-001"
 
 NATIVE_ROUTE_STATUS = {
     "linear_static": "READY",
@@ -389,6 +391,32 @@ def _modal_failure(case: G11CaseSpec) -> object:
     return G11AdapterResult(success=True)
 
 
+def _modal_backend_failure(case: G11CaseSpec) -> object:
+    """Exercise the real modal backend on an unconstrained rigid-body model."""
+
+    model = _tet4_model(
+        fixed=False,
+        analysis={"type": "modal", "method": "eigsh", "modes": 1},
+    )
+    model.materials["solid"]["density"] = 1.0
+    try:
+        solve_model(model, enforce_policy=False)
+    except NumericalConvergenceError as error:
+        message = str(error)
+        if "modal eigensolve failed" not in message.lower() or "singular" not in message.lower():
+            raise
+        return G11AdapterResult(
+            success=False,
+            error_type_or_code="NumericalConvergenceError:MODAL_BACKEND_FAILURE",
+            diagnostics={
+                "native_exception_type": type(error).__name__,
+                "native_message": message,
+                "classification_basis": "modal eigsh shift-invert failed on a rigid-body singular system",
+            },
+        )
+    return G11AdapterResult(success=True)
+
+
 def _buckling_failure(case: G11CaseSpec) -> object:
     """Exercise the existing buckling bracket failure on a tensile preload."""
 
@@ -460,6 +488,50 @@ def _contact_failure(case: G11CaseSpec) -> object:
     return G11AdapterResult(success=True)
 
 
+def _singular_contact_jacobian_model() -> FiniteElementModel:
+    """Build a valid contact geometry with duplicate active constraints."""
+
+    return FiniteElementModel.from_raw(
+        nodes=[[0.0, 0.0, 0.0], [1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.25, 0.25, 0.1]],
+        elements=[],
+        materials={},
+        fixed_dofs=[
+            {"node": 0, "dofs": ["UX", "UY", "UZ"]},
+            {"node": 1, "dofs": ["UX", "UY", "UZ"]},
+            {"node": 2, "dofs": ["UX", "UY", "UZ"]},
+            {"node": 3, "dofs": ["UX", "UY"]},
+        ],
+        springs=[{"node_a": 3, "dofs": ["UZ"], "stiffness": 1000.0}],
+        loads=[{"node": 3, "dof": "UZ", "value": -200.0}],
+        contacts=[
+            {"name": "plane_a", "slave_node": 3, "master_nodes": [0, 1, 2]},
+            {"name": "plane_b", "slave_node": 3, "master_nodes": [0, 1, 2]},
+        ],
+        analysis={"type": "linear_static", "method": "direct"},
+    )
+
+
+def _singular_contact_jacobian(case: G11CaseSpec) -> object:
+    """Exercise the real contact saddle solve with linearly dependent rows."""
+
+    try:
+        solve_model(_singular_contact_jacobian_model(), enforce_policy=False)
+    except NumericalConvergenceError as error:
+        if "contact saddle system is singular" not in str(error).lower():
+            raise
+        return G11AdapterResult(
+            success=False,
+            error_type_or_code="NumericalConvergenceError:LINEAR_SOLVER_FAILURE",
+            diagnostics={
+                "native_exception_type": type(error).__name__,
+                "native_message": str(error),
+                "classification_basis": "duplicate active contact constraints produce a singular contact saddle Jacobian",
+                "contact_jacobian_singular": True,
+            },
+        )
+    return G11AdapterResult(success=True)
+
+
 def native_adapters() -> dict[str, Callable[[G11CaseSpec], object]]:
     """Return the four approved case adapters keyed by their stable case IDs."""
 
@@ -501,6 +573,8 @@ def extended_adapters() -> dict[str, Callable[[G11CaseSpec], object]]:
         CASE_CONTACT_UPDATE_FAILURE: _contact_update_failure,
         CASE_CHECKPOINT_FAILURE: _checkpoint_failure,
         CASE_CONTACT_RETRY: _contact_retry_rollback,
+        CASE_MODAL_BACKEND_FAILURE: _modal_backend_failure,
+        CASE_SINGULAR_CONTACT_JACOBIAN: _singular_contact_jacobian,
     }
 
 
@@ -595,6 +669,8 @@ __all__ = [
     "CASE_UNSUPPORTED",
     "CASE_BUCKLING_FAILURE",
     "CASE_CONTACT_FAILURE",
+    "CASE_MODAL_BACKEND_FAILURE",
+    "CASE_SINGULAR_CONTACT_JACOBIAN",
     "CASE_GEO_FAILURE",
     "CASE_MODAL_FAILURE",
     "CASE_MUTABLE_ROLLBACK",
