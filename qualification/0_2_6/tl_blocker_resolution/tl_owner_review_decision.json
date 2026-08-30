@@ -1,0 +1,54 @@
+{
+  "review_type": "FINAL_TL_OWNER_REVIEW_PACKAGE",
+  "status": "PASS_WITH_LIMITATIONS",
+  "automatic_g07_closure": false,
+  "execution_source_sha": "bb44c121c1c6c676f808ff4498aa7e8c980dff0e",
+  "evidence_pack_parent_sha": "a503a63c7f0669804e3c225425e6dc15d2ca6a8d",
+  "provenance": {
+    "status": "PASS",
+    "relationship": "The evidence pack parent is a descendant of the runner commit and contains only the diagnostic pack; this Owner-decision amendment is a later documentation commit and is not a new numerical qualification source."
+  },
+  "small_strain_policy": {
+    "status": "OWNER_APPROVED_BOUNDED_RECOMMENDED",
+    "metric": "norm(u_TL-u_linear)/norm(u_linear)",
+    "domain": "two-cell aspect-6.5 traction model; load factors 1, 1/2, 1/4, 1/8, 1/16; TET4 and HEX8",
+    "acceptance_rule": "The metric must decrease toward zero across the declared load-reduction series with stable converged solves; no universal scalar error threshold is claimed.",
+    "observed_endpoint_reduction": {
+      "TET4": 16.23,
+      "HEX8": 16.21
+    },
+    "rationale": "Both families exhibit the expected first-order small-load asymptotic trend over the tested domain."
+  },
+  "tangent_fd_policy": {
+    "status": "OWNER_APPROVED_BOUNDED_RECOMMENDED",
+    "metric": "relative norm of analytic tangent action versus centered finite-difference action",
+    "fd_step_domain": [1e-05, 1e-06, 1e-07],
+    "threshold": 1e-06,
+    "near_zero_rule": "Retain the existing denominator floor; where the FD reference norm is at or below that floor, report the absolute residual and do not issue a relative PASS.",
+    "rationale": "The proposed band is about 21 times above the worst observed envelope while remaining below the round-off-dominated study endpoint; six states, three directions and both families are covered."
+  },
+  "mesh_policy": {
+    "status": "BOUNDED_WITH_LIMITATIONS",
+    "TET4": "Flexion/shear sensitivity documented across four levels; no universal convergence claim.",
+    "HEX8": "Flexion/shear sensitivity documented across four levels; reaction trend is more stable than displacement in this study.",
+    "owner_action": "Confirm whether this bounded limitation is acceptable for the intended TL domain."
+  },
+  "external_correlation_policy": {
+    "status": "MORE_EVIDENCE_REQUIRED",
+    "campaign_status": "SKIPPED_NOT_COMPARABLE",
+    "reason": "Code_Aster and CalculiX executables were unavailable; no exact comparable case was executed.",
+    "rule": "G07-TL-008 remains required before TL promotion; a skip is never PASS."
+  },
+  "family_decisions": {
+    "TET4": "MORE_EVIDENCE_REQUIRED",
+    "HEX8": "MORE_EVIDENCE_REQUIRED"
+  },
+  "qualified_bounded_domain_recommended": "Internal TL elasticity observations for TET4/HEX8 over the declared small-strain, tangent-FD, rotation and four-level flexion/shear study domains only.",
+  "limitations": [
+    "No universal mesh or aspect-ratio threshold.",
+    "No unrestricted large-deformation claim.",
+    "No external or physical validation claim from the skipped campaign.",
+    "G07 remains open and TL promotion is deferred until comparable external evidence is available."
+  ],
+  "functional_code_changed": false
+}
