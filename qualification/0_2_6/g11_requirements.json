@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "gate": "026-G11",
+  "title": "Diagnostics, failure modes and fail-closed behavior",
+  "status": "OPEN",
+  "contract_status": "CONTROLLED_CANDIDATE",
+  "official_gate_status": "NOT_STARTED",
+  "source_sha": "9014a7b8cfb699b5641688d6ac4dd04a1757ff5f",
+  "policy": "This bootstrap inventories and maps existing evidence. It does not close G11, promote a capability, or replace route-specific validation.",
+  "scope": {
+    "included": ["public input rejection", "solver failure diagnostics", "state integrity after rejected trials", "provenance and no silent continuation"],
+    "routes_reused_as_evidence": ["linear_static", "modal", "linear_buckling", "nonlinear_static", "geometric_nonlinear_static", "linear_static_contact"],
+    "excluded_from_new_execution": ["G04 campaign rerun", "G08/G09 campaign", "G07/TL campaign", "formulation changes", "Agent A worktree"],
+    "no_new_combinations": true
+  },
+  "failure_taxonomy": {
+    "PUBLIC_FAIL_CLOSED": [
+      "InputValidationError",
+      "MeshValidationError",
+      "NumericalConvergenceError",
+      "QualificationGateError",
+      "InfrastructureError"
+    ],
+    "INTERNAL_DIAGNOSTIC": [
+      "NonlinearFailureReason",
+      "NonlinearIterationDiagnostics",
+      "rejection_log",
+      "rollback_before_retry",
+      "contact convergence diagnostics",
+      "buckling/mode solver diagnostics"
+    ],
+    "UNCONTROLLED": {
+      "observed_in_reviewed_evidence": [],
+      "note": "No uncontrolled failure was demonstrated by the reviewed evidence; raw low-level exceptions and cross-route continuation still require explicit future audit."
+    },
+    "MISSING": [
+      "single cross-route failure envelope",
+      "complete eigenvalue/mode failure corpus",
+      "complete contact failure corpus under one G11 oracle",
+      "cross-route proof that no failed solve can be reported as PASS"
+    ]
+  },
+  "requirements": [
+    {
+      "id": "G11-DIAG-001",
+      "title": "Invalid inputs fail closed",
+      "failure_classes": ["invalid_connectivity", "degenerate_geometry", "invalid_material", "invalid_element_parameter", "invalid_boundary_condition"],
+      "expected_behavior": "Reject before a valid result is emitted, with an explicit stable public error class and actionable message.",
+      "oracle": "expected_exception_class_and_message; repeat execution produces the same diagnostic",
+      "evidence": ["qualification/0_2_6/g04_invalid_input_cases.json", "tests/unit/test_g04_invalid_inputs.py", "tests/unit/test_mesh_validation_edge_contracts.py", "qualification/0_2_6/case_registry.json:VNV026-ADV-INVERTED-TET4-001"],
+      "status": "READY"
+    },
+    {
+      "id": "G11-DIAG-002",
+      "title": "Singular and ill-conditioned systems are explicit",
+      "failure_classes": ["singular_linear_system", "singular_tangent", "singular_contact_jacobian", "modal_backend_failure", "buckling_bracketing_failure"],
+      "expected_behavior": "Terminate with a classified numerical or input failure; never return NaN, Inf, or a false converged mode/result.",
+      "oracle": "error_class_or_failure_reason plus finite-output and termination invariants",
+      "evidence": ["tests/unit/test_p0_numerical_safety.py", "tests/unit/test_linear_buckling.py", "tests/unit/test_modal_backend_edges.py", "tests/unit/test_nonlinear_iteration_sparse.py", "src/solveur/contact/slip_root.py"],
+      "status": "PARTIAL"
+    },
+    {
+      "id": "G11-DIAG-003",
+      "title": "Unsupported capability combinations are rejected",
+      "failure_classes": ["unsupported_load_element_pair", "unsupported_analysis_parameter", "unsupported_material_route", "unsupported_contact_or_constraint_combination"],
+      "expected_behavior": "Reject explicitly at schema, mesh, route or policy boundary; no silent fallback to another formulation or route.",
+      "oracle": "expected public rejection class/message and route remains unchanged",
+      "evidence": ["tests/unit/test_json_io.py", "tests/unit/test_distributed_loads.py", "tests/unit/test_geometric_nonlinear_contracts.py", "tests/unit/test_frictionless_contact.py", "tests/unit/test_orthotropic_dynamic_large.py"],
+      "status": "READY"
+    },
+    {
+      "id": "G11-DIAG-004",
+      "title": "Numerical non-convergence and failure reasons are preserved",
+      "failure_classes": ["MAX_ITERATIONS", "MIN_INCREMENT_REACHED", "LINEAR_SOLVER_FAILURE", "NAN_DETECTED", "INF_DETECTED", "MATERIAL_UPDATE_FAILURE", "CONTACT_UPDATE_FAILURE", "BUCKLING_FAILURE", "CHECKPOINT_FAILURE"],
+      "expected_behavior": "Return or raise a non-converged outcome with a stable reason, message, diagnostics and no successful result claim.",
+      "oracle": "NonlinearFailureReason membership; diagnostics payload; finite-state and failed-status invariants",
+      "evidence": ["src/solveur/core/nonlinear/contracts.py", "tests/unit/test_nonlinear_failure_modes.py", "tests/unit/test_nonlinear_failure_campaign.py", "tests/unit/test_nonlinear_contracts.py", "tests/unit/test_linear_buckling.py"],
+      "status": "PARTIAL"
+    },
+    {
+      "id": "G11-DIAG-005",
+      "title": "Diagnostics are deterministic and exploitable",
+      "failure_classes": ["all_public_failure_classes", "all_structured_nonlinear_reasons"],
+      "expected_behavior": "Repeated identical inputs produce the same class, reason and essential diagnostic fields; diagnostics identify stage and failure without requiring log text parsing alone.",
+      "oracle": "two-run diagnostic equality for class/reason/essential fields and explicit JSON serialization",
+      "evidence": ["src/solveur/core/errors.py", "tests/unit/test_g04_invalid_inputs.py", "tests/unit/test_nonlinear_failure_modes.py", "tests/unit/test_nonlinear_contracts.py", "tests/unit/test_vnv_026_framework.py"],
+      "status": "PARTIAL"
+    },
+    {
+      "id": "G11-DIAG-006",
+      "title": "Rollback and state integrity survive rejected trials",
+      "failure_classes": ["rejected_increment", "material_trial_failure", "contact_trial_failure", "checkpoint_or_restart_failure", "arc_length_retry_failure"],
+      "expected_behavior": "Rejected trial state is discarded, committed state is unchanged, retry starts from the committed state, and rollback is recorded.",
+      "oracle": "committed-state equality before/after rejection; rollback_verified=true; deterministic retry outcome",
+      "evidence": ["qualification/0_2_6/g06_depth_evidence.json", "tests/unit/test_nonlinear_state_transaction_contract.py", "tests/unit/test_nonlinear_load_path.py", "tests/unit/test_nonlinear_multielement.py", "tests/unit/test_contact_finite_sliding.py"],
+      "status": "READY"
+    },
+    {
+      "id": "G11-DIAG-007",
+      "title": "Failure evidence has provenance and maturity boundaries",
+      "failure_classes": ["any_failure_or_expected_failure_record"],
+      "expected_behavior": "Record source SHA, clean state, environment, case ID, evidence path/digest, capability/requirement mapping and whether evidence is diagnostic-only.",
+      "oracle": "registry consistency, manifest digest and no silent gate closure",
+      "evidence": ["scripts/audit_capability_registry.py", "tests/unit/test_capability_registry.py", "tests/unit/test_vnv_026_framework.py", "qualification/0_2_6/g04_owner_closeout.json", "qualification/0_2_6/g06_depth_evidence.json"],
+      "status": "READY"
+    },
+    {
+      "id": "G11-DIAG-008",
+      "title": "No silent fail-open or false PASS",
+      "failure_classes": ["failed_solve_reported_as_pass", "NaN_or_Inf_continuation", "unsupported_fallback", "state_corruption_hidden_by_retry"],
+      "expected_behavior": "Failure remains failure/expected failure/diagnostic-only; no NaN/Inf continuation; no unsupported fallback; no threshold weakening to hide an anomaly.",
+      "oracle": "status/reason consistency, finite-output invariant, explicit expected-failure classification and unchanged policy source",
+      "evidence": ["docs/verification/0_2_6/0_2_6_adversarial_plan.md", "tests/unit/test_nonlinear_failure_campaign.py", "tests/unit/test_nonlinear_failure_modes.py", "tests/unit/test_vnv_026_framework.py", "qualification/0_2_6/tl_boundary_study/tl_boundary_failure_zoo.json"],
+      "status": "PARTIAL"
+    }
+  ],
+  "policies": {
+    "new": [],
+    "owner_review_required_for_future": ["any new threshold", "any cross-route PASS criterion", "any promotion of diagnostic-only evidence"],
+    "existing_principles_reused": ["stable SolverError exit categories", "G04 expected-failure contracts", "NonlinearFailureReason enum", "registry anti-forgetting contract"]
+  },
+  "governance": {
+    "official_gate_closeout": "not performed",
+    "maturity_promotion": "not performed",
+    "G04_G08_G07_TL_G09_untouched": true,
+    "future_campaign_required": true
+  }
+}

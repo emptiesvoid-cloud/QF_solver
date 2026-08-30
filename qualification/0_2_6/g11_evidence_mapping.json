@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "mapping_id": "026-G11-BOOTSTRAP-MAPPING-001",
+  "gate": "026-G11",
+  "status": "BOOTSTRAP_ONLY",
+  "source_sha": "9014a7b8cfb699b5641688d6ac4dd04a1757ff5f",
+  "contract": "qualification/0_2_6/g11_requirements.json",
+  "rule": "Historical or cross-gate evidence is mapped for diagnostics only and is not automatically requalified for G11.",
+  "classifications": {
+    "READY": [
+      "G04 invalid-input deterministic cases",
+      "G05/G06 inverted-element expected-failure case",
+      "public SolverError taxonomy",
+      "nonlinear transaction rollback contracts",
+      "registry and anti-forgetting checks"
+    ],
+    "PARTIAL": [
+      "linear singular-system rejection",
+      "modal and buckling failure diagnostics",
+      "nonlinear failure reason coverage",
+      "determinism across all route families",
+      "no-silent-fail-open cross-route proof",
+      "contact failure diagnostics under one G11 oracle"
+    ],
+    "PLANNED": [
+      "VNV026-ADV-PLN-001",
+      "VNV026-ADV-PLN-002",
+      "VNV026-ADV-PLN-003",
+      "VNV026-ADV-PLN-004"
+    ],
+    "NOT_APPLICABLE": [
+      "External correlation as a failure oracle when the executable or formulation is unavailable",
+      "TL promotion or G07 closeout from this bootstrap"
+    ]
+  },
+  "mappings": [
+    {"evidence": "qualification/0_2_6/g04_invalid_input_cases.json", "requirements": ["G11-DIAG-001", "G11-DIAG-005", "G11-DIAG-008"], "classification": "READY", "claim": "public fail-closed expected failures", "requalification": "not automatic"},
+    {"evidence": "tests/unit/test_p0_numerical_safety.py", "requirements": ["G11-DIAG-002", "G11-DIAG-003"], "classification": "PARTIAL", "claim": "singular direct solve and unsafe parameter rejection", "requalification": "unit evidence only"},
+    {"evidence": "tests/unit/test_linear_buckling.py; tests/unit/test_modal_backend_edges.py", "requirements": ["G11-DIAG-002", "G11-DIAG-004"], "classification": "PARTIAL", "claim": "mode/eigenvalue failure boundaries", "requalification": "historical route evidence"},
+    {"evidence": "tests/unit/test_nonlinear_failure_modes.py; tests/unit/test_nonlinear_failure_campaign.py", "requirements": ["G11-DIAG-004", "G11-DIAG-005", "G11-DIAG-008"], "classification": "PARTIAL", "claim": "structured nonlinear failure reasons and no nonfinite continuation", "requalification": "internal diagnostics, not G11 closeout"},
+    {"evidence": "qualification/0_2_6/g06_depth_evidence.json; tests/unit/test_nonlinear_state_transaction_contract.py", "requirements": ["G11-DIAG-006", "G11-DIAG-007"], "classification": "READY", "claim": "rollback/state integrity with provenance", "requalification": "bounded internal evidence"},
+    {"evidence": "tests/unit/test_contact_finite_sliding.py; tests/unit/test_frictionless_contact.py", "requirements": ["G11-DIAG-002", "G11-DIAG-003", "G11-DIAG-006"], "classification": "PARTIAL", "claim": "contact singular/update/rollback boundaries", "requalification": "G09-owned evidence reused diagnostically"},
+    {"evidence": "qualification/0_2_6/tl_boundary_study/tl_boundary_failure_zoo.json; qualification/0_2_6/tl_failure_isolation/tl_failure_isolation_summary.json; qualification/0_2_6/tl_final_rescue_summary.json", "requirements": ["G11-DIAG-004", "G11-DIAG-006", "G11-DIAG-008"], "classification": "PARTIAL", "claim": "TL failure/cutback/rollback diagnostics", "requalification": "G07/TL diagnostic-only; no promotion"},
+    {"evidence": "scripts/audit_capability_registry.py; tests/unit/test_capability_registry.py; tests/unit/test_vnv_026_framework.py", "requirements": ["G11-DIAG-007", "G11-DIAG-008"], "classification": "READY", "claim": "registry, digest and anti-forgetting controls", "requalification": "foundation control only"},
+    {"evidence": "qualification/0_2_6/case_registry.json:VNV026-ADV-PLN-001..004", "requirements": ["G11-DIAG-001", "G11-DIAG-002", "G11-DIAG-003", "G11-DIAG-004", "G11-DIAG-008"], "classification": "PLANNED", "claim": "future adversarial/metamorphic factory cases", "requalification": "not executed"}
+  ],
+  "future_g11_campaign_gaps": [
+    "one machine-readable cross-route failure result schema",
+    "complete modal/buckling/contact failure cases with deterministic repeat checks",
+    "metamorphic numbering/order/load-scaling cases tied to failure status",
+    "explicit no-NaN/no-silent-PASS assertion across every public analysis route",
+    "owner-approved thresholds for any aggregate diagnostic score"
+  ],
+  "official_gate_closeout": "DEFERRED",
+  "other_gates_changed": false
+}
