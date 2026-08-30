@@ -319,7 +319,7 @@
     "activation": 8,
     "adversarial": 6,
     "cycles": 4,
-    "geometry": 8,
+    "geometry": 13,
     "penalty_mesh": 15,
     "phase_rollback": 5,
     "rollback": 4
@@ -377,6 +377,7 @@
         "case": "10_cycles_amp_1",
         "contact_state_transaction": "N/A - active set recomputed from each trial displacement",
         "cycle_count": 10,
+        "energy_trace_valid": true,
         "expected_active_by_step": [
           false,
           true,
@@ -471,6 +472,52 @@
           1.0,
           0.0
         ],
+        "penalty_energy_by_step": [
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0
+        ],
+        "relative_work_imbalance_by_step": [
+          0.0,
+          8.288910958405674e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.288910958405677e-13
+        ],
         "residuals_by_step": [
           0.0,
           8.28848149882596e-13,
@@ -495,7 +542,8 @@
           8.606121395715882e-17
         ],
         "solver_status": "PASS",
-        "status": "PASS_INTERNAL_RESEARCH"
+        "status": "PASS_INTERNAL_RESEARCH",
+        "work_trace_finite": true
       },
       {
         "active_by_step": [
@@ -546,6 +594,7 @@
         "case": "20_cycles_amp_1",
         "contact_state_transaction": "N/A - active set recomputed from each trial displacement",
         "cycle_count": 20,
+        "energy_trace_valid": true,
         "expected_active_by_step": [
           false,
           true,
@@ -720,6 +769,92 @@
           1.0,
           0.0
         ],
+        "penalty_energy_by_step": [
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0
+        ],
+        "relative_work_imbalance_by_step": [
+          0.0,
+          8.288910958405674e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13
+        ],
         "residuals_by_step": [
           0.0,
           8.28848149882596e-13,
@@ -764,7 +899,8 @@
           9.451626460094028e-17
         ],
         "solver_status": "PASS",
-        "status": "PASS_INTERNAL_RESEARCH"
+        "status": "PASS_INTERNAL_RESEARCH",
+        "work_trace_finite": true
       },
       {
         "active_by_step": [
@@ -875,6 +1011,7 @@
         "case": "50_cycles_amp_1",
         "contact_state_transaction": "N/A - active set recomputed from each trial displacement",
         "cycle_count": 50,
+        "energy_trace_valid": true,
         "expected_active_by_step": [
           false,
           true,
@@ -1289,6 +1426,212 @@
           1.0,
           0.0
         ],
+        "penalty_energy_by_step": [
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0,
+          0.0013192600352269408,
+          0.0
+        ],
+        "relative_work_imbalance_by_step": [
+          0.0,
+          8.288910958405674e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.287134890062328e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13,
+          8.288910958405677e-13
+        ],
         "residuals_by_step": [
           0.0,
           8.28848149882596e-13,
@@ -1393,7 +1736,8 @@
           9.451626460094028e-17
         ],
         "solver_status": "PASS",
-        "status": "PASS_INTERNAL_RESEARCH"
+        "status": "PASS_INTERNAL_RESEARCH",
+        "work_trace_finite": true
       },
       {
         "active_by_step": [
@@ -1424,6 +1768,7 @@
         "case": "10_cycles_amp_0.5",
         "contact_state_transaction": "N/A - active set recomputed from each trial displacement",
         "cycle_count": 10,
+        "energy_trace_valid": true,
         "expected_active_by_step": [
           false,
           true,
@@ -1518,6 +1863,52 @@
           0.5,
           0.0
         ],
+        "penalty_energy_by_step": [
+          0.0,
+          0.00019493128464918632,
+          0.0,
+          0.00019493128464918632,
+          0.0,
+          0.00019493128464918632,
+          0.0,
+          0.00019493128464918632,
+          0.0,
+          0.00019493128464918632,
+          0.0,
+          0.00019493128464918632,
+          0.0,
+          0.00019493128464918632,
+          0.0,
+          0.00019493128464918632,
+          0.0,
+          0.00019493128464918632,
+          0.0,
+          0.00019493128464918632,
+          0.0
+        ],
+        "relative_work_imbalance_by_step": [
+          0.0,
+          2.7791143858621565e-12,
+          2.7794696350486412e-12,
+          2.7792920104553997e-12,
+          2.7791143858621585e-12,
+          2.7792920104553997e-12,
+          2.7794696350486404e-12,
+          2.7794696350486404e-12,
+          2.7792920104553997e-12,
+          2.7792920104553997e-12,
+          2.7792920104553997e-12,
+          2.7792920104553997e-12,
+          2.7792920104553997e-12,
+          2.7792920104553997e-12,
+          2.7792920104553997e-12,
+          2.7794696350486412e-12,
+          2.7794696350486412e-12,
+          2.7792920104553997e-12,
+          2.7794696350486412e-12,
+          2.7792920104553997e-12,
+          2.7792920104553993e-12
+        ],
         "residuals_by_step": [
           0.0,
           1.3895551417995923e-12,
@@ -1542,13 +1933,14 @@
           7.296226174744456e-17
         ],
         "solver_status": "PASS",
-        "status": "PASS_INTERNAL_RESEARCH"
+        "status": "PASS_INTERNAL_RESEARCH",
+        "work_trace_finite": true
       }
     ]
   },
   "energy_check": {
     "definition": "penalty energy = 0.5 * penalty * penetration^2",
-    "scope": "diagnostic contact penalty energy; no global energy balance claim",
+    "scope": "diagnostic contact penalty energy and finite nonnegative work-imbalance traces for mesh, cycles and rollback; no global energy balance claim",
     "status": "PASS"
   },
   "external_extension": {
@@ -1590,16 +1982,25 @@
     ]
   },
   "force_equilibrium": {
+    "action_reaction_interpretation": "Global support reaction balance is the applicable action/reaction check for the constrained benchmark.",
     "limit": 1e-08,
+    "moment_equilibrium_pass": true,
     "scope": "penalty mesh matrix; other groups retain route-specific residuals",
     "status": "PASS"
   },
   "functional_code_changed": false,
   "gate": "026-G09",
-  "generated_utc": "2026-08-30T15:22:42.276764Z",
+  "generated_utc": "2026-08-30T15:33:46.530645Z",
   "geometry": {
     "all_pass": true,
-    "limitation": "Geometry cases exercise rotated planar triangles and valid projections only.",
+    "coverage": {
+      "center_edge_vertex": true,
+      "multiple_active_slave_nodes": true,
+      "multiple_coplanar_triangles": true,
+      "orientations": true,
+      "regular_and_valid_distorted_triangles": true
+    },
+    "limitation": "Geometry cases remain bounded to valid node-to-faceted-surface projections; no self-contact or general surface claim is made.",
     "normal_finite": true,
     "rows": [
       {
@@ -1609,11 +2010,13 @@
           0.25,
           0.25
         ],
-        "case": "orientation_0_bary_0.25_0.25",
+        "case": "orientation_0_bary_0.250_0.250",
         "finite": true,
         "gaps": [],
+        "master_face_indices": [],
         "normals": [],
         "residual": 0.0,
+        "slave_node_count": 0,
         "status": "PASS"
       },
       {
@@ -1623,11 +2026,61 @@
           0.6,
           0.2
         ],
-        "case": "orientation_0_bary_0.60_0.20",
+        "case": "orientation_0_bary_0.600_0.200",
         "finite": true,
         "gaps": [],
+        "master_face_indices": [],
         "normals": [],
         "residual": 0.0,
+        "slave_node_count": 0,
+        "status": "PASS"
+      },
+      {
+        "active_contact_count": 1,
+        "angle": 0.0,
+        "barycentric": [
+          0.5,
+          0.5
+        ],
+        "case": "orientation_0_bary_0.500_0.500",
+        "finite": true,
+        "gaps": [],
+        "master_face_indices": [],
+        "normals": [],
+        "residual": 0.0,
+        "slave_node_count": 0,
+        "status": "PASS"
+      },
+      {
+        "active_contact_count": 1,
+        "angle": 0.0,
+        "barycentric": [
+          0.0,
+          0.0
+        ],
+        "case": "orientation_0_bary_0.000_0.000",
+        "finite": true,
+        "gaps": [],
+        "master_face_indices": [],
+        "normals": [],
+        "residual": 0.0,
+        "slave_node_count": 0,
+        "status": "PASS"
+      },
+      {
+        "active_contact_count": 1,
+        "angle": 0.0,
+        "barycentric": [
+          0.999,
+          0.0005
+        ],
+        "case": "orientation_0_bary_0.999_0.001",
+        "finite": true,
+        "gaps": [],
+        "master_face_indices": [],
+        "normals": [],
+        "residual": 0.0,
+        "slave_node_count": 0,
         "status": "PASS"
       },
       {
@@ -1637,11 +2090,13 @@
           0.25,
           0.25
         ],
-        "case": "orientation_1_bary_0.25_0.25",
+        "case": "orientation_1_bary_0.250_0.250",
         "finite": true,
         "gaps": [],
+        "master_face_indices": [],
         "normals": [],
         "residual": 1.3877787807814457e-17,
+        "slave_node_count": 0,
         "status": "PASS"
       },
       {
@@ -1651,11 +2106,13 @@
           0.6,
           0.2
         ],
-        "case": "orientation_1_bary_0.60_0.20",
+        "case": "orientation_1_bary_0.600_0.200",
         "finite": true,
         "gaps": [],
+        "master_face_indices": [],
         "normals": [],
         "residual": 1.3877787807814457e-17,
+        "slave_node_count": 0,
         "status": "PASS"
       },
       {
@@ -1665,11 +2122,13 @@
           0.25,
           0.25
         ],
-        "case": "orientation_2_bary_0.25_0.25",
+        "case": "orientation_2_bary_0.250_0.250",
         "finite": true,
         "gaps": [],
+        "master_face_indices": [],
         "normals": [],
         "residual": 1.3877787807814457e-17,
+        "slave_node_count": 0,
         "status": "PASS"
       },
       {
@@ -1679,11 +2138,13 @@
           0.6,
           0.2
         ],
-        "case": "orientation_2_bary_0.60_0.20",
+        "case": "orientation_2_bary_0.600_0.200",
         "finite": true,
         "gaps": [],
+        "master_face_indices": [],
         "normals": [],
         "residual": 1.3877787807814457e-17,
+        "slave_node_count": 0,
         "status": "PASS"
       },
       {
@@ -1693,11 +2154,13 @@
           0.25,
           0.25
         ],
-        "case": "orientation_3_bary_0.25_0.25",
+        "case": "orientation_3_bary_0.250_0.250",
         "finite": true,
         "gaps": [],
+        "master_face_indices": [],
         "normals": [],
         "residual": 0.0,
+        "slave_node_count": 0,
         "status": "PASS"
       },
       {
@@ -1707,11 +2170,39 @@
           0.6,
           0.2
         ],
-        "case": "orientation_3_bary_0.60_0.20",
+        "case": "orientation_3_bary_0.600_0.200",
         "finite": true,
         "gaps": [],
+        "master_face_indices": [],
         "normals": [],
         "residual": 0.0,
+        "slave_node_count": 0,
+        "status": "PASS"
+      },
+      {
+        "active_contact_count": 1,
+        "case": "valid_distorted_triangle",
+        "finite": true,
+        "gaps": [],
+        "master_face_indices": [],
+        "normals": [],
+        "residual": 0.0,
+        "slave_node_count": 0,
+        "status": "PASS"
+      },
+      {
+        "active_contact_count": 2,
+        "case": "coplanar_faces_multi_slave_patch",
+        "finite": true,
+        "gaps": [],
+        "geometry_features": [
+          "multiple_coplanar_triangles",
+          "multiple_active_slave_nodes"
+        ],
+        "master_face_indices": [],
+        "normals": [],
+        "residual": 0.0,
+        "slave_node_count": 0,
         "status": "PASS"
       }
     ]
@@ -1768,16 +2259,29 @@
         "dof_count": 24,
         "element_count": 5,
         "equilibrium_pass": true,
+        "external_moment_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
         "finite": true,
+        "force_balance_relative_error": 1.7883294518772733e-15,
+        "force_moment_equilibrium_pass": true,
         "gap": -0.15656109302149446,
         "iterations": 2,
         "mesh_level": 1,
         "minimum_det_f": 1.0,
+        "moment_balance_relative_error": 6.222760437446533e-15,
         "node_count": 8,
         "normalized_penalty_E10_L1": 10.0,
         "penalty": 100.0,
         "penalty_energy": 1.225568792404252,
         "penetration": 0.15656109302149446,
+        "reaction_moment_about_origin": [
+          4.3021142204224816e-15,
+          -4.218847493575595e-15,
+          1.5543122344752192e-15
+        ],
         "reaction_norm": 19.303587949719056,
         "residual": 1.784343144688098e-15,
         "residual_history": [
@@ -1798,16 +2302,29 @@
         "dof_count": 24,
         "element_count": 5,
         "equilibrium_pass": true,
+        "external_moment_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
         "finite": true,
+        "force_balance_relative_error": 6.57478736247199e-15,
+        "force_moment_equilibrium_pass": true,
         "gap": -0.016183349564395932,
         "iterations": 2,
         "mesh_level": 1,
         "minimum_det_f": 1.0,
+        "moment_balance_relative_error": 6.205342290003078e-15,
         "node_count": 8,
         "normalized_penalty_E10_L1": 100.0,
         "penalty": 1000.0,
         "penalty_energy": 0.130950401561717,
         "penetration": 0.016183349564395932,
+        "reaction_moment_about_origin": [
+          2.6645352591003757e-15,
+          -3.1086244689504383e-15,
+          4.6629367034256575e-15
+        ],
         "reaction_norm": 19.344587013910502,
         "residual": 6.7530865670540006e-15,
         "residual_history": [
@@ -1828,16 +2345,29 @@
         "dof_count": 24,
         "element_count": 5,
         "equilibrium_pass": true,
+        "external_moment_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
         "finite": true,
+        "force_balance_relative_error": 2.20090678853911e-13,
+        "force_moment_equilibrium_pass": true,
         "gap": -0.0016238033296911425,
         "iterations": 2,
         "mesh_level": 1,
         "minimum_det_f": 1.0,
+        "moment_balance_relative_error": 4.983961682309447e-15,
         "node_count": 8,
         "normalized_penalty_E10_L1": 1000.0,
         "penalty": 10000.0,
         "penalty_energy": 0.013183686267580206,
         "penetration": 0.0016238033296911425,
+        "reaction_moment_about_origin": [
+          2.942091015256665e-15,
+          -1.887379141862766e-15,
+          3.552713678800501e-15
+        ],
         "reaction_norm": 19.349544422767774,
         "residual": 2.2009074432482638e-13,
         "residual_history": [
@@ -1858,16 +2388,29 @@
         "dof_count": 24,
         "element_count": 5,
         "equilibrium_pass": true,
+        "external_moment_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
         "finite": true,
+        "force_balance_relative_error": 8.286705186259395e-13,
+        "force_moment_equilibrium_pass": true,
         "gap": -0.00016243522002490351,
         "iterations": 2,
         "mesh_level": 1,
         "minimum_det_f": 1.0,
+        "moment_balance_relative_error": 8.04605366142995e-15,
         "node_count": 8,
         "normalized_penalty_E10_L1": 10000.0,
         "penalty": 100000.0,
         "penalty_energy": 0.0013192600352269408,
         "penetration": 0.00016243522002490351,
+        "reaction_moment_about_origin": [
+          4.6074255521944e-15,
+          -4.773959005888173e-15,
+          4.551914400963142e-15
+        ],
         "reaction_norm": 19.350049306188613,
         "residual": 8.28848149882596e-13,
         "residual_history": [
@@ -1888,16 +2431,29 @@
         "dof_count": 24,
         "element_count": 5,
         "equilibrium_pass": true,
+        "external_moment_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
         "finite": true,
+        "force_balance_relative_error": 2.1726798138217026e-11,
+        "force_moment_equilibrium_pass": true,
         "gap": -1.6244071077586852e-05,
         "iterations": 2,
         "mesh_level": 1,
         "minimum_det_f": 1.0,
+        "moment_balance_relative_error": 6.6261459483009196e-15,
         "node_count": 8,
         "normalized_penalty_E10_L1": 100000.0,
         "penalty": 1000000.0,
         "penalty_energy": 0.00013193492258684684,
         "penetration": 1.6244071077586852e-05,
+        "reaction_moment_about_origin": [
+          3.524958103184872e-15,
+          -2.55351295663786e-15,
+          4.9960036108132044e-15
+        ],
         "reaction_norm": 19.350099886997537,
         "residual": 2.17269757751405e-11,
         "residual_history": [
@@ -1918,16 +2474,29 @@
         "dof_count": 36,
         "element_count": 10,
         "equilibrium_pass": true,
+        "external_moment_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
         "finite": true,
+        "force_balance_relative_error": 1.7997944582823283e-15,
+        "force_moment_equilibrium_pass": true,
         "gap": -0.16558400711733334,
         "iterations": 2,
         "mesh_level": 2,
         "minimum_det_f": 1.0,
+        "moment_balance_relative_error": 6.3671072676195396e-15,
         "node_count": 12,
         "normalized_penalty_E10_L1": 10.0,
         "penalty": 100.0,
         "penalty_energy": 1.370903170651655,
         "penetration": 0.16558400711733334,
+        "reaction_moment_about_origin": [
+          2.7755575615628914e-15,
+          -4.6629367034256575e-15,
+          -3.3306690738754696e-15
+        ],
         "reaction_norm": 19.07525478955381,
         "residual": 1.6506367409691625e-15,
         "residual_history": [
@@ -1948,16 +2517,29 @@
         "dof_count": 36,
         "element_count": 10,
         "equilibrium_pass": true,
+        "external_moment_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
         "finite": true,
+        "force_balance_relative_error": 2.8068893604405376e-14,
+        "force_moment_equilibrium_pass": true,
         "gap": -0.016997130554885942,
         "iterations": 2,
         "mesh_level": 2,
         "minimum_det_f": 1.0,
+        "moment_balance_relative_error": 5.3316719684500096e-15,
         "node_count": 12,
         "normalized_penalty_E10_L1": 100.0,
         "penalty": 1000.0,
         "penalty_energy": 0.14445122354991866,
         "penetration": 0.016997130554885942,
+        "reaction_moment_about_origin": [
+          1.8318679906315083e-15,
+          -3.3306690738754696e-16,
+          -4.9960036108132044e-15
+        ],
         "reaction_norm": 19.17475354104453,
         "residual": 2.8070083982682447e-14,
         "residual_history": [
@@ -1978,16 +2560,29 @@
         "dof_count": 36,
         "element_count": 10,
         "equilibrium_pass": true,
+        "external_moment_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
         "finite": true,
+        "force_balance_relative_error": 3.714363023316462e-13,
+        "force_moment_equilibrium_pass": true,
         "gap": -0.0017042285636197363,
         "iterations": 2,
         "mesh_level": 2,
         "minimum_det_f": 1.0,
+        "moment_balance_relative_error": 5.9009163182103526e-15,
         "node_count": 12,
         "normalized_penalty_E10_L1": 1000.0,
         "penalty": 10000.0,
         "penalty_energy": 0.014521974985286948,
         "penetration": 0.0017042285636197363,
+        "reaction_moment_about_origin": [
+          2.6645352591003757e-15,
+          -4.773959005888173e-15,
+          -2.220446049250313e-15
+        ],
         "reaction_norm": 19.185310923524675,
         "residual": 3.712588711339574e-13,
         "residual_history": [
@@ -2008,16 +2603,29 @@
         "dof_count": 36,
         "element_count": 10,
         "equilibrium_pass": true,
+        "external_moment_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
         "finite": true,
+        "force_balance_relative_error": 1.3955059839342908e-12,
+        "force_moment_equilibrium_pass": true,
         "gap": -0.0001704681434349098,
         "iterations": 2,
         "mesh_level": 2,
         "minimum_det_f": 1.0,
+        "moment_balance_relative_error": 5.8695003914472035e-15,
         "node_count": 12,
         "normalized_penalty_E10_L1": 10000.0,
         "penalty": 100000.0,
         "penalty_energy": 0.0014529693963072489,
         "penetration": 0.0001704681434349098,
+        "reaction_moment_about_origin": [
+          3.219646771412954e-15,
+          -3.885780586188048e-15,
+          -2.9976021664879227e-15
+        ],
         "reaction_norm": 19.18637299035956,
         "residual": 1.3955059851684764e-12,
         "residual_history": [
@@ -2038,16 +2646,29 @@
         "dof_count": 36,
         "element_count": 10,
         "equilibrium_pass": true,
+        "external_moment_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
         "finite": true,
+        "force_balance_relative_error": 1.8907719837951797e-11,
+        "force_moment_equilibrium_pass": true,
         "gap": -1.7047267346192996e-05,
         "iterations": 2,
         "mesh_level": 2,
         "minimum_det_f": 1.0,
+        "moment_balance_relative_error": 5.7423864495365076e-15,
         "node_count": 12,
         "normalized_penalty_E10_L1": 100000.0,
         "penalty": 1000000.0,
         "penalty_energy": 0.000145304661986289,
         "penetration": 1.7047267346192996e-05,
+        "reaction_moment_about_origin": [
+          3.2751579226442118e-15,
+          -4.218847493575595e-15,
+          -2.1094237467877974e-15
+        ],
         "reaction_norm": 19.186479260185497,
         "residual": 1.8907542202000865e-11,
         "residual_history": [
@@ -2068,16 +2689,29 @@
         "dof_count": 60,
         "element_count": 20,
         "equilibrium_pass": true,
+        "external_moment_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
         "finite": true,
+        "force_balance_relative_error": 6.593398912923021e-15,
+        "force_moment_equilibrium_pass": true,
         "gap": -0.16713935520355605,
         "iterations": 2,
         "mesh_level": 4,
         "minimum_det_f": 1.0,
+        "moment_balance_relative_error": 8.029424664714735e-15,
         "node_count": 20,
         "normalized_penalty_E10_L1": 10.0,
         "penalty": 100.0,
         "penalty_energy": 1.396778202893024,
         "penetration": 0.16713935520355605,
+        "reaction_moment_about_origin": [
+          3.608224830031759e-16,
+          -5.329070518200751e-15,
+          -5.995204332975845e-15
+        ],
         "reaction_norm": 18.96468122434399,
         "residual": 6.182368191886262e-15,
         "residual_history": [
@@ -2098,16 +2732,29 @@
         "dof_count": 60,
         "element_count": 20,
         "equilibrium_pass": true,
+        "external_moment_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
         "finite": true,
+        "force_balance_relative_error": 2.078697695899421e-14,
+        "force_moment_equilibrium_pass": true,
         "gap": -0.01713626711034255,
         "iterations": 2,
         "mesh_level": 4,
         "minimum_det_f": 1.0,
+        "moment_balance_relative_error": 8.552152253149151e-15,
         "node_count": 20,
         "normalized_penalty_E10_L1": 100.0,
         "penalty": 1000.0,
         "penalty_energy": 0.14682582523850393,
         "penetration": 0.01713626711034255,
+        "reaction_moment_about_origin": [
+          -3.469446951953614e-16,
+          3.552713678800501e-15,
+          -7.771561172376096e-15
+        ],
         "reaction_norm": 19.082421357185382,
         "residual": 2.114831370625149e-14,
         "residual_history": [
@@ -2128,16 +2775,29 @@
         "dof_count": 60,
         "element_count": 20,
         "equilibrium_pass": true,
+        "external_moment_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
         "finite": true,
+        "force_balance_relative_error": 1.4394597377707256e-14,
+        "force_moment_equilibrium_pass": true,
         "gap": -0.0017179677115981562,
         "iterations": 2,
         "mesh_level": 4,
         "minimum_det_f": 1.0,
+        "moment_balance_relative_error": 3.847627619263045e-15,
         "node_count": 20,
         "normalized_penalty_E10_L1": 1000.0,
         "penalty": 10000.0,
         "penalty_energy": 0.014757065290469027,
         "penetration": 0.0017179677115981562,
+        "reaction_moment_about_origin": [
+          1.1379786002407855e-15,
+          -3.3306690738754696e-15,
+          -1.5543122344752192e-15
+        ],
         "reaction_norm": 19.094790920115386,
         "residual": 1.4595488686109072e-14,
         "residual_history": [
@@ -2158,16 +2818,29 @@
         "dof_count": 60,
         "element_count": 20,
         "equilibrium_pass": true,
+        "external_moment_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
         "finite": true,
+        "force_balance_relative_error": 5.50315603355559e-13,
+        "force_moment_equilibrium_pass": true,
         "gap": -0.00017184030216021995,
         "iterations": 2,
         "mesh_level": 4,
         "minimum_det_f": 1.0,
+        "moment_balance_relative_error": 1.0603438181005737e-14,
         "node_count": 20,
         "normalized_penalty_E10_L1": 10000.0,
         "penalty": 100000.0,
         "penalty_energy": 0.0014764544723257847,
         "penetration": 0.00017184030216021995,
+        "reaction_moment_about_origin": [
+          1.5126788710517758e-15,
+          -1.1102230246251565e-15,
+          -1.0436096431476471e-14
+        ],
         "reaction_norm": 19.09603405555795,
         "residual": 5.492509364653396e-13,
         "residual_history": [
@@ -2188,16 +2861,29 @@
         "dof_count": 60,
         "element_count": 20,
         "equilibrium_pass": true,
+        "external_moment_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
         "finite": true,
+        "force_balance_relative_error": 6.618652293029867e-11,
+        "force_moment_equilibrium_pass": true,
         "gap": -1.718446564602516e-05,
         "iterations": 2,
         "mesh_level": 4,
         "minimum_det_f": 1.0,
+        "moment_balance_relative_error": 4.038436252074007e-15,
         "node_count": 20,
         "normalized_penalty_E10_L1": 100000.0,
         "penalty": 1000000.0,
         "penalty_energy": 0.00014765292976970945,
         "penetration": 1.718446564602516e-05,
+        "reaction_moment_about_origin": [
+          -2.6229018956769323e-15,
+          -2.3314683517128287e-15,
+          -1.9984014443252818e-15
+        ],
         "reaction_norm": 19.09615842979529,
         "residual": 6.618652294125504e-11,
         "residual_history": [
@@ -2235,6 +2921,7 @@
         "committed_digest": "266cf1b444c416b73ac54c2ad81130b9f3d7ab7adef544daa83e4fedb34b056c",
         "contact_state_transaction": "N/A - frictionless active set is recomputed; displacement/material transaction checked",
         "displacement_preserved": true,
+        "energy_trace_valid": true,
         "expanded_reference_path": [
           0.05,
           0.1
@@ -2260,6 +2947,11 @@
         "path": [
           0.1
         ],
+        "penalty_energy_trace": [
+          0.0,
+          0.0,
+          0.0
+        ],
         "phase": "before_activation",
         "reference_final_contact": {
           "active": false,
@@ -2279,9 +2971,14 @@
             "retry_increment": 0.05
           }
         ],
+        "relative_work_imbalance_trace": [
+          8.550300714245019e-10,
+          4.766761779633554e-10
+        ],
         "rollback_digest": "266cf1b444c416b73ac54c2ad81130b9f3d7ab7adef544daa83e4fedb34b056c",
         "state_preserved": true,
-        "status": "PASS_INTERNAL_ROLLBACK"
+        "status": "PASS_INTERNAL_ROLLBACK",
+        "work_trace_finite": true
       },
       {
         "attempts": 4,
@@ -2296,6 +2993,7 @@
         "committed_digest": "90f071969b05062c2c5be2f42d5335d2d815f9b1bf23db59cceba842894fd3b3",
         "contact_state_transaction": "N/A - frictionless active set is recomputed; displacement/material transaction checked",
         "displacement_preserved": true,
+        "energy_trace_valid": true,
         "expanded_reference_path": [
           0.1,
           0.175,
@@ -2327,6 +3025,12 @@
           0.1,
           0.25
         ],
+        "penalty_energy_trace": [
+          0.0,
+          3.9581157080220306e-06,
+          2.8553162565120185e-05,
+          2.855316256352833e-05
+        ],
         "phase": "during_activation",
         "reference_final_contact": {
           "active": true,
@@ -2348,9 +3052,15 @@
             "retry_increment": 0.07499999999999998
           }
         ],
+        "relative_work_imbalance_trace": [
+          1.112426015748794e-10,
+          4.121102401020255e-11,
+          2.0706675183186145e-13
+        ],
         "rollback_digest": "90f071969b05062c2c5be2f42d5335d2d815f9b1bf23db59cceba842894fd3b3",
         "state_preserved": true,
-        "status": "PASS_INTERNAL_ROLLBACK"
+        "status": "PASS_INTERNAL_ROLLBACK",
+        "work_trace_finite": true
       },
       {
         "attempts": 5,
@@ -2367,6 +3077,7 @@
         "committed_digest": "bfedc1f4f79fb023ac6cc615fcdc01a4fe331b60225e94bdb9c4c9487b3ccd5b",
         "contact_state_transaction": "N/A - frictionless active set is recomputed; displacement/material transaction checked",
         "displacement_preserved": true,
+        "energy_trace_valid": true,
         "expanded_reference_path": [
           0.1,
           0.25,
@@ -2400,6 +3111,13 @@
           0.25,
           0.75
         ],
+        "penalty_energy_trace": [
+          0.0,
+          2.855316256352833e-05,
+          0.0002730281833334706,
+          0.0007674901752508568,
+          0.0007674901752481058
+        ],
         "phase": "just_after_activation",
         "reference_final_contact": {
           "active": true,
@@ -2421,9 +3139,16 @@
             "retry_increment": 0.25
           }
         ],
+        "relative_work_imbalance_trace": [
+          1.112426015748794e-10,
+          4.065448428721592e-11,
+          4.653372421753128e-12,
+          2.6906262236925184e-13
+        ],
         "rollback_digest": "bfedc1f4f79fb023ac6cc615fcdc01a4fe331b60225e94bdb9c4c9487b3ccd5b",
         "state_preserved": true,
-        "status": "PASS_INTERNAL_ROLLBACK"
+        "status": "PASS_INTERNAL_ROLLBACK",
+        "work_trace_finite": true
       },
       {
         "attempts": 6,
@@ -2440,6 +3165,7 @@
         "committed_digest": "0ede9a58941f91c3b27c93eabf907fb31ff8cf33803af1a26f731e2dc3e1e6a9",
         "contact_state_transaction": "N/A - frictionless active set is recomputed; displacement/material transaction checked",
         "displacement_preserved": true,
+        "energy_trace_valid": true,
         "expanded_reference_path": [
           0.1,
           0.25,
@@ -2471,6 +3197,14 @@
           0.75,
           0.0
         ],
+        "penalty_energy_trace": [
+          0.0,
+          2.855316256352833e-05,
+          0.0007674901752481058,
+          0.00011954651861309456,
+          0.0,
+          0.0
+        ],
         "phase": "during_separation",
         "reference_final_contact": {
           "active": false,
@@ -2490,9 +3224,17 @@
             "retry_increment": -0.375
           }
         ],
+        "relative_work_imbalance_trace": [
+          1.112426015748794e-10,
+          4.065448428721592e-11,
+          4.133736919901401e-12,
+          5.749218022368699e-13,
+          9.859153114248484e-13
+        ],
         "rollback_digest": "0ede9a58941f91c3b27c93eabf907fb31ff8cf33803af1a26f731e2dc3e1e6a9",
         "state_preserved": true,
-        "status": "PASS_INTERNAL_ROLLBACK"
+        "status": "PASS_INTERNAL_ROLLBACK",
+        "work_trace_finite": true
       },
       {
         "attempts": 7,
@@ -2507,6 +3249,7 @@
         "committed_digest": "276050c00d102f006cf0e051a16db0d77a029373779a8130a74fddcbf1bd0ec2",
         "contact_state_transaction": "N/A - frictionless active set is recomputed; displacement/material transaction checked",
         "displacement_preserved": true,
+        "energy_trace_valid": true,
         "expanded_reference_path": [
           0.1,
           0.25,
@@ -2544,6 +3287,15 @@
           0.0,
           0.25
         ],
+        "penalty_energy_trace": [
+          0.0,
+          2.855316256352833e-05,
+          0.0007674901752481058,
+          0.0,
+          0.0,
+          2.8555910592668018e-05,
+          2.8555910592668018e-05
+        ],
         "phase": "during_recontact",
         "reference_final_contact": {
           "active": true,
@@ -2565,9 +3317,18 @@
             "retry_increment": 0.125
           }
         ],
+        "relative_work_imbalance_trace": [
+          1.112426015748794e-10,
+          4.065448428721592e-11,
+          4.133736919901401e-12,
+          1.3546779837326379e-12,
+          1.3343523307662394e-16,
+          2.438265217313676e-13
+        ],
         "rollback_digest": "276050c00d102f006cf0e051a16db0d77a029373779a8130a74fddcbf1bd0ec2",
         "state_preserved": true,
-        "status": "PASS_INTERNAL_ROLLBACK"
+        "status": "PASS_INTERNAL_ROLLBACK",
+        "work_trace_finite": true
       }
     ],
     "state_integrity": true
@@ -2781,7 +3542,7 @@
     ],
     "schema_version": 1,
     "source_closeout": "qualification/0_2_6/g09_owner_closeout.json",
-    "source_sha": "cd5b163c59d8ed1d93bc853701d61cc58ddd61f9"
+    "source_sha": "b09d8ddc98f8f54d9204d3d45cd9a8e07e7edbd6"
   },
   "rollback": {
     "all_pass": true,
@@ -2954,7 +3715,7 @@
   },
   "source": {
     "dirty": false,
-    "sha": "cd5b163c59d8ed1d93bc853701d61cc58ddd61f9"
+    "sha": "b09d8ddc98f8f54d9204d3d45cd9a8e07e7edbd6"
   },
   "status": "PASS_WITH_LIMITATIONS",
   "unexpected_failures": []

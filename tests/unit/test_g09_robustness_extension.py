@@ -20,7 +20,7 @@ def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def test_g09_extension_has_45_cases_and_preserves_closeout() -> None:
+def test_g09_extension_has_55_cases_and_preserves_closeout() -> None:
     evidence = _load("g09_robustness_extension_evidence.json")
     registry = _load("g09_robustness_extension_case_registry.json")
     requirements = _load("g09_robustness_extension_requirements.json")
@@ -29,7 +29,7 @@ def test_g09_extension_has_45_cases_and_preserves_closeout() -> None:
 
     assert evidence["status"] == "PASS_WITH_LIMITATIONS"
     assert evidence["official_gate_status_unchanged"] == "PASS_WITH_LIMITATIONS"
-    assert evidence["source"]["sha"] == "2b5f0e3935975907600e0833a95d446a4cdb8920"
+    assert evidence["source"]["sha"] == "b09d8ddc98f8f54d9204d3d45cd9a8e07e7edbd6"
     assert evidence["source"]["dirty"] is False
     assert evidence["case_counts"] == {
         "adversarial": 6,
@@ -89,7 +89,7 @@ def test_g09_extension_manifest_digests_match_archived_artifacts() -> None:
         "g09_robustness_extension_evidence.md": DOC / "0_2_6_g09_robustness_extension_evidence.md",
     }
 
-    assert manifest["source_sha"] == "2b5f0e3935975907600e0833a95d446a4cdb8920"
+    assert manifest["source_sha"] == "b09d8ddc98f8f54d9204d3d45cd9a8e07e7edbd6"
     assert manifest["source_dirty"] is False
     for artifact, path in expected.items():
         assert manifest["artifacts"][artifact] == _sha256(path)

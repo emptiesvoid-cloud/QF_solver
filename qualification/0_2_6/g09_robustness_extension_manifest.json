@@ -1,15 +1,15 @@
 {
   "artifacts": {
-    "g09_robustness_extension_case_registry.json": "7463b1ee789c260420be2525514019ce5012c08148cb0267f46cf850ecce39a2",
-    "g09_robustness_extension_evidence.json": "adfeee8bfbcd4f6a083b2234a6fc8e2cb2f6644e5aca2ae6ad651899be9113d4",
-    "g09_robustness_extension_evidence.md": "4649398efd1e490e28cc5bb9982765f8b3771bad794d97eb6f6852ca33c80bbc",
-    "g09_robustness_extension_requirements.json": "8bdab62875e4d40fc99f06ec3f6a054c04ac02346f016bcf6c855ab9159efe34"
+    "g09_robustness_extension_case_registry.json": "bd592fce54d84e0f8a558d9cbf6195aa3965aeaccaf008724e88a8c67e4c9fcc",
+    "g09_robustness_extension_evidence.json": "ee2977f6b46b62a5b7049539e6e1709b4afdfa6cf1e19f810f782157a1527dfe",
+    "g09_robustness_extension_evidence.md": "c392203d211beb1890c8e32dadf8227ab309a63e00b06fd34ea0d5a32b750e3b",
+    "g09_robustness_extension_requirements.json": "7ef752647324909533fc0646aef5a8b9f197a77f7482bd659367520a175d5e6d"
   },
   "gate": "026-G09",
-  "generated_utc": "2026-08-30T15:22:42.276764Z",
+  "generated_utc": "2026-08-30T15:33:46.530645Z",
   "lot": "ROBUSTNESS_EXTENSION",
   "schema_version": 1,
   "source_dirty": false,
-  "source_sha": "cd5b163c59d8ed1d93bc853701d61cc58ddd61f9",
+  "source_sha": "b09d8ddc98f8f54d9204d3d45cd9a8e07e7edbd6",
   "status": "PASS_WITH_LIMITATIONS"
 }
