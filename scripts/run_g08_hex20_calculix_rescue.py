@@ -171,7 +171,7 @@ def _render_report(summary: dict[str, Any]) -> str:
             "## Scope and limitations",
             "",
             "- Same QF HEX20 mesh factory, C3D20 mapping, homogeneous isotropic material and nodal dead load.",
-            "- One-cell and two-cell meshes were executed, each with a deterministic replay.",
+            f"- Mesh levels executed: {', '.join(f'{cells}-cell' for cells in CELLS)}; each level has a deterministic replay.",
             "- The existing 10% correlation band was declared before execution and is reused unchanged.",
             "- This is numerical external correlation only; it is not physical validation.",
             "- The official G08 family decision and gate remain unchanged pending Owner review.",
