@@ -135,7 +135,12 @@
         "g09_lot3_evidence.json",
         "g09_lot3_manifest.json",
         "g09_owner_closeout.json",
-        "docs/verification/0_2_6/0_2_6_g09_owner_closeout.md"
+        "docs/verification/0_2_6/0_2_6_g09_owner_closeout.md",
+        "g09_robustness_extension_evidence.json",
+        "g09_robustness_extension_case_registry.json",
+        "g09_robustness_extension_requirements.json",
+        "g09_robustness_extension_manifest.json",
+        "docs/verification/0_2_6/0_2_6_g09_robustness_extension_evidence.md"
       ],
       "id": "026-G09",
       "status": "PASS_WITH_LIMITATIONS",
@@ -154,6 +159,7 @@
         "Lot 3 adds bounded Code_Aster unilateral and CalculiX pre-contact comparisons; it does not validate the QF penalty law identically.",
         "The Lot 3 candidate penalty interval remains experimental; no production interval or conditioning cutoff is approved.",
         "The mesh-dependent transition warning is retained explicitly in the Owner closeout.",
+        "The robustness extension adds 45 controlled internal cases and reuses the archived Lot 3 external evidence; it does not change the official closeout or approve a universal penalty range.",
         "General surface-to-surface, finite sliding and friction remain outside scope."
       ]
     },
