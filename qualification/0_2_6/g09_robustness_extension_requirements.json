@@ -1,0 +1,211 @@
+{
+  "counts": {
+    "BOUNDED": 11,
+    "DEFERRED": 3,
+    "FAIL": 0,
+    "FULL_CANDIDATE": 4
+  },
+  "extension_effect": "SUPPORTING_EVIDENCE_ONLY",
+  "interpretation": "The extension adds evidence without promoting deferred requirements or changing the Owner closeout.",
+  "requirement_count": 18,
+  "requirements": [
+    {
+      "decision": "BOUNDED",
+      "extension_effect": "SUPPORTING_EVIDENCE_ONLY",
+      "historical_decision": "OWNER_APPROVED_BOUNDED",
+      "historical_evidence": [
+        "g09_lot1_evidence.json",
+        "g09_lot2_evidence.json",
+        "g09_lot3_evidence.json"
+      ],
+      "limitation": "Signed gap and unilateral activation are bounded to the tested TET4 node-to-triangle route.",
+      "requirement_id": "G09-001"
+    },
+    {
+      "decision": "BOUNDED",
+      "extension_effect": "SUPPORTING_EVIDENCE_ONLY",
+      "historical_decision": "OWNER_APPROVED_BOUNDED",
+      "historical_evidence": [
+        "g09_lot1_evidence.json",
+        "g09_lot2_evidence.json"
+      ],
+      "limitation": "The common nonlinear driver is established for the exercised contact route only.",
+      "requirement_id": "G09-002"
+    },
+    {
+      "decision": "BOUNDED",
+      "extension_effect": "SUPPORTING_EVIDENCE_ONLY",
+      "historical_decision": "OWNER_APPROVED_BOUNDED",
+      "historical_evidence": [
+        "g09_lot1_evidence.json",
+        "g09_lot2_evidence.json"
+      ],
+      "limitation": "Residual and equilibrium observations are bounded to declared cases; no new universal release band is introduced.",
+      "requirement_id": "G09-003"
+    },
+    {
+      "decision": "DEFERRED",
+      "extension_effect": "SUPPORTING_EVIDENCE_ONLY",
+      "historical_decision": "DEFERRED_LIMITATION",
+      "historical_evidence": [
+        "g09_lot1_evidence.json",
+        "g09_lot2_evidence.json"
+      ],
+      "limitation": "Penalty sensitivity is characterized, but no production range or conditioning cutoff is approved.",
+      "requirement_id": "G09-004"
+    },
+    {
+      "decision": "BOUNDED",
+      "extension_effect": "SUPPORTING_EVIDENCE_ONLY",
+      "historical_decision": "OWNER_APPROVED_BOUNDED",
+      "historical_evidence": [
+        "g09_lot1_evidence.json",
+        "g09_lot2_evidence.json"
+      ],
+      "limitation": "Open/close/recontact is bounded to the fixed initial-search geometry.",
+      "requirement_id": "G09-005"
+    },
+    {
+      "decision": "FULL_CANDIDATE",
+      "extension_effect": "SUPPORTING_EVIDENCE_ONLY",
+      "historical_decision": "OWNER_APPROVED_FULL",
+      "historical_evidence": [
+        "g09_lot1_evidence.json",
+        "g09_lot2_evidence.json"
+      ],
+      "limitation": "Full only means the declared excessive-penetration contract and its tested route.",
+      "requirement_id": "G09-006"
+    },
+    {
+      "decision": "FULL_CANDIDATE",
+      "extension_effect": "SUPPORTING_EVIDENCE_ONLY",
+      "historical_decision": "OWNER_APPROVED_FULL",
+      "historical_evidence": [
+        "g09_lot1_evidence.json",
+        "g09_lot2_evidence.json",
+        "g09_lot3_evidence.json"
+      ],
+      "limitation": "Determinism and finite diagnostics are established for the executed cases, not all future combinations.",
+      "requirement_id": "G09-007"
+    },
+    {
+      "decision": "BOUNDED",
+      "extension_effect": "SUPPORTING_EVIDENCE_ONLY",
+      "historical_decision": "OWNER_APPROVED_BOUNDED",
+      "historical_evidence": [
+        "g09_lot1_evidence.json",
+        "g09_lot2_evidence.json",
+        "g09_lot3_evidence.json"
+      ],
+      "limitation": "Unsupported physics remains explicit and excluded from the claim.",
+      "requirement_id": "G09-008"
+    },
+    {
+      "decision": "BOUNDED",
+      "extension_effect": "SUPPORTING_EVIDENCE_ONLY",
+      "historical_decision": "OWNER_APPROVED_BOUNDED",
+      "historical_evidence": [
+        "g09_lot2_evidence.json"
+      ],
+      "limitation": "Three controlled TET4 mesh levels and three candidate penalties; no universal mesh law.",
+      "requirement_id": "G09-L2-001"
+    },
+    {
+      "decision": "BOUNDED",
+      "extension_effect": "SUPPORTING_EVIDENCE_ONLY",
+      "historical_decision": "OWNER_APPROVED_BOUNDED",
+      "historical_evidence": [
+        "g09_lot2_evidence.json"
+      ],
+      "limitation": "Cycle evidence uses a fixed master surface and initial search.",
+      "requirement_id": "G09-L2-002"
+    },
+    {
+      "decision": "FULL_CANDIDATE",
+      "extension_effect": "SUPPORTING_EVIDENCE_ONLY",
+      "historical_decision": "OWNER_APPROVED_FULL",
+      "historical_evidence": [
+        "g09_lot2_evidence.json"
+      ],
+      "limitation": "State integrity is full for the exercised mutable/retry paths; stateless contact recomputation is recorded as N/A.",
+      "requirement_id": "G09-L2-003"
+    },
+    {
+      "decision": "FULL_CANDIDATE",
+      "extension_effect": "SUPPORTING_EVIDENCE_ONLY",
+      "historical_decision": "OWNER_APPROVED_FULL",
+      "historical_evidence": [
+        "g09_lot2_evidence.json"
+      ],
+      "limitation": "Failure behavior is full for the declared adversarial classes, not unregistered future inputs.",
+      "requirement_id": "G09-L2-004"
+    },
+    {
+      "decision": "DEFERRED",
+      "extension_effect": "SUPPORTING_EVIDENCE_ONLY",
+      "historical_decision": "DEFERRED_LIMITATION",
+      "historical_evidence": [
+        "g09_lot2_evidence.json",
+        "g09_lot3_evidence.json"
+      ],
+      "limitation": "Candidate governance remains experimental and has no approved conditioning cutoff.",
+      "requirement_id": "G09-L2-005"
+    },
+    {
+      "decision": "BOUNDED",
+      "extension_effect": "SUPPORTING_EVIDENCE_ONLY",
+      "historical_decision": "OWNER_APPROVED_BOUNDED",
+      "historical_evidence": [
+        "g09_lot3_evidence.json"
+      ],
+      "limitation": "Code_Aster validates a scalar/active unilateral comparator, not a general deformable contact law.",
+      "requirement_id": "G09-L3-001"
+    },
+    {
+      "decision": "BOUNDED",
+      "extension_effect": "SUPPORTING_EVIDENCE_ONLY",
+      "historical_decision": "OWNER_APPROVED_BOUNDED",
+      "historical_evidence": [
+        "g09_lot3_evidence.json",
+        "g09_lot3_mesh6/summary.json"
+      ],
+      "limitation": "Active branch agreement is strong; transition and gap-curve differences remain formulation- and mesh-dependent.",
+      "requirement_id": "G09-L3-002"
+    },
+    {
+      "decision": "BOUNDED",
+      "extension_effect": "SUPPORTING_EVIDENCE_ONLY",
+      "historical_decision": "OWNER_APPROVED_BOUNDED",
+      "historical_evidence": [
+        "g09_lot3_evidence.json",
+        "g09_lot3_mesh6/summary.json"
+      ],
+      "limitation": "CalculiX is an elastic pre-contact C3D4 tie-breaker only.",
+      "requirement_id": "G09-L3-003"
+    },
+    {
+      "decision": "DEFERRED",
+      "extension_effect": "SUPPORTING_EVIDENCE_ONLY",
+      "historical_decision": "DEFERRED_LIMITATION",
+      "historical_evidence": [
+        "g09_lot3_evidence.json"
+      ],
+      "limitation": "The 1e4..1e6 interval is retained as an experimental candidate; Owner does not approve it for universal production use.",
+      "requirement_id": "G09-L3-004"
+    },
+    {
+      "decision": "BOUNDED",
+      "extension_effect": "SUPPORTING_EVIDENCE_ONLY",
+      "historical_decision": "OWNER_APPROVED_BOUNDED",
+      "historical_evidence": [
+        "g09_lot3_manifest.json",
+        "g09_owner_closeout.json"
+      ],
+      "limitation": "Aggregate traceability is closed for this bounded gate package; later contact capabilities require new evidence.",
+      "requirement_id": "G09-L3-005"
+    }
+  ],
+  "schema_version": 1,
+  "source_closeout": "qualification/0_2_6/g09_owner_closeout.json",
+  "source_sha": "80b458aaa583f21be68bc007a557232a8855aa4a"
+}
