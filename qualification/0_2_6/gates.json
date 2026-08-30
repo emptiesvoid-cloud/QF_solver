@@ -115,10 +115,23 @@
       "title": "Buckling maturity extension"
     },
     {
-      "evidence_ids": [],
+      "evidence_ids": [
+        "g09_requirements.json",
+        "g09_case_registry.json",
+        "docs/verification/0_2_6/0_2_6_g09_lot1_contract.md",
+        "g09_lot1_evidence.json",
+        "g09_lot1_evidence.md",
+        "g09_lot1_manifest.json"
+      ],
       "id": "026-G09",
       "status": "NOT_STARTED",
-      "title": "Contact maturity extension"
+      "title": "Contact maturity extension",
+      "lot1_status": "PASS_WITH_LIMITATIONS",
+      "lot1_gate_closure": false,
+      "limitations": [
+        "Lot 1 is bounded TET4 node-to-triangle frictionless penalty evidence.",
+        "General surface-to-surface, finite sliding, friction and external correlation remain open."
+      ]
     },
     {
       "evidence_ids": [],
