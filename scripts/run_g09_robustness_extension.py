@@ -1119,7 +1119,7 @@ def run(output: Path, expected_sha: str = SOURCE_SHA_DEFAULT) -> dict[str, Any]:
             json_path.name: _sha256(json_path),
             registry_path.name: _sha256(registry_path),
             requirements_path.name: _sha256(requirements_path),
-            report_path.name: _sha256(report_path),
+            "g09_robustness_extension_evidence.md": _sha256(report_path),
         },
     }
     manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
