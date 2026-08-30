@@ -342,7 +342,7 @@ def _render_report(summary: dict[str, Any]) -> str:
         f"`b={WIDTH:g}`, `h={HEIGHT:g}`, `I={WIDTH * HEIGHT**3 / 12.0:.12g}`.",
         f"- Euler reference: `{summary['euler_reference']:.12g}`; declared error tolerance: `{EULER_RELATIVE_TOLERANCE:.0%}`.",
         "- Fixed-free conditions: all translations fixed at `x=0`; compressive `UX` load distributed over all nodes at `x=L`.",
-        "- Mesh refinement changes only the lengthwise partition; one solid layer is retained through each transverse direction.",
+        "- Axial mesh rows change only the lengthwise partition and retain one solid layer through each transverse direction.",
         "",
         "## Results",
         "",
@@ -377,8 +377,30 @@ def _render_report(summary: dict[str, Any]) -> str:
             "",
             "No family is promoted automatically by this study. The result must be read together "
             "with the existing G08 mesh, external-correlation and first-mode evidence.",
+            "",
+            "## Transverse mesh diagnostic",
+            "",
+            "The supplementary transverse screen keeps two axial cells and uses one, two and three "
+            "layers in each transverse direction. It is reported separately from the axial refinement "
+            "and does not change the official G08 mesh policy.",
+            "",
+            "| Family | Axial cells | Transverse cells | Loaded nodes | Total force | Pcr QF | Euler error | Mode |",
+            "|---|---:|---:|---:|---:|---:|---:|---|",
         ]
     )
+    for row in summary["transverse_mesh_rows"]:
+        if row["status"] != "PASS":
+            lines.append(
+                f"| {row['family']} | {row['cells_x']} | {row['cells_y']} | "
+                f"{row.get('loaded_node_count', '-')} | - | - | - | {row.get('failure_type', 'FAIL')} |"
+            )
+            continue
+        lines.append(
+            f"| {row['family']} | {row['cells_x']} | {row['cells_y']} | "
+            f"{row['loaded_node_count']} | {row['reference_total_load']:.6g} | "
+            f"{row['pcr_qf']:.8g} | {row['euler_relative_error']:.3%} | "
+            f"{row['mode_classification']} |"
+        )
     return "\n".join(lines) + "\n"
 
 
@@ -459,6 +481,7 @@ def run(output: Path, evidence_dir: Path) -> dict[str, Any]:
             "inertia": WIDTH * HEIGHT**3 / 12.0,
             "reference_load": REFERENCE_LOAD,
             "reference_load_magnitude": abs(REFERENCE_LOAD),
+            "reference_load_sign_convention": "negative UX denotes compression; total force is signed",
             "euler_reference": _euler_reference(),
             "load": "uniformly distributed compressive nodal UX dead load on x=L",
             "assumptions": [
@@ -468,6 +491,14 @@ def run(output: Path, evidence_dir: Path) -> dict[str, Any]:
             ],
         },
         "euler_reference": _euler_reference(),
+        "load_factor_audit": {
+            "old_comparison_valid": False,
+            "old_comparison_issue": "The superseded screen applied +1.0 total UX load (tension) and compared lambda directly with positive Euler Pcr.",
+            "current_comparison": "Pcr_QF = abs(lambda * F_REFERENCE_TOTAL); F_REFERENCE_TOTAL is the signed compressive nodal-load sum.",
+            "reference_total_load_is_constant": all(
+                row.get("reference_total_load") == REFERENCE_LOAD for row in rows
+            ),
+        },
         "families": list(FAMILIES),
         "mesh_levels": list(MESH_LEVELS),
         "rows": rows,
