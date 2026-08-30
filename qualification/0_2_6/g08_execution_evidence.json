@@ -2,9 +2,9 @@
   "schema_version": 1,
   "gate": "026-G08",
   "status": "PASS_WITH_LIMITATIONS",
-  "source_sha": "1b7b8c7ca85ac184a900bd5a5530aa47e733827f",
+  "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
   "source_dirty": false,
-  "captured_at_utc": "2026-08-30T09:45:05.894018Z",
+  "captured_at_utc": "2026-08-30T09:48:13.478615Z",
   "solver_version": "0.2.6a0",
   "runtime": {
     "platform": {
@@ -51,6 +51,13 @@
     ],
     "repeatability_absolute_tolerance": 1E-12
   },
+  "threshold_sources": {
+    "eigenpair_residual": "Owner-approved bounded G08 policy G08-004",
+    "mesh_final_adjacent_change": "Owner-approved bounded G08 policy G08-005",
+    "euler_relative": "Existing TET4 Euler case-specific screen; declared before execution",
+    "calculix_relative": "Existing CalculiX bounded correlation screen; declared before execution",
+    "repeatability": "Floating-point replay invariant for same-input deterministic execution"
+  },
   "case_counts": {
     "executed": 23,
     "pass": 21,
@@ -93,6 +100,43 @@
         "material": "homogeneous isotropic_3d",
         "loads": "nodal dead loads",
         "first_mode_only": true
+      },
+      "provenance": {
+        "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+        "source_dirty": false,
+        "captured_at_utc": "2026-08-30T09:48:13.478615Z",
+        "solver_version": "0.2.6a0",
+        "runtime": {
+          "platform": {
+            "system": "Windows",
+            "release": "10",
+            "machine": "AMD64",
+            "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+          },
+          "python": {
+            "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+            "executable": "C:\\Python313\\python.exe"
+          },
+          "packages": {
+            "numpy": "2.2.6",
+            "scipy": "1.15.2",
+            "matplotlib": "3.10.3",
+            "h5py": "3.14.0",
+            "mpi4py": "4.1.0",
+            "petsc4py": null
+          },
+          "blas": {
+            "name": "scipy-openblas",
+            "version": "0.3.29",
+            "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+          },
+          "parallel_environment": {
+            "OMP_NUM_THREADS": null,
+            "MKL_NUM_THREADS": null,
+            "OPENBLAS_NUM_THREADS": null,
+            "PETSC_ARCH": null
+          }
+        }
       }
     },
     {
@@ -129,6 +173,43 @@
         "material": "homogeneous isotropic_3d",
         "loads": "nodal dead loads",
         "first_mode_only": true
+      },
+      "provenance": {
+        "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+        "source_dirty": false,
+        "captured_at_utc": "2026-08-30T09:48:13.478615Z",
+        "solver_version": "0.2.6a0",
+        "runtime": {
+          "platform": {
+            "system": "Windows",
+            "release": "10",
+            "machine": "AMD64",
+            "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+          },
+          "python": {
+            "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+            "executable": "C:\\Python313\\python.exe"
+          },
+          "packages": {
+            "numpy": "2.2.6",
+            "scipy": "1.15.2",
+            "matplotlib": "3.10.3",
+            "h5py": "3.14.0",
+            "mpi4py": "4.1.0",
+            "petsc4py": null
+          },
+          "blas": {
+            "name": "scipy-openblas",
+            "version": "0.3.29",
+            "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+          },
+          "parallel_environment": {
+            "OMP_NUM_THREADS": null,
+            "MKL_NUM_THREADS": null,
+            "OPENBLAS_NUM_THREADS": null,
+            "PETSC_ARCH": null
+          }
+        }
       }
     },
     {
@@ -173,6 +254,43 @@
         "material": "homogeneous isotropic_3d",
         "loads": "nodal dead loads",
         "first_mode_only": true
+      },
+      "provenance": {
+        "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+        "source_dirty": false,
+        "captured_at_utc": "2026-08-30T09:48:13.478615Z",
+        "solver_version": "0.2.6a0",
+        "runtime": {
+          "platform": {
+            "system": "Windows",
+            "release": "10",
+            "machine": "AMD64",
+            "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+          },
+          "python": {
+            "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+            "executable": "C:\\Python313\\python.exe"
+          },
+          "packages": {
+            "numpy": "2.2.6",
+            "scipy": "1.15.2",
+            "matplotlib": "3.10.3",
+            "h5py": "3.14.0",
+            "mpi4py": "4.1.0",
+            "petsc4py": null
+          },
+          "blas": {
+            "name": "scipy-openblas",
+            "version": "0.3.29",
+            "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+          },
+          "parallel_environment": {
+            "OMP_NUM_THREADS": null,
+            "MKL_NUM_THREADS": null,
+            "OPENBLAS_NUM_THREADS": null,
+            "PETSC_ARCH": null
+          }
+        }
       }
     },
     {
@@ -217,6 +335,43 @@
         "material": "homogeneous isotropic_3d",
         "loads": "nodal dead loads",
         "first_mode_only": true
+      },
+      "provenance": {
+        "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+        "source_dirty": false,
+        "captured_at_utc": "2026-08-30T09:48:13.478615Z",
+        "solver_version": "0.2.6a0",
+        "runtime": {
+          "platform": {
+            "system": "Windows",
+            "release": "10",
+            "machine": "AMD64",
+            "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+          },
+          "python": {
+            "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+            "executable": "C:\\Python313\\python.exe"
+          },
+          "packages": {
+            "numpy": "2.2.6",
+            "scipy": "1.15.2",
+            "matplotlib": "3.10.3",
+            "h5py": "3.14.0",
+            "mpi4py": "4.1.0",
+            "petsc4py": null
+          },
+          "blas": {
+            "name": "scipy-openblas",
+            "version": "0.3.29",
+            "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+          },
+          "parallel_environment": {
+            "OMP_NUM_THREADS": null,
+            "MKL_NUM_THREADS": null,
+            "OPENBLAS_NUM_THREADS": null,
+            "PETSC_ARCH": null
+          }
+        }
       }
     },
     {
@@ -261,6 +416,43 @@
         "material": "homogeneous isotropic_3d",
         "loads": "nodal dead loads",
         "first_mode_only": true
+      },
+      "provenance": {
+        "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+        "source_dirty": false,
+        "captured_at_utc": "2026-08-30T09:48:13.478615Z",
+        "solver_version": "0.2.6a0",
+        "runtime": {
+          "platform": {
+            "system": "Windows",
+            "release": "10",
+            "machine": "AMD64",
+            "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+          },
+          "python": {
+            "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+            "executable": "C:\\Python313\\python.exe"
+          },
+          "packages": {
+            "numpy": "2.2.6",
+            "scipy": "1.15.2",
+            "matplotlib": "3.10.3",
+            "h5py": "3.14.0",
+            "mpi4py": "4.1.0",
+            "petsc4py": null
+          },
+          "blas": {
+            "name": "scipy-openblas",
+            "version": "0.3.29",
+            "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+          },
+          "parallel_environment": {
+            "OMP_NUM_THREADS": null,
+            "MKL_NUM_THREADS": null,
+            "OPENBLAS_NUM_THREADS": null,
+            "PETSC_ARCH": null
+          }
+        }
       }
     }
   ],
@@ -310,7 +502,44 @@
               "loads": "nodal dead loads",
               "first_mode_only": true
             },
-            "mesh_level": 1
+            "mesh_level": 1,
+            "provenance": {
+              "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+              "source_dirty": false,
+              "captured_at_utc": "2026-08-30T09:48:13.478615Z",
+              "solver_version": "0.2.6a0",
+              "runtime": {
+                "platform": {
+                  "system": "Windows",
+                  "release": "10",
+                  "machine": "AMD64",
+                  "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+                },
+                "python": {
+                  "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                  "executable": "C:\\Python313\\python.exe"
+                },
+                "packages": {
+                  "numpy": "2.2.6",
+                  "scipy": "1.15.2",
+                  "matplotlib": "3.10.3",
+                  "h5py": "3.14.0",
+                  "mpi4py": "4.1.0",
+                  "petsc4py": null
+                },
+                "blas": {
+                  "name": "scipy-openblas",
+                  "version": "0.3.29",
+                  "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+                },
+                "parallel_environment": {
+                  "OMP_NUM_THREADS": null,
+                  "MKL_NUM_THREADS": null,
+                  "OPENBLAS_NUM_THREADS": null,
+                  "PETSC_ARCH": null
+                }
+              }
+            }
           },
           {
             "case_id": "G08-BUC-TET4-MESH-002",
@@ -346,7 +575,44 @@
               "loads": "nodal dead loads",
               "first_mode_only": true
             },
-            "mesh_level": 2
+            "mesh_level": 2,
+            "provenance": {
+              "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+              "source_dirty": false,
+              "captured_at_utc": "2026-08-30T09:48:13.478615Z",
+              "solver_version": "0.2.6a0",
+              "runtime": {
+                "platform": {
+                  "system": "Windows",
+                  "release": "10",
+                  "machine": "AMD64",
+                  "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+                },
+                "python": {
+                  "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                  "executable": "C:\\Python313\\python.exe"
+                },
+                "packages": {
+                  "numpy": "2.2.6",
+                  "scipy": "1.15.2",
+                  "matplotlib": "3.10.3",
+                  "h5py": "3.14.0",
+                  "mpi4py": "4.1.0",
+                  "petsc4py": null
+                },
+                "blas": {
+                  "name": "scipy-openblas",
+                  "version": "0.3.29",
+                  "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+                },
+                "parallel_environment": {
+                  "OMP_NUM_THREADS": null,
+                  "MKL_NUM_THREADS": null,
+                  "OPENBLAS_NUM_THREADS": null,
+                  "PETSC_ARCH": null
+                }
+              }
+            }
           },
           {
             "case_id": "G08-BUC-TET4-MESH-004",
@@ -382,7 +648,44 @@
               "loads": "nodal dead loads",
               "first_mode_only": true
             },
-            "mesh_level": 4
+            "mesh_level": 4,
+            "provenance": {
+              "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+              "source_dirty": false,
+              "captured_at_utc": "2026-08-30T09:48:13.478615Z",
+              "solver_version": "0.2.6a0",
+              "runtime": {
+                "platform": {
+                  "system": "Windows",
+                  "release": "10",
+                  "machine": "AMD64",
+                  "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+                },
+                "python": {
+                  "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                  "executable": "C:\\Python313\\python.exe"
+                },
+                "packages": {
+                  "numpy": "2.2.6",
+                  "scipy": "1.15.2",
+                  "matplotlib": "3.10.3",
+                  "h5py": "3.14.0",
+                  "mpi4py": "4.1.0",
+                  "petsc4py": null
+                },
+                "blas": {
+                  "name": "scipy-openblas",
+                  "version": "0.3.29",
+                  "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+                },
+                "parallel_environment": {
+                  "OMP_NUM_THREADS": null,
+                  "MKL_NUM_THREADS": null,
+                  "OPENBLAS_NUM_THREADS": null,
+                  "PETSC_ARCH": null
+                }
+              }
+            }
           },
           {
             "case_id": "G08-BUC-TET4-MESH-008",
@@ -418,7 +721,44 @@
               "loads": "nodal dead loads",
               "first_mode_only": true
             },
-            "mesh_level": 8
+            "mesh_level": 8,
+            "provenance": {
+              "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+              "source_dirty": false,
+              "captured_at_utc": "2026-08-30T09:48:13.478615Z",
+              "solver_version": "0.2.6a0",
+              "runtime": {
+                "platform": {
+                  "system": "Windows",
+                  "release": "10",
+                  "machine": "AMD64",
+                  "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+                },
+                "python": {
+                  "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                  "executable": "C:\\Python313\\python.exe"
+                },
+                "packages": {
+                  "numpy": "2.2.6",
+                  "scipy": "1.15.2",
+                  "matplotlib": "3.10.3",
+                  "h5py": "3.14.0",
+                  "mpi4py": "4.1.0",
+                  "petsc4py": null
+                },
+                "blas": {
+                  "name": "scipy-openblas",
+                  "version": "0.3.29",
+                  "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+                },
+                "parallel_environment": {
+                  "OMP_NUM_THREADS": null,
+                  "MKL_NUM_THREADS": null,
+                  "OPENBLAS_NUM_THREADS": null,
+                  "PETSC_ARCH": null
+                }
+              }
+            }
           }
         ],
         "success_count": 4,
@@ -476,7 +816,44 @@
               "loads": "nodal dead loads",
               "first_mode_only": true
             },
-            "mesh_level": 1
+            "mesh_level": 1,
+            "provenance": {
+              "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+              "source_dirty": false,
+              "captured_at_utc": "2026-08-30T09:48:13.478615Z",
+              "solver_version": "0.2.6a0",
+              "runtime": {
+                "platform": {
+                  "system": "Windows",
+                  "release": "10",
+                  "machine": "AMD64",
+                  "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+                },
+                "python": {
+                  "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                  "executable": "C:\\Python313\\python.exe"
+                },
+                "packages": {
+                  "numpy": "2.2.6",
+                  "scipy": "1.15.2",
+                  "matplotlib": "3.10.3",
+                  "h5py": "3.14.0",
+                  "mpi4py": "4.1.0",
+                  "petsc4py": null
+                },
+                "blas": {
+                  "name": "scipy-openblas",
+                  "version": "0.3.29",
+                  "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+                },
+                "parallel_environment": {
+                  "OMP_NUM_THREADS": null,
+                  "MKL_NUM_THREADS": null,
+                  "OPENBLAS_NUM_THREADS": null,
+                  "PETSC_ARCH": null
+                }
+              }
+            }
           },
           {
             "case_id": "G08-BUC-TET10-MESH-002",
@@ -520,7 +897,44 @@
               "loads": "nodal dead loads",
               "first_mode_only": true
             },
-            "mesh_level": 2
+            "mesh_level": 2,
+            "provenance": {
+              "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+              "source_dirty": false,
+              "captured_at_utc": "2026-08-30T09:48:13.478615Z",
+              "solver_version": "0.2.6a0",
+              "runtime": {
+                "platform": {
+                  "system": "Windows",
+                  "release": "10",
+                  "machine": "AMD64",
+                  "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+                },
+                "python": {
+                  "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                  "executable": "C:\\Python313\\python.exe"
+                },
+                "packages": {
+                  "numpy": "2.2.6",
+                  "scipy": "1.15.2",
+                  "matplotlib": "3.10.3",
+                  "h5py": "3.14.0",
+                  "mpi4py": "4.1.0",
+                  "petsc4py": null
+                },
+                "blas": {
+                  "name": "scipy-openblas",
+                  "version": "0.3.29",
+                  "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+                },
+                "parallel_environment": {
+                  "OMP_NUM_THREADS": null,
+                  "MKL_NUM_THREADS": null,
+                  "OPENBLAS_NUM_THREADS": null,
+                  "PETSC_ARCH": null
+                }
+              }
+            }
           },
           {
             "case_id": "G08-BUC-TET10-MESH-004",
@@ -564,7 +978,44 @@
               "loads": "nodal dead loads",
               "first_mode_only": true
             },
-            "mesh_level": 4
+            "mesh_level": 4,
+            "provenance": {
+              "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+              "source_dirty": false,
+              "captured_at_utc": "2026-08-30T09:48:13.478615Z",
+              "solver_version": "0.2.6a0",
+              "runtime": {
+                "platform": {
+                  "system": "Windows",
+                  "release": "10",
+                  "machine": "AMD64",
+                  "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+                },
+                "python": {
+                  "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                  "executable": "C:\\Python313\\python.exe"
+                },
+                "packages": {
+                  "numpy": "2.2.6",
+                  "scipy": "1.15.2",
+                  "matplotlib": "3.10.3",
+                  "h5py": "3.14.0",
+                  "mpi4py": "4.1.0",
+                  "petsc4py": null
+                },
+                "blas": {
+                  "name": "scipy-openblas",
+                  "version": "0.3.29",
+                  "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+                },
+                "parallel_environment": {
+                  "OMP_NUM_THREADS": null,
+                  "MKL_NUM_THREADS": null,
+                  "OPENBLAS_NUM_THREADS": null,
+                  "PETSC_ARCH": null
+                }
+              }
+            }
           },
           {
             "case_id": "G08-BUC-TET10-MESH-008",
@@ -608,7 +1059,44 @@
               "loads": "nodal dead loads",
               "first_mode_only": true
             },
-            "mesh_level": 8
+            "mesh_level": 8,
+            "provenance": {
+              "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+              "source_dirty": false,
+              "captured_at_utc": "2026-08-30T09:48:13.478615Z",
+              "solver_version": "0.2.6a0",
+              "runtime": {
+                "platform": {
+                  "system": "Windows",
+                  "release": "10",
+                  "machine": "AMD64",
+                  "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+                },
+                "python": {
+                  "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                  "executable": "C:\\Python313\\python.exe"
+                },
+                "packages": {
+                  "numpy": "2.2.6",
+                  "scipy": "1.15.2",
+                  "matplotlib": "3.10.3",
+                  "h5py": "3.14.0",
+                  "mpi4py": "4.1.0",
+                  "petsc4py": null
+                },
+                "blas": {
+                  "name": "scipy-openblas",
+                  "version": "0.3.29",
+                  "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+                },
+                "parallel_environment": {
+                  "OMP_NUM_THREADS": null,
+                  "MKL_NUM_THREADS": null,
+                  "OPENBLAS_NUM_THREADS": null,
+                  "PETSC_ARCH": null
+                }
+              }
+            }
           }
         ],
         "success_count": 4,
@@ -658,7 +1146,44 @@
               "loads": "nodal dead loads",
               "first_mode_only": true
             },
-            "mesh_level": 1
+            "mesh_level": 1,
+            "provenance": {
+              "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+              "source_dirty": false,
+              "captured_at_utc": "2026-08-30T09:48:13.478615Z",
+              "solver_version": "0.2.6a0",
+              "runtime": {
+                "platform": {
+                  "system": "Windows",
+                  "release": "10",
+                  "machine": "AMD64",
+                  "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+                },
+                "python": {
+                  "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                  "executable": "C:\\Python313\\python.exe"
+                },
+                "packages": {
+                  "numpy": "2.2.6",
+                  "scipy": "1.15.2",
+                  "matplotlib": "3.10.3",
+                  "h5py": "3.14.0",
+                  "mpi4py": "4.1.0",
+                  "petsc4py": null
+                },
+                "blas": {
+                  "name": "scipy-openblas",
+                  "version": "0.3.29",
+                  "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+                },
+                "parallel_environment": {
+                  "OMP_NUM_THREADS": null,
+                  "MKL_NUM_THREADS": null,
+                  "OPENBLAS_NUM_THREADS": null,
+                  "PETSC_ARCH": null
+                }
+              }
+            }
           },
           {
             "case_id": "G08-BUC-HEX8-MESH-002",
@@ -694,7 +1219,44 @@
               "loads": "nodal dead loads",
               "first_mode_only": true
             },
-            "mesh_level": 2
+            "mesh_level": 2,
+            "provenance": {
+              "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+              "source_dirty": false,
+              "captured_at_utc": "2026-08-30T09:48:13.478615Z",
+              "solver_version": "0.2.6a0",
+              "runtime": {
+                "platform": {
+                  "system": "Windows",
+                  "release": "10",
+                  "machine": "AMD64",
+                  "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+                },
+                "python": {
+                  "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                  "executable": "C:\\Python313\\python.exe"
+                },
+                "packages": {
+                  "numpy": "2.2.6",
+                  "scipy": "1.15.2",
+                  "matplotlib": "3.10.3",
+                  "h5py": "3.14.0",
+                  "mpi4py": "4.1.0",
+                  "petsc4py": null
+                },
+                "blas": {
+                  "name": "scipy-openblas",
+                  "version": "0.3.29",
+                  "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+                },
+                "parallel_environment": {
+                  "OMP_NUM_THREADS": null,
+                  "MKL_NUM_THREADS": null,
+                  "OPENBLAS_NUM_THREADS": null,
+                  "PETSC_ARCH": null
+                }
+              }
+            }
           },
           {
             "case_id": "G08-BUC-HEX8-MESH-004",
@@ -730,7 +1292,44 @@
               "loads": "nodal dead loads",
               "first_mode_only": true
             },
-            "mesh_level": 4
+            "mesh_level": 4,
+            "provenance": {
+              "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+              "source_dirty": false,
+              "captured_at_utc": "2026-08-30T09:48:13.478615Z",
+              "solver_version": "0.2.6a0",
+              "runtime": {
+                "platform": {
+                  "system": "Windows",
+                  "release": "10",
+                  "machine": "AMD64",
+                  "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+                },
+                "python": {
+                  "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                  "executable": "C:\\Python313\\python.exe"
+                },
+                "packages": {
+                  "numpy": "2.2.6",
+                  "scipy": "1.15.2",
+                  "matplotlib": "3.10.3",
+                  "h5py": "3.14.0",
+                  "mpi4py": "4.1.0",
+                  "petsc4py": null
+                },
+                "blas": {
+                  "name": "scipy-openblas",
+                  "version": "0.3.29",
+                  "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+                },
+                "parallel_environment": {
+                  "OMP_NUM_THREADS": null,
+                  "MKL_NUM_THREADS": null,
+                  "OPENBLAS_NUM_THREADS": null,
+                  "PETSC_ARCH": null
+                }
+              }
+            }
           },
           {
             "case_id": "G08-BUC-HEX8-MESH-008",
@@ -766,7 +1365,44 @@
               "loads": "nodal dead loads",
               "first_mode_only": true
             },
-            "mesh_level": 8
+            "mesh_level": 8,
+            "provenance": {
+              "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+              "source_dirty": false,
+              "captured_at_utc": "2026-08-30T09:48:13.478615Z",
+              "solver_version": "0.2.6a0",
+              "runtime": {
+                "platform": {
+                  "system": "Windows",
+                  "release": "10",
+                  "machine": "AMD64",
+                  "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+                },
+                "python": {
+                  "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                  "executable": "C:\\Python313\\python.exe"
+                },
+                "packages": {
+                  "numpy": "2.2.6",
+                  "scipy": "1.15.2",
+                  "matplotlib": "3.10.3",
+                  "h5py": "3.14.0",
+                  "mpi4py": "4.1.0",
+                  "petsc4py": null
+                },
+                "blas": {
+                  "name": "scipy-openblas",
+                  "version": "0.3.29",
+                  "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+                },
+                "parallel_environment": {
+                  "OMP_NUM_THREADS": null,
+                  "MKL_NUM_THREADS": null,
+                  "OPENBLAS_NUM_THREADS": null,
+                  "PETSC_ARCH": null
+                }
+              }
+            }
           }
         ],
         "success_count": 4,
@@ -824,7 +1460,44 @@
               "loads": "nodal dead loads",
               "first_mode_only": true
             },
-            "mesh_level": 1
+            "mesh_level": 1,
+            "provenance": {
+              "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+              "source_dirty": false,
+              "captured_at_utc": "2026-08-30T09:48:13.478615Z",
+              "solver_version": "0.2.6a0",
+              "runtime": {
+                "platform": {
+                  "system": "Windows",
+                  "release": "10",
+                  "machine": "AMD64",
+                  "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+                },
+                "python": {
+                  "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                  "executable": "C:\\Python313\\python.exe"
+                },
+                "packages": {
+                  "numpy": "2.2.6",
+                  "scipy": "1.15.2",
+                  "matplotlib": "3.10.3",
+                  "h5py": "3.14.0",
+                  "mpi4py": "4.1.0",
+                  "petsc4py": null
+                },
+                "blas": {
+                  "name": "scipy-openblas",
+                  "version": "0.3.29",
+                  "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+                },
+                "parallel_environment": {
+                  "OMP_NUM_THREADS": null,
+                  "MKL_NUM_THREADS": null,
+                  "OPENBLAS_NUM_THREADS": null,
+                  "PETSC_ARCH": null
+                }
+              }
+            }
           },
           {
             "case_id": "G08-BUC-HEX20-MESH-002",
@@ -868,7 +1541,44 @@
               "loads": "nodal dead loads",
               "first_mode_only": true
             },
-            "mesh_level": 2
+            "mesh_level": 2,
+            "provenance": {
+              "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+              "source_dirty": false,
+              "captured_at_utc": "2026-08-30T09:48:13.478615Z",
+              "solver_version": "0.2.6a0",
+              "runtime": {
+                "platform": {
+                  "system": "Windows",
+                  "release": "10",
+                  "machine": "AMD64",
+                  "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+                },
+                "python": {
+                  "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                  "executable": "C:\\Python313\\python.exe"
+                },
+                "packages": {
+                  "numpy": "2.2.6",
+                  "scipy": "1.15.2",
+                  "matplotlib": "3.10.3",
+                  "h5py": "3.14.0",
+                  "mpi4py": "4.1.0",
+                  "petsc4py": null
+                },
+                "blas": {
+                  "name": "scipy-openblas",
+                  "version": "0.3.29",
+                  "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+                },
+                "parallel_environment": {
+                  "OMP_NUM_THREADS": null,
+                  "MKL_NUM_THREADS": null,
+                  "OPENBLAS_NUM_THREADS": null,
+                  "PETSC_ARCH": null
+                }
+              }
+            }
           },
           {
             "case_id": "G08-BUC-HEX20-MESH-004",
@@ -912,7 +1622,44 @@
               "loads": "nodal dead loads",
               "first_mode_only": true
             },
-            "mesh_level": 4
+            "mesh_level": 4,
+            "provenance": {
+              "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+              "source_dirty": false,
+              "captured_at_utc": "2026-08-30T09:48:13.478615Z",
+              "solver_version": "0.2.6a0",
+              "runtime": {
+                "platform": {
+                  "system": "Windows",
+                  "release": "10",
+                  "machine": "AMD64",
+                  "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+                },
+                "python": {
+                  "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                  "executable": "C:\\Python313\\python.exe"
+                },
+                "packages": {
+                  "numpy": "2.2.6",
+                  "scipy": "1.15.2",
+                  "matplotlib": "3.10.3",
+                  "h5py": "3.14.0",
+                  "mpi4py": "4.1.0",
+                  "petsc4py": null
+                },
+                "blas": {
+                  "name": "scipy-openblas",
+                  "version": "0.3.29",
+                  "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+                },
+                "parallel_environment": {
+                  "OMP_NUM_THREADS": null,
+                  "MKL_NUM_THREADS": null,
+                  "OPENBLAS_NUM_THREADS": null,
+                  "PETSC_ARCH": null
+                }
+              }
+            }
           },
           {
             "case_id": "G08-BUC-HEX20-MESH-008",
@@ -956,7 +1703,44 @@
               "loads": "nodal dead loads",
               "first_mode_only": true
             },
-            "mesh_level": 8
+            "mesh_level": 8,
+            "provenance": {
+              "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+              "source_dirty": false,
+              "captured_at_utc": "2026-08-30T09:48:13.478615Z",
+              "solver_version": "0.2.6a0",
+              "runtime": {
+                "platform": {
+                  "system": "Windows",
+                  "release": "10",
+                  "machine": "AMD64",
+                  "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+                },
+                "python": {
+                  "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                  "executable": "C:\\Python313\\python.exe"
+                },
+                "packages": {
+                  "numpy": "2.2.6",
+                  "scipy": "1.15.2",
+                  "matplotlib": "3.10.3",
+                  "h5py": "3.14.0",
+                  "mpi4py": "4.1.0",
+                  "petsc4py": null
+                },
+                "blas": {
+                  "name": "scipy-openblas",
+                  "version": "0.3.29",
+                  "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+                },
+                "parallel_environment": {
+                  "OMP_NUM_THREADS": null,
+                  "MKL_NUM_THREADS": null,
+                  "OPENBLAS_NUM_THREADS": null,
+                  "PETSC_ARCH": null
+                }
+              }
+            }
           }
         ],
         "success_count": 4,
@@ -1033,7 +1817,7 @@
             "smallest_eigenvalue": -1.2045355902084929
           }
         ],
-        "elapsed_seconds": 1.0290185999474488,
+        "elapsed_seconds": 1.0503144000540487,
         "change_from_previous": null
       },
       {
@@ -1076,7 +1860,7 @@
             "smallest_eigenvalue": -0.06657991398594422
           }
         ],
-        "elapsed_seconds": 4.502067600027658,
+        "elapsed_seconds": 4.511425999982748,
         "change_from_previous": 0.15626750814029022
       },
       {
@@ -1119,7 +1903,7 @@
             "smallest_eigenvalue": -0.06207757635179627
           }
         ],
-        "elapsed_seconds": 17.199832299957052,
+        "elapsed_seconds": 17.26158699998632,
         "change_from_previous": 0.0656882128099921
       }
     ],
@@ -1506,7 +2290,7 @@
     "maturity": "research",
     "release_claim": false,
     "provenance": {
-      "sha": "1b7b8c7ca85ac184a900bd5a5530aa47e733827f",
+      "sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
       "worktree_dirty": false
     },
     "external_solver": {
@@ -1625,7 +2409,44 @@
       "status": "EXPECTED_FAILURE",
       "failure_type": "NumericalConvergenceError",
       "failure_reason": "NonlinearFailureReason.LINE_SEARCH_FAILURE",
-      "failure_message": "Full Newton line search failed to reduce the residual."
+      "failure_message": "Full Newton line search failed to reduce the residual.",
+      "provenance": {
+        "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+        "source_dirty": false,
+        "captured_at_utc": "2026-08-30T09:48:13.478615Z",
+        "solver_version": "0.2.6a0",
+        "runtime": {
+          "platform": {
+            "system": "Windows",
+            "release": "10",
+            "machine": "AMD64",
+            "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+          },
+          "python": {
+            "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+            "executable": "C:\\Python313\\python.exe"
+          },
+          "packages": {
+            "numpy": "2.2.6",
+            "scipy": "1.15.2",
+            "matplotlib": "3.10.3",
+            "h5py": "3.14.0",
+            "mpi4py": "4.1.0",
+            "petsc4py": null
+          },
+          "blas": {
+            "name": "scipy-openblas",
+            "version": "0.3.29",
+            "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+          },
+          "parallel_environment": {
+            "OMP_NUM_THREADS": null,
+            "MKL_NUM_THREADS": null,
+            "OPENBLAS_NUM_THREADS": null,
+            "PETSC_ARCH": null
+          }
+        }
+      }
     },
     {
       "case_id": "G08-BUC-FAIL-PRELOAD-001",
@@ -1639,7 +2460,44 @@
       "status": "EXPECTED_FAILURE",
       "failure_type": "NumericalConvergenceError",
       "failure_reason": "NonlinearFailureReason.BUCKLING_FAILURE",
-      "failure_message": "linear_buckling could not bracket a loss of tangent positive definiteness."
+      "failure_message": "linear_buckling could not bracket a loss of tangent positive definiteness.",
+      "provenance": {
+        "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+        "source_dirty": false,
+        "captured_at_utc": "2026-08-30T09:48:13.478615Z",
+        "solver_version": "0.2.6a0",
+        "runtime": {
+          "platform": {
+            "system": "Windows",
+            "release": "10",
+            "machine": "AMD64",
+            "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+          },
+          "python": {
+            "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+            "executable": "C:\\Python313\\python.exe"
+          },
+          "packages": {
+            "numpy": "2.2.6",
+            "scipy": "1.15.2",
+            "matplotlib": "3.10.3",
+            "h5py": "3.14.0",
+            "mpi4py": "4.1.0",
+            "petsc4py": null
+          },
+          "blas": {
+            "name": "scipy-openblas",
+            "version": "0.3.29",
+            "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+          },
+          "parallel_environment": {
+            "OMP_NUM_THREADS": null,
+            "MKL_NUM_THREADS": null,
+            "OPENBLAS_NUM_THREADS": null,
+            "PETSC_ARCH": null
+          }
+        }
+      }
     }
   ],
   "requirements": {
@@ -1688,8 +2546,8 @@
     "No post-buckling, collapse, multi-mode or physical-validation claim."
   ],
   "artifact_digests": {
-    "g08_execution_evidence.md": "f86c4bc5c1ae235da0273e9ee6e46609bc691b86276c3d0e7a15881b90eaa1bf",
-    "g08_euler_reference.json": "0803f26326ded192e147c4e69785cda5932d8a9da4a5a128708628605d0c791d",
-    "g08_calculix_correlation.json": "fd61088b15ee5e2d7f191b5ff646f67311c91dfcc33d77b117e9974446925aeb"
+    "g08_execution_evidence.md": "cc9510c0fb9f6ee090080d53ef6e927816b73fc3d941b4d0324ff83e72a5f129",
+    "g08_euler_reference.json": "59a80b0e8ee889f931d546bba3f05704f2329e24ce840a781319d4639f4f8a79",
+    "g08_calculix_correlation.json": "878bfa86bc6f6a60a22015f304d27ae1803645a4b9e7d879a376fbc8db83cde0"
   }
 }

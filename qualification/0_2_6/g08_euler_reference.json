@@ -55,7 +55,7 @@
           "smallest_eigenvalue": -1.2045355902084929
         }
       ],
-      "elapsed_seconds": 1.0290185999474488,
+      "elapsed_seconds": 1.0503144000540487,
       "change_from_previous": null
     },
     {
@@ -98,7 +98,7 @@
           "smallest_eigenvalue": -0.06657991398594422
         }
       ],
-      "elapsed_seconds": 4.502067600027658,
+      "elapsed_seconds": 4.511425999982748,
       "change_from_previous": 0.15626750814029022
     },
     {
@@ -141,7 +141,7 @@
           "smallest_eigenvalue": -0.06207757635179627
         }
       ],
-      "elapsed_seconds": 17.199832299957052,
+      "elapsed_seconds": 17.26158699998632,
       "change_from_previous": 0.0656882128099921
     }
   ],
