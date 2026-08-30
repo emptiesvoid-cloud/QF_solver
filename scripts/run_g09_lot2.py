@@ -31,7 +31,11 @@ from solveur.core.model import FiniteElementModel
 from solveur.core.nonlinear.material_state import state_digest
 from solveur.core.nonlinear.solver import NonlinearStaticSolver
 from solveur.verification.robustness_mesh import _refinement_model
-from scripts.run_g09_lot1 import _expected_penetration_failure
+
+try:
+    from scripts.run_g09_lot1 import _expected_penetration_failure
+except ModuleNotFoundError:  # Direct ``python scripts/run_g09_lot2.py`` execution.
+    from run_g09_lot1 import _expected_penetration_failure
 
 GATE = "026-G09"
 SOURCE_CONTRACT = ROOT / "qualification" / "0_2_6" / "g09_lot2_requirements.json"
