@@ -228,7 +228,10 @@ def _run_geometry_matrix() -> dict[str, Any]:
         for position in ((0.25, 0.25), (0.60, 0.20)):
             model = _rotated_spring_model(angle, position)
             result = solve_model(model, enforce_policy=False)
-            details = result.to_dict()["solver"].get("contact", {})
+            data = result.to_dict()
+            solver = data["solver"]
+            details = solver.get("contact", {})
+            contact_convergence = details.get("convergence", {})
             rows.append(
                 {
                     "case": f"orientation_{index}_bary_{position[0]:.2f}_{position[1]:.2f}",
@@ -238,8 +241,10 @@ def _run_geometry_matrix() -> dict[str, Any]:
                     "active_contact_count": int(details.get("active_contact_count", 0)),
                     "gaps": details.get("gaps", []),
                     "normals": details.get("normals", []),
-                    "residual": float(result.to_dict()["solver"]["steps"][-1].get("relative_residual", math.inf)),
-                    "finite": _finite(result.to_dict()),
+                    "residual": float(
+                        contact_convergence.get("relative_residual", solver.get("residual_norm", math.inf))
+                    ),
+                    "finite": _finite(data),
                 }
             )
     return {
