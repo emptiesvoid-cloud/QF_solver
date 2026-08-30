@@ -127,9 +127,20 @@
       "title": "Existing coupled nonlinear review"
     },
     {
-      "evidence_ids": [],
+      "evidence_ids": [
+        "g11_requirements.json",
+        "g11_adversarial_cases.json",
+        "g11_native_execution_evidence.json",
+        "g11_cross_route_execution_evidence.json",
+        "g11_mutable_execution_evidence.json",
+        "g11_extended_execution_evidence.json",
+        "g11_full_replay_evidence.json",
+        "g11_promotion_resume_evidence.json",
+        "g11_owner_closeout.json",
+        "0_2_6_g11_owner_closeout.md"
+      ],
       "id": "026-G11",
-      "status": "NOT_STARTED",
+      "status": "PASS_WITH_LIMITATIONS",
       "title": "Adversarial / failure / metamorphic"
     },
     {

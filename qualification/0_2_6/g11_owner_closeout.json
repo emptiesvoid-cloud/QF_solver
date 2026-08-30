@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "closeout_id": "026-G11-OWNER-CLOSEOUT-001",
+  "gate": "026-G11",
+  "status": "PASS_WITH_LIMITATIONS",
+  "qualification_status": "OWNER_CLOSED_WITH_LIMITATIONS",
+  "official_gate_status": "PASS_WITH_LIMITATIONS",
+  "closeout_start_sha": "236b6ceffdfb9187940f68f3c52d7dc70290570f",
+  "evidence_head": "236b6ceffdfb9187940f68f3c52d7dc70290570f",
+  "evidence_source_dirty": false,
+  "owner_decision": "PASS_WITH_LIMITATIONS",
+  "contract_unchanged": true,
+  "no_other_gate_changed": true,
+  "scope": "Diagnostics, failure modes, fail-closed behavior, deterministic classification, provenance and mutable-state integrity over the six route-native routes and the 20-case bounded G11 corpus.",
+  "requirements": [
+    {
+      "requirement_id": "G11-DIAG-001",
+      "decision": "OWNER_APPROVED_FULL",
+      "evidence_level": "L3",
+      "evidence": ["qualification/0_2_6/g11_native_execution_evidence.json", "qualification/0_2_6/g04_invalid_input_cases.json"],
+      "limitation": "None within the executed invalid-input classes; this is not a claim for unsupported future input schemas."
+    },
+    {
+      "requirement_id": "G11-DIAG-002",
+      "decision": "OWNER_APPROVED_FULL",
+      "evidence_level": "L3",
+      "evidence": ["qualification/0_2_6/g11_promotion_resume_evidence.json", "qualification/0_2_6/g11_cross_route_execution_evidence.json", "qualification/0_2_6/g11_extended_execution_evidence.json"],
+      "limitation": "The five contract classes are covered; no universal conditioning threshold is introduced."
+    },
+    {
+      "requirement_id": "G11-DIAG-003",
+      "decision": "OWNER_APPROVED_FULL",
+      "evidence_level": "L3",
+      "evidence": ["qualification/0_2_6/g11_native_execution_evidence.json", "qualification/0_2_6/g11_cross_route_execution_evidence.json", "qualification/0_2_6/g11_evidence_mapping.json"],
+      "limitation": "Full applies to the unsupported combinations exercised by the bounded corpus, without generalizing to unregistered combinations."
+    },
+    {
+      "requirement_id": "G11-DIAG-004",
+      "decision": "OWNER_APPROVED_FULL",
+      "evidence_level": "L3",
+      "evidence": ["qualification/0_2_6/g11_promotion_resume_evidence.json", "qualification/0_2_6/g11_extended_execution_evidence.json", "qualification/0_2_6/g11_mutable_execution_evidence.json"],
+      "limitation": "All nine contract failure classes are represented; route-specific exception types remain native."
+    },
+    {
+      "requirement_id": "G11-DIAG-005",
+      "decision": "OWNER_APPROVED_BOUNDED",
+      "evidence_level": "L3",
+      "evidence": ["qualification/0_2_6/g11_promotion_resume_evidence.json", "qualification/0_2_6/g11_full_replay_evidence.json"],
+      "limitation": "The 20-case corpus is deterministic and exploitable, but the contract wording names all public failure classes and all structured nonlinear reasons; exhaustive public-route coverage was not claimed."
+    },
+    {
+      "requirement_id": "G11-DIAG-006",
+      "decision": "OWNER_APPROVED_FULL",
+      "evidence_level": "L3",
+      "evidence": ["qualification/0_2_6/g11_mutable_execution_evidence.json", "qualification/0_2_6/g11_extended_execution_evidence.json", "qualification/0_2_6/g06_depth_evidence.json"],
+      "limitation": "Mutable/retry integrity is qualified where state exists; pre-solve and stateless failures are explicitly NOT_APPLICABLE."
+    },
+    {
+      "requirement_id": "G11-DIAG-007",
+      "decision": "OWNER_APPROVED_FULL",
+      "evidence_level": "L3",
+      "evidence": ["qualification/0_2_6/g11_promotion_resume_evidence.json", "qualification/0_2_6/g11_evidence_mapping.json", "scripts/audit_capability_registry.py", "tests/unit/test_vnv_026_framework.py"],
+      "limitation": "Provenance and maturity boundaries are recorded for the bounded G11 evidence set."
+    },
+    {
+      "requirement_id": "G11-DIAG-008",
+      "decision": "OWNER_APPROVED_BOUNDED",
+      "evidence_level": "L3",
+      "evidence": ["qualification/0_2_6/g11_promotion_resume_evidence.json", "qualification/0_2_6/g11_full_replay_evidence.json", "qualification/0_2_6/g11_full_promotion_blocker.json"],
+      "limitation": "No executed case silently passed, continued with NaN/Inf, or hid state corruption; aggregation is exhaustive for 20 cases, not every unexecuted public combination."
+    }
+  ],
+  "campaign": {
+    "runtime_cases": 20,
+    "pass": 20,
+    "fail": 0,
+    "routes": ["linear_static", "nonlinear_static", "geometric_nonlinear_static", "modal", "linear_buckling", "linear_static_contact"],
+    "failure_classes_observed": 18,
+    "deterministic_replays": "20/20",
+    "no_nan_inf": true,
+    "no_silent_pass": true,
+    "state_integrity": "PASS for mutable/retry cases; NOT_APPLICABLE for pre-solve/stateless cases"
+  },
+  "regression_neutrality": {
+    "status": "REGRESSION_NEUTRAL",
+    "diagnostic_bug": "G11-REAL-BUG-NONFINITE-DIAGNOSTICS-001",
+    "fix_behavior": "non-finite relative residual is serialized as null with NOT_COMPUTABLE, preserving the failure code",
+    "base_regression": "1808 passed / 184 skipped / 18 failed",
+    "fix_regression": "1808 passed / 184 skipped / 18 failed",
+    "fix_only_failures": 0,
+    "global_failures": "pre-existing and outside the G11 path; release blockers remain separately tracked"
+  },
+  "validation": {
+    "targeted_g11_tests": "37 passed",
+    "registry": "PASS",
+    "anti_forgetting": "PASS",
+    "ruff": "PASS",
+    "compileall": "PASS",
+    "diff_check": "PASS",
+    "functional_code_changed_in_closeout": false
+  },
+  "limitations": [
+    "DIAG-005 remains bounded because all public failure classes and all structured nonlinear reasons were not exhaustively enumerated.",
+    "DIAG-008 remains bounded to the 20-case route-native aggregation and makes no universal public-route claim.",
+    "No new numerical threshold or solver/formulation change was introduced.",
+    "The 18 pre-existing full-regression failures remain release blockers outside G11."
+  ],
+  "official_closeout": "RECORDED",
+  "maturity_promotion": "No unbounded maturity promotion; G11 is closed only as PASS_WITH_LIMITATIONS.",
+  "owner_approval": "OWNER_DIRECTION_2026-08-30"
+}

@@ -13,13 +13,13 @@ MAPPING = DATA / "g11_evidence_mapping.json"
 ADVERSARIAL = DATA / "g11_adversarial_cases.json"
 
 
-def test_g11_candidate_contract_defines_all_failure_categories_without_closeout() -> None:
+def test_g11_contract_defines_all_failure_categories_after_bounded_closeout() -> None:
     contract = json.loads(CONTRACT.read_text(encoding="utf-8"))
     assert contract["gate"] == "026-G11"
     assert contract["status"] == "OPEN"
     assert contract["contract_status"] == "OWNER_REVIEWED_CANDIDATE"
-    assert contract["official_gate_status"] == "NOT_STARTED"
-    assert contract["governance"]["official_gate_closeout"] == "not performed"
+    assert contract["official_gate_status"] == "PASS_WITH_LIMITATIONS"
+    assert contract["governance"]["official_gate_closeout"] == "qualification/0_2_6/g11_owner_closeout.json"
     assert contract["governance"]["G04_G08_G07_TL_G09_untouched"] is True
     requirements = {row["id"]: row for row in contract["requirements"]}
     assert set(requirements) == {f"G11-DIAG-{index:03d}" for index in range(1, 9)}
@@ -53,8 +53,8 @@ def test_g11_candidate_contract_defines_all_failure_categories_without_closeout(
 
 def test_g11_mapping_preserves_historical_boundaries_and_native_case_limitations() -> None:
     mapping = json.loads(MAPPING.read_text(encoding="utf-8"))
-    assert mapping["status"] == "FOCUSED_NATIVE_EVIDENCE"
-    assert mapping["official_gate_closeout"] == "DEFERRED"
+    assert mapping["status"] == "OWNER_CLOSED_WITH_LIMITATIONS"
+    assert mapping["official_gate_closeout"] == "qualification/0_2_6/g11_owner_closeout.json"
     assert mapping["other_gates_changed"] is False
     assert len(mapping["mappings"]) >= 8
     for row in mapping["mappings"]:
