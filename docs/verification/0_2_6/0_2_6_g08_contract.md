@@ -121,18 +121,26 @@ The supplemental analytical evidence is archived in
 `qualification/0_2_6/g08_high_order_analytical_evidence.json` and
 `qualification/0_2_6/g08_high_order_analytical_evidence.md`. It declares a
 fixed-free homogeneous isotropic solid column, `Pcr = pi^2 E I / (4 L^2)`,
-`E=1e6`, `L=4`, `b=h=0.5`, and a uniformly distributed nodal dead load before
-execution. TET10, HEX8 and HEX20 are each tested at lengthwise levels 1, 2 and
-3, with a replay of the final level.
+`E=1e6`, `L=4`, `b=h=0.5`, and a uniformly distributed **compressive** nodal
+dead load before execution. The signed reference total is `F_REFERENCE_TOTAL =
+-1.0`; the physical comparison is `Pcr_QF = abs(lambda * F_REFERENCE_TOTAL)`.
+TET10, HEX8 and HEX20 are each tested at lengthwise levels 1, 2 and 3, with a
+replay of the final level. A separate diagnostic uses two axial cells and one,
+two and three layers in each transverse direction.
 
-The QF eigenpair residuals and mode norms are finite and replay-deterministic,
-but the Euler relative-error screen fails for all three families and the
-critical-load trend moves away from the declared Euler oracle. This is retained
-as a diagnostic negative result: the study does not promote TET10, HEX8 or
-HEX20, does not alter the G08 policy, and does not identify a solver defect by
-itself. The one-layer transverse discretization is a stated limitation of this
-screen, so a future correction campaign must first establish a comparable solid
-Euler model before any analytical promotion decision.
+The superseded screen used a positive total UX load (tension) and compared its
+factor directly with positive Euler `Pcr`; that comparison is therefore marked
+invalid and is not used as evidence. In the corrected compression screen,
+TET10 reaches `3.269%` Euler error at axial level 3 and HEX20 reaches `3.622%`,
+while HEX8 remains at `298.413%` at that level. All reported modes are
+global-bending candidates, residuals are finite, and final-level replays are
+deterministic. The transverse diagnostic leaves TET10 and HEX20 between `5.162%`
+and `7.709%` error, while HEX8 remains above `667%`. This is retained as a
+diagnostic result: it corrects the benchmark normalization/load-definition
+error, does not alter the G08 policy or solver, and does not automatically
+promote any family. The remaining HEX8 discrepancy is a real analytical-screen
+limitation requiring separate investigation; it is not converted into a solver
+defect by this evidence alone.
 
 ## Owner closeout
 
