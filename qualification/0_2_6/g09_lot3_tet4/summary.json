@@ -1,0 +1,71 @@
+{
+  "study_id": "VNV-CONTACT-CODEASTER-TET4-MASTER-004",
+  "status": "PASS_EXTERNAL_CORRELATION",
+  "maturity": "experimental",
+  "scope": "linear_static_active_node_triangle_contact_on_planar_tet4_face",
+  "external_solver": {
+    "name": "Code_Aster",
+    "version": "18.1.0",
+    "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+    "formulation": "3D/TETRA4 plus LIAISON_DDL active-contact kinematics"
+  },
+  "active_constraint": "UZ_slave - 0.5 UZ_n1 - 0.25 UZ_n2 - 0.25 UZ_n3 = -0.1 m",
+  "results": [
+    {
+      "quantity": "slave_uz_m",
+      "qf_value": -0.10426695842450764,
+      "code_aster_value": -0.10426695842450766,
+      "relative_difference": 1.3877787807814457e-17
+    },
+    {
+      "quantity": "master_1_uz_m",
+      "qf_value": -0.004266958424507659,
+      "code_aster_value": -0.004266958424507659,
+      "relative_difference": 0.0
+    },
+    {
+      "quantity": "master_2_uz_m",
+      "qf_value": -0.004266958424507659,
+      "code_aster_value": -0.004266958424507659,
+      "relative_difference": 0.0
+    },
+    {
+      "quantity": "master_3_uz_m",
+      "qf_value": -0.004266958424507659,
+      "code_aster_value": -0.004266958424507659,
+      "relative_difference": 0.0
+    }
+  ],
+  "checks": [
+    {
+      "id": "qf_code_aster_slave_uz_m",
+      "value": 1.3877787807814457e-17,
+      "limit": 1e-10,
+      "status": "PASS"
+    },
+    {
+      "id": "qf_code_aster_master_1_uz_m",
+      "value": 0.0,
+      "limit": 1e-10,
+      "status": "PASS"
+    },
+    {
+      "id": "qf_code_aster_master_2_uz_m",
+      "value": 0.0,
+      "limit": 1e-10,
+      "status": "PASS"
+    },
+    {
+      "id": "qf_code_aster_master_3_uz_m",
+      "value": 0.0,
+      "limit": 1e-10,
+      "status": "PASS"
+    }
+  ],
+  "limitations": [
+    "The active state is imposed by LIAISON_DDL; this is not an external validation of active-set detection.",
+    "The separate LIAISON_UNIL study covers normal opening and closure for the scalar inequality.",
+    "Only one planar TET4 boundary face with fixed tangential directions is correlated.",
+    "General surfaces, surface-to-surface search, large sliding and friction remain outside this correlation."
+  ]
+}

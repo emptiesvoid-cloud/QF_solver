@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / "qualification" / "0_2_6"
 
 
-def test_g09_lot2_contract_is_bounded_and_keeps_gate_open() -> None:
+def test_g09_lot2_contract_is_bounded_and_not_autonomous() -> None:
     contract = json.loads((DATA / "g09_lot2_requirements.json").read_text(encoding="utf-8"))
     gates = json.loads((DATA / "gates.json").read_text(encoding="utf-8"))
     gate = next(item for item in gates["gates"] if item["id"] == "026-G09")
@@ -21,7 +21,9 @@ def test_g09_lot2_contract_is_bounded_and_keeps_gate_open() -> None:
     assert len(contract["requirements"]) == 5
     assert contract["scope"]["finite_sliding"] is False
     assert contract["penalty_policy"]["candidate_status"] == "OWNER_REVIEW_REQUIRED"
-    assert gate["status"] == "NOT_STARTED"
+    assert contract["out_of_scope"][-1] == "official 026-G09 gate closure"
+    assert gate["status"] == "PASS_WITH_LIMITATIONS"
+    assert gate["lot2_gate_closure"] is True
 
 
 def test_g09_lot2_registry_covers_cycles_rollback_and_failures() -> None:

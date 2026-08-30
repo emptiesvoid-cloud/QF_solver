@@ -11,7 +11,7 @@
 | `026-G06` | J2 maturity extension | PASS_WITH_LIMITATIONS |
 | `026-G07` | Geometric nonlinear and arc-length review | NOT_STARTED |
 | `026-G08` | Buckling maturity extension | PASS_WITH_LIMITATIONS |
-| `026-G09` | Contact maturity extension | NOT_STARTED |
+| `026-G09` | Contact maturity extension | PASS_WITH_LIMITATIONS |
 | `026-G10` | Existing coupled nonlinear review | NOT_STARTED |
 | `026-G11` | Adversarial / failure / metamorphic | PASS_WITH_LIMITATIONS |
 | `026-G12` | Performance / scalability | NOT_STARTED |
@@ -41,16 +41,17 @@ TET4 is `QUALIFIED_BOUNDED`, TET10 and HEX20 are
 positive-load Euler screen is excluded from active metrics. No post-buckling,
 multi-mode or general physical-validation claim is made.
 
-`026-G09` remains `NOT_STARTED` pending the explicit Owner disposition of the
-Lot 3 bounded penalty candidate. Lot 1 and Lot 2 provide internal bounded
-node-to-triangle evidence for mesh, load paths, rollback and failures. Lot 3
-adds Code_Aster unilateral open/close and TET4 structural-path comparisons,
-plus a CalculiX pre-contact tie-breaker. The external comparison is
-intentionally limited because Code_Aster uses an exact unilateral constraint
-while QF uses penalty contact; it does not qualify the penalty law itself,
-finite sliding, general surface-to-surface contact, friction, or a universal
-conditioning cutoff. See `g09_lot3_evidence.json` and
-`0_2_6_g09_lot3_evidence.md`.
+`026-G09` is closed as `PASS_WITH_LIMITATIONS` by the Owner closeout in
+`qualification/0_2_6/g09_owner_closeout.json`. Lots 1 and 2 provide internal
+bounded node-to-triangle evidence for mesh, load paths, rollback and failures.
+Lot 3 adds Code_Aster unilateral open/close and TET4 structural-path
+comparisons, plus a CalculiX pre-contact tie-breaker. The external comparison
+is intentionally limited because Code_Aster uses an exact unilateral
+constraint while QF uses penalty contact; it does not qualify the penalty law
+itself, finite sliding, general surface-to-surface contact, friction, or a
+universal conditioning cutoff. The candidate `1e4..1e6` interval remains
+`EXPERIMENTAL_ONLY`, and the mesh-dependent transition warning is retained
+explicitly.
 
 `026-G11` is closed as `PASS_WITH_LIMITATIONS` by Owner decision. The bounded
 closeout covers 20 route-native runtime cases across linear static, nonlinear

@@ -1,0 +1,85 @@
+{
+  "study_id": "VNV-CONTACT-CODEASTER-LIAISON-UNIL-001",
+  "status": "PASS_EXTERNAL_CORRELATION",
+  "maturity": "experimental",
+  "scope": "linear_static_unilateral_normal_constraint",
+  "external_solver": {
+    "name": "Code_Aster",
+    "version": "18.1.0",
+    "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+    "formulation": "DEFI_CONTACT / LIAISON_UNIL"
+  },
+  "model": {
+    "initial_normal_gap_m": 0.1,
+    "normal_spring_n_per_m": 1000.0,
+    "constraint": "z + UZ >= 0",
+    "same_normal_loads_and_units": true
+  },
+  "cases": [
+    {
+      "id": "compression",
+      "load_z_n": -200.0,
+      "expected_uz_m": -0.1,
+      "expected_active": true,
+      "qf_uz_m": -0.1,
+      "code_aster_uz_m": -0.1,
+      "qf_gap_m": 0.0,
+      "qf_active": true,
+      "code_aster_gap_m": 0.0,
+      "qf_theory_error": 0.0,
+      "code_aster_theory_error": 0.0,
+      "qf_code_aster_difference": 0.0
+    },
+    {
+      "id": "separation",
+      "load_z_n": 20.0,
+      "expected_uz_m": 0.02,
+      "expected_active": false,
+      "qf_uz_m": 0.02,
+      "code_aster_uz_m": 0.02,
+      "qf_gap_m": 0.12000000000000001,
+      "qf_active": false,
+      "code_aster_gap_m": 0.12000000000000001,
+      "qf_theory_error": 0.0,
+      "code_aster_theory_error": 0.0,
+      "qf_code_aster_difference": 0.0
+    }
+  ],
+  "checks": [
+    {
+      "id": "compression_qf_code_aster_uz",
+      "value": 0.0,
+      "limit": 1e-10,
+      "status": "PASS"
+    },
+    {
+      "id": "separation_qf_code_aster_uz",
+      "value": 0.0,
+      "limit": 1e-10,
+      "status": "PASS"
+    },
+    {
+      "id": "compression_exact_closure",
+      "value": 0.0,
+      "limit": 1e-10,
+      "status": "PASS"
+    },
+    {
+      "id": "separation_open_gap",
+      "value": 0.0,
+      "limit": 1e-12,
+      "status": "PASS"
+    },
+    {
+      "id": "qf_active_set_branch",
+      "value": 0.0,
+      "limit": 0.0,
+      "status": "PASS"
+    }
+  ],
+  "limitations": [
+    "Code_Aster LIAISON_UNIL validates the equivalent scalar normal inequality.",
+    "The QF_solver master triangle is deliberately reduced to its planar normal condition for this oracle.",
+    "This study does not validate surface-to-surface contact, large sliding, updated normals, or friction."
+  ]
+}

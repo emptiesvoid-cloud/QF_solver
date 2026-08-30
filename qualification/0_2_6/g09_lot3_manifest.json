@@ -10,13 +10,17 @@
   "artifacts": {
     "qualification/0_2_6/g09_lot3_requirements.json": "e709aa549361344650cddc54bde5b799a9fe2e1711074412e52e7f8097a81cad",
     "qualification/0_2_6/g09_lot3_case_registry.json": "01cd07603d252e9f542692a673cfe7da90d17ae002a98416b89c4713cb7cdf73",
-    "qualification/0_2_6/g09_lot3_evidence.json": "7417719fad519509a6c3ba2b401224d26004bef0a086becb945fa1f6511d0964",
+    "qualification/0_2_6/g09_lot3_evidence.json": "d8c922d99b67a82cb7086674d3372ba1ad5ec7779386807265e2ae17163ecf2d",
     "docs/verification/0_2_6/0_2_6_g09_lot3_contract.md": "dcc8f56159de0d4ccdd68a77151d59a4752963aded06dde94749cc7be4549aef",
-    "docs/verification/0_2_6/0_2_6_g09_lot3_evidence.md": "60123bf4b5717cd9cf3551e2577317d8b93f9db72d4f720b4d8efb83748c9380",
+    "docs/verification/0_2_6/0_2_6_g09_lot3_evidence.md": "e8752ce83379e2db1daa3d0e8d3ad6399ca8934c19b59862b54457ebc48e1b79",
     "docs/assets/reviews/g09_lot3_contact_code_aster_curves_mesh6.png": "197bbb989c949737e8e7f9ef016159311293ba64a13063314c5ceb0373aa0bf1",
     "qualification/0_2_6/g09_lot3_mesh6/summary.json": "5ee2680ece8d64ad7fba6feba1525487f543b5753139595f5743e071b5364152",
     "qualification/0_2_6/g09_lot3_mesh6/report.md": "666e4c25f519713c2ce57b7201975c38caaffa4074116b24fd50903df02c0cb9",
-    "qualification/0_2_6/g09_lot3_mesh6/vnv_manifest.json": "9c6b5af8ca52da9f93783d823cf07e74b355e6552387d71ff415421c5a53fc5f"
+    "qualification/0_2_6/g09_lot3_mesh6/vnv_manifest.json": "9c6b5af8ca52da9f93783d823cf07e74b355e6552387d71ff415421c5a53fc5f",
+    "qualification/0_2_6/g09_owner_closeout.json": "1e446dc8fe24a2d60eca37c866f89659ddd9d4fc73c5e90708aef1ba78a171c1",
+    "docs/verification/0_2_6/0_2_6_g09_owner_closeout.md": "5d1e4a9ec2c1a20c3167be1147946e69c63cea38d2fd28886c0ba5b277c97eaf",
+    "qualification/0_2_6/gates.json": "6653d40cc0c0a993e5cf5dc5d806e46c55436838f8bd34eeba67b50bf46567e2",
+    "docs/verification/0_2_6/0_2_6_gate_matrix.md": "4606cc26386f8172a4c780cf2cdb0c3ca8057ef89150e661d552f4da6df06fdc"
   },
   "external_manifests": {
     "code_aster_scalar": "4ed140e7d7288ff76b95633570fa4288b621380efb0447ac325ad95269913b04",
@@ -24,5 +28,5 @@
     "code_aster_additional": "835e69cef260b06238990851ee8300f8ec556757c0d7611569b121ca42cf8755",
     "code_aster_additional_mesh6": "9c6b5af8ca52da9f93783d823cf07e74b355e6552387d71ff415421c5a53fc5f"
   },
-  "owner_action": "Review the bounded candidate penalty range and the mesh-dependent transition warning; do not infer a universal range or conditioning cutoff."
+  "owner_action": "Owner closeout records the candidate interval as EXPERIMENTAL_ONLY; do not infer a universal range or conditioning cutoff."
 }

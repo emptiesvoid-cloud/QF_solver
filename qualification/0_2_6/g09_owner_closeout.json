@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "closeout_id": "026-G09-OWNER-CLOSEOUT-001",
+  "gate": "026-G09",
+  "status": "PASS_WITH_LIMITATIONS",
+  "official_gate_status": "PASS_WITH_LIMITATIONS",
+  "owner_decision": "PASS_WITH_LIMITATIONS",
+  "closeout_basis": "Lots 1, 2 and 3 jointly establish a bounded contact capability; no general contact or universal penalty claim is made.",
+  "execution_source_shas": {
+    "lot1": "341ff7111630f6244401ca82addc04414408b9b1",
+    "lot2": "341e82d61a2074bd744c84c9c7a9140bd1ac0bb0",
+    "lot3": "c76d4af39dc270a05596a53ef2d93baa9171c29b",
+    "evidence_head": "a4665c19ea5ec699db003686586dc4452b8df752"
+  },
+  "source_dirty_for_external_runs": false,
+  "lot_decisions": {
+    "LOT1": "ACCEPTED_AS_BOUNDED_SUPPORTING_EVIDENCE",
+    "LOT2": "ACCEPTED_AS_BOUNDED_SUPPORTING_EVIDENCE",
+    "LOT3": "ACCEPTED_AS_BOUNDED_SUPPORTING_EVIDENCE"
+  },
+  "penalty_policy": {
+    "decision": "EXPERIMENTAL_ONLY",
+    "candidate_range": [10000.0, 1000000.0],
+    "approved_bounded_range": null,
+    "units": "solver-native contact stiffness units; no universal nondimensional conversion is defined",
+    "applicability": "tested TET4 initial-search node-to-triangle penalty benchmark only",
+    "rationale": "The candidate values converged with non-increasing penetration over the declared Lot 1/2 sweeps, but mesh dependence, conditioning sensitivity and the absence of a universal physical scaling rule prevent production approval.",
+    "conditioning_cutoff": "NONE_APPROVED",
+    "universal_range_claim": false
+  },
+  "requirements": [
+    {"requirement_id": "G09-001", "decision": "OWNER_APPROVED_BOUNDED", "evidence": ["g09_lot1_evidence.json", "g09_lot2_evidence.json", "g09_lot3_evidence.json"], "limitation": "Signed gap and unilateral activation are bounded to the tested TET4 node-to-triangle route."},
+    {"requirement_id": "G09-002", "decision": "OWNER_APPROVED_BOUNDED", "evidence": ["g09_lot1_evidence.json", "g09_lot2_evidence.json"], "limitation": "The common nonlinear driver is established for the exercised contact route only."},
+    {"requirement_id": "G09-003", "decision": "OWNER_APPROVED_BOUNDED", "evidence": ["g09_lot1_evidence.json", "g09_lot2_evidence.json"], "limitation": "Residual and equilibrium observations are bounded to declared cases; no new universal release band is introduced."},
+    {"requirement_id": "G09-004", "decision": "DEFERRED_LIMITATION", "evidence": ["g09_lot1_evidence.json", "g09_lot2_evidence.json"], "limitation": "Penalty sensitivity is characterized, but no production range or conditioning cutoff is approved."},
+    {"requirement_id": "G09-005", "decision": "OWNER_APPROVED_BOUNDED", "evidence": ["g09_lot1_evidence.json", "g09_lot2_evidence.json"], "limitation": "Open/close/recontact is bounded to the fixed initial-search geometry."},
+    {"requirement_id": "G09-006", "decision": "OWNER_APPROVED_FULL", "evidence": ["g09_lot1_evidence.json", "g09_lot2_evidence.json"], "limitation": "Full only means the declared excessive-penetration contract and its tested route."},
+    {"requirement_id": "G09-007", "decision": "OWNER_APPROVED_FULL", "evidence": ["g09_lot1_evidence.json", "g09_lot2_evidence.json", "g09_lot3_evidence.json"], "limitation": "Determinism and finite diagnostics are established for the executed cases, not all future combinations."},
+    {"requirement_id": "G09-008", "decision": "OWNER_APPROVED_BOUNDED", "evidence": ["g09_lot1_evidence.json", "g09_lot2_evidence.json", "g09_lot3_evidence.json"], "limitation": "Unsupported physics remains explicit and excluded from the claim."},
+    {"requirement_id": "G09-L2-001", "decision": "OWNER_APPROVED_BOUNDED", "evidence": ["g09_lot2_evidence.json"], "limitation": "Three controlled TET4 mesh levels and three candidate penalties; no universal mesh law."},
+    {"requirement_id": "G09-L2-002", "decision": "OWNER_APPROVED_BOUNDED", "evidence": ["g09_lot2_evidence.json"], "limitation": "Cycle evidence uses a fixed master surface and initial search."},
+    {"requirement_id": "G09-L2-003", "decision": "OWNER_APPROVED_FULL", "evidence": ["g09_lot2_evidence.json"], "limitation": "State integrity is full for the exercised mutable/retry paths; stateless contact recomputation is recorded as N/A."},
+    {"requirement_id": "G09-L2-004", "decision": "OWNER_APPROVED_FULL", "evidence": ["g09_lot2_evidence.json"], "limitation": "Failure behavior is full for the declared adversarial classes, not unregistered future inputs."},
+    {"requirement_id": "G09-L2-005", "decision": "DEFERRED_LIMITATION", "evidence": ["g09_lot2_evidence.json", "g09_lot3_evidence.json"], "limitation": "Candidate governance remains experimental and has no approved conditioning cutoff."},
+    {"requirement_id": "G09-L3-001", "decision": "OWNER_APPROVED_BOUNDED", "evidence": ["g09_lot3_evidence.json"], "limitation": "Code_Aster validates a scalar/active unilateral comparator, not a general deformable contact law."},
+    {"requirement_id": "G09-L3-002", "decision": "OWNER_APPROVED_BOUNDED", "evidence": ["g09_lot3_evidence.json", "g09_lot3_mesh6/summary.json"], "limitation": "Active branch agreement is strong; transition and gap-curve differences remain formulation- and mesh-dependent."},
+    {"requirement_id": "G09-L3-003", "decision": "OWNER_APPROVED_BOUNDED", "evidence": ["g09_lot3_evidence.json", "g09_lot3_mesh6/summary.json"], "limitation": "CalculiX is an elastic pre-contact C3D4 tie-breaker only."},
+    {"requirement_id": "G09-L3-004", "decision": "DEFERRED_LIMITATION", "evidence": ["g09_lot3_evidence.json"], "limitation": "The 1e4..1e6 interval is retained as an experimental candidate; Owner does not approve it for universal production use."},
+    {"requirement_id": "G09-L3-005", "decision": "OWNER_APPROVED_BOUNDED", "evidence": ["g09_lot3_manifest.json", "g09_owner_closeout.json"], "limitation": "Aggregate traceability is closed for this bounded gate package; later contact capabilities require new evidence."}
+  ],
+  "requirement_aggregate": {
+    "full": ["G09-006", "G09-007", "G09-L2-003", "G09-L2-004"],
+    "bounded": ["G09-001", "G09-002", "G09-003", "G09-005", "G09-008", "G09-L2-001", "G09-L2-002", "G09-L3-001", "G09-L3-002", "G09-L3-003", "G09-L3-005"],
+    "deferred": ["G09-004", "G09-L2-005", "G09-L3-004"],
+    "blocking": []
+  },
+  "qualified_bounded_scope": {
+    "formulation": "frictionless node-to-triangle penalty",
+    "families": ["TET4"],
+    "routes": ["linear_static", "nonlinear_static", "geometric_nonlinear_static"],
+    "search": "initial configuration only",
+    "benchmarks": "declared Lot 1/2 TET4 cases and Lot 3 scalar/TET4 bounded external comparators",
+    "claim": "bounded unilateral contact behavior, load-path transitions, retry/rollback and fail-closed diagnostics for the tested TET4 route"
+  },
+  "external_evidence": {
+    "code_aster": "PASS_WITH_LIMITATIONS",
+    "calculix": "PASS_EXTERNAL_TIE_BREAKER",
+    "mesh6_transition_warning": "5.25653195006103 percent, above the predeclared 5 percent warning limit; retained explicitly",
+    "interpretation": "External evidence supports bounded unilateral normal kinematics and the tested TET4 path; it does not validate the QF penalty law identically."
+  },
+  "explicit_exclusions": [
+    "Coulomb friction",
+    "finite sliding",
+    "general surface-to-surface contact",
+    "self-contact",
+    "contact tangent qualification at active-set discontinuities",
+    "universal penalty range or conditioning cutoff",
+    "contact qualification beyond the tested TET4 route"
+  ],
+  "limitations": [
+    "Internal mesh sensitivity is bounded to three TET4 levels and shows observable dependence.",
+    "Code_Aster uses exact unilateral constraints rather than the QF penalty law; the mesh6 transition warning is above the predeclared warning limit.",
+    "CalculiX does not exercise contact detection, penalty enforcement or recontact.",
+    "No universal penalty scaling or conditioning threshold is approved.",
+    "The closeout does not promote friction, finite sliding, surface-to-surface contact or other element families."
+  ],
+  "functional_code_changed": false,
+  "official_closeout": "RECORDED_BY_OWNER_REVIEW",
+  "ready_for_multi_agent_integration": true,
+  "ready_to_leave_gate_closed": true
+}

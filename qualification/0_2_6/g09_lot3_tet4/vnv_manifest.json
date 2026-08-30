@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "study_id": "VNV-CONTACT-CODEASTER-TET4-MASTER-004",
+  "generated_utc": "2026-08-30T14:13:17.778698Z",
+  "source": {
+    "repository": ".",
+    "revision": "c76d4af39dc270a05596a53ef2d93baa9171c29b",
+    "dirty": false
+  },
+  "command": [
+    "-c"
+  ],
+  "runtime": {
+    "python": {
+      "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+      "executable": "C:\\Python313\\python.exe"
+    },
+    "platform": {
+      "system": "Windows",
+      "release": "10",
+      "machine": "AMD64",
+      "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+    },
+    "packages": {
+      "numpy": "2.2.6",
+      "scipy": "1.15.2",
+      "matplotlib": "3.10.3",
+      "h5py": "3.14.0",
+      "mpi4py": "4.1.0",
+      "petsc4py": null
+    },
+    "blas": {
+      "name": "scipy-openblas",
+      "version": "0.3.29",
+      "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+    },
+    "parallel_environment": {
+      "OMP_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "PETSC_ARCH": null
+    }
+  },
+  "files": [
+    {
+      "role": "supporting_artifact",
+      "path": "code_aster_raw.json",
+      "size_bytes": 144,
+      "sha256": "a0de1e6be5e3b706da0f9d76817ca7dbf261d5bb34a6f386e473ff6bb1fe23ed"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "code_aster_stderr.log",
+      "size_bytes": 146,
+      "sha256": "37a7793e664f49fbbfde578e6e960f8c5869a52c95f7d9dfa216c84c2029bdb0"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "code_aster_stdout.log",
+      "size_bytes": 22900,
+      "sha256": "05d42447f114a642183295003a01824354b04885274c07c51618f98d4781d539"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "fort.15",
+      "size_bytes": 7054,
+      "sha256": "eb277581a6876d29cc5033a12f79028ea27dee43e8fdf9a8d0ab8b21dab1f1ed"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "fort.20",
+      "size_bytes": 454,
+      "sha256": "2f4a80fd5ba30a1d3005e5d2cb02f80e7fc944a3aa84a6a2662a1676569a2950"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "fort.8",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "fort.9",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "role": "owner_review_report",
+      "path": "report.md",
+      "size_bytes": 608,
+      "sha256": "97a9c2e455f724f3af14aac98cc67bb7c2e5727b1f16f669825c332970f1ad1d"
+    },
+    {
+      "role": "normalized_results",
+      "path": "summary.json",
+      "size_bytes": 2287,
+      "sha256": "323c2af0ae779f38406c6e7422490cddf972ec8c81d9c02a43a5cbccbf9d9dbf"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "tet4_master.comm",
+      "size_bytes": 1638,
+      "sha256": "27ad52df99faea0bcdaaa243866e1d924c4df63930940d4e41106ad430fd28ac"
+    },
+    {
+      "role": "supporting_artifact",
+      "path": "tet4_master.mail",
+      "size_bytes": 454,
+      "sha256": "2f4a80fd5ba30a1d3005e5d2cb02f80e7fc944a3aa84a6a2662a1676569a2950"
+    }
+  ]
+}
