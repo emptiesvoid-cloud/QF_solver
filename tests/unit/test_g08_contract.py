@@ -31,11 +31,21 @@ def test_g08_requirements_cover_policies_without_inventing_bands() -> None:
     requirements = contract["requirements"]
     ids = {row["id"] for row in requirements}
     assert ids == {f"G08-{index:03d}" for index in range(1, 10)}
-    proposed = [row for row in requirements if row["threshold"]["status"] == "PROPOSED_OWNER_REVIEW"]
-    assert len(proposed) == 5
-    assert all(row["threshold"]["value"] is None for row in proposed)
-    assert contract["threshold_governance"]["status"] == "OWNER_REVIEW_REQUIRED"
-    assert "No proposed or null policy" in contract["threshold_governance"]["rule"]
+    approved = [row for row in requirements if row["threshold"]["status"] == "OWNER_APPROVED_BOUNDED"]
+    assert len(approved) == 5
+    assert contract["threshold_governance"]["status"] == "OWNER_APPROVED_BOUNDED"
+    assert contract["threshold_governance"]["proposed_owner_review_count"] == 0
+    assert "cannot be changed after observing results" in contract["threshold_governance"]["rule"]
+
+
+def test_g08_owner_review_preserves_bounded_scope_without_closing_gate() -> None:
+    review = _load("g08_owner_contract_review.json")
+    assert review["status"] == "OWNER_APPROVED_BOUNDED_CONTRACT_NOT_CLOSED"
+    assert review["start_sha"] == "4145f1f42ed5aec513ccf05e215e16e590132546"
+    assert review["functional_code_changed"] is False
+    assert review["gate_closure_granted"] is False
+    assert review["decisions"]["mesh_refinement"]["minimum_compatible_levels"] == 3
+    assert review["decisions"]["mode_quality"]["scope"] == "first mode only"
 
 
 def test_g08_case_registry_maps_cases_to_requirements_and_states() -> None:
@@ -61,6 +71,7 @@ def test_g08_contract_is_attached_to_unclosed_gate_and_documented() -> None:
     assert g08["status"] == "NOT_STARTED"
     assert "g08_requirements.json" in g08["evidence_ids"]
     assert "g08_case_registry.json" in g08["evidence_ids"]
+    assert "g08_owner_contract_review.json" in g08["evidence_ids"]
     document = (DOCS / "0_2_6_g08_contract.md").read_text(encoding="utf-8")
     assert "`026-G08` is **NOT_STARTED**" in document
     assert "not numerical evidence" in document

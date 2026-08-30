@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "review_id": "026-G08-OWNER-CONTRACT-001",
+  "gate": "026-G08",
+  "status": "OWNER_APPROVED_BOUNDED_CONTRACT_NOT_CLOSED",
+  "review_scope": "Contract and governance only; no numerical campaign executed.",
+  "start_sha": "4145f1f42ed5aec513ccf05e215e16e590132546",
+  "functional_code_changed": false,
+  "decisions": {
+    "critical_factor": {
+      "status": "OWNER_APPROVED_BOUNDED",
+      "metric": "abs(lambda_qf - lambda_oracle) / abs(lambda_oracle) for non-zero oracle factors",
+      "zero_oracle_rule": "Use a pre-declared and justified case scale for absolute error; never divide by an invented floor.",
+      "sign_rule": "The QF and oracle factors must have the same sign when the oracle factor is non-zero.",
+      "tolerance": "Declared per analytical/reference oracle before execution under TOL-026-ANALYTICAL-001.",
+      "limitation": "No universal buckling-factor percentage is approved."
+    },
+    "eigenpair_residual": {
+      "status": "OWNER_APPROVED_BOUNDED",
+      "metric": "norm(K phi + lambda Kg phi) / max(norm(K phi) + abs(lambda) * norm(Kg phi), scale_floor)",
+      "bands": {"pass": "<=1e-7", "warning": ">1e-7 and <=1e-5", "fail": ">1e-5"},
+      "near_zero": "scale_floor is case-declared; near-zero denominators require absolute residual and finite-zero evidence, not automatic PASS."
+    },
+    "mesh_refinement": {
+      "status": "OWNER_APPROVED_BOUNDED",
+      "minimum_compatible_levels": 3,
+      "observable": "first critical factor",
+      "final_adjacent_change": "<=1% for a quantitative convergence claim",
+      "monotonicity_required": false,
+      "limitation": "Mode changes, near-degenerate factors and formulation sensitivity require explicit bounded limitations or Owner disposition."
+    },
+    "mode_quality": {
+      "status": "OWNER_APPROVED_BOUNDED",
+      "scope": "first mode only",
+      "requirements": ["finite vector", "unit Euclidean norm", "deterministic sign at maximum absolute component", "repeatability"],
+      "mac": "Reported only for DOF-compatible comparable references; no multi-mode qualification."
+    },
+    "external_correlation": {
+      "status": "OWNER_APPROVED_BOUNDED",
+      "calculix": "Required when a comparable solid deck is in the claimed external scope and the tool is available.",
+      "code_aster": "SKIPPED_NOT_COMPARABLE for the currently audited 3D solid eigen-buckling route.",
+      "abaqus": "COULD and optional when legally and technically available.",
+      "unavailable": "SKIPPED_EXTERNAL_UNAVAILABLE is never PASS and blocks the affected external claim unless explicitly excluded by Owner.",
+      "tolerance": "Oracle-specific and declared before execution; historical adapter screens are not universal G08 bands."
+    }
+  },
+  "failure_policy": {
+    "invalid_input_or_numerical_failure": "FAIL_CLOSED",
+    "external_unavailable": "SKIP_WITH_JUSTIFICATION_NOT_PASS",
+    "unsupported_route": "UNSUPPORTED_EXPLICIT",
+    "false_convergence": "PROHIBITED"
+  },
+  "qualified_scope_candidate": {
+    "analysis": "linear_buckling",
+    "families": ["TET4", "TET10", "HEX8", "HEX20"],
+    "material": "homogeneous isotropic_3d",
+    "loads": "nodal dead loads",
+    "mode_scope": "first critical mode only",
+    "claim": "bounded first tangent-instability factor and mode evidence only"
+  },
+  "explicit_exclusions": [
+    "post-buckling",
+    "arc-length/path following",
+    "imperfection-sensitive collapse",
+    "multi-mode qualification",
+    "shell/beam/discrete buckling through this route",
+    "general physical validation"
+  ],
+  "gate_closure_granted": false
+}
