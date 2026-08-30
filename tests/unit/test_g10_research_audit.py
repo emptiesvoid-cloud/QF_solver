@@ -63,6 +63,23 @@ def test_g10_audit_does_not_promote_deferred_research_routes() -> None:
     assert matrix["external_correlation"]["status"] == "DEFERRED_LIMITATION"
 
 
+def test_g10_owner_review_selects_only_comparable_high_value_routes() -> None:
+    matrix = _load_json(MATRIX_PATH)
+    review = matrix["owner_review"]
+    selection = review["external_selection"]
+
+    assert review["status"] == "PARTIAL"
+    assert selection["selected_count"] == 2
+    assert [row["route"] for row in selection["selected_routes"]] == [
+        "arc_length_continuation",
+        "total_lagrangian_elasticity",
+    ]
+    assert all(row["owner_gate"] == "026-G07" for row in selection["selected_routes"])
+    assert any(row["route"] == "finite_kinematic_j2" for row in selection["not_selected"])
+    assert review["no_threshold_changes"] is True
+    assert review["g07_reopened"] is False
+
+
 def test_g10_gate_registry_points_to_lot1_evidence() -> None:
     matrix = _load_json(MATRIX_PATH)
     gates = _load_json(GATES_PATH)
@@ -73,5 +90,6 @@ def test_g10_gate_registry_points_to_lot1_evidence() -> None:
     assert gate["evidence_ids"] == [
         "g10_research_audit_matrix.json",
         "0_2_6_g10_lot1.md",
+        "0_2_6_g10_owner_review_lot1.md",
     ]
     assert matrix["decision"]["gate_status"] == gate["status"]
