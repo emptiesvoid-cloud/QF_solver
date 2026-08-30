@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "status": "DIAGNOSTIC_ONLY",
+  "start_sha": "96f32aef4de4cabf1b4c02845e2fe6bdbbc57eb2",
+  "execution_source_sha": "4deb8eaacbc477141952a1042a1a36f3f7a8b1c5",
+  "evidence_sha_policy": "The commit containing this summary is resolved externally with git rev-parse HEAD; it is not embedded to avoid self-referential provenance.",
+  "formulation_changed": false,
+  "tangent_changed": false,
+  "default_path_changed": false,
+  "new_thresholds": false,
+  "persistent_failures_before": 3,
+  "persistent_failures_after_default_path": 3,
+  "persistent_failures_after_candidate": 0,
+  "candidate_policy": {
+    "initial_load_increment": "1/increments",
+    "max_load_increment": "1/increments",
+    "min_load_increment": 1e-06,
+    "cutback_factor": 0.25,
+    "growth_factor": 1.0,
+    "max_cutbacks": 64,
+    "max_iterations": 200,
+    "opt_in_only": true
+  },
+  "target_cases": {
+    "count": 3,
+    "successes": 3,
+    "failures": 0,
+    "rows": [
+      {
+        "id": "HEX8_m4_a10_compression_l0.2_n8_d0.12",
+        "status": "SUCCESS",
+        "rejected_increments": 4,
+        "newton_iterations": 46089,
+        "assembly_calls": 136784,
+        "elapsed_seconds": 920.8181751000229,
+        "relative_residual": 2.8070307396087028e-14,
+        "det_f_min": 0.6599326651856613,
+        "displacement_max": 11.97648897078007,
+        "tangent_condition_number": 198928.36754613806,
+        "tangent_fd_relative_error": 1.1519905916367482e-08
+      },
+      {
+        "id": "HEX8_m4_a10_compression_l0.2_n16_d0.12",
+        "status": "SUCCESS",
+        "rejected_increments": 3,
+        "newton_iterations": 25931,
+        "assembly_calls": 87562,
+        "elapsed_seconds": 517.8372888999875,
+        "relative_residual": 2.077133830570972e-14,
+        "det_f_min": 0.6599326651856614,
+        "displacement_max": 11.976488970780075,
+        "tangent_condition_number": 198928.36754179947,
+        "tangent_fd_relative_error": 1.4378212977985139e-08
+      },
+      {
+        "id": "HEX8_m4_a10_compression_l0.2_n32_d0.12",
+        "status": "SUCCESS",
+        "rejected_increments": 3,
+        "newton_iterations": 46100,
+        "assembly_calls": 134341,
+        "elapsed_seconds": 915.1630942000193,
+        "relative_residual": 2.1929218450267214e-14,
+        "det_f_min": 0.6599326651856614,
+        "displacement_max": 11.976488970780073,
+        "tangent_condition_number": 198928.36754271397,
+        "tangent_fd_relative_error": 1.241411716644859e-08
+      }
+    ]
+  },
+  "full150": {
+    "artifact": "qualification/0_2_6/tl_final_rescue/full150_maxit200.json",
+    "artifact_sha256": "a93812f01fee79e2233e7ead6e21a210c2bb7f1d094d67447f56e73656c6fda9",
+    "source_sha": "4deb8eaacbc477141952a1042a1a36f3f7a8b1c5",
+    "dirty_at_start": false,
+    "executed": 150,
+    "successes": 150,
+    "failures": 0,
+    "tet4_successes": 75,
+    "hex8_successes": 75,
+    "assembly_calls": 826992,
+    "elapsed_seconds": 4536.793898700445,
+    "max_case_elapsed_seconds": 920.8181751000229,
+    "median_case_elapsed_seconds": 0.35064120002789423
+  },
+  "holdouts": {
+    "artifact": "qualification/0_2_6/tl_final_rescue/holdouts_maxit200.json",
+    "artifact_sha256": "e60904b8b6e2809573694b67f52de9b234f143f012b58c18bc6fd25e2ac33714",
+    "source_sha": "4deb8eaacbc477141952a1042a1a36f3f7a8b1c5",
+    "dirty_at_start": false,
+    "executed": 10,
+    "successes": 10,
+    "failures": 0,
+    "elapsed_seconds": 460.2999821000849,
+    "max_case_elapsed_seconds": 453.5749085000134,
+    "median_case_elapsed_seconds": 0.511132799962069
+  },
+  "repeat": {
+    "artifact": "qualification/0_2_6/tl_final_rescue/repeat_n16_maxit200.json",
+    "artifact_sha256": "bed594793bf73deb0568b9875fae06af61f360e2ea0047cf522af6468ece179f",
+    "source_sha": "4deb8eaacbc477141952a1042a1a36f3f7a8b1c5",
+    "dirty_at_start": false,
+    "status": "SUCCESS",
+    "displacement_sha256": "de7159fdedd05d0cfdf77d9456c4a49782cdaaf7ec6d41c51fc387428295c5cd",
+    "assembly_calls": 87562,
+    "newton_iterations": 25931,
+    "physical_state_equal_to_first_n16_run": true
+  },
+  "state_equivalence": {
+    "target_partition_scalar_metric_max_difference": 7.105427357601002e-15,
+    "target_partition_condition_number_max_difference": 4.338595317676663e-06,
+    "independent_physical_reference": false,
+    "physical_branch_confirmed": "UNRESOLVED"
+  },
+  "frontier": [
+    {
+      "artifact": "qualification/0_2_6/tl_final_rescue/frontier_aspect9_5.json",
+      "artifact_sha256": "83dca43101dcb584865a874ae5b9b477a544dc95399aa57fd29b61b57ff6e1ac",
+      "source_sha": "a15b5b85f543ce5d7eec5fa7c5faaa17a60fbc1d",
+      "dirty_at_start": true,
+      "status": "SUCCESS"
+    },
+    {
+      "artifact": "qualification/0_2_6/tl_final_rescue/frontier_distortion010.json",
+      "artifact_sha256": "2b08de1395eba223fac54f00510d264c0293bd9f5980bcf35fe793aefbd936bb",
+      "source_sha": "a15b5b85f543ce5d7eec5fa7c5faaa17a60fbc1d",
+      "dirty_at_start": true,
+      "status": "FAILURE"
+    },
+    {
+      "artifact": "qualification/0_2_6/tl_final_rescue/frontier_load0175.json",
+      "artifact_sha256": "d1d0e738b6ec2ae24a4875b05ba91eedc7a74fe79c5942085e98ae33b74300df",
+      "source_sha": "a15b5b85f543ce5d7eec5fa7c5faaa17a60fbc1d",
+      "dirty_at_start": true,
+      "status": "SUCCESS"
+    },
+    {
+      "artifact": "qualification/0_2_6/tl_final_rescue/frontier_mesh3.json",
+      "artifact_sha256": "3eef05bbf37b862bb11d723aa31a27005df649bdfe7ef9b6d0870008d4f573fe",
+      "source_sha": "a15b5b85f543ce5d7eec5fa7c5faaa17a60fbc1d",
+      "dirty_at_start": true,
+      "status": "SUCCESS"
+    }
+  ],
+  "incomplete_studies": [
+    "cutback factor/minimum increment/max cutback exhaustive sweep interrupted by cost",
+    "cutback_factor=0.20 exploratory run interrupted by cost",
+    "cutback_factor=0.50 exploratory run interrupted by cost",
+    "min_load_increment=1e-5 exploratory run interrupted by cost",
+    "no comparable alternate-control run for exact HEX8 targets"
+  ],
+  "failure_zoo": {
+    "artifact": "qualification/0_2_6/tl_boundary_study/tl_boundary_failure_zoo.json",
+    "artifact_sha256": "d2ab25692699a156bce8e6d382145569618b0c0cc6e3cdee24601e6ff9d72a1e",
+    "preserved": true
+  },
+  "promotion": {
+    "ready_for_tl_promotion": false,
+    "ready_for_correction_planning": true,
+    "reason": "Candidate recovery is opt-in, extremely expensive, lacks an independent physical reference for recovered states, and leaves the default load-control boundary unchanged."
+  }
+}
