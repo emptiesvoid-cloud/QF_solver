@@ -14,7 +14,7 @@
 | `026-G09` | Contact maturity extension | PASS_WITH_LIMITATIONS |
 | `026-G10` | Advanced Nonlinear / Research Audit | PASS_WITH_LIMITATIONS |
 | `026-G11` | Adversarial / failure / metamorphic | PASS_WITH_LIMITATIONS |
-| `026-G12` | Performance / scalability | IN_PROGRESS |
+| `026-G12` | Performance / scalability | PASS_WITH_LIMITATIONS |
 | `026-G13` | External correlation aggregation | NOT_STARTED |
 | `026-G14` | Full regression / architecture freeze | NOT_STARTED |
 | `026-G15` | Owner release review | NOT_STARTED |
@@ -69,10 +69,17 @@ and the coupled routes remain experimental, deferred or not qualified under
 their explicit classifications. G10 does not change G07, G08, G09, G11 or
 G12.
 
-`026-G12` is `IN_PROGRESS`. The optimization checkpoint is qualified for
-integration only; its evidence records sparse load accumulation, load-balance
-vectorization and controlled mesh-quality cache reuse. No G12 Owner closeout
-or final release-readiness claim is implied.
+`026-G12` is closed by Owner decision as `PASS_WITH_LIMITATIONS`. The final
+campaign records 18/18 deterministic finite route measurements across nine
+bounded rows, and the optimized scaling evidence records full solves through
+107 811 actual DOF plus an assembly-only 300k probe. The 1M probe is
+`RESOURCE_LIMITED` after the controlled timeout and is not a success claim.
+The requirement is fully satisfied within this declared measured scope; no
+universal route-by-family scaling law, general HPC qualification or global
+solver speedup is claimed. The unique full regression produced 1849 passed,
+184 skipped and 18 historical failures with zero fix-only failures; those
+release blockers remain outside G12. The Owner record is
+`qualification/0_2_6/g12_owner_closeout.json`.
 
 `026-G11` is closed as `PASS_WITH_LIMITATIONS` by Owner decision. The bounded
 closeout covers 20 route-native runtime cases across linear static, nonlinear

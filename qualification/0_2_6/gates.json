@@ -211,16 +211,23 @@
         "g12_optimization_assembly_probes.json",
         "g12_optimization_cache_proof.json",
         "g12_optimization_regression_triage.json",
-        "0_2_6_g12_optimization.md"
+        "0_2_6_g12_optimization.md",
+        "g12_final_campaign.json",
+        "0_2_6_g12_final_campaign.md",
+        "g12_owner_closeout.json",
+        "0_2_6_g12_owner_closeout.md"
       ],
       "id": "026-G12",
-      "status": "IN_PROGRESS",
+      "status": "PASS_WITH_LIMITATIONS",
       "title": "Performance / scalability",
-      "checkpoint_status": "QUALIFIED_FOR_INTEGRATION",
-      "owner_closeout": false,
+      "checkpoint_status": "OWNER_CLOSED_WITH_LIMITATIONS",
+      "owner_closeout": true,
       "limitations": [
-        "This checkpoint records the validated optimization only; G12 remains open.",
-        "No final release readiness or full G12 closure is implied."
+        "The final route matrix is a compact bounded characterization, not a universal route-by-family scaling law.",
+        "Modal solve timing is not exposed as a separate public phase.",
+        "The 300k probe is assembly-only; the 1M probe is RESOURCE_LIMITED after the controlled timeout.",
+        "The optimization speedup claim is local to the measured linear_static TET4 load/assembly path.",
+        "Historical full-regression release blockers remain outside G12."
       ]
     },
     {
