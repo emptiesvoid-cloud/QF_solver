@@ -204,6 +204,94 @@
     "g11_decisions_changed": false,
     "g12_decisions_changed": false
   },
+  "owner_review": {
+    "status": "PARTIAL",
+    "reviewed_route_count": 10,
+    "classifications": {
+      "OWNER_KEEP_EXISTING": [
+        "nonlinear_static_small_strain",
+        "transaction_checkpoint_retry",
+        "structured_failure_diagnostics"
+      ],
+      "OWNER_EXPERIMENTAL_ONLY": [
+        "geometry_plus_frictionless_contact"
+      ],
+      "OWNER_NEEDS_EXTERNAL_EVIDENCE": [
+        "total_lagrangian_elasticity",
+        "arc_length_continuation"
+      ],
+      "OWNER_NOT_QUALIFIED": [
+        "finite_kinematic_j2",
+        "modified_newton_finite_kinematic"
+      ],
+      "OWNER_BLOCKED": [
+        "j2_plus_geometry",
+        "j2_plus_geometry_plus_contact"
+      ]
+    },
+    "external_selection": {
+      "selected_count": 2,
+      "selected_routes": [
+        {
+          "route": "arc_length_continuation",
+          "owner_gate": "026-G07",
+          "benchmark": "Existing two-TET4 shallow-arch/snap-through branch with a turning point",
+          "reference": "Code_Aster LONG_ARC deck and the independently reproducible bounded branch benchmark",
+          "metrics": [
+            "complete load-factor versus control-displacement curve",
+            "turning-point load factor and displacement",
+            "reaction history",
+            "residual history",
+            "restart branch agreement"
+          ],
+          "acceptance_criteria": "Use the existing G07 policy and declare all tolerances before execution; no new threshold is approved by this review.",
+          "scientific_reason": "Branch selection and limit-point agreement are the unresolved evidence with the highest information value for this route.",
+          "preconditions": ["same geometry and load convention", "equivalent continuation controls", "full curve export"]
+        },
+        {
+          "route": "total_lagrangian_elasticity",
+          "owner_gate": "026-G07",
+          "benchmark": "Same-mesh 3D Total-Lagrangian elastic structural case using the existing TET4/HEX8 scope",
+          "reference": "Code_Aster Green-Lagrange comparison and CalculiX NLGEOM only when the measures and boundary/load model are equivalent",
+          "metrics": [
+            "load-displacement curve",
+            "reaction resultant",
+            "strain/stress measure",
+            "energy",
+            "det(F)",
+            "residual"
+          ],
+          "acceptance_criteria": "Use the existing G07 policy and declare all tolerances before execution; non-comparable decks remain skipped.",
+          "scientific_reason": "External evidence directly addresses the parked TL promotion blocker without changing the TL formulation.",
+          "preconditions": ["same kinematics and stress measure", "same mesh or documented mapping", "positive det(F) domain"]
+        }
+      ],
+      "not_selected": [
+        {
+          "route": "finite_kinematic_j2",
+          "reason": "The available Code_Aster J2 decks use small-strain PETIT and the available CalculiX J2 check is a small-strain material-point comparison; neither is an apples-to-apples finite-kinematic J2 oracle."
+        },
+        {
+          "route": "j2_plus_geometry",
+          "reason": "No formulation-compatible external deck is available; coupling a small-strain J2 deck to a TL elastic deck would conflate constitutive and kinematic differences."
+        },
+        {
+          "route": "geometry_plus_frictionless_contact",
+          "reason": "The existing external contact comparisons use a different unilateral enforcement law or a non-equivalent surface model; they cannot provide a clean coupled correlation."
+        },
+        {
+          "route": "j2_plus_geometry_plus_contact",
+          "reason": "Triple coupling inherits the unresolved finite-kinematic J2 and contact-equivalence blockers, so an external campaign would not isolate a useful hypothesis."
+        }
+      ]
+    },
+    "no_threshold_changes": true,
+    "g07_reopened": false,
+    "g08_reopened": false,
+    "g09_reopened": false,
+    "g11_reopened": false,
+    "g12_reopened": false
+  },
   "decision": {
     "lot_status": "PASS_WITH_LIMITATIONS",
     "gate_status": "IN_PROGRESS",
@@ -213,6 +301,6 @@
     "experimental_only": ["total_lagrangian_elasticity", "arc_length_continuation", "j2_plus_geometry", "geometry_plus_frictionless_contact", "j2_plus_geometry_plus_contact"],
     "not_qualified": ["finite_kinematic_j2", "modified_newton_finite_kinematic"],
     "blocked": ["G10 closeout pending formulation-compatible external evidence and Owner review"],
-    "next_step": "Owner review of the G10-LOT1 audit, followed by only the smallest additional evidence needed for any requested classification."
+    "next_step": "Run only the selected G07-routed external campaigns after Owner acceptance of the existing policies; keep all other routes deferred or blocked."
   }
 }
