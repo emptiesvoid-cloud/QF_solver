@@ -120,7 +120,26 @@ def test_g04_thresholds_are_explicitly_owner_review_only() -> None:
         for policy in contract["policies"]["existing"]
         if policy["id"] != "TOL-026-ANALYTICAL-001"
     )
+    policies = contract["policies"]["owner_approved_bounded"]
+    assert {policy["status"] for policy in policies} == {"OWNER_APPROVED_BOUNDED"}
+    assert [policy["threshold"]["pass"] for policy in policies] == [1e-8, 1e-10, 1e-2]
+    assert policies[2]["minimum_levels"] == 3
+    assert policies[2]["threshold"]["monotonicity_required"] is False
+
+
+def test_g04_owner_review_covers_all_requirements_and_analytical_policy() -> None:
+    review = _load(CONTRACT_PATH)["owner_review"]
+
+    assert review["status"] == "PASS"
+    assert len(review["requirements_reviewed"]) == 8
+    assert {row["id"] for row in review["requirements_reviewed"]} == {
+        f"G04-LIN-{index:03d}" for index in range(1, 9)
+    }
     assert all(
-        policy["limits"].startswith("not approved")
-        for policy in contract["policies"]["proposed_owner_review"]
+        row["status"] == "APPROVED_BOUNDED"
+        and row["measurable"]
+        and row["reproducible"]
+        and row["artificial_overqualification"] == "NO"
+        for row in review["requirements_reviewed"]
     )
+    assert review["case_dependent_analytical_tolerance"]["status"] == "APPROVED"
