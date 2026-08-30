@@ -3,15 +3,45 @@
   "gate": "026-G11",
   "title": "Diagnostics, failure modes and fail-closed behavior",
   "status": "OPEN",
-  "contract_status": "CONTROLLED_CANDIDATE",
+  "contract_status": "OWNER_REVIEWED_CANDIDATE",
   "official_gate_status": "NOT_STARTED",
-  "source_sha": "9014a7b8cfb699b5641688d6ac4dd04a1757ff5f",
+  "source_sha": "a301a5d0d3e81c9b3b90083c5643e5cd16e909b8",
   "policy": "This bootstrap inventories and maps existing evidence. It does not close G11, promote a capability, or replace route-specific validation.",
   "scope": {
     "included": ["public input rejection", "solver failure diagnostics", "state integrity after rejected trials", "provenance and no silent continuation"],
     "routes_reused_as_evidence": ["linear_static", "modal", "linear_buckling", "nonlinear_static", "geometric_nonlinear_static", "linear_static_contact"],
     "excluded_from_new_execution": ["G04 campaign rerun", "G08/G09 campaign", "G07/TL campaign", "formulation changes", "Agent A worktree"],
     "no_new_combinations": true
+  },
+  "common_failure_envelope": {
+    "schema_version": 1,
+    "status": "OWNER_APPROVED_BOUNDED",
+    "decision": "The envelope is an evidence schema, not a replacement exception hierarchy and not a qualification result.",
+    "route_adapter_allowed": true,
+    "required_fields": [
+      "FAILURE_CLASS",
+      "ROUTE",
+      "EXPECTED_BEHAVIOR",
+      "ERROR_TYPE_OR_CODE",
+      "STATE_PRESERVED",
+      "DETERMINISTIC",
+      "NO_NAN_INF",
+      "NO_SILENT_PASS",
+      "EVIDENCE_ID"
+    ],
+    "field_rules": {
+      "FAILURE_CLASS": "stable taxonomy value; never inferred only from free-form log text",
+      "ROUTE": "declared analysis route or infrastructure boundary",
+      "EXPECTED_BEHAVIOR": "explicit reject, terminate, retry-after-rollback, or diagnostic-only outcome",
+      "ERROR_TYPE_OR_CODE": "route-native exception/type or stable diagnostic code; a common Python exception is not required",
+      "STATE_PRESERVED": "true, false, or NOT_APPLICABLE; false is never eligible for PASS",
+      "DETERMINISTIC": "boolean; repeated controlled input must be checked when the case is repeatable",
+      "NO_NAN_INF": "boolean; true is required for any accepted failure record",
+      "NO_SILENT_PASS": "boolean; true is mandatory for every G11 failure record",
+      "EVIDENCE_ID": "stable case or artifact identifier with provenance"
+    },
+    "thresholds": "none",
+    "implementation_status": "schema approved for future adapters; current route evidence remains route-specific"
   },
   "failure_taxonomy": {
     "PUBLIC_FAIL_CLOSED": [
@@ -48,7 +78,9 @@
       "expected_behavior": "Reject before a valid result is emitted, with an explicit stable public error class and actionable message.",
       "oracle": "expected_exception_class_and_message; repeat execution produces the same diagnostic",
       "evidence": ["qualification/0_2_6/g04_invalid_input_cases.json", "tests/unit/test_g04_invalid_inputs.py", "tests/unit/test_mesh_validation_edge_contracts.py", "qualification/0_2_6/case_registry.json:VNV026-ADV-INVERTED-TET4-001"],
-      "status": "READY"
+      "status": "READY",
+      "owner_review": "KEEP",
+      "acceptance_invariants": ["fail_closed", "deterministic", "no_nan_inf", "no_silent_pass", "diagnostic_exploitable", "provenance"]
     },
     {
       "id": "G11-DIAG-002",
@@ -57,7 +89,9 @@
       "expected_behavior": "Terminate with a classified numerical or input failure; never return NaN, Inf, or a false converged mode/result.",
       "oracle": "error_class_or_failure_reason plus finite-output and termination invariants",
       "evidence": ["tests/unit/test_p0_numerical_safety.py", "tests/unit/test_linear_buckling.py", "tests/unit/test_modal_backend_edges.py", "tests/unit/test_nonlinear_iteration_sparse.py", "src/solveur/contact/slip_root.py"],
-      "status": "PARTIAL"
+      "status": "PARTIAL",
+      "owner_review": "KEEP",
+      "acceptance_invariants": ["fail_closed", "deterministic", "no_nan_inf", "no_silent_pass", "diagnostic_exploitable", "provenance"]
     },
     {
       "id": "G11-DIAG-003",
@@ -66,7 +100,9 @@
       "expected_behavior": "Reject explicitly at schema, mesh, route or policy boundary; no silent fallback to another formulation or route.",
       "oracle": "expected public rejection class/message and route remains unchanged",
       "evidence": ["tests/unit/test_json_io.py", "tests/unit/test_distributed_loads.py", "tests/unit/test_geometric_nonlinear_contracts.py", "tests/unit/test_frictionless_contact.py", "tests/unit/test_orthotropic_dynamic_large.py"],
-      "status": "READY"
+      "status": "READY",
+      "owner_review": "KEEP",
+      "acceptance_invariants": ["fail_closed", "deterministic", "no_nan_inf", "no_silent_pass", "diagnostic_exploitable", "provenance"]
     },
     {
       "id": "G11-DIAG-004",
@@ -75,7 +111,9 @@
       "expected_behavior": "Return or raise a non-converged outcome with a stable reason, message, diagnostics and no successful result claim.",
       "oracle": "NonlinearFailureReason membership; diagnostics payload; finite-state and failed-status invariants",
       "evidence": ["src/solveur/core/nonlinear/contracts.py", "tests/unit/test_nonlinear_failure_modes.py", "tests/unit/test_nonlinear_failure_campaign.py", "tests/unit/test_nonlinear_contracts.py", "tests/unit/test_linear_buckling.py"],
-      "status": "PARTIAL"
+      "status": "PARTIAL",
+      "owner_review": "KEEP",
+      "acceptance_invariants": ["fail_closed", "deterministic", "no_nan_inf", "no_silent_pass", "diagnostic_exploitable", "provenance"]
     },
     {
       "id": "G11-DIAG-005",
@@ -84,7 +122,9 @@
       "expected_behavior": "Repeated identical inputs produce the same class, reason and essential diagnostic fields; diagnostics identify stage and failure without requiring log text parsing alone.",
       "oracle": "two-run diagnostic equality for class/reason/essential fields and explicit JSON serialization",
       "evidence": ["src/solveur/core/errors.py", "tests/unit/test_g04_invalid_inputs.py", "tests/unit/test_nonlinear_failure_modes.py", "tests/unit/test_nonlinear_contracts.py", "tests/unit/test_vnv_026_framework.py"],
-      "status": "PARTIAL"
+      "status": "PARTIAL",
+      "owner_review": "KEEP",
+      "acceptance_invariants": ["fail_closed", "deterministic", "no_nan_inf", "no_silent_pass", "diagnostic_exploitable", "provenance"]
     },
     {
       "id": "G11-DIAG-006",
@@ -93,7 +133,9 @@
       "expected_behavior": "Rejected trial state is discarded, committed state is unchanged, retry starts from the committed state, and rollback is recorded.",
       "oracle": "committed-state equality before/after rejection; rollback_verified=true; deterministic retry outcome",
       "evidence": ["qualification/0_2_6/g06_depth_evidence.json", "tests/unit/test_nonlinear_state_transaction_contract.py", "tests/unit/test_nonlinear_load_path.py", "tests/unit/test_nonlinear_multielement.py", "tests/unit/test_contact_finite_sliding.py"],
-      "status": "READY"
+      "status": "READY",
+      "owner_review": "KEEP",
+      "acceptance_invariants": ["fail_closed", "deterministic", "no_nan_inf", "no_silent_pass", "state_preserved", "diagnostic_exploitable", "provenance"]
     },
     {
       "id": "G11-DIAG-007",
@@ -102,7 +144,9 @@
       "expected_behavior": "Record source SHA, clean state, environment, case ID, evidence path/digest, capability/requirement mapping and whether evidence is diagnostic-only.",
       "oracle": "registry consistency, manifest digest and no silent gate closure",
       "evidence": ["scripts/audit_capability_registry.py", "tests/unit/test_capability_registry.py", "tests/unit/test_vnv_026_framework.py", "qualification/0_2_6/g04_owner_closeout.json", "qualification/0_2_6/g06_depth_evidence.json"],
-      "status": "READY"
+      "status": "READY",
+      "owner_review": "KEEP",
+      "acceptance_invariants": ["fail_closed", "deterministic", "no_nan_inf", "no_silent_pass", "diagnostic_exploitable", "provenance"]
     },
     {
       "id": "G11-DIAG-008",
@@ -111,7 +155,9 @@
       "expected_behavior": "Failure remains failure/expected failure/diagnostic-only; no NaN/Inf continuation; no unsupported fallback; no threshold weakening to hide an anomaly.",
       "oracle": "status/reason consistency, finite-output invariant, explicit expected-failure classification and unchanged policy source",
       "evidence": ["docs/verification/0_2_6/0_2_6_adversarial_plan.md", "tests/unit/test_nonlinear_failure_campaign.py", "tests/unit/test_nonlinear_failure_modes.py", "tests/unit/test_vnv_026_framework.py", "qualification/0_2_6/tl_boundary_study/tl_boundary_failure_zoo.json"],
-      "status": "PARTIAL"
+      "status": "PARTIAL",
+      "owner_review": "KEEP",
+      "acceptance_invariants": ["fail_closed", "deterministic", "no_nan_inf", "no_silent_pass", "state_preserved", "diagnostic_exploitable", "provenance"]
     }
   ],
   "policies": {
@@ -119,6 +165,7 @@
     "owner_review_required_for_future": ["any new threshold", "any cross-route PASS criterion", "any promotion of diagnostic-only evidence"],
     "existing_principles_reused": ["stable SolverError exit categories", "G04 expected-failure contracts", "NonlinearFailureReason enum", "registry anti-forgetting contract"]
   },
+  "planned_case_specification": "qualification/0_2_6/g11_adversarial_cases.json",
   "governance": {
     "official_gate_closeout": "not performed",
     "maturity_promotion": "not performed",
