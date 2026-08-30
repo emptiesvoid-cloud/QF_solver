@@ -3,6 +3,7 @@
   "gate": "026-G07",
   "title": "Geometric nonlinear and arc-length review",
   "status": "CONTRACT_DEFINED_GATE_NOT_STARTED",
+  "tl_work_status": "PARKED_PENDING_EXTERNAL_EVIDENCE",
   "policy": "This contract defines the evidence required for Step 2. It does not close the gate or promote a capability.",
   "scope": {
     "total_lagrangian_elasticity": {

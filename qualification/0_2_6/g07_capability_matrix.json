@@ -2,6 +2,7 @@
   "schema_version": 1,
   "gate": "026-G07",
   "status": "CONTRACT_DEFINED_GATE_NOT_STARTED",
+  "tl_work_status": "PARKED_PENDING_EXTERNAL_EVIDENCE",
   "rows": [
     {
       "capability": "ANA-GEOMETRIC-NONLINEAR",
@@ -14,7 +15,8 @@
       "refinement": ["coarse", "medium", "fine", "refined"],
       "oracle": ["existing linear route", "analytical/external when compatible"],
       "limitation": "bounded tested domain; no universal large-deformation claim",
-      "status": "CANDIDATE_NOT_QUALIFIED"
+      "status": "CANDIDATE_NOT_QUALIFIED",
+      "work_status": "PARKED_PENDING_EXTERNAL_EVIDENCE"
     },
     {
       "capability": "ANA-GEOMETRIC-NONLINEAR",
@@ -27,7 +29,8 @@
       "refinement": ["coarse", "medium", "fine", "refined"],
       "oracle": ["existing linear route", "analytical/external when compatible"],
       "limitation": "bounded tested domain; no universal large-deformation claim",
-      "status": "CANDIDATE_NOT_QUALIFIED"
+      "status": "CANDIDATE_NOT_QUALIFIED",
+      "work_status": "PARKED_PENDING_EXTERNAL_EVIDENCE"
     },
     {
       "capability": "ANA-GEOMETRIC-NONLINEAR",

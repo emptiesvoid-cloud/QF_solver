@@ -2,6 +2,7 @@
   "review_type": "FINAL_TL_OWNER_REVIEW_PACKAGE",
   "status": "PASS_WITH_LIMITATIONS",
   "automatic_g07_closure": false,
+  "tl_work_status": "PARKED_PENDING_EXTERNAL_EVIDENCE",
   "execution_source_sha": "bb44c121c1c6c676f808ff4498aa7e8c980dff0e",
   "evidence_pack_parent_sha": "a503a63c7f0669804e3c225425e6dc15d2ca6a8d",
   "provenance": {
