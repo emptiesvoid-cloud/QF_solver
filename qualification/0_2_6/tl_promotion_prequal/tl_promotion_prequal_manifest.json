@@ -1,0 +1,20 @@
+{
+  "artifacts": {
+    "README.md": "f76b7b695fa7177ef5ec651e3279985675aff377f5c44bc0347f2fb00cf8e239",
+    "hex8_mesh_increment_observations.png": "9ff728a5fa2d8c5a4d6646ae94c9e376cea6f77492464a75f3264fc09308f056",
+    "tangent_fd_observations.png": "c20a382233d7f2227fa755e08815142406b506602e62fecd4b1a52374f9a5c8c",
+    "tet4_mesh_increment_observations.png": "81ca471f329788df34a288d57340e5bd0ce801734e18adca798fb8284071c27a",
+    "tl_promotion_failure_zoo.json": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f",
+    "tl_promotion_prequal.json": "ac4e7cb98961a613100576a08082851470eed6b2e7096ee3b3abf6a54e3b0a64"
+  },
+  "bounded_growth_1p02": "not enabled",
+  "default_path": "fixed_full_newton",
+  "dirty": false,
+  "historical_corpus_overlap": [],
+  "manifest_digest_policy": "manifest digest intentionally excluded to avoid self-reference",
+  "promotion_decision": "NOT_PERFORMED",
+  "schema_version": 1,
+  "solver_version": "0.2.6a0",
+  "source_sha": "9e3b3f1a2cc3e0c88fefacfc952257047edb9278",
+  "status": "DIAGNOSTIC_ONLY"
+}
