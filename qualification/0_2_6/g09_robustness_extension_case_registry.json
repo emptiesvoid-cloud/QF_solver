@@ -1,0 +1,455 @@
+{
+  "case_count": 45,
+  "cases": [
+    {
+      "case_id": "G09-EXT-PM-M1-P1e+02",
+      "category": "penalty_mesh",
+      "expected": "PASS_WITH_LIMITATIONS",
+      "family": "TET4",
+      "mesh_level": 1,
+      "penalty": 100.0,
+      "requirement": "G09-EXT-001",
+      "status": "PASS"
+    },
+    {
+      "case_id": "G09-EXT-PM-M1-P1e+03",
+      "category": "penalty_mesh",
+      "expected": "PASS_WITH_LIMITATIONS",
+      "family": "TET4",
+      "mesh_level": 1,
+      "penalty": 1000.0,
+      "requirement": "G09-EXT-001",
+      "status": "PASS"
+    },
+    {
+      "case_id": "G09-EXT-PM-M1-P1e+04",
+      "category": "penalty_mesh",
+      "expected": "PASS_WITH_LIMITATIONS",
+      "family": "TET4",
+      "mesh_level": 1,
+      "penalty": 10000.0,
+      "requirement": "G09-EXT-001",
+      "status": "PASS"
+    },
+    {
+      "case_id": "G09-EXT-PM-M1-P1e+05",
+      "category": "penalty_mesh",
+      "expected": "PASS_WITH_LIMITATIONS",
+      "family": "TET4",
+      "mesh_level": 1,
+      "penalty": 100000.0,
+      "requirement": "G09-EXT-001",
+      "status": "PASS"
+    },
+    {
+      "case_id": "G09-EXT-PM-M1-P1e+06",
+      "category": "penalty_mesh",
+      "expected": "PASS_WITH_LIMITATIONS",
+      "family": "TET4",
+      "mesh_level": 1,
+      "penalty": 1000000.0,
+      "requirement": "G09-EXT-001",
+      "status": "PASS"
+    },
+    {
+      "case_id": "G09-EXT-PM-M2-P1e+02",
+      "category": "penalty_mesh",
+      "expected": "PASS_WITH_LIMITATIONS",
+      "family": "TET4",
+      "mesh_level": 2,
+      "penalty": 100.0,
+      "requirement": "G09-EXT-001",
+      "status": "PASS"
+    },
+    {
+      "case_id": "G09-EXT-PM-M2-P1e+03",
+      "category": "penalty_mesh",
+      "expected": "PASS_WITH_LIMITATIONS",
+      "family": "TET4",
+      "mesh_level": 2,
+      "penalty": 1000.0,
+      "requirement": "G09-EXT-001",
+      "status": "PASS"
+    },
+    {
+      "case_id": "G09-EXT-PM-M2-P1e+04",
+      "category": "penalty_mesh",
+      "expected": "PASS_WITH_LIMITATIONS",
+      "family": "TET4",
+      "mesh_level": 2,
+      "penalty": 10000.0,
+      "requirement": "G09-EXT-001",
+      "status": "PASS"
+    },
+    {
+      "case_id": "G09-EXT-PM-M2-P1e+05",
+      "category": "penalty_mesh",
+      "expected": "PASS_WITH_LIMITATIONS",
+      "family": "TET4",
+      "mesh_level": 2,
+      "penalty": 100000.0,
+      "requirement": "G09-EXT-001",
+      "status": "PASS"
+    },
+    {
+      "case_id": "G09-EXT-PM-M2-P1e+06",
+      "category": "penalty_mesh",
+      "expected": "PASS_WITH_LIMITATIONS",
+      "family": "TET4",
+      "mesh_level": 2,
+      "penalty": 1000000.0,
+      "requirement": "G09-EXT-001",
+      "status": "PASS"
+    },
+    {
+      "case_id": "G09-EXT-PM-M4-P1e+02",
+      "category": "penalty_mesh",
+      "expected": "PASS_WITH_LIMITATIONS",
+      "family": "TET4",
+      "mesh_level": 4,
+      "penalty": 100.0,
+      "requirement": "G09-EXT-001",
+      "status": "PASS"
+    },
+    {
+      "case_id": "G09-EXT-PM-M4-P1e+03",
+      "category": "penalty_mesh",
+      "expected": "PASS_WITH_LIMITATIONS",
+      "family": "TET4",
+      "mesh_level": 4,
+      "penalty": 1000.0,
+      "requirement": "G09-EXT-001",
+      "status": "PASS"
+    },
+    {
+      "case_id": "G09-EXT-PM-M4-P1e+04",
+      "category": "penalty_mesh",
+      "expected": "PASS_WITH_LIMITATIONS",
+      "family": "TET4",
+      "mesh_level": 4,
+      "penalty": 10000.0,
+      "requirement": "G09-EXT-001",
+      "status": "PASS"
+    },
+    {
+      "case_id": "G09-EXT-PM-M4-P1e+05",
+      "category": "penalty_mesh",
+      "expected": "PASS_WITH_LIMITATIONS",
+      "family": "TET4",
+      "mesh_level": 4,
+      "penalty": 100000.0,
+      "requirement": "G09-EXT-001",
+      "status": "PASS"
+    },
+    {
+      "case_id": "G09-EXT-PM-M4-P1e+06",
+      "category": "penalty_mesh",
+      "expected": "PASS_WITH_LIMITATIONS",
+      "family": "TET4",
+      "mesh_level": 4,
+      "penalty": 1000000.0,
+      "requirement": "G09-EXT-001",
+      "status": "PASS"
+    },
+    {
+      "case_id": "G09-EXT-ACT-positive_epsilon",
+      "category": "activation",
+      "expected": "PASS_INTERNAL_RESEARCH",
+      "family": "TET4",
+      "requirement": "G09-EXT-002",
+      "status": "PASS"
+    },
+    {
+      "case_id": "G09-EXT-ACT-zero_gap",
+      "category": "activation",
+      "expected": "PASS_INTERNAL_RESEARCH",
+      "family": "TET4",
+      "requirement": "G09-EXT-002",
+      "status": "PASS"
+    },
+    {
+      "case_id": "G09-EXT-ACT-negative_epsilon",
+      "category": "activation",
+      "expected": "PASS_INTERNAL_RESEARCH",
+      "family": "TET4",
+      "requirement": "G09-EXT-002",
+      "status": "PASS"
+    },
+    {
+      "case_id": "G09-EXT-ACT-small_positive_gap",
+      "category": "activation",
+      "expected": "PASS_INTERNAL_RESEARCH",
+      "family": "TET4",
+      "requirement": "G09-EXT-002",
+      "status": "PASS"
+    },
+    {
+      "case_id": "G09-EXT-ACT-small_negative_gap",
+      "category": "activation",
+      "expected": "PASS_INTERNAL_RESEARCH",
+      "family": "TET4",
+      "requirement": "G09-EXT-002",
+      "status": "PASS"
+    },
+    {
+      "case_id": "G09-EXT-ACT-deep_negative_gap",
+      "category": "activation",
+      "expected": "PASS_INTERNAL_RESEARCH",
+      "family": "TET4",
+      "requirement": "G09-EXT-002",
+      "status": "PASS"
+    },
+    {
+      "case_id": "G09-EXT-ACT-global_open_close",
+      "category": "activation",
+      "expected": "PASS_INTERNAL_RESEARCH",
+      "family": "TET4",
+      "requirement": "G09-EXT-002",
+      "status": "PASS"
+    },
+    {
+      "case_id": "G09-EXT-ACT-global_close_open_recontact",
+      "category": "activation",
+      "expected": "PASS_INTERNAL_RESEARCH",
+      "family": "TET4",
+      "requirement": "G09-EXT-002",
+      "status": "PASS"
+    },
+    {
+      "case_id": "G09-EXT-GEO-orientation_0_bary_0.25_0.25",
+      "category": "geometry",
+      "expected": "PASS_INTERNAL_RESEARCH",
+      "family": "CONTACT_OPERATOR",
+      "requirement": "G09-EXT-003",
+      "status": "PASS"
+    },
+    {
+      "case_id": "G09-EXT-GEO-orientation_0_bary_0.60_0.20",
+      "category": "geometry",
+      "expected": "PASS_INTERNAL_RESEARCH",
+      "family": "CONTACT_OPERATOR",
+      "requirement": "G09-EXT-003",
+      "status": "PASS"
+    },
+    {
+      "case_id": "G09-EXT-GEO-orientation_1_bary_0.25_0.25",
+      "category": "geometry",
+      "expected": "PASS_INTERNAL_RESEARCH",
+      "family": "CONTACT_OPERATOR",
+      "requirement": "G09-EXT-003",
+      "status": "PASS"
+    },
+    {
+      "case_id": "G09-EXT-GEO-orientation_1_bary_0.60_0.20",
+      "category": "geometry",
+      "expected": "PASS_INTERNAL_RESEARCH",
+      "family": "CONTACT_OPERATOR",
+      "requirement": "G09-EXT-003",
+      "status": "PASS"
+    },
+    {
+      "case_id": "G09-EXT-GEO-orientation_2_bary_0.25_0.25",
+      "category": "geometry",
+      "expected": "PASS_INTERNAL_RESEARCH",
+      "family": "CONTACT_OPERATOR",
+      "requirement": "G09-EXT-003",
+      "status": "PASS"
+    },
+    {
+      "case_id": "G09-EXT-GEO-orientation_2_bary_0.60_0.20",
+      "category": "geometry",
+      "expected": "PASS_INTERNAL_RESEARCH",
+      "family": "CONTACT_OPERATOR",
+      "requirement": "G09-EXT-003",
+      "status": "PASS"
+    },
+    {
+      "case_id": "G09-EXT-GEO-orientation_3_bary_0.25_0.25",
+      "category": "geometry",
+      "expected": "PASS_INTERNAL_RESEARCH",
+      "family": "CONTACT_OPERATOR",
+      "requirement": "G09-EXT-003",
+      "status": "PASS"
+    },
+    {
+      "case_id": "G09-EXT-GEO-orientation_3_bary_0.60_0.20",
+      "category": "geometry",
+      "expected": "PASS_INTERNAL_RESEARCH",
+      "family": "CONTACT_OPERATOR",
+      "requirement": "G09-EXT-003",
+      "status": "PASS"
+    },
+    {
+      "case_id": "G09-EXT-CYC-10_cycles_amp_1",
+      "category": "cycles",
+      "cycle_count": 10,
+      "expected": "PASS_INTERNAL_RESEARCH",
+      "family": "TET4",
+      "requirement": "G09-EXT-004",
+      "status": "PASS_INTERNAL_RESEARCH"
+    },
+    {
+      "case_id": "G09-EXT-CYC-20_cycles_amp_1",
+      "category": "cycles",
+      "cycle_count": 20,
+      "expected": "PASS_INTERNAL_RESEARCH",
+      "family": "TET4",
+      "requirement": "G09-EXT-004",
+      "status": "PASS_INTERNAL_RESEARCH"
+    },
+    {
+      "case_id": "G09-EXT-CYC-50_cycles_amp_1",
+      "category": "cycles",
+      "cycle_count": 50,
+      "expected": "PASS_INTERNAL_RESEARCH",
+      "family": "TET4",
+      "requirement": "G09-EXT-004",
+      "status": "PASS_INTERNAL_RESEARCH"
+    },
+    {
+      "case_id": "G09-EXT-CYC-10_cycles_amp_0.5",
+      "category": "cycles",
+      "cycle_count": 10,
+      "expected": "PASS_INTERNAL_RESEARCH",
+      "family": "TET4",
+      "requirement": "G09-EXT-004",
+      "status": "PASS_INTERNAL_RESEARCH"
+    },
+    {
+      "case_id": "G09-EXT-RB-01",
+      "category": "rollback",
+      "expected": "PASS_INTERNAL_ROLLBACK",
+      "family": "TET4",
+      "reject_on_attempt": 1,
+      "requirement": "G09-EXT-005",
+      "status": "PASS_INTERNAL_ROLLBACK"
+    },
+    {
+      "case_id": "G09-EXT-RB-02",
+      "category": "rollback",
+      "expected": "PASS_INTERNAL_ROLLBACK",
+      "family": "TET4",
+      "reject_on_attempt": 1,
+      "requirement": "G09-EXT-005",
+      "status": "PASS_INTERNAL_ROLLBACK"
+    },
+    {
+      "case_id": "G09-EXT-RB-03",
+      "category": "rollback",
+      "expected": "PASS_INTERNAL_ROLLBACK",
+      "family": "TET4",
+      "reject_on_attempt": 2,
+      "requirement": "G09-EXT-005",
+      "status": "PASS_INTERNAL_ROLLBACK"
+    },
+    {
+      "case_id": "G09-EXT-RB-04",
+      "category": "rollback",
+      "expected": "PASS_INTERNAL_ROLLBACK",
+      "family": "TET4",
+      "reject_on_attempt": 3,
+      "requirement": "G09-EXT-005",
+      "status": "PASS_INTERNAL_ROLLBACK"
+    },
+    {
+      "case_id": "G09-EXT-ADV-invalid_penalty",
+      "category": "adversarial",
+      "expected": "EXPECTED_FAILURE",
+      "fail_closed": true,
+      "family": "CONTACT_OPERATOR",
+      "requirement": "G09-EXT-006",
+      "status": "EXPECTED_FAILURE"
+    },
+    {
+      "case_id": "G09-EXT-ADV-invalid_target",
+      "category": "adversarial",
+      "expected": "EXPECTED_FAILURE",
+      "fail_closed": true,
+      "family": "CONTACT_OPERATOR",
+      "requirement": "G09-EXT-006",
+      "status": "EXPECTED_FAILURE"
+    },
+    {
+      "case_id": "G09-EXT-ADV-invalid_master_geometry",
+      "category": "adversarial",
+      "expected": "EXPECTED_FAILURE",
+      "fail_closed": true,
+      "family": "CONTACT_OPERATOR",
+      "requirement": "G09-EXT-006",
+      "status": "EXPECTED_FAILURE"
+    },
+    {
+      "case_id": "G09-EXT-ADV-unsupported_contact_route",
+      "category": "adversarial",
+      "expected": "EXPECTED_FAILURE",
+      "fail_closed": true,
+      "family": "CONTACT_OPERATOR",
+      "requirement": "G09-EXT-006",
+      "status": "EXPECTED_FAILURE"
+    },
+    {
+      "case_id": "G09-EXT-ADV-excessive_penetration",
+      "category": "adversarial",
+      "expected": "EXPECTED_FAILURE",
+      "fail_closed": true,
+      "family": "CONTACT_OPERATOR",
+      "requirement": "G09-EXT-006",
+      "status": "EXPECTED_FAILURE"
+    },
+    {
+      "case_id": "G09-EXT-ADV-newton_max_iterations",
+      "category": "adversarial",
+      "expected": "EXPECTED_FAILURE",
+      "fail_closed": true,
+      "family": "CONTACT_OPERATOR",
+      "requirement": "G09-EXT-006",
+      "status": "EXPECTED_FAILURE"
+    }
+  ],
+  "gate": "026-G09",
+  "limitations": [
+    "The extension remains bounded to the existing TET4 node-to-triangle penalty route.",
+    "No friction, general surface-to-surface, self-contact or new contact physics is qualified.",
+    "Penalty candidate values are observational and remain Owner-reviewable; no universal range is approved.",
+    "External evidence is reused from the controlled Lot 3 Code_Aster/CalculiX archive; no new external claim is created.",
+    "The active set is stateless in the exercised frictionless route; rollback covers common-driver mutable state."
+  ],
+  "lot": "ROBUSTNESS_EXTENSION",
+  "official_gate_status_unchanged": "PASS_WITH_LIMITATIONS",
+  "requirements": [
+    {
+      "id": "G09-EXT-001",
+      "name": "Penalty and mesh sensitivity",
+      "status": "PASS_WITH_LIMITATIONS"
+    },
+    {
+      "id": "G09-EXT-002",
+      "name": "Activation boundary and transitions",
+      "status": "PASS_INTERNAL_RESEARCH"
+    },
+    {
+      "id": "G09-EXT-003",
+      "name": "Geometry and orientation probes",
+      "status": "PASS_INTERNAL_RESEARCH"
+    },
+    {
+      "id": "G09-EXT-004",
+      "name": "Long load-path cycles",
+      "status": "PASS_INTERNAL_RESEARCH"
+    },
+    {
+      "id": "G09-EXT-005",
+      "name": "Retry and rollback integrity",
+      "status": "PASS_INTERNAL_ROLLBACK"
+    },
+    {
+      "id": "G09-EXT-006",
+      "name": "Adversarial fail-closed behavior",
+      "status": "EXPECTED_FAILURE"
+    }
+  ],
+  "schema_version": 1,
+  "source_dirty": false,
+  "source_sha": "80b458aaa583f21be68bc007a557232a8855aa4a",
+  "status": "PASS_WITH_LIMITATIONS"
+}
