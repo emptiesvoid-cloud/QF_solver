@@ -516,12 +516,14 @@ def _failure_diagnostics(
     line_search_iterations: int = 0,
 ) -> dict[str, object]:
     """Build the common diagnostic payload for a failed Full Newton step."""
+    relative_is_finite = bool(np.isfinite(relative_residual))
     return {
         "step": step,
         "iterations": iterations,
         "residual_initial": residual_history[0] if residual_history else None,
         "residual_final": residual_history[-1] if residual_history else None,
-        "relative_residual": relative_residual,
+        "relative_residual": relative_residual if relative_is_finite else None,
+        "relative_residual_status": "COMPUTED" if relative_is_finite else "NOT_COMPUTABLE",
         "tolerance": tolerance,
         "solver": "full_newton",
         "backend": "scipy.sparse.linalg.spsolve",

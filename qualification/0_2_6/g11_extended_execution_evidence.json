@@ -2,11 +2,11 @@
   "schema_version": 1,
   "gate": "026-G11",
   "evidence_id": "G11-EXTENDED-EXECUTION-001",
-  "status": "REAL_BUG_BLOCKED",
+  "status": "FOCUSED_EXTENSION_PASS",
   "official_gate_status": "NOT_STARTED",
-  "source_sha": "18576cc83d8ce35f85eaaa79471fad0030e18deb",
+  "source_sha": "ea3e89f17a20e843a545ccbbef1c7111d492a85a",
   "runner_version": "026-G11-runner-1",
-  "scope": "Focused extension executed once by the native adapter runner; two structured diagnostics violate NO_NAN_INF and block promotion.",
+  "scope": "Focused extension replayed after the minimal diagnostic fix; no qualification promotion is implied.",
   "cases": [
     {"case_id": "VNV026-G11-EXT-SINGULAR-TANGENT-001", "status": "PASS", "failure_class": "singular_tangent", "route": "nonlinear_static", "deterministic": true, "no_nan_inf": true, "no_silent_pass": true, "error_type_or_code": "NumericalConvergenceError:SINGULAR_TANGENT"},
     {"case_id": "VNV026-G11-EXT-MIN-INCREMENT-001", "status": "PASS", "failure_class": "MIN_INCREMENT_REACHED", "route": "nonlinear_static", "deterministic": true, "no_nan_inf": true, "no_silent_pass": true, "error_type_or_code": "NumericalConvergenceError:MIN_INCREMENT_REACHED"},
@@ -15,24 +15,14 @@
     {"case_id": "VNV026-G11-EXT-INF-001", "status": "PASS", "failure_class": "INF_DETECTED", "route": "nonlinear_static", "deterministic": true, "no_nan_inf": true, "no_silent_pass": true, "error_type_or_code": "NumericalConvergenceError:INF_DETECTED"},
     {"case_id": "VNV026-G11-EXT-CHECKPOINT-001", "status": "PASS", "failure_class": "CHECKPOINT_FAILURE", "route": "nonlinear_static", "deterministic": true, "no_nan_inf": true, "no_silent_pass": true, "error_type_or_code": "InputValidationError:CHECKPOINT_FAILURE"},
     {"case_id": "VNV026-G11-MUTABLE-CONTACT-001", "status": "PASS", "failure_class": "CONTACT_UPDATE_FAILURE", "route": "nonlinear_static", "deterministic": true, "no_nan_inf": true, "no_silent_pass": true, "state_preserved": true, "error_type_or_code": "NumericalConvergenceError:CONTACT_UPDATE_FAILURE"},
-    {"case_id": "VNV026-G11-EXT-MATERIAL-001", "status": "FAIL", "failure_class": "MATERIAL_UPDATE_FAILURE", "route": "nonlinear_static", "deterministic": true, "no_nan_inf": false, "no_silent_pass": true, "error_type_or_code": "NumericalConvergenceError:MATERIAL_UPDATE_FAILURE", "real_bug": true},
-    {"case_id": "VNV026-G11-EXT-CONTACT-UPDATE-001", "status": "FAIL", "failure_class": "CONTACT_UPDATE_FAILURE", "route": "nonlinear_static", "deterministic": true, "no_nan_inf": false, "no_silent_pass": true, "error_type_or_code": "NumericalConvergenceError:CONTACT_UPDATE_FAILURE", "real_bug": true}
+    {"case_id": "VNV026-G11-EXT-MATERIAL-001", "status": "PASS", "failure_class": "MATERIAL_UPDATE_FAILURE", "route": "nonlinear_static", "deterministic": true, "no_nan_inf": true, "no_silent_pass": true, "error_type_or_code": "NumericalConvergenceError:MATERIAL_UPDATE_FAILURE"},
+    {"case_id": "VNV026-G11-EXT-CONTACT-UPDATE-001", "status": "PASS", "failure_class": "CONTACT_UPDATE_FAILURE", "route": "nonlinear_static", "deterministic": true, "no_nan_inf": true, "no_silent_pass": true, "error_type_or_code": "NumericalConvergenceError:CONTACT_UPDATE_FAILURE"}
   ],
   "new_runtime_envelopes": 9,
-  "envelopes_valid": 7,
+  "envelopes_valid": 9,
   "deterministic_replays": 9,
-  "no_nan_inf": false,
+  "no_nan_inf": true,
   "no_silent_pass": true,
-  "real_bugs": [
-    {
-      "bug_id": "G11-REAL-BUG-NONFINITE-DIAGNOSTICS-001",
-      "classification": "REAL_BUG",
-      "failure_classes": ["MATERIAL_UPDATE_FAILURE", "CONTACT_UPDATE_FAILURE"],
-      "observed": "Structured failure diagnostics contain relative_residual=Infinity and residual_final/residual_initial serialized as null.",
-      "reproduction": "run_extended_g11_cases with VNV026-G11-EXT-MATERIAL-001 and VNV026-G11-EXT-CONTACT-UPDATE-001; each replay reproduced the same result.",
-      "impact": "NO_NAN_INF=false; G11-DIAG-004, G11-DIAG-005 and G11-DIAG-008 cannot be promoted to FULL.",
-      "core_modified": false
-    }
-  ],
+  "previous_blocker_resolved": "G11-REAL-BUG-NONFINITE-DIAGNOSTICS-001; see g11_full_promotion_blocker.json for the original reproduction.",
   "official_closeout": "NOT_PERFORMED"
 }

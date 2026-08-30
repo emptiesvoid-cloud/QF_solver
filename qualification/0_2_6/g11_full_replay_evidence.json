@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "gate": "026-G11",
+  "evidence_id": "G11-FULL-REPLAY-001",
+  "status": "FOCUSED_18_CASE_REPLAY_PASS",
+  "official_gate_status": "NOT_STARTED",
+  "source_sha": "ea3e89f17a20e843a545ccbbef1c7111d492a85a",
+  "runner_version": "026-G11-runner-1",
+  "scope": "Replay of the existing 18-case G11 corpus after the minimal non-finite diagnostic fix; no further expansion.",
+  "groups": {
+    "native": {"evidence_id": "G11-NATIVE-EXECUTION-001", "cases": 4, "pass": 4},
+    "cross_route": {"evidence_id": "G11-CROSS-ROUTE-EXECUTION-001", "cases": 4, "pass": 4},
+    "mutable": {"evidence_id": "G11-MUTABLE-EXECUTION-001", "cases": 1, "pass": 1},
+    "extended": {"evidence_id": "G11-EXTENDED-EXECUTION-001", "cases": 9, "pass": 9}
+  },
+  "total_runtime_cases": 18,
+  "pass": 18,
+  "fail": 0,
+  "deterministic_replays": "18/18",
+  "no_nan_inf": true,
+  "no_silent_pass": true,
+  "state_integrity": "PASS for 3 mutable/retry cases; NOT_APPLICABLE for 15 pre-solve/stateless cases",
+  "failure_codes_preserved": ["MATERIAL_UPDATE_FAILURE", "CONTACT_UPDATE_FAILURE"],
+  "official_closeout": "NOT_PERFORMED",
+  "promotion_status": "No requirement promotion performed in this run."
+}

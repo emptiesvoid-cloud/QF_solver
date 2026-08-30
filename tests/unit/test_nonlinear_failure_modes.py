@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import replace
+import json
 
 import numpy as np
 import pytest
@@ -112,6 +113,41 @@ def test_full_newton_classifies_assembly_failures(message: str, reason: Nonlinea
     assert error.value.to_dict()["converged"] is False
     assert error.value.diagnostics["step"] == 1
     assert error.value.diagnostics["iterations"] == 1
+
+
+@pytest.mark.parametrize(
+    ("message", "reason"),
+    [
+        ("material constitutive update failed", NonlinearFailureReason.MATERIAL_UPDATE_FAILURE),
+        ("contact projection produced a non-finite gap", NonlinearFailureReason.CONTACT_UPDATE_FAILURE),
+    ],
+)
+def test_assembly_failure_diagnostics_mark_unavailable_residual_without_nonfinite_values(
+    message: str, reason: NonlinearFailureReason
+) -> None:
+    class FailingAssembly:
+        ndof = 2
+
+        def assemble(self, displacement: np.ndarray, *, tangent_required: bool = True):
+            raise ValueError(message)
+
+    with pytest.raises(NumericalConvergenceError) as error:
+        solve_full_newton(
+            FailingAssembly(),
+            np.array([1.0, 0.0]),
+            np.array([1]),
+            increments=1,
+            tolerance=1.0e-8,
+            max_iterations=2,
+        )
+
+    diagnostics = error.value.diagnostics
+    assert error.value.reason is reason
+    assert diagnostics["relative_residual"] is None
+    assert diagnostics["relative_residual_status"] == "NOT_COMPUTABLE"
+    assert diagnostics["residual_initial"] is None
+    assert diagnostics["residual_final"] is None
+    json.dumps(diagnostics, allow_nan=False)
 
 
 def test_full_newton_classifies_linear_backend_failure(monkeypatch: pytest.MonkeyPatch) -> None:

@@ -2,7 +2,7 @@
   "schema_version": 1,
   "gate": "026-G11",
   "evidence_id": "G11-FULL-PROMOTION-BLOCKER-001",
-  "status": "REAL_BUG_REPRODUCED",
+  "status": "REAL_BUG_REPRODUCED_AND_RESOLVED",
   "official_gate_status": "NOT_STARTED",
   "source_sha": "18576cc83d8ce35f85eaaa79471fad0030e18deb",
   "bug_id": "G11-REAL-BUG-NONFINITE-DIAGNOSTICS-001",
@@ -20,7 +20,13 @@
     "residual_final": null,
     "residual_initial": null
   },
-  "required_action": "Owner/core correction and regression proof are required before any G11 FULL promotion attempt can resume.",
+  "required_action": "Historical blocker required a core correction and regression proof; both are now recorded below.",
   "solver_core_modified": false,
+  "resolution": {
+    "status": "RESOLVED_BY_MINIMAL_DIAGNOSTIC_FIX",
+    "change": "Non-finite relative residual sentinels are emitted as null with relative_residual_status=NOT_COMPUTABLE.",
+    "replay": "Both affected cases pass twice with finite JSON diagnostics, unchanged failure code and deterministic classification.",
+    "core_modified": true
+  },
   "official_closeout": "NOT_PERFORMED"
 }
