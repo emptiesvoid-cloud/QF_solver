@@ -27,6 +27,7 @@ CASE_GEO_FAILURE = "VNV026-G11-XR-GEO-001"
 CASE_MODAL_FAILURE = "VNV026-G11-XR-MODAL-001"
 CASE_BUCKLING_FAILURE = "VNV026-G11-XR-BUCKLING-001"
 CASE_CONTACT_FAILURE = "VNV026-G11-XR-CONTACT-001"
+CASE_MUTABLE_ROLLBACK = "VNV026-G11-MUTABLE-HEX8-001"
 
 NATIVE_ROUTE_STATUS = {
     "linear_static": "READY",
@@ -179,6 +180,31 @@ def _rollback_state_integrity(case: G11CaseSpec) -> object:
     )
 
 
+def _mutable_hex8_rollback(case: G11CaseSpec) -> object:
+    """Run a second real nonlinear rollback case on a distinct element family."""
+
+    outcome = run_adversarial_rollback_benchmark("HEX8")
+    clean_retry = bool(outcome.get("clean_retry"))
+    rejected = int(outcome.get("rejected_increments", 0))
+    committed_digest = outcome.get("committed_digest_before_failure")
+    retry_digest = outcome.get("retry_state_digest")
+    state_preserved = clean_retry and rejected == 1 and committed_digest == retry_digest
+    return G11AdapterResult(
+        success=False,
+        error_type_or_code="NumericalConvergenceError:rejected_increment",
+        state_preserved=state_preserved,
+        payload=outcome,
+        diagnostics={
+            "route_native": True,
+            "element_family": "HEX8",
+            "rejected_increments": rejected,
+            "committed_digest_before_failure": committed_digest,
+            "retry_state_digest": retry_digest,
+            "rollback_verified": state_preserved,
+        },
+    )
+
+
 def _geometric_nonlinear_failure(case: G11CaseSpec) -> object:
     """Exercise geometric-nonlinear fail-closed handling for missing BCs."""
 
@@ -321,6 +347,12 @@ def cross_route_adapters() -> dict[str, Callable[[G11CaseSpec], object]]:
     }
 
 
+def mutable_adapters() -> dict[str, Callable[[G11CaseSpec], object]]:
+    """Return the focused mutable/retry adapter without changing solver code."""
+
+    return {CASE_MUTABLE_ROLLBACK: _mutable_hex8_rollback}
+
+
 def native_route_status() -> dict[str, str]:
     """Return route introspection status without claiming unexecuted coverage."""
 
@@ -365,6 +397,25 @@ def run_cross_route_g11_cases(
     return results
 
 
+def run_mutable_g11_cases(
+    cases_path: str | Path,
+    archive_dir: str | Path,
+    *,
+    source_sha: str,
+) -> dict[str, dict[str, object]]:
+    """Execute and archive the focused additional mutable/retry case."""
+
+    cases = load_case_specs(cases_path)
+    runner = G11Runner(mutable_adapters(), source_sha=source_sha, provenance={"execution_mode": "native_route"})
+    results: dict[str, dict[str, object]] = {}
+    target_dir = Path(archive_dir)
+    for case in cases:
+        result = runner.run_case(case, evidence_id=f"G11-NATIVE-{case.case_id}")
+        runner.archive_result(result, target_dir / f"{case.case_id}.json")
+        results[case.case_id] = result
+    return results
+
+
 __all__ = [
     "CASE_NONCONVERGENCE",
     "CASE_ROLLBACK",
@@ -374,9 +425,12 @@ __all__ = [
     "CASE_CONTACT_FAILURE",
     "CASE_GEO_FAILURE",
     "CASE_MODAL_FAILURE",
+    "CASE_MUTABLE_ROLLBACK",
     "cross_route_adapters",
+    "mutable_adapters",
     "native_adapters",
     "native_route_status",
     "run_cross_route_g11_cases",
+    "run_mutable_g11_cases",
     "run_native_g11_cases",
 ]

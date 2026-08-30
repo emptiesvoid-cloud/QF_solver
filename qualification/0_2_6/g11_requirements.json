@@ -169,6 +169,8 @@
   "focused_cross_route_case_specification": "qualification/0_2_6/g11_cross_route_cases.json",
   "focused_cross_route_evidence": "qualification/0_2_6/g11_cross_route_execution_evidence.json",
   "focused_cross_route_aggregation": "qualification/0_2_6/g11_cross_route_aggregation.json",
+  "focused_mutable_case_specification": "qualification/0_2_6/g11_mutable_cases.json",
+  "focused_mutable_evidence": "qualification/0_2_6/g11_mutable_execution_evidence.json",
   "runner": {
     "path": "src/solveur/verification/g11_runner.py",
     "tests": ["tests/unit/test_g11_runner.py", "tests/unit/test_g11_native_adapters.py"],

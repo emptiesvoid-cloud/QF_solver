@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "campaign_id": "026-G11-MUTABLE-FOCUSED-001",
+  "gate": "026-G11",
+  "status": "TARGETED_CASE_ADDED_FOR_OWNER_REVIEW",
+  "source_sha": "325ea7a98fa7f6d61c25d5c9048a7f7cf419c7f0",
+  "execution_state": "NATIVE_EXECUTION_RECORDED",
+  "common_envelope": "qualification/0_2_6/g11_requirements.json#common_failure_envelope",
+  "scope": "One additional real nonlinear mutable/retry case on HEX8; no solver implementation change and no broad campaign.",
+  "cases": [
+    {
+      "case_id": "VNV026-G11-MUTABLE-HEX8-001",
+      "name": "hex8_rejected_increment_state_integrity",
+      "failure_class": "rejected_increment",
+      "route": "nonlinear_static",
+      "expected_behavior": "rollback rejected trial, preserve committed state, retry deterministically, emit no silent PASS",
+      "error_type_or_code": "NumericalConvergenceError / rejected_increment",
+      "expected_error_types": ["NumericalConvergenceError"],
+      "expected_error_codes": ["rejected_increment"],
+      "adapter_id": "VNV026-G11-MUTABLE-HEX8-001",
+      "stateful": true,
+      "state_preserved": true,
+      "oracle": ["committed_digest_equality", "rollback_verified", "deterministic_repeat", "no_nan_inf", "no_silent_pass"],
+      "requirements": ["G11-DIAG-004", "G11-DIAG-005", "G11-DIAG-006", "G11-DIAG-008"],
+      "status": "EXECUTED_NATIVE_ROUTE"
+    }
+  ],
+  "no_new_thresholds": true,
+  "official_gate_closeout": "NOT_PERFORMED"
+}
