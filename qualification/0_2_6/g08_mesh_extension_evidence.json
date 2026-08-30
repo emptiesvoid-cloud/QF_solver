@@ -1,0 +1,2693 @@
+{
+  "schema_version": 1,
+  "evidence_id": "026-G08-MESH-EXTENSION-001",
+  "gate": "026-G08",
+  "status": "PASS_WITH_LIMITATIONS",
+  "gate_status_unchanged": "PASS_WITH_LIMITATIONS",
+  "source_sha": "151662ac4781718a7fbe3d1e527675ec9e513ad4",
+  "source_dirty": false,
+  "baseline_checkpoint_sha": "c9d5ce8d7ce456c5d3fdcc5ff43d0fcebb2c0c4c",
+  "historical_evidence_source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+  "captured_at_utc": "2026-08-30T10:51:56.937033Z",
+  "solver_version": "0.2.6a0",
+  "runtime": {
+    "platform": {
+      "system": "Windows",
+      "release": "10",
+      "machine": "AMD64",
+      "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+    },
+    "python": {
+      "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+      "executable": "C:\\Python313\\python.exe"
+    },
+    "packages": {
+      "numpy": "2.2.6",
+      "scipy": "1.15.2",
+      "matplotlib": "3.10.3",
+      "h5py": "3.14.0",
+      "mpi4py": "4.1.0",
+      "petsc4py": null
+    },
+    "blas": {
+      "name": "scipy-openblas",
+      "version": "0.3.29",
+      "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+    },
+    "parallel_environment": {
+      "OMP_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "PETSC_ARCH": null
+    }
+  },
+  "command": "python scripts/run_g08_mesh_extension.py --output results/vnv_026_g08_mesh_extension --evidence-dir qualification/0_2_6",
+  "policies": {
+    "official_mesh_final_adjacent_change": 0.01,
+    "diagnostic_near_converged_upper_bound": 0.04,
+    "classification_rule": "<=1% CONVERGED_BOUNDED; 1-4% NEAR_CONVERGED_BOUNDED diagnostic only; >4% NOT_STABILIZED",
+    "official_policy_changed": false,
+    "residual_pass": 1e-07,
+    "residual_warning": 1e-05,
+    "repeatability_absolute_tolerance": 1e-12,
+    "historical_levels": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "extension_levels": [
+      16,
+      32
+    ]
+  },
+  "threshold_sources": {
+    "mesh_classification": "Owner-approved bounded G08 mesh policy; unchanged by this extension",
+    "eigenpair_residual": "Owner-approved bounded G08 policy G08-004",
+    "repeatability": "Existing G08 deterministic replay policy"
+  },
+  "case_counts": {
+    "extension_cases_executed": 12,
+    "extension_pass": 12,
+    "extension_observed_limitations": 0,
+    "extension_unexpected_failures": 0,
+    "historical_mesh_cases_reused": 12
+  },
+  "mesh_study": {
+    "families": [
+      {
+        "family": "TET10",
+        "historical_source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+        "extension_source_sha": "151662ac4781718a7fbe3d1e527675ec9e513ad4",
+        "levels": [
+          {
+            "case_id": "G08-BUC-TET10-MESH-001",
+            "family": "TET10",
+            "requirements": [
+              "G08-003",
+              "G08-005",
+              "G08-006",
+              "G08-009"
+            ],
+            "status": "PASS",
+            "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+            "critical_factor": 12.384498258696217,
+            "critical_mode_norm": 1.0,
+            "critical_mode_residual_relative": 6.384258432245204e-15,
+            "eigenpair_residual_status": "PASS",
+            "eigen_backend": "scipy.sparse.linalg.eigs",
+            "eigen_formulation": "generalized_eigs_shift_invert",
+            "critical_bracket": {
+              "lower": 12.3828125,
+              "upper": 12.390625,
+              "method": "generalized_eigs_shift_invert",
+              "mass_matrix": "-geometric_tangent",
+              "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+              "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+              "shift_invert_sigma": 12.38671875,
+              "shift_invert_attempted_shifts": [
+                12.38671875,
+                12.384765625,
+                12.388671875
+              ]
+            },
+            "preload_residual_max": 1.5244892054157183e-13,
+            "node_count": 26,
+            "element_count": 5,
+            "dof_count": 78,
+            "configuration": {
+              "analysis": "linear_buckling",
+              "method": "eigsh",
+              "material": "homogeneous isotropic_3d",
+              "loads": "nodal dead loads",
+              "first_mode_only": true
+            },
+            "mesh_level": 1,
+            "provenance": {
+              "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+              "source_dirty": false,
+              "captured_at_utc": "2026-08-30T09:48:13.478615Z",
+              "solver_version": "0.2.6a0",
+              "runtime": {
+                "platform": {
+                  "system": "Windows",
+                  "release": "10",
+                  "machine": "AMD64",
+                  "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+                },
+                "python": {
+                  "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                  "executable": "C:\\Python313\\python.exe"
+                },
+                "packages": {
+                  "numpy": "2.2.6",
+                  "scipy": "1.15.2",
+                  "matplotlib": "3.10.3",
+                  "h5py": "3.14.0",
+                  "mpi4py": "4.1.0",
+                  "petsc4py": null
+                },
+                "blas": {
+                  "name": "scipy-openblas",
+                  "version": "0.3.29",
+                  "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+                },
+                "parallel_environment": {
+                  "OMP_NUM_THREADS": null,
+                  "MKL_NUM_THREADS": null,
+                  "OPENBLAS_NUM_THREADS": null,
+                  "PETSC_ARCH": null
+                }
+              }
+            },
+            "evidence_origin": "HISTORICAL_G08_EXECUTION",
+            "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753"
+          },
+          {
+            "case_id": "G08-BUC-TET10-MESH-002",
+            "family": "TET10",
+            "requirements": [
+              "G08-003",
+              "G08-005",
+              "G08-006",
+              "G08-009"
+            ],
+            "status": "PASS",
+            "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+            "critical_factor": 10.61969155153809,
+            "critical_mode_norm": 1.0,
+            "critical_mode_residual_relative": 6.944925744964113e-15,
+            "eigenpair_residual_status": "PASS",
+            "eigen_backend": "scipy.sparse.linalg.eigs",
+            "eigen_formulation": "generalized_eigs_shift_invert",
+            "critical_bracket": {
+              "lower": 10.6171875,
+              "upper": 10.625,
+              "method": "generalized_eigs_shift_invert",
+              "mass_matrix": "-geometric_tangent",
+              "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+              "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+              "shift_invert_sigma": 10.62109375,
+              "shift_invert_attempted_shifts": [
+                10.62109375,
+                10.619140625,
+                10.623046875
+              ]
+            },
+            "preload_residual_max": 3.338578401783766e-13,
+            "node_count": 43,
+            "element_count": 10,
+            "dof_count": 129,
+            "configuration": {
+              "analysis": "linear_buckling",
+              "method": "eigsh",
+              "material": "homogeneous isotropic_3d",
+              "loads": "nodal dead loads",
+              "first_mode_only": true
+            },
+            "mesh_level": 2,
+            "provenance": {
+              "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+              "source_dirty": false,
+              "captured_at_utc": "2026-08-30T09:48:13.478615Z",
+              "solver_version": "0.2.6a0",
+              "runtime": {
+                "platform": {
+                  "system": "Windows",
+                  "release": "10",
+                  "machine": "AMD64",
+                  "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+                },
+                "python": {
+                  "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                  "executable": "C:\\Python313\\python.exe"
+                },
+                "packages": {
+                  "numpy": "2.2.6",
+                  "scipy": "1.15.2",
+                  "matplotlib": "3.10.3",
+                  "h5py": "3.14.0",
+                  "mpi4py": "4.1.0",
+                  "petsc4py": null
+                },
+                "blas": {
+                  "name": "scipy-openblas",
+                  "version": "0.3.29",
+                  "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+                },
+                "parallel_environment": {
+                  "OMP_NUM_THREADS": null,
+                  "MKL_NUM_THREADS": null,
+                  "OPENBLAS_NUM_THREADS": null,
+                  "PETSC_ARCH": null
+                }
+              }
+            },
+            "evidence_origin": "HISTORICAL_G08_EXECUTION",
+            "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753"
+          },
+          {
+            "case_id": "G08-BUC-TET10-MESH-004",
+            "family": "TET10",
+            "requirements": [
+              "G08-003",
+              "G08-005",
+              "G08-006",
+              "G08-009"
+            ],
+            "status": "PASS",
+            "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+            "critical_factor": 9.85121878099574,
+            "critical_mode_norm": 1.0,
+            "critical_mode_residual_relative": 1.754386136964866e-14,
+            "eigenpair_residual_status": "PASS",
+            "eigen_backend": "scipy.sparse.linalg.eigs",
+            "eigen_formulation": "generalized_eigs_shift_invert",
+            "critical_bracket": {
+              "lower": 9.84375,
+              "upper": 9.8515625,
+              "method": "generalized_eigs_shift_invert",
+              "mass_matrix": "-geometric_tangent",
+              "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+              "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+              "shift_invert_sigma": 9.84765625,
+              "shift_invert_attempted_shifts": [
+                9.84765625,
+                9.845703125,
+                9.849609375
+              ]
+            },
+            "preload_residual_max": 7.815207874430371e-13,
+            "node_count": 77,
+            "element_count": 20,
+            "dof_count": 231,
+            "configuration": {
+              "analysis": "linear_buckling",
+              "method": "eigsh",
+              "material": "homogeneous isotropic_3d",
+              "loads": "nodal dead loads",
+              "first_mode_only": true
+            },
+            "mesh_level": 4,
+            "provenance": {
+              "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+              "source_dirty": false,
+              "captured_at_utc": "2026-08-30T09:48:13.478615Z",
+              "solver_version": "0.2.6a0",
+              "runtime": {
+                "platform": {
+                  "system": "Windows",
+                  "release": "10",
+                  "machine": "AMD64",
+                  "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+                },
+                "python": {
+                  "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                  "executable": "C:\\Python313\\python.exe"
+                },
+                "packages": {
+                  "numpy": "2.2.6",
+                  "scipy": "1.15.2",
+                  "matplotlib": "3.10.3",
+                  "h5py": "3.14.0",
+                  "mpi4py": "4.1.0",
+                  "petsc4py": null
+                },
+                "blas": {
+                  "name": "scipy-openblas",
+                  "version": "0.3.29",
+                  "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+                },
+                "parallel_environment": {
+                  "OMP_NUM_THREADS": null,
+                  "MKL_NUM_THREADS": null,
+                  "OPENBLAS_NUM_THREADS": null,
+                  "PETSC_ARCH": null
+                }
+              }
+            },
+            "evidence_origin": "HISTORICAL_G08_EXECUTION",
+            "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753"
+          },
+          {
+            "case_id": "G08-BUC-TET10-MESH-008",
+            "family": "TET10",
+            "requirements": [
+              "G08-003",
+              "G08-005",
+              "G08-006",
+              "G08-009"
+            ],
+            "status": "PASS",
+            "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+            "critical_factor": 9.547869571608057,
+            "critical_mode_norm": 0.9999999999999999,
+            "critical_mode_residual_relative": 5.0885158197157664e-14,
+            "eigenpair_residual_status": "PASS",
+            "eigen_backend": "scipy.sparse.linalg.eigs",
+            "eigen_formulation": "generalized_eigs_shift_invert",
+            "critical_bracket": {
+              "lower": 9.546875,
+              "upper": 9.5546875,
+              "method": "generalized_eigs_shift_invert",
+              "mass_matrix": "-geometric_tangent",
+              "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+              "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+              "shift_invert_sigma": 9.55078125,
+              "shift_invert_attempted_shifts": [
+                9.55078125,
+                9.548828125,
+                9.552734375
+              ]
+            },
+            "preload_residual_max": 7.102692265715076e-13,
+            "node_count": 145,
+            "element_count": 40,
+            "dof_count": 435,
+            "configuration": {
+              "analysis": "linear_buckling",
+              "method": "eigsh",
+              "material": "homogeneous isotropic_3d",
+              "loads": "nodal dead loads",
+              "first_mode_only": true
+            },
+            "mesh_level": 8,
+            "provenance": {
+              "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+              "source_dirty": false,
+              "captured_at_utc": "2026-08-30T09:48:13.478615Z",
+              "solver_version": "0.2.6a0",
+              "runtime": {
+                "platform": {
+                  "system": "Windows",
+                  "release": "10",
+                  "machine": "AMD64",
+                  "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+                },
+                "python": {
+                  "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                  "executable": "C:\\Python313\\python.exe"
+                },
+                "packages": {
+                  "numpy": "2.2.6",
+                  "scipy": "1.15.2",
+                  "matplotlib": "3.10.3",
+                  "h5py": "3.14.0",
+                  "mpi4py": "4.1.0",
+                  "petsc4py": null
+                },
+                "blas": {
+                  "name": "scipy-openblas",
+                  "version": "0.3.29",
+                  "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+                },
+                "parallel_environment": {
+                  "OMP_NUM_THREADS": null,
+                  "MKL_NUM_THREADS": null,
+                  "OPENBLAS_NUM_THREADS": null,
+                  "PETSC_ARCH": null
+                }
+              }
+            },
+            "evidence_origin": "HISTORICAL_G08_EXECUTION",
+            "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753"
+          },
+          {
+            "case_id": "G08-BUC-EXT-TET10-MESH-016-R1",
+            "family": "TET10",
+            "mesh_level": 16,
+            "status": "PASS",
+            "failure_classification": null,
+            "unexpected_failure": false,
+            "critical_factor": 9.477021796069911,
+            "critical_mode_norm": 1.0,
+            "critical_mode_residual_relative": 1.420325794935409e-13,
+            "eigenpair_residual_status": "PASS",
+            "eigen_backend": "scipy.sparse.linalg.eigs",
+            "eigen_formulation": "generalized_eigs_shift_invert",
+            "critical_bracket": {
+              "lower": 9.4765625,
+              "upper": 9.484375,
+              "method": "generalized_eigs_shift_invert",
+              "mass_matrix": "-geometric_tangent",
+              "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+              "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+              "shift_invert_sigma": 9.48046875,
+              "shift_invert_attempted_shifts": [
+                9.48046875,
+                9.478515625,
+                9.482421875
+              ]
+            },
+            "configuration": {
+              "analysis": "linear_buckling",
+              "method": "eigsh",
+              "material": "homogeneous isotropic_3d",
+              "loads": "nodal dead loads",
+              "first_mode_only": true
+            },
+            "node_count": 281,
+            "element_count": 80,
+            "dof_count": 843,
+            "provenance": {
+              "source_sha": "151662ac4781718a7fbe3d1e527675ec9e513ad4",
+              "source_dirty": false,
+              "captured_at_utc": "2026-08-30T10:51:56.937033Z",
+              "solver_version": "0.2.6a0",
+              "runtime": {
+                "platform": {
+                  "system": "Windows",
+                  "release": "10",
+                  "machine": "AMD64",
+                  "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+                },
+                "python": {
+                  "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                  "executable": "C:\\Python313\\python.exe"
+                },
+                "packages": {
+                  "numpy": "2.2.6",
+                  "scipy": "1.15.2",
+                  "matplotlib": "3.10.3",
+                  "h5py": "3.14.0",
+                  "mpi4py": "4.1.0",
+                  "petsc4py": null
+                },
+                "blas": {
+                  "name": "scipy-openblas",
+                  "version": "0.3.29",
+                  "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+                },
+                "parallel_environment": {
+                  "OMP_NUM_THREADS": null,
+                  "MKL_NUM_THREADS": null,
+                  "OPENBLAS_NUM_THREADS": null,
+                  "PETSC_ARCH": null
+                }
+              }
+            }
+          },
+          {
+            "case_id": "G08-BUC-EXT-TET10-MESH-032-R1",
+            "family": "TET10",
+            "mesh_level": 32,
+            "status": "PASS",
+            "failure_classification": null,
+            "unexpected_failure": false,
+            "critical_factor": 9.484746931121318,
+            "critical_mode_norm": 1.0,
+            "critical_mode_residual_relative": 3.445941951801818e-13,
+            "eigenpair_residual_status": "PASS",
+            "eigen_backend": "scipy.sparse.linalg.eigs",
+            "eigen_formulation": "generalized_eigs_shift_invert",
+            "critical_bracket": {
+              "lower": 9.484375,
+              "upper": 9.4921875,
+              "method": "generalized_eigs_shift_invert",
+              "mass_matrix": "-geometric_tangent",
+              "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+              "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+              "shift_invert_sigma": 9.48828125,
+              "shift_invert_attempted_shifts": [
+                9.48828125,
+                9.486328125,
+                9.490234375
+              ]
+            },
+            "configuration": {
+              "analysis": "linear_buckling",
+              "method": "eigsh",
+              "material": "homogeneous isotropic_3d",
+              "loads": "nodal dead loads",
+              "first_mode_only": true
+            },
+            "node_count": 553,
+            "element_count": 160,
+            "dof_count": 1659,
+            "provenance": {
+              "source_sha": "151662ac4781718a7fbe3d1e527675ec9e513ad4",
+              "source_dirty": false,
+              "captured_at_utc": "2026-08-30T10:51:56.937033Z",
+              "solver_version": "0.2.6a0",
+              "runtime": {
+                "platform": {
+                  "system": "Windows",
+                  "release": "10",
+                  "machine": "AMD64",
+                  "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+                },
+                "python": {
+                  "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                  "executable": "C:\\Python313\\python.exe"
+                },
+                "packages": {
+                  "numpy": "2.2.6",
+                  "scipy": "1.15.2",
+                  "matplotlib": "3.10.3",
+                  "h5py": "3.14.0",
+                  "mpi4py": "4.1.0",
+                  "petsc4py": null
+                },
+                "blas": {
+                  "name": "scipy-openblas",
+                  "version": "0.3.29",
+                  "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+                },
+                "parallel_environment": {
+                  "OMP_NUM_THREADS": null,
+                  "MKL_NUM_THREADS": null,
+                  "OPENBLAS_NUM_THREADS": null,
+                  "PETSC_ARCH": null
+                }
+              }
+            }
+          }
+        ],
+        "extension_levels": [
+          16,
+          32
+        ],
+        "extension_success_count": 2,
+        "extension_limitation_count": 0,
+        "adjacent_changes": [
+          {
+            "from_level": 1,
+            "to_level": 2,
+            "status": "AVAILABLE",
+            "relative_change": 0.16618248266377605
+          },
+          {
+            "from_level": 2,
+            "to_level": 4,
+            "status": "AVAILABLE",
+            "relative_change": 0.07800788791990197
+          },
+          {
+            "from_level": 4,
+            "to_level": 8,
+            "status": "AVAILABLE",
+            "relative_change": 0.03177140273153028
+          },
+          {
+            "from_level": 8,
+            "to_level": 16,
+            "status": "AVAILABLE",
+            "relative_change": 0.00747574259748211
+          },
+          {
+            "from_level": 16,
+            "to_level": 32,
+            "status": "AVAILABLE",
+            "relative_change": 0.0008144798282450177
+          }
+        ],
+        "final_adjacent_change": 0.0008144798282450177,
+        "classification": "CONVERGED_BOUNDED",
+        "terminal_level_status": "PASS"
+      },
+      {
+        "family": "HEX8",
+        "historical_source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+        "extension_source_sha": "151662ac4781718a7fbe3d1e527675ec9e513ad4",
+        "levels": [
+          {
+            "case_id": "G08-BUC-HEX8-MESH-001",
+            "family": "HEX8",
+            "requirements": [
+              "G08-003",
+              "G08-005",
+              "G08-006",
+              "G08-009"
+            ],
+            "status": "PASS",
+            "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+            "critical_factor": 213.52351970926247,
+            "critical_mode_norm": 0.9999999999999999,
+            "critical_mode_residual_relative": 5.654661150724596e-15,
+            "eigenpair_residual_status": "PASS",
+            "eigen_backend": "scipy.sparse.linalg.eigsh",
+            "eigen_formulation": "generalized_eigsh",
+            "critical_bracket": {
+              "lower": 0.0,
+              "upper": 213.52351970926247,
+              "method": "generalized_eigsh",
+              "mass_matrix": "-geometric_tangent"
+            },
+            "preload_residual_max": 6.114841342636412e-12,
+            "node_count": 8,
+            "element_count": 1,
+            "dof_count": 24,
+            "configuration": {
+              "analysis": "linear_buckling",
+              "method": "eigsh",
+              "material": "homogeneous isotropic_3d",
+              "loads": "nodal dead loads",
+              "first_mode_only": true
+            },
+            "mesh_level": 1,
+            "provenance": {
+              "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+              "source_dirty": false,
+              "captured_at_utc": "2026-08-30T09:48:13.478615Z",
+              "solver_version": "0.2.6a0",
+              "runtime": {
+                "platform": {
+                  "system": "Windows",
+                  "release": "10",
+                  "machine": "AMD64",
+                  "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+                },
+                "python": {
+                  "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                  "executable": "C:\\Python313\\python.exe"
+                },
+                "packages": {
+                  "numpy": "2.2.6",
+                  "scipy": "1.15.2",
+                  "matplotlib": "3.10.3",
+                  "h5py": "3.14.0",
+                  "mpi4py": "4.1.0",
+                  "petsc4py": null
+                },
+                "blas": {
+                  "name": "scipy-openblas",
+                  "version": "0.3.29",
+                  "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+                },
+                "parallel_environment": {
+                  "OMP_NUM_THREADS": null,
+                  "MKL_NUM_THREADS": null,
+                  "OPENBLAS_NUM_THREADS": null,
+                  "PETSC_ARCH": null
+                }
+              }
+            },
+            "evidence_origin": "HISTORICAL_G08_EXECUTION",
+            "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753"
+          },
+          {
+            "case_id": "G08-BUC-HEX8-MESH-002",
+            "family": "HEX8",
+            "requirements": [
+              "G08-003",
+              "G08-005",
+              "G08-006",
+              "G08-009"
+            ],
+            "status": "PASS",
+            "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+            "critical_factor": 158.53951269993019,
+            "critical_mode_norm": 1.0,
+            "critical_mode_residual_relative": 5.811603099423945e-15,
+            "eigenpair_residual_status": "PASS",
+            "eigen_backend": "scipy.sparse.linalg.eigsh",
+            "eigen_formulation": "generalized_eigsh",
+            "critical_bracket": {
+              "lower": 0.0,
+              "upper": 158.53951269993019,
+              "method": "generalized_eigsh",
+              "mass_matrix": "-geometric_tangent"
+            },
+            "preload_residual_max": 9.26565745273141e-12,
+            "node_count": 12,
+            "element_count": 2,
+            "dof_count": 36,
+            "configuration": {
+              "analysis": "linear_buckling",
+              "method": "eigsh",
+              "material": "homogeneous isotropic_3d",
+              "loads": "nodal dead loads",
+              "first_mode_only": true
+            },
+            "mesh_level": 2,
+            "provenance": {
+              "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+              "source_dirty": false,
+              "captured_at_utc": "2026-08-30T09:48:13.478615Z",
+              "solver_version": "0.2.6a0",
+              "runtime": {
+                "platform": {
+                  "system": "Windows",
+                  "release": "10",
+                  "machine": "AMD64",
+                  "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+                },
+                "python": {
+                  "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                  "executable": "C:\\Python313\\python.exe"
+                },
+                "packages": {
+                  "numpy": "2.2.6",
+                  "scipy": "1.15.2",
+                  "matplotlib": "3.10.3",
+                  "h5py": "3.14.0",
+                  "mpi4py": "4.1.0",
+                  "petsc4py": null
+                },
+                "blas": {
+                  "name": "scipy-openblas",
+                  "version": "0.3.29",
+                  "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+                },
+                "parallel_environment": {
+                  "OMP_NUM_THREADS": null,
+                  "MKL_NUM_THREADS": null,
+                  "OPENBLAS_NUM_THREADS": null,
+                  "PETSC_ARCH": null
+                }
+              }
+            },
+            "evidence_origin": "HISTORICAL_G08_EXECUTION",
+            "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753"
+          },
+          {
+            "case_id": "G08-BUC-HEX8-MESH-004",
+            "family": "HEX8",
+            "requirements": [
+              "G08-003",
+              "G08-005",
+              "G08-006",
+              "G08-009"
+            ],
+            "status": "PASS",
+            "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+            "critical_factor": 143.61528663031888,
+            "critical_mode_norm": 1.0,
+            "critical_mode_residual_relative": 5.641748405801032e-14,
+            "eigenpair_residual_status": "PASS",
+            "eigen_backend": "scipy.sparse.linalg.eigsh",
+            "eigen_formulation": "generalized_eigsh",
+            "critical_bracket": {
+              "lower": 0.0,
+              "upper": 143.61528663031888,
+              "method": "generalized_eigsh",
+              "mass_matrix": "-geometric_tangent"
+            },
+            "preload_residual_max": 8.557484614097214e-12,
+            "node_count": 20,
+            "element_count": 4,
+            "dof_count": 60,
+            "configuration": {
+              "analysis": "linear_buckling",
+              "method": "eigsh",
+              "material": "homogeneous isotropic_3d",
+              "loads": "nodal dead loads",
+              "first_mode_only": true
+            },
+            "mesh_level": 4,
+            "provenance": {
+              "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+              "source_dirty": false,
+              "captured_at_utc": "2026-08-30T09:48:13.478615Z",
+              "solver_version": "0.2.6a0",
+              "runtime": {
+                "platform": {
+                  "system": "Windows",
+                  "release": "10",
+                  "machine": "AMD64",
+                  "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+                },
+                "python": {
+                  "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                  "executable": "C:\\Python313\\python.exe"
+                },
+                "packages": {
+                  "numpy": "2.2.6",
+                  "scipy": "1.15.2",
+                  "matplotlib": "3.10.3",
+                  "h5py": "3.14.0",
+                  "mpi4py": "4.1.0",
+                  "petsc4py": null
+                },
+                "blas": {
+                  "name": "scipy-openblas",
+                  "version": "0.3.29",
+                  "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+                },
+                "parallel_environment": {
+                  "OMP_NUM_THREADS": null,
+                  "MKL_NUM_THREADS": null,
+                  "OPENBLAS_NUM_THREADS": null,
+                  "PETSC_ARCH": null
+                }
+              }
+            },
+            "evidence_origin": "HISTORICAL_G08_EXECUTION",
+            "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753"
+          },
+          {
+            "case_id": "G08-BUC-HEX8-MESH-008",
+            "family": "HEX8",
+            "requirements": [
+              "G08-003",
+              "G08-005",
+              "G08-006",
+              "G08-009"
+            ],
+            "status": "PASS",
+            "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+            "critical_factor": 139.92636934295825,
+            "critical_mode_norm": 1.0,
+            "critical_mode_residual_relative": 9.90203034686154e-15,
+            "eigenpair_residual_status": "PASS",
+            "eigen_backend": "scipy.sparse.linalg.eigsh",
+            "eigen_formulation": "generalized_eigsh",
+            "critical_bracket": {
+              "lower": 0.0,
+              "upper": 139.92636934295825,
+              "method": "generalized_eigsh",
+              "mass_matrix": "-geometric_tangent"
+            },
+            "preload_residual_max": 8.388139304090206e-12,
+            "node_count": 36,
+            "element_count": 8,
+            "dof_count": 108,
+            "configuration": {
+              "analysis": "linear_buckling",
+              "method": "eigsh",
+              "material": "homogeneous isotropic_3d",
+              "loads": "nodal dead loads",
+              "first_mode_only": true
+            },
+            "mesh_level": 8,
+            "provenance": {
+              "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+              "source_dirty": false,
+              "captured_at_utc": "2026-08-30T09:48:13.478615Z",
+              "solver_version": "0.2.6a0",
+              "runtime": {
+                "platform": {
+                  "system": "Windows",
+                  "release": "10",
+                  "machine": "AMD64",
+                  "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+                },
+                "python": {
+                  "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                  "executable": "C:\\Python313\\python.exe"
+                },
+                "packages": {
+                  "numpy": "2.2.6",
+                  "scipy": "1.15.2",
+                  "matplotlib": "3.10.3",
+                  "h5py": "3.14.0",
+                  "mpi4py": "4.1.0",
+                  "petsc4py": null
+                },
+                "blas": {
+                  "name": "scipy-openblas",
+                  "version": "0.3.29",
+                  "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+                },
+                "parallel_environment": {
+                  "OMP_NUM_THREADS": null,
+                  "MKL_NUM_THREADS": null,
+                  "OPENBLAS_NUM_THREADS": null,
+                  "PETSC_ARCH": null
+                }
+              }
+            },
+            "evidence_origin": "HISTORICAL_G08_EXECUTION",
+            "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753"
+          },
+          {
+            "case_id": "G08-BUC-EXT-HEX8-MESH-016-R1",
+            "family": "HEX8",
+            "mesh_level": 16,
+            "status": "PASS",
+            "failure_classification": null,
+            "unexpected_failure": false,
+            "critical_factor": 139.0005235350377,
+            "critical_mode_norm": 1.0,
+            "critical_mode_residual_relative": 3.8397639606959856e-14,
+            "eigenpair_residual_status": "PASS",
+            "eigen_backend": "scipy.sparse.linalg.eigsh",
+            "eigen_formulation": "generalized_eigsh",
+            "critical_bracket": {
+              "lower": 0.0,
+              "upper": 139.0005235350377,
+              "method": "generalized_eigsh",
+              "mass_matrix": "-geometric_tangent"
+            },
+            "configuration": {
+              "analysis": "linear_buckling",
+              "method": "eigsh",
+              "material": "homogeneous isotropic_3d",
+              "loads": "nodal dead loads",
+              "first_mode_only": true
+            },
+            "node_count": 68,
+            "element_count": 16,
+            "dof_count": 204,
+            "provenance": {
+              "source_sha": "151662ac4781718a7fbe3d1e527675ec9e513ad4",
+              "source_dirty": false,
+              "captured_at_utc": "2026-08-30T10:51:56.937033Z",
+              "solver_version": "0.2.6a0",
+              "runtime": {
+                "platform": {
+                  "system": "Windows",
+                  "release": "10",
+                  "machine": "AMD64",
+                  "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+                },
+                "python": {
+                  "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                  "executable": "C:\\Python313\\python.exe"
+                },
+                "packages": {
+                  "numpy": "2.2.6",
+                  "scipy": "1.15.2",
+                  "matplotlib": "3.10.3",
+                  "h5py": "3.14.0",
+                  "mpi4py": "4.1.0",
+                  "petsc4py": null
+                },
+                "blas": {
+                  "name": "scipy-openblas",
+                  "version": "0.3.29",
+                  "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+                },
+                "parallel_environment": {
+                  "OMP_NUM_THREADS": null,
+                  "MKL_NUM_THREADS": null,
+                  "OPENBLAS_NUM_THREADS": null,
+                  "PETSC_ARCH": null
+                }
+              }
+            }
+          },
+          {
+            "case_id": "G08-BUC-EXT-HEX8-MESH-032-R1",
+            "family": "HEX8",
+            "mesh_level": 32,
+            "status": "PASS",
+            "failure_classification": null,
+            "unexpected_failure": false,
+            "critical_factor": 138.76862284881253,
+            "critical_mode_norm": 1.0,
+            "critical_mode_residual_relative": 7.786341233432683e-13,
+            "eigenpair_residual_status": "PASS",
+            "eigen_backend": "scipy.sparse.linalg.eigsh",
+            "eigen_formulation": "generalized_eigsh",
+            "critical_bracket": {
+              "lower": 0.0,
+              "upper": 138.76862284881253,
+              "method": "generalized_eigsh",
+              "mass_matrix": "-geometric_tangent"
+            },
+            "configuration": {
+              "analysis": "linear_buckling",
+              "method": "eigsh",
+              "material": "homogeneous isotropic_3d",
+              "loads": "nodal dead loads",
+              "first_mode_only": true
+            },
+            "node_count": 132,
+            "element_count": 32,
+            "dof_count": 396,
+            "provenance": {
+              "source_sha": "151662ac4781718a7fbe3d1e527675ec9e513ad4",
+              "source_dirty": false,
+              "captured_at_utc": "2026-08-30T10:51:56.937033Z",
+              "solver_version": "0.2.6a0",
+              "runtime": {
+                "platform": {
+                  "system": "Windows",
+                  "release": "10",
+                  "machine": "AMD64",
+                  "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+                },
+                "python": {
+                  "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                  "executable": "C:\\Python313\\python.exe"
+                },
+                "packages": {
+                  "numpy": "2.2.6",
+                  "scipy": "1.15.2",
+                  "matplotlib": "3.10.3",
+                  "h5py": "3.14.0",
+                  "mpi4py": "4.1.0",
+                  "petsc4py": null
+                },
+                "blas": {
+                  "name": "scipy-openblas",
+                  "version": "0.3.29",
+                  "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+                },
+                "parallel_environment": {
+                  "OMP_NUM_THREADS": null,
+                  "MKL_NUM_THREADS": null,
+                  "OPENBLAS_NUM_THREADS": null,
+                  "PETSC_ARCH": null
+                }
+              }
+            }
+          }
+        ],
+        "extension_levels": [
+          16,
+          32
+        ],
+        "extension_success_count": 2,
+        "extension_limitation_count": 0,
+        "adjacent_changes": [
+          {
+            "from_level": 1,
+            "to_level": 2,
+            "status": "AVAILABLE",
+            "relative_change": 0.3468157942014193
+          },
+          {
+            "from_level": 2,
+            "to_level": 4,
+            "status": "AVAILABLE",
+            "relative_change": 0.10391808852512939
+          },
+          {
+            "from_level": 4,
+            "to_level": 8,
+            "status": "AVAILABLE",
+            "relative_change": 0.026363274518465648
+          },
+          {
+            "from_level": 8,
+            "to_level": 16,
+            "status": "AVAILABLE",
+            "relative_change": 0.006660736120804435
+          },
+          {
+            "from_level": 16,
+            "to_level": 32,
+            "status": "AVAILABLE",
+            "relative_change": 0.0016711319999033805
+          }
+        ],
+        "final_adjacent_change": 0.0016711319999033805,
+        "classification": "CONVERGED_BOUNDED",
+        "terminal_level_status": "PASS"
+      },
+      {
+        "family": "HEX20",
+        "historical_source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+        "extension_source_sha": "151662ac4781718a7fbe3d1e527675ec9e513ad4",
+        "levels": [
+          {
+            "case_id": "G08-BUC-HEX20-MESH-001",
+            "family": "HEX20",
+            "requirements": [
+              "G08-003",
+              "G08-005",
+              "G08-006",
+              "G08-009"
+            ],
+            "status": "PASS",
+            "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+            "critical_factor": 12.504536591799754,
+            "critical_mode_norm": 0.9999999999999999,
+            "critical_mode_residual_relative": 9.083471668839159e-15,
+            "eigenpair_residual_status": "PASS",
+            "eigen_backend": "scipy.sparse.linalg.eigs",
+            "eigen_formulation": "generalized_eigs_shift_invert",
+            "critical_bracket": {
+              "lower": 12.5,
+              "upper": 12.5078125,
+              "method": "generalized_eigs_shift_invert",
+              "mass_matrix": "-geometric_tangent",
+              "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+              "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+              "shift_invert_sigma": 12.50390625,
+              "shift_invert_attempted_shifts": [
+                12.50390625,
+                12.501953125,
+                12.505859375
+              ]
+            },
+            "preload_residual_max": 1.969272917643823e-13,
+            "node_count": 20,
+            "element_count": 1,
+            "dof_count": 60,
+            "configuration": {
+              "analysis": "linear_buckling",
+              "method": "eigsh",
+              "material": "homogeneous isotropic_3d",
+              "loads": "nodal dead loads",
+              "first_mode_only": true
+            },
+            "mesh_level": 1,
+            "provenance": {
+              "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+              "source_dirty": false,
+              "captured_at_utc": "2026-08-30T09:48:13.478615Z",
+              "solver_version": "0.2.6a0",
+              "runtime": {
+                "platform": {
+                  "system": "Windows",
+                  "release": "10",
+                  "machine": "AMD64",
+                  "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+                },
+                "python": {
+                  "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                  "executable": "C:\\Python313\\python.exe"
+                },
+                "packages": {
+                  "numpy": "2.2.6",
+                  "scipy": "1.15.2",
+                  "matplotlib": "3.10.3",
+                  "h5py": "3.14.0",
+                  "mpi4py": "4.1.0",
+                  "petsc4py": null
+                },
+                "blas": {
+                  "name": "scipy-openblas",
+                  "version": "0.3.29",
+                  "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+                },
+                "parallel_environment": {
+                  "OMP_NUM_THREADS": null,
+                  "MKL_NUM_THREADS": null,
+                  "OPENBLAS_NUM_THREADS": null,
+                  "PETSC_ARCH": null
+                }
+              }
+            },
+            "evidence_origin": "HISTORICAL_G08_EXECUTION",
+            "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753"
+          },
+          {
+            "case_id": "G08-BUC-HEX20-MESH-002",
+            "family": "HEX20",
+            "requirements": [
+              "G08-003",
+              "G08-005",
+              "G08-006",
+              "G08-009"
+            ],
+            "status": "PASS",
+            "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+            "critical_factor": 10.985393350332476,
+            "critical_mode_norm": 0.9999999999999999,
+            "critical_mode_residual_relative": 6.1205586357192026e-15,
+            "eigenpair_residual_status": "PASS",
+            "eigen_backend": "scipy.sparse.linalg.eigs",
+            "eigen_formulation": "generalized_eigs_shift_invert",
+            "critical_bracket": {
+              "lower": 10.984375,
+              "upper": 10.9921875,
+              "method": "generalized_eigs_shift_invert",
+              "mass_matrix": "-geometric_tangent",
+              "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+              "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+              "shift_invert_sigma": 10.98828125,
+              "shift_invert_attempted_shifts": [
+                10.98828125,
+                10.986328125,
+                10.990234375
+              ]
+            },
+            "preload_residual_max": 4.776261552119475e-13,
+            "node_count": 32,
+            "element_count": 2,
+            "dof_count": 96,
+            "configuration": {
+              "analysis": "linear_buckling",
+              "method": "eigsh",
+              "material": "homogeneous isotropic_3d",
+              "loads": "nodal dead loads",
+              "first_mode_only": true
+            },
+            "mesh_level": 2,
+            "provenance": {
+              "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+              "source_dirty": false,
+              "captured_at_utc": "2026-08-30T09:48:13.478615Z",
+              "solver_version": "0.2.6a0",
+              "runtime": {
+                "platform": {
+                  "system": "Windows",
+                  "release": "10",
+                  "machine": "AMD64",
+                  "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+                },
+                "python": {
+                  "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                  "executable": "C:\\Python313\\python.exe"
+                },
+                "packages": {
+                  "numpy": "2.2.6",
+                  "scipy": "1.15.2",
+                  "matplotlib": "3.10.3",
+                  "h5py": "3.14.0",
+                  "mpi4py": "4.1.0",
+                  "petsc4py": null
+                },
+                "blas": {
+                  "name": "scipy-openblas",
+                  "version": "0.3.29",
+                  "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+                },
+                "parallel_environment": {
+                  "OMP_NUM_THREADS": null,
+                  "MKL_NUM_THREADS": null,
+                  "OPENBLAS_NUM_THREADS": null,
+                  "PETSC_ARCH": null
+                }
+              }
+            },
+            "evidence_origin": "HISTORICAL_G08_EXECUTION",
+            "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753"
+          },
+          {
+            "case_id": "G08-BUC-HEX20-MESH-004",
+            "family": "HEX20",
+            "requirements": [
+              "G08-003",
+              "G08-005",
+              "G08-006",
+              "G08-009"
+            ],
+            "status": "PASS",
+            "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+            "critical_factor": 9.960021405780681,
+            "critical_mode_norm": 0.9999999999999999,
+            "critical_mode_residual_relative": 1.1370430452208122e-14,
+            "eigenpair_residual_status": "PASS",
+            "eigen_backend": "scipy.sparse.linalg.eigs",
+            "eigen_formulation": "generalized_eigs_shift_invert",
+            "critical_bracket": {
+              "lower": 9.953125,
+              "upper": 9.9609375,
+              "method": "generalized_eigs_shift_invert",
+              "mass_matrix": "-geometric_tangent",
+              "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+              "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+              "shift_invert_sigma": 9.95703125,
+              "shift_invert_attempted_shifts": [
+                9.95703125,
+                9.955078125,
+                9.958984375
+              ]
+            },
+            "preload_residual_max": 4.56396769709322e-12,
+            "node_count": 56,
+            "element_count": 4,
+            "dof_count": 168,
+            "configuration": {
+              "analysis": "linear_buckling",
+              "method": "eigsh",
+              "material": "homogeneous isotropic_3d",
+              "loads": "nodal dead loads",
+              "first_mode_only": true
+            },
+            "mesh_level": 4,
+            "provenance": {
+              "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+              "source_dirty": false,
+              "captured_at_utc": "2026-08-30T09:48:13.478615Z",
+              "solver_version": "0.2.6a0",
+              "runtime": {
+                "platform": {
+                  "system": "Windows",
+                  "release": "10",
+                  "machine": "AMD64",
+                  "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+                },
+                "python": {
+                  "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                  "executable": "C:\\Python313\\python.exe"
+                },
+                "packages": {
+                  "numpy": "2.2.6",
+                  "scipy": "1.15.2",
+                  "matplotlib": "3.10.3",
+                  "h5py": "3.14.0",
+                  "mpi4py": "4.1.0",
+                  "petsc4py": null
+                },
+                "blas": {
+                  "name": "scipy-openblas",
+                  "version": "0.3.29",
+                  "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+                },
+                "parallel_environment": {
+                  "OMP_NUM_THREADS": null,
+                  "MKL_NUM_THREADS": null,
+                  "OPENBLAS_NUM_THREADS": null,
+                  "PETSC_ARCH": null
+                }
+              }
+            },
+            "evidence_origin": "HISTORICAL_G08_EXECUTION",
+            "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753"
+          },
+          {
+            "case_id": "G08-BUC-HEX20-MESH-008",
+            "family": "HEX20",
+            "requirements": [
+              "G08-003",
+              "G08-005",
+              "G08-006",
+              "G08-009"
+            ],
+            "status": "PASS",
+            "oracle_status": "INTERNAL_ROUTE_INVARIANT",
+            "critical_factor": 8.74142540427213,
+            "critical_mode_norm": 1.0,
+            "critical_mode_residual_relative": 8.568491079899255e-15,
+            "eigenpair_residual_status": "PASS",
+            "eigen_backend": "scipy.sparse.linalg.eigs",
+            "eigen_formulation": "generalized_eigs_shift_invert",
+            "critical_bracket": {
+              "lower": 8.734375,
+              "upper": 8.7421875,
+              "method": "generalized_eigs_shift_invert",
+              "mass_matrix": "-geometric_tangent",
+              "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+              "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+              "shift_invert_sigma": 8.73828125,
+              "shift_invert_attempted_shifts": [
+                8.73828125,
+                8.736328125,
+                8.740234375
+              ]
+            },
+            "preload_residual_max": 1.1371948558093793e-11,
+            "node_count": 104,
+            "element_count": 8,
+            "dof_count": 312,
+            "configuration": {
+              "analysis": "linear_buckling",
+              "method": "eigsh",
+              "material": "homogeneous isotropic_3d",
+              "loads": "nodal dead loads",
+              "first_mode_only": true
+            },
+            "mesh_level": 8,
+            "provenance": {
+              "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753",
+              "source_dirty": false,
+              "captured_at_utc": "2026-08-30T09:48:13.478615Z",
+              "solver_version": "0.2.6a0",
+              "runtime": {
+                "platform": {
+                  "system": "Windows",
+                  "release": "10",
+                  "machine": "AMD64",
+                  "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+                },
+                "python": {
+                  "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                  "executable": "C:\\Python313\\python.exe"
+                },
+                "packages": {
+                  "numpy": "2.2.6",
+                  "scipy": "1.15.2",
+                  "matplotlib": "3.10.3",
+                  "h5py": "3.14.0",
+                  "mpi4py": "4.1.0",
+                  "petsc4py": null
+                },
+                "blas": {
+                  "name": "scipy-openblas",
+                  "version": "0.3.29",
+                  "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+                },
+                "parallel_environment": {
+                  "OMP_NUM_THREADS": null,
+                  "MKL_NUM_THREADS": null,
+                  "OPENBLAS_NUM_THREADS": null,
+                  "PETSC_ARCH": null
+                }
+              }
+            },
+            "evidence_origin": "HISTORICAL_G08_EXECUTION",
+            "source_sha": "6589443e1404a2749ac6c0a9b911f00dd9cb8753"
+          },
+          {
+            "case_id": "G08-BUC-EXT-HEX20-MESH-016-R1",
+            "family": "HEX20",
+            "mesh_level": 16,
+            "status": "PASS",
+            "failure_classification": null,
+            "unexpected_failure": false,
+            "critical_factor": 8.40967630765945,
+            "critical_mode_norm": 1.0,
+            "critical_mode_residual_relative": 2.7553170337809087e-14,
+            "eigenpair_residual_status": "PASS",
+            "eigen_backend": "scipy.sparse.linalg.eigs",
+            "eigen_formulation": "generalized_eigs_shift_invert",
+            "critical_bracket": {
+              "lower": 8.40625,
+              "upper": 8.4140625,
+              "method": "generalized_eigs_shift_invert",
+              "mass_matrix": "-geometric_tangent",
+              "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+              "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+              "shift_invert_sigma": 8.41015625,
+              "shift_invert_attempted_shifts": [
+                8.41015625,
+                8.408203125,
+                8.412109375
+              ]
+            },
+            "configuration": {
+              "analysis": "linear_buckling",
+              "method": "eigsh",
+              "material": "homogeneous isotropic_3d",
+              "loads": "nodal dead loads",
+              "first_mode_only": true
+            },
+            "node_count": 200,
+            "element_count": 16,
+            "dof_count": 600,
+            "provenance": {
+              "source_sha": "151662ac4781718a7fbe3d1e527675ec9e513ad4",
+              "source_dirty": false,
+              "captured_at_utc": "2026-08-30T10:51:56.937033Z",
+              "solver_version": "0.2.6a0",
+              "runtime": {
+                "platform": {
+                  "system": "Windows",
+                  "release": "10",
+                  "machine": "AMD64",
+                  "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+                },
+                "python": {
+                  "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                  "executable": "C:\\Python313\\python.exe"
+                },
+                "packages": {
+                  "numpy": "2.2.6",
+                  "scipy": "1.15.2",
+                  "matplotlib": "3.10.3",
+                  "h5py": "3.14.0",
+                  "mpi4py": "4.1.0",
+                  "petsc4py": null
+                },
+                "blas": {
+                  "name": "scipy-openblas",
+                  "version": "0.3.29",
+                  "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+                },
+                "parallel_environment": {
+                  "OMP_NUM_THREADS": null,
+                  "MKL_NUM_THREADS": null,
+                  "OPENBLAS_NUM_THREADS": null,
+                  "PETSC_ARCH": null
+                }
+              }
+            }
+          },
+          {
+            "case_id": "G08-BUC-EXT-HEX20-MESH-032-R1",
+            "family": "HEX20",
+            "mesh_level": 32,
+            "status": "PASS",
+            "failure_classification": null,
+            "unexpected_failure": false,
+            "critical_factor": 8.333621958526527,
+            "critical_mode_norm": 1.0,
+            "critical_mode_residual_relative": 6.645733974571079e-14,
+            "eigenpair_residual_status": "PASS",
+            "eigen_backend": "scipy.sparse.linalg.eigs",
+            "eigen_formulation": "generalized_eigs_shift_invert",
+            "critical_bracket": {
+              "lower": 8.328125,
+              "upper": 8.3359375,
+              "method": "generalized_eigs_shift_invert",
+              "mass_matrix": "-geometric_tangent",
+              "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+              "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+              "shift_invert_sigma": 8.33203125,
+              "shift_invert_attempted_shifts": [
+                8.33203125,
+                8.330078125,
+                8.333984375
+              ]
+            },
+            "configuration": {
+              "analysis": "linear_buckling",
+              "method": "eigsh",
+              "material": "homogeneous isotropic_3d",
+              "loads": "nodal dead loads",
+              "first_mode_only": true
+            },
+            "node_count": 392,
+            "element_count": 32,
+            "dof_count": 1176,
+            "provenance": {
+              "source_sha": "151662ac4781718a7fbe3d1e527675ec9e513ad4",
+              "source_dirty": false,
+              "captured_at_utc": "2026-08-30T10:51:56.937033Z",
+              "solver_version": "0.2.6a0",
+              "runtime": {
+                "platform": {
+                  "system": "Windows",
+                  "release": "10",
+                  "machine": "AMD64",
+                  "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+                },
+                "python": {
+                  "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                  "executable": "C:\\Python313\\python.exe"
+                },
+                "packages": {
+                  "numpy": "2.2.6",
+                  "scipy": "1.15.2",
+                  "matplotlib": "3.10.3",
+                  "h5py": "3.14.0",
+                  "mpi4py": "4.1.0",
+                  "petsc4py": null
+                },
+                "blas": {
+                  "name": "scipy-openblas",
+                  "version": "0.3.29",
+                  "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+                },
+                "parallel_environment": {
+                  "OMP_NUM_THREADS": null,
+                  "MKL_NUM_THREADS": null,
+                  "OPENBLAS_NUM_THREADS": null,
+                  "PETSC_ARCH": null
+                }
+              }
+            }
+          }
+        ],
+        "extension_levels": [
+          16,
+          32
+        ],
+        "extension_success_count": 2,
+        "extension_limitation_count": 0,
+        "adjacent_changes": [
+          {
+            "from_level": 1,
+            "to_level": 2,
+            "status": "AVAILABLE",
+            "relative_change": 0.13828755994625358
+          },
+          {
+            "from_level": 2,
+            "to_level": 4,
+            "status": "AVAILABLE",
+            "relative_change": 0.10294876916194987
+          },
+          {
+            "from_level": 4,
+            "to_level": 8,
+            "status": "AVAILABLE",
+            "relative_change": 0.13940472464742376
+          },
+          {
+            "from_level": 8,
+            "to_level": 16,
+            "status": "AVAILABLE",
+            "relative_change": 0.039448497715723854
+          },
+          {
+            "from_level": 16,
+            "to_level": 32,
+            "status": "AVAILABLE",
+            "relative_change": 0.009126205809600926
+          }
+        ],
+        "final_adjacent_change": 0.009126205809600926,
+        "classification": "CONVERGED_BOUNDED",
+        "terminal_level_status": "PASS"
+      }
+    ],
+    "historical_levels_reused": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "extension_levels_executed": [
+      16,
+      32
+    ],
+    "extension_replay": [
+      {
+        "family": "TET10",
+        "mesh_level": 16,
+        "first": {
+          "case_id": "G08-BUC-EXT-TET10-MESH-016-R1",
+          "family": "TET10",
+          "mesh_level": 16,
+          "status": "PASS",
+          "failure_classification": null,
+          "unexpected_failure": false,
+          "critical_factor": 9.477021796069911,
+          "critical_mode_norm": 1.0,
+          "critical_mode_residual_relative": 1.420325794935409e-13,
+          "eigenpair_residual_status": "PASS",
+          "eigen_backend": "scipy.sparse.linalg.eigs",
+          "eigen_formulation": "generalized_eigs_shift_invert",
+          "critical_bracket": {
+            "lower": 9.4765625,
+            "upper": 9.484375,
+            "method": "generalized_eigs_shift_invert",
+            "mass_matrix": "-geometric_tangent",
+            "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+            "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+            "shift_invert_sigma": 9.48046875,
+            "shift_invert_attempted_shifts": [
+              9.48046875,
+              9.478515625,
+              9.482421875
+            ]
+          },
+          "configuration": {
+            "analysis": "linear_buckling",
+            "method": "eigsh",
+            "material": "homogeneous isotropic_3d",
+            "loads": "nodal dead loads",
+            "first_mode_only": true
+          },
+          "node_count": 281,
+          "element_count": 80,
+          "dof_count": 843,
+          "provenance": {
+            "source_sha": "151662ac4781718a7fbe3d1e527675ec9e513ad4",
+            "source_dirty": false,
+            "captured_at_utc": "2026-08-30T10:51:56.937033Z",
+            "solver_version": "0.2.6a0",
+            "runtime": {
+              "platform": {
+                "system": "Windows",
+                "release": "10",
+                "machine": "AMD64",
+                "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+              },
+              "python": {
+                "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                "executable": "C:\\Python313\\python.exe"
+              },
+              "packages": {
+                "numpy": "2.2.6",
+                "scipy": "1.15.2",
+                "matplotlib": "3.10.3",
+                "h5py": "3.14.0",
+                "mpi4py": "4.1.0",
+                "petsc4py": null
+              },
+              "blas": {
+                "name": "scipy-openblas",
+                "version": "0.3.29",
+                "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+              },
+              "parallel_environment": {
+                "OMP_NUM_THREADS": null,
+                "MKL_NUM_THREADS": null,
+                "OPENBLAS_NUM_THREADS": null,
+                "PETSC_ARCH": null
+              }
+            }
+          }
+        },
+        "second": {
+          "case_id": "G08-BUC-EXT-TET10-MESH-016-R2",
+          "family": "TET10",
+          "mesh_level": 16,
+          "status": "PASS",
+          "failure_classification": null,
+          "unexpected_failure": false,
+          "critical_factor": 9.477021796069911,
+          "critical_mode_norm": 1.0,
+          "critical_mode_residual_relative": 1.3970991679811962e-13,
+          "eigenpair_residual_status": "PASS",
+          "eigen_backend": "scipy.sparse.linalg.eigs",
+          "eigen_formulation": "generalized_eigs_shift_invert",
+          "critical_bracket": {
+            "lower": 9.4765625,
+            "upper": 9.484375,
+            "method": "generalized_eigs_shift_invert",
+            "mass_matrix": "-geometric_tangent",
+            "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+            "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+            "shift_invert_sigma": 9.48046875,
+            "shift_invert_attempted_shifts": [
+              9.48046875,
+              9.478515625,
+              9.482421875
+            ]
+          },
+          "configuration": {
+            "analysis": "linear_buckling",
+            "method": "eigsh",
+            "material": "homogeneous isotropic_3d",
+            "loads": "nodal dead loads",
+            "first_mode_only": true
+          },
+          "node_count": 281,
+          "element_count": 80,
+          "dof_count": 843
+        },
+        "status": "PASS",
+        "deterministic": true,
+        "factor_absolute_delta": 0.0,
+        "mode_norm_absolute_delta": 0.0,
+        "residual_absolute_delta": 2.3226626954212747e-15,
+        "provenance": {
+          "source_sha": "151662ac4781718a7fbe3d1e527675ec9e513ad4",
+          "source_dirty": false,
+          "captured_at_utc": "2026-08-30T10:51:56.937033Z",
+          "solver_version": "0.2.6a0",
+          "runtime": {
+            "platform": {
+              "system": "Windows",
+              "release": "10",
+              "machine": "AMD64",
+              "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+            },
+            "python": {
+              "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+              "executable": "C:\\Python313\\python.exe"
+            },
+            "packages": {
+              "numpy": "2.2.6",
+              "scipy": "1.15.2",
+              "matplotlib": "3.10.3",
+              "h5py": "3.14.0",
+              "mpi4py": "4.1.0",
+              "petsc4py": null
+            },
+            "blas": {
+              "name": "scipy-openblas",
+              "version": "0.3.29",
+              "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+            },
+            "parallel_environment": {
+              "OMP_NUM_THREADS": null,
+              "MKL_NUM_THREADS": null,
+              "OPENBLAS_NUM_THREADS": null,
+              "PETSC_ARCH": null
+            }
+          }
+        }
+      },
+      {
+        "family": "TET10",
+        "mesh_level": 32,
+        "first": {
+          "case_id": "G08-BUC-EXT-TET10-MESH-032-R1",
+          "family": "TET10",
+          "mesh_level": 32,
+          "status": "PASS",
+          "failure_classification": null,
+          "unexpected_failure": false,
+          "critical_factor": 9.484746931121318,
+          "critical_mode_norm": 1.0,
+          "critical_mode_residual_relative": 3.445941951801818e-13,
+          "eigenpair_residual_status": "PASS",
+          "eigen_backend": "scipy.sparse.linalg.eigs",
+          "eigen_formulation": "generalized_eigs_shift_invert",
+          "critical_bracket": {
+            "lower": 9.484375,
+            "upper": 9.4921875,
+            "method": "generalized_eigs_shift_invert",
+            "mass_matrix": "-geometric_tangent",
+            "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+            "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+            "shift_invert_sigma": 9.48828125,
+            "shift_invert_attempted_shifts": [
+              9.48828125,
+              9.486328125,
+              9.490234375
+            ]
+          },
+          "configuration": {
+            "analysis": "linear_buckling",
+            "method": "eigsh",
+            "material": "homogeneous isotropic_3d",
+            "loads": "nodal dead loads",
+            "first_mode_only": true
+          },
+          "node_count": 553,
+          "element_count": 160,
+          "dof_count": 1659,
+          "provenance": {
+            "source_sha": "151662ac4781718a7fbe3d1e527675ec9e513ad4",
+            "source_dirty": false,
+            "captured_at_utc": "2026-08-30T10:51:56.937033Z",
+            "solver_version": "0.2.6a0",
+            "runtime": {
+              "platform": {
+                "system": "Windows",
+                "release": "10",
+                "machine": "AMD64",
+                "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+              },
+              "python": {
+                "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                "executable": "C:\\Python313\\python.exe"
+              },
+              "packages": {
+                "numpy": "2.2.6",
+                "scipy": "1.15.2",
+                "matplotlib": "3.10.3",
+                "h5py": "3.14.0",
+                "mpi4py": "4.1.0",
+                "petsc4py": null
+              },
+              "blas": {
+                "name": "scipy-openblas",
+                "version": "0.3.29",
+                "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+              },
+              "parallel_environment": {
+                "OMP_NUM_THREADS": null,
+                "MKL_NUM_THREADS": null,
+                "OPENBLAS_NUM_THREADS": null,
+                "PETSC_ARCH": null
+              }
+            }
+          }
+        },
+        "second": {
+          "case_id": "G08-BUC-EXT-TET10-MESH-032-R2",
+          "family": "TET10",
+          "mesh_level": 32,
+          "status": "PASS",
+          "failure_classification": null,
+          "unexpected_failure": false,
+          "critical_factor": 9.484746931121318,
+          "critical_mode_norm": 0.9999999999999998,
+          "critical_mode_residual_relative": 3.360298810982923e-13,
+          "eigenpair_residual_status": "PASS",
+          "eigen_backend": "scipy.sparse.linalg.eigs",
+          "eigen_formulation": "generalized_eigs_shift_invert",
+          "critical_bracket": {
+            "lower": 9.484375,
+            "upper": 9.4921875,
+            "method": "generalized_eigs_shift_invert",
+            "mass_matrix": "-geometric_tangent",
+            "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+            "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+            "shift_invert_sigma": 9.48828125,
+            "shift_invert_attempted_shifts": [
+              9.48828125,
+              9.486328125,
+              9.490234375
+            ]
+          },
+          "configuration": {
+            "analysis": "linear_buckling",
+            "method": "eigsh",
+            "material": "homogeneous isotropic_3d",
+            "loads": "nodal dead loads",
+            "first_mode_only": true
+          },
+          "node_count": 553,
+          "element_count": 160,
+          "dof_count": 1659
+        },
+        "status": "PASS",
+        "deterministic": true,
+        "factor_absolute_delta": 0.0,
+        "mode_norm_absolute_delta": 2.220446049250313e-16,
+        "residual_absolute_delta": 8.564314081889502e-15,
+        "provenance": {
+          "source_sha": "151662ac4781718a7fbe3d1e527675ec9e513ad4",
+          "source_dirty": false,
+          "captured_at_utc": "2026-08-30T10:51:56.937033Z",
+          "solver_version": "0.2.6a0",
+          "runtime": {
+            "platform": {
+              "system": "Windows",
+              "release": "10",
+              "machine": "AMD64",
+              "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+            },
+            "python": {
+              "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+              "executable": "C:\\Python313\\python.exe"
+            },
+            "packages": {
+              "numpy": "2.2.6",
+              "scipy": "1.15.2",
+              "matplotlib": "3.10.3",
+              "h5py": "3.14.0",
+              "mpi4py": "4.1.0",
+              "petsc4py": null
+            },
+            "blas": {
+              "name": "scipy-openblas",
+              "version": "0.3.29",
+              "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+            },
+            "parallel_environment": {
+              "OMP_NUM_THREADS": null,
+              "MKL_NUM_THREADS": null,
+              "OPENBLAS_NUM_THREADS": null,
+              "PETSC_ARCH": null
+            }
+          }
+        }
+      },
+      {
+        "family": "HEX8",
+        "mesh_level": 16,
+        "first": {
+          "case_id": "G08-BUC-EXT-HEX8-MESH-016-R1",
+          "family": "HEX8",
+          "mesh_level": 16,
+          "status": "PASS",
+          "failure_classification": null,
+          "unexpected_failure": false,
+          "critical_factor": 139.0005235350377,
+          "critical_mode_norm": 1.0,
+          "critical_mode_residual_relative": 3.8397639606959856e-14,
+          "eigenpair_residual_status": "PASS",
+          "eigen_backend": "scipy.sparse.linalg.eigsh",
+          "eigen_formulation": "generalized_eigsh",
+          "critical_bracket": {
+            "lower": 0.0,
+            "upper": 139.0005235350377,
+            "method": "generalized_eigsh",
+            "mass_matrix": "-geometric_tangent"
+          },
+          "configuration": {
+            "analysis": "linear_buckling",
+            "method": "eigsh",
+            "material": "homogeneous isotropic_3d",
+            "loads": "nodal dead loads",
+            "first_mode_only": true
+          },
+          "node_count": 68,
+          "element_count": 16,
+          "dof_count": 204,
+          "provenance": {
+            "source_sha": "151662ac4781718a7fbe3d1e527675ec9e513ad4",
+            "source_dirty": false,
+            "captured_at_utc": "2026-08-30T10:51:56.937033Z",
+            "solver_version": "0.2.6a0",
+            "runtime": {
+              "platform": {
+                "system": "Windows",
+                "release": "10",
+                "machine": "AMD64",
+                "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+              },
+              "python": {
+                "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                "executable": "C:\\Python313\\python.exe"
+              },
+              "packages": {
+                "numpy": "2.2.6",
+                "scipy": "1.15.2",
+                "matplotlib": "3.10.3",
+                "h5py": "3.14.0",
+                "mpi4py": "4.1.0",
+                "petsc4py": null
+              },
+              "blas": {
+                "name": "scipy-openblas",
+                "version": "0.3.29",
+                "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+              },
+              "parallel_environment": {
+                "OMP_NUM_THREADS": null,
+                "MKL_NUM_THREADS": null,
+                "OPENBLAS_NUM_THREADS": null,
+                "PETSC_ARCH": null
+              }
+            }
+          }
+        },
+        "second": {
+          "case_id": "G08-BUC-EXT-HEX8-MESH-016-R2",
+          "family": "HEX8",
+          "mesh_level": 16,
+          "status": "PASS",
+          "failure_classification": null,
+          "unexpected_failure": false,
+          "critical_factor": 139.00052353503676,
+          "critical_mode_norm": 1.0,
+          "critical_mode_residual_relative": 1.9528605015504354e-13,
+          "eigenpair_residual_status": "PASS",
+          "eigen_backend": "scipy.sparse.linalg.eigsh",
+          "eigen_formulation": "generalized_eigsh",
+          "critical_bracket": {
+            "lower": 0.0,
+            "upper": 139.00052353503676,
+            "method": "generalized_eigsh",
+            "mass_matrix": "-geometric_tangent"
+          },
+          "configuration": {
+            "analysis": "linear_buckling",
+            "method": "eigsh",
+            "material": "homogeneous isotropic_3d",
+            "loads": "nodal dead loads",
+            "first_mode_only": true
+          },
+          "node_count": 68,
+          "element_count": 16,
+          "dof_count": 204
+        },
+        "status": "PASS",
+        "deterministic": true,
+        "factor_absolute_delta": 9.379164112033322e-13,
+        "mode_norm_absolute_delta": 0.0,
+        "residual_absolute_delta": 1.568884105480837e-13,
+        "provenance": {
+          "source_sha": "151662ac4781718a7fbe3d1e527675ec9e513ad4",
+          "source_dirty": false,
+          "captured_at_utc": "2026-08-30T10:51:56.937033Z",
+          "solver_version": "0.2.6a0",
+          "runtime": {
+            "platform": {
+              "system": "Windows",
+              "release": "10",
+              "machine": "AMD64",
+              "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+            },
+            "python": {
+              "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+              "executable": "C:\\Python313\\python.exe"
+            },
+            "packages": {
+              "numpy": "2.2.6",
+              "scipy": "1.15.2",
+              "matplotlib": "3.10.3",
+              "h5py": "3.14.0",
+              "mpi4py": "4.1.0",
+              "petsc4py": null
+            },
+            "blas": {
+              "name": "scipy-openblas",
+              "version": "0.3.29",
+              "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+            },
+            "parallel_environment": {
+              "OMP_NUM_THREADS": null,
+              "MKL_NUM_THREADS": null,
+              "OPENBLAS_NUM_THREADS": null,
+              "PETSC_ARCH": null
+            }
+          }
+        }
+      },
+      {
+        "family": "HEX8",
+        "mesh_level": 32,
+        "first": {
+          "case_id": "G08-BUC-EXT-HEX8-MESH-032-R1",
+          "family": "HEX8",
+          "mesh_level": 32,
+          "status": "PASS",
+          "failure_classification": null,
+          "unexpected_failure": false,
+          "critical_factor": 138.76862284881253,
+          "critical_mode_norm": 1.0,
+          "critical_mode_residual_relative": 7.786341233432683e-13,
+          "eigenpair_residual_status": "PASS",
+          "eigen_backend": "scipy.sparse.linalg.eigsh",
+          "eigen_formulation": "generalized_eigsh",
+          "critical_bracket": {
+            "lower": 0.0,
+            "upper": 138.76862284881253,
+            "method": "generalized_eigsh",
+            "mass_matrix": "-geometric_tangent"
+          },
+          "configuration": {
+            "analysis": "linear_buckling",
+            "method": "eigsh",
+            "material": "homogeneous isotropic_3d",
+            "loads": "nodal dead loads",
+            "first_mode_only": true
+          },
+          "node_count": 132,
+          "element_count": 32,
+          "dof_count": 396,
+          "provenance": {
+            "source_sha": "151662ac4781718a7fbe3d1e527675ec9e513ad4",
+            "source_dirty": false,
+            "captured_at_utc": "2026-08-30T10:51:56.937033Z",
+            "solver_version": "0.2.6a0",
+            "runtime": {
+              "platform": {
+                "system": "Windows",
+                "release": "10",
+                "machine": "AMD64",
+                "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+              },
+              "python": {
+                "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                "executable": "C:\\Python313\\python.exe"
+              },
+              "packages": {
+                "numpy": "2.2.6",
+                "scipy": "1.15.2",
+                "matplotlib": "3.10.3",
+                "h5py": "3.14.0",
+                "mpi4py": "4.1.0",
+                "petsc4py": null
+              },
+              "blas": {
+                "name": "scipy-openblas",
+                "version": "0.3.29",
+                "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+              },
+              "parallel_environment": {
+                "OMP_NUM_THREADS": null,
+                "MKL_NUM_THREADS": null,
+                "OPENBLAS_NUM_THREADS": null,
+                "PETSC_ARCH": null
+              }
+            }
+          }
+        },
+        "second": {
+          "case_id": "G08-BUC-EXT-HEX8-MESH-032-R2",
+          "family": "HEX8",
+          "mesh_level": 32,
+          "status": "PASS",
+          "failure_classification": null,
+          "unexpected_failure": false,
+          "critical_factor": 138.76862284881264,
+          "critical_mode_norm": 1.0,
+          "critical_mode_residual_relative": 1.3700797452516828e-12,
+          "eigenpair_residual_status": "PASS",
+          "eigen_backend": "scipy.sparse.linalg.eigsh",
+          "eigen_formulation": "generalized_eigsh",
+          "critical_bracket": {
+            "lower": 0.0,
+            "upper": 138.76862284881264,
+            "method": "generalized_eigsh",
+            "mass_matrix": "-geometric_tangent"
+          },
+          "configuration": {
+            "analysis": "linear_buckling",
+            "method": "eigsh",
+            "material": "homogeneous isotropic_3d",
+            "loads": "nodal dead loads",
+            "first_mode_only": true
+          },
+          "node_count": 132,
+          "element_count": 32,
+          "dof_count": 396
+        },
+        "status": "PASS",
+        "deterministic": true,
+        "factor_absolute_delta": 1.1368683772161603e-13,
+        "mode_norm_absolute_delta": 0.0,
+        "residual_absolute_delta": 5.914456219084144e-13,
+        "provenance": {
+          "source_sha": "151662ac4781718a7fbe3d1e527675ec9e513ad4",
+          "source_dirty": false,
+          "captured_at_utc": "2026-08-30T10:51:56.937033Z",
+          "solver_version": "0.2.6a0",
+          "runtime": {
+            "platform": {
+              "system": "Windows",
+              "release": "10",
+              "machine": "AMD64",
+              "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+            },
+            "python": {
+              "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+              "executable": "C:\\Python313\\python.exe"
+            },
+            "packages": {
+              "numpy": "2.2.6",
+              "scipy": "1.15.2",
+              "matplotlib": "3.10.3",
+              "h5py": "3.14.0",
+              "mpi4py": "4.1.0",
+              "petsc4py": null
+            },
+            "blas": {
+              "name": "scipy-openblas",
+              "version": "0.3.29",
+              "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+            },
+            "parallel_environment": {
+              "OMP_NUM_THREADS": null,
+              "MKL_NUM_THREADS": null,
+              "OPENBLAS_NUM_THREADS": null,
+              "PETSC_ARCH": null
+            }
+          }
+        }
+      },
+      {
+        "family": "HEX20",
+        "mesh_level": 16,
+        "first": {
+          "case_id": "G08-BUC-EXT-HEX20-MESH-016-R1",
+          "family": "HEX20",
+          "mesh_level": 16,
+          "status": "PASS",
+          "failure_classification": null,
+          "unexpected_failure": false,
+          "critical_factor": 8.40967630765945,
+          "critical_mode_norm": 1.0,
+          "critical_mode_residual_relative": 2.7553170337809087e-14,
+          "eigenpair_residual_status": "PASS",
+          "eigen_backend": "scipy.sparse.linalg.eigs",
+          "eigen_formulation": "generalized_eigs_shift_invert",
+          "critical_bracket": {
+            "lower": 8.40625,
+            "upper": 8.4140625,
+            "method": "generalized_eigs_shift_invert",
+            "mass_matrix": "-geometric_tangent",
+            "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+            "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+            "shift_invert_sigma": 8.41015625,
+            "shift_invert_attempted_shifts": [
+              8.41015625,
+              8.408203125,
+              8.412109375
+            ]
+          },
+          "configuration": {
+            "analysis": "linear_buckling",
+            "method": "eigsh",
+            "material": "homogeneous isotropic_3d",
+            "loads": "nodal dead loads",
+            "first_mode_only": true
+          },
+          "node_count": 200,
+          "element_count": 16,
+          "dof_count": 600,
+          "provenance": {
+            "source_sha": "151662ac4781718a7fbe3d1e527675ec9e513ad4",
+            "source_dirty": false,
+            "captured_at_utc": "2026-08-30T10:51:56.937033Z",
+            "solver_version": "0.2.6a0",
+            "runtime": {
+              "platform": {
+                "system": "Windows",
+                "release": "10",
+                "machine": "AMD64",
+                "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+              },
+              "python": {
+                "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                "executable": "C:\\Python313\\python.exe"
+              },
+              "packages": {
+                "numpy": "2.2.6",
+                "scipy": "1.15.2",
+                "matplotlib": "3.10.3",
+                "h5py": "3.14.0",
+                "mpi4py": "4.1.0",
+                "petsc4py": null
+              },
+              "blas": {
+                "name": "scipy-openblas",
+                "version": "0.3.29",
+                "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+              },
+              "parallel_environment": {
+                "OMP_NUM_THREADS": null,
+                "MKL_NUM_THREADS": null,
+                "OPENBLAS_NUM_THREADS": null,
+                "PETSC_ARCH": null
+              }
+            }
+          }
+        },
+        "second": {
+          "case_id": "G08-BUC-EXT-HEX20-MESH-016-R2",
+          "family": "HEX20",
+          "mesh_level": 16,
+          "status": "PASS",
+          "failure_classification": null,
+          "unexpected_failure": false,
+          "critical_factor": 8.40967630765945,
+          "critical_mode_norm": 0.9999999999999999,
+          "critical_mode_residual_relative": 2.4456845550090223e-14,
+          "eigenpair_residual_status": "PASS",
+          "eigen_backend": "scipy.sparse.linalg.eigs",
+          "eigen_formulation": "generalized_eigs_shift_invert",
+          "critical_bracket": {
+            "lower": 8.40625,
+            "upper": 8.4140625,
+            "method": "generalized_eigs_shift_invert",
+            "mass_matrix": "-geometric_tangent",
+            "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+            "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+            "shift_invert_sigma": 8.41015625,
+            "shift_invert_attempted_shifts": [
+              8.41015625,
+              8.408203125,
+              8.412109375
+            ]
+          },
+          "configuration": {
+            "analysis": "linear_buckling",
+            "method": "eigsh",
+            "material": "homogeneous isotropic_3d",
+            "loads": "nodal dead loads",
+            "first_mode_only": true
+          },
+          "node_count": 200,
+          "element_count": 16,
+          "dof_count": 600
+        },
+        "status": "PASS",
+        "deterministic": true,
+        "factor_absolute_delta": 0.0,
+        "mode_norm_absolute_delta": 1.1102230246251565e-16,
+        "residual_absolute_delta": 3.096324787718865e-15,
+        "provenance": {
+          "source_sha": "151662ac4781718a7fbe3d1e527675ec9e513ad4",
+          "source_dirty": false,
+          "captured_at_utc": "2026-08-30T10:51:56.937033Z",
+          "solver_version": "0.2.6a0",
+          "runtime": {
+            "platform": {
+              "system": "Windows",
+              "release": "10",
+              "machine": "AMD64",
+              "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+            },
+            "python": {
+              "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+              "executable": "C:\\Python313\\python.exe"
+            },
+            "packages": {
+              "numpy": "2.2.6",
+              "scipy": "1.15.2",
+              "matplotlib": "3.10.3",
+              "h5py": "3.14.0",
+              "mpi4py": "4.1.0",
+              "petsc4py": null
+            },
+            "blas": {
+              "name": "scipy-openblas",
+              "version": "0.3.29",
+              "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+            },
+            "parallel_environment": {
+              "OMP_NUM_THREADS": null,
+              "MKL_NUM_THREADS": null,
+              "OPENBLAS_NUM_THREADS": null,
+              "PETSC_ARCH": null
+            }
+          }
+        }
+      },
+      {
+        "family": "HEX20",
+        "mesh_level": 32,
+        "first": {
+          "case_id": "G08-BUC-EXT-HEX20-MESH-032-R1",
+          "family": "HEX20",
+          "mesh_level": 32,
+          "status": "PASS",
+          "failure_classification": null,
+          "unexpected_failure": false,
+          "critical_factor": 8.333621958526527,
+          "critical_mode_norm": 1.0,
+          "critical_mode_residual_relative": 6.645733974571079e-14,
+          "eigenpair_residual_status": "PASS",
+          "eigen_backend": "scipy.sparse.linalg.eigs",
+          "eigen_formulation": "generalized_eigs_shift_invert",
+          "critical_bracket": {
+            "lower": 8.328125,
+            "upper": 8.3359375,
+            "method": "generalized_eigs_shift_invert",
+            "mass_matrix": "-geometric_tangent",
+            "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+            "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+            "shift_invert_sigma": 8.33203125,
+            "shift_invert_attempted_shifts": [
+              8.33203125,
+              8.330078125,
+              8.333984375
+            ]
+          },
+          "configuration": {
+            "analysis": "linear_buckling",
+            "method": "eigsh",
+            "material": "homogeneous isotropic_3d",
+            "loads": "nodal dead loads",
+            "first_mode_only": true
+          },
+          "node_count": 392,
+          "element_count": 32,
+          "dof_count": 1176,
+          "provenance": {
+            "source_sha": "151662ac4781718a7fbe3d1e527675ec9e513ad4",
+            "source_dirty": false,
+            "captured_at_utc": "2026-08-30T10:51:56.937033Z",
+            "solver_version": "0.2.6a0",
+            "runtime": {
+              "platform": {
+                "system": "Windows",
+                "release": "10",
+                "machine": "AMD64",
+                "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+              },
+              "python": {
+                "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+                "executable": "C:\\Python313\\python.exe"
+              },
+              "packages": {
+                "numpy": "2.2.6",
+                "scipy": "1.15.2",
+                "matplotlib": "3.10.3",
+                "h5py": "3.14.0",
+                "mpi4py": "4.1.0",
+                "petsc4py": null
+              },
+              "blas": {
+                "name": "scipy-openblas",
+                "version": "0.3.29",
+                "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+              },
+              "parallel_environment": {
+                "OMP_NUM_THREADS": null,
+                "MKL_NUM_THREADS": null,
+                "OPENBLAS_NUM_THREADS": null,
+                "PETSC_ARCH": null
+              }
+            }
+          }
+        },
+        "second": {
+          "case_id": "G08-BUC-EXT-HEX20-MESH-032-R2",
+          "family": "HEX20",
+          "mesh_level": 32,
+          "status": "PASS",
+          "failure_classification": null,
+          "unexpected_failure": false,
+          "critical_factor": 8.333621958526527,
+          "critical_mode_norm": 1.0,
+          "critical_mode_residual_relative": 6.991116937654739e-14,
+          "eigenpair_residual_status": "PASS",
+          "eigen_backend": "scipy.sparse.linalg.eigs",
+          "eigen_formulation": "generalized_eigs_shift_invert",
+          "critical_bracket": {
+            "lower": 8.328125,
+            "upper": 8.3359375,
+            "method": "generalized_eigs_shift_invert",
+            "mass_matrix": "-geometric_tangent",
+            "generalized_fallback_reason": "generalized eigsh requires a positive-definite -geometric_tangent; the sparse bracketed tangent-eigenvalue path was retained",
+            "shift_invert_strategy": "strictly_interior_dyadic_bracket",
+            "shift_invert_sigma": 8.33203125,
+            "shift_invert_attempted_shifts": [
+              8.33203125,
+              8.330078125,
+              8.333984375
+            ]
+          },
+          "configuration": {
+            "analysis": "linear_buckling",
+            "method": "eigsh",
+            "material": "homogeneous isotropic_3d",
+            "loads": "nodal dead loads",
+            "first_mode_only": true
+          },
+          "node_count": 392,
+          "element_count": 32,
+          "dof_count": 1176
+        },
+        "status": "PASS",
+        "deterministic": true,
+        "factor_absolute_delta": 0.0,
+        "mode_norm_absolute_delta": 0.0,
+        "residual_absolute_delta": 3.453829630836603e-15,
+        "provenance": {
+          "source_sha": "151662ac4781718a7fbe3d1e527675ec9e513ad4",
+          "source_dirty": false,
+          "captured_at_utc": "2026-08-30T10:51:56.937033Z",
+          "solver_version": "0.2.6a0",
+          "runtime": {
+            "platform": {
+              "system": "Windows",
+              "release": "10",
+              "machine": "AMD64",
+              "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+            },
+            "python": {
+              "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+              "executable": "C:\\Python313\\python.exe"
+            },
+            "packages": {
+              "numpy": "2.2.6",
+              "scipy": "1.15.2",
+              "matplotlib": "3.10.3",
+              "h5py": "3.14.0",
+              "mpi4py": "4.1.0",
+              "petsc4py": null
+            },
+            "blas": {
+              "name": "scipy-openblas",
+              "version": "0.3.29",
+              "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+            },
+            "parallel_environment": {
+              "OMP_NUM_THREADS": null,
+              "MKL_NUM_THREADS": null,
+              "OPENBLAS_NUM_THREADS": null,
+              "PETSC_ARCH": null
+            }
+          }
+        }
+      }
+    ]
+  },
+  "external_correlation": {
+    "status": "BLOCKED_EXTERNAL_TOOL",
+    "tool": "CalculiX",
+    "scope": "HEX20, cells=1, same QF model/dead nodal load deck",
+    "result": {
+      "study_id": "VNV-BUCKLING-CALCULIX-SOLID-FAMILIES-025",
+      "status": "BLOCKED_EXTERNAL_TOOL",
+      "maturity": "research",
+      "release_claim": false,
+      "provenance": {
+        "sha": "151662ac4781718a7fbe3d1e527675ec9e513ad4",
+        "worktree_dirty": false
+      },
+      "external_solver": {
+        "name": "CalculiX",
+        "version": "2.20",
+        "image": "qf-solver/calculix-nafems13h:2.20"
+      },
+      "scope": {
+        "elements": [
+          "HEX20"
+        ],
+        "mesh": "regular shared mesh cells=1",
+        "analysis": "linearized tangent buckling",
+        "same_qf_model": true,
+        "requested_modes": 1
+      },
+      "rows": [
+        {
+          "element": "HEX20",
+          "calculix_element": "C3D20",
+          "cells": 1,
+          "node_count": 20,
+          "element_count": 1,
+          "dof_count": 60,
+          "free_equation_count": 36,
+          "lanczos_vectors": 30,
+          "qf_critical_factor": 12.504536591799754,
+          "qf_mode_residual_relative": 9.135415601570759e-15,
+          "deck_sha256": "26b6a3520c9c233da238615acdeb625420895eb288cc6d5689240733caa1bc76",
+          "status": "BLOCKED_EXTERNAL_TOOL",
+          "error_type": "RuntimeError",
+          "error": "CalculiX buckling failed:\n  number of:\n\n   nodes:           20\n   elements:            1\n   one-dimensional elements:            0\n   two-dimensional elements:            0\n   integration points per element:           27\n   degrees of freedom per node:            3\n   layers per element:            1\n\n   distributed facial loads:            0\n   distributed volumetric loads:            0\n   concentrated loads:            8\n   single point constraints:           24\n   multiple point constraints:            1\n   terms in all multiple point constraints:            1\n   tie constraints:            0\n   dependent nodes tied by cyclic constraints:            0\n   dependent nodes in pre-tension constraints:            0\n\n   sets:            2\n   terms in all sets:           17\n\n   materials:            1\n   constants per material and temperature:            2\n   temperature points per material:            1\n   plastic data points per material:            0\n\n   orientations:            0\n   amplitudes:            2\n   data points in all amplitudes:            2\n   print requests:            0\n   transformations:            0\n   property cards:            0\n\n\n STEP            1\n\n Buckling analysis was selected\n"
+        }
+      ],
+      "limitations": [
+        "Numerical correlation only; no physical validation claim.",
+        "First linearized tangent-instability factor only; no post-buckling path.",
+        "The 10 percent band is a bounded correlation screen, not a release-wide tolerance.",
+        "The campaign does not close the general external-correlation matrix by itself.",
+        "A BLOCKED_EXTERNAL_TOOL row records an external executable or input failure; it is not a correlation pass."
+      ],
+      "extension_scope": "HEX20 only; same one-cell QF model and nodal load deck"
+    },
+    "pass_is_not_inferred": true
+  },
+  "high_order_oracle": {
+    "status": "NO_COMPARABLE_ANALYTICAL_ORACLE",
+    "families": [
+      "TET10",
+      "HEX20"
+    ],
+    "basis": "The tracked G08 Euler oracle is TET4-specific; no independent high-order analytical buckling curve is present in the controlled repository evidence."
+  },
+  "pre_harness_exploratory_observation": {
+    "source_sha": "c9d5ce8d7ce456c5d3fdcc5ff43d0fcebb2c0c4c",
+    "status": "ARPACK_NO_CONVERGENCE_OBSERVED_ONCE",
+    "controlled_replay": false,
+    "use_in_acceptance": false,
+    "reason": "An inline exploratory run before the extension harness reached HEX20 level 32 and raised ArpackNoConvergence; the controlled two-replay harness did not reproduce it."
+  },
+  "hex20_diagnosis": {
+    "classification": "CONVERGED_BOUNDED_WITH_HIGH_ORDER_SENSITIVITY",
+    "root_cause": "The high-order factor changes substantially on the coarse historical levels, then reaches a 0.912621% direct change from level 16 to level 32. Both added levels replay deterministically under the unchanged sparse route. The earlier exploratory ARPACK observation was not reproduced by the controlled replay and is retained separately, not used as a PASS basis.",
+    "observations": [
+      "Historical level 8 factor is retained without recomputation.",
+      "Levels 16 and 32 are finite and residual-qualified.",
+      "Both level 16 and level 32 have deterministic replays within the existing 1e-12 policy.",
+      "One pre-harness exploratory probe at the baseline checkpoint observed ARPACK non-convergence; it is not treated as a controlled result.",
+      "CalculiX C3D20 retry is retained as BLOCKED_EXTERNAL_TOOL, not PASS."
+    ],
+    "solver_or_eigensolver_modified": false
+  },
+  "limitations": [
+    "This is supplemental extension evidence; the historical G08 Owner closeout remains unchanged.",
+    "TET4 is unchanged and not rerun in this extension.",
+    "TET10 and HEX8 reach a <=1% final adjacent change at the added level 32, but this does not erase earlier non-monotone changes or create a universal convergence claim.",
+    "HEX20 reaches the <=1% direct-change diagnostic classification in this two-level extension, but remains at its existing bounded G08 Owner decision; no retrospective promotion is proposed.",
+    "The coarse-to-fine history remains strongly mesh-sensitive; no universal high-order convergence claim is made.",
+    "No high-order analytical oracle was found.",
+    "CalculiX HEX20 remains blocked by external execution; Code_Aster is not comparable for this route."
+  ],
+  "functional_code_changed": false,
+  "provenance": {
+    "source_sha": "151662ac4781718a7fbe3d1e527675ec9e513ad4",
+    "source_dirty": false,
+    "captured_at_utc": "2026-08-30T10:51:56.937033Z",
+    "solver_version": "0.2.6a0",
+    "runtime": {
+      "platform": {
+        "system": "Windows",
+        "release": "10",
+        "machine": "AMD64",
+        "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+      },
+      "python": {
+        "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+        "executable": "C:\\Python313\\python.exe"
+      },
+      "packages": {
+        "numpy": "2.2.6",
+        "scipy": "1.15.2",
+        "matplotlib": "3.10.3",
+        "h5py": "3.14.0",
+        "mpi4py": "4.1.0",
+        "petsc4py": null
+      },
+      "blas": {
+        "name": "scipy-openblas",
+        "version": "0.3.29",
+        "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+      },
+      "parallel_environment": {
+        "OMP_NUM_THREADS": null,
+        "MKL_NUM_THREADS": null,
+        "OPENBLAS_NUM_THREADS": null,
+        "PETSC_ARCH": null
+      }
+    }
+  },
+  "artifact_digests": {
+    "g08_mesh_extension_report.md": "116317fac176d8a3b95599155f3c15df5ba97be0743cb56fb8909a150557f9bf",
+    "calculix_hex20/summary.json": "16f53dd05bacbadb1456c52bddc830073198645031be7d27d1f16d5a7afca5c0",
+    "g08_mesh_extension_evidence.md": "116317fac176d8a3b95599155f3c15df5ba97be0743cb56fb8909a150557f9bf"
+  },
+  "evidence_content_sha256": "904c672fd10094b29f68d2a72fcfaa154c6e7d6a718296beb7b5ff40b68c0b1c",
+  "canonical_summary_content_sha256": "904c672fd10094b29f68d2a72fcfaa154c6e7d6a718296beb7b5ff40b68c0b1c"
+}

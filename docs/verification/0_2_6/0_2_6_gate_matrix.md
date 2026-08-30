@@ -49,3 +49,16 @@ Code_Aster is `SKIPPED_NOT_COMPARABLE`. No post-buckling, multi-mode or
 general physical-validation claim is made. Numerical evidence is tied to
 execution source SHA `6589443e1404a2749ac6c0a9b911f00dd9cb8753`, with the
 Owner/documentation commit kept separate.
+
+Supplemental mesh-extension evidence is archived in
+`qualification/0_2_6/g08_mesh_extension_evidence.json` and
+`qualification/0_2_6/g08_mesh_extension_evidence.md`. It reuses the historical
+1/2/4/8 levels and adds 16/32 for TET10, HEX8 and HEX20 on source SHA
+`151662ac4781718a7fbe3d1e527675ec9e513ad4`. The 12 extension observations
+including deterministic replays are PASS. The final direct changes are TET10
+`0.081448%`, HEX8 `0.167113%` and HEX20 `0.912621%`, so each is classified
+`CONVERGED_BOUNDED` by the unchanged diagnostic rule. This evidence is
+supplemental only: the historical Owner family decisions are unchanged, no
+universal convergence claim is made, HEX20 CalculiX remains
+`BLOCKED_EXTERNAL_TOOL`, and no comparable high-order analytical oracle was
+identified.

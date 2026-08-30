@@ -77,6 +77,21 @@ is partial external evidence, not a universal correlation claim. The mesh
 final-adjacent `<=1%` eligibility is reached by TET4 only in this campaign;
 TET10, HEX8 and HEX20 remain bounded trend evidence.
 
+## Supplemental mesh extension
+
+The supplemental extension is archived in
+`qualification/0_2_6/g08_mesh_extension_evidence.json` and
+`qualification/0_2_6/g08_mesh_extension_evidence.md`. It reuses the historical
+levels 1/2/4/8 and executes levels 16 and 32 for TET10, HEX8 and HEX20 on
+source SHA `151662ac4781718a7fbe3d1e527675ec9e513ad4`, with `dirty=false`.
+All 12 extension observations, including deterministic replays, passed. The
+direct level-16-to-level-32 changes are TET10 `0.081448%`, HEX8 `0.167113%`
+and HEX20 `0.912621%`, classified `CONVERGED_BOUNDED` under the unchanged
+Owner policy. This supplemental evidence does not alter the historical Owner
+closeout or promote any family retrospectively. HEX20 remains bounded evidence
+with strong coarse-history sensitivity, no comparable high-order analytical
+oracle, and a `BLOCKED_EXTERNAL_TOOL` CalculiX retry.
+
 ## Owner closeout
 
 The Owner decision is `PASS_WITH_LIMITATIONS`, with no solver or numerical
