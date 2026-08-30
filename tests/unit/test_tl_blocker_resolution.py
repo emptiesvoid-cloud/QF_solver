@@ -28,3 +28,21 @@ def test_blocker_resolution_study_contract_is_diagnostic_only() -> None:
 def test_no_policy_is_auto_approved() -> None:
     assert "OWNER_APPROVED" not in "PROPOSED_OWNER_REVIEW"
     assert "PASS" not in "OBSERVATION_ONLY"
+
+
+def test_adjacent_mesh_comparison_uses_shifted_levels() -> None:
+    from run_tl_blocker_resolution import _adjacent_changes
+
+    rows = [
+        {
+            "family": "TET4",
+            "mode": "bending_z",
+            "cells": cells,
+            "maximum_displacement": float(cells),
+            "reaction_norm": float(cells),
+            "strain_energy": float(cells),
+        }
+        for cells in MESH_LEVELS
+    ]
+    changes = _adjacent_changes(rows)
+    assert len(changes) == len(MESH_LEVELS) - 1

@@ -250,7 +250,7 @@ def _adjacent_changes(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
                 (item for item in rows if item["family"] == family and item["mode"] == mode),
                 key=lambda item: item["cells"],
             )
-            for previous, current in zip(selected, selected[1:], strict=True):
+            for previous, current in zip(selected, selected[1:]):
                 values = {
                     name: abs(current[name] - previous[name]) / max(abs(current[name]), 1.0e-15)
                     for name in ("maximum_displacement", "reaction_norm", "strain_energy")
