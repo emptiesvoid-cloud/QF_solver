@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "closeout_id": "026-G04-OWNER-CLOSEOUT-001",
+  "gate": "026-G04",
+  "status": "PASS_WITH_LIMITATIONS",
+  "start_sha": "cfed7ef8c4e473778c06e1d005a17651cf5b34ca",
+  "source_evidence": "qualification/0_2_6/g04_targeted_blocker_closure.json",
+  "owner_decision": "PASS_WITH_LIMITATIONS",
+  "global_gate_update": "DEFERRED_TO_MULTI_AGENT_CONSOLIDATION",
+  "no_other_gate_changed": true,
+  "requirements": [
+    {
+      "requirement_id": "G04-LIN-001",
+      "evidence_level": "L2/L3",
+      "decision": "SATISFIED_BOUNDED",
+      "limitation": "Dispatch and supported combinations are qualified only for the executed linear_static cases; DISCRETE is not claimed and no untested element/material/load combination is generalized."
+    },
+    {
+      "requirement_id": "G04-LIN-002",
+      "evidence_level": "L2/L3",
+      "decision": "SATISFIED_BOUNDED",
+      "limitation": "Patch, constant-strain and rigid-body evidence is accepted only where mathematically applicable and present in the existing family tests; no universal family-wide patch claim is made."
+    },
+    {
+      "requirement_id": "G04-LIN-003",
+      "evidence_level": "L2",
+      "decision": "SATISFIED",
+      "limitation": "The decision applies to the executed supported nodal/distributed load cases and their declared boundary conditions; it is not a claim for unsupported load conventions."
+    },
+    {
+      "requirement_id": "G04-LIN-004",
+      "evidence_level": "L2",
+      "decision": "SATISFIED_BOUNDED",
+      "limitation": "Existing linear isotropic material routes are bounded by the executed evidence. Orthotropic and laminate extensions remain explicitly non-qualified and do not receive maturity promotion."
+    },
+    {
+      "requirement_id": "G04-LIN-005",
+      "evidence_level": "L2",
+      "decision": "DEFERRED_LIMITATION",
+      "limitation": "The new predeclared four-level HEX8 response series passes, but broader family-wide refinement and quality/distortion evidence is not sufficient for an unrestricted requirement claim."
+    },
+    {
+      "requirement_id": "G04-LIN-006",
+      "evidence_level": "L2",
+      "decision": "SATISFIED",
+      "limitation": "The controlled invalid-input corpus covers the identified G04 categories; future API additions require their own rejection contracts."
+    },
+    {
+      "requirement_id": "G04-LIN-007",
+      "evidence_level": "L0_EXTERNAL_UNAVAILABLE",
+      "decision": "DEFERRED_LIMITATION",
+      "limitation": "Code_Aster and CalculiX are unavailable. This does not block the bounded 0.2.6 G04 decision, but an external campaign is required before any release claim that includes external correlation. SKIPPED_UNAVAILABLE is not PASS."
+    },
+    {
+      "requirement_id": "G04-LIN-008",
+      "evidence_level": "L2",
+      "decision": "SATISFIED",
+      "limitation": "This closeout remains a branch-local Owner decision; global gate consolidation is intentionally deferred to the multi-agent integration."
+    }
+  ],
+  "qualified_bounded_scope": {
+    "analysis": "linear_static",
+    "kinematics": "small_displacement_linear_elastic",
+    "materials": ["beam_isotropic", "shell_isotropic", "isotropic_3d", "discrete_linear only where separately qualified"],
+    "qualified_families": ["BEAM2", "MITC3/MITC3+", "MITC4", "TET4", "TET10", "HEX8", "HEX20"],
+    "qualified_basis": "only the element/material/load/boundary combinations actually exercised by the 65/65 campaign and the controlled HEX8 refinement/invalid-input studies",
+    "excluded_claims": [
+      "DISCRETE element qualification",
+      "RBE2 qualification (diagnostic-only)",
+      "orthotropic material qualification",
+      "laminate extension qualification",
+      "unsupported element/material/load combinations",
+      "nonlinear, TL, Newton, arc-length, rescue or G07/TL behavior",
+      "external correlation PASS"
+    ]
+  },
+  "explicit_limitations": [
+    "G04-LIN-005 remains deferred for broader family-wide mesh quality/distortion evidence.",
+    "G04-LIN-007 remains deferred because both external executables are unavailable.",
+    "Orthotropic/laminate extensions remain non-qualified.",
+    "DISCRETE is NOT_APPLICABLE and RBE2 is DIAGNOSTIC_ONLY.",
+    "The global 026-G04 status is not changed by this branch-local artifact."
+  ],
+  "external_evidence_status": {
+    "Code_Aster": "SKIPPED_UNAVAILABLE",
+    "CalculiX": "SKIPPED_UNAVAILABLE",
+    "future_release_requirement": "external campaign before release if external-correlation claims are in scope"
+  },
+  "discrete_status": "NOT_APPLICABLE",
+  "rbe2_status": "DIAGNOSTIC_ONLY",
+  "functional_code_changed": false,
+  "owner_closeout_requires_no_new_campaign": true,
+  "ready_for_multi_agent_integration": true,
+  "ready_for_next_agent_b_gate": true,
+  "remaining_blockers": [
+    "Owner/integration must consolidate the branch-local G04 decision without altering G07/TL.",
+    "Broader mesh quality/distortion evidence remains future work if the bounded scope is expanded.",
+    "External correlation remains required before any release claim that includes it."
+  ]
+}
