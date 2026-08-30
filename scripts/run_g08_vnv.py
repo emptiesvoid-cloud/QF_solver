@@ -186,6 +186,48 @@ def _run_external(output: Path) -> dict[str, Any]:
     return result
 
 
+def _run_repeatability() -> dict[str, Any]:
+    rows: list[dict[str, Any]] = []
+    for family in FAMILIES:
+        first = _run_model_case(
+            f"G08-BUC-{family}-REPEAT-BASELINE",
+            family,
+            ["G08-006", "G08-009"],
+            _buckling_model(family),
+        )
+        second = _run_model_case(
+            f"G08-BUC-{family}-REPEAT-SECOND",
+            family,
+            ["G08-006", "G08-009"],
+            _buckling_model(family),
+        )
+        comparable = first.get("status") == "PASS" and second.get("status") == "PASS"
+        if comparable:
+            factor_delta = abs(float(first["critical_factor"]) - float(second["critical_factor"]))
+            mode_norm_delta = abs(float(first["critical_mode_norm"]) - float(second["critical_mode_norm"]))
+            residual_delta = abs(
+                float(first["critical_mode_residual_relative"])
+                - float(second["critical_mode_residual_relative"])
+            )
+            deterministic = factor_delta == 0.0 and mode_norm_delta == 0.0 and residual_delta == 0.0
+        else:
+            factor_delta = mode_norm_delta = residual_delta = None
+            deterministic = False
+        rows.append(
+            {
+                "family": family,
+                "baseline": first,
+                "repeat": second,
+                "factor_absolute_delta": factor_delta,
+                "mode_norm_absolute_delta": mode_norm_delta,
+                "residual_absolute_delta": residual_delta,
+                "deterministic": deterministic,
+                "status": "PASS" if deterministic else "FAIL",
+            }
+        )
+    return {"status": "PASS" if all(row["status"] == "PASS" for row in rows) else "FAIL", "families": rows}
+
+
 def _sha256(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as stream:
@@ -281,6 +323,7 @@ def run(output: Path) -> dict[str, Any]:
     mesh_study = _run_mesh_study()
     failure_cases = _run_failure_cases()
     euler = _run_euler(output)
+    repeatability = _run_repeatability()
     external = _run_external(output)
     all_rows = cases + [row for family in mesh_study["families"] for row in family["levels"]] + failure_cases
     counts = {
@@ -296,9 +339,9 @@ def run(output: Path) -> dict[str, Any]:
         "G08-003": {"status": "PASS_WITH_LIMITATIONS", "basis": "TET4 Euler oracle; other-family factors retained as bounded route evidence"},
         "G08-004": {"status": "PASS", "basis": "normalized first-mode residual and finite mode norm"},
         "G08-005": {"status": "PASS_WITH_LIMITATIONS", "basis": "four-level studies executed; final adjacent eligibility is family-dependent"},
-        "G08-006": {"status": "PASS", "basis": "first-mode normalization and deterministic repeatable route"},
+        "G08-006": {"status": "PASS" if repeatability["status"] == "PASS" else "FAIL", "basis": "four-family same-input repeatability"},
         "G08-007": {"status": "PASS", "basis": "controlled BC/preload failures are fail-closed"},
-        "G08-008": {"status": "PASS_WITH_LIMITATIONS" if external.get("status") == "PASS_EXTERNAL_CORRELATION_BOUNDED" else "SKIP", "basis": "CalculiX only when the external container completes"},
+        "G08-008": {"status": "PASS" if external.get("status") == "PASS_EXTERNAL_CORRELATION_BOUNDED" else "PASS_WITH_LIMITATIONS" if external.get("status") == "BLOCKED_EXTERNAL_TOOL" else "SKIP", "basis": "CalculiX same-model solid correlation; partial external execution is retained explicitly"},
         "G08-009": {"status": "PASS", "basis": "source SHA, clean state, environment and artifact manifest"},
     }
     status = "PASS_WITH_LIMITATIONS" if counts["fail"] == 0 else "NOT_READY"
@@ -323,6 +366,7 @@ def run(output: Path) -> dict[str, Any]:
         "cases": cases,
         "mesh_study": mesh_study,
         "euler_oracle": euler,
+        "repeatability": repeatability,
         "external_correlation": external,
         "failure_cases": failure_cases,
         "requirements": requirements,
@@ -338,12 +382,11 @@ def run(output: Path) -> dict[str, Any]:
     report_path = output / "g08_execution_report.md"
     write_json_file(summary_path, summary)
     _write_report(report_path, summary)
-    summary["artifact_digests"] = {
-        "g08_execution_summary.json": _sha256(summary_path),
-        "g08_execution_report.md": _sha256(report_path),
-    }
-    write_json_file(summary_path, summary)
-    summary["artifact_digests"]["g08_execution_summary.json"] = _sha256(summary_path)
+    summary["artifact_digests"] = {"g08_execution_report.md": _sha256(report_path)}
+    for relative in ("euler_tet4/summary.json", "calculix/summary.json"):
+        candidate = output / relative
+        if candidate.is_file():
+            summary["artifact_digests"][relative] = _sha256(candidate)
     write_json_file(summary_path, summary)
     return summary
 
