@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "contract_id": "026-G12-OPTIMIZATION",
+  "status": "CONTROLLED_PERFORMANCE_OPTIMIZATION",
+  "start_sha": "c967903956c82fcae6a23c9a946ddcd8bf93306e",
+  "scope": {
+    "route": "linear_static",
+    "family": "TET4",
+    "target": "optimize the measured PYTHON_ASSEMBLY/load_balance wall without changing formulation or solver policy"
+  },
+  "allowed_changes": [
+    "linear load assembly and balance implementation",
+    "mutation-sensitive cache for immutable mesh-quality metrics",
+    "verification runners and evidence"
+  ],
+  "forbidden_changes": [
+    "element formulation or physical model",
+    "Newton/nonlinear/TL/G07/G08/G09/G11 behavior",
+    "solver method, convergence thresholds or defaults",
+    "multiprocessing, Numba or Cython in this lot"
+  ],
+  "baseline_policy": {
+    "required_targets": [3000, 10125],
+    "required_fields": [
+      "assembly_seconds",
+      "linear_solve_seconds",
+      "wall_total_seconds",
+      "case_peak_rss_bytes",
+      "global_stiffness_nnz",
+      "solution_checksum",
+      "relative_residual_norm"
+    ],
+    "source": "corrected 026-G12 Lot-2 evidence captured before this optimization"
+  },
+  "acceptance": {
+    "full_solve_targets": [3000, 10000, 30000, 100000],
+    "assembly_only_probes": [300000, 1000000],
+    "numerical": "same status, global nnz and displacement checksum; residual remains finite and within the existing route policy",
+    "resource": "stop cleanly at 300 seconds or 4 GiB RSS for assembly-only probes; classify RESOURCE_LIMITED",
+    "memory": "reject any optimization whose memory growth is disproportionate to the measured CSR/DOF trend",
+    "full_regression": "required because src/solveur changes"
+  },
+  "method_policy": {
+    "load_balance": "direct nodal contributions and vectorized contiguous translation layout",
+    "quality_cache": "cache only geometry/connectivity/threshold-dependent quality values; invalidate on mutation",
+    "batch_strategy": "existing bounded stiffness chunk size 256; no global element-by-element dense array"
+  }
+}

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+import hashlib
 from typing import Any
 
 import numpy as np
@@ -48,6 +49,9 @@ class MeshValidator:
     """Validate model references, dofs and element geometry before solving."""
     def __init__(self, thresholds: MeshQualityThresholds | None = None) -> None:
         self.thresholds = thresholds or MeshQualityThresholds()
+        self._quality_cache_key: tuple[Any, ...] | None = None
+        self._quality_cache_value: tuple[list[dict[str, Any]], tuple[str, ...]] | None = None
+
     def validate(self, model: FiniteElementModel) -> MeshReport:
         errors: list[str] = []
         warnings: list[str] = []
@@ -148,7 +152,17 @@ class MeshValidator:
             self._check_element_geometry(index, element.type, coords, errors, warnings)
 
     def _element_quality_details(self, model: FiniteElementModel, warnings: list[str]) -> list[dict[str, Any]]:
+        cache_key = self._quality_cache_fingerprint(model)
+        if cache_key == self._quality_cache_key and self._quality_cache_value is not None:
+            cached_details, cached_warnings = self._quality_cache_value
+            warnings.extend(cached_warnings)
+            return [
+                {**entry, "quality_warnings": list(entry.get("quality_warnings", []))}
+                for entry in cached_details
+            ]
+
         details: list[dict[str, Any]] = []
+        warning_start = len(warnings)
         for index, element in enumerate(model.elements):
             if any(node < 0 or node >= model.node_count for node in element.nodes):
                 continue
@@ -197,7 +211,25 @@ class MeshValidator:
             entry["quality_warnings"] = local_warnings
             warnings.extend(local_warnings)
             details.append(entry)
+        self._quality_cache_key = cache_key
+        self._quality_cache_value = (details, tuple(warnings[warning_start:]))
         return details
+
+    def _quality_cache_fingerprint(self, model: FiniteElementModel) -> tuple[Any, ...]:
+        """Return a mutation-sensitive key for geometry-only quality metrics."""
+        node_digest = hashlib.sha256(
+            np.ascontiguousarray(model.nodes, dtype=np.float64).tobytes()
+        ).hexdigest()
+        element_digest = hashlib.sha256()
+        for element in model.elements:
+            encoded_type = element.type.encode("utf-8")
+            element_digest.update(len(encoded_type).to_bytes(4, "little"))
+            element_digest.update(encoded_type)
+            nodes = np.asarray(element.nodes, dtype=np.int64)
+            element_digest.update(len(nodes).to_bytes(4, "little"))
+            element_digest.update(nodes.tobytes())
+        threshold_values = tuple((name, float(value)) for name, value in self.thresholds.to_dict().items())
+        return (model.node_count, node_digest, element_digest.hexdigest(), threshold_values)
 
     def _tet_quality_warnings(self, index: int, element_type: str, metrics: dict[str, float]) -> list[str]:
         thresholds = self.thresholds

@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from scripts.benchmark_g12_lot2 import build_diagnostic_report, _same_domain_model, build_model, run_measured_case
+from scripts.benchmark_g12_lot2 import _assembly_only_case, _same_domain_model, build_diagnostic_report, build_model, run_measured_case
 
 
 def test_g12_lot2_contract_declares_unambiguous_nnz_and_timeout() -> None:
@@ -53,3 +53,11 @@ def test_diagnostic_aggregate_preserves_completed_measurement_scope() -> None:
     assert report["numerical_regression"]["detected"] == "NO"
     assert report["bottleneck_classification"]["primary"] == "PYTHON_ASSEMBLY"
     assert all(candidate["implemented"] is False for candidate in report["optimization_candidates"])
+
+
+def test_assembly_only_probe_is_finite_and_does_not_solve() -> None:
+    report = _assembly_only_case(lambda: build_model("TET4", 100), "unit assembly")
+    assert report["status"] == "PASS"
+    assert report["finite_metrics"] is True
+    assert report["linear_solve_seconds"] is None
+    assert report["global_stiffness_nnz"] > 0

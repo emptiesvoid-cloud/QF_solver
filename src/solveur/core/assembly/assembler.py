@@ -8,7 +8,7 @@ from time import perf_counter
 import warnings
 
 from solveur.core.assembly.plan import AssemblyElementPlan, AssemblyPlan
-from solveur.core.dofs import DOF_ORDER, DofManager
+from solveur.core.dofs import DOF_ORDER, DofManager, normalize_dof_name
 from solveur.core.errors import InputValidationError
 from solveur.core.model import FiniteElementModel
 from solveur.core.assembly.sparse import SparseCsrAccumulator
@@ -198,12 +198,23 @@ class GlobalAssembler:
         details: list[dict[str, object]] = []
         total = np.zeros(dofs.ndof, dtype=float)
         for index, load in enumerate(model.loads):
-            vector = np.zeros(dofs.ndof, dtype=float)
-            vector[dofs.index(load.node, load.dof)] = load.value
-            resultant, moment = load_balance(model, dofs, vector)
-            total += vector
+            load_dof = normalize_dof_name(load.dof)
+            global_index = dofs.index(load.node, load_dof)
+            value = float(load.value)
+            total[global_index] += value
             if keep_vectors:
+                vector = np.zeros(dofs.ndof, dtype=float)
+                vector[global_index] = value
                 vectors.append(vector)
+            component = DOF_ORDER.index(load_dof)
+            force = np.zeros(3, dtype=float)
+            couple = np.zeros(3, dtype=float)
+            if component < 3:
+                force[component] = value
+            else:
+                couple[component - 3] = value
+            resultant = force
+            moment = np.cross(model.nodes[load.node], force) + couple
             details.append(
                 {
                     "index": index,
@@ -212,7 +223,7 @@ class GlobalAssembler:
                     "dof": load.dof,
                     "resultant": resultant.tolist(),
                     "moment_about_origin": moment.tolist(),
-                    "vector_norm": float(np.linalg.norm(vector)),
+                    "vector_norm": abs(value),
                     "nonzero_dof_count": int(abs(load.value) > 1.0e-30),
                 }
             )
