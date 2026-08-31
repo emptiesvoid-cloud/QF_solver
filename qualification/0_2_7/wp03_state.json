@@ -4,7 +4,7 @@
   "gate": "027-G03",
   "status": "PASS",
   "start_sha": "ba6111a257ae567e496adcbcdc74de392dd66b6e",
-  "evidence_head": "PENDING_COMMIT",
+  "evidence_head": "507e5c65cc7094eb7a362333b0e8f71d3cedf551",
   "scope": "technical element descriptors and fail-closed compatibility preflight",
   "descriptor_source": "src/solveur/compatibility/descriptors.py",
   "preflight_source": "src/solveur/compatibility/preflight.py",

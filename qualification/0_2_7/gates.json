@@ -39,7 +39,7 @@
       "title": "Element descriptors and compatibility preflight",
       "status": "PASS",
       "start_sha": "ba6111a257ae567e496adcbcdc74de392dd66b6e",
-      "evidence_head": "PENDING_COMMIT",
+      "evidence_head": "507e5c65cc7094eb7a362333b0e8f71d3cedf551",
       "depends_on": ["027-G02"],
       "go": ["supported combinations are accepted deterministically", "unsupported combinations are explicit"],
       "stop": ["default numerical behavior changes", "public API break", "implicit fallback"],
