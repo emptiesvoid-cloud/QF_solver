@@ -66,10 +66,11 @@ def test_g06_documentation_matches_machine_readable_gate() -> None:
     assert "| `026-G06` | J2 maturity extension | NOT_STARTED |" not in gate_doc
 
 
-def test_g07_gate_references_contract_without_closing() -> None:
+def test_g07_gate_references_owner_closeout() -> None:
     gates = _load("gates.json")
     g07 = next(row for row in gates["gates"] if row["id"] == "026-G07")
 
-    assert g07["status"] == "NOT_STARTED"
+    assert g07["status"] == "PASS_WITH_LIMITATIONS"
     assert "g07_requirements.json" in g07["evidence_ids"]
     assert "g07_capability_matrix.json" in g07["evidence_ids"]
+    assert "g07_owner_closeout.json" in g07["evidence_ids"]

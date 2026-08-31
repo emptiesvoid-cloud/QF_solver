@@ -28,8 +28,8 @@ maintained in [`qualification/0_2_6/gates.json`](qualification/0_2_6/gates.json)
 
 Current gate status is maintained in
 [`qualification/0_2_6/gates.json`](qualification/0_2_6/gates.json): G00-G03 are
-`PASS`, G04-G06 are `PASS_WITH_LIMITATIONS`, G07 is `NOT_STARTED`, G08-G13 are
-`PASS_WITH_LIMITATIONS`, and G14-G15 are `NOT_STARTED`. Gate status does not
+`PASS`, G04-G13 are `PASS_WITH_LIMITATIONS`, and G14-G15 are `NOT_STARTED`.
+G07 remains explicitly bounded by its Owner closeout; gate status does not
 expand the scope of an individual capability.
 
 ## Capability overview
@@ -52,9 +52,9 @@ mapping is in [`capability_coverage.md`](docs/verification/0_2_6/capability_cove
 
 | Element family | Linear static | Modal / dynamic / harmonic | Small-strain J2 | TL / geometric nonlinear | Buckling | Contact |
 | --- | --- | --- | --- | --- | --- | --- |
-| TET4 | Bounded | Bounded with limitations | Qualified bounded | Experimental / G07 not started | Qualified bounded | Bounded cases |
+| TET4 | Bounded | Bounded with limitations | Qualified bounded | Bounded / G07 limitations | Qualified bounded | Bounded cases |
 | TET10 | Bounded | Bounded with limitations | Qualified bounded | Research / not qualified | Bounded with limitations | Case-dependent |
-| HEX8 | Bounded | Bounded with limitations | Qualified bounded | Experimental / G07 not started | More evidence required | Bounded cases |
+| HEX8 | Bounded | Bounded with limitations | Qualified bounded | Not qualified / G07 limitation | More evidence required | Bounded cases |
 | HEX20 | Bounded | Bounded with limitations | Qualified bounded | Research / not qualified | Bounded with limitations | Case-dependent |
 | BEAM2 | Experimental or case-bounded | Controlled G05 cases | Not claimed | Not claimed | Not claimed | Not claimed |
 | MITC3 / MITC4 | Experimental or case-bounded | Controlled G05 cases | Not claimed | Not claimed | Not claimed | Not claimed |
@@ -66,9 +66,9 @@ mapping is in [`capability_coverage.md`](docs/verification/0_2_6/capability_cove
   linear analyses.
 - Small-strain J2 is bounded to the four solid families listed above. It is
   not a finite-strain plasticity claim.
-- Total-Lagrangian elasticity has bounded internal evidence for TET4 and HEX8,
-  but its G07 promotion is parked pending compatible external evidence. TET10
-  and HEX20 remain research routes for this capability.
+- Total-Lagrangian elasticity is bounded and Owner-reviewed for TET4 under G07;
+  HEX8 complete-history behavior is not qualified. TET10 and HEX20 remain
+  research routes for this capability.
 - Existing arc-length, finite-kinematic J2 and coupled nonlinear routes remain
   experimental, deferred or not qualified according to their gate evidence.
 - Friction is outside the current release scope. No Coulomb, mortar or
@@ -108,8 +108,10 @@ multi-million-DOF solving is made.
 The following routes are visible so that their limits are not mistaken for
 missing functionality:
 
-- G07 geometric nonlinear and arc-length review is `NOT_STARTED`; TL evidence
-  is parked and arc-length remains experimental.
+- G07 geometric nonlinear and arc-length review is
+  `PASS_WITH_LIMITATIONS`: the bounded TET4 TL and Arc-Length claims are
+  limited to the Owner closeout scope; HEX8 complete history and refined
+  Arc-Length comparability remain excluded/deferred.
 - Finite-kinematic J2 and coupled nonlinear workflows are research or
   experimental routes under G06/G10, not qualified release capabilities.
 - Orthotropic/laminate, shell/beam/discrete extensions, PETSc/SLEPc and large

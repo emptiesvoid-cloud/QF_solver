@@ -67,7 +67,7 @@ def test_g13_gate_links_only_its_own_aggregation_artifacts() -> None:
         "g13_owner_closeout.json",
         "0_2_6_g13_external_correlations.md",
     ]
-    assert next(item for item in gates["gates"] if item["id"] == "026-G07")["status"] == "NOT_STARTED"
+    assert next(item for item in gates["gates"] if item["id"] == "026-G07")["status"] == "PASS_WITH_LIMITATIONS"
 
 
 def test_g13_owner_closeout_has_no_current_blocking_gap() -> None:

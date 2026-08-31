@@ -9,8 +9,8 @@
     {
       "path": "docs/verification/0_2_6/0_2_6_g10_selected_external_campaign.md",
       "role": "verification_report",
-      "sha256": "4b1a703294b8dab94ca38207cfe86ba5f126464bfb5f0f48460fd2062040f518",
-      "size_bytes": 4173
+      "sha256": "f8c9c431fc47699cf36e668b89a962d747b1a35c372732b9f9c6814ad3fdbd10",
+      "size_bytes": 4176
     },
     {
       "path": "qualification/0_2_6/g10_selected_external_inputs/arc_length.comm",
