@@ -106,7 +106,7 @@ class _ProbeAssembly:
             "determinant_max": float(np.max(determinant_values)),
         }
         if tangent is None:
-            record["tangent_finite"] = False
+            record["tangent_finite"] = not tangent_required
         else:
             tangent_data = np.asarray(tangent.data, dtype=float)
             reduced = tangent[self.free, :][:, self.free]
@@ -237,7 +237,7 @@ def _adaptive_probe() -> dict[str, Any]:
                     and bool(rejection_log)
                     and all(
                         bool(row.get("failure_diagnostics", {}).get("rollback_verified"))
-                        for row in case["rejected_attempts"]
+                        for row in rejection_log
                     ),
                 }
             )
