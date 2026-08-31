@@ -113,9 +113,9 @@ used as a qualification PASS. On that basis, `026-G13` is closed as
 
 The following active statuses are unchanged:
 
-- G04, G05, G06, G08, G09, G10, G11 and G12 retain their existing
-  `PASS_WITH_LIMITATIONS` decisions;
-- G07 remains `NOT_STARTED` and is not promoted by G13;
+- G04, G05, G06, G07, G08, G09, G10, G11 and G12 retain their existing
+  decisions, including their bounded limitations;
+- G07 remains `PASS_WITH_LIMITATIONS` and is not changed or broadened by G13;
 - finite-kinematic J2 and coupled nonlinear routes remain experimental or
   research-only;
 - CalculiX remains a supporting correlation route when comparable, not a
