@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "work_package": "WP03",
+  "gate": "027-G03",
+  "status": "PASS",
+  "start_sha": "ba6111a257ae567e496adcbcdc74de392dd66b6e",
+  "evidence_head": "PENDING_COMMIT",
+  "scope": "technical element descriptors and fail-closed compatibility preflight",
+  "descriptor_source": "src/solveur/compatibility/descriptors.py",
+  "preflight_source": "src/solveur/compatibility/preflight.py",
+  "registry_source_of_maturity": "qualification/0_2_7/capability_registry_v2.json",
+  "element_families": ["BEAM2", "MITC3", "MITC4", "TET4", "TET10", "HEX8", "HEX20", "DISCRETE"],
+  "wedge6_implemented": false,
+  "new_physics_implemented": false,
+  "numerical_results_changed": false,
+  "targeted_evidence": {
+    "descriptor_preflight_tests": "PASS",
+    "existing_workflow_tests": "PASS",
+    "full_regression": "NOT_RUN"
+  },
+  "route_statuses": ["SUPPORTED_ROUTE", "EXPERIMENTAL_ROUTE", "NOT_QUALIFIED_ROUTE", "UNSUPPORTED_ROUTE"],
+  "diagnostic_contract": "deterministic status, reason, message and normalized combination",
+  "artifact_classification": "CONTROLLED_PROOF"
+}

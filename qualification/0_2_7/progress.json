@@ -4,7 +4,7 @@
   "theme": "Prismatic Solid Interoperability and Numerical Robustness",
   "baseline_sha": "e839373b6aef291a93292186d7553ba5cd12af55",
   "branch": "dedicated 0.2.7 foundation branch",
-  "status": "WP02_PASS",
+  "status": "WP03_PASS",
   "full_regression_run": false,
   "numerical_source_changed": false,
   "new_physics_implemented": false,
@@ -19,7 +19,7 @@
   "work_packages": [
     {"id": "WP01", "gate": "027-G01", "status": "PASS", "start_sha": "e99289aca40011ca0424944099e2d2093cf21a65", "evidence_head": "bb822839248b5ffb9faef5d79a6c83f288faefb3"},
     {"id": "WP02", "gate": "027-G02", "status": "PASS", "start_sha": "3058dbcf53967dc50f70814a71b4094d61023dda", "evidence_head": "8fc9a6eb1bac4b88c893d8d83d31aa77ce1d4a81", "owner_decision": "registry v2 contract"},
-    {"id": "WP03", "gate": "027-G03", "status": "NOT_STARTED", "start_sha": null, "evidence_head": null},
+    {"id": "WP03", "gate": "027-G03", "status": "PASS", "start_sha": "ba6111a257ae567e496adcbcdc74de392dd66b6e", "evidence_head": "PENDING_COMMIT", "owner_decision": "technical descriptor and fail-closed preflight"},
     {"id": "WP04", "gate": "027-G04", "status": "NOT_STARTED", "start_sha": null, "evidence_head": null},
     {"id": "WP05", "gate": "027-G05", "status": "NOT_STARTED", "start_sha": null, "evidence_head": null},
     {"id": "WP06", "gate": "027-G06", "status": "NOT_STARTED", "start_sha": null, "evidence_head": null},

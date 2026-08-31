@@ -9,6 +9,7 @@ from solveur.core.analyses.modal import ModalAnalysisSolver
 from solveur.core.model import FiniteElementModel
 from solveur.core.nonlinear.solver import NonlinearStaticSolver
 from solveur.core.solvers.static import LinearStaticSolver
+from solveur.compatibility import preflight_model
 
 
 class AnalysisRouter:
@@ -18,6 +19,7 @@ class AnalysisRouter:
         if not isinstance(model.analysis, AnalysisSettings):
             model.analysis = AnalysisSettings.from_raw(model.analysis)
         model.analysis.validate()
+        preflight_model(model).raise_for_error()
         if model.analysis.type == "linear_static":
             return LinearStaticSolver().solve(model)
         if model.analysis.type == "modal":

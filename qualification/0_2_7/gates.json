@@ -4,7 +4,7 @@
   "theme": "Prismatic Solid Interoperability and Numerical Robustness",
   "baseline_sha": "e839373b6aef291a93292186d7553ba5cd12af55",
   "baseline_branch": "main",
-  "foundation_status": "WP02_PASS",
+  "foundation_status": "WP03_PASS",
   "source_change_authorized_by_foundation": false,
   "gates": [
     {
@@ -37,12 +37,14 @@
       "id": "027-G03",
       "work_package": "WP03",
       "title": "Element descriptors and compatibility preflight",
-      "status": "NOT_STARTED",
+      "status": "PASS",
+      "start_sha": "ba6111a257ae567e496adcbcdc74de392dd66b6e",
+      "evidence_head": "PENDING_COMMIT",
       "depends_on": ["027-G02"],
       "go": ["supported combinations are accepted deterministically", "unsupported combinations are explicit"],
       "stop": ["default numerical behavior changes", "public API break", "implicit fallback"],
       "evidence_required": ["descriptor schema", "accept/reject matrix", "negative tests"],
-      "files": ["0_2_7_wedge6_plan.md"]
+      "files": ["src/solveur/compatibility/descriptors.py", "src/solveur/compatibility/preflight.py", "tests/unit/test_element_descriptor_preflight.py", "docs/verification/0_2_7/0_2_7_element_descriptor_preflight.md", "qualification/0_2_7/wp03_state.json"]
     },
     {
       "id": "027-G04",
