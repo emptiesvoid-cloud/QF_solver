@@ -13,8 +13,8 @@ approver: ""
 
 This directory is the controlled planning pack for the `0.2.7a0` development
 cycle. It is a foundation, not a release claim and not a record of executed
-V&V. WP01 release truth and provenance is `PASS`; WP02-WP14 remain
-`NOT_STARTED`.
+V&V. WP01 release truth and provenance is `PASS`; WP02 is `PASS` for the
+capability-registry control, and WP03-WP14 remain `NOT_STARTED`.
 
 ## Baseline and status
 
@@ -57,7 +57,7 @@ in [`0_2_7_progress_tracker.md`](0_2_7_progress_tracker.md).
 | WP | Focus | Initial status |
 | --- | --- | --- |
 | WP01 | Release truth and provenance | `PASS` |
-| WP02 | Capability registry v2 | `NOT_STARTED` |
+| WP02 | Capability registry v2 | `PASS` |
 | WP03 | Element descriptors and compatibility preflight | `NOT_STARTED` |
 | WP04 | Additive declarative V&V harness | `NOT_STARTED` |
 | WP05 | C3D6/PENTA6 external-oracle preflight | `NOT_STARTED` |
@@ -92,6 +92,8 @@ explicit skip or limitation, never as `PASS`.
 - [`qualification/0_2_7/manifest.json`](../../../qualification/0_2_7/manifest.json)
 - [`qualification/0_2_7/release_truth.json`](../../../qualification/0_2_7/release_truth.json)
 - [`qualification/0_2_7/release_workflow_audit.json`](../../../qualification/0_2_7/release_workflow_audit.json)
+- [`qualification/0_2_7/capability_registry_v2.json`](../../../qualification/0_2_7/capability_registry_v2.json) (source of truth)
+- [`qualification/0_2_7/registry_migration.json`](../../../qualification/0_2_7/registry_migration.json)
 
 ## Controlled documents
 
@@ -109,10 +111,12 @@ explicit skip or limitation, never as `PASS`.
 - [`0_2_7_owner_decision_log.md`](0_2_7_owner_decision_log.md)
 - [`0_2_7_release_criteria.md`](0_2_7_release_criteria.md)
 - [`0_2_7_release_workflow_audit.md`](0_2_7_release_workflow_audit.md)
+- [`0_2_7_capability_matrix.md`](0_2_7_capability_matrix.md) (generated view)
 
 ## Foundation boundary
 
-This pack does not implement WEDGE6, WEDGE15, PYRAMID5, HEX8R or any new
+WP02 installs a source-controlled combination registry and deterministic view;
+it does not implement WEDGE6, WEDGE15, PYRAMID5, HEX8R or any new
 formulation. It does not change the 0.2.6 Owner decisions for TL, Arc-Length,
 J2, buckling, contact, performance or external correlations. A later work
 package may stop before implementation if the formulation, oracle, quality or

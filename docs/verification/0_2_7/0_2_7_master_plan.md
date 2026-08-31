@@ -20,7 +20,8 @@ qualified 0.2.7 scope unless a future Owner decision explicitly changes it.
 
 The plan starts from the tagged 0.2.6 baseline
 `e839373b6aef291a93292186d7553ba5cd12af55`. WP01 release truth and
-provenance is `PASS`; all remaining work packages are `NOT_STARTED`.
+provenance is `PASS`; WP02 registry control is now `PASS`; all remaining work
+packages are `NOT_STARTED`.
 
 ## Work packages and STOP/GO criteria
 
@@ -51,7 +52,7 @@ provenance is `PASS`; all remaining work packages are `NOT_STARTED`.
 - **Evidence required:** registry schema, migration mapping and audit output.
 - **Files:** `qualification/0_2_7/requirements.json`, registry migration
   records and coverage matrix.
-- **Status:** `NOT_STARTED`.
+- **Status:** `PASS` for the registry control; no numerical capability was promoted.
 
 ### WP03 - Element descriptors and compatibility preflight
 

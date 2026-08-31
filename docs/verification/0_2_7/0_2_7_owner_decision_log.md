@@ -27,6 +27,14 @@ qualification decision. Its status is `PASS` because the SHA roles, actual
 0.2.6 publication state, artifact classes and tag/version guard are recorded in
 the WP01 machine-readable records. This does not approve any 0.2.7 capability.
 
+WP02 is a registry-engineering foundation control rather than a new capability
+qualification decision. Its status is `PASS` because the v2 source of truth
+preserves all 33 public legacy identifiers, exposes 44 combination records,
+keeps historical statuses out of the active vocabulary, and passes deterministic
+schema, migration and generated-view checks. Inherited `QUALIFIED_BOUNDED`
+states remain bounded 0.2.6 scope; this work package introduces no new evidence
+or promotion.
+
 An entry may be changed to an approved state only with a decision owner, exact
 evidence SHA, scope, limitations and date. No decision here reopens G07 or
 changes any 0.2.6 maturity classification.

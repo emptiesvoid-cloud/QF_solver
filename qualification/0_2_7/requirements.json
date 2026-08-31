@@ -30,7 +30,7 @@
       "gate": "027-G02",
       "work_package": "WP02",
       "priority": "MUST",
-      "status": "PLANNED",
+      "status": "PASS",
       "requirement": "Public capability records shall be unique at element, analysis, material and route granularity.",
       "acceptance": "No duplicate, orphan or source-unregistered public combination.",
       "verification": ["registry validator", "source sentinel audit"],
