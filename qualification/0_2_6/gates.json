@@ -231,10 +231,22 @@
       ]
     },
     {
-      "evidence_ids": [],
+      "evidence_ids": [
+        "g13_external_evidence_registry.json",
+        "g13_external_coverage_matrix.json",
+        "g13_missing_evidence_matrix.json",
+        "0_2_6_g13_external_correlations.md"
+      ],
       "id": "026-G13",
-      "status": "NOT_STARTED",
-      "title": "External correlation aggregation"
+      "status": "PARTIAL",
+      "title": "External correlation aggregation",
+      "owner_status_candidate": "PASS_WITH_LIMITATIONS",
+      "new_external_cases_executed": 0,
+      "limitations": [
+        "G13 consolidates existing independent evidence and records unresolved gaps; no new external run was possible because Code_Aster and CalculiX executables were unavailable in this environment.",
+        "EXTERNAL_FULL is limited to the declared benchmark, element family and observable in each record.",
+        "Missing, non-comparable and superseded evidence is excluded from active qualification metrics."
+      ]
     },
     {
       "evidence_ids": [],
