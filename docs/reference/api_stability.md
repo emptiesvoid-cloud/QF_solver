@@ -2,7 +2,7 @@
 doc_id: DOC-REF-API-002
 revision: 0.3
 status: draft
-applicable_version: 0.2.5a0
+applicable_version: 0.2.6a0
 reviewer: ""
 approver: ""
 ---

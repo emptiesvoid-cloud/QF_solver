@@ -2,194 +2,236 @@
 
 **White-box finite-element tools for verifiable structural mechanics.**
 
-[![Quality and verification](https://github.com/emptiesvoid-cloud/QF_solver/actions/workflows/quality.yml/badge.svg?branch=main)](https://github.com/emptiesvoid-cloud/QF_solver/actions/workflows/quality.yml)
-[![PyPI](https://img.shields.io/pypi/v/qf-solver.svg)](https://pypi.org/project/qf-solver/)
-[![Python](https://img.shields.io/pypi/pyversions/qf-solver.svg)](https://pypi.org/project/qf-solver/)
-[![License](https://img.shields.io/github/license/emptiesvoid-cloud/QF_solver.svg)](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/LICENSE)
+QF Solver is an open-source Python finite-element solver for structural
+mechanics, linear dynamics and selected nonlinear research paths. The project
+keeps formulations, assumptions, diagnostics and verification evidence
+inspectable. A capability is only considered qualified inside the scope and
+configuration recorded by its evidence.
 
-QF Solver est un solveur d'elements finis Python open source pour la mecanique
-des structures, la dynamique et la simulation d'ingenierie verifiable. Le
-projet est concu comme un logiciel white-box : formulations, hypotheses,
-resultats et preuves restent consultables dans le depot.
+## Current maturity
 
-La version candidate `0.2.5a0` consolide le backend solide non lineaire et ses
-preuves de verification. Elle n'ajoute pas de nouvelle famille d'elements et
-ne revendique pas une validation physique generale ni un remplacement d'un
-solveur industriel.
+- **Current version:** `0.2.6a0`
+- **Release status:** Release candidate / pre-release
+- **Qualification status:** bounded qualification is being finalized; the
+  individual gate and capability statuses remain authoritative.
+
+This candidate is not yet published on PyPI. Evidence packages record their
+own qualified source SHA and artifact manifests; the current gate snapshot is
+maintained in [`qualification/0_2_6/gates.json`](qualification/0_2_6/gates.json).
+
+| Maturity | Meaning | Current examples |
+| --- | --- | --- |
+| **STABLE_BOUNDED** | Evidence supports a declared, bounded scope. | Linear static, small-strain J2, failure diagnostics. |
+| **SUPPORTED_WITH_LIMITATIONS** | The route is usable in a documented scope, with active evidence or coverage limitations. | Modal, Newmark, harmonic, linear buckling, frictionless contact, measured performance. |
+| **EXPERIMENTAL** | The route exists and has tests or research evidence, but is not a qualified general capability. | Total-Lagrangian research path, arc-length, selected shell/beam/laminate paths. |
+| **RESEARCH / NOT QUALIFIED** | The route is exploratory or explicitly excluded from qualified claims. | Finite-kinematic J2, coupled nonlinear workflows, friction, optional HPC paths. |
+
+Current gate status is maintained in
+[`qualification/0_2_6/gates.json`](qualification/0_2_6/gates.json): G00-G03 are
+`PASS`, G04-G06 are `PASS_WITH_LIMITATIONS`, G07 is `NOT_STARTED`, G08-G13 are
+`PASS_WITH_LIMITATIONS`, and G14-G15 are `NOT_STARTED`. Gate status does not
+expand the scope of an individual capability.
+
+## Capability overview
+
+| Capability | Public status | Bounded scope | Main evidence and limitations |
+| --- | --- | --- | --- |
+| Linear static | **STABLE_BOUNDED** | Linear elastic cases in the recorded element-analysis matrix. | G04 evidence; orthotropic, laminate, shell, beam and discrete combinations remain case-dependent. |
+| Small-strain J2 | **STABLE_BOUNDED** | Homogeneous small-strain J2 on TET4, TET10, HEX8 and HEX20. | G06 evidence; algorithmic tangent symmetry is not independently qualified and increment-partition evidence is strongest for TET4. |
+| Modal / Newmark / harmonic | **SUPPORTED_WITH_LIMITATIONS** | Controlled linear modal, transient and harmonic cases across the recorded family matrix. | G05 evidence; external coverage is representative rather than complete for every family. |
+| Linear buckling | **SUPPORTED_WITH_LIMITATIONS** | First linearized tangent-instability factor and first mode for the family-specific bounded scope recorded by G08, using the sparse route. | TET4 is qualified bounded; TET10/HEX20 remain limited; HEX8 requires more evidence. No post-buckling, multi-mode or general physical-validation claim. |
+| Frictionless contact | **SUPPORTED_WITH_LIMITATIONS** | Bounded node-to-triangle contact routes with documented activation and failure behavior. | G09 evidence; no friction, mortar, general surface-to-surface or universal conditioning claim. |
+| Failure diagnostics | **STABLE_BOUNDED** | Recorded fail-closed, finite-diagnostic and state-transaction cases. | G11 evidence; coverage is bounded and not exhaustive for every future route. |
+| Performance | **SUPPORTED_WITH_LIMITATIONS** | Measured assembly and solve profiles on declared hardware and model topologies. | G12 evidence; approximately 300k DOF is assembly-only and 1M DOF is resource-limited. |
+
+## Element and analysis coverage
+
+Element availability does not imply qualification for every analysis. The
+following summary is intentionally conservative; the detailed machine-readable
+mapping is in [`capability_coverage.md`](docs/verification/0_2_6/capability_coverage.md).
+
+| Element family | Linear static | Modal / dynamic / harmonic | Small-strain J2 | TL / geometric nonlinear | Buckling | Contact |
+| --- | --- | --- | --- | --- | --- | --- |
+| TET4 | Bounded | Bounded with limitations | Qualified bounded | Experimental / G07 not started | Qualified bounded | Bounded cases |
+| TET10 | Bounded | Bounded with limitations | Qualified bounded | Research / not qualified | Bounded with limitations | Case-dependent |
+| HEX8 | Bounded | Bounded with limitations | Qualified bounded | Experimental / G07 not started | More evidence required | Bounded cases |
+| HEX20 | Bounded | Bounded with limitations | Qualified bounded | Research / not qualified | Bounded with limitations | Case-dependent |
+| BEAM2 | Experimental or case-bounded | Controlled G05 cases | Not claimed | Not claimed | Not claimed | Not claimed |
+| MITC3 / MITC4 | Experimental or case-bounded | Controlled G05 cases | Not claimed | Not claimed | Not claimed | Not claimed |
+| Discrete | Experimental or case-bounded | Controlled G05 cases | Not claimed | Not claimed | Not claimed | Not claimed |
+
+## Materials and nonlinear capabilities
+
+- Isotropic linear elasticity is the principal bounded material scope for
+  linear analyses.
+- Small-strain J2 is bounded to the four solid families listed above. It is
+  not a finite-strain plasticity claim.
+- Total-Lagrangian elasticity has bounded internal evidence for TET4 and HEX8,
+  but its G07 promotion is parked pending compatible external evidence. TET10
+  and HEX20 remain research routes for this capability.
+- Existing arc-length, finite-kinematic J2 and coupled nonlinear routes remain
+  experimental, deferred or not qualified according to their gate evidence.
+- Friction is outside the current release scope. No Coulomb, mortar or
+  augmented-Lagrangian capability should be inferred from the presence of
+  contact-related code.
+
+## Verification and external correlation
+
+QF Solver separates:
+
+- **Verification:** analytical relations, invariants, residuals, tangents,
+  convergence, mesh studies and deterministic replay.
+- **External correlation:** bounded numerical comparisons with Code_Aster or
+  CalculiX when the formulation, mesh, loading and observable are comparable.
+- **Validation:** a separate engineering judgement about fitness for a
+  physical application; it is not established by a code-to-code comparison.
+
+The 0.2.6 evidence index, gate matrix and capability mapping are available in
+[`docs/verification/0_2_6/README.md`](docs/verification/0_2_6/README.md),
+[`0_2_6_gate_matrix.md`](docs/verification/0_2_6/0_2_6_gate_matrix.md) and
+[`capability_coverage.md`](docs/verification/0_2_6/capability_coverage.md).
+The external-correlation aggregation is representative and bounded; missing
+or non-comparable tools and decks remain visible in
+[`0_2_6_g13_external_correlations.md`](docs/verification/0_2_6/0_2_6_g13_external_correlations.md).
+
+## Performance boundaries
+
+The performance evidence is a characterization, not a universal scaling law.
+Results depend on hardware, sparsity, element topology, solver backend and
+memory availability. The current evidence includes full measured solves up to
+the declared bounded range, an approximately 300k-DOF assembly-only probe and
+a 1M-DOF resource-limited probe. No claim of general HPC support or guaranteed
+multi-million-DOF solving is made.
+
+## Experimental and research paths
+
+The following routes are visible so that their limits are not mistaken for
+missing functionality:
+
+- G07 geometric nonlinear and arc-length review is `NOT_STARTED`; TL evidence
+  is parked and arc-length remains experimental.
+- Finite-kinematic J2 and coupled nonlinear workflows are research or
+  experimental routes under G06/G10, not qualified release capabilities.
+- Orthotropic/laminate, shell/beam/discrete extensions, PETSc/SLEPc and large
+  model paths have route-specific evidence and are not blanket-qualified.
+
+## Known limitations
+
+- Every claim is bounded by element family, formulation, mesh quality, loading,
+  boundary conditions, solver route and deformation domain.
+- A passing case does not qualify an untested combination of element, material
+  and analysis.
+- External correlation can be unavailable or non-comparable and must then be
+  recorded as such; it is not silently treated as a pass.
+- The current 0.2.6 cycle has not completed the final full-regression and
+  Owner-release gates G14-G15.
+- No claim of certification, general physical validation, production
+  readiness, industrial equivalence or replacement of another solver is made.
+
+See the detailed 0.2.6 evidence and limitations in
+[`docs/verification/0_2_6/`](docs/verification/0_2_6/).
 
 ## Installation
 
-Depuis PyPI, apres publication de la release :
+### Stable published package
+
+The stable published alpha remains `0.2.5a0`:
 
 ```powershell
 python -m pip install qf-solver==0.2.5a0
 qf-solver --version
 ```
 
-Pour travailler depuis un clone du depot :
+### 0.2.6a0 release candidate
+
+The release candidate is not available from PyPI yet. Install the reviewed
+candidate from its repository checkout:
 
 ```powershell
+git clone https://github.com/emptiesvoid-cloud/QF_solver.git
+Set-Location QF_solver
 python -m pip install -e ".[test]"
 qf-solver --version
 ```
 
-Extras optionnels :
+The exact candidate is identified by the reviewed commit and its evidence
+manifests. The future Git tag is `v0.2.6a0`; no tag or publication is implied
+by this installation method.
+
+Optional extras are available for mesh tooling, documentation and optional
+PETSc/SLEPc/MPI environments:
 
 ```powershell
-python -m pip install -e ".[mesh]"  # import Gmsh et benchmarks mailles
-python -m pip install -e ".[docs]"  # construction de la documentation
-python -m pip install -e ".[hpc]"   # PETSc/SLEPc/MPI si disponibles
+python -m pip install -e ".[mesh]"
+python -m pip install -e ".[docs]"
+python -m pip install -e ".[hpc]"
 ```
 
-PETSc et SLEPc ne sont pas requis pour l'installation standard. Python 3.10 a
-3.13 est couvert par la CI annoncee.
+The optional HPC stack is not required for the standard installation and is
+not a general scalability guarantee.
 
-## Premier calcul
+## Minimal usage
 
-Le cas JSON suivant est maintenu par les tests d'integration :
-`examples/tet4_static.json`.
+The maintained example is
+[`examples/tet4_static.json`](examples/tet4_static.json).
 
 ```powershell
 qf-solver check-mesh --input .\examples\tet4_static.json
 qf-solver solve --input .\examples\tet4_static.json --output .\results\tet4.json
 ```
 
-La meme operation est disponible par l'API publique :
+The same workflow is available through the public `qf_solver` namespace:
 
 ```python
 from qf_solver import check_mesh, load_model, save_result, solve_model
 
 model = load_model("examples/tet4_static.json")
-mesh_report = check_mesh(model)
+check_mesh(model)
 result = solve_model(model)
 save_result(result, "results/tet4.json")
 ```
 
-L'unique namespace Python public pour les nouvelles integrations est
-`qf_solver`. Le namespace `solveur` reste interne et sert uniquement aux
-compatibilites historiques de la serie 0.2.x.
+## API, CLI and examples
 
-## Capacites et maturite de 0.2.5a0
+The public Python namespace is `qf_solver`; the historical `solveur` namespace
+is retained for compatibility. Useful CLI entry points include `solve`,
+`check-mesh`, `inspect`, `evidence`, `import-mesh`, `methods`, `benchmarks`,
+`benchmark`, `verify` and the controlled V&V commands. See:
 
-Les statuts ci-dessous sont limites aux enveloppes de preuves documentees.
-`QUALIFIED` signifie qualifie dans ce domaine borne, et non valide pour toute
-structure ou toute echelle.
+- [`examples/README.md`](examples/README.md)
+- [`docs/reference/api_stability.md`](docs/reference/api_stability.md)
+- [`docs/demarrage/installation.md`](docs/demarrage/installation.md)
+- [`docs/verification/0_2_6/`](docs/verification/0_2_6/)
 
-| Statut | Capacites dans le scope de la release |
-| --- | --- |
-| **QUALIFIED / BOUNDED** | J2 small-strain sur TET4/TET10/HEX8/HEX20 ; elasticite Total-Lagrangian TET4/HEX8 dans le domaine pre-limite teste ; flambement lineaire sparse borne ; contact sans frottement borne ; caracterisation de performance ; contrats de modes d'echec |
-| **EXPERIMENTAL / NOT QUALIFIED** | arc-length FEM complet ; J2 finite-kinematic ; workflows non lineaires couples ; couplage triple ; grandes transformations au-dela du domaine G02 |
-| **NOT IN RELEASE SCOPE** | contact avec frottement ; G07 |
+## Release status and finalization
 
-Les chemins lineaires TET4/TET10, MITC3+/MITC4, BEAM2 et les entites discretes
-restent disponibles avec leurs propres domaines de maturite. Le detail par
-element et par analyse se trouve dans
-[`docs/etat/capacites.md`](docs/etat/capacites.md). Une implementation ou un
-test experimental ne devient pas une capacite qualifiee par sa seule presence.
+`0.2.6a0` is currently a release candidate / pre-release focused on maturity,
+reproducibility, architecture and controlled V&V. It is not yet released.
 
-## Analyses disponibles
-
-Le routeur commun prend en charge, selon le modele et le scope de preuve :
-
-- statique lineaire sparse ;
-- modal generalise sparse ;
-- dynamique transitoire Newmark ;
-- reponse harmonique ;
-- statique non lineaire a chargement controle, avec Full Newton dans le scope
-  qualifie ;
-- flambement lineaire sparse dans son domaine borne ;
-- contact sans frottement borne.
-
-Les chemins arc-length, finite-kinematic J2 et couples sont exposes pour la
-recherche et les essais traces, mais ne sont pas des claims qualifies de
-`0.2.5a0`.
-
-## Architecture
-
-Le produit suit le flux :
+Before publication:
 
 ```text
-modele FEM -> assemblage sparse -> analyse du systeme -> backend
-           -> solveur -> convergence -> resultats et metriques
+Release status: Release candidate
 ```
 
-Pour les chemins non lineaires, les responsabilites sont separees entre
-cinematique, loi constitutive, etat materiau, assemblage du residu/tangente,
-strategie Full Newton, controle d'increments et diagnostics. Les elements
-conservent leurs fonctions de forme et leur quadrature ; ils ne choisissent
-pas le solveur global.
+After publication, this block can be completed with the actual release data:
 
-Le backend standard utilise SciPy sparse. PETSc/SLEPc sont optionnels pour les
-environnements HPC. Les limites memoire, les conventions de quadrature et les
-choix de formulation sont decrits dans
-[`docs/architecture.md`](docs/architecture.md) et le pack 0.2.5.
-
-## Verification et validation
-
-QF Solver distingue :
-
-- **verification** : formules, invariants, tangentes, residus et convergence ;
-- **correlation externe** : comparaison numerique avec Code_Aster ou CalculiX
-  sous hypotheses documentees ;
-- **validation physique** : preuve separee du domaine d'application, non
-  revendiquee par une simple comparaison de codes.
-
-Pour le candidat 0.2.5a0, les preuves de release documentent notamment :
-
-- G11 : `1719 passed / 0 failed` ;
-- couverture de la campagne de reference : `88.37 %` ;
-- campagne externe disponible : `64/64 PASS` ;
-- provenance par SHA source, empreintes d'artefacts et etat de l'arbre source.
-
-Ces chiffres concernent le perimetre qualifie et borne, pas les capacites
-experimentalement exclues. Les preuves detaillees, les courbes et les limites
-sont dans [`docs/verification/0_2_5/README.md`](docs/verification/0_2_5/README.md),
-la [matrice V&V](docs/verification/0_2_5/0_2_5_vnv_matrix.md) et le
-[rapport de readiness](docs/verification/0_2_5/0_2_5_release_readiness.md).
-
-## Exemples, Gmsh et benchmarks
-
-Les exemples JSON sont dans [`examples/`](examples/) et leur catalogue est
-decrit dans [`examples/README.md`](examples/README.md). Quelques commandes :
-
-```powershell
-qf-solver methods
-qf-solver benchmarks
-qf-solver benchmark --case BM-SOL-TET4-PATCH-001 --output .\results\benchmark
-qf-solver import-mesh --mesh modele.msh --setup modele.setup.json --output modele.json
+```text
+Release status: Released
+Release date: YYYY-MM-DD
+Tag: v0.2.6a0
+Qualification SHA: <recorded qualified source SHA>
 ```
 
-Pour un cas V&V existant :
+Until then, no release date, tag or PyPI availability should be inferred.
+The authoritative qualification snapshot is identified by each evidence
+package's recorded source SHA and artifact manifests.
 
-```powershell
-qf-solver vnv-import-benchmark --case BM-SOL-CANTILEVER-001 --output .\VNV-CANTILEVER
-```
+For local checks and contribution guidance, see
+[`CONTRIBUTING.md`](CONTRIBUTING.md), [`docs/architecture.md`](docs/architecture.md)
+and the [0.2.6 V&V foundation](docs/verification/0_2_6/README.md).
 
-Les sorties de campagne et les documents generes sont des artefacts traces ;
-ils ne doivent pas etre modifies manuellement.
-
-## Limites importantes
-
-- Les claims mecaniques sont bornes par element, formulation, maillage,
-  chargement et domaine de deformation documentes.
-- G02 ne qualifie que l'elasticite Total-Lagrangian TET4/HEX8 avant la zone de
-  perte de stabilite ; TET10/HEX20 et le J2 finite-kinematic restent exclus.
-- G03 est une analyse de premier seuil d'instabilite tangentielle, pas une
-  prediction generale de ruine avec imperfections.
-- G05 concerne un contact sans frottement borne entre noeuds/patchs esclaves et
-  surface triangulee fournie ; il ne constitue pas un contact mortar ou
-  surface-a-surface general.
-- L'arc-length, le couplage des non-linearites, le frottement et la
-  plasticite finite-strain sont experimentaux, differes ou hors scope.
-- Aucune revendication nouvelle de calcul non lineaire a plusieurs millions de
-  DDL n'est faite. PETSc/SLEPc restent optionnels.
-- Une correlation Code_Aster/CalculiX est une preuve numerique dans un cas
-  comparable, pas une certification ni une validation physique universelle.
-
-Voir [`docs/etat/limites.md`](docs/etat/limites.md) pour les details et les
-restrictions d'usage.
-
-## Documentation et developpement
+Typical local documentation and quality checks are:
 
 ```powershell
 python .\scripts\build_docs.py --profile engineering
@@ -198,30 +240,30 @@ python -m ruff check src scripts tests
 python -m compileall -q src scripts tests qf_solver.py
 ```
 
-La documentation de developpement est indexee dans
-[`docs/index.md`](docs/index.md). Les conventions d'API sont dans
-[`docs/reference/api_stability.md`](docs/reference/api_stability.md), et la
-feuille de route dans [`prochaines_etapes.md`](prochaines_etapes.md).
+## Version history
 
-## Evolution du projet
-
-| Version | Contribution principale |
+| Version | Main direction |
 | --- | --- |
-| `0.2.0a0` | Base open source, premier cadre V&V et packaging public initial. |
-| `0.2.1a0` | Registre de qualification, automatisation release V&V, correlations externes et tracabilite renforcee. |
-| `0.2.2a0` | Backend sparse renforce, selection/diagnostics des solveurs, optimisation memoire et preparation PETSc/SLEPc/HPC. |
-| `0.2.3a0` | Integration HEX8/HEX20, import Gmsh, chargements, post-traitement et benchmarks TET/HEX. |
-| `0.2.4a0` | J2 small-strain commun, Full Newton, tangent coherent et etats `trial/commit/rollback`. |
-| `0.2.5a0` | Qualification bornee J2, elasticite Total-Lagrangian, flambement sparse, contact sans frottement, performance et modes d'echec. |
+| `0.2.0a0` | Open-source foundation, initial packaging and V&V structure. |
+| `0.2.1a0` | Qualification registry, release V&V automation and traceability. |
+| `0.2.2a0` | Sparse backend and diagnostics strengthening, with optional HPC preparation. |
+| `0.2.3a0` | HEX8/HEX20, Gmsh import and expanded TET/HEX benchmarks. |
+| `0.2.4a0` | Shared small-strain J2, Full Newton, consistent tangent and state transactions. |
+| `0.2.5a0` | Historical bounded qualification work for J2, TL elasticity, buckling, contact and failure modes. |
+| `0.2.6a0` | Development cycle for maturity, reproducibility, controlled V&V and architecture. |
 
-Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique detaille des releases.
+See [`CHANGELOG.md`](CHANGELOG.md) for the detailed release history.
 
-Les capacites arc-length, J2 finite-kinematic et les couplages non lineaires
-restent experimentaux et exclus des claims qualifies de `0.2.5a0`.
+## Documentation and license
 
-## Licence
+- [`docs/verification/0_2_6/README.md`](docs/verification/0_2_6/README.md):
+  current V&V foundation and evidence index.
+- [`qualification/capability_registry.json`](qualification/capability_registry.json):
+  machine-readable capability inventory and maturity mapping.
+- [`docs/architecture.md`](docs/architecture.md): architecture overview.
+- [`prochaines_etapes.md`](prochaines_etapes.md): roadmap and next steps.
 
-Le code est sous [Apache License 2.0](LICENSE). La documentation et les
-exemples originaux sont sous [CC BY 4.0](LICENSE-DOCS). Les composants tiers
-restent soumis a leurs licences, inventoriees dans
-[`THIRD_PARTY_LICENSES.md`](THIRD_PARTY_LICENSES.md).
+The software is distributed under the
+[Apache License 2.0](LICENSE). Documentation and original examples are under
+[CC BY 4.0](LICENSE-DOCS). Third-party components remain subject to the terms
+listed in [`THIRD_PARTY_LICENSES.md`](THIRD_PARTY_LICENSES.md).
