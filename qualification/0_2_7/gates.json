@@ -108,6 +108,7 @@
       "title": "WEDGE6 formulation design and review",
       "status": "NOT_STARTED",
       "depends_on": ["027-G03", "027-G05", "027-G06"],
+      "pre_wp07_checkpoint": "qualification/0_2_7/wp07_prerequisites.json",
       "go": ["formulation, integration, faces, loads and oracle are reviewed"],
       "stop": ["kernel implementation starts without design review", "mixed mesh support is assumed"],
       "evidence_required": ["derivation", "patch-test plan", "design review decision"],

@@ -9,13 +9,24 @@ approver: ""
 
 # 0.2.7 WEDGE6 Plan
 
-This is a plan only. WEDGE6 is not implemented by the foundation commit.
+This is a plan only. T1-R has prepared the inactive formulation, mapping,
+quality and V&V contracts, but WEDGE6 is not implemented by the foundation
+commit and WP07 remains not started.
 
 ## Design gate
 
 WP07 cannot start until WP03, WP05 and WP06 are reviewed. The Solver/Owner
 review must explicitly accept the formulation and the observable contract
 before source changes begin.
+
+## T1-R controlled inputs
+
+- `qualification/0_2_7/wedge6_formulation_contract.json`
+- `qualification/0_2_7/wedge6_mapping_fixture.json`
+- `qualification/0_2_7/wp07_prerequisites.json`
+
+These inputs are pre-WP07 contracts, not an Owner approval or a numerical
+implementation.
 
 ## Required design decisions
 

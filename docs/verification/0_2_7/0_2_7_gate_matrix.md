@@ -26,7 +26,7 @@ new numerical capability has been implemented or qualified.
 | `027-G04` | WP04 | Declarative V&V harness | G01-G02 | additive runner contract and replay proof | numerical route refactor or hidden command execution | `PASS` |
 | `027-G05` | WP05 | C3D6/PENTA6 oracle preflight | G01-G02 | comparable deck contract and availability record | non-comparable oracle presented as PASS | `PASS` |
 | `027-G06` | WP06 | Mesh quality/distortion contract | G02-G03 | metrics, invalid cases, deterministic classification and preflight diagnostic | universal aspect-ratio cutoff | `PASS` |
-| `027-G07` | WP07 | WEDGE6 formulation design gate | G03, G05, G06 | formulation review, node order, quadrature and faces | implementation without reviewed contract | `NOT_STARTED` |
+| `027-G07` | WP07 | WEDGE6 formulation design gate | G03, G05, G06, T1-R | reviewed formulation contract, asymmetric mapping fixture, quadrature, faces, Jacobian quality and V&V plan | implementation without reviewed contract or Owner authorization | `NOT_STARTED` |
 | `027-G08` | WP08 | WEDGE6 static vertical slice | G07 | static patch/oracle/import/load/post evidence | missing face/load or silent unsupported path | `NOT_STARTED` |
 | `027-G09` | WP09 | WEDGE6 robustness and external V&V | G08 | mesh/distortion/adversarial/reproducible external evidence | unexplained divergence or weakened threshold | `NOT_STARTED` |
 | `027-G10` | WP10 | WEDGE6 modal evidence | G08-G09 | mass, modes, residual, mesh and replay evidence | static evidence transferred without modal proof | `NOT_STARTED` |

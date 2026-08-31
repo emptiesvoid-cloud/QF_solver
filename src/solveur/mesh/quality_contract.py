@@ -27,11 +27,18 @@ WEDGE6_QUALITY_CONTRACT = {
     "dimension": 3,
     "node_count": 6,
     "signed_volume": "prism-oriented signed volume",
-    "jacobian_sampling": "contract to be defined at prism volume quadrature points",
+    "jacobian_sampling": {
+        "validity_controls": "all six reference vertices plus all selected volume quadrature points",
+        "diagnostic_samples": "face centroids and prism interior centroid",
+        "integration_points_only": False,
+        "contract": "T1-R-WEDGE6-FORMULATION-001",
+    },
     "faces": {"triangles": 2, "quadrilaterals": 3},
     "orientation": "six-node orientation and outward face normals",
     "degeneracy": "zero or sign-inconsistent sampled Jacobian",
     "distortion": "prism-compatible dimensionless diagnostics, no universal cutoff",
+    "status": "CONTROLLED_INACTIVE_CONTRACT",
+    "source_contract": "qualification/0_2_7/wedge6_formulation_contract.json",
 }
 
 _TET4_EDGES = ((0, 1), (0, 2), (0, 3), (1, 2), (1, 3), (2, 3))

@@ -63,7 +63,11 @@ serialization and model preflight.
 ## WEDGE6 readiness
 
 The future quality contract reserves a six-node prism with two `TRI3` and
-three `QUAD4` faces. It will require prism-oriented signed volume, declared
-Jacobian sampling, six-node orientation, face-normal orientation,
-degeneracy, and prism-compatible distortion metrics. `WEDGE6_IMPLEMENTED` is
-`NO`; no active capability or public maturity claim is created by WP06.
+three `QUAD4` faces. T1-R fixes its inactive contract: all six reference
+vertices and all selected volume quadrature points are validity controls, with
+face-centroid and interior-centroid diagnostics. For linear WEDGE6, the
+multi-affine determinant structure justifies the vertex supplement; an
+integration-point-only check is insufficient. It requires prism-oriented
+signed volume, six-node orientation, face-normal orientation, degeneracy and
+prism-compatible distortion metrics. `WEDGE6_IMPLEMENTED` is `NO`; no active
+capability or public maturity claim is created by WP06.

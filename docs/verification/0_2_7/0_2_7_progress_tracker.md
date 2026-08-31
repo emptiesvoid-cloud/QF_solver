@@ -9,7 +9,7 @@ approver: ""
 
 # 0.2.7 Progress Tracker
 
-This tracker records actual progress, not intent. WP01 through WP06 record
+This tracker records actual progress, not intent. WP01 through WP06 and T1-R record
 completed foundation controls; WP05 is limited to external deck preflight and
 WP06 to an additive mesh-quality diagnostic contract. Neither implies a
 WEDGE6 implementation or QF correlation.
@@ -22,6 +22,7 @@ WEDGE6 implementation or QF correlation.
 | WP04 | `PASS` | T1 targeted | `684c39c72191d43c53e1f21043dc746d213a561d` | pending commit | declarative V&V harness v2 | - |
 | WP05 | `PASS` | T1 targeted | `fb102e649235a276096b3a37e19eb61e19a5b43f` | `PENDING_WP05_COMMIT` | external oracle preflight bounded PASS; no WEDGE6 correlation | external tools local-only; QF WEDGE6 not implemented |
 | WP06 | `PASS` | T1 targeted | `884637a60bc752c1d02644fe4d14ae056a2876b8` | `c3989df875bcb385bb8e3b144380526db8151d55` | common diagnostic contract; no universal threshold | - |
+| T1-R | `PASS` | T1 targeted | `32e4e40bf18f0fdcd0a4ae9959d4f0df2b76892e` | `32e4e40bf18f0fdcd0a4ae9959d4f0df2b76892e` | pre-WP07 formulation, mapping, face, quality and V&V contracts | Terra/Owner re-review required; kernel not authorized |
 | WP07 | `NOT_STARTED` | T0 not run | - | - | - | - |
 | WP08 | `NOT_STARTED` | T0 not run | - | - | - | - |
 | WP09 | `NOT_STARTED` | T0 not run | - | - | - | - |
@@ -51,5 +52,6 @@ point, not a 0.2.7 result. WP01 is the first completed foundation control;
 WP02 is complete for the registry control; WP03 is complete for the descriptor
 and preflight control; WP04 is complete for the additive V&V harness control;
 WP05 has completed the controlled external-oracle preflight. WP06 has
-completed the common mesh-quality diagnostic contract. WP07 is the next active
-action.
+completed the common mesh-quality diagnostic contract. T1-R has prepared the
+remaining pre-WP07 contracts and asymmetric fixtures. WP07 remains the next
+gate, but is not started or authorized until Terra/Owner review.
