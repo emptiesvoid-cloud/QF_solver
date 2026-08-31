@@ -1,8 +1,9 @@
 """Contract checks for the selected G10 external evidence pack."""
 
-import hashlib
 import json
 from pathlib import Path
+
+from scripts.canonical_artifact_digest import canonical_artifact_sha256
 
 
 ROOT = Path(__file__).parents[2]
@@ -18,7 +19,7 @@ def _load(path: Path) -> dict:
 
 
 def _sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    return canonical_artifact_sha256(path)
 
 
 def test_selected_external_evidence_is_bounded_and_provenanced() -> None:

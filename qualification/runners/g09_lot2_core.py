@@ -28,6 +28,11 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 # ruff: noqa: E402
 
+try:
+    from scripts.canonical_artifact_digest import canonical_artifact_sha256
+except ModuleNotFoundError:  # Direct execution from the runners directory.
+    from canonical_artifact_digest import canonical_artifact_sha256
+
 from solveur.api import solve_model
 from solveur.contact.entities import FrictionlessContact
 from solveur.contact.solver import assemble_penalty_contact
@@ -83,7 +88,7 @@ def _canonical(value: Any) -> str:
 
 
 def _sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    return canonical_artifact_sha256(path)
 
 
 def _mesh_contact_model(

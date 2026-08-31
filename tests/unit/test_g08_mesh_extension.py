@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
-import hashlib
 import json
 from pathlib import Path
+
+from scripts.canonical_artifact_digest import canonical_artifact_sha256
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -51,7 +52,7 @@ def test_g08_mesh_extension_evidence_is_supplemental_and_consistent() -> None:
     assert data["external_correlation"]["status"] == "BLOCKED_EXTERNAL_TOOL"
     assert data["high_order_oracle"]["status"] == "NO_COMPARABLE_ANALYTICAL_ORACLE"
     assert data["hex20_diagnosis"]["solver_or_eigensolver_modified"] is False
-    assert hashlib.sha256(report_path.read_bytes()).hexdigest() == data["artifact_digests"]["g08_mesh_extension_evidence.md"]
+    assert canonical_artifact_sha256(report_path) == data["artifact_digests"]["g08_mesh_extension_evidence.md"]
 
     gates = json.loads((ROOT / "qualification" / "0_2_6" / "gates.json").read_text(encoding="utf-8"))
     g08 = next(row for row in gates["gates"] if row["id"] == "026-G08")

@@ -9,7 +9,6 @@ the committed JSON contains the curves and metrics needed for review.
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import shutil
 import subprocess
@@ -21,6 +20,10 @@ import numpy as np
 
 
 ROOT = Path(__file__).resolve().parents[1]
+try:
+    from scripts.canonical_artifact_digest import canonical_artifact_sha256
+except ModuleNotFoundError:  # Direct execution from the scripts directory.
+    from canonical_artifact_digest import canonical_artifact_sha256
 SOURCE_SHA = "efed8c3e1bcf173d335b3b9a605febd0fa1084cb"
 # The selected runs were started after a clean-worktree check.  The builder
 # itself may run later, after documentary files have been staged locally.
@@ -38,11 +41,7 @@ def _load(path: Path) -> dict[str, Any]:
 
 
 def _sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as stream:
-        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
+    return canonical_artifact_sha256(path)
 
 
 def _git(*args: str) -> str:

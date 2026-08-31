@@ -18,6 +18,7 @@ except ImportError:
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_REGISTRY = ROOT / "qualification" / "capability_registry.json"
 DEFAULT_DOCUMENT = ROOT / "docs" / "verification" / "0_2_6" / "capability_coverage.md"
+DEFAULT_HISTORICAL_SNAPSHOTS = ROOT / "qualification" / "historical_inventory_snapshots.json"
 REQUIRED_FIELDS = {
     "CAPABILITY_ID", "DOMAIN", "ELEMENT", "ANALYSIS", "MATERIAL_PHYSICS",
     "PRESENT_IN_CODE", "PUBLIC", "MATURITY", "TESTS", "VNV_LEVEL",
@@ -76,6 +77,10 @@ def load_registry(path: Path = DEFAULT_REGISTRY) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def load_historical_snapshots(path: Path = DEFAULT_HISTORICAL_SNAPSHOTS) -> dict[str, Any]:
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
 def _sentinel_exists(path_text: str, token: str) -> bool:
     path = ROOT / path_text
     return path.exists() and (not token or token in path.read_text(encoding="utf-8"))
@@ -96,6 +101,16 @@ def _revision_source(revision: str, path_text: str) -> str:
     if completed.returncode:
         raise RuntimeError(f"Cannot read historical source {revision}:{path_text}: {completed.stderr.strip()}")
     return completed.stdout
+
+
+def _revision_available(revision: str) -> bool:
+    completed = subprocess.run(
+        [git_command(), "cat-file", "-e", f"{revision}^{{commit}}"],
+        cwd=ROOT,
+        capture_output=True,
+        check=False,
+    )
+    return completed.returncode == 0
 
 
 def _element_names(source: str) -> set[str]:
@@ -152,17 +167,40 @@ def validate_registry(registry: dict[str, Any]) -> list[str]:
     registered_routes = {row["ANALYSIS"] for row in rows if row.get("DOMAIN") == "ANALYSIS"}
     for route in sorted(current_routes - registered_routes):
         errors.append(f"Public analysis route is unregistered: {route}.")
+    try:
+        snapshots = load_historical_snapshots()["snapshots"]
+    except (OSError, KeyError, json.JSONDecodeError) as error:
+        errors.append(f"Historical inventory snapshots unavailable: {error}.")
+        snapshots = []
+    snapshots_by_tag = {snapshot.get("tag"): snapshot for snapshot in snapshots}
+    release_tags = {release.get("tag") for release in registry.get("historical_releases", [])}
+    for tag in sorted(set(snapshots_by_tag) - release_tags):
+        errors.append(f"Historical inventory snapshot is not registered: {tag}.")
     for release in registry.get("historical_releases", []):
-        try:
-            historical_elements = _element_names(_revision_source(release["sha"], "src/solveur/elements/registry.py"))
-            historical_routes = _analysis_routes(_revision_source(release["sha"], "src/solveur/core/router.py"))
-        except RuntimeError as error:
-            errors.append(str(error))
+        snapshot = snapshots_by_tag.get(release.get("tag"))
+        if snapshot is None:
+            errors.append(f"Historical inventory snapshot missing for {release.get('tag')!r}.")
             continue
+        if release.get("sha") != snapshot.get("sha"):
+            errors.append(f"Historical release SHA changed unexpectedly for {release['tag']}.")
+        historical_elements = set(snapshot.get("elements", []))
+        historical_routes = set(snapshot.get("analysis_routes", []))
         if historical_elements != set(release["elements"]):
             errors.append(f"Historical element inventory changed unexpectedly for {release['tag']}.")
         if historical_routes != set(release["analysis_routes"]):
             errors.append(f"Historical analysis inventory changed unexpectedly for {release['tag']}.")
+        if _revision_available(release["sha"]):
+            source_paths = snapshot.get("source_paths", {})
+            try:
+                observed_elements = _element_names(_revision_source(release["sha"], source_paths["elements"]))
+                observed_routes = _analysis_routes(_revision_source(release["sha"], source_paths["analysis_routes"]))
+            except (KeyError, RuntimeError) as error:
+                errors.append(f"Cannot verify historical snapshot {release['tag']}: {error}")
+            else:
+                if observed_elements != historical_elements:
+                    errors.append(f"Historical source disagrees with controlled element snapshot for {release['tag']}.")
+                if observed_routes != historical_routes:
+                    errors.append(f"Historical source disagrees with controlled analysis snapshot for {release['tag']}.")
         for element in sorted(historical_elements - current_elements):
             errors.append(f"Historical element family removed without retirement evidence: {element} from {release['tag']}.")
         for route in sorted(historical_routes - current_routes):
@@ -255,8 +293,8 @@ def render_document(registry: dict[str, Any]) -> str:
         )
     lines.extend([
         "",
-        "The audit reads these release sources directly from Git. It fails if the recorded historical inventory changes, "
-        "if a released family or route disappears without a retirement record, or if the current source adds an element family or analysis route without a registry entry.",
+        "The audit validates a versioned historical inventory snapshot and, when the historical Git object is available, cross-checks the recorded source paths. "
+        "It fails if the recorded inventory changes, if a released family or route disappears without a retirement record, or if the current source adds an element family or analysis route without a registry entry.",
         "",
         "## Anti-Forgetting Contract",
         "",

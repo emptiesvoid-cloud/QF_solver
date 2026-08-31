@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "digest_policy": "Versioned inventory snapshot; Git source verification is optional when historical objects are available.",
+  "snapshots": [
+    {
+      "tag": "v0.2.0-alpha",
+      "sha": "1804a03aee0c4e4bc6ac2c56e9461bedd9aac6d4",
+      "source_paths": {
+        "elements": "src/solveur/elements/registry.py",
+        "analysis_routes": "src/solveur/core/router.py"
+      },
+      "elements": ["BEAM2", "MITC3", "MITC4", "TET4", "TET10"],
+      "analysis_routes": [
+        "linear_static",
+        "modal",
+        "nonlinear_static",
+        "geometric_nonlinear_static",
+        "transient_dynamic",
+        "harmonic_response"
+      ]
+    },
+    {
+      "tag": "v0.2.1-alpha",
+      "sha": "ccaef9c7572f47a80998d5bcb119393e4d05dd8f",
+      "source_paths": {
+        "elements": "src/solveur/elements/registry.py",
+        "analysis_routes": "src/solveur/core/router.py"
+      },
+      "elements": ["BEAM2", "MITC3", "MITC4", "TET4", "TET10"],
+      "analysis_routes": [
+        "linear_static",
+        "modal",
+        "nonlinear_static",
+        "geometric_nonlinear_static",
+        "transient_dynamic",
+        "harmonic_response"
+      ]
+    },
+    {
+      "tag": "v0.2.2a0",
+      "sha": "0b0a9d4437d78406aa7737cf5bd1f7dd00c6ffe9",
+      "source_paths": {
+        "elements": "src/solveur/elements/registry.py",
+        "analysis_routes": "src/solveur/core/router.py"
+      },
+      "elements": ["BEAM2", "MITC3", "MITC4", "TET4", "TET10"],
+      "analysis_routes": [
+        "linear_static",
+        "modal",
+        "nonlinear_static",
+        "geometric_nonlinear_static",
+        "transient_dynamic",
+        "harmonic_response"
+      ]
+    },
+    {
+      "tag": "v0.2.3a0",
+      "sha": "d401b80635105d9df47c57d9bdd30020a71683a2",
+      "source_paths": {
+        "elements": "src/solveur/elements/registry.py",
+        "analysis_routes": "src/solveur/core/router.py"
+      },
+      "elements": ["BEAM2", "MITC3", "MITC4", "TET4", "TET10", "HEX8", "HEX20"],
+      "analysis_routes": [
+        "linear_static",
+        "modal",
+        "nonlinear_static",
+        "geometric_nonlinear_static",
+        "transient_dynamic",
+        "harmonic_response"
+      ]
+    },
+    {
+      "tag": "v0.2.4a0",
+      "sha": "e368c0ce00874c16ff1e8fa9158ea0a8cd2dd745",
+      "source_paths": {
+        "elements": "src/solveur/elements/registry.py",
+        "analysis_routes": "src/solveur/core/router.py"
+      },
+      "elements": ["BEAM2", "MITC3", "MITC4", "TET4", "TET10", "HEX8", "HEX20"],
+      "analysis_routes": [
+        "linear_static",
+        "modal",
+        "nonlinear_static",
+        "geometric_nonlinear_static",
+        "transient_dynamic",
+        "harmonic_response"
+      ]
+    },
+    {
+      "tag": "v0.2.5a0",
+      "sha": "1e6c3e96d1e1366c4cc790546e82769cd9227902",
+      "source_paths": {
+        "elements": "src/solveur/elements/registry.py",
+        "analysis_routes": "src/solveur/core/router.py"
+      },
+      "elements": ["BEAM2", "MITC3", "MITC4", "TET4", "TET10", "HEX8", "HEX20"],
+      "analysis_routes": [
+        "linear_static",
+        "modal",
+        "nonlinear_static",
+        "geometric_nonlinear_static",
+        "linear_buckling",
+        "transient_dynamic",
+        "harmonic_response"
+      ]
+    }
+  ]
+}

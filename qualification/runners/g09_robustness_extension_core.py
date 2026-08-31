@@ -29,6 +29,11 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "src"))
 # ruff: noqa: E402
 
+try:
+    from scripts.canonical_artifact_digest import canonical_artifact_sha256
+except ModuleNotFoundError:  # Direct execution from the runners directory.
+    from canonical_artifact_digest import canonical_artifact_sha256
+
 from solveur.api import solve_model
 from solveur.contact.entities import FrictionlessContact
 from solveur.contact.solver import assemble_penalty_contact
@@ -92,7 +97,7 @@ def _source_state(expected_sha: str) -> dict[str, Any]:
 
 
 def _sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    return canonical_artifact_sha256(path)
 
 
 def _artifact_paths(output: Path) -> tuple[Path, Path, Path, Path, Path]:

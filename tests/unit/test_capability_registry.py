@@ -18,6 +18,12 @@ def test_controlled_capability_registry_passes_its_contract() -> None:
     assert AUDIT.validate_registry(AUDIT.load_registry()) == []
 
 
+def test_registry_is_hermetic_without_historical_git_objects(monkeypatch) -> None:
+    monkeypatch.setattr(AUDIT, "_revision_available", lambda revision: False)
+
+    assert AUDIT.validate_registry(AUDIT.load_registry()) == []
+
+
 def test_registry_rejects_duplicate_capability_ids() -> None:
     registry = AUDIT.load_registry()
     registry["capabilities"].append(copy.deepcopy(registry["capabilities"][0]))

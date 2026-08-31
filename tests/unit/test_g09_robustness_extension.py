@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
-import hashlib
 import json
 from pathlib import Path
+
+from scripts.canonical_artifact_digest import canonical_artifact_sha256
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -17,7 +18,7 @@ def _load(name: str) -> dict[str, object]:
 
 
 def _sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    return canonical_artifact_sha256(path)
 
 
 def test_g09_extension_has_55_cases_and_preserves_closeout() -> None:
