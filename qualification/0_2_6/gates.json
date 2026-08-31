@@ -82,11 +82,23 @@
         "g07_requirements.json",
         "g07_capability_matrix.json",
         "0_2_6_master_plan.md",
-        "0_2_6_gate_matrix.md"
+        "0_2_6_gate_matrix.md",
+        "g07_gap_reconciliation.json",
+        "g07_b1_arc_length_evidence.json",
+        "g07_b2_tl_external/g07_b2_tl_external_evidence.json",
+        "g07_b3_gap_resolution/g07_b3_gap_resolution_evidence.json",
+        "g07_owner_closeout.json",
+        "0_2_6_g07_owner_closeout.md"
       ],
       "id": "026-G07",
-      "status": "NOT_STARTED",
-      "title": "Geometric nonlinear and arc-length review"
+      "status": "PASS_WITH_LIMITATIONS",
+      "title": "Geometric nonlinear and arc-length review",
+      "owner_closeout": "g07_owner_closeout.json",
+      "limitations": [
+        "Total-Lagrangian elasticity is qualified only for the bounded TET4 domain recorded by the Owner closeout; HEX8 complete-history behavior remains not qualified.",
+        "Arc-Length is bounded to the declared TET4 research benchmark; ARC-002 refined-mesh comparability remains deferred.",
+        "No general TL, Arc-Length, finite-kinematic, industrial or production-wide claim is made."
+      ]
     },
     {
       "evidence_ids": [

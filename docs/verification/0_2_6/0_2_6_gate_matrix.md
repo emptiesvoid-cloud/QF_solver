@@ -9,7 +9,7 @@
 | `026-G04` | Linear / element robustness | PASS_WITH_LIMITATIONS |
 | `026-G05` | Modal / dynamic / harmonic | PASS_WITH_LIMITATIONS |
 | `026-G06` | J2 maturity extension | PASS_WITH_LIMITATIONS |
-| `026-G07` | Geometric nonlinear and arc-length review | NOT_STARTED |
+| `026-G07` | Geometric nonlinear and arc-length review | PASS_WITH_LIMITATIONS |
 | `026-G08` | Buckling maturity extension | PASS_WITH_LIMITATIONS |
 | `026-G09` | Contact maturity extension | PASS_WITH_LIMITATIONS |
 | `026-G10` | Advanced Nonlinear / Research Audit | PASS_WITH_LIMITATIONS |
@@ -25,13 +25,14 @@ G00 is a refactor guard with an explicit dirty-worktree limitation, not a replac
 
 `026-G06` is closed as `PASS_WITH_LIMITATIONS` by Owner decision. Small-strain J2 is qualified within the tested TET4/TET10/HEX8/HEX20 scope. The evidence is tied to execution source SHA `8bd0f2d8fdce7bf27ffc4c28e6aa26e69288fa63`; closeout documentation is separate. Algorithmic tangent symmetry is not independently qualified, increment-refinement independence is demonstrated only on TET4, and finite-kinematic J2 remains research-only and outside the qualified scope.
 
-`026-G07` remains `NOT_STARTED`. Step 1 defines the controlled contract in
-`qualification/0_2_6/g07_requirements.json` and the capability matrix in
-`qualification/0_2_6/g07_capability_matrix.json`; these references do not
-constitute numerical evidence or gate closure. The bounded candidate scope is
-Total-Lagrangian elasticity on TET4 and HEX8. TET10 and HEX20 remain research
-routes. Arc-length and snap-through remain `EXPERIMENTAL` / `PASS_INTERNAL_RESEARCH`
-and cannot be promoted by this contract.
+`026-G07` is closed by Owner decision as `PASS_WITH_LIMITATIONS`. The bounded
+scope is Total-Lagrangian elasticity on TET4, with compatible external evidence
+over the recorded 16 points, plus the declared TET4 Arc-Length research
+benchmark with bounded branch, turning-point and restart/rollback evidence.
+HEX8 complete-history behavior and ARC-002 refined-mesh comparability remain
+explicitly excluded or deferred. TET10 and HEX20 remain research routes; no
+general TL, Arc-Length, finite-kinematic or production-wide claim is made. The
+machine-readable closeout is `qualification/0_2_6/g07_owner_closeout.json`.
 
 `026-G08` is closed as `PASS_WITH_LIMITATIONS` by the active Owner review in
 `qualification/0_2_6/g08_owner_final_review.json`. The review preserves the
