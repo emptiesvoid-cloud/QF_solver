@@ -4,7 +4,7 @@
   "theme": "Prismatic Solid Interoperability and Numerical Robustness",
   "baseline_sha": "e839373b6aef291a93292186d7553ba5cd12af55",
   "baseline_branch": "main",
-  "foundation_status": "WP03_PASS",
+  "foundation_status": "WP05_PASS",
   "source_change_authorized_by_foundation": false,
   "gates": [
     {
@@ -63,12 +63,23 @@
       "id": "027-G05",
       "work_package": "WP05",
       "title": "C3D6/PENTA6 external oracle preflight",
-      "status": "NOT_STARTED",
+      "status": "PASS",
+      "start_sha": "fb102e649235a276096b3a37e19eb61e19a5b43f",
+      "evidence_head": "PENDING_WP05_COMMIT",
       "depends_on": ["027-G01", "027-G02"],
       "go": ["tool/version and deck are reproducible", "kinematics and observables are comparable"],
       "stop": ["unavailable tool is reported as PASS", "ambiguous node or face map"],
       "evidence_required": ["preflight report", "deck metadata", "availability classification"],
-      "files": ["0_2_7_external_oracle_plan.md"]
+      "files": [
+        "docs/verification/0_2_7/0_2_7_external_oracle_plan.md",
+        "docs/verification/0_2_7/0_2_7_wedge6_external_review.md",
+        "qualification/0_2_7/external_oracles/wedge6/contract.json",
+        "qualification/0_2_7/external_oracles/wedge6/mapping.json",
+        "qualification/0_2_7/external_oracles/wedge6/specs/cases.json",
+        "qualification/0_2_7/external_oracles/wedge6/preflight_evidence.json",
+        "qualification/0_2_7/wp05_state.json",
+        "tests/unit/test_wedge6_external_preflight.py"
+      ]
     },
     {
       "id": "027-G06",

@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "work_package": "WP05",
+  "gate": "027-G05",
+  "status": "PASS",
+  "start_sha": "fb102e649235a276096b3a37e19eb61e19a5b43f",
+  "evidence_head": "PENDING_WP05_COMMIT",
+  "owner_decision": "bounded external-oracle preflight PASS; no WEDGE6 correlation or capability",
+  "calculix_c3d6": {
+    "state": "AVAILABLE_LOCAL_ONLY",
+    "version": "2.20",
+    "deck_validation": "PASS_DECK_VALIDATION_ONLY",
+    "ci_available": false
+  },
+  "code_aster_penta6": {
+    "state": "AVAILABLE_LOCAL_ONLY",
+    "version": "18.1.0",
+    "deck_validation": "PASS_DECK_VALIDATION_ONLY",
+    "ci_available": false
+  },
+  "reference_decks": {
+    "planned_cases": 8,
+    "executable_affine_decks": 2,
+    "executed_deck_validations": 2,
+    "qf_wedge6_correlation": "NOT_RUN_WEDGE6_NOT_IMPLEMENTED"
+  },
+  "required_controls": {
+    "node_mapping": "PASS_CANDIDATE_REQUIRES_POSITIVE_JACOBIAN_REPLAY",
+    "face_mapping": "PASS_CANDIDATE_REQUIRES_ORIENTATION_REPLAY",
+    "comparability_tolerance": "OWNER_REVIEW_REQUIRED",
+    "unavailable_external_behavior": "SKIPPED_EXTERNAL_UNAVAILABLE_NEVER_PASS"
+  },
+  "wedge6_implemented": false,
+  "numerical_source_changed": false,
+  "artifact_classification": "CONTROLLED_PROOF"
+}

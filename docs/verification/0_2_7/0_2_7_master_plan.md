@@ -21,7 +21,9 @@ qualified 0.2.7 scope unless a future Owner decision explicitly changes it.
 The plan starts from the tagged 0.2.6 baseline
 `e839373b6aef291a93292186d7553ba5cd12af55`. WP01 release truth and
 provenance is `PASS`; WP02 registry control is `PASS`; WP03 descriptor and
-preflight control is `PASS`; all remaining work packages are `NOT_STARTED`.
+preflight control is `PASS`; WP04 harness control is `PASS`; and WP05 external
+oracle preflight is `PASS` for deck validation only. WP06-WP14 remain
+`NOT_STARTED`.
 
 ## Work packages and STOP/GO criteria
 
@@ -94,8 +96,10 @@ preflight control is `PASS`; all remaining work packages are `NOT_STARTED`.
   untransformable observables.
 - **Evidence required:** preflight report, deck templates and availability
   classification.
-- **Files:** `0_2_7_external_oracle_plan.md`, deck metadata and manifests.
-- **Status:** `NOT_STARTED`.
+- **Files:** `0_2_7_external_oracle_plan.md`, the WEDGE6 external review pack,
+  deck metadata and manifests.
+- **Status:** `PASS` for local-only deck preflight; no WEDGE6 implementation or
+  QF/external correlation is claimed.
 
 ### WP06 - Mesh quality and distortion contract
 

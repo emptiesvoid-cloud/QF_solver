@@ -43,6 +43,17 @@ non-qualified and unsupported routes distinctly. Targeted descriptor, workflow
 and analysis tests pass; no numerical source or Owner maturity decision was
 changed.
 
+WP05 is an external-oracle engineering control rather than a WEDGE6
+qualification decision. The pinned Docker runs validated one minimal CalculiX
+C3D6 deck and one Code_Aster PENTA6 deck locally. Both oracle routes are
+`AVAILABLE_LOCAL_ONLY`; no QF WEDGE6 implementation, comparison verdict or
+public capability was created. The eight future benchmarks remain `PLANNED`,
+and the comparability tolerance remains `OWNER_REVIEW_REQUIRED`.
+
+The WP05 preflight is `PASS` with the local-only limitation recorded in the
+machine-readable contract and review pack. This does not authorize WP07 or
+change any existing 0.2.6 decision.
+
 WP04 is an additive V&V-engineering control rather than a capability
 qualification decision. Its declarative case/oracle schema, runner verdicts,
 canonical evidence serialization and replay mismatch checks pass on three

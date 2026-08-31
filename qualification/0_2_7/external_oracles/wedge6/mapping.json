@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "mapping_id": "WP05-WEDGE6-MAPPING-001",
+  "status": "CONTROLLED_CANDIDATE",
+  "source_sha": "fb102e649235a276096b3a37e19eb61e19a5b43f",
+  "reference_coordinates": {
+    "1": [0.0, 0.0, -1.0],
+    "2": [1.0, 0.0, -1.0],
+    "3": [0.0, 1.0, -1.0],
+    "4": [0.0, 0.0, 1.0],
+    "5": [1.0, 0.0, 1.0],
+    "6": [0.0, 1.0, 1.0]
+  },
+  "primary_node_order": {
+    "qf_future_wedge6": [1, 2, 3, 4, 5, 6],
+    "gmsh_prism6": [1, 2, 3, 4, 5, 6],
+    "calculix_c3d6": [1, 2, 3, 4, 5, 6],
+    "code_aster_penta6": [1, 2, 3, 4, 5, 6],
+    "mapping_status": "documented candidate; positive-Jacobian and deck replay checks are mandatory before use"
+  },
+  "face_mapping": [
+    {
+      "face_id": "TRI_BOTTOM",
+      "topological_nodes": [1, 2, 3],
+      "oriented_reference_cycle": [1, 3, 2],
+      "normal_rule": "outward for reference prism with z=-1"
+    },
+    {
+      "face_id": "TRI_TOP",
+      "topological_nodes": [4, 5, 6],
+      "oriented_reference_cycle": [4, 5, 6],
+      "normal_rule": "outward for reference prism with z=+1"
+    },
+    {
+      "face_id": "QUAD_SIDE_12",
+      "topological_nodes": [1, 2, 5, 4],
+      "oriented_reference_cycle": [1, 2, 5, 4],
+      "normal_rule": "outward side joining reference edge 1-2"
+    },
+    {
+      "face_id": "QUAD_SIDE_23",
+      "topological_nodes": [2, 3, 6, 5],
+      "oriented_reference_cycle": [2, 3, 6, 5],
+      "normal_rule": "outward side joining reference edge 2-3"
+    },
+    {
+      "face_id": "QUAD_SIDE_31",
+      "topological_nodes": [3, 1, 4, 6],
+      "oriented_reference_cycle": [3, 1, 4, 6],
+      "normal_rule": "outward side joining reference edge 3-1"
+    }
+  ],
+  "permutation_policy": {
+    "allowed_action": "explicit permutation recorded in case metadata and followed by Jacobian/normal verification",
+    "automatic_repair": false,
+    "negative_jacobian": "FAIL_CLOSED",
+    "normal_mismatch": "NOT_COMPARABLE until corrected and re-digested",
+    "node_labels": "external decks use one-based labels; QF/Gmsh adapters must record any zero-based conversion"
+  },
+  "sources": [
+    "https://gmsh.info/doc/texinfo/gmsh.html",
+    "https://web.mit.edu/calculix_v2.7/CalculiX/ccx_2.7/doc/ccx/node34.html",
+    "https://www-mdp.eng.cam.ac.uk/web/CD/engapps/aster_docs/UDocs-HTML/U30100d/U30100d.pdf.html"
+  ]
+}

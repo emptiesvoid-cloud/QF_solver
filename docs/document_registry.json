@@ -4388,6 +4388,22 @@
       "tests": [
         "tests/unit/test_vnv_harness_v2.py"
       ]
+    },
+    {
+      "id": "DOC-027-019",
+      "path": "verification/0_2_7/0_2_7_wedge6_external_review.md",
+      "title": "0.2.7 WEDGE6 external oracle review pack",
+      "status": "controlled_candidate",
+      "requirements": ["027-REQ-006"],
+      "examples": [
+        "qualification/0_2_7/external_oracles/wedge6/contract.json",
+        "qualification/0_2_7/external_oracles/wedge6/mapping.json",
+        "qualification/0_2_7/external_oracles/wedge6/specs/cases.json",
+        "qualification/0_2_7/external_oracles/wedge6/preflight_evidence.json"
+      ],
+      "tests": [
+        "tests/unit/test_wedge6_external_preflight.py"
+      ]
     }
   ]
 }

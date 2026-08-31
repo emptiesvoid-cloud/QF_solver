@@ -12,8 +12,10 @@ approver: ""
 ## Purpose
 
 This plan determines whether an independent C3D6/PENTA6 comparison is
-available before WEDGE6 implementation. It is a preflight, not evidence of a
-WEDGE6 result.
+available before WEDGE6 implementation. WP05 is `PASS` for the controlled
+preflight recorded in the [review pack](0_2_7_wedge6_external_review.md), not
+evidence of a WEDGE6 result. The machine-readable contract, node/face mapping,
+case catalog and deck-validation evidence are the controlled records.
 
 ## Required comparability record
 
@@ -46,9 +48,12 @@ The comparison classification is one of `PASS_EXTERNAL`,
 | Outputs | displacement, reaction and selected internal observable are extractable |
 | Replay | same deck and command reproduce the recorded output |
 
-If the tool is unavailable, retain the preflight as `SKIPPED_UNAVAILABLE` and
-keep external correlation as a limitation. Do not install a heavyweight stack
-solely to turn a planned row green.
+The current host has pinned Docker images for both tools. They are classified
+`AVAILABLE_LOCAL_ONLY`: the affine decks were replayed locally, but neither
+tool is a CI dependency and no QF WEDGE6 correlation was issued. If an image
+or executable is unavailable in a future environment, retain
+`SKIPPED_UNAVAILABLE` and keep external correlation as a limitation. Do not
+install a heavyweight stack solely to turn a planned row green.
 
 ## Planned observables
 

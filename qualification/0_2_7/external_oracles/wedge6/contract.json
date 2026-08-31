@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "contract_id": "WP05-WEDGE6-EXTERNAL-ORACLE-001",
+  "work_package": "WP05",
+  "gate": "027-G05",
+  "status": "CONTROLLED_CANDIDATE",
+  "source_sha": "fb102e649235a276096b3a37e19eb61e19a5b43f",
+  "candidate_element": {
+    "qf_name": "WEDGE6",
+    "implemented": false,
+    "public_capability": false,
+    "dimension": 3,
+    "node_count": 6,
+    "topology": "linear triangular prism",
+    "faces": ["TRI3", "TRI3", "QUAD4", "QUAD4", "QUAD4"]
+  },
+  "oracle_classification": {
+    "AVAILABLE_REPRODUCIBLE": "tool, pinned image and invocation are recorded and the affine deck replay is reproducible",
+    "AVAILABLE_LOCAL_ONLY": "tool is reachable in this workstation environment but is not an installed/CI dependency",
+    "AVAILABLE_NOT_REPRODUCIBLE": "tool can be invoked but version, inputs or outputs cannot be replayed deterministically",
+    "UNAVAILABLE": "no executable or usable pinned image is available",
+    "UNKNOWN": "availability has not been established"
+  },
+  "oracles": [
+    {
+      "id": "CALCULIX-C3D6",
+      "classification": "AVAILABLE_LOCAL_ONLY",
+      "solver": "CalculiX",
+      "version": "2.20",
+      "executable": "ccx in pinned Docker image",
+      "image": "qf-solver/calculix-nafems13h:2.20",
+      "image_digest": "sha256:d9b16f92e61d0dc6fbe857549306c1efc5155c7bdc309c13c6a6f175193d1faf",
+      "local_observation": "Docker daemon and image available; host ccx executable not installed",
+      "reproducible_invocation": ["docker", "run", "--rm", "-v", "<deck_dir>:/work", "-w", "/work", "qf-solver/calculix-nafems13h:2.20", "<job_name>"],
+      "ci_available": false,
+      "license_or_restriction": "open-source external tool; image availability is environment-dependent",
+      "determinism": "deck replay required; no QF correlation is implied by deck execution",
+      "element": "C3D6",
+      "integration": "two integration points, as documented by CalculiX",
+      "mesh_and_results": "same physical mesh and nodal displacement/reaction outputs are preferred; stress output requires sampling contract"
+    },
+    {
+      "id": "CODE_ASTER-PENTA6",
+      "classification": "AVAILABLE_LOCAL_ONLY",
+      "solver": "Code_Aster",
+      "version": "18.1.0",
+      "executable": null,
+      "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+      "image_digest": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+      "local_observation": "Pinned Docker image and Code_Aster 18.1.0 run_aster are available; host as_run executable is not installed",
+      "reproducible_invocation": ["docker", "run", "--rm", "--entrypoint", "/bin/bash", "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435", "-c", "source <pinned-profile>/share/aster/profile.sh; <pinned-profile>/bin/run_aster <case>.comm"],
+      "ci_available": false,
+      "license_or_restriction": "availability and version must be supplied by the execution environment",
+      "determinism": "single-thread deck replay required; no QF correlation is implied by deck execution",
+      "element": "PENTA6",
+      "integration": "mechanical 3D modelisation and exact quadrature behavior must be recorded from the executed version",
+      "mesh_and_results": "PENTA6 mesh and minimal MECA_STATIQUE deck are executed as an oracle preflight only"
+    }
+  ],
+  "comparability_contract": {
+    "geometry": "identical affine prism coordinates; physical dimensions recorded per case",
+    "material": "homogeneous isotropic linear elastic, E and nu in SI units",
+    "mesh": "identical coordinates/connectivity or an explicit physical-equivalence map with digest",
+    "node_order": "mapping.json; identity map is only valid after orientation and affine replay checks",
+    "boundary_conditions": "named node sets and DOF components, with the same constrained DOFs",
+    "loads": "nodal loads or face tractions with total resultant and sign recorded",
+    "integration": "external rule/version recorded; never inferred from a matching result",
+    "requested_outputs": ["displacement", "reaction", "load_displacement_curve", "strain", "stress", "strain_energy", "eigenfrequency"],
+    "primary_observables": ["displacement", "total_reaction", "strain_energy"],
+    "stress_rule": "compare only identical stress measure and integration/sample location; otherwise NOT_COMPARABLE",
+    "units": "SI units unless a case explicitly records another unit system",
+    "sign_convention": "positive outward normal and positive applied load are recorded per deck; reactions use the solver sign convention and are compared after explicit normalization",
+    "tolerance_policy": "OWNER_REVIEW_REQUIRED before any QF/external verdict; no tolerance is derived from observed differences",
+    "skip_policy": "unavailable, non-reproducible or non-comparable external runs are explicit SKIPPED_EXTERNAL_UNAVAILABLE or NOT_FORMULATION_COMPATIBLE and never PASS"
+  },
+  "required_artifacts": [
+    "case metadata",
+    "deck digest",
+    "external solver/version/image fingerprint",
+    "command and exit status",
+    "raw output digest",
+    "parsed observables",
+    "comparison record",
+    "provenance and limitation record"
+  ],
+  "artifact_classification": "CONTROLLED_PROOF",
+  "wedge6_implemented": false
+}
