@@ -137,6 +137,23 @@
   },
   {
     "schema_version": 1,
+    "case_id": "WP08-MOMENT-EQUILIBRIUM",
+    "requirement_id": "027-REQ-009",
+    "capability_refs": ["COMB-WEDGE6-linear_static"],
+    "element": "WEDGE6",
+    "analysis": "linear_static",
+    "material": "isotropic_3d",
+    "route": "scipy_sparse",
+    "model_input": "fixture://wp08/wedge6/two-prism-moment-equilibrium-v1",
+    "oracle": {"type": "INTERNAL_INVARIANT", "source": "global moment equilibrium audit", "observable": "moment_balance_relative_error", "unit": "1", "comparison_rule": "absolute", "tolerance": 1e-12, "expected": 0.0, "provenance": {"mesh": "two conforming WEDGE6 prisms", "status": "predeclared"}},
+    "observables": ["moment_balance_relative_error"],
+    "tolerance": 1e-12,
+    "expected_failure": null,
+    "execution_tier": "T1",
+    "provenance": {"artifact_classification": "CONTROLLED_PROOF", "contract": "WP08 moment equilibrium"}
+  },
+  {
+    "schema_version": 1,
     "case_id": "WP08-PRESCRIBED-DISPLACEMENT",
     "requirement_id": "027-REQ-009",
     "capability_refs": ["COMB-WEDGE6-linear_static"],
