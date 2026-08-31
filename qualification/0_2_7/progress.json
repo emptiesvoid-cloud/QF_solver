@@ -3,7 +3,7 @@
   "release": "0.2.7a0",
   "theme": "Prismatic Solid Interoperability and Numerical Robustness",
   "baseline_sha": "e839373b6aef291a93292186d7553ba5cd12af55",
-  "branch": "codex/0.2.7-foundation",
+  "branch": "dedicated 0.2.7 foundation branch",
   "status": "WP01_PASS",
   "full_regression_run": false,
   "numerical_source_changed": false,

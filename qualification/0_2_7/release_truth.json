@@ -20,7 +20,7 @@
     "sha": "e99289aca40011ca0424944099e2d2093cf21a65",
     "role": "0.2.7 source snapshot at WP01 start; documentation commits are separate"
   },
-  "current_development_branch": "codex/0.2.7-foundation",
+  "current_development_branch": "dedicated 0.2.7 foundation branch",
   "publication_state_026": {
     "git_tag": "PRESENT",
     "git_tag_target": "e839373b6aef291a93292186d7553ba5cd12af55",
