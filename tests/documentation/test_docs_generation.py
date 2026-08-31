@@ -13,8 +13,12 @@ from scripts.build_docs import DocumentationEvidenceBuilder, DocumentationQualif
 from scripts.build_technical_latex import _pandoc, _pdflatex
 from scripts.docs_assets import DocumentationAssetBuilder
 from scripts.docs_models import upgrade_tet4_to_tet10
-from scripts.docs_publication import normalize_document_status, read_document_metadata
-from scripts.docs_publication import DocumentationPublisher
+from scripts.docs_publication import (
+    DocumentationPublisher,
+    is_generated_document,
+    normalize_document_status,
+    read_document_metadata,
+)
 from scripts.docs_support import automatic_deformation_scale, tetra_boundary_faces, write_markdown_table
 from solveur.benchmarks import DemonstrationCatalog
 from solveur.io.manifest import sha256
@@ -44,7 +48,7 @@ def controlled_markdown_paths() -> set[str]:
     return {
         path.relative_to(DOCS).as_posix()
         for path in DOCS.rglob("*.md")
-        if "generated" not in path.relative_to(DOCS).parts
+        if not is_generated_document(path.relative_to(DOCS).as_posix())
         and path.relative_to(DOCS).as_posix() != "assets/vendor/README.md"
     }
 

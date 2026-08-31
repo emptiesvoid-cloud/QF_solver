@@ -76,6 +76,7 @@ class DocumentationAssetBuilder:
             ignored_prefixes=(
                 "docs/generated/",
                 "docs/assets/generated/",
+                "docs/verification/0_2_6/",
                 "docs/verification/project_hygiene_architecture_audit_0_2_1.md",
             ),
         )

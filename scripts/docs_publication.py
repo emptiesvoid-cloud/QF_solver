@@ -20,6 +20,18 @@ from solveur.verification.traceability import FormulaRegistry
 from solveur.version import DISPLAY_NAME, __version__
 
 
+GENERATED_DOCUMENT_PREFIXES = ("verification/0_2_6/",)
+
+
+def is_generated_document(relative_path: str) -> bool:
+    """Return whether a documentation path is generated rather than registry-controlled."""
+
+    normalized = relative_path.replace("\\", "/")
+    return "generated" in Path(normalized).parts or any(
+        normalized.startswith(prefix) for prefix in GENERATED_DOCUMENT_PREFIXES
+    )
+
+
 @dataclass(frozen=True)
 class CachedDemoRecord:
     """A catalog entry reconstructed from a previously generated benchmark."""
@@ -94,7 +106,7 @@ class DocumentationPublisher:
         controlled_paths = {
             path.relative_to(self.docs).as_posix(): path
             for path in self.docs.rglob("*.md")
-            if "generated" not in path.relative_to(self.docs).parts
+            if not is_generated_document(path.relative_to(self.docs).as_posix())
             and path.relative_to(self.docs).as_posix() != "assets/vendor/README.md"
         }
         rows = []
