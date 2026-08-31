@@ -8,8 +8,8 @@
   "foundation_branch": "codex/0.2.7-foundation",
   "baseline_worktree_clean_at_capture": true,
   "foundation_status": "WP07_PASS_EXPERIMENTAL",
-  "evidence_head": "pending WP07 implementation/evidence commit",
-  "current_development_head": "69b7d01beb81263fc2b87cfacb83985db10e3a82",
+  "evidence_head": "e2e0de5a5d6bd82e410c4b355fd7d80a830cc5a5",
+  "current_development_head": "e2e0de5a5d6bd82e410c4b355fd7d80a830cc5a5",
   "current_development_branch": "codex/0.2.7-foundation",
   "parent_release": {
     "version": "0.2.6a0",
