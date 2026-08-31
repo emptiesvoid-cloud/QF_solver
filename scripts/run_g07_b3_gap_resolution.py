@@ -220,6 +220,8 @@ def _adaptive_probe() -> dict[str, Any]:
     cases: list[dict[str, Any]] = []
     for definition in BASELINES:
         case = _run_case(definition, ADAPTIVE_POLICY)
+        failure_diagnostics = case.get("failure", {}).get("diagnostics", {})
+        rejection_log = failure_diagnostics.get("rejection_log", [])
         cases.append(
             _safe(
                 {
@@ -232,9 +234,8 @@ def _adaptive_probe() -> dict[str, Any]:
                     "failure": case["failure"],
                     "rejected_attempts": case["rejected_attempts"],
                     "rollback_verified": all(
-                        bool(row.get("failure_diagnostics", {}).get("rollback_verified"))
-                        for row in case["rejected_attempts"]
-                    ),
+                        bool(row.get("rollback_verified")) for row in rejection_log
+                    ) and bool(rejection_log),
                 }
             )
         )
