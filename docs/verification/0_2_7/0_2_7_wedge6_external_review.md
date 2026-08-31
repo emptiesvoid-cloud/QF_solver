@@ -32,12 +32,14 @@ controlled deck-validation artifacts, not QF correlation evidence.
 
 ## Mapping review
 
-The candidate primary order is `[1, 2, 3, 4, 5, 6]`: lower TRI3 then upper
+The controlled primary order is `[1, 2, 3, 4, 5, 6]`: lower TRI3 then upper
 TRI3 in the reference coordinate record. The five topological faces are two
-TRI3 faces and three QUAD4 faces. Outward cycles, orientation checks and
-positive Jacobian checks are explicit in `mapping.json`; no automatic repair
-is permitted. A future adapter must replay the affine deck and record any
-permutation before comparing results.
+TRI3 faces and three QUAD4 faces. An asymmetric affine fixture validates the
+reference coordinates and external deck connectivity; QF kernel replay is not
+applicable because WEDGE6 is not implemented. Outward cycles, orientation
+checks and positive Jacobian checks are explicit in `mapping.json`; no
+automatic repair is permitted. Future adapters must record any permutation
+and replay the face pressure checks before comparing results.
 
 ## Benchmark plan
 
@@ -47,9 +49,12 @@ declares geometry, material, load/resultant, observable, units and a
 pre-declared comparison policy. Tolerances remain `OWNER_REVIEW_REQUIRED`;
 the deck-validation records do not set correlation acceptance thresholds.
 
-Primary observables are displacement, total reaction and strain energy. Stress
-is secondary and requires identical measure and sampling location. Modal
-frequency is reserved for a later, separately qualified route.
+Primary observables are displacement, total reaction and strain energy. The
+predeclared comparison candidates are relative `1e-6` for those observables,
+with `PROPOSED_OWNER_REVIEW` status and a near-zero absolute-scale rule; they
+are not derived from observed differences. Stress is secondary and requires
+identical measure and sampling location. Modal frequency is reserved for a
+later, separately qualified route.
 
 ## Open questions and stop conditions
 

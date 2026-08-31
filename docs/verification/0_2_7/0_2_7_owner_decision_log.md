@@ -74,3 +74,11 @@ and does not promote any capability.
 An entry may be changed to an approved state only with a decision owner, exact
 evidence SHA, scope, limitations and date. No decision here reopens G07 or
 changes any 0.2.6 maturity classification.
+
+T1-R is a remediation checkpoint, not an Owner qualification decision. It
+records the inactive WEDGE6 formulation, quadrature candidate and richer
+verification reference, asymmetric node/face fixture, prism Jacobian validity
+controls, stiffness/mass V&V obligations and external primary observables.
+Its targeted tests pass and no WEDGE6 capability or kernel is exposed. The
+checkpoint is ready for Terra/Owner re-review; WP07 remains `NOT_STARTED` and
+kernel authorization remains `OWNER_REVIEW_REQUIRED`.

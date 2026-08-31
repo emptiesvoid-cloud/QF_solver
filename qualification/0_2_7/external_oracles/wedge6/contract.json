@@ -70,7 +70,16 @@
     "stress_rule": "compare only identical stress measure and integration/sample location; otherwise NOT_COMPARABLE",
     "units": "SI units unless a case explicitly records another unit system",
     "sign_convention": "positive outward normal and positive applied load are recorded per deck; reactions use the solver sign convention and are compared after explicit normalization",
-    "tolerance_policy": "OWNER_REVIEW_REQUIRED before any QF/external verdict; no tolerance is derived from observed differences",
+    "tolerance_policy": {
+      "status": "PROPOSED_OWNER_REVIEW",
+      "displacement_relative": 1.0e-6,
+      "total_reaction_relative": 1.0e-6,
+      "strain_energy_relative": 1.0e-6,
+      "justification": "same physical mesh, declared units and explicit resultant/sign normalization; Owner approval is required before an external verdict",
+      "near_zero": "use a declared absolute scale or classify NOT_COMPARABLE; never divide by a near-zero reference"
+    },
+    "primary_observables": ["displacement", "total_reaction", "strain_energy"],
+    "stress_comparability": "same measure, same sample point, same frame and same sign convention; otherwise NOT_COMPARABLE",
     "skip_policy": "unavailable, non-reproducible or non-comparable external runs are explicit SKIPPED_EXTERNAL_UNAVAILABLE or NOT_FORMULATION_COMPATIBLE and never PASS"
   },
   "required_artifacts": [

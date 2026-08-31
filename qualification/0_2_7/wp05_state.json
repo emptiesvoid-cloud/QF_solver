@@ -25,10 +25,16 @@
     "qf_wedge6_correlation": "NOT_RUN_WEDGE6_NOT_IMPLEMENTED"
   },
   "required_controls": {
-    "node_mapping": "PASS_CANDIDATE_REQUIRES_POSITIVE_JACOBIAN_REPLAY",
-    "face_mapping": "PASS_CANDIDATE_REQUIRES_ORIENTATION_REPLAY",
-    "comparability_tolerance": "OWNER_REVIEW_REQUIRED",
+    "node_mapping": "VALIDATED_REFERENCE_AND_DECK_CONNECTIVITY; QF_KERNEL_REPLAY_REQUIRED_IN_WP07",
+    "face_mapping": "VALIDATED_REFERENCE_ORIENTATION; PRESSURE_DECK_REPLAY_REQUIRED_IN_WP08",
+    "comparability_tolerance": "PROPOSED_OWNER_REVIEW_PREDECLARED",
+    "primary_observables": ["displacement", "total_reaction", "strain_energy"],
     "unavailable_external_behavior": "SKIPPED_EXTERNAL_UNAVAILABLE_NEVER_PASS"
+  },
+  "t1r_overlay": {
+    "source_sha": "32e4e40bf18f0fdcd0a4ae9959d4f0df2b76892e",
+    "contract": "qualification/0_2_7/t1r_state.json",
+    "interpretation": "T1-R supersedes the preparatory control wording for future WP07 use; WP05 evidence remains historical deck validation only"
   },
   "wedge6_implemented": false,
   "numerical_source_changed": false,

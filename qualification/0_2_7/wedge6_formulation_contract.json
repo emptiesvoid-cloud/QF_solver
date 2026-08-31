@@ -1,0 +1,159 @@
+{
+  "schema_version": 1,
+  "contract_id": "T1-R-WEDGE6-FORMULATION-001",
+  "status": "CONTROLLED_PRE_WP07",
+  "applicable_version": "0.2.7a0",
+  "source_sha": "32e4e40bf18f0fdcd0a4ae9959d4f0df2b76892e",
+  "implemented": false,
+  "public_capability": false,
+  "reference_domain": {
+    "coordinates": ["r", "s", "t"],
+    "constraints": ["r >= 0", "s >= 0", "r + s <= 1", "-1 <= t <= 1"],
+    "reference_volume": 1.0,
+    "reference_volume_definition": "triangle area 1/2 times thickness 2"
+  },
+  "reference_nodes": {
+    "1": [0.0, 0.0, -1.0],
+    "2": [1.0, 0.0, -1.0],
+    "3": [0.0, 1.0, -1.0],
+    "4": [0.0, 0.0, 1.0],
+    "5": [1.0, 0.0, 1.0],
+    "6": [0.0, 1.0, 1.0]
+  },
+  "shape_functions": [
+    {"id": "N1", "expression": "0.5*(1-t)*(1-r-s)", "dN_dr": "-0.5*(1-t)", "dN_ds": "-0.5*(1-t)", "dN_dt": "-0.5*(1-r-s)"},
+    {"id": "N2", "expression": "0.5*(1-t)*r", "dN_dr": "0.5*(1-t)", "dN_ds": "0", "dN_dt": "-0.5*r"},
+    {"id": "N3", "expression": "0.5*(1-t)*s", "dN_dr": "0", "dN_ds": "0.5*(1-t)", "dN_dt": "-0.5*s"},
+    {"id": "N4", "expression": "0.5*(1+t)*(1-r-s)", "dN_dr": "-0.5*(1+t)", "dN_ds": "-0.5*(1+t)", "dN_dt": "0.5*(1-r-s)"},
+    {"id": "N5", "expression": "0.5*(1+t)*r", "dN_dr": "0.5*(1+t)", "dN_ds": "0", "dN_dt": "0.5*r"},
+    {"id": "N6", "expression": "0.5*(1+t)*s", "dN_dr": "0", "dN_ds": "0.5*(1+t)", "dN_dt": "0.5*s"}
+  ],
+  "identities": {
+    "partition_of_unity": "sum(Ni) = 1",
+    "kronecker": "Ni(reference_node_j) = delta_ij",
+    "derivative_sum": ["sum(dNi/dr) = 0", "sum(dNi/ds) = 0", "sum(dNi/dt) = 0"],
+    "affine_reproduction": "sum(Ni * x_i) reproduces every affine physical mapping"
+  },
+  "isoparametric_mapping": {
+    "physical_coordinates": "x(r,s,t) = sum_i Ni(r,s,t) * x_i",
+    "jacobian_definition": "J[a,b] = d x_a / d xi_b, xi=(r,s,t)",
+    "physical_gradient": "grad_x(Ni) = inverse(J)^T * grad_xi(Ni)",
+    "valid_orientation": "det(J) > 0 at the declared validity controls",
+    "signed_volume": "V_signed = integral_reference(det(J) dr ds dt)",
+    "volume": "V = abs(V_signed) after positive-orientation validation"
+  },
+  "small_strain_matrix": {
+    "voigt_order": ["xx", "yy", "zz", "xy", "yz", "xz"],
+    "definition": "epsilon = B*u with epsilon=(exx,eyy,ezz,gxy,gyz,gxz)",
+    "construction": "B is assembled from physical gradients with engineering shear rows",
+    "stress_recovery": "sigma = C*epsilon at declared volume sample points; extrapolation is not implicit"
+  },
+  "quadrature": {
+    "selected_rule": {
+      "name": "TRI3_X_GAUSS2",
+      "status": "CONTROLLED_CANDIDATE_FOR_WP07",
+      "triangle_rule_degree": 2,
+      "triangle_points": [
+        {"r": 0.1666666666666667, "s": 0.1666666666666667, "weight": 0.1666666666666667},
+        {"r": 0.6666666666666667, "s": 0.1666666666666667, "weight": 0.1666666666666667},
+        {"r": 0.1666666666666667, "s": 0.6666666666666667, "weight": 0.1666666666666667}
+      ],
+      "line_rule_degree": 3,
+      "line_points": [
+        {"t": -0.5773502691896258, "weight": 1.0},
+        {"t": 0.5773502691896258, "weight": 1.0}
+      ],
+      "point_count": 6,
+      "scope": "initial full-integration candidate; reduced integration is not qualified"
+    },
+    "reference_rule": {
+      "name": "DUFFY_GAUSS5_X_GAUSS4",
+      "status": "VERIFICATION_REFERENCE_ONLY",
+      "construction": "r=a, s=(1-a)*b, multiply tensor Gauss-Legendre weights by (1-a)",
+      "triangle_order": 5,
+      "line_order": 4,
+      "point_count": 100,
+      "scope": "independent integration and distortion sensitivity reference"
+    },
+    "selection_criteria": [
+      "exactness for affine constant-strain and consistent-mass polynomial checks",
+      "no additional zero-energy modes under the stiffness rank test",
+      "comparison against the richer reference rule on distorted positive-Jacobian prisms",
+      "declared cost and locking sensitivity before numerical promotion"
+    ],
+    "owner_policy": "PROPOSED_OWNER_REVIEW"
+  },
+  "jacobian_quality": {
+    "validity_controls": {
+      "reference_vertices": "all six prism vertices",
+      "volume_quadrature": "all points of selected_rule",
+      "additional_samples": "face centroids and prism interior centroid for diagnostics",
+      "reason": "for linear WEDGE6, det(J) is affine over each reference triangle at fixed t; vertex controls supplement quadrature checks"
+    },
+    "fatal_conditions": [
+      "nonfinite determinant",
+      "determinant <= 0 at a validity control",
+      "nonfinite or nonpositive signed volume",
+      "coincident nodes or unresolved orientation"
+    ],
+    "warnings": [
+      "distortion and conditioning diagnostics are reported without a universal cutoff"
+    ],
+    "invariance": ["translation", "rigid rotation", "dimensionless scale of geometry metrics"]
+  },
+  "face_contract": {
+    "faces": [
+      {"id": "TRI_BOTTOM", "nodes": [1, 3, 2], "outward_reference_normal": "negative t"},
+      {"id": "TRI_TOP", "nodes": [4, 5, 6], "outward_reference_normal": "positive t"},
+      {"id": "QUAD_SIDE_12", "nodes": [1, 2, 5, 4], "outward_reference_normal": "negative s"},
+      {"id": "QUAD_SIDE_23", "nodes": [2, 3, 6, 5], "outward_reference_normal": "positive r+s"},
+      {"id": "QUAD_SIDE_31", "nodes": [3, 1, 4, 6], "outward_reference_normal": "negative r"}
+    ],
+    "surface_mapping": "surface Jacobian is the norm of the cross product of the two physical tangents",
+    "pressure_convention": "positive pressure acts along the declared outward normal; no automatic normal reversal",
+    "integration_rules": {
+      "TRI3": {"name": "TRI_CENTROID_1", "point": [0.3333333333333333, 0.3333333333333333], "weight": 0.5},
+      "QUAD4": {"name": "QUAD_GAUSS2_X_GAUSS2", "points_per_axis": 2, "weight_per_point": 1.0}
+    },
+    "required_checks": ["area", "outward normal", "uniform-pressure resultant", "resultant moment"]
+  },
+  "stiffness_vnv": {
+    "status": "PREDECLARED_NO_KERNEL",
+    "tests": [
+      "K symmetry",
+      "expected rank with exactly six free rigid-body modes",
+      "affine constant-strain patch",
+      "tension", "compression", "shear", "bending",
+      "positive-Jacobian distorted prism",
+      "strain-energy consistency",
+      "deterministic replay"
+    ],
+    "criteria_status": "PROPOSED_OWNER_REVIEW",
+    "observables": ["relative K symmetry residual", "rank spectrum", "rigid-mode residual", "displacement", "reaction", "energy"]
+  },
+  "mass_vnv": {
+    "status": "FUTURE_WP10_SPECIFICATION_ONLY",
+    "formula": "M = rho * integral_reference(N^T*N*det(J) dr ds dt) tensor I3",
+    "tests": ["symmetry", "positive mass", "total mass conservation", "rigid translation inertia", "modal sanity", "no spurious mode acceptance"],
+    "criteria_status": "PROPOSED_OWNER_REVIEW",
+    "static_promotion": "not permitted"
+  },
+  "external_comparability": {
+    "primary_observables": ["displacement", "total_reaction", "strain_energy"],
+    "stress_condition": "same stress measure, evaluation point, coordinate frame and sign convention",
+    "tolerance_policy": {
+      "status": "PROPOSED_OWNER_REVIEW",
+      "displacement_relative": {"value": 1.0e-6, "justification": "same mesh and double-precision observable comparison; Owner approval required"},
+      "total_reaction_relative": {"value": 1.0e-6, "justification": "same declared resultant and explicit sign normalization; Owner approval required"},
+      "strain_energy_relative": {"value": 1.0e-6, "justification": "same material, units and mesh; Owner approval required"},
+      "near_zero_rule": "use declared absolute reference scale; otherwise classify NOT_COMPARABLE rather than divide by zero"
+    },
+    "no_qf_correlation": true
+  },
+  "artifact_policy": {
+    "source": "this contract and its tests",
+    "controlled_proof": "future executed evidence only after WP07 authorization",
+    "generated_view": "Markdown views generated from this JSON",
+    "historical_evidence": "WP05 deck validation remains historical/preflight only"
+  }
+}
