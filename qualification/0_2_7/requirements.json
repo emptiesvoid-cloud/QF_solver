@@ -85,11 +85,11 @@
       "gate": "027-G07",
       "work_package": "WP07",
       "priority": "MUST",
-      "status": "PLANNED",
-      "requirement": "WEDGE6 formulation and implementation scope shall be reviewed before its kernel is implemented.",
-      "acceptance": "Shape functions, integration, faces, loads, post-processing, mixed-mesh boundary and oracle are accepted.",
-      "verification": ["derivation review", "patch-test plan", "Owner/Solver decision"],
-      "owner_policy": "PROPOSED_OWNER_REVIEW"
+      "status": "PASS_WITH_LIMITATIONS",
+      "requirement": "The Terra-reviewed WEDGE6 formulation shall be implemented and verified for the declared elemental small-strain elastic scope.",
+      "acceptance": "Shape functions, Jacobian certificate, full-integration stiffness, strain/stress recovery, rank, rigid-body, affine, load-state, distortion and replay checks pass; user workflow, faces, loads, mixed meshes and external correlation remain deferred.",
+      "verification": ["qualification/0_2_7/vnv_v2/wp07_cases.json", "qualification/0_2_7/vnv_v2/wp07_evidence.json", "tests/unit/test_wedge6_kernel.py", "Terra T1-R4 authorization"],
+      "owner_policy": "TERRA_GO_WITH_EXPERIMENTAL_PUBLIC_MATURITY"
     },
     {
       "id": "027-REQ-009",

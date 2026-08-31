@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "contract_id": "T1-R-WEDGE6-FORMULATION-001",
-  "status": "CONTROLLED_PRE_WP07",
+  "status": "CONTROLLED_WP07_IMPLEMENTED",
   "applicable_version": "0.2.7a0",
   "source_sha": "32e4e40bf18f0fdcd0a4ae9959d4f0df2b76892e",
-  "implemented": false,
+  "implemented": true,
   "public_capability": false,
   "reference_domain": {
     "coordinates": ["r", "s", "t"],
@@ -51,7 +51,7 @@
   "quadrature": {
     "selected_rule": {
       "name": "TRI3_X_GAUSS2",
-      "status": "CONTROLLED_CANDIDATE_FOR_WP07",
+      "status": "WP07_PRODUCTION_TECHNICAL_RULE",
       "triangle_rule_degree": 2,
       "triangle_points": [
         {"r": 0.1666666666666667, "s": 0.1666666666666667, "weight": 0.1666666666666667},
@@ -64,7 +64,7 @@
         {"t": 0.5773502691896258, "weight": 1.0}
       ],
       "point_count": 6,
-      "scope": "initial full-integration candidate; reduced integration is not qualified"
+      "scope": "WP07 full-integration technical kernel; reduced integration is not implemented or qualified"
     },
     "reference_rule": {
       "name": "DUFFY_GAUSS5_X_GAUSS4",
@@ -81,7 +81,7 @@
       "comparison against the richer reference rule on distorted positive-Jacobian prisms",
       "declared cost and locking sensitivity before numerical promotion"
     ],
-    "owner_policy": "PROPOSED_OWNER_REVIEW"
+    "owner_policy": "FIXED_BY_TERRA_REVIEW; WP07 technical use only"
   },
   "jacobian_quality": {
     "validity_controls": {
@@ -124,7 +124,7 @@
     "required_checks": ["area", "outward normal", "uniform-pressure resultant", "resultant moment"]
   },
   "stiffness_vnv": {
-    "status": "PREDECLARED_NO_KERNEL",
+    "status": "EXECUTED_TARGETED_WP07",
     "tests": [
       "K symmetry",
       "expected rank with exactly six free rigid-body modes",
@@ -134,7 +134,7 @@
       "strain-energy consistency",
       "deterministic replay"
     ],
-    "criteria_status": "PROPOSED_OWNER_REVIEW",
+    "criteria_status": "CONTROLLED_TARGETED_EVIDENCE",
     "observables": ["relative K symmetry residual", "rank spectrum", "rigid-mode residual", "displacement", "reaction", "energy"]
   },
   "mass_vnv": {
@@ -158,7 +158,7 @@
   },
   "artifact_policy": {
     "source": "this contract and its tests",
-    "controlled_proof": "future executed evidence only after WP07 authorization",
+    "controlled_proof": "qualification/0_2_7/vnv_v2/wp07_evidence.json; source SHA and replay digests required",
     "generated_view": "Markdown views generated from this JSON",
     "historical_evidence": "WP05 deck validation remains historical/preflight only"
   }

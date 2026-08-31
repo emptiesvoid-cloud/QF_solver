@@ -183,7 +183,7 @@ def render_markdown(registry: dict[str, Any]) -> str:
         "",
         "**GENERATED_VIEW**: this matrix is rendered from `qualification/0_2_7/capability_registry_v2.json`, which is the source of truth.",
         "",
-        "The v2 registry preserves the 33 public 0.2.6 capability identifiers as traceable anchors and exposes 44 explicit element-analysis combination records. Anchor rows retain aggregate historical scope; combination rows are not new execution evidence.",
+        "The v2 registry preserves the 33 public 0.2.6 capability identifiers as traceable anchors and exposes 45 explicit element-analysis combination records. Anchor rows retain aggregate historical scope; combination rows are not new execution evidence.",
         "",
         f"- Applicable version: `{registry['applicable_version']}`",
         f"- Source snapshot: `{registry['source_snapshot']}`",

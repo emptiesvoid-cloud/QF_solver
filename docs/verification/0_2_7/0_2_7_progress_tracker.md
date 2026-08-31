@@ -9,10 +9,10 @@ approver: ""
 
 # 0.2.7 Progress Tracker
 
-This tracker records actual progress, not intent. WP01 through WP06 and T1-R record
-completed foundation controls; WP05 is limited to external deck preflight and
-WP06 to an additive mesh-quality diagnostic contract. Neither implies a
-WEDGE6 implementation or QF correlation.
+This tracker records actual progress, not intent. WP01 through WP06 and T1-R
+record completed foundation controls; WP07 records the Terra-authorized
+elemental WEDGE6 kernel and targeted evidence. Its public maturity remains
+`EXPERIMENTAL`, and it does not imply a complete workflow or QF correlation.
 
 | WP | Status | Current test level | Start SHA | Evidence head | Owner decision | Blocker |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -24,7 +24,7 @@ WEDGE6 implementation or QF correlation.
 | WP06 | `PASS` | T1 targeted | `884637a60bc752c1d02644fe4d14ae056a2876b8` | `c3989df875bcb385bb8e3b144380526db8151d55` | common diagnostic contract; no universal threshold | - |
 | T1-R | `PASS` | T1 targeted | `32e4e40bf18f0fdcd0a4ae9959d4f0df2b76892e` | `32e4e40bf18f0fdcd0a4ae9959d4f0df2b76892e` | pre-WP07 formulation, mapping, face, quality and V&V contracts | Terra/Owner re-review required; kernel not authorized |
 | T1-R3 | `PASS` | T1 targeted | `d4abc2f15b0e5167cd2faa4734e6a836bdb12514` | pending commit | exact Jacobian certificate and strict external contract | Terra re-review required; kernel not authorized |
-| WP07 | `NOT_STARTED` | T0 not run | - | - | - | - |
+| WP07 | `PASS` | T2 targeted | `69b7d01beb81263fc2b87cfacb83985db10e3a82` | `pending implementation/evidence commit` | technical kernel and elemental V&V PASS; public maturity `EXPERIMENTAL` | WP08 workflow, imports, face loads, reactions and external correlation deferred |
 | WP08 | `NOT_STARTED` | T0 not run | - | - | - | - |
 | WP09 | `NOT_STARTED` | T0 not run | - | - | - | - |
 | WP10 | `NOT_STARTED` | T0 not run | - | - | - | - |
@@ -54,5 +54,6 @@ WP02 is complete for the registry control; WP03 is complete for the descriptor
 and preflight control; WP04 is complete for the additive V&V harness control;
 WP05 has completed the controlled external-oracle preflight. WP06 has
 completed the common mesh-quality diagnostic contract. T1-R has prepared the
-remaining pre-WP07 contracts and asymmetric fixtures. WP07 remains the next
-gate, but is not started or authorized until Terra/Owner review.
+remaining pre-WP07 contracts and asymmetric fixtures. Terra/Owner review
+authorized WP07, whose elemental kernel and targeted V&V are complete. WP08
+remains the next gate.

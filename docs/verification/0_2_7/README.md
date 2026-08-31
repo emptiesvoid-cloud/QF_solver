@@ -11,13 +11,13 @@ approver: ""
 
 **Prismatic solid interoperability and numerical robustness.**
 
-This directory is the controlled planning pack for the `0.2.7a0` development
-cycle. It is a foundation, not a release claim and not a record of executed
-V&V. WP01 release truth and provenance is `PASS`; WP02 is `PASS` for the
+This directory is the controlled evidence pack for the `0.2.7a0` development
+cycle. It is not a release claim. WP01 release truth and provenance is `PASS`; WP02 is `PASS` for the
 capability-registry control; WP03 is `PASS` for the descriptor/preflight
 control; WP04 is `PASS` for the additive V&V harness; WP05 is `PASS` for the
 external deck preflight only; WP06 is `PASS` for an additive mesh-quality
-diagnostic contract; and WP07-WP14 remain `NOT_STARTED`.
+diagnostic contract; WP07 is `PASS` for the experimental elemental WEDGE6
+kernel and its targeted V&V; WP08-WP14 remain `NOT_STARTED`.
 
 ## Baseline and status
 
@@ -29,12 +29,12 @@ diagnostic contract; and WP07-WP14 remain `NOT_STARTED`.
 | Starting branch | `main` at the recorded baseline |
 | Foundation branch | Dedicated 0.2.7 foundation branch |
 | Numerical source changed by this pack | No |
-| WEDGE6 implemented by this pack | No |
+| WEDGE6 implemented by this pack | Technical elemental kernel only |
 | Release/tag/PyPI action | None |
 
 The `0.2.6a0` qualification remains a historical tagged baseline. Its gate
 records and evidence are not rewritten by this plan. The `0.2.7a0` records
-below describe proposed work and must not be read as executed evidence.
+below distinguish executed WP01-WP07 evidence from the later proposed work.
 
 ## Direction
 
@@ -45,9 +45,10 @@ sequence is:
 1. establish release truth, provenance and a capability registry that can
    express element/analysis/material/route combinations;
 2. add additive compatibility descriptors and a declarative V&V harness;
-3. preflight independent C3D6/PENTA6 oracles before any WEDGE6 implementation;
+3. preflight independent C3D6/PENTA6 oracles before WEDGE6 implementation
+   (completed in WP05);
 4. define mesh-quality and distortion policies;
-5. implement and qualify a WEDGE6 static vertical slice, then its modal path;
+5. implement the WEDGE6 elemental kernel (WP07), then qualify a static vertical slice and modal path;
 6. close existing J2 V&V gaps and characterize larger models;
 7. keep stretch research work separate from the bounded release path.
 
@@ -65,7 +66,7 @@ in [`0_2_7_progress_tracker.md`](0_2_7_progress_tracker.md).
 | WP04 | Additive declarative V&V harness | `PASS` |
 | WP05 | C3D6/PENTA6 external-oracle preflight | `PASS` |
 | WP06 | Mesh quality and distortion contract | `PASS` |
-| WP07 | WEDGE6 kernel, plan and design review | `NOT_STARTED` |
+| WP07 | WEDGE6 kernel and elemental V&V | `PASS` (`EXPERIMENTAL`) |
 | WP08 | WEDGE6 static vertical slice | `NOT_STARTED` |
 | WP09 | WEDGE6 robustness and external V&V | `NOT_STARTED` |
 | WP10 | WEDGE6 modal qualification | `NOT_STARTED` |
@@ -127,9 +128,11 @@ explicit skip or limitation, never as `PASS`.
 ## Foundation boundary
 
 WP03 installs technical descriptors and a fail-closed compatibility preflight
-on top of the source-controlled combination registry; it does not implement
-WEDGE6, WEDGE15, PYRAMID5, HEX8R or any new
+on top of the source-controlled combination registry. WP07 adds only the
+authorized WEDGE6 elemental kernel; it does not implement
+WEDGE15, PYRAMID5, HEX8R or any new
 formulation. It does not change the 0.2.6 Owner decisions for TL, Arc-Length,
 J2, buckling, contact, performance or external correlations. A later work
-package may stop before implementation if the formulation, oracle, quality or
-provenance contract cannot be made reproducible.
+package must complete the static/import/load/post contracts before making a
+user-facing WEDGE6 claim. WEDGE6's current registry maturity is
+`EXPERIMENTAL`, not `QUALIFIED_BOUNDED`.

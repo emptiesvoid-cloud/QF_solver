@@ -23,7 +23,8 @@ The plan starts from the tagged 0.2.6 baseline
 provenance is `PASS`; WP02 registry control is `PASS`; WP03 descriptor and
 preflight control is `PASS`; WP04 harness control is `PASS`; WP05 external
 oracle preflight is `PASS` for deck validation only; and WP06 mesh-quality
-contract control is `PASS`. WP07-WP14 remain `NOT_STARTED`.
+contract control is `PASS`. WP07 is now `PASS` for the experimental elemental
+kernel; WP08-WP14 remain `NOT_STARTED`.
 
 ## Work packages and STOP/GO criteria
 
@@ -114,19 +115,21 @@ contract control is `PASS`. WP07-WP14 remain `NOT_STARTED`.
 - **Status:** `PASS` for the additive diagnostic contract; no universal quality
   threshold or new numerical capability was introduced.
 
-### WP07 - WEDGE6 kernel design and review
+### WP07 - WEDGE6 kernel and elemental V&V
 
-- **Objective:** prepare and review the WEDGE6 formulation and implementation
-  contract; this plan does not implement it.
+- **Objective:** implement and verify the reviewed WEDGE6 formulation within
+  the elemental small-strain elastic scope.
 - **Dependencies:** WP03, WP05 and WP06.
-- **GO:** Owner/solver review accepts shape functions, integration, node order,
-  faces, loads, post-processing and external observables.
-- **STOP:** implementation starts without an oracle or an unreviewed
-  formulation, or mixed-mesh behavior is assumed.
-- **Evidence required:** derivation, patch-test plan, face/load map and design
-  review decision.
-- **Files:** `0_2_7_wedge6_plan.md`, formulation review and requirements.
-- **Status:** `NOT_STARTED`.
+- **GO:** the reviewed shape functions, integration and geometry certificate
+  are implemented; elemental invariants, stiffness/recovery and deterministic
+  evidence pass while public maturity remains `EXPERIMENTAL`.
+- **STOP:** certified inversion is not rejected, rank or rigid-body behavior is
+  unexpected, or an existing formulation is modified.
+- **Evidence required:** implementation, targeted V&V catalog/evidence and
+  experimental maturity decision.
+- **Files:** WEDGE6 kernel, formulation contract, quality/preflight integration,
+  targeted tests and `wp07_state.json`.
+- **Status:** `PASS` (`EXPERIMENTAL` elemental kernel only).
 
 ### WP08 - WEDGE6 static vertical slice
 
@@ -227,7 +230,8 @@ contract control is `PASS`. WP07-WP14 remain `NOT_STARTED`.
 
 ## Order rule
 
-The architecture and evidence contracts come before most new numerical proof.
-WEDGE6 implementation cannot start at WP07 without the external-oracle and
-mesh-quality decisions. Stretch work is optional and cannot delay a bounded
-core unless it changes a public claim.
+The architecture and evidence contracts preceded the WP07 numerical proof.
+WP07 is complete only for the experimental elemental kernel; WP08 must add the
+static/import/load/post workflow before any user-facing WEDGE6 claim. Stretch
+work is optional and cannot delay a bounded core unless it changes a public
+claim.

@@ -56,7 +56,7 @@
     "case_id": "WP04-PREFLIGHT-UNKNOWN-ELEMENT",
     "requirement_id": "027-REQ-007",
     "capability_refs": ["INF-DIAGNOSTICS-FAILURES"],
-    "element": "WEDGE6",
+    "element": "PYRAMID5",
     "analysis": "linear_static",
     "material": "isotropic_3d",
     "route": "direct",

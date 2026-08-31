@@ -51,7 +51,7 @@ def modal_model() -> FiniteElementModel:
 def unknown_element_model() -> FiniteElementModel:
     return FiniteElementModel.from_raw(
         nodes=[[0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1]],
-        elements=[{"type": "WEDGE6", "nodes": [0, 1, 2, 3, 0, 1], "material": "steel"}],
+        elements=[{"type": "PYRAMID5", "nodes": [0, 1, 2, 3, 0], "material": "steel"}],
         materials={"steel": {"type": "isotropic_3d", "E": 1.0, "nu": 0.3}},
     )
 

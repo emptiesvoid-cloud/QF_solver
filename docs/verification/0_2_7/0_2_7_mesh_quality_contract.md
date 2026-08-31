@@ -62,13 +62,15 @@ serialization and model preflight.
 
 ## WEDGE6 readiness
 
-The future quality contract reserves a six-node prism with two `TRI3` and
-three `QUAD4` faces. T1-R3 fixes its inactive certificate: at fixed triangular
-coordinates `det(J)` is quadratic in `t`, so each of the three triangular
-vertices is checked at both endpoints and every interior stationary point.
+The quality contract now evaluates the implemented six-node prism with two
+`TRI3` and three `QUAD4` faces. T1-R3 fixes its certificate: at fixed
+triangular coordinates `det(J)` is quadratic in `t`, so each of the three
+triangular vertices is checked at both endpoints and every interior stationary
+point.
 Volume quadrature points, face-centroid and interior-centroid checks remain
 diagnostics only. The scale-aware machine-epsilon guard is not a qualification
 cutoff. It requires prism-oriented signed volume, six-node orientation,
 face-normal orientation, degeneracy and prism-compatible distortion metrics.
-`WEDGE6_IMPLEMENTED` is `NO`; no active capability or public maturity claim is
-created by WP06 or T1-R3.
+`WEDGE6_IMPLEMENTED` is `YES` for the WP07 technical kernel. The registry
+still records the route as `EXPERIMENTAL`; WP06/WP07 do not create a public
+qualified claim.

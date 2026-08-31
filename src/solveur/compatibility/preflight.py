@@ -209,6 +209,16 @@ def check_compatibility(
         return _result("UNSUPPORTED_ROUTE", "UNKNOWN_ELEMENT", f"Unknown element family {element_family!r}.", None, normalized_analysis, normalized_material, formulation_or_route)
     if backend is not None and backend not in {"scipy_sparse", "scipy_dense", "auto"}:
         return _result("UNSUPPORTED_ROUTE", "BACKEND_NOT_SUPPORTED", f"Backend {backend!r} is not declared for {descriptor.canonical_name}.", descriptor.canonical_name, normalized_analysis, normalized_material, formulation_or_route)
+    if backend not in {None, "auto"} and backend not in descriptor.backend_restrictions:
+        return _result(
+            "UNSUPPORTED_ROUTE",
+            "BACKEND_NOT_SUPPORTED",
+            f"Backend {backend!r} is not declared for {descriptor.canonical_name}.",
+            descriptor.canonical_name,
+            normalized_analysis,
+            normalized_material,
+            formulation_or_route,
+        )
     result = _route_status(descriptor, normalized_analysis, normalized_material, formulation_or_route)
     if not result.ok:
         return result

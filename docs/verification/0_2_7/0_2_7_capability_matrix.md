@@ -11,13 +11,13 @@ approver: ""
 
 **GENERATED_VIEW**: this matrix is rendered from `qualification/0_2_7/capability_registry_v2.json`, which is the source of truth.
 
-The v2 registry preserves the 33 public 0.2.6 capability identifiers as traceable anchors and exposes 44 explicit element-analysis combination records. Anchor rows retain aggregate historical scope; combination rows are not new execution evidence.
+The v2 registry preserves the 33 public 0.2.6 capability identifiers as traceable anchors and exposes 45 explicit element-analysis combination records. Anchor rows retain aggregate historical scope; combination rows are not new execution evidence.
 
 - Applicable version: `0.2.7a0`
 - Source snapshot: `e839373b6aef291a93292186d7553ba5cd12af55`
 - Legacy capabilities preserved: 33
-- Combination records: 44
-- Qualification-state counts: EXPERIMENTAL=24, NOT_QUALIFIED=1, QUALIFIED_BOUNDED=19
+- Combination records: 45
+- Qualification-state counts: EXPERIMENTAL=25, NOT_QUALIFIED=1, QUALIFIED_BOUNDED=19
 
 ## Active Vocabulary
 
@@ -71,6 +71,7 @@ The v2 registry preserves the 33 public 0.2.6 capability identifiers as traceabl
 | `COMB-TET4-modal` | TET4 | modal | solid_elastic/J2/TL | element_route_with_legacy_analysis_mapping | SUPPORTED | VERIFIED | QUALIFIED_BOUNDED | 0.2.5 owner evidence; 0.2.6 G05-B TET4 cases | Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; external coverage is bounded and other analysis scopes remain separately governed. G05 is PASS_WITH_LIMITATIONS: modal evidence covers eight internal family rows, while external correlation remains bounded and family-incomplete. |
 | `COMB-TET4-newmark_transient` | TET4 | newmark_transient | solid_elastic/J2/TL | element_route_with_legacy_analysis_mapping | SUPPORTED | VERIFIED | QUALIFIED_BOUNDED | 0.2.5 owner evidence; 0.2.6 G05-B TET4 cases | Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; external coverage is bounded and other analysis scopes remain separately governed. G05 is PASS_WITH_LIMITATIONS: Newmark refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete. |
 | `COMB-TET4-nonlinear_load_control` | TET4 | nonlinear_load_control | solid_elastic/J2/TL | element_route_with_legacy_analysis_mapping | SUPPORTED | VERIFIED | EXPERIMENTAL | 0.2.5 owner evidence; 0.2.6 G05-B TET4 cases | Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; external coverage is bounded and other analysis scopes remain separately governed. Maturity extension and multi-family correlation are scheduled separately. |
+| `COMB-WEDGE6-linear_static` | WEDGE6 | linear_static | isotropic_3d | small_strain_linear_elastic | SUPPORTED | VERIFIED | EXPERIMENTAL | qualification/0_2_7/wp07_state.json; docs/verification/0_2_7/0_2_7_wedge6_kernel.md | WP07 kernel and elemental V&V evidence only; Gmsh import, face loads, reactions, full user workflow, modal/dynamic routes, external correlation and public qualification remain deferred to later gates. |
 
 ## Migration Boundary
 

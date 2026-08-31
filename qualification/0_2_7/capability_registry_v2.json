@@ -83,14 +83,15 @@
     "COMB-DISCRETE-linear_static",
     "COMB-DISCRETE-modal",
     "COMB-DISCRETE-newmark_transient",
-    "COMB-DISCRETE-harmonic"
+    "COMB-DISCRETE-harmonic",
+    "COMB-WEDGE6-linear_static"
   ],
   "migration": {
     "from_registry": "qualification/capability_registry.json",
     "from_schema_version": 1,
     "source_public_capability_count": 33,
     "migrated_capability_count": 33,
-    "combination_record_count": 44,
+    "combination_record_count": 45,
     "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
     "g14_guardrail_source": "qualification/0_2_6/g14_capability_coverage.json"
   },
@@ -2552,6 +2553,33 @@
         "source_registry": "qualification/capability_registry.json",
         "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
         "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-WEDGE6-linear_static",
+      "record_kind": "combination",
+      "element_family": "WEDGE6",
+      "analysis": "linear_static",
+      "material_model": "isotropic_3d",
+      "formulation_or_route": "small_strain_linear_elastic",
+      "backend_or_solver_route": "scipy_sparse",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "qualification/0_2_7/wp07_state.json",
+        "docs/verification/0_2_7/0_2_7_wedge6_kernel.md"
+      ],
+      "owner_decision": "WP07_TECHNICAL_EXPERIMENTAL_ONLY",
+      "limitations": "WP07 kernel and elemental V&V evidence only; Gmsh import, face loads, reactions, full user workflow, modal/dynamic routes, external correlation and public qualification remain deferred to later gates.",
+      "applicable_version": "0.2.7a0",
+      "source_snapshot": "69b7d01beb81263fc2b87cfacb83985db10e3a82",
+      "supersedes": [],
+      "historical_origin": {
+        "legacy_capability_id": "WEDGE6",
+        "source_registry": "qualification/0_2_7/wp07_state.json",
+        "source_snapshot": "69b7d01beb81263fc2b87cfacb83985db10e3a82",
+        "migration_note": "New 0.2.7 technical experimental combination; not a legacy public capability anchor."
       }
     }
   ]

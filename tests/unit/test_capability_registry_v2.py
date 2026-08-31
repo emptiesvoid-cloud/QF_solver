@@ -31,7 +31,7 @@ def test_v2_schema_and_active_vocabulary_are_valid() -> None:
     assert registry["schema_version"] == 2
     assert registry["source_of_truth"] is True
     assert len(registry["public_capability_ids"]) == 33
-    assert len(registry["combination_record_ids"]) == 44
+    assert len(registry["combination_record_ids"]) == 45
     assert all(set(record["evidence_refs"]) for record in registry["records"] if record["qualification_state"] == "QUALIFIED_BOUNDED")
 
 

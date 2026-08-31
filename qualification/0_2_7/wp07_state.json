@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "work_package": "WP07",
+  "gate": "027-G07",
+  "status": "PASS",
+  "start_sha": "69b7d01beb81263fc2b87cfacb83985db10e3a82",
+  "source_sha": "pending implementation commit",
+  "evidence_head": "pending evidence generation",
+  "owner_authorization": {
+    "decision": "TERRA_GO",
+    "confidence": "HIGH",
+    "original_blockers_closed": "6/6",
+    "review_reference": "T1-R4"
+  },
+  "scope": {
+    "element": "WEDGE6",
+    "nodes": 6,
+    "dofs": 18,
+    "analysis": "linear_static_elemental_kernel",
+    "material": "homogeneous_isotropic_small_strain",
+    "production_quadrature": "TRI3_X_GAUSS2",
+    "reference_quadrature": "DUFFY_GAUSS5_X_GAUSS4",
+    "reference_quadrature_use": "V&V reference only",
+    "public_maturity": "EXPERIMENTAL",
+    "public_capability_exposed": false
+  },
+  "implementation": {
+    "kernel": true,
+    "shape_functions": true,
+    "jacobian_and_gradients": true,
+    "small_strain_B": true,
+    "isotropic_elastic_stiffness": true,
+    "strain_stress_recovery": true,
+    "geometry_fail_closed": true,
+    "existing_numerical_formulations_changed": false,
+    "new_physics": false,
+    "not_implemented": [
+      "Gmsh import",
+      "face loads",
+      "user static workflow",
+      "reactions",
+      "modal/Newmark/harmonic",
+      "J2/TL/contact",
+      "external correlation"
+    ]
+  },
+  "vnv": {
+    "catalog": "qualification/0_2_7/vnv_v2/wp07_cases.json",
+    "evidence": "qualification/0_2_7/vnv_v2/wp07_evidence.json",
+    "shape_functions": "PASS",
+    "jacobian_certificate": "PASS",
+    "terra_adversarial_prism": "EXPECTED_FAILURE_PASS",
+    "stiffness_symmetry": "PASS",
+    "rigid_body_modes": 6,
+    "stiffness_rank": 12,
+    "affine_constant_strain": "PASS",
+    "tension": "PASS",
+    "compression": "PASS",
+    "shear": "PASS",
+    "bending": "PASS",
+    "distorted_prism": "PASS",
+    "energy_consistency": "PASS",
+    "quadrature_reference_comparison": "PASS",
+    "deterministic_replay": "PASS"
+  },
+  "targeted_tests": {
+    "unit": "tests/unit/test_wedge6_kernel.py",
+    "contract": "tests/unit/test_wedge6_t1r_contract.py",
+    "registry_descriptor_preflight": "tests/unit/test_capability_registry_v2.py; tests/unit/test_element_descriptor_preflight.py",
+    "mesh_quality": "tests/unit/test_mesh_quality_contract.py"
+  },
+  "test_policy": {
+    "t0": "PASS",
+    "t1": "PASS",
+    "t2_targeted": "PASS",
+    "full_regression": "NOT_RUN_BY_POLICY"
+  },
+  "artifact_classification": "CONTROLLED_PROOF",
+  "ready_for_wp08": true,
+  "pushed": false
+}

@@ -1,23 +1,24 @@
 ---
 doc_id: DOC-027-008
 revision: 0.1
-status: controlled_candidate
+status: controlled_evidence
 applicable_version: 0.2.7a0
 reviewer: ""
 approver: ""
 ---
 
-# 0.2.7 WEDGE6 Plan
+# 0.2.7 WEDGE6 Plan and WP07 Boundary
 
-This is a plan only. T1-R has prepared the inactive formulation, mapping,
-quality and V&V contracts, but WEDGE6 is not implemented by the foundation
-commit and WP07 remains not started.
+T1-R prepared the formulation, mapping, quality and V&V contracts. Terra High
+authorized WP07 at T1-R4, and the six-node elemental kernel is now implemented
+with `EXPERIMENTAL` public maturity. The current evidence is recorded in
+`0_2_7_wedge6_kernel.md` and `qualification/0_2_7/wp07_state.json`.
 
 ## Design gate
 
-WP07 cannot start until WP03, WP05 and WP06 are reviewed. The Solver/Owner
-review must explicitly accept the formulation and the observable contract
-before source changes begin.
+WP07 could start only after WP03, WP05 and WP06 were reviewed. The Terra High
+T1-R4 review accepted the formulation and observable contract for this
+elemental implementation. WP08 remains the separate static workflow gate.
 
 ## T1-R controlled inputs
 
@@ -25,8 +26,9 @@ before source changes begin.
 - `qualification/0_2_7/wedge6_mapping_fixture.json`
 - `qualification/0_2_7/wp07_prerequisites.json`
 
-These inputs are pre-WP07 contracts, not an Owner approval or a numerical
-implementation.
+The first three inputs are retained pre-WP07 contracts and historical
+authorization records. The active implementation contract is
+`wedge6_formulation_contract.json`; executed evidence is stored separately.
 
 ## Required design decisions
 
@@ -43,15 +45,16 @@ implementation.
 - mixed-mesh policy. A mixed TET/WEDGE/HEX mesh is not supported merely
   because each individual element exists.
 
-## Implementation sequence after GO
+## WP07 implementation boundary
 
 1. isolated shape/Jacobian and patch checks;
-2. element stiffness and mass checks, if mass is in the approved scope;
-3. assembly and boundary-face/load vertical slice;
-4. Gmsh import and maintained example;
-5. reaction/equilibrium and stress/post-processing checks;
-6. invalid-input and deterministic-replay checks;
-7. only then modal or external work.
+2. elemental stiffness and strain/stress recovery checks;
+3. invalid-input and deterministic-replay checks;
+4. comparison of production and reference quadrature.
+
+Assembly, boundary-face/load support, Gmsh import, reactions, modal/dynamic
+routes and external correlation remain later gates and are not implied by the
+WP07 PASS.
 
 ## Explicit non-goals
 

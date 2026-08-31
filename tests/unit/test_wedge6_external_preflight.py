@@ -93,11 +93,10 @@ def test_external_unavailability_is_an_explicit_skip() -> None:
     assert "unavailable" in (evidence.failure_reason or "")
 
 
-def test_mapping_and_metadata_hashes_are_deterministic_without_wedge6_route() -> None:
+def test_mapping_and_metadata_hashes_are_deterministic_without_public_wedge6_route() -> None:
     mapping = read_json(ORACLE_ROOT / "mapping.json")
     assert canonical_sha256(mapping) == canonical_sha256(read_json(ORACLE_ROOT / "mapping.json"))
-    with pytest.raises(KeyError, match="Unknown element family"):
-        get_element_descriptor("WEDGE6")
+    assert get_element_descriptor("WEDGE6").canonical_name == "WEDGE6"
 
 
 def test_duplicate_json_keys_are_rejected_explicitly(tmp_path: Path) -> None:
