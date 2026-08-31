@@ -22,6 +22,11 @@ language is not an Owner qualification decision.
 | 027-OD-006 | stretch/research selection | `PROPOSED_OWNER_REVIEW` | pending | WP13 | - |
 | 027-OD-007 | final release scope | `PROPOSED_OWNER_REVIEW` | pending | WP14 | - |
 
+WP01 is a release-engineering foundation control rather than a numerical Owner
+qualification decision. Its status is `PASS` because the SHA roles, actual
+0.2.6 publication state, artifact classes and tag/version guard are recorded in
+the WP01 machine-readable records. This does not approve any 0.2.7 capability.
+
 An entry may be changed to an approved state only with a decision owner, exact
 evidence SHA, scope, limitations and date. No decision here reopens G07 or
 changes any 0.2.6 maturity classification.

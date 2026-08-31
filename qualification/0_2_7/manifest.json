@@ -7,8 +7,25 @@
   "baseline_branch": "main",
   "foundation_branch": "dedicated 0.2.7 foundation branch",
   "baseline_worktree_clean_at_capture": true,
-  "foundation_status": "NOT_STARTED",
+  "foundation_status": "WP01_PASS",
   "evidence_head": null,
+  "current_development_head": "e99289aca40011ca0424944099e2d2093cf21a65",
+  "current_development_branch": "codex/0.2.7-foundation",
+  "parent_release": {
+    "version": "0.2.6a0",
+    "qualification_snapshot": "93561c2c0ae1c173deb81e47c3fa3852643275cb",
+    "release_source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+    "tag": "v0.2.6a0",
+    "git_tag_target": "e839373b6aef291a93292186d7553ba5cd12af55",
+    "github_release": "PUBLISHED",
+    "pypi": "PUBLISHED"
+  },
+  "target_tag": "v0.2.7a0",
+  "target_publication_state": {
+    "tag": "NOT_CREATED",
+    "github_release": "NOT_CREATED",
+    "pypi": "NOT_PUBLISHED"
+  },
   "source_tree_change": false,
   "new_physics": false,
   "wedge6_implemented": false,
@@ -17,8 +34,17 @@
   "sha_policy": {
     "source_sha_identifies_code_revision": true,
     "evidence_head_identifies_committed_evidence": true,
-    "generated_artifact_digests_required_at_execution": true
+    "generated_artifact_digests_required_at_execution": true,
+    "historical_qualification_sha_is_not_current_head": true
   },
+  "artifact_classification": {
+    "SOURCE": "tracked implementation and configuration",
+    "CONTROLLED_PROOF": "versioned evidence with source SHA, policy and digest",
+    "GENERATED_VIEW": "reader-facing output derived from controlled records",
+    "HISTORICAL_EVIDENCE": "immutable evidence from an earlier release or source snapshot",
+    "BUILD_ARTIFACT": "wheel, sdist and local build output"
+  },
+  "text_digest_policy": "UTF-8 with LF newlines, hashed as canonical bytes with SHA-256; binary artifacts are hashed byte-for-byte.",
   "documents": [
     "docs/verification/0_2_7/README.md",
     "docs/verification/0_2_7/0_2_7_master_plan.md",
@@ -33,7 +59,10 @@
     "docs/verification/0_2_7/0_2_7_1m_dof_plan.md",
     "docs/verification/0_2_7/0_2_7_risk_register.md",
     "docs/verification/0_2_7/0_2_7_owner_decision_log.md",
-    "docs/verification/0_2_7/0_2_7_release_criteria.md"
+    "docs/verification/0_2_7/0_2_7_release_criteria.md",
+    "docs/verification/0_2_7/0_2_7_release_workflow_audit.md",
+    "qualification/0_2_7/release_truth.json",
+    "qualification/0_2_7/release_workflow_audit.json"
   ],
-  "status_rule": "All work packages remain NOT_STARTED until their declared evidence and Owner decision exist."
+  "status_rule": "A work package is PASS only when its declared evidence is recorded; WP01 is PASS for release truth and provenance, and all other work packages remain NOT_STARTED."
 }

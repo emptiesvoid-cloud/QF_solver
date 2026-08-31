@@ -4334,6 +4334,18 @@
       "requirements": [],
       "examples": [],
       "tests": []
+    },
+    {
+      "id": "DOC-027-015",
+      "path": "verification/0_2_7/0_2_7_release_workflow_audit.md",
+      "title": "0.2.7 release workflow audit",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_7/release_truth.json",
+        "qualification/0_2_7/release_workflow_audit.json"
+      ],
+      "tests": []
     }
   ]
 }

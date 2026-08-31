@@ -9,21 +9,21 @@ approver: ""
 
 # Installation
 
-## Stable published package
+## Published package
 
-The stable published alpha remains `0.2.5a0`:
+The published package is available from PyPI as `qf-solver==0.2.6a0`:
 
 ```powershell
-python -m pip install qf-solver==0.2.5a0
+python -m pip install qf-solver==0.2.6a0
 qf-solver --version
 ```
 
 La distribution standard ne rend pas PETSc, SLEPc ou MPI obligatoires.
 
-## 0.2.6a0 Git release
+## 0.2.6a0 tagged source release
 
-The `0.2.6a0` release is available from Git at tag `v0.2.6a0`, but is not
-available from PyPI yet. Install the exact tagged source:
+The `0.2.6a0` release is available from Git at tag `v0.2.6a0`. Install the
+exact tagged source when a reproducible checkout is required:
 
 ```powershell
 git clone https://github.com/emptiesvoid-cloud/QF_solver.git
@@ -34,8 +34,9 @@ qf-solver --version
 ```
 
 The tagged release state is identified by qualification snapshot
-`93561c2c0ae1c173deb81e47c3fa3852643275cb` and its evidence manifests. PyPI
-publication remains a separate action and is not claimed here.
+`93561c2c0ae1c173deb81e47c3fa3852643275cb` and release source snapshot
+`e839373b6aef291a93292186d7553ba5cd12af55`. The qualification snapshot is
+historical evidence and is distinct from the tagged source snapshot.
 
 ## Installation depuis le depot
 

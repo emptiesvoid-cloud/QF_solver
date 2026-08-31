@@ -19,8 +19,8 @@ friction/finite sliding/mortar and HEX8R qualification are outside the
 qualified 0.2.7 scope unless a future Owner decision explicitly changes it.
 
 The plan starts from the tagged 0.2.6 baseline
-`e839373b6aef291a93292186d7553ba5cd12af55`. All work packages are initially
-`NOT_STARTED`.
+`e839373b6aef291a93292186d7553ba5cd12af55`. WP01 release truth and
+provenance is `PASS`; all remaining work packages are `NOT_STARTED`.
 
 ## Work packages and STOP/GO criteria
 
@@ -37,7 +37,7 @@ The plan starts from the tagged 0.2.6 baseline
   checklist.
 - **Files:** `qualification/0_2_7/manifest.json`, release notes and provenance
   records.
-- **Status:** `NOT_STARTED`.
+- **Status:** `PASS` (release-truth foundation only).
 
 ### WP02 - Capability registry v2
 

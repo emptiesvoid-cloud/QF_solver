@@ -1,18 +1,21 @@
 # Changelog
 
-## 0.2.7a0 - Planned
+## 0.2.7a0 - Unreleased
 
-The 0.2.7a0 foundation is planned around prismatic-solid interoperability and
-numerical robustness. The controlled planning pack is available in
+The 0.2.7a0 cycle is active around prismatic-solid interoperability and
+numerical robustness. WP01 has established the release-truth and provenance
+model; no 0.2.7 numerical implementation or qualification is implied. The
+controlled planning pack is available in
 [`docs/verification/0_2_7/README.md`](docs/verification/0_2_7/README.md).
-This entry records direction only: no WEDGE6 implementation, new physics,
-qualification result, tag or publication is implied.
+No WEDGE6 implementation, new physics, qualification result, tag or
+publication is implied.
 
-## 0.2.6a0 - Tagged source baseline
+## 0.2.6a0 - Released
 
 The 0.2.6a0 tagged source baseline records the V&V, maturity and architecture
-foundation. Its gate decisions and qualification evidence are historical for
-the 0.2.6 release and are not 0.2.7 execution evidence.
+foundation. The tagged source release is `v0.2.6a0`; the published package is
+`qf-solver==0.2.6a0`. Its gate decisions and qualification evidence remain
+historical for the 0.2.6 release and are not 0.2.7 execution evidence.
 
 ## 0.2.5a0 — 2026-08-28
 

@@ -6,9 +6,9 @@ La priorite courante est la foundation `0.2.7a0` consacree a
 l'interoperabilite des solides prismatiques et a la robustesse numerique. Le
 pack controle, ses 14 work packages et leurs criteres STOP/GO sont dans
 [`docs/verification/0_2_7/README.md`](docs/verification/0_2_7/README.md).
-Tous les work packages y sont initialises `NOT_STARTED`; aucun element WEDGE6,
-aucune nouvelle physique et aucune qualification 0.2.7 ne sont encore
-implementes.
+WP01, release truth et provenance, est termine; WP02-WP14 restent
+`NOT_STARTED`. Aucun element WEDGE6, aucune nouvelle physique et aucune
+qualification 0.2.7 ne sont encore implementes.
 
 Les sections ci-dessous sont conservees comme historique de planification et
 ne definissent pas la priorite courante.
