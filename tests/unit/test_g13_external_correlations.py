@@ -18,7 +18,8 @@ def test_g13_registry_has_controlled_classification_counts() -> None:
     registry = _load("g13_external_evidence_registry.json")
 
     assert registry["gate"] == "026-G13"
-    assert registry["status"] == "PARTIAL"
+    assert registry["status"] == "PASS_WITH_LIMITATIONS"
+    assert registry["owner_closeout_status"] == "PASS_WITH_LIMITATIONS"
     assert registry["generated_from_sha"] == "86467fd76a52512d7c9daabbc4d822ac99f96ad0"
     assert registry["worktree_dirty_at_inventory"] is False
     assert registry["new_external_cases_executed"] == 0
@@ -50,17 +51,30 @@ def test_g13_coverage_and_gap_matrices_are_complete() -> None:
         "VALUABLE_NONBLOCKING",
         "LOW_VALUE",
     }
+    assert all(row["owner_classification"] == "OWNER_MISSING_ACCEPTED" for row in gaps["gaps"])
+    assert all(not row["blocks_current_qualified_claim"] for row in gaps["gaps"])
 
 
 def test_g13_gate_links_only_its_own_aggregation_artifacts() -> None:
     gates = _load("gates.json")
     gate = next(item for item in gates["gates"] if item["id"] == "026-G13")
 
-    assert gate["status"] == "PARTIAL"
+    assert gate["status"] == "PASS_WITH_LIMITATIONS"
     assert gate["evidence_ids"] == [
         "g13_external_evidence_registry.json",
         "g13_external_coverage_matrix.json",
         "g13_missing_evidence_matrix.json",
+        "g13_owner_closeout.json",
         "0_2_6_g13_external_correlations.md",
     ]
     assert next(item for item in gates["gates"] if item["id"] == "026-G07")["status"] == "NOT_STARTED"
+
+
+def test_g13_owner_closeout_has_no_current_blocking_gap() -> None:
+    closeout = _load("g13_owner_closeout.json")
+
+    assert closeout["status"] == "PASS_WITH_LIMITATIONS"
+    assert closeout["owner_blocking"] == []
+    assert closeout["public_qualified_capabilities_without_sufficient_external_evidence"] == []
+    assert closeout["superseded_excluded"] == ["G08-EULER-TENSION-SUPERSEDED"]
+    assert closeout["validation"]["full_regression"] == "SKIPPED_BY_POLICY"

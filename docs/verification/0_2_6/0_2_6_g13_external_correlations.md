@@ -1,6 +1,6 @@
 # 026-G13 External Correlations
 
-Status: **PARTIAL**. This work package consolidates the external and independent
+Status: **PASS_WITH_LIMITATIONS**. This work package consolidates the external and independent
 evidence already recorded for G04-G12. It does not change any closed gate and it
 does not promote a research route. No new external case was executed in this
 run: the local environment has no `Code_Aster`, `CalculiX`, `ccx` or `as_run`
@@ -67,8 +67,10 @@ the numerical execution, not the later evidence-aggregation commit.
 - geometry plus contact: the available external models are not apples-to-apples;
 - triple coupling: no independent external correlation.
 
-These are blocking only for promotion of those respective research claims. They
-do not change the existing bounded gate decisions.
+These were candidate blockers for future promotion, but the Owner review
+reclassified them as acceptable missing evidence for the current release because
+those routes are not presented as qualified. They remain hard blockers for any
+future promotion of the respective research claims.
 
 ### Valuable but non-blocking for current bounded gates
 
@@ -85,6 +87,27 @@ treated as PASS.
 G12 has an internal, hardware-specific bounded performance characterization;
 there is no defined external scaling oracle. No external performance campaign
 was selected for G13.
+
+## Owner closeout
+
+The Owner audited all 18 records and accepted the following classification:
+
+- `OWNER_EXTERNAL_FULL`: the four selected G05 Code_Aster studies and the
+  64-check G06 small-strain J2 correlation;
+- `OWNER_EXTERNAL_BOUNDED`: the G04 analytical evidence, G08 CalculiX
+  evidence, G09 unilateral/pre-contact evidence and G10 research-route
+  evidence;
+- `OWNER_NOT_COMPARABLE`: the G08 Code_Aster solid buckling route;
+- `OWNER_MISSING_ACCEPTED`: unavailable G04 tools, missing G05 high-order
+  decks, and external evidence for routes that are already unqualified or
+  experimental;
+- `OWNER_BLOCKING`: none for a currently public qualified claim.
+
+The historical positive-load Euler screen remains `SUPERSEDED` and is excluded
+from active metrics. No `MISSING`, `NOT_COMPARABLE` or `SUPERSEDED` record is
+used as a qualification PASS. On that basis, `026-G13` is closed as
+`PASS_WITH_LIMITATIONS`; the closeout record is
+`qualification/0_2_6/g13_owner_closeout.json`.
 
 ## Active claim boundary
 
@@ -106,4 +129,3 @@ The next external execution should select only a gap with a controlled
 executable, comparable formulation and predeclared metrics. If those
 preconditions are absent, the correct result remains `MISSING` or
 `NOT_COMPARABLE`, never a synthetic pass.
-

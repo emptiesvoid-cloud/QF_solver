@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "closeout_id": "026-G13-OWNER-CLOSEOUT-001",
+  "gate": "026-G13",
+  "status": "PASS_WITH_LIMITATIONS",
+  "owner_decision": "PASS_WITH_LIMITATIONS",
+  "source_sha": "211551ef39cfd7c82b42423836cb140de544fd82",
+  "source_worktree_dirty": false,
+  "evidence_registry": "g13_external_evidence_registry.json",
+  "coverage_matrix": "g13_external_coverage_matrix.json",
+  "gap_matrix": "g13_missing_evidence_matrix.json",
+  "new_external_campaign": "NOT_RUN_BY_POLICY_AND_UNAVAILABLE_TOOLS",
+  "provenance_review": {
+    "source_independence_checked": true,
+    "comparability_checked": true,
+    "metrics_and_tolerances_checked": true,
+    "source_sha_checked": true,
+    "artifact_paths_checked": true,
+    "superseded_and_non_comparable_excluded": true
+  },
+  "owner_external_full": [
+    "G05-DISCRETE-CODEASTER-026-001",
+    "G05-BEAM2-MODAL-CODEASTER-026-002",
+    "G05-BEAM2-DYNAMIC-CODEASTER-026-003",
+    "G05-TET4-DYNAMIC-CODEASTER-026-020",
+    "G06-J2-CODEASTER-026-064"
+  ],
+  "owner_external_bounded": [
+    "G04-ANALYTICAL-026-001",
+    "G08-CALCULIX-SOLID-FAMILIES-026",
+    "G08-HEX20-CALCULIX-RESCUE-026",
+    "G09-CODEASTER-UNILATERAL-026",
+    "G09-CALCULIX-PRECONTACT-026",
+    "G10-ARC-LENGTH-CODEASTER-026",
+    "G10-TL-TET4-CODEASTER-026",
+    "G10-TL-HEX8-CODEASTER-026"
+  ],
+  "owner_not_comparable": ["G08-CODEASTER-026-NOT-COMPARABLE"],
+  "owner_missing_accepted": [
+    "G04-CODEASTER-026-MISSING",
+    "G04-CALCULIX-026-MISSING",
+    "G05-HIGH-ORDER-EXTERNAL-026-MISSING",
+    "G13-GAP-003",
+    "G13-GAP-004",
+    "G13-GAP-005",
+    "G13-GAP-006",
+    "G13-GAP-007",
+    "G13-GAP-008"
+  ],
+  "owner_blocking": [],
+  "public_qualified_capabilities_without_sufficient_external_evidence": [],
+  "superseded_excluded": ["G08-EULER-TENSION-SUPERSEDED"],
+  "current_gate_decisions_unchanged": ["026-G04", "026-G05", "026-G06", "026-G07", "026-G08", "026-G09", "026-G10", "026-G11", "026-G12"],
+  "limitations": [
+    "External coverage is representative and bounded, not exhaustive by family or route.",
+    "Missing G04 and G05 high-order decks remain deferred because tools or comparable decks were unavailable.",
+    "Finite-kinematic J2 and coupled G10 routes remain unqualified; their missing external evidence blocks future promotion only.",
+    "G09 external models do not validate the QF penalty law identically.",
+    "G07 and all research-route decisions are unchanged."
+  ],
+  "validation": {
+    "targeted_tests": "4 passed",
+    "registry": "PASS",
+    "anti_forgetting": "PASS via capability registry audit",
+    "ruff": "PASS",
+    "compileall": "PASS",
+    "diff_check": "PASS",
+    "full_regression": "SKIPPED_BY_POLICY"
+  },
+  "ready_for_integration": true,
+  "ready_to_leave_g13_closed": true
+}
