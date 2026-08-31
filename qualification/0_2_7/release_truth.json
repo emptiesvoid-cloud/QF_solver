@@ -4,6 +4,7 @@
   "work_package": "WP01",
   "status": "PASS",
   "observed_at": "2026-08-31",
+  "evidence_head": "bb822839248b5ffb9faef5d79a6c83f288faefb3",
   "qualification_snapshot_026": {
     "sha": "93561c2c0ae1c173deb81e47c3fa3852643275cb",
     "role": "historical qualification source recorded by G15",

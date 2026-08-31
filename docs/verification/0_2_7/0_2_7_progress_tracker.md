@@ -14,7 +14,7 @@ release-truth control; no numerical implementation or V&V campaign is implied.
 
 | WP | Status | Current test level | Start SHA | Evidence head | Owner decision | Blocker |
 | --- | --- | --- | --- | --- | --- | --- |
-| WP01 | `PASS` | T1 targeted | `e99289aca40011ca0424944099e2d2093cf21a65` | `e99289aca40011ca0424944099e2d2093cf21a65` | release-truth foundation | - |
+| WP01 | `PASS` | T1 targeted | `e99289aca40011ca0424944099e2d2093cf21a65` | `bb822839248b5ffb9faef5d79a6c83f288faefb3` | release-truth foundation | - |
 | WP02 | `NOT_STARTED` | T0 not run | - | - | - | - |
 | WP03 | `NOT_STARTED` | T0 not run | - | - | - | - |
 | WP04 | `NOT_STARTED` | T0 not run | - | - | - | - |
