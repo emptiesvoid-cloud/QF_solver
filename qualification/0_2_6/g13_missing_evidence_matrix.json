@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "matrix_id": "026-G13-GAPS-001",
+  "gate": "026-G13",
+  "generated_from_sha": "86467fd76a52512d7c9daabbc4d822ac99f96ad0",
+  "current_release_claims_unchanged": true,
+  "gaps": [
+    {"gap_id":"G13-GAP-001","gate":"026-G04","capability":"linear_static","priority":"VALUABLE_NONBLOCKING","current_impact":"G04 remains bounded without external correlation claim","reason":"Code_Aster and CalculiX were unavailable in the recorded G04 run","required_action":"Run only a comparable deck when an executable and controlled environment are available","status":"DEFER"},
+    {"gap_id":"G13-GAP-002","gate":"026-G05","capability":"modal/newmark/harmonic","priority":"VALUABLE_NONBLOCKING","current_impact":"G05 external evidence remains family-incomplete","reason":"No current same-SHA compatible external deck for TET10, HEX8, HEX20, MITC3 or MITC4","required_action":"Select a comparable deck and declare metrics before execution","status":"DEFER"},
+    {"gap_id":"G13-GAP-003","gate":"026-G06","capability":"finite_kinematic_J2","priority":"BLOCKING","current_impact":"Blocks any future finite-kinematic J2 promotion, not the current small-strain bounded claim","reason":"No formulation-compatible independent external evidence","required_action":"Approve finite-strain measures and execute a controlled external correlation","status":"DEFER"},
+    {"gap_id":"G13-GAP-004","gate":"026-G10","capability":"J2_plus_geometry","priority":"BLOCKING","current_impact":"Blocks coupled-route promotion","reason":"No independent external correlation for the coupled route","required_action":"Do not promote until a comparable external route exists","status":"DEFER"},
+    {"gap_id":"G13-GAP-005","gate":"026-G10","capability":"geometry_plus_contact","priority":"BLOCKING","current_impact":"Blocks coupled contact promotion","reason":"Available external contact models are not apples-to-apples with the QF finite-kinematic route","required_action":"Find a formulation-compatible external model or retain NOT_COMPARABLE","status":"DEFER"},
+    {"gap_id":"G13-GAP-006","gate":"026-G10","capability":"triple_coupling","priority":"BLOCKING","current_impact":"Blocks triple-coupling promotion","reason":"No independent external evidence","required_action":"Remain experimental/research; no campaign selected in G13","status":"DEFER"},
+    {"gap_id":"G13-GAP-007","gate":"026-G09","capability":"frictionless_contact","priority":"VALUABLE_NONBLOCKING","current_impact":"G09 remains bounded to unilateral normal behavior","reason":"Code_Aster exact unilateral constraints and CalculiX pre-contact do not validate the QF penalty law identically","required_action":"Retain limitation; pursue only if exact law correlation has qualification value","status":"DEFER"},
+    {"gap_id":"G13-GAP-008","gate":"026-G12","capability":"performance_scaling","priority":"LOW_VALUE","current_impact":"No impact on local bounded performance claim","reason":"External hardware/scaling oracle is not defined or required by G12","required_action":"Do not spend G13 budget; consider later reproducibility study","status":"DEFER"}
+  ]
+}
