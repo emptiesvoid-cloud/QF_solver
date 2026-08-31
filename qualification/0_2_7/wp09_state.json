@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "work_package": "WP09",
+  "gate": "027-G09",
+  "status": "PASS_WITH_LIMITATIONS",
+  "start_sha": "2a27291bcc72e5819014fa172e3d056e80a87d43",
+  "evidence_source_sha": "2a27291bcc72e5819014fa172e3d056e80a87d43",
+  "evidence_artifact": "qualification/0_2_7/vnv_v2/wp09_evidence.json",
+  "evidence_catalog": "qualification/0_2_7/vnv_v2/wp09_cases.json",
+  "case_count": 22,
+  "verdict_counts": {
+    "PASS": 18,
+    "EXPECTED_FAILURE_PASS": 4,
+    "FAIL": 0,
+    "SKIPPED_EXTERNAL_UNAVAILABLE": 0
+  },
+  "checks": {
+    "affine_tension": "PASS",
+    "compression": "PASS",
+    "shear": "PASS",
+    "bending": "PASS",
+    "tri_pressure": "PASS",
+    "quad_pressure": "PASS",
+    "prescribed_displacement": "PASS",
+    "multi_element": "PASS",
+    "distorted_valid": "PASS",
+    "refinement": "PASS",
+    "aspect_ratio_sensitivity": "PASS",
+    "skew": "PASS",
+    "near_degenerate_warning": "PASS",
+    "inverted_fail_closed": "EXPECTED_FAILURE_PASS",
+    "wrong_node_order_fail_closed": "EXPECTED_FAILURE_PASS",
+    "malformed_gmsh_fail_closed": "EXPECTED_FAILURE_PASS",
+    "singular_bc_fail_closed": "EXPECTED_FAILURE_PASS",
+    "rigid_transform_invariance": "PASS",
+    "scale_invariance": "PASS",
+    "deterministic_replay": "PASS",
+    "no_nan_inf": "PASS",
+    "no_silent_pass": "PASS"
+  },
+  "external": {
+    "calculix_c3d6": "PARTIAL_NOT_FORMULATION_COMPATIBLE",
+    "code_aster_penta6": "UNAVAILABLE_IMAGE_MPI4PY_FAILURE",
+    "primary_observables": ["displacement", "total_reaction", "strain_energy"],
+    "affine_tolerance": "1e-6 predeclared WP05 candidate, OWNER_REVIEW_REQUIRED",
+    "non_affine_tolerance": "case-specific Owner approval required before execution",
+    "stress": "secondary only when measure, point and convention are equivalent"
+  },
+  "public_maturity": "EXPERIMENTAL",
+  "public_qualification": "DEFERRED",
+  "scope": {
+    "analysis": "linear_static",
+    "material": "homogeneous_isotropic_small_strain",
+    "loads": ["nodal", "tri3_pressure", "quad4_pressure", "surface_traction"],
+    "backend": "scipy_sparse",
+    "element": "WEDGE6",
+    "external": ["CalculiX C3D6 predeclared deck", "Code_Aster PENTA6 attempted preflight"]
+  },
+  "limitations": [
+    "CalculiX C3D6 comparison is not formulation-compatible: its two-point route is not QF TRI3_X_GAUSS2.",
+    "Code_Aster PENTA6 could not execute because the pinned image aborts before the command file on missing mpi4py.",
+    "No external correlation verdict is claimed for pressure, refinement or distorted cases.",
+    "WEDGE6 remains EXPERIMENTAL and is not publicly qualified.",
+    "Modal, Newmark, harmonic, nonlinear, J2, TL and contact routes remain outside WP09."
+  ],
+  "existing_element_numerics_changed": false,
+  "full_regression_run": false,
+  "pushed": false,
+  "ready_for_wp10": true,
+  "owner_review_required": true,
+  "artifact_classification": "CONTROLLED_PROOF",
+  "replay_command": "PYTHONPATH=src python scripts/run_wp09_wedge6.py"
+}
