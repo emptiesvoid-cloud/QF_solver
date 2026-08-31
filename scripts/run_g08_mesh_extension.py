@@ -24,6 +24,10 @@ UTC = timezone.utc
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
+try:
+    from scripts.canonical_artifact_digest import canonical_artifact_sha256
+except ModuleNotFoundError:  # Direct execution from the scripts directory.
+    from canonical_artifact_digest import canonical_artifact_sha256
 
 import numpy as np
 
@@ -63,11 +67,7 @@ def _utc_now() -> str:
 
 
 def _sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as stream:
-        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
+    return canonical_artifact_sha256(path)
 
 
 def _content_digest(summary: dict[str, Any]) -> str:
