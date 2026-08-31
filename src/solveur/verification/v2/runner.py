@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
-import hashlib
 import json
 import math
 from pathlib import Path
@@ -12,6 +11,7 @@ import platform
 from time import perf_counter
 from typing import Any, Callable, Mapping
 
+from solveur.io.manifest import content_digest
 from solveur.verification.v2.schema import VnvCase, VnvSchemaError, VERDICTS
 
 
@@ -35,8 +35,11 @@ def canonical_json_bytes(value: Any) -> bytes:
     return (json.dumps(_canonical(value), ensure_ascii=True, sort_keys=True, separators=(",", ":")) + "\n").encode("utf-8")
 
 
-def canonical_sha256(value: Any) -> str:
-    return hashlib.sha256(canonical_json_bytes(value)).hexdigest()
+def _digest(value: Any) -> str:
+    return content_digest(canonical_json_bytes(value))
+
+
+canonical_sha256 = _digest
 
 
 class ExternalUnavailableError(RuntimeError):
