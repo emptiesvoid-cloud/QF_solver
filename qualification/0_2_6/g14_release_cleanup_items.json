@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "cleanup_id": "026-G14-RELEASE-CLEANUP-001",
+  "gate": "026-G14",
+  "source_sha": "e60ae570909c2813281266a04dd01356060ee557",
+  "status": "PENDING_RELEASE_SWEEP",
+  "items": [
+    {
+      "id": "G14-CLEAN-001",
+      "priority": "HIGH",
+      "category": "historical_full_regression",
+      "status": "DEFERRED",
+      "description": "Resolve or explicitly accept the 18 documented historical failures before final release approval: 2 CLI version assertions, 9 registry git-subprocess assertions, 6 public/release audit assertions and 1 controlled-vocabulary assertion.",
+      "source": "qualification/0_2_6/g12_owner_closeout.json"
+    },
+    {
+      "id": "G14-CLEAN-002",
+      "priority": "HIGH",
+      "category": "versioning",
+      "status": "DEFERRED",
+      "description": "Reconcile historical tests and release metadata that still distinguish 0.2.5a0 from the current 0.2.6a0 candidate.",
+      "source": "qualification/0_2_6/g12_owner_closeout.json"
+    },
+    {
+      "id": "G14-CLEAN-003",
+      "priority": "MEDIUM",
+      "category": "historical_documentation",
+      "status": "REVIEW_REQUIRED",
+      "description": "Review pre-closeout G07 documents and other historical records that retain earlier NOT_STARTED or candidate wording; preserve history and do not rewrite evidence without a controlled reason.",
+      "source": "docs/verification/0_2_6/0_2_6_g07_gap_reconciliation.md"
+    },
+    {
+      "id": "G14-CLEAN-004",
+      "priority": "MEDIUM",
+      "category": "public_audit_state",
+      "status": "DEFERRED",
+      "description": "Reconcile the controlled public-document audit count and workstation-dependent audit findings during the release sweep.",
+      "source": "qualification/0_2_6/g12_owner_closeout.json"
+    },
+    {
+      "id": "G14-CLEAN-005",
+      "priority": "MEDIUM",
+      "category": "registry_status_semantics",
+      "status": "REVIEW_REQUIRED",
+      "description": "Review remaining PRESENT_REQUALIFICATION_PENDING labels for consistency with closed bounded gates without changing Owner maturity decisions.",
+      "source": "qualification/capability_registry.json"
+    },
+    {
+      "id": "G14-CLEAN-006",
+      "priority": "HIGH",
+      "category": "release_governance",
+      "status": "PENDING",
+      "description": "Run the final release sweep and complete the independent Owner release review at G15. This G14 audit is not a publication approval.",
+      "source": "qualification/0_2_6/work_packages.json"
+    },
+    {
+      "id": "G14-CLEAN-007",
+      "priority": "MEDIUM",
+      "category": "provenance_sha_review",
+      "status": "REVIEW_REQUIRED",
+      "description": "Review historical LAST_VERIFIED_SHA and release SHA entries, confirm each is intentionally historical, and ensure none is used as current qualification evidence without its declared provenance.",
+      "source": "qualification/capability_registry.json"
+    },
+    {
+      "id": "G14-CLEAN-008",
+      "priority": "MEDIUM",
+      "category": "stale_code_or_tests",
+      "status": "REVIEW_REQUIRED",
+      "description": "Inventory any dead or stale tests, routes or generated artifacts found during the release sweep; remove or retire them only with explicit evidence and historical continuity.",
+      "source": "qualification/capability_registry.json"
+    },
+    {
+      "id": "G14-CLEAN-009",
+      "priority": "MEDIUM",
+      "category": "stateful_environmental_audits",
+      "status": "REVIEW_REQUIRED",
+      "description": "Re-run or explicitly accept stateful Owner-review and workstation-dependent audit findings in the final release environment; retain environment limitations when they cannot be reproduced.",
+      "source": "qualification/0_2_6/g12_owner_closeout.json"
+    }
+  ],
+  "capability_gaps_blocking_g14": [],
+  "full_regression_run_in_this_audit": false,
+  "ready_for_release_cleanup": true
+}

@@ -39,7 +39,7 @@ This generated view is derived from `qualification/capability_registry.json`, th
 | `MAT-ELASTIC` | MATERIAL | multiple | all linear analyses | QUALIFIED_BOUNDED | L3 | `026-G04` | PRESENT_REQUALIFICATION_PENDING |
 | `MAT-ORTHOTROPIC-LAMINATE` | MATERIAL | MITC3/MITC4/solids where supported | static/modal/Newmark/harmonic | EXPERIMENTAL | L2 | `026-G04/G05` | PRESENT_DEFERRED |
 | `MAT-J2-SMALL` | MATERIAL | TET4/TET10/HEX8/HEX20 | nonlinear_static | QUALIFIED_BOUNDED | L3 | `026-G06` | PRESENT_QUALIFIED_BOUNDED |
-| `MAT-TL-ELASTIC` | MATERIAL | TET4/HEX8 bounded; high-order research | geometric_nonlinear_static | QUALIFIED_BOUNDED | L3 | `026-G07` | PRESENT_REQUALIFICATION_PENDING |
+| `MAT-TL-ELASTIC` | MATERIAL | TET4 bounded; HEX8 not qualified; TET10/HEX20 research | geometric_nonlinear_static | QUALIFIED_BOUNDED | L3 | `026-G07` | PRESENT_QUALIFIED_BOUNDED |
 | `MAT-FINITE-J2` | MATERIAL | TET4/TET10/HEX8/HEX20 | geometric_nonlinear_static | RESEARCH | L1 | `026-G10` | RESEARCH_DEFERRED |
 | `MAT-COUPLED-NL` | MATERIAL | bounded solid/contact workflows | coupled nonlinear | EXPERIMENTAL | L1 | `026-G10` | EXPERIMENTAL_DEFERRED |
 | `CON-FRICTIONLESS` | CONTACT | bounded node-to-triangle/contact models | nonlinear/geometric nonlinear | QUALIFIED_BOUNDED | L3 | `026-G09` | PRESENT_REQUALIFICATION_PENDING |
@@ -99,7 +99,7 @@ All capabilities tracked from 0.2.5a0 remain represented. No historical capabili
 | `MAT-ELASTIC` | 0.2.5 recorded | QUALIFIED_BOUNDED | present; no silent maturity downgrade |
 | `MAT-ORTHOTROPIC-LAMINATE` | 0.2.5 recorded | EXPERIMENTAL | present; no silent maturity downgrade |
 | `MAT-J2-SMALL` | 0.2.6 supplemental/current | QUALIFIED_BOUNDED | present; no silent maturity downgrade |
-| `MAT-TL-ELASTIC` | 0.2.5 recorded | QUALIFIED_BOUNDED | present; no silent maturity downgrade |
+| `MAT-TL-ELASTIC` | 0.2.6 supplemental/current | QUALIFIED_BOUNDED | present; no silent maturity downgrade |
 | `MAT-FINITE-J2` | 0.2.6 supplemental/current | RESEARCH | present; no silent maturity downgrade |
 | `MAT-COUPLED-NL` | 0.2.5 recorded | EXPERIMENTAL | present; no silent maturity downgrade |
 | `CON-FRICTIONLESS` | 0.2.5 recorded | QUALIFIED_BOUNDED | present; no silent maturity downgrade |
