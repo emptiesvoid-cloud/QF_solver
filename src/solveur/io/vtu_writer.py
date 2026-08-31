@@ -19,6 +19,7 @@ VTK_CELL_TYPES = {
     "HEX8": 12,
     "TET10": 24,
     "HEX20": 25,
+    "WEDGE6": 13,
 }
 
 
