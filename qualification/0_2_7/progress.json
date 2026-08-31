@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "release": "0.2.7a0",
+  "theme": "Prismatic Solid Interoperability and Numerical Robustness",
+  "baseline_sha": "e839373b6aef291a93292186d7553ba5cd12af55",
+  "branch": "dedicated 0.2.7 foundation branch",
+  "status": "FOUNDATION_ONLY",
+  "full_regression_run": false,
+  "numerical_source_changed": false,
+  "new_physics_implemented": false,
+  "wedge6_implemented": false,
+  "test_policy": {
+    "current_level": "T0_PLANNED",
+    "t0_smoke": "NOT_RUN",
+    "t1_targeted": "NOT_RUN",
+    "t2_checkpoint": "NOT_RUN",
+    "t3_full_regression": "NOT_RUN"
+  },
+  "work_packages": [
+    {"id": "WP01", "gate": "027-G01", "status": "NOT_STARTED", "start_sha": null, "evidence_head": null},
+    {"id": "WP02", "gate": "027-G02", "status": "NOT_STARTED", "start_sha": null, "evidence_head": null},
+    {"id": "WP03", "gate": "027-G03", "status": "NOT_STARTED", "start_sha": null, "evidence_head": null},
+    {"id": "WP04", "gate": "027-G04", "status": "NOT_STARTED", "start_sha": null, "evidence_head": null},
+    {"id": "WP05", "gate": "027-G05", "status": "NOT_STARTED", "start_sha": null, "evidence_head": null},
+    {"id": "WP06", "gate": "027-G06", "status": "NOT_STARTED", "start_sha": null, "evidence_head": null},
+    {"id": "WP07", "gate": "027-G07", "status": "NOT_STARTED", "start_sha": null, "evidence_head": null},
+    {"id": "WP08", "gate": "027-G08", "status": "NOT_STARTED", "start_sha": null, "evidence_head": null},
+    {"id": "WP09", "gate": "027-G09", "status": "NOT_STARTED", "start_sha": null, "evidence_head": null},
+    {"id": "WP10", "gate": "027-G10", "status": "NOT_STARTED", "start_sha": null, "evidence_head": null},
+    {"id": "WP11", "gate": "027-G11", "status": "NOT_STARTED", "start_sha": null, "evidence_head": null},
+    {"id": "WP12", "gate": "027-G12", "status": "NOT_STARTED", "start_sha": null, "evidence_head": null},
+    {"id": "WP13", "gate": "027-G13", "status": "NOT_STARTED", "start_sha": null, "evidence_head": null},
+    {"id": "WP14", "gate": "027-G14", "status": "NOT_STARTED", "start_sha": null, "evidence_head": null}
+  ]
+}

@@ -4208,6 +4208,132 @@
       "requirements": ["REQ-AUD-001", "REQ-EVD-001", "REQ-REL-001"],
       "examples": [],
       "tests": []
+    },
+    {
+      "id": "DOC-027-001",
+      "path": "verification/0_2_7/README.md",
+      "title": "QF Solver 0.2.7a0 foundation",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-027-002",
+      "path": "verification/0_2_7/0_2_7_gate_matrix.md",
+      "title": "0.2.7 gate matrix",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-027-003",
+      "path": "verification/0_2_7/0_2_7_progress_tracker.md",
+      "title": "0.2.7 progress tracker",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-027-004",
+      "path": "verification/0_2_7/0_2_7_test_policy.md",
+      "title": "0.2.7 test policy",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-027-005",
+      "path": "verification/0_2_7/0_2_7_vnv_strategy.md",
+      "title": "0.2.7 V&V strategy",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-027-006",
+      "path": "verification/0_2_7/0_2_7_master_plan.md",
+      "title": "0.2.7 master plan",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-027-007",
+      "path": "verification/0_2_7/0_2_7_external_oracle_plan.md",
+      "title": "0.2.7 external oracle preflight",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-027-008",
+      "path": "verification/0_2_7/0_2_7_wedge6_plan.md",
+      "title": "0.2.7 WEDGE6 plan",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-027-009",
+      "path": "verification/0_2_7/0_2_7_mesh_quality_plan.md",
+      "title": "0.2.7 mesh quality and distortion contract",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-027-010",
+      "path": "verification/0_2_7/0_2_7_j2_gap_closure.md",
+      "title": "0.2.7 J2 gap closure",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-027-011",
+      "path": "verification/0_2_7/0_2_7_1m_dof_plan.md",
+      "title": "0.2.7 1M-DOF plan",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-027-012",
+      "path": "verification/0_2_7/0_2_7_risk_register.md",
+      "title": "0.2.7 risk register",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-027-013",
+      "path": "verification/0_2_7/0_2_7_owner_decision_log.md",
+      "title": "0.2.7 Owner decision log",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-027-014",
+      "path": "verification/0_2_7/0_2_7_release_criteria.md",
+      "title": "0.2.7 release criteria",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [],
+      "tests": []
     }
   ]
 }

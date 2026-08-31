@@ -1,11 +1,23 @@
 # Prochaines etapes du solveur EF
 
-## Campagne prioritaire planifiee 0.2.5 alpha
+## Priorite courante: 0.2.7a0
 
-La release `v0.2.4a0` constitue la baseline publiee. Le chantier suivant est
-`0.2.5a0 - Unified Nonlinear Structural Mechanics`. Il est en phase de
-planification uniquement : aucune formulation, aucun solveur et aucun resultat
-numerique 0.2.5 ne sont encore implementes ou qualifies.
+La priorite courante est la foundation `0.2.7a0` consacree a
+l'interoperabilite des solides prismatiques et a la robustesse numerique. Le
+pack controle, ses 14 work packages et leurs criteres STOP/GO sont dans
+[`docs/verification/0_2_7/README.md`](docs/verification/0_2_7/README.md).
+Tous les work packages y sont initialises `NOT_STARTED`; aucun element WEDGE6,
+aucune nouvelle physique et aucune qualification 0.2.7 ne sont encore
+implementes.
+
+Les sections ci-dessous sont conservees comme historique de planification et
+ne definissent pas la priorite courante.
+
+## Historique: campagne planifiee 0.2.5 alpha
+
+La release `v0.2.4a0` constituait la baseline publiee. Le chantier `0.2.5a0 -
+Unified Nonlinear Structural Mechanics` est conserve ici comme historique de
+planification : cette section ne definit plus la priorite courante.
 
 Le pack de preparation controle est disponible dans
 [`docs/verification/0_2_5/README.md`](docs/verification/0_2_5/README.md). Il

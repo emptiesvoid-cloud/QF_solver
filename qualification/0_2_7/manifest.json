@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "manifest_id": "QF-027-FOUNDATION-001",
+  "target_version": "0.2.7a0",
+  "theme": "Prismatic Solid Interoperability and Numerical Robustness",
+  "baseline_sha": "e839373b6aef291a93292186d7553ba5cd12af55",
+  "baseline_branch": "main",
+  "foundation_branch": "dedicated 0.2.7 foundation branch",
+  "baseline_worktree_clean_at_capture": true,
+  "foundation_status": "NOT_STARTED",
+  "evidence_head": null,
+  "source_tree_change": false,
+  "new_physics": false,
+  "wedge6_implemented": false,
+  "tag_created": false,
+  "pypi_published": false,
+  "sha_policy": {
+    "source_sha_identifies_code_revision": true,
+    "evidence_head_identifies_committed_evidence": true,
+    "generated_artifact_digests_required_at_execution": true
+  },
+  "documents": [
+    "docs/verification/0_2_7/README.md",
+    "docs/verification/0_2_7/0_2_7_master_plan.md",
+    "docs/verification/0_2_7/0_2_7_gate_matrix.md",
+    "docs/verification/0_2_7/0_2_7_progress_tracker.md",
+    "docs/verification/0_2_7/0_2_7_test_policy.md",
+    "docs/verification/0_2_7/0_2_7_vnv_strategy.md",
+    "docs/verification/0_2_7/0_2_7_external_oracle_plan.md",
+    "docs/verification/0_2_7/0_2_7_wedge6_plan.md",
+    "docs/verification/0_2_7/0_2_7_mesh_quality_plan.md",
+    "docs/verification/0_2_7/0_2_7_j2_gap_closure.md",
+    "docs/verification/0_2_7/0_2_7_1m_dof_plan.md",
+    "docs/verification/0_2_7/0_2_7_risk_register.md",
+    "docs/verification/0_2_7/0_2_7_owner_decision_log.md",
+    "docs/verification/0_2_7/0_2_7_release_criteria.md"
+  ],
+  "status_rule": "All work packages remain NOT_STARTED until their declared evidence and Owner decision exist."
+}
