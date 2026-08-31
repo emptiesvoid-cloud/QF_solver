@@ -4404,6 +4404,20 @@
       "tests": [
         "tests/unit/test_wedge6_external_preflight.py"
       ]
+    },
+    {
+      "id": "DOC-027-020",
+      "path": "verification/0_2_7/0_2_7_mesh_quality_contract.md",
+      "title": "0.2.7 mesh quality contract",
+      "status": "controlled_candidate",
+      "requirements": ["027-REQ-007"],
+      "examples": [
+        "qualification/0_2_7/wp06_state.json",
+        "qualification/0_2_7/vnv_v2/mesh_quality_cases.json"
+      ],
+      "tests": [
+        "tests/unit/test_mesh_quality_contract.py"
+      ]
     }
   ]
 }

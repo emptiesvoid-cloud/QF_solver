@@ -74,7 +74,7 @@
       "gate": "027-G06",
       "work_package": "WP06",
       "priority": "MUST",
-      "status": "PLANNED",
+      "status": "PASS",
       "requirement": "Mesh quality shall retain Jacobian, orientation, volume, distortion and conditioning diagnostics where available.",
       "acceptance": "Invalid and near-invalid meshes fail closed; no universal aspect-ratio cutoff is inferred.",
       "verification": ["quality metrics", "invalid mesh tests", "distortion study"],
