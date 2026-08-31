@@ -4433,6 +4433,21 @@
       "tests": [
         "tests/integration/test_wedge6_static_workflow.py"
       ]
+    },
+    {
+      "id": "DOC-027-023",
+      "path": "verification/0_2_7/0_2_7_large_scale_readiness.md",
+      "title": "0.2.7 large-scale readiness evidence",
+      "status": "controlled_candidate",
+      "requirements": ["027-REQ-013"],
+      "examples": [
+        "qualification/0_2_7/wp12_state.json",
+        "qualification/0_2_7/wp12_scaling_evidence.json",
+        "qualification/0_2_7/wp12_assembly_probe_300k.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp12_scaling.py"
+      ]
     }
   ]
 }

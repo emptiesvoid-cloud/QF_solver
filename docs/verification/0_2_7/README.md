@@ -17,7 +17,8 @@ capability-registry control; WP03 is `PASS` for the descriptor/preflight
 control; WP04 is `PASS` for the additive V&V harness; WP05 is `PASS` for the
 external deck preflight only; WP06 is `PASS` for an additive mesh-quality
 diagnostic contract; WP07 is `PASS` for the experimental elemental WEDGE6
-kernel and its targeted V&V; WP08-WP14 remain `NOT_STARTED`.
+kernel and its targeted V&V; WP12 is `PASS_WITH_LIMITATIONS` for bounded
+large-scale readiness evidence; WP09-WP11 and WP13-WP14 remain `NOT_STARTED`.
 
 ## Baseline and status
 
@@ -71,7 +72,7 @@ in [`0_2_7_progress_tracker.md`](0_2_7_progress_tracker.md).
 | WP09 | WEDGE6 robustness and external V&V | `NOT_STARTED` |
 | WP10 | WEDGE6 modal qualification | `NOT_STARTED` |
 | WP11 | Existing capability maturity and J2 gaps | `NOT_STARTED` |
-| WP12 | Large-scale and 1M-DOF readiness | `NOT_STARTED` |
+| WP12 | Large-scale and 1M-DOF readiness | `PASS_WITH_LIMITATIONS` |
 | WP13 | Research/stretch candidates | `NOT_STARTED` |
 | WP14 | Documentation, regression and Owner release review | `NOT_STARTED` |
 
@@ -102,6 +103,9 @@ explicit skip or limitation, never as `PASS`.
 - [`qualification/0_2_7/wp05_state.json`](../../../qualification/0_2_7/wp05_state.json)
 - [`qualification/0_2_7/external_oracles/wedge6/contract.json`](../../../qualification/0_2_7/external_oracles/wedge6/contract.json)
 - [`qualification/0_2_7/external_oracles/wedge6/preflight_evidence.json`](../../../qualification/0_2_7/external_oracles/wedge6/preflight_evidence.json)
+- [`qualification/0_2_7/wp12_state.json`](../../../qualification/0_2_7/wp12_state.json)
+- [`qualification/0_2_7/wp12_scaling_evidence.json`](../../../qualification/0_2_7/wp12_scaling_evidence.json)
+- [`qualification/0_2_7/wp12_assembly_probe_300k.json`](../../../qualification/0_2_7/wp12_assembly_probe_300k.json)
 
 ## Controlled documents
 
@@ -124,6 +128,7 @@ explicit skip or limitation, never as `PASS`.
 - [`0_2_7_element_descriptor_preflight.md`](0_2_7_element_descriptor_preflight.md)
 - [`0_2_7_vnv_harness_v2.md`](0_2_7_vnv_harness_v2.md)
 - [`0_2_7_wedge6_external_review.md`](0_2_7_wedge6_external_review.md)
+- [`0_2_7_large_scale_readiness.md`](0_2_7_large_scale_readiness.md)
 
 ## Foundation boundary
 
@@ -136,3 +141,7 @@ J2, buckling, contact, performance or external correlations. A later work
 package must complete the static/import/load/post contracts before making a
 user-facing WEDGE6 claim. WEDGE6's current registry maturity is
 `EXPERIMENTAL`, not `QUALIFIED_BOUNDED`.
+
+WP12 is a bounded readiness study, not a general scalability guarantee. Its
+current evidence is limited to the generated structured TET4 linear-static
+route and the recorded environment; Owner closeout remains pending.

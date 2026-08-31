@@ -4,7 +4,8 @@
   "theme": "Prismatic Solid Interoperability and Numerical Robustness",
   "baseline_sha": "e839373b6aef291a93292186d7553ba5cd12af55",
   "branch": "codex/0.2.7-foundation",
-  "status": "WP08_PASS_EXPERIMENTAL_WP09_REQUIRED",
+  "status": "WP12_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED",
+  "current_work_package": "WP12",
   "full_regression_run": false,
   "numerical_source_changed": true,
   "existing_numerical_formulations_changed": false,
@@ -45,7 +46,27 @@
     {"id": "WP09", "gate": "027-G09", "status": "NOT_STARTED", "start_sha": null, "evidence_head": null},
     {"id": "WP10", "gate": "027-G10", "status": "NOT_STARTED", "start_sha": null, "evidence_head": null},
     {"id": "WP11", "gate": "027-G11", "status": "NOT_STARTED", "start_sha": null, "evidence_head": null},
-    {"id": "WP12", "gate": "027-G12", "status": "NOT_STARTED", "start_sha": null, "evidence_head": null},
+    {
+      "id": "WP12",
+      "gate": "027-G12",
+      "status": "PASS_WITH_LIMITATIONS",
+      "start_sha": "4971ac4f6c1e5cff2ca48e40ca6db5e8147d0d0a",
+      "evidence_head": "4971ac4f6c1e5cff2ca48e40ca6db5e8147d0d0a",
+      "owner_decision": "PROPOSED_OWNER_REVIEW",
+      "evidence_artifact": "qualification/0_2_7/wp12_scaling_evidence.json",
+      "assembly_probe": "qualification/0_2_7/wp12_assembly_probe_300k.json",
+      "evidence_document": "docs/verification/0_2_7/0_2_7_large_scale_readiness.md",
+      "optimization_source": "src/solveur/large/matrix_free.py",
+      "full_regression_run": false,
+      "existing_numerical_formulations_changed": false,
+      "limitations": [
+        "matrix-free completion through 750141 DOF",
+        "300k assembly-only evidence",
+        "1M RESOURCE_LIMITED_TIME",
+        "SciPy configured limit and direct-route memory boundary",
+        "PETSc/SLEPc unavailable"
+      ]
+    },
     {"id": "WP13", "gate": "027-G13", "status": "NOT_STARTED", "start_sha": null, "evidence_head": null},
     {"id": "WP14", "gate": "027-G14", "status": "NOT_STARTED", "start_sha": null, "evidence_head": null}
   ]

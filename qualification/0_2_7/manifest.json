@@ -7,9 +7,9 @@
   "baseline_branch": "main",
   "foundation_branch": "codex/0.2.7-foundation",
   "baseline_worktree_clean_at_capture": true,
-  "foundation_status": "WP07_PASS_EXPERIMENTAL",
-  "evidence_head": "e2e0de5a8df465d5f2254a954d1b2f5c97181cf0",
-  "current_development_head": "e2e0de5a8df465d5f2254a954d1b2f5c97181cf0",
+  "foundation_status": "WP08_PASS_EXPERIMENTAL_WP12_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED",
+  "evidence_head": "4971ac4f6c1e5cff2ca48e40ca6db5e8147d0d0a",
+  "current_development_head": "4971ac4f6c1e5cff2ca48e40ca6db5e8147d0d0a",
   "current_development_branch": "codex/0.2.7-foundation",
   "parent_release": {
     "version": "0.2.6a0",
@@ -106,7 +106,14 @@
     "qualification/0_2_7/vnv_v2/mesh_quality_cases.json",
     "qualification/0_2_7/wp06_state.json",
     "docs/verification/0_2_7/0_2_7_mesh_quality_contract.md",
-    "tests/unit/test_wedge6_t1r3_contract.py"
+    "tests/unit/test_wedge6_t1r3_contract.py",
+    "qualification/0_2_7/wp12_state.json",
+    "qualification/0_2_7/wp12_scaling_evidence.json",
+    "qualification/0_2_7/wp12_assembly_probe_300k.json",
+    "docs/verification/0_2_7/0_2_7_large_scale_readiness.md",
+    "tests/unit/test_wp12_scaling.py",
+    "scripts/run_wp12_scaling.py",
+    "src/solveur/large/matrix_free.py"
   ],
-  "status_rule": "A work package is PASS only when its declared evidence is recorded; WP05 records external deck preflight, WP06 records mesh-quality diagnostics, and WP07 records an experimental WEDGE6 elemental kernel without creating a public qualification or universal quality cutoff."
+  "status_rule": "A work package is PASS only when its declared evidence is recorded; WP05 records external deck preflight, WP06 records mesh-quality diagnostics, WP07 records an experimental WEDGE6 elemental kernel without creating a public qualification or universal quality cutoff, and WP12 records bounded large-scale readiness evidence without creating a universal 1M-DOF claim."
 }

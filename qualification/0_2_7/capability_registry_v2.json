@@ -1077,10 +1077,13 @@
       "evidence_refs": [
         "0.2.5 performance characterization",
         "qualification/0_2_6/g12_final_campaign.json",
-        "qualification/0_2_6/g12_owner_closeout.json"
+        "qualification/0_2_6/g12_owner_closeout.json",
+        "qualification/0_2_7/wp12_scaling_evidence.json",
+        "qualification/0_2_7/wp12_assembly_probe_300k.json",
+        "docs/verification/0_2_7/0_2_7_large_scale_readiness.md"
       ],
-      "owner_decision": "INHERITED_0_2_6_SCOPE",
-      "limitations": "G12 is closed as PASS_WITH_LIMITATIONS: route, hardware and model-topology bounds remain explicit; 300k is assembly-only and 1M is RESOURCE_LIMITED.",
+      "owner_decision": "INHERITED_0_2_6_SCOPE; WP12_SUPPLEMENTAL_EVIDENCE_PROPOSED_OWNER_REVIEW",
+      "limitations": "G12 is closed as PASS_WITH_LIMITATIONS: route, hardware and model-topology bounds remain explicit; 300k is assembly-only and 1M is RESOURCE_LIMITED. WP12 adds current-source structured TET4 readiness evidence pending Owner review; it does not broaden the inherited public scope.",
       "applicable_version": "0.2.7a0",
       "source_snapshot": "81443c20b3f1ec9b742292bc5f880cc10e112a96",
       "supersedes": [
