@@ -4,7 +4,7 @@
   "gate": "027-G05",
   "status": "PASS",
   "start_sha": "fb102e649235a276096b3a37e19eb61e19a5b43f",
-  "evidence_head": "PENDING_WP05_COMMIT",
+  "evidence_head": "e8a63e6f8ae05e79ab3d74fb3f33f193caf2f3ba",
   "owner_decision": "bounded external-oracle preflight PASS; no WEDGE6 correlation or capability",
   "calculix_c3d6": {
     "state": "AVAILABLE_LOCAL_ONLY",
