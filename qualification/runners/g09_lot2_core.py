@@ -16,9 +16,11 @@ import math
 import subprocess
 import sys
 from dataclasses import replace
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
+
+UTC = timezone.utc
 
 import numpy as np
 
