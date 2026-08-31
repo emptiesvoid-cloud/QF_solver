@@ -13,7 +13,7 @@
       "title": "Release truth and provenance",
       "status": "PASS",
       "start_sha": "e99289aca40011ca0424944099e2d2093cf21a65",
-      "evidence_head": null,
+      "evidence_head": "bb822839248b5ffb9faef5d79a6c83f288faefb3",
       "depends_on": [],
       "go": ["exact baseline and version are recorded", "clean-state and SHA roles are explicit"],
       "stop": ["SHA/tag/version mismatch", "historical evidence silently reused as current evidence"],

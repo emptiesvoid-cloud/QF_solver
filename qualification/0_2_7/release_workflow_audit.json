@@ -4,6 +4,7 @@
   "work_package": "WP01",
   "status": "PASS_WITH_LIMITATIONS",
   "workflow": ".github/workflows/publish-pypi.yml",
+  "evidence_head": "bb822839248b5ffb9faef5d79a6c83f288faefb3",
   "triggers": ["release.published", "workflow_dispatch.confirm_publish"],
   "tag_version_contract": {
     "required": true,
