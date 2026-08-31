@@ -4,7 +4,7 @@
   "gate": "027-G04",
   "status": "PASS",
   "start_sha": "684c39c72191d43c53e1f21043dc746d213a561d",
-  "evidence_head": "PENDING_COMMIT",
+  "evidence_head": "2ee1cf54f3076427b32870e4ca98035431dfa654",
   "scope": "additive declarative V&V harness and representative migration samples",
   "case_schema": "src/solveur/verification/v2/schema.py",
   "runner": "src/solveur/verification/v2/runner.py",

@@ -52,7 +52,7 @@
       "title": "Declarative V&V harness",
       "status": "PASS",
       "start_sha": "684c39c72191d43c53e1f21043dc746d213a561d",
-      "evidence_head": "PENDING_COMMIT",
+      "evidence_head": "2ee1cf54f3076427b32870e4ca98035431dfa654",
       "depends_on": ["027-G01", "027-G02"],
       "go": ["additive case schema", "manifest and digest replay is deterministic"],
       "stop": ["arbitrary command execution", "old evidence is lost", "solver route is changed"],
