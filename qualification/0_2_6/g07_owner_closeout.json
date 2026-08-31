@@ -1,0 +1,263 @@
+{
+  "schema_version": 1,
+  "closeout_id": "026-G07-OWNER-CLOSEOUT-001",
+  "gate": "026-G07",
+  "status": "PASS_WITH_LIMITATIONS",
+  "official_gate_status": "PASS_WITH_LIMITATIONS",
+  "owner_disposition": "PASS",
+  "owner_decision": "PASS_WITH_LIMITATIONS",
+  "closeout_start_sha": "c55f768d570905869904e08042180f2b515f26c4",
+  "evidence_head": "c55f768d570905869904e08042180f2b515f26c4",
+  "evidence_source_dirty": false,
+  "contract_unchanged": true,
+  "no_other_gate_changed": true,
+  "functional_source_changed": false,
+  "numerical_regression_detected": false,
+  "blocking_requirements": [],
+  "route_dispositions": {
+    "TL_TET4": "OWNER_PASS_WITH_LIMITATIONS",
+    "TL_HEX8": "OWNER_NOT_QUALIFIED",
+    "ARC_LENGTH": "OWNER_PASS_WITH_LIMITATIONS",
+    "ARC002_REFINED_MESH_COMPARABILITY": "OWNER_DEFERRED",
+    "ARC003_RESTART_ROLLBACK": "OWNER_APPROVED_BOUNDED"
+  },
+  "requirements": [
+    {
+      "requirement_id": "G07-TL-001",
+      "decision": "OWNER_APPROVED_BOUNDED",
+      "evidence_level": "L3",
+      "evidence": [
+        "qualification/0_2_6/tl_blocker_resolution/tl_blocker_resolution.json",
+        "qualification/0_2_6/tl_boundary_study/tl_boundary_study_summary.json"
+      ],
+      "limitation": "Bounded to the exercised TET4 Total-Lagrangian elastic small-strain cases; no universal asymptotic band is claimed."
+    },
+    {
+      "requirement_id": "G07-TL-002",
+      "decision": "OWNER_APPROVED_BOUNDED",
+      "evidence_level": "L3",
+      "evidence": [
+        "qualification/0_2_6/tl_blocker_resolution/tl_blocker_resolution.json",
+        "qualification/0_2_6/tl_boundary_study/tl_boundary_study_summary.json"
+      ],
+      "limitation": "Objectivity and invariant checks are accepted only for the recorded TET4 benchmark motions and finite deformation bounds."
+    },
+    {
+      "requirement_id": "G07-TL-003",
+      "decision": "OWNER_APPROVED_BOUNDED",
+      "evidence_level": "L3",
+      "evidence": [
+        "qualification/0_2_6/tl_boundary_study/tl_boundary_study_summary.json",
+        "qualification/0_2_6/g07_b2_tl_external/g07_b2_tl_external_evidence.json",
+        "qualification/0_2_6/g07_b3_gap_resolution/g07_b3_gap_resolution_evidence.json"
+      ],
+      "limitation": "The qualified statement is limited to finite, positive-det(F), tested TET4 elastic domains; HEX8 complete-history behavior is excluded."
+    },
+    {
+      "requirement_id": "G07-TL-004",
+      "decision": "OWNER_APPROVED_BOUNDED",
+      "evidence_level": "L3",
+      "evidence": [
+        "qualification/0_2_6/tl_boundary_study/tl_boundary_study_summary.json",
+        "qualification/0_2_6/g07_b2_tl_external/g07_b2_tl_external_evidence.json"
+      ],
+      "limitation": "Equilibrium and residual observations are bounded to accepted TET4 paths and do not establish a universal nonlinear convergence policy."
+    },
+    {
+      "requirement_id": "G07-TL-005",
+      "decision": "OWNER_APPROVED_BOUNDED",
+      "evidence_level": "L3",
+      "evidence": [
+        "qualification/0_2_6/tl_blocker_resolution/tl_blocker_resolution.json",
+        "qualification/0_2_6/tl_promotion_prequal/tl_promotion_prequal.json"
+      ],
+      "limitation": "Finite-difference tangent observations remain bounded to the declared TET4 states and steps; no global tangent tolerance is approved."
+    },
+    {
+      "requirement_id": "G07-TL-006",
+      "decision": "OWNER_APPROVED_BOUNDED",
+      "evidence_level": "L3",
+      "evidence": [
+        "qualification/0_2_6/tl_blocker_resolution/tl_blocker_resolution.json",
+        "qualification/0_2_6/tl_boundary_study/tl_boundary_study_summary.json"
+      ],
+      "limitation": "Mesh observations are bounded trend evidence; no universal mesh error or monotonicity law is claimed."
+    },
+    {
+      "requirement_id": "G07-TL-007",
+      "decision": "OWNER_APPROVED_BOUNDED",
+      "evidence_level": "L3",
+      "evidence": [
+        "qualification/0_2_6/tl_failure_isolation/tl_failure_isolation_summary.json",
+        "qualification/0_2_6/g07_b3_gap_resolution/g07_b3_gap_resolution_evidence.json"
+      ],
+      "limitation": "Reproducibility and increment sensitivity are recorded for the exercised histories; the HEX8 stop remains an explicit limitation."
+    },
+    {
+      "requirement_id": "G07-TL-008",
+      "decision": "OWNER_PASS_WITH_LIMITATIONS",
+      "evidence_level": "L3",
+      "evidence": [
+        "qualification/0_2_6/g07_b2_tl_external/g07_b2_tl_external_evidence.json",
+        "docs/verification/0_2_6/0_2_6_g07_b2_tl_external.md"
+      ],
+      "limitation": "The complete compatible external comparison is accepted for TET4 over 16/16 bounded points. HEX8 complete matched-history correlation is not qualified and is excluded."
+    },
+    {
+      "requirement_id": "G07-ARC-001",
+      "decision": "OWNER_PASS_WITH_LIMITATIONS",
+      "evidence_level": "L3",
+      "evidence": [
+        "qualification/0_2_6/g07_b1_arc_length_evidence.json",
+        "qualification/0_2_6/g10_selected_external_evidence.json"
+      ],
+      "limitation": "Branch tracking and turning-point evidence is bounded to the declared TET4 shallow-arch benchmark and remains research-level."
+    },
+    {
+      "requirement_id": "G07-ARC-002",
+      "decision": "OWNER_DEFERRED",
+      "evidence_level": "L3",
+      "evidence": [
+        "qualification/0_2_6/g07_b1_arc_length_evidence.json",
+        "qualification/0_2_6/g07_b3_gap_resolution/g07_b3_gap_resolution_evidence.json"
+      ],
+      "limitation": "Coarse sensitivity is bounded, but the refined mesh has no comparable observed turning point and the finer probe reaches invalid det(F); no refined extrapolation is claimed."
+    },
+    {
+      "requirement_id": "G07-ARC-003",
+      "decision": "OWNER_APPROVED_BOUNDED",
+      "evidence_level": "L3",
+      "evidence": [
+        "qualification/0_2_6/g07_b1_arc_length_evidence.json",
+        "docs/verification/0_2_6/0_2_6_g07_b1_arc_length.md"
+      ],
+      "limitation": "Checkpoint/restart and rollback are accepted for the recorded turning-point benchmark and are not generalized to all continuation histories."
+    },
+    {
+      "requirement_id": "G07-ARC-004",
+      "decision": "OWNER_PASS_WITH_LIMITATIONS",
+      "evidence_level": "L3",
+      "evidence": [
+        "qualification/0_2_6/g10_selected_external_evidence.json",
+        "qualification/0_2_6/g07_b1_arc_length_evidence.json"
+      ],
+      "limitation": "External evidence is used only where formulation-compatible and remains bounded; unavailable or non-comparable fields are not treated as PASS."
+    }
+  ],
+  "qualified_bounded_scope": {
+    "total_lagrangian": {
+      "route": "geometric_nonlinear_static",
+      "family": "TET4",
+      "material": "existing Total-Lagrangian elasticity",
+      "domain": "declared finite, positive-det(F), bounded TET4 cases covered by the historical evidence and G07 B2/B3",
+      "external_claim": "bounded Code_Aster-compatible displacement/reaction comparison over the recorded 16/16 TET4 points"
+    },
+    "arc_length": {
+      "route": "arc_length",
+      "family": "TET4",
+      "benchmark": "coarse reference two-TET4 shallow-arch/bipyramid benchmark",
+      "domain": "bounded internal branch, turning-point and restart/rollback evidence",
+      "maturity": "research bounded; not production qualification"
+    },
+    "claim_boundary": "No general TL or Arc-Length qualification, no finite nonlinear industrial/general-purpose claim, and no automatic generalization to untested families, meshes, materials, loads or controls."
+  },
+  "evidence_summary": {
+    "TL_TET4": {
+      "external_points": 16,
+      "external_complete": true,
+      "displacement_reaction_agreement": true,
+      "finite_monotone_continuous": true,
+      "stress_comparable": false,
+      "result": "PASS_WITH_LIMITATIONS"
+    },
+    "TL_HEX8": {
+      "external_reference_points": 128,
+      "qf_deterministic_stop": "load factor 0.375",
+      "subdivision_replays": [128, 256, 512],
+      "cutback_result": "MIN_INCREMENT_REACHED",
+      "rollback": true,
+      "finite_fields": true,
+      "mesh_quality": "PASS",
+      "root_cause": "SOLVER_ALGORITHM_LIMITATION",
+      "complete_history_correlation": "FAIL",
+      "owner_result": "NOT_QUALIFIED"
+    },
+    "ARC002": {
+      "coarse_result": "PASS_BOUNDED",
+      "refined_result": "DEFERRED",
+      "refined_turning_point": false,
+      "owner_result": "DEFERRED"
+    },
+    "ARC003": {
+      "restart_rollback": true,
+      "deterministic": true,
+      "owner_result": "PASS_BOUNDED"
+    }
+  },
+  "release_blocker_test": {
+    "g07_blocking_requirements": [],
+    "real_bug_blocking_release": false,
+    "hex8_complete_history_exclusion_accepted": true,
+    "arc002_refined_comparability_deferred": true,
+    "rationale": "The excluded and deferred evidence does not invalidate the explicitly narrowed TET4 bounded claims, reveal a solver bug, or create an ambiguous public claim."
+  },
+  "regression": {
+    "command": "python -m pytest -q",
+    "source_sha": "c55f768d570905869904e08042180f2b515f26c4",
+    "executions": 1,
+    "passed": 1876,
+    "skipped": 184,
+    "failed": 2,
+    "new_fix_only_failures": [],
+    "regression_introduced": false,
+    "regression_neutral": true,
+    "failure_groups": [
+      {
+        "classification": "PRE_EXISTING",
+        "cause_class": "ARCHITECTURE_HISTORICAL",
+        "test": "tests/unit/test_architecture_rules.py::test_python_source_files_stay_under_700_lines",
+        "observation": "The existing G07 B1 runner scripts/run_g07_b1_arc_length.py is 762 lines; no closeout code changed it."
+      },
+      {
+        "classification": "PRE_EXISTING",
+        "cause_class": "ENVIRONMENTAL_AUDIT_DRIFT",
+        "test": "tests/unit/test_public_document_audit.py::test_controlled_public_document_audit_record_matches_current_classification",
+        "observation": "The controlled audit record reports 456 public source documents while the current pre-closeout tree reports 460; this is an existing audit-record mismatch, not a solver failure."
+      }
+    ],
+    "release_blockers_outside_g07": [
+      "architecture source-line limit for the existing G07 B1 runner",
+      "stale public-document audit count"
+    ]
+  },
+  "validation": {
+    "targeted_g07_tests": "52 passed",
+    "registry": "PASS",
+    "anti_forgetting": "PASS via capability registry contract",
+    "ruff": "SKIPPED_BY_POLICY; no source code changed",
+    "compileall": "SKIPPED_BY_POLICY; no source code changed",
+    "diff_check": "PASS",
+    "functional_source_changed_in_closeout": false
+  },
+  "limitations": [
+    "TL HEX8 is not qualified for complete matched nonlinear history because the deterministic QF path stops at load factor 0.375 and reaches MIN_INCREMENT_REACHED under existing cutback.",
+    "ARC-002 refined-mesh turning-point comparability is deferred because the refined declared window did not observe a turning point and finer probing reached invalid det(F).",
+    "TET4 stress/strain fields are not externally comparable in the recorded correlation because the integration and sampling measures differ.",
+    "TET10 and HEX20 remain research-only for G07; finite-kinematic J2, coupled nonlinear, contact/friction and new physics remain excluded.",
+    "No universal load-step, arc-step, mesh, large-deformation or industrial-solver-equivalence claim is made.",
+    "Two pre-existing full-regression failures remain release blockers outside G07."
+  ],
+  "scope_exclusions": [
+    "TL HEX8 complete matched nonlinear history",
+    "ARC-002 refined-mesh turning-point extrapolation and universal step/mesh sensitivity",
+    "TET10 and HEX20 qualified G07 claims",
+    "finite-kinematic J2 and coupled nonlinear workflows",
+    "contact and friction qualification",
+    "external stress/strain equivalence where measures are not comparable",
+    "general, industrial or production-wide TL/Arc-Length claims"
+  ],
+  "official_closeout": "RECORDED_BY_OWNER_REVIEW",
+  "global_gate_manifest_update": "NOT_PERFORMED; global consolidation remains separate",
+  "ready_for_integration": true,
+  "ready_to_leave_g07_closed": true
+}
