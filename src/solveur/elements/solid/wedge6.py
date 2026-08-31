@@ -50,8 +50,9 @@ _REFERENCE_RULE = _duffy_reference_rule()
 class Wedge6Element:
     """Linear six-node triangular-prism element with full integration.
 
-    This is the WP07 technical kernel.  User-facing mesh import, face loads,
-    reactions and qualification remain outside this route until later gates.
+    This is the WP07 technical kernel used by the WP08 experimental static
+    vertical slice.  Modal, nonlinear, contact and external qualification
+    routes remain outside this capability.
     """
 
     integration_point_count = 6

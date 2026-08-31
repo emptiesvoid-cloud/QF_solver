@@ -272,11 +272,20 @@ def wedge6_result(
     averaged = average_solid_points(integration_points)
     averaged.update(orthotropic_fields(material, np.asarray(averaged["strain"]), np.asarray(averaged["stress"])))
     averaged_stress = np.asarray(averaged["stress"], dtype=float)
+    strain_energy = float(
+        sum(
+            0.5
+            * float(np.asarray(point["strain"], dtype=float) @ np.asarray(point["stress"], dtype=float))
+            * float(point["weight"])
+            for point in integration_points
+        )
+    )
     return {
         "element": index,
         "type": element_type,
         "location": "integration_average",
         **averaged,
+        "strain_energy": strain_energy,
         "von_mises": element.von_mises(averaged_stress),
         "integration_points": integration_points,
         "nodal_results": solid_nodal_results(

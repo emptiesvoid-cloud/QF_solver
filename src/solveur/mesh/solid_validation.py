@@ -76,4 +76,6 @@ def maximum_surface_face(element_type: str) -> int | None:
         return 5
     if element_type in {"TET4", "TET10"}:
         return 3
+    if element_type == "WEDGE6":
+        return 4
     return None

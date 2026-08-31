@@ -106,12 +106,13 @@ DESCRIPTORS: dict[str, ElementCapabilityDescriptor] = {
     "WEDGE6": ElementCapabilityDescriptor(
         "WEDGE6", ("WEDGE6", "PRISM6"), 3, 6, ("UX", "UY", "UZ"), "linear triangular prism",
         ("TRI3", "TRI3", "QUAD4", "QUAD4", "QUAD4"), "TRI3_X_GAUSS2",
-        ("isotropic_3d",), ("linear_static",), ("nodal",), "not implemented",
-        "Gauss-point strain/stress recovery", "Gmsh prism6 mapping contract; importer pending WP08",
+        ("isotropic_3d",), ("linear_static",), ("nodal", "gravity", "body_force", "pressure", "surface_traction"), "not implemented",
+        "Gauss-point strain/stress recovery with integration energy",
+        "Gmsh Prism6 import and canonical face/load mapping validated by WP08",
         ("scipy_sparse",),
         (
             "modal/Newmark/harmonic routes are not implemented",
-            "J2, TL, contact, face loads, Gmsh import and full user workflow are deferred",
+            "J2, TL, contact, external correlation and robustness qualification are deferred",
         ),
         ("COMB-WEDGE6-linear_static",),
     ),

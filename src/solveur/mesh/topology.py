@@ -25,5 +25,15 @@ HEX20_FACES = (
     (2, 3, 7, 6, 13, 15, 19, 14),
     (3, 0, 4, 7, 9, 10, 17, 15),
 )
+# WEDGE6 canonical faces follow the reviewed Prism6 orientation contract.
+# The first two faces are the bottom/top triangles; the remaining faces are
+# the three quadrilateral sides with outward normals for the canonical prism.
+WEDGE6_FACES = (
+    (0, 2, 1),
+    (3, 4, 5),
+    (0, 1, 4, 3),
+    (1, 2, 5, 4),
+    (2, 0, 3, 5),
+)
 MITC4_EDGES = ((0, 1), (1, 2), (2, 3), (3, 0))
 MITC3_EDGES = ((0, 1), (1, 2), (2, 0))

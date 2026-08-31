@@ -22,12 +22,13 @@ from solveur.mesh.topology import (
     MITC4_EDGES,
     TET10_FACES,
     TET4_FACES,
+    WEDGE6_FACES,
 )
 from solveur.mesh.validation import MeshValidator
 from solveur.version import DISPLAY_NAME, __version__
 
 
-SUPPORTED_FAMILIES = {"TET4", "TET10", "HEX8", "HEX20", "MITC3", "MITC4"}
+SUPPORTED_FAMILIES = {"TET4", "TET10", "HEX8", "HEX20", "WEDGE6", "MITC3", "MITC4"}
 SUPPORTED_ACTIONS = {
     "elements",
     "fixed_dofs",
@@ -262,7 +263,7 @@ def _element_assignments(
             selected_families.add(family)
             if len(selected_families) > 1 and not (
                 selected_families.issubset({"MITC3", "MITC4"})
-                or selected_families.issubset({"TET4", "TET10", "HEX8", "HEX20"})
+                or selected_families.issubset({"TET4", "TET10", "HEX8", "HEX20", "WEDGE6"})
             ):
                 raise MeshValidationError(
                     "Mixed imported families must be all shells or all 3D solids: "
@@ -288,7 +289,7 @@ def _element_assignments(
             "Structural cells are not assigned to a material: "
             f"{missing[:8]} (families={sorted(selected_families)})"
         )
-    if all(family.startswith("TET") or family in {"HEX8", "HEX20"} for family in selected_families):
+    if all(family.startswith("TET") or family in {"HEX8", "HEX20", "WEDGE6"} for family in selected_families):
         unsupported = [cell.tag for cell in mesh.cells.values() if cell.dimension == 3 and cell.tag not in candidates]
     else:
         unsupported = [cell.tag for cell in mesh.cells.values() if cell.dimension == 2 and cell.tag not in candidates]
@@ -335,6 +336,15 @@ def _oriented_connectivities(
                 element.validate_geometry(np.asarray([mesh.nodes[node] for node in connectivity], dtype=float))
             except ValueError as exc:
                 raise MeshValidationError(f"Gmsh {family} {tag} has invalid orientation or Jacobian: {exc}") from exc
+        if family == "WEDGE6":
+            from solveur.elements.solid.wedge6 import Wedge6Element
+
+            try:
+                Wedge6Element.validate_geometry(
+                    np.asarray([mesh.nodes[node] for node in connectivity], dtype=float)
+                )
+            except ValueError as exc:
+                raise MeshValidationError(f"Gmsh WEDGE6 {tag} has invalid orientation or Jacobian: {exc}") from exc
         connectivities[tag] = tuple(connectivity)
     return connectivities, repairs
 
@@ -461,7 +471,7 @@ def _solid_face_map(
     element_index: dict[int, int],
 ) -> dict[frozenset[int], list[tuple[int, int]]]:
     family_set = set(families.values())
-    if not family_set or not family_set.issubset({"TET4", "TET10", "HEX8", "HEX20"}):
+    if not family_set or not family_set.issubset({"TET4", "TET10", "HEX8", "HEX20", "WEDGE6"}):
         return {}
     mapping: dict[frozenset[int], list[tuple[int, int]]] = defaultdict(list)
     for tag, connectivity in connectivities.items():
@@ -474,6 +484,8 @@ def _solid_face_map(
             else HEX8_FACES
             if family == "HEX8"
             else HEX20_FACES
+            if family == "HEX20"
+            else WEDGE6_FACES
         )
         for face, local_nodes in enumerate(faces):
             mapping[frozenset(connectivity[index] for index in local_nodes)].append((element_index[tag], face))
@@ -516,6 +528,8 @@ def _surface_targets(
             *(6 for family in family_set if family == "TET10"),
             *(4 for family in family_set if family == "HEX8"),
             *(8 for family in family_set if family == "HEX20"),
+            *(3 for family in family_set if family == "WEDGE6"),
+            *(4 for family in family_set if family == "WEDGE6"),
         }
         if len(cell.nodes) not in allowed_face_sizes:
             raise MeshValidationError(
@@ -573,6 +587,8 @@ def _cell_family(cell: Any) -> str | None:
         return "HEX8"
     if cell.dimension == 3 and "hexa" in name and cell.order == 2 and len(cell.nodes) == 20:
         return "HEX20"
+    if cell.dimension == 3 and "prism" in name and cell.order == 1 and len(cell.nodes) == 6:
+        return "WEDGE6"
     if cell.dimension == 2 and ("quad" in name) and cell.order == 1 and len(cell.nodes) == 4:
         return "MITC4"
     if cell.dimension == 2 and ("triangle" in name or "tri" in name) and cell.order == 1 and len(cell.nodes) == 3:

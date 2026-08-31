@@ -61,6 +61,8 @@ class DistributedLoadSchemaValidator:
             errors.append(f"{path}.face must be an integer from 0 to 3 for {element_type}.")
         if element_type in {"HEX8", "HEX20"} and (not _is_int(face) or not 0 <= int(face) <= 5):
             errors.append(f"{path}.face must be an integer from 0 to 5 for {element_type}.")
+        if element_type == "WEDGE6" and (not _is_int(face) or not 0 <= int(face) <= 4):
+            errors.append(f"{path}.face must be an integer from 0 to 4 for WEDGE6.")
         if element_type in {"MITC3", "MITC4"} and face is not None and face != 0:
             errors.append(f"{path}.face must be omitted or zero for {element_type}.")
         if load_type == "pressure":
