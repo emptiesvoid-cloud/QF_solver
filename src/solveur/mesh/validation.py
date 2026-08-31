@@ -21,6 +21,7 @@ from solveur.materials.factory import MaterialFactory
 from solveur.mesh.constraint_validation import multipoint_constraint_errors
 from solveur.mesh.contact_validation import frictionless_contact_errors
 from solveur.mesh.quality import MeshQuality, MeshQualityThresholds
+from solveur.mesh.quality_contract import INVALID as QUALITY_INVALID, VALID_WITH_WARNING as QUALITY_WARNING
 from solveur.mesh.solid_validation import geometry_error, maximum_surface_face, quality_details
 from solveur.mesh.topology import MITC3_EDGES, MITC4_EDGES
 from solveur.mesh.validation_helpers import (
@@ -187,6 +188,13 @@ class MeshValidator:
                 length = float(np.linalg.norm(coords[1] - coords[0]))
                 entry = {"index": index, "type": element.type, "length": length}
                 local_warnings = []
+            elif element.type == "WEDGE6":
+                solid_details = quality_details(index, element.type, coords)
+                if solid_details is None:
+                    entry = {"index": index, "type": element.type}
+                    local_warnings = []
+                else:
+                    entry, local_warnings = solid_details
             else:
                 solid_details = quality_details(index, element.type, coords)
                 if solid_details is None:
@@ -206,6 +214,10 @@ class MeshValidator:
                 entry["signed_volume"] <= self.thresholds.tet_min_signed_volume or invalid_tet10_jacobian
             ):
                 entry["quality_status"] = "FAIL"
+            elif element.type == "WEDGE6" and entry.get("quality_classification") == QUALITY_INVALID:
+                entry["quality_status"] = "FAIL"
+            elif element.type == "WEDGE6" and entry.get("quality_classification") == QUALITY_WARNING:
+                entry["quality_status"] = "WARNING"
             else:
                 entry["quality_status"] = "WARNING" if local_warnings else "PASS"
             entry["quality_warnings"] = local_warnings
@@ -678,7 +690,7 @@ class MeshValidator:
             error = geometry_error(index, element_type, coords)
             if error is not None:
                 errors.append(error)
-            if element_type in {"HEX8", "HEX20"}:
+            if element_type in {"HEX8", "HEX20", "WEDGE6"}:
                 return
         if element_type == "MITC4":
             material = ShellMaterial(E=1.0, nu=0.3, t=1.0)

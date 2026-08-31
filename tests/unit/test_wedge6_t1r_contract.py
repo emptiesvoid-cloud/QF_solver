@@ -186,10 +186,12 @@ def test_selected_and_reference_quadrature_contracts_are_predeclared() -> None:
     assert selected["point_count"] == 6
     assert sum(point["weight"] for point in selected["triangle_points"]) == pytest.approx(0.5)
     assert sum(point["weight"] for point in selected["line_points"]) == pytest.approx(2.0)
-    assert selected["scope"] == "initial full-integration candidate; reduced integration is not qualified"
+    assert selected["scope"] == (
+        "WP07 full-integration technical kernel; reduced integration is not implemented or qualified"
+    )
     assert reference["name"] == "DUFFY_GAUSS5_X_GAUSS4"
     assert reference["point_count"] == 100
-    assert CONTRACT["quadrature"]["owner_policy"] == "PROPOSED_OWNER_REVIEW"
+    assert CONTRACT["quadrature"]["owner_policy"].startswith("FIXED_BY_TERRA_REVIEW")
 
 
 def test_node_order_is_replayed_against_asymmetric_external_decks() -> None:
@@ -226,10 +228,10 @@ def test_uniform_pressure_resultant_and_moment_are_deterministic() -> None:
         assert moment == pytest.approx(np.cross(face_center, expected_force))
 
 
-def test_quality_contract_and_external_tolerances_are_inactive_and_predeclared() -> None:
+def test_quality_contract_and_external_tolerances_remain_predeclared() -> None:
     quality = wedge6_quality_contract()
-    assert quality["implemented"] is False
-    assert quality["status"] == "CONTROLLED_INACTIVE_CONTRACT"
+    assert quality["implemented"] is True
+    assert quality["status"] == "CONTROLLED_TECHNICAL_KERNEL_CONTRACT"
     assert CONTRACT["external_comparability"]["no_qf_correlation"] is True
     assert CONTRACT["external_comparability"]["tolerance_policy"]["status"] == "PROPOSED_OWNER_REVIEW"
     assert CONTRACT["external_comparability"]["tolerance_policy"]["near_zero_rule"].startswith("use declared absolute reference scale")

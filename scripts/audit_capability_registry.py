@@ -19,6 +19,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_REGISTRY = ROOT / "qualification" / "capability_registry.json"
 DEFAULT_DOCUMENT = ROOT / "docs" / "verification" / "0_2_6" / "capability_coverage.md"
 DEFAULT_HISTORICAL_SNAPSHOTS = ROOT / "qualification" / "historical_inventory_snapshots.json"
+ACTIVE_V2_REGISTRY = ROOT / "qualification" / "0_2_7" / "capability_registry_v2.json"
 REQUIRED_FIELDS = {
     "CAPABILITY_ID", "DOMAIN", "ELEMENT", "ANALYSIS", "MATERIAL_PHYSICS",
     "PRESENT_IN_CODE", "PUBLIC", "MATURITY", "TESTS", "VNV_LEVEL",
@@ -121,6 +122,28 @@ def _analysis_routes(source: str) -> set[str]:
     return set(ROUTE_PATTERN.findall(source))
 
 
+def _technical_only_current_elements() -> set[str]:
+    """Return element families added after the legacy 0.2.6 inventory.
+
+    The legacy audit remains authoritative for the 0.2.6 public inventory, but
+    the 0.2.7 foundation may contain a technical, non-public kernel.  Derive
+    that exception from the active v2 registry instead of weakening the legacy
+    source-sentinel check or adding the new element to the old release record.
+    """
+
+    try:
+        active = json.loads(ACTIVE_V2_REGISTRY.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return set()
+    public_anchors = set(active.get("public_capability_ids", []))
+    return {
+        record["element_family"]
+        for record in active.get("records", [])
+        if record.get("record_kind") == "combination"
+        and record.get("historical_origin", {}).get("legacy_capability_id") not in public_anchors
+    }
+
+
 def validate_registry(registry: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     rows = registry.get("capabilities", [])
@@ -161,7 +184,8 @@ def validate_registry(registry: dict[str, Any]) -> list[str]:
     registered_elements = {
         row["ELEMENT"] for row in rows if row.get("DOMAIN") == "ELEMENT" and row.get("ELEMENT") in current_elements
     }
-    for element in sorted(current_elements - registered_elements):
+    technical_only_elements = _technical_only_current_elements()
+    for element in sorted(current_elements - registered_elements - technical_only_elements):
         errors.append(f"Public element family is unregistered: {element}.")
     current_routes = _analysis_routes(_current_source("src/solveur/core/router.py"))
     registered_routes = {row["ANALYSIS"] for row in rows if row.get("DOMAIN") == "ANALYSIS"}

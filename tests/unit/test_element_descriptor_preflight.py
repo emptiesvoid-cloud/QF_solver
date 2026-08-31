@@ -14,7 +14,7 @@ from solveur.core.model import FiniteElementModel
 
 
 def test_all_existing_element_descriptors_are_complete() -> None:
-    assert set(DESCRIPTORS) == {"BEAM2", "MITC3", "MITC4", "TET4", "TET10", "HEX8", "HEX20", "DISCRETE"}
+    assert set(DESCRIPTORS) == {"BEAM2", "MITC3", "MITC4", "TET4", "TET10", "HEX8", "HEX20", "WEDGE6", "DISCRETE"}
     for descriptor in DESCRIPTORS.values():
         assert descriptor.canonical_name
         assert descriptor.aliases
@@ -57,10 +57,10 @@ def test_not_qualified_route_is_explicit_without_being_silently_supported() -> N
 
 
 def test_unsupported_inputs_fail_closed_with_structured_diagnostics() -> None:
-    unknown = explain_compatibility(element_family="WEDGE6", analysis="linear_static", material_model="isotropic_3d")
+    unknown = explain_compatibility(element_family="PYRAMID5", analysis="linear_static", material_model="isotropic_3d")
     assert unknown["status"] == "UNSUPPORTED_ROUTE"
     assert unknown["reason"] == "UNKNOWN_ELEMENT"
-    assert "WEDGE6" in str(unknown["message"])
+    assert "PYRAMID5" in str(unknown["message"])
 
     bad_material = check_compatibility("MITC4", "linear_static", "isotropic_3d")
     assert bad_material.status == "UNSUPPORTED_ROUTE"

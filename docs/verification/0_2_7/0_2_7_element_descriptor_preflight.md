@@ -25,8 +25,9 @@ qualification claim. `SUPPORTED`, `TESTED`, `VERIFIED` and
 `QUALIFIED_BOUNDED` remain distinct registry states.
 
 Descriptors are available for `BEAM2`, `MITC3`, `MITC4`, `TET4`, `TET10`,
-`HEX8`, `HEX20` and `DISCRETE`. `WEDGE6` is not implemented and has no active
-descriptor or public capability record.
+`HEX8`, `HEX20`, `WEDGE6` and `DISCRETE`. `WEDGE6` describes the implemented
+technical elemental kernel, while its registry combination remains
+`EXPERIMENTAL` and no public qualified capability record is created.
 
 ## Preflight contract
 
@@ -56,6 +57,8 @@ explicit non-qualified handling, malformed inputs, unsupported loads and
 deterministic model preflight. Existing BEAM2, MITC3, HEX8, discrete/contact,
 analysis-feature and public API workflows remain green in the targeted set.
 
-This work package does not change solver mathematics or numerical results. It
-does not make experimental routes qualified, does not add WEDGE6, and does
-not authorize a full regression or an engineering V&V campaign.
+The WEDGE6 descriptor is limited to the technical `linear_static` elemental
+route with homogeneous isotropic material, nodal loads and the declared
+SciPy route. It does not declare modal/dynamic, nonlinear, contact, face-load,
+Gmsh or user-workflow support. This work package does not make experimental
+routes qualified or authorize a full regression or engineering V&V campaign.

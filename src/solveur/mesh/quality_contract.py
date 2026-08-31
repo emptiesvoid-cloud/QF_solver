@@ -1,4 +1,4 @@
-"""Common, diagnostic-only geometric quality contract for solid elements.
+"""Common geometric quality contract for solid elements.
 
 This module deliberately does not alter element integration or solver checks.  It
 provides a stable summary for preflight, V&V evidence, and future element work.
@@ -20,10 +20,10 @@ QUALITY_CONTRACT_VERSION = "1.0"
 VALID = "VALID"
 VALID_WITH_WARNING = "VALID_WITH_WARNING"
 INVALID = "INVALID"
-SUPPORTED_FAMILIES = ("TET4", "TET10", "HEX8", "HEX20")
+SUPPORTED_FAMILIES = ("TET4", "TET10", "HEX8", "HEX20", "WEDGE6")
 WEDGE6_QUALITY_CONTRACT = {
     "element_family": "WEDGE6",
-    "implemented": False,
+    "implemented": True,
     "dimension": 3,
     "node_count": 6,
     "signed_volume": "prism-oriented signed volume",
@@ -39,7 +39,7 @@ WEDGE6_QUALITY_CONTRACT = {
     "orientation": "six-node orientation and outward face normals",
     "degeneracy": "non-positive or non-finite certified minimum determinant",
     "distortion": "prism-compatible dimensionless diagnostics, no universal cutoff",
-    "status": "CONTROLLED_INACTIVE_CONTRACT",
+    "status": "CONTROLLED_TECHNICAL_KERNEL_CONTRACT",
     "source_contract": "qualification/0_2_7/wedge6_formulation_contract.json",
 }
 
@@ -55,6 +55,16 @@ _HEX8_EDGES = (
 )
 _TET10_EDGES = _TET4_EDGES
 _HEX20_EDGES = _HEX8_EDGES
+_WEDGE6_EDGES = (
+    (0, 1), (1, 2), (2, 0),
+    (3, 4), (4, 5), (5, 3),
+    (0, 3), (1, 4), (2, 5),
+)
+_WEDGE6_PRODUCTION_POINTS = tuple(
+    (r, s, t)
+    for r, s in ((1.0 / 6.0, 1.0 / 6.0), (2.0 / 3.0, 1.0 / 6.0), (1.0 / 6.0, 2.0 / 3.0))
+    for t in (-1.0 / np.sqrt(3.0), 1.0 / np.sqrt(3.0))
+)
 
 
 @dataclass(frozen=True)
@@ -98,13 +108,13 @@ class MeshQualityAssessment:
 
 
 def wedge6_quality_contract() -> dict[str, Any]:
-    """Return the inactive quality contract reserved for a future WEDGE6 kernel."""
+    """Return the active technical quality contract for WEDGE6."""
 
     return dict(WEDGE6_QUALITY_CONTRACT)
 
 
 def _wedge6_shape_gradients(r: float, s: float, t: float) -> np.ndarray:
-    """Return reference derivatives for the inactive linear WEDGE6 contract."""
+    """Return reference derivatives for the linear WEDGE6 mapping."""
 
     return np.asarray(
         [
@@ -154,7 +164,7 @@ def wedge6_detj_quadratic_coefficients(coords: Any) -> tuple[tuple[float, float,
 
 
 def wedge6_jacobian_certificate(coords: Any) -> dict[str, Any]:
-    """Certify the minimum WEDGE6 Jacobian determinant without activating WEDGE6.
+    """Certify the minimum WEDGE6 Jacobian determinant.
 
     The certificate checks the exact polynomial reduction implied by the
     linear shape functions.  The additional quadrature, face and interior
@@ -320,6 +330,21 @@ def _family_data(
         edges = _edge_lengths(coords, _HEX20_EDGES)
         ratio = float(np.min(determinants) / np.max(determinants)) if np.max(determinants) > 0.0 else None
         return signed_volume, determinants, edges, float(1.0 - ratio) if ratio is not None else None, ()
+    if family == "WEDGE6":
+        determinants = np.asarray(
+            [_wedge6_detj(coords, r, s, t) for r, s, t in _WEDGE6_PRODUCTION_POINTS],
+            dtype=float,
+        )
+        signed_volume = float(np.dot(np.full(determinants.size, 1.0 / 6.0), determinants))
+        edges = _edge_lengths(coords, _WEDGE6_EDGES)
+        certificate = wedge6_jacobian_certificate(coords)
+        distortion = float(1.0 - certificate["minimum_to_scale_ratio"])
+        warnings = (
+            ("JACOBIAN_CERTIFICATE_NEAR_DEGENERATE",)
+            if certificate["classification"] == VALID_WITH_WARNING
+            else ()
+        )
+        return signed_volume, determinants, edges, distortion, warnings
     raise ValueError(f"Quality assessment is not implemented for element family {family!r}.")
 
 
@@ -333,9 +358,7 @@ def assess_element(
     """Assess geometry without imposing a new universal quality threshold."""
 
     family = str(element_family).strip().upper()
-    if family == "WEDGE6":
-        raise ValueError("WEDGE6 quality assessment is planned but not implemented.")
-    expected_nodes = {"TET4": 4, "TET10": 10, "HEX8": 8, "HEX20": 20}.get(family)
+    expected_nodes = {"TET4": 4, "TET10": 10, "HEX8": 8, "HEX20": 20, "WEDGE6": 6}.get(family)
     if expected_nodes is None:
         return _invalid_assessment(element_id, family, "UNSUPPORTED_ELEMENT_FAMILY")
     try:
@@ -352,6 +375,16 @@ def assess_element(
         return _invalid_assessment(element_id, family, "GEOMETRY_EVALUATION_FAILED")
     metrics = _base_metrics(signed_volume, determinants, edges, distortion_metric=distortion)
     warnings = list(family_warnings)
+    certificate = wedge6_jacobian_certificate(values) if family == "WEDGE6" else None
+    if certificate is not None:
+        metrics.update(
+            {
+                "certified_min_jacobian_determinant": float(certificate["minimum_detJ"]),
+                "certified_detj_scale": float(certificate["detJ_scale"]),
+                "certified_detj_ratio": float(certificate["minimum_to_scale_ratio"]),
+                "certified_geometry_tolerance": float(certificate["geometry_tolerance"]),
+            }
+        )
     if family in {"TET4", "TET10"}:
         selected_thresholds = thresholds or MeshQualityThresholds()
         if family == "TET4":
@@ -366,6 +399,8 @@ def assess_element(
         fatal.append("NONFINITE_JACOBIAN")
     if not positive:
         fatal.append("JACOBIAN_ORIENTATION_INVALID")
+    if certificate is not None and not certificate["valid"]:
+        fatal.append("WEDGE6_JACOBIAN_CERTIFICATE_INVALID")
     if signed_volume <= 0.0:
         fatal.append("NONPOSITIVE_SIGNED_VOLUME")
     if not edges.size or np.any(edges <= 0.0):
@@ -380,6 +415,7 @@ def assess_element(
             "TET10": "Tet10Element.jacobian_determinants",
             "HEX8": "Hex8Element.integration_points",
             "HEX20": "Hex20Element.integration_points",
+            "WEDGE6": "analytic triangular-vertex quadratic certificate plus TRI3_X_GAUSS2 diagnostics",
         }[family],
         "thresholds": "legacy MeshQualityThresholds; diagnostic warnings only" if warnings else "none; no universal threshold applied",
         "conditioning": "not estimated; no universal conditioning cutoff",
@@ -396,7 +432,7 @@ def assess_model(model: Any) -> MeshQualityAssessment:
     for element_id, element in enumerate(getattr(model, "elements", [])):
         family = str(getattr(element, "type", "")).upper()
         connectivity = tuple(getattr(element, "nodes", ()))
-        expected = {"TET4": 4, "TET10": 10, "HEX8": 8, "HEX20": 20}.get(family)
+        expected = {"TET4": 4, "TET10": 10, "HEX8": 8, "HEX20": 20, "WEDGE6": 6}.get(family)
         if expected is None:
             continue
         if len(connectivity) != expected or any(index < 0 or index >= len(nodes) for index in connectivity):

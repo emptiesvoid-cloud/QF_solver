@@ -118,14 +118,17 @@ def test_inverted_geometry_is_invalid(family: str, coords: np.ndarray, permutati
     assert "JACOBIAN_ORIENTATION_INVALID" in assessment.fatal_findings
 
 
-def test_duplicate_nodes_and_unknown_wedge_are_fail_closed_without_implementation() -> None:
+def test_duplicate_nodes_remain_fail_closed_and_wedge_quality_is_active() -> None:
     duplicate = assess_element(5, "TET4", np.vstack((TET4[:3], TET4[0])))
 
     assert duplicate.classification == INVALID
     assert "COINCIDENT_ELEMENT_NODES" in duplicate.fatal_findings
-    assert wedge6_quality_contract()["implemented"] is False
-    with pytest.raises(ValueError, match="planned but not implemented"):
-        assess_element(6, "WEDGE6", np.zeros((6, 3)))
+    assert wedge6_quality_contract()["implemented"] is True
+    wedge = np.asarray(
+        ((0, 0, 0), (1, 0, 0), (0, 1, 0), (0, 0, 1), (1, 0, 1), (0, 1, 1)),
+        dtype=float,
+    )
+    assert assess_element(6, "WEDGE6", wedge).classification == VALID
 
 
 def test_model_quality_and_preflight_reject_invalid_geometry() -> None:

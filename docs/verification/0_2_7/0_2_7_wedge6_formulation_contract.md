@@ -1,7 +1,7 @@
 ---
 doc_id: DOC-027-021
 revision: 0.1
-status: controlled_candidate
+status: controlled_evidence
 applicable_version: 0.2.7a0
 reviewer: ""
 approver: ""
@@ -9,9 +9,9 @@ approver: ""
 
 # WEDGE6 formulation contract
 
-This is the T1-R pre-WP07 contract. It fixes the mathematical vocabulary and
-the verification obligations without implementing a WEDGE6 kernel or creating
-an active capability.
+This document is the active WP07 formulation contract. It retains the T1-R
+mathematical vocabulary and verification obligations, and records the
+Terra-authorized elemental kernel without creating a qualified public claim.
 
 ## Reference element
 
@@ -36,12 +36,12 @@ location; extrapolation is never implicit.
 
 ## Integration contract
 
-The WP07 starting candidate is a six-point product rule: degree-2, three-point
+The WP07 production rule is a six-point product rule: degree-2, three-point
 triangle quadrature times two-point Gauss quadrature through the thickness.
 A Duffy-transformed Gauss 5x5 triangle rule times four-point thickness rule is
 the independent 100-point verification reference. This is a predeclared
-candidate, not a production approval. Reduced or selective integration is
-not qualified by T1-R.
+candidate used by the technical kernel. Reduced or selective integration is
+not implemented or qualified.
 
 The rule must be compared on affine and distorted positive-Jacobian prisms for
 constant strain, stiffness rank, energy and sensitivity. The two integration
@@ -90,7 +90,9 @@ energy. Stress is comparable only with the same measure, point, frame and
 sign convention. The external tolerance candidates are recorded as
 `PROPOSED_OWNER_REVIEW` in the JSON contract and are not derived from any
 observed QF result. The current CalculiX/Code_Aster artifacts remain deck
-validation only because WEDGE6 is not implemented.
+validation only; no QF external correlation is issued by WP07.
 
-T1-R does not add `WEDGE6` to the registry and does not authorize WP08 or
-later numerical work. WP07 remains a separate formulation/Owner gate.
+WP07 registers `COMB-WEDGE6-linear_static` with qualification state
+`EXPERIMENTAL`. Preflight reports `EXPERIMENTAL_ROUTE`. This gate does not
+authorize WP08 or later numerical work, and does not add Gmsh, face-load,
+user-workflow, modal, nonlinear or external-correlation support.

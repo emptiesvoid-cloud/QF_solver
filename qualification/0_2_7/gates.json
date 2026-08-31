@@ -4,7 +4,7 @@
   "theme": "Prismatic Solid Interoperability and Numerical Robustness",
   "baseline_sha": "e839373b6aef291a93292186d7553ba5cd12af55",
   "baseline_branch": "main",
-  "foundation_status": "WP06_PASS",
+  "foundation_status": "WP07_PASS_EXPERIMENTAL",
   "source_change_authorized_by_foundation": false,
   "gates": [
     {
@@ -105,18 +105,24 @@
     {
       "id": "027-G07",
       "work_package": "WP07",
-      "title": "WEDGE6 formulation design and review",
-      "status": "NOT_STARTED",
+      "title": "WEDGE6 kernel and elemental V&V",
+      "status": "PASS",
       "depends_on": ["027-G03", "027-G05", "027-G06"],
       "pre_wp07_checkpoint": "qualification/0_2_7/wp07_prerequisites.json",
       "t1r3_checkpoint": "qualification/0_2_7/t1r3_state.json",
-      "go": ["formulation, integration, faces, loads and oracle are reviewed"],
-      "stop": ["kernel implementation starts without design review", "mixed mesh support is assumed"],
-      "evidence_required": ["derivation", "patch-test plan", "design review decision"],
+      "go": ["reviewed WEDGE6 contracts are implemented without changing existing formulations", "elemental invariants and targeted V&V pass with deterministic evidence", "public maturity remains EXPERIMENTAL until later static/import/external gates"],
+      "stop": ["certified inversion is not rejected", "rigid-body count or rank is unexpected", "affine patch or production/reference quadrature check fails", "existing element formulation is modified"],
+      "evidence_required": ["WEDGE6 kernel", "shape/Jacobian and quality certificate", "stiffness and recovery checks", "targeted V&V catalog and evidence", "experimental maturity decision"],
       "files": [
-        "0_2_7_wedge6_plan.md",
-        "qualification/0_2_7/t1r3_state.json",
-        "tests/unit/test_wedge6_t1r3_contract.py"
+        "src/solveur/elements/solid/wedge6.py",
+        "src/solveur/elements/registry.py",
+        "src/solveur/compatibility/descriptors.py",
+        "src/solveur/mesh/quality_contract.py",
+        "qualification/0_2_7/wedge6_formulation_contract.json",
+        "qualification/0_2_7/vnv_v2/wp07_cases.json",
+        "qualification/0_2_7/vnv_v2/wp07_evidence.json",
+        "qualification/0_2_7/wp07_state.json",
+        "tests/unit/test_wedge6_kernel.py"
       ]
     },
     {

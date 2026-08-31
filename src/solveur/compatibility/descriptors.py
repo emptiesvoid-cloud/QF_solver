@@ -103,6 +103,18 @@ DESCRIPTORS: dict[str, ElementCapabilityDescriptor] = {
         "consistent", "Gauss-point stress", "Gmsh hexahedron20", ("scipy_sparse",),
         ("finite_kinematic_j2 is not qualified",), ("ELE-HEX20",),
     ),
+    "WEDGE6": ElementCapabilityDescriptor(
+        "WEDGE6", ("WEDGE6", "PRISM6"), 3, 6, ("UX", "UY", "UZ"), "linear triangular prism",
+        ("TRI3", "TRI3", "QUAD4", "QUAD4", "QUAD4"), "TRI3_X_GAUSS2",
+        ("isotropic_3d",), ("linear_static",), ("nodal",), "not implemented",
+        "Gauss-point strain/stress recovery", "Gmsh prism6 mapping contract; importer pending WP08",
+        ("scipy_sparse",),
+        (
+            "modal/Newmark/harmonic routes are not implemented",
+            "J2, TL, contact, face loads, Gmsh import and full user workflow are deferred",
+        ),
+        ("COMB-WEDGE6-linear_static",),
+    ),
     "DISCRETE": ElementCapabilityDescriptor(
         "DISCRETE", ("DISCRETE", "SPRING", "MASS"), 0, 0, (), "discrete entity", (),
         "entity-level spring/mass", ("discrete_linear",),

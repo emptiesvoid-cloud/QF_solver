@@ -9,8 +9,8 @@ approver: ""
 
 # 0.2.7 Owner Decision Log
 
-This log is intentionally empty of approvals at foundation start. Planning
-language is not an Owner qualification decision.
+This log preserves the foundation decisions and records the Terra-authorized
+WP07 technical implementation separately from public qualification.
 
 | Decision ID | Topic | Proposed state | Decision | Evidence/SHA | Date |
 | --- | --- | --- | --- | --- | --- |
@@ -21,6 +21,7 @@ language is not an Owner qualification decision.
 | 027-OD-005 | 1M-DOF verdict and public boundary | `PROPOSED_OWNER_REVIEW` | pending | WP12 | - |
 | 027-OD-006 | stretch/research selection | `PROPOSED_OWNER_REVIEW` | pending | WP13 | - |
 | 027-OD-007 | final release scope | `PROPOSED_OWNER_REVIEW` | pending | WP14 | - |
+| 027-OD-008 | WEDGE6 elemental kernel | `TERRA_GO` | `PASS_TECHNICAL_EXPERIMENTAL_ONLY` | T1-R4, WP07 evidence | 2026-08-31 |
 
 WP01 is a release-engineering foundation control rather than a numerical Owner
 qualification decision. Its status is `PASS` because the SHA roles, actual
@@ -96,3 +97,20 @@ strict duplicate-key JSON loading, an affine same-mesh `1e-6` candidate marked
 non-affine, distorted or refinement cases. Post-observation tolerance retuning
 is forbidden. T1-R3 is ready for Terra re-review; WP07 remains `NOT_STARTED`
 and kernel authorization remains `OWNER_REVIEW_REQUIRED`.
+
+## WP07 technical implementation decision
+
+Terra High's T1-R4 review authorized implementation after all six original
+pre-WP07 blockers were closed. WP07 is `PASS` for the six-node, 18-DOF
+small-strain homogeneous-isotropic elastic elemental kernel and its targeted
+V&V. Evidence covers shape identities, affine constant strain, exact Jacobian
+certificate, stiffness symmetry, rank 12 with six rigid-body modes, prescribed
+load-state tests, distorted geometry, energy and production/reference
+quadrature replay.
+
+This is not a public qualification. The registry maturity for
+`COMB-WEDGE6-linear_static` is `EXPERIMENTAL`, and preflight returns
+`EXPERIMENTAL_ROUTE`. Gmsh import, face loads, user-level assembly and
+reactions, modal/dynamic routes, nonlinear materials, contact and external
+correlation remain deferred to WP08 and later gates. Existing TET/HEX
+formulations and their evidence are unchanged.
