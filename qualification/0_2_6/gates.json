@@ -263,10 +263,24 @@
       ]
     },
     {
-      "evidence_ids": [],
+      "evidence_ids": [
+        "g14_capability_coverage.json",
+        "g14_release_cleanup_items.json",
+        "g14_owner_closeout.json",
+        "0_2_6_g14_capability_coverage.md"
+      ],
       "id": "026-G14",
-      "status": "NOT_STARTED",
-      "title": "Full regression / architecture freeze"
+      "status": "PASS_WITH_LIMITATIONS",
+      "title": "Full regression / architecture freeze",
+      "owner_status_candidate": "PASS_WITH_LIMITATIONS",
+      "owner_closeout": true,
+      "full_regression": "SKIPPED_BY_POLICY",
+      "capability_coverage": "PASS",
+      "limitations": [
+        "Capability coverage is complete and bounded, but the release-wide full regression remains a release-cleanup item.",
+        "Historical failure groups remain documented and are not silently converted to PASS.",
+        "G15 Owner release review remains required before publication."
+      ]
     },
     {
       "evidence_ids": [],

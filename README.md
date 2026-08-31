@@ -28,7 +28,8 @@ maintained in [`qualification/0_2_6/gates.json`](qualification/0_2_6/gates.json)
 
 Current gate status is maintained in
 [`qualification/0_2_6/gates.json`](qualification/0_2_6/gates.json): G00-G03 are
-`PASS`, G04-G13 are `PASS_WITH_LIMITATIONS`, and G14-G15 are `NOT_STARTED`.
+`PASS`, G04-G13 are `PASS_WITH_LIMITATIONS`, G14 is
+`PASS_WITH_LIMITATIONS`, and G15 is `NOT_STARTED`.
 G07 remains explicitly bounded by its Owner closeout; gate status does not
 expand the scope of an individual capability.
 
@@ -125,8 +126,9 @@ missing functionality:
   and analysis.
 - External correlation can be unavailable or non-comparable and must then be
   recorded as such; it is not silently treated as a pass.
-- The current 0.2.6 cycle has not completed the final full-regression and
-  Owner-release gates G14-G15.
+- The current 0.2.6 cycle has completed the G14 capability-coverage audit with
+  limitations; the release cleanup/full regression and Owner-release gate G15
+  remain.
 - No claim of certification, general physical validation, production
   readiness, industrial equivalence or replacement of another solver is made.
 

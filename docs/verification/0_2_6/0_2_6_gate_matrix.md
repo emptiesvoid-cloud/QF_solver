@@ -16,7 +16,7 @@
 | `026-G11` | Adversarial / failure / metamorphic | PASS_WITH_LIMITATIONS |
 | `026-G12` | Performance / scalability | PASS_WITH_LIMITATIONS |
 | `026-G13` | External correlation aggregation | PASS_WITH_LIMITATIONS |
-| `026-G14` | Full regression / architecture freeze | NOT_STARTED |
+| `026-G14` | Full regression / architecture freeze | PASS_WITH_LIMITATIONS |
 | `026-G15` | Owner release review | NOT_STARTED |
 
 G00 is a refactor guard with an explicit dirty-worktree limitation, not a replacement for immutable 0.2.5 evidence. G01-G03 close only audit, infrastructure and corpus design. Capability-gate outcomes are not implied by this foundation.
@@ -91,3 +91,12 @@ and DIAG-008 remain bounded because the evidence does not claim exhaustive
 coverage of every public failure class, structured nonlinear reason or route
 combination. The 18 historical full-regression failures remain release
 blockers outside G11.
+
+`026-G14` closes the final capability-coverage audit with limitations. The
+registry contains 33 public capabilities and 44 public element-analysis
+mappings, with no unregistered implementation, duplicate capability or
+unbounded public maturity claim found. The audit is recorded in
+`qualification/0_2_6/g14_capability_coverage.json` and
+`qualification/0_2_6/g14_owner_closeout.json`. Full regression is
+`SKIPPED_BY_POLICY` here; the documented 18 historical failures and release
+state findings remain cleanup items, and G15 remains the release Owner review.

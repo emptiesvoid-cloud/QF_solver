@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "audit_id": "026-G14-CAPABILITY-COVERAGE-001",
+  "gate": "026-G14",
+  "status": "PASS_WITH_LIMITATIONS",
+  "owner_decision": "PASS_WITH_LIMITATIONS",
+  "source_sha": "e60ae570909c2813281266a04dd01356060ee557",
+  "registry_path": "qualification/capability_registry.json",
+  "registry_count": 33,
+  "public_count": 33,
+  "public_element_analysis_combinations": 44,
+  "classification_rule": "Coverage is assigned per registered capability and declared scope. Code presence is not treated as qualification, and no unrestricted full capability claim is approved.",
+  "coverage": {
+    "COVERED_FULL": [],
+    "COVERED_BOUNDED": [
+      "ELE-TET4",
+      "ELE-TET10",
+      "ELE-HEX8",
+      "ELE-HEX20",
+      "ANA-STATIC",
+      "ANA-MODAL",
+      "ANA-NEWMARK",
+      "ANA-HARMONIC",
+      "ANA-BUCKLING",
+      "MAT-ELASTIC",
+      "MAT-J2-SMALL",
+      "MAT-TL-ELASTIC",
+      "CON-FRICTIONLESS",
+      "INF-SPARSE-SCIPY",
+      "INF-DIAGNOSTICS-FAILURES",
+      "INF-PERF-SCALING"
+    ],
+    "EXPERIMENTAL_ONLY": [
+      "ELE-BEAM2",
+      "ELE-MITC3",
+      "ELE-MITC4",
+      "ELE-DISCRETE",
+      "INF-RBE-CONSTRAINTS",
+      "ANA-NONLINEAR-LOAD",
+      "ANA-GEOMETRIC-NONLINEAR",
+      "ANA-ARC-LENGTH",
+      "MAT-ORTHOTROPIC-LAMINATE",
+      "MAT-COUPLED-NL",
+      "INF-MESH-GMSH",
+      "INF-LOADS-BC",
+      "INF-POST",
+      "INF-PETSC-SLEPC",
+      "INF-EXTERNAL-CORRELATION"
+    ],
+    "NOT_QUALIFIED": [
+      "MAT-FINITE-J2",
+      "CON-FRICTION"
+    ],
+    "DEFERRED": [],
+    "DEAD_OR_STALE": []
+  },
+  "scope_boundaries": {
+    "G07_TL": "TET4 is Owner-approved only in its bounded tested domain; HEX8 complete history is not qualified and TET10/HEX20 remain research routes.",
+    "G07_ARC_LENGTH": "TET4 bounded research evidence is retained; ARC-002 refined-mesh comparability remains deferred.",
+    "G08_BUCKLING": "TET4 is qualified bounded; TET10 and HEX20 pass with limitations; HEX8 remains more-evidence-required.",
+    "G10_ADVANCED_NONLINEAR": "Finite-kinematic J2 and coupled routes remain experimental, deferred or not qualified under their own records.",
+    "G13_EXTERNAL": "External coverage is representative and bounded; missing, non-comparable and superseded records are excluded from active PASS claims."
+  },
+  "deferred_subscopes": [
+    "G07 HEX8 complete-history TL qualification",
+    "G07 ARC-002 refined-mesh comparability",
+    "G08 HEX8 additional buckling evidence",
+    "G10 finite-kinematic J2 and coupled nonlinear routes",
+    "G13 unavailable or non-comparable external tools and decks"
+  ],
+  "public_status_guardrails": {
+    "G07_TL_HEX8": "OWNER_NOT_QUALIFIED",
+    "G07_ARC_002": "OWNER_DEFERRED",
+    "G10_FINITE_KINEMATIC_J2": "NOT_QUALIFIED",
+    "G10_COUPLED_ROUTES": "EXPERIMENTAL_OR_NOT_QUALIFIED",
+    "G08_HEX8_BUCKLING": "MORE_EVIDENCE_REQUIRED",
+    "G13": "PASS_WITH_LIMITATIONS"
+  },
+  "checks": {
+    "public_ids_match_registry": true,
+    "implemented_source_sentinels_registered": true,
+    "missing_implementation": [],
+    "missing_from_registry": [],
+    "duplicate_capabilities": [],
+    "orphan_public_capabilities": [],
+    "owner_claim_conflicts": [],
+    "historical_capability_removals": [],
+    "active_gates_consistent": true,
+    "readme_matrix_consistent": true,
+    "no_capability_promoted_by_presence_only": true
+  },
+  "validation": {
+    "registry": "PASS",
+    "anti_forgetting": "PASS via capability registry contract",
+    "targeted_g14": "PASS",
+    "full_regression": "SKIPPED_BY_POLICY"
+  },
+  "release_cleanup_artifact": "qualification/0_2_6/g14_release_cleanup_items.json",
+  "ready_for_release_cleanup": true,
+  "ready_for_g15_owner_review": true
+}

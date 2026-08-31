@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "closeout_id": "026-G14-OWNER-CLOSEOUT-001",
+  "gate": "026-G14",
+  "status": "PASS_WITH_LIMITATIONS",
+  "owner_decision": "PASS_WITH_LIMITATIONS",
+  "source_sha": "e60ae570909c2813281266a04dd01356060ee557",
+  "evidence": [
+    "qualification/0_2_6/g14_capability_coverage.json",
+    "qualification/0_2_6/g14_release_cleanup_items.json",
+    "docs/verification/0_2_6/0_2_6_g14_capability_coverage.md",
+    "qualification/capability_registry.json"
+  ],
+  "public_capability_count": 33,
+  "registry_count": 33,
+  "public_element_analysis_combinations": 44,
+  "missing_from_registry": [],
+  "missing_implementation": [],
+  "public_claim_conflicts": [],
+  "dead_or_stale_capabilities": [],
+  "owner_classification": {
+    "OWNER_APPROVED_FULL": "Registry completeness, source-sentinel coverage and anti-forgetting controls only; no unrestricted capability claim is approved.",
+    "OWNER_APPROVED_BOUNDED": "All currently qualified public routes remain limited by their gate, family, formulation, mesh, load, solver and evidence scope.",
+    "DEFERRED": "Release cleanup, historical regression reconciliation and G15 release review remain deferred.",
+    "FAILED": []
+  },
+  "historical_evidence": {
+    "reused": true,
+    "full_regression": "SKIPPED_BY_POLICY",
+    "new_numerical_campaign": false,
+    "new_functional_code": false,
+    "new_fix_only_failures": 0
+  },
+  "limitations": [
+    "The audit establishes registry and public-claim coverage, not unrestricted qualification of every implementation route.",
+    "The 18 historical full-regression failures remain documented cleanup items and were not silently converted to PASS.",
+    "Historical version, audit-state and pre-closeout wording require release-sweep review.",
+    "G15 Owner release review remains required before publication."
+  ],
+  "release_cleanup_artifact": "qualification/0_2_6/g14_release_cleanup_items.json",
+  "official_closeout": "RECORDED_BY_OWNER_REVIEW",
+  "ready_for_release_cleanup": true,
+  "ready_for_g15": true
+}
