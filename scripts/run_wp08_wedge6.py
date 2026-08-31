@@ -144,6 +144,9 @@ def _result(case_id: str) -> ExecutionOutput:
     if case_id == "WP08-MULTI-PRISM":
         result = solve_model(_two_prism_model(), enforce_policy=False)
         return ExecutionOutput({"force_balance_relative_error": result.audit.equilibrium["force_balance_relative_error"]})
+    if case_id == "WP08-MOMENT-EQUILIBRIUM":
+        result = solve_model(_two_prism_model(), enforce_policy=False)
+        return ExecutionOutput({"moment_balance_relative_error": result.audit.equilibrium["moment_balance_relative_error"]})
     if case_id == "WP08-PRESCRIBED-DISPLACEMENT":
         model = _model(
             fixed_dofs=_fixed_triangle(),
