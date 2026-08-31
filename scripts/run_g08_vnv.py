@@ -13,7 +13,7 @@ import platform
 import shutil
 import subprocess
 from dataclasses import replace
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -25,6 +25,8 @@ from solveur.io.manifest import runtime_fingerprint, write_json_file
 from solveur.verification.calculix_buckling_025 import run_campaign as run_calculix_campaign
 from solveur.verification.robustness_buckling import _buckling_mesh_model, _buckling_model
 from solveur.verification.tet4_total_lagrangian_buckling import TotalLagrangianBucklingCampaign
+
+UTC = timezone.utc
 
 
 GATE = "026-G08"

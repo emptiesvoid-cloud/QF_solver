@@ -11,13 +11,13 @@ configuration recorded by its evidence.
 ## Current maturity
 
 - **Current version:** `0.2.6a0`
-- **Release status:** Released on Git as `v0.2.6a0`; PyPI project: `qf-solver`
+- **Release status:** Tagged source release `v0.2.6a0`; PyPI project: `qf-solver`
 - **Qualification status:** bounded qualification is recorded within the
   documented scope; the individual gate and capability statuses remain
   authoritative.
 - **Qualification snapshot:** `93561c2c0ae1c173deb81e47c3fa3852643275cb`
 
-The Git release is available at `v0.2.6a0`. Check the `qf-solver` PyPI project
+The tagged source release is available at `v0.2.6a0`. Check the `qf-solver` PyPI project
 page for package availability and release history. Evidence packages record
 their own qualified source SHA and artifact manifests; the current gate snapshot is maintained in
 [`qualification/0_2_6/gates.json`](qualification/0_2_6/gates.json).
@@ -26,7 +26,7 @@ their own qualified source SHA and artifact manifests; the current gate snapshot
 | --- | --- | --- |
 | **STABLE_BOUNDED** | Evidence supports a declared, bounded scope. | Linear static, small-strain J2, failure diagnostics. |
 | **SUPPORTED_WITH_LIMITATIONS** | The route is usable in a documented scope, with active evidence or coverage limitations. | Modal, Newmark, harmonic, linear buckling, frictionless contact, measured performance. |
-| **EXPERIMENTAL** | The route exists and has tests or research evidence, but is not a qualified general capability. | Total-Lagrangian research path, arc-length, selected shell/beam/laminate paths. |
+| **EXPERIMENTAL** | The route exists and has tests or research evidence, but is not a qualified general capability. | Total-Lagrangian research path, Arc-Length, selected shell/beam/laminate paths. |
 | **RESEARCH / NOT QUALIFIED** | The route is exploratory or explicitly excluded from qualified claims. | Finite-kinematic J2, coupled nonlinear workflows, friction, optional HPC paths. |
 
 Current gate status is maintained in
@@ -43,7 +43,7 @@ expand the scope of an individual capability.
 | Linear static | **STABLE_BOUNDED** | Linear elastic cases in the recorded element-analysis matrix. | G04 evidence; orthotropic, laminate, shell, beam and discrete combinations remain case-dependent. |
 | Small-strain J2 | **STABLE_BOUNDED** | Homogeneous small-strain J2 on TET4, TET10, HEX8 and HEX20. | G06 evidence; algorithmic tangent symmetry is not independently qualified and increment-partition evidence is strongest for TET4. |
 | Modal / Newmark / harmonic | **SUPPORTED_WITH_LIMITATIONS** | Controlled linear modal, transient and harmonic cases across the recorded family matrix. | G05 evidence; external coverage is representative rather than complete for every family. |
-| Linear buckling | **SUPPORTED_WITH_LIMITATIONS** | First linearized tangent-instability factor and first mode for the family-specific bounded scope recorded by G08, using the sparse route. | TET4 is qualified bounded; TET10/HEX20 remain limited; HEX8 requires more evidence. No post-buckling, multi-mode or general physical-validation claim. |
+| Linear buckling | **SUPPORTED_WITH_LIMITATIONS** | First linearized tangent-instability factor and first mode for the family-specific bounded scope recorded by G08, using the sparse route. | TET4 is qualified within a bounded scope; TET10/HEX20 remain limited; HEX8 requires more evidence. No post-buckling, multi-mode or general physical-validation claim. |
 | Frictionless contact | **SUPPORTED_WITH_LIMITATIONS** | Bounded node-to-triangle contact routes with documented activation and failure behavior. | G09 evidence; no friction, mortar, general surface-to-surface or universal conditioning claim. |
 | Failure diagnostics | **STABLE_BOUNDED** | Recorded fail-closed, finite-diagnostic and state-transaction cases. | G11 evidence; coverage is bounded and not exhaustive for every future route. |
 | Performance | **SUPPORTED_WITH_LIMITATIONS** | Measured assembly and solve profiles on declared hardware and model topologies. | G12 evidence; approximately 300k DOF is assembly-only and 1M DOF is resource-limited. |
@@ -73,7 +73,7 @@ mapping is in [`capability_coverage.md`](docs/verification/0_2_6/capability_cove
 - Total-Lagrangian elasticity is bounded and Owner-reviewed for TET4 under G07;
   HEX8 complete-history behavior is not qualified. TET10 and HEX20 remain
   research routes for this capability.
-- Existing arc-length, finite-kinematic J2 and coupled nonlinear routes remain
+- Existing Arc-Length, finite-kinematic J2 and coupled nonlinear routes remain
   experimental, deferred or not qualified according to their gate evidence.
 - Friction is outside the current release scope. No Coulomb, mortar or
   augmented-Lagrangian capability should be inferred from the presence of
@@ -112,7 +112,7 @@ multi-million-DOF solving is made.
 The following routes are visible so that their limits are not mistaken for
 missing functionality:
 
-- G07 geometric nonlinear and arc-length review is
+- G07 geometric nonlinear and Arc-Length review is
   `PASS_WITH_LIMITATIONS`: the bounded TET4 TL and Arc-Length claims are
   limited to the Owner closeout scope; HEX8 complete history and refined
   Arc-Length comparability remain excluded/deferred.
@@ -140,18 +140,20 @@ See the detailed 0.2.6 evidence and limitations in
 
 ## Installation
 
-### Stable published package
+### PyPI package
 
-The stable published alpha remains `0.2.5a0`:
+Check the [`qf-solver` PyPI project page](https://pypi.org/project/qf-solver/)
+for currently published versions and release history. Install the published
+package selected from that page:
 
 ```powershell
-python -m pip install qf-solver==0.2.5a0
+python -m pip install qf-solver
 qf-solver --version
 ```
 
-### 0.2.6a0 Git release
+### 0.2.6a0 tagged source release
 
-The `0.2.6a0` release is available from Git at tag `v0.2.6a0`. For a
+The `0.2.6a0` tagged source release is available at tag `v0.2.6a0`. For a
 reproducible source install, use the exact tagged source:
 
 ```powershell
@@ -220,7 +222,7 @@ is retained for compatibility. Useful CLI entry points include `solve`,
 
 ## Release status and finalization
 
-`0.2.6a0` is released on Git as `v0.2.6a0`, with a bounded scope focused on
+The tagged source release `v0.2.6a0` has a bounded scope focused on
 maturity, reproducibility, architecture and controlled V&V. The `qf-solver`
 PyPI project page is the reference for package availability and release history.
 
@@ -260,7 +262,7 @@ python -m compileall -q src scripts tests qf_solver.py
 | `0.2.3a0` | HEX8/HEX20, Gmsh import and expanded TET/HEX benchmarks. |
 | `0.2.4a0` | Shared small-strain J2, Full Newton, consistent tangent and state transactions. |
 | `0.2.5a0` | Historical bounded qualification work for J2, TL elasticity, buckling, contact and failure modes. |
-| `0.2.6a0` | Git release for maturity, reproducibility, controlled V&V and architecture. |
+| `0.2.6a0` | Maturity, reproducibility, controlled V&V and architecture foundation. |
 
 See [`CHANGELOG.md`](CHANGELOG.md) for the detailed release history.
 

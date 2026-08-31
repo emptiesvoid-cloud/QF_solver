@@ -8,10 +8,12 @@ import json
 import math
 import subprocess
 import sys
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from dataclasses import replace
 from pathlib import Path
 from typing import Any
+
+UTC = timezone.utc
 
 import numpy as np
 
