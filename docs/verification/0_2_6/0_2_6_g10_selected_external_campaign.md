@@ -80,7 +80,9 @@ and energy outputs are intentionally not mixed with QF measures.
 
 ## Decision boundary
 
-`G10` remains `IN_PROGRESS`. No G07, G08, G09, G11 or G12 decision changes.
+This selected campaign remains a `PARTIAL` intermediate evidence record. The
+later Owner closeout records `G10` as `PASS_WITH_LIMITATIONS`; no G07, G08,
+G09, G11 or G12 decision changes are made by this campaign.
 The selected route records are external evidence with limitations:
 
 - `arc_length_continuation`: `PASS_WITH_LIMITATIONS`;
