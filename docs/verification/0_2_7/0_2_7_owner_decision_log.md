@@ -130,6 +130,26 @@ This decision does not promote WEDGE6: `COMB-WEDGE6-linear_static` remains
 nonlinear, J2, TL, contact, robustness and external-correlation claims remain
 outside this gate and require their own evidence.
 
+## WP09 robustness and external V&V decision
+
+WP09 is `PASS_WITH_LIMITATIONS` for the declared WEDGE6 static robustness
+campaign. The controlled evidence contains 22 cases: 18 internal `PASS`
+results and four `EXPECTED_FAILURE_PASS` results for inverted geometry, wrong
+node ordering, malformed Gmsh input and singular boundary conditions. Aspect,
+skew, near-degenerate, rigid-transform, scale-invariance, multi-element,
+refinement and deterministic replay checks are recorded without changing the
+kernel or existing element numerics.
+
+The external results remain explicitly non-qualifying. CalculiX C3D6 completed
+the affine deck locally, but its two-point integration route is not
+formulation-compatible with QF WEDGE6 production `TRI3_X_GAUSS2` integration;
+the displacement and energy differences are retained as diagnostics, not as a
+failure or a pass. Code_Aster PENTA6 is unavailable in the pinned image because
+the runner aborts before the command file on missing `mpi4py`. No pressure,
+refinement or distorted external correlation is claimed. WEDGE6 remains
+`EXPERIMENTAL` and public qualification remains `DEFERRED`; WP10 may proceed
+under its separate modal contract.
+
 ## WP12 large-scale readiness checkpoint
 
 WP12 is recorded as `PASS_WITH_LIMITATIONS` for a bounded readiness study of

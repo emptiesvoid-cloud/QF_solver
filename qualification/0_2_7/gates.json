@@ -4,7 +4,7 @@
   "theme": "Prismatic Solid Interoperability and Numerical Robustness",
   "baseline_sha": "e839373b6aef291a93292186d7553ba5cd12af55",
   "baseline_branch": "main",
-  "foundation_status": "WP08_PASS_EXPERIMENTAL",
+  "foundation_status": "WP08_PASS_EXPERIMENTAL_WP09_PASS_WITH_LIMITATIONS_WP12_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED",
   "source_change_authorized_by_foundation": false,
   "gates": [
     {
@@ -141,12 +141,15 @@
       "id": "027-G09",
       "work_package": "WP09",
       "title": "WEDGE6 robustness and external V&V",
-      "status": "NOT_STARTED",
+      "status": "PASS_WITH_LIMITATIONS",
+      "start_sha": "2a27291bcc72e5819014fa172e3d056e80a87d43",
+      "evidence_head": "2a27291bcc72e5819014fa172e3d056e80a87d43",
       "depends_on": ["027-G08"],
-      "go": ["mesh/distortion and external evidence support a bounded claim"],
-      "stop": ["unexplained divergence", "weakened criterion", "false external PASS"],
-      "evidence_required": ["internal and external manifests", "negative cases", "Owner classification"],
-      "files": ["0_2_7_external_oracle_plan.md", "0_2_7_mesh_quality_plan.md"]
+      "go": ["mesh, distortion and deterministic failure evidence pass", "external outcomes are separated and no false qualification is claimed"],
+      "stop": ["unexplained divergence", "weakened criterion", "false external PASS", "silent geometry or state failure"],
+      "evidence_required": ["internal and external manifests", "negative cases", "Owner classification", "reproducible external availability record"],
+      "files": ["qualification/0_2_7/vnv_v2/wp09_cases.json", "qualification/0_2_7/vnv_v2/wp09_evidence.json", "qualification/0_2_7/wp09_state.json", "docs/verification/0_2_7/0_2_7_wedge6_robustness_external_vnv.md", "scripts/run_wp09_wedge6.py", "tests/unit/test_wp09_wedge6_robustness.py"],
+      "limitations": ["WEDGE6 remains EXPERIMENTAL and public qualification is DEFERRED", "CalculiX C3D6 result is NOT_FORMULATION_COMPATIBLE with QF production quadrature", "Code_Aster PENTA6 is unavailable in the pinned image because mpi4py is missing", "no external verdict is claimed for pressure, refinement or distorted cases"]
     },
     {
       "id": "027-G10",

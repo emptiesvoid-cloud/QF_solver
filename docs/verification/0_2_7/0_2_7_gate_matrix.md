@@ -32,7 +32,7 @@ limits are not success claims.
 | `027-G06` | WP06 | Mesh quality/distortion contract | G02-G03 | metrics, invalid cases, deterministic classification and preflight diagnostic | universal aspect-ratio cutoff | `PASS` |
 | `027-G07` | WP07 | WEDGE6 kernel and elemental V&V | G03, G05, G06, T1-R | reviewed contracts, six-node kernel, stiffness/recovery checks, exact quality certificate and deterministic evidence | certified inversion not rejected; rank or rigid modes unexpected; affine patch or quadrature check fails; existing element formulation changed | `PASS` |
 | `027-G08` | WP08 | WEDGE6 static vertical slice | G07 | 15-case Gmsh/import/load/assembly/equilibrium/post evidence with deterministic replay | missing face/load, silent unsupported path or unexpected failure | `PASS` |
-| `027-G09` | WP09 | WEDGE6 robustness and external V&V | G08 | mesh/distortion/adversarial/reproducible external evidence | unexplained divergence or weakened threshold | `NOT_STARTED` |
+| `027-G09` | WP09 | WEDGE6 robustness and external V&V | G08 | mesh/distortion/adversarial evidence with explicit external availability and comparability outcomes | unexplained divergence, weakened threshold or false external PASS | `PASS_WITH_LIMITATIONS` |
 | `027-G10` | WP10 | WEDGE6 modal evidence | G08-G09 | mass, modes, residual, mesh and replay evidence | static evidence transferred without modal proof | `NOT_STARTED` |
 | `027-G11` | WP11 | Existing maturity and J2 gaps | G01, G04, G06 | all-family J2/increment/tangent evidence | formulation change or relaxed acceptance | `NOT_STARTED` |
 | `027-G12` | WP12 | Large-scale readiness | G02, G04, G06 | declared size/resource measurements, bounded backend/resource verdicts and deterministic replay | universal 1M claim or uncharacterized failure | `PASS_WITH_LIMITATIONS` |
@@ -42,11 +42,13 @@ limits are not success claims.
 `027-G07` required a design review before implementation. The external oracle
 preflight and formulation review preceded the kernel, and the current PASS is
 limited to the elemental technical route. The descriptor reports
-`EXPERIMENTAL_ROUTE`; WP08 now provides a bounded static user workflow, but
-does not create a public qualification. WP09 robustness/external evidence and
-WP10 modal evidence remain required for their respective claims. G13 may
-remain open or deferred without blocking a bounded core release when its
-research routes are explicitly excluded.
+`EXPERIMENTAL_ROUTE`; WP08 provides a bounded static user workflow, and WP09
+adds controlled robustness evidence without creating a public qualification.
+CalculiX C3D6 is explicitly non-formulation-compatible with the QF production
+quadrature, while Code_Aster PENTA6 is unavailable in the pinned image. WP10
+modal evidence remains required for its separate claims. G13 may remain open
+or deferred without blocking a bounded core release when research routes are
+explicitly excluded.
 
 `027-G12` is `PASS_WITH_LIMITATIONS` for the declared structured TET4
 linear-static readiness scope. Matrix-free CG completed 100k through 750k
