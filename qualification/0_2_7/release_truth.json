@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-027-WP01-RELEASE-TRUTH-001",
+  "work_package": "WP01",
+  "status": "PASS",
+  "observed_at": "2026-08-31",
+  "qualification_snapshot_026": {
+    "sha": "93561c2c0ae1c173deb81e47c3fa3852643275cb",
+    "role": "historical qualification source recorded by G15",
+    "mutable": false
+  },
+  "release_source_snapshot_026": {
+    "sha": "e839373b6aef291a93292186d7553ba5cd12af55",
+    "tag": "v0.2.6a0",
+    "role": "public tagged source target",
+    "mutable": false
+  },
+  "current_development_head": {
+    "sha": "e99289aca40011ca0424944099e2d2093cf21a65",
+    "role": "0.2.7 source snapshot at WP01 start; documentation commits are separate"
+  },
+  "current_development_branch": "codex/0.2.7-foundation",
+  "publication_state_026": {
+    "git_tag": "PRESENT",
+    "git_tag_target": "e839373b6aef291a93292186d7553ba5cd12af55",
+    "github_release": "PUBLISHED",
+    "pypi": "PUBLISHED",
+    "pypi_project": "qf-solver",
+    "pypi_version": "0.2.6a0"
+  },
+  "target_027": {
+    "version": "0.2.7a0",
+    "tag": "v0.2.7a0",
+    "tag_status": "NOT_CREATED",
+    "github_release": "NOT_CREATED",
+    "pypi": "NOT_PUBLISHED"
+  },
+  "artifact_classification": {
+    "SOURCE": "tracked implementation and configuration used to execute the solver",
+    "CONTROLLED_PROOF": "versioned evidence with declared source SHA, policy and digest",
+    "GENERATED_VIEW": "reader-facing documentation or report derived from controlled records",
+    "HISTORICAL_EVIDENCE": "immutable evidence retained for a prior release or source snapshot",
+    "BUILD_ARTIFACT": "wheel, sdist and local build output; never a source or proof record"
+  },
+  "text_digest_policy": {
+    "encoding": "UTF-8",
+    "newline": "LF",
+    "hash_input": "canonical UTF-8 bytes after newline normalization",
+    "algorithm": "SHA-256",
+    "binary_policy": "hash original bytes without text normalization"
+  },
+  "historical_record_policy": "The 0.2.6 G15 record is historical evidence. Its recorded qualification SHA is not the current development head and is not rewritten to reflect later publication state.",
+  "release_workflow_policy": "Publication must run from a tag reference whose v-prefixed name matches the package version. Manual confirmation does not bypass this contract."
+}

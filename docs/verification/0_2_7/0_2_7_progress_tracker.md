@@ -9,12 +9,12 @@ approver: ""
 
 # 0.2.7 Progress Tracker
 
-This tracker records actual progress, not intent. It is initialized before
-implementation and therefore contains no completed V&V.
+This tracker records actual progress, not intent. WP01 records a completed
+release-truth control; no numerical implementation or V&V campaign is implied.
 
 | WP | Status | Current test level | Start SHA | Evidence head | Owner decision | Blocker |
 | --- | --- | --- | --- | --- | --- | --- |
-| WP01 | `NOT_STARTED` | T0 not run | - | - | - | - |
+| WP01 | `PASS` | T1 targeted | `e99289aca40011ca0424944099e2d2093cf21a65` | `e99289aca40011ca0424944099e2d2093cf21a65` | release-truth foundation | - |
 | WP02 | `NOT_STARTED` | T0 not run | - | - | - | - |
 | WP03 | `NOT_STARTED` | T0 not run | - | - | - | - |
 | WP04 | `NOT_STARTED` | T0 not run | - | - | - | - |
@@ -45,4 +45,5 @@ implementation and therefore contains no completed V&V.
 
 The only baseline evidence inherited at foundation start is the controlled
 0.2.6 release at `e839373b6aef291a93292186d7553ba5cd12af55`. It is a reference
-point, not a 0.2.7 result. The first active action is WP01.
+point, not a 0.2.7 result. WP01 is the first completed foundation control;
+WP02 is the next active action.

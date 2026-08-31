@@ -13,7 +13,8 @@ approver: ""
 
 This directory is the controlled planning pack for the `0.2.7a0` development
 cycle. It is a foundation, not a release claim and not a record of executed
-V&V. All work packages start as `NOT_STARTED`.
+V&V. WP01 release truth and provenance is `PASS`; WP02-WP14 remain
+`NOT_STARTED`.
 
 ## Baseline and status
 
@@ -55,7 +56,7 @@ in [`0_2_7_progress_tracker.md`](0_2_7_progress_tracker.md).
 
 | WP | Focus | Initial status |
 | --- | --- | --- |
-| WP01 | Release truth and provenance | `NOT_STARTED` |
+| WP01 | Release truth and provenance | `PASS` |
 | WP02 | Capability registry v2 | `NOT_STARTED` |
 | WP03 | Element descriptors and compatibility preflight | `NOT_STARTED` |
 | WP04 | Additive declarative V&V harness | `NOT_STARTED` |
@@ -89,6 +90,8 @@ explicit skip or limitation, never as `PASS`.
 - [`qualification/0_2_7/requirements.json`](../../../qualification/0_2_7/requirements.json)
 - [`qualification/0_2_7/progress.json`](../../../qualification/0_2_7/progress.json)
 - [`qualification/0_2_7/manifest.json`](../../../qualification/0_2_7/manifest.json)
+- [`qualification/0_2_7/release_truth.json`](../../../qualification/0_2_7/release_truth.json)
+- [`qualification/0_2_7/release_workflow_audit.json`](../../../qualification/0_2_7/release_workflow_audit.json)
 
 ## Controlled documents
 
@@ -105,6 +108,7 @@ explicit skip or limitation, never as `PASS`.
 - [`0_2_7_risk_register.md`](0_2_7_risk_register.md)
 - [`0_2_7_owner_decision_log.md`](0_2_7_owner_decision_log.md)
 - [`0_2_7_release_criteria.md`](0_2_7_release_criteria.md)
+- [`0_2_7_release_workflow_audit.md`](0_2_7_release_workflow_audit.md)
 
 ## Foundation boundary
 

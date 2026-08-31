@@ -4,19 +4,21 @@
   "theme": "Prismatic Solid Interoperability and Numerical Robustness",
   "baseline_sha": "e839373b6aef291a93292186d7553ba5cd12af55",
   "baseline_branch": "main",
-  "foundation_status": "NOT_STARTED",
+  "foundation_status": "WP01_PASS",
   "source_change_authorized_by_foundation": false,
   "gates": [
     {
       "id": "027-G01",
       "work_package": "WP01",
       "title": "Release truth and provenance",
-      "status": "NOT_STARTED",
+      "status": "PASS",
+      "start_sha": "e99289aca40011ca0424944099e2d2093cf21a65",
+      "evidence_head": null,
       "depends_on": [],
       "go": ["exact baseline and version are recorded", "clean-state and SHA roles are explicit"],
       "stop": ["SHA/tag/version mismatch", "historical evidence silently reused as current evidence"],
       "evidence_required": ["baseline manifest", "release-state audit", "provenance checklist"],
-      "files": ["qualification/0_2_7/manifest.json"]
+      "files": ["qualification/0_2_7/manifest.json", "qualification/0_2_7/release_truth.json", "qualification/0_2_7/release_workflow_audit.json"]
     },
     {
       "id": "027-G02",
