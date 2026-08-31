@@ -26,7 +26,7 @@
       "title": "Capability registry v2",
       "status": "PASS",
       "start_sha": "3058dbcf53967dc50f70814a71b4094d61023dda",
-      "evidence_head": null,
+      "evidence_head": "8fc9a6eb1bac4b88c893d8d83d31aa77ce1d4a81",
       "depends_on": ["027-G01"],
       "go": ["unique combination identifiers", "implementation and evidence cross-check passes"],
       "stop": ["maturity inferred from source presence", "duplicate or orphan public row"],
