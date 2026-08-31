@@ -85,10 +85,16 @@
   },
   "jacobian_quality": {
     "validity_controls": {
-      "reference_vertices": "all six prism vertices",
-      "volume_quadrature": "all points of selected_rule",
+      "reference_vertices": "the three triangular reference vertices for the det(J)(t) certificate",
+      "volume_quadrature": "all points of selected_rule for diagnostics",
       "additional_samples": "face centroids and prism interior centroid for diagnostics",
-      "reason": "for linear WEDGE6, det(J) is affine over each reference triangle at fixed t; vertex controls supplement quadrature checks"
+      "certificate": "det(J) is affine in (r,s) at fixed t and quadratic in t; minimize the three vertex quadratics on [-1,1]",
+      "reason": "the triangular-vertex reduction checks both endpoints and every interior stationary point of each quadratic"
+    },
+    "determinant_tolerance": {
+      "rule": "machine_epsilon * max(abs(quadratic coefficients and certified candidate determinants))",
+      "purpose": "floating-point roundoff guard only; not a qualification cutoff",
+      "scale_aware": true
     },
     "fatal_conditions": [
       "nonfinite determinant",

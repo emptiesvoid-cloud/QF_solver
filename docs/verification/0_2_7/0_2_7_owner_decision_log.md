@@ -82,3 +82,17 @@ controls, stiffness/mass V&V obligations and external primary observables.
 Its targeted tests pass and no WEDGE6 capability or kernel is exposed. The
 checkpoint is ready for Terra/Owner re-review; WP07 remains `NOT_STARTED` and
 kernel authorization remains `OWNER_REVIEW_REQUIRED`.
+
+T1-R3 closes the two review findings that remained open. The inactive quality
+contract now specifies a scale-aware certified minimum: at fixed triangular
+coordinates `det(J)` is quadratic in `t`, so endpoints and every interior
+stationary point are checked at each triangular vertex. Quadrature, face and
+interior samples are diagnostics only. The Terra adversarial prism is rejected
+by this certificate, with no automatic repair and no WEDGE6 kernel exposure.
+
+The WEDGE6 external contract has one unique primary-observable declaration,
+strict duplicate-key JSON loading, an affine same-mesh `1e-6` candidate marked
+`OWNER_REVIEW_REQUIRED`, and mandatory case-specific Owner approval for
+non-affine, distorted or refinement cases. Post-observation tolerance retuning
+is forbidden. T1-R3 is ready for Terra re-review; WP07 remains `NOT_STARTED`
+and kernel authorization remains `OWNER_REVIEW_REQUIRED`.

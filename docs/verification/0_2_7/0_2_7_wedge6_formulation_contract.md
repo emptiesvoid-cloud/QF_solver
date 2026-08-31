@@ -68,12 +68,15 @@ uniform-pressure resultant and resultant moment.
 
 ## Quality, stiffness and mass
 
-For linear WEDGE6, determinant controls include all six reference vertices,
-all selected volume quadrature points and diagnostic face/interior samples.
-Vertex controls are required in addition to integration points; an integration
-point-only test is insufficient. Degenerate, inverted, non-finite or
-unresolved orientations fail closed. Distortion and conditioning remain
-diagnostics without a universal cutoff.
+For linear WEDGE6, the validity certificate reduces `det(J)` to three
+quadratics in `t`: at fixed `t`, the determinant is affine over the reference
+triangle, so its minimum is at one of the three triangle vertices. Each
+quadratic is checked at `t=-1`, `t=+1` and any interior stationary point. The
+minimum is compared with a machine-epsilon-scaled determinant magnitude; this
+is a roundoff guard, not a qualification cutoff. Volume quadrature points,
+face centroids and the prism interior centroid remain additional diagnostics.
+Degenerate, inverted, non-finite or unresolved orientations fail closed.
+Distortion and conditioning remain diagnostics without a universal cutoff.
 
 WP07 must predeclare tests for symmetry, rank, six rigid-body modes, affine
 constant strain, tension, compression, shear, bending, distortion, energy and

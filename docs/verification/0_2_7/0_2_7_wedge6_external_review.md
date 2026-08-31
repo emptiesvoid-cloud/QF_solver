@@ -49,12 +49,14 @@ declares geometry, material, load/resultant, observable, units and a
 pre-declared comparison policy. Tolerances remain `OWNER_REVIEW_REQUIRED`;
 the deck-validation records do not set correlation acceptance thresholds.
 
-Primary observables are displacement, total reaction and strain energy. The
-predeclared comparison candidates are relative `1e-6` for those observables,
-with `PROPOSED_OWNER_REVIEW` status and a near-zero absolute-scale rule; they
-are not derived from observed differences. Stress is secondary and requires
-identical measure and sampling location. Modal frequency is reserved for a
-later, separately qualified route.
+Primary observables are displacement, total reaction and strain energy. For an
+affine same-mesh case, the predeclared relative candidate is `1e-6` for those
+observables, with `PROPOSED_OWNER_REVIEW` status and a near-zero absolute-scale
+rule. Non-affine, distorted and refinement cases require a case-specific
+Owner-approved tolerance before execution; no value may be retuned after a QF
+result. These policies are not derived from observed QF differences. Stress is
+secondary and requires identical measure and sampling location. Modal
+frequency is reserved for a later, separately qualified route.
 
 ## Open questions and stop conditions
 

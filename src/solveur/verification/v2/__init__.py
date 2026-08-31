@@ -2,6 +2,7 @@
 
 from solveur.verification.v2.runner import (
     ExternalUnavailableError,
+    DuplicateJsonKeyError,
     ExecutionOutput,
     ResourceLimitedError,
     VnvEvidence,
@@ -10,6 +11,7 @@ from solveur.verification.v2.runner import (
     canonical_sha256,
     load_evidence,
     load_cases,
+    load_json_strict,
     replay_case,
     validate_case,
 )
@@ -30,6 +32,7 @@ __all__ = [
     "VnvOracle",
     "VnvSchemaError",
     "ExternalUnavailableError",
+    "DuplicateJsonKeyError",
     "ExecutionOutput",
     "ResourceLimitedError",
     "VnvEvidence",
@@ -38,6 +41,7 @@ __all__ = [
     "canonical_sha256",
     "load_evidence",
     "load_cases",
+    "load_json_strict",
     "replay_case",
     "validate_case",
 ]

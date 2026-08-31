@@ -28,18 +28,24 @@ WEDGE6_QUALITY_CONTRACT = {
     "node_count": 6,
     "signed_volume": "prism-oriented signed volume",
     "jacobian_sampling": {
-        "validity_controls": "all six reference vertices plus all selected volume quadrature points",
-        "diagnostic_samples": "face centroids and prism interior centroid",
+        "validity_controls": "analytic minimum of det(J)(t) at each triangular reference vertex",
+        "diagnostic_samples": "all selected volume quadrature points, face centroids and prism interior centroid",
         "integration_points_only": False,
+        "certificate": "det(J) is affine in (r,s) at fixed t and quadratic in t; endpoints and interior stationary points are checked",
+        "tolerance": "machine-epsilon-scaled to the determinant coefficient magnitude",
         "contract": "T1-R-WEDGE6-FORMULATION-001",
     },
     "faces": {"triangles": 2, "quadrilaterals": 3},
     "orientation": "six-node orientation and outward face normals",
-    "degeneracy": "zero or sign-inconsistent sampled Jacobian",
+    "degeneracy": "non-positive or non-finite certified minimum determinant",
     "distortion": "prism-compatible dimensionless diagnostics, no universal cutoff",
     "status": "CONTROLLED_INACTIVE_CONTRACT",
     "source_contract": "qualification/0_2_7/wedge6_formulation_contract.json",
 }
+
+_WEDGE6_REFERENCE_TRIANGLE_VERTICES = ((0.0, 0.0), (1.0, 0.0), (0.0, 1.0))
+_WEDGE6_MACHINE_EPSILON = float(np.finfo(float).eps)
+_WEDGE6_WARNING_RATIO = float(np.sqrt(_WEDGE6_MACHINE_EPSILON))
 
 _TET4_EDGES = ((0, 1), (0, 2), (0, 3), (1, 2), (1, 3), (2, 3))
 _HEX8_EDGES = (
@@ -95,6 +101,105 @@ def wedge6_quality_contract() -> dict[str, Any]:
     """Return the inactive quality contract reserved for a future WEDGE6 kernel."""
 
     return dict(WEDGE6_QUALITY_CONTRACT)
+
+
+def _wedge6_shape_gradients(r: float, s: float, t: float) -> np.ndarray:
+    """Return reference derivatives for the inactive linear WEDGE6 contract."""
+
+    return np.asarray(
+        [
+            [-0.5 * (1.0 - t), -0.5 * (1.0 - t), -0.5 * (1.0 - r - s)],
+            [0.5 * (1.0 - t), 0.0, -0.5 * r],
+            [0.0, 0.5 * (1.0 - t), -0.5 * s],
+            [-0.5 * (1.0 + t), -0.5 * (1.0 + t), 0.5 * (1.0 - r - s)],
+            [0.5 * (1.0 + t), 0.0, 0.5 * r],
+            [0.0, 0.5 * (1.0 + t), 0.5 * s],
+        ],
+        dtype=float,
+    )
+
+
+def _wedge6_detj(coords: np.ndarray, r: float, s: float, t: float) -> float:
+    return float(np.linalg.det(coords.T @ _wedge6_shape_gradients(r, s, t)))
+
+
+def _wedge6_coordinates(coords: Any) -> np.ndarray:
+    values = np.asarray(coords, dtype=float)
+    if values.shape != (6, 3):
+        raise ValueError("Expected WEDGE6 coordinates with shape (6, 3).")
+    if not np.isfinite(values).all():
+        raise ValueError("WEDGE6 coordinates must be finite.")
+    return values
+
+
+def wedge6_detj_quadratic_coefficients(coords: Any) -> tuple[tuple[float, float, float], ...]:
+    """Return ``a, b, c`` for certified ``det(J)(t) = a*t² + b*t + c``.
+
+    For the linear prism mapping, ``det(J)`` is affine over each triangular
+    section at fixed ``t``.  The global minimum therefore occurs at one of the
+    three section vertices, where its remaining dependence on ``t`` is
+    quadratic.
+    """
+
+    values = _wedge6_coordinates(coords)
+    coefficients: list[tuple[float, float, float]] = []
+    for r, s in _WEDGE6_REFERENCE_TRIANGLE_VERTICES:
+        at_minus = _wedge6_detj(values, r, s, -1.0)
+        at_zero = _wedge6_detj(values, r, s, 0.0)
+        at_plus = _wedge6_detj(values, r, s, 1.0)
+        a = 0.5 * (at_plus + at_minus) - at_zero
+        b = 0.5 * (at_plus - at_minus)
+        coefficients.append((float(a), float(b), float(at_zero)))
+    return tuple(coefficients)
+
+
+def wedge6_jacobian_certificate(coords: Any) -> dict[str, Any]:
+    """Certify the minimum WEDGE6 Jacobian determinant without activating WEDGE6.
+
+    The certificate checks the exact polynomial reduction implied by the
+    linear shape functions.  The additional quadrature, face and interior
+    samples remain diagnostics and are deliberately not the validity proof.
+    """
+
+    coefficients = wedge6_detj_quadratic_coefficients(coords)
+    candidates: list[dict[str, float | str]] = []
+    for vertex_index, (a, b, c) in enumerate(coefficients):
+        scale = max(abs(a), abs(b), abs(c))
+        points = [-1.0, 1.0]
+        if scale > 0.0 and abs(a) > _WEDGE6_MACHINE_EPSILON * scale:
+            stationary = -b / (2.0 * a)
+            if -1.0 < stationary < 1.0:
+                points.append(float(stationary))
+        for t in points:
+            candidates.append(
+                {
+                    "triangle_vertex": float(vertex_index + 1),
+                    "t": float(t),
+                    "determinant": float(a * t * t + b * t + c),
+                }
+            )
+    determinant_scale = max((abs(float(item["determinant"])) for item in candidates), default=0.0)
+    tolerance = _WEDGE6_MACHINE_EPSILON * determinant_scale
+    minimum = min((float(item["determinant"]) for item in candidates), default=float("nan"))
+    ratio = minimum / determinant_scale if determinant_scale > 0.0 else 0.0
+    if not np.isfinite(minimum) or minimum <= tolerance:
+        classification = INVALID
+    elif ratio <= _WEDGE6_WARNING_RATIO:
+        classification = VALID_WITH_WARNING
+    else:
+        classification = VALID
+    return {
+        "method": "triangular-vertex reduction plus quadratic t minimization",
+        "coefficients": [list(item) for item in coefficients],
+        "candidates": candidates,
+        "minimum_detJ": minimum,
+        "detJ_scale": determinant_scale,
+        "geometry_tolerance": tolerance,
+        "minimum_to_scale_ratio": ratio,
+        "classification": classification,
+        "valid": classification != INVALID,
+        "diagnostic_samples_are_certificate": False,
+    }
 
 
 def _as_coords(coords: Any, expected_nodes: int) -> np.ndarray:
@@ -317,5 +422,7 @@ __all__ = [
     "MeshQualityAssessment",
     "assess_element",
     "assess_model",
+    "wedge6_detj_quadratic_coefficients",
+    "wedge6_jacobian_certificate",
     "wedge6_quality_contract",
 ]

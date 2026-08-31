@@ -9,7 +9,13 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from solveur.mesh.quality_contract import wedge6_quality_contract
+from solveur.mesh.quality_contract import (
+    INVALID,
+    VALID,
+    VALID_WITH_WARNING,
+    wedge6_jacobian_certificate,
+    wedge6_quality_contract,
+)
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -27,6 +33,18 @@ MAPPING = read_json(MAPPING_PATH)
 FIXTURE = read_json(FIXTURE_PATH)
 REFERENCE_NODES = np.asarray([CONTRACT["reference_nodes"][str(i)] for i in range(1, 7)], dtype=float)
 PHYSICAL_NODES = np.asarray([FIXTURE["coordinates"][str(i)] for i in range(1, 7)], dtype=float)
+
+TERRA_ADVERSARIAL_NODES = np.asarray(
+    (
+        (0.66226, 0.05390, -1.15307),
+        (1.11239, 0.25161, -1.17402),
+        (-0.54385, 1.50167, -1.17947),
+        (-0.18379, 1.01123, 1.43388),
+        (1.18110, -0.62849, 1.14978),
+        (0.30332, 0.93006, -0.04914),
+    ),
+    dtype=float,
+)
 
 
 def shape_values(r: float, s: float, t: float) -> np.ndarray:
@@ -111,13 +129,54 @@ def test_jacobian_controls_are_not_integration_points_only() -> None:
     quality = wedge6_quality_contract()
     sampling = quality["jacobian_sampling"]
     assert sampling["integration_points_only"] is False
-    assert "all six reference vertices" in sampling["validity_controls"]
+    assert "triangular reference vertex" in sampling["validity_controls"]
     controls = REFERENCE_NODES[:, :]
     determinants = [np.linalg.det(jacobian(r, s, t)) for r, s, t in controls]
     assert min(determinants) > 0.0
     inverted = PHYSICAL_NODES[[0, 2, 1, 3, 5, 4]]
     inverted_jacobian = inverted.T @ shape_gradients(1.0 / 6.0, 1.0 / 6.0, 0.0)
     assert np.linalg.det(inverted_jacobian) < 0.0
+
+
+def test_wedge6_certificate_accepts_nominal_and_affine_skewed_prisms() -> None:
+    nominal = wedge6_jacobian_certificate(REFERENCE_NODES)
+    skewed = wedge6_jacobian_certificate(PHYSICAL_NODES)
+
+    assert nominal["classification"] == VALID
+    assert skewed["classification"] == VALID
+    assert nominal["diagnostic_samples_are_certificate"] is False
+    assert len(nominal["candidates"]) >= 6
+
+
+def test_wedge6_certificate_rejects_interior_inversion_missed_by_sampling() -> None:
+    certificate = wedge6_jacobian_certificate(TERRA_ADVERSARIAL_NODES)
+
+    assert certificate["classification"] == INVALID
+    assert certificate["valid"] is False
+    assert certificate["minimum_detJ"] < 0.0
+    assert any(0.0 < item["t"] < 1.0 for item in certificate["candidates"])
+
+
+def test_wedge6_certificate_handles_near_degenerate_and_orientation_permutations() -> None:
+    near_degenerate = REFERENCE_NODES.copy()
+    near_degenerate[3, 2] = -1.0 + 1.0e-12
+    near = wedge6_jacobian_certificate(near_degenerate)
+    inverted = wedge6_jacobian_certificate(REFERENCE_NODES[[0, 2, 1, 3, 5, 4]])
+
+    assert near["classification"] in {VALID_WITH_WARNING, INVALID}
+    assert inverted["classification"] == INVALID
+
+
+def test_wedge6_certificate_is_rigid_transform_and_scale_invariant() -> None:
+    rotation = np.asarray(((0.0, -1.0, 0.0), (1.0, 0.0, 0.0), (0.0, 0.0, 1.0)))
+    baseline = wedge6_jacobian_certificate(PHYSICAL_NODES)
+    transformed = wedge6_jacobian_certificate((PHYSICAL_NODES @ rotation.T) + (4.0, -2.0, 7.0))
+    scaled = wedge6_jacobian_certificate(PHYSICAL_NODES * 1.0e-9)
+
+    assert transformed["classification"] == baseline["classification"]
+    assert scaled["classification"] == baseline["classification"]
+    assert transformed["minimum_to_scale_ratio"] == pytest.approx(baseline["minimum_to_scale_ratio"])
+    assert scaled["minimum_to_scale_ratio"] == pytest.approx(baseline["minimum_to_scale_ratio"])
 
 
 def test_selected_and_reference_quadrature_contracts_are_predeclared() -> None:
