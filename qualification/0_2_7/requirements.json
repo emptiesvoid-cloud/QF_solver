@@ -96,11 +96,11 @@
       "gate": "027-G08",
       "work_package": "WP08",
       "priority": "MUST",
-      "status": "PLANNED",
+      "status": "PASS",
       "requirement": "The WEDGE6 static vertical slice shall cover import, assembly, boundary faces, loads, reactions and post-processing.",
-      "acceptance": "Declared static cases pass their predeclared checks with reproducible artifacts.",
-      "verification": ["patch/constant-strain cases", "Gmsh case", "reaction/equilibrium cases"],
-      "owner_policy": "EXISTING_POLICY_OR_PROPOSED_OWNER_REVIEW"
+      "acceptance": "15 declared static cases pass their predeclared checks with reproducible artifacts; one invalid geometry case is an expected fail-closed result. WEDGE6 remains experimental and public qualification is deferred.",
+      "verification": ["qualification/0_2_7/vnv_v2/wp08_cases.json", "qualification/0_2_7/vnv_v2/wp08_evidence.json", "qualification/0_2_7/wp08_state.json", "tests/integration/test_wedge6_static_workflow.py"],
+      "owner_policy": "WP08_STATIC_VERTICAL_SLICE_EXPERIMENTAL; PUBLIC_QUALIFICATION_DEFERRED"
     },
     {
       "id": "027-REQ-010",

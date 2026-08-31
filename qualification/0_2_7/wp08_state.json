@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "work_package": "WP08",
+  "gate": "027-G08",
+  "status": "PASS",
+  "start_sha": "d4d2942a5fc31ffb97ef373a4466c46be34de991",
+  "implementation_sha": "8040909d6d65f740e1daf858ce572d250a87b39a",
+  "evidence_source_sha": "8040909d6d65f740e1daf858ce572d250a87b39a",
+  "evidence_artifact": "qualification/0_2_7/vnv_v2/wp08_evidence.json",
+  "evidence_catalog": "qualification/0_2_7/vnv_v2/wp08_cases.json",
+  "case_count": 15,
+  "verdict_counts": {
+    "PASS": 14,
+    "EXPECTED_FAILURE_PASS": 1,
+    "FAIL": 0,
+    "SKIPPED_EXTERNAL_UNAVAILABLE": 0
+  },
+  "checks": {
+    "gmsh_wedge6": "PASS",
+    "node_mapping": "PASS",
+    "tri3_faces": "PASS",
+    "quad4_faces": "PASS",
+    "nodal_loads": "PASS",
+    "body_force": "PASS",
+    "tri_pressure": "PASS",
+    "quad_pressure": "PASS",
+    "traction": "PASS",
+    "static_assembly": "PASS",
+    "multi_element_patch": "PASS",
+    "reaction_equilibrium": "PASS",
+    "moment_equilibrium": "PASS",
+    "displacement_results": "PASS",
+    "strain_results": "PASS",
+    "stress_results": "PASS",
+    "energy_results": "PASS",
+    "no_nan_inf": "PASS",
+    "deterministic_replay": "PASS"
+  },
+  "public_maturity": "EXPERIMENTAL",
+  "public_qualification": "DEFERRED",
+  "scope": {
+    "analysis": "linear_static",
+    "material": "homogeneous_isotropic_small_strain",
+    "loads": ["nodal", "body_force", "gravity", "tri3_pressure", "quad4_pressure", "surface_traction"],
+    "backend": "scipy_sparse",
+    "import": "Gmsh Prism 6",
+    "post": ["displacement", "Gauss-point strain", "Gauss-point stress", "strain energy"]
+  },
+  "external_correlation_run": false,
+  "modal_wedge6_implemented": false,
+  "existing_element_numerics_changed": false,
+  "full_regression_run": false,
+  "pushed": false,
+  "limitations": [
+    "WEDGE6 remains EXPERIMENTAL and is not publicly qualified.",
+    "No modal, Newmark or harmonic WEDGE6 route is implemented.",
+    "No J2, TL, contact or external correlation is claimed for WEDGE6.",
+    "Robustness/distortion qualification is deferred to WP09.",
+    "Face-load coverage is limited to the declared TRI3/QUAD4 static contracts."
+  ],
+  "replay_command": "PYTHONPATH=src python scripts/run_wp08_wedge6.py",
+  "artifact_classification": "CONTROLLED_PROOF"
+}

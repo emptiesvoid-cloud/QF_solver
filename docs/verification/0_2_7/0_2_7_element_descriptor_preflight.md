@@ -57,8 +57,10 @@ explicit non-qualified handling, malformed inputs, unsupported loads and
 deterministic model preflight. Existing BEAM2, MITC3, HEX8, discrete/contact,
 analysis-feature and public API workflows remain green in the targeted set.
 
-The WEDGE6 descriptor is limited to the technical `linear_static` elemental
-route with homogeneous isotropic material, nodal loads and the declared
-SciPy route. It does not declare modal/dynamic, nonlinear, contact, face-load,
-Gmsh or user-workflow support. This work package does not make experimental
-routes qualified or authorize a full regression or engineering V&V campaign.
+The WEDGE6 descriptor is limited to the experimental `linear_static` route
+with homogeneous isotropic material, the declared SciPy route, and the
+WP08-validated Gmsh Prism 6, nodal/body/surface-load and Gauss-point
+post-processing path. It does not declare modal/dynamic, nonlinear, contact
+or external-correlation support. This work package does not make the
+experimental route qualified or authorize a full regression or engineering
+V&V campaign.

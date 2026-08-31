@@ -4418,6 +4418,21 @@
       "tests": [
         "tests/unit/test_mesh_quality_contract.py"
       ]
+    },
+    {
+      "id": "DOC-027-021",
+      "path": "verification/0_2_7/0_2_7_wedge6_static_vertical_slice.md",
+      "title": "0.2.7 WEDGE6 static vertical slice",
+      "status": "controlled_candidate",
+      "requirements": ["027-REQ-009"],
+      "examples": [
+        "qualification/0_2_7/wp08_state.json",
+        "qualification/0_2_7/vnv_v2/wp08_cases.json",
+        "qualification/0_2_7/vnv_v2/wp08_evidence.json"
+      ],
+      "tests": [
+        "tests/integration/test_wedge6_static_workflow.py"
+      ]
     }
   ]
 }
