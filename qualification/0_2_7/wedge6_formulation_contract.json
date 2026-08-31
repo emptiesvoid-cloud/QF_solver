@@ -3,7 +3,7 @@
   "contract_id": "T1-R-WEDGE6-FORMULATION-001",
   "status": "CONTROLLED_WP07_IMPLEMENTED",
   "applicable_version": "0.2.7a0",
-  "source_sha": "32e4e40bf18f0fdcd0a4ae9959d4f0df2b76892e",
+  "source_sha": "9c23706e952262ab8ee71d85c809e46d7abab8b7",
   "implemented": true,
   "public_capability": false,
   "reference_domain": {

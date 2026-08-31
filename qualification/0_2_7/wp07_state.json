@@ -4,7 +4,7 @@
   "gate": "027-G07",
   "status": "PASS",
   "start_sha": "69b7d01beb81263fc2b87cfacb83985db10e3a82",
-  "source_sha": "pending implementation commit",
+  "source_sha": "9c23706e952262ab8ee71d85c809e46d7abab8b7",
   "evidence_head": "pending evidence generation",
   "owner_authorization": {
     "decision": "TERRA_GO",
