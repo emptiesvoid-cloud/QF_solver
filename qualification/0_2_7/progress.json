@@ -22,7 +22,7 @@
     {"id": "WP03", "gate": "027-G03", "status": "PASS", "start_sha": "ba6111a257ae567e496adcbcdc74de392dd66b6e", "evidence_head": "507e5c65cc7094eb7a362333b0e8f71d3cedf551", "owner_decision": "technical descriptor and fail-closed preflight"},
     {"id": "WP04", "gate": "027-G04", "status": "PASS", "start_sha": "684c39c72191d43c53e1f21043dc746d213a561d", "evidence_head": "2ee1cf54f3076427b32870e4ca98035431dfa654", "owner_decision": "additive declarative V&V harness v2"},
     {"id": "WP05", "gate": "027-G05", "status": "PASS", "start_sha": "fb102e649235a276096b3a37e19eb61e19a5b43f", "evidence_head": "e8a63e6f8ae05e79ab3d74fb3f33f193caf2f3ba", "owner_decision": "external oracle preflight bounded PASS; no WEDGE6 correlation issued"},
-    {"id": "WP06", "gate": "027-G06", "status": "PASS", "start_sha": "884637a60bc752c1d02644fe4d14ae056a2876b8", "evidence_head": "WP06_PENDING_COMMIT", "owner_decision": "common mesh quality contract; no universal threshold; WEDGE6 readiness only"},
+    {"id": "WP06", "gate": "027-G06", "status": "PASS", "start_sha": "884637a60bc752c1d02644fe4d14ae056a2876b8", "evidence_head": "c3989df875bcb385bb8e3b144380526db8151d55", "owner_decision": "common mesh quality contract; no universal threshold; WEDGE6 readiness only"},
     {"id": "WP07", "gate": "027-G07", "status": "NOT_STARTED", "start_sha": null, "evidence_head": null},
     {"id": "WP08", "gate": "027-G08", "status": "NOT_STARTED", "start_sha": null, "evidence_head": null},
     {"id": "WP09", "gate": "027-G09", "status": "NOT_STARTED", "start_sha": null, "evidence_head": null},

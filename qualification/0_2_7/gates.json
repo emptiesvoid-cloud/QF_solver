@@ -87,7 +87,7 @@
       "title": "Mesh quality and distortion contract",
       "status": "PASS",
       "start_sha": "884637a60bc752c1d02644fe4d14ae056a2876b8",
-      "evidence_head": "WP06_PENDING_COMMIT",
+      "evidence_head": "c3989df875bcb385bb8e3b144380526db8151d55",
       "depends_on": ["027-G02", "027-G03"],
       "go": ["quality metrics and invalid cases are defined", "Owner policy is explicit"],
       "stop": ["universal aspect-ratio cutoff", "quality represented by one scalar only"],
