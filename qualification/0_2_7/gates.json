@@ -4,7 +4,7 @@
   "theme": "Prismatic Solid Interoperability and Numerical Robustness",
   "baseline_sha": "e839373b6aef291a93292186d7553ba5cd12af55",
   "baseline_branch": "main",
-  "foundation_status": "WP01_PASS",
+  "foundation_status": "WP02_PASS",
   "source_change_authorized_by_foundation": false,
   "gates": [
     {
@@ -24,12 +24,14 @@
       "id": "027-G02",
       "work_package": "WP02",
       "title": "Capability registry v2",
-      "status": "NOT_STARTED",
+      "status": "PASS",
+      "start_sha": "3058dbcf53967dc50f70814a71b4094d61023dda",
+      "evidence_head": null,
       "depends_on": ["027-G01"],
       "go": ["unique combination identifiers", "implementation and evidence cross-check passes"],
       "stop": ["maturity inferred from source presence", "duplicate or orphan public row"],
       "evidence_required": ["registry schema", "migration mapping", "audit output"],
-      "files": ["qualification/0_2_7/requirements.json"]
+      "files": ["qualification/0_2_7/capability_registry_v2.json", "qualification/0_2_7/registry_migration.json", "docs/verification/0_2_7/0_2_7_capability_matrix.md", "tests/unit/test_capability_registry_v2.py"]
     },
     {
       "id": "027-G03",

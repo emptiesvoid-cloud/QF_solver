@@ -4346,6 +4346,20 @@
         "qualification/0_2_7/release_workflow_audit.json"
       ],
       "tests": []
+    },
+    {
+      "id": "DOC-027-016",
+      "path": "verification/0_2_7/0_2_7_capability_matrix.md",
+      "title": "0.2.7 capability registry v2 generated view",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_7/capability_registry_v2.json",
+        "qualification/0_2_7/registry_migration.json"
+      ],
+      "tests": [
+        "tests/unit/test_capability_registry_v2.py"
+      ]
     }
   ]
 }

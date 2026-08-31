@@ -9,14 +9,14 @@ approver: ""
 
 # 0.2.7 Gate Matrix
 
-This matrix is a planning contract. At foundation start every gate was
-`NOT_STARTED`; WP01 is now `PASS` for the release-truth control only. No row
-is evidence that numerical work has been implemented or executed.
+This matrix is a planning contract. WP01 is `PASS` for release truth and WP02
+is `PASS` for the combination-level registry control. No row is evidence that
+new numerical work has been implemented or executed.
 
 | Gate | Work package | Purpose | Dependencies | GO evidence | STOP conditions | Status |
 | --- | --- | --- | --- | --- | --- | --- |
 | `027-G01` | WP01 | Release truth and provenance | None | exact baseline, clean-state and version records | SHA, tag or version mismatch | `PASS` |
-| `027-G02` | WP02 | Element x analysis x material x route registry | G01 | schema, uniqueness and implementation cross-check | inferred maturity or orphan capability | `NOT_STARTED` |
+| `027-G02` | WP02 | Element x analysis x material x route registry | G01 | schema, uniqueness and implementation cross-check | inferred maturity or orphan capability | `PASS` |
 | `027-G03` | WP03 | Compatibility descriptors and preflight | G02 | deterministic accept/reject matrix | default-path or API behavior change | `NOT_STARTED` |
 | `027-G04` | WP04 | Declarative V&V harness | G01-G02 | additive runner contract and replay proof | numerical route refactor or hidden command execution | `NOT_STARTED` |
 | `027-G05` | WP05 | C3D6/PENTA6 oracle preflight | G01-G02 | comparable deck contract and availability record | non-comparable oracle presented as PASS | `NOT_STARTED` |
