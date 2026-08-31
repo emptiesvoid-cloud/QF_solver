@@ -50,12 +50,14 @@
       "id": "027-G04",
       "work_package": "WP04",
       "title": "Declarative V&V harness",
-      "status": "NOT_STARTED",
+      "status": "PASS",
+      "start_sha": "684c39c72191d43c53e1f21043dc746d213a561d",
+      "evidence_head": "PENDING_COMMIT",
       "depends_on": ["027-G01", "027-G02"],
       "go": ["additive case schema", "manifest and digest replay is deterministic"],
       "stop": ["arbitrary command execution", "old evidence is lost", "solver route is changed"],
       "evidence_required": ["schema tests", "fixture replay", "migration boundary"],
-      "files": ["0_2_7_vnv_strategy.md", "0_2_7_test_policy.md"]
+      "files": ["src/solveur/verification/v2/schema.py", "src/solveur/verification/v2/runner.py", "qualification/0_2_7/vnv_v2/sample_cases.json", "tests/unit/test_vnv_harness_v2.py", "docs/verification/0_2_7/0_2_7_vnv_harness_v2.md", "qualification/0_2_7/vnv_v2/wp04_state.json"]
     },
     {
       "id": "027-G05",

@@ -4374,6 +4374,20 @@
       "tests": [
         "tests/unit/test_element_descriptor_preflight.py"
       ]
+    },
+    {
+      "id": "DOC-027-018",
+      "path": "verification/0_2_7/0_2_7_vnv_harness_v2.md",
+      "title": "0.2.7 declarative V&V harness v2",
+      "status": "controlled_candidate",
+      "requirements": ["027-REQ-005"],
+      "examples": [
+        "qualification/0_2_7/vnv_v2/sample_cases.json",
+        "qualification/0_2_7/vnv_v2/wp04_state.json"
+      ],
+      "tests": [
+        "tests/unit/test_vnv_harness_v2.py"
+      ]
     }
   ]
 }

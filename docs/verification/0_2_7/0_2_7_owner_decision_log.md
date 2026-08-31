@@ -43,6 +43,12 @@ non-qualified and unsupported routes distinctly. Targeted descriptor, workflow
 and analysis tests pass; no numerical source or Owner maturity decision was
 changed.
 
+WP04 is an additive V&V-engineering control rather than a capability
+qualification decision. Its declarative case/oracle schema, runner verdicts,
+canonical evidence serialization and replay mismatch checks pass on three
+representative fixtures. Historical V&V runners remain supported; no numerical
+source or maturity decision was changed.
+
 An entry may be changed to an approved state only with a decision owner, exact
 evidence SHA, scope, limitations and date. No decision here reopens G07 or
 changes any 0.2.6 maturity classification.

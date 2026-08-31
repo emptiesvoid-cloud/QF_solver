@@ -52,7 +52,7 @@
       "gate": "027-G04",
       "work_package": "WP04",
       "priority": "MUST",
-      "status": "PLANNED",
+      "status": "PASS",
       "requirement": "The new V&V harness shall execute declared cases without arbitrary commands or changes to old numerical routes.",
       "acceptance": "Fixture replay, manifest, digest and failure classification are deterministic.",
       "verification": ["schema tests", "fixture replay", "T1/T2 evidence"],
