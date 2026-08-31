@@ -330,6 +330,7 @@ for order, instant in zip(result.getIndexes(), access["INST"]):
         "load_fraction": float(instant),
         "load_fraction_critical": {float(TET4_CASE["endpoint_fraction_critical"]):.16g} * float(instant),
         "tip_axial_x": float(np.mean(dx)),
+        "tip_increment_z": float(np.mean(dz)),
         "tip_mean_displacement": [float(np.mean(dx)), float(np.mean(dy)), float(np.mean(dz))],
         "reaction_resultant_fixed": [float(np.sum(rx)), float(np.sum(ry)), float(np.sum(rz))],
         "stress_status": "NOT_COMPARED_INCOMPATIBLE_COLUMN_FIELD",
@@ -383,6 +384,12 @@ def _run_tet4_external(output: Path) -> dict[str, Any]:
             "input_sha256": input_sha256,
         }
     points = raw.get("points", [])
+    amplitude = float(TET4_CASE["imperfection_ratio"]) * float(TET4_CASE["length"])
+    for point in points:
+        point["tip_displacement_xz"] = [
+            float(point["tip_axial_x"]),
+            amplitude + float(point["tip_increment_z"]),
+        ]
     return {
         "status": "PASS",
         "classification": "OBSERVED_EXTERNAL_PATH",
@@ -508,7 +515,7 @@ def _run(output: Path) -> dict[str, Any]:
         tet4_qf,
         tet4_external,
         qf_displacement_key="tip_displacement_xz",
-        external_displacement_key="tip_mean_displacement",
+        external_displacement_key="tip_displacement_xz",
         load_key="load_fraction_critical",
     )
 
