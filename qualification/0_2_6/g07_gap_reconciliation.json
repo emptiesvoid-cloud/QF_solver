@@ -1,0 +1,685 @@
+{
+  "schema_version": 1,
+  "evidence_id": "026-G07-STEP-A-RECONCILIATION-001",
+  "gate": "026-G07",
+  "step": "A_RECONCILIATION_AND_GAP_ANALYSIS",
+  "status": "PASS_RECONCILIATION_NO_PROMOTION",
+  "source_sha": "86467fd76a52512d7c9daabbc4d822ac99f96ad0",
+  "worktree_dirty_at_capture": false,
+  "functional_source_changed": false,
+  "gate_status_at_capture": "NOT_STARTED",
+  "gate_status_unchanged": true,
+  "promotion_performed": false,
+  "scope": {
+    "total_lagrangian_elasticity": {
+      "candidate_families": ["TET4", "HEX8"],
+      "research_families": ["TET10", "HEX20"],
+      "analysis": "existing geometric nonlinear static route",
+      "material": "existing Total-Lagrangian elasticity route only",
+      "claim_boundary": "bounded tested domain only; no universal large-deformation claim"
+    },
+    "arc_length": {
+      "family": "TET4",
+      "target_maturity": "PASS_INTERNAL_RESEARCH",
+      "claim_boundary": "controlled internal/research evidence; not production qualification"
+    },
+    "excluded": [
+      "finite-kinematic J2",
+      "coupled nonlinear workflows",
+      "contact and friction qualification",
+      "new formulations",
+      "new physics"
+    ]
+  },
+  "evidence_status_vocabulary": [
+    "FULL",
+    "BOUNDED",
+    "INTERNAL_ONLY",
+    "NOT_COMPARABLE",
+    "MISSING",
+    "SUPERSEDED"
+  ],
+  "historical_evidence_inventory": [
+    {
+      "evidence_id": "G07-CONTRACT",
+      "route": "all",
+      "kind": "contract",
+      "paths": [
+        "qualification/0_2_6/g07_requirements.json",
+        "qualification/0_2_6/g07_capability_matrix.json"
+      ],
+      "source_sha": "e522a24394e58d79266bcfde1b431b631381a231",
+      "status": "CONTRACT_ONLY",
+      "summary": "Defines TL-001..008 and ARC-001..004, scope, evidence rules and proposed policy review; does not constitute numerical evidence."
+    },
+    {
+      "evidence_id": "G07-TL-BLOCKER-RESOLUTION",
+      "route": "total_lagrangian_elasticity",
+      "families": ["TET4", "HEX8"],
+      "kind": "internal diagnostic and Owner review package",
+      "paths": [
+        "qualification/0_2_6/tl_blocker_resolution/tl_blocker_resolution.json",
+        "qualification/0_2_6/tl_blocker_resolution/tl_owner_review_decision.json",
+        "qualification/0_2_6/tl_blocker_resolution/README.md"
+      ],
+      "source_sha": "bb44c121c1c6c676f808ff4498aa7e8c980dff0e",
+      "status": "DIAGNOSTIC_ONLY_AND_OWNER_REVIEW_REQUIRED",
+      "summary": "Small-strain, tangent-FD, objectivity and four-level mesh observations exist for TET4/HEX8; external campaign was skipped as not comparable in that historical environment.",
+      "coverage": {
+        "small_strain_records": 10,
+        "tangent_fd_records": 180,
+        "mesh_sensitivity_records": 16,
+        "unexpected_failures": 0
+      },
+      "limitation": "The Owner decision explicitly kept G07 open and TL parked pending comparable external evidence."
+    },
+    {
+      "evidence_id": "G07-TL-PREQUAL",
+      "route": "total_lagrangian_elasticity",
+      "families": ["TET4", "HEX8"],
+      "kind": "internal prequalification diagnostic",
+      "paths": [
+        "qualification/0_2_6/tl_promotion_prequal/tl_promotion_prequal.json",
+        "qualification/0_2_6/tl_promotion_prequal/tl_promotion_prequal_manifest.json",
+        "qualification/0_2_6/tl_promotion_prequal/README.md",
+        "qualification/0_2_6/tl_promotion_prequal/tl_promotion_failure_zoo.json"
+      ],
+      "source_sha": "9e3b3f1a2cc3e0c88fefacfc952257047edb9278",
+      "status": "DIAGNOSTIC_ONLY",
+      "summary": "56 successes and no failure/exception over four mesh levels and increment levels 8/16/32/64; includes 10 objectivity, 36 tangent-FD and 8 small-strain observations.",
+      "limitation": "Promotion was not performed; mesh values and failure-zoo records remain observations."
+    },
+    {
+      "evidence_id": "G07-TL-DEEP-ISOLATION",
+      "route": "total_lagrangian_elasticity",
+      "families": ["TET4", "HEX8"],
+      "kind": "failure investigation",
+      "paths": [
+        "qualification/0_2_6/tl_deep_investigation/tl_investigation_report.json",
+        "qualification/0_2_6/tl_deep_investigation/tl_failure_zoo.json",
+        "qualification/0_2_6/tl_failure_isolation/tl_failure_isolation_summary.json",
+        "qualification/0_2_6/tl_failure_isolation/README.md"
+      ],
+      "source_sha": "e522a24394e58d79266bcfde1b431b631381a231",
+      "status": "INTERNAL_ONLY",
+      "summary": "Invalid current configuration and unsupported distributed load are explicit retained boundaries; reproduced numerical failures were classified diagnostically as mesh/conditioning observations.",
+      "limitation": "No solver defect, universal cutoff or acceptance threshold was inferred."
+    },
+    {
+      "evidence_id": "G07-TL-BOUNDARY",
+      "route": "total_lagrangian_elasticity",
+      "families": ["TET4", "HEX8"],
+      "kind": "mesh, conditioning and failure-zoo study",
+      "paths": [
+        "qualification/0_2_6/tl_boundary_study/tl_boundary_study_summary.json",
+        "qualification/0_2_6/tl_boundary_study/tl_boundary_failure_zoo.json",
+        "qualification/0_2_6/tl_boundary_study/tl_boundary_owner_prevalidation.json",
+        "qualification/0_2_6/tl_boundary_study/tl_boundary_study.md"
+      ],
+      "source_sha": "5d16ab839679dcee64e6251085ba52c4b494847c",
+      "status": "INTERNAL_ONLY",
+      "summary": "150 physical cases, four mesh levels, load/increment/distortion dimensions and a preserved failure zoo; owner prevalidation is diagnostic only.",
+      "limitation": "Observed zones are not universal mesh/aspect thresholds and do not promote TL."
+    },
+    {
+      "evidence_id": "G07-TL-ROBUSTNESS-EXPERIMENTS",
+      "route": "total_lagrangian_elasticity",
+      "families": ["TET4", "HEX8"],
+      "kind": "opt-in robustness diagnostics",
+      "paths": [
+        "qualification/0_2_6/tl_robustness_fix/tl_robustness_fix_summary.json",
+        "qualification/0_2_6/tl_robustness_rnd/tl_robustness_rnd_summary.json",
+        "qualification/0_2_6/tl_robustness_rnd/tl_robustness_rnd.md",
+        "qualification/0_2_6/tl_final_rescue_summary.json",
+        "qualification/0_2_6/tl_final_rescue_report.md",
+        "qualification/0_2_6/tl_rescue_optimization/summary.json",
+        "qualification/0_2_6/tl_rescue_optimization/report.md"
+      ],
+      "source_sha": "4deb8eaacbc477141952a1042a1a36f3f7a8b1c5",
+      "status": "INTERNAL_ONLY",
+      "summary": "Adaptive/rescue diagnostics record 150/150 replay, 10/10 holdouts and deterministic candidate behavior while keeping the default path, formulation and tangent unchanged.",
+      "limitation": "Opt-in candidate recovery, cost and boundary observations are not production qualification or proof of a physically correct post-boundary branch."
+    },
+    {
+      "evidence_id": "G07-TL-PHYSICAL-BRANCH",
+      "route": "total_lagrangian_elasticity",
+      "family": "HEX8",
+      "kind": "diagnostic external branch study",
+      "paths": [
+        "qualification/0_2_6/tl_physical_branch_validation/summary.json",
+        "qualification/0_2_6/tl_physical_branch_validation/report.md"
+      ],
+      "source_sha": "cb3f420696d7e23c059b017e1a4b7a43f310effb",
+      "status": "NOT_COMPARABLE",
+      "summary": "Full external branch and several QF partitions are compared for an opt-in physical-branch diagnostic.",
+      "limitation": "The report explicitly remains diagnostic, uses rescue/physical-branch context, and does not close the broader TL objectivity, mesh, failure-zoo or family scope."
+    },
+    {
+      "evidence_id": "G07-ARC-TESTS",
+      "route": "arc_length",
+      "family": "TET4",
+      "kind": "unit and route-control tests",
+      "paths": [
+        "tests/unit/test_nonlinear_load_path.py",
+        "tests/unit/test_nonlinear_checkpoint.py",
+        "tests/unit/test_analysis_features.py",
+        "tests/unit/test_code_aster_arc_length_025.py"
+      ],
+      "status": "INTERNAL_ONLY",
+      "summary": "Tests cover radius controls, deterministic rejection/rollback diagnostics, checkpoint restart and the bounded internal turning window.",
+      "limitation": "Test existence is not a complete G07 sensitivity or Owner evidence pack."
+    },
+    {
+      "evidence_id": "G07-ROUTE-TESTS",
+      "route": "total_lagrangian_elasticity",
+      "families": ["TET4", "HEX8", "TET10", "HEX20"],
+      "kind": "unit and V&V tests",
+      "paths": [
+        "tests/unit/test_total_lagrangian_tet4.py",
+        "tests/unit/test_total_lagrangian_hex8.py",
+        "tests/unit/test_total_lagrangian_tet4_batch.py",
+        "tests/unit/test_geometric_nonlinear_contracts.py",
+        "tests/unit/test_geometric_nonlinear_controls.py",
+        "tests/unit/test_geometric_nonlinear_adaptive.py",
+        "tests/unit/test_tl_blocker_resolution.py",
+        "tests/unit/test_tl_promotion_prequal.py",
+        "tests/verification/test_tet4_total_lagrangian_assembly_vnv.py"
+      ],
+      "status": "INTERNAL_ONLY",
+      "summary": "The existing test suite exercises route contracts and implementation behavior; TET10/HEX20 remain research-only under the G07 matrix.",
+      "limitation": "Tests do not themselves upgrade maturity or replace per-requirement evidence."
+    }
+  ],
+  "g10_evidence_inventory": [
+    {
+      "evidence_id": "026-G10-SELECTED-EXTERNAL-001",
+      "route": "arc_length",
+      "kind": "selected external campaign",
+      "paths": [
+        "qualification/0_2_6/g10_selected_external_evidence.json",
+        "docs/verification/0_2_6/0_2_6_g10_selected_external_campaign.md",
+        "qualification/0_2_6/g10_selected_external_manifest.json",
+        "qualification/0_2_6/g10_selected_external_inputs/arc_length.comm",
+        "qualification/0_2_6/g10_selected_external_inputs/arc_length.mail"
+      ],
+      "execution_source_sha": "efed8c3e1bcf173d335b3b9a605febd0fa1084cb",
+      "external_solver": "Code_Aster 18.1.0, pinned image recorded in the evidence",
+      "status": "BOUNDED",
+      "summary": "75 common interpolated displacement points, one turning point on each path, 80 QF steps and 81 external points; turning-load-factor relative difference 0.00013254565861720098 and turning-displacement relative difference 0.006621907971698846.",
+      "limitations": [
+        "Continuation controls do not produce identical point locations.",
+        "External raw export has no per-step residual history.",
+        "This does not close G07 or promote Arc-Length."
+      ]
+    },
+    {
+      "evidence_id": "026-G10-SELECTED-EXTERNAL-002",
+      "route": "total_lagrangian_elasticity",
+      "family": "TET4",
+      "kind": "selected external campaign",
+      "paths": [
+        "qualification/0_2_6/g10_selected_external_evidence.json",
+        "docs/verification/0_2_6/0_2_6_g10_selected_external_campaign.md",
+        "qualification/0_2_6/g10_selected_external_inputs/tl_tet4_imperfect_column.comm",
+        "qualification/0_2_6/g10_selected_external_inputs/tl_tet4_imperfect_column.mail"
+      ],
+      "execution_source_sha": "efed8c3e1bcf173d335b3b9a605febd0fa1084cb",
+      "external_solver": "Code_Aster 18.1.0, 3D/TETRA4 Green-Lagrange elastic route",
+      "status": "BOUNDED",
+      "summary": "Four comparison points for an imperfect-column and affine stress-patch study; stress relative error 8.544216665475574e-05 and column maximum relative difference 1.6929857737642425e-09.",
+      "limitations": [
+        "The column ends at 80 percent of the same-mesh critical load.",
+        "The evidence is not a general finite-deformation validation."
+      ]
+    },
+    {
+      "evidence_id": "026-G10-SELECTED-EXTERNAL-003",
+      "route": "total_lagrangian_elasticity",
+      "family": "HEX8",
+      "kind": "selected external campaign",
+      "paths": [
+        "qualification/0_2_6/g10_selected_external_evidence.json",
+        "docs/verification/0_2_6/0_2_6_g10_selected_external_campaign.md",
+        "qualification/0_2_6/g10_selected_external_inputs/tl_hex8_physical_branch.comm",
+        "qualification/0_2_6/g10_selected_external_inputs/tl_hex8_physical_branch.mail"
+      ],
+      "execution_source_sha": "efed8c3e1bcf173d335b3b9a605febd0fa1084cb",
+      "external_solver": "Code_Aster 18.1.0, 3D/HEXA8 Green-Lagrange elastic route",
+      "status": "BOUNDED",
+      "summary": "One matched first load point with displacement relative difference 2.3429736004890488e-09, sign-aligned reaction relative difference 1.3193915239112222e-11 and QF residual 2.288833258496685e-13.",
+      "limitations": [
+        "The external path has 128 rows, but the QF instrumented full path was not completed within the campaign budget.",
+        "Only the matched first point is used for numerical comparison.",
+        "Stress, energy and det(F) are not mixed across incompatible measures."
+      ]
+    },
+    {
+      "evidence_id": "026-G10-OWNER-CLOSEOUT-001",
+      "route": "all_selected_routes",
+      "kind": "Owner closeout",
+      "paths": [
+        "qualification/0_2_6/g10_owner_closeout.json",
+        "docs/verification/0_2_6/0_2_6_g10_owner_closeout.md",
+        "qualification/0_2_6/g10_research_audit_matrix.json"
+      ],
+      "execution_source_sha": "9b4a44d61132a28fe9161f4aa8f04e838afc5f32",
+      "status": "BOUNDED",
+      "summary": "G10 is PASS_WITH_LIMITATIONS; g07_state_changed=false and Arc-Length/TL remain G07-owned and deferred.",
+      "limitation": "G10 evidence is not an automatic G07 promotion or closeout."
+    }
+  ],
+  "superseded_or_noncomparable_records": [
+    {
+      "record": "tl_blocker_resolution.external_correlation",
+      "classification": "SUPERSEDED",
+      "scope": "current external-availability observation only",
+      "reason": "The historical run recorded no available Code_Aster/CalculiX executable; G10 later produced a pinned Code_Aster evidence pack.",
+      "qualification_effect": "The historical skip remains a valid record of that run and is not itself a PASS; G10 bounded evidence does not remove the G07 Owner decision."
+    },
+    {
+      "record": "tl_owner_review_decision.json",
+      "classification": "NOT_SUPERSEDED_AS_OWNER_DECISION",
+      "scope": "promotion governance",
+      "reason": "Its conclusion that G07 remains open and TL promotion is deferred is still the controlling historical decision until a G07 Owner review changes it.",
+      "qualification_effect": "G10 evidence supplements observations but does not override this decision."
+    },
+    {
+      "record": "tl_physical_branch_validation/report.md",
+      "classification": "NOT_COMPARABLE",
+      "scope": "TL qualification",
+      "reason": "The report is an opt-in rescue/physical-branch diagnostic with a narrower HEX8 domain and explicitly no G07 closure.",
+      "qualification_effect": "Use as diagnostic context only; do not merge it into the default-path qualification claim."
+    },
+    {
+      "record": "G10 HEX8 external result",
+      "classification": "BOUNDED",
+      "scope": "matched-point consistency",
+      "reason": "The QF full instrumented path was not completed, so the external 128-row curve is not a full two-solver comparison.",
+      "qualification_effect": "Supports a bounded local claim only; it cannot support a full HEX8 TL response-history claim."
+    },
+    {
+      "record": "G10 Arc-Length external result",
+      "classification": "BOUNDED",
+      "scope": "branch and turning-point comparison",
+      "reason": "The interpolated point sets differ because continuation controls differ and external per-step residuals are unavailable.",
+      "qualification_effect": "Supports bounded research evidence, not a universal or production claim."
+    }
+  ],
+  "gap_matrix": [
+    {
+      "route": "total_lagrangian_elasticity",
+      "family": "TET4",
+      "requirement": "G07-TL-001",
+      "historical_evidence": "tl_blocker_resolution.json and tl_promotion_prequal.json provide small-strain asymptotic records across the declared load reduction and meshes.",
+      "g10_evidence": "g10_selected_external_evidence.json: four bounded TET4 comparison points plus stress patch.",
+      "evidence_status": "BOUNDED",
+      "remaining_gap": "Owner confirmation of the case-defined comparison policy and a complete declared-domain external history; no universal error band is justified.",
+      "blocking_for_g07": false,
+      "owner_candidate": "BOUNDED_TET4_SMALL_STRAIN_DOMAIN_PENDING_OWNER_REVIEW"
+    },
+    {
+      "route": "total_lagrangian_elasticity",
+      "family": "TET4",
+      "requirement": "G07-TL-002",
+      "historical_evidence": "Prequalification and blocker-resolution packs contain translation, rotation and combined-motion objectivity observations with near-zero energy/internal force.",
+      "g10_evidence": "No new external objectivity field comparison; G10 selected evidence is load-path focused.",
+      "evidence_status": "INTERNAL_ONLY",
+      "remaining_gap": "No independent objectivity comparison and no Owner-approved universal numeric band; internal bounded objectivity evidence is present.",
+      "blocking_for_g07": false,
+      "owner_candidate": "BOUNDED_INTERNAL_OBJECTIVITY_ONLY"
+    },
+    {
+      "route": "total_lagrangian_elasticity",
+      "family": "TET4",
+      "requirement": "G07-TL-003",
+      "historical_evidence": "Boundary, prequalification and rescue records cover bounded deformation/rotation observations and preserve the failure boundary.",
+      "g10_evidence": "TET4 imperfect-column external comparison reaches four points through 80 percent of same-mesh critical load.",
+      "evidence_status": "BOUNDED",
+      "remaining_gap": "The end of the declared bounded domain is not externally compared; no unrestricted large-deformation claim is allowed.",
+      "blocking_for_g07": false,
+      "owner_candidate": "BOUNDED_TET4_DOMAIN_ONLY"
+    },
+    {
+      "route": "total_lagrangian_elasticity",
+      "family": "TET4",
+      "requirement": "G07-TL-004",
+      "historical_evidence": "Internal residual, reaction and Newton histories are recorded in blocker-resolution, boundary and rescue artifacts.",
+      "g10_evidence": "TET4 QF residual/response is recorded; Code_Aster external per-step residual is not exported.",
+      "evidence_status": "BOUNDED",
+      "remaining_gap": "No directly comparable external residual history and no new universal threshold; existing nonlinear policy remains the reference.",
+      "blocking_for_g07": false,
+      "owner_candidate": "BOUNDED_INTERNAL_EQUILIBRIUM_WITH_EXTERNAL_RESPONSE"
+    },
+    {
+      "route": "total_lagrangian_elasticity",
+      "family": "TET4",
+      "requirement": "G07-TL-005",
+      "historical_evidence": "Six-state finite-difference tangent observations cover TET4 with the recorded perturbation domain.",
+      "g10_evidence": "No external tangent comparison; G10 compares response quantities only.",
+      "evidence_status": "INTERNAL_ONLY",
+      "remaining_gap": "External tangent equivalence is unavailable and the proposed numerical band remains policy-governed; internal FD evidence is reproducible.",
+      "blocking_for_g07": false,
+      "owner_candidate": "BOUNDED_INTERNAL_TANGENT_FD_ONLY"
+    },
+    {
+      "route": "total_lagrangian_elasticity",
+      "family": "TET4",
+      "requirement": "G07-TL-006",
+      "historical_evidence": "Four-level TET4 flexion/shear mesh observations and boundary study are archived.",
+      "g10_evidence": "No new TET4 mesh series in the selected external campaign.",
+      "evidence_status": "BOUNDED",
+      "remaining_gap": "Observed sensitivity has no universal convergence/aspect-ratio threshold; bounded domain must retain the limitation.",
+      "blocking_for_g07": false,
+      "owner_candidate": "BOUNDED_MESH_OBSERVATION_NO_UNIVERSAL_RULE"
+    },
+    {
+      "route": "total_lagrangian_elasticity",
+      "family": "TET4",
+      "requirement": "G07-TL-007",
+      "historical_evidence": "Prequalification increment levels 8/16/32/64 and repeated TET4 signatures demonstrate internal reproducibility.",
+      "g10_evidence": "No new increment partition study in G10.",
+      "evidence_status": "BOUNDED",
+      "remaining_gap": "No independent external partition/replay evidence; internal same-input reproducibility remains bounded to the recorded domain.",
+      "blocking_for_g07": false,
+      "owner_candidate": "BOUNDED_INTERNAL_REPRODUCIBILITY"
+    },
+    {
+      "route": "total_lagrangian_elasticity",
+      "family": "TET4",
+      "requirement": "G07-TL-008",
+      "historical_evidence": "Historical external campaign was SKIPPED_NOT_COMPARABLE; internal diagnostic packs are not independent correlation.",
+      "g10_evidence": "Code_Aster TET4 stress patch and four column points, bounded to 80 percent of critical load.",
+      "evidence_status": "BOUNDED",
+      "remaining_gap": "A complete compatible response history over the declared comparison domain is still absent; the historical Owner rule says this requirement remains required before TL promotion.",
+      "blocking_for_g07": true,
+      "owner_candidate": "DEFER_TET4_TL_PROMOTION_UNTIL_COMPLETE_EXTERNAL_HISTORY"
+    },
+    {
+      "route": "total_lagrangian_elasticity",
+      "family": "HEX8",
+      "requirement": "G07-TL-001",
+      "historical_evidence": "Blocker-resolution and prequalification packs provide HEX8 small-strain asymptotic records across the declared load reduction and meshes.",
+      "g10_evidence": "One matched first-point HEX8 external comparison is at a small load factor.",
+      "evidence_status": "BOUNDED",
+      "remaining_gap": "The small-strain comparison is not a complete external series and the case-defined policy remains bounded; no universal scalar threshold is justified.",
+      "blocking_for_g07": false,
+      "owner_candidate": "BOUNDED_HEX8_SMALL_STRAIN_DOMAIN_PENDING_OWNER_REVIEW"
+    },
+    {
+      "route": "total_lagrangian_elasticity",
+      "family": "HEX8",
+      "requirement": "G07-TL-002",
+      "historical_evidence": "Prequalification and blocker-resolution packs contain HEX8 translation, rotation and combined-motion objectivity observations.",
+      "g10_evidence": "No new external objectivity field comparison.",
+      "evidence_status": "INTERNAL_ONLY",
+      "remaining_gap": "No independent objectivity field comparison and no universal numeric band; internal bounded objectivity evidence is present.",
+      "blocking_for_g07": false,
+      "owner_candidate": "BOUNDED_INTERNAL_OBJECTIVITY_ONLY"
+    },
+    {
+      "route": "total_lagrangian_elasticity",
+      "family": "HEX8",
+      "requirement": "G07-TL-003",
+      "historical_evidence": "Boundary/rescue and physical-branch diagnostics cover a bounded HEX8 deformation path and preserve the failure boundary.",
+      "g10_evidence": "Code_Aster HEX8 path is archived, but QF is compared only at the first matched point.",
+      "evidence_status": "BOUNDED",
+      "remaining_gap": "No complete two-solver finite-deformation history is available; rescue/physical-branch diagnostics cannot support an unrestricted claim.",
+      "blocking_for_g07": false,
+      "owner_candidate": "BOUNDED_HEX8_MATCHED_POINT_AND_INTERNAL_DOMAIN_ONLY"
+    },
+    {
+      "route": "total_lagrangian_elasticity",
+      "family": "HEX8",
+      "requirement": "G07-TL-004",
+      "historical_evidence": "Internal residual, reaction, accepted-step and Newton histories are recorded for HEX8.",
+      "g10_evidence": "Matched-point QF residual and reaction are compared; external per-step residual is unavailable.",
+      "evidence_status": "BOUNDED",
+      "remaining_gap": "External residual history and full-path equilibrium comparison are absent; existing internal policy remains the reference.",
+      "blocking_for_g07": false,
+      "owner_candidate": "BOUNDED_INTERNAL_EQUILIBRIUM_WITH_MATCHED_EXTERNAL_POINT"
+    },
+    {
+      "route": "total_lagrangian_elasticity",
+      "family": "HEX8",
+      "requirement": "G07-TL-005",
+      "historical_evidence": "Six-state finite-difference tangent observations cover HEX8 with the recorded perturbation domain.",
+      "g10_evidence": "No external tangent comparison.",
+      "evidence_status": "INTERNAL_ONLY",
+      "remaining_gap": "External tangent equivalence is unavailable and the proposed numerical band remains policy-governed; internal FD evidence is reproducible.",
+      "blocking_for_g07": false,
+      "owner_candidate": "BOUNDED_INTERNAL_TANGENT_FD_ONLY"
+    },
+    {
+      "route": "total_lagrangian_elasticity",
+      "family": "HEX8",
+      "requirement": "G07-TL-006",
+      "historical_evidence": "Four-level HEX8 flexion/shear mesh observations and boundary study are archived.",
+      "g10_evidence": "No new HEX8 mesh series in the selected external campaign.",
+      "evidence_status": "BOUNDED",
+      "remaining_gap": "Observed sensitivity has no universal convergence/aspect-ratio threshold; bounded domain must retain the limitation.",
+      "blocking_for_g07": false,
+      "owner_candidate": "BOUNDED_MESH_OBSERVATION_NO_UNIVERSAL_RULE"
+    },
+    {
+      "route": "total_lagrangian_elasticity",
+      "family": "HEX8",
+      "requirement": "G07-TL-007",
+      "historical_evidence": "Prequalification increment levels 8/16/32/64 and repeated HEX8 signatures demonstrate internal reproducibility.",
+      "g10_evidence": "No new increment partition study in G10.",
+      "evidence_status": "BOUNDED",
+      "remaining_gap": "No independent external partition/replay evidence; internal same-input reproducibility remains bounded to the recorded domain.",
+      "blocking_for_g07": false,
+      "owner_candidate": "BOUNDED_INTERNAL_REPRODUCIBILITY"
+    },
+    {
+      "route": "total_lagrangian_elasticity",
+      "family": "HEX8",
+      "requirement": "G07-TL-008",
+      "historical_evidence": "Historical external campaign was SKIPPED_NOT_COMPARABLE; later physical-branch records are diagnostic and not a complete default-path qualification history.",
+      "g10_evidence": "Code_Aster provides 128 external rows, but QF full instrumented path was not completed; only one matched point is compared.",
+      "evidence_status": "BOUNDED",
+      "remaining_gap": "A complete compatible QF/external response-history comparison is absent, including a proven common field-measure mapping.",
+      "blocking_for_g07": true,
+      "owner_candidate": "DEFER_HEX8_TL_PROMOTION_UNTIL_FULL_PATH_CORRELATION"
+    },
+    {
+      "route": "arc_length",
+      "family": "TET4",
+      "requirement": "G07-ARC-001",
+      "historical_evidence": "Existing shallow-arch tests and internal route runs provide branch/turning diagnostics.",
+      "g10_evidence": "75 common interpolated points, one turn on QF and Code_Aster, and complete recorded paths for the selected run.",
+      "evidence_status": "BOUNDED",
+      "remaining_gap": "Continuation point placement differs and the result is bounded research evidence; no production qualification claim is allowed.",
+      "blocking_for_g07": false,
+      "owner_candidate": "PASS_INTERNAL_RESEARCH_BOUNDED_BRANCH_EVIDENCE"
+    },
+    {
+      "route": "arc_length",
+      "family": "TET4",
+      "requirement": "G07-ARC-002",
+      "historical_evidence": "Unit tests verify radius controls, but no controlled multi-radius and multi-mesh evidence pack is archived.",
+      "g10_evidence": "Only the nominal radius 0.02 route was compared externally.",
+      "evidence_status": "MISSING",
+      "remaining_gap": "No executed branch/turning-point sensitivity study across documented arc-step values and mesh levels.",
+      "blocking_for_g07": true,
+      "owner_candidate": "MORE_EVIDENCE_REQUIRED_ARC_STEP_AND_MESH_SENSITIVITY"
+    },
+    {
+      "route": "arc_length",
+      "family": "TET4",
+      "requirement": "G07-ARC-003",
+      "historical_evidence": "Checkpoint and route-control tests cover restart, rejected-step rollback and deterministic retry diagnostics.",
+      "g10_evidence": "The selected external arc run does not add a checkpoint/retry case.",
+      "evidence_status": "INTERNAL_ONLY",
+      "remaining_gap": "A G07-specific evidence record linking checkpoint digest, controlled failure, rollback and retry history is not packaged, although the route-native tests are reusable.",
+      "blocking_for_g07": true,
+      "owner_candidate": "MORE_EVIDENCE_REQUIRED_ARC_RESTART_ROLLBACK_RECORD"
+    },
+    {
+      "route": "arc_length",
+      "family": "TET4",
+      "requirement": "G07-ARC-004",
+      "historical_evidence": "Historical external requirement was open and prior unavailable/non-comparable runs were explicitly skipped.",
+      "g10_evidence": "Pinned Code_Aster external path with 75 common interpolated comparison points and one turning point.",
+      "evidence_status": "BOUNDED",
+      "remaining_gap": "External controls and point locations differ and no per-step external residual is available; external boundary is suitable only for bounded research evidence.",
+      "blocking_for_g07": false,
+      "owner_candidate": "PASS_INTERNAL_RESEARCH_BOUNDED_EXTERNAL_BOUNDARY"
+    }
+  ],
+  "route_decisions": {
+    "TL_TET4": {
+      "historical_status": "PARKED_PENDING_EXTERNAL_EVIDENCE",
+      "g10_status": "PASS_WITH_LIMITATIONS",
+      "can_leave_parked_now": false,
+      "automatic_promotion_allowed": false,
+      "maximum_justified_qualification": "BOUNDED_CANDIDATE_ONLY",
+      "owner_candidate": "PASS_WITH_LIMITATIONS_PENDING_G07_OWNER_REVIEW",
+      "rationale": "G10 removes the historical absence of any comparable run for a narrow TET4 domain, but the external column stops at 80 percent of critical load and G07-TL-008 still requires a complete compatible response history before TL promotion."
+    },
+    "TL_HEX8": {
+      "historical_status": "PARKED_PENDING_EXTERNAL_EVIDENCE",
+      "g10_status": "PASS_WITH_LIMITATIONS",
+      "can_leave_parked_now": false,
+      "automatic_promotion_allowed": false,
+      "one_matched_point_sufficient_for": "bounded local displacement/reaction consistency only",
+      "maximum_justified_qualification": "BOUNDED_MATCHED_POINT_DIAGNOSTIC_ONLY",
+      "owner_candidate": "PASS_WITH_LIMITATIONS_PENDING_FULL_PATH_REVIEW",
+      "rationale": "One same-mesh matched point is useful and numerically consistent, but it is not a complete QF/external response history and cannot qualify HEX8 TL as a family route."
+    },
+    "ARC_LENGTH": {
+      "historical_status": "EXPERIMENTAL_NOT_QUALIFIED",
+      "g10_status": "PASS_WITH_LIMITATIONS",
+      "75_points_and_turning_point_sufficient_for_bounded_claim": true,
+      "automatic_promotion_allowed": false,
+      "maximum_justified_qualification": "PASS_INTERNAL_RESEARCH_BOUNDED",
+      "owner_candidate": "PASS_WITH_LIMITATIONS_PENDING_SENSITIVITY_AND_RESTART_EVIDENCE",
+      "rationale": "The selected run demonstrates one reproducible branch and turning point with 75 common comparison points, but it does not establish arc-step/mesh sensitivity, G07-specific restart evidence or production qualification."
+    }
+  },
+  "gap_triage": [
+    {
+      "gap_id": "G07-TL-008-TET4-COMPLETE-HISTORY",
+      "route": "total_lagrangian_elasticity",
+      "requirement": "G07-TL-008",
+      "classification": "BLOCKING",
+      "value": "complete compatible external response history before TL promotion",
+      "smallest_future_case": "Repeat the same clean TET4 imperfect-column/stress-patch configuration in QF and pinned Code_Aster through the declared end domain; compare load-displacement, displacement and reaction at aligned points and retain tool/deck digests.",
+      "external_required": true
+    },
+    {
+      "gap_id": "G07-TL-008-HEX8-COMPLETE-HISTORY",
+      "route": "total_lagrangian_elasticity",
+      "requirement": "G07-TL-008",
+      "classification": "BLOCKING",
+      "value": "full-family HEX8 correlation rather than one matched point",
+      "smallest_future_case": "Re-run the same HEX8 geometry/material/load in QF with full instrumented path and pinned Code_Aster; compare the common displacement/reaction history and only measures proven equivalent.",
+      "external_required": true
+    },
+    {
+      "gap_id": "G07-ARC-002-SENSITIVITY",
+      "route": "arc_length",
+      "requirement": "G07-ARC-002",
+      "classification": "BLOCKING",
+      "value": "demonstrate sensitivity rather than infer robustness from one nominal run",
+      "smallest_future_case": "Run nominal, smaller and larger documented arc radii on at least two compatible mesh levels; record branch curves, turning point and limitation without inventing a threshold.",
+      "external_required": false
+    },
+    {
+      "gap_id": "G07-ARC-003-RESTART-ROLLBACK",
+      "route": "arc_length",
+      "requirement": "G07-ARC-003",
+      "classification": "BLOCKING",
+      "value": "link existing route tests to a G07 evidence record",
+      "smallest_future_case": "Checkpoint one accepted arc step, force one controlled rejected step, compare pre-attempt/post-rollback digests, retry deterministically and archive the failure code and retry history.",
+      "external_required": false
+    },
+    {
+      "gap_id": "G07-POLICY-NULL-BANDS",
+      "route": "all",
+      "requirement": "G07-TL-001..003, G07-TL-005..007, G07-ARC-002, G07-ARC-004",
+      "classification": "VALUABLE_NONBLOCKING",
+      "value": "Owner governance of case-defined policies before a future promotion decision",
+      "smallest_future_case": "Owner review of the existing proposed policies; no numerical threshold is to be invented in Step A.",
+      "external_required": false
+    },
+    {
+      "gap_id": "G07-EXTERNAL-PER-STEP-RESIDUAL",
+      "route": "total_lagrangian_elasticity and arc_length",
+      "requirement": "G07-TL-004, G07-ARC-001, G07-ARC-004",
+      "classification": "VALUABLE_NONBLOCKING",
+      "value": "stronger cross-solver diagnostic comparability",
+      "smallest_future_case": "Request/export comparable external residual or convergence records for one already-compatible case; do not treat their absence as a QF residual PASS.",
+      "external_required": true
+    },
+    {
+      "gap_id": "G07-UNIVERSAL-MESH-RULE",
+      "route": "total_lagrangian_elasticity",
+      "requirement": "G07-TL-006",
+      "classification": "DEFER",
+      "value": "universal aspect-ratio/mesh threshold",
+      "smallest_future_case": "None within the bounded G07 work package; retain the observed-domain limitation.",
+      "external_required": false
+    },
+    {
+      "gap_id": "G07-UNRESTRICTED-DOMAIN",
+      "route": "total_lagrangian_elasticity",
+      "requirement": "G07-TL-003",
+      "classification": "DEFER",
+      "value": "unrestricted large-deformation or post-boundary claim",
+      "smallest_future_case": "Out of scope for this G07 bounded candidate; would require a separately approved campaign and potentially different physics/formulation evidence.",
+      "external_required": false
+    },
+    {
+      "gap_id": "G07-RESEARCH-FAMILIES",
+      "route": "total_lagrangian_elasticity",
+      "requirement": "scope",
+      "classification": "DEFER",
+      "value": "TET10/HEX20 qualification and finite-kinematic J2/coupled routes",
+      "smallest_future_case": "No case in G07 Step A; retain TET10/HEX20 as research and keep excluded routes outside the claim.",
+      "external_required": false
+    }
+  ],
+  "new_external_cases_required": {
+    "for_current_bounded_research_claim": [],
+    "before_formal_TL_promotion_or_G07_closeout": [
+      "TET4 complete compatible response-history comparison over the declared bounded domain",
+      "HEX8 complete QF/external response-history comparison with proven common observables"
+    ],
+    "arc_length": "No new external case is strictly required to retain the bounded PASS_INTERNAL_RESEARCH candidate; ARC-002 and ARC-003 remain internal evidence gaps."
+  },
+  "minimal_case_plan_for_step_b": [
+    {
+      "id": "G07-B-ARC-002",
+      "requirement": "G07-ARC-002",
+      "case": "Nominal/smaller/larger arc radius with at least two compatible mesh levels",
+      "expected_output": "branch curves, turning-point metrics, radius/mesh descriptors and explicit bounded limitation"
+    },
+    {
+      "id": "G07-B-ARC-003",
+      "requirement": "G07-ARC-003",
+      "case": "Checkpoint, one controlled rejection, rollback digest and deterministic retry",
+      "expected_output": "checkpoint digest, failure classification, rollback record and retry output digest"
+    },
+    {
+      "id": "G07-B-TL-008-TET4",
+      "requirement": "G07-TL-008",
+      "case": "Complete TET4 QF/Code_Aster bounded response history using the existing compatible deck",
+      "expected_output": "aligned displacement/reaction/load history, external provenance and limitations"
+    },
+    {
+      "id": "G07-B-TL-008-HEX8",
+      "requirement": "G07-TL-008",
+      "case": "Complete HEX8 QF instrumented path against the existing Code_Aster path",
+      "expected_output": "full common response history or an explicit retained matched-point limitation"
+    }
+  ],
+  "conclusion": {
+    "step_a_result": "PASS",
+    "g07_gate_decision": "NOT_DECIDED",
+    "g07_status_preserved": "NOT_STARTED",
+    "can_proceed_directly_to_owner_closeout": false,
+    "needs_step_b": true,
+    "reason": "The reconciliation is complete and G10 materially strengthens the bounded evidence, but TL-008 remains incomplete for both candidate families and ARC-002/ARC-003 are not packaged as executed G07 evidence."
+  }
+}
