@@ -21,7 +21,7 @@
     {"id": "WP02", "gate": "027-G02", "status": "PASS", "start_sha": "3058dbcf53967dc50f70814a71b4094d61023dda", "evidence_head": "8fc9a6eb1bac4b88c893d8d83d31aa77ce1d4a81", "owner_decision": "registry v2 contract"},
     {"id": "WP03", "gate": "027-G03", "status": "PASS", "start_sha": "ba6111a257ae567e496adcbcdc74de392dd66b6e", "evidence_head": "507e5c65cc7094eb7a362333b0e8f71d3cedf551", "owner_decision": "technical descriptor and fail-closed preflight"},
     {"id": "WP04", "gate": "027-G04", "status": "PASS", "start_sha": "684c39c72191d43c53e1f21043dc746d213a561d", "evidence_head": "2ee1cf54f3076427b32870e4ca98035431dfa654", "owner_decision": "additive declarative V&V harness v2"},
-    {"id": "WP05", "gate": "027-G05", "status": "PASS", "start_sha": "fb102e649235a276096b3a37e19eb61e19a5b43f", "evidence_head": "PENDING_WP05_COMMIT", "owner_decision": "external oracle preflight bounded PASS; no WEDGE6 correlation issued"},
+    {"id": "WP05", "gate": "027-G05", "status": "PASS", "start_sha": "fb102e649235a276096b3a37e19eb61e19a5b43f", "evidence_head": "e8a63e6f8ae05e79ab3d74fb3f33f193caf2f3ba", "owner_decision": "external oracle preflight bounded PASS; no WEDGE6 correlation issued"},
     {"id": "WP06", "gate": "027-G06", "status": "NOT_STARTED", "start_sha": null, "evidence_head": null},
     {"id": "WP07", "gate": "027-G07", "status": "NOT_STARTED", "start_sha": null, "evidence_head": null},
     {"id": "WP08", "gate": "027-G08", "status": "NOT_STARTED", "start_sha": null, "evidence_head": null},
