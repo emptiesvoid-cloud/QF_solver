@@ -174,12 +174,35 @@
       "id": "027-G12",
       "work_package": "WP12",
       "title": "Large-scale and 1M-DOF readiness",
-      "status": "NOT_STARTED",
+      "status": "PASS_WITH_LIMITATIONS",
       "depends_on": ["027-G02", "027-G04", "027-G06"],
       "go": ["size ladder and resource measures are reproducible", "resource limits are classified"],
       "stop": ["unqualified 1M claim", "missing hardware or topology context"],
       "evidence_required": ["timing/RAM/nnz/residual manifests", "verdict matrix"],
-      "files": ["0_2_7_1m_dof_plan.md"]
+      "files": [
+        "0_2_7_1m_dof_plan.md",
+        "0_2_7_large_scale_readiness.md",
+        "qualification/0_2_7/wp12_scaling_evidence.json",
+        "qualification/0_2_7/wp12_assembly_probe_300k.json",
+        "qualification/0_2_7/wp12_state.json",
+        "scripts/run_wp12_scaling.py",
+        "tests/unit/test_wp12_scaling.py"
+      ],
+      "source_sha": "4971ac4f6c1e5cff2ca48e40ca6db5e8147d0d0a",
+      "evidence": [
+        "qualification/0_2_7/wp12_scaling_evidence.json",
+        "qualification/0_2_7/wp12_assembly_probe_300k.json",
+        "docs/verification/0_2_7/0_2_7_large_scale_readiness.md"
+      ],
+      "owner_decision": "PROPOSED_OWNER_REVIEW",
+      "limitations": [
+        "matrix-free TET4 structured route completed through 750141 DOF",
+        "300k assembly-only probe; no 300k linear solve",
+        "SciPy large route configured limit is 200000 DOF",
+        "1M matrix-free probe is RESOURCE_LIMITED_TIME",
+        "PETSc/SLEPc unavailable in the measured environment",
+        "no universal scaling or 1M full-solve claim"
+      ]
     },
     {
       "id": "027-G13",

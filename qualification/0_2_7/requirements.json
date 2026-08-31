@@ -140,11 +140,18 @@
       "gate": "027-G12",
       "work_package": "WP12",
       "priority": "SHOULD",
-      "status": "PLANNED",
+      "status": "PASS_WITH_LIMITATIONS",
       "requirement": "Large-model readiness shall report time, memory, nnz, residual and topology at declared size levels.",
-      "acceptance": "Each size receives a bounded verdict; resource limitation is characterized rather than mislabeled as success.",
-      "verification": ["100k/300k/500k/1M probes", "resource manifest"],
-      "owner_policy": "PROPOSED_OWNER_REVIEW"
+      "acceptance": "Each size receives a bounded verdict; resource limitation is characterized rather than mislabeled as success. Matrix-free completion is demonstrated through 750141 DOF, 300k assembly is separately recorded, and the 1M attempt is explicitly resource-limited.",
+      "verification": [
+        "qualification/0_2_7/wp12_scaling_evidence.json",
+        "qualification/0_2_7/wp12_assembly_probe_300k.json",
+        "qualification/0_2_7/wp12_state.json",
+        "tests/unit/test_wp12_scaling.py"
+      ],
+      "owner_policy": "PROPOSED_OWNER_REVIEW",
+      "evidence_source_sha": "4971ac4f6c1e5cff2ca48e40ca6db5e8147d0d0a",
+      "limitations": "Owner closeout is pending; results are bounded to the generated structured TET4 linear-static topology and measured hardware/software environment."
     },
     {
       "id": "027-REQ-014",

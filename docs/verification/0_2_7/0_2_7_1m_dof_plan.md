@@ -39,3 +39,16 @@ Separate warm-up, I/O and compute timings.
 
 The last verdict is not an automatic release blocker when no public full-solve
 claim is made. It is also not a PASS for the missing capability.
+
+## WP12 evidence checkpoint
+
+The bounded campaign is recorded in
+`qualification/0_2_7/wp12_scaling_evidence.json` and the separate 300k
+assembly probe in `qualification/0_2_7/wp12_assembly_probe_300k.json`.
+Matrix-free CG completed the declared structured TET4 route through 750141
+DOF. The 300k probe reached 311469 DOF for assembly only. The 1M attempt was
+`RESOURCE_LIMITED_TIME`; SciPy retained its explicit 200000-DOF guard and the
+direct route was memory-limited at 107811 DOF. PETSc/SLEPc were unavailable in
+the measured environment. WP12 status is `PASS_WITH_LIMITATIONS` with
+`PROPOSED_OWNER_REVIEW` pending. No universal 1M or multi-million-DOF claim is
+made.

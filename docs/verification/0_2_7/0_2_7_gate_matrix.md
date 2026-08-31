@@ -18,7 +18,9 @@ for the additive mesh-quality diagnostic contract; it introduces no new
 numerical capability or universal quality cutoff. The WP07 row is technical
 kernel evidence only: WEDGE6 remains `EXPERIMENTAL` and is not publicly
 qualified. WP08 adds the bounded static vertical slice without changing that
-maturity.
+maturity. WP12 records bounded large-scale readiness evidence for the existing
+structured TET4 route; its Owner decision remains pending and its resource
+limits are not success claims.
 
 | Gate | Work package | Purpose | Dependencies | GO evidence | STOP conditions | Status |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -33,7 +35,7 @@ maturity.
 | `027-G09` | WP09 | WEDGE6 robustness and external V&V | G08 | mesh/distortion/adversarial/reproducible external evidence | unexplained divergence or weakened threshold | `NOT_STARTED` |
 | `027-G10` | WP10 | WEDGE6 modal evidence | G08-G09 | mass, modes, residual, mesh and replay evidence | static evidence transferred without modal proof | `NOT_STARTED` |
 | `027-G11` | WP11 | Existing maturity and J2 gaps | G01, G04, G06 | all-family J2/increment/tangent evidence | formulation change or relaxed acceptance | `NOT_STARTED` |
-| `027-G12` | WP12 | Large-scale readiness | G02, G04, G06 | declared size/resource measurements | universal 1M claim or uncharacterized failure | `NOT_STARTED` |
+| `027-G12` | WP12 | Large-scale readiness | G02, G04, G06 | declared size/resource measurements, bounded backend/resource verdicts and deterministic replay | universal 1M claim or uncharacterized failure | `PASS_WITH_LIMITATIONS` |
 | `027-G13` | WP13 | Research/stretch selection | relevant closed prerequisites | explicit Owner scope selection | scope creep or transitive promotion | `NOT_STARTED` |
 | `027-G14` | WP14 | Release closeout | G01-G13 as applicable | docs, full regression, package and Owner review | stale claim, provenance gap or regression | `NOT_STARTED` |
 
@@ -45,3 +47,16 @@ does not create a public qualification. WP09 robustness/external evidence and
 WP10 modal evidence remain required for their respective claims. G13 may
 remain open or deferred without blocking a bounded core release when its
 research routes are explicitly excluded.
+
+`027-G12` is `PASS_WITH_LIMITATIONS` for the declared structured TET4
+linear-static readiness scope. Matrix-free CG completed 100k through 750k
+target levels (actual maximum 750141 DOF); 300k assembly-only evidence reached
+311469 DOF; SciPy direct was resource-limited at 107811 DOF; higher SciPy
+levels were rejected by the configured 200000-DOF guard; and the 1M
+matrix-free attempt was time-limited after 600 seconds. These results are
+hardware- and topology-specific and do not qualify a universal 1M solve.
+The evidence is recorded in
+`qualification/0_2_7/wp12_scaling_evidence.json`,
+`qualification/0_2_7/wp12_assembly_probe_300k.json` and
+`0_2_7_large_scale_readiness.md`; `027-OD-005` remains
+`PROPOSED_OWNER_REVIEW`.

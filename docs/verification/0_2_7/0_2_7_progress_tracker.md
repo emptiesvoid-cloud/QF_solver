@@ -14,6 +14,8 @@ record completed foundation controls; WP07 records the Terra-authorized
 elemental WEDGE6 kernel and WP08 records its bounded static vertical slice.
 Its public maturity remains `EXPERIMENTAL`; the slice does not imply modal,
 robustness or external-correlation qualification.
+WP12 records bounded large-scale readiness evidence for the existing structured
+TET4 route; its Owner decision remains pending.
 
 | WP | Status | Current test level | Start SHA | Evidence head | Owner decision | Blocker |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -30,7 +32,7 @@ robustness or external-correlation qualification.
 | WP09 | `NOT_STARTED` | T0 not run | - | - | - | - |
 | WP10 | `NOT_STARTED` | T0 not run | - | - | - | - |
 | WP11 | `NOT_STARTED` | T0 not run | - | - | - | - |
-| WP12 | `NOT_STARTED` | T0 not run | - | - | - | - |
+| WP12 | `PASS_WITH_LIMITATIONS` | T1 targeted + bounded scaling | `4971ac4f6c1e5cff2ca48e40ca6db5e8147d0d0a` | `4971ac4f6c1e5cff2ca48e40ca6db5e8147d0d0a` | proposed Owner review | 300k assembly-only; 1M time-limited; SciPy/PETSc backend limits |
 | WP13 | `NOT_STARTED` | T0 not run | - | - | - | - |
 | WP14 | `NOT_STARTED` | T0 not run | - | - | - | - |
 
@@ -62,3 +64,11 @@ declared TRI3/QUAD4 face loads, common static assembly, equilibrium and
 post-processing are evidenced through the V&V v2 path. WEDGE6 remains
 `EXPERIMENTAL`; WP09 robustness/external evidence and WP10 modal evidence are
 the next gates.
+
+WP12 has completed a bounded readiness campaign at declared 100k, 300k, 500k,
+750k and 1M target levels. Matrix-free TET4 solves completed through 750141
+DOF, a separate 311469-DOF assembly-only probe recorded sparse storage and
+resource use, and the 1M attempt was classified `RESOURCE_LIMITED_TIME`.
+SciPy CG and direct routes retain their explicit configured/resource limits;
+PETSc/SLEPc were unavailable. The evidence is ready for Owner review and does
+not claim universal 1M or multi-million-DOF support.

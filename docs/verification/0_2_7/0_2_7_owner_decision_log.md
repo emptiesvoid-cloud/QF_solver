@@ -129,3 +129,16 @@ This decision does not promote WEDGE6: `COMB-WEDGE6-linear_static` remains
 `EXPERIMENTAL` and public qualification is `DEFERRED`. Modal/Newmark/harmonic,
 nonlinear, J2, TL, contact, robustness and external-correlation claims remain
 outside this gate and require their own evidence.
+
+## WP12 large-scale readiness checkpoint
+
+WP12 is recorded as `PASS_WITH_LIMITATIONS` for a bounded readiness study of
+the existing generated structured TET4 linear-static route. The campaign
+completed matrix-free CG through 750141 DOF, recorded a separate 311469-DOF
+assembly-only probe, and classified the 1M attempt as `RESOURCE_LIMITED_TIME`.
+SciPy CG/direct limits and PETSc/SLEPc unavailability are explicit. The
+optimization caches existing grouped connectivity and flattened DOF indices in
+the matrix-free operator; targeted numerical equivalence passes and no FEM
+formulation changed. This is evidence for `027-OD-005`, not an Owner closeout:
+the decision remains `PROPOSED_OWNER_REVIEW`, and no universal 1M claim is
+made.

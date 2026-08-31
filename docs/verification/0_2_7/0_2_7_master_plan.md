@@ -198,7 +198,8 @@ kernel; WP08-WP14 remain `NOT_STARTED`.
   scalability claim.
 - **Evidence required:** timing/RAM/nnz/residual manifests and verdict matrix.
 - **Files:** `0_2_7_1m_dof_plan.md` and benchmark outputs.
-- **Status:** `NOT_STARTED`.
+- **Status:** `PASS_WITH_LIMITATIONS`; bounded evidence recorded, Owner review
+  pending.
 
 ### WP13 - Research and stretch selection
 
