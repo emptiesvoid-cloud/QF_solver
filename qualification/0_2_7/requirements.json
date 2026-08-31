@@ -63,7 +63,7 @@
       "gate": "027-G05",
       "work_package": "WP05",
       "priority": "MUST",
-      "status": "PLANNED",
+      "status": "PASS",
       "requirement": "A C3D6/PENTA6 oracle shall be classified for availability and formulation comparability before WEDGE6 implementation.",
       "acceptance": "Comparable, unavailable and non-comparable states are explicit and reproducible.",
       "verification": ["tool preflight", "deck metadata audit"],

@@ -7,8 +7,8 @@
   "baseline_branch": "main",
   "foundation_branch": "dedicated 0.2.7 foundation branch",
   "baseline_worktree_clean_at_capture": true,
-  "foundation_status": "WP04_PASS",
-  "evidence_head": "2ee1cf54f3076427b32870e4ca98035431dfa654",
+  "foundation_status": "WP05_PASS",
+  "evidence_head": "PENDING_WP05_COMMIT",
   "current_development_head": "e99289aca40011ca0424944099e2d2093cf21a65",
   "current_development_branch": "dedicated 0.2.7 foundation branch",
   "parent_release": {
@@ -70,7 +70,29 @@
     "qualification/0_2_7/wp03_state.json",
     "docs/verification/0_2_7/0_2_7_vnv_harness_v2.md",
     "qualification/0_2_7/vnv_v2/sample_cases.json",
-    "qualification/0_2_7/vnv_v2/wp04_state.json"
+    "qualification/0_2_7/vnv_v2/wp04_state.json",
+    "qualification/0_2_7/external_oracles/wedge6/contract.json",
+    "qualification/0_2_7/external_oracles/wedge6/mapping.json",
+    "qualification/0_2_7/external_oracles/wedge6/specs/cases.json",
+    "qualification/0_2_7/external_oracles/wedge6/specs/WP05-B-uniaxial.json",
+    "qualification/0_2_7/external_oracles/wedge6/specs/WP05-C-shear.json",
+    "qualification/0_2_7/external_oracles/wedge6/specs/WP05-D-bending.json",
+    "qualification/0_2_7/external_oracles/wedge6/specs/WP05-E-tri-pressure.json",
+    "qualification/0_2_7/external_oracles/wedge6/specs/WP05-F-quad-pressure.json",
+    "qualification/0_2_7/external_oracles/wedge6/specs/WP05-G-mesh-refinement.json",
+    "qualification/0_2_7/external_oracles/wedge6/specs/WP05-H-distorted-prism.json",
+    "qualification/0_2_7/external_oracles/wedge6/decks/calculix/WP05-A-affine-patch.inp",
+    "qualification/0_2_7/external_oracles/wedge6/decks/code_aster/WP05-A-penta6-affine.mail",
+    "qualification/0_2_7/external_oracles/wedge6/decks/code_aster/WP05-A-penta6-affine.comm",
+    "qualification/0_2_7/external_oracles/wedge6/preflight_evidence.json",
+    "qualification/0_2_7/external_oracles/wedge6/results/calculix_affine.dat",
+    "qualification/0_2_7/external_oracles/wedge6/results/calculix_affine.frd",
+    "qualification/0_2_7/external_oracles/wedge6/results/calculix_affine.sta",
+    "qualification/0_2_7/external_oracles/wedge6/results/code_aster_penta6.log",
+    "qualification/0_2_7/external_oracles/wedge6/results/code_aster_penta6.med",
+    "qualification/0_2_7/wp05_state.json",
+    "docs/verification/0_2_7/0_2_7_wedge6_external_review.md",
+    "tests/unit/test_wedge6_external_preflight.py"
   ],
-  "status_rule": "A work package is PASS only when its declared evidence is recorded; WP01 and WP02 are PASS for their bounded foundation controls, and all other work packages remain NOT_STARTED."
+  "status_rule": "A work package is PASS only when its declared evidence is recorded; WP05 PASS records external deck preflight only and does not create a WEDGE6 capability or QF correlation."
 }

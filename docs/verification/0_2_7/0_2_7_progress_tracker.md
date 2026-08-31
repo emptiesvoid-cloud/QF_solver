@@ -9,8 +9,9 @@ approver: ""
 
 # 0.2.7 Progress Tracker
 
-This tracker records actual progress, not intent. WP01 through WP04 record
-completed foundation controls; no new numerical capability is implied.
+This tracker records actual progress, not intent. WP01 through WP05 record
+completed foundation controls; WP05 is limited to external deck preflight and
+does not imply a WEDGE6 implementation or QF correlation.
 
 | WP | Status | Current test level | Start SHA | Evidence head | Owner decision | Blocker |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -18,7 +19,7 @@ completed foundation controls; no new numerical capability is implied.
 | WP02 | `PASS` | T1 targeted | `3058dbcf53967dc50f70814a71b4094d61023dda` | pending commit | registry v2 contract | - |
 | WP03 | `PASS` | T1 targeted | `ba6111a257ae567e496adcbcdc74de392dd66b6e` | pending commit | descriptor and fail-closed preflight | - |
 | WP04 | `PASS` | T1 targeted | `684c39c72191d43c53e1f21043dc746d213a561d` | pending commit | declarative V&V harness v2 | - |
-| WP05 | `NOT_STARTED` | T0 not run | - | - | - | - |
+| WP05 | `PASS` | T1 targeted | `fb102e649235a276096b3a37e19eb61e19a5b43f` | `PENDING_WP05_COMMIT` | external oracle preflight bounded PASS; no WEDGE6 correlation | external tools local-only; QF WEDGE6 not implemented |
 | WP06 | `NOT_STARTED` | T0 not run | - | - | - | - |
 | WP07 | `NOT_STARTED` | T0 not run | - | - | - | - |
 | WP08 | `NOT_STARTED` | T0 not run | - | - | - | - |
@@ -48,4 +49,5 @@ The only baseline evidence inherited at foundation start is the controlled
 point, not a 0.2.7 result. WP01 is the first completed foundation control;
 WP02 is complete for the registry control; WP03 is complete for the descriptor
 and preflight control; WP04 is complete for the additive V&V harness control;
-WP05 is the next active action.
+WP05 has completed the controlled external-oracle preflight. WP06 is the next
+active action.
