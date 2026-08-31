@@ -41,7 +41,7 @@
       "gate": "027-G03",
       "work_package": "WP03",
       "priority": "MUST",
-      "status": "PLANNED",
+      "status": "PASS",
       "requirement": "Each descriptor shall declare topology, DOFs, faces, quadrature, loads and compatible routes.",
       "acceptance": "A supported combination is accepted and an unsupported combination is rejected explicitly.",
       "verification": ["descriptor schema", "negative preflight tests"],

@@ -35,6 +35,14 @@ schema, migration and generated-view checks. Inherited `QUALIFIED_BOUNDED`
 states remain bounded 0.2.6 scope; this work package introduces no new evidence
 or promotion.
 
+WP03 is a compatibility-engineering foundation control rather than a new
+capability qualification decision. Its descriptors describe technical routing
+for existing element families, while the v2 registry remains the source of
+maturity. The preflight is fail-closed and reports supported, experimental,
+non-qualified and unsupported routes distinctly. Targeted descriptor, workflow
+and analysis tests pass; no numerical source or Owner maturity decision was
+changed.
+
 An entry may be changed to an approved state only with a decision owner, exact
 evidence SHA, scope, limitations and date. No decision here reopens G07 or
 changes any 0.2.6 maturity classification.

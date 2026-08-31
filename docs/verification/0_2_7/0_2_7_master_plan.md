@@ -20,8 +20,8 @@ qualified 0.2.7 scope unless a future Owner decision explicitly changes it.
 
 The plan starts from the tagged 0.2.6 baseline
 `e839373b6aef291a93292186d7553ba5cd12af55`. WP01 release truth and
-provenance is `PASS`; WP02 registry control is now `PASS`; all remaining work
-packages are `NOT_STARTED`.
+provenance is `PASS`; WP02 registry control is `PASS`; WP03 descriptor and
+preflight control is `PASS`; all remaining work packages are `NOT_STARTED`.
 
 ## Work packages and STOP/GO criteria
 
@@ -66,7 +66,8 @@ packages are `NOT_STARTED`.
 - **Evidence required:** descriptor schema, accept/reject table and negative
   tests.
 - **Files:** descriptor contract, preflight evidence and targeted tests.
-- **Status:** `NOT_STARTED`.
+- **Status:** `PASS` for the technical descriptor and preflight control; no
+  numerical capability was promoted.
 
 ### WP04 - Declarative V&V harness
 

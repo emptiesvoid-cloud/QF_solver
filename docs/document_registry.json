@@ -4360,6 +4360,20 @@
       "tests": [
         "tests/unit/test_capability_registry_v2.py"
       ]
+    },
+    {
+      "id": "DOC-027-017",
+      "path": "verification/0_2_7/0_2_7_element_descriptor_preflight.md",
+      "title": "0.2.7 element descriptors and compatibility preflight",
+      "status": "controlled_candidate",
+      "requirements": ["027-REQ-004"],
+      "examples": [
+        "qualification/0_2_7/wp03_state.json",
+        "qualification/0_2_7/capability_registry_v2.json"
+      ],
+      "tests": [
+        "tests/unit/test_element_descriptor_preflight.py"
+      ]
     }
   ]
 }
