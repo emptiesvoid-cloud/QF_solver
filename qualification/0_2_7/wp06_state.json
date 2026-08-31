@@ -4,7 +4,7 @@
   "gate": "027-G06",
   "status": "PASS",
   "start_sha": "884637a60bc752c1d02644fe4d14ae056a2876b8",
-  "evidence_head": "WP06_PENDING_COMMIT",
+  "evidence_head": "c3989df875bcb385bb8e3b144380526db8151d55",
   "source_change": {
     "numerical_formulation": false,
     "solver": false,
