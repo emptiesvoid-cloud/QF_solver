@@ -1,0 +1,177 @@
+{
+  "schema_version": 1,
+  "release": "0.2.7a0",
+  "baseline_sha": "e839373b6aef291a93292186d7553ba5cd12af55",
+  "requirements": [
+    {
+      "id": "027-REQ-001",
+      "gate": "027-G01",
+      "work_package": "WP01",
+      "priority": "MUST",
+      "status": "PLANNED",
+      "requirement": "The release, branch, source SHA, evidence SHA and tag roles shall be machine-readable and non-ambiguous.",
+      "acceptance": "Exact baseline and clean-state record; no historical evidence is presented as current.",
+      "verification": ["manifest schema check", "git provenance audit"],
+      "owner_policy": "EXISTING_POLICY_OR_PROPOSED_OWNER_REVIEW"
+    },
+    {
+      "id": "027-REQ-002",
+      "gate": "027-G01",
+      "work_package": "WP01",
+      "priority": "MUST",
+      "status": "PLANNED",
+      "requirement": "Package version, documentation status and future tag contract shall agree before release review.",
+      "acceptance": "Version contract passes without claiming publication before publication.",
+      "verification": ["metadata audit", "public claim audit"],
+      "owner_policy": "EXISTING_RELEASE_POLICY"
+    },
+    {
+      "id": "027-REQ-003",
+      "gate": "027-G02",
+      "work_package": "WP02",
+      "priority": "MUST",
+      "status": "PLANNED",
+      "requirement": "Public capability records shall be unique at element, analysis, material and route granularity.",
+      "acceptance": "No duplicate, orphan or source-unregistered public combination.",
+      "verification": ["registry validator", "source sentinel audit"],
+      "owner_policy": "EXISTING_CAPABILITY_POLICY"
+    },
+    {
+      "id": "027-REQ-004",
+      "gate": "027-G03",
+      "work_package": "WP03",
+      "priority": "MUST",
+      "status": "PLANNED",
+      "requirement": "Each descriptor shall declare topology, DOFs, faces, quadrature, loads and compatible routes.",
+      "acceptance": "A supported combination is accepted and an unsupported combination is rejected explicitly.",
+      "verification": ["descriptor schema", "negative preflight tests"],
+      "owner_policy": "PROPOSED_OWNER_REVIEW"
+    },
+    {
+      "id": "027-REQ-005",
+      "gate": "027-G04",
+      "work_package": "WP04",
+      "priority": "MUST",
+      "status": "PLANNED",
+      "requirement": "The new V&V harness shall execute declared cases without arbitrary commands or changes to old numerical routes.",
+      "acceptance": "Fixture replay, manifest, digest and failure classification are deterministic.",
+      "verification": ["schema tests", "fixture replay", "T1/T2 evidence"],
+      "owner_policy": "EXISTING_VNV_ARCHITECTURE_POLICY"
+    },
+    {
+      "id": "027-REQ-006",
+      "gate": "027-G05",
+      "work_package": "WP05",
+      "priority": "MUST",
+      "status": "PLANNED",
+      "requirement": "A C3D6/PENTA6 oracle shall be classified for availability and formulation comparability before WEDGE6 implementation.",
+      "acceptance": "Comparable, unavailable and non-comparable states are explicit and reproducible.",
+      "verification": ["tool preflight", "deck metadata audit"],
+      "owner_policy": "PROPOSED_OWNER_REVIEW"
+    },
+    {
+      "id": "027-REQ-007",
+      "gate": "027-G06",
+      "work_package": "WP06",
+      "priority": "MUST",
+      "status": "PLANNED",
+      "requirement": "Mesh quality shall retain Jacobian, orientation, volume, distortion and conditioning diagnostics where available.",
+      "acceptance": "Invalid and near-invalid meshes fail closed; no universal aspect-ratio cutoff is inferred.",
+      "verification": ["quality metrics", "invalid mesh tests", "distortion study"],
+      "owner_policy": "PROPOSED_OWNER_REVIEW"
+    },
+    {
+      "id": "027-REQ-008",
+      "gate": "027-G07",
+      "work_package": "WP07",
+      "priority": "MUST",
+      "status": "PLANNED",
+      "requirement": "WEDGE6 formulation and implementation scope shall be reviewed before its kernel is implemented.",
+      "acceptance": "Shape functions, integration, faces, loads, post-processing, mixed-mesh boundary and oracle are accepted.",
+      "verification": ["derivation review", "patch-test plan", "Owner/Solver decision"],
+      "owner_policy": "PROPOSED_OWNER_REVIEW"
+    },
+    {
+      "id": "027-REQ-009",
+      "gate": "027-G08",
+      "work_package": "WP08",
+      "priority": "MUST",
+      "status": "PLANNED",
+      "requirement": "The WEDGE6 static vertical slice shall cover import, assembly, boundary faces, loads, reactions and post-processing.",
+      "acceptance": "Declared static cases pass their predeclared checks with reproducible artifacts.",
+      "verification": ["patch/constant-strain cases", "Gmsh case", "reaction/equilibrium cases"],
+      "owner_policy": "EXISTING_POLICY_OR_PROPOSED_OWNER_REVIEW"
+    },
+    {
+      "id": "027-REQ-010",
+      "gate": "027-G09",
+      "work_package": "WP09",
+      "priority": "MUST",
+      "status": "PLANNED",
+      "requirement": "WEDGE6 robustness evidence shall cover quality, distortion, orientation, failure paths and comparable external observables.",
+      "acceptance": "Unexplained divergence blocks promotion; unavailable or incompatible external runs remain explicit.",
+      "verification": ["mesh matrix", "adversarial cases", "external comparison"],
+      "owner_policy": "PROPOSED_OWNER_REVIEW"
+    },
+    {
+      "id": "027-REQ-011",
+      "gate": "027-G10",
+      "work_package": "WP10",
+      "priority": "SHOULD",
+      "status": "PLANNED",
+      "requirement": "WEDGE6 modal maturity shall be established independently from static maturity.",
+      "acceptance": "Mass convention, first-mode quality, eigenpair residual, refinement and replay are recorded.",
+      "verification": ["modal reference", "mode/replay cases"],
+      "owner_policy": "PROPOSED_OWNER_REVIEW"
+    },
+    {
+      "id": "027-REQ-012",
+      "gate": "027-G11",
+      "work_package": "WP11",
+      "priority": "MUST",
+      "status": "PLANNED",
+      "requirement": "Existing small-strain J2 evidence gaps shall be addressed across the already supported solid families without changing formulation.",
+      "acceptance": "Tangent, increment, rollback, energy and failure evidence are bounded and traceable.",
+      "verification": ["TET4/TET10/HEX8/HEX20 targeted cases", "Owner review"],
+      "owner_policy": "EXISTING_G06_POLICY"
+    },
+    {
+      "id": "027-REQ-013",
+      "gate": "027-G12",
+      "work_package": "WP12",
+      "priority": "SHOULD",
+      "status": "PLANNED",
+      "requirement": "Large-model readiness shall report time, memory, nnz, residual and topology at declared size levels.",
+      "acceptance": "Each size receives a bounded verdict; resource limitation is characterized rather than mislabeled as success.",
+      "verification": ["100k/300k/500k/1M probes", "resource manifest"],
+      "owner_policy": "PROPOSED_OWNER_REVIEW"
+    },
+    {
+      "id": "027-REQ-014",
+      "gate": "027-G13",
+      "work_package": "WP13",
+      "priority": "COULD",
+      "status": "PLANNED",
+      "requirement": "Research/stretch work shall be selected by explicit Owner decision and shall not enter the core claim transitively.",
+      "acceptance": "Each selected experiment has a bounded result or explicit non-qualification.",
+      "verification": ["decision log", "risk review"],
+      "owner_policy": "PROPOSED_OWNER_REVIEW"
+    },
+    {
+      "id": "027-REQ-015",
+      "gate": "027-G14",
+      "work_package": "WP14",
+      "priority": "MUST",
+      "status": "PLANNED",
+      "requirement": "A 0.2.7 release candidate shall have coherent public documentation, package artifacts, regression evidence and Owner scope.",
+      "acceptance": "No stale claim, missing evidence head, package drift or unclassified public capability remains.",
+      "verification": ["T3 release sweep", "archive audit", "Owner closeout"],
+      "owner_policy": "EXISTING_RELEASE_POLICY"
+    }
+  ],
+  "policy": {
+    "new_numeric_thresholds": "PROPOSED_OWNER_REVIEW",
+    "no_threshold_is_invented_from_future_results": true,
+    "planned_cases_are_not_evidence": true
+  }
+}

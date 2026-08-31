@@ -1,11 +1,18 @@
 # Changelog
 
-## 0.2.6a0 - Unreleased
+## 0.2.7a0 - Planned
 
-This development cycle starts the V&V, maturity and architecture foundation.
-It adds no new FEM physics or qualified numerical capability: the work is
-limited to controlled registries, safe evidence execution, provenance guards,
-baseline snapshots, audit documentation and planned gate work.
+The 0.2.7a0 foundation is planned around prismatic-solid interoperability and
+numerical robustness. The controlled planning pack is available in
+[`docs/verification/0_2_7/README.md`](docs/verification/0_2_7/README.md).
+This entry records direction only: no WEDGE6 implementation, new physics,
+qualification result, tag or publication is implied.
+
+## 0.2.6a0 - Tagged source baseline
+
+The 0.2.6a0 tagged source baseline records the V&V, maturity and architecture
+foundation. Its gate decisions and qualification evidence are historical for
+the 0.2.6 release and are not 0.2.7 execution evidence.
 
 ## 0.2.5a0 — 2026-08-28
 

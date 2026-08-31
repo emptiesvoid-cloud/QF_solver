@@ -1,0 +1,171 @@
+{
+  "schema_version": 1,
+  "release": "0.2.7a0",
+  "theme": "Prismatic Solid Interoperability and Numerical Robustness",
+  "baseline_sha": "e839373b6aef291a93292186d7553ba5cd12af55",
+  "baseline_branch": "main",
+  "foundation_status": "NOT_STARTED",
+  "source_change_authorized_by_foundation": false,
+  "gates": [
+    {
+      "id": "027-G01",
+      "work_package": "WP01",
+      "title": "Release truth and provenance",
+      "status": "NOT_STARTED",
+      "depends_on": [],
+      "go": ["exact baseline and version are recorded", "clean-state and SHA roles are explicit"],
+      "stop": ["SHA/tag/version mismatch", "historical evidence silently reused as current evidence"],
+      "evidence_required": ["baseline manifest", "release-state audit", "provenance checklist"],
+      "files": ["qualification/0_2_7/manifest.json"]
+    },
+    {
+      "id": "027-G02",
+      "work_package": "WP02",
+      "title": "Capability registry v2",
+      "status": "NOT_STARTED",
+      "depends_on": ["027-G01"],
+      "go": ["unique combination identifiers", "implementation and evidence cross-check passes"],
+      "stop": ["maturity inferred from source presence", "duplicate or orphan public row"],
+      "evidence_required": ["registry schema", "migration mapping", "audit output"],
+      "files": ["qualification/0_2_7/requirements.json"]
+    },
+    {
+      "id": "027-G03",
+      "work_package": "WP03",
+      "title": "Element descriptors and compatibility preflight",
+      "status": "NOT_STARTED",
+      "depends_on": ["027-G02"],
+      "go": ["supported combinations are accepted deterministically", "unsupported combinations are explicit"],
+      "stop": ["default numerical behavior changes", "public API break", "implicit fallback"],
+      "evidence_required": ["descriptor schema", "accept/reject matrix", "negative tests"],
+      "files": ["0_2_7_wedge6_plan.md"]
+    },
+    {
+      "id": "027-G04",
+      "work_package": "WP04",
+      "title": "Declarative V&V harness",
+      "status": "NOT_STARTED",
+      "depends_on": ["027-G01", "027-G02"],
+      "go": ["additive case schema", "manifest and digest replay is deterministic"],
+      "stop": ["arbitrary command execution", "old evidence is lost", "solver route is changed"],
+      "evidence_required": ["schema tests", "fixture replay", "migration boundary"],
+      "files": ["0_2_7_vnv_strategy.md", "0_2_7_test_policy.md"]
+    },
+    {
+      "id": "027-G05",
+      "work_package": "WP05",
+      "title": "C3D6/PENTA6 external oracle preflight",
+      "status": "NOT_STARTED",
+      "depends_on": ["027-G01", "027-G02"],
+      "go": ["tool/version and deck are reproducible", "kinematics and observables are comparable"],
+      "stop": ["unavailable tool is reported as PASS", "ambiguous node or face map"],
+      "evidence_required": ["preflight report", "deck metadata", "availability classification"],
+      "files": ["0_2_7_external_oracle_plan.md"]
+    },
+    {
+      "id": "027-G06",
+      "work_package": "WP06",
+      "title": "Mesh quality and distortion contract",
+      "status": "NOT_STARTED",
+      "depends_on": ["027-G02", "027-G03"],
+      "go": ["quality metrics and invalid cases are defined", "Owner policy is explicit"],
+      "stop": ["universal aspect-ratio cutoff", "quality represented by one scalar only"],
+      "evidence_required": ["quality schema", "controlled mesh set", "failure tests"],
+      "files": ["0_2_7_mesh_quality_plan.md"]
+    },
+    {
+      "id": "027-G07",
+      "work_package": "WP07",
+      "title": "WEDGE6 formulation design and review",
+      "status": "NOT_STARTED",
+      "depends_on": ["027-G03", "027-G05", "027-G06"],
+      "go": ["formulation, integration, faces, loads and oracle are reviewed"],
+      "stop": ["kernel implementation starts without design review", "mixed mesh support is assumed"],
+      "evidence_required": ["derivation", "patch-test plan", "design review decision"],
+      "files": ["0_2_7_wedge6_plan.md"]
+    },
+    {
+      "id": "027-G08",
+      "work_package": "WP08",
+      "title": "WEDGE6 static vertical slice",
+      "status": "NOT_STARTED",
+      "depends_on": ["027-G07"],
+      "go": ["static, Gmsh, face/load, reaction and post checks pass"],
+      "stop": ["silent unsupported input", "missing face/load contract", "unproven result"],
+      "evidence_required": ["case manifest", "analytical checks", "maintained smoke"],
+      "files": ["0_2_7_vnv_strategy.md"]
+    },
+    {
+      "id": "027-G09",
+      "work_package": "WP09",
+      "title": "WEDGE6 robustness and external V&V",
+      "status": "NOT_STARTED",
+      "depends_on": ["027-G08"],
+      "go": ["mesh/distortion and external evidence support a bounded claim"],
+      "stop": ["unexplained divergence", "weakened criterion", "false external PASS"],
+      "evidence_required": ["internal and external manifests", "negative cases", "Owner classification"],
+      "files": ["0_2_7_external_oracle_plan.md", "0_2_7_mesh_quality_plan.md"]
+    },
+    {
+      "id": "027-G10",
+      "work_package": "WP10",
+      "title": "WEDGE6 modal evidence",
+      "status": "NOT_STARTED",
+      "depends_on": ["027-G08", "027-G09"],
+      "go": ["mass, modes, residual, refinement and replay are independently evidenced"],
+      "stop": ["static result transferred to dynamics without proof", "rigid modes or mass convention hidden"],
+      "evidence_required": ["modal contract", "eigenpair records", "replay manifest"],
+      "files": ["0_2_7_vnv_strategy.md"]
+    },
+    {
+      "id": "027-G11",
+      "work_package": "WP11",
+      "title": "Existing capability maturity and J2 gaps",
+      "status": "NOT_STARTED",
+      "depends_on": ["027-G01", "027-G04", "027-G06"],
+      "go": ["existing small-strain J2 gaps are closed or bounded without formulation change"],
+      "stop": ["finite-kinematic promotion", "weakened tolerance", "tangent or default-path change"],
+      "evidence_required": ["all-family records", "predeclared policies", "Owner decision"],
+      "files": ["0_2_7_j2_gap_closure.md"]
+    },
+    {
+      "id": "027-G12",
+      "work_package": "WP12",
+      "title": "Large-scale and 1M-DOF readiness",
+      "status": "NOT_STARTED",
+      "depends_on": ["027-G02", "027-G04", "027-G06"],
+      "go": ["size ladder and resource measures are reproducible", "resource limits are classified"],
+      "stop": ["unqualified 1M claim", "missing hardware or topology context"],
+      "evidence_required": ["timing/RAM/nnz/residual manifests", "verdict matrix"],
+      "files": ["0_2_7_1m_dof_plan.md"]
+    },
+    {
+      "id": "027-G13",
+      "work_package": "WP13",
+      "title": "Research and stretch selection",
+      "status": "NOT_STARTED",
+      "depends_on": ["027-G06", "027-G09", "027-G10", "027-G11", "027-G12"],
+      "go": ["Owner selects a bounded experiment", "research status remains explicit"],
+      "stop": ["scope creep", "transitive promotion", "new physics enters core claim"],
+      "evidence_required": ["choice record", "risk review", "non-qualification statement"],
+      "files": ["0_2_7_owner_decision_log.md"]
+    },
+    {
+      "id": "027-G14",
+      "work_package": "WP14",
+      "title": "Documentation, regression and Owner release review",
+      "status": "NOT_STARTED",
+      "depends_on": ["027-G01", "027-G02", "027-G03", "027-G04", "027-G05", "027-G06", "027-G07", "027-G08", "027-G09", "027-G10", "027-G11", "027-G12", "027-G13"],
+      "go": ["public claims, package, docs, regression and archive are coherent"],
+      "stop": ["stale claim", "missing manifest", "regression", "dirty release tree"],
+      "evidence_required": ["final test matrix", "archive audit", "Owner release decision"],
+      "files": ["0_2_7_release_criteria.md"]
+    }
+  ],
+  "policy": {
+    "planned_is_not_evidence": true,
+    "external_unavailable_is_not_pass": true,
+    "new_thresholds": "PROPOSED_OWNER_REVIEW",
+    "source_and_evidence_shas_are_separate": true
+  }
+}
