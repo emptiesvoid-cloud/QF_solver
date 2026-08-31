@@ -71,6 +71,7 @@ not part of this WP07 targeted checkpoint.
 
 ## Provenance
 
+- Implementation source SHA: `9c23706e952262ab8ee71d85c809e46d7abab8b7`
 - State: `qualification/0_2_7/wp07_state.json`
 - Case catalog: `qualification/0_2_7/vnv_v2/wp07_cases.json`
 - Evidence: `qualification/0_2_7/vnv_v2/wp07_evidence.json`
