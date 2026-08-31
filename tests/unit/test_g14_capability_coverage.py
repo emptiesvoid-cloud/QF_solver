@@ -57,13 +57,15 @@ def test_g14_records_no_capability_gap_and_keeps_cleanup_explicit() -> None:
     }
 
 
-def test_g14_gate_is_closed_with_g15_still_open() -> None:
+def test_g14_gate_is_closed_with_g15_release_review_passed() -> None:
     gates = _load(GATES_PATH)["gates"]
     by_id = {gate["id"]: gate for gate in gates}
 
     assert by_id["026-G14"]["status"] == "PASS_WITH_LIMITATIONS"
     assert by_id["026-G14"]["full_regression"] == "SKIPPED_BY_POLICY"
-    assert by_id["026-G15"]["status"] == "NOT_STARTED"
+    assert by_id["026-G15"]["status"] == "PASS"
+    assert by_id["026-G15"]["release_review"] == "PASS"
+    assert by_id["026-G15"]["release_sha"] == "93561c2c0ae1c173deb81e47c3fa3852643275cb"
 
 
 def test_g14_preserves_sensitive_owner_status_guardrails() -> None:

@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "audit_id": "026-G15-FINAL-RELEASE-SWEEP-001",
+  "gate": "026-G15",
+  "status": "PASS",
+  "owner_decision": "PASS",
+  "release": {
+    "version": "0.2.6a0",
+    "qualified_source_sha": "93561c2c0ae1c173deb81e47c3fa3852643275cb",
+    "tag": "v0.2.6a0",
+    "tag_target": "93561c2c0ae1c173deb81e47c3fa3852643275cb"
+  },
+  "checks": {
+    "version_consistent": true,
+    "sdist_build": "PASS",
+    "wheel_build": "PASS",
+    "package_content_audit": "PASS",
+    "wheel_clean_install": "PASS",
+    "sdist_clean_install": "PASS",
+    "public_imports": "PASS",
+    "cli_version": "QF_solver 0.2.6a0",
+    "smoke_solver": "PASS",
+    "registry": "PASS",
+    "anti_forgetting": "PASS",
+    "architecture": "PASS",
+    "documentation": "PASS",
+    "release_tests": "26 passed",
+    "full_regression": {
+      "status": "REUSED_PRE_G15_EVIDENCE",
+      "passed": 1887,
+      "skipped": 184,
+      "failed": 0
+    },
+    "failures": 0,
+    "numerical_regression": false,
+    "public_claims_safe": true,
+    "owner_decisions_preserved": true
+  },
+  "control_artifacts": {
+    "wheel": {
+      "sha256": "588571711cc72ad2426dce44bd7b0d6abddfe4b53693c672531a8a6a4b3c1530",
+      "size": 1274290
+    },
+    "sdist": {
+      "sha256": "369e9a952fbcf76fb7f4b8bba82c81989a052b0fb9ede139b2cd65461b775b10",
+      "size": 941272
+    }
+  },
+  "publication_state": {
+    "git_tag": "PRESENT",
+    "github_release": "NOT_CREATED",
+    "pypi": "NOT_PUBLISHED"
+  },
+  "limitations": [
+    "The full regression count is reused from applicable pre-G15 evidence because no executable source changed during the final sweep.",
+    "This release-state record does not assert PyPI publication or a GitHub Release."
+  ]
+}

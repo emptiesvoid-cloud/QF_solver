@@ -17,7 +17,7 @@
 | `026-G12` | Performance / scalability | PASS_WITH_LIMITATIONS |
 | `026-G13` | External correlation aggregation | PASS_WITH_LIMITATIONS |
 | `026-G14` | Full regression / architecture freeze | PASS_WITH_LIMITATIONS |
-| `026-G15` | Owner release review | NOT_STARTED |
+| `026-G15` | Owner release review | PASS |
 
 G00 is a refactor guard with an explicit dirty-worktree limitation, not a replacement for immutable 0.2.5 evidence. G01-G03 close only audit, infrastructure and corpus design. Capability-gate outcomes are not implied by this foundation.
 
@@ -97,6 +97,12 @@ registry contains 33 public capabilities and 44 public element-analysis
 mappings, with no unregistered implementation, duplicate capability or
 unbounded public maturity claim found. The audit is recorded in
 `qualification/0_2_6/g14_capability_coverage.json` and
-`qualification/0_2_6/g14_owner_closeout.json`. Full regression is
-`SKIPPED_BY_POLICY` here; the documented 18 historical failures and release
-state findings remain cleanup items, and G15 remains the release Owner review.
+`qualification/0_2_6/g14_owner_closeout.json`. Full regression was
+`SKIPPED_BY_POLICY` for G14; the subsequent G15 release sweep reused the
+applicable `1887 passed / 184 skipped / 0 failed` evidence and completed the
+release review. The G14 cleanup findings remain historical records.
+
+`026-G15` is closed as `PASS` by the final release sweep recorded in
+`qualification/0_2_6/g15_release_sweep.json`. The Git tag `v0.2.6a0` targets
+qualified source SHA `93561c2c0ae1c173deb81e47c3fa3852643275cb`. The release
+state does not claim a GitHub Release or PyPI publication.

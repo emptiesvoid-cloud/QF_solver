@@ -11,13 +11,16 @@ configuration recorded by its evidence.
 ## Current maturity
 
 - **Current version:** `0.2.6a0`
-- **Release status:** Release candidate / pre-release
-- **Qualification status:** bounded qualification is being finalized; the
-  individual gate and capability statuses remain authoritative.
+- **Release status:** Released on Git as `v0.2.6a0`; PyPI publication remains pending
+- **Qualification status:** bounded qualification is recorded within the
+  documented scope; the individual gate and capability statuses remain
+  authoritative.
+- **Qualification snapshot:** `93561c2c0ae1c173deb81e47c3fa3852643275cb`
 
-This candidate is not yet published on PyPI. Evidence packages record their
-own qualified source SHA and artifact manifests; the current gate snapshot is
-maintained in [`qualification/0_2_6/gates.json`](qualification/0_2_6/gates.json).
+The Git release is available at `v0.2.6a0`. This release-state update does not
+claim PyPI availability. Evidence packages record their own qualified source
+SHA and artifact manifests; the current gate snapshot is maintained in
+[`qualification/0_2_6/gates.json`](qualification/0_2_6/gates.json).
 
 | Maturity | Meaning | Current examples |
 | --- | --- | --- |
@@ -29,7 +32,7 @@ maintained in [`qualification/0_2_6/gates.json`](qualification/0_2_6/gates.json)
 Current gate status is maintained in
 [`qualification/0_2_6/gates.json`](qualification/0_2_6/gates.json): G00-G03 are
 `PASS`, G04-G13 are `PASS_WITH_LIMITATIONS`, G14 is
-`PASS_WITH_LIMITATIONS`, and G15 is `NOT_STARTED`.
+`PASS_WITH_LIMITATIONS`, and G15 is `PASS`.
 G07 remains explicitly bounded by its Owner closeout; gate status does not
 expand the scope of an individual capability.
 
@@ -126,9 +129,9 @@ missing functionality:
   and analysis.
 - External correlation can be unavailable or non-comparable and must then be
   recorded as such; it is not silently treated as a pass.
-- The current 0.2.6 cycle has completed the G14 capability-coverage audit with
-  limitations; the release cleanup/full regression and Owner-release gate G15
-  remain.
+- The current 0.2.6 cycle has completed the G14 capability-coverage audit and
+  the G15 Owner release review; the release remains bounded by the documented
+  gate and capability limitations.
 - No claim of certification, general physical validation, production
   readiness, industrial equivalence or replacement of another solver is made.
 
@@ -146,21 +149,22 @@ python -m pip install qf-solver==0.2.5a0
 qf-solver --version
 ```
 
-### 0.2.6a0 release candidate
+### 0.2.6a0 Git release
 
-The release candidate is not available from PyPI yet. Install the reviewed
-candidate from its repository checkout:
+The `0.2.6a0` release is available from Git at tag `v0.2.6a0`. It is not
+available from PyPI yet. Install the exact tagged source:
 
 ```powershell
 git clone https://github.com/emptiesvoid-cloud/QF_solver.git
 Set-Location QF_solver
+git checkout v0.2.6a0
 python -m pip install -e ".[test]"
 qf-solver --version
 ```
 
-The exact candidate is identified by the reviewed commit and its evidence
-manifests. The future Git tag is `v0.2.6a0`; no tag or publication is implied
-by this installation method.
+The tagged release state is identified by the qualification snapshot
+`93561c2c0ae1c173deb81e47c3fa3852643275cb` and its evidence manifests. PyPI
+publication remains a separate action and is not claimed here.
 
 Optional extras are available for mesh tooling, documentation and optional
 PETSc/SLEPc/MPI environments:
@@ -209,25 +213,19 @@ is retained for compatibility. Useful CLI entry points include `solve`,
 
 ## Release status and finalization
 
-`0.2.6a0` is currently a release candidate / pre-release focused on maturity,
-reproducibility, architecture and controlled V&V. It is not yet released.
+`0.2.6a0` is released on Git as `v0.2.6a0`, with a bounded scope focused on
+maturity, reproducibility, architecture and controlled V&V. PyPI publication
+is separate and is not claimed by this repository state.
 
-Before publication:
-
-```text
-Release status: Release candidate
-```
-
-After publication, this block can be completed with the actual release data:
+Current release state:
 
 ```text
 Release status: Released
-Release date: YYYY-MM-DD
 Tag: v0.2.6a0
-Qualification SHA: <recorded qualified source SHA>
+Qualification SHA: 93561c2c0ae1c173deb81e47c3fa3852643275cb
+PyPI status: Not published
 ```
 
-Until then, no release date, tag or PyPI availability should be inferred.
 The authoritative qualification snapshot is identified by each evidence
 package's recorded source SHA and artifact manifests.
 
@@ -254,7 +252,7 @@ python -m compileall -q src scripts tests qf_solver.py
 | `0.2.3a0` | HEX8/HEX20, Gmsh import and expanded TET/HEX benchmarks. |
 | `0.2.4a0` | Shared small-strain J2, Full Newton, consistent tangent and state transactions. |
 | `0.2.5a0` | Historical bounded qualification work for J2, TL elasticity, buckling, contact and failure modes. |
-| `0.2.6a0` | Development cycle for maturity, reproducibility, controlled V&V and architecture. |
+| `0.2.6a0` | Git release for maturity, reproducibility, controlled V&V and architecture. |
 
 See [`CHANGELOG.md`](CHANGELOG.md) for the detailed release history.
 
