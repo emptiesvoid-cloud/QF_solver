@@ -277,16 +277,29 @@
       "full_regression": "SKIPPED_BY_POLICY",
       "capability_coverage": "PASS",
       "limitations": [
-        "Capability coverage is complete and bounded, but the release-wide full regression remains a release-cleanup item.",
+        "Capability coverage is complete and bounded; the G14 snapshot did not itself execute the release-wide full regression, which was handled by the subsequent G15 sweep.",
         "Historical failure groups remain documented and are not silently converted to PASS.",
-        "G15 Owner release review remains required before publication."
+        "The G14 closeout predates the subsequent G15 release review; its historical cleanup limitation is retained."
       ]
     },
     {
-      "evidence_ids": [],
+      "evidence_ids": [
+        "g15_release_sweep.json",
+        "publication_audit_0_2_6.json"
+      ],
       "id": "026-G15",
-      "status": "NOT_STARTED",
-      "title": "Owner release review"
+      "status": "PASS",
+      "title": "Owner release review",
+      "owner_closeout": true,
+      "release_review": "PASS",
+      "release_sha": "93561c2c0ae1c173deb81e47c3fa3852643275cb",
+      "tag": "v0.2.6a0",
+      "version": "0.2.6a0",
+      "full_regression": "REUSED_PRE_G15_EVIDENCE",
+      "publication_state": {
+        "github_release": "NOT_CREATED",
+        "pypi": "NOT_PUBLISHED"
+      }
     }
   ],
   "schema_version": 1

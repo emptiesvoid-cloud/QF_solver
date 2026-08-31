@@ -20,20 +20,22 @@ qf-solver --version
 
 La distribution standard ne rend pas PETSc, SLEPc ou MPI obligatoires.
 
-## 0.2.6a0 release candidate
+## 0.2.6a0 Git release
 
-The `0.2.6a0` release candidate is not available from PyPI yet. Install the
-reviewed candidate from its repository checkout:
+The `0.2.6a0` release is available from Git at tag `v0.2.6a0`, but is not
+available from PyPI yet. Install the exact tagged source:
 
 ```powershell
 git clone https://github.com/emptiesvoid-cloud/QF_solver.git
 Set-Location QF_solver
+git checkout v0.2.6a0
 python -m pip install -e ".[test]"
 qf-solver --version
 ```
 
-The candidate is identified by its reviewed commit and evidence manifests.
-The future Git tag is `v0.2.6a0`; no tag or publication is implied here.
+The tagged release state is identified by qualification snapshot
+`93561c2c0ae1c173deb81e47c3fa3852643275cb` and its evidence manifests. PyPI
+publication remains a separate action and is not claimed here.
 
 ## Installation depuis le depot
 

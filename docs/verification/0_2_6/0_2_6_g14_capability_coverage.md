@@ -46,11 +46,13 @@ Important bounded boundaries remain explicit:
 
 ## Release cleanup
 
-The audit does not close the release. Historical full-regression findings,
-version/test reconciliation, historical documentation metadata, provenance
-SHA review, stale-route/test inventory, environment-dependent audits and the
-G15 Owner release review remain tracked in
+This document records the G14 snapshot and does not itself close the release.
+At that snapshot, historical full-regression findings, version/test
+reconciliation, historical documentation metadata, provenance SHA review,
+stale-route/test inventory and environment-dependent audits were tracked in
 [`g14_release_cleanup_items.json`](../../../qualification/0_2_6/g14_release_cleanup_items.json).
+The G15 Owner release review was subsequently completed and is recorded in
+[`g15_release_sweep.json`](../../../qualification/0_2_6/g15_release_sweep.json).
 
-Full regression is `SKIPPED_BY_POLICY` for G14 and is reserved for the release
-cleanup/final release sweep.
+Full regression was `SKIPPED_BY_POLICY` for G14; the final release sweep
+reused the applicable pre-G15 regression evidence.
