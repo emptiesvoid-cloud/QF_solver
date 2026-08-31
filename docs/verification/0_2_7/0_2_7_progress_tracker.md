@@ -11,8 +11,9 @@ approver: ""
 
 This tracker records actual progress, not intent. WP01 through WP06 and T1-R
 record completed foundation controls; WP07 records the Terra-authorized
-elemental WEDGE6 kernel and targeted evidence. Its public maturity remains
-`EXPERIMENTAL`, and it does not imply a complete workflow or QF correlation.
+elemental WEDGE6 kernel and WP08 records its bounded static vertical slice.
+Its public maturity remains `EXPERIMENTAL`; the slice does not imply modal,
+robustness or external-correlation qualification.
 
 | WP | Status | Current test level | Start SHA | Evidence head | Owner decision | Blocker |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -25,7 +26,7 @@ elemental WEDGE6 kernel and targeted evidence. Its public maturity remains
 | T1-R | `PASS` | T1 targeted | `32e4e40bf18f0fdcd0a4ae9959d4f0df2b76892e` | `32e4e40bf18f0fdcd0a4ae9959d4f0df2b76892e` | pre-WP07 formulation, mapping, face, quality and V&V contracts | Terra/Owner re-review required; kernel not authorized |
 | T1-R3 | `PASS` | T1 targeted | `d4abc2f15b0e5167cd2faa4734e6a836bdb12514` | pending commit | exact Jacobian certificate and strict external contract | Terra re-review required; kernel not authorized |
 | WP07 | `PASS` | T2 targeted | `69b7d01beb81263fc2b87cfacb83985db10e3a82` | `e2e0de5a8df465d5f2254a954d1b2f5c97181cf0` | technical kernel and elemental V&V PASS; public maturity `EXPERIMENTAL` | WP08 workflow, imports, face loads, reactions and external correlation deferred |
-| WP08 | `NOT_STARTED` | T0 not run | - | - | - | - |
+| WP08 | `PASS` | T2 targeted | `d4d2942a5fc31ffb97ef373a4466c46be34de991` | `8040909d6d65f740e1daf858ce572d250a87b39a` | static workflow PASS; public maturity `EXPERIMENTAL` | WP09 robustness/external and WP10 modal evidence deferred |
 | WP09 | `NOT_STARTED` | T0 not run | - | - | - | - |
 | WP10 | `NOT_STARTED` | T0 not run | - | - | - | - |
 | WP11 | `NOT_STARTED` | T0 not run | - | - | - | - |
@@ -56,4 +57,8 @@ WP05 has completed the controlled external-oracle preflight. WP06 has
 completed the common mesh-quality diagnostic contract. T1-R has prepared the
 remaining pre-WP07 contracts and asymmetric fixtures. Terra/Owner review
 authorized WP07, whose elemental kernel and targeted V&V are complete. WP08
-remains the next gate.
+has completed the bounded static vertical slice: Gmsh Prism 6 import,
+declared TRI3/QUAD4 face loads, common static assembly, equilibrium and
+post-processing are evidenced through the V&V v2 path. WEDGE6 remains
+`EXPERIMENTAL`; WP09 robustness/external evidence and WP10 modal evidence are
+the next gates.

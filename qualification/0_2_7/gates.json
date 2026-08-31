@@ -4,7 +4,7 @@
   "theme": "Prismatic Solid Interoperability and Numerical Robustness",
   "baseline_sha": "e839373b6aef291a93292186d7553ba5cd12af55",
   "baseline_branch": "main",
-  "foundation_status": "WP07_PASS_EXPERIMENTAL",
+  "foundation_status": "WP08_PASS_EXPERIMENTAL",
   "source_change_authorized_by_foundation": false,
   "gates": [
     {
@@ -129,12 +129,13 @@
       "id": "027-G08",
       "work_package": "WP08",
       "title": "WEDGE6 static vertical slice",
-      "status": "NOT_STARTED",
+      "status": "PASS",
       "depends_on": ["027-G07"],
-      "go": ["static, Gmsh, face/load, reaction and post checks pass"],
-      "stop": ["silent unsupported input", "missing face/load contract", "unproven result"],
-      "evidence_required": ["case manifest", "analytical checks", "maintained smoke"],
-      "files": ["0_2_7_vnv_strategy.md"]
+      "go": ["static, Gmsh, face/load, reaction and post checks pass", "WEDGE6 remains EXPERIMENTAL until later robustness/modal/external gates"],
+      "stop": ["silent unsupported input", "missing face/load contract", "unproven result", "unexpected failure", "existing element numerical route changed"],
+      "evidence_required": ["qualification/0_2_7/vnv_v2/wp08_cases.json", "qualification/0_2_7/vnv_v2/wp08_evidence.json", "qualification/0_2_7/wp08_state.json", "tests/integration/test_wedge6_static_workflow.py"],
+      "files": ["src/solveur/mesh/gmsh_importer.py", "src/solveur/loads/integration.py", "src/solveur/mesh/topology.py", "src/solveur/post/solid_results.py", "scripts/run_wp08_wedge6.py", "docs/verification/0_2_7/0_2_7_wedge6_static_vertical_slice.md"],
+      "limitations": ["public maturity remains EXPERIMENTAL", "modal/Newmark/harmonic routes are not implemented", "robustness and external correlation are deferred", "no general WEDGE6 qualification is claimed"]
     },
     {
       "id": "027-G09",

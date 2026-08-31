@@ -2568,12 +2568,17 @@
       "qualification_state": "EXPERIMENTAL",
       "evidence_refs": [
         "qualification/0_2_7/wp07_state.json",
-        "docs/verification/0_2_7/0_2_7_wedge6_kernel.md"
+        "docs/verification/0_2_7/0_2_7_wedge6_kernel.md",
+        "qualification/0_2_7/wp08_state.json",
+        "qualification/0_2_7/vnv_v2/wp08_cases.json",
+        "qualification/0_2_7/vnv_v2/wp08_evidence.json",
+        "tests/integration/test_wedge6_static_workflow.py",
+        "docs/verification/0_2_7/0_2_7_wedge6_static_vertical_slice.md"
       ],
-      "owner_decision": "WP07_TECHNICAL_EXPERIMENTAL_ONLY",
-      "limitations": "WP07 kernel and elemental V&V evidence only; Gmsh import, face loads, reactions, full user workflow, modal/dynamic routes, external correlation and public qualification remain deferred to later gates.",
+      "owner_decision": "WP08_STATIC_VERTICAL_SLICE_EXPERIMENTAL",
+      "limitations": "WP08 validates the bounded Gmsh Prism 6 static workflow, declared TRI3/QUAD4 face loads, reactions/equilibrium and Gauss-point post-processing; WEDGE6 remains EXPERIMENTAL and public qualification, robustness, modal/dynamic routes, nonlinear routes and external correlation remain deferred.",
       "applicable_version": "0.2.7a0",
-      "source_snapshot": "9c23706e952262ab8ee71d85c809e46d7abab8b7",
+      "source_snapshot": "8040909d6d65f740e1daf858ce572d250a87b39a",
       "supersedes": [],
       "historical_origin": {
         "legacy_capability_id": "WEDGE6",

@@ -22,6 +22,7 @@ WP07 technical implementation separately from public qualification.
 | 027-OD-006 | stretch/research selection | `PROPOSED_OWNER_REVIEW` | pending | WP13 | - |
 | 027-OD-007 | final release scope | `PROPOSED_OWNER_REVIEW` | pending | WP14 | - |
 | 027-OD-008 | WEDGE6 elemental kernel | `TERRA_GO` | `PASS_TECHNICAL_EXPERIMENTAL_ONLY` | T1-R4, WP07 evidence | 2026-08-31 |
+| 027-OD-009 | WEDGE6 static vertical slice | `WP08_REVIEWED` | `PASS_TECHNICAL_EXPERIMENTAL_ONLY` | WP08 state/evidence, 8040909d6d65f740e1daf858ce572d250a87b39a | 2026-08-31 |
 
 WP01 is a release-engineering foundation control rather than a numerical Owner
 qualification decision. Its status is `PASS` because the SHA roles, actual
@@ -112,5 +113,19 @@ This is not a public qualification. The registry maturity for
 `COMB-WEDGE6-linear_static` is `EXPERIMENTAL`, and preflight returns
 `EXPERIMENTAL_ROUTE`. Gmsh import, face loads, user-level assembly and
 reactions, modal/dynamic routes, nonlinear materials, contact and external
-correlation remain deferred to WP08 and later gates. Existing TET/HEX
+correlation were deferred to WP08 and later gates. Existing TET/HEX
 formulations and their evidence are unchanged.
+
+## WP08 static vertical-slice decision
+
+WP08 is `PASS` for the bounded six-node Gmsh Prism 6 static workflow. The
+15-case controlled evidence contains 14 `PASS` results and one
+`EXPECTED_FAILURE_PASS` for fail-closed rejection of inverted geometry, with
+no unexpected failures. It covers canonical TRI3/QUAD4 face mapping, nodal
+and distributed loads, sparse static assembly, reactions, force and moment
+equilibrium, constraints and displacement/strain/stress/energy recovery.
+
+This decision does not promote WEDGE6: `COMB-WEDGE6-linear_static` remains
+`EXPERIMENTAL` and public qualification is `DEFERRED`. Modal/Newmark/harmonic,
+nonlinear, J2, TL, contact, robustness and external-correlation claims remain
+outside this gate and require their own evidence.
