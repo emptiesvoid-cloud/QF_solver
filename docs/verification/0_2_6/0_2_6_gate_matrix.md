@@ -15,7 +15,7 @@
 | `026-G10` | Advanced Nonlinear / Research Audit | PASS_WITH_LIMITATIONS |
 | `026-G11` | Adversarial / failure / metamorphic | PASS_WITH_LIMITATIONS |
 | `026-G12` | Performance / scalability | PASS_WITH_LIMITATIONS |
-| `026-G13` | External correlation aggregation | NOT_STARTED |
+| `026-G13` | External correlation aggregation | PASS_WITH_LIMITATIONS |
 | `026-G14` | Full regression / architecture freeze | NOT_STARTED |
 | `026-G15` | Owner release review | NOT_STARTED |
 
