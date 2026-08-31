@@ -11,15 +11,15 @@ configuration recorded by its evidence.
 ## Current maturity
 
 - **Current version:** `0.2.6a0`
-- **Release status:** Released on Git as `v0.2.6a0`; PyPI publication remains pending
+- **Release status:** Released on Git as `v0.2.6a0`; PyPI project: `qf-solver`
 - **Qualification status:** bounded qualification is recorded within the
   documented scope; the individual gate and capability statuses remain
   authoritative.
 - **Qualification snapshot:** `93561c2c0ae1c173deb81e47c3fa3852643275cb`
 
-The Git release is available at `v0.2.6a0`. This release-state update does not
-claim PyPI availability. Evidence packages record their own qualified source
-SHA and artifact manifests; the current gate snapshot is maintained in
+The Git release is available at `v0.2.6a0`. Check the `qf-solver` PyPI project
+page for package availability and release history. Evidence packages record
+their own qualified source SHA and artifact manifests; the current gate snapshot is maintained in
 [`qualification/0_2_6/gates.json`](qualification/0_2_6/gates.json).
 
 | Maturity | Meaning | Current examples |
@@ -151,8 +151,8 @@ qf-solver --version
 
 ### 0.2.6a0 Git release
 
-The `0.2.6a0` release is available from Git at tag `v0.2.6a0`. It is not
-available from PyPI yet. Install the exact tagged source:
+The `0.2.6a0` release is available from Git at tag `v0.2.6a0`. For a
+reproducible source install, use the exact tagged source:
 
 ```powershell
 git clone https://github.com/emptiesvoid-cloud/QF_solver.git
@@ -163,8 +163,15 @@ qf-solver --version
 ```
 
 The tagged release state is identified by the qualification snapshot
-`93561c2c0ae1c173deb81e47c3fa3852643275cb` and its evidence manifests. PyPI
-publication remains a separate action and is not claimed here.
+`93561c2c0ae1c173deb81e47c3fa3852643275cb` and its evidence manifests. For a
+published-package install, use:
+
+```powershell
+python -m pip install "qf-solver==0.2.6a0"
+```
+
+Check the `qf-solver` PyPI project page for current availability and release
+history.
 
 Optional extras are available for mesh tooling, documentation and optional
 PETSc/SLEPc/MPI environments:
@@ -214,8 +221,8 @@ is retained for compatibility. Useful CLI entry points include `solve`,
 ## Release status and finalization
 
 `0.2.6a0` is released on Git as `v0.2.6a0`, with a bounded scope focused on
-maturity, reproducibility, architecture and controlled V&V. PyPI publication
-is separate and is not claimed by this repository state.
+maturity, reproducibility, architecture and controlled V&V. The `qf-solver`
+PyPI project page is the reference for package availability and release history.
 
 Current release state:
 
@@ -223,7 +230,8 @@ Current release state:
 Release status: Released
 Tag: v0.2.6a0
 Qualification SHA: 93561c2c0ae1c173deb81e47c3fa3852643275cb
-PyPI status: Not published
+PyPI project: qf-solver
+PyPI availability: Check the project page
 ```
 
 The authoritative qualification snapshot is identified by each evidence
