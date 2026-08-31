@@ -45,6 +45,6 @@ policy may be weakened because a higher level is expensive.
 ## Initial foundation state
 
 The foundation pack itself changes no numerical source and requires no full
-regression. The first implementation lot must establish its own T0/T1 record.
-The planned full regression remains `NOT_RUN` until WP14 or an explicitly
-approved high-risk checkpoint.
+regression. WP03 and WP04 establish their own T0/T1 records. The planned full
+regression remains `NOT_RUN` until WP14 or an explicitly approved high-risk
+checkpoint.

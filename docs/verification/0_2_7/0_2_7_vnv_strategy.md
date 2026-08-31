@@ -38,6 +38,10 @@ No state is inferred from code presence, test count or a neighboring element.
 5. **Owner decision:** the accepted maturity, bounded domain and limitations
    are recorded separately from raw results.
 
+WP04 provides an additive declarative contract for the case, oracle, execution
+verdict and evidence record. It does not replace the historical V&V modules;
+three representative legacy-route fixtures establish the migration boundary.
+
 ## Capability axes
 
 The registry target is:

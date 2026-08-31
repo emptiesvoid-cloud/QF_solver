@@ -15,7 +15,8 @@ This directory is the controlled planning pack for the `0.2.7a0` development
 cycle. It is a foundation, not a release claim and not a record of executed
 V&V. WP01 release truth and provenance is `PASS`; WP02 is `PASS` for the
 capability-registry control; WP03 is `PASS` for the descriptor/preflight
-control; and WP04-WP14 remain `NOT_STARTED`.
+control; WP04 is `PASS` for the additive V&V harness; and WP05-WP14 remain
+`NOT_STARTED`.
 
 ## Baseline and status
 
@@ -60,7 +61,7 @@ in [`0_2_7_progress_tracker.md`](0_2_7_progress_tracker.md).
 | WP01 | Release truth and provenance | `PASS` |
 | WP02 | Capability registry v2 | `PASS` |
 | WP03 | Element descriptors and compatibility preflight | `PASS` |
-| WP04 | Additive declarative V&V harness | `NOT_STARTED` |
+| WP04 | Additive declarative V&V harness | `PASS` |
 | WP05 | C3D6/PENTA6 external-oracle preflight | `NOT_STARTED` |
 | WP06 | Mesh quality and distortion contract | `NOT_STARTED` |
 | WP07 | WEDGE6 kernel, plan and design review | `NOT_STARTED` |
@@ -115,6 +116,7 @@ explicit skip or limitation, never as `PASS`.
 - [`0_2_7_release_workflow_audit.md`](0_2_7_release_workflow_audit.md)
 - [`0_2_7_capability_matrix.md`](0_2_7_capability_matrix.md) (generated view)
 - [`0_2_7_element_descriptor_preflight.md`](0_2_7_element_descriptor_preflight.md)
+- [`0_2_7_vnv_harness_v2.md`](0_2_7_vnv_harness_v2.md)
 
 ## Foundation boundary
 

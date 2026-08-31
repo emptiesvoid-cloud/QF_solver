@@ -80,7 +80,8 @@ preflight control is `PASS`; all remaining work packages are `NOT_STARTED`.
   or loss of old evidence.
 - **Evidence required:** schema tests, fixture replay and migration boundary.
 - **Files:** additive harness modules, case definitions and tests.
-- **Status:** `NOT_STARTED`.
+- **Status:** `PASS` for the additive harness contract and representative
+  migration samples; no numerical source was changed.
 
 ### WP05 - External oracle preflight
 
