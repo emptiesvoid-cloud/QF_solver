@@ -9,6 +9,11 @@ approver: ""
 
 # 0.2.7 Mesh Quality and Distortion Contract
 
+WP06 status is `PASS` for the additive common diagnostic contract in
+`solveur.mesh.quality_contract`. It covers `TET4`, `TET10`, `HEX8` and
+`HEX20`, integrates invalid-geometry reporting with the WP03 preflight, and
+does not alter existing element integration or solver validation behavior.
+
 ## Principle
 
 Mesh quality is a multidimensional diagnostic. No universal acceptance rule
@@ -42,6 +47,15 @@ Invalid Jacobian, non-positive volume, unsupported topology and non-finite
 metric must be rejected explicitly. A severe conditioning observation may
 explain a failure but is not itself a universal cutoff. Retry/cutback must not
 turn an invalid model into a silent PASS.
+
+## Implemented classification
+
+The common contract reports `VALID`, `VALID_WITH_WARNING` or `INVALID`. A
+warning leaves calculation permitted; invalid geometry is reported fail-closed
+by preflight. Dimensionless diagnostics are invariant under rigid transforms
+and coordinate scaling in the controlled tests. See
+[`0_2_7_mesh_quality_contract.md`](0_2_7_mesh_quality_contract.md) and
+[`qualification/0_2_7/vnv_v2/mesh_quality_cases.json`](../../../qualification/0_2_7/vnv_v2/mesh_quality_cases.json).
 
 ## Owner review items
 

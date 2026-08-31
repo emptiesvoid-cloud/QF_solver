@@ -60,6 +60,17 @@ canonical evidence serialization and replay mismatch checks pass on three
 representative fixtures. Historical V&V runners remain supported; no numerical
 source or maturity decision was changed.
 
+WP06 is an additive mesh-quality control rather than a numerical capability
+qualification. The common contract covers TET4, TET10, HEX8 and HEX20 with
+deterministic `VALID`, `VALID_WITH_WARNING` and `INVALID` classifications,
+and invalid geometry is surfaced by preflight as `MESH_GEOMETRY_INVALID`. No
+universal aspect-ratio or conditioning threshold was approved; inherited
+family diagnostics retain their legacy provenance. Rigid-transform,
+dimensionless-scale, inversion, duplicate-node and serialization checks pass.
+The WEDGE6 quality contract is prepared only as an inactive future schema and
+`WEDGE6_IMPLEMENTED` remains `NO`. This status records engineering evidence
+and does not promote any capability.
+
 An entry may be changed to an approved state only with a decision owner, exact
 evidence SHA, scope, limitations and date. No decision here reopens G07 or
 changes any 0.2.6 maturity classification.

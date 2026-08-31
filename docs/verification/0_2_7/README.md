@@ -16,7 +16,8 @@ cycle. It is a foundation, not a release claim and not a record of executed
 V&V. WP01 release truth and provenance is `PASS`; WP02 is `PASS` for the
 capability-registry control; WP03 is `PASS` for the descriptor/preflight
 control; WP04 is `PASS` for the additive V&V harness; WP05 is `PASS` for the
-external deck preflight only; and WP06-WP14 remain `NOT_STARTED`.
+external deck preflight only; WP06 is `PASS` for an additive mesh-quality
+diagnostic contract; and WP07-WP14 remain `NOT_STARTED`.
 
 ## Baseline and status
 
@@ -63,7 +64,7 @@ in [`0_2_7_progress_tracker.md`](0_2_7_progress_tracker.md).
 | WP03 | Element descriptors and compatibility preflight | `PASS` |
 | WP04 | Additive declarative V&V harness | `PASS` |
 | WP05 | C3D6/PENTA6 external-oracle preflight | `PASS` |
-| WP06 | Mesh quality and distortion contract | `NOT_STARTED` |
+| WP06 | Mesh quality and distortion contract | `PASS` |
 | WP07 | WEDGE6 kernel, plan and design review | `NOT_STARTED` |
 | WP08 | WEDGE6 static vertical slice | `NOT_STARTED` |
 | WP09 | WEDGE6 robustness and external V&V | `NOT_STARTED` |
@@ -111,6 +112,7 @@ explicit skip or limitation, never as `PASS`.
 - [`0_2_7_external_oracle_plan.md`](0_2_7_external_oracle_plan.md)
 - [`0_2_7_wedge6_plan.md`](0_2_7_wedge6_plan.md)
 - [`0_2_7_mesh_quality_plan.md`](0_2_7_mesh_quality_plan.md)
+- [`0_2_7_mesh_quality_contract.md`](0_2_7_mesh_quality_contract.md)
 - [`0_2_7_j2_gap_closure.md`](0_2_7_j2_gap_closure.md)
 - [`0_2_7_1m_dof_plan.md`](0_2_7_1m_dof_plan.md)
 - [`0_2_7_risk_register.md`](0_2_7_risk_register.md)

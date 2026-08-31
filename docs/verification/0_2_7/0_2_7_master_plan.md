@@ -21,9 +21,9 @@ qualified 0.2.7 scope unless a future Owner decision explicitly changes it.
 The plan starts from the tagged 0.2.6 baseline
 `e839373b6aef291a93292186d7553ba5cd12af55`. WP01 release truth and
 provenance is `PASS`; WP02 registry control is `PASS`; WP03 descriptor and
-preflight control is `PASS`; WP04 harness control is `PASS`; and WP05 external
-oracle preflight is `PASS` for deck validation only. WP06-WP14 remain
-`NOT_STARTED`.
+preflight control is `PASS`; WP04 harness control is `PASS`; WP05 external
+oracle preflight is `PASS` for deck validation only; and WP06 mesh-quality
+contract control is `PASS`. WP07-WP14 remain `NOT_STARTED`.
 
 ## Work packages and STOP/GO criteria
 
@@ -111,7 +111,8 @@ oracle preflight is `PASS` for deck validation only. WP06-WP14 remain
   or failed cases hidden by a solver retry.
 - **Evidence required:** quality schema, controlled mesh set and failure tests.
 - **Files:** `0_2_7_mesh_quality_plan.md`, metric definitions and reports.
-- **Status:** `NOT_STARTED`.
+- **Status:** `PASS` for the additive diagnostic contract; no universal quality
+  threshold or new numerical capability was introduced.
 
 ### WP07 - WEDGE6 kernel design and review
 

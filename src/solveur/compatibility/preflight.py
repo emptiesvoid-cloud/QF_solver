@@ -13,6 +13,7 @@ from solveur.compatibility.descriptors import (
     get_element_descriptor,
     normalize_element_name,
 )
+from solveur.mesh.quality_contract import INVALID, MeshQualityAssessment, assess_model
 
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -81,6 +82,7 @@ class ModelCompatibilityReport:
     """Combined preflight result for all model elements and load categories."""
 
     results: tuple[CompatibilityResult, ...]
+    mesh_quality: MeshQualityAssessment | None = None
 
     @property
     def status(self) -> str:
@@ -246,6 +248,7 @@ def preflight_model(model: Any) -> ModelCompatibilityReport:
     route = "arc_length" if method == "arc_length" else analysis
     loads = _load_categories(model)
     results: list[CompatibilityResult] = []
+    quality_report = assess_model(model)
     for element in getattr(model, "elements", []):
         material_data = getattr(model, "materials", {}).get(element.material)
         if not isinstance(material_data, dict):
@@ -263,4 +266,20 @@ def preflight_model(model: Any) -> ModelCompatibilityReport:
         results.append(check_compatibility("DISCRETE", analysis, "discrete_linear", load_categories=loads))
     if not results:
         results.append(_result("UNSUPPORTED_ROUTE", "NO_ELEMENTS_OR_ENTITIES", "Model has no compatible finite elements or discrete entities.", None, _normalize_analysis(analysis), None, route))
-    return ModelCompatibilityReport(tuple(results))
+    if quality_report.classification == INVALID:
+        for assessment in quality_report.elements:
+            if assessment.classification != INVALID:
+                continue
+            results.append(
+                _result(
+                    "UNSUPPORTED_ROUTE",
+                    "MESH_GEOMETRY_INVALID",
+                    f"{assessment.element_family} element {assessment.element_id} failed mesh quality checks: "
+                    f"{', '.join(assessment.fatal_findings)}.",
+                    assessment.element_family,
+                    _normalize_analysis(analysis),
+                    None,
+                    route,
+                )
+            )
+    return ModelCompatibilityReport(tuple(results), quality_report)

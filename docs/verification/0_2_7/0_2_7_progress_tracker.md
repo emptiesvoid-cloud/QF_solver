@@ -9,9 +9,10 @@ approver: ""
 
 # 0.2.7 Progress Tracker
 
-This tracker records actual progress, not intent. WP01 through WP05 record
+This tracker records actual progress, not intent. WP01 through WP06 record
 completed foundation controls; WP05 is limited to external deck preflight and
-does not imply a WEDGE6 implementation or QF correlation.
+WP06 to an additive mesh-quality diagnostic contract. Neither implies a
+WEDGE6 implementation or QF correlation.
 
 | WP | Status | Current test level | Start SHA | Evidence head | Owner decision | Blocker |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -20,7 +21,7 @@ does not imply a WEDGE6 implementation or QF correlation.
 | WP03 | `PASS` | T1 targeted | `ba6111a257ae567e496adcbcdc74de392dd66b6e` | pending commit | descriptor and fail-closed preflight | - |
 | WP04 | `PASS` | T1 targeted | `684c39c72191d43c53e1f21043dc746d213a561d` | pending commit | declarative V&V harness v2 | - |
 | WP05 | `PASS` | T1 targeted | `fb102e649235a276096b3a37e19eb61e19a5b43f` | `PENDING_WP05_COMMIT` | external oracle preflight bounded PASS; no WEDGE6 correlation | external tools local-only; QF WEDGE6 not implemented |
-| WP06 | `NOT_STARTED` | T0 not run | - | - | - | - |
+| WP06 | `PASS` | T1 targeted | `884637a60bc752c1d02644fe4d14ae056a2876b8` | `WP06_PENDING_COMMIT` | common diagnostic contract; no universal threshold | - |
 | WP07 | `NOT_STARTED` | T0 not run | - | - | - | - |
 | WP08 | `NOT_STARTED` | T0 not run | - | - | - | - |
 | WP09 | `NOT_STARTED` | T0 not run | - | - | - | - |
@@ -49,5 +50,6 @@ The only baseline evidence inherited at foundation start is the controlled
 point, not a 0.2.7 result. WP01 is the first completed foundation control;
 WP02 is complete for the registry control; WP03 is complete for the descriptor
 and preflight control; WP04 is complete for the additive V&V harness control;
-WP05 has completed the controlled external-oracle preflight. WP06 is the next
-active action.
+WP05 has completed the controlled external-oracle preflight. WP06 has
+completed the common mesh-quality diagnostic contract. WP07 is the next active
+action.

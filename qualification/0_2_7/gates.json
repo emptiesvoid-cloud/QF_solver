@@ -4,7 +4,7 @@
   "theme": "Prismatic Solid Interoperability and Numerical Robustness",
   "baseline_sha": "e839373b6aef291a93292186d7553ba5cd12af55",
   "baseline_branch": "main",
-  "foundation_status": "WP05_PASS",
+  "foundation_status": "WP06_PASS",
   "source_change_authorized_by_foundation": false,
   "gates": [
     {
@@ -85,12 +85,22 @@
       "id": "027-G06",
       "work_package": "WP06",
       "title": "Mesh quality and distortion contract",
-      "status": "NOT_STARTED",
+      "status": "PASS",
+      "start_sha": "884637a60bc752c1d02644fe4d14ae056a2876b8",
+      "evidence_head": "WP06_PENDING_COMMIT",
       "depends_on": ["027-G02", "027-G03"],
       "go": ["quality metrics and invalid cases are defined", "Owner policy is explicit"],
       "stop": ["universal aspect-ratio cutoff", "quality represented by one scalar only"],
       "evidence_required": ["quality schema", "controlled mesh set", "failure tests"],
-      "files": ["0_2_7_mesh_quality_plan.md"]
+      "files": [
+        "src/solveur/mesh/quality_contract.py",
+        "src/solveur/compatibility/preflight.py",
+        "tests/unit/test_mesh_quality_contract.py",
+        "qualification/0_2_7/vnv_v2/mesh_quality_cases.json",
+        "qualification/0_2_7/wp06_state.json",
+        "docs/verification/0_2_7/0_2_7_mesh_quality_plan.md",
+        "docs/verification/0_2_7/0_2_7_mesh_quality_contract.md"
+      ]
     },
     {
       "id": "027-G07",
