@@ -10,7 +10,7 @@
   "foundation_status": "WP01_PASS",
   "evidence_head": "bb822839248b5ffb9faef5d79a6c83f288faefb3",
   "current_development_head": "e99289aca40011ca0424944099e2d2093cf21a65",
-  "current_development_branch": "codex/0.2.7-foundation",
+  "current_development_branch": "dedicated 0.2.7 foundation branch",
   "parent_release": {
     "version": "0.2.6a0",
     "qualification_snapshot": "93561c2c0ae1c173deb81e47c3fa3852643275cb",
