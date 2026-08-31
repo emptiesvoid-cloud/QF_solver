@@ -235,12 +235,14 @@
         "g13_external_evidence_registry.json",
         "g13_external_coverage_matrix.json",
         "g13_missing_evidence_matrix.json",
+        "g13_owner_closeout.json",
         "0_2_6_g13_external_correlations.md"
       ],
       "id": "026-G13",
-      "status": "PARTIAL",
+      "status": "PASS_WITH_LIMITATIONS",
       "title": "External correlation aggregation",
       "owner_status_candidate": "PASS_WITH_LIMITATIONS",
+      "owner_closeout": true,
       "new_external_cases_executed": 0,
       "limitations": [
         "G13 consolidates existing independent evidence and records unresolved gaps; no new external run was possible because Code_Aster and CalculiX executables were unavailable in this environment.",
