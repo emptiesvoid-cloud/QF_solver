@@ -9,7 +9,14 @@ from pathlib import Path
 import pytest
 
 from solveur.compatibility.descriptors import get_element_descriptor
-from solveur.verification.v2 import ExternalUnavailableError, VnvRunner, canonical_sha256, load_cases
+from solveur.verification.v2 import (
+    DuplicateJsonKeyError,
+    ExternalUnavailableError,
+    VnvRunner,
+    canonical_sha256,
+    load_cases,
+    load_json_strict,
+)
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -91,3 +98,21 @@ def test_mapping_and_metadata_hashes_are_deterministic_without_wedge6_route() ->
     assert canonical_sha256(mapping) == canonical_sha256(read_json(ORACLE_ROOT / "mapping.json"))
     with pytest.raises(KeyError, match="Unknown element family"):
         get_element_descriptor("WEDGE6")
+
+
+def test_duplicate_json_keys_are_rejected_explicitly(tmp_path: Path) -> None:
+    duplicate = tmp_path / "duplicate.json"
+    duplicate.write_text('{"primary_observables": ["displacement"], "primary_observables": []}', encoding="utf-8")
+
+    with pytest.raises(DuplicateJsonKeyError, match="Duplicate JSON key 'primary_observables'"):
+        load_json_strict(duplicate)
+
+
+def test_external_tolerance_categories_are_predeclared_and_non_retunable() -> None:
+    contract = load_json_strict(ORACLE_ROOT / "contract.json")
+    comparison = contract["comparability_contract"]
+    assert comparison["primary_observables"] == ["displacement", "total_reaction", "strain_energy"]
+    policy = comparison["tolerance_policy"]
+    assert policy["categories"]["AFFINE_SAME_MESH"]["relative_tolerance"] == pytest.approx(1.0e-6)
+    assert policy["categories"]["NON_AFFINE_DISTORTED_REFINEMENT"]["relative_tolerance"] is None
+    assert policy["post_observation_retuning"].startswith("FORBIDDEN")

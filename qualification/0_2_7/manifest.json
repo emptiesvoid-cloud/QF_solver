@@ -85,6 +85,7 @@
     "qualification/0_2_7/external_oracles/wedge6/decks/code_aster/WP05-A-penta6-affine.mail",
     "qualification/0_2_7/external_oracles/wedge6/decks/code_aster/WP05-A-penta6-affine.comm",
     "qualification/0_2_7/external_oracles/wedge6/preflight_evidence.json",
+    "qualification/0_2_7/t1r3_state.json",
     "qualification/0_2_7/external_oracles/wedge6/results/calculix_affine.dat",
     "qualification/0_2_7/external_oracles/wedge6/results/calculix_affine.frd",
     "qualification/0_2_7/external_oracles/wedge6/results/calculix_affine.sta",
@@ -97,7 +98,8 @@
     "tests/unit/test_mesh_quality_contract.py",
     "qualification/0_2_7/vnv_v2/mesh_quality_cases.json",
     "qualification/0_2_7/wp06_state.json",
-    "docs/verification/0_2_7/0_2_7_mesh_quality_contract.md"
+    "docs/verification/0_2_7/0_2_7_mesh_quality_contract.md",
+    "tests/unit/test_wedge6_t1r3_contract.py"
   ],
   "status_rule": "A work package is PASS only when its declared evidence is recorded; WP05 records external deck preflight only and WP06 records a diagnostic mesh-quality contract without creating a WEDGE6 capability or universal quality cutoff."
 }

@@ -50,6 +50,10 @@ class ResourceLimitedError(RuntimeError):
     """Raised by an executor when declared resources prevent completion."""
 
 
+class DuplicateJsonKeyError(ValueError):
+    """Raised when a machine-readable contract contains a duplicate key."""
+
+
 @dataclass(frozen=True)
 class ExecutionOutput:
     """Solver-independent observations returned by a case executor."""
@@ -237,14 +241,14 @@ class VnvRunner:
 
 
 def load_cases(path: str | Path) -> tuple[VnvCase, ...]:
-    payload = json.loads(Path(path).read_text(encoding="utf-8"))
+    payload = load_json_strict(path)
     if not isinstance(payload, list):
         raise VnvSchemaError("V&V case catalog root must be a list.")
     return tuple(validate_case(item) for item in payload)
 
 
 def load_evidence(path: str | Path) -> VnvEvidence:
-    payload = json.loads(Path(path).read_text(encoding="utf-8"))
+    payload = load_json_strict(path)
     required = {field.name for field in VnvEvidence.__dataclass_fields__.values()}
     missing = required - set(payload)
     if missing:
@@ -281,3 +285,17 @@ def load_evidence_from_dict(payload: Mapping[str, Any]) -> VnvEvidence:
     if missing:
         raise VnvSchemaError(f"Evidence is missing fields: {sorted(missing)}.")
     return VnvEvidence(**{key: payload[key] for key in required})
+
+
+def load_json_strict(path: str | Path) -> Any:
+    """Load UTF-8 JSON and fail closed when an object repeats a key."""
+
+    def reject_duplicates(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+        result: dict[str, Any] = {}
+        for key, value in pairs:
+            if key in result:
+                raise DuplicateJsonKeyError(f"Duplicate JSON key {key!r} in {Path(path)}.")
+            result[key] = value
+        return result
+
+    return json.loads(Path(path).read_text(encoding="utf-8"), object_pairs_hook=reject_duplicates)

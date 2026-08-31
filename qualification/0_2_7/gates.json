@@ -109,10 +109,15 @@
       "status": "NOT_STARTED",
       "depends_on": ["027-G03", "027-G05", "027-G06"],
       "pre_wp07_checkpoint": "qualification/0_2_7/wp07_prerequisites.json",
+      "t1r3_checkpoint": "qualification/0_2_7/t1r3_state.json",
       "go": ["formulation, integration, faces, loads and oracle are reviewed"],
       "stop": ["kernel implementation starts without design review", "mixed mesh support is assumed"],
       "evidence_required": ["derivation", "patch-test plan", "design review decision"],
-      "files": ["0_2_7_wedge6_plan.md"]
+      "files": [
+        "0_2_7_wedge6_plan.md",
+        "qualification/0_2_7/t1r3_state.json",
+        "tests/unit/test_wedge6_t1r3_contract.py"
+      ]
     },
     {
       "id": "027-G08",
