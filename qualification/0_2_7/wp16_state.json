@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "work_package": "WP16",
+  "gate": "LUP-027-G16",
+  "title": "True 1M DOF qualification",
+  "status": "FAIL",
+  "release_blocker": true,
+  "execution_source_sha": "15534b87387c3bd73c73971703e22bf275ffc8cc",
+  "contract": "qualification/0_2_7/wp14_execution_contract.json",
+  "run1": "qualification/0_2_7/wp16_runtime/wp16_run1.json",
+  "run2": {
+    "status": "NOT_RUN",
+    "reason": "WP14 requires a second replay only after a first 1M PASS. Run 1 failed the frozen equilibrium criterion."
+  },
+  "model": {
+    "element": "TET4",
+    "analysis": "linear_static",
+    "dimensions": [69, 69, 69],
+    "node_count": 343000,
+    "element_count": 1971054,
+    "true_dof": 1029000,
+    "load_total_n": 1000000.0,
+    "load_node_count": 4900,
+    "fixed_dof_count": 14700
+  },
+  "route": {
+    "backend": "matrix_free",
+    "solver": "CG",
+    "preconditioner": "nodal_block_jacobi",
+    "chunk_size": 4096,
+    "rtol": 1e-08,
+    "atol": 0.0,
+    "max_iterations": 10000,
+    "spd_contract": "PASS"
+  },
+  "run1_result": {
+    "solve_status": "PASS",
+    "iterations": 1052,
+    "wall_time_seconds": 1371.0587636000128,
+    "peak_rss_bytes": 575700992,
+    "residual_relative": 9.822515730036343e-09,
+    "equilibrium_relative": 3.819750810647995e-08,
+    "energy_relative": 1.9194705874935984e-16,
+    "finite_outputs": true,
+    "operator_memory_bytes": 318040224,
+    "acceptance_verdict": "FAIL",
+    "failure_reason": "Frozen WP14 equilibrium maximum is 1e-8; observed 3.819750810647995e-8."
+  },
+  "subscale_evidence": {
+    "path": "qualification/0_2_7/wp16_runtime/wp16_subscale_current.json",
+    "status": "PASS",
+    "max_operator_action_relative_error": 1.2497106941823295e-14,
+    "max_displacement_relative_error": 3.4490722488847274e-13,
+    "max_reaction_relative_error": 2.301808852175272e-09,
+    "max_energy_relative_error": 3.358792201787632e-14,
+    "max_residual_relative": 8.777062442532168e-09,
+    "tolerance": 1e-08
+  },
+  "replay": "NOT_APPLICABLE_AFTER_RUN1_FAIL",
+  "tolerances_changed": false,
+  "post_result_tuning": false,
+  "fem_formulation_changed": false,
+  "numerical_source_changed": false,
+  "artifact_classification": "CONTROLLED_PROOF"
+}
