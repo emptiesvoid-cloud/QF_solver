@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "work_package": "WP09-FINAL",
+  "gate": "027-G09",
+  "status": "PASS_WITH_LIMITATIONS",
+  "start_sha": "bd39965e045e0c8bf6061285656d11f7e2906897",
+  "execution_source_sha": "4b2fcdc9ed51821b05b52851912be3ebbe764b14",
+  "contract": "qualification/0_2_7/external_oracles/wedge6/wp09_final_contract.json",
+  "evidence_catalog": "qualification/0_2_7/vnv_v2/wp09_final_external_cases.json",
+  "evidence_artifact": "qualification/0_2_7/vnv_v2/wp09_final_external_evidence.json",
+  "case_count": 12,
+  "verdict_counts": {
+    "PASS_EXTERNAL_CORRELATION_BOUNDED": 12,
+    "FAIL_EXTERNAL": 0,
+    "SKIPPED_EXTERNAL_UNAVAILABLE": 0
+  },
+  "headless_oracle": {
+    "solver": "Code_Aster",
+    "version": "18.1.0",
+    "element": "PENTA6",
+    "image": "qf-solver/code-aster-headless:18.1.0",
+    "image_digest": "sha256:df70aa569db65f952cdfd4b1391acac4819d0afa46d0788ee756683b87fac579",
+    "base_image_digest": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+    "headless": true,
+    "run_aster_no_mpi": true,
+    "launcher_processes": 1,
+    "gui_used": false
+  },
+  "primary_observables": ["displacement", "total_reaction", "strain_energy"],
+  "maximum_relative_error": {
+    "displacement": 2.9229502854856794e-15,
+    "total_reaction": 3.5954185263640105e-15,
+    "strain_energy": 2.471435039975173e-15
+  },
+  "coverage": {
+    "affine_tension_compression": "PASS_EXTERNAL_CORRELATION_BOUNDED",
+    "shear": "PASS_EXTERNAL_CORRELATION_BOUNDED",
+    "prescribed_displacement": "PASS_EXTERNAL_CORRELATION_BOUNDED",
+    "tri_pressure": "PASS_EXTERNAL_CORRELATION_BOUNDED",
+    "quad_pressure": "PASS_EXTERNAL_CORRELATION_BOUNDED",
+    "multi_element": "PASS_EXTERNAL_CORRELATION_BOUNDED",
+    "distorted_valid": "PASS_EXTERNAL_CORRELATION_BOUNDED",
+    "refinement_levels": "PASS_EXTERNAL_CORRELATION_BOUNDED"
+  },
+  "tolerance_policy": {
+    "fixed_before_execution": true,
+    "post_result_retuning": false,
+    "approval_state": "OWNER_REVIEW_REQUIRED",
+    "affine_same_mesh": "1e-6",
+    "refinement": "1e-5",
+    "distorted": "1e-5"
+  },
+  "calculix": {
+    "state": "NOT_COMPARABLE",
+    "reason": "The inherited C3D6 integration route is not equivalent to QF WEDGE6 TRI3_X_GAUSS2 production integration."
+  },
+  "public_maturity": "EXPERIMENTAL",
+  "public_qualification": "DEFERRED",
+  "owner_decision": "PASS_WITH_LIMITATIONS_KEEP_WEDGE6_EXPERIMENTAL",
+  "scope": {
+    "analysis": "linear_static",
+    "material": "homogeneous_isotropic_small_strain_elastic",
+    "loads": ["nodal_force", "prescribed_displacement", "uniform_TRI3_pressure", "uniform_QUAD4_pressure"],
+    "geometry": "declared affine prism, one multi-element conforming mesh, one declared affine-skew prism",
+    "backend": "QF SciPy sparse and Code_Aster headless PENTA6",
+    "observables": "displacement, total reaction and strain energy",
+    "external_stress": "excluded unless the measure, point and coordinate convention are strictly equivalent"
+  },
+  "limitations": [
+    "WEDGE6 remains EXPERIMENTAL; this external evidence does not promote public maturity automatically.",
+    "Tolerance values were fixed before execution but remain OWNER_REVIEW_REQUIRED for final ratification.",
+    "CalculiX C3D6 is NOT_COMPARABLE under the controlled integration contract.",
+    "The campaign does not qualify modal, dynamic, nonlinear, J2, TL, contact, post-buckling or general physical validation routes.",
+    "The prior 22-case internal robustness corpus remains preserved as separate evidence."
+  ],
+  "preserved_prior_evidence": {
+    "internal_artifact": "qualification/0_2_7/vnv_v2/wp09_evidence.json",
+    "internal_state": "qualification/0_2_7/wp09_state.json",
+    "rerun": false,
+    "superseded": false
+  },
+  "existing_fem_numerics_changed": false,
+  "full_regression_run": false,
+  "pushed": false,
+  "ready_for_owner_review": true,
+  "artifact_classification": "CONTROLLED_PROOF"
+}

@@ -1,0 +1,2518 @@
+{
+  "artifact_classification": "CONTROLLED_PROOF",
+  "calculix": {
+    "reason": "Inherited C3D6 route uses a different integration convention than QF TRI3_X_GAUSS2 and is excluded from qualification.",
+    "state": "NOT_COMPARABLE",
+    "verdict": "NOT_COMPARABLE"
+  },
+  "catalog": "qualification/0_2_7/vnv_v2/wp09_final_external_cases.json",
+  "contract": "qualification/0_2_7/external_oracles/wedge6/wp09_final_contract.json",
+  "determinism": {
+    "external_final_case": {
+      "case_id": "WP09-FINAL-J-REFINEMENT-4",
+      "first_output_digest": "685ce7d0f257eedcca0b98ae390d4469e35fedc591221fabe455275b8fe60f3d",
+      "second_output_digest": "685ce7d0f257eedcca0b98ae390d4469e35fedc591221fabe455275b8fe60f3d",
+      "status": "PASS"
+    },
+    "qf_final_case": "PASS"
+  },
+  "existing_fem_numerics_changed": false,
+  "full_regression_run": false,
+  "gate": "027-G09",
+  "headless_oracle": {
+    "base_image_digest": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+    "element": "PENTA6",
+    "gui_used": false,
+    "image": "qf-solver/code-aster-headless:18.1.0",
+    "image_digest": "sha256:df70aa569db65f952cdfd4b1391acac4819d0afa46d0788ee756683b87fac579",
+    "run_aster_no_mpi": true,
+    "solver": "Code_Aster",
+    "version": "18.1.0"
+  },
+  "legacy_internal_corpus": {
+    "artifact": "qualification/0_2_7/vnv_v2/wp09_evidence.json",
+    "preserved": true,
+    "rerun": false
+  },
+  "limitations": [
+    "WEDGE6 remains EXPERIMENTAL; this external evidence does not promote public maturity automatically.",
+    "Tolerance approval remains OWNER_REVIEW_REQUIRED even though all numeric values were fixed before execution.",
+    "CalculiX C3D6 is retained as NOT_COMPARABLE under the controlled integration convention.",
+    "The campaign covers the declared small-strain isotropic PENTA6 slice only; stress qualification is excluded."
+  ],
+  "primary_observables": [
+    "displacement",
+    "total_reaction",
+    "strain_energy"
+  ],
+  "pushed": false,
+  "records": [
+    {
+      "artifact_classification": "CONTROLLED_PROOF",
+      "case_class": "affine_tension",
+      "case_id": "WP09-FINAL-A-TENSION",
+      "comparison": {
+        "displacement": {
+          "oracle": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            3.742843793807131e-24,
+            0.0,
+            0.0,
+            -2.0828729709914473e-22,
+            0.0,
+            1.3122108509743427e-06,
+            1.312210850974341e-06,
+            8.699471937941022e-06,
+            -2.4786204962848755e-06,
+            1.1664096453105251e-06,
+            8.699471937941029e-06,
+            1.1664096453105256e-06,
+            -2.4786204962848776e-06,
+            8.699471937941029e-06
+          ],
+          "qf": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.3122108509743434e-06,
+            1.3122108509743448e-06,
+            8.699471937941024e-06,
+            -2.4786204962848734e-06,
+            1.166409645310527e-06,
+            8.699471937941027e-06,
+            1.1664096453105275e-06,
+            -2.4786204962848717e-06,
+            8.699471937941024e-06
+          ],
+          "relative_error": 6.169714154748372e-16,
+          "tolerance": 1e-06,
+          "verdict": "PASS"
+        },
+        "strain_energy": {
+          "oracle": 4.3497359689705135e-06,
+          "qf": 4.349735968970511e-06,
+          "relative_error": 5.841961121066213e-16,
+          "tolerance": 1e-06,
+          "verdict": "PASS"
+        },
+        "total_reaction": {
+          "oracle": [
+            -4.5102810375396984e-17,
+            0.0,
+            -0.9999999999999998
+          ],
+          "qf": [
+            -2.168404344971009e-17,
+            5.551115123125783e-17,
+            -0.9999999999999999
+          ],
+          "relative_error": 1.2631657927373405e-16,
+          "tolerance": 1e-06,
+          "verdict": "PASS"
+        }
+      },
+      "external_result": {
+        "displacement": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          3.742843793807131e-24,
+          0.0,
+          0.0,
+          -2.0828729709914473e-22,
+          0.0,
+          1.3122108509743427e-06,
+          1.312210850974341e-06,
+          8.699471937941022e-06,
+          -2.4786204962848755e-06,
+          1.1664096453105251e-06,
+          8.699471937941029e-06,
+          1.1664096453105256e-06,
+          -2.4786204962848776e-06,
+          8.699471937941029e-06
+        ],
+        "strain_energy": 4.3497359689705135e-06,
+        "total_reaction": [
+          -4.5102810375396984e-17,
+          0.0,
+          -0.9999999999999998
+        ]
+      },
+      "formulation_compatible": true,
+      "level": null,
+      "oracle": {
+        "base_image_digest": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "deck_digests": {
+          "wp09-final-a-tension.comm": "0f60084d31636f0baf20d491a9e80d18271bea15591b2915ddcb90a3e2f36ce1",
+          "wp09-final-a-tension.export": "5f241b839838e2901f19bef1f8a35ddbe242d4ae8e503d3785495588642a1c57",
+          "wp09-final-a-tension.mail": "d7588a922aabdd278f11c89b3caba99783e037fe62f7dc0474bbe072a97260a4"
+        },
+        "exit_code": 0,
+        "image": "qf-solver/code-aster-headless:18.1.0",
+        "image_digest": "sha256:df70aa569db65f952cdfd4b1391acac4819d0afa46d0788ee756683b87fac579",
+        "node_order": [
+          "N1",
+          "N2",
+          "N3",
+          "N4",
+          "N5",
+          "N6"
+        ],
+        "output_digest": "8f78d8c3fa722a5a69fd559103375a9b5ebf81b1b7559026df70cb477b1f8db7",
+        "runtime_seconds": 3.7345493999891914,
+        "solver": "Code_Aster 18.1.0 / PENTA6",
+        "state": "PASS",
+        "stdout_stderr_digest": "8c09199d7f3f63e56322bb5ebf94dbf8254ab644a993d478ce1dc07fe91a5116"
+      },
+      "primary_observables": [
+        "displacement",
+        "total_reaction",
+        "strain_energy"
+      ],
+      "qf_result": {
+        "displacement": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.3122108509743434e-06,
+          1.3122108509743448e-06,
+          8.699471937941024e-06,
+          -2.4786204962848734e-06,
+          1.166409645310527e-06,
+          8.699471937941027e-06,
+          1.1664096453105275e-06,
+          -2.4786204962848717e-06,
+          8.699471937941024e-06
+        ],
+        "element_count": 1,
+        "finite": true,
+        "force_balance_relative_error": 1.260064970365687e-16,
+        "free_relative_residual": 1.340123006720315e-16,
+        "moment_balance_relative_error": 8.144429729801879e-17,
+        "node_count": 6,
+        "reaction_definition": "fixed_support_reaction_resultant",
+        "status": "PASS",
+        "strain_energy": 4.349735968970511e-06,
+        "total_reaction": [
+          -2.168404344971009e-17,
+          5.551115123125783e-17,
+          -0.9999999999999999
+        ]
+      },
+      "relative_error": {
+        "displacement": 6.169714154748372e-16,
+        "strain_energy": 5.841961121066213e-16,
+        "total_reaction": 1.2631657927373405e-16
+      },
+      "source_sha": "4b2fcdc9ed51821b05b52851912be3ebbe764b14",
+      "tolerance_approval_reference": "qualification/0_2_7/wp09_state.json#external.affine_tolerance",
+      "tolerance_approval_state": "OWNER_REVIEW_REQUIRED",
+      "tolerance_class": "AFFINE_SAME_MESH",
+      "tolerance_source": "WP05 AFFINE_SAME_MESH candidate retained from controlled WP09 evidence",
+      "tolerances": {
+        "displacement": 1e-06,
+        "strain_energy": 1e-06,
+        "total_reaction": 1e-06
+      },
+      "verdict": "PASS_EXTERNAL_CORRELATION_BOUNDED"
+    },
+    {
+      "artifact_classification": "CONTROLLED_PROOF",
+      "case_class": "affine_compression",
+      "case_id": "WP09-FINAL-B-COMPRESSION",
+      "comparison": {
+        "displacement": {
+          "oracle": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -3.742843793807131e-24,
+            0.0,
+            0.0,
+            2.0828729709914473e-22,
+            0.0,
+            -1.3122108509743427e-06,
+            -1.312210850974341e-06,
+            -8.699471937941022e-06,
+            2.4786204962848755e-06,
+            -1.1664096453105251e-06,
+            -8.699471937941029e-06,
+            -1.1664096453105256e-06,
+            2.4786204962848776e-06,
+            -8.699471937941029e-06
+          ],
+          "qf": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.3122108509743434e-06,
+            -1.3122108509743448e-06,
+            -8.699471937941024e-06,
+            2.4786204962848734e-06,
+            -1.166409645310527e-06,
+            -8.699471937941027e-06,
+            -1.1664096453105275e-06,
+            2.4786204962848717e-06,
+            -8.699471937941024e-06
+          ],
+          "relative_error": 6.169714154748372e-16,
+          "tolerance": 1e-06,
+          "verdict": "PASS"
+        },
+        "strain_energy": {
+          "oracle": 4.3497359689705135e-06,
+          "qf": 4.349735968970511e-06,
+          "relative_error": 5.841961121066213e-16,
+          "tolerance": 1e-06,
+          "verdict": "PASS"
+        },
+        "total_reaction": {
+          "oracle": [
+            4.5102810375396984e-17,
+            0.0,
+            0.9999999999999998
+          ],
+          "qf": [
+            2.168404344971009e-17,
+            -5.551115123125783e-17,
+            0.9999999999999999
+          ],
+          "relative_error": 1.2631657927373405e-16,
+          "tolerance": 1e-06,
+          "verdict": "PASS"
+        }
+      },
+      "external_result": {
+        "displacement": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -3.742843793807131e-24,
+          0.0,
+          0.0,
+          2.0828729709914473e-22,
+          0.0,
+          -1.3122108509743427e-06,
+          -1.312210850974341e-06,
+          -8.699471937941022e-06,
+          2.4786204962848755e-06,
+          -1.1664096453105251e-06,
+          -8.699471937941029e-06,
+          -1.1664096453105256e-06,
+          2.4786204962848776e-06,
+          -8.699471937941029e-06
+        ],
+        "strain_energy": 4.3497359689705135e-06,
+        "total_reaction": [
+          4.5102810375396984e-17,
+          0.0,
+          0.9999999999999998
+        ]
+      },
+      "formulation_compatible": true,
+      "level": null,
+      "oracle": {
+        "base_image_digest": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "deck_digests": {
+          "wp09-final-b-compression.comm": "71348b2d1f53fde16762eeed3cd3c5b8d792bf6421c51b03776919f8d89a1fc2",
+          "wp09-final-b-compression.export": "c44d42be72b5216e3fa1782e17c379dc378d27277ad20ab27a576a6880bb13e5",
+          "wp09-final-b-compression.mail": "f0c2da8600507e5f074cfb4cf457f6b1c421449181d913d5d9265e5c48ca732f"
+        },
+        "exit_code": 0,
+        "image": "qf-solver/code-aster-headless:18.1.0",
+        "image_digest": "sha256:df70aa569db65f952cdfd4b1391acac4819d0afa46d0788ee756683b87fac579",
+        "node_order": [
+          "N1",
+          "N2",
+          "N3",
+          "N4",
+          "N5",
+          "N6"
+        ],
+        "output_digest": "c0b0c136be7c3bc618d91a38ec50ce93f792d04c69ccf29a7b1491eff735c671",
+        "runtime_seconds": 3.7102863999898545,
+        "solver": "Code_Aster 18.1.0 / PENTA6",
+        "state": "PASS",
+        "stdout_stderr_digest": "8c435dcef02c4746a1f5e2aca2f11789ae47fff46b946b0ed5bdd7a6da1036b0"
+      },
+      "primary_observables": [
+        "displacement",
+        "total_reaction",
+        "strain_energy"
+      ],
+      "qf_result": {
+        "displacement": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -1.3122108509743434e-06,
+          -1.3122108509743448e-06,
+          -8.699471937941024e-06,
+          2.4786204962848734e-06,
+          -1.166409645310527e-06,
+          -8.699471937941027e-06,
+          -1.1664096453105275e-06,
+          2.4786204962848717e-06,
+          -8.699471937941024e-06
+        ],
+        "element_count": 1,
+        "finite": true,
+        "force_balance_relative_error": 1.260064970365687e-16,
+        "free_relative_residual": 1.340123006720315e-16,
+        "moment_balance_relative_error": 8.144429729801879e-17,
+        "node_count": 6,
+        "reaction_definition": "fixed_support_reaction_resultant",
+        "status": "PASS",
+        "strain_energy": 4.349735968970511e-06,
+        "total_reaction": [
+          2.168404344971009e-17,
+          -5.551115123125783e-17,
+          0.9999999999999999
+        ]
+      },
+      "relative_error": {
+        "displacement": 6.169714154748372e-16,
+        "strain_energy": 5.841961121066213e-16,
+        "total_reaction": 1.2631657927373405e-16
+      },
+      "source_sha": "4b2fcdc9ed51821b05b52851912be3ebbe764b14",
+      "tolerance_approval_reference": "qualification/0_2_7/wp09_state.json#external.affine_tolerance",
+      "tolerance_approval_state": "OWNER_REVIEW_REQUIRED",
+      "tolerance_class": "AFFINE_SAME_MESH",
+      "tolerance_source": "WP05 AFFINE_SAME_MESH candidate retained from controlled WP09 evidence",
+      "tolerances": {
+        "displacement": 1e-06,
+        "strain_energy": 1e-06,
+        "total_reaction": 1e-06
+      },
+      "verdict": "PASS_EXTERNAL_CORRELATION_BOUNDED"
+    },
+    {
+      "artifact_classification": "CONTROLLED_PROOF",
+      "case_class": "affine_shear",
+      "case_id": "WP09-FINAL-C-SHEAR",
+      "comparison": {
+        "displacement": {
+          "oracle": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            2.6712278476202025e-36,
+            0.0,
+            0.0,
+            -4.647083741809736e-21,
+            0.0,
+            5.015873015873001e-05,
+            8.888888888888912e-06,
+            2.2857142857142804e-05,
+            5.015873015873001e-05,
+            8.888888888888766e-06,
+            -2.7936507936507882e-05,
+            5.0158730158730166e-05,
+            8.888888888888904e-06,
+            5.079365079365073e-06
+          ],
+          "qf": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            5.015873015873014e-05,
+            8.888888888888885e-06,
+            2.2857142857142848e-05,
+            5.015873015873014e-05,
+            8.88888888888887e-06,
+            -2.793650793650794e-05,
+            5.0158730158730166e-05,
+            8.888888888888888e-06,
+            5.079365079365082e-06
+          ],
+          "relative_error": 2.3461582805464997e-15,
+          "tolerance": 1e-06,
+          "verdict": "PASS"
+        },
+        "strain_energy": {
+          "oracle": 2.5079365079365032e-05,
+          "qf": 2.5079365079365066e-05,
+          "relative_error": 1.3509639411904038e-15,
+          "tolerance": 1e-06,
+          "verdict": "PASS"
+        },
+        "total_reaction": {
+          "oracle": [
+            -0.9999999999999982,
+            1.137218229048078e-16,
+            5.551115123125783e-16
+          ],
+          "qf": [
+            -1.0,
+            4.1633363423443395e-17,
+            -4.163336342344338e-17
+          ],
+          "relative_error": 1.8752985931823345e-15,
+          "tolerance": 1e-06,
+          "verdict": "PASS"
+        }
+      },
+      "external_result": {
+        "displacement": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          2.6712278476202025e-36,
+          0.0,
+          0.0,
+          -4.647083741809736e-21,
+          0.0,
+          5.015873015873001e-05,
+          8.888888888888912e-06,
+          2.2857142857142804e-05,
+          5.015873015873001e-05,
+          8.888888888888766e-06,
+          -2.7936507936507882e-05,
+          5.0158730158730166e-05,
+          8.888888888888904e-06,
+          5.079365079365073e-06
+        ],
+        "strain_energy": 2.5079365079365032e-05,
+        "total_reaction": [
+          -0.9999999999999982,
+          1.137218229048078e-16,
+          5.551115123125783e-16
+        ]
+      },
+      "formulation_compatible": true,
+      "level": null,
+      "oracle": {
+        "base_image_digest": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "deck_digests": {
+          "wp09-final-c-shear.comm": "cbed241db58fc586564ba76703b6c98f040cba7947017fd0af16583b6ee1d77b",
+          "wp09-final-c-shear.export": "d18be4881b81f7dc450b69aaff87adb98c26042d3dbb80d4d4d9b047ac1272a5",
+          "wp09-final-c-shear.mail": "b92fa5314944ffe32943d5910bccfb3b7edf4f84c409e678fbb95c9a439816e8"
+        },
+        "exit_code": 0,
+        "image": "qf-solver/code-aster-headless:18.1.0",
+        "image_digest": "sha256:df70aa569db65f952cdfd4b1391acac4819d0afa46d0788ee756683b87fac579",
+        "node_order": [
+          "N1",
+          "N2",
+          "N3",
+          "N4",
+          "N5",
+          "N6"
+        ],
+        "output_digest": "1ac6539e0fda9837f2bc25bc96a19ebbe886604dff95a5b3197a80aaa4ecc202",
+        "runtime_seconds": 3.7414446999900974,
+        "solver": "Code_Aster 18.1.0 / PENTA6",
+        "state": "PASS",
+        "stdout_stderr_digest": "6cd165115658f95a8f326c7c7424475296f2296ac1b7610d4551161be25f4032"
+      },
+      "primary_observables": [
+        "displacement",
+        "total_reaction",
+        "strain_energy"
+      ],
+      "qf_result": {
+        "displacement": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          5.015873015873014e-05,
+          8.888888888888885e-06,
+          2.2857142857142848e-05,
+          5.015873015873014e-05,
+          8.88888888888887e-06,
+          -2.793650793650794e-05,
+          5.0158730158730166e-05,
+          8.888888888888888e-06,
+          5.079365079365082e-06
+        ],
+        "element_count": 1,
+        "finite": true,
+        "force_balance_relative_error": 5.887846720064158e-17,
+        "free_relative_residual": 8.49385876049865e-16,
+        "moment_balance_relative_error": 2.2069609940720106e-16,
+        "node_count": 6,
+        "reaction_definition": "fixed_support_reaction_resultant",
+        "status": "PASS",
+        "strain_energy": 2.5079365079365066e-05,
+        "total_reaction": [
+          -1.0,
+          4.1633363423443395e-17,
+          -4.163336342344338e-17
+        ]
+      },
+      "relative_error": {
+        "displacement": 2.3461582805464997e-15,
+        "strain_energy": 1.3509639411904038e-15,
+        "total_reaction": 1.8752985931823345e-15
+      },
+      "source_sha": "4b2fcdc9ed51821b05b52851912be3ebbe764b14",
+      "tolerance_approval_reference": "qualification/0_2_7/wp09_state.json#external.affine_tolerance",
+      "tolerance_approval_state": "OWNER_REVIEW_REQUIRED",
+      "tolerance_class": "AFFINE_SAME_MESH",
+      "tolerance_source": "WP05 AFFINE_SAME_MESH candidate retained from controlled WP09 evidence",
+      "tolerances": {
+        "displacement": 1e-06,
+        "strain_energy": 1e-06,
+        "total_reaction": 1e-06
+      },
+      "verdict": "PASS_EXTERNAL_CORRELATION_BOUNDED"
+    },
+    {
+      "artifact_classification": "CONTROLLED_PROOF",
+      "case_class": "affine_bending",
+      "case_id": "WP09-FINAL-D-BENDING",
+      "comparison": {
+        "displacement": {
+          "oracle": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.6485537365070683e-21,
+            0.0,
+            0.0,
+            3.748464711430715e-21,
+            0.0,
+            8.225500733495861e-05,
+            -1.7278139257011243e-05,
+            2.4169353708117122e-05,
+            7.045368621769914e-05,
+            5.554527470130985e-05,
+            -2.6624297085533503e-05,
+            -2.232503076467734e-06,
+            -1.1600468777632073e-05,
+            6.3915759303394125e-06
+          ],
+          "qf": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            8.225500733495883e-05,
+            -1.7278139257011277e-05,
+            2.4169353708117197e-05,
+            7.045368621769936e-05,
+            5.554527470131002e-05,
+            -2.66242970855336e-05,
+            -2.2325030764677354e-06,
+            -1.1600468777632081e-05,
+            6.391575930339426e-06
+          ],
+          "relative_error": 2.9229502854856794e-15,
+          "tolerance": 1e-06,
+          "verdict": "PASS"
+        },
+        "strain_energy": {
+          "oracle": 4.112750366747931e-05,
+          "qf": 4.112750366747941e-05,
+          "relative_error": 2.471435039975173e-15,
+          "tolerance": 1e-06,
+          "verdict": "PASS"
+        },
+        "total_reaction": {
+          "oracle": [
+            -0.999999999999997,
+            4.996003610813204e-16,
+            8.881784197001252e-16
+          ],
+          "qf": [
+            -1.0000000000000004,
+            1.6653345369377348e-16,
+            -9.71445146547012e-17
+          ],
+          "relative_error": 3.5954185263640105e-15,
+          "tolerance": 1e-06,
+          "verdict": "PASS"
+        }
+      },
+      "external_result": {
+        "displacement": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.6485537365070683e-21,
+          0.0,
+          0.0,
+          3.748464711430715e-21,
+          0.0,
+          8.225500733495861e-05,
+          -1.7278139257011243e-05,
+          2.4169353708117122e-05,
+          7.045368621769914e-05,
+          5.554527470130985e-05,
+          -2.6624297085533503e-05,
+          -2.232503076467734e-06,
+          -1.1600468777632073e-05,
+          6.3915759303394125e-06
+        ],
+        "strain_energy": 4.112750366747931e-05,
+        "total_reaction": [
+          -0.999999999999997,
+          4.996003610813204e-16,
+          8.881784197001252e-16
+        ]
+      },
+      "formulation_compatible": true,
+      "level": null,
+      "oracle": {
+        "base_image_digest": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "deck_digests": {
+          "wp09-final-d-bending.comm": "cef73edd7a6bb73268b987b1fa0d6ee91242af1e90f51dd277427f7235b41d40",
+          "wp09-final-d-bending.export": "1685d93e4cba340bdaa57affc165966842c8019c720b715420e8d38be6fde986",
+          "wp09-final-d-bending.mail": "51e26b6b1d02dce3a4792fbfd4fc1ff6bb6b68ce0ef00a2c7d7380151fbb3081"
+        },
+        "exit_code": 0,
+        "image": "qf-solver/code-aster-headless:18.1.0",
+        "image_digest": "sha256:df70aa569db65f952cdfd4b1391acac4819d0afa46d0788ee756683b87fac579",
+        "node_order": [
+          "N1",
+          "N2",
+          "N3",
+          "N4",
+          "N5",
+          "N6"
+        ],
+        "output_digest": "0c75596dcfd6bf1251ed73fac4370be8b061d8209fe4a6582269b79a7cf7beb3",
+        "runtime_seconds": 3.714906700013671,
+        "solver": "Code_Aster 18.1.0 / PENTA6",
+        "state": "PASS",
+        "stdout_stderr_digest": "c8c071bf1cbebf9ab0a0be4094db5a4a5471eb1414edd6b6ad43a9dc1d836999"
+      },
+      "primary_observables": [
+        "displacement",
+        "total_reaction",
+        "strain_energy"
+      ],
+      "qf_result": {
+        "displacement": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          8.225500733495883e-05,
+          -1.7278139257011277e-05,
+          2.4169353708117197e-05,
+          7.045368621769936e-05,
+          5.554527470131002e-05,
+          -2.66242970855336e-05,
+          -2.2325030764677354e-06,
+          -1.1600468777632081e-05,
+          6.391575930339426e-06
+        ],
+        "element_count": 1,
+        "finite": true,
+        "force_balance_relative_error": 4.841339424497382e-16,
+        "free_relative_residual": 5.655624214675712e-16,
+        "moment_balance_relative_error": 2.0816681711721685e-16,
+        "node_count": 6,
+        "reaction_definition": "fixed_support_reaction_resultant",
+        "status": "PASS",
+        "strain_energy": 4.112750366747941e-05,
+        "total_reaction": [
+          -1.0000000000000004,
+          1.6653345369377348e-16,
+          -9.71445146547012e-17
+        ]
+      },
+      "relative_error": {
+        "displacement": 2.9229502854856794e-15,
+        "strain_energy": 2.471435039975173e-15,
+        "total_reaction": 3.5954185263640105e-15
+      },
+      "source_sha": "4b2fcdc9ed51821b05b52851912be3ebbe764b14",
+      "tolerance_approval_reference": "qualification/0_2_7/wp09_state.json#external.affine_tolerance",
+      "tolerance_approval_state": "OWNER_REVIEW_REQUIRED",
+      "tolerance_class": "AFFINE_SAME_MESH",
+      "tolerance_source": "WP05 AFFINE_SAME_MESH candidate retained from controlled WP09 evidence",
+      "tolerances": {
+        "displacement": 1e-06,
+        "strain_energy": 1e-06,
+        "total_reaction": 1e-06
+      },
+      "verdict": "PASS_EXTERNAL_CORRELATION_BOUNDED"
+    },
+    {
+      "artifact_classification": "CONTROLLED_PROOF",
+      "case_class": "tri3_pressure",
+      "case_id": "WP09-FINAL-E-TRI-PRESSURE",
+      "comparison": {
+        "displacement": {
+          "oracle": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -5.542664254211096e-23,
+            0.0,
+            0.0,
+            -4.383098643293394e-22,
+            0.0,
+            -1.3122108509743427e-06,
+            -1.3122108509743434e-06,
+            -8.699471937941025e-06,
+            2.4786204962848763e-06,
+            -1.166409645310528e-06,
+            -8.699471937941032e-06,
+            -1.166409645310525e-06,
+            2.4786204962848755e-06,
+            -8.699471937941025e-06
+          ],
+          "qf": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.3122108509743442e-06,
+            -1.312210850974346e-06,
+            -8.699471937941025e-06,
+            2.478620496284873e-06,
+            -1.166409645310527e-06,
+            -8.699471937941027e-06,
+            -1.16640964531053e-06,
+            2.4786204962848713e-06,
+            -8.699471937941025e-06
+          ],
+          "relative_error": 6.076319547093928e-16,
+          "tolerance": 1e-06,
+          "verdict": "PASS"
+        },
+        "strain_energy": {
+          "oracle": 4.3497359689705135e-06,
+          "qf": 4.349735968970512e-06,
+          "relative_error": 3.894640747377475e-16,
+          "tolerance": 1e-06,
+          "verdict": "PASS"
+        },
+        "total_reaction": {
+          "oracle": [
+            -1.734723475976807e-18,
+            -1.1102230246251565e-16,
+            1.0
+          ],
+          "qf": [
+            2.2551405187698492e-17,
+            -2.7755575615628914e-17,
+            1.0000000000000002
+          ],
+          "relative_error": 2.3838408172857484e-16,
+          "tolerance": 1e-06,
+          "verdict": "PASS"
+        }
+      },
+      "external_result": {
+        "displacement": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -5.542664254211096e-23,
+          0.0,
+          0.0,
+          -4.383098643293394e-22,
+          0.0,
+          -1.3122108509743427e-06,
+          -1.3122108509743434e-06,
+          -8.699471937941025e-06,
+          2.4786204962848763e-06,
+          -1.166409645310528e-06,
+          -8.699471937941032e-06,
+          -1.166409645310525e-06,
+          2.4786204962848755e-06,
+          -8.699471937941025e-06
+        ],
+        "strain_energy": 4.3497359689705135e-06,
+        "total_reaction": [
+          -1.734723475976807e-18,
+          -1.1102230246251565e-16,
+          1.0
+        ]
+      },
+      "formulation_compatible": true,
+      "level": null,
+      "oracle": {
+        "base_image_digest": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "deck_digests": {
+          "wp09-final-e-tri-pressure.comm": "c2239cca21528c0c08eb539d58c7f3283f5ea8bf37585562e03c79cc99a55927",
+          "wp09-final-e-tri-pressure.export": "c490309b0337eb5ed2a48a964c308c869d335872a8269dbdbb4d23e6ffee642c",
+          "wp09-final-e-tri-pressure.mail": "66af2c18380271af8480b116828d402d799fdf109a402de994dfae7d3a124a68"
+        },
+        "exit_code": 0,
+        "image": "qf-solver/code-aster-headless:18.1.0",
+        "image_digest": "sha256:df70aa569db65f952cdfd4b1391acac4819d0afa46d0788ee756683b87fac579",
+        "node_order": [
+          "N1",
+          "N2",
+          "N3",
+          "N4",
+          "N5",
+          "N6"
+        ],
+        "output_digest": "34fd39bea4dc9834d8c1233e55c36836b5c926cc3096d52aa859ee68dc0b40d7",
+        "runtime_seconds": 3.750745299970731,
+        "solver": "Code_Aster 18.1.0 / PENTA6",
+        "state": "PASS",
+        "stdout_stderr_digest": "dee97fb5b0eac1e9209d5c0766e91eb0239f09efbf7f17bc0d338695c5122540"
+      },
+      "primary_observables": [
+        "displacement",
+        "total_reaction",
+        "strain_energy"
+      ],
+      "qf_result": {
+        "displacement": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -1.3122108509743442e-06,
+          -1.312210850974346e-06,
+          -8.699471937941025e-06,
+          2.478620496284873e-06,
+          -1.166409645310527e-06,
+          -8.699471937941027e-06,
+          -1.16640964531053e-06,
+          2.4786204962848713e-06,
+          -8.699471937941025e-06
+        ],
+        "element_count": 1,
+        "finite": true,
+        "force_balance_relative_error": 2.2490607913084046e-16,
+        "free_relative_residual": 1.018032932337349e-16,
+        "moment_balance_relative_error": 5.991705756259507e-17,
+        "node_count": 6,
+        "reaction_definition": "fixed_support_reaction_resultant",
+        "status": "PASS",
+        "strain_energy": 4.349735968970512e-06,
+        "total_reaction": [
+          2.2551405187698492e-17,
+          -2.7755575615628914e-17,
+          1.0000000000000002
+        ]
+      },
+      "relative_error": {
+        "displacement": 6.076319547093928e-16,
+        "strain_energy": 3.894640747377475e-16,
+        "total_reaction": 2.3838408172857484e-16
+      },
+      "source_sha": "4b2fcdc9ed51821b05b52851912be3ebbe764b14",
+      "tolerance_approval_reference": "qualification/0_2_7/wp09_state.json#external.affine_tolerance",
+      "tolerance_approval_state": "OWNER_REVIEW_REQUIRED",
+      "tolerance_class": "AFFINE_SAME_MESH",
+      "tolerance_source": "WP05 AFFINE_SAME_MESH candidate retained from controlled WP09 evidence",
+      "tolerances": {
+        "displacement": 1e-06,
+        "strain_energy": 1e-06,
+        "total_reaction": 1e-06
+      },
+      "verdict": "PASS_EXTERNAL_CORRELATION_BOUNDED"
+    },
+    {
+      "artifact_classification": "CONTROLLED_PROOF",
+      "case_class": "quad4_pressure",
+      "case_id": "WP09-FINAL-F-QUAD-PRESSURE",
+      "comparison": {
+        "displacement": {
+          "oracle": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            5.8069066149330295e-21,
+            0.0,
+            0.0,
+            -3.3237958149967887e-21,
+            0.0,
+            1.9133567722149305e-05,
+            4.0011252129245576e-05,
+            2.4096453105285274e-05,
+            2.061159170897662e-05,
+            7.771515802919135e-05,
+            6.318675327507544e-06,
+            -1.307849276445939e-05,
+            3.274978031775356e-05,
+            -2.6697197688365513e-05
+          ],
+          "qf": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.913356772214937e-05,
+            4.0011252129245535e-05,
+            2.4096453105285284e-05,
+            2.061159170897668e-05,
+            7.77151580291914e-05,
+            6.318675327507519e-06,
+            -1.3078492764459414e-05,
+            3.274978031775351e-05,
+            -2.6697197688365493e-05
+          ],
+          "relative_error": 1.247110064043067e-15,
+          "tolerance": 1e-06,
+          "verdict": "PASS"
+        },
+        "strain_energy": {
+          "oracle": 2.9431602539609234e-05,
+          "qf": 2.943160253960923e-05,
+          "relative_error": 1.151188347443002e-16,
+          "tolerance": 1e-06,
+          "verdict": "PASS"
+        },
+        "total_reaction": {
+          "oracle": [
+            7.91033905045424e-16,
+            -2.0,
+            4.440892098500626e-16
+          ],
+          "qf": [
+            -2.3592239273284576e-16,
+            -1.9999999999999996,
+            1.1102230246251565e-16
+          ],
+          "relative_error": 5.836925621952896e-16,
+          "tolerance": 1e-06,
+          "verdict": "PASS"
+        }
+      },
+      "external_result": {
+        "displacement": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          5.8069066149330295e-21,
+          0.0,
+          0.0,
+          -3.3237958149967887e-21,
+          0.0,
+          1.9133567722149305e-05,
+          4.0011252129245576e-05,
+          2.4096453105285274e-05,
+          2.061159170897662e-05,
+          7.771515802919135e-05,
+          6.318675327507544e-06,
+          -1.307849276445939e-05,
+          3.274978031775356e-05,
+          -2.6697197688365513e-05
+        ],
+        "strain_energy": 2.9431602539609234e-05,
+        "total_reaction": [
+          7.91033905045424e-16,
+          -2.0,
+          4.440892098500626e-16
+        ]
+      },
+      "formulation_compatible": true,
+      "level": null,
+      "oracle": {
+        "base_image_digest": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "deck_digests": {
+          "wp09-final-f-quad-pressure.comm": "fb56d174b5e5211cc605b71cb04ba84bf3449663521b9dc2d529c8052b4305b2",
+          "wp09-final-f-quad-pressure.export": "4c6ee51784f1acc890bc023e49751eafb1660a6ab593af7bbc45c67739b1ca5d",
+          "wp09-final-f-quad-pressure.mail": "e37d5da0319bfd5d3693244104c57dc9a155d1f9c0a3c5b76555182932a9af76"
+        },
+        "exit_code": 0,
+        "image": "qf-solver/code-aster-headless:18.1.0",
+        "image_digest": "sha256:df70aa569db65f952cdfd4b1391acac4819d0afa46d0788ee756683b87fac579",
+        "node_order": [
+          "N1",
+          "N2",
+          "N3",
+          "N4",
+          "N5",
+          "N6"
+        ],
+        "output_digest": "a5281a9ed3ee2bdd1e371ddaca654e73a55f2a9358198f61174c60cd3df6a274",
+        "runtime_seconds": 3.7616856999811716,
+        "solver": "Code_Aster 18.1.0 / PENTA6",
+        "state": "PASS",
+        "stdout_stderr_digest": "aa96afb7a176a79bf1f64752d1eb2a760e4f60989f8d64873b4abaf5ecc44ee3"
+      },
+      "primary_observables": [
+        "displacement",
+        "total_reaction",
+        "strain_energy"
+      ],
+      "qf_result": {
+        "displacement": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.913356772214937e-05,
+          4.0011252129245535e-05,
+          2.4096453105285284e-05,
+          2.061159170897668e-05,
+          7.77151580291914e-05,
+          6.318675327507519e-06,
+          -1.3078492764459414e-05,
+          3.274978031775351e-05,
+          -2.6697197688365493e-05
+        ],
+        "element_count": 1,
+        "finite": true,
+        "force_balance_relative_error": 1.7123750583121584e-16,
+        "free_relative_residual": 1.3769290415643808e-15,
+        "moment_balance_relative_error": 1.1102230246251565e-16,
+        "node_count": 6,
+        "reaction_definition": "fixed_support_reaction_resultant",
+        "status": "PASS",
+        "strain_energy": 2.943160253960923e-05,
+        "total_reaction": [
+          -2.3592239273284576e-16,
+          -1.9999999999999996,
+          1.1102230246251565e-16
+        ]
+      },
+      "relative_error": {
+        "displacement": 1.247110064043067e-15,
+        "strain_energy": 1.151188347443002e-16,
+        "total_reaction": 5.836925621952896e-16
+      },
+      "source_sha": "4b2fcdc9ed51821b05b52851912be3ebbe764b14",
+      "tolerance_approval_reference": "qualification/0_2_7/wp09_state.json#external.affine_tolerance",
+      "tolerance_approval_state": "OWNER_REVIEW_REQUIRED",
+      "tolerance_class": "AFFINE_SAME_MESH",
+      "tolerance_source": "WP05 AFFINE_SAME_MESH candidate retained from controlled WP09 evidence",
+      "tolerances": {
+        "displacement": 1e-06,
+        "strain_energy": 1e-06,
+        "total_reaction": 1e-06
+      },
+      "verdict": "PASS_EXTERNAL_CORRELATION_BOUNDED"
+    },
+    {
+      "artifact_classification": "CONTROLLED_PROOF",
+      "case_class": "prescribed_displacement",
+      "case_id": "WP09-FINAL-G-PRESCRIBED",
+      "comparison": {
+        "displacement": {
+          "oracle": [
+            0.0,
+            2.9494270139403676e-20,
+            0.0,
+            0.0,
+            6.978880491143046e-21,
+            0.0,
+            0.0,
+            -1.9142534483392505e-21,
+            0.0,
+            0.00015083798882681553,
+            0.00015083798882681532,
+            0.0009999999999999998,
+            -0.0002849162011173186,
+            0.0001340782122905027,
+            0.001,
+            0.00013407821229050265,
+            -0.0002849162011173187,
+            0.001
+          ],
+          "qf": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.00015083798882681564,
+            0.0001508379888268157,
+            0.001,
+            -0.00028491620111731846,
+            0.0001340782122905027,
+            0.001,
+            0.0001340782122905029,
+            -0.00028491620111731824,
+            0.001
+          ],
+          "relative_error": 3.8376411972191543e-16,
+          "tolerance": 1e-06,
+          "verdict": "PASS"
+        },
+        "strain_energy": {
+          "oracle": 0.05747475290073053,
+          "qf": 0.05747475290073056,
+          "relative_error": 4.829177023791279e-16,
+          "tolerance": 1e-06,
+          "verdict": "PASS"
+        },
+        "total_reaction": {
+          "oracle": [
+            -2.1094237467877974e-15,
+            0.0,
+            -114.94950580146104
+          ],
+          "qf": [
+            0.0,
+            0.0,
+            -114.9495058014611
+          ],
+          "relative_error": 4.948481048006936e-16,
+          "tolerance": 1e-06,
+          "verdict": "PASS"
+        }
+      },
+      "external_result": {
+        "displacement": [
+          0.0,
+          2.9494270139403676e-20,
+          0.0,
+          0.0,
+          6.978880491143046e-21,
+          0.0,
+          0.0,
+          -1.9142534483392505e-21,
+          0.0,
+          0.00015083798882681553,
+          0.00015083798882681532,
+          0.0009999999999999998,
+          -0.0002849162011173186,
+          0.0001340782122905027,
+          0.001,
+          0.00013407821229050265,
+          -0.0002849162011173187,
+          0.001
+        ],
+        "strain_energy": 0.05747475290073053,
+        "total_reaction": [
+          -2.1094237467877974e-15,
+          0.0,
+          -114.94950580146104
+        ]
+      },
+      "formulation_compatible": true,
+      "level": null,
+      "oracle": {
+        "base_image_digest": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "deck_digests": {
+          "wp09-final-g-prescribed.comm": "e0cb85d8136e34e5a77757320aa6633b20f085480a35e56e763d50e5fad06edd",
+          "wp09-final-g-prescribed.export": "15763c05ed133787c4fa3aba080c5433dcbc3e451e0aa98f1838d0c8a5437eb1",
+          "wp09-final-g-prescribed.mail": "0f36ba8086d7970ddda122299f6d7c6549898f8e36bbddd2cfc842ef5bcf8a23"
+        },
+        "exit_code": 0,
+        "image": "qf-solver/code-aster-headless:18.1.0",
+        "image_digest": "sha256:df70aa569db65f952cdfd4b1391acac4819d0afa46d0788ee756683b87fac579",
+        "node_order": [
+          "N1",
+          "N2",
+          "N3",
+          "N4",
+          "N5",
+          "N6"
+        ],
+        "output_digest": "dc61dba4bc90530cf483b8848e8c0c5bf490cf6bfc3005939cff9f4205ca6a31",
+        "runtime_seconds": 3.7447823000256903,
+        "solver": "Code_Aster 18.1.0 / PENTA6",
+        "state": "PASS",
+        "stdout_stderr_digest": "6147faa3954039f6d93939fafa17c5d0c16745b42f1a3c21a4896d0d079ddcee"
+      },
+      "primary_observables": [
+        "displacement",
+        "total_reaction",
+        "strain_energy"
+      ],
+      "qf_result": {
+        "displacement": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.00015083798882681564,
+          0.0001508379888268157,
+          0.001,
+          -0.00028491620111731846,
+          0.0001340782122905027,
+          0.001,
+          0.0001340782122905029,
+          -0.00028491620111731824,
+          0.001
+        ],
+        "element_count": 1,
+        "finite": true,
+        "force_balance_relative_error": 9.776823404645805e-14,
+        "free_relative_residual": 2.9790409838967277e-15,
+        "moment_balance_relative_error": 5.5158422948474346e-14,
+        "node_count": 6,
+        "reaction_definition": "equivalent_reaction_at_prescribed_dofs",
+        "status": "PASS",
+        "strain_energy": 0.05747475290073056,
+        "total_reaction": [
+          0.0,
+          0.0,
+          -114.9495058014611
+        ]
+      },
+      "relative_error": {
+        "displacement": 3.8376411972191543e-16,
+        "strain_energy": 4.829177023791279e-16,
+        "total_reaction": 4.948481048006936e-16
+      },
+      "source_sha": "4b2fcdc9ed51821b05b52851912be3ebbe764b14",
+      "tolerance_approval_reference": "qualification/0_2_7/wp09_state.json#external.affine_tolerance",
+      "tolerance_approval_state": "OWNER_REVIEW_REQUIRED",
+      "tolerance_class": "AFFINE_SAME_MESH",
+      "tolerance_source": "WP05 AFFINE_SAME_MESH candidate retained from controlled WP09 evidence",
+      "tolerances": {
+        "displacement": 1e-06,
+        "strain_energy": 1e-06,
+        "total_reaction": 1e-06
+      },
+      "verdict": "PASS_EXTERNAL_CORRELATION_BOUNDED"
+    },
+    {
+      "artifact_classification": "CONTROLLED_PROOF",
+      "case_class": "multi_element",
+      "case_id": "WP09-FINAL-H-MULTI-ELEMENT",
+      "comparison": {
+        "displacement": {
+          "oracle": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.8264501428656027e-23,
+            0.0,
+            0.0,
+            -1.2031917723725464e-22,
+            0.0,
+            1.1235100964556312e-06,
+            1.1235100964556346e-06,
+            4.211671665145259e-06,
+            -2.0230211662857274e-06,
+            8.995110698300929e-07,
+            4.211671665145262e-06,
+            8.995110698300933e-07,
+            -2.023021166285724e-06,
+            4.211671665145253e-06,
+            9.030260331580208e-07,
+            9.030260331580315e-07,
+            9.01960892755622e-06,
+            -1.8795467540819256e-06,
+            9.765207209238992e-07,
+            9.019608927556225e-06,
+            9.765207209238936e-07,
+            -1.8795467540819144e-06,
+            9.01960892755621e-06
+          ],
+          "qf": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.1235100964556314e-06,
+            1.1235100964556314e-06,
+            4.211671665145253e-06,
+            -2.0230211662857286e-06,
+            8.995110698300926e-07,
+            4.211671665145266e-06,
+            8.995110698300902e-07,
+            -2.023021166285727e-06,
+            4.211671665145257e-06,
+            9.030260331580163e-07,
+            9.03026033158022e-07,
+            9.01960892755621e-06,
+            -1.8795467540819288e-06,
+            9.765207209238915e-07,
+            9.019608927556229e-06,
+            9.765207209238852e-07,
+            -1.8795467540819229e-06,
+            9.019608927556218e-06
+          ],
+          "relative_error": 1.3739016836159834e-15,
+          "tolerance": 1e-05,
+          "verdict": "PASS"
+        },
+        "strain_energy": {
+          "oracle": 4.509804463778109e-06,
+          "qf": 4.509804463778111e-06,
+          "relative_error": 3.756406531846369e-16,
+          "tolerance": 1e-05,
+          "verdict": "PASS"
+        },
+        "total_reaction": {
+          "oracle": [
+            3.5561831257524545e-17,
+            2.7755575615628914e-17,
+            -1.0
+          ],
+          "qf": [
+            -6.765421556309548e-17,
+            1.3877787807814457e-17,
+            -1.0000000000000007
+          ],
+          "relative_error": 6.742257815469041e-16,
+          "tolerance": 1e-05,
+          "verdict": "PASS"
+        }
+      },
+      "external_result": {
+        "displacement": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -1.8264501428656027e-23,
+          0.0,
+          0.0,
+          -1.2031917723725464e-22,
+          0.0,
+          1.1235100964556312e-06,
+          1.1235100964556346e-06,
+          4.211671665145259e-06,
+          -2.0230211662857274e-06,
+          8.995110698300929e-07,
+          4.211671665145262e-06,
+          8.995110698300933e-07,
+          -2.023021166285724e-06,
+          4.211671665145253e-06,
+          9.030260331580208e-07,
+          9.030260331580315e-07,
+          9.01960892755622e-06,
+          -1.8795467540819256e-06,
+          9.765207209238992e-07,
+          9.019608927556225e-06,
+          9.765207209238936e-07,
+          -1.8795467540819144e-06,
+          9.01960892755621e-06
+        ],
+        "strain_energy": 4.509804463778109e-06,
+        "total_reaction": [
+          3.5561831257524545e-17,
+          2.7755575615628914e-17,
+          -1.0
+        ]
+      },
+      "formulation_compatible": true,
+      "level": 2,
+      "oracle": {
+        "base_image_digest": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "deck_digests": {
+          "wp09-final-h-multi-element.comm": "3879e8c0c2491722891ff3988a85be30044a1b3d7feb904822cea4624803e2b6",
+          "wp09-final-h-multi-element.export": "fb746fb154f92393768fc40500d64d613f80c4c9b83f9d966ed0b656590bd03f",
+          "wp09-final-h-multi-element.mail": "7c70514c6ed549179dad07e732fe2df35ebeaac41b4e6b61acf21d42125e8014"
+        },
+        "exit_code": 0,
+        "image": "qf-solver/code-aster-headless:18.1.0",
+        "image_digest": "sha256:df70aa569db65f952cdfd4b1391acac4819d0afa46d0788ee756683b87fac579",
+        "node_order": [
+          "N1",
+          "N2",
+          "N3",
+          "N4",
+          "N5",
+          "N6",
+          "N7",
+          "N8",
+          "N9"
+        ],
+        "output_digest": "3abf95a52835db1cab5bc3c2f8200c4aa92bc92526f61e45a99acd421b58708a",
+        "runtime_seconds": 3.727974300039932,
+        "solver": "Code_Aster 18.1.0 / PENTA6",
+        "state": "PASS",
+        "stdout_stderr_digest": "cdc81c6d97acf7f59b5a58629c508e98d8ce3012f2ab01bf558599d30d96e547"
+      },
+      "primary_observables": [
+        "displacement",
+        "total_reaction",
+        "strain_energy"
+      ],
+      "qf_result": {
+        "displacement": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.1235100964556314e-06,
+          1.1235100964556314e-06,
+          4.211671665145253e-06,
+          -2.0230211662857286e-06,
+          8.995110698300926e-07,
+          4.211671665145266e-06,
+          8.995110698300902e-07,
+          -2.023021166285727e-06,
+          4.211671665145257e-06,
+          9.030260331580163e-07,
+          9.03026033158022e-07,
+          9.01960892755621e-06,
+          -1.8795467540819288e-06,
+          9.765207209238915e-07,
+          9.019608927556229e-06,
+          9.765207209238852e-07,
+          -1.8795467540819229e-06,
+          9.019608927556218e-06
+        ],
+        "element_count": 2,
+        "finite": true,
+        "force_balance_relative_error": 6.697043713943601e-16,
+        "free_relative_residual": 2.8565581445378754e-16,
+        "moment_balance_relative_error": 4.580852589891338e-16,
+        "node_count": 9,
+        "reaction_definition": "fixed_support_reaction_resultant",
+        "status": "PASS",
+        "strain_energy": 4.509804463778111e-06,
+        "total_reaction": [
+          -6.765421556309548e-17,
+          1.3877787807814457e-17,
+          -1.0000000000000007
+        ]
+      },
+      "relative_error": {
+        "displacement": 1.3739016836159834e-15,
+        "strain_energy": 3.756406531846369e-16,
+        "total_reaction": 6.742257815469041e-16
+      },
+      "source_sha": "4b2fcdc9ed51821b05b52851912be3ebbe764b14",
+      "tolerance_approval_reference": "WP09-FINAL-EXTERNAL-001",
+      "tolerance_approval_state": "OWNER_REVIEW_REQUIRED",
+      "tolerance_class": "REFINEMENT",
+      "tolerance_source": "WP09-FINAL predeclared refinement contract",
+      "tolerances": {
+        "displacement": 1e-05,
+        "strain_energy": 1e-05,
+        "total_reaction": 1e-05
+      },
+      "verdict": "PASS_EXTERNAL_CORRELATION_BOUNDED"
+    },
+    {
+      "artifact_classification": "CONTROLLED_PROOF",
+      "case_class": "distorted_valid",
+      "case_id": "WP09-FINAL-I-DISTORTED",
+      "comparison": {
+        "displacement": {
+          "oracle": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            3.538323153270216e-21,
+            0.0,
+            0.0,
+            -2.2106922623821525e-21,
+            0.0,
+            8.087008003924891e-05,
+            -2.4699874947984044e-05,
+            2.7346812077745326e-05,
+            6.451891636374027e-05,
+            4.736625979899652e-05,
+            -3.015029014534121e-05,
+            -3.2837259376676512e-06,
+            -5.761357208362639e-06,
+            5.368867007512933e-06
+          ],
+          "qf": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            8.087008003924882e-05,
+            -2.4699874947984054e-05,
+            2.7346812077745265e-05,
+            6.451891636374021e-05,
+            4.736625979899641e-05,
+            -3.0150290145341202e-05,
+            -3.283725937667634e-06,
+            -5.761357208362674e-06,
+            5.3688670075129604e-06
+          ],
+          "relative_error": 1.3981481078793733e-15,
+          "tolerance": 1e-05,
+          "verdict": "PASS"
+        },
+        "strain_energy": {
+          "oracle": 4.043504001962446e-05,
+          "qf": 4.043504001962437e-05,
+          "relative_error": 2.1785913027832684e-15,
+          "tolerance": 1e-05,
+          "verdict": "PASS"
+        },
+        "total_reaction": {
+          "oracle": [
+            -0.9999999999999998,
+            -2.3592239273284576e-16,
+            -5.828670879282072e-16
+          ],
+          "qf": [
+            -0.9999999999999993,
+            6.938893903907228e-16,
+            -9.020562075079397e-17
+          ],
+          "relative_error": 1.1421385640902268e-15,
+          "tolerance": 1e-05,
+          "verdict": "PASS"
+        }
+      },
+      "external_result": {
+        "displacement": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          3.538323153270216e-21,
+          0.0,
+          0.0,
+          -2.2106922623821525e-21,
+          0.0,
+          8.087008003924891e-05,
+          -2.4699874947984044e-05,
+          2.7346812077745326e-05,
+          6.451891636374027e-05,
+          4.736625979899652e-05,
+          -3.015029014534121e-05,
+          -3.2837259376676512e-06,
+          -5.761357208362639e-06,
+          5.368867007512933e-06
+        ],
+        "strain_energy": 4.043504001962446e-05,
+        "total_reaction": [
+          -0.9999999999999998,
+          -2.3592239273284576e-16,
+          -5.828670879282072e-16
+        ]
+      },
+      "formulation_compatible": true,
+      "level": null,
+      "oracle": {
+        "base_image_digest": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "deck_digests": {
+          "wp09-final-i-distorted.comm": "0d80e43a5194697b1c09381c270d92948dc73ae72edf7b50ff4afa46055169d2",
+          "wp09-final-i-distorted.export": "a6aa7696e49233210ea6ae248941b9614c847a4e8993c80bc6362fbbe4f7be25",
+          "wp09-final-i-distorted.mail": "fcf5ce03558be52728e4e6160d1be9af9425d329008939c77731c407d3f1f2f7"
+        },
+        "exit_code": 0,
+        "image": "qf-solver/code-aster-headless:18.1.0",
+        "image_digest": "sha256:df70aa569db65f952cdfd4b1391acac4819d0afa46d0788ee756683b87fac579",
+        "node_order": [
+          "N1",
+          "N2",
+          "N3",
+          "N4",
+          "N5",
+          "N6"
+        ],
+        "output_digest": "828eb432f10b0137eeb8f9d5e75e8b443db97654f5426535a4812540e673fec5",
+        "runtime_seconds": 3.730768699955661,
+        "solver": "Code_Aster 18.1.0 / PENTA6",
+        "state": "PASS",
+        "stdout_stderr_digest": "b993ce7889a21154facbcd324d6027d9adb4bcba05063e39198ebad22e4139f7"
+      },
+      "primary_observables": [
+        "displacement",
+        "total_reaction",
+        "strain_energy"
+      ],
+      "qf_result": {
+        "displacement": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          8.087008003924882e-05,
+          -2.4699874947984054e-05,
+          2.7346812077745265e-05,
+          6.451891636374021e-05,
+          4.736625979899641e-05,
+          -3.0150290145341202e-05,
+          -3.283725937667634e-06,
+          -5.761357208362674e-06,
+          5.3688670075129604e-06
+        ],
+        "element_count": 1,
+        "finite": true,
+        "force_balance_relative_error": 9.66102375164591e-16,
+        "free_relative_residual": 4.395381950027317e-16,
+        "moment_balance_relative_error": 1.1526939344944984e-15,
+        "node_count": 6,
+        "reaction_definition": "fixed_support_reaction_resultant",
+        "status": "PASS",
+        "strain_energy": 4.043504001962437e-05,
+        "total_reaction": [
+          -0.9999999999999993,
+          6.938893903907228e-16,
+          -9.020562075079397e-17
+        ]
+      },
+      "relative_error": {
+        "displacement": 1.3981481078793733e-15,
+        "strain_energy": 2.1785913027832684e-15,
+        "total_reaction": 1.1421385640902268e-15
+      },
+      "source_sha": "4b2fcdc9ed51821b05b52851912be3ebbe764b14",
+      "tolerance_approval_reference": "WP09-FINAL-EXTERNAL-001",
+      "tolerance_approval_state": "OWNER_REVIEW_REQUIRED",
+      "tolerance_class": "DISTORTED",
+      "tolerance_source": "WP09-FINAL predeclared distorted-prism contract",
+      "tolerances": {
+        "displacement": 1e-05,
+        "strain_energy": 1e-05,
+        "total_reaction": 1e-05
+      },
+      "verdict": "PASS_EXTERNAL_CORRELATION_BOUNDED"
+    },
+    {
+      "artifact_classification": "CONTROLLED_PROOF",
+      "case_class": "refinement",
+      "case_id": "WP09-FINAL-J-REFINEMENT-1",
+      "comparison": {
+        "displacement": {
+          "oracle": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            3.742843793807131e-24,
+            0.0,
+            0.0,
+            -2.0828729709914473e-22,
+            0.0,
+            1.3122108509743427e-06,
+            1.312210850974341e-06,
+            8.699471937941022e-06,
+            -2.4786204962848755e-06,
+            1.1664096453105251e-06,
+            8.699471937941029e-06,
+            1.1664096453105256e-06,
+            -2.4786204962848776e-06,
+            8.699471937941029e-06
+          ],
+          "qf": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.3122108509743434e-06,
+            1.3122108509743448e-06,
+            8.699471937941024e-06,
+            -2.4786204962848734e-06,
+            1.166409645310527e-06,
+            8.699471937941027e-06,
+            1.1664096453105275e-06,
+            -2.4786204962848717e-06,
+            8.699471937941024e-06
+          ],
+          "relative_error": 6.169714154748372e-16,
+          "tolerance": 1e-05,
+          "verdict": "PASS"
+        },
+        "strain_energy": {
+          "oracle": 4.3497359689705135e-06,
+          "qf": 4.349735968970511e-06,
+          "relative_error": 5.841961121066213e-16,
+          "tolerance": 1e-05,
+          "verdict": "PASS"
+        },
+        "total_reaction": {
+          "oracle": [
+            -4.5102810375396984e-17,
+            0.0,
+            -0.9999999999999998
+          ],
+          "qf": [
+            -2.168404344971009e-17,
+            5.551115123125783e-17,
+            -0.9999999999999999
+          ],
+          "relative_error": 1.2631657927373405e-16,
+          "tolerance": 1e-05,
+          "verdict": "PASS"
+        }
+      },
+      "external_result": {
+        "displacement": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          3.742843793807131e-24,
+          0.0,
+          0.0,
+          -2.0828729709914473e-22,
+          0.0,
+          1.3122108509743427e-06,
+          1.312210850974341e-06,
+          8.699471937941022e-06,
+          -2.4786204962848755e-06,
+          1.1664096453105251e-06,
+          8.699471937941029e-06,
+          1.1664096453105256e-06,
+          -2.4786204962848776e-06,
+          8.699471937941029e-06
+        ],
+        "strain_energy": 4.3497359689705135e-06,
+        "total_reaction": [
+          -4.5102810375396984e-17,
+          0.0,
+          -0.9999999999999998
+        ]
+      },
+      "formulation_compatible": true,
+      "level": 1,
+      "oracle": {
+        "base_image_digest": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "deck_digests": {
+          "wp09-final-j-refinement-1.comm": "e8f9eba655a3438a06057cc8ec144a61514df105fa33dbd8be5cc84c681f7d40",
+          "wp09-final-j-refinement-1.export": "2578286d6300cdd97b825dd623230265244a03cf1bb72b1469255872e9646942",
+          "wp09-final-j-refinement-1.mail": "96ba1c3435a6ac04d4e56867f68fcf138d7c2237cd1a49165aeb21be74fb9736"
+        },
+        "exit_code": 0,
+        "image": "qf-solver/code-aster-headless:18.1.0",
+        "image_digest": "sha256:df70aa569db65f952cdfd4b1391acac4819d0afa46d0788ee756683b87fac579",
+        "node_order": [
+          "N1",
+          "N2",
+          "N3",
+          "N4",
+          "N5",
+          "N6"
+        ],
+        "output_digest": "d1dd2c8531f96acc94edb93022b9ff6e6abb82f8dc140e39874e1e3f0f93b3e0",
+        "runtime_seconds": 3.757647500024177,
+        "solver": "Code_Aster 18.1.0 / PENTA6",
+        "state": "PASS",
+        "stdout_stderr_digest": "c7dd4f6ff1f18ba251f183b2ade913a6d721002edbc97a8c9860a13efdaaaf23"
+      },
+      "primary_observables": [
+        "displacement",
+        "total_reaction",
+        "strain_energy"
+      ],
+      "qf_result": {
+        "displacement": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.3122108509743434e-06,
+          1.3122108509743448e-06,
+          8.699471937941024e-06,
+          -2.4786204962848734e-06,
+          1.166409645310527e-06,
+          8.699471937941027e-06,
+          1.1664096453105275e-06,
+          -2.4786204962848717e-06,
+          8.699471937941024e-06
+        ],
+        "element_count": 1,
+        "finite": true,
+        "force_balance_relative_error": 1.260064970365687e-16,
+        "free_relative_residual": 1.340123006720315e-16,
+        "moment_balance_relative_error": 8.144429729801879e-17,
+        "node_count": 6,
+        "reaction_definition": "fixed_support_reaction_resultant",
+        "status": "PASS",
+        "strain_energy": 4.349735968970511e-06,
+        "total_reaction": [
+          -2.168404344971009e-17,
+          5.551115123125783e-17,
+          -0.9999999999999999
+        ]
+      },
+      "relative_error": {
+        "displacement": 6.169714154748372e-16,
+        "strain_energy": 5.841961121066213e-16,
+        "total_reaction": 1.2631657927373405e-16
+      },
+      "source_sha": "4b2fcdc9ed51821b05b52851912be3ebbe764b14",
+      "tolerance_approval_reference": "WP09-FINAL-EXTERNAL-001",
+      "tolerance_approval_state": "OWNER_REVIEW_REQUIRED",
+      "tolerance_class": "REFINEMENT",
+      "tolerance_source": "WP09-FINAL predeclared refinement contract",
+      "tolerances": {
+        "displacement": 1e-05,
+        "strain_energy": 1e-05,
+        "total_reaction": 1e-05
+      },
+      "verdict": "PASS_EXTERNAL_CORRELATION_BOUNDED"
+    },
+    {
+      "artifact_classification": "CONTROLLED_PROOF",
+      "case_class": "refinement",
+      "case_id": "WP09-FINAL-J-REFINEMENT-2",
+      "comparison": {
+        "displacement": {
+          "oracle": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.8264501428656027e-23,
+            0.0,
+            0.0,
+            -1.2031917723725464e-22,
+            0.0,
+            1.1235100964556312e-06,
+            1.1235100964556346e-06,
+            4.211671665145259e-06,
+            -2.0230211662857274e-06,
+            8.995110698300929e-07,
+            4.211671665145262e-06,
+            8.995110698300933e-07,
+            -2.023021166285724e-06,
+            4.211671665145253e-06,
+            9.030260331580208e-07,
+            9.030260331580315e-07,
+            9.01960892755622e-06,
+            -1.8795467540819256e-06,
+            9.765207209238992e-07,
+            9.019608927556225e-06,
+            9.765207209238936e-07,
+            -1.8795467540819144e-06,
+            9.01960892755621e-06
+          ],
+          "qf": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.1235100964556314e-06,
+            1.1235100964556314e-06,
+            4.211671665145253e-06,
+            -2.0230211662857286e-06,
+            8.995110698300926e-07,
+            4.211671665145266e-06,
+            8.995110698300902e-07,
+            -2.023021166285727e-06,
+            4.211671665145257e-06,
+            9.030260331580163e-07,
+            9.03026033158022e-07,
+            9.01960892755621e-06,
+            -1.8795467540819288e-06,
+            9.765207209238915e-07,
+            9.019608927556229e-06,
+            9.765207209238852e-07,
+            -1.8795467540819229e-06,
+            9.019608927556218e-06
+          ],
+          "relative_error": 1.3739016836159834e-15,
+          "tolerance": 1e-05,
+          "verdict": "PASS"
+        },
+        "strain_energy": {
+          "oracle": 4.509804463778109e-06,
+          "qf": 4.509804463778111e-06,
+          "relative_error": 3.756406531846369e-16,
+          "tolerance": 1e-05,
+          "verdict": "PASS"
+        },
+        "total_reaction": {
+          "oracle": [
+            3.5561831257524545e-17,
+            2.7755575615628914e-17,
+            -1.0
+          ],
+          "qf": [
+            -6.765421556309548e-17,
+            1.3877787807814457e-17,
+            -1.0000000000000007
+          ],
+          "relative_error": 6.742257815469041e-16,
+          "tolerance": 1e-05,
+          "verdict": "PASS"
+        }
+      },
+      "external_result": {
+        "displacement": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -1.8264501428656027e-23,
+          0.0,
+          0.0,
+          -1.2031917723725464e-22,
+          0.0,
+          1.1235100964556312e-06,
+          1.1235100964556346e-06,
+          4.211671665145259e-06,
+          -2.0230211662857274e-06,
+          8.995110698300929e-07,
+          4.211671665145262e-06,
+          8.995110698300933e-07,
+          -2.023021166285724e-06,
+          4.211671665145253e-06,
+          9.030260331580208e-07,
+          9.030260331580315e-07,
+          9.01960892755622e-06,
+          -1.8795467540819256e-06,
+          9.765207209238992e-07,
+          9.019608927556225e-06,
+          9.765207209238936e-07,
+          -1.8795467540819144e-06,
+          9.01960892755621e-06
+        ],
+        "strain_energy": 4.509804463778109e-06,
+        "total_reaction": [
+          3.5561831257524545e-17,
+          2.7755575615628914e-17,
+          -1.0
+        ]
+      },
+      "formulation_compatible": true,
+      "level": 2,
+      "oracle": {
+        "base_image_digest": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "deck_digests": {
+          "wp09-final-j-refinement-2.comm": "ba073cd6660f8f63af602745f2b62dccb58c09c19a986a29876e8bc9000b9fe5",
+          "wp09-final-j-refinement-2.export": "50ab929e32973f8c681abf5c2f97b6e6d5f112ebb4f7d54846cfc39bf85db0b3",
+          "wp09-final-j-refinement-2.mail": "c241c817a6447392d81aaa01fd6f34c9c71b5c493c1cf7eb946e66156f4686d2"
+        },
+        "exit_code": 0,
+        "image": "qf-solver/code-aster-headless:18.1.0",
+        "image_digest": "sha256:df70aa569db65f952cdfd4b1391acac4819d0afa46d0788ee756683b87fac579",
+        "node_order": [
+          "N1",
+          "N2",
+          "N3",
+          "N4",
+          "N5",
+          "N6",
+          "N7",
+          "N8",
+          "N9"
+        ],
+        "output_digest": "0e4763d93702f343b2fa2da2bc906fb91b021fdcfae293641189d8f4698352c1",
+        "runtime_seconds": 3.671841699979268,
+        "solver": "Code_Aster 18.1.0 / PENTA6",
+        "state": "PASS",
+        "stdout_stderr_digest": "401b2e05b2428af1f95cb2cbbd57524df68fe95b6492503e0c3a7e2dea2727f3"
+      },
+      "primary_observables": [
+        "displacement",
+        "total_reaction",
+        "strain_energy"
+      ],
+      "qf_result": {
+        "displacement": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.1235100964556314e-06,
+          1.1235100964556314e-06,
+          4.211671665145253e-06,
+          -2.0230211662857286e-06,
+          8.995110698300926e-07,
+          4.211671665145266e-06,
+          8.995110698300902e-07,
+          -2.023021166285727e-06,
+          4.211671665145257e-06,
+          9.030260331580163e-07,
+          9.03026033158022e-07,
+          9.01960892755621e-06,
+          -1.8795467540819288e-06,
+          9.765207209238915e-07,
+          9.019608927556229e-06,
+          9.765207209238852e-07,
+          -1.8795467540819229e-06,
+          9.019608927556218e-06
+        ],
+        "element_count": 2,
+        "finite": true,
+        "force_balance_relative_error": 6.697043713943601e-16,
+        "free_relative_residual": 2.8565581445378754e-16,
+        "moment_balance_relative_error": 4.580852589891338e-16,
+        "node_count": 9,
+        "reaction_definition": "fixed_support_reaction_resultant",
+        "status": "PASS",
+        "strain_energy": 4.509804463778111e-06,
+        "total_reaction": [
+          -6.765421556309548e-17,
+          1.3877787807814457e-17,
+          -1.0000000000000007
+        ]
+      },
+      "relative_error": {
+        "displacement": 1.3739016836159834e-15,
+        "strain_energy": 3.756406531846369e-16,
+        "total_reaction": 6.742257815469041e-16
+      },
+      "source_sha": "4b2fcdc9ed51821b05b52851912be3ebbe764b14",
+      "tolerance_approval_reference": "WP09-FINAL-EXTERNAL-001",
+      "tolerance_approval_state": "OWNER_REVIEW_REQUIRED",
+      "tolerance_class": "REFINEMENT",
+      "tolerance_source": "WP09-FINAL predeclared refinement contract",
+      "tolerances": {
+        "displacement": 1e-05,
+        "strain_energy": 1e-05,
+        "total_reaction": 1e-05
+      },
+      "verdict": "PASS_EXTERNAL_CORRELATION_BOUNDED"
+    },
+    {
+      "artifact_classification": "CONTROLLED_PROOF",
+      "case_class": "refinement",
+      "case_id": "WP09-FINAL-J-REFINEMENT-4",
+      "comparison": {
+        "displacement": {
+          "oracle": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.4394505871494683e-22,
+            0.0,
+            0.0,
+            -4.9793877389421e-23,
+            0.0,
+            1.0192931601529052e-06,
+            1.0192931601529042e-06,
+            2.055795831476238e-06,
+            -1.6601980923554219e-06,
+            6.409049322025173e-07,
+            2.0557958314762304e-06,
+            6.409049322025207e-07,
+            -1.6601980923554217e-06,
+            2.0557958314762367e-06,
+            9.686779240319282e-07,
+            9.68677924031926e-07,
+            4.413630097451699e-06,
+            -1.8503474646274809e-06,
+            8.81669540595558e-07,
+            4.4136300974516835e-06,
+            8.816695405955661e-07,
+            -1.8503474646274825e-06,
+            4.4136300974516945e-06,
+            9.562316037047177e-07,
+            9.562316037047153e-07,
+            6.789535759686345e-06,
+            -1.8919260138893188e-06,
+            9.356944101846165e-07,
+            6.789535759686324e-06,
+            9.356944101846287e-07,
+            -1.8919260138893228e-06,
+            6.789535759686329e-06,
+            9.5403127222435e-07,
+            9.54031272224346e-07,
+            9.169112856089608e-06,
+            -1.899260835342195e-06,
+            9.45229563117876e-07,
+            9.169112856089584e-06,
+            9.452295631178907e-07,
+            -1.8992608353422008e-06,
+            9.169112856089587e-06
+          ],
+          "qf": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.019293160152906e-06,
+            1.019293160152904e-06,
+            2.0557958314762338e-06,
+            -1.6601980923554202e-06,
+            6.409049322025205e-07,
+            2.055795831476234e-06,
+            6.409049322025176e-07,
+            -1.660198092355423e-06,
+            2.055795831476237e-06,
+            9.686779240319282e-07,
+            9.686779240319235e-07,
+            4.4136300974516886e-06,
+            -1.8503474646274813e-06,
+            8.816695405955624e-07,
+            4.413630097451692e-06,
+            8.81669540595558e-07,
+            -1.8503474646274855e-06,
+            4.413630097451696e-06,
+            9.562316037047145e-07,
+            9.56231603704708e-07,
+            6.7895357596863285e-06,
+            -1.8919260138893239e-06,
+            9.356944101846187e-07,
+            6.7895357596863345e-06,
+            9.356944101846137e-07,
+            -1.8919260138893294e-06,
+            6.7895357596863345e-06,
+            9.540312722243397e-07,
+            9.540312722243318e-07,
+            9.169112856089586e-06,
+            -1.899260835342207e-06,
+            9.452295631178727e-07,
+            9.169112856089598e-06,
+            9.452295631178668e-07,
+            -1.8992608353422124e-06,
+            9.169112856089596e-06
+          ],
+          "relative_error": 2.4432399837597046e-15,
+          "tolerance": 1e-05,
+          "verdict": "PASS"
+        },
+        "strain_energy": {
+          "oracle": 4.584556428044796e-06,
+          "qf": 4.584556428044803e-06,
+          "relative_error": 1.4780630764150737e-15,
+          "tolerance": 1e-05,
+          "verdict": "PASS"
+        },
+        "total_reaction": {
+          "oracle": [
+            -5.0306980803327406e-17,
+            4.85722573273506e-17,
+            -1.0000000000000013
+          ],
+          "qf": [
+            -2.1684043449710089e-16,
+            -1.5265566588595902e-16,
+            -1.0000000000000018
+          ],
+          "relative_error": 5.152099519469416e-16,
+          "tolerance": 1e-05,
+          "verdict": "PASS"
+        }
+      },
+      "external_result": {
+        "displacement": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -1.4394505871494683e-22,
+          0.0,
+          0.0,
+          -4.9793877389421e-23,
+          0.0,
+          1.0192931601529052e-06,
+          1.0192931601529042e-06,
+          2.055795831476238e-06,
+          -1.6601980923554219e-06,
+          6.409049322025173e-07,
+          2.0557958314762304e-06,
+          6.409049322025207e-07,
+          -1.6601980923554217e-06,
+          2.0557958314762367e-06,
+          9.686779240319282e-07,
+          9.68677924031926e-07,
+          4.413630097451699e-06,
+          -1.8503474646274809e-06,
+          8.81669540595558e-07,
+          4.4136300974516835e-06,
+          8.816695405955661e-07,
+          -1.8503474646274825e-06,
+          4.4136300974516945e-06,
+          9.562316037047177e-07,
+          9.562316037047153e-07,
+          6.789535759686345e-06,
+          -1.8919260138893188e-06,
+          9.356944101846165e-07,
+          6.789535759686324e-06,
+          9.356944101846287e-07,
+          -1.8919260138893228e-06,
+          6.789535759686329e-06,
+          9.5403127222435e-07,
+          9.54031272224346e-07,
+          9.169112856089608e-06,
+          -1.899260835342195e-06,
+          9.45229563117876e-07,
+          9.169112856089584e-06,
+          9.452295631178907e-07,
+          -1.8992608353422008e-06,
+          9.169112856089587e-06
+        ],
+        "strain_energy": 4.584556428044796e-06,
+        "total_reaction": [
+          -5.0306980803327406e-17,
+          4.85722573273506e-17,
+          -1.0000000000000013
+        ]
+      },
+      "formulation_compatible": true,
+      "level": 4,
+      "oracle": {
+        "base_image_digest": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "deck_digests": {
+          "wp09-final-j-refinement-4.comm": "bbaa8b66b9878873509949dd9734c5b6de1e1808b5dc0f09d00080c5bcf9a294",
+          "wp09-final-j-refinement-4.export": "f2c5abd4745559f5b80ef3bc47de4b378e4b93ef9b6310ddd35b08a20ec01fab",
+          "wp09-final-j-refinement-4.mail": "df91d19f636a28626bac7909b2dd9db6896be83e7a7d3cc288ff37aebca03475"
+        },
+        "exit_code": 0,
+        "image": "qf-solver/code-aster-headless:18.1.0",
+        "image_digest": "sha256:df70aa569db65f952cdfd4b1391acac4819d0afa46d0788ee756683b87fac579",
+        "node_order": [
+          "N1",
+          "N2",
+          "N3",
+          "N4",
+          "N5",
+          "N6",
+          "N7",
+          "N8",
+          "N9",
+          "N10",
+          "N11",
+          "N12",
+          "N13",
+          "N14",
+          "N15"
+        ],
+        "output_digest": "685ce7d0f257eedcca0b98ae390d4469e35fedc591221fabe455275b8fe60f3d",
+        "runtime_seconds": 3.725727600045502,
+        "solver": "Code_Aster 18.1.0 / PENTA6",
+        "state": "PASS",
+        "stdout_stderr_digest": "d1f25308bcffd8624aea97b2e8e62b4c2b10c5a60bf23e9dde3adf2fc1b4c024"
+      },
+      "primary_observables": [
+        "displacement",
+        "total_reaction",
+        "strain_energy"
+      ],
+      "qf_result": {
+        "displacement": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.019293160152906e-06,
+          1.019293160152904e-06,
+          2.0557958314762338e-06,
+          -1.6601980923554202e-06,
+          6.409049322025205e-07,
+          2.055795831476234e-06,
+          6.409049322025176e-07,
+          -1.660198092355423e-06,
+          2.055795831476237e-06,
+          9.686779240319282e-07,
+          9.686779240319235e-07,
+          4.4136300974516886e-06,
+          -1.8503474646274813e-06,
+          8.816695405955624e-07,
+          4.413630097451692e-06,
+          8.81669540595558e-07,
+          -1.8503474646274855e-06,
+          4.413630097451696e-06,
+          9.562316037047145e-07,
+          9.56231603704708e-07,
+          6.7895357596863285e-06,
+          -1.8919260138893239e-06,
+          9.356944101846187e-07,
+          6.7895357596863345e-06,
+          9.356944101846137e-07,
+          -1.8919260138893294e-06,
+          6.7895357596863345e-06,
+          9.540312722243397e-07,
+          9.540312722243318e-07,
+          9.169112856089586e-06,
+          -1.899260835342207e-06,
+          9.452295631178727e-07,
+          9.169112856089598e-06,
+          9.452295631178668e-07,
+          -1.8992608353422124e-06,
+          9.169112856089596e-06
+        ],
+        "element_count": 4,
+        "finite": true,
+        "force_balance_relative_error": 1.796042078361198e-15,
+        "free_relative_residual": 6.777573869588913e-16,
+        "moment_balance_relative_error": 9.107298248878237e-16,
+        "node_count": 15,
+        "reaction_definition": "fixed_support_reaction_resultant",
+        "status": "PASS",
+        "strain_energy": 4.584556428044803e-06,
+        "total_reaction": [
+          -2.1684043449710089e-16,
+          -1.5265566588595902e-16,
+          -1.0000000000000018
+        ]
+      },
+      "relative_error": {
+        "displacement": 2.4432399837597046e-15,
+        "strain_energy": 1.4780630764150737e-15,
+        "total_reaction": 5.152099519469416e-16
+      },
+      "source_sha": "4b2fcdc9ed51821b05b52851912be3ebbe764b14",
+      "tolerance_approval_reference": "WP09-FINAL-EXTERNAL-001",
+      "tolerance_approval_state": "OWNER_REVIEW_REQUIRED",
+      "tolerance_class": "REFINEMENT",
+      "tolerance_source": "WP09-FINAL predeclared refinement contract",
+      "tolerances": {
+        "displacement": 1e-05,
+        "strain_energy": 1e-05,
+        "total_reaction": 1e-05
+      },
+      "verdict": "PASS_EXTERNAL_CORRELATION_BOUNDED"
+    }
+  ],
+  "schema_version": 1,
+  "source_sha": "4b2fcdc9ed51821b05b52851912be3ebbe764b14",
+  "status": "PASS_WITH_LIMITATIONS",
+  "summary": {
+    "cases_total": 12,
+    "external_cases_run": 12,
+    "external_fail": 0,
+    "external_pass": 12,
+    "external_skipped": 0
+  },
+  "timestamp": "2026-09-01T07:04:37.108822+00:00",
+  "tolerance_policy": {
+    "approval_state": "PREDECLARED_OWNER_REVIEW_REQUIRED",
+    "classes": {
+      "AFFINE_SAME_MESH": {
+        "approval_reference": "qualification/0_2_7/wp09_state.json#external.affine_tolerance",
+        "approval_state": "OWNER_REVIEW_REQUIRED",
+        "justification": "Same six-node physical mesh, linear isotropic formulation, identical load and primary observables; strict relative comparison is appropriate before Owner ratification.",
+        "source": "WP05 AFFINE_SAME_MESH candidate retained from controlled WP09 evidence",
+        "tolerances": {
+          "displacement": 1e-06,
+          "strain_energy": 1e-06,
+          "total_reaction": 1e-06
+        }
+      },
+      "DISTORTED": {
+        "approval_reference": "WP09-FINAL-EXTERNAL-001",
+        "approval_state": "OWNER_REVIEW_REQUIRED",
+        "justification": "Per-case bounded tolerance for the declared affine skew transformation; it is fixed before execution and does not qualify arbitrary distortion.",
+        "source": "WP09-FINAL predeclared distorted-prism contract",
+        "tolerances": {
+          "displacement": 1e-05,
+          "strain_energy": 1e-05,
+          "total_reaction": 1e-05
+        }
+      },
+      "REFINEMENT": {
+        "approval_reference": "WP09-FINAL-EXTERNAL-001",
+        "approval_state": "OWNER_REVIEW_REQUIRED",
+        "justification": "Per-case bounded tolerance for identical physical geometry with different conforming mesh resolution; it is fixed before execution and is not a universal accuracy claim.",
+        "source": "WP09-FINAL predeclared refinement contract",
+        "tolerances": {
+          "displacement": 1e-05,
+          "strain_energy": 1e-05,
+          "total_reaction": 1e-05
+        }
+      }
+    },
+    "fixed_before_execution": true,
+    "post_result_retuning": false
+  },
+  "work_package": "WP09-FINAL"
+}

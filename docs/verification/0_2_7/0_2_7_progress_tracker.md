@@ -14,8 +14,8 @@ record completed foundation controls; WP07 records the Terra-authorized
 elemental WEDGE6 kernel and WP08 records its bounded static vertical slice.
 Its public maturity remains `EXPERIMENTAL`; the slice does not imply modal,
 robustness or external-correlation qualification. WP09 records a bounded
-robustness campaign; its external outcomes remain explicitly partial or
-bounded and do not promote WEDGE6. WP10 records an independent consistent-
+robustness campaign; its external outcomes are bounded and do not promote
+WEDGE6. WP10 records an independent consistent-
 mass modal evidence lot with bounded Code_Aster frequency correlation; public
 modal maturity remains `EXPERIMENTAL` and qualification is deferred.
 WP12 records bounded large-scale readiness evidence for the existing structured
@@ -36,7 +36,7 @@ universal increment-independence claim is added.
 | T1-R3 | `PASS` | T1 targeted | `d4abc2f15b0e5167cd2faa4734e6a836bdb12514` | pending commit | exact Jacobian certificate and strict external contract | Terra re-review required; kernel not authorized |
 | WP07 | `PASS` | T2 targeted | `69b7d01beb81263fc2b87cfacb83985db10e3a82` | `e2e0de5a8df465d5f2254a954d1b2f5c97181cf0` | technical kernel and elemental V&V PASS; public maturity `EXPERIMENTAL` | WP08 workflow, imports, face loads, reactions and external correlation deferred |
 | WP08 | `PASS` | T2 targeted | `d4d2942a5fc31ffb97ef373a4466c46be34de991` | `8040909d6d65f740e1daf858ce572d250a87b39a` | static workflow PASS; public maturity `EXPERIMENTAL` | WP09 robustness/external and WP10 modal evidence deferred |
-| WP09 | `PASS_WITH_LIMITATIONS` | T1 targeted + external preflight | `2a27291bcc72e5819014fa172e3d056e80a87d43` | `d3cb2cc43886c56471778a91bef965dee869a8d4` | WEDGE6 robustness bounded PASS; one bounded Code_Aster affine correlation; public maturity `EXPERIMENTAL` | no public external qualification; CalculiX formulation mismatch; pressure/refinement/distorted external cases unclaimed |
+| WP09 | `PASS_WITH_LIMITATIONS` | T1 targeted + T2 external | `2a27291bcc72e5819014fa172e3d056e80a87d43` | `4b2fcdc9ed51821b05b52851912be3ebbe764b14` | WP09-FINAL: 12-case Code_Aster PENTA6 bounded external PASS; public maturity `EXPERIMENTAL` | CalculiX formulation mismatch; tolerance approval remains Owner review; no public WEDGE6 promotion |
 | WP10 | `PASS_WITH_LIMITATIONS` | T1/T2 targeted + Code_Aster | `ea356c484ebb2a3c4282f6eb9cbae6b1992eee6e` | `7d494eaa638ffa88a04ed3e5c51f6036ad1804a1` | independent consistent-mass modal evidence; public maturity `EXPERIMENTAL` | four-level frequency refinement is diagnostic; external frequency tolerance remains `OWNER_REVIEW_REQUIRED`; no MAC or modal qualification claim |
 | WP11 | `PASS_WITH_LIMITATIONS` | T2 targeted | `4d0ee14f4aa61b9337874a991263a93b4f9a8c73` | `94461602dfd1782be57c20e1801a0d5d8e262ef1` | keep qualified bounded J2 scope; Owner review required | no universal increment threshold; tangent symmetry diagnostic only; finite-kinematic J2 remains experimental |
 | WP12 | `PASS_WITH_LIMITATIONS` | T1 targeted + bounded scaling | `4971ac4f6c1e5cff2ca48e40ca6db5e8147d0d0a` | `4971ac4f6c1e5cff2ca48e40ca6db5e8147d0d0a` | proposed Owner review | 300k assembly-only; 1M time-limited; SciPy/PETSc backend limits |
@@ -73,15 +73,17 @@ post-processing are evidenced through the V&V v2 path. WEDGE6 remains
 external limitations recorded, and WP10 has completed its separate modal
 evidence gate.
 
-WP09 records 22 controlled cases: 18 internal passes and four expected
-fail-closed outcomes covering inverted geometry, wrong node order, malformed
-Gmsh and singular boundary conditions. CalculiX C3D6 completed a local affine
-run but is explicitly `NOT_FORMULATION_COMPATIBLE` with the QF six-point
-production quadrature. Code_Aster PENTA6 completed one affine same-mesh run
-through the derived headless image, with displacement, total reaction and
-strain-energy evidence recorded as bounded external evidence. The affine
-tolerance remains `OWNER_REVIEW_REQUIRED`; pressure, refinement and distorted
-external cases remain unclaimed, and no WEDGE6 public promotion is claimed.
+WP09 preserves its 22-case internal robustness corpus: 18 passes and four
+expected fail-closed outcomes covering inverted geometry, wrong node order,
+malformed Gmsh and singular boundary conditions. Its WP09-FINAL external
+campaign adds 12 Code_Aster PENTA6 cases covering affine tension/compression,
+shear, bending, TRI3/QUAD4 pressure, prescribed displacement, multi-element,
+declared distortion and three refinement levels. All 12 primary displacement,
+total-reaction and strain-energy comparisons pass with tolerances fixed before
+execution; final external replay is deterministic. CalculiX C3D6 remains
+explicitly `NOT_FORMULATION_COMPATIBLE` with the QF six-point production
+quadrature, and WEDGE6 remains `EXPERIMENTAL` with public qualification
+deferred.
 
 WP12 has completed a bounded readiness campaign at declared 100k, 300k, 500k,
 750k and 1M target levels. Matrix-free TET4 solves completed through 750141

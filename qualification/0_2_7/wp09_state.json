@@ -2,6 +2,8 @@
   "schema_version": 1,
   "work_package": "WP09",
   "gate": "027-G09",
+  "record_scope": "initial_internal_robustness_lot_and_prior_external_lot_preserved",
+  "active_final_state": "qualification/0_2_7/wp09_final_state.json",
   "status": "PASS_WITH_LIMITATIONS",
   "start_sha": "2a27291bcc72e5819014fa172e3d056e80a87d43",
   "evidence_source_sha": "d3cb2cc43886c56471778a91bef965dee869a8d4",
