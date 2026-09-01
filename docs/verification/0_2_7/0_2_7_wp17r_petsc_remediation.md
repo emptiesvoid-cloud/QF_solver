@@ -13,8 +13,9 @@ approver: ""
 
 WP17-R is **PARTIAL**. A pinned, headless Docker runtime now provides a
 reproducible PETSc/MPI path, and the explicit PETSc `CG + GAMG` route completes
-a real 1,029,000-DOF TET4 solve. The frozen WP14 equilibrium criterion still
-fails, so this is not a WP16 qualification and does not authorize WP18.
+a real 1,029,000-DOF TET4 solve. The original frozen `1e-8` route remained a
+diagnostic failure at this checkpoint; a later official WP16 retry is recorded
+separately and is not retroactively folded into this checkpoint evidence.
 
 The original implementation source used for the frozen `1e-8` numerical runs
 is `ec7e0af7dad399be8d1a1fe1fc90e95a81fec78a`. The supplemental strict-route
@@ -129,16 +130,27 @@ claim.
 
 ## Gate consequence
 
-- `WP16 = FAIL` remains the release blocker because equilibrium exceeds the
-  frozen `1e-8` criterion.
+- The historical WP16 matrix-free attempt remains a reproducible `FAIL`, but
+  the subsequent official PETSc retry is recorded as `WP16 = PASS` under the
+  same frozen WP14 acceptance criteria.
 - `WP17-R = PARTIAL`: the PETSc environment, explicit backend/options,
-  instrumentation, diagnostics and replay are controlled. The strict route
-  meets the unchanged acceptance metrics on supplemental replays, but the
-  official WP16 retry has not been run and no qualifying public route is
-  established here.
-- `WP18 = NOT READY`: no 3M work is authorized while the WP16 blocker remains.
+  instrumentation, diagnostics and replay are controlled. This checkpoint
+  remains supplemental and does not promote the public/default backend.
+- `WP18` is no longer blocked by WP16, but its independent 3M contract still
+  requires its own evidence before any claim.
 - No FEM formulation, existing element route, WP14 acceptance threshold or
   public/default backend was changed.
+
+## Subsequent official WP16 retry
+
+The official retry used the same PETSc `CG + GAMG` route and a predeclared
+internal `solver_rtol=1e-10` while keeping the WP14 acceptance limit at
+`1e-8`. Two independent 1,029,000-DOF runs passed residual, equilibrium,
+energy, finite-output and SPD checks, and the same-configuration subscale
+comparison passed. The authoritative retry index is
+`qualification/0_2_7/wp16_runtime/wp16_retry_summary.json`; the detailed
+WP16 report is
+`docs/verification/0_2_7/0_2_7_wp16_1m_qualification.md`.
 
 Raw controlled records are stored in
 `qualification/0_2_7/wp17_runtime/wp17r_run1.json` and

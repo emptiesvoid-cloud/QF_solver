@@ -257,16 +257,17 @@ The active official theme is **Reproducible Large-Model Solving and Numerical
 Trust**. The portfolio decision is `CLOSED / ACCEPT_WITH_CONSOLIDATION` for
 the scope extension only. WP01-WP12 and their evidence remain preserved;
 WP13 and WP14 are complete on their controlled records; WP15 is
-`PASS_WITH_LIMITATIONS` on its controlled subscale evidence, while WP16-WP22
-remain individually `PLANNED` until their own evidence is recorded.
+`PASS_WITH_LIMITATIONS` on its controlled subscale evidence, WP16 is `PASS`
+on the official PETSc retry, WP17 is `PARTIAL`, and WP18-WP22 remain
+individually `PLANNED` until their own evidence is recorded.
 
 | WP | Title | Weight | Priority | Status |
 | --- | --- | ---: | --- | --- |
 | WP13 | Release truth and golden numerical baseline | 4% | MUST | `PASS` |
 | WP14 | Large-scale execution contract | 5% | MUST | `PASS` |
 | WP15 | Matrix-Free TET4 V2 / SPD / preconditioning | 10% | MUST | `PASS_WITH_LIMITATIONS` |
-| WP16 | True 1M DOF qualification | 10% | MUST / release blocker | `PLANNED` |
-| WP17 | PETSc/MPI + large sparse path | 5% | SHOULD | `PLANNED` |
+| WP16 | True 1M DOF qualification | 10% | MUST / release blocker | `PASS` |
+| WP17 | PETSc/MPI + large sparse path | 5% | SHOULD | `PARTIAL` |
 | WP18 | 3M DOF ladder Bronze/Silver/Gold | 7% | MUST / mandatory | `PLANNED` |
 | WP19 | Adversarial robustness + HEX8 diagnostic | 5% | MUST | `PLANNED` |
 | WP20 | Residual J2 / external V&V closure | 3% | SHOULD | `PLANNED` |
@@ -274,7 +275,7 @@ remain individually `PLANNED` until their own evidence is recorded.
 | WP22 | Final Release Qualification | 3% | MUST | `PLANNED` |
 
 Machine-readable criteria are in `qualification/0_2_7/level_up_plan.json`.
-WP16 requires a true 1M FEM iterative solve with reactions, residual,
+WP16 required a true 1M FEM iterative solve with reactions, residual,
 equilibrium, energy, subscale comparison and two replays. WP18 separates
 Bronze model/resource preflight, Silver full solve and Gold distributed/restart
 evidence; Bronze alone authorizes no 3M solve claim.

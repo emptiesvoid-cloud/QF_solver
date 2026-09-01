@@ -2,51 +2,87 @@
 
 ## Decision
 
-WP16 is **FAIL** under the frozen WP14 contract and remains a release blocker.
-This is a negative qualification result, not a change to the numerical
-formulation or to the acceptance criteria.
+WP16 is **PASS** on the official retry executed with the PETSc route selected
+by WP17-R. The frozen WP14 acceptance criteria were used without change. The
+historical matrix-free failure remains preserved as historical evidence and
+is not overwritten.
 
 The official model contains 343,000 nodes, 1,971,054 structured six-tet TET4
 elements and 1,029,000 true displacement DOF. It uses the WP14 SI material,
-fixed `x=0` face, uniform 1,000,000 N nodal load on `x=1`, matrix-free CG,
-nodal block-Jacobi, chunk size 4096, `rtol=1e-8`, `atol=0` and `maxiter=10000`.
-The execution source SHA is
-`15534b87387c3bd73c73971703e22bf275ffc8cc`.
+fixed `x=0` translations, a uniform 1,000,000 N nodal load on `x=1`, 4,900
+load nodes and 14,700 fixed DOF. The retry source SHA is
+`b8db2211536eaaf1c026ddfb7a5843b61b2e3733`.
 
-## Run 1
+## Frozen execution route
 
-The complete model-to-solve path completed in 1,371.06 s and 1,052 CG
-iterations. The displacement is finite, the relative free residual is
-`9.8225e-9`, the energy balance is `1.9195e-16`, and the deterministic SPD
-probe passed. Peak RSS sampled by the evidence runner was 575,700,992 bytes.
+The route is PETSc 3.25.1 with MPICH 5.0.1, two MPI ranks, CG, GAMG, AIJ
+storage, contiguous partitioning and one thread. The PETSc environment is
+the pinned image
+`qf-solver-large@sha256:d6a1718001fc36772906d1a9505637bbd0a4b7e1d8ccc9afdbcb6f67b7ff6d0e`.
+All relevant PETSc options are explicit and `PETSC_OPTIONS` is unset. The
+internal solver target is `1e-10`, pre-declared by WP17-R; WP14 acceptance
+remains `rtol=1e-8`, `atol=0` and `max_iterations=10000`.
 
-The frozen reaction/equilibrium observable failed: the relative balance was
-`3.81975e-8`, above the WP14 maximum `1e-8`. Because the criterion is frozen,
-this result cannot be promoted to `1M_PASS` and no retuning was attempted.
+## Official replays
+
+| Run | Setup [s] | Solve [s] | Reactions [s] | Energy/post [s] | Total [s] | Iterations | Peak RSS [bytes] | Residual | Equilibrium | Energy |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| run1 | 113.2639 | 66.3369 | 3.3231 | 2.9063 | 184.0757 | 431 | 3,519,639,552 | 9.704e-11 | 5.339e-10 | 8.484e-14 |
+| run2 | 113.4333 | 67.4453 | 3.1541 | 2.7512 | 185.1151 | 431 | 3,520,733,184 | 9.704e-11 | 5.339e-10 | 8.484e-14 |
+
+Both runs completed the complete model-to-solve-to-post path without timeout,
+resource-limited status, NaN/Inf, or implicit fallback. The finite-output,
+SPD/CG, residual, equilibrium and energy checks all pass the WP14 limits.
+
+Raw controlled records are:
+
+- `qualification/0_2_7/wp16_runtime/wp16_retry_run1_raw.json`
+- `qualification/0_2_7/wp16_runtime/wp16_retry_run2_raw.json`
+
+The official index and replay comparison are in
+`qualification/0_2_7/wp16_runtime/wp16_retry_summary.json`.
 
 ## Subscale equivalence
 
-The current source was rechecked against the assembled SciPy CG route on the
-four WP14 subscale levels (81, 375, 2,187 and 14,739 DOF). Maximum errors were:
+The same PETSc configuration and internal solver target were compared with
+the existing matrix-free route on the 107,811-DOF subscale. The comparison
+passes with displacement error `8.341e-15`, equilibrium difference
+`9.279e-10`, energy difference `1.598e-12` and matrix-free residual
+`9.290e-11`, all below the unchanged `1e-8` comparison limit.
 
-| Observable | Maximum relative error | WP14 limit |
-| --- | ---: | ---: |
-| Operator action | 1.25e-14 | 1e-8 |
-| Displacement | 3.45e-13 | 1e-8 |
-| Reaction | 2.30e-9 | 1e-8 |
-| Strain energy | 3.36e-14 | 1e-8 |
+The raw subscale record is
+`qualification/0_2_7/wp16_runtime/wp16_retry_subscale_raw.json`.
 
-The machine-readable record is
-`qualification/0_2_7/wp16_runtime/wp16_subscale_current.json`.
+## Replay policy
 
-## Replay and next step
+The two official replays use the same source SHA, input digest and
+configuration digest. Their recorded numerical observables and iteration
+counts are identical; the replay verdict is `PASS` under the WP14 policy.
 
-WP14 requires a second independent replay only after a first 1M PASS. Since
-run 1 failed the equilibrium criterion, run 2 was not launched. The complete
-machine-readable run record is
-`qualification/0_2_7/wp16_runtime/wp16_run1.json`, with the WP16 state in
-`qualification/0_2_7/wp16_state.json`.
+Input digest:
+`b65b1cd72a067551490ed5364beb1fcc2d7e55d07a9075f6f7b8899f535d7f92`
 
-No 1M qualification claim is made. WP17 may address backend/resource or
-solver-path evidence, but it must not alter WP14 tolerances or relabel this
-negative result.
+Configuration digest:
+`e44ef191461ec5e4c6c0c0de31bcda3f674c3e45949513d38a4ce8a067bf9fe6f`
+
+## Historical negative attempt
+
+The earlier matrix-free/nodal-block-Jacobi attempt remains available at
+`qualification/0_2_7/wp16_runtime/wp16_run1.json`. It completed 1,029,000
+DOF but recorded equilibrium `3.81975e-8` against the frozen `1e-8` limit.
+That result is retained as historical evidence and is not used as the active
+WP16 verdict.
+
+## Scope and limitations
+
+- This is a bounded qualification of the declared TET4 linear-static model,
+  PETSc CG/GAMG route and pinned two-rank environment.
+- The PETSc AIJ route reaches approximately 3.52 GiB peak RSS at 1M DOF.
+- PETSc is unavailable in the normal host environment; the pinned container
+  is required for this evidence.
+- This result does not qualify 3M DOF or any other element family/backend.
+- WP14 acceptance thresholds and existing FEM formulations were not changed.
+
+The machine-readable state is
+`qualification/0_2_7/wp16_state.json`; the governing contract is
+`qualification/0_2_7/wp14_execution_contract.json`.

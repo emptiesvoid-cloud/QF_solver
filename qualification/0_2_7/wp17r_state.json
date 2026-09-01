@@ -58,7 +58,7 @@
     "max_iterations": 10000,
     "petsc_options_environment": "unset; all relevant options explicit",
     "status": "PASS_WITH_LIMITATIONS",
-    "qualification_role": "supplemental diagnostic; official WP16 retry not run"
+    "qualification_role": "supplemental diagnostic; official WP16 retry completed separately"
   },
   "diagnosis": {
     "root_cause": "ITERATIVE_STOPPING_NORM_MISMATCH_AND_RESIDUAL_TO_RESULTANT_AMPLIFICATION",
@@ -72,10 +72,10 @@
   "decisions": {
     "selected_diagnostic_backend": "PETSc CG + GAMG",
     "public_default_changed": false,
-    "wp16_status": "FAIL remains; frozen equilibrium criterion is not met",
-    "wp16_retry_ready": true,
+    "wp16_status": "PASS on the official PETSc retry; historical matrix-free failure remains preserved",
+    "wp16_retry_ready": false,
     "wp18_ready": false,
-    "owner_decision": "PARTIAL: the original 1e-8 PETSc route remains failing, while the explicit predeclared 1e-10 internal route passes two 1,029,000-DOF replays and a same-rtol subscale comparison under unchanged 1e-8 acceptance thresholds; a separate official WP16 retry is now ready, with no public/default route or WP14 policy change."
+    "owner_decision": "PARTIAL: the explicit PETSc CG/GAMG route enabled the official WP16 retry, which passes two 1,029,000-DOF replays and a same-configuration subscale comparison under unchanged WP14 acceptance thresholds; host PETSc remains unavailable and AIJ memory remains a limitation."
   },
   "constraints": {
     "fem_formulation_changed": false,
