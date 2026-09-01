@@ -4,7 +4,7 @@
   "release": "0.2.7a0",
   "theme": "Reproducible Large-Model Solving and Numerical Trust",
   "status": "CLOSED_ACCEPT_WITH_CONSOLIDATION",
-  "decision": "Gate Level-Up is accepted as the official consolidation scope; WP13 and WP14 are evidence-complete, WP15 is PASS_WITH_LIMITATIONS on controlled subscale evidence, WP16 is PASS after the official PETSc retry under the frozen acceptance contract, WP17 is PARTIAL after PETSc remediation, and WP18-WP22 remain planned.",
+  "decision": "Gate Level-Up is accepted as the official consolidation scope; WP13 and WP14 are evidence-complete, WP15 is PASS_WITH_LIMITATIONS on controlled subscale evidence, WP16 is PASS after the official PETSc retry under the frozen acceptance contract, WP17 is PARTIAL after PETSc remediation, and WP18 is PASS_WITH_LIMITATIONS after the Bronze/Silver ladder with Gold unattempted; WP19-WP22 remain planned.",
   "source_snapshot": "72888ea63241a4445f6600aa6c2b882401f85ef1",
   "source_branch": "codex/0.2.7-foundation",
   "parent_release": {
@@ -14,11 +14,11 @@
   },
   "progress_accounting": {
     "historical_completed_block_percent": 45,
-    "current_acquired_percent": 60,
-    "current_progress_percent": 60,
+    "current_acquired_percent": 77,
+    "current_progress_percent": 77,
     "level_up_extension_percent": 55,
     "weights_total_percent": 100,
-    "accounting_note": "The historical block, acquired status and active progress are governance views and are not additive. WP13-WP22 weights sum to the 55 percent extension; WP13 and WP14 are PASS, WP15 is PASS_WITH_LIMITATIONS, WP16 is PASS, WP17 is PARTIAL and WP18-WP22 remain planned."
+    "accounting_note": "The historical block, acquired status and active progress are governance views and are not additive. WP13-WP22 weights sum to the 55 percent extension; WP13 and WP14 are PASS, WP15 is PASS_WITH_LIMITATIONS, WP16 is PASS, WP17 is PARTIAL, WP18 is PASS_WITH_LIMITATIONS with Silver complete and Gold unattempted, and WP19-WP22 remain planned."
   },
   "historical_scope": {
     "work_packages": ["WP01", "WP02", "WP03", "WP04", "WP05", "WP06", "WP07", "WP08", "WP09", "WP10", "WP11", "WP12"],
@@ -88,11 +88,14 @@
       "title": "3M DOF ladder Bronze/Silver/Gold",
       "weight_percent": 7,
       "priority": "MUST",
-      "status": "PLANNED",
+      "status": "PASS_WITH_LIMITATIONS",
       "mandatory": true,
       "pass_criteria": ["Bronze builds a real 3M FEM model and records resource/preflight envelope", "Silver completes a reproducible full solve", "Gold demonstrates PETSc/MPI distributed solve, restart and a second case or scaling point"],
       "claims_policy": "Bronze alone authorizes no 3M solve claim; Silver is the principal target; Gold is stretch.",
-      "stop_conditions": ["Bronze relabeled as full solve", "missing resource envelope", "non-reproducible Silver"]
+      "stop_conditions": ["Bronze relabeled as full solve", "missing resource envelope", "non-reproducible Silver"],
+      "evidence": ["qualification/0_2_7/wp18_state.json", "qualification/0_2_7/wp18_runtime/wp18_summary.json", "qualification/0_2_7/wp18_runtime/wp18_bronze_preflight.json", "qualification/0_2_7/wp18_runtime/wp18_replay_comparison.json"],
+      "owner_decision": "PASS_WITH_LIMITATIONS: Bronze and Silver passed on the declared structured TET4 PETSc/MPI route; Gold remains NOT_ATTEMPTED because restart/checkpoint and a distinct second physical case were not run.",
+      "limitations": ["Structured TET4 linear-static scope only", "pinned two-rank PETSc/MPI environment only", "AIJ setup and approximately 10.08 GB peak RSS at 3M DOF", "no Gold restart, checkpoint or second-physical-case claim"]
     },
     {
       "id": "WP19",
