@@ -455,7 +455,12 @@ def _nested_value(record: dict[str, Any], field: str) -> Any:
     if field in record:
         return record[field]
     if field in {"residual_relative", "equilibrium_relative", "energy_relative"}:
-        return record.get("post", {}).get(field)
+        post = record.get("post", {})
+        if field == "residual_relative":
+            # The runner's canonical post-solve name is explicit about the
+            # free-DOF residual; retain the generic alias for older evidence.
+            return post.get("residual_relative", post.get("free_relative_residual"))
+        return post.get(field)
     return None
 
 
