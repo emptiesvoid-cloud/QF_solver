@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "contract_id": "WP09-FINAL-EXTERNAL-001",
+  "work_package": "WP09-FINAL",
+  "gate": "027-G09",
+  "status": "PREDECLARED_OWNER_REVIEW_REQUIRED",
+  "scope": {
+    "analysis": "linear_static",
+    "element_qf": "WEDGE6",
+    "element_oracle": "PENTA6",
+    "material": "homogeneous isotropic small-strain elastic",
+    "backend": "SciPy sparse QF solver / Code_Aster headless",
+    "loads": ["nodal force", "prescribed displacement", "uniform TRI3 pressure", "uniform QUAD4 pressure"],
+    "excluded": ["nonlinear", "modal", "post-buckling", "stress qualification", "general physical validation"]
+  },
+  "primary_observables": ["displacement", "total_reaction", "strain_energy"],
+  "comparison_rule": {
+    "vector_error": "norm(QF - oracle) / max(norm(QF), norm(oracle), 1e-30)",
+    "scalar_error": "abs(QF - oracle) / max(abs(QF), abs(oracle), 1e-30)",
+    "stress": "secondary_only_when_measure_point_and_coordinate_convention_are_equivalent",
+    "missing_primary_observable": "NOT_COMPARABLE",
+    "external_unavailable": "SKIPPED_EXTERNAL_UNAVAILABLE",
+    "post_result_retuning": false
+  },
+  "tolerance_policy": {
+    "AFFINE_SAME_MESH": {
+      "tolerances": {
+        "displacement": 1.0e-6,
+        "total_reaction": 1.0e-6,
+        "strain_energy": 1.0e-6
+      },
+      "source": "WP05 AFFINE_SAME_MESH candidate retained from controlled WP09 evidence",
+      "approval_state": "OWNER_REVIEW_REQUIRED",
+      "approval_reference": "qualification/0_2_7/wp09_state.json#external.affine_tolerance",
+      "justification": "Same six-node physical mesh, linear isotropic formulation, identical load and primary observables; strict relative comparison is appropriate before Owner ratification."
+    },
+    "REFINEMENT": {
+      "tolerances": {
+        "displacement": 1.0e-5,
+        "total_reaction": 1.0e-5,
+        "strain_energy": 1.0e-5
+      },
+      "source": "WP09-FINAL predeclared refinement contract",
+      "approval_state": "OWNER_REVIEW_REQUIRED",
+      "approval_reference": "WP09-FINAL-EXTERNAL-001",
+      "justification": "Per-case bounded tolerance for identical physical geometry with different conforming mesh resolution; it is fixed before execution and is not a universal accuracy claim."
+    },
+    "DISTORTED": {
+      "tolerances": {
+        "displacement": 1.0e-5,
+        "total_reaction": 1.0e-5,
+        "strain_energy": 1.0e-5
+      },
+      "source": "WP09-FINAL predeclared distorted-prism contract",
+      "approval_state": "OWNER_REVIEW_REQUIRED",
+      "approval_reference": "WP09-FINAL-EXTERNAL-001",
+      "justification": "Per-case bounded tolerance for the declared affine skew transformation; it is fixed before execution and does not qualify arbitrary distortion."
+    }
+  },
+  "cases": [
+    {"case_id": "WP09-FINAL-A-TENSION", "class": "affine_tension", "tolerance_class": "AFFINE_SAME_MESH", "status": "READY"},
+    {"case_id": "WP09-FINAL-B-COMPRESSION", "class": "affine_compression", "tolerance_class": "AFFINE_SAME_MESH", "status": "READY"},
+    {"case_id": "WP09-FINAL-C-SHEAR", "class": "affine_shear", "tolerance_class": "AFFINE_SAME_MESH", "status": "READY"},
+    {"case_id": "WP09-FINAL-D-BENDING", "class": "affine_bending", "tolerance_class": "AFFINE_SAME_MESH", "status": "READY"},
+    {"case_id": "WP09-FINAL-E-TRI-PRESSURE", "class": "tri3_pressure", "tolerance_class": "AFFINE_SAME_MESH", "status": "READY"},
+    {"case_id": "WP09-FINAL-F-QUAD-PRESSURE", "class": "quad4_pressure", "tolerance_class": "AFFINE_SAME_MESH", "status": "READY"},
+    {"case_id": "WP09-FINAL-G-PRESCRIBED", "class": "prescribed_displacement", "tolerance_class": "AFFINE_SAME_MESH", "status": "READY"},
+    {"case_id": "WP09-FINAL-H-MULTI-ELEMENT", "class": "multi_element", "tolerance_class": "REFINEMENT", "status": "READY"},
+    {"case_id": "WP09-FINAL-I-DISTORTED", "class": "distorted_valid", "tolerance_class": "DISTORTED", "status": "READY"},
+    {"case_id": "WP09-FINAL-J-REFINEMENT-1", "class": "refinement", "level": 1, "tolerance_class": "REFINEMENT", "status": "READY"},
+    {"case_id": "WP09-FINAL-J-REFINEMENT-2", "class": "refinement", "level": 2, "tolerance_class": "REFINEMENT", "status": "READY"},
+    {"case_id": "WP09-FINAL-J-REFINEMENT-4", "class": "refinement", "level": 4, "tolerance_class": "REFINEMENT", "status": "READY"}
+  ],
+  "external_policy": {
+    "code_aster": "PENTA6 headless via pinned derived Docker image",
+    "calculix": "NOT_COMPARABLE unless the executed route is proven equivalent to QF TRI3_X_GAUSS2; inherited C3D6 two-point route remains excluded",
+    "unavailable_is_not_pass": true,
+    "source_sha_and_image_digest_required": true,
+    "deck_and_output_digests_required": true
+  },
+  "artifact_classification": "CONTROLLED_PROOF",
+  "qf_qualification_effect": "external evidence does not automatically promote WEDGE6 beyond EXPERIMENTAL"
+}
