@@ -56,6 +56,7 @@ def main() -> None:
         partition_strategy=args.partition_strategy,
         graph_partitioner=args.graph_partitioner,
         runtime_image=args.runtime_image,
+        source_sha=args.source_sha,
         monitor=not args.no_monitor,
         compare_matrix_free=args.compare_matrix_free,
     )
@@ -73,6 +74,7 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--partition-strategy", choices=("contiguous", "graph"), default="contiguous")
     parser.add_argument("--graph-partitioner", default="ptscotch")
     parser.add_argument("--runtime-image", default=DEFAULT_RUNTIME_IMAGE)
+    parser.add_argument("--source-sha", default=None, help="Qualified source SHA when the Docker worktree has no readable .git path.")
     parser.add_argument("--no-monitor", action="store_true")
     parser.add_argument("--compare-matrix-free", action="store_true")
     return parser.parse_args()
@@ -87,6 +89,7 @@ def run_case(
     partition_strategy: str = "contiguous",
     graph_partitioner: str = "ptscotch",
     runtime_image: str = DEFAULT_RUNTIME_IMAGE,
+    source_sha: str | None = None,
     monitor: bool = True,
     compare_matrix_free: bool = False,
 ) -> dict[str, Any]:
@@ -99,7 +102,7 @@ def run_case(
     size = int(comm.size) if comm is not None else 1
     input_digest = _sha256_file(input_path) if rank == 0 else None
     input_digest = comm.bcast(input_digest, root=0) if comm is not None else input_digest
-    source_sha = _git_sha()
+    source_sha = _validate_sha(source_sha or _git_sha())
     config = _frozen_config(backend, preconditioner, monitor, size, partition_strategy)
     config_digest = _digest_json(config)
     started = time.perf_counter()
@@ -539,6 +542,12 @@ def _sha256_file(path: Path) -> str:
 
 def _git_sha() -> str:
     return subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
+
+
+def _validate_sha(value: str) -> str:
+    if not re.fullmatch(r"[0-9a-f]{40}", value):
+        raise ValueError(f"source_sha must be a 40-character hexadecimal commit id, got {value!r}.")
+    return value
 
 
 if __name__ == "__main__":
