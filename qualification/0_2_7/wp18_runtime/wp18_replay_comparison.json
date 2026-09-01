@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "work_package": "WP18",
+  "gate": "LUP-027-G18",
+  "case_id": "WP18-3M-SILVER-REPLAY",
+  "status": "PASS",
+  "source_sha": "9c0605645fa60ef0d89f3ce98ca361a677f13d1d",
+  "contract_path": "qualification/0_2_7/wp14_execution_contract.json",
+  "contract_sha256": "1236aaf8ddb0451ae5d3ddac02864ade3c54273da4a0e8064434ae0c11459ce3",
+  "configuration_digest_sha256": "e44ef191461ec5e4c6c0cde31bcda3f674c3e45949513d38a4ce8a067bf9fe6f",
+  "input_digest_sha256": "084a471b1caab628e8558c65b1777692ed53d504baad681bf0985c411a33671b",
+  "run_1": "qualification/0_2_7/wp18_runtime/wp18_3m_run1_raw.json",
+  "run_2": "qualification/0_2_7/wp18_runtime/wp18_3m_run2_raw.json",
+  "comparison_tolerance": 1.0e-8,
+  "same_source": true,
+  "same_input": true,
+  "same_configuration": true,
+  "absolute_deltas": {
+    "true_dof": 0.0,
+    "matvec_count": 0.0,
+    "residual_relative": 0.0,
+    "equilibrium_relative": 0.0,
+    "energy_relative": 0.0
+  },
+  "mismatches": [],
+  "replay_policy": {
+    "identical_inputs_and_configuration_required": true,
+    "post_result_retuning": false,
+    "numeric_fields_compared": [
+      "true_dof",
+      "matvec_count",
+      "free_relative_residual",
+      "equilibrium_relative",
+      "energy_relative"
+    ]
+  },
+  "artifact_classification": "CONTROLLED_PROOF"
+}

@@ -26,7 +26,9 @@ TET4, TET10, HEX8 and HEX20; the existing qualification is kept and no
 universal increment-independence claim is added.
 WP14 records the frozen large-scale execution contract for the Level-Up
 namespace. It is a governance/contract PASS only; it does not claim a 1M or
-3M solve.
+3M solve. WP18 records a PASS_WITH_LIMITATIONS 3M ladder: Bronze preflight
+and Silver full solve passed on the declared PETSc route; Gold remains
+unattempted.
 
 | WP | Status | Current test level | Start SHA | Evidence head | Owner decision | Blocker |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -53,7 +55,8 @@ The active theme is **Reproducible Large-Model Solving and Numerical Trust**.
 `027-LEVEL-UP` is `CLOSED / ACCEPT_WITH_CONSOLIDATION` as a scope decision;
 WP15 is `PASS_WITH_LIMITATIONS` on controlled subscale evidence, WP16 is
 `PASS` after the official PETSc retry, and WP17 is `PARTIAL` after the PETSc
-remediation checkpoint. WP18-WP22 remain individually `PLANNED` and do
+remediation checkpoint, and WP18 is `PASS_WITH_LIMITATIONS` after the
+Bronze/Silver ladder. WP19-WP22 remain individually `PLANNED` and do
 not constitute execution evidence. WP13 has its own controlled proof record; the remaining criteria and weights are authoritative in
 `qualification/0_2_7/level_up_plan.json`.
 
@@ -64,13 +67,13 @@ not constitute execution evidence. WP13 has its own controlled proof record; the
 | WP15 | 10% | MUST | `PASS_WITH_LIMITATIONS` | matrix-free TET4, SPD and preconditioning; subscale evidence complete, WP16 remains the 1M gate |
 | WP16 | 10% | MUST | `PASS` | two reproducible PETSc CG/GAMG replays at 1,029,000 DOF satisfy the frozen WP14 contract |
 | WP17 | 5% | SHOULD | `PARTIAL` | pinned PETSc/MPI route enabled WP16 retry; host availability and AIJ memory remain limitations |
-| WP18 | 7% | MUST | `PLANNED` | mandatory 3M Bronze/Silver/Gold ladder |
+| WP18 | 7% | MUST | `PASS_WITH_LIMITATIONS` | Bronze preflight and two-replay Silver 3M solve; Gold unattempted |
 | WP19 | 5% | MUST | `PLANNED` | adversarial robustness and HEX8 diagnostic |
 | WP20 | 3% | SHOULD | `PLANNED` | residual J2 and external V&V closure |
 | WP21 | 3% | SHOULD | `PLANNED` | surgical architecture/API/registry cleanup |
 | WP22 | 3% | MUST | `PLANNED` | final release qualification |
 
-The 45% historical block, 70% current acquired/progress view and 100% total
+The 45% historical block, 77% current acquired/progress view and 100% total
 plan weights are separate governance measures and must not be added together.
 
 ## Update rules
@@ -139,7 +142,10 @@ changing the formulation: material paths, tangent FD, multi-element, cycles,
 energy, rollback, increment sensitivity, Newton and failure-mode records are
 in the controlled evidence artifact. The existing qualified J2 scope is
 retained with explicit limitations; finite-kinematic J2 and unrelated dynamics
-gaps remain outside this work package. WP16 has a completed but failing
-1,029,000-DOF attempt, and WP17-R has added a reproducible PETSc/MPI
-diagnostic without clearing the equilibrium blocker; WP18-WP22 remain
-`PLANNED` until their declared evidence is executed.
+gaps remain outside this work package. WP16 has a completed 1,029,000-DOF
+PETSc qualification, and WP17-R has recorded the pinned PETSc/MPI route and
+its AIJ memory limitation. WP18 has completed its Bronze/Silver ladder: the
+3M Silver solve passed twice under the frozen contract; Gold remains
+`NOT_ATTEMPTED` because no restart/checkpoint or distinct second physical
+case was run. WP19-WP22 remain `PLANNED` until their declared evidence is
+executed.

@@ -34,7 +34,9 @@ consistent-mass route, WP11 records
 bounded readiness status. The foundation WP01-WP12 history is preserved; the
 Level-Up portfolio is `CLOSED / ACCEPT_WITH_CONSOLIDATION`; WP13 is now
 `PASS` on its controlled golden-baseline evidence and WP14 is `PASS` on its
-frozen execution contract; WP15 is `PASS_WITH_LIMITATIONS`, while WP16-WP22
+frozen execution contract; WP15 is `PASS_WITH_LIMITATIONS`, WP16 is `PASS`
+after the official PETSc retry, WP17 is `PARTIAL`, WP18 is
+`PASS_WITH_LIMITATIONS` after the Bronze/Silver ladder, and WP19-WP22
 remain individually `PLANNED`.
 
 ## Work packages and STOP/GO criteria
@@ -258,8 +260,9 @@ Trust**. The portfolio decision is `CLOSED / ACCEPT_WITH_CONSOLIDATION` for
 the scope extension only. WP01-WP12 and their evidence remain preserved;
 WP13 and WP14 are complete on their controlled records; WP15 is
 `PASS_WITH_LIMITATIONS` on its controlled subscale evidence, WP16 is `PASS`
-on the official PETSc retry, WP17 is `PARTIAL`, and WP18-WP22 remain
-individually `PLANNED` until their own evidence is recorded.
+on the official PETSc retry, WP17 is `PARTIAL`, WP18 is
+`PASS_WITH_LIMITATIONS` after its Bronze/Silver evidence, and WP19-WP22
+remain individually `PLANNED` until their own evidence is recorded.
 
 | WP | Title | Weight | Priority | Status |
 | --- | --- | ---: | --- | --- |
@@ -268,7 +271,7 @@ individually `PLANNED` until their own evidence is recorded.
 | WP15 | Matrix-Free TET4 V2 / SPD / preconditioning | 10% | MUST | `PASS_WITH_LIMITATIONS` |
 | WP16 | True 1M DOF qualification | 10% | MUST / release blocker | `PASS` |
 | WP17 | PETSc/MPI + large sparse path | 5% | SHOULD | `PARTIAL` |
-| WP18 | 3M DOF ladder Bronze/Silver/Gold | 7% | MUST / mandatory | `PLANNED` |
+| WP18 | 3M DOF ladder Bronze/Silver/Gold | 7% | MUST / mandatory | `PASS_WITH_LIMITATIONS` |
 | WP19 | Adversarial robustness + HEX8 diagnostic | 5% | MUST | `PLANNED` |
 | WP20 | Residual J2 / external V&V closure | 3% | SHOULD | `PLANNED` |
 | WP21 | Architecture/API/registry surgical cleanup | 3% | SHOULD | `PLANNED` |
@@ -278,7 +281,10 @@ Machine-readable criteria are in `qualification/0_2_7/level_up_plan.json`.
 WP16 required a true 1M FEM iterative solve with reactions, residual,
 equilibrium, energy, subscale comparison and two replays. WP18 separates
 Bronze model/resource preflight, Silver full solve and Gold distributed/restart
-evidence; Bronze alone authorizes no 3M solve claim.
+evidence; Bronze alone authorizes no 3M solve claim. WP18 Silver completed two
+3M true-DOF solves on the declared structured TET4 PETSc/MPI route. Gold
+remains `NOT_ATTEMPTED` because no restart/checkpoint or distinct second
+physical case was run; no Gold claim is made.
 
 The following remain deferred to 0.2.8+: mixed TET/WEDGE/HEX, WEDGE15,
 PYRAMID5, production HEX8R/SRI/B-bar, finite-kinematic J2, TL HEX8, refined

@@ -25,13 +25,15 @@ Level-Up portfolio is `CLOSED / ACCEPT_WITH_CONSOLIDATION`; WP13 is `PASS` on
 its controlled golden-baseline evidence and WP14 is `PASS` on its frozen
 execution contract; WP15 is `PASS_WITH_LIMITATIONS` on controlled subscale
 evidence, WP16 is `PASS` on the official PETSc 1M retry, WP17 is `PARTIAL`,
-and WP18-WP22 remain individually `PLANNED` until their own evidence exists.
+and WP18 is `PASS_WITH_LIMITATIONS` after its Bronze/Silver ladder; WP19-WP22
+remain individually `PLANNED` until their own evidence exists.
 
 The machine-readable Level-Up source is
 `qualification/0_2_7/level_up_plan.json`. WP16's 1M-DOF requirement is
 satisfied for its declared PETSc/TET4 scope; WP18 is mandatory and distinguishes Bronze model/preflight,
-Silver full solve and Gold distributed/restart evidence. No setup record
-promotes maturity or claims a 3M solve.
+Silver full solve and Gold distributed/restart evidence. Silver has completed
+two 3M solves on the declared route; Gold remains unattempted and unclaimed.
+No record promotes capability maturity.
 
 ## Baseline and status
 
@@ -92,6 +94,7 @@ in [`0_2_7_progress_tracker.md`](0_2_7_progress_tracker.md).
 | WP15 | Matrix-Free TET4 V2 / SPD / preconditioning | `PASS_WITH_LIMITATIONS` |
 | WP16 | True 1M-DOF qualification | `PASS` (bounded PETSc/TET4 scope) |
 | WP17 | PETSc/MPI and large sparse path | `PARTIAL` |
+| WP18 | 3M DOF ladder Bronze/Silver/Gold | `PASS_WITH_LIMITATIONS` |
 | Foundation WP13-WP14 proposal | Superseded by the Level-Up namespace | `PRESERVED_HISTORY` |
 
 ## Reading rules
@@ -128,6 +131,9 @@ explicit skip or limitation, never as `PASS`.
 - [`qualification/0_2_7/wp16_runtime/wp16_retry_run1_raw.json`](../../../qualification/0_2_7/wp16_runtime/wp16_retry_run1_raw.json)
 - [`qualification/0_2_7/wp16_runtime/wp16_retry_run2_raw.json`](../../../qualification/0_2_7/wp16_runtime/wp16_retry_run2_raw.json)
 - [`qualification/0_2_7/wp16_runtime/wp16_retry_subscale_raw.json`](../../../qualification/0_2_7/wp16_runtime/wp16_retry_subscale_raw.json)
+- [`qualification/0_2_7/wp18_runtime/wp18_summary.json`](../../../qualification/0_2_7/wp18_runtime/wp18_summary.json)
+- [`qualification/0_2_7/wp18_state.json`](../../../qualification/0_2_7/wp18_state.json)
+- [`0_2_7_wp18_3m_ladder.md`](0_2_7_wp18_3m_ladder.md)
 - [`0_2_7_wp16_1m_qualification.md`](0_2_7_wp16_1m_qualification.md)
 - [`qualification/0_2_7/wp10_state.json`](../../../qualification/0_2_7/wp10_state.json)
 - [`qualification/0_2_7/vnv_v2/wp10_cases.json`](../../../qualification/0_2_7/vnv_v2/wp10_cases.json)

@@ -26,6 +26,8 @@ TET4 route; its Owner decision remains pending and its resource limits are not
 success claims. WP11 records a bounded maturity extension for existing
 small-strain J2 evidence across TET4, TET10, HEX8 and HEX20; it keeps the
 qualified scope and does not create a universal increment-independence claim.
+WP18 records a PASS_WITH_LIMITATIONS 3M Bronze/Silver ladder under the frozen
+WP14 contract; Gold remains unattempted and no Gold claim is made.
 
 | Gate | Work package | Purpose | Dependencies | GO evidence | STOP conditions | Status |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -79,11 +81,13 @@ The evidence is recorded in
 ## Official Level-Up portfolio
 
 `027-LEVEL-UP` is `CLOSED / ACCEPT_WITH_CONSOLIDATION`: the scope was
-accepted, and the executed WP16 result is recorded separately below.
+accepted, and the executed WP16 and WP18 results are recorded separately
+below.
 WP13 is `PASS` on its controlled golden-baseline evidence. WP14 is `PASS` on
 its frozen execution contract; WP15 is `PASS_WITH_LIMITATIONS` on controlled
-subscale evidence; WP16 is `PASS` after the official PETSc retry; and WP17 is
-`PARTIAL` after the pinned PETSc/MPI remediation checkpoint. WP18-WP22 remain
+subscale evidence; WP16 is `PASS` after the official PETSc retry; WP17 is
+`PARTIAL` after the pinned PETSc/MPI remediation checkpoint; and WP18 is
+`PASS_WITH_LIMITATIONS` after the Bronze/Silver ladder. WP19-WP22 remain
 `PLANNED` until their declared evidence is executed. The active theme is
 **Reproducible Large-Model Solving and Numerical Trust**.
 
@@ -94,15 +98,24 @@ subscale evidence; WP16 is `PASS` after the official PETSc retry; and WP17 is
 | `LUP-027-G15` | WP15 matrix-free TET4 V2 | `PASS_WITH_LIMITATIONS` | 10% | SPD, preconditioning and assembled subscale; no WP16/1M claim |
 | `LUP-027-G16` | WP16 true 1M DOF qualification | `PASS` | 10% | two PETSc CG/GAMG replays satisfy frozen residual, equilibrium, energy and SPD criteria |
 | `LUP-027-G17` | WP17 PETSc/MPI and large sparse path | `PARTIAL` | 5% | reproducible pinned route; host availability and AIJ memory remain limitations |
-| `LUP-027-G18` | WP18 3M Bronze/Silver/Gold ladder | `PLANNED` | 7% | Bronze is not a solve claim; Silver is main target |
+| `LUP-027-G18` | WP18 3M Bronze/Silver/Gold ladder | `PASS_WITH_LIMITATIONS` | 7% | Bronze preflight and two-replay Silver solve; Gold unattempted |
 | `LUP-027-G19` | WP19 adversarial robustness and HEX8 diagnostic | `PLANNED` | 5% | fail-closed diagnostics without promotion |
 | `LUP-027-G20` | WP20 residual J2 and external V&V closure | `PLANNED` | 3% | no post-result retuning |
 | `LUP-027-G21` | WP21 surgical architecture/API/registry cleanup | `PLANNED` | 3% | legacy compatibility preserved |
 | `LUP-027-G22` | WP22 final release qualification | `PLANNED` | 3% | final regression/package/Owner checkpoint |
 
 Machine-readable criteria are in `qualification/0_2_7/level_up_plan.json` and
-`qualification/0_2_7/requirements.json`. WP16 is now satisfied and WP18
-remains mandatory. No setup record promotes a capability.
+`qualification/0_2_7/requirements.json`. WP16 is satisfied and WP18 records
+the mandatory Silver result. Bronze creates no solve claim, Gold remains
+unattempted, and no Level-Up record promotes a capability.
+
+WP18 evidence is recorded in
+`qualification/0_2_7/wp18_runtime/wp18_summary.json` and
+`qualification/0_2_7/wp18_state.json`. The 3M Silver route completed twice
+at 3,000,000 true DOF with residual, equilibrium, energy, finite-output and
+SPD checks passing. The claim is limited to the structured TET4 linear-static
+model and the pinned two-rank PETSc/MPI environment; AIJ setup and peak RSS
+remain material limitations.
 
 ## `027-G11` bounded J2 maturity extension
 
