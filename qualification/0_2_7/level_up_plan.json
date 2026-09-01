@@ -76,9 +76,11 @@
       "title": "PETSc/MPI and large sparse path",
       "weight_percent": 5,
       "priority": "SHOULD",
-      "status": "PLANNED",
+      "status": "PARTIAL",
       "pass_criteria": ["PETSc/MPI path is reproducibly provisioned or explicitly unavailable", "backend selection and solver/preconditioner configuration are explicit", "serial fallback remains fail-closed and traceable"],
-      "stop_conditions": ["environment-specific success presented as universal support", "unreproducible distributed result"]
+      "stop_conditions": ["environment-specific success presented as universal support", "unreproducible distributed result"],
+      "evidence": ["qualification/0_2_7/wp17_state.json", "qualification/0_2_7/wp17_runtime/wp17_probe.json", "docs/verification/0_2_7/0_2_7_wp17_solver_stack.md"],
+      "owner_decision": "PARTIAL: phase/matvec/RSS instrumentation and WP14 subscale equivalence pass; nodal block-Jacobi remains selected; PETSc is unavailable and the WP16 equilibrium blocker is not resolved"
     },
     {
       "id": "WP18",
