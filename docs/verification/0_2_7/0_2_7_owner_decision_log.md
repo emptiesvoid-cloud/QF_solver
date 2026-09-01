@@ -24,6 +24,7 @@ WP07 technical implementation separately from public qualification.
 | 027-OD-008 | WEDGE6 elemental kernel | `TERRA_GO` | `PASS_TECHNICAL_EXPERIMENTAL_ONLY` | T1-R4, WP07 evidence | 2026-08-31 |
 | 027-OD-009 | WEDGE6 static vertical slice | `WP08_REVIEWED` | `PASS_TECHNICAL_EXPERIMENTAL_ONLY` | WP08 state/evidence, 8040909d6d65f740e1daf858ce572d250a87b39a | 2026-08-31 |
 | 027-OD-010 | residual J2 and external V&V closure | `OWNER_APPROVED_BOUNDED_KEEP_EXISTING_SCOPE` | `PASS_WITH_LIMITATIONS` | `qualification/0_2_7/wp20_state.json`, `94461602dfd1782be57c20e1801a0d5d8e262ef1` | 2026-09-01 |
+| 027-OD-011 | WP21 architecture/API/registry and release-truth cleanup | `OWNER_REVIEWED_BOUNDED` | `PASS_WITH_LIMITATIONS` | `qualification/0_2_7/wp21_state.json`, `qualification/0_2_7/wp21_final_release_truth.json`, `0f565dc9669763751a75f13b02004bde18af571c` | 2026-09-01 |
 
 WP01 is a release-engineering foundation control rather than a numerical Owner
 qualification decision. Its status is `PASS` because the SHA roles, actual
@@ -363,3 +364,25 @@ structural external campaign or post-result tolerance retuning is claimed.
 The authoritative records are
 `qualification/0_2_7/wp20_state.json` and
 `docs/verification/0_2_7/0_2_7_wp20_j2_closeout.md`.
+
+## WP21 - Architecture, API and registry surgical cleanup
+
+Date: 2026-09-01. Review start SHA:
+`a24c02e2c95edf374d2e2357c6445afc772bc000`. Cleanup source SHA:
+`0f565dc9669763751a75f13b02004bde18af571c`.
+
+Owner decision: `PASS_WITH_LIMITATIONS`. The active package and runtime
+identity are aligned on `0.2.7a0`; the public audit is clean; legacy
+`solveur` and `qf_solver` imports and the documented launchers remain covered;
+the registry retains all 33 public capability anchors and 46 combination
+records. The WP13 golden replay records eight positive passes and one
+expected-failure pass with no mismatch.
+
+This decision is surgical and does not approve a broad architecture redesign,
+change any FEM formulation, promote WEDGE6 static, promote finite-kinematic
+J2, or alter any earlier Owner maturity decision. WP22 remains the separate
+final release action. The controlled records are
+`qualification/0_2_7/wp21_state.json`,
+`qualification/0_2_7/wp21_final_release_truth.json`,
+`qualification/0_2_7/wp21_public_document_audit.json` and
+`qualification/0_2_7/golden/wp21_replay_evidence.json`.

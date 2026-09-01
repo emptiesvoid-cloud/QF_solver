@@ -30,7 +30,8 @@ evidence, WP16 is `PASS` on the official PETSc 1M retry, WP17 is
 `PASS_WITH_LIMITATIONS` after its Bronze/Silver ladder; WP19 is
 `PASS_WITH_LIMITATIONS` on bounded adversarial and HEX8 diagnostic evidence;
 WP20 is `PASS_WITH_LIMITATIONS` for the existing bounded small-strain J2
-scope, and WP21-WP22 remain individually `PLANNED`.
+scope. WP21 is `PASS_WITH_LIMITATIONS` for surgical compatibility and
+release-truth cleanup; WP22 remains `PLANNED` for final Owner release action.
 
 The machine-readable Level-Up source is
 `qualification/0_2_7/level_up_plan.json`. WP16's 1M-DOF requirement is
@@ -101,6 +102,8 @@ in [`0_2_7_progress_tracker.md`](0_2_7_progress_tracker.md).
 | WP18 | 3M DOF ladder Bronze/Silver/Gold | `PASS_WITH_LIMITATIONS` |
 | WP19 | Adversarial robustness and HEX8 diagnostic | `PASS_WITH_LIMITATIONS` |
 | WP20 | Residual J2 and external V&V closure | `PASS_WITH_LIMITATIONS` (bounded existing scope) |
+| WP21 | Architecture, API and registry surgical cleanup | `PASS_WITH_LIMITATIONS` (broader redesign deferred) |
+| WP22 | Final release qualification | `PLANNED` |
 | Foundation WP13-WP14 proposal | Superseded by the Level-Up namespace | `PRESERVED_HISTORY` |
 
 ## Reading rules
@@ -123,6 +126,10 @@ explicit skip or limitation, never as `PASS`.
 - [`qualification/0_2_7/progress.json`](../../../qualification/0_2_7/progress.json)
 - [`qualification/0_2_7/manifest.json`](../../../qualification/0_2_7/manifest.json)
 - [`qualification/0_2_7/release_truth.json`](../../../qualification/0_2_7/release_truth.json)
+- [`qualification/0_2_7/wp21_state.json`](../../../qualification/0_2_7/wp21_state.json)
+- [`qualification/0_2_7/wp21_final_release_truth.json`](../../../qualification/0_2_7/wp21_final_release_truth.json)
+- [`qualification/0_2_7/wp21_public_document_audit.json`](../../../qualification/0_2_7/wp21_public_document_audit.json)
+- [`qualification/0_2_7/golden/wp21_replay_evidence.json`](../../../qualification/0_2_7/golden/wp21_replay_evidence.json)
 - [`qualification/0_2_7/release_workflow_audit.json`](../../../qualification/0_2_7/release_workflow_audit.json)
 - [`qualification/0_2_7/capability_registry_v2.json`](../../../qualification/0_2_7/capability_registry_v2.json) (source of truth)
 - [`qualification/0_2_7/registry_migration.json`](../../../qualification/0_2_7/registry_migration.json)

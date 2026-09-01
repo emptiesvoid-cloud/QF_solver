@@ -29,7 +29,8 @@ qualified scope and does not create a universal increment-independence claim.
 WP18 records a PASS_WITH_LIMITATIONS 3M Bronze/Silver ladder under the frozen
 WP14 contract; Gold remains unattempted and no Gold claim is made. WP20 closes
 the Owner review of the existing bounded small-strain J2 scope with
-PASS_WITH_LIMITATIONS; WP21-WP22 remain planned.
+PASS_WITH_LIMITATIONS; WP21 is now PASS_WITH_LIMITATIONS for surgical cleanup
+and WP22 remains planned for the final Owner release action.
 
 | Gate | Work package | Purpose | Dependencies | GO evidence | STOP conditions | Status |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -92,8 +93,10 @@ subscale evidence; WP16 is `PASS` after the official PETSc retry; WP17 is
 `PASS_WITH_LIMITATIONS` after the Bronze/Silver ladder; and WP19 is
 `PASS_WITH_LIMITATIONS` on bounded adversarial and HEX8 diagnostic evidence.
 WP20 is `PASS_WITH_LIMITATIONS` for the existing bounded small-strain J2
-scope; WP21-WP22 remain `PLANNED` until their declared evidence is executed. The active theme is
-**Reproducible Large-Model Solving and Numerical Trust**.
+scope. WP21 is `PASS_WITH_LIMITATIONS` for surgical compatibility, public
+audit and release-truth cleanup; WP22 remains `PLANNED` for the final Owner
+release action. The active theme is **Reproducible Large-Model Solving and
+Numerical Trust**.
 
 | Level-Up gate | Work package | Status | Weight | Required interpretation |
 | --- | --- | --- | ---: | --- |
@@ -105,7 +108,7 @@ scope; WP21-WP22 remain `PLANNED` until their declared evidence is executed. The
 | `LUP-027-G18` | WP18 3M Bronze/Silver/Gold ladder | `PASS_WITH_LIMITATIONS` | 7% | Bronze preflight and two-replay Silver solve; Gold unattempted |
 | `LUP-027-G19` | WP19 adversarial robustness and HEX8 diagnostic | `PASS_WITH_LIMITATIONS` | 5% | 24-case fail-closed corpus and bounded HEX8/C3D8 diagnostic; no formulation promotion |
 | `LUP-027-G20` | WP20 residual J2 and external V&V closure | `PASS_WITH_LIMITATIONS` | 3% | existing four-family small-strain J2 scope retained; no universal structural increment claim |
-| `LUP-027-G21` | WP21 surgical architecture/API/registry cleanup | `PLANNED` | 3% | legacy compatibility preserved |
+| `LUP-027-G21` | WP21 surgical architecture/API/registry cleanup | `PASS_WITH_LIMITATIONS` | 3% | legacy compatibility preserved; broader redesign deferred |
 | `LUP-027-G22` | WP22 final release qualification | `PLANNED` | 3% | final regression/package/Owner checkpoint |
 
 Machine-readable criteria are in `qualification/0_2_7/level_up_plan.json` and
@@ -183,4 +186,6 @@ Code_Aster 18.1.0 constitutive evidence from G06 is reused for all four
 families. No new structural J2 campaign is claimed, and no post-result
 tolerance retuning occurred. The authoritative records are
 `qualification/0_2_7/wp20_state.json` and
-`docs/verification/0_2_7/0_2_7_wp20_j2_closeout.md`; WP21 is next.
+`docs/verification/0_2_7/0_2_7_wp20_j2_closeout.md`. WP21 then closed its
+surgical compatibility and release-truth scope; WP22 remains the next Owner
+release action.

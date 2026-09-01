@@ -1,3 +1,12 @@
+---
+doc_id: DOC-027-WP13-001
+revision: 1.0
+status: controlled_candidate
+applicable_version: 0.2.7a0
+reviewer: ""
+approver: ""
+---
+
 # 0.2.7 WP13 Golden Numerical Baseline
 
 Status: `PASS`  

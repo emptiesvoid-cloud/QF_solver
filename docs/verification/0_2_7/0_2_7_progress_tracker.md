@@ -61,8 +61,10 @@ WP15 is `PASS_WITH_LIMITATIONS` on controlled subscale evidence, WP16 is
 after the PETSc/MPI closure, and WP18 is `PASS_WITH_LIMITATIONS` after the
 Bronze/Silver ladder. WP19 is now `PASS_WITH_LIMITATIONS` on bounded
 adversarial and HEX8 diagnostic evidence; WP20 is now
-`PASS_WITH_LIMITATIONS` for the existing bounded J2 scope, while WP21-WP22
-remain individually `PLANNED` and do not constitute execution evidence. WP13 has its own
+`PASS_WITH_LIMITATIONS` for the existing bounded J2 scope. WP21 is
+`PASS_WITH_LIMITATIONS` on surgical cleanup and does not promote a capability;
+WP22 remains `PLANNED` and neither package constitutes a final release approval.
+WP13 has its own
 controlled proof record; the remaining criteria and weights are authoritative in
 `qualification/0_2_7/level_up_plan.json`.
 
@@ -76,7 +78,7 @@ controlled proof record; the remaining criteria and weights are authoritative in
 | WP18 | 7% | MUST | `PASS_WITH_LIMITATIONS` | Bronze preflight and two-replay Silver 3M solve; Gold unattempted |
 | WP19 | 5% | MUST | `PASS_WITH_LIMITATIONS` | 24-case fail-closed robustness corpus and bounded HEX8/C3D8 diagnostic |
 | WP20 | 3% | SHOULD | `PASS_WITH_LIMITATIONS` | bounded existing four-family J2 closure; reused constitutive external evidence; no universal structural increment claim |
-| WP21 | 3% | SHOULD | `PLANNED` | surgical architecture/API/registry cleanup |
+| WP21 | 3% | SHOULD | `PASS_WITH_LIMITATIONS` | surgical architecture/API/registry cleanup; broader redesign deferred |
 | WP22 | 3% | MUST | `PLANNED` | final release qualification |
 
 The 45% historical block, 82% current acquired/progress view and 100% total
@@ -154,8 +156,9 @@ its AIJ memory limitation. WP18 has completed its Bronze/Silver ladder: the
 3M Silver solve passed twice under the frozen contract; Gold remains
 `NOT_ATTEMPTED` because no restart/checkpoint or distinct second physical
 case was run. WP19 has completed its bounded adversarial and HEX8 diagnostic
-campaign. WP20 closes the Owner review with the existing bounded scope;
-WP21-WP22 remain `PLANNED` until their declared evidence is executed.
+campaign. WP20 closes the Owner review with the existing bounded scope; WP21
+has completed its surgical compatibility and release-truth scope with
+`PASS_WITH_LIMITATIONS`; WP22 remains `PLANNED` for final Owner release.
 
 ## WP19 - Adversarial robustness and HEX8 diagnostic
 
@@ -181,7 +184,7 @@ The controlled records are `qualification/0_2_7/wp19_state.json`,
 `qualification/0_2_7/wp19_runtime/wp19_hex8_diagnostic.json` and
 `qualification/0_2_7/wp19_runtime/wp19_golden_replay.json`. WEDGE6 and all
 previous gate decisions remain unchanged. WP20 is closed with bounded
-limitations and WP21 is now next.
+limitations and WP21 is closed with `PASS_WITH_LIMITATIONS`; WP22 is next.
 
 ## WP20 - Residual J2 and external V&V closure
 
@@ -204,4 +207,5 @@ campaign and no post-result tolerance retuning. Finite-kinematic J2 remains
 experimental/not qualified. The authoritative records are
 `qualification/0_2_7/wp20_state.json`,
 `qualification/0_2_7/wp11_j2_evidence.json` and
-`docs/verification/0_2_7/0_2_7_wp20_j2_closeout.md`. WP21 is next.
+`docs/verification/0_2_7/0_2_7_wp20_j2_closeout.md`. WP21 is closed with
+`PASS_WITH_LIMITATIONS`; WP22 is next.

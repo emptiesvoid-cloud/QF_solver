@@ -101,8 +101,15 @@ class DocumentationPublisher:
 
     def _document_registry(self) -> None:
         registry = json.loads((self.docs / "document_registry.json").read_text(encoding="utf-8"))
-        requirements = json.loads((self.root / "qualification" / "requirements.json").read_text(encoding="utf-8"))
-        requirement_ids = {item["id"] for item in requirements["requirements"]}
+        requirement_ids: set[str] = set()
+        for requirements_path in (
+            self.root / "qualification" / "requirements.json",
+            self.root / "qualification" / "0_2_7" / "requirements.json",
+        ):
+            if requirements_path.is_file():
+                requirements = json.loads(requirements_path.read_text(encoding="utf-8"))
+                for section in ("requirements", "level_up_requirements"):
+                    requirement_ids.update(item["id"] for item in requirements.get(section, []))
         controlled_paths = {
             path.relative_to(self.docs).as_posix(): path
             for path in self.docs.rglob("*.md")

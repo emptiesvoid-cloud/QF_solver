@@ -1,9 +1,11 @@
 ---
-doc_id: DOC-027-WP18
+doc_id: DOC-027-WP18-001
 revision: 0.1
-status: controlled_evidence
+status: controlled_candidate
 applicable_version: 0.2.7a0
 source_sha: 9c0605645fa60ef0d89f3ce98ca361a677f13d1d
+reviewer: ""
+approver: ""
 ---
 
 # WP18 - 3M DOF Ladder

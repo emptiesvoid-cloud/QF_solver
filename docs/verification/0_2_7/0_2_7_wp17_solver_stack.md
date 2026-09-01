@@ -1,3 +1,12 @@
+---
+doc_id: DOC-027-WP17-STACK-001
+revision: 1.0
+status: controlled_candidate
+applicable_version: 0.2.7a0
+reviewer: ""
+approver: ""
+---
+
 # WP17 - Large solver stack and preconditioning
 
 ## Decision

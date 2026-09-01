@@ -4,7 +4,7 @@
   "theme": "Reproducible Large-Model Solving and Numerical Trust",
   "baseline_sha": "e839373b6aef291a93292186d7553ba5cd12af55",
   "baseline_branch": "main",
-  "foundation_status": "WP08_PASS_EXPERIMENTAL_WP09_PASS_WITH_LIMITATIONS_WP10_PASS_WITH_LIMITATIONS_QUALIFIED_BOUNDED_WP11_PASS_WITH_LIMITATIONS_OWNER_APPROVED_BOUNDED_WP12_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED_WP13_PASS_WP14_PASS_WP15_PASS_WITH_LIMITATIONS_WP16_PASS_WP17_PASS_WITH_LIMITATIONS_WP18_PASS_WITH_LIMITATIONS_SILVER_3M_WP19_PASS_WITH_LIMITATIONS_WP20_PASS_WITH_LIMITATIONS_WP21_WP22_PLANNED",
+  "foundation_status": "WP08_PASS_EXPERIMENTAL_WP09_PASS_WITH_LIMITATIONS_WP10_PASS_WITH_LIMITATIONS_QUALIFIED_BOUNDED_WP11_PASS_WITH_LIMITATIONS_OWNER_APPROVED_BOUNDED_WP12_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED_WP13_PASS_WP14_PASS_WP15_PASS_WITH_LIMITATIONS_WP16_PASS_WP17_PASS_WITH_LIMITATIONS_WP18_PASS_WITH_LIMITATIONS_SILVER_3M_WP19_PASS_WITH_LIMITATIONS_WP20_PASS_WITH_LIMITATIONS_WP21_PASS_WITH_LIMITATIONS_WP22_PLANNED",
   "source_change_authorized_by_foundation": false,
   "gates": [
     {
@@ -285,7 +285,7 @@
     "decision": "ACCEPT_WITH_CONSOLIDATION",
     "plan": "qualification/0_2_7/level_up_plan.json",
     "historical_wp01_wp12_preserved": true,
-    "execution_status": "WP13_WP14_PASS_WP15_PASS_WITH_LIMITATIONS_WP16_PASS_WP17_PASS_WITH_LIMITATIONS_PETSC_ROUTE_CLOSED_WITH_LIMITATIONS_WP18_PASS_WITH_LIMITATIONS_SILVER_3M_WP19_PASS_WITH_LIMITATIONS_WP20_PASS_WITH_LIMITATIONS_WP21_WP22_PLANNED",
+    "execution_status": "WP13_WP14_PASS_WP15_PASS_WITH_LIMITATIONS_WP16_PASS_WP17_PASS_WITH_LIMITATIONS_PETSC_ROUTE_CLOSED_WITH_LIMITATIONS_WP18_PASS_WITH_LIMITATIONS_SILVER_3M_WP19_PASS_WITH_LIMITATIONS_WP20_PASS_WITH_LIMITATIONS_WP21_PASS_WITH_LIMITATIONS_WP22_PLANNED",
     "release_blocker": null,
     "mandatory_ladder": "WP18",
     "no_maturity_promotion": true,
@@ -298,7 +298,7 @@
       {"id": "LUP-027-G18", "work_package": "WP18", "status": "PASS_WITH_LIMITATIONS", "mandatory": true, "evidence": ["qualification/0_2_7/wp18_state.json", "qualification/0_2_7/wp18_runtime/wp18_summary.json", "qualification/0_2_7/wp18_runtime/wp18_bronze_preflight.json", "qualification/0_2_7/wp18_runtime/wp18_replay_comparison.json"], "owner_decision": "PASS_WITH_LIMITATIONS: Bronze and Silver are evidenced on the declared structured TET4 PETSc/MPI route; Gold is NOT_ATTEMPTED and unclaimed because restart/checkpoint and a distinct second physical case were not run.", "limitations": ["No universal 3M performance claim", "AIJ peak RSS is approximately 10.08 GB at 3M DOF", "Gold remains a nonblocking stretch"]},
       {"id": "LUP-027-G19", "work_package": "WP19", "status": "PASS_WITH_LIMITATIONS", "evidence": ["qualification/0_2_7/wp19_state.json", "qualification/0_2_7/wp19_cases.json", "qualification/0_2_7/wp19_runtime/wp19_robustness_summary.json", "qualification/0_2_7/wp19_runtime/wp19_robustness_evidence.json", "qualification/0_2_7/wp19_runtime/wp19_hex8_diagnostic.json", "qualification/0_2_7/wp19_runtime/wp19_golden_replay.json", "docs/verification/0_2_7/0_2_7_wp19_robustness_hex8.md", "tests/unit/test_wp19_robustness_hex8.py"], "owner_decision": "PASS_WITH_LIMITATIONS: bounded adversarial evidence is fail-closed and deterministic; compatible C3D8 displacement correlation supports a low-order diagnostic only; no HEX8 formulation is promoted.", "limitations": ["24 predeclared adversarial cases do not establish universal robustness", "C3D8 external reactions and energy are NOT_COMPARABLE", "Euler is diagnostic only; no universal HEX8 accuracy claim", "HEX8R/SRI/B-bar was not evaluated or promoted"]},
       {"id": "LUP-027-G20", "work_package": "WP20", "status": "PASS_WITH_LIMITATIONS", "evidence": ["qualification/0_2_7/wp20_state.json", "qualification/0_2_7/wp11_j2_cases.json", "qualification/0_2_7/wp11_j2_evidence.json", "qualification/0_2_6/g06_depth_evidence.json", "docs/verification/0_2_7/0_2_7_wp20_j2_closeout.md", "tests/unit/test_wp20_j2_closure.py"], "owner_decision": "OWNER_APPROVED_BOUNDED_KEEP_EXISTING_SCOPE", "limitations": ["no universal structural increment-independence threshold", "tangent symmetry diagnostic only", "modified Newton non-convergence remains diagnostic", "finite-kinematic J2 remains experimental/not qualified", "external evidence is reused constitutive evidence and no new structural campaign is claimed"]},
-      {"id": "LUP-027-G21", "work_package": "WP21", "status": "PLANNED"},
+      {"id": "LUP-027-G21", "work_package": "WP21", "status": "PASS_WITH_LIMITATIONS", "evidence": ["qualification/0_2_7/wp21_state.json", "qualification/0_2_7/wp21_final_release_truth.json", "qualification/0_2_7/wp21_public_document_audit.json", "qualification/0_2_7/golden/wp21_replay_evidence.json", "tests/unit/test_wp21_release.py"], "owner_decision": "Active 0.2.7 package identity, public audit, compatibility and bounded evidence truth are aligned; broader architecture redesign and WP22 release action remain separate."},
       {"id": "LUP-027-G22", "work_package": "WP22", "status": "PLANNED"}
     ]
   },

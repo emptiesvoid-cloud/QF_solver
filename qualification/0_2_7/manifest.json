@@ -7,11 +7,11 @@
   "baseline_branch": "main",
   "foundation_branch": "codex/0.2.7-foundation",
   "baseline_worktree_clean_at_capture": true,
-  "foundation_status": "WP08_PASS_EXPERIMENTAL_WP09_PASS_WITH_LIMITATIONS_WP10_PASS_WITH_LIMITATIONS_QUALIFIED_BOUNDED_WP11_PASS_WITH_LIMITATIONS_OWNER_APPROVED_BOUNDED_WP12_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED_WP13_PASS_WP14_PASS_WP15_PASS_WITH_LIMITATIONS_WP16_PASS_WP17_PASS_WITH_LIMITATIONS_WP18_PASS_WITH_LIMITATIONS_SILVER_3M_WP19_PASS_WITH_LIMITATIONS_WP20_PASS_WITH_LIMITATIONS_WP21_WP22_PLANNED",
-  "evidence_head": "dc5975b78727d9dca6d0a48b716e60f355b8799f",
+  "foundation_status": "WP08_PASS_EXPERIMENTAL_WP09_PASS_WITH_LIMITATIONS_WP10_PASS_WITH_LIMITATIONS_QUALIFIED_BOUNDED_WP11_PASS_WITH_LIMITATIONS_OWNER_APPROVED_BOUNDED_WP12_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED_WP13_PASS_WP14_PASS_WP15_PASS_WITH_LIMITATIONS_WP16_PASS_WP17_PASS_WITH_LIMITATIONS_WP18_PASS_WITH_LIMITATIONS_SILVER_3M_WP19_PASS_WITH_LIMITATIONS_WP20_PASS_WITH_LIMITATIONS_WP21_PASS_WITH_LIMITATIONS_WP22_PLANNED",
+  "evidence_head": "0f565dc9669763751a75f13b02004bde18af571c",
   "wp11_status": "PASS_WITH_LIMITATIONS_OWNER_APPROVED_BOUNDED",
   "wp11_evidence_source_sha": "94461602dfd1782be57c20e1801a0d5d8e262ef1",
-  "current_development_head": "dc5975b78727d9dca6d0a48b716e60f355b8799f",
+  "current_development_head": "0f565dc9669763751a75f13b02004bde18af571c",
   "current_development_branch": "codex/0.2.7-foundation",
   "wp13_status": "PASS",
   "wp13_evidence_source_sha": "94ce10a53e31ad6884383c7ec8ce1761d9533eff",
@@ -51,6 +51,13 @@
   "wp20_evidence": ["qualification/0_2_7/wp11_j2_cases.json", "qualification/0_2_7/wp11_j2_evidence.json", "qualification/0_2_6/g06_depth_evidence.json"],
   "wp20_document": "docs/verification/0_2_7/0_2_7_wp20_j2_closeout.md",
   "wp20_owner_decision": "OWNER_APPROVED_BOUNDED_KEEP_EXISTING_SCOPE",
+  "wp21_status": "PASS_WITH_LIMITATIONS",
+  "wp21_state": "qualification/0_2_7/wp21_state.json",
+  "wp21_final_release_truth": "qualification/0_2_7/wp21_final_release_truth.json",
+  "wp21_public_audit": "qualification/0_2_7/wp21_public_document_audit.json",
+  "wp21_golden_replay": "qualification/0_2_7/golden/wp21_replay_evidence.json",
+  "wp21_source_sha": "0f565dc9669763751a75f13b02004bde18af571c",
+  "wp22_status": "PLANNED",
   "parent_release": {
     "version": "0.2.6a0",
     "qualification_snapshot": "93561c2c0ae1c173deb81e47c3fa3852643275cb",
@@ -280,7 +287,12 @@
     "qualification/0_2_7/wp19_runtime/wp19_hex8_diagnostic.json",
     "qualification/0_2_7/wp19_runtime/wp19_golden_replay.json",
     "qualification/0_2_7/wp19_runtime/wp19_golden_current_evidence.json",
-    "docs/verification/0_2_7/0_2_7_wp19_robustness_hex8.md"
+    "docs/verification/0_2_7/0_2_7_wp19_robustness_hex8.md",
+    "qualification/0_2_7/wp21_state.json",
+    "qualification/0_2_7/wp21_final_release_truth.json",
+    "qualification/0_2_7/wp21_public_document_audit.json",
+    "qualification/0_2_7/golden/wp21_replay_evidence.json",
+    "tests/unit/test_wp21_release.py"
   ],
   "status_rule": "A work package is PASS only when its declared evidence is recorded; WP05 records external deck preflight, WP06 records mesh-quality diagnostics, WP07 records an experimental WEDGE6 elemental kernel without creating a public qualification or universal quality cutoff, WP09 records bounded robustness evidence and explicit external outcomes, WP09-R records a reproducible headless Code_Aster oracle without promoting WEDGE6, WP10 records bounded consistent-mass modal qualification for its declared first-three-mode refinement and same-mesh external MAC scope without transferring static maturity, WP12 records bounded large-scale readiness evidence without creating a universal 1M-DOF claim, WP13 records release truth and a golden baseline, WP14 records a frozen large-scale execution contract without creating a 1M/3M solve claim, WP18 records distinct Bronze/Silver/Gold outcomes without claiming Gold when restart and second-case evidence are absent, WP19 records bounded fail-closed adversarial evidence plus a HEX8 diagnostic without promoting a new formulation or universal robustness claim, and WP20 records Owner closure of the existing bounded small-strain J2 scope without a new numerical claim or maturity promotion."
 }
