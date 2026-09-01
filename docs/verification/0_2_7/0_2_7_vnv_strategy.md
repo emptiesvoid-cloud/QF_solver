@@ -68,9 +68,10 @@ discrete decisions remain independent.
 
 WP10 applies these layers independently to WEDGE6 modal evidence. Consistent
 mass, finite-positive eigenpairs, normalized mode diagnostics, residual,
-refinement and replay are separate from the static WP07-WP09 claims. A
-frequency-only Code_Aster comparison is recorded as bounded external evidence;
-it does not transfer static maturity or qualify a mode-shape claim.
+refinement, frequency matching, MAC and replay are separate from the static
+WP07-WP09 claims. The bounded Code_Aster comparison uses same-mesh physical
+mode components and does not transfer static maturity or qualify Newmark,
+harmonic, nonlinear or general dynamic routes.
 
 ## Scope discipline
 

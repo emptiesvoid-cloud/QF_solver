@@ -160,11 +160,11 @@ def test_stress_recovery_returns_six_production_points() -> None:
     assert np.isfinite(np.asarray(result["stress"], dtype=float)).all()
 
 
-def test_descriptor_registry_and_preflight_keep_wedge6_experimental_only() -> None:
+def test_descriptor_registry_and_preflight_reflect_wedge6_route_maturity() -> None:
     spec = ElementRegistry.get("WEDGE6")
     assert spec.node_count == 6
     assert check_compatibility("WEDGE6", "linear_static", "isotropic_3d").status == "EXPERIMENTAL_ROUTE"
-    assert check_compatibility("WEDGE6", "modal", "isotropic_3d").status == "EXPERIMENTAL_ROUTE"
+    assert check_compatibility("WEDGE6", "modal", "isotropic_3d").status == "SUPPORTED_ROUTE"
     assert check_compatibility("WEDGE6", "linear_static", "isotropic_3d", load_categories=("pressure",)).status == "EXPERIMENTAL_ROUTE"
 
     model = FiniteElementModel.from_raw(

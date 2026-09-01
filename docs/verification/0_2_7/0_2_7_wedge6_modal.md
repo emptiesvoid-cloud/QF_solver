@@ -1,19 +1,20 @@
 ---
 doc_id: DOC-027-017
-revision: 0.1
+revision: 0.2
 status: controlled_evidence
 applicable_version: 0.2.7a0
 reviewer: ""
-approver: ""
-source_sha: 7d494eaa638ffa88a04ed3e5c51f6036ad1804a1
+approver: OWNER_APPROVED_BOUNDED
+source_sha: 9d79dc8b306e6cc65f2f4ae2e77e00f676182b84
+evidence_artifact: qualification/0_2_7/vnv_v2/wp10_final_evidence.json
 ---
 
-# WP10 WEDGE6 Modal Evidence
+# WP10 WEDGE6 Modal Qualification Evidence
 
-WP10 is `PASS_WITH_LIMITATIONS` for the declared technical modal evidence.
-The WEDGE6 modal route remains `EXPERIMENTAL`, and public qualification is
-`DEFERRED`. This record is independent from the WP07-WP09 static evidence;
-static maturity is not transferred to dynamics.
+WP10-FINAL is `PASS` within the declared bounded scope. The gate remains
+`PASS_WITH_LIMITATIONS` because the qualification is limited to the tested
+consistent-mass WEDGE6 modal route and does not make a general dynamics claim.
+The active Owner decision is `OWNER_APPROVED_BOUNDED`.
 
 ## Scope and policy
 
@@ -25,12 +26,15 @@ the consistent translational mass matrix
 verification reference only. No lumped-mass or reduced-integration route is
 qualified.
 
-The acceptance policy was fixed before execution: mass symmetry relative
-error `<= 1e-14`, rigid-translation mass conservation absolute error
-`<= 1e-10` in the declared model units, modal eigenpair residual `<= 1e-7`,
-mass orthogonality error `<= 1e-12`, and finite positive requested
-frequencies. The external frequency candidate is a relative tolerance of
-`1e-2`, marked `OWNER_REVIEW_REQUIRED`; it is not a universal accuracy claim.
+The final policy was fixed in the declarative catalog before replay: mass
+symmetry relative error `<= 1e-14`, rigid-translation mass conservation
+absolute error `<= 1e-10` in the declared model units, modal eigenpair residual
+`<= 1e-7`, mass orthogonality error `<= 1e-12`, and finite positive requested
+frequencies. Same-mesh external frequency comparison uses relative tolerance
+`1e-2`, MAC uses `>= 0.99`, and a relative frequency gap `<= 1e-5` uses
+subspace MAC. The refinement criterion is `<= 1e-2` between the final levels
+for the first three modes. These tolerances are approved only for this bounded
+scope; post-result retuning is forbidden and monotonicity is not required.
 
 ## Evidence summary
 
@@ -50,22 +54,36 @@ The catalog contains 16 cases: 15 `PASS`, one controlled
 | Deterministic replay | frequencies and mode vectors identical; PASS |
 | Zero-density input | fail-closed expected failure; PASS |
 
-The first frequency over the four declared mesh levels (1, 2, 3 and 4
-prism segments) is `156.4464`, `106.6541`, `88.9941` and `81.5564` Hz.
-The final relative change is `9.12%`. This is reported as a bounded trend;
-no monotonicity or universal modal convergence threshold is claimed.
+The final replay used 4, 8, 16 and 32 prism segments. The first three final
+adjacent relative changes were `0.779170%`, `0.125485%` and `0.030112%`, all
+within the `1%` rule. Modes four to six remain diagnostic because their fourth
+final adjacent change is `1.075439%`. The maximum normalized eigenpair
+residual was `2.3993260594985674e-11`, all requested frequencies were finite
+and positive, and deterministic replay passed.
+
+| Segments | Mode 1 (Hz) | Mode 2 (Hz) | Mode 3 (Hz) |
+| ---: | ---: | ---: | ---: |
+| 4 | 81.556398 | 151.870479 | 269.886494 |
+| 8 | 73.511829 | 148.992958 | 268.591238 |
+| 16 | 71.335789 | 148.253799 | 268.267970 |
+| 32 | 70.779961 | 148.067764 | 268.187189 |
+
+Refinement status is `PASS_QUALIFIED` for the first-three-mode observable;
+higher modes are not silently counted as converged.
 
 ## Code_Aster correlation
 
 The reproducible headless reference is Code_Aster 18.1.0/PENTA6 in the
 pinned image
 `simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435`.
-It uses the same affine single-prism geometry, node order, bottom-node fixed
-condition, material and six-frequency request. The primary observable is
-frequency, not a mode-shape comparison. The maximum relative difference is
-`4.03e-14`, below the predeclared `1e-2` candidate, so the result is
-`PASS_EXTERNAL_CORRELATION_BOUNDED`. This external result is not a public
-qualification by itself.
+Four same-mesh cases were executed: axial single prism, bending multi-prism,
+distorted valid prism and multi-WEDGE mesh. They use the same geometry, node
+order, material, fixed condition, mass convention and six-mode request. The
+maximum frequency relative error was `1.927e-13`, the minimum MAC was
+`0.9999999999999991`, and all `24/24` mode pairs passed the predeclared
+frequency and MAC rules. The deck extracts physical `DX`, `DY` and `DZ`
+components and excludes Lagrange multiplier components before comparison.
+This is bounded cross-solver evidence, not universal modal validation.
 
 The canonical deck and compact result are recorded at:
 
@@ -75,18 +93,22 @@ The canonical deck and compact result are recorded at:
 
 ## Limitations and next gate
 
-- WEDGE6 modal maturity remains `EXPERIMENTAL`; WP10 does not promote the
-  public combination to `QUALIFIED_BOUNDED`.
-- The refinement sequence is diagnostic and does not establish a general
-  mesh-convergence claim.
-- MAC is not claimed because no independently mapped external displacement
-  mode field was required for the frequency-only bounded check.
+- WEDGE6 modal maturity is `QUALIFIED_BOUNDED` only for the scope declared
+  above; the gate remains `PASS_WITH_LIMITATIONS`.
+- Modes four to six are externally matched but remain diagnostic for mesh
+  convergence.
+- No lumped-mass route is qualified.
+- No qualification transfers to Newmark, harmonic, nonlinear, J2, TL, contact
+  or general dynamic routes.
 - Newmark, harmonic, nonlinear, J2, TL and contact WEDGE6 routes are outside
   WP10.
 - Full regression was not run under the WP10 T0/T1/T2 targeted policy; no
   existing-element numerical formulation was changed.
 
-Machine-readable records are the source for the case-level evidence:
-`qualification/0_2_7/vnv_v2/wp10_cases.json`,
-`qualification/0_2_7/vnv_v2/wp10_evidence.json` and
-`qualification/0_2_7/wp10_state.json`.
+Machine-readable records are the source for the final case-level evidence:
+`qualification/0_2_7/vnv_v2/wp10_final_cases.json`,
+`qualification/0_2_7/vnv_v2/wp10_final_evidence.json` and
+`qualification/0_2_7/wp10_final_state.json`. The original 16-case records
+`qualification/0_2_7/vnv_v2/wp10_cases.json` and
+`qualification/0_2_7/vnv_v2/wp10_evidence.json` remain preserved as historical
+evidence and are not used to dilute the final policy.
