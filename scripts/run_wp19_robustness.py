@@ -45,8 +45,8 @@ from solveur.verification.v2 import (  # noqa: E402
 
 CASE_PATH = ROOT / "qualification/0_2_7/wp19_cases.json"
 DEFAULT_OUTPUT = ROOT / "qualification/0_2_7/wp19_runtime"
-DEFAULT_EXTERNAL = ROOT / "tmp/wp19_external"
 DEFAULT_CALCULIX_IMAGE = "qf-solver/calculix-nafems13h:2.20"
+WP13_HISTORICAL_SOURCE_SHA = "94ce10a53e31ad6884383c7ec8ce1761d9533eff"
 
 
 def _source_sha() -> str:
@@ -528,6 +528,7 @@ def _calculix_run(
     if completed.returncode != 0:
         raise RuntimeError(f"CalculiX returned exit code {completed.returncode}.")
     displacement = parse_last_frd_displacement(case_dir / "model.frd", model.node_count)
+    image_id = _docker_image_id(image)
     qf = np.asarray(solve_model(model, enforce_policy=False).displacements, dtype=float).reshape((-1, 3))
     full_error = float(np.linalg.norm(qf - displacement) / max(np.linalg.norm(displacement), np.finfo(float).tiny))
     tip_nodes = np.flatnonzero(np.isclose(model.nodes[:, 0], np.max(model.nodes[:, 0])))
@@ -536,7 +537,13 @@ def _calculix_run(
     tip_error = float(np.linalg.norm(qf_tip - calculix_tip) / max(np.linalg.norm(calculix_tip), np.finfo(float).tiny))
     return {
         "status": "PASS_EXTERNAL_CORRELATION" if full_error <= 0.01 and tip_error <= 0.01 else "WARNING",
-        "solver": {"name": "CalculiX", "version": "2.20", "image": image, "element": "C3D8"},
+        "solver": {
+            "name": "CalculiX",
+            "version": "2.20",
+            "image": image,
+            "image_id": image_id,
+            "element": "C3D8",
+        },
         "same_mesh": True,
         "same_boundary_conditions": True,
         "same_material": True,
@@ -551,9 +558,22 @@ def _calculix_run(
     }
 
 
+def _docker_image_id(image: str) -> str | None:
+    completed = subprocess.run(
+        ["docker", "image", "inspect", "--format", "{{.Id}}", image],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if completed.returncode != 0:
+        return None
+    image_id = completed.stdout.strip()
+    return image_id or None
+
+
 def run_hex8_diagnostic(output_dir: Path, *, run_calculix: bool = True, image: str = DEFAULT_CALCULIX_IMAGE) -> dict[str, Any]:
     output_dir.mkdir(parents=True, exist_ok=True)
-    external_dir = DEFAULT_EXTERNAL
+    external_dir = output_dir / "calculix"
     specs = [
         {"id": "refinement_2", "family": "refinement", "length": 10.0, "width": 1.0, "height": 1.0, "nx": 2, "ny": 2, "nz": 2},
         {"id": "refinement_4", "family": "refinement", "length": 10.0, "width": 1.0, "height": 1.0, "nx": 4, "ny": 2, "nz": 2},
@@ -618,10 +638,37 @@ def run_hex8_diagnostic(output_dir: Path, *, run_calculix: bool = True, image: s
     return summary
 
 
+def run_golden_replay(output_dir: Path) -> dict[str, Any]:
+    """Replay WP13's compact golden set without rewriting its historical evidence."""
+
+    from scripts.run_wp13_golden import replay as run_replay
+    from scripts.run_wp13_golden import run as run_golden
+
+    current_evidence = output_dir / "wp19_golden_current_evidence.json"
+    run_counts = run_golden(current_evidence)
+    replay_counts = run_replay(current_evidence)
+    evidence_ref = current_evidence.relative_to(ROOT).as_posix() if current_evidence.is_relative_to(ROOT) else current_evidence.name
+    payload = {
+        "schema_version": 1,
+        "work_package": "WP19",
+        "source_sha": _source_sha(),
+        "historical_wp13_source_sha": WP13_HISTORICAL_SOURCE_SHA,
+        "current_evidence": evidence_ref,
+        "run_counts": run_counts,
+        "replay_counts": replay_counts,
+        "status": "PASS" if run_counts.get("PASS", 0) + run_counts.get("EXPECTED_FAILURE_PASS", 0) == 9 and replay_counts == {"PASS": 9, "MISMATCH": 0} else "FAIL",
+        "historical_wp13_evidence_preserved": True,
+        "artifact_classification": "CONTROLLED_PROOF",
+    }
+    write_json_file(output_dir / "wp19_golden_replay.json", payload)
+    return payload
+
+
 def run(output_dir: Path, *, run_calculix: bool = True, image: str = DEFAULT_CALCULIX_IMAGE) -> dict[str, Any]:
     adversarial = run_adversarial(output_dir)
     diagnostic = run_hex8_diagnostic(output_dir, run_calculix=run_calculix, image=image)
-    return {"adversarial": adversarial, "hex8": diagnostic}
+    golden = run_golden_replay(output_dir)
+    return {"adversarial": adversarial, "hex8": diagnostic, "golden": golden}
 
 
 def main() -> int:
@@ -631,9 +678,9 @@ def main() -> int:
     parser.add_argument("--calculix-image", default=DEFAULT_CALCULIX_IMAGE)
     args = parser.parse_args()
     result = run(args.output_dir, run_calculix=not args.skip_calculix, image=args.calculix_image)
-    print(json.dumps({"adversarial": result["adversarial"]["verdict_counts"], "hex8_rows": len(result["hex8"]["rows"])}, indent=2))
+    print(json.dumps({"adversarial": result["adversarial"]["verdict_counts"], "hex8_rows": len(result["hex8"]["rows"]), "golden": result["golden"]["status"]}, indent=2))
     adversarial = result["adversarial"]
-    return 0 if adversarial["replay"]["status"] == "PASS" and adversarial["fail_closed"] else 1
+    return 0 if adversarial["replay"]["status"] == "PASS" and adversarial["fail_closed"] and result["golden"]["status"] == "PASS" else 1
 
 
 if __name__ == "__main__":

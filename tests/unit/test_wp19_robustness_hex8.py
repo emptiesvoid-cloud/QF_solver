@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from scripts.run_wp19_robustness import run_adversarial, run_hex8_diagnostic
+from scripts.run_wp19_robustness import run_adversarial, run_golden_replay, run_hex8_diagnostic
 from solveur.verification.v2 import load_cases
 
 
@@ -49,3 +49,12 @@ def test_wp19_hex8_diagnostic_is_bounded_and_deterministic(tmp_path: Path) -> No
     assert summary["comparability"]["reaction"].startswith("QF-only")
     assert summary["comparability"]["energy"].startswith("QF-only")
     assert summary["interpretation"]["qf_specific_bug"] is False
+
+
+def test_wp19_replays_golden_set_without_rewriting_wp13_evidence(tmp_path: Path) -> None:
+    summary = run_golden_replay(tmp_path)
+    assert summary["status"] == "PASS"
+    assert summary["run_counts"] == {"EXPECTED_FAILURE_PASS": 1, "PASS": 8}
+    assert summary["replay_counts"] == {"PASS": 9, "MISMATCH": 0}
+    assert summary["historical_wp13_evidence_preserved"] is True
+    assert summary["historical_wp13_source_sha"] == "94ce10a53e31ad6884383c7ec8ce1761d9533eff"
