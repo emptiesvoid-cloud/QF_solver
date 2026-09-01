@@ -534,6 +534,7 @@ def run(output: Path) -> dict[str, Any]:
         "tangent": tangent,
         "families": families,
         "increment_refinement": increment,
+        "newton": newton,
         "failure_modes": failures,
         "external_vnv": external,
         "buckling_replay": buckling,
