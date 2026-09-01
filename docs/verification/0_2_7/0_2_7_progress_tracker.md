@@ -56,8 +56,10 @@ The active theme is **Reproducible Large-Model Solving and Numerical Trust**.
 WP15 is `PASS_WITH_LIMITATIONS` on controlled subscale evidence, WP16 is
 `PASS` after the official PETSc retry, and WP17 is `PARTIAL` after the PETSc
 remediation checkpoint, and WP18 is `PASS_WITH_LIMITATIONS` after the
-Bronze/Silver ladder. WP19-WP22 remain individually `PLANNED` and do
-not constitute execution evidence. WP13 has its own controlled proof record; the remaining criteria and weights are authoritative in
+Bronze/Silver ladder. WP19 is now `PASS_WITH_LIMITATIONS` on bounded
+adversarial and HEX8 diagnostic evidence; WP20-WP22 remain individually
+`PLANNED` and do not constitute execution evidence. WP13 has its own
+controlled proof record; the remaining criteria and weights are authoritative in
 `qualification/0_2_7/level_up_plan.json`.
 
 | WP | Weight | Priority | Status | Rule |
@@ -68,12 +70,12 @@ not constitute execution evidence. WP13 has its own controlled proof record; the
 | WP16 | 10% | MUST | `PASS` | two reproducible PETSc CG/GAMG replays at 1,029,000 DOF satisfy the frozen WP14 contract |
 | WP17 | 5% | SHOULD | `PARTIAL` | pinned PETSc/MPI route enabled WP16 retry; host availability and AIJ memory remain limitations |
 | WP18 | 7% | MUST | `PASS_WITH_LIMITATIONS` | Bronze preflight and two-replay Silver 3M solve; Gold unattempted |
-| WP19 | 5% | MUST | `PLANNED` | adversarial robustness and HEX8 diagnostic |
+| WP19 | 5% | MUST | `PASS_WITH_LIMITATIONS` | 24-case fail-closed robustness corpus and bounded HEX8/C3D8 diagnostic |
 | WP20 | 3% | SHOULD | `PLANNED` | residual J2 and external V&V closure |
 | WP21 | 3% | SHOULD | `PLANNED` | surgical architecture/API/registry cleanup |
 | WP22 | 3% | MUST | `PLANNED` | final release qualification |
 
-The 45% historical block, 77% current acquired/progress view and 100% total
+The 45% historical block, 82% current acquired/progress view and 100% total
 plan weights are separate governance measures and must not be added together.
 
 ## Update rules
@@ -147,5 +149,30 @@ PETSc qualification, and WP17-R has recorded the pinned PETSc/MPI route and
 its AIJ memory limitation. WP18 has completed its Bronze/Silver ladder: the
 3M Silver solve passed twice under the frozen contract; Gold remains
 `NOT_ATTEMPTED` because no restart/checkpoint or distinct second physical
-case was run. WP19-WP22 remain `PLANNED` until their declared evidence is
-executed.
+case was run. WP19 has completed its bounded adversarial and HEX8 diagnostic
+campaign; WP20-WP22 remain `PLANNED` until their declared evidence is executed.
+
+## WP19 - Adversarial robustness and HEX8 diagnostic
+
+WP19 is recorded as `PASS_WITH_LIMITATIONS` from execution source SHA
+`dc5975b78727d9dca6d0a48b716e60f355b8799f`, with the lot starting at
+`7f7ffbaf0b3fdda7d3ad31ba95f20a54e4719a53`. The 24-case T1 corpus produced
+10 positive `PASS` results and 14 `EXPECTED_FAILURE_PASS` results. There were
+no unexpected failures or invalid evidence records. Replay was deterministic,
+failure paths were fail-closed, and no NaN/Inf result was accepted.
+
+The HEX8 study contains three axial-refinement, three slenderness and three
+transverse-resolution rows. Six same-mesh CalculiX 2.20/C3D8 displacement
+comparisons pass the existing one-percent diagnostic threshold, with maximum
+full-displacement relative error `1.997130986610937e-06`. External reactions
+and strain energy are `NOT_COMPARABLE` because the inherited deck requests
+displacement only. QF and C3D8 agree while both deviate from the slender-beam
+Euler diagnostic; the result is classified as `LOW_ORDER_LIMITATION` with
+secondary `MESH_DEPENDENCE`. Locking is compatible with the observation but
+not proven, and no HEX8R/SRI/B-bar formulation is evaluated or promoted.
+
+The controlled records are `qualification/0_2_7/wp19_state.json`,
+`qualification/0_2_7/wp19_runtime/wp19_robustness_summary.json`,
+`qualification/0_2_7/wp19_runtime/wp19_hex8_diagnostic.json` and
+`qualification/0_2_7/wp19_runtime/wp19_golden_replay.json`. WEDGE6 and all
+previous gate decisions remain unchanged; WP20 is the next work package.

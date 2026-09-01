@@ -86,9 +86,10 @@ below.
 WP13 is `PASS` on its controlled golden-baseline evidence. WP14 is `PASS` on
 its frozen execution contract; WP15 is `PASS_WITH_LIMITATIONS` on controlled
 subscale evidence; WP16 is `PASS` after the official PETSc retry; WP17 is
-`PARTIAL` after the pinned PETSc/MPI remediation checkpoint; and WP18 is
-`PASS_WITH_LIMITATIONS` after the Bronze/Silver ladder. WP19-WP22 remain
-`PLANNED` until their declared evidence is executed. The active theme is
+`PARTIAL` after the pinned PETSc/MPI remediation checkpoint; WP18 is
+`PASS_WITH_LIMITATIONS` after the Bronze/Silver ladder; and WP19 is
+`PASS_WITH_LIMITATIONS` on bounded adversarial and HEX8 diagnostic evidence.
+WP20-WP22 remain `PLANNED` until their declared evidence is executed. The active theme is
 **Reproducible Large-Model Solving and Numerical Trust**.
 
 | Level-Up gate | Work package | Status | Weight | Required interpretation |
@@ -99,7 +100,7 @@ subscale evidence; WP16 is `PASS` after the official PETSc retry; WP17 is
 | `LUP-027-G16` | WP16 true 1M DOF qualification | `PASS` | 10% | two PETSc CG/GAMG replays satisfy frozen residual, equilibrium, energy and SPD criteria |
 | `LUP-027-G17` | WP17 PETSc/MPI and large sparse path | `PARTIAL` | 5% | reproducible pinned route; host availability and AIJ memory remain limitations |
 | `LUP-027-G18` | WP18 3M Bronze/Silver/Gold ladder | `PASS_WITH_LIMITATIONS` | 7% | Bronze preflight and two-replay Silver solve; Gold unattempted |
-| `LUP-027-G19` | WP19 adversarial robustness and HEX8 diagnostic | `PLANNED` | 5% | fail-closed diagnostics without promotion |
+| `LUP-027-G19` | WP19 adversarial robustness and HEX8 diagnostic | `PASS_WITH_LIMITATIONS` | 5% | 24-case fail-closed corpus and bounded HEX8/C3D8 diagnostic; no formulation promotion |
 | `LUP-027-G20` | WP20 residual J2 and external V&V closure | `PLANNED` | 3% | no post-result retuning |
 | `LUP-027-G21` | WP21 surgical architecture/API/registry cleanup | `PLANNED` | 3% | legacy compatibility preserved |
 | `LUP-027-G22` | WP22 final release qualification | `PLANNED` | 3% | final regression/package/Owner checkpoint |
@@ -116,6 +117,26 @@ at 3,000,000 true DOF with residual, equilibrium, energy, finite-output and
 SPD checks passing. The claim is limited to the structured TET4 linear-static
 model and the pinned two-rank PETSc/MPI environment; AIJ setup and peak RSS
 remain material limitations.
+
+## `027-G19` adversarial robustness and HEX8 diagnostic
+
+WP19 evidence is recorded in `qualification/0_2_7/wp19_state.json` and the
+linked runtime artifacts. The 24 predeclared cases produced 10 positive
+`PASS` results and 14 `EXPECTED_FAILURE_PASS` results, with deterministic
+replay, fail-closed failure paths and no accepted NaN/Inf result. The failure
+classes include invalid geometry and ordering, duplicate nodes, singular or
+inconsistent constraints, invalid material/load data, malformed Gmsh and
+missing physical groups.
+
+The HEX8 diagnostic covers three axial-refinement, three slenderness and
+three transverse-resolution rows. Six same-mesh CalculiX 2.20/C3D8
+displacement comparisons pass the existing one-percent diagnostic threshold;
+the maximum full-displacement relative error is `1.997130986610937e-06`.
+External reactions and energy are `NOT_COMPARABLE` because the inherited deck
+requests displacement only. QF and C3D8 agree while both deviate from the
+Euler diagnostic, supporting a `LOW_ORDER_LIMITATION` classification with
+secondary `MESH_DEPENDENCE`; locking remains compatible but unproven. No
+HEX8R/SRI/B-bar formulation is evaluated or promoted.
 
 ## `027-G11` bounded J2 maturity extension
 

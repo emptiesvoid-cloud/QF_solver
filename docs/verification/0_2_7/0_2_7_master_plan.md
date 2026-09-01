@@ -36,8 +36,9 @@ Level-Up portfolio is `CLOSED / ACCEPT_WITH_CONSOLIDATION`; WP13 is now
 `PASS` on its controlled golden-baseline evidence and WP14 is `PASS` on its
 frozen execution contract; WP15 is `PASS_WITH_LIMITATIONS`, WP16 is `PASS`
 after the official PETSc retry, WP17 is `PARTIAL`, WP18 is
-`PASS_WITH_LIMITATIONS` after the Bronze/Silver ladder, and WP19-WP22
-remain individually `PLANNED`.
+`PASS_WITH_LIMITATIONS` after the Bronze/Silver ladder, WP19 is
+`PASS_WITH_LIMITATIONS` on bounded adversarial and HEX8 diagnostic evidence,
+and WP20-WP22 remain individually `PLANNED`.
 
 ## Work packages and STOP/GO criteria
 
@@ -261,8 +262,10 @@ the scope extension only. WP01-WP12 and their evidence remain preserved;
 WP13 and WP14 are complete on their controlled records; WP15 is
 `PASS_WITH_LIMITATIONS` on its controlled subscale evidence, WP16 is `PASS`
 on the official PETSc retry, WP17 is `PARTIAL`, WP18 is
-`PASS_WITH_LIMITATIONS` after its Bronze/Silver evidence, and WP19-WP22
-remain individually `PLANNED` until their own evidence is recorded.
+`PASS_WITH_LIMITATIONS` after its Bronze/Silver evidence, WP19 is
+`PASS_WITH_LIMITATIONS` on bounded adversarial and HEX8 diagnostic evidence,
+and WP20-WP22 remain individually `PLANNED` until their own evidence is
+recorded.
 
 | WP | Title | Weight | Priority | Status |
 | --- | --- | ---: | --- | --- |
@@ -272,7 +275,7 @@ remain individually `PLANNED` until their own evidence is recorded.
 | WP16 | True 1M DOF qualification | 10% | MUST / release blocker | `PASS` |
 | WP17 | PETSc/MPI + large sparse path | 5% | SHOULD | `PARTIAL` |
 | WP18 | 3M DOF ladder Bronze/Silver/Gold | 7% | MUST / mandatory | `PASS_WITH_LIMITATIONS` |
-| WP19 | Adversarial robustness + HEX8 diagnostic | 5% | MUST | `PLANNED` |
+| WP19 | Adversarial robustness + HEX8 diagnostic | 5% | MUST | `PASS_WITH_LIMITATIONS` |
 | WP20 | Residual J2 / external V&V closure | 3% | SHOULD | `PLANNED` |
 | WP21 | Architecture/API/registry surgical cleanup | 3% | SHOULD | `PLANNED` |
 | WP22 | Final Release Qualification | 3% | MUST | `PLANNED` |
@@ -290,3 +293,31 @@ The following remain deferred to 0.2.8+: mixed TET/WEDGE/HEX, WEDGE15,
 PYRAMID5, production HEX8R/SRI/B-bar, finite-kinematic J2, TL HEX8, refined
 Arc-Length, new nonlinear couplings, matrix-free multi-family and general
 Newmark/harmonic qualification.
+
+## WP19 - Adversarial robustness and HEX8 diagnostic
+
+WP19 is `PASS_WITH_LIMITATIONS` for the 24-case adversarial catalog and the
+bounded HEX8 diagnostic. The execution source SHA is
+`dc5975b78727d9dca6d0a48b716e60f355b8799f`; the lot started at
+`7f7ffbaf0b3fdda7d3ad31ba95f20a54e4719a53`. Ten positive cases passed and 14
+predeclared failure cases returned `EXPECTED_FAILURE_PASS`; replay was
+deterministic, all failure paths were fail-closed, and no NaN/Inf result was
+accepted.
+
+The HEX8 study covers three axial-refinement, three slenderness and three
+transverse-resolution rows. Six same-mesh CalculiX 2.20/C3D8 displacement
+comparisons pass the existing one-percent diagnostic threshold, with maximum
+full-displacement relative error `1.997130986610937e-06`. The inherited deck
+does not request reaction or energy outputs, so those external observables are
+`NOT_COMPARABLE`. Agreement between QF and C3D8 while both deviate from the
+Euler diagnostic supports `LOW_ORDER_LIMITATION` with secondary
+`MESH_DEPENDENCE`; locking is compatible with the observation but not proven.
+No HEX8R/SRI/B-bar formulation is evaluated or promoted, and no QF-specific
+bug was found.
+
+The authoritative records are `qualification/0_2_7/wp19_state.json`,
+`qualification/0_2_7/wp19_cases.json`,
+`qualification/0_2_7/wp19_runtime/wp19_robustness_summary.json`,
+`qualification/0_2_7/wp19_runtime/wp19_hex8_diagnostic.json` and
+`qualification/0_2_7/wp19_runtime/wp19_golden_replay.json`. WP20 is the next
+work package; previous maturity decisions remain unchanged.

@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "work_package": "WP19",
+  "source_sha": "dc5975b78727d9dca6d0a48b716e60f355b8799f",
+  "historical_wp13_source_sha": "94ce10a53e31ad6884383c7ec8ce1761d9533eff",
+  "current_evidence": "wp19_golden_current_evidence.json",
+  "run_counts": {
+    "EXPECTED_FAILURE_PASS": 1,
+    "PASS": 8
+  },
+  "replay_counts": {
+    "PASS": 9,
+    "MISMATCH": 0
+  },
+  "status": "PASS",
+  "historical_wp13_evidence_preserved": true,
+  "artifact_classification": "CONTROLLED_PROOF"
+}
