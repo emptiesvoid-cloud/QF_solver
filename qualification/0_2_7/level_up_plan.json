@@ -80,7 +80,7 @@
       "pass_criteria": ["PETSc/MPI path is reproducibly provisioned or explicitly unavailable", "backend selection and solver/preconditioner configuration are explicit", "serial fallback remains fail-closed and traceable"],
       "stop_conditions": ["environment-specific success presented as universal support", "unreproducible distributed result"],
       "evidence": ["qualification/0_2_7/wp17_state.json", "qualification/0_2_7/wp17_runtime/wp17_probe.json", "qualification/0_2_7/wp17r_state.json", "qualification/0_2_7/wp17_runtime/wp17r_summary.json", "docs/verification/0_2_7/0_2_7_wp17_solver_stack.md", "docs/verification/0_2_7/0_2_7_wp17r_petsc_remediation.md"],
-      "owner_decision": "PARTIAL: the pinned PETSc/MPI container is reproducible and completes a real 1,029,000-DOF CG/GAMG diagnostic; explicit unpreconditioned stopping norm aligns with WP14, but frozen equilibrium and PETSc-vs-matrix-free subscale criteria remain failing and no public route or tolerance change is authorized"
+      "owner_decision": "PARTIAL: the historical 1e-8 PETSc route remains failing, while an explicit predeclared 1e-10 internal CG/GAMG route passes two real 1,029,000-DOF replays and a same-rtol subscale comparison under unchanged 1e-8 acceptance metrics; authorize a separate official WP16 retry review, without changing WP14 policy or public defaults"
     },
     {
       "id": "WP18",
