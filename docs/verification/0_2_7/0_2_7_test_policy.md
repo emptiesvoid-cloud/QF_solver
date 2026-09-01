@@ -35,6 +35,15 @@ substitute for a required higher level.
    risk-based decision on T2/T3. A documentation-only change does not trigger
    numerical regression by itself.
 
+## Level-Up setup policy
+
+Installing the Level-Up portfolio is a governance-only operation. It runs
+documentation, registry, anti-forgetting, Ruff and compile checks as
+appropriate, but it does not execute a large-model benchmark, promote a
+capability or run full regression. WP16 and WP18 retain their own execution
+and evidence requirements; `PLANNED`, `RESOURCE_LIMITED` and `BRONZE` are not
+successful solve verdicts.
+
 ## Evidence minimum
 
 Every T2/T3 result must record source SHA, dirty state, version, command,

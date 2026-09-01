@@ -44,6 +44,30 @@ universal increment-independence claim is added.
 | WP13 | `NOT_STARTED` | T0 not run | - | - | - | - |
 | WP14 | `NOT_STARTED` | T0 not run | - | - | - | - |
 
+## Official Level-Up extension
+
+The active theme is **Reproducible Large-Model Solving and Numerical Trust**.
+`027-LEVEL-UP` is `CLOSED / ACCEPT_WITH_CONSOLIDATION` as a scope decision;
+WP13-WP22 remain individually `PLANNED` and do not constitute execution
+evidence. Their criteria and weights are authoritative in
+`qualification/0_2_7/level_up_plan.json`.
+
+| WP | Weight | Priority | Status | Rule |
+| --- | ---: | --- | --- | --- |
+| WP13 | 4% | MUST | `PLANNED` | release truth and golden baseline |
+| WP14 | 5% | MUST | `PLANNED` | large-scale execution contract |
+| WP15 | 10% | MUST | `PLANNED` | matrix-free TET4, SPD and preconditioning |
+| WP16 | 10% | MUST | `PLANNED` | release blocker; true 1M FEM solve |
+| WP17 | 5% | SHOULD | `PLANNED` | PETSc/MPI path and provenance |
+| WP18 | 7% | MUST | `PLANNED` | mandatory 3M Bronze/Silver/Gold ladder |
+| WP19 | 5% | MUST | `PLANNED` | adversarial robustness and HEX8 diagnostic |
+| WP20 | 3% | SHOULD | `PLANNED` | residual J2 and external V&V closure |
+| WP21 | 3% | SHOULD | `PLANNED` | surgical architecture/API/registry cleanup |
+| WP22 | 3% | MUST | `PLANNED` | final release qualification |
+
+The 45% historical block, 41% current acquired/progress view and 100% total
+plan weights are separate governance measures and must not be added together.
+
 ## Update rules
 
 - Record the exact source SHA before a lot starts and the evidence SHA after a

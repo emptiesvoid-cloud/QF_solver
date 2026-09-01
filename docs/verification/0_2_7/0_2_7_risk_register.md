@@ -23,3 +23,13 @@ approver: ""
 | R027-10 | stretch work blocks the bounded core | release drift | optional WP13 with independent decision | research route enters core claim | Owner |
 | R027-11 | full regression runs too frequently or too late | wasted time or late regression | T0-T3 policy and declared checkpoints | no checkpoint after cross-cutting change | Quality |
 | R027-12 | release metadata drifts from package/tag | unusable artifact | WP01 and WP14 exact version checks | version mismatch | Release |
+
+## Level-Up risks
+
+| ID | Risk | Impact | Mitigation | STOP trigger | Owner |
+| --- | --- | --- | --- | --- | --- |
+| R027-LU-01 | 1M or 3M size is reported without a real FEM solve | false scaling claim | WP16 true-DOF contract and WP18 Bronze/Silver/Gold separation | assembly-only result presented as solve | Performance |
+| R027-LU-02 | matrix-free or preconditioned path changes numerical behavior | loss of trust | assembled subscale equivalence, residual and replay evidence | unexplained drift | Solver/Quality |
+| R027-LU-03 | PETSc/MPI availability is mistaken for supported production capability | irreproducible release | pin environment and classify unavailable routes explicitly | missing runtime provenance | Performance |
+| R027-LU-04 | HEX8 diagnostic becomes an unreviewed formulation project | scope and numerical risk | diagnostic-first WP19 and defer production HEX8R/SRI/B-bar | threshold weakening or kernel change | Solver/Owner |
+| R027-LU-05 | portfolio weight/progress numbers are treated as evidence | governance confusion | keep accounting fields separate and require WP evidence | planned work marked PASS | Owner |

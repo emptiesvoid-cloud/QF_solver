@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "release": "0.2.7a0",
-  "theme": "Prismatic Solid Interoperability and Numerical Robustness",
+  "theme": "Reproducible Large-Model Solving and Numerical Trust",
   "baseline_sha": "e839373b6aef291a93292186d7553ba5cd12af55",
   "baseline_branch": "main",
   "foundation_status": "WP08_PASS_EXPERIMENTAL_WP09_PASS_WITH_LIMITATIONS_WP10_PASS_WITH_LIMITATIONS_QUALIFIED_BOUNDED_WP11_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED_WP12_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED",
@@ -278,6 +278,30 @@
       "files": ["0_2_7_release_criteria.md"]
     }
   ],
+  "level_up_schema_version": 1,
+  "level_up": {
+    "id": "027-LEVEL-UP",
+    "status": "CLOSED",
+    "decision": "ACCEPT_WITH_CONSOLIDATION",
+    "plan": "qualification/0_2_7/level_up_plan.json",
+    "historical_wp01_wp12_preserved": true,
+    "execution_status": "WP13_WP22_PLANNED",
+    "release_blocker": "WP16",
+    "mandatory_ladder": "WP18",
+    "no_maturity_promotion": true,
+    "gates": [
+      {"id": "LUP-027-G13", "work_package": "WP13", "status": "PLANNED"},
+      {"id": "LUP-027-G14", "work_package": "WP14", "status": "PLANNED"},
+      {"id": "LUP-027-G15", "work_package": "WP15", "status": "PLANNED"},
+      {"id": "LUP-027-G16", "work_package": "WP16", "status": "PLANNED", "release_blocker": true},
+      {"id": "LUP-027-G17", "work_package": "WP17", "status": "PLANNED"},
+      {"id": "LUP-027-G18", "work_package": "WP18", "status": "PLANNED", "mandatory": true},
+      {"id": "LUP-027-G19", "work_package": "WP19", "status": "PLANNED"},
+      {"id": "LUP-027-G20", "work_package": "WP20", "status": "PLANNED"},
+      {"id": "LUP-027-G21", "work_package": "WP21", "status": "PLANNED"},
+      {"id": "LUP-027-G22", "work_package": "WP22", "status": "PLANNED"}
+    ]
+  },
   "policy": {
     "planned_is_not_evidence": true,
     "external_unavailable_is_not_pass": true,

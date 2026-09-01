@@ -2625,5 +2625,21 @@
         "migration_note": "New modal combination; static WEDGE6 maturity and evidence are not reused as modal qualification."
       }
     }
-  ]
+  ],
+  "level_up_scope": {
+    "plan": "qualification/0_2_7/level_up_plan.json",
+    "registry_role": "Existing combination maturity remains authoritative; Level-Up setup adds no capability and makes no promotion.",
+    "deferred_capabilities": [
+      "mixed TET/WEDGE/HEX",
+      "WEDGE15",
+      "PYRAMID5",
+      "production HEX8R/SRI/B-bar",
+      "finite-kinematic J2",
+      "TL HEX8",
+      "refined Arc-Length",
+      "new nonlinear couplings",
+      "matrix-free multi-family",
+      "general Newmark/harmonic qualification"
+    ]
+  }
 }

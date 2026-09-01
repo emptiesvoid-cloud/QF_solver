@@ -9,6 +9,14 @@ approver: ""
 
 # 0.2.7 Large-Scale and 1M-DOF Plan
 
+The active Level-Up requirement is `WP16` / `LUP-027-G16`. The historical
+WP12 readiness evidence below remains unchanged and is not a 1M qualification.
+WP16 requires a complete iterative solve on at least 1,000,000 real FEM DOF,
+including loads, boundary conditions, reactions, residual, equilibrium,
+energy, matrix-free/assembled subscale comparison, two replays and complete
+resource/provenance capture. A timeout or resource-limited attempt is not
+PASS.
+
 This plan characterizes resource boundaries. It does not promise that every
 route can solve one million degrees of freedom.
 

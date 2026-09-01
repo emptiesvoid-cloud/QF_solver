@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
   "release": "0.2.7a0",
-  "theme": "Prismatic Solid Interoperability and Numerical Robustness",
+  "theme": "Reproducible Large-Model Solving and Numerical Trust",
   "baseline_sha": "e839373b6aef291a93292186d7553ba5cd12af55",
   "branch": "codex/0.2.7-foundation",
   "status": "WP10_PASS_WITH_LIMITATIONS_QUALIFIED_BOUNDED_WP11_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED_WP12_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED",
-  "current_work_package": "WP11",
+  "current_work_package": "WP13",
   "full_regression_run": false,
   "numerical_source_changed": true,
   "existing_numerical_formulations_changed": false,
@@ -85,5 +85,21 @@
     },
     {"id": "WP13", "gate": "027-G13", "status": "NOT_STARTED", "start_sha": null, "evidence_head": null},
     {"id": "WP14", "gate": "027-G14", "status": "NOT_STARTED", "start_sha": null, "evidence_head": null}
-  ]
+  ],
+  "level_up": {
+    "plan": "qualification/0_2_7/level_up_plan.json",
+    "namespace": "027-LEVEL-UP",
+    "status": "CLOSED_ACCEPT_WITH_CONSOLIDATION",
+    "current_work_package": "WP13",
+    "work_packages": ["WP13", "WP14", "WP15", "WP16", "WP17", "WP18", "WP19", "WP20", "WP21", "WP22"],
+    "historical_completed_block_percent": 45,
+    "current_acquired_percent": 41,
+    "current_progress_percent": 41,
+    "weights_total_percent": 100,
+    "wp16_release_blocker": true,
+    "wp18_mandatory": true,
+    "defer_0_2_8_plus": true,
+    "numerical_source_changed_by_setup": false,
+    "full_regression_run_by_setup": false
+  }
 }
