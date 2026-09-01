@@ -4,7 +4,7 @@
   "theme": "Prismatic Solid Interoperability and Numerical Robustness",
   "baseline_sha": "e839373b6aef291a93292186d7553ba5cd12af55",
   "baseline_branch": "main",
-  "foundation_status": "WP08_PASS_EXPERIMENTAL_WP09_PASS_WITH_LIMITATIONS_WP10_PASS_WITH_LIMITATIONS_EXPERIMENTAL_WP11_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED_WP12_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED",
+  "foundation_status": "WP08_PASS_EXPERIMENTAL_WP09_PASS_WITH_LIMITATIONS_WP10_PASS_WITH_LIMITATIONS_QUALIFIED_BOUNDED_WP11_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED_WP12_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED",
   "source_change_authorized_by_foundation": false,
   "gates": [
     {
@@ -156,10 +156,10 @@
     {
       "id": "027-G10",
       "work_package": "WP10",
-      "title": "WEDGE6 modal evidence",
+      "title": "WEDGE6 modal qualification closure",
       "status": "PASS_WITH_LIMITATIONS",
       "depends_on": ["027-G08", "027-G09"],
-      "go": ["mass, modes, residual, refinement and replay are independently evidenced"],
+      "go": ["mass, modes, residual, refinement, deterministic replay and bounded external frequency/MAC evidence are independently evidenced"],
       "stop": ["static result transferred to dynamics without proof", "rigid modes or mass convention hidden"],
       "evidence_required": ["modal contract", "eigenpair records", "replay manifest", "external modal result when comparable"],
       "files": [
@@ -167,21 +167,27 @@
         "qualification/0_2_7/vnv_v2/wp10_cases.json",
         "qualification/0_2_7/vnv_v2/wp10_evidence.json",
         "qualification/0_2_7/wp10_state.json",
+        "qualification/0_2_7/vnv_v2/wp10_final_cases.json",
+        "qualification/0_2_7/vnv_v2/wp10_final_evidence.json",
+        "qualification/0_2_7/wp10_final_state.json",
         "qualification/0_2_7/external_oracles/wedge6/decks/code_aster/WP10-A-penta6-modal.comm",
         "qualification/0_2_7/external_oracles/wedge6/decks/code_aster/WP10-A-penta6-modal.mail",
         "qualification/0_2_7/external_oracles/wedge6/results/wp10_code_aster_modal.json",
         "docs/verification/0_2_7/0_2_7_wedge6_modal.md",
         "scripts/run_wp10_wedge6_modal.py",
-        "tests/unit/test_wp10_wedge6_modal.py"
+        "tests/unit/test_wp10_wedge6_modal.py",
+        "src/solveur/verification/modal_comparison.py",
+        "scripts/run_wp10_final_modal.py",
+        "tests/unit/test_wp10_final_modal.py"
       ],
       "start_sha": "ea356c484ebb2a3c4282f6eb9cbae6b1992eee6e",
-      "evidence_head": "7d494eaa638ffa88a04ed3e5c51f6036ad1804a1",
-      "owner_decision": "WP10_MODAL_EXPERIMENTAL_PENDING_OWNER_REVIEW",
+      "evidence_head": "9d79dc8b306e6cc65f2f4ae2e77e00f676182b84",
+      "owner_decision": "OWNER_APPROVED_BOUNDED_FIRST_THREE_MODES",
       "limitations": [
-        "WEDGE6 modal maturity remains EXPERIMENTAL and public qualification is DEFERRED",
+        "WEDGE6 modal qualification is bounded to homogeneous isotropic small-strain consistent-mass cases",
         "consistent mass only; no lumped-mass qualification",
-        "four-level frequency refinement is diagnostic and no universal convergence threshold is claimed",
-        "Code_Aster comparison is frequency-only and bounded; MAC is not claimed",
+        "first three modes meet the declared four-level refinement criterion; modes four to six remain diagnostic for mesh convergence",
+        "Code_Aster frequency and mode-shape matching is bounded to four same-mesh PENTA6 cases",
         "Newmark, harmonic, nonlinear, J2, TL and contact WEDGE6 routes remain outside WP10"
       ]
     },

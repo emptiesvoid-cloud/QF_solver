@@ -17,8 +17,8 @@ capability-registry control; WP03 is `PASS` for the descriptor/preflight
 control; WP04 is `PASS` for the additive V&V harness; WP05 is `PASS` for the
 external deck preflight only; WP06 is `PASS` for an additive mesh-quality
 diagnostic contract; WP07 is `PASS` for the experimental elemental WEDGE6
-kernel and its targeted V&V; WP10 is `PASS_WITH_LIMITATIONS` with public modal
-maturity `EXPERIMENTAL`; WP12 is `PASS_WITH_LIMITATIONS` for bounded large-scale
+kernel and its targeted V&V; WP10 is `PASS_WITH_LIMITATIONS` with modal maturity
+`QUALIFIED_BOUNDED` within its declared scope; WP12 is `PASS_WITH_LIMITATIONS` for bounded large-scale
 readiness evidence; WP11 is `PASS_WITH_LIMITATIONS` with Owner review required,
 while WP13-WP14 remain `NOT_STARTED`.
 
@@ -72,7 +72,7 @@ in [`0_2_7_progress_tracker.md`](0_2_7_progress_tracker.md).
 | WP07 | WEDGE6 kernel and elemental V&V | `PASS` (`EXPERIMENTAL`) |
 | WP08 | WEDGE6 static vertical slice | `PASS` (`EXPERIMENTAL`) |
 | WP09 | WEDGE6 robustness and external V&V | `PASS_WITH_LIMITATIONS` (`EXPERIMENTAL`) |
-| WP10 | WEDGE6 modal evidence | `PASS_WITH_LIMITATIONS` (`EXPERIMENTAL`) |
+| WP10 | WEDGE6 modal qualification | `PASS_WITH_LIMITATIONS` (`QUALIFIED_BOUNDED`, bounded) |
 | WP11 | Existing capability maturity and J2 gaps | `PASS_WITH_LIMITATIONS` (Owner review required) |
 | WP12 | Large-scale and 1M-DOF readiness | `PASS_WITH_LIMITATIONS` |
 | WP13 | Research/stretch candidates | `NOT_STARTED` |
@@ -111,6 +111,9 @@ explicit skip or limitation, never as `PASS`.
 - [`qualification/0_2_7/wp10_state.json`](../../../qualification/0_2_7/wp10_state.json)
 - [`qualification/0_2_7/vnv_v2/wp10_cases.json`](../../../qualification/0_2_7/vnv_v2/wp10_cases.json)
 - [`qualification/0_2_7/vnv_v2/wp10_evidence.json`](../../../qualification/0_2_7/vnv_v2/wp10_evidence.json)
+- [`qualification/0_2_7/wp10_final_state.json`](../../../qualification/0_2_7/wp10_final_state.json)
+- [`qualification/0_2_7/vnv_v2/wp10_final_cases.json`](../../../qualification/0_2_7/vnv_v2/wp10_final_cases.json)
+- [`qualification/0_2_7/vnv_v2/wp10_final_evidence.json`](../../../qualification/0_2_7/vnv_v2/wp10_final_evidence.json)
 - [`qualification/0_2_7/external_oracles/wedge6/results/wp10_code_aster_modal.json`](../../../qualification/0_2_7/external_oracles/wedge6/results/wp10_code_aster_modal.json)
 
 ## Controlled documents
@@ -146,12 +149,14 @@ WEDGE15, PYRAMID5, HEX8R or any new
 formulation. It does not change the 0.2.6 Owner decisions for TL, Arc-Length,
 J2, buckling, contact, performance or external correlations. A later work
 package must complete the static/import/load/post contracts before making a
-user-facing WEDGE6 claim. WEDGE6's current registry maturity is
-`EXPERIMENTAL`, not `QUALIFIED_BOUNDED`.
+user-facing static WEDGE6 claim. The static WEDGE6 registry maturity remains
+`EXPERIMENTAL`; the separate modal combination is `QUALIFIED_BOUNDED` only
+within its final declared scope.
 
-WP10 adds a separate technical modal route using consistent translational mass
-and the common modal solver. Its evidence is bounded and does not transfer the
-static WP07-WP09 evidence; public modal qualification remains `DEFERRED`.
+WP10 adds a separate modal route using consistent translational mass and the
+common modal solver. Its first-three-mode refinement and four same-mesh
+Code_Aster frequency/MAC cases support a bounded modal qualification; it does
+not transfer the static WP07-WP09 evidence or qualify other dynamic routes.
 
 WP12 is a bounded readiness study, not a general scalability guarantee. Its
 current evidence is limited to the generated structured TET4 linear-static

@@ -179,24 +179,31 @@ small-strain, linear-static WEDGE6/PENTA6 slice and does not qualify modal,
 dynamic, nonlinear, J2, TL, contact, stress-extrapolation or general physical
 validation routes. The prior 22-case internal WP09 corpus remains preserved.
 
-## WP10 modal evidence decision
+## WP10-FINAL modal qualification decision
 
-WP10 is `PASS_WITH_LIMITATIONS` for independent technical evidence of the
-WEDGE6 modal route. The consistent translational mass satisfies symmetry,
-positivity, total-mass conservation, density/geometry scaling and distorted-
-prism checks. The common modal route records six finite positive modes with
-residual and mass-orthogonality checks, deterministic replay, a diagnostic
-four-level refinement series and one expected fail-closed zero-density case.
-Code_Aster 18.1.0/PENTA6 provides a same-mesh frequency-only bounded
-correlation under the predeclared `1e-2` candidate; its tolerance remains
-`OWNER_REVIEW_REQUIRED` and no mode-shape MAC is claimed.
+WP10-FINAL is `PASS` within a bounded scope, while gate `027-G10` remains
+`PASS_WITH_LIMITATIONS`. The active Owner decision is
+`OWNER_APPROVED_BOUNDED_FIRST_THREE_MODES` for homogeneous isotropic
+small-strain WEDGE6 with consistent translational mass. The final policy was
+fixed before replay: normalized eigenpair residual `<= 1e-7`, same-mesh
+frequency error `<= 1e-2`, MAC `>= 0.99`, near-degenerate subspace matching for
+relative gaps `<= 1e-5`, and final adjacent refinement change `<= 1e-2` for
+the first three frequencies. Post-result retuning is forbidden.
 
-This is not a public qualification decision. `COMB-WEDGE6-modal` remains
-`EXPERIMENTAL`, public qualification remains `DEFERRED`, static evidence is
-not transferred automatically, and no lumped-mass, Newmark, harmonic,
-nonlinear, J2, TL or contact WEDGE6 route is included. The decision is tied to
-source SHA `7d494eaa638ffa88a04ed3e5c51f6036ad1804a1` and the controlled WP10
-records.
+The four-level sequence 4/8/16/32 passes the refinement rule for the first
+three modes; modes four to six remain diagnostic because the fourth final
+change is `1.075439%`. Code_Aster 18.1.0/PENTA6 headless comparisons pass on
+four same-mesh cases (axial single, bending multi-prism, distorted valid prism
+and multi-WEDGE): all `24/24` modes match, the maximum frequency error is
+`1.927e-13`, and the minimum MAC is `0.9999999999999991`. The evidence is
+tied to source SHA `9d79dc8b306e6cc65f2f4ae2e77e00f676182b84`, the final case
+catalog and the pinned Code_Aster image.
+
+`COMB-WEDGE6-modal` is now `QUALIFIED_BOUNDED` only for this declared route
+and scope. Static evidence is not transferred automatically. Lumped mass,
+Newmark, harmonic, nonlinear, J2, TL, contact and general dynamics remain
+outside WP10. The previous 16-case WP10 records remain preserved as historical
+evidence; the active final records are the `wp10_final_*` artifacts.
 
 ## WP12 large-scale readiness checkpoint
 

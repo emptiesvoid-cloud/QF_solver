@@ -25,7 +25,8 @@ preflight control is `PASS`; WP04 harness control is `PASS`; WP05 external
 oracle preflight is `PASS` for deck validation only; and WP06 mesh-quality
 contract control is `PASS`. WP07 is now `PASS` for the experimental elemental
 kernel; WP08 and WP09 are complete with their recorded bounded scope, WP10 has
-completed its independent experimental modal evidence, WP11 records
+completed its independent bounded modal qualification for the declared
+consistent-mass route, WP11 records
 `PASS_WITH_LIMITATIONS` with Owner review required, WP13-WP14 remain
 `NOT_STARTED`, and WP12 retains its bounded readiness status.
 
@@ -163,20 +164,21 @@ completed its independent experimental modal evidence, WP11 records
 - **Status:** `PASS_WITH_LIMITATIONS`; Owner review is required and the existing
   bounded small-strain J2 scope is retained.
 
-### WP10 - WEDGE6 modal evidence
+### WP10 - WEDGE6 modal qualification closure
 
 - **Objective:** qualify only the modal route that has its own mass, boundary,
   residual, mode-shape and mesh evidence.
 - **Dependencies:** WP08 and WP09.
-- **GO:** first-mode and, if explicitly contracted, additional mode evidence
-  has compatible analytical/external references.
+- **GO:** consistent-mass modal invariants, first-three-mode refinement,
+  deterministic replay and compatible external frequency/MAC evidence are
+  recorded under a bounded Owner policy.
 - **STOP:** transferring static maturity to dynamics or hiding rigid modes and
   mass-convention assumptions.
 - **Evidence required:** mass policy, eigenpair residuals, mode checks,
-  refinement and replay.
-- **Files:** modal contract, cases and evidence manifests.
-- **Status:** `PASS_WITH_LIMITATIONS` for independent experimental evidence;
-  public modal qualification remains deferred.
+  first-three-mode refinement, frequency/MAC matching and replay.
+- **Files:** modal contract, final cases, final evidence and Owner state.
+- **Status:** `PASS_WITH_LIMITATIONS`; modal maturity is
+  `QUALIFIED_BOUNDED` only for the declared consistent-mass WEDGE6 scope.
 
 ### WP11 - Existing capability maturity and J2 gaps
 

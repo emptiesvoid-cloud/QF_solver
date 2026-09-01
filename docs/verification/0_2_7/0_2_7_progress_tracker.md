@@ -16,8 +16,9 @@ Its public maturity remains `EXPERIMENTAL`; the slice does not imply modal,
 robustness or external-correlation qualification. WP09 records a bounded
 robustness campaign; its external outcomes are bounded and do not promote
 WEDGE6. WP10 records an independent consistent-
-mass modal evidence lot with bounded Code_Aster frequency correlation; public
-modal maturity remains `EXPERIMENTAL` and qualification is deferred.
+mass modal evidence lot with bounded Code_Aster frequency and mode-shape
+correlation. WP10-FINAL qualifies the first three modes within its declared
+bounded scope; modes four to six remain diagnostic for refinement.
 WP12 records bounded large-scale readiness evidence for the existing structured
 TET4 route; its Owner decision remains pending.
 WP11 records a bounded maturity extension for existing small-strain J2 across
@@ -37,7 +38,7 @@ universal increment-independence claim is added.
 | WP07 | `PASS` | T2 targeted | `69b7d01beb81263fc2b87cfacb83985db10e3a82` | `e2e0de5a8df465d5f2254a954d1b2f5c97181cf0` | technical kernel and elemental V&V PASS; public maturity `EXPERIMENTAL` | WP08 workflow, imports, face loads, reactions and external correlation deferred |
 | WP08 | `PASS` | T2 targeted | `d4d2942a5fc31ffb97ef373a4466c46be34de991` | `8040909d6d65f740e1daf858ce572d250a87b39a` | static workflow PASS; public maturity `EXPERIMENTAL` | WP09 robustness/external and WP10 modal evidence deferred |
 | WP09 | `PASS_WITH_LIMITATIONS` | T1 targeted + T2 external | `2a27291bcc72e5819014fa172e3d056e80a87d43` | `4b2fcdc9ed51821b05b52851912be3ebbe764b14` | WP09-FINAL: 12-case Code_Aster PENTA6 bounded external PASS; public maturity `EXPERIMENTAL` | CalculiX formulation mismatch; tolerance approval remains Owner review; no public WEDGE6 promotion |
-| WP10 | `PASS_WITH_LIMITATIONS` | T1/T2 targeted + Code_Aster | `ea356c484ebb2a3c4282f6eb9cbae6b1992eee6e` | `7d494eaa638ffa88a04ed3e5c51f6036ad1804a1` | independent consistent-mass modal evidence; public maturity `EXPERIMENTAL` | four-level frequency refinement is diagnostic; external frequency tolerance remains `OWNER_REVIEW_REQUIRED`; no MAC or modal qualification claim |
+| WP10 | `PASS_WITH_LIMITATIONS` | T1/T2 targeted + Code_Aster | `4e005423ba4fd87c6ab6ea2fe5c7a345c21d8e43` | `9d79dc8b306e6cc65f2f4ae2e77e00f676182b84` | `OWNER_APPROVED_BOUNDED_FIRST_THREE_MODES`; modal maturity `QUALIFIED_BOUNDED` within declared scope | modes four to six remain diagnostic for refinement; no lumped mass or transfer to other dynamics |
 | WP11 | `PASS_WITH_LIMITATIONS` | T2 targeted | `4d0ee14f4aa61b9337874a991263a93b4f9a8c73` | `94461602dfd1782be57c20e1801a0d5d8e262ef1` | keep qualified bounded J2 scope; Owner review required | no universal increment threshold; tangent symmetry diagnostic only; finite-kinematic J2 remains experimental |
 | WP12 | `PASS_WITH_LIMITATIONS` | T1 targeted + bounded scaling | `4971ac4f6c1e5cff2ca48e40ca6db5e8147d0d0a` | `4971ac4f6c1e5cff2ca48e40ca6db5e8147d0d0a` | proposed Owner review | 300k assembly-only; 1M time-limited; SciPy/PETSc backend limits |
 | WP13 | `NOT_STARTED` | T0 not run | - | - | - | - |
@@ -93,15 +94,16 @@ SciPy CG and direct routes retain their explicit configured/resource limits;
 PETSc/SLEPc were unavailable. The evidence is ready for Owner review and does
 not claim universal 1M or multi-million-DOF support.
 
-WP10 records 16 controlled modal cases: 15 `PASS` results and one
-`EXPECTED_FAILURE_PASS` for zero density. The consistent mass is positive,
-conservative and production/reference-quadrature consistent. The common modal
-route passes finite-positive spectrum, residual, mass-orthogonality and replay
-checks on single, multi-element and distorted prisms. Code_Aster 18.1.0/PENTA6
-matches six frequencies on the declared affine same-mesh case within the
-predeclared `1e-2` bounded candidate. The result is frequency-only external
-evidence; WEDGE6 modal maturity remains `EXPERIMENTAL` and public qualification
-is deferred.
+WP10 preserves the original 16 controlled modal cases as historical evidence.
+WP10-FINAL adds the declared refinement/MAC catalog and records a four-level
+4/8/16/32 prism sequence. The first three frequencies meet the predeclared
+final-change rule; all requested modes are finite and positive, deterministic,
+and have normalized residual at most `2.40e-11`. Code_Aster 18.1.0/PENTA6
+matches `24/24` modes over four same-mesh cases, with maximum frequency error
+`1.927e-13` and minimum MAC `0.9999999999999991`. The active modal maturity is
+`QUALIFIED_BOUNDED` for the declared consistent-mass WEDGE6 scope; modes four
+to six remain diagnostic for refinement and other dynamic routes stay outside
+the claim.
 
 WP11 has completed its all-family small-strain J2 characterization without
 changing the formulation: material paths, tangent FD, multi-element, cycles,

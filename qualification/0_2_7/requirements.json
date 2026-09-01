@@ -120,9 +120,9 @@
       "priority": "SHOULD",
       "status": "PASS_WITH_LIMITATIONS",
       "requirement": "WEDGE6 modal maturity shall be established independently from static maturity.",
-      "acceptance": "Consistent mass, finite positive frequencies, eigenpair residual, mass orthogonality, refinement and replay are recorded; comparable external frequency evidence is bounded and static evidence is not transferred.",
-      "verification": ["qualification/0_2_7/vnv_v2/wp10_cases.json", "qualification/0_2_7/vnv_v2/wp10_evidence.json", "qualification/0_2_7/external_oracles/wedge6/results/wp10_code_aster_modal.json"],
-      "owner_policy": "WP10_MODAL_EXPERIMENTAL_PENDING_OWNER_REVIEW"
+      "acceptance": "Consistent mass, finite positive frequencies, eigenpair residual, mass orthogonality, deterministic replay and a four-level refinement are recorded; the first three modes satisfy the predeclared final-change rule, and comparable six-mode Code_Aster frequency/MAC evidence is bounded to four same-mesh PENTA6 cases. Static evidence is not transferred.",
+      "verification": ["qualification/0_2_7/vnv_v2/wp10_final_cases.json", "qualification/0_2_7/vnv_v2/wp10_final_evidence.json", "qualification/0_2_7/wp10_final_state.json", "qualification/0_2_7/external_oracles/wedge6/results/wp10_final_modal"],
+      "owner_policy": "OWNER_APPROVED_BOUNDED_FIRST_THREE_MODES"
     },
     {
       "id": "027-REQ-012",

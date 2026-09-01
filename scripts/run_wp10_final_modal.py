@@ -17,6 +17,7 @@ from solveur.verification.wedge6_modal import modal_metrics, modal_model, prism_
 
 
 ROOT = Path(__file__).resolve().parents[1]
+CASE_CATALOG = ROOT / "qualification/0_2_7/vnv_v2/wp10_final_cases.json"
 OUTPUT = ROOT / "qualification/0_2_7/vnv_v2/wp10_final_evidence.json"
 RESULT_DIR = ROOT / "qualification/0_2_7/external_oracles/wedge6/results/wp10_final_modal"
 IMAGE_DIGEST = CODE_ASTER_IMAGE
@@ -248,6 +249,10 @@ def run(output: Path = OUTPUT, *, run_external: bool = True) -> dict[str, Any]:
         "work_package": "WP10-FINAL",
         "gate": "027-G10",
         "source_sha": source,
+        "case_catalog": {
+            "path": "qualification/0_2_7/vnv_v2/wp10_final_cases.json",
+            "sha256": file_sha256(CASE_CATALOG),
+        },
         "status": "PASS_WITH_LIMITATIONS",
         "maturity": "QUALIFIED_BOUNDED" if refinement["status"] == "PASS_QUALIFIED" and external_status == "PASS_EXTERNAL_CORRELATION_BOUNDED" else "EXPERIMENTAL",
         "owner_decision": "OWNER_APPROVED_BOUNDED" if refinement["status"] == "PASS_QUALIFIED" and external_status == "PASS_EXTERNAL_CORRELATION_BOUNDED" else "OWNER_REVIEW_REQUIRED",

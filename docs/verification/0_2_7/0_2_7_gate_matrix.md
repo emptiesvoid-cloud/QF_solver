@@ -18,8 +18,9 @@ for the additive mesh-quality diagnostic contract; it introduces no new
 numerical capability or universal quality cutoff. The WP07 row is technical
 kernel evidence only: WEDGE6 remains `EXPERIMENTAL` and is not publicly
 qualified. WP08 adds the bounded static vertical slice without changing that
-maturity. WP10 separately records consistent-mass modal evidence and a bounded
-Code_Aster frequency correlation; its public maturity remains `EXPERIMENTAL`.
+maturity. WP10 separately records consistent-mass modal evidence and bounded
+Code_Aster frequency/MAC correlation; its modal combination is
+`QUALIFIED_BOUNDED` only within the declared scope.
 WP12 records bounded large-scale readiness evidence for the existing structured
 TET4 route; its Owner decision remains pending and its resource limits are not
 success claims. WP11 records a bounded maturity extension for existing
@@ -53,11 +54,12 @@ quadrature. WP09-R repairs the headless Code_Aster path and records one
 bounded affine PENTA6 correlation through a derived image pinned to the base
 image digest. WP10 modal evidence is recorded separately for its own claims.
 The consistent mass, finite-positive modes, residual, orthogonality, replay and
-zero-density fail-closed checks pass; the four-level refinement is diagnostic
-only. Code_Aster 18.1.0/PENTA6 provides a frequency-only bounded correlation
-under the predeclared `1e-2` candidate, which remains `OWNER_REVIEW_REQUIRED`;
-no MAC is claimed. WEDGE6 modal maturity remains `EXPERIMENTAL` and public
-qualification is deferred. G13 may remain open
+zero-density fail-closed checks pass. The four-level 4/8/16/32 refinement
+passes for the first three modes under the predeclared `1e-2` final-change
+rule; modes four to six remain diagnostic. Code_Aster 18.1.0/PENTA6 provides
+bounded same-mesh frequency and MAC evidence over four cases, with `24/24`
+matched modes. `COMB-WEDGE6-modal` is `QUALIFIED_BOUNDED` only for the
+declared consistent-mass scope; no general dynamics claim is made. G13 may remain open
 or deferred without blocking a bounded core release when research routes are
 explicitly excluded.
 
