@@ -16,10 +16,14 @@ reproducible PETSc/MPI path, and the explicit PETSc `CG + GAMG` route completes
 a real 1,029,000-DOF TET4 solve. The frozen WP14 equilibrium criterion still
 fails, so this is not a WP16 qualification and does not authorize WP18.
 
-The implementation source used for the numerical runs is
-`ec7e0af7dad399be8d1a1fe1fc90e95a81fec78a`. The controlled state is
-`qualification/0_2_7/wp17r_state.json`; the machine-readable summary is
-`qualification/0_2_7/wp17_runtime/wp17r_summary.json`.
+The original implementation source used for the frozen `1e-8` numerical runs
+is `ec7e0af7dad399be8d1a1fe1fc90e95a81fec78a`. The supplemental strict-route
+runner and its tests are frozen at
+`9e34a184d6b916446e6e4f6bc872cdc293f93430`. The controlled state is
+`qualification/0_2_7/wp17r_state.json`; the historical machine-readable
+summary is `qualification/0_2_7/wp17_runtime/wp17r_summary.json` and the
+strict-route summary is
+`qualification/0_2_7/wp17_runtime/wp17r_strict_summary.json`.
 
 ## Reproducible environment
 
@@ -58,6 +62,31 @@ equilibrium only from `3.5034304846e-7` to `3.5034304222e-7`. No reaction
 reconstruction, floating-point reduction, BC, or FEM operator bug is
 demonstrated. The frozen equilibrium limit remains `1e-8`.
 
+## Supplemental strict internal solve
+
+The failure above is preserved as the historical WP16/PETSc result. As a
+diagnostic remediation, the runner now accepts a predeclared internal
+`solver_rtol` that may be stricter than the WP14 value but may never be
+looser. The WP14 acceptance tolerance remains `1e-8`; this is not a change to
+the acceptance metrics or to the historical WP16 verdict. `PETSC_OPTIONS` is
+required to be unset so that all relevant PETSc options are explicit in the
+configuration digest.
+
+With `solver_rtol=1e-10`, the same TET4 model and pinned two-rank container
+completed two independent 1,029,000-DOF replays. Both runs used 431 CG
+iterations, a free relative residual of `9.704e-11`, equilibrium
+`5.339e-10`, energy `8.484e-14`, and about `186 s` total time. The medium
+107,811-DOF PETSc/matrix-free comparison used the same internal target and
+passed: displacement difference `8.341e-15`, equilibrium difference
+`9.279e-10`, and energy difference `1.598e-12`, all against the unchanged
+`1e-8` acceptance limit.
+
+The two strict replays are controlled supplemental evidence, not an automatic
+WP16 closeout. They establish a candidate path for a separately declared
+official WP16 retry. The strict AIJ route peaks at about `3.52 GiB` RSS,
+roughly `6.12x` the historical matrix-free baseline, so memory remains a
+material limitation.
+
 ## Preconditioner evidence
 
 | Backend / preconditioner | DOF | Iterations | Total [s] | Peak RSS | Equilibrium |
@@ -77,7 +106,7 @@ The new PETSc-GAMG-versus-matrix-free medium comparison is FAIL under the
 unchanged `1e-8` comparison policy: displacement differs by `1.197e-12`, but
 equilibrium differs by `2.333e-8` and energy by `4.211e-11`.
 
-## 1M diagnostic and replay
+## Historical 1M diagnostic and replay
 
 The model has 343,000 nodes, 1,971,054 TET4 elements and 1,029,000 true DOF.
 Both two-rank GAMG runs complete without timeout or resource-limited status:
@@ -103,13 +132,19 @@ claim.
 - `WP16 = FAIL` remains the release blocker because equilibrium exceeds the
   frozen `1e-8` criterion.
 - `WP17-R = PARTIAL`: the PETSc environment, explicit backend/options,
-  instrumentation, diagnostics and replay are controlled; no qualifying route
-  is established.
+  instrumentation, diagnostics and replay are controlled. The strict route
+  meets the unchanged acceptance metrics on supplemental replays, but the
+  official WP16 retry has not been run and no qualifying public route is
+  established here.
 - `WP18 = NOT READY`: no 3M work is authorized while the WP16 blocker remains.
-- No FEM formulation, existing element route or WP14 tolerance was changed.
+- No FEM formulation, existing element route, WP14 acceptance threshold or
+  public/default backend was changed.
 
 Raw controlled records are stored in
 `qualification/0_2_7/wp17_runtime/wp17r_run1.json` and
 `qualification/0_2_7/wp17_runtime/wp17r_run2.json`, with audit records beside
-them. The prior WP17 evidence remains preserved as the historical parent
-checkpoint.
+them. The supplemental records are
+`qualification/0_2_7/wp17_runtime/wp17r_strict_medium.json`,
+`qualification/0_2_7/wp17_runtime/wp17r_strict_1m_run1.json` and
+`qualification/0_2_7/wp17_runtime/wp17r_strict_1m_run2.json`. The prior WP17
+evidence remains preserved as the historical parent checkpoint.

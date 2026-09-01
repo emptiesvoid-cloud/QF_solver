@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "work_package": "WP17-R",
+  "record_type": "supplemental_strict_internal_solve",
+  "status": "PASS_WITH_LIMITATIONS",
+  "source_sha": "9e34a184d6b916446e6e4f6bc872cdc293f93430",
+  "contract": "qualification/0_2_7/wp14_execution_contract.json",
+  "contract_sha256": "1236aaf8ddb0451ae5d3ddac02864ade3c54273da4a0e8064434ae0c11459ce3",
+  "scope": {
+    "element": "TET4",
+    "analysis": "linear_static",
+    "true_dof": 1029000,
+    "nodes": 343000,
+    "elements": 1971054,
+    "backend": "petsc",
+    "solver": "CG",
+    "preconditioner": "GAMG",
+    "matrix_format": "AIJ",
+    "mpi_size": 2,
+    "partition_strategy": "contiguous",
+    "fem_formulation_changed": false,
+    "official_wp16_retry": false
+  },
+  "tolerance_policy": {
+    "acceptance_rtol": 1e-08,
+    "acceptance_atol": 0.0,
+    "solver_rtol": 1e-10,
+    "solver_rtol_predeclared": true,
+    "strict_internal_mode": true,
+    "wp14_acceptance_unchanged": true,
+    "post_result_retuning": false,
+    "source": "scripts/run_wp17r_petsc_remediation.py --internal-rtol 1e-10"
+  },
+  "environment": {
+    "classification": "AVAILABLE_REPRODUCIBLE_CONTAINER",
+    "image": "qf-solver-large@sha256:d6a1718001fc36772906d1a9505637bbd0a4b7e1d8ccc9afdbcb6f67b7ff6d0e",
+    "python": "3.12.3",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "mpi4py": "4.1.2",
+    "petsc4py": "3.25.1",
+    "petsc": "3.25.1",
+    "mpi": "MPICH 5.0.1 / MPI 5.0",
+    "threads": 1,
+    "petsc_options_environment": "unset; all relevant options explicit"
+  },
+  "input": {
+    "path": "tmp/wp17r_petsc/model_1m/model.h5",
+    "digest_sha256": "b65b1cd72a067551490ed5364beb1fcc2d7e55d07a9075f6f7b8899f535d7f92",
+    "load_total_n": 999999.999999912,
+    "fixed_dof": 14700,
+    "load_nodes": 4900
+  },
+  "replays": [
+    {
+      "id": "run1",
+      "evidence": "qualification/0_2_7/wp17_runtime/wp17r_strict_1m_run1.json",
+      "status": "PASS",
+      "iterations": 431,
+      "matvecs": 431,
+      "setup_seconds": 114.12337333199685,
+      "solve_seconds": 67.81932615299593,
+      "total_seconds": 186.21452172400313,
+      "peak_rss_bytes": 3520008192,
+      "free_relative_residual": 9.703883130599042e-11,
+      "equilibrium_relative": 5.33931892245256e-10,
+      "energy_relative": 8.484059996724185e-14
+    },
+    {
+      "id": "run2",
+      "evidence": "qualification/0_2_7/wp17_runtime/wp17r_strict_1m_run2.json",
+      "status": "PASS",
+      "iterations": 431,
+      "matvecs": 431,
+      "setup_seconds": 114.85683679400245,
+      "solve_seconds": 67.42327422299422,
+      "total_seconds": 186.66731764699216,
+      "peak_rss_bytes": 3520028672,
+      "free_relative_residual": 9.703883130599042e-11,
+      "equilibrium_relative": 5.33931892245256e-10,
+      "energy_relative": 8.484059996724185e-14
+    }
+  ],
+  "replay": {
+    "status": "PASS",
+    "same_source": true,
+    "same_input": true,
+    "same_configuration": true,
+    "same_iterations": true,
+    "same_observables": true,
+    "comparison_tolerance": 1e-08
+  },
+  "subscale": {
+    "evidence": "qualification/0_2_7/wp17_runtime/wp17r_strict_medium.json",
+    "status": "PASS",
+    "true_dof": 107811,
+    "matrix_free_solver_rtol": 1e-10,
+    "displacement_relative_error": 8.340570131083196e-15,
+    "equilibrium_relative_difference": 9.278984754976663e-10,
+    "energy_relative_difference": 1.5981272598206606e-12,
+    "matrix_free_iterations": 554,
+    "acceptance_tolerance": 1e-08
+  },
+  "comparison_to_wp16": {
+    "baseline_backend": "matrix_free",
+    "baseline_preconditioner": "nodal_block_jacobi",
+    "baseline_iterations": 1052,
+    "baseline_total_seconds": 1371.0587636000128,
+    "baseline_peak_rss_bytes": 575700992,
+    "strict_iterations": 431,
+    "strict_total_seconds_best": 186.21452172400313,
+    "iteration_reduction_factor": 2.440835266821345,
+    "total_time_speedup_best": 7.366291575460153,
+    "peak_rss_ratio_best": 6.117044264370083,
+    "baseline_equilibrium_relative": 3.819750810647995e-08,
+    "strict_equilibrium_relative": 5.33931892245256e-10
+  },
+  "acceptance": {
+    "complete_real_fem_solve": "PASS",
+    "residual": "PASS",
+    "equilibrium": "PASS",
+    "energy": "PASS",
+    "finite_outputs": "PASS",
+    "spd_cg": "PASS",
+    "subscale": "PASS",
+    "two_replays": "PASS",
+    "wp16_qualification": "NOT_RUN; official WP14 retry remains separate"
+  },
+  "limitations": [
+    "The strict internal solver tolerance is a supplemental WP17-R route parameter; the WP14 acceptance thresholds remain unchanged.",
+    "The route uses PETSc AIJ and approximately 3.52 GiB peak RSS at 1M DOF, about 6.12 times the matrix-free baseline.",
+    "The two strict 1M replays are diagnostic evidence and do not by themselves change the historical WP16 verdict.",
+    "The host environment remains without PETSc/mpi4py; the pinned container is required.",
+    "No public/default backend or preconditioner is changed."
+  ],
+  "owner_decision": "SUPPLEMENTAL PASS_WITH_LIMITATIONS: explicit strict PETSc CG/GAMG route meets the unchanged WP14 acceptance metrics on two reproducible 1M replays and passes a same-rtol medium subscale comparison; authorize a separate official WP16 retry review, without changing WP14 policy or public defaults.",
+  "artifact_classification": "CONTROLLED_PROOF"
+}

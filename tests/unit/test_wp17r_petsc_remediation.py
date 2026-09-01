@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import json
+from pathlib import Path
+
 import numpy as np
 import pytest
 
@@ -10,8 +13,12 @@ from scripts.run_wp17r_petsc_remediation import (
     _monitor_evidence,
     _reaction_diagnostics,
     _resolve_solver_rtol,
+    run_case,
 )
 from solveur.large.generator import generate_tet4_block
+
+
+ROOT = Path(__file__).resolve().parents[2]
 
 
 def test_wp17r_config_is_frozen_and_backend_explicit() -> None:
@@ -45,6 +52,13 @@ def test_wp17r_strict_internal_tolerance_is_explicit_and_bounded() -> None:
 def test_wp17r_internal_tolerance_rejects_invalid_or_relaxed_values(value: float) -> None:
     with pytest.raises(ValueError):
         _resolve_solver_rtol(value)
+
+
+def test_wp17r_rejects_implicit_petsc_options(monkeypatch, tmp_path) -> None:
+    monkeypatch.setenv("PETSC_OPTIONS", "-ksp_rtol 1e-12")
+
+    with pytest.raises(ValueError, match="PETSC_OPTIONS must be unset"):
+        run_case(input_path=tmp_path / "missing.h5", output_dir=tmp_path / "output")
 
 
 def test_wp17r_monitor_parser_records_true_residual() -> None:
@@ -140,3 +154,28 @@ def test_wp17r_reaction_diagnostic_is_finite(tmp_path) -> None:
 
     assert result["finite_outputs"] is True
     assert np.isfinite(result["equilibrium_relative"])
+
+
+def test_wp17r_strict_evidence_is_complete_and_explicit() -> None:
+    summary_path = ROOT / "qualification/0_2_7/wp17_runtime/wp17r_strict_summary.json"
+    summary = json.loads(summary_path.read_text(encoding="utf-8"))
+
+    assert summary["status"] == "PASS_WITH_LIMITATIONS"
+    assert summary["source_sha"] == "9e34a184d6b916446e6e4f6bc872cdc293f93430"
+    assert summary["tolerance_policy"] == {
+        "acceptance_rtol": 1.0e-8,
+        "acceptance_atol": 0.0,
+        "solver_rtol": 1.0e-10,
+        "solver_rtol_predeclared": True,
+        "strict_internal_mode": True,
+        "wp14_acceptance_unchanged": True,
+        "post_result_retuning": False,
+        "source": "scripts/run_wp17r_petsc_remediation.py --internal-rtol 1e-10",
+    }
+    assert len(summary["replays"]) == 2
+    assert all(replay["status"] == "PASS" for replay in summary["replays"])
+    assert summary["replay"]["status"] == "PASS"
+    assert summary["subscale"]["status"] == "PASS"
+    for replay in summary["replays"]:
+        assert (ROOT / replay["evidence"]).is_file()
+    assert (ROOT / summary["subscale"]["evidence"]).is_file()

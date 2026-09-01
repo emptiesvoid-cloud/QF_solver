@@ -8,11 +8,15 @@
   "execution_source_sha": "ec7e0af7dad399be8d1a1fe1fc90e95a81fec78a",
   "historical_parent_state": "qualification/0_2_7/wp17_state.json",
   "runtime_summary": "qualification/0_2_7/wp17_runtime/wp17r_summary.json",
+  "supplemental_strict_summary": "qualification/0_2_7/wp17_runtime/wp17r_strict_summary.json",
   "runtime_evidence": [
     "qualification/0_2_7/wp17_runtime/wp17r_run1.json",
     "qualification/0_2_7/wp17_runtime/wp17r_run2.json",
     "qualification/0_2_7/wp17_runtime/wp17r_run1_audit.json",
-    "qualification/0_2_7/wp17_runtime/wp17r_run2_audit.json"
+    "qualification/0_2_7/wp17_runtime/wp17r_run2_audit.json",
+    "qualification/0_2_7/wp17_runtime/wp17r_strict_medium.json",
+    "qualification/0_2_7/wp17_runtime/wp17r_strict_1m_run1.json",
+    "qualification/0_2_7/wp17_runtime/wp17r_strict_1m_run2.json"
   ],
   "environment": {
     "classification": "AVAILABLE_REPRODUCIBLE_CONTAINER",
@@ -40,20 +44,38 @@
     "max_iterations": 10000,
     "fallback": "none"
   },
+  "supplemental_route": {
+    "backend": "petsc",
+    "solver": "CG",
+    "preconditioner": "GAMG",
+    "matrix_format": "AIJ",
+    "mpi_size": 2,
+    "partition_strategy": "contiguous",
+    "stopping_norm": "unpreconditioned",
+    "acceptance_rtol": 1e-08,
+    "solver_rtol": 1e-10,
+    "atol": 0.0,
+    "max_iterations": 10000,
+    "petsc_options_environment": "unset; all relevant options explicit",
+    "status": "PASS_WITH_LIMITATIONS",
+    "qualification_role": "supplemental diagnostic; official WP16 retry not run"
+  },
   "diagnosis": {
     "root_cause": "ITERATIVE_STOPPING_NORM_MISMATCH_AND_RESIDUAL_TO_RESULTANT_AMPLIFICATION",
     "retained_fix": "explicit PETSc unpreconditioned stopping norm",
     "reaction_postprocessing_fix": "NONE",
     "compensated_sum_effect": "negligible; not used for acceptance",
-    "wp14_equilibrium_tolerance": 1e-08
+    "wp14_equilibrium_tolerance": 1e-08,
+    "strict_route_result": "equilibrium 5.339e-10 and free residual 9.704e-11 on two 1M replays",
+    "strict_route_interpretation": "predeclared internal solver target; WP14 acceptance thresholds and historical WP16 verdict remain unchanged"
   },
   "decisions": {
     "selected_diagnostic_backend": "PETSc CG + GAMG",
     "public_default_changed": false,
     "wp16_status": "FAIL remains; frozen equilibrium criterion is not met",
-    "wp16_retry_ready": false,
+    "wp16_retry_ready": true,
     "wp18_ready": false,
-    "owner_decision": "PARTIAL: PETSc/MPI is now reproducibly provisioned and a real 1,029,000-DOF solve completes, but equilibrium and PETSc-vs-matrix-free subscale criteria remain failing; no qualification or tolerance change is authorized."
+    "owner_decision": "PARTIAL: the original 1e-8 PETSc route remains failing, while the explicit predeclared 1e-10 internal route passes two 1,029,000-DOF replays and a same-rtol subscale comparison under unchanged 1e-8 acceptance thresholds; a separate official WP16 retry is now ready, with no public/default route or WP14 policy change."
   },
   "constraints": {
     "fem_formulation_changed": false,
