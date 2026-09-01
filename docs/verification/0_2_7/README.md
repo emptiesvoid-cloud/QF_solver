@@ -23,8 +23,9 @@ readiness evidence; WP11 is `PASS_WITH_LIMITATIONS` with Owner review required,
 while the foundation WP01-WP12 evidence remains preserved. The official
 Level-Up portfolio is `CLOSED / ACCEPT_WITH_CONSOLIDATION`; WP13 is `PASS` on
 its controlled golden-baseline evidence and WP14 is `PASS` on its frozen
-execution contract, while WP15-WP22 remain individually
-`PLANNED` until their own evidence exists.
+execution contract; WP15 is `PASS_WITH_LIMITATIONS` on controlled subscale
+evidence, while WP16-WP22 remain individually `PLANNED` until their own
+evidence exists.
 
 The machine-readable Level-Up source is
 `qualification/0_2_7/level_up_plan.json`. WP16 is the release blocker for a

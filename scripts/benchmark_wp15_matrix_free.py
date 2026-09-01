@@ -37,7 +37,7 @@ LEVELS = (2, 4, 8, 16)
 def main() -> None:
     args = _parse_args()
     output = Path(args.output)
-    record = _run_phase(args.phase, output, repetitions=args.repetitions)
+    record = _run_phase(args.phase, output, repetitions=args.repetitions, source_sha=args.source_sha)
     print(json.dumps(record, indent=2, sort_keys=True))
 
 
@@ -46,13 +46,14 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--phase", choices=("baseline", "final"), required=True)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--repetitions", type=int, default=5)
+    parser.add_argument("--source-sha", default=None, help="Override provenance when replaying a detached source tree.")
     return parser.parse_args()
 
 
-def _run_phase(phase: str, output: Path, *, repetitions: int) -> dict[str, Any]:
+def _run_phase(phase: str, output: Path, *, repetitions: int, source_sha: str | None) -> dict[str, Any]:
     repetitions = max(1, int(repetitions))
     phase_record = {
-        "source_sha": _git_sha(),
+        "source_sha": source_sha or _git_sha(),
         "phase": phase,
         "parameters": {
             "chunk_size": WP14_CHUNK_SIZE,

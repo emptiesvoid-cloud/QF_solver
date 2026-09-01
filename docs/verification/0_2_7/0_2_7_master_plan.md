@@ -34,8 +34,8 @@ consistent-mass route, WP11 records
 bounded readiness status. The foundation WP01-WP12 history is preserved; the
 Level-Up portfolio is `CLOSED / ACCEPT_WITH_CONSOLIDATION`; WP13 is now
 `PASS` on its controlled golden-baseline evidence and WP14 is `PASS` on its
-frozen execution contract, while WP15-WP22 remain
-individually `PLANNED`.
+frozen execution contract; WP15 is `PASS_WITH_LIMITATIONS`, while WP16-WP22
+remain individually `PLANNED`.
 
 ## Work packages and STOP/GO criteria
 
@@ -256,14 +256,15 @@ claim.
 The active official theme is **Reproducible Large-Model Solving and Numerical
 Trust**. The portfolio decision is `CLOSED / ACCEPT_WITH_CONSOLIDATION` for
 the scope extension only. WP01-WP12 and their evidence remain preserved;
-WP13 and WP14 are complete on their controlled records; WP15-WP22 remain individually
-`PLANNED` until their own evidence is recorded.
+WP13 and WP14 are complete on their controlled records; WP15 is
+`PASS_WITH_LIMITATIONS` on its controlled subscale evidence, while WP16-WP22
+remain individually `PLANNED` until their own evidence is recorded.
 
 | WP | Title | Weight | Priority | Status |
 | --- | --- | ---: | --- | --- |
 | WP13 | Release truth and golden numerical baseline | 4% | MUST | `PASS` |
 | WP14 | Large-scale execution contract | 5% | MUST | `PASS` |
-| WP15 | Matrix-Free TET4 V2 / SPD / preconditioning | 10% | MUST | `PLANNED` |
+| WP15 | Matrix-Free TET4 V2 / SPD / preconditioning | 10% | MUST | `PASS_WITH_LIMITATIONS` |
 | WP16 | True 1M DOF qualification | 10% | MUST / release blocker | `PLANNED` |
 | WP17 | PETSc/MPI + large sparse path | 5% | SHOULD | `PLANNED` |
 | WP18 | 3M DOF ladder Bronze/Silver/Gold | 7% | MUST / mandatory | `PLANNED` |

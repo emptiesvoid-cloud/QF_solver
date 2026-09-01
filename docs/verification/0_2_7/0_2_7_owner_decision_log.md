@@ -236,6 +236,26 @@ structural independence threshold is introduced. Tangent symmetry remains a
 diagnostic, modified Newton remains diagnostic, finite-kinematic J2 remains
 experimental/not qualified, and no new external structural run is claimed.
 
+## WP15 - Matrix-free TET4 V2 / SPD / preconditioning
+
+Date: 2026-09-01. Execution source snapshot:
+`6e20bc53d175e5b4eac37a1e76f13266998ce074`; baseline snapshot:
+`2a12f04479eb085137c1d586c99bcf191e702ccc`.
+
+Owner decision: `PASS_WITH_LIMITATIONS`. The structured homogeneous TET4
+matrix-free route matches the assembled subscale action, displacement and
+energy within the frozen WP14 limits on 81, 375, 2,187 and 14,739 DOF. The
+deterministic SPD checks, residual, equilibrium and energy evidence pass.
+
+Private operator workspaces are retained because they reduce the measured
+Python allocation peak by 15.4% at 14,739 DOF. No general solve speed-up is
+claimed: timing remains hardware/run dependent and was neutral-to-slower in
+the recorded before/after sweep. Nodal block-Jacobi remains the selected
+WP14-compatible preconditioner; diagonal-Jacobi is characterized but not
+promoted from this subscale evidence. The scatter `bincount` remains a future
+optimization target. WP15 does not qualify 1M DOF; WP16 remains the official
+release-blocking qualification gate.
+
 ## 027-LEVEL-UP - official extended scope decision
 
 Date: 2026-09-01. Source snapshot:
@@ -245,7 +265,7 @@ Owner decision: `CLOSED / ACCEPT_WITH_CONSOLIDATION` for the portfolio named
 **Reproducible Large-Model Solving and Numerical Trust**. The decision accepts
 WP13-WP22 as the official next scope. WP13 is complete on its controlled
 golden-baseline evidence and WP14 is complete on its frozen execution
-contract; WP15-WP22 remain open. The decision does not
+contract; WP15 is now `PASS_WITH_LIMITATIONS` and WP16-WP22 remain open. The decision does not
 promote a capability or rewrite WP01-WP12 evidence. The WP13 record is in
 `qualification/0_2_7/wp13_state.json`.
 

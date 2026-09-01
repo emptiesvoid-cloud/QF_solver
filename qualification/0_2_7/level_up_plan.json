@@ -4,7 +4,7 @@
   "release": "0.2.7a0",
   "theme": "Reproducible Large-Model Solving and Numerical Trust",
   "status": "CLOSED_ACCEPT_WITH_CONSOLIDATION",
-  "decision": "Gate Level-Up is accepted as the official consolidation scope; WP13 and WP14 are evidence-complete on controlled records and WP15-WP22 remain planned.",
+  "decision": "Gate Level-Up is accepted as the official consolidation scope; WP13 and WP14 are evidence-complete, WP15 is PASS_WITH_LIMITATIONS on controlled subscale evidence, and WP16-WP22 remain planned.",
   "source_snapshot": "72888ea63241a4445f6600aa6c2b882401f85ef1",
   "source_branch": "codex/0.2.7-foundation",
   "parent_release": {
@@ -14,11 +14,11 @@
   },
   "progress_accounting": {
     "historical_completed_block_percent": 45,
-    "current_acquired_percent": 50,
-    "current_progress_percent": 50,
+    "current_acquired_percent": 60,
+    "current_progress_percent": 60,
     "level_up_extension_percent": 55,
     "weights_total_percent": 100,
-    "accounting_note": "The historical block, acquired status and active progress are governance views and are not additive. WP13-WP22 weights sum to the 55 percent extension; WP13 and WP14 are PASS and WP15-WP22 remain planned."
+    "accounting_note": "The historical block, acquired status and active progress are governance views and are not additive. WP13-WP22 weights sum to the 55 percent extension; WP13 and WP14 are PASS, WP15 is PASS_WITH_LIMITATIONS and WP16-WP22 remain planned."
   },
   "historical_scope": {
     "work_packages": ["WP01", "WP02", "WP03", "WP04", "WP05", "WP06", "WP07", "WP08", "WP09", "WP10", "WP11", "WP12"],
@@ -52,9 +52,11 @@
       "title": "Matrix-free TET4 V2, SPD and preconditioning",
       "weight_percent": 10,
       "priority": "MUST",
-      "status": "PLANNED",
+      "status": "PASS_WITH_LIMITATIONS",
       "pass_criteria": ["public TET4 matrix-free route is numerically equivalent to assembled subscale reference", "SPD assumptions and failure conditions are demonstrated", "preconditioner behavior and deterministic replay are recorded"],
-      "stop_conditions": ["unexplained residual drift", "matrix-free route silently changes the assembled result"]
+      "stop_conditions": ["unexplained residual drift", "matrix-free route silently changes the assembled result"],
+      "evidence": ["qualification/0_2_7/wp15_state.json", "qualification/0_2_7/wp15_matrix_free_benchmark.json"],
+      "owner_decision": "subscale equivalence and SPD evidence pass; workspace reuse kept for allocation reduction; no WP16 or 1M claim"
     },
     {
       "id": "WP16",

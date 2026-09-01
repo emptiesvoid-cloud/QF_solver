@@ -51,15 +51,15 @@ namespace. It is a governance/contract PASS only; it does not claim a 1M or
 
 The active theme is **Reproducible Large-Model Solving and Numerical Trust**.
 `027-LEVEL-UP` is `CLOSED / ACCEPT_WITH_CONSOLIDATION` as a scope decision;
-WP15-WP22 remain individually `PLANNED` and do not constitute execution
-evidence. WP13 has its own controlled proof record; the remaining criteria and weights are authoritative in
+WP15 is `PASS_WITH_LIMITATIONS` on controlled subscale evidence; WP16-WP22
+remain individually `PLANNED` and do not constitute execution evidence. WP13 has its own controlled proof record; the remaining criteria and weights are authoritative in
 `qualification/0_2_7/level_up_plan.json`.
 
 | WP | Weight | Priority | Status | Rule |
 | --- | ---: | --- | --- | --- |
 | WP13 | 4% | MUST | `PASS` | release truth and golden baseline |
 | WP14 | 5% | MUST | `PASS` | frozen large-scale execution contract; no solve claim |
-| WP15 | 10% | MUST | `PLANNED` | matrix-free TET4, SPD and preconditioning |
+| WP15 | 10% | MUST | `PASS_WITH_LIMITATIONS` | matrix-free TET4, SPD and preconditioning; subscale evidence complete, WP16 remains the 1M gate |
 | WP16 | 10% | MUST | `PLANNED` | release blocker; true 1M FEM solve |
 | WP17 | 5% | SHOULD | `PLANNED` | PETSc/MPI path and provenance |
 | WP18 | 7% | MUST | `PLANNED` | mandatory 3M Bronze/Silver/Gold ladder |
@@ -68,7 +68,7 @@ evidence. WP13 has its own controlled proof record; the remaining criteria and w
 | WP21 | 3% | SHOULD | `PLANNED` | surgical architecture/API/registry cleanup |
 | WP22 | 3% | MUST | `PLANNED` | final release qualification |
 
-The 45% historical block, 45% current acquired/progress view and 100% total
+The 45% historical block, 60% current acquired/progress view and 100% total
 plan weights are separate governance measures and must not be added together.
 
 ## Update rules
