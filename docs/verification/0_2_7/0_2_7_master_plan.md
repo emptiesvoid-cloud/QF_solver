@@ -30,15 +30,16 @@ contract control is `PASS`. WP07 is now `PASS` for the experimental elemental
 kernel; WP08 and WP09 are complete with their recorded bounded scope, WP10 has
 completed its independent bounded modal qualification for the declared
 consistent-mass route, WP11 records
-`PASS_WITH_LIMITATIONS` with Owner review required, and WP12 retains its
-bounded readiness status. The foundation WP01-WP12 history is preserved; the
+`PASS_WITH_LIMITATIONS` with its Owner review closed by WP20, and WP12 retains
+its bounded readiness status. The foundation WP01-WP12 history is preserved; the
 Level-Up portfolio is `CLOSED / ACCEPT_WITH_CONSOLIDATION`; WP13 is now
 `PASS` on its controlled golden-baseline evidence and WP14 is `PASS` on its
 frozen execution contract; WP15 is `PASS_WITH_LIMITATIONS`, WP16 is `PASS`
 after the official PETSc retry, WP17 is `PASS_WITH_LIMITATIONS`, WP18 is
 `PASS_WITH_LIMITATIONS` after the Bronze/Silver ladder, WP19 is
 `PASS_WITH_LIMITATIONS` on bounded adversarial and HEX8 diagnostic evidence,
-and WP20-WP22 remain individually `PLANNED`.
+WP20 is `PASS_WITH_LIMITATIONS` for the existing bounded small-strain J2
+scope, and WP21-WP22 remain individually `PLANNED`.
 
 ## Work packages and STOP/GO criteria
 
@@ -202,7 +203,8 @@ and WP20-WP22 remain individually `PLANNED`.
 - **Evidence required:** predeclared policies, all-family records and Owner
   decision.
 - **Files:** J2 gap-closure contract and evidence manifests.
-- **Status:** `NOT_STARTED`.
+- **Status:** `PASS_WITH_LIMITATIONS`; Owner closure is recorded by WP20 and
+  the existing bounded J2 qualification is retained.
 
 ### WP12 - Large-scale and 1M-DOF readiness
 
@@ -264,8 +266,8 @@ WP13 and WP14 are complete on their controlled records; WP15 is
 on the official PETSc retry, WP17 is `PASS_WITH_LIMITATIONS`, WP18 is
 `PASS_WITH_LIMITATIONS` after its Bronze/Silver evidence, WP19 is
 `PASS_WITH_LIMITATIONS` on bounded adversarial and HEX8 diagnostic evidence,
-and WP20-WP22 remain individually `PLANNED` until their own evidence is
-recorded.
+and WP20 is `PASS_WITH_LIMITATIONS` for the existing bounded J2 scope; WP21-
+WP22 remain individually `PLANNED` until their own evidence is recorded.
 
 | WP | Title | Weight | Priority | Status |
 | --- | --- | ---: | --- | --- |
@@ -276,7 +278,7 @@ recorded.
 | WP17 | PETSc/MPI + large sparse path | 5% | SHOULD | `PASS_WITH_LIMITATIONS` |
 | WP18 | 3M DOF ladder Bronze/Silver/Gold | 7% | MUST / mandatory | `PASS_WITH_LIMITATIONS` |
 | WP19 | Adversarial robustness + HEX8 diagnostic | 5% | MUST | `PASS_WITH_LIMITATIONS` |
-| WP20 | Residual J2 / external V&V closure | 3% | SHOULD | `PLANNED` |
+| WP20 | Residual J2 / external V&V closure | 3% | SHOULD | `PASS_WITH_LIMITATIONS` |
 | WP21 | Architecture/API/registry surgical cleanup | 3% | SHOULD | `PLANNED` |
 | WP22 | Final Release Qualification | 3% | MUST | `PLANNED` |
 
@@ -319,5 +321,30 @@ The authoritative records are `qualification/0_2_7/wp19_state.json`,
 `qualification/0_2_7/wp19_cases.json`,
 `qualification/0_2_7/wp19_runtime/wp19_robustness_summary.json`,
 `qualification/0_2_7/wp19_runtime/wp19_hex8_diagnostic.json` and
-`qualification/0_2_7/wp19_runtime/wp19_golden_replay.json`. WP20 is the next
-work package; previous maturity decisions remain unchanged.
+`qualification/0_2_7/wp19_runtime/wp19_golden_replay.json`. WP20 is closed with
+its existing bounded J2 scope; previous maturity decisions remain unchanged,
+and WP21 is next.
+
+## WP20 - Residual J2 / external V&V closure
+
+WP20 is `PASS_WITH_LIMITATIONS` with Owner decision
+`OWNER_APPROVED_BOUNDED_KEEP_EXISTING_SCOPE`. It closes the residual review of
+the existing small-strain J2 route without changing the FEM formulation or
+promoting a capability. TET4, TET10, HEX8 and HEX20 remain qualified only in
+the existing bounded scope: isotropic small-strain J2, radial return and full
+Newton for nonlinear static use.
+
+The controlled evidence records passing return mapping, yield detection,
+unload/reload, simple cycling, tangent finite differences, increment
+characterization, rollback, energy, cross-family consistency, explicit
+failure modes, no NaN/Inf and deterministic replay. The maximum tangent FD
+error is `2.120472111937634E-10` against the existing `1E-6` limit. There is
+no universal structural increment threshold; tangent symmetry and modified
+Newton behavior remain diagnostics.
+
+The external part is `PARTIAL_REUSED_CONTROLLED_EVIDENCE`: Code_Aster 18.1.0
+constitutive evidence from G06 is reused for all four families. No new
+structural external campaign or post-result tolerance retuning is claimed.
+Finite-kinematic J2 remains experimental/not qualified. See
+`qualification/0_2_7/wp20_state.json` and
+`docs/verification/0_2_7/0_2_7_wp20_j2_closeout.md`.

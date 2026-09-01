@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "record_type": "owner_closeout",
+  "work_package": "WP20",
+  "gate": "LUP-027-G20",
+  "status": "PASS_WITH_LIMITATIONS",
+  "review_start_sha": "26a734d1656c1c824c27f4708a8783abfddde17c",
+  "evidence_source_sha": "94461602dfd1782be57c20e1801a0d5d8e262ef1",
+  "evidence_catalog": "qualification/0_2_7/wp11_j2_cases.json",
+  "evidence_artifact": "qualification/0_2_7/wp11_j2_evidence.json",
+  "evidence_artifact_result_digest": "5e4825625d40f2363ecefb8f96baa43acac42f23db7195d000ca0c09717ef536",
+  "evidence_document": "docs/verification/0_2_7/0_2_7_wp11_j2_closure.md",
+  "owner_decision": "OWNER_APPROVED_BOUNDED_KEEP_EXISTING_SCOPE",
+  "maturity_actions": {
+    "TET4": "KEEP",
+    "TET10": "KEEP",
+    "HEX8": "KEEP",
+    "HEX20": "KEEP",
+    "MAT-J2-SMALL": "KEEP_QUALIFIED_BOUNDED",
+    "MAT-FINITE-J2": "KEEP_EXPERIMENTAL_NOT_QUALIFIED",
+    "promotions": [],
+    "demotions": []
+  },
+  "qualified_scope": {
+    "families": ["TET4", "TET10", "HEX8", "HEX20"],
+    "analysis": "nonlinear_static",
+    "material": "small-strain J2 isotropic hardening",
+    "route": "radial_return_with_full_newton",
+    "claim": "existing qualified bounded scope is retained; WP20 adds no maturity promotion"
+  },
+  "checks": {
+    "elastic_predictor": "PASS",
+    "yield_detection": "PASS",
+    "return_mapping": "PASS",
+    "plastic_internal_variables": "PASS",
+    "stress_update": "PASS",
+    "unload_reload": "PASS",
+    "simple_cycle": "PASS",
+    "tangent_finite_difference": "PASS_MAX_RELATIVE_ERROR_2.120472111937634E-10_LIMIT_1E-6",
+    "tangent_symmetry": "DIAGNOSTIC_ONLY_NOT_SEPARATELY_QUALIFIED",
+    "increment_refinement": "PASS_CHARACTERIZED_NO_UNIVERSAL_THRESHOLD",
+    "full_newton": "PASS_FOUR_FAMILIES",
+    "modified_newton": "EXPLICIT_NON_CONVERGENCE_DIAGNOSTIC",
+    "rollback_state_integrity": "PASS_FOUR_FAMILIES",
+    "energy_balance": "PASS_FOUR_FAMILIES_INTERNAL_DIAGNOSTIC",
+    "cross_family_consistency": "PASS_BOUNDED",
+    "failure_modes": "PASS_EXPLICIT_FAIL_CLOSED",
+    "no_nan_inf": "PASS",
+    "determinism": "PASS_REPLAY_DIGEST_STABLE"
+  },
+  "increment_policy": {
+    "status": "CHARACTERIZED_ONLY",
+    "partitions": [1, 2, 4],
+    "families": ["TET4", "TET10", "HEX8", "HEX20"],
+    "universal_threshold": false,
+    "post_result_retuning": false
+  },
+  "external_vnv": {
+    "status": "PARTIAL_REUSED_CONTROLLED_EVIDENCE",
+    "new_external_run": false,
+    "source": "qualification/0_2_6/g06_depth_evidence.json",
+    "source_sha": "8bd0f2d8fdce7bf27ffc4c28e6aa26e69288fa63",
+    "artifact_sha256": "86e238847ca45d4b7024c5bd9dcb15cb07ea5eb72444486204c4d9c3d3c657c2",
+    "solver": "Code_Aster 18.1.0",
+    "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+    "families": ["TET4", "TET10", "HEX8", "HEX20"],
+    "max_relative_errors": {
+      "TET4": 0.0016128455770859642,
+      "TET10": 0.0006229921333257515,
+      "HEX8": 2.733985590837845E-07,
+      "HEX20": 0.0006339004303117072
+    },
+    "scope": "material-level constitutive correlation; no new structural increment correlation",
+    "limitations": [
+      "reused 0.2.6 Code_Aster evidence is not a new WP20 external run",
+      "the correlation does not extend a universal structural increment-independence claim",
+      "stress/reaction observables remain subject to the original G06 convention and scope"
+    ]
+  },
+  "failure_modes": {
+    "non_convergence": "EXPLICIT_DIAGNOSTIC",
+    "invalid_increment": "FAIL_CLOSED",
+    "invalid_material": "FAIL_CLOSED",
+    "rollback_corruption": "NOT_OBSERVED_STATE_DIGEST_RESTORED",
+    "unsupported_finite_route": "NOT_QUALIFIED",
+    "silent_pass": false,
+    "nan_inf": false
+  },
+  "limitations": [
+    "the qualification remains bounded to small-strain isotropic J2 on TET4, TET10, HEX8 and HEX20",
+    "no universal structural increment-independence threshold is approved",
+    "algorithmic tangent symmetry is diagnostic and not independently qualified",
+    "full Newton is the accepted route; modified Newton non-convergence is diagnostic",
+    "cyclic calibration, Bauschinger behavior and physical validation are outside this closure",
+    "finite-kinematic J2, TL and coupled nonlinear routes remain experimental or not qualified",
+    "no full regression is run under the WP20 targeted-test policy"
+  ],
+  "provenance": {
+    "historical_wp11_evidence_not_rewritten": true,
+    "source_sha_role": "WP20 review input revision",
+    "evidence_sha_role": "WP11 execution/evidence revision",
+    "no_new_numeric_execution": true,
+    "no_new_tolerance": true,
+    "no_new_major_physics": true,
+    "existing_fem_formulation_changed": false
+  },
+  "ready_for_wp21": true,
+  "full_regression_run": false,
+  "pushed": false,
+  "artifact_classification": "CONTROLLED_PROOF"
+}

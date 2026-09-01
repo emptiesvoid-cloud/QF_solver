@@ -17,12 +17,13 @@ WP07 technical implementation separately from public qualification.
 | 027-OD-001 | WEDGE6 formulation and scope | `PROPOSED_OWNER_REVIEW` | pending | WP05/WP06/WP07 | - |
 | 027-OD-002 | mesh-quality policies | `PROPOSED_OWNER_REVIEW` | pending | WP06 | - |
 | 027-OD-003 | external C3D6/PENTA6 comparability | `PROPOSED_OWNER_REVIEW` | pending | WP05 | - |
-| 027-OD-004 | J2 gap-closure policies | `PROPOSED_OWNER_REVIEW` | pending | WP11 | - |
+| 027-OD-004 | J2 gap-closure policies | `OWNER_APPROVED_BOUNDED_KEEP_EXISTING_SCOPE` | `KEEP_QUALIFIED_BOUNDED_WITH_LIMITATIONS` | WP20, `94461602dfd1782be57c20e1801a0d5d8e262ef1` | 2026-09-01 |
 | 027-OD-005 | 1M-DOF verdict and public boundary | `PROPOSED_OWNER_REVIEW` | pending | WP12 | - |
 | 027-OD-006 | stretch/research selection | `PROPOSED_OWNER_REVIEW` | pending | WP13 | - |
 | 027-OD-007 | final release scope | `PROPOSED_OWNER_REVIEW` | pending | WP14 | - |
 | 027-OD-008 | WEDGE6 elemental kernel | `TERRA_GO` | `PASS_TECHNICAL_EXPERIMENTAL_ONLY` | T1-R4, WP07 evidence | 2026-08-31 |
 | 027-OD-009 | WEDGE6 static vertical slice | `WP08_REVIEWED` | `PASS_TECHNICAL_EXPERIMENTAL_ONLY` | WP08 state/evidence, 8040909d6d65f740e1daf858ce572d250a87b39a | 2026-08-31 |
+| 027-OD-010 | residual J2 and external V&V closure | `OWNER_APPROVED_BOUNDED_KEEP_EXISTING_SCOPE` | `PASS_WITH_LIMITATIONS` | `qualification/0_2_7/wp20_state.json`, `94461602dfd1782be57c20e1801a0d5d8e262ef1` | 2026-09-01 |
 
 WP01 is a release-engineering foundation control rather than a numerical Owner
 qualification decision. Its status is `PASS` because the SHA roles, actual
@@ -220,7 +221,7 @@ made.
 
 ## WP11 - Existing small-strain J2 maturity
 
-WP11 is recorded as `PASS_WITH_LIMITATIONS` pending Owner review of the
+WP11 is recorded as `PASS_WITH_LIMITATIONS`; WP20 closes Owner review of the
 bounded maturity record. The existing `MAT-J2-SMALL` qualification is kept for
 TET4, TET10, HEX8 and HEX20; no capability is promoted or demoted. The
 controlled evidence covers material state transitions, radial return, finite
@@ -312,8 +313,8 @@ existing diagnostic threshold with maximum full-displacement relative error
 `LOW_ORDER_LIMITATION` with secondary `MESH_DEPENDENCE`; locking is compatible
 with the observation but not proven. Reactions and energy are
 `NOT_COMPARABLE` in the inherited displacement-only deck. No HEX8R/SRI/B-bar
-formulation is promoted, no numerical formulation changes, and WP20 is the
-next work package.
+formulation is promoted, no numerical formulation changes, and WP20 closes the
+J2 review with bounded limitations; WP21 is next.
 
 ## WP17-FINAL - PETSc/MPI large solver path closure
 
@@ -334,3 +335,31 @@ against the old matrix-free run is case- and environment-specific. No public
 default backend, general HPC/GPU claim, formulation or existing numerical
 route is changed. The machine-readable closeout is
 `qualification/0_2_7/wp17_final_state.json`.
+
+## WP20 - Residual J2 and external V&V closure
+
+Date: 2026-09-01. Review start SHA:
+`26a734d1656c1c824c27f4708a8783abfddde17c`. Evidence source SHA:
+`94461602dfd1782be57c20e1801a0d5d8e262ef1`.
+
+Owner decision: `PASS_WITH_LIMITATIONS` with
+`OWNER_APPROVED_BOUNDED_KEEP_EXISTING_SCOPE`. TET4, TET10, HEX8 and HEX20
+remain `KEEP` within the existing `QUALIFIED_BOUNDED` small-strain J2 scope.
+The scope is isotropic small-strain J2 with radial return and full Newton for
+nonlinear static use. No family is promoted or demoted, and finite-kinematic
+J2 remains experimental/not qualified.
+
+The evidence closes return mapping, yield detection, unload/reload, simple
+cycling, tangent finite differences, increment characterization, rollback,
+energy, cross-family consistency, explicit failure modes, no NaN/Inf and
+deterministic replay. The maximum tangent FD error is
+`2.120472111937634E-10` against the existing `1E-6` limit. No universal
+structural increment threshold is claimed; tangent symmetry and modified
+Newton behavior remain diagnostics.
+
+External V&V is `PARTIAL_REUSED_CONTROLLED_EVIDENCE`: Code_Aster 18.1.0
+constitutive evidence from G06 is reused for all four families. No new
+structural external campaign or post-result tolerance retuning is claimed.
+The authoritative records are
+`qualification/0_2_7/wp20_state.json` and
+`docs/verification/0_2_7/0_2_7_wp20_j2_closeout.md`.
