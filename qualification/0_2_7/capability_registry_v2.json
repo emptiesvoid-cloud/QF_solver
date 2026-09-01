@@ -718,7 +718,7 @@
         "qualification/0_2_7/wp11_j2_evidence.json",
         "docs/verification/0_2_7/0_2_7_wp11_j2_closure.md"
       ],
-      "owner_decision": "OWNER_REVIEW_REQUIRED_KEEP_QUALIFIED_BOUNDED_WITH_LIMITATIONS",
+      "owner_decision": "OWNER_APPROVED_BOUNDED_KEEP_EXISTING_SCOPE",
       "limitations": "Qualified only within the tested bounded TET4/TET10/HEX8/HEX20 scope; algorithmic tangent symmetry remains diagnostic and is not independently qualified; increment sensitivity is characterized on all four families without a universal structural partition-independence claim.",
       "applicable_version": "0.2.7a0",
       "source_snapshot": "94461602dfd1782be57c20e1801a0d5d8e262ef1",

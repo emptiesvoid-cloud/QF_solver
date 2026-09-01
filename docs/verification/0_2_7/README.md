@@ -19,8 +19,9 @@ external deck preflight only; WP06 is `PASS` for an additive mesh-quality
 diagnostic contract; WP07 is `PASS` for the experimental elemental WEDGE6
 kernel and its targeted V&V; WP10 is `PASS_WITH_LIMITATIONS` with modal maturity
 `QUALIFIED_BOUNDED` within its declared scope; WP12 is `PASS_WITH_LIMITATIONS` for bounded large-scale
-readiness evidence; WP11 is `PASS_WITH_LIMITATIONS` with Owner review required,
-while the foundation WP01-WP12 evidence remains preserved. The official
+readiness evidence; WP11 is `PASS_WITH_LIMITATIONS` with its Owner review
+closed by the WP20 bounded J2 decision, while the foundation WP01-WP12
+evidence remains preserved. The official
 Level-Up portfolio is `CLOSED / ACCEPT_WITH_CONSOLIDATION`; WP13 is `PASS` on
 its controlled golden-baseline evidence and WP14 is `PASS` on its frozen
 execution contract; WP15 is `PASS_WITH_LIMITATIONS` on controlled subscale
@@ -28,7 +29,8 @@ evidence, WP16 is `PASS` on the official PETSc 1M retry, WP17 is
 `PASS_WITH_LIMITATIONS` after its PETSc/MPI closure, and WP18 is
 `PASS_WITH_LIMITATIONS` after its Bronze/Silver ladder; WP19 is
 `PASS_WITH_LIMITATIONS` on bounded adversarial and HEX8 diagnostic evidence;
-WP20-WP22 remain individually `PLANNED` until their own evidence exists.
+WP20 is `PASS_WITH_LIMITATIONS` for the existing bounded small-strain J2
+scope, and WP21-WP22 remain individually `PLANNED`.
 
 The machine-readable Level-Up source is
 `qualification/0_2_7/level_up_plan.json`. WP16's 1M-DOF requirement is
@@ -89,7 +91,7 @@ in [`0_2_7_progress_tracker.md`](0_2_7_progress_tracker.md).
 | WP08 | WEDGE6 static vertical slice | `PASS` (`EXPERIMENTAL`) |
 | WP09 | WEDGE6 robustness and external V&V | `PASS_WITH_LIMITATIONS` (`EXPERIMENTAL`) |
 | WP10 | WEDGE6 modal qualification | `PASS_WITH_LIMITATIONS` (`QUALIFIED_BOUNDED`, bounded) |
-| WP11 | Existing capability maturity and J2 gaps | `PASS_WITH_LIMITATIONS` (Owner review required) |
+| WP11 | Existing capability maturity and J2 gaps | `PASS_WITH_LIMITATIONS` (Owner-approved bounded scope) |
 | WP12 | Large-scale and 1M-DOF readiness | `PASS_WITH_LIMITATIONS` |
 | WP13 | Release truth and golden numerical baseline | `PASS` |
 | WP14 | Large-scale execution contract | `PASS` |
@@ -98,6 +100,7 @@ in [`0_2_7_progress_tracker.md`](0_2_7_progress_tracker.md).
 | WP17 | PETSc/MPI and large sparse path | `PASS_WITH_LIMITATIONS` |
 | WP18 | 3M DOF ladder Bronze/Silver/Gold | `PASS_WITH_LIMITATIONS` |
 | WP19 | Adversarial robustness and HEX8 diagnostic | `PASS_WITH_LIMITATIONS` |
+| WP20 | Residual J2 and external V&V closure | `PASS_WITH_LIMITATIONS` (bounded existing scope) |
 | Foundation WP13-WP14 proposal | Superseded by the Level-Up namespace | `PRESERVED_HISTORY` |
 
 ## Reading rules

@@ -4,7 +4,7 @@
   "release": "0.2.7a0",
   "theme": "Reproducible Large-Model Solving and Numerical Trust",
   "status": "CLOSED_ACCEPT_WITH_CONSOLIDATION",
-  "decision": "Gate Level-Up is accepted as the official consolidation scope; WP13 and WP14 are evidence-complete, WP15 is PASS_WITH_LIMITATIONS on controlled subscale evidence, WP16 is PASS after the official PETSc retry under the frozen acceptance contract, WP17 is PASS_WITH_LIMITATIONS after its PETSc/MPI closure, WP18 is PASS_WITH_LIMITATIONS after the Bronze/Silver ladder with Gold unattempted, and WP19 is PASS_WITH_LIMITATIONS on bounded adversarial and HEX8 diagnostic evidence; WP20-WP22 remain planned.",
+  "decision": "Gate Level-Up is accepted as the official consolidation scope; WP13 and WP14 are evidence-complete, WP15 is PASS_WITH_LIMITATIONS on controlled subscale evidence, WP16 is PASS after the official PETSc retry under the frozen acceptance contract, WP17 is PASS_WITH_LIMITATIONS after its PETSc/MPI closure, WP18 is PASS_WITH_LIMITATIONS after the Bronze/Silver ladder with Gold unattempted, WP19 is PASS_WITH_LIMITATIONS on bounded adversarial and HEX8 diagnostic evidence, and WP20 is PASS_WITH_LIMITATIONS after Owner closure of the bounded J2 scope; WP21-WP22 remain planned.",
   "source_snapshot": "72888ea63241a4445f6600aa6c2b882401f85ef1",
   "source_branch": "codex/0.2.7-foundation",
   "parent_release": {
@@ -18,7 +18,7 @@
     "current_progress_percent": 82,
     "level_up_extension_percent": 55,
     "weights_total_percent": 100,
-    "accounting_note": "The historical block, acquired status and active progress are governance views and are not additive. WP13-WP22 weights sum to the 55 percent extension; WP13 and WP14 are PASS, WP15 is PASS_WITH_LIMITATIONS, WP16 is PASS, WP17 is PASS_WITH_LIMITATIONS, WP18 is PASS_WITH_LIMITATIONS with Silver complete and Gold unattempted, WP19 is PASS_WITH_LIMITATIONS on bounded adversarial and HEX8 diagnostic evidence, and WP20-WP22 remain planned."
+    "accounting_note": "The historical block, acquired status and active progress are governance views and are not additive. WP13-WP22 weights sum to the 55 percent extension; WP13 and WP14 are PASS, WP15 is PASS_WITH_LIMITATIONS, WP16 is PASS, WP17 is PASS_WITH_LIMITATIONS, WP18 is PASS_WITH_LIMITATIONS with Silver complete and Gold unattempted, WP19 is PASS_WITH_LIMITATIONS on bounded adversarial and HEX8 diagnostic evidence, WP20 is PASS_WITH_LIMITATIONS with the existing J2 maturity kept bounded, and WP21-WP22 remain planned."
   },
   "historical_scope": {
     "work_packages": ["WP01", "WP02", "WP03", "WP04", "WP05", "WP06", "WP07", "WP08", "WP09", "WP10", "WP11", "WP12"],
@@ -118,7 +118,10 @@
       "title": "Residual J2 and external V&V closure",
       "weight_percent": 3,
       "priority": "SHOULD",
-      "status": "PLANNED",
+      "status": "PASS_WITH_LIMITATIONS",
+      "evidence": ["qualification/0_2_7/wp20_state.json", "qualification/0_2_7/wp11_j2_evidence.json", "qualification/0_2_6/g06_depth_evidence.json", "docs/verification/0_2_7/0_2_7_wp20_j2_closeout.md", "tests/unit/test_wp20_j2_closure.py"],
+      "owner_decision": "OWNER_APPROVED_BOUNDED_KEEP_EXISTING_SCOPE",
+      "limitations": ["no universal structural increment-independence threshold", "tangent symmetry diagnostic only", "modified Newton non-convergence remains diagnostic", "finite-kinematic J2 remains experimental/not qualified", "external evidence is reused constitutive evidence and no new structural campaign is claimed"],
       "pass_criteria": ["increment, tangent and residual gaps are characterized on the existing bounded J2 scope", "comparable external evidence is reproducible", "finite-kinematic J2 remains outside qualification"],
       "stop_conditions": ["post-result tolerance retuning", "unexplained cross-family drift"]
     },
