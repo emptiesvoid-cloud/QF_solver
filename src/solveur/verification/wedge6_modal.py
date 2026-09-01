@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import json
+import hashlib
 from pathlib import Path
+import shutil
 import subprocess
 from typing import Any
 
@@ -29,6 +31,9 @@ from solveur.verification.v2 import (
 
 ROOT = Path(__file__).resolve().parents[3]
 CATALOG = ROOT / "qualification" / "0_2_7" / "vnv_v2" / "wp10_cases.json"
+CODE_ASTER_MODAL_DECK_DIR = ROOT / "qualification" / "0_2_7" / "external_oracles" / "wedge6" / "decks" / "code_aster"
+CODE_ASTER_MODAL_COMM = CODE_ASTER_MODAL_DECK_DIR / "WP10-A-penta6-modal.comm"
+CODE_ASTER_MODAL_MAIL = CODE_ASTER_MODAL_DECK_DIR / "WP10-A-penta6-modal.mail"
 MATERIAL_DATA = {
     "steel": {
         "type": "isotropic_3d",
@@ -48,6 +53,10 @@ def source_sha() -> str:
     """Return the exact QF revision used to produce the campaign."""
 
     return subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
+
+
+def _file_sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def prism_chain(
@@ -242,9 +251,10 @@ def run_code_aster_modal(output_dir: Path) -> dict[str, Any]:
 
     external_dir = output_dir / "code_aster_modal"
     external_dir.mkdir(parents=True, exist_ok=True)
-    nodes, elements = prism_chain()
-    (external_dir / "wedge6_modal.mail").write_text(_aster_mesh(nodes, elements), encoding="ascii")
-    (external_dir / "wedge6_modal.comm").write_text(_aster_comm(), encoding="utf-8")
+    if not CODE_ASTER_MODAL_COMM.is_file() or not CODE_ASTER_MODAL_MAIL.is_file():
+        raise ExternalUnavailableError("The committed Code_Aster WP10 modal deck is missing.")
+    shutil.copyfile(CODE_ASTER_MODAL_MAIL, external_dir / "wedge6_modal.mail")
+    shutil.copyfile(CODE_ASTER_MODAL_COMM, external_dir / "wedge6_modal.comm")
     try:
         run_code_aster(external_dir, "wedge6_modal")
     except InfrastructureError as exc:
@@ -273,7 +283,11 @@ def run_code_aster_modal(output_dir: Path) -> dict[str, Any]:
         "formulation_compatible": True,
         "primary_observable": "frequency_hz",
         "mode_shape_comparison": "NOT_RUN; PENTA6/QF displacement mapping not required for this frequency-only bounded check",
-        "deck": "qualification/0_2_7/vnv_v2/wp10_evidence.json:code_aster_modal",
+        "deck": "qualification/0_2_7/external_oracles/wedge6/decks/code_aster/WP10-A-penta6-modal",
+        "deck_digests": {
+            "comm": _file_sha256(CODE_ASTER_MODAL_COMM),
+            "mail": _file_sha256(CODE_ASTER_MODAL_MAIL),
+        },
     }
 
 
