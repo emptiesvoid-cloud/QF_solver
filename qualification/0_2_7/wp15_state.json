@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "work_package": "WP15",
+  "gate": "LUP-027-G15",
+  "title": "Matrix-free TET4 V2, SPD and preconditioning",
+  "status": "PASS_WITH_LIMITATIONS",
+  "start_sha": "2a12f04479eb085137c1d586c99bcf191e702ccc",
+  "execution_source_sha": "6e20bc53d175e5b4eac37a1e76f13266998ce074",
+  "evidence": "qualification/0_2_7/wp15_matrix_free_benchmark.json",
+  "scope": {
+    "element": "TET4",
+    "route": "structured homogeneous six-tet block",
+    "backend": "SciPy LinearOperator + CG",
+    "levels": [81, 375, 2187, 14739],
+    "wp16_claim": false
+  },
+  "optimization": {
+    "kept": [
+      "private full/internal/preconditioner workspace reuse in StructuredBlockOperator"
+    ],
+    "reverted": [
+      "np.add.at scatter: slower or equivalent in controlled subscale measurements"
+    ],
+    "measured_effect": "Python allocation peak per matvec decreased 15.4 percent at 14739 DOF; no global solve speed-up claim is made because timing was neutral-to-slower across the sweep."
+  },
+  "spd_contract": {
+    "method": "assembled-equivalence and deterministic bilinear/quadratic checks on constrained free space",
+    "max_operator_action_relative_error": 1.2497106941823296e-14,
+    "max_displacement_relative_error": 3.450267668341549e-13,
+    "max_energy_relative_error": 7.97001539407271e-14,
+    "policy": "CG is used only for the homogeneous structured TET4 route covered by this evidence; no universal SPD claim."
+  },
+  "preconditioner": {
+    "selected": "nodal_block_jacobi",
+    "alternative_characterized": "diagonal_jacobi",
+    "level_14739": {
+      "nodal_block_jacobi": {"iterations": 240, "seconds": 0.5930835999897681},
+      "diagonal_jacobi": {"iterations": 245, "seconds": 0.47146720002638176}
+    },
+    "decision": "Keep nodal block-Jacobi as the WP14-compatible selected route; diagonal-Jacobi is a faster but higher-iteration candidate requiring broader evidence before default promotion."
+  },
+  "acceptance": {
+    "subscale_equivalence": "PASS",
+    "no_dense_conversion": "PASS",
+    "finite_residual_equilibrium_energy": "PASS",
+    "deterministic_replay": "PASS",
+    "ready_for_wp16_attempt": true,
+    "one_million_dof_qualified": false,
+    "wp14_tolerances_changed": false
+  },
+  "test_policy": {
+    "t0_t1": "PASS",
+    "t2": "PASS_TARGETED_SOLID_AND_LARGE_ROUTE",
+    "full_regression_run": false
+  },
+  "artifact_classification": "CONTROLLED_PROOF"
+}

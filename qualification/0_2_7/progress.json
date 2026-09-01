@@ -89,7 +89,7 @@
   "level_up_work_packages": [
     {"id": "WP13", "gate": "LUP-027-G13", "status": "PASS", "evidence_head": "qualification/0_2_7/golden/evidence.json"},
     {"id": "WP14", "gate": "LUP-027-G14", "status": "PASS", "start_sha": "ee1513808f5190db116ccaddc31fcd25573c9631", "evidence_head": "qualification/0_2_7/wp14_execution_contract.json", "state": "qualification/0_2_7/wp14_state.json", "heavy_benchmark_run": false},
-    {"id": "WP15", "gate": "LUP-027-G15", "status": "NOT_STARTED", "evidence_head": null}
+    {"id": "WP15", "gate": "LUP-027-G15", "status": "PASS_WITH_LIMITATIONS", "start_sha": "2a12f04479eb085137c1d586c99bcf191e702ccc", "evidence_head": "6e20bc53d175e5b4eac37a1e76f13266998ce074", "state": "qualification/0_2_7/wp15_state.json", "benchmark": "qualification/0_2_7/wp15_matrix_free_benchmark.json", "owner_decision": "subscale equivalence PASS; ready for WP16 attempt; no 1M claim"}
   ],
   "level_up": {
     "plan": "qualification/0_2_7/level_up_plan.json",
@@ -98,8 +98,8 @@
     "current_work_package": "WP15",
     "work_packages": ["WP13", "WP14", "WP15", "WP16", "WP17", "WP18", "WP19", "WP20", "WP21", "WP22"],
     "historical_completed_block_percent": 45,
-    "current_acquired_percent": 50,
-    "current_progress_percent": 50,
+    "current_acquired_percent": 60,
+    "current_progress_percent": 60,
     "weights_total_percent": 100,
     "wp16_release_blocker": true,
     "wp18_mandatory": true,
