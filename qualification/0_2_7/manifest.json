@@ -203,7 +203,21 @@
     "qualification/0_2_7/wp14_state.json",
     "scripts/validate_wp14_contract.py",
     "tests/unit/test_wp14_contract.py",
-    "docs/verification/0_2_7/0_2_7_wp14_large_scale_contract.md"
+    "docs/verification/0_2_7/0_2_7_wp14_large_scale_contract.md",
+    "qualification/0_2_7/wp17_state.json",
+    "qualification/0_2_7/wp17_runtime/wp17_probe.json",
+    "docs/verification/0_2_7/0_2_7_wp17_solver_stack.md",
+    "tests/unit/test_wp17_solver_stack.py",
+    "qualification/0_2_7/wp17r_state.json",
+    "qualification/0_2_7/wp17_runtime/wp17r_summary.json",
+    "qualification/0_2_7/wp17_runtime/wp17r_run1.json",
+    "qualification/0_2_7/wp17_runtime/wp17r_run2.json",
+    "qualification/0_2_7/wp17_runtime/wp17r_run1_audit.json",
+    "qualification/0_2_7/wp17_runtime/wp17r_run2_audit.json",
+    "tools/containers/large/wp17r.Dockerfile",
+    "scripts/run_wp17r_petsc_remediation.py",
+    "tests/unit/test_wp17r_petsc_remediation.py",
+    "docs/verification/0_2_7/0_2_7_wp17r_petsc_remediation.md"
   ],
   "status_rule": "A work package is PASS only when its declared evidence is recorded; WP05 records external deck preflight, WP06 records mesh-quality diagnostics, WP07 records an experimental WEDGE6 elemental kernel without creating a public qualification or universal quality cutoff, WP09 records bounded robustness evidence and explicit external outcomes, WP09-R records a reproducible headless Code_Aster oracle without promoting WEDGE6, WP10 records bounded consistent-mass modal qualification for its declared first-three-mode refinement and same-mesh external MAC scope without transferring static maturity, WP12 records bounded large-scale readiness evidence without creating a universal 1M-DOF claim, WP13 records release truth and a golden baseline, and WP14 records a frozen large-scale execution contract without creating a 1M/3M solve claim."
 }

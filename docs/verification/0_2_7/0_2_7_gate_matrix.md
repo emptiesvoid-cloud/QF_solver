@@ -82,17 +82,18 @@ The evidence is recorded in
 accepted, but no WP16-WP22 result is implied by this portfolio decision.
 WP13 is `PASS` on its controlled golden-baseline evidence. WP14 is `PASS` on
 its frozen execution contract; WP15 is `PASS_WITH_LIMITATIONS` on controlled
-subscale evidence, while WP16-WP22 remain `PLANNED` until their declared evidence
-is executed. The active theme is **Reproducible Large-Model Solving and
-Numerical Trust**.
+subscale evidence; WP16 is `FAIL` and remains the release blocker; and WP17 is
+`PARTIAL` after the pinned PETSc/MPI remediation checkpoint. WP18-WP22 remain
+`PLANNED` until their declared evidence is executed. The active theme is
+**Reproducible Large-Model Solving and Numerical Trust**.
 
 | Level-Up gate | Work package | Status | Weight | Required interpretation |
 | --- | --- | --- | ---: | --- |
 | `LUP-027-G13` | WP13 release truth and golden baseline | `PASS` | 4% | distinct SHA roles and golden baseline |
 | `LUP-027-G14` | WP14 large-scale execution contract | `PASS` | 5% | frozen topology, resource and execution contract; no solve claim |
 | `LUP-027-G15` | WP15 matrix-free TET4 V2 | `PASS_WITH_LIMITATIONS` | 10% | SPD, preconditioning and assembled subscale; no WP16/1M claim |
-| `LUP-027-G16` | WP16 true 1M DOF qualification | `PLANNED` | 10% | release blocker; full iterative FEM solve |
-| `LUP-027-G17` | WP17 PETSc/MPI and large sparse path | `PLANNED` | 5% | reproducible backend/environment contract |
+| `LUP-027-G16` | WP16 true 1M DOF qualification | `FAIL` | 10% | release blocker; completed solve misses frozen equilibrium |
+| `LUP-027-G17` | WP17 PETSc/MPI and large sparse path | `PARTIAL` | 5% | reproducible pinned diagnostic route; no qualification or tolerance change |
 | `LUP-027-G18` | WP18 3M Bronze/Silver/Gold ladder | `PLANNED` | 7% | Bronze is not a solve claim; Silver is main target |
 | `LUP-027-G19` | WP19 adversarial robustness and HEX8 diagnostic | `PLANNED` | 5% | fail-closed diagnostics without promotion |
 | `LUP-027-G20` | WP20 residual J2 and external V&V closure | `PLANNED` | 3% | no post-result retuning |
