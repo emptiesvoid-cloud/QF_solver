@@ -9,12 +9,14 @@ from __future__ import annotations
 
 import argparse
 from datetime import datetime, timezone
+import hashlib
 import json
 from pathlib import Path
 import re
 import shutil
 import subprocess
 import tempfile
+import time
 from typing import Any
 
 import numpy as np
@@ -28,10 +30,11 @@ from solveur.verification.v2 import ExecutionOutput, VnvRunner, load_cases
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG = ROOT / "qualification/0_2_7/vnv_v2/wp09_cases.json"
 CALCULIX_IMAGE = "qf-solver/calculix-nafems13h:2.20"
-CODE_ASTER_IMAGE = "simvia/code_aster:18.1.0"
+CODE_ASTER_HEADLESS_IMAGE = "qf-solver/code-aster-headless:18.1.0"
 CALCULIX_IMAGE_DIGEST = "sha256:d9b16f92e61d0dc6fbe857549306c1efc5155c7bdc309c13c6a6f175193d1faf"
 CODE_ASTER_IMAGE_DIGEST = "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435"
-CODE_ASTER_RUNNER = "/opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/bin/run_aster"
+CODE_ASTER_HEADLESS_IMAGE_DIGEST = "sha256:df70aa569db65f952cdfd4b1391acac4819d0afa46d0788ee756683b87fac579"
+CODE_ASTER_CONTRACT = ROOT / "qualification/0_2_7/external_oracles/wedge6/docker/headless_contract.json"
 NODES = np.asarray(
     ((0.0, 0.0, 0.0), (1.0, 0.0, 0.0), (0.0, 1.0, 0.0),
      (0.0, 0.0, 1.0), (1.0, 0.0, 1.0), (0.0, 1.0, 1.0)),
@@ -236,6 +239,21 @@ def _relative_error(left: Any, right: Any) -> float | None:
     return float(np.linalg.norm(a - b) / scale)
 
 
+def _sha256_bytes(value: bytes) -> str:
+    return hashlib.sha256(value).hexdigest()
+
+
+def _docker_image_id(image: str) -> str | None:
+    try:
+        return subprocess.check_output(
+            ["docker", "image", "inspect", "--format", "{{.Id}}", image],
+            text=True,
+            stderr=subprocess.DEVNULL,
+        ).strip()
+    except (FileNotFoundError, subprocess.CalledProcessError):
+        return None
+
+
 def _calculix_affine(qf: dict[str, Any]) -> dict[str, Any]:
     source_deck = ROOT / "qualification/0_2_7/external_oracles/wedge6/decks/calculix/WP05-A-affine-patch.inp"
     with tempfile.TemporaryDirectory() as directory:
@@ -280,20 +298,113 @@ def _calculix_affine(qf: dict[str, Any]) -> dict[str, Any]:
         }
 
 
-def _run_code_aster_preflight() -> dict[str, Any]:
+def _run_code_aster_preflight(qf: dict[str, Any]) -> dict[str, Any]:
     source_dir = ROOT / "qualification/0_2_7/external_oracles/wedge6/decks/code_aster"
+    image_id = _docker_image_id(CODE_ASTER_HEADLESS_IMAGE)
+    if image_id is None:
+        return {
+            "state": "UNAVAILABLE",
+            "solver": "Code_Aster 18.1.0 / PENTA6",
+            "image": CODE_ASTER_HEADLESS_IMAGE,
+            "base_image_digest": CODE_ASTER_IMAGE_DIGEST,
+            "reason": "The reproducible derived Docker image is not available locally.",
+        }
+    if image_id != CODE_ASTER_HEADLESS_IMAGE_DIGEST:
+        return {
+            "state": "UNAVAILABLE",
+            "solver": "Code_Aster 18.1.0 / PENTA6",
+            "image": CODE_ASTER_HEADLESS_IMAGE,
+            "base_image_digest": CODE_ASTER_IMAGE_DIGEST,
+            "image_id": image_id,
+            "reason": "The local image digest does not match the pinned WP09-R headless contract.",
+        }
     with tempfile.TemporaryDirectory() as directory:
         work = Path(directory)
-        for source in (source_dir / "WP05-A-penta6-affine.comm", source_dir / "WP05-A-penta6-affine.mail"):
+        for source in (
+            source_dir / "WP09R-A-penta6-affine.comm",
+            source_dir / "WP09R-A-penta6-affine.mail",
+            source_dir / "WP09R-A-penta6-affine.export",
+        ):
             shutil.copy2(source, work / source.name)
-        command = ["docker", "run", "--rm", "-v", f"{work}:/work", "-w", "/work", "--entrypoint", CODE_ASTER_RUNNER, CODE_ASTER_IMAGE, "WP05-A-penta6-affine.comm", "--no-mpi"]
-        completed = subprocess.run(command, capture_output=True, text=True, timeout=90, check=False)
-        if completed.returncode == 0:
-            return {"state": "PASS", "solver": "Code_Aster 18.1.0 / PENTA6", "image_digest": CODE_ASTER_IMAGE_DIGEST, "verdict": "PRECHECK_ONLY"}
-        return {"state": "UNAVAILABLE", "solver": "Code_Aster 18.1.0 / PENTA6", "image_digest": CODE_ASTER_IMAGE_DIGEST, "reason": (completed.stdout + completed.stderr).strip()[-1200:]}
+        command = [
+            "docker", "run", "--rm", "--mount", f"type=bind,source={work},target=/work", "-w", "/work",
+            CODE_ASTER_HEADLESS_IMAGE, "WP09R-A-penta6-affine.export", "--no-mpi",
+        ]
+        started = time.perf_counter()
+        try:
+            completed = subprocess.run(command, capture_output=True, text=False, timeout=120, check=False)
+        except (FileNotFoundError, subprocess.TimeoutExpired) as exc:
+            return {
+                "state": "UNAVAILABLE",
+                "solver": "Code_Aster 18.1.0 / PENTA6",
+                "image": CODE_ASTER_HEADLESS_IMAGE,
+                "image_digest": image_id,
+                "base_image_digest": CODE_ASTER_IMAGE_DIGEST,
+                "reason": f"Headless Docker execution unavailable: {exc}",
+            }
+        runtime = time.perf_counter() - started
+        stdout = (completed.stdout or b"").decode("utf-8", errors="replace")
+        stderr = (completed.stderr or b"").decode("utf-8", errors="replace")
+        log = (stdout + stderr).encode("utf-8")
+        result_path = work / "WP09R-A-penta6-affine.json"
+        if completed.returncode != 0 or not result_path.is_file():
+            return {
+                "state": "FAIL",
+                "solver": "Code_Aster 18.1.0 / PENTA6",
+                "image": CODE_ASTER_HEADLESS_IMAGE,
+                "image_digest": image_id,
+                "base_image_digest": CODE_ASTER_IMAGE_DIGEST,
+                "exit_code": completed.returncode,
+                "runtime_seconds": runtime,
+                "stdout_stderr_digest": _sha256_bytes(log),
+                "reason": (stdout + stderr).strip()[-1600:],
+                "verdict": "FAIL_EXTERNAL",
+            }
+        raw = json.loads(result_path.read_text(encoding="utf-8"))
+        external_result = {
+            "displacements": np.asarray(raw["displacement"], dtype=float).reshape(-1).tolist(),
+            "total_reaction": [float(value) for value in raw["total_reaction"]],
+            "strain_energy": float(raw["strain_energy"]),
+        }
+        relative_error = {
+            "displacement": _relative_error(qf["displacements"], external_result["displacements"]),
+            "total_reaction": _relative_error(qf["total_reaction"], external_result["total_reaction"]),
+            "strain_energy": _relative_error(qf["strain_energy"], external_result["strain_energy"]),
+        }
+        tolerance = 1.0e-6
+        within_tolerance = all(value is not None and value <= tolerance for value in relative_error.values())
+        result_bytes = result_path.read_bytes()
+        return {
+            "state": "PASS" if within_tolerance else "FAIL",
+            "solver": "Code_Aster 18.1.0 / PENTA6",
+            "image": CODE_ASTER_HEADLESS_IMAGE,
+            "image_digest": image_id,
+            "base_image_digest": CODE_ASTER_IMAGE_DIGEST,
+            "case_id": "WP09-CODE_ASTER-AFFINE",
+            "qf_result": qf,
+            "external_result": external_result,
+            "relative_error": relative_error,
+            "tolerance": tolerance,
+            "tolerance_source": "WP05 AFFINE_SAME_MESH predeclared candidate; OWNER_REVIEW_REQUIRED",
+            "tolerance_approval_state": "OWNER_REVIEW_REQUIRED",
+            "formulation_compatible": True,
+            "comparison_status": "PASS_EXTERNAL_CORRELATION_BOUNDED" if within_tolerance else "FAIL_EXTERNAL",
+            "comparison_reason": "Same six-node prism, node groups, nodal load, material and primary observables; QF and Code_Aster use the controlled affine deck contract.",
+            "deck_digests": {
+                name: _sha256_bytes((work / name).read_bytes())
+                for name in ("WP09R-A-penta6-affine.comm", "WP09R-A-penta6-affine.mail", "WP09R-A-penta6-affine.export")
+            },
+            "output_digest": _sha256_bytes(result_bytes),
+            "stdout_stderr_digest": _sha256_bytes(log),
+            "runtime_seconds": runtime,
+            "exit_code": completed.returncode,
+            "verdict": "PASS_EXTERNAL_CORRELATION_BOUNDED" if within_tolerance else "FAIL_EXTERNAL",
+            "raw_output_contract": str(CODE_ASTER_CONTRACT.relative_to(ROOT)).replace("\\", "/"),
+        }
 
 
 def run(output: Path) -> dict[str, Any]:
+    output.parent.mkdir(parents=True, exist_ok=True)
     source_sha = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
     cases = load_cases(CATALOG)
     runner = VnvRunner(source_sha=source_sha, environment={"runner": "run_wp09_wedge6", "catalog": CATALOG.name})
@@ -318,7 +429,24 @@ def run(output: Path) -> dict[str, Any]:
         "total_reaction": [float(value) for value in affine_audit.get("reaction_resultant", ())],
         "strain_energy": float(sum(float(item.get("strain_energy", 0.0)) for item in affine_result.element_results)),
     }
-    external = {"calculix_c3d6": _calculix_affine(affine_qf), "code_aster_penta6": _run_code_aster_preflight()}
+    external = {"calculix_c3d6": _calculix_affine(affine_qf), "code_aster_penta6": _run_code_aster_preflight(affine_qf)}
+    external["code_aster_penta6"]["source_sha"] = source_sha
+    external["code_aster_penta6"]["contract"] = str(CODE_ASTER_CONTRACT.relative_to(ROOT)).replace("\\", "/")
+    external_artifact = {
+        "schema_version": 1,
+        "work_package": "WP09-R",
+        "gate": "027-G09",
+        "source_sha": source_sha,
+        "case_id": "WP09-CODE_ASTER-AFFINE",
+        "oracle": external["code_aster_penta6"],
+        "primary_observables": ["displacement", "total_reaction", "strain_energy"],
+        "artifact_classification": "CONTROLLED_PROOF",
+        "verdict_boundary": "This is one affine same-mesh external correlation; it does not promote WEDGE6 public maturity.",
+    }
+    external_artifact_path = output.parent / "wp09r_code_aster_evidence.json"
+    external_artifact_path.write_bytes(
+        json.dumps(external_artifact, ensure_ascii=True, sort_keys=True, separators=(",", ":"), indent=2).encode("utf-8")
+    )
     unexpected = [item for item in records if item["verdict"] not in {"PASS", "EXPECTED_FAILURE_PASS"}]
     summary = {
         "schema_version": 1,
@@ -327,6 +455,7 @@ def run(output: Path) -> dict[str, Any]:
         "source_sha": source_sha,
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "contract_refs": ["qualification/0_2_7/external_oracles/wedge6/contract.json", "qualification/0_2_7/external_oracles/wedge6/mapping.json"],
+        "wp09r_external_evidence": str(external_artifact_path.relative_to(ROOT)).replace("\\", "/") if external_artifact_path.is_relative_to(ROOT) else external_artifact_path.name,
         "policy": {
             "primary_observables": ["displacement", "total_reaction", "strain_energy"],
             "affine_same_mesh_relative_tolerance": 1.0e-6,
@@ -347,7 +476,6 @@ def run(output: Path) -> dict[str, Any]:
         },
         "artifact_classification": "CONTROLLED_PROOF",
     }
-    output.parent.mkdir(parents=True, exist_ok=True)
     output.write_bytes(json.dumps(summary, ensure_ascii=True, sort_keys=True, separators=(",", ":"), indent=2).encode("utf-8"))
     if unexpected:
         raise RuntimeError("WP09 unexpected failures: " + ", ".join(item["case_id"] for item in unexpected))

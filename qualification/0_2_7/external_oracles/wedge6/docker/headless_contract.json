@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "contract_id": "WP09R-CODEASTER-HEADLESS-001",
+  "work_package": "WP09-R",
+  "status": "CONTROLLED_REPRODUCIBLE",
+  "base_image": "simvia/code_aster:18.1.0",
+  "base_image_digest": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+  "derived_image": "qf-solver/code-aster-headless:18.1.0",
+  "dockerfile": "qualification/0_2_7/external_oracles/wedge6/docker/Dockerfile",
+  "code_aster_version": "18.1.0",
+  "python_version": "3.11.14",
+  "mpi4py_version": "3.1.5",
+  "numpy_version": "1.26.4",
+  "spack_view": "/opt/spack/var/spack/environments/simvia_env/.spack-env/._view/nmzlyspcgasoeembakyuu32kyediheiv",
+  "environment": {
+    "PYTHONPATH": "<spack_view>/lib/python3.11/site-packages",
+    "LD_LIBRARY_PATH": "<spack_view>/lib:<spack_view>/lib64"
+  },
+  "invocation": [
+    "docker", "run", "--rm", "-v", "<work>:/work", "-w", "/work",
+    "qf-solver/code-aster-headless:18.1.0", "<case>.export", "--no-mpi"
+  ],
+  "execution_model": {
+    "headless": true,
+    "launcher_processes": 1,
+    "no_mpi_relaunch": true,
+    "mpi4py_import_required": true,
+    "mpi4py_comm_world_size": 1
+  },
+  "root_cause": "The pinned image contains mpi4py in its Spack environment view, but run_aster's profile exposes only the Code_Aster site-packages directory. --no-mpi disables an mpiexec relaunch; it does not remove the unconditional run_aster command_files.py mpi4py import.",
+  "remediation": "Expose the existing pinned Spack view through PYTHONPATH and LD_LIBRARY_PATH in a derived image; no host package installation and no GUI are required.",
+  "smoke_contract": [
+    "python3 -c 'from mpi4py import MPI; import numpy; print(MPI.COMM_WORLD.Get_size())'",
+    "run_aster --version",
+    "run_aster <minimal.export> --no-mpi"
+  ],
+  "artifact_policy": {
+    "raw_output": "CONTROLLED_PROOF",
+    "derived_comparison": "CONTROLLED_PROOF",
+    "no_secrets": true,
+    "no_host_changes": true,
+    "gui_used": false
+  },
+  "source_sha": "bbcef384ebc6f06301d7529a5d3dd34db6ee19cd"
+}

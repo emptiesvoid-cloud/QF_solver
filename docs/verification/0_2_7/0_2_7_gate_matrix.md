@@ -45,7 +45,9 @@ limited to the elemental technical route. The descriptor reports
 `EXPERIMENTAL_ROUTE`; WP08 provides a bounded static user workflow, and WP09
 adds controlled robustness evidence without creating a public qualification.
 CalculiX C3D6 is explicitly non-formulation-compatible with the QF production
-quadrature, while Code_Aster PENTA6 is unavailable in the pinned image. WP10
+quadrature. WP09-R repairs the headless Code_Aster path and records one
+bounded affine PENTA6 correlation through a derived image pinned to the base
+image digest. WP10
 modal evidence remains required for its separate claims. G13 may remain open
 or deferred without blocking a bounded core release when research routes are
 explicitly excluded.
