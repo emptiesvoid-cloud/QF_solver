@@ -154,6 +154,31 @@ correlation is claimed. WEDGE6 remains
 `EXPERIMENTAL` and public qualification remains `DEFERRED`; WP10 may proceed
 under its separate modal contract.
 
+## WP09-FINAL external qualification closure
+
+WP09-FINAL is recorded as `PASS_WITH_LIMITATIONS` for a bounded external
+Code_Aster PENTA6 campaign. The run is sourced from
+`4b2fcdc9ed51821b05b52851912be3ebbe764b14` and contains 12 deterministic cases:
+affine tension/compression, shear, bending, TRI3 pressure, QUAD4 pressure,
+prescribed displacement, a conforming multi-element mesh, a declared
+affine-skew prism and refinement levels 1, 2 and 4. The headless derived image
+is Code_Aster 18.1.0 with one launcher process and no GUI.
+
+Displacement, total reaction and strain energy are the primary observables.
+All 12 cases pass the predeclared comparisons; maximum relative errors are
+`2.93e-15`, `3.60e-15` and `2.48e-15`. The `1e-6` affine candidate and the
+`1e-5` refinement/distortion candidates were fixed before execution and remain
+`OWNER_REVIEW_REQUIRED`; no post-result retuning occurred. CalculiX C3D6 is
+`NOT_COMPARABLE` under the controlled integration convention and supplies no
+qualification verdict.
+
+This closes the WP09 external evidence gap without promoting WEDGE6. The
+public maturity remains `EXPERIMENTAL` and public qualification remains
+`DEFERRED`. The evidence is bounded to the declared homogeneous-isotropic,
+small-strain, linear-static WEDGE6/PENTA6 slice and does not qualify modal,
+dynamic, nonlinear, J2, TL, contact, stress-extrapolation or general physical
+validation routes. The prior 22-case internal WP09 corpus remains preserved.
+
 ## WP10 modal evidence decision
 
 WP10 is `PASS_WITH_LIMITATIONS` for independent technical evidence of the
