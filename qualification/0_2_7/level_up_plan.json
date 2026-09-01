@@ -63,10 +63,13 @@
       "title": "True 1M DOF qualification",
       "weight_percent": 10,
       "priority": "MUST",
-      "status": "PLANNED",
+      "status": "FAIL",
       "release_blocker": true,
       "pass_criteria": ["at least 1000000 real FEM DOF", "public TET4 route with loads, BC and reactions", "complete iterative solve without timeout or resource-limited verdict", "valid residual, finite displacement, equilibrium and energy", "matrix-free and assembled subscale comparison", "two deterministic replays", "CPU/RAM/threads/backend/preconditioner/versions and digests archived"],
-      "stop_conditions": ["resource-limited or incomplete solve", "missing reactions or equilibrium", "claim based only on assembly or preflight"]
+      "stop_conditions": ["resource-limited or incomplete solve", "missing reactions or equilibrium", "claim based only on assembly or preflight"],
+      "execution_source_sha": "15534b87387c3bd73c73971703e22bf275ffc8cc",
+      "evidence": ["qualification/0_2_7/wp16_state.json", "qualification/0_2_7/wp16_runtime/wp16_run1.json", "qualification/0_2_7/wp16_runtime/wp16_subscale_current.json"],
+      "owner_decision": "FAIL: frozen equilibrium criterion exceeded; no tolerance or solver change permitted"
     },
     {
       "id": "WP17",

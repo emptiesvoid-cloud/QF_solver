@@ -1,0 +1,249 @@
+{
+  "acceptance": {
+    "checks": {
+      "energy": true,
+      "equilibrium": false,
+      "finite": true,
+      "residual": true,
+      "spd_probe": true
+    },
+    "limits": {
+      "displacement": {
+        "condition": "all values finite",
+        "observable": "finite displacement vector and finite norm"
+      },
+      "energy": {
+        "observable": "0.5*u^T*K*u versus u^T*f for constrained linear system",
+        "relative_max": 1e-08
+      },
+      "equilibrium": {
+        "max": 1e-08,
+        "normalization": "max(||f||_2, 1)",
+        "observable": "reaction plus applied load balance"
+      },
+      "matrix_free_assembled_subscale": {
+        "comparison_rule": "same generated input, same physical model and explicit backend metadata",
+        "displacement_relative_l2_max": 1e-08,
+        "energy_relative_max": 1e-08,
+        "reaction_relative_max": 1e-08,
+        "residual_relative_max": 1e-08
+      },
+      "post_result_retuning": false,
+      "residual": {
+        "formula": "||K u - f||_2 / max(||f_free||_2, 1)",
+        "max": 1e-08,
+        "observable": "relative free residual"
+      },
+      "tolerances_status": "FROZEN_BEFORE_WP15_WP16"
+    },
+    "verdict": "FAIL"
+  },
+  "case_id": "WP16-TET4-STRUCTURED-BLOCK-1M-001",
+  "configuration": {
+    "atol": 0.0,
+    "backend": "matrix_free",
+    "chunk_size": 4096,
+    "max_iterations": 10000,
+    "preconditioner": "nodal_block_jacobi",
+    "random_seed": 0,
+    "rtol": 1e-08,
+    "solver": "CG"
+  },
+  "configuration_digest_sha256": "ab157a878a47b1db31daceab33393296a5a83e5907e3fcc19f47aa5155c06a5e",
+  "contract_id": "QF-027-WP14-LARGE-EXECUTION-001",
+  "contract_sha": "ee1513808f5190db116ccaddc31fcd25573c9631",
+  "displacement_norm": 0.001574254592960375,
+  "element_count": 1971054,
+  "energy_relative": 1.9194705874935984e-16,
+  "environment": {
+    "created_at_utc": "2026-09-01T12:05:06.347527Z",
+    "environment": {
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "PETSC_ARCH": null,
+      "PETSC_DIR": null,
+      "PYTHONHASHSEED": null
+    },
+    "metadata": {
+      "input_digest_sha256": "b65b1cd72a067551490ed5364beb1fcc2d7e55d07a9075f6f7b8899f535d7f92",
+      "kind": "WP16_true_1m_qualification",
+      "run_id": "run1",
+      "source_sha": "15534b87387c3bd73c73971703e22bf275ffc8cc"
+    },
+    "packages": {
+      "h5py": {
+        "available": true,
+        "origin": "__init__.py",
+        "version": "3.14.0"
+      },
+      "numpy": {
+        "available": true,
+        "origin": "__init__.py",
+        "version": "2.2.6"
+      },
+      "scipy": {
+        "available": true,
+        "origin": "__init__.py",
+        "version": "1.15.2"
+      }
+    },
+    "platform": {
+      "architecture": [
+        "64bit",
+        "WindowsPE"
+      ],
+      "machine": "AMD64",
+      "platform": "Windows-10-10.0.19045-SP0",
+      "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+      "release": "10",
+      "system": "Windows",
+      "version": "10.0.19045"
+    },
+    "process": {
+      "argv": [
+        "scripts/run_wp16_qualification.py",
+        "--run-id",
+        "run1",
+        "--model",
+        "qualification/0_2_7/wp16_runtime/wp16_reference.h5",
+        "--output",
+        "qualification/0_2_7/wp16_runtime"
+      ],
+      "cwd": ".",
+      "pid": 12212
+    },
+    "python": {
+      "build": [
+        "tags/v3.13.1:0671451",
+        "Dec  3 2024 19:06:28"
+      ],
+      "compiler": "MSC v.1942 64 bit (AMD64)",
+      "executable": "python.exe",
+      "implementation": "CPython",
+      "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+      "version_info": [
+        3,
+        13,
+        1,
+        "final",
+        0
+      ]
+    },
+    "report_schema_version": 1,
+    "solver": {
+      "name": "QF_solver",
+      "version": "0.2.6a0"
+    }
+  },
+  "equilibrium_relative": 3.819750810647995e-08,
+  "external_work": 4.627205154833285,
+  "failure_reason": "WP14 equilibrium_relative 3.819750810647995e-08 exceeds frozen maximum 1e-8; solver convergence/residual and energy remained within contract.",
+  "finite_outputs": true,
+  "fixed_dof": 14700,
+  "force_total_n": 999999.999999912,
+  "free_dof": 1014300,
+  "input_digest_sha256": "b65b1cd72a067551490ed5364beb1fcc2d7e55d07a9075f6f7b8899f535d7f92",
+  "input_path": "qualification/0_2_7/wp16_runtime/wp16_reference.h5",
+  "load_node_count": 4900,
+  "max_displacement": 5.301698913187682e-06,
+  "memory_after": {
+    "current_rss_bytes": null,
+    "peak_rss_bytes": null,
+    "source": "unavailable"
+  },
+  "memory_before": {
+    "current_rss_bytes": null,
+    "peak_rss_bytes": null,
+    "source": "unavailable"
+  },
+  "model_generator": "solveur.large.generator.generate_tet4_block",
+  "node_count": 343000,
+  "operator_memory_bytes": 318040224,
+  "output_digest_sha256": "be6729e5a49272e8cf0515a7460e81076b7903515897885f44498e41d9cff847",
+  "output_path": "wp16_run1_displacement.npy",
+  "peak_rss_bytes": 575700992,
+  "preflight": {
+    "backend": "matrix_free",
+    "checks": [
+      {
+        "detail": "h5py available",
+        "id": "DEP-H5PY",
+        "status": "PASS"
+      },
+      {
+        "detail": "mpi4py not required for selected backend",
+        "id": "DEP-MPI4PY",
+        "status": "PASS"
+      },
+      {
+        "detail": "petsc4py not required for selected backend",
+        "id": "DEP-PETSC4PY",
+        "status": "PASS"
+      },
+      {
+        "detail": "matrix_free selected for generated structured block",
+        "id": "BACKEND-SCALE",
+        "status": "PASS"
+      },
+      {
+        "detail": "free=106811387904 bytes",
+        "id": "DISK-FREE",
+        "status": "PASS"
+      },
+      {
+        "detail": "chunk_size=4096",
+        "id": "CHUNK-SIZE",
+        "status": "PASS"
+      },
+      {
+        "detail": "not applicable below 2000000 target dofs",
+        "id": "MULTI-MILLION-GATE",
+        "status": "PASS"
+      }
+    ],
+    "dimensions": {
+      "nx": 69,
+      "ny": 69,
+      "nz": 69
+    },
+    "memory_budget_bytes": null,
+    "sizing": {
+      "chunk_triplet_bytes_at_default_chunk": 14155776,
+      "displacement_bytes": 8232000,
+      "element_count": 1971054,
+      "model_arrays_bytes": 95306160,
+      "ndof": 1029000,
+      "node_count": 343000,
+      "petsc_rule_of_thumb_bytes": 2079218160,
+      "recommended_free_disk_bytes": 414152640,
+      "scipy_sparse_upper_bound_bytes": 6915500784
+    },
+    "status": "PASS",
+    "target_dofs": 1000000
+  },
+  "reference_force_total_n": 1000000.0,
+  "residual_relative": 9.822515730036343e-09,
+  "run_id": "run1",
+  "schema_version": 1,
+  "solver_info": {
+    "converged": true,
+    "iterations": 1052,
+    "method": "matrix_free_cg",
+    "preconditioner": "nodal_block_jacobi",
+    "relative_residual": 9.822515730036343e-09,
+    "residual_norm": 0.00014032165328623324
+  },
+  "source_sha": "15534b87387c3bd73c73971703e22bf275ffc8cc",
+  "spd_probe": {
+    "finite": true,
+    "positive_curvature": true,
+    "symmetric_relative": 3.162863140925649e-17
+  },
+  "status": "FAIL",
+  "strain_energy": 2.313602577416642,
+  "tier": "T2",
+  "true_dof": 1029000,
+  "wall_time_seconds": 1371.0587636000128
+}
