@@ -126,8 +126,11 @@ def run_case(
         "mpi_size": size,
         "monitor": {"enabled": monitor, "pattern": "PETSc ksp_monitor_true_residual"},
     }
+    # PETSc initialization may perform MPI collectives.  Keep provenance
+    # collection symmetric across ranks, then retain the root snapshot.
+    runtime_metadata = _runtime_metadata(source_sha, input_digest, runtime_image, size)
     if rank == 0:
-        record["environment"] = _runtime_metadata(source_sha, input_digest, runtime_image, size)
+        record["environment"] = runtime_metadata
     _write_record(output_dir / "wp17r_case_running.json", record, rank)
     try:
         load_started = time.perf_counter()
