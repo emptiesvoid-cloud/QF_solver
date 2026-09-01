@@ -243,8 +243,10 @@ Date: 2026-09-01. Source snapshot:
 
 Owner decision: `CLOSED / ACCEPT_WITH_CONSOLIDATION` for the portfolio named
 **Reproducible Large-Model Solving and Numerical Trust**. The decision accepts
-WP13-WP22 as the official next scope and does not mark any of them complete,
-does not promote a capability, and does not rewrite WP01-WP12 evidence.
+WP13-WP22 as the official next scope. WP13 is now complete on its controlled
+golden-baseline evidence; WP14-WP22 remain open. The decision does not
+promote a capability or rewrite WP01-WP12 evidence. The WP13 record is in
+`qualification/0_2_7/wp13_state.json`.
 
 WP16 is a release blocker and requires a true reproducible 1M-DOF iterative
 FEM solve with loads, BC, reactions, residual, equilibrium, energy, two

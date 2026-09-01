@@ -11,8 +11,12 @@
   "evidence_head": "94461602dfd1782be57c20e1801a0d5d8e262ef1",
   "wp11_status": "PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED",
   "wp11_evidence_source_sha": "94461602dfd1782be57c20e1801a0d5d8e262ef1",
-  "current_development_head": "72888ea63241a4445f6600aa6c2b882401f85ef1",
+  "current_development_head": "fcdde28a146a3a502972fdad30821f8e8a857da7",
   "current_development_branch": "codex/0.2.7-foundation",
+  "wp13_status": "PASS",
+  "wp13_evidence_source_sha": "fcdde28a146a3a502972fdad30821f8e8a857da7",
+  "wp13_golden_case_catalog": "qualification/0_2_7/golden/cases.json",
+  "wp13_golden_evidence": "qualification/0_2_7/golden/evidence.json",
   "parent_release": {
     "version": "0.2.6a0",
     "qualification_snapshot": "93561c2c0ae1c173deb81e47c3fa3852643275cb",
@@ -55,8 +59,8 @@
     "namespace": "027-LEVEL-UP",
     "status": "CLOSED_ACCEPT_WITH_CONSOLIDATION",
     "historical_wp01_wp12_preserved": true,
-    "current_acquired_percent": 41,
-    "current_progress_percent": 41,
+    "current_acquired_percent": 45,
+    "current_progress_percent": 45,
     "weights_total_percent": 100,
     "wp16_release_blocker": true,
     "wp18_mandatory": true,
@@ -175,7 +179,13 @@
     "qualification/0_2_7/wp11_j2_evidence.json",
     "qualification/0_2_7/wp11_state.json",
     "scripts/run_wp11_j2_closure.py",
-    "tests/unit/test_wp11_j2_closure.py"
+    "tests/unit/test_wp11_j2_closure.py",
+    "scripts/run_wp13_golden.py",
+    "tests/unit/test_wp13_golden.py",
+    "qualification/0_2_7/golden/cases.json",
+    "qualification/0_2_7/golden/evidence.json",
+    "qualification/0_2_7/wp13_state.json",
+    "docs/verification/0_2_7/0_2_7_wp13_golden_baseline.md"
   ],
   "status_rule": "A work package is PASS only when its declared evidence is recorded; WP05 records external deck preflight, WP06 records mesh-quality diagnostics, WP07 records an experimental WEDGE6 elemental kernel without creating a public qualification or universal quality cutoff, WP09 records bounded robustness evidence and explicit external outcomes, WP09-R records a reproducible headless Code_Aster oracle without promoting WEDGE6, WP10 records bounded consistent-mass modal qualification for its declared first-three-mode refinement and same-mesh external MAC scope without transferring static maturity, and WP12 records bounded large-scale readiness evidence without creating a universal 1M-DOF claim."
 }

@@ -41,20 +41,20 @@ universal increment-independence claim is added.
 | WP10 | `PASS_WITH_LIMITATIONS` | T1/T2 targeted + Code_Aster | `4e005423ba4fd87c6ab6ea2fe5c7a345c21d8e43` | `9d79dc8b306e6cc65f2f4ae2e77e00f676182b84` | `OWNER_APPROVED_BOUNDED_FIRST_THREE_MODES`; modal maturity `QUALIFIED_BOUNDED` within declared scope | modes four to six remain diagnostic for refinement; no lumped mass or transfer to other dynamics |
 | WP11 | `PASS_WITH_LIMITATIONS` | T2 targeted | `4d0ee14f4aa61b9337874a991263a93b4f9a8c73` | `94461602dfd1782be57c20e1801a0d5d8e262ef1` | keep qualified bounded J2 scope; Owner review required | no universal increment threshold; tangent symmetry diagnostic only; finite-kinematic J2 remains experimental |
 | WP12 | `PASS_WITH_LIMITATIONS` | T1 targeted + bounded scaling | `4971ac4f6c1e5cff2ca48e40ca6db5e8147d0d0a` | `4971ac4f6c1e5cff2ca48e40ca6db5e8147d0d0a` | proposed Owner review | 300k assembly-only; 1M time-limited; SciPy/PETSc backend limits |
-| WP13 | `NOT_STARTED` | T0 not run | - | - | - | - |
+| WP13 | `PASS` | T1 targeted | `fcdde28a146a3a502972fdad30821f8e8a857da7` | `qualification/0_2_7/golden/evidence.json` | golden numerical baseline and release truth | 8 PASS + 1 EXPECTED_FAILURE_PASS; no maturity promotion |
 | WP14 | `NOT_STARTED` | T0 not run | - | - | - | - |
 
 ## Official Level-Up extension
 
 The active theme is **Reproducible Large-Model Solving and Numerical Trust**.
 `027-LEVEL-UP` is `CLOSED / ACCEPT_WITH_CONSOLIDATION` as a scope decision;
-WP13-WP22 remain individually `PLANNED` and do not constitute execution
-evidence. Their criteria and weights are authoritative in
+WP14-WP22 remain individually `PLANNED` and do not constitute execution
+evidence. WP13 has its own controlled proof record; the remaining criteria and weights are authoritative in
 `qualification/0_2_7/level_up_plan.json`.
 
 | WP | Weight | Priority | Status | Rule |
 | --- | ---: | --- | --- | --- |
-| WP13 | 4% | MUST | `PLANNED` | release truth and golden baseline |
+| WP13 | 4% | MUST | `PASS` | release truth and golden baseline |
 | WP14 | 5% | MUST | `PLANNED` | large-scale execution contract |
 | WP15 | 10% | MUST | `PLANNED` | matrix-free TET4, SPD and preconditioning |
 | WP16 | 10% | MUST | `PLANNED` | release blocker; true 1M FEM solve |
@@ -65,7 +65,7 @@ evidence. Their criteria and weights are authoritative in
 | WP21 | 3% | SHOULD | `PLANNED` | surgical architecture/API/registry cleanup |
 | WP22 | 3% | MUST | `PLANNED` | final release qualification |
 
-The 45% historical block, 41% current acquired/progress view and 100% total
+The 45% historical block, 45% current acquired/progress view and 100% total
 plan weights are separate governance measures and must not be added together.
 
 ## Update rules

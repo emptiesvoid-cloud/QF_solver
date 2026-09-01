@@ -79,14 +79,15 @@ The evidence is recorded in
 ## Official Level-Up portfolio
 
 `027-LEVEL-UP` is `CLOSED / ACCEPT_WITH_CONSOLIDATION`: the scope was
-accepted, but no WP13-WP22 result is implied by this portfolio decision.
-Individual Level-Up gates remain `PLANNED` until their declared evidence is
+accepted, but no WP14-WP22 result is implied by this portfolio decision.
+WP13 is `PASS` on its controlled golden-baseline evidence. Individual
+Level-Up gates WP14-WP22 remain `PLANNED` until their declared evidence is
 executed. The active theme is **Reproducible Large-Model Solving and
 Numerical Trust**.
 
 | Level-Up gate | Work package | Status | Weight | Required interpretation |
 | --- | --- | --- | ---: | --- |
-| `LUP-027-G13` | WP13 release truth and golden baseline | `PLANNED` | 4% | distinct SHA roles and golden baseline |
+| `LUP-027-G13` | WP13 release truth and golden baseline | `PASS` | 4% | distinct SHA roles and golden baseline |
 | `LUP-027-G14` | WP14 large-scale execution contract | `PLANNED` | 5% | real topology and resource capture |
 | `LUP-027-G15` | WP15 matrix-free TET4 V2 | `PLANNED` | 10% | SPD, preconditioning and assembled subscale |
 | `LUP-027-G16` | WP16 true 1M DOF qualification | `PLANNED` | 10% | release blocker; full iterative FEM solve |
