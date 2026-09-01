@@ -97,6 +97,13 @@ class StructuredBlockOperator(LinearOperator):
         self.flat_dofs_by_template = tuple(
             _flat_element_dofs(nodes) for nodes in self.nodes_by_template
         )
+        # These workspaces are private to the operator.  SciPy may call the
+        # matrix-vector and preconditioner callbacks many times; reusing them
+        # removes full-vector allocations without changing apply_full's
+        # independent-result semantics.
+        self._full_workspace = np.empty(model.ndof, dtype=float)
+        self._internal_workspace = np.empty((model.node_count, 3), dtype=float)
+        self._preconditioned_workspace = np.empty((model.node_count, 3), dtype=float)
         self.diagonal = self._build_diagonal()
         self.block_inverse = self._build_block_inverse()
         self.memory_bytes = int(
@@ -106,18 +113,29 @@ class StructuredBlockOperator(LinearOperator):
             + self.diagonal.nbytes
             + self.block_inverse.nbytes
             + self.free.nbytes
+            + self._full_workspace.nbytes
+            + self._internal_workspace.nbytes
+            + self._preconditioned_workspace.nbytes
         )
         super().__init__(dtype=float, shape=(self.free.size, self.free.size))
 
     def _matvec(self, vector: np.ndarray) -> np.ndarray:
-        full = np.zeros(self.model.ndof, dtype=float)
-        full[self.free] = vector
-        internal = self.apply_full(full)
-        return internal[self.free]
+        self._full_workspace.fill(0.0)
+        self._full_workspace[self.free] = vector
+        self._apply_full_into(self._full_workspace, self._internal_workspace)
+        # Advanced indexing returns the fresh vector required by LinearOperator
+        # while the full and internal workspaces remain reusable.
+        return self._internal_workspace.ravel()[self.free]
 
     def apply_full(self, displacement: np.ndarray) -> np.ndarray:
+        result = np.zeros((self.model.node_count, 3), dtype=float)
+        self._apply_full_into(displacement, result)
+        return result.ravel()
+
+    def _apply_full_into(self, displacement: np.ndarray, target: np.ndarray) -> None:
         u_nodes = displacement.reshape((self.model.node_count, 3))
-        y_nodes = np.zeros_like(u_nodes)
+        y_nodes = target.reshape((self.model.node_count, 3))
+        y_nodes.fill(0.0)
         for template, nodes_by_template, flat_dofs_by_template in zip(
             self.templates, self.nodes_by_template, self.flat_dofs_by_template, strict=True
         ):
@@ -128,15 +146,20 @@ class StructuredBlockOperator(LinearOperator):
                 local_u = u_nodes[nodes].reshape((-1, 12))
                 local_f = local_u @ template.T
                 _accumulate_node_values(y_nodes, nodes, local_f.reshape((-1, 4, 3)), flat_dofs=flat_dofs)
-        return y_nodes.ravel()
 
     def preconditioner(self) -> LinearOperator:
         def apply(vector: np.ndarray) -> np.ndarray:
-            full = np.zeros(self.model.ndof, dtype=float)
-            full[self.free] = vector
-            values = full.reshape((self.model.node_count, 3))
-            corrected = np.einsum("nij,nj->ni", self.block_inverse, values, optimize=True)
-            return corrected.ravel()[self.free]
+            self._full_workspace.fill(0.0)
+            self._full_workspace[self.free] = vector
+            values = self._full_workspace.reshape((self.model.node_count, 3))
+            np.einsum(
+                "nij,nj->ni",
+                self.block_inverse,
+                values,
+                out=self._preconditioned_workspace,
+                optimize=True,
+            )
+            return self._preconditioned_workspace.ravel()[self.free]
 
         return LinearOperator(
             shape=(self.free.size, self.free.size),
