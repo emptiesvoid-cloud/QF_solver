@@ -106,7 +106,9 @@ def run_case(
     config = _frozen_config(backend, preconditioner, monitor, size, partition_strategy)
     config_digest = _digest_json(config)
     started = time.perf_counter()
-    memory_before = process_memory_snapshot() if rank == 0 else None
+    local_memory_before = process_memory_snapshot()
+    memory_before_all = comm.gather(local_memory_before, root=0) if comm is not None else [local_memory_before]
+    memory_before = memory_before_all[0] if rank == 0 else None
     record: dict[str, Any] = {
         "schema_version": 1,
         "case_id": "WP17R-PETSC-LARGE-ROUTE-001",
@@ -146,7 +148,7 @@ def run_case(
                     "max_it": WP14_MAXITER,
                     "matrix_format": "aij",
                     "ksp_type": "cg",
-                    "petsc_options": {"ksp_monitor_true_residual": None} if monitor and backend == "petsc" else {},
+                    "petsc_options": config["petsc_options"],
                 },
             )
         solve_seconds = _max_seconds(time.perf_counter() - solve_started, comm)
@@ -171,6 +173,8 @@ def run_case(
             post = comm.bcast(post, root=0)
             comparison = comm.bcast(comparison, root=0)
             history = comm.bcast(history, root=0)
+        local_memory_after = process_memory_snapshot()
+        memory_after_all = comm.gather(local_memory_after, root=0) if comm is not None else [local_memory_after]
         post_seconds = _max_seconds(time.perf_counter() - post_started, comm)
         summary = dict(result.summary)
         solver = dict(summary.get("solver", {}))
@@ -204,9 +208,14 @@ def run_case(
                     "total_seconds": float(time.perf_counter() - started),
                     "solver_pipeline_seconds": float(solve_seconds),
                 },
-                "peak_rss_bytes": process_memory_snapshot().get("peak_rss_bytes") if rank == 0 else None,
+                "peak_rss_bytes": _max_peak_rss(memory_after_all) if rank == 0 else None,
+                "peak_rss_by_rank": [item.get("peak_rss_bytes") for item in memory_after_all]
+                if rank == 0
+                else None,
                 "memory_before": memory_before,
-                "memory_after": process_memory_snapshot() if rank == 0 else None,
+                "memory_before_by_rank": memory_before_all if rank == 0 else None,
+                "memory_after": memory_after_all[0] if rank == 0 else None,
+                "memory_after_by_rank": memory_after_all if rank == 0 else None,
                 "acceptance": _acceptance(post, solver, comparison),
                 "provenance": {
                     "source_sha": source_sha,
@@ -238,6 +247,12 @@ def run_case(
 
 
 def _frozen_config(backend: str, preconditioner: str, monitor: bool, mpi_size: int, partition: str) -> dict[str, Any]:
+    petsc_options: dict[str, Any] = {}
+    if backend == "petsc":
+        # WP14 measures the physical residual, not PETSc's default preconditioned norm.
+        petsc_options["ksp_norm_type"] = "unpreconditioned"
+        if monitor:
+            petsc_options["ksp_monitor_true_residual"] = None
     return {
         "backend": backend,
         "solver": "CG",
@@ -250,6 +265,8 @@ def _frozen_config(backend: str, preconditioner: str, monitor: bool, mpi_size: i
         "mpi_size": mpi_size,
         "partition_strategy": partition,
         "monitor": monitor,
+        "petsc_options": petsc_options,
+        "stopping_norm": "unpreconditioned" if backend == "petsc" else "solver-native",
         "wp14_tolerance_source": "qualification/0_2_7/wp14_execution_contract.json",
         "fallback_policy": "no implicit fallback; backend selection is explicit and unavailable routes fail closed",
     }
@@ -520,6 +537,12 @@ def _max_seconds(value: float, comm: Any) -> float:
     from mpi4py import MPI
 
     return float(comm.allreduce(value, op=MPI.MAX))
+
+
+def _max_peak_rss(snapshots: list[dict[str, Any]]) -> int | None:
+    values = [snapshot.get("peak_rss_bytes") for snapshot in snapshots]
+    finite = [int(value) for value in values if value is not None]
+    return max(finite) if finite else None
 
 
 def _write_record(path: Path, record: dict[str, Any], rank: int) -> None:
