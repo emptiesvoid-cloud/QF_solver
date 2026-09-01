@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import json
-import hashlib
 from pathlib import Path
 import shutil
 import subprocess
@@ -15,6 +14,7 @@ from solveur.core.model import FiniteElementModel
 from solveur.core.router import AnalysisRouter
 from solveur.core.errors import InfrastructureError
 from solveur.elements.solid.wedge6 import Wedge6Element
+from solveur.io.manifest import sha256 as file_sha256
 from solveur.materials.factory import MaterialFactory
 from solveur.verification.code_aster_tl_structural import (
     CODE_ASTER_IMAGE,
@@ -53,10 +53,6 @@ def source_sha() -> str:
     """Return the exact QF revision used to produce the campaign."""
 
     return subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
-
-
-def _file_sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def prism_chain(
@@ -285,8 +281,8 @@ def run_code_aster_modal(output_dir: Path) -> dict[str, Any]:
         "mode_shape_comparison": "NOT_RUN; PENTA6/QF displacement mapping not required for this frequency-only bounded check",
         "deck": "qualification/0_2_7/external_oracles/wedge6/decks/code_aster/WP10-A-penta6-modal",
         "deck_digests": {
-            "comm": _file_sha256(CODE_ASTER_MODAL_COMM),
-            "mail": _file_sha256(CODE_ASTER_MODAL_MAIL),
+            "comm": file_sha256(CODE_ASTER_MODAL_COMM),
+            "mail": file_sha256(CODE_ASTER_MODAL_MAIL),
         },
     }
 
