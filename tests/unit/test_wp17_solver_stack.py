@@ -37,7 +37,13 @@ def test_wp17_reaction_diagnostic_reports_compensated_reduction() -> None:
 
     metrics = _reaction_metrics(residual=residual, loads=loads, fixed=fixed)
 
-    assert set(metrics) >= {"numpy_relative", "fsum_relative", "equilibrium_difference_due_to_reduction"}
+    assert set(metrics) >= {
+        "numpy_relative",
+        "fsum_relative",
+        "free_residual_resultant",
+        "equilibrium_free_residual_identity_relative",
+        "equilibrium_difference_due_to_reduction",
+    }
     assert np.isfinite(metrics["numpy_relative"])
     assert np.isfinite(metrics["fsum_relative"])
 

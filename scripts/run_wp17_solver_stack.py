@@ -501,6 +501,11 @@ def _reaction_metrics(*, residual: np.ndarray, loads: np.ndarray, fixed: np.ndar
     reaction = _reaction_vector(residual, fixed)
     applied = loads.reshape((-1, 3)).sum(axis=0)
     numpy_resultant = reaction.reshape((-1, 3)).sum(axis=0)
+    fixed_mask = np.zeros(residual.size, dtype=bool)
+    fixed_mask[fixed] = True
+    free_residual = residual.copy()
+    free_residual[fixed_mask] = 0.0
+    free_residual_resultant = free_residual.reshape((-1, 3)).sum(axis=0)
     fsum_resultant = np.asarray(
         [math.fsum(float(value) for value in reaction.reshape((-1, 3))[:, component]) for component in range(3)]
     )
@@ -516,6 +521,10 @@ def _reaction_metrics(*, residual: np.ndarray, loads: np.ndarray, fixed: np.ndar
         "numpy_resultant": numpy_resultant.tolist(),
         "fsum_resultant": fsum_resultant.tolist(),
         "applied_resultant": applied.tolist(),
+        "free_residual_resultant": free_residual_resultant.tolist(),
+        "equilibrium_free_residual_identity_relative": float(
+            np.linalg.norm(numpy_equilibrium + free_residual_resultant) / scale
+        ),
         "equilibrium_difference_due_to_reduction": float(np.linalg.norm(numpy_equilibrium - fsum_equilibrium) / scale),
     }
 
