@@ -1,0 +1,239 @@
+{
+  "schema_version": 1,
+  "work_package": "WP17-R",
+  "gate": "LUP-027-G17",
+  "status": "PARTIAL",
+  "start_sha": "7dc53129100fae8e55301690b6f0d6a1751c46e2",
+  "execution_source_sha": "ec7e0af7dad399be8d1a1fe1fc90e95a81fec78a",
+  "contract": "qualification/0_2_7/wp14_execution_contract.json",
+  "contract_sha256": "1236aaf8ddb0451ae5d3ddac02864ade3c54273da4a0e8064434ae0c11459ce3",
+  "scope": {
+    "element": "TET4",
+    "analysis": "linear_static",
+    "solver": "CG",
+    "fem_formulation_changed": false,
+    "wp14_tolerances_changed": false,
+    "official_wp16_retry": false,
+    "full_regression_run": false
+  },
+  "environment": {
+    "classification": "AVAILABLE_REPRODUCIBLE_CONTAINER",
+    "host_petsc_available": false,
+    "image": "qf-solver-large@sha256:d6a1718001fc36772906d1a9505637bbd0a4b7e1d8ccc9afdbcb6f67b7ff6d0e",
+    "base_image": "ghcr.io/fenics/dolfinx/dolfinx@sha256:2ae4bfbc0d9077268880faf04c72750528bee986c94ab223a2c159969bd56fa8",
+    "python": "3.12.3",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "h5py": "3.13.0",
+    "mpi4py": "4.1.2",
+    "petsc4py": "3.25.1",
+    "petsc": "3.25.1",
+    "mpi": "MPICH 5.0.1 / MPI 5.0",
+    "threads": 1,
+    "smoke": {
+      "python_imports": "PASS",
+      "mpi_two_rank_import_and_version": "PASS",
+      "gui_used": false,
+      "invocation": "HYDRA_ALLOW_ROOT=1 mpiexec -n 2 python3 -c '<mpi4py/petsc4py version smoke>'"
+    }
+  },
+  "configuration": {
+    "backend": "petsc",
+    "preconditioner": "gamg",
+    "matrix_format": "aij",
+    "mpi_size": 2,
+    "partition_strategy": "contiguous",
+    "chunk_size": 4096,
+    "ksp_type": "cg",
+    "ksp_norm_type": "unpreconditioned",
+    "rtol": 1e-08,
+    "atol": 0.0,
+    "max_iterations": 10000,
+    "fallback_policy": "no implicit fallback; backend selection is explicit and unavailable routes fail closed",
+    "input_digest_sha256": "b65b1cd72a067551490ed5364beb1fcc2d7e55d07a9075f6f7b8899f535d7f92",
+    "configuration_digest_sha256": "b6a893ccfdbc07b37d50dc8bd243a8b6a60304c33ffc6383181005cf38243145"
+  },
+  "subscale": {
+    "existing_matrix_free_vs_assembled": {
+      "status": "PASS",
+      "evidence": "qualification/0_2_7/wp16_runtime/wp16_subscale_current.json",
+      "max_operator_action_relative_error": 1.2497106941823295e-14,
+      "max_displacement_relative_error": 3.4490722488847274e-13,
+      "max_reaction_relative_error": 2.301808852175272e-09,
+      "max_energy_relative_error": 3.358792201787632e-14,
+      "max_residual_relative": 8.777062442532168e-09,
+      "tolerance": 1e-08
+    },
+    "petsc_gamg_vs_matrix_free": {
+      "status": "FAIL",
+      "true_dof": 107811,
+      "displacement_relative_error": 1.1968738987492455e-12,
+      "equilibrium_relative_difference": 2.3328476872190248e-08,
+      "energy_relative_difference": 4.211252849349052e-11,
+      "tolerance": 1e-08,
+      "reason": "displacement is equivalent, but equilibrium and energy differences exceed the frozen comparison tolerance"
+    },
+    "spd_contract": "PASS: CG used only with the existing homogeneous structured TET4 SPD contract"
+  },
+  "preconditioner_comparison": {
+    "medium_true_dof": 107811,
+    "results": [
+      {
+        "backend": "matrix_free",
+        "preconditioner": "nodal_block_jacobi",
+        "iterations": 486,
+        "total_seconds": 8.287745699897641,
+        "peak_rss_bytes": 125374464,
+        "equilibrium_relative": 2.1922725785595026e-08,
+        "status": "FAIL"
+      },
+      {
+        "backend": "petsc",
+        "preconditioner": "jacobi",
+        "iterations": 468,
+        "total_seconds": 3.423229784995783,
+        "peak_rss_bytes": 312205312,
+        "equilibrium_relative": 7.192792061467791e-08,
+        "status": "FAIL"
+      },
+      {
+        "backend": "petsc",
+        "preconditioner": "gamg",
+        "iterations": 178,
+        "total_seconds": 13.884182481997414,
+        "peak_rss_bytes": 496660480,
+        "equilibrium_relative": 4.525270334881439e-08,
+        "status": "FAIL"
+      },
+      {
+        "backend": "petsc",
+        "preconditioner": "hypre/boomeramg",
+        "iterations": 82,
+        "total_seconds": 63.72757588099921,
+        "peak_rss_bytes": 1775947776,
+        "equilibrium_relative": 2.5577448512114064e-08,
+        "status": "FAIL"
+      }
+    ],
+    "selected": "gamg",
+    "decision": "GAMG is retained as the WP17-R diagnostic 1M backend because it completed the real distributed run; no PETSc preconditioner is promoted as a new public/default WP14 route. Hypre reduces iterations but is slower and more memory intensive on the controlled medium probe."
+  },
+  "reaction_diagnosis": {
+    "root_cause": "ITERATIVE_STOPPING_NORM_MISMATCH_AND_RESIDUAL_TO_RESULTANT_AMPLIFICATION",
+    "fix": "PETSc is explicitly configured with ksp_norm_type=unpreconditioned so its stopping norm matches the physical WP14 residual; compensated summation is diagnostic only and is not used to mask acceptance.",
+    "one_million": {
+      "free_relative_residual": 9.953694464644012e-09,
+      "equilibrium_relative": 3.5034304845762447e-07,
+      "equilibrium_compensated_relative": 3.5034304222379e-07,
+      "free_residual_equilibrium_identity_relative": 4.3959044949705836e-11,
+      "reduction_difference_relative": 4.893618014606236e-14,
+      "interpretation": "The residual-to-resultant identity closes while compensated reduction changes the result negligibly; no reconstruction, summation, BC or FEM operator bug is demonstrated."
+    },
+    "wp16_baseline": {
+      "free_relative_residual": 9.822515730036343e-09,
+      "equilibrium_relative": 3.819750810647995e-08,
+      "preconditioner": "nodal_block_jacobi",
+      "backend": "matrix_free"
+    },
+    "wp14_equilibrium_tolerance": 1e-08,
+    "acceptance_fix": "NONE; WP14 equilibrium policy is unchanged"
+  },
+  "one_million": {
+    "true_dof": 1029000,
+    "nodes": 343000,
+    "elements": 1971054,
+    "load_total_n": 999999.999999912,
+    "fixed_dof": 14700,
+    "load_nodes": 4900,
+    "runs": [
+      {
+        "id": "run1",
+        "evidence": "qualification/0_2_7/wp17_runtime/wp17r_run1.json",
+        "audit": "qualification/0_2_7/wp17_runtime/wp17r_run1_audit.json",
+        "status": "FAIL",
+        "solve_completed": true,
+        "iterations": 301,
+        "matvec_count": 301,
+        "total_seconds": 166.70334885001648,
+        "peak_rss_bytes": 3520552960,
+        "residual_relative": 9.953694464644012e-09,
+        "equilibrium_relative": 3.5034304845762447e-07,
+        "energy_relative": 3.5872409968502116e-11
+      },
+      {
+        "id": "run2",
+        "evidence": "qualification/0_2_7/wp17_runtime/wp17r_run2.json",
+        "audit": "qualification/0_2_7/wp17_runtime/wp17r_run2_audit.json",
+        "status": "FAIL",
+        "solve_completed": true,
+        "iterations": 301,
+        "matvec_count": 301,
+        "total_seconds": 164.93888069599052,
+        "peak_rss_bytes": 3519496192,
+        "residual_relative": 9.953694464644012e-09,
+        "equilibrium_relative": 3.5034304845762447e-07,
+        "energy_relative": 3.5872409968502116e-11
+      }
+    ],
+    "replay": {
+      "status": "PASS",
+      "same_source": true,
+      "same_input": true,
+      "same_configuration": true,
+      "absolute_deltas": {
+        "true_dof": 0.0,
+        "matvec_count": 0.0,
+        "residual_relative": 0.0,
+        "equilibrium_relative": 0.0,
+        "energy_relative": 0.0
+      },
+      "comparison_tolerance": 1e-08
+    }
+  },
+  "performance": {
+    "baseline": {
+      "source": "qualification/0_2_7/wp16_state.json",
+      "backend": "matrix_free",
+      "preconditioner": "nodal_block_jacobi",
+      "iterations": 1052,
+      "total_seconds": 1371.0587636000128,
+      "peak_rss_bytes": 575700992,
+      "equilibrium_relative": 3.819750810647995e-08
+    },
+    "best_observed": {
+      "source": "qualification/0_2_7/wp17_runtime/wp17r_run2.json",
+      "backend": "petsc",
+      "preconditioner": "gamg",
+      "iterations": 301,
+      "total_seconds": 164.93888069599052,
+      "peak_rss_bytes": 3519496192,
+      "equilibrium_relative": 3.5034304845762447e-07
+    },
+    "iteration_reduction_factor": 3.495016611295681,
+    "total_time_speedup": 8.312526178270238,
+    "memory_ratio_best_over_baseline": 6.116501008932944,
+    "interpretation": "The PETSc route is substantially faster in wall time and iteration count, but its peak RSS is much higher and the frozen equilibrium acceptance still fails."
+  },
+  "acceptance": {
+    "petsc_environment": "PASS",
+    "explicit_backend_and_options": "PASS",
+    "no_dense_conversion": "PASS",
+    "no_nan_inf": "PASS",
+    "one_million_solve_completed": "PASS",
+    "one_million_equilibrium": "FAIL",
+    "one_million_qualification": "FAIL",
+    "replay": "PASS",
+    "wp16_retry_ready": false,
+    "wp18_ready": false,
+    "no_post_result_tuning": true
+  },
+  "limitations": [
+    "The PETSc runtime is reproducible in the pinned Docker image but remains unavailable in the host .venv.",
+    "The PETSc GAMG route completes 1,029,000 real FEM DOF but fails the unchanged WP14 equilibrium criterion.",
+    "PETSc-vs-matrix-free medium subscale comparison fails on equilibrium and energy even though displacement agrees.",
+    "Peak RSS is approximately 3.52 GiB at 1M DOF in the two-rank GAMG run.",
+    "No public/default backend or preconditioner selection is changed; no WP16 qualification claim is made.",
+    "WP18 remains blocked by the unresolved WP16 release blocker."
+  ],
+  "artifact_classification": "CONTROLLED_PROOF"
+}

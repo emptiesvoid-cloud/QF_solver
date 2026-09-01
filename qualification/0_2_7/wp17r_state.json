@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "work_package": "WP17-R",
+  "gate": "LUP-027-G17",
+  "title": "PETSc environment and 1M solver remediation",
+  "status": "PARTIAL",
+  "start_sha": "7dc53129100fae8e55301690b6f0d6a1751c46e2",
+  "execution_source_sha": "ec7e0af7dad399be8d1a1fe1fc90e95a81fec78a",
+  "historical_parent_state": "qualification/0_2_7/wp17_state.json",
+  "runtime_summary": "qualification/0_2_7/wp17_runtime/wp17r_summary.json",
+  "runtime_evidence": [
+    "qualification/0_2_7/wp17_runtime/wp17r_run1.json",
+    "qualification/0_2_7/wp17_runtime/wp17r_run2.json",
+    "qualification/0_2_7/wp17_runtime/wp17r_run1_audit.json",
+    "qualification/0_2_7/wp17_runtime/wp17r_run2_audit.json"
+  ],
+  "environment": {
+    "classification": "AVAILABLE_REPRODUCIBLE_CONTAINER",
+    "image": "qf-solver-large@sha256:d6a1718001fc36772906d1a9505637bbd0a4b7e1d8ccc9afdbcb6f67b7ff6d0e",
+    "dockerfile": "tools/containers/large/wp17r.Dockerfile",
+    "python": "3.12.3",
+    "petsc": "3.25.1",
+    "petsc4py": "3.25.1",
+    "mpi4py": "4.1.2",
+    "mpi": "MPICH 5.0.1 / MPI 5.0",
+    "smoke": "PASS",
+    "host_petsc": "UNAVAILABLE",
+    "gui": "NOT_USED"
+  },
+  "route": {
+    "backend": "petsc",
+    "solver": "CG",
+    "preconditioner": "GAMG",
+    "matrix_format": "AIJ",
+    "mpi_size": 2,
+    "partition_strategy": "contiguous",
+    "stopping_norm": "unpreconditioned",
+    "rtol": 1e-08,
+    "atol": 0.0,
+    "max_iterations": 10000,
+    "fallback": "none"
+  },
+  "diagnosis": {
+    "root_cause": "ITERATIVE_STOPPING_NORM_MISMATCH_AND_RESIDUAL_TO_RESULTANT_AMPLIFICATION",
+    "retained_fix": "explicit PETSc unpreconditioned stopping norm",
+    "reaction_postprocessing_fix": "NONE",
+    "compensated_sum_effect": "negligible; not used for acceptance",
+    "wp14_equilibrium_tolerance": 1e-08
+  },
+  "decisions": {
+    "selected_diagnostic_backend": "PETSc CG + GAMG",
+    "public_default_changed": false,
+    "wp16_status": "FAIL remains; frozen equilibrium criterion is not met",
+    "wp16_retry_ready": false,
+    "wp18_ready": false,
+    "owner_decision": "PARTIAL: PETSc/MPI is now reproducibly provisioned and a real 1,029,000-DOF solve completes, but equilibrium and PETSc-vs-matrix-free subscale criteria remain failing; no qualification or tolerance change is authorized."
+  },
+  "constraints": {
+    "fem_formulation_changed": false,
+    "existing_numerical_formulations_changed": false,
+    "wp14_tolerances_changed": false,
+    "new_physics": false,
+    "post_result_tuning": false,
+    "full_regression_run": false,
+    "pushed": false
+  },
+  "artifact_classification": "CONTROLLED_PROOF"
+}

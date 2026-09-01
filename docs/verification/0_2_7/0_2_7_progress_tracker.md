@@ -51,8 +51,10 @@ namespace. It is a governance/contract PASS only; it does not claim a 1M or
 
 The active theme is **Reproducible Large-Model Solving and Numerical Trust**.
 `027-LEVEL-UP` is `CLOSED / ACCEPT_WITH_CONSOLIDATION` as a scope decision;
-WP15 is `PASS_WITH_LIMITATIONS` on controlled subscale evidence; WP16-WP22
-remain individually `PLANNED` and do not constitute execution evidence. WP13 has its own controlled proof record; the remaining criteria and weights are authoritative in
+WP15 is `PASS_WITH_LIMITATIONS` on controlled subscale evidence, WP16 is
+`FAIL` and remains the release blocker, and WP17 is `PARTIAL` after the
+PETSc remediation checkpoint. WP18-WP22 remain individually `PLANNED` and do
+not constitute execution evidence. WP13 has its own controlled proof record; the remaining criteria and weights are authoritative in
 `qualification/0_2_7/level_up_plan.json`.
 
 | WP | Weight | Priority | Status | Rule |
@@ -60,8 +62,8 @@ remain individually `PLANNED` and do not constitute execution evidence. WP13 has
 | WP13 | 4% | MUST | `PASS` | release truth and golden baseline |
 | WP14 | 5% | MUST | `PASS` | frozen large-scale execution contract; no solve claim |
 | WP15 | 10% | MUST | `PASS_WITH_LIMITATIONS` | matrix-free TET4, SPD and preconditioning; subscale evidence complete, WP16 remains the 1M gate |
-| WP16 | 10% | MUST | `PLANNED` | release blocker; true 1M FEM solve |
-| WP17 | 5% | SHOULD | `PLANNED` | PETSc/MPI path and provenance |
+| WP16 | 10% | MUST | `FAIL` | release blocker; real 1,029,000-DOF solve completed but frozen equilibrium criterion failed |
+| WP17 | 5% | SHOULD | `PARTIAL` | pinned PETSc/MPI remediation, explicit CG/GAMG route and replay evidence; WP16 equilibrium remains unresolved |
 | WP18 | 7% | MUST | `PLANNED` | mandatory 3M Bronze/Silver/Gold ladder |
 | WP19 | 5% | MUST | `PLANNED` | adversarial robustness and HEX8 diagnostic |
 | WP20 | 3% | SHOULD | `PLANNED` | residual J2 and external V&V closure |
@@ -137,4 +139,7 @@ changing the formulation: material paths, tangent FD, multi-element, cycles,
 energy, rollback, increment sensitivity, Newton and failure-mode records are
 in the controlled evidence artifact. The existing qualified J2 scope is
 retained with explicit limitations; finite-kinematic J2 and unrelated dynamics
-gaps remain outside this work package.
+gaps remain outside this work package. WP16 has a completed but failing
+1,029,000-DOF attempt, and WP17-R has added a reproducible PETSc/MPI
+diagnostic without clearing the equilibrium blocker; WP18-WP22 remain
+`PLANNED` until their declared evidence is executed.

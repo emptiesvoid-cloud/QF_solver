@@ -1,0 +1,338 @@
+{
+  "acceptance": {
+    "checks": {
+      "cg": true,
+      "energy": true,
+      "equilibrium": false,
+      "finite": true,
+      "residual": true,
+      "subscale": true
+    },
+    "tolerance": 1e-08,
+    "verdict": "FAIL"
+  },
+  "artifact_classification": "CONTROLLED_PROOF",
+  "backend": "petsc",
+  "case_id": "WP17R-PETSC-LARGE-ROUTE-001",
+  "configuration": {
+    "atol": 0.0,
+    "backend": "petsc",
+    "chunk_size": 4096,
+    "fallback_policy": "no implicit fallback; backend selection is explicit and unavailable routes fail closed",
+    "matrix_format": "aij",
+    "max_iterations": 10000,
+    "monitor": false,
+    "mpi_size": 2,
+    "partition_strategy": "contiguous",
+    "petsc_options": {
+      "ksp_norm_type": "unpreconditioned"
+    },
+    "preconditioner": "gamg",
+    "rtol": 1e-08,
+    "solver": "CG",
+    "stopping_norm": "unpreconditioned",
+    "wp14_tolerance_source": "qualification/0_2_7/wp14_execution_contract.json"
+  },
+  "configuration_digest_sha256": "b6a893ccfdbc07b37d50dc8bd243a8b6a60304c33ffc6383181005cf38243145",
+  "contract_id": "QF-027-WP14-LARGE-EXECUTION-001",
+  "contract_path": "qualification/0_2_7/wp14_execution_contract.json",
+  "element_count": 1971054,
+  "environment": {
+    "created_at_utc": "2026-09-01T14:02:00.348329Z",
+    "environment": {
+      "MKL_NUM_THREADS": null,
+      "NUMEXPR_NUM_THREADS": null,
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "PETSC_ARCH": "<set>",
+      "PETSC_DIR": "<set>",
+      "PYTHONHASHSEED": null
+    },
+    "metadata": {
+      "input_digest_sha256": "b65b1cd72a067551490ed5364beb1fcc2d7e55d07a9075f6f7b8899f535d7f92",
+      "kind": "WP17R_PETSc_remediation",
+      "mpi_size": 2,
+      "runtime_image": "qf-solver-large@sha256:d6a1718001fc36772906d1a9505637bbd0a4b7e1d8ccc9afdbcb6f67b7ff6d0e",
+      "source_sha": "ec7e0af7dad399be8d1a1fe1fc90e95a81fec78a"
+    },
+    "mpi": {
+      "library": "MPICH Version:      5.0.1",
+      "version": [
+        5,
+        0
+      ]
+    },
+    "packages": {
+      "h5py": {
+        "available": true,
+        "origin": "__init__.py",
+        "version": "3.13.0"
+      },
+      "mpi4py": {
+        "available": true,
+        "origin": "__init__.py",
+        "version": "4.1.2"
+      },
+      "numpy": {
+        "available": true,
+        "origin": "__init__.py",
+        "version": "2.4.6"
+      },
+      "petsc4py": {
+        "available": true,
+        "origin": "__init__.py",
+        "version": "3.25.1"
+      },
+      "scipy": {
+        "available": true,
+        "origin": "__init__.py",
+        "version": "1.17.1"
+      }
+    },
+    "petsc": {
+      "version": [
+        3,
+        25,
+        1
+      ]
+    },
+    "platform": {
+      "architecture": [
+        "64bit",
+        ""
+      ],
+      "machine": "x86_64",
+      "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+      "processor": "x86_64",
+      "release": "6.18.33.2-microsoft-standard-WSL2",
+      "system": "Linux",
+      "version": "#1 SMP PREEMPT_DYNAMIC Thu Jun 18 21:54:43 UTC 2026"
+    },
+    "process": {
+      "argv": [
+        "scripts/run_wp17r_petsc_remediation.py",
+        "--input",
+        "tmp/wp17r_petsc/model_1m/model.h5",
+        "--output",
+        "tmp/wp17r_petsc/1m_gamg_r2",
+        "--backend",
+        "petsc",
+        "--preconditioner",
+        "gamg",
+        "--runtime-image",
+        "qf-solver-large@sha256:d6a1718001fc36772906d1a9505637bbd0a4b7e1d8ccc9afdbcb6f67b7ff6d0e",
+        "--source-sha",
+        "ec7e0af7dad399be8d1a1fe1fc90e95a81fec78a",
+        "--no-monitor"
+      ],
+      "cwd": ".",
+      "pid": 8
+    },
+    "python": {
+      "build": [
+        "main",
+        "Mar 23 2026 19:04:32"
+      ],
+      "compiler": "GCC 13.3.0",
+      "executable": "python3",
+      "implementation": "CPython",
+      "version": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
+      "version_info": [
+        3,
+        12,
+        3,
+        "final",
+        0
+      ]
+    },
+    "report_schema_version": 1,
+    "solver": {
+      "name": "QF_solver",
+      "version": "0.2.6a0"
+    }
+  },
+  "fixed_dof": 14700,
+  "input_digest_sha256": "b65b1cd72a067551490ed5364beb1fcc2d7e55d07a9075f6f7b8899f535d7f92",
+  "input_path": "model.h5",
+  "load_node_count": 4900,
+  "matvec_count": 301,
+  "matvec_count_policy": "CG iteration count; one PETSc MatMult per converged CG iteration; the existing public route exposes no separate PETSc event counter.",
+  "memory_after": {
+    "current_rss_bytes": 1334890496,
+    "peak_rss_bytes": 3519496192,
+    "source": "procfs+resource"
+  },
+  "memory_after_by_rank": [
+    {
+      "current_rss_bytes": 1334890496,
+      "peak_rss_bytes": 3519496192,
+      "source": "procfs+resource"
+    },
+    {
+      "current_rss_bytes": 1266655232,
+      "peak_rss_bytes": 3518124032,
+      "source": "procfs+resource"
+    }
+  ],
+  "memory_before": {
+    "current_rss_bytes": 73334784,
+    "peak_rss_bytes": 74514432,
+    "source": "procfs+resource"
+  },
+  "memory_before_by_rank": [
+    {
+      "current_rss_bytes": 73334784,
+      "peak_rss_bytes": 74514432,
+      "source": "procfs+resource"
+    },
+    {
+      "current_rss_bytes": 72650752,
+      "peak_rss_bytes": 72224768,
+      "source": "procfs+resource"
+    }
+  ],
+  "monitor": {
+    "enabled": false,
+    "pattern": "PETSc ksp_monitor_true_residual"
+  },
+  "mpi_size": 2,
+  "node_count": 343000,
+  "peak_rss_by_rank": [
+    3519496192,
+    3518124032
+  ],
+  "peak_rss_bytes": 3519496192,
+  "phases": {
+    "energy_post_seconds": 3.0155701879994012,
+    "model_setup_seconds": 0.5143505370069761,
+    "operator_preconditioner_setup_seconds": 113.28616573303589,
+    "reactions_seconds": 3.4239486570004374,
+    "solve_seconds": 47.155395651992876,
+    "solver_pipeline_seconds": 160.9487928239978,
+    "total_seconds": 164.93888069599052
+  },
+  "post": {
+    "applied_resultant": [
+      999999.999999912,
+      0.0,
+      0.0
+    ],
+    "displacement_norm": 0.0015742545931189875,
+    "energy_relative": 3.5872409968502116e-11,
+    "energy_seconds": 3.0155701879994012,
+    "equilibrium_compensated_relative": 3.5034304222379e-07,
+    "equilibrium_relative": 3.5034304845762447e-07,
+    "equilibrium_vector": [
+      0.000549907679669559,
+      -0.0026544778054216067,
+      0.004207181962271989
+    ],
+    "external_work": 4.62720515483193,
+    "finite_outputs": true,
+    "fixed_dof_count": 14700,
+    "free_relative_residual": 9.953694464644012e-09,
+    "free_residual_equilibrium_identity_relative": 4.3959044949705836e-11,
+    "free_residual_norm": 0.00014219563520919995,
+    "free_residual_resultant": [
+      -0.00055052302429268,
+      0.002654389265272317,
+      -0.004207270723190275
+    ],
+    "load_node_count": 4900,
+    "operator_route": "existing StructuredBlockOperator post-solve diagnostic",
+    "reaction_resultant": [
+      -999999.9994500043,
+      -0.0026544778054216067,
+      0.004207181962271989
+    ],
+    "reaction_resultant_compensated": [
+      -999999.999450005,
+      -0.002654477776757924,
+      0.004207181965714346
+    ],
+    "reduction_difference_relative": 4.893618014606236e-14,
+    "reference_force_total_n": 999999.999999912,
+    "strain_energy": 2.3136025773329707
+  },
+  "provenance": {
+    "configuration_digest_sha256": "b6a893ccfdbc07b37d50dc8bd243a8b6a60304c33ffc6383181005cf38243145",
+    "contract_sha256": "1236aaf8ddb0451ae5d3ddac02864ade3c54273da4a0e8064434ae0c11459ce3",
+    "input_digest_sha256": "b65b1cd72a067551490ed5364beb1fcc2d7e55d07a9075f6f7b8899f535d7f92",
+    "runtime_image": "qf-solver-large@sha256:d6a1718001fc36772906d1a9505637bbd0a4b7e1d8ccc9afdbcb6f67b7ff6d0e",
+    "source_sha": "ec7e0af7dad399be8d1a1fe1fc90e95a81fec78a",
+    "timestamp_utc": "2026-09-01T14:04:45.281319Z"
+  },
+  "reference_force_total_n": 999999.999999912,
+  "residual_history": {
+    "status": "NOT_RUN"
+  },
+  "runtime_image": "qf-solver-large@sha256:d6a1718001fc36772906d1a9505637bbd0a4b7e1d8ccc9afdbcb6f67b7ff6d0e",
+  "schema_version": 1,
+  "solver": {
+    "automatic_petsc_options": {},
+    "converged": true,
+    "distributed": true,
+    "explicit_petsc_options": {
+      "ksp_norm_type": "unpreconditioned"
+    },
+    "initial_guess_norm": 0.0,
+    "iteration_time_seconds": 47.155395651992876,
+    "iterations": 301,
+    "matrix_format": "aij",
+    "method": "cg",
+    "mpi_size": 2,
+    "ownership_ranges": [
+      [
+        0,
+        514500
+      ],
+      [
+        514500,
+        1029000
+      ]
+    ],
+    "preconditioner": "gamg",
+    "preconditioner_diagnostics": {
+      "ksp_type": "cg",
+      "matrix_global_size": [
+        1029000,
+        1029000
+      ],
+      "matrix_info": {
+        "assemblies": 2.0,
+        "block_size": 1.0,
+        "factor_mallocs": 0.0,
+        "fill_ratio_given": 0.0,
+        "fill_ratio_needed": 0.0,
+        "mallocs": 29394.0,
+        "memory": 0.0,
+        "nz_allocated": 129065910.0,
+        "nz_unneeded": 83811768.0,
+        "nz_used": 45254142.0
+      },
+      "matrix_local_size": [
+        514500,
+        514500
+      ],
+      "matrix_ownership_range": [
+        0,
+        514500
+      ],
+      "pc_mg_levels": 4,
+      "pc_type": "gamg"
+    },
+    "preconditioner_subtype": null,
+    "residual_norm": 0.0001392044183148244,
+    "restart_source": null,
+    "restart_used": false,
+    "setup_time_seconds": 8.593632199015701
+  },
+  "source_sha": "ec7e0af7dad399be8d1a1fe1fc90e95a81fec78a",
+  "status": "FAIL",
+  "subscale_equivalence": {
+    "reason": "subscale comparison not requested",
+    "status": "NOT_RUN"
+  },
+  "tier": "T1_DIAGNOSTIC",
+  "true_dof": 1029000
+}

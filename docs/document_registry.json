@@ -4463,6 +4463,21 @@
       "tests": [
         "tests/unit/test_wp12_scaling.py"
       ]
+    },
+    {
+      "id": "DOC-027-024",
+      "path": "verification/0_2_7/0_2_7_wp17r_petsc_remediation.md",
+      "title": "0.2.7 WP17-R PETSc environment and 1M solver remediation",
+      "status": "controlled_candidate",
+      "requirements": ["027-LU-REQ-017"],
+      "examples": [
+        "qualification/0_2_7/wp17r_state.json",
+        "qualification/0_2_7/wp17_runtime/wp17r_summary.json",
+        "tools/containers/large/wp17r.Dockerfile"
+      ],
+      "tests": [
+        "tests/unit/test_wp17r_petsc_remediation.py"
+      ]
     }
   ]
 }
