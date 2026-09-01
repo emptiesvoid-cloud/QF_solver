@@ -418,7 +418,7 @@ class MeshValidator:
                         )
             return
         for index, element in enumerate(model.elements):
-            if element.type not in {"TET4", "TET10", "HEX8", "HEX20", "MITC3", "MITC4", "BEAM2"}:
+            if element.type not in {"TET4", "TET10", "HEX8", "HEX20", "WEDGE6", "MITC3", "MITC4", "BEAM2"}:
                 errors.append(f"Element {index}: dynamic mass is not implemented for {element.type}.")
                 continue
             material = model.materials.get(element.material, {})

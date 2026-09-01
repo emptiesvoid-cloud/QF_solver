@@ -51,8 +51,8 @@ class Wedge6Element:
     """Linear six-node triangular-prism element with full integration.
 
     This is the WP07 technical kernel used by the WP08 experimental static
-    vertical slice.  Modal, nonlinear, contact and external qualification
-    routes remain outside this capability.
+    vertical slice.  Modal qualification is a separate WP10 route; it uses
+    the common assembler and this element's consistent mass matrix.
     """
 
     integration_point_count = 6
@@ -210,6 +210,31 @@ class Wedge6Element:
         for _, weight, b_matrix, determinant in self.integration_data(coords, quadrature):
             stiffness += weight * determinant * (b_matrix.T @ self.material.elasticity_matrix @ b_matrix)
         return symmetrize(stiffness)
+
+    def _mass_with_quadrature(self, coords: np.ndarray, quadrature: str) -> np.ndarray:
+        if self.material.density <= 0.0:
+            raise ValueError("WEDGE6 modal analysis requires a positive material density.")
+        mass = np.zeros((self.dof_count, self.dof_count), dtype=float)
+        identity = np.eye(3)
+        for point, weight, _, determinant in self.integration_data(coords, quadrature):
+            shape = self.shape_functions(point)
+            mass += self.material.density * weight * determinant * np.kron(np.outer(shape, shape), identity)
+        return symmetrize(mass)
+
+    def mass(self, coords: np.ndarray) -> np.ndarray:
+        """Return the consistent translational mass matrix for modal analysis.
+
+        The production rule is exact for the polynomial mass integrand of an
+        affine six-node prism.  The richer rule remains available through the
+        reference V&V path and is intentionally not a second production route.
+        """
+
+        return self._mass_with_quadrature(coords, "production")
+
+    def reference_mass(self, coords: np.ndarray) -> np.ndarray:
+        """Return the richer-rule mass matrix for verification comparison only."""
+
+        return self._mass_with_quadrature(coords, "reference")
 
     def reference_stiffness(self, coords: np.ndarray) -> np.ndarray:
         return self.stiffness(coords, "reference")

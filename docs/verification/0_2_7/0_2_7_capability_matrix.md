@@ -11,13 +11,13 @@ approver: ""
 
 **GENERATED_VIEW**: this matrix is rendered from `qualification/0_2_7/capability_registry_v2.json`, which is the source of truth.
 
-The v2 registry preserves the 33 public 0.2.6 capability identifiers as traceable anchors and exposes 45 explicit element-analysis combination records. Anchor rows retain aggregate historical scope; combination rows are not new execution evidence.
+The v2 registry preserves the 33 public 0.2.6 capability identifiers as traceable anchors and exposes 46 explicit element-analysis combination records. Anchor rows retain aggregate historical scope; combination rows are not new execution evidence.
 
 - Applicable version: `0.2.7a0`
 - Source snapshot: `e839373b6aef291a93292186d7553ba5cd12af55`
 - Legacy capabilities preserved: 33
-- Combination records: 45
-- Qualification-state counts: EXPERIMENTAL=25, NOT_QUALIFIED=1, QUALIFIED_BOUNDED=19
+- Combination records: 46
+- Qualification-state counts: EXPERIMENTAL=26, NOT_QUALIFIED=1, QUALIFIED_BOUNDED=19
 
 ## Active Vocabulary
 
@@ -72,6 +72,7 @@ The v2 registry preserves the 33 public 0.2.6 capability identifiers as traceabl
 | `COMB-TET4-newmark_transient` | TET4 | newmark_transient | solid_elastic/J2/TL | element_route_with_legacy_analysis_mapping | SUPPORTED | VERIFIED | QUALIFIED_BOUNDED | 0.2.5 owner evidence; 0.2.6 G05-B TET4 cases | Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; external coverage is bounded and other analysis scopes remain separately governed. G05 is PASS_WITH_LIMITATIONS: Newmark refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete. |
 | `COMB-TET4-nonlinear_load_control` | TET4 | nonlinear_load_control | solid_elastic/J2/TL | element_route_with_legacy_analysis_mapping | SUPPORTED | VERIFIED | EXPERIMENTAL | 0.2.5 owner evidence; 0.2.6 G05-B TET4 cases | Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; external coverage is bounded and other analysis scopes remain separately governed. Maturity extension and multi-family correlation are scheduled separately. |
 | `COMB-WEDGE6-linear_static` | WEDGE6 | linear_static | isotropic_3d | small_strain_linear_elastic | SUPPORTED | VERIFIED | EXPERIMENTAL | qualification/0_2_7/wp07_state.json; docs/verification/0_2_7/0_2_7_wedge6_kernel.md | WP08 validates the bounded Gmsh Prism 6 static workflow, declared TRI3/QUAD4 face loads, reactions/equilibrium and Gauss-point post-processing; WEDGE6 remains EXPERIMENTAL and public qualification, robustness, modal/dynamic routes, nonlinear routes and external correlation remain deferred. |
+| `COMB-WEDGE6-modal` | WEDGE6 | modal | isotropic_3d | consistent_mass_linear_elastic | SUPPORTED | VERIFIED | EXPERIMENTAL | qualification/0_2_7/wp10_state.json; qualification/0_2_7/vnv_v2/wp10_cases.json | WP10 covers the common modal route with consistent translational mass for homogeneous isotropic WEDGE6 models in the declared internal scope. Static evidence is not transferred automatically; external modal correlation, broad refinement and public qualification remain bounded or deferred. |
 
 ## Migration Boundary
 

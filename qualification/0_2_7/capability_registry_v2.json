@@ -84,14 +84,15 @@
     "COMB-DISCRETE-modal",
     "COMB-DISCRETE-newmark_transient",
     "COMB-DISCRETE-harmonic",
-    "COMB-WEDGE6-linear_static"
+    "COMB-WEDGE6-linear_static",
+    "COMB-WEDGE6-modal"
   ],
   "migration": {
     "from_registry": "qualification/capability_registry.json",
     "from_schema_version": 1,
     "source_public_capability_count": 33,
     "migrated_capability_count": 33,
-    "combination_record_count": 45,
+    "combination_record_count": 46,
     "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
     "g14_guardrail_source": "qualification/0_2_6/g14_capability_coverage.json"
   },
@@ -2588,6 +2589,36 @@
         "source_registry": "qualification/0_2_7/wp07_state.json",
         "source_snapshot": "9c23706e952262ab8ee71d85c809e46d7abab8b7",
         "migration_note": "New 0.2.7 technical experimental combination; not a legacy public capability anchor."
+      }
+    },
+    {
+      "capability_id": "COMB-WEDGE6-modal",
+      "record_kind": "combination",
+      "element_family": "WEDGE6",
+      "analysis": "modal",
+      "material_model": "isotropic_3d",
+      "formulation_or_route": "consistent_mass_linear_elastic",
+      "backend_or_solver_route": "scipy_sparse_common_modal",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "qualification/0_2_7/wp10_state.json",
+        "qualification/0_2_7/vnv_v2/wp10_cases.json",
+        "qualification/0_2_7/vnv_v2/wp10_evidence.json",
+        "docs/verification/0_2_7/0_2_7_wedge6_modal.md",
+        "tests/unit/test_wp10_wedge6_modal.py"
+      ],
+      "owner_decision": "WP10_MODAL_EXPERIMENTAL_PENDING_OWNER_REVIEW",
+      "limitations": "WP10 covers the common modal route with consistent translational mass for homogeneous isotropic WEDGE6 models in the declared internal scope. Static evidence is not transferred automatically; external modal correlation, broad refinement and public qualification remain bounded or deferred.",
+      "applicable_version": "0.2.7a0",
+      "source_snapshot": "ea356c484ebb2a3c4282f6eb9cbae6b1992eee6e",
+      "supersedes": [],
+      "historical_origin": {
+        "legacy_capability_id": "COMB-WEDGE6-linear_static",
+        "source_registry": "qualification/0_2_7/capability_registry_v2.json",
+        "source_snapshot": "8040909d6d65f740e1daf858ce572d250a87b39a",
+        "migration_note": "New modal combination; static WEDGE6 maturity and evidence are not reused as modal qualification."
       }
     }
   ]
