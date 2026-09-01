@@ -143,7 +143,7 @@
       "title": "WEDGE6 robustness and external V&V",
       "status": "PASS_WITH_LIMITATIONS",
       "start_sha": "2a27291bcc72e5819014fa172e3d056e80a87d43",
-      "evidence_head": "2a27291bcc72e5819014fa172e3d056e80a87d43",
+      "evidence_head": "d3cb2cc43886c56471778a91bef965dee869a8d4",
       "depends_on": ["027-G08"],
       "go": ["mesh, distortion and deterministic failure evidence pass", "external outcomes are separated and no false qualification is claimed"],
       "stop": ["unexplained divergence", "weakened criterion", "false external PASS", "silent geometry or state failure"],

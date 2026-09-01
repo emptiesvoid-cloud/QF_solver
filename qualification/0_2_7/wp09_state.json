@@ -4,7 +4,7 @@
   "gate": "027-G09",
   "status": "PASS_WITH_LIMITATIONS",
   "start_sha": "2a27291bcc72e5819014fa172e3d056e80a87d43",
-  "evidence_source_sha": "2a27291bcc72e5819014fa172e3d056e80a87d43",
+  "evidence_source_sha": "d3cb2cc43886c56471778a91bef965dee869a8d4",
   "evidence_artifact": "qualification/0_2_7/vnv_v2/wp09_evidence.json",
   "evidence_catalog": "qualification/0_2_7/vnv_v2/wp09_cases.json",
   "case_count": 22,
@@ -40,7 +40,8 @@
   },
   "external": {
     "calculix_c3d6": "PARTIAL_NOT_FORMULATION_COMPATIBLE",
-    "code_aster_penta6": "UNAVAILABLE_IMAGE_MPI4PY_FAILURE",
+    "code_aster_penta6": "PASS_EXTERNAL_CORRELATION_BOUNDED",
+    "code_aster_evidence": "qualification/0_2_7/vnv_v2/wp09r_code_aster_evidence.json",
     "primary_observables": ["displacement", "total_reaction", "strain_energy"],
     "affine_tolerance": "1e-6 predeclared WP05 candidate, OWNER_REVIEW_REQUIRED",
     "non_affine_tolerance": "case-specific Owner approval required before execution",
@@ -54,11 +55,12 @@
     "loads": ["nodal", "tri3_pressure", "quad4_pressure", "surface_traction"],
     "backend": "scipy_sparse",
     "element": "WEDGE6",
-    "external": ["CalculiX C3D6 predeclared deck", "Code_Aster PENTA6 attempted preflight"]
+    "external": ["CalculiX C3D6 predeclared deck", "Code_Aster PENTA6 affine same-mesh correlation"]
   },
   "limitations": [
     "CalculiX C3D6 comparison is not formulation-compatible: its two-point route is not QF TRI3_X_GAUSS2.",
-    "Code_Aster PENTA6 could not execute because the pinned image aborts before the command file on missing mpi4py.",
+    "Code_Aster PENTA6 has one affine same-mesh correlation through a locally built headless image; the remaining external cases are unclaimed.",
+    "The affine 1e-6 tolerance remains a predeclared OWNER_REVIEW_REQUIRED candidate.",
     "No external correlation verdict is claimed for pressure, refinement or distorted cases.",
     "WEDGE6 remains EXPERIMENTAL and is not publicly qualified.",
     "Modal, Newmark, harmonic, nonlinear, J2, TL and contact routes remain outside WP09."
@@ -69,5 +71,20 @@
   "ready_for_wp10": true,
   "owner_review_required": true,
   "artifact_classification": "CONTROLLED_PROOF",
-  "replay_command": "PYTHONPATH=src python scripts/run_wp09_wedge6.py"
+  "replay_command": "docker build --pull=false -f qualification/0_2_7/external_oracles/wedge6/docker/Dockerfile -t qf-solver/code-aster-headless:18.1.0 .; PYTHONPATH=src python scripts/run_wp09_wedge6.py",
+  "wp09r": {
+    "status": "PASS_WITH_LIMITATIONS",
+    "root_cause_mpi4py": "mpi4py exists in the base image Spack view but was not exposed by the stock run_aster profile; --no-mpi does not bypass the import.",
+    "docker_headless": "PASS",
+    "run_aster_no_mpi": "PASS",
+    "minimal_comm": "PASS",
+    "penta6_decks_run": 1,
+    "external_cases_pass": 1,
+    "external_cases_fail": 0,
+    "tolerances_changed": false,
+    "gui_used": false,
+    "existing_fem_numerics_changed": false,
+    "full_regression_run": false,
+    "pushed": false
+  }
 }
