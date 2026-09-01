@@ -18,7 +18,7 @@ def test_wp13_catalog_covers_the_declared_golden_set() -> None:
     assert len(cases) == 9
     assert len({case.case_id for case in cases}) == 9
     assert {case.element for case in cases} >= {"TET4", "TET10", "HEX8", "HEX20", "WEDGE6", "PYRAMID5"}
-    assert all(case.provenance["source_snapshot"] == "fcdde28a146a3a502972fdad30821f8e8a857da7" for case in cases)
+    assert all(case.provenance["source_snapshot"] == "eb2e6b89efbc6f3559a1ae439dad60d3cc47a210" for case in cases)
     assert all(case.provenance["artifact_classification"] == "CONTROLLED_PROOF" for case in cases)
 
 

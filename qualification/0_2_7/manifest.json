@@ -11,10 +11,10 @@
   "evidence_head": "94461602dfd1782be57c20e1801a0d5d8e262ef1",
   "wp11_status": "PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED",
   "wp11_evidence_source_sha": "94461602dfd1782be57c20e1801a0d5d8e262ef1",
-  "current_development_head": "fcdde28a146a3a502972fdad30821f8e8a857da7",
+  "current_development_head": "eb2e6b89efbc6f3559a1ae439dad60d3cc47a210",
   "current_development_branch": "codex/0.2.7-foundation",
   "wp13_status": "PASS",
-  "wp13_evidence_source_sha": "fcdde28a146a3a502972fdad30821f8e8a857da7",
+  "wp13_evidence_source_sha": "eb2e6b89efbc6f3559a1ae439dad60d3cc47a210",
   "wp13_golden_case_catalog": "qualification/0_2_7/golden/cases.json",
   "wp13_golden_evidence": "qualification/0_2_7/golden/evidence.json",
   "parent_release": {
