@@ -7,12 +7,15 @@ reviewer: ""
 approver: ""
 ---
 
-# 0.2.7 Master Plan
+# 0.2.7 Master Plan and Level-Up Extension
 
 ## Objective and boundary
 
-The proposed theme is **Prismatic Solid Interoperability and Numerical
-Robustness**. The plan targets a controlled WEDGE6 vertical slice, stronger
+The foundation theme **Prismatic Solid Interoperability and Numerical
+Robustness** is historical scope. The active official theme is
+**Reproducible Large-Model Solving and Numerical Trust**. The Level-Up
+extension targets reproducible large-model execution and numerical trust,
+while preserving the controlled WEDGE6 vertical slice and stronger
 cross-family contracts and better evidence. It does not authorize new physics
 by itself. WEDGE15, PYRAMID5, TL HEX8, refined Arc-Length, finite-kinematic J2,
 friction/finite sliding/mortar and HEX8R qualification are outside the
@@ -27,8 +30,10 @@ contract control is `PASS`. WP07 is now `PASS` for the experimental elemental
 kernel; WP08 and WP09 are complete with their recorded bounded scope, WP10 has
 completed its independent bounded modal qualification for the declared
 consistent-mass route, WP11 records
-`PASS_WITH_LIMITATIONS` with Owner review required, WP13-WP14 remain
-`NOT_STARTED`, and WP12 retains its bounded readiness status.
+`PASS_WITH_LIMITATIONS` with Owner review required, and WP12 retains its
+bounded readiness status. The foundation WP01-WP12 history is preserved; the
+Level-Up portfolio is `CLOSED / ACCEPT_WITH_CONSOLIDATION`, while WP13-WP22
+remain individually `PLANNED`.
 
 ## Work packages and STOP/GO criteria
 
@@ -208,7 +213,7 @@ consistent-mass route, WP11 records
 - **Status:** `PASS_WITH_LIMITATIONS`; bounded evidence recorded, Owner review
   pending.
 
-### WP13 - Research and stretch selection
+### Historical foundation WP13 - Research and stretch selection
 
 - **Objective:** select only high-value research candidates after the core
   contracts are stable.
@@ -222,7 +227,7 @@ consistent-mass route, WP11 records
 - **Files:** `0_2_7_owner_decision_log.md`, research evidence only.
 - **Status:** `NOT_STARTED`.
 
-### WP14 - Documentation and release closeout
+### Historical foundation WP14 - Documentation and release closeout
 
 - **Objective:** reconcile registry, docs, package, reproducibility, full
   regression and Owner release decision.
@@ -243,3 +248,34 @@ WP07 is complete only for the experimental elemental kernel; WP08 must add the
 static/import/load/post workflow before any user-facing WEDGE6 claim. Stretch
 work is optional and cannot delay a bounded core unless it changes a public
 claim.
+
+## Official Level-Up extension
+
+The active official theme is **Reproducible Large-Model Solving and Numerical
+Trust**. The portfolio decision is `CLOSED / ACCEPT_WITH_CONSOLIDATION` for
+the scope extension only. WP01-WP12 and their evidence remain preserved;
+WP13-WP22 are individually `PLANNED` until their own evidence is recorded.
+
+| WP | Title | Weight | Priority | Status |
+| --- | --- | ---: | --- | --- |
+| WP13 | Release truth and golden numerical baseline | 4% | MUST | `PLANNED` |
+| WP14 | Large-scale execution contract | 5% | MUST | `PLANNED` |
+| WP15 | Matrix-Free TET4 V2 / SPD / preconditioning | 10% | MUST | `PLANNED` |
+| WP16 | True 1M DOF qualification | 10% | MUST / release blocker | `PLANNED` |
+| WP17 | PETSc/MPI + large sparse path | 5% | SHOULD | `PLANNED` |
+| WP18 | 3M DOF ladder Bronze/Silver/Gold | 7% | MUST / mandatory | `PLANNED` |
+| WP19 | Adversarial robustness + HEX8 diagnostic | 5% | MUST | `PLANNED` |
+| WP20 | Residual J2 / external V&V closure | 3% | SHOULD | `PLANNED` |
+| WP21 | Architecture/API/registry surgical cleanup | 3% | SHOULD | `PLANNED` |
+| WP22 | Final Release Qualification | 3% | MUST | `PLANNED` |
+
+Machine-readable criteria are in `qualification/0_2_7/level_up_plan.json`.
+WP16 requires a true 1M FEM iterative solve with reactions, residual,
+equilibrium, energy, subscale comparison and two replays. WP18 separates
+Bronze model/resource preflight, Silver full solve and Gold distributed/restart
+evidence; Bronze alone authorizes no 3M solve claim.
+
+The following remain deferred to 0.2.8+: mixed TET/WEDGE/HEX, WEDGE15,
+PYRAMID5, production HEX8R/SRI/B-bar, finite-kinematic J2, TL HEX8, refined
+Arc-Length, new nonlinear couplings, matrix-free multi-family and general
+Newmark/harmonic qualification.

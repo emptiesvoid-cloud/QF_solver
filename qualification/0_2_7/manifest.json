@@ -2,7 +2,7 @@
   "schema_version": 1,
   "manifest_id": "QF-027-FOUNDATION-001",
   "target_version": "0.2.7a0",
-  "theme": "Prismatic Solid Interoperability and Numerical Robustness",
+  "theme": "Reproducible Large-Model Solving and Numerical Trust",
   "baseline_sha": "e839373b6aef291a93292186d7553ba5cd12af55",
   "baseline_branch": "main",
   "foundation_branch": "codex/0.2.7-foundation",
@@ -11,7 +11,7 @@
   "evidence_head": "94461602dfd1782be57c20e1801a0d5d8e262ef1",
   "wp11_status": "PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED",
   "wp11_evidence_source_sha": "94461602dfd1782be57c20e1801a0d5d8e262ef1",
-  "current_development_head": "7d494eaa638ffa88a04ed3e5c51f6036ad1804a1",
+  "current_development_head": "72888ea63241a4445f6600aa6c2b882401f85ef1",
   "current_development_branch": "codex/0.2.7-foundation",
   "parent_release": {
     "version": "0.2.6a0",
@@ -50,7 +50,24 @@
     "BUILD_ARTIFACT": "wheel, sdist and local build output"
   },
   "text_digest_policy": "UTF-8 with LF newlines, hashed as canonical bytes with SHA-256; binary artifacts are hashed byte-for-byte.",
+  "level_up_scope": {
+    "plan": "qualification/0_2_7/level_up_plan.json",
+    "namespace": "027-LEVEL-UP",
+    "status": "CLOSED_ACCEPT_WITH_CONSOLIDATION",
+    "historical_wp01_wp12_preserved": true,
+    "current_acquired_percent": 41,
+    "current_progress_percent": 41,
+    "weights_total_percent": 100,
+    "wp16_release_blocker": true,
+    "wp18_mandatory": true,
+    "public_maturity_promotion_in_setup": false,
+    "defer_path": "0.2.8+"
+  },
   "documents": [
+    "qualification/0_2_7/level_up_plan.json",
+    "qualification/0_2_7/requirements.json",
+    "qualification/0_2_7/progress.json",
+    "qualification/0_2_7/gates.json",
     "docs/verification/0_2_7/README.md",
     "docs/verification/0_2_7/0_2_7_master_plan.md",
     "docs/verification/0_2_7/0_2_7_gate_matrix.md",

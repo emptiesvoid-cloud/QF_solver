@@ -7,9 +7,9 @@ reviewer: ""
 approver: ""
 ---
 
-# QF Solver 0.2.7a0 Foundation
+# QF Solver 0.2.7a0 Foundation and Level-Up
 
-**Prismatic solid interoperability and numerical robustness.**
+**Reproducible large-model solving and numerical trust.**
 
 This directory is the controlled evidence pack for the `0.2.7a0` development
 cycle. It is not a release claim. WP01 release truth and provenance is `PASS`; WP02 is `PASS` for the
@@ -20,14 +20,23 @@ diagnostic contract; WP07 is `PASS` for the experimental elemental WEDGE6
 kernel and its targeted V&V; WP10 is `PASS_WITH_LIMITATIONS` with modal maturity
 `QUALIFIED_BOUNDED` within its declared scope; WP12 is `PASS_WITH_LIMITATIONS` for bounded large-scale
 readiness evidence; WP11 is `PASS_WITH_LIMITATIONS` with Owner review required,
-while WP13-WP14 remain `NOT_STARTED`.
+while the foundation WP01-WP12 evidence remains preserved. The official
+Level-Up portfolio is `CLOSED / ACCEPT_WITH_CONSOLIDATION`; WP13-WP22 are
+individually `PLANNED` until their own evidence exists.
+
+The machine-readable Level-Up source is
+`qualification/0_2_7/level_up_plan.json`. WP16 is the release blocker for a
+true 1M-DOF claim. WP18 is mandatory and distinguishes Bronze model/preflight,
+Silver full solve and Gold distributed/restart evidence. No setup record
+promotes maturity or claims a 3M solve.
 
 ## Baseline and status
 
 | Item | Value |
 | --- | --- |
 | Target version | `0.2.7a0` |
-| Theme | Prismatic solid interoperability and numerical robustness |
+| Active theme | Reproducible Large-Model Solving and Numerical Trust |
+| Historical foundation theme | Prismatic solid interoperability and numerical robustness |
 | Authoritative starting point | `e839373b6aef291a93292186d7553ba5cd12af55` |
 | Starting branch | `main` at the recorded baseline |
 | Foundation branch | Dedicated 0.2.7 foundation branch |
@@ -75,8 +84,7 @@ in [`0_2_7_progress_tracker.md`](0_2_7_progress_tracker.md).
 | WP10 | WEDGE6 modal qualification | `PASS_WITH_LIMITATIONS` (`QUALIFIED_BOUNDED`, bounded) |
 | WP11 | Existing capability maturity and J2 gaps | `PASS_WITH_LIMITATIONS` (Owner review required) |
 | WP12 | Large-scale and 1M-DOF readiness | `PASS_WITH_LIMITATIONS` |
-| WP13 | Research/stretch candidates | `NOT_STARTED` |
-| WP14 | Documentation, regression and Owner release review | `NOT_STARTED` |
+| Foundation WP13-WP14 proposal | Superseded by the Level-Up namespace | `PRESERVED_HISTORY` |
 
 ## Reading rules
 

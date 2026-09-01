@@ -76,6 +76,31 @@ The evidence is recorded in
 `0_2_7_large_scale_readiness.md`; `027-OD-005` remains
 `PROPOSED_OWNER_REVIEW`.
 
+## Official Level-Up portfolio
+
+`027-LEVEL-UP` is `CLOSED / ACCEPT_WITH_CONSOLIDATION`: the scope was
+accepted, but no WP13-WP22 result is implied by this portfolio decision.
+Individual Level-Up gates remain `PLANNED` until their declared evidence is
+executed. The active theme is **Reproducible Large-Model Solving and
+Numerical Trust**.
+
+| Level-Up gate | Work package | Status | Weight | Required interpretation |
+| --- | --- | --- | ---: | --- |
+| `LUP-027-G13` | WP13 release truth and golden baseline | `PLANNED` | 4% | distinct SHA roles and golden baseline |
+| `LUP-027-G14` | WP14 large-scale execution contract | `PLANNED` | 5% | real topology and resource capture |
+| `LUP-027-G15` | WP15 matrix-free TET4 V2 | `PLANNED` | 10% | SPD, preconditioning and assembled subscale |
+| `LUP-027-G16` | WP16 true 1M DOF qualification | `PLANNED` | 10% | release blocker; full iterative FEM solve |
+| `LUP-027-G17` | WP17 PETSc/MPI and large sparse path | `PLANNED` | 5% | reproducible backend/environment contract |
+| `LUP-027-G18` | WP18 3M Bronze/Silver/Gold ladder | `PLANNED` | 7% | Bronze is not a solve claim; Silver is main target |
+| `LUP-027-G19` | WP19 adversarial robustness and HEX8 diagnostic | `PLANNED` | 5% | fail-closed diagnostics without promotion |
+| `LUP-027-G20` | WP20 residual J2 and external V&V closure | `PLANNED` | 3% | no post-result retuning |
+| `LUP-027-G21` | WP21 surgical architecture/API/registry cleanup | `PLANNED` | 3% | legacy compatibility preserved |
+| `LUP-027-G22` | WP22 final release qualification | `PLANNED` | 3% | final regression/package/Owner checkpoint |
+
+Machine-readable criteria are in `qualification/0_2_7/level_up_plan.json` and
+`qualification/0_2_7/requirements.json`. WP16 is a release blocker and WP18
+is mandatory. No setup record promotes a capability.
+
 ## `027-G11` bounded J2 maturity extension
 
 WP11 records `PASS_WITH_LIMITATIONS` for the existing small-strain J2 route,

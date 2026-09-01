@@ -1,0 +1,146 @@
+{
+  "schema_version": 1,
+  "plan_id": "QF-027-LEVEL-UP-001",
+  "release": "0.2.7a0",
+  "theme": "Reproducible Large-Model Solving and Numerical Trust",
+  "status": "CLOSED_ACCEPT_WITH_CONSOLIDATION",
+  "decision": "Gate Level-Up is accepted as the official consolidation scope; no work package is evidence-complete by this record.",
+  "source_snapshot": "72888ea63241a4445f6600aa6c2b882401f85ef1",
+  "source_branch": "codex/0.2.7-foundation",
+  "parent_release": {
+    "version": "0.2.6a0",
+    "release_source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+    "tag": "v0.2.6a0"
+  },
+  "progress_accounting": {
+    "historical_completed_block_percent": 45,
+    "current_acquired_percent": 41,
+    "current_progress_percent": 41,
+    "level_up_extension_percent": 55,
+    "weights_total_percent": 100,
+    "accounting_note": "The historical block, acquired status and active progress are governance views and are not additive. WP13-WP22 weights sum to the 55 percent extension; all are initially planned."
+  },
+  "historical_scope": {
+    "work_packages": ["WP01", "WP02", "WP03", "WP04", "WP05", "WP06", "WP07", "WP08", "WP09", "WP10", "WP11", "WP12"],
+    "preserved": true,
+    "evidence_is_rewritten": false,
+    "maturity_is_promoted": false
+  },
+  "work_packages": [
+    {
+      "id": "WP13",
+      "title": "Release truth and golden numerical baseline",
+      "weight_percent": 4,
+      "priority": "MUST",
+      "status": "PLANNED",
+      "pass_criteria": ["qualification, release and development SHA roles are distinct", "golden numerical baseline is reproducible and digest-backed", "no historical evidence is relabeled as current"],
+      "stop_conditions": ["ambiguous provenance", "numerical baseline drift without explanation"]
+    },
+    {
+      "id": "WP14",
+      "title": "Large-scale execution contract",
+      "weight_percent": 5,
+      "priority": "MUST",
+      "status": "PLANNED",
+      "pass_criteria": ["model topology and true DOF are explicit", "CPU/RAM/time/backend/preconditioner and digest capture is deterministic", "resource-limited outcomes are not claims"],
+      "stop_conditions": ["synthetic size claim without a real FEM solve", "missing resource context"]
+    },
+    {
+      "id": "WP15",
+      "title": "Matrix-free TET4 V2, SPD and preconditioning",
+      "weight_percent": 10,
+      "priority": "MUST",
+      "status": "PLANNED",
+      "pass_criteria": ["public TET4 matrix-free route is numerically equivalent to assembled subscale reference", "SPD assumptions and failure conditions are demonstrated", "preconditioner behavior and deterministic replay are recorded"],
+      "stop_conditions": ["unexplained residual drift", "matrix-free route silently changes the assembled result"]
+    },
+    {
+      "id": "WP16",
+      "title": "True 1M DOF qualification",
+      "weight_percent": 10,
+      "priority": "MUST",
+      "status": "PLANNED",
+      "release_blocker": true,
+      "pass_criteria": ["at least 1000000 real FEM DOF", "public TET4 route with loads, BC and reactions", "complete iterative solve without timeout or resource-limited verdict", "valid residual, finite displacement, equilibrium and energy", "matrix-free and assembled subscale comparison", "two deterministic replays", "CPU/RAM/threads/backend/preconditioner/versions and digests archived"],
+      "stop_conditions": ["resource-limited or incomplete solve", "missing reactions or equilibrium", "claim based only on assembly or preflight"]
+    },
+    {
+      "id": "WP17",
+      "title": "PETSc/MPI and large sparse path",
+      "weight_percent": 5,
+      "priority": "SHOULD",
+      "status": "PLANNED",
+      "pass_criteria": ["PETSc/MPI path is reproducibly provisioned or explicitly unavailable", "backend selection and solver/preconditioner configuration are explicit", "serial fallback remains fail-closed and traceable"],
+      "stop_conditions": ["environment-specific success presented as universal support", "unreproducible distributed result"]
+    },
+    {
+      "id": "WP18",
+      "title": "3M DOF ladder Bronze/Silver/Gold",
+      "weight_percent": 7,
+      "priority": "MUST",
+      "status": "PLANNED",
+      "mandatory": true,
+      "pass_criteria": ["Bronze builds a real 3M FEM model and records resource/preflight envelope", "Silver completes a reproducible full solve", "Gold demonstrates PETSc/MPI distributed solve, restart and a second case or scaling point"],
+      "claims_policy": "Bronze alone authorizes no 3M solve claim; Silver is the principal target; Gold is stretch.",
+      "stop_conditions": ["Bronze relabeled as full solve", "missing resource envelope", "non-reproducible Silver"]
+    },
+    {
+      "id": "WP19",
+      "title": "Adversarial robustness and HEX8 diagnostic",
+      "weight_percent": 5,
+      "priority": "MUST",
+      "status": "PLANNED",
+      "pass_criteria": ["BC, singularity, mesh, orientation and failure paths are fail-closed", "HEX8 behavior is diagnosed against compatible references", "no formulation promotion or threshold weakening is inferred"],
+      "stop_conditions": ["silent failure", "low-order limitation treated as an unexplained solver defect", "new formulation introduced without review"]
+    },
+    {
+      "id": "WP20",
+      "title": "Residual J2 and external V&V closure",
+      "weight_percent": 3,
+      "priority": "SHOULD",
+      "status": "PLANNED",
+      "pass_criteria": ["increment, tangent and residual gaps are characterized on the existing bounded J2 scope", "comparable external evidence is reproducible", "finite-kinematic J2 remains outside qualification"],
+      "stop_conditions": ["post-result tolerance retuning", "unexplained cross-family drift"]
+    },
+    {
+      "id": "WP21",
+      "title": "Architecture, API and registry surgical cleanup",
+      "weight_percent": 3,
+      "priority": "SHOULD",
+      "status": "PLANNED",
+      "pass_criteria": ["interfaces and dependency direction are documented", "registry/API cleanup is incremental", "legacy routes and public imports remain compatible"],
+      "stop_conditions": ["mass refactor", "unreviewed public API break", "maturity inferred from implementation presence"]
+    },
+    {
+      "id": "WP22",
+      "title": "Final release qualification",
+      "weight_percent": 3,
+      "priority": "MUST",
+      "status": "PLANNED",
+      "pass_criteria": ["final regression and package checks pass at the declared release checkpoint", "public claims, evidence, registry and provenance agree", "Owner release decision records all residual limitations"],
+      "stop_conditions": ["unclassified failure", "stale public claim", "package or provenance drift"]
+    }
+  ],
+  "defer_0_2_8_plus": [
+    "mixed TET/WEDGE/HEX",
+    "WEDGE15",
+    "PYRAMID5",
+    "production HEX8R/SRI/B-bar",
+    "finite-kinematic J2",
+    "TL HEX8",
+    "refined Arc-Length",
+    "new nonlinear couplings",
+    "matrix-free multi-family",
+    "general Newmark/harmonic qualification"
+  ],
+  "validation_policy": {
+    "setup_tests": ["documentation", "governance", "registry", "anti-forgetting", "ruff", "compileall"],
+    "full_regression_run": false,
+    "heavy_benchmark_run": false,
+    "planned_is_not_evidence": true,
+    "resource_limited_is_not_pass": true,
+    "new_maturity_promotion": false
+  },
+  "artifact_classification": "CONTROLLED_PLAN",
+  "provenance_policy": "UTF-8 with LF newlines and SHA-256 canonical text digests; this plan does not replace execution evidence."
+}

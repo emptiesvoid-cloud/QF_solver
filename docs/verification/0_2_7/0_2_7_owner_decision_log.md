@@ -235,3 +235,25 @@ Increment partition results are characterization only: no universal
 structural independence threshold is introduced. Tangent symmetry remains a
 diagnostic, modified Newton remains diagnostic, finite-kinematic J2 remains
 experimental/not qualified, and no new external structural run is claimed.
+
+## 027-LEVEL-UP - official extended scope decision
+
+Date: 2026-09-01. Source snapshot:
+`72888ea63241a4445f6600aa6c2b882401f85ef1`.
+
+Owner decision: `CLOSED / ACCEPT_WITH_CONSOLIDATION` for the portfolio named
+**Reproducible Large-Model Solving and Numerical Trust**. The decision accepts
+WP13-WP22 as the official next scope and does not mark any of them complete,
+does not promote a capability, and does not rewrite WP01-WP12 evidence.
+
+WP16 is a release blocker and requires a true reproducible 1M-DOF iterative
+FEM solve with loads, BC, reactions, residual, equilibrium, energy, two
+replays and full resource/provenance capture. WP18 is mandatory and separates
+3M Bronze model/preflight, Silver full solve and Gold PETSc/MPI distributed
+restart/second-case evidence. Bronze alone authorizes no 3M solve claim.
+
+Deferred to 0.2.8+: mixed TET/WEDGE/HEX, WEDGE15, PYRAMID5, production
+HEX8R/SRI/B-bar, finite-kinematic J2, TL HEX8, refined Arc-Length, new
+nonlinear couplings, matrix-free multi-family and general Newmark/harmonic
+qualification. Machine-readable criteria are in
+`qualification/0_2_7/level_up_plan.json`.
