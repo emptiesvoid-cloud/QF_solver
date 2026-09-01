@@ -31,6 +31,16 @@
     "replay": "PASS",
     "historical_evidence_rewritten": false
   },
+  "wp14_large_scale_contract": {
+    "status": "PASS",
+    "source_sha": "ee1513808f5190db116ccaddc31fcd25573c9631",
+    "contract": "qualification/0_2_7/wp14_execution_contract.json",
+    "state": "qualification/0_2_7/wp14_state.json",
+    "heavy_benchmark_run": false,
+    "numerical_source_changed": false,
+    "one_million_solve_claim": false,
+    "three_million_solve_claim": false
+  },
   "current_development_branch": "dedicated 0.2.7 foundation branch",
   "publication_state_026": {
     "git_tag": "PRESENT",

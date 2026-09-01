@@ -22,7 +22,8 @@ kernel and its targeted V&V; WP10 is `PASS_WITH_LIMITATIONS` with modal maturity
 readiness evidence; WP11 is `PASS_WITH_LIMITATIONS` with Owner review required,
 while the foundation WP01-WP12 evidence remains preserved. The official
 Level-Up portfolio is `CLOSED / ACCEPT_WITH_CONSOLIDATION`; WP13 is `PASS` on
-its controlled golden-baseline evidence, while WP14-WP22 remain individually
+its controlled golden-baseline evidence and WP14 is `PASS` on its frozen
+execution contract, while WP15-WP22 remain individually
 `PLANNED` until their own evidence exists.
 
 The machine-readable Level-Up source is

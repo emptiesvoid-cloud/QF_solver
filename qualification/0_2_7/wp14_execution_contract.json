@@ -1,0 +1,192 @@
+{
+  "schema_version": 1,
+  "contract_id": "QF-027-WP14-LARGE-EXECUTION-001",
+  "work_package": "WP14",
+  "gate": "LUP-027-G14",
+  "status": "PASS",
+  "start_sha": "ee1513808f5190db116ccaddc31fcd25573c9631",
+  "source_snapshot": "ee1513808f5190db116ccaddc31fcd25573c9631",
+  "scope": "Freeze the physical model, execution environment, acceptance metrics and resource rules before WP15-WP18 execution.",
+  "reference_model": {
+    "model_id": "WP14-TET4-STRUCTURED-BLOCK-1M-001",
+    "element_family": "TET4",
+    "analysis": "linear_static",
+    "material": {
+      "type": "isotropic_3d",
+      "young_pa": 210000000000.0,
+      "poisson": 0.3,
+      "density_kg_per_m3": 7800.0,
+      "homogeneous": true
+    },
+    "geometry_m": {
+      "length_x": 1.0,
+      "height_y": 1.0,
+      "depth_z": 1.0
+    },
+    "mesh": {
+      "generator": "solveur.large.generator.generate_tet4_block",
+      "cli_entrypoint": "qf_solver.py generate-large-tet4-block",
+      "nx": 69,
+      "ny": 69,
+      "nz": 69,
+      "decomposition": "six",
+      "tetrahedra_per_brick": 6,
+      "node_count": 343000,
+      "element_count": 1971054,
+      "true_dof": 1029000,
+      "minimum_true_dof": 1000000,
+      "mesh_is_structured": true,
+      "mesh_digest": "CAPTURE_AT_EXECUTION_FROM_GENERATED_H5"
+    },
+    "boundary_conditions": {
+      "fixed_boundary": "x=0 face, translations ux uy uz",
+      "fixed_node_count": 4900,
+      "fixed_dof_count": 14700,
+      "singularity_policy": "fail_closed_if_free_system_is_not_well_constrained"
+    },
+    "loading": {
+      "type": "nodal_dead_load",
+      "loaded_boundary": "x=1 face",
+      "component": "x",
+      "distribution": "uniform",
+      "total_force_n": 1000000.0,
+      "loaded_node_count": 4900,
+      "individual_force_rule": "total_force_n / loaded_node_count",
+      "resultant_invariant": "sum of nodal forces must equal total_force_n within 1e-12 relative"
+    },
+    "generation_command": "python qf_solver.py generate-large-tet4-block --output <model.h5> --nx 69 --ny 69 --nz 69 --length 1 --height 1 --depth 1 --young 210000000000 --poisson 0.3 --density 7800 --total-load 1000000",
+    "units": "SI",
+    "input_digest": {
+      "required": true,
+      "algorithm": "SHA-256",
+      "representation": "generated HDF5 bytes, byte-for-byte",
+      "captured_at_execution": true
+    }
+  },
+  "subscale_cases": [
+    {"case_id": "WP14-SUB-002", "nx": 2, "ny": 2, "nz": 2, "node_count": 27, "element_count": 48, "true_dof": 81},
+    {"case_id": "WP14-SUB-004", "nx": 4, "ny": 4, "nz": 4, "node_count": 125, "element_count": 384, "true_dof": 375},
+    {"case_id": "WP14-SUB-008", "nx": 8, "ny": 8, "nz": 8, "node_count": 729, "element_count": 3072, "true_dof": 2187},
+    {"case_id": "WP14-SUB-016", "nx": 16, "ny": 16, "nz": 16, "node_count": 4913, "element_count": 24576, "true_dof": 14739}
+  ],
+  "execution_environment": {
+    "profile_id": "WP14-LOCAL-WINDOWS-AMD64-PY313-OPENBLAS",
+    "captured_at": "2026-09-01",
+    "os": "Windows 10 x86_64",
+    "cpu": "AMD64 Family 25 Model 80 Stepping 0",
+    "logical_cpus": 12,
+    "physical_memory_bytes": 102963109888,
+    "python": "3.13.1",
+    "numpy": "2.2.6",
+    "scipy": "1.15.2",
+    "blas": "scipy-openblas 0.3.29",
+    "threads": 1,
+    "thread_environment": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1"
+    },
+    "environment_match_policy": "An execution on another profile must record its own environment and is not equivalent evidence."
+  },
+  "solver_contract": {
+    "reference_backend": "matrix_free",
+    "reference_solver": "CG",
+    "reference_preconditioner": "nodal_block_jacobi",
+    "assembled_subscale_backend": "scipy",
+    "assembled_subscale_solver": "CG",
+    "assembled_subscale_preconditioner": "jacobi",
+    "chunk_size": 4096,
+    "random_seed": 0,
+    "seed_policy": "No stochastic operation is used by the reference generator or solver; the declared seed is recorded for replay and any nonzero seed is separate evidence.",
+    "rtol": 1e-8,
+    "atol": 0.0,
+    "max_iterations": 10000,
+    "backend_selection": "explicit_only",
+    "fallback_policy": "none; unavailable or nonconforming backend is FAIL_CLOSED or RESOURCE_LIMITED, never an implicit fallback"
+  },
+  "spd_cg_contract": {
+    "applicability": "constrained homogeneous isotropic linear-elastic TET4 reference model only",
+    "symmetry_relative_tolerance": 1e-12,
+    "positive_definite_requirement": "constrained free-free operator must be SPD; rigid modes or non-positive curvature reject CG qualification",
+    "preconditioner_requirement": "finite positive nodal blocks; singular blocks are an explicit failure",
+    "diagnostic_policy": "CG is not universal; unsupported symmetry/positive-definiteness must fail closed before qualification",
+    "subscale_certificate": "assembled operator may use a direct SPD diagnostic before comparison; no dense conversion at qualification scale"
+  },
+  "acceptance_metrics": {
+    "residual": {"observable": "relative free residual", "formula": "||K u - f||_2 / max(||f_free||_2, 1)", "max": 1e-8},
+    "equilibrium": {"observable": "reaction plus applied load balance", "normalization": "max(||f||_2, 1)", "max": 1e-8},
+    "energy": {"observable": "0.5*u^T*K*u versus u^T*f for constrained linear system", "relative_max": 1e-8},
+    "displacement": {"observable": "finite displacement vector and finite norm", "condition": "all values finite"},
+    "matrix_free_assembled_subscale": {
+      "displacement_relative_l2_max": 1e-8,
+      "reaction_relative_max": 1e-8,
+      "energy_relative_max": 1e-8,
+      "residual_relative_max": 1e-8,
+      "comparison_rule": "same generated input, same physical model and explicit backend metadata"
+    },
+    "tolerances_status": "FROZEN_BEFORE_WP15_WP16",
+    "post_result_retuning": false
+  },
+  "replay_policy": {
+    "required_replays_for_1m": 2,
+    "independent_replays": true,
+    "must_match": ["source_sha", "input_digest", "configuration_digest", "topology", "dof", "verdict", "residual", "equilibrium", "energy"],
+    "numeric_comparison": "record absolute and relative deltas; no unexplained drift is accepted",
+    "hardware_policy": "same frozen profile for qualification; changed hardware is separate evidence",
+    "mismatch_verdict": "INVALID_EVIDENCE"
+  },
+  "resource_safety": {
+    "preflight_required": true,
+    "size_estimator": "solveur.large.readiness.estimate_structured_tet4_size",
+    "memory_rule": "required free memory = ceil(1.25 * declared peak estimate); estimate and observed peak are both recorded",
+    "disk_rule": "required free disk follows readiness estimator before model generation",
+    "timeout_seconds_1m": 7200,
+    "timeout_seconds_3m_silver": 14400,
+    "timeout_seconds_3m_gold": 28800,
+    "oom_policy": "STOP and RESOURCE_LIMITED; retain preflight and partial resource artifacts",
+    "timeout_policy": "STOP and RESOURCE_LIMITED; no solve claim",
+    "partial_artifact_policy": "write source/configuration/input/resource/status metadata even when solve is incomplete",
+    "no_claim_on_resource_limited": true
+  },
+  "three_million_ladder": {
+    "bronze": {
+      "status": "DEFINED",
+      "minimum_true_dof": 3000000,
+      "required": ["real TET4 FEM model", "topology", "preflight", "RAM/disk envelope", "input digest"],
+      "solve_required": false,
+      "claim_policy": "Bronze alone is not a 3M solve claim"
+    },
+    "silver": {
+      "status": "DEFINED",
+      "minimum_true_dof": 3000000,
+      "required": ["complete iterative solve", "finite outputs", "residual", "equilibrium", "energy", "reproducible replay", "resource capture"],
+      "backend": "explicit matrix_free or PETSc, availability and choice recorded",
+      "claim_policy": "principal 3M target"
+    },
+    "gold": {
+      "status": "DEFINED",
+      "minimum_true_dof": 3000000,
+      "required": ["PETSc/MPI distributed solve", "restart", "second case or scaling point", "rank/partition/resource provenance"],
+      "claim_policy": "stretch; no Gold claim without all listed evidence"
+    }
+  },
+  "evidence_schema": {
+    "required_fields": [
+      "case_id", "tier", "timestamp_utc", "source_sha", "configuration_digest", "input_digest", "hardware", "python", "numpy", "scipy", "blas", "backend", "solver", "preconditioner", "true_dof", "node_count", "element_count", "nnz_or_operator_memory", "wall_time_seconds", "peak_rss_bytes", "iterations", "residual_relative", "equilibrium_relative", "strain_energy", "verdict", "failure_reason", "artifact_classification"
+    ],
+    "verdicts": ["PASS", "FAIL", "RESOURCE_LIMITED", "INVALID_EVIDENCE", "SKIPPED_EXTERNAL_UNAVAILABLE"],
+    "resource_limited_is_not_pass": true,
+    "artifact_classification": "CONTROLLED_PROOF",
+    "digest_policy": "canonical UTF-8 LF for text configuration; byte-for-byte SHA-256 for HDF5/binary input and result artifacts"
+  },
+  "wp_dependencies": {
+    "WP15": "uses this frozen model and subscale comparison contract; adds matrix-free SPD/preconditioner evidence",
+    "WP16": "must satisfy the 1M_PASS contract; this WP14 record is not execution evidence",
+    "WP17": "may provide PETSc/MPI backend; unavailable PETSc remains explicit",
+    "WP18": "uses the declared Bronze/Silver/Gold ladder; Bronze cannot be relabeled as Silver"
+  },
+  "artifact_classification": "CONTROLLED_PLAN",
+  "heavy_benchmark_run": false,
+  "numerical_source_changed": false
+}

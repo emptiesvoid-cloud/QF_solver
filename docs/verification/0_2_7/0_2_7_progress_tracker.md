@@ -24,6 +24,9 @@ TET4 route; its Owner decision remains pending.
 WP11 records a bounded maturity extension for existing small-strain J2 across
 TET4, TET10, HEX8 and HEX20; the existing qualification is kept and no
 universal increment-independence claim is added.
+WP14 records the frozen large-scale execution contract for the Level-Up
+namespace. It is a governance/contract PASS only; it does not claim a 1M or
+3M solve.
 
 | WP | Status | Current test level | Start SHA | Evidence head | Owner decision | Blocker |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -48,14 +51,14 @@ universal increment-independence claim is added.
 
 The active theme is **Reproducible Large-Model Solving and Numerical Trust**.
 `027-LEVEL-UP` is `CLOSED / ACCEPT_WITH_CONSOLIDATION` as a scope decision;
-WP14-WP22 remain individually `PLANNED` and do not constitute execution
+WP15-WP22 remain individually `PLANNED` and do not constitute execution
 evidence. WP13 has its own controlled proof record; the remaining criteria and weights are authoritative in
 `qualification/0_2_7/level_up_plan.json`.
 
 | WP | Weight | Priority | Status | Rule |
 | --- | ---: | --- | --- | --- |
 | WP13 | 4% | MUST | `PASS` | release truth and golden baseline |
-| WP14 | 5% | MUST | `PLANNED` | large-scale execution contract |
+| WP14 | 5% | MUST | `PASS` | frozen large-scale execution contract; no solve claim |
 | WP15 | 10% | MUST | `PLANNED` | matrix-free TET4, SPD and preconditioning |
 | WP16 | 10% | MUST | `PLANNED` | release blocker; true 1M FEM solve |
 | WP17 | 5% | SHOULD | `PLANNED` | PETSc/MPI path and provenance |
