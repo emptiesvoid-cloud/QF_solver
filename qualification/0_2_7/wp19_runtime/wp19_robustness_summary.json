@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "work_package": "WP19",
+  "gate": "LUP-027-G19",
+  "source_sha": "dc5975b78727d9dca6d0a48b716e60f355b8799f",
+  "catalog": "qualification/0_2_7/wp19_cases.json",
+  "evidence": "qualification/0_2_7/wp19_runtime/wp19_robustness_evidence.json",
+  "case_count": 24,
+  "verdict_counts": {
+    "EXPECTED_FAILURE_PASS": 14,
+    "PASS": 10
+  },
+  "replay": {
+    "status": "PASS",
+    "cases": [
+      {
+        "case_id": "WP19-HEX8-NOMINAL",
+        "ok": true,
+        "status": "PASS"
+      },
+      {
+        "case_id": "WP19-HEX8-HIGH-ASPECT",
+        "ok": true,
+        "status": "PASS"
+      },
+      {
+        "case_id": "WP19-HEX8-SKEW",
+        "ok": true,
+        "status": "PASS"
+      },
+      {
+        "case_id": "WP19-HEX8-RIGID-TRANSFORM",
+        "ok": true,
+        "status": "PASS"
+      },
+      {
+        "case_id": "WP19-HEX8-SCALE",
+        "ok": true,
+        "status": "PASS"
+      },
+      {
+        "case_id": "WP19-TET4-REFERENCE",
+        "ok": true,
+        "status": "PASS"
+      },
+      {
+        "case_id": "WP19-TET10-REFERENCE",
+        "ok": true,
+        "status": "PASS"
+      },
+      {
+        "case_id": "WP19-HEX20-REFERENCE",
+        "ok": true,
+        "status": "PASS"
+      },
+      {
+        "case_id": "WP19-WEDGE6-REFERENCE",
+        "ok": true,
+        "status": "PASS"
+      },
+      {
+        "case_id": "WP19-NONCONTIGUOUS-GMSH",
+        "ok": true,
+        "status": "PASS"
+      },
+      {
+        "case_id": "WP19-HEX8-INVERTED",
+        "ok": true,
+        "status": "PASS"
+      },
+      {
+        "case_id": "WP19-HEX8-BAD-ORDER",
+        "ok": true,
+        "status": "PASS"
+      },
+      {
+        "case_id": "WP19-HEX8-NEAR-DEGENERATE",
+        "ok": true,
+        "status": "PASS"
+      },
+      {
+        "case_id": "WP19-TET4-INVERTED",
+        "ok": true,
+        "status": "PASS"
+      },
+      {
+        "case_id": "WP19-TET4-DUPLICATE-NODE",
+        "ok": true,
+        "status": "PASS"
+      },
+      {
+        "case_id": "WP19-UNDERCONSTRAINED",
+        "ok": true,
+        "status": "PASS"
+      },
+      {
+        "case_id": "WP19-INVALID-BC",
+        "ok": true,
+        "status": "PASS"
+      },
+      {
+        "case_id": "WP19-INVALID-LOAD",
+        "ok": true,
+        "status": "PASS"
+      },
+      {
+        "case_id": "WP19-INCONSISTENT-BC",
+        "ok": true,
+        "status": "PASS"
+      },
+      {
+        "case_id": "WP19-INVALID-MATERIAL",
+        "ok": true,
+        "status": "PASS"
+      },
+      {
+        "case_id": "WP19-UNSUPPORTED-LOAD",
+        "ok": true,
+        "status": "PASS"
+      },
+      {
+        "case_id": "WP19-NONFINITE-COORDINATES",
+        "ok": true,
+        "status": "PASS"
+      },
+      {
+        "case_id": "WP19-MALFORMED-GMSH",
+        "ok": true,
+        "status": "PASS"
+      },
+      {
+        "case_id": "WP19-MISSING-GMSH-GROUP",
+        "ok": true,
+        "status": "PASS"
+      }
+    ]
+  },
+  "no_nan_inf": true,
+  "fail_closed": true,
+  "functional_source_changed": false,
+  "numerical_formulation_changed": false,
+  "artifact_classification": "CONTROLLED_PROOF"
+}

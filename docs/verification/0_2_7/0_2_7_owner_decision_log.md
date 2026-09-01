@@ -293,3 +293,24 @@ HEX8R/SRI/B-bar, finite-kinematic J2, TL HEX8, refined Arc-Length, new
 nonlinear couplings, matrix-free multi-family and general Newmark/harmonic
 qualification. Machine-readable criteria are in
 `qualification/0_2_7/level_up_plan.json`.
+
+## WP19 - Adversarial robustness and HEX8 diagnostic
+
+Date: 2026-09-01. Lot start SHA:
+`7f7ffbaf0b3fdda7d3ad31ba95f20a54e4719a53`. Execution source SHA:
+`dc5975b78727d9dca6d0a48b716e60f355b8799f`.
+
+Owner decision: `PASS_WITH_LIMITATIONS`. The 24 predeclared adversarial cases
+produce 10 positive `PASS` and 14 `EXPECTED_FAILURE_PASS` outcomes. Replay is
+deterministic, failure handling is fail-closed, no NaN/Inf result is accepted,
+and no QF-specific bug is found.
+
+The HEX8 diagnostic covers axial refinement, slenderness and transverse
+resolution. Six same-mesh CalculiX 2.20/C3D8 displacement comparisons pass the
+existing diagnostic threshold with maximum full-displacement relative error
+`1.997130986610937e-06`. The result is classified as
+`LOW_ORDER_LIMITATION` with secondary `MESH_DEPENDENCE`; locking is compatible
+with the observation but not proven. Reactions and energy are
+`NOT_COMPARABLE` in the inherited displacement-only deck. No HEX8R/SRI/B-bar
+formulation is promoted, no numerical formulation changes, and WP20 is the
+next work package.

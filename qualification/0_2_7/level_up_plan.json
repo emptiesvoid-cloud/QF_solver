@@ -4,7 +4,7 @@
   "release": "0.2.7a0",
   "theme": "Reproducible Large-Model Solving and Numerical Trust",
   "status": "CLOSED_ACCEPT_WITH_CONSOLIDATION",
-  "decision": "Gate Level-Up is accepted as the official consolidation scope; WP13 and WP14 are evidence-complete, WP15 is PASS_WITH_LIMITATIONS on controlled subscale evidence, WP16 is PASS after the official PETSc retry under the frozen acceptance contract, WP17 is PARTIAL after PETSc remediation, and WP18 is PASS_WITH_LIMITATIONS after the Bronze/Silver ladder with Gold unattempted; WP19-WP22 remain planned.",
+  "decision": "Gate Level-Up is accepted as the official consolidation scope; WP13 and WP14 are evidence-complete, WP15 is PASS_WITH_LIMITATIONS on controlled subscale evidence, WP16 is PASS after the official PETSc retry under the frozen acceptance contract, WP17 is PARTIAL after PETSc remediation, WP18 is PASS_WITH_LIMITATIONS after the Bronze/Silver ladder with Gold unattempted, and WP19 is PASS_WITH_LIMITATIONS on bounded adversarial and HEX8 diagnostic evidence; WP20-WP22 remain planned.",
   "source_snapshot": "72888ea63241a4445f6600aa6c2b882401f85ef1",
   "source_branch": "codex/0.2.7-foundation",
   "parent_release": {
@@ -14,11 +14,11 @@
   },
   "progress_accounting": {
     "historical_completed_block_percent": 45,
-    "current_acquired_percent": 77,
-    "current_progress_percent": 77,
+    "current_acquired_percent": 82,
+    "current_progress_percent": 82,
     "level_up_extension_percent": 55,
     "weights_total_percent": 100,
-    "accounting_note": "The historical block, acquired status and active progress are governance views and are not additive. WP13-WP22 weights sum to the 55 percent extension; WP13 and WP14 are PASS, WP15 is PASS_WITH_LIMITATIONS, WP16 is PASS, WP17 is PARTIAL, WP18 is PASS_WITH_LIMITATIONS with Silver complete and Gold unattempted, and WP19-WP22 remain planned."
+    "accounting_note": "The historical block, acquired status and active progress are governance views and are not additive. WP13-WP22 weights sum to the 55 percent extension; WP13 and WP14 are PASS, WP15 is PASS_WITH_LIMITATIONS, WP16 is PASS, WP17 is PARTIAL, WP18 is PASS_WITH_LIMITATIONS with Silver complete and Gold unattempted, WP19 is PASS_WITH_LIMITATIONS on bounded adversarial and HEX8 diagnostic evidence, and WP20-WP22 remain planned."
   },
   "historical_scope": {
     "work_packages": ["WP01", "WP02", "WP03", "WP04", "WP05", "WP06", "WP07", "WP08", "WP09", "WP10", "WP11", "WP12"],
@@ -102,9 +102,12 @@
       "title": "Adversarial robustness and HEX8 diagnostic",
       "weight_percent": 5,
       "priority": "MUST",
-      "status": "PLANNED",
+      "status": "PASS_WITH_LIMITATIONS",
       "pass_criteria": ["BC, singularity, mesh, orientation and failure paths are fail-closed", "HEX8 behavior is diagnosed against compatible references", "no formulation promotion or threshold weakening is inferred"],
-      "stop_conditions": ["silent failure", "low-order limitation treated as an unexplained solver defect", "new formulation introduced without review"]
+      "stop_conditions": ["silent failure", "low-order limitation treated as an unexplained solver defect", "new formulation introduced without review"],
+      "evidence": ["qualification/0_2_7/wp19_state.json", "qualification/0_2_7/wp19_cases.json", "qualification/0_2_7/wp19_runtime/wp19_robustness_summary.json", "qualification/0_2_7/wp19_runtime/wp19_robustness_evidence.json", "qualification/0_2_7/wp19_runtime/wp19_hex8_diagnostic.json", "qualification/0_2_7/wp19_runtime/wp19_golden_replay.json", "docs/verification/0_2_7/0_2_7_wp19_robustness_hex8.md", "tests/unit/test_wp19_robustness_hex8.py"],
+      "owner_decision": "PASS_WITH_LIMITATIONS: bounded adversarial evidence is fail-closed and deterministic; QF agrees with compatible C3D8 displacement results; no HEX8 formulation is promoted.",
+      "limitations": ["24 predeclared adversarial cases do not establish universal robustness", "C3D8 external reactions and energy are NOT_COMPARABLE because the inherited deck requests displacement only", "Euler is diagnostic only and no universal HEX8 accuracy claim is made", "HEX8R/SRI/B-bar was not evaluated or promoted"]
     },
     {
       "id": "WP20",
