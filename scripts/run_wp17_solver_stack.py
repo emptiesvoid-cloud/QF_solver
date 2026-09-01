@@ -88,7 +88,7 @@ def run_probe(
     diagonal = _aggregate_runs(diagonal_runs, [], model_setup_seconds)
     comparison = _compare_preconditioners(block, diagonal)
     reaction = _reaction_diagnosis(block, subscale)
-    status = "PASS" if subscale.get("status") == "PASS" and comparison["decision"] else "PARTIAL"
+    status = "PASS" if subscale.get("status") == "PASS" and comparison["candidate_retained"] else "PARTIAL"
     return {
         "schema_version": 1,
         "work_package": "WP17",
@@ -410,6 +410,7 @@ def _compare_preconditioners(block: dict[str, Any], diagonal: dict[str, Any]) ->
         "candidate_faster": candidate_faster,
         "candidate_iteration_delta": int(diagonal["iterations"] - block["iterations"]),
         "selected": "nodal_block_jacobi",
+        "candidate_retained": False,
         "decision": bool(block_ok and diagonal_ok and block["spd_contract"]),
         "decision_text": "Keep nodal block-Jacobi as the WP14 route; diagonal-Jacobi remains diagnostic and is not promoted by one medium probe.",
         "spd_contract": bool(block["spd_contract"] and diagonal["spd_contract"]),
@@ -418,6 +419,7 @@ def _compare_preconditioners(block: dict[str, Any], diagonal: dict[str, Any]) ->
 
 def _reaction_diagnosis(block: dict[str, Any], subscale: dict[str, Any]) -> dict[str, Any]:
     values = [item for item in subscale.get("levels", []) if item.get("status") == "PASS"]
+    first_run = block["runs"][0]
     return {
         "classification": "ITERATIVE_RESIDUAL_AMPLIFICATION" if values else "NOT_ESTABLISHED",
         "basis": [
@@ -428,6 +430,9 @@ def _reaction_diagnosis(block: dict[str, Any], subscale: dict[str, Any]) -> dict
         "medium_numpy_equilibrium_relative": block["equilibrium_relative"],
         "medium_compensated_equilibrium_relative": block["equilibrium_fsum_relative"],
         "medium_free_residual_relative": block["relative_residual"],
+        "medium_equilibrium_free_residual_identity_relative": first_run["equilibrium"][
+            "equilibrium_free_residual_identity_relative"
+        ],
         "subscale_status": subscale.get("status"),
         "fix_retained": "NONE; no post-processing-only fix is used to mask the WP16 failure",
     }
