@@ -118,11 +118,11 @@
       "gate": "027-G10",
       "work_package": "WP10",
       "priority": "SHOULD",
-      "status": "PLANNED",
+      "status": "PASS_WITH_LIMITATIONS",
       "requirement": "WEDGE6 modal maturity shall be established independently from static maturity.",
-      "acceptance": "Mass convention, first-mode quality, eigenpair residual, refinement and replay are recorded.",
-      "verification": ["modal reference", "mode/replay cases"],
-      "owner_policy": "PROPOSED_OWNER_REVIEW"
+      "acceptance": "Consistent mass, finite positive frequencies, eigenpair residual, mass orthogonality, refinement and replay are recorded; comparable external frequency evidence is bounded and static evidence is not transferred.",
+      "verification": ["qualification/0_2_7/vnv_v2/wp10_cases.json", "qualification/0_2_7/vnv_v2/wp10_evidence.json", "qualification/0_2_7/external_oracles/wedge6/results/wp10_code_aster_modal.json"],
+      "owner_policy": "WP10_MODAL_EXPERIMENTAL_PENDING_OWNER_REVIEW"
     },
     {
       "id": "027-REQ-012",

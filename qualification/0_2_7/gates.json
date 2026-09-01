@@ -155,12 +155,33 @@
       "id": "027-G10",
       "work_package": "WP10",
       "title": "WEDGE6 modal evidence",
-      "status": "NOT_STARTED",
+      "status": "PASS_WITH_LIMITATIONS",
       "depends_on": ["027-G08", "027-G09"],
       "go": ["mass, modes, residual, refinement and replay are independently evidenced"],
       "stop": ["static result transferred to dynamics without proof", "rigid modes or mass convention hidden"],
-      "evidence_required": ["modal contract", "eigenpair records", "replay manifest"],
-      "files": ["0_2_7_vnv_strategy.md"]
+      "evidence_required": ["modal contract", "eigenpair records", "replay manifest", "external modal result when comparable"],
+      "files": [
+        "qualification/0_2_7/wedge6_formulation_contract.json",
+        "qualification/0_2_7/vnv_v2/wp10_cases.json",
+        "qualification/0_2_7/vnv_v2/wp10_evidence.json",
+        "qualification/0_2_7/wp10_state.json",
+        "qualification/0_2_7/external_oracles/wedge6/decks/code_aster/WP10-A-penta6-modal.comm",
+        "qualification/0_2_7/external_oracles/wedge6/decks/code_aster/WP10-A-penta6-modal.mail",
+        "qualification/0_2_7/external_oracles/wedge6/results/wp10_code_aster_modal.json",
+        "docs/verification/0_2_7/0_2_7_wedge6_modal.md",
+        "scripts/run_wp10_wedge6_modal.py",
+        "tests/unit/test_wp10_wedge6_modal.py"
+      ],
+      "start_sha": "ea356c484ebb2a3c4282f6eb9cbae6b1992eee6e",
+      "evidence_head": "7d494eaa638ffa88a04ed3e5c51f6036ad1804a1",
+      "owner_decision": "WP10_MODAL_EXPERIMENTAL_PENDING_OWNER_REVIEW",
+      "limitations": [
+        "WEDGE6 modal maturity remains EXPERIMENTAL and public qualification is DEFERRED",
+        "consistent mass only; no lumped-mass qualification",
+        "four-level frequency refinement is diagnostic and no universal convergence threshold is claimed",
+        "Code_Aster comparison is frequency-only and bounded; MAC is not claimed",
+        "Newmark, harmonic, nonlinear, J2, TL and contact WEDGE6 routes remain outside WP10"
+      ]
     },
     {
       "id": "027-G11",

@@ -2612,7 +2612,7 @@
       "owner_decision": "WP10_MODAL_EXPERIMENTAL_PENDING_OWNER_REVIEW",
       "limitations": "WP10 covers the common modal route with consistent translational mass for homogeneous isotropic WEDGE6 models in the declared internal scope. Static evidence is not transferred automatically; external modal correlation, broad refinement and public qualification remain bounded or deferred.",
       "applicable_version": "0.2.7a0",
-      "source_snapshot": "ea356c484ebb2a3c4282f6eb9cbae6b1992eee6e",
+      "source_snapshot": "7d494eaa638ffa88a04ed3e5c51f6036ad1804a1",
       "supersedes": [],
       "historical_origin": {
         "legacy_capability_id": "COMB-WEDGE6-linear_static",
