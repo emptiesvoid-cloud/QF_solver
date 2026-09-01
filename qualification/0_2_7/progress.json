@@ -4,8 +4,8 @@
   "theme": "Reproducible Large-Model Solving and Numerical Trust",
   "baseline_sha": "e839373b6aef291a93292186d7553ba5cd12af55",
   "branch": "codex/0.2.7-foundation",
-  "status": "WP10_PASS_WITH_LIMITATIONS_QUALIFIED_BOUNDED_WP11_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED_WP12_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED_WP16_FAIL_FROZEN_EQUILIBRIUM_CRITERION",
-  "current_work_package": "WP16",
+  "status": "WP10_PASS_WITH_LIMITATIONS_QUALIFIED_BOUNDED_WP11_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED_WP12_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED_WP16_FAIL_FROZEN_EQUILIBRIUM_CRITERION_WP17_PARTIAL_PETSC_UNAVAILABLE",
+  "current_work_package": "WP17",
   "full_regression_run": false,
   "numerical_source_changed": true,
   "existing_numerical_formulations_changed": false,
@@ -90,13 +90,14 @@
     {"id": "WP13", "gate": "LUP-027-G13", "status": "PASS", "evidence_head": "qualification/0_2_7/golden/evidence.json"},
     {"id": "WP14", "gate": "LUP-027-G14", "status": "PASS", "start_sha": "ee1513808f5190db116ccaddc31fcd25573c9631", "evidence_head": "qualification/0_2_7/wp14_execution_contract.json", "state": "qualification/0_2_7/wp14_state.json", "heavy_benchmark_run": false},
     {"id": "WP15", "gate": "LUP-027-G15", "status": "PASS_WITH_LIMITATIONS", "start_sha": "2a12f04479eb085137c1d586c99bcf191e702ccc", "evidence_head": "6e20bc53d175e5b4eac37a1e76f13266998ce074", "state": "qualification/0_2_7/wp15_state.json", "benchmark": "qualification/0_2_7/wp15_matrix_free_benchmark.json", "owner_decision": "subscale equivalence PASS; ready for WP16 attempt; no 1M claim"},
-    {"id": "WP16", "gate": "LUP-027-G16", "status": "FAIL", "start_sha": "15534b87387c3bd73c73971703e22bf275ffc8cc", "evidence_head": "15534b87387c3bd73c73971703e22bf275ffc8cc", "state": "qualification/0_2_7/wp16_state.json", "evidence": "qualification/0_2_7/wp16_runtime/wp16_run1.json", "subscale_evidence": "qualification/0_2_7/wp16_runtime/wp16_subscale_current.json", "owner_decision": "1M solve completed but frozen equilibrium criterion failed; release blocker remains"}
+    {"id": "WP16", "gate": "LUP-027-G16", "status": "FAIL", "start_sha": "15534b87387c3bd73c73971703e22bf275ffc8cc", "evidence_head": "15534b87387c3bd73c73971703e22bf275ffc8cc", "state": "qualification/0_2_7/wp16_state.json", "evidence": "qualification/0_2_7/wp16_runtime/wp16_run1.json", "subscale_evidence": "qualification/0_2_7/wp16_runtime/wp16_subscale_current.json", "owner_decision": "1M solve completed but frozen equilibrium criterion failed; release blocker remains"},
+    {"id": "WP17", "gate": "LUP-027-G17", "status": "PARTIAL", "start_sha": "8e13513d3a98a9162fee82267d1a9c67332aed0d", "evidence_head": "52f1a10929f0d453eb5eb04e931f76b9ccb03b2f", "state": "qualification/0_2_7/wp17_state.json", "evidence": "qualification/0_2_7/wp17_runtime/wp17_probe.json", "owner_decision": "instrumentation and WP14 subscale equivalence pass; PETSc unavailable; no preconditioner improvement retained; WP16 blocker remains"}
   ],
   "level_up": {
     "plan": "qualification/0_2_7/level_up_plan.json",
     "namespace": "027-LEVEL-UP",
     "status": "CLOSED_ACCEPT_WITH_CONSOLIDATION",
-    "current_work_package": "WP16",
+    "current_work_package": "WP17",
     "work_packages": ["WP13", "WP14", "WP15", "WP16", "WP17", "WP18", "WP19", "WP20", "WP21", "WP22"],
     "historical_completed_block_percent": 45,
     "current_acquired_percent": 60,
