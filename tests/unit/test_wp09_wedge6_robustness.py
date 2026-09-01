@@ -40,7 +40,11 @@ def test_wp09_external_limits_are_not_reported_as_qualification() -> None:
     aster = payload["external"]["code_aster_penta6"]
     assert calculix["comparison_status"] == "NOT_FORMULATION_COMPATIBLE"
     assert calculix["verdict"] != "PASS_EXTERNAL"
-    assert aster["state"] == "UNAVAILABLE"
+    assert aster["state"] == "PASS"
+    assert aster["verdict"] == "PASS_EXTERNAL_CORRELATION_BOUNDED"
+    assert aster["comparison_status"] == "PASS_EXTERNAL_CORRELATION_BOUNDED"
+    assert aster["tolerance_approval_state"] == "OWNER_REVIEW_REQUIRED"
+    assert payload["wp09r_external_evidence"].endswith("wp09r_code_aster_evidence.json")
 
 
 def test_wp09_failure_and_invariance_fixtures_remain_fail_closed() -> None:

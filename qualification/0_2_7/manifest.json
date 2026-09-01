@@ -116,10 +116,19 @@
     "src/solveur/large/matrix_free.py",
     "qualification/0_2_7/vnv_v2/wp09_cases.json",
     "qualification/0_2_7/vnv_v2/wp09_evidence.json",
+    "qualification/0_2_7/vnv_v2/wp09r_code_aster_evidence.json",
     "qualification/0_2_7/wp09_state.json",
+    "qualification/0_2_7/wp09r_state.json",
     "docs/verification/0_2_7/0_2_7_wedge6_robustness_external_vnv.md",
+    "qualification/0_2_7/external_oracles/wedge6/docker/Dockerfile",
+    "qualification/0_2_7/external_oracles/wedge6/docker/headless_contract.json",
+    "qualification/0_2_7/external_oracles/wedge6/docker/README.md",
+    "qualification/0_2_7/external_oracles/wedge6/decks/code_aster/WP09R-A-penta6-affine.comm",
+    "qualification/0_2_7/external_oracles/wedge6/decks/code_aster/WP09R-A-penta6-affine.mail",
+    "qualification/0_2_7/external_oracles/wedge6/decks/code_aster/WP09R-A-penta6-affine.export",
     "scripts/run_wp09_wedge6.py",
-    "tests/unit/test_wp09_wedge6_robustness.py"
+    "tests/unit/test_wp09_wedge6_robustness.py",
+    "tests/unit/test_wp09r_code_aster_headless.py"
   ],
-  "status_rule": "A work package is PASS only when its declared evidence is recorded; WP05 records external deck preflight, WP06 records mesh-quality diagnostics, WP07 records an experimental WEDGE6 elemental kernel without creating a public qualification or universal quality cutoff, WP09 records bounded robustness evidence while preserving explicit non-comparable or unavailable external outcomes, and WP12 records bounded large-scale readiness evidence without creating a universal 1M-DOF claim."
+  "status_rule": "A work package is PASS only when its declared evidence is recorded; WP05 records external deck preflight, WP06 records mesh-quality diagnostics, WP07 records an experimental WEDGE6 elemental kernel without creating a public qualification or universal quality cutoff, WP09 records bounded robustness evidence and explicit external outcomes, WP09-R records a reproducible headless Code_Aster oracle without promoting WEDGE6, and WP12 records bounded large-scale readiness evidence without creating a universal 1M-DOF claim."
 }

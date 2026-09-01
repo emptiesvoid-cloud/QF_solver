@@ -148,8 +148,8 @@
       "go": ["mesh, distortion and deterministic failure evidence pass", "external outcomes are separated and no false qualification is claimed"],
       "stop": ["unexplained divergence", "weakened criterion", "false external PASS", "silent geometry or state failure"],
       "evidence_required": ["internal and external manifests", "negative cases", "Owner classification", "reproducible external availability record"],
-      "files": ["qualification/0_2_7/vnv_v2/wp09_cases.json", "qualification/0_2_7/vnv_v2/wp09_evidence.json", "qualification/0_2_7/wp09_state.json", "docs/verification/0_2_7/0_2_7_wedge6_robustness_external_vnv.md", "scripts/run_wp09_wedge6.py", "tests/unit/test_wp09_wedge6_robustness.py"],
-      "limitations": ["WEDGE6 remains EXPERIMENTAL and public qualification is DEFERRED", "CalculiX C3D6 result is NOT_FORMULATION_COMPATIBLE with QF production quadrature", "Code_Aster PENTA6 is unavailable in the pinned image because mpi4py is missing", "no external verdict is claimed for pressure, refinement or distorted cases"]
+      "files": ["qualification/0_2_7/vnv_v2/wp09_cases.json", "qualification/0_2_7/vnv_v2/wp09_evidence.json", "qualification/0_2_7/vnv_v2/wp09r_code_aster_evidence.json", "qualification/0_2_7/wp09_state.json", "qualification/0_2_7/wp09r_state.json", "docs/verification/0_2_7/0_2_7_wedge6_robustness_external_vnv.md", "qualification/0_2_7/external_oracles/wedge6/docker/Dockerfile", "qualification/0_2_7/external_oracles/wedge6/docker/headless_contract.json", "scripts/run_wp09_wedge6.py", "tests/unit/test_wp09_wedge6_robustness.py", "tests/unit/test_wp09r_code_aster_headless.py"],
+      "limitations": ["WEDGE6 remains EXPERIMENTAL and public qualification is DEFERRED", "CalculiX C3D6 result is NOT_FORMULATION_COMPATIBLE with QF production quadrature", "Code_Aster PENTA6 has one affine same-mesh correlation through the controlled local headless image", "no external verdict is claimed for pressure, refinement or distorted cases", "the affine tolerance remains OWNER_REVIEW_REQUIRED"]
     },
     {
       "id": "027-G10",

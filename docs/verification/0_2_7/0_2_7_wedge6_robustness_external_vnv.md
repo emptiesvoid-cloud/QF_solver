@@ -39,10 +39,21 @@ whereas QF WEDGE6 production uses `TRI3_X_GAUSS2` with six points. The observed
 displacement and energy differences are preserved as diagnostic data and are
 not a QF qualification PASS.
 
-Code_Aster 18.1 / PENTA6 was attempted independently from its pinned image.
-The image aborts before executing the command file because `mpi4py` is absent
-from the image runtime. It is therefore `UNAVAILABLE`, not `PASS`, and no
-PENTA6 correlation result is claimed.
+Code_Aster 18.1 / PENTA6 was first reproduced in the pinned image. The root
+cause was not a missing package: `mpi4py` is present in the image's Spack view,
+but the stock `run_aster` profile does not expose that view. A derived local
+image now exposes the pinned Python and dynamic-library paths, links the
+`.mail` through a controlled `.export`, and executes `run_aster --no-mpi` with
+one launcher process. The run recognizes `MECA_PENTA6` and completes without a
+GUI. Its internal communicator is still `mpi4py` with size one; `--no-mpi`
+means that no `mpiexec` relaunch occurs.
+
+The affine same-mesh comparison is recorded as
+`PASS_EXTERNAL_CORRELATION_BOUNDED`: relative displacement, total reaction and
+strain-energy errors are respectively `1.73e-15`, `1.03e-15` and `3.46e-16`
+against the predeclared `1e-6` WP05 candidate. The candidate remains
+`OWNER_REVIEW_REQUIRED`; this is not a public WEDGE6 promotion. Pressure,
+refinement and distorted external cases remain unclaimed.
 
 ## Status and boundary
 
@@ -57,6 +68,9 @@ Machine-readable records:
 
 - `qualification/0_2_7/vnv_v2/wp09_cases.json`
 - `qualification/0_2_7/vnv_v2/wp09_evidence.json`
+- `qualification/0_2_7/vnv_v2/wp09r_code_aster_evidence.json`
 - `qualification/0_2_7/wp09_state.json`
+- `qualification/0_2_7/wp09r_state.json`
 - `scripts/run_wp09_wedge6.py`
 - `tests/unit/test_wp09_wedge6_robustness.py`
+- `qualification/0_2_7/external_oracles/wedge6/docker/headless_contract.json`

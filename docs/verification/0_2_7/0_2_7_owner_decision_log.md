@@ -144,9 +144,13 @@ The external results remain explicitly non-qualifying. CalculiX C3D6 completed
 the affine deck locally, but its two-point integration route is not
 formulation-compatible with QF WEDGE6 production `TRI3_X_GAUSS2` integration;
 the displacement and energy differences are retained as diagnostics, not as a
-failure or a pass. Code_Aster PENTA6 is unavailable in the pinned image because
-the runner aborts before the command file on missing `mpi4py`. No pressure,
-refinement or distorted external correlation is claimed. WEDGE6 remains
+failure or a pass. Code_Aster PENTA6 is now executed through the WP09-R
+derived headless image: `mpi4py` was present in the pinned image's Spack view
+but was not exposed by the stock profile, and `--no-mpi` does not bypass that
+import. One affine same-mesh correlation passes for displacement, total
+reaction and strain energy under the predeclared `1e-6` candidate, which remains
+`OWNER_REVIEW_REQUIRED`. No pressure, refinement or distorted external
+correlation is claimed. WEDGE6 remains
 `EXPERIMENTAL` and public qualification remains `DEFERRED`; WP10 may proceed
 under its separate modal contract.
 
