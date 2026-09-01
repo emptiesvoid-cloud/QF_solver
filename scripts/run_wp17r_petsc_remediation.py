@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import os
 import re
 import subprocess
@@ -305,7 +306,13 @@ def _reaction_diagnostics(model: Any, displacement: np.ndarray) -> dict[str, Any
     reaction = np.zeros_like(residual)
     reaction[fixed] = residual[fixed]
     reaction_resultant = np.sum(reaction.reshape((-1, 3)), axis=0)
+    reaction_resultant_compensated = np.array(
+        [math.fsum(float(value) for value in reaction.reshape((-1, 3))[:, component]) for component in range(3)]
+    )
     equilibrium = reaction_resultant + applied_resultant
+    free_resultant = np.sum(residual[free].reshape((-1, 3)), axis=0)
+    equilibrium_compensated = reaction_resultant_compensated + applied_resultant
+    force_scale = max(float(np.linalg.norm(loads)), 1.0)
     free_norm = float(np.linalg.norm(residual[free]))
     free_load_norm = float(np.linalg.norm(loads[free]))
     external_work = float(displacement @ loads)
@@ -317,8 +324,15 @@ def _reaction_diagnostics(model: Any, displacement: np.ndarray) -> dict[str, Any
         "reference_force_total_n": float(applied_resultant[0]),
         "applied_resultant": applied_resultant.tolist(),
         "reaction_resultant": reaction_resultant.tolist(),
+        "reaction_resultant_compensated": reaction_resultant_compensated.tolist(),
         "equilibrium_vector": equilibrium.tolist(),
-        "equilibrium_relative": float(np.linalg.norm(equilibrium) / max(float(np.linalg.norm(loads)), 1.0)),
+        "equilibrium_relative": float(np.linalg.norm(equilibrium) / force_scale),
+        "equilibrium_compensated_relative": float(np.linalg.norm(equilibrium_compensated) / force_scale),
+        "free_residual_resultant": free_resultant.tolist(),
+        "free_residual_equilibrium_identity_relative": float(np.linalg.norm(equilibrium + free_resultant) / force_scale),
+        "reduction_difference_relative": float(
+            np.linalg.norm(equilibrium - equilibrium_compensated) / force_scale
+        ),
         "free_residual_norm": free_norm,
         "free_relative_residual": free_norm / max(free_load_norm, 1.0),
         "displacement_norm": float(np.linalg.norm(displacement)),
@@ -420,10 +434,12 @@ def _compare_replays(first: dict[str, Any], second: dict[str, Any], tolerance: f
         deltas[field] = delta
         if delta > tolerance:
             mismatches.append(field)
+    same_source = first.get("source_sha") == second.get("source_sha")
     same_input = first.get("input_digest_sha256") == second.get("input_digest_sha256")
     same_config = first.get("configuration_digest_sha256") == second.get("configuration_digest_sha256")
     return {
-        "status": "PASS" if same_input and same_config and not mismatches else "FAIL",
+        "status": "PASS" if same_source and same_input and same_config and not mismatches else "FAIL",
+        "same_source": same_source,
         "same_input": same_input,
         "same_configuration": same_config,
         "absolute_deltas": deltas,

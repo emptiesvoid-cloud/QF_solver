@@ -61,6 +61,7 @@ def test_wp17r_monitor_evidence_is_deterministic(tmp_path) -> None:
 def test_wp17r_replay_comparison_rejects_configuration_drift() -> None:
     first = {
         "input_digest_sha256": "input",
+        "source_sha": "source",
         "configuration_digest_sha256": "a",
         "true_dof": 100,
         "matvec_count": 10,
@@ -72,6 +73,24 @@ def test_wp17r_replay_comparison_rejects_configuration_drift() -> None:
 
     assert result["status"] == "FAIL"
     assert result["same_configuration"] is False
+    assert result["same_source"] is True
+
+
+def test_wp17r_replay_comparison_rejects_source_drift() -> None:
+    first = {
+        "source_sha": "a",
+        "input_digest_sha256": "input",
+        "configuration_digest_sha256": "config",
+        "true_dof": 100,
+        "matvec_count": 10,
+        "post": {"residual_relative": 1.0e-9, "equilibrium_relative": 2.0e-9, "energy_relative": 3.0e-9},
+    }
+    second = {**first, "source_sha": "b"}
+
+    result = _compare_replays(first, second)
+
+    assert result["status"] == "FAIL"
+    assert result["same_source"] is False
 
 
 def test_wp17r_reaction_diagnostic_is_finite(tmp_path) -> None:
