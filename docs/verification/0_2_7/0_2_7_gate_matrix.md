@@ -79,10 +79,10 @@ The evidence is recorded in
 ## Official Level-Up portfolio
 
 `027-LEVEL-UP` is `CLOSED / ACCEPT_WITH_CONSOLIDATION`: the scope was
-accepted, but no WP16-WP22 result is implied by this portfolio decision.
+accepted, and the executed WP16 result is recorded separately below.
 WP13 is `PASS` on its controlled golden-baseline evidence. WP14 is `PASS` on
 its frozen execution contract; WP15 is `PASS_WITH_LIMITATIONS` on controlled
-subscale evidence; WP16 is `FAIL` and remains the release blocker; and WP17 is
+subscale evidence; WP16 is `PASS` after the official PETSc retry; and WP17 is
 `PARTIAL` after the pinned PETSc/MPI remediation checkpoint. WP18-WP22 remain
 `PLANNED` until their declared evidence is executed. The active theme is
 **Reproducible Large-Model Solving and Numerical Trust**.
@@ -92,8 +92,8 @@ subscale evidence; WP16 is `FAIL` and remains the release blocker; and WP17 is
 | `LUP-027-G13` | WP13 release truth and golden baseline | `PASS` | 4% | distinct SHA roles and golden baseline |
 | `LUP-027-G14` | WP14 large-scale execution contract | `PASS` | 5% | frozen topology, resource and execution contract; no solve claim |
 | `LUP-027-G15` | WP15 matrix-free TET4 V2 | `PASS_WITH_LIMITATIONS` | 10% | SPD, preconditioning and assembled subscale; no WP16/1M claim |
-| `LUP-027-G16` | WP16 true 1M DOF qualification | `FAIL` | 10% | release blocker; completed solve misses frozen equilibrium |
-| `LUP-027-G17` | WP17 PETSc/MPI and large sparse path | `PARTIAL` | 5% | reproducible pinned diagnostic route; no qualification or tolerance change |
+| `LUP-027-G16` | WP16 true 1M DOF qualification | `PASS` | 10% | two PETSc CG/GAMG replays satisfy frozen residual, equilibrium, energy and SPD criteria |
+| `LUP-027-G17` | WP17 PETSc/MPI and large sparse path | `PARTIAL` | 5% | reproducible pinned route; host availability and AIJ memory remain limitations |
 | `LUP-027-G18` | WP18 3M Bronze/Silver/Gold ladder | `PLANNED` | 7% | Bronze is not a solve claim; Silver is main target |
 | `LUP-027-G19` | WP19 adversarial robustness and HEX8 diagnostic | `PLANNED` | 5% | fail-closed diagnostics without promotion |
 | `LUP-027-G20` | WP20 residual J2 and external V&V closure | `PLANNED` | 3% | no post-result retuning |
@@ -101,8 +101,8 @@ subscale evidence; WP16 is `FAIL` and remains the release blocker; and WP17 is
 | `LUP-027-G22` | WP22 final release qualification | `PLANNED` | 3% | final regression/package/Owner checkpoint |
 
 Machine-readable criteria are in `qualification/0_2_7/level_up_plan.json` and
-`qualification/0_2_7/requirements.json`. WP16 is a release blocker and WP18
-is mandatory. No setup record promotes a capability.
+`qualification/0_2_7/requirements.json`. WP16 is now satisfied and WP18
+remains mandatory. No setup record promotes a capability.
 
 ## `027-G11` bounded J2 maturity extension
 

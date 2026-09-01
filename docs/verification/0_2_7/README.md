@@ -24,12 +24,12 @@ while the foundation WP01-WP12 evidence remains preserved. The official
 Level-Up portfolio is `CLOSED / ACCEPT_WITH_CONSOLIDATION`; WP13 is `PASS` on
 its controlled golden-baseline evidence and WP14 is `PASS` on its frozen
 execution contract; WP15 is `PASS_WITH_LIMITATIONS` on controlled subscale
-evidence, while WP16-WP22 remain individually `PLANNED` until their own
-evidence exists.
+evidence, WP16 is `PASS` on the official PETSc 1M retry, WP17 is `PARTIAL`,
+and WP18-WP22 remain individually `PLANNED` until their own evidence exists.
 
 The machine-readable Level-Up source is
-`qualification/0_2_7/level_up_plan.json`. WP16 is the release blocker for a
-true 1M-DOF claim. WP18 is mandatory and distinguishes Bronze model/preflight,
+`qualification/0_2_7/level_up_plan.json`. WP16's 1M-DOF requirement is
+satisfied for its declared PETSc/TET4 scope; WP18 is mandatory and distinguishes Bronze model/preflight,
 Silver full solve and Gold distributed/restart evidence. No setup record
 promotes maturity or claims a 3M solve.
 
@@ -87,6 +87,11 @@ in [`0_2_7_progress_tracker.md`](0_2_7_progress_tracker.md).
 | WP10 | WEDGE6 modal qualification | `PASS_WITH_LIMITATIONS` (`QUALIFIED_BOUNDED`, bounded) |
 | WP11 | Existing capability maturity and J2 gaps | `PASS_WITH_LIMITATIONS` (Owner review required) |
 | WP12 | Large-scale and 1M-DOF readiness | `PASS_WITH_LIMITATIONS` |
+| WP13 | Release truth and golden numerical baseline | `PASS` |
+| WP14 | Large-scale execution contract | `PASS` |
+| WP15 | Matrix-Free TET4 V2 / SPD / preconditioning | `PASS_WITH_LIMITATIONS` |
+| WP16 | True 1M-DOF qualification | `PASS` (bounded PETSc/TET4 scope) |
+| WP17 | PETSc/MPI and large sparse path | `PARTIAL` |
 | Foundation WP13-WP14 proposal | Superseded by the Level-Up namespace | `PRESERVED_HISTORY` |
 
 ## Reading rules
@@ -119,6 +124,11 @@ explicit skip or limitation, never as `PASS`.
 - [`qualification/0_2_7/wp12_state.json`](../../../qualification/0_2_7/wp12_state.json)
 - [`qualification/0_2_7/wp12_scaling_evidence.json`](../../../qualification/0_2_7/wp12_scaling_evidence.json)
 - [`qualification/0_2_7/wp12_assembly_probe_300k.json`](../../../qualification/0_2_7/wp12_assembly_probe_300k.json)
+- [`qualification/0_2_7/wp16_runtime/wp16_retry_summary.json`](../../../qualification/0_2_7/wp16_runtime/wp16_retry_summary.json)
+- [`qualification/0_2_7/wp16_runtime/wp16_retry_run1_raw.json`](../../../qualification/0_2_7/wp16_runtime/wp16_retry_run1_raw.json)
+- [`qualification/0_2_7/wp16_runtime/wp16_retry_run2_raw.json`](../../../qualification/0_2_7/wp16_runtime/wp16_retry_run2_raw.json)
+- [`qualification/0_2_7/wp16_runtime/wp16_retry_subscale_raw.json`](../../../qualification/0_2_7/wp16_runtime/wp16_retry_subscale_raw.json)
+- [`0_2_7_wp16_1m_qualification.md`](0_2_7_wp16_1m_qualification.md)
 - [`qualification/0_2_7/wp10_state.json`](../../../qualification/0_2_7/wp10_state.json)
 - [`qualification/0_2_7/vnv_v2/wp10_cases.json`](../../../qualification/0_2_7/vnv_v2/wp10_cases.json)
 - [`qualification/0_2_7/vnv_v2/wp10_evidence.json`](../../../qualification/0_2_7/vnv_v2/wp10_evidence.json)

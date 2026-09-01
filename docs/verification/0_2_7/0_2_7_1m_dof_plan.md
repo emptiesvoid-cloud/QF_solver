@@ -9,9 +9,10 @@ approver: ""
 
 # 0.2.7 Large-Scale and 1M-DOF Plan
 
-The active Level-Up requirement is `WP16` / `LUP-027-G16`. The historical
-WP12 readiness evidence below remains unchanged and is not a 1M qualification.
-WP16 requires a complete iterative solve on at least 1,000,000 real FEM DOF,
+The active Level-Up record is `WP16` / `LUP-027-G16`, now `PASS` on the
+official PETSc retry. The historical WP12 readiness evidence below remains
+unchanged and is not a 1M qualification. WP16 required a complete iterative
+solve on at least 1,000,000 real FEM DOF,
 including loads, boundary conditions, reactions, residual, equilibrium,
 energy, matrix-free/assembled subscale comparison, two replays and complete
 resource/provenance capture. A timeout or resource-limited attempt is not
@@ -27,7 +28,7 @@ route can solve one million degrees of freedom.
 | 100k DOF | repeatable baseline | establish timing, memory and residual method |
 | 300k DOF | large full-solve checkpoint where feasible | report full solve or resource limitation |
 | 500k DOF | ambitious intermediate target | characterize bottleneck and resource context |
-| 1M DOF | ambitious readiness probe | full solve, iterative/HPC result or characterized resource limit |
+| 1M DOF | completed bounded qualification | full solve, iterative/HPC result or characterized resource limit |
 
 ## Measurements
 
@@ -58,5 +59,7 @@ DOF. The 300k probe reached 311469 DOF for assembly only. The 1M attempt was
 `RESOURCE_LIMITED_TIME`; SciPy retained its explicit 200000-DOF guard and the
 direct route was memory-limited at 107811 DOF. PETSc/SLEPc were unavailable in
 the measured environment. WP12 status is `PASS_WITH_LIMITATIONS` with
-`PROPOSED_OWNER_REVIEW` pending. No universal 1M or multi-million-DOF claim is
-made.
+`PROPOSED_OWNER_REVIEW` pending. The later WP16 retry used the pinned PETSc
+route and completed two reproducible 1,029,000-DOF replays under the frozen
+WP14 acceptance contract; this is a bounded TET4 linear-static result, not a
+universal 1M or multi-million-DOF claim.
