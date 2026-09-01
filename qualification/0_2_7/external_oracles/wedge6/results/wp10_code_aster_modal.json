@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "case_id": "WP10-MODAL-CODE-ASTER",
+  "source_sha": "7d494eaa638ffa88a04ed3e5c51f6036ad1804a1",
+  "solver": "Code_Aster 18.1.0",
+  "element": "PENTA6",
+  "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+  "deck": "qualification/0_2_7/external_oracles/wedge6/decks/code_aster/WP10-A-penta6-modal",
+  "mesh_contract": {
+    "geometry": "single affine prism, base 2 x 1 and length 3",
+    "node_order": "N1 N2 N3 N4 N5 N6",
+    "fixed_nodes": "N1 N2 N3",
+    "material": "E=210e9, nu=0.3, rho=7800",
+    "boundary_condition": "all translations fixed on bottom TRI3"
+  },
+  "observable": "frequency_hz",
+  "qf_frequencies_hz": [
+    156.44641013597035,
+    186.68614031093526,
+    295.68900530294786,
+    495.9478405804892,
+    1206.5931567561142,
+    1770.0382753350857
+  ],
+  "code_aster_frequencies_hz": [
+    156.44641013597536,
+    186.68614031092773,
+    295.6890053029494,
+    495.9478405804897,
+    1206.593156756112,
+    1770.0382753350839
+  ],
+  "relative_errors": [
+    3.1974021362352936e-14,
+    4.034446792093322e-14,
+    5.190495019148105e-15,
+    1.0315414805485854e-15,
+    1.884427026376638e-15,
+    1.027655406604982e-15
+  ],
+  "tolerance": 0.01,
+  "tolerance_source": "WP10 predeclared same-mesh modal candidate; OWNER_REVIEW_REQUIRED",
+  "formulation_compatible": true,
+  "mode_shape_comparison": "NOT_RUN",
+  "status": "PASS_EXTERNAL_CORRELATION_BOUNDED",
+  "artifact_classification": "CONTROLLED_PROOF"
+}
