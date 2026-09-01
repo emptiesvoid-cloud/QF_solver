@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "work_package": "WP13",
+  "gate": "LUP-027-G13",
+  "status": "PASS",
+  "start_sha": "fcdde28a146a3a502972fdad30821f8e8a857da7",
+  "evidence_source_sha": "fcdde28a146a3a502972fdad30821f8e8a857da7",
+  "golden_case_catalog": "qualification/0_2_7/golden/cases.json",
+  "golden_evidence": "qualification/0_2_7/golden/evidence.json",
+  "execution_script": "scripts/run_wp13_golden.py",
+  "golden_cases": {
+    "total": 9,
+    "pass": 8,
+    "expected_failure_pass": 1,
+    "fail": 0,
+    "no_nan_inf": true,
+    "deterministic_replay": "PASS"
+  },
+  "case_status": {
+    "TET4": "PASS",
+    "TET10": "PASS",
+    "HEX8": "PASS",
+    "HEX20": "PASS",
+    "WEDGE6_STATIC": "PASS",
+    "WEDGE6_MODAL": "PASS",
+    "J2_SMALL_STRAIN": "PASS",
+    "BUCKLING_BOUNDED": "PASS",
+    "PREFLIGHT_UNKNOWN_ELEMENT": "EXPECTED_FAILURE_PASS"
+  },
+  "release_truth": {
+    "qualification_snapshot_026": "93561c2c0ae1c173deb81e47c3fa3852643275cb",
+    "release_source_snapshot_026": "e839373b6aef291a93292186d7553ba5cd12af55",
+    "current_development_head_at_execution": "fcdde28a146a3a502972fdad30821f8e8a857da7"
+  },
+  "predeclared_policy": {
+    "residual_absolute_tolerance": 1e-12,
+    "modal_and_buckling_residual_absolute_tolerance": 1e-7,
+    "j2_status": "PASS_INTERNAL",
+    "post_observation_retuning": false,
+    "result_digest": "canonical V&V v2 SHA-256 over case, observables, verdict and failure reason"
+  },
+  "future_contracts_checked": [
+    "WP14 large-scale execution contract",
+    "WP15 matrix-free TET4 V2 / SPD / preconditioning",
+    "WP16 true 1M DOF qualification",
+    "WP17 PETSc/MPI + large sparse path",
+    "WP18 3M Bronze/Silver/Gold ladder"
+  ],
+  "numerical_source_changed_by_wp13": false,
+  "public_maturity_promotion": false,
+  "artifact_classification": "CONTROLLED_PROOF"
+}
