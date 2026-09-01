@@ -4,7 +4,7 @@
   "release": "0.2.7a0",
   "theme": "Reproducible Large-Model Solving and Numerical Trust",
   "status": "CLOSED_ACCEPT_WITH_CONSOLIDATION",
-  "decision": "Gate Level-Up is accepted as the official consolidation scope; WP13 and WP14 are evidence-complete, WP15 is PASS_WITH_LIMITATIONS on controlled subscale evidence, WP16 is PASS after the official PETSc retry under the frozen acceptance contract, WP17 is PARTIAL after PETSc remediation, WP18 is PASS_WITH_LIMITATIONS after the Bronze/Silver ladder with Gold unattempted, and WP19 is PASS_WITH_LIMITATIONS on bounded adversarial and HEX8 diagnostic evidence; WP20-WP22 remain planned.",
+  "decision": "Gate Level-Up is accepted as the official consolidation scope; WP13 and WP14 are evidence-complete, WP15 is PASS_WITH_LIMITATIONS on controlled subscale evidence, WP16 is PASS after the official PETSc retry under the frozen acceptance contract, WP17 is PASS_WITH_LIMITATIONS after its PETSc/MPI closure, WP18 is PASS_WITH_LIMITATIONS after the Bronze/Silver ladder with Gold unattempted, and WP19 is PASS_WITH_LIMITATIONS on bounded adversarial and HEX8 diagnostic evidence; WP20-WP22 remain planned.",
   "source_snapshot": "72888ea63241a4445f6600aa6c2b882401f85ef1",
   "source_branch": "codex/0.2.7-foundation",
   "parent_release": {
@@ -18,7 +18,7 @@
     "current_progress_percent": 82,
     "level_up_extension_percent": 55,
     "weights_total_percent": 100,
-    "accounting_note": "The historical block, acquired status and active progress are governance views and are not additive. WP13-WP22 weights sum to the 55 percent extension; WP13 and WP14 are PASS, WP15 is PASS_WITH_LIMITATIONS, WP16 is PASS, WP17 is PARTIAL, WP18 is PASS_WITH_LIMITATIONS with Silver complete and Gold unattempted, WP19 is PASS_WITH_LIMITATIONS on bounded adversarial and HEX8 diagnostic evidence, and WP20-WP22 remain planned."
+    "accounting_note": "The historical block, acquired status and active progress are governance views and are not additive. WP13-WP22 weights sum to the 55 percent extension; WP13 and WP14 are PASS, WP15 is PASS_WITH_LIMITATIONS, WP16 is PASS, WP17 is PASS_WITH_LIMITATIONS, WP18 is PASS_WITH_LIMITATIONS with Silver complete and Gold unattempted, WP19 is PASS_WITH_LIMITATIONS on bounded adversarial and HEX8 diagnostic evidence, and WP20-WP22 remain planned."
   },
   "historical_scope": {
     "work_packages": ["WP01", "WP02", "WP03", "WP04", "WP05", "WP06", "WP07", "WP08", "WP09", "WP10", "WP11", "WP12"],
@@ -77,11 +77,15 @@
       "title": "PETSc/MPI and large sparse path",
       "weight_percent": 5,
       "priority": "SHOULD",
-      "status": "PARTIAL",
+      "status": "PASS_WITH_LIMITATIONS",
       "pass_criteria": ["PETSc/MPI path is reproducibly provisioned or explicitly unavailable", "backend selection and solver/preconditioner configuration are explicit", "serial fallback remains fail-closed and traceable"],
       "stop_conditions": ["environment-specific success presented as universal support", "unreproducible distributed result"],
-      "evidence": ["qualification/0_2_7/wp17_state.json", "qualification/0_2_7/wp17_runtime/wp17_probe.json", "qualification/0_2_7/wp17r_state.json", "qualification/0_2_7/wp17_runtime/wp17r_summary.json", "docs/verification/0_2_7/0_2_7_wp17_solver_stack.md", "docs/verification/0_2_7/0_2_7_wp17r_petsc_remediation.md"],
-      "owner_decision": "PARTIAL: the explicit PETSc CG/GAMG route is reproducibly provisioned and enabled the official WP16 retry; host PETSc remains unavailable and AIJ memory remains a limitation, with no WP14 policy or public default change"
+      "evidence": ["qualification/0_2_7/wp17_final_state.json", "qualification/0_2_7/wp17_state.json", "qualification/0_2_7/wp17_runtime/wp17_probe.json", "qualification/0_2_7/wp17r_state.json", "qualification/0_2_7/wp17_runtime/wp17r_summary.json", "qualification/0_2_7/wp17_runtime/wp17r_strict_summary.json", "qualification/0_2_7/wp17_runtime/wp17r_strict_medium.json", "qualification/0_2_7/wp17_runtime/wp17r_strict_1m_run1.json", "qualification/0_2_7/wp17_runtime/wp17r_strict_1m_run2.json", "qualification/0_2_7/wp16_runtime/wp16_retry_summary.json", "qualification/0_2_7/wp18_runtime/wp18_summary.json", "qualification/0_2_7/wp18_runtime/wp18_replay_comparison.json", "docs/verification/0_2_7/0_2_7_wp17_final.md", "docs/verification/0_2_7/0_2_7_wp17_solver_stack.md", "docs/verification/0_2_7/0_2_7_wp17r_petsc_remediation.md"],
+      "historical_diagnostic_state": "qualification/0_2_7/wp17_state.json",
+      "historical_remediation_state": "qualification/0_2_7/wp17r_state.json",
+      "owner_decision": "PASS_WITH_LIMITATIONS: the pinned PETSc 3.25.1 / MPICH 5.0.1 CG+GAMG route is explicit and reproducible; two-replay 1,029,000-DOF evidence, a passing subscale comparison and the two-replay 3,000,000-DOF Silver evidence support the bounded closure. PETSc remains optional at runtime; host availability and AIJ memory remain explicit limitations, with no WP14 policy or public default change.",
+      "limitations": ["Structured TET4 linear-static scope only", "Pinned two-rank PETSc/MPI container route", "Host PETSc unavailable; requested unavailable backend fails closed", "AIJ memory is approximately 3.52 GiB at 1M DOF and 10.08 GB at 3M DOF", "No universal performance, GPU or general HPC claim", "WP18 Gold restart/checkpoint and distinct-second-case evidence remain unclaimed"],
+      "final_state": "qualification/0_2_7/wp17_final_state.json"
     },
     {
       "id": "WP18",

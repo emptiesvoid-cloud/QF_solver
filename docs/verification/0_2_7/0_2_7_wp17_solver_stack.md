@@ -2,6 +2,10 @@
 
 ## Decision
 
+This document records the original WP17 diagnostic checkpoint. Its `PARTIAL`
+status is preserved as historical evidence; the active WP17 closeout is
+`docs/verification/0_2_7/0_2_7_wp17_final.md`.
+
 WP17 is **PARTIAL**. The existing structured TET4 matrix-free route was
 instrumented and compared with a diagnostic diagonal-Jacobi alternative. No
 solver, formulation, WP14 tolerance or public backend selection was changed.

@@ -314,3 +314,23 @@ with the observation but not proven. Reactions and energy are
 `NOT_COMPARABLE` in the inherited displacement-only deck. No HEX8R/SRI/B-bar
 formulation is promoted, no numerical formulation changes, and WP20 is the
 next work package.
+
+## WP17-FINAL - PETSc/MPI large solver path closure
+
+Date: 2026-09-01. Review start SHA:
+`cd4da89797ff37e0b142d0705aa4fae0972a7065`.
+
+Owner decision: `PASS_WITH_LIMITATIONS`. The pinned PETSc 3.25.1 / MPICH
+5.0.1 CG+GAMG route is explicit and reproducible. The controlled evidence
+contains two passing 1,029,000-DOF replays, a passing same-configuration
+subscale comparison and two passing 3,000,000-DOF WP18 Silver replays. The
+WP14 acceptance tolerance remains `1e-8`; the supplemental internal PETSc
+target `1e-10` was predeclared and is not an acceptance-policy change.
+
+PETSc remains optional at runtime and unavailable host selection remains
+fail-closed. AIJ memory is approximately 3.52 GiB at 1M DOF and 10.08 GB at
+3M DOF on the pinned two-rank route. The observed 1M speedup of about 7.4x
+against the old matrix-free run is case- and environment-specific. No public
+default backend, general HPC/GPU claim, formulation or existing numerical
+route is changed. The machine-readable closeout is
+`qualification/0_2_7/wp17_final_state.json`.

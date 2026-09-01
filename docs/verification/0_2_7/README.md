@@ -24,8 +24,9 @@ while the foundation WP01-WP12 evidence remains preserved. The official
 Level-Up portfolio is `CLOSED / ACCEPT_WITH_CONSOLIDATION`; WP13 is `PASS` on
 its controlled golden-baseline evidence and WP14 is `PASS` on its frozen
 execution contract; WP15 is `PASS_WITH_LIMITATIONS` on controlled subscale
-evidence, WP16 is `PASS` on the official PETSc 1M retry, WP17 is `PARTIAL`,
-and WP18 is `PASS_WITH_LIMITATIONS` after its Bronze/Silver ladder; WP19 is
+evidence, WP16 is `PASS` on the official PETSc 1M retry, WP17 is
+`PASS_WITH_LIMITATIONS` after its PETSc/MPI closure, and WP18 is
+`PASS_WITH_LIMITATIONS` after its Bronze/Silver ladder; WP19 is
 `PASS_WITH_LIMITATIONS` on bounded adversarial and HEX8 diagnostic evidence;
 WP20-WP22 remain individually `PLANNED` until their own evidence exists.
 
@@ -94,7 +95,7 @@ in [`0_2_7_progress_tracker.md`](0_2_7_progress_tracker.md).
 | WP14 | Large-scale execution contract | `PASS` |
 | WP15 | Matrix-Free TET4 V2 / SPD / preconditioning | `PASS_WITH_LIMITATIONS` |
 | WP16 | True 1M-DOF qualification | `PASS` (bounded PETSc/TET4 scope) |
-| WP17 | PETSc/MPI and large sparse path | `PARTIAL` |
+| WP17 | PETSc/MPI and large sparse path | `PASS_WITH_LIMITATIONS` |
 | WP18 | 3M DOF ladder Bronze/Silver/Gold | `PASS_WITH_LIMITATIONS` |
 | WP19 | Adversarial robustness and HEX8 diagnostic | `PASS_WITH_LIMITATIONS` |
 | Foundation WP13-WP14 proposal | Superseded by the Level-Up namespace | `PRESERVED_HISTORY` |
