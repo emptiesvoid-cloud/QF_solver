@@ -4,7 +4,7 @@
   "theme": "Reproducible Large-Model Solving and Numerical Trust",
   "baseline_sha": "e839373b6aef291a93292186d7553ba5cd12af55",
   "branch": "codex/0.2.7-foundation",
-  "status": "WP10_PASS_WITH_LIMITATIONS_QUALIFIED_BOUNDED_WP11_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED_WP12_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED",
+  "status": "WP10_PASS_WITH_LIMITATIONS_QUALIFIED_BOUNDED_WP11_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED_WP12_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED_WP16_FAIL_FROZEN_EQUILIBRIUM_CRITERION",
   "current_work_package": "WP16",
   "full_regression_run": false,
   "numerical_source_changed": true,
