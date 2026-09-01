@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import numpy as np
+import pytest
 
 from scripts.run_wp17r_petsc_remediation import (
     MONITOR_PATTERN,
@@ -8,6 +9,7 @@ from scripts.run_wp17r_petsc_remediation import (
     _frozen_config,
     _monitor_evidence,
     _reaction_diagnostics,
+    _resolve_solver_rtol,
 )
 from solveur.large.generator import generate_tet4_block
 
@@ -18,14 +20,31 @@ def test_wp17r_config_is_frozen_and_backend_explicit() -> None:
     assert config["backend"] == "petsc"
     assert config["solver"] == "CG"
     assert config["rtol"] == 1.0e-8
+    assert config["solver_rtol"] == 1.0e-8
     assert config["atol"] == 0.0
     assert config["max_iterations"] == 10000
     assert config["petsc_options"] == {
         "ksp_monitor_true_residual": None,
+        "ksp_rtol": 1.0e-8,
         "ksp_norm_type": "unpreconditioned",
     }
     assert config["stopping_norm"] == "unpreconditioned"
     assert "no implicit fallback" in config["fallback_policy"]
+
+
+def test_wp17r_strict_internal_tolerance_is_explicit_and_bounded() -> None:
+    config = _frozen_config("petsc", "gamg", False, 2, "contiguous", 1.0e-10)
+
+    assert config["rtol"] == 1.0e-8
+    assert config["solver_rtol"] == 1.0e-10
+    assert config["petsc_options"]["ksp_rtol"] == 1.0e-10
+    assert "predeclared strict" in config["solver_rtol_policy"]
+
+
+@pytest.mark.parametrize("value", [0.0, -1.0, 1.0e-7, float("nan"), float("inf")])
+def test_wp17r_internal_tolerance_rejects_invalid_or_relaxed_values(value: float) -> None:
+    with pytest.raises(ValueError):
+        _resolve_solver_rtol(value)
 
 
 def test_wp17r_monitor_parser_records_true_residual() -> None:

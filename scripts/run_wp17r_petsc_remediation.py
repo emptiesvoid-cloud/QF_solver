@@ -60,6 +60,7 @@ def main() -> None:
         source_sha=args.source_sha,
         monitor=not args.no_monitor,
         compare_matrix_free=args.compare_matrix_free,
+        internal_rtol=args.internal_rtol,
     )
     print(json.dumps(record, indent=2, sort_keys=True), flush=True)
     if record["status"] != "PASS":
@@ -78,6 +79,15 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--source-sha", default=None, help="Qualified source SHA when the Docker worktree has no readable .git path.")
     parser.add_argument("--no-monitor", action="store_true")
     parser.add_argument("--compare-matrix-free", action="store_true")
+    parser.add_argument(
+        "--internal-rtol",
+        type=float,
+        default=None,
+        help=(
+            "Optional predeclared strict PETSc solve tolerance. The WP14 acceptance "
+            "tolerance remains fixed at 1e-8; values above it are rejected."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -93,10 +103,13 @@ def run_case(
     source_sha: str | None = None,
     monitor: bool = True,
     compare_matrix_free: bool = False,
+    internal_rtol: float | None = None,
 ) -> dict[str, Any]:
     """Run one explicit backend and return a portable evidence record."""
     if backend == "matrix_free" and _mpi_size() > 1:
         raise ValueError("The diagnostic matrix-free route is serial-only; use PETSc for MPI runs.")
+    if os.environ.get("PETSC_OPTIONS"):
+        raise ValueError("PETSC_OPTIONS must be unset; PETSc options are declared by the runner.")
     output_dir.mkdir(parents=True, exist_ok=True)
     comm = _mpi_comm()
     rank = int(comm.rank) if comm is not None else 0
@@ -104,7 +117,8 @@ def run_case(
     input_digest = _sha256_file(input_path) if rank == 0 else None
     input_digest = comm.bcast(input_digest, root=0) if comm is not None else input_digest
     source_sha = _validate_sha(source_sha or _git_sha())
-    config = _frozen_config(backend, preconditioner, monitor, size, partition_strategy)
+    solver_rtol = _resolve_solver_rtol(internal_rtol)
+    config = _frozen_config(backend, preconditioner, monitor, size, partition_strategy, solver_rtol)
     config_digest = _digest_json(config)
     started = time.perf_counter()
     local_memory_before = process_memory_snapshot()
@@ -147,7 +161,7 @@ def run_case(
                 preconditioner=preconditioner,
                 chunk_size=WP14_CHUNK_SIZE,
                 parameters={
-                    "rtol": WP14_RTOL,
+                    "rtol": solver_rtol,
                     "atol": WP14_ATOL,
                     "max_it": WP14_MAXITER,
                     "matrix_format": "aij",
@@ -164,7 +178,7 @@ def run_case(
             displacement = _read_displacement(output_dir, serial_model.node_count)
             post = _reaction_diagnostics(serial_model, displacement)
             comparison = (
-                _compare_matrix_free(serial_model, displacement, post)
+                _compare_matrix_free(serial_model, displacement, post, solver_rtol)
                 if compare_matrix_free and backend == "petsc"
                 else {"status": "NOT_RUN", "reason": "subscale comparison not requested"}
             )
@@ -250,11 +264,20 @@ def run_case(
     return record
 
 
-def _frozen_config(backend: str, preconditioner: str, monitor: bool, mpi_size: int, partition: str) -> dict[str, Any]:
+def _frozen_config(
+    backend: str,
+    preconditioner: str,
+    monitor: bool,
+    mpi_size: int,
+    partition: str,
+    solver_rtol: float | None = None,
+) -> dict[str, Any]:
+    solver_rtol = _resolve_solver_rtol(solver_rtol)
     petsc_options: dict[str, Any] = {}
     if backend == "petsc":
         # WP14 measures the physical residual, not PETSc's default preconditioned norm.
         petsc_options["ksp_norm_type"] = "unpreconditioned"
+        petsc_options["ksp_rtol"] = solver_rtol
         if monitor:
             petsc_options["ksp_monitor_true_residual"] = None
     return {
@@ -264,16 +287,32 @@ def _frozen_config(backend: str, preconditioner: str, monitor: bool, mpi_size: i
         "matrix_format": "aij",
         "chunk_size": WP14_CHUNK_SIZE,
         "rtol": WP14_RTOL,
+        "solver_rtol": solver_rtol,
+        "solver_rtol_policy": (
+            "WP14 acceptance rtol is fixed at 1e-8; solver_rtol is equal to it"
+            if solver_rtol == WP14_RTOL
+            else "predeclared strict internal solve tolerance; WP14 acceptance remains fixed at 1e-8"
+        ),
         "atol": WP14_ATOL,
         "max_iterations": WP14_MAXITER,
         "mpi_size": mpi_size,
         "partition_strategy": partition,
         "monitor": monitor,
         "petsc_options": petsc_options,
+        "petsc_options_environment_policy": "PETSC_OPTIONS must be unset; all relevant options are explicit",
         "stopping_norm": "unpreconditioned" if backend == "petsc" else "solver-native",
         "wp14_tolerance_source": "qualification/0_2_7/wp14_execution_contract.json",
         "fallback_policy": "no implicit fallback; backend selection is explicit and unavailable routes fail closed",
     }
+
+
+def _resolve_solver_rtol(value: float | None) -> float:
+    if value is None:
+        return WP14_RTOL
+    resolved = float(value)
+    if not math.isfinite(resolved) or resolved <= 0.0 or resolved > WP14_RTOL:
+        raise ValueError(f"internal_rtol must be finite and in (0, {WP14_RTOL}], got {value!r}.")
+    return resolved
 
 
 def _load_model(
@@ -348,12 +387,17 @@ def _reaction_diagnostics(model: Any, displacement: np.ndarray) -> dict[str, Any
     }
 
 
-def _compare_matrix_free(model: Any, petsc_displacement: np.ndarray, petsc_post: dict[str, Any]) -> dict[str, Any]:
+def _compare_matrix_free(
+    model: Any,
+    petsc_displacement: np.ndarray,
+    petsc_post: dict[str, Any],
+    solver_rtol: float,
+) -> dict[str, Any]:
     started = time.perf_counter()
     matrix_free = solve_structured_matrix_free(
         model,
         chunk_size=WP14_CHUNK_SIZE,
-        rtol=WP14_RTOL,
+        rtol=solver_rtol,
         atol=WP14_ATOL,
         maxiter=WP14_MAXITER,
     )
@@ -376,6 +420,7 @@ def _compare_matrix_free(model: Any, petsc_displacement: np.ndarray, petsc_post:
         "matrix_free_iterations": int(matrix_free.solver_info.get("iterations", 0)),
         "matrix_free_residual_relative": float(matrix_free.solver_info.get("relative_residual", float("nan"))),
         "elapsed_seconds": float(time.perf_counter() - started),
+        "solver_rtol": solver_rtol,
         "tolerance": WP14_RTOL,
     }
 
