@@ -9,8 +9,9 @@ approver: ""
 
 # 0.2.7 Release Criteria
 
-These are entry criteria for a future Owner review, not a current release
-approval.
+These criteria describe the remaining WP22 Owner release action. WP21 records
+the completed surgical compatibility and release-truth cleanup; this document
+does not itself authorize a tag, GitHub release or PyPI publication.
 
 ## Scope and provenance
 

@@ -4,7 +4,7 @@
   "release": "0.2.7a0",
   "theme": "Reproducible Large-Model Solving and Numerical Trust",
   "status": "CLOSED_ACCEPT_WITH_CONSOLIDATION",
-  "decision": "Gate Level-Up is accepted as the official consolidation scope; WP13 and WP14 are evidence-complete, WP15 is PASS_WITH_LIMITATIONS on controlled subscale evidence, WP16 is PASS after the official PETSc retry under the frozen acceptance contract, WP17 is PASS_WITH_LIMITATIONS after its PETSc/MPI closure, WP18 is PASS_WITH_LIMITATIONS after the Bronze/Silver ladder with Gold unattempted, WP19 is PASS_WITH_LIMITATIONS on bounded adversarial and HEX8 diagnostic evidence, and WP20 is PASS_WITH_LIMITATIONS after Owner closure of the bounded J2 scope; WP21-WP22 remain planned.",
+  "decision": "Gate Level-Up is accepted as the official consolidation scope; WP13 and WP14 are evidence-complete, WP15 is PASS_WITH_LIMITATIONS on controlled subscale evidence, WP16 is PASS after the official PETSc retry under the frozen acceptance contract, WP17 is PASS_WITH_LIMITATIONS after its PETSc/MPI closure, WP18 is PASS_WITH_LIMITATIONS after the Bronze/Silver ladder with Gold unattempted, WP19 is PASS_WITH_LIMITATIONS on bounded adversarial and HEX8 diagnostic evidence, WP20 is PASS_WITH_LIMITATIONS after Owner closure of the bounded J2 scope, and WP21 is PASS_WITH_LIMITATIONS after surgical release and compatibility cleanup; WP22 remains planned.",
   "source_snapshot": "72888ea63241a4445f6600aa6c2b882401f85ef1",
   "source_branch": "codex/0.2.7-foundation",
   "parent_release": {
@@ -14,11 +14,11 @@
   },
   "progress_accounting": {
     "historical_completed_block_percent": 45,
-    "current_acquired_percent": 82,
-    "current_progress_percent": 82,
+    "current_acquired_percent": 85,
+    "current_progress_percent": 85,
     "level_up_extension_percent": 55,
     "weights_total_percent": 100,
-    "accounting_note": "The historical block, acquired status and active progress are governance views and are not additive. WP13-WP22 weights sum to the 55 percent extension; WP13 and WP14 are PASS, WP15 is PASS_WITH_LIMITATIONS, WP16 is PASS, WP17 is PASS_WITH_LIMITATIONS, WP18 is PASS_WITH_LIMITATIONS with Silver complete and Gold unattempted, WP19 is PASS_WITH_LIMITATIONS on bounded adversarial and HEX8 diagnostic evidence, WP20 is PASS_WITH_LIMITATIONS with the existing J2 maturity kept bounded, and WP21-WP22 remain planned."
+    "accounting_note": "The historical block, acquired status and active progress are governance views and are not additive. WP13-WP22 weights sum to the 55 percent extension; WP13 and WP14 are PASS, WP15 is PASS_WITH_LIMITATIONS, WP16 is PASS, WP17 is PASS_WITH_LIMITATIONS, WP18 is PASS_WITH_LIMITATIONS with Silver complete and Gold unattempted, WP19 is PASS_WITH_LIMITATIONS on bounded adversarial and HEX8 diagnostic evidence, WP20 is PASS_WITH_LIMITATIONS with the existing J2 maturity kept bounded, WP21 is PASS_WITH_LIMITATIONS, and WP22 remains planned."
   },
   "historical_scope": {
     "work_packages": ["WP01", "WP02", "WP03", "WP04", "WP05", "WP06", "WP07", "WP08", "WP09", "WP10", "WP11", "WP12"],
@@ -130,9 +130,12 @@
       "title": "Architecture, API and registry surgical cleanup",
       "weight_percent": 3,
       "priority": "SHOULD",
-      "status": "PLANNED",
+      "status": "PASS_WITH_LIMITATIONS",
       "pass_criteria": ["interfaces and dependency direction are documented", "registry/API cleanup is incremental", "legacy routes and public imports remain compatible"],
-      "stop_conditions": ["mass refactor", "unreviewed public API break", "maturity inferred from implementation presence"]
+      "stop_conditions": ["mass refactor", "unreviewed public API break", "maturity inferred from implementation presence"],
+      "evidence": ["qualification/0_2_7/wp21_state.json", "qualification/0_2_7/wp21_final_release_truth.json", "qualification/0_2_7/wp21_public_document_audit.json", "qualification/0_2_7/golden/wp21_replay_evidence.json", "tests/unit/test_wp21_release.py"],
+      "owner_decision": "PASS_WITH_LIMITATIONS: active 0.2.7 package identity, public audit, compatibility checks and bounded evidence truth are aligned; broader architecture redesign and final WP22 release action remain separate.",
+      "limitations": ["no broad architecture redesign", "historical 0.2.6 records remain immutable", "WP22 final Owner release action remains planned", "full regression and package evidence are recorded at closeout after validation"]
     },
     {
       "id": "WP22",

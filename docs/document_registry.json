@@ -4478,6 +4478,188 @@
       "tests": [
         "tests/unit/test_wp17r_petsc_remediation.py"
       ]
+    },
+    {
+      "id": "DOC-027-WP07-FORMULATION-001",
+      "path": "verification/0_2_7/0_2_7_wedge6_formulation_contract.md",
+      "title": "0.2.7 WEDGE6 formulation contract",
+      "status": "controlled_candidate",
+      "requirements": ["027-REQ-008"],
+      "examples": [
+        "qualification/0_2_7/wp07_prerequisites.json",
+        "qualification/0_2_7/vnv_v2/wp07_cases.json"
+      ],
+      "tests": [
+        "tests/unit/test_wedge6_kernel.py"
+      ]
+    },
+    {
+      "id": "DOC-027-WP07-KERNEL-001",
+      "path": "verification/0_2_7/0_2_7_wedge6_kernel.md",
+      "title": "0.2.7 WEDGE6 kernel evidence",
+      "status": "controlled_candidate",
+      "requirements": ["027-REQ-008"],
+      "examples": [
+        "qualification/0_2_7/wp07_state.json",
+        "qualification/0_2_7/vnv_v2/wp07_evidence.json"
+      ],
+      "tests": [
+        "tests/unit/test_wedge6_kernel.py"
+      ]
+    },
+    {
+      "id": "DOC-027-WP10-MODAL-001",
+      "path": "verification/0_2_7/0_2_7_wedge6_modal.md",
+      "title": "0.2.7 WEDGE6 modal qualification evidence",
+      "status": "controlled_candidate",
+      "requirements": ["027-REQ-011"],
+      "examples": [
+        "qualification/0_2_7/wp10_final_state.json",
+        "qualification/0_2_7/vnv_v2/wp10_final_evidence.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp10_final_modal.py"
+      ]
+    },
+    {
+      "id": "DOC-027-WP09-EXTERNAL-001",
+      "path": "verification/0_2_7/0_2_7_wedge6_robustness_external_vnv.md",
+      "title": "0.2.7 WEDGE6 robustness and external V&V",
+      "status": "controlled_candidate",
+      "requirements": ["027-REQ-010"],
+      "examples": [
+        "qualification/0_2_7/wp09_final_state.json",
+        "qualification/0_2_7/vnv_v2/wp09_final_external_evidence.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp09_final_external.py",
+        "tests/unit/test_wp09_wedge6_robustness.py"
+      ]
+    },
+    {
+      "id": "DOC-027-WP13-001",
+      "path": "verification/0_2_7/0_2_7_wp13_golden_baseline.md",
+      "title": "0.2.7 WP13 golden numerical baseline",
+      "status": "controlled_candidate",
+      "requirements": ["027-LU-REQ-013"],
+      "examples": [
+        "qualification/0_2_7/wp13_state.json",
+        "qualification/0_2_7/golden/evidence.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp13_golden.py"
+      ]
+    },
+    {
+      "id": "DOC-027-WP14-001",
+      "path": "verification/0_2_7/0_2_7_wp14_large_scale_contract.md",
+      "title": "0.2.7 WP14 large-scale execution contract",
+      "status": "controlled_candidate",
+      "requirements": ["027-LU-REQ-014"],
+      "examples": [
+        "qualification/0_2_7/wp14_execution_contract.json",
+        "qualification/0_2_7/wp14_state.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp14_contract.py"
+      ]
+    },
+    {
+      "id": "DOC-027-WP15-001",
+      "path": "verification/0_2_7/0_2_7_wp15_matrix_free.md",
+      "title": "0.2.7 WP15 matrix-free TET4 V2",
+      "status": "controlled_candidate",
+      "requirements": ["027-LU-REQ-015"],
+      "examples": [
+        "qualification/0_2_7/wp15_state.json",
+        "qualification/0_2_7/wp15_matrix_free_benchmark.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp15_matrix_free.py"
+      ]
+    },
+    {
+      "id": "DOC-027-WP16-001",
+      "path": "verification/0_2_7/0_2_7_wp16_1m_qualification.md",
+      "title": "0.2.7 WP16 true 1M DOF qualification",
+      "status": "controlled_candidate",
+      "requirements": ["027-LU-REQ-016"],
+      "examples": [
+        "qualification/0_2_7/wp16_state.json",
+        "qualification/0_2_7/wp16_runtime/wp16_retry_summary.json"
+      ],
+      "tests": []
+    },
+    {
+      "id": "DOC-027-WP17-FINAL",
+      "path": "verification/0_2_7/0_2_7_wp17_final.md",
+      "title": "0.2.7 WP17 final PETSc/MPI solver path closure",
+      "status": "controlled_candidate",
+      "requirements": ["027-LU-REQ-017"],
+      "examples": [
+        "qualification/0_2_7/wp17_final_state.json",
+        "qualification/0_2_7/wp17_runtime/wp17r_strict_summary.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp17_final.py"
+      ]
+    },
+    {
+      "id": "DOC-027-WP17-STACK-001",
+      "path": "verification/0_2_7/0_2_7_wp17_solver_stack.md",
+      "title": "0.2.7 WP17 large solver stack and preconditioning",
+      "status": "controlled_candidate",
+      "requirements": ["027-LU-REQ-017"],
+      "examples": [
+        "qualification/0_2_7/wp17_state.json",
+        "qualification/0_2_7/wp17_runtime/wp17_probe.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp17_solver_stack.py"
+      ]
+    },
+    {
+      "id": "DOC-027-WP18-001",
+      "path": "verification/0_2_7/0_2_7_wp18_3m_ladder.md",
+      "title": "0.2.7 WP18 3M DOF ladder",
+      "status": "controlled_candidate",
+      "requirements": ["027-LU-REQ-018"],
+      "examples": [
+        "qualification/0_2_7/wp18_state.json",
+        "qualification/0_2_7/wp18_runtime/wp18_summary.json",
+        "qualification/0_2_7/wp18_runtime/wp18_replay_comparison.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp18_3m_ladder.py"
+      ]
+    },
+    {
+      "id": "DOC-027-WP19-001",
+      "path": "verification/0_2_7/0_2_7_wp19_robustness_hex8.md",
+      "title": "0.2.7 WP19 adversarial robustness and HEX8 diagnostic",
+      "status": "controlled_candidate",
+      "requirements": ["027-LU-REQ-019"],
+      "examples": [
+        "qualification/0_2_7/wp19_state.json",
+        "qualification/0_2_7/wp19_runtime/wp19_robustness_evidence.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp19_robustness_hex8.py"
+      ]
+    },
+    {
+      "id": "DOC-027-WP20-001",
+      "path": "verification/0_2_7/0_2_7_wp20_j2_closeout.md",
+      "title": "0.2.7 WP20 residual J2 and external V&V closure",
+      "status": "controlled_candidate",
+      "requirements": ["027-LU-REQ-020"],
+      "examples": [
+        "qualification/0_2_7/wp20_state.json",
+        "qualification/0_2_7/wp11_j2_evidence.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp20_j2_closure.py"
+      ]
     }
   ]
 }

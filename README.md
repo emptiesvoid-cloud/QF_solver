@@ -31,12 +31,12 @@ artifact manifests; the active gate snapshot is maintained in
 | **EXPERIMENTAL** | The route exists and has tests or research evidence, but is not a qualified general capability. | Total-Lagrangian research path, Arc-Length, selected shell/beam/laminate paths. |
 | **RESEARCH / NOT QUALIFIED** | The route is exploratory or explicitly excluded from qualified claims. | Finite-kinematic J2, coupled nonlinear workflows, friction, optional HPC paths. |
 
-Current gate status is maintained in
-[`qualification/0_2_6/gates.json`](qualification/0_2_6/gates.json): G00-G03 are
-`PASS`, G04-G13 are `PASS_WITH_LIMITATIONS`, G14 is
-`PASS_WITH_LIMITATIONS`, and G15 is `PASS`.
-G07 remains explicitly bounded by its Owner closeout; gate status does not
-expand the scope of an individual capability.
+The parent 0.2.6 gate status is preserved in its historical records. Current
+0.2.7 Level-Up status is maintained in
+[`qualification/0_2_7/gates.json`](qualification/0_2_7/gates.json): WP13 and
+WP14 are `PASS`, WP15 is `PASS_WITH_LIMITATIONS`, WP16 is `PASS`, WP17-WP21
+are `PASS_WITH_LIMITATIONS` within their declared scopes, and WP22 remains
+`PLANNED`. Gate status does not expand the scope of an individual capability.
 
 ## Capability overview
 
@@ -48,7 +48,7 @@ expand the scope of an individual capability.
 | Linear buckling | **SUPPORTED_WITH_LIMITATIONS** | First linearized tangent-instability factor and first mode for the family-specific bounded scope recorded by G08, using the sparse route. | TET4 is qualified within a bounded scope; TET10/HEX20 remain limited; HEX8 requires more evidence. No post-buckling, multi-mode or general physical-validation claim. |
 | Frictionless contact | **SUPPORTED_WITH_LIMITATIONS** | Bounded node-to-triangle contact routes with documented activation and failure behavior. | G09 evidence; no friction, mortar, general surface-to-surface or universal conditioning claim. |
 | WEDGE6 static vertical slice | **EXPERIMENTAL** | Technical small-strain elastic static workflow with the recorded import, face-load and post-processing cases. | WP07-WP09 evidence; no general WEDGE6 static qualification claim. |
-| WEDGE6 modal | **STABLE_BOUNDED** | Homogeneous isotropic consistent-mass route, first three modes, four-level refinement and four same-mesh PENTA6 comparisons. | WP10 Owner decision; modes four to six and other dynamics remain outside the bounded claim. |
+| WEDGE6 modal | **QUALIFIED_BOUNDED** | Homogeneous isotropic consistent-mass route, first three modes, four-level refinement and four same-mesh PENTA6 comparisons. | WP10 Owner decision; modes four to six and other dynamics remain outside the bounded claim. |
 | Failure diagnostics | **STABLE_BOUNDED** | Recorded fail-closed, finite-diagnostic and state-transaction cases. | G11 evidence; coverage is bounded and not exhaustive for every future route. |
 | Performance | **SUPPORTED_WITH_LIMITATIONS** | Measured solves on declared hardware and model topologies, including a bounded PETSc/MPI route. | WP16-WP18 evidence; 1.029M DOF and 3M Silver are bounded results, not universal scaling claims. |
 

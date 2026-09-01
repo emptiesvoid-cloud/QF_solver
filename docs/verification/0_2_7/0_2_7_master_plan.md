@@ -39,7 +39,8 @@ after the official PETSc retry, WP17 is `PASS_WITH_LIMITATIONS`, WP18 is
 `PASS_WITH_LIMITATIONS` after the Bronze/Silver ladder, WP19 is
 `PASS_WITH_LIMITATIONS` on bounded adversarial and HEX8 diagnostic evidence,
 WP20 is `PASS_WITH_LIMITATIONS` for the existing bounded small-strain J2
-scope, and WP21-WP22 remain individually `PLANNED`.
+scope. WP21 is `PASS_WITH_LIMITATIONS` for surgical compatibility and
+release-truth cleanup; WP22 remains `PLANNED` for final Owner release action.
 
 ## Work packages and STOP/GO criteria
 
@@ -266,8 +267,9 @@ WP13 and WP14 are complete on their controlled records; WP15 is
 on the official PETSc retry, WP17 is `PASS_WITH_LIMITATIONS`, WP18 is
 `PASS_WITH_LIMITATIONS` after its Bronze/Silver evidence, WP19 is
 `PASS_WITH_LIMITATIONS` on bounded adversarial and HEX8 diagnostic evidence,
-and WP20 is `PASS_WITH_LIMITATIONS` for the existing bounded J2 scope; WP21-
-WP22 remain individually `PLANNED` until their own evidence is recorded.
+and WP20 is `PASS_WITH_LIMITATIONS` for the existing bounded J2 scope. WP21
+is `PASS_WITH_LIMITATIONS` after its surgical cleanup evidence; WP22 remains
+`PLANNED` until its own final release evidence is recorded.
 
 | WP | Title | Weight | Priority | Status |
 | --- | --- | ---: | --- | --- |
@@ -279,7 +281,7 @@ WP22 remain individually `PLANNED` until their own evidence is recorded.
 | WP18 | 3M DOF ladder Bronze/Silver/Gold | 7% | MUST / mandatory | `PASS_WITH_LIMITATIONS` |
 | WP19 | Adversarial robustness + HEX8 diagnostic | 5% | MUST | `PASS_WITH_LIMITATIONS` |
 | WP20 | Residual J2 / external V&V closure | 3% | SHOULD | `PASS_WITH_LIMITATIONS` |
-| WP21 | Architecture/API/registry surgical cleanup | 3% | SHOULD | `PLANNED` |
+| WP21 | Architecture/API/registry surgical cleanup | 3% | SHOULD | `PASS_WITH_LIMITATIONS` |
 | WP22 | Final Release Qualification | 3% | MUST | `PLANNED` |
 
 Machine-readable criteria are in `qualification/0_2_7/level_up_plan.json`.
@@ -322,8 +324,8 @@ The authoritative records are `qualification/0_2_7/wp19_state.json`,
 `qualification/0_2_7/wp19_runtime/wp19_robustness_summary.json`,
 `qualification/0_2_7/wp19_runtime/wp19_hex8_diagnostic.json` and
 `qualification/0_2_7/wp19_runtime/wp19_golden_replay.json`. WP20 is closed with
-its existing bounded J2 scope; previous maturity decisions remain unchanged,
-and WP21 is next.
+its existing bounded J2 scope; previous maturity decisions remain unchanged.
+WP21 is closed with `PASS_WITH_LIMITATIONS`, and WP22 is next.
 
 ## WP20 - Residual J2 / external V&V closure
 

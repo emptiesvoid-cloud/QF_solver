@@ -1,7 +1,7 @@
 ---
-doc_id: DOC-027-021
+doc_id: DOC-027-WP07-FORMULATION-001
 revision: 0.1
-status: controlled_evidence
+status: controlled_candidate
 applicable_version: 0.2.7a0
 reviewer: ""
 approver: ""

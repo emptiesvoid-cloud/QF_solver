@@ -221,6 +221,14 @@ def test_standalone_tet4_review_references_eleven_existing_png_files() -> None:
 
 def test_every_controlled_page_is_registered_with_consistent_review_fields() -> None:
     registry = json.loads((DOCS / "document_registry.json").read_text(encoding="utf-8"))
+    requirement_ids: set[str] = set()
+    for requirements_path in (
+        ROOT / "qualification" / "requirements.json",
+        ROOT / "qualification" / "0_2_7" / "requirements.json",
+    ):
+        requirements = json.loads(requirements_path.read_text(encoding="utf-8"))
+        for section in ("requirements", "level_up_requirements"):
+            requirement_ids.update(item["id"] for item in requirements.get(section, []))
     entries = registry["documents"]
     paths = {str(entry["path"]) for entry in entries}
     identifiers = [str(entry["id"]) for entry in entries]
@@ -230,6 +238,7 @@ def test_every_controlled_page_is_registered_with_consistent_review_fields() -> 
         metadata = read_document_metadata(DOCS / entry["path"])
         assert metadata["doc_id"] == entry["id"]
         assert normalize_document_status(str(metadata["status"])) == entry["status"]
+        assert set(entry.get("requirements", [])).issubset(requirement_ids)
         if entry["id"] in {
             "DOC-OWNER-BACKEND-022-001",
             "DOC-HEX8-023-003",
