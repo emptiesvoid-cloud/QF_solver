@@ -93,6 +93,26 @@ def test_wp17r_replay_comparison_rejects_source_drift() -> None:
     assert result["same_source"] is False
 
 
+def test_wp17r_replay_comparison_accepts_canonical_free_residual() -> None:
+    record = {
+        "source_sha": "source",
+        "input_digest_sha256": "input",
+        "configuration_digest_sha256": "config",
+        "true_dof": 100,
+        "matvec_count": 10,
+        "post": {
+            "free_relative_residual": 1.0e-9,
+            "equilibrium_relative": 2.0e-9,
+            "energy_relative": 3.0e-9,
+        },
+    }
+
+    result = _compare_replays(record, {**record})
+
+    assert result["status"] == "PASS"
+    assert result["mismatches"] == []
+
+
 def test_wp17r_reaction_diagnostic_is_finite(tmp_path) -> None:
     model = generate_tet4_block(tmp_path / "model.h5", nx=1, ny=1, nz=1)
     displacement = np.zeros(model.ndof, dtype=float)
