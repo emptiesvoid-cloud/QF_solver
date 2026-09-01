@@ -20,6 +20,11 @@ def test_wp17r_config_is_frozen_and_backend_explicit() -> None:
     assert config["rtol"] == 1.0e-8
     assert config["atol"] == 0.0
     assert config["max_iterations"] == 10000
+    assert config["petsc_options"] == {
+        "ksp_monitor_true_residual": None,
+        "ksp_norm_type": "unpreconditioned",
+    }
+    assert config["stopping_norm"] == "unpreconditioned"
     assert "no implicit fallback" in config["fallback_policy"]
 
 
