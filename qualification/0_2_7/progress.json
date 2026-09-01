@@ -5,7 +5,7 @@
   "baseline_sha": "e839373b6aef291a93292186d7553ba5cd12af55",
   "branch": "codex/0.2.7-foundation",
   "status": "WP10_PASS_WITH_LIMITATIONS_QUALIFIED_BOUNDED_WP11_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED_WP12_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED",
-  "current_work_package": "WP14",
+  "current_work_package": "WP15",
   "full_regression_run": false,
   "numerical_source_changed": true,
   "existing_numerical_formulations_changed": false,
@@ -86,15 +86,20 @@
     {"id": "WP13", "gate": "027-G13", "status": "PASS", "start_sha": "fcdde28a146a3a502972fdad30821f8e8a857da7", "evidence_head": "qualification/0_2_7/golden/evidence.json", "evidence_source_sha": "94ce10a53e31ad6884383c7ec8ce1761d9533eff", "owner_decision": "golden numerical baseline and release truth recorded; no maturity promotion"},
     {"id": "WP14", "gate": "027-G14", "status": "NOT_STARTED", "start_sha": null, "evidence_head": null}
   ],
+  "level_up_work_packages": [
+    {"id": "WP13", "gate": "LUP-027-G13", "status": "PASS", "evidence_head": "qualification/0_2_7/golden/evidence.json"},
+    {"id": "WP14", "gate": "LUP-027-G14", "status": "PASS", "start_sha": "ee1513808f5190db116ccaddc31fcd25573c9631", "evidence_head": "qualification/0_2_7/wp14_execution_contract.json", "state": "qualification/0_2_7/wp14_state.json", "heavy_benchmark_run": false},
+    {"id": "WP15", "gate": "LUP-027-G15", "status": "NOT_STARTED", "evidence_head": null}
+  ],
   "level_up": {
     "plan": "qualification/0_2_7/level_up_plan.json",
     "namespace": "027-LEVEL-UP",
     "status": "CLOSED_ACCEPT_WITH_CONSOLIDATION",
-    "current_work_package": "WP14",
+    "current_work_package": "WP15",
     "work_packages": ["WP13", "WP14", "WP15", "WP16", "WP17", "WP18", "WP19", "WP20", "WP21", "WP22"],
     "historical_completed_block_percent": 45,
-    "current_acquired_percent": 45,
-    "current_progress_percent": 45,
+    "current_acquired_percent": 50,
+    "current_progress_percent": 50,
     "weights_total_percent": 100,
     "wp16_release_blocker": true,
     "wp18_mandatory": true,

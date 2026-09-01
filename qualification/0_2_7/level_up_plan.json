@@ -4,7 +4,7 @@
   "release": "0.2.7a0",
   "theme": "Reproducible Large-Model Solving and Numerical Trust",
   "status": "CLOSED_ACCEPT_WITH_CONSOLIDATION",
-  "decision": "Gate Level-Up is accepted as the official consolidation scope; WP13 is evidence-complete on its controlled golden baseline and WP14-WP22 remain planned.",
+  "decision": "Gate Level-Up is accepted as the official consolidation scope; WP13 and WP14 are evidence-complete on controlled records and WP15-WP22 remain planned.",
   "source_snapshot": "72888ea63241a4445f6600aa6c2b882401f85ef1",
   "source_branch": "codex/0.2.7-foundation",
   "parent_release": {
@@ -14,11 +14,11 @@
   },
   "progress_accounting": {
     "historical_completed_block_percent": 45,
-    "current_acquired_percent": 45,
-    "current_progress_percent": 45,
+    "current_acquired_percent": 50,
+    "current_progress_percent": 50,
     "level_up_extension_percent": 55,
     "weights_total_percent": 100,
-    "accounting_note": "The historical block, acquired status and active progress are governance views and are not additive. WP13-WP22 weights sum to the 55 percent extension; WP13 is PASS and WP14-WP22 remain planned."
+    "accounting_note": "The historical block, acquired status and active progress are governance views and are not additive. WP13-WP22 weights sum to the 55 percent extension; WP13 and WP14 are PASS and WP15-WP22 remain planned."
   },
   "historical_scope": {
     "work_packages": ["WP01", "WP02", "WP03", "WP04", "WP05", "WP06", "WP07", "WP08", "WP09", "WP10", "WP11", "WP12"],
@@ -42,9 +42,10 @@
       "title": "Large-scale execution contract",
       "weight_percent": 5,
       "priority": "MUST",
-      "status": "PLANNED",
+      "status": "PASS",
       "pass_criteria": ["model topology and true DOF are explicit", "CPU/RAM/time/backend/preconditioner and digest capture is deterministic", "resource-limited outcomes are not claims"],
-      "stop_conditions": ["synthetic size claim without a real FEM solve", "missing resource context"]
+      "stop_conditions": ["synthetic size claim without a real FEM solve", "missing resource context"],
+      "evidence": ["qualification/0_2_7/wp14_state.json", "qualification/0_2_7/wp14_execution_contract.json"]
     },
     {
       "id": "WP15",

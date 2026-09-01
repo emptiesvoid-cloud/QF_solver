@@ -243,10 +243,24 @@ Date: 2026-09-01. Source snapshot:
 
 Owner decision: `CLOSED / ACCEPT_WITH_CONSOLIDATION` for the portfolio named
 **Reproducible Large-Model Solving and Numerical Trust**. The decision accepts
-WP13-WP22 as the official next scope. WP13 is now complete on its controlled
-golden-baseline evidence; WP14-WP22 remain open. The decision does not
+WP13-WP22 as the official next scope. WP13 is complete on its controlled
+golden-baseline evidence and WP14 is complete on its frozen execution
+contract; WP15-WP22 remain open. The decision does not
 promote a capability or rewrite WP01-WP12 evidence. The WP13 record is in
 `qualification/0_2_7/wp13_state.json`.
+
+## WP14 - Large-scale execution contract
+
+WP14 is `PASS` for contract evidence only. The authoritative record is
+`qualification/0_2_7/wp14_execution_contract.json`, with state in
+`qualification/0_2_7/wp14_state.json`. It freezes the structured TET4 model at
+1,029,000 true DOF, four assembled/matrix-free subscale cases, the captured
+Windows/Python/NumPy/SciPy/OpenBLAS profile, explicit CG and SPD conditions,
+predeclared residual/equilibrium/energy tolerances, replay requirements,
+resource safety rules and the 3M Bronze/Silver/Gold ladder.
+
+No 1M or 3M solve was run in WP14, no solve claim is created, no numerical
+formulation changed, and WP15 is the next execution package.
 
 WP16 is a release blocker and requires a true reproducible 1M-DOF iterative
 FEM solve with loads, BC, reactions, residual, equilibrium, energy, two
