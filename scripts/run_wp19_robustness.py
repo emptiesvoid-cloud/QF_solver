@@ -520,7 +520,7 @@ def _calculix_run(
     case_dir.mkdir(parents=True, exist_ok=True)
     input_path = write_calculix_c3d8_input(case_dir / "model.inp", model)
     completed = subprocess.run(
-        ["docker", "run", "--rm", "-v", f"{case_dir}:/work", "-w", "/work", image, "model"],
+        ["docker", "run", "--rm", "-v", f"{case_dir.resolve()}:/work", "-w", "/work", image, "model"],
         capture_output=True,
         text=True,
         timeout=180,
