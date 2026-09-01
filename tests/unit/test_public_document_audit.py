@@ -9,13 +9,14 @@ from scripts.audit_public_documents import public_document_audit
 
 
 ROOT = Path(__file__).resolve().parents[2]
-RECORD = ROOT / "qualification" / "publication_audit_0_2_6.json"
+RECORD = ROOT / "qualification" / "0_2_7" / "wp21_public_document_audit.json"
 
 
 def test_public_document_audit_passes_without_web_delivery_or_internal_paths() -> None:
     report = public_document_audit()
 
     assert report["status"] == "PASS"
+    assert report["release"]["version"] == "0.2.7a0"
     assert report["classification"]["public_generated_documentation"]["count"] > 0
     assert report["classification"]["internal"]["tracked_count"] == 0
     assert all(check["status"] == "PASS" for check in report["checks"])

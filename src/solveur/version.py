@@ -6,7 +6,7 @@ PRIMARY_CLI = "qf-solver"
 LEGACY_CLI = "solveur-ef"
 LEGACY_LAUNCHER = "main_solveur.py"
 DEPRECATION_REMOVAL_VERSION = "0.3.0"
-__version__ = "0.2.6a0"
+__version__ = "0.2.7a0"
 
 
 def legacy_entrypoint_warning(entrypoint: str) -> str:

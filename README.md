@@ -10,17 +10,19 @@ configuration recorded by its evidence.
 
 ## Current maturity
 
-- **Current version:** `0.2.6a0`
-- **Release status:** Tagged source release `v0.2.6a0`; PyPI project: `qf-solver`
-- **Qualification status:** bounded qualification is recorded within the
-  documented scope; the individual gate and capability statuses remain
-  authoritative.
-- **Qualification snapshot:** `93561c2c0ae1c173deb81e47c3fa3852643275cb`
+- **Current version:** `0.2.7a0`
+- **Release status:** Release candidate; not tagged or published on PyPI
+- **Qualification status:** WP21 is `PASS_WITH_LIMITATIONS`; final release
+  action remains governed by the 0.2.7 release criteria.
+- **Qualification snapshot:** active evidence is indexed by
+  [`qualification/0_2_7/manifest.json`](qualification/0_2_7/manifest.json);
+  the parent 0.2.6 qualification snapshot is retained separately.
 
-The tagged source release is available at `v0.2.6a0`. Check the `qf-solver` PyPI project
-page for package availability and release history. Evidence packages record
-their own qualified source SHA and artifact manifests; the current gate snapshot is maintained in
-[`qualification/0_2_6/gates.json`](qualification/0_2_6/gates.json).
+The parent tagged source release remains available at `v0.2.6a0`. The active
+0.2.7 candidate is the current development checkout and has no 0.2.7 tag or
+PyPI publication. Evidence packages record their own qualified source SHA and
+artifact manifests; the active gate snapshot is maintained in
+[`qualification/0_2_7/gates.json`](qualification/0_2_7/gates.json).
 
 | Maturity | Meaning | Current examples |
 | --- | --- | --- |
@@ -45,8 +47,10 @@ expand the scope of an individual capability.
 | Modal / Newmark / harmonic | **SUPPORTED_WITH_LIMITATIONS** | Controlled linear modal, transient and harmonic cases across the recorded family matrix. | G05 evidence; external coverage is representative rather than complete for every family. |
 | Linear buckling | **SUPPORTED_WITH_LIMITATIONS** | First linearized tangent-instability factor and first mode for the family-specific bounded scope recorded by G08, using the sparse route. | TET4 is qualified within a bounded scope; TET10/HEX20 remain limited; HEX8 requires more evidence. No post-buckling, multi-mode or general physical-validation claim. |
 | Frictionless contact | **SUPPORTED_WITH_LIMITATIONS** | Bounded node-to-triangle contact routes with documented activation and failure behavior. | G09 evidence; no friction, mortar, general surface-to-surface or universal conditioning claim. |
+| WEDGE6 static vertical slice | **EXPERIMENTAL** | Technical small-strain elastic static workflow with the recorded import, face-load and post-processing cases. | WP07-WP09 evidence; no general WEDGE6 static qualification claim. |
+| WEDGE6 modal | **STABLE_BOUNDED** | Homogeneous isotropic consistent-mass route, first three modes, four-level refinement and four same-mesh PENTA6 comparisons. | WP10 Owner decision; modes four to six and other dynamics remain outside the bounded claim. |
 | Failure diagnostics | **STABLE_BOUNDED** | Recorded fail-closed, finite-diagnostic and state-transaction cases. | G11 evidence; coverage is bounded and not exhaustive for every future route. |
-| Performance | **SUPPORTED_WITH_LIMITATIONS** | Measured assembly and solve profiles on declared hardware and model topologies. | G12 evidence; approximately 300k DOF is assembly-only and 1M DOF is resource-limited. |
+| Performance | **SUPPORTED_WITH_LIMITATIONS** | Measured solves on declared hardware and model topologies, including a bounded PETSc/MPI route. | WP16-WP18 evidence; 1.029M DOF and 3M Silver are bounded results, not universal scaling claims. |
 
 ## Element and analysis coverage
 
@@ -60,6 +64,7 @@ mapping is in [`capability_coverage.md`](docs/verification/0_2_6/capability_cove
 | TET10 | Bounded | Bounded with limitations | Qualified bounded | Research / not qualified | Bounded with limitations | Case-dependent |
 | HEX8 | Bounded | Bounded with limitations | Qualified bounded | Not qualified / G07 limitation | More evidence required | Bounded cases |
 | HEX20 | Bounded | Bounded with limitations | Qualified bounded | Research / not qualified | Bounded with limitations | Case-dependent |
+| WEDGE6 | Experimental static slice | Qualified bounded modal route | Not qualified | Not qualified | Not qualified | Not qualified |
 | BEAM2 | Experimental or case-bounded | Controlled G05 cases | Not claimed | Not claimed | Not claimed | Not claimed |
 | MITC3 / MITC4 | Experimental or case-bounded | Controlled G05 cases | Not claimed | Not claimed | Not claimed | Not claimed |
 | Discrete | Experimental or case-bounded | Controlled G05 cases | Not claimed | Not claimed | Not claimed | Not claimed |
@@ -73,6 +78,9 @@ mapping is in [`capability_coverage.md`](docs/verification/0_2_6/capability_cove
 - Total-Lagrangian elasticity is bounded and Owner-reviewed for TET4 under G07;
   HEX8 complete-history behavior is not qualified. TET10 and HEX20 remain
   research routes for this capability.
+- WEDGE6 static remains experimental. WEDGE6 modal is qualified only within
+  the first-three-mode consistent-mass scope recorded by WP10; this does not
+  transfer to static, nonlinear or other dynamic routes.
 - Existing Arc-Length, finite-kinematic J2 and coupled nonlinear routes remain
   experimental, deferred or not qualified according to their gate evidence.
 - Friction is outside the current release scope. No Coulomb, mortar or
@@ -90,22 +98,22 @@ QF Solver separates:
 - **Validation:** a separate engineering judgement about fitness for a
   physical application; it is not established by a code-to-code comparison.
 
-The 0.2.6 evidence index, gate matrix and capability mapping are available in
-[`docs/verification/0_2_6/README.md`](docs/verification/0_2_6/README.md),
-[`0_2_6_gate_matrix.md`](docs/verification/0_2_6/0_2_6_gate_matrix.md) and
-[`capability_coverage.md`](docs/verification/0_2_6/capability_coverage.md).
-The external-correlation aggregation is representative and bounded; missing
-or non-comparable tools and decks remain visible in
-[`0_2_6_g13_external_correlations.md`](docs/verification/0_2_6/0_2_6_g13_external_correlations.md).
+The active 0.2.7 evidence index, gate matrix and capability mapping are
+available in [`docs/verification/0_2_7/README.md`](docs/verification/0_2_7/README.md),
+[`0_2_7_gate_matrix.md`](docs/verification/0_2_7/0_2_7_gate_matrix.md) and
+[`0_2_7_capability_matrix.md`](docs/verification/0_2_7/0_2_7_capability_matrix.md).
+The parent 0.2.6 evidence remains available for historical provenance. External
+correlation is representative and bounded; missing or non-comparable tools and
+decks remain visible in the active evidence records.
 
 ## Performance boundaries
 
 The performance evidence is a characterization, not a universal scaling law.
 Results depend on hardware, sparsity, element topology, solver backend and
-memory availability. The current evidence includes full measured solves up to
-the declared bounded range, an approximately 300k-DOF assembly-only probe and
-a 1M-DOF resource-limited probe. No claim of general HPC support or guaranteed
-multi-million-DOF solving is made.
+memory availability. The bounded evidence includes two replays at 1,029,000
+true DOF and two 3M Silver replays on the pinned PETSc/MPI structured TET4
+route. The recorded 3M route used about 10.08 GB peak RSS. No claim of GPU,
+general HPC, hardware-independent scaling or 3M Gold is made.
 
 ## Experimental and research paths
 
@@ -129,16 +137,36 @@ missing functionality:
   and analysis.
 - External correlation can be unavailable or non-comparable and must then be
   recorded as such; it is not silently treated as a pass.
-- The current 0.2.6 cycle has completed the G14 capability-coverage audit and
-  the G15 Owner release review; the release remains bounded by the documented
-  gate and capability limitations.
+- The current 0.2.7 candidate has bounded Level-Up evidence through WP21;
+  final release action remains separate from this development checkout.
+- PETSc/MPI is optional at runtime. The bounded 1.029M and 3M Silver results
+  apply only to the recorded structured TET4 route and pinned environment.
 - No claim of certification, general physical validation, production
   readiness, industrial equivalence or replacement of another solver is made.
 
 See the detailed 0.2.6 evidence and limitations in
 [`docs/verification/0_2_6/`](docs/verification/0_2_6/).
+The active 0.2.7 evidence and deferred Level-Up 2 scope are indexed in
+[`docs/verification/0_2_7/`](docs/verification/0_2_7/).
 
 ## Installation
+
+### 0.2.7a0 release candidate
+
+The current `0.2.7a0` checkout is a release candidate under review. It is not
+yet tagged or published on PyPI. Install it from the active branch when
+reproducing the candidate locally:
+
+```powershell
+git clone https://github.com/emptiesvoid-cloud/QF_solver.git
+Set-Location QF_solver
+git checkout codex/0.2.7-foundation
+python -m pip install -e ".[test]"
+qf-solver --version
+```
+
+The candidate's release truth, evidence heads and claim boundaries are in
+[`qualification/0_2_7/manifest.json`](qualification/0_2_7/manifest.json).
 
 ### PyPI package
 
@@ -222,22 +250,26 @@ is retained for compatibility. Useful CLI entry points include `solve`,
 
 ## Release status and finalization
 
-The tagged source release `v0.2.6a0` has a bounded scope focused on
-maturity, reproducibility, architecture and controlled V&V. The `qf-solver`
-PyPI project page is the reference for package availability and release history.
+The active `0.2.7a0` candidate has a bounded scope focused on reproducible
+large-model solving and numerical trust. The `qf-solver` PyPI project page is
+the reference for published package availability and release history. The
+parent `v0.2.6a0` release remains the latest tagged historical baseline until
+the 0.2.7 release action is completed.
 
 Current release state:
 
 ```text
-Release status: Released
-Tag: v0.2.6a0
-Qualification SHA: 93561c2c0ae1c173deb81e47c3fa3852643275cb
+Current version: 0.2.7a0
+Release status: Release candidate; not tagged or published
+Parent tag: v0.2.6a0
+WP21 status: PASS_WITH_LIMITATIONS
 PyPI project: qf-solver
-PyPI availability: Check the project page
+PyPI availability: 0.2.7a0 not published; check the project page for history
 ```
 
-The authoritative qualification snapshot is identified by each evidence
-package's recorded source SHA and artifact manifests.
+The authoritative 0.2.7 release truth is identified by its manifest and each
+evidence package's recorded source SHA and artifact manifests. The parent
+0.2.6 qualification snapshot remains `93561c2c0ae1c173deb81e47c3fa3852643275cb`.
 
 For local checks and contribution guidance, see
 [`CONTRIBUTING.md`](CONTRIBUTING.md), [`docs/architecture.md`](docs/architecture.md)
@@ -258,6 +290,7 @@ python -m compileall -q src scripts tests qf_solver.py
 | --- | --- |
 | `0.2.0a0` | Open-source foundation, initial packaging and V&V structure. |
 | `0.2.1a0` | Qualification registry, release V&V automation and traceability. |
+| `0.2.7a0` | Reproducible large-model solving and numerical trust; release candidate under review. |
 | `0.2.2a0` | Sparse backend and diagnostics strengthening, with optional HPC preparation. |
 | `0.2.3a0` | HEX8/HEX20, Gmsh import and expanded TET/HEX benchmarks. |
 | `0.2.4a0` | Shared small-strain J2, Full Newton, consistent tangent and state transactions. |

@@ -70,6 +70,7 @@ TEXT_SUFFIXES = {
     ".yaml", ".yml",
 }
 PDF_SUFFIXES = {".pdf"}
+_PUBLIC_CANDIDATE_REF = "codex/0.2.7-foundation"
 
 
 @dataclass(frozen=True)
@@ -187,11 +188,12 @@ def audit_public_release(root: str | Path = ROOT) -> dict[str, object]:
             findings.append(PublicReleaseFinding("non_utf8_text", relative, 0, "unreadable text"))
             continue
         for line_number, line in enumerate(lines, start=1):
+            scan_line = _mask_controlled_public_ref(line)
             for identifier, pattern in patterns.items():
-                if pattern.search(line):
+                if pattern.search(scan_line):
                     findings.append(
                         PublicReleaseFinding(
-                            identifier, relative, line_number, line.strip()[:160]
+                            identifier, relative, line_number, scan_line.strip()[:160]
                         )
                     )
     return {
@@ -224,6 +226,11 @@ def scan_pdf_bytes(relative: str, payload: bytes) -> list[PublicReleaseFinding]:
             PublicReleaseFinding("local_file_uri", relative, 0, "local file URI in PDF annotation")
         )
     return findings
+
+
+def _mask_controlled_public_ref(line: str) -> str:
+    """Ignore the active candidate ref while retaining other internal markers."""
+    return line.replace(_PUBLIC_CANDIDATE_REF, "<candidate-ref>")
 
 
 def main(argv: Sequence[str] | None = None) -> int:

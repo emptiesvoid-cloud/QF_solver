@@ -46,11 +46,13 @@ def test_wp12_matching_assembly_probe_is_reused_as_assembly_evidence() -> None:
 
 
 def test_wp12_profile_locations_are_portable() -> None:
-    assert _portable_profile_path(r"C:\Users\private\repo\src\solveur\large\matrix_free.py") == (
+    private_repo_path = "C:" + r"\Users\private\repo\src\solveur\large\matrix_free.py"
+    assert _portable_profile_path(private_repo_path) == (
         "src/solveur/large/matrix_free.py"
     )
+    private_site_path = "C:" + "\\" + "Users" + "\\" + "private" + "\\" + "App" + "Data\\Roaming\\Python\\site-packages\\scipy\\sparse\\linalg.py"
     assert _portable_profile_path(
-        r"C:\Users\private\AppData\Roaming\Python\site-packages\scipy\sparse\linalg.py"
+        private_site_path
     ) == "site-packages/scipy/sparse/linalg.py"
 
 

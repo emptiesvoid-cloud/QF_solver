@@ -2,16 +2,33 @@
 doc_id: DOC-START-001
 revision: 0.2
 status: draft
-applicable_version: 0.2.6a0
+applicable_version: 0.2.7a0
 reviewer: ""
 approver: ""
 ---
 
 # Installation
 
-## Published package
+## Current release candidate
 
-The published package is available from PyPI as `qf-solver==0.2.6a0`:
+The active `0.2.7a0` checkout is a release candidate under review. It is not
+tagged or published on PyPI. Install it from the active branch for local
+reproduction:
+
+```powershell
+git clone https://github.com/emptiesvoid-cloud/QF_solver.git
+Set-Location QF_solver
+git checkout codex/0.2.7-foundation
+python -m pip install -e ".[test]"
+qf-solver --version
+```
+
+The candidate release truth and evidence heads are recorded in
+`qualification/0_2_7/manifest.json`.
+
+## Published parent package
+
+The published parent package is available from PyPI as `qf-solver==0.2.6a0`:
 
 ```powershell
 python -m pip install qf-solver==0.2.6a0
@@ -20,7 +37,7 @@ qf-solver --version
 
 La distribution standard ne rend pas PETSc, SLEPc ou MPI obligatoires.
 
-## 0.2.6a0 tagged source release
+## 0.2.6a0 tagged parent source release
 
 The `0.2.6a0` release is available from Git at tag `v0.2.6a0`. Install the
 exact tagged source when a reproducible checkout is required:
