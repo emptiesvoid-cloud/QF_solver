@@ -141,6 +141,19 @@
     "resource_limited_is_not_pass": true,
     "new_maturity_promotion": false
   },
+  "release_workflow_audit": {
+    "path": ".github/workflows/publish-pypi.yml",
+    "reviewed": true,
+    "tag_required": true,
+    "tag_version_match_checked": true,
+    "manual_dispatch_confirmation_required": true,
+    "release_event_supported": true,
+    "quality_and_build_gate_before_publish": true,
+    "duplicate_attempt_policy": "Explicit PyPI duplicate failure is accepted; no second upload is attempted by this setup and no credentials are changed.",
+    "double_publish_risk": "CONTROLLED_BUT_NOT_NOOP",
+    "trusted_publishing": "FUTURE_OPTION_NOT_CONFIGURED",
+    "workflow_changed_by_setup": false
+  },
   "artifact_classification": "CONTROLLED_PLAN",
   "provenance_policy": "UTF-8 with LF newlines and SHA-256 canonical text digests; this plan does not replace execution evidence."
 }
