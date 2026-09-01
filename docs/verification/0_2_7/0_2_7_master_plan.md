@@ -25,8 +25,9 @@ preflight control is `PASS`; WP04 harness control is `PASS`; WP05 external
 oracle preflight is `PASS` for deck validation only; and WP06 mesh-quality
 contract control is `PASS`. WP07 is now `PASS` for the experimental elemental
 kernel; WP08 and WP09 are complete with their recorded bounded scope, WP10 has
-completed its independent experimental modal evidence, WP11 and WP13-WP14
-remain `NOT_STARTED`, and WP12 retains its bounded readiness status.
+completed its independent experimental modal evidence, WP11 records
+`PASS_WITH_LIMITATIONS` with Owner review required, WP13-WP14 remain
+`NOT_STARTED`, and WP12 retains its bounded readiness status.
 
 ## Work packages and STOP/GO criteria
 
@@ -159,7 +160,8 @@ remain `NOT_STARTED`, and WP12 retains its bounded readiness status.
 - **Evidence required:** internal and external manifests, negative cases and
   Owner classification.
 - **Files:** WEDGE6 campaign records and external correlation pack.
-- **Status:** `NOT_STARTED`.
+- **Status:** `PASS_WITH_LIMITATIONS`; Owner review is required and the existing
+  bounded small-strain J2 scope is retained.
 
 ### WP10 - WEDGE6 modal evidence
 

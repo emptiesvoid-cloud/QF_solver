@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "work_package": "WP11",
+  "gate": "027-G11",
+  "status": "PASS_WITH_LIMITATIONS",
+  "start_sha": "4d0ee14f4aa61b9337874a991263a93b4f9a8c73",
+  "evidence_source_sha": "94461602dfd1782be57c20e1801a0d5d8e262ef1",
+  "evidence_catalog": "qualification/0_2_7/wp11_j2_cases.json",
+  "evidence_artifact": "qualification/0_2_7/wp11_j2_evidence.json",
+  "evidence_document": "docs/verification/0_2_7/0_2_7_wp11_j2_closure.md",
+  "owner_decision": "OWNER_REVIEW_REQUIRED_KEEP_QUALIFIED_BOUNDED_WITH_LIMITATIONS",
+  "maturity_actions": {
+    "KEEP": ["MAT-J2-SMALL qualified bounded scope", "MAT-FINITE-J2 experimental/not qualified"],
+    "PROMOTE": [],
+    "DEMOTE": []
+  },
+  "families": ["TET4", "TET10", "HEX8", "HEX20"],
+  "checks": {
+    "elastic_predictor": "PASS",
+    "yield_detection": "PASS",
+    "return_mapping": "PASS",
+    "plastic_internal_variables": "PASS",
+    "stress_update": "PASS",
+    "unload_reload": "PASS",
+    "simple_cycle": "PASS",
+    "algorithmic_tangent_fd": "PASS",
+    "algorithmic_tangent_symmetry": "DIAGNOSTIC_PASS_NOT_SEPARATELY_QUALIFIED",
+    "multi_element_patch": "PASS_FOUR_FAMILIES",
+    "energy_balance": "PASS_FOUR_FAMILIES",
+    "rollback": "PASS_FOUR_FAMILIES",
+    "increment_refinement": "PASS_CHARACTERIZED_NO_UNIVERSAL_THRESHOLD",
+    "full_newton": "PASS_FOUR_FAMILIES",
+    "modified_newton": "NON_CONVERGED_CHARACTERIZED_ONLY",
+    "failure_modes": "PASS_EXPLICIT"
+  },
+  "policy_boundary": {
+    "residual": "existing G06 relative residual policy; no new threshold",
+    "tangent_fd": "existing G06 relative limit 1e-6",
+    "increment_partition": "family-specific sensitivity only; no universal independence claim",
+    "external": "reused controlled G06 Code_Aster evidence; no new WP11 external run"
+  },
+  "external": {
+    "status": "REUSED_CONTROLLED_EVIDENCE",
+    "source": "qualification/0_2_6/g06_depth_evidence.json",
+    "solver": "Code_Aster 18.1.0",
+    "families": ["TET4", "TET10", "HEX8", "HEX20"]
+  },
+  "limitations": [
+    "The qualified claim remains small-strain J2 within the existing four-family bounded scope.",
+    "No universal structural increment-independence threshold is approved.",
+    "Algorithmic tangent symmetry is diagnostic and not separately Owner-qualified.",
+    "Modified Newton non-convergence is explicit characterization; full Newton is the accepted route.",
+    "Finite-kinematic J2 remains experimental/not qualified.",
+    "Modal/dynamic gaps are outside WP11 and remain governed by their existing gates."
+  ],
+  "real_bugs_found": 0,
+  "fixes_applied": [],
+  "existing_numerical_formulations_changed": false,
+  "full_regression_run": false,
+  "ready_for_wp09_finalization": "NOT_APPLICABLE_ALREADY_CLOSED",
+  "ready_for_level_up_gate": false,
+  "pushed": false,
+  "artifact_classification": "CONTROLLED_PROOF"
+}
