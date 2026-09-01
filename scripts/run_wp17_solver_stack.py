@@ -77,6 +77,7 @@ def run_probe(
     model_started = time.perf_counter()
     with _model_workspace(level) as model:
         model_setup_seconds = time.perf_counter() - model_started
+        input_digest = _model_digest(model)
         config = _config("nodal_block_jacobi")
         block_runs = [_solve_probe(model, config, with_history=False) for _ in range(repetitions)]
         block_history = _solve_probe(model, config, with_history=True, history_sample_every=history_sample_every)
@@ -102,6 +103,7 @@ def run_probe(
             "route": "structured homogeneous six-tet block",
             "medium_level": int(level),
             "true_dof": int(model.ndof),
+            "input_digest_sha256": input_digest,
             "qualification_claim": False,
             "wp14_tolerances_changed": False,
         },
@@ -296,6 +298,7 @@ def _solve_probe(
     rss_value = rss.stop()
     record: dict[str, Any] = {
         "status": status,
+        "configuration_digest_sha256": _config_digest(config),
         "preconditioner": config["preconditioner"],
         "iterations": int(iterations),
         "matvec_count": int(cg_matvec_calls),
@@ -610,6 +613,19 @@ def _sha256_file(path: Path) -> str:
 def _config_digest(config: dict[str, Any]) -> str:
     encoded = json.dumps(config, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode("utf-8")
     return hashlib.sha256(encoded).hexdigest()
+
+
+def _model_digest(model: Any) -> str:
+    digest = hashlib.sha256()
+    for value in (model.nodes, model.tet4, model.material_ids, model.fixed_nodes, model.fixed_components,
+                  model.load_nodes, model.load_components, model.load_values):
+        array = np.ascontiguousarray(value)
+        digest.update(str(array.dtype).encode("ascii"))
+        digest.update(repr(array.shape).encode("ascii"))
+        digest.update(array.tobytes())
+    digest.update(json.dumps(model.materials, sort_keys=True, separators=(",", ":")).encode("utf-8"))
+    digest.update(json.dumps(model.analysis, sort_keys=True, separators=(",", ":")).encode("utf-8"))
+    return digest.hexdigest()
 
 
 class _PeakRSSSampler:
