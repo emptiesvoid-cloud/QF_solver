@@ -259,7 +259,7 @@ def _solve_probe(
         iterations += 1
         if with_history and (iterations == 1 or iterations % history_sample_every == 0):
             residual = rhs - operator @ solution
-            residual_history.append({"iteration": iterations, "relative_residual": _relative_norm(residual, rhs)})
+            residual_history.append({"iteration": iterations, "relative_residual": _relative_value(residual, rhs)})
 
     solve_started = time.perf_counter()
     solution, info = cg(
@@ -276,7 +276,7 @@ def _solve_probe(
     residual = rhs - operator @ solution
     residual_calls = operator.matvec_calls - cg_matvec_calls
     if with_history:
-        residual_history.append({"iteration": iterations, "relative_residual": _relative_norm(residual, rhs)})
+        residual_history.append({"iteration": iterations, "relative_residual": _relative_value(residual, rhs)})
     displacement = np.zeros(model.ndof, dtype=float)
     displacement[free] = solution
     post_started = time.perf_counter()
@@ -312,7 +312,7 @@ def _solve_probe(
         "operator_post_seconds": float(operator_post_seconds),
         "total_seconds": float(total_seconds),
         "peak_rss_bytes": rss_value,
-        "relative_residual": _relative_norm(residual, rhs),
+        "relative_residual": _relative_value(residual, rhs),
         "finite_outputs": finite,
         "equilibrium": reaction_metrics,
         "external_work": external_work,
@@ -553,6 +553,10 @@ def _relative_norm(left: np.ndarray, right: np.ndarray) -> float:
     if left.size == 0 and right.size == 0:
         return 0.0
     return float(np.linalg.norm(left - right) / max(float(np.linalg.norm(right)), 1.0))
+
+
+def _relative_value(value: np.ndarray, reference: np.ndarray) -> float:
+    return float(np.linalg.norm(value) / max(float(np.linalg.norm(reference)), 1.0))
 
 
 def _petsc_availability() -> dict[str, Any]:
