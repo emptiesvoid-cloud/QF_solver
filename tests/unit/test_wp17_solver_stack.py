@@ -68,6 +68,7 @@ def test_wp17_preconditioner_comparison_keeps_wp14_reference() -> None:
 
     assert comparison["selected"] == "nodal_block_jacobi"
     assert comparison["candidate_faster"] is True
+    assert comparison["candidate_retained"] is False
     assert comparison["decision"] is True
 
 
