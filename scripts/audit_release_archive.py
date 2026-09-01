@@ -12,10 +12,22 @@ from pathlib import Path
 from typing import Sequence, cast
 
 if __package__:
-    from scripts.audit_public_release import PDF_SUFFIXES, TEXT_SUFFIXES, _patterns, scan_pdf_bytes
+    from scripts.audit_public_release import (
+        PDF_SUFFIXES,
+        TEXT_SUFFIXES,
+        _mask_controlled_public_ref,
+        _patterns,
+        scan_pdf_bytes,
+    )
     from scripts.git_tools import git_command
 else:
-    from audit_public_release import PDF_SUFFIXES, TEXT_SUFFIXES, _patterns, scan_pdf_bytes  # type: ignore[no-redef]
+    from audit_public_release import (  # type: ignore[no-redef]
+        PDF_SUFFIXES,
+        TEXT_SUFFIXES,
+        _mask_controlled_public_ref,
+        _patterns,
+        scan_pdf_bytes,
+    )
     from git_tools import git_command  # type: ignore[no-redef]
 
 
@@ -91,14 +103,15 @@ def _scan_member(path: str, payload: bytes) -> list[dict[str, object]]:
         return [{"identifier": "non_utf8_text", "path": path, "line": 0, "excerpt": "unreadable text"}]
     findings: list[dict[str, object]] = []
     for line_number, line in enumerate(lines, start=1):
+        scan_line = _mask_controlled_public_ref(line)
         for identifier, pattern in _patterns().items():
-            if pattern.search(line):
+            if pattern.search(scan_line):
                 findings.append(
                     {
                         "identifier": identifier,
                         "path": path,
                         "line": line_number,
-                        "excerpt": line.strip()[:160],
+                        "excerpt": scan_line.strip()[:160],
                     }
                 )
     return findings

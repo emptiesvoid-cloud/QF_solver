@@ -8,6 +8,7 @@ from pathlib import Path
 import pytest
 
 from solveur.api import import_gmsh_model, load_model, solve_model
+from solveur.version import __version__
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -22,7 +23,7 @@ def test_native_gmsh_41_imports_ascii_and_binary(tmp_path: Path, binary: bool) -
     imported = import_gmsh_model(mesh, setup)
     assert imported.report.msh_version == "4.1"
     assert imported.report.solver_name == "QF_solver"
-    assert imported.report.solver_version == "0.2.6a0"
+    assert imported.report.solver_version == __version__
     assert imported.report.binary is binary
     assert imported.report.element_family == "TET4"
     assert imported.model.node_count > 8

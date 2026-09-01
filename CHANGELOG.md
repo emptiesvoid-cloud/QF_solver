@@ -2,13 +2,15 @@
 
 ## 0.2.7a0 - Unreleased
 
-The 0.2.7a0 cycle is active around prismatic-solid interoperability and
-numerical robustness. WP01 has established the release-truth and provenance
-model; no 0.2.7 numerical implementation or qualification is implied. The
-controlled planning pack is available in
+The 0.2.7a0 cycle is active around reproducible large-model solving and
+numerical trust. WP13-WP20 record bounded golden, scaling, PETSc/MPI,
+robustness and J2 evidence; WP21 records the final surgical cleanup and
+release-candidate checks. The candidate is not yet tagged or published. The
+controlled plan and evidence index are available in
 [`docs/verification/0_2_7/README.md`](docs/verification/0_2_7/README.md).
-No WEDGE6 implementation, new physics, qualification result, tag or
-publication is implied.
+WEDGE6 static remains experimental, WEDGE6 modal is bounded to its own
+first-three-mode scope, and no universal performance or nonlinear claim is
+implied.
 
 ## 0.2.6a0 - Released
 
