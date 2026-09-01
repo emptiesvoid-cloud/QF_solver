@@ -35,7 +35,7 @@ bounded readiness status. The foundation WP01-WP12 history is preserved; the
 Level-Up portfolio is `CLOSED / ACCEPT_WITH_CONSOLIDATION`; WP13 is now
 `PASS` on its controlled golden-baseline evidence and WP14 is `PASS` on its
 frozen execution contract; WP15 is `PASS_WITH_LIMITATIONS`, WP16 is `PASS`
-after the official PETSc retry, WP17 is `PARTIAL`, WP18 is
+after the official PETSc retry, WP17 is `PASS_WITH_LIMITATIONS`, WP18 is
 `PASS_WITH_LIMITATIONS` after the Bronze/Silver ladder, WP19 is
 `PASS_WITH_LIMITATIONS` on bounded adversarial and HEX8 diagnostic evidence,
 and WP20-WP22 remain individually `PLANNED`.
@@ -261,7 +261,7 @@ Trust**. The portfolio decision is `CLOSED / ACCEPT_WITH_CONSOLIDATION` for
 the scope extension only. WP01-WP12 and their evidence remain preserved;
 WP13 and WP14 are complete on their controlled records; WP15 is
 `PASS_WITH_LIMITATIONS` on its controlled subscale evidence, WP16 is `PASS`
-on the official PETSc retry, WP17 is `PARTIAL`, WP18 is
+on the official PETSc retry, WP17 is `PASS_WITH_LIMITATIONS`, WP18 is
 `PASS_WITH_LIMITATIONS` after its Bronze/Silver evidence, WP19 is
 `PASS_WITH_LIMITATIONS` on bounded adversarial and HEX8 diagnostic evidence,
 and WP20-WP22 remain individually `PLANNED` until their own evidence is
@@ -273,7 +273,7 @@ recorded.
 | WP14 | Large-scale execution contract | 5% | MUST | `PASS` |
 | WP15 | Matrix-Free TET4 V2 / SPD / preconditioning | 10% | MUST | `PASS_WITH_LIMITATIONS` |
 | WP16 | True 1M DOF qualification | 10% | MUST / release blocker | `PASS` |
-| WP17 | PETSc/MPI + large sparse path | 5% | SHOULD | `PARTIAL` |
+| WP17 | PETSc/MPI + large sparse path | 5% | SHOULD | `PASS_WITH_LIMITATIONS` |
 | WP18 | 3M DOF ladder Bronze/Silver/Gold | 7% | MUST / mandatory | `PASS_WITH_LIMITATIONS` |
 | WP19 | Adversarial robustness + HEX8 diagnostic | 5% | MUST | `PASS_WITH_LIMITATIONS` |
 | WP20 | Residual J2 / external V&V closure | 3% | SHOULD | `PLANNED` |

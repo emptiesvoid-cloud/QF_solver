@@ -26,7 +26,9 @@ TET4, TET10, HEX8 and HEX20; the existing qualification is kept and no
 universal increment-independence claim is added.
 WP14 records the frozen large-scale execution contract for the Level-Up
 namespace. It is a governance/contract PASS only; it does not claim a 1M or
-3M solve. WP18 records a PASS_WITH_LIMITATIONS 3M ladder: Bronze preflight
+3M solve. WP17 closes the pinned PETSc/MPI route with limitations after
+consuming the controlled WP16 retry and WP18 Silver evidence. WP18 records a
+PASS_WITH_LIMITATIONS 3M ladder: Bronze preflight
 and Silver full solve passed on the declared PETSc route; Gold remains
 unattempted.
 
@@ -54,8 +56,8 @@ unattempted.
 The active theme is **Reproducible Large-Model Solving and Numerical Trust**.
 `027-LEVEL-UP` is `CLOSED / ACCEPT_WITH_CONSOLIDATION` as a scope decision;
 WP15 is `PASS_WITH_LIMITATIONS` on controlled subscale evidence, WP16 is
-`PASS` after the official PETSc retry, and WP17 is `PARTIAL` after the PETSc
-remediation checkpoint, and WP18 is `PASS_WITH_LIMITATIONS` after the
+`PASS` after the official PETSc retry, and WP17 is `PASS_WITH_LIMITATIONS`
+after the PETSc/MPI closure, and WP18 is `PASS_WITH_LIMITATIONS` after the
 Bronze/Silver ladder. WP19 is now `PASS_WITH_LIMITATIONS` on bounded
 adversarial and HEX8 diagnostic evidence; WP20-WP22 remain individually
 `PLANNED` and do not constitute execution evidence. WP13 has its own
@@ -68,7 +70,7 @@ controlled proof record; the remaining criteria and weights are authoritative in
 | WP14 | 5% | MUST | `PASS` | frozen large-scale execution contract; no solve claim |
 | WP15 | 10% | MUST | `PASS_WITH_LIMITATIONS` | matrix-free TET4, SPD and preconditioning; subscale evidence complete, WP16 remains the 1M gate |
 | WP16 | 10% | MUST | `PASS` | two reproducible PETSc CG/GAMG replays at 1,029,000 DOF satisfy the frozen WP14 contract |
-| WP17 | 5% | SHOULD | `PARTIAL` | pinned PETSc/MPI route enabled WP16 retry; host availability and AIJ memory remain limitations |
+| WP17 | 5% | SHOULD | `PASS_WITH_LIMITATIONS` | pinned PETSc/MPI route closed from two-replay 1M and 3M Silver evidence; host availability and AIJ memory remain limitations |
 | WP18 | 7% | MUST | `PASS_WITH_LIMITATIONS` | Bronze preflight and two-replay Silver 3M solve; Gold unattempted |
 | WP19 | 5% | MUST | `PASS_WITH_LIMITATIONS` | 24-case fail-closed robustness corpus and bounded HEX8/C3D8 diagnostic |
 | WP20 | 3% | SHOULD | `PLANNED` | residual J2 and external V&V closure |

@@ -9,6 +9,11 @@ approver: ""
 
 # WP17-R - PETSc environment and 1M solver remediation
 
+This is the supplemental remediation checkpoint. Its `PARTIAL` status and
+all underlying evidence are preserved; the active WP17 closeout consumes this
+record together with WP16 and WP18 evidence and is recorded in
+`docs/verification/0_2_7/0_2_7_wp17_final.md`.
+
 ## Decision
 
 WP17-R is **PARTIAL**. A pinned, headless Docker runtime now provides a

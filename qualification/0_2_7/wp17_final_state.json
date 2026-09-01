@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "record_type": "owner_closeout",
+  "work_package": "WP17",
+  "gate": "LUP-027-G17",
+  "title": "PETSc/MPI large solver path closure",
+  "status": "PASS_WITH_LIMITATIONS",
+  "review_start_sha": "cd4da89797ff37e0b142d0705aa4fae0972a7065",
+  "evidence_source_shas": [
+    "9e34a184d6b916446e6e4f6bc872cdc293f93430",
+    "b8db2211536eaaf1c026ddfb7a5843b61b2e3733",
+    "9c0605645fa60ef0d89f3ce98ca361a677f13d1d"
+  ],
+  "historical_checkpoints": {
+    "wp17_diagnostic_state": "qualification/0_2_7/wp17_state.json",
+    "wp17r_remediation_state": "qualification/0_2_7/wp17r_state.json",
+    "historical_partial_status_preserved": true
+  },
+  "contract": {
+    "path": "qualification/0_2_7/wp14_execution_contract.json",
+    "acceptance_rtol": 1e-8,
+    "solver_rtol": 1e-10,
+    "solver_rtol_is_supplemental": true,
+    "wp14_tolerances_changed": false,
+    "post_result_tuning": false,
+    "spd_cg_contract": "PASS"
+  },
+  "runtime": {
+    "availability": "AVAILABLE_REPRODUCIBLE_CONTAINER",
+    "image": "qf-solver-large@sha256:d6a1718001fc36772906d1a9505637bbd0a4b7e1d8ccc9afdbcb6f67b7ff6d0e",
+    "python": "3.12.3",
+    "petsc": "3.25.1",
+    "petsc4py": "3.25.1",
+    "mpi": "MPICH 5.0.1 / MPI 5.0",
+    "mpi_size": 2,
+    "backend": "PETSc",
+    "solver": "CG",
+    "preconditioner": "GAMG",
+    "matrix_format": "AIJ",
+    "ksp_norm_type": "unpreconditioned",
+    "petsc_options_environment": "unset",
+    "fallback_policy": "no implicit fallback; unavailable backend fails closed",
+    "host_petsc": "UNAVAILABLE"
+  },
+  "evidence": {
+    "subscale_equivalence": {
+      "status": "PASS",
+      "path": "qualification/0_2_7/wp17_runtime/wp17r_strict_medium.json",
+      "displacement_relative_error": 8.340570131083196e-15,
+      "equilibrium_relative_difference": 9.278984754976663e-10,
+      "energy_relative_difference": 1.5981272598206606e-12,
+      "tolerance": 1e-8
+    },
+    "one_million_true_dof": {
+      "status": "PASS",
+      "true_dof": 1029000,
+      "replays": 2,
+      "iterations": 431,
+      "total_seconds_range": [186.21452172400313, 186.66731764699216],
+      "peak_rss_bytes_range": [3520008192, 3520028672],
+      "residual_relative": 9.703883130599042e-11,
+      "equilibrium_relative": 5.33931892245256e-10,
+      "energy_relative": 8.484059996724185e-14,
+      "wp16_official_evidence": "qualification/0_2_7/wp16_runtime/wp16_retry_summary.json",
+      "wp17r_supplemental_evidence": "qualification/0_2_7/wp17_runtime/wp17r_strict_summary.json"
+    },
+    "three_million_silver": {
+      "status": "PASS",
+      "replays": 2,
+      "true_dof": 3000000,
+      "iterations": 619,
+      "total_seconds_first_run": 2659.8216491250205,
+      "peak_rss_bytes": 10076176384,
+      "residual_relative": 9.515383529106357e-11,
+      "equilibrium_relative": 1.2453618378755535e-09,
+      "energy_relative": 2.4121926040648123e-13,
+      "evidence": "qualification/0_2_7/wp18_runtime/wp18_summary.json",
+      "role": "WP18 Silver evidence reused for large-route closure"
+    }
+  },
+  "performance_truth": {
+    "scope": "declared TET4 linear-static cases and pinned two-rank container only",
+    "old_matrix_free_1m": {
+      "iterations": 1052,
+      "total_seconds": 1371.0587636000128
+    },
+    "petsc_gamg_1m": {
+      "iterations": 431,
+      "total_seconds": 186.21452172400313,
+      "best_speedup": 7.366291575460153
+    },
+    "three_million_silver": {
+      "iterations": 619,
+      "total_seconds": 2659.8216491250205,
+      "peak_rss_bytes": 10076176384
+    },
+    "universal_performance_claim": false
+  },
+  "acceptance": {
+    "petsc_pinned_and_reproducible": "PASS",
+    "backend_explicit": "PASS",
+    "no_silent_fallback": "PASS",
+    "one_million_evidence": "PASS",
+    "three_million_silver_evidence": "PASS",
+    "subscale_equivalence": "PASS",
+    "spd_contract": "PASS",
+    "scipy_matrix_free_path_preserved": true,
+    "petsc_runtime_required": false,
+    "public_default_backend_changed": false,
+    "fem_formulation_changed": false,
+    "full_regression_run": false
+  },
+  "owner_decision": "PASS_WITH_LIMITATIONS: the pinned PETSc 3.25.1 / MPICH 5.0.1 CG+GAMG route is explicit, reproducible and supported by two-replay 1,029,000-DOF evidence, a passing subscale comparison and the two-replay 3,000,000-DOF Silver evidence. PETSc remains optional at runtime; host availability and AIJ memory are explicit limitations.",
+  "limitations": [
+    "The evidence is bounded to structured TET4 linear-static models and the pinned two-rank container route.",
+    "PETSc is unavailable in the normal host environment; no runtime dependency is imposed and unavailable selection fails closed.",
+    "AIJ peak memory is approximately 3.52 GiB at 1M DOF and 10.08 GB at 3M DOF on the recorded route.",
+    "The measured speedup is case-, hardware-, topology-, MPI-size- and configuration-specific.",
+    "WP18 Gold restart/checkpoint and distinct-second-case evidence remain unclaimed.",
+    "No public/default backend change, general HPC claim, GPU claim or formulation change is made."
+  ],
+  "ready_for_wp20": true,
+  "artifact_classification": "CONTROLLED_PROOF"
+}

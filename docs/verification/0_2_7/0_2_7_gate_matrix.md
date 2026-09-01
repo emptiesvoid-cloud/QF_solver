@@ -86,7 +86,7 @@ below.
 WP13 is `PASS` on its controlled golden-baseline evidence. WP14 is `PASS` on
 its frozen execution contract; WP15 is `PASS_WITH_LIMITATIONS` on controlled
 subscale evidence; WP16 is `PASS` after the official PETSc retry; WP17 is
-`PARTIAL` after the pinned PETSc/MPI remediation checkpoint; WP18 is
+`PASS_WITH_LIMITATIONS` after its pinned PETSc/MPI closure; WP18 is
 `PASS_WITH_LIMITATIONS` after the Bronze/Silver ladder; and WP19 is
 `PASS_WITH_LIMITATIONS` on bounded adversarial and HEX8 diagnostic evidence.
 WP20-WP22 remain `PLANNED` until their declared evidence is executed. The active theme is
@@ -98,7 +98,7 @@ WP20-WP22 remain `PLANNED` until their declared evidence is executed. The active
 | `LUP-027-G14` | WP14 large-scale execution contract | `PASS` | 5% | frozen topology, resource and execution contract; no solve claim |
 | `LUP-027-G15` | WP15 matrix-free TET4 V2 | `PASS_WITH_LIMITATIONS` | 10% | SPD, preconditioning and assembled subscale; no WP16/1M claim |
 | `LUP-027-G16` | WP16 true 1M DOF qualification | `PASS` | 10% | two PETSc CG/GAMG replays satisfy frozen residual, equilibrium, energy and SPD criteria |
-| `LUP-027-G17` | WP17 PETSc/MPI and large sparse path | `PARTIAL` | 5% | reproducible pinned route; host availability and AIJ memory remain limitations |
+| `LUP-027-G17` | WP17 PETSc/MPI and large sparse path | `PASS_WITH_LIMITATIONS` | 5% | two-replay 1M and 3M Silver evidence on the pinned route; host availability and AIJ memory remain limitations |
 | `LUP-027-G18` | WP18 3M Bronze/Silver/Gold ladder | `PASS_WITH_LIMITATIONS` | 7% | Bronze preflight and two-replay Silver solve; Gold unattempted |
 | `LUP-027-G19` | WP19 adversarial robustness and HEX8 diagnostic | `PASS_WITH_LIMITATIONS` | 5% | 24-case fail-closed corpus and bounded HEX8/C3D8 diagnostic; no formulation promotion |
 | `LUP-027-G20` | WP20 residual J2 and external V&V closure | `PLANNED` | 3% | no post-result retuning |
