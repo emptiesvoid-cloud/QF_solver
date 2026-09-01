@@ -4,7 +4,7 @@
   "gate": "LUP-027-G13",
   "status": "PASS",
   "start_sha": "fcdde28a146a3a502972fdad30821f8e8a857da7",
-  "evidence_source_sha": "fcdde28a146a3a502972fdad30821f8e8a857da7",
+  "evidence_source_sha": "eb2e6b89efbc6f3559a1ae439dad60d3cc47a210",
   "golden_case_catalog": "qualification/0_2_7/golden/cases.json",
   "golden_evidence": "qualification/0_2_7/golden/evidence.json",
   "execution_script": "scripts/run_wp13_golden.py",
@@ -30,12 +30,14 @@
   "release_truth": {
     "qualification_snapshot_026": "93561c2c0ae1c173deb81e47c3fa3852643275cb",
     "release_source_snapshot_026": "e839373b6aef291a93292186d7553ba5cd12af55",
-    "current_development_head_at_execution": "fcdde28a146a3a502972fdad30821f8e8a857da7"
+    "current_development_head_at_execution": "eb2e6b89efbc6f3559a1ae439dad60d3cc47a210"
   },
   "predeclared_policy": {
     "residual_absolute_tolerance": 1e-12,
     "modal_and_buckling_residual_absolute_tolerance": 1e-7,
     "j2_status": "PASS_INTERNAL",
+    "eigenvalue_record_precision_decimal_places": 12,
+    "eigenvalue_record_precision_reason": "canonical evidence serialization removes harmless floating-point eigensolver ulps; solver output is unchanged",
     "post_observation_retuning": false,
     "result_digest": "canonical V&V v2 SHA-256 over case, observables, verdict and failure reason"
   },

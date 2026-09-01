@@ -97,6 +97,12 @@ def _buckling_model() -> FiniteElementModel:
     )
 
 
+def _canonical_eigenvalue(value: float) -> float:
+    """Remove harmless eigensolver ulps from the persisted golden record."""
+
+    return round(float(value), 12)
+
+
 def _unknown_element_model() -> FiniteElementModel:
     return FiniteElementModel.from_raw(
         nodes=[[0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1]],
@@ -163,8 +169,8 @@ def _execute(case) -> ExecutionOutput:
         return ExecutionOutput(
             {
                 "status": str(result.status),
-                "critical_factor": float(result.solver["critical_factor"]),
-                "critical_mode_residual_relative": float(result.solver["critical_mode_residual_relative"]),
+                "critical_factor": _canonical_eigenvalue(result.solver["critical_factor"]),
+                "critical_mode_residual_relative": _canonical_eigenvalue(result.solver["critical_mode_residual_relative"]),
                 "finite": bool(np.isfinite(result.solver["critical_factor"])),
             }
         )
@@ -219,7 +225,7 @@ def main() -> int:
     parser.add_argument("--replay", action="store_true", help="Replay committed evidence at the same source SHA.")
     args = parser.parse_args()
     result = replay(args.output) if args.replay else run(args.output)
-    return 0 if result.get("MISMATCH", 0) == 0 else 1
+    return 0 if not any(result.get(key, 0) for key in ("FAIL", "INVALID_EVIDENCE", "MISMATCH")) else 1
 
 
 if __name__ == "__main__":

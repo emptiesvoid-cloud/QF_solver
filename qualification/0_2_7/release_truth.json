@@ -17,12 +17,12 @@
     "mutable": false
   },
   "current_development_head": {
-    "sha": "fcdde28a146a3a502972fdad30821f8e8a857da7",
+    "sha": "eb2e6b89efbc6f3559a1ae439dad60d3cc47a210",
     "role": "0.2.7 source snapshot used for WP13 golden execution; later evidence/docs commits remain distinct"
   },
   "wp13_golden_baseline": {
     "status": "PASS",
-    "execution_source_sha": "fcdde28a146a3a502972fdad30821f8e8a857da7",
+    "execution_source_sha": "eb2e6b89efbc6f3559a1ae439dad60d3cc47a210",
     "case_catalog": "qualification/0_2_7/golden/cases.json",
     "evidence": "qualification/0_2_7/golden/evidence.json",
     "pass": 8,
