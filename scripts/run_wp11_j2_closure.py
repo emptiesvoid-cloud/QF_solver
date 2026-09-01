@@ -26,23 +26,23 @@ SOURCE_ROOT = ROOT / "src"
 if str(SOURCE_ROOT) not in sys.path:
     sys.path.insert(0, str(SOURCE_ROOT))
 
-import numpy as np
+import numpy as np  # noqa: E402
 
-from solveur.api import solve_model
-from solveur.io.manifest import write_json_file
-from solveur.materials.solid import VonMisesElastoplasticMaterial
-from solveur.verification.robustness_foundations import (
+from solveur.api import solve_model  # noqa: E402
+from solveur.io.manifest import write_json_file  # noqa: E402
+from solveur.materials.solid import VonMisesElastoplasticMaterial  # noqa: E402
+from solveur.verification.robustness_foundations import (  # noqa: E402
     run_constitutive_paths,
     run_newton_rate_study,
     tangent_finite_difference,
-)
-from solveur.verification.robustness_mesh import (
+)  # noqa: E402
+from solveur.verification.robustness_mesh import (  # noqa: E402
     _multi_element_model,
     run_adversarial_rollback_benchmark,
     run_cyclic_load_benchmark,
     run_energy_balance_benchmark,
     run_multi_element_benchmark,
-)
+)  # noqa: E402
 
 
 ELEMENT_FAMILIES = ("TET4", "TET10", "HEX8", "HEX20")
@@ -509,10 +509,6 @@ def run(output: Path) -> dict[str, Any]:
     cyclic = run_cyclic_load_benchmark()
     energy = run_energy_balance_benchmark()
     rollback_rows = [run_adversarial_rollback_benchmark(family) for family in ELEMENT_FAMILIES]
-    rollback = {
-        "status": "PASS_INTERNAL_ROLLBACK" if all(row["status"] == "PASS_INTERNAL_ROLLBACK" for row in rollback_rows) else "FAIL",
-        "rows": rollback_rows,
-    }
     increment = _increment_refinement()
     newton = run_newton_rate_study()
     failures = _failure_evidence(newton)

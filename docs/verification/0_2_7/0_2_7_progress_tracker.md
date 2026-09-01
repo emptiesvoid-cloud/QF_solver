@@ -20,6 +20,9 @@ mass modal evidence lot with bounded Code_Aster frequency correlation; public
 modal maturity remains `EXPERIMENTAL` and qualification is deferred.
 WP12 records bounded large-scale readiness evidence for the existing structured
 TET4 route; its Owner decision remains pending.
+WP11 records a bounded maturity extension for existing small-strain J2 across
+TET4, TET10, HEX8 and HEX20; the existing qualification is kept and no
+universal increment-independence claim is added.
 
 | WP | Status | Current test level | Start SHA | Evidence head | Owner decision | Blocker |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -35,7 +38,7 @@ TET4 route; its Owner decision remains pending.
 | WP08 | `PASS` | T2 targeted | `d4d2942a5fc31ffb97ef373a4466c46be34de991` | `8040909d6d65f740e1daf858ce572d250a87b39a` | static workflow PASS; public maturity `EXPERIMENTAL` | WP09 robustness/external and WP10 modal evidence deferred |
 | WP09 | `PASS_WITH_LIMITATIONS` | T1 targeted + external preflight | `2a27291bcc72e5819014fa172e3d056e80a87d43` | `d3cb2cc43886c56471778a91bef965dee869a8d4` | WEDGE6 robustness bounded PASS; one bounded Code_Aster affine correlation; public maturity `EXPERIMENTAL` | no public external qualification; CalculiX formulation mismatch; pressure/refinement/distorted external cases unclaimed |
 | WP10 | `PASS_WITH_LIMITATIONS` | T1/T2 targeted + Code_Aster | `ea356c484ebb2a3c4282f6eb9cbae6b1992eee6e` | `7d494eaa638ffa88a04ed3e5c51f6036ad1804a1` | independent consistent-mass modal evidence; public maturity `EXPERIMENTAL` | four-level frequency refinement is diagnostic; external frequency tolerance remains `OWNER_REVIEW_REQUIRED`; no MAC or modal qualification claim |
-| WP11 | `NOT_STARTED` | T0 not run | - | - | - | - |
+| WP11 | `PASS_WITH_LIMITATIONS` | T2 targeted | `4d0ee14f4aa61b9337874a991263a93b4f9a8c73` | `94461602dfd1782be57c20e1801a0d5d8e262ef1` | keep qualified bounded J2 scope; Owner review required | no universal increment threshold; tangent symmetry diagnostic only; finite-kinematic J2 remains experimental |
 | WP12 | `PASS_WITH_LIMITATIONS` | T1 targeted + bounded scaling | `4971ac4f6c1e5cff2ca48e40ca6db5e8147d0d0a` | `4971ac4f6c1e5cff2ca48e40ca6db5e8147d0d0a` | proposed Owner review | 300k assembly-only; 1M time-limited; SciPy/PETSc backend limits |
 | WP13 | `NOT_STARTED` | T0 not run | - | - | - | - |
 | WP14 | `NOT_STARTED` | T0 not run | - | - | - | - |
@@ -97,3 +100,10 @@ matches six frequencies on the declared affine same-mesh case within the
 predeclared `1e-2` bounded candidate. The result is frequency-only external
 evidence; WEDGE6 modal maturity remains `EXPERIMENTAL` and public qualification
 is deferred.
+
+WP11 has completed its all-family small-strain J2 characterization without
+changing the formulation: material paths, tangent FD, multi-element, cycles,
+energy, rollback, increment sensitivity, Newton and failure-mode records are
+in the controlled evidence artifact. The existing qualified J2 scope is
+retained with explicit limitations; finite-kinematic J2 and unrelated dynamics
+gaps remain outside this work package.

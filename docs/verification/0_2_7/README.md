@@ -19,7 +19,8 @@ external deck preflight only; WP06 is `PASS` for an additive mesh-quality
 diagnostic contract; WP07 is `PASS` for the experimental elemental WEDGE6
 kernel and its targeted V&V; WP10 is `PASS_WITH_LIMITATIONS` with public modal
 maturity `EXPERIMENTAL`; WP12 is `PASS_WITH_LIMITATIONS` for bounded large-scale
-readiness evidence; WP11 and WP13-WP14 remain `NOT_STARTED`.
+readiness evidence; WP11 is `PASS_WITH_LIMITATIONS` with Owner review required,
+while WP13-WP14 remain `NOT_STARTED`.
 
 ## Baseline and status
 
@@ -72,7 +73,7 @@ in [`0_2_7_progress_tracker.md`](0_2_7_progress_tracker.md).
 | WP08 | WEDGE6 static vertical slice | `PASS` (`EXPERIMENTAL`) |
 | WP09 | WEDGE6 robustness and external V&V | `PASS_WITH_LIMITATIONS` (`EXPERIMENTAL`) |
 | WP10 | WEDGE6 modal evidence | `PASS_WITH_LIMITATIONS` (`EXPERIMENTAL`) |
-| WP11 | Existing capability maturity and J2 gaps | `NOT_STARTED` |
+| WP11 | Existing capability maturity and J2 gaps | `PASS_WITH_LIMITATIONS` (Owner review required) |
 | WP12 | Large-scale and 1M-DOF readiness | `PASS_WITH_LIMITATIONS` |
 | WP13 | Research/stretch candidates | `NOT_STARTED` |
 | WP14 | Documentation, regression and Owner release review | `NOT_STARTED` |

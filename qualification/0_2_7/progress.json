@@ -4,7 +4,7 @@
   "theme": "Prismatic Solid Interoperability and Numerical Robustness",
   "baseline_sha": "e839373b6aef291a93292186d7553ba5cd12af55",
   "branch": "codex/0.2.7-foundation",
-  "status": "WP10_PASS_WITH_LIMITATIONS_EXPERIMENTAL_WP12_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED",
+  "status": "WP10_PASS_WITH_LIMITATIONS_EXPERIMENTAL_WP11_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED_WP12_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED",
   "current_work_package": "WP11",
   "full_regression_run": false,
   "numerical_source_changed": true,
@@ -45,7 +45,23 @@
     {"id": "WP08", "gate": "027-G08", "status": "PASS", "start_sha": "d4d2942a5fc31ffb97ef373a4466c46be34de991", "evidence_head": "8040909d6d65f740e1daf858ce572d250a87b39a", "owner_decision": "static workflow PASS; public maturity EXPERIMENTAL; modal, robustness and external routes deferred", "evidence_catalog": "qualification/0_2_7/vnv_v2/wp08_cases.json", "evidence_artifact": "qualification/0_2_7/vnv_v2/wp08_evidence.json", "state": "qualification/0_2_7/wp08_state.json"},
     {"id": "WP09", "gate": "027-G09", "status": "PASS_WITH_LIMITATIONS", "start_sha": "2a27291bcc72e5819014fa172e3d056e80a87d43", "evidence_head": "d3cb2cc43886c56471778a91bef965dee869a8d4", "owner_decision": "WEDGE6 remains EXPERIMENTAL/DEFERRED; Code_Aster PENTA6 affine correlation is bounded external evidence", "evidence_artifact": "qualification/0_2_7/vnv_v2/wp09_evidence.json", "wp09r_state": "qualification/0_2_7/wp09r_state.json", "external_headless": "PASS"},
     {"id": "WP10", "gate": "027-G10", "status": "PASS_WITH_LIMITATIONS", "start_sha": "ea356c484ebb2a3c4282f6eb9cbae6b1992eee6e", "evidence_head": "7d494eaa638ffa88a04ed3e5c51f6036ad1804a1", "owner_decision": "WEDGE6 modal evidence is complete as experimental bounded evidence; public qualification remains deferred", "evidence_catalog": "qualification/0_2_7/vnv_v2/wp10_cases.json", "evidence_artifact": "qualification/0_2_7/vnv_v2/wp10_evidence.json", "evidence_document": "docs/verification/0_2_7/0_2_7_wedge6_modal.md", "external_result": "qualification/0_2_7/external_oracles/wedge6/results/wp10_code_aster_modal.json", "ready_for_wp11": true},
-    {"id": "WP11", "gate": "027-G11", "status": "NOT_STARTED", "start_sha": null, "evidence_head": null},
+    {
+      "id": "WP11",
+      "gate": "027-G11",
+      "status": "PASS_WITH_LIMITATIONS",
+      "start_sha": "4d0ee14f4aa61b9337874a991263a93b4f9a8c73",
+      "evidence_head": "94461602dfd1782be57c20e1801a0d5d8e262ef1",
+      "owner_decision": "OWNER_REVIEW_REQUIRED_KEEP_QUALIFIED_BOUNDED_WITH_LIMITATIONS",
+      "evidence_catalog": "qualification/0_2_7/wp11_j2_cases.json",
+      "evidence_artifact": "qualification/0_2_7/wp11_j2_evidence.json",
+      "evidence_document": "docs/verification/0_2_7/0_2_7_wp11_j2_closure.md",
+      "limitations": [
+        "No universal structural increment-independence threshold is claimed.",
+        "Algorithmic tangent symmetry is diagnostic only and is not separately qualified.",
+        "Finite-kinematic J2 remains experimental/not qualified.",
+        "No new external structural campaign was run; controlled G06 Code_Aster evidence is reused."
+      ]
+    },
     {
       "id": "WP12",
       "gate": "027-G12",

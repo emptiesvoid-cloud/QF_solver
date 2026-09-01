@@ -7,8 +7,10 @@
   "baseline_branch": "main",
   "foundation_branch": "codex/0.2.7-foundation",
   "baseline_worktree_clean_at_capture": true,
-  "foundation_status": "WP08_PASS_EXPERIMENTAL_WP09_PASS_WITH_LIMITATIONS_WP10_PASS_WITH_LIMITATIONS_EXPERIMENTAL_WP12_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED",
-  "evidence_head": "7d494eaa638ffa88a04ed3e5c51f6036ad1804a1",
+  "foundation_status": "WP08_PASS_EXPERIMENTAL_WP09_PASS_WITH_LIMITATIONS_WP10_PASS_WITH_LIMITATIONS_EXPERIMENTAL_WP11_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED_WP12_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED",
+  "evidence_head": "94461602dfd1782be57c20e1801a0d5d8e262ef1",
+  "wp11_status": "PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED",
+  "wp11_evidence_source_sha": "94461602dfd1782be57c20e1801a0d5d8e262ef1",
   "current_development_head": "7d494eaa638ffa88a04ed3e5c51f6036ad1804a1",
   "current_development_branch": "codex/0.2.7-foundation",
   "parent_release": {
@@ -59,6 +61,7 @@
     "docs/verification/0_2_7/0_2_7_wedge6_plan.md",
     "docs/verification/0_2_7/0_2_7_mesh_quality_plan.md",
     "docs/verification/0_2_7/0_2_7_j2_gap_closure.md",
+    "docs/verification/0_2_7/0_2_7_wp11_j2_closure.md",
     "docs/verification/0_2_7/0_2_7_1m_dof_plan.md",
     "docs/verification/0_2_7/0_2_7_risk_register.md",
     "docs/verification/0_2_7/0_2_7_owner_decision_log.md",
@@ -138,7 +141,12 @@
     "qualification/0_2_7/external_oracles/wedge6/decks/code_aster/WP10-A-penta6-modal.mail",
     "qualification/0_2_7/external_oracles/wedge6/results/wp10_code_aster_modal.json",
     "docs/verification/0_2_7/0_2_7_wedge6_modal.md",
-    "tests/unit/test_wp10_wedge6_modal.py"
+    "tests/unit/test_wp10_wedge6_modal.py",
+    "qualification/0_2_7/wp11_j2_cases.json",
+    "qualification/0_2_7/wp11_j2_evidence.json",
+    "qualification/0_2_7/wp11_state.json",
+    "scripts/run_wp11_j2_closure.py",
+    "tests/unit/test_wp11_j2_closure.py"
   ],
   "status_rule": "A work package is PASS only when its declared evidence is recorded; WP05 records external deck preflight, WP06 records mesh-quality diagnostics, WP07 records an experimental WEDGE6 elemental kernel without creating a public qualification or universal quality cutoff, WP09 records bounded robustness evidence and explicit external outcomes, WP09-R records a reproducible headless Code_Aster oracle without promoting WEDGE6, WP10 records independent consistent-mass modal evidence and bounded Code_Aster frequency correlation without transferring static maturity, and WP12 records bounded large-scale readiness evidence without creating a universal 1M-DOF claim."
 }

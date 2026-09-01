@@ -4435,6 +4435,21 @@
       ]
     },
     {
+      "id": "DOC-027-022",
+      "path": "verification/0_2_7/0_2_7_wp11_j2_closure.md",
+      "title": "0.2.7 WP11 existing J2 maturity and closure evidence",
+      "status": "controlled_candidate",
+      "requirements": ["027-REQ-012"],
+      "examples": [
+        "qualification/0_2_7/wp11_j2_cases.json",
+        "qualification/0_2_7/wp11_j2_evidence.json",
+        "qualification/0_2_7/wp11_state.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp11_j2_closure.py"
+      ]
+    },
+    {
       "id": "DOC-027-023",
       "path": "verification/0_2_7/0_2_7_large_scale_readiness.md",
       "title": "0.2.7 large-scale readiness evidence",

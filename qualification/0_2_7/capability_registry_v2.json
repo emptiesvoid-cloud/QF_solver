@@ -714,12 +714,14 @@
       "qualification_state": "QUALIFIED_BOUNDED",
       "evidence_refs": [
         "0.2.6 g06_depth_evidence.json",
-        "0_2_6_g06_depth_evidence.md"
+        "0_2_6_g06_depth_evidence.md",
+        "qualification/0_2_7/wp11_j2_evidence.json",
+        "docs/verification/0_2_7/0_2_7_wp11_j2_closure.md"
       ],
-      "owner_decision": "INHERITED_0_2_6_SCOPE",
-      "limitations": "Qualified only within the tested bounded TET4/TET10/HEX8/HEX20 scope; algorithmic tangent symmetry is not independently qualified; increment-refinement independence is demonstrated only on TET4.",
+      "owner_decision": "OWNER_REVIEW_REQUIRED_KEEP_QUALIFIED_BOUNDED_WITH_LIMITATIONS",
+      "limitations": "Qualified only within the tested bounded TET4/TET10/HEX8/HEX20 scope; algorithmic tangent symmetry remains diagnostic and is not independently qualified; increment sensitivity is characterized on all four families without a universal structural partition-independence claim.",
       "applicable_version": "0.2.7a0",
-      "source_snapshot": "8bd0f2d8fdce7bf27ffc4c28e6aa26e69288fa63",
+      "source_snapshot": "94461602dfd1782be57c20e1801a0d5d8e262ef1",
       "supersedes": [
         "MAT-J2-SMALL"
       ],

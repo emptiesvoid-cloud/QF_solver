@@ -129,11 +129,19 @@
       "gate": "027-G11",
       "work_package": "WP11",
       "priority": "MUST",
-      "status": "PLANNED",
+      "status": "PASS_WITH_LIMITATIONS",
       "requirement": "Existing small-strain J2 evidence gaps shall be addressed across the already supported solid families without changing formulation.",
-      "acceptance": "Tangent, increment, rollback, energy and failure evidence are bounded and traceable.",
-      "verification": ["TET4/TET10/HEX8/HEX20 targeted cases", "Owner review"],
-      "owner_policy": "EXISTING_G06_POLICY"
+      "acceptance": "Tangent, increment characterization, rollback, energy and failure evidence are bounded and traceable; no new universal increment threshold or maturity promotion is implied.",
+      "verification": [
+        "qualification/0_2_7/wp11_j2_cases.json",
+        "qualification/0_2_7/wp11_j2_evidence.json",
+        "qualification/0_2_7/wp11_state.json",
+        "tests/unit/test_wp11_j2_closure.py",
+        "Owner review"
+      ],
+      "owner_policy": "EXISTING_G06_POLICY_OWNER_REVIEW_REQUIRED",
+      "evidence_source_sha": "94461602dfd1782be57c20e1801a0d5d8e262ef1",
+      "limitations": "Small-strain J2 remains qualified only within the existing bounded four-family scope; increment sensitivity is characterized without a universal structural independence claim; finite-kinematic J2 remains experimental/not qualified."
     },
     {
       "id": "027-REQ-013",

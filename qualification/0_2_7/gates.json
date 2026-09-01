@@ -4,7 +4,7 @@
   "theme": "Prismatic Solid Interoperability and Numerical Robustness",
   "baseline_sha": "e839373b6aef291a93292186d7553ba5cd12af55",
   "baseline_branch": "main",
-  "foundation_status": "WP08_PASS_EXPERIMENTAL_WP09_PASS_WITH_LIMITATIONS_WP12_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED",
+  "foundation_status": "WP08_PASS_EXPERIMENTAL_WP09_PASS_WITH_LIMITATIONS_WP10_PASS_WITH_LIMITATIONS_EXPERIMENTAL_WP11_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED_WP12_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED",
   "source_change_authorized_by_foundation": false,
   "gates": [
     {
@@ -187,12 +187,31 @@
       "id": "027-G11",
       "work_package": "WP11",
       "title": "Existing capability maturity and J2 gaps",
-      "status": "NOT_STARTED",
+      "status": "PASS_WITH_LIMITATIONS",
       "depends_on": ["027-G01", "027-G04", "027-G06"],
       "go": ["existing small-strain J2 gaps are closed or bounded without formulation change"],
       "stop": ["finite-kinematic promotion", "weakened tolerance", "tangent or default-path change"],
       "evidence_required": ["all-family records", "predeclared policies", "Owner decision"],
-      "files": ["0_2_7_j2_gap_closure.md"]
+      "files": [
+        "0_2_7_j2_gap_closure.md",
+        "qualification/0_2_7/wp11_j2_cases.json",
+        "qualification/0_2_7/wp11_j2_evidence.json",
+        "qualification/0_2_7/wp11_state.json",
+        "tests/unit/test_wp11_j2_closure.py"
+      ],
+      "source_sha": "94461602dfd1782be57c20e1801a0d5d8e262ef1",
+      "evidence": [
+        "qualification/0_2_7/wp11_j2_cases.json",
+        "qualification/0_2_7/wp11_j2_evidence.json",
+        "docs/verification/0_2_7/0_2_7_wp11_j2_closure.md"
+      ],
+      "owner_decision": "OWNER_REVIEW_REQUIRED_KEEP_QUALIFIED_BOUNDED_WITH_LIMITATIONS",
+      "limitations": [
+        "No universal structural increment-independence threshold is claimed",
+        "Algorithmic tangent symmetry is diagnostic only",
+        "Modified Newton remains diagnostic; full Newton is the accepted route",
+        "Finite-kinematic J2 and coupled routes remain experimental or not qualified"
+      ]
     },
     {
       "id": "027-G12",

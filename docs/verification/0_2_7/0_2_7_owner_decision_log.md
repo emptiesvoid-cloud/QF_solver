@@ -185,3 +185,21 @@ the matrix-free operator; targeted numerical equivalence passes and no FEM
 formulation changed. This is evidence for `027-OD-005`, not an Owner closeout:
 the decision remains `PROPOSED_OWNER_REVIEW`, and no universal 1M claim is
 made.
+
+## WP11 - Existing small-strain J2 maturity
+
+WP11 is recorded as `PASS_WITH_LIMITATIONS` pending Owner review of the
+bounded maturity record. The existing `MAT-J2-SMALL` qualification is kept for
+TET4, TET10, HEX8 and HEX20; no capability is promoted or demoted. The
+controlled evidence covers material state transitions, radial return, finite
+difference tangent checks, unload/reload and cycling, multi-element response,
+energy, rollback, increment sensitivity, full-Newton behavior and explicit
+failure modes.
+
+The source under test is `94461602dfd1782be57c20e1801a0d5d8e262ef1`, from a
+WP11 start at `4d0ee14f4aa61b9337874a991263a93b4f9a8c73`. The maximum tangent
+FD error is `2.1204721119376345e-10` against the existing `1e-6` limit.
+Increment partition results are characterization only: no universal
+structural independence threshold is introduced. Tangent symmetry remains a
+diagnostic, modified Newton remains diagnostic, finite-kinematic J2 remains
+experimental/not qualified, and no new external structural run is claimed.
