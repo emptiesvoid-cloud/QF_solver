@@ -18,9 +18,11 @@ for the additive mesh-quality diagnostic contract; it introduces no new
 numerical capability or universal quality cutoff. The WP07 row is technical
 kernel evidence only: WEDGE6 remains `EXPERIMENTAL` and is not publicly
 qualified. WP08 adds the bounded static vertical slice without changing that
-maturity. WP12 records bounded large-scale readiness evidence for the existing
-structured TET4 route; its Owner decision remains pending and its resource
-limits are not success claims.
+maturity. WP10 separately records consistent-mass modal evidence and a bounded
+Code_Aster frequency correlation; its public maturity remains `EXPERIMENTAL`.
+WP12 records bounded large-scale readiness evidence for the existing structured
+TET4 route; its Owner decision remains pending and its resource limits are not
+success claims.
 
 | Gate | Work package | Purpose | Dependencies | GO evidence | STOP conditions | Status |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -33,7 +35,7 @@ limits are not success claims.
 | `027-G07` | WP07 | WEDGE6 kernel and elemental V&V | G03, G05, G06, T1-R | reviewed contracts, six-node kernel, stiffness/recovery checks, exact quality certificate and deterministic evidence | certified inversion not rejected; rank or rigid modes unexpected; affine patch or quadrature check fails; existing element formulation changed | `PASS` |
 | `027-G08` | WP08 | WEDGE6 static vertical slice | G07 | 15-case Gmsh/import/load/assembly/equilibrium/post evidence with deterministic replay | missing face/load, silent unsupported path or unexpected failure | `PASS` |
 | `027-G09` | WP09 | WEDGE6 robustness and external V&V | G08 | mesh/distortion/adversarial evidence with explicit external availability and comparability outcomes | unexplained divergence, weakened threshold or false external PASS | `PASS_WITH_LIMITATIONS` |
-| `027-G10` | WP10 | WEDGE6 modal evidence | G08-G09 | mass, modes, residual, mesh and replay evidence | static evidence transferred without modal proof | `NOT_STARTED` |
+| `027-G10` | WP10 | WEDGE6 modal evidence | G08-G09 | mass, modes, residual, mesh, replay and bounded external frequency evidence | static evidence transferred without modal proof; hidden mass convention; unexplained non-finite modes | `PASS_WITH_LIMITATIONS` |
 | `027-G11` | WP11 | Existing maturity and J2 gaps | G01, G04, G06 | all-family J2/increment/tangent evidence | formulation change or relaxed acceptance | `NOT_STARTED` |
 | `027-G12` | WP12 | Large-scale readiness | G02, G04, G06 | declared size/resource measurements, bounded backend/resource verdicts and deterministic replay | universal 1M claim or uncharacterized failure | `PASS_WITH_LIMITATIONS` |
 | `027-G13` | WP13 | Research/stretch selection | relevant closed prerequisites | explicit Owner scope selection | scope creep or transitive promotion | `NOT_STARTED` |
@@ -47,8 +49,13 @@ adds controlled robustness evidence without creating a public qualification.
 CalculiX C3D6 is explicitly non-formulation-compatible with the QF production
 quadrature. WP09-R repairs the headless Code_Aster path and records one
 bounded affine PENTA6 correlation through a derived image pinned to the base
-image digest. WP10
-modal evidence remains required for its separate claims. G13 may remain open
+image digest. WP10 modal evidence is recorded separately for its own claims.
+The consistent mass, finite-positive modes, residual, orthogonality, replay and
+zero-density fail-closed checks pass; the four-level refinement is diagnostic
+only. Code_Aster 18.1.0/PENTA6 provides a frequency-only bounded correlation
+under the predeclared `1e-2` candidate, which remains `OWNER_REVIEW_REQUIRED`;
+no MAC is claimed. WEDGE6 modal maturity remains `EXPERIMENTAL` and public
+qualification is deferred. G13 may remain open
 or deferred without blocking a bounded core release when research routes are
 explicitly excluded.
 

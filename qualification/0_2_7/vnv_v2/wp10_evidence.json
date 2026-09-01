@@ -1,0 +1,1022 @@
+{
+  "artifact_classification": "CONTROLLED_PROOF",
+  "catalog": "qualification/0_2_7/vnv_v2/wp10_cases.json",
+  "evidence": [
+    {
+      "artifact_classification": "CONTROLLED_PROOF",
+      "case_id": "WP10-MASS-SYMMETRY",
+      "environment": {
+        "catalog": "wp10_cases.json",
+        "runner": "run_wp10_wedge6_modal"
+      },
+      "failure_reason": null,
+      "input_digest": "76873866fb46d1260a0910c1ab4eaa3d2695b52cc5312bf872e43816ab398b85",
+      "observables": {
+        "density_scaling_error": 0.0,
+        "density_scaling_pass": true,
+        "direction_masses": [
+          23400.0,
+          23399.999999999996,
+          23400.0
+        ],
+        "distorted_positive": true,
+        "distorted_total_mass": 23400.0,
+        "expected_total_mass": 23399.999999999993,
+        "geometry_scaling_pass": true,
+        "geometry_scaling_ratio": 7.9999999999999964,
+        "mass_conservation_error": 7.275957614183426e-12,
+        "mass_shape": [
+          18,
+          18
+        ],
+        "minimum_eigenvalue": 324.9999999999996,
+        "pass": true,
+        "positive_definite": true,
+        "reference_mass_relative_difference": 3.3236650904466736e-16,
+        "symmetry_error": 0.0
+      },
+      "oracle": {
+        "comparison_rule": "exact",
+        "expected": true,
+        "observable": "pass",
+        "provenance": {
+          "criterion": "relative mass symmetry <= 1e-14",
+          "status": "predeclared"
+        },
+        "source": "WEDGE6 consistent mass contract",
+        "tolerance": 0.0,
+        "type": "INTERNAL_INVARIANT",
+        "unit": "boolean"
+      },
+      "peak_memory_mb": null,
+      "provenance": {
+        "artifact_classification": "CONTROLLED_PROOF",
+        "contract": "WP10 consistent mass"
+      },
+      "requirement_id": "027-REQ-011",
+      "result_digest": "dc1d26604b6564a9b88fef1c2547717d22edc07daba635f564daa3f3f5278a9a",
+      "runtime_seconds": 0.04158760001882911,
+      "source_sha": "7d494eaa638ffa88a04ed3e5c51f6036ad1804a1",
+      "timestamp": "2026-09-01T05:36:38.635012+00:00",
+      "tolerance": 0.0,
+      "verdict": "PASS"
+    },
+    {
+      "artifact_classification": "CONTROLLED_PROOF",
+      "case_id": "WP10-MASS-POSITIVITY",
+      "environment": {
+        "catalog": "wp10_cases.json",
+        "runner": "run_wp10_wedge6_modal"
+      },
+      "failure_reason": null,
+      "input_digest": "93bc886550c4e7d1630f4ea8435129bcb43a076ab851001f3792a11800dc15dc",
+      "observables": {
+        "density_scaling_error": 0.0,
+        "density_scaling_pass": true,
+        "direction_masses": [
+          23400.0,
+          23399.999999999996,
+          23400.0
+        ],
+        "distorted_positive": true,
+        "distorted_total_mass": 23400.0,
+        "expected_total_mass": 23399.999999999993,
+        "geometry_scaling_pass": true,
+        "geometry_scaling_ratio": 7.9999999999999964,
+        "mass_conservation_error": 7.275957614183426e-12,
+        "mass_shape": [
+          18,
+          18
+        ],
+        "minimum_eigenvalue": 324.9999999999996,
+        "pass": true,
+        "positive_definite": true,
+        "reference_mass_relative_difference": 3.3236650904466736e-16,
+        "symmetry_error": 0.0
+      },
+      "oracle": {
+        "comparison_rule": "exact",
+        "expected": true,
+        "observable": "pass",
+        "provenance": {
+          "criterion": "all element mass eigenvalues > 0",
+          "status": "predeclared"
+        },
+        "source": "WEDGE6 consistent mass contract",
+        "tolerance": 0.0,
+        "type": "INTERNAL_INVARIANT",
+        "unit": "boolean"
+      },
+      "peak_memory_mb": null,
+      "provenance": {
+        "artifact_classification": "CONTROLLED_PROOF",
+        "contract": "WP10 positive mass"
+      },
+      "requirement_id": "027-REQ-011",
+      "result_digest": "e1c6ce477a9db4915e914782e6e145861b17ad2f4309faf6593332e5a4c72248",
+      "runtime_seconds": 0.040873799996916205,
+      "source_sha": "7d494eaa638ffa88a04ed3e5c51f6036ad1804a1",
+      "timestamp": "2026-09-01T05:36:38.676059+00:00",
+      "tolerance": 0.0,
+      "verdict": "PASS"
+    },
+    {
+      "artifact_classification": "CONTROLLED_PROOF",
+      "case_id": "WP10-MASS-CONSERVATION",
+      "environment": {
+        "catalog": "wp10_cases.json",
+        "runner": "run_wp10_wedge6_modal"
+      },
+      "failure_reason": null,
+      "input_digest": "0fbb057dae86bdfbd729495dcafd5e81fad68f1f18c008ed2b526d2f073f50f4",
+      "observables": {
+        "density_scaling_error": 0.0,
+        "density_scaling_pass": true,
+        "direction_masses": [
+          23400.0,
+          23399.999999999996,
+          23400.0
+        ],
+        "distorted_positive": true,
+        "distorted_total_mass": 23400.0,
+        "expected_total_mass": 23399.999999999993,
+        "geometry_scaling_pass": true,
+        "geometry_scaling_ratio": 7.9999999999999964,
+        "mass_conservation_error": 7.275957614183426e-12,
+        "mass_shape": [
+          18,
+          18
+        ],
+        "minimum_eigenvalue": 324.9999999999996,
+        "pass": true,
+        "positive_definite": true,
+        "reference_mass_relative_difference": 3.3236650904466736e-16,
+        "symmetry_error": 0.0
+      },
+      "oracle": {
+        "comparison_rule": "exact",
+        "expected": true,
+        "observable": "pass",
+        "provenance": {
+          "criterion": "each rigid translation mass equals rho*V within 1e-10 N/A",
+          "status": "predeclared"
+        },
+        "source": "density times affine prism volume",
+        "tolerance": 0.0,
+        "type": "ANALYTICAL",
+        "unit": "boolean"
+      },
+      "peak_memory_mb": null,
+      "provenance": {
+        "artifact_classification": "CONTROLLED_PROOF",
+        "contract": "WP10 total mass"
+      },
+      "requirement_id": "027-REQ-011",
+      "result_digest": "89f324548737865d6945bd0456f3e29c8ee8b2408172d01ad7b748de975e02bb",
+      "runtime_seconds": 0.04074530000798404,
+      "source_sha": "7d494eaa638ffa88a04ed3e5c51f6036ad1804a1",
+      "timestamp": "2026-09-01T05:36:38.716958+00:00",
+      "tolerance": 0.0,
+      "verdict": "PASS"
+    },
+    {
+      "artifact_classification": "CONTROLLED_PROOF",
+      "case_id": "WP10-MASS-DENSITY-SCALING",
+      "environment": {
+        "catalog": "wp10_cases.json",
+        "runner": "run_wp10_wedge6_modal"
+      },
+      "failure_reason": null,
+      "input_digest": "486ffbe20366345ccbe4036db6b9ae72183cc747300f8b2360fc04bccfa6783f",
+      "observables": {
+        "density_scaling_error": 0.0,
+        "density_scaling_pass": true,
+        "direction_masses": [
+          23400.0,
+          23399.999999999996,
+          23400.0
+        ],
+        "distorted_positive": true,
+        "distorted_total_mass": 23400.0,
+        "expected_total_mass": 23399.999999999993,
+        "geometry_scaling_pass": true,
+        "geometry_scaling_ratio": 7.9999999999999964,
+        "mass_conservation_error": 7.275957614183426e-12,
+        "mass_shape": [
+          18,
+          18
+        ],
+        "minimum_eigenvalue": 324.9999999999996,
+        "pass": true,
+        "positive_definite": true,
+        "reference_mass_relative_difference": 3.3236650904466736e-16,
+        "symmetry_error": 0.0
+      },
+      "oracle": {
+        "comparison_rule": "exact",
+        "expected": true,
+        "observable": "pass",
+        "provenance": {
+          "criterion": "M(2rho)=2M(rho) within 1e-12",
+          "status": "predeclared"
+        },
+        "source": "consistent mass linearity in density",
+        "tolerance": 0.0,
+        "type": "INTERNAL_INVARIANT",
+        "unit": "boolean"
+      },
+      "peak_memory_mb": null,
+      "provenance": {
+        "artifact_classification": "CONTROLLED_PROOF",
+        "contract": "WP10 density scaling"
+      },
+      "requirement_id": "027-REQ-011",
+      "result_digest": "60fdcabfcd06ad3e73421193da3ee05a16a709d6335da0e91ded149a3da41217",
+      "runtime_seconds": 0.04081109998514876,
+      "source_sha": "7d494eaa638ffa88a04ed3e5c51f6036ad1804a1",
+      "timestamp": "2026-09-01T05:36:38.757919+00:00",
+      "tolerance": 0.0,
+      "verdict": "PASS"
+    },
+    {
+      "artifact_classification": "CONTROLLED_PROOF",
+      "case_id": "WP10-MASS-GEOMETRY-SCALING",
+      "environment": {
+        "catalog": "wp10_cases.json",
+        "runner": "run_wp10_wedge6_modal"
+      },
+      "failure_reason": null,
+      "input_digest": "fc3318ea01b0c364f63e37446ce1adaceacd6259d7e7a209af96409ab1756d42",
+      "observables": {
+        "density_scaling_error": 0.0,
+        "density_scaling_pass": true,
+        "direction_masses": [
+          23400.0,
+          23399.999999999996,
+          23400.0
+        ],
+        "distorted_positive": true,
+        "distorted_total_mass": 23400.0,
+        "expected_total_mass": 23399.999999999993,
+        "geometry_scaling_pass": true,
+        "geometry_scaling_ratio": 7.9999999999999964,
+        "mass_conservation_error": 7.275957614183426e-12,
+        "mass_shape": [
+          18,
+          18
+        ],
+        "minimum_eigenvalue": 324.9999999999996,
+        "pass": true,
+        "positive_definite": true,
+        "reference_mass_relative_difference": 3.3236650904466736e-16,
+        "symmetry_error": 0.0
+      },
+      "oracle": {
+        "comparison_rule": "exact",
+        "expected": true,
+        "observable": "pass",
+        "provenance": {
+          "criterion": "M(2x geometry)=8M within 1e-12",
+          "status": "predeclared"
+        },
+        "source": "three-dimensional geometry scaling",
+        "tolerance": 0.0,
+        "type": "INTERNAL_INVARIANT",
+        "unit": "boolean"
+      },
+      "peak_memory_mb": null,
+      "provenance": {
+        "artifact_classification": "CONTROLLED_PROOF",
+        "contract": "WP10 geometry scaling"
+      },
+      "requirement_id": "027-REQ-011",
+      "result_digest": "40e92d05bd3a0510b6e89d00a2566a6b9bfcf729c0cb77ecf4fde8c0ab880887",
+      "runtime_seconds": 0.040276599989738315,
+      "source_sha": "7d494eaa638ffa88a04ed3e5c51f6036ad1804a1",
+      "timestamp": "2026-09-01T05:36:38.798336+00:00",
+      "tolerance": 0.0,
+      "verdict": "PASS"
+    },
+    {
+      "artifact_classification": "CONTROLLED_PROOF",
+      "case_id": "WP10-MASS-DISTORTED",
+      "environment": {
+        "catalog": "wp10_cases.json",
+        "runner": "run_wp10_wedge6_modal"
+      },
+      "failure_reason": null,
+      "input_digest": "357d2d3358c4ba8c724e88bb22048730d5f6da2179bb04d3be6b3b86dcc5bc2d",
+      "observables": {
+        "density_scaling_error": 0.0,
+        "density_scaling_pass": true,
+        "direction_masses": [
+          23400.0,
+          23399.999999999996,
+          23400.0
+        ],
+        "distorted_positive": true,
+        "distorted_total_mass": 23400.0,
+        "expected_total_mass": 23399.999999999993,
+        "geometry_scaling_pass": true,
+        "geometry_scaling_ratio": 7.9999999999999964,
+        "mass_conservation_error": 7.275957614183426e-12,
+        "mass_shape": [
+          18,
+          18
+        ],
+        "minimum_eigenvalue": 324.9999999999996,
+        "pass": true,
+        "positive_definite": true,
+        "reference_mass_relative_difference": 3.3236650904466736e-16,
+        "symmetry_error": 0.0
+      },
+      "oracle": {
+        "comparison_rule": "exact",
+        "expected": true,
+        "observable": "pass",
+        "provenance": {
+          "criterion": "finite positive mass on valid distorted prism",
+          "status": "predeclared"
+        },
+        "source": "WP06 valid distorted prism contract",
+        "tolerance": 0.0,
+        "type": "INTERNAL_INVARIANT",
+        "unit": "boolean"
+      },
+      "peak_memory_mb": null,
+      "provenance": {
+        "artifact_classification": "CONTROLLED_PROOF",
+        "contract": "WP10 distorted mass"
+      },
+      "requirement_id": "027-REQ-011",
+      "result_digest": "697580c8f065c670a1cfc147f5cb920d6ce6ac4bc589c18b947076c79c81baa4",
+      "runtime_seconds": 0.040771699976176023,
+      "source_sha": "7d494eaa638ffa88a04ed3e5c51f6036ad1804a1",
+      "timestamp": "2026-09-01T05:36:38.839258+00:00",
+      "tolerance": 0.0,
+      "verdict": "PASS"
+    },
+    {
+      "artifact_classification": "CONTROLLED_PROOF",
+      "case_id": "WP10-MODAL-SINGLE",
+      "environment": {
+        "catalog": "wp10_cases.json",
+        "runner": "run_wp10_wedge6_modal"
+      },
+      "failure_reason": null,
+      "input_digest": "c09f9eb70963c79fdd7988c5a0a50cdc33ceea97cfe4d32c4a448e33d9d64085",
+      "observables": {
+        "assembly_route": true,
+        "deterministic_frequencies": true,
+        "deterministic_modes": true,
+        "finite_frequencies": true,
+        "finite_modes": true,
+        "frequencies_hz": [
+          156.44641013597035,
+          186.68614031093526,
+          295.68900530294786,
+          495.9478405804892,
+          1206.5931567561142,
+          1770.0382753350857
+        ],
+        "frequency_count": 6,
+        "mass_orthogonality_error": 3.540372726016849e-16,
+        "max_relative_residual": 1.0750708547072788e-13,
+        "mode_norms_finite": true,
+        "pass": true,
+        "positive_frequencies": true,
+        "status": "PASS",
+        "stiffness_diagonal_error": 1.34987970918351e-15
+      },
+      "oracle": {
+        "comparison_rule": "exact",
+        "expected": true,
+        "observable": "pass",
+        "provenance": {
+          "criterion": "finite positive frequencies and PASS result",
+          "status": "predeclared"
+        },
+        "source": "common generalized eigenproblem route",
+        "tolerance": 0.0,
+        "type": "INTERNAL_INVARIANT",
+        "unit": "boolean"
+      },
+      "peak_memory_mb": null,
+      "provenance": {
+        "artifact_classification": "CONTROLLED_PROOF",
+        "contract": "WP10 single prism modal"
+      },
+      "requirement_id": "027-REQ-011",
+      "result_digest": "598f93602653485216595e0180a5713627ada50d8c3a5139f30d324383687447",
+      "runtime_seconds": 0.19002600002568215,
+      "source_sha": "7d494eaa638ffa88a04ed3e5c51f6036ad1804a1",
+      "timestamp": "2026-09-01T05:36:39.029434+00:00",
+      "tolerance": 0.0,
+      "verdict": "PASS"
+    },
+    {
+      "artifact_classification": "CONTROLLED_PROOF",
+      "case_id": "WP10-MODAL-MULTI",
+      "environment": {
+        "catalog": "wp10_cases.json",
+        "runner": "run_wp10_wedge6_modal"
+      },
+      "failure_reason": null,
+      "input_digest": "1deef57f30c46ca3633218586aed9cd7695f01ffd27ec0638123139bc3ae65b8",
+      "observables": {
+        "assembly_route": true,
+        "deterministic_frequencies": true,
+        "deterministic_modes": true,
+        "finite_frequencies": true,
+        "finite_modes": true,
+        "frequencies_hz": [
+          88.99408467400707,
+          154.7227019941519,
+          271.23306991179305,
+          452.74375687237796,
+          501.161997229999,
+          581.1790036681982
+        ],
+        "frequency_count": 6,
+        "mass_orthogonality_error": 5.137417664940362e-16,
+        "max_relative_residual": 6.306958248383682e-13,
+        "mode_norms_finite": true,
+        "pass": true,
+        "positive_frequencies": true,
+        "status": "PASS",
+        "stiffness_diagonal_error": 1.2725211311129009e-14
+      },
+      "oracle": {
+        "comparison_rule": "exact",
+        "expected": true,
+        "observable": "pass",
+        "provenance": {
+          "criterion": "multi-element modal result is finite and PASS",
+          "status": "predeclared"
+        },
+        "source": "common modal assembly over conforming WEDGE6 mesh",
+        "tolerance": 0.0,
+        "type": "INTERNAL_INVARIANT",
+        "unit": "boolean"
+      },
+      "peak_memory_mb": null,
+      "provenance": {
+        "artifact_classification": "CONTROLLED_PROOF",
+        "contract": "WP10 multi-prism modal"
+      },
+      "requirement_id": "027-REQ-011",
+      "result_digest": "bdc7c2de6770a6ed158c8ea75c2a8f5cd4eb1a029eeaf8ab12429fb08612bfee",
+      "runtime_seconds": 0.23020729998825118,
+      "source_sha": "7d494eaa638ffa88a04ed3e5c51f6036ad1804a1",
+      "timestamp": "2026-09-01T05:36:39.259797+00:00",
+      "tolerance": 0.0,
+      "verdict": "PASS"
+    },
+    {
+      "artifact_classification": "CONTROLLED_PROOF",
+      "case_id": "WP10-MODAL-AXIAL",
+      "environment": {
+        "catalog": "wp10_cases.json",
+        "runner": "run_wp10_wedge6_modal"
+      },
+      "failure_reason": null,
+      "input_digest": "1b519e8d99a899f82884d12476ea82c02e3322ffc8c839b5ce20b5923bfe3153",
+      "observables": {
+        "assembly_route": true,
+        "deterministic_frequencies": true,
+        "deterministic_modes": true,
+        "finite_frequencies": true,
+        "finite_modes": true,
+        "frequencies_hz": [
+          156.44641013597035,
+          186.68614031093526,
+          295.68900530294786,
+          495.9478405804892,
+          1206.5931567561142,
+          1770.0382753350857
+        ],
+        "frequency_count": 6,
+        "mass_orthogonality_error": 3.540372726016849e-16,
+        "max_relative_residual": 1.0750708547072788e-13,
+        "mode_norms_finite": true,
+        "pass": true,
+        "positive_frequencies": true,
+        "status": "PASS",
+        "stiffness_diagonal_error": 1.34987970918351e-15
+      },
+      "oracle": {
+        "comparison_rule": "exact",
+        "expected": true,
+        "observable": "pass",
+        "provenance": {
+          "criterion": "finite positive spectrum on fixed-bottom prism",
+          "status": "predeclared"
+        },
+        "source": "axial prism modal slice",
+        "tolerance": 0.0,
+        "type": "INTERNAL_INVARIANT",
+        "unit": "boolean"
+      },
+      "peak_memory_mb": null,
+      "provenance": {
+        "artifact_classification": "CONTROLLED_PROOF",
+        "contract": "WP10 axial modal"
+      },
+      "requirement_id": "027-REQ-011",
+      "result_digest": "3805d99dbbdc5e5613993a6312dca62fd9add570a13c7c207dad1618d406beb9",
+      "runtime_seconds": 0.18086009996477515,
+      "source_sha": "7d494eaa638ffa88a04ed3e5c51f6036ad1804a1",
+      "timestamp": "2026-09-01T05:36:39.440806+00:00",
+      "tolerance": 0.0,
+      "verdict": "PASS"
+    },
+    {
+      "artifact_classification": "CONTROLLED_PROOF",
+      "case_id": "WP10-MODAL-SHEAR",
+      "environment": {
+        "catalog": "wp10_cases.json",
+        "runner": "run_wp10_wedge6_modal"
+      },
+      "failure_reason": null,
+      "input_digest": "6dc631f8b8f688607a7fa3bb3726a908a4016df6db4f43f1e29d00995d568c2a",
+      "observables": {
+        "assembly_route": true,
+        "deterministic_frequencies": true,
+        "deterministic_modes": true,
+        "finite_frequencies": true,
+        "finite_modes": true,
+        "frequencies_hz": [
+          156.44641013597035,
+          186.68614031093526,
+          295.68900530294786,
+          495.9478405804892,
+          1206.5931567561142,
+          1770.0382753350857
+        ],
+        "frequency_count": 6,
+        "mass_orthogonality_error": 3.540372726016849e-16,
+        "max_relative_residual": 1.0750708547072788e-13,
+        "mode_norms_finite": true,
+        "pass": true,
+        "positive_frequencies": true,
+        "status": "PASS",
+        "stiffness_diagonal_error": 1.34987970918351e-15
+      },
+      "oracle": {
+        "comparison_rule": "exact",
+        "expected": true,
+        "observable": "pass",
+        "provenance": {
+          "criterion": "finite positive spectrum without parasitic non-finite mode",
+          "status": "predeclared"
+        },
+        "source": "shear-sensitive prism modal slice",
+        "tolerance": 0.0,
+        "type": "INTERNAL_INVARIANT",
+        "unit": "boolean"
+      },
+      "peak_memory_mb": null,
+      "provenance": {
+        "artifact_classification": "CONTROLLED_PROOF",
+        "contract": "WP10 shear-sensitive modal"
+      },
+      "requirement_id": "027-REQ-011",
+      "result_digest": "8d18716a00d56affce9780d9010499d5d8ef2c904591c1ccfcefb5058a3f4190",
+      "runtime_seconds": 0.17927349999081343,
+      "source_sha": "7d494eaa638ffa88a04ed3e5c51f6036ad1804a1",
+      "timestamp": "2026-09-01T05:36:39.620230+00:00",
+      "tolerance": 0.0,
+      "verdict": "PASS"
+    },
+    {
+      "artifact_classification": "CONTROLLED_PROOF",
+      "case_id": "WP10-MODAL-BENDING",
+      "environment": {
+        "catalog": "wp10_cases.json",
+        "runner": "run_wp10_wedge6_modal"
+      },
+      "failure_reason": null,
+      "input_digest": "81316960aca4fa15bbf446ece6ee6d94380aae65a76ddd90eccd213790020da1",
+      "observables": {
+        "assembly_route": true,
+        "deterministic_frequencies": true,
+        "deterministic_modes": true,
+        "finite_frequencies": true,
+        "finite_modes": true,
+        "frequencies_hz": [
+          88.99408467400707,
+          154.7227019941519,
+          271.23306991179305,
+          452.74375687237796,
+          501.161997229999,
+          581.1790036681982
+        ],
+        "frequency_count": 6,
+        "mass_orthogonality_error": 5.137417664940362e-16,
+        "max_relative_residual": 6.306958248383682e-13,
+        "mode_norms_finite": true,
+        "pass": true,
+        "positive_frequencies": true,
+        "status": "PASS",
+        "stiffness_diagonal_error": 1.2725211311129009e-14
+      },
+      "oracle": {
+        "comparison_rule": "exact",
+        "expected": true,
+        "observable": "pass",
+        "provenance": {
+          "criterion": "finite positive multi-element bending spectrum",
+          "status": "predeclared"
+        },
+        "source": "multi-prism bending modal slice",
+        "tolerance": 0.0,
+        "type": "INTERNAL_INVARIANT",
+        "unit": "boolean"
+      },
+      "peak_memory_mb": null,
+      "provenance": {
+        "artifact_classification": "CONTROLLED_PROOF",
+        "contract": "WP10 bending modal"
+      },
+      "requirement_id": "027-REQ-011",
+      "result_digest": "be6ac8dc15be70707b82708b32ea028e705d2a49af370aa1450edeb3ab4ab2f6",
+      "runtime_seconds": 0.22809930000221357,
+      "source_sha": "7d494eaa638ffa88a04ed3e5c51f6036ad1804a1",
+      "timestamp": "2026-09-01T05:36:39.848488+00:00",
+      "tolerance": 0.0,
+      "verdict": "PASS"
+    },
+    {
+      "artifact_classification": "CONTROLLED_PROOF",
+      "case_id": "WP10-MODAL-DISTORTED",
+      "environment": {
+        "catalog": "wp10_cases.json",
+        "runner": "run_wp10_wedge6_modal"
+      },
+      "failure_reason": null,
+      "input_digest": "3569f35cb3f54eb6fc06f78fcf3ff3a96d74a140a1613ec5b8b612dc78419e87",
+      "observables": {
+        "assembly_route": true,
+        "deterministic_frequencies": true,
+        "deterministic_modes": true,
+        "finite_frequencies": true,
+        "finite_modes": true,
+        "frequencies_hz": [
+          90.68029433017172,
+          150.70152444916775,
+          272.84503562362767,
+          449.4321079029615,
+          507.9114445249432,
+          579.1965931236044
+        ],
+        "frequency_count": 6,
+        "mass_orthogonality_error": 4.841898086409319e-16,
+        "max_relative_residual": 4.2961557883573193e-13,
+        "mode_norms_finite": true,
+        "pass": true,
+        "positive_frequencies": true,
+        "status": "PASS",
+        "stiffness_diagonal_error": 2.1317719656401306e-14
+      },
+      "oracle": {
+        "comparison_rule": "exact",
+        "expected": true,
+        "observable": "pass",
+        "provenance": {
+          "criterion": "valid distorted prism remains finite and solvable",
+          "status": "predeclared"
+        },
+        "source": "WP06 quality and common modal route",
+        "tolerance": 0.0,
+        "type": "INTERNAL_INVARIANT",
+        "unit": "boolean"
+      },
+      "peak_memory_mb": null,
+      "provenance": {
+        "artifact_classification": "CONTROLLED_PROOF",
+        "contract": "WP10 distorted modal"
+      },
+      "requirement_id": "027-REQ-011",
+      "result_digest": "9038f04cdda6d7295b8dbe1300d3c0f60480ac0933f3a986544e7e9f7fd8f945",
+      "runtime_seconds": 0.22683440003311262,
+      "source_sha": "7d494eaa638ffa88a04ed3e5c51f6036ad1804a1",
+      "timestamp": "2026-09-01T05:36:40.075475+00:00",
+      "tolerance": 0.0,
+      "verdict": "PASS"
+    },
+    {
+      "artifact_classification": "CONTROLLED_PROOF",
+      "case_id": "WP10-MODAL-REFINEMENT",
+      "environment": {
+        "catalog": "wp10_cases.json",
+        "runner": "run_wp10_wedge6_modal"
+      },
+      "failure_reason": null,
+      "input_digest": "567d1b67579af25801e9c49356e1e152b4be8bdc3bee8b3e706ef1c17dcd40ca",
+      "observables": {
+        "final_relative_change": 0.09119684921398827,
+        "finite": true,
+        "levels": [
+          {
+            "first_frequency_hz": 156.44641013597035,
+            "segments": 1
+          },
+          {
+            "first_frequency_hz": 106.65405798425944,
+            "segments": 2
+          },
+          {
+            "first_frequency_hz": 88.99408467400707,
+            "segments": 3
+          },
+          {
+            "first_frequency_hz": 81.55639813120003,
+            "segments": 4
+          }
+        ],
+        "trend_reported_without_monotonicity_claim": true
+      },
+      "oracle": {
+        "comparison_rule": "exact",
+        "expected": true,
+        "observable": "finite",
+        "provenance": {
+          "criterion": "four same-physics levels reported before execution; monotonicity not required",
+          "status": "predeclared"
+        },
+        "source": "controlled WEDGE6 first-frequency refinement series",
+        "tolerance": 0.0,
+        "type": "INTERNAL_INVARIANT",
+        "unit": "boolean"
+      },
+      "peak_memory_mb": null,
+      "provenance": {
+        "artifact_classification": "CONTROLLED_PROOF",
+        "contract": "WP10 refinement"
+      },
+      "requirement_id": "027-REQ-011",
+      "result_digest": "9cbb3636fa3a6ce27e48cd3b1ad66163b1bcee32302b86223acbb7205413a08c",
+      "runtime_seconds": 0.8642413000343367,
+      "source_sha": "7d494eaa638ffa88a04ed3e5c51f6036ad1804a1",
+      "timestamp": "2026-09-01T05:36:40.939871+00:00",
+      "tolerance": 0.0,
+      "verdict": "PASS"
+    },
+    {
+      "artifact_classification": "CONTROLLED_PROOF",
+      "case_id": "WP10-MODAL-REPLAY",
+      "environment": {
+        "catalog": "wp10_cases.json",
+        "runner": "run_wp10_wedge6_modal"
+      },
+      "failure_reason": null,
+      "input_digest": "01372a2e73ed601db3c801d52bb92d329f86839367f605af264809e0de499cb5",
+      "observables": {
+        "assembly_route": true,
+        "deterministic_frequencies": true,
+        "deterministic_modes": true,
+        "finite_frequencies": true,
+        "finite_modes": true,
+        "frequencies_hz": [
+          88.99408467400707,
+          154.7227019941519,
+          271.23306991179305,
+          452.74375687237796,
+          501.161997229999,
+          581.1790036681982
+        ],
+        "frequency_count": 6,
+        "mass_orthogonality_error": 5.137417664940362e-16,
+        "max_relative_residual": 6.306958248383682e-13,
+        "mode_norms_finite": true,
+        "pass": true,
+        "positive_frequencies": true,
+        "status": "PASS",
+        "stiffness_diagonal_error": 1.2725211311129009e-14
+      },
+      "oracle": {
+        "comparison_rule": "exact",
+        "expected": true,
+        "observable": "pass",
+        "provenance": {
+          "criterion": "frequencies and mode vectors identical on replay",
+          "status": "predeclared"
+        },
+        "source": "V&V v2 replay contract",
+        "tolerance": 0.0,
+        "type": "INTERNAL_INVARIANT",
+        "unit": "boolean"
+      },
+      "peak_memory_mb": null,
+      "provenance": {
+        "artifact_classification": "CONTROLLED_PROOF",
+        "contract": "WP10 deterministic replay"
+      },
+      "requirement_id": "027-REQ-011",
+      "result_digest": "c55618f0a2e235c9fcda48bc6b07756ac9f29808ca5937b1bc0b6ac1310b1f68",
+      "runtime_seconds": 0.22790050000185147,
+      "source_sha": "7d494eaa638ffa88a04ed3e5c51f6036ad1804a1",
+      "timestamp": "2026-09-01T05:36:41.167931+00:00",
+      "tolerance": 0.0,
+      "verdict": "PASS"
+    },
+    {
+      "artifact_classification": "CONTROLLED_PROOF",
+      "case_id": "WP10-MODAL-CODE-ASTER",
+      "environment": {
+        "catalog": "wp10_cases.json",
+        "runner": "run_wp10_wedge6_modal"
+      },
+      "failure_reason": null,
+      "input_digest": "2c9505e1f6dfeb8c443d6e83e7be5a9dc78dbd045181627a0784869fb397bd8d",
+      "observables": {
+        "external": {
+          "code_aster_frequencies_hz": [
+            156.44641013597536,
+            186.68614031092773,
+            295.6890053029494,
+            495.9478405804897,
+            1206.593156756112,
+            1770.0382753350839
+          ],
+          "deck": "qualification/0_2_7/external_oracles/wedge6/decks/code_aster/WP10-A-penta6-modal",
+          "deck_digests": {
+            "comm": "0f86f5d14468eb377b0709b029ea63f994a1ba9c4d0537535a103cacacc498b4",
+            "mail": "fc43e0b58cac7b7640c694a8a78448ba03621cdb47a1ea393cfb193c646cc681"
+          },
+          "formulation_compatible": true,
+          "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+          "mode_shape_comparison": "NOT_RUN; PENTA6/QF displacement mapping not required for this frequency-only bounded check",
+          "primary_observable": "frequency_hz",
+          "qf_frequencies_hz": [
+            156.44641013597035,
+            186.68614031093526,
+            295.68900530294786,
+            495.9478405804892,
+            1206.5931567561142,
+            1770.0382753350857
+          ],
+          "relative_errors": [
+            3.1974021362352936e-14,
+            4.034446792093322e-14,
+            5.190495019148105e-15,
+            1.0315414805485854e-15,
+            1.884427026376638e-15,
+            1.027655406604982e-15
+          ],
+          "solver": "Code_Aster 18.1.0 / PENTA6",
+          "state": "PASS_EXTERNAL_CORRELATION_BOUNDED",
+          "tolerance": 0.01,
+          "tolerance_source": "WP10 predeclared same-mesh modal candidate; OWNER_REVIEW_REQUIRED"
+        },
+        "pass": true
+      },
+      "oracle": {
+        "comparison_rule": "exact",
+        "expected": true,
+        "observable": "pass",
+        "provenance": {
+          "frequency_relative_tolerance": 0.01,
+          "primary_observable": "frequency_hz",
+          "status": "predeclared",
+          "tolerance_status": "OWNER_REVIEW_REQUIRED"
+        },
+        "source": "Code_Aster 18.1.0 PENTA6 same-mesh modal deck",
+        "tolerance": 0.0,
+        "type": "EXTERNAL_SOLVER",
+        "unit": "boolean"
+      },
+      "peak_memory_mb": null,
+      "provenance": {
+        "artifact_classification": "CONTROLLED_PROOF",
+        "contract": "WP10 external modal correlation",
+        "static_evidence_transfer": false
+      },
+      "requirement_id": "027-REQ-011",
+      "result_digest": "d309dae5c575eadad5cd77ad08b475685da5c41481b07d53113b52a6bc4bf7a7",
+      "runtime_seconds": 6.84997859998839,
+      "source_sha": "7d494eaa638ffa88a04ed3e5c51f6036ad1804a1",
+      "timestamp": "2026-09-01T05:36:48.018069+00:00",
+      "tolerance": 0.0,
+      "verdict": "PASS"
+    },
+    {
+      "artifact_classification": "CONTROLLED_PROOF",
+      "case_id": "WP10-MODAL-NO-DENSITY",
+      "environment": {
+        "catalog": "wp10_cases.json",
+        "runner": "run_wp10_wedge6_modal"
+      },
+      "failure_reason": "Mesh validation failed: Element 0: modal analysis requires positive density.",
+      "input_digest": "cd793417943bf711f1b1b142ac1a6db1f0b7a6c3a8832292987ce0a61d342b63",
+      "observables": {},
+      "oracle": {
+        "comparison_rule": "present",
+        "expected": null,
+        "observable": "failure_reason",
+        "provenance": {
+          "expected_failure": "positive density required",
+          "status": "predeclared"
+        },
+        "source": "modal preflight positive-density requirement",
+        "tolerance": 0.0,
+        "type": "FAILURE_EXPECTATION",
+        "unit": "identifier"
+      },
+      "peak_memory_mb": null,
+      "provenance": {
+        "artifact_classification": "CONTROLLED_PROOF",
+        "contract": "WP10 modal failure path"
+      },
+      "requirement_id": "027-REQ-011",
+      "result_digest": "3a8112f1847bceb9f220d61123cd523cfd4b20eeddce254c9f296e7af640f88c",
+      "runtime_seconds": 0.0013144999975338578,
+      "source_sha": "7d494eaa638ffa88a04ed3e5c51f6036ad1804a1",
+      "timestamp": "2026-09-01T05:36:48.019474+00:00",
+      "tolerance": 0.0,
+      "verdict": "EXPECTED_FAILURE_PASS"
+    }
+  ],
+  "external": {
+    "code_aster_frequencies_hz": [
+      156.44641013597536,
+      186.68614031092773,
+      295.6890053029494,
+      495.9478405804897,
+      1206.593156756112,
+      1770.0382753350839
+    ],
+    "deck": "qualification/0_2_7/external_oracles/wedge6/decks/code_aster/WP10-A-penta6-modal",
+    "deck_digests": {
+      "comm": "0f86f5d14468eb377b0709b029ea63f994a1ba9c4d0537535a103cacacc498b4",
+      "mail": "fc43e0b58cac7b7640c694a8a78448ba03621cdb47a1ea393cfb193c646cc681"
+    },
+    "formulation_compatible": true,
+    "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+    "mode_shape_comparison": "NOT_RUN; PENTA6/QF displacement mapping not required for this frequency-only bounded check",
+    "primary_observable": "frequency_hz",
+    "qf_frequencies_hz": [
+      156.44641013597035,
+      186.68614031093526,
+      295.68900530294786,
+      495.9478405804892,
+      1206.5931567561142,
+      1770.0382753350857
+    ],
+    "relative_errors": [
+      3.1974021362352936e-14,
+      4.034446792093322e-14,
+      5.190495019148105e-15,
+      1.0315414805485854e-15,
+      1.884427026376638e-15,
+      1.027655406604982e-15
+    ],
+    "solver": "Code_Aster 18.1.0 / PENTA6",
+    "state": "PASS_EXTERNAL_CORRELATION_BOUNDED",
+    "tolerance": 0.01,
+    "tolerance_source": "WP10 predeclared same-mesh modal candidate; OWNER_REVIEW_REQUIRED"
+  },
+  "gate": "027-G10",
+  "limitations": [
+    "WEDGE6 modal evidence is separate from static WP07-WP09 evidence and does not promote the public capability.",
+    "No lumped-mass route is qualified.",
+    "The mesh series reports first-frequency evolution; no universal convergence threshold is inferred from four levels.",
+    "Mode-shape MAC is not claimed without an independently mapped external displacement field.",
+    "External modal tolerance remains OWNER_REVIEW_REQUIRED and Code_Aster availability is environment-dependent.",
+    "Newmark, harmonic, nonlinear, J2, TL and contact WEDGE6 routes remain outside WP10."
+  ],
+  "maturity": "EXPERIMENTAL",
+  "policy": {
+    "external_frequency_relative": 0.01,
+    "external_tolerance_status": "OWNER_REVIEW_REQUIRED",
+    "mass_formulation": "consistent",
+    "mass_positive": "all eigenvalues > 0 for admissible full-rank element mass",
+    "production_quadrature": "TRI3_X_GAUSS2",
+    "reference_quadrature": "DUFFY_GAUSS5_X_GAUSS4",
+    "residual_pass": 1e-07,
+    "static_evidence_transfer": false
+  },
+  "replay": {
+    "case_id": "WP10-MODAL-REPLAY",
+    "ok": true,
+    "reason": "PASS"
+  },
+  "schema_version": 1,
+  "scope": {
+    "analysis": "modal",
+    "backend": "common SciPy modal route",
+    "element": "WEDGE6",
+    "mass": "consistent translational mass",
+    "material": "homogeneous_isotropic_small_strain",
+    "modes": "first six requested where available; first-mode evidence is bounded"
+  },
+  "source_sha": "7d494eaa638ffa88a04ed3e5c51f6036ad1804a1",
+  "summary": {
+    "case_count": 16,
+    "expected_failure_pass": 1,
+    "fail": 0,
+    "pass": 15,
+    "skipped_external_unavailable": 0
+  },
+  "work_package": "WP10"
+}

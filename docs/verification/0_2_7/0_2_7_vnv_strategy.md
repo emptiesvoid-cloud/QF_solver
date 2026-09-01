@@ -66,6 +66,12 @@ discrete decisions remain independent.
 - external correlation with formulation/observable compatibility recorded;
 - resource and performance measurements on declared hardware.
 
+WP10 applies these layers independently to WEDGE6 modal evidence. Consistent
+mass, finite-positive eigenpairs, normalized mode diagnostics, residual,
+refinement and replay are separate from the static WP07-WP09 claims. A
+frequency-only Code_Aster comparison is recorded as bounded external evidence;
+it does not transfer static maturity or qualify a mode-shape claim.
+
 ## Scope discipline
 
 The 0.2.7 core proposal does not promote TL HEX8, refined Arc-Length,

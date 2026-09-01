@@ -24,7 +24,9 @@ provenance is `PASS`; WP02 registry control is `PASS`; WP03 descriptor and
 preflight control is `PASS`; WP04 harness control is `PASS`; WP05 external
 oracle preflight is `PASS` for deck validation only; and WP06 mesh-quality
 contract control is `PASS`. WP07 is now `PASS` for the experimental elemental
-kernel; WP08-WP14 remain `NOT_STARTED`.
+kernel; WP08 and WP09 are complete with their recorded bounded scope, WP10 has
+completed its independent experimental modal evidence, WP11 and WP13-WP14
+remain `NOT_STARTED`, and WP12 retains its bounded readiness status.
 
 ## Work packages and STOP/GO criteria
 
@@ -143,7 +145,7 @@ kernel; WP08-WP14 remain `NOT_STARTED`.
 - **Evidence required:** case manifest, analytical checks, mesh levels and
   reproducible smoke.
 - **Files:** WEDGE6 implementation and its focused tests, only after WP07.
-- **Status:** `NOT_STARTED`.
+- **Status:** `PASS_WITH_LIMITATIONS` for independent experimental evidence.
 
 ### WP09 - WEDGE6 robustness and external V&V
 
@@ -159,7 +161,7 @@ kernel; WP08-WP14 remain `NOT_STARTED`.
 - **Files:** WEDGE6 campaign records and external correlation pack.
 - **Status:** `NOT_STARTED`.
 
-### WP10 - WEDGE6 modal qualification
+### WP10 - WEDGE6 modal evidence
 
 - **Objective:** qualify only the modal route that has its own mass, boundary,
   residual, mode-shape and mesh evidence.
@@ -171,7 +173,8 @@ kernel; WP08-WP14 remain `NOT_STARTED`.
 - **Evidence required:** mass policy, eigenpair residuals, mode checks,
   refinement and replay.
 - **Files:** modal contract, cases and evidence manifests.
-- **Status:** `NOT_STARTED`.
+- **Status:** `PASS_WITH_LIMITATIONS` for independent experimental evidence;
+  public modal qualification remains deferred.
 
 ### WP11 - Existing capability maturity and J2 gaps
 

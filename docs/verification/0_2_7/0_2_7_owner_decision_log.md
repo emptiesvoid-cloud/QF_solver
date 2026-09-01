@@ -154,6 +154,25 @@ correlation is claimed. WEDGE6 remains
 `EXPERIMENTAL` and public qualification remains `DEFERRED`; WP10 may proceed
 under its separate modal contract.
 
+## WP10 modal evidence decision
+
+WP10 is `PASS_WITH_LIMITATIONS` for independent technical evidence of the
+WEDGE6 modal route. The consistent translational mass satisfies symmetry,
+positivity, total-mass conservation, density/geometry scaling and distorted-
+prism checks. The common modal route records six finite positive modes with
+residual and mass-orthogonality checks, deterministic replay, a diagnostic
+four-level refinement series and one expected fail-closed zero-density case.
+Code_Aster 18.1.0/PENTA6 provides a same-mesh frequency-only bounded
+correlation under the predeclared `1e-2` candidate; its tolerance remains
+`OWNER_REVIEW_REQUIRED` and no mode-shape MAC is claimed.
+
+This is not a public qualification decision. `COMB-WEDGE6-modal` remains
+`EXPERIMENTAL`, public qualification remains `DEFERRED`, static evidence is
+not transferred automatically, and no lumped-mass, Newmark, harmonic,
+nonlinear, J2, TL or contact WEDGE6 route is included. The decision is tied to
+source SHA `7d494eaa638ffa88a04ed3e5c51f6036ad1804a1` and the controlled WP10
+records.
+
 ## WP12 large-scale readiness checkpoint
 
 WP12 is recorded as `PASS_WITH_LIMITATIONS` for a bounded readiness study of

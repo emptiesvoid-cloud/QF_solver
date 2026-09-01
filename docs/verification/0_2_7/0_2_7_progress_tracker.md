@@ -15,7 +15,9 @@ elemental WEDGE6 kernel and WP08 records its bounded static vertical slice.
 Its public maturity remains `EXPERIMENTAL`; the slice does not imply modal,
 robustness or external-correlation qualification. WP09 records a bounded
 robustness campaign; its external outcomes remain explicitly partial or
-bounded and do not promote WEDGE6.
+bounded and do not promote WEDGE6. WP10 records an independent consistent-
+mass modal evidence lot with bounded Code_Aster frequency correlation; public
+modal maturity remains `EXPERIMENTAL` and qualification is deferred.
 WP12 records bounded large-scale readiness evidence for the existing structured
 TET4 route; its Owner decision remains pending.
 
@@ -32,7 +34,7 @@ TET4 route; its Owner decision remains pending.
 | WP07 | `PASS` | T2 targeted | `69b7d01beb81263fc2b87cfacb83985db10e3a82` | `e2e0de5a8df465d5f2254a954d1b2f5c97181cf0` | technical kernel and elemental V&V PASS; public maturity `EXPERIMENTAL` | WP08 workflow, imports, face loads, reactions and external correlation deferred |
 | WP08 | `PASS` | T2 targeted | `d4d2942a5fc31ffb97ef373a4466c46be34de991` | `8040909d6d65f740e1daf858ce572d250a87b39a` | static workflow PASS; public maturity `EXPERIMENTAL` | WP09 robustness/external and WP10 modal evidence deferred |
 | WP09 | `PASS_WITH_LIMITATIONS` | T1 targeted + external preflight | `2a27291bcc72e5819014fa172e3d056e80a87d43` | `d3cb2cc43886c56471778a91bef965dee869a8d4` | WEDGE6 robustness bounded PASS; one bounded Code_Aster affine correlation; public maturity `EXPERIMENTAL` | no public external qualification; CalculiX formulation mismatch; pressure/refinement/distorted external cases unclaimed |
-| WP10 | `NOT_STARTED` | T0 not run | - | - | - | - |
+| WP10 | `PASS_WITH_LIMITATIONS` | T1/T2 targeted + Code_Aster | `ea356c484ebb2a3c4282f6eb9cbae6b1992eee6e` | `7d494eaa638ffa88a04ed3e5c51f6036ad1804a1` | independent consistent-mass modal evidence; public maturity `EXPERIMENTAL` | four-level frequency refinement is diagnostic; external frequency tolerance remains `OWNER_REVIEW_REQUIRED`; no MAC or modal qualification claim |
 | WP11 | `NOT_STARTED` | T0 not run | - | - | - | - |
 | WP12 | `PASS_WITH_LIMITATIONS` | T1 targeted + bounded scaling | `4971ac4f6c1e5cff2ca48e40ca6db5e8147d0d0a` | `4971ac4f6c1e5cff2ca48e40ca6db5e8147d0d0a` | proposed Owner review | 300k assembly-only; 1M time-limited; SciPy/PETSc backend limits |
 | WP13 | `NOT_STARTED` | T0 not run | - | - | - | - |
@@ -65,7 +67,8 @@ has completed the bounded static vertical slice: Gmsh Prism 6 import,
 declared TRI3/QUAD4 face loads, common static assembly, equilibrium and
 post-processing are evidenced through the V&V v2 path. WEDGE6 remains
 `EXPERIMENTAL`; WP09 has completed its internal robustness evidence with
-external limitations recorded, and WP10 modal evidence is the next gate.
+external limitations recorded, and WP10 has completed its separate modal
+evidence gate.
 
 WP09 records 22 controlled cases: 18 internal passes and four expected
 fail-closed outcomes covering inverted geometry, wrong node order, malformed
@@ -84,3 +87,13 @@ resource use, and the 1M attempt was classified `RESOURCE_LIMITED_TIME`.
 SciPy CG and direct routes retain their explicit configured/resource limits;
 PETSc/SLEPc were unavailable. The evidence is ready for Owner review and does
 not claim universal 1M or multi-million-DOF support.
+
+WP10 records 16 controlled modal cases: 15 `PASS` results and one
+`EXPECTED_FAILURE_PASS` for zero density. The consistent mass is positive,
+conservative and production/reference-quadrature consistent. The common modal
+route passes finite-positive spectrum, residual, mass-orthogonality and replay
+checks on single, multi-element and distorted prisms. Code_Aster 18.1.0/PENTA6
+matches six frequencies on the declared affine same-mesh case within the
+predeclared `1e-2` bounded candidate. The result is frequency-only external
+evidence; WEDGE6 modal maturity remains `EXPERIMENTAL` and public qualification
+is deferred.

@@ -138,10 +138,15 @@
     "observables": ["relative K symmetry residual", "rank spectrum", "rigid-mode residual", "displacement", "reaction", "energy"]
   },
   "mass_vnv": {
-    "status": "FUTURE_WP10_SPECIFICATION_ONLY",
+    "status": "EXECUTED_TARGETED_WP10",
     "formula": "M = rho * integral_reference(N^T*N*det(J) dr ds dt) tensor I3",
     "tests": ["symmetry", "positive mass", "total mass conservation", "rigid translation inertia", "modal sanity", "no spurious mode acceptance"],
-    "criteria_status": "PROPOSED_OWNER_REVIEW",
+    "criteria_status": "CONTROLLED_TARGETED_EVIDENCE",
+    "evidence": [
+      "qualification/0_2_7/vnv_v2/wp10_cases.json",
+      "qualification/0_2_7/vnv_v2/wp10_evidence.json",
+      "docs/verification/0_2_7/0_2_7_wedge6_modal.md"
+    ],
     "static_promotion": "not permitted"
   },
   "external_comparability": {
