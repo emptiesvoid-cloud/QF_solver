@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "work_package": "WP09-R",
+  "gate": "027-G09",
+  "status": "PASS_WITH_LIMITATIONS",
+  "source_sha": "d3cb2cc43886c56471778a91bef965dee869a8d4",
+  "headless_contract": "qualification/0_2_7/external_oracles/wedge6/docker/headless_contract.json",
+  "dockerfile": "qualification/0_2_7/external_oracles/wedge6/docker/Dockerfile",
+  "base_image": "simvia/code_aster:18.1.0",
+  "base_image_digest": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+  "final_image": "qf-solver/code-aster-headless:18.1.0",
+  "final_image_digest": "sha256:df70aa569db65f952cdfd4b1391acac4819d0afa46d0788ee756683b87fac579",
+  "code_aster_version": "18.1.0",
+  "python_version": "3.11.14",
+  "mpi4py_version": "3.1.5",
+  "execution": {
+    "headless": true,
+    "run_aster_no_mpi": true,
+    "launcher_processes": 1,
+    "mpi4py_comm_world_size": 1,
+    "gui_used": false,
+    "host_modified": false
+  },
+  "root_cause": "mpi4py is present in the image's Spack view but absent from the stock run_aster PYTHONPATH; --no-mpi disables an mpiexec relaunch and does not avoid the unconditional mpi4py import.",
+  "remediation": "Derived image exposes the pinned Spack view through PYTHONPATH and LD_LIBRARY_PATH; the export file links the PENTA6 mail file to unit 20.",
+  "deck": {
+    "comm": "qualification/0_2_7/external_oracles/wedge6/decks/code_aster/WP09R-A-penta6-affine.comm",
+    "mail": "qualification/0_2_7/external_oracles/wedge6/decks/code_aster/WP09R-A-penta6-affine.mail",
+    "export": "qualification/0_2_7/external_oracles/wedge6/decks/code_aster/WP09R-A-penta6-affine.export",
+    "case_id": "WP09-CODE_ASTER-AFFINE"
+  },
+  "comparison": {
+    "displacement": {"relative_error": 1.7297506910562649e-15, "tolerance": 1.0e-6},
+    "total_reaction": {"relative_error": 1.031196809500175e-15, "tolerance": 1.0e-6},
+    "strain_energy": {"relative_error": 3.4594251432951206e-16, "tolerance": 1.0e-6},
+    "verdict": "PASS_EXTERNAL_CORRELATION_BOUNDED",
+    "tolerance_approval_state": "OWNER_REVIEW_REQUIRED",
+    "public_wedge6_qualification": "DEFERRED"
+  },
+  "evidence_artifact": "qualification/0_2_7/vnv_v2/wp09r_code_aster_evidence.json",
+  "limitations": [
+    "One affine same-mesh PENTA6 correlation was executed; pressure, refinement and distorted external cases remain unclaimed.",
+    "The affine 1e-6 tolerance is a predeclared WP05 candidate and remains OWNER_REVIEW_REQUIRED.",
+    "The result is external evidence and does not promote WEDGE6 beyond EXPERIMENTAL/DEFERRED."
+  ],
+  "functional_source_changed": false,
+  "existing_fem_numerics_changed": false,
+  "full_regression_run": false,
+  "pushed": false,
+  "artifact_classification": "CONTROLLED_PROOF"
+}
