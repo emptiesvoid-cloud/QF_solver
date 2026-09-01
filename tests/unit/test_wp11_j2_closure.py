@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import importlib.util
+import json
 from pathlib import Path
 
 
@@ -39,3 +40,16 @@ def test_wp11_increments_are_explicitly_characterization_only() -> None:
 
 def test_wp11_does_not_promote_finite_kinematic_j2() -> None:
     assert all("FINITE" not in case["capability_refs"] for case in MODULE.WP11_CASES)
+
+
+def test_wp11_generated_evidence_is_complete_and_replay_digest_is_stable() -> None:
+    evidence_path = ROOT / "qualification/0_2_7/wp11_j2_evidence.json"
+    evidence = json.loads(evidence_path.read_text(encoding="utf-8"))
+    assert evidence["status"] == "PASS_WITH_LIMITATIONS"
+    assert len(evidence["source_sha"]) == 40
+    assert evidence["source_dirty_at_execution"] is False
+    assert evidence["summary"]["unexpected_failures"] == 0
+    assert evidence["results"]["newton"]["status"] == "PASS_CHARACTERIZED"
+    assert evidence["results"]["increment_refinement"]["status"] == "PASS_CHARACTERIZED"
+    assert set(evidence["results"]["families"]) == set(MODULE.ELEMENT_FAMILIES)
+    assert MODULE._digest(MODULE._stable(evidence["results"])) == evidence["result_digest"]

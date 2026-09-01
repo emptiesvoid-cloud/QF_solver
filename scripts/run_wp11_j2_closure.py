@@ -494,7 +494,7 @@ def validate_case_catalog(cases: Any) -> list[str]:
 
 def run(output: Path) -> dict[str, Any]:
     source_sha = _git("rev-parse", "HEAD")
-    source_dirty = bool(_git("status", "--porcelain"))
+    source_dirty = bool(_git("status", "--porcelain", "--untracked-files=no"))
     if not source_sha:
         raise RuntimeError("WP11 evidence requires a committed source SHA.")
     catalog = [deepcopy(case) for case in WP11_CASES]
