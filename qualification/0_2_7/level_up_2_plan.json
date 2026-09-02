@@ -25,11 +25,11 @@
     },
     "level_up_2": {
       "weight_percent": 50,
-      "acquired_percent": 28,
+      "acquired_percent": 32,
       "status": "OPEN",
       "scope": "active large-model performance and solver maturity"
     },
-    "current_global_progress_percent": 78,
+    "current_global_progress_percent": 82,
     "weights_total_percent": 100,
     "accounting_rule": "Level-Up 1 and Level-Up 2 are sequential program blocks; their weights are not added to a second historical percentage view.",
     "legacy_accounting_views_are_non_authoritative": true

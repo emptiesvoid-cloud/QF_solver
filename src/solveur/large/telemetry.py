@@ -1,11 +1,13 @@
-"""Low-overhead, rank-zero telemetry for large-model assembly runs."""
+"""Low-overhead telemetry for large-model assembly runs."""
 
 from __future__ import annotations
 
 import json
 import logging
 import math
+import os
 import time
+from datetime import datetime, timezone
 from collections.abc import Callable
 from pathlib import Path
 from typing import Any
@@ -22,6 +24,7 @@ PHASES = frozenset(
         "RHS",
         "PCSETUP",
         "PC_READY",
+        "PC_READY_GLOBAL",
         "FAILED",
         "COMPLETED",
     }
@@ -208,6 +211,105 @@ class AssemblyTelemetry:
     def _degrade(self, message: str) -> None:
         self.status = "DEGRADED"
         LOGGER.warning("Assembly telemetry degraded: %s", message)
+        if self._handle is not None:
+            try:
+                self._handle.close()
+            except OSError:
+                pass
+            self._handle = None
+
+
+class RankPhaseTelemetry:
+    """Independent, append-only phase markers for each MPI rank.
+
+    The stream intentionally performs no MPI operation.  A failed telemetry write
+    degrades only the marker stream and never changes the numerical route.
+    """
+
+    def __init__(
+        self,
+        path: str | Path | None,
+        *,
+        rank: int,
+        rank_count: int,
+        run_id: str | None = None,
+        source_sha: str | None = None,
+    ) -> None:
+        self.rank = int(rank)
+        self.rank_count = int(rank_count)
+        self.run_id = run_id
+        self.source_sha = source_sha
+        self.path = self._rank_path(path, self.rank)
+        self.status = "DISABLED" if self.path is None else "ENABLED"
+        self._started = time.monotonic()
+        self._handle: Any = None
+        if self.path is not None:
+            try:
+                self.path.parent.mkdir(parents=True, exist_ok=True)
+                self._handle = self.path.open("a", encoding="utf-8", newline="\n")
+            except OSError as exc:
+                self._degrade(f"cannot open rank telemetry log {self.path}: {exc}")
+
+    @staticmethod
+    def _rank_path(path: str | Path | None, rank: int) -> Path | None:
+        if path is None:
+            return None
+        base = Path(path)
+        return base.with_name(f"{base.stem}.rank{int(rank):03d}{base.suffix}")
+
+    def marker(
+        self,
+        name: str,
+        *,
+        phase: str,
+        error: BaseException | None = None,
+        context: dict[str, Any] | None = None,
+    ) -> None:
+        if self._handle is None:
+            return
+        memory = process_memory_snapshot()
+        payload: dict[str, Any] = {
+            "schema_version": 1,
+            "record_type": "lu2_wp04_rank_phase_marker",
+            "event": f"RANK_{self.rank}_{name}",
+            "utc_timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+            "elapsed_s": max(0.0, time.monotonic() - self._started),
+            "rank": self.rank,
+            "rank_count": self.rank_count,
+            "phase": phase,
+            "pid": os.getpid(),
+            "rss_bytes": memory.get("current_rss_bytes"),
+            "run_id": self.run_id,
+            "source_sha": self.source_sha,
+            "telemetry_status": self.status,
+        }
+        if error is not None:
+            payload["exception_type"] = type(error).__name__
+            payload["exception_message"] = str(error)
+        if context:
+            payload["context"] = dict(context)
+        self._emit(payload)
+
+    def close(self) -> None:
+        if self._handle is not None:
+            try:
+                self._handle.flush()
+                self._handle.close()
+            except OSError as exc:
+                self._degrade(f"cannot close rank telemetry log {self.path}: {exc}")
+            finally:
+                self._handle = None
+
+    def _emit(self, payload: dict[str, Any]) -> None:
+        try:
+            self._handle.write(json.dumps(payload, ensure_ascii=False, sort_keys=True, separators=(",", ":")) + "\n")
+            self._handle.flush()
+        except (OSError, TypeError, ValueError) as exc:
+            self._degrade(f"rank telemetry write failed: {exc}")
+
+    def _degrade(self, message: str) -> None:
+        self.status = "DEGRADED"
+        LOGGER.warning("Rank phase telemetry degraded: %s", message)
         if self._handle is not None:
             try:
                 self._handle.close()

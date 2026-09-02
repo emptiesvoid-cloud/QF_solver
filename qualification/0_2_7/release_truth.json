@@ -114,6 +114,7 @@
     "wp04_evidence_index": "qualification/0_2_7/wp04_runtime/wp04_evidence_index.json",
     "wp04_resource_guard_audit": "qualification/0_2_7/wp04_runtime/wp04_resource_guard_audit.json",
     "wp04_forensic_audit": "qualification/0_2_7/wp04_runtime/wp04_forensic_audit.json",
+    "wp04_post_pc_ready_diagnostic": "qualification/0_2_7/wp04_runtime/wp04_post_pc_ready_diagnostic.json",
     "wp04_next_action": "LU2-WP04_SUPERVISED_RETRY",
     "wp06_status": "PASS_WITH_LIMITATIONS",
     "wp06_contract": "qualification/0_2_7/wp06_execution_contract.json",
@@ -126,7 +127,7 @@
     "wp07_state": "qualification/0_2_7/lu2_wp07_state.json",
     "wp07_matrix": "qualification/0_2_7/lu2_wp07_maturity_matrix.json",
     "wp07_owner_decision": "Existing route maturity retained at bounded combination scope; no promotion or demotion.",
-    "wp04_blocker": "The owner-interrupted AIJ assembly did not reach PETSc/GAMG readiness; the 2x time overrun is a budget observation, not proof of a resource limit. No Bronze or 5M solve claim is made.",
+    "wp04_blocker": "The owner-terminated retry reached rank-zero local PC_READY but exposed a proven post-ready collective-order mismatch. The patched frozen route requires replay; the 2x time overrun remains only a budget observation. No Bronze or 5M solve claim is made.",
     "c1_matrix_free_triggered": false,
     "resource_limited_proven": false
   },
