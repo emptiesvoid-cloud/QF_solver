@@ -32,12 +32,24 @@
   "wp03_workload_comparison": "qualification/0_2_7/wp03_runtime/wp03_workload_comparison.json",
   "wp03_preflight": "qualification/0_2_7/wp03_runtime/wp03_preflight.json",
   "wp03_status": "PASS_WITH_LIMITATIONS",
+  "current_work_package": "LU2-WP04",
+  "next_work_package": "C1_MATRIX_FREE_CAPACITY_SPIKE",
+  "wp04_status": "RESOURCE_LIMITED",
+  "wp04_evidence_index": "qualification/0_2_7/wp04_runtime/wp04_evidence_index.json",
+  "wp04_summary": "qualification/0_2_7/wp04_runtime/wp04_summary.json",
+  "wp04_resource_guard_audit": "qualification/0_2_7/wp04_runtime/wp04_resource_guard_audit.json",
+  "wp04_preflight": "qualification/0_2_7/wp04_runtime/wp04_preflight.json",
+  "wp04_bronze_pass": false,
+  "c1_matrix_free_triggered": true,
   "completed_work_packages": ["LU2-WP01", "LU2-WP02", "LU2-WP03"],
   "execution_status": {
     "heavy_benchmark_run": true,
     "full_regression_run": false,
     "numerical_source_changed": false,
-    "pushed": false
+    "pushed": false,
+    "wp04_heavy_benchmark_run": true,
+    "wp04_full_regression_run": false,
+    "wp04_numerical_source_changed": false
   },
   "historical_lu1": {
     "plan": "qualification/0_2_7/level_up_plan.json",

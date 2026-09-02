@@ -371,7 +371,7 @@ in `level_up_2_state.json` and `level_up_2_index.json`.
 | LU2-WP01 | Evidence and Performance Observatory | 4% | MUST | `PASS` |
 | LU2-WP02 | CPU/MPI/GAMG readiness and configuration freeze | 9% | MUST | `PASS_WITH_LIMITATIONS` |
 | LU2-WP03 | 3M Gold Compute | 9% | MUST | `PASS_WITH_LIMITATIONS` |
-| LU2-WP04 | 5M Bronze | 5% | MUST | `NOT_STARTED` |
+| LU2-WP04 | 5M Bronze | 5% | MUST | `RESOURCE_LIMITED` |
 | LU2-WP05 | 5M Silver | 9% | MUST | `NOT_STARTED` |
 | LU2-WP06 | Execution Contract / Recovery / Diagnostics | 4% | MUST | `NOT_STARTED` |
 | LU2-WP07 | Existing Routes Maturity and Targeted V&V | 4% | SHOULD | `NOT_STARTED` |
@@ -392,8 +392,8 @@ host, requires 3M strong-scaling measurements, and treats unavailable 8-rank
 execution as `PASS_WITH_LIMITATIONS`, never as `FULL`.
 
 C1 (matrix-free TET4 capacity), C2 (GPU foundation) and C3 (10M capacity)
-are installed as zero-weight conditional gates and remain dormant. C1 can be
-triggered only by a real 5M capacity problem; C2 requires real GPU evidence;
+are installed as zero-weight conditional gates. C1 is triggered by the
+measured WP04 5M AIJ assembly capacity problem; C2 requires real GPU evidence;
 C3 requires 5M Silver first and can never block LU2. New physics, production
 HEX8R/SRI/B-bar, WEDGE15, PYRAMID5, finite-kinematic J2, TL HEX8, refined
 Arc-Length, new nonlinear couplings, matrix-free multi-family and general
@@ -422,8 +422,14 @@ summarized in
 `docs/verification/0_2_7/0_2_7_wp03_3m_gold_compute.md`. The claim is limited
 to the recorded single-host Docker/PETSc/MPI route; preflight, redistribution,
 communication and I/O are explicitly not measured, and no universal,
-multi-node, GPU, mixed-mesh, nonlinear or restart claim is made. LU2-WP04 is
-now next.
+multi-node, GPU, mixed-mesh, nonlinear or restart claim is made. LU2-WP04 was
+then attempted on a real `5,012,640`-DOF TET4 workload. Two independent model
+constructions and the resource preflight passed, but the frozen AIJ operator
+assembly exceeded the explicit `2x` mean comparable 3M time guard before
+PETSc/GAMG readiness. The attempt is therefore `RESOURCE_LIMITED`, not a
+Bronze pass, and no 5M solve claim is made. The conditional C1 matrix-free
+capacity investigation is triggered; LU2 remains at `72/100` and WP05 is
+blocked pending that scoped investigation.
 
 LU2-WP01 is recorded in `qualification/0_2_7/observatory_contract.json` with
 the controlled fixture `qualification/0_2_7/wp01_observatory_sample.json`.

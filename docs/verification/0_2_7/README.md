@@ -216,5 +216,9 @@ The active successor is Level-Up 2, installed from the qualified snapshot
 `qualification/0_2_7/level_up_2_index.json`. LU1 remains a preserved historical
 record; LU2 is open at `22/50` (`72/100` globally). LU2-WP03 is closed as
 `PASS_WITH_LIMITATIONS`, with `3M_GOLD_COMPUTE = PASS` for the controlled
-structured TET4/PETSc route; LU2-WP04 is next. The closeout is recorded in
-`qualification/0_2_7/lu2_wp03_state.json`.
+structured TET4/PETSc route. LU2-WP04 constructed two matching real 5M
+workload inputs and passed preflight, but its frozen AIJ assembly exceeded the
+explicit 2x mean comparable 3M time guard before PETSc/GAMG readiness. It is
+`RESOURCE_LIMITED`, makes no Bronze or 5M solve claim, and triggers the
+zero-weight C1 matrix-free capacity investigation. The active closeout is
+recorded in `qualification/0_2_7/lu2_wp04_state.json`.

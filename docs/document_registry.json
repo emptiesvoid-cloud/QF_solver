@@ -4710,6 +4710,25 @@
         "tests/unit/test_lu2_wp03.py",
         "tests/unit/test_level_up_2_governance.py"
       ]
+    },
+    {
+      "id": "DOC-027-LU2-WP04-001",
+      "path": "verification/0_2_7/0_2_7_wp04_5m_bronze.md",
+      "title": "0.2.7 LU2-WP04 5M Bronze resource-limited evidence",
+      "status": "controlled_evidence",
+      "requirements": ["027-LU2-REQ-004"],
+      "examples": [
+        "qualification/0_2_7/wp04_execution_contract.json",
+        "qualification/0_2_7/wp04_runtime/wp04_preflight.json",
+        "qualification/0_2_7/wp04_runtime/wp04_resource_guard_audit.json",
+        "qualification/0_2_7/wp04_runtime/wp04_evidence_index.json",
+        "qualification/0_2_7/wp04_runtime/wp04_summary.json",
+        "qualification/0_2_7/lu2_wp04_state.json"
+      ],
+      "tests": [
+        "tests/unit/test_lu2_wp04.py",
+        "tests/unit/test_level_up_2_governance.py"
+      ]
     }
   ]
 }

@@ -347,7 +347,32 @@
           "No universal, multi-node, GPU, mixed-mesh, nonlinear or restart claim."
         ]
       },
-      {"id": "LU2-027-G04", "work_package": "LU2-WP04", "title": "5M Bronze", "status": "NOT_STARTED", "weight_percent": 5, "priority": "MUST"},
+      {
+        "id": "LU2-027-G04",
+        "work_package": "LU2-WP04",
+        "title": "5M Bronze",
+        "status": "RESOURCE_LIMITED",
+        "weight_percent": 5,
+        "priority": "MUST",
+        "evidence": [
+          "qualification/0_2_7/wp04_execution_contract.json",
+          "qualification/0_2_7/wp04_runtime/wp04_preflight.json",
+          "qualification/0_2_7/wp04_runtime/workload_5m_run1_build.json",
+          "qualification/0_2_7/wp04_runtime/workload_5m_run2_build.json",
+          "qualification/0_2_7/wp04_runtime/wp04_resource_guard_audit.json",
+          "qualification/0_2_7/wp04_runtime/wp04_evidence_index.json",
+          "qualification/0_2_7/wp04_runtime/wp04_summary.json",
+          "qualification/0_2_7/lu2_wp04_state.json",
+          "docs/verification/0_2_7/0_2_7_wp04_5m_bronze.md"
+        ],
+        "owner_decision": "RESOURCE_LIMITED: deterministic 5M FEM construction and preflight pass, but frozen AIJ operator assembly exceeded the explicit 2x comparable 3M time guard before PETSc/GAMG readiness; Bronze acceptance is not met and C1 is triggered.",
+        "limitations": [
+          "No PETSc initialization or GAMG readiness claim was produced.",
+          "No 5M solve, Silver, performance or universal capacity claim is made.",
+          "Run 2 execution was not started after the controlled guard; only the independent model construction replay passed."
+        ],
+        "next_action": "C1_MATRIX_FREE_CAPACITY_SPIKE"
+      },
       {"id": "LU2-027-G05", "work_package": "LU2-WP05", "title": "5M Silver", "status": "NOT_STARTED", "weight_percent": 9, "priority": "MUST"},
       {"id": "LU2-027-G06", "work_package": "LU2-WP06", "title": "Execution Contract / Recovery / Diagnostics", "status": "NOT_STARTED", "weight_percent": 4, "priority": "MUST"},
       {"id": "LU2-027-G07", "work_package": "LU2-WP07", "title": "Existing Routes Maturity and Targeted V&V", "status": "NOT_STARTED", "weight_percent": 4, "priority": "SHOULD"},
@@ -355,7 +380,7 @@
       {"id": "LU2-027-G09", "work_package": "LU2-WP09", "title": "Release Truth / Registry / CI / Final Qualification", "status": "NOT_STARTED", "weight_percent": 4, "priority": "MUST"}
     ],
     "conditional_gates": [
-      {"id": "C1", "title": "Matrix-Free TET4 Capacity Spike", "status": "DORMANT", "weight_percent": 0, "non_blocking": true},
+      {"id": "C1", "title": "Matrix-Free TET4 Capacity Spike", "status": "TRIGGERED", "weight_percent": 0, "non_blocking": true, "triggered_by": "LU2-WP04", "reason": "Frozen AIJ operator assembly exceeded the explicit 2x comparable 3M time guard before readiness."},
       {"id": "C2", "title": "GPU Foundation", "status": "DORMANT", "weight_percent": 0, "non_blocking": true},
       {"id": "C3", "title": "10M Scaling / Capacity Exploration", "status": "DORMANT", "weight_percent": 0, "non_blocking": true}
     ],
