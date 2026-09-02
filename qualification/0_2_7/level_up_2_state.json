@@ -168,5 +168,15 @@
     "wp04_changed": false,
     "fem_formulation_changed": false,
     "next_operational_action_preserved": "LU2-WP04_SUPERVISED_RETRY"
+  },
+  "s1_telemetry": {
+    "status": "PASS",
+    "contract": "qualification/0_2_7/wp04_telemetry_contract.json",
+    "state": "qualification/0_2_7/s1_telemetry_state.json",
+    "log_path": "qualification/0_2_7/wp04_runtime/wp04_5m_progress.jsonl",
+    "enabled_explicitly": true,
+    "default_off": true,
+    "wp04_status_unchanged": "USER_INTERRUPTED_INCONCLUSIVE",
+    "ready_for_wp04_retry": true
   }
 }

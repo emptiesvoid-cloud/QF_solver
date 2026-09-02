@@ -4796,6 +4796,21 @@
         "tests/unit/test_wp20_j2_closure.py",
         "tests/unit/test_execution_contract.py"
       ]
+    },
+    {
+      "id": "DOC-027-S1-001",
+      "path": "verification/0_2_7/0_2_7_s1_assembly_telemetry.md",
+      "title": "0.2.7 S1 5M assembly telemetry setup",
+      "status": "controlled_evidence",
+      "requirements": ["027-LU2-REQ-004"],
+      "examples": [
+        "qualification/0_2_7/wp04_telemetry_contract.json",
+        "qualification/0_2_7/s1_telemetry_state.json",
+        "src/solveur/large/telemetry.py"
+      ],
+      "tests": [
+        "tests/unit/test_assembly_telemetry.py"
+      ]
     }
   ]
 }

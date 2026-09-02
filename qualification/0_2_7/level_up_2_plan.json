@@ -166,7 +166,11 @@
         "qualification/0_2_7/wp04_runtime/wp04_summary.json",
         "qualification/0_2_7/wp04_runtime/wp04_forensic_audit.json",
         "qualification/0_2_7/lu2_wp04_state.json",
-        "docs/verification/0_2_7/0_2_7_wp04_5m_bronze.md"
+        "docs/verification/0_2_7/0_2_7_wp04_5m_bronze.md",
+        "qualification/0_2_7/wp04_telemetry_contract.json",
+        "qualification/0_2_7/s1_telemetry_state.json",
+        "docs/verification/0_2_7/0_2_7_s1_assembly_telemetry.md",
+        "tests/unit/test_assembly_telemetry.py"
       ],
       "closeout": {
         "bronze_status": "USER_INTERRUPTED_INCONCLUSIVE",

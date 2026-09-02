@@ -299,3 +299,8 @@ against the registry and reused WP06, WP19 and WP20 evidence; no new external
 campaign, numerical source change or maturity promotion was performed. The
 active accounting is now `32/50` and `82/100` globally. WP04 remains
 `USER_INTERRUPTED_INCONCLUSIVE` and its retry is unchanged.
+
+S1 installs the optional rank-zero JSONL assembly telemetry contract for that
+retry. It records flushed chunk progress, rates, ETA when available, phases,
+resource fields and one-million-element milestones; it does not change the
+WP04 status or global progress.

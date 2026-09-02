@@ -191,7 +191,11 @@
     "wp07_matrix": "qualification/0_2_7/lu2_wp07_maturity_matrix.json",
     "wp07_new_external_runs": false,
     "wp07_promotions": [],
-    "wp07_demotions": []
+    "wp07_demotions": [],
+    "s1_status": "PASS",
+    "s1_telemetry_contract": "qualification/0_2_7/wp04_telemetry_contract.json",
+    "s1_telemetry_state": "qualification/0_2_7/s1_telemetry_state.json",
+    "s1_log_path": "qualification/0_2_7/wp04_runtime/wp04_5m_progress.jsonl"
   },
   "documents": [
     "qualification/0_2_7/level_up_plan.json",
@@ -433,7 +437,13 @@
     "qualification/0_2_7/lu2_wp07_maturity_matrix.json",
     "qualification/0_2_7/lu2_wp07_state.json",
     "docs/verification/0_2_7/0_2_7_lu2_wp07_maturity.md",
-    "tests/unit/test_lu2_wp07_maturity.py"
+    "tests/unit/test_lu2_wp07_maturity.py",
+    "qualification/0_2_7/wp04_telemetry_contract.json",
+    "qualification/0_2_7/s1_telemetry_state.json",
+    "docs/verification/0_2_7/0_2_7_s1_assembly_telemetry.md",
+    "tests/unit/test_assembly_telemetry.py",
+    "src/solveur/large/telemetry.py",
+    "scripts/run_lu2_wp04_bronze.py"
   ],
   "status_rule": "A work package is PASS only when its declared evidence is recorded; WP05 records external deck preflight, the historical WP06 records mesh-quality diagnostics, the historical WP07 records an experimental WEDGE6 elemental kernel without creating a public qualification or universal quality cutoff, LU2-WP06 records additive execution/recovery diagnostics, LU2-WP07 records the existing-route maturity audit without promotion or demotion, WP09 records bounded robustness evidence and explicit external outcomes, WP09-R records a reproducible headless Code_Aster oracle without promoting WEDGE6, WP10 records bounded consistent-mass modal qualification for its declared first-three-mode refinement and same-mesh external MAC scope without transferring static maturity, WP12 records bounded large-scale readiness evidence without creating a universal 1M-DOF claim, WP13 records release truth and a golden baseline, WP14 records a frozen large-scale execution contract without creating a 1M/3M solve claim, WP18 records distinct Bronze/Silver/Gold outcomes without claiming Gold when restart and second-case evidence are absent, WP19 records bounded fail-closed adversarial evidence plus a HEX8 diagnostic without promoting a new formulation or universal robustness claim, and WP20 records Owner closure of the existing bounded small-strain J2 scope without a new numerical claim or maturity promotion."
 }

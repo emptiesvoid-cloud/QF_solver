@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "record_type": "lu2_wp04_assembly_telemetry_contract",
+  "work_package": "LU2-WP04",
+  "gate": "S1",
+  "status": "INSTALLED",
+  "log_path": "qualification/0_2_7/wp04_runtime/wp04_5m_progress.jsonl",
+  "writer": "rank_0_only",
+  "mode": "opt_in",
+  "default": "OFF",
+  "primary_metric": "elements_processed / elements_total",
+  "checkpoint_policy": {
+    "minimum_elements": 100000,
+    "target_fraction": 0.01,
+    "selection": "max(minimum_elements, approximately one percent of the local contiguous partition)"
+  },
+  "fields": [
+    "elements_processed",
+    "elements_total",
+    "progress_fraction",
+    "progress_percent",
+    "elapsed_s",
+    "avg_elements_per_s",
+    "recent_elements_per_s",
+    "eta_avg_s",
+    "eta_recent_s",
+    "million_element_slices",
+    "rss_bytes",
+    "rss_percent_of_limit",
+    "cpu_percent",
+    "swap",
+    "rank_count"
+  ],
+  "phases": ["GENERATING", "ASSEMBLING", "MAT_ASSEMBLY", "RHS", "PCSETUP", "PC_READY", "FAILED", "COMPLETED"],
+  "million_element_slices": "Checkpoint records emit newly reached one-million-element milestones and seconds_per_million_elements.",
+  "global_progress": "MPI ranks maintain local insertion counts; a lightweight integer reduction is performed only at local telemetry thresholds; rank 0 writes the resulting global count.",
+  "failure_policy": "Telemetry write/open errors produce an explicit DEGRADED status and warning; they never fail the FEM calculation.",
+  "append_and_flush": true,
+  "swap": "NOT_MEASURED",
+  "numerical_source_changed": false,
+  "artifact_classification": "CONTROLLED_PROOF"
+}

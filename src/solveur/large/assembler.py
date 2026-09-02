@@ -15,6 +15,7 @@ from solveur.core.assembly.sparse import SparseCsrAccumulator
 from solveur.large.dofs import dof_index
 from solveur.large.materials import create_large_material
 from solveur.large.model import LargeModel
+from solveur.large.telemetry import AssemblyTelemetry
 from solveur.large.tet4_batch import (
     apply_homogeneous_constraints_batch,
     element_dofs_batch,
@@ -118,11 +119,17 @@ class ChunkedScipyAssembler:
 class PetscTET4Assembler:
     """PETSc AIJ or block-BAIJ assembly for large TET4 models."""
 
-    def __init__(self, chunk_size: int = 2048, matrix_format: str = "baij") -> None:
+    def __init__(
+        self,
+        chunk_size: int = 2048,
+        matrix_format: str = "baij",
+        telemetry: AssemblyTelemetry | None = None,
+    ) -> None:
         self.chunk_size = max(1, int(chunk_size))
         self.matrix_format = str(matrix_format).lower()
         if self.matrix_format not in {"aij", "baij"}:
             raise ValueError("PETSc matrix_format must be 'aij' or 'baij'.")
+        self.telemetry = telemetry
 
     def assemble(self, model: LargeModel) -> Any:
         petsc = _petsc()
@@ -140,6 +147,8 @@ class PetscTET4Assembler:
             owned_start, owned_stop = 0, model.local_element_count
         else:
             owned_start, owned_stop = partition_range(model.element_count, comm.getRank(), comm.getSize())
+        if self.telemetry is not None:
+            self.telemetry.phase("MAT_ASSEMBLY")
         for start in range(owned_start, owned_stop, self.chunk_size):
             stop = min(start + self.chunk_size, owned_stop)
             local_nodes = model.tet4[start:stop]
@@ -159,6 +168,8 @@ class PetscTET4Assembler:
                     )
                 else:
                     matrix.setValues(edofs[local], edofs[local], stiffness[local], addv=petsc.InsertMode.ADD_VALUES)
+            if self.telemetry is not None:
+                self.telemetry.checkpoint(stop - owned_start, elements_total=model.element_count)
         matrix.assemble()
         row_start, row_stop = matrix.getOwnershipRange()
         for dof in fixed[(fixed >= row_start) & (fixed < row_stop)]:
