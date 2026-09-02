@@ -5,7 +5,7 @@
   "baseline_sha": "e839373b6aef291a93292186d7553ba5cd12af55",
   "branch": "codex/0.2.7-foundation",
   "status": "WP10_PASS_WITH_LIMITATIONS_QUALIFIED_BOUNDED_WP11_PASS_WITH_LIMITATIONS_OWNER_APPROVED_BOUNDED_WP12_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED_WP16_PASS_OFFICIAL_PETSC_RETRY_WP17_PASS_WITH_LIMITATIONS_PETSC_ROUTE_CLOSED_WP18_PASS_WITH_LIMITATIONS_SILVER_3M_WP19_PASS_WITH_LIMITATIONS_WP20_PASS_WITH_LIMITATIONS",
-  "current_work_package": "WP22",
+  "current_work_package": "LU2-WP01",
   "full_regression_run": false,
   "numerical_source_changed": true,
   "existing_numerical_formulations_changed": false,
@@ -101,7 +101,10 @@
   "level_up": {
     "plan": "qualification/0_2_7/level_up_plan.json",
     "namespace": "027-LEVEL-UP",
-    "status": "CLOSED_ACCEPT_WITH_CONSOLIDATION",
+    "status": "CLOSED",
+    "scope_role": "LEVEL_UP_1_HISTORICAL",
+    "historical_only": true,
+    "active_successor": "qualification/0_2_7/level_up_2_plan.json",
     "current_work_package": "WP22",
     "work_packages": ["WP13", "WP14", "WP15", "WP16", "WP17", "WP18", "WP19", "WP20", "WP21", "WP22"],
     "historical_completed_block_percent": 45,
@@ -112,6 +115,34 @@
     "wp18_mandatory": true,
     "defer_0_2_8_plus": true,
     "numerical_source_changed_by_setup": false,
+    "full_regression_run_by_setup": false
+  },
+  "global_accounting": {
+    "scheme": "two_level_program_100_percent",
+    "level_up_1": {
+      "weight_percent": 50,
+      "acquired_percent": 50,
+      "status": "CLOSED"
+    },
+    "level_up_2": {
+      "weight_percent": 50,
+      "acquired_percent": 0,
+      "status": "OPEN",
+      "plan": "qualification/0_2_7/level_up_2_plan.json",
+      "state": "qualification/0_2_7/level_up_2_state.json"
+    },
+    "current_global_progress_percent": 50,
+    "weights_total_percent": 100,
+    "legacy_accounting_views_are_not_active": true
+  },
+  "level_up_2": {
+    "namespace": "027-LEVEL-UP-2",
+    "status": "OPEN",
+    "current_work_package": "LU2-WP01",
+    "work_packages": ["LU2-WP01", "LU2-WP02", "LU2-WP03", "LU2-WP04", "LU2-WP05", "LU2-WP06", "LU2-WP07", "LU2-WP08", "LU2-WP09"],
+    "conditional_gates": ["C1", "C2", "C3"],
+    "numerical_source_changed_by_setup": false,
+    "heavy_benchmark_run_by_setup": false,
     "full_regression_run_by_setup": false
   }
 }

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "record_type": "level_up_2_index",
+  "namespace": "027-LEVEL-UP-2",
+  "release": "0.2.7a0",
+  "status": "OPEN",
+  "theme": "Reproducible Large-Model Performance and Solver Maturity",
+  "source_of_truth": "qualification/0_2_7/level_up_2_plan.json",
+  "state": "qualification/0_2_7/level_up_2_state.json",
+  "pre_lu2_qualified_baseline": "8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3",
+  "active_branch": "codex/0.2.7-foundation",
+  "global_progress": {
+    "level_up_1": {"acquired_percent": 50, "status": "CLOSED"},
+    "level_up_2": {"acquired_percent": 0, "status": "OPEN"},
+    "current_percent": 50,
+    "total_percent": 100
+  },
+  "work_package_count": 9,
+  "conditional_gate_count": 3,
+  "weights_sum_percent": 50,
+  "execution_status": {
+    "heavy_benchmark_run": false,
+    "full_regression_run": false,
+    "numerical_source_changed": false,
+    "pushed": false
+  },
+  "historical_lu1": {
+    "plan": "qualification/0_2_7/level_up_plan.json",
+    "preserved": true,
+    "active": false
+  },
+  "release_decision": {
+    "after": "LU2-WP09",
+    "options": ["RELEASE", "NEW_LEVEL_UP"],
+    "automatic": false
+  }
+}

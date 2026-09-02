@@ -196,6 +196,107 @@
     {"id": "027-LU-REQ-021", "work_package": "WP21", "gate": "LUP-027-G21", "priority": "SHOULD", "status": "PASS_WITH_LIMITATIONS", "acceptance": "Architecture, API and registry cleanup is surgical and preserves legacy routes and public imports.", "owner_policy": "LEVEL_UP_OWNER_REVIEW", "evidence": ["qualification/0_2_7/wp21_state.json", "qualification/0_2_7/wp21_final_release_truth.json", "tests/unit/test_wp21_release.py"]},
     {"id": "027-LU-REQ-022", "work_package": "WP22", "gate": "LUP-027-G22", "priority": "MUST", "status": "PLANNED", "acceptance": "Final release checks reconcile claims, evidence, registry, package and regression results at a declared checkpoint.", "owner_policy": "LEVEL_UP_RELEASE_POLICY"}
   ],
+  "level_up_2_requirements": [
+    {
+      "id": "027-LU2-REQ-001",
+      "work_package": "LU2-WP01",
+      "gate": "LU2-027-G01",
+      "priority": "MUST",
+      "status": "PLANNED",
+      "requirement": "Performance evidence shall be phase-separated, deterministic and provenance-backed.",
+      "acceptance": "Setup, operator, preconditioner, solve, communication, post and resource observations use declared units, source/configuration/input/output digests and stable field names.",
+      "verification": ["observatory schema", "targeted validator tests"],
+      "owner_policy": "LEVEL_UP_2_OWNER_REVIEW"
+    },
+    {
+      "id": "027-LU2-REQ-002",
+      "work_package": "LU2-WP02",
+      "gate": "LU2-027-G02",
+      "priority": "MUST",
+      "status": "PLANNED",
+      "requirement": "The CPU/MPI/PETSc/KSP/PC configuration and resource budgets shall be frozen before large execution.",
+      "acceptance": "Backend selection is explicit, unavailable backends fail closed, and no post-result retuning is accepted.",
+      "verification": ["configuration manifest", "backend preflight"],
+      "owner_policy": "LEVEL_UP_2_OWNER_REVIEW"
+    },
+    {
+      "id": "027-LU2-REQ-003",
+      "work_package": "LU2-WP03",
+      "gate": "LU2-027-G03",
+      "priority": "MUST",
+      "status": "PLANNED",
+      "requirement": "3M Gold shall add a materially distinct 3M FEM workload to the existing Silver evidence.",
+      "acceptance": "The second workload passes two replays with residual, equilibrium, energy, finite-output, resource and provenance checks under the frozen route; the claim remains bounded.",
+      "verification": ["3M Gold run records", "replay comparison"],
+      "owner_policy": "LEVEL_UP_2_OWNER_REVIEW"
+    },
+    {
+      "id": "027-LU2-REQ-004",
+      "work_package": "LU2-WP04",
+      "gate": "LU2-027-G04",
+      "priority": "MUST",
+      "status": "PLANNED",
+      "requirement": "5M Bronze shall demonstrate real FEM construction and distributed operator/preconditioner readiness without a solve claim.",
+      "acceptance": "Two deterministic constructions agree on DOF, partition, ownership and digest and remain under predeclared setup/resource budgets.",
+      "verification": ["Bronze manifests", "resource envelope"],
+      "owner_policy": "LEVEL_UP_2_OWNER_REVIEW"
+    },
+    {
+      "id": "027-LU2-REQ-005",
+      "work_package": "LU2-WP05",
+      "gate": "LU2-027-G05",
+      "priority": "MUST",
+      "status": "PLANNED",
+      "requirement": "5M Silver shall be a complete, reproducible solve under a frozen MPI configuration.",
+      "acceptance": "Bronze passes first; two solve replays satisfy residual, equilibrium, energy, finite-output, RAM and no-retuning criteria.",
+      "verification": ["5M solve records", "replay comparison"],
+      "owner_policy": "LEVEL_UP_2_OWNER_REVIEW"
+    },
+    {
+      "id": "027-LU2-REQ-006",
+      "work_package": "LU2-WP06",
+      "gate": "LU2-027-G06",
+      "priority": "MUST",
+      "status": "PLANNED",
+      "requirement": "Execution recovery, retries and diagnostics shall be explicit and fail closed.",
+      "acceptance": "Timeout, memory, convergence, backend and recovery outcomes cannot silently become PASS, and state integrity is proven where mutable state exists.",
+      "verification": ["failure fixtures", "recovery tests"],
+      "owner_policy": "LEVEL_UP_2_OWNER_REVIEW"
+    },
+    {
+      "id": "027-LU2-REQ-007",
+      "work_package": "LU2-WP07",
+      "gate": "LU2-027-G07",
+      "priority": "SHOULD",
+      "status": "PLANNED",
+      "requirement": "Only existing route gaps capable of changing a public maturity decision shall receive targeted V&V.",
+      "acceptance": "Evidence is selected before execution and qualification remains non-transitive across elements, analyses, materials and backends.",
+      "verification": ["gap selection", "targeted V&V", "Owner review"],
+      "owner_policy": "LEVEL_UP_2_OWNER_REVIEW"
+    },
+    {
+      "id": "027-LU2-REQ-008",
+      "work_package": "LU2-WP08",
+      "gate": "LU2-027-G08",
+      "priority": "SHOULD",
+      "status": "PLANNED",
+      "requirement": "Mixed meshes and candidate new-solid or HEX8 routes shall receive explicit bounded decisions before implementation.",
+      "acceptance": "Deferred and experimental routes are not exposed as qualified capabilities and feature decisions are supported by risk/evidence records.",
+      "verification": ["decision matrix", "risk review"],
+      "owner_policy": "LEVEL_UP_2_OWNER_REVIEW"
+    },
+    {
+      "id": "027-LU2-REQ-009",
+      "work_package": "LU2-WP09",
+      "gate": "LU2-027-G09",
+      "priority": "MUST",
+      "status": "PLANNED",
+      "requirement": "The final LU2 decision shall reconcile claims, registry, evidence, CI, package and provenance.",
+      "acceptance": "A declared Owner checkpoint chooses RELEASE or NEW_LEVEL_UP; no release is automatic and no unclassified blocker remains.",
+      "verification": ["final registry audit", "full regression where required", "Owner closeout"],
+      "owner_policy": "LEVEL_UP_2_RELEASE_POLICY"
+    }
+  ],
   "policy": {
     "new_numeric_thresholds": "PROPOSED_OWNER_REVIEW",
     "no_threshold_is_invented_from_future_results": true,

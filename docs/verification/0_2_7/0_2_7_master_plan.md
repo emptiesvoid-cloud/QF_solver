@@ -257,7 +257,7 @@ static/import/load/post workflow before any user-facing WEDGE6 claim. Stretch
 work is optional and cannot delay a bounded core unless it changes a public
 claim.
 
-## Official Level-Up extension
+## Level-Up 1 historical extension
 
 The active official theme is **Reproducible Large-Model Solving and Numerical
 Trust**. The portfolio decision is `CLOSED / ACCEPT_WITH_CONSOLIDATION` for
@@ -350,3 +350,55 @@ structural external campaign or post-result tolerance retuning is claimed.
 Finite-kinematic J2 remains experimental/not qualified. See
 `qualification/0_2_7/wp20_state.json` and
 `docs/verification/0_2_7/0_2_7_wp20_j2_closeout.md`.
+
+## Level-Up 2: active large-model program
+
+The previous Level-Up portfolio is now treated as **Level-Up 1**: its
+qualification evidence is preserved and its program block is `50/50 CLOSED`.
+The active namespace is **`027-LEVEL-UP-2`**, starting from the qualified
+baseline `8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3`. LU2 is open at `0/50`, so
+the current global progress is `50/100`; these values replace the older
+non-additive accounting view for active planning without rewriting any
+historical result.
+
+The machine-readable source of truth is
+`qualification/0_2_7/level_up_2_plan.json`, with state and navigation records
+in `level_up_2_state.json` and `level_up_2_index.json`.
+
+| LU2 work package | Focus | Weight | Priority | Initial status |
+| --- | --- | ---: | --- | --- |
+| LU2-WP01 | Evidence and Performance Observatory | 4% | MUST | `NOT_STARTED` |
+| LU2-WP02 | CPU/MPI/GAMG readiness and configuration freeze | 9% | MUST | `NOT_STARTED` |
+| LU2-WP03 | 3M Gold Compute | 9% | MUST | `NOT_STARTED` |
+| LU2-WP04 | 5M Bronze | 5% | MUST | `NOT_STARTED` |
+| LU2-WP05 | 5M Silver | 9% | MUST | `NOT_STARTED` |
+| LU2-WP06 | Execution Contract / Recovery / Diagnostics | 4% | MUST | `NOT_STARTED` |
+| LU2-WP07 | Existing Routes Maturity and Targeted V&V | 4% | SHOULD | `NOT_STARTED` |
+| LU2-WP08 | Mixed / WEDGE15 / PYRAMID5 / HEX8 Decisions | 2% | SHOULD | `NOT_STARTED` |
+| LU2-WP09 | Release Truth / Registry / CI / Final Qualification | 4% | MUST | `NOT_STARTED` |
+
+The 3M Gold contract retains the existing Silver case and requires a
+materially distinct second 3M FEM workload with two replays. The claim is
+limited to structured TET4 linear-static execution on the recorded machine
+and MPI configuration; restart is not required for Gold Compute. The 5M
+Bronze contract requires two deterministic constructions, matching DOF,
+partition, ownership and digests, distributed operator construction and
+preconditioner setup under declared resource budgets, but creates no solve
+claim. The 5M Silver contract requires a complete two-replay solve with the
+frozen MPI configuration, residual/equilibrium/energy/finiteness checks and
+no post-result retuning. The MPI V2 contract targets 2, 4 and 8 ranks on one
+host, requires 3M strong-scaling measurements, and treats unavailable 8-rank
+execution as `PASS_WITH_LIMITATIONS`, never as `FULL`.
+
+C1 (matrix-free TET4 capacity), C2 (GPU foundation) and C3 (10M capacity)
+are installed as zero-weight conditional gates and remain dormant. C1 can be
+triggered only by a real 5M capacity problem; C2 requires real GPU evidence;
+C3 requires 5M Silver first and can never block LU2. New physics, production
+HEX8R/SRI/B-bar, WEDGE15, PYRAMID5, finite-kinematic J2, TL HEX8, refined
+Arc-Length, new nonlinear couplings, matrix-free multi-family and general
+Newmark/harmonic qualification remain deferred to 0.2.8+.
+
+`DECISION_GATE_1 = CONTINUE_TO_LEVEL_UP_2` is closed. After LU2-WP09,
+`FINAL_DECISION_GATE` permits only an explicit `RELEASE` or `NEW_LEVEL_UP`
+decision; there is no automatic release. Setup itself runs no heavy benchmark,
+changes no numerical source and performs no publication action.

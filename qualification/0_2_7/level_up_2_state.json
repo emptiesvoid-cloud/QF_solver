@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "record_type": "level_up_2_state",
+  "namespace": "027-LEVEL-UP-2",
+  "plan": "qualification/0_2_7/level_up_2_plan.json",
+  "release": "0.2.7a0",
+  "theme": "Reproducible Large-Model Performance and Solver Maturity",
+  "status": "OPEN",
+  "setup_status": "PASS",
+  "source_sha": "8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3",
+  "branch": "codex/0.2.7-foundation",
+  "pre_lu2_qualified_baseline": "8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3",
+  "current_work_package": "LU2-WP01",
+  "global_accounting": {
+    "level_up_1": "50/50 CLOSED",
+    "level_up_2": "0/50 OPEN",
+    "current_global_progress": "50/100",
+    "weights_total_percent": 100
+  },
+  "work_packages": [
+    {"id": "LU2-WP01", "status": "NOT_STARTED", "weight_percent": 4, "ready": true},
+    {"id": "LU2-WP02", "status": "NOT_STARTED", "weight_percent": 9, "ready": false},
+    {"id": "LU2-WP03", "status": "NOT_STARTED", "weight_percent": 9, "ready": false},
+    {"id": "LU2-WP04", "status": "NOT_STARTED", "weight_percent": 5, "ready": false},
+    {"id": "LU2-WP05", "status": "NOT_STARTED", "weight_percent": 9, "ready": false},
+    {"id": "LU2-WP06", "status": "NOT_STARTED", "weight_percent": 4, "ready": false},
+    {"id": "LU2-WP07", "status": "NOT_STARTED", "weight_percent": 4, "ready": false},
+    {"id": "LU2-WP08", "status": "NOT_STARTED", "weight_percent": 2, "ready": false},
+    {"id": "LU2-WP09", "status": "NOT_STARTED", "weight_percent": 4, "ready": false}
+  ],
+  "conditional_gates": [
+    {"id": "C1", "status": "DORMANT", "weight_percent": 0, "non_blocking": true},
+    {"id": "C2", "status": "DORMANT", "weight_percent": 0, "non_blocking": true},
+    {"id": "C3", "status": "DORMANT", "weight_percent": 0, "non_blocking": true}
+  ],
+  "decision_gates": {
+    "DECISION_GATE_1": "CONTINUE_TO_LEVEL_UP_2",
+    "FINAL_DECISION_GATE": "INSTALLED"
+  },
+  "registry_guard": {
+    "source_of_truth": "qualification/0_2_7/capability_registry_v2.json",
+    "public_anchor_count": 33,
+    "public_combination_count": 46,
+    "record_count": 79,
+    "maturity_promotion": false
+  },
+  "anti_forgetting": {
+    "historical_lu1_preserved": true,
+    "required_active_work_package_count": 9,
+    "conditional_gate_count": 3,
+    "deferred_scope_explicit": true
+  },
+  "execution": {
+    "heavy_benchmark_run": false,
+    "full_regression_run": false,
+    "targeted_tests": "setup validation only",
+    "numerical_source_changed": false,
+    "existing_evidence_rewritten": false,
+    "maturity_promoted": false,
+    "pushed": false,
+    "tag_changed": false,
+    "pypi_published": false
+  },
+  "readiness": {
+    "ready_for_lu2_wp01": true,
+    "ready_for_lu2_wp02": false,
+    "ready_for_heavy_benchmark": false,
+    "blockers": []
+  }
+}

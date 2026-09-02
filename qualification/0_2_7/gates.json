@@ -282,6 +282,9 @@
   "level_up": {
     "id": "027-LEVEL-UP",
     "status": "CLOSED",
+    "scope_role": "LEVEL_UP_1_HISTORICAL",
+    "historical_only": true,
+    "active_successor": "qualification/0_2_7/level_up_2_plan.json",
     "decision": "ACCEPT_WITH_CONSOLIDATION",
     "plan": "qualification/0_2_7/level_up_plan.json",
     "historical_wp01_wp12_preserved": true,
@@ -301,6 +304,38 @@
       {"id": "LUP-027-G21", "work_package": "WP21", "status": "PASS_WITH_LIMITATIONS", "evidence": ["qualification/0_2_7/wp21_state.json", "qualification/0_2_7/wp21_final_release_truth.json", "qualification/0_2_7/wp21_public_document_audit.json", "qualification/0_2_7/golden/wp21_replay_evidence.json", "tests/unit/test_wp21_release.py"], "owner_decision": "Active 0.2.7 package identity, public audit, compatibility and bounded evidence truth are aligned; broader architecture redesign and WP22 release action remain separate."},
       {"id": "LUP-027-G22", "work_package": "WP22", "status": "PLANNED"}
     ]
+  },
+  "level_up_2_schema_version": 1,
+  "level_up_2": {
+    "id": "027-LEVEL-UP-2",
+    "namespace": "027-LEVEL-UP-2",
+    "status": "OPEN",
+    "theme": "Reproducible Large-Model Performance and Solver Maturity",
+    "pre_lu2_qualified_baseline": "8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3",
+    "global_accounting": {
+      "level_up_1": {"weight_percent": 50, "acquired_percent": 50, "status": "CLOSED"},
+      "level_up_2": {"weight_percent": 50, "acquired_percent": 0, "status": "OPEN"},
+      "current_global_progress_percent": 50,
+      "weights_total_percent": 100
+    },
+    "gates": [
+      {"id": "LU2-027-G01", "work_package": "LU2-WP01", "title": "Evidence and Performance Observatory", "status": "NOT_STARTED", "weight_percent": 4, "priority": "MUST"},
+      {"id": "LU2-027-G02", "work_package": "LU2-WP02", "title": "CPU/MPI/GAMG readiness and configuration freeze", "status": "NOT_STARTED", "weight_percent": 9, "priority": "MUST"},
+      {"id": "LU2-027-G03", "work_package": "LU2-WP03", "title": "3M Gold Compute", "status": "NOT_STARTED", "weight_percent": 9, "priority": "MUST"},
+      {"id": "LU2-027-G04", "work_package": "LU2-WP04", "title": "5M Bronze", "status": "NOT_STARTED", "weight_percent": 5, "priority": "MUST"},
+      {"id": "LU2-027-G05", "work_package": "LU2-WP05", "title": "5M Silver", "status": "NOT_STARTED", "weight_percent": 9, "priority": "MUST"},
+      {"id": "LU2-027-G06", "work_package": "LU2-WP06", "title": "Execution Contract / Recovery / Diagnostics", "status": "NOT_STARTED", "weight_percent": 4, "priority": "MUST"},
+      {"id": "LU2-027-G07", "work_package": "LU2-WP07", "title": "Existing Routes Maturity and Targeted V&V", "status": "NOT_STARTED", "weight_percent": 4, "priority": "SHOULD"},
+      {"id": "LU2-027-G08", "work_package": "LU2-WP08", "title": "Mixed / WEDGE15 / PYRAMID5 / HEX8 Decisions", "status": "NOT_STARTED", "weight_percent": 2, "priority": "SHOULD"},
+      {"id": "LU2-027-G09", "work_package": "LU2-WP09", "title": "Release Truth / Registry / CI / Final Qualification", "status": "NOT_STARTED", "weight_percent": 4, "priority": "MUST"}
+    ],
+    "conditional_gates": [
+      {"id": "C1", "title": "Matrix-Free TET4 Capacity Spike", "status": "DORMANT", "weight_percent": 0, "non_blocking": true},
+      {"id": "C2", "title": "GPU Foundation", "status": "DORMANT", "weight_percent": 0, "non_blocking": true},
+      {"id": "C3", "title": "10M Scaling / Capacity Exploration", "status": "DORMANT", "weight_percent": 0, "non_blocking": true}
+    ],
+    "plan": "qualification/0_2_7/level_up_2_plan.json",
+    "state": "qualification/0_2_7/level_up_2_state.json"
   },
   "policy": {
     "planned_is_not_evidence": true,

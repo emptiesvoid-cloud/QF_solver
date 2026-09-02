@@ -1,0 +1,393 @@
+{
+  "schema_version": 1,
+  "record_type": "level_up_2_governance_plan",
+  "plan_id": "QF-027-LEVEL-UP-2",
+  "namespace": "027-LEVEL-UP-2",
+  "release": "0.2.7a0",
+  "theme": "Reproducible Large-Model Performance and Solver Maturity",
+  "status": "OPEN",
+  "setup_status": "PASS",
+  "source_snapshot": "8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3",
+  "source_branch": "codex/0.2.7-foundation",
+  "pre_lu2_qualified_baseline": {
+    "sha": "8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3",
+    "role": "qualified 0.2.7 baseline before Level-Up 2 setup",
+    "level_up_1_status": "CLOSED",
+    "historical_evidence_immutable": true
+  },
+  "global_accounting": {
+    "scheme": "two_level_program_100_percent",
+    "level_up_1": {
+      "weight_percent": 50,
+      "acquired_percent": 50,
+      "status": "CLOSED",
+      "scope": "historical Level-Up 1 qualification and consolidation"
+    },
+    "level_up_2": {
+      "weight_percent": 50,
+      "acquired_percent": 0,
+      "status": "OPEN",
+      "scope": "active large-model performance and solver maturity"
+    },
+    "current_global_progress_percent": 50,
+    "weights_total_percent": 100,
+    "accounting_rule": "Level-Up 1 and Level-Up 2 are sequential program blocks; their weights are not added to a second historical percentage view.",
+    "legacy_accounting_views_are_non_authoritative": true
+  },
+  "work_packages": [
+    {
+      "id": "LU2-WP01",
+      "title": "Evidence and Performance Observatory",
+      "weight_percent": 4,
+      "priority": "MUST",
+      "status": "NOT_STARTED",
+      "objective": "Install a deterministic performance evidence model for setup, operator, preconditioner, solve, communication, post-processing and resource metrics.",
+      "pass_criteria": [
+        "Each run records source/config/input/output digests and the declared environment.",
+        "Timing, iterations, matvecs, RSS and phase boundaries use stable field names and units.",
+        "Existing evidence is referenced without being rewritten or relabeled as current."
+      ],
+      "stop_conditions": [
+        "missing provenance for a performance claim",
+        "derived metric presented without its raw measurements",
+        "historical evidence overwritten"
+      ],
+      "dependencies": ["PRE-LU2-BASELINE"],
+      "evidence_required": ["observatory schema", "validator tests", "sample controlled record"],
+      "test_tier": "T1"
+    },
+    {
+      "id": "LU2-WP02",
+      "title": "CPU/MPI/GAMG readiness and configuration freeze",
+      "weight_percent": 9,
+      "priority": "MUST",
+      "status": "NOT_STARTED",
+      "objective": "Freeze the reproducible CPU, MPI, PETSc, KSP, preconditioner and resource configuration before large runs.",
+      "pass_criteria": [
+        "CPU, RAM, OS, Python, NumPy, SciPy, PETSc, MPI, ranks, threads, KSP and PC are explicit.",
+        "The selected backend fails closed when unavailable and never falls back silently.",
+        "The frozen configuration and budgets are recorded before WP03-WP05 execution."
+      ],
+      "stop_conditions": [
+        "unversioned backend or dependency",
+        "silent backend fallback",
+        "post-result configuration or tolerance retuning"
+      ],
+      "dependencies": ["LU2-WP01"],
+      "evidence_required": ["configuration contract", "environment manifest", "preflight tests"],
+      "test_tier": "T1"
+    },
+    {
+      "id": "LU2-WP03",
+      "title": "3M Gold Compute",
+      "weight_percent": 9,
+      "priority": "MUST",
+      "status": "NOT_STARTED",
+      "objective": "Extend the existing 3M Silver evidence with a materially distinct workload under the frozen route.",
+      "pass_criteria": [
+        "The existing 3M Silver case remains the controlled reference.",
+        "A second materially distinct 3M FEM workload completes with two replays.",
+        "Residual, equilibrium, energy, finiteness, time, RAM, provenance and configuration pass.",
+        "The claim is bounded to structured TET4 linear-static FEM and the recorded machine/MPI configuration."
+      ],
+      "stop_conditions": [
+        "synthetic or operator-only size claim",
+        "missing second workload",
+        "resource-limited run mislabeled as Gold",
+        "unexplained replay drift"
+      ],
+      "dependencies": ["LU2-WP02"],
+      "evidence_required": ["3M Gold run records", "two replay comparison", "bounded claim review"],
+      "test_tier": "T2"
+    },
+    {
+      "id": "LU2-WP04",
+      "title": "5M Bronze",
+      "weight_percent": 5,
+      "priority": "MUST",
+      "status": "NOT_STARTED",
+      "objective": "Construct and preflight a real 5M-DOF FEM workload without claiming a converged solve.",
+      "pass_criteria": [
+        "The model, topology, true DOF target and construction procedure are predeclared.",
+        "Two deterministic constructions produce identical DOF, partition, ownership and input digests.",
+        "The distributed operator and initial preconditioner are built under the Owner-approved RAM, disk and setup budgets.",
+        "Bronze is recorded as capacity/preflight evidence only, never as a solve claim."
+      ],
+      "stop_conditions": [
+        "non-FEM or synthetic operator",
+        "construction mismatch",
+        "budget breach without explicit resource-limited verdict"
+      ],
+      "dependencies": ["LU2-WP02"],
+      "evidence_required": ["5M Bronze manifest", "two construction records", "resource envelope"],
+      "test_tier": "T2"
+    },
+    {
+      "id": "LU2-WP05",
+      "title": "5M Silver",
+      "weight_percent": 9,
+      "priority": "MUST",
+      "status": "NOT_STARTED",
+      "objective": "Attempt and, if successful, qualify a full reproducible 5M-DOF solve under the frozen MPI contract.",
+      "pass_criteria": [
+        "5M Bronze passes first.",
+        "The complete FEM solve converges twice with the frozen MPI/backend configuration.",
+        "Residual, equilibrium, energy, finite outputs, iterations, time and per-rank RSS pass their predeclared criteria.",
+        "No acceptance criterion or configuration is retuned after the first result."
+      ],
+      "stop_conditions": [
+        "timeout or resource-limited result",
+        "missing replay",
+        "post-result retuning",
+        "partial solve presented as Silver"
+      ],
+      "dependencies": ["LU2-WP04"],
+      "evidence_required": ["two 5M solve records", "replay comparison", "resource and residual evidence"],
+      "test_tier": "T2"
+    },
+    {
+      "id": "LU2-WP06",
+      "title": "Execution Contract, Recovery and Diagnostics",
+      "weight_percent": 4,
+      "priority": "MUST",
+      "status": "NOT_STARTED",
+      "objective": "Make large-run failures, retries, recovery and diagnostic states explicit and fail-closed.",
+      "pass_criteria": [
+        "Setup, solve, communication, I/O and post phases have deterministic outcome classes.",
+        "Retry/recovery state preserves input, ownership and checkpoint digests where applicable.",
+        "Timeout, memory, convergence and backend failures cannot become PASS silently."
+      ],
+      "stop_conditions": [
+        "state contamination after retry",
+        "ambiguous failure classification",
+        "silent fallback or partial-result success"
+      ],
+      "dependencies": ["LU2-WP01", "LU2-WP02", "LU2-WP04"],
+      "evidence_required": ["execution contract", "failure fixtures", "recovery/replay tests"],
+      "test_tier": "T1/T2"
+    },
+    {
+      "id": "LU2-WP07",
+      "title": "Existing Routes Maturity and Targeted V&V",
+      "weight_percent": 4,
+      "priority": "SHOULD",
+      "status": "NOT_STARTED",
+      "objective": "Close only existing route gaps that can change a public maturity decision, without adding physics.",
+      "pass_criteria": [
+        "Selected routes have predeclared, machine-readable targeted evidence.",
+        "Qualification remains non-transitive across element, solver, analysis and material routes.",
+        "Existing limitations and NOT_QUALIFIED/EXPERIMENTAL states remain visible."
+      ],
+      "stop_conditions": [
+        "new physics enters LU2 implicitly",
+        "qualification inferred from an unrelated route",
+        "evidence added without a maturity decision boundary"
+      ],
+      "dependencies": ["LU2-WP01", "LU2-WP06"],
+      "evidence_required": ["gap selection", "targeted V&V records", "Owner maturity review"],
+      "test_tier": "T1/T2"
+    },
+    {
+      "id": "LU2-WP08",
+      "title": "Mixed, WEDGE15, PYRAMID5 and HEX8 Decisions",
+      "weight_percent": 2,
+      "priority": "SHOULD",
+      "status": "NOT_STARTED",
+      "objective": "Make explicit go/defer decisions from evidence rather than introducing new elements or formulations by default.",
+      "pass_criteria": [
+        "Mixed TET/WEDGE/HEX, WEDGE15, PYRAMID5 and HEX8R/SRI/B-bar receive explicit decision records.",
+        "Deferred or experimental routes are not exposed as qualified capabilities.",
+        "Any implementation proposal is separated from the LU2 qualification claim."
+      ],
+      "stop_conditions": [
+        "feature-count driven scope expansion",
+        "placeholder treated as implementation",
+        "low-order diagnostic treated as a formulation promotion"
+      ],
+      "dependencies": ["LU2-WP07"],
+      "evidence_required": ["decision matrix", "risk review", "defer records"],
+      "test_tier": "T1"
+    },
+    {
+      "id": "LU2-WP09",
+      "title": "Release Truth, Registry, CI and Final Qualification",
+      "weight_percent": 4,
+      "priority": "MUST",
+      "status": "NOT_STARTED",
+      "objective": "Reconcile the LU2 evidence, claims, registry, package, CI and final Owner decision.",
+      "pass_criteria": [
+        "All mandatory LU2 records have source/configuration/result provenance.",
+        "The public registry and claims match the demonstrated bounded scope.",
+        "The final regression/release/Owner review is executed at a declared checkpoint.",
+        "The final decision is explicitly RELEASE or NEW_LEVEL_UP; no release is automatic."
+      ],
+      "stop_conditions": [
+        "unclassified failure",
+        "claim beyond evidence",
+        "registry/provenance/package drift",
+        "dirty release state"
+      ],
+      "dependencies": ["LU2-WP01", "LU2-WP02", "LU2-WP03", "LU2-WP04", "LU2-WP05", "LU2-WP06", "LU2-WP07", "LU2-WP08"],
+      "evidence_required": ["final evidence index", "full regression where required", "Owner closeout"],
+      "test_tier": "T2/T3"
+    }
+  ],
+  "conditional_gates": [
+    {
+      "id": "C1",
+      "title": "Matrix-Free TET4 Capacity Spike",
+      "weight_percent": 0,
+      "priority": "CONDITIONAL",
+      "status": "DORMANT",
+      "trigger": "Only if 5M exposes a real memory, capacity or performance problem.",
+      "scope": "TET4 / linear static / CPU / experimental",
+      "pass_criteria": ["trigger evidence is recorded", "scope remains bounded", "no universal capacity claim"],
+      "non_blocking": true
+    },
+    {
+      "id": "C2",
+      "title": "GPU Foundation",
+      "weight_percent": 0,
+      "priority": "SHOULD",
+      "status": "DORMANT",
+      "trigger": "Explicit future decision and suitable hardware or CI availability.",
+      "scope": "capability detection, backend contract and PETSc CUDA/HIP path only",
+      "pass_criteria": ["backend detection is fail-closed", "runtime selection is explicit", "real hardware evidence exists before any GPU claim"],
+      "non_blocking": true
+    },
+    {
+      "id": "C3",
+      "title": "10M Scaling and Capacity Exploration",
+      "weight_percent": 0,
+      "priority": "STRETCH",
+      "status": "DORMANT",
+      "trigger": "Only after LU2-WP05 5M Silver is PASS.",
+      "scope": "10M Bronze/capacity first; full solve is an optional attempt",
+      "pass_criteria": ["10M Bronze is reported honestly", "any solve has full provenance", "failure never blocks LU2"],
+      "non_blocking": true
+    }
+  ],
+  "contracts": {
+    "3M_GOLD": {
+      "status": "INSTALLED",
+      "existing_reference": "qualification/0_2_7/wp18_runtime/wp18_summary.json",
+      "required_addition": "second materially distinct 3M FEM workload with two replays",
+      "backend_freeze_after": "LU2-WP02",
+      "restart_required": false,
+      "claim_boundary": "structured TET4 linear-static / recorded machine and MPI configuration"
+    },
+    "5M_BRONZE": {
+      "status": "INSTALLED",
+      "true_fem_dof": true,
+      "construction_replays": 2,
+      "operator_required": true,
+      "preconditioner_required": true,
+      "resource_budget_required": true,
+      "converged_solve_claim": false
+    },
+    "5M_SILVER": {
+      "status": "INSTALLED",
+      "bronze_required": true,
+      "complete_solve_required": true,
+      "replays_required": 2,
+      "residual_equilibrium_energy_finite_required": true,
+      "ram_ceiling_predeclared": true,
+      "post_result_retuning": false
+    },
+    "5M_GOLD": {
+      "status": "INSTALLED_STRETCH",
+      "requires": ["5M_SILVER", "second_workload", "recovery_or_restart", "replays"],
+      "non_blocking": true
+    },
+    "MPI_V2": {
+      "status": "INSTALLED",
+      "single_host_rank_targets": [2, 4, 8],
+      "strong_scaling_required": "3M",
+      "weak_scaling": "SHOULD",
+      "metrics": ["assembly", "redistribution", "PCSetUp", "KSPSolve", "communication", "I/O", "post", "RSS_per_rank", "imbalance", "iterations"],
+      "eight_rank_unavailable_policy": "PASS_WITH_LIMITATIONS_NOT_FULL"
+    }
+  },
+  "policies": {
+    "qualification_is_non_transitive": true,
+    "fail_closed": true,
+    "silent_fallback_forbidden": true,
+    "post_result_retuning_forbidden": true,
+    "repeat_existing_1m_or_wp19_wp20_without_new_requirement_forbidden": true,
+    "new_physics": "DEFERRED",
+    "hex8r_or_sri_or_b_bar_production": "DEFERRED",
+    "wedge15": "DEFERRED",
+    "pyramid5": "DEFERRED",
+    "finite_kinematic_j2": "DEFERRED",
+    "test_policy": {
+      "during_work_packages": ["smoke", "targeted"],
+      "t2_at_gates": true,
+      "full_regression": "LU2-WP09 only or major transversal change"
+    }
+  },
+  "decision_gates": {
+    "DECISION_GATE_1": {
+      "status": "CLOSED",
+      "decision": "CONTINUE_TO_LEVEL_UP_2",
+      "basis": "Level-Up 1 is acquired and closed at 50 percent; LU2 is installed as the next independent program block."
+    },
+    "FINAL_DECISION_GATE": {
+      "status": "INSTALLED",
+      "after": "LU2-WP09",
+      "options": ["RELEASE", "NEW_LEVEL_UP"],
+      "automatic_release": false
+    }
+  },
+  "defer_0_2_8_plus": [
+    "new physical models",
+    "mixed TET/WEDGE/HEX implementation",
+    "WEDGE15 implementation",
+    "PYRAMID5 implementation",
+    "production HEX8R/SRI/B-bar",
+    "finite-kinematic J2",
+    "TL HEX8",
+    "refined Arc-Length",
+    "new nonlinear couplings",
+    "matrix-free multi-family generalization",
+    "general Newmark/harmonic qualification"
+  ],
+  "artifact_classification": {
+    "SOURCE": "tracked implementation or configuration",
+    "CONTROLLED_PROOF": "versioned evidence with declared source, environment and digest",
+    "GENERATED_VIEW": "reader-facing view derived from controlled records",
+    "HISTORICAL_EVIDENCE": "immutable evidence from LU1 or an earlier source snapshot",
+    "BUILD_ARTIFACT": "generated package/build output, not a source or proof record"
+  },
+  "provenance_policy": {
+    "text_encoding": "UTF-8",
+    "text_newlines": "LF",
+    "text_digest": "SHA-256 over canonical UTF-8 LF bytes",
+    "binary_digest": "SHA-256 over original bytes",
+    "historical_records_rewritten": false
+  },
+  "registry_guard": {
+    "source_of_truth": "qualification/0_2_7/capability_registry_v2.json",
+    "public_anchor_count": 33,
+    "public_combination_count": 46,
+    "record_count": 79,
+    "maturity_promotion_in_setup": false,
+    "qualification_is_non_transitive": true
+  },
+  "anti_forgetting": {
+    "historical_lu1_preserved": true,
+    "historical_plan": "qualification/0_2_7/level_up_plan.json",
+    "required_active_work_packages": ["LU2-WP01", "LU2-WP02", "LU2-WP03", "LU2-WP04", "LU2-WP05", "LU2-WP06", "LU2-WP07", "LU2-WP08", "LU2-WP09"],
+    "required_conditional_gates": ["C1", "C2", "C3"],
+    "deferred_scope_is_explicit": true,
+    "public_capability_registry_guarded": true
+  },
+  "setup_scope": {
+    "heavy_benchmark_run": false,
+    "full_regression_run": false,
+    "numerical_source_changed": false,
+    "maturity_promotion": false,
+    "push": false,
+    "tag": false,
+    "pypi": false
+  }
+}

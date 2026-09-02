@@ -16,9 +16,13 @@
     "role": "public tagged source target",
     "mutable": false
   },
-  "current_development_head": {
+  "historical_wp13_execution_head": {
     "sha": "94ce10a53e31ad6884383c7ec8ce1761d9533eff",
-    "role": "0.2.7 source snapshot used for WP13 golden execution; later evidence/docs commits remain distinct"
+    "role": "0.2.7 source snapshot used for WP13 golden execution; immutable historical evidence reference"
+  },
+  "current_development_head": {
+    "sha": "8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3",
+    "role": "active codex/0.2.7-foundation HEAD at Level-Up 2 setup"
   },
   "wp13_golden_baseline": {
     "status": "PASS",
@@ -71,6 +75,19 @@
     "algorithm": "SHA-256",
     "binary_policy": "hash original bytes without text normalization"
   },
-  "historical_record_policy": "The 0.2.6 G15 record is historical evidence. Its recorded qualification SHA is not the current development head and is not rewritten to reflect later publication state.",
+  "historical_record_policy": "The 0.2.6 G15 record and earlier 0.2.7 execution records are historical evidence. Their recorded SHAs are not rewritten to reflect the current development head.",
+  "level_up_2": {
+    "namespace": "027-LEVEL-UP-2",
+    "status": "OPEN",
+    "theme": "Reproducible Large-Model Performance and Solver Maturity",
+    "pre_lu2_qualified_baseline": "8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3",
+    "level_up_1": {"status": "CLOSED", "acquired_percent": 50},
+    "level_up_2_progress": {"status": "OPEN", "acquired_percent": 0},
+    "current_global_progress_percent": 50,
+    "plan": "qualification/0_2_7/level_up_2_plan.json",
+    "state": "qualification/0_2_7/level_up_2_state.json",
+    "index": "qualification/0_2_7/level_up_2_index.json",
+    "historical_evidence_rewritten": false
+  },
   "release_workflow_policy": "Publication must run from a tag reference whose v-prefixed name matches the package version. Manual confirmation does not bypass this contract."
 }

@@ -33,7 +33,7 @@ WP20 is `PASS_WITH_LIMITATIONS` for the existing bounded small-strain J2
 scope. WP21 is `PASS_WITH_LIMITATIONS` for surgical compatibility and
 release-truth cleanup; WP22 remains `PLANNED` for final Owner release action.
 
-The machine-readable Level-Up source is
+The historical Level-Up 1 machine-readable source is
 `qualification/0_2_7/level_up_plan.json`. WP16's 1M-DOF requirement is
 satisfied for its declared PETSc/TET4 scope; WP18 is mandatory and distinguishes Bronze model/preflight,
 Silver full solve and Gold distributed/restart evidence. Silver has completed
@@ -208,3 +208,10 @@ not transfer the static WP07-WP09 evidence or qualify other dynamic routes.
 WP12 is a bounded readiness study, not a general scalability guarantee. Its
 current evidence is limited to the generated structured TET4 linear-static
 route and the recorded environment; Owner closeout remains pending.
+
+The active successor is Level-Up 2, installed from the qualified snapshot
+`8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3`. Its source, state and index are
+`qualification/0_2_7/level_up_2_plan.json`,
+`qualification/0_2_7/level_up_2_state.json` and
+`qualification/0_2_7/level_up_2_index.json`. LU1 remains a preserved historical
+record; LU2 is open at `0/50` and no heavy benchmark has been run by setup.

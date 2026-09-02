@@ -52,7 +52,7 @@ unattempted.
 | WP13 | `PASS` | T1 targeted | `fcdde28a146a3a502972fdad30821f8e8a857da7` | `qualification/0_2_7/golden/evidence.json` | golden numerical baseline and release truth | 8 PASS + 1 EXPECTED_FAILURE_PASS; no maturity promotion |
 | WP14 | `NOT_STARTED` | T0 not run | - | - | - | - |
 
-## Official Level-Up extension
+## Level-Up 1 historical extension
 
 The active theme is **Reproducible Large-Model Solving and Numerical Trust**.
 `027-LEVEL-UP` is `CLOSED / ACCEPT_WITH_CONSOLIDATION` as a scope decision;
@@ -209,3 +209,32 @@ experimental/not qualified. The authoritative records are
 `qualification/0_2_7/wp11_j2_evidence.json` and
 `docs/verification/0_2_7/0_2_7_wp20_j2_closeout.md`. WP21 is closed with
 `PASS_WITH_LIMITATIONS`; WP22 is next.
+
+## Active global accounting
+
+The historical Level-Up portfolio is closed as Level-Up 1 at `50/50`. The
+active program is Level-Up 2 at `0/50`, giving `CURRENT_GLOBAL_PROGRESS =
+50/100`. The earlier 45/55 and 82/85 views remain historical accounting
+records only; they are not added to the current program and do not replace
+any evidence. The active machine-readable records are
+`qualification/0_2_7/level_up_2_plan.json`,
+`qualification/0_2_7/level_up_2_state.json` and
+`qualification/0_2_7/level_up_2_index.json`.
+
+## Level-Up 2 active plan
+
+| Work package | Weight | Priority | Status | Rule |
+| --- | ---: | --- | --- | --- |
+| LU2-WP01 | 4% | MUST | `NOT_STARTED` | evidence and performance observatory |
+| LU2-WP02 | 9% | MUST | `NOT_STARTED` | CPU/MPI/GAMG freeze before large runs |
+| LU2-WP03 | 9% | MUST | `NOT_STARTED` | distinct second 3M workload and two replays |
+| LU2-WP04 | 5% | MUST | `NOT_STARTED` | real 5M Bronze construction and preflight only |
+| LU2-WP05 | 9% | MUST | `NOT_STARTED` | complete two-replay 5M Silver solve |
+| LU2-WP06 | 4% | MUST | `NOT_STARTED` | recovery, diagnostics and fail-closed execution |
+| LU2-WP07 | 4% | SHOULD | `NOT_STARTED` | targeted existing-route maturity evidence |
+| LU2-WP08 | 2% | SHOULD | `NOT_STARTED` | explicit mixed/new-solid/HEX8 decisions |
+| LU2-WP09 | 4% | MUST | `NOT_STARTED` | final registry, CI, package and Owner qualification |
+
+LU2 weights sum to 50 %. C1, C2 and C3 are installed dormant conditional
+gates with zero weight. No LU2 execution has occurred in this setup; the
+pre-LU2 baseline is `8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3`.
