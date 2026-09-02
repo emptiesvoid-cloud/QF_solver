@@ -230,11 +230,22 @@
       "work_package": "LU2-WP03",
       "gate": "LU2-027-G03",
       "priority": "MUST",
-      "status": "PLANNED",
+      "status": "PASS_WITH_LIMITATIONS",
       "requirement": "3M Gold shall add a materially distinct 3M FEM workload to the existing Silver evidence.",
       "acceptance": "The second workload passes two replays with residual, equilibrium, energy, finite-output, resource and provenance checks under the frozen route; the claim remains bounded.",
-      "verification": ["3M Gold run records", "replay comparison"],
-      "owner_policy": "LEVEL_UP_2_OWNER_REVIEW"
+      "verification": [
+        "qualification/0_2_7/wp03_runtime/wp03_evidence_index.json",
+        "qualification/0_2_7/wp03_runtime/wp03_summary.json",
+        "qualification/0_2_7/wp03_runtime/wp03_replay_comparison.json",
+        "qualification/0_2_7/wp03_runtime/wp03_workload_comparison.json"
+      ],
+      "owner_policy": "LEVEL_UP_2_OWNER_REVIEW",
+      "owner_decision": "PASS_WITH_LIMITATIONS",
+      "limitations": [
+        "Structured TET4 homogeneous isotropic linear-static FEM only.",
+        "Pinned single-host Docker/PETSc/MPI configuration only; preflight, redistribution, communication and I/O are NOT_MEASURED.",
+        "No universal, multi-node, GPU, mixed-mesh, nonlinear or restart claim."
+      ]
     },
     {
       "id": "027-LU2-REQ-004",

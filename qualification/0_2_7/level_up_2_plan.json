@@ -25,11 +25,11 @@
     },
     "level_up_2": {
       "weight_percent": 50,
-      "acquired_percent": 13,
+      "acquired_percent": 22,
       "status": "OPEN",
       "scope": "active large-model performance and solver maturity"
     },
-    "current_global_progress_percent": 63,
+    "current_global_progress_percent": 72,
     "weights_total_percent": 100,
     "accounting_rule": "Level-Up 1 and Level-Up 2 are sequential program blocks; their weights are not added to a second historical percentage view.",
     "legacy_accounting_views_are_non_authoritative": true
@@ -97,7 +97,7 @@
       "title": "3M Gold Compute",
       "weight_percent": 9,
       "priority": "MUST",
-      "status": "NOT_STARTED",
+      "status": "PASS_WITH_LIMITATIONS",
       "objective": "Extend the existing 3M Silver evidence with a materially distinct workload under the frozen route.",
       "pass_criteria": [
         "The existing 3M Silver case remains the controlled reference.",
@@ -112,8 +112,28 @@
         "unexplained replay drift"
       ],
       "dependencies": ["LU2-WP02"],
-      "evidence_required": ["3M Gold run records", "two replay comparison", "bounded claim review"],
-      "test_tier": "T2"
+      "evidence_required": [
+        "qualification/0_2_7/wp03_execution_contract.json",
+        "qualification/0_2_7/wp03_runtime/wp03_preflight.json",
+        "qualification/0_2_7/wp03_runtime/workload_b_run1.json",
+        "qualification/0_2_7/wp03_runtime/workload_b_run2.json",
+        "qualification/0_2_7/wp03_runtime/wp03_replay_comparison.json",
+        "qualification/0_2_7/wp03_runtime/wp03_workload_comparison.json",
+        "qualification/0_2_7/wp03_runtime/wp03_evidence_index.json",
+        "qualification/0_2_7/wp03_runtime/wp03_summary.json",
+        "qualification/0_2_7/lu2_wp03_state.json",
+        "docs/verification/0_2_7/0_2_7_wp03_3m_gold_compute.md",
+        "tests/unit/test_lu2_wp03.py"
+      ],
+      "test_tier": "T2",
+      "owner_decision": "PASS_WITH_LIMITATIONS: the existing Silver case remains controlled and a materially distinct 3M TET4 workload completed two compatible replays under the unchanged WP02 freeze.",
+      "limitations": [
+        "Gold Compute is bounded to structured TET4 homogeneous isotropic linear-static FEM on the pinned single-host Docker/PETSc/MPI configuration.",
+        "Preflight, redistribution, communication and I/O phases remain explicitly NOT_MEASURED because the runner does not expose them separately.",
+        "The evidence makes no universal, multi-node, GPU, mixed-mesh, nonlinear or restart claim; Workload B is descriptive rather than a speed benchmark against Workload A."
+      ],
+      "evidence_status": "CONTROLLED_PROOF",
+      "next_ready": true
     },
     {
       "id": "LU2-WP04",

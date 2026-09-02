@@ -356,9 +356,9 @@ Finite-kinematic J2 remains experimental/not qualified. See
 The previous Level-Up portfolio is now treated as **Level-Up 1**: its
 qualification evidence is preserved and its program block is `50/50 CLOSED`.
 The active namespace is **`027-LEVEL-UP-2`**, starting from the qualified
-baseline `8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3`. LU2 has acquired `13/50`
-through the completed WP01 observatory and bounded WP02 configuration freeze,
-so the current global progress is `63/100`; these values replace the older
+baseline `8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3`. LU2 has acquired `22/50`
+through the completed WP01 observatory, bounded WP02 configuration freeze and
+WP03 Gold Compute, so the current global progress is `72/100`; these values replace the older
 non-additive accounting view for active planning without rewriting any
 historical result.
 
@@ -370,7 +370,7 @@ in `level_up_2_state.json` and `level_up_2_index.json`.
 | --- | --- | ---: | --- | --- |
 | LU2-WP01 | Evidence and Performance Observatory | 4% | MUST | `PASS` |
 | LU2-WP02 | CPU/MPI/GAMG readiness and configuration freeze | 9% | MUST | `PASS_WITH_LIMITATIONS` |
-| LU2-WP03 | 3M Gold Compute | 9% | MUST | `NOT_STARTED` |
+| LU2-WP03 | 3M Gold Compute | 9% | MUST | `PASS_WITH_LIMITATIONS` |
 | LU2-WP04 | 5M Bronze | 5% | MUST | `NOT_STARTED` |
 | LU2-WP05 | 5M Silver | 9% | MUST | `NOT_STARTED` |
 | LU2-WP06 | Execution Contract / Recovery / Diagnostics | 4% | MUST | `NOT_STARTED` |
@@ -411,6 +411,19 @@ does not expose separate boundaries; no phase is inferred from total time.
 The claim is consequently bounded to the recorded host, image, input and
 configuration. The machine-readable closeout is
 `qualification/0_2_7/wp02_state.json`.
+
+LU2-WP03 is closed as `PASS_WITH_LIMITATIONS`, with
+`3M_GOLD_COMPUTE = PASS`. The existing WP18 Silver case is retained as
+Workload A, and a materially distinct 3,000,000-DOF structured TET4 workload
+completed two replays under the exact WP02 freeze. The contract, preflight,
+Observatory records, replay comparison and descriptive A/B comparison are
+listed in `qualification/0_2_7/wp03_runtime/wp03_evidence_index.json` and
+summarized in
+`docs/verification/0_2_7/0_2_7_wp03_3m_gold_compute.md`. The claim is limited
+to the recorded single-host Docker/PETSc/MPI route; preflight, redistribution,
+communication and I/O are explicitly not measured, and no universal,
+multi-node, GPU, mixed-mesh, nonlinear or restart claim is made. LU2-WP04 is
+now next.
 
 LU2-WP01 is recorded in `qualification/0_2_7/observatory_contract.json` with
 the controlled fixture `qualification/0_2_7/wp01_observatory_sample.json`.

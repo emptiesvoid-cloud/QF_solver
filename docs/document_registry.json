@@ -4692,6 +4692,24 @@
         "tests/unit/test_lu2_wp02.py",
         "tests/unit/test_level_up_2_governance.py"
       ]
+    },
+    {
+      "id": "DOC-027-LU2-WP03-001",
+      "path": "verification/0_2_7/0_2_7_wp03_3m_gold_compute.md",
+      "title": "0.2.7 LU2-WP03 bounded 3M Gold Compute",
+      "status": "controlled_candidate",
+      "requirements": ["027-LU2-REQ-003"],
+      "examples": [
+        "qualification/0_2_7/wp03_execution_contract.json",
+        "qualification/0_2_7/lu2_wp03_state.json",
+        "qualification/0_2_7/wp03_runtime/wp03_evidence_index.json",
+        "qualification/0_2_7/wp03_runtime/wp03_summary.json",
+        "qualification/0_2_7/wp03_runtime/wp03_replay_comparison.json"
+      ],
+      "tests": [
+        "tests/unit/test_lu2_wp03.py",
+        "tests/unit/test_level_up_2_governance.py"
+      ]
     }
   ]
 }

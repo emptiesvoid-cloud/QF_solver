@@ -314,14 +314,39 @@
     "pre_lu2_qualified_baseline": "8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3",
     "global_accounting": {
       "level_up_1": {"weight_percent": 50, "acquired_percent": 50, "status": "CLOSED"},
-      "level_up_2": {"weight_percent": 50, "acquired_percent": 13, "status": "OPEN"},
-      "current_global_progress_percent": 63,
+      "level_up_2": {"weight_percent": 50, "acquired_percent": 22, "status": "OPEN"},
+      "current_global_progress_percent": 72,
       "weights_total_percent": 100
     },
     "gates": [
       {"id": "LU2-027-G01", "work_package": "LU2-WP01", "title": "Evidence and Performance Observatory", "status": "PASS", "weight_percent": 4, "priority": "MUST", "evidence": "qualification/0_2_7/observatory_contract.json"},
       {"id": "LU2-027-G02", "work_package": "LU2-WP02", "title": "CPU/MPI/GAMG readiness and configuration freeze", "status": "PASS_WITH_LIMITATIONS", "weight_percent": 9, "priority": "MUST", "evidence": ["qualification/0_2_7/wp02_execution_contract.json", "qualification/0_2_7/wp02_runtime/wp02_evidence_index.json", "qualification/0_2_7/wp02_runtime/wp02_config_freeze.json", "qualification/0_2_7/wp02_state.json"]},
-      {"id": "LU2-027-G03", "work_package": "LU2-WP03", "title": "3M Gold Compute", "status": "NOT_STARTED", "weight_percent": 9, "priority": "MUST"},
+      {
+        "id": "LU2-027-G03",
+        "work_package": "LU2-WP03",
+        "title": "3M Gold Compute",
+        "status": "PASS_WITH_LIMITATIONS",
+        "weight_percent": 9,
+        "priority": "MUST",
+        "evidence": [
+          "qualification/0_2_7/wp03_execution_contract.json",
+          "qualification/0_2_7/wp03_runtime/wp03_preflight.json",
+          "qualification/0_2_7/wp03_runtime/workload_b_run1.json",
+          "qualification/0_2_7/wp03_runtime/workload_b_run2.json",
+          "qualification/0_2_7/wp03_runtime/wp03_replay_comparison.json",
+          "qualification/0_2_7/wp03_runtime/wp03_workload_comparison.json",
+          "qualification/0_2_7/wp03_runtime/wp03_evidence_index.json",
+          "qualification/0_2_7/wp03_runtime/wp03_summary.json",
+          "qualification/0_2_7/lu2_wp03_state.json",
+          "docs/verification/0_2_7/0_2_7_wp03_3m_gold_compute.md",
+          "tests/unit/test_lu2_wp03.py"
+        ],
+        "owner_decision": "PASS_WITH_LIMITATIONS: Gold Compute is proved by two replays of a materially distinct real 3M TET4 FEM workload under the unchanged WP02 freeze; the claim is bounded to the recorded single-host route.",
+        "limitations": [
+          "Preflight, redistribution, communication and I/O are NOT_MEASURED and are not inferred.",
+          "No universal, multi-node, GPU, mixed-mesh, nonlinear or restart claim."
+        ]
+      },
       {"id": "LU2-027-G04", "work_package": "LU2-WP04", "title": "5M Bronze", "status": "NOT_STARTED", "weight_percent": 5, "priority": "MUST"},
       {"id": "LU2-027-G05", "work_package": "LU2-WP05", "title": "5M Silver", "status": "NOT_STARTED", "weight_percent": 9, "priority": "MUST"},
       {"id": "LU2-027-G06", "work_package": "LU2-WP06", "title": "Execution Contract / Recovery / Diagnostics", "status": "NOT_STARTED", "weight_percent": 4, "priority": "MUST"},

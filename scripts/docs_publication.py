@@ -108,7 +108,7 @@ class DocumentationPublisher:
         ):
             if requirements_path.is_file():
                 requirements = json.loads(requirements_path.read_text(encoding="utf-8"))
-                for section in ("requirements", "level_up_requirements"):
+                for section in ("requirements", "level_up_requirements", "level_up_2_requirements"):
                     requirement_ids.update(item["id"] for item in requirements.get(section, []))
         controlled_paths = {
             path.relative_to(self.docs).as_posix(): path
