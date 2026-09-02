@@ -444,3 +444,30 @@ public maturity decision changed. The controlled records are
 `qualification/0_2_7/wp02_runtime/wp02_evidence_index.json`,
 `qualification/0_2_7/wp02_runtime/wp02_config_freeze.json` and
 `qualification/0_2_7/wp02_state.json`. LU2-WP03 is ready.
+
+## LU2-WP03 3M Gold Compute closeout
+
+Date: 2026-09-02. Execution source SHA:
+`0a6b573485cb39d07b5e179aecd654af41bbc8e7`.
+
+Owner decision: `PASS_WITH_LIMITATIONS`, with `3M_GOLD_COMPUTE = PASS`.
+The existing WP18 Silver result remains the controlled Workload A. A
+materially distinct real 3,000,000-DOF structured TET4 linear-static workload
+with a 2.0 m x 0.75 m x 1.25 m block geometry completed two PASS replays under
+the unchanged WP02 freeze: PETSc 3.25.1, MPICH 5.0.1, 8 ranks, contiguous
+partitioning, AIJ, CG and GAMG. Both runs passed the frozen residual,
+equilibrium, energy, finite-output, no-NaN/Inf and SPD checks; each used 1,046
+iterations. The replay maximum numerical relative delta was `6.06e-13`.
+
+The claim is bounded to structured TET4 homogeneous isotropic linear-static
+FEM on the pinned single-host Docker/PETSc/MPI configuration. Preflight,
+redistribution, communication and I/O remain explicitly `NOT_MEASURED` because
+the runner does not expose those phase boundaries. Workload A/B timings are
+descriptive only because their geometries differ; no speedup or universal
+3M, multi-node, GPU, mixed-mesh, nonlinear or restart claim is made. The
+controlled records are `qualification/0_2_7/wp03_execution_contract.json`,
+`qualification/0_2_7/lu2_wp03_state.json`,
+`qualification/0_2_7/wp03_runtime/wp03_evidence_index.json`,
+`qualification/0_2_7/wp03_runtime/wp03_summary.json` and
+`qualification/0_2_7/wp03_runtime/wp03_replay_comparison.json`. LU2-WP04 is
+the next work package.

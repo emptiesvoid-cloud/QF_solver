@@ -194,9 +194,9 @@ release action.
 
 The prior Level-Up is closed as Level-Up 1 at `50/50`. The active namespace is
 `027-LEVEL-UP-2`, based on the qualified snapshot
-`8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3`. LU2 is at `13/50` after the WP01
-observatory and bounded WP02 configuration freeze, and the global program is
-therefore `63/100`. The active
+`8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3`. LU2 is at `22/50` after the WP01
+observatory, bounded WP02 configuration freeze and completed WP03 Gold
+Compute, and the global program is therefore `72/100`. The active
 contracts and state are
 authoritative in `qualification/0_2_7/level_up_2_plan.json` and
 `qualification/0_2_7/level_up_2_state.json`.
@@ -205,7 +205,7 @@ authoritative in `qualification/0_2_7/level_up_2_plan.json` and
 | --- | --- | ---: | --- | --- | --- |
 | `LU2-027-G01` | LU2-WP01 observatory | 4% | MUST | `PASS` | phase-separated, digest-backed performance evidence |
 | `LU2-027-G02` | LU2-WP02 configuration freeze | 9% | MUST | `PASS_WITH_LIMITATIONS` | explicit CPU/MPI/PETSc/KSP/PC and fail-closed backend |
-| `LU2-027-G03` | LU2-WP03 3M Gold Compute | 9% | MUST | `NOT_STARTED` | distinct 3M FEM workload, two replays, bounded claim |
+| `LU2-027-G03` | LU2-WP03 3M Gold Compute | 9% | MUST | `PASS_WITH_LIMITATIONS` | distinct 3M FEM workload, two replays, bounded claim |
 | `LU2-027-G04` | LU2-WP04 5M Bronze | 5% | MUST | `NOT_STARTED` | two matching constructions and operator/PC preflight, no solve claim |
 | `LU2-027-G05` | LU2-WP05 5M Silver | 9% | MUST | `NOT_STARTED` | complete two-replay solve under frozen MPI and resource criteria |
 | `LU2-027-G06` | LU2-WP06 execution/recovery | 4% | MUST | `NOT_STARTED` | explicit, fail-closed outcomes and state integrity |
@@ -221,6 +221,19 @@ redistribution, communication or I/O timings; these fields remain explicitly
 unmeasured and are never inferred. See
 `docs/verification/0_2_7/0_2_7_wp02_configuration_freeze.md` and
 `qualification/0_2_7/wp02_state.json`.
+
+LU2-WP03 is closed as `PASS_WITH_LIMITATIONS` with `3M_GOLD_COMPUTE = PASS`.
+The existing WP18 Silver case remains the controlled Workload A, while a
+materially distinct 3,000,000-DOF structured TET4 workload completed two
+replays under the unchanged freeze. The records are
+`qualification/0_2_7/wp03_runtime/wp03_evidence_index.json`,
+`qualification/0_2_7/wp03_runtime/wp03_summary.json` and
+`qualification/0_2_7/wp03_runtime/wp03_replay_comparison.json`; exact metrics
+and the bounded claim are documented in
+`docs/verification/0_2_7/0_2_7_wp03_3m_gold_compute.md`. Preflight,
+redistribution, communication and I/O remain explicitly `NOT_MEASURED`, and
+the evidence makes no universal, multi-node, GPU, mixed-mesh, nonlinear or
+restart claim. LU2-WP04 is the next active work package.
 
 Conditional gates `C1` (matrix-free TET4 capacity), `C2` (GPU foundation) and
 `C3` (10M capacity exploration) are installed with zero weight and remain

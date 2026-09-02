@@ -11,17 +11,29 @@
   "wp01_source_sha": "e1703b5bc00e9cf2eb92e7e346783c9764201808",
   "branch": "codex/0.2.7-foundation",
   "pre_lu2_qualified_baseline": "8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3",
-  "current_work_package": "LU2-WP03",
+  "current_work_package": "LU2-WP04",
   "global_accounting": {
     "level_up_1": "50/50 CLOSED",
-    "level_up_2": "13/50 OPEN",
-    "current_global_progress": "63/100",
+    "level_up_2": "22/50 OPEN",
+    "current_global_progress": "72/100",
     "weights_total_percent": 100
   },
   "work_packages": [
     {"id": "LU2-WP01", "status": "PASS", "weight_percent": 4, "ready": true, "evidence": "qualification/0_2_7/wp01_observatory_sample.json"},
     {"id": "LU2-WP02", "status": "PASS_WITH_LIMITATIONS", "weight_percent": 9, "ready": true, "evidence": "qualification/0_2_7/wp02_state.json"},
-    {"id": "LU2-WP03", "status": "NOT_STARTED", "weight_percent": 9, "ready": true},
+    {
+      "id": "LU2-WP03",
+      "status": "PASS_WITH_LIMITATIONS",
+      "weight_percent": 9,
+      "ready": true,
+      "evidence": [
+        "qualification/0_2_7/wp03_execution_contract.json",
+        "qualification/0_2_7/wp03_runtime/wp03_evidence_index.json",
+        "qualification/0_2_7/wp03_runtime/wp03_summary.json",
+        "qualification/0_2_7/wp03_runtime/wp03_replay_comparison.json",
+        "qualification/0_2_7/lu2_wp03_state.json"
+      ]
+    },
     {"id": "LU2-WP04", "status": "NOT_STARTED", "weight_percent": 5, "ready": false},
     {"id": "LU2-WP05", "status": "NOT_STARTED", "weight_percent": 9, "ready": false},
     {"id": "LU2-WP06", "status": "NOT_STARTED", "weight_percent": 4, "ready": false},
@@ -54,7 +66,7 @@
   "execution": {
     "heavy_benchmark_run": true,
     "full_regression_run": false,
-    "targeted_tests": "WP02 contract, collector and observatory record validation PASS; T2 closeout PASS",
+    "targeted_tests": "WP02 and WP03 contract, collector, replay and observatory validation PASS; T2 targeted closeout PASS",
     "numerical_source_changed": false,
     "existing_evidence_rewritten": false,
     "maturity_promoted": false,
@@ -66,6 +78,9 @@
     "ready_for_lu2_wp01": true,
     "ready_for_lu2_wp02": true,
     "ready_for_lu2_wp03": true,
+    "ready_for_lu2_wp04": true,
+    "wp03_evidence_index": "qualification/0_2_7/wp03_runtime/wp03_evidence_index.json",
+    "wp03_summary": "qualification/0_2_7/wp03_runtime/wp03_summary.json",
     "ready_for_heavy_benchmark": true,
     "blockers": [],
     "observatory_contract": "qualification/0_2_7/observatory_contract.json",

@@ -1,0 +1,142 @@
+{
+  "schema_version": 1,
+  "record_type": "lu2_wp03_3m_gold_compute_contract",
+  "work_package": "LU2-WP03",
+  "gate": "LU2-027-G03",
+  "status": "PREDECLARED",
+  "source_sha": "0a6b573485cb39d07b5e179aecd654af41bbc8e7",
+  "freeze": {
+    "freeze_id": "LU2-WP02-FREEZE-bfd1975b012453a3",
+    "freeze_digest_sha256": "bfd1975b012453a3b492cc79c968ceeba6ae6951a293e3ce65ddda548d8339a1",
+    "configuration": {
+      "backend": "petsc",
+      "matrix_format": "aij",
+      "solver": "CG",
+      "preconditioner": "GAMG",
+      "partition_strategy": "contiguous",
+      "mpi_ranks": 8,
+      "threads_per_rank": 1,
+      "chunk_size": 4096,
+      "petsc_options": {
+        "ksp_norm_type": "unpreconditioned",
+        "ksp_rtol": 1.0e-10
+      },
+      "solver_rtol": 1.0e-10,
+      "acceptance_rtol": 1.0e-8,
+      "max_iterations": 10000,
+      "runtime_image": "qf-solver-large@sha256:d6a1718001fc36772906d1a9505637bbd0a4b7e1d8ccc9afdbcb6f67b7ff6d0e",
+      "environment_variables": {
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1",
+        "NUMEXPR_NUM_THREADS": "1",
+        "PYTHONHASHSEED": "0"
+      },
+      "fallback_policy": "no implicit fallback; unavailable backend fails closed"
+    }
+  },
+  "workload_a_control": {
+    "status": "CONTROLLED_EXISTING_SILVER",
+    "summary": "qualification/0_2_7/wp18_runtime/wp18_summary.json",
+    "model": "qualification/0_2_7/wp18_ladder/models/3m.h5",
+    "input_digest_sha256": "084a471b1caab628e8558c65b1777692ed53d504baad681bf0985c411a33671b",
+    "true_dof": 3000000,
+    "elements": 5821794,
+    "replays": 2,
+    "historical_source_sha": "9c0605645fa60ef0d89f3ce98ca361a677f13d1d",
+    "compatibility_note": "Existing Silver evidence is preserved and is not rewritten. Its recorded route is compared with the WP02 freeze before use as control."
+  },
+  "workload_b": {
+    "status": "PREDECLARED",
+    "model_id": "LU2-WP03-3M-WORKLOAD-B-001",
+    "input_path": "tmp/lu2_wp03/models/3m_workload_b.h5",
+    "input_digest_sha256": "eae54fecd4bf8a6ebebf0363e3103c3defab34f34725b706c6441482d8d8b122",
+    "element_family": "TET4",
+    "analysis": "linear_static",
+    "material": {
+      "type": "isotropic_linear_elastic",
+      "young_modulus_pa": 210000000000.0,
+      "poisson_ratio": 0.3,
+      "density_kg_m3": 7800.0
+    },
+    "geometry": {
+      "topology": "structured brick decomposed into six TET4 per cell",
+      "nx": 99,
+      "ny": 99,
+      "nz": 99,
+      "length_m": 2.0,
+      "height_m": 0.75,
+      "depth_m": 1.25,
+      "material_distinction": "non-cubic aspect ratio while preserving the same real FEM topology and element route"
+    },
+    "boundary_condition": "all translations fixed at x=0",
+    "load": {
+      "type": "uniform nodal x load",
+      "face": "x=length",
+      "component": 0,
+      "total_force_n": 1000000.0,
+      "distribution": "uniform"
+    },
+    "expected_size": {
+      "nodes": 1000000,
+      "elements": 5821794,
+      "true_dof": 3000000
+    },
+    "generation_command": "python qf_solver.py generate-large-tet4-block --output tmp/lu2_wp03/models/3m_workload_b.h5 --nx 99 --ny 99 --nz 99 --length 2.0 --height 0.75 --depth 1.25 --young 210000000000 --poisson 0.3 --density 7800 --total-load 1000000"
+  },
+  "preflight": {
+    "docker_memory_bytes": 50458099712,
+    "host_free_disk_bytes_at_definition": 115278680064,
+    "reference_workload_a_peak_rss_bytes": 2925957120,
+    "resource_budget_source": "WP14 execution contract",
+    "expected_runtime_basis": "WP02 8-rank same-topology replay; no pass criterion is inferred from the estimate",
+    "no_oom_injection": true
+  },
+  "run_policy": {
+    "required_runs": ["run1", "run2"],
+    "mpi_ranks": 8,
+    "same_input_digest": true,
+    "same_configuration_digest": true,
+    "same_freeze_digest": true,
+    "same_backend": true,
+    "same_tolerances": true,
+    "post_result_retuning": false,
+    "restart_required": false
+  },
+  "required_observables": [
+    "true_dof",
+    "element_count",
+    "iterations",
+    "residual",
+    "reaction_equilibrium",
+    "energy",
+    "finite_outputs",
+    "peak_rss",
+    "model_setup",
+    "assembly_operator",
+    "pc_setup",
+    "ksp_solve",
+    "post_processing",
+    "total"
+  ],
+  "unmeasured_phase_policy": {
+    "preflight": "NOT_MEASURED unless supplied by runner",
+    "redistribution": "NOT_MEASURED unless supplied by runner",
+    "communication": "NOT_MEASURED unless supplied by runner",
+    "io": "NOT_MEASURED unless supplied by runner",
+    "no_inference": true
+  },
+  "acceptance": {
+    "wp14_relative_tolerance": 1.0e-8,
+    "internal_solver_rtol": 1.0e-10,
+    "no_nan_inf": true,
+    "spd_cg": true,
+    "no_timeout": true,
+    "no_resource_limited_verdict": true,
+    "provenance_complete": true
+  },
+  "claim_boundary": "Two-replay Gold Compute evidence for structured TET4 homogeneous isotropic linear-static FEM on the pinned single-host Docker/PETSc/MPI configuration; no universal, multi-node, GPU, mixed-mesh or nonlinear claim.",
+  "artifact_classification": "CONTROLLED_PROOF",
+  "numerical_source_changed": false,
+  "new_physics": false
+}

@@ -213,8 +213,8 @@ experimental/not qualified. The authoritative records are
 ## Active global accounting
 
 The historical Level-Up portfolio is closed as Level-Up 1 at `50/50`. The
-active program is Level-Up 2 at `13/50`, giving `CURRENT_GLOBAL_PROGRESS =
-63/100`. The earlier 45/55 and 82/85 views remain historical accounting
+active program is Level-Up 2 at `22/50`, giving `CURRENT_GLOBAL_PROGRESS =
+72/100`. The earlier 45/55 and 82/85 views remain historical accounting
 records only; they are not added to the current program and do not replace
 any evidence. The active machine-readable records are
 `qualification/0_2_7/level_up_2_plan.json`,
@@ -227,7 +227,7 @@ any evidence. The active machine-readable records are
 | --- | ---: | --- | --- | --- |
 | LU2-WP01 | 4% | MUST | `PASS` | evidence and performance observatory |
 | LU2-WP02 | 9% | MUST | `PASS_WITH_LIMITATIONS` | CPU/MPI/GAMG freeze before large runs |
-| LU2-WP03 | 9% | MUST | `NOT_STARTED` | distinct second 3M workload and two replays |
+| LU2-WP03 | 9% | MUST | `PASS_WITH_LIMITATIONS` | distinct second 3M workload and two replays |
 | LU2-WP04 | 5% | MUST | `NOT_STARTED` | real 5M Bronze construction and preflight only |
 | LU2-WP05 | 9% | MUST | `NOT_STARTED` | complete two-replay 5M Silver solve |
 | LU2-WP06 | 4% | MUST | `NOT_STARTED` | recovery, diagnostics and fail-closed execution |
@@ -247,9 +247,20 @@ unmeasured because the legacy runner does not expose separate boundaries; no
 phase is inferred. The evidence is therefore bounded to the recorded host,
 Docker image, input and solver configuration.
 
+LU2-WP03 is closed as `PASS_WITH_LIMITATIONS` with
+`3M_GOLD_COMPUTE = PASS`. Workload A is the preserved WP18 Silver control;
+Workload B is a materially distinct 3,000,000-DOF structured TET4 case with
+two PASS replays under the unchanged freeze. The controlled evidence is
+indexed by `qualification/0_2_7/wp03_runtime/wp03_evidence_index.json` and
+the bounded metrics are recorded in
+`docs/verification/0_2_7/0_2_7_wp03_3m_gold_compute.md`. Preflight,
+redistribution, communication and I/O remain `NOT_MEASURED`; no performance
+speedup is inferred between the distinct workloads. LU2-WP04 is now next.
+
 LU2-WP01 evidence is defined by
 `qualification/0_2_7/observatory_contract.json` and the controlled sample
 `qualification/0_2_7/wp01_observatory_sample.json`. LU2 weights sum to 50 %.
 C1, C2 and C3 are installed dormant conditional
-gates with zero weight. LU2-WP03 is now the next active work package; its
+gates with zero weight. LU2-WP03 is complete and LU2-WP04 is now the next
+active work package; its
 pre-LU2 baseline is `8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3`.

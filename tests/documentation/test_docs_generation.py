@@ -227,7 +227,7 @@ def test_every_controlled_page_is_registered_with_consistent_review_fields() -> 
         ROOT / "qualification" / "0_2_7" / "requirements.json",
     ):
         requirements = json.loads(requirements_path.read_text(encoding="utf-8"))
-        for section in ("requirements", "level_up_requirements"):
+        for section in ("requirements", "level_up_requirements", "level_up_2_requirements"):
             requirement_ids.update(item["id"] for item in requirements.get(section, []))
     entries = registry["documents"]
     paths = {str(entry["path"]) for entry in entries}

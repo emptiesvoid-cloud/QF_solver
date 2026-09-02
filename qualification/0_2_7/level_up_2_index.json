@@ -11,8 +11,8 @@
   "active_branch": "codex/0.2.7-foundation",
   "global_progress": {
     "level_up_1": {"acquired_percent": 50, "status": "CLOSED"},
-    "level_up_2": {"acquired_percent": 13, "status": "OPEN"},
-    "current_percent": 63,
+    "level_up_2": {"acquired_percent": 22, "status": "OPEN"},
+    "current_percent": 72,
     "total_percent": 100
   },
   "work_package_count": 9,
@@ -24,7 +24,15 @@
   "wp02_state": "qualification/0_2_7/wp02_state.json",
   "wp02_evidence_index": "qualification/0_2_7/wp02_runtime/wp02_evidence_index.json",
   "wp02_configuration_freeze": "qualification/0_2_7/wp02_runtime/wp02_config_freeze.json",
-  "completed_work_packages": ["LU2-WP01", "LU2-WP02"],
+  "wp03_contract": "qualification/0_2_7/wp03_execution_contract.json",
+    "wp03_state": "qualification/0_2_7/lu2_wp03_state.json",
+  "wp03_evidence_index": "qualification/0_2_7/wp03_runtime/wp03_evidence_index.json",
+  "wp03_summary": "qualification/0_2_7/wp03_runtime/wp03_summary.json",
+  "wp03_replay_comparison": "qualification/0_2_7/wp03_runtime/wp03_replay_comparison.json",
+  "wp03_workload_comparison": "qualification/0_2_7/wp03_runtime/wp03_workload_comparison.json",
+  "wp03_preflight": "qualification/0_2_7/wp03_runtime/wp03_preflight.json",
+  "wp03_status": "PASS_WITH_LIMITATIONS",
+  "completed_work_packages": ["LU2-WP01", "LU2-WP02", "LU2-WP03"],
   "execution_status": {
     "heavy_benchmark_run": true,
     "full_regression_run": false,

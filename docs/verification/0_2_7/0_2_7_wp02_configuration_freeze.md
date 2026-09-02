@@ -1,3 +1,12 @@
+---
+doc_id: DOC-027-LU2-WP02-001
+revision: 0.1
+status: controlled_candidate
+applicable_version: 0.2.7a0
+reviewer: ""
+approver: ""
+---
+
 # LU2-WP02 - CPU/MPI/GAMG readiness and configuration freeze
 
 Status: `PASS_WITH_LIMITATIONS`
