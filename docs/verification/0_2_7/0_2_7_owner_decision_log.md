@@ -471,3 +471,18 @@ controlled records are `qualification/0_2_7/wp03_execution_contract.json`,
 `qualification/0_2_7/wp03_runtime/wp03_summary.json` and
 `qualification/0_2_7/wp03_runtime/wp03_replay_comparison.json`. LU2-WP04 is
 the next work package.
+
+## LU2-WP08 scope decision closeout
+
+Date: 2026-09-02. Decision source SHA:
+`8ef34e345f970879548a4dfdce4ac5ba32c11bda`.
+
+Owner decision: `PASS_WITH_LIMITATIONS`. The controlled matrix is
+`qualification/0_2_7/lu2_wp08_decision_matrix.json`. Mixed TET/WEDGE/HEX is
+partial at infrastructure level but has no qualified end-to-end route and is
+deferred. WEDGE15 and PYRAMID5 are not supported or active capabilities and
+are deferred. The existing HEX8 route remains bounded by WP19; HEX8R, SRI and
+B-bar are research-only, and hourglass control is deferred with any future
+reduced-integration route. No element, formulation, public maturity or
+large-model benchmark changed. The WP04 supervised retry remains the next
+operational action.

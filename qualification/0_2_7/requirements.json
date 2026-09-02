@@ -303,11 +303,17 @@
       "work_package": "LU2-WP08",
       "gate": "LU2-027-G08",
       "priority": "SHOULD",
-      "status": "PLANNED",
+      "status": "PASS_WITH_LIMITATIONS",
       "requirement": "Mixed meshes and candidate new-solid or HEX8 routes shall receive explicit bounded decisions before implementation.",
       "acceptance": "Deferred and experimental routes are not exposed as qualified capabilities and feature decisions are supported by risk/evidence records.",
-      "verification": ["decision matrix", "risk review"],
-      "owner_policy": "LEVEL_UP_2_OWNER_REVIEW"
+      "verification": [
+        "qualification/0_2_7/lu2_wp08_decision_matrix.json",
+        "qualification/0_2_7/lu2_wp08_state.json",
+        "docs/verification/0_2_7/0_2_7_lu2_wp08_decisions.md",
+        "risk review"
+      ],
+      "owner_policy": "LEVEL_UP_2_OWNER_REVIEW",
+      "owner_decision": "PASS_WITH_LIMITATIONS: no new element or production HEX8 formulation is promoted; deferred and research routes remain outside the active qualified registry."
     },
     {
       "id": "027-LU2-REQ-009",

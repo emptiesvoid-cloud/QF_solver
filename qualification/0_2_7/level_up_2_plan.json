@@ -25,11 +25,11 @@
     },
     "level_up_2": {
       "weight_percent": 50,
-      "acquired_percent": 22,
+      "acquired_percent": 24,
       "status": "OPEN",
       "scope": "active large-model performance and solver maturity"
     },
-    "current_global_progress_percent": 72,
+    "current_global_progress_percent": 74,
     "weights_total_percent": 100,
     "accounting_rule": "Level-Up 1 and Level-Up 2 are sequential program blocks; their weights are not added to a second historical percentage view.",
     "legacy_accounting_views_are_non_authoritative": true
@@ -254,7 +254,7 @@
       "title": "Mixed, WEDGE15, PYRAMID5 and HEX8 Decisions",
       "weight_percent": 2,
       "priority": "SHOULD",
-      "status": "NOT_STARTED",
+      "status": "PASS_WITH_LIMITATIONS",
       "objective": "Make explicit go/defer decisions from evidence rather than introducing new elements or formulations by default.",
       "pass_criteria": [
         "Mixed TET/WEDGE/HEX, WEDGE15, PYRAMID5 and HEX8R/SRI/B-bar receive explicit decision records.",
@@ -268,7 +268,22 @@
       ],
       "dependencies": ["LU2-WP07"],
       "evidence_required": ["decision matrix", "risk review", "defer records"],
-      "test_tier": "T1"
+      "test_tier": "T1",
+      "evidence": [
+        "qualification/0_2_7/lu2_wp08_decision_matrix.json",
+        "qualification/0_2_7/lu2_wp08_state.json",
+        "docs/verification/0_2_7/0_2_7_lu2_wp08_decisions.md",
+        "qualification/0_2_7/wp19_state.json",
+        "qualification/0_2_7/wp19_runtime/wp19_hex8_diagnostic.json"
+      ],
+      "owner_decision": "PASS_WITH_LIMITATIONS: mixed-mesh implementation, WEDGE15, PYRAMID5 and production HEX8R/SRI/B-bar remain deferred or research-only; the existing HEX8 route remains bounded and unchanged.",
+      "limitations": [
+        "No end-to-end mixed TET/WEDGE/HEX qualification is claimed.",
+        "WEDGE15 and PYRAMID5 are not implemented or active capabilities.",
+        "HEX8R, SRI, B-bar and hourglass control are not production routes.",
+        "The WP19 HEX8 evidence is a bounded diagnostic and does not prove a universal locking correction."
+      ],
+      "completed_without_numeric_change": true
     },
     {
       "id": "LU2-WP09",
