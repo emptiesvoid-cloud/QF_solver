@@ -124,6 +124,7 @@
     "solve": "NOT_RUN by Bronze contract",
     "no_inference": true
   },
+  "assembly_telemetry": "qualification/0_2_7/wp04_telemetry_contract.json",
   "acceptance": {
     "minimum_true_dof": 5000000,
     "actual_model_required": true,

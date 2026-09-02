@@ -20,6 +20,7 @@ from solveur.large.assembler import PetscTET4Assembler, fixed_dof_indices
 from solveur.large.distributed_model import inspect_distributed_large_model, load_distributed_large_model
 from solveur.large.mpi_diagnostics import petsc_ksp_diagnostics
 from solveur.large.memory import process_memory_snapshot
+from solveur.large.telemetry import AssemblyTelemetry
 from solveur.verification.observatory import canonical_digest, canonical_json_bytes
 
 
@@ -76,8 +77,19 @@ def run_case(args: argparse.Namespace) -> dict[str, Any]:
     matrix = None
     ksp = None
     rhs = None
+    telemetry = AssemblyTelemetry(
+        args.telemetry_log,
+        EXPECTED_ELEMENTS,
+        rank=rank,
+        rank_count=size,
+        local_elements_total=max(1, (EXPECTED_ELEMENTS + max(size, 1) - 1) // max(size, 1)),
+        global_progress=lambda local_processed: int(comm.allreduce(int(local_processed), op=MPI.SUM)),
+        run_id=args.run_id,
+        source_sha=args.source_sha,
+    )
     try:
         _validate_runtime(args, size)
+        telemetry.phase("GENERATING")
         input_digest = _sha256_file(args.input) if rank == 0 else None
         input_digest = comm.bcast(input_digest, root=0)
         build = _read_json(args.build_metadata)
@@ -88,6 +100,7 @@ def run_case(args: argparse.Namespace) -> dict[str, Any]:
         model = load_distributed_large_model(args.input, comm, partition_strategy="contiguous")
         load_seconds = _max_time(comm, time.perf_counter() - load_started)
         _validate_model(model, input_digest)
+        telemetry.set_local_total(model.local_element_count)
         audit = inspect_distributed_large_model(model, comm)
         if audit.status == "FAIL":
             raise RuntimeError("Distributed model audit failed: " + "; ".join(audit.errors))
@@ -98,10 +111,12 @@ def run_case(args: argparse.Namespace) -> dict[str, Any]:
         partition_digest = comm.bcast(partition_digest, root=0)
 
         assembly_started = time.perf_counter()
-        matrix = PetscTET4Assembler(chunk_size=4096, matrix_format="aij").assemble(model)
+        telemetry.phase("ASSEMBLING")
+        matrix = PetscTET4Assembler(chunk_size=4096, matrix_format="aij", telemetry=telemetry).assemble(model)
         matrix_seconds = _max_time(comm, time.perf_counter() - assembly_started)
 
         rhs_started = time.perf_counter()
+        telemetry.phase("RHS")
         rhs = matrix.createVecRight()
         _assemble_rhs(rhs, model)
         rhs_seconds = _max_time(comm, time.perf_counter() - rhs_started)
@@ -117,6 +132,7 @@ def run_case(args: argparse.Namespace) -> dict[str, Any]:
         ksp.setTolerances(rtol=1.0e-10, atol=0.0, max_it=10000)
         ksp.setFromOptions()
         pc_started = time.perf_counter()
+        telemetry.phase("PCSETUP")
         ksp.setUp()
         pc_seconds = _max_time(comm, time.perf_counter() - pc_started)
         diagnostics = petsc_ksp_diagnostics(ksp, matrix)
@@ -133,6 +149,7 @@ def run_case(args: argparse.Namespace) -> dict[str, Any]:
             raise RuntimeError(
                 f"Frozen readiness mismatch: matrix={actual_matrix_type}, ksp={actual_ksp}, pc={actual_pc}."
             )
+        telemetry.phase("PC_READY")
         memory_after = comm.gather(process_memory_snapshot(), root=0)
         disk = shutil.disk_usage(args.input.parent) if rank == 0 else None
         if rank == 0:
@@ -217,7 +234,10 @@ def run_case(args: argparse.Namespace) -> dict[str, Any]:
                 },
                 }
             )
+            telemetry.phase("COMPLETED")
+            record["telemetry_status"] = telemetry.status
     except Exception as exc:  # pragma: no cover - exercised in Docker failure paths
+        telemetry.phase("FAILED")
         record.update(
             {
                 "status": "FAIL",
@@ -230,6 +250,7 @@ def run_case(args: argparse.Namespace) -> dict[str, Any]:
                     "command": [str(value) for value in sys.argv],
                     "artifact_classification": "CONTROLLED_PROOF",
                 },
+                "telemetry_status": telemetry.status,
             }
         )
     finally:
@@ -242,6 +263,7 @@ def run_case(args: argparse.Namespace) -> dict[str, Any]:
         comm.Barrier()
     if MPI.COMM_WORLD.rank == 0:
         _write(args.output / "wp04_bronze_raw.json", record)
+    telemetry.close()
     comm.Barrier()
     return record
 
@@ -370,6 +392,7 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--freeze-id", default=FREEZE_ID)
     parser.add_argument("--freeze-digest", default=FREEZE_DIGEST)
     parser.add_argument("--runtime-image", default=RUNTIME_IMAGE)
+    parser.add_argument("--telemetry-log", type=Path, default=None)
     return parser.parse_args()
 
 

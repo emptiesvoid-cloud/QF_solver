@@ -246,8 +246,9 @@ WP05 remains blocked pending a supervised retry.
 Conditional gates `C1` (matrix-free TET4 capacity), `C2` (GPU foundation) and
 `C3` (10M capacity exploration) are installed with zero weight. C1 remains
 `DORMANT` because the 2x time budget overrun was observed during an
-owner-interrupted run without persisted progress/resource telemetry; C2
-requires real hardware evidence, and C3 requires 5M Silver first; none can
+owner-interrupted run without persisted progress/resource telemetry; S1 now
+installs optional telemetry for the supervised retry; C2 requires real
+hardware evidence, and C3 requires 5M Silver first; none can
 block LU2.
 Bronze never
 creates a 3M solve claim, Gold does not require restart, and no post-result

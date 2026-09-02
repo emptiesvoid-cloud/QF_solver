@@ -364,14 +364,18 @@
           "qualification/0_2_7/wp04_runtime/wp04_summary.json",
           "qualification/0_2_7/wp04_runtime/wp04_forensic_audit.json",
           "qualification/0_2_7/lu2_wp04_state.json",
-          "docs/verification/0_2_7/0_2_7_wp04_5m_bronze.md"
+          "docs/verification/0_2_7/0_2_7_wp04_5m_bronze.md",
+          "qualification/0_2_7/wp04_telemetry_contract.json",
+          "qualification/0_2_7/s1_telemetry_state.json",
+          "docs/verification/0_2_7/0_2_7_s1_assembly_telemetry.md",
+          "tests/unit/test_assembly_telemetry.py"
         ],
         "owner_decision": "USER_INTERRUPTED_INCONCLUSIVE: deterministic 5M FEM construction and preflight pass, but the owner-interrupted frozen AIJ operator assembly did not produce a completion record; the 2x time overrun is a budget observation, not proof of a resource limit. Bronze acceptance is not met and C1 is not confirmed.",
         "limitations": [
           "No PETSc initialization or GAMG readiness claim was produced.",
           "No 5M solve, Silver, performance or universal capacity claim is made.",
           "Run 2 execution was not started after the owner interruption; only the independent model construction replay passed.",
-          "Assembly progress, peak RSS and swap pressure were not persisted; PC/GAMG readiness is not proved."
+          "The historical run did not persist assembly progress, peak RSS or swap pressure; S1 adds opt-in progress telemetry for the supervised retry, while PC/GAMG readiness remains unproved."
         ],
         "next_action": "LU2-WP04_SUPERVISED_RETRY"
       },

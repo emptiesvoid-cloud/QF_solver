@@ -68,7 +68,9 @@ creates and sets up the PETSc AIJ object before that loop, but it calls
 `matrix.assemble()`, RHS setup and `ksp.setUp()` only afterward. No completed
 raw result was written, so operator completion and GAMG readiness are
 `NOT_PROVED`. Run 2 was not started after the owner interruption. The full
-assembly progress counter, peak RSS and swap telemetry were not persisted.
+assembly progress counter, peak RSS and swap telemetry were not persisted by
+this historical run. S1 installs opt-in rank-zero progress telemetry for the
+supervised retry; it does not alter this historical result.
 
 The original time-budget observation is retained in
 [`wp04_resource_guard_audit.json`](../../../qualification/0_2_7/wp04_runtime/wp04_resource_guard_audit.json)
