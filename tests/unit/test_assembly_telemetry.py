@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from solveur.large.telemetry import AssemblyTelemetry
+from solveur.large.telemetry import AssemblyTelemetry, RankPhaseTelemetry
 
 
 def _records(path: Path) -> list[dict]:
@@ -72,3 +72,51 @@ def test_log_open_failure_degrades_without_raising(tmp_path: Path, caplog) -> No
     telemetry.close()
     assert telemetry.status == "DEGRADED"
     assert "telemetry" in caplog.text.lower()
+
+
+def test_rank_phase_markers_are_independent_and_include_exception_details(tmp_path: Path) -> None:
+    path = tmp_path / "wp04_5m_progress.jsonl"
+    rank0 = RankPhaseTelemetry(path, rank=0, rank_count=2, run_id="run1", source_sha="b" * 40)
+    rank1 = RankPhaseTelemetry(path, rank=1, rank_count=2, run_id="run1", source_sha="b" * 40)
+
+    expected = (
+        "PRE_SETUP",
+        "POST_SETUP",
+        "PRE_OWNERSHIP_GATHER",
+        "POST_OWNERSHIP_GATHER",
+        "PRE_PC_READY",
+        "PC_READY",
+        "PRE_MEMORY_GATHER",
+        "POST_MEMORY_GATHER",
+        "FINALIZE_ENTER",
+        "FINALIZE_EXIT",
+    )
+    for name in expected:
+        rank0.marker(name, phase="PC_READY_GLOBAL")
+    rank1.marker("EXCEPTION", phase="FAILED", error=RuntimeError("synthetic failure"))
+    rank0.close()
+    rank1.close()
+
+    first = _records(tmp_path / "wp04_5m_progress.rank000.jsonl")[0]
+    second = _records(tmp_path / "wp04_5m_progress.rank001.jsonl")[0]
+    rank0_records = _records(tmp_path / "wp04_5m_progress.rank000.jsonl")
+    assert [record["event"] for record in rank0_records] == [f"RANK_0_{name}" for name in expected]
+    assert first["event"] == "RANK_0_PRE_SETUP"
+    assert first["rank_count"] == 2
+    assert first["pid"] > 0
+    assert first["utc_timestamp"].endswith("Z")
+    assert second["event"] == "RANK_1_EXCEPTION"
+    assert second["exception_type"] == "RuntimeError"
+    assert second["exception_message"] == "synthetic failure"
+    assert not path.exists()
+
+
+def test_rank_phase_telemetry_failure_is_degraded_and_never_raises(tmp_path: Path) -> None:
+    blocked_parent = tmp_path / "blocked-parent"
+    blocked_parent.write_text("not a directory", encoding="utf-8")
+    telemetry = RankPhaseTelemetry(blocked_parent / "telemetry.jsonl", rank=0, rank_count=1)
+
+    telemetry.marker("PRE_SETUP", phase="PCSETUP")
+    telemetry.close()
+
+    assert telemetry.status == "DEGRADED"

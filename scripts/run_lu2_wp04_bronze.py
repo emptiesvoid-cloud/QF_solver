@@ -18,9 +18,10 @@ from petsc4py import PETSc
 
 from solveur.large.assembler import PetscTET4Assembler, fixed_dof_indices
 from solveur.large.distributed_model import inspect_distributed_large_model, load_distributed_large_model
+from solveur.large.mpi_guardrails import raise_if_rank_failures, require_global_readiness
 from solveur.large.mpi_diagnostics import petsc_ksp_diagnostics
 from solveur.large.memory import process_memory_snapshot
-from solveur.large.telemetry import AssemblyTelemetry
+from solveur.large.telemetry import AssemblyTelemetry, RankPhaseTelemetry
 from solveur.verification.observatory import canonical_digest, canonical_json_bytes
 
 
@@ -48,8 +49,13 @@ def run_case(args: argparse.Namespace) -> dict[str, Any]:
     size = int(comm.size)
     started = time.perf_counter()
     output = args.output.resolve()
+    output_error: BaseException | None = None
     if rank == 0:
-        output.mkdir(parents=True, exist_ok=True)
+        try:
+            output.mkdir(parents=True, exist_ok=True)
+        except OSError as exc:
+            output_error = exc
+    raise_if_rank_failures(comm, rank, "OUTPUT_DIRECTORY", output_error)
     comm.Barrier()
     record: dict[str, Any] = {
         "schema_version": 1,
@@ -84,6 +90,13 @@ def run_case(args: argparse.Namespace) -> dict[str, Any]:
         rank_count=size,
         local_elements_total=max(1, (EXPECTED_ELEMENTS + max(size, 1) - 1) // max(size, 1)),
         global_progress=lambda local_processed: int(comm.allreduce(int(local_processed), op=MPI.SUM)),
+        run_id=args.run_id,
+        source_sha=args.source_sha,
+    )
+    rank_telemetry = RankPhaseTelemetry(
+        args.telemetry_log,
+        rank=rank,
+        rank_count=size,
         run_id=args.run_id,
         source_sha=args.source_sha,
     )
@@ -133,110 +146,207 @@ def run_case(args: argparse.Namespace) -> dict[str, Any]:
         ksp.setFromOptions()
         pc_started = time.perf_counter()
         telemetry.phase("PCSETUP")
-        ksp.setUp()
+        rank_telemetry.marker("PRE_SETUP", phase="PCSETUP")
+        setup_error: BaseException | None = None
+        try:
+            ksp.setUp()
+        except Exception as exc:
+            setup_error = exc
+            rank_telemetry.marker("EXCEPTION", phase="PCSETUP", error=exc)
+        else:
+            rank_telemetry.marker("POST_SETUP", phase="PCSETUP")
+        raise_if_rank_failures(comm, rank, "PCSETUP", setup_error)
         pc_seconds = _max_time(comm, time.perf_counter() - pc_started)
-        diagnostics = petsc_ksp_diagnostics(ksp, matrix)
-        ownership_rows = comm.gather({"rank": rank, "range": list(matrix.getOwnershipRange())}, root=0)
-        ownership_digest = canonical_digest(ownership_rows) if rank == 0 else None
-        ownership_digest = comm.bcast(ownership_digest, root=0)
-        local_finite = bool(np_is_finite_model(model))
-        finite_state = bool(comm.allreduce(local_finite, op=MPI.LAND))
-        actual_matrix_type = str(matrix.getType()).lower()
-        actual_ksp = str(ksp.getType()).lower()
-        actual_pc = str(ksp.getPC().getType()).lower()
-        pc_ready = actual_matrix_type.endswith("aij") and actual_ksp == "cg" and actual_pc == "gamg"
-        if not pc_ready:
-            raise RuntimeError(
-                f"Frozen readiness mismatch: matrix={actual_matrix_type}, ksp={actual_ksp}, pc={actual_pc}."
-            )
-        telemetry.phase("PC_READY")
-        memory_after = comm.gather(process_memory_snapshot(), root=0)
-        disk = shutil.disk_usage(args.input.parent) if rank == 0 else None
+
+        diagnostics_error: BaseException | None = None
+        diagnostics: dict[str, Any] = {}
+        try:
+            diagnostics = petsc_ksp_diagnostics(ksp, matrix)
+        except Exception as exc:
+            diagnostics_error = exc
+            rank_telemetry.marker("EXCEPTION", phase="PCSETUP", error=exc)
+        raise_if_rank_failures(comm, rank, "PETSC_DIAGNOSTICS", diagnostics_error)
+
+        ownership_error: BaseException | None = None
+        ownership_rows: list[dict[str, Any]] | None = None
+        rank_telemetry.marker("PRE_OWNERSHIP_GATHER", phase="PCSETUP")
+        try:
+            ownership_rows = comm.gather({"rank": rank, "range": list(matrix.getOwnershipRange())}, root=0)
+        except Exception as exc:
+            ownership_error = exc
+            rank_telemetry.marker("EXCEPTION", phase="PCSETUP", error=exc)
+        else:
+            rank_telemetry.marker("POST_OWNERSHIP_GATHER", phase="PCSETUP")
+        raise_if_rank_failures(comm, rank, "OWNERSHIP_GATHER", ownership_error)
+
+        ownership_digest_error: BaseException | None = None
+        ownership_digest = None
         if rank == 0:
-            matrix_metadata = {
-                "type": actual_matrix_type,
-                "format": "aij" if actual_matrix_type.endswith("aij") else actual_matrix_type,
-                "global_size": list(matrix.getSize()),
-                "local_size": list(matrix.getLocalSize()),
-                "ownership_ranges": ownership_rows,
-                "info": diagnostics.get("matrix_info"),
-                "metadata_digest": canonical_digest(diagnostics),
-            }
-            record.update(
-                {
-                "status": "PASS" if finite_state and pc_ready else "FAIL",
-                "model": {
-                    "model_id": build["workload"]["model_id"],
-                    "node_count": model.node_count,
-                    "element_count": model.element_count,
-                    "true_dof": model.ndof,
-                    "fixed_dof_count": model.global_fixed_dof_count,
-                    "load_count": model.global_load_count,
-                    "minimum_signed_volume": audit.details["minimum_signed_volume"],
-                },
-                "input_digest_sha256": input_digest,
-                "partition_digest": partition_digest,
-                "ownership_digest": ownership_digest,
-                "partition": {"strategy": model.partition_strategy, "rows": partition_rows},
-                "matrix": matrix_metadata,
-                "petsc": {
-                    "version": list(PETSc.Sys.getVersion()),
-                    "ksp_type": actual_ksp,
-                    "pc_type": actual_pc,
-                    "pc_ready": pc_ready,
-                    "diagnostics": diagnostics,
-                    "solve_called": False,
-                },
-                "environment": _environment(size),
-                "phases": {
-                    "model_setup_seconds": load_seconds,
-                    "assembly_operator_seconds": matrix_seconds + rhs_seconds,
-                    "matrix_assembly_seconds": matrix_seconds,
-                    "rhs_setup_seconds": rhs_seconds,
-                    "pc_setup_seconds": pc_seconds,
-                    "solve_seconds": "NOT_RUN",
-                    "post_processing_seconds": "NOT_RUN",
-                    "total_seconds": _max_time(comm, time.perf_counter() - started),
-                },
-                "resources": {
-                    "peak_rss_total_bytes": sum(
-                        int(item["peak_rss_bytes"]) for item in memory_after if item.get("peak_rss_bytes") is not None
-                    ),
-                    "peak_rss_per_rank_bytes": max(
-                        int(item["peak_rss_bytes"]) for item in memory_after if item.get("peak_rss_bytes") is not None
-                    ),
-                    "peak_rss_by_rank": memory_after,
-                    "input_file_bytes": args.input.stat().st_size if rank == 0 else None,
-                    "free_disk_bytes_after": int(disk.free) if disk is not None else None,
-                    "disk_total_bytes": int(disk.total) if disk is not None else None,
-                    "memory_before_by_rank": memory_before,
-                },
-                "finite_state": finite_state,
-                "checks": {
-                    "actual_size": model.ndof == EXPECTED_DOF and model.element_count == EXPECTED_ELEMENTS and model.node_count == EXPECTED_NODES,
-                    "model_audit": audit.status,
-                    "matrix_accepted": matrix_metadata["global_size"] == [EXPECTED_DOF, EXPECTED_DOF]
-                    and matrix_metadata["format"] == "aij",
-                    "petsc_initialized": True,
-                    "gamg_ready": pc_ready,
-                    "finite_state": finite_state,
-                    "no_solve": True,
-                    "no_silent_fallback": True,
-                },
-                "provenance": {
-                    "source_sha": args.source_sha,
-                    "contract_path": "qualification/0_2_7/wp04_execution_contract.json",
-                    "contract_digest_sha256": _sha256_file(CONTRACT_PATH),
-                    "runtime_image": RUNTIME_IMAGE,
-                    "input_digest_sha256": input_digest,
-                    "command": [str(value) for value in sys.argv],
-                    "artifact_classification": "CONTROLLED_PROOF",
-                },
+            try:
+                ownership_digest = canonical_digest(ownership_rows)
+            except Exception as exc:
+                ownership_digest_error = exc
+                rank_telemetry.marker("EXCEPTION", phase="PCSETUP", error=exc)
+        raise_if_rank_failures(comm, rank, "OWNERSHIP_DIGEST", ownership_digest_error)
+        ownership_digest = comm.bcast(ownership_digest, root=0)
+
+        readiness_error: BaseException | None = None
+        local_finite = False
+        actual_matrix_type = "UNAVAILABLE"
+        actual_ksp = "UNAVAILABLE"
+        actual_pc = "UNAVAILABLE"
+        try:
+            local_finite = bool(np_is_finite_model(model))
+            actual_matrix_type = str(matrix.getType()).lower()
+            actual_ksp = str(ksp.getType()).lower()
+            actual_pc = str(ksp.getPC().getType()).lower()
+        except Exception as exc:
+            readiness_error = exc
+            rank_telemetry.marker("EXCEPTION", phase="PCSETUP", error=exc)
+        raise_if_rank_failures(comm, rank, "READINESS_INSPECTION", readiness_error)
+        finite_state = bool(comm.allreduce(local_finite, op=MPI.LAND))
+        rank_telemetry.marker("PRE_PC_READY", phase="PC_READY_LOCAL")
+        readiness_rows = require_global_readiness(
+            comm,
+            rank,
+            {
+                "pc_ready": actual_matrix_type.endswith("aij") and actual_ksp == "cg" and actual_pc == "gamg",
+                "matrix_type": actual_matrix_type,
+                "ksp_type": actual_ksp,
+                "pc_type": actual_pc,
+            },
+        )
+        rank_telemetry.marker("PC_READY", phase="PC_READY_GLOBAL", context={"scope": "GLOBAL"})
+        telemetry.phase("PC_READY")
+        telemetry.phase("PC_READY_GLOBAL")
+        rank_telemetry.marker("PRE_MEMORY_GATHER", phase="PC_READY_GLOBAL")
+        memory_error: BaseException | None = None
+        memory_after: list[dict[str, Any]] | None = None
+        try:
+            memory_after = comm.gather(process_memory_snapshot(), root=0)
+        except Exception as exc:
+            memory_error = exc
+            rank_telemetry.marker("EXCEPTION", phase="PC_READY_GLOBAL", error=exc)
+        else:
+            rank_telemetry.marker("POST_MEMORY_GATHER", phase="PC_READY_GLOBAL")
+        raise_if_rank_failures(comm, rank, "MEMORY_GATHER", memory_error)
+
+        disk_error: BaseException | None = None
+        disk = None
+        if rank == 0:
+            try:
+                disk = shutil.disk_usage(args.input.parent)
+            except OSError as exc:
+                disk_error = exc
+                rank_telemetry.marker("EXCEPTION", phase="EVIDENCE", error=exc)
+        raise_if_rank_failures(comm, rank, "DISK_SNAPSHOT", disk_error)
+
+        # This reduction must be entered by every rank.  Keeping it in the
+        # rank-zero evidence block mismatches the non-root finalization barrier.
+        total_seconds = _max_time(comm, time.perf_counter() - started)
+        record_error: BaseException | None = None
+        if rank == 0:
+            try:
+                matrix_metadata = {
+                    "type": actual_matrix_type,
+                    "format": "aij" if actual_matrix_type.endswith("aij") else actual_matrix_type,
+                    "global_size": list(matrix.getSize()),
+                    "local_size": list(matrix.getLocalSize()),
+                    "ownership_ranges": ownership_rows,
+                    "info": diagnostics.get("matrix_info"),
+                    "metadata_digest": canonical_digest(diagnostics),
                 }
-            )
-            telemetry.phase("COMPLETED")
-            record["telemetry_status"] = telemetry.status
+                record.update(
+                    {
+                    "status": "PASS" if finite_state else "FAIL",
+                    "model": {
+                        "model_id": build["workload"]["model_id"],
+                        "node_count": model.node_count,
+                        "element_count": model.element_count,
+                        "true_dof": model.ndof,
+                        "fixed_dof_count": model.global_fixed_dof_count,
+                        "load_count": model.global_load_count,
+                        "minimum_signed_volume": audit.details["minimum_signed_volume"],
+                    },
+                    "input_digest_sha256": input_digest,
+                    "partition_digest": partition_digest,
+                    "ownership_digest": ownership_digest,
+                    "partition": {"strategy": model.partition_strategy, "rows": partition_rows},
+                    "matrix": matrix_metadata,
+                    "petsc": {
+                        "version": list(PETSc.Sys.getVersion()),
+                        "ksp_type": actual_ksp,
+                        "pc_type": actual_pc,
+                        "pc_ready": True,
+                        "global_readiness": readiness_rows,
+                        "diagnostics": diagnostics,
+                        "solve_called": False,
+                    },
+                    "environment": _environment(size),
+                    "phases": {
+                        "model_setup_seconds": load_seconds,
+                        "assembly_operator_seconds": matrix_seconds + rhs_seconds,
+                        "matrix_assembly_seconds": matrix_seconds,
+                        "rhs_setup_seconds": rhs_seconds,
+                        "pc_setup_seconds": pc_seconds,
+                        "solve_seconds": "NOT_RUN",
+                        "post_processing_seconds": "NOT_RUN",
+                        "total_seconds": total_seconds,
+                    },
+                    "resources": {
+                        "peak_rss_total_bytes": sum(
+                            int(item["peak_rss_bytes"]) for item in memory_after if item.get("peak_rss_bytes") is not None
+                        ),
+                        "peak_rss_per_rank_bytes": max(
+                            int(item["peak_rss_bytes"]) for item in memory_after if item.get("peak_rss_bytes") is not None
+                        ),
+                        "peak_rss_by_rank": memory_after,
+                        "input_file_bytes": args.input.stat().st_size,
+                        "free_disk_bytes_after": int(disk.free) if disk is not None else None,
+                        "disk_total_bytes": int(disk.total) if disk is not None else None,
+                        "memory_before_by_rank": memory_before,
+                    },
+                    "finite_state": finite_state,
+                    "checks": {
+                        "actual_size": model.ndof == EXPECTED_DOF and model.element_count == EXPECTED_ELEMENTS and model.node_count == EXPECTED_NODES,
+                        "model_audit": audit.status,
+                        "matrix_accepted": matrix_metadata["global_size"] == [EXPECTED_DOF, EXPECTED_DOF]
+                        and matrix_metadata["format"] == "aij",
+                        "petsc_initialized": True,
+                        "gamg_ready": True,
+                        "finite_state": finite_state,
+                        "no_solve": True,
+                        "no_silent_fallback": True,
+                    },
+                    "provenance": {
+                        "source_sha": args.source_sha,
+                        "contract_path": "qualification/0_2_7/wp04_execution_contract.json",
+                        "contract_digest_sha256": _sha256_file(CONTRACT_PATH),
+                        "runtime_image": RUNTIME_IMAGE,
+                        "input_digest_sha256": input_digest,
+                        "command": [str(value) for value in sys.argv],
+                        "artifact_classification": "CONTROLLED_PROOF",
+                    },
+                    }
+                )
+            except Exception as exc:
+                record_error = exc
+                rank_telemetry.marker("EXCEPTION", phase="EVIDENCE", error=exc)
+        raise_if_rank_failures(comm, rank, "RANK_ZERO_EVIDENCE", record_error)
+        record = comm.bcast(record if rank == 0 else None, root=0)
+        telemetry.phase("COMPLETED")
+        record["telemetry_status"] = telemetry.status
+
+        raw_write_error: BaseException | None = None
+        if rank == 0:
+            try:
+                _write(args.output / "wp04_bronze_raw.json", record)
+            except OSError as exc:
+                raw_write_error = exc
+                rank_telemetry.marker("EXCEPTION", phase="EVIDENCE", error=exc)
+        raise_if_rank_failures(comm, rank, "RAW_REPORT_WRITE", raw_write_error)
     except Exception as exc:  # pragma: no cover - exercised in Docker failure paths
+        rank_telemetry.marker("EXCEPTION", phase="FAILED", error=exc)
         telemetry.phase("FAILED")
         record.update(
             {
@@ -254,6 +364,7 @@ def run_case(args: argparse.Namespace) -> dict[str, Any]:
             }
         )
     finally:
+        rank_telemetry.marker("FINALIZE_ENTER", phase="FINALIZING")
         for handle in (rhs, ksp, matrix):
             if handle is not None:
                 try:
@@ -261,9 +372,9 @@ def run_case(args: argparse.Namespace) -> dict[str, Any]:
                 except Exception:
                     pass
         comm.Barrier()
-    if MPI.COMM_WORLD.rank == 0:
-        _write(args.output / "wp04_bronze_raw.json", record)
+        rank_telemetry.marker("FINALIZE_EXIT", phase="FINALIZED")
     telemetry.close()
+    rank_telemetry.close()
     comm.Barrier()
     return record
 

@@ -31,10 +31,10 @@
   "preflight": "PASS",
   "bronze": {
     "status": "USER_INTERRUPTED_INCONCLUSIVE",
-    "run1": "OWNER_INTERRUPTED_DURING_AIJ_ASSEMBLY",
+    "run1": "OWNER_TERMINATED_AFTER_DIAGNOSTIC; rank-zero local PC_READY observed; global readiness not proved",
     "run2": "NOT_RUN_AFTER_USER_INTERRUPT",
-    "petsc_initialization": "NOT_PROVED",
-    "gamg_readiness": "NOT_PROVED",
+    "petsc_initialization": "RANK_ZERO_LOCAL_PATH_REACHED",
+    "gamg_readiness": "GLOBAL_NOT_PROVED",
     "solve_5m_complete": false,
     "claim": "5M Bronze not passed; no readiness or solve claim"
   },
@@ -53,6 +53,7 @@
     "index": "qualification/0_2_7/wp04_runtime/wp04_evidence_index.json",
     "summary": "qualification/0_2_7/wp04_runtime/wp04_summary.json",
     "resource_guard_audit": "qualification/0_2_7/wp04_runtime/wp04_resource_guard_audit.json",
+    "post_pc_ready_diagnostic": "qualification/0_2_7/wp04_runtime/wp04_post_pc_ready_diagnostic.json",
     "run1_build": "qualification/0_2_7/wp04_runtime/workload_5m_run1_build.json",
     "run2_build": "qualification/0_2_7/wp04_runtime/workload_5m_run2_build.json"
   },
@@ -68,7 +69,7 @@
   "ready_for_wp04_retry": true,
   "ready_for_c1": false,
   "blockers": [
-    "Frozen AIJ operator assembly exceeded the explicit 2x comparable 3M time guard before PETSc/GAMG readiness; investigate C1 before attempting 5M Silver."
+    "The owner-terminated retry exposed a proven post-PC_READY collective-order defect. Replay the patched frozen route with per-rank telemetry; neither RESOURCE_LIMITED nor C1 is proven."
   ],
   "artifact_classification": "CONTROLLED_PROOF"
 }

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import ast
 import json
 from pathlib import Path
 
@@ -9,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[2]
 QUALIFICATION = ROOT / "qualification" / "0_2_7"
 CONTRACT = QUALIFICATION / "wp04_execution_contract.json"
 RUNTIME = QUALIFICATION / "wp04_runtime"
+RUNNER = ROOT / "scripts" / "run_lu2_wp04_bronze.py"
 
 
 def _read(path: Path) -> dict:
@@ -45,8 +47,8 @@ def test_wp04_forensic_reclassification_is_honest() -> None:
     assert summary["time_guard"]["absolute_wall_time_ceiling_seconds"] == 18_000
     assert summary["time_guard"]["effective_stop_threshold_seconds"] < summary["time_guard"]["absolute_wall_time_ceiling_seconds"]
     assert index["status"] == "USER_INTERRUPTED_INCONCLUSIVE"
-    assert index["acceptance"]["operator_build"] is False
-    assert index["acceptance"]["petsc_initialization"] is False
+    assert index["acceptance"]["operator_build"] == "RANK_ZERO_LOCAL_PATH_REACHED"
+    assert index["acceptance"]["petsc_initialization"] == "RANK_ZERO_LOCAL_PATH_REACHED"
     assert index["acceptance"]["gamg_readiness"] is False
     assert index["acceptance"]["bronze_pass"] is False
     assert audit["decision"] == "OWNER_INTERRUPTED_BEFORE_COMPLETION"
@@ -67,5 +69,48 @@ def test_wp04_forensic_reclassification_is_honest() -> None:
     assert forensic["decision"]["resource_limited_proven"] is False
     assert forensic["decision"]["c1_trigger_confirmed"] is False
     assert forensic["retry_plan"]["recommendation"] == "YES"
+    post_ready = _read(RUNTIME / "wp04_post_pc_ready_diagnostic.json")
+    assert post_ready["root_cause"]["classification"] == "PROVEN_COLLECTIVE_ORDER_MISMATCH"
+    assert post_ready["run_a"]["rank_zero_pc_ready_scope"] == "LOCAL"
+    assert post_ready["classification"]["resource_limited_proven"] is False
+    assert (RUNTIME / "wp04_5m_progress.jsonl").is_file()
 
     assert not list((RUNTIME / "raw").glob("*.json"))
+
+
+def test_post_pc_ready_collectives_are_guarded_and_rank_zero_does_not_reduce_time() -> None:
+    source = RUNNER.read_text(encoding="utf-8")
+    required_markers = (
+        "PRE_SETUP",
+        "POST_SETUP",
+        "PRE_OWNERSHIP_GATHER",
+        "POST_OWNERSHIP_GATHER",
+        "PRE_PC_READY",
+        "PRE_MEMORY_GATHER",
+        "POST_MEMORY_GATHER",
+        "FINALIZE_ENTER",
+        "FINALIZE_EXIT",
+        "EXCEPTION",
+    )
+    assert all(marker in source for marker in required_markers)
+    assert 'telemetry.phase("PC_READY_GLOBAL")' in source
+    assert source.index("total_seconds = _max_time") < source.index("if rank == 0:", source.index("record_error"))
+
+    tree = ast.parse(source)
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.If) or not isinstance(node.test, ast.Compare):
+            continue
+        if not (
+            isinstance(node.test.left, ast.Name)
+            and node.test.left.id == "rank"
+            and len(node.test.ops) == 1
+            and isinstance(node.test.ops[0], ast.Eq)
+            and len(node.test.comparators) == 1
+            and isinstance(node.test.comparators[0], ast.Constant)
+            and node.test.comparators[0].value == 0
+        ):
+            continue
+        assert not any(
+            isinstance(call, ast.Call) and isinstance(call.func, ast.Name) and call.func.id == "_max_time"
+            for call in ast.walk(ast.Module(body=node.body, type_ignores=[]))
+        )

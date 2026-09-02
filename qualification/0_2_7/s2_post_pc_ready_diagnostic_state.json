@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "record_type": "lu2_s2_post_pc_ready_diagnostic_state",
+  "namespace": "027-LEVEL-UP-2",
+  "work_package": "S2",
+  "status": "PASS",
+  "start_sha": "da140d51e61d94e97b94cfa6363f7558d9e8c103",
+  "evidence": "qualification/0_2_7/wp04_runtime/wp04_post_pc_ready_diagnostic.json",
+  "root_cause": "PROVEN_COLLECTIVE_ORDER_MISMATCH",
+  "pc_ready_previous_scope": "LOCAL",
+  "pc_ready_new_scope": "GLOBAL",
+  "per_rank_telemetry": "INSTALLED",
+  "replay_required": true,
+  "five_m_replay_run": false,
+  "full_regression_run": false,
+  "numerical_source_changed": false,
+  "freeze_changed": false,
+  "pushed": false,
+  "artifact_classification": "CONTROLLED_PROOF"
+}

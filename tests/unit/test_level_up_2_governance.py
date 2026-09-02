@@ -53,8 +53,8 @@ def test_lu2_plan_has_exact_scope_and_weight_accounting() -> None:
         "status": "CLOSED",
         "scope": "historical Level-Up 1 qualification and consolidation",
     }
-    assert accounting["level_up_2"]["acquired_percent"] == 28
-    assert accounting["current_global_progress_percent"] == 78
+    assert accounting["level_up_2"]["acquired_percent"] == 32
+    assert accounting["current_global_progress_percent"] == 82
     assert accounting["weights_total_percent"] == 100
 
 
@@ -88,8 +88,8 @@ def test_lu2_state_index_and_existing_lu1_are_consistent() -> None:
     assert state["current_work_package"] == "LU2-WP04"
     assert state["global_accounting"] == {
         "level_up_1": "50/50 CLOSED",
-        "level_up_2": "28/50 OPEN",
-        "current_global_progress": "78/100",
+        "level_up_2": "32/50 OPEN",
+        "current_global_progress": "82/100",
         "weights_total_percent": 100,
     }
     assert state["execution"]["heavy_benchmark_run"] is True
@@ -133,8 +133,8 @@ def test_current_governance_consumers_point_to_lu2_and_keep_baseline_roles() -> 
     assert manifest["current_development_head"] == WP03_SOURCE_SHA
     assert manifest["level_up_2_scope"]["status"] == "OPEN"
     assert manifest["level_up_2_scope"]["current_work_package"] == "LU2-WP04"
-    assert manifest["level_up_2_scope"]["level_up_2_acquired_percent"] == 28
-    assert manifest["level_up_2_scope"]["current_global_progress_percent"] == 78
+    assert manifest["level_up_2_scope"]["level_up_2_acquired_percent"] == 32
+    assert manifest["level_up_2_scope"]["current_global_progress_percent"] == 82
     assert manifest["level_up_2_scope"]["wp08_status"] == "PASS_WITH_LIMITATIONS"
     assert manifest["level_up_2_scope"]["pre_lu2_qualified_baseline"] == BASELINE_SHA
     assert all(
@@ -151,11 +151,13 @@ def test_current_governance_consumers_point_to_lu2_and_keep_baseline_roles() -> 
             "qualification/0_2_7/lu2_wp03_state.json",
             "qualification/0_2_7/wp04_execution_contract.json",
             "qualification/0_2_7/wp04_runtime/wp04_evidence_index.json",
+            "qualification/0_2_7/wp04_runtime/wp04_post_pc_ready_diagnostic.json",
+            "qualification/0_2_7/s2_post_pc_ready_diagnostic_state.json",
         )
     )
 
     assert progress["current_work_package"] == "LU2-WP04"
-    assert progress["global_accounting"]["current_global_progress_percent"] == 78
+    assert progress["global_accounting"]["current_global_progress_percent"] == 82
     assert progress["level_up_2"]["status"] == "OPEN"
     assert progress["level_up_2"]["wp02_status"] == "PASS_WITH_LIMITATIONS"
     assert progress["level_up_2"]["wp03_status"] == "PASS_WITH_LIMITATIONS"
@@ -189,7 +191,7 @@ def test_current_governance_consumers_point_to_lu2_and_keep_baseline_roles() -> 
     assert lu2_requirements[3]["status"] == "USER_INTERRUPTED_INCONCLUSIVE"
     assert lu2_requirements[4]["status"] == "PLANNED"
     assert lu2_requirements[5]["status"] == "PASS_WITH_LIMITATIONS"
-    assert lu2_requirements[6]["status"] == "PLANNED"
+    assert lu2_requirements[6]["status"] == "PASS_WITH_LIMITATIONS"
     assert lu2_requirements[7]["status"] == "PASS_WITH_LIMITATIONS"
     assert lu2_requirements[8]["status"] == "PLANNED"
     assert plan["registry_guard"] == {
