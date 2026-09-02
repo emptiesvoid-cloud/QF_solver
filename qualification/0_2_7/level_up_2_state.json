@@ -15,8 +15,8 @@
   "next_work_package": "LU2-WP04_SUPERVISED_RETRY",
   "global_accounting": {
     "level_up_1": "50/50 CLOSED",
-    "level_up_2": "22/50 OPEN",
-    "current_global_progress": "72/100",
+    "level_up_2": "24/50 OPEN",
+    "current_global_progress": "74/100",
     "weights_total_percent": 100
   },
   "work_packages": [
@@ -61,7 +61,13 @@
     {"id": "LU2-WP05", "status": "NOT_STARTED", "weight_percent": 9, "ready": false},
     {"id": "LU2-WP06", "status": "NOT_STARTED", "weight_percent": 4, "ready": false},
     {"id": "LU2-WP07", "status": "NOT_STARTED", "weight_percent": 4, "ready": false},
-    {"id": "LU2-WP08", "status": "NOT_STARTED", "weight_percent": 2, "ready": false},
+    {
+      "id": "LU2-WP08",
+      "status": "PASS_WITH_LIMITATIONS",
+      "weight_percent": 2,
+      "ready": true,
+      "evidence": "qualification/0_2_7/lu2_wp08_decision_matrix.json"
+    },
     {"id": "LU2-WP09", "status": "NOT_STARTED", "weight_percent": 4, "ready": false}
   ],
   "conditional_gates": [
@@ -109,9 +115,11 @@
     "ready_for_lu2_wp02": true,
     "ready_for_lu2_wp03": true,
     "ready_for_lu2_wp04": false,
+    "ready_for_lu2_wp08": true,
     "ready_for_lu2_wp05": false,
     "ready_for_wp04_retry": true,
     "ready_for_c1": false,
+    "ready_for_next_independent_wp": true,
     "wp03_evidence_index": "qualification/0_2_7/wp03_runtime/wp03_evidence_index.json",
     "wp03_summary": "qualification/0_2_7/wp03_runtime/wp03_summary.json",
     "ready_for_heavy_benchmark": false,
@@ -126,5 +134,14 @@
     "wp02_state": "qualification/0_2_7/wp02_state.json",
     "wp02_evidence_index": "qualification/0_2_7/wp02_runtime/wp02_evidence_index.json",
     "wp02_configuration_freeze": "qualification/0_2_7/wp02_runtime/wp02_config_freeze.json"
+  },
+  "wp08_decision": {
+    "status": "PASS_WITH_LIMITATIONS",
+    "decision_matrix": "qualification/0_2_7/lu2_wp08_decision_matrix.json",
+    "state": "qualification/0_2_7/lu2_wp08_state.json",
+    "implemented_new_element": false,
+    "fem_formulation_changed": false,
+    "maturity_promoted": false,
+    "next_operational_action_preserved": "LU2-WP04_SUPERVISED_RETRY"
   }
 }

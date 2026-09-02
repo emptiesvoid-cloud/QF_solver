@@ -356,9 +356,10 @@ Finite-kinematic J2 remains experimental/not qualified. See
 The previous Level-Up portfolio is now treated as **Level-Up 1**: its
 qualification evidence is preserved and its program block is `50/50 CLOSED`.
 The active namespace is **`027-LEVEL-UP-2`**, starting from the qualified
-baseline `8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3`. LU2 has acquired `22/50`
-through the completed WP01 observatory, bounded WP02 configuration freeze and
-WP03 Gold Compute, so the current global progress is `72/100`; these values replace the older
+baseline `8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3`. LU2 has acquired `24/50`
+through the completed WP01 observatory, bounded WP02 configuration freeze,
+WP03 Gold Compute and the LU2-WP08 decision closeout, so the current global
+progress is `74/100`; these values replace the older
 non-additive accounting view for active planning without rewriting any
 historical result.
 
@@ -375,7 +376,7 @@ in `level_up_2_state.json` and `level_up_2_index.json`.
 | LU2-WP05 | 5M Silver | 9% | MUST | `NOT_STARTED` |
 | LU2-WP06 | Execution Contract / Recovery / Diagnostics | 4% | MUST | `NOT_STARTED` |
 | LU2-WP07 | Existing Routes Maturity and Targeted V&V | 4% | SHOULD | `NOT_STARTED` |
-| LU2-WP08 | Mixed / WEDGE15 / PYRAMID5 / HEX8 Decisions | 2% | SHOULD | `NOT_STARTED` |
+| LU2-WP08 | Mixed / WEDGE15 / PYRAMID5 / HEX8 Decisions | 2% | SHOULD | `PASS_WITH_LIMITATIONS` |
 | LU2-WP09 | Release Truth / Registry / CI / Final Qualification | 4% | MUST | `NOT_STARTED` |
 
 The 3M Gold contract retains the existing Silver case and requires a
@@ -399,6 +400,19 @@ C3 requires 5M Silver first and can never block LU2. New physics, production
 HEX8R/SRI/B-bar, WEDGE15, PYRAMID5, finite-kinematic J2, TL HEX8, refined
 Arc-Length, new nonlinear couplings, matrix-free multi-family and general
 Newmark/harmonic qualification remain deferred to 0.2.8+.
+
+### LU2-WP08 decision closeout
+
+LU2-WP08 is closed as `PASS_WITH_LIMITATIONS` from the controlled decision
+matrix `qualification/0_2_7/lu2_wp08_decision_matrix.json`. Mixed
+TET/WEDGE/HEX is `PARTIAL` technically but has no qualified end-to-end
+contract and is deferred. WEDGE15 and PYRAMID5 are not supported or active
+capabilities and remain deferred. The existing HEX8 route remains bounded;
+WP19 is a diagnostic, not proof of a universal locking correction. HEX8R,
+SRI and B-bar are research-only decisions, and hourglass control is deferred
+with reduced integration. No implementation, large benchmark or maturity
+promotion occurred. WP04 remains `USER_INTERRUPTED_INCONCLUSIVE` with its
+supervised retry as the next operational action.
 
 LU2-WP02 is recorded in the controlled execution index
 `qualification/0_2_7/wp02_runtime/wp02_evidence_index.json` and freeze
@@ -429,7 +443,7 @@ constructions and the resource preflight passed, but the owner-interrupted
 container remained CPU-active in frozen AIJ operator assembly without a
 completion record. The attempt is therefore
 `USER_INTERRUPTED_INCONCLUSIVE`, not a Bronze pass, and no 5M solve claim is
-made. C1 is not confirmed; LU2 remains at `72/100` and WP05 is blocked pending
+made. C1 is not confirmed; LU2 remains at `74/100` and WP05 is blocked pending
 a supervised WP04 retry.
 
 LU2-WP01 is recorded in `qualification/0_2_7/observatory_contract.json` with

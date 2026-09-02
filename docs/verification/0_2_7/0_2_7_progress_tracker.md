@@ -213,8 +213,8 @@ experimental/not qualified. The authoritative records are
 ## Active global accounting
 
 The historical Level-Up portfolio is closed as Level-Up 1 at `50/50`. The
-active program is Level-Up 2 at `22/50`, giving `CURRENT_GLOBAL_PROGRESS =
-72/100`. The earlier 45/55 and 82/85 views remain historical accounting
+active program is Level-Up 2 at `24/50`, giving `CURRENT_GLOBAL_PROGRESS =
+74/100`. The earlier 45/55 and 82/85 views remain historical accounting
 records only; they are not added to the current program and do not replace
 any evidence. The active machine-readable records are
 `qualification/0_2_7/level_up_2_plan.json`,
@@ -232,7 +232,7 @@ any evidence. The active machine-readable records are
 | LU2-WP05 | 9% | MUST | `NOT_STARTED` | complete two-replay 5M Silver solve |
 | LU2-WP06 | 4% | MUST | `NOT_STARTED` | recovery, diagnostics and fail-closed execution |
 | LU2-WP07 | 4% | SHOULD | `NOT_STARTED` | targeted existing-route maturity evidence |
-| LU2-WP08 | 2% | SHOULD | `NOT_STARTED` | explicit mixed/new-solid/HEX8 decisions |
+| LU2-WP08 | 2% | SHOULD | `PASS_WITH_LIMITATIONS` | explicit decisions; deferred/research routes remain unqualified |
 | LU2-WP09 | 4% | MUST | `NOT_STARTED` | final registry, CI, package and Owner qualification |
 
 LU2-WP02 evidence is defined by the predeclared contract
@@ -261,6 +261,16 @@ preflight passed, but the owner-interrupted container remained CPU-active in
 frozen AIJ assembly without a completion record. The Bronze gate is
 `USER_INTERRUPTED_INCONCLUSIVE`, not PASS; no 5M solve claim is made and C1 is
 not confirmed.
+
+LU2-WP08 is closed as `PASS_WITH_LIMITATIONS` by the controlled decision
+matrix `qualification/0_2_7/lu2_wp08_decision_matrix.json`. Mixed
+TET/WEDGE/HEX remains a partial technical path without an end-to-end
+qualification and is deferred. WEDGE15 and PYRAMID5 are not supported or
+active capabilities and are deferred. Existing HEX8 remains bounded under
+WP19; HEX8R, SRI and B-bar are research-only, and hourglass control is
+deferred with reduced integration. No numerical source, capability maturity
+or WP04 forensic status changed. The supervised WP04 retry remains the next
+operational action.
 
 LU2-WP01 evidence is defined by
 `qualification/0_2_7/observatory_contract.json` and the controlled sample

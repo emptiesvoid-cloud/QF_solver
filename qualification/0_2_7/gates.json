@@ -314,8 +314,8 @@
     "pre_lu2_qualified_baseline": "8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3",
     "global_accounting": {
       "level_up_1": {"weight_percent": 50, "acquired_percent": 50, "status": "CLOSED"},
-      "level_up_2": {"weight_percent": 50, "acquired_percent": 22, "status": "OPEN"},
-      "current_global_progress_percent": 72,
+      "level_up_2": {"weight_percent": 50, "acquired_percent": 24, "status": "OPEN"},
+      "current_global_progress_percent": 74,
       "weights_total_percent": 100
     },
     "gates": [
@@ -378,7 +378,28 @@
       {"id": "LU2-027-G05", "work_package": "LU2-WP05", "title": "5M Silver", "status": "NOT_STARTED", "weight_percent": 9, "priority": "MUST"},
       {"id": "LU2-027-G06", "work_package": "LU2-WP06", "title": "Execution Contract / Recovery / Diagnostics", "status": "NOT_STARTED", "weight_percent": 4, "priority": "MUST"},
       {"id": "LU2-027-G07", "work_package": "LU2-WP07", "title": "Existing Routes Maturity and Targeted V&V", "status": "NOT_STARTED", "weight_percent": 4, "priority": "SHOULD"},
-      {"id": "LU2-027-G08", "work_package": "LU2-WP08", "title": "Mixed / WEDGE15 / PYRAMID5 / HEX8 Decisions", "status": "NOT_STARTED", "weight_percent": 2, "priority": "SHOULD"},
+      {
+        "id": "LU2-027-G08",
+        "work_package": "LU2-WP08",
+        "title": "Mixed / WEDGE15 / PYRAMID5 / HEX8 Decisions",
+        "status": "PASS_WITH_LIMITATIONS",
+        "weight_percent": 2,
+        "priority": "SHOULD",
+        "evidence": [
+          "qualification/0_2_7/lu2_wp08_decision_matrix.json",
+          "qualification/0_2_7/lu2_wp08_state.json",
+          "docs/verification/0_2_7/0_2_7_lu2_wp08_decisions.md",
+          "qualification/0_2_7/wp19_state.json",
+          "qualification/0_2_7/wp19_runtime/wp19_hex8_diagnostic.json"
+        ],
+        "owner_decision": "PASS_WITH_LIMITATIONS: explicit scope decisions preserve the bounded existing HEX8 route and keep mixed meshes, WEDGE15, PYRAMID5 and production HEX8R/SRI/B-bar outside qualified LU2 capabilities.",
+        "limitations": [
+          "No end-to-end mixed TET/WEDGE/HEX route is qualified.",
+          "WEDGE15 and PYRAMID5 are not implemented or active capabilities.",
+          "HEX8R, SRI, B-bar and hourglass control are research/deferred only.",
+          "WP19 is a bounded HEX8 diagnostic and does not prove a universal locking correction."
+        ]
+      },
       {"id": "LU2-027-G09", "work_package": "LU2-WP09", "title": "Release Truth / Registry / CI / Final Qualification", "status": "NOT_STARTED", "weight_percent": 4, "priority": "MUST"}
     ],
     "conditional_gates": [

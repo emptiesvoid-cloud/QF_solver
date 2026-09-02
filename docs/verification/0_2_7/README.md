@@ -106,6 +106,14 @@ in [`0_2_7_progress_tracker.md`](0_2_7_progress_tracker.md).
 | WP22 | Final release qualification | `PLANNED` |
 | Foundation WP13-WP14 proposal | Superseded by the Level-Up namespace | `PRESERVED_HISTORY` |
 
+The active LU2 accounting is `24/50` and `74/100` globally. LU2-WP08 is
+closed as `PASS_WITH_LIMITATIONS`: mixed TET/WEDGE/HEX is deferred without an
+end-to-end claim; WEDGE15 and PYRAMID5 are not supported; and HEX8R, SRI,
+B-bar and hourglass control remain research/deferred. The detailed decision
+record is [`0_2_7_lu2_wp08_decisions.md`](0_2_7_lu2_wp08_decisions.md), with
+the machine-readable matrix at
+[`lu2_wp08_decision_matrix.json`](../../../qualification/0_2_7/lu2_wp08_decision_matrix.json).
+
 ## Reading rules
 
 `SUPPORTED` means that an implementation path is available. `TESTED` means
@@ -132,6 +140,8 @@ explicit skip or limitation, never as `PASS`.
 - [`qualification/0_2_7/golden/wp21_replay_evidence.json`](../../../qualification/0_2_7/golden/wp21_replay_evidence.json)
 - [`qualification/0_2_7/release_workflow_audit.json`](../../../qualification/0_2_7/release_workflow_audit.json)
 - [`qualification/0_2_7/capability_registry_v2.json`](../../../qualification/0_2_7/capability_registry_v2.json) (source of truth)
+- [`qualification/0_2_7/lu2_wp08_decision_matrix.json`](../../../qualification/0_2_7/lu2_wp08_decision_matrix.json)
+- [`qualification/0_2_7/lu2_wp08_state.json`](../../../qualification/0_2_7/lu2_wp08_state.json)
 - [`qualification/0_2_7/registry_migration.json`](../../../qualification/0_2_7/registry_migration.json)
 - [`qualification/0_2_7/wp03_state.json`](../../../qualification/0_2_7/wp03_state.json)
 - [`qualification/0_2_7/wp05_state.json`](../../../qualification/0_2_7/wp05_state.json)
@@ -214,7 +224,7 @@ The active successor is Level-Up 2, installed from the qualified snapshot
 `qualification/0_2_7/level_up_2_plan.json`,
 `qualification/0_2_7/level_up_2_state.json` and
 `qualification/0_2_7/level_up_2_index.json`. LU1 remains a preserved historical
-record; LU2 is open at `22/50` (`72/100` globally). LU2-WP03 is closed as
+record; LU2 is open at `24/50` (`74/100` globally). LU2-WP03 is closed as
 `PASS_WITH_LIMITATIONS`, with `3M_GOLD_COMPUTE = PASS` for the controlled
 structured TET4/PETSc route. LU2-WP04 constructed two matching real 5M
 workload inputs and passed preflight, but its frozen AIJ assembly was still
@@ -224,3 +234,10 @@ not confirm the zero-weight C1 matrix-free capacity investigation. The active
 closeout and forensic audit are recorded in
 `qualification/0_2_7/lu2_wp04_state.json` and
 `qualification/0_2_7/wp04_runtime/wp04_forensic_audit.json`.
+
+LU2-WP08 is closed as `PASS_WITH_LIMITATIONS` by
+`qualification/0_2_7/lu2_wp08_decision_matrix.json`. Mixed TET/WEDGE/HEX is
+deferred without an end-to-end claim; WEDGE15 and PYRAMID5 are not supported;
+the existing HEX8 route remains bounded; and HEX8R, SRI, B-bar and hourglass
+control remain research/deferred. No new element, formulation or active
+capability was added.

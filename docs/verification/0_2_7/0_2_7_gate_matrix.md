@@ -194,9 +194,10 @@ release action.
 
 The prior Level-Up is closed as Level-Up 1 at `50/50`. The active namespace is
 `027-LEVEL-UP-2`, based on the qualified snapshot
-`8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3`. LU2 is at `22/50` after the WP01
-observatory, bounded WP02 configuration freeze and completed WP03 Gold
-Compute, and the global program is therefore `72/100`. The active
+`8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3`. LU2 is at `24/50` after the WP01
+observatory, bounded WP02 configuration freeze, completed WP03 Gold Compute
+and LU2-WP08 scope closeout, and the global program is therefore `74/100`.
+The active
 contracts and state are
 authoritative in `qualification/0_2_7/level_up_2_plan.json` and
 `qualification/0_2_7/level_up_2_state.json`.
@@ -210,7 +211,7 @@ authoritative in `qualification/0_2_7/level_up_2_plan.json` and
 | `LU2-027-G05` | LU2-WP05 5M Silver | 9% | MUST | `NOT_STARTED` | complete two-replay solve under frozen MPI and resource criteria |
 | `LU2-027-G06` | LU2-WP06 execution/recovery | 4% | MUST | `NOT_STARTED` | explicit, fail-closed outcomes and state integrity |
 | `LU2-027-G07` | LU2-WP07 existing routes | 4% | SHOULD | `NOT_STARTED` | only decision-changing targeted V&V, no transitive promotion |
-| `LU2-027-G08` | LU2-WP08 route decisions | 2% | SHOULD | `NOT_STARTED` | deferred/experimental routes remain unqualified |
+| `LU2-027-G08` | LU2-WP08 route decisions | 2% | SHOULD | `PASS_WITH_LIMITATIONS` | deferred/experimental routes remain unqualified; existing HEX8 remains bounded |
 | `LU2-027-G09` | LU2-WP09 final qualification | 4% | MUST | `NOT_STARTED` | explicit Owner RELEASE or NEW_LEVEL_UP decision |
 
 LU2-WP02 is closed with limitations by the controlled 3M MPI evidence index
@@ -250,3 +251,20 @@ block LU2.
 Bronze never
 creates a 3M solve claim, Gold does not require restart, and no post-result
 retuning or silent fallback is permitted.
+
+## `LU2-027-G08` route-decision closeout
+
+LU2-WP08 is `PASS_WITH_LIMITATIONS`. The controlled decision matrix is
+[`qualification/0_2_7/lu2_wp08_decision_matrix.json`](../../../qualification/0_2_7/lu2_wp08_decision_matrix.json)
+and its state record is
+[`qualification/0_2_7/lu2_wp08_state.json`](../../../qualification/0_2_7/lu2_wp08_state.json).
+No new element, formulation or mixed-mesh framework was implemented.
+
+Mixed TET/WEDGE/HEX is `PARTIAL` at technical infrastructure level but has no
+qualified end-to-end route and is deferred. WEDGE15 and PYRAMID5 are
+`NOT_SUPPORTED` and deferred; negative fixtures do not constitute
+implementation. Existing HEX8 remains `SUPPORTED_WITH_LIMITATIONS` within
+the bounded WP19 diagnostic scope. HEX8R, SRI and B-bar are
+`RESEARCH_ONLY`, while hourglass control is deferred with any future reduced
+integration route. These decisions do not change the active capability
+registry or any earlier Owner decision.

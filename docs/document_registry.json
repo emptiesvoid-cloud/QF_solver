@@ -4744,6 +4744,22 @@
         "tests/unit/test_lu2_wp04.py",
         "tests/unit/test_level_up_2_governance.py"
       ]
+    },
+    {
+      "id": "DOC-027-LU2-WP08-001",
+      "path": "verification/0_2_7/0_2_7_lu2_wp08_decisions.md",
+      "title": "0.2.7 LU2-WP08 mixed/new-solid/HEX8 scope decisions",
+      "status": "controlled_evidence",
+      "requirements": ["027-LU2-REQ-008"],
+      "examples": [
+        "qualification/0_2_7/lu2_wp08_decision_matrix.json",
+        "qualification/0_2_7/lu2_wp08_state.json",
+        "qualification/0_2_7/wp19_state.json",
+        "qualification/0_2_7/wp19_runtime/wp19_hex8_diagnostic.json"
+      ],
+      "tests": [
+        "tests/unit/test_lu2_wp08_scope_decisions.py"
+      ]
     }
   ]
 }

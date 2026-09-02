@@ -126,12 +126,12 @@
     },
     "level_up_2": {
       "weight_percent": 50,
-      "acquired_percent": 22,
+      "acquired_percent": 24,
       "status": "OPEN",
       "plan": "qualification/0_2_7/level_up_2_plan.json",
       "state": "qualification/0_2_7/level_up_2_state.json"
     },
-    "current_global_progress_percent": 72,
+    "current_global_progress_percent": 74,
     "weights_total_percent": 100,
     "legacy_accounting_views_are_not_active": true
   },
@@ -185,10 +185,15 @@
     "wp04_bronze_pass": false,
     "c1_matrix_free_triggered": false,
     "resource_limited_proven": false,
+    "wp08_status": "PASS_WITH_LIMITATIONS",
+    "wp08_decision_matrix": "qualification/0_2_7/lu2_wp08_decision_matrix.json",
+    "wp08_state": "qualification/0_2_7/lu2_wp08_state.json",
+    "wp08_new_element_implemented": false,
+    "wp08_fem_formulation_changed": false,
     "blockers": [
       "The owner-interrupted AIJ assembly did not reach PETSc/GAMG readiness; elapsed time exceeded the 2x reference budget, but RESOURCE_LIMITED and C1 are not proven without progress/resource telemetry."
     ],
-    "completed_work_packages": ["LU2-WP01", "LU2-WP02", "LU2-WP03"],
+    "completed_work_packages": ["LU2-WP01", "LU2-WP02", "LU2-WP03", "LU2-WP08"],
     "observatory_contract": "qualification/0_2_7/observatory_contract.json",
     "observatory_sample": "qualification/0_2_7/wp01_observatory_sample.json"
   }
