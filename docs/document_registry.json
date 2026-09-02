@@ -4760,6 +4760,22 @@
       "tests": [
         "tests/unit/test_lu2_wp08_scope_decisions.py"
       ]
+    },
+    {
+      "id": "DOC-027-LU2-WP06-001",
+      "path": "verification/0_2_7/0_2_7_wp06_execution_contract.md",
+      "title": "0.2.7 LU2-WP06 execution, recovery and diagnostics contract",
+      "status": "controlled_evidence",
+      "requirements": ["027-LU2-REQ-006"],
+      "examples": [
+        "qualification/0_2_7/wp06_execution_contract.json",
+        "qualification/0_2_7/lu2_wp06_state.json"
+      ],
+      "tests": [
+        "tests/unit/test_execution_contract.py",
+        "tests/unit/test_nonlinear_checkpoint.py",
+        "tests/unit/test_dynamic_checkpoint.py"
+      ]
     }
   ]
 }

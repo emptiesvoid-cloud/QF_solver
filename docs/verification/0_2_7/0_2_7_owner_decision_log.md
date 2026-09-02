@@ -486,3 +486,22 @@ B-bar are research-only, and hourglass control is deferred with any future
 reduced-integration route. No element, formulation, public maturity or
 large-model benchmark changed. The WP04 supervised retry remains the next
 operational action.
+
+## LU2-WP06 execution and recovery closeout
+
+Date: 2026-09-02. Decision source SHA:
+`4771a23af8cee4549460b9e84edb9228c3a9f60d`.
+
+Owner decision: `PASS_WITH_LIMITATIONS`. The additive execution lifecycle,
+stable diagnostic taxonomy and fail-closed checkpoint boundary are installed
+and covered by focused tests. Existing nonlinear static, arc-length and
+Newmark checkpoint routes retain the recovery claim; linear, buckling,
+harmonic, geometric nonlinear and large distributed routes remain explicitly
+non-recoverable under this contract. No universal execution graph, timeout
+recovery, distributed recovery or fault-tolerance claim is made. The
+controlled records are `qualification/0_2_7/wp06_execution_contract.json`,
+`qualification/0_2_7/lu2_wp06_state.json`,
+`docs/verification/0_2_7/0_2_7_wp06_execution_contract.md` and
+`tests/unit/test_execution_contract.py`. LU2-WP07 is ready as an independent
+targeted-V&V work package; the separately pending WP04 supervised retry is
+unchanged.

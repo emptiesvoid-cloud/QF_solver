@@ -53,8 +53,8 @@ def test_lu2_plan_has_exact_scope_and_weight_accounting() -> None:
         "status": "CLOSED",
         "scope": "historical Level-Up 1 qualification and consolidation",
     }
-    assert accounting["level_up_2"]["acquired_percent"] == 24
-    assert accounting["current_global_progress_percent"] == 74
+    assert accounting["level_up_2"]["acquired_percent"] == 28
+    assert accounting["current_global_progress_percent"] == 78
     assert accounting["weights_total_percent"] == 100
 
 
@@ -88,8 +88,8 @@ def test_lu2_state_index_and_existing_lu1_are_consistent() -> None:
     assert state["current_work_package"] == "LU2-WP04"
     assert state["global_accounting"] == {
         "level_up_1": "50/50 CLOSED",
-        "level_up_2": "24/50 OPEN",
-        "current_global_progress": "74/100",
+        "level_up_2": "28/50 OPEN",
+        "current_global_progress": "78/100",
         "weights_total_percent": 100,
     }
     assert state["execution"]["heavy_benchmark_run"] is True
@@ -100,6 +100,7 @@ def test_lu2_state_index_and_existing_lu1_are_consistent() -> None:
     assert state["readiness"]["ready_for_lu2_wp03"] is True
     assert state["readiness"]["ready_for_lu2_wp04"] is False
     assert state["readiness"]["ready_for_lu2_wp08"] is True
+    assert state["readiness"]["ready_for_lu2_wp07"] is True
     assert state["readiness"]["ready_for_lu2_wp05"] is False
     assert state["readiness"]["ready_for_heavy_benchmark"] is False
     assert state["readiness"]["next_work_package"] == "LU2-WP04_SUPERVISED_RETRY"
@@ -132,8 +133,8 @@ def test_current_governance_consumers_point_to_lu2_and_keep_baseline_roles() -> 
     assert manifest["current_development_head"] == WP03_SOURCE_SHA
     assert manifest["level_up_2_scope"]["status"] == "OPEN"
     assert manifest["level_up_2_scope"]["current_work_package"] == "LU2-WP04"
-    assert manifest["level_up_2_scope"]["level_up_2_acquired_percent"] == 24
-    assert manifest["level_up_2_scope"]["current_global_progress_percent"] == 74
+    assert manifest["level_up_2_scope"]["level_up_2_acquired_percent"] == 28
+    assert manifest["level_up_2_scope"]["current_global_progress_percent"] == 78
     assert manifest["level_up_2_scope"]["wp08_status"] == "PASS_WITH_LIMITATIONS"
     assert manifest["level_up_2_scope"]["pre_lu2_qualified_baseline"] == BASELINE_SHA
     assert all(
@@ -154,12 +155,13 @@ def test_current_governance_consumers_point_to_lu2_and_keep_baseline_roles() -> 
     )
 
     assert progress["current_work_package"] == "LU2-WP04"
-    assert progress["global_accounting"]["current_global_progress_percent"] == 74
+    assert progress["global_accounting"]["current_global_progress_percent"] == 78
     assert progress["level_up_2"]["status"] == "OPEN"
     assert progress["level_up_2"]["wp02_status"] == "PASS_WITH_LIMITATIONS"
     assert progress["level_up_2"]["wp03_status"] == "PASS_WITH_LIMITATIONS"
     assert progress["level_up_2"]["wp04_status"] == "USER_INTERRUPTED_INCONCLUSIVE"
     assert progress["level_up_2"]["wp04_bronze_pass"] is False
+    assert progress["level_up_2"]["wp06_status"] == "PASS_WITH_LIMITATIONS"
     assert progress["level_up_2"]["wp08_status"] == "PASS_WITH_LIMITATIONS"
     assert progress["level_up_2"]["c1_matrix_free_triggered"] is False
     assert release_truth["current_development_head"]["sha"] == WP03_SOURCE_SHA
@@ -185,7 +187,9 @@ def test_current_governance_consumers_point_to_lu2_and_keep_baseline_roles() -> 
     assert lu2_requirements[1]["status"] == "PASS_WITH_LIMITATIONS"
     assert lu2_requirements[2]["status"] == "PASS_WITH_LIMITATIONS"
     assert lu2_requirements[3]["status"] == "USER_INTERRUPTED_INCONCLUSIVE"
-    assert all(item["status"] == "PLANNED" for item in lu2_requirements[4:7])
+    assert lu2_requirements[4]["status"] == "PLANNED"
+    assert lu2_requirements[5]["status"] == "PASS_WITH_LIMITATIONS"
+    assert lu2_requirements[6]["status"] == "PLANNED"
     assert lu2_requirements[7]["status"] == "PASS_WITH_LIMITATIONS"
     assert lu2_requirements[8]["status"] == "PLANNED"
     assert plan["registry_guard"] == {

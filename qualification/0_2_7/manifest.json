@@ -136,8 +136,8 @@
     "source_snapshot": "8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3",
     "pre_lu2_qualified_baseline": "8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3",
     "level_up_1_acquired_percent": 50,
-    "level_up_2_acquired_percent": 24,
-    "current_global_progress_percent": 74,
+    "level_up_2_acquired_percent": 28,
+    "current_global_progress_percent": 78,
     "weights_total_percent": 100,
     "work_package_count": 9,
     "conditional_gate_count": 3,
@@ -147,7 +147,7 @@
     "maturity_promotion": false,
     "current_work_package": "LU2-WP04",
     "next_work_package": "LU2-WP04_SUPERVISED_RETRY",
-    "completed_work_packages": ["LU2-WP01", "LU2-WP02", "LU2-WP03", "LU2-WP08"],
+    "completed_work_packages": ["LU2-WP01", "LU2-WP02", "LU2-WP03", "LU2-WP06", "LU2-WP08"],
     "observatory_contract": "qualification/0_2_7/observatory_contract.json",
     "observatory_sample": "qualification/0_2_7/wp01_observatory_sample.json",
     "wp02_contract": "qualification/0_2_7/wp02_execution_contract.json",
@@ -178,6 +178,9 @@
     ],
     "c1_matrix_free_triggered": false,
     "resource_limited_proven": false,
+    "wp06_status": "PASS_WITH_LIMITATIONS",
+    "wp06_contract": "qualification/0_2_7/wp06_execution_contract.json",
+    "wp06_state": "qualification/0_2_7/lu2_wp06_state.json",
     "wp08_status": "PASS_WITH_LIMITATIONS",
     "wp08_decision_matrix": "qualification/0_2_7/lu2_wp08_decision_matrix.json",
     "wp08_state": "qualification/0_2_7/lu2_wp08_state.json",
@@ -414,7 +417,13 @@
     "qualification/0_2_7/lu2_wp08_decision_matrix.json",
     "qualification/0_2_7/lu2_wp08_state.json",
     "docs/verification/0_2_7/0_2_7_lu2_wp08_decisions.md",
-    "tests/unit/test_lu2_wp08_scope_decisions.py"
+    "tests/unit/test_lu2_wp08_scope_decisions.py",
+    "qualification/0_2_7/wp06_execution_contract.json",
+    "qualification/0_2_7/lu2_wp06_state.json",
+    "docs/verification/0_2_7/0_2_7_wp06_execution_contract.md",
+    "tests/unit/test_execution_contract.py",
+    "tests/unit/test_nonlinear_checkpoint.py",
+    "tests/unit/test_dynamic_checkpoint.py"
   ],
-  "status_rule": "A work package is PASS only when its declared evidence is recorded; WP05 records external deck preflight, WP06 records mesh-quality diagnostics, WP07 records an experimental WEDGE6 elemental kernel without creating a public qualification or universal quality cutoff, WP09 records bounded robustness evidence and explicit external outcomes, WP09-R records a reproducible headless Code_Aster oracle without promoting WEDGE6, WP10 records bounded consistent-mass modal qualification for its declared first-three-mode refinement and same-mesh external MAC scope without transferring static maturity, WP12 records bounded large-scale readiness evidence without creating a universal 1M-DOF claim, WP13 records release truth and a golden baseline, WP14 records a frozen large-scale execution contract without creating a 1M/3M solve claim, WP18 records distinct Bronze/Silver/Gold outcomes without claiming Gold when restart and second-case evidence are absent, WP19 records bounded fail-closed adversarial evidence plus a HEX8 diagnostic without promoting a new formulation or universal robustness claim, and WP20 records Owner closure of the existing bounded small-strain J2 scope without a new numerical claim or maturity promotion."
+  "status_rule": "A work package is PASS only when its declared evidence is recorded; WP05 records external deck preflight, the historical WP06 records mesh-quality diagnostics, LU2-WP06 records additive execution/recovery diagnostics, WP07 records an experimental WEDGE6 elemental kernel without creating a public qualification or universal quality cutoff, WP09 records bounded robustness evidence and explicit external outcomes, WP09-R records a reproducible headless Code_Aster oracle without promoting WEDGE6, WP10 records bounded consistent-mass modal qualification for its declared first-three-mode refinement and same-mesh external MAC scope without transferring static maturity, WP12 records bounded large-scale readiness evidence without creating a universal 1M-DOF claim, WP13 records release truth and a golden baseline, WP14 records a frozen large-scale execution contract without creating a 1M/3M solve claim, WP18 records distinct Bronze/Silver/Gold outcomes without claiming Gold when restart and second-case evidence are absent, WP19 records bounded fail-closed adversarial evidence plus a HEX8 diagnostic without promoting a new formulation or universal robustness claim, and WP20 records Owner closure of the existing bounded small-strain J2 scope without a new numerical claim or maturity promotion."
 }

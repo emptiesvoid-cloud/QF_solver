@@ -356,10 +356,10 @@ Finite-kinematic J2 remains experimental/not qualified. See
 The previous Level-Up portfolio is now treated as **Level-Up 1**: its
 qualification evidence is preserved and its program block is `50/50 CLOSED`.
 The active namespace is **`027-LEVEL-UP-2`**, starting from the qualified
-baseline `8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3`. LU2 has acquired `24/50`
+baseline `8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3`. LU2 has acquired `28/50`
 through the completed WP01 observatory, bounded WP02 configuration freeze,
-WP03 Gold Compute and the LU2-WP08 decision closeout, so the current global
-progress is `74/100`; these values replace the older
+WP03 Gold Compute, LU2-WP06 execution/recovery closeout and the LU2-WP08
+decision closeout, so the current global progress is `78/100`; these values replace the older
 non-additive accounting view for active planning without rewriting any
 historical result.
 
@@ -374,7 +374,7 @@ in `level_up_2_state.json` and `level_up_2_index.json`.
 | LU2-WP03 | 3M Gold Compute | 9% | MUST | `PASS_WITH_LIMITATIONS` |
 | LU2-WP04 | 5M Bronze | 5% | MUST | `USER_INTERRUPTED_INCONCLUSIVE` |
 | LU2-WP05 | 5M Silver | 9% | MUST | `NOT_STARTED` |
-| LU2-WP06 | Execution Contract / Recovery / Diagnostics | 4% | MUST | `NOT_STARTED` |
+| LU2-WP06 | Execution Contract / Recovery / Diagnostics | 4% | MUST | `PASS_WITH_LIMITATIONS` |
 | LU2-WP07 | Existing Routes Maturity and Targeted V&V | 4% | SHOULD | `NOT_STARTED` |
 | LU2-WP08 | Mixed / WEDGE15 / PYRAMID5 / HEX8 Decisions | 2% | SHOULD | `PASS_WITH_LIMITATIONS` |
 | LU2-WP09 | Release Truth / Registry / CI / Final Qualification | 4% | MUST | `NOT_STARTED` |
@@ -443,7 +443,7 @@ constructions and the resource preflight passed, but the owner-interrupted
 container remained CPU-active in frozen AIJ operator assembly without a
 completion record. The attempt is therefore
 `USER_INTERRUPTED_INCONCLUSIVE`, not a Bronze pass, and no 5M solve claim is
-made. C1 is not confirmed; LU2 remains at `74/100` and WP05 is blocked pending
+made. C1 is not confirmed; LU2 remains at `78/100` and WP05 is blocked pending
 a supervised WP04 retry.
 
 LU2-WP01 is recorded in `qualification/0_2_7/observatory_contract.json` with
