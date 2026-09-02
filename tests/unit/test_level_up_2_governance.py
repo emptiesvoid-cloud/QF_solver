@@ -98,7 +98,11 @@ def test_lu2_state_index_and_existing_lu1_are_consistent() -> None:
     assert state["readiness"]["ready_for_lu2_wp01"] is True
     assert state["readiness"]["ready_for_lu2_wp02"] is True
     assert state["readiness"]["ready_for_lu2_wp03"] is True
-    assert state["readiness"]["ready_for_lu2_wp04"] is True
+    assert state["readiness"]["ready_for_lu2_wp04"] is False
+    assert state["readiness"]["ready_for_lu2_wp05"] is False
+    assert state["readiness"]["ready_for_heavy_benchmark"] is False
+    assert state["readiness"]["next_work_package"] == "C1_MATRIX_FREE_CAPACITY_SPIKE"
+    assert state["work_packages"][3]["status"] == "RESOURCE_LIMITED"
     assert state["work_packages"][1]["status"] == "PASS_WITH_LIMITATIONS"
     assert state["work_packages"][1]["evidence"] == "qualification/0_2_7/wp02_state.json"
 
@@ -139,6 +143,8 @@ def test_current_governance_consumers_point_to_lu2_and_keep_baseline_roles() -> 
             "qualification/0_2_7/wp02_runtime/wp02_config_freeze.json",
             "qualification/0_2_7/wp03_execution_contract.json",
             "qualification/0_2_7/lu2_wp03_state.json",
+            "qualification/0_2_7/wp04_execution_contract.json",
+            "qualification/0_2_7/wp04_runtime/wp04_evidence_index.json",
         )
     )
 
@@ -147,8 +153,12 @@ def test_current_governance_consumers_point_to_lu2_and_keep_baseline_roles() -> 
     assert progress["level_up_2"]["status"] == "OPEN"
     assert progress["level_up_2"]["wp02_status"] == "PASS_WITH_LIMITATIONS"
     assert progress["level_up_2"]["wp03_status"] == "PASS_WITH_LIMITATIONS"
+    assert progress["level_up_2"]["wp04_status"] == "RESOURCE_LIMITED"
+    assert progress["level_up_2"]["wp04_bronze_pass"] is False
+    assert progress["level_up_2"]["c1_matrix_free_triggered"] is True
     assert release_truth["current_development_head"]["sha"] == WP03_SOURCE_SHA
     assert release_truth["level_up_2"]["status"] == "OPEN"
+    assert release_truth["level_up_2"]["wp04_status"] == "RESOURCE_LIMITED"
 
     lu2_gates = gates["level_up_2"]
     assert lu2_gates["status"] == "OPEN"
@@ -166,7 +176,8 @@ def test_current_governance_consumers_point_to_lu2_and_keep_baseline_roles() -> 
     assert lu2_requirements[0]["status"] == "PASS"
     assert lu2_requirements[1]["status"] == "PASS_WITH_LIMITATIONS"
     assert lu2_requirements[2]["status"] == "PASS_WITH_LIMITATIONS"
-    assert all(item["status"] == "PLANNED" for item in lu2_requirements[3:])
+    assert lu2_requirements[3]["status"] == "RESOURCE_LIMITED"
+    assert all(item["status"] == "PLANNED" for item in lu2_requirements[4:])
     assert plan["registry_guard"] == {
         "source_of_truth": "qualification/0_2_7/capability_registry_v2.json",
         "public_anchor_count": 33,

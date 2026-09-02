@@ -12,6 +12,7 @@
   "branch": "codex/0.2.7-foundation",
   "pre_lu2_qualified_baseline": "8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3",
   "current_work_package": "LU2-WP04",
+  "next_work_package": "C1_MATRIX_FREE_CAPACITY_SPIKE",
   "global_accounting": {
     "level_up_1": "50/50 CLOSED",
     "level_up_2": "22/50 OPEN",
@@ -34,7 +35,25 @@
         "qualification/0_2_7/lu2_wp03_state.json"
       ]
     },
-    {"id": "LU2-WP04", "status": "NOT_STARTED", "weight_percent": 5, "ready": false},
+    {
+      "id": "LU2-WP04",
+      "status": "RESOURCE_LIMITED",
+      "weight_percent": 5,
+      "ready": false,
+      "evidence": [
+        "qualification/0_2_7/wp04_execution_contract.json",
+        "qualification/0_2_7/wp04_runtime/wp04_preflight.json",
+        "qualification/0_2_7/wp04_runtime/workload_5m_run1_build.json",
+        "qualification/0_2_7/wp04_runtime/workload_5m_run2_build.json",
+        "qualification/0_2_7/wp04_runtime/wp04_resource_guard_audit.json",
+        "qualification/0_2_7/wp04_runtime/wp04_evidence_index.json",
+        "qualification/0_2_7/wp04_runtime/wp04_summary.json",
+        "qualification/0_2_7/lu2_wp04_state.json",
+        "docs/verification/0_2_7/0_2_7_wp04_5m_bronze.md"
+      ],
+      "c1_matrix_free_trigger": true,
+      "blocker": "Frozen AIJ operator assembly exceeded the explicit 2x comparable 3M time guard before PETSc/GAMG readiness."
+    },
     {"id": "LU2-WP05", "status": "NOT_STARTED", "weight_percent": 9, "ready": false},
     {"id": "LU2-WP06", "status": "NOT_STARTED", "weight_percent": 4, "ready": false},
     {"id": "LU2-WP07", "status": "NOT_STARTED", "weight_percent": 4, "ready": false},
@@ -42,7 +61,14 @@
     {"id": "LU2-WP09", "status": "NOT_STARTED", "weight_percent": 4, "ready": false}
   ],
   "conditional_gates": [
-    {"id": "C1", "status": "DORMANT", "weight_percent": 0, "non_blocking": true},
+    {
+      "id": "C1",
+      "status": "TRIGGERED",
+      "weight_percent": 0,
+      "non_blocking": true,
+      "triggered_by": "LU2-WP04",
+      "reason": "Measured frozen AIJ assembly capacity blocker at 5M before readiness; investigate only the scoped TET4 linear-static matrix-free route."
+    },
     {"id": "C2", "status": "DORMANT", "weight_percent": 0, "non_blocking": true},
     {"id": "C3", "status": "DORMANT", "weight_percent": 0, "non_blocking": true}
   ],
@@ -66,7 +92,7 @@
   "execution": {
     "heavy_benchmark_run": true,
     "full_regression_run": false,
-    "targeted_tests": "WP02 and WP03 contract, collector, replay and observatory validation PASS; T2 targeted closeout PASS",
+    "targeted_tests": "WP02/WP03 evidence validation PASS; WP04 contract, preflight and deterministic-build checks PASS; Bronze stopped by explicit time guard",
     "numerical_source_changed": false,
     "existing_evidence_rewritten": false,
     "maturity_promoted": false,
@@ -78,11 +104,16 @@
     "ready_for_lu2_wp01": true,
     "ready_for_lu2_wp02": true,
     "ready_for_lu2_wp03": true,
-    "ready_for_lu2_wp04": true,
+    "ready_for_lu2_wp04": false,
+    "ready_for_lu2_wp05": false,
     "wp03_evidence_index": "qualification/0_2_7/wp03_runtime/wp03_evidence_index.json",
     "wp03_summary": "qualification/0_2_7/wp03_runtime/wp03_summary.json",
-    "ready_for_heavy_benchmark": true,
-    "blockers": [],
+    "ready_for_heavy_benchmark": false,
+    "heavy_benchmark_status": "RESOURCE_LIMITED; C1 required before another large execution",
+    "next_work_package": "C1_MATRIX_FREE_CAPACITY_SPIKE",
+    "blockers": [
+      "Frozen AIJ operator assembly exceeded the explicit 2x comparable 3M time guard before PETSc/GAMG readiness; investigate C1 before attempting 5M Silver."
+    ],
     "observatory_contract": "qualification/0_2_7/observatory_contract.json",
     "observatory_sample": "qualification/0_2_7/wp01_observatory_sample.json",
     "wp02_contract": "qualification/0_2_7/wp02_execution_contract.json",

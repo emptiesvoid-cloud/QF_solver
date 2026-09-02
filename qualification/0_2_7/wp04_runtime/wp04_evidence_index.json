@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "record_type": "lu2_wp04_evidence_index",
+  "work_package": "LU2-WP04",
+  "gate": "LU2-027-G04",
+  "status": "RESOURCE_LIMITED",
+  "source_sha": "3c579e4a51a2e9edca23b7583cdbfc48c7f80368",
+  "contract": "qualification/0_2_7/wp04_execution_contract.json",
+  "preflight": "qualification/0_2_7/wp04_runtime/wp04_preflight.json",
+  "workload_builds": [
+    "qualification/0_2_7/wp04_runtime/workload_5m_run1_build.json",
+    "qualification/0_2_7/wp04_runtime/workload_5m_run2_build.json"
+  ],
+  "resource_guard_audit": "qualification/0_2_7/wp04_runtime/wp04_resource_guard_audit.json",
+  "run_records": {
+    "run1": "NOT_WRITTEN_AFTER_CONTROLLED_INTERRUPT",
+    "run2": "NOT_RUN_AFTER_GUARD"
+  },
+  "replay": "NOT_PERFORMED; run1 did not reach readiness",
+  "acceptance": {
+    "true_fem_model": true,
+    "minimum_dof": true,
+    "configuration_unchanged": true,
+    "two_deterministic_input_builds": true,
+    "operator_build": false,
+    "petsc_initialization": false,
+    "gamg_readiness": false,
+    "resource_guard": "TRIGGERED",
+    "bronze_pass": false
+  },
+  "c1_matrix_free_trigger": true,
+  "artifact_classification": "CONTROLLED_PROOF",
+  "claim_boundary": "Deterministic 5M workload and preflight are proved; frozen AIJ construction did not complete within the explicit time guard, so Bronze readiness and 5M solve are unclaimed."
+}

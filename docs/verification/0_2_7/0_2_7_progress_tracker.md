@@ -228,7 +228,7 @@ any evidence. The active machine-readable records are
 | LU2-WP01 | 4% | MUST | `PASS` | evidence and performance observatory |
 | LU2-WP02 | 9% | MUST | `PASS_WITH_LIMITATIONS` | CPU/MPI/GAMG freeze before large runs |
 | LU2-WP03 | 9% | MUST | `PASS_WITH_LIMITATIONS` | distinct second 3M workload and two replays |
-| LU2-WP04 | 5% | MUST | `NOT_STARTED` | real 5M Bronze construction and preflight only |
+| LU2-WP04 | 5% | MUST | `RESOURCE_LIMITED` | real 5M construction/preflight passed; frozen AIJ readiness stopped by time guard |
 | LU2-WP05 | 9% | MUST | `NOT_STARTED` | complete two-replay 5M Silver solve |
 | LU2-WP06 | 4% | MUST | `NOT_STARTED` | recovery, diagnostics and fail-closed execution |
 | LU2-WP07 | 4% | SHOULD | `NOT_STARTED` | targeted existing-route maturity evidence |
@@ -255,12 +255,17 @@ indexed by `qualification/0_2_7/wp03_runtime/wp03_evidence_index.json` and
 the bounded metrics are recorded in
 `docs/verification/0_2_7/0_2_7_wp03_3m_gold_compute.md`. Preflight,
 redistribution, communication and I/O remain `NOT_MEASURED`; no performance
-speedup is inferred between the distinct workloads. LU2-WP04 is now next.
+speedup is inferred between the distinct workloads. LU2-WP04 was attempted on
+a real 5,012,640-DOF TET4 model. Both independent constructions and the
+preflight passed, but frozen AIJ assembly exceeded the explicit 2x mean
+comparable 3M time guard before PETSc/GAMG readiness. The Bronze gate is
+`RESOURCE_LIMITED`, not PASS; no 5M solve claim is made and C1 is triggered.
 
 LU2-WP01 evidence is defined by
 `qualification/0_2_7/observatory_contract.json` and the controlled sample
 `qualification/0_2_7/wp01_observatory_sample.json`. LU2 weights sum to 50 %.
-C1, C2 and C3 are installed dormant conditional
-gates with zero weight. LU2-WP03 is complete and LU2-WP04 is now the next
-active work package; its
+C1, C2 and C3 are installed zero-weight conditional gates. C1 is
+`TRIGGERED` by the measured WP04 AIJ assembly capacity problem; C2 and C3
+remain dormant. LU2-WP03 is complete, LU2-WP04 remains incomplete, and C1 is
+the next active action; its
 pre-LU2 baseline is `8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3`.

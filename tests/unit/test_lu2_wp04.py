@@ -5,9 +5,6 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from solveur.verification.observatory import read_observatory_record
-
-
 ROOT = Path(__file__).resolve().parents[2]
 QUALIFICATION = ROOT / "qualification" / "0_2_7"
 CONTRACT = QUALIFICATION / "wp04_execution_contract.json"
@@ -28,27 +25,35 @@ def test_wp04_contract_is_predeclared_and_freeze_bound() -> None:
     assert contract["run_policy"]["no_converged_solve"] is True
 
 
-def test_wp04_evidence_has_two_replays_and_no_solve() -> None:
+def test_wp04_resource_limited_evidence_is_honest() -> None:
     summary = _read(RUNTIME / "wp04_summary.json")
-    replay = _read(RUNTIME / "wp04_replay_comparison.json")
     index = _read(RUNTIME / "wp04_evidence_index.json")
-    assert summary["status"] == "PASS_WITH_LIMITATIONS"
-    assert summary["bronze"] == "PASS"
-    assert summary["workload"]["true_dof"] == 5_012_640
-    assert summary["readiness"]["solve_executed"] is False
-    assert summary["c1_matrix_free_trigger"] is False
-    assert replay["status"] == "PASS"
-    assert all(replay["checks"].values())
-    assert index["status"] == "PASS_WITH_LIMITATIONS"
+    audit = _read(RUNTIME / "wp04_resource_guard_audit.json")
+    state = _read(QUALIFICATION / "lu2_wp04_state.json")
 
-    for run_id in ("run1", "run2"):
-        record = read_observatory_record(RUNTIME / f"workload_5m_{run_id}.json")
-        assert record["result"]["classification"] == "PASS"
-        assert record["workload"]["dof"] == 5_012_640
-        assert record["workload"]["elements"] == 9_773_946
-        assert record["execution"]["rank_count"] == 8
-        assert record["execution"]["preconditioner"] == "GAMG"
-        assert record["result"]["observables"]["pc_ready"] is True
-        assert record["result"]["observables"]["solve_executed"] is False
-        assert record["metrics"]["iterations"] is None
-        assert record["metrics"]["timings_seconds"]["ksp_solve"] is None
+    assert summary["status"] == "RESOURCE_LIMITED"
+    assert summary["runs"]["run1"]["status"] == "RESOURCE_LIMITED"
+    assert summary["runs"]["run2"]["status"] == "NOT_RUN_AFTER_GUARD"
+    assert summary["workload"]["true_dof"] == 5_012_640
+    assert summary["workload"]["independent_builds"] == 2
+    assert summary["workload"]["model_replay"] == "PASS"
+    assert summary["checks"]["bronze"] == "FAIL"
+    assert summary["checks"]["c1_matrix_free_trigger"] is True
+    assert summary["time_guard"]["decision"] == "STOP"
+    assert summary["time_guard"]["observed_elapsed_seconds"] > 2 * summary["time_guard"]["reference_mean_total_seconds"]
+    assert summary["time_guard"]["absolute_wall_time_ceiling_seconds"] == 18_000
+    assert summary["time_guard"]["effective_stop_threshold_seconds"] < summary["time_guard"]["absolute_wall_time_ceiling_seconds"]
+    assert index["status"] == "RESOURCE_LIMITED"
+    assert index["acceptance"]["operator_build"] is False
+    assert index["acceptance"]["petsc_initialization"] is False
+    assert index["acceptance"]["gamg_readiness"] is False
+    assert index["acceptance"]["bronze_pass"] is False
+    assert audit["decision"] == "STOPPED_BY_EXPLICIT_TIME_GUARD"
+    assert audit["bronze_attempts"][0]["solve_executed"] is False
+    assert audit["bronze_attempts"][1]["status"] == "NOT_RUN_AFTER_GUARD"
+    assert state["status"] == "RESOURCE_LIMITED"
+    assert state["progress"]["level_up_2_acquired_percent"] == 22
+    assert state["ready_for_lu2_wp05"] is False
+    assert state["blockers"]
+
+    assert not list((RUNTIME / "raw").glob("*.json"))
