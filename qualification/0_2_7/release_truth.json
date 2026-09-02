@@ -85,7 +85,7 @@
     "level_up_2_progress": {"status": "OPEN", "acquired_percent": 22},
     "current_global_progress_percent": 72,
     "current_work_package": "LU2-WP04",
-    "next_work_package": "C1_MATRIX_FREE_CAPACITY_SPIKE",
+    "next_work_package": "LU2-WP04_SUPERVISED_RETRY",
     "completed_work_packages": ["LU2-WP01", "LU2-WP02", "LU2-WP03"],
     "observatory_contract": "qualification/0_2_7/observatory_contract.json",
     "observatory_sample": "qualification/0_2_7/wp01_observatory_sample.json",
@@ -109,13 +109,15 @@
     "wp03_workload_b_digest": "eae54fecd4bf8a6ebebf0363e3103c3defab34f34725b706c6441482d8d8b122",
     "wp03_owner_decision": "PASS_WITH_LIMITATIONS: two replays of a materially distinct 3M workload pass the unchanged WP02 configuration and numerical contract; the claim remains bounded to the recorded route.",
     "wp03_limitation": "Preflight, redistribution, communication and I/O remain explicitly NOT_MEASURED; no universal, multi-node, GPU, mixed-mesh, nonlinear or restart claim is made.",
-    "wp04_status": "RESOURCE_LIMITED",
+    "wp04_status": "USER_INTERRUPTED_INCONCLUSIVE",
     "wp04_bronze_pass": false,
     "wp04_evidence_index": "qualification/0_2_7/wp04_runtime/wp04_evidence_index.json",
     "wp04_resource_guard_audit": "qualification/0_2_7/wp04_runtime/wp04_resource_guard_audit.json",
-    "wp04_next_action": "C1_MATRIX_FREE_CAPACITY_SPIKE",
-    "wp04_blocker": "Frozen AIJ operator assembly exceeded the explicit 2x comparable 3M time guard before PETSc/GAMG readiness; no Bronze or 5M solve claim is made.",
-    "c1_matrix_free_triggered": true
+    "wp04_forensic_audit": "qualification/0_2_7/wp04_runtime/wp04_forensic_audit.json",
+    "wp04_next_action": "LU2-WP04_SUPERVISED_RETRY",
+    "wp04_blocker": "The owner-interrupted AIJ assembly did not reach PETSc/GAMG readiness; the 2x time overrun is a budget observation, not proof of a resource limit. No Bronze or 5M solve claim is made.",
+    "c1_matrix_free_triggered": false,
+    "resource_limited_proven": false
   },
   "release_workflow_policy": "Publication must run from a tag reference whose v-prefixed name matches the package version. Manual confirmation does not bypass this contract."
 }
