@@ -4675,6 +4675,23 @@
         "tests/unit/test_observatory.py",
         "tests/unit/test_level_up_2_governance.py"
       ]
+    },
+    {
+      "id": "DOC-027-LU2-WP02-001",
+      "path": "verification/0_2_7/0_2_7_wp02_configuration_freeze.md",
+      "title": "0.2.7 LU2-WP02 CPU/MPI/PETSc configuration freeze",
+      "status": "controlled_candidate",
+      "requirements": ["027-LU2-REQ-002"],
+      "examples": [
+        "qualification/0_2_7/wp02_execution_contract.json",
+        "qualification/0_2_7/wp02_runtime/wp02_evidence_index.json",
+        "qualification/0_2_7/wp02_runtime/wp02_config_freeze.json",
+        "qualification/0_2_7/wp02_state.json"
+      ],
+      "tests": [
+        "tests/unit/test_lu2_wp02.py",
+        "tests/unit/test_level_up_2_governance.py"
+      ]
     }
   ]
 }

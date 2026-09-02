@@ -194,16 +194,17 @@ release action.
 
 The prior Level-Up is closed as Level-Up 1 at `50/50`. The active namespace is
 `027-LEVEL-UP-2`, based on the qualified snapshot
-`8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3`. LU2 is at `4/50` after the WP01
-observatory, and the global program is therefore `54/100`. The active
+`8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3`. LU2 is at `13/50` after the WP01
+observatory and bounded WP02 configuration freeze, and the global program is
+therefore `63/100`. The active
 contracts and state are
 authoritative in `qualification/0_2_7/level_up_2_plan.json` and
 `qualification/0_2_7/level_up_2_state.json`.
 
-| Gate | Work package | Weight | Priority | Initial status | PASS boundary |
+| Gate | Work package | Weight | Priority | Current status | PASS boundary |
 | --- | --- | ---: | --- | --- | --- |
 | `LU2-027-G01` | LU2-WP01 observatory | 4% | MUST | `PASS` | phase-separated, digest-backed performance evidence |
-| `LU2-027-G02` | LU2-WP02 configuration freeze | 9% | MUST | `NOT_STARTED` | explicit CPU/MPI/PETSc/KSP/PC and fail-closed backend |
+| `LU2-027-G02` | LU2-WP02 configuration freeze | 9% | MUST | `PASS_WITH_LIMITATIONS` | explicit CPU/MPI/PETSc/KSP/PC and fail-closed backend |
 | `LU2-027-G03` | LU2-WP03 3M Gold Compute | 9% | MUST | `NOT_STARTED` | distinct 3M FEM workload, two replays, bounded claim |
 | `LU2-027-G04` | LU2-WP04 5M Bronze | 5% | MUST | `NOT_STARTED` | two matching constructions and operator/PC preflight, no solve claim |
 | `LU2-027-G05` | LU2-WP05 5M Silver | 9% | MUST | `NOT_STARTED` | complete two-replay solve under frozen MPI and resource criteria |
@@ -211,6 +212,15 @@ authoritative in `qualification/0_2_7/level_up_2_plan.json` and
 | `LU2-027-G07` | LU2-WP07 existing routes | 4% | SHOULD | `NOT_STARTED` | only decision-changing targeted V&V, no transitive promotion |
 | `LU2-027-G08` | LU2-WP08 route decisions | 2% | SHOULD | `NOT_STARTED` | deferred/experimental routes remain unqualified |
 | `LU2-027-G09` | LU2-WP09 final qualification | 4% | MUST | `NOT_STARTED` | explicit Owner RELEASE or NEW_LEVEL_UP decision |
+
+LU2-WP02 is closed with limitations by the controlled 3M MPI evidence index
+and configuration freeze. The route covers 2, 4 and 8 ranks on one recorded
+Docker host, with GAMG selected over the characterized HYPRE and graph
+partition alternatives. The legacy runner does not expose separate preflight,
+redistribution, communication or I/O timings; these fields remain explicitly
+unmeasured and are never inferred. See
+`docs/verification/0_2_7/0_2_7_wp02_configuration_freeze.md` and
+`qualification/0_2_7/wp02_state.json`.
 
 Conditional gates `C1` (matrix-free TET4 capacity), `C2` (GPU foundation) and
 `C3` (10M capacity exploration) are installed with zero weight and remain

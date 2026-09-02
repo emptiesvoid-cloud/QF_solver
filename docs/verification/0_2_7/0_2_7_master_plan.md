@@ -356,9 +356,9 @@ Finite-kinematic J2 remains experimental/not qualified. See
 The previous Level-Up portfolio is now treated as **Level-Up 1**: its
 qualification evidence is preserved and its program block is `50/50 CLOSED`.
 The active namespace is **`027-LEVEL-UP-2`**, starting from the qualified
-baseline `8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3`. LU2 has acquired `4/50`
-through the completed WP01 observatory, so the current global progress is
-`54/100`; these values replace the older
+baseline `8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3`. LU2 has acquired `13/50`
+through the completed WP01 observatory and bounded WP02 configuration freeze,
+so the current global progress is `63/100`; these values replace the older
 non-additive accounting view for active planning without rewriting any
 historical result.
 
@@ -366,10 +366,10 @@ The machine-readable source of truth is
 `qualification/0_2_7/level_up_2_plan.json`, with state and navigation records
 in `level_up_2_state.json` and `level_up_2_index.json`.
 
-| LU2 work package | Focus | Weight | Priority | Initial status |
+| LU2 work package | Focus | Weight | Priority | Current status |
 | --- | --- | ---: | --- | --- |
 | LU2-WP01 | Evidence and Performance Observatory | 4% | MUST | `PASS` |
-| LU2-WP02 | CPU/MPI/GAMG readiness and configuration freeze | 9% | MUST | `NOT_STARTED` |
+| LU2-WP02 | CPU/MPI/GAMG readiness and configuration freeze | 9% | MUST | `PASS_WITH_LIMITATIONS` |
 | LU2-WP03 | 3M Gold Compute | 9% | MUST | `NOT_STARTED` |
 | LU2-WP04 | 5M Bronze | 5% | MUST | `NOT_STARTED` |
 | LU2-WP05 | 5M Silver | 9% | MUST | `NOT_STARTED` |
@@ -399,6 +399,19 @@ HEX8R/SRI/B-bar, WEDGE15, PYRAMID5, finite-kinematic J2, TL HEX8, refined
 Arc-Length, new nonlinear couplings, matrix-free multi-family and general
 Newmark/harmonic qualification remain deferred to 0.2.8+.
 
+LU2-WP02 is recorded in the controlled execution index
+`qualification/0_2_7/wp02_runtime/wp02_evidence_index.json` and freeze
+`qualification/0_2_7/wp02_runtime/wp02_config_freeze.json`, under the
+predeclared contract `qualification/0_2_7/wp02_execution_contract.json`.
+The same 3M structured TET4 workload passed at 2, 4 and 8 MPI ranks on the
+recorded Docker host. GAMG and contiguous partitioning were selected from
+characterized subscale alternatives. Preflight, redistribution,
+communication and I/O remain explicitly unmeasured because the legacy runner
+does not expose separate boundaries; no phase is inferred from total time.
+The claim is consequently bounded to the recorded host, image, input and
+configuration. The machine-readable closeout is
+`qualification/0_2_7/wp02_state.json`.
+
 LU2-WP01 is recorded in `qualification/0_2_7/observatory_contract.json` with
 the controlled fixture `qualification/0_2_7/wp01_observatory_sample.json`.
 The observatory is opt-in, rejects incomplete or non-finite PASS-like
@@ -407,5 +420,6 @@ comparison.
 
 `DECISION_GATE_1 = CONTINUE_TO_LEVEL_UP_2` is closed. After LU2-WP09,
 `FINAL_DECISION_GATE` permits only an explicit `RELEASE` or `NEW_LEVEL_UP`
-decision; there is no automatic release. Setup itself runs no heavy benchmark,
-changes no numerical source and performs no publication action.
+decision; there is no automatic release. The WP02 execution used the
+controlled 3M evidence run; the setup commit itself ran no heavy benchmark,
+changed no numerical source and performed no publication action.

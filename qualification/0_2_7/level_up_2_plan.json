@@ -25,11 +25,11 @@
     },
     "level_up_2": {
       "weight_percent": 50,
-      "acquired_percent": 0,
+      "acquired_percent": 13,
       "status": "OPEN",
       "scope": "active large-model performance and solver maturity"
     },
-    "current_global_progress_percent": 50,
+    "current_global_progress_percent": 63,
     "weights_total_percent": 100,
     "accounting_rule": "Level-Up 1 and Level-Up 2 are sequential program blocks; their weights are not added to a second historical percentage view.",
     "legacy_accounting_views_are_non_authoritative": true
@@ -61,12 +61,13 @@
       "title": "CPU/MPI/GAMG readiness and configuration freeze",
       "weight_percent": 9,
       "priority": "MUST",
-      "status": "NOT_STARTED",
+      "status": "PASS_WITH_LIMITATIONS",
       "objective": "Freeze the reproducible CPU, MPI, PETSc, KSP, preconditioner and resource configuration before large runs.",
       "pass_criteria": [
         "CPU, RAM, OS, Python, NumPy, SciPy, PETSc, MPI, ranks, threads, KSP and PC are explicit.",
         "The selected backend fails closed when unavailable and never falls back silently.",
-        "The frozen configuration and budgets are recorded before WP03-WP05 execution."
+        "The frozen configuration and budgets are recorded before WP03-WP05 execution.",
+        "The same 3M FEM workload is executed at 2, 4 and 8 ranks with required replays and declared phase/resource metrics."
       ],
       "stop_conditions": [
         "unversioned backend or dependency",
@@ -74,8 +75,22 @@
         "post-result configuration or tolerance retuning"
       ],
       "dependencies": ["LU2-WP01"],
-      "evidence_required": ["configuration contract", "environment manifest", "preflight tests"],
-      "test_tier": "T1"
+      "evidence_required": ["configuration contract", "environment manifest", "preflight tests", "3M MPI evidence index", "configuration freeze"],
+      "test_tier": "T1/T2",
+      "evidence": [
+        "qualification/0_2_7/wp02_execution_contract.json",
+        "qualification/0_2_7/wp02_runtime/wp02_evidence_index.json",
+        "qualification/0_2_7/wp02_runtime/wp02_config_freeze.json",
+        "qualification/0_2_7/wp02_state.json",
+        "docs/verification/0_2_7/0_2_7_wp02_configuration_freeze.md",
+        "tests/unit/test_lu2_wp02.py"
+      ],
+      "owner_decision": "PASS_WITH_LIMITATIONS; freeze is bounded to the recorded single-host Docker/PETSc environment and leaves unmeasured phase fields explicitly null.",
+      "limitations": [
+        "Preflight, redistribution, communication and I/O are not separately measured by the legacy runner and are not inferred.",
+        "Performance evidence is bounded to the recorded structured TET4 3M workload, host, container image, MPI ranks and configuration.",
+        "The frozen AIJ/GAMG route is selected from the recorded subscale; HYPRE and graph partitioning remain characterized alternatives, not universal rankings."
+      ]
     },
     {
       "id": "LU2-WP03",
@@ -380,6 +395,26 @@
     "required_conditional_gates": ["C1", "C2", "C3"],
     "deferred_scope_is_explicit": true,
     "public_capability_registry_guarded": true
+  },
+  "execution_scope": {
+    "heavy_benchmark_run": true,
+    "run_count": 8,
+    "run_record_paths": [
+      "qualification/0_2_7/wp02_runtime/r2_replay1.json",
+      "qualification/0_2_7/wp02_runtime/r2_replay2.json",
+      "qualification/0_2_7/wp02_runtime/r4_run1.json",
+      "qualification/0_2_7/wp02_runtime/r8_replay1.json",
+      "qualification/0_2_7/wp02_runtime/r8_replay2.json",
+      "qualification/0_2_7/wp02_runtime/subscale_gamg.json",
+      "qualification/0_2_7/wp02_runtime/subscale_graph_gamg.json",
+      "qualification/0_2_7/wp02_runtime/subscale_hypre.json"
+    ],
+    "configuration_freeze": "qualification/0_2_7/wp02_runtime/wp02_config_freeze.json",
+    "numerical_source_changed": false,
+    "maturity_promotion": false,
+    "push": false,
+    "tag": false,
+    "pypi": false
   },
   "setup_scope": {
     "heavy_benchmark_run": false,
