@@ -21,8 +21,8 @@
     "role": "0.2.7 source snapshot used for WP13 golden execution; immutable historical evidence reference"
   },
   "current_development_head": {
-    "sha": "e1703b5bc00e9cf2eb92e7e346783c9764201808",
-    "role": "active codex/0.2.7-foundation HEAD at LU2-WP01 observatory execution"
+    "sha": "3cb817c9391ef7998c5950d3071c8d9ce1be5dd8",
+    "role": "WP02 execution source snapshot; governance closeout records are additive and do not rewrite the execution evidence"
   },
   "wp13_golden_baseline": {
     "status": "PASS",
@@ -82,16 +82,22 @@
     "theme": "Reproducible Large-Model Performance and Solver Maturity",
     "pre_lu2_qualified_baseline": "8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3",
     "level_up_1": {"status": "CLOSED", "acquired_percent": 50},
-    "level_up_2_progress": {"status": "OPEN", "acquired_percent": 4},
-    "current_global_progress_percent": 54,
-    "current_work_package": "LU2-WP02",
-    "completed_work_packages": ["LU2-WP01"],
+    "level_up_2_progress": {"status": "OPEN", "acquired_percent": 13},
+    "current_global_progress_percent": 63,
+    "current_work_package": "LU2-WP03",
+    "completed_work_packages": ["LU2-WP01", "LU2-WP02"],
     "observatory_contract": "qualification/0_2_7/observatory_contract.json",
     "observatory_sample": "qualification/0_2_7/wp01_observatory_sample.json",
     "plan": "qualification/0_2_7/level_up_2_plan.json",
     "state": "qualification/0_2_7/level_up_2_state.json",
     "index": "qualification/0_2_7/level_up_2_index.json",
-    "historical_evidence_rewritten": false
+    "historical_evidence_rewritten": false,
+    "wp02_status": "PASS_WITH_LIMITATIONS",
+    "wp02_execution_source_sha": "3cb817c9391ef7998c5950d3071c8d9ce1be5dd8",
+    "wp02_contract": "qualification/0_2_7/wp02_execution_contract.json",
+    "wp02_evidence_index": "qualification/0_2_7/wp02_runtime/wp02_evidence_index.json",
+    "wp02_configuration_freeze": "qualification/0_2_7/wp02_runtime/wp02_config_freeze.json",
+    "wp02_limitation": "Preflight, redistribution, communication and I/O are explicitly unmeasured because the legacy runner does not expose separate boundaries; no phase is inferred from total time."
   },
   "release_workflow_policy": "Publication must run from a tag reference whose v-prefixed name matches the package version. Manual confirmation does not bypass this contract."
 }

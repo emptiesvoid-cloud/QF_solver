@@ -417,4 +417,30 @@ The legacy benchmark path remains unchanged; missing input provenance becomes
 `qualification/0_2_7/wp01_observatory_sample.json`, with contract
 `qualification/0_2_7/observatory_contract.json` and implementation
 `src/solveur/verification/observatory.py`. No heavy benchmark, full regression,
-numerical formulation change or maturity promotion occurred. LU2-WP02 is next.
+numerical formulation change or maturity promotion occurred. LU2-WP02 was the
+next work package.
+
+## LU2-WP02 configuration freeze closeout
+
+Date: 2026-09-02. Execution source SHA:
+`3cb817c9391ef7998c5950d3071c8d9ce1be5dd8`.
+
+Owner decision: `PASS_WITH_LIMITATIONS` for the recorded CPU/MPI/PETSc route.
+The existing 3M structured TET4 FEM workload completed at 2, 4 and 8 MPI ranks
+with PASS invariants and unchanged WP14 tolerances. Two replays were recorded
+at 2 and 8 ranks. The selected frozen configuration is contiguous partitioning,
+AIJ, CG and GAMG in Docker image
+`qf-solver-large@sha256:d6a1718001fc36772906d1a9505637bbd0a4b7e1d8ccc9afdbcb6f67b7ff6d0e`,
+with freeze ID `LU2-WP02-FREEZE-bfd1975b012453a3`.
+
+HYPRE/BoomerAMG and graph partitioning were characterized on the recorded
+subscale but were not selected. Preflight, redistribution, communication and
+I/O are explicitly unmeasured because the legacy runner does not expose
+separate boundaries; they are not inferred from total time. The evidence is
+therefore bounded to the recorded structured TET4 input, host, container,
+rank counts and frozen configuration. No solver/formulation, tolerance or
+public maturity decision changed. The controlled records are
+`qualification/0_2_7/wp02_execution_contract.json`,
+`qualification/0_2_7/wp02_runtime/wp02_evidence_index.json`,
+`qualification/0_2_7/wp02_runtime/wp02_config_freeze.json` and
+`qualification/0_2_7/wp02_state.json`. LU2-WP03 is ready.

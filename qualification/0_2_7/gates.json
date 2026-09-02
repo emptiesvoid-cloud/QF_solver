@@ -314,13 +314,13 @@
     "pre_lu2_qualified_baseline": "8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3",
     "global_accounting": {
       "level_up_1": {"weight_percent": 50, "acquired_percent": 50, "status": "CLOSED"},
-      "level_up_2": {"weight_percent": 50, "acquired_percent": 4, "status": "OPEN"},
-      "current_global_progress_percent": 54,
+      "level_up_2": {"weight_percent": 50, "acquired_percent": 13, "status": "OPEN"},
+      "current_global_progress_percent": 63,
       "weights_total_percent": 100
     },
     "gates": [
       {"id": "LU2-027-G01", "work_package": "LU2-WP01", "title": "Evidence and Performance Observatory", "status": "PASS", "weight_percent": 4, "priority": "MUST", "evidence": "qualification/0_2_7/observatory_contract.json"},
-      {"id": "LU2-027-G02", "work_package": "LU2-WP02", "title": "CPU/MPI/GAMG readiness and configuration freeze", "status": "NOT_STARTED", "weight_percent": 9, "priority": "MUST"},
+      {"id": "LU2-027-G02", "work_package": "LU2-WP02", "title": "CPU/MPI/GAMG readiness and configuration freeze", "status": "PASS_WITH_LIMITATIONS", "weight_percent": 9, "priority": "MUST", "evidence": ["qualification/0_2_7/wp02_execution_contract.json", "qualification/0_2_7/wp02_runtime/wp02_evidence_index.json", "qualification/0_2_7/wp02_runtime/wp02_config_freeze.json", "qualification/0_2_7/wp02_state.json"]},
       {"id": "LU2-027-G03", "work_package": "LU2-WP03", "title": "3M Gold Compute", "status": "NOT_STARTED", "weight_percent": 9, "priority": "MUST"},
       {"id": "LU2-027-G04", "work_package": "LU2-WP04", "title": "5M Bronze", "status": "NOT_STARTED", "weight_percent": 5, "priority": "MUST"},
       {"id": "LU2-027-G05", "work_package": "LU2-WP05", "title": "5M Silver", "status": "NOT_STARTED", "weight_percent": 9, "priority": "MUST"},

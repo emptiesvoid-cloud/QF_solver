@@ -213,8 +213,8 @@ experimental/not qualified. The authoritative records are
 ## Active global accounting
 
 The historical Level-Up portfolio is closed as Level-Up 1 at `50/50`. The
-active program is Level-Up 2 at `4/50`, giving `CURRENT_GLOBAL_PROGRESS =
-54/100`. The earlier 45/55 and 82/85 views remain historical accounting
+active program is Level-Up 2 at `13/50`, giving `CURRENT_GLOBAL_PROGRESS =
+63/100`. The earlier 45/55 and 82/85 views remain historical accounting
 records only; they are not added to the current program and do not replace
 any evidence. The active machine-readable records are
 `qualification/0_2_7/level_up_2_plan.json`,
@@ -226,7 +226,7 @@ any evidence. The active machine-readable records are
 | Work package | Weight | Priority | Status | Rule |
 | --- | ---: | --- | --- | --- |
 | LU2-WP01 | 4% | MUST | `PASS` | evidence and performance observatory |
-| LU2-WP02 | 9% | MUST | `NOT_STARTED` | CPU/MPI/GAMG freeze before large runs |
+| LU2-WP02 | 9% | MUST | `PASS_WITH_LIMITATIONS` | CPU/MPI/GAMG freeze before large runs |
 | LU2-WP03 | 9% | MUST | `NOT_STARTED` | distinct second 3M workload and two replays |
 | LU2-WP04 | 5% | MUST | `NOT_STARTED` | real 5M Bronze construction and preflight only |
 | LU2-WP05 | 9% | MUST | `NOT_STARTED` | complete two-replay 5M Silver solve |
@@ -235,9 +235,21 @@ any evidence. The active machine-readable records are
 | LU2-WP08 | 2% | SHOULD | `NOT_STARTED` | explicit mixed/new-solid/HEX8 decisions |
 | LU2-WP09 | 4% | MUST | `NOT_STARTED` | final registry, CI, package and Owner qualification |
 
+LU2-WP02 evidence is defined by the predeclared contract
+`qualification/0_2_7/wp02_execution_contract.json`, the controlled run index
+`qualification/0_2_7/wp02_runtime/wp02_evidence_index.json`, the frozen
+configuration `qualification/0_2_7/wp02_runtime/wp02_config_freeze.json` and
+the closeout `qualification/0_2_7/wp02_state.json`. The 3M structured TET4
+route passed at 2, 4 and 8 ranks with replay coverage at 2 and 8 ranks. GAMG
+and contiguous partitioning were selected from characterized subscale
+alternatives. Preflight, redistribution, communication and I/O are explicitly
+unmeasured because the legacy runner does not expose separate boundaries; no
+phase is inferred. The evidence is therefore bounded to the recorded host,
+Docker image, input and solver configuration.
+
 LU2-WP01 evidence is defined by
 `qualification/0_2_7/observatory_contract.json` and the controlled sample
 `qualification/0_2_7/wp01_observatory_sample.json`. LU2 weights sum to 50 %.
 C1, C2 and C3 are installed dormant conditional
-gates with zero weight. No LU2 execution has occurred in this setup; the
+gates with zero weight. LU2-WP03 is now the next active work package; its
 pre-LU2 baseline is `8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3`.

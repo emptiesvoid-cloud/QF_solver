@@ -213,11 +213,17 @@
       "work_package": "LU2-WP02",
       "gate": "LU2-027-G02",
       "priority": "MUST",
-      "status": "PLANNED",
+      "status": "PASS_WITH_LIMITATIONS",
       "requirement": "The CPU/MPI/PETSc/KSP/PC configuration and resource budgets shall be frozen before large execution.",
       "acceptance": "Backend selection is explicit, unavailable backends fail closed, and no post-result retuning is accepted.",
-      "verification": ["configuration manifest", "backend preflight"],
-      "owner_policy": "LEVEL_UP_2_OWNER_REVIEW"
+      "verification": [
+        "qualification/0_2_7/wp02_execution_contract.json",
+        "qualification/0_2_7/wp02_runtime/wp02_evidence_index.json",
+        "qualification/0_2_7/wp02_runtime/wp02_config_freeze.json",
+        "qualification/0_2_7/wp02_state.json",
+        "tests/unit/test_lu2_wp02.py"
+      ],
+      "owner_policy": "OWNER_APPROVED_BOUNDED_SINGLE_HOST_MPI_V2; unmeasured phase fields remain explicit limitations"
     },
     {
       "id": "027-LU2-REQ-003",
