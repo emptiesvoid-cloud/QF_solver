@@ -106,7 +106,8 @@ in [`0_2_7_progress_tracker.md`](0_2_7_progress_tracker.md).
 | WP22 | Final release qualification | `PLANNED` |
 | Foundation WP13-WP14 proposal | Superseded by the Level-Up namespace | `PRESERVED_HISTORY` |
 
-The active LU2 accounting is `24/50` and `74/100` globally. LU2-WP08 is
+The active LU2 accounting is `28/50` and `78/100` globally. LU2-WP06 and
+LU2-WP08 are
 closed as `PASS_WITH_LIMITATIONS`: mixed TET/WEDGE/HEX is deferred without an
 end-to-end claim; WEDGE15 and PYRAMID5 are not supported; and HEX8R, SRI,
 B-bar and hourglass control remain research/deferred. The detailed decision
@@ -224,7 +225,7 @@ The active successor is Level-Up 2, installed from the qualified snapshot
 `qualification/0_2_7/level_up_2_plan.json`,
 `qualification/0_2_7/level_up_2_state.json` and
 `qualification/0_2_7/level_up_2_index.json`. LU1 remains a preserved historical
-record; LU2 is open at `24/50` (`74/100` globally). LU2-WP03 is closed as
+record; LU2 is open at `28/50` (`78/100` globally). LU2-WP03 is closed as
 `PASS_WITH_LIMITATIONS`, with `3M_GOLD_COMPUTE = PASS` for the controlled
 structured TET4/PETSc route. LU2-WP04 constructed two matching real 5M
 workload inputs and passed preflight, but its frozen AIJ assembly was still

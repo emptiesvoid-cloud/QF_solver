@@ -213,8 +213,8 @@ experimental/not qualified. The authoritative records are
 ## Active global accounting
 
 The historical Level-Up portfolio is closed as Level-Up 1 at `50/50`. The
-active program is Level-Up 2 at `24/50`, giving `CURRENT_GLOBAL_PROGRESS =
-74/100`. The earlier 45/55 and 82/85 views remain historical accounting
+active program is Level-Up 2 at `28/50`, giving `CURRENT_GLOBAL_PROGRESS =
+78/100`. The earlier 45/55 and 82/85 views remain historical accounting
 records only; they are not added to the current program and do not replace
 any evidence. The active machine-readable records are
 `qualification/0_2_7/level_up_2_plan.json`,
@@ -230,7 +230,7 @@ any evidence. The active machine-readable records are
 | LU2-WP03 | 9% | MUST | `PASS_WITH_LIMITATIONS` | distinct second 3M workload and two replays |
 | LU2-WP04 | 5% | MUST | `USER_INTERRUPTED_INCONCLUSIVE` | real 5M construction/preflight passed; owner-interrupted frozen AIJ assembly had no completion record |
 | LU2-WP05 | 9% | MUST | `NOT_STARTED` | complete two-replay 5M Silver solve |
-| LU2-WP06 | 4% | MUST | `NOT_STARTED` | recovery, diagnostics and fail-closed execution |
+| LU2-WP06 | 4% | MUST | `PASS_WITH_LIMITATIONS` | recovery, diagnostics and fail-closed execution; bounded to existing checkpoint routes |
 | LU2-WP07 | 4% | SHOULD | `NOT_STARTED` | targeted existing-route maturity evidence |
 | LU2-WP08 | 2% | SHOULD | `PASS_WITH_LIMITATIONS` | explicit decisions; deferred/research routes remain unqualified |
 | LU2-WP09 | 4% | MUST | `NOT_STARTED` | final registry, CI, package and Owner qualification |
@@ -281,3 +281,13 @@ owner-interrupted run without persisted progress/resource telemetry; C2 and C3
 remain dormant. LU2-WP03 is complete, LU2-WP04 remains incomplete, and a
 supervised WP04 retry is the next active action; its
 pre-LU2 baseline is `8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3`.
+
+LU2-WP06 is closed as `PASS_WITH_LIMITATIONS` at 4%. The additive lifecycle
+and diagnostic taxonomy are covered by
+`qualification/0_2_7/wp06_execution_contract.json` and
+`tests/unit/test_execution_contract.py`; existing nonlinear and Newmark
+checkpoint tests remain the recovery evidence. Recovery is deliberately
+bounded to those routes, with no universal distributed or fault-tolerance
+claim. This closeout raises LU2 accounting from 24/50 to 28/50 and global
+progress from 74/100 to 78/100. WP04 remains `USER_INTERRUPTED_INCONCLUSIVE`
+and its supervised retry remains the next operational action.

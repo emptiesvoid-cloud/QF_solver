@@ -281,11 +281,13 @@
       "work_package": "LU2-WP06",
       "gate": "LU2-027-G06",
       "priority": "MUST",
-      "status": "PLANNED",
+      "status": "PASS_WITH_LIMITATIONS",
       "requirement": "Execution recovery, retries and diagnostics shall be explicit and fail closed.",
       "acceptance": "Timeout, memory, convergence, backend and recovery outcomes cannot silently become PASS, and state integrity is proven where mutable state exists.",
-      "verification": ["failure fixtures", "recovery tests"],
-      "owner_policy": "LEVEL_UP_2_OWNER_REVIEW"
+      "verification": ["qualification/0_2_7/wp06_execution_contract.json", "qualification/0_2_7/lu2_wp06_state.json", "tests/unit/test_execution_contract.py", "tests/unit/test_nonlinear_checkpoint.py", "tests/unit/test_dynamic_checkpoint.py"],
+      "owner_policy": "LEVEL_UP_2_OWNER_REVIEW",
+      "owner_decision": "PASS_WITH_LIMITATIONS: additive lifecycle and diagnostics are installed; recovery claims remain limited to existing targeted routes.",
+      "limitations": ["No universal execution graph, timeout recovery, distributed recovery or fault-tolerance claim.", "Linear, buckling, harmonic, geometric nonlinear and large distributed routes remain non-recoverable under this contract."]
     },
     {
       "id": "027-LU2-REQ-007",

@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "record_type": "lu2_wp06_state",
+  "work_package": "LU2-WP06",
+  "gate": "LU2-027-G06",
+  "status": "PASS_WITH_LIMITATIONS",
+  "source_sha": "4771a23af8cee4549460b9e84edb9228c3a9f60d",
+  "contract": "qualification/0_2_7/wp06_execution_contract.json",
+  "documentation": "docs/verification/0_2_7/0_2_7_wp06_execution_contract.md",
+  "implementation": ["src/solveur/execution/contract.py", "src/solveur/execution/diagnostics.py"],
+  "owner_decision": "PASS_WITH_LIMITATIONS",
+  "execution_contract": "PASS",
+  "state_transitions": "PASS",
+  "diagnostics": "PASS",
+  "fail_closed": "PASS",
+  "checkpoint_valid": "PASS",
+  "recovery_valid": "PASS",
+  "corrupted_checkpoint": "REJECTED_EXPLICITLY",
+  "incompatible_checkpoint": "REJECTED_EXPLICITLY",
+  "interruption_recovery": "SIMULATED_TARGETED_PASS",
+  "rollback_state_integrity": "PASS_ON_EXISTING_TARGETED_ROUTES",
+  "no_nan_inf": true,
+  "silent_fallback": false,
+  "routes_recoverable": [
+    "nonlinear_static_fixed_load_control",
+    "nonlinear_static_arc_length",
+    "transient_dynamic_newmark"
+  ],
+  "routes_not_recoverable": [
+    "linear_static",
+    "linear_buckling",
+    "harmonic_response",
+    "geometric_nonlinear_static",
+    "large_distributed_solver"
+  ],
+  "claim_boundary": "Bounded lifecycle and checkpoint semantics for existing targeted routes; no universal restart, distributed recovery or fault-tolerance claim.",
+  "test_policy": {
+    "targeted": true,
+    "t2_targeted": true,
+    "heavy_benchmark_run": false,
+    "full_regression_run": false
+  },
+  "numerical_source_changed": false,
+  "fem_formulation_changed": false,
+  "tolerances_changed": false,
+  "new_physics": false,
+  "pushed": false,
+  "readiness": {
+    "ready_for_lu2_wp07": true,
+    "wp04_retry_still_pending": true,
+    "blockers": [
+      "LU2-WP04 remains USER_INTERRUPTED_INCONCLUSIVE and requires its separately supervised retry."
+    ]
+  }
+}

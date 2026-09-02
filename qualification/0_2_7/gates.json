@@ -314,8 +314,8 @@
     "pre_lu2_qualified_baseline": "8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3",
     "global_accounting": {
       "level_up_1": {"weight_percent": 50, "acquired_percent": 50, "status": "CLOSED"},
-      "level_up_2": {"weight_percent": 50, "acquired_percent": 24, "status": "OPEN"},
-      "current_global_progress_percent": 74,
+      "level_up_2": {"weight_percent": 50, "acquired_percent": 28, "status": "OPEN"},
+      "current_global_progress_percent": 78,
       "weights_total_percent": 100
     },
     "gates": [
@@ -376,7 +376,27 @@
         "next_action": "LU2-WP04_SUPERVISED_RETRY"
       },
       {"id": "LU2-027-G05", "work_package": "LU2-WP05", "title": "5M Silver", "status": "NOT_STARTED", "weight_percent": 9, "priority": "MUST"},
-      {"id": "LU2-027-G06", "work_package": "LU2-WP06", "title": "Execution Contract / Recovery / Diagnostics", "status": "NOT_STARTED", "weight_percent": 4, "priority": "MUST"},
+      {
+        "id": "LU2-027-G06",
+        "work_package": "LU2-WP06",
+        "title": "Execution Contract / Recovery / Diagnostics",
+        "status": "PASS_WITH_LIMITATIONS",
+        "weight_percent": 4,
+        "priority": "MUST",
+        "evidence": [
+          "qualification/0_2_7/wp06_execution_contract.json",
+          "qualification/0_2_7/lu2_wp06_state.json",
+          "docs/verification/0_2_7/0_2_7_wp06_execution_contract.md",
+          "tests/unit/test_execution_contract.py",
+          "tests/unit/test_nonlinear_checkpoint.py",
+          "tests/unit/test_dynamic_checkpoint.py"
+        ],
+        "owner_decision": "PASS_WITH_LIMITATIONS: lifecycle transitions, structured diagnostics and bounded checkpoint recovery are tested without changing numerical routes.",
+        "limitations": [
+          "Recovery claims are limited to existing nonlinear static, arc-length and Newmark routes.",
+          "Other routes remain explicitly non-recoverable under this contract; no universal fault-tolerance claim is made."
+        ]
+      },
       {"id": "LU2-027-G07", "work_package": "LU2-WP07", "title": "Existing Routes Maturity and Targeted V&V", "status": "NOT_STARTED", "weight_percent": 4, "priority": "SHOULD"},
       {
         "id": "LU2-027-G08",

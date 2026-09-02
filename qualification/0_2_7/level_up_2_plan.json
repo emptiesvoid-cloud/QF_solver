@@ -25,11 +25,11 @@
     },
     "level_up_2": {
       "weight_percent": 50,
-      "acquired_percent": 24,
+      "acquired_percent": 28,
       "status": "OPEN",
       "scope": "active large-model performance and solver maturity"
     },
-    "current_global_progress_percent": 74,
+    "current_global_progress_percent": 78,
     "weights_total_percent": 100,
     "accounting_rule": "Level-Up 1 and Level-Up 2 are sequential program blocks; their weights are not added to a second historical percentage view.",
     "legacy_accounting_views_are_non_authoritative": true
@@ -212,11 +212,12 @@
       "title": "Execution Contract, Recovery and Diagnostics",
       "weight_percent": 4,
       "priority": "MUST",
-      "status": "NOT_STARTED",
+      "status": "PASS_WITH_LIMITATIONS",
       "objective": "Make large-run failures, retries, recovery and diagnostic states explicit and fail-closed.",
       "pass_criteria": [
-        "Setup, solve, communication, I/O and post phases have deterministic outcome classes.",
-        "Retry/recovery state preserves input, ownership and checkpoint digests where applicable.",
+        "The additive lifecycle rejects invalid transitions and records explicit terminal outcomes.",
+        "Structured diagnostics cover input, capability, backend, convergence, resources, numerical validity and recovery failures.",
+        "Existing nonlinear and Newmark checkpoint routes demonstrate valid recovery and reject corruption or incompatibility.",
         "Timeout, memory, convergence and backend failures cannot become PASS silently."
       ],
       "stop_conditions": [
@@ -224,9 +225,29 @@
         "ambiguous failure classification",
         "silent fallback or partial-result success"
       ],
-      "dependencies": ["LU2-WP01", "LU2-WP02", "LU2-WP04"],
-      "evidence_required": ["execution contract", "failure fixtures", "recovery/replay tests"],
-      "test_tier": "T1/T2"
+      "dependencies": ["LU2-WP01", "LU2-WP02"],
+      "evidence_required": [
+        "qualification/0_2_7/wp06_execution_contract.json",
+        "docs/verification/0_2_7/0_2_7_wp06_execution_contract.md",
+        "failure fixtures",
+        "recovery/replay tests"
+      ],
+      "test_tier": "T1/T2",
+      "evidence": [
+        "qualification/0_2_7/wp06_execution_contract.json",
+        "qualification/0_2_7/lu2_wp06_state.json",
+        "docs/verification/0_2_7/0_2_7_wp06_execution_contract.md",
+        "tests/unit/test_execution_contract.py",
+        "tests/unit/test_nonlinear_checkpoint.py",
+        "tests/unit/test_dynamic_checkpoint.py"
+      ],
+      "owner_decision": "PASS_WITH_LIMITATIONS: explicit lifecycle and diagnostics are installed; recovery claims remain limited to existing nonlinear and Newmark checkpoint routes.",
+      "limitations": [
+        "The contract is additive and is not wired as a universal execution graph.",
+        "Recovery is demonstrated only for existing fixed-load nonlinear, arc-length and Newmark routes.",
+        "Linear, buckling, harmonic, geometric nonlinear and large distributed routes remain non-recoverable under this contract.",
+        "No universal timeout, resource recovery or fault-tolerance claim is made."
+      ]
     },
     {
       "id": "LU2-WP07",
