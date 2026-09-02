@@ -194,14 +194,15 @@ release action.
 
 The prior Level-Up is closed as Level-Up 1 at `50/50`. The active namespace is
 `027-LEVEL-UP-2`, based on the qualified snapshot
-`8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3`. LU2 starts at `0/50`, and the
-global program is therefore `50/100`. The active contracts and state are
+`8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3`. LU2 is at `4/50` after the WP01
+observatory, and the global program is therefore `54/100`. The active
+contracts and state are
 authoritative in `qualification/0_2_7/level_up_2_plan.json` and
 `qualification/0_2_7/level_up_2_state.json`.
 
 | Gate | Work package | Weight | Priority | Initial status | PASS boundary |
 | --- | --- | ---: | --- | --- | --- |
-| `LU2-027-G01` | LU2-WP01 observatory | 4% | MUST | `NOT_STARTED` | phase-separated, digest-backed performance evidence |
+| `LU2-027-G01` | LU2-WP01 observatory | 4% | MUST | `PASS` | phase-separated, digest-backed performance evidence |
 | `LU2-027-G02` | LU2-WP02 configuration freeze | 9% | MUST | `NOT_STARTED` | explicit CPU/MPI/PETSc/KSP/PC and fail-closed backend |
 | `LU2-027-G03` | LU2-WP03 3M Gold Compute | 9% | MUST | `NOT_STARTED` | distinct 3M FEM workload, two replays, bounded claim |
 | `LU2-027-G04` | LU2-WP04 5M Bronze | 5% | MUST | `NOT_STARTED` | two matching constructions and operator/PC preflight, no solve claim |

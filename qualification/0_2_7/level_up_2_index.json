@@ -11,13 +11,16 @@
   "active_branch": "codex/0.2.7-foundation",
   "global_progress": {
     "level_up_1": {"acquired_percent": 50, "status": "CLOSED"},
-    "level_up_2": {"acquired_percent": 0, "status": "OPEN"},
-    "current_percent": 50,
+    "level_up_2": {"acquired_percent": 4, "status": "OPEN"},
+    "current_percent": 54,
     "total_percent": 100
   },
   "work_package_count": 9,
   "conditional_gate_count": 3,
   "weights_sum_percent": 50,
+  "observatory_contract": "qualification/0_2_7/observatory_contract.json",
+  "observatory_sample": "qualification/0_2_7/wp01_observatory_sample.json",
+  "completed_work_packages": ["LU2-WP01"],
   "execution_status": {
     "heavy_benchmark_run": false,
     "full_regression_run": false,

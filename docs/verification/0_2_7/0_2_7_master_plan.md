@@ -356,8 +356,9 @@ Finite-kinematic J2 remains experimental/not qualified. See
 The previous Level-Up portfolio is now treated as **Level-Up 1**: its
 qualification evidence is preserved and its program block is `50/50 CLOSED`.
 The active namespace is **`027-LEVEL-UP-2`**, starting from the qualified
-baseline `8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3`. LU2 is open at `0/50`, so
-the current global progress is `50/100`; these values replace the older
+baseline `8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3`. LU2 has acquired `4/50`
+through the completed WP01 observatory, so the current global progress is
+`54/100`; these values replace the older
 non-additive accounting view for active planning without rewriting any
 historical result.
 
@@ -367,7 +368,7 @@ in `level_up_2_state.json` and `level_up_2_index.json`.
 
 | LU2 work package | Focus | Weight | Priority | Initial status |
 | --- | --- | ---: | --- | --- |
-| LU2-WP01 | Evidence and Performance Observatory | 4% | MUST | `NOT_STARTED` |
+| LU2-WP01 | Evidence and Performance Observatory | 4% | MUST | `PASS` |
 | LU2-WP02 | CPU/MPI/GAMG readiness and configuration freeze | 9% | MUST | `NOT_STARTED` |
 | LU2-WP03 | 3M Gold Compute | 9% | MUST | `NOT_STARTED` |
 | LU2-WP04 | 5M Bronze | 5% | MUST | `NOT_STARTED` |
@@ -397,6 +398,12 @@ C3 requires 5M Silver first and can never block LU2. New physics, production
 HEX8R/SRI/B-bar, WEDGE15, PYRAMID5, finite-kinematic J2, TL HEX8, refined
 Arc-Length, new nonlinear couplings, matrix-free multi-family and general
 Newmark/harmonic qualification remain deferred to 0.2.8+.
+
+LU2-WP01 is recorded in `qualification/0_2_7/observatory_contract.json` with
+the controlled fixture `qualification/0_2_7/wp01_observatory_sample.json`.
+The observatory is opt-in, rejects incomplete or non-finite PASS-like
+evidence, and does not infer a performance regression or improvement from a
+comparison.
 
 `DECISION_GATE_1 = CONTINUE_TO_LEVEL_UP_2` is closed. After LU2-WP09,
 `FINAL_DECISION_GATE` permits only an explicit `RELEASE` or `NEW_LEVEL_UP`

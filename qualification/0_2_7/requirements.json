@@ -202,10 +202,10 @@
       "work_package": "LU2-WP01",
       "gate": "LU2-027-G01",
       "priority": "MUST",
-      "status": "PLANNED",
+      "status": "PASS",
       "requirement": "Performance evidence shall be phase-separated, deterministic and provenance-backed.",
       "acceptance": "Setup, operator, preconditioner, solve, communication, post and resource observations use declared units, source/configuration/input/output digests and stable field names.",
-      "verification": ["observatory schema", "targeted validator tests"],
+      "verification": ["observatory schema", "targeted validator tests", "qualification/0_2_7/observatory_contract.json", "qualification/0_2_7/wp01_observatory_sample.json"],
       "owner_policy": "LEVEL_UP_2_OWNER_REVIEW"
     },
     {
