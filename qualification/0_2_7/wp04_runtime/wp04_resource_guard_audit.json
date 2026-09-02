@@ -3,8 +3,8 @@
   "record_type": "lu2_wp04_5m_bronze_resource_guard_audit",
   "work_package": "LU2-WP04",
   "gate": "LU2-027-G04",
-  "status": "RESOURCE_LIMITED",
-  "decision": "STOPPED_BY_EXPLICIT_TIME_GUARD",
+  "status": "USER_INTERRUPTED_INCONCLUSIVE",
+  "decision": "OWNER_INTERRUPTED_BEFORE_COMPLETION",
   "source_sha": "3c579e4a51a2e9edca23b7583cdbfc48c7f80368",
   "configuration_freeze": {
     "id": "LU2-WP02-FREEZE-bfd1975b012453a3",
@@ -93,16 +93,18 @@
     "observed_elapsed_precision": "approximate; Docker elapsed time was sampled before the final polling interval",
     "guard_triggered": true,
     "observed_ratio_to_reference_mean": 7.9,
-    "observed_ratio_to_guard_threshold": 3.95
+    "observed_ratio_to_guard_threshold": 3.95,
+    "guard_exceeded_as_time_budget": true,
+    "guard_interpretation": "TIME_BUDGET_EXCEEDED_ONLY; not a resource-limit proof because the run was owner-interrupted and the container remained active."
   },
   "bronze_attempts": [
     {
       "run_id": "run1",
-      "status": "RESOURCE_LIMITED",
+      "status": "USER_INTERRUPTED_INCONCLUSIVE",
       "command": "mpiexec -n 8 python3 scripts/run_lu2_wp04_bronze.py",
       "phase_observed": "CPU-bound AIJ operator assembly; PETSc/GAMG readiness not reached",
       "raw_result": "NOT_WRITTEN_AFTER_CONTROLLED_INTERRUPT",
-      "interrupt_reason": "explicit time guard after exceeding 2x comparable 3M mean total time",
+      "interrupt_reason": "Owner interruption was reported after the 2x comparable-time budget; the terminal returned but the Docker container remained active, so the elapsed overrun is not a resource-limit verdict.",
       "ranks_active_at_stop": 8,
       "memory_at_stop": "approximately 4.02 GiB container RSS; not a full peak measurement",
       "oom_observed": false,
@@ -112,8 +114,8 @@
     },
     {
       "run_id": "run2",
-      "status": "NOT_RUN_AFTER_GUARD",
-      "reason": "run1 hit the explicit resource/time guard; no second operator build was started"
+      "status": "NOT_RUN_AFTER_USER_INTERRUPT",
+      "reason": "run1 was interrupted before a valid completion record; no second operator build was started"
     }
   ],
   "audit": {
@@ -123,10 +125,13 @@
     "root_cause_confidence": "HIGH_FOR_ASSEMBLY_TIME; NO_CLAIM_FOR_PC_SETUP",
     "partial_memory_per_dof": "NOT_ACCEPTANCE_DATA; full peak unavailable",
     "memory_growth_vs_3m": "NOT_COMPARABLE_FOR_FULL_PEAK; only partial RSS was observed",
-    "c1_matrix_free_trigger": true,
-    "c1_reason": "The measured frozen AIJ operator-assembly cost prevented completion of the 5M Bronze readiness path under the explicit 2x comparable-time guard; this is a capacity blocker for the current representation, not an inferred optimization preference.",
-    "bronze_acceptance": "FAIL",
-    "ready_for_lu2_wp05": false
+    "c1_matrix_free_trigger": false,
+    "c1_reason": "Not confirmed: the 2x budget was exceeded, but the owner interruption and missing progress/resource telemetry prevent a resource-limited classification.",
+    "bronze_acceptance": "INCONCLUSIVE_NOT_PASS",
+    "ready_for_lu2_wp05": false,
+    "forensic_audit": "qualification/0_2_7/wp04_runtime/wp04_forensic_audit.json",
+    "resource_limited_proven": false,
+    "stall_detected": "NO_EVIDENCE"
   },
   "policy": {
     "configuration_changed": false,
@@ -137,6 +142,11 @@
     "converged_solve_attempted": false,
     "full_regression_run": false,
     "pushed": false
+  },
+  "forensic_reclassification": {
+    "previous_active_interpretation": "RESOURCE_LIMITED",
+    "current_active_interpretation": "USER_INTERRUPTED_INCONCLUSIVE",
+    "reason": "Docker inspection found all eight ranks still runnable and CPU-active after the terminal session returned; no computation failure or memory ceiling breach was demonstrated."
   },
   "claim_boundary": "The deterministic 5M TET4 FEM workload and preflight were prepared, but the frozen AIJ Bronze path did not reach PETSc/GAMG readiness. No 5M solve, performance, universal capacity or Silver claim is made."
 }

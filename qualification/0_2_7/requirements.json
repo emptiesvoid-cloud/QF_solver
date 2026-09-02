@@ -252,17 +252,18 @@
       "work_package": "LU2-WP04",
       "gate": "LU2-027-G04",
       "priority": "MUST",
-      "status": "RESOURCE_LIMITED",
+      "status": "USER_INTERRUPTED_INCONCLUSIVE",
       "requirement": "5M Bronze shall demonstrate real FEM construction and distributed operator/preconditioner readiness without a solve claim.",
       "acceptance": "Two deterministic constructions agree on DOF, partition, ownership and digest and remain under predeclared setup/resource budgets.",
       "verification": [
         "qualification/0_2_7/wp04_runtime/wp04_evidence_index.json",
         "qualification/0_2_7/wp04_runtime/wp04_resource_guard_audit.json",
+        "qualification/0_2_7/wp04_runtime/wp04_forensic_audit.json",
         "resource envelope"
       ],
       "owner_policy": "LEVEL_UP_2_OWNER_REVIEW",
-      "decision": "RESOURCE_LIMITED: deterministic model construction and preflight pass, but frozen AIJ assembly exceeded the explicit 2x comparable 3M time guard before operator/PETSc/GAMG readiness.",
-      "next_action": "C1_MATRIX_FREE_CAPACITY_SPIKE"
+      "decision": "USER_INTERRUPTED_INCONCLUSIVE: deterministic model construction and preflight pass, but the owner-interrupted frozen AIJ assembly did not produce a completion record; the 2x time overrun is a budget observation, not proof of a resource limit.",
+      "next_action": "LU2-WP04_SUPERVISED_RETRY"
     },
     {
       "id": "027-LU2-REQ-005",

@@ -140,7 +140,7 @@
       "title": "5M Bronze",
       "weight_percent": 5,
       "priority": "MUST",
-      "status": "RESOURCE_LIMITED",
+      "status": "USER_INTERRUPTED_INCONCLUSIVE",
       "objective": "Construct and preflight a real 5M-DOF FEM workload without claiming a converged solve.",
       "pass_criteria": [
         "The model, topology, true DOF target and construction procedure are predeclared.",
@@ -164,15 +164,16 @@
         "qualification/0_2_7/wp04_runtime/wp04_resource_guard_audit.json",
         "qualification/0_2_7/wp04_runtime/wp04_evidence_index.json",
         "qualification/0_2_7/wp04_runtime/wp04_summary.json",
+        "qualification/0_2_7/wp04_runtime/wp04_forensic_audit.json",
         "qualification/0_2_7/lu2_wp04_state.json",
         "docs/verification/0_2_7/0_2_7_wp04_5m_bronze.md"
       ],
       "closeout": {
-        "bronze_status": "RESOURCE_LIMITED",
+        "bronze_status": "USER_INTERRUPTED_INCONCLUSIVE",
         "bronze_pass": false,
-        "run1": "STOPPED_BY_EXPLICIT_TIME_GUARD_DURING_AIJ_ASSEMBLY",
-        "run2": "NOT_RUN_AFTER_GUARD",
-        "next_action": "C1_MATRIX_FREE_CAPACITY_SPIKE",
+        "run1": "OWNER_INTERRUPTED_DURING_AIJ_ASSEMBLY",
+        "run2": "NOT_RUN_AFTER_USER_INTERRUPT",
+        "next_action": "LU2-WP04_SUPERVISED_RETRY",
         "claim_boundary": "Deterministic 5M TET4 construction and preflight only; no operator readiness, solve or Silver claim."
       },
       "runtime_guard": {
@@ -180,7 +181,7 @@
         "multiplier": 2.0,
         "absolute_wall_time_ceiling_seconds": 18000,
         "precedence": "2x comparable-time guard stops the run before the five-hour ceiling when reached",
-        "observed_decision": "STOP"
+        "observed_decision": "OWNER_INTERRUPT_OBSERVED; time overrun is not a resource-limit proof"
       }
     },
     {
@@ -299,12 +300,12 @@
       "title": "Matrix-Free TET4 Capacity Spike",
       "weight_percent": 0,
       "priority": "CONDITIONAL",
-      "status": "TRIGGERED",
+      "status": "DORMANT",
       "trigger": "Only if 5M exposes a real memory, capacity or performance problem.",
       "scope": "TET4 / linear static / CPU / experimental",
       "pass_criteria": ["trigger evidence is recorded", "scope remains bounded", "no universal capacity claim"],
-      "triggered_by": "LU2-WP04",
-      "trigger_reason": "Frozen AIJ operator assembly exceeded the explicit 2x comparable 3M time guard before PETSc/GAMG readiness.",
+      "prior_interpretation": "TRIGGERED_BY_TIME_BUDGET",
+      "trigger_reason": "Not confirmed: the 2x time budget was exceeded, but the owner interruption and missing progress/resource telemetry prevent a resource-limited trigger.",
       "non_blocking": true
     },
     {

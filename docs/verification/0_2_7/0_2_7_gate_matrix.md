@@ -206,7 +206,7 @@ authoritative in `qualification/0_2_7/level_up_2_plan.json` and
 | `LU2-027-G01` | LU2-WP01 observatory | 4% | MUST | `PASS` | phase-separated, digest-backed performance evidence |
 | `LU2-027-G02` | LU2-WP02 configuration freeze | 9% | MUST | `PASS_WITH_LIMITATIONS` | explicit CPU/MPI/PETSc/KSP/PC and fail-closed backend |
 | `LU2-027-G03` | LU2-WP03 3M Gold Compute | 9% | MUST | `PASS_WITH_LIMITATIONS` | distinct 3M FEM workload, two replays, bounded claim |
-| `LU2-027-G04` | LU2-WP04 5M Bronze | 5% | MUST | `RESOURCE_LIMITED` | two matching constructions and operator/PC preflight, no solve claim |
+| `LU2-027-G04` | LU2-WP04 5M Bronze | 5% | MUST | `USER_INTERRUPTED_INCONCLUSIVE` | two matching constructions and operator/PC preflight, no solve claim |
 | `LU2-027-G05` | LU2-WP05 5M Silver | 9% | MUST | `NOT_STARTED` | complete two-replay solve under frozen MPI and resource criteria |
 | `LU2-027-G06` | LU2-WP06 execution/recovery | 4% | MUST | `NOT_STARTED` | explicit, fail-closed outcomes and state integrity |
 | `LU2-027-G07` | LU2-WP07 existing routes | 4% | SHOULD | `NOT_STARTED` | only decision-changing targeted V&V, no transitive promotion |
@@ -234,16 +234,19 @@ and the bounded claim are documented in
 redistribution, communication and I/O remain explicitly `NOT_MEASURED`, and
 the evidence makes no universal, multi-node, GPU, mixed-mesh, nonlinear or
 restart claim. LU2-WP04 was attempted with a real `5,012,640`-DOF TET4
-workload. The two independent constructions and preflight passed, but frozen
-AIJ assembly exceeded the explicit `2x` mean comparable 3M time guard before
-PETSc/GAMG readiness. The gate is therefore `RESOURCE_LIMITED`, not PASS;
-the evidence makes no 5M Bronze, readiness or solve claim, and C1 is the next
-scoped action. WP05 remains blocked.
+workload. The two independent constructions and preflight passed, but the
+owner-interrupted container remained CPU-active in frozen AIJ assembly without
+a completion record. The gate is therefore
+`USER_INTERRUPTED_INCONCLUSIVE`, not PASS or proven `RESOURCE_LIMITED`; the
+evidence makes no 5M Bronze, readiness or solve claim. C1 is not confirmed and
+WP05 remains blocked pending a supervised retry.
 
 Conditional gates `C1` (matrix-free TET4 capacity), `C2` (GPU foundation) and
-`C3` (10M capacity exploration) are installed with zero weight. C1 is
-`TRIGGERED` by the measured WP04 5M AIJ assembly capacity problem; C2 requires
-real hardware evidence, and C3 requires 5M Silver first; none can block LU2.
+`C3` (10M capacity exploration) are installed with zero weight. C1 remains
+`DORMANT` because the 2x time budget overrun was observed during an
+owner-interrupted run without persisted progress/resource telemetry; C2
+requires real hardware evidence, and C3 requires 5M Silver first; none can
+block LU2.
 Bronze never
 creates a 3M solve claim, Gold does not require restart, and no post-result
 retuning or silent fallback is permitted.

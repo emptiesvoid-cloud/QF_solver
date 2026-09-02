@@ -25,35 +25,47 @@ def test_wp04_contract_is_predeclared_and_freeze_bound() -> None:
     assert contract["run_policy"]["no_converged_solve"] is True
 
 
-def test_wp04_resource_limited_evidence_is_honest() -> None:
+def test_wp04_forensic_reclassification_is_honest() -> None:
     summary = _read(RUNTIME / "wp04_summary.json")
     index = _read(RUNTIME / "wp04_evidence_index.json")
     audit = _read(RUNTIME / "wp04_resource_guard_audit.json")
+    forensic = _read(RUNTIME / "wp04_forensic_audit.json")
     state = _read(QUALIFICATION / "lu2_wp04_state.json")
 
-    assert summary["status"] == "RESOURCE_LIMITED"
-    assert summary["runs"]["run1"]["status"] == "RESOURCE_LIMITED"
-    assert summary["runs"]["run2"]["status"] == "NOT_RUN_AFTER_GUARD"
+    assert summary["status"] == "USER_INTERRUPTED_INCONCLUSIVE"
+    assert summary["runs"]["run1"]["status"] == "USER_INTERRUPTED_INCONCLUSIVE"
+    assert summary["runs"]["run2"]["status"] == "NOT_RUN_AFTER_USER_INTERRUPT"
     assert summary["workload"]["true_dof"] == 5_012_640
     assert summary["workload"]["independent_builds"] == 2
     assert summary["workload"]["model_replay"] == "PASS"
     assert summary["checks"]["bronze"] == "FAIL"
-    assert summary["checks"]["c1_matrix_free_trigger"] is True
-    assert summary["time_guard"]["decision"] == "STOP"
+    assert summary["checks"]["c1_matrix_free_trigger"] is False
+    assert summary["time_guard"]["decision"] == "OWNER_INTERRUPT_OBSERVED"
     assert summary["time_guard"]["observed_elapsed_seconds"] > 2 * summary["time_guard"]["reference_mean_total_seconds"]
     assert summary["time_guard"]["absolute_wall_time_ceiling_seconds"] == 18_000
     assert summary["time_guard"]["effective_stop_threshold_seconds"] < summary["time_guard"]["absolute_wall_time_ceiling_seconds"]
-    assert index["status"] == "RESOURCE_LIMITED"
+    assert index["status"] == "USER_INTERRUPTED_INCONCLUSIVE"
     assert index["acceptance"]["operator_build"] is False
     assert index["acceptance"]["petsc_initialization"] is False
     assert index["acceptance"]["gamg_readiness"] is False
     assert index["acceptance"]["bronze_pass"] is False
-    assert audit["decision"] == "STOPPED_BY_EXPLICIT_TIME_GUARD"
+    assert audit["decision"] == "OWNER_INTERRUPTED_BEFORE_COMPLETION"
     assert audit["bronze_attempts"][0]["solve_executed"] is False
-    assert audit["bronze_attempts"][1]["status"] == "NOT_RUN_AFTER_GUARD"
-    assert state["status"] == "RESOURCE_LIMITED"
+    assert audit["bronze_attempts"][1]["status"] == "NOT_RUN_AFTER_USER_INTERRUPT"
+    assert audit["audit"]["resource_limited_proven"] is False
+    assert state["status"] == "USER_INTERRUPTED_INCONCLUSIVE"
     assert state["progress"]["level_up_2_acquired_percent"] == 22
     assert state["ready_for_lu2_wp05"] is False
+    assert state["ready_for_wp04_retry"] is True
+    assert state["ready_for_c1"] is False
     assert state["blockers"]
+    assert forensic["status"] == "USER_INTERRUPTED_INCONCLUSIVE"
+    assert forensic["termination"]["owner_interrupted"] is True
+    assert forensic["termination"]["container_was_still_running_at_forensic_observation"] is True
+    assert forensic["process_observations"]["all_ranks_active"] is True
+    assert forensic["memory_observations"]["swap_pressure"] == "NOT_MEASURED"
+    assert forensic["decision"]["resource_limited_proven"] is False
+    assert forensic["decision"]["c1_trigger_confirmed"] is False
+    assert forensic["retry_plan"]["recommendation"] == "YES"
 
     assert not list((RUNTIME / "raw").glob("*.json"))
