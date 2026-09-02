@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "record_type": "lu2_performance_observation",
+  "source_of_truth": "src/solveur/verification/observatory.py",
+  "required_fields": [
+    "schema_version",
+    "record_type",
+    "case_id",
+    "source",
+    "environment",
+    "execution",
+    "workload",
+    "tolerances",
+    "metrics",
+    "result",
+    "artifacts",
+    "provenance"
+  ],
+  "source_contract": {
+    "revision": "committed Git SHA",
+    "dirty": "boolean; PASS-like evidence requires false",
+    "repository": "repository-relative identifier"
+  },
+  "environment_fields": [
+    "hostname",
+    "os",
+    "cpu",
+    "ram_bytes",
+    "python_version",
+    "petsc_version",
+    "mpi_version",
+    "container_digest",
+    "threads",
+    "rank_count"
+  ],
+  "phase_metrics_seconds": [
+    "model_setup",
+    "preflight",
+    "assembly_operator",
+    "redistribution",
+    "pc_setup",
+    "ksp_solve",
+    "communication",
+    "io",
+    "post_processing",
+    "total"
+  ],
+  "resource_metrics": [
+    "peak_rss_total_bytes",
+    "peak_rss_per_rank_bytes",
+    "imbalance",
+    "gpu_vram_bytes"
+  ],
+  "classifications": [
+    "PASS",
+    "PASS_WITH_LIMITATIONS",
+    "FAIL",
+    "EXPECTED_FAILURE",
+    "NOT_COMPARABLE",
+    "UNAVAILABLE",
+    "RESOURCE_LIMITED"
+  ],
+  "pass_like_provenance": [
+    "committed source revision",
+    "clean source state",
+    "SHA-256 input digest",
+    "SHA-256 result digest",
+    "SHA-256 configuration digest",
+    "non-empty execution command",
+    "declared environment"
+  ],
+  "comparison_policy": {
+    "compatibility_keys": [
+      "case_id",
+      "workload.model_id",
+      "artifacts.input_digest",
+      "execution.route",
+      "execution.backend",
+      "execution.solver",
+      "execution.preconditioner",
+      "execution.rank_count",
+      "tolerances"
+    ],
+    "environment_differences_are_reported": true,
+    "automatic_regression_or_improvement_verdict": false
+  },
+  "legacy_compatibility": {
+    "adapter": "record_benchmark_run",
+    "default_if_input_digest_missing": "NOT_COMPARABLE",
+    "historical_runner_execution_unchanged": true,
+    "opt_in_runner_method": "BenchmarkRunner.run_observed"
+  },
+  "artifact_classification": "CONTROLLED_PROOF",
+  "digest_policy": "UTF-8 canonical JSON, sorted keys, compact separators, SHA-256; binary artifacts remain byte-for-byte"
+}

@@ -68,3 +68,29 @@ class BenchmarkRunner:
         descriptor = self.catalog.get(identifier)
         context = BenchmarkContext.create(descriptor, output_dir, profile)
         return RUNNERS[descriptor.identifier](context)
+
+    def run_observed(
+        self,
+        identifier: str,
+        output_dir: str | Path,
+        evidence_path: str | Path,
+        *,
+        requirement_id: str | None = None,
+        capability_refs: tuple[str, ...] = (),
+        input_digest: str | None = None,
+        command: tuple[str, ...] = (),
+        profile: str = "engineering",
+    ) -> BenchmarkRun:
+        """Run a legacy benchmark and optionally emit a WP01 observation."""
+        run = self.run(identifier, output_dir, profile=profile)
+        from solveur.verification.observatory import record_benchmark_run
+
+        record_benchmark_run(
+            run,
+            evidence_path,
+            requirement_id=requirement_id,
+            capability_refs=capability_refs,
+            input_digest=input_digest,
+            command=command,
+        )
+        return run

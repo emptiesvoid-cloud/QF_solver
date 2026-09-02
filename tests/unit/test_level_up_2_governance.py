@@ -12,6 +12,7 @@ PLAN_PATH = QUALIFICATION / "level_up_2_plan.json"
 STATE_PATH = QUALIFICATION / "level_up_2_state.json"
 INDEX_PATH = QUALIFICATION / "level_up_2_index.json"
 BASELINE_SHA = "8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3"
+WP01_SOURCE_SHA = "e1703b5bc00e9cf2eb92e7e346783c9764201808"
 
 
 def _load(path: Path) -> dict:
@@ -27,6 +28,7 @@ def test_lu2_plan_has_exact_scope_and_weight_accounting() -> None:
     assert plan["status"] == "OPEN"
     assert plan["source_snapshot"] == BASELINE_SHA
     assert len(work_packages) == 9
+    assert work_packages[0]["status"] == "PASS"
     assert sum(item["weight_percent"] for item in work_packages) == 50
     assert [item["id"] for item in work_packages] == [
         "LU2-WP01",
@@ -80,17 +82,19 @@ def test_lu2_state_index_and_existing_lu1_are_consistent() -> None:
 
     assert state["status"] == "OPEN"
     assert state["source_sha"] == BASELINE_SHA
-    assert state["current_work_package"] == "LU2-WP01"
+    assert state["wp01_source_sha"] == WP01_SOURCE_SHA
+    assert state["current_work_package"] == "LU2-WP02"
     assert state["global_accounting"] == {
         "level_up_1": "50/50 CLOSED",
-        "level_up_2": "0/50 OPEN",
-        "current_global_progress": "50/100",
+        "level_up_2": "4/50 OPEN",
+        "current_global_progress": "54/100",
         "weights_total_percent": 100,
     }
     assert state["execution"]["heavy_benchmark_run"] is False
     assert state["execution"]["full_regression_run"] is False
     assert state["execution"]["existing_evidence_rewritten"] is False
     assert state["readiness"]["ready_for_lu2_wp01"] is True
+    assert state["readiness"]["ready_for_lu2_wp02"] is True
 
     assert index["source_of_truth"] == str(PLAN_PATH.relative_to(ROOT)).replace("\\", "/")
     assert index["state"] == str(STATE_PATH.relative_to(ROOT)).replace("\\", "/")
@@ -113,8 +117,9 @@ def test_current_governance_consumers_point_to_lu2_and_keep_baseline_roles() -> 
     gates = _load(QUALIFICATION / "gates.json")
     requirements = _load(QUALIFICATION / "requirements.json")
 
-    assert manifest["current_development_head"] == BASELINE_SHA
+    assert manifest["current_development_head"] == WP01_SOURCE_SHA
     assert manifest["level_up_2_scope"]["status"] == "OPEN"
+    assert manifest["level_up_2_scope"]["current_work_package"] == "LU2-WP02"
     assert manifest["level_up_2_scope"]["pre_lu2_qualified_baseline"] == BASELINE_SHA
     assert all(
         path in manifest["documents"]
@@ -125,10 +130,10 @@ def test_current_governance_consumers_point_to_lu2_and_keep_baseline_roles() -> 
         )
     )
 
-    assert progress["current_work_package"] == "LU2-WP01"
-    assert progress["global_accounting"]["current_global_progress_percent"] == 50
+    assert progress["current_work_package"] == "LU2-WP02"
+    assert progress["global_accounting"]["current_global_progress_percent"] == 54
     assert progress["level_up_2"]["status"] == "OPEN"
-    assert release_truth["current_development_head"]["sha"] == BASELINE_SHA
+    assert release_truth["current_development_head"]["sha"] == WP01_SOURCE_SHA
     assert release_truth["level_up_2"]["status"] == "OPEN"
 
     lu2_gates = gates["level_up_2"]
@@ -136,13 +141,16 @@ def test_current_governance_consumers_point_to_lu2_and_keep_baseline_roles() -> 
     assert len(lu2_gates["gates"]) == 9
     assert len(lu2_gates["conditional_gates"]) == 3
     assert sum(item["weight_percent"] for item in lu2_gates["gates"]) == 50
+    assert lu2_gates["gates"][0]["status"] == "PASS"
 
     lu2_requirements = requirements["level_up_2_requirements"]
     assert len(lu2_requirements) == 9
+    assert lu2_requirements[0]["status"] == "PASS"
     assert {item["work_package"] for item in lu2_requirements} == {
         f"LU2-WP{index:02d}" for index in range(1, 10)
     }
-    assert all(item["status"] == "PLANNED" for item in lu2_requirements)
+    assert lu2_requirements[0]["status"] == "PASS"
+    assert all(item["status"] == "PLANNED" for item in lu2_requirements[1:])
     assert plan["registry_guard"] == {
         "source_of_truth": "qualification/0_2_7/capability_registry_v2.json",
         "public_anchor_count": 33,

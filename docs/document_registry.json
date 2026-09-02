@@ -4660,6 +4660,21 @@
       "tests": [
         "tests/unit/test_wp20_j2_closure.py"
       ]
+    },
+    {
+      "id": "DOC-027-LU2-WP01-001",
+      "path": "verification/0_2_7/0_2_7_wp01_observatory.md",
+      "title": "0.2.7 LU2-WP01 evidence and performance observatory",
+      "status": "controlled_candidate",
+      "requirements": ["027-LU2-REQ-001"],
+      "examples": [
+        "qualification/0_2_7/observatory_contract.json",
+        "qualification/0_2_7/wp01_observatory_sample.json"
+      ],
+      "tests": [
+        "tests/unit/test_observatory.py",
+        "tests/unit/test_level_up_2_governance.py"
+      ]
     }
   ]
 }

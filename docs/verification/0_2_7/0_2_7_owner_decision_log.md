@@ -400,3 +400,21 @@ capability or change the immutable LU1 evidence. C1, C2 and C3 are dormant
 zero-weight conditional gates. The final gate after LU2-WP09 is installed with
 the explicit alternatives `RELEASE` and `NEW_LEVEL_UP`; publication is never
 automatic.
+
+## LU2-WP01 observatory closeout
+
+Date: 2026-09-02. Execution source SHA:
+`e1703b5bc00e9cf2eb92e7e346783c9764201808`.
+
+Owner decision: `PASS` for the evidence and performance observatory contract.
+The additive API records phase-separated timings, iterations, matvecs,
+residual/equilibrium/energy, rank-aware resource metrics, environment and
+artifact digests. PASS-like evidence requires a committed clean source, input
+and result SHA-256 digests, a non-empty command and declared environment.
+Comparisons are descriptive only and never infer a regression or improvement.
+The legacy benchmark path remains unchanged; missing input provenance becomes
+`NOT_COMPARABLE`. The controlled record is
+`qualification/0_2_7/wp01_observatory_sample.json`, with contract
+`qualification/0_2_7/observatory_contract.json` and implementation
+`src/solveur/verification/observatory.py`. No heavy benchmark, full regression,
+numerical formulation change or maturity promotion occurred. LU2-WP02 is next.

@@ -40,7 +40,7 @@
       "title": "Evidence and Performance Observatory",
       "weight_percent": 4,
       "priority": "MUST",
-      "status": "NOT_STARTED",
+      "status": "PASS",
       "objective": "Install a deterministic performance evidence model for setup, operator, preconditioner, solve, communication, post-processing and resource metrics.",
       "pass_criteria": [
         "Each run records source/config/input/output digests and the declared environment.",
@@ -53,7 +53,7 @@
         "historical evidence overwritten"
       ],
       "dependencies": ["PRE-LU2-BASELINE"],
-      "evidence_required": ["observatory schema", "validator tests", "sample controlled record"],
+      "evidence_required": ["observatory schema", "validator tests", "sample controlled record", "performance comparison policy", "legacy runner compatibility"],
       "test_tier": "T1"
     },
     {
