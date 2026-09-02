@@ -386,3 +386,17 @@ final release action. The controlled records are
 `qualification/0_2_7/wp21_final_release_truth.json`,
 `qualification/0_2_7/wp21_public_document_audit.json` and
 `qualification/0_2_7/golden/wp21_replay_evidence.json`.
+
+## Level-Up 2 setup decision
+
+| Decision ID | Topic | Decision | Evidence/SHA | Date |
+| --- | --- | --- | --- | --- |
+| 027-OD-012 | Level-Up 2 governance installation | `CONTINUE_TO_LEVEL_UP_2`; LU2 `OPEN` at `0/50`, LU1 `CLOSED` at `50/50` | `qualification/0_2_7/level_up_2_plan.json`, `level_up_2_state.json`, `8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3` | 2026-09-02 |
+
+The decision installs the theme **Reproducible Large-Model Performance and
+Solver Maturity** and the nine LU2 work packages with a total weight of 50 %.
+It does not execute a benchmark, alter a numerical formulation, promote a
+capability or change the immutable LU1 evidence. C1, C2 and C3 are dormant
+zero-weight conditional gates. The final gate after LU2-WP09 is installed with
+the explicit alternatives `RELEASE` and `NEW_LEVEL_UP`; publication is never
+automatic.

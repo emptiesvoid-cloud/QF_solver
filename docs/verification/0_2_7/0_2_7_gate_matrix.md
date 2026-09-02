@@ -189,3 +189,31 @@ tolerance retuning occurred. The authoritative records are
 `docs/verification/0_2_7/0_2_7_wp20_j2_closeout.md`. WP21 then closed its
 surgical compatibility and release-truth scope; WP22 remains the next Owner
 release action.
+
+## Level-Up 2 gate namespace
+
+The prior Level-Up is closed as Level-Up 1 at `50/50`. The active namespace is
+`027-LEVEL-UP-2`, based on the qualified snapshot
+`8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3`. LU2 starts at `0/50`, and the
+global program is therefore `50/100`. The active contracts and state are
+authoritative in `qualification/0_2_7/level_up_2_plan.json` and
+`qualification/0_2_7/level_up_2_state.json`.
+
+| Gate | Work package | Weight | Priority | Initial status | PASS boundary |
+| --- | --- | ---: | --- | --- | --- |
+| `LU2-027-G01` | LU2-WP01 observatory | 4% | MUST | `NOT_STARTED` | phase-separated, digest-backed performance evidence |
+| `LU2-027-G02` | LU2-WP02 configuration freeze | 9% | MUST | `NOT_STARTED` | explicit CPU/MPI/PETSc/KSP/PC and fail-closed backend |
+| `LU2-027-G03` | LU2-WP03 3M Gold Compute | 9% | MUST | `NOT_STARTED` | distinct 3M FEM workload, two replays, bounded claim |
+| `LU2-027-G04` | LU2-WP04 5M Bronze | 5% | MUST | `NOT_STARTED` | two matching constructions and operator/PC preflight, no solve claim |
+| `LU2-027-G05` | LU2-WP05 5M Silver | 9% | MUST | `NOT_STARTED` | complete two-replay solve under frozen MPI and resource criteria |
+| `LU2-027-G06` | LU2-WP06 execution/recovery | 4% | MUST | `NOT_STARTED` | explicit, fail-closed outcomes and state integrity |
+| `LU2-027-G07` | LU2-WP07 existing routes | 4% | SHOULD | `NOT_STARTED` | only decision-changing targeted V&V, no transitive promotion |
+| `LU2-027-G08` | LU2-WP08 route decisions | 2% | SHOULD | `NOT_STARTED` | deferred/experimental routes remain unqualified |
+| `LU2-027-G09` | LU2-WP09 final qualification | 4% | MUST | `NOT_STARTED` | explicit Owner RELEASE or NEW_LEVEL_UP decision |
+
+Conditional gates `C1` (matrix-free TET4 capacity), `C2` (GPU foundation) and
+`C3` (10M capacity exploration) are installed with zero weight and remain
+`DORMANT`. C1 requires a real 5M capacity trigger, C2 requires real hardware
+evidence, and C3 requires 5M Silver first; none can block LU2. Bronze never
+creates a 3M solve claim, Gold does not require restart, and no post-result
+retuning or silent fallback is permitted.
