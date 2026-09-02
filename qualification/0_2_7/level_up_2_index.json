@@ -11,8 +11,8 @@
   "active_branch": "codex/0.2.7-foundation",
   "global_progress": {
     "level_up_1": {"acquired_percent": 50, "status": "CLOSED"},
-    "level_up_2": {"acquired_percent": 28, "status": "OPEN"},
-    "current_percent": 78,
+    "level_up_2": {"acquired_percent": 32, "status": "OPEN"},
+    "current_percent": 82,
     "total_percent": 100
   },
   "work_package_count": 9,
@@ -38,6 +38,9 @@
   "wp08_status": "PASS_WITH_LIMITATIONS",
   "wp08_decision_matrix": "qualification/0_2_7/lu2_wp08_decision_matrix.json",
   "wp08_state": "qualification/0_2_7/lu2_wp08_state.json",
+  "wp07_status": "PASS_WITH_LIMITATIONS",
+  "wp07_state": "qualification/0_2_7/lu2_wp07_state.json",
+  "wp07_matrix": "qualification/0_2_7/lu2_wp07_maturity_matrix.json",
   "current_work_package": "LU2-WP04",
   "next_work_package": "LU2-WP04_SUPERVISED_RETRY",
   "wp04_status": "USER_INTERRUPTED_INCONCLUSIVE",
@@ -49,7 +52,7 @@
   "wp04_bronze_pass": false,
   "c1_matrix_free_triggered": false,
   "resource_limited_proven": false,
-  "completed_work_packages": ["LU2-WP01", "LU2-WP02", "LU2-WP03", "LU2-WP06", "LU2-WP08"],
+  "completed_work_packages": ["LU2-WP01", "LU2-WP02", "LU2-WP03", "LU2-WP06", "LU2-WP07", "LU2-WP08"],
   "execution_status": {
     "heavy_benchmark_run": true,
     "full_regression_run": false,

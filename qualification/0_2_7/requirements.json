@@ -289,17 +289,30 @@
       "owner_decision": "PASS_WITH_LIMITATIONS: additive lifecycle and diagnostics are installed; recovery claims remain limited to existing targeted routes.",
       "limitations": ["No universal execution graph, timeout recovery, distributed recovery or fault-tolerance claim.", "Linear, buckling, harmonic, geometric nonlinear and large distributed routes remain non-recoverable under this contract."]
     },
-    {
-      "id": "027-LU2-REQ-007",
+  {
+    "id": "027-LU2-REQ-007",
       "work_package": "LU2-WP07",
       "gate": "LU2-027-G07",
       "priority": "SHOULD",
-      "status": "PLANNED",
+    "status": "PASS_WITH_LIMITATIONS",
       "requirement": "Only existing route gaps capable of changing a public maturity decision shall receive targeted V&V.",
       "acceptance": "Evidence is selected before execution and qualification remains non-transitive across elements, analyses, materials and backends.",
-      "verification": ["gap selection", "targeted V&V", "Owner review"],
-      "owner_policy": "LEVEL_UP_2_OWNER_REVIEW"
-    },
+    "verification": [
+      "qualification/0_2_7/lu2_wp07_maturity_matrix.json",
+      "qualification/0_2_7/lu2_wp07_state.json",
+      "docs/verification/0_2_7/0_2_7_lu2_wp07_maturity.md",
+      "tests/unit/test_lu2_wp07_maturity.py",
+      "targeted V&V",
+      "Owner review"
+    ],
+    "owner_policy": "LEVEL_UP_2_OWNER_REVIEW",
+    "owner_decision": "PASS_WITH_LIMITATIONS: existing route maturity is defensible at the documented element/analysis/material/backend scope; no promotion or demotion is made.",
+    "limitations": [
+      "Qualification remains non-transitive across element, analysis, material and backend routes.",
+      "Finite-kinematic J2, coupled nonlinear routes, friction, mixed meshes, HEX8 next-generation formulations and untested large-route recovery remain outside qualified claims.",
+      "External evidence remains bounded and family-specific; no universal external validation claim is made."
+    ]
+  },
     {
       "id": "027-LU2-REQ-008",
       "work_package": "LU2-WP08",

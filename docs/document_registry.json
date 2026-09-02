@@ -4776,6 +4776,26 @@
         "tests/unit/test_nonlinear_checkpoint.py",
         "tests/unit/test_dynamic_checkpoint.py"
       ]
+    },
+    {
+      "id": "DOC-027-LU2-WP07-001",
+      "path": "verification/0_2_7/0_2_7_lu2_wp07_maturity.md",
+      "title": "0.2.7 LU2-WP07 existing route maturity and targeted V&V",
+      "status": "controlled_evidence",
+      "requirements": ["027-LU2-REQ-007"],
+      "examples": [
+        "qualification/0_2_7/lu2_wp07_maturity_matrix.json",
+        "qualification/0_2_7/lu2_wp07_state.json",
+        "qualification/0_2_7/wp06_state.json",
+        "qualification/0_2_7/wp19_state.json",
+        "qualification/0_2_7/wp20_state.json"
+      ],
+      "tests": [
+        "tests/unit/test_lu2_wp07_maturity.py",
+        "tests/unit/test_wp19_robustness_hex8.py",
+        "tests/unit/test_wp20_j2_closure.py",
+        "tests/unit/test_execution_contract.py"
+      ]
     }
   ]
 }

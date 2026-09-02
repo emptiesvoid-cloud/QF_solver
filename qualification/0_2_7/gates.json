@@ -397,7 +397,29 @@
           "Other routes remain explicitly non-recoverable under this contract; no universal fault-tolerance claim is made."
         ]
       },
-      {"id": "LU2-027-G07", "work_package": "LU2-WP07", "title": "Existing Routes Maturity and Targeted V&V", "status": "NOT_STARTED", "weight_percent": 4, "priority": "SHOULD"},
+      {
+        "id": "LU2-027-G07",
+        "work_package": "LU2-WP07",
+        "title": "Existing Routes Maturity and Targeted V&V",
+        "status": "PASS_WITH_LIMITATIONS",
+        "weight_percent": 4,
+        "priority": "SHOULD",
+        "evidence": [
+          "qualification/0_2_7/lu2_wp07_maturity_matrix.json",
+          "qualification/0_2_7/lu2_wp07_state.json",
+          "qualification/0_2_7/wp06_state.json",
+          "qualification/0_2_7/wp19_state.json",
+          "qualification/0_2_7/wp20_state.json",
+          "docs/verification/0_2_7/0_2_7_lu2_wp07_maturity.md",
+          "tests/unit/test_lu2_wp07_maturity.py"
+        ],
+        "owner_decision": "PASS_WITH_LIMITATIONS: existing route maturity is retained at the documented bounded combination scope; no promotion or demotion is made.",
+        "limitations": [
+          "Finite-kinematic J2, coupled nonlinear routes, friction, mixed meshes and HEX8 next-generation formulations remain outside qualified claims.",
+          "External evidence is bounded and family-specific; no universal external validation claim is made.",
+          "LU2-WP04 remains USER_INTERRUPTED_INCONCLUSIVE and is independent of this closeout."
+        ]
+      },
       {
         "id": "LU2-027-G08",
         "work_package": "LU2-WP08",
