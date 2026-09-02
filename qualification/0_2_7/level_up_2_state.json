@@ -15,8 +15,8 @@
   "next_work_package": "LU2-WP04_SUPERVISED_RETRY",
   "global_accounting": {
     "level_up_1": "50/50 CLOSED",
-    "level_up_2": "28/50 OPEN",
-    "current_global_progress": "78/100",
+    "level_up_2": "32/50 OPEN",
+    "current_global_progress": "82/100",
     "weights_total_percent": 100
   },
   "work_packages": [
@@ -71,7 +71,7 @@
         "tests/unit/test_execution_contract.py"
       ]
     },
-    {"id": "LU2-WP07", "status": "NOT_STARTED", "weight_percent": 4, "ready": false},
+    {"id": "LU2-WP07", "status": "PASS_WITH_LIMITATIONS", "weight_percent": 4, "ready": true, "evidence": "qualification/0_2_7/lu2_wp07_maturity_matrix.json"},
     {
       "id": "LU2-WP08",
       "status": "PASS_WITH_LIMITATIONS",
@@ -128,6 +128,7 @@
     "ready_for_lu2_wp04": false,
     "ready_for_lu2_wp08": true,
     "ready_for_lu2_wp07": true,
+    "ready_for_lu2_wp09": false,
     "ready_for_lu2_wp05": false,
     "ready_for_wp04_retry": true,
     "ready_for_c1": false,
@@ -147,7 +148,7 @@
     "wp02_evidence_index": "qualification/0_2_7/wp02_runtime/wp02_evidence_index.json",
     "wp02_configuration_freeze": "qualification/0_2_7/wp02_runtime/wp02_config_freeze.json"
   },
-  "completed_work_packages": ["LU2-WP01", "LU2-WP02", "LU2-WP03", "LU2-WP06", "LU2-WP08"],
+  "completed_work_packages": ["LU2-WP01", "LU2-WP02", "LU2-WP03", "LU2-WP06", "LU2-WP07", "LU2-WP08"],
   "wp08_decision": {
     "status": "PASS_WITH_LIMITATIONS",
     "decision_matrix": "qualification/0_2_7/lu2_wp08_decision_matrix.json",
@@ -155,6 +156,17 @@
     "implemented_new_element": false,
     "fem_formulation_changed": false,
     "maturity_promoted": false,
+    "next_operational_action_preserved": "LU2-WP04_SUPERVISED_RETRY"
+  },
+  "wp07_decision": {
+    "status": "PASS_WITH_LIMITATIONS",
+    "matrix": "qualification/0_2_7/lu2_wp07_maturity_matrix.json",
+    "state": "qualification/0_2_7/lu2_wp07_state.json",
+    "new_external_runs": false,
+    "promotions": [],
+    "demotions": [],
+    "wp04_changed": false,
+    "fem_formulation_changed": false,
     "next_operational_action_preserved": "LU2-WP04_SUPERVISED_RETRY"
   }
 }

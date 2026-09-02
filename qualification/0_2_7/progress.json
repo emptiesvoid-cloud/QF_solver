@@ -4,7 +4,7 @@
   "theme": "Reproducible Large-Model Solving and Numerical Trust",
   "baseline_sha": "e839373b6aef291a93292186d7553ba5cd12af55",
   "branch": "codex/0.2.7-foundation",
-  "status": "WP10_PASS_WITH_LIMITATIONS_QUALIFIED_BOUNDED_WP11_PASS_WITH_LIMITATIONS_OWNER_APPROVED_BOUNDED_WP12_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED_WP16_PASS_OFFICIAL_PETSC_RETRY_WP17_PASS_WITH_LIMITATIONS_PETSC_ROUTE_CLOSED_WP18_PASS_WITH_LIMITATIONS_SILVER_3M_WP19_PASS_WITH_LIMITATIONS_WP20_PASS_WITH_LIMITATIONS_LU2-WP02_PASS_WITH_LIMITATIONS_CONFIGURATION_FROZEN_LU2-WP03_PASS_WITH_LIMITATIONS_3M_GOLD_COMPUTE_LU2-WP04_USER_INTERRUPTED_INCONCLUSIVE_C1_NOT_CONFIRMED",
+  "status": "WP10_PASS_WITH_LIMITATIONS_QUALIFIED_BOUNDED_WP11_PASS_WITH_LIMITATIONS_OWNER_APPROVED_BOUNDED_WP12_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED_WP16_PASS_OFFICIAL_PETSC_RETRY_WP17_PASS_WITH_LIMITATIONS_PETSC_ROUTE_CLOSED_WP18_PASS_WITH_LIMITATIONS_SILVER_3M_WP19_PASS_WITH_LIMITATIONS_WP20_PASS_WITH_LIMITATIONS_LU2-WP02_PASS_WITH_LIMITATIONS_CONFIGURATION_FROZEN_LU2-WP03_PASS_WITH_LIMITATIONS_3M_GOLD_COMPUTE_LU2-WP04_USER_INTERRUPTED_INCONCLUSIVE_LU2-WP06_PASS_WITH_LIMITATIONS_LU2-WP07_PASS_WITH_LIMITATIONS_C1_NOT_CONFIRMED",
   "current_work_package": "LU2-WP04",
   "full_regression_run": false,
   "numerical_source_changed": true,
@@ -131,7 +131,7 @@
       "plan": "qualification/0_2_7/level_up_2_plan.json",
       "state": "qualification/0_2_7/level_up_2_state.json"
     },
-    "current_global_progress_percent": 78,
+    "current_global_progress_percent": 82,
     "weights_total_percent": 100,
     "legacy_accounting_views_are_not_active": true
   },
@@ -193,10 +193,16 @@
     "wp08_state": "qualification/0_2_7/lu2_wp08_state.json",
     "wp08_new_element_implemented": false,
     "wp08_fem_formulation_changed": false,
+    "wp07_status": "PASS_WITH_LIMITATIONS",
+    "wp07_state": "qualification/0_2_7/lu2_wp07_state.json",
+    "wp07_matrix": "qualification/0_2_7/lu2_wp07_maturity_matrix.json",
+    "wp07_new_external_runs": false,
+    "wp07_promotions": [],
+    "wp07_demotions": [],
     "blockers": [
       "The owner-interrupted AIJ assembly did not reach PETSc/GAMG readiness; elapsed time exceeded the 2x reference budget, but RESOURCE_LIMITED and C1 are not proven without progress/resource telemetry."
     ],
-    "completed_work_packages": ["LU2-WP01", "LU2-WP02", "LU2-WP03", "LU2-WP06", "LU2-WP08"],
+    "completed_work_packages": ["LU2-WP01", "LU2-WP02", "LU2-WP03", "LU2-WP06", "LU2-WP07", "LU2-WP08"],
     "observatory_contract": "qualification/0_2_7/observatory_contract.json",
     "observatory_sample": "qualification/0_2_7/wp01_observatory_sample.json"
   }

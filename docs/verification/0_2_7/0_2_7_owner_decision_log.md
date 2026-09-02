@@ -505,3 +505,19 @@ controlled records are `qualification/0_2_7/wp06_execution_contract.json`,
 `tests/unit/test_execution_contract.py`. LU2-WP07 is ready as an independent
 targeted-V&V work package; the separately pending WP04 supervised retry is
 unchanged.
+
+## LU2-WP07 existing route maturity closeout
+
+Date: 2026-09-02. Review source SHA:
+`65b9d2b168ac7be1df1c0c1cd2d58e8286d4af00`.
+
+Owner decision: `PASS_WITH_LIMITATIONS`. The machine-readable maturity matrix
+is `qualification/0_2_7/lu2_wp07_maturity_matrix.json`, with state in
+`qualification/0_2_7/lu2_wp07_state.json`. Linear static, modal, buckling,
+harmonic, Newmark, small-strain J2 and frictionless contact retain their
+existing bounded scopes. Nonlinear static, Arc-Length and static WEDGE6
+remain experimental; HEX8 buckling, finite-kinematic J2, friction, coupled
+routes and deferred candidates remain outside qualified claims. WP06, WP19
+and WP20 evidence was reused, no new external case was run, and no maturity
+promotion or demotion was made. LU2 progress is now `32/50` and `82/100`
+globally. The LU2-WP04 supervised retry remains unchanged.

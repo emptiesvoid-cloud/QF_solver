@@ -194,10 +194,10 @@ release action.
 
 The prior Level-Up is closed as Level-Up 1 at `50/50`. The active namespace is
 `027-LEVEL-UP-2`, based on the qualified snapshot
-`8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3`. LU2 is at `28/50` after the WP01
+`8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3`. LU2 is at `32/50` after the WP01
 observatory, bounded WP02 configuration freeze, completed WP03 Gold Compute
-and LU2-WP06 execution/recovery plus LU2-WP08 scope closeout, and the global
-program is therefore `78/100`.
+and LU2-WP06 execution/recovery, LU2-WP07 route maturity audit and LU2-WP08
+scope closeout, and the global program is therefore `82/100`.
 The active
 contracts and state are
 authoritative in `qualification/0_2_7/level_up_2_plan.json` and
@@ -211,7 +211,7 @@ authoritative in `qualification/0_2_7/level_up_2_plan.json` and
 | `LU2-027-G04` | LU2-WP04 5M Bronze | 5% | MUST | `USER_INTERRUPTED_INCONCLUSIVE` | two matching constructions and operator/PC preflight, no solve claim |
 | `LU2-027-G05` | LU2-WP05 5M Silver | 9% | MUST | `NOT_STARTED` | complete two-replay solve under frozen MPI and resource criteria |
 | `LU2-027-G06` | LU2-WP06 execution/recovery | 4% | MUST | `PASS_WITH_LIMITATIONS` | explicit, fail-closed outcomes and state integrity; recovery bounded to existing checkpoint routes |
-| `LU2-027-G07` | LU2-WP07 existing routes | 4% | SHOULD | `NOT_STARTED` | only decision-changing targeted V&V, no transitive promotion |
+| `LU2-027-G07` | LU2-WP07 existing routes | 4% | SHOULD | `PASS_WITH_LIMITATIONS` | existing route maturity retained at bounded combination scope; no transitive promotion |
 | `LU2-027-G08` | LU2-WP08 route decisions | 2% | SHOULD | `PASS_WITH_LIMITATIONS` | deferred/experimental routes remain unqualified; existing HEX8 remains bounded |
 | `LU2-027-G09` | LU2-WP09 final qualification | 4% | MUST | `NOT_STARTED` | explicit Owner RELEASE or NEW_LEVEL_UP decision |
 

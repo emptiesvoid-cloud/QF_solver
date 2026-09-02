@@ -189,7 +189,7 @@
       "title": "5M Silver",
       "weight_percent": 9,
       "priority": "MUST",
-      "status": "NOT_STARTED",
+      "status": "PASS_WITH_LIMITATIONS",
       "objective": "Attempt and, if successful, qualify a full reproducible 5M-DOF solve under the frozen MPI contract.",
       "pass_criteria": [
         "5M Bronze passes first.",
@@ -268,7 +268,25 @@
       ],
       "dependencies": ["LU2-WP01", "LU2-WP06"],
       "evidence_required": ["gap selection", "targeted V&V records", "Owner maturity review"],
-      "test_tier": "T1/T2"
+      "test_tier": "T1/T2",
+      "evidence": [
+        "qualification/0_2_7/lu2_wp07_maturity_matrix.json",
+        "qualification/0_2_7/lu2_wp07_state.json",
+        "qualification/0_2_7/wp19_state.json",
+        "qualification/0_2_7/wp20_state.json",
+        "qualification/0_2_7/lu2_wp06_state.json",
+        "docs/verification/0_2_7/0_2_7_lu2_wp07_maturity.md",
+        "tests/unit/test_lu2_wp07_maturity.py"
+      ],
+      "owner_decision": "PASS_WITH_LIMITATIONS: existing route maturity is defensible at the documented element/analysis/material/backend scope; no promotion or demotion is made.",
+      "limitations": [
+        "Qualification remains non-transitive across element, analysis, material and backend routes.",
+        "Finite-kinematic J2, coupled nonlinear routes, friction, mixed meshes, HEX8 next-generation formulations and untested large-route recovery remain outside qualified claims.",
+        "External evidence remains bounded and family-specific; no universal external validation claim is made.",
+        "LU2-WP04 remains USER_INTERRUPTED_INCONCLUSIVE and is not changed by this closeout."
+      ],
+      "new_external_runs": false,
+      "next_ready": true
     },
     {
       "id": "LU2-WP08",

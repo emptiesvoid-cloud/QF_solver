@@ -1,0 +1,171 @@
+{
+  "schema_version": 1,
+  "record_type": "lu2_wp07_existing_routes_maturity_matrix",
+  "namespace": "027-LEVEL-UP-2",
+  "work_package": "LU2-WP07",
+  "gate": "LU2-027-G07",
+  "status": "PASS_WITH_LIMITATIONS",
+  "review_source_sha": "65b9d2b168ac7be1df1c0c1cd2d58e8286d4af00",
+  "selection_policy": "Only evidence capable of changing or securing a public maturity decision was selected; existing controlled evidence is reused and no duplicate campaign is claimed.",
+  "external_campaign": {
+    "new_runs": false,
+    "status": "NOT_NEEDED",
+    "reused_evidence": [
+      "qualification/0_2_7/wp19_runtime/wp19_robustness_evidence.json",
+      "qualification/0_2_7/vnv_v2/wp09_final_external_evidence.json",
+      "qualification/0_2_7/wp20_state.json"
+    ],
+    "limitation": "Existing external evidence is bounded and formulation-specific; no new external case was necessary to change a public maturity decision."
+  },
+  "routes": [
+    {
+      "id": "LU2-WP07-ROUTE-LINEAR-STATIC",
+      "route": "linear_static",
+      "current_maturity": "QUALIFIED_BOUNDED",
+      "public_claim": "Linear static is qualified within the existing element/material/mesh-quality scope.",
+      "evidence_available": ["qualification/0_2_7/golden/evidence.json", "qualification/0_2_7/capability_registry_v2.json", "tests/unit/test_g14_capability_coverage.py"],
+      "real_gap": "No blocker for the bounded claim; family-specific coverage remains non-transitive.",
+      "action_required": "KEEP",
+      "owner_decision": "KEEP_EXISTING_BOUNDED_SCOPE",
+      "limitations": ["Do not infer mixed-mesh, universal element, or arbitrary backend coverage."]
+    },
+    {
+      "id": "LU2-WP07-ROUTE-MODAL",
+      "route": "modal",
+      "current_maturity": "QUALIFIED_BOUNDED",
+      "public_claim": "Modal analysis is bounded by the documented element, mass, solver and evidence combinations.",
+      "evidence_available": ["qualification/0_2_7/vnv_v2/wp10_final_evidence.json", "qualification/0_2_7/vnv_v2/wp10_final_cases.json", "tests/unit/test_wp10_final_modal.py"],
+      "real_gap": "External and family coverage is bounded; static, Newmark and harmonic maturity is not transferred.",
+      "action_required": "KEEP",
+      "owner_decision": "KEEP_EXISTING_BOUNDED_SCOPE",
+      "limitations": ["WEDGE6 modal qualification is limited to its declared first-three-mode scope; no general dynamics claim."]
+    },
+    {
+      "id": "LU2-WP07-ROUTE-BUCKLING",
+      "route": "buckling",
+      "current_maturity": "QUALIFIED_BOUNDED",
+      "public_claim": "Linear buckling is bounded for the qualified combinations; HEX8 buckling remains not qualified.",
+      "evidence_available": ["qualification/0_2_7/capability_registry_v2.json", "tests/unit/test_linear_buckling.py", "qualification/0_2_7/wp19_runtime/wp19_hex8_diagnostic.json"],
+      "real_gap": "HEX8 buckling remains MORE_EVIDENCE_REQUIRED and is explicitly excluded from the qualified claim.",
+      "action_required": "KEEP",
+      "owner_decision": "KEEP_WITH_HEX8_EXCLUSION",
+      "limitations": ["No nonlinear collapse or universal HEX8 buckling accuracy claim."]
+    },
+    {
+      "id": "LU2-WP07-ROUTE-HARMONIC",
+      "route": "harmonic",
+      "current_maturity": "QUALIFIED_BOUNDED",
+      "public_claim": "Harmonic response is bounded by the tested analysis and element combinations.",
+      "evidence_available": ["qualification/0_2_7/capability_registry_v2.json", "tests/unit/test_mitc4_harmonic_vnv.py", "tests/unit/test_mitc4_harmonic_review_record.py"],
+      "real_gap": "External correlation and family breadth remain bounded; no gap changes the current claim.",
+      "action_required": "KEEP",
+      "owner_decision": "KEEP_EXISTING_BOUNDED_SCOPE",
+      "limitations": ["Coverage does not imply arbitrary materials, elements or external-solvers equivalence."]
+    },
+    {
+      "id": "LU2-WP07-ROUTE-NEWMARK",
+      "route": "dynamics_newmark",
+      "current_maturity": "QUALIFIED_BOUNDED",
+      "public_claim": "Newmark dynamics is supported within the documented tested combinations and recovery boundary.",
+      "evidence_available": ["qualification/0_2_7/capability_registry_v2.json", "tests/unit/test_dynamic_checkpoint.py", "tests/unit/test_mitc4_newmark_operational_vnv.py"],
+      "real_gap": "Checkpoint recovery is bounded and external dynamics coverage is incomplete; no promotion is justified.",
+      "action_required": "KEEP",
+      "owner_decision": "KEEP_WITH_RECOVERY_LIMITATION",
+      "limitations": ["No universal restart, fault-tolerance, or all-element dynamics claim."]
+    },
+    {
+      "id": "LU2-WP07-ROUTE-NONLINEAR",
+      "route": "nonlinear_static",
+      "current_maturity": "EXPERIMENTAL",
+      "public_claim": "Nonlinear static routes are experimental except for the separately bounded small-strain J2 material scope.",
+      "evidence_available": ["qualification/0_2_7/wp20_state.json", "qualification/0_2_7/lu2_wp06_state.json", "tests/unit/test_nonlinear_checkpoint.py"],
+      "real_gap": "Finite-kinematic, coupled and broad nonlinear routes lack qualification evidence.",
+      "action_required": "KEEP_EXPERIMENTAL",
+      "owner_decision": "NO_PROMOTION",
+      "limitations": ["No transitive promotion from J2, TL, contact or checkpoint evidence."]
+    },
+    {
+      "id": "LU2-WP07-ROUTE-ARC-LENGTH",
+      "route": "arc_length",
+      "current_maturity": "EXPERIMENTAL",
+      "public_claim": "Arc-Length remains an experimental continuation route with bounded evidence.",
+      "evidence_available": ["qualification/0_2_7/lu2_wp06_state.json", "tests/unit/test_nonlinear_checkpoint.py", "qualification/0_2_7/capability_registry_v2.json"],
+      "real_gap": "Refined continuation and general nonlinear qualification remain outside the current evidence.",
+      "action_required": "KEEP_EXPERIMENTAL",
+      "owner_decision": "NO_PROMOTION",
+      "limitations": ["No general turning-point, coupled, contact or finite-kinematic claim."]
+    },
+    {
+      "id": "LU2-WP07-ROUTE-J2",
+      "route": "j2_small_strain",
+      "current_maturity": "QUALIFIED_BOUNDED",
+      "public_claim": "Small-strain isotropic J2 is qualified within TET4, TET10, HEX8 and HEX20 under the retained route.",
+      "evidence_available": ["qualification/0_2_7/wp20_state.json", "qualification/0_2_7/wp11_j2_evidence.json", "tests/unit/test_wp20_j2_closure.py"],
+      "real_gap": "No decision-changing gap remains; increment sensitivity is characterized without a universal threshold.",
+      "action_required": "KEEP",
+      "owner_decision": "KEEP_QUALIFIED_BOUNDED",
+      "limitations": ["Finite-kinematic J2 remains experimental/not qualified; tangent symmetry is diagnostic only."]
+    },
+    {
+      "id": "LU2-WP07-ROUTE-CONTACT",
+      "route": "contact",
+      "current_maturity": "QUALIFIED_BOUNDED",
+      "public_claim": "Frictionless contact is bounded to the documented contact formulations and failure diagnostics.",
+      "evidence_available": ["qualification/0_2_7/wp19_runtime/wp19_robustness_evidence.json", "tests/unit/test_frictionless_contact.py", "tests/unit/test_contact_review_record.py"],
+      "real_gap": "Friction and general contact remain not qualified; no new evidence supports promotion.",
+      "action_required": "KEEP_FRICTIONLESS_ONLY",
+      "owner_decision": "KEEP_WITH_FRICTION_EXCLUSION",
+      "limitations": ["No friction, general mortar, or universal contact convergence claim."]
+    },
+    {
+      "id": "LU2-WP07-ROUTE-WEDGE6",
+      "route": "wedge6",
+      "current_maturity": "EXPERIMENTAL",
+      "public_claim": "WEDGE6 static remains experimental; its separately qualified first-three-mode modal slice is not transferred to static or other routes.",
+      "evidence_available": ["qualification/0_2_7/vnv_v2/wp07_evidence.json", "qualification/0_2_7/vnv_v2/wp10_final_evidence.json", "qualification/0_2_7/vnv_v2/wp09_final_external_evidence.json"],
+      "real_gap": "Static workflow and external evidence remain bounded; no gap warrants a maturity change here.",
+      "action_required": "KEEP_EXPERIMENTAL",
+      "owner_decision": "NO_PROMOTION",
+      "limitations": ["No transitive static/modal/external promotion; no WEDGE15 or mixed-mesh claim."]
+    }
+  ],
+  "element_family_matrix": [
+    {"element_family": "TET4", "scope": "linear/modal/Newmark/harmonic/buckling + small-strain J2", "maturity": "QUALIFIED_BOUNDED", "evidence": ["qualification/0_2_7/golden/evidence.json", "qualification/0_2_7/wp20_state.json"], "limitation": "Each analysis/material route remains separately governed."},
+    {"element_family": "TET10", "scope": "linear/modal/Newmark/harmonic/buckling + small-strain J2", "maturity": "QUALIFIED_BOUNDED", "evidence": ["qualification/0_2_7/golden/evidence.json", "qualification/0_2_7/wp20_state.json"], "limitation": "No blanket TL or finite-kinematic J2 claim."},
+    {"element_family": "HEX8", "scope": "bounded linear/modal/Newmark/harmonic + small-strain J2", "maturity": "QUALIFIED_BOUNDED", "evidence": ["qualification/0_2_7/golden/evidence.json", "qualification/0_2_7/wp19_state.json", "qualification/0_2_7/wp20_state.json"], "limitation": "HEX8 buckling and next-generation formulations remain not qualified/research-only."},
+    {"element_family": "HEX20", "scope": "linear/modal/Newmark/harmonic/buckling + small-strain J2", "maturity": "QUALIFIED_BOUNDED", "evidence": ["qualification/0_2_7/golden/evidence.json", "qualification/0_2_7/wp20_state.json"], "limitation": "Each route is bounded; no mixed-mesh qualification."}
+  ],
+  "adversarial": {
+    "evidence": ["qualification/0_2_7/wp19_state.json", "qualification/0_2_7/lu2_wp06_state.json", "qualification/0_2_7/wp20_state.json"],
+    "cases_reused": 24,
+    "expected_failures": 14,
+    "fail_closed": true,
+    "no_nan_inf": true,
+    "silent_fallback": false,
+    "new_cases_required": false
+  },
+  "maturity_actions": {"promotions": [], "demotions": [], "unchanged": ["all audited routes and element families"]},
+  "targeted_tests": {
+    "new_external_runs": false,
+    "existing_evidence_replay": "PASS",
+    "test_modules": [
+      "tests/unit/test_wp19_robustness_hex8.py",
+      "tests/unit/test_wp20_j2_closure.py",
+      "tests/unit/test_execution_contract.py",
+      "tests/unit/test_nonlinear_checkpoint.py",
+      "tests/unit/test_dynamic_checkpoint.py",
+      "tests/unit/test_element_descriptor_preflight.py",
+      "tests/unit/test_capability_registry_v2.py",
+      "tests/unit/test_g14_capability_coverage.py"
+    ],
+    "result": "93 passed, 2 skipped; existing NumPy warning only"
+  },
+  "governance": {
+    "qualification_non_transitive": true,
+    "public_claims_without_evidence": [],
+    "wp04_changed": false,
+    "numerical_source_changed": false,
+    "full_regression_run": false,
+    "status_basis": "PASS_WITH_LIMITATIONS"
+  }
+}
