@@ -30,7 +30,7 @@ def main() -> int:
     contract = _read_json(CONTRACT_PATH)
     _validate_contract(contract)
     if args.preflight:
-        record = build_preflight(contract, args.output)
+        record = build_preflight(contract, args.output, args.source_sha)
         _write(args.output, record)
         print(json.dumps(record, indent=2, sort_keys=True))
         return 0 if record["status"] == "PASS" else 1
@@ -41,7 +41,9 @@ def main() -> int:
     raise ValueError("Select exactly one of --preflight or --build.")
 
 
-def build_preflight(contract: dict[str, Any], output: Path | None = None) -> dict[str, Any]:
+def build_preflight(
+    contract: dict[str, Any], output: Path | None = None, source_sha: str | None = None
+) -> dict[str, Any]:
     sizing = estimate_structured_tet4_size(NX, NY, NZ)
     disk_root = output or ROOT / "tmp" / "lu2_wp04"
     probe = disk_root
@@ -67,7 +69,7 @@ def build_preflight(contract: dict[str, Any], output: Path | None = None) -> dic
         "work_package": "LU2-WP04",
         "gate": "LU2-027-G04",
         "status": status,
-        "source_sha": contract["source_snapshot"],
+        "source_sha": source_sha or contract["source_snapshot"],
         "freeze": {"freeze_id": FREEZE_ID, "freeze_digest_sha256": FREEZE_DIGEST},
         "workload": {
             "model_id": MODEL_ID,
