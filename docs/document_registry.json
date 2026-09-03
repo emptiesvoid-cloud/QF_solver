@@ -4844,6 +4844,21 @@
       "tests": [
         "tests/unit/test_s3_validation_matrix.py"
       ]
+    },
+    {
+      "id": "DOC-027-F1-ARCH-001",
+      "path": "verification/0_2_7/0_2_7_f1_architecture_audit.md",
+      "title": "0.2.7 F1 architecture audit",
+      "status": "controlled_candidate",
+      "requirements": ["027-LU-REQ-021"],
+      "examples": [
+        "qualification/0_2_7/f1_architecture_audit.json",
+        "tests/unit/test_f1_architecture_audit.py"
+      ],
+      "tests": [
+        "tests/unit/test_f1_architecture_audit.py",
+        "tests/unit/test_architecture_rules.py"
+      ]
     }
   ]
 }
