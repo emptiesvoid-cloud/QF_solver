@@ -162,8 +162,10 @@ def test_petsc_assembler_emits_post_insertion_boundaries_and_diagnostics(monkeyp
         "POST_ASSEMBLE_2",
     ]
     diagnostics = assembled.last_diagnostics
-    assert diagnostics["preallocation"]["strategy"] == "uniform_nnz_per_row"
-    assert diagnostics["preallocation"]["diag_offdiag_preallocation"] == "NOT_EXPLICIT"
+    assert diagnostics["preallocation"]["strategy"] == "structured_six_tet4_exact_diag_offdiag"
+    assert diagnostics["preallocation"]["diag_offdiag_preallocation"] == "EXACT_STRUCTURED_STENCIL"
+    assert diagnostics["preallocation"]["diagonal_nnz"]["max"] <= 45
+    assert diagnostics["preallocation"]["off_diagonal_nnz"]["sum"] == 0
     assert diagnostics["preallocation"]["matrix_info_after_assemble_2"]["available"] is True
     assert diagnostics["insertions"]["matsetvalues_call_count"] == model.element_count
     assert diagnostics["insertions"]["scalar_values_submitted"] == model.element_count * 144
@@ -174,3 +176,50 @@ def test_petsc_assembler_emits_post_insertion_boundaries_and_diagnostics(monkeyp
         "assemble_2",
         "total_assembler",
     }
+
+
+def test_structured_six_tet4_aij_preallocation_matches_generated_connectivity(tmp_path) -> None:
+    model = generate_tet4_block(tmp_path / "structured.h5", nx=3, ny=2, nz=2)
+    for rank in range(4):
+        row_start, row_stop = assembler._petsc_contiguous_ownership_range(model.ndof, rank, 4)
+        actual = assembler._structured_six_tet4_aij_nnz(model, row_start, row_stop, np.int64)
+        assert actual is not None
+        diagonal, off_diagonal = actual
+        expected_diagonal, expected_off_diagonal = _brute_aij_preallocation(model, row_start, row_stop)
+        assert np.array_equal(diagonal, expected_diagonal)
+        assert np.array_equal(off_diagonal, expected_off_diagonal)
+
+
+def test_structured_stencil_preallocation_refuses_unproven_topology(tmp_path) -> None:
+    model = generate_tet4_block(tmp_path / "centered.h5", nx=2, ny=2, nz=2, decomposition="centered")
+    row_start, row_stop = assembler._petsc_contiguous_ownership_range(model.ndof, 0, 2)
+    assert assembler._structured_six_tet4_aij_nnz(model, row_start, row_stop, np.int32) is None
+
+
+def test_explicit_aij_ownership_matches_petsc_remainder_distribution() -> None:
+    ranges = [assembler._petsc_contiguous_ownership_range(89_373, rank, 8) for rank in range(8)]
+    assert ranges == [
+        (0, 11_172),
+        (11_172, 22_344),
+        (22_344, 33_516),
+        (33_516, 44_688),
+        (44_688, 55_860),
+        (55_860, 67_031),
+        (67_031, 78_202),
+        (78_202, 89_373),
+    ]
+
+
+def _brute_aij_preallocation(model, row_start: int, row_stop: int) -> tuple[np.ndarray, np.ndarray]:
+    columns_by_row = [set() for _ in range(row_stop - row_start)]
+    for tet in model.tet4:
+        dofs = assembler.element_dofs(tet)
+        local_rows = dofs[(dofs >= row_start) & (dofs < row_stop)]
+        for row in local_rows:
+            columns_by_row[int(row - row_start)].update(int(column) for column in dofs)
+    diagonal = np.zeros(row_stop - row_start, dtype=np.int64)
+    off_diagonal = np.zeros(row_stop - row_start, dtype=np.int64)
+    for index, columns in enumerate(columns_by_row):
+        diagonal[index] = sum(row_start <= column < row_stop for column in columns)
+        off_diagonal[index] = len(columns) - diagonal[index]
+    return diagonal, off_diagonal
