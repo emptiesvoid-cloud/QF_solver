@@ -183,8 +183,8 @@ def test_current_governance_consumers_point_to_lu2_and_keep_baseline_roles() -> 
     assert lu2_gates["gates"][0]["status"] == "PASS"
     assert lu2_gates["gates"][7]["status"] == "PASS_WITH_LIMITATIONS"
     c3_gate = next(item for item in lu2_gates["conditional_gates"] if item["id"] == "C3")
-    assert c3_gate["status"] == "OWNER_TERMINATED_FOR_DIAGNOSTIC"
-    assert c3_gate["evidence"] == "qualification/0_2_7/c3_10m_aij_diagnostic.json"
+    assert c3_gate["status"] == "PASS"
+    assert c3_gate["evidence"] == "qualification/0_2_7/c3_10m_runtime/c3_10m_replay_summary.json"
 
     lu2_requirements = requirements["level_up_2_requirements"]
     assert len(lu2_requirements) == 9
