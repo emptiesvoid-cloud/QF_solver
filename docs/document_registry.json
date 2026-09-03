@@ -4859,6 +4859,22 @@
         "tests/unit/test_f1_architecture_audit.py",
         "tests/unit/test_architecture_rules.py"
       ]
+    },
+    {
+      "id": "DOC-027-F2-BUG-001",
+      "path": "verification/0_2_7/0_2_7_f2_bug_hunt.md",
+      "title": "0.2.7 F2 bug and sensitive-zone hunt",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_7/f2_bug_hunt.json",
+        "tests/unit/test_f2_bug_hunt.py"
+      ],
+      "tests": [
+        "tests/unit/test_f2_bug_hunt.py",
+        "tests/unit/test_g04_invalid_inputs.py",
+        "tests/integration/test_packaging.py"
+      ]
     }
   ]
 }

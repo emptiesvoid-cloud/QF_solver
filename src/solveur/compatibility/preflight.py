@@ -5,7 +5,6 @@ from __future__ import annotations
 import json
 from dataclasses import dataclass
 from functools import lru_cache
-from pathlib import Path
 from typing import Any
 
 from solveur.compatibility.descriptors import (
@@ -14,13 +13,14 @@ from solveur.compatibility.descriptors import (
     normalize_element_name,
 )
 from solveur.mesh.quality_contract import INVALID, MeshQualityAssessment, assess_model
+from solveur.paths import project_path
 
 
-ROOT = Path(__file__).resolve().parents[3]
-REGISTRY_PATH = ROOT / "qualification" / "0_2_7" / "capability_registry_v2.json"
+REGISTRY_PATH = project_path("qualification/0_2_7/capability_registry_v2.json")
 ANALYSIS_ALIASES = {
     "static": "linear_static",
     "newmark": "transient_dynamic",
+    "newmark_transient": "transient_dynamic",
     "dynamic": "transient_dynamic",
     "harmonic": "harmonic_response",
     "buckling": "linear_buckling",
@@ -125,7 +125,8 @@ def _registry_rows() -> tuple[dict[str, Any], ...]:
 
 def _registry_maturity(element: str, analysis: str) -> str | None:
     for row in _registry_rows():
-        if row.get("element_family") == element and row.get("analysis") == analysis:
+        row_analysis = _normalize_analysis(str(row.get("analysis", "")))
+        if row.get("element_family") == element and row_analysis == analysis:
             return str(row.get("qualification_state", "")) or None
     return None
 

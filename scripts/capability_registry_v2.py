@@ -45,8 +45,21 @@ class RegistryValidationError(ValueError):
     """Raised when a v2 registry violates its machine-readable contract."""
 
 
+class DuplicateJsonKeyError(ValueError):
+    """Raised when the authoritative registry repeats an object key."""
+
+
+def _reject_duplicate_keys(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    values: dict[str, Any] = {}
+    for key, value in pairs:
+        if key in values:
+            raise DuplicateJsonKeyError(f"Duplicate JSON key {key!r}.")
+        values[key] = value
+    return values
+
+
 def load_registry(path: Path = DEFAULT_REGISTRY) -> dict[str, Any]:
-    return json.loads(path.read_text(encoding="utf-8"))
+    return json.loads(path.read_text(encoding="utf-8"), object_pairs_hook=_reject_duplicate_keys)
 
 
 def _record_errors(registry: dict[str, Any]) -> list[str]:

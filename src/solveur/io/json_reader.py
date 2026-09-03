@@ -11,15 +11,30 @@ from solveur.core.model import FiniteElementModel
 from solveur.io.schema import JsonSchemaValidator
 
 
+class DuplicateJsonKeyError(ValueError):
+    """Raised when an input JSON object repeats a key."""
+
+
+def _reject_duplicate_keys(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    values: dict[str, Any] = {}
+    for key, value in pairs:
+        if key in values:
+            raise DuplicateJsonKeyError(f"Duplicate JSON key {key!r}.")
+        values[key] = value
+    return values
+
+
 class JsonModelReader:
     """Convert a JSON model file into a FiniteElementModel."""
 
     def read(self, path: str | Path) -> FiniteElementModel:
         source = Path(path)
         try:
-            data = json.loads(source.read_text(encoding="utf-8"))
+            data = json.loads(source.read_text(encoding="utf-8"), object_pairs_hook=_reject_duplicate_keys)
         except OSError as exc:
             raise InputValidationError(f"Cannot read model input {source}: {exc}") from exc
+        except DuplicateJsonKeyError as exc:
+            raise InputValidationError(f"Duplicate key in model input {source}: {exc}") from exc
         except json.JSONDecodeError as exc:
             raise InputValidationError(
                 f"Malformed JSON in {source} at line {exc.lineno}, column {exc.colno}: {exc.msg}."

@@ -97,6 +97,7 @@ qualification = [
   "qualification/requirements.json",
   "qualification/release_vv_0_2_1.json"
 ]
+"qualification/0_2_7" = ["qualification/0_2_7/capability_registry_v2.json"]
 requirements = ["requirements/baseline-standard.txt", "requirements/baseline-large-linux.txt"]
 
 [tool.pytest.ini_options]
