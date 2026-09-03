@@ -199,6 +199,13 @@
     "root_cause_proven": false,
     "behavioral_patch_applied": false,
     "per_rank_phase_instrumentation": "INSTALLED",
-    "ready_for_replay": true
+    "ready_for_replay": true,
+    "remediation": {
+      "status": "PASS_WITH_LIMITATIONS",
+      "evidence": "qualification/0_2_7/c3_10m_mpiaij_preallocation_remediation.json",
+      "source_snapshot": "3a9e42c3dd543ad31154728ecacd773cda132f46",
+      "root_cause": "The phase-resolved replay isolates MPIAIJ ASSEMBLE_1 at 10M; exact structured diagonal/off-diagonal preallocation removes representative MPI reallocations without numerical drift.",
+      "ready_for_replay": true
+    }
   }
 }
