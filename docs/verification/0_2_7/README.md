@@ -197,6 +197,7 @@ explicit skip or limitation, never as `PASS`.
 - [`0_2_7_large_scale_readiness.md`](0_2_7_large_scale_readiness.md)
 - [`0_2_7_wedge6_modal.md`](0_2_7_wedge6_modal.md)
 - [`0_2_7_wp19_robustness_hex8.md`](0_2_7_wp19_robustness_hex8.md)
+- [`0_2_7_f2_bug_hunt.md`](0_2_7_f2_bug_hunt.md)
 
 ## Foundation boundary
 

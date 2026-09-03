@@ -10,6 +10,9 @@ from solveur.core.model import FiniteElementModel
 from solveur.core.nonlinear.solver import NonlinearStaticSolver
 from solveur.core.solvers.static import LinearStaticSolver
 from solveur.compatibility import preflight_model
+from solveur.compatibility.preflight import CompatibilityError
+from solveur.core.errors import MeshValidationError
+from solveur.mesh.validation import MeshValidator
 
 
 class AnalysisRouter:
@@ -19,7 +22,16 @@ class AnalysisRouter:
         if not isinstance(model.analysis, AnalysisSettings):
             model.analysis = AnalysisSettings.from_raw(model.analysis)
         model.analysis.validate()
-        preflight_model(model).raise_for_error()
+        compatibility = preflight_model(model)
+        try:
+            compatibility.raise_for_error()
+        except CompatibilityError as exc:
+            if exc.result.reason != "MESH_GEOMETRY_INVALID":
+                raise
+            legacy_report = MeshValidator().validate(model)
+            if legacy_report.errors:
+                raise MeshValidationError("Mesh validation failed: " + "; ".join(legacy_report.errors)) from exc
+            raise MeshValidationError(exc.result.message) from exc
         if model.analysis.type == "linear_static":
             return LinearStaticSolver().solve(model)
         if model.analysis.type == "modal":
