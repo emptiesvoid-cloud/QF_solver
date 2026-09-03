@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "record_type": "wp09_wedge6_static_linear_closeout",
+  "work_package": "WP09",
+  "gate": "027-G09",
+  "status": "PASS_WITH_LIMITATIONS",
+  "audit_start_sha": "786328e7c1f1a4bf8459bc3f2d12d9c818ec61c8",
+  "scope": {
+    "element": "WEDGE6",
+    "analysis": "linear_static",
+    "material": "homogeneous_isotropic_small_strain_elastic",
+    "new_physics": false,
+    "heavy_benchmark_run": false,
+    "historical_evidence_rewritten": false
+  },
+  "case_accounting": {
+    "wedge6_case_count_before": 22,
+    "new_cases_added": 0,
+    "wedge6_case_count_after": 22,
+    "internal_corpus": {
+      "total": 22,
+      "pass": 18,
+      "expected_failure_pass": 4,
+      "fail": 0,
+      "source": "qualification/0_2_7/vnv_v2/wp09_evidence.json"
+    },
+    "external_corpus": {
+      "total": 12,
+      "pass": 12,
+      "fail": 0,
+      "skipped": 0,
+      "source": "qualification/0_2_7/vnv_v2/wp09_final_external_evidence.json"
+    },
+    "new_artifact": "consolidated_audit_only"
+  },
+  "internal_vv": {
+    "status": "PASS",
+    "evidence": "qualification/0_2_7/vnv_v2/wp09_evidence.json",
+    "checks": {
+      "affine_tension_compression": "PASS",
+      "shear": "PASS",
+      "bending": "PASS",
+      "pressure_tri_quad": "PASS",
+      "prescribed_displacement": "PASS",
+      "multi_element": "PASS",
+      "distortion_and_aspect_ratio": "PASS_WITH_LIMITATIONS",
+      "refinement": "PASS_WITH_LIMITATIONS",
+      "rigid_transform": "PASS",
+      "scale_invariance": "PASS",
+      "no_nan_inf": "PASS",
+      "deterministic_replay": "PASS"
+    },
+    "expected_failures": [
+      "inverted_geometry",
+      "wrong_node_order",
+      "malformed_gmsh",
+      "singular_boundary_conditions"
+    ]
+  },
+  "robustness": {
+    "status": "PASS_WITH_LIMITATIONS",
+    "source": "qualification/0_2_7/vnv_v2/wp09_evidence.json",
+    "quality_and_orientation": "PASS",
+    "invalid_inputs_fail_closed": true,
+    "arbitrary_distortion_claim": false
+  },
+  "refinement": {
+    "status": "PASS_WITH_LIMITATIONS",
+    "source": "qualification/0_2_7/vnv_v2/wp09_final_external_evidence.json",
+    "levels": [1, 2, 4],
+    "trend_claim": "bounded declared refinement cases only",
+    "universal_order_claim": false
+  },
+  "external_vv": {
+    "code_aster": {
+      "status": "PASS_WITH_LIMITATIONS",
+      "solver": "Code_Aster 18.1.0 / PENTA6",
+      "cases_run": 12,
+      "cases_pass": 12,
+      "cases_fail": 0,
+      "primary_observables": ["displacement", "total_reaction", "strain_energy"],
+      "evidence": "qualification/0_2_7/vnv_v2/wp09_final_external_evidence.json",
+      "image_digest": "sha256:df70aa569db65f952cdfd4b1391acac4819d0afa46d0788ee756683b87fac579",
+      "tolerance_approval_state": "OWNER_REVIEW_REQUIRED"
+    },
+    "calculix": {
+      "status": "NOT_COMPARABLE",
+      "solver": "CalculiX 2.20 / C3D6",
+      "reason": "The controlled C3D6 integration route differs from QF WEDGE6 TRI3_X_GAUSS2; reaction and energy equivalence is not established.",
+      "evidence": "qualification/0_2_7/vnv_v2/wp09_evidence.json"
+    }
+  },
+  "invariants": {
+    "displacement": "PASS_WITH_LIMITATIONS",
+    "reaction_equilibrium": "PASS_WITH_LIMITATIONS",
+    "energy": "PASS_WITH_LIMITATIONS",
+    "residual": "PASS",
+    "stress": "NOT_COMPARABLE",
+    "jacobian": "PASS",
+    "deterministic_replay": "PASS",
+    "fail_closed_diagnostics": "PASS"
+  },
+  "maturity": {
+    "current_public_maturity": "EXPERIMENTAL",
+    "recommendation": "KEEP_CURRENT_MATURITY",
+    "promotion": false,
+    "demotion": false,
+    "reason": "Evidence is convincing within the declared static-linear scope, but Owner tolerance ratification and broader claims remain separate decisions."
+  },
+  "limitations": [
+    "WEDGE6 is not promoted by this closeout and remains EXPERIMENTAL.",
+    "Code_Aster evidence is bounded to the declared PENTA6 headless contract and fixed tolerance policy.",
+    "CalculiX C3D6 remains NOT_COMPARABLE under the production integration contract.",
+    "No claim is made for modal, dynamics, nonlinear, J2, TL, contact, buckling, mixed meshes or arbitrary distortion.",
+    "Stress comparison remains excluded unless measure, location, frame and convention are equivalent."
+  ],
+  "governance": {
+    "owner_decision": "PASS_WITH_LIMITATIONS_KEEP_WEDGE6_EXPERIMENTAL",
+    "source_of_truth": "qualification/0_2_7/wp09_s3_closeout.json",
+    "preserved_evidence": [
+      "qualification/0_2_7/vnv_v2/wp09_evidence.json",
+      "qualification/0_2_7/vnv_v2/wp09_final_external_evidence.json",
+      "qualification/0_2_7/wp09_state.json",
+      "qualification/0_2_7/wp09_final_state.json"
+    ],
+    "ready_for_next_wp": true,
+    "next_work_package": "LU2-WP09",
+    "full_regression_run": false,
+    "pushed": false
+  }
+}

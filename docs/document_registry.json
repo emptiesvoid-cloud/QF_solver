@@ -4537,6 +4537,23 @@
       ]
     },
     {
+      "id": "DOC-027-WP09-S3-CLOSEOUT-001",
+      "path": "verification/0_2_7/0_2_7_wp09_s3_closeout.md",
+      "title": "0.2.7 WP09 WEDGE6 static-linear S3 closeout",
+      "status": "controlled_candidate",
+      "requirements": ["027-REQ-010"],
+      "examples": [
+        "qualification/0_2_7/wp09_s3_closeout.json",
+        "qualification/0_2_7/vnv_v2/wp09_evidence.json",
+        "qualification/0_2_7/vnv_v2/wp09_final_external_evidence.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp09_s3_closeout.py",
+        "tests/unit/test_wp09_wedge6_robustness.py",
+        "tests/unit/test_wp09_final_external.py"
+      ]
+    },
+    {
       "id": "DOC-027-WP13-001",
       "path": "verification/0_2_7/0_2_7_wp13_golden_baseline.md",
       "title": "0.2.7 WP13 golden numerical baseline",
