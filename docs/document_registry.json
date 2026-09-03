@@ -4875,6 +4875,21 @@
         "tests/unit/test_g04_invalid_inputs.py",
         "tests/integration/test_packaging.py"
       ]
+    },
+    {
+      "id": "DOC-027-F3-PUBLIC-001",
+      "path": "verification/0_2_7/0_2_7_f3_public_claim_audit.md",
+      "title": "0.2.7 F3 public claims audit",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_7/f3_public_claim_audit.json",
+        "tests/unit/test_f3_public_claims.py"
+      ],
+      "tests": [
+        "tests/unit/test_f3_public_claims.py",
+        "tests/unit/test_public_document_audit.py"
+      ]
     }
   ]
 }

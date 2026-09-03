@@ -26,7 +26,7 @@ artifact manifests; the active gate snapshot is maintained in
 
 | Maturity | Meaning | Current examples |
 | --- | --- | --- |
-| **STABLE_BOUNDED** | Evidence supports a declared, bounded scope. | Linear static, small-strain J2, failure diagnostics. |
+| **QUALIFIED_BOUNDED** | Evidence supports a declared, bounded scope with an explicit qualification boundary. | Linear static, small-strain J2, failure diagnostics. |
 | **SUPPORTED_WITH_LIMITATIONS** | The route is usable in a documented scope, with active evidence or coverage limitations. | Modal, Newmark, harmonic, linear buckling, frictionless contact, measured performance. |
 | **EXPERIMENTAL** | The route exists and has tests or research evidence, but is not a qualified general capability. | Total-Lagrangian research path, Arc-Length, selected shell/beam/laminate paths. |
 | **RESEARCH / NOT QUALIFIED** | The route is exploratory or explicitly excluded from qualified claims. | Finite-kinematic J2, coupled nonlinear workflows, friction, optional HPC paths. |
@@ -42,21 +42,23 @@ are `PASS_WITH_LIMITATIONS` within their declared scopes, and WP22 remains
 
 | Capability | Public status | Bounded scope | Main evidence and limitations |
 | --- | --- | --- | --- |
-| Linear static | **STABLE_BOUNDED** | Linear elastic cases in the recorded element-analysis matrix. | G04 evidence; orthotropic, laminate, shell, beam and discrete combinations remain case-dependent. |
-| Small-strain J2 | **STABLE_BOUNDED** | Homogeneous small-strain J2 on TET4, TET10, HEX8 and HEX20. | G06 evidence; algorithmic tangent symmetry is not independently qualified and increment-partition evidence is strongest for TET4. |
+| Linear static | **QUALIFIED_BOUNDED** | Linear elastic cases in the recorded element-analysis matrix. | G04 evidence; orthotropic, laminate, shell, beam and discrete combinations remain case-dependent. |
+| Small-strain J2 | **QUALIFIED_BOUNDED** | Homogeneous small-strain J2 on TET4, TET10, HEX8 and HEX20. | G06 evidence; algorithmic tangent symmetry is not independently qualified and increment-partition evidence is strongest for TET4. |
 | Modal / Newmark / harmonic | **SUPPORTED_WITH_LIMITATIONS** | Controlled linear modal, transient and harmonic cases across the recorded family matrix. | G05 evidence; external coverage is representative rather than complete for every family. |
 | Linear buckling | **SUPPORTED_WITH_LIMITATIONS** | First linearized tangent-instability factor and first mode for the family-specific bounded scope recorded by G08, using the sparse route. | TET4 is qualified within a bounded scope; TET10/HEX20 remain limited; HEX8 requires more evidence. No post-buckling, multi-mode or general physical-validation claim. |
 | Frictionless contact | **SUPPORTED_WITH_LIMITATIONS** | Bounded node-to-triangle contact routes with documented activation and failure behavior. | G09 evidence; no friction, mortar, general surface-to-surface or universal conditioning claim. |
 | WEDGE6 static vertical slice | **EXPERIMENTAL** | Technical small-strain elastic static workflow with the recorded import, face-load and post-processing cases. | WP07-WP09 evidence; no general WEDGE6 static qualification claim. |
 | WEDGE6 modal | **QUALIFIED_BOUNDED** | Homogeneous isotropic consistent-mass route, first three modes, four-level refinement and four same-mesh PENTA6 comparisons. | WP10 Owner decision; modes four to six and other dynamics remain outside the bounded claim. |
-| Failure diagnostics | **STABLE_BOUNDED** | Recorded fail-closed, finite-diagnostic and state-transaction cases. | G11 evidence; coverage is bounded and not exhaustive for every future route. |
-| Performance | **SUPPORTED_WITH_LIMITATIONS** | Measured solves on declared hardware and model topologies, including a bounded PETSc/MPI route. | WP16-WP18 evidence; 1.029M DOF and 3M Silver are bounded results, not universal scaling claims. |
+| Failure diagnostics | **QUALIFIED_BOUNDED** | Recorded fail-closed, finite-diagnostic and state-transaction cases. | G11 evidence; coverage is bounded and not exhaustive for every future route. |
+| Performance | **SUPPORTED_WITH_LIMITATIONS** | Measured solves on declared hardware and model topologies, including a bounded PETSc/MPI route. | WP16-WP18 evidence; 1.029M, 3M Silver/Gold Compute and 5M Silver are bounded results, not universal scaling claims. |
 
 ## Element and analysis coverage
 
 Element availability does not imply qualification for every analysis. The
-following summary is intentionally conservative; the detailed machine-readable
-mapping is in [`capability_coverage.md`](docs/verification/0_2_6/capability_coverage.md).
+following summary is intentionally conservative; the active detailed
+machine-readable mapping is in
+[`0_2_7_capability_matrix.md`](docs/verification/0_2_7/0_2_7_capability_matrix.md).
+The 0.2.6 matrix remains a historical view only.
 
 | Element family | Linear static | Modal / dynamic / harmonic | Small-strain J2 | TL / geometric nonlinear | Buckling | Contact |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -111,9 +113,13 @@ decks remain visible in the active evidence records.
 The performance evidence is a characterization, not a universal scaling law.
 Results depend on hardware, sparsity, element topology, solver backend and
 memory availability. The bounded evidence includes two replays at 1,029,000
-true DOF and two 3M Silver replays on the pinned PETSc/MPI structured TET4
-route. The recorded 3M route used about 10.08 GB peak RSS. No claim of GPU,
-general HPC, hardware-independent scaling or 3M Gold is made.
+true DOF, two 3M Silver replays plus a bounded 3M Gold Compute workload, and
+two complete 5M Silver replays on the pinned PETSc/MPI structured TET4 route.
+The 5M result is exactly 5,012,640 DOF and 9,773,946 TET4 elements; the
+recorded 3M route used about 10.08 GB peak RSS. These are claims for the
+recorded workload, hardware, container, MPI configuration and solver options
+only. No claim of GPU, general HPC, hardware-independent scaling, 3M Gold
+with restart, or universal 5M capacity is made.
 
 ## Experimental and research paths
 
@@ -139,8 +145,9 @@ missing functionality:
   recorded as such; it is not silently treated as a pass.
 - The current 0.2.7 candidate has bounded Level-Up evidence through WP21;
   final release action remains separate from this development checkout.
-- PETSc/MPI is optional at runtime. The bounded 1.029M and 3M Silver results
-  apply only to the recorded structured TET4 route and pinned environment.
+- PETSc/MPI is optional at runtime. The bounded 1.029M, 3M and 5M results
+  apply only to the recorded structured TET4 route and pinned environment;
+  they do not qualify other element families, nonlinear analyses or dynamics.
 - No claim of certification, general physical validation, production
   readiness, industrial equivalence or replacement of another solver is made.
 
@@ -301,10 +308,12 @@ See [`CHANGELOG.md`](CHANGELOG.md) for the detailed release history.
 
 ## Documentation and license
 
+- [`docs/verification/0_2_7/README.md`](docs/verification/0_2_7/README.md):
+  active 0.2.7 V&V foundation and evidence index.
+- [`qualification/0_2_7/capability_registry_v2.json`](qualification/0_2_7/capability_registry_v2.json):
+  active machine-readable capability inventory and maturity mapping.
 - [`docs/verification/0_2_6/README.md`](docs/verification/0_2_6/README.md):
-  current V&V foundation and evidence index.
-- [`qualification/capability_registry.json`](qualification/capability_registry.json):
-  machine-readable capability inventory and maturity mapping.
+  historical 0.2.6 V&V foundation and evidence index.
 - [`docs/architecture.md`](docs/architecture.md): architecture overview.
 - [`prochaines_etapes.md`](prochaines_etapes.md): roadmap and next steps.
 

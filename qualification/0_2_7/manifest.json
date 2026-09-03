@@ -55,6 +55,7 @@
   "wp21_state": "qualification/0_2_7/wp21_state.json",
   "wp21_final_release_truth": "qualification/0_2_7/wp21_final_release_truth.json",
   "wp21_public_audit": "qualification/0_2_7/wp21_public_document_audit.json",
+  "f3_public_claim_audit": "qualification/0_2_7/f3_public_claim_audit.json",
   "wp21_golden_replay": "qualification/0_2_7/golden/wp21_replay_evidence.json",
   "wp21_source_sha": "0f565dc9669763751a75f13b02004bde18af571c",
   "s3_release_pre_gate": {
@@ -508,7 +509,10 @@
     "tests/unit/test_large_mpi_guardrails.py",
     "src/solveur/large/telemetry.py",
     "src/solveur/large/mpi_guardrails.py",
-    "scripts/run_lu2_wp04_bronze.py"
+    "scripts/run_lu2_wp04_bronze.py",
+    "qualification/0_2_7/f3_public_claim_audit.json",
+    "docs/verification/0_2_7/0_2_7_f3_public_claim_audit.md",
+    "tests/unit/test_f3_public_claims.py"
   ],
   "status_rule": "A work package is PASS only when its declared evidence is recorded; WP05 records external deck preflight, the historical WP06 records mesh-quality diagnostics, the historical WP07 records an experimental WEDGE6 elemental kernel without creating a public qualification or universal quality cutoff, LU2-WP06 records additive execution/recovery diagnostics, LU2-WP07 records the existing-route maturity audit without promotion or demotion, WP09 records bounded robustness evidence and explicit external outcomes, WP09-R records a reproducible headless Code_Aster oracle without promoting WEDGE6, WP10 records bounded consistent-mass modal qualification for its declared first-three-mode refinement and same-mesh external MAC scope without transferring static maturity, WP12 records bounded large-scale readiness evidence without creating a universal 1M-DOF claim, WP13 records release truth and a golden baseline, WP14 records a frozen large-scale execution contract without creating a 1M/3M solve claim, WP18 records distinct Bronze/Silver/Gold outcomes without claiming Gold when restart and second-case evidence are absent, WP19 records bounded fail-closed adversarial evidence plus a HEX8 diagnostic without promoting a new formulation or universal robustness claim, and WP20 records Owner closure of the existing bounded small-strain J2 scope without a new numerical claim or maturity promotion."
 }

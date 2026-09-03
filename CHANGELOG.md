@@ -3,14 +3,15 @@
 ## 0.2.7a0 - Unreleased
 
 The 0.2.7a0 cycle is active around reproducible large-model solving and
-numerical trust. WP13-WP20 record bounded golden, scaling, PETSc/MPI,
-robustness and J2 evidence; WP21 records the final surgical cleanup and
-release-candidate checks. The candidate is not yet tagged or published. The
+numerical trust. WP13-WP21 record bounded golden, scaling, PETSc/MPI,
+robustness, J2 and public-claim evidence; WP22 remains the final Owner
+release decision. The candidate is not yet tagged or published. The
 controlled plan and evidence index are available in
 [`docs/verification/0_2_7/README.md`](docs/verification/0_2_7/README.md).
-WEDGE6 static remains experimental, WEDGE6 modal is bounded to its own
-first-three-mode scope, and no universal performance or nonlinear claim is
-implied.
+The recorded 5M Silver and 3M Gold Compute results are bounded to their
+declared TET4/PETSc/MPI workloads; WEDGE6 static remains experimental,
+WEDGE6 modal is bounded to its own first-three-mode scope, and no universal
+performance or nonlinear claim is implied.
 
 ## 0.2.6a0 - Released
 

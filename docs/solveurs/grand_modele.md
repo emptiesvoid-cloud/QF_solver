@@ -11,6 +11,12 @@ approver: ""
 
 <span class="maturity experimental">experimental</span>
 
+Cette page conserve des resultats historiques des campagnes P4, notamment
+les mesures realisees sur quatre rangs. Pour les claims actifs 0.2.7, utiliser
+les pages de verification et les manifestes 0.2.7 : les resultats 1.029M, 3M
+et 5M sont bornes par leur workload, leur machine et leur configuration et ne
+constituent pas une loi de scalabilite universelle.
+
 Le chemin large-scale est separe du solveur standard. Son perimetre v1 est
 `linear_static + TET4 + isotropic_3d` avec trois ddl par noeud et index direct
 $3n+c$.

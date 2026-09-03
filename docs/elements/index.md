@@ -9,6 +9,11 @@ approver: ""
 
 # Elements finis disponibles
 
+Cette carte conserve des labels historiques de dossier. Pour les claims
+publics 0.2.7, la maturite de chaque combinaison element/analyse/materiau est
+definie par le registry v2 et les preuves 0.2.7; un label `stable` ci-dessous
+ne vaut pas qualification universelle.
+
 ## BEAM2
 
 Poutre droite de Timoshenko 3D a deux noeuds et six DDL par noeud. Le noyau

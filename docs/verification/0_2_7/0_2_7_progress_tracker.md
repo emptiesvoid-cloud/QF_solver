@@ -213,8 +213,8 @@ experimental/not qualified. The authoritative records are
 ## Active global accounting
 
 The historical Level-Up portfolio is closed as Level-Up 1 at `50/50`. The
-active program is Level-Up 2 at `32/50`, giving `CURRENT_GLOBAL_PROGRESS =
-82/100`. The earlier 45/55 and 82/85 views remain historical accounting
+active program is Level-Up 2 at `46/50`, giving `CURRENT_GLOBAL_PROGRESS =
+96/100`. The earlier 45/55, 82/85 and 32/50 views remain historical accounting
 records only; they are not added to the current program and do not replace
 any evidence. The active machine-readable records are
 `qualification/0_2_7/level_up_2_plan.json`,
@@ -228,8 +228,8 @@ any evidence. The active machine-readable records are
 | LU2-WP01 | 4% | MUST | `PASS` | evidence and performance observatory |
 | LU2-WP02 | 9% | MUST | `PASS_WITH_LIMITATIONS` | CPU/MPI/GAMG freeze before large runs |
 | LU2-WP03 | 9% | MUST | `PASS_WITH_LIMITATIONS` | distinct second 3M workload and two replays |
-| LU2-WP04 | 5% | MUST | `USER_INTERRUPTED_INCONCLUSIVE` | real 5M construction/preflight passed; owner-interrupted frozen AIJ assembly had no completion record |
-| LU2-WP05 | 9% | MUST | `NOT_STARTED` | complete two-replay 5M Silver solve |
+| LU2-WP04 | 5% | MUST | `PASS` | real 5M Bronze completed with global readiness, finalization and evidence |
+| LU2-WP05 | 9% | MUST | `PASS` | complete two-replay 5M Silver solve under the frozen route |
 | LU2-WP06 | 4% | MUST | `PASS_WITH_LIMITATIONS` | recovery, diagnostics and fail-closed execution; bounded to existing checkpoint routes |
 | LU2-WP07 | 4% | SHOULD | `PASS_WITH_LIMITATIONS` | existing route maturity retained at bounded combination scope; no promotion or demotion |
 | LU2-WP08 | 2% | SHOULD | `PASS_WITH_LIMITATIONS` | explicit decisions; deferred/research routes remain unqualified |
@@ -255,12 +255,12 @@ indexed by `qualification/0_2_7/wp03_runtime/wp03_evidence_index.json` and
 the bounded metrics are recorded in
 `docs/verification/0_2_7/0_2_7_wp03_3m_gold_compute.md`. Preflight,
 redistribution, communication and I/O remain `NOT_MEASURED`; no performance
-speedup is inferred between the distinct workloads. LU2-WP04 was attempted on
-a real 5,012,640-DOF TET4 model. Both independent constructions and the
-preflight passed, but the owner-interrupted container remained CPU-active in
-frozen AIJ assembly without a completion record. The Bronze gate is
-`USER_INTERRUPTED_INCONCLUSIVE`, not PASS; no 5M solve claim is made and C1 is
-not confirmed.
+speedup is inferred between the distinct workloads. LU2-WP04 was completed as
+`PASS` on a real 5,012,640-DOF TET4 model, with global readiness, all-rank
+finalization and preserved evidence. LU2-WP05 then completed the two-replay 5M
+Silver solve under the unchanged freeze. The earlier owner-interrupted
+attempt remains historical forensic evidence and is not the active gate status;
+C1 was not confirmed.
 
 LU2-WP08 is closed as `PASS_WITH_LIMITATIONS` by the controlled decision
 matrix `qualification/0_2_7/lu2_wp08_decision_matrix.json`. Mixed
@@ -282,6 +282,9 @@ remain dormant. LU2-WP03 is complete, LU2-WP04 remains incomplete, and a
 supervised WP04 retry is the next active action; its
 pre-LU2 baseline is `8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3`.
 
+The following paragraph preserves the earlier WP06 closeout snapshot; it is
+historical accounting, not the current LU2 state.
+
 LU2-WP06 is closed as `PASS_WITH_LIMITATIONS` at 4%. The additive lifecycle
 and diagnostic taxonomy are covered by
 `qualification/0_2_7/wp06_execution_contract.json` and
@@ -297,8 +300,8 @@ matrix `qualification/0_2_7/lu2_wp07_maturity_matrix.json` and state
 `qualification/0_2_7/lu2_wp07_state.json`. Existing route maturity was audited
 against the registry and reused WP06, WP19 and WP20 evidence; no new external
 campaign, numerical source change or maturity promotion was performed. The
-active accounting is now `32/50` and `82/100` globally. WP04 remains
-`USER_INTERRUPTED_INCONCLUSIVE` and its retry is unchanged.
+active accounting is now `46/50` and `96/100` globally. WP04 and WP05 are
+closed; LU2-WP09 is the next active gate.
 
 S1 installs the optional rank-zero JSONL assembly telemetry contract for that
 retry. It records flushed chunk progress, rates, ETA when available, phases,
