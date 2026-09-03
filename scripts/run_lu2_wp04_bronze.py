@@ -125,13 +125,24 @@ def run_case(args: argparse.Namespace) -> dict[str, Any]:
 
         assembly_started = time.perf_counter()
         telemetry.phase("ASSEMBLING")
-        matrix = PetscTET4Assembler(chunk_size=4096, matrix_format="aij", telemetry=telemetry).assemble(model)
+        assembler = PetscTET4Assembler(
+            chunk_size=4096,
+            matrix_format="aij",
+            telemetry=telemetry,
+            rank_telemetry=rank_telemetry,
+            capture_diagnostics=True,
+        )
+        matrix = assembler.assemble(model)
+        assembly_diagnostics = dict(assembler.last_diagnostics)
         matrix_seconds = _max_time(comm, time.perf_counter() - assembly_started)
 
         rhs_started = time.perf_counter()
         telemetry.phase("RHS")
+        rank_telemetry.marker("PRE_RHS", phase="RHS")
         rhs = matrix.createVecRight()
         _assemble_rhs(rhs, model)
+        rank_telemetry.marker("POST_RHS", phase="RHS")
+        rhs_local_seconds = time.perf_counter() - rhs_started
         rhs_seconds = _max_time(comm, time.perf_counter() - rhs_started)
 
         options = PETSc.Options()
@@ -156,7 +167,19 @@ def run_case(args: argparse.Namespace) -> dict[str, Any]:
         else:
             rank_telemetry.marker("POST_SETUP", phase="PCSETUP")
         raise_if_rank_failures(comm, rank, "PCSETUP", setup_error)
+        pc_local_seconds = time.perf_counter() - pc_started
         pc_seconds = _max_time(comm, time.perf_counter() - pc_started)
+        phase_timing_rows = comm.allgather(
+            {
+                "rank": rank,
+                "assembler": assembly_diagnostics,
+                "runner_phase_timing_seconds": {
+                    "rhs": rhs_local_seconds,
+                    "ksp_setup": pc_local_seconds,
+                    "bronze_elapsed_to_post_setup": time.perf_counter() - started,
+                },
+            }
+        )
 
         diagnostics_error: BaseException | None = None
         diagnostics: dict[str, Any] = {}
@@ -217,6 +240,7 @@ def run_case(args: argparse.Namespace) -> dict[str, Any]:
             },
         )
         rank_telemetry.marker("PC_READY", phase="PC_READY_GLOBAL", context={"scope": "GLOBAL"})
+        rank_telemetry.marker("PC_READY_GLOBAL", phase="PC_READY_GLOBAL", context={"scope": "GLOBAL"})
         telemetry.phase("PC_READY")
         telemetry.phase("PC_READY_GLOBAL")
         rank_telemetry.marker("PRE_MEMORY_GATHER", phase="PC_READY_GLOBAL")
@@ -254,6 +278,7 @@ def run_case(args: argparse.Namespace) -> dict[str, Any]:
                     "local_size": list(matrix.getLocalSize()),
                     "ownership_ranges": ownership_rows,
                     "info": diagnostics.get("matrix_info"),
+                    "assembly_diagnostics_by_rank": phase_timing_rows,
                     "metadata_digest": canonical_digest(diagnostics),
                 }
                 record.update(
@@ -289,6 +314,7 @@ def run_case(args: argparse.Namespace) -> dict[str, Any]:
                         "matrix_assembly_seconds": matrix_seconds,
                         "rhs_setup_seconds": rhs_seconds,
                         "pc_setup_seconds": pc_seconds,
+                        "per_rank_summary": _phase_timing_summary(phase_timing_rows),
                         "solve_seconds": "NOT_RUN",
                         "post_processing_seconds": "NOT_RUN",
                         "total_seconds": total_seconds,
@@ -469,6 +495,22 @@ def np_dof_index(nodes: Any, components: Any) -> Any:
 
 def _max_time(comm: Any, value: float) -> float:
     return float(comm.allreduce(float(value), op=MPI.MAX))
+
+
+def _phase_timing_summary(rows: list[dict[str, Any]]) -> dict[str, dict[str, float]]:
+    """Summarize already-gathered local phase timings without another collective."""
+    values_by_phase: dict[str, list[float]] = {}
+    for row in rows:
+        assembler = row.get("assembler", {})
+        for name, value in assembler.get("phase_timing_seconds", {}).items():
+            values_by_phase.setdefault(f"assembler.{name}", []).append(float(value))
+        for name, value in row.get("runner_phase_timing_seconds", {}).items():
+            values_by_phase.setdefault(f"runner.{name}", []).append(float(value))
+    return {
+        name: {"min_seconds": min(values), "max_seconds": max(values), "imbalance_seconds": max(values) - min(values)}
+        for name, values in sorted(values_by_phase.items())
+        if values
+    }
 
 
 def _sha256_array(values: Any) -> str:

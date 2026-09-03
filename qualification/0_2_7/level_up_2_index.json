@@ -45,6 +45,8 @@
   "s1_telemetry_contract": "qualification/0_2_7/wp04_telemetry_contract.json",
   "s1_telemetry_state": "qualification/0_2_7/s1_telemetry_state.json",
   "s2_post_pc_ready_diagnostic_state": "qualification/0_2_7/s2_post_pc_ready_diagnostic_state.json",
+  "c3_10m_diagnostic": "qualification/0_2_7/c3_10m_aij_diagnostic.json",
+  "c3_10m_status": "OWNER_TERMINATED_FOR_DIAGNOSTIC",
   "s1_log_path": "qualification/0_2_7/wp04_runtime/wp04_5m_progress.jsonl",
   "current_work_package": "LU2-WP05",
   "next_work_package": "LU2-WP09",

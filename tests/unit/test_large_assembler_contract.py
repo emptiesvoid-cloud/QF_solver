@@ -34,6 +34,9 @@ class _FakeMatrix:
     def convert(self, kind) -> None:
         self.calls.append(("convert", kind))
 
+    def getInfo(self):
+        return {"mallocs": 0.0, "nz_allocated": 120.0, "nz_used": 72.0}
+
 
 class _FakeMatFactory:
     Type = SimpleNamespace(AIJ="aij")
@@ -56,6 +59,14 @@ class _FakeComm:
 
     def getSize(self):
         return 1
+
+
+class _RankTelemetry:
+    def __init__(self) -> None:
+        self.markers: list[tuple[str, str, dict[str, object] | None]] = []
+
+    def marker(self, name, *, phase, context=None) -> None:
+        self.markers.append((name, phase, context))
 
 
 def _fake_petsc(factory: _FakeMatFactory):
@@ -125,3 +136,41 @@ def test_petsc_assembler_rejects_invalid_format_and_chunk_is_clamped() -> None:
     with pytest.raises(ValueError, match="matrix_format"):
         assembler.PetscTET4Assembler(matrix_format="dense")
     assert assembler.PetscTET4Assembler(chunk_size=0).chunk_size == 1
+
+
+def test_petsc_assembler_emits_post_insertion_boundaries_and_diagnostics(monkeypatch, tmp_path) -> None:
+    model = generate_tet4_block(tmp_path / "model.h5", nx=1, ny=1, nz=1)
+    factory = _FakeMatFactory()
+    markers = _RankTelemetry()
+    monkeypatch.setattr(assembler, "_petsc", lambda: _fake_petsc(factory))
+
+    assembled = assembler.PetscTET4Assembler(
+        chunk_size=1,
+        matrix_format="aij",
+        rank_telemetry=markers,
+        capture_diagnostics=True,
+    )
+    assembled.assemble(model)
+
+    assert [name for name, _, _ in markers.markers] == [
+        "POST_INSERTION",
+        "PRE_ASSEMBLE_1",
+        "POST_ASSEMBLE_1",
+        "PRE_CONSTRAINTS",
+        "POST_CONSTRAINTS",
+        "PRE_ASSEMBLE_2",
+        "POST_ASSEMBLE_2",
+    ]
+    diagnostics = assembled.last_diagnostics
+    assert diagnostics["preallocation"]["strategy"] == "uniform_nnz_per_row"
+    assert diagnostics["preallocation"]["diag_offdiag_preallocation"] == "NOT_EXPLICIT"
+    assert diagnostics["preallocation"]["matrix_info_after_assemble_2"]["available"] is True
+    assert diagnostics["insertions"]["matsetvalues_call_count"] == model.element_count
+    assert diagnostics["insertions"]["scalar_values_submitted"] == model.element_count * 144
+    assert set(diagnostics["phase_timing_seconds"]) == {
+        "element_insertion",
+        "assemble_1",
+        "constraints",
+        "assemble_2",
+        "total_assembler",
+    }

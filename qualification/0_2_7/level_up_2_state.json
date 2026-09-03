@@ -96,7 +96,7 @@
       "reason": "Not confirmed: the 2x time budget was exceeded, but the owner interruption and missing progress/resource telemetry prevent a resource-limited trigger."
     },
     {"id": "C2", "status": "DORMANT", "weight_percent": 0, "non_blocking": true},
-    {"id": "C3", "status": "DORMANT", "weight_percent": 0, "non_blocking": true}
+    {"id": "C3", "status": "OWNER_TERMINATED_FOR_DIAGNOSTIC", "weight_percent": 0, "non_blocking": true, "evidence": "qualification/0_2_7/c3_10m_aij_diagnostic.json", "reason": "The 10M owner-directed diagnostic stop reached full element insertion but not PC_READY_GLOBAL. No capacity, resource, OOM, PETSc/MPI, deadlock, or numerical failure is proven; the frozen replay is ready after phase instrumentation."}
   ],
   "decision_gates": {
     "DECISION_GATE_1": "CONTINUE_TO_LEVEL_UP_2",
@@ -191,5 +191,14 @@
     "per_rank_markers": "INSTALLED",
     "pc_ready_scope": "GLOBAL after patch; historical Run A remained LOCAL",
     "ready_for_wp04_retry": false
+  },
+  "c3_10m_diagnostic": {
+    "status": "OWNER_TERMINATED_FOR_DIAGNOSTIC",
+    "state": "qualification/0_2_7/c3_10m_aij_diagnostic.json",
+    "source_sha": "d6581561509114b8d37d6612fe0154e634848482",
+    "root_cause_proven": false,
+    "behavioral_patch_applied": false,
+    "per_rank_phase_instrumentation": "INSTALLED",
+    "ready_for_replay": true
   }
 }

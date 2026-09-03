@@ -11,6 +11,7 @@ QUALIFICATION = ROOT / "qualification" / "0_2_7"
 CONTRACT = QUALIFICATION / "wp04_execution_contract.json"
 RUNTIME = QUALIFICATION / "wp04_runtime"
 RUNNER = ROOT / "scripts" / "run_lu2_wp04_bronze.py"
+ASSEMBLER = ROOT / "src" / "solveur" / "large" / "assembler.py"
 
 
 def _read(path: Path) -> dict:
@@ -87,7 +88,17 @@ def test_wp04_forensic_reclassification_is_honest() -> None:
 
 def test_post_pc_ready_collectives_are_guarded_and_rank_zero_does_not_reduce_time() -> None:
     source = RUNNER.read_text(encoding="utf-8")
+    instrumented_source = source + ASSEMBLER.read_text(encoding="utf-8")
     required_markers = (
+        "POST_INSERTION",
+        "PRE_ASSEMBLE_1",
+        "POST_ASSEMBLE_1",
+        "PRE_CONSTRAINTS",
+        "POST_CONSTRAINTS",
+        "PRE_ASSEMBLE_2",
+        "POST_ASSEMBLE_2",
+        "PRE_RHS",
+        "POST_RHS",
         "PRE_SETUP",
         "POST_SETUP",
         "PRE_OWNERSHIP_GATHER",
@@ -95,11 +106,12 @@ def test_post_pc_ready_collectives_are_guarded_and_rank_zero_does_not_reduce_tim
         "PRE_PC_READY",
         "PRE_MEMORY_GATHER",
         "POST_MEMORY_GATHER",
+        "PC_READY_GLOBAL",
         "FINALIZE_ENTER",
         "FINALIZE_EXIT",
         "EXCEPTION",
     )
-    assert all(marker in source for marker in required_markers)
+    assert all(marker in instrumented_source for marker in required_markers)
     assert 'telemetry.phase("PC_READY_GLOBAL")' in source
     assert source.index("total_seconds = _max_time") < source.index("if rank == 0:", source.index("record_error"))
 
