@@ -1,0 +1,439 @@
+{
+  "acceptance": {
+    "checks": {
+      "cg": true,
+      "energy": true,
+      "equilibrium": true,
+      "finite": true,
+      "residual": true,
+      "subscale": true
+    },
+    "tolerance": 1e-08,
+    "verdict": "PASS"
+  },
+  "artifact_classification": "CONTROLLED_PROOF",
+  "backend": "petsc",
+  "case_id": "WP17R-PETSC-LARGE-ROUTE-001",
+  "configuration": {
+    "atol": 0.0,
+    "backend": "petsc",
+    "chunk_size": 4096,
+    "fallback_policy": "no implicit fallback; backend selection is explicit and unavailable routes fail closed",
+    "matrix_format": "aij",
+    "max_iterations": 10000,
+    "monitor": false,
+    "mpi_size": 8,
+    "partition_strategy": "contiguous",
+    "petsc_options": {
+      "ksp_norm_type": "unpreconditioned",
+      "ksp_rtol": 1e-10
+    },
+    "petsc_options_environment_policy": "PETSC_OPTIONS must be unset; all relevant options are explicit",
+    "preconditioner": "gamg",
+    "rtol": 1e-08,
+    "solver": "CG",
+    "solver_rtol": 1e-10,
+    "solver_rtol_policy": "predeclared strict internal solve tolerance; WP14 acceptance remains fixed at 1e-8",
+    "stopping_norm": "unpreconditioned",
+    "wp14_tolerance_source": "qualification/0_2_7/wp14_execution_contract.json"
+  },
+  "configuration_digest_sha256": "4a2536569e85b4d01fc12b77b46be9e1a77e649d72346d0f6c94f4aad641fdb0",
+  "contract_id": "QF-027-WP14-LARGE-EXECUTION-001",
+  "contract_path": "qualification/0_2_7/wp14_execution_contract.json",
+  "element_count": 19847694,
+  "environment": {
+    "created_at_utc": "2026-09-03T17:33:11.243811Z",
+    "environment": {
+      "MKL_NUM_THREADS": null,
+      "NUMEXPR_NUM_THREADS": null,
+      "OMP_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": "1",
+      "PETSC_ARCH": "<set>",
+      "PETSC_DIR": "<set>",
+      "PYTHONHASHSEED": null
+    },
+    "metadata": {
+      "input_digest_sha256": "df3ce6efefde952b895f7c4e46664dc7312e99f4aedf65340cfcae52bcade6e2",
+      "kind": "WP17R_PETSc_remediation",
+      "mpi_size": 8,
+      "runtime_image": "qf-solver-large@sha256:d6a1718001fc36772906d1a9505637bbd0a4b7e1d8ccc9afdbcb6f67b7ff6d0e",
+      "source_sha": "eefb5387c86c27809185e12f5548b79c0070d957"
+    },
+    "mpi": {
+      "library": "MPICH Version:      5.0.1",
+      "version": [
+        5,
+        0
+      ]
+    },
+    "packages": {
+      "h5py": {
+        "available": true,
+        "origin": "__init__.py",
+        "version": "3.13.0"
+      },
+      "mpi4py": {
+        "available": true,
+        "origin": "__init__.py",
+        "version": "4.1.2"
+      },
+      "numpy": {
+        "available": true,
+        "origin": "__init__.py",
+        "version": "2.4.6"
+      },
+      "petsc4py": {
+        "available": true,
+        "origin": "__init__.py",
+        "version": "3.25.1"
+      },
+      "scipy": {
+        "available": true,
+        "origin": "__init__.py",
+        "version": "1.17.1"
+      }
+    },
+    "petsc": {
+      "version": [
+        3,
+        25,
+        1
+      ]
+    },
+    "platform": {
+      "architecture": [
+        "64bit",
+        ""
+      ],
+      "machine": "x86_64",
+      "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+      "processor": "x86_64",
+      "release": "6.18.33.2-microsoft-standard-WSL2",
+      "system": "Linux",
+      "version": "#1 SMP PREEMPT_DYNAMIC Thu Jun 18 21:54:43 UTC 2026"
+    },
+    "process": {
+      "argv": [
+        "scripts/run_wp17r_petsc_remediation.py",
+        "--input",
+        "/workspace/tmp/c3_10m/models/10m_workload.h5",
+        "--output",
+        "/workspace/tmp/c3_10m/replay_after_prealloc/solve1",
+        "--backend",
+        "petsc",
+        "--preconditioner",
+        "gamg",
+        "--partition-strategy",
+        "contiguous",
+        "--runtime-image",
+        "qf-solver-large@sha256:d6a1718001fc36772906d1a9505637bbd0a4b7e1d8ccc9afdbcb6f67b7ff6d0e",
+        "--source-sha",
+        "eefb5387c86c27809185e12f5548b79c0070d957",
+        "--no-monitor",
+        "--internal-rtol",
+        "1e-10"
+      ],
+      "cwd": ".",
+      "pid": 8
+    },
+    "python": {
+      "build": [
+        "main",
+        "Mar 23 2026 19:04:32"
+      ],
+      "compiler": "GCC 13.3.0",
+      "executable": "python3",
+      "implementation": "CPython",
+      "version": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
+      "version_info": [
+        3,
+        12,
+        3,
+        "final",
+        0
+      ]
+    },
+    "report_schema_version": 1,
+    "solver": {
+      "name": "QF_solver",
+      "version": "0.2.7a0"
+    }
+  },
+  "fixed_dof": 67500,
+  "input_digest_sha256": "df3ce6efefde952b895f7c4e46664dc7312e99f4aedf65340cfcae52bcade6e2",
+  "input_path": "10m_workload.h5",
+  "load_node_count": 22500,
+  "matvec_count": 1571,
+  "matvec_count_policy": "CG iteration count; one PETSc MatMult per converged CG iteration; the existing public route exposes no separate PETSc event counter.",
+  "memory_after": {
+    "current_rss_bytes": 2731769856,
+    "peak_rss_bytes": 6186106880,
+    "source": "procfs+resource"
+  },
+  "memory_after_by_rank": [
+    {
+      "current_rss_bytes": 2731769856,
+      "peak_rss_bytes": 6186106880,
+      "source": "procfs+resource"
+    },
+    {
+      "current_rss_bytes": 1464786944,
+      "peak_rss_bytes": 6352576512,
+      "source": "procfs+resource"
+    },
+    {
+      "current_rss_bytes": 1458761728,
+      "peak_rss_bytes": 6374752256,
+      "source": "procfs+resource"
+    },
+    {
+      "current_rss_bytes": 1458520064,
+      "peak_rss_bytes": 6371840000,
+      "source": "procfs+resource"
+    },
+    {
+      "current_rss_bytes": 1450618880,
+      "peak_rss_bytes": 6358462464,
+      "source": "procfs+resource"
+    },
+    {
+      "current_rss_bytes": 1458745344,
+      "peak_rss_bytes": 6376747008,
+      "source": "procfs+resource"
+    },
+    {
+      "current_rss_bytes": 1457704960,
+      "peak_rss_bytes": 6822440960,
+      "source": "procfs+resource"
+    },
+    {
+      "current_rss_bytes": 1433657344,
+      "peak_rss_bytes": 6695665664,
+      "source": "procfs+resource"
+    }
+  ],
+  "memory_before": {
+    "current_rss_bytes": 74092544,
+    "peak_rss_bytes": 75141120,
+    "source": "procfs+resource"
+  },
+  "memory_before_by_rank": [
+    {
+      "current_rss_bytes": 74092544,
+      "peak_rss_bytes": 75141120,
+      "source": "procfs+resource"
+    },
+    {
+      "current_rss_bytes": 74563584,
+      "peak_rss_bytes": 73670656,
+      "source": "procfs+resource"
+    },
+    {
+      "current_rss_bytes": 74723328,
+      "peak_rss_bytes": 73904128,
+      "source": "procfs+resource"
+    },
+    {
+      "current_rss_bytes": 74776576,
+      "peak_rss_bytes": 74047488,
+      "source": "procfs+resource"
+    },
+    {
+      "current_rss_bytes": 74604544,
+      "peak_rss_bytes": 73904128,
+      "source": "procfs+resource"
+    },
+    {
+      "current_rss_bytes": 74334208,
+      "peak_rss_bytes": 73519104,
+      "source": "procfs+resource"
+    },
+    {
+      "current_rss_bytes": 74518528,
+      "peak_rss_bytes": 73519104,
+      "source": "procfs+resource"
+    },
+    {
+      "current_rss_bytes": 74227712,
+      "peak_rss_bytes": 73347072,
+      "source": "procfs+resource"
+    }
+  ],
+  "monitor": {
+    "enabled": false,
+    "pattern": "PETSc ksp_monitor_true_residual"
+  },
+  "mpi_size": 8,
+  "node_count": 3375000,
+  "peak_rss_by_rank": [
+    6186106880,
+    6352576512,
+    6374752256,
+    6371840000,
+    6358462464,
+    6376747008,
+    6822440960,
+    6695665664
+  ],
+  "peak_rss_bytes": 6822440960,
+  "phases": {
+    "energy_post_seconds": 127.3892868909752,
+    "model_setup_seconds": 2.9137842479976825,
+    "operator_preconditioner_setup_seconds": 139.38806255796226,
+    "reactions_seconds": 132.26594229094917,
+    "solve_seconds": 2274.984410360048,
+    "solver_pipeline_seconds": 2420.8064441430033,
+    "total_seconds": 2556.137769511959
+  },
+  "post": {
+    "applied_resultant": [
+      1000000.0000004881,
+      0.0,
+      0.0
+    ],
+    "displacement_norm": 0.01061262859281487,
+    "energy_relative": 1.1044034740916503e-12,
+    "energy_seconds": 127.3892868909752,
+    "equilibrium_compensated_relative": 4.646082023712616e-09,
+    "equilibrium_relative": 4.6458148604128296e-09,
+    "equilibrium_vector": [
+      -2.6494846679270267e-05,
+      -1.54226588193751e-05,
+      -4.40858425676538e-06
+    ],
+    "external_work": 10.010874854880853,
+    "finite_outputs": true,
+    "fixed_dof_count": 67500,
+    "free_relative_residual": 1.082981394865562e-10,
+    "free_residual_equilibrium_identity_relative": 3.25950851772143e-10,
+    "free_residual_norm": 7.219875965770376e-07,
+    "free_residual_resultant": [
+      2.456819783042421e-05,
+      1.5672516246437507e-05,
+      5.382005623950393e-06
+    ],
+    "load_node_count": 22500,
+    "operator_route": "existing StructuredBlockOperator post-solve diagnostic",
+    "reaction_resultant": [
+      -1000000.000026983,
+      -1.54226588193751e-05,
+      -4.40858425676538e-06
+    ],
+    "reaction_resultant_compensated": [
+      -1000000.000026985,
+      -1.5422835312934452e-05,
+      -4.4085857908438e-06
+    ],
+    "reduction_difference_relative": 2.9803730513953766e-13,
+    "reference_force_total_n": 1000000.0000004881,
+    "strain_energy": 5.005437427445955
+  },
+  "provenance": {
+    "configuration_digest_sha256": "4a2536569e85b4d01fc12b77b46be9e1a77e649d72346d0f6c94f4aad641fdb0",
+    "contract_sha256": "1236aaf8ddb0451ae5d3ddac02864ade3c54273da4a0e8064434ae0c11459ce3",
+    "input_digest_sha256": "df3ce6efefde952b895f7c4e46664dc7312e99f4aedf65340cfcae52bcade6e2",
+    "runtime_image": "qf-solver-large@sha256:d6a1718001fc36772906d1a9505637bbd0a4b7e1d8ccc9afdbcb6f67b7ff6d0e",
+    "source_sha": "eefb5387c86c27809185e12f5548b79c0070d957",
+    "timestamp_utc": "2026-09-03T18:15:46.953987Z"
+  },
+  "reference_force_total_n": 1000000.0000004881,
+  "residual_history": {
+    "status": "NOT_RUN"
+  },
+  "runtime_image": "qf-solver-large@sha256:d6a1718001fc36772906d1a9505637bbd0a4b7e1d8ccc9afdbcb6f67b7ff6d0e",
+  "schema_version": 1,
+  "solver": {
+    "automatic_petsc_options": {
+      "pc_gamg_repartition": true
+    },
+    "converged": true,
+    "distributed": true,
+    "explicit_petsc_options": {
+      "ksp_norm_type": "unpreconditioned",
+      "ksp_rtol": 1e-10
+    },
+    "initial_guess_norm": 0.0,
+    "iteration_time_seconds": 2274.984410360048,
+    "iterations": 1571,
+    "matrix_format": "aij",
+    "method": "cg",
+    "mpi_size": 8,
+    "ownership_ranges": [
+      [
+        0,
+        1265625
+      ],
+      [
+        1265625,
+        2531250
+      ],
+      [
+        2531250,
+        3796875
+      ],
+      [
+        3796875,
+        5062500
+      ],
+      [
+        5062500,
+        6328125
+      ],
+      [
+        6328125,
+        7593750
+      ],
+      [
+        7593750,
+        8859375
+      ],
+      [
+        8859375,
+        10125000
+      ]
+    ],
+    "preconditioner": "gamg",
+    "preconditioner_diagnostics": {
+      "ksp_type": "cg",
+      "matrix_global_size": [
+        10125000,
+        10125000
+      ],
+      "matrix_info": {
+        "assemblies": 2.0,
+        "block_size": 1.0,
+        "factor_mallocs": 0.0,
+        "fill_ratio_given": 0.0,
+        "fill_ratio_needed": 0.0,
+        "mallocs": 0.0,
+        "memory": 0.0,
+        "nz_allocated": 450781182.0,
+        "nz_unneeded": 0.0,
+        "nz_used": 450781182.0
+      },
+      "matrix_local_size": [
+        1265625,
+        1265625
+      ],
+      "matrix_ownership_range": [
+        0,
+        1265625
+      ],
+      "pc_mg_levels": 5,
+      "pc_type": "gamg"
+    },
+    "preconditioner_subtype": null,
+    "residual_norm": 6.66059244178727e-07,
+    "restart_source": null,
+    "restart_used": false,
+    "setup_time_seconds": 107.41076416196302
+  },
+  "source_sha": "eefb5387c86c27809185e12f5548b79c0070d957",
+  "status": "PASS",
+  "subscale_equivalence": {
+    "reason": "subscale comparison not requested",
+    "status": "NOT_RUN"
+  },
+  "tier": "T1_DIAGNOSTIC",
+  "true_dof": 10125000
+}

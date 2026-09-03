@@ -96,7 +96,7 @@
       "reason": "Not confirmed: the 2x time budget was exceeded, but the owner interruption and missing progress/resource telemetry prevent a resource-limited trigger."
     },
     {"id": "C2", "status": "DORMANT", "weight_percent": 0, "non_blocking": true},
-    {"id": "C3", "status": "OWNER_TERMINATED_FOR_DIAGNOSTIC", "weight_percent": 0, "non_blocking": true, "evidence": "qualification/0_2_7/c3_10m_aij_diagnostic.json", "reason": "The 10M owner-directed diagnostic stop reached full element insertion but not PC_READY_GLOBAL. No capacity, resource, OOM, PETSc/MPI, deadlock, or numerical failure is proven; the frozen replay is ready after phase instrumentation."}
+    {"id": "C3", "status": "PASS", "weight_percent": 0, "non_blocking": true, "evidence": "qualification/0_2_7/c3_10m_runtime/c3_10m_replay_summary.json", "historical_evidence": "qualification/0_2_7/c3_10m_aij_diagnostic.json", "reason": "The frozen 10M TET4 Bronze replay reached global PC_READY, completed cleanly on all eight ranks, and preserved the historical owner-terminated diagnostic. One optional complete solve also passed the existing acceptance checks; no universal 10M claim is made."}
   ],
   "decision_gates": {
     "DECISION_GATE_1": "CONTINUE_TO_LEVEL_UP_2",
@@ -118,7 +118,7 @@
   "execution": {
     "heavy_benchmark_run": true,
     "full_regression_run": false,
-    "targeted_tests": "WP02/WP03 evidence validation PASS; WP04 contract, preflight, deterministic-build checks and post-PC_READY collective-order patch tests PASS; the retry remains unqualified until replay",
+    "targeted_tests": "WP02/WP03 evidence validation PASS; WP04 contract, preflight, deterministic-build checks and post-PC_READY collective-order patch tests PASS; the frozen C3 10M Bronze replay and optional complete solve PASS",
     "numerical_source_changed": false,
     "existing_evidence_rewritten": false,
     "maturity_promoted": false,
@@ -207,5 +207,16 @@
       "root_cause": "The phase-resolved replay isolates MPIAIJ ASSEMBLE_1 at 10M; exact structured diagonal/off-diagonal preallocation removes representative MPI reallocations without numerical drift.",
       "ready_for_replay": true
     }
+  },
+  "c3_10m_replay": {
+    "status": "PASS",
+    "evidence": "qualification/0_2_7/c3_10m_runtime/c3_10m_replay_summary.json",
+    "historical_diagnostic": "qualification/0_2_7/c3_10m_aij_diagnostic.json",
+    "source_sha": "eefb5387c86c27809185e12f5548b79c0070d957",
+    "input_digest_sha256": "df3ce6efefde952b895f7c4e46664dc7312e99f4aedf65340cfcae52bcade6e2",
+    "bronze": "PASS",
+    "optional_complete_solve": "PASS",
+    "global_progress_changed": false,
+    "maturity_promoted": false
   }
 }

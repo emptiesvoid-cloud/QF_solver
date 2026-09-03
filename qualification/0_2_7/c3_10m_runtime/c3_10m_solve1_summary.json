@@ -1,0 +1,131 @@
+{
+  "analysis": "linear_static",
+  "node_count": 3375000,
+  "element_count": 19847694,
+  "ndof": 10125000,
+  "backend": "petsc",
+  "solver": {
+    "method": "cg",
+    "preconditioner": "gamg",
+    "preconditioner_subtype": null,
+    "iterations": 1571,
+    "residual_norm": 6.66059244178727e-07,
+    "converged": true,
+    "mpi_size": 8,
+    "distributed": true,
+    "ownership_ranges": [
+      [
+        0,
+        1265625
+      ],
+      [
+        1265625,
+        2531250
+      ],
+      [
+        2531250,
+        3796875
+      ],
+      [
+        3796875,
+        5062500
+      ],
+      [
+        5062500,
+        6328125
+      ],
+      [
+        6328125,
+        7593750
+      ],
+      [
+        7593750,
+        8859375
+      ],
+      [
+        8859375,
+        10125000
+      ]
+    ],
+    "matrix_format": "aij",
+    "setup_time_seconds": 107.41076416196302,
+    "iteration_time_seconds": 2274.984410360048,
+    "automatic_petsc_options": {
+      "pc_gamg_repartition": true
+    },
+    "explicit_petsc_options": {
+      "ksp_norm_type": "unpreconditioned",
+      "ksp_rtol": 1e-10
+    },
+    "preconditioner_diagnostics": {
+      "ksp_type": "cg",
+      "pc_type": "gamg",
+      "pc_mg_levels": 5,
+      "matrix_global_size": [
+        10125000,
+        10125000
+      ],
+      "matrix_local_size": [
+        1265625,
+        1265625
+      ],
+      "matrix_ownership_range": [
+        0,
+        1265625
+      ],
+      "matrix_info": {
+        "block_size": 1.0,
+        "nz_allocated": 450781182.0,
+        "nz_used": 450781182.0,
+        "nz_unneeded": 0.0,
+        "memory": 0.0,
+        "assemblies": 2.0,
+        "mallocs": 0.0,
+        "fill_ratio_given": 0.0,
+        "fill_ratio_needed": 0.0,
+        "factor_mallocs": 0.0
+      }
+    },
+    "restart_used": false,
+    "restart_source": null,
+    "initial_guess_norm": 0.0
+  },
+  "assembly_time_seconds": 31.97729839599924,
+  "solve_time_seconds": 2382.395174522011,
+  "estimated_core_memory_bytes": 170989632,
+  "audit_status": "PASS",
+  "mpi": {
+    "size": 8,
+    "distributed_assembly": true,
+    "element_partition": "contiguous",
+    "input_arrays_replicated_per_rank": false,
+    "boundary_arrays_distributed": true,
+    "local_fixed_dof_count": 67500,
+    "local_load_count": 0,
+    "local_fixed_dof_counts": [
+      67500,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "local_load_counts": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      22500
+    ],
+    "partitioned_hdf5_input": true,
+    "global_connectivity_replicated": false,
+    "global_nodes_replicated": false,
+    "displacement_gathered_on_root_only": false,
+    "displacement_mpi_io": true
+  }
+}
