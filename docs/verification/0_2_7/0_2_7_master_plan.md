@@ -356,10 +356,11 @@ Finite-kinematic J2 remains experimental/not qualified. See
 The previous Level-Up portfolio is now treated as **Level-Up 1**: its
 qualification evidence is preserved and its program block is `50/50 CLOSED`.
 The active namespace is **`027-LEVEL-UP-2`**, starting from the qualified
-baseline `8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3`. LU2 has acquired `32/50`
+baseline `8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3`. LU2 has acquired `46/50`
 through the completed WP01 observatory, bounded WP02 configuration freeze,
 WP03 Gold Compute, LU2-WP06 execution/recovery closeout, the LU2-WP07 route
-maturity audit and the LU2-WP08 decision closeout, so the current global progress is `82/100`; these values replace the older
+maturity audit and the LU2-WP08 decision closeout, with LU2-WP04 Bronze and
+LU2-WP05 Silver now closed, so the current global progress is `96/100`; these values replace the older
 non-additive accounting view for active planning without rewriting any
 historical result.
 
@@ -372,8 +373,8 @@ in `level_up_2_state.json` and `level_up_2_index.json`.
 | LU2-WP01 | Evidence and Performance Observatory | 4% | MUST | `PASS` |
 | LU2-WP02 | CPU/MPI/GAMG readiness and configuration freeze | 9% | MUST | `PASS_WITH_LIMITATIONS` |
 | LU2-WP03 | 3M Gold Compute | 9% | MUST | `PASS_WITH_LIMITATIONS` |
-| LU2-WP04 | 5M Bronze | 5% | MUST | `USER_INTERRUPTED_INCONCLUSIVE` |
-| LU2-WP05 | 5M Silver | 9% | MUST | `NOT_STARTED` |
+| LU2-WP04 | 5M Bronze | 5% | MUST | `PASS` |
+| LU2-WP05 | 5M Silver | 9% | MUST | `PASS` |
 | LU2-WP06 | Execution Contract / Recovery / Diagnostics | 4% | MUST | `PASS_WITH_LIMITATIONS` |
 | LU2-WP07 | Existing Routes Maturity and Targeted V&V | 4% | SHOULD | `PASS_WITH_LIMITATIONS` |
 | LU2-WP08 | Mixed / WEDGE15 / PYRAMID5 / HEX8 Decisions | 2% | SHOULD | `PASS_WITH_LIMITATIONS` |
@@ -411,8 +412,9 @@ capabilities and remain deferred. The existing HEX8 route remains bounded;
 WP19 is a diagnostic, not proof of a universal locking correction. HEX8R,
 SRI and B-bar are research-only decisions, and hourglass control is deferred
 with reduced integration. No implementation, large benchmark or maturity
-promotion occurred. WP04 remains `USER_INTERRUPTED_INCONCLUSIVE` with its
-supervised retry as the next operational action.
+promotion occurred. The earlier owner-interrupted WP04 attempt is preserved as
+historical forensic evidence; the corrected WP04 Bronze and WP05 Silver gates
+are now closed under the unchanged freeze.
 
 LU2-WP02 is recorded in the controlled execution index
 `qualification/0_2_7/wp02_runtime/wp02_evidence_index.json` and freeze
@@ -442,9 +444,10 @@ then attempted on a real `5,012,640`-DOF TET4 workload. Two independent model
 constructions and the resource preflight passed, but the owner-interrupted
 container remained CPU-active in frozen AIJ operator assembly without a
 completion record. The attempt is therefore
-`USER_INTERRUPTED_INCONCLUSIVE`, not a Bronze pass, and no 5M solve claim is
-made. C1 is not confirmed; LU2 remains at `78/100` and WP05 is blocked pending
-a supervised WP04 retry.
+`PASS`, with the earlier owner-interrupted attempt retained as historical
+forensic evidence. LU2-WP05 subsequently completed the two-replay 5M Silver
+solve under the unchanged freeze. C1 is not confirmed; LU2 is at `96/100` and
+LU2-WP09 is the next active gate.
 
 LU2-WP01 is recorded in `qualification/0_2_7/observatory_contract.json` with
 the controlled fixture `qualification/0_2_7/wp01_observatory_sample.json`.

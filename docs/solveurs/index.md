@@ -9,6 +9,11 @@ approver: ""
 
 # Carte des methodes de resolution
 
+Les labels de cette page sont des labels techniques historiques. Les claims
+publics 0.2.7 doivent etre lus avec le registry v2 et les preuves bornees de
+`docs/verification/0_2_7/`; la presence d'une route ne vaut pas qualification
+generale.
+
 | Analyse | Equation | Methodes disponibles | Maturite |
 | --- | --- | --- | --- |
 | Statique lineaire | $\mathbf Ku=\mathbf f$ | direct, CG, GMRES, BiCGSTAB, MINRES | stable sur TET4/MITC4 bornes |

@@ -294,7 +294,11 @@ Le backend `matrix_free` est accepte au-dessus de ce seuil uniquement pour les
 blocs TET4 structures generes; il applique `K.u` element par element sans
 construire la matrice globale.
 
-## Preuve locale 1M actuelle
+## Preuve locale 1M historique (P4)
+
+La section suivante conserve les mesures P4 pour leur provenance. Elle ne
+remplace pas les preuves actives 0.2.7 : les claims courants de grande route
+sont bornes par les manifestes et la configuration de chaque campagne.
 
 ### PETSc/MPI controle
 

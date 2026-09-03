@@ -140,7 +140,7 @@
       "title": "5M Bronze",
       "weight_percent": 5,
       "priority": "MUST",
-      "status": "USER_INTERRUPTED_INCONCLUSIVE",
+      "status": "PASS",
       "objective": "Construct and preflight a real 5M-DOF FEM workload without claiming a converged solve.",
       "pass_criteria": [
         "The model, topology, true DOF target and construction procedure are predeclared.",
@@ -173,12 +173,12 @@
         "tests/unit/test_assembly_telemetry.py"
       ],
       "closeout": {
-        "bronze_status": "USER_INTERRUPTED_INCONCLUSIVE",
-        "bronze_pass": false,
-        "run1": "OWNER_INTERRUPTED_DURING_AIJ_ASSEMBLY",
-        "run2": "NOT_RUN_AFTER_USER_INTERRUPT",
-        "next_action": "LU2-WP04_SUPERVISED_RETRY",
-        "claim_boundary": "Deterministic 5M TET4 construction and preflight only; no operator readiness, solve or Silver claim."
+        "bronze_status": "PASS",
+        "bronze_pass": true,
+        "run1": "CORRECTED_FROZEN_RUN_COMPLETED",
+        "run2": "5M_SILVER_REPLAYS_RECORDED_SEPARATELY",
+        "next_action": "LU2-WP05_CLOSED",
+        "claim_boundary": "5M Bronze readiness is proven for the recorded TET4/PETSc/MPI route; the separate Silver claim is governed by LU2-WP05."
       },
       "runtime_guard": {
         "reference": "WP02 3M 8-rank total-time replay mean",
@@ -193,7 +193,7 @@
       "title": "5M Silver",
       "weight_percent": 9,
       "priority": "MUST",
-      "status": "PASS_WITH_LIMITATIONS",
+      "status": "PASS",
       "objective": "Attempt and, if successful, qualify a full reproducible 5M-DOF solve under the frozen MPI contract.",
       "pass_criteria": [
         "5M Bronze passes first.",
@@ -258,7 +258,7 @@
       "title": "Existing Routes Maturity and Targeted V&V",
       "weight_percent": 4,
       "priority": "SHOULD",
-      "status": "NOT_STARTED",
+      "status": "PASS_WITH_LIMITATIONS",
       "objective": "Close only existing route gaps that can change a public maturity decision, without adding physics.",
       "pass_criteria": [
         "Selected routes have predeclared, machine-readable targeted evidence.",
@@ -287,7 +287,7 @@
         "Qualification remains non-transitive across element, analysis, material and backend routes.",
         "Finite-kinematic J2, coupled nonlinear routes, friction, mixed meshes, HEX8 next-generation formulations and untested large-route recovery remain outside qualified claims.",
         "External evidence remains bounded and family-specific; no universal external validation claim is made.",
-        "LU2-WP04 remains USER_INTERRUPTED_INCONCLUSIVE and is not changed by this closeout."
+        "LU2-WP04 is closed as PASS; its earlier owner-interrupted attempt remains historical forensic evidence."
       ],
       "new_external_runs": false,
       "next_ready": true

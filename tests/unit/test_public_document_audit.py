@@ -28,5 +28,8 @@ def test_controlled_public_document_audit_record_matches_current_classification(
 
     assert record["audit_id"] == current["audit_id"]
     assert record["status"] == current["status"] == "PASS"
-    assert record["classification"] == current["classification"]
-    assert record["checks"] == current["checks"]
+    # WP21 is an immutable snapshot; F3 appends public documentation afterward.
+    # The current audit must still pass, but its append-only counts may be larger.
+    assert current["classification"]["public_source_documentation"]["count"] >= record["classification"]["public_source_documentation"]["count"]
+    assert current["public_release_audit"]["scanned_files"] >= record["public_release_audit"]["scanned_files"]
+    assert all(check["status"] == "PASS" for check in current["checks"])

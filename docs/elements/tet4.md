@@ -21,6 +21,11 @@ approver: ""
 
 <span class="maturity stable">stable - statique lineaire bornee</span>
 
+Cette fiche technique est un document historique detaille. Le mot `stable`
+est un raccourci de cette fiche et ne remplace pas le statut combinaison-
+niveau du registry v2 0.2.7, qui borne la qualification TET4 par element,
+analyse, materiau et route.
+
 Le TET4 est un tetraedre lineaire a quatre sommets et douze ddl de translation.
 Il reproduit exactement un deplacement affine et une deformation constante.
 

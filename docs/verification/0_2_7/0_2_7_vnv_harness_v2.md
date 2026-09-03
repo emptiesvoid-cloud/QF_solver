@@ -50,6 +50,9 @@ analytical fixture using the public solve API, a TET4 modal invariant fixture,
 and an unknown-element preflight expected-failure fixture. These samples prove
 the migration boundary without replacing the 188 historical V&V modules.
 
-WEDGE6 remains unimplemented. The schema can describe future WEDGE6 patch,
-orientation, face-load, refinement, distortion and external-oracle cases, but
-no WEDGE6 capability or qualification is created by WP04.
+WP04 did not implement WEDGE6. Later WP07 installed the technical WEDGE6
+kernel, while the active static combination remains `EXPERIMENTAL` and the
+separate modal combination remains qualified only within its bounded scope.
+The schema can describe WEDGE6 patch, orientation, face-load, refinement,
+distortion and external-oracle cases, but it does not create a capability or
+qualification by itself.
