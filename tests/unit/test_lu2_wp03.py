@@ -143,5 +143,5 @@ def test_wp03_state_and_governance_are_ready_for_wp04() -> None:
     assert state["progress"]["current_global_progress_percent"] == 72
     assert state["progress"]["next_work_package"] == "LU2-WP04"
     assert state["blockers"] == []
-    assert index["global_progress"]["current_percent"] == 72
-    assert index["completed_work_packages"][-1] == "LU2-WP03"
+    assert index["global_progress"]["current_percent"] == 96
+    assert "LU2-WP03" in index["completed_work_packages"]

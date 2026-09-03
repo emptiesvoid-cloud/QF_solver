@@ -55,12 +55,19 @@ def test_wp04_forensic_reclassification_is_honest() -> None:
     assert audit["bronze_attempts"][0]["solve_executed"] is False
     assert audit["bronze_attempts"][1]["status"] == "NOT_RUN_AFTER_USER_INTERRUPT"
     assert audit["audit"]["resource_limited_proven"] is False
-    assert state["status"] == "USER_INTERRUPTED_INCONCLUSIVE"
-    assert state["progress"]["level_up_2_acquired_percent"] == 22
-    assert state["ready_for_lu2_wp05"] is False
-    assert state["ready_for_wp04_retry"] is True
+    assert state["status"] == "PASS"
+    assert state["progress"]["level_up_2_acquired_percent"] == 37
+    assert state["ready_for_lu2_wp05"] is True
+    assert state["ready_for_wp04_retry"] is False
     assert state["ready_for_c1"] is False
-    assert state["blockers"]
+    assert state["blockers"] == []
+    corrected = _read(RUNTIME / "wp04_corrected_run_a_raw.json")
+    assert corrected["status"] == "PASS"
+    assert corrected["checks"]["gamg_ready"] is True
+    assert corrected["petsc"]["global_readiness"]
+    assert corrected["petsc"]["global_readiness"][-1]["pc_ready"] is True
+    assert corrected["solve_executed"] is False
+    assert corrected["telemetry_status"] == "ENABLED"
     assert forensic["status"] == "USER_INTERRUPTED_INCONCLUSIVE"
     assert forensic["termination"]["owner_interrupted"] is True
     assert forensic["termination"]["container_was_still_running_at_forensic_observation"] is True

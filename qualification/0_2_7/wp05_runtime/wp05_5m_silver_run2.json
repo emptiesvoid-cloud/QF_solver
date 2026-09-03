@@ -1,0 +1,439 @@
+{
+  "acceptance": {
+    "checks": {
+      "cg": true,
+      "energy": true,
+      "equilibrium": true,
+      "finite": true,
+      "residual": true,
+      "subscale": true
+    },
+    "tolerance": 1e-08,
+    "verdict": "PASS"
+  },
+  "artifact_classification": "CONTROLLED_PROOF",
+  "backend": "petsc",
+  "case_id": "WP17R-PETSC-LARGE-ROUTE-001",
+  "configuration": {
+    "atol": 0.0,
+    "backend": "petsc",
+    "chunk_size": 4096,
+    "fallback_policy": "no implicit fallback; backend selection is explicit and unavailable routes fail closed",
+    "matrix_format": "aij",
+    "max_iterations": 10000,
+    "monitor": false,
+    "mpi_size": 8,
+    "partition_strategy": "contiguous",
+    "petsc_options": {
+      "ksp_norm_type": "unpreconditioned",
+      "ksp_rtol": 1e-10
+    },
+    "petsc_options_environment_policy": "PETSC_OPTIONS must be unset; all relevant options are explicit",
+    "preconditioner": "gamg",
+    "rtol": 1e-08,
+    "solver": "CG",
+    "solver_rtol": 1e-10,
+    "solver_rtol_policy": "predeclared strict internal solve tolerance; WP14 acceptance remains fixed at 1e-8",
+    "stopping_norm": "unpreconditioned",
+    "wp14_tolerance_source": "qualification/0_2_7/wp14_execution_contract.json"
+  },
+  "configuration_digest_sha256": "4a2536569e85b4d01fc12b77b46be9e1a77e649d72346d0f6c94f4aad641fdb0",
+  "contract_id": "QF-027-WP14-LARGE-EXECUTION-001",
+  "contract_path": "qualification/0_2_7/wp14_execution_contract.json",
+  "element_count": 9773946,
+  "environment": {
+    "created_at_utc": "2026-09-02T23:06:55.334944Z",
+    "environment": {
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "PETSC_ARCH": "<set>",
+      "PETSC_DIR": "<set>",
+      "PYTHONHASHSEED": "0"
+    },
+    "metadata": {
+      "input_digest_sha256": "ff73bc9debd0c8e1ae7355cb6b42e62734c619efa87423e484284878449a55ec",
+      "kind": "WP17R_PETSc_remediation",
+      "mpi_size": 8,
+      "runtime_image": "qf-solver-large@sha256:d6a1718001fc36772906d1a9505637bbd0a4b7e1d8ccc9afdbcb6f67b7ff6d0e",
+      "source_sha": "04b07e00ddfe0b339b5790493a607ec902b1ed80"
+    },
+    "mpi": {
+      "library": "MPICH Version:      5.0.1",
+      "version": [
+        5,
+        0
+      ]
+    },
+    "packages": {
+      "h5py": {
+        "available": true,
+        "origin": "__init__.py",
+        "version": "3.13.0"
+      },
+      "mpi4py": {
+        "available": true,
+        "origin": "__init__.py",
+        "version": "4.1.2"
+      },
+      "numpy": {
+        "available": true,
+        "origin": "__init__.py",
+        "version": "2.4.6"
+      },
+      "petsc4py": {
+        "available": true,
+        "origin": "__init__.py",
+        "version": "3.25.1"
+      },
+      "scipy": {
+        "available": true,
+        "origin": "__init__.py",
+        "version": "1.17.1"
+      }
+    },
+    "petsc": {
+      "version": [
+        3,
+        25,
+        1
+      ]
+    },
+    "platform": {
+      "architecture": [
+        "64bit",
+        ""
+      ],
+      "machine": "x86_64",
+      "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+      "processor": "x86_64",
+      "release": "6.18.33.2-microsoft-standard-WSL2",
+      "system": "Linux",
+      "version": "#1 SMP PREEMPT_DYNAMIC Thu Jun 18 21:54:43 UTC 2026"
+    },
+    "process": {
+      "argv": [
+        "scripts/run_wp17r_petsc_remediation.py",
+        "--input",
+        "tmp/lu2_wp04/models/run1/5m_workload.h5",
+        "--output",
+        "tmp/wp04_retry_corrected/silver2",
+        "--backend",
+        "petsc",
+        "--preconditioner",
+        "gamg",
+        "--partition-strategy",
+        "contiguous",
+        "--runtime-image",
+        "qf-solver-large@sha256:d6a1718001fc36772906d1a9505637bbd0a4b7e1d8ccc9afdbcb6f67b7ff6d0e",
+        "--source-sha",
+        "04b07e00ddfe0b339b5790493a607ec902b1ed80",
+        "--no-monitor",
+        "--internal-rtol",
+        "1e-10"
+      ],
+      "cwd": ".",
+      "pid": 8
+    },
+    "python": {
+      "build": [
+        "main",
+        "Mar 23 2026 19:04:32"
+      ],
+      "compiler": "GCC 13.3.0",
+      "executable": "python3",
+      "implementation": "CPython",
+      "version": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
+      "version_info": [
+        3,
+        12,
+        3,
+        "final",
+        0
+      ]
+    },
+    "report_schema_version": 1,
+    "solver": {
+      "name": "QF_solver",
+      "version": "0.2.7a0"
+    }
+  },
+  "fixed_dof": 42480,
+  "input_digest_sha256": "ff73bc9debd0c8e1ae7355cb6b42e62734c619efa87423e484284878449a55ec",
+  "input_path": "5m_workload.h5",
+  "load_node_count": 14160,
+  "matvec_count": 1243,
+  "matvec_count_policy": "CG iteration count; one PETSc MatMult per converged CG iteration; the existing public route exposes no separate PETSc event counter.",
+  "memory_after": {
+    "current_rss_bytes": 2141503488,
+    "peak_rss_bytes": 4396171264,
+    "source": "procfs+resource"
+  },
+  "memory_after_by_rank": [
+    {
+      "current_rss_bytes": 2141503488,
+      "peak_rss_bytes": 4396171264,
+      "source": "procfs+resource"
+    },
+    {
+      "current_rss_bytes": 1563414528,
+      "peak_rss_bytes": 4728815616,
+      "source": "procfs+resource"
+    },
+    {
+      "current_rss_bytes": 1562439680,
+      "peak_rss_bytes": 4728950784,
+      "source": "procfs+resource"
+    },
+    {
+      "current_rss_bytes": 1559449600,
+      "peak_rss_bytes": 4727418880,
+      "source": "procfs+resource"
+    },
+    {
+      "current_rss_bytes": 1514872832,
+      "peak_rss_bytes": 4727701504,
+      "source": "procfs+resource"
+    },
+    {
+      "current_rss_bytes": 1522769920,
+      "peak_rss_bytes": 4727128064,
+      "source": "procfs+resource"
+    },
+    {
+      "current_rss_bytes": 1515225088,
+      "peak_rss_bytes": 4728430592,
+      "source": "procfs+resource"
+    },
+    {
+      "current_rss_bytes": 1494261760,
+      "peak_rss_bytes": 4442959872,
+      "source": "procfs+resource"
+    }
+  ],
+  "memory_before": {
+    "current_rss_bytes": 74522624,
+    "peak_rss_bytes": 75202560,
+    "source": "procfs+resource"
+  },
+  "memory_before_by_rank": [
+    {
+      "current_rss_bytes": 74522624,
+      "peak_rss_bytes": 75202560,
+      "source": "procfs+resource"
+    },
+    {
+      "current_rss_bytes": 74874880,
+      "peak_rss_bytes": 73977856,
+      "source": "procfs+resource"
+    },
+    {
+      "current_rss_bytes": 74620928,
+      "peak_rss_bytes": 73474048,
+      "source": "procfs+resource"
+    },
+    {
+      "current_rss_bytes": 74207232,
+      "peak_rss_bytes": 73605120,
+      "source": "procfs+resource"
+    },
+    {
+      "current_rss_bytes": 74907648,
+      "peak_rss_bytes": 74207232,
+      "source": "procfs+resource"
+    },
+    {
+      "current_rss_bytes": 74862592,
+      "peak_rss_bytes": 74104832,
+      "source": "procfs+resource"
+    },
+    {
+      "current_rss_bytes": 74338304,
+      "peak_rss_bytes": 72843264,
+      "source": "procfs+resource"
+    },
+    {
+      "current_rss_bytes": 74584064,
+      "peak_rss_bytes": 73940992,
+      "source": "procfs+resource"
+    }
+  ],
+  "monitor": {
+    "enabled": false,
+    "pattern": "PETSc ksp_monitor_true_residual"
+  },
+  "mpi_size": 8,
+  "node_count": 1670880,
+  "peak_rss_by_rank": [
+    4396171264,
+    4728815616,
+    4728950784,
+    4727418880,
+    4727701504,
+    4727128064,
+    4728430592,
+    4442959872
+  ],
+  "peak_rss_bytes": 4728950784,
+  "phases": {
+    "energy_post_seconds": 39.68579184898408,
+    "model_setup_seconds": 1.4659746129764244,
+    "operator_preconditioner_setup_seconds": 3442.76144357695,
+    "reactions_seconds": 42.12132640898926,
+    "solve_seconds": 890.2837745769648,
+    "solver_pipeline_seconds": 4335.11602768302,
+    "total_seconds": 4378.776636239025
+  },
+  "post": {
+    "applied_resultant": [
+      999999.9999999136,
+      0.0,
+      0.0
+    ],
+    "displacement_norm": 0.007469890569780413,
+    "energy_relative": 1.2065844227307794e-14,
+    "energy_seconds": 39.68579184898408,
+    "equilibrium_compensated_relative": 1.390067047636308e-09,
+    "equilibrium_relative": 1.39017123820882e-09,
+    "equilibrium_vector": [
+      -4.295259714126587e-06,
+      -1.0773773801986408e-05,
+      1.3992508840487972e-06
+    ],
+    "external_work": 10.011091043744475,
+    "finite_outputs": true,
+    "fixed_dof_count": 42480,
+    "free_relative_residual": 9.846021087944175e-11,
+    "free_residual_equilibrium_identity_relative": 1.462604176690784e-10,
+    "free_residual_norm": 8.274259455497751e-07,
+    "free_residual_resultant": [
+      5.402299742084415e-06,
+      1.0296779112265878e-05,
+      -1.1590829046082712e-06
+    ],
+    "load_node_count": 14160,
+    "operator_route": "existing StructuredBlockOperator post-solve diagnostic",
+    "reaction_resultant": [
+      -1000000.0000042089,
+      -1.0773773801986408e-05,
+      1.3992508840487972e-06
+    ],
+    "reaction_resultant_compensated": [
+      -1000000.0000042066,
+      -1.0773752053910846e-05,
+      1.3992534964452075e-06
+    ],
+    "reduction_difference_relative": 2.7707094367363366e-13,
+    "reference_force_total_n": 999999.9999999136,
+    "strain_energy": 5.005545521872298
+  },
+  "provenance": {
+    "configuration_digest_sha256": "4a2536569e85b4d01fc12b77b46be9e1a77e649d72346d0f6c94f4aad641fdb0",
+    "contract_sha256": "1236aaf8ddb0451ae5d3ddac02864ade3c54273da4a0e8064434ae0c11459ce3",
+    "input_digest_sha256": "ff73bc9debd0c8e1ae7355cb6b42e62734c619efa87423e484284878449a55ec",
+    "runtime_image": "qf-solver-large@sha256:d6a1718001fc36772906d1a9505637bbd0a4b7e1d8ccc9afdbcb6f67b7ff6d0e",
+    "source_sha": "04b07e00ddfe0b339b5790493a607ec902b1ed80",
+    "timestamp_utc": "2026-09-03T00:19:53.675537Z"
+  },
+  "reference_force_total_n": 999999.9999999136,
+  "residual_history": {
+    "status": "NOT_RUN"
+  },
+  "runtime_image": "qf-solver-large@sha256:d6a1718001fc36772906d1a9505637bbd0a4b7e1d8ccc9afdbcb6f67b7ff6d0e",
+  "schema_version": 1,
+  "solver": {
+    "automatic_petsc_options": {
+      "pc_gamg_repartition": true
+    },
+    "converged": true,
+    "distributed": true,
+    "explicit_petsc_options": {
+      "ksp_norm_type": "unpreconditioned",
+      "ksp_rtol": 1e-10
+    },
+    "initial_guess_norm": 0.0,
+    "iteration_time_seconds": 890.2837745769648,
+    "iterations": 1243,
+    "matrix_format": "aij",
+    "method": "cg",
+    "mpi_size": 8,
+    "ownership_ranges": [
+      [
+        0,
+        626580
+      ],
+      [
+        626580,
+        1253160
+      ],
+      [
+        1253160,
+        1879740
+      ],
+      [
+        1879740,
+        2506320
+      ],
+      [
+        2506320,
+        3132900
+      ],
+      [
+        3132900,
+        3759480
+      ],
+      [
+        3759480,
+        4386060
+      ],
+      [
+        4386060,
+        5012640
+      ]
+    ],
+    "preconditioner": "gamg",
+    "preconditioner_diagnostics": {
+      "ksp_type": "cg",
+      "matrix_global_size": [
+        5012640,
+        5012640
+      ],
+      "matrix_info": {
+        "assemblies": 2.0,
+        "block_size": 1.0,
+        "factor_mallocs": 0.0,
+        "fill_ratio_given": 0.0,
+        "fill_ratio_needed": 0.0,
+        "mallocs": 598986.0,
+        "memory": 0.0,
+        "nz_allocated": 635564790.0,
+        "nz_unneeded": 413024760.0,
+        "nz_used": 222540030.0
+      },
+      "matrix_local_size": [
+        626580,
+        626580
+      ],
+      "matrix_ownership_range": [
+        0,
+        626580
+      ],
+      "pc_mg_levels": 5,
+      "pc_type": "gamg"
+    },
+    "preconditioner_subtype": null,
+    "residual_norm": 8.063158823056023e-07,
+    "restart_source": null,
+    "restart_used": false,
+    "setup_time_seconds": 21.006495847948827
+  },
+  "source_sha": "04b07e00ddfe0b339b5790493a607ec902b1ed80",
+  "status": "PASS",
+  "subscale_equivalence": {
+    "reason": "subscale comparison not requested",
+    "status": "NOT_RUN"
+  },
+  "tier": "T1_DIAGNOSTIC",
+  "true_dof": 5012640
+}

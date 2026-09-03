@@ -5,7 +5,7 @@
   "baseline_sha": "e839373b6aef291a93292186d7553ba5cd12af55",
   "branch": "codex/0.2.7-foundation",
   "status": "WP10_PASS_WITH_LIMITATIONS_QUALIFIED_BOUNDED_WP11_PASS_WITH_LIMITATIONS_OWNER_APPROVED_BOUNDED_WP12_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED_WP16_PASS_OFFICIAL_PETSC_RETRY_WP17_PASS_WITH_LIMITATIONS_PETSC_ROUTE_CLOSED_WP18_PASS_WITH_LIMITATIONS_SILVER_3M_WP19_PASS_WITH_LIMITATIONS_WP20_PASS_WITH_LIMITATIONS_LU2-WP02_PASS_WITH_LIMITATIONS_CONFIGURATION_FROZEN_LU2-WP03_PASS_WITH_LIMITATIONS_3M_GOLD_COMPUTE_LU2-WP04_USER_INTERRUPTED_INCONCLUSIVE_LU2-WP06_PASS_WITH_LIMITATIONS_LU2-WP07_PASS_WITH_LIMITATIONS_C1_NOT_CONFIRMED",
-  "current_work_package": "LU2-WP04",
+  "current_work_package": "LU2-WP05",
   "full_regression_run": false,
   "numerical_source_changed": true,
   "existing_numerical_formulations_changed": false,
@@ -126,20 +126,20 @@
     },
     "level_up_2": {
       "weight_percent": 50,
-      "acquired_percent": 32,
+      "acquired_percent": 46,
       "status": "OPEN",
       "plan": "qualification/0_2_7/level_up_2_plan.json",
       "state": "qualification/0_2_7/level_up_2_state.json"
     },
-    "current_global_progress_percent": 82,
+    "current_global_progress_percent": 96,
     "weights_total_percent": 100,
     "legacy_accounting_views_are_not_active": true
   },
   "level_up_2": {
     "namespace": "027-LEVEL-UP-2",
     "status": "OPEN",
-    "current_work_package": "LU2-WP04",
-    "next_work_package": "LU2-WP04_SUPERVISED_RETRY",
+    "current_work_package": "LU2-WP05",
+    "next_work_package": "LU2-WP09",
     "work_packages": ["LU2-WP01", "LU2-WP02", "LU2-WP03", "LU2-WP04", "LU2-WP05", "LU2-WP06", "LU2-WP07", "LU2-WP08", "LU2-WP09"],
     "conditional_gates": ["C1", "C2", "C3"],
     "numerical_source_changed_by_setup": false,
@@ -167,7 +167,7 @@
       "qualification/0_2_7/wp03_runtime/wp03_replay_comparison.json",
       "qualification/0_2_7/lu2_wp03_state.json"
     ],
-    "wp04_status": "USER_INTERRUPTED_INCONCLUSIVE",
+    "wp04_status": "PASS",
     "wp04_heavy_benchmark_run": true,
     "wp04_numerical_source_changed": false,
     "wp04_evidence": [
@@ -183,7 +183,11 @@
       "qualification/0_2_7/lu2_wp04_state.json",
       "docs/verification/0_2_7/0_2_7_wp04_5m_bronze.md"
     ],
-    "wp04_bronze_pass": false,
+    "wp04_bronze_pass": true,
+    "wp04_corrected_run": "qualification/0_2_7/wp04_runtime/wp04_corrected_run_a_raw.json",
+    "wp05_status": "PASS",
+    "wp05_state": "qualification/0_2_7/lu2_wp05_state.json",
+    "wp05_replay": "qualification/0_2_7/wp05_runtime/wp05_5m_silver_replay.json",
     "wp06_status": "PASS_WITH_LIMITATIONS",
     "wp06_contract": "qualification/0_2_7/wp06_execution_contract.json",
     "wp06_state": "qualification/0_2_7/lu2_wp06_state.json",
@@ -200,10 +204,8 @@
     "wp07_new_external_runs": false,
     "wp07_promotions": [],
     "wp07_demotions": [],
-    "blockers": [
-      "The owner-terminated retry reached rank-zero local PC_READY but exposed a proven post-ready collective-order mismatch. The patched frozen route requires replay; RESOURCE_LIMITED and C1 remain unproven."
-    ],
-    "completed_work_packages": ["LU2-WP01", "LU2-WP02", "LU2-WP03", "LU2-WP06", "LU2-WP07", "LU2-WP08"],
+    "blockers": [],
+    "completed_work_packages": ["LU2-WP01", "LU2-WP02", "LU2-WP03", "LU2-WP04", "LU2-WP05", "LU2-WP06", "LU2-WP07", "LU2-WP08"],
     "observatory_contract": "qualification/0_2_7/observatory_contract.json",
     "observatory_sample": "qualification/0_2_7/wp01_observatory_sample.json"
   }

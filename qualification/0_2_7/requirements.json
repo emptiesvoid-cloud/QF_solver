@@ -252,29 +252,41 @@
       "work_package": "LU2-WP04",
       "gate": "LU2-027-G04",
       "priority": "MUST",
-      "status": "USER_INTERRUPTED_INCONCLUSIVE",
+      "status": "PASS",
       "requirement": "5M Bronze shall demonstrate real FEM construction and distributed operator/preconditioner readiness without a solve claim.",
       "acceptance": "Two deterministic constructions agree on DOF, partition, ownership and digest and remain under predeclared setup/resource budgets.",
       "verification": [
         "qualification/0_2_7/wp04_runtime/wp04_evidence_index.json",
         "qualification/0_2_7/wp04_runtime/wp04_resource_guard_audit.json",
         "qualification/0_2_7/wp04_runtime/wp04_forensic_audit.json",
+        "qualification/0_2_7/wp04_runtime/wp04_corrected_run_a_raw.json",
+        "qualification/0_2_7/wp04_runtime/wp04_corrected_run_a_progress.jsonl",
         "resource envelope"
       ],
       "owner_policy": "LEVEL_UP_2_OWNER_REVIEW",
-      "decision": "USER_INTERRUPTED_INCONCLUSIVE: deterministic model construction and preflight pass, but the owner-interrupted frozen AIJ assembly did not produce a completion record; the 2x time overrun is a budget observation, not proof of a resource limit.",
-      "next_action": "LU2-WP04_SUPERVISED_RETRY"
+      "decision": "PASS: corrected frozen 5M TET4 Bronze route completed matrix assembly, RHS, PCSETUP, global PC_READY, all-rank post-ready synchronization, raw evidence and clean finalization without a converged-solve claim.",
+      "next_action": "LU2-WP05"
     },
     {
       "id": "027-LU2-REQ-005",
       "work_package": "LU2-WP05",
       "gate": "LU2-027-G05",
       "priority": "MUST",
-      "status": "PLANNED",
+      "status": "PASS",
       "requirement": "5M Silver shall be a complete, reproducible solve under a frozen MPI configuration.",
       "acceptance": "Bronze passes first; two solve replays satisfy residual, equilibrium, energy, finite-output, RAM and no-retuning criteria.",
-      "verification": ["5M solve records", "replay comparison"],
-      "owner_policy": "LEVEL_UP_2_OWNER_REVIEW"
+      "verification": [
+        "qualification/0_2_7/lu2_wp05_state.json",
+        "qualification/0_2_7/wp05_runtime/wp05_5m_silver_run1.json",
+        "qualification/0_2_7/wp05_runtime/wp05_5m_silver_run2.json",
+        "qualification/0_2_7/wp05_runtime/wp05_5m_silver_replay.json"
+      ],
+      "owner_policy": "LEVEL_UP_2_OWNER_REVIEW",
+      "decision": "PASS: two complete converged replays of the exact 5M TET4 linear-static workload satisfy the frozen residual, equilibrium, energy and finite-result criteria without retuning.",
+      "limitations": [
+        "Claim is bounded to the recorded single-host PETSc 3.25.1 / MPICH 5.0.1, 8-rank CG/GAMG route.",
+        "No universal, multi-node, GPU, mixed-mesh, nonlinear, restart or Gold claim."
+      ]
     },
     {
       "id": "027-LU2-REQ-006",

@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "record_type": "lu2_wp05_5m_silver_replay_comparison",
+  "work_package": "LU2-WP05",
+  "status": "PASS",
+  "source_sha": "04b07e00ddfe0b339b5790493a607ec902b1ed80",
+  "input_digest_sha256": "ff73bc9debd0c8e1ae7355cb6b42e62734c619efa87423e484284878449a55ec",
+  "configuration_digest_sha256": "4a2536569e85b4d01fc12b77b46be9e1a77e649d72346d0f6c94f4aad641fdb0",
+  "configuration": {
+    "runtime_image": "qf-solver-large@sha256:d6a1718001fc36772906d1a9505637bbd0a4b7e1d8ccc9afdbcb6f67b7ff6d0e",
+    "petsc": "3.25.1",
+    "mpi": "MPICH 5.0.1",
+    "ranks": 8,
+    "partition": "contiguous",
+    "matrix": "AIJ",
+    "ksp": "CG",
+    "pc": "GAMG",
+    "tolerances_unchanged": true
+  },
+  "runs": [
+    {
+      "id": "run1",
+      "status": "PASS",
+      "runtime_seconds": 4427.65698133898,
+      "iterations": 1243,
+      "residual_norm": 8.063158823111406e-7,
+      "free_relative_residual": 9.847203373236107e-11,
+      "equilibrium_relative_error": 1.390768072751613e-9,
+      "energy_relative_error": 1.543718305552612e-14,
+      "peak_rss_bytes": 4729683968,
+      "clean_exit": true
+    },
+    {
+      "id": "run2",
+      "status": "PASS",
+      "runtime_seconds": 4378.776636239025,
+      "iterations": 1243,
+      "residual_norm": 8.063158823056023e-7,
+      "free_relative_residual": 9.846021087944175e-11,
+      "equilibrium_relative_error": 1.39017123820882e-9,
+      "energy_relative_error": 1.2065844227307794e-14,
+      "peak_rss_bytes": 4728950784,
+      "clean_exit": true
+    }
+  ],
+  "replay_comparison": {
+    "same_dof": true,
+    "same_elements": true,
+    "same_input_digest": true,
+    "same_configuration_digest": true,
+    "same_source_sha": true,
+    "same_backend_and_partition": true,
+    "same_iterations": true,
+    "delta_residual_norm": 5.53832492562224e-18,
+    "delta_free_relative_residual": 1.18228529193198e-14,
+    "delta_equilibrium_relative_error": 5.96834542793124e-13,
+    "delta_energy_relative_error": 3.37133882821833e-15,
+    "delta_displacement_norm": 1.73472347597681e-17,
+    "delta_strain_energy": 2.57571741713036e-14,
+    "timing_variation_allowed": true,
+    "verdict": "PASS"
+  },
+  "subscale_equivalence": "NOT_REQUIRED_FOR_5M_SILVER",
+  "artifact_classification": "CONTROLLED_PROOF"
+}
