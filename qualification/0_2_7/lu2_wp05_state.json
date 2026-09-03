@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "record_type": "level_up_2_work_package_state",
+  "namespace": "027-LEVEL-UP-2",
+  "work_package": "LU2-WP05",
+  "gate": "LU2-027-G05",
+  "release": "0.2.7a0",
+  "status": "PASS",
+  "source_sha": "04b07e00ddfe0b339b5790493a607ec902b1ed80",
+  "branch": "codex/0.2.7-foundation",
+  "weight_percent": 9,
+  "progress": {
+    "level_up_2_acquired_percent": 46,
+    "current_global_progress_percent": 96,
+    "next_work_package": "LU2-WP09",
+    "wp05_weight_acquired": true
+  },
+  "configuration_freeze": {
+    "id": "LU2-WP02-FREEZE-bfd1975b012453a3",
+    "digest_sha256": "bfd1975b012453a3b492cc79c968ceeba6ae6951a293e3ce65ddda548d8339a1",
+    "changed": false
+  },
+  "workload": {
+    "model_id": "LU2-WP04-5M-WORKLOAD-001",
+    "input_digest_sha256": "ff73bc9debd0c8e1ae7355cb6b42e62734c619efa87423e484284878449a55ec",
+    "true_dof": 5012640,
+    "elements": 9773946,
+    "independent_silver_replays": 2,
+    "materially_distinct_workload": false
+  },
+  "route": {
+    "runtime_image": "qf-solver-large@sha256:d6a1718001fc36772906d1a9505637bbd0a4b7e1d8ccc9afdbcb6f67b7ff6d0e",
+    "petsc": "3.25.1",
+    "mpi": "MPICH 5.0.1",
+    "ranks": 8,
+    "partition": "contiguous",
+    "matrix": "AIJ",
+    "ksp": "CG",
+    "pc": "GAMG"
+  },
+  "silver": {
+    "status": "PASS",
+    "run1": "qualification/0_2_7/wp05_runtime/wp05_5m_silver_run1.json",
+    "run2": "qualification/0_2_7/wp05_runtime/wp05_5m_silver_run2.json",
+    "replay": "qualification/0_2_7/wp05_runtime/wp05_5m_silver_replay.json",
+    "converged_replays": 2,
+    "same_iterations": true,
+    "numerical_acceptance": "PASS",
+    "clean_exit": true
+  },
+  "claim_boundary": "Two complete, reproducible 5M TET4 linear-static solves on the recorded single-host PETSc CG/GAMG route; not a universal, multi-node, GPU, mixed-mesh, nonlinear, restart, or Gold claim.",
+  "gold": {
+    "eligible": false,
+    "attempted": false,
+    "reason": "No pre-defined distinct 5M Gold workload and additional Gold mechanisms were available in this run."
+  },
+  "policy": {
+    "configuration_changed": false,
+    "tuning_after_result": false,
+    "tolerances_changed": false,
+    "fem_formulation_changed": false,
+    "full_regression_run": false,
+    "pushed": false
+  },
+  "artifact_classification": "CONTROLLED_PROOF"
+}

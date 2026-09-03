@@ -7,16 +7,16 @@
   "theme": "Reproducible Large-Model Performance and Solver Maturity",
   "status": "OPEN",
   "setup_status": "PASS",
-  "source_sha": "8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3",
+  "source_sha": "04b07e00ddfe0b339b5790493a607ec902b1ed80",
   "wp01_source_sha": "e1703b5bc00e9cf2eb92e7e346783c9764201808",
   "branch": "codex/0.2.7-foundation",
   "pre_lu2_qualified_baseline": "8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3",
-  "current_work_package": "LU2-WP04",
-  "next_work_package": "LU2-WP04_SUPERVISED_RETRY",
+  "current_work_package": "LU2-WP05",
+  "next_work_package": "LU2-WP09",
   "global_accounting": {
     "level_up_1": "50/50 CLOSED",
-    "level_up_2": "32/50 OPEN",
-    "current_global_progress": "82/100",
+    "level_up_2": "46/50 OPEN",
+    "current_global_progress": "96/100",
     "weights_total_percent": 100
   },
   "work_packages": [
@@ -37,9 +37,9 @@
     },
     {
       "id": "LU2-WP04",
-      "status": "USER_INTERRUPTED_INCONCLUSIVE",
+      "status": "PASS",
       "weight_percent": 5,
-      "ready": false,
+      "ready": true,
       "evidence": [
         "qualification/0_2_7/wp04_execution_contract.json",
         "qualification/0_2_7/wp04_runtime/wp04_preflight.json",
@@ -55,12 +55,15 @@
       ],
       "c1_matrix_free_trigger": false,
       "resource_limited_proven": false,
-      "ready_for_retry": true,
-      "blocker": "The owner-terminated retry reached rank-zero local PC_READY but exposed a proven post-ready collective-order mismatch. Replay the patched frozen route with per-rank telemetry; RESOURCE_LIMITED and C1 remain unproven.",
+      "ready_for_retry": false,
+      "bronze_pass": true,
+      "corrected_run": "qualification/0_2_7/wp04_runtime/wp04_corrected_run_a_raw.json",
+      "rank_telemetry": "qualification/0_2_7/wp04_runtime/wp04_corrected_run_a.wp04_5m_progress.rank*.jsonl",
+      "blocker": null,
       "forensic_audit": "qualification/0_2_7/wp04_runtime/wp04_forensic_audit.json",
       "post_pc_ready_diagnostic": "qualification/0_2_7/wp04_runtime/wp04_post_pc_ready_diagnostic.json"
     },
-    {"id": "LU2-WP05", "status": "NOT_STARTED", "weight_percent": 9, "ready": false},
+    {"id": "LU2-WP05", "status": "PASS", "weight_percent": 9, "ready": true, "evidence": ["qualification/0_2_7/lu2_wp05_state.json", "qualification/0_2_7/wp05_runtime/wp05_5m_silver_run1.json", "qualification/0_2_7/wp05_runtime/wp05_5m_silver_run2.json", "qualification/0_2_7/wp05_runtime/wp05_5m_silver_replay.json"]},
     {
       "id": "LU2-WP06",
       "status": "PASS_WITH_LIMITATIONS",
@@ -127,22 +130,20 @@
     "ready_for_lu2_wp01": true,
     "ready_for_lu2_wp02": true,
     "ready_for_lu2_wp03": true,
-    "ready_for_lu2_wp04": false,
+    "ready_for_lu2_wp04": true,
     "ready_for_lu2_wp08": true,
     "ready_for_lu2_wp07": true,
-    "ready_for_lu2_wp09": false,
-    "ready_for_lu2_wp05": false,
+    "ready_for_lu2_wp09": true,
+    "ready_for_lu2_wp05": true,
     "ready_for_wp04_retry": true,
     "ready_for_c1": false,
     "ready_for_next_independent_wp": true,
     "wp03_evidence_index": "qualification/0_2_7/wp03_runtime/wp03_evidence_index.json",
     "wp03_summary": "qualification/0_2_7/wp03_runtime/wp03_summary.json",
     "ready_for_heavy_benchmark": false,
-    "heavy_benchmark_status": "USER_INTERRUPTED_INCONCLUSIVE; supervised retry required before another gate",
-    "next_work_package": "LU2-WP04_SUPERVISED_RETRY",
-    "blockers": [
-      "The owner-terminated retry reached rank-zero local PC_READY but exposed a proven post-ready collective-order mismatch. Replay the patched frozen route with per-rank telemetry; RESOURCE_LIMITED and C1 remain unproven."
-    ],
+    "heavy_benchmark_status": "WP04 Bronze PASS; WP05 5M Silver PASS with two complete replays",
+    "next_work_package": "LU2-WP09",
+    "blockers": [],
     "observatory_contract": "qualification/0_2_7/observatory_contract.json",
     "observatory_sample": "qualification/0_2_7/wp01_observatory_sample.json",
     "wp02_contract": "qualification/0_2_7/wp02_execution_contract.json",
@@ -150,7 +151,7 @@
     "wp02_evidence_index": "qualification/0_2_7/wp02_runtime/wp02_evidence_index.json",
     "wp02_configuration_freeze": "qualification/0_2_7/wp02_runtime/wp02_config_freeze.json"
   },
-  "completed_work_packages": ["LU2-WP01", "LU2-WP02", "LU2-WP03", "LU2-WP06", "LU2-WP07", "LU2-WP08"],
+  "completed_work_packages": ["LU2-WP01", "LU2-WP02", "LU2-WP03", "LU2-WP04", "LU2-WP05", "LU2-WP06", "LU2-WP07", "LU2-WP08"],
   "wp08_decision": {
     "status": "PASS_WITH_LIMITATIONS",
     "decision_matrix": "qualification/0_2_7/lu2_wp08_decision_matrix.json",
@@ -158,7 +159,7 @@
     "implemented_new_element": false,
     "fem_formulation_changed": false,
     "maturity_promoted": false,
-    "next_operational_action_preserved": "LU2-WP04_SUPERVISED_RETRY"
+    "next_operational_action": "LU2-WP09"
   },
   "wp07_decision": {
     "status": "PASS_WITH_LIMITATIONS",
@@ -169,7 +170,7 @@
     "demotions": [],
     "wp04_changed": false,
     "fem_formulation_changed": false,
-    "next_operational_action_preserved": "LU2-WP04_SUPERVISED_RETRY"
+    "next_operational_action": "LU2-WP09"
   },
   "s1_telemetry": {
     "status": "PASS",
@@ -178,8 +179,9 @@
     "log_path": "qualification/0_2_7/wp04_runtime/wp04_5m_progress.jsonl",
     "enabled_explicitly": true,
     "default_off": true,
-    "wp04_status_unchanged": "USER_INTERRUPTED_INCONCLUSIVE",
-    "ready_for_wp04_retry": true
+    "wp04_status_before_retry": "USER_INTERRUPTED_INCONCLUSIVE",
+    "wp04_status_after_retry": "PASS",
+    "ready_for_wp04_retry": false
   },
   "s2_post_pc_ready_diagnostic": {
     "status": "PASS",
@@ -188,6 +190,6 @@
     "root_cause": "PROVEN_COLLECTIVE_ORDER_MISMATCH",
     "per_rank_markers": "INSTALLED",
     "pc_ready_scope": "GLOBAL after patch; historical Run A remained LOCAL",
-    "ready_for_wp04_retry": true
+    "ready_for_wp04_retry": false
   }
 }

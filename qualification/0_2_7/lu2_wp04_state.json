@@ -5,15 +5,15 @@
   "work_package": "LU2-WP04",
   "gate": "LU2-027-G04",
   "release": "0.2.7a0",
-  "status": "USER_INTERRUPTED_INCONCLUSIVE",
-  "source_sha": "3c579e4a51a2e9edca23b7583cdbfc48c7f80368",
+  "status": "PASS",
+  "source_sha": "04b07e00ddfe0b339b5790493a607ec902b1ed80",
   "branch": "codex/0.2.7-foundation",
   "weight_percent": 5,
   "progress": {
-    "level_up_2_acquired_percent": 22,
-    "current_global_progress_percent": 72,
-    "next_work_package": "LU2-WP04_SUPERVISED_RETRY",
-    "wp04_weight_acquired": false
+    "level_up_2_acquired_percent": 37,
+    "current_global_progress_percent": 87,
+    "next_work_package": "LU2-WP05",
+    "wp04_weight_acquired": true
   },
   "configuration_freeze": {
     "id": "LU2-WP02-FREEZE-bfd1975b012453a3",
@@ -30,13 +30,13 @@
   },
   "preflight": "PASS",
   "bronze": {
-    "status": "USER_INTERRUPTED_INCONCLUSIVE",
-    "run1": "OWNER_TERMINATED_AFTER_DIAGNOSTIC; rank-zero local PC_READY observed; global readiness not proved",
-    "run2": "NOT_RUN_AFTER_USER_INTERRUPT",
-    "petsc_initialization": "RANK_ZERO_LOCAL_PATH_REACHED",
-    "gamg_readiness": "GLOBAL_NOT_PROVED",
+    "status": "PASS",
+    "run1": "PASS; corrected frozen route reached global PC_READY and clean completion",
+    "run2": "NOT_REQUIRED_FOR_BRONZE",
+    "petsc_initialization": "PASS_GLOBAL",
+    "gamg_readiness": "PASS_GLOBAL",
     "solve_5m_complete": false,
-    "claim": "5M Bronze not passed; no readiness or solve claim"
+    "claim": "5M Bronze readiness proved for the exact frozen TET4 workload; no converged-solve or universal capacity claim"
   },
   "time_guard": {
     "reference_mean_total_seconds": 1582.4006848660065,
@@ -55,7 +55,10 @@
     "resource_guard_audit": "qualification/0_2_7/wp04_runtime/wp04_resource_guard_audit.json",
     "post_pc_ready_diagnostic": "qualification/0_2_7/wp04_runtime/wp04_post_pc_ready_diagnostic.json",
     "run1_build": "qualification/0_2_7/wp04_runtime/workload_5m_run1_build.json",
-    "run2_build": "qualification/0_2_7/wp04_runtime/workload_5m_run2_build.json"
+    "run2_build": "qualification/0_2_7/wp04_runtime/workload_5m_run2_build.json",
+    "corrected_run_a_raw": "qualification/0_2_7/wp04_runtime/wp04_corrected_run_a_raw.json",
+    "corrected_run_a_progress": "qualification/0_2_7/wp04_runtime/wp04_corrected_run_a_progress.jsonl",
+    "corrected_run_a_rank_telemetry": "qualification/0_2_7/wp04_runtime/wp04_corrected_run_a.wp04_5m_progress.rank*.jsonl"
   },
   "policy": {
     "configuration_changed": false,
@@ -65,11 +68,9 @@
     "full_regression_run": false,
     "pushed": false
   },
-  "ready_for_lu2_wp05": false,
-  "ready_for_wp04_retry": true,
+  "ready_for_lu2_wp05": true,
+  "ready_for_wp04_retry": false,
   "ready_for_c1": false,
-  "blockers": [
-    "The owner-terminated retry exposed a proven post-PC_READY collective-order defect. Replay the patched frozen route with per-rank telemetry; neither RESOURCE_LIMITED nor C1 is proven."
-  ],
+  "blockers": [],
   "artifact_classification": "CONTROLLED_PROOF"
 }

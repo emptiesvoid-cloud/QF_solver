@@ -15,6 +15,7 @@ BASELINE_SHA = "8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3"
 WP01_SOURCE_SHA = "e1703b5bc00e9cf2eb92e7e346783c9764201808"
 WP02_SOURCE_SHA = "3cb817c9391ef7998c5950d3071c8d9ce1be5dd8"
 WP03_SOURCE_SHA = "0a6b573485cb39d07b5e179aecd654af41bbc8e7"
+EXECUTION_SOURCE_SHA = "04b07e00ddfe0b339b5790493a607ec902b1ed80"
 
 
 def _load(path: Path) -> dict:
@@ -53,8 +54,8 @@ def test_lu2_plan_has_exact_scope_and_weight_accounting() -> None:
         "status": "CLOSED",
         "scope": "historical Level-Up 1 qualification and consolidation",
     }
-    assert accounting["level_up_2"]["acquired_percent"] == 32
-    assert accounting["current_global_progress_percent"] == 82
+    assert accounting["level_up_2"]["acquired_percent"] == 46
+    assert accounting["current_global_progress_percent"] == 96
     assert accounting["weights_total_percent"] == 100
 
 
@@ -83,13 +84,13 @@ def test_lu2_state_index_and_existing_lu1_are_consistent() -> None:
     legacy_plan = _load(QUALIFICATION / "level_up_plan.json")
 
     assert state["status"] == "OPEN"
-    assert state["source_sha"] == BASELINE_SHA
+    assert state["source_sha"] == EXECUTION_SOURCE_SHA
     assert state["wp01_source_sha"] == WP01_SOURCE_SHA
-    assert state["current_work_package"] == "LU2-WP04"
+    assert state["current_work_package"] == "LU2-WP05"
     assert state["global_accounting"] == {
         "level_up_1": "50/50 CLOSED",
-        "level_up_2": "32/50 OPEN",
-        "current_global_progress": "82/100",
+        "level_up_2": "46/50 OPEN",
+        "current_global_progress": "96/100",
         "weights_total_percent": 100,
     }
     assert state["execution"]["heavy_benchmark_run"] is True
@@ -98,13 +99,14 @@ def test_lu2_state_index_and_existing_lu1_are_consistent() -> None:
     assert state["readiness"]["ready_for_lu2_wp01"] is True
     assert state["readiness"]["ready_for_lu2_wp02"] is True
     assert state["readiness"]["ready_for_lu2_wp03"] is True
-    assert state["readiness"]["ready_for_lu2_wp04"] is False
+    assert state["readiness"]["ready_for_lu2_wp04"] is True
     assert state["readiness"]["ready_for_lu2_wp08"] is True
     assert state["readiness"]["ready_for_lu2_wp07"] is True
-    assert state["readiness"]["ready_for_lu2_wp05"] is False
+    assert state["readiness"]["ready_for_lu2_wp05"] is True
     assert state["readiness"]["ready_for_heavy_benchmark"] is False
-    assert state["readiness"]["next_work_package"] == "LU2-WP04_SUPERVISED_RETRY"
-    assert state["work_packages"][3]["status"] == "USER_INTERRUPTED_INCONCLUSIVE"
+    assert state["readiness"]["next_work_package"] == "LU2-WP09"
+    assert state["work_packages"][3]["status"] == "PASS"
+    assert state["work_packages"][4]["status"] == "PASS"
     assert state["work_packages"][7]["status"] == "PASS_WITH_LIMITATIONS"
     assert state["work_packages"][1]["status"] == "PASS_WITH_LIMITATIONS"
     assert state["work_packages"][1]["evidence"] == "qualification/0_2_7/wp02_state.json"
@@ -132,9 +134,9 @@ def test_current_governance_consumers_point_to_lu2_and_keep_baseline_roles() -> 
 
     assert manifest["current_development_head"] == WP03_SOURCE_SHA
     assert manifest["level_up_2_scope"]["status"] == "OPEN"
-    assert manifest["level_up_2_scope"]["current_work_package"] == "LU2-WP04"
-    assert manifest["level_up_2_scope"]["level_up_2_acquired_percent"] == 32
-    assert manifest["level_up_2_scope"]["current_global_progress_percent"] == 82
+    assert manifest["level_up_2_scope"]["current_work_package"] == "LU2-WP05"
+    assert manifest["level_up_2_scope"]["level_up_2_acquired_percent"] == 46
+    assert manifest["level_up_2_scope"]["current_global_progress_percent"] == 96
     assert manifest["level_up_2_scope"]["wp08_status"] == "PASS_WITH_LIMITATIONS"
     assert manifest["level_up_2_scope"]["pre_lu2_qualified_baseline"] == BASELINE_SHA
     assert all(
@@ -156,19 +158,21 @@ def test_current_governance_consumers_point_to_lu2_and_keep_baseline_roles() -> 
         )
     )
 
-    assert progress["current_work_package"] == "LU2-WP04"
-    assert progress["global_accounting"]["current_global_progress_percent"] == 82
+    assert progress["current_work_package"] == "LU2-WP05"
+    assert progress["global_accounting"]["current_global_progress_percent"] == 96
     assert progress["level_up_2"]["status"] == "OPEN"
     assert progress["level_up_2"]["wp02_status"] == "PASS_WITH_LIMITATIONS"
     assert progress["level_up_2"]["wp03_status"] == "PASS_WITH_LIMITATIONS"
-    assert progress["level_up_2"]["wp04_status"] == "USER_INTERRUPTED_INCONCLUSIVE"
-    assert progress["level_up_2"]["wp04_bronze_pass"] is False
+    assert progress["level_up_2"]["wp04_status"] == "PASS"
+    assert progress["level_up_2"]["wp04_bronze_pass"] is True
+    assert progress["level_up_2"]["wp05_status"] == "PASS"
     assert progress["level_up_2"]["wp06_status"] == "PASS_WITH_LIMITATIONS"
     assert progress["level_up_2"]["wp08_status"] == "PASS_WITH_LIMITATIONS"
     assert progress["level_up_2"]["c1_matrix_free_triggered"] is False
     assert release_truth["current_development_head"]["sha"] == WP03_SOURCE_SHA
     assert release_truth["level_up_2"]["status"] == "OPEN"
-    assert release_truth["level_up_2"]["wp04_status"] == "USER_INTERRUPTED_INCONCLUSIVE"
+    assert release_truth["level_up_2"]["wp04_status"] == "PASS"
+    assert release_truth["level_up_2"]["wp05_status"] == "PASS"
     assert release_truth["level_up_2"]["wp08_status"] == "PASS_WITH_LIMITATIONS"
 
     lu2_gates = gates["level_up_2"]
@@ -188,8 +192,8 @@ def test_current_governance_consumers_point_to_lu2_and_keep_baseline_roles() -> 
     assert lu2_requirements[0]["status"] == "PASS"
     assert lu2_requirements[1]["status"] == "PASS_WITH_LIMITATIONS"
     assert lu2_requirements[2]["status"] == "PASS_WITH_LIMITATIONS"
-    assert lu2_requirements[3]["status"] == "USER_INTERRUPTED_INCONCLUSIVE"
-    assert lu2_requirements[4]["status"] == "PLANNED"
+    assert lu2_requirements[3]["status"] == "PASS"
+    assert lu2_requirements[4]["status"] == "PASS"
     assert lu2_requirements[5]["status"] == "PASS_WITH_LIMITATIONS"
     assert lu2_requirements[6]["status"] == "PASS_WITH_LIMITATIONS"
     assert lu2_requirements[7]["status"] == "PASS_WITH_LIMITATIONS"

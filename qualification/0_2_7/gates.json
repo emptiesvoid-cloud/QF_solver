@@ -314,8 +314,8 @@
     "pre_lu2_qualified_baseline": "8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3",
     "global_accounting": {
       "level_up_1": {"weight_percent": 50, "acquired_percent": 50, "status": "CLOSED"},
-      "level_up_2": {"weight_percent": 50, "acquired_percent": 32, "status": "OPEN"},
-      "current_global_progress_percent": 82,
+      "level_up_2": {"weight_percent": 50, "acquired_percent": 46, "status": "OPEN"},
+      "current_global_progress_percent": 96,
       "weights_total_percent": 100
     },
     "gates": [
@@ -351,7 +351,7 @@
         "id": "LU2-027-G04",
         "work_package": "LU2-WP04",
         "title": "5M Bronze",
-        "status": "USER_INTERRUPTED_INCONCLUSIVE",
+      "status": "PASS",
         "weight_percent": 5,
         "priority": "MUST",
         "evidence": [
@@ -365,6 +365,9 @@
           "qualification/0_2_7/wp04_runtime/wp04_forensic_audit.json",
           "qualification/0_2_7/wp04_runtime/wp04_post_pc_ready_diagnostic.json",
           "qualification/0_2_7/lu2_wp04_state.json",
+          "qualification/0_2_7/wp04_runtime/wp04_corrected_run_a_raw.json",
+          "qualification/0_2_7/wp04_runtime/wp04_corrected_run_a_progress.jsonl",
+          "qualification/0_2_7/wp04_runtime/wp04_corrected_run_a.wp04_5m_progress.rank*.jsonl",
           "docs/verification/0_2_7/0_2_7_wp04_5m_bronze.md",
           "qualification/0_2_7/wp04_telemetry_contract.json",
           "qualification/0_2_7/s1_telemetry_state.json",
@@ -372,16 +375,33 @@
           "docs/verification/0_2_7/0_2_7_s1_assembly_telemetry.md",
           "tests/unit/test_assembly_telemetry.py"
         ],
-        "owner_decision": "USER_INTERRUPTED_INCONCLUSIVE: deterministic 5M FEM construction and preflight pass. The owner-terminated retry reached rank-zero local PC_READY but exposed a proven post-ready collective-order mismatch; the patched frozen route requires replay. The 2x time overrun is a budget observation, not proof of a resource limit. Bronze acceptance is not met and C1 is not confirmed.",
+        "owner_decision": "PASS: corrected frozen 5M TET4 Bronze route reached global PC_READY, all-rank post-ready gather, COMPLETED and clean finalization with valid telemetry; no 5M converged-solve or universal capacity claim.",
         "limitations": [
-          "Only rank-zero local PETSc/GAMG readiness was observed; global readiness was not proved.",
-          "No 5M solve, Silver, performance or universal capacity claim is made.",
-          "Run 2 execution was not started after the owner interruption; only the independent model construction replay passed.",
-          "The historical run did not persist assembly progress, peak RSS or swap pressure; S1 adds opt-in progress telemetry for the supervised retry, while PC/GAMG readiness remains unproved."
+          "Bronze does not include a converged 5M solve and makes no universal capacity claim.",
+          "Performance and memory evidence are bounded to the recorded single-host PETSc/MPI configuration.",
+          "Silver qualification is recorded separately under LU2-WP05."
         ],
-        "next_action": "LU2-WP04_SUPERVISED_RETRY"
+        "next_action": "LU2-WP05"
       },
-      {"id": "LU2-027-G05", "work_package": "LU2-WP05", "title": "5M Silver", "status": "NOT_STARTED", "weight_percent": 9, "priority": "MUST"},
+      {
+        "id": "LU2-027-G05",
+        "work_package": "LU2-WP05",
+        "title": "5M Silver",
+        "status": "PASS",
+        "weight_percent": 9,
+        "priority": "MUST",
+        "evidence": [
+          "qualification/0_2_7/lu2_wp05_state.json",
+          "qualification/0_2_7/wp05_runtime/wp05_5m_silver_run1.json",
+          "qualification/0_2_7/wp05_runtime/wp05_5m_silver_run2.json",
+          "qualification/0_2_7/wp05_runtime/wp05_5m_silver_replay.json"
+        ],
+        "owner_decision": "PASS: two complete converged replays of the exact 5M TET4 linear-static workload under the unchanged PETSc CG/GAMG freeze satisfy residual, equilibrium, energy and finiteness acceptance.",
+        "limitations": [
+          "Claim is bounded to the recorded single-host 8-rank PETSc 3.25.1 / MPICH 5.0.1 route.",
+          "No universal, multi-node, GPU, mixed-mesh, nonlinear, restart or Gold claim."
+        ]
+      },
       {
         "id": "LU2-027-G06",
         "work_package": "LU2-WP06",
