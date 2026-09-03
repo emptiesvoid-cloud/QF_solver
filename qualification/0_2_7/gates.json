@@ -483,5 +483,18 @@
     "external_unavailable_is_not_pass": true,
     "new_thresholds": "PROPOSED_OWNER_REVIEW",
     "source_and_evidence_shas_are_separate": true
+  },
+  "s3_release_pre_gate": {
+    "id": "S3",
+    "status": "PASS_WITH_LIMITATIONS",
+    "weight_percent": 0,
+    "source_of_truth": "qualification/0_2_7/s3_validation_matrix.json",
+    "document": "docs/verification/0_2_7/0_2_7_s3_expanded_validation.md",
+    "targeted_test": "tests/unit/test_s3_validation_matrix.py",
+    "new_case_count": 24,
+    "maturity_promotion": false,
+    "global_progress_unchanged": true,
+    "ready_for_wp09": true,
+    "claim_boundary": "No universal C3 speedup, mixed-mesh, HEX8 next-generation, WEDGE15, PYRAMID5 or finite-kinematic J2 claim."
   }
 }

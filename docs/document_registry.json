@@ -4811,6 +4811,22 @@
       "tests": [
         "tests/unit/test_assembly_telemetry.py"
       ]
+    },
+    {
+      "id": "DOC-027-S3-001",
+      "path": "verification/0_2_7/0_2_7_s3_expanded_validation.md",
+      "title": "0.2.7 S3 expanded validation matrix and release pre-gate",
+      "status": "controlled_evidence",
+      "requirements": ["027-LU-REQ-013"],
+      "examples": [
+        "qualification/0_2_7/s3_validation_matrix.json",
+        "qualification/0_2_7/golden/evidence.json",
+        "qualification/0_2_7/wp19_runtime/wp19_robustness_summary.json",
+        "qualification/0_2_7/wp20_state.json"
+      ],
+      "tests": [
+        "tests/unit/test_s3_validation_matrix.py"
+      ]
     }
   ]
 }

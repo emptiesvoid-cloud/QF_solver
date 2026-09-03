@@ -13,6 +13,14 @@
   "pre_lu2_qualified_baseline": "8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3",
   "current_work_package": "LU2-WP05",
   "next_work_package": "LU2-WP09",
+  "s3_release_pre_gate": {
+    "status": "PASS_WITH_LIMITATIONS",
+    "source_of_truth": "qualification/0_2_7/s3_validation_matrix.json",
+    "new_case_count": 24,
+    "maturity_promotion": false,
+    "global_progress_unchanged": true,
+    "ready_for_wp09": true
+  },
   "global_accounting": {
     "level_up_1": "50/50 CLOSED",
     "level_up_2": "46/50 OPEN",
