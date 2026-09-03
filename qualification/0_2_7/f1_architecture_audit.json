@@ -1,0 +1,330 @@
+{
+  "schema_version": 1,
+  "record_type": "f1_architecture_audit",
+  "audit_id": "QF-027-F1-ARCH-001",
+  "status": "PASS_WITH_LIMITATIONS",
+  "target_version": "0.2.7a0",
+  "branch": "codex/0.2.7-foundation",
+  "start_sha": "995531841c5203144889aaebd7fcfd906cc0622b",
+  "audit_source_sha": "995531841c5203144889aaebd7fcfd906cc0622b",
+  "tree_status_before_changes": "clean",
+  "scope": {
+    "purpose": "independent architecture audit before F2",
+    "included": [
+      "package and module boundaries",
+      "public API and compatibility facades",
+      "solver and element routing",
+      "MPI/PETSc optional large-model path",
+      "error, state and checkpoint contracts",
+      "legacy launchers and verification ownership"
+    ],
+    "excluded": [
+      "numerical formulation changes",
+      "maturity promotion",
+      "historical evidence rewrites",
+      "mass refactor",
+      "full regression",
+      "heavy benchmark"
+    ]
+  },
+  "inventory": {
+    "source_python_modules": 448,
+    "source_python_lines": 95698,
+    "scripts": 315,
+    "tests": 468,
+    "verification_modules": 204,
+    "largest_source_file_lines": 697,
+    "architecture_source_limit_lines": 700
+  },
+  "public_api_surfaces": [
+    {
+      "name": "qf_solver",
+      "status": "PASS",
+      "export_count": 70,
+      "role": "official documented public facade"
+    },
+    {
+      "name": "solveur.api",
+      "status": "PASS",
+      "export_count": 69,
+      "role": "stable API facade"
+    },
+    {
+      "name": "solveur",
+      "status": "PASS_WITH_LIMITATIONS",
+      "export_count": 45,
+      "role": "curated lazy historical compatibility surface"
+    },
+    {
+      "name": "console_scripts",
+      "status": "PASS",
+      "names": ["qf-solver", "solveur-ef", "mitc4-solver"]
+    },
+    {
+      "name": "repository_launchers",
+      "status": "PASS_WITH_LIMITATIONS",
+      "paths": ["qf_solver.py", "main_solveur.py", "mitc4_solver.py"],
+      "limitation": "legacy/bootstrap entry points remain supported and use tooling-only path bootstrap"
+    }
+  ],
+  "architecture_layers": [
+    {
+      "name": "user_facade",
+      "paths": ["src/qf_solver", "src/solveur/api", "src/solveur/cli"],
+      "status": "PASS_WITH_LIMITATIONS"
+    },
+    {
+      "name": "orchestration",
+      "paths": ["src/solveur/core/router.py", "src/solveur/execution"],
+      "status": "PASS"
+    },
+    {
+      "name": "solver_routes",
+      "paths": ["src/solveur/core/analyses", "src/solveur/core/solvers", "src/solveur/core/nonlinear"],
+      "status": "PASS_WITH_LIMITATIONS"
+    },
+    {
+      "name": "fem_elements",
+      "paths": ["src/solveur/elements", "src/solveur/compatibility"],
+      "status": "PASS_WITH_LIMITATIONS"
+    },
+    {
+      "name": "linear_algebra_large",
+      "paths": ["src/solveur/large"],
+      "status": "PASS_WITH_LIMITATIONS"
+    },
+    {
+      "name": "io",
+      "paths": ["src/solveur/io"],
+      "status": "PASS_WITH_LIMITATIONS"
+    },
+    {
+      "name": "verification",
+      "paths": ["src/solveur/verification"],
+      "status": "PASS_WITH_LIMITATIONS"
+    }
+  ],
+  "dependency_audit": {
+    "module_count": 448,
+    "internal_edge_count": 1798,
+    "module_scc_count": 2,
+    "critical_import_time_cycles": 0,
+    "runtime_import_probe": "PASS",
+    "deferred_cycles": [
+      {
+        "modules": ["solveur.api.public", "solveur.verification.mitc4_campaign"],
+        "locations": [
+          "src/solveur/api/public.py:57",
+          "src/solveur/verification/mitc4_campaign.py:601-605"
+        ],
+        "mechanism": "campaign imports solve_model locally to avoid import-time cycle",
+        "classification": "P2"
+      },
+      {
+        "modules": [
+          "solveur.verification.nonlinear_failure_runner",
+          "solveur.verification.nonlinear_failure_campaign"
+        ],
+        "locations": [
+          "src/solveur/verification/nonlinear_failure_runner.py:8-15",
+          "src/solveur/verification/nonlinear_failure_campaign.py:639-642"
+        ],
+        "mechanism": "campaign imports runner locally during execution",
+        "classification": "P2"
+      }
+    ],
+    "bidirectional_package_pairs_count": 15,
+    "bidirectional_package_pairs": [
+      "api<->verification",
+      "benchmarks<->verification",
+      "contact<->core",
+      "core<->elements",
+      "core<->io",
+      "core<->loads",
+      "core<->materials",
+      "core<->mesh",
+      "core<->post",
+      "core<->verification",
+      "elements<->materials",
+      "elements<->mesh",
+      "io<->verification",
+      "large<->verification",
+      "loads<->mesh"
+    ],
+    "architecture_import_rules": "PASS"
+  },
+  "contract_status": {
+    "public_api": "PASS_WITH_LIMITATIONS",
+    "dependency_architecture": "PASS_WITH_LIMITATIONS",
+    "solver_route_architecture": "PASS",
+    "element_architecture": "PASS_WITH_LIMITATIONS",
+    "mpi_petsc_architecture": "PASS_WITH_LIMITATIONS",
+    "error_handling": "PASS_WITH_LIMITATIONS",
+    "state_management": "PASS_WITH_LIMITATIONS",
+    "legacy_and_dead_code": "PASS_WITH_LIMITATIONS"
+  },
+  "findings": [
+    {
+      "id": "F1-P2-001",
+      "priority": "P2",
+      "title": "Deferred verification orchestration cycles",
+      "evidence": [
+        "src/solveur/api/public.py",
+        "src/solveur/verification/mitc4_campaign.py",
+        "src/solveur/verification/nonlinear_failure_runner.py",
+        "src/solveur/verification/nonlinear_failure_campaign.py"
+      ],
+      "impact": "Import-time loading is safe, but verification ownership remains cyclic and harder to evolve.",
+      "decision": "defer_to_F2",
+      "p0_or_p1": false
+    },
+    {
+      "id": "F1-P2-002",
+      "priority": "P2",
+      "title": "Bidirectional package coupling and layer pores",
+      "evidence": ["tests/unit/test_architecture_rules.py"],
+      "impact": "The package graph has 15 bidirectional pairs; coupling raises future refactor and test-isolation cost.",
+      "decision": "defer_incremental_boundary_work",
+      "p0_or_p1": false
+    },
+    {
+      "id": "F1-P2-003",
+      "priority": "P2",
+      "title": "Verification concentration and runner duplication",
+      "evidence": ["src/solveur/verification"],
+      "impact": "204 verification modules and several near-limit classes indicate maintainability debt without a demonstrated release defect.",
+      "decision": "defer_to_F2",
+      "p0_or_p1": false
+    },
+    {
+      "id": "F1-P2-004",
+      "priority": "P2",
+      "title": "Legacy maturity map duplicates registry v2",
+      "evidence": [
+        "src/solveur/core/qualification.py",
+        "src/solveur/compatibility/descriptors.py",
+        "qualification/0_2_7/capability_registry_v2.json"
+      ],
+      "impact": "WEDGE6 modal is QUALIFIED_BOUNDED in the combination registry while the legacy generic model maturity defaults to research. The conservative result prevents accidental promotion but exposes two maturity authorities.",
+      "decision": "retain_conservative_behavior_and_resolve_semantics_in_F2",
+      "p0_or_p1": false
+    },
+    {
+      "id": "F1-P2-005",
+      "priority": "P2",
+      "title": "sys.path bootstrap in compatibility launchers and tools",
+      "evidence": ["qf_solver.py", "main_solveur.py", "mitc4_solver.py"],
+      "impact": "Tooling entry points rely on repository path bootstrapping; installed package entry points do not share this limitation.",
+      "decision": "defer_launcher_cleanup",
+      "p0_or_p1": false
+    },
+    {
+      "id": "F1-P2-006",
+      "priority": "P2",
+      "title": "Broad exception in modal eigenpair refinement",
+      "evidence": ["src/solveur/core/analyses/modal.py"],
+      "impact": "A diagnostic fallback records NaN and skips a failed correction; later residual validation prevents a valid pass, but the original exception cause is less visible.",
+      "decision": "defer_narrow_exception_and_diagnostic_preservation",
+      "p0_or_p1": false
+    },
+    {
+      "id": "F1-P2-007",
+      "priority": "P2",
+      "title": "Governance snapshot fields use current-like names",
+      "evidence": [
+        "qualification/0_2_7/manifest.json",
+        "qualification/0_2_7/release_truth.json",
+        "tests/unit/test_level_up_2_governance.py"
+      ],
+      "impact": "Source snapshot roles are documented, but names such as current_development_head can be misread outside the release-truth context.",
+      "decision": "preserve_historical_snapshot_and_clarify_in_F2",
+      "p0_or_p1": false
+    },
+    {
+      "id": "F1-P3-001",
+      "priority": "P3",
+      "title": "Root __all__ ordering is not a documented contract",
+      "evidence": ["src/solveur/__init__.py"],
+      "impact": "The export collection is a frozenset, so iteration order is not stable; exported names remain present and the surface is intentionally lazy.",
+      "decision": "defer_unless_order_becomes_public_requirement",
+      "p0_or_p1": false
+    }
+  ],
+  "finding_summary": {
+    "P0": 0,
+    "P1": 0,
+    "P2": 7,
+    "P3": 1,
+    "p0_fixed": 0,
+    "p1_fixed": 0
+  },
+  "maturity_boundary": {
+    "registry_v2_is_combination_source_of_truth": true,
+    "wedge6_static": "EXPERIMENTAL",
+    "wedge6_modal": "QUALIFIED_BOUNDED",
+    "legacy_model_maturity_wedge6": "research",
+    "interpretation": "The legacy generic policy remains conservative; F1 does not promote or rewrite maturity.",
+    "unqualified_routes_fail_closed": true
+  },
+  "route_and_runtime_checks": {
+    "router_preflight_before_dispatch": "PASS",
+    "large_backend_selection": "PASS_WITH_LIMITATIONS",
+    "explicit_petsc_failure_when_unavailable": "PASS",
+    "silent_fallback": "NOT_FOUND",
+    "checkpoint_corruption_rejection": "PASS",
+    "global_state_statements_in_source": 0
+  },
+  "validation": {
+    "architecture_tests": "PASS: 6 passed",
+    "targeted_route_and_preflight_tests": "PASS: 50 passed",
+    "public_release_and_safety_tests": "PASS: 52 passed, 35 skipped",
+    "source_import_probe": "PASS",
+    "packaging_api_tests": "PASS: 11 passed",
+    "registry_wedge6_tests": "PASS: 55 passed",
+    "f1_tests": "PASS",
+    "ruff": "PASS",
+    "compileall": "PASS",
+    "diff_check": "PASS"
+  },
+  "decisions": {
+    "p0_p1_action": "none_required",
+    "numerical_source_changed": false,
+    "requalification_required": false,
+    "historical_evidence_modified": false,
+    "maturity_promoted": false,
+    "next_audit": "F2",
+    "f1_basis": "No P0/P1 finding; release architecture is bounded by explicit limitations and existing targeted contracts."
+  },
+  "deferred_debt": [
+    "Resolve the legacy maturity policy versus registry-v2 combination authority without promoting WEDGE6.",
+    "Reduce verification package coupling through incremental ownership boundaries.",
+    "Replace broad diagnostic catches with narrower exceptions while preserving failure classification.",
+    "Clarify source-snapshot naming in a future release-truth cleanup without rewriting historical records.",
+    "Document cache/thread-safety and invalidation semantics if concurrent execution becomes supported."
+  ],
+  "evidence_refs": [
+    "qualification/0_2_7/manifest.json",
+    "qualification/0_2_7/release_truth.json",
+    "qualification/0_2_7/capability_registry_v2.json",
+    "src/solveur/core/router.py",
+    "src/solveur/compatibility/preflight.py",
+    "src/solveur/core/qualification.py",
+    "src/solveur/large/assembler.py",
+    "src/solveur/large/solver.py",
+    "src/solveur/large/mpi_guardrails.py",
+    "tests/unit/test_architecture_rules.py",
+    "tests/unit/test_element_descriptor_preflight.py",
+    "tests/unit/test_large_backend_edge_contracts.py",
+    "tests/unit/test_large_mpi_guardrails.py",
+    "tests/unit/test_execution_contract.py"
+  ],
+  "files": {
+    "created": [
+      "qualification/0_2_7/f1_architecture_audit.json",
+      "docs/verification/0_2_7/0_2_7_f1_architecture_audit.md",
+      "tests/unit/test_f1_architecture_audit.py"
+    ],
+    "updated": ["docs/document_registry.json"],
+    "source_files_changed": []
+  }
+}
