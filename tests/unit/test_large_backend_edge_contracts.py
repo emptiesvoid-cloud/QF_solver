@@ -7,6 +7,7 @@ from types import SimpleNamespace
 import numpy as np
 import pytest
 
+from solveur.core.errors import InputValidationError
 from solveur.large import campaign, memory, solver as large_solver
 from solveur.large.dofs import component_from_dof, dof_index
 from solveur.large.mpi_diagnostics import petsc_ksp_diagnostics, communication_diagnostics
@@ -220,7 +221,7 @@ def test_petsc_restart_loader_validates_metadata_and_finiteness(tmp_path: Path) 
     assert np.array_equal(vector.data, values)
 
     source.with_name("displacements_metadata.json").write_text("{}", encoding="utf-8")
-    with pytest.raises(Exception, match="Invalid PETSc restart metadata"):
+    with pytest.raises(InputValidationError, match="Invalid PETSc restart metadata"):
         large_solver._load_petsc_restart(vector, source, model)
 
     source.with_name("displacements_metadata.json").write_text(json.dumps(metadata), encoding="utf-8")
@@ -231,7 +232,7 @@ def test_petsc_restart_loader_validates_metadata_and_finiteness(tmp_path: Path) 
 
 def test_large_solver_dispatch_and_output_fallback(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     model = generate_tet4_block(tmp_path / "model.h5", nx=1, ny=1, nz=1)
-    with pytest.raises(Exception, match="Unsupported large solver backend"):
+    with pytest.raises(InputValidationError, match="Unsupported large solver backend"):
         large_solver.solve_large_model(model, solver_backend="dense")
 
     result = large_solver.LargeSolveResult(

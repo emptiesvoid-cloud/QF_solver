@@ -6,7 +6,7 @@ from types import SimpleNamespace
 import numpy as np
 import pytest
 
-from solveur.core.errors import InputValidationError, MeshValidationError
+from solveur.core.errors import InfrastructureError, InputValidationError, MeshValidationError
 from solveur.mesh.gmsh_reader import GmshNativeReader, _gmsh_module
 
 
@@ -139,5 +139,5 @@ def test_native_reader_reports_missing_gmsh_dependency(monkeypatch: pytest.Monke
         return real_import(name, *args, **kwargs)
 
     monkeypatch.setattr("builtins.__import__", blocked)
-    with pytest.raises(Exception, match="Gmsh support is unavailable"):
+    with pytest.raises(InfrastructureError, match="Gmsh support is unavailable"):
         _gmsh_module()

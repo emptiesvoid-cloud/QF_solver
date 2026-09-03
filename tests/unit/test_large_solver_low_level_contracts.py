@@ -7,7 +7,7 @@ from types import SimpleNamespace
 import numpy as np
 import pytest
 
-from solveur.core.errors import InfrastructureError
+from solveur.core.errors import InfrastructureError, MeshValidationError
 from solveur.large.audit import LargeAuditReport
 from solveur.large.generator import generate_tet4_block
 from solveur.large import solver
@@ -76,7 +76,7 @@ def test_large_scipy_path_rejects_no_free_dofs(monkeypatch: pytest.MonkeyPatch, 
         diagnostics={},
     )
     monkeypatch.setattr(solver.ChunkedScipyAssembler, "assemble", lambda self, value: assembly)
-    with pytest.raises(Exception, match="No free degree"):
+    with pytest.raises(MeshValidationError, match="No free degree"):
         solver._solve_scipy(model, preconditioner="jacobi", chunk_size=2, params={})
 
 

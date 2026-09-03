@@ -48,11 +48,11 @@ def test_wp09_external_limits_are_not_reported_as_qualification() -> None:
 
 
 def test_wp09_failure_and_invariance_fixtures_remain_fail_closed() -> None:
-    with pytest.raises(Exception, match="WEDGE6_JACOBIAN_CERTIFICATE_INVALID"):
+    with pytest.raises(RuntimeError, match="WEDGE6_JACOBIAN_CERTIFICATE_INVALID"):
         _execute_internal("WP09-INVERTED", "WEDGE6_JACOBIAN_CERTIFICATE_INVALID")
-    with pytest.raises(Exception, match="WEDGE6_JACOBIAN_CERTIFICATE_INVALID"):
+    with pytest.raises(RuntimeError, match="WEDGE6_JACOBIAN_CERTIFICATE_INVALID"):
         _execute_internal("WP09-WRONG-NODE-ORDER", "WEDGE6_JACOBIAN_CERTIFICATE_INVALID")
-    with pytest.raises(Exception, match="MALFORMED_GMSH_REJECTED"):
+    with pytest.raises(RuntimeError, match="MALFORMED_GMSH_REJECTED"):
         _execute_internal("WP09-MALFORMED-GMSH", "MALFORMED_GMSH_REJECTED")
     assert _execute_internal("WP09-RIGID-TRANSFORM", None)["status"] == "PASS"
     assert _execute_internal("WP09-SCALE", None)["status"] == "PASS"

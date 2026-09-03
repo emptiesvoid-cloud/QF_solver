@@ -33,6 +33,13 @@ WP20 is `PASS_WITH_LIMITATIONS` for the existing bounded small-strain J2
 scope. WP21 is `PASS_WITH_LIMITATIONS` for surgical compatibility and
 release-truth cleanup; WP22 remains `PLANNED` for final Owner release action.
 
+F4 is `PASS_WITH_LIMITATIONS`: the unit-test quality audit found no P0/P1
+release blocker, strengthened critical negative-test exception contracts and
+added guards for bounded maturity, evidence and skip policy. F5 has not
+started; the complete-suite audit retains three visible experimental/stale
+nonlinear failures without masking them. No numerical source, historical
+evidence or maturity was changed.
+
 The historical Level-Up 1 machine-readable source is
 `qualification/0_2_7/level_up_plan.json`. WP16's 1M-DOF requirement is
 satisfied for its declared PETSc/TET4 scope; WP18 is mandatory and distinguishes Bronze model/preflight,

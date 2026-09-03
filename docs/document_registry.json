@@ -4890,6 +4890,22 @@
         "tests/unit/test_f3_public_claims.py",
         "tests/unit/test_public_document_audit.py"
       ]
+    },
+    {
+      "id": "DOC-027-F4-TEST-001",
+      "path": "verification/0_2_7/0_2_7_f4_unit_test_quality_audit.md",
+      "title": "0.2.7 F4 unit-test quality audit",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_7/f4_unit_test_quality_audit.json",
+        "tests/unit/test_f4_unit_test_quality.py"
+      ],
+      "tests": [
+        "tests/unit/test_f4_unit_test_quality.py",
+        "tests/unit/test_f2_bug_hunt.py",
+        "tests/unit/test_f3_public_claims.py"
+      ]
     }
   ]
 }
