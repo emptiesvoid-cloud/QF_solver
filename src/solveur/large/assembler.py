@@ -124,12 +124,17 @@ class PetscTET4Assembler:
         chunk_size: int = 2048,
         matrix_format: str = "baij",
         telemetry: AssemblyTelemetry | None = None,
+        rank_telemetry: Any | None = None,
+        capture_diagnostics: bool = False,
     ) -> None:
         self.chunk_size = max(1, int(chunk_size))
         self.matrix_format = str(matrix_format).lower()
         if self.matrix_format not in {"aij", "baij"}:
             raise ValueError("PETSc matrix_format must be 'aij' or 'baij'.")
         self.telemetry = telemetry
+        self.rank_telemetry = rank_telemetry
+        self.capture_diagnostics = bool(capture_diagnostics)
+        self.last_diagnostics: dict[str, Any] = {}
 
     def assemble(self, model: LargeModel) -> Any:
         petsc = _petsc()
@@ -139,6 +144,8 @@ class PetscTET4Assembler:
         else:
             matrix = petsc.Mat().createAIJ([model.ndof, model.ndof], nnz=120, comm=comm)
         matrix.setUp()
+        matrix_info_after_setup = _safe_matrix_info(matrix) if self.capture_diagnostics else None
+        row_start, row_stop = matrix.getOwnershipRange()
         materials = _material_cache(model)
         fixed = fixed_dof_indices(model).astype(petsc.IntType)
         fixed_mask = np.zeros(model.ndof, dtype=bool)
@@ -149,6 +156,8 @@ class PetscTET4Assembler:
             owned_start, owned_stop = partition_range(model.element_count, comm.getRank(), comm.getSize())
         if self.telemetry is not None:
             self.telemetry.phase("MAT_ASSEMBLY")
+        insertion_started = perf_counter()
+        local_off_process_row_entries = 0
         for start in range(owned_start, owned_stop, self.chunk_size):
             stop = min(start + self.chunk_size, owned_stop)
             local_nodes = model.tet4[start:stop]
@@ -168,16 +177,81 @@ class PetscTET4Assembler:
                     )
                 else:
                     matrix.setValues(edofs[local], edofs[local], stiffness[local], addv=petsc.InsertMode.ADD_VALUES)
+            if self.capture_diagnostics:
+                owned_rows = (edofs >= row_start) & (edofs < row_stop)
+                local_off_process_row_entries += int(np.count_nonzero(~owned_rows)) * 12
             if self.telemetry is not None:
                 self.telemetry.checkpoint(stop - owned_start, elements_total=model.element_count)
+        insertion_seconds = perf_counter() - insertion_started
+        self._marker(
+            "POST_INSERTION",
+            phase="MAT_ASSEMBLY",
+            context={"local_elements": int(owned_stop - owned_start)},
+        )
+
+        self._marker("PRE_ASSEMBLE_1", phase="MAT_ASSEMBLY")
+        assemble_1_started = perf_counter()
         matrix.assemble()
-        row_start, row_stop = matrix.getOwnershipRange()
-        for dof in fixed[(fixed >= row_start) & (fixed < row_stop)]:
+        assemble_1_seconds = perf_counter() - assemble_1_started
+        matrix_info_after_assemble_1 = _safe_matrix_info(matrix) if self.capture_diagnostics else None
+        self._marker("POST_ASSEMBLE_1", phase="MAT_ASSEMBLY")
+
+        owned_fixed = fixed[(fixed >= row_start) & (fixed < row_stop)]
+        self._marker("PRE_CONSTRAINTS", phase="MAT_ASSEMBLY", context={"owned_fixed_dofs": int(owned_fixed.size)})
+        constraints_started = perf_counter()
+        for dof in owned_fixed:
             matrix.setValue(int(dof), int(dof), 1.0, addv=petsc.InsertMode.INSERT_VALUES)
+        constraints_seconds = perf_counter() - constraints_started
+        self._marker("POST_CONSTRAINTS", phase="MAT_ASSEMBLY", context={"owned_fixed_dofs": int(owned_fixed.size)})
+
+        self._marker("PRE_ASSEMBLE_2", phase="MAT_ASSEMBLY")
+        assemble_2_started = perf_counter()
         matrix.assemble()
+        assemble_2_seconds = perf_counter() - assemble_2_started
+        matrix_info_after_assemble_2 = _safe_matrix_info(matrix) if self.capture_diagnostics else None
+        self._marker("POST_ASSEMBLE_2", phase="MAT_ASSEMBLY")
         if self.matrix_format == "baij":
             matrix.convert(petsc.Mat.Type.AIJ)
+        if self.capture_diagnostics:
+            local_elements = int(owned_stop - owned_start)
+            self.last_diagnostics = {
+                "matrix_format": self.matrix_format,
+                "preallocation": {
+                    "strategy": "uniform_nnz_per_row",
+                    "requested_nnz_per_row": 120 if self.matrix_format == "aij" else 40,
+                    "diag_offdiag_preallocation": "NOT_EXPLICIT",
+                    "matrix_info_after_setup": matrix_info_after_setup,
+                    "matrix_info_after_assemble_1": matrix_info_after_assemble_1,
+                    "matrix_info_after_assemble_2": matrix_info_after_assemble_2,
+                },
+                "insertions": {
+                    "local_elements": local_elements,
+                    "matsetvalues_call_count": local_elements,
+                    "scalar_values_submitted": local_elements * 12 * 12,
+                    "off_process_row_entries_estimate": int(local_off_process_row_entries),
+                    "local_row_entries_estimate": int(local_elements * 12 * 12 - local_off_process_row_entries),
+                },
+                "ownership_range": [int(row_start), int(row_stop)],
+                "phase_timing_seconds": {
+                    "element_insertion": insertion_seconds,
+                    "assemble_1": assemble_1_seconds,
+                    "constraints": constraints_seconds,
+                    "assemble_2": assemble_2_seconds,
+                    "total_assembler": insertion_seconds + assemble_1_seconds + constraints_seconds + assemble_2_seconds,
+                },
+            }
         return matrix
+
+    def _marker(self, name: str, *, phase: str, context: dict[str, Any] | None = None) -> None:
+        """Emit optional rank-local telemetry without affecting assembly."""
+        if self.rank_telemetry is None:
+            return
+        try:
+            self.rank_telemetry.marker(name, phase=phase, context=context)
+        except Exception:
+            # The telemetry implementation is fail-safe; retain the same property
+            # when a caller supplies a compatible external marker sink.
+            return
 
 
 class PetscTET4MassAssembler:
@@ -315,6 +389,18 @@ def _mass_batch(
         selected = material_ids == material_id
         density[selected] = float(materials[int(material_id)].density)
     return tet4_mass_batch(coordinates, density)
+
+
+def _safe_matrix_info(matrix: Any) -> dict[str, Any]:
+    """Return best-effort PETSc allocation diagnostics after a shared phase."""
+    try:
+        info = matrix.getInfo()
+    except Exception as exc:
+        return {"available": False, "error_type": type(exc).__name__, "error_message": str(exc)}
+    try:
+        return {"available": True, "values": {str(key): float(value) for key, value in dict(info).items()}}
+    except (TypeError, ValueError) as exc:
+        return {"available": False, "error_type": type(exc).__name__, "error_message": str(exc)}
 
 
 def _petsc() -> Any:

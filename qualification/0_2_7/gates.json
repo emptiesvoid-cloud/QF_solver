@@ -473,7 +473,7 @@
     "conditional_gates": [
       {"id": "C1", "title": "Matrix-Free TET4 Capacity Spike", "status": "DORMANT", "weight_percent": 0, "non_blocking": true, "prior_interpretation": "TRIGGERED_BY_TIME_BUDGET", "reason": "Not confirmed: the 2x time budget was exceeded, but the owner interruption and missing progress/resource telemetry prevent a resource-limited trigger."},
       {"id": "C2", "title": "GPU Foundation", "status": "DORMANT", "weight_percent": 0, "non_blocking": true},
-      {"id": "C3", "title": "10M Scaling / Capacity Exploration", "status": "DORMANT", "weight_percent": 0, "non_blocking": true}
+      {"id": "C3", "title": "10M Scaling / Capacity Exploration", "status": "OWNER_TERMINATED_FOR_DIAGNOSTIC", "weight_percent": 0, "non_blocking": true, "evidence": "qualification/0_2_7/c3_10m_aij_diagnostic.json", "reason": "The owner-directed 10M diagnostic run completed insertion but did not reach PC_READY_GLOBAL. No capacity, resource, OOM, PETSc/MPI, deadlock, or numerical failure is proven; phase-resolved instrumentation is installed before any separately authorized frozen replay."}
     ],
     "plan": "qualification/0_2_7/level_up_2_plan.json",
     "state": "qualification/0_2_7/level_up_2_state.json"
