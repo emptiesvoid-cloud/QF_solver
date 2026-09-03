@@ -33,6 +33,13 @@ PASS_WITH_LIMITATIONS 3M ladder: Bronze preflight
 and Silver full solve passed on the declared PETSc route; Gold remains
 unattempted.
 
+F4 is the current release audit and is recorded as `PASS_WITH_LIMITATIONS`
+after its targeted and full-test validation: no P0/P1 test-quality finding
+remains, critical invalid-input assertions are typed, and the remaining
+optional-environment/test-harness limitations are explicit. The full suite
+retains three visible failures in experimental or stale nonlinear paths; none
+was hidden or reclassified as PASS. F5 has not started.
+
 | WP | Status | Current test level | Start SHA | Evidence head | Owner decision | Blocker |
 | --- | --- | --- | --- | --- | --- | --- |
 | WP01 | `PASS` | T1 targeted | `e99289aca40011ca0424944099e2d2093cf21a65` | `bb822839248b5ffb9faef5d79a6c83f288faefb3` | release-truth foundation | - |

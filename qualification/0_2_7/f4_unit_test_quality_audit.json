@@ -1,0 +1,403 @@
+{
+  "schema_version": 1,
+  "record_type": "f4_unit_test_quality_audit",
+  "audit_id": "QF-027-F4-UNIT-QUALITY-001",
+  "release": "0.2.7a0",
+  "active_branch": "codex/0.2.7-foundation",
+  "audit_start_sha": "6ddb581851754a5e701c35e97be565cc0f95ef60",
+  "audit_start_sha_role": "clean F3 checkout before F4 test-quality corrections",
+  "worktree_clean_at_start": true,
+  "source_hierarchy": [
+    "executed_results",
+    "qualification_json_and_registry",
+    "frozen_vnv_evidence",
+    "tests",
+    "qualification_docs",
+    "README_and_user_docs",
+    "package_and_marketing_metadata"
+  ],
+  "claim_taxonomy": {
+    "IMPLEMENTED": "The implementation or interface exists in the inspected source tree.",
+    "TESTED": "A recorded automated test exercises the stated scope.",
+    "VERIFIED": "An internal invariant, analytical check or replay supports the stated scope.",
+    "EXTERNALLY_VALIDATED": "A comparable external oracle supports the stated observable and scope.",
+    "QUALIFIED": "A recorded decision accepts a bounded claim under its declared gate.",
+    "EXPERIMENTAL": "The path exists but is not accepted as a general qualified capability."
+  },
+  "inventory": {
+    "test_python_files_scanned": 471,
+    "test_python_files_with_test_definitions": 464,
+    "test_definitions_scanned": 1993,
+    "collected_tests_at_start": 2324,
+    "parametrize_decorators": 113,
+    "test_definitions_by_domain": {
+      "unit": 1654,
+      "integration": 143,
+      "documentation": 41,
+      "verification": 155
+    },
+    "scan_policy": "AST inventory plus targeted source and evidence review; test count is not used as a release-quality proxy."
+  },
+  "quality_audit": {
+    "assertions": {
+      "weak_not_none_observations": 50,
+      "structural_tautology_findings_initial": 1,
+      "structural_tautology_findings_remaining": 0,
+      "structural_tautology_fixed": 1,
+      "positive_tests_relying_on_success_without_direct_assertion": 2,
+      "critical_contract_assertions": "present",
+      "interpretation": "The two no-exception positive validators exercise APIs whose success contract is returning None; they are documented as a minor readability limitation, not a release blocker."
+    },
+    "negative_testing": {
+      "critical_invalid_input_domains_reviewed": [
+        "dimensions_and_shapes",
+        "degenerate_or_inverted_geometry",
+        "nonfinite_values",
+        "invalid_material_properties",
+        "incompatible_boundary_conditions_and_loads",
+        "unsupported_routes_and_backends",
+        "corrupt_checkpoints_and_evidence",
+        "wrong_types_and_sizes"
+      ],
+      "broad_exception_catches_initial": 17,
+      "broad_exception_catches_remaining": 0,
+      "critical_negative_contracts_have_specific_exception_types": true,
+      "new_negative_tests_added": 0,
+      "assessment": "Existing negative tests cover the release-critical domains; F4 strengthens diagnostic specificity rather than adding duplicate cases."
+    },
+    "regression_guards": {
+      "existing_sensitive_regressions": [
+        "MPI collective ordering and global readiness",
+        "PETSc assembly and preallocation contracts",
+        "explicit solver backend selection and no silent fallback",
+        "combination-level maturity and registry packaging",
+        "duplicate JSON/evidence keys",
+        "nonfinite result rejection",
+        "deterministic replay and checkpoint compatibility",
+        "WEDGE6 fail-closed geometry and public maturity",
+        "F3 bounded public claims and link integrity"
+      ],
+      "f4_guards_added": [
+        "specific exception contract scan",
+        "maturity boundary and evidence-reference guard",
+        "skip/xfail policy guard"
+      ],
+      "full_suite_result": {
+        "command": "python -m pytest -q",
+        "result": "2142 passed, 3 failed, 184 skipped, 2 warnings in 1577.06s",
+        "status": "NON_BLOCKING_PRE_EXISTING_FAILURES",
+        "failures": [
+          "tests/unit/test_contact_finite_sliding.py::test_finite_sliding_diagnostics_reach_common_newton_result",
+          "tests/unit/test_geometric_nonlinear_public.py::test_public_geometric_nonlinear_rejects_distributed_loads",
+          "tests/unit/test_nonlinear_benchmark.py::test_nonlinear_benchmark_paths_execute_bounded_profiles[finite_sliding]"
+        ],
+        "assessment": "The failures are in experimental or stale negative-path expectations outside the bounded public release matrix. They were not skipped, suppressed or converted to PASS; no F4 release blocker or supported-route regression was found."
+      }
+    },
+    "determinism": {
+      "issues_found": 0,
+      "unseeded_random_test_paths": 0,
+      "sleep_based_flaky_paths": 0,
+      "network_dependent_test_paths": 0,
+      "assessment": "Inspected random generators use explicit seeds; time, network and ordering-sensitive paths are either absent or controlled."
+    },
+    "isolation": {
+      "issues_found": 0,
+      "assessment": "Temporary files use pytest-managed paths or explicit cleanup; environment mutation is fixture-scoped; no shared registry mutation was found in the inspected tests."
+    },
+    "skip_policy": {
+      "skip_sites_reviewed": 26,
+      "xfail_sites_reviewed": 0,
+      "xfail_markers_present": false,
+      "policy": "No xfail is used to hide an unresolved failure. Optional skips are environment or evidence-policy gates and are not converted into PASS.",
+      "significant_skips": [
+        {
+          "scope": "Code_Aster/CalculiX and controlled external evidence",
+          "guard": "QF_SOLVER_RUN_EXTERNAL",
+          "reason": "External tools are optional and claims remain bounded by recorded evidence.",
+          "release_impact": "Non-blocking; unavailable is not PASS."
+        },
+        {
+          "scope": "PETSc/MPI large-model paths",
+          "guard": "optional dependency/environment checks",
+          "reason": "Live distributed execution is environment-dependent; fake adapters and contracts remain covered.",
+          "release_impact": "Non-blocking for the default SciPy path; bounded PETSc evidence is separate."
+        },
+        {
+          "scope": "Gmsh integration",
+          "guard": "optional mesh extra",
+          "reason": "The dependency is optional and unavailable behavior is tested explicitly.",
+          "release_impact": "Non-blocking; no Gmsh claim is inferred when skipped."
+        },
+        {
+          "scope": "large 1M and generated-document evidence",
+          "guard": "explicit environment/prerequisite checks",
+          "reason": "Heavy or generated evidence is excluded from ordinary unit runs.",
+          "release_impact": "Historical controlled evidence and governance records remain authoritative."
+        }
+      ]
+    }
+  },
+  "behavior_matrix": [
+    {
+      "surface": "TET4",
+      "tests": ["tests/unit/test_tet4_element.py", "tests/unit/test_tet4_structured_petsc.py", "tests/verification/test_tet4_total_lagrangian_vnv.py"],
+      "quality": "STRONG_BEHAVIORAL_AND_CONTRACT_TESTS",
+      "maturity": "QUALIFIED_BOUNDED",
+      "gap": "Optional live PETSc/MPI paths are environment-gated."
+    },
+    {
+      "surface": "TET10",
+      "tests": ["tests/unit/test_tet10_element.py", "tests/verification/test_tet10_geometry_quadrature_vnv.py", "tests/verification/test_tet10_structural_convergence_vnv.py"],
+      "quality": "STRONG_ELEMENT_AND_VV_TESTS",
+      "maturity": "QUALIFIED_BOUNDED",
+      "gap": "Claims remain route- and material-specific."
+    },
+    {
+      "surface": "HEX8",
+      "tests": ["tests/unit/test_hex8_element.py", "tests/verification/test_robustness_distorted_hex_vnv.py", "tests/unit/test_wp19_robustness_hex8.py"],
+      "quality": "BOUNDED_WITH_ADVERSARIAL_DIAGNOSTICS",
+      "maturity": "QUALIFIED_BOUNDED_EXISTING_SCOPE",
+      "gap": "HEX8R, SRI, B-bar and hourglass production routes remain deferred/research-only."
+    },
+    {
+      "surface": "HEX20",
+      "tests": ["tests/unit/test_hex20_element.py", "tests/verification/test_robustness_solid_matrix_vnv.py"],
+      "quality": "ELEMENT_AND_MATRIX_TESTS_PRESENT",
+      "maturity": "QUALIFIED_BOUNDED",
+      "gap": "No universal cross-route claim."
+    },
+    {
+      "surface": "WEDGE6 static",
+      "tests": ["tests/unit/test_wedge6_kernel.py", "tests/integration/test_wedge6_static_workflow.py", "tests/unit/test_wp09_wedge6_robustness.py"],
+      "quality": "FAIL_CLOSED_TARGETED_VV",
+      "maturity": "EXPERIMENTAL",
+      "gap": "Static maturity is not promoted by modal evidence."
+    },
+    {
+      "surface": "WEDGE6 modal",
+      "tests": ["tests/unit/test_wp10_wedge6_modal.py", "tests/unit/test_wedge6_kernel.py"],
+      "quality": "BOUNDED_MODAL_EVIDENCE",
+      "maturity": "QUALIFIED_BOUNDED_FIRST_THREE_MODES",
+      "gap": "No transfer to static, general dynamics or other elements."
+    },
+    {
+      "surface": "linear static",
+      "tests": ["tests/unit/test_solver.py", "tests/integration/test_api_and_cli.py", "tests/integration/test_wedge6_static_workflow.py"],
+      "quality": "NUMERICAL_RESULTS_EQUILIBRIUM_ENERGY_AND_API_CHECKS",
+      "maturity": "QUALIFIED_BOUNDED_COMBINATION_SCOPE",
+      "gap": "The registry, not a generic route label, defines the public boundary."
+    },
+    {
+      "surface": "modal",
+      "tests": ["tests/unit/test_modal_backend_edges.py", "tests/unit/test_wp10_wedge6_modal.py", "tests/integration/test_api_and_cli.py"],
+      "quality": "MODE_SHAPE_FREQUENCY_AND_FAILURE_TESTS",
+      "maturity": "ROUTE_SPECIFIC_BOUNDED",
+      "gap": "No universal dynamics qualification."
+    },
+    {
+      "surface": "buckling",
+      "tests": ["tests/verification/test_tet4_tl_buckling_vnv.py", "tests/unit/test_tet4_tl_postbuckling.py"],
+      "quality": "BOUNDED_VERIFICATION_PATH",
+      "maturity": "QUALIFIED_BOUNDED_ROUTE_SCOPE",
+      "gap": "Finite-kinematic and postbuckling breadth remain limited."
+    },
+    {
+      "surface": "harmonic and Newmark dynamics",
+      "tests": ["tests/integration/test_mitc4_dynamic_cli.py", "tests/verification/test_mitc4_harmonic_vnv.py", "tests/unit/test_dynamic_checkpoint.py"],
+      "quality": "TARGETED_ROUTE_AND_CHECKPOINT_TESTS",
+      "maturity": "SUPPORTED_WITH_LIMITATIONS",
+      "gap": "No general element-independent dynamics claim."
+    },
+    {
+      "surface": "nonlinear static and J2 small-strain",
+      "tests": ["tests/unit/test_nonlinear_state_transaction_contract.py", "tests/unit/test_j2_material_vnv.py"],
+      "quality": "STATE_INTEGRITY_AND_CONSTITUTIVE_TESTS",
+      "maturity": "QUALIFIED_BOUNDED_SMALL_STRAIN_J2",
+      "gap": "Finite-kinematic J2 remains experimental."
+    },
+    {
+      "surface": "contact",
+      "tests": ["tests/integration/test_contact_verification_cli.py", "tests/verification/test_contact_tet4_vnv.py"],
+      "quality": "TARGETED_AND_ROUTE_SPECIFIC",
+      "maturity": "SUPPORTED_WITH_LIMITATIONS",
+      "gap": "No transfer of static/J2 maturity to contact."
+    },
+    {
+      "surface": "reactions, energy, BCs, loads and materials",
+      "tests": ["tests/unit/test_solver.py", "tests/unit/test_distributed_loads.py", "tests/unit/test_solid_material.py", "tests/unit/test_backend_edge_matrix_contracts.py"],
+      "quality": "STRONG_ANALYTICAL_AND_NEGATIVE_ASSERTIONS",
+      "maturity": "BOUND_TO_ROUTE_AND_ELEMENT_EVIDENCE",
+      "gap": "External comparison is only claimed when comparable."
+    },
+    {
+      "surface": "API, CLI, packaging, registry and preflight",
+      "tests": ["tests/integration/test_api_and_cli.py", "tests/integration/test_packaging.py", "tests/unit/test_f2_bug_hunt.py", "tests/unit/test_capability_registry_v2.py", "tests/unit/test_element_descriptor_preflight.py"],
+      "quality": "CONTRACT_AND_RELEASE_GUARDS",
+      "maturity": "IMPLEMENTED_AND_TESTED",
+      "gap": "Optional live external environments are not part of default CI."
+    }
+  ],
+  "mutation_analysis": [
+    {
+      "mutation": "change the sign of an element stiffness contribution",
+      "detected": true,
+      "guards": ["element symmetry/rigid-mode checks", "analytical/static results", "energy and equilibrium assertions"]
+    },
+    {
+      "mutation": "drop a local element contribution during assembly",
+      "detected": true,
+      "guards": ["large assembler call/scalar-count contracts", "assembled versus matrix-free comparisons", "global result assertions"]
+    },
+    {
+      "mutation": "skip a prescribed boundary condition",
+      "detected": true,
+      "guards": ["fixed/free DOF assertions", "invalid-model tests", "equilibrium and result checks"]
+    },
+    {
+      "mutation": "route a request to the wrong backend",
+      "detected": true,
+      "guards": ["explicit backend selection", "preconditioner dispatch", "no silent fallback tests"]
+    },
+    {
+      "mutation": "remove residual or convergence validation",
+      "detected": true,
+      "guards": ["nonconvergence exception tests", "residual evidence checks", "solver diagnostics"]
+    },
+    {
+      "mutation": "corrupt reaction or stress/constraint postprocessing",
+      "detected": true,
+      "guards": ["reaction/equilibrium assertions", "load and moment checks", "finite-result checks"]
+    }
+  ],
+  "findings": [
+    {
+      "id": "F4-TEST-P2-001",
+      "priority": "P2",
+      "status": "FIXED",
+      "title": "Critical negative tests caught any Exception rather than the contract category.",
+      "scope": "17 pytest.raises sites across backend, schema, Gmsh, PETSc, solver and WEDGE6 tests.",
+      "correction": "Assertions now use the concrete InputValidationError, MeshValidationError, InfrastructureError, NumericalConvergenceError, ValueError or RuntimeError contract as applicable.",
+      "numerical_impact": "None. Test-only diagnostic strengthening."
+    },
+    {
+      "id": "F4-TEST-P2-002",
+      "priority": "P2",
+      "status": "DEFERRED_NON_BLOCKING",
+      "title": "Optional live PETSc/MPI, Gmsh and external-oracle execution is environment-gated in ordinary test runs.",
+      "correction": "No skip was removed or converted into PASS; contract tests and controlled evidence remain the release basis.",
+      "follow_up": "Exercise live optional environments in their dedicated qualification jobs."
+    },
+    {
+      "id": "F4-TEST-P2-003",
+      "priority": "P2",
+      "status": "DEFERRED_NON_BLOCKING",
+      "title": "The full suite retains three pre-existing failures in experimental or stale nonlinear test paths.",
+      "scope": "Finite-sliding contact, geometric-nonlinear invalid-load expectation and finite-sliding benchmark tests.",
+      "evidence": "The failures occur before the claimed release-supported bounded route can execute: the fail-closed preflight rejects an unsupported discrete/nonlinear combination, and one negative test uses an object load that is rejected before its older message assertion.",
+      "correction": "No skip, xfail or expectation weakening was added. The failures remain visible for a later experimental-route/test-contract decision.",
+      "release_impact": "Non-blocking for the documented 0.2.7 supported/bounded matrix; no P0/P1 release claim depends on these paths."
+    },
+    {
+      "id": "F4-TEST-P3-001",
+      "priority": "P3",
+      "status": "FIXED",
+      "title": "Cached elasticity matrix identity assertion was opaque.",
+      "correction": "The test now names both reads and also asserts the expected matrix shape."
+    },
+    {
+      "id": "F4-TEST-P3-002",
+      "priority": "P3",
+      "status": "DEFERRED_NON_BLOCKING",
+      "title": "Two validator success tests rely on the no-exception success contract.",
+      "reason": "The validators return None on success; adding a redundant assertion would not strengthen behavior."
+    },
+    {
+      "id": "F4-TEST-P3-003",
+      "priority": "P3",
+      "status": "DEFERRED_NON_BLOCKING",
+      "title": "No mutation-testing framework or global coverage campaign was added.",
+      "reason": "The requested mutation-style analysis was performed against critical behaviors; a framework would add release tooling rather than targeted confidence here."
+    }
+  ],
+  "summary": {
+    "p0_found": 0,
+    "p1_found": 0,
+    "p2_found": 3,
+    "p3_found": 3,
+    "p0_fixed": 0,
+    "p1_fixed": 0,
+    "p2_fixed": 1,
+    "p3_fixed": 1,
+    "p2_deferred": 2,
+    "p3_deferred": 2,
+    "release_blockers_remaining": 0
+  },
+  "validation": {
+    "f4_guard_tests": "PASS (5 tests)",
+    "targeted_domain_tests": "379 passed, 4 skipped, 2 warnings in 112.83s",
+    "full_test_suite": "2142 passed, 3 failed, 184 skipped, 2 warnings in 1577.06s; three failures deferred as pre-existing experimental/stale paths",
+    "ruff": "PASS (python -m ruff check tests)",
+    "compileall": "PASS (python -m compileall -q src tests scripts)",
+    "diff_check": "PASS (git diff --check)"
+  },
+  "controls": {
+    "numerical_source_changed": false,
+    "requalification_required": false,
+    "historical_evidence_modified": false,
+    "maturity_promoted": false,
+    "heavy_benchmark_run": false,
+    "full_regression_run": true,
+    "f5_started": false,
+    "source_modified": false
+  },
+  "conclusion": {
+    "status": "PASS_WITH_LIMITATIONS",
+    "answer_to_release_question": "For officially supported and bounded routes, the suite provides reasonable pre-publication regression confidence because critical results, invariants, dispatch, invalid-input behavior and release guards are asserted. The full-suite audit retains three visible failures in experimental or stale nonlinear paths; they are not evidence against the supported release matrix, but those paths are not release-ready.",
+    "ready_for_f5": true,
+    "limitations": [
+      "Live optional PETSc/MPI, Gmsh and external environments remain separately gated.",
+      "A small number of validator success tests express success through absence of an exception because the API returns None.",
+      "Three pre-existing full-suite failures remain in experimental or stale finite-sliding/geometric-nonlinear test expectations; no skip or xfail was added.",
+      "No heavy benchmark or global coverage/mutation campaign is part of F4."
+    ]
+  },
+  "evidence_refs": [
+    "qualification/0_2_7/f3_public_claim_audit.json",
+    "qualification/0_2_7/f2_bug_hunt.json",
+    "qualification/0_2_7/capability_registry_v2.json",
+    "qualification/0_2_7/golden/evidence.json",
+    "docs/verification/0_2_7/0_2_7_f3_public_claim_audit.md",
+    "tests/unit/test_large_assembler_contract.py",
+    "tests/unit/test_large_mpi_guardrails.py",
+    "tests/unit/test_solver_backend.py",
+    "tests/unit/test_f2_bug_hunt.py",
+    "tests/unit/test_f3_public_claims.py",
+    "tests/unit/test_f4_unit_test_quality.py"
+  ],
+  "files": {
+    "created": [
+      "qualification/0_2_7/f4_unit_test_quality_audit.json",
+      "docs/verification/0_2_7/0_2_7_f4_unit_test_quality_audit.md",
+      "tests/unit/test_f4_unit_test_quality.py"
+    ],
+    "updated": [
+      "tests/integration/test_large_model.py",
+      "tests/unit/test_backend_edge_matrix_contracts.py",
+      "tests/unit/test_beam2_element.py",
+      "tests/unit/test_gmsh_contract_edges.py",
+      "tests/unit/test_gmsh_reader_runtime_contracts.py",
+      "tests/unit/test_large_backend_edge_contracts.py",
+      "tests/unit/test_large_solver_low_level_contracts.py",
+      "tests/unit/test_mitc4_laminate.py",
+      "tests/unit/test_mitc4_laminate_orientation.py",
+      "tests/unit/test_solid_material.py",
+      "tests/unit/test_solver_backend.py",
+      "tests/unit/test_wp09_wedge6_robustness.py",
+      "qualification/0_2_7/manifest.json",
+      "docs/document_registry.json",
+      "docs/verification/0_2_7/README.md",
+      "docs/verification/0_2_7/0_2_7_progress_tracker.md"
+    ]
+  }
+}

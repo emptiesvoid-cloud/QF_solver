@@ -8,6 +8,7 @@ import pytest
 from solveur.compat.mitc4.element import MITC4Element
 
 from solveur.api import solve_model
+from solveur.core.errors import InputValidationError
 from solveur.core.model import FiniteElementModel
 from solveur.io.schema import JsonSchemaValidator
 from solveur.materials.factory import MaterialFactory
@@ -94,7 +95,7 @@ def test_schema_rejects_zero_laminate_reference_direction():
         "elements": [{"type": "MITC4", "nodes": [0, 1, 2, 3], "material": "laminate"}],
         "materials": {"laminate": definition},
     }
-    with pytest.raises(Exception, match="non-zero norm"):
+    with pytest.raises(InputValidationError, match="non-zero norm"):
         JsonSchemaValidator().validate(raw)
 
 
