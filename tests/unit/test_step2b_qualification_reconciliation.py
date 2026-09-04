@@ -30,12 +30,12 @@ def test_active_release_views_are_owner_complete() -> None:
 
     assert manifest["wp22_status"] == "PASS_WITH_LIMITATIONS"
     assert manifest["level_up_2_scope"]["current_global_progress_percent"] == 100
-    assert manifest["level_up_2_scope"]["current_work_package"] == "STEP2B"
-    assert progress["current_work_package"] == "STEP2B"
-    assert progress["current_release_audit"] == "STEP2B_GITHUB_CI"
-    assert state["current_work_package"] == "STEP2B"
+    assert manifest["level_up_2_scope"]["current_work_package"] == "STEP2D"
+    assert progress["current_work_package"] == "STEP2D"
+    assert progress["current_release_audit"] == "STEP2D_CI_READINESS"
+    assert state["current_work_package"] == "STEP2D"
     assert state["next_work_package"] == "STEP3"
-    assert index["current_work_package"] == "STEP2B"
+    assert index["current_work_package"] == "STEP2D"
     assert index["next_work_package"] == "STEP3"
 
     active_wp22 = next(

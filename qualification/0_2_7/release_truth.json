@@ -21,8 +21,8 @@
     "role": "0.2.7 source snapshot used for WP13 golden execution; immutable historical evidence reference"
   },
   "current_development_head": {
-    "sha": "0a6b573485cb39d07b5e179aecd654af41bbc8e7",
-    "role": "WP03 execution source snapshot; governance closeout records are additive and do not rewrite the execution evidence"
+    "sha": "dec201ff50fdb9dfa848c1af3101e733659b6546",
+    "role": "current 0.2.7 stable-metadata and CI candidate after Step2D; prior execution SHAs remain historical evidence"
   },
   "wp13_golden_baseline": {
     "status": "PASS",
@@ -55,9 +55,11 @@
     "pypi_version": "0.2.6a0"
   },
   "target_027": {
-    "version": "0.2.7a0",
-    "tag": "v0.2.7a0",
-    "tag_status": "NOT_CREATED",
+    "version": "0.2.7",
+    "tag": "v0.2.7",
+    "tag_status": "EXISTS_AT_PRIOR_SHA",
+    "tag_target_sha": "ace411b7326fc31e8109487ce351c002dc993628",
+    "branch_candidate_sha": "dec201ff50fdb9dfa848c1af3101e733659b6546",
     "github_release": "NOT_CREATED",
     "pypi": "NOT_PUBLISHED"
   },
@@ -78,15 +80,15 @@
   "historical_record_policy": "The 0.2.6 G15 record and earlier 0.2.7 execution records are historical evidence. Their recorded SHAs are not rewritten to reflect the current development head.",
   "level_up_2": {
     "namespace": "027-LEVEL-UP-2",
-    "status": "OPEN",
+    "status": "CLOSED",
     "theme": "Reproducible Large-Model Performance and Solver Maturity",
     "pre_lu2_qualified_baseline": "8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3",
     "level_up_1": {"status": "CLOSED", "acquired_percent": 50},
-    "level_up_2_progress": {"status": "OPEN", "acquired_percent": 46},
-    "current_global_progress_percent": 96,
-    "current_work_package": "LU2-WP05",
-    "next_work_package": "LU2-WP09",
-    "completed_work_packages": ["LU2-WP01", "LU2-WP02", "LU2-WP03", "LU2-WP04", "LU2-WP05", "LU2-WP06", "LU2-WP07", "LU2-WP08"],
+    "level_up_2_progress": {"status": "CLOSED", "acquired_percent": 50},
+    "current_global_progress_percent": 100,
+    "current_work_package": "STEP2D",
+    "next_work_package": "STEP3",
+    "completed_work_packages": ["LU2-WP01", "LU2-WP02", "LU2-WP03", "LU2-WP04", "LU2-WP05", "LU2-WP06", "LU2-WP07", "LU2-WP08", "LU2-WP09"],
     "observatory_contract": "qualification/0_2_7/observatory_contract.json",
     "observatory_sample": "qualification/0_2_7/wp01_observatory_sample.json",
     "plan": "qualification/0_2_7/level_up_2_plan.json",
@@ -115,7 +117,7 @@
     "wp04_resource_guard_audit": "qualification/0_2_7/wp04_runtime/wp04_resource_guard_audit.json",
     "wp04_forensic_audit": "qualification/0_2_7/wp04_runtime/wp04_forensic_audit.json",
     "wp04_post_pc_ready_diagnostic": "qualification/0_2_7/wp04_runtime/wp04_post_pc_ready_diagnostic.json",
-    "wp04_next_action": "LU2-WP05",
+    "wp04_next_action": "CLOSED",
     "wp04_corrected_run": "qualification/0_2_7/wp04_runtime/wp04_corrected_run_a_raw.json",
     "wp05_status": "PASS",
     "wp05_state": "qualification/0_2_7/lu2_wp05_state.json",
@@ -131,7 +133,8 @@
     "wp07_state": "qualification/0_2_7/lu2_wp07_state.json",
     "wp07_matrix": "qualification/0_2_7/lu2_wp07_maturity_matrix.json",
     "wp07_owner_decision": "Existing route maturity retained at bounded combination scope; no promotion or demotion.",
-    "wp04_blocker": "The owner-terminated retry reached rank-zero local PC_READY but exposed a proven post-ready collective-order mismatch. The patched frozen route requires replay; the 2x time overrun remains only a budget observation. No Bronze or 5M solve claim is made.",
+    "historical_wp04_blocker": "The owner-terminated retry reached rank-zero local PC_READY but exposed a proven post-ready collective-order mismatch. The patched frozen route requires replay; the 2x time overrun remains only a budget observation. No Bronze or 5M solve claim is made.",
+    "wp04_blocker": null,
     "c1_matrix_free_triggered": false,
     "resource_limited_proven": false
   },

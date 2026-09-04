@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "record_type": "stable_metadata_cleanup",
+  "audit_id": "QF-027-STEP2D-METADATA-001",
+  "release": "0.2.7",
+  "status": "PASS",
+  "source_sha_before_cleanup": "dec201ff50fdb9dfa848c1af3101e733659b6546",
+  "branch": "codex/0.2.7-foundation",
+  "a0_audit": {
+    "references_found_before": {"files": 94, "lines": 139},
+    "active_stale_fixed": [
+      "docs/demarrage/installation.md",
+      "prochaines_etapes.md",
+      "docs/document_registry.json",
+      "qualification/0_2_7/release_truth.json",
+      "qualification/0_2_7/gates.json",
+      "qualification/0_2_7/requirements.json",
+      "scripts/capability_registry_v2.py",
+      "scripts/migrate_capability_registry_v2.py",
+      "tests/unit/test_public_document_audit.py"
+    ],
+    "historical_valid_preserved": [
+      "qualification/0_2_7/r0_release_readiness.json",
+      "qualification/0_2_7/step1_release_freeze.json",
+      "qualification/0_2_7/wp21_state.json",
+      "qualification/0_2_7/wp21_final_release_truth.json",
+      "qualification/0_2_7/f3_public_claim_audit.json",
+      "qualification/0_2_7/f4_unit_test_quality_audit.json",
+      "qualification/0_2_7/f5_packaging_compatibility_audit.json",
+      "qualification/0_2_7/f6_numerical_performance_regression_audit.json"
+    ],
+    "classification_rule": "Prerelease identity is retained only where it records the version used by a historical audit, execution, fixture, or archive. Current release views use 0.2.7."
+  },
+  "active_state": {
+    "version": "0.2.7",
+    "qualification": "100/100 COMPLETE",
+    "wp22": "PASS_WITH_LIMITATIONS",
+    "current_work_package": "STEP2D",
+    "next_work_package": "STEP3",
+    "tag": "v0.2.7",
+    "tag_target_sha": "ace411b7326fc31e8109487ce351c002dc993628",
+    "branch_candidate_sha": "dec201ff50fdb9dfa848c1af3101e733659b6546"
+  },
+  "controls": {
+    "numerical_source_changed": false,
+    "baseline_changed": false,
+    "requalification_required": false,
+    "historical_evidence_rewritten": false,
+    "tag_moved": false,
+    "pypi_published": false
+  },
+  "evidence": [
+    "qualification/0_2_7/release_truth.json",
+    "qualification/0_2_7/gates.json",
+    "qualification/0_2_7/requirements.json",
+    "qualification/0_2_7/manifest.json",
+    "tests/unit/test_step2d_stable_metadata.py"
+  ]
+}

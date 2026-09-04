@@ -15,7 +15,7 @@ V2_PATH = ROOT / "qualification" / "0_2_7" / "capability_registry_v2.json"
 MAPPING_PATH = ROOT / "qualification" / "0_2_7" / "registry_migration.json"
 VIEW_PATH = ROOT / "docs" / "verification" / "0_2_7" / "0_2_7_capability_matrix.md"
 SOURCE_SNAPSHOT = "e839373b6aef291a93292186d7553ba5cd12af55"
-TARGET_VERSION = "0.2.7a0"
+TARGET_VERSION = "0.2.7"
 
 ELEMENT_FAMILIES = {
     "ELE-BEAM2": "BEAM2",

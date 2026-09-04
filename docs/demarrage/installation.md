@@ -2,28 +2,28 @@
 doc_id: DOC-START-001
 revision: 0.2
 status: draft
-applicable_version: 0.2.7a0
+applicable_version: 0.2.7
 reviewer: ""
 approver: ""
 ---
 
 # Installation
 
-## Current release candidate
+## Current stable release
 
-The active `0.2.7a0` checkout is a release candidate under review. It is not
-tagged or published on PyPI. Install it from the active branch for local
-reproduction:
+The stable `0.2.7` release is available from the `v0.2.7` Git tag. PyPI
+publication remains a separate owner-controlled action. Install the tagged
+source for local reproduction:
 
 ```powershell
 git clone https://github.com/emptiesvoid-cloud/QF_solver.git
 Set-Location QF_solver
-git checkout codex/0.2.7-foundation
+git checkout v0.2.7
 python -m pip install -e ".[test]"
 qf-solver --version
 ```
 
-The candidate release truth and evidence heads are recorded in
+The release truth and evidence heads are recorded in
 `qualification/0_2_7/manifest.json`.
 
 ## Published parent package

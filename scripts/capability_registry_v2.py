@@ -187,7 +187,7 @@ def render_markdown(registry: dict[str, Any]) -> str:
         "doc_id: DOC-027-016",
         "revision: 0.1",
         "status: controlled_candidate",
-        "applicable_version: 0.2.7a0",
+        "applicable_version: 0.2.7",
         'reviewer: ""',
         'approver: ""',
         "---",
