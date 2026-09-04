@@ -64,7 +64,10 @@ class AssemblyTelemetry:
         self.source_sha = source_sha
         self.status = "DISABLED" if self.path is None else "ENABLED"
         self._handle: Any = None
-        self._started = time.monotonic()
+        # ``perf_counter`` keeps sub-millisecond resolution on Windows, where
+        # successive synthetic checkpoints can otherwise share a monotonic
+        # clock tick and produce missing rate samples.
+        self._started = time.perf_counter()
         self._last_processed = 0
         self._next_checkpoint = self.checkpoint_interval
         self._points: list[tuple[int, float]] = []
@@ -137,7 +140,7 @@ class AssemblyTelemetry:
         total: int | None = None,
         record_point: bool = True,
     ) -> dict[str, Any]:
-        now = time.monotonic()
+        now = time.perf_counter()
         elapsed = max(0.0, now - self._started)
         total = self.elements_total if total is None else total
         if record_point:
