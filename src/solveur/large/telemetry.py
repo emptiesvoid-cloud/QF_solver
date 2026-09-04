@@ -144,7 +144,8 @@ class AssemblyTelemetry:
             self._points.append((processed, elapsed))
             if len(self._points) > self.recent_window + 1:
                 self._points = self._points[-(self.recent_window + 1) :]
-        avg_rate = processed / elapsed if elapsed > 0.0 and processed > 0 else None
+        # Windows clocks can have a zero-resolution tick for rapid synthetic checks.
+        avg_rate = processed / max(elapsed, 1e-12) if processed > 0 else None
         recent_rate = None
         if len(self._points) >= 2:
             old_processed, old_time = self._points[-2]

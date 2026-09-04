@@ -47,7 +47,11 @@ def test_active_release_views_are_owner_complete() -> None:
     )
     assert active_wp09["status"] == "PASS_WITH_LIMITATIONS"
 
-    for path in ACTIVE_VIEWS:
+    # Public entry points avoid internal score/status vocabulary; the detailed
+    # qualification views carry the exact owner-complete accounting.
+    assert "100/100" not in (ROOT / "README.md").read_text(encoding="utf-8")
+    assert "100/100" not in (ROOT / "docs/verification/0_2_7/README.md").read_text(encoding="utf-8")
+    for path in ACTIVE_VIEWS[2:]:
         text = path.read_text(encoding="utf-8")
         assert "100/100" in text
         assert "PASS_WITH_LIMITATIONS" in text
