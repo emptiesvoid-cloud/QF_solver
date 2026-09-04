@@ -4922,6 +4922,22 @@
         "tests/integration/test_packaging.py",
         "tests/integration/test_api_and_cli.py"
       ]
+    },
+    {
+      "id": "DOC-027-F6-REGRESSION-001",
+      "path": "verification/0_2_7/0_2_7_f6_numerical_performance_regression_audit.md",
+      "title": "0.2.7 F6 numerical and performance regression audit",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_7/f6_numerical_performance_regression_audit.json",
+        "tests/unit/test_f6_numerical_performance_regression.py"
+      ],
+      "tests": [
+        "tests/unit/test_f6_numerical_performance_regression.py",
+        "tests/unit/test_f4_unit_test_quality.py",
+        "tests/unit/test_f5_packaging_compatibility.py"
+      ]
     }
   ]
 }

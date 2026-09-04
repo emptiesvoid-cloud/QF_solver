@@ -496,5 +496,24 @@
     "global_progress_unchanged": true,
     "ready_for_wp09": true,
     "claim_boundary": "No universal C3 speedup, mixed-mesh, HEX8 next-generation, WEDGE15, PYRAMID5 or finite-kinematic J2 claim."
+  },
+  "f6_release_audit": {
+    "id": "F6",
+    "status": "PASS_WITH_LIMITATIONS",
+    "source_of_truth": "qualification/0_2_7/f6_numerical_performance_regression_audit.json",
+    "document": "docs/verification/0_2_7/0_2_7_f6_numerical_performance_regression_audit.md",
+    "targeted_test": "tests/unit/test_f6_numerical_performance_regression.py",
+    "p0_found": 0,
+    "p1_found": 0,
+    "full_test_suite": "2147 passed, 3 failed, 184 skipped, 2 warnings",
+    "heavy_benchmark_run": false,
+    "numerical_source_changed": false,
+    "baseline_changed": false,
+    "maturity_promoted": false,
+    "ready_for_r0": true,
+    "limitations": [
+      "Three pre-existing F4 failures remain in experimental or stale nonlinear paths.",
+      "No fresh 5M or 10M replay was required for this controlled regression audit."
+    ]
   }
 }

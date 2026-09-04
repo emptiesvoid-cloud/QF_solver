@@ -269,3 +269,26 @@ For the packaging/install audit, see
 and [`0_2_7_f5_packaging_compatibility_audit.md`](0_2_7_f5_packaging_compatibility_audit.md).
 Runtime state and evidence heads take precedence over preserved historical
 snapshots in this directory.
+
+## F6 numerical and performance regression audit
+
+F6 starts from clean source SHA
+`f6cfde036f5866c15e688bce70be5ed21b493ff1` and closes as
+`PASS_WITH_LIMITATIONS`. Targeted element, solver, BC/load/material,
+post-processing, MPI/PETSc and governance checks passed. The full suite
+completed with `2147 passed, 3 failed, 184 skipped, 2 warnings`; the three
+failures reproduce the F4 baseline and remain in experimental or stale
+nonlinear paths outside the supported release matrix.
+
+No numerical source, tolerance, active baseline or maturity record changed.
+The existing 1M, 3M and 5M replay evidence, representative structured AIJ
+preallocation evidence and bounded C3 10M record remain applicable. F6 did
+not rerun 5M or 10M because no relevant numerical source change occurred
+during F3-F6. The controlled record is
+[`qualification/0_2_7/f6_numerical_performance_regression_audit.json`](../../../qualification/0_2_7/f6_numerical_performance_regression_audit.json)
+with the review view in
+[`0_2_7_f6_numerical_performance_regression_audit.md`](0_2_7_f6_numerical_performance_regression_audit.md).
+
+F6 is technically ready for the separate Owner R0 decision. It does not
+start R0, publish artifacts, promote maturity or broaden any performance
+claim beyond the recorded workload and environment.

@@ -1,0 +1,292 @@
+{
+  "schema_version": 1,
+  "record_type": "f6_numerical_performance_regression_audit",
+  "audit_id": "QF-027-F6-REGRESSION-001",
+  "release": "0.2.7a0",
+  "audit_start_sha": "f6cfde036f5866c15e688bce70be5ed21b493ff1",
+  "audit_start_sha_role": "clean F5 closeout before F6",
+  "active_branch": "codex/0.2.7-foundation",
+  "worktree_clean_at_start": true,
+  "source_hierarchy": [
+    "executed results",
+    "qualification JSON and capability registry",
+    "frozen V&V evidence",
+    "targeted tests",
+    "qualification documentation",
+    "README and user documentation"
+  ],
+  "active_baselines": {
+    "golden": {
+      "record": "qualification/0_2_7/golden/evidence.json",
+      "records": 9,
+      "status": "PASS",
+      "scope": "TET4, TET10, HEX8, HEX20, WEDGE6 static/modal, J2, buckling and expected preflight failure"
+    },
+    "five_million_silver": {
+      "record": "qualification/0_2_7/wp05_runtime/wp05_5m_silver_replay.json",
+      "source_sha": "04b07e00ddfe0b339b5790493a607ec902b1ed80",
+      "status": "PASS",
+      "dof": 5012640,
+      "elements": 9773946,
+      "replays": 2,
+      "iterations": [1243, 1243],
+      "runtime_s": [4427.65698133898, 4378.776636239025],
+      "free_residual": [9.847203373236107e-11, 9.846021087944175e-11],
+      "reaction_equilibrium": [1.390768072751613e-09, 1.39017123820882e-09],
+      "energy_error": [1.543718305552612e-14, 1.2065844227307794e-14],
+      "peak_rss_bytes": [4729683968, 4728950784]
+    },
+    "one_million": {
+      "record": "qualification/0_2_7/wp16_runtime/wp16_retry_summary.json",
+      "status": "PASS",
+      "dof": 1029000,
+      "replays": 2,
+      "iterations": [431, 431],
+      "runtime_s": [184.075700655, 185.115105264],
+      "peak_rss_bytes": [3519639552, 3520733184]
+    },
+    "three_million_silver": {
+      "record": "qualification/0_2_7/wp18_runtime/wp18_summary.json",
+      "source_sha": "9c0605645fa60ef0d89f3ce98ca361a677f13d1d",
+      "status": "PASS_WITH_LIMITATIONS",
+      "dof": 3000000,
+      "replays": 2,
+      "iterations": [619, 619],
+      "runtime_s": [2659.8216491250205, 2670.2649941460113],
+      "peak_rss_bytes": [10076176384, 10076340224],
+      "limitations": ["single recorded host and configuration", "no universal scaling claim"]
+    },
+    "ten_million_c3": {
+      "record": "qualification/0_2_7/c3_10m_runtime/c3_10m_replay_summary.json",
+      "source_sha": "eefb5387c86c27809185e12f5548b79c0070d957",
+      "record_status": "PASS",
+      "audit_interpretation": "PASS_WITH_LIMITATIONS_NONBLOCKING",
+      "dof": 10125000,
+      "elements": 19847694,
+      "optional_solve_status": "PASS",
+      "iterations": 1571,
+      "limitations": [
+        "C3 is a zero-weight capacity exploration",
+        "claim is bounded to the recorded TET4 linear-static PETSc CG/GAMG route",
+        "no universal, GPU, multi-node, nonlinear, mixed-mesh or second-replay claim"
+      ],
+      "historical_diagnostic": "qualification/0_2_7/c3_10m_aij_diagnostic.json"
+    },
+    "external": {
+      "code_aster": "bounded PENTA6 evidence; no new comparison required for F6",
+      "calculix": "NOT_COMPARABLE under the active contract"
+    }
+  },
+  "diff_analysis": {
+    "f4_to_f6_source_diff": "NONE",
+    "f5_to_f6_source_diff": "NONE",
+    "since_five_million_qualification": [
+      "46e071b phase-resolved AIJ telemetry",
+      "3a9e42c structured MPIAIJ preallocation",
+      "bcdf727 F2 compatibility, input and evidence hardening"
+    ],
+    "since_c3_evidence": "No assembler change after the C3 evidence source; later changes are compatibility and IO hardening outside the numerical assembly path.",
+    "applicability": "The current route has targeted small/medium coverage and later C3 evidence. No source or algorithm change occurred during F3, F4, F5 or F6, so a new heavy 5M/10M replay is not required by this audit."
+  },
+  "test_inventory": {
+    "test_files_scanned": 473,
+    "test_definitions_scanned": 2003,
+    "skip_calls_reviewed": 26,
+    "xfail_calls_reviewed": 0,
+    "broad_exception_catches": 0,
+    "scope": "unit, integration, verification, documentation, registry, API, CLI, packaging, MPI/PETSc and governance tests"
+  },
+  "execution": {
+    "targeted_domain": {
+      "command": "python -m pytest -q <element/solver/large/API/V&V selections>",
+      "result": "336 passed, 11 skipped, 2 warnings in 171.48s",
+      "status": "PASS"
+    },
+    "mpi_petsc_and_governance": {
+      "command": "python -m pytest -q <C3/MPI/telemetry/governance selections>",
+      "result": "30 passed in 2.24s",
+      "status": "PASS"
+    },
+    "performance_sanity": {
+      "command": "python -m pytest -q <small/medium performance selections> --durations=20",
+      "result": "24 passed in 10.05s",
+      "status": "PASS",
+      "observations": [
+        "small and medium assembly/solve paths remained within the available targeted baseline",
+        "no heavy 5M or 10M benchmark was rerun",
+        "no performance regression signal was observed"
+      ]
+    },
+    "full_test_suite": {
+      "command": "python -m pytest -q",
+      "result": "2147 passed, 3 failed, 184 skipped, 2 warnings in 1566.40s",
+      "status": "PASS_WITH_LIMITATIONS_PRE_EXISTING",
+      "same_failures_as_f4": true,
+      "failures": [
+        "tests/unit/test_contact_finite_sliding.py::test_finite_sliding_diagnostics_reach_common_newton_result",
+        "tests/unit/test_geometric_nonlinear_public.py::test_public_geometric_nonlinear_rejects_distributed_loads",
+        "tests/unit/test_nonlinear_benchmark.py::test_nonlinear_benchmark_paths_execute_bounded_profiles[finite_sliding]"
+      ],
+      "interpretation": "Visible failures remain in experimental or stale nonlinear paths and are outside the supported 0.2.7 release matrix; no skip or xfail was added."
+    }
+  },
+  "numerical_comparisons": [
+    {
+      "case": "golden element and route set",
+      "baseline": "golden/evidence.json",
+      "current": "targeted element, solver, V&V and API tests",
+      "observables": ["stiffness/mass contracts", "symmetry", "rigid behavior", "displacement", "reaction", "energy", "residual"],
+      "classification": "STABLE"
+    },
+    {
+      "case": "1M TET4 PETSc replay",
+      "baseline": "wp16 retry summary",
+      "current": "existing two-replay evidence remains applicable",
+      "observables": ["431 iterations", "finite result", "residual", "equilibrium", "energy"],
+      "classification": "STABLE"
+    },
+    {
+      "case": "3M TET4 Silver replay",
+      "baseline": "wp18 summary",
+      "current": "existing two-replay evidence remains applicable",
+      "observables": ["619 iterations", "finite result", "residual", "equilibrium", "energy"],
+      "classification": "STABLE_WITH_LIMITATIONS"
+    },
+    {
+      "case": "5M TET4 Silver replay",
+      "baseline": "wp05 silver replay",
+      "current": "existing two-replay evidence remains applicable",
+      "observables": ["1243 iterations", "displacement", "reaction", "energy", "residual"],
+      "classification": "STABLE"
+    }
+  ],
+  "performance_comparisons": [
+    {
+      "case": "1M PETSc replay",
+      "baseline_seconds": [186.2145, 186.6673],
+      "current_evidence": "same qualified two-replay record",
+      "classification": "STABLE",
+      "boundary": "recorded host, PETSc/MPI configuration and workload only"
+    },
+    {
+      "case": "3M Silver replay",
+      "baseline_seconds": [2659.8216491250205, 2670.2649941460113],
+      "current_evidence": "same qualified two-replay record",
+      "classification": "STABLE",
+      "boundary": "recorded host, PETSc/MPI configuration and workload only"
+    },
+    {
+      "case": "AIJ structured preallocation representative medium",
+      "baseline_seconds": {"before_assembler": 92.769908824, "after_assembler": 1.672205441},
+      "current_evidence": "existing remediation evidence; no F6 rerun",
+      "classification": "IMPROVED_AND_GUARDED",
+      "boundary": "representative 526848 DOF, 8-rank case; not universal"
+    },
+    {
+      "case": "F6 small/medium performance sanity",
+      "baseline_seconds": null,
+      "current_evidence": "24 targeted tests passed in 10.05s",
+      "classification": "NO_REGRESSION_SIGNAL"
+    }
+  ],
+  "guards": {
+    "element_regression": "PASS: targeted element/V&V contracts and golden records remain valid",
+    "solver_regression": "PASS: static, modal, iterative and bounded PETSc route checks remain valid",
+    "bc_load_material_post": "PASS: targeted public-route and post-processing checks remain valid",
+    "mpi_collective": "PASS: targeted guard passes and existing 8-rank evidence remains valid; no silent fallback",
+    "petsc_preallocation": "PASS: exact structured diagonal/off-diagonal allocation is retained",
+    "petsc_reallocations": "PASS: representative current evidence reports zero post-remediation mallocs; before counts are retained historically",
+    "baseline_integrity": "PASS: active baseline records and tolerances were not rewritten"
+  },
+  "findings": [
+    {
+      "id": "F6-P2-001",
+      "priority": "P2",
+      "status": "RETAINED_NON_BLOCKING",
+      "origin": "F4_PRE_EXISTING",
+      "title": "Three experimental or stale nonlinear tests remain failed in the full suite",
+      "impact": "No officially supported or bounded 0.2.7 route depends on these paths; failures remain visible and are not skipped or xfailed."
+    },
+    {
+      "id": "F6-P3-001",
+      "priority": "P3",
+      "status": "DEFERRED",
+      "title": "Live optional PETSc/MPI/external environments are not available in the host audit",
+      "impact": "Existing pinned container evidence and targeted guard tests are reused; no new external claim is made."
+    },
+    {
+      "id": "F6-P3-002",
+      "priority": "P3",
+      "status": "DEFERRED",
+      "title": "No fresh 5M/10M replay was performed",
+      "impact": "No relevant source change occurred since F4 and current-route representative/C3 evidence remains applicable."
+    }
+  ],
+  "heavy_benchmark_decision": {
+    "five_million_replay_required": false,
+    "ten_million_replay_required": false,
+    "justification": "F6 is a controlled regression audit. No numerical source changed during F3-F6; the active 5M two-replay record, 1M/3M replays, representative AIJ preallocation evidence and C3 record remain traceable and applicable. A new heavy run would be a qualification rerun rather than a regression check."
+  },
+  "summary": {
+    "p0_found": 0,
+    "p1_found": 0,
+    "p2_found": 1,
+    "p3_found": 2,
+    "p0_fixed": 0,
+    "p1_fixed": 0,
+    "p2_fixed": 0,
+    "p3_fixed": 0,
+    "release_blockers_remaining": 0
+  },
+  "controls": {
+    "numerical_source_changed": false,
+    "baseline_changed": false,
+    "requalification_required": false,
+    "historical_evidence_modified": false,
+    "maturity_promoted": false,
+    "heavy_benchmark_run": false,
+    "full_regression_run": true,
+    "r0_started": false,
+    "pushed": false
+  },
+  "verdict": {
+    "status": "PASS_WITH_LIMITATIONS",
+    "answer_to_release_question": "The current commit preserves the active qualified results and shows no significant numerical or performance regression on the officially supported bounded scope. The full suite retains the three visible F4 failures in experimental or stale nonlinear paths, and optional environments remain separately bounded.",
+    "performance_claim_boundary": "Only the recorded workload, hardware, PETSc/MPI environment, backend, preconditioner and configuration may be claimed; no universal speedup, hardware-independent scaling or route transfer is implied.",
+    "ready_for_r0": true,
+    "limitations": [
+      "Three pre-existing full-suite failures remain outside the supported release matrix.",
+      "No new heavy 5M/10M replay was required or run.",
+      "Optional PETSc/MPI and external environments are covered by existing pinned evidence, not a fresh F6 host run.",
+      "C3 10M remains a bounded zero-weight capacity record and does not qualify a universal 10M claim."
+    ]
+  },
+  "evidence_refs": [
+    "qualification/0_2_7/golden/evidence.json",
+    "qualification/0_2_7/wp05_runtime/wp05_5m_silver_replay.json",
+    "qualification/0_2_7/wp16_runtime/wp16_retry_summary.json",
+    "qualification/0_2_7/wp18_runtime/wp18_summary.json",
+    "qualification/0_2_7/c3_10m_runtime/c3_10m_replay_summary.json",
+    "qualification/0_2_7/c3_10m_mpiaij_preallocation_remediation.json",
+    "qualification/0_2_7/capability_registry_v2.json",
+    "qualification/0_2_7/f4_unit_test_quality_audit.json",
+    "qualification/0_2_7/f5_packaging_compatibility_audit.json"
+  ],
+  "files": {
+    "created": [
+      "qualification/0_2_7/f6_numerical_performance_regression_audit.json",
+      "docs/verification/0_2_7/0_2_7_f6_numerical_performance_regression_audit.md",
+      "tests/unit/test_f6_numerical_performance_regression.py"
+    ],
+    "updated": [
+      "qualification/0_2_7/manifest.json",
+      "qualification/0_2_7/progress.json",
+      "qualification/0_2_7/gates.json",
+      "docs/document_registry.json",
+      "docs/verification/0_2_7/README.md",
+      "docs/verification/0_2_7/0_2_7_progress_tracker.md",
+      "docs/verification/0_2_7/0_2_7_gate_matrix.md",
+      "docs/verification/0_2_7/0_2_7_owner_decision_log.md"
+    ]
+  }
+}

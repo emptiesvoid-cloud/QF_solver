@@ -544,3 +544,27 @@ report/status for its bundled legacy 0.2.1 context and this is not a 0.2.7
 release qualification claim. Tagging, publication and F6 remain separate
 Owner actions. The controlled record is
 `qualification/0_2_7/f5_packaging_compatibility_audit.json`.
+
+## F6 numerical and performance regression audit
+
+Date: 2026-09-04. Audit start SHA:
+`f6cfde036f5866c15e688bce70be5ed21b493ff1`.
+
+The controlled F6 audit closes as `PASS_WITH_LIMITATIONS`. Targeted element,
+solver, BC/load/material, post-processing, MPI/PETSc, baseline-integrity and
+performance-sanity checks passed. The full suite completed with
+`2147 passed, 3 failed, 184 skipped, 2 warnings`; the three visible failures
+are exactly the pre-existing F4 failures in experimental or stale nonlinear
+paths. No P0 or P1 remains for the supported 0.2.7 scope.
+
+The existing 1M, 3M and 5M replay evidence, representative AIJ preallocation
+record and bounded C3 10M record remain applicable. No relevant numerical
+source change occurred during F3-F6, so no new heavy 5M/10M replay was
+required. No source, tolerance, active baseline or maturity was changed.
+
+The performance interpretation remains bounded to each recorded workload,
+host, PETSc/MPI environment, backend, preconditioner and configuration. No
+universal speedup or hardware-independent scaling claim is authorized. F6 is
+ready for the separate Owner R0 decision; R0, publication, tagging and push
+remain deferred. The controlled record is
+`qualification/0_2_7/f6_numerical_performance_regression_audit.json`.
