@@ -14,7 +14,7 @@ authors = [
   { name = "Quentin Farinazzo" }
 ]
 classifiers = [
-  "Development Status :: 5 - Production/Stable",
+  "Development Status :: 4 - Beta",
   "Intended Audience :: Science/Research",
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3 :: Only",
@@ -35,6 +35,8 @@ dependencies = [
 Homepage = "https://github.com/emptiesvoid-cloud/QF_solver"
 Source = "https://github.com/emptiesvoid-cloud/QF_solver"
 Issues = "https://github.com/emptiesvoid-cloud/QF_solver/issues"
+Documentation = "https://github.com/emptiesvoid-cloud/QF_solver/tree/main/docs"
+Changelog = "https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CHANGELOG.md"
 
 [project.optional-dependencies]
 test = [

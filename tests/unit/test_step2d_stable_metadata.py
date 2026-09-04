@@ -24,7 +24,7 @@ def test_active_stable_metadata_is_reconciled() -> None:
         "tag": "v0.2.7",
         "tag_status": "EXISTS_AT_PRIOR_SHA",
         "tag_target_sha": "ace411b7326fc31e8109487ce351c002dc993628",
-        "branch_candidate_sha": "dec201ff50fdb9dfa848c1af3101e733659b6546",
+            "branch_candidate_sha": "15fe5f846b803cc02008de36d3c53065d9522807",
         "github_release": "NOT_CREATED",
         "pypi": "NOT_PUBLISHED",
     }
