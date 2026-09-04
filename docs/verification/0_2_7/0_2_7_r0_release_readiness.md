@@ -1,4 +1,17 @@
-# 0.2.7a0 R0 release readiness
+---
+doc_id: DOC-027-R0-RELEASE-001
+revision: 1.0
+status: controlled_candidate
+applicable_version: 0.2.7
+reviewer: ""
+approver: ""
+---
+
+# Historical 0.2.7a0 R0 release-readiness record
+
+This page is a preserved pre-stable audit record. It is not the current public
+release status; use the [active 0.2.7 verification summary](README.md) for the
+current conclusion.
 
 `R0_STATUS = PASS_WITH_LIMITATIONS`.
 

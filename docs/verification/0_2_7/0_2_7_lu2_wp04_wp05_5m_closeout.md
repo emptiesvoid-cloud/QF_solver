@@ -1,3 +1,12 @@
+---
+doc_id: DOC-027-5M-CLOSEOUT
+revision: 1.0
+status: controlled_candidate
+applicable_version: 0.2.7
+reviewer: ""
+approver: ""
+---
+
 # LU2 5M Bronze and Silver Closeout
 
 This closeout records the corrected WP04 Bronze retry and the conditional LU2-WP05 Silver continuation from source SHA `04b07e00ddfe0b339b5790493a607ec902b1ed80`.

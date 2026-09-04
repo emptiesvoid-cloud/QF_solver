@@ -1,4 +1,13 @@
-# 0.2.7 F6 numerical and performance regression audit
+---
+doc_id: DOC-027-F6-REGRESSION-001
+revision: 1.0
+status: controlled_candidate
+applicable_version: 0.2.7
+reviewer: ""
+approver: ""
+---
+
+# Historical 0.2.7 F6 numerical and performance regression audit
 
 Audit start SHA: `f6cfde036f5866c15e688bce70be5ed21b493ff1`
 Branch: `codex/0.2.7-foundation`

@@ -1,53 +1,47 @@
 ---
 doc_id: DOC-REF-004
-revision: 0.4
-status: draft
-applicable_version: 0.2.5a0
+revision: 1.0
+status: controlled
+applicable_version: 0.2.7
 reviewer: ""
 approver: ""
 ---
 
-# Feuille de route
+# Public roadmap
 
-La release `0.2.5a0` est figee sur un scope qualifie borne. Les fonctionnalites
-non fermees restent visibles comme experimental, research ou hors scope ; la
-roadmap ne constitue pas une promesse de date.
+QF Solver 0.2.7 is the current stable source release. This roadmap describes
+product-level follow-up work; it is not a release gate or a promise that an
+unqualified route is production-ready.
 
-Les sections 0.2.5 et 0.2.7 ci-dessous sont conservees comme snapshots de
-planification historiques. La roadmap active `0.2.7` est le plan Level-Up
-2 dans [`docs/verification/0_2_7/0_2_7_master_plan.md`](../verification/0_2_7/0_2_7_master_plan.md)
-et dans son etat machine-readable; elle ne reprend pas automatiquement les
-chantiers experimentaux de ce document.
+## Current release
 
-## 0.2.6 — maturite et robustesse
+This is the 0.2.7 active scope. A historical planning snapshot may retain
+earlier scores or work-package wording, but it does not define the current
+release.
 
-- renforcer la V&V massive des chemins deja presents ;
-- fermer les dettes de robustesse et de diagnostics ;
-- augmenter la couverture des chemins critiques sans tests artificiels ;
-- caracteriser plus largement assemblage, memoire et scalabilite ;
-- corriger uniquement les defauts numeriques demontres ;
-- conserver SciPy utilisable seul et PETSc/SLEPc optionnels.
+The release focuses on inspectable formulations, bounded numerical evidence,
+reproducible solver behavior and recorded large-model PETSc/MPI workflows.
+TET4, TET10, HEX8 and HEX20 have the strongest solid-element coverage. WEDGE6
+static remains experimental, while its modal claim is limited to the declared
+first-three-mode scope.
 
-## 0.2.7 candidate (historical planning snapshot) — J2 finite-strain et G06
+## Next technical themes
 
-- retenir une formulation J2 finite-strain explicitement approuvee ;
-- verifier les mesures de deformation et de contrainte, le tangent et l'etat ;
-- construire une V&V independante et des correlations Code_Aster ;
-- requalifier G06 sur un scope borne ;
-- traiter la friction comme un chantier separe uniquement apres decision Owner.
+1. Extend comparable verification for selected element and analysis
+   combinations without broadening claims prematurely.
+2. Improve the usability and portability of optional PETSc/MPI workflows.
+3. Expand external correlation only where meshes, loads, conventions and
+   observables are demonstrably comparable.
+4. Investigate deferred mixed-mesh, WEDGE15, PYRAMID5, HEX8R/SRI/B-bar and
+   finite-kinematic J2 work as separate, evidence-led projects.
 
-## 0.2.7 active scope
+## Explicitly deferred
 
-- Reproducible Large-Model Solving and Numerical Trust, avec des resultats
-  bornes par workload, machine, backend et preuve enregistres ;
-- qualification documentaire et V&V des routes deja acquises, sans promotion
-  transitive entre statique, modal, dynamique et non-lineaire ;
-- WEDGE6 static reste `EXPERIMENTAL`, tandis que sa qualification modale est
-  limitee au domaine WP10 declare ;
-- J2 finite-strain, mixed meshes, WEDGE15, PYRAMID5 et les variantes HEX8
-  next-gen restent differes ou experimentaux selon le registry v2.
+General nonlinear/contact production use, finite-sliding production support,
+GPU claims, universal HPC scaling, 5M Gold and deeper 10M scaling analysis are
+not part of the current public promise. They require new evidence and a
+separate decision.
 
-## Hors engagement
-
-Pas de date promise, pas de nouvelle physique arbitraire et pas de promotion
-automatique d'une voie experimentalement observee en capacite qualifiee.
+Historical plans and qualification records remain in
+[`docs/verification/0_2_7/`](../verification/0_2_7/) for provenance. They are
+not the active product roadmap.

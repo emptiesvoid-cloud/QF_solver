@@ -3,6 +3,8 @@ doc_id: DOC-027-S1-001
 revision: 0.2
 status: controlled_evidence
 applicable_version: 0.2.7a0
+reviewer: ""
+approver: ""
 ---
 
 # S1 - 5M Assembly Telemetry Setup

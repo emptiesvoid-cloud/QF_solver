@@ -1,4 +1,13 @@
-# QF Solver 0.2.7a0 F5 packaging and compatibility audit
+---
+doc_id: DOC-027-F5-PACKAGE-001
+revision: 1.0
+status: controlled_candidate
+applicable_version: 0.2.7
+reviewer: ""
+approver: ""
+---
+
+# Historical QF Solver 0.2.7a0 F5 packaging and compatibility audit
 
 ## Status
 

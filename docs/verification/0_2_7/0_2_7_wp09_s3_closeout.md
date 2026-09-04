@@ -1,3 +1,12 @@
+---
+doc_id: DOC-027-WP09-S3-CLOSEOUT-001
+revision: 1.0
+status: controlled_candidate
+applicable_version: 0.2.7
+reviewer: ""
+approver: ""
+---
+
 # WP09 WEDGE6 Static-Linear Closeout
 
 This closeout consolidates the existing WEDGE6 static-linear evidence after S3. It does not rerun a heavy benchmark or rewrite historical evidence.
