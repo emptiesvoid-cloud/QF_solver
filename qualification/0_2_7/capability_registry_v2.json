@@ -2,7 +2,7 @@
   "schema_version": 2,
   "registry_id": "QF-SOLVER-CAPABILITY-REGISTRY-V2",
   "source_of_truth": true,
-  "applicable_version": "0.2.7a0",
+  "applicable_version": "0.2.7",
   "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
   "public_capability_ids": [
     "ELE-BEAM2",
@@ -132,7 +132,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "G05 modal/dynamic/harmonic coverage is bounded; other BEAM2 scopes remain governed by their own gates.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-BEAM2"
@@ -163,7 +163,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "G05 is PASS_WITH_LIMITATIONS; no comparable independent external deck is recorded for MITC3.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-MITC3"
@@ -194,7 +194,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "G05 is PASS_WITH_LIMITATIONS; no comparable independent external deck is recorded for MITC4.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-MITC4"
@@ -226,7 +226,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "G05 is PASS_WITH_LIMITATIONS; external coverage is bounded and other analysis scopes remain separately governed.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-TET4"
@@ -258,7 +258,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-TET10"
@@ -289,7 +289,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-HEX8"
@@ -320,7 +320,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-HEX20"
@@ -351,7 +351,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "G05 modal/dynamic/harmonic coverage is bounded; other discrete scopes remain governed by their own gates.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-DISCRETE"
@@ -381,7 +381,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "No 0.2.6 modal/dynamic RBE campaign is mapped.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "8047fb63c420609b510beaa1e30aa3ab31d9ad87",
       "supersedes": [
         "INF-RBE-CONSTRAINTS"
@@ -411,7 +411,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Family-specific requalification is scheduled in G04.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "8047fb63c420609b510beaa1e30aa3ab31d9ad87",
       "supersedes": [
         "ANA-STATIC"
@@ -443,7 +443,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "G05 is PASS_WITH_LIMITATIONS: modal evidence covers eight internal family rows, while external correlation remains bounded and family-incomplete.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ANA-MODAL"
@@ -475,7 +475,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "G05 is PASS_WITH_LIMITATIONS: Newmark refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ANA-NEWMARK"
@@ -507,7 +507,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "G05 is PASS_WITH_LIMITATIONS: harmonic refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ANA-HARMONIC"
@@ -537,7 +537,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "No nonlinear collapse claim; 0.2.6 maturity extension is pending.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "8047fb63c420609b510beaa1e30aa3ab31d9ad87",
       "supersedes": [
         "ANA-BUCKLING"
@@ -567,7 +567,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Maturity extension and multi-family correlation are scheduled separately.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "8047fb63c420609b510beaa1e30aa3ab31d9ad87",
       "supersedes": [
         "ANA-NONLINEAR-LOAD"
@@ -597,7 +597,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Only bounded TET4/HEX8 Total-Lagrangian elasticity is qualified; high-order and finite-kinematic J2 remain non-qualified.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "8047fb63c420609b510beaa1e30aa3ab31d9ad87",
       "supersedes": [
         "ANA-GEOMETRIC-NONLINEAR"
@@ -627,7 +627,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Independent compatible published reference remains open.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "8047fb63c420609b510beaa1e30aa3ab31d9ad87",
       "supersedes": [
         "ANA-ARC-LENGTH"
@@ -657,7 +657,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Element and analysis boundaries still apply.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "8047fb63c420609b510beaa1e30aa3ab31d9ad87",
       "supersedes": [
         "MAT-ELASTIC"
@@ -687,7 +687,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Not included in G05-B acceptance cases; no new physical claim is made.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "8047fb63c420609b510beaa1e30aa3ab31d9ad87",
       "supersedes": [
         "MAT-ORTHOTROPIC-LAMINATE"
@@ -720,7 +720,7 @@
       ],
       "owner_decision": "OWNER_APPROVED_BOUNDED_KEEP_EXISTING_SCOPE",
       "limitations": "Qualified only within the tested bounded TET4/TET10/HEX8/HEX20 scope; algorithmic tangent symmetry remains diagnostic and is not independently qualified; increment sensitivity is characterized on all four families without a universal structural partition-independence claim.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "94461602dfd1782be57c20e1801a0d5d8e262ef1",
       "supersedes": [
         "MAT-J2-SMALL"
@@ -750,7 +750,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Owner-qualified only for the tested finite positive-det(F) TET4 domain; HEX8 complete history is not qualified and TET10/HEX20 remain research routes.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "c55f768d570905869904e08042180f2b515f26c4",
       "supersedes": [
         "MAT-TL-ELASTIC"
@@ -780,7 +780,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Not externally qualified; stress/strain measure and coupled correlation remain deferred.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "82d3af3aad06f472a3754d8082783fb72935fbcd",
       "supersedes": [
         "MAT-FINITE-J2"
@@ -810,7 +810,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Finite-kinematic J2 and equivalent external coupled paths are not qualified.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "8047fb63c420609b510beaa1e30aa3ab31d9ad87",
       "supersedes": [
         "MAT-COUPLED-NL"
@@ -840,7 +840,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "No general mortar claim; finite sliding and surface scope remain bounded.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "8047fb63c420609b510beaa1e30aa3ab31d9ad87",
       "supersedes": [
         "CON-FRICTIONLESS"
@@ -870,7 +870,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Friction is explicitly outside the 0.2.6 release scope.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "8047fb63c420609b510beaa1e30aa3ab31d9ad87",
       "supersedes": [
         "CON-FRICTION"
@@ -900,7 +900,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Importer coverage is format and element-family dependent.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "8047fb63c420609b510beaa1e30aa3ab31d9ad87",
       "supersedes": [
         "INF-MESH-GMSH"
@@ -930,7 +930,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Capability acceptance is analysis-specific.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "8047fb63c420609b510beaa1e30aa3ab31d9ad87",
       "supersedes": [
         "INF-LOADS-BC"
@@ -960,7 +960,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Field recovery and output support vary by element and analysis.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "8047fb63c420609b510beaa1e30aa3ab31d9ad87",
       "supersedes": [
         "INF-POST"
@@ -990,7 +990,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Scalability boundaries depend on sparsity and solver selection.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "8047fb63c420609b510beaa1e30aa3ab31d9ad87",
       "supersedes": [
         "INF-SPARSE-SCIPY"
@@ -1020,7 +1020,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Optional dependencies; large modal scope is explicitly protected and bounded.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "8047fb63c420609b510beaa1e30aa3ab31d9ad87",
       "supersedes": [
         "INF-PETSC-SLEPC"
@@ -1052,7 +1052,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "G11 is closed as PASS_WITH_LIMITATIONS: six routes and 20 runtime cases are covered; DIAG-005/008 remain bounded and no universal public-route claim is made.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "236b6ceffdfb9187940f68f3c52d7dc70290570f",
       "supersedes": [
         "INF-DIAGNOSTICS-FAILURES"
@@ -1087,7 +1087,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE; WP12_SUPPLEMENTAL_EVIDENCE_PROPOSED_OWNER_REVIEW",
       "limitations": "G12 is closed as PASS_WITH_LIMITATIONS: route, hardware and model-topology bounds remain explicit; 300k is assembly-only and 1M is RESOURCE_LIMITED. WP12 adds current-source structured TET4 readiness evidence pending Owner review; it does not broaden the inherited public scope.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "81443c20b3f1ec9b742292bc5f880cc10e112a96",
       "supersedes": [
         "INF-PERF-SCALING"
@@ -1117,7 +1117,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "External tools remain optional; correlation is not general physical validation.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "8047fb63c420609b510beaa1e30aa3ab31d9ad87",
       "supersedes": [
         "INF-EXTERNAL-CORRELATION"
@@ -1150,7 +1150,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 modal/dynamic/harmonic coverage is bounded; other BEAM2 scopes remain governed by their own gates. Family-specific requalification is scheduled in G04.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-BEAM2/ANA-STATIC"
@@ -1184,7 +1184,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 modal/dynamic/harmonic coverage is bounded; other BEAM2 scopes remain governed by their own gates. G05 is PASS_WITH_LIMITATIONS: modal evidence covers eight internal family rows, while external correlation remains bounded and family-incomplete.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-BEAM2/ANA-MODAL"
@@ -1218,7 +1218,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 modal/dynamic/harmonic coverage is bounded; other BEAM2 scopes remain governed by their own gates. G05 is PASS_WITH_LIMITATIONS: Newmark refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-BEAM2/ANA-NEWMARK"
@@ -1252,7 +1252,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 modal/dynamic/harmonic coverage is bounded; other BEAM2 scopes remain governed by their own gates. G05 is PASS_WITH_LIMITATIONS: harmonic refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-BEAM2/ANA-HARMONIC"
@@ -1283,7 +1283,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; no comparable independent external deck is recorded for MITC3. Family-specific requalification is scheduled in G04.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-MITC3/ANA-STATIC"
@@ -1316,7 +1316,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; no comparable independent external deck is recorded for MITC3. G05 is PASS_WITH_LIMITATIONS: modal evidence covers eight internal family rows, while external correlation remains bounded and family-incomplete.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-MITC3/ANA-MODAL"
@@ -1349,7 +1349,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; no comparable independent external deck is recorded for MITC3. G05 is PASS_WITH_LIMITATIONS: Newmark refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-MITC3/ANA-NEWMARK"
@@ -1382,7 +1382,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; no comparable independent external deck is recorded for MITC3. G05 is PASS_WITH_LIMITATIONS: harmonic refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-MITC3/ANA-HARMONIC"
@@ -1413,7 +1413,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; no comparable independent external deck is recorded for MITC4. Family-specific requalification is scheduled in G04.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-MITC4/ANA-STATIC"
@@ -1446,7 +1446,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; no comparable independent external deck is recorded for MITC4. G05 is PASS_WITH_LIMITATIONS: modal evidence covers eight internal family rows, while external correlation remains bounded and family-incomplete.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-MITC4/ANA-MODAL"
@@ -1479,7 +1479,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; no comparable independent external deck is recorded for MITC4. G05 is PASS_WITH_LIMITATIONS: Newmark refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-MITC4/ANA-NEWMARK"
@@ -1512,7 +1512,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; no comparable independent external deck is recorded for MITC4. G05 is PASS_WITH_LIMITATIONS: harmonic refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-MITC4/ANA-HARMONIC"
@@ -1544,7 +1544,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; external coverage is bounded and other analysis scopes remain separately governed. Family-specific requalification is scheduled in G04.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-TET4/ANA-STATIC"
@@ -1578,7 +1578,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; external coverage is bounded and other analysis scopes remain separately governed. G05 is PASS_WITH_LIMITATIONS: modal evidence covers eight internal family rows, while external correlation remains bounded and family-incomplete.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-TET4/ANA-MODAL"
@@ -1612,7 +1612,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; external coverage is bounded and other analysis scopes remain separately governed. G05 is PASS_WITH_LIMITATIONS: Newmark refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-TET4/ANA-NEWMARK"
@@ -1646,7 +1646,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; external coverage is bounded and other analysis scopes remain separately governed. G05 is PASS_WITH_LIMITATIONS: harmonic refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-TET4/ANA-HARMONIC"
@@ -1678,7 +1678,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; external coverage is bounded and other analysis scopes remain separately governed. No nonlinear collapse claim; 0.2.6 maturity extension is pending.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-TET4/ANA-BUCKLING"
@@ -1710,7 +1710,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; external coverage is bounded and other analysis scopes remain separately governed. Maturity extension and multi-family correlation are scheduled separately.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-TET4/ANA-NONLINEAR-LOAD"
@@ -1742,7 +1742,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. Family-specific requalification is scheduled in G04.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-TET10/ANA-STATIC"
@@ -1776,7 +1776,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. G05 is PASS_WITH_LIMITATIONS: modal evidence covers eight internal family rows, while external correlation remains bounded and family-incomplete.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-TET10/ANA-MODAL"
@@ -1810,7 +1810,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. G05 is PASS_WITH_LIMITATIONS: Newmark refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-TET10/ANA-NEWMARK"
@@ -1844,7 +1844,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. G05 is PASS_WITH_LIMITATIONS: harmonic refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-TET10/ANA-HARMONIC"
@@ -1876,7 +1876,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. No nonlinear collapse claim; 0.2.6 maturity extension is pending.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-TET10/ANA-BUCKLING"
@@ -1908,7 +1908,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. Maturity extension and multi-family correlation are scheduled separately.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-TET10/ANA-NONLINEAR-LOAD"
@@ -1939,7 +1939,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. Family-specific requalification is scheduled in G04.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-HEX8/ANA-STATIC"
@@ -1972,7 +1972,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. G05 is PASS_WITH_LIMITATIONS: modal evidence covers eight internal family rows, while external correlation remains bounded and family-incomplete.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-HEX8/ANA-MODAL"
@@ -2005,7 +2005,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. G05 is PASS_WITH_LIMITATIONS: Newmark refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-HEX8/ANA-NEWMARK"
@@ -2038,7 +2038,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. G05 is PASS_WITH_LIMITATIONS: harmonic refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-HEX8/ANA-HARMONIC"
@@ -2069,7 +2069,7 @@
       ],
       "owner_decision": "INHERITED_G14_MORE_EVIDENCE_REQUIRED",
       "limitations": "G14 explicitly retains HEX8 buckling as more-evidence-required. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. No nonlinear collapse claim; 0.2.6 maturity extension is pending.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-HEX8/ANA-BUCKLING"
@@ -2100,7 +2100,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. Maturity extension and multi-family correlation are scheduled separately.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-HEX8/ANA-NONLINEAR-LOAD"
@@ -2131,7 +2131,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. Family-specific requalification is scheduled in G04.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-HEX20/ANA-STATIC"
@@ -2164,7 +2164,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. G05 is PASS_WITH_LIMITATIONS: modal evidence covers eight internal family rows, while external correlation remains bounded and family-incomplete.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-HEX20/ANA-MODAL"
@@ -2197,7 +2197,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. G05 is PASS_WITH_LIMITATIONS: Newmark refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-HEX20/ANA-NEWMARK"
@@ -2230,7 +2230,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. G05 is PASS_WITH_LIMITATIONS: harmonic refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-HEX20/ANA-HARMONIC"
@@ -2261,7 +2261,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. No nonlinear collapse claim; 0.2.6 maturity extension is pending.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-HEX20/ANA-BUCKLING"
@@ -2292,7 +2292,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. Maturity extension and multi-family correlation are scheduled separately.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-HEX20/ANA-NONLINEAR-LOAD"
@@ -2324,7 +2324,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; external coverage is bounded and other analysis scopes remain separately governed. Only bounded TET4/HEX8 Total-Lagrangian elasticity is qualified; high-order and finite-kinematic J2 remain non-qualified.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-TET4/ANA-GEOMETRIC-NONLINEAR"
@@ -2356,7 +2356,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. Only bounded TET4/HEX8 Total-Lagrangian elasticity is qualified; high-order and finite-kinematic J2 remain non-qualified.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-TET10/ANA-GEOMETRIC-NONLINEAR"
@@ -2387,7 +2387,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. Only bounded TET4/HEX8 Total-Lagrangian elasticity is qualified; high-order and finite-kinematic J2 remain non-qualified.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-HEX8/ANA-GEOMETRIC-NONLINEAR"
@@ -2418,7 +2418,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. Only bounded TET4/HEX8 Total-Lagrangian elasticity is qualified; high-order and finite-kinematic J2 remain non-qualified.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-HEX20/ANA-GEOMETRIC-NONLINEAR"
@@ -2449,7 +2449,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 modal/dynamic/harmonic coverage is bounded; other discrete scopes remain governed by their own gates. Family-specific requalification is scheduled in G04.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-DISCRETE/ANA-STATIC"
@@ -2482,7 +2482,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 modal/dynamic/harmonic coverage is bounded; other discrete scopes remain governed by their own gates. G05 is PASS_WITH_LIMITATIONS: modal evidence covers eight internal family rows, while external correlation remains bounded and family-incomplete.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-DISCRETE/ANA-MODAL"
@@ -2515,7 +2515,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 modal/dynamic/harmonic coverage is bounded; other discrete scopes remain governed by their own gates. G05 is PASS_WITH_LIMITATIONS: Newmark refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-DISCRETE/ANA-NEWMARK"
@@ -2548,7 +2548,7 @@
       ],
       "owner_decision": "INHERITED_0_2_6_SCOPE",
       "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 modal/dynamic/harmonic coverage is bounded; other discrete scopes remain governed by their own gates. G05 is PASS_WITH_LIMITATIONS: harmonic refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
       "supersedes": [
         "ELE-DISCRETE/ANA-HARMONIC"
@@ -2583,7 +2583,7 @@
       ],
       "owner_decision": "WP08_STATIC_VERTICAL_SLICE_EXPERIMENTAL",
       "limitations": "WP08 validates the bounded Gmsh Prism 6 static workflow, declared TRI3/QUAD4 face loads, reactions/equilibrium and Gauss-point post-processing; WEDGE6 remains EXPERIMENTAL and public qualification, robustness, modal/dynamic routes, nonlinear routes and external correlation remain deferred.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "8040909d6d65f740e1daf858ce572d250a87b39a",
       "supersedes": [],
       "historical_origin": {
@@ -2615,7 +2615,7 @@
       ],
       "owner_decision": "OWNER_APPROVED_BOUNDED_FIRST_THREE_MODES",
       "limitations": "WP10 qualifies only the homogeneous isotropic small-strain WEDGE6 consistent-mass modal route within the declared four-level first-three-mode refinement and four same-mesh Code_Aster PENTA6 comparisons. Modes four to six remain diagnostic for refinement; static evidence is not transferred automatically, and Newmark, harmonic, nonlinear, J2, TL and contact routes remain outside this record.",
-      "applicable_version": "0.2.7a0",
+      "applicable_version": "0.2.7",
       "source_snapshot": "9d79dc8b306e6cc65f2f4ae2e77e00f676182b84",
       "supersedes": [],
       "historical_origin": {

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "release": "0.2.7a0",
+  "release": "0.2.7",
   "theme": "Reproducible Large-Model Solving and Numerical Trust",
   "baseline_sha": "e839373b6aef291a93292186d7553ba5cd12af55",
   "baseline_branch": "main",
@@ -309,13 +309,13 @@
   "level_up_2": {
     "id": "027-LEVEL-UP-2",
     "namespace": "027-LEVEL-UP-2",
-    "status": "OPEN",
+    "status": "CLOSED",
     "theme": "Reproducible Large-Model Performance and Solver Maturity",
     "pre_lu2_qualified_baseline": "8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3",
     "global_accounting": {
       "level_up_1": {"weight_percent": 50, "acquired_percent": 50, "status": "CLOSED"},
-      "level_up_2": {"weight_percent": 50, "acquired_percent": 46, "status": "OPEN"},
-      "current_global_progress_percent": 96,
+      "level_up_2": {"weight_percent": 50, "acquired_percent": 50, "status": "CLOSED"},
+      "current_global_progress_percent": 100,
       "weights_total_percent": 100
     },
     "gates": [
@@ -468,7 +468,7 @@
           "WP19 is a bounded HEX8 diagnostic and does not prove a universal locking correction."
         ]
       },
-      {"id": "LU2-027-G09", "work_package": "LU2-WP09", "title": "Release Truth / Registry / CI / Final Qualification", "status": "NOT_STARTED", "weight_percent": 4, "priority": "MUST"}
+      {"id": "LU2-027-G09", "work_package": "LU2-WP09", "title": "Release Truth / Registry / CI / Final Qualification", "status": "PASS_WITH_LIMITATIONS", "weight_percent": 4, "priority": "MUST", "evidence": ["qualification/0_2_7/r0_release_readiness.json", "qualification/0_2_7/step1_release_freeze.json"], "owner_decision": "PASS_WITH_LIMITATIONS: Owner qualification is complete at 100 percent; Step 1 freezes the stable release while preserving bounded limitations."}
     ],
     "conditional_gates": [
       {"id": "C1", "title": "Matrix-Free TET4 Capacity Spike", "status": "DORMANT", "weight_percent": 0, "non_blocking": true, "prior_interpretation": "TRIGGERED_BY_TIME_BUDGET", "reason": "Not confirmed: the 2x time budget was exceeded, but the owner interruption and missing progress/resource telemetry prevent a resource-limited trigger."},

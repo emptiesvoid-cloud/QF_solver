@@ -1,17 +1,18 @@
 ---
 doc_id: DOC-027-014
 revision: 0.1
-status: controlled_candidate
-applicable_version: 0.2.7a0
+status: controlled_release
+applicable_version: 0.2.7
 reviewer: ""
 approver: ""
 ---
 
 # 0.2.7 Release Criteria
 
-These criteria describe the remaining WP22 Owner release action. WP21 records
-the completed surgical compatibility and release-truth cleanup; this document
-does not itself authorize a tag, GitHub release or PyPI publication.
+These criteria describe the controlled release boundary for QF Solver 0.2.7.
+The Owner has completed the qualification decision at 100 percent; the stable
+tag and publication sequence are recorded separately by Step 1. This document
+does not authorize PyPI publication.
 
 ## Scope and provenance
 

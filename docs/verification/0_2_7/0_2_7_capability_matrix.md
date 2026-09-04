@@ -2,7 +2,7 @@
 doc_id: DOC-027-016
 revision: 0.1
 status: controlled_candidate
-applicable_version: 0.2.7a0
+applicable_version: 0.2.7
 reviewer: ""
 approver: ""
 ---
@@ -13,7 +13,7 @@ approver: ""
 
 The v2 registry preserves the 33 public 0.2.6 capability identifiers as traceable anchors and exposes 46 explicit element-analysis combination records. Anchor rows retain aggregate historical scope; combination rows are not new execution evidence.
 
-- Applicable version: `0.2.7a0`
+- Applicable version: `0.2.7`
 - Source snapshot: `e839373b6aef291a93292186d7553ba5cd12af55`
 - Legacy capabilities preserved: 33
 - Combination records: 46

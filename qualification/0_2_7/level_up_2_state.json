@@ -3,16 +3,16 @@
   "record_type": "level_up_2_state",
   "namespace": "027-LEVEL-UP-2",
   "plan": "qualification/0_2_7/level_up_2_plan.json",
-  "release": "0.2.7a0",
+  "release": "0.2.7",
   "theme": "Reproducible Large-Model Performance and Solver Maturity",
-  "status": "OPEN",
+  "status": "CLOSED",
   "setup_status": "PASS",
   "source_sha": "04b07e00ddfe0b339b5790493a607ec902b1ed80",
   "wp01_source_sha": "e1703b5bc00e9cf2eb92e7e346783c9764201808",
   "branch": "codex/0.2.7-foundation",
   "pre_lu2_qualified_baseline": "8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3",
-  "current_work_package": "LU2-WP05",
-  "next_work_package": "LU2-WP09",
+  "current_work_package": "STEP1",
+  "next_work_package": "STEP2",
   "s3_release_pre_gate": {
     "status": "PASS_WITH_LIMITATIONS",
     "source_of_truth": "qualification/0_2_7/s3_validation_matrix.json",
@@ -23,8 +23,8 @@
   },
   "global_accounting": {
     "level_up_1": "50/50 CLOSED",
-    "level_up_2": "46/50 OPEN",
-    "current_global_progress": "96/100",
+    "level_up_2": "50/50 CLOSED",
+    "current_global_progress": "100/100",
     "weights_total_percent": 100
   },
   "work_packages": [
@@ -92,7 +92,7 @@
       "ready": true,
       "evidence": "qualification/0_2_7/lu2_wp08_decision_matrix.json"
     },
-    {"id": "LU2-WP09", "status": "NOT_STARTED", "weight_percent": 4, "ready": false}
+    {"id": "LU2-WP09", "status": "PASS_WITH_LIMITATIONS", "weight_percent": 4, "ready": true, "evidence": ["qualification/0_2_7/r0_release_readiness.json", "qualification/0_2_7/step1_release_freeze.json"]}
   ],
   "conditional_gates": [
     {
@@ -150,7 +150,7 @@
     "wp03_summary": "qualification/0_2_7/wp03_runtime/wp03_summary.json",
     "ready_for_heavy_benchmark": false,
     "heavy_benchmark_status": "WP04 Bronze PASS; WP05 5M Silver PASS with two complete replays",
-    "next_work_package": "LU2-WP09",
+    "next_work_package": "STEP2",
     "blockers": [],
     "observatory_contract": "qualification/0_2_7/observatory_contract.json",
     "observatory_sample": "qualification/0_2_7/wp01_observatory_sample.json",
@@ -159,7 +159,7 @@
     "wp02_evidence_index": "qualification/0_2_7/wp02_runtime/wp02_evidence_index.json",
     "wp02_configuration_freeze": "qualification/0_2_7/wp02_runtime/wp02_config_freeze.json"
   },
-  "completed_work_packages": ["LU2-WP01", "LU2-WP02", "LU2-WP03", "LU2-WP04", "LU2-WP05", "LU2-WP06", "LU2-WP07", "LU2-WP08"],
+  "completed_work_packages": ["LU2-WP01", "LU2-WP02", "LU2-WP03", "LU2-WP04", "LU2-WP05", "LU2-WP06", "LU2-WP07", "LU2-WP08", "LU2-WP09"],
   "wp08_decision": {
     "status": "PASS_WITH_LIMITATIONS",
     "decision_matrix": "qualification/0_2_7/lu2_wp08_decision_matrix.json",

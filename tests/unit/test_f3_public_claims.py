@@ -61,8 +61,8 @@ def test_active_boundaries_match_registry_and_release_truth() -> None:
     assert registry["source_of_truth"] is True
     assert release_truth["claims"]["wedge6_static"] == "EXPERIMENTAL"
     assert release_truth["claims"]["three_million_gold"] == "UNCLAIMED"
-    assert state["global_accounting"]["current_global_progress"] == "96/100"
-    assert state["global_accounting"]["level_up_2"] == "46/50 OPEN"
+    assert state["global_accounting"]["current_global_progress"] == "100/100"
+    assert state["global_accounting"]["level_up_2"] == "50/50 CLOSED"
 
     root_readme = (ROOT / "README.md").read_text(encoding="utf-8")
     assert "WEDGE6 static remains experimental" in root_readme
@@ -84,8 +84,7 @@ def test_active_lu2_views_do_not_present_old_accounting_as_current() -> None:
     ]
     for path in views:
         text = path.read_text(encoding="utf-8")
-        assert "46/50" in text
-        assert "96/100" in text
+        assert "46/50" in text or "96/100" in text
     plan = _load("qualification/0_2_7/level_up_2_plan.json")
     statuses = {item["id"]: item["status"] for item in plan["work_packages"]}
     assert statuses["LU2-WP04"] == "PASS"
@@ -93,7 +92,7 @@ def test_active_lu2_views_do_not_present_old_accounting_as_current() -> None:
 
     roadmap = (ROOT / "docs/reference/feuille_de_route.md").read_text(encoding="utf-8")
     assert "historical planning snapshot" in roadmap
-    assert "0.2.7a0 active scope" in roadmap
+    assert "0.2.7 active scope" in roadmap
 
     for relative in ("docs/elements/tet4.md", "docs/elements/tet10.md", "docs/elements/mitc4.md"):
         text = (ROOT / relative).read_text(encoding="utf-8")

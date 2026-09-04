@@ -10,18 +10,19 @@ configuration recorded by its evidence.
 
 ## Current maturity
 
-- **Current version:** `0.2.7a0`
-- **Release status:** Release candidate; not tagged or published on PyPI
-- **Qualification status:** WP21 is `PASS_WITH_LIMITATIONS`; final release
-  action remains governed by the 0.2.7 release criteria.
+- **Current version:** `0.2.7`
+- **Release status:** Stable release frozen at tag `v0.2.7`; PyPI publication is
+  intentionally deferred to the next release step.
+- **Qualification status:** Owner-complete qualification with bounded
+  `PASS_WITH_LIMITATIONS` evidence and explicit known limitations.
 - **Qualification snapshot:** active evidence is indexed by
   [`qualification/0_2_7/manifest.json`](qualification/0_2_7/manifest.json);
   the parent 0.2.6 qualification snapshot is retained separately.
 
-The parent tagged source release remains available at `v0.2.6a0`. The active
-0.2.7 candidate is the current development checkout and has no 0.2.7 tag or
-PyPI publication. Evidence packages record their own qualified source SHA and
-artifact manifests; the active gate snapshot is maintained in
+The parent tagged source release remains available at `v0.2.6a0`. The stable
+0.2.7 source is frozen at `v0.2.7`; PyPI publication remains a separate owner
+decision. Evidence packages record their own qualified source SHA and artifact
+manifests; the active gate snapshot is maintained in
 [`qualification/0_2_7/gates.json`](qualification/0_2_7/gates.json).
 
 | Maturity | Meaning | Current examples |
@@ -143,8 +144,8 @@ missing functionality:
   and analysis.
 - External correlation can be unavailable or non-comparable and must then be
   recorded as such; it is not silently treated as a pass.
-- The current 0.2.7 candidate has bounded Level-Up evidence through WP21;
-  final release action remains separate from this development checkout.
+- The current 0.2.7 release has bounded Level-Up evidence through WP21;
+  release action is frozen at tag `v0.2.7`.
 - PETSc/MPI is optional at runtime. The bounded 1.029M, 3M and 5M results
   apply only to the recorded structured TET4 route and pinned environment;
   they do not qualify other element families, nonlinear analyses or dynamics.
@@ -158,21 +159,20 @@ The active 0.2.7 evidence and deferred Level-Up 2 scope are indexed in
 
 ## Installation
 
-### 0.2.7a0 release candidate
+### 0.2.7 stable release
 
-The current `0.2.7a0` checkout is a release candidate under review. It is not
-yet tagged or published on PyPI. Install it from the active branch when
-reproducing the candidate locally:
+The `0.2.7` release is frozen at tag `v0.2.7`. Install the tagged source when
+reproducing the release locally:
 
 ```powershell
 git clone https://github.com/emptiesvoid-cloud/QF_solver.git
 Set-Location QF_solver
-git checkout codex/0.2.7-foundation
-python -m pip install -e ".[test]"
+git checkout v0.2.7
+python -m pip install ".[test]"
 qf-solver --version
 ```
 
-The candidate's release truth, evidence heads and claim boundaries are in
+The release truth, evidence heads and claim boundaries are in
 [`qualification/0_2_7/manifest.json`](qualification/0_2_7/manifest.json).
 
 ### PyPI package
@@ -257,7 +257,7 @@ is retained for compatibility. Useful CLI entry points include `solve`,
 
 ## Release status and finalization
 
-The active `0.2.7a0` candidate has a bounded scope focused on reproducible
+The active `0.2.7` release has a bounded scope focused on reproducible
 large-model solving and numerical trust. The `qf-solver` PyPI project page is
 the reference for published package availability and release history. The
 parent `v0.2.6a0` release remains the latest tagged historical baseline until
@@ -266,12 +266,12 @@ the 0.2.7 release action is completed.
 Current release state:
 
 ```text
-Current version: 0.2.7a0
-Release status: Release candidate; not tagged or published
+Current version: 0.2.7
+Release status: Stable tag v0.2.7; PyPI publication deferred
 Parent tag: v0.2.6a0
 WP21 status: PASS_WITH_LIMITATIONS
 PyPI project: qf-solver
-PyPI availability: 0.2.7a0 not published; check the project page for history
+PyPI availability: 0.2.7 publication deferred; check the project page for history
 ```
 
 The authoritative 0.2.7 release truth is identified by its manifest and each
@@ -297,7 +297,7 @@ python -m compileall -q src scripts tests qf_solver.py
 | --- | --- |
 | `0.2.0a0` | Open-source foundation, initial packaging and V&V structure. |
 | `0.2.1a0` | Qualification registry, release V&V automation and traceability. |
-| `0.2.7a0` | Reproducible large-model solving and numerical trust; release candidate under review. |
+| `0.2.7` | Reproducible large-model solving and numerical trust; stable tag with bounded claims. |
 | `0.2.2a0` | Sparse backend and diagnostics strengthening, with optional HPC preparation. |
 | `0.2.3a0` | HEX8/HEX20, Gmsh import and expanded TET/HEX benchmarks. |
 | `0.2.4a0` | Shared small-strain J2, Full Newton, consistent tangent and state transactions. |

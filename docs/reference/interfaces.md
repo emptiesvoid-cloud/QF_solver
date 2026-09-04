@@ -2,14 +2,14 @@
 doc_id: DOC-REF-001
 revision: 0.1
 status: draft technique
-applicable_version: 0.2.7a0
+applicable_version: 0.2.7
 reviewer: ""
 approver: ""
 ---
 
 # Interfaces CLI et API publiques
 
-Cette page decrit les interfaces disponibles dans le candidat 0.2.7a0.
+Cette page decrit les interfaces disponibles dans la release 0.2.7.
 La stabilite d'une API ou la compatibilite d'un import ne constitue pas une
 qualification mecanique : les claims restent gouvernes par le registry v2 et
 les preuves de verification 0.2.7.

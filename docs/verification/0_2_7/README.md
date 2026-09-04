@@ -2,17 +2,17 @@
 doc_id: DOC-027-001
 revision: 0.1
 status: controlled_candidate
-applicable_version: 0.2.7a0
+applicable_version: 0.2.7
 reviewer: ""
 approver: ""
 ---
 
-# QF Solver 0.2.7a0 Foundation and Level-Up
+# QF Solver 0.2.7 Foundation and Level-Up
 
 **Reproducible large-model solving and numerical trust.**
 
-This directory is the controlled evidence pack for the `0.2.7a0` development
-cycle. It is not a release claim. WP01 release truth and provenance is `PASS`; WP02 is `PASS` for the
+This directory is the controlled evidence pack for the `0.2.7` release. It is
+not a universal release claim. WP01 release truth and provenance is `PASS`; WP02 is `PASS` for the
 capability-registry control; WP03 is `PASS` for the descriptor/preflight
 control; WP04 is `PASS` for the additive V&V harness; WP05 is `PASS` for the
 external deck preflight only; WP06 is `PASS` for an additive mesh-quality
@@ -31,7 +31,8 @@ evidence, WP16 is `PASS` on the official PETSc 1M retry, WP17 is
 `PASS_WITH_LIMITATIONS` on bounded adversarial and HEX8 diagnostic evidence;
 WP20 is `PASS_WITH_LIMITATIONS` for the existing bounded small-strain J2
 scope. WP21 is `PASS_WITH_LIMITATIONS` for surgical compatibility and
-release-truth cleanup; WP22 remains `PLANNED` for final Owner release action.
+release-truth cleanup. The Owner has completed the qualification decision;
+Step 1 freezes the stable tag while preserving the historical audit records.
 
 F4 is `PASS_WITH_LIMITATIONS`: the unit-test quality audit found no P0/P1
 release blocker, strengthened critical negative-test exception contracts and
@@ -54,7 +55,7 @@ No record promotes capability maturity.
 
 | Item | Value |
 | --- | --- |
-| Target version | `0.2.7a0` |
+| Target version | `0.2.7` |
 | Active theme | Reproducible Large-Model Solving and Numerical Trust |
 | Historical foundation theme | Prismatic solid interoperability and numerical robustness |
 | Authoritative starting point | `e839373b6aef291a93292186d7553ba5cd12af55` |
@@ -62,7 +63,7 @@ No record promotes capability maturity.
 | Foundation branch | Dedicated 0.2.7 foundation branch |
 | Numerical source changed by this pack | No |
 | WEDGE6 implemented by this pack | Technical elemental kernel only |
-| Release/tag/PyPI action | None |
+| Release/tag/PyPI action | Stable tag `v0.2.7`; PyPI deferred |
 
 The `0.2.6a0` qualification remains a historical tagged baseline. Its gate
 records and evidence are not rewritten by this plan. The `0.2.7a0` records
@@ -308,7 +309,7 @@ valid, and the C3 10M result remains bounded. The closeout battery passed
 (`138 passed, 2 skipped`), wheel and sdist checks pass, and no numerical source,
 baseline, historical evidence or maturity record changed.
 
-R0 does not create `v0.2.7a0`, publish PyPI or create a GitHub release. The
+The historical R0 checkpoint did not create `v0.2.7a0`, publish PyPI or create a GitHub release. The
 generic publication readiness command therefore remains `NOT_READY` until the
 owner reviews the reachable-history prefilter and performs the explicit tag
 action. The candidate is ready for that Owner decision with known limitations;

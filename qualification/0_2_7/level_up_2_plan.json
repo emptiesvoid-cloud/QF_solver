@@ -3,9 +3,9 @@
   "record_type": "level_up_2_governance_plan",
   "plan_id": "QF-027-LEVEL-UP-2",
   "namespace": "027-LEVEL-UP-2",
-  "release": "0.2.7a0",
+  "release": "0.2.7",
   "theme": "Reproducible Large-Model Performance and Solver Maturity",
-  "status": "OPEN",
+  "status": "CLOSED",
   "setup_status": "PASS",
   "source_snapshot": "8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3",
   "source_branch": "codex/0.2.7-foundation",
@@ -25,11 +25,11 @@
     },
     "level_up_2": {
       "weight_percent": 50,
-      "acquired_percent": 46,
-      "status": "OPEN",
+      "acquired_percent": 50,
+      "status": "CLOSED",
       "scope": "active large-model performance and solver maturity"
     },
-    "current_global_progress_percent": 96,
+    "current_global_progress_percent": 100,
     "weights_total_percent": 100,
     "accounting_rule": "Level-Up 1 and Level-Up 2 are sequential program blocks; their weights are not added to a second historical percentage view.",
     "legacy_accounting_views_are_non_authoritative": true
@@ -333,7 +333,7 @@
       "title": "Release Truth, Registry, CI and Final Qualification",
       "weight_percent": 4,
       "priority": "MUST",
-      "status": "NOT_STARTED",
+      "status": "PASS_WITH_LIMITATIONS",
       "objective": "Reconcile the LU2 evidence, claims, registry, package, CI and final Owner decision.",
       "pass_criteria": [
         "All mandatory LU2 records have source/configuration/result provenance.",
@@ -348,8 +348,10 @@
         "dirty release state"
       ],
       "dependencies": ["LU2-WP01", "LU2-WP02", "LU2-WP03", "LU2-WP04", "LU2-WP05", "LU2-WP06", "LU2-WP07", "LU2-WP08"],
-      "evidence_required": ["final evidence index", "full regression where required", "Owner closeout"],
-      "test_tier": "T2/T3"
+      "evidence_required": ["final evidence index", "full regression where required", "Owner closeout", "qualification/0_2_7/step1_release_freeze.json"],
+      "test_tier": "T2/T3",
+      "evidence": ["qualification/0_2_7/r0_release_readiness.json", "qualification/0_2_7/step1_release_freeze.json", "docs/verification/0_2_7/0_2_7_step1_release_freeze.md", "tests/unit/test_step1_release_freeze.py"],
+      "owner_decision": "PASS_WITH_LIMITATIONS: Owner qualification is complete at 100 percent; stable release freeze, provenance and bounded limitations are recorded by Step 1."
     }
   ],
   "conditional_gates": [

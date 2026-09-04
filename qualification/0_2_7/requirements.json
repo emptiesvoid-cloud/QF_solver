@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "release": "0.2.7a0",
+  "release": "0.2.7",
   "baseline_sha": "e839373b6aef291a93292186d7553ba5cd12af55",
   "requirements": [
     {
@@ -107,7 +107,7 @@
       "gate": "027-G09",
       "work_package": "WP09",
       "priority": "MUST",
-      "status": "PLANNED",
+      "status": "PASS_WITH_LIMITATIONS",
       "requirement": "WEDGE6 robustness evidence shall cover quality, distortion, orientation, failure paths and comparable external observables.",
       "acceptance": "Unexplained divergence blocks promotion; unavailable or incompatible external runs remain explicit.",
       "verification": ["mesh matrix", "adversarial cases", "external comparison"],
@@ -347,11 +347,12 @@
       "work_package": "LU2-WP09",
       "gate": "LU2-027-G09",
       "priority": "MUST",
-      "status": "PLANNED",
+      "status": "PASS_WITH_LIMITATIONS",
       "requirement": "The final LU2 decision shall reconcile claims, registry, evidence, CI, package and provenance.",
       "acceptance": "A declared Owner checkpoint chooses RELEASE or NEW_LEVEL_UP; no release is automatic and no unclassified blocker remains.",
-      "verification": ["final registry audit", "full regression where required", "Owner closeout"],
-      "owner_policy": "LEVEL_UP_2_RELEASE_POLICY"
+      "verification": ["final registry audit", "full regression where required", "Owner closeout", "qualification/0_2_7/step1_release_freeze.json"],
+      "owner_policy": "LEVEL_UP_2_RELEASE_POLICY",
+      "owner_decision": "PASS_WITH_LIMITATIONS: Owner qualification is complete at 100 percent; stable release freeze and bounded limitations are recorded in Step 1."
     }
   ],
   "policy": {
