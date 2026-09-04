@@ -46,7 +46,7 @@ warning.
 
 The wheel and sdist both passed `twine check` and the repository distribution
 policy checker. The tested wheel was 1,344,679 bytes and the tested sdist was
-997,208 bytes. Two isolated builds had identical member contents and
+996,957 bytes. Two isolated builds had identical member contents and
 structure; whole archive hashes differed only in normal build/archive
 metadata. No credentials, personal paths, `.env`, bytecode or unexpected
 private dumps were found.
