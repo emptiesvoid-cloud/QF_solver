@@ -35,9 +35,9 @@ general physical validation.
 ## Evidence navigation
 
 - [Capability matrix](0_2_7_capability_matrix.md)
-- [Large-model evidence](#internal-qualification-traceability)
-- [Qualification campaign records](#internal-qualification-traceability)
-- [Release audit records](#internal-qualification-traceability)
+- [Large-model evidence](0_2_7_capability_matrix.md)
+- [Qualification campaign records](0_2_7_capability_matrix.md)
+- [Release audit records](0_2_7_capability_matrix.md)
 - [WEDGE6 static boundary](0_2_7_wedge6_static_vertical_slice.md)
 - [WEDGE6 modal boundary](0_2_7_wedge6_modal.md)
 - [S3 expanded validation](0_2_7_s3_expanded_validation.md)
