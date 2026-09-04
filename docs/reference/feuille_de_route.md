@@ -14,7 +14,7 @@ non fermees restent visibles comme experimental, research ou hors scope ; la
 roadmap ne constitue pas une promesse de date.
 
 Les sections 0.2.5 et 0.2.7 ci-dessous sont conservees comme snapshots de
-planification historiques. La roadmap active `0.2.7a0` est le plan Level-Up
+planification historiques. La roadmap active `0.2.7` est le plan Level-Up
 2 dans [`docs/verification/0_2_7/0_2_7_master_plan.md`](../verification/0_2_7/0_2_7_master_plan.md)
 et dans son etat machine-readable; elle ne reprend pas automatiquement les
 chantiers experimentaux de ce document.
@@ -36,7 +36,7 @@ chantiers experimentaux de ce document.
 - requalifier G06 sur un scope borne ;
 - traiter la friction comme un chantier separe uniquement apres decision Owner.
 
-## 0.2.7a0 active scope
+## 0.2.7 active scope
 
 - Reproducible Large-Model Solving and Numerical Trust, avec des resultats
   bornes par workload, machine, backend et preuve enregistres ;

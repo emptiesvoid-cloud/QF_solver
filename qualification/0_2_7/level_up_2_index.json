@@ -2,8 +2,8 @@
   "schema_version": 1,
   "record_type": "level_up_2_index",
   "namespace": "027-LEVEL-UP-2",
-  "release": "0.2.7a0",
-  "status": "OPEN",
+  "release": "0.2.7",
+  "status": "CLOSED",
   "theme": "Reproducible Large-Model Performance and Solver Maturity",
   "source_of_truth": "qualification/0_2_7/level_up_2_plan.json",
   "state": "qualification/0_2_7/level_up_2_state.json",
@@ -11,8 +11,8 @@
   "active_branch": "codex/0.2.7-foundation",
   "global_progress": {
     "level_up_1": {"acquired_percent": 50, "status": "CLOSED"},
-    "level_up_2": {"acquired_percent": 46, "status": "OPEN"},
-    "current_percent": 96,
+    "level_up_2": {"acquired_percent": 50, "status": "CLOSED"},
+    "current_percent": 100,
     "total_percent": 100
   },
   "work_package_count": 9,
@@ -50,8 +50,8 @@
   "c3_10m_replay": "qualification/0_2_7/c3_10m_runtime/c3_10m_replay_summary.json",
   "c3_10m_status": "PASS",
   "s1_log_path": "qualification/0_2_7/wp04_runtime/wp04_5m_progress.jsonl",
-  "current_work_package": "LU2-WP05",
-  "next_work_package": "LU2-WP09",
+  "current_work_package": "STEP1",
+  "next_work_package": "STEP2",
   "s3_release_pre_gate": {
     "status": "PASS_WITH_LIMITATIONS",
     "weight_percent": 0,
@@ -78,7 +78,7 @@
   "wp05_replay": "qualification/0_2_7/wp05_runtime/wp05_5m_silver_replay.json",
   "c1_matrix_free_triggered": false,
   "resource_limited_proven": false,
-  "completed_work_packages": ["LU2-WP01", "LU2-WP02", "LU2-WP03", "LU2-WP04", "LU2-WP05", "LU2-WP06", "LU2-WP07", "LU2-WP08"],
+  "completed_work_packages": ["LU2-WP01", "LU2-WP02", "LU2-WP03", "LU2-WP04", "LU2-WP05", "LU2-WP06", "LU2-WP07", "LU2-WP08", "LU2-WP09"],
   "execution_status": {
     "heavy_benchmark_run": true,
     "full_regression_run": false,

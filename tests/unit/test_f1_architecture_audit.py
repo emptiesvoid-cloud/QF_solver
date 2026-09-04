@@ -64,8 +64,8 @@ def test_deferred_cycles_are_documented_and_runtime_importable() -> None:
 def test_public_facades_and_maturity_boundaries_remain_explicit() -> None:
     qf_solver = importlib.import_module("qf_solver")
     solveur = importlib.import_module("solveur")
-    assert qf_solver.__version__ == "0.2.7a0"
-    assert solveur.__version__ == "0.2.7a0"
+    assert qf_solver.__version__ == "0.2.7"
+    assert solveur.__version__ == "0.2.7"
     assert "solve_model" in qf_solver.__all__
     assert "solve_model" in solveur.__all__
 

@@ -1,17 +1,31 @@
 # Changelog
 
-## 0.2.7a0 - Unreleased
+## 0.2.7 - 2026-09-04
 
-The 0.2.7a0 cycle is active around reproducible large-model solving and
-numerical trust. WP13-WP21 record bounded golden, scaling, PETSc/MPI,
-robustness, J2 and public-claim evidence; WP22 remains the final Owner
-release decision. The candidate is not yet tagged or published. The
-controlled plan and evidence index are available in
+QF Solver 0.2.7 freezes the reproducible large-model solving and numerical
+trust work from Level-Up 1 and LU2. The release includes the matured TET/HEX
+routes and bounded J2 small-strain evidence, while WEDGE6 static remains
+experimental and WEDGE6 modal remains qualified only in its declared bounded
+scope. Static/modal routes, MPI collective ordering, structured PETSc MPIAIJ
+preallocation and deterministic replay evidence were retained and audited.
+
+The controlled plan and evidence index are available in
 [`docs/verification/0_2_7/README.md`](docs/verification/0_2_7/README.md).
-The recorded 5M Silver and 3M Gold Compute results are bounded to their
-declared TET4/PETSc/MPI workloads; WEDGE6 static remains experimental,
-WEDGE6 modal is bounded to its own first-three-mode scope, and no universal
-performance or nonlinear claim is implied.
+The 1M, 3M and 5M results are bounded to their declared structured
+TET4/PETSc/MPI workloads. The 10M C3 result is retained as bounded
+`PASS_WITH_LIMITATIONS` evidence; no universal performance, hardware,
+nonlinear, mixed-mesh or GPU claim is implied.
+
+Validation includes the S3 matrix, WP09, bounded Code_Aster comparisons and
+the F1-F6 release audits. CalculiX remains `NOT_COMPARABLE` for the affected
+WEDGE6 comparison. Wheel/sdist, clean-install, API and CLI checks passed.
+
+Known limitations include deferred 5M Gold and deeper 10M scaling analysis,
+mixed meshes, WEDGE15, PYRAMID5, production HEX8R/SRI/B-bar, finite-kinematic
+J2, general dynamics/contact claims, experimental nonlinear/finite-sliding
+routes, partially verified macOS/Python compatibility and optional HPC paths.
+The package is frozen at tag `v0.2.7`; PyPI publication is intentionally
+separate from this step.
 
 ## 0.2.6a0 - Released
 
