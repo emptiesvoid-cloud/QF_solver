@@ -21,7 +21,7 @@
     "role": "0.2.7 source snapshot used for WP13 golden execution; immutable historical evidence reference"
   },
   "current_development_head": {
-    "sha": "dec201ff50fdb9dfa848c1af3101e733659b6546",
+    "sha": "15fe5f846b803cc02008de36d3c53065d9522807",
     "role": "current 0.2.7 stable-metadata and CI candidate after Step2D; prior execution SHAs remain historical evidence"
   },
   "wp13_golden_baseline": {
@@ -59,7 +59,7 @@
     "tag": "v0.2.7",
     "tag_status": "EXISTS_AT_PRIOR_SHA",
     "tag_target_sha": "ace411b7326fc31e8109487ce351c002dc993628",
-    "branch_candidate_sha": "dec201ff50fdb9dfa848c1af3101e733659b6546",
+    "branch_candidate_sha": "15fe5f846b803cc02008de36d3c53065d9522807",
     "github_release": "NOT_CREATED",
     "pypi": "NOT_PUBLISHED"
   },
