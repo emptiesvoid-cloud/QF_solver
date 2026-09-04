@@ -50,8 +50,8 @@
   "c3_10m_replay": "qualification/0_2_7/c3_10m_runtime/c3_10m_replay_summary.json",
   "c3_10m_status": "PASS",
   "s1_log_path": "qualification/0_2_7/wp04_runtime/wp04_5m_progress.jsonl",
-  "current_work_package": "STEP1",
-  "next_work_package": "STEP2",
+  "current_work_package": "STEP2B",
+  "next_work_package": "STEP3",
   "s3_release_pre_gate": {
     "status": "PASS_WITH_LIMITATIONS",
     "weight_percent": 0,

@@ -1,13 +1,20 @@
 ---
 doc_id: DOC-027-006
 revision: 0.1
-status: controlled_candidate
-applicable_version: 0.2.7a0
+status: controlled_release
+applicable_version: 0.2.7
 reviewer: ""
 approver: ""
 ---
 
 # 0.2.7 Master Plan and Level-Up Extension
+
+## Current release reconciliation
+
+The active Owner-complete state for stable `v0.2.7` is `100/100`. WP22 final
+release qualification is `PASS_WITH_LIMITATIONS` and is closed through R0 and
+Step 1. Earlier `46/50`, `96/100`, `WP22 PLANNED` and `0.2.7a0` values below
+are retained only as historical planning or pre-closure checkpoints.
 
 ## Objective and boundary
 
@@ -40,7 +47,8 @@ after the official PETSc retry, WP17 is `PASS_WITH_LIMITATIONS`, WP18 is
 `PASS_WITH_LIMITATIONS` on bounded adversarial and HEX8 diagnostic evidence,
 WP20 is `PASS_WITH_LIMITATIONS` for the existing bounded small-strain J2
 scope. WP21 is `PASS_WITH_LIMITATIONS` for surgical compatibility and
-release-truth cleanup; WP22 remains `PLANNED` for final Owner release action.
+release-truth cleanup; WP22 is `PASS_WITH_LIMITATIONS` through the completed
+R0 release-qualification checkpoint.
 
 ## Work packages and STOP/GO criteria
 
@@ -268,8 +276,8 @@ on the official PETSc retry, WP17 is `PASS_WITH_LIMITATIONS`, WP18 is
 `PASS_WITH_LIMITATIONS` after its Bronze/Silver evidence, WP19 is
 `PASS_WITH_LIMITATIONS` on bounded adversarial and HEX8 diagnostic evidence,
 and WP20 is `PASS_WITH_LIMITATIONS` for the existing bounded J2 scope. WP21
-is `PASS_WITH_LIMITATIONS` after its surgical cleanup evidence; WP22 remains
-`PLANNED` until its own final release evidence is recorded.
+is `PASS_WITH_LIMITATIONS` after its surgical cleanup evidence; WP22 is
+`PASS_WITH_LIMITATIONS` through the completed final release evidence.
 
 | WP | Title | Weight | Priority | Status |
 | --- | --- | ---: | --- | --- |
@@ -282,7 +290,7 @@ is `PASS_WITH_LIMITATIONS` after its surgical cleanup evidence; WP22 remains
 | WP19 | Adversarial robustness + HEX8 diagnostic | 5% | MUST | `PASS_WITH_LIMITATIONS` |
 | WP20 | Residual J2 / external V&V closure | 3% | SHOULD | `PASS_WITH_LIMITATIONS` |
 | WP21 | Architecture/API/registry surgical cleanup | 3% | SHOULD | `PASS_WITH_LIMITATIONS` |
-| WP22 | Final Release Qualification | 3% | MUST | `PLANNED` |
+| WP22 | Final Release Qualification | 3% | MUST | `PASS_WITH_LIMITATIONS` |
 
 Machine-readable criteria are in `qualification/0_2_7/level_up_plan.json`.
 WP16 required a true 1M FEM iterative solve with reactions, residual,
@@ -325,7 +333,8 @@ The authoritative records are `qualification/0_2_7/wp19_state.json`,
 `qualification/0_2_7/wp19_runtime/wp19_hex8_diagnostic.json` and
 `qualification/0_2_7/wp19_runtime/wp19_golden_replay.json`. WP20 is closed with
 its existing bounded J2 scope; previous maturity decisions remain unchanged.
-WP21 is closed with `PASS_WITH_LIMITATIONS`, and WP22 is next.
+WP21 is closed with `PASS_WITH_LIMITATIONS`, and WP22 is closed through R0 with
+`PASS_WITH_LIMITATIONS`.
 
 ## WP20 - Residual J2 / external V&V closure
 
@@ -356,11 +365,13 @@ Finite-kinematic J2 remains experimental/not qualified. See
 The previous Level-Up portfolio is now treated as **Level-Up 1**: its
 qualification evidence is preserved and its program block is `50/50 CLOSED`.
 The active namespace is **`027-LEVEL-UP-2`**, starting from the qualified
-baseline `8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3`. LU2 has acquired `46/50`
+baseline `8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3`. The pre-closure LU2
+checkpoint acquired `46/50`
 through the completed WP01 observatory, bounded WP02 configuration freeze,
 WP03 Gold Compute, LU2-WP06 execution/recovery closeout, the LU2-WP07 route
 maturity audit and the LU2-WP08 decision closeout, with LU2-WP04 Bronze and
-LU2-WP05 Silver now closed, so the current global progress is `96/100`; these values replace the older
+LU2-WP05 Silver now closed, so the pre-closure global progress was `96/100`;
+the current Owner-complete progress is `50/50` and `100/100`. These values replace the older
 non-additive accounting view for active planning without rewriting any
 historical result.
 
@@ -378,7 +389,7 @@ in `level_up_2_state.json` and `level_up_2_index.json`.
 | LU2-WP06 | Execution Contract / Recovery / Diagnostics | 4% | MUST | `PASS_WITH_LIMITATIONS` |
 | LU2-WP07 | Existing Routes Maturity and Targeted V&V | 4% | SHOULD | `PASS_WITH_LIMITATIONS` |
 | LU2-WP08 | Mixed / WEDGE15 / PYRAMID5 / HEX8 Decisions | 2% | SHOULD | `PASS_WITH_LIMITATIONS` |
-| LU2-WP09 | Release Truth / Registry / CI / Final Qualification | 4% | MUST | `NOT_STARTED` |
+| LU2-WP09 | Release Truth / Registry / CI / Final Qualification | 4% | MUST | `PASS_WITH_LIMITATIONS` |
 
 The 3M Gold contract retains the existing Silver case and requires a
 materially distinct second 3M FEM workload with two replays. The claim is
@@ -446,8 +457,9 @@ container remained CPU-active in frozen AIJ operator assembly without a
 completion record. The attempt is therefore
 `PASS`, with the earlier owner-interrupted attempt retained as historical
 forensic evidence. LU2-WP05 subsequently completed the two-replay 5M Silver
-solve under the unchanged freeze. C1 is not confirmed; LU2 is at `96/100` and
-LU2-WP09 is the next active gate.
+solve under the unchanged freeze. C1 is not confirmed; the historical LU2
+checkpoint was `96/100`, while the current Owner-complete program is `100/100`.
+LU2-WP09 is closed through the final release qualification checkpoint.
 
 LU2-WP01 is recorded in `qualification/0_2_7/observatory_contract.json` with
 the controlled fixture `qualification/0_2_7/wp01_observatory_sample.json`.

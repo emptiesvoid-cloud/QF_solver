@@ -1,13 +1,20 @@
 ---
 doc_id: DOC-027-002
 revision: 0.1
-status: controlled_candidate
-applicable_version: 0.2.7a0
+status: controlled_release
+applicable_version: 0.2.7
 reviewer: ""
 approver: ""
 ---
 
 # 0.2.7 Gate Matrix
+
+## Current release reconciliation
+
+The active Owner-complete state for stable `v0.2.7` is `100/100`. WP22 is
+closed as `PASS_WITH_LIMITATIONS` through R0 and Step 1. The `46/50`,
+`96/100`, `WP22 PLANNED` and `0.2.7a0` values retained below are historical
+planning or pre-closure checkpoints only.
 
 This matrix is a controlled status record. WP01 is `PASS` for release truth, WP02 is
 `PASS` for the combination-level registry control, and WP03 is `PASS` for the
@@ -30,7 +37,8 @@ WP18 records a PASS_WITH_LIMITATIONS 3M Bronze/Silver ladder under the frozen
 WP14 contract; Gold remains unattempted and no Gold claim is made. WP20 closes
 the Owner review of the existing bounded small-strain J2 scope with
 PASS_WITH_LIMITATIONS; WP21 is now PASS_WITH_LIMITATIONS for surgical cleanup
-and WP22 remains planned for the final Owner release action.
+and WP22 is closed as `PASS_WITH_LIMITATIONS` through the final Owner release
+action.
 
 | Gate | Work package | Purpose | Dependencies | GO evidence | STOP conditions | Status |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -94,8 +102,8 @@ subscale evidence; WP16 is `PASS` after the official PETSc retry; WP17 is
 `PASS_WITH_LIMITATIONS` on bounded adversarial and HEX8 diagnostic evidence.
 WP20 is `PASS_WITH_LIMITATIONS` for the existing bounded small-strain J2
 scope. WP21 is `PASS_WITH_LIMITATIONS` for surgical compatibility, public
-audit and release-truth cleanup; WP22 remains `PLANNED` for the final Owner
-release action. The active theme is **Reproducible Large-Model Solving and
+audit and release-truth cleanup; WP22 is `PASS_WITH_LIMITATIONS` through the
+final Owner release action. The active theme is **Reproducible Large-Model Solving and
 Numerical Trust**.
 
 | Level-Up gate | Work package | Status | Weight | Required interpretation |
@@ -109,7 +117,7 @@ Numerical Trust**.
 | `LUP-027-G19` | WP19 adversarial robustness and HEX8 diagnostic | `PASS_WITH_LIMITATIONS` | 5% | 24-case fail-closed corpus and bounded HEX8/C3D8 diagnostic; no formulation promotion |
 | `LUP-027-G20` | WP20 residual J2 and external V&V closure | `PASS_WITH_LIMITATIONS` | 3% | existing four-family small-strain J2 scope retained; no universal structural increment claim |
 | `LUP-027-G21` | WP21 surgical architecture/API/registry cleanup | `PASS_WITH_LIMITATIONS` | 3% | legacy compatibility preserved; broader redesign deferred |
-| `LUP-027-G22` | WP22 final release qualification | `PLANNED` | 3% | final regression/package/Owner checkpoint |
+| `LUP-027-G22` | WP22 final release qualification | `PASS_WITH_LIMITATIONS` | 3% | final regression/package/Owner checkpoint |
 
 Machine-readable criteria are in `qualification/0_2_7/level_up_plan.json` and
 `qualification/0_2_7/requirements.json`. WP16 is satisfied and WP18 records
@@ -187,18 +195,20 @@ families. No new structural J2 campaign is claimed, and no post-result
 tolerance retuning occurred. The authoritative records are
 `qualification/0_2_7/wp20_state.json` and
 `docs/verification/0_2_7/0_2_7_wp20_j2_closeout.md`. WP21 then closed its
-surgical compatibility and release-truth scope; WP22 remains the next Owner
-release action.
+surgical compatibility and release-truth scope; WP22 is closed through the
+final Owner release checkpoint.
 
 ## Level-Up 2 gate namespace
 
 The prior Level-Up is closed as Level-Up 1 at `50/50`. The active namespace is
 `027-LEVEL-UP-2`, based on the qualified snapshot
-`8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3`. LU2 is at `46/50` after the WP01
+`8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3`. The pre-closure LU2 checkpoint
+was at `46/50` after the WP01
 observatory, bounded WP02 configuration freeze, completed WP03 Gold Compute
 and LU2-WP06 execution/recovery, LU2-WP07 route maturity audit and LU2-WP08
 scope closeout, with the 5M Bronze and Silver gates now closed, and the global
-program is therefore `96/100`.
+program was therefore `96/100`; the current Owner-complete program is `50/50`
+and `100/100`.
 The active
 contracts and state are
 authoritative in `qualification/0_2_7/level_up_2_plan.json` and
@@ -214,7 +224,7 @@ authoritative in `qualification/0_2_7/level_up_2_plan.json` and
 | `LU2-027-G06` | LU2-WP06 execution/recovery | 4% | MUST | `PASS_WITH_LIMITATIONS` | explicit, fail-closed outcomes and state integrity; recovery bounded to existing checkpoint routes |
 | `LU2-027-G07` | LU2-WP07 existing routes | 4% | SHOULD | `PASS_WITH_LIMITATIONS` | existing route maturity retained at bounded combination scope; no transitive promotion |
 | `LU2-027-G08` | LU2-WP08 route decisions | 2% | SHOULD | `PASS_WITH_LIMITATIONS` | deferred/experimental routes remain unqualified; existing HEX8 remains bounded |
-| `LU2-027-G09` | LU2-WP09 final qualification | 4% | MUST | `NOT_STARTED` | explicit Owner RELEASE or NEW_LEVEL_UP decision |
+| `LU2-027-G09` | LU2-WP09 final qualification | 4% | MUST | `PASS_WITH_LIMITATIONS` | explicit Owner RELEASE or NEW_LEVEL_UP decision |
 
 LU2-WP02 is closed with limitations by the controlled 3M MPI evidence index
 and configuration freeze. The route covers 2, 4 and 8 ranks on one recorded
@@ -242,7 +252,8 @@ owner-interrupted container remained CPU-active in frozen AIJ assembly without
 a completion record. That first attempt is preserved as historical forensic
 evidence. The corrected Bronze run completed with global readiness and the
 subsequent Silver gate completed two replays under the unchanged freeze. C1 is
-not confirmed and LU2-WP09 is the next active gate.
+not confirmed and LU2-WP09 is closed through the final release qualification
+checkpoint.
 
 Conditional gates `C1` (matrix-free TET4 capacity), `C2` (GPU foundation) and
 `C3` (10M capacity exploration) are installed with zero weight. C1 remains
@@ -317,7 +328,8 @@ R0 is `PASS_WITH_LIMITATIONS`. The controlled record is
 the release candidate.
 
 The closeout checks pass, F1-F6 remain closed, the active qualification score
-is `96/100`, and no numerical source, active baseline, historical evidence or
+historical R0 accounting is `96/100`; current Owner-complete accounting is
+`100/100`, and no numerical source, active baseline, historical evidence or
 maturity changed. The 5M Silver evidence remains applicable and the 10M C3
 evidence remains bounded. Wheel/sdist artifacts pass distribution checks and
 F5 clean-install evidence remains valid.
