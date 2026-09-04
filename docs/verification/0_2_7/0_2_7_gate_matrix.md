@@ -306,3 +306,23 @@ The active 1M, 3M and 5M replay evidence and bounded C3 10M record remain
 applicable. No numerical source, tolerance, active baseline or maturity
 changed, so no heavy replay was required. F6 is a technical pre-R0 gate only;
 it makes no publication or release decision and does not start R0.
+
+## R0 release readiness
+
+R0 is `PASS_WITH_LIMITATIONS`. The controlled record is
+`qualification/0_2_7/r0_release_readiness.json` and the review document is
+`0_2_7_r0_release_readiness.md`. The release tree is clean after a foreign
+0.2.1 documentation edit was preserved in targeted stash
+`a9e64d5e03ebadfcd1292ad3c5b04460761c10aa`; no foreign work is included in
+the release candidate.
+
+The closeout checks pass, F1-F6 remain closed, the active qualification score
+is `96/100`, and no numerical source, active baseline, historical evidence or
+maturity changed. The 5M Silver evidence remains applicable and the 10M C3
+evidence remains bounded. Wheel/sdist artifacts pass distribution checks and
+F5 clean-install evidence remains valid.
+
+The generic publication readiness script intentionally remains `NOT_READY`
+before the tag and reports a reachable-history manual-review item. R0 records
+this as an Owner action, not as an undisclosed source or numerical failure.
+No tag, GitHub release or PyPI publication is performed by this gate.
