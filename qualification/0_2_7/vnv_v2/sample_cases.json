@@ -1,0 +1,80 @@
+[
+  {
+    "schema_version": 1,
+    "case_id": "WP04-STATIC-TET4-ANALYTICAL",
+    "requirement_id": "027-REQ-005",
+    "capability_refs": ["ELE-TET4", "ANA-STATIC", "MAT-ELASTIC"],
+    "element": "TET4",
+    "analysis": "linear_static",
+    "material": "isotropic_3d",
+    "route": "direct",
+    "model_input": "fixture://wp04/tet4_static",
+    "oracle": {
+      "type": "ANALYTICAL",
+      "source": "controlled unit-tetrahedron displacement reference",
+      "observable": "displacement_ux_node_1",
+      "unit": "m",
+      "comparison_rule": "absolute",
+      "tolerance": 1e-20,
+      "expected": 2.122448979591837e-08,
+      "provenance": {"reference_id": "WP04-REF-STATIC-TET4", "assumptions": "unit right tetrahedron, fixed face, linear isotropic elasticity"}
+    },
+    "observables": ["displacement_ux_node_1", "free_relative_residual"],
+    "tolerance": 1e-20,
+    "expected_failure": null,
+    "execution_tier": "T1",
+    "provenance": {"fixture_source": "tests/unit/test_vnv_harness_v2.py", "artifact_classification": "CONTROLLED_PROOF"}
+  },
+  {
+    "schema_version": 1,
+    "case_id": "WP04-MODAL-TET4-INVARIANT",
+    "requirement_id": "027-REQ-006",
+    "capability_refs": ["ELE-TET4", "ANA-MODAL", "MAT-ELASTIC"],
+    "element": "TET4",
+    "analysis": "modal",
+    "material": "isotropic_3d",
+    "route": "eigh",
+    "model_input": "fixture://wp04/tet4_modal",
+    "oracle": {
+      "type": "INTERNAL_INVARIANT",
+      "source": "modal eigenpair residual and finite-mode invariant",
+      "observable": "max_relative_residual",
+      "unit": "1",
+      "comparison_rule": "absolute",
+      "tolerance": 1e-12,
+      "expected": 0.0,
+      "provenance": {"reference_id": "WP04-INV-MODAL-RESIDUAL", "rule": "finite eigenpairs and normalized residual"}
+    },
+    "observables": ["max_relative_residual", "mode_count"],
+    "tolerance": 1e-12,
+    "expected_failure": null,
+    "execution_tier": "T1",
+    "provenance": {"fixture_source": "tests/unit/test_vnv_harness_v2.py", "artifact_classification": "CONTROLLED_PROOF"}
+  },
+  {
+    "schema_version": 1,
+    "case_id": "WP04-PREFLIGHT-UNKNOWN-ELEMENT",
+    "requirement_id": "027-REQ-007",
+    "capability_refs": ["INF-DIAGNOSTICS-FAILURES"],
+    "element": "PYRAMID5",
+    "analysis": "linear_static",
+    "material": "isotropic_3d",
+    "route": "direct",
+    "model_input": "fixture://wp04/unknown_element",
+    "oracle": {
+      "type": "FAILURE_EXPECTATION",
+      "source": "compatibility preflight",
+      "observable": "error_code",
+      "unit": "1",
+      "comparison_rule": "present",
+      "tolerance": 0.0,
+      "expected": "UNKNOWN_ELEMENT",
+      "provenance": {"reference_id": "WP04-FAIL-UNKNOWN-ELEMENT", "rule": "unknown technical route must fail closed"}
+    },
+    "observables": ["error_code"],
+    "tolerance": 0.0,
+    "expected_failure": "UNKNOWN_ELEMENT",
+    "execution_tier": "T1",
+    "provenance": {"fixture_source": "tests/unit/test_vnv_harness_v2.py", "artifact_classification": "CONTROLLED_PROOF"}
+  }
+]

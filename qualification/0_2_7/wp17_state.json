@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "work_package": "WP17",
+  "gate": "LUP-027-G17",
+  "title": "Large solver stack, PETSc and preconditioning",
+  "status": "PARTIAL",
+  "start_sha": "8e13513d3a98a9162fee82267d1a9c67332aed0d",
+  "execution_source_sha": "6c975e9fc80854814cb40d1e3d9377f1042f216e",
+  "contract": "qualification/0_2_7/wp14_execution_contract.json",
+  "runtime_evidence": "qualification/0_2_7/wp17_runtime/wp17_probe.json",
+  "runtime_evidence_sha256": "7687fa2c8d2ad325c1216b58dc98c2c57d063905310fa1d13617a141de79c41b",
+  "scope": {
+    "element": "TET4",
+    "route": "structured homogeneous six-tet block",
+    "medium_true_dof": 107811,
+    "medium_nodes": 35937,
+    "medium_elements": 196608,
+    "input_digest_sha256": "018d623138d844d0e96410c0baa67c7103368fe23ed1841d342658759ad09a0f",
+    "qualification_scale_run": false,
+    "wp14_tolerances_changed": false,
+    "fem_formulation_changed": false
+  },
+  "instrumentation": {
+    "phases": [
+      "model_setup",
+      "operator_preconditioner_setup",
+      "solve",
+      "reactions",
+      "energy_post",
+      "total"
+    ],
+    "matvec_count": true,
+    "residual_history": true,
+    "peak_rss": true,
+    "source": "additive WP17 diagnostic runner; existing solver callbacks and kernels are unchanged"
+  },
+  "baseline": {
+    "preconditioner": "nodal_block_jacobi",
+    "repetitions": 2,
+    "iterations": 486.0,
+    "matvec_count": 486.0,
+    "operator_setup_seconds": 0.057219649985199794,
+    "solve_seconds": 8.005402649985626,
+    "reactions_seconds": 0.017599650018382818,
+    "energy_post_seconds": 0.0003459999861661345,
+    "total_seconds": 8.287745699897641,
+    "peak_rss_bytes": 125374464,
+    "residual_relative": 9.713107125690802e-09,
+    "equilibrium_numpy_relative": 2.1922725785595026e-08,
+    "equilibrium_compensated_relative": 2.1922714617964042e-08,
+    "energy_relative": 1.5307732373758986e-15,
+    "finite_outputs": true,
+    "residual_history": [
+      {"iteration": 1, "relative_residual": 0.9984356740201629},
+      {"iteration": 100, "relative_residual": 0.08527724528358215},
+      {"iteration": 200, "relative_residual": 0.03876138882953181},
+      {"iteration": 300, "relative_residual": 0.0006741717032682672},
+      {"iteration": 400, "relative_residual": 4.248416852537285e-06},
+      {"iteration": 486, "relative_residual": 9.713107125690802e-09}
+    ],
+    "spd_contract": true
+  },
+  "diagnostic_candidate": {
+    "preconditioner": "diagonal_jacobi",
+    "repetitions": 2,
+    "iterations": 468.0,
+    "matvec_count": 468.0,
+    "total_seconds": 7.814613299909979,
+    "peak_rss_bytes": 125227008,
+    "residual_relative": 9.79748662930904e-09,
+    "equilibrium_numpy_relative": 7.193168886992704e-08,
+    "equilibrium_compensated_relative": 7.193168553055811e-08,
+    "energy_relative": 4.975013021471912e-14,
+    "finite_outputs": true,
+    "spd_contract": true,
+    "retained": false,
+    "reason": "equilibrium exceeds frozen WP14 maximum; timing benefit is diagnostic only and cannot be retained as a WP14 route"
+  },
+  "preconditioner_decision": {
+    "selected": "nodal_block_jacobi",
+    "candidate": "diagonal_jacobi",
+    "candidate_total_speedup": 1.0605445697476947,
+    "candidate_iteration_delta": -18,
+    "candidate_retained": false,
+    "wp14_route_preserved": true
+  },
+  "reaction_diagnosis": {
+    "root_cause": "ITERATIVE_RESIDUAL_AMPLIFICATION",
+    "medium_free_residual_relative": 9.713107125690802e-09,
+    "medium_equilibrium_relative": 2.1922725785595026e-08,
+    "free_residual_equilibrium_identity_relative": 1.6627477116626291e-12,
+    "reduction_difference_relative": 2.650864628347923e-13,
+    "fix": "NONE",
+    "interpretation": "Global equilibrium is amplified from the converged free residual; compensated summation and the existing matrix-free/assembled subscale checks do not indicate a reconstruction, summation, BC or operator mismatch."
+  },
+  "subscale_equivalence": {
+    "status": "PASS",
+    "levels_true_dof": [81, 375, 2187, 14739],
+    "max_operator_action_relative_error": 1.2497106941823296e-14,
+    "max_displacement_relative_error": 3.450267668341549e-13,
+    "max_reaction_relative_error": 2.302364534845848e-09,
+    "max_energy_relative_error": 7.97001539407271e-14,
+    "max_residual_relative": 8.77689273514009e-09,
+    "tolerance": 1e-08
+  },
+  "petsc": {
+    "status": "UNAVAILABLE",
+    "petsc4py": false,
+    "mpi4py": false,
+    "mpiexec_present": true,
+    "version": null,
+    "backend_run": "NOT_RUN",
+    "fallback": "none; matrix_free was selected explicitly"
+  },
+  "acceptance": {
+    "subscale_equivalence": "PASS",
+    "spd_contract": "PASS",
+    "no_dense_conversion": "PASS",
+    "no_nan_inf": "PASS",
+    "optimization_retained": false,
+    "wp16_1m_retry_ready": false,
+    "wp18_ready": false,
+    "full_regression_run": false,
+    "post_result_retuning": false
+  },
+  "limitations": [
+    "The WP16 1M equilibrium failure remains unresolved and its frozen tolerance was not changed.",
+    "PETSc/MPI was not installed or executed in the measured environment.",
+    "No large-route solver/core optimization was proven and retained.",
+    "The medium probe is diagnostic evidence, not 1M qualification evidence."
+  ],
+  "artifact_classification": "CONTROLLED_PROOF"
+}

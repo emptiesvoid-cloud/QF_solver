@@ -1,0 +1,274 @@
+{
+  "schema_version": 1,
+  "record_type": "f2_bug_hunt",
+  "audit_id": "QF-027-F2-BUG-001",
+  "status": "PASS_WITH_LIMITATIONS",
+  "target_version": "0.2.7a0",
+  "branch": "codex/0.2.7-foundation",
+  "start_sha": "f8e7a9bb970a47e3e39e6e5c37b1e682273589d9",
+  "audit_source_sha": "f8e7a9bb970a47e3e39e6e5c37b1e682273589d9",
+  "tree_status_before_changes": "clean",
+  "scope": {
+    "purpose": "Independent adversarial bug and sensitive-zone hunt after F1.",
+    "included": [
+      "fail-open errors and fallback paths",
+      "MPI/PETSc collective ordering",
+      "solver route and backend selection",
+      "maturity and qualification guards",
+      "state, checkpoint, cache and determinism boundaries",
+      "input validation, element dispatch and public APIs",
+      "legacy/research divergence and snapshot integrity"
+    ],
+    "excluded": [
+      "new physics",
+      "numerical formulation changes",
+      "maturity promotion",
+      "historical evidence rewrites",
+      "broad refactoring",
+      "full regression",
+      "heavy benchmarks"
+    ]
+  },
+  "inventory": {
+    "source_python_modules": 448,
+    "test_python_files_at_audit": 463,
+    "test_python_files_before_f2": 462,
+    "scripts": 315,
+    "verification_modules": 204,
+    "capability_registry_records": 79,
+    "capability_registry_anchors": 33,
+    "capability_registry_combinations": 46
+  },
+  "sensitive_zones_analyzed": [
+    "src/solveur/api/public.py",
+    "src/solveur/core/router.py",
+    "src/solveur/core/qualification.py",
+    "src/solveur/compatibility/descriptors.py",
+    "src/solveur/compatibility/preflight.py",
+    "src/solveur/core/analyses/modal.py",
+    "src/solveur/execution/contract.py",
+    "src/solveur/large/assembler.py",
+    "src/solveur/large/mpi_guardrails.py",
+    "src/solveur/large/solver.py",
+    "src/solveur/large/partitioning.py",
+    "src/solveur/io/json_reader.py",
+    "src/solveur/io/json_writer.py",
+    "src/solveur/io/evidence_verifier.py",
+    "src/solveur/elements/registry.py",
+    "src/solveur/paths.py",
+    "scripts/capability_registry_v2.py",
+    "pyproject.toml",
+    "qualification/0_2_7/capability_registry_v2.json",
+    "qualification/0_2_7/golden/evidence.json",
+    "tests/integration/test_regression_snapshots.py",
+    "tests/unit/test_f2_bug_hunt.py"
+  ],
+  "findings": [
+    {
+      "id": "F2-P1-001",
+      "priority": "P1",
+      "status": "FIXED",
+      "zone": "PUBLIC_API/PACKAGING",
+      "title": "The v2 maturity registry was omitted from the wheel runtime data.",
+      "before": "A rebuilt wheel contained legacy qualification data but not qualification/0_2_7/capability_registry_v2.json; installed preflight therefore lost the authoritative maturity source.",
+      "fix": "Resolve the resource through solveur.paths.project_path and install the registry under the versioned qualification/0_2_7 data-files destination.",
+      "regression_test": "tests/unit/test_f2_bug_hunt.py::test_pyproject_packages_runtime_registry_source plus isolated wheel probe"
+    },
+    {
+      "id": "F2-P1-002",
+      "priority": "P1",
+      "status": "FIXED",
+      "zone": "MATURITY_GUARDS/ROUTES",
+      "title": "Dynamic and harmonic registry aliases did not resolve canonical registry rows.",
+      "before": "transient_dynamic/newmark and harmonic aliases could be reported as experimental or unsupported while matching qualified registry combinations used newmark_transient/harmonic.",
+      "fix": "Normalize registry row analyses with the same alias map used for requests, including the newmark_transient alias.",
+      "regression_test": "tests/unit/test_f2_bug_hunt.py::test_dynamic_registry_analysis_aliases_retain_registry_maturity and test_harmonic_registry_analysis_aliases_retain_registry_maturity"
+    },
+    {
+      "id": "F2-P1-003",
+      "priority": "P1",
+      "status": "FIXED",
+      "zone": "INPUT_VALIDATION",
+      "title": "Duplicate JSON model keys were accepted with last-write-wins semantics.",
+      "before": "A valid nested model with a repeated material key was accepted and the later value silently replaced the earlier value.",
+      "fix": "Use an object_pairs_hook that rejects duplicate keys in JsonModelReader and report a deterministic InputValidationError.",
+      "regression_test": "tests/unit/test_f2_bug_hunt.py::test_model_reader_rejects_duplicate_nested_json_keys"
+    },
+    {
+      "id": "F2-P2-001",
+      "priority": "P2",
+      "status": "FIXED",
+      "zone": "SNAPSHOT_INTEGRITY/EVIDENCE",
+      "title": "Evidence manifests accepted duplicate keys.",
+      "fix": "EvidenceBundleVerifier now rejects duplicate JSON keys before schema checks.",
+      "regression_test": "tests/unit/test_f2_bug_hunt.py::test_evidence_manifest_rejects_duplicate_json_keys"
+    },
+    {
+      "id": "F2-P2-002",
+      "priority": "P2",
+      "status": "FIXED",
+      "zone": "NUMERICAL_SANITY/OUTPUT",
+      "title": "The result writer could emit non-standard NaN or Infinity JSON values.",
+      "fix": "JsonResultWriter uses allow_nan=False and raises InputValidationError without writing a non-finite result artifact.",
+      "regression_test": "tests/unit/test_f2_bug_hunt.py::test_result_writer_rejects_nonfinite_values"
+    },
+    {
+      "id": "F2-P2-003",
+      "priority": "P2",
+      "status": "FIXED",
+      "zone": "PUBLIC_API/INPUT_VALIDATION",
+      "title": "The new preflight geometry rejection bypassed the legacy MeshValidationError contract.",
+      "before": "A degenerate geometry was rejected safely, but AnalysisRouter exposed CompatibilityError instead of the established MeshValidationError and G04 expected diagnostic.",
+      "fix": "Geometry failures remain preflight fail-closed and are mapped to the legacy mesh validation category with the existing validator diagnostic.",
+      "regression_test": "tests/unit/test_g04_invalid_inputs.py"
+    },
+    {
+      "id": "F2-P2-004",
+      "priority": "P2",
+      "status": "DEFERRED",
+      "zone": "ELEMENT_DISPATCH/API",
+      "title": "Descriptor aliases are not accepted as JSON element input aliases.",
+      "decision": "Descriptor aliases remain descriptive until an explicit input/API alias contract is approved; canonical dispatch remains fail-closed.",
+      "owner_action": "Define and test input alias semantics in a future API decision."
+    },
+    {
+      "id": "F2-P2-005",
+      "priority": "P2",
+      "status": "DEFERRED",
+      "zone": "MATURITY_GUARDS",
+      "title": "Legacy generic maturity policy duplicates combination registry authority.",
+      "decision": "Keep the conservative legacy result and defer semantic reconciliation; no capability was promoted."
+    },
+    {
+      "id": "F2-P2-006",
+      "priority": "P2",
+      "status": "DEFERRED",
+      "zone": "NUMERICAL_SANITY/MODAL",
+      "title": "Modal eigenpair refinement has a broad diagnostic catch.",
+      "decision": "Residual validation still blocks invalid corrections; narrow exception preservation is deferred to avoid an unrelated refactor."
+    },
+    {
+      "id": "F2-P2-007",
+      "priority": "P2",
+      "status": "DEFERRED",
+      "zone": "PUBLIC_API/ENVIRONMENT",
+      "title": "Repository launcher sys.path bootstrap can select another checkout in a contaminated environment.",
+      "decision": "Installed entry points remain usable; launcher/environment isolation needs a separate packaging decision."
+    },
+    {
+      "id": "F2-P2-008",
+      "priority": "P2",
+      "status": "DEFERRED",
+      "zone": "MATURITY_GUARDS/REGISTRY",
+      "title": "Missing or malformed registry data is conservatively downgraded to an experimental route.",
+      "decision": "No qualified claim is produced; turning this into an infrastructure failure requires an explicit runtime contract and is deferred."
+    },
+    {
+      "id": "F2-P3-001",
+      "priority": "P3",
+      "status": "DEFERRED",
+      "zone": "PUBLIC_API",
+      "title": "Root export collection ordering is not stable.",
+      "decision": "Names are preserved and ordering is not a documented public contract."
+    }
+  ],
+  "finding_summary": {
+    "P0_found": 0,
+    "P1_found": 3,
+    "P2_found": 8,
+    "P3_found": 1,
+    "P0_fixed": 0,
+    "P1_fixed": 3,
+    "P2_fixed": 3,
+    "P3_fixed": 0,
+    "P2_deferred": 5,
+    "P3_deferred": 1
+  },
+  "zone_status": {
+    "fail_open": "PASS_WITH_LIMITATIONS",
+    "mpi_petsc": "PASS_WITH_LIMITATIONS",
+    "solver_routes": "PASS_WITH_LIMITATIONS",
+    "maturity_guards": "PASS_WITH_LIMITATIONS",
+    "state_management": "PASS_WITH_LIMITATIONS",
+    "determinism": "PASS_WITH_LIMITATIONS",
+    "input_validation": "PASS",
+    "numerical_sanity": "PASS_WITH_LIMITATIONS",
+    "element_dispatch": "PASS_WITH_LIMITATIONS",
+    "public_api": "PASS_WITH_LIMITATIONS",
+    "legacy_research_divergence": "PASS_WITH_LIMITATIONS",
+    "snapshot_integrity": "PASS_WITH_LIMITATIONS"
+  },
+  "validation": {
+    "f2_regression_tests": "PASS: 11 passed",
+    "core_targeted_suite": "PASS: 110 passed, 35 skipped",
+    "adversarial_and_existing_route_suite": "PASS: 179 passed, 3 skipped",
+    "wheel_build": "PASS",
+    "wheel_registry_probe": "PASS: installed registry exists; static and transient dynamic resolve QUALIFIED_BOUNDED",
+    "ruff": "PASS",
+    "compileall": "PASS",
+    "diff_check": "PASS",
+    "full_regression": "NOT_RUN",
+    "heavy_benchmark": "NOT_RUN"
+  },
+  "decisions": {
+    "p0_p1_action": "All P1 findings fixed with targeted changes.",
+    "numerical_source_changed": false,
+    "requalification_required": false,
+    "historical_evidence_modified": false,
+    "maturity_promoted": false,
+    "next_audit": "F3",
+    "status_basis": "No P0/P1 finding remains; deferred P2/P3 limitations are explicit and no solver formulation changed."
+  },
+  "known_limitations": [
+    "Legacy model maturity and combination registry semantics remain duplicated and conservative.",
+    "Modal refinement exception provenance remains broader than desired.",
+    "Repository launcher environment isolation is not hardened in this audit.",
+    "Missing registry data remains an experimental demotion rather than a hard infrastructure failure.",
+    "No full regression or heavy benchmark was run by policy."
+  ],
+  "evidence_refs": [
+    "qualification/0_2_7/f1_architecture_audit.json",
+    "qualification/0_2_7/manifest.json",
+    "qualification/0_2_7/release_truth.json",
+    "qualification/0_2_7/capability_registry_v2.json",
+    "qualification/0_2_7/golden/evidence.json",
+    "src/solveur/compatibility/preflight.py",
+    "src/solveur/core/router.py",
+    "src/solveur/io/json_reader.py",
+    "src/solveur/io/json_writer.py",
+    "src/solveur/io/evidence_verifier.py",
+    "scripts/capability_registry_v2.py",
+    "pyproject.toml",
+    "tests/unit/test_f2_bug_hunt.py",
+    "tests/integration/test_packaging.py",
+    "tests/unit/test_g04_invalid_inputs.py"
+  ],
+  "files": {
+    "created": [
+      "qualification/0_2_7/f2_bug_hunt.json",
+      "docs/verification/0_2_7/0_2_7_f2_bug_hunt.md",
+      "tests/unit/test_f2_bug_hunt.py"
+    ],
+    "updated": [
+      "src/solveur/compatibility/preflight.py",
+      "src/solveur/core/router.py",
+      "src/solveur/io/json_reader.py",
+      "src/solveur/io/json_writer.py",
+      "src/solveur/io/evidence_verifier.py",
+      "scripts/capability_registry_v2.py",
+      "pyproject.toml",
+      "tests/integration/test_packaging.py",
+      "docs/document_registry.json",
+      "docs/verification/0_2_7/README.md"
+    ],
+    "source_files_changed": [
+      "src/solveur/compatibility/preflight.py",
+      "src/solveur/core/router.py",
+      "src/solveur/io/json_reader.py",
+      "src/solveur/io/json_writer.py",
+      "src/solveur/io/evidence_verifier.py",
+      "scripts/capability_registry_v2.py",
+      "pyproject.toml"
+    ]
+  }
+}

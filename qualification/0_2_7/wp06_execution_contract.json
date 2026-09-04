@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "record_type": "lu2_wp06_execution_contract",
+  "work_package": "LU2-WP06",
+  "gate": "LU2-027-G06",
+  "status": "PASS_WITH_LIMITATIONS",
+  "source_sha": "4771a23af8cee4549460b9e84edb9228c3a9f60d",
+  "scope": "additive lifecycle, diagnostic and recovery contract over existing solver routes",
+  "state_machine": {
+    "states": ["CREATED", "VALIDATED", "RUNNING", "CONVERGED", "FAILED", "CHECKPOINTED", "RECOVERED"],
+    "transitions": {
+      "CREATED": ["VALIDATED", "FAILED"],
+      "VALIDATED": ["RUNNING", "FAILED"],
+      "RUNNING": ["CONVERGED", "FAILED"],
+      "CONVERGED": ["CHECKPOINTED", "FAILED"],
+      "CHECKPOINTED": ["RECOVERED", "FAILED"],
+      "RECOVERED": ["RUNNING", "FAILED"],
+      "FAILED": []
+    },
+    "invalid_transition": "FAIL_CLOSED"
+  },
+  "diagnostics": {
+    "categories": [
+      "MODEL_INPUT",
+      "UNSUPPORTED_CAPABILITY",
+      "BACKEND_UNAVAILABLE",
+      "SOLVER_NON_CONVERGENCE",
+      "RESOURCE_LIMITATION",
+      "NUMERICAL_INVALIDITY",
+      "CHECKPOINT_CORRUPTION",
+      "RECOVERY_FAILURE",
+      "EXECUTION_FAILURE"
+    ],
+    "required_fields": ["code", "category", "message", "context", "recoverable"],
+    "stable_code_prefix": "QF-EXEC-",
+    "unknown_exception_policy": "EXECUTION_FAILURE; never PASS"
+  },
+  "checkpoint_contract": {
+    "storage": "existing versioned NPZ stores",
+    "integrity": ["schema validation", "finite state vectors", "model signature", "topology/step metadata"],
+    "corruption": "reject with CHECKPOINT_CORRUPTION",
+    "incompatibility": "reject with RECOVERY_FAILURE",
+    "retry_state": "failed increment or failed recovery leaves explicit FAILED state",
+    "format_migration": "not introduced; schema version remains explicit"
+  },
+  "route_boundary": {
+    "recoverable": [
+      "nonlinear_static_fixed_load_control",
+      "nonlinear_static_arc_length",
+      "transient_dynamic_newmark"
+    ],
+    "not_recoverable_under_this_contract": [
+      "linear_static",
+      "linear_buckling",
+      "harmonic_response",
+      "geometric_nonlinear_static",
+      "large_distributed_solver"
+    ],
+    "qualification_rule": "Existing checkpoint tests define the supported boundary; no restart claim is inferred for other routes."
+  },
+  "fallback_policy": "No implicit backend or partial-result success; unavailable, invalid and failed outcomes remain non-PASS.",
+  "provenance_required": ["source_sha", "route", "backend", "solver_status", "evidence_link", "diagnostic_or_success_state"],
+  "execution_policy": {
+    "new_physics": false,
+    "fem_formulation_changed": false,
+    "full_regression_run": false,
+    "heavy_benchmark_run": false,
+    "tolerances_changed": false,
+    "pushed": false
+  },
+  "evidence": {
+    "implementation": "src/solveur/execution/contract.py",
+    "diagnostics": "src/solveur/execution/diagnostics.py",
+    "state": "qualification/0_2_7/lu2_wp06_state.json",
+    "tests": "tests/unit/test_execution_contract.py",
+    "legacy_checkpoint_tests": ["tests/unit/test_nonlinear_checkpoint.py", "tests/unit/test_dynamic_checkpoint.py"]
+  },
+  "claim_boundary": "Structured lifecycle and failure/recovery semantics are covered for the listed routes and small targeted cases; no universal restart, distributed recovery or fault tolerance claim is made."
+}

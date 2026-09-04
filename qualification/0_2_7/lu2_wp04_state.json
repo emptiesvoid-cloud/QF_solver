@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "record_type": "level_up_2_work_package_state",
+  "namespace": "027-LEVEL-UP-2",
+  "work_package": "LU2-WP04",
+  "gate": "LU2-027-G04",
+  "release": "0.2.7a0",
+  "status": "PASS",
+  "source_sha": "04b07e00ddfe0b339b5790493a607ec902b1ed80",
+  "branch": "codex/0.2.7-foundation",
+  "weight_percent": 5,
+  "progress": {
+    "level_up_2_acquired_percent": 37,
+    "current_global_progress_percent": 87,
+    "next_work_package": "LU2-WP05",
+    "wp04_weight_acquired": true
+  },
+  "configuration_freeze": {
+    "id": "LU2-WP02-FREEZE-bfd1975b012453a3",
+    "digest_sha256": "bfd1975b012453a3b492cc79c968ceeba6ae6951a293e3ce65ddda548d8339a1",
+    "changed": false
+  },
+  "workload": {
+    "model_id": "LU2-WP04-5M-WORKLOAD-001",
+    "input_digest_sha256": "ff73bc9debd0c8e1ae7355cb6b42e62734c619efa87423e484284878449a55ec",
+    "true_dof": 5012640,
+    "elements": 9773946,
+    "independent_builds": 2,
+    "model_replay": "PASS"
+  },
+  "preflight": "PASS",
+  "bronze": {
+    "status": "PASS",
+    "run1": "PASS; corrected frozen route reached global PC_READY and clean completion",
+    "run2": "NOT_REQUIRED_FOR_BRONZE",
+    "petsc_initialization": "PASS_GLOBAL",
+    "gamg_readiness": "PASS_GLOBAL",
+    "solve_5m_complete": false,
+    "claim": "5M Bronze readiness proved for the exact frozen TET4 workload; no converged-solve or universal capacity claim"
+  },
+  "time_guard": {
+    "reference_mean_total_seconds": 1582.4006848660065,
+    "threshold_seconds": 3164.801369732013,
+    "observed_elapsed_seconds": 12500,
+    "c1_matrix_free_trigger": false,
+    "guard_exceeded_as_budget_observation": true,
+    "resource_limited_proven": false,
+    "forensic_audit": "qualification/0_2_7/wp04_runtime/wp04_forensic_audit.json"
+  },
+  "evidence": {
+    "contract": "qualification/0_2_7/wp04_execution_contract.json",
+    "preflight": "qualification/0_2_7/wp04_runtime/wp04_preflight.json",
+    "index": "qualification/0_2_7/wp04_runtime/wp04_evidence_index.json",
+    "summary": "qualification/0_2_7/wp04_runtime/wp04_summary.json",
+    "resource_guard_audit": "qualification/0_2_7/wp04_runtime/wp04_resource_guard_audit.json",
+    "post_pc_ready_diagnostic": "qualification/0_2_7/wp04_runtime/wp04_post_pc_ready_diagnostic.json",
+    "run1_build": "qualification/0_2_7/wp04_runtime/workload_5m_run1_build.json",
+    "run2_build": "qualification/0_2_7/wp04_runtime/workload_5m_run2_build.json",
+    "corrected_run_a_raw": "qualification/0_2_7/wp04_runtime/wp04_corrected_run_a_raw.json",
+    "corrected_run_a_progress": "qualification/0_2_7/wp04_runtime/wp04_corrected_run_a_progress.jsonl",
+    "corrected_run_a_rank_telemetry": "qualification/0_2_7/wp04_runtime/wp04_corrected_run_a.wp04_5m_progress.rank*.jsonl"
+  },
+  "policy": {
+    "configuration_changed": false,
+    "tuning_after_result": false,
+    "tolerances_changed": false,
+    "fem_formulation_changed": false,
+    "full_regression_run": false,
+    "pushed": false
+  },
+  "ready_for_lu2_wp05": true,
+  "ready_for_wp04_retry": false,
+  "ready_for_c1": false,
+  "blockers": [],
+  "artifact_classification": "CONTROLLED_PROOF"
+}

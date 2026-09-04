@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "checkpoint": "T1-R3",
+  "title": "Final WEDGE6 pre-WP07 remediation",
+  "status": "PASS",
+  "start_sha": "d4abc2f15b0e5167cd2faa4734e6a836bdb12514",
+  "evidence_head": null,
+  "evidence_role": "final commit SHA is recorded by the closeout report; this state is committed with the checkpoint",
+  "wedge6_kernel_implemented": false,
+  "new_capability_exposed": false,
+  "existing_numerical_formulation_changed": false,
+  "jacobian_certificate": {
+    "status": "PASS",
+    "method": "triangular-vertex reduction plus quadratic t minimization",
+    "determinant_tolerance": "machine epsilon scaled to the candidate determinant magnitude",
+    "diagnostic_samples_are_certificate": false,
+    "terra_adversarial_prism_rejected": true
+  },
+  "external_contract": {
+    "status": "PASS",
+    "duplicate_json_keys_rejected": true,
+    "primary_observables": ["displacement", "total_reaction", "strain_energy"],
+    "affine_tolerance": "1e-6 relative, proposed Owner review before execution",
+    "non_affine_tolerance": "case-specific Owner review required before execution",
+    "post_observation_retuning": "FORBIDDEN"
+  },
+  "targeted_tests": "tests/unit/test_wedge6_t1r_contract.py; tests/unit/test_wedge6_external_preflight.py; tests/unit/test_mesh_quality_contract.py",
+  "full_regression_run": false,
+  "pushed": false,
+  "ready_for_terra_rereview": true,
+  "ready_for_wp07": false
+}

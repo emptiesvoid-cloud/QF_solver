@@ -21,6 +21,11 @@ approver: ""
 
 <span class="maturity experimental">experimental</span>
 
+Cette fiche technique est conservee comme reference historique. Le statut
+actif 0.2.7 de chaque combinaison TET10 est celui du registry v2 et de ses
+preuves; la presence de cette fiche ne constitue pas une qualification
+generale.
+
 Le TET10 est un tetraedre isoparametrique quadratique a trente ddl. Les quatre
 premiers noeuds sont les sommets; les six suivants portent les aretes.
 

@@ -1,8 +1,8 @@
 ---
 doc_id: DOC-REF-006
-revision: 0.1
-status: draft technique
-applicable_version: 0.2.5a0
+revision: 1.0
+status: controlled
+applicable_version: 0.2.7
 reviewer: ""
 approver: ""
 ---

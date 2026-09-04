@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "qf-solver"
-version = "0.2.6a0"
+version = "0.2.7"
 description = "Open-source white-box Python finite element solver for structural mechanics, dynamics and verifiable engineering simulation."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -14,7 +14,7 @@ authors = [
   { name = "Quentin Farinazzo" }
 ]
 classifiers = [
-  "Development Status :: 3 - Alpha",
+  "Development Status :: 4 - Beta",
   "Intended Audience :: Science/Research",
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3 :: Only",
@@ -35,6 +35,8 @@ dependencies = [
 Homepage = "https://github.com/emptiesvoid-cloud/QF_solver"
 Source = "https://github.com/emptiesvoid-cloud/QF_solver"
 Issues = "https://github.com/emptiesvoid-cloud/QF_solver/issues"
+Documentation = "https://github.com/emptiesvoid-cloud/QF_solver/tree/main/docs"
+Changelog = "https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CHANGELOG.md"
 
 [project.optional-dependencies]
 test = [
@@ -93,10 +95,13 @@ qualification = [
   "qualification/benchmarks.json",
   "qualification/campaign.json",
   "qualification/demonstrations.json",
+  "qualification/element_analysis_matrix.json",
   "qualification/formulas.json",
   "qualification/requirements.json",
-  "qualification/release_vv_0_2_1.json"
+  "qualification/release_vv_0_2_1.json",
+  "qualification/technical_content_coverage.json"
 ]
+"qualification/0_2_7" = ["qualification/0_2_7/capability_registry_v2.json"]
 requirements = ["requirements/baseline-standard.txt", "requirements/baseline-large-linux.txt"]
 
 [tool.pytest.ini_options]

@@ -1,16 +1,19 @@
 <div class="status-grid">
-  <section class="status-panel"><h3>Version du solveur</h3><span class="value">0.2.5a0</span><span>schema JSON v1</span></section>
-  <section class="status-panel"><h3>Tests collectes</h3><span class="value">1907</span><span>campagne locale courante</span></section>
-  <section class="status-panel"><h3>Campagne souveraine</h3><span class="value">PASS</span><span>13/13 cas</span></section>
-  <section class="status-panel"><h3>Revision source</h3><span class="value">cd107ec8f1d1</span><span>dirty: false</span></section>
+  <section class="status-panel"><h3>Release</h3><span class="value">0.2.7</span><span>active documentation</span></section>
+  <section class="status-panel"><h3>Qualification</h3><span class="value">COMPLETE</span><span>bounded evidence index</span></section>
+  <section class="status-panel"><h3>Test inventory</h3><span class="value">2349</span><span>local collection at documentation freeze</span></section>
+  <section class="status-panel"><h3>Source revision</h3><span class="value">generated at build</span><span>controlled source required</span></section>
 </div>
 
-| Perimetre | Maturite | Decision documentaire |
+The active public scope is complete at its declared boundaries. Historical
+planning snapshots and pre-release audit records remain available in the
+verification archive and do not define the current release.
+
+| Scope | Maturity | Public boundary |
 | --- | --- | --- |
-| TET4 statique lineaire | <span class="maturity stable">stable</span> | Domaine borne documente |
-| MITC3+/MITC4 et BEAM2 | <span class="maturity reinforced">tests renforces</span> | Scopes propres a chaque formulation |
-| J2 small-strain / TET4-TET10-HEX8-HEX20 | <span class="maturity reinforced">qualifie borne</span> | G01, chemins et correlation documentes |
-| Total-Lagrangian TET4/HEX8 et flambement | <span class="maturity reinforced">qualifie borne</span> | G02/G03, domaine pre-limite ou premier seuil |
-| Contact sans frottement | <span class="maturity reinforced">qualifie borne</span> | G05, noeud/patch vers surface triangulee |
-| Arc-length et couplages non lineaires | <span class="maturity experimental">experimental</span> | G04/G06 non qualifies dans 0.2.5a0 |
-| Grand modele | <span class="maturity experimental">experimental</span> | Caracterisation separee, aucun claim nouveau |
+| TET4 linear static | <span class="maturity stable">bounded</span> | Recorded elastic scope |
+| TET4/TET10/HEX8/HEX20 small-strain J2 | <span class="maturity reinforced">qualified bounded</span> | Declared material and analysis scope |
+| Modal, transient and harmonic | <span class="maturity reinforced">supported with limitations</span> | Route-specific evidence |
+| Frictionless contact | <span class="maturity reinforced">supported with limitations</span> | Bounded node-to-triangle cases |
+| WEDGE6 static | <span class="maturity experimental">experimental</span> | Controlled static slice only |
+| Large-model PETSc/MPI | <span class="maturity experimental">bounded evidence</span> | Recorded workloads and environments |

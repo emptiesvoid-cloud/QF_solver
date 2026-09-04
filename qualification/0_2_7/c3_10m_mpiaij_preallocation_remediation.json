@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "record_type": "c3_10m_mpiaij_preallocation_remediation",
+  "artifact_classification": "CONTROLLED_PROOF",
+  "work_package": "C3",
+  "source_snapshot": "3a9e42c3dd543ad31154728ecacd773cda132f46",
+  "status": "PASS_WITH_LIMITATIONS",
+  "scope": {
+    "element": "TET4",
+    "analysis": "linear_static",
+    "route": "PETSc MPIAIJ structured six-tetrahedra block",
+    "ranks": 8,
+    "numerical_formulation_changed": false,
+    "solver_strategy_changed": false,
+    "wp02_freeze_changed": false,
+    "workload_changed": false,
+    "tolerances_changed": false
+  },
+  "historical_10m_replay": {
+    "status": "OWNER_TERMINATED_FOR_DIAGNOSTIC",
+    "dof": 10125000,
+    "tet4_elements": 19847694,
+    "insertion_reached_100_percent": true,
+    "all_ranks_reached_pre_assemble_1": true,
+    "all_ranks_reached_post_assemble_1": false,
+    "dominant_phase": "ASSEMBLE_1",
+    "dominant_phase_confidence": "HIGH",
+    "capacity_failure_proven": false,
+    "resource_limited_proven": false,
+    "oom_proven": false,
+    "petsc_mpi_failure_proven": false,
+    "deadlock_proven": false,
+    "evidence": "qualification/0_2_7/c3_10m_aij_diagnostic.json"
+  },
+  "root_cause": {
+    "statement": "The generic MPIAIJ uniform nnz=120 allocation is a proven reallocation and over-allocation pathology on representative eight-rank structured TET4 cases. The phase-resolved 10M replay isolates the same MPIAIJ first final assembly as the dominant incomplete phase. This establishes the generic allocation as the bounded remediation target, but does not claim an unobserved PETSc-internal 10M event.",
+    "confidence": "HIGH_FOR_PHASE_AND_REPRESENTATIVE_PATH",
+    "candidate_causes": {
+      "first_matrix_assembly": "HIGH_CONFIDENCE_DOMINANT_10M_PHASE",
+      "generic_mpiaij_preallocation": "PROVEN_ON_REPRESENTATIVE_MPI_CASES",
+      "petsc_reallocations": "PROVEN_ON_REPRESENTATIVE_MPI_CASES",
+      "python_per_element_matsetvalues": "PROVEN_EXISTING_OVERHEAD_UNCHANGED_BY_PATCH",
+      "off_process_insertion": "STRONGLY_SUPPORTED_UNCHANGED_BY_PATCH",
+      "collective_order_defect": "NOT_PROVEN_ON_CURRENT_C3_PATH",
+      "rank_imbalance": "NOT_PRIMARY_FROM_AVAILABLE_MARKERS",
+      "memory_bandwidth": "POSSIBLE_NOT_ISOLATED"
+    }
+  },
+  "preallocation_contract": {
+    "before": {
+      "strategy": "uniform_nnz_per_row",
+      "nnz": 120,
+      "diag_offdiag_preallocation": "NOT_EXPLICIT"
+    },
+    "after": {
+      "strategy": "structured_six_tet4_exact_diag_offdiag",
+      "eligibility": "analysis metadata proves structured_tet4_block, six-tetrahedra decomposition, matching node count, and 3 displacement DOF per node",
+      "diag_offdiag_preallocation": "EXACT_STRUCTURED_STENCIL",
+      "interior_node_scalar_stencil_width": 45,
+      "fallback": "The existing uniform nnz=120 allocation remains unchanged for every topology that does not prove the structured six-tetrahedra contract."
+    },
+    "implementation": "src/solveur/large/assembler.py:_aij_preallocation",
+    "semantics": "Storage preallocation only. Element contributions, constraint rows, RHS, PETSc KSP/PC selection, and numerical acceptance remain unchanged."
+  },
+  "representative_mpi_evidence": {
+    "small": {
+      "dof": 89373,
+      "tet4_elements": 162000,
+      "ranks": 8,
+      "matrix_relative_difference": 0.0,
+      "rhs_relative_difference": 0.0,
+      "solution_relative_difference": 4.803944072819094e-21,
+      "iterations_before_after": [196, 196],
+      "assemble_1_s_before_after": [0.63349, 0.04143],
+      "mallocs_before_after": [41610, 0],
+      "nz_allocated_before_after": [11795775, 3817539],
+      "nz_used_before_after": [3817539, 3817539]
+    },
+    "medium": {
+      "dof": 526848,
+      "tet4_elements": 998250,
+      "ranks": 8,
+      "matrix_relative_difference": 0.0,
+      "rhs_relative_difference": 0.0,
+      "solution_relative_difference": 6.221963870801051e-20,
+      "iterations_before_after": [577, 577],
+      "assemble_1_s_before_after": [49.36835508403601, 0.20029162400169298],
+      "assemble_1_speedup": 246.48,
+      "total_assembler_s_before_after": [92.76990882400423, 1.6722054409910925],
+      "total_assembler_speedup": 55.48,
+      "element_insertion_s_before_after": [43.39805758598959, 1.4677638889988884],
+      "mallocs_before_after": [131670, 0],
+      "nz_allocated_before_after": [67831050, 23036814],
+      "nz_used_before_after": [23036814, 23036814],
+      "allocated_slot_reduction_fraction": 0.6604,
+      "energy_before_after": [5.006898568496604e-06, 5.006898568496562e-06],
+      "residual_before_after": [3.0790014248586157e-09, 3.0788560390405185e-09]
+    },
+    "unchanged_work": {
+      "matsetvalues_calls_global": "one call per TET4 element",
+      "scalar_values_per_tet4": 144,
+      "off_process_submission_estimate": "unchanged; approximately 6.36 percent on the medium representative case",
+      "interpretation": "The measured gain is allocation behavior, not a change to assembly semantics, partitioning, or solver iterations."
+    }
+  },
+  "verification": {
+    "structured_stencil_matches_generated_connectivity": "PASS",
+    "unproven_topology_uses_fallback": "PASS",
+    "petsc_remainder_ownership_matches_explicit_preallocation": "PASS",
+    "small_mpi_equivalence": "PASS",
+    "medium_mpi_equivalence": "PASS",
+    "no_dense_conversion": "PASS",
+    "no_numerical_drift_observed": "PASS"
+  },
+  "limitations": [
+    "No 10M replay was run after this remediation; C3 remains non-blocking and unqualified.",
+    "The exact diagonal/off-diagonal graph is intentionally limited to metadata-proven structured six-tetrahedra TET4 blocks.",
+    "Per-element MatSetValues and off-process insertion remain separate optimization risks.",
+    "No claim is made for matrix-free, COO, BAIJ, arbitrary unstructured meshes, different MPI rank counts, or a universal performance multiplier."
+  ],
+  "decision": {
+    "behavioral_patch_applied": true,
+    "patch_status": "PASS",
+    "ready_for_frozen_c3_replay": true,
+    "recommended_next_action": "Replay the existing frozen 10M workload only under separate authorization, preserving per-rank phase telemetry. Compare POST_ASSEMBLE_1 timing and PETSc allocation diagnostics before considering any further optimization.",
+    "heavy_10m_replay_run": false,
+    "full_regression_run": false,
+    "pushed": false
+  }
+}

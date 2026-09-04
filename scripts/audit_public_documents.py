@@ -9,6 +9,11 @@ from pathlib import Path
 from typing import Any, Sequence
 
 try:
+    import tomllib
+except ModuleNotFoundError:  # Python 3.10 compatibility.
+    import tomli as tomllib
+
+try:
     from scripts.audit_public_release import audit_public_release
     from scripts.git_tools import git_command
 except ModuleNotFoundError:
@@ -17,7 +22,7 @@ except ModuleNotFoundError:
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_OUTPUT = Path("qualification/publication_audit_0_2_6.json")
+DEFAULT_OUTPUT = Path("qualification/0_2_7/wp21_public_document_audit.json")
 WEB_RUNTIME_PATHS = (
     "mkdocs.yml",
     "scripts/serve_docs.py",
@@ -83,6 +88,8 @@ def public_document_audit(root: str | Path = ROOT) -> dict[str, Any]:
     pyproject = _read_text(base / "pyproject.toml").casefold()
     web_dependencies = [name for name in ("mkdocs", "playwright") if name in pyproject]
     release_audit = audit_public_release(base)
+    release_version = _project_version(base)
+    release_key = release_version.split("a", 1)[0].replace(".", "")
 
     checks = [
         _check(
@@ -114,8 +121,8 @@ def public_document_audit(root: str | Path = ROOT) -> dict[str, Any]:
     ]
     return {
         "schema_version": 1,
-        "audit_id": "QF-PUBLIC-DOC-AUDIT-026-001",
-        "release": {"name": "QF_solver", "version": "0.2.6a0"},
+        "audit_id": f"QF-PUBLIC-DOC-AUDIT-{release_key}-001",
+        "release": {"name": "QF_solver", "version": release_version},
         "status": "PASS" if all(check["status"] == "PASS" for check in checks) else "FAIL",
         "classification": {
             "public_source_documentation": {
@@ -219,6 +226,12 @@ def _check(identifier: str, passed: bool, detail: str) -> dict[str, str]:
 
 def _read_text(path: Path) -> str:
     return path.read_text(encoding="utf-8", errors="ignore") if path.is_file() else ""
+
+
+def _project_version(root: Path) -> str:
+    """Read the active package version without importing the source tree."""
+    project = tomllib.loads((root / "pyproject.toml").read_text(encoding="utf-8"))["project"]
+    return str(project["version"])
 
 
 def main(argv: Sequence[str] | None = None) -> int:

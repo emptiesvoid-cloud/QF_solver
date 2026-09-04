@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "record_type": "lu2_wp04_5m_bronze_summary",
+  "work_package": "LU2-WP04",
+  "gate": "LU2-027-G04",
+  "status": "USER_INTERRUPTED_INCONCLUSIVE",
+  "source_sha": "3c579e4a51a2e9edca23b7583cdbfc48c7f80368",
+  "configuration_freeze": {
+    "id": "LU2-WP02-FREEZE-bfd1975b012453a3",
+    "digest_sha256": "bfd1975b012453a3b492cc79c968ceeba6ae6951a293e3ce65ddda548d8339a1",
+    "valid": true,
+    "changed": false,
+    "mpi_ranks": 8,
+    "matrix_format": "aij",
+    "ksp": "cg",
+    "preconditioner": "gamg"
+  },
+  "workload": {
+    "model_id": "LU2-WP04-5M-WORKLOAD-001",
+    "nodes": 1670880,
+    "elements": 9773946,
+    "true_dof": 5012640,
+    "input_digest_sha256": "ff73bc9debd0c8e1ae7355cb6b42e62734c619efa87423e484284878449a55ec",
+    "independent_builds": 2,
+    "model_replay": "PASS"
+  },
+  "preflight": "PASS",
+  "runs": {
+    "run1": {
+      "status": "USER_INTERRUPTED_INCONCLUSIVE",
+      "build_time_seconds": 7.678664300008677,
+      "assembly_operator": "NOT_COMPLETED",
+      "pc_setup": "NOT_REACHED",
+      "peak_rss": "NOT_AVAILABLE; partial RSS approximately 4.02 GiB at guard",
+      "disk": "NOT_CAPTURED_IN_COMPLETED_RUN",
+      "solve": "NOT_RUN"
+    },
+    "run2": {
+      "status": "NOT_RUN_AFTER_USER_INTERRUPT",
+      "build_time_seconds": 7.259523699991405,
+      "assembly_operator": "NOT_RUN",
+      "pc_setup": "NOT_RUN",
+      "peak_rss": "NOT_RUN",
+      "disk": "NOT_RUN",
+      "solve": "NOT_RUN"
+    }
+  },
+  "checks": {
+    "ownership_replay": "NOT_AVAILABLE; operator readiness not reached",
+    "petsc_initialization": "NOT_PROVED",
+    "gamg_readiness": "NOT_PROVED",
+    "no_nan_inf": "PASS_FOR_GENERATED_MODEL_INPUTS",
+    "silent_fallback": "NO_FALLBACK_OBSERVED",
+    "bronze": "FAIL",
+    "c1_matrix_free_trigger": false,
+    "forensic_audit": "qualification/0_2_7/wp04_runtime/wp04_forensic_audit.json",
+    "resource_limited_proven": false,
+    "stall_detected": "NO_EVIDENCE"
+  },
+  "time_guard": {
+    "reference_mean_total_seconds": 1582.4006848660065,
+    "threshold_seconds": 3164.801369732013,
+    "absolute_wall_time_ceiling_seconds": 18000,
+    "effective_stop_threshold_seconds": 3164.801369732013,
+    "observed_elapsed_seconds": 12500,
+    "decision": "OWNER_INTERRUPT_OBSERVED",
+    "reason": "The 2x reference budget was exceeded, but the run was owner-interrupted and the container remained active; elapsed time alone is not a resource-limit verdict.",
+    "guard_exceeded_as_budget_observation": true,
+    "forensic_elapsed_seconds": 14531
+  },
+  "claim_boundary": "5M Bronze is inconclusive because the owner-interrupted frozen AIJ path did not reach readiness; no 5M Silver or converged-solve claim is made.",
+  "next_step": "LU2-WP04_SUPERVISED_RETRY",
+  "artifact_classification": "CONTROLLED_PROOF"
+}

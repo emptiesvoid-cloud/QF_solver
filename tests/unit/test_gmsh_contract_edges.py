@@ -83,7 +83,7 @@ def test_gmsh_companion_setup_rejects_invalid_contracts(changes: dict[str, objec
         "groups": [{"name": "domain", "dimension": 3, "actions": [{"type": "elements", "element_type": "TET4", "material": "m"}]}],
     }
     setup.update(changes)
-    with pytest.raises(Exception, match=message):
+    with pytest.raises(InputValidationError, match=message):
         _validate_setup(setup)
 
 
@@ -98,7 +98,7 @@ def test_gmsh_setup_accepts_minimal_normalized_definition_and_rejects_duplicate_
     assert normalized["mesh_scale_to_m"] == 1.0
     assert warnings == []
     duplicate = {**setup, "groups": setup["groups"] * 2}
-    with pytest.raises(Exception, match="Duplicate"):
+    with pytest.raises(InputValidationError, match="Duplicate"):
         _validate_setup(duplicate)
 
 

@@ -1,0 +1,230 @@
+{
+  "schema_version": 1,
+  "record_type": "level_up_2_state",
+  "namespace": "027-LEVEL-UP-2",
+  "plan": "qualification/0_2_7/level_up_2_plan.json",
+  "release": "0.2.7",
+  "theme": "Reproducible Large-Model Performance and Solver Maturity",
+  "status": "CLOSED",
+  "setup_status": "PASS",
+  "source_sha": "04b07e00ddfe0b339b5790493a607ec902b1ed80",
+  "wp01_source_sha": "e1703b5bc00e9cf2eb92e7e346783c9764201808",
+  "branch": "codex/0.2.7-foundation",
+  "pre_lu2_qualified_baseline": "8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3",
+  "current_work_package": "STEP2D",
+  "next_work_package": "STEP3",
+  "s3_release_pre_gate": {
+    "status": "PASS_WITH_LIMITATIONS",
+    "source_of_truth": "qualification/0_2_7/s3_validation_matrix.json",
+    "new_case_count": 24,
+    "maturity_promotion": false,
+    "global_progress_unchanged": true,
+    "ready_for_wp09": true
+  },
+  "global_accounting": {
+    "level_up_1": "50/50 CLOSED",
+    "level_up_2": "50/50 CLOSED",
+    "current_global_progress": "100/100",
+    "weights_total_percent": 100
+  },
+  "work_packages": [
+    {"id": "LU2-WP01", "status": "PASS", "weight_percent": 4, "ready": true, "evidence": "qualification/0_2_7/wp01_observatory_sample.json"},
+    {"id": "LU2-WP02", "status": "PASS_WITH_LIMITATIONS", "weight_percent": 9, "ready": true, "evidence": "qualification/0_2_7/wp02_state.json"},
+    {
+      "id": "LU2-WP03",
+      "status": "PASS_WITH_LIMITATIONS",
+      "weight_percent": 9,
+      "ready": true,
+      "evidence": [
+        "qualification/0_2_7/wp03_execution_contract.json",
+        "qualification/0_2_7/wp03_runtime/wp03_evidence_index.json",
+        "qualification/0_2_7/wp03_runtime/wp03_summary.json",
+        "qualification/0_2_7/wp03_runtime/wp03_replay_comparison.json",
+        "qualification/0_2_7/lu2_wp03_state.json"
+      ]
+    },
+    {
+      "id": "LU2-WP04",
+      "status": "PASS",
+      "weight_percent": 5,
+      "ready": true,
+      "evidence": [
+        "qualification/0_2_7/wp04_execution_contract.json",
+        "qualification/0_2_7/wp04_runtime/wp04_preflight.json",
+        "qualification/0_2_7/wp04_runtime/workload_5m_run1_build.json",
+        "qualification/0_2_7/wp04_runtime/workload_5m_run2_build.json",
+        "qualification/0_2_7/wp04_runtime/wp04_resource_guard_audit.json",
+        "qualification/0_2_7/wp04_runtime/wp04_evidence_index.json",
+        "qualification/0_2_7/wp04_runtime/wp04_summary.json",
+        "qualification/0_2_7/wp04_runtime/wp04_forensic_audit.json",
+        "qualification/0_2_7/wp04_runtime/wp04_post_pc_ready_diagnostic.json",
+        "qualification/0_2_7/lu2_wp04_state.json",
+        "docs/verification/0_2_7/0_2_7_wp04_5m_bronze.md"
+      ],
+      "c1_matrix_free_trigger": false,
+      "resource_limited_proven": false,
+      "ready_for_retry": false,
+      "bronze_pass": true,
+      "corrected_run": "qualification/0_2_7/wp04_runtime/wp04_corrected_run_a_raw.json",
+      "rank_telemetry": "qualification/0_2_7/wp04_runtime/wp04_corrected_run_a.wp04_5m_progress.rank*.jsonl",
+      "blocker": null,
+      "forensic_audit": "qualification/0_2_7/wp04_runtime/wp04_forensic_audit.json",
+      "post_pc_ready_diagnostic": "qualification/0_2_7/wp04_runtime/wp04_post_pc_ready_diagnostic.json"
+    },
+    {"id": "LU2-WP05", "status": "PASS", "weight_percent": 9, "ready": true, "evidence": ["qualification/0_2_7/lu2_wp05_state.json", "qualification/0_2_7/wp05_runtime/wp05_5m_silver_run1.json", "qualification/0_2_7/wp05_runtime/wp05_5m_silver_run2.json", "qualification/0_2_7/wp05_runtime/wp05_5m_silver_replay.json"]},
+    {
+      "id": "LU2-WP06",
+      "status": "PASS_WITH_LIMITATIONS",
+      "weight_percent": 4,
+      "ready": true,
+      "evidence": [
+        "qualification/0_2_7/wp06_execution_contract.json",
+        "qualification/0_2_7/lu2_wp06_state.json",
+        "docs/verification/0_2_7/0_2_7_wp06_execution_contract.md",
+        "tests/unit/test_execution_contract.py"
+      ]
+    },
+    {"id": "LU2-WP07", "status": "PASS_WITH_LIMITATIONS", "weight_percent": 4, "ready": true, "evidence": "qualification/0_2_7/lu2_wp07_maturity_matrix.json"},
+    {
+      "id": "LU2-WP08",
+      "status": "PASS_WITH_LIMITATIONS",
+      "weight_percent": 2,
+      "ready": true,
+      "evidence": "qualification/0_2_7/lu2_wp08_decision_matrix.json"
+    },
+    {"id": "LU2-WP09", "status": "PASS_WITH_LIMITATIONS", "weight_percent": 4, "ready": true, "evidence": ["qualification/0_2_7/r0_release_readiness.json", "qualification/0_2_7/step1_release_freeze.json"]}
+  ],
+  "conditional_gates": [
+    {
+      "id": "C1",
+      "status": "DORMANT",
+      "weight_percent": 0,
+      "non_blocking": true,
+      "prior_interpretation": "TRIGGERED_BY_TIME_BUDGET",
+      "reason": "Not confirmed: the 2x time budget was exceeded, but the owner interruption and missing progress/resource telemetry prevent a resource-limited trigger."
+    },
+    {"id": "C2", "status": "DORMANT", "weight_percent": 0, "non_blocking": true},
+    {"id": "C3", "status": "PASS", "weight_percent": 0, "non_blocking": true, "evidence": "qualification/0_2_7/c3_10m_runtime/c3_10m_replay_summary.json", "historical_evidence": "qualification/0_2_7/c3_10m_aij_diagnostic.json", "reason": "The frozen 10M TET4 Bronze replay reached global PC_READY, completed cleanly on all eight ranks, and preserved the historical owner-terminated diagnostic. One optional complete solve also passed the existing acceptance checks; no universal 10M claim is made."}
+  ],
+  "decision_gates": {
+    "DECISION_GATE_1": "CONTINUE_TO_LEVEL_UP_2",
+    "FINAL_DECISION_GATE": "INSTALLED"
+  },
+  "registry_guard": {
+    "source_of_truth": "qualification/0_2_7/capability_registry_v2.json",
+    "public_anchor_count": 33,
+    "public_combination_count": 46,
+    "record_count": 79,
+    "maturity_promotion": false
+  },
+  "anti_forgetting": {
+    "historical_lu1_preserved": true,
+    "required_active_work_package_count": 9,
+    "conditional_gate_count": 3,
+    "deferred_scope_explicit": true
+  },
+  "execution": {
+    "heavy_benchmark_run": true,
+    "full_regression_run": false,
+    "targeted_tests": "WP02/WP03 evidence validation PASS; WP04 contract, preflight, deterministic-build checks and post-PC_READY collective-order patch tests PASS; the frozen C3 10M Bronze replay and optional complete solve PASS",
+    "numerical_source_changed": false,
+    "existing_evidence_rewritten": false,
+    "maturity_promoted": false,
+    "pushed": false,
+    "tag_changed": false,
+    "pypi_published": false
+  },
+  "readiness": {
+    "ready_for_lu2_wp01": true,
+    "ready_for_lu2_wp02": true,
+    "ready_for_lu2_wp03": true,
+    "ready_for_lu2_wp04": true,
+    "ready_for_lu2_wp08": true,
+    "ready_for_lu2_wp07": true,
+    "ready_for_lu2_wp09": true,
+    "ready_for_lu2_wp05": true,
+    "ready_for_wp04_retry": true,
+    "ready_for_c1": false,
+    "ready_for_next_independent_wp": true,
+    "wp03_evidence_index": "qualification/0_2_7/wp03_runtime/wp03_evidence_index.json",
+    "wp03_summary": "qualification/0_2_7/wp03_runtime/wp03_summary.json",
+    "ready_for_heavy_benchmark": false,
+    "heavy_benchmark_status": "WP04 Bronze PASS; WP05 5M Silver PASS with two complete replays",
+    "next_work_package": "STEP3",
+    "blockers": [],
+    "observatory_contract": "qualification/0_2_7/observatory_contract.json",
+    "observatory_sample": "qualification/0_2_7/wp01_observatory_sample.json",
+    "wp02_contract": "qualification/0_2_7/wp02_execution_contract.json",
+    "wp02_state": "qualification/0_2_7/wp02_state.json",
+    "wp02_evidence_index": "qualification/0_2_7/wp02_runtime/wp02_evidence_index.json",
+    "wp02_configuration_freeze": "qualification/0_2_7/wp02_runtime/wp02_config_freeze.json"
+  },
+  "completed_work_packages": ["LU2-WP01", "LU2-WP02", "LU2-WP03", "LU2-WP04", "LU2-WP05", "LU2-WP06", "LU2-WP07", "LU2-WP08", "LU2-WP09"],
+  "wp08_decision": {
+    "status": "PASS_WITH_LIMITATIONS",
+    "decision_matrix": "qualification/0_2_7/lu2_wp08_decision_matrix.json",
+    "state": "qualification/0_2_7/lu2_wp08_state.json",
+    "implemented_new_element": false,
+    "fem_formulation_changed": false,
+    "maturity_promoted": false,
+    "next_operational_action": "LU2-WP09"
+  },
+  "wp07_decision": {
+    "status": "PASS_WITH_LIMITATIONS",
+    "matrix": "qualification/0_2_7/lu2_wp07_maturity_matrix.json",
+    "state": "qualification/0_2_7/lu2_wp07_state.json",
+    "new_external_runs": false,
+    "promotions": [],
+    "demotions": [],
+    "wp04_changed": false,
+    "fem_formulation_changed": false,
+    "next_operational_action": "LU2-WP09"
+  },
+  "s1_telemetry": {
+    "status": "PASS",
+    "contract": "qualification/0_2_7/wp04_telemetry_contract.json",
+    "state": "qualification/0_2_7/s1_telemetry_state.json",
+    "log_path": "qualification/0_2_7/wp04_runtime/wp04_5m_progress.jsonl",
+    "enabled_explicitly": true,
+    "default_off": true,
+    "wp04_status_before_retry": "USER_INTERRUPTED_INCONCLUSIVE",
+    "wp04_status_after_retry": "PASS",
+    "ready_for_wp04_retry": false
+  },
+  "s2_post_pc_ready_diagnostic": {
+    "status": "PASS",
+    "state": "qualification/0_2_7/s2_post_pc_ready_diagnostic_state.json",
+    "evidence": "qualification/0_2_7/wp04_runtime/wp04_post_pc_ready_diagnostic.json",
+    "root_cause": "PROVEN_COLLECTIVE_ORDER_MISMATCH",
+    "per_rank_markers": "INSTALLED",
+    "pc_ready_scope": "GLOBAL after patch; historical Run A remained LOCAL",
+    "ready_for_wp04_retry": false
+  },
+  "c3_10m_diagnostic": {
+    "status": "OWNER_TERMINATED_FOR_DIAGNOSTIC",
+    "state": "qualification/0_2_7/c3_10m_aij_diagnostic.json",
+    "source_sha": "d6581561509114b8d37d6612fe0154e634848482",
+    "root_cause_proven": false,
+    "behavioral_patch_applied": false,
+    "per_rank_phase_instrumentation": "INSTALLED",
+    "ready_for_replay": true,
+    "remediation": {
+      "status": "PASS_WITH_LIMITATIONS",
+      "evidence": "qualification/0_2_7/c3_10m_mpiaij_preallocation_remediation.json",
+      "source_snapshot": "3a9e42c3dd543ad31154728ecacd773cda132f46",
+      "root_cause": "The phase-resolved replay isolates MPIAIJ ASSEMBLE_1 at 10M; exact structured diagonal/off-diagonal preallocation removes representative MPI reallocations without numerical drift.",
+      "ready_for_replay": true
+    }
+  },
+  "c3_10m_replay": {
+    "status": "PASS",
+    "evidence": "qualification/0_2_7/c3_10m_runtime/c3_10m_replay_summary.json",
+    "historical_diagnostic": "qualification/0_2_7/c3_10m_aij_diagnostic.json",
+    "source_sha": "eefb5387c86c27809185e12f5548b79c0070d957",
+    "input_digest_sha256": "df3ce6efefde952b895f7c4e46664dc7312e99f4aedf65340cfcae52bcade6e2",
+    "bronze": "PASS",
+    "optional_complete_solve": "PASS",
+    "global_progress_changed": false,
+    "maturity_promoted": false
+  }
+}

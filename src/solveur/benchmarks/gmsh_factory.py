@@ -227,6 +227,63 @@ class BenchmarkMeshFactory:
         finally:
             gmsh.finalize()
 
+    def discrete_wedge6_prism(
+        self,
+        path: str | Path,
+        *,
+        length: float,
+        width: float,
+        height: float,
+        binary: bool = False,
+    ) -> Path:
+        """Generate one native Gmsh Prism 6 with all named boundary faces.
+
+        The mesh is deliberately discrete: its node and face order is explicit,
+        which makes it suitable for importer and load-mapping evidence.
+        """
+        gmsh = _gmsh()
+        target = _target(path)
+        if min(length, width, height) <= 0.0:
+            raise ValueError("WEDGE6 benchmark dimensions must be positive.")
+        coordinates = np.asarray(
+            (
+                (0.0, 0.0, 0.0),
+                (length, 0.0, 0.0),
+                (0.0, width, 0.0),
+                (0.0, 0.0, height),
+                (length, 0.0, height),
+                (0.0, width, height),
+            ),
+            dtype=float,
+        )
+        faces = (
+            ("tri_bottom", 2, (0, 2, 1)),
+            ("tri_top", 2, (3, 4, 5)),
+            ("quad_side_12", 3, (0, 1, 4, 3)),
+            ("quad_side_23", 3, (1, 2, 5, 4)),
+            ("quad_side_31", 3, (2, 0, 3, 5)),
+        )
+        gmsh.initialize(["qf_solver_benchmark", "-nopopup"])
+        try:
+            _options(gmsh)
+            gmsh.model.add("qf_solver_wedge6")
+            volume_entity = gmsh.model.addDiscreteEntity(3, 1)
+            node_tags = np.arange(1, 7, dtype=np.int64)
+            gmsh.model.mesh.addNodes(3, volume_entity, node_tags.tolist(), coordinates.reshape(-1).tolist())
+            gmsh.model.mesh.addElementsByType(volume_entity, 6, [1], node_tags.tolist())
+            _physical(gmsh, 3, [volume_entity], "domain")
+            for offset, (name, element_type, connectivity) in enumerate(faces, start=10):
+                entity = gmsh.model.addDiscreteEntity(2, offset)
+                gmsh.model.mesh.addElementsByType(entity, element_type, [100 + offset], [node + 1 for node in connectivity])
+                _physical(gmsh, 2, [entity], name)
+            point_entity = gmsh.model.addDiscreteEntity(0, 20)
+            gmsh.model.mesh.addElementsByType(point_entity, 15, [200], [5])
+            _physical(gmsh, 0, [point_entity], "loaded_node")
+            _write(gmsh, target, binary=binary)
+            return target
+        finally:
+            gmsh.finalize()
+
 
 def _gmsh() -> Any:
     try:

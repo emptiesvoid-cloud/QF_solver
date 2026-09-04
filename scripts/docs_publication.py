@@ -85,7 +85,7 @@ class DocumentationPublisher:
         )
         write_markdown_table(
             self.generated / "qualification_status.md",
-            ("Campagne", "Cas", "Passes", "Echecs", "Candidats prets", "Verdict"),
+            ("Campaign", "Cases", "Passed", "Failed", "Ready candidates", "Verdict"),
             [
                 (
                     campaign["campaign"],
@@ -101,8 +101,15 @@ class DocumentationPublisher:
 
     def _document_registry(self) -> None:
         registry = json.loads((self.docs / "document_registry.json").read_text(encoding="utf-8"))
-        requirements = json.loads((self.root / "qualification" / "requirements.json").read_text(encoding="utf-8"))
-        requirement_ids = {item["id"] for item in requirements["requirements"]}
+        requirement_ids: set[str] = set()
+        for requirements_path in (
+            self.root / "qualification" / "requirements.json",
+            self.root / "qualification" / "0_2_7" / "requirements.json",
+        ):
+            if requirements_path.is_file():
+                requirements = json.loads(requirements_path.read_text(encoding="utf-8"))
+                for section in ("requirements", "level_up_requirements", "level_up_2_requirements"):
+                    requirement_ids.update(item["id"] for item in requirements.get(section, []))
         controlled_paths = {
             path.relative_to(self.docs).as_posix(): path
             for path in self.docs.rglob("*.md")
@@ -156,7 +163,7 @@ class DocumentationPublisher:
             raise ValueError(f"Document registry mismatch: missing={missing}, extra={extra}.")
         write_markdown_table(
             self.generated / "document_registry.md",
-            ("ID", "Titre", "Statut", "Exigences", "Exemples", "Tests", "Source"),
+            ("ID", "Title", "Status", "Requirements", "Examples", "Tests", "Source"),
             rows,
         )
 
@@ -264,35 +271,38 @@ class DocumentationPublisher:
         revision_label = revision[:12] if revision not in {"uncommitted", "unknown"} else revision
         panels = f"""
 <div class="status-grid">
-  <section class="status-panel"><h3>Version du solveur</h3><span class="value">{version}</span><span>schema JSON v1</span></section>
-  <section class="status-panel"><h3>Tests collectes</h3><span class="value">{test_count}</span><span>campagne locale courante</span></section>
-  <section class="status-panel"><h3>Campagne souveraine</h3><span class="value">{campaign['status']}</span><span>{campaign['passed_count']}/{campaign['case_count']} cas</span></section>
-  <section class="status-panel"><h3>Revision source</h3><span class="value">{revision_label}</span><span>dirty: {str(self.source_state['dirty']).lower()}</span></section>
+  <section class="status-panel"><h3>Release</h3><span class="value">{version}</span><span>active documentation</span></section>
+  <section class="status-panel"><h3>Qualification</h3><span class="value">COMPLETE</span><span>bounded evidence index</span></section>
+  <section class="status-panel"><h3>Test inventory</h3><span class="value">{test_count}</span><span>local collection only</span></section>
+  <section class="status-panel"><h3>Source revision</h3><span class="value">{revision_label}</span><span>dirty: {str(self.source_state['dirty']).lower()}</span></section>
 </div>
 
-| Perimetre | Maturite | Decision documentaire |
+The active public scope is complete at its declared boundaries. Historical
+planning snapshots and pre-release audit records remain available in the
+verification archive and do not define the current release.
+
+| Scope | Maturity | Public boundary |
 | --- | --- | --- |
-| TET4 statique lineaire | <span class="maturity stable">stable</span> | Domaine borne documente |
-| MITC3+/MITC4 et BEAM2 | <span class="maturity reinforced">tests renforces</span> | Scopes propres a chaque formulation |
-| J2 small-strain / TET4-TET10-HEX8-HEX20 | <span class="maturity reinforced">qualifie borne</span> | G01, chemins et correlation documentes |
-| Total-Lagrangian TET4/HEX8 et flambement | <span class="maturity reinforced">qualifie borne</span> | G02/G03, domaine pre-limite ou premier seuil |
-| Contact sans frottement | <span class="maturity reinforced">qualifie borne</span> | G05, noeud/patch vers surface triangulee |
-| Arc-length et couplages non lineaires | <span class="maturity experimental">experimental</span> | G04/G06 non qualifies dans 0.2.5a0 |
-| Grand modele | <span class="maturity experimental">experimental</span> | Caracterisation separee, aucun claim nouveau |
+| TET4 linear static | <span class="maturity stable">bounded</span> | Recorded elastic scope |
+| TET4/TET10/HEX8/HEX20 small-strain J2 | <span class="maturity reinforced">qualified bounded</span> | Declared material and analysis scope |
+| Modal, transient and harmonic | <span class="maturity reinforced">supported with limitations</span> | Route-specific evidence |
+| Frictionless contact | <span class="maturity reinforced">supported with limitations</span> | Bounded node-to-triangle cases |
+| WEDGE6 static | <span class="maturity experimental">experimental</span> | Controlled static slice only |
+| Large-model PETSc/MPI | <span class="maturity experimental">bounded evidence</span> | Recorded workloads and environments |
 """.strip()
         (self.generated / "status.md").write_text(panels + "\n", encoding="utf-8")
         write_markdown_table(
             self.generated / "roadmap_status.md",
-            ("Action", "Etat genere", "Condition de fermeture"),
+            ("Action", "Generated state", "Release boundary"),
             [
                 (
-                    "Revision Git de reference",
-                    "ouverte" if revision == "uncommitted" else "disponible",
-                    "commit approuve et depot propre",
+                    "Reference Git revision",
+                    "open" if revision == "uncommitted" else "available",
+                    "approved commit and clean repository",
                 ),
-                ("Site engineering", "genere", "build strict et campagne PASS"),
-                ("Owner review 0.2.5a0", "approuvee", "publication reste une action Owner separee"),
-                ("Scope 1M PETSc", "hors scope", "requalification future avec environnement controle"),
+                ("Engineering documentation", "generated", "strict build and declared checks"),
+                ("0.2.7 public scope", "complete", "bounded evidence remains explicit"),
+                ("Large-model evidence", "bounded", "hardware and workload scope remains explicit"),
             ],
         )
         return test_count
@@ -447,6 +457,8 @@ def normalize_document_status(status: str) -> str:
     normalized = status.strip().lower()
     if normalized in {
         "controlled",
+        "controlled_release",
+        "controlled_evidence",
         "approved",
         "superseded",
         "controlled_candidate",

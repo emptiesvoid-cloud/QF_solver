@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "checkpoint": "T1-R",
+  "title": "WEDGE6 Pre-WP07 Remediation",
+  "status": "PASS",
+  "start_sha": "32e4e40bf18f0fdcd0a4ae9959d4f0df2b76892e",
+  "evidence_head": "32e4e40bf18f0fdcd0a4ae9959d4f0df2b76892e",
+  "evidence_role": "source snapshot used for the T1-R contract and targeted checks; final Git commit is reported at closeout",
+  "wedge6_kernel_implemented": false,
+  "new_capability_exposed": false,
+  "numerical_existing_formulation_changed": false,
+  "formulation_contract": "qualification/0_2_7/wedge6_formulation_contract.json",
+  "mapping_fixture": "qualification/0_2_7/wedge6_mapping_fixture.json",
+  "external_contract": "qualification/0_2_7/external_oracles/wedge6/contract.json",
+  "quality_contract": "src/solveur/mesh/quality_contract.py",
+  "required_pre_wp07_changes": {
+    "shape_functions_and_derivatives": "PASS",
+    "quadrature_selected_and_reference": "PASS",
+    "node_ordering_fixture": "PASS_BOUNDED_TOPOLOGY_AND_DECK_CONNECTIVITY",
+    "face_and_pressure_contract": "PASS_REFERENCE_GEOMETRIC_INTEGRATION",
+    "jacobian_quality_controls": "PASS_INACTIVE_CONTRACT",
+    "stiffness_vnv": "PASS_PREDECLARED_NO_KERNEL",
+    "mass_vnv": "PASS_FUTURE_WP10_SPECIFICATION",
+    "external_primary_observables": "PASS",
+    "external_tolerances": "PASS_PREDECLARED_OWNER_REVIEW_REQUIRED"
+  },
+  "owner_boundary": {
+    "terra_rereview": "READY",
+    "wp07": "NOT_AUTHORIZED",
+    "owner_approval_required_before_kernel": true
+  },
+  "targeted_tests": "tests/unit/test_wedge6_t1r_contract.py; tests/unit/test_wedge6_external_preflight.py; tests/unit/test_mesh_quality_contract.py",
+  "full_regression_run": false,
+  "artifact_classification": "CONTROLLED_PROOF"
+}

@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "work_package": "WP06",
+  "gate": "027-G06",
+  "status": "PASS",
+  "start_sha": "884637a60bc752c1d02644fe4d14ae056a2876b8",
+  "evidence_head": "c3989df875bcb385bb8e3b144380526db8151d55",
+  "source_change": {
+    "numerical_formulation": false,
+    "solver": false,
+    "new_physics": false,
+    "preflight_diagnostic_integration": true
+  },
+  "contract": {
+    "version": "1.0",
+    "families": ["TET4", "TET10", "HEX8", "HEX20"],
+    "classifications": ["VALID", "VALID_WITH_WARNING", "INVALID"],
+    "metrics": [
+      "signed_volume",
+      "volume",
+      "min_jacobian_determinant",
+      "max_jacobian_determinant",
+      "jacobian_determinant_ratio",
+      "jacobian_sign_consistent",
+      "orientation_state",
+      "degeneracy_indicator",
+      "aspect_ratio",
+      "distortion_metric",
+      "geometric_conditioning_indicator"
+    ],
+    "conditioning_policy": "diagnostic only when estimable; no universal cutoff",
+    "threshold_policy": "no new universal threshold; legacy family warnings retain provenance",
+    "wedge6": {
+      "implemented": false,
+      "contract_ready": true,
+      "faces": "2 TRI3 + 3 QUAD4"
+    }
+  },
+  "preflight_integration": {
+    "invalid_geometry": "UNSUPPORTED_ROUTE / MESH_GEOMETRY_INVALID",
+    "valid_with_warning": "calculation remains permitted",
+    "valid": "normal route"
+  },
+  "vnv_cases": "qualification/0_2_7/vnv_v2/mesh_quality_cases.json",
+  "tests": ["tests/unit/test_mesh_quality_contract.py", "tests/unit/test_element_descriptor_preflight.py"],
+  "artifact_classification": "CONTROLLED_PROOF"
+}

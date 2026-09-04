@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "work_package": "WP17-R",
+  "gate": "LUP-027-G17",
+  "title": "PETSc environment and 1M solver remediation",
+  "status": "PARTIAL",
+  "start_sha": "7dc53129100fae8e55301690b6f0d6a1751c46e2",
+  "execution_source_sha": "ec7e0af7dad399be8d1a1fe1fc90e95a81fec78a",
+  "historical_parent_state": "qualification/0_2_7/wp17_state.json",
+  "runtime_summary": "qualification/0_2_7/wp17_runtime/wp17r_summary.json",
+  "supplemental_strict_summary": "qualification/0_2_7/wp17_runtime/wp17r_strict_summary.json",
+  "runtime_evidence": [
+    "qualification/0_2_7/wp17_runtime/wp17r_run1.json",
+    "qualification/0_2_7/wp17_runtime/wp17r_run2.json",
+    "qualification/0_2_7/wp17_runtime/wp17r_run1_audit.json",
+    "qualification/0_2_7/wp17_runtime/wp17r_run2_audit.json",
+    "qualification/0_2_7/wp17_runtime/wp17r_strict_medium.json",
+    "qualification/0_2_7/wp17_runtime/wp17r_strict_1m_run1.json",
+    "qualification/0_2_7/wp17_runtime/wp17r_strict_1m_run2.json"
+  ],
+  "environment": {
+    "classification": "AVAILABLE_REPRODUCIBLE_CONTAINER",
+    "image": "qf-solver-large@sha256:d6a1718001fc36772906d1a9505637bbd0a4b7e1d8ccc9afdbcb6f67b7ff6d0e",
+    "dockerfile": "tools/containers/large/wp17r.Dockerfile",
+    "python": "3.12.3",
+    "petsc": "3.25.1",
+    "petsc4py": "3.25.1",
+    "mpi4py": "4.1.2",
+    "mpi": "MPICH 5.0.1 / MPI 5.0",
+    "smoke": "PASS",
+    "host_petsc": "UNAVAILABLE",
+    "gui": "NOT_USED"
+  },
+  "route": {
+    "backend": "petsc",
+    "solver": "CG",
+    "preconditioner": "GAMG",
+    "matrix_format": "AIJ",
+    "mpi_size": 2,
+    "partition_strategy": "contiguous",
+    "stopping_norm": "unpreconditioned",
+    "rtol": 1e-08,
+    "atol": 0.0,
+    "max_iterations": 10000,
+    "fallback": "none"
+  },
+  "supplemental_route": {
+    "backend": "petsc",
+    "solver": "CG",
+    "preconditioner": "GAMG",
+    "matrix_format": "AIJ",
+    "mpi_size": 2,
+    "partition_strategy": "contiguous",
+    "stopping_norm": "unpreconditioned",
+    "acceptance_rtol": 1e-08,
+    "solver_rtol": 1e-10,
+    "atol": 0.0,
+    "max_iterations": 10000,
+    "petsc_options_environment": "unset; all relevant options explicit",
+    "status": "PASS_WITH_LIMITATIONS",
+    "qualification_role": "supplemental diagnostic; official WP16 retry completed separately"
+  },
+  "diagnosis": {
+    "root_cause": "ITERATIVE_STOPPING_NORM_MISMATCH_AND_RESIDUAL_TO_RESULTANT_AMPLIFICATION",
+    "retained_fix": "explicit PETSc unpreconditioned stopping norm",
+    "reaction_postprocessing_fix": "NONE",
+    "compensated_sum_effect": "negligible; not used for acceptance",
+    "wp14_equilibrium_tolerance": 1e-08,
+    "strict_route_result": "equilibrium 5.339e-10 and free residual 9.704e-11 on two 1M replays",
+    "strict_route_interpretation": "predeclared internal solver target; WP14 acceptance thresholds and historical WP16 verdict remain unchanged"
+  },
+  "decisions": {
+    "selected_diagnostic_backend": "PETSc CG + GAMG",
+    "public_default_changed": false,
+    "wp16_status": "PASS on the official PETSc retry; historical matrix-free failure remains preserved",
+    "wp16_retry_ready": false,
+    "wp18_ready": false,
+    "owner_decision": "PARTIAL: the explicit PETSc CG/GAMG route enabled the official WP16 retry, which passes two 1,029,000-DOF replays and a same-configuration subscale comparison under unchanged WP14 acceptance thresholds; host PETSc remains unavailable and AIJ memory remains a limitation."
+  },
+  "constraints": {
+    "fem_formulation_changed": false,
+    "existing_numerical_formulations_changed": false,
+    "wp14_tolerances_changed": false,
+    "new_physics": false,
+    "post_result_tuning": false,
+    "full_regression_run": false,
+    "pushed": false
+  },
+  "artifact_classification": "CONTROLLED_PROOF"
+}

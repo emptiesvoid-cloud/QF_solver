@@ -1,0 +1,591 @@
+{
+  "acceptance": {
+    "no_dense_conversion": true,
+    "no_nan_inf": true,
+    "official_1m_qualification": "NOT_RUN_IN_WP17",
+    "post_result_retuning": false,
+    "spd_contract": true,
+    "subscale_equivalence": true
+  },
+  "artifact_classification": "CONTROLLED_PROOF",
+  "baseline": {
+    "block_preconditioner_setup_seconds": 0.031380349973915145,
+    "energy_post_seconds": 0.0003459999861661345,
+    "energy_relative": 1.5307732373758986e-15,
+    "equilibrium_fsum_relative": 2.1922714617964042e-08,
+    "equilibrium_relative": 2.1922725785595026e-08,
+    "finite_outputs": true,
+    "iterations": 486.0,
+    "matvec_count": 486.0,
+    "matvec_seconds": 7.26891300000716,
+    "model_setup_seconds": 0.191881199949421,
+    "operator_post_seconds": 0.015296549972845241,
+    "operator_setup_seconds": 0.057219649985199794,
+    "peak_rss_bytes": 125374464,
+    "phase_timings": {
+      "energy_post": 0.0003459999861661345,
+      "model_setup": 0.191881199949421,
+      "operator_preconditioner_setup": 0.057219649985199794,
+      "reactions": 0.017599650018382818,
+      "solve": 8.005402649985626,
+      "total": 8.287745699897641
+    },
+    "preconditioner": "nodal_block_jacobi",
+    "reactions_seconds": 0.017599650018382818,
+    "relative_residual": 9.713107125690802e-09,
+    "repetitions": 2,
+    "residual_history": [
+      {
+        "iteration": 1,
+        "relative_residual": 0.9984356740201629
+      },
+      {
+        "iteration": 100,
+        "relative_residual": 0.08527724528358215
+      },
+      {
+        "iteration": 200,
+        "relative_residual": 0.03876138882953181
+      },
+      {
+        "iteration": 300,
+        "relative_residual": 0.0006741717032682672
+      },
+      {
+        "iteration": 400,
+        "relative_residual": 4.248416852537285e-06
+      },
+      {
+        "iteration": 486,
+        "relative_residual": 9.713107125690802e-09
+      }
+    ],
+    "runs": [
+      {
+        "block_preconditioner_setup_seconds": 0.031607799988705665,
+        "configuration_digest_sha256": "ab157a878a47b1db31daceab33393296a5a83e5907e3fcc19f47aa5155c06a5e",
+        "diagonal_setup_seconds": 0.006411600043065846,
+        "displacement_norm": 0.0005119279369951927,
+        "energy_post_seconds": 0.00025079998886212707,
+        "energy_relative": 1.5307732373758986e-15,
+        "equilibrium": {
+          "applied_resultant": [
+            1000000.0000000087,
+            0.0,
+            0.0
+          ],
+          "equilibrium_difference_due_to_reduction": 2.650864628347923e-13,
+          "equilibrium_free_residual_identity_relative": 1.6627477116626291e-12,
+          "free_residual_resultant": [
+            -3.164094516507976e-05,
+            -0.0004691796305493006,
+            -0.00046918075870486275
+          ],
+          "fsum_relative": 2.1922714617964042e-08,
+          "fsum_resultant": [
+            -999999.9999683588,
+            0.000469214941964502,
+            0.0004692157916478257
+          ],
+          "numpy_relative": 2.1922725785595026e-08,
+          "numpy_resultant": [
+            -999999.9999683595,
+            0.0004692148766594073,
+            0.0004692157943395614
+          ]
+        },
+        "external_work": 4.641724315602327,
+        "finite_outputs": true,
+        "history_instrumentation": false,
+        "iterations": 486,
+        "matvec_count": 486,
+        "matvec_seconds": 7.367597000033129,
+        "max_displacement": 5.774544199733391e-06,
+        "operator_post_seconds": 0.015797899977769703,
+        "operator_setup_seconds": 0.0571380999754183,
+        "peak_rss_bytes": 124796928,
+        "preconditioner": "nodal_block_jacobi",
+        "preconditioner_apply_count": 486,
+        "preconditioner_apply_seconds": 0.42261439992580563,
+        "reactions_seconds": 0.017529500008095056,
+        "relative_residual": 9.713107125690802e-09,
+        "residual_history": [],
+        "residual_matvec_count": 1,
+        "solve_seconds": 8.13642679998884,
+        "solver_info": {
+          "atol": 0.0,
+          "info": 0,
+          "rtol": 1e-08
+        },
+        "spd_contract": {
+          "finite": true,
+          "pass": true,
+          "positive_curvature": true,
+          "symmetric_relative": 2.2784285896742675e-17
+        },
+        "status": "PASS",
+        "strain_energy": 2.32086215780116,
+        "total_seconds": 8.227143099938985
+      },
+      {
+        "block_preconditioner_setup_seconds": 0.031152899959124625,
+        "configuration_digest_sha256": "ab157a878a47b1db31daceab33393296a5a83e5907e3fcc19f47aa5155c06a5e",
+        "diagonal_setup_seconds": 0.006480999989435077,
+        "displacement_norm": 0.0005119279369951927,
+        "energy_post_seconds": 0.0004411999834701419,
+        "energy_relative": 1.5307732373758986e-15,
+        "equilibrium": {
+          "applied_resultant": [
+            1000000.0000000087,
+            0.0,
+            0.0
+          ],
+          "equilibrium_difference_due_to_reduction": 2.650864628347923e-13,
+          "equilibrium_free_residual_identity_relative": 1.6627477116626291e-12,
+          "free_residual_resultant": [
+            -3.164094516507976e-05,
+            -0.0004691796305493006,
+            -0.00046918075870486275
+          ],
+          "fsum_relative": 2.1922714617964042e-08,
+          "fsum_resultant": [
+            -999999.9999683588,
+            0.000469214941964502,
+            0.0004692157916478257
+          ],
+          "numpy_relative": 2.1922725785595026e-08,
+          "numpy_resultant": [
+            -999999.9999683595,
+            0.0004692148766594073,
+            0.0004692157943395614
+          ]
+        },
+        "external_work": 4.641724315602327,
+        "finite_outputs": true,
+        "history_instrumentation": false,
+        "iterations": 486,
+        "matvec_count": 486,
+        "matvec_seconds": 7.170228999981191,
+        "max_displacement": 5.774544199733391e-06,
+        "operator_post_seconds": 0.01479519996792078,
+        "operator_setup_seconds": 0.05730119999498129,
+        "peak_rss_bytes": 125374464,
+        "preconditioner": "nodal_block_jacobi",
+        "preconditioner_apply_count": 486,
+        "preconditioner_apply_seconds": 0.4288286002120003,
+        "reactions_seconds": 0.01766980002867058,
+        "relative_residual": 9.713107125690802e-09,
+        "residual_history": [],
+        "residual_matvec_count": 1,
+        "solve_seconds": 7.874378499982413,
+        "solver_info": {
+          "atol": 0.0,
+          "info": 0,
+          "rtol": 1e-08
+        },
+        "spd_contract": {
+          "finite": true,
+          "pass": true,
+          "positive_curvature": true,
+          "symmetric_relative": 2.2784285896742675e-17
+        },
+        "status": "PASS",
+        "strain_energy": 2.32086215780116,
+        "total_seconds": 7.964585899957456
+      }
+    ],
+    "solve_seconds": 8.005402649985626,
+    "solver": "CG",
+    "spd_contract": true,
+    "status": "PASS",
+    "total_seconds": 8.287745699897641
+  },
+  "candidate_diagonal_jacobi": {
+    "block_preconditioner_setup_seconds": 0.03186329998425208,
+    "energy_post_seconds": 0.00044960001832805574,
+    "energy_relative": 4.975013021471912e-14,
+    "equilibrium_fsum_relative": 7.193168553055811e-08,
+    "equilibrium_relative": 7.193168886992704e-08,
+    "finite_outputs": true,
+    "iterations": 468.0,
+    "matvec_count": 468.0,
+    "matvec_seconds": 7.154561249713879,
+    "model_setup_seconds": 0.191881199949421,
+    "operator_post_seconds": 0.015335149975726381,
+    "operator_setup_seconds": 0.05769564997171983,
+    "peak_rss_bytes": 125227008,
+    "phase_timings": {
+      "energy_post": 0.00044960001832805574,
+      "model_setup": 0.191881199949421,
+      "operator_preconditioner_setup": 0.05769564997171983,
+      "reactions": 0.01789950000238605,
+      "solve": 7.531352199992398,
+      "total": 7.814613299909979
+    },
+    "preconditioner": "diagonal_jacobi",
+    "reactions_seconds": 0.01789950000238605,
+    "relative_residual": 9.79748662930904e-09,
+    "repetitions": 2,
+    "residual_history": [],
+    "runs": [
+      {
+        "block_preconditioner_setup_seconds": 0.03066299995407462,
+        "configuration_digest_sha256": "ccf45aa9f7f4c0499bb116217951ad6c78821b5ff8ca83b863ce7698c77dbdb7",
+        "diagonal_setup_seconds": 0.0063390000141225755,
+        "displacement_norm": 0.0005119279369957147,
+        "energy_post_seconds": 0.0004013000288978219,
+        "energy_relative": 4.975013021471912e-14,
+        "equilibrium": {
+          "applied_resultant": [
+            1000000.0000000087,
+            0.0,
+            0.0
+          ],
+          "equilibrium_difference_due_to_reduction": 2.7276795860374035e-13,
+          "equilibrium_free_residual_identity_relative": 1.6543478927511466e-12,
+          "free_residual_resultant": [
+            -1.7290782002583882e-05,
+            0.001541301700781377,
+            0.0015413003799681084
+          ],
+          "fsum_relative": 7.193168553055811e-08,
+          "fsum_resultant": [
+            -999999.9999827086,
+            -0.001541266761807547,
+            -0.0015412654937138615
+          ],
+          "numpy_relative": 7.193168886992704e-08,
+          "numpy_resultant": [
+            -999999.9999827091,
+            -0.0015412668199132895,
+            -0.001541265485968779
+          ]
+        },
+        "external_work": 4.641724315602102,
+        "finite_outputs": true,
+        "history_instrumentation": false,
+        "iterations": 468,
+        "matvec_count": 468,
+        "matvec_seconds": 7.21184649982024,
+        "max_displacement": 5.774544194212754e-06,
+        "operator_post_seconds": 0.015093899972271174,
+        "operator_setup_seconds": 0.05560309998691082,
+        "peak_rss_bytes": 125227008,
+        "preconditioner": "diagonal_jacobi",
+        "preconditioner_apply_count": 468,
+        "preconditioner_apply_seconds": 0.0,
+        "reactions_seconds": 0.017705500009469688,
+        "relative_residual": 9.79748662930904e-09,
+        "residual_history": [],
+        "residual_matvec_count": 1,
+        "solve_seconds": 7.6067294999957085,
+        "solver_info": {
+          "atol": 0.0,
+          "info": 0,
+          "rtol": 1e-08
+        },
+        "spd_contract": {
+          "finite": true,
+          "pass": true,
+          "positive_curvature": true,
+          "symmetric_relative": 2.2784285896742675e-17
+        },
+        "status": "PASS",
+        "strain_energy": 2.3208621578009354,
+        "total_seconds": 7.695533299993258
+      },
+      {
+        "block_preconditioner_setup_seconds": 0.03306360001442954,
+        "configuration_digest_sha256": "ccf45aa9f7f4c0499bb116217951ad6c78821b5ff8ca83b863ce7698c77dbdb7",
+        "diagonal_setup_seconds": 0.00696049997350201,
+        "displacement_norm": 0.0005119279369957147,
+        "energy_post_seconds": 0.0004979000077582896,
+        "energy_relative": 4.975013021471912e-14,
+        "equilibrium": {
+          "applied_resultant": [
+            1000000.0000000087,
+            0.0,
+            0.0
+          ],
+          "equilibrium_difference_due_to_reduction": 2.7276795860374035e-13,
+          "equilibrium_free_residual_identity_relative": 1.6543478927511466e-12,
+          "free_residual_resultant": [
+            -1.7290782002583882e-05,
+            0.001541301700781377,
+            0.0015413003799681084
+          ],
+          "fsum_relative": 7.193168553055811e-08,
+          "fsum_resultant": [
+            -999999.9999827086,
+            -0.001541266761807547,
+            -0.0015412654937138615
+          ],
+          "numpy_relative": 7.193168886992704e-08,
+          "numpy_resultant": [
+            -999999.9999827091,
+            -0.0015412668199132895,
+            -0.001541265485968779
+          ]
+        },
+        "external_work": 4.641724315602102,
+        "finite_outputs": true,
+        "history_instrumentation": false,
+        "iterations": 468,
+        "matvec_count": 468,
+        "matvec_seconds": 7.097275999607518,
+        "max_displacement": 5.774544194212754e-06,
+        "operator_post_seconds": 0.015576399979181588,
+        "operator_setup_seconds": 0.05978819995652884,
+        "peak_rss_bytes": 125186048,
+        "preconditioner": "diagonal_jacobi",
+        "preconditioner_apply_count": 468,
+        "preconditioner_apply_seconds": 0.0,
+        "reactions_seconds": 0.01809349999530241,
+        "relative_residual": 9.79748662930904e-09,
+        "residual_history": [],
+        "residual_matvec_count": 1,
+        "solve_seconds": 7.455974899989087,
+        "solver_info": {
+          "atol": 0.0,
+          "info": 0,
+          "rtol": 1e-08
+        },
+        "spd_contract": {
+          "finite": true,
+          "pass": true,
+          "positive_curvature": true,
+          "symmetric_relative": 2.2784285896742675e-17
+        },
+        "status": "PASS",
+        "strain_energy": 2.3208621578009354,
+        "total_seconds": 7.549930899927858
+      }
+    ],
+    "solve_seconds": 7.531352199992398,
+    "solver": "CG",
+    "spd_contract": true,
+    "status": "PASS",
+    "total_seconds": 7.814613299909979
+  },
+  "contract": "qualification/0_2_7/wp14_execution_contract.json",
+  "contract_sha256": "1236aaf8ddb0451ae5d3ddac02864ade3c54273da4a0e8064434ae0c11459ce3",
+  "environment": {
+    "created_at_utc": "2026-09-01T13:04:06.989311Z",
+    "environment": {
+      "MKL_NUM_THREADS": null,
+      "NUMEXPR_NUM_THREADS": null,
+      "OMP_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "PETSC_ARCH": null,
+      "PETSC_DIR": null,
+      "PYTHONHASHSEED": null
+    },
+    "metadata": {
+      "kind": "WP17_solver_stack_probe",
+      "medium_level": 32,
+      "source_sha": "6c975e9fc80854814cb40d1e3d9377f1042f216e"
+    },
+    "packages": {
+      "h5py": {
+        "available": true,
+        "origin": "__init__.py",
+        "version": "3.14.0"
+      },
+      "mpi4py": {
+        "available": false,
+        "origin": null,
+        "version": null
+      },
+      "numpy": {
+        "available": true,
+        "origin": "__init__.py",
+        "version": "2.2.6"
+      },
+      "petsc4py": {
+        "available": false,
+        "origin": null,
+        "version": null
+      },
+      "scipy": {
+        "available": true,
+        "origin": "__init__.py",
+        "version": "1.15.2"
+      }
+    },
+    "platform": {
+      "architecture": [
+        "64bit",
+        "WindowsPE"
+      ],
+      "machine": "AMD64",
+      "platform": "Windows-10-10.0.19045-SP0",
+      "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+      "release": "10",
+      "system": "Windows",
+      "version": "10.0.19045"
+    },
+    "process": {
+      "argv": [
+        "scripts/run_wp17_solver_stack.py",
+        "--level",
+        "32",
+        "--repetitions",
+        "2"
+      ],
+      "cwd": ".",
+      "pid": 38820
+    },
+    "python": {
+      "build": [
+        "tags/v3.13.1:0671451",
+        "Dec  3 2024 19:06:28"
+      ],
+      "compiler": "MSC v.1942 64 bit (AMD64)",
+      "executable": "python.exe",
+      "implementation": "CPython",
+      "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+      "version_info": [
+        3,
+        13,
+        1,
+        "final",
+        0
+      ]
+    },
+    "report_schema_version": 1,
+    "solver": {
+      "name": "QF_solver",
+      "version": "0.2.6a0"
+    }
+  },
+  "execution_source_sha": "6c975e9fc80854814cb40d1e3d9377f1042f216e",
+  "gate": "LUP-027-G17",
+  "limitations": [
+    "PETSc/MPI was not available in the local environment.",
+    "The medium probe is not WP16 qualification evidence.",
+    "No solver/core optimization was retained in this checkpoint."
+  ],
+  "optimization": {
+    "formulation_changed": false,
+    "kept": [],
+    "reverted": [
+      "diagonal-Jacobi as default; no WP17 promotion without a reproducible net benefit"
+    ],
+    "solver_source_changed": false,
+    "tried": [
+      "instrumented existing nodal block-Jacobi",
+      "diagnostic diagonal-Jacobi"
+    ]
+  },
+  "petsc": {
+    "available": false,
+    "backend": "NOT_RUN",
+    "classification": "UNAVAILABLE",
+    "fallback_policy": "no implicit fallback; this probe selected matrix_free explicitly",
+    "mpi4py": false,
+    "mpiexec": true,
+    "mpiexec_path": "C:\\Program Files\\Microsoft MPI\\Bin\\mpiexec.EXE",
+    "petsc4py": false,
+    "version": null
+  },
+  "preconditioner_comparison": {
+    "candidate": "diagonal_jacobi",
+    "candidate_faster": true,
+    "candidate_iteration_delta": -18,
+    "candidate_retained": false,
+    "candidate_total_speedup": 1.0605445697476947,
+    "decision": true,
+    "decision_text": "Keep nodal block-Jacobi as the WP14 route; diagonal-Jacobi remains diagnostic and is not promoted by one medium probe.",
+    "reference": "nodal_block_jacobi",
+    "selected": "nodal_block_jacobi",
+    "spd_contract": true
+  },
+  "reaction_diagnosis": {
+    "basis": [
+      "matrix-free action/displacement/reaction/energy are compared against assembled subscale results",
+      "numpy and compensated reaction reductions are both recorded",
+      "the frozen WP14 equilibrium tolerance is unchanged"
+    ],
+    "classification": "ITERATIVE_RESIDUAL_AMPLIFICATION",
+    "fix_retained": "NONE; no post-processing-only fix is used to mask the WP16 failure",
+    "medium_compensated_equilibrium_relative": 2.1922714617964042e-08,
+    "medium_equilibrium_free_residual_identity_relative": 1.6627477116626291e-12,
+    "medium_free_residual_relative": 9.713107125690802e-09,
+    "medium_numpy_equilibrium_relative": 2.1922725785595026e-08,
+    "subscale_status": "PASS"
+  },
+  "schema_version": 1,
+  "scope": {
+    "element": "TET4",
+    "input_digest_sha256": "018d623138d844d0e96410c0baa67c7103368fe23ed1841d342658759ad09a0f",
+    "medium_level": 32,
+    "qualification_claim": false,
+    "route": "structured homogeneous six-tet block",
+    "true_dof": 107811,
+    "wp14_tolerances_changed": false
+  },
+  "status": "PARTIAL",
+  "subscale_equivalence": {
+    "contract": "WP14 frozen subscale matrix-free/assembled comparison",
+    "levels": [
+      {
+        "displacement_relative_error": 1.9198827875633888e-14,
+        "energy_relative_error": 6.468880225816226e-15,
+        "fsum_equilibrium_relative": 1.3683446117865167e-09,
+        "level": 2,
+        "numpy_equilibrium_relative": 1.3683446155761212e-09,
+        "operator_action_relative_error": 6.972504846220185e-16,
+        "reaction_relative_error": 1.317220114353081e-09,
+        "residual_relative": 2.7350980842300556e-09,
+        "status": "PASS",
+        "true_dof": 81
+      },
+      {
+        "displacement_relative_error": 3.293216605256374e-14,
+        "energy_relative_error": 5.247186723740428e-15,
+        "fsum_equilibrium_relative": 3.1017731896098512e-09,
+        "level": 4,
+        "numpy_equilibrium_relative": 3.1017737734803717e-09,
+        "operator_action_relative_error": 1.9890353110335393e-15,
+        "reaction_relative_error": 1.2154268003854796e-09,
+        "residual_relative": 7.688380275079782e-09,
+        "status": "PASS",
+        "true_dof": 375
+      },
+      {
+        "displacement_relative_error": 1.1131647288879202e-13,
+        "energy_relative_error": 1.5454376029089152e-14,
+        "fsum_equilibrium_relative": 5.697942691540182e-09,
+        "level": 8,
+        "numpy_equilibrium_relative": 5.6979387325112655e-09,
+        "operator_action_relative_error": 5.028210260355116e-15,
+        "reaction_relative_error": 2.158680221729837e-09,
+        "residual_relative": 8.22087585182968e-09,
+        "status": "PASS",
+        "true_dof": 2187
+      },
+      {
+        "displacement_relative_error": 3.450267668341549e-13,
+        "energy_relative_error": 7.97001539407271e-14,
+        "fsum_equilibrium_relative": 1.042016109682286e-08,
+        "level": 16,
+        "numpy_equilibrium_relative": 1.0420160591692362e-08,
+        "operator_action_relative_error": 1.2497106941823296e-14,
+        "reaction_relative_error": 2.302364534845848e-09,
+        "residual_relative": 8.77689273514009e-09,
+        "status": "PASS",
+        "true_dof": 14739
+      }
+    ],
+    "max_errors": {
+      "displacement_relative_error": 3.450267668341549e-13,
+      "energy_relative_error": 7.97001539407271e-14,
+      "operator_action_relative_error": 1.2497106941823296e-14,
+      "reaction_relative_error": 2.302364534845848e-09,
+      "residual_relative": 8.77689273514009e-09
+    },
+    "status": "PASS",
+    "tolerance": 1e-08
+  },
+  "work_package": "WP17"
+}

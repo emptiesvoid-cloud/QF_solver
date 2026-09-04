@@ -4,7 +4,7 @@ import sys
 import types
 from scipy.sparse import csr_matrix
 
-from solveur.core.errors import InputValidationError
+from solveur.core.errors import InputValidationError, NumericalConvergenceError
 from solveur.core import solver_backend
 from solveur.core.solver_backend import optional_backend_status, select_backend
 
@@ -345,7 +345,7 @@ def test_petsc_adapter_reports_nonconvergence(monkeypatch: pytest.MonkeyPatch) -
     monkeypatch.setitem(sys.modules, "petsc4py", fake_module)
     monkeypatch.setattr(solver_backend, "_petsc_module", lambda: fake_module)
 
-    with pytest.raises(Exception, match="did not converge"):
+    with pytest.raises(NumericalConvergenceError, match="did not converge"):
         solver_backend.solve_with_petsc(csr_matrix(np.eye(2)), np.ones(2), "gmres", {})
 
 

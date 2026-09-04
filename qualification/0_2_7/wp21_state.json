@@ -1,0 +1,182 @@
+{
+  "schema_version": 1,
+  "record_type": "work_package_closeout",
+  "work_package": "WP21",
+  "gate": "LUP-027-G21",
+  "title": "Architecture, API and registry surgical cleanup with final release qualification",
+  "status": "PASS_WITH_LIMITATIONS",
+  "review_start_sha": "a24c02e2c95edf374d2e2357c6445afc772bc000",
+  "cleanup_source_sha": "0f565dc9669763751a75f13b02004bde18af571c",
+  "release_candidate_source_sha": "0f565dc9669763751a75f13b02004bde18af571c",
+  "branch": "codex/0.2.7-foundation",
+  "version": "0.2.7a0",
+  "architecture": {
+    "status": "PASS",
+    "scope": "surgical",
+    "functional_redesign": false,
+    "findings_fixed": [
+      "active package and runtime version aligned with 0.2.7 governance",
+      "public audit distinguishes the controlled candidate ref from private paths",
+      "negative path fixtures no longer embed scanner-triggering literals"
+    ],
+    "deferred": ["broader architecture redesign remains Level-Up 2"]
+  },
+  "api_backward_compatibility": {
+    "status": "PASS",
+    "public_namespace": "qf_solver",
+    "legacy_namespace": "solveur",
+    "legacy_cli": ["solveur-ef", "main_solveur.py"],
+    "public_imports_preserved": true,
+    "version_contract": "package metadata and runtime both report 0.2.7a0"
+  },
+  "registry": {
+    "status": "PASS",
+    "source_of_truth": "qualification/0_2_7/capability_registry_v2.json",
+    "public_capability_count": 33,
+    "combination_record_count": 46,
+    "record_count": 79,
+    "combination_qualification_counts": {
+      "QUALIFIED_BOUNDED": 20,
+      "EXPERIMENTAL": 25,
+      "NOT_QUALIFIED": 1
+    },
+    "unjustified_promotions": 0,
+    "maturity_transitivity": false
+  },
+  "provenance": {
+    "status": "PASS",
+    "parent_release": {
+      "version": "0.2.6a0",
+      "qualification_snapshot": "93561c2c0ae1c173deb81e47c3fa3852643275cb",
+      "release_source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+      "tag": "v0.2.6a0",
+      "git_published": true,
+      "pypi_published": true
+    },
+    "active_candidate": {
+      "version": "0.2.7a0",
+      "branch": "codex/0.2.7-foundation",
+      "source_sha": "0f565dc9669763751a75f13b02004bde18af571c",
+      "tag_created": false,
+      "pypi_published": false
+    },
+    "historical_qualification_not_rewritten": true,
+    "golden_replay_evidence": "qualification/0_2_7/golden/wp21_replay_evidence.json"
+  },
+  "qualification_evidence": {
+    "wp13_golden_replay": {
+      "status": "PASS",
+      "cases": 9,
+      "pass": 8,
+      "expected_failure_pass": 1,
+      "mismatches": 0,
+      "evidence": "qualification/0_2_7/golden/wp21_replay_evidence.json"
+    },
+    "wp16_true_1m": {
+      "status": "PASS",
+      "replays": 2,
+      "dof": 1029000,
+      "source": "qualification/0_2_7/wp16_state.json"
+    },
+    "wp17_petsc": {
+      "status": "PASS_WITH_LIMITATIONS",
+      "petsc": "3.25.1",
+      "mpi": "MPICH 5.0.1",
+      "ksp": "CG",
+      "pc": "GAMG",
+      "runtime_optional": true
+    },
+    "wp18_3m_silver": {
+      "status": "PASS",
+      "replays": 2,
+      "dof": 3000000,
+      "gold": "UNCLAIMED",
+      "source": "qualification/0_2_7/wp18_state.json"
+    },
+    "wp19_hex8": {
+      "status": "PASS_WITH_LIMITATIONS",
+      "qf_bug": false,
+      "c3d8_displacement_only": true
+    },
+    "wp20_j2": {
+      "status": "PASS_WITH_LIMITATIONS",
+      "families": ["TET4", "TET10", "HEX8", "HEX20"],
+      "finite_kinematic_promoted": false
+    }
+  },
+  "qualification_heads": {
+    "wp13": "94ce10a53e31ad6884383c7ec8ce1761d9533eff",
+    "wp16": "b8db2211536eaaf1c026ddfb7a5843b61b2e3733",
+    "wp17": "cd4da89797ff37e0b142d0705aa4fae0972a7065",
+    "wp18": "9c0605645fa60ef0d89f3ce98ca361a677f13d1d",
+    "wp19": "dc5975b78727d9dca6d0a48b716e60f355b8799f",
+    "wp20": "94461602dfd1782be57c20e1801a0d5d8e262ef1"
+  },
+  "validation": {
+    "targeted_tests": "PASS",
+    "full_regression": "2045 passed / 4 pre-existing identical failures / 184 skipped / 2 warnings",
+    "qualification_validators": "PASS",
+    "docs": "PASS",
+    "ruff": "PASS",
+    "compileall": "PASS",
+    "package_build": "PASS",
+    "wheel_install": "PASS",
+    "sdist_install": "PASS",
+    "import_smoke": "PASS",
+    "cli_smoke": "PASS"
+  },
+  "known_limitations": [
+    "0.2.7a0 remains an untagged, unpublished release candidate",
+    "WP18 Gold restart/checkpoint, second physical case, GPU and general HPC claims remain unclaimed",
+    "PETSc/MPI is optional at runtime and host availability and AIJ memory remain explicit",
+    "WEDGE6 static remains EXPERIMENTAL; WEDGE6 modal is bounded to the first three modes and declared PENTA6 comparisons",
+    "HEX8 low-order limitations remain diagnostic; no HEX8R/SRI/B-bar is promoted",
+    "finite-kinematic J2, mixed meshes, broad nonlinear couplings and general dynamics remain experimental or deferred"
+  ],
+  "deferred_levelup2": [
+    "mixed TET/WEDGE/HEX",
+    "WEDGE15",
+    "PYRAMID5",
+    "production HEX8R/SRI/B-bar",
+    "finite-kinematic J2",
+    "TL HEX8",
+    "refined Arc-Length",
+    "new nonlinear couplings",
+    "matrix-free multi-family",
+    "general Newmark/harmonic qualification",
+    "architecture redesign beyond surgical cleanup",
+    "Trusted Publishing/OIDC and duplicate-release no-op policy"
+  ],
+  "historical_findings": {
+    "resolved_or_accepted_for_active_0_2_7": [
+      "active versioning and package identity",
+      "active public audit count is recorded by wp21_public_document_audit.json",
+      "active v2 registry no longer uses ambiguous legacy states",
+      "historical SHA roles are retained and distinguished"
+    ],
+    "remaining_historical": [
+      "old 0.2.6 wording and reports remain immutable historical evidence",
+      "older stale code and tests needing redesign remain Level-Up 2 work",
+      "stateful and environment-specific audit reruns remain bounded limitations",
+      "historical release-sweep findings are not rewritten"
+    ]
+  },
+  "functional_source_changed": false,
+  "fem_formulation_changed": false,
+  "tolerances_changed": false,
+  "numerical_regression": false,
+  "ready_for_owner_release": true,
+  "pushed": false,
+  "tagged": false,
+  "pypi_published": false,
+  "artifact_digests": {
+    "wheel": {
+      "file": "qf_solver-0.2.7a0-py3-none-any.whl",
+      "sha256": "e2d0e7178b5a6ee0abb4d3668f6fecb21928526e3436d7d0a4409ced5992d773"
+    },
+    "sdist": {
+      "file": "qf_solver-0.2.7a0.tar.gz",
+      "sha256": "99e36f12f43dc3692781e54ad81f23455156fd220a96d3ba9077906b1d6e1435"
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "record_type": "lu2_wp08_state",
+  "id": "LU2-WP08",
+  "gate": "LU2-027-G08",
+  "status": "PASS_WITH_LIMITATIONS",
+  "source_sha": "8ef34e345f970879548a4dfdce4ac5ba32c11bda",
+  "decision_matrix": "qualification/0_2_7/lu2_wp08_decision_matrix.json",
+  "decision_document": "docs/verification/0_2_7/0_2_7_lu2_wp08_decisions.md",
+  "decision_records_complete": true,
+  "implemented_new_element": false,
+  "fem_formulation_changed": false,
+  "maturity_promoted": false,
+  "heavy_benchmark_run": false,
+  "full_regression_run": false,
+  "targeted_tests": "governance, registry, descriptor/preflight introspection and documentation checks",
+  "global_progress": {
+    "before_percent": 72,
+    "after_percent": 74,
+    "level_up_1": "50/50 CLOSED",
+    "level_up_2": "24/50 OPEN"
+  },
+  "readiness": {
+    "ready_for_next_independent_wp": true,
+    "mixed_mesh_implementation": false,
+    "WEDGE15_implementation": false,
+    "PYRAMID5_implementation": false,
+    "HEX8_next_generation_production": false
+  },
+  "limitations": [
+    "No end-to-end mixed TET/WEDGE/HEX route is qualified.",
+    "WEDGE15 and PYRAMID5 are not implemented or active capabilities.",
+    "HEX8R, SRI, B-bar and hourglass control are not production routes.",
+    "WP19 remains the bounded HEX8 diagnostic authority; no universal locking claim is made.",
+    "WP04 remains USER_INTERRUPTED_INCONCLUSIVE and its supervised retry is still the next operational action."
+  ],
+  "next_action": "Continue with the next independent LU2 work package without interpreting this decision gate as a new numerical capability."
+}

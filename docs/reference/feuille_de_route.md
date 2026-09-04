@@ -1,36 +1,47 @@
 ---
 doc_id: DOC-REF-004
-revision: 0.4
-status: draft
-applicable_version: 0.2.5a0
+revision: 1.0
+status: controlled
+applicable_version: 0.2.7
 reviewer: ""
 approver: ""
 ---
 
-# Feuille de route
+# Public roadmap
 
-La release `0.2.5a0` est figee sur un scope qualifie borne. Les fonctionnalites
-non fermees restent visibles comme experimental, research ou hors scope ; la
-roadmap ne constitue pas une promesse de date.
+QF Solver 0.2.7 is the current stable source release. This roadmap describes
+product-level follow-up work; it is not a release gate or a promise that an
+unqualified route is production-ready.
 
-## 0.2.6 — maturite et robustesse
+## Current release
 
-- renforcer la V&V massive des chemins deja presents ;
-- fermer les dettes de robustesse et de diagnostics ;
-- augmenter la couverture des chemins critiques sans tests artificiels ;
-- caracteriser plus largement assemblage, memoire et scalabilite ;
-- corriger uniquement les defauts numeriques demontres ;
-- conserver SciPy utilisable seul et PETSc/SLEPc optionnels.
+This is the 0.2.7 active scope. A historical planning snapshot may retain
+earlier scores or work-package wording, but it does not define the current
+release.
 
-## 0.2.7 candidate — J2 finite-strain et G06
+The release focuses on inspectable formulations, bounded numerical evidence,
+reproducible solver behavior and recorded large-model PETSc/MPI workflows.
+TET4, TET10, HEX8 and HEX20 have the strongest solid-element coverage. WEDGE6
+static remains experimental, while its modal claim is limited to the declared
+first-three-mode scope.
 
-- retenir une formulation J2 finite-strain explicitement approuvee ;
-- verifier les mesures de deformation et de contrainte, le tangent et l'etat ;
-- construire une V&V independante et des correlations Code_Aster ;
-- requalifier G06 sur un scope borne ;
-- traiter la friction comme un chantier separe uniquement apres decision Owner.
+## Next technical themes
 
-## Hors engagement
+1. Extend comparable verification for selected element and analysis
+   combinations without broadening claims prematurely.
+2. Improve the usability and portability of optional PETSc/MPI workflows.
+3. Expand external correlation only where meshes, loads, conventions and
+   observables are demonstrably comparable.
+4. Investigate deferred mixed-mesh, WEDGE15, PYRAMID5, HEX8R/SRI/B-bar and
+   finite-kinematic J2 work as separate, evidence-led projects.
 
-Pas de date promise, pas de nouvelle physique arbitraire et pas de promotion
-automatique d'une voie experimentalement observee en capacite qualifiee.
+## Explicitly deferred
+
+General nonlinear/contact production use, finite-sliding production support,
+GPU claims, universal HPC scaling, 5M Gold and deeper 10M scaling analysis are
+not part of the current public promise. They require new evidence and a
+separate decision.
+
+Historical plans and qualification records remain in
+[`docs/verification/0_2_7/`](../verification/0_2_7/) for provenance. They are
+not the active product roadmap.

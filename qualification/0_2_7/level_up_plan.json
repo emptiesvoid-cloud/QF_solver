@@ -1,0 +1,185 @@
+{
+  "schema_version": 1,
+  "plan_id": "QF-027-LEVEL-UP-001",
+  "release": "0.2.7a0",
+  "theme": "Reproducible Large-Model Solving and Numerical Trust",
+  "status": "CLOSED_ACCEPT_WITH_CONSOLIDATION",
+  "decision": "Gate Level-Up is accepted as the official consolidation scope; WP13 and WP14 are evidence-complete, WP15 is PASS_WITH_LIMITATIONS on controlled subscale evidence, WP16 is PASS after the official PETSc retry under the frozen acceptance contract, WP17 is PASS_WITH_LIMITATIONS after its PETSc/MPI closure, WP18 is PASS_WITH_LIMITATIONS after the Bronze/Silver ladder with Gold unattempted, WP19 is PASS_WITH_LIMITATIONS on bounded adversarial and HEX8 diagnostic evidence, WP20 is PASS_WITH_LIMITATIONS after Owner closure of the bounded J2 scope, and WP21 is PASS_WITH_LIMITATIONS after surgical release and compatibility cleanup; WP22 remains planned.",
+  "source_snapshot": "72888ea63241a4445f6600aa6c2b882401f85ef1",
+  "source_branch": "codex/0.2.7-foundation",
+  "parent_release": {
+    "version": "0.2.6a0",
+    "release_source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+    "tag": "v0.2.6a0"
+  },
+  "progress_accounting": {
+    "historical_completed_block_percent": 45,
+    "current_acquired_percent": 85,
+    "current_progress_percent": 85,
+    "level_up_extension_percent": 55,
+    "weights_total_percent": 100,
+    "accounting_note": "The historical block, acquired status and active progress are governance views and are not additive. WP13-WP22 weights sum to the 55 percent extension; WP13 and WP14 are PASS, WP15 is PASS_WITH_LIMITATIONS, WP16 is PASS, WP17 is PASS_WITH_LIMITATIONS, WP18 is PASS_WITH_LIMITATIONS with Silver complete and Gold unattempted, WP19 is PASS_WITH_LIMITATIONS on bounded adversarial and HEX8 diagnostic evidence, WP20 is PASS_WITH_LIMITATIONS with the existing J2 maturity kept bounded, WP21 is PASS_WITH_LIMITATIONS, and WP22 remains planned."
+  },
+  "historical_scope": {
+    "work_packages": ["WP01", "WP02", "WP03", "WP04", "WP05", "WP06", "WP07", "WP08", "WP09", "WP10", "WP11", "WP12"],
+    "preserved": true,
+    "evidence_is_rewritten": false,
+    "maturity_is_promoted": false
+  },
+  "work_packages": [
+    {
+      "id": "WP13",
+      "title": "Release truth and golden numerical baseline",
+      "weight_percent": 4,
+      "priority": "MUST",
+      "status": "PASS",
+      "pass_criteria": ["qualification, release and development SHA roles are distinct", "golden numerical baseline is reproducible and digest-backed", "no historical evidence is relabeled as current"],
+      "stop_conditions": ["ambiguous provenance", "numerical baseline drift without explanation"],
+      "evidence": ["qualification/0_2_7/wp13_state.json", "qualification/0_2_7/golden/evidence.json"]
+    },
+    {
+      "id": "WP14",
+      "title": "Large-scale execution contract",
+      "weight_percent": 5,
+      "priority": "MUST",
+      "status": "PASS",
+      "pass_criteria": ["model topology and true DOF are explicit", "CPU/RAM/time/backend/preconditioner and digest capture is deterministic", "resource-limited outcomes are not claims"],
+      "stop_conditions": ["synthetic size claim without a real FEM solve", "missing resource context"],
+      "evidence": ["qualification/0_2_7/wp14_state.json", "qualification/0_2_7/wp14_execution_contract.json"]
+    },
+    {
+      "id": "WP15",
+      "title": "Matrix-free TET4 V2, SPD and preconditioning",
+      "weight_percent": 10,
+      "priority": "MUST",
+      "status": "PASS_WITH_LIMITATIONS",
+      "pass_criteria": ["public TET4 matrix-free route is numerically equivalent to assembled subscale reference", "SPD assumptions and failure conditions are demonstrated", "preconditioner behavior and deterministic replay are recorded"],
+      "stop_conditions": ["unexplained residual drift", "matrix-free route silently changes the assembled result"],
+      "evidence": ["qualification/0_2_7/wp15_state.json", "qualification/0_2_7/wp15_matrix_free_benchmark.json"],
+      "owner_decision": "subscale equivalence and SPD evidence pass; workspace reuse kept for allocation reduction; no WP16 or 1M claim"
+    },
+    {
+      "id": "WP16",
+      "title": "True 1M DOF qualification",
+      "weight_percent": 10,
+      "priority": "MUST",
+      "status": "PASS",
+      "release_blocker": false,
+      "pass_criteria": ["at least 1000000 real FEM DOF", "public TET4 route with loads, BC and reactions", "complete iterative solve without timeout or resource-limited verdict", "valid residual, finite displacement, equilibrium and energy", "matrix-free and assembled subscale comparison", "two deterministic replays", "CPU/RAM/threads/backend/preconditioner/versions and digests archived"],
+      "stop_conditions": ["resource-limited or incomplete solve", "missing reactions or equilibrium", "claim based only on assembly or preflight"],
+      "execution_source_sha": "b8db2211536eaaf1c026ddfb7a5843b61b2e3733",
+      "historical_evidence": ["qualification/0_2_7/wp16_runtime/wp16_run1.json", "qualification/0_2_7/wp16_runtime/wp16_subscale_current.json"],
+      "evidence": ["qualification/0_2_7/wp16_state.json", "qualification/0_2_7/wp16_runtime/wp16_retry_summary.json", "qualification/0_2_7/wp16_runtime/wp16_retry_run1_raw.json", "qualification/0_2_7/wp16_runtime/wp16_retry_run2_raw.json", "qualification/0_2_7/wp16_runtime/wp16_retry_subscale_raw.json"],
+      "owner_decision": "PASS: two independent 1,029,000-DOF PETSc CG/GAMG replays meet the unchanged WP14 residual, equilibrium, energy, finite-output and SPD criteria; the subscale comparison passes and the original matrix-free failure is retained as historical evidence."
+    },
+    {
+      "id": "WP17",
+      "title": "PETSc/MPI and large sparse path",
+      "weight_percent": 5,
+      "priority": "SHOULD",
+      "status": "PASS_WITH_LIMITATIONS",
+      "pass_criteria": ["PETSc/MPI path is reproducibly provisioned or explicitly unavailable", "backend selection and solver/preconditioner configuration are explicit", "serial fallback remains fail-closed and traceable"],
+      "stop_conditions": ["environment-specific success presented as universal support", "unreproducible distributed result"],
+      "evidence": ["qualification/0_2_7/wp17_final_state.json", "qualification/0_2_7/wp17_state.json", "qualification/0_2_7/wp17_runtime/wp17_probe.json", "qualification/0_2_7/wp17r_state.json", "qualification/0_2_7/wp17_runtime/wp17r_summary.json", "qualification/0_2_7/wp17_runtime/wp17r_strict_summary.json", "qualification/0_2_7/wp17_runtime/wp17r_strict_medium.json", "qualification/0_2_7/wp17_runtime/wp17r_strict_1m_run1.json", "qualification/0_2_7/wp17_runtime/wp17r_strict_1m_run2.json", "qualification/0_2_7/wp16_runtime/wp16_retry_summary.json", "qualification/0_2_7/wp18_runtime/wp18_summary.json", "qualification/0_2_7/wp18_runtime/wp18_replay_comparison.json", "docs/verification/0_2_7/0_2_7_wp17_final.md", "docs/verification/0_2_7/0_2_7_wp17_solver_stack.md", "docs/verification/0_2_7/0_2_7_wp17r_petsc_remediation.md"],
+      "historical_diagnostic_state": "qualification/0_2_7/wp17_state.json",
+      "historical_remediation_state": "qualification/0_2_7/wp17r_state.json",
+      "owner_decision": "PASS_WITH_LIMITATIONS: the pinned PETSc 3.25.1 / MPICH 5.0.1 CG+GAMG route is explicit and reproducible; two-replay 1,029,000-DOF evidence, a passing subscale comparison and the two-replay 3,000,000-DOF Silver evidence support the bounded closure. PETSc remains optional at runtime; host availability and AIJ memory remain explicit limitations, with no WP14 policy or public default change.",
+      "limitations": ["Structured TET4 linear-static scope only", "Pinned two-rank PETSc/MPI container route", "Host PETSc unavailable; requested unavailable backend fails closed", "AIJ memory is approximately 3.52 GiB at 1M DOF and 10.08 GB at 3M DOF", "No universal performance, GPU or general HPC claim", "WP18 Gold restart/checkpoint and distinct-second-case evidence remain unclaimed"],
+      "final_state": "qualification/0_2_7/wp17_final_state.json"
+    },
+    {
+      "id": "WP18",
+      "title": "3M DOF ladder Bronze/Silver/Gold",
+      "weight_percent": 7,
+      "priority": "MUST",
+      "status": "PASS_WITH_LIMITATIONS",
+      "mandatory": true,
+      "pass_criteria": ["Bronze builds a real 3M FEM model and records resource/preflight envelope", "Silver completes a reproducible full solve", "Gold demonstrates PETSc/MPI distributed solve, restart and a second case or scaling point"],
+      "claims_policy": "Bronze alone authorizes no 3M solve claim; Silver is the principal target; Gold is stretch.",
+      "stop_conditions": ["Bronze relabeled as full solve", "missing resource envelope", "non-reproducible Silver"],
+      "evidence": ["qualification/0_2_7/wp18_state.json", "qualification/0_2_7/wp18_runtime/wp18_summary.json", "qualification/0_2_7/wp18_runtime/wp18_bronze_preflight.json", "qualification/0_2_7/wp18_runtime/wp18_replay_comparison.json"],
+      "owner_decision": "PASS_WITH_LIMITATIONS: Bronze and Silver passed on the declared structured TET4 PETSc/MPI route; Gold remains NOT_ATTEMPTED because restart/checkpoint and a distinct second physical case were not run.",
+      "limitations": ["Structured TET4 linear-static scope only", "pinned two-rank PETSc/MPI environment only", "AIJ setup and approximately 10.08 GB peak RSS at 3M DOF", "no Gold restart, checkpoint or second-physical-case claim"]
+    },
+    {
+      "id": "WP19",
+      "title": "Adversarial robustness and HEX8 diagnostic",
+      "weight_percent": 5,
+      "priority": "MUST",
+      "status": "PASS_WITH_LIMITATIONS",
+      "pass_criteria": ["BC, singularity, mesh, orientation and failure paths are fail-closed", "HEX8 behavior is diagnosed against compatible references", "no formulation promotion or threshold weakening is inferred"],
+      "stop_conditions": ["silent failure", "low-order limitation treated as an unexplained solver defect", "new formulation introduced without review"],
+      "evidence": ["qualification/0_2_7/wp19_state.json", "qualification/0_2_7/wp19_cases.json", "qualification/0_2_7/wp19_runtime/wp19_robustness_summary.json", "qualification/0_2_7/wp19_runtime/wp19_robustness_evidence.json", "qualification/0_2_7/wp19_runtime/wp19_hex8_diagnostic.json", "qualification/0_2_7/wp19_runtime/wp19_golden_replay.json", "docs/verification/0_2_7/0_2_7_wp19_robustness_hex8.md", "tests/unit/test_wp19_robustness_hex8.py"],
+      "owner_decision": "PASS_WITH_LIMITATIONS: bounded adversarial evidence is fail-closed and deterministic; QF agrees with compatible C3D8 displacement results; no HEX8 formulation is promoted.",
+      "limitations": ["24 predeclared adversarial cases do not establish universal robustness", "C3D8 external reactions and energy are NOT_COMPARABLE because the inherited deck requests displacement only", "Euler is diagnostic only and no universal HEX8 accuracy claim is made", "HEX8R/SRI/B-bar was not evaluated or promoted"]
+    },
+    {
+      "id": "WP20",
+      "title": "Residual J2 and external V&V closure",
+      "weight_percent": 3,
+      "priority": "SHOULD",
+      "status": "PASS_WITH_LIMITATIONS",
+      "evidence": ["qualification/0_2_7/wp20_state.json", "qualification/0_2_7/wp11_j2_evidence.json", "qualification/0_2_6/g06_depth_evidence.json", "docs/verification/0_2_7/0_2_7_wp20_j2_closeout.md", "tests/unit/test_wp20_j2_closure.py"],
+      "owner_decision": "OWNER_APPROVED_BOUNDED_KEEP_EXISTING_SCOPE",
+      "limitations": ["no universal structural increment-independence threshold", "tangent symmetry diagnostic only", "modified Newton non-convergence remains diagnostic", "finite-kinematic J2 remains experimental/not qualified", "external evidence is reused constitutive evidence and no new structural campaign is claimed"],
+      "pass_criteria": ["increment, tangent and residual gaps are characterized on the existing bounded J2 scope", "comparable external evidence is reproducible", "finite-kinematic J2 remains outside qualification"],
+      "stop_conditions": ["post-result tolerance retuning", "unexplained cross-family drift"]
+    },
+    {
+      "id": "WP21",
+      "title": "Architecture, API and registry surgical cleanup",
+      "weight_percent": 3,
+      "priority": "SHOULD",
+      "status": "PASS_WITH_LIMITATIONS",
+      "pass_criteria": ["interfaces and dependency direction are documented", "registry/API cleanup is incremental", "legacy routes and public imports remain compatible"],
+      "stop_conditions": ["mass refactor", "unreviewed public API break", "maturity inferred from implementation presence"],
+      "evidence": ["qualification/0_2_7/wp21_state.json", "qualification/0_2_7/wp21_final_release_truth.json", "qualification/0_2_7/wp21_public_document_audit.json", "qualification/0_2_7/golden/wp21_replay_evidence.json", "tests/unit/test_wp21_release.py"],
+      "owner_decision": "PASS_WITH_LIMITATIONS: active 0.2.7 package identity, public audit, compatibility checks and bounded evidence truth are aligned; broader architecture redesign and final WP22 release action remain separate.",
+      "limitations": ["no broad architecture redesign", "historical 0.2.6 records remain immutable", "WP22 final Owner release action remains planned", "full regression and package evidence are recorded at closeout after validation"]
+    },
+    {
+      "id": "WP22",
+      "title": "Final release qualification",
+      "weight_percent": 3,
+      "priority": "MUST",
+      "status": "PLANNED",
+      "pass_criteria": ["final regression and package checks pass at the declared release checkpoint", "public claims, evidence, registry and provenance agree", "Owner release decision records all residual limitations"],
+      "stop_conditions": ["unclassified failure", "stale public claim", "package or provenance drift"]
+    }
+  ],
+  "defer_0_2_8_plus": [
+    "mixed TET/WEDGE/HEX",
+    "WEDGE15",
+    "PYRAMID5",
+    "production HEX8R/SRI/B-bar",
+    "finite-kinematic J2",
+    "TL HEX8",
+    "refined Arc-Length",
+    "new nonlinear couplings",
+    "matrix-free multi-family",
+    "general Newmark/harmonic qualification"
+  ],
+  "validation_policy": {
+    "setup_tests": ["documentation", "governance", "registry", "anti-forgetting", "ruff", "compileall"],
+    "full_regression_run": false,
+    "heavy_benchmark_run": false,
+    "planned_is_not_evidence": true,
+    "resource_limited_is_not_pass": true,
+    "new_maturity_promotion": false
+  },
+  "release_workflow_audit": {
+    "path": ".github/workflows/publish-pypi.yml",
+    "reviewed": true,
+    "tag_required": true,
+    "tag_version_match_checked": true,
+    "manual_dispatch_confirmation_required": true,
+    "release_event_supported": true,
+    "quality_and_build_gate_before_publish": true,
+    "duplicate_attempt_policy": "Explicit PyPI duplicate failure is accepted; no second upload is attempted by this setup and no credentials are changed.",
+    "double_publish_risk": "CONTROLLED_BUT_NOT_NOOP",
+    "trusted_publishing": "FUTURE_OPTION_NOT_CONFIGURED",
+    "workflow_changed_by_setup": false
+  },
+  "artifact_classification": "CONTROLLED_PLAN",
+  "provenance_policy": "UTF-8 with LF newlines and SHA-256 canonical text digests; this plan does not replace execution evidence."
+}

@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "record_type": "stable_release_freeze",
+  "release": "0.2.7",
+  "version_before": "0.2.7a0",
+  "version_after": "0.2.7",
+  "tag": "v0.2.7",
+  "status": "PASS",
+  "source_sha_before": "36a6ef9783a7077d7a047d1febb57c35a13dce82",
+  "final_release_sha": "RECORDED_IN_STEP1_REPORT",
+  "branch": "codex/0.2.7-foundation",
+  "owner_qualification": "COMPLETE_100_PERCENT",
+  "r0_status": "PASS_WITH_LIMITATIONS",
+  "qualification_scope": {
+    "level_up_1": "50/50 CLOSED",
+    "level_up_2": "50/50 CLOSED",
+    "global": "100/100",
+    "historical_96_100_views": "PRESERVED_AS_HISTORICAL_ONLY"
+  },
+  "publication_state": {
+    "tag_created_and_pushed": true,
+    "github_release_created": false,
+    "pypi_published": false
+  },
+  "release_integrity": {
+    "numerical_source_changed": false,
+    "baseline_changed": false,
+    "maturity_promoted": false,
+    "historical_evidence_rewritten": false,
+    "foreign_change_included": false,
+    "freeze_tests": "PASS",
+    "stable_wheel": "qf_solver-0.2.7-py3-none-any.whl",
+    "stable_sdist": "qf_solver-0.2.7.tar.gz"
+  },
+  "claim_boundaries": {
+    "wedge6_static": "EXPERIMENTAL",
+    "wedge6_modal": "QUALIFIED_BOUNDED_FIRST_THREE_MODES",
+    "five_million": "SILVER_BOUNDED_SINGLE_HOST_PETSC_MPI_ROUTE",
+    "ten_million": "PASS_WITH_LIMITATIONS_BOUNDED_C3_EVIDENCE",
+    "code_aster": "PASS_WITH_LIMITATIONS_BOUNDED_COMPARISONS",
+    "calculix": "NOT_COMPARABLE",
+    "five_million_gold": "DEFERRED",
+    "general_hpc_gpu_mixed_mesh_and_new_solids": "DEFERRED_OR_NOT_QUALIFIED"
+  },
+  "historical_provenance": {
+    "r0_candidate_version": "0.2.7a0",
+    "r0_candidate_sha": "36a6ef9783a7077d7a047d1febb57c35a13dce82",
+    "foreign_change_stash": "stash@{0}: a9e64d5e03ebadfcd1292ad3c5b04460761c10aa",
+    "historical_records_are_not_rewritten": true
+  }
+}

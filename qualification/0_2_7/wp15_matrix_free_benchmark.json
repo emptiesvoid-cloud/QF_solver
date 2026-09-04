@@ -1,0 +1,577 @@
+{
+  "baseline": {
+    "levels": [
+      {
+        "assembled_equivalence": {
+          "assembled_error": null,
+          "assembly_seconds": 0.001226999971549958,
+          "displacement_relative_error": 1.9198827875633888e-14,
+          "energy_relative_error": 6.468880225816226e-15,
+          "operator_action_relative_error": 6.972504846220185e-16
+        },
+        "diagnostics": {
+          "energy_relative_difference": 1.7969111738378293e-16,
+          "external_work": 4.942806481653517,
+          "free_residual_norm": 0.0009116993614100185,
+          "internal_energy": 2.471403240826759,
+          "reaction_norm": 375908.78673787543,
+          "relative_free_residual": 2.7350980842300556e-09
+        },
+        "element_count": 48,
+        "free_dof": 54,
+        "level": 2,
+        "matvec": {
+          "allocation_peak_bytes_per_matvec": 1708.8,
+          "python_allocation_current_bytes": 656,
+          "python_allocation_peak_bytes": 8544,
+          "repetitions": 5,
+          "result_norm": 214211550143.99112,
+          "seconds_per_matvec": 0.00016528000123798846,
+          "total_seconds": 0.0008264000061899424
+        },
+        "ndof": 81,
+        "node_count": 27,
+        "operator_memory_bytes": 16080,
+        "preconditioner": {
+          "diagonal_jacobi": {
+            "info": 0,
+            "iterations": 26,
+            "seconds": 0.001608199963811785,
+            "solution_norm": 1.7155035031481924e-05
+          },
+          "nodal_block_jacobi": {
+            "info": 0,
+            "iterations": 27,
+            "seconds": 0.0027628999669104815,
+            "solution_norm": 1.715503503142874e-05
+          },
+          "selected": "nodal_block_jacobi"
+        },
+        "rss_bytes": 70492160,
+        "setup_seconds": 0.0015401000273413956,
+        "solve_time_seconds": 0.0035272000241093338,
+        "solver_info": {
+          "converged": true,
+          "iterations": 27,
+          "method": "matrix_free_cg",
+          "preconditioner": "nodal_block_jacobi",
+          "relative_residual": 2.7350980842300556e-09,
+          "residual_norm": 0.0009116993614100185
+        },
+        "total_solve_seconds": 0.005036299990024418
+      },
+      {
+        "assembled_equivalence": {
+          "assembled_error": null,
+          "assembly_seconds": 0.004536499967798591,
+          "displacement_relative_error": 3.293216605256374e-14,
+          "energy_relative_error": 5.247186723740428e-15,
+          "operator_action_relative_error": 1.9890353110335393e-15
+        },
+        "diagnostics": {
+          "energy_relative_difference": 0.0,
+          "external_work": 4.908758831616847,
+          "free_residual_norm": 0.0015376760550159566,
+          "internal_energy": 2.4543794158084236,
+          "reaction_norm": 218160.2918046464,
+          "relative_free_residual": 7.688380275079782e-09
+        },
+        "element_count": 384,
+        "free_dof": 300,
+        "level": 4,
+        "matvec": {
+          "allocation_peak_bytes_per_matvec": 6268.8,
+          "python_allocation_current_bytes": 2624,
+          "python_allocation_peak_bytes": 31344,
+          "repetitions": 5,
+          "result_norm": 115675602388.22208,
+          "seconds_per_matvec": 0.00019426000071689486,
+          "total_seconds": 0.0009713000035844743
+        },
+        "ndof": 375,
+        "node_count": 125,
+        "operator_memory_bytes": 70464,
+        "preconditioner": {
+          "diagonal_jacobi": {
+            "info": 0,
+            "iterations": 63,
+            "seconds": 0.005473700002767146,
+            "solution_norm": 3.3737807260879155e-05
+          },
+          "nodal_block_jacobi": {
+            "info": 0,
+            "iterations": 57,
+            "seconds": 0.007719899993389845,
+            "solution_norm": 3.373780725940784e-05
+          },
+          "selected": "nodal_block_jacobi"
+        },
+        "rss_bytes": 71970816,
+        "setup_seconds": 0.0015057999989949167,
+        "solve_time_seconds": 0.007762199966236949,
+        "solver_info": {
+          "converged": true,
+          "iterations": 57,
+          "method": "matrix_free_cg",
+          "preconditioner": "nodal_block_jacobi",
+          "relative_residual": 7.688380275079782e-09,
+          "residual_norm": 0.0015376760550159566
+        },
+        "total_solve_seconds": 0.009377600043080747
+      },
+      {
+        "assembled_equivalence": {
+          "assembled_error": null,
+          "assembly_seconds": 0.024498800048604608,
+          "displacement_relative_error": 1.1131647288879202e-13,
+          "energy_relative_error": 1.5454376029089152e-14,
+          "operator_action_relative_error": 5.028210260355116e-15
+        },
+        "diagnostics": {
+          "energy_relative_difference": 1.8619730155528815e-16,
+          "external_work": 4.770092865370531,
+          "free_residual_norm": 0.0009134306502032977,
+          "internal_energy": 2.385046432685266,
+          "reaction_norm": 117217.71613885283,
+          "relative_free_residual": 8.22087585182968e-09
+        },
+        "element_count": 3072,
+        "free_dof": 1944,
+        "level": 8,
+        "matvec": {
+          "allocation_peak_bytes_per_matvec": 40502.4,
+          "python_allocation_current_bytes": 15776,
+          "python_allocation_peak_bytes": 202512,
+          "repetitions": 5,
+          "result_norm": 58005604983.41267,
+          "seconds_per_matvec": 0.00042668000096455214,
+          "total_seconds": 0.002133400004822761
+        },
+        "ndof": 2187,
+        "node_count": 729,
+        "operator_memory_bytes": 485664,
+        "preconditioner": {
+          "diagonal_jacobi": {
+            "info": 0,
+            "iterations": 128,
+            "seconds": 0.033074499981012195,
+            "solution_norm": 7.61218693875904e-05
+          },
+          "nodal_block_jacobi": {
+            "info": 0,
+            "iterations": 117,
+            "seconds": 0.036630599992349744,
+            "solution_norm": 7.612186938425848e-05
+          },
+          "selected": "nodal_block_jacobi"
+        },
+        "rss_bytes": 71671808,
+        "setup_seconds": 0.002410900022368878,
+        "solve_time_seconds": 0.03669929999159649,
+        "solver_info": {
+          "converged": true,
+          "iterations": 117,
+          "method": "matrix_free_cg",
+          "preconditioner": "nodal_block_jacobi",
+          "relative_residual": 8.22087585182968e-09,
+          "residual_norm": 0.0009134306502032977
+        },
+        "total_solve_seconds": 0.03940429998328909
+      },
+      {
+        "assembled_equivalence": {
+          "assembled_error": null,
+          "assembly_seconds": 0.19414150004740804,
+          "displacement_relative_error": 3.450267668341549e-13,
+          "energy_relative_error": 7.97001539407271e-14,
+          "operator_action_relative_error": 1.2497106941823296e-14
+        },
+        "diagnostics": {
+          "energy_relative_difference": 1.8976227128743038e-16,
+          "external_work": 4.6804794950773605,
+          "free_residual_norm": 0.0005162878079494169,
+          "internal_energy": 2.3402397475386807,
+          "reaction_norm": 61109.5886385107,
+          "relative_free_residual": 8.77689273514009e-09
+        },
+        "element_count": 24576,
+        "free_dof": 13872,
+        "level": 16,
+        "matvec": {
+          "allocation_peak_bytes_per_matvec": 306192.0,
+          "python_allocation_current_bytes": 111200,
+          "python_allocation_peak_bytes": 1530960,
+          "repetitions": 5,
+          "result_norm": 28827415873.659332,
+          "seconds_per_matvec": 0.002159320004284382,
+          "total_seconds": 0.01079660002142191
+        },
+        "ndof": 14739,
+        "node_count": 4913,
+        "operator_memory_bytes": 3735264,
+        "preconditioner": {
+          "diagonal_jacobi": {
+            "info": 0,
+            "iterations": 245,
+            "seconds": 0.457917699997779,
+            "solution_norm": 0.0001915157430332375
+          },
+          "nodal_block_jacobi": {
+            "info": 0,
+            "iterations": 240,
+            "seconds": 0.5930835999897681,
+            "solution_norm": 0.00019151574303681191
+          },
+          "selected": "nodal_block_jacobi"
+        },
+        "rss_bytes": 81637376,
+        "setup_seconds": 0.008825999975670129,
+        "solve_time_seconds": 0.48593199998140335,
+        "solver_info": {
+          "converged": true,
+          "iterations": 240,
+          "method": "matrix_free_cg",
+          "preconditioner": "nodal_block_jacobi",
+          "relative_residual": 8.77689273514009e-09,
+          "residual_norm": 0.0005162878079494169
+        },
+        "total_solve_seconds": 0.49848830001428723
+      }
+    ],
+    "parameters": {
+      "atol": 0.0,
+      "chunk_size": 4096,
+      "decomposition": "six",
+      "levels": [
+        2,
+        4,
+        8,
+        16
+      ],
+      "load_distribution": "uniform",
+      "material": {
+        "E": 210000000000.0,
+        "density": 7800.0,
+        "nu": 0.3
+      },
+      "maxiter": 10000,
+      "measurement_repetitions": 5,
+      "rtol": 1e-08,
+      "total_load": 1000000.0
+    },
+    "phase": "baseline",
+    "source_sha": "2a12f04479eb085137c1d586c99bcf191e702ccc"
+  },
+  "comparison": {
+    "levels": [
+      {
+        "iteration_delta": 0,
+        "level": 2,
+        "matvec_seconds_after": 0.00016834000125527383,
+        "matvec_seconds_before": 0.00016528000123798846,
+        "matvec_speedup": 0.9818225021119898,
+        "operator_memory_delta_bytes": 1944,
+        "total_solve_seconds_after": 0.004574000020511448,
+        "total_solve_seconds_before": 0.005036299990024418,
+        "total_solve_speedup": 1.1010712652907415
+      },
+      {
+        "iteration_delta": 0,
+        "level": 4,
+        "matvec_seconds_after": 0.0002101799938827753,
+        "matvec_seconds_before": 0.00019426000071689486,
+        "matvec_speedup": 0.9242554304442526,
+        "operator_memory_delta_bytes": 9000,
+        "total_solve_seconds_after": 0.009269399975892156,
+        "total_solve_seconds_before": 0.009377600043080747,
+        "total_solve_speedup": 1.0116728232107792
+      },
+      {
+        "iteration_delta": 0,
+        "level": 8,
+        "matvec_seconds_after": 0.0004538599983789027,
+        "matvec_seconds_before": 0.00042668000096455214,
+        "matvec_speedup": 0.9401136969298196,
+        "operator_memory_delta_bytes": 52488,
+        "total_solve_seconds_after": 0.04027100000530481,
+        "total_solve_seconds_before": 0.03940429998328909,
+        "total_solve_speedup": 0.9784783089095986
+      },
+      {
+        "iteration_delta": 0,
+        "level": 16,
+        "matvec_seconds_after": 0.0022202800028026104,
+        "matvec_seconds_before": 0.002159320004284382,
+        "matvec_speedup": 0.9725440041610608,
+        "operator_memory_delta_bytes": 353736,
+        "total_solve_seconds_after": 0.5429382000002079,
+        "total_solve_seconds_before": 0.49848830001428723,
+        "total_solve_speedup": 0.9181308296489294
+      }
+    ]
+  },
+  "final": {
+    "levels": [
+      {
+        "assembled_equivalence": {
+          "assembled_error": null,
+          "assembly_seconds": 0.0011674999841488898,
+          "displacement_relative_error": 1.9198827875633888e-14,
+          "energy_relative_error": 6.468880225816226e-15,
+          "operator_action_relative_error": 6.972504846220185e-16
+        },
+        "diagnostics": {
+          "energy_relative_difference": 1.7969111738378293e-16,
+          "external_work": 4.942806481653517,
+          "free_residual_norm": 0.0009116993614100185,
+          "internal_energy": 2.471403240826759,
+          "reaction_norm": 375908.78673787543,
+          "relative_free_residual": 2.7350980842300556e-09
+        },
+        "element_count": 48,
+        "free_dof": 54,
+        "level": 2,
+        "matvec": {
+          "allocation_peak_bytes_per_matvec": 1430.4,
+          "python_allocation_current_bytes": 656,
+          "python_allocation_peak_bytes": 7152,
+          "repetitions": 5,
+          "result_norm": 214211550143.99112,
+          "seconds_per_matvec": 0.00016834000125527383,
+          "total_seconds": 0.0008417000062763691
+        },
+        "ndof": 81,
+        "node_count": 27,
+        "operator_memory_bytes": 18024,
+        "preconditioner": {
+          "diagonal_jacobi": {
+            "info": 0,
+            "iterations": 26,
+            "seconds": 0.001625700038857758,
+            "solution_norm": 1.7155035031481924e-05
+          },
+          "nodal_block_jacobi": {
+            "info": 0,
+            "iterations": 27,
+            "seconds": 0.0026941000251099467,
+            "solution_norm": 1.715503503142874e-05
+          },
+          "selected": "nodal_block_jacobi"
+        },
+        "rss_bytes": 69677056,
+        "setup_seconds": 0.0015125999925658107,
+        "solve_time_seconds": 0.00300169998081401,
+        "solver_info": {
+          "converged": true,
+          "iterations": 27,
+          "method": "matrix_free_cg",
+          "preconditioner": "nodal_block_jacobi",
+          "relative_residual": 2.7350980842300556e-09,
+          "residual_norm": 0.0009116993614100185
+        },
+        "total_solve_seconds": 0.004574000020511448
+      },
+      {
+        "assembled_equivalence": {
+          "assembled_error": null,
+          "assembly_seconds": 0.004042499989736825,
+          "displacement_relative_error": 3.293216605256374e-14,
+          "energy_relative_error": 5.247186723740428e-15,
+          "operator_action_relative_error": 1.9890353110335393e-15
+        },
+        "diagnostics": {
+          "energy_relative_difference": 0.0,
+          "external_work": 4.908758831616847,
+          "free_residual_norm": 0.0015376760550159566,
+          "internal_energy": 2.4543794158084236,
+          "reaction_norm": 218160.2918046464,
+          "relative_free_residual": 7.688380275079782e-09
+        },
+        "element_count": 384,
+        "free_dof": 300,
+        "level": 4,
+        "matvec": {
+          "allocation_peak_bytes_per_matvec": 5049.6,
+          "python_allocation_current_bytes": 2624,
+          "python_allocation_peak_bytes": 25248,
+          "repetitions": 5,
+          "result_norm": 115675602388.22208,
+          "seconds_per_matvec": 0.0002101799938827753,
+          "total_seconds": 0.0010508999694138765
+        },
+        "ndof": 375,
+        "node_count": 125,
+        "operator_memory_bytes": 79464,
+        "preconditioner": {
+          "diagonal_jacobi": {
+            "info": 0,
+            "iterations": 63,
+            "seconds": 0.005537599965464324,
+            "solution_norm": 3.3737807260879155e-05
+          },
+          "nodal_block_jacobi": {
+            "info": 0,
+            "iterations": 57,
+            "seconds": 0.007406699995044619,
+            "solution_norm": 3.373780725940784e-05
+          },
+          "selected": "nodal_block_jacobi"
+        },
+        "rss_bytes": 70709248,
+        "setup_seconds": 0.0014943999703973532,
+        "solve_time_seconds": 0.007521499996073544,
+        "solver_info": {
+          "converged": true,
+          "iterations": 57,
+          "method": "matrix_free_cg",
+          "preconditioner": "nodal_block_jacobi",
+          "relative_residual": 7.688380275079782e-09,
+          "residual_norm": 0.0015376760550159566
+        },
+        "total_solve_seconds": 0.009269399975892156
+      },
+      {
+        "assembled_equivalence": {
+          "assembled_error": null,
+          "assembly_seconds": 0.024864399980288,
+          "displacement_relative_error": 1.1131647288879202e-13,
+          "energy_relative_error": 1.5454376029089152e-14,
+          "operator_action_relative_error": 5.028210260355116e-15
+        },
+        "diagnostics": {
+          "energy_relative_difference": 1.8619730155528815e-16,
+          "external_work": 4.770092865370531,
+          "free_residual_norm": 0.0009134306502032977,
+          "internal_energy": 2.385046432685266,
+          "reaction_norm": 117217.71613885283,
+          "relative_free_residual": 8.22087585182968e-09
+        },
+        "element_count": 3072,
+        "free_dof": 1944,
+        "level": 8,
+        "matvec": {
+          "allocation_peak_bytes_per_matvec": 33484.8,
+          "python_allocation_current_bytes": 15776,
+          "python_allocation_peak_bytes": 167424,
+          "repetitions": 5,
+          "result_norm": 58005604983.41267,
+          "seconds_per_matvec": 0.0004538599983789027,
+          "total_seconds": 0.0022692999918945134
+        },
+        "ndof": 2187,
+        "node_count": 729,
+        "operator_memory_bytes": 538152,
+        "preconditioner": {
+          "diagonal_jacobi": {
+            "info": 0,
+            "iterations": 128,
+            "seconds": 0.03418239997699857,
+            "solution_norm": 7.61218693875904e-05
+          },
+          "nodal_block_jacobi": {
+            "info": 0,
+            "iterations": 117,
+            "seconds": 0.03583830001298338,
+            "solution_norm": 7.612186938425848e-05
+          },
+          "selected": "nodal_block_jacobi"
+        },
+        "rss_bytes": 71544832,
+        "setup_seconds": 0.0024367999867536128,
+        "solve_time_seconds": 0.037505799962673336,
+        "solver_info": {
+          "converged": true,
+          "iterations": 117,
+          "method": "matrix_free_cg",
+          "preconditioner": "nodal_block_jacobi",
+          "relative_residual": 8.22087585182968e-09,
+          "residual_norm": 0.0009134306502032977
+        },
+        "total_solve_seconds": 0.04027100000530481
+      },
+      {
+        "assembled_equivalence": {
+          "assembled_error": null,
+          "assembly_seconds": 0.1988697000197135,
+          "displacement_relative_error": 3.450267668341549e-13,
+          "energy_relative_error": 7.97001539407271e-14,
+          "operator_action_relative_error": 1.2497106941823296e-14
+        },
+        "diagnostics": {
+          "energy_relative_difference": 1.8976227128743038e-16,
+          "external_work": 4.6804794950773605,
+          "free_residual_norm": 0.0005162878079494169,
+          "internal_energy": 2.3402397475386807,
+          "reaction_norm": 61109.5886385107,
+          "relative_free_residual": 8.77689273514009e-09
+        },
+        "element_count": 24576,
+        "free_dof": 13872,
+        "level": 16,
+        "matvec": {
+          "allocation_peak_bytes_per_matvec": 259008.0,
+          "python_allocation_current_bytes": 111200,
+          "python_allocation_peak_bytes": 1295040,
+          "repetitions": 5,
+          "result_norm": 28827415873.659332,
+          "seconds_per_matvec": 0.0022202800028026104,
+          "total_seconds": 0.011101400014013052
+        },
+        "ndof": 14739,
+        "node_count": 4913,
+        "operator_memory_bytes": 4089000,
+        "preconditioner": {
+          "diagonal_jacobi": {
+            "info": 0,
+            "iterations": 245,
+            "seconds": 0.47146720002638176,
+            "solution_norm": 0.0001915157430332375
+          },
+          "nodal_block_jacobi": {
+            "info": 0,
+            "iterations": 240,
+            "seconds": 0.4977548000169918,
+            "solution_norm": 0.00019151574303681191
+          },
+          "selected": "nodal_block_jacobi"
+        },
+        "rss_bytes": 79876096,
+        "setup_seconds": 0.008840199967380613,
+        "solve_time_seconds": 0.5294439000426792,
+        "solver_info": {
+          "converged": true,
+          "iterations": 240,
+          "method": "matrix_free_cg",
+          "preconditioner": "nodal_block_jacobi",
+          "relative_residual": 8.77689273514009e-09,
+          "residual_norm": 0.0005162878079494169
+        },
+        "total_solve_seconds": 0.5429382000002079
+      }
+    ],
+    "parameters": {
+      "atol": 0.0,
+      "chunk_size": 4096,
+      "decomposition": "six",
+      "levels": [
+        2,
+        4,
+        8,
+        16
+      ],
+      "load_distribution": "uniform",
+      "material": {
+        "E": 210000000000.0,
+        "density": 7800.0,
+        "nu": 0.3
+      },
+      "maxiter": 10000,
+      "measurement_repetitions": 5,
+      "rtol": 1e-08,
+      "total_load": 1000000.0
+    },
+    "phase": "final",
+    "source_sha": "6e20bc53d175e5b4eac37a1e76f13266998ce074"
+  },
+  "schema_version": 1
+}

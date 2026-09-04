@@ -10,6 +10,19 @@ from typing import Any
 from solveur.io.manifest import is_relative_to, sha256
 
 
+class DuplicateJsonKeyError(ValueError):
+    """Raised when an evidence manifest repeats an object key."""
+
+
+def _reject_duplicate_keys(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    values: dict[str, Any] = {}
+    for key, value in pairs:
+        if key in values:
+            raise DuplicateJsonKeyError(f"Duplicate JSON key {key!r}.")
+        values[key] = value
+    return values
+
+
 @dataclass(frozen=True)
 class EvidenceFileCheck:
     """Verification outcome for one file declared by an evidence manifest."""
@@ -68,8 +81,10 @@ class EvidenceBundleVerifier:
         if not manifest_path.exists():
             return _failed_report(manifest_path, [f"Missing evidence manifest: {manifest_path}"])
         try:
-            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-        except json.JSONDecodeError as exc:
+            manifest = json.loads(
+                manifest_path.read_text(encoding="utf-8"), object_pairs_hook=_reject_duplicate_keys
+            )
+        except (OSError, json.JSONDecodeError, DuplicateJsonKeyError) as exc:
             return _failed_report(manifest_path, [f"Invalid evidence manifest JSON: {exc}"])
 
         files_data = manifest.get("files", [])

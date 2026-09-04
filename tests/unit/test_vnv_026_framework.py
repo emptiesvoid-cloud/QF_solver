@@ -12,6 +12,7 @@ from solveur.core.router import AnalysisRouter
 from solveur.verification.g06_analytical import evaluate_free_dof_oracle
 from solveur.verification.framework import VnvCaseError, VnvRegistry, VnvRunner
 from solveur.io.json_reader import JsonModelReader
+from solveur.version import __version__
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -108,7 +109,7 @@ def test_runner_records_expected_failure_and_manifest_digests(tmp_path: Path) ->
     manifest = json.loads((tmp_path / "manifest.json").read_text(encoding="utf-8"))
     assert result["status"] == "EXPECTED_FAILURE"
     assert result["timestamp_utc"].endswith("Z")
-    assert result["solver_version"] == "0.2.6a0"
+    assert result["solver_version"] == __version__
     assert result["threshold_source"] == "qualification/0_2_6/tolerance_policy.json"
     assert result["artifact_digests"]["case_payload"]
     assert manifest["result_files"][0]["sha256"]

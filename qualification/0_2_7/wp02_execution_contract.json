@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "record_type": "lu2_wp02_execution_contract",
+  "work_package": "LU2-WP02",
+  "gate": "LU2-027-G02",
+  "status": "PREDECLARED",
+  "source_snapshot": "3cb817c9391ef7998c5950d3071c8d9ce1be5dd8",
+  "scope": {
+    "workload": "existing 3M structured TET4 linear-static FEM model",
+    "model_path": "tmp/wp18_ladder/models/3m.h5",
+    "input_digest_sha256": "084a471b1caab628e8558c65b1777692ed53d504baad681bf0985c411a33671b",
+    "true_dof": 3000000,
+    "node_count": 1000000,
+    "element_count": 5821794,
+    "analysis": "linear_static",
+    "material": "isotropic_linear_elastic",
+    "loads_and_boundary_conditions": "WP14 fixed x=0 and uniform nodal x-load with total reference force 1e6 N",
+    "synthetic_operator": false
+  },
+  "runtime": {
+    "execution_mode": "single-host Docker",
+    "image": "qf-solver-large@sha256:d6a1718001fc36772906d1a9505637bbd0a4b7e1d8ccc9afdbcb6f67b7ff6d0e",
+    "python": "3.12.3",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "petsc4py": "3.25.1",
+    "petsc": "3.25.1",
+    "mpi": "MPICH 5.0.1",
+    "host_logical_cpus": 12,
+    "host_ram_bytes": 50458099712,
+    "container_memory_limit_bytes": 51539607552,
+    "threads_per_rank": 1,
+    "environment_variables": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "PYTHONHASHSEED": "0"
+    }
+  },
+  "fixed_solver_configuration": {
+    "backend": "petsc",
+    "matrix_format": "aij",
+    "ksp": "cg",
+    "preconditioner_baseline": "gamg",
+    "petsc_options": {
+      "ksp_norm_type": "unpreconditioned",
+      "ksp_rtol": 1e-10,
+      "ksp_atol": 0.0,
+      "ksp_max_it": 10000
+    },
+    "acceptance_tolerance": 1e-8,
+    "chunk_size": 4096,
+    "partition_strategy": "contiguous",
+    "rank_targets": [2, 4, 8],
+    "graph_partition_comparison": "optional only if separately executed and provenance-complete"
+  },
+  "mpi_v2": {
+    "strong_scaling_workload": "same 3M input at 2, 4 and 8 ranks",
+    "required_replays": {
+      "2": 2,
+      "4": 1,
+      "8": 2
+    },
+    "eight_rank_policy": "If unavailable on the recorded host, classify PASS_WITH_LIMITATIONS and do not claim FULL MPI_V2.",
+    "weak_scaling": "SHOULD; not required for this closeout"
+  },
+  "phase_metrics": {
+    "required": [
+      "model_setup",
+      "preflight",
+      "assembly_operator",
+      "redistribution",
+      "pc_setup",
+      "ksp_solve",
+      "communication",
+      "io",
+      "post_processing",
+      "total"
+    ],
+    "source_mapping": {
+      "model_setup": "runner phases.model_setup_seconds",
+      "assembly_operator": "runner phases.operator_preconditioner_setup_seconds minus solver.setup_time_seconds",
+      "pc_setup": "runner solver.setup_time_seconds",
+      "ksp_solve": "runner solver.iteration_time_seconds",
+      "post_processing": "runner phases.reactions_seconds",
+      "total": "runner phases.total_seconds"
+    },
+    "unmeasured_values": ["preflight", "redistribution", "communication", "io"],
+    "unmeasured_policy": "null is retained; unmeasured phases are not inferred or used as independently measured claims"
+  },
+  "acceptance": {
+    "complete_run": ["status PASS", "residual <= 1e-8", "equilibrium <= 1e-8", "energy <= 1e-8", "finite outputs", "SPD CG contract PASS"],
+    "replay": ["same input digest", "same configuration digest", "same source SHA", "same backend/KSP/PC", "same tolerances", "compatible numerical observables"],
+    "preconditioner_selection": "Compare total time, phase time, RSS, convergence, acceptance and replay stability; iterations alone are insufficient.",
+    "post_result_retuning": false,
+    "silent_fallback": false,
+    "backend_unavailable": "fail closed"
+  },
+  "configuration_freeze": {
+    "freeze_required_before": ["LU2-WP03", "LU2-WP04", "LU2-WP05"],
+    "freeze_fields": ["ranks", "partition_strategy", "backend", "matrix_format", "ksp", "preconditioner", "petsc_options", "tolerances", "runtime_image", "environment_variables", "input_digest"],
+    "change_policy": "No change after freeze except a documented blocker and Owner review.",
+    "selection_policy": "Choose the best fully evidenced configuration using reproducible total-time/RSS/robustness evidence; do not optimize a single phase in isolation."
+  },
+  "artifact_policy": {
+    "raw_run": "CONTROLLED_PROOF",
+    "observatory_record": "CONTROLLED_PROOF",
+    "summary": "CONTROLLED_PROOF",
+    "generated_view": "GENERATED_VIEW",
+    "binary_digest": "SHA-256 over original bytes",
+    "text_digest": "UTF-8 canonical JSON with sorted keys, compact separators and LF"
+  },
+  "limitations": [
+    "The runner does not independently time preflight, redistribution, communication or I/O; those fields remain null in derived Observatory records.",
+    "The evidence is a single structured TET4 linear-static workload and a single Docker host profile.",
+    "GAMG/HYPRE comparison is empirical for the recorded workload and is not a universal preconditioner recommendation.",
+    "PETSc remains optional at runtime and unavailable selection must fail closed."
+  ]
+}

@@ -27,6 +27,7 @@ from solveur.api import (
     verify_evidence,
     verify_large_qualification,
 )
+from solveur.core.errors import InputValidationError
 from solveur.large.model import LargeModel
 
 
@@ -559,7 +560,7 @@ def test_large_conversion_rejects_distributed_loads_instead_of_dropping_them(tmp
 def test_large_hdf5_corruption_fails_clearly(tmp_path: Path):
     corrupted = tmp_path / "corrupted.h5"
     corrupted.write_text("not an hdf5 file", encoding="utf-8")
-    with pytest.raises(Exception):
+    with pytest.raises(InputValidationError, match="corrupted HDF5"):
         load_large_model(corrupted)
 
 

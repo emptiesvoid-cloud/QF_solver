@@ -1,0 +1,144 @@
+{
+  "schema_version": 1,
+  "record_type": "lu2_wp04_5m_bronze_contract",
+  "work_package": "LU2-WP04",
+  "gate": "LU2-027-G04",
+  "status": "PREDECLARED",
+  "source_snapshot": "2581e4750eb024628c5592d6c49cef503020c3aa",
+  "freeze": {
+    "freeze_id": "LU2-WP02-FREEZE-bfd1975b012453a3",
+    "freeze_digest_sha256": "bfd1975b012453a3b492cc79c968ceeba6ae6951a293e3ce65ddda548d8339a1",
+    "backend": "petsc",
+    "matrix_format": "aij",
+    "ksp": "cg",
+    "preconditioner": "gamg",
+    "mpi_ranks": 8,
+    "partition_strategy": "contiguous",
+    "chunk_size": 4096,
+    "solver_rtol": 1.0e-10,
+    "acceptance_rtol": 1.0e-8,
+    "max_iterations": 10000,
+    "runtime_image": "qf-solver-large@sha256:d6a1718001fc36772906d1a9505637bbd0a4b7e1d8ccc9afdbcb6f67b7ff6d0e",
+    "environment_variables": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "PYTHONHASHSEED": "0"
+    },
+    "petsc_options": {
+      "ksp_norm_type": "unpreconditioned",
+      "ksp_rtol": 1.0e-10,
+      "pc_gamg_repartition": true
+    },
+    "change_policy": "No rank, partition, matrix, KSP, PC, tolerance or runtime-image changes after freeze."
+  },
+  "workload": {
+    "model_id": "LU2-WP04-5M-WORKLOAD-001",
+    "element_family": "TET4",
+    "analysis": "linear_static",
+    "material": {
+      "type": "isotropic_3d",
+      "young_modulus_pa": 210000000000.0,
+      "poisson_ratio": 0.3,
+      "density_kg_m3": 7800.0
+    },
+    "geometry": {
+      "topology": "structured brick decomposed into six positive-volume TET4 per cell",
+      "nx": 117,
+      "ny": 117,
+      "nz": 119,
+      "length_m": 2.0,
+      "height_m": 0.75,
+      "depth_m": 1.25,
+      "decomposition": "six"
+    },
+    "boundary_condition": "all translations fixed at x=0",
+    "load": {
+      "type": "uniform nodal x load",
+      "face": "x=length",
+      "component": 0,
+      "total_force_n": 1000000.0,
+      "distribution": "uniform"
+    },
+    "expected_size": {
+      "nodes": 1670880,
+      "elements": 9773946,
+      "true_dof": 5012640
+    },
+    "input_digest_policy": "The deterministic HDF5 bytes generated independently for run1 and run2 must have one identical SHA-256 digest; the digest is captured before Bronze execution.",
+    "generation_command_template": "python scripts/prepare_lu2_wp04_workload.py --build --output <model> --metadata <metadata> --source-sha <execution-source-sha>"
+  },
+  "preflight": {
+    "docker_memory_bytes": 50458099712,
+    "reference_3m_peak_rss_bytes": 2925764608,
+    "estimate_method": "solveur.large.readiness.estimate_structured_tet4_size plus pinned Docker and host disk probes",
+    "no_oom_injection": true,
+    "solve_not_required": true,
+    "resource_classification": ["PASS", "RESOURCE_RISK", "FAIL"]
+  },
+  "bronze_sequence": [
+    "model_build",
+    "mesh_validation",
+    "contiguous_distribution",
+    "AIJ_operator_build",
+    "PETSc_initialization",
+    "CG_GAMG_PC_setup",
+    "readiness_check",
+    "clean_exit"
+  ],
+  "run_policy": {
+    "required_runs": ["run1", "run2"],
+    "same_workload_digest": true,
+    "same_freeze_digest": true,
+    "same_partition_and_ownership_digest": true,
+    "no_converged_solve": true,
+    "post_result_retuning": false,
+    "fallback_policy": "No implicit backend, KSP or PC fallback; mismatch is FAIL."
+  },
+  "required_observables": [
+    "node_count",
+    "element_count",
+    "true_dof",
+    "rank_count",
+    "partition_digest",
+    "ownership_digest",
+    "matrix_type",
+    "matrix_global_size",
+    "matrix_local_size",
+    "matrix_info",
+    "pc_type",
+    "pc_ready",
+    "model_setup_seconds",
+    "assembly_operator_seconds",
+    "pc_setup_seconds",
+    "peak_rss_total_bytes",
+    "peak_rss_per_rank_bytes",
+    "input_file_bytes",
+    "finite_state"
+  ],
+  "unmeasured_phase_policy": {
+    "redistribution": "NOT_MEASURED unless the runner exposes a separate measurement",
+    "communication": "NOT_MEASURED unless the runner exposes a separate measurement",
+    "io": "NOT_MEASURED unless the runner exposes a separate measurement",
+    "solve": "NOT_RUN by Bronze contract",
+    "no_inference": true
+  },
+  "assembly_telemetry": "qualification/0_2_7/wp04_telemetry_contract.json",
+  "acceptance": {
+    "minimum_true_dof": 5000000,
+    "actual_model_required": true,
+    "matrix_build": "PASS",
+    "petsc_initialization": "PASS",
+    "gamg_readiness": "PASS",
+    "finite_state": true,
+    "no_silent_fallback": true,
+    "two_independent_recreations": true,
+    "resource_limit_is_not_pass": true
+  },
+  "claim_boundary": "Bronze readiness only: approximately 5M real structured TET4 linear-static FEM DOF on the pinned single-host Docker/PETSc/MPI route. No converged 5M solve, no 5M performance claim, no universal capacity, multi-node, GPU, mixed-mesh or nonlinear claim.",
+  "c1_policy": "C1 is triggered only by a measured current-representation capacity blocker for 5M Silver; a successful Bronze with reasonable resource margin does not trigger C1.",
+  "artifact_classification": "CONTROLLED_PROOF",
+  "numerical_source_changed": false,
+  "new_physics": false
+}

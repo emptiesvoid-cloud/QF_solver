@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "audit_id": "QF-PUBLIC-DOC-AUDIT-027-001",
+  "release": {
+    "name": "QF_solver",
+    "version": "0.2.7a0"
+  },
+  "status": "PASS",
+  "classification": {
+    "public_source_documentation": {
+      "count": 508,
+      "paths": [
+        "README.md",
+        "docs/** excluding generated evidence"
+      ],
+      "publication": "public"
+    },
+    "public_generated_documentation": {
+      "count": 511,
+      "paths": [
+        "docs/generated/**",
+        "docs/assets/generated/**"
+      ],
+      "publication": "public"
+    },
+    "archive_immutable": {
+      "count": 2,
+      "paths": [
+        "qualification/baselines/qf_solver_0.2.0_engineering.json",
+        "qualification/baselines/qf_solver_0.2.0_engineering.md"
+      ],
+      "publication": "public_historical"
+    },
+    "internal": {
+      "tracked_count": 0,
+      "reserved_prefixes": [
+        "local_tool_configuration/",
+        "local_graph_configuration",
+        "local_instruction_file",
+        "graph_cache/",
+        "output/",
+        "qualification/evidence/",
+        "qualification/maturity_evidence_",
+        "qualification/vnv/",
+        "results/",
+        "results_large/",
+        "site/"
+      ],
+      "publication": "not_published"
+    },
+    "generated_not_published": {
+      "paths": [
+        "site/**",
+        "output/**",
+        "qualification/maturity_evidence_*/**",
+        "results/**",
+        "results_large/**"
+      ],
+      "publication": "not_published"
+    }
+  },
+  "checks": [
+    {
+      "id": "public_source_hygiene",
+      "status": "PASS",
+      "detail": "2590 tracked release files scanned"
+    },
+    {
+      "id": "controlled_review_vocabulary",
+      "status": "PASS",
+      "detail": "no generic review vocabulary in tracked text sources"
+    },
+    {
+      "id": "web_delivery_retired",
+      "status": "PASS",
+      "detail": "no web runtime source or web-only dependency remains"
+    },
+    {
+      "id": "internal_paths_not_tracked",
+      "status": "PASS",
+      "detail": "internal and working artifact paths are absent from tracked files"
+    }
+  ],
+  "public_release_audit": {
+    "status": "PASS",
+    "scanned_files": 2590,
+    "finding_count": 0
+  }
+}

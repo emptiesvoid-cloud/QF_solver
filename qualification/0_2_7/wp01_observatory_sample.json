@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "record_type": "lu2_performance_observation",
+  "case_id": "LU2-WP01-SYNTHETIC-001",
+  "requirement_id": "027-LU2-REQ-001",
+  "capability_refs": ["linear-static/tet4"],
+  "solver": {"name": "QF Solver", "version": "0.2.7a0"},
+  "source": {
+    "repository": ".",
+    "revision": "e1703b5bc00e9cf2eb92e7e346783c9764201808",
+    "dirty": false
+  },
+  "environment": {
+    "hostname": "controlled-fixture",
+    "os": "controlled-fixture-os",
+    "cpu": "controlled-fixture-cpu",
+    "ram_bytes": 1000000000,
+    "python_version": "3.10-fixture",
+    "petsc_version": null,
+    "mpi_version": null,
+    "container_digest": null,
+    "threads": 1,
+    "rank_count": 1
+  },
+  "execution": {
+    "route": "synthetic-observatory-fixture",
+    "backend": "scipy",
+    "solver": "CG",
+    "preconditioner": "nodal_block_jacobi",
+    "rank_count": 1,
+    "deterministic_seed": 7,
+    "configuration": {"fixture": true}
+  },
+  "workload": {
+    "model_id": "synthetic-tet4",
+    "element_family": "TET4",
+    "analysis": "linear_static",
+    "material": "isotropic_3d",
+    "dof": 12,
+    "elements": 1
+  },
+  "oracle": {"type": "INTERNAL_INVARIANT", "source": "WP01 synthetic fixture"},
+  "tolerances": {"residual": {"value": 1e-8, "unit": "relative", "predeclared": true}},
+  "metrics": {
+    "timings_seconds": {
+      "model_setup": 0.1,
+      "preflight": 0.01,
+      "assembly_operator": 0.2,
+      "redistribution": null,
+      "pc_setup": 0.03,
+      "ksp_solve": 0.4,
+      "communication": null,
+      "io": 0.02,
+      "post_processing": 0.01,
+      "total": 0.8
+    },
+    "iterations": 4,
+    "matvecs": 5,
+    "residual": 1e-10,
+    "equilibrium": 2e-10,
+    "energy": 1e-12,
+    "resources": {
+      "peak_rss_bytes": 1000000,
+      "peak_rss_per_rank_bytes": 1000000,
+      "imbalance": 0.0,
+      "gpu_vram_bytes": null
+    }
+  },
+  "result": {
+    "classification": "PASS",
+    "observables": {"displacement_norm": 1.25, "energy": 2.5},
+    "message": "Controlled synthetic observatory record."
+  },
+  "artifacts": {
+    "input_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "result_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "configuration_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "provenance": {
+    "captured_at_utc": "2026-09-02T00:00:00Z",
+    "command": ["python", "observatory-fixture"],
+    "artifact_classification": "CONTROLLED_PROOF"
+  }
+}

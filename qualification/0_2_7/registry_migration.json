@@ -1,0 +1,399 @@
+{
+  "schema_version": 1,
+  "source_registry": "qualification/capability_registry.json",
+  "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+  "target_registry": "qualification/0_2_7/capability_registry_v2.json",
+  "public_capability_ids": [
+    {
+      "legacy_id": "ELE-BEAM2",
+      "v2_anchor_id": "ELE-BEAM2",
+      "legacy_status": "PRESENT_REQUALIFICATION_PENDING"
+    },
+    {
+      "legacy_id": "ELE-MITC3",
+      "v2_anchor_id": "ELE-MITC3",
+      "legacy_status": "PRESENT_REQUALIFICATION_PENDING"
+    },
+    {
+      "legacy_id": "ELE-MITC4",
+      "v2_anchor_id": "ELE-MITC4",
+      "legacy_status": "PRESENT_REQUALIFICATION_PENDING"
+    },
+    {
+      "legacy_id": "ELE-TET4",
+      "v2_anchor_id": "ELE-TET4",
+      "legacy_status": "PRESENT_REQUALIFICATION_PENDING"
+    },
+    {
+      "legacy_id": "ELE-TET10",
+      "v2_anchor_id": "ELE-TET10",
+      "legacy_status": "PRESENT_REQUALIFICATION_PENDING"
+    },
+    {
+      "legacy_id": "ELE-HEX8",
+      "v2_anchor_id": "ELE-HEX8",
+      "legacy_status": "PRESENT_REQUALIFICATION_PENDING"
+    },
+    {
+      "legacy_id": "ELE-HEX20",
+      "v2_anchor_id": "ELE-HEX20",
+      "legacy_status": "PRESENT_REQUALIFICATION_PENDING"
+    },
+    {
+      "legacy_id": "ELE-DISCRETE",
+      "v2_anchor_id": "ELE-DISCRETE",
+      "legacy_status": "PRESENT_REQUALIFICATION_PENDING"
+    },
+    {
+      "legacy_id": "INF-RBE-CONSTRAINTS",
+      "v2_anchor_id": "INF-RBE-CONSTRAINTS",
+      "legacy_status": "PRESENT_GAP_RECORDED"
+    },
+    {
+      "legacy_id": "ANA-STATIC",
+      "v2_anchor_id": "ANA-STATIC",
+      "legacy_status": "PRESENT_REQUALIFICATION_PENDING"
+    },
+    {
+      "legacy_id": "ANA-MODAL",
+      "v2_anchor_id": "ANA-MODAL",
+      "legacy_status": "PRESENT_REQUALIFICATION_PENDING"
+    },
+    {
+      "legacy_id": "ANA-NEWMARK",
+      "v2_anchor_id": "ANA-NEWMARK",
+      "legacy_status": "PRESENT_REQUALIFICATION_PENDING"
+    },
+    {
+      "legacy_id": "ANA-HARMONIC",
+      "v2_anchor_id": "ANA-HARMONIC",
+      "legacy_status": "PRESENT_REQUALIFICATION_PENDING"
+    },
+    {
+      "legacy_id": "ANA-BUCKLING",
+      "v2_anchor_id": "ANA-BUCKLING",
+      "legacy_status": "PRESENT_REQUALIFICATION_PENDING"
+    },
+    {
+      "legacy_id": "ANA-NONLINEAR-LOAD",
+      "v2_anchor_id": "ANA-NONLINEAR-LOAD",
+      "legacy_status": "PRESENT_DEFERRED"
+    },
+    {
+      "legacy_id": "ANA-GEOMETRIC-NONLINEAR",
+      "v2_anchor_id": "ANA-GEOMETRIC-NONLINEAR",
+      "legacy_status": "PRESENT_REQUALIFICATION_PENDING"
+    },
+    {
+      "legacy_id": "ANA-ARC-LENGTH",
+      "v2_anchor_id": "ANA-ARC-LENGTH",
+      "legacy_status": "EXPERIMENTAL_NOT_QUALIFIED"
+    },
+    {
+      "legacy_id": "MAT-ELASTIC",
+      "v2_anchor_id": "MAT-ELASTIC",
+      "legacy_status": "PRESENT_REQUALIFICATION_PENDING"
+    },
+    {
+      "legacy_id": "MAT-ORTHOTROPIC-LAMINATE",
+      "v2_anchor_id": "MAT-ORTHOTROPIC-LAMINATE",
+      "legacy_status": "PRESENT_DEFERRED"
+    },
+    {
+      "legacy_id": "MAT-J2-SMALL",
+      "v2_anchor_id": "MAT-J2-SMALL",
+      "legacy_status": "PRESENT_QUALIFIED_BOUNDED"
+    },
+    {
+      "legacy_id": "MAT-TL-ELASTIC",
+      "v2_anchor_id": "MAT-TL-ELASTIC",
+      "legacy_status": "PRESENT_QUALIFIED_BOUNDED"
+    },
+    {
+      "legacy_id": "MAT-FINITE-J2",
+      "v2_anchor_id": "MAT-FINITE-J2",
+      "legacy_status": "RESEARCH_DEFERRED"
+    },
+    {
+      "legacy_id": "MAT-COUPLED-NL",
+      "v2_anchor_id": "MAT-COUPLED-NL",
+      "legacy_status": "EXPERIMENTAL_DEFERRED"
+    },
+    {
+      "legacy_id": "CON-FRICTIONLESS",
+      "v2_anchor_id": "CON-FRICTIONLESS",
+      "legacy_status": "PRESENT_REQUALIFICATION_PENDING"
+    },
+    {
+      "legacy_id": "CON-FRICTION",
+      "v2_anchor_id": "CON-FRICTION",
+      "legacy_status": "NOT_IN_RELEASE_SCOPE"
+    },
+    {
+      "legacy_id": "INF-MESH-GMSH",
+      "v2_anchor_id": "INF-MESH-GMSH",
+      "legacy_status": "PRESENT_DEFERRED"
+    },
+    {
+      "legacy_id": "INF-LOADS-BC",
+      "v2_anchor_id": "INF-LOADS-BC",
+      "legacy_status": "PRESENT_DEFERRED"
+    },
+    {
+      "legacy_id": "INF-POST",
+      "v2_anchor_id": "INF-POST",
+      "legacy_status": "PRESENT_DEFERRED"
+    },
+    {
+      "legacy_id": "INF-SPARSE-SCIPY",
+      "v2_anchor_id": "INF-SPARSE-SCIPY",
+      "legacy_status": "PRESENT_REQUALIFICATION_PENDING"
+    },
+    {
+      "legacy_id": "INF-PETSC-SLEPC",
+      "v2_anchor_id": "INF-PETSC-SLEPC",
+      "legacy_status": "PRESENT_DEFERRED"
+    },
+    {
+      "legacy_id": "INF-DIAGNOSTICS-FAILURES",
+      "v2_anchor_id": "INF-DIAGNOSTICS-FAILURES",
+      "legacy_status": "PRESENT_QUALIFIED_BOUNDED"
+    },
+    {
+      "legacy_id": "INF-PERF-SCALING",
+      "v2_anchor_id": "INF-PERF-SCALING",
+      "legacy_status": "PRESENT_QUALIFIED_BOUNDED"
+    },
+    {
+      "legacy_id": "INF-EXTERNAL-CORRELATION",
+      "v2_anchor_id": "INF-EXTERNAL-CORRELATION",
+      "legacy_status": "PRESENT_DEFERRED"
+    }
+  ],
+  "combination_mapping": {
+    "source": "public_analysis_combinations",
+    "records": [
+      {
+        "element": "ELE-BEAM2",
+        "analysis": "ANA-STATIC",
+        "v2_id": "COMB-BEAM2-linear_static"
+      },
+      {
+        "element": "ELE-BEAM2",
+        "analysis": "ANA-MODAL",
+        "v2_id": "COMB-BEAM2-modal"
+      },
+      {
+        "element": "ELE-BEAM2",
+        "analysis": "ANA-NEWMARK",
+        "v2_id": "COMB-BEAM2-newmark_transient"
+      },
+      {
+        "element": "ELE-BEAM2",
+        "analysis": "ANA-HARMONIC",
+        "v2_id": "COMB-BEAM2-harmonic"
+      },
+      {
+        "element": "ELE-MITC3",
+        "analysis": "ANA-STATIC",
+        "v2_id": "COMB-MITC3-linear_static"
+      },
+      {
+        "element": "ELE-MITC3",
+        "analysis": "ANA-MODAL",
+        "v2_id": "COMB-MITC3-modal"
+      },
+      {
+        "element": "ELE-MITC3",
+        "analysis": "ANA-NEWMARK",
+        "v2_id": "COMB-MITC3-newmark_transient"
+      },
+      {
+        "element": "ELE-MITC3",
+        "analysis": "ANA-HARMONIC",
+        "v2_id": "COMB-MITC3-harmonic"
+      },
+      {
+        "element": "ELE-MITC4",
+        "analysis": "ANA-STATIC",
+        "v2_id": "COMB-MITC4-linear_static"
+      },
+      {
+        "element": "ELE-MITC4",
+        "analysis": "ANA-MODAL",
+        "v2_id": "COMB-MITC4-modal"
+      },
+      {
+        "element": "ELE-MITC4",
+        "analysis": "ANA-NEWMARK",
+        "v2_id": "COMB-MITC4-newmark_transient"
+      },
+      {
+        "element": "ELE-MITC4",
+        "analysis": "ANA-HARMONIC",
+        "v2_id": "COMB-MITC4-harmonic"
+      },
+      {
+        "element": "ELE-TET4",
+        "analysis": "ANA-STATIC",
+        "v2_id": "COMB-TET4-linear_static"
+      },
+      {
+        "element": "ELE-TET4",
+        "analysis": "ANA-MODAL",
+        "v2_id": "COMB-TET4-modal"
+      },
+      {
+        "element": "ELE-TET4",
+        "analysis": "ANA-NEWMARK",
+        "v2_id": "COMB-TET4-newmark_transient"
+      },
+      {
+        "element": "ELE-TET4",
+        "analysis": "ANA-HARMONIC",
+        "v2_id": "COMB-TET4-harmonic"
+      },
+      {
+        "element": "ELE-TET4",
+        "analysis": "ANA-BUCKLING",
+        "v2_id": "COMB-TET4-linear_buckling"
+      },
+      {
+        "element": "ELE-TET4",
+        "analysis": "ANA-NONLINEAR-LOAD",
+        "v2_id": "COMB-TET4-nonlinear_load_control"
+      },
+      {
+        "element": "ELE-TET10",
+        "analysis": "ANA-STATIC",
+        "v2_id": "COMB-TET10-linear_static"
+      },
+      {
+        "element": "ELE-TET10",
+        "analysis": "ANA-MODAL",
+        "v2_id": "COMB-TET10-modal"
+      },
+      {
+        "element": "ELE-TET10",
+        "analysis": "ANA-NEWMARK",
+        "v2_id": "COMB-TET10-newmark_transient"
+      },
+      {
+        "element": "ELE-TET10",
+        "analysis": "ANA-HARMONIC",
+        "v2_id": "COMB-TET10-harmonic"
+      },
+      {
+        "element": "ELE-TET10",
+        "analysis": "ANA-BUCKLING",
+        "v2_id": "COMB-TET10-linear_buckling"
+      },
+      {
+        "element": "ELE-TET10",
+        "analysis": "ANA-NONLINEAR-LOAD",
+        "v2_id": "COMB-TET10-nonlinear_load_control"
+      },
+      {
+        "element": "ELE-HEX8",
+        "analysis": "ANA-STATIC",
+        "v2_id": "COMB-HEX8-linear_static"
+      },
+      {
+        "element": "ELE-HEX8",
+        "analysis": "ANA-MODAL",
+        "v2_id": "COMB-HEX8-modal"
+      },
+      {
+        "element": "ELE-HEX8",
+        "analysis": "ANA-NEWMARK",
+        "v2_id": "COMB-HEX8-newmark_transient"
+      },
+      {
+        "element": "ELE-HEX8",
+        "analysis": "ANA-HARMONIC",
+        "v2_id": "COMB-HEX8-harmonic"
+      },
+      {
+        "element": "ELE-HEX8",
+        "analysis": "ANA-BUCKLING",
+        "v2_id": "COMB-HEX8-linear_buckling"
+      },
+      {
+        "element": "ELE-HEX8",
+        "analysis": "ANA-NONLINEAR-LOAD",
+        "v2_id": "COMB-HEX8-nonlinear_load_control"
+      },
+      {
+        "element": "ELE-HEX20",
+        "analysis": "ANA-STATIC",
+        "v2_id": "COMB-HEX20-linear_static"
+      },
+      {
+        "element": "ELE-HEX20",
+        "analysis": "ANA-MODAL",
+        "v2_id": "COMB-HEX20-modal"
+      },
+      {
+        "element": "ELE-HEX20",
+        "analysis": "ANA-NEWMARK",
+        "v2_id": "COMB-HEX20-newmark_transient"
+      },
+      {
+        "element": "ELE-HEX20",
+        "analysis": "ANA-HARMONIC",
+        "v2_id": "COMB-HEX20-harmonic"
+      },
+      {
+        "element": "ELE-HEX20",
+        "analysis": "ANA-BUCKLING",
+        "v2_id": "COMB-HEX20-linear_buckling"
+      },
+      {
+        "element": "ELE-HEX20",
+        "analysis": "ANA-NONLINEAR-LOAD",
+        "v2_id": "COMB-HEX20-nonlinear_load_control"
+      },
+      {
+        "element": "ELE-TET4",
+        "analysis": "ANA-GEOMETRIC-NONLINEAR",
+        "v2_id": "COMB-TET4-geometric_nonlinear_static"
+      },
+      {
+        "element": "ELE-TET10",
+        "analysis": "ANA-GEOMETRIC-NONLINEAR",
+        "v2_id": "COMB-TET10-geometric_nonlinear_static"
+      },
+      {
+        "element": "ELE-HEX8",
+        "analysis": "ANA-GEOMETRIC-NONLINEAR",
+        "v2_id": "COMB-HEX8-geometric_nonlinear_static"
+      },
+      {
+        "element": "ELE-HEX20",
+        "analysis": "ANA-GEOMETRIC-NONLINEAR",
+        "v2_id": "COMB-HEX20-geometric_nonlinear_static"
+      },
+      {
+        "element": "ELE-DISCRETE",
+        "analysis": "ANA-STATIC",
+        "v2_id": "COMB-DISCRETE-linear_static"
+      },
+      {
+        "element": "ELE-DISCRETE",
+        "analysis": "ANA-MODAL",
+        "v2_id": "COMB-DISCRETE-modal"
+      },
+      {
+        "element": "ELE-DISCRETE",
+        "analysis": "ANA-NEWMARK",
+        "v2_id": "COMB-DISCRETE-newmark_transient"
+      },
+      {
+        "element": "ELE-DISCRETE",
+        "analysis": "ANA-HARMONIC",
+        "v2_id": "COMB-DISCRETE-harmonic"
+      }
+    ]
+  },
+  "historical_status_policy": "Legacy statuses remain in historical_origin only; active v2 states use the closed vocabulary."
+}

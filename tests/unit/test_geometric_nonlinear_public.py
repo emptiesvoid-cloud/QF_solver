@@ -4,6 +4,7 @@ import pytest
 from solveur.api import solve_model
 from solveur.core.errors import InputValidationError
 from solveur.core.model import FiniteElementModel
+from solveur.loads.entities import BodyLoad
 from solveur.verification.tet4_total_lagrangian_assembly import _structured_tet4_mesh
 
 
@@ -136,6 +137,6 @@ def test_public_geometric_nonlinear_high_order_families_use_common_tl_assembly(f
 
 def test_public_geometric_nonlinear_rejects_distributed_loads() -> None:
     model = _model()
-    model.distributed_loads = [object()]
+    model.distributed_loads = [BodyLoad((0.0, 0.0, 1.0))]
     with pytest.raises(InputValidationError, match="nodal dead loads only"):
         solve_model(model, enforce_policy=False)
