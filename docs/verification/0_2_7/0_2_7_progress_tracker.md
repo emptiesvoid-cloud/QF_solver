@@ -314,3 +314,23 @@ S1 installs the optional rank-zero JSONL assembly telemetry contract for that
 retry. It records flushed chunk progress, rates, ETA when available, phases,
 resource fields and one-million-element milestones; it does not change the
 WP04 status or global progress.
+
+## F5 packaging and compatibility audit
+
+F5 starts from clean source SHA
+`124c61f6492eee351a34e3542d198a13c00c2874` and closes as
+`PASS_WITH_LIMITATIONS`. Wheel and sdist artifacts for the `0.2.7a0` candidate
+were built and checked in isolated output directories, then installed from
+outside the repository on Windows Python 3.12 and 3.13. Public imports, a
+lightweight TET4 API workflow, CLI help/version/check/solve and packaged runtime
+resources passed. A missing-resource P1 in the `release-vv` package path was
+fixed in `MANIFEST.in` and `pyproject.toml`; the command now emits a controlled
+report when its legacy bundled evidence is not a current 0.2.7 qualification.
+
+The package remains `0.2.7a0`, with no tag, PyPI publication or GitHub release.
+Python 3.10/Linux are represented by CI declarations, Python 3.11 and macOS
+remain unverified in this audit, and optional PETSc/MPI/HDF5 routes retain
+their explicit environment requirements. Global qualification accounting is
+unchanged and F6 is the next audit; no maturity or numerical claim moved.
+The controlled record is
+`qualification/0_2_7/f5_packaging_compatibility_audit.json`.

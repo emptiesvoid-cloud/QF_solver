@@ -271,3 +271,21 @@ the bounded WP19 diagnostic scope. HEX8R, SRI and B-bar are
 `RESEARCH_ONLY`, while hourglass control is deferred with any future reduced
 integration route. These decisions do not change the active capability
 registry or any earlier Owner decision.
+
+## F5 packaging gate
+
+F5 is `PASS_WITH_LIMITATIONS`. The controlled record is
+`qualification/0_2_7/f5_packaging_compatibility_audit.json`, with the review
+view at `docs/verification/0_2_7/0_2_7_f5_packaging_compatibility_audit.md`.
+The `qf-solver` / `qf_solver` `0.2.7a0` wheel and sdist build, pass `twine
+check`, and install from outside the repository in the directly tested
+Windows Python 3.12/3.13 environments. A P1 missing-runtime-resource defect
+was fixed and guarded by packaging tests. The core API and CLI remain usable
+without optional PETSc/MPI/HDF5 dependencies; unavailable optional routes
+fail with explicit infrastructure diagnostics.
+
+The current limitation is compatibility evidence, not a hidden release claim:
+Linux is CI-declared rather than locally exercised, Python 3.10 is not locally
+available, Python 3.11 and macOS are unverified, and `release-vv` is a
+controlled legacy evidence tool rather than a 0.2.7 qualification result.
+No tag, publication, numerical change or maturity promotion occurred.
