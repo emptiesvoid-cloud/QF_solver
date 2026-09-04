@@ -1,11 +1,11 @@
-| ID | Titre | Statut | Exigences | Exemples | Tests | Source |
+| ID | Title | Status | Requirements | Examples | Tests | Source |
 | --- | --- | --- | --- | --- | --- | --- |
-| DOC-STATE-001 | Tableau de bord du solveur EF | draft | REQ-AUD-001, REQ-CMP-001 | 1 | 1 | index.md |
+| DOC-STATE-001 | QF Solver 0.2.7 | controlled | REQ-AUD-001, REQ-CMP-001 | 1 | 1 | index.md |
 | DOC-VNV-CODEASTER-CAMPAIGN-2026-08-14 | Campagne de correlation Code_Aster du 2026-08-14 | ready_for_owner_review | REQ-CMP-003, REQ-AUD-001 | 1 | 3 | verification/code_aster_correlation_campaign_2026-08-14.md |
-| DOC-STATE-002 | Capacites et maturite | draft | REQ-CMP-001, REQ-REL-001 | 0 | 0 | etat/capacites.md |
-| DOC-STATE-003 | Limites connues | draft | REQ-CMP-002, REQ-REL-001 | 0 | 0 | etat/limites.md |
-| DOC-START-001 | Installation locale | draft | REQ-REL-001 | 0 | 1 | demarrage/installation.md |
-| DOC-START-002 | Premier calcul controle | draft | REQ-IO-001, REQ-MESH-001, REQ-SOL-001 | 1 | 1 | demarrage/premier_calcul.md |
+| DOC-STATE-002 | Capabilities and maturity | controlled | REQ-CMP-001, REQ-REL-001 | 0 | 0 | etat/capacites.md |
+| DOC-STATE-003 | Known limitations | controlled | REQ-CMP-002, REQ-REL-001 | 0 | 0 | etat/limites.md |
+| DOC-START-001 | Installation pointer | superseded | REQ-REL-001 | 0 | 1 | demarrage/installation.md |
+| DOC-START-002 | Quickstart pointer | superseded | REQ-IO-001, REQ-MESH-001, REQ-SOL-001 | 1 | 1 | demarrage/premier_calcul.md |
 | DOC-START-003 | Creer un cas | draft | REQ-IO-001, REQ-MESH-001 | 0 | 0 | demarrage/creer_un_cas.md |
 | DOC-START-004 | Lire les resultats | draft | REQ-AUD-001, REQ-EVD-001 | 0 | 0 | demarrage/lire_resultats.md |
 | DOC-FEM-001 | Hypotheses et travaux virtuels | draft | REQ-SOL-001, REQ-SOL-002, REQ-SOL-003 | 0 | 0 | fondements/travaux_virtuels.md |
@@ -21,7 +21,7 @@
 | DOC-COMP-004 | Criteres de premier pli | draft | REQ-COMP-004 | 0 | 2 | composites/criteres_rupture.md |
 | DOC-COMP-005 | Verification des composites | draft | REQ-COMP-005 | 9 | 10 | composites/verification_composites.md |
 | DOC-COMP-006 | Solides orthotropes TET4 et TET10 | controlled | REQ-COMP-006, REQ-COMP-008 | 11 | 8 | composites/solides_orthotropes.md |
-| DOC-ELEM-000 | Elements finis disponibles | draft | REQ-SOL-001, REQ-SOL-002, REQ-SOL-003 | 0 | 0 | elements/index.md |
+| DOC-ELEM-000 | Elements | controlled | REQ-SOL-001, REQ-SOL-002, REQ-SOL-003 | 0 | 0 | elements/index.md |
 | DOC-ELEM-001 | Element solide TET4 | draft | REQ-SOL-001, REQ-MESH-001, REQ-LOAD-001 | 4 | 3 | elements/tet4.md |
 | DOC-ELEM-002 | Element solide TET10 | draft | REQ-SOL-003, REQ-MESH-001 | 1 | 2 | elements/tet10.md |
 | DOC-ELEM-003 | Element de coque MITC4 | draft | REQ-SOL-002, REQ-SOL-005, REQ-MOD-002, REQ-MESH-002 | 3 | 3 | elements/mitc4.md |
@@ -81,7 +81,7 @@
 | DOC-ELEM-MITC3-04 | MITC3+ - Matrices, masse, charges et condensation | draft | REQ-MITC3-001, REQ-MITC3-002, REQ-LOAD-001 | 0 | 2 | elements/mitc3/matrices_charges.md |
 | DOC-ELEM-MITC3-05 | MITC3+ - Post-traitement et qualite | draft | REQ-MITC3-001, REQ-MITC3-003, REQ-MESH-002 | 0 | 1 | elements/mitc3/post_traitement_qualite.md |
 | DOC-ELEM-MITC3-06 | MITC3+ - Verification, locking et limites | draft | REQ-MITC3-001, REQ-MITC3-002, REQ-MITC3-003, REQ-CMP-003 | 1 | 1 | elements/mitc3/verification_limites.md |
-| DOC-SOL-000 | Carte des methodes de resolution | draft | REQ-SOL-001, REQ-MOD-001, REQ-DYN-001, REQ-HAR-001, REQ-NL-001 | 0 | 0 | solveurs/index.md |
+| DOC-SOL-000 | Solvers and backends | controlled | REQ-SOL-001, REQ-MOD-001, REQ-DYN-001, REQ-HAR-001, REQ-NL-001 | 0 | 0 | solveurs/index.md |
 | DOC-SOL-001 | Statique lineaire et systemes creux | draft | REQ-SOL-001 | 0 | 1 | solveurs/statique_lineaire.md |
 | DOC-SOL-006 | Methodes lineaires : formulation et algorithmes | draft | REQ-SOL-001 | 1 | 1 | solveurs/methodes_lineaires.md |
 | DOC-METH-DIRECT-001 | Resolution directe creuse | controlled | REQ-SOL-001 | 1 | 2 | solveurs/lineaires/direct.md |
@@ -95,8 +95,8 @@
 | DOC-SOL-005 | Statique non lineaire | draft | REQ-NL-001 | 1 | 2 | solveurs/non_lineaire.md |
 | DOC-METH-ARCLENGTH-001 | Continuation arc-length | controlled | REQ-NL-001 | 1 | 2 | solveurs/arc_length.md |
 | DOC-SOL-009 | TET4 total lagrangien | draft | REQ-NL-001, REQ-SOL-001, REQ-CMP-003 | 4 | 6 | solveurs/total_lagrangian.md |
-| DOC-LRG-001 | Resolution des grands modeles | draft | REQ-LRG-001, REQ-LRG-002, REQ-LRG-003, REQ-LRG-004, REQ-LRG-005, REQ-LRG-006, REQ-LRG-007, REQ-LRG-008, REQ-LRG-009 | 0 | 2 | solveurs/grand_modele.md |
-| DOC-DEMO-000 | Catalogue des demonstrations executables | draft | REQ-CMP-003, REQ-CMP-004, REQ-EVD-001 | 0 | 0 | demonstrations/index.md |
+| DOC-LRG-001 | Large models | controlled | REQ-LRG-001, REQ-LRG-002, REQ-LRG-003, REQ-LRG-004, REQ-LRG-005, REQ-LRG-006, REQ-LRG-007, REQ-LRG-008, REQ-LRG-009 | 0 | 2 | solveurs/grand_modele.md |
+| DOC-DEMO-000 | Demonstrations | controlled | REQ-CMP-003, REQ-CMP-004, REQ-EVD-001 | 0 | 0 | demonstrations/index.md |
 | DOC-DEMO-001 | Demonstrations solides TET4 et TET10 | draft | REQ-SOL-001, REQ-SOL-003, REQ-LOAD-001, REQ-CMP-003 | 5 | 0 | demonstrations/solides.md |
 | DOC-DEMO-002 | Demonstrations de coque MITC4 | draft | REQ-SOL-002, REQ-CMP-003 | 2 | 0 | demonstrations/coques.md |
 | DOC-DEMO-003 | Demonstrations modales et dynamiques | draft | REQ-MOD-001, REQ-DYN-001, REQ-DYN-002 | 2 | 0 | demonstrations/dynamique.md |
@@ -113,7 +113,7 @@
 | DOC-BM-PINCHED-001 | Cylindre pince MITC4 | draft | REQ-SOL-002, REQ-CMP-003 | 1 | 1 | demonstrations/benchmarks/pinched.md |
 | DOC-BM-DYNAMIC-001 | Porte-a-faux dynamique | draft | REQ-MOD-001, REQ-DYN-001, REQ-DYN-002, REQ-HAR-001 | 1 | 1 | demonstrations/benchmarks/dynamic_cantilever.md |
 | DOC-BM-J2-001 | Barre elastoplastique J2 | draft | REQ-NL-001, REQ-CMP-003 | 2 | 3 | demonstrations/benchmarks/j2_bar.md |
-| DOC-VV-000 | Regles d'acceptation d'un calcul | draft | REQ-CMP-001, REQ-CMP-002, REQ-EVD-001 | 0 | 0 | verification/index.md |
+| DOC-VV-000 | Regles d'acceptation d'un calcul | controlled | REQ-CMP-001, REQ-CMP-002, REQ-EVD-001 | 0 | 0 | verification/index.md |
 | DOC-VNV-ELEMENT-ANALYSIS-MATRIX-001 | Matrice elements et familles d'analyse | controlled | REQ-CMP-003, REQ-MOD-001, REQ-DYN-001, REQ-HAR-001 | 1 | 1 | verification/matrice_elements_analyses.md |
 | DOC-VV-001 | Verification mecanique | draft | REQ-CMP-003, REQ-CMP-004 | 0 | 0 | verification/mecanique.md |
 | DOC-VNV-TET10-NL-J2-001 | V&V TET10 non lineaire J2 | draft | REQ-NL-001, REQ-CMP-003 | 1 | 1 | verification/tet10_nonlinear_j2.md |
@@ -152,17 +152,17 @@
 | DOC-RELEASE-V020-ALPHA-FREEZE-001 | Dossier de gel V0.2.0-alpha avant publication | controlled | REQ-REL-001, REQ-EVD-001 | 1 | 2 | verification/release_v020_alpha_freeze.md |
 | DOC-REF-001 | Interfaces CLI et API | draft | REQ-IO-001, REQ-IO-002 | 0 | 0 | reference/interfaces.md |
 | DOC-REF-GMSH-001 | Import Gmsh MSH 4.1 | draft | REQ-IO-001, REQ-MESH-001, REQ-MESH-002 | 0 | 2 | reference/import_gmsh.md |
-| DOC-REF-002 | Registre documentaire | draft | REQ-CMP-001, REQ-EVD-001 | 0 | 0 | reference/registre_documentaire.md |
-| DOC-REF-006 | References scientifiques et numeriques | draft | REQ-CMP-003, REQ-CMP-004 | 0 | 0 | reference/references.md |
+| DOC-REF-002 | Registre documentaire | controlled | REQ-CMP-001, REQ-EVD-001 | 0 | 0 | reference/registre_documentaire.md |
+| DOC-REF-006 | References scientifiques et numeriques | controlled | REQ-CMP-003, REQ-CMP-004 | 0 | 0 | reference/references.md |
 | DOC-REF-003 | Glossaire | draft | REQ-REL-001 | 0 | 0 | reference/glossaire.md |
-| DOC-REF-004 | Feuille de route | draft | REQ-CMP-002, REQ-REL-001 | 0 | 0 | reference/feuille_de_route.md |
+| DOC-REF-004 | Public roadmap | controlled | REQ-CMP-002, REQ-REL-001 | 0 | 0 | reference/feuille_de_route.md |
 | DOC-REF-005 | Conventions de resultats | draft | REQ-AUD-001, REQ-SOL-001, REQ-SOL-002 | 0 | 0 | conventions_resultats.md |
 | DOC-IO-001 | Schema JSON du solveur EF | draft | REQ-IO-001, REQ-IO-002 | 0 | 2 | schema_json.md |
 | DOC-ARCH-001 | Architecture Du Solveur EF | controlled | REQ-REL-001 | 0 | 1 | architecture.md |
 | DOC-QA-001 | Controle qualite projet | draft | REQ-REL-001 | 0 | 0 | controle_qualite.md |
 | DOC-AUD-001 | Audit de qualification industrielle du solveur EF | draft | REQ-CMP-001, REQ-CMP-002, REQ-REL-001 | 0 | 0 | audit_qualification_industrielle.md |
 | DOC-MESH-001 | Qualite de maillage | draft | REQ-MESH-001, REQ-MESH-002 | 0 | 0 | qualite_maillage.md |
-| DOC-LRG-002 | Mode grand modele | draft | REQ-LRG-001, REQ-LRG-002, REQ-LRG-003, REQ-LRG-004, REQ-LRG-005, REQ-LRG-006, REQ-LRG-007, REQ-LRG-008, REQ-LRG-009 | 0 | 2 | grand_modele.md |
+| DOC-LRG-002 | Large models pointer | superseded | REQ-LRG-001, REQ-LRG-002, REQ-LRG-003, REQ-LRG-004, REQ-LRG-005, REQ-LRG-006, REQ-LRG-007, REQ-LRG-008, REQ-LRG-009 | 0 | 2 | grand_modele.md |
 | DOC-REQ-001 | Exigences operationnelles de l'outil | draft | REQ-CMP-001, REQ-CMP-002 | 0 | 0 | tool_operational_requirements.md |
 | DOC-QUAL-001 | Matrice de qualification du solveur EF | draft | REQ-CMP-001, REQ-CMP-002, REQ-CMP-003, REQ-CMP-004 | 0 | 0 | qualification_matrix.md |
 | DOC-QUAL-002 | Plan de qualification de l'outil | draft | REQ-CMP-001, REQ-CMP-002, REQ-REL-001 | 0 | 0 | qualification_plan.md |
@@ -172,7 +172,7 @@
 | DOC-ARCH-MITC4-MIGRATION-001 | Inventaire de migration MITC4 | controlled | REQ-SOL-002, REQ-REL-001 | 0 | 2 | verification/mitc4_migration_inventory.md |
 | DOC-LEGACY-CASE-001 | Creer un cas de calcul | superseded | REQ-IO-001 | 0 | 0 | creer_cas.md |
 | DOC-LEGACY-MANUAL-001 | Manuel theorique des elements finis | superseded |  | 0 | 0 | manuel_theorique_elements_finis.md |
-| DOC-REF-API-002 | Stabilite de l'API Python | draft | REQ-REL-001 | 0 | 2 | reference/api_stability.md |
+| DOC-REF-API-002 | API stability | controlled | REQ-REL-001 | 0 | 2 | reference/api_stability.md |
 | DOC-REF-DEMO-001 | Demonstrations et API de reproductibilite | draft | REQ-DOC-001, REQ-CMP-003, REQ-EVD-001 | 2 | 2 | reference/demonstrations_api.md |
 | DOC-REF-OSS-001 | Preparation open source | controlled | REQ-REL-001 | 0 | 1 | reference/open_source.md |
 | DOC-VV-CONTENT-CLOSURE-001 | Complements de champs, convergence et correlation | ready_for_owner_review | REQ-DOC-001, REQ-CMP-003, REQ-EVD-001 | 2 | 2 | verification/contenus_techniques_complementaires.md |
@@ -275,3 +275,64 @@
 | DOC-NL-025-030 | Diagnostic externe de branche G04 QF_solver 0.2.5 alpha | controlled_candidate | REQ-NL-001, REQ-EVD-001, REQ-REL-001 | 0 | 2 | verification/0_2_5/0_2_5_g04_external_branch_diagnostic.md |
 | DOC-NL-025-034 | Revue Owner G03 QF_solver 0.2.5 alpha | approved | REQ-NL-001, REQ-EVD-001, REQ-REL-001 | 0 | 2 | verification/0_2_5/0_2_5_g03_owner_review.md |
 | DOC-NL-025-035 | Decision Owner de revision du scope QF_solver 0.2.5 alpha | approved | REQ-AUD-001, REQ-EVD-001, REQ-REL-001 | 0 | 0 | verification/0_2_5/0_2_5_owner_scope_revision.md |
+| DOC-027-001 | QF Solver 0.2.7 foundation | controlled |  | 0 | 0 | verification/0_2_7/README.md |
+| DOC-027-002 | 0.2.7 gate matrix | controlled_release |  | 0 | 0 | verification/0_2_7/0_2_7_gate_matrix.md |
+| DOC-027-003 | 0.2.7 progress tracker | controlled_release |  | 0 | 0 | verification/0_2_7/0_2_7_progress_tracker.md |
+| DOC-027-004 | 0.2.7 test policy | controlled_candidate |  | 0 | 0 | verification/0_2_7/0_2_7_test_policy.md |
+| DOC-027-005 | 0.2.7 V&V strategy | controlled_candidate |  | 0 | 0 | verification/0_2_7/0_2_7_vnv_strategy.md |
+| DOC-027-006 | 0.2.7 master plan | controlled_release |  | 0 | 0 | verification/0_2_7/0_2_7_master_plan.md |
+| DOC-027-007 | 0.2.7 external oracle preflight | controlled_candidate |  | 0 | 0 | verification/0_2_7/0_2_7_external_oracle_plan.md |
+| DOC-027-008 | 0.2.7 WEDGE6 plan | controlled_candidate |  | 0 | 0 | verification/0_2_7/0_2_7_wedge6_plan.md |
+| DOC-027-009 | 0.2.7 mesh quality and distortion contract | controlled_candidate |  | 0 | 0 | verification/0_2_7/0_2_7_mesh_quality_plan.md |
+| DOC-027-010 | 0.2.7 J2 gap closure | controlled_candidate |  | 0 | 0 | verification/0_2_7/0_2_7_j2_gap_closure.md |
+| DOC-027-011 | 0.2.7 1M-DOF plan | controlled_candidate |  | 0 | 0 | verification/0_2_7/0_2_7_1m_dof_plan.md |
+| DOC-027-012 | 0.2.7 risk register | controlled_candidate |  | 0 | 0 | verification/0_2_7/0_2_7_risk_register.md |
+| DOC-027-013 | 0.2.7 Owner decision log | controlled_candidate |  | 0 | 0 | verification/0_2_7/0_2_7_owner_decision_log.md |
+| DOC-027-014 | 0.2.7 release criteria | controlled_release |  | 0 | 0 | verification/0_2_7/0_2_7_release_criteria.md |
+| DOC-027-015 | 0.2.7 release workflow audit | controlled_candidate |  | 2 | 0 | verification/0_2_7/0_2_7_release_workflow_audit.md |
+| DOC-027-016 | 0.2.7 capability registry v2 generated view | controlled_candidate |  | 2 | 1 | verification/0_2_7/0_2_7_capability_matrix.md |
+| DOC-027-017 | 0.2.7 element descriptors and compatibility preflight | controlled_candidate | 027-REQ-004 | 2 | 1 | verification/0_2_7/0_2_7_element_descriptor_preflight.md |
+| DOC-027-018 | 0.2.7 declarative V&V harness v2 | controlled_candidate | 027-REQ-005 | 2 | 1 | verification/0_2_7/0_2_7_vnv_harness_v2.md |
+| DOC-027-019 | 0.2.7 WEDGE6 external oracle review pack | controlled_candidate | 027-REQ-006 | 4 | 1 | verification/0_2_7/0_2_7_wedge6_external_review.md |
+| DOC-027-020 | 0.2.7 mesh quality contract | controlled_candidate | 027-REQ-007 | 2 | 1 | verification/0_2_7/0_2_7_mesh_quality_contract.md |
+| DOC-027-021 | 0.2.7 WEDGE6 static vertical slice | controlled_candidate | 027-REQ-009 | 3 | 1 | verification/0_2_7/0_2_7_wedge6_static_vertical_slice.md |
+| DOC-027-022 | 0.2.7 WP11 existing J2 maturity and closure evidence | controlled_candidate | 027-REQ-012 | 3 | 1 | verification/0_2_7/0_2_7_wp11_j2_closure.md |
+| DOC-027-023 | 0.2.7 large-scale readiness evidence | controlled_candidate | 027-REQ-013 | 3 | 1 | verification/0_2_7/0_2_7_large_scale_readiness.md |
+| DOC-027-024 | 0.2.7 WP17-R PETSc environment and 1M solver remediation | controlled_candidate | 027-LU-REQ-017 | 3 | 1 | verification/0_2_7/0_2_7_wp17r_petsc_remediation.md |
+| DOC-027-WP07-FORMULATION-001 | 0.2.7 WEDGE6 formulation contract | controlled_candidate | 027-REQ-008 | 2 | 1 | verification/0_2_7/0_2_7_wedge6_formulation_contract.md |
+| DOC-027-WP07-KERNEL-001 | 0.2.7 WEDGE6 kernel evidence | controlled_candidate | 027-REQ-008 | 2 | 1 | verification/0_2_7/0_2_7_wedge6_kernel.md |
+| DOC-027-WP10-MODAL-001 | 0.2.7 WEDGE6 modal qualification evidence | controlled_candidate | 027-REQ-011 | 2 | 1 | verification/0_2_7/0_2_7_wedge6_modal.md |
+| DOC-027-WP09-EXTERNAL-001 | 0.2.7 WEDGE6 robustness and external V&V | controlled_candidate | 027-REQ-010 | 2 | 2 | verification/0_2_7/0_2_7_wedge6_robustness_external_vnv.md |
+| DOC-027-WP09-S3-CLOSEOUT-001 | 0.2.7 WP09 WEDGE6 static-linear S3 closeout | controlled_candidate | 027-REQ-010 | 3 | 3 | verification/0_2_7/0_2_7_wp09_s3_closeout.md |
+| DOC-027-WP13-001 | 0.2.7 WP13 golden numerical baseline | controlled_candidate | 027-LU-REQ-013 | 2 | 1 | verification/0_2_7/0_2_7_wp13_golden_baseline.md |
+| DOC-027-WP14-001 | 0.2.7 WP14 large-scale execution contract | controlled_candidate | 027-LU-REQ-014 | 2 | 1 | verification/0_2_7/0_2_7_wp14_large_scale_contract.md |
+| DOC-027-WP15-001 | 0.2.7 WP15 matrix-free TET4 V2 | controlled_candidate | 027-LU-REQ-015 | 2 | 1 | verification/0_2_7/0_2_7_wp15_matrix_free.md |
+| DOC-027-WP16-001 | 0.2.7 WP16 true 1M DOF qualification | controlled_candidate | 027-LU-REQ-016 | 2 | 0 | verification/0_2_7/0_2_7_wp16_1m_qualification.md |
+| DOC-027-WP17-FINAL | 0.2.7 WP17 final PETSc/MPI solver path closure | controlled_candidate | 027-LU-REQ-017 | 2 | 1 | verification/0_2_7/0_2_7_wp17_final.md |
+| DOC-027-WP17-STACK-001 | 0.2.7 WP17 large solver stack and preconditioning | controlled_candidate | 027-LU-REQ-017 | 2 | 1 | verification/0_2_7/0_2_7_wp17_solver_stack.md |
+| DOC-027-WP18-001 | 0.2.7 WP18 3M DOF ladder | controlled_candidate | 027-LU-REQ-018 | 3 | 1 | verification/0_2_7/0_2_7_wp18_3m_ladder.md |
+| DOC-027-WP19-001 | 0.2.7 WP19 adversarial robustness and HEX8 diagnostic | controlled_candidate | 027-LU-REQ-019 | 2 | 1 | verification/0_2_7/0_2_7_wp19_robustness_hex8.md |
+| DOC-027-WP20-001 | 0.2.7 WP20 residual J2 and external V&V closure | controlled_candidate | 027-LU-REQ-020 | 2 | 1 | verification/0_2_7/0_2_7_wp20_j2_closeout.md |
+| DOC-027-LU2-WP01-001 | 0.2.7 LU2-WP01 evidence and performance observatory | controlled_candidate | 027-LU2-REQ-001 | 2 | 2 | verification/0_2_7/0_2_7_wp01_observatory.md |
+| DOC-027-LU2-WP02-001 | 0.2.7 LU2-WP02 CPU/MPI/PETSc configuration freeze | controlled_candidate | 027-LU2-REQ-002 | 4 | 2 | verification/0_2_7/0_2_7_wp02_configuration_freeze.md |
+| DOC-027-LU2-WP03-001 | 0.2.7 LU2-WP03 bounded 3M Gold Compute | controlled_candidate | 027-LU2-REQ-003 | 5 | 2 | verification/0_2_7/0_2_7_wp03_3m_gold_compute.md |
+| DOC-027-LU2-WP04-001 | 0.2.7 LU2-WP04 5M Bronze forensic evidence | controlled_evidence | 027-LU2-REQ-004 | 7 | 2 | verification/0_2_7/0_2_7_wp04_5m_bronze.md |
+| DOC-027-LU2-WP04-FORENSIC-001 | 0.2.7 LU2-WP04 5M Bronze forensic audit | controlled_evidence | 027-LU2-REQ-004 | 1 | 2 | verification/0_2_7/0_2_7_wp04_forensic_audit.md |
+| DOC-027-LU2-WP08-001 | 0.2.7 LU2-WP08 mixed/new-solid/HEX8 scope decisions | controlled_evidence | 027-LU2-REQ-008 | 4 | 1 | verification/0_2_7/0_2_7_lu2_wp08_decisions.md |
+| DOC-027-LU2-WP06-001 | 0.2.7 LU2-WP06 execution, recovery and diagnostics contract | controlled_evidence | 027-LU2-REQ-006 | 2 | 3 | verification/0_2_7/0_2_7_wp06_execution_contract.md |
+| DOC-027-LU2-WP07-001 | 0.2.7 LU2-WP07 existing route maturity and targeted V&V | controlled_evidence | 027-LU2-REQ-007 | 5 | 4 | verification/0_2_7/0_2_7_lu2_wp07_maturity.md |
+| DOC-027-S1-001 | 0.2.7 S1 5M assembly telemetry setup | controlled_evidence | 027-LU2-REQ-004 | 3 | 1 | verification/0_2_7/0_2_7_s1_assembly_telemetry.md |
+| DOC-027-S3-001 | 0.2.7 S3 expanded validation matrix and release pre-gate | controlled_evidence | 027-LU-REQ-013 | 4 | 1 | verification/0_2_7/0_2_7_s3_expanded_validation.md |
+| DOC-027-F1-ARCH-001 | 0.2.7 F1 architecture audit | controlled_candidate | 027-LU-REQ-021 | 2 | 2 | verification/0_2_7/0_2_7_f1_architecture_audit.md |
+| DOC-027-F2-BUG-001 | 0.2.7 F2 bug and sensitive-zone hunt | controlled_candidate |  | 2 | 3 | verification/0_2_7/0_2_7_f2_bug_hunt.md |
+| DOC-027-F3-PUBLIC-001 | 0.2.7 F3 public claims audit | controlled_candidate |  | 2 | 2 | verification/0_2_7/0_2_7_f3_public_claim_audit.md |
+| DOC-027-F4-TEST-001 | 0.2.7 F4 unit-test quality audit | controlled_candidate |  | 2 | 3 | verification/0_2_7/0_2_7_f4_unit_test_quality_audit.md |
+| DOC-027-F5-PACKAGE-001 | 0.2.7 F5 packaging and compatibility audit | controlled_candidate |  | 2 | 3 | verification/0_2_7/0_2_7_f5_packaging_compatibility_audit.md |
+| DOC-027-F6-REGRESSION-001 | 0.2.7 F6 numerical and performance regression audit | controlled_candidate |  | 2 | 3 | verification/0_2_7/0_2_7_f6_numerical_performance_regression_audit.md |
+| DOC-027-R0-RELEASE-001 | 0.2.7 R0 release readiness | controlled_candidate |  | 2 | 3 | verification/0_2_7/0_2_7_r0_release_readiness.md |
+| DOC-ANALYSIS-000 | Analyses | controlled |  | 0 | 0 | analyses/index.md |
+| DOC-EXAMPLES-000 | Examples | controlled |  | 0 | 0 | examples/index.md |
+| DOC-START-PUB-001 | Installation | controlled |  | 0 | 0 | getting-started/installation.md |
+| DOC-START-PUB-002 | First calculation | controlled |  | 0 | 0 | getting-started/quickstart.md |
+| DOC-027-5M-CLOSEOUT | LU2 5M Bronze and Silver Closeout | controlled_candidate |  | 0 | 0 | verification/0_2_7/0_2_7_lu2_wp04_wp05_5m_closeout.md |
+| DOC-027-STEP1 | Historical 0.2.7 Step 1 release-freeze record | controlled_release |  | 0 | 0 | verification/0_2_7/0_2_7_step1_release_freeze.md |

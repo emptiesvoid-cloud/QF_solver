@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "record_type": "c3_10m_frozen_replay_summary",
+  "work_package": "C3",
+  "status": "PASS",
+  "source_sha": "eefb5387c86c27809185e12f5548b79c0070d957",
+  "workload": {
+    "dof": 10125000,
+    "elements": 19847694,
+    "element_family": "TET4",
+    "analysis": "linear_static",
+    "input_digest_sha256": "df3ce6efefde952b895f7c4e46664dc7312e99f4aedf65340cfcae52bcade6e2",
+    "geometry": "structured six-TET4 block nx=149 ny=149 nz=149"
+  },
+  "configuration": {
+    "freeze_id": "LU2-WP02-FREEZE-bfd1975b012453a3",
+    "freeze_digest_sha256": "bfd1975b012453a3b492cc79c968ceeba6ae6951a293e3ce65ddda548d8339a1",
+    "runtime_image": "qf-solver-large@sha256:d6a1718001fc36772906d1a9505637bbd0a4b7e1d8ccc9afdbcb6f67b7ff6d0e",
+    "petsc": "3.25.1",
+    "mpi": "MPICH 5.0.1",
+    "ranks": 8,
+    "partition": "contiguous",
+    "ksp": "cg",
+    "preconditioner": "gamg",
+    "matrix": "mpiaij",
+    "tolerances_unchanged": true
+  },
+  "bronze": {
+    "status": "PASS",
+    "insertion_seconds": 26.652031894016545,
+    "assemble_1_seconds": 1.3560604449594393,
+    "assemble_2_seconds": 0.028650198015384376,
+    "pc_setup_seconds": 105.54212038300466,
+    "total_seconds": 147.10031603300013,
+    "pc_ready_global": true,
+    "all_ranks_pc_ready": true,
+    "completed": true,
+    "raw_report_written": true,
+    "all_ranks_finalized": true,
+    "clean_exit": true,
+    "oom": false,
+    "petsc_mpi_error": false,
+    "rank_loss": false,
+    "telemetry_valid": true,
+    "matrix_info": {
+      "mallocs": 0.0,
+      "nz_allocated": 450781182.0,
+      "nz_used": 450781182.0,
+      "nz_unneeded": 0.0
+    },
+    "peak_rss_total_bytes_sum_of_rank_peaks": 52467200000,
+    "peak_rss_per_rank_bytes": 7021563904,
+    "evidence": {
+      "raw": "qualification/0_2_7/c3_10m_runtime/c3_10m_bronze_run1_raw.json",
+      "progress": "qualification/0_2_7/c3_10m_runtime/c3_10m_bronze_run1_progress.jsonl",
+      "rank_logs": "qualification/0_2_7/c3_10m_runtime/wp04_5m_progress.rank*.jsonl"
+    }
+  },
+  "optional_complete_solve": {
+    "attempted": true,
+    "status": "PASS",
+    "converged": true,
+    "iterations": 1571,
+    "ksp_solve_seconds": 2274.984410360048,
+    "total_seconds": 2556.137769511959,
+    "residual_norm": 6.66059244178727e-07,
+    "free_relative_residual": 1.082981394865562e-10,
+    "equilibrium_relative": 4.6458148604128296e-09,
+    "energy_relative": 1.1044034740916503e-12,
+    "finite_outputs": true,
+    "clean_exit": true,
+    "peak_rss_bytes": 6822440960,
+    "evidence": {
+      "raw": "qualification/0_2_7/c3_10m_runtime/c3_10m_solve1_raw.json",
+      "audit": "qualification/0_2_7/c3_10m_runtime/c3_10m_solve1_audit.json",
+      "summary": "qualification/0_2_7/c3_10m_runtime/c3_10m_solve1_summary.json"
+    }
+  },
+  "comparison_to_previous_run": {
+    "previous_insertion_seconds": 9539.327,
+    "current_insertion_seconds": 26.652031894016545,
+    "insertion_speedup_observed_on_this_workload_only": 357.936,
+    "previous_assemble_1": "not completed; only a lower bound is available",
+    "current_assemble_1_seconds": 1.3560604449594393,
+    "lower_bound_assemble_1_speedup": 8915.0,
+    "interpretation": "The comparison includes the validated exact structured MPIAIJ preallocation remediation; it is not a universal performance claim."
+  },
+  "claims": {
+    "bronze_claim": "A clean 10,125,000-DOF TET4 linear-static PETSc CG/GAMG readiness run was completed under the frozen 8-rank configuration.",
+    "solve_claim": "One complete 10,125,000-DOF solve passed the existing acceptance checks under the same frozen route.",
+    "excluded": ["universal 10M performance", "GPU", "multi-node", "nonlinear 10M", "mixed mesh 10M", "second 10M replay"]
+  },
+  "historical_evidence_preserved": "qualification/0_2_7/c3_10m_aij_diagnostic.json",
+  "global_progress": {
+    "before": 96,
+    "after": 96,
+    "c3_weight_percent": 0
+  }
+}

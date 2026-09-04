@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "work_package": "WP18",
+  "gate": "LUP-027-G18",
+  "status": "PASS_WITH_LIMITATIONS",
+  "start_sha": "9c0605645fa60ef0d89f3ce98ca361a677f13d1d",
+  "execution_source_sha": "9c0605645fa60ef0d89f3ce98ca361a677f13d1d",
+  "summary": "qualification/0_2_7/wp18_runtime/wp18_summary.json",
+  "bronze": "PASS",
+  "silver": "PASS",
+  "gold": "NOT_ATTEMPTED",
+  "owner_decision": "Silver meets the mandatory reproducible 3M true-FEM-DOF solve target under the unchanged WP14 contract. Bronze creates no solve claim. Gold remains an unclaimed stretch because restart/checkpoint and a distinct second physical case were not executed.",
+  "ready_for_wp19": true,
+  "limitations": [
+    "Claim is bounded to structured TET4 linear-static cases.",
+    "Claim is bounded to the pinned PETSc 3.25.1, MPICH 5.0.1, two-rank container route.",
+    "AIJ setup and approximately 10.08 GB peak RSS are material resource limitations.",
+    "No Gold restart, checkpoint or second physical case claim."
+  ],
+  "wp14_contract_changed": false,
+  "fem_formulation_changed": false,
+  "numerical_source_changed": false,
+  "full_regression_run": false,
+  "artifact_classification": "CONTROLLED_PROOF"
+}

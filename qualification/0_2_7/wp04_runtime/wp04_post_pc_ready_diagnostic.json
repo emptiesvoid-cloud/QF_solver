@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "record_type": "lu2_wp04_post_pc_ready_mpi_diagnostic",
+  "work_package": "LU2-WP04",
+  "gate": "S2",
+  "status": "PATCHED_REPLAY_REQUIRED",
+  "audit_source_sha": "da140d51e61d94e97b94cfa6363f7558d9e8c103",
+  "run_a": {
+    "status": "OWNER_TERMINATED_AFTER_DIAGNOSTIC",
+    "true_dof": 5012640,
+    "elements": 9773946,
+    "elements_processed": 9773946,
+    "insertion_progress_percent": 100.0,
+    "assembly_telemetry_log": "qualification/0_2_7/wp04_runtime/wp04_5m_progress.jsonl",
+    "assembly_telemetry_lines": 19,
+    "rhs_reached": true,
+    "pcsetup_reached": true,
+    "rank_zero_pc_ready_elapsed_s": 3269.9557232070365,
+    "rank_zero_pc_ready_scope": "LOCAL",
+    "completed_observed": false,
+    "raw_report_written": false,
+    "oom_observed": false,
+    "petsc_mpi_error_before_owner_stop": false,
+    "post_pc_ready_progress": "UNOBSERVABLE"
+  },
+  "root_cause": {
+    "classification": "PROVEN_COLLECTIVE_ORDER_MISMATCH",
+    "confidence": "HIGH",
+    "rank_zero_location": "scripts/run_lu2_wp04_bronze.py:199 before patch",
+    "non_root_location": "scripts/run_lu2_wp04_bronze.py:263 before patch",
+    "mechanism": "Rank 0 called _max_time(), which performs comm.allreduce(), inside rank-zero-only evidence construction. Non-root ranks skipped that block and entered the final comm.Barrier(). The MPI collectives therefore had incompatible ordering after the memory gather.",
+    "gather_payload": "process_memory_snapshot() dictionary; approximately 90 bytes pickled per rank in the diagnostic measurement",
+    "payload_volume_causal": false,
+    "rank_divergence_path": "PROVEN by source control flow; the live run did not provide per-rank markers, so the exact rank instruction pointer is not reconstructed."
+  },
+  "patch_contract": {
+    "per_rank_markers": [
+      "PRE_SETUP",
+      "POST_SETUP",
+      "PRE_OWNERSHIP_GATHER",
+      "POST_OWNERSHIP_GATHER",
+      "PRE_PC_READY",
+      "PC_READY",
+      "PRE_MEMORY_GATHER",
+      "POST_MEMORY_GATHER",
+      "FINALIZE_ENTER",
+      "FINALIZE_EXIT",
+      "EXCEPTION"
+    ],
+    "storage": "one append-and-flush JSONL file per rank derived from the requested telemetry path",
+    "mpi_independent_telemetry": true,
+    "global_readiness": "PC_READY and PC_READY_GLOBAL are emitted only after every rank has reported the frozen AIJ/CG/GAMG route.",
+    "collective_guardrails": "Local failures are allgathered before the next collective; rank-zero evidence and raw-report write failures are likewise synchronized.",
+    "numerical_configuration_changed": false,
+    "freeze_changed": false,
+    "workload_changed": false
+  },
+  "verification": {
+    "unit_tests": "14 passed targeted",
+    "mpi_smoke": "2-rank global-readiness and marker-path smoke passed",
+    "mpi_failure_smoke": "2-rank readiness failure propagated to both ranks and finalized cleanly",
+    "full_regression_run": false,
+    "heavy_5m_replay_run": false
+  },
+  "classification": {
+    "five_m_capacity_failure": false,
+    "resource_limited_proven": false,
+    "c1_trigger_confirmed": false,
+    "run_b_started": false,
+    "ready_for_luna_wp04_replay": true
+  },
+  "artifact_classification": "CONTROLLED_PROOF"
+}

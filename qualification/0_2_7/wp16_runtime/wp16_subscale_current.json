@@ -1,0 +1,54 @@
+{
+  "artifact_classification": "CONTROLLED_PROOF",
+  "case_id": "WP16-SUBSCALE-MATRIX-FREE-ASSEMBLED-001",
+  "contract_id": "QF-027-WP14-LARGE-EXECUTION-001",
+  "levels": [
+    {
+      "displacement_relative_error": 1.9198827875633888e-14,
+      "energy_relative_error": 6.468880225816226e-15,
+      "level": 2,
+      "operator_action_relative_error": 6.972504846220185e-16,
+      "reaction_relative_error": 1.317220114353081e-09,
+      "residual_relative": 2.7350980842300556e-09,
+      "true_dof": 81
+    },
+    {
+      "displacement_relative_error": 3.293216605256374e-14,
+      "energy_relative_error": 5.247186723740428e-15,
+      "level": 4,
+      "operator_action_relative_error": 1.9890353110335393e-15,
+      "reaction_relative_error": 1.2154268003854798e-09,
+      "residual_relative": 7.688380275079782e-09,
+      "true_dof": 375
+    },
+    {
+      "displacement_relative_error": 1.1131647288879202e-13,
+      "energy_relative_error": 1.5454376029089152e-14,
+      "level": 8,
+      "operator_action_relative_error": 5.028210260355116e-15,
+      "reaction_relative_error": 2.1586802217298373e-09,
+      "residual_relative": 8.22087585182968e-09,
+      "true_dof": 2187
+    },
+    {
+      "displacement_relative_error": 3.4490722488847274e-13,
+      "energy_relative_error": 3.358792201787632e-14,
+      "level": 16,
+      "operator_action_relative_error": 1.2497106941823295e-14,
+      "reaction_relative_error": 2.301808852175272e-09,
+      "residual_relative": 8.777062442532168e-09,
+      "true_dof": 14739
+    }
+  ],
+  "max_errors": {
+    "displacement_relative_error": 3.4490722488847274e-13,
+    "energy_relative_error": 3.358792201787632e-14,
+    "operator_action_relative_error": 1.2497106941823295e-14,
+    "reaction_relative_error": 2.301808852175272e-09,
+    "residual_relative": 8.777062442532168e-09
+  },
+  "schema_version": 1,
+  "source_sha": "15534b87387c3bd73c73971703e22bf275ffc8cc",
+  "tolerance": 1e-08,
+  "verdict": "PASS"
+}

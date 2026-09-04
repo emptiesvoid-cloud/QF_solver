@@ -1,4 +1,37 @@
-# Open Source Readiness
+# QF Solver 0.2.7 Open Source Readiness
+
+This section records the current public release-readiness state for QF Solver
+0.2.7. It is distinct from the historical snapshots below.
+
+## Current public gates
+
+- [x] Package `qf-solver`, CLI `qf-solver` and public Python API
+  `from qf_solver import ...` are documented.
+- [x] Supported baseline is Python >= 3.10.
+- [x] Source code is Apache-2.0; documentation and original examples are CC
+  BY 4.0.
+- [x] README, installation and Quick Start documentation are present.
+- [x] CONTRIBUTING, SECURITY, SUPPORT and CODE_OF_CONDUCT are present.
+- [x] Version `0.2.7` is coherent across the public release documentation and
+  package metadata.
+- [x] Wheel and sdist build and clean-install checks are controlled by CI.
+- [x] Public-source, release-archive and reachable-history audits are
+  available.
+- [x] No certification or universal physical-validation claim is made.
+
+## Release gate commands
+
+The following commands are the maintained release audits. Their output must be
+reviewed before declaring a release ready:
+
+```powershell
+python .\scripts\audit_public_release.py --output .\public_release_audit.json
+python .\scripts\audit_release_archive.py --ref HEAD --output .\release_archive_audit.json
+python .\scripts\audit_git_history.py --output .\git_history_audit.json
+python .\scripts\release_readiness.py --output .\release_readiness.json
+```
+
+## Historical readiness snapshots
 
 ## Objective
 
@@ -12,7 +45,7 @@ source code and CC BY 4.0 for documentation and original examples.
 ## Publication Gates
 
 - [x] Package name and public CLI are `qf-solver` and `qf-solver`.
-- [x] Stable public imports are exposed through `solveur.api`.
+- [x] Stable public imports are exposed through `qf_solver`.
 - [x] Installation, test and documentation commands are documented.
 - [x] CI covers supported Python versions on Windows and Linux.
 - [x] Contribution, security, support and conduct documents exist.

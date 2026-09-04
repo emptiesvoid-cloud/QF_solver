@@ -8,20 +8,17 @@ from typing import Any
 
 import numpy as np
 
-from solveur.elements.shell.mitc4 import MITC4Element, ShellMaterial
-
 from solveur.core.dofs import normalize_dof_name
 from solveur.core.model import FiniteElementModel
 from solveur.elements.registry import ElementRegistry
-from solveur.elements.shell.mitc3 import Mitc3ShellElement
 from solveur.elements.shell.frames import director_frame, rotation_subspace_is_invariant
-from solveur.elements.solid.tet10 import Tet10Element
 from solveur.loads.entities import BodyLoad, EdgeLoad, GravityLoad, LineLoad, SurfaceLoad
 from solveur.materials.factory import MaterialFactory
 from solveur.mesh.constraint_validation import multipoint_constraint_errors
 from solveur.mesh.contact_validation import frictionless_contact_errors
 from solveur.mesh.quality import MeshQuality, MeshQualityThresholds
-from solveur.mesh.solid_validation import geometry_error, maximum_surface_face, quality_details
+from solveur.mesh.quality_contract import INVALID as QUALITY_INVALID, VALID_WITH_WARNING as QUALITY_WARNING
+from solveur.mesh.solid_validation import maximum_surface_face, quality_details
 from solveur.mesh.topology import MITC3_EDGES, MITC4_EDGES
 from solveur.mesh.validation_helpers import (
     distributed_element_indices as _distributed_element_indices,
@@ -32,6 +29,7 @@ from solveur.mesh.validation_helpers import (
     shell_node_directors as _shell_node_directors,
     valid_element_index as _valid_element_index,
 )
+from solveur.mesh.validation_geometry import check_element_geometry as _check_element_geometry_impl
 
 
 @dataclass(frozen=True)
@@ -187,6 +185,13 @@ class MeshValidator:
                 length = float(np.linalg.norm(coords[1] - coords[0]))
                 entry = {"index": index, "type": element.type, "length": length}
                 local_warnings = []
+            elif element.type == "WEDGE6":
+                solid_details = quality_details(index, element.type, coords)
+                if solid_details is None:
+                    entry = {"index": index, "type": element.type}
+                    local_warnings = []
+                else:
+                    entry, local_warnings = solid_details
             else:
                 solid_details = quality_details(index, element.type, coords)
                 if solid_details is None:
@@ -206,6 +211,10 @@ class MeshValidator:
                 entry["signed_volume"] <= self.thresholds.tet_min_signed_volume or invalid_tet10_jacobian
             ):
                 entry["quality_status"] = "FAIL"
+            elif element.type == "WEDGE6" and entry.get("quality_classification") == QUALITY_INVALID:
+                entry["quality_status"] = "FAIL"
+            elif element.type == "WEDGE6" and entry.get("quality_classification") == QUALITY_WARNING:
+                entry["quality_status"] = "WARNING"
             else:
                 entry["quality_status"] = "WARNING" if local_warnings else "PASS"
             entry["quality_warnings"] = local_warnings
@@ -406,7 +415,7 @@ class MeshValidator:
                         )
             return
         for index, element in enumerate(model.elements):
-            if element.type not in {"TET4", "TET10", "HEX8", "HEX20", "MITC3", "MITC4", "BEAM2"}:
+            if element.type not in {"TET4", "TET10", "HEX8", "HEX20", "WEDGE6", "MITC3", "MITC4", "BEAM2"}:
                 errors.append(f"Element {index}: dynamic mass is not implemented for {element.type}.")
                 continue
             material = model.materials.get(element.material, {})
@@ -662,39 +671,4 @@ class MeshValidator:
         errors: list[str],
         warnings: list[str],
     ) -> None:
-        if element_type in {"TET4", "TET10"}:
-            volume = MeshQuality.tet4_volume(coords)
-            if volume <= self.thresholds.tet_min_signed_volume:
-                errors.append(f"Element {index}: invalid {element_type} signed corner volume {volume:.6e}.")
-                return
-            if element_type == "TET10":
-                minimum = float(np.min(Tet10Element.jacobian_determinants(coords)))
-                if minimum <= self.thresholds.tet10_min_sampled_jacobian:
-                    errors.append(
-                        f"Element {index}: invalid TET10 sampled Jacobian {minimum:.6e}; "
-                        "the curved mapping is inverted or degenerate."
-                    )
-        else:
-            error = geometry_error(index, element_type, coords)
-            if error is not None:
-                errors.append(error)
-            if element_type in {"HEX8", "HEX20"}:
-                return
-        if element_type == "MITC4":
-            material = ShellMaterial(E=1.0, nu=0.3, t=1.0)
-            element = MITC4Element(material)
-            try:
-                _, coords_2d = element.project_to_local_midplane(coords)
-                element._check_jacobian(coords_2d)
-            except ValueError as exc:
-                errors.append(f"Element {index}: invalid MITC4 geometry: {exc}")
-        elif element_type == "MITC3":
-            material = ShellMaterial(E=1.0, nu=0.3, t=1.0)
-            try:
-                Mitc3ShellElement(material).project_to_local_midplane(coords)
-            except ValueError as exc:
-                errors.append(f"Element {index}: invalid MITC3 geometry: {exc}")
-        elif element_type == "BEAM2":
-            length = float(np.linalg.norm(coords[1] - coords[0]))
-            if not np.isfinite(length) or length <= 1.0e-14:
-                errors.append(f"Element {index}: invalid BEAM2 length {length:.6e}.")
+        _check_element_geometry_impl(self.thresholds, index, element_type, coords, errors, warnings)

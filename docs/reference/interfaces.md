@@ -2,12 +2,17 @@
 doc_id: DOC-REF-001
 revision: 0.1
 status: draft technique
-applicable_version: 0.2.5a0
+applicable_version: 0.2.7
 reviewer: ""
 approver: ""
 ---
 
-# Interfaces CLI et API
+# Interfaces CLI et API publiques
+
+Cette page decrit les interfaces disponibles dans la release 0.2.7.
+La stabilite d'une API ou la compatibilite d'un import ne constitue pas une
+qualification mecanique : les claims restent gouvernes par le registry v2 et
+les preuves de verification 0.2.7.
 
 ## Commandes principales
 
@@ -32,8 +37,12 @@ profil, le scope, chaque commande executee et son code de retour. Le rapport
 est ecrit egalement si une commande echoue, afin de rendre la campagne
 rejouable et auditable hors du flux console.
 
-La forme portable est `python -m solveur.cli.main`. Les anciens noms
-`solveur-ef` et `main_solveur.py` ne sont que des alias deprecies jusqu'a
+La forme module `python -m solveur.cli.main` est portable apres installation
+du package, ou depuis ce checkout avec `PYTHONPATH=src`. Depuis un checkout
+source sans installation, utiliser `python qf_solver.py` afin d'identifier
+explicitement le code local. Aucune de ces formes ne garantit l'isolation
+d'un autre checkout deja present dans l'environnement Python. Les anciens
+noms `solveur-ef` et `main_solveur.py` ne sont que des alias deprecies jusqu'a
 0.3.0 et ecrivent un avertissement sur `stderr`.
 
 Codes de sortie:

@@ -20,10 +20,19 @@ from solveur.elements.solid.hex20 import Hex20Element
 from solveur.elements.solid.quadrature import tetra_duffy_rule, triangle_duffy_rule, triangle_shape_functions
 from solveur.elements.solid.tet4 import Tet4Element
 from solveur.elements.solid.tet10 import Tet10Element
+from solveur.elements.solid.wedge6 import Wedge6Element
 from solveur.loads.entities import BodyLoad, DistributedLoad, EdgeLoad, GravityLoad, LineLoad, SurfaceLoad
 from solveur.materials.factory import MaterialFactory
 from solveur.materials.laminate import LaminateShellMaterial
-from solveur.mesh.topology import HEX8_FACES, HEX20_FACES, MITC3_EDGES, MITC4_EDGES, TET10_FACES, TET4_FACES
+from solveur.mesh.topology import (
+    HEX8_FACES,
+    HEX20_FACES,
+    MITC3_EDGES,
+    MITC4_EDGES,
+    TET10_FACES,
+    TET4_FACES,
+    WEDGE6_FACES,
+)
 
 @dataclass(frozen=True)
 class IntegratedLoad:
@@ -139,6 +148,8 @@ class DistributedLoadIntegrator:
             return _hex8_body_vector(coords, force_density)
         if definition.type == "HEX20":
             return _hex20_body_vector(coords, force_density)
+        if definition.type == "WEDGE6":
+            return _wedge6_body_vector(coords, force_density)
         if definition.type == "MITC4" and isinstance(material, (ShellMaterial, LaminateShellMaterial)):
             return _mitc4_surface_vector(coords, force_density * material.t, pressure=None)
         if definition.type == "MITC3" and isinstance(material, (ShellMaterial, LaminateShellMaterial)):
@@ -159,6 +170,8 @@ class DistributedLoadIntegrator:
             return _solid_face_vector(coords, HEX8_FACES[int(load.face)], traction, pressure, load.coordinate_system)
         if definition.type == "HEX20":
             return _solid_face_vector(coords, HEX20_FACES[int(load.face)], traction, pressure, load.coordinate_system)
+        if definition.type == "WEDGE6":
+            return _solid_face_vector(coords, WEDGE6_FACES[int(load.face)], traction, pressure, load.coordinate_system)
         if definition.type == "MITC4":
             if traction is not None and load.coordinate_system == "local":
                 traction = MITC4Element.local_frame(coords).T @ traction
@@ -313,6 +326,15 @@ def _hex20_body_vector(coords: np.ndarray, force_density: np.ndarray) -> np.ndar
         determinant = Hex20Element.jacobian_determinant(coords, point)
         if determinant <= 1.0e-14:
             raise InputValidationError(f"Invalid HEX20 Jacobian {determinant:.6e} during body load integration.")
+        for node, value in enumerate(shape):
+            local[3 * node : 3 * node + 3] += weight * determinant * value * force_density
+    return local
+
+
+def _wedge6_body_vector(coords: np.ndarray, force_density: np.ndarray) -> np.ndarray:
+    local = np.zeros(18, dtype=float)
+    for point, weight, _, determinant in Wedge6Element.integration_data(coords):
+        shape = Wedge6Element.shape_functions(point)
         for node, value in enumerate(shape):
             local[3 * node : 3 * node + 3] += weight * determinant * value * force_density
     return local

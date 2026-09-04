@@ -1,0 +1,26 @@
+# coding=utf-8
+from code_aster.Commands import *
+
+DEBUT(CODE="OUI", ERREUR=_F(ALARME="EXCEPTION"))
+mesh = LIRE_MAILLAGE(FORMAT="ASTER", UNITE=20)
+model = AFFE_MODELE(
+    MAILLAGE=mesh,
+    AFFE=_F(GROUP_MA="SOLID", PHENOMENE="MECANIQUE", MODELISATION="3D"),
+)
+material = DEFI_MATERIAU(ELAS=_F(E=210000.0, NU=0.3))
+field = AFFE_MATERIAU(MAILLAGE=mesh, AFFE=_F(GROUP_MA="SOLID", MATER=material))
+boundary = AFFE_CHAR_MECA(
+    MODELE=model,
+    DDL_IMPO=_F(GROUP_NO="FIXED", DX=0.0, DY=0.0, DZ=0.0),
+)
+force = AFFE_CHAR_MECA(
+    MODELE=model,
+    FORCE_NODALE=_F(GROUP_NO="LOAD", FZ=1.0),
+)
+static = MECA_STATIQUE(
+    MODELE=model,
+    CHAM_MATER=field,
+    EXCIT=(_F(CHARGE=boundary), _F(CHARGE=force)),
+)
+IMPR_RESU(RESU=_F(MAILLAGE=mesh, RESULTAT=static, NOM_CHAM="DEPL"), FORMAT="MED")
+FIN()

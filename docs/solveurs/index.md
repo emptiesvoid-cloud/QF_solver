@@ -1,28 +1,37 @@
 ---
 doc_id: DOC-SOL-000
-revision: 0.1
-status: draft technique
-applicable_version: 0.2.0
+revision: 1.0
+status: controlled
+applicable_version: 0.2.7
 reviewer: ""
 approver: ""
 ---
 
-# Carte des methodes de resolution
+# Solvers and backends
 
-| Analyse | Equation | Methodes disponibles | Maturite |
-| --- | --- | --- | --- |
-| Statique lineaire | $\mathbf Ku=\mathbf f$ | direct, CG, GMRES, BiCGSTAB, MINRES | stable sur TET4/MITC4 bornes |
-| Modale | $\mathbf K\phi=\lambda\mathbf M\phi$ | `eigsh`, `lanczos`, `eigh` | renforcee |
-| Dynamique | $\mathbf M\ddot u+\mathbf C\dot u+\mathbf Ku=f(t)$ | Newmark implicite | renforcee |
-| Harmonique | $(\mathbf K-\omega^2\mathbf M+i\omega\mathbf C)\hat u=\hat f$ | direct par frequence | renforcee |
-| Non-lineaire | $\mathbf r(\mathbf u,\lambda)=0$ | Newton, modifie, line-search, arc-length | experimentale |
-| Grand modele | $\mathbf Ku=\mathbf f$ | SciPy chunked, PETSc, matrix-free structure | experimentale |
+The route and element combination determine which backend is appropriate.
+Method names alone are not convergence guarantees; inspect the residual,
+conditioning and final diagnostics for every calculation.
 
-Le nom d'une methode n'est pas une garantie de convergence. Les proprietes de
-la matrice, le conditionnement, la tolerance, le preconditionneur et les
-residus finaux doivent etre examines ensemble.
+| Analysis | Public status | Available methods or backend |
+| --- | --- | --- |
+| Linear static | `QUALIFIED_BOUNDED` | Direct and iterative sparse routes within the element matrix. |
+| Modal | `SUPPORTED_WITH_LIMITATIONS` | Sparse eigenvalue routes for the recorded bounded cases. |
+| Newmark / harmonic | `SUPPORTED_WITH_LIMITATIONS` | Controlled linear routes with documented mass and damping assumptions. |
+| Linear buckling | `SUPPORTED_WITH_LIMITATIONS` | Bounded sparse tangent-instability cases. |
+| Nonlinear and contact | `EXPERIMENTAL` or bounded | Newton, load-control, Arc-Length and contact paths remain route-specific. |
+| Large model | `SUPPORTED_WITH_LIMITATIONS` | PETSc/MPI for recorded structured TET4 workloads; SciPy is for small or intermediate cases. |
 
-La [formulation des methodes lineaires](methodes_lineaires.md) explique la
-reduction par Dirichlet, le preconditionnement, CG, MINRES, GMRES et BiCGSTAB.
+## Optional PETSc/MPI route
 
---8<-- "docs/generated/solver_matrix.md"
+PETSc and MPI are optional integrations. The large-model route uses a
+distributed AIJ matrix with structured diagonal/off-diagonal preallocation on
+the recorded qualification path. Its 1M, 3M, 5M and bounded 10M results apply
+only to the declared workloads, host and configuration. They are not a general
+HPC or GPU claim.
+
+## Public API
+
+New applications should import from `qf_solver` and use the documented CLI
+`qf-solver`. The compatibility namespace `solveur` and legacy entry points are
+retained for existing integrations; see the [API stability contract](../reference/api_stability.md).

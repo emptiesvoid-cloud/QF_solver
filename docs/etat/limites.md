@@ -1,58 +1,36 @@
 ---
 doc_id: DOC-STATE-003
-revision: 0.4
-status: draft
-applicable_version: 0.2.5a0
+revision: 1.0
+status: controlled
+applicable_version: 0.2.7
 reviewer: ""
 approver: ""
 ---
 
-# Limites connues
+# Known limitations
 
-## Limites de la release 0.2.5a0
+Every result is bounded by the element family, formulation, mesh quality,
+loading, boundary conditions, material model and solver route used to produce
+it.
 
-- Les claims sont bornes par famille d'elements, formulation, maillage,
-  chargement, historique et domaine de deformation effectivement preuves.
-- Le J2 qualifie est le modele small-strain existant. Il ne couvre pas une
-  plasticite finite-strain generale, un ecrouissage anisotrope ou une
-  validation physique universelle.
-- G02 qualifie l'elasticite Total-Lagrangian TET4/HEX8 dans le domaine
-  pre-limite teste avec `det(F) > 0`. TET10/HEX20 finite-kinematic et J2
-  finite-kinematic restent experimentaux.
-- G03 qualifie un premier seuil d'instabilite tangentielle sparse dans le
-  domaine mesure. Ce n'est pas une prediction generale de ruine,
-  post-flambement ou sensiblite aux imperfections.
-- G05 est borne au contact sans frottement noeud/patch vers surface
-  triangulee, avec la recherche et les transitions documentees. Il ne s'agit
-  pas d'une formulation mortar, segment-a-segment, auto-contact ou impact.
-- L'arc-length FEM complet, les chemins J2 finite-kinematic et les couplages
-  non lineaires restent `EXPERIMENTAL / NOT QUALIFIED` ou `DEFERRED`.
-- Le contact avec frottement est `NOT IN RELEASE SCOPE`; la friction n'est pas
-  une capacite de production de cette alpha.
-- Les comparaisons Code_Aster et CalculiX sont des correlations numeriques
-  bornees. Elles ne constituent pas une certification logicielle ou physique.
-- Aucune revendication nouvelle de solveur non lineaire a plusieurs millions
-  de DDL n'est faite. PETSc/SLEPc restent optionnels et non obligatoires.
+- WEDGE6 static is experimental. WEDGE15 and PYRAMID5 are not supported.
+- Mixed TET/WEDGE/HEX end-to-end workflows are not qualified.
+- HEX8R, SRI, B-bar and hourglass-control production paths are deferred or
+  research-only.
+- Finite-kinematic J2 remains experimental and is not a production claim.
+- General nonlinear, contact-with-friction and finite-sliding routes remain
+  experimental, bounded or outside the qualified scope.
+- 5M Gold and deeper 10M scaling analysis are deferred. The 10M result is a
+  bounded C3 capacity/solve observation, not a universal scaling claim.
+- Optional PETSc/MPI and SLEPc routes require their external runtimes. Their
+  absence must be reported explicitly and does not invalidate core import.
+- Code_Aster comparisons are limited to comparable recorded cases. CalculiX
+  results are `NOT_COMPARABLE` where conventions, integration or observables
+  do not match strictly.
+- macOS and some declared Python versions are not directly verified locally;
+  they are not claimed as tested without CI or reproducible evidence.
+- No certification, universal physical validation, industrial equivalence or
+  hardware-independent performance claim is made.
 
-## Limites numeriques
-
-- Le conditionnement, le preconditionneur et la disponibilite des backends
-  influencent les solveurs iteratifs.
-- Les chemins sparse sont privilegies, mais certains post-traitements et
-  configurations modales peuvent encore consommer une memoire importante.
-- Les performances publiees sont des mesures de caracterisation sur les
-  configurations tracees, pas des garanties de scaling universel.
-- Les methodes non lineaires hors scope qualifie doivent faire l'objet d'une
-  revue du modele, des residus, de la convergence et des etats internes.
-
-## Limites de preuve
-
-Les preuves controllees sont rattachees a un SHA source, a un environnement et
-a des empreintes d'artefacts. Une modification du code numerique ou d'une
-donnee de qualification impose une nouvelle campagne pour les preuves
-affectees. Les artefacts generes apres checkout sont des sorties derivees et
-ne doivent pas etre edites manuellement.
-
-La roadmap post-release est volontairement prudente : `0.2.6` vise la maturite,
-la V&V, la robustesse et la scalabilite ; `0.2.7` est le candidat pour une
-formulation J2 finite-strain et la requalification G06.
+For exact boundaries, use the [active capability matrix](../verification/0_2_7/0_2_7_capability_matrix.md)
+and the [0.2.7 evidence summary](../verification/0_2_7/README.md).

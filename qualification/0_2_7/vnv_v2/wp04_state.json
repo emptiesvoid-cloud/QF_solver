@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "work_package": "WP04",
+  "gate": "027-G04",
+  "status": "PASS",
+  "start_sha": "684c39c72191d43c53e1f21043dc746d213a561d",
+  "evidence_head": "2ee1cf54f3076427b32870e4ca98035431dfa654",
+  "scope": "additive declarative V&V harness and representative migration samples",
+  "case_schema": "src/solveur/verification/v2/schema.py",
+  "runner": "src/solveur/verification/v2/runner.py",
+  "case_catalog": "qualification/0_2_7/vnv_v2/sample_cases.json",
+  "oracle_types": ["ANALYTICAL", "INTERNAL_INVARIANT", "CROSS_ELEMENT", "EXTERNAL_SOLVER", "REFERENCE_DATA", "FAILURE_EXPECTATION"],
+  "verdicts": ["PASS", "FAIL", "SKIPPED_EXTERNAL_UNAVAILABLE", "RESOURCE_LIMITED", "EXPECTED_FAILURE_PASS", "INVALID_EVIDENCE"],
+  "migrated_samples": [
+    "WP04-STATIC-TET4-ANALYTICAL",
+    "WP04-MODAL-TET4-INVARIANT",
+    "WP04-PREFLIGHT-UNKNOWN-ELEMENT"
+  ],
+  "historical_runners_preserved": true,
+  "wedge6_implemented": false,
+  "numerical_source_changed": false,
+  "numerical_results_changed": false,
+  "full_regression_run": false,
+  "targeted_tests": "PASS",
+  "artifact_classification": "CONTROLLED_PROOF"
+}

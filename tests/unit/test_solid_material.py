@@ -14,7 +14,10 @@ def test_solid_material_elasticity_matrix_is_symmetric():
 
 def test_solid_material_reuses_elasticity_matrix():
     material = SolidMaterial(E=210.0e9, nu=0.3)
-    assert material.elasticity_matrix is material.elasticity_matrix
+    first = material.elasticity_matrix
+    second = material.elasticity_matrix
+    assert first is second
+    assert first.shape == (6, 6)
 
 
 def test_solid_material_rejects_invalid_values():

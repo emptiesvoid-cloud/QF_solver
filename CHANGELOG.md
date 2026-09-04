@@ -1,11 +1,38 @@
 # Changelog
 
-## 0.2.6a0 - Unreleased
+## 0.2.7 - 2026-09-04
 
-This development cycle starts the V&V, maturity and architecture foundation.
-It adds no new FEM physics or qualified numerical capability: the work is
-limited to controlled registries, safe evidence execution, provenance guards,
-baseline snapshots, audit documentation and planned gate work.
+QF Solver 0.2.7 freezes the reproducible large-model solving and numerical
+trust work from the 0.2.7 qualification campaign. The release includes the matured TET/HEX
+routes and bounded J2 small-strain evidence, while WEDGE6 static remains
+experimental and WEDGE6 modal remains qualified only in its declared bounded
+scope. Static/modal routes, MPI collective ordering, structured PETSc MPIAIJ
+preallocation and deterministic replay evidence were retained and audited.
+
+The controlled plan and evidence index are available in
+[`docs/verification/0_2_7/README.md`](docs/verification/0_2_7/README.md).
+The 1M, 3M and 5M results are bounded to their declared structured
+TET4/PETSc/MPI workloads. The 10M C3 result is retained as bounded
+`PASS_WITH_LIMITATIONS` evidence; no universal performance, hardware,
+nonlinear, mixed-mesh or GPU claim is implied.
+
+Validation includes expanded validation, bounded Code_Aster comparisons and
+architecture, testing, packaging and numerical regression audits. CalculiX remains `NOT_COMPARABLE` for the affected
+WEDGE6 comparison. Wheel/sdist, clean-install, API and CLI checks passed.
+
+Known limitations include deferred 5M Gold and deeper 10M scaling analysis,
+mixed meshes, WEDGE15, PYRAMID5, production HEX8R/SRI/B-bar, finite-kinematic
+J2, general dynamics/contact claims, experimental nonlinear/finite-sliding
+routes, partially verified macOS/Python compatibility and optional HPC paths.
+The package is frozen at tag `v0.2.7`; PyPI publication is intentionally
+separate from this step.
+
+## 0.2.6a0 - Released
+
+The 0.2.6a0 tagged source baseline records the V&V, maturity and architecture
+foundation. The tagged source release is `v0.2.6a0`; the published package is
+`qf-solver==0.2.6a0`. Its gate decisions and qualification evidence remain
+historical for the 0.2.6 release and are not 0.2.7 execution evidence.
 
 ## 0.2.5a0 — 2026-08-28
 

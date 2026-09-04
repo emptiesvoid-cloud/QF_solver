@@ -1,0 +1,2645 @@
+{
+  "schema_version": 2,
+  "registry_id": "QF-SOLVER-CAPABILITY-REGISTRY-V2",
+  "source_of_truth": true,
+  "applicable_version": "0.2.7",
+  "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+  "public_capability_ids": [
+    "ELE-BEAM2",
+    "ELE-MITC3",
+    "ELE-MITC4",
+    "ELE-TET4",
+    "ELE-TET10",
+    "ELE-HEX8",
+    "ELE-HEX20",
+    "ELE-DISCRETE",
+    "INF-RBE-CONSTRAINTS",
+    "ANA-STATIC",
+    "ANA-MODAL",
+    "ANA-NEWMARK",
+    "ANA-HARMONIC",
+    "ANA-BUCKLING",
+    "ANA-NONLINEAR-LOAD",
+    "ANA-GEOMETRIC-NONLINEAR",
+    "ANA-ARC-LENGTH",
+    "MAT-ELASTIC",
+    "MAT-ORTHOTROPIC-LAMINATE",
+    "MAT-J2-SMALL",
+    "MAT-TL-ELASTIC",
+    "MAT-FINITE-J2",
+    "MAT-COUPLED-NL",
+    "CON-FRICTIONLESS",
+    "CON-FRICTION",
+    "INF-MESH-GMSH",
+    "INF-LOADS-BC",
+    "INF-POST",
+    "INF-SPARSE-SCIPY",
+    "INF-PETSC-SLEPC",
+    "INF-DIAGNOSTICS-FAILURES",
+    "INF-PERF-SCALING",
+    "INF-EXTERNAL-CORRELATION"
+  ],
+  "combination_record_ids": [
+    "COMB-BEAM2-linear_static",
+    "COMB-BEAM2-modal",
+    "COMB-BEAM2-newmark_transient",
+    "COMB-BEAM2-harmonic",
+    "COMB-MITC3-linear_static",
+    "COMB-MITC3-modal",
+    "COMB-MITC3-newmark_transient",
+    "COMB-MITC3-harmonic",
+    "COMB-MITC4-linear_static",
+    "COMB-MITC4-modal",
+    "COMB-MITC4-newmark_transient",
+    "COMB-MITC4-harmonic",
+    "COMB-TET4-linear_static",
+    "COMB-TET4-modal",
+    "COMB-TET4-newmark_transient",
+    "COMB-TET4-harmonic",
+    "COMB-TET4-linear_buckling",
+    "COMB-TET4-nonlinear_load_control",
+    "COMB-TET10-linear_static",
+    "COMB-TET10-modal",
+    "COMB-TET10-newmark_transient",
+    "COMB-TET10-harmonic",
+    "COMB-TET10-linear_buckling",
+    "COMB-TET10-nonlinear_load_control",
+    "COMB-HEX8-linear_static",
+    "COMB-HEX8-modal",
+    "COMB-HEX8-newmark_transient",
+    "COMB-HEX8-harmonic",
+    "COMB-HEX8-linear_buckling",
+    "COMB-HEX8-nonlinear_load_control",
+    "COMB-HEX20-linear_static",
+    "COMB-HEX20-modal",
+    "COMB-HEX20-newmark_transient",
+    "COMB-HEX20-harmonic",
+    "COMB-HEX20-linear_buckling",
+    "COMB-HEX20-nonlinear_load_control",
+    "COMB-TET4-geometric_nonlinear_static",
+    "COMB-TET10-geometric_nonlinear_static",
+    "COMB-HEX8-geometric_nonlinear_static",
+    "COMB-HEX20-geometric_nonlinear_static",
+    "COMB-DISCRETE-linear_static",
+    "COMB-DISCRETE-modal",
+    "COMB-DISCRETE-newmark_transient",
+    "COMB-DISCRETE-harmonic",
+    "COMB-WEDGE6-linear_static",
+    "COMB-WEDGE6-modal"
+  ],
+  "migration": {
+    "from_registry": "qualification/capability_registry.json",
+    "from_schema_version": 1,
+    "source_public_capability_count": 33,
+    "migrated_capability_count": 33,
+    "combination_record_count": 46,
+    "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+    "g14_guardrail_source": "qualification/0_2_6/g14_capability_coverage.json"
+  },
+  "vocabulary": {
+    "SUPPORTED": "implementation path declared",
+    "TESTED": "case executed",
+    "VERIFIED": "quantitative check or invariant recorded",
+    "QUALIFIED_BOUNDED": "Owner-controlled qualification within declared scope",
+    "EXPERIMENTAL": "available or exercised without bounded qualification",
+    "NOT_QUALIFIED": "explicitly outside qualified scope",
+    "SUPERSEDED": "retained only for historical traceability"
+  },
+  "policy": {
+    "presence_is_not_maturity": true,
+    "supported_is_not_verified": true,
+    "verified_is_not_qualified": true,
+    "qualified_requires_evidence_refs": true,
+    "aggregate_migration_is_not_new_evidence": true,
+    "generated_views_are_not_source_records": true
+  },
+  "records": [
+    {
+      "capability_id": "ELE-BEAM2",
+      "record_kind": "capability_anchor",
+      "element_family": "BEAM2",
+      "analysis": "static/modal/Newmark/harmonic",
+      "material_model": "beam_isotropic",
+      "formulation_or_route": "legacy_aggregate_scope",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "0.2.5 regression evidence",
+        "0.2.6 case registry: shell_beam_discrete",
+        "0.2.6 G05 final evidence"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "G05 modal/dynamic/harmonic coverage is bounded; other BEAM2 scopes remain governed by their own gates.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-BEAM2"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-BEAM2",
+        "legacy_maturity": "EXPERIMENTAL",
+        "legacy_status": "PRESENT_REQUALIFICATION_PENDING",
+        "legacy_gate_or_wp": "026-G04/G05",
+        "source_registry": "qualification/capability_registry.json",
+        "migration_note": "Traceability anchor; aggregate legacy scope is not new combination evidence."
+      }
+    },
+    {
+      "capability_id": "ELE-MITC3",
+      "record_kind": "capability_anchor",
+      "element_family": "MITC3",
+      "analysis": "static/modal/Newmark/harmonic",
+      "material_model": "shell_isotropic/shell_laminate",
+      "formulation_or_route": "legacy_aggregate_scope",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "0.2.6 READY shell modal/dynamic/harmonic cases",
+        "0.2.6 G05 final evidence"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "G05 is PASS_WITH_LIMITATIONS; no comparable independent external deck is recorded for MITC3.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-MITC3"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-MITC3",
+        "legacy_maturity": "EXPERIMENTAL",
+        "legacy_status": "PRESENT_REQUALIFICATION_PENDING",
+        "legacy_gate_or_wp": "026-G04/G05",
+        "source_registry": "qualification/capability_registry.json",
+        "migration_note": "Traceability anchor; aggregate legacy scope is not new combination evidence."
+      }
+    },
+    {
+      "capability_id": "ELE-MITC4",
+      "record_kind": "capability_anchor",
+      "element_family": "MITC4",
+      "analysis": "static/modal/Newmark/harmonic",
+      "material_model": "shell_isotropic/shell_laminate",
+      "formulation_or_route": "legacy_aggregate_scope",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "0.2.6 READY shell modal/dynamic/harmonic cases",
+        "0.2.6 G05 final evidence"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "G05 is PASS_WITH_LIMITATIONS; no comparable independent external deck is recorded for MITC4.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-MITC4"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-MITC4",
+        "legacy_maturity": "EXPERIMENTAL",
+        "legacy_status": "PRESENT_REQUALIFICATION_PENDING",
+        "legacy_gate_or_wp": "026-G04/G05",
+        "source_registry": "qualification/capability_registry.json",
+        "migration_note": "Traceability anchor; aggregate legacy scope is not new combination evidence."
+      }
+    },
+    {
+      "capability_id": "ELE-TET4",
+      "record_kind": "capability_anchor",
+      "element_family": "TET4",
+      "analysis": "static/modal/Newmark/harmonic/buckling/nonlinear",
+      "material_model": "solid_elastic/J2/TL",
+      "formulation_or_route": "legacy_aggregate_scope",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "QUALIFIED_BOUNDED",
+      "evidence_refs": [
+        "0.2.5 owner evidence",
+        "0.2.6 G05-B TET4 cases",
+        "0.2.6 G05 final evidence"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "G05 is PASS_WITH_LIMITATIONS; external coverage is bounded and other analysis scopes remain separately governed.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-TET4"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-TET4",
+        "legacy_maturity": "QUALIFIED_BOUNDED",
+        "legacy_status": "PRESENT_REQUALIFICATION_PENDING",
+        "legacy_gate_or_wp": "026-G04/G05/G06/G07/G08",
+        "source_registry": "qualification/capability_registry.json",
+        "migration_note": "Traceability anchor; aggregate legacy scope is not new combination evidence."
+      }
+    },
+    {
+      "capability_id": "ELE-TET10",
+      "record_kind": "capability_anchor",
+      "element_family": "TET10",
+      "analysis": "static/modal/Newmark/harmonic/buckling/nonlinear",
+      "material_model": "solid_elastic/J2/TL",
+      "formulation_or_route": "legacy_aggregate_scope",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "QUALIFIED_BOUNDED",
+      "evidence_refs": [
+        "0.2.5 J2 bounded evidence",
+        "historical modal/dynamic tests",
+        "0.2.6 G05 final evidence"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-TET10"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-TET10",
+        "legacy_maturity": "QUALIFIED_BOUNDED",
+        "legacy_status": "PRESENT_REQUALIFICATION_PENDING",
+        "legacy_gate_or_wp": "026-G04/G05/G06/G07/G08",
+        "source_registry": "qualification/capability_registry.json",
+        "migration_note": "Traceability anchor; aggregate legacy scope is not new combination evidence."
+      }
+    },
+    {
+      "capability_id": "ELE-HEX8",
+      "record_kind": "capability_anchor",
+      "element_family": "HEX8",
+      "analysis": "static/modal/Newmark/harmonic/buckling/nonlinear",
+      "material_model": "solid_elastic/J2/TL",
+      "formulation_or_route": "legacy_aggregate_scope",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "QUALIFIED_BOUNDED",
+      "evidence_refs": [
+        "0.2.5 HEX8 evidence",
+        "0.2.6 G05 final evidence"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-HEX8"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-HEX8",
+        "legacy_maturity": "QUALIFIED_BOUNDED",
+        "legacy_status": "PRESENT_REQUALIFICATION_PENDING",
+        "legacy_gate_or_wp": "026-G04/G05/G06/G07/G08",
+        "source_registry": "qualification/capability_registry.json",
+        "migration_note": "Traceability anchor; aggregate legacy scope is not new combination evidence."
+      }
+    },
+    {
+      "capability_id": "ELE-HEX20",
+      "record_kind": "capability_anchor",
+      "element_family": "HEX20",
+      "analysis": "static/modal/Newmark/harmonic/buckling/nonlinear",
+      "material_model": "solid_elastic/J2/TL",
+      "formulation_or_route": "legacy_aggregate_scope",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "QUALIFIED_BOUNDED",
+      "evidence_refs": [
+        "0.2.5 HEX20 evidence",
+        "0.2.6 G05 final evidence"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-HEX20"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-HEX20",
+        "legacy_maturity": "QUALIFIED_BOUNDED",
+        "legacy_status": "PRESENT_REQUALIFICATION_PENDING",
+        "legacy_gate_or_wp": "026-G04/G05/G06/G07/G08",
+        "source_registry": "qualification/capability_registry.json",
+        "migration_note": "Traceability anchor; aggregate legacy scope is not new combination evidence."
+      }
+    },
+    {
+      "capability_id": "ELE-DISCRETE",
+      "record_kind": "capability_anchor",
+      "element_family": "discrete spring/mass",
+      "analysis": "static/modal/Newmark/harmonic",
+      "material_model": "discrete_linear",
+      "formulation_or_route": "legacy_aggregate_scope",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "0.2.6 shell_beam_discrete planned cases",
+        "0.2.6 G05 final evidence"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "G05 modal/dynamic/harmonic coverage is bounded; other discrete scopes remain governed by their own gates.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-DISCRETE"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-DISCRETE",
+        "legacy_maturity": "EXPERIMENTAL",
+        "legacy_status": "PRESENT_REQUALIFICATION_PENDING",
+        "legacy_gate_or_wp": "026-G04/G05",
+        "source_registry": "qualification/capability_registry.json",
+        "migration_note": "Traceability anchor; aggregate legacy scope is not new combination evidence."
+      }
+    },
+    {
+      "capability_id": "INF-RBE-CONSTRAINTS",
+      "record_kind": "capability_anchor",
+      "element_family": "RBE2/RBE3 constraints",
+      "analysis": "static/modal/dynamic where admissible",
+      "material_model": "kinematic constraints",
+      "formulation_or_route": "legacy_aggregate_scope",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "0.2.5 RBE verification evidence"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "No 0.2.6 modal/dynamic RBE campaign is mapped.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "8047fb63c420609b510beaa1e30aa3ab31d9ad87",
+      "supersedes": [
+        "INF-RBE-CONSTRAINTS"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "INF-RBE-CONSTRAINTS",
+        "legacy_maturity": "EXPERIMENTAL",
+        "legacy_status": "PRESENT_GAP_RECORDED",
+        "legacy_gate_or_wp": "026-G04/G05",
+        "source_registry": "qualification/capability_registry.json",
+        "migration_note": "Traceability anchor; aggregate legacy scope is not new combination evidence."
+      }
+    },
+    {
+      "capability_id": "ANA-STATIC",
+      "record_kind": "capability_anchor",
+      "element_family": "multiple",
+      "analysis": "linear_static",
+      "material_model": "linear elastic/orthotropic",
+      "formulation_or_route": "legacy_aggregate_scope",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "QUALIFIED_BOUNDED",
+      "evidence_refs": [
+        "0.2.5 regression and external evidence"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Family-specific requalification is scheduled in G04.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "8047fb63c420609b510beaa1e30aa3ab31d9ad87",
+      "supersedes": [
+        "ANA-STATIC"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ANA-STATIC",
+        "legacy_maturity": "QUALIFIED_BOUNDED",
+        "legacy_status": "PRESENT_REQUALIFICATION_PENDING",
+        "legacy_gate_or_wp": "026-G04",
+        "source_registry": "qualification/capability_registry.json",
+        "migration_note": "Traceability anchor; aggregate legacy scope is not new combination evidence."
+      }
+    },
+    {
+      "capability_id": "ANA-MODAL",
+      "record_kind": "capability_anchor",
+      "element_family": "multiple",
+      "analysis": "modal",
+      "material_model": "linear mass/stiffness",
+      "formulation_or_route": "legacy_aggregate_scope",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "QUALIFIED_BOUNDED",
+      "evidence_refs": [
+        "g05_requirements.json",
+        "g05_deep_case_registry.json",
+        "0_2_6_g05_final_evidence.md"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "G05 is PASS_WITH_LIMITATIONS: modal evidence covers eight internal family rows, while external correlation remains bounded and family-incomplete.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ANA-MODAL"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ANA-MODAL",
+        "legacy_maturity": "QUALIFIED_BOUNDED",
+        "legacy_status": "PRESENT_REQUALIFICATION_PENDING",
+        "legacy_gate_or_wp": "026-G05",
+        "source_registry": "qualification/capability_registry.json",
+        "migration_note": "Traceability anchor; aggregate legacy scope is not new combination evidence."
+      }
+    },
+    {
+      "capability_id": "ANA-NEWMARK",
+      "record_kind": "capability_anchor",
+      "element_family": "multiple",
+      "analysis": "transient_dynamic",
+      "material_model": "linear dynamics",
+      "formulation_or_route": "legacy_aggregate_scope",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "QUALIFIED_BOUNDED",
+      "evidence_refs": [
+        "g05_requirements.json",
+        "g05_deep_case_registry.json",
+        "0_2_6_g05_final_evidence.md"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "G05 is PASS_WITH_LIMITATIONS: Newmark refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ANA-NEWMARK"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ANA-NEWMARK",
+        "legacy_maturity": "QUALIFIED_BOUNDED",
+        "legacy_status": "PRESENT_REQUALIFICATION_PENDING",
+        "legacy_gate_or_wp": "026-G05",
+        "source_registry": "qualification/capability_registry.json",
+        "migration_note": "Traceability anchor; aggregate legacy scope is not new combination evidence."
+      }
+    },
+    {
+      "capability_id": "ANA-HARMONIC",
+      "record_kind": "capability_anchor",
+      "element_family": "multiple",
+      "analysis": "harmonic_response",
+      "material_model": "linear complex dynamics",
+      "formulation_or_route": "legacy_aggregate_scope",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "QUALIFIED_BOUNDED",
+      "evidence_refs": [
+        "g05_requirements.json",
+        "g05_deep_case_registry.json",
+        "0_2_6_g05_final_evidence.md"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "G05 is PASS_WITH_LIMITATIONS: harmonic refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ANA-HARMONIC"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ANA-HARMONIC",
+        "legacy_maturity": "QUALIFIED_BOUNDED",
+        "legacy_status": "PRESENT_REQUALIFICATION_PENDING",
+        "legacy_gate_or_wp": "026-G05",
+        "source_registry": "qualification/capability_registry.json",
+        "migration_note": "Traceability anchor; aggregate legacy scope is not new combination evidence."
+      }
+    },
+    {
+      "capability_id": "ANA-BUCKLING",
+      "record_kind": "capability_anchor",
+      "element_family": "solid families",
+      "analysis": "linear_buckling",
+      "material_model": "linear preload/geometric stiffness",
+      "formulation_or_route": "legacy_aggregate_scope",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "QUALIFIED_BOUNDED",
+      "evidence_refs": [
+        "0.2.5 bounded Euler and external evidence"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "No nonlinear collapse claim; 0.2.6 maturity extension is pending.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "8047fb63c420609b510beaa1e30aa3ab31d9ad87",
+      "supersedes": [
+        "ANA-BUCKLING"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ANA-BUCKLING",
+        "legacy_maturity": "QUALIFIED_BOUNDED",
+        "legacy_status": "PRESENT_REQUALIFICATION_PENDING",
+        "legacy_gate_or_wp": "026-G08",
+        "source_registry": "qualification/capability_registry.json",
+        "migration_note": "Traceability anchor; aggregate legacy scope is not new combination evidence."
+      }
+    },
+    {
+      "capability_id": "ANA-NONLINEAR-LOAD",
+      "record_kind": "capability_anchor",
+      "element_family": "solid/contact-supported models",
+      "analysis": "nonlinear_static",
+      "material_model": "J2/contact",
+      "formulation_or_route": "legacy_aggregate_scope",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "0.2.5 nonlinear owner evidence"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Maturity extension and multi-family correlation are scheduled separately.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "8047fb63c420609b510beaa1e30aa3ab31d9ad87",
+      "supersedes": [
+        "ANA-NONLINEAR-LOAD"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ANA-NONLINEAR-LOAD",
+        "legacy_maturity": "EXPERIMENTAL",
+        "legacy_status": "PRESENT_DEFERRED",
+        "legacy_gate_or_wp": "026-G06/G09",
+        "source_registry": "qualification/capability_registry.json",
+        "migration_note": "Traceability anchor; aggregate legacy scope is not new combination evidence."
+      }
+    },
+    {
+      "capability_id": "ANA-GEOMETRIC-NONLINEAR",
+      "record_kind": "capability_anchor",
+      "element_family": "solid families",
+      "analysis": "geometric_nonlinear_static",
+      "material_model": "Total-Lagrangian elasticity/experimental finite J2",
+      "formulation_or_route": "legacy_aggregate_scope",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "0.2.5 G02 bounded Total-Lagrangian evidence"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Only bounded TET4/HEX8 Total-Lagrangian elasticity is qualified; high-order and finite-kinematic J2 remain non-qualified.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "8047fb63c420609b510beaa1e30aa3ab31d9ad87",
+      "supersedes": [
+        "ANA-GEOMETRIC-NONLINEAR"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ANA-GEOMETRIC-NONLINEAR",
+        "legacy_maturity": "EXPERIMENTAL",
+        "legacy_status": "PRESENT_REQUALIFICATION_PENDING",
+        "legacy_gate_or_wp": "026-G07",
+        "source_registry": "qualification/capability_registry.json",
+        "migration_note": "Traceability anchor; aggregate legacy scope is not new combination evidence."
+      }
+    },
+    {
+      "capability_id": "ANA-ARC-LENGTH",
+      "record_kind": "capability_anchor",
+      "element_family": "TET4 bounded benchmark",
+      "analysis": "arc_length",
+      "material_model": "finite-deformation elasticity",
+      "formulation_or_route": "legacy_aggregate_scope",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "0.2.5 bounded Code_Aster correlation"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Independent compatible published reference remains open.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "8047fb63c420609b510beaa1e30aa3ab31d9ad87",
+      "supersedes": [
+        "ANA-ARC-LENGTH"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ANA-ARC-LENGTH",
+        "legacy_maturity": "EXPERIMENTAL",
+        "legacy_status": "EXPERIMENTAL_NOT_QUALIFIED",
+        "legacy_gate_or_wp": "026-G07",
+        "source_registry": "qualification/capability_registry.json",
+        "migration_note": "Traceability anchor; aggregate legacy scope is not new combination evidence."
+      }
+    },
+    {
+      "capability_id": "MAT-ELASTIC",
+      "record_kind": "capability_anchor",
+      "element_family": "multiple",
+      "analysis": "all linear analyses",
+      "material_model": "isotropic elastic",
+      "formulation_or_route": "legacy_aggregate_scope",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "QUALIFIED_BOUNDED",
+      "evidence_refs": [
+        "0.2.5 regression and analytical evidence"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Element and analysis boundaries still apply.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "8047fb63c420609b510beaa1e30aa3ab31d9ad87",
+      "supersedes": [
+        "MAT-ELASTIC"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "MAT-ELASTIC",
+        "legacy_maturity": "QUALIFIED_BOUNDED",
+        "legacy_status": "PRESENT_REQUALIFICATION_PENDING",
+        "legacy_gate_or_wp": "026-G04",
+        "source_registry": "qualification/capability_registry.json",
+        "migration_note": "Traceability anchor; aggregate legacy scope is not new combination evidence."
+      }
+    },
+    {
+      "capability_id": "MAT-ORTHOTROPIC-LAMINATE",
+      "record_kind": "capability_anchor",
+      "element_family": "MITC3/MITC4/solids where supported",
+      "analysis": "static/modal/Newmark/harmonic",
+      "material_model": "orthotropic/laminate",
+      "formulation_or_route": "legacy_aggregate_scope",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "0.2.5 composite V&V suite"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Not included in G05-B acceptance cases; no new physical claim is made.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "8047fb63c420609b510beaa1e30aa3ab31d9ad87",
+      "supersedes": [
+        "MAT-ORTHOTROPIC-LAMINATE"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "MAT-ORTHOTROPIC-LAMINATE",
+        "legacy_maturity": "EXPERIMENTAL",
+        "legacy_status": "PRESENT_DEFERRED",
+        "legacy_gate_or_wp": "026-G04/G05",
+        "source_registry": "qualification/capability_registry.json",
+        "migration_note": "Traceability anchor; aggregate legacy scope is not new combination evidence."
+      }
+    },
+    {
+      "capability_id": "MAT-J2-SMALL",
+      "record_kind": "capability_anchor",
+      "element_family": "TET4/TET10/HEX8/HEX20",
+      "analysis": "nonlinear_static",
+      "material_model": "small-strain J2 elastoplasticity",
+      "formulation_or_route": "legacy_aggregate_scope",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "QUALIFIED_BOUNDED",
+      "evidence_refs": [
+        "0.2.6 g06_depth_evidence.json",
+        "0_2_6_g06_depth_evidence.md",
+        "qualification/0_2_7/wp11_j2_evidence.json",
+        "docs/verification/0_2_7/0_2_7_wp11_j2_closure.md"
+      ],
+      "owner_decision": "OWNER_APPROVED_BOUNDED_KEEP_EXISTING_SCOPE",
+      "limitations": "Qualified only within the tested bounded TET4/TET10/HEX8/HEX20 scope; algorithmic tangent symmetry remains diagnostic and is not independently qualified; increment sensitivity is characterized on all four families without a universal structural partition-independence claim.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "94461602dfd1782be57c20e1801a0d5d8e262ef1",
+      "supersedes": [
+        "MAT-J2-SMALL"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "MAT-J2-SMALL",
+        "legacy_maturity": "QUALIFIED_BOUNDED",
+        "legacy_status": "PRESENT_QUALIFIED_BOUNDED",
+        "legacy_gate_or_wp": "026-G06",
+        "source_registry": "qualification/capability_registry.json",
+        "migration_note": "Traceability anchor; aggregate legacy scope is not new combination evidence."
+      }
+    },
+    {
+      "capability_id": "MAT-TL-ELASTIC",
+      "record_kind": "capability_anchor",
+      "element_family": "TET4 bounded; HEX8 not qualified; TET10/HEX20 research",
+      "analysis": "geometric_nonlinear_static",
+      "material_model": "Total-Lagrangian elasticity",
+      "formulation_or_route": "legacy_aggregate_scope",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "QUALIFIED_BOUNDED",
+      "evidence_refs": [
+        "qualification/0_2_6/g07_owner_closeout.json"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Owner-qualified only for the tested finite positive-det(F) TET4 domain; HEX8 complete history is not qualified and TET10/HEX20 remain research routes.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "c55f768d570905869904e08042180f2b515f26c4",
+      "supersedes": [
+        "MAT-TL-ELASTIC"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "MAT-TL-ELASTIC",
+        "legacy_maturity": "QUALIFIED_BOUNDED",
+        "legacy_status": "PRESENT_QUALIFIED_BOUNDED",
+        "legacy_gate_or_wp": "026-G07",
+        "source_registry": "qualification/capability_registry.json",
+        "migration_note": "Traceability anchor; aggregate legacy scope is not new combination evidence."
+      }
+    },
+    {
+      "capability_id": "MAT-FINITE-J2",
+      "record_kind": "capability_anchor",
+      "element_family": "TET4/TET10/HEX8/HEX20",
+      "analysis": "geometric_nonlinear_static",
+      "material_model": "finite-kinematic J2",
+      "formulation_or_route": "legacy_aggregate_scope",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "TESTED",
+      "qualification_state": "NOT_QUALIFIED",
+      "evidence_refs": [
+        "total_lagrangian_j2 implementation inventory"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Not externally qualified; stress/strain measure and coupled correlation remain deferred.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "82d3af3aad06f472a3754d8082783fb72935fbcd",
+      "supersedes": [
+        "MAT-FINITE-J2"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "MAT-FINITE-J2",
+        "legacy_maturity": "RESEARCH",
+        "legacy_status": "RESEARCH_DEFERRED",
+        "legacy_gate_or_wp": "026-G10",
+        "source_registry": "qualification/capability_registry.json",
+        "migration_note": "Traceability anchor; aggregate legacy scope is not new combination evidence."
+      }
+    },
+    {
+      "capability_id": "MAT-COUPLED-NL",
+      "record_kind": "capability_anchor",
+      "element_family": "bounded solid/contact workflows",
+      "analysis": "coupled nonlinear",
+      "material_model": "J2 + geometry + contact",
+      "formulation_or_route": "legacy_aggregate_scope",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "TESTED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "0.2.5 G06 internal tangent evidence"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Finite-kinematic J2 and equivalent external coupled paths are not qualified.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "8047fb63c420609b510beaa1e30aa3ab31d9ad87",
+      "supersedes": [
+        "MAT-COUPLED-NL"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "MAT-COUPLED-NL",
+        "legacy_maturity": "EXPERIMENTAL",
+        "legacy_status": "EXPERIMENTAL_DEFERRED",
+        "legacy_gate_or_wp": "026-G10",
+        "source_registry": "qualification/capability_registry.json",
+        "migration_note": "Traceability anchor; aggregate legacy scope is not new combination evidence."
+      }
+    },
+    {
+      "capability_id": "CON-FRICTIONLESS",
+      "record_kind": "capability_anchor",
+      "element_family": "bounded node-to-triangle/contact models",
+      "analysis": "nonlinear/geometric nonlinear",
+      "material_model": "frictionless contact",
+      "formulation_or_route": "legacy_aggregate_scope",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "QUALIFIED_BOUNDED",
+      "evidence_refs": [
+        "0.2.5 bounded contact evidence"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "No general mortar claim; finite sliding and surface scope remain bounded.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "8047fb63c420609b510beaa1e30aa3ab31d9ad87",
+      "supersedes": [
+        "CON-FRICTIONLESS"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "CON-FRICTIONLESS",
+        "legacy_maturity": "QUALIFIED_BOUNDED",
+        "legacy_status": "PRESENT_REQUALIFICATION_PENDING",
+        "legacy_gate_or_wp": "026-G09",
+        "source_registry": "qualification/capability_registry.json",
+        "migration_note": "Traceability anchor; aggregate legacy scope is not new combination evidence."
+      }
+    },
+    {
+      "capability_id": "CON-FRICTION",
+      "record_kind": "capability_anchor",
+      "element_family": "bounded contact models",
+      "analysis": "nonlinear contact",
+      "material_model": "regularized Coulomb helpers",
+      "formulation_or_route": "legacy_aggregate_scope",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "TESTED",
+      "qualification_state": "NOT_QUALIFIED",
+      "evidence_refs": [
+        "contact friction implementation and historical tests"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Friction is explicitly outside the 0.2.6 release scope.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "8047fb63c420609b510beaa1e30aa3ab31d9ad87",
+      "supersedes": [
+        "CON-FRICTION"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "CON-FRICTION",
+        "legacy_maturity": "RESEARCH",
+        "legacy_status": "NOT_IN_RELEASE_SCOPE",
+        "legacy_gate_or_wp": "NOT_IN_RELEASE_SCOPE",
+        "source_registry": "qualification/capability_registry.json",
+        "migration_note": "Traceability anchor; aggregate legacy scope is not new combination evidence."
+      }
+    },
+    {
+      "capability_id": "INF-MESH-GMSH",
+      "record_kind": "capability_anchor",
+      "element_family": "multiple",
+      "analysis": "model import",
+      "material_model": "n/a",
+      "formulation_or_route": "legacy_aggregate_scope",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "0.2.5 Gmsh contracts"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Importer coverage is format and element-family dependent.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "8047fb63c420609b510beaa1e30aa3ab31d9ad87",
+      "supersedes": [
+        "INF-MESH-GMSH"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "INF-MESH-GMSH",
+        "legacy_maturity": "EXPERIMENTAL",
+        "legacy_status": "PRESENT_DEFERRED",
+        "legacy_gate_or_wp": "026-G04",
+        "source_registry": "qualification/capability_registry.json",
+        "migration_note": "Traceability anchor; aggregate legacy scope is not new combination evidence."
+      }
+    },
+    {
+      "capability_id": "INF-LOADS-BC",
+      "record_kind": "capability_anchor",
+      "element_family": "multiple",
+      "analysis": "all supported analyses",
+      "material_model": "n/a",
+      "formulation_or_route": "legacy_aggregate_scope",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "existing unit and V&V contracts"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Capability acceptance is analysis-specific.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "8047fb63c420609b510beaa1e30aa3ab31d9ad87",
+      "supersedes": [
+        "INF-LOADS-BC"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "INF-LOADS-BC",
+        "legacy_maturity": "EXPERIMENTAL",
+        "legacy_status": "PRESENT_DEFERRED",
+        "legacy_gate_or_wp": "026-G04",
+        "source_registry": "qualification/capability_registry.json",
+        "migration_note": "Traceability anchor; aggregate legacy scope is not new combination evidence."
+      }
+    },
+    {
+      "capability_id": "INF-POST",
+      "record_kind": "capability_anchor",
+      "element_family": "multiple",
+      "analysis": "static/modal/dynamic/harmonic",
+      "material_model": "stress/strain/results",
+      "formulation_or_route": "legacy_aggregate_scope",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "existing result and post-process contracts"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Field recovery and output support vary by element and analysis.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "8047fb63c420609b510beaa1e30aa3ab31d9ad87",
+      "supersedes": [
+        "INF-POST"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "INF-POST",
+        "legacy_maturity": "EXPERIMENTAL",
+        "legacy_status": "PRESENT_DEFERRED",
+        "legacy_gate_or_wp": "026-G04/G05",
+        "source_registry": "qualification/capability_registry.json",
+        "migration_note": "Traceability anchor; aggregate legacy scope is not new combination evidence."
+      }
+    },
+    {
+      "capability_id": "INF-SPARSE-SCIPY",
+      "record_kind": "capability_anchor",
+      "element_family": "multiple",
+      "analysis": "linear and eigen paths",
+      "material_model": "n/a",
+      "formulation_or_route": "legacy_aggregate_scope",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "QUALIFIED_BOUNDED",
+      "evidence_refs": [
+        "0.2.2 sparse backend qualification"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Scalability boundaries depend on sparsity and solver selection.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "8047fb63c420609b510beaa1e30aa3ab31d9ad87",
+      "supersedes": [
+        "INF-SPARSE-SCIPY"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "INF-SPARSE-SCIPY",
+        "legacy_maturity": "QUALIFIED_BOUNDED",
+        "legacy_status": "PRESENT_REQUALIFICATION_PENDING",
+        "legacy_gate_or_wp": "026-G04/G12",
+        "source_registry": "qualification/capability_registry.json",
+        "migration_note": "Traceability anchor; aggregate legacy scope is not new combination evidence."
+      }
+    },
+    {
+      "capability_id": "INF-PETSC-SLEPC",
+      "record_kind": "capability_anchor",
+      "element_family": "large sparse/modal paths",
+      "analysis": "PETSc/SLEPc optional backends",
+      "material_model": "n/a",
+      "formulation_or_route": "legacy_aggregate_scope",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "optional backend contracts and SLEPc protection"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Optional dependencies; large modal scope is explicitly protected and bounded.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "8047fb63c420609b510beaa1e30aa3ab31d9ad87",
+      "supersedes": [
+        "INF-PETSC-SLEPC"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "INF-PETSC-SLEPC",
+        "legacy_maturity": "EXPERIMENTAL",
+        "legacy_status": "PRESENT_DEFERRED",
+        "legacy_gate_or_wp": "026-G05/G12",
+        "source_registry": "qualification/capability_registry.json",
+        "migration_note": "Traceability anchor; aggregate legacy scope is not new combination evidence."
+      }
+    },
+    {
+      "capability_id": "INF-DIAGNOSTICS-FAILURES",
+      "record_kind": "capability_anchor",
+      "element_family": "multiple",
+      "analysis": "solver/failure paths",
+      "material_model": "n/a",
+      "formulation_or_route": "legacy_aggregate_scope",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "QUALIFIED_BOUNDED",
+      "evidence_refs": [
+        "0.2.5 failure taxonomy and adversarial evidence",
+        "qualification/0_2_6/g11_owner_closeout.json",
+        "qualification/0_2_6/g11_promotion_resume_evidence.json"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "G11 is closed as PASS_WITH_LIMITATIONS: six routes and 20 runtime cases are covered; DIAG-005/008 remain bounded and no universal public-route claim is made.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "236b6ceffdfb9187940f68f3c52d7dc70290570f",
+      "supersedes": [
+        "INF-DIAGNOSTICS-FAILURES"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "INF-DIAGNOSTICS-FAILURES",
+        "legacy_maturity": "QUALIFIED_BOUNDED",
+        "legacy_status": "PRESENT_QUALIFIED_BOUNDED",
+        "legacy_gate_or_wp": "026-G11",
+        "source_registry": "qualification/capability_registry.json",
+        "migration_note": "Traceability anchor; aggregate legacy scope is not new combination evidence."
+      }
+    },
+    {
+      "capability_id": "INF-PERF-SCALING",
+      "record_kind": "capability_anchor",
+      "element_family": "large TET4 and bounded solid benchmarks",
+      "analysis": "assembly/solve performance",
+      "material_model": "n/a",
+      "formulation_or_route": "legacy_aggregate_scope",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "QUALIFIED_BOUNDED",
+      "evidence_refs": [
+        "0.2.5 performance characterization",
+        "qualification/0_2_6/g12_final_campaign.json",
+        "qualification/0_2_6/g12_owner_closeout.json",
+        "qualification/0_2_7/wp12_scaling_evidence.json",
+        "qualification/0_2_7/wp12_assembly_probe_300k.json",
+        "docs/verification/0_2_7/0_2_7_large_scale_readiness.md"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE; WP12_SUPPLEMENTAL_EVIDENCE_PROPOSED_OWNER_REVIEW",
+      "limitations": "G12 is closed as PASS_WITH_LIMITATIONS: route, hardware and model-topology bounds remain explicit; 300k is assembly-only and 1M is RESOURCE_LIMITED. WP12 adds current-source structured TET4 readiness evidence pending Owner review; it does not broaden the inherited public scope.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "81443c20b3f1ec9b742292bc5f880cc10e112a96",
+      "supersedes": [
+        "INF-PERF-SCALING"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "INF-PERF-SCALING",
+        "legacy_maturity": "QUALIFIED_BOUNDED",
+        "legacy_status": "PRESENT_QUALIFIED_BOUNDED",
+        "legacy_gate_or_wp": "026-G12",
+        "source_registry": "qualification/capability_registry.json",
+        "migration_note": "Traceability anchor; aggregate legacy scope is not new combination evidence."
+      }
+    },
+    {
+      "capability_id": "INF-EXTERNAL-CORRELATION",
+      "record_kind": "capability_anchor",
+      "element_family": "multiple",
+      "analysis": "verification adapters",
+      "material_model": "n/a",
+      "formulation_or_route": "legacy_aggregate_scope",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "0.2.5 64/64 bounded external campaign"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "External tools remain optional; correlation is not general physical validation.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "8047fb63c420609b510beaa1e30aa3ab31d9ad87",
+      "supersedes": [
+        "INF-EXTERNAL-CORRELATION"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "INF-EXTERNAL-CORRELATION",
+        "legacy_maturity": "EXPERIMENTAL",
+        "legacy_status": "PRESENT_DEFERRED",
+        "legacy_gate_or_wp": "026-G13",
+        "source_registry": "qualification/capability_registry.json",
+        "migration_note": "Traceability anchor; aggregate legacy scope is not new combination evidence."
+      }
+    },
+    {
+      "capability_id": "COMB-BEAM2-linear_static",
+      "record_kind": "combination",
+      "element_family": "BEAM2",
+      "analysis": "linear_static",
+      "material_model": "beam_isotropic",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "0.2.5 regression evidence",
+        "0.2.6 case registry: shell_beam_discrete",
+        "0.2.6 G05 final evidence",
+        "0.2.5 regression and external evidence"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 modal/dynamic/harmonic coverage is bounded; other BEAM2 scopes remain governed by their own gates. Family-specific requalification is scheduled in G04.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-BEAM2/ANA-STATIC"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-BEAM2",
+        "legacy_analysis_id": "ANA-STATIC",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-BEAM2-modal",
+      "record_kind": "combination",
+      "element_family": "BEAM2",
+      "analysis": "modal",
+      "material_model": "beam_isotropic",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "0.2.5 regression evidence",
+        "0.2.6 case registry: shell_beam_discrete",
+        "0.2.6 G05 final evidence",
+        "g05_requirements.json",
+        "g05_deep_case_registry.json",
+        "0_2_6_g05_final_evidence.md"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 modal/dynamic/harmonic coverage is bounded; other BEAM2 scopes remain governed by their own gates. G05 is PASS_WITH_LIMITATIONS: modal evidence covers eight internal family rows, while external correlation remains bounded and family-incomplete.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-BEAM2/ANA-MODAL"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-BEAM2",
+        "legacy_analysis_id": "ANA-MODAL",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-BEAM2-newmark_transient",
+      "record_kind": "combination",
+      "element_family": "BEAM2",
+      "analysis": "newmark_transient",
+      "material_model": "beam_isotropic",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "0.2.5 regression evidence",
+        "0.2.6 case registry: shell_beam_discrete",
+        "0.2.6 G05 final evidence",
+        "g05_requirements.json",
+        "g05_deep_case_registry.json",
+        "0_2_6_g05_final_evidence.md"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 modal/dynamic/harmonic coverage is bounded; other BEAM2 scopes remain governed by their own gates. G05 is PASS_WITH_LIMITATIONS: Newmark refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-BEAM2/ANA-NEWMARK"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-BEAM2",
+        "legacy_analysis_id": "ANA-NEWMARK",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-BEAM2-harmonic",
+      "record_kind": "combination",
+      "element_family": "BEAM2",
+      "analysis": "harmonic",
+      "material_model": "beam_isotropic",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "0.2.5 regression evidence",
+        "0.2.6 case registry: shell_beam_discrete",
+        "0.2.6 G05 final evidence",
+        "g05_requirements.json",
+        "g05_deep_case_registry.json",
+        "0_2_6_g05_final_evidence.md"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 modal/dynamic/harmonic coverage is bounded; other BEAM2 scopes remain governed by their own gates. G05 is PASS_WITH_LIMITATIONS: harmonic refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-BEAM2/ANA-HARMONIC"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-BEAM2",
+        "legacy_analysis_id": "ANA-HARMONIC",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-MITC3-linear_static",
+      "record_kind": "combination",
+      "element_family": "MITC3",
+      "analysis": "linear_static",
+      "material_model": "shell_isotropic/shell_laminate",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "0.2.6 READY shell modal/dynamic/harmonic cases",
+        "0.2.6 G05 final evidence",
+        "0.2.5 regression and external evidence"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; no comparable independent external deck is recorded for MITC3. Family-specific requalification is scheduled in G04.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-MITC3/ANA-STATIC"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-MITC3",
+        "legacy_analysis_id": "ANA-STATIC",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-MITC3-modal",
+      "record_kind": "combination",
+      "element_family": "MITC3",
+      "analysis": "modal",
+      "material_model": "shell_isotropic/shell_laminate",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "0.2.6 READY shell modal/dynamic/harmonic cases",
+        "0.2.6 G05 final evidence",
+        "g05_requirements.json",
+        "g05_deep_case_registry.json",
+        "0_2_6_g05_final_evidence.md"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; no comparable independent external deck is recorded for MITC3. G05 is PASS_WITH_LIMITATIONS: modal evidence covers eight internal family rows, while external correlation remains bounded and family-incomplete.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-MITC3/ANA-MODAL"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-MITC3",
+        "legacy_analysis_id": "ANA-MODAL",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-MITC3-newmark_transient",
+      "record_kind": "combination",
+      "element_family": "MITC3",
+      "analysis": "newmark_transient",
+      "material_model": "shell_isotropic/shell_laminate",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "0.2.6 READY shell modal/dynamic/harmonic cases",
+        "0.2.6 G05 final evidence",
+        "g05_requirements.json",
+        "g05_deep_case_registry.json",
+        "0_2_6_g05_final_evidence.md"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; no comparable independent external deck is recorded for MITC3. G05 is PASS_WITH_LIMITATIONS: Newmark refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-MITC3/ANA-NEWMARK"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-MITC3",
+        "legacy_analysis_id": "ANA-NEWMARK",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-MITC3-harmonic",
+      "record_kind": "combination",
+      "element_family": "MITC3",
+      "analysis": "harmonic",
+      "material_model": "shell_isotropic/shell_laminate",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "0.2.6 READY shell modal/dynamic/harmonic cases",
+        "0.2.6 G05 final evidence",
+        "g05_requirements.json",
+        "g05_deep_case_registry.json",
+        "0_2_6_g05_final_evidence.md"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; no comparable independent external deck is recorded for MITC3. G05 is PASS_WITH_LIMITATIONS: harmonic refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-MITC3/ANA-HARMONIC"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-MITC3",
+        "legacy_analysis_id": "ANA-HARMONIC",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-MITC4-linear_static",
+      "record_kind": "combination",
+      "element_family": "MITC4",
+      "analysis": "linear_static",
+      "material_model": "shell_isotropic/shell_laminate",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "0.2.6 READY shell modal/dynamic/harmonic cases",
+        "0.2.6 G05 final evidence",
+        "0.2.5 regression and external evidence"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; no comparable independent external deck is recorded for MITC4. Family-specific requalification is scheduled in G04.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-MITC4/ANA-STATIC"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-MITC4",
+        "legacy_analysis_id": "ANA-STATIC",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-MITC4-modal",
+      "record_kind": "combination",
+      "element_family": "MITC4",
+      "analysis": "modal",
+      "material_model": "shell_isotropic/shell_laminate",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "0.2.6 READY shell modal/dynamic/harmonic cases",
+        "0.2.6 G05 final evidence",
+        "g05_requirements.json",
+        "g05_deep_case_registry.json",
+        "0_2_6_g05_final_evidence.md"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; no comparable independent external deck is recorded for MITC4. G05 is PASS_WITH_LIMITATIONS: modal evidence covers eight internal family rows, while external correlation remains bounded and family-incomplete.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-MITC4/ANA-MODAL"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-MITC4",
+        "legacy_analysis_id": "ANA-MODAL",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-MITC4-newmark_transient",
+      "record_kind": "combination",
+      "element_family": "MITC4",
+      "analysis": "newmark_transient",
+      "material_model": "shell_isotropic/shell_laminate",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "0.2.6 READY shell modal/dynamic/harmonic cases",
+        "0.2.6 G05 final evidence",
+        "g05_requirements.json",
+        "g05_deep_case_registry.json",
+        "0_2_6_g05_final_evidence.md"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; no comparable independent external deck is recorded for MITC4. G05 is PASS_WITH_LIMITATIONS: Newmark refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-MITC4/ANA-NEWMARK"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-MITC4",
+        "legacy_analysis_id": "ANA-NEWMARK",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-MITC4-harmonic",
+      "record_kind": "combination",
+      "element_family": "MITC4",
+      "analysis": "harmonic",
+      "material_model": "shell_isotropic/shell_laminate",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "0.2.6 READY shell modal/dynamic/harmonic cases",
+        "0.2.6 G05 final evidence",
+        "g05_requirements.json",
+        "g05_deep_case_registry.json",
+        "0_2_6_g05_final_evidence.md"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; no comparable independent external deck is recorded for MITC4. G05 is PASS_WITH_LIMITATIONS: harmonic refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-MITC4/ANA-HARMONIC"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-MITC4",
+        "legacy_analysis_id": "ANA-HARMONIC",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-TET4-linear_static",
+      "record_kind": "combination",
+      "element_family": "TET4",
+      "analysis": "linear_static",
+      "material_model": "solid_elastic/J2/TL",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "QUALIFIED_BOUNDED",
+      "evidence_refs": [
+        "0.2.5 owner evidence",
+        "0.2.6 G05-B TET4 cases",
+        "0.2.6 G05 final evidence",
+        "0.2.5 regression and external evidence"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; external coverage is bounded and other analysis scopes remain separately governed. Family-specific requalification is scheduled in G04.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-TET4/ANA-STATIC"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-TET4",
+        "legacy_analysis_id": "ANA-STATIC",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-TET4-modal",
+      "record_kind": "combination",
+      "element_family": "TET4",
+      "analysis": "modal",
+      "material_model": "solid_elastic/J2/TL",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "QUALIFIED_BOUNDED",
+      "evidence_refs": [
+        "0.2.5 owner evidence",
+        "0.2.6 G05-B TET4 cases",
+        "0.2.6 G05 final evidence",
+        "g05_requirements.json",
+        "g05_deep_case_registry.json",
+        "0_2_6_g05_final_evidence.md"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; external coverage is bounded and other analysis scopes remain separately governed. G05 is PASS_WITH_LIMITATIONS: modal evidence covers eight internal family rows, while external correlation remains bounded and family-incomplete.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-TET4/ANA-MODAL"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-TET4",
+        "legacy_analysis_id": "ANA-MODAL",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-TET4-newmark_transient",
+      "record_kind": "combination",
+      "element_family": "TET4",
+      "analysis": "newmark_transient",
+      "material_model": "solid_elastic/J2/TL",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "QUALIFIED_BOUNDED",
+      "evidence_refs": [
+        "0.2.5 owner evidence",
+        "0.2.6 G05-B TET4 cases",
+        "0.2.6 G05 final evidence",
+        "g05_requirements.json",
+        "g05_deep_case_registry.json",
+        "0_2_6_g05_final_evidence.md"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; external coverage is bounded and other analysis scopes remain separately governed. G05 is PASS_WITH_LIMITATIONS: Newmark refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-TET4/ANA-NEWMARK"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-TET4",
+        "legacy_analysis_id": "ANA-NEWMARK",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-TET4-harmonic",
+      "record_kind": "combination",
+      "element_family": "TET4",
+      "analysis": "harmonic",
+      "material_model": "solid_elastic/J2/TL",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "QUALIFIED_BOUNDED",
+      "evidence_refs": [
+        "0.2.5 owner evidence",
+        "0.2.6 G05-B TET4 cases",
+        "0.2.6 G05 final evidence",
+        "g05_requirements.json",
+        "g05_deep_case_registry.json",
+        "0_2_6_g05_final_evidence.md"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; external coverage is bounded and other analysis scopes remain separately governed. G05 is PASS_WITH_LIMITATIONS: harmonic refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-TET4/ANA-HARMONIC"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-TET4",
+        "legacy_analysis_id": "ANA-HARMONIC",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-TET4-linear_buckling",
+      "record_kind": "combination",
+      "element_family": "TET4",
+      "analysis": "linear_buckling",
+      "material_model": "solid_elastic/J2/TL",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "QUALIFIED_BOUNDED",
+      "evidence_refs": [
+        "0.2.5 owner evidence",
+        "0.2.6 G05-B TET4 cases",
+        "0.2.6 G05 final evidence",
+        "0.2.5 bounded Euler and external evidence"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; external coverage is bounded and other analysis scopes remain separately governed. No nonlinear collapse claim; 0.2.6 maturity extension is pending.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-TET4/ANA-BUCKLING"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-TET4",
+        "legacy_analysis_id": "ANA-BUCKLING",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-TET4-nonlinear_load_control",
+      "record_kind": "combination",
+      "element_family": "TET4",
+      "analysis": "nonlinear_load_control",
+      "material_model": "solid_elastic/J2/TL",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "0.2.5 owner evidence",
+        "0.2.6 G05-B TET4 cases",
+        "0.2.6 G05 final evidence",
+        "0.2.5 nonlinear owner evidence"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; external coverage is bounded and other analysis scopes remain separately governed. Maturity extension and multi-family correlation are scheduled separately.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-TET4/ANA-NONLINEAR-LOAD"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-TET4",
+        "legacy_analysis_id": "ANA-NONLINEAR-LOAD",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-TET10-linear_static",
+      "record_kind": "combination",
+      "element_family": "TET10",
+      "analysis": "linear_static",
+      "material_model": "solid_elastic/J2/TL",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "QUALIFIED_BOUNDED",
+      "evidence_refs": [
+        "0.2.5 J2 bounded evidence",
+        "historical modal/dynamic tests",
+        "0.2.6 G05 final evidence",
+        "0.2.5 regression and external evidence"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. Family-specific requalification is scheduled in G04.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-TET10/ANA-STATIC"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-TET10",
+        "legacy_analysis_id": "ANA-STATIC",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-TET10-modal",
+      "record_kind": "combination",
+      "element_family": "TET10",
+      "analysis": "modal",
+      "material_model": "solid_elastic/J2/TL",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "QUALIFIED_BOUNDED",
+      "evidence_refs": [
+        "0.2.5 J2 bounded evidence",
+        "historical modal/dynamic tests",
+        "0.2.6 G05 final evidence",
+        "g05_requirements.json",
+        "g05_deep_case_registry.json",
+        "0_2_6_g05_final_evidence.md"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. G05 is PASS_WITH_LIMITATIONS: modal evidence covers eight internal family rows, while external correlation remains bounded and family-incomplete.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-TET10/ANA-MODAL"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-TET10",
+        "legacy_analysis_id": "ANA-MODAL",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-TET10-newmark_transient",
+      "record_kind": "combination",
+      "element_family": "TET10",
+      "analysis": "newmark_transient",
+      "material_model": "solid_elastic/J2/TL",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "QUALIFIED_BOUNDED",
+      "evidence_refs": [
+        "0.2.5 J2 bounded evidence",
+        "historical modal/dynamic tests",
+        "0.2.6 G05 final evidence",
+        "g05_requirements.json",
+        "g05_deep_case_registry.json",
+        "0_2_6_g05_final_evidence.md"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. G05 is PASS_WITH_LIMITATIONS: Newmark refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-TET10/ANA-NEWMARK"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-TET10",
+        "legacy_analysis_id": "ANA-NEWMARK",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-TET10-harmonic",
+      "record_kind": "combination",
+      "element_family": "TET10",
+      "analysis": "harmonic",
+      "material_model": "solid_elastic/J2/TL",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "QUALIFIED_BOUNDED",
+      "evidence_refs": [
+        "0.2.5 J2 bounded evidence",
+        "historical modal/dynamic tests",
+        "0.2.6 G05 final evidence",
+        "g05_requirements.json",
+        "g05_deep_case_registry.json",
+        "0_2_6_g05_final_evidence.md"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. G05 is PASS_WITH_LIMITATIONS: harmonic refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-TET10/ANA-HARMONIC"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-TET10",
+        "legacy_analysis_id": "ANA-HARMONIC",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-TET10-linear_buckling",
+      "record_kind": "combination",
+      "element_family": "TET10",
+      "analysis": "linear_buckling",
+      "material_model": "solid_elastic/J2/TL",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "QUALIFIED_BOUNDED",
+      "evidence_refs": [
+        "0.2.5 J2 bounded evidence",
+        "historical modal/dynamic tests",
+        "0.2.6 G05 final evidence",
+        "0.2.5 bounded Euler and external evidence"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. No nonlinear collapse claim; 0.2.6 maturity extension is pending.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-TET10/ANA-BUCKLING"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-TET10",
+        "legacy_analysis_id": "ANA-BUCKLING",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-TET10-nonlinear_load_control",
+      "record_kind": "combination",
+      "element_family": "TET10",
+      "analysis": "nonlinear_load_control",
+      "material_model": "solid_elastic/J2/TL",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "0.2.5 J2 bounded evidence",
+        "historical modal/dynamic tests",
+        "0.2.6 G05 final evidence",
+        "0.2.5 nonlinear owner evidence"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. Maturity extension and multi-family correlation are scheduled separately.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-TET10/ANA-NONLINEAR-LOAD"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-TET10",
+        "legacy_analysis_id": "ANA-NONLINEAR-LOAD",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-HEX8-linear_static",
+      "record_kind": "combination",
+      "element_family": "HEX8",
+      "analysis": "linear_static",
+      "material_model": "solid_elastic/J2/TL",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "QUALIFIED_BOUNDED",
+      "evidence_refs": [
+        "0.2.5 HEX8 evidence",
+        "0.2.6 G05 final evidence",
+        "0.2.5 regression and external evidence"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. Family-specific requalification is scheduled in G04.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-HEX8/ANA-STATIC"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-HEX8",
+        "legacy_analysis_id": "ANA-STATIC",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-HEX8-modal",
+      "record_kind": "combination",
+      "element_family": "HEX8",
+      "analysis": "modal",
+      "material_model": "solid_elastic/J2/TL",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "QUALIFIED_BOUNDED",
+      "evidence_refs": [
+        "0.2.5 HEX8 evidence",
+        "0.2.6 G05 final evidence",
+        "g05_requirements.json",
+        "g05_deep_case_registry.json",
+        "0_2_6_g05_final_evidence.md"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. G05 is PASS_WITH_LIMITATIONS: modal evidence covers eight internal family rows, while external correlation remains bounded and family-incomplete.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-HEX8/ANA-MODAL"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-HEX8",
+        "legacy_analysis_id": "ANA-MODAL",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-HEX8-newmark_transient",
+      "record_kind": "combination",
+      "element_family": "HEX8",
+      "analysis": "newmark_transient",
+      "material_model": "solid_elastic/J2/TL",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "QUALIFIED_BOUNDED",
+      "evidence_refs": [
+        "0.2.5 HEX8 evidence",
+        "0.2.6 G05 final evidence",
+        "g05_requirements.json",
+        "g05_deep_case_registry.json",
+        "0_2_6_g05_final_evidence.md"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. G05 is PASS_WITH_LIMITATIONS: Newmark refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-HEX8/ANA-NEWMARK"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-HEX8",
+        "legacy_analysis_id": "ANA-NEWMARK",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-HEX8-harmonic",
+      "record_kind": "combination",
+      "element_family": "HEX8",
+      "analysis": "harmonic",
+      "material_model": "solid_elastic/J2/TL",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "QUALIFIED_BOUNDED",
+      "evidence_refs": [
+        "0.2.5 HEX8 evidence",
+        "0.2.6 G05 final evidence",
+        "g05_requirements.json",
+        "g05_deep_case_registry.json",
+        "0_2_6_g05_final_evidence.md"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. G05 is PASS_WITH_LIMITATIONS: harmonic refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-HEX8/ANA-HARMONIC"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-HEX8",
+        "legacy_analysis_id": "ANA-HARMONIC",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-HEX8-linear_buckling",
+      "record_kind": "combination",
+      "element_family": "HEX8",
+      "analysis": "linear_buckling",
+      "material_model": "solid_elastic/J2/TL",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "NOT_QUALIFIED",
+      "evidence_refs": [
+        "0.2.5 HEX8 evidence",
+        "0.2.6 G05 final evidence",
+        "0.2.5 bounded Euler and external evidence"
+      ],
+      "owner_decision": "INHERITED_G14_MORE_EVIDENCE_REQUIRED",
+      "limitations": "G14 explicitly retains HEX8 buckling as more-evidence-required. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. No nonlinear collapse claim; 0.2.6 maturity extension is pending.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-HEX8/ANA-BUCKLING"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-HEX8",
+        "legacy_analysis_id": "ANA-BUCKLING",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-HEX8-nonlinear_load_control",
+      "record_kind": "combination",
+      "element_family": "HEX8",
+      "analysis": "nonlinear_load_control",
+      "material_model": "solid_elastic/J2/TL",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "0.2.5 HEX8 evidence",
+        "0.2.6 G05 final evidence",
+        "0.2.5 nonlinear owner evidence"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. Maturity extension and multi-family correlation are scheduled separately.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-HEX8/ANA-NONLINEAR-LOAD"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-HEX8",
+        "legacy_analysis_id": "ANA-NONLINEAR-LOAD",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-HEX20-linear_static",
+      "record_kind": "combination",
+      "element_family": "HEX20",
+      "analysis": "linear_static",
+      "material_model": "solid_elastic/J2/TL",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "QUALIFIED_BOUNDED",
+      "evidence_refs": [
+        "0.2.5 HEX20 evidence",
+        "0.2.6 G05 final evidence",
+        "0.2.5 regression and external evidence"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. Family-specific requalification is scheduled in G04.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-HEX20/ANA-STATIC"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-HEX20",
+        "legacy_analysis_id": "ANA-STATIC",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-HEX20-modal",
+      "record_kind": "combination",
+      "element_family": "HEX20",
+      "analysis": "modal",
+      "material_model": "solid_elastic/J2/TL",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "QUALIFIED_BOUNDED",
+      "evidence_refs": [
+        "0.2.5 HEX20 evidence",
+        "0.2.6 G05 final evidence",
+        "g05_requirements.json",
+        "g05_deep_case_registry.json",
+        "0_2_6_g05_final_evidence.md"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. G05 is PASS_WITH_LIMITATIONS: modal evidence covers eight internal family rows, while external correlation remains bounded and family-incomplete.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-HEX20/ANA-MODAL"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-HEX20",
+        "legacy_analysis_id": "ANA-MODAL",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-HEX20-newmark_transient",
+      "record_kind": "combination",
+      "element_family": "HEX20",
+      "analysis": "newmark_transient",
+      "material_model": "solid_elastic/J2/TL",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "QUALIFIED_BOUNDED",
+      "evidence_refs": [
+        "0.2.5 HEX20 evidence",
+        "0.2.6 G05 final evidence",
+        "g05_requirements.json",
+        "g05_deep_case_registry.json",
+        "0_2_6_g05_final_evidence.md"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. G05 is PASS_WITH_LIMITATIONS: Newmark refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-HEX20/ANA-NEWMARK"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-HEX20",
+        "legacy_analysis_id": "ANA-NEWMARK",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-HEX20-harmonic",
+      "record_kind": "combination",
+      "element_family": "HEX20",
+      "analysis": "harmonic",
+      "material_model": "solid_elastic/J2/TL",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "QUALIFIED_BOUNDED",
+      "evidence_refs": [
+        "0.2.5 HEX20 evidence",
+        "0.2.6 G05 final evidence",
+        "g05_requirements.json",
+        "g05_deep_case_registry.json",
+        "0_2_6_g05_final_evidence.md"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. G05 is PASS_WITH_LIMITATIONS: harmonic refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-HEX20/ANA-HARMONIC"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-HEX20",
+        "legacy_analysis_id": "ANA-HARMONIC",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-HEX20-linear_buckling",
+      "record_kind": "combination",
+      "element_family": "HEX20",
+      "analysis": "linear_buckling",
+      "material_model": "solid_elastic/J2/TL",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "QUALIFIED_BOUNDED",
+      "evidence_refs": [
+        "0.2.5 HEX20 evidence",
+        "0.2.6 G05 final evidence",
+        "0.2.5 bounded Euler and external evidence"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. No nonlinear collapse claim; 0.2.6 maturity extension is pending.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-HEX20/ANA-BUCKLING"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-HEX20",
+        "legacy_analysis_id": "ANA-BUCKLING",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-HEX20-nonlinear_load_control",
+      "record_kind": "combination",
+      "element_family": "HEX20",
+      "analysis": "nonlinear_load_control",
+      "material_model": "solid_elastic/J2/TL",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "0.2.5 HEX20 evidence",
+        "0.2.6 G05 final evidence",
+        "0.2.5 nonlinear owner evidence"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. Maturity extension and multi-family correlation are scheduled separately.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-HEX20/ANA-NONLINEAR-LOAD"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-HEX20",
+        "legacy_analysis_id": "ANA-NONLINEAR-LOAD",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-TET4-geometric_nonlinear_static",
+      "record_kind": "combination",
+      "element_family": "TET4",
+      "analysis": "geometric_nonlinear_static",
+      "material_model": "solid_elastic/J2/TL",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "0.2.5 owner evidence",
+        "0.2.6 G05-B TET4 cases",
+        "0.2.6 G05 final evidence",
+        "0.2.5 G02 bounded Total-Lagrangian evidence"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; external coverage is bounded and other analysis scopes remain separately governed. Only bounded TET4/HEX8 Total-Lagrangian elasticity is qualified; high-order and finite-kinematic J2 remain non-qualified.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-TET4/ANA-GEOMETRIC-NONLINEAR"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-TET4",
+        "legacy_analysis_id": "ANA-GEOMETRIC-NONLINEAR",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-TET10-geometric_nonlinear_static",
+      "record_kind": "combination",
+      "element_family": "TET10",
+      "analysis": "geometric_nonlinear_static",
+      "material_model": "solid_elastic/J2/TL",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "0.2.5 J2 bounded evidence",
+        "historical modal/dynamic tests",
+        "0.2.6 G05 final evidence",
+        "0.2.5 G02 bounded Total-Lagrangian evidence"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. Only bounded TET4/HEX8 Total-Lagrangian elasticity is qualified; high-order and finite-kinematic J2 remain non-qualified.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-TET10/ANA-GEOMETRIC-NONLINEAR"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-TET10",
+        "legacy_analysis_id": "ANA-GEOMETRIC-NONLINEAR",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-HEX8-geometric_nonlinear_static",
+      "record_kind": "combination",
+      "element_family": "HEX8",
+      "analysis": "geometric_nonlinear_static",
+      "material_model": "solid_elastic/J2/TL",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "0.2.5 HEX8 evidence",
+        "0.2.6 G05 final evidence",
+        "0.2.5 G02 bounded Total-Lagrangian evidence"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. Only bounded TET4/HEX8 Total-Lagrangian elasticity is qualified; high-order and finite-kinematic J2 remain non-qualified.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-HEX8/ANA-GEOMETRIC-NONLINEAR"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-HEX8",
+        "legacy_analysis_id": "ANA-GEOMETRIC-NONLINEAR",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-HEX20-geometric_nonlinear_static",
+      "record_kind": "combination",
+      "element_family": "HEX20",
+      "analysis": "geometric_nonlinear_static",
+      "material_model": "solid_elastic/J2/TL",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "0.2.5 HEX20 evidence",
+        "0.2.6 G05 final evidence",
+        "0.2.5 G02 bounded Total-Lagrangian evidence"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. Only bounded TET4/HEX8 Total-Lagrangian elasticity is qualified; high-order and finite-kinematic J2 remain non-qualified.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-HEX20/ANA-GEOMETRIC-NONLINEAR"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-HEX20",
+        "legacy_analysis_id": "ANA-GEOMETRIC-NONLINEAR",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-DISCRETE-linear_static",
+      "record_kind": "combination",
+      "element_family": "DISCRETE",
+      "analysis": "linear_static",
+      "material_model": "discrete_linear",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "0.2.6 shell_beam_discrete planned cases",
+        "0.2.6 G05 final evidence",
+        "0.2.5 regression and external evidence"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 modal/dynamic/harmonic coverage is bounded; other discrete scopes remain governed by their own gates. Family-specific requalification is scheduled in G04.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-DISCRETE/ANA-STATIC"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-DISCRETE",
+        "legacy_analysis_id": "ANA-STATIC",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-DISCRETE-modal",
+      "record_kind": "combination",
+      "element_family": "DISCRETE",
+      "analysis": "modal",
+      "material_model": "discrete_linear",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "0.2.6 shell_beam_discrete planned cases",
+        "0.2.6 G05 final evidence",
+        "g05_requirements.json",
+        "g05_deep_case_registry.json",
+        "0_2_6_g05_final_evidence.md"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 modal/dynamic/harmonic coverage is bounded; other discrete scopes remain governed by their own gates. G05 is PASS_WITH_LIMITATIONS: modal evidence covers eight internal family rows, while external correlation remains bounded and family-incomplete.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-DISCRETE/ANA-MODAL"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-DISCRETE",
+        "legacy_analysis_id": "ANA-MODAL",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-DISCRETE-newmark_transient",
+      "record_kind": "combination",
+      "element_family": "DISCRETE",
+      "analysis": "newmark_transient",
+      "material_model": "discrete_linear",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "0.2.6 shell_beam_discrete planned cases",
+        "0.2.6 G05 final evidence",
+        "g05_requirements.json",
+        "g05_deep_case_registry.json",
+        "0_2_6_g05_final_evidence.md"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 modal/dynamic/harmonic coverage is bounded; other discrete scopes remain governed by their own gates. G05 is PASS_WITH_LIMITATIONS: Newmark refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-DISCRETE/ANA-NEWMARK"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-DISCRETE",
+        "legacy_analysis_id": "ANA-NEWMARK",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-DISCRETE-harmonic",
+      "record_kind": "combination",
+      "element_family": "DISCRETE",
+      "analysis": "harmonic",
+      "material_model": "discrete_linear",
+      "formulation_or_route": "element_route_with_legacy_analysis_mapping",
+      "backend_or_solver_route": "not separately declared in legacy registry",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "0.2.6 shell_beam_discrete planned cases",
+        "0.2.6 G05 final evidence",
+        "g05_requirements.json",
+        "g05_deep_case_registry.json",
+        "0_2_6_g05_final_evidence.md"
+      ],
+      "owner_decision": "INHERITED_0_2_6_SCOPE",
+      "limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 modal/dynamic/harmonic coverage is bounded; other discrete scopes remain governed by their own gates. G05 is PASS_WITH_LIMITATIONS: harmonic refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "77f147ee261d97fd5e6b88281daafb4deba9ce53",
+      "supersedes": [
+        "ELE-DISCRETE/ANA-HARMONIC"
+      ],
+      "historical_origin": {
+        "legacy_capability_id": "ELE-DISCRETE",
+        "legacy_analysis_id": "ANA-HARMONIC",
+        "source_registry": "qualification/capability_registry.json",
+        "source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+        "migration_note": "Combination mapping derived from the controlled public_analysis_combinations list; no new qualification is introduced."
+      }
+    },
+    {
+      "capability_id": "COMB-WEDGE6-linear_static",
+      "record_kind": "combination",
+      "element_family": "WEDGE6",
+      "analysis": "linear_static",
+      "material_model": "isotropic_3d",
+      "formulation_or_route": "small_strain_linear_elastic",
+      "backend_or_solver_route": "scipy_sparse",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "EXPERIMENTAL",
+      "evidence_refs": [
+        "qualification/0_2_7/wp07_state.json",
+        "docs/verification/0_2_7/0_2_7_wedge6_kernel.md",
+        "qualification/0_2_7/wp08_state.json",
+        "qualification/0_2_7/vnv_v2/wp08_cases.json",
+        "qualification/0_2_7/vnv_v2/wp08_evidence.json",
+        "tests/integration/test_wedge6_static_workflow.py",
+        "docs/verification/0_2_7/0_2_7_wedge6_static_vertical_slice.md"
+      ],
+      "owner_decision": "WP08_STATIC_VERTICAL_SLICE_EXPERIMENTAL",
+      "limitations": "WP08 validates the bounded Gmsh Prism 6 static workflow, declared TRI3/QUAD4 face loads, reactions/equilibrium and Gauss-point post-processing; WEDGE6 remains EXPERIMENTAL and public qualification, robustness, modal/dynamic routes, nonlinear routes and external correlation remain deferred.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "8040909d6d65f740e1daf858ce572d250a87b39a",
+      "supersedes": [],
+      "historical_origin": {
+        "legacy_capability_id": "WEDGE6",
+        "source_registry": "qualification/0_2_7/wp07_state.json",
+        "source_snapshot": "9c23706e952262ab8ee71d85c809e46d7abab8b7",
+        "migration_note": "New 0.2.7 technical experimental combination; not a legacy public capability anchor."
+      }
+    },
+    {
+      "capability_id": "COMB-WEDGE6-modal",
+      "record_kind": "combination",
+      "element_family": "WEDGE6",
+      "analysis": "modal",
+      "material_model": "isotropic_3d",
+      "formulation_or_route": "consistent_mass_linear_elastic",
+      "backend_or_solver_route": "scipy_sparse_common_modal",
+      "support_state": "SUPPORTED",
+      "verification_state": "VERIFIED",
+      "qualification_state": "QUALIFIED_BOUNDED",
+      "evidence_refs": [
+        "qualification/0_2_7/wp10_final_state.json",
+        "qualification/0_2_7/vnv_v2/wp10_final_cases.json",
+        "qualification/0_2_7/vnv_v2/wp10_final_evidence.json",
+        "docs/verification/0_2_7/0_2_7_wedge6_modal.md",
+        "src/solveur/verification/modal_comparison.py",
+        "tests/unit/test_wp10_final_modal.py",
+        "tests/unit/test_wp10_wedge6_modal.py"
+      ],
+      "owner_decision": "OWNER_APPROVED_BOUNDED_FIRST_THREE_MODES",
+      "limitations": "WP10 qualifies only the homogeneous isotropic small-strain WEDGE6 consistent-mass modal route within the declared four-level first-three-mode refinement and four same-mesh Code_Aster PENTA6 comparisons. Modes four to six remain diagnostic for refinement; static evidence is not transferred automatically, and Newmark, harmonic, nonlinear, J2, TL and contact routes remain outside this record.",
+      "applicable_version": "0.2.7",
+      "source_snapshot": "9d79dc8b306e6cc65f2f4ae2e77e00f676182b84",
+      "supersedes": [],
+      "historical_origin": {
+        "legacy_capability_id": "COMB-WEDGE6-linear_static",
+        "source_registry": "qualification/0_2_7/capability_registry_v2.json",
+        "source_snapshot": "8040909d6d65f740e1daf858ce572d250a87b39a",
+        "migration_note": "New modal combination; static WEDGE6 maturity and evidence are not reused as modal qualification."
+      }
+    }
+  ],
+  "level_up_scope": {
+    "plan": "qualification/0_2_7/level_up_plan.json",
+    "registry_role": "Existing combination maturity remains authoritative; Level-Up setup adds no capability and makes no promotion.",
+    "deferred_capabilities": [
+      "mixed TET/WEDGE/HEX",
+      "WEDGE15",
+      "PYRAMID5",
+      "production HEX8R/SRI/B-bar",
+      "finite-kinematic J2",
+      "TL HEX8",
+      "refined Arc-Length",
+      "new nonlinear couplings",
+      "matrix-free multi-family",
+      "general Newmark/harmonic qualification"
+    ]
+  }
+}

@@ -7,6 +7,7 @@ import numpy as np
 from solveur.elements.solid.hex20 import Hex20Element
 from solveur.elements.solid.hex8 import Hex8Element
 from solveur.elements.solid.tet10 import Tet10Element
+from solveur.elements.solid.wedge6 import Wedge6Element
 from solveur.materials.orthotropic import OrthotropicSolidMaterial
 from solveur.materials.solid import SolidConstitutiveMaterial
 
@@ -230,6 +231,68 @@ def hex20_result(
             nodes,
             averaged,
             Hex20Element.von_mises(np.asarray(averaged["stress"])),
+            "volume_weighted_gauss_average",
+        ),
+    }
+
+
+def wedge6_result(
+    index: int,
+    element_type: str,
+    nodes: tuple[int, ...],
+    material: SolidConstitutiveMaterial,
+    coords: np.ndarray,
+    local_u: np.ndarray,
+    states: list[dict[str, object]] | None = None,
+) -> dict[str, object]:
+    """Recover production-rule strains and stresses for a WEDGE6 element."""
+    element = Wedge6Element(material)
+    integration_points: list[dict[str, object]] = []
+    for point_index, (point, quadrature_weight, b_matrix, determinant) in enumerate(
+        element.integration_data(coords)
+    ):
+        point_strain = b_matrix @ np.asarray(local_u, dtype=float)
+        point_state = state_for_point(material, point_strain, states, point_index)
+        point_stress = stress_from_state(point_state, material.stress_tangent(point_strain)[0])
+        shape = element.shape_functions(point)
+        point_result = solid_point_result(
+            index=point_index,
+            location="gauss",
+            barycentric=list(point),
+            coordinates=shape @ np.asarray(coords, dtype=float),
+            weight=quadrature_weight * determinant,
+            strain=point_strain,
+            stress=point_stress,
+            von_mises=element.von_mises(point_stress),
+            state=point_state,
+        )
+        point_result["natural_coordinates"] = list(point)
+        point_result.update(orthotropic_fields(material, point_strain, point_stress))
+        integration_points.append(point_result)
+    averaged = average_solid_points(integration_points)
+    averaged.update(orthotropic_fields(material, np.asarray(averaged["strain"]), np.asarray(averaged["stress"])))
+    averaged_stress = np.asarray(averaged["stress"], dtype=float)
+    strain_energy = float(
+        sum(
+            0.5
+            * float(np.asarray(point["strain"], dtype=float) @ np.asarray(point["stress"], dtype=float))
+            * float(point["weight"])
+            for point in integration_points
+        )
+    )
+    return {
+        "element": index,
+        "type": element_type,
+        "location": "integration_average",
+        **averaged,
+        "strain_energy": strain_energy,
+        "von_mises": element.von_mises(averaged_stress),
+        "integration_points": integration_points,
+        "nodal_results": solid_nodal_results(
+            coords,
+            nodes,
+            averaged,
+            element.von_mises(averaged_stress),
             "volume_weighted_gauss_average",
         ),
     }

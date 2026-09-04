@@ -1,4 +1,11 @@
 *.msh -text whitespace=-trailing-space
+qualification/0_2_7/external_oracles/wedge6/decks/calculix/*.inp binary
+qualification/0_2_7/external_oracles/wedge6/results/*.dat binary
+qualification/0_2_7/external_oracles/wedge6/results/*.frd binary
+qualification/0_2_7/external_oracles/wedge6/results/*.sta binary
+qualification/0_2_7/external_oracles/wedge6/decks/code_aster/*.mail binary
+qualification/0_2_7/external_oracles/wedge6/decks/code_aster/*.comm binary
+qualification/0_2_7/external_oracles/wedge6/results/*.log binary
 *.pdf binary
 *.png binary
 LICENSE text eol=lf

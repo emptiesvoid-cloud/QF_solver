@@ -1,0 +1,213 @@
+{
+  "status": "PASS",
+  "errors": [],
+  "warnings": [],
+  "details": {
+    "node_count": 3375000,
+    "element_count": 19847694,
+    "ndof": 10125000,
+    "fixed_dof_count": 67500,
+    "local_fixed_dof_count": 67500,
+    "local_fixed_dof_counts": [
+      67500,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "free_dof_count": 10057500,
+    "load_count": 22500,
+    "local_load_count": 0,
+    "local_load_counts": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      22500
+    ],
+    "distributed_input": true,
+    "mpi_size": 8,
+    "local_element_counts": [
+      2480961,
+      2480962,
+      2480962,
+      2480962,
+      2480961,
+      2480962,
+      2480962,
+      2480962
+    ],
+    "local_compact_node_counts": [
+      441620,
+      441771,
+      441620,
+      441771,
+      441770,
+      441620,
+      441771,
+      441620
+    ],
+    "local_owned_node_counts": [
+      421875,
+      421875,
+      421875,
+      421875,
+      421875,
+      421875,
+      421875,
+      421875
+    ],
+    "local_halo_node_counts": [
+      19745,
+      19896,
+      19745,
+      19896,
+      19895,
+      19745,
+      19896,
+      19745
+    ],
+    "max_halo_node_count": 19896,
+    "halo_node_ratio_max": 0.045036908262425554,
+    "mpi_communication": {
+      "local_compact_node_counts": [
+        441620,
+        441771,
+        441620,
+        441771,
+        441770,
+        441620,
+        441771,
+        441620
+      ],
+      "local_owned_node_counts": [
+        421875,
+        421875,
+        421875,
+        421875,
+        421875,
+        421875,
+        421875,
+        421875
+      ],
+      "local_halo_node_counts": [
+        19745,
+        19896,
+        19745,
+        19896,
+        19895,
+        19745,
+        19896,
+        19745
+      ],
+      "max_halo_node_count": 19896,
+      "halo_node_ratio_max": 0.045036908262425554,
+      "estimated_halo_coordinate_bytes_by_rank": [
+        473880,
+        477504,
+        473880,
+        477504,
+        477480,
+        473880,
+        477504,
+        473880
+      ],
+      "estimated_halo_coordinate_bytes_total": 3805512,
+      "local_fixed_dof_counts": [
+        67500,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "local_load_counts": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        22500
+      ],
+      "estimated_fixed_payload_bytes_by_rank": [
+        607500,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "estimated_load_payload_bytes_by_rank": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        382500
+      ],
+      "estimated_boundary_payload_bytes_total": 990000,
+      "graph_cut_face_count": 0,
+      "graph_cut_face_ratio": 0.0
+    },
+    "replicated_connectivity": false,
+    "replicated_global_nodes": false,
+    "partition_strategy": "contiguous",
+    "partition": {
+      "strategy": "contiguous",
+      "partitioner": "index_range",
+      "local_element_counts": [
+        2480961,
+        2480962,
+        2480962,
+        2480962,
+        2480961,
+        2480962,
+        2480962,
+        2480962
+      ],
+      "node_read": {
+        "method": "blocked_hdf5_ranges",
+        "local_time_s": 0.15403820702340454,
+        "max_time_s": 0.22092551202513278,
+        "block_size": 262144,
+        "local_node_count": 441620
+      },
+      "boundary_conditions": {
+        "method": "chunked_hdf5_filter",
+        "local_time_s": 0.11833141604438424,
+        "max_time_s": 0.1383424919913523,
+        "fixed_global_count": 67500,
+        "fixed_local_count": 67500,
+        "load_global_count": 22500,
+        "load_local_count": 0,
+        "loads_owned_by_dof_range": true,
+        "fixed_kept_for_element_halo_or_dof_owner": true
+      }
+    },
+    "minimum_signed_volume": 9.446941292020862e-08,
+    "invalid_volume_count": 0,
+    "solution": {
+      "displacement_norm": 0.01061262859281486,
+      "load_norm": 6666.666666666632,
+      "true_residual_norm": 6.932533982047735e-07,
+      "strain_energy": 5.005437427440405,
+      "external_work": 10.010874854880853
+    },
+    "error_count": 0,
+    "warning_count": 0
+  }
+}

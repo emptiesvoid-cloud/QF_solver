@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "record_type": "final_release_truth",
+  "record_id": "QF-027-WP21-RELEASE-TRUTH-001",
+  "work_package": "WP21",
+  "status": "READY_FOR_OWNER_RELEASE_WITH_LIMITATIONS",
+  "candidate_version": "0.2.7a0",
+  "package_name": "qf-solver",
+  "development_branch": "codex/0.2.7-foundation",
+  "candidate_source_snapshot": "0f565dc9669763751a75f13b02004bde18af571c",
+  "final_commit_sha_role": "the containing commit is the final candidate commit; resolve it with git rev-parse HEAD",
+  "parent_release": {
+    "version": "0.2.6a0",
+    "qualification_snapshot": "93561c2c0ae1c173deb81e47c3fa3852643275cb",
+    "release_source_snapshot": "e839373b6aef291a93292186d7553ba5cd12af55",
+    "tag": "v0.2.6a0",
+    "git_published": true,
+    "pypi_published": true
+  },
+  "qualification_snapshot_roles": {
+    "wp13_source": "94ce10a53e31ad6884383c7ec8ce1761d9533eff",
+    "wp13_wp21_replay_source": "0f565dc9669763751a75f13b02004bde18af571c",
+    "wp16_source": "b8db2211536eaaf1c026ddfb7a5843b61b2e3733",
+    "wp17_source": "cd4da89797ff37e0b142d0705aa4fae0972a7065",
+    "wp18_source": "9c0605645fa60ef0d89f3ce98ca361a677f13d1d",
+    "wp19_source": "dc5975b78727d9dca6d0a48b716e60f355b8799f",
+    "wp20_source": "94461602dfd1782be57c20e1801a0d5d8e262ef1"
+  },
+  "capability_summary": {
+    "public_capability_anchors": 33,
+    "combination_records": 46,
+    "records": 79,
+    "combination_qualification_state_counts": {
+      "QUALIFIED_BOUNDED": 20,
+      "EXPERIMENTAL": 25,
+      "NOT_QUALIFIED": 1
+    }
+  },
+  "claims": {
+    "wedge6_static": "EXPERIMENTAL",
+    "wedge6_modal": "QUALIFIED_BOUNDED first three modes within the declared scope",
+    "j2_small_strain": "QUALIFIED_BOUNDED for TET4/TET10/HEX8/HEX20",
+    "one_million_true_dof": "PASS: two replays at 1029000 true DOF on the declared PETSc route",
+    "three_million_silver": "PASS: two replays at 3000000 true DOF on the declared route",
+    "three_million_gold": "UNCLAIMED",
+    "hex8": "low-order limitation diagnostic; no universal accuracy claim",
+    "petsc": "bounded optional runtime route; no generic HPC claim"
+  },
+  "evidence": {
+    "wp21_state": "qualification/0_2_7/wp21_state.json",
+    "public_audit": "qualification/0_2_7/wp21_public_document_audit.json",
+    "golden_replay": "qualification/0_2_7/golden/wp21_replay_evidence.json",
+    "registry": "qualification/0_2_7/capability_registry_v2.json"
+  },
+  "artifact_classification": {
+    "SOURCE": "tracked implementation and configuration",
+    "CONTROLLED_PROOF": "versioned evidence with source SHA, policy and digest",
+    "GENERATED_VIEW": "reader-facing output derived from controlled records",
+    "HISTORICAL_EVIDENCE": "immutable evidence from an earlier release or source snapshot",
+    "BUILD_ARTIFACT": "wheel, sdist and local build output"
+  },
+  "text_digest_policy": "UTF-8 with LF newlines, hashed as canonical bytes with SHA-256; binary artifacts are hashed byte-for-byte.",
+  "publication_state": {
+    "tag": "NOT_CREATED",
+    "github_release": "NOT_CREATED",
+    "pypi": "NOT_PUBLISHED"
+  },
+  "known_limitations": [
+    "0.2.7a0 is an untagged and unpublished release candidate",
+    "WP18 Gold restart/checkpoint, second physical case, GPU and general HPC claims remain unclaimed",
+    "PETSc/MPI is optional at runtime and the measured AIJ memory envelope is environment-specific",
+    "WEDGE6 static is EXPERIMENTAL; WEDGE6 modal is bounded to the first three modes and declared PENTA6 comparisons",
+    "HEX8 low-order behavior remains diagnostic and no HEX8R/SRI/B-bar route is promoted",
+    "finite-kinematic J2, mixed meshes, broad nonlinear couplings and general dynamics remain experimental or deferred"
+  ],
+  "deferred_levelup2": [
+    "mixed TET/WEDGE/HEX",
+    "WEDGE15",
+    "PYRAMID5",
+    "production HEX8R/SRI/B-bar",
+    "finite-kinematic J2",
+    "TL HEX8",
+    "refined Arc-Length",
+    "new nonlinear couplings",
+    "matrix-free multi-family",
+    "general Newmark/harmonic qualification",
+    "architecture redesign beyond surgical cleanup",
+    "Trusted Publishing/OIDC and duplicate-release no-op policy"
+  ],
+  "checks": {
+    "full_regression": "2045 passed / 4 pre-existing identical failures / 184 skipped / 2 warnings",
+    "targeted": "PASS",
+    "qualification_validators": "PASS",
+    "package_build": "PASS",
+    "clean_install": "PASS (wheel and sdist)"
+  },
+  "functional_source_changed": false,
+  "fem_formulation_changed": false,
+  "owner_decisions_preserved": true,
+  "pushed": false,
+  "tagged": false,
+  "pypi_published": false,
+  "artifact_digests": {
+    "wheel": {
+      "file": "qf_solver-0.2.7a0-py3-none-any.whl",
+      "sha256": "e2d0e7178b5a6ee0abb4d3668f6fecb21928526e3436d7d0a4409ced5992d773"
+    },
+    "sdist": {
+      "file": "qf_solver-0.2.7a0.tar.gz",
+      "sha256": "99e36f12f43dc3692781e54ad81f23455156fd220a96d3ba9077906b1d6e1435"
+    }
+  }
+}

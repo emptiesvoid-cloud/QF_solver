@@ -1,47 +1,34 @@
 ---
 doc_id: DOC-REF-OSS-001
-revision: 0.1
+revision: 1.0
 status: controlled
-applicable_version: 0.2.5a0
+applicable_version: 0.2.7
 reviewer: ""
 approver: ""
 ---
 
-# Licence et publication open source
+# Open-source licence and publication
 
-QF_solver est une bibliotheque Python personnelle de calcul elements finis
-publiee sous une licence ouverte pour permettre l'etude, la reutilisation et
-l'usage commercial. Le code source est sous `Apache-2.0`. La documentation et
-les exemples originaux sont sous `CC BY 4.0`.
+QF Solver is an open-source Python finite-element library for inspectable
+structural-mechanics workflows. Source code is distributed under Apache-2.0.
+Original documentation and examples are distributed under CC BY 4.0.
 
-La licence ne couvre pas automatiquement les publications, maillages,
-sorties de solveurs externes ou autres composants tiers. Leurs droits sont
-recenses dans `THIRD_PARTY_LICENSES.md` et doivent rester attaches a chaque
-artefact publie.
-
-La licence autorise la reutilisation et l'usage commercial. Elle ne constitue
-ni une garantie de resultat mecanique, ni une certification, ni une
-autorisation d'utiliser le nom QF_solver comme marque ou approbation.
-
-Les contributions futures suivront `CONTRIBUTING.md`. Les anomalies de calcul
-et les propositions V&V auront des formulaires distincts afin de ne pas
-confondre un defaut logiciel avec une limite de domaine mecanique.
+The licence permits reuse and commercial use. It is not a guarantee of a
+mechanical result, a certification, or an endorsement of a particular use.
+Third-party meshes, external solver outputs and other components retain their
+own terms; their notices remain attached to the relevant artifact.
 
 ## Attribution
 
-Le projet est porte par Quentin Farinazzo. Les utilisateurs sont invites a
-citer QF_solver et sa version au moyen de `CITATION.cff`. Les contributions
-sont regies par `CONTRIBUTING.md`; elles restent sous Apache-2.0 sauf accord
-explicite different.
+The project is maintained by Quentin Farinazzo. Users are invited to cite
+QF Solver and the version used through CITATION.cff. Contributions follow the
+terms described in CONTRIBUTING.md.
 
-## Etat de la readiness 0.2.5a0
+## Release boundary
 
-La documentation publique accompagne un candidat dont le scope qualifie est
-explicitement borne. La preuve de reference indique `1719` tests passes,
-`0` echec, `88.37 %` de couverture et `64/64` controles externes passes.
-Les gates G04 et G06 restent visibles comme experimentales/non qualifiees,
-et le frottement G07 est hors scope.
+The public 0.2.7 scope is explicitly bounded. Experimental and non-comparable
+routes remain labeled as such in the capabilities and known-limitations pages.
+Historical audit records keep the version and status that were true when they
+were produced.
 
-La creation du tag, le push Git et le televersement PyPI restent des actions
-separees controlees par l'Owner. Cette page ne transforme pas une readiness
-documentaire en publication automatique.
+This page does not imply certification or automatic publication.

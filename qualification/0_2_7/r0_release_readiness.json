@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "record_type": "r0_release_readiness",
+  "audit_id": "QF-027-R0-RELEASE-001",
+  "release": "0.2.7a0",
+  "status": "PASS_WITH_LIMITATIONS",
+  "audit_start_sha": "5323a0996f214a3203f06b5bb468843b57c25270",
+  "audit_start_sha_role": "F6-closed release candidate before R0 closeout",
+  "branch": "codex/0.2.7-foundation",
+  "candidate": {
+    "source_sha_at_audit": "5323a0996f214a3203f06b5bb468843b57c25270",
+    "release_candidate_sha": "RECORDED_IN_R0_CLOSEOUT_REPORT",
+    "release_candidate_sha_policy": "The final local R0 closeout commit is the only future tag/build source. This record does not self-hash.",
+    "tag": "v0.2.7a0",
+    "tag_created": false,
+    "github_release_created": false,
+    "pypi_published": false
+  },
+  "coactivity": {
+    "found": true,
+    "foreign_files": [
+      "docs/verification/project_hygiene_architecture_audit_0_2_1.md"
+    ],
+    "classification": "FOREIGN_CHANGE",
+    "scope": "Old 0.2.1 architecture/hygiene report; 10 insertions and 10 deletions, unrelated to F1-F6 or R0.",
+    "preservation_method": "Targeted git stash before the R0 closeout",
+    "stash_commit": "a9e64d5e03ebadfcd1292ad3c5b04460761c10aa",
+    "release_tree_after_isolation": "CLEAN",
+    "release_changes_include_foreign_work": false
+  },
+  "source_integrity": {
+    "numerical_source_changed": false,
+    "baseline_changed": false,
+    "historical_evidence_modified": false,
+    "maturity_promoted": false,
+    "foreign_change_preserved": true,
+    "release_candidate_attribution": "R0 closeout commit only"
+  },
+  "qualification_integrity": {
+    "score": "96/100",
+    "f1_status": "PASS_WITH_LIMITATIONS",
+    "f2_status": "PASS_WITH_LIMITATIONS",
+    "f3_status": "PASS_WITH_LIMITATIONS",
+    "f4_status": "PASS_WITH_LIMITATIONS",
+    "f5_status": "PASS_WITH_LIMITATIONS",
+    "f6_status": "PASS_WITH_LIMITATIONS",
+    "five_million_status": "PASS",
+    "ten_million_status": "PASS_WITH_LIMITATIONS",
+    "five_million_scope": "Two Silver replays on the recorded structured TET4 PETSc/MPI workload.",
+    "ten_million_scope": "Bounded C3 TET4 linear-static capacity evidence; no universal scaling claim.",
+    "qualification_transitivity": false
+  },
+  "audit_closure": {
+    "f1_to_f6_complete": true,
+    "new_p0": 0,
+    "new_p1": 0,
+    "known_full_suite_failures": 3,
+    "known_full_suite_failure_scope": "Experimental or stale nonlinear/finite-sliding paths, unchanged from F4.",
+    "no_new_requalification": true
+  },
+  "test_readiness": {
+    "closeout_targeted_battery": "138 passed, 2 skipped in 183.22s",
+    "f6_regression_guard": "5 passed",
+    "mpi_petsc_guard": "PASS",
+    "api_cli_governance": "PASS",
+    "ruff": "PASS",
+    "compileall": "PASS",
+    "diff_check": "PASS",
+    "full_regression": "2147 passed, 3 failed, 184 skipped, 2 warnings; same three F4 failures",
+    "heavy_benchmark": false
+  },
+  "packaging": {
+    "distribution": "qf-solver",
+    "import": "qf_solver",
+    "version": "0.2.7a0",
+    "wheel": "dist/qf_solver-0.2.7a0-py3-none-any.whl",
+    "sdist": "dist/qf_solver-0.2.7a0.tar.gz",
+    "distribution_check": "PASS",
+    "twine_check": "PASS",
+    "wheel_ready": true,
+    "sdist_ready": true,
+    "clean_install_ready": true,
+    "pypi_artifact_ready": true,
+    "interpretation": "Technical artifact readiness only; no publication was performed."
+  },
+  "documentation": {
+    "readme": "PASS_WITH_LIMITATIONS",
+    "release_notes": "PASS_WITH_LIMITATIONS",
+    "known_limitations_visible": true,
+    "claims_bounded": true,
+    "historical_release_truth_preserved": true
+  },
+  "publication_gate_observation": {
+    "release_readiness_script": "NOT_READY",
+    "expected_prepublication_checks": [
+      "git_history_audit",
+      "version_tag"
+    ],
+    "interpretation": "R0 prepares an owner-review candidate and does not create a tag. The history prefilter found a legitimate public controlled-proof path and one non-GitHub-no-reply historical author identity; contents remain subject to manual owner review before publication."
+  },
+  "accepted_limitations": [
+    "The candidate remains 0.2.7a0 and is not tagged or published.",
+    "Python 3.10 is CI-covered but not locally exercised; Python 3.11 and macOS remain unverified.",
+    "Optional PETSc/MPI/HDF5 routes require their declared environments.",
+    "WEDGE6 static remains EXPERIMENTAL; WEDGE6 modal is qualified only for its bounded first-three-mode scope.",
+    "CalculiX is NOT_COMPARABLE for the bounded WEDGE6 external contract.",
+    "The three known full-suite failures remain outside the supported bounded release matrix.",
+    "No universal scaling, GPU, mixed-mesh, nonlinear, contact or dynamics claim is made."
+  ],
+  "findings": {
+    "p0_found": 0,
+    "p1_found": 0,
+    "p2_found": 0,
+    "p3_found": 2,
+    "p0_open": 0,
+    "p1_open": 0,
+    "p2_open": 0,
+    "p3_open": 2,
+    "p3_items": [
+      "Final tag creation and publication remain explicit Owner actions.",
+      "Reachable Git history requires manual public-history review before publication."
+    ],
+    "release_blockers": []
+  },
+  "controls": {
+    "r0_started": true,
+    "r0_published": false,
+    "pushed": false,
+    "tag_created": false,
+    "github_release_created": false,
+    "pypi_published": false,
+    "full_regression_run": false,
+    "heavy_benchmark_run": false
+  },
+  "ready_for_owner_decision": true,
+  "ready_for_tag": false,
+  "ready_for_github_release": false,
+  "ready_for_pypi": false,
+  "evidence_refs": [
+    "qualification/0_2_7/r0_release_readiness.json",
+    "qualification/0_2_7/manifest.json",
+    "qualification/0_2_7/gates.json",
+    "qualification/0_2_7/f6_numerical_performance_regression_audit.json",
+    "qualification/0_2_7/f5_packaging_compatibility_audit.json",
+    "docs/verification/0_2_7/0_2_7_r0_release_readiness.md",
+    "tests/unit/test_r0_release_readiness.py"
+  ],
+  "owner_recommendation": "RELEASE_WITH_KNOWN_LIMITATIONS"
+}

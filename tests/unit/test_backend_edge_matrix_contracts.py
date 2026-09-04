@@ -6,6 +6,7 @@ import numpy as np
 import pytest
 from solveur.core.dynamic_history import _relative_energy_drift, validated_history_probes, validated_shell_stress_probes
 from solveur.core.dofs import DofManager, SOLID_DOFS
+from solveur.core.errors import InputValidationError
 from solveur.core.rbe import Rbe2Definition, Rbe3Definition, rbe2_constraints, rbe3_constraints
 from solveur.elements.discrete import ConcentratedMass, SpringDefinition
 from solveur.elements.shell.mitc3_condensation import condense_matrix, condensation_transform, recover_internal
@@ -28,7 +29,7 @@ def _dofs() -> DofManager:
     ],
 )
 def test_rbe2_rejects_invalid_topology(definition: Rbe2Definition, message: str) -> None:
-    with pytest.raises(Exception, match=message):
+    with pytest.raises(InputValidationError, match=message):
         rbe2_constraints(np.zeros((2, 3)), definition)
 
 
@@ -58,27 +59,27 @@ def test_rbe2_ties_rotations_and_drops_zero_offset_terms() -> None:
 def test_rbe3_rejects_invalid_modes_weights_and_geometry(
     definition: Rbe3Definition, nodes: np.ndarray | None, message: str
 ) -> None:
-    with pytest.raises(Exception, match=message):
+    with pytest.raises(InputValidationError, match=message):
         rbe3_constraints(nodes, definition)
 
 
 def test_rbe3_rejects_reference_and_independent_aliases() -> None:
-    with pytest.raises(Exception, match="reference"):
+    with pytest.raises(InputValidationError, match="reference"):
         rbe3_constraints(np.zeros((7, 3)), Rbe3Definition(7, tuple((node, 1.0) for node in range(1, 7))))
-    with pytest.raises(Exception, match="differ"):
+    with pytest.raises(InputValidationError, match="differ"):
         rbe3_constraints(np.zeros((6, 3)), Rbe3Definition(0, tuple((node, 1.0) for node in range(6))))
 
 
 @pytest.mark.parametrize("entries", ["bad", [{"node": 0}], [{"node": 0, "dof": "UX", "label": ""}], [{"node": 0, "dof": "UX", "label": "a"}, {"node": 0, "dof": "UX", "label": "a"}]])
 def test_history_probe_validation_rejects_malformed_entries(entries: object) -> None:
-    with pytest.raises(Exception):
+    with pytest.raises(InputValidationError):
         validated_history_probes(_dofs(), entries)
 
 
 def test_history_probe_validation_accepts_default_labels_and_rejects_unavailable_dofs() -> None:
     probes = validated_history_probes(_dofs(), [{"node": 0, "dof": "UX"}, {"node": 1, "dof": "UY", "label": "tip"}])
     assert [entry[0] for entry in probes] == ["node_0_UX", "tip"]
-    with pytest.raises(Exception, match="unavailable"):
+    with pytest.raises(InputValidationError, match="unavailable"):
         validated_history_probes(_dofs(), [{"node": 99, "dof": "UX"}])
 
 
@@ -99,7 +100,7 @@ def test_shell_stress_probe_validation_rejects_non_shell_or_bad_components(entri
             elements=[{"type": "MITC4", "nodes": [0, 1, 2, 3], "material": "m"}],
             materials={"m": {"type": "shell_isotropic", "E": 1.0, "nu": 0.3, "t": 0.1}},
         )
-    with pytest.raises(Exception, match=message):
+    with pytest.raises(InputValidationError, match=message):
         validated_shell_stress_probes(model, entries)
 
 
@@ -166,11 +167,11 @@ def test_discrete_spring_and_mass_matrix_contracts_cover_local_and_invalid_paths
     local = SpringDefinition(0, ("UX", "RY"), ((2.0, 0.0), (0.0, 3.0)), coordinate_system="local", orientation=tuple(np.eye(3)))
     assert local.active_dofs() == ("UX", "UY", "UZ", "RX", "RY", "RZ")
     assert local.nodal_stiffness().shape == (6, 6)
-    with pytest.raises(Exception, match="orientation"):
+    with pytest.raises(InputValidationError, match="orientation"):
         SpringDefinition(0, ("UX",), ((1.0,),), coordinate_system="local").nodal_stiffness()
-    with pytest.raises(Exception, match="symmetric"):
+    with pytest.raises(InputValidationError, match="symmetric"):
         SpringDefinition(0, ("UX", "UY"), ((1.0, 1.0), (0.0, 1.0))).nodal_stiffness()
     assert ConcentratedMass(0, 2.0).matrix().shape == (3, 3)
     assert ConcentratedMass(0, 2.0, center_of_mass=(1.0, 0.0, 0.0), inertia=tuple(tuple(row) for row in np.eye(3))).matrix().shape == (6, 6)
-    with pytest.raises(Exception, match="strictly positive"):
+    with pytest.raises(InputValidationError, match="strictly positive"):
         ConcentratedMass(0, 0.0).matrix()

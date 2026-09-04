@@ -1,6 +1,9 @@
+import os
 import subprocess
 import sys
 from pathlib import Path
+
+from solveur.version import __version__
 
 try:
     import tomllib
@@ -9,6 +12,15 @@ except ModuleNotFoundError:  # Python 3.10 compatibility; tomllib is built in fr
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
+
+
+def _source_environment() -> dict[str, str]:
+    environment = os.environ.copy()
+    source = str(PROJECT_ROOT / "src")
+    environment["PYTHONPATH"] = os.pathsep.join(
+        value for value in (source, environment.get("PYTHONPATH", "")) if value
+    )
+    return environment
 
 
 def _maintained_text_files() -> list[Path]:
@@ -44,7 +56,7 @@ def test_pyproject_declares_installable_solver_package():
     data = tomllib.loads((PROJECT_ROOT / "pyproject.toml").read_text(encoding="utf-8"))
     project = data["project"]
     assert project["name"] == "qf-solver"
-    assert project["version"] == "0.2.6a0"
+    assert project["version"] == __version__
     assert project["requires-python"] == ">=3.10"
     assert {"numpy>=1.24", "scipy>=1.10", "matplotlib>=3.7"} <= set(project["dependencies"])
     assert "ruff>=0.6" in project["optional-dependencies"]["dev"]
@@ -82,7 +94,11 @@ def test_pyproject_packages_include_public_and_internal_namespaces():
 def test_runtime_distribution_excludes_repository_only_trees():
     data = tomllib.loads((PROJECT_ROOT / "pyproject.toml").read_text(encoding="utf-8"))
     data_files = data["tool"]["setuptools"]["data-files"]
-    assert set(data_files) == {"examples", "qualification", "requirements"}
+    assert set(data_files) == {"examples", "qualification", "qualification/0_2_7", "requirements"}
+    assert {
+        "qualification/element_analysis_matrix.json",
+        "qualification/technical_content_coverage.json",
+    } <= set(data_files["qualification"])
     serialized = repr(data_files)
     assert "tests/" not in serialized
     assert "docs/" not in serialized
@@ -111,6 +127,7 @@ def test_solver_cli_module_entry_point_runs():
     completed = subprocess.run(
         [sys.executable, "-m", "solveur.cli.main", "methods"],
         cwd=PROJECT_ROOT,
+        env=_source_environment(),
         check=False,
         capture_output=True,
         text=True,
@@ -124,6 +141,7 @@ def test_solver_cli_module_help_runs():
     completed = subprocess.run(
         [sys.executable, "-m", "solveur.cli.main", "--help"],
         cwd=PROJECT_ROOT,
+        env=_source_environment(),
         check=False,
         capture_output=True,
         text=True,
@@ -158,6 +176,7 @@ def test_solver_cli_module_check_mesh_and_solve_run(tmp_path: Path):
             str(mesh_report),
         ],
         cwd=PROJECT_ROOT,
+        env=_source_environment(),
         check=False,
         capture_output=True,
         text=True,
@@ -178,6 +197,7 @@ def test_solver_cli_module_check_mesh_and_solve_run(tmp_path: Path):
             "fail",
         ],
         cwd=PROJECT_ROOT,
+        env=_source_environment(),
         check=False,
         capture_output=True,
         text=True,
@@ -190,33 +210,36 @@ def test_solver_cli_version_runs():
     completed = subprocess.run(
         [sys.executable, "-m", "solveur.cli.main", "--version"],
         cwd=PROJECT_ROOT,
+        env=_source_environment(),
         check=False,
         capture_output=True,
         text=True,
     )
     assert completed.returncode == 0, completed.stdout + completed.stderr
-    assert completed.stdout.strip() == "QF_solver 0.2.6a0"
+    assert completed.stdout.strip() == f"QF_solver {__version__}"
 
 
 def test_portable_and_legacy_launchers_expose_qf_solver_identity():
     portable = subprocess.run(
         [sys.executable, "qf_solver.py", "--version"],
         cwd=PROJECT_ROOT,
+        env=_source_environment(),
         check=False,
         capture_output=True,
         text=True,
     )
     assert portable.returncode == 0, portable.stdout + portable.stderr
-    assert portable.stdout.strip() == "QF_solver 0.2.6a0"
+    assert portable.stdout.strip() == f"QF_solver {__version__}"
     legacy = subprocess.run(
         [sys.executable, "main_solveur.py", "--version"],
         cwd=PROJECT_ROOT,
+        env=_source_environment(),
         check=False,
         capture_output=True,
         text=True,
     )
     assert legacy.returncode == 0, legacy.stdout + legacy.stderr
-    assert legacy.stdout.strip() == "QF_solver 0.2.6a0"
+    assert legacy.stdout.strip() == f"QF_solver {__version__}"
     assert "deprecated" in legacy.stderr
 
 
@@ -224,6 +247,7 @@ def test_mitc4_cli_module_entry_point_runs():
     completed = subprocess.run(
         [sys.executable, "-m", "solveur.compat.mitc4.cli", "--help"],
         cwd=PROJECT_ROOT,
+        env=_source_environment(),
         check=False,
         capture_output=True,
         text=True,
@@ -237,9 +261,10 @@ def test_mitc4_cli_version_runs():
     completed = subprocess.run(
         [sys.executable, "-m", "solveur.compat.mitc4.cli", "--version"],
         cwd=PROJECT_ROOT,
+        env=_source_environment(),
         check=False,
         capture_output=True,
         text=True,
     )
     assert completed.returncode == 0, completed.stdout + completed.stderr
-    assert "0.2.6a0" in completed.stdout
+    assert __version__ in completed.stdout

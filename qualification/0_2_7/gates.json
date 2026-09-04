@@ -1,0 +1,550 @@
+{
+  "schema_version": 1,
+  "release": "0.2.7",
+  "theme": "Reproducible Large-Model Solving and Numerical Trust",
+  "baseline_sha": "e839373b6aef291a93292186d7553ba5cd12af55",
+  "baseline_branch": "main",
+  "foundation_status": "WP08_PASS_EXPERIMENTAL_WP09_PASS_WITH_LIMITATIONS_WP10_PASS_WITH_LIMITATIONS_QUALIFIED_BOUNDED_WP11_PASS_WITH_LIMITATIONS_OWNER_APPROVED_BOUNDED_WP12_PASS_WITH_LIMITATIONS_OWNER_REVIEW_REQUIRED_WP13_PASS_WP14_PASS_WP15_PASS_WITH_LIMITATIONS_WP16_PASS_WP17_PASS_WITH_LIMITATIONS_WP18_PASS_WITH_LIMITATIONS_SILVER_3M_WP19_PASS_WITH_LIMITATIONS_WP20_PASS_WITH_LIMITATIONS_WP21_PASS_WITH_LIMITATIONS_WP22_PASS_WITH_LIMITATIONS",
+  "source_change_authorized_by_foundation": false,
+  "gates": [
+    {
+      "id": "027-G01",
+      "work_package": "WP01",
+      "title": "Release truth and provenance",
+      "status": "PASS",
+      "start_sha": "e99289aca40011ca0424944099e2d2093cf21a65",
+      "evidence_head": "bb822839248b5ffb9faef5d79a6c83f288faefb3",
+      "depends_on": [],
+      "go": ["exact baseline and version are recorded", "clean-state and SHA roles are explicit"],
+      "stop": ["SHA/tag/version mismatch", "historical evidence silently reused as current evidence"],
+      "evidence_required": ["baseline manifest", "release-state audit", "provenance checklist"],
+      "files": ["qualification/0_2_7/manifest.json", "qualification/0_2_7/release_truth.json", "qualification/0_2_7/release_workflow_audit.json"]
+    },
+    {
+      "id": "027-G02",
+      "work_package": "WP02",
+      "title": "Capability registry v2",
+      "status": "PASS",
+      "start_sha": "3058dbcf53967dc50f70814a71b4094d61023dda",
+      "evidence_head": "8fc9a6eb1bac4b88c893d8d83d31aa77ce1d4a81",
+      "depends_on": ["027-G01"],
+      "go": ["unique combination identifiers", "implementation and evidence cross-check passes"],
+      "stop": ["maturity inferred from source presence", "duplicate or orphan public row"],
+      "evidence_required": ["registry schema", "migration mapping", "audit output"],
+      "files": ["qualification/0_2_7/capability_registry_v2.json", "qualification/0_2_7/registry_migration.json", "docs/verification/0_2_7/0_2_7_capability_matrix.md", "tests/unit/test_capability_registry_v2.py"]
+    },
+    {
+      "id": "027-G03",
+      "work_package": "WP03",
+      "title": "Element descriptors and compatibility preflight",
+      "status": "PASS",
+      "start_sha": "ba6111a257ae567e496adcbcdc74de392dd66b6e",
+      "evidence_head": "507e5c65cc7094eb7a362333b0e8f71d3cedf551",
+      "depends_on": ["027-G02"],
+      "go": ["supported combinations are accepted deterministically", "unsupported combinations are explicit"],
+      "stop": ["default numerical behavior changes", "public API break", "implicit fallback"],
+      "evidence_required": ["descriptor schema", "accept/reject matrix", "negative tests"],
+      "files": ["src/solveur/compatibility/descriptors.py", "src/solveur/compatibility/preflight.py", "tests/unit/test_element_descriptor_preflight.py", "docs/verification/0_2_7/0_2_7_element_descriptor_preflight.md", "qualification/0_2_7/wp03_state.json"]
+    },
+    {
+      "id": "027-G04",
+      "work_package": "WP04",
+      "title": "Declarative V&V harness",
+      "status": "PASS",
+      "start_sha": "684c39c72191d43c53e1f21043dc746d213a561d",
+      "evidence_head": "2ee1cf54f3076427b32870e4ca98035431dfa654",
+      "depends_on": ["027-G01", "027-G02"],
+      "go": ["additive case schema", "manifest and digest replay is deterministic"],
+      "stop": ["arbitrary command execution", "old evidence is lost", "solver route is changed"],
+      "evidence_required": ["schema tests", "fixture replay", "migration boundary"],
+      "files": ["src/solveur/verification/v2/schema.py", "src/solveur/verification/v2/runner.py", "qualification/0_2_7/vnv_v2/sample_cases.json", "tests/unit/test_vnv_harness_v2.py", "docs/verification/0_2_7/0_2_7_vnv_harness_v2.md", "qualification/0_2_7/vnv_v2/wp04_state.json"]
+    },
+    {
+      "id": "027-G05",
+      "work_package": "WP05",
+      "title": "C3D6/PENTA6 external oracle preflight",
+      "status": "PASS",
+      "start_sha": "fb102e649235a276096b3a37e19eb61e19a5b43f",
+      "evidence_head": "e8a63e6f8ae05e79ab3d74fb3f33f193caf2f3ba",
+      "depends_on": ["027-G01", "027-G02"],
+      "go": ["tool/version and deck are reproducible", "kinematics and observables are comparable"],
+      "stop": ["unavailable tool is reported as PASS", "ambiguous node or face map"],
+      "evidence_required": ["preflight report", "deck metadata", "availability classification"],
+      "files": [
+        "docs/verification/0_2_7/0_2_7_external_oracle_plan.md",
+        "docs/verification/0_2_7/0_2_7_wedge6_external_review.md",
+        "qualification/0_2_7/external_oracles/wedge6/contract.json",
+        "qualification/0_2_7/external_oracles/wedge6/mapping.json",
+        "qualification/0_2_7/external_oracles/wedge6/specs/cases.json",
+        "qualification/0_2_7/external_oracles/wedge6/preflight_evidence.json",
+        "qualification/0_2_7/wp05_state.json",
+        "tests/unit/test_wedge6_external_preflight.py"
+      ]
+    },
+    {
+      "id": "027-G06",
+      "work_package": "WP06",
+      "title": "Mesh quality and distortion contract",
+      "status": "PASS",
+      "start_sha": "884637a60bc752c1d02644fe4d14ae056a2876b8",
+      "evidence_head": "c3989df875bcb385bb8e3b144380526db8151d55",
+      "depends_on": ["027-G02", "027-G03"],
+      "go": ["quality metrics and invalid cases are defined", "Owner policy is explicit"],
+      "stop": ["universal aspect-ratio cutoff", "quality represented by one scalar only"],
+      "evidence_required": ["quality schema", "controlled mesh set", "failure tests"],
+      "files": [
+        "src/solveur/mesh/quality_contract.py",
+        "src/solveur/compatibility/preflight.py",
+        "tests/unit/test_mesh_quality_contract.py",
+        "qualification/0_2_7/vnv_v2/mesh_quality_cases.json",
+        "qualification/0_2_7/wp06_state.json",
+        "docs/verification/0_2_7/0_2_7_mesh_quality_plan.md",
+        "docs/verification/0_2_7/0_2_7_mesh_quality_contract.md"
+      ]
+    },
+    {
+      "id": "027-G07",
+      "work_package": "WP07",
+      "title": "WEDGE6 kernel and elemental V&V",
+      "status": "PASS",
+      "depends_on": ["027-G03", "027-G05", "027-G06"],
+      "pre_wp07_checkpoint": "qualification/0_2_7/wp07_prerequisites.json",
+      "t1r3_checkpoint": "qualification/0_2_7/t1r3_state.json",
+      "go": ["reviewed WEDGE6 contracts are implemented without changing existing formulations", "elemental invariants and targeted V&V pass with deterministic evidence", "public maturity remains EXPERIMENTAL until later static/import/external gates"],
+      "stop": ["certified inversion is not rejected", "rigid-body count or rank is unexpected", "affine patch or production/reference quadrature check fails", "existing element formulation is modified"],
+      "evidence_required": ["WEDGE6 kernel", "shape/Jacobian and quality certificate", "stiffness and recovery checks", "targeted V&V catalog and evidence", "experimental maturity decision"],
+      "files": [
+        "src/solveur/elements/solid/wedge6.py",
+        "src/solveur/elements/registry.py",
+        "src/solveur/compatibility/descriptors.py",
+        "src/solveur/mesh/quality_contract.py",
+        "qualification/0_2_7/wedge6_formulation_contract.json",
+        "qualification/0_2_7/vnv_v2/wp07_cases.json",
+        "qualification/0_2_7/vnv_v2/wp07_evidence.json",
+        "qualification/0_2_7/wp07_state.json",
+        "tests/unit/test_wedge6_kernel.py"
+      ]
+    },
+    {
+      "id": "027-G08",
+      "work_package": "WP08",
+      "title": "WEDGE6 static vertical slice",
+      "status": "PASS",
+      "depends_on": ["027-G07"],
+      "go": ["static, Gmsh, face/load, reaction and post checks pass", "WEDGE6 remains EXPERIMENTAL until later robustness/modal/external gates"],
+      "stop": ["silent unsupported input", "missing face/load contract", "unproven result", "unexpected failure", "existing element numerical route changed"],
+      "evidence_required": ["qualification/0_2_7/vnv_v2/wp08_cases.json", "qualification/0_2_7/vnv_v2/wp08_evidence.json", "qualification/0_2_7/wp08_state.json", "tests/integration/test_wedge6_static_workflow.py"],
+      "files": ["src/solveur/mesh/gmsh_importer.py", "src/solveur/loads/integration.py", "src/solveur/mesh/topology.py", "src/solveur/post/solid_results.py", "scripts/run_wp08_wedge6.py", "docs/verification/0_2_7/0_2_7_wedge6_static_vertical_slice.md"],
+      "limitations": ["public maturity remains EXPERIMENTAL", "modal/Newmark/harmonic routes are not implemented", "robustness and external correlation are deferred", "no general WEDGE6 qualification is claimed"]
+    },
+    {
+      "id": "027-G09",
+      "work_package": "WP09",
+      "title": "WEDGE6 robustness and external V&V",
+      "status": "PASS_WITH_LIMITATIONS",
+      "start_sha": "2a27291bcc72e5819014fa172e3d056e80a87d43",
+      "evidence_head": "4b2fcdc9ed51821b05b52851912be3ebbe764b14",
+      "historical_evidence_head": "d3cb2cc43886c56471778a91bef965dee869a8d4",
+      "evidence_source_sha": "4b2fcdc9ed51821b05b52851912be3ebbe764b14",
+      "depends_on": ["027-G08"],
+      "go": ["mesh, distortion and deterministic failure evidence pass", "external outcomes are separated and no false qualification is claimed"],
+      "stop": ["unexplained divergence", "weakened criterion", "false external PASS", "silent geometry or state failure"],
+      "evidence_required": ["internal and external manifests", "negative cases", "Owner classification", "reproducible external availability record", "WP09-FINAL 12-case Code_Aster campaign"],
+      "files": ["qualification/0_2_7/vnv_v2/wp09_cases.json", "qualification/0_2_7/vnv_v2/wp09_evidence.json", "qualification/0_2_7/vnv_v2/wp09r_code_aster_evidence.json", "qualification/0_2_7/vnv_v2/wp09_final_external_cases.json", "qualification/0_2_7/vnv_v2/wp09_final_external_evidence.json", "qualification/0_2_7/wp09_state.json", "qualification/0_2_7/wp09_final_state.json", "qualification/0_2_7/wp09_s3_closeout.json", "qualification/0_2_7/wp09r_state.json", "qualification/0_2_7/external_oracles/wedge6/wp09_final_contract.json", "docs/verification/0_2_7/0_2_7_wedge6_robustness_external_vnv.md", "docs/verification/0_2_7/0_2_7_wp09_s3_closeout.md", "qualification/0_2_7/external_oracles/wedge6/docker/Dockerfile", "qualification/0_2_7/external_oracles/wedge6/docker/headless_contract.json", "scripts/run_wp09_wedge6.py", "scripts/run_wp09_final_external.py", "tests/unit/test_wp09_wedge6_robustness.py", "tests/unit/test_wp09r_code_aster_headless.py", "tests/unit/test_wp09_final_external.py", "tests/unit/test_wp09_s3_closeout.py"],
+      "limitations": ["WEDGE6 remains EXPERIMENTAL and public qualification is DEFERRED", "CalculiX C3D6 result is NOT_FORMULATION_COMPATIBLE with QF production quadrature", "Code_Aster PENTA6 now has a 12-case bounded campaign covering affine, shear, prescribed displacement, TRI3/QUAD4 pressure, multi-element, declared distortion and three refinement levels", "the predeclared tolerance values remain OWNER_REVIEW_REQUIRED pending final Owner ratification", "no modal, dynamic, nonlinear, J2, TL, contact or general physical validation claim is made"]
+    },
+    {
+      "id": "027-G10",
+      "work_package": "WP10",
+      "title": "WEDGE6 modal qualification closure",
+      "status": "PASS_WITH_LIMITATIONS",
+      "depends_on": ["027-G08", "027-G09"],
+      "go": ["mass, modes, residual, refinement, deterministic replay and bounded external frequency/MAC evidence are independently evidenced"],
+      "stop": ["static result transferred to dynamics without proof", "rigid modes or mass convention hidden"],
+      "evidence_required": ["modal contract", "eigenpair records", "replay manifest", "external modal result when comparable"],
+      "files": [
+        "qualification/0_2_7/wedge6_formulation_contract.json",
+        "qualification/0_2_7/vnv_v2/wp10_cases.json",
+        "qualification/0_2_7/vnv_v2/wp10_evidence.json",
+        "qualification/0_2_7/wp10_state.json",
+        "qualification/0_2_7/vnv_v2/wp10_final_cases.json",
+        "qualification/0_2_7/vnv_v2/wp10_final_evidence.json",
+        "qualification/0_2_7/wp10_final_state.json",
+        "qualification/0_2_7/external_oracles/wedge6/decks/code_aster/WP10-A-penta6-modal.comm",
+        "qualification/0_2_7/external_oracles/wedge6/decks/code_aster/WP10-A-penta6-modal.mail",
+        "qualification/0_2_7/external_oracles/wedge6/results/wp10_code_aster_modal.json",
+        "docs/verification/0_2_7/0_2_7_wedge6_modal.md",
+        "scripts/run_wp10_wedge6_modal.py",
+        "tests/unit/test_wp10_wedge6_modal.py",
+        "src/solveur/verification/modal_comparison.py",
+        "scripts/run_wp10_final_modal.py",
+        "tests/unit/test_wp10_final_modal.py"
+      ],
+      "start_sha": "ea356c484ebb2a3c4282f6eb9cbae6b1992eee6e",
+      "evidence_head": "9d79dc8b306e6cc65f2f4ae2e77e00f676182b84",
+      "owner_decision": "OWNER_APPROVED_BOUNDED_FIRST_THREE_MODES",
+      "limitations": [
+        "WEDGE6 modal qualification is bounded to homogeneous isotropic small-strain consistent-mass cases",
+        "consistent mass only; no lumped-mass qualification",
+        "first three modes meet the declared four-level refinement criterion; modes four to six remain diagnostic for mesh convergence",
+        "Code_Aster frequency and mode-shape matching is bounded to four same-mesh PENTA6 cases",
+        "Newmark, harmonic, nonlinear, J2, TL and contact WEDGE6 routes remain outside WP10"
+      ]
+    },
+    {
+      "id": "027-G11",
+      "work_package": "WP11",
+      "title": "Existing capability maturity and J2 gaps",
+      "status": "PASS_WITH_LIMITATIONS",
+      "depends_on": ["027-G01", "027-G04", "027-G06"],
+      "go": ["existing small-strain J2 gaps are closed or bounded without formulation change"],
+      "stop": ["finite-kinematic promotion", "weakened tolerance", "tangent or default-path change"],
+      "evidence_required": ["all-family records", "predeclared policies", "Owner decision"],
+      "files": [
+        "0_2_7_j2_gap_closure.md",
+        "qualification/0_2_7/wp11_j2_cases.json",
+        "qualification/0_2_7/wp11_j2_evidence.json",
+        "qualification/0_2_7/wp11_state.json",
+        "tests/unit/test_wp11_j2_closure.py"
+      ],
+      "source_sha": "94461602dfd1782be57c20e1801a0d5d8e262ef1",
+      "evidence": [
+        "qualification/0_2_7/wp11_j2_cases.json",
+        "qualification/0_2_7/wp11_j2_evidence.json",
+        "docs/verification/0_2_7/0_2_7_wp11_j2_closure.md"
+      ],
+      "owner_decision": "OWNER_APPROVED_BOUNDED_KEEP_EXISTING_SCOPE",
+      "limitations": [
+        "No universal structural increment-independence threshold is claimed",
+        "Algorithmic tangent symmetry is diagnostic only",
+        "Modified Newton remains diagnostic; full Newton is the accepted route",
+        "Finite-kinematic J2 and coupled routes remain experimental or not qualified"
+      ]
+    },
+    {
+      "id": "027-G12",
+      "work_package": "WP12",
+      "title": "Large-scale and 1M-DOF readiness",
+      "status": "PASS_WITH_LIMITATIONS",
+      "depends_on": ["027-G02", "027-G04", "027-G06"],
+      "go": ["size ladder and resource measures are reproducible", "resource limits are classified"],
+      "stop": ["unqualified 1M claim", "missing hardware or topology context"],
+      "evidence_required": ["timing/RAM/nnz/residual manifests", "verdict matrix"],
+      "files": [
+        "0_2_7_1m_dof_plan.md",
+        "0_2_7_large_scale_readiness.md",
+        "qualification/0_2_7/wp12_scaling_evidence.json",
+        "qualification/0_2_7/wp12_assembly_probe_300k.json",
+        "qualification/0_2_7/wp12_state.json",
+        "scripts/run_wp12_scaling.py",
+        "tests/unit/test_wp12_scaling.py"
+      ],
+      "source_sha": "4971ac4f6c1e5cff2ca48e40ca6db5e8147d0d0a",
+      "evidence": [
+        "qualification/0_2_7/wp12_scaling_evidence.json",
+        "qualification/0_2_7/wp12_assembly_probe_300k.json",
+        "docs/verification/0_2_7/0_2_7_large_scale_readiness.md"
+      ],
+      "owner_decision": "PROPOSED_OWNER_REVIEW",
+      "limitations": [
+        "matrix-free TET4 structured route completed through 750141 DOF",
+        "300k assembly-only probe; no 300k linear solve",
+        "SciPy large route configured limit is 200000 DOF",
+        "1M matrix-free probe is RESOURCE_LIMITED_TIME",
+        "PETSc/SLEPc unavailable in the measured environment",
+        "no universal scaling or 1M full-solve claim"
+      ]
+    },
+    {
+      "id": "027-G13",
+      "work_package": "WP13",
+      "title": "Research and stretch selection",
+      "status": "NOT_STARTED",
+      "depends_on": ["027-G06", "027-G09", "027-G10", "027-G11", "027-G12"],
+      "go": ["Owner selects a bounded experiment", "research status remains explicit"],
+      "stop": ["scope creep", "transitive promotion", "new physics enters core claim"],
+      "evidence_required": ["choice record", "risk review", "non-qualification statement"],
+      "files": ["0_2_7_owner_decision_log.md"]
+    },
+    {
+      "id": "027-G14",
+      "work_package": "WP14",
+      "title": "Documentation, regression and Owner release review",
+      "status": "NOT_STARTED",
+      "depends_on": ["027-G01", "027-G02", "027-G03", "027-G04", "027-G05", "027-G06", "027-G07", "027-G08", "027-G09", "027-G10", "027-G11", "027-G12", "027-G13"],
+      "go": ["public claims, package, docs, regression and archive are coherent"],
+      "stop": ["stale claim", "missing manifest", "regression", "dirty release tree"],
+      "evidence_required": ["final test matrix", "archive audit", "Owner release decision"],
+      "files": ["0_2_7_release_criteria.md"]
+    }
+  ],
+  "level_up_schema_version": 1,
+  "level_up": {
+    "id": "027-LEVEL-UP",
+    "status": "CLOSED",
+    "scope_role": "LEVEL_UP_1_HISTORICAL",
+    "historical_only": true,
+    "active_successor": "qualification/0_2_7/level_up_2_plan.json",
+    "decision": "ACCEPT_WITH_CONSOLIDATION",
+    "plan": "qualification/0_2_7/level_up_plan.json",
+    "historical_wp01_wp12_preserved": true,
+    "execution_status": "WP13_WP14_PASS_WP15_PASS_WITH_LIMITATIONS_WP16_PASS_WP17_PASS_WITH_LIMITATIONS_PETSC_ROUTE_CLOSED_WITH_LIMITATIONS_WP18_PASS_WITH_LIMITATIONS_SILVER_3M_WP19_PASS_WITH_LIMITATIONS_WP20_PASS_WITH_LIMITATIONS_WP21_PASS_WITH_LIMITATIONS_WP22_PLANNED",
+    "release_blocker": null,
+    "mandatory_ladder": "WP18",
+    "no_maturity_promotion": true,
+    "gates": [
+      {"id": "LUP-027-G13", "work_package": "WP13", "status": "PASS", "evidence": ["qualification/0_2_7/wp13_state.json", "qualification/0_2_7/golden/evidence.json"]},
+      {"id": "LUP-027-G14", "work_package": "WP14", "status": "PASS", "evidence": ["qualification/0_2_7/wp14_state.json", "qualification/0_2_7/wp14_execution_contract.json"]},
+      {"id": "LUP-027-G15", "work_package": "WP15", "status": "PASS_WITH_LIMITATIONS", "evidence": ["qualification/0_2_7/wp15_state.json", "qualification/0_2_7/wp15_matrix_free_benchmark.json"]},
+      {"id": "LUP-027-G16", "work_package": "WP16", "status": "PASS", "release_blocker": false, "evidence": ["qualification/0_2_7/wp16_state.json", "qualification/0_2_7/wp16_runtime/wp16_retry_summary.json", "qualification/0_2_7/wp16_runtime/wp16_retry_run1_raw.json", "qualification/0_2_7/wp16_runtime/wp16_retry_run2_raw.json", "qualification/0_2_7/wp16_runtime/wp16_retry_subscale_raw.json", "qualification/0_2_7/wp16_runtime/wp16_run1.json", "qualification/0_2_7/wp16_runtime/wp16_subscale_current.json"], "owner_decision": "PASS: two independent 1,029,000-DOF PETSc CG/GAMG replays meet the unchanged WP14 residual, equilibrium, energy, finite-output and SPD criteria; the same-configuration subscale comparison passes and the historical matrix-free failure remains preserved."},
+      {"id": "LUP-027-G17", "work_package": "WP17", "status": "PASS_WITH_LIMITATIONS", "evidence": ["qualification/0_2_7/wp17_final_state.json", "qualification/0_2_7/wp17_state.json", "qualification/0_2_7/wp17_runtime/wp17_probe.json", "qualification/0_2_7/wp17r_state.json", "qualification/0_2_7/wp17_runtime/wp17r_summary.json", "qualification/0_2_7/wp17_runtime/wp17r_strict_summary.json", "qualification/0_2_7/wp17_runtime/wp17r_strict_medium.json", "qualification/0_2_7/wp17_runtime/wp17r_strict_1m_run1.json", "qualification/0_2_7/wp17_runtime/wp17r_strict_1m_run2.json", "qualification/0_2_7/wp16_runtime/wp16_retry_summary.json", "qualification/0_2_7/wp18_runtime/wp18_summary.json", "qualification/0_2_7/wp18_runtime/wp18_replay_comparison.json", "docs/verification/0_2_7/0_2_7_wp17_final.md", "docs/verification/0_2_7/0_2_7_wp17r_petsc_remediation.md"], "owner_decision": "PASS_WITH_LIMITATIONS: the pinned PETSc CG/GAMG route is explicit and reproducible; two-replay 1,029,000-DOF evidence, a passing subscale comparison and the two-replay 3,000,000-DOF Silver evidence support the bounded closure. PETSc remains optional at runtime; host availability and AIJ memory remain explicit limitations, with no WP14 policy or public default change.", "limitations": ["Structured TET4 linear-static scope only", "Pinned two-rank PETSc/MPI container route", "Host PETSc unavailable; requested unavailable backend fails closed", "AIJ memory is approximately 3.52 GiB at 1M DOF and 10.08 GB at 3M DOF", "No universal performance, GPU or general HPC claim", "WP18 Gold restart/checkpoint and distinct-second-case evidence remain unclaimed"]},
+      {"id": "LUP-027-G18", "work_package": "WP18", "status": "PASS_WITH_LIMITATIONS", "mandatory": true, "evidence": ["qualification/0_2_7/wp18_state.json", "qualification/0_2_7/wp18_runtime/wp18_summary.json", "qualification/0_2_7/wp18_runtime/wp18_bronze_preflight.json", "qualification/0_2_7/wp18_runtime/wp18_replay_comparison.json"], "owner_decision": "PASS_WITH_LIMITATIONS: Bronze and Silver are evidenced on the declared structured TET4 PETSc/MPI route; Gold is NOT_ATTEMPTED and unclaimed because restart/checkpoint and a distinct second physical case were not run.", "limitations": ["No universal 3M performance claim", "AIJ peak RSS is approximately 10.08 GB at 3M DOF", "Gold remains a nonblocking stretch"]},
+      {"id": "LUP-027-G19", "work_package": "WP19", "status": "PASS_WITH_LIMITATIONS", "evidence": ["qualification/0_2_7/wp19_state.json", "qualification/0_2_7/wp19_cases.json", "qualification/0_2_7/wp19_runtime/wp19_robustness_summary.json", "qualification/0_2_7/wp19_runtime/wp19_robustness_evidence.json", "qualification/0_2_7/wp19_runtime/wp19_hex8_diagnostic.json", "qualification/0_2_7/wp19_runtime/wp19_golden_replay.json", "docs/verification/0_2_7/0_2_7_wp19_robustness_hex8.md", "tests/unit/test_wp19_robustness_hex8.py"], "owner_decision": "PASS_WITH_LIMITATIONS: bounded adversarial evidence is fail-closed and deterministic; compatible C3D8 displacement correlation supports a low-order diagnostic only; no HEX8 formulation is promoted.", "limitations": ["24 predeclared adversarial cases do not establish universal robustness", "C3D8 external reactions and energy are NOT_COMPARABLE", "Euler is diagnostic only; no universal HEX8 accuracy claim", "HEX8R/SRI/B-bar was not evaluated or promoted"]},
+      {"id": "LUP-027-G20", "work_package": "WP20", "status": "PASS_WITH_LIMITATIONS", "evidence": ["qualification/0_2_7/wp20_state.json", "qualification/0_2_7/wp11_j2_cases.json", "qualification/0_2_7/wp11_j2_evidence.json", "qualification/0_2_6/g06_depth_evidence.json", "docs/verification/0_2_7/0_2_7_wp20_j2_closeout.md", "tests/unit/test_wp20_j2_closure.py"], "owner_decision": "OWNER_APPROVED_BOUNDED_KEEP_EXISTING_SCOPE", "limitations": ["no universal structural increment-independence threshold", "tangent symmetry diagnostic only", "modified Newton non-convergence remains diagnostic", "finite-kinematic J2 remains experimental/not qualified", "external evidence is reused constitutive evidence and no new structural campaign is claimed"]},
+      {"id": "LUP-027-G21", "work_package": "WP21", "status": "PASS_WITH_LIMITATIONS", "evidence": ["qualification/0_2_7/wp21_state.json", "qualification/0_2_7/wp21_final_release_truth.json", "qualification/0_2_7/wp21_public_document_audit.json", "qualification/0_2_7/golden/wp21_replay_evidence.json", "tests/unit/test_wp21_release.py"], "owner_decision": "Active 0.2.7 package identity, public audit, compatibility and bounded evidence truth are aligned; broader architecture redesign and WP22 release action remain separate."},
+      {"id": "LUP-027-G22", "work_package": "WP22", "status": "PLANNED"}
+    ]
+  },
+  "level_up_2_schema_version": 1,
+  "level_up_2": {
+    "id": "027-LEVEL-UP-2",
+    "namespace": "027-LEVEL-UP-2",
+    "status": "CLOSED",
+    "theme": "Reproducible Large-Model Performance and Solver Maturity",
+    "pre_lu2_qualified_baseline": "8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3",
+    "global_accounting": {
+      "level_up_1": {"weight_percent": 50, "acquired_percent": 50, "status": "CLOSED"},
+      "level_up_2": {"weight_percent": 50, "acquired_percent": 50, "status": "CLOSED"},
+      "current_global_progress_percent": 100,
+      "weights_total_percent": 100
+    },
+    "gates": [
+      {"id": "LU2-027-G01", "work_package": "LU2-WP01", "title": "Evidence and Performance Observatory", "status": "PASS", "weight_percent": 4, "priority": "MUST", "evidence": "qualification/0_2_7/observatory_contract.json"},
+      {"id": "LU2-027-G02", "work_package": "LU2-WP02", "title": "CPU/MPI/GAMG readiness and configuration freeze", "status": "PASS_WITH_LIMITATIONS", "weight_percent": 9, "priority": "MUST", "evidence": ["qualification/0_2_7/wp02_execution_contract.json", "qualification/0_2_7/wp02_runtime/wp02_evidence_index.json", "qualification/0_2_7/wp02_runtime/wp02_config_freeze.json", "qualification/0_2_7/wp02_state.json"]},
+      {
+        "id": "LU2-027-G03",
+        "work_package": "LU2-WP03",
+        "title": "3M Gold Compute",
+        "status": "PASS_WITH_LIMITATIONS",
+        "weight_percent": 9,
+        "priority": "MUST",
+        "evidence": [
+          "qualification/0_2_7/wp03_execution_contract.json",
+          "qualification/0_2_7/wp03_runtime/wp03_preflight.json",
+          "qualification/0_2_7/wp03_runtime/workload_b_run1.json",
+          "qualification/0_2_7/wp03_runtime/workload_b_run2.json",
+          "qualification/0_2_7/wp03_runtime/wp03_replay_comparison.json",
+          "qualification/0_2_7/wp03_runtime/wp03_workload_comparison.json",
+          "qualification/0_2_7/wp03_runtime/wp03_evidence_index.json",
+          "qualification/0_2_7/wp03_runtime/wp03_summary.json",
+          "qualification/0_2_7/lu2_wp03_state.json",
+          "docs/verification/0_2_7/0_2_7_wp03_3m_gold_compute.md",
+          "tests/unit/test_lu2_wp03.py"
+        ],
+        "owner_decision": "PASS_WITH_LIMITATIONS: Gold Compute is proved by two replays of a materially distinct real 3M TET4 FEM workload under the unchanged WP02 freeze; the claim is bounded to the recorded single-host route.",
+        "limitations": [
+          "Preflight, redistribution, communication and I/O are NOT_MEASURED and are not inferred.",
+          "No universal, multi-node, GPU, mixed-mesh, nonlinear or restart claim."
+        ]
+      },
+      {
+        "id": "LU2-027-G04",
+        "work_package": "LU2-WP04",
+        "title": "5M Bronze",
+      "status": "PASS",
+        "weight_percent": 5,
+        "priority": "MUST",
+        "evidence": [
+          "qualification/0_2_7/wp04_execution_contract.json",
+          "qualification/0_2_7/wp04_runtime/wp04_preflight.json",
+          "qualification/0_2_7/wp04_runtime/workload_5m_run1_build.json",
+          "qualification/0_2_7/wp04_runtime/workload_5m_run2_build.json",
+          "qualification/0_2_7/wp04_runtime/wp04_resource_guard_audit.json",
+          "qualification/0_2_7/wp04_runtime/wp04_evidence_index.json",
+          "qualification/0_2_7/wp04_runtime/wp04_summary.json",
+          "qualification/0_2_7/wp04_runtime/wp04_forensic_audit.json",
+          "qualification/0_2_7/wp04_runtime/wp04_post_pc_ready_diagnostic.json",
+          "qualification/0_2_7/lu2_wp04_state.json",
+          "qualification/0_2_7/wp04_runtime/wp04_corrected_run_a_raw.json",
+          "qualification/0_2_7/wp04_runtime/wp04_corrected_run_a_progress.jsonl",
+          "qualification/0_2_7/wp04_runtime/wp04_corrected_run_a.wp04_5m_progress.rank*.jsonl",
+          "docs/verification/0_2_7/0_2_7_wp04_5m_bronze.md",
+          "qualification/0_2_7/wp04_telemetry_contract.json",
+          "qualification/0_2_7/s1_telemetry_state.json",
+          "qualification/0_2_7/s2_post_pc_ready_diagnostic_state.json",
+          "docs/verification/0_2_7/0_2_7_s1_assembly_telemetry.md",
+          "tests/unit/test_assembly_telemetry.py"
+        ],
+        "owner_decision": "PASS: corrected frozen 5M TET4 Bronze route reached global PC_READY, all-rank post-ready gather, COMPLETED and clean finalization with valid telemetry; no 5M converged-solve or universal capacity claim.",
+        "limitations": [
+          "Bronze does not include a converged 5M solve and makes no universal capacity claim.",
+          "Performance and memory evidence are bounded to the recorded single-host PETSc/MPI configuration.",
+          "Silver qualification is recorded separately under LU2-WP05."
+        ],
+        "next_action": "LU2-WP05"
+      },
+      {
+        "id": "LU2-027-G05",
+        "work_package": "LU2-WP05",
+        "title": "5M Silver",
+        "status": "PASS",
+        "weight_percent": 9,
+        "priority": "MUST",
+        "evidence": [
+          "qualification/0_2_7/lu2_wp05_state.json",
+          "qualification/0_2_7/wp05_runtime/wp05_5m_silver_run1.json",
+          "qualification/0_2_7/wp05_runtime/wp05_5m_silver_run2.json",
+          "qualification/0_2_7/wp05_runtime/wp05_5m_silver_replay.json"
+        ],
+        "owner_decision": "PASS: two complete converged replays of the exact 5M TET4 linear-static workload under the unchanged PETSc CG/GAMG freeze satisfy residual, equilibrium, energy and finiteness acceptance.",
+        "limitations": [
+          "Claim is bounded to the recorded single-host 8-rank PETSc 3.25.1 / MPICH 5.0.1 route.",
+          "No universal, multi-node, GPU, mixed-mesh, nonlinear, restart or Gold claim."
+        ]
+      },
+      {
+        "id": "LU2-027-G06",
+        "work_package": "LU2-WP06",
+        "title": "Execution Contract / Recovery / Diagnostics",
+        "status": "PASS_WITH_LIMITATIONS",
+        "weight_percent": 4,
+        "priority": "MUST",
+        "evidence": [
+          "qualification/0_2_7/wp06_execution_contract.json",
+          "qualification/0_2_7/lu2_wp06_state.json",
+          "docs/verification/0_2_7/0_2_7_wp06_execution_contract.md",
+          "tests/unit/test_execution_contract.py",
+          "tests/unit/test_nonlinear_checkpoint.py",
+          "tests/unit/test_dynamic_checkpoint.py"
+        ],
+        "owner_decision": "PASS_WITH_LIMITATIONS: lifecycle transitions, structured diagnostics and bounded checkpoint recovery are tested without changing numerical routes.",
+        "limitations": [
+          "Recovery claims are limited to existing nonlinear static, arc-length and Newmark routes.",
+          "Other routes remain explicitly non-recoverable under this contract; no universal fault-tolerance claim is made."
+        ]
+      },
+      {
+        "id": "LU2-027-G07",
+        "work_package": "LU2-WP07",
+        "title": "Existing Routes Maturity and Targeted V&V",
+        "status": "PASS_WITH_LIMITATIONS",
+        "weight_percent": 4,
+        "priority": "SHOULD",
+        "evidence": [
+          "qualification/0_2_7/lu2_wp07_maturity_matrix.json",
+          "qualification/0_2_7/lu2_wp07_state.json",
+          "qualification/0_2_7/wp06_state.json",
+          "qualification/0_2_7/wp19_state.json",
+          "qualification/0_2_7/wp20_state.json",
+          "docs/verification/0_2_7/0_2_7_lu2_wp07_maturity.md",
+          "tests/unit/test_lu2_wp07_maturity.py"
+        ],
+        "owner_decision": "PASS_WITH_LIMITATIONS: existing route maturity is retained at the documented bounded combination scope; no promotion or demotion is made.",
+        "limitations": [
+          "Finite-kinematic J2, coupled nonlinear routes, friction, mixed meshes and HEX8 next-generation formulations remain outside qualified claims.",
+          "External evidence is bounded and family-specific; no universal external validation claim is made.",
+          "LU2-WP04 remains USER_INTERRUPTED_INCONCLUSIVE and is independent of this closeout."
+        ]
+      },
+      {
+        "id": "LU2-027-G08",
+        "work_package": "LU2-WP08",
+        "title": "Mixed / WEDGE15 / PYRAMID5 / HEX8 Decisions",
+        "status": "PASS_WITH_LIMITATIONS",
+        "weight_percent": 2,
+        "priority": "SHOULD",
+        "evidence": [
+          "qualification/0_2_7/lu2_wp08_decision_matrix.json",
+          "qualification/0_2_7/lu2_wp08_state.json",
+          "docs/verification/0_2_7/0_2_7_lu2_wp08_decisions.md",
+          "qualification/0_2_7/wp19_state.json",
+          "qualification/0_2_7/wp19_runtime/wp19_hex8_diagnostic.json"
+        ],
+        "owner_decision": "PASS_WITH_LIMITATIONS: explicit scope decisions preserve the bounded existing HEX8 route and keep mixed meshes, WEDGE15, PYRAMID5 and production HEX8R/SRI/B-bar outside qualified LU2 capabilities.",
+        "limitations": [
+          "No end-to-end mixed TET/WEDGE/HEX route is qualified.",
+          "WEDGE15 and PYRAMID5 are not implemented or active capabilities.",
+          "HEX8R, SRI, B-bar and hourglass control are research/deferred only.",
+          "WP19 is a bounded HEX8 diagnostic and does not prove a universal locking correction."
+        ]
+      },
+      {"id": "LU2-027-G09", "work_package": "LU2-WP09", "title": "Release Truth / Registry / CI / Final Qualification", "status": "PASS_WITH_LIMITATIONS", "weight_percent": 4, "priority": "MUST", "evidence": ["qualification/0_2_7/r0_release_readiness.json", "qualification/0_2_7/step1_release_freeze.json"], "owner_decision": "PASS_WITH_LIMITATIONS: Owner qualification is complete at 100 percent; Step 1 freezes the stable release while preserving bounded limitations."}
+    ],
+    "conditional_gates": [
+      {"id": "C1", "title": "Matrix-Free TET4 Capacity Spike", "status": "DORMANT", "weight_percent": 0, "non_blocking": true, "prior_interpretation": "TRIGGERED_BY_TIME_BUDGET", "reason": "Not confirmed: the 2x time budget was exceeded, but the owner interruption and missing progress/resource telemetry prevent a resource-limited trigger."},
+      {"id": "C2", "title": "GPU Foundation", "status": "DORMANT", "weight_percent": 0, "non_blocking": true},
+      {"id": "C3", "title": "10M Scaling / Capacity Exploration", "status": "PASS", "weight_percent": 0, "non_blocking": true, "evidence": "qualification/0_2_7/c3_10m_runtime/c3_10m_replay_summary.json", "historical_evidence": "qualification/0_2_7/c3_10m_aij_diagnostic.json", "reason": "The frozen 10M TET4 Bronze replay reached global PC_READY, completed cleanly on all eight ranks, and the optional complete solve passed the existing acceptance checks. The claim is bounded to this TET4 linear-static PETSc CG/GAMG route and configuration."}
+    ],
+    "plan": "qualification/0_2_7/level_up_2_plan.json",
+    "state": "qualification/0_2_7/level_up_2_state.json"
+  },
+  "policy": {
+    "planned_is_not_evidence": true,
+    "external_unavailable_is_not_pass": true,
+    "new_thresholds": "PROPOSED_OWNER_REVIEW",
+    "source_and_evidence_shas_are_separate": true
+  },
+  "s3_release_pre_gate": {
+    "id": "S3",
+    "status": "PASS_WITH_LIMITATIONS",
+    "weight_percent": 0,
+    "source_of_truth": "qualification/0_2_7/s3_validation_matrix.json",
+    "document": "docs/verification/0_2_7/0_2_7_s3_expanded_validation.md",
+    "targeted_test": "tests/unit/test_s3_validation_matrix.py",
+    "new_case_count": 24,
+    "maturity_promotion": false,
+    "global_progress_unchanged": true,
+    "ready_for_wp09": true,
+    "claim_boundary": "No universal C3 speedup, mixed-mesh, HEX8 next-generation, WEDGE15, PYRAMID5 or finite-kinematic J2 claim."
+  },
+  "f6_release_audit": {
+    "id": "F6",
+    "status": "PASS_WITH_LIMITATIONS",
+    "source_of_truth": "qualification/0_2_7/f6_numerical_performance_regression_audit.json",
+    "document": "docs/verification/0_2_7/0_2_7_f6_numerical_performance_regression_audit.md",
+    "targeted_test": "tests/unit/test_f6_numerical_performance_regression.py",
+    "p0_found": 0,
+    "p1_found": 0,
+    "full_test_suite": "2147 passed, 3 failed, 184 skipped, 2 warnings",
+    "heavy_benchmark_run": false,
+    "numerical_source_changed": false,
+    "baseline_changed": false,
+    "maturity_promoted": false,
+    "ready_for_r0": true,
+    "limitations": [
+      "Three pre-existing F4 failures remain in experimental or stale nonlinear paths.",
+      "No fresh 5M or 10M replay was required for this controlled regression audit."
+    ]
+  },
+  "r0_release_readiness": {
+    "id": "R0",
+    "status": "PASS_WITH_LIMITATIONS",
+    "source_of_truth": "qualification/0_2_7/r0_release_readiness.json",
+    "document": "docs/verification/0_2_7/0_2_7_r0_release_readiness.md",
+    "targeted_test": "tests/unit/test_r0_release_readiness.py",
+    "audit_start_sha": "5323a0996f214a3203f06b5bb468843b57c25270",
+    "release_candidate_sha_policy": "Final local R0 closeout commit; exact SHA is reported outside the self-referential evidence record.",
+    "coactivity": "One unrelated 0.2.1 documentation change preserved in targeted stash a9e64d5e03ebadfcd1292ad3c5b04460761c10aa.",
+    "p0_found": 0,
+    "p1_found": 0,
+    "p0_open": 0,
+    "p1_open": 0,
+    "worktree_clean_after_isolation": true,
+    "qualification_score": "100/100",
+    "historical_preclosure_qualification_score": "96/100",
+    "five_million_status": "PASS",
+    "ten_million_status": "PASS_WITH_LIMITATIONS",
+    "wheel_ready": true,
+    "sdist_ready": true,
+    "clean_install_ready": true,
+    "ready_for_owner_decision": true,
+    "tag_created": false,
+    "github_release_created": false,
+    "pypi_published": false,
+    "limitations": [
+      "Owner must review the reachable-history prefilter before publication.",
+      "The tag and publication actions are intentionally not performed by R0.",
+      "F1-F6 PASS_WITH_LIMITATIONS findings and the three known experimental/stale nonlinear failures remain visible."
+    ]
+  }
+}

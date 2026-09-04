@@ -1,0 +1,9 @@
+P time_limit 900
+P memory_limit 4096
+P ncpus 1
+P mpi_nbcpu 1
+P no-mpi
+F comm /work/WP09R-A-penta6-affine.comm D 1
+F mail /work/WP09R-A-penta6-affine.mail D 20
+F result /work/WP09R-A-penta6-affine.result R 8
+F med /work/WP09R-A-penta6-affine.med R 80

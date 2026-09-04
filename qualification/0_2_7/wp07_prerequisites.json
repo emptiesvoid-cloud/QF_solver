@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "work_package": "WP07",
+  "gate": "027-G07",
+  "status": "NOT_STARTED",
+  "prerequisite_checkpoint": "T1-R3",
+  "prerequisite_status": "PASS_READY_FOR_TERRA_REREVIEW",
+  "source_sha": "d4abc2f15b0e5167cd2faa4734e6a836bdb12514",
+  "required_artifacts": [
+    "qualification/0_2_7/wedge6_formulation_contract.json",
+    "qualification/0_2_7/wedge6_mapping_fixture.json",
+    "qualification/0_2_7/external_oracles/wedge6/contract.json",
+    "qualification/0_2_7/external_oracles/wedge6/mapping.json",
+    "docs/verification/0_2_7/0_2_7_wedge6_formulation_contract.md",
+    "docs/verification/0_2_7/0_2_7_wedge6_external_review.md",
+    "docs/verification/0_2_7/0_2_7_mesh_quality_contract.md",
+    "qualification/0_2_7/t1r3_state.json",
+    "tests/unit/test_wedge6_t1r3_contract.py"
+  ],
+  "kernel_authorization": "OWNER_REVIEW_REQUIRED",
+  "wedge6_implemented": false,
+  "new_capability_exposed": false,
+  "no_automatic_node_or_normal_repair": true,
+  "full_regression_run": false
+}

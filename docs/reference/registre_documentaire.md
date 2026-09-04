@@ -1,13 +1,13 @@
 ---
 doc_id: DOC-REF-002
-revision: 0.1
-status: genere
-applicable_version: 0.2.5a0
+revision: 1.0
+status: controlled
+applicable_version: 0.2.7
 reviewer: ""
 approver: ""
 ---
 
-# Registre documentaire
+# Documentation registry
 
 Le fichier `docs/document_registry.json` est la source machine-readable des
 identifiants, chemins, statuts et exigences documentees. La table ci-dessous

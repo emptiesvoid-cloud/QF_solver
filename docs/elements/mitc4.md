@@ -21,6 +21,10 @@ approver: ""
 
 <span class="maturity stable">stable - statique lineaire bornee</span>
 
+Cette fiche technique est un document historique detaille. Le mot `stable`
+est un raccourci documentaire; le statut actif 0.2.7 est defini au niveau
+combinaison par le registry v2 et les preuves associees.
+
 MITC4 est une facette quadrangulaire a quatre noeuds fondee sur la theorie de
 Reissner-Mindlin. Chaque noeud porte trois translations et trois rotations.
 

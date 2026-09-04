@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "record_type": "lu2_wp02_state",
+  "work_package": "LU2-WP02",
+  "gate": "LU2-027-G02",
+  "status": "PASS_WITH_LIMITATIONS",
+  "owner_decision": "Configuration freeze approved for the recorded single-host PETSc/MPI route; phase granularity and hardware scope remain bounded limitations.",
+  "execution_source_sha": "3cb817c9391ef7998c5950d3071c8d9ce1be5dd8",
+  "contract": "qualification/0_2_7/wp02_execution_contract.json",
+  "evidence_index": "qualification/0_2_7/wp02_runtime/wp02_evidence_index.json",
+  "configuration_freeze": "qualification/0_2_7/wp02_runtime/wp02_config_freeze.json",
+  "runtime": {
+    "image": "qf-solver-large@sha256:d6a1718001fc36772906d1a9505637bbd0a4b7e1d8ccc9afdbcb6f67b7ff6d0e",
+    "petsc": "3.25.1",
+    "mpi": "MPICH 5.0.1",
+    "python": "3.12.3",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "host_logical_cpus": 12,
+    "container_memory_bytes": 51539607552,
+    "threads_per_rank": 1
+  },
+  "workload": {
+    "model": "existing 3M structured TET4 linear-static FEM",
+    "true_dof": 3000000,
+    "nodes": 1000000,
+    "elements": 5821794,
+    "input_path": "tmp/wp18_ladder/models/3m.h5",
+    "input_sha256": "084a471b1caab628e8558c65b1777692ed53d504baad681bf0985c411a33671b",
+    "acceptance_rtol": 1e-08,
+    "solver_rtol": 1e-10
+  },
+  "mpi_v2": {
+    "ranks_tested": [2, 4, 8],
+    "strong_scaling": "PASS on the same 3M input; bounded to the recorded single host",
+    "replays": {
+      "2": ["r2_replay1", "r2_replay2"],
+      "4": ["r4_run1"],
+      "8": ["r8_replay1", "r8_replay2"]
+    },
+    "eight_rank_result": "PASS",
+    "weak_scaling": "NOT_RUN"
+  },
+  "preconditioners": {
+    "tested": ["GAMG", "HYPRE/BoomerAMG"],
+    "selected": "GAMG",
+    "basis": "lower total time and RSS on the recorded subscale while both routes pass invariants",
+    "hypre_status": "CHARACTERIZED_NOT_SELECTED"
+  },
+  "partitioning": {
+    "tested": ["contiguous", "graph/PTScotch"],
+    "selected": "contiguous",
+    "basis": "lower total time on the recorded subscale; graph route remains characterized"
+  },
+  "phase_measurement_policy": {
+    "measured": ["model_setup", "assembly_operator", "pc_setup", "ksp_solve", "post_processing", "energy_post", "total"],
+    "unmeasured": ["preflight", "redistribution", "communication", "io"],
+    "rule": "Unmeasured fields remain null; no phase is inferred from total time."
+  },
+  "numerical_checks": {
+    "subscale_equivalence": "PASS",
+    "spd_contract": "PASS",
+    "residual_equilibrium_energy": "PASS",
+    "finite_outputs": "PASS",
+    "no_silent_fallback": true,
+    "post_result_retuning": false
+  },
+  "limitations": [
+    "Preflight, redistribution, communication and I/O are not separately measured by the legacy runner.",
+    "Results are bounded to the recorded structured TET4 workload, host, Docker image, MPI ranks and AIJ/GAMG configuration.",
+    "Strong-scaling measurements are not a universal hardware or problem-size performance claim.",
+    "The 4-rank route has one recorded run; required two-replay coverage is retained for 2 and 8 ranks."
+  ],
+  "execution_policy": {
+    "heavy_benchmark_run": true,
+    "five_million_run": false,
+    "full_regression_run": false,
+    "numerical_source_changed": false,
+    "existing_evidence_rewritten": false,
+    "maturity_promoted": false,
+    "pushed": false,
+    "tag_changed": false,
+    "pypi_published": false
+  },
+  "readiness": {
+    "ready_for_lu2_wp03": true,
+    "frozen_for": ["LU2-WP03", "LU2-WP04", "LU2-WP05"],
+    "blockers": []
+  }
+}

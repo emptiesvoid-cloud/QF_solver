@@ -2,7 +2,7 @@
 doc_id: DOC-REF-DEMO-001
 revision: 0.4
 status: draft
-applicable_version: 0.2.5a0
+applicable_version: 0.2.7
 reviewer: ""
 approver: ""
 ---
@@ -14,6 +14,11 @@ Le catalogue contient vingt-huit demonstrations : onze benchmarks mailles,
 dix cas de qualification cibles, six modeles JSON officiels et un plan grand
 modele. Les extensions aux variantes de methode restent une etape de feuille
 de route; elles ne doivent pas etre confondues avec une qualification.
+
+Les labels courts du catalogue (`stable`, `stable_after_reinforced_tests`,
+`experimental`, `research`) sont des labels de demonstration. La maturite
+active d'une combinaison est celle du registry v2 0.2.7 et ne doit pas etre
+deduite du seul catalogue.
 
 ## Une entree de demonstration
 

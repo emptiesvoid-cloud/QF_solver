@@ -1,0 +1,58 @@
+{
+  "schema_version": 2,
+  "record_type": "lu2_wp04_assembly_telemetry_contract",
+  "work_package": "LU2-WP04",
+  "gate": "S1",
+  "status": "INSTALLED",
+  "log_path": "qualification/0_2_7/wp04_runtime/wp04_5m_progress.jsonl",
+  "writer": "rank_0_only for assembly progress; every rank writes an independent phase-marker file",
+  "mode": "opt_in",
+  "default": "OFF",
+  "primary_metric": "elements_processed / elements_total",
+  "checkpoint_policy": {
+    "minimum_elements": 100000,
+    "target_fraction": 0.01,
+    "selection": "max(minimum_elements, approximately one percent of the local contiguous partition)"
+  },
+  "fields": [
+    "elements_processed",
+    "elements_total",
+    "progress_fraction",
+    "progress_percent",
+    "elapsed_s",
+    "avg_elements_per_s",
+    "recent_elements_per_s",
+    "eta_avg_s",
+    "eta_recent_s",
+    "million_element_slices",
+    "rss_bytes",
+    "rss_percent_of_limit",
+    "cpu_percent",
+    "swap",
+    "rank_count"
+  ],
+  "phases": ["GENERATING", "ASSEMBLING", "MAT_ASSEMBLY", "RHS", "PCSETUP", "PC_READY", "PC_READY_GLOBAL", "FAILED", "COMPLETED"],
+  "pc_ready_semantics": "PC_READY is emitted by rank 0 only after all ranks have confirmed the frozen AIJ/CG/GAMG route. PC_READY_GLOBAL is an explicit companion event.",
+  "rank_phase_markers": {
+    "path_derivation": "<telemetry-stem>.rank<zero-padded-rank><suffix>",
+    "writer": "each MPI rank independently",
+    "append_and_flush": true,
+    "mpi_collectives": "none",
+    "events": ["POST_INSERTION", "PRE_ASSEMBLE_1", "POST_ASSEMBLE_1", "PRE_CONSTRAINTS", "POST_CONSTRAINTS", "PRE_ASSEMBLE_2", "POST_ASSEMBLE_2", "PRE_RHS", "POST_RHS", "PRE_SETUP", "POST_SETUP", "PRE_OWNERSHIP_GATHER", "POST_OWNERSHIP_GATHER", "PRE_PC_READY", "PC_READY", "PC_READY_GLOBAL", "PRE_MEMORY_GATHER", "POST_MEMORY_GATHER", "FINALIZE_ENTER", "FINALIZE_EXIT", "EXCEPTION"],
+    "failure_policy": "Marker open/write/flush errors degrade only that rank's telemetry stream and never change the FEM route."
+  },
+  "post_insertion_diagnostics": {
+    "enabled_for_large_bronze_runs": true,
+    "per_rank_phase_timing_seconds": ["element_insertion", "assemble_1", "constraints", "assemble_2", "rhs", "ksp_setup", "bronze_total"],
+    "matrix_info": "Best-effort PETSc Mat.getInfo snapshots are collected only at common all-rank points after matrix setup, first assembly, and second assembly.",
+    "preallocation_reporting": ["requested_nnz_per_row", "diag_offdiag_preallocation", "MatSetValues call count", "scalar values submitted", "estimated off-process row entries"],
+    "collective_safety": "Marker writes never issue MPI or PETSc collectives. Matrix information and timing summaries use collectives only at explicit all-rank synchronization points."
+  },
+  "million_element_slices": "Checkpoint records emit newly reached one-million-element milestones and seconds_per_million_elements.",
+  "global_progress": "MPI ranks maintain local insertion counts; a lightweight integer reduction is performed only at local telemetry thresholds; rank 0 writes the resulting global count.",
+  "failure_policy": "Telemetry write/open errors produce an explicit DEGRADED status and warning; they never fail the FEM calculation.",
+  "append_and_flush": true,
+  "swap": "NOT_MEASURED",
+  "numerical_source_changed": false,
+  "artifact_classification": "CONTROLLED_PROOF"
+}

@@ -13,6 +13,7 @@ from solveur.core.qualification import qualification_metadata, qualification_sum
 from solveur.io.audit_markdown import AuditMarkdownWriter
 from solveur.io.csv_writer import CsvResultWriter
 from solveur.io.json_writer import JsonResultWriter
+from solveur.io.model_writer import _distributed_load
 from solveur.io.manifest import (
     command_line,
     git_source_state,
@@ -88,6 +89,7 @@ class EvidenceBundleWriter:
             "materials": model.materials,
             "fixed_dofs": [{"node": bc.node, "dofs": list(bc.dofs)} for bc in model.fixed_dofs],
             "loads": [{"node": load.node, "dof": load.dof, "value": load.value} for load in model.loads],
+            "distributed_loads": [_distributed_load(load) for load in model.distributed_loads],
         }
         write_json_file(destination, data)
         return destination

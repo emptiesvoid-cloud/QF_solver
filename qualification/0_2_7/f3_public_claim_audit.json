@@ -1,0 +1,431 @@
+{
+  "schema_version": 1,
+  "record_type": "f3_public_claim_audit",
+  "audit_id": "QF-027-F3-PUBLIC-CLAIMS-001",
+  "release": "0.2.7a0",
+  "active_branch": "codex/0.2.7-foundation",
+  "audit_start_sha": "bcdf7279a61a2942e0619236b3a597ad3e4583ee",
+  "audit_start_sha_role": "clean F3 checkout before documentation corrections",
+  "worktree_clean_at_start": true,
+  "source_hierarchy": [
+    "executed_results",
+    "qualification_json_and_registry",
+    "frozen_vnv_evidence",
+    "tests",
+    "qualification_docs",
+    "README_and_user_docs",
+    "package_and_marketing_metadata"
+  ],
+  "claim_taxonomy": {
+    "IMPLEMENTED": "The capability or interface exists in the inspected source tree.",
+    "TESTED": "A recorded automated or controlled test exercises the stated scope.",
+    "VERIFIED": "A recorded internal invariant, analytical check or replay supports the claim.",
+    "EXTERNALLY_VALIDATED": "A comparable external oracle supports the stated observable and scope.",
+    "QUALIFIED": "A recorded Owner decision accepts a bounded claim under its declared gate.",
+    "EXPERIMENTAL": "The path exists but is not accepted as a general qualified capability."
+  },
+  "authoritative_records": [
+    "qualification/0_2_7/capability_registry_v2.json",
+    "qualification/0_2_7/release_truth.json",
+    "qualification/0_2_7/level_up_2_state.json",
+    "qualification/0_2_7/level_up_2_index.json",
+    "qualification/0_2_7/wp21_final_release_truth.json"
+  ],
+  "current_release_state": {
+    "candidate": "0.2.7a0",
+    "tag": "NOT_CREATED",
+    "pypi": "NOT_PUBLISHED",
+    "github_release": "NOT_CREATED",
+    "level_up_2_acquired_percent": 46,
+    "global_progress_percent": 96,
+    "next_work_package": "LU2-WP09",
+    "wedge6_static": "EXPERIMENTAL",
+    "wedge6_modal": "QUALIFIED_BOUNDED_FIRST_THREE_MODES",
+    "j2_small_strain": "QUALIFIED_BOUNDED_TET4_TET10_HEX8_HEX20",
+    "one_million": "PASS_TWO_REPLAYS_BOUNDED_TET4_PETSC_ROUTE",
+    "three_million_silver": "PASS_TWO_REPLAYS_BOUNDED_TET4_PETSC_ROUTE",
+    "three_million_gold_compute": "PASS_TWO_REPLAYS_BOUNDED_TET4_PETSC_ROUTE",
+    "five_million_silver": "PASS_TWO_REPLAYS_BOUNDED_TET4_PETSC_ROUTE",
+    "calculix_wedge6": "NOT_COMPARABLE",
+    "gpu": "NO_PUBLIC_CLAIM",
+    "mixed_mesh": "DEFERRED_NO_END_TO_END_CLAIM"
+  },
+  "scanned_scope": {
+    "tracked_markdown_documents_at_start": 127,
+    "verification_0_2_7_documents_at_start": 51,
+    "normalized_public_claim_families": 20,
+    "examples_readme_catalogs": 1,
+    "example_entries_in_targeted_integration_catalog": 19,
+    "links_checked_before_corrections": 354,
+    "links_checked_after_corrections": 366,
+    "active_link_scope_broken": 0,
+    "legacy_or_untracked_links_deferred": 27,
+    "public_document_audit": {
+      "status": "PASS",
+      "current_source_documentation_count": 514,
+      "current_tracked_release_files": 2626,
+      "historical_snapshot": "qualification/0_2_7/wp21_public_document_audit.json",
+      "snapshot_policy": "WP21 remains immutable; F3 validates the append-only current audit separately."
+    },
+    "cli_surface": "--help, --version and documented command families compared with targeted CLI tests"
+  },
+  "claims": [
+    {
+      "id": "F3-CLAIM-001",
+      "topic": "release_state",
+      "public_statement": "0.2.7a0 is an active release candidate and is not tagged or published on PyPI.",
+      "classification": "SUPPORTED_WITH_LIMITATIONS",
+      "claim_level": "IMPLEMENTED",
+      "evidence_refs": ["qualification/0_2_7/release_truth.json", "qualification/0_2_7/manifest.json", "README.md"],
+      "audited_surfaces": ["README.md", "CHANGELOG.md", "docs/demarrage/installation.md", "pyproject.toml"],
+      "disposition": "RETAIN_BOUNDED"
+    },
+    {
+      "id": "F3-CLAIM-002",
+      "topic": "registry_authority",
+      "public_statement": "The combination-level capability registry v2 is the source of truth for active maturity claims.",
+      "classification": "SUPPORTED",
+      "claim_level": "QUALIFIED",
+      "evidence_refs": ["qualification/0_2_7/capability_registry_v2.json", "qualification/0_2_7/manifest.json", "tests/unit/test_capability_registry_v2.py"],
+      "audited_surfaces": ["README.md", "docs/elements/index.md", "docs/reference/demonstrations_api.md"],
+      "disposition": "RETAIN"
+    },
+    {
+      "id": "F3-CLAIM-003",
+      "topic": "linear_static",
+      "public_statement": "Linear static is qualified only within the recorded element-analysis matrix and bounded evidence scope.",
+      "classification": "SUPPORTED_WITH_LIMITATIONS",
+      "claim_level": "QUALIFIED",
+      "evidence_refs": ["qualification/0_2_7/capability_registry_v2.json", "qualification/0_2_7/wp21_final_release_truth.json", "qualification/0_2_7/golden/evidence.json"],
+      "audited_surfaces": ["README.md", "docs/verification/0_2_7/0_2_7_capability_matrix.md"],
+      "disposition": "RETAIN_BOUNDED"
+    },
+    {
+      "id": "F3-CLAIM-004",
+      "topic": "j2_small_strain",
+      "public_statement": "Small-strain J2 is qualified-bounded for TET4, TET10, HEX8 and HEX20; finite-kinematic J2 is not included.",
+      "classification": "SUPPORTED_WITH_LIMITATIONS",
+      "claim_level": "QUALIFIED",
+      "evidence_refs": ["qualification/0_2_7/capability_registry_v2.json", "qualification/0_2_7/wp20_state.json", "qualification/0_2_7/wp11_j2_evidence.json"],
+      "audited_surfaces": ["README.md", "docs/verification/0_2_7/0_2_7_wp20_j2_closeout.md", "CHANGELOG.md"],
+      "disposition": "RETAIN_BOUNDED"
+    },
+    {
+      "id": "F3-CLAIM-005",
+      "topic": "wedge6_static",
+      "public_statement": "WEDGE6 static is experimental and is not qualified as a general static capability.",
+      "classification": "SUPPORTED_WITH_LIMITATIONS",
+      "claim_level": "EXPERIMENTAL",
+      "evidence_refs": ["qualification/0_2_7/capability_registry_v2.json", "qualification/0_2_7/wp09_final_state.json", "qualification/0_2_7/vnv_v2/wp09_final_external_evidence.json"],
+      "audited_surfaces": ["README.md", "docs/verification/0_2_7/0_2_7_wedge6_robustness_external_vnv.md"],
+      "disposition": "RETAIN_EXPERIMENTAL"
+    },
+    {
+      "id": "F3-CLAIM-006",
+      "topic": "wedge6_modal",
+      "public_statement": "WEDGE6 modal is qualified-bounded only for the declared homogeneous consistent-mass first-three-mode scope.",
+      "classification": "SUPPORTED_WITH_LIMITATIONS",
+      "claim_level": "QUALIFIED",
+      "evidence_refs": ["qualification/0_2_7/capability_registry_v2.json", "qualification/0_2_7/wp10_final_state.json", "qualification/0_2_7/vnv_v2/wp10_final_evidence.json"],
+      "audited_surfaces": ["README.md", "docs/verification/0_2_7/0_2_7_wedge6_modal.md"],
+      "disposition": "RETAIN_SEPARATE_FROM_STATIC"
+    },
+    {
+      "id": "F3-CLAIM-007",
+      "topic": "one_million",
+      "public_statement": "A bounded two-replay 1,029,000-true-DOF TET4 PETSc route is recorded; this is not a universal 1M claim.",
+      "classification": "SUPPORTED_WITH_LIMITATIONS",
+      "claim_level": "QUALIFIED",
+      "evidence_refs": ["qualification/0_2_7/wp16_state.json", "qualification/0_2_7/wp16_runtime/wp16_retry_summary.json", "docs/verification/0_2_7/0_2_7_wp16_1m_qualification.md"],
+      "audited_surfaces": ["README.md", "docs/grand_modele.md", "docs/solveurs/grand_modele.md"],
+      "disposition": "RETAIN_BOUNDED"
+    },
+    {
+      "id": "F3-CLAIM-008",
+      "topic": "three_million_silver",
+      "public_statement": "3M Silver is a bounded two-replay structured TET4 linear-static result under the recorded PETSc/MPI configuration.",
+      "classification": "SUPPORTED_WITH_LIMITATIONS",
+      "claim_level": "QUALIFIED",
+      "evidence_refs": ["qualification/0_2_7/wp18_state.json", "qualification/0_2_7/wp18_runtime/wp18_summary.json", "docs/verification/0_2_7/0_2_7_wp18_3m_ladder.md"],
+      "audited_surfaces": ["README.md", "CHANGELOG.md", "docs/verification/0_2_7/README.md"],
+      "disposition": "RETAIN_BOUNDED"
+    },
+    {
+      "id": "F3-CLAIM-009",
+      "topic": "three_million_gold_compute",
+      "public_statement": "3M Gold Compute is bounded to the two-workload structured TET4 PETSc/MPI evidence and carries no universal, GPU, multi-node or restart claim.",
+      "classification": "SUPPORTED_WITH_LIMITATIONS",
+      "claim_level": "QUALIFIED",
+      "evidence_refs": ["qualification/0_2_7/wp03_runtime/wp03_summary.json", "qualification/0_2_7/wp03_runtime/wp03_replay_comparison.json", "docs/verification/0_2_7/0_2_7_wp03_3m_gold_compute.md"],
+      "audited_surfaces": ["README.md", "CHANGELOG.md", "docs/verification/0_2_7/0_2_7_master_plan.md"],
+      "disposition": "RETAIN_BOUNDED"
+    },
+    {
+      "id": "F3-CLAIM-010",
+      "topic": "five_million",
+      "public_statement": "5,012,640 true DOF and 9,773,946 TET4 two-replay Silver evidence is bounded to its recorded single-host PETSc/MPI route.",
+      "classification": "SUPPORTED_WITH_LIMITATIONS",
+      "claim_level": "QUALIFIED",
+      "evidence_refs": ["qualification/0_2_7/lu2_wp05_state.json", "qualification/0_2_7/wp05_runtime/wp05_5m_silver_replay.json", "docs/verification/0_2_7/0_2_7_lu2_wp04_wp05_5m_closeout.md"],
+      "audited_surfaces": ["README.md", "CHANGELOG.md", "docs/verification/0_2_7/0_2_7_progress_tracker.md"],
+      "disposition": "RETAIN_BOUNDED_NO_GOLD"
+    },
+    {
+      "id": "F3-CLAIM-011",
+      "topic": "petsc_route",
+      "public_statement": "PETSc/MPI is an optional, explicitly bounded runtime route; its evidence does not establish a generic HPC guarantee.",
+      "classification": "SUPPORTED_WITH_LIMITATIONS",
+      "claim_level": "IMPLEMENTED",
+      "evidence_refs": ["qualification/0_2_7/wp17_final_state.json", "qualification/0_2_7/wp02_runtime/wp02_config_freeze.json", "pyproject.toml"],
+      "audited_surfaces": ["README.md", "docs/verification/0_2_7/0_2_7_wp17_final.md", "docs/demarrage/installation.md"],
+      "disposition": "RETAIN_OPTIONAL"
+    },
+    {
+      "id": "F3-CLAIM-012",
+      "topic": "code_aster",
+      "public_statement": "Code_Aster supports bounded PENTA6 correlations for the cases recorded in the WP09 evidence; this is not general physical validation.",
+      "classification": "SUPPORTED_WITH_LIMITATIONS",
+      "claim_level": "EXTERNALLY_VALIDATED",
+      "evidence_refs": ["qualification/0_2_7/wp09_final_state.json", "qualification/0_2_7/vnv_v2/wp09r_code_aster_evidence.json", "qualification/0_2_7/external_oracles/wedge6/contract.json"],
+      "audited_surfaces": ["README.md", "docs/verification/0_2_7/0_2_7_wedge6_robustness_external_vnv.md"],
+      "disposition": "RETAIN_BOUNDED"
+    },
+    {
+      "id": "F3-CLAIM-013",
+      "topic": "calculix",
+      "public_statement": "CalculiX C3D6 is retained as NOT_COMPARABLE for the WEDGE6 production integration contract and is not presented as positive validation.",
+      "classification": "SUPPORTED_WITH_LIMITATIONS",
+      "claim_level": "TESTED",
+      "evidence_refs": ["qualification/0_2_7/external_oracles/wedge6/contract.json", "qualification/0_2_7/wp09_final_state.json", "docs/verification/0_2_7/0_2_7_external_oracle_plan.md"],
+      "audited_surfaces": ["README.md", "docs/verification/0_2_7/0_2_7_wedge6_robustness_external_vnv.md"],
+      "disposition": "RETAIN_NOT_COMPARABLE"
+    },
+    {
+      "id": "F3-CLAIM-014",
+      "topic": "deferred_elements_and_mixed_mesh",
+      "public_statement": "Mixed meshes, WEDGE15 and PYRAMID5 are not general supported 0.2.7 capabilities; their scope is deferred or research-only.",
+      "classification": "SUPPORTED_WITH_LIMITATIONS",
+      "claim_level": "EXPERIMENTAL",
+      "evidence_refs": ["qualification/0_2_7/lu2_wp08_decision_matrix.json", "qualification/0_2_7/lu2_wp08_state.json", "docs/verification/0_2_7/0_2_7_lu2_wp08_decisions.md"],
+      "audited_surfaces": ["README.md", "docs/elements/index.md", "docs/verification/0_2_7/README.md"],
+      "disposition": "RETAIN_DEFERRED"
+    },
+    {
+      "id": "F3-CLAIM-015",
+      "topic": "other_routes",
+      "public_statement": "Dynamics, contact, geometric/nonlinear routes and finite-kinematic J2 retain route-specific limitations and are not promoted transitively from static evidence.",
+      "classification": "SUPPORTED_WITH_LIMITATIONS",
+      "claim_level": "EXPERIMENTAL",
+      "evidence_refs": ["qualification/0_2_7/capability_registry_v2.json", "qualification/0_2_7/lu2_wp07_maturity_matrix.json", "qualification/0_2_7/wp20_state.json"],
+      "audited_surfaces": ["README.md", "docs/solveurs/index.md", "docs/verification/0_2_7/0_2_7_lu2_wp07_maturity.md"],
+      "disposition": "RETAIN_ROUTE_SPECIFIC"
+    },
+    {
+      "id": "F3-CLAIM-016",
+      "topic": "api",
+      "public_statement": "The public qf_solver namespace and historical solveur namespace are documented as API surfaces; API compatibility is not itself qualification.",
+      "classification": "SUPPORTED",
+      "claim_level": "IMPLEMENTED",
+      "evidence_refs": ["docs/reference/api_stability.md", "docs/reference/interfaces.md", "tests/integration/test_api_and_cli.py"],
+      "audited_surfaces": ["README.md", "docs/reference/demonstrations_api.md", "docs/reference/interfaces.md"],
+      "disposition": "RETAIN_WITH_QUALIFICATION_BOUNDARY"
+    },
+    {
+      "id": "F3-CLAIM-017",
+      "topic": "examples",
+      "public_statement": "The maintained examples exercise documented API/CLI paths but are not a qualification of every element, analysis or material combination.",
+      "classification": "SUPPORTED_WITH_LIMITATIONS",
+      "claim_level": "TESTED",
+      "evidence_refs": ["examples/README.md", "tests/integration/test_examples.py", "tests/integration/test_api_and_cli.py"],
+      "audited_surfaces": ["README.md", "examples/README.md"],
+      "disposition": "RETAIN_WARNING"
+    },
+    {
+      "id": "F3-CLAIM-018",
+      "topic": "installation",
+      "public_statement": "The package metadata supports Python 3.10+ and optional HPC/PETSc extras; the 0.2.7 candidate is installed from source until publication.",
+      "classification": "SUPPORTED_WITH_LIMITATIONS",
+      "claim_level": "IMPLEMENTED",
+      "evidence_refs": ["pyproject.toml", "docs/demarrage/installation.md", "qualification/0_2_7/release_truth.json"],
+      "audited_surfaces": ["README.md", "CHANGELOG.md"],
+      "disposition": "RETAIN_NO_UNTESTED_PLATFORM_PROMISE"
+    },
+    {
+      "id": "F3-CLAIM-019",
+      "topic": "historical_performance",
+      "public_statement": "Older P4/large-model measurements remain historical records and must not be read as the current universal performance claim.",
+      "classification": "SUPPORTED_WITH_LIMITATIONS",
+      "claim_level": "VERIFIED",
+      "evidence_refs": ["qualification/0_2_7/release_truth.json", "docs/grand_modele.md", "docs/solveurs/grand_modele.md"],
+      "audited_surfaces": ["README.md", "docs/grand_modele.md", "docs/solveurs/grand_modele.md"],
+      "disposition": "RETAIN_HISTORICAL_LABEL"
+    },
+    {
+      "id": "F3-CLAIM-020",
+      "topic": "no_unqualified_claims",
+      "public_statement": "No public claim is made for GPU execution, universal scaling, hardware independence, general industrial certification or a Gold restart workflow.",
+      "classification": "SUPPORTED_WITH_LIMITATIONS",
+      "claim_level": "QUALIFIED",
+      "evidence_refs": ["qualification/0_2_7/wp21_final_release_truth.json", "qualification/0_2_7/wp18_state.json", "qualification/0_2_7/wp03_runtime/wp03_summary.json"],
+      "audited_surfaces": ["README.md", "CHANGELOG.md", "docs/verification/0_2_7/0_2_7_release_criteria.md"],
+      "disposition": "RETAIN_NEGATIVE_BOUNDARY"
+    }
+  ],
+  "findings": [
+    {
+      "id": "F3-DOC-P1-001",
+      "priority": "P1",
+      "status": "FIXED",
+      "classification": "OBSOLETE",
+      "title": "Active LU2 accounting still exposed earlier 32/50 and 82/100 snapshots.",
+      "locations": ["docs/verification/0_2_7/README.md", "docs/verification/0_2_7/0_2_7_progress_tracker.md", "docs/verification/0_2_7/0_2_7_master_plan.md", "docs/verification/0_2_7/0_2_7_gate_matrix.md"],
+      "correction": "Active views now state LU2 46/50 and global 96/100; earlier values are explicitly historical.",
+      "evidence_refs": ["qualification/0_2_7/level_up_2_state.json", "qualification/0_2_7/level_up_2_index.json"]
+    },
+    {
+      "id": "F3-DOC-P1-002",
+      "priority": "P1",
+      "status": "FIXED",
+      "classification": "OBSOLETE",
+      "title": "Active plan and public tables retained pre-correction WP04/WP05 statuses.",
+      "locations": ["qualification/0_2_7/level_up_2_plan.json", "docs/verification/0_2_7/0_2_7_progress_tracker.md", "docs/verification/0_2_7/0_2_7_gate_matrix.md"],
+      "correction": "Current WP04 Bronze and WP05 Silver are represented as PASS; the owner-interrupted attempt remains historical evidence.",
+      "evidence_refs": ["qualification/0_2_7/lu2_wp04_state.json", "qualification/0_2_7/lu2_wp05_state.json", "qualification/0_2_7/wp05_runtime/wp05_5m_silver_replay.json"]
+    },
+    {
+      "id": "F3-DOC-P2-001",
+      "priority": "P2",
+      "status": "FIXED",
+      "classification": "OBSOLETE",
+      "title": "Root documentation pointed at the legacy 0.2.6 capability view without an active-view warning.",
+      "locations": ["README.md", "docs/elements/index.md", "docs/verification/0_2_7/README.md"],
+      "correction": "Active links now target the 0.2.7 matrix and explicitly label 0.2.6 material as historical.",
+      "evidence_refs": ["qualification/0_2_7/capability_registry_v2.json", "docs/verification/0_2_7/0_2_7_capability_matrix.md"]
+    },
+    {
+      "id": "F3-DOC-P2-002",
+      "priority": "P2",
+      "status": "FIXED",
+      "classification": "OBSOLETE",
+      "title": "The V&V harness page still described WEDGE6 as unimplemented after WP07.",
+      "locations": ["docs/verification/0_2_7/0_2_7_vnv_harness_v2.md"],
+      "correction": "The page now separates WP04 harness history from the later experimental WEDGE6 kernel and modal bounded claim.",
+      "evidence_refs": ["qualification/0_2_7/wp09_final_state.json", "qualification/0_2_7/wp10_final_state.json"]
+    },
+    {
+      "id": "F3-DOC-P2-003",
+      "priority": "P2",
+      "status": "FIXED",
+      "classification": "UNDER_SPECIFIED",
+      "title": "API and demonstration pages lacked an explicit version and maturity-boundary statement.",
+      "locations": ["docs/reference/interfaces.md", "docs/reference/demonstrations_api.md"],
+      "correction": "Both pages identify the 0.2.7a0 surface and point maturity claims to registry v2/evidence.",
+      "evidence_refs": ["qualification/0_2_7/capability_registry_v2.json", "docs/reference/api_stability.md"]
+    },
+    {
+      "id": "F3-DOC-P2-004",
+      "priority": "P2",
+      "status": "FIXED",
+      "classification": "UNDER_SPECIFIED",
+      "title": "The root performance section did not state the bounded 5M Silver and 3M Gold Compute boundaries.",
+      "locations": ["README.md", "CHANGELOG.md"],
+      "correction": "The performance statement now includes the bounded workloads and explicitly excludes universal, GPU, restart and hardware-independent claims.",
+      "evidence_refs": ["qualification/0_2_7/lu2_wp05_state.json", "qualification/0_2_7/wp03_runtime/wp03_summary.json"]
+    },
+    {
+      "id": "F3-DOC-P2-005",
+      "priority": "P2",
+      "status": "FIXED",
+      "classification": "AMBIGUOUS_HISTORY",
+      "title": "P4 large-model sections could be read as current performance evidence.",
+      "locations": ["docs/grand_modele.md", "docs/solveurs/grand_modele.md"],
+      "correction": "The P4 measurements are now explicitly labeled historical and separated from current bounded claims.",
+      "evidence_refs": ["qualification/0_2_7/release_truth.json", "qualification/0_2_7/wp21_final_release_truth.json"]
+    },
+    {
+      "id": "F3-DOC-P3-001",
+      "priority": "P3",
+      "status": "DEFERRED_CLARIFICATION",
+      "classification": "LEGACY_DATA_SHAPE",
+      "title": "The top-level progress status string remains a legacy composite field.",
+      "locations": ["qualification/0_2_7/progress.json"],
+      "correction": "No historical JSON was rewritten; active readers are directed to level_up_2_state/index and the issue is recorded for a future data-shape decision.",
+      "evidence_refs": ["qualification/0_2_7/level_up_2_state.json", "qualification/0_2_7/level_up_2_index.json"]
+    },
+    {
+      "id": "F3-DOC-P2-006",
+      "priority": "P2",
+      "status": "DEFERRED_NON_BLOCKING",
+      "classification": "HISTORICAL_GENERATED_LINKS",
+      "title": "Twenty-seven links in older verification pages target untracked generated or archived runtime artifacts.",
+      "locations": ["docs/verification/discrete_multidof_stable_candidate_2026-08-21.md", "docs/verification/mitc3_laminate_curved_code_aster.md", "docs/verification/owner_review_open_gates_0_2_1.md", "docs/verification/tet4_static_causal_audit_2026-08-21.md", "docs/verification/tet4_total_lagrangian_phase2_owner_review_2026-08-22.md"],
+      "correction": "The active 0.2.7 link scope has zero broken links; legacy references are retained as historical debt and are not used by active claims.",
+      "evidence_refs": ["qualification/0_2_7/wp21_public_document_audit.json", "docs/verification/0_2_7/README.md"]
+    },
+    {
+      "id": "F3-DOC-P2-007",
+      "priority": "P2",
+      "status": "FIXED",
+      "classification": "OBSOLETE_ROADMAP",
+      "title": "A public roadmap section still presented finite-strain J2/G06 as the active 0.2.7 direction.",
+      "locations": ["docs/reference/feuille_de_route.md"],
+      "correction": "The old section is labeled as a historical planning snapshot and the active Level-Up 2 roadmap is linked explicitly.",
+      "evidence_refs": ["qualification/0_2_7/level_up_2_plan.json", "docs/verification/0_2_7/0_2_7_master_plan.md"]
+    },
+    {
+      "id": "F3-DOC-P2-008",
+      "priority": "P2",
+      "status": "FIXED",
+      "classification": "ENVIRONMENT_AMBIGUITY",
+      "title": "The module CLI invocation was documented without its source-environment boundary.",
+      "locations": ["docs/reference/interfaces.md"],
+      "correction": "The documentation now distinguishes installed, PYTHONPATH=src and source-script invocations and makes checkout isolation explicit.",
+      "evidence_refs": ["src/solveur/version.py", "tests/integration/test_packaging.py", "docs/reference/api_stability.md"]
+    },
+    {
+      "id": "F3-DOC-P2-009",
+      "priority": "P2",
+      "status": "FIXED",
+      "classification": "LEGACY_MATURITY_LABEL",
+      "title": "Detailed legacy element pages used shorthand stable/experimental labels without pointing to combination-level 0.2.7 authority.",
+      "locations": ["docs/elements/tet4.md", "docs/elements/tet10.md", "docs/elements/mitc4.md"],
+      "correction": "Each page now identifies its shorthand as historical and delegates current maturity to registry v2 and evidence.",
+      "evidence_refs": ["qualification/0_2_7/capability_registry_v2.json", "docs/elements/index.md"]
+    }
+  ],
+  "f2_deferred_review": [
+    {"id": "F2-P2-004", "status": "RETAIN_DEFERRED", "f3_impact": "No public overclaim; descriptor aliases remain descriptive."},
+    {"id": "F2-P2-005", "status": "CLARIFIED_IN_DOCS_DEFERRED_SEMANTICS", "f3_impact": "Registry v2 authority and legacy label boundaries are stated; semantic reconciliation remains deferred."},
+    {"id": "F2-P2-006", "status": "NO_F3_IMPACT", "f3_impact": "Diagnostic exception handling is technical debt, not a public claim correction."},
+    {"id": "F2-P2-007", "status": "CLARIFIED_IN_DOCS_DEFERRED_TECHNICAL", "f3_impact": "Installation and CLI docs state the launcher environment boundary; technical isolation remains deferred."},
+    {"id": "F2-P2-008", "status": "NO_F3_IMPACT", "f3_impact": "Conservative registry demotion remains documented as a limitation."},
+    {"id": "F2-P3-001", "status": "NO_F3_IMPACT", "f3_impact": "Root export ordering is not documented as a contract."}
+  ],
+  "f2_deferred_summary": {
+    "reviewed": 6,
+    "documentation_clarifications_in_f3": 2,
+    "remaining_deferred": 4
+  },
+  "finding_summary": {
+    "overclaims_found": 0,
+    "overclaims_fixed": 0,
+    "obsolete_claims_found": 7,
+    "obsolete_claims_fixed": 7,
+    "doc_p2_found": 9,
+    "doc_p2_fixed_in_f3": 8,
+    "doc_p3_found": 1,
+    "doc_p3_fixed_in_f3": 0
+  },
+  "controls": {
+    "historical_evidence_modified": false,
+    "maturity_promoted": false,
+    "numerical_source_changed": false,
+    "requalification_required": false,
+    "heavy_benchmark_run": false,
+    "full_regression_run": false,
+    "release_actions": "NOT_PERFORMED",
+    "final_sha_recorded_in_closeout": true,
+    "claim_policy": "No public statement may be stronger than the nearest executed evidence and its declared boundary."
+  },
+  "artifact_classification": "CONTROLLED_PROOF"
+}

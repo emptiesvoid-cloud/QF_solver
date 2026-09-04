@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "record_type": "lu2_wp04_evidence_index",
+  "work_package": "LU2-WP04",
+  "gate": "LU2-027-G04",
+  "status": "USER_INTERRUPTED_INCONCLUSIVE",
+  "source_sha": "da140d51e61d94e97b94cfa6363f7558d9e8c103",
+  "historical_execution_source_sha": "3c579e4a51a2e9edca23b7583cdbfc48c7f80368",
+  "contract": "qualification/0_2_7/wp04_execution_contract.json",
+  "preflight": "qualification/0_2_7/wp04_runtime/wp04_preflight.json",
+  "workload_builds": [
+    "qualification/0_2_7/wp04_runtime/workload_5m_run1_build.json",
+    "qualification/0_2_7/wp04_runtime/workload_5m_run2_build.json"
+  ],
+  "resource_guard_audit": "qualification/0_2_7/wp04_runtime/wp04_resource_guard_audit.json",
+  "run_records": {
+    "run1": "OWNER_TERMINATED_AFTER_DIAGNOSTIC; rank-zero local PC_READY observed, global completion not proved",
+    "run2": "NOT_RUN_AFTER_USER_INTERRUPT"
+  },
+  "replay": "NOT_PERFORMED; historical rank-zero local PC_READY is not global readiness and the corrected runner requires replay",
+  "acceptance": {
+    "true_fem_model": true,
+    "minimum_dof": true,
+    "configuration_unchanged": true,
+    "two_deterministic_input_builds": true,
+    "operator_build": "RANK_ZERO_LOCAL_PATH_REACHED",
+    "petsc_initialization": "RANK_ZERO_LOCAL_PATH_REACHED",
+    "gamg_readiness": false,
+    "resource_guard": "EXCEEDED_AS_TIME_BUDGET_ONLY",
+    "bronze_pass": false
+  },
+  "c1_matrix_free_trigger": false,
+  "resource_limited_proven": false,
+  "forensic_audit": "qualification/0_2_7/wp04_runtime/wp04_forensic_audit.json",
+  "post_pc_ready_diagnostic": "qualification/0_2_7/wp04_runtime/wp04_post_pc_ready_diagnostic.json",
+  "run1_rank_zero_telemetry": "qualification/0_2_7/wp04_runtime/wp04_5m_progress.jsonl",
+  "artifact_classification": "CONTROLLED_PROOF",
+  "claim_boundary": "Deterministic 5M workload and preflight are proved. The owner-terminated retry reached rank-zero local PC_READY but exposed a proven post-ready collective-order defect; Bronze readiness, replay, 5M solve and performance remain unclaimed."
+}

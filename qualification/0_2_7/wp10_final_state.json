@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "work_package": "WP10-FINAL",
+  "gate": "027-G10",
+  "status": "PASS_WITH_LIMITATIONS",
+  "final_status": "PASS",
+  "start_sha": "4e005423ba4fd87c6ab6ea2fe5c7a345c21d8e43",
+  "execution_source_sha": "9d79dc8b306e6cc65f2f4ae2e77e00f676182b84",
+  "evidence_catalog": "qualification/0_2_7/vnv_v2/wp10_final_cases.json",
+  "evidence_catalog_sha256": "18050dee6a4f282894adc06e21976d9f72d16f4b1df7dd59657f9d96858e8eb6",
+  "evidence_artifact": "qualification/0_2_7/vnv_v2/wp10_final_evidence.json",
+  "evidence_artifact_sha256": "e8065ecdece8d0241f63ce6065cd5f1bfcca6e50da3c613f18793775452fb5d3",
+  "evidence_document": "docs/verification/0_2_7/0_2_7_wedge6_modal.md",
+  "owner_decision": "OWNER_APPROVED_BOUNDED",
+  "owner_decision_reference": "WP10-FINAL-OWNER-REVIEW-2026-09-01",
+  "owner_tolerance_status": "APPROVED",
+  "tolerance_policy": {
+    "frequency_relative": 0.01,
+    "mac_minimum": 0.99,
+    "near_degenerate_relative_frequency_gap": 1.0e-5,
+    "eigenpair_residual_max": 1.0e-7,
+    "refinement_final_relative_change": 0.01,
+    "source": "WP10 final contract and declarative case catalog",
+    "approval_state": "OWNER_APPROVED_BOUNDED",
+    "approval_date": "2026-09-01",
+    "post_result_retuning": false
+  },
+  "refinement": {
+    "levels": [4, 8, 16, 32],
+    "observable": "first three frequencies_hz",
+    "qualified_mode_prefix": 3,
+    "final_relative_changes": [0.0077917008061267855, 0.0012548451534234587, 0.000301120696581076],
+    "diagnostic_modes_four_to_six_final_relative_changes": [0.010754390615925499, 0.0012189178042270633, 0.003388969227534068],
+    "max_eigenpair_residual": 2.3993260594985674e-11,
+    "status": "PASS_QUALIFIED",
+    "monotonicity_required": false
+  },
+  "external": {
+    "solver": "Code_Aster 18.1.0 / PENTA6",
+    "cases": 4,
+    "status": "PASS_EXTERNAL_CORRELATION_BOUNDED",
+    "modes_requested_per_case": 6,
+    "modes_matched": "24/24",
+    "maximum_frequency_relative_error": 1.9269995654361178e-13,
+    "minimum_mac": 0.9999999999999991,
+    "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+    "observables": ["frequency_hz", "mode_shape_mac"],
+    "same_mesh": true
+  },
+  "declared_case_count": 6,
+  "executed_case_count": 5,
+  "verdict_counts": {
+    "PASS_QUALIFIED": 1,
+    "PASS_EXTERNAL_CORRELATION_BOUNDED": 4,
+    "FAIL": 0,
+    "SKIPPED_EXTERNAL_UNAVAILABLE": 0,
+    "RESOURCE_LIMITED": 0
+  },
+  "public_maturity": "QUALIFIED_BOUNDED",
+  "public_qualification": "QUALIFIED_BOUNDED",
+  "scope": {
+    "element": "WEDGE6",
+    "analysis": "modal",
+    "material": "homogeneous isotropic small-strain elasticity",
+    "mass": "consistent translational mass",
+    "backend": "QF common SciPy modal route with headless Code_Aster PENTA6 same-mesh comparisons",
+    "qualified_modes": "first three modes for the declared four-level refinement; six-mode external matching is bounded to the four tested cases"
+  },
+  "limitations": [
+    "No lumped-mass route is qualified.",
+    "Modes four to six are diagnostic for mesh convergence because the fourth final adjacent change is 1.0754%.",
+    "External evidence is bounded to the four declared same-mesh Code_Aster PENTA6 cases and does not establish universal modal accuracy.",
+    "No modal qualification is transferred to Newmark, harmonic, nonlinear, J2, TL, contact or general dynamics.",
+    "Static WEDGE6 evidence remains a separate WP07-WP09 claim."
+  ],
+  "historical_initial_evidence_preserved": true,
+  "historical_initial_state": "qualification/0_2_7/wp10_state.json before final closure",
+  "existing_element_numerics_changed": false,
+  "full_regression_run": false,
+  "pushed": false,
+  "ready_for_next_gate": true,
+  "artifact_classification": "CONTROLLED_PROOF"
+}

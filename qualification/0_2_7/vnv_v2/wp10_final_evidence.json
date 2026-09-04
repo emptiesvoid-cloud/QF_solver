@@ -1,0 +1,788 @@
+{
+  "artifact_classification": "CONTROLLED_PROOF",
+  "case_catalog": {
+    "path": "qualification/0_2_7/vnv_v2/wp10_final_cases.json",
+    "sha256": "18050dee6a4f282894adc06e21976d9f72d16f4b1df7dd59657f9d96858e8eb6"
+  },
+  "external": {
+    "cases": [
+      {
+        "case_id": "WP10-EXT-AXIAL-SINGLE",
+        "code_aster_frequencies_hz": [
+          156.44641013597536,
+          186.68614031092773,
+          295.6890053029494,
+          495.9478405804897,
+          1206.593156756112,
+          1770.0382753350839
+        ],
+        "deck_digests": {
+          "comm": "d658d744fc5c7aafd67699475e0575e430ea9cdf92c588bc9262c063283aa7f9",
+          "mail": "31cd8c75f1667932795c7bcd154b3e90f19a2907930e9488fc49e26645379be8"
+        },
+        "frequency_relative_errors": [
+          3.1974021362352936e-14,
+          4.034446792093322e-14,
+          5.190495019148105e-15,
+          1.0315414805485854e-15,
+          1.884427026376638e-15,
+          1.027655406604982e-15
+        ],
+        "geometry": "same prism_chain geometry and node order",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "maximum_frequency_relative_error": 4.034446792093322e-14,
+        "mesh_digest": "31cd8c75f1667932795c7bcd154b3e90f19a2907930e9488fc49e26645379be8",
+        "mode_comparison": {
+          "frequency_tolerance": 0.01,
+          "mac_matrix": [
+            [
+              1.0,
+              5.689187712044226e-27,
+              3.0825281106729538e-30,
+              2.9575678314287757e-31,
+              3.4421293040188892e-28,
+              3.1975057203410767e-31
+            ],
+            [
+              5.2210739231450664e-27,
+              1.0,
+              2.2609535921350892e-29,
+              3.805934515258478e-30,
+              0.07422298444752423,
+              2.763023941497705e-32
+            ],
+            [
+              7.288321983499542e-29,
+              7.562316638038916e-30,
+              1.0000000000000004,
+              1.0746590521024224e-32,
+              2.6585277448044227e-31,
+              6.16511242118549e-32
+            ],
+            [
+              1.2955294376087005e-32,
+              5.09394352273306e-30,
+              2.3403671797322647e-31,
+              1.0,
+              1.2913194524556642e-30,
+              0.010635183160096979
+            ],
+            [
+              4.73016876755593e-30,
+              0.07422298444752405,
+              2.3827897343662273e-31,
+              2.805766032030222e-32,
+              1.0,
+              5.170622751921003e-31
+            ],
+            [
+              6.84991792822793e-34,
+              3.075809583113274e-33,
+              2.202517115503464e-31,
+              0.010635183160097053,
+              2.0066452969266134e-29,
+              0.9999999999999998
+            ]
+          ],
+          "mac_tolerance": 0.99,
+          "matching": "deterministic minimum frequency-error plus one-minus-MAC assignment; out-of-policy pairs fail",
+          "near_degenerate_tolerance": 1e-05,
+          "normalization": "unit Euclidean norm; sign pivot is first largest-absolute component",
+          "pairs": [
+            {
+              "accepted": true,
+              "candidate_mode": 1,
+              "frequency_error": 3.1974021362352936e-14,
+              "mac": 1.0,
+              "near_degenerate_group": null,
+              "quality_rule": "individual_mac",
+              "reference_mode": 1
+            },
+            {
+              "accepted": true,
+              "candidate_mode": 2,
+              "frequency_error": 4.034446792093159e-14,
+              "mac": 1.0,
+              "near_degenerate_group": null,
+              "quality_rule": "individual_mac",
+              "reference_mode": 2
+            },
+            {
+              "accepted": true,
+              "candidate_mode": 3,
+              "frequency_error": 5.190495019148105e-15,
+              "mac": 1.0000000000000004,
+              "near_degenerate_group": null,
+              "quality_rule": "individual_mac",
+              "reference_mode": 3
+            },
+            {
+              "accepted": true,
+              "candidate_mode": 4,
+              "frequency_error": 1.0315414805485854e-15,
+              "mac": 1.0,
+              "near_degenerate_group": null,
+              "quality_rule": "individual_mac",
+              "reference_mode": 4
+            },
+            {
+              "accepted": true,
+              "candidate_mode": 5,
+              "frequency_error": 1.8844270263766343e-15,
+              "mac": 1.0,
+              "near_degenerate_group": null,
+              "quality_rule": "individual_mac",
+              "reference_mode": 5
+            },
+            {
+              "accepted": true,
+              "candidate_mode": 6,
+              "frequency_error": 1.0276554066049808e-15,
+              "mac": 0.9999999999999998,
+              "near_degenerate_group": null,
+              "quality_rule": "individual_mac",
+              "reference_mode": 6
+            }
+          ],
+          "status": "PASS"
+        },
+        "qf_frequencies_hz": [
+          156.44641013597035,
+          186.68614031093526,
+          295.68900530294786,
+          495.9478405804892,
+          1206.5931567561142,
+          1770.0382753350857
+        ],
+        "segments": 1,
+        "solver": "Code_Aster 18.1.0 / PENTA6",
+        "status": "PASS_EXTERNAL_CORRELATION_BOUNDED",
+        "tolerance_policy": {
+          "frequency_relative": 0.01,
+          "mac": 0.99,
+          "post_result_retuning": false,
+          "source": "WP10-FINAL Owner predeclared same-mesh modal comparison policy"
+        }
+      },
+      {
+        "case_id": "WP10-EXT-BENDING-MULTI",
+        "code_aster_frequencies_hz": [
+          81.55639813118825,
+          151.87047906402464,
+          269.8864938177616,
+          443.85819469650386,
+          447.0542111225706,
+          553.9612566962422
+        ],
+        "deck_digests": {
+          "comm": "d658d744fc5c7aafd67699475e0575e430ea9cdf92c588bc9262c063283aa7f9",
+          "mail": "f6adb0b00423540c84ce1c475733e05261f0e3da648c0479a4fb941f872e19a9"
+        },
+        "frequency_relative_errors": [
+          1.444497161332745e-13,
+          1.1247378340376286e-13,
+          2.10619724079972e-15,
+          2.5613324048089613e-15,
+          6.739006421744276e-15,
+          9.85081202823148e-15
+        ],
+        "geometry": "same prism_chain geometry and node order",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "maximum_frequency_relative_error": 1.444497161332745e-13,
+        "mesh_digest": "f6adb0b00423540c84ce1c475733e05261f0e3da648c0479a4fb941f872e19a9",
+        "mode_comparison": {
+          "frequency_tolerance": 0.01,
+          "mac_matrix": [
+            [
+              1.0,
+              3.6138234329539754e-28,
+              1.1940868043003808e-27,
+              0.12039605039954901,
+              2.3334835605508894e-28,
+              6.465835058296559e-29
+            ],
+            [
+              5.504649337017332e-28,
+              1.0,
+              3.638323373645067e-28,
+              4.345754908493241e-28,
+              2.8730053767916045e-31,
+              0.15929135992328658
+            ],
+            [
+              2.3267228610055627e-29,
+              5.333176066493597e-29,
+              0.9999999999999996,
+              9.506360088966296e-31,
+              2.6455502097039866e-29,
+              8.286092066508619e-32
+            ],
+            [
+              0.12039605039954973,
+              1.546945354454291e-29,
+              6.10017540419335e-29,
+              1.0,
+              8.09083708093418e-26,
+              7.368340270511204e-29
+            ],
+            [
+              3.1331549543894643e-26,
+              1.867353679501101e-29,
+              6.360944955417734e-28,
+              2.5343724602208923e-25,
+              1.0000000000000009,
+              7.747398330092458e-29
+            ],
+            [
+              2.73862130602142e-29,
+              0.15929135992328677,
+              1.8514346828668428e-29,
+              1.1404924576943345e-28,
+              1.7651962482496283e-29,
+              0.9999999999999993
+            ]
+          ],
+          "mac_tolerance": 0.99,
+          "matching": "deterministic minimum frequency-error plus one-minus-MAC assignment; out-of-policy pairs fail",
+          "near_degenerate_tolerance": 1e-05,
+          "normalization": "unit Euclidean norm; sign pivot is first largest-absolute component",
+          "pairs": [
+            {
+              "accepted": true,
+              "candidate_mode": 1,
+              "frequency_error": 1.4444971613325363e-13,
+              "mac": 1.0,
+              "near_degenerate_group": null,
+              "quality_rule": "individual_mac",
+              "reference_mode": 1
+            },
+            {
+              "accepted": true,
+              "candidate_mode": 2,
+              "frequency_error": 1.124737834037502e-13,
+              "mac": 1.0,
+              "near_degenerate_group": null,
+              "quality_rule": "individual_mac",
+              "reference_mode": 2
+            },
+            {
+              "accepted": true,
+              "candidate_mode": 3,
+              "frequency_error": 2.1061972407997155e-15,
+              "mac": 0.9999999999999996,
+              "near_degenerate_group": null,
+              "quality_rule": "individual_mac",
+              "reference_mode": 3
+            },
+            {
+              "accepted": true,
+              "candidate_mode": 4,
+              "frequency_error": 2.5613324048089613e-15,
+              "mac": 1.0,
+              "near_degenerate_group": null,
+              "quality_rule": "individual_mac",
+              "reference_mode": 4
+            },
+            {
+              "accepted": true,
+              "candidate_mode": 5,
+              "frequency_error": 6.73900642174423e-15,
+              "mac": 1.0000000000000009,
+              "near_degenerate_group": null,
+              "quality_rule": "individual_mac",
+              "reference_mode": 5
+            },
+            {
+              "accepted": true,
+              "candidate_mode": 6,
+              "frequency_error": 9.850812028231383e-15,
+              "mac": 0.9999999999999993,
+              "near_degenerate_group": null,
+              "quality_rule": "individual_mac",
+              "reference_mode": 6
+            }
+          ],
+          "status": "PASS"
+        },
+        "qf_frequencies_hz": [
+          81.55639813120003,
+          151.87047906404172,
+          269.8864938177622,
+          443.8581946965027,
+          447.05421112257363,
+          553.9612566962477
+        ],
+        "segments": 4,
+        "solver": "Code_Aster 18.1.0 / PENTA6",
+        "status": "PASS_EXTERNAL_CORRELATION_BOUNDED",
+        "tolerance_policy": {
+          "frequency_relative": 0.01,
+          "mac": 0.99,
+          "post_result_retuning": false,
+          "source": "WP10-FINAL Owner predeclared same-mesh modal comparison policy"
+        }
+      },
+      {
+        "case_id": "WP10-EXT-DISTORTED",
+        "code_aster_frequencies_hz": [
+          83.33300181385336,
+          147.69518852192084,
+          271.4643616327081,
+          439.09382878028947,
+          455.976469380639,
+          550.884340054328
+        ],
+        "deck_digests": {
+          "comm": "d658d744fc5c7aafd67699475e0575e430ea9cdf92c588bc9262c063283aa7f9",
+          "mail": "9be15eca3b120b444d29ed1a50e92e357ccb2b3a428315b651e8e8e8822d4073"
+        },
+        "frequency_relative_errors": [
+          1.9269995654361178e-13,
+          4.2720548696907746e-14,
+          1.0260380063988461e-14,
+          5.696072834416991e-15,
+          3.7398915960303463e-16,
+          3.5083158128562387e-15
+        ],
+        "geometry": "same prism_chain geometry and node order",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "maximum_frequency_relative_error": 1.9269995654361178e-13,
+        "mesh_digest": "9be15eca3b120b444d29ed1a50e92e357ccb2b3a428315b651e8e8e8822d4073",
+        "mode_comparison": {
+          "frequency_tolerance": 0.01,
+          "mac_matrix": [
+            [
+              1.0000000000000004,
+              2.819089091976304e-07,
+              2.1702260017578283e-05,
+              0.06121119505665221,
+              0.08639143202812576,
+              2.0372407868891725e-06
+            ],
+            [
+              2.819089091572375e-07,
+              1.0,
+              0.005833756119027026,
+              0.0001420750177846532,
+              0.00013631110517517493,
+              0.1537083588917356
+            ],
+            [
+              2.1702260017442896e-05,
+              0.005833756119027842,
+              0.9999999999999991,
+              7.914006796759303e-09,
+              7.878152396455688e-06,
+              0.0003251657674433491
+            ],
+            [
+              0.06121119505665373,
+              0.0001420750177848019,
+              7.914006798288937e-09,
+              1.0000000000000004,
+              0.05144406135341466,
+              0.00023111545885734643
+            ],
+            [
+              0.0863914320281238,
+              0.0001363111051749334,
+              7.878152396448988e-06,
+              0.051444061353382906,
+              1.0000000000000004,
+              0.00019307579015187046
+            ],
+            [
+              2.0372407869175375e-06,
+              0.15370835889172837,
+              0.000325165767443273,
+              0.00023111545885661232,
+              0.00019307579015203185,
+              0.9999999999999998
+            ]
+          ],
+          "mac_tolerance": 0.99,
+          "matching": "deterministic minimum frequency-error plus one-minus-MAC assignment; out-of-policy pairs fail",
+          "near_degenerate_tolerance": 1e-05,
+          "normalization": "unit Euclidean norm; sign pivot is first largest-absolute component",
+          "pairs": [
+            {
+              "accepted": true,
+              "candidate_mode": 1,
+              "frequency_error": 1.9269995654361178e-13,
+              "mac": 1.0000000000000004,
+              "near_degenerate_group": null,
+              "quality_rule": "individual_mac",
+              "reference_mode": 1
+            },
+            {
+              "accepted": true,
+              "candidate_mode": 2,
+              "frequency_error": 4.2720548696907746e-14,
+              "mac": 1.0,
+              "near_degenerate_group": null,
+              "quality_rule": "individual_mac",
+              "reference_mode": 2
+            },
+            {
+              "accepted": true,
+              "candidate_mode": 3,
+              "frequency_error": 1.0260380063988357e-14,
+              "mac": 0.9999999999999991,
+              "near_degenerate_group": null,
+              "quality_rule": "individual_mac",
+              "reference_mode": 3
+            },
+            {
+              "accepted": true,
+              "candidate_mode": 4,
+              "frequency_error": 5.696072834416991e-15,
+              "mac": 1.0000000000000004,
+              "near_degenerate_group": null,
+              "quality_rule": "individual_mac",
+              "reference_mode": 4
+            },
+            {
+              "accepted": true,
+              "candidate_mode": 5,
+              "frequency_error": 3.7398915960303454e-16,
+              "mac": 1.0000000000000004,
+              "near_degenerate_group": null,
+              "quality_rule": "individual_mac",
+              "reference_mode": 5
+            },
+            {
+              "accepted": true,
+              "candidate_mode": 6,
+              "frequency_error": 3.5083158128562387e-15,
+              "mac": 0.9999999999999998,
+              "near_degenerate_group": null,
+              "quality_rule": "individual_mac",
+              "reference_mode": 6
+            }
+          ],
+          "status": "PASS"
+        },
+        "qf_frequencies_hz": [
+          83.3330018138373,
+          147.69518852191453,
+          271.4643616327109,
+          439.09382878028697,
+          455.9764693806392,
+          550.8843400543261
+        ],
+        "segments": 4,
+        "solver": "Code_Aster 18.1.0 / PENTA6",
+        "status": "PASS_EXTERNAL_CORRELATION_BOUNDED",
+        "tolerance_policy": {
+          "frequency_relative": 0.01,
+          "mac": 0.99,
+          "post_result_retuning": false,
+          "source": "WP10-FINAL Owner predeclared same-mesh modal comparison policy"
+        }
+      },
+      {
+        "case_id": "WP10-EXT-MULTI-WEDGE",
+        "code_aster_frequencies_hz": [
+          73.51182870868213,
+          148.99295818199988,
+          268.5912375367272,
+          383.71598758724826,
+          440.6384414171589,
+          526.4247404649965
+        ],
+        "deck_digests": {
+          "comm": "d658d744fc5c7aafd67699475e0575e430ea9cdf92c588bc9262c063283aa7f9",
+          "mail": "57d320001e56e263e3c0cc84605f5b1621d5d63d5a01c4c8832da91761d1e0e9"
+        },
+        "frequency_relative_errors": [
+          8.080518979461704e-14,
+          9.537937153944531e-16,
+          1.0581770906252152e-14,
+          1.7036019817929943e-14,
+          1.0191190027727262e-14,
+          2.3755631504574574e-15
+        ],
+        "geometry": "same prism_chain geometry and node order",
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "maximum_frequency_relative_error": 8.080518979461704e-14,
+        "mesh_digest": "57d320001e56e263e3c0cc84605f5b1621d5d63d5a01c4c8832da91761d1e0e9",
+        "mode_comparison": {
+          "frequency_tolerance": 0.01,
+          "mac_matrix": [
+            [
+              1.0000000000000004,
+              3.64544482192648e-27,
+              4.333528906232204e-27,
+              0.054106204719502636,
+              8.247137544525464e-29,
+              2.4292301401739994e-28
+            ],
+            [
+              3.674264630561742e-27,
+              1.0000000000000004,
+              7.402118310556068e-27,
+              5.485991408733534e-28,
+              1.1290015887543703e-29,
+              0.1071625023259453
+            ],
+            [
+              8.172788579308709e-28,
+              8.473128389588229e-28,
+              0.9999999999999998,
+              1.0960216806078823e-27,
+              9.099146785016129e-29,
+              1.6841539821031708e-28
+            ],
+            [
+              0.05410620471950297,
+              3.918357743889008e-29,
+              3.7009097358566955e-27,
+              0.9999999999999998,
+              2.3363592921087405e-27,
+              1.3828392415260472e-28
+            ],
+            [
+              3.389601023154948e-29,
+              7.295271643149086e-28,
+              9.664639028856542e-28,
+              4.188302539739477e-27,
+              1.0000000000000004,
+              9.805955309909943e-28
+            ],
+            [
+              6.215884898853149e-30,
+              0.10716250232595011,
+              6.694879371831745e-29,
+              1.1609607789404979e-28,
+              2.1364807343034203e-30,
+              0.9999999999999996
+            ]
+          ],
+          "mac_tolerance": 0.99,
+          "matching": "deterministic minimum frequency-error plus one-minus-MAC assignment; out-of-policy pairs fail",
+          "near_degenerate_tolerance": 1e-05,
+          "normalization": "unit Euclidean norm; sign pivot is first largest-absolute component",
+          "pairs": [
+            {
+              "accepted": true,
+              "candidate_mode": 1,
+              "frequency_error": 8.080518979461051e-14,
+              "mac": 1.0000000000000004,
+              "near_degenerate_group": null,
+              "quality_rule": "individual_mac",
+              "reference_mode": 1
+            },
+            {
+              "accepted": true,
+              "candidate_mode": 2,
+              "frequency_error": 9.537937153944521e-16,
+              "mac": 1.0000000000000004,
+              "near_degenerate_group": null,
+              "quality_rule": "individual_mac",
+              "reference_mode": 2
+            },
+            {
+              "accepted": true,
+              "candidate_mode": 3,
+              "frequency_error": 1.058177090625204e-14,
+              "mac": 0.9999999999999998,
+              "near_degenerate_group": null,
+              "quality_rule": "individual_mac",
+              "reference_mode": 3
+            },
+            {
+              "accepted": true,
+              "candidate_mode": 4,
+              "frequency_error": 1.7036019817929943e-14,
+              "mac": 0.9999999999999998,
+              "near_degenerate_group": null,
+              "quality_rule": "individual_mac",
+              "reference_mode": 4
+            },
+            {
+              "accepted": true,
+              "candidate_mode": 5,
+              "frequency_error": 1.0191190027727158e-14,
+              "mac": 1.0000000000000004,
+              "near_degenerate_group": null,
+              "quality_rule": "individual_mac",
+              "reference_mode": 5
+            },
+            {
+              "accepted": true,
+              "candidate_mode": 6,
+              "frequency_error": 2.3755631504574574e-15,
+              "mac": 0.9999999999999996,
+              "near_degenerate_group": null,
+              "quality_rule": "individual_mac",
+              "reference_mode": 6
+            }
+          ],
+          "status": "PASS"
+        },
+        "qf_frequencies_hz": [
+          73.51182870868807,
+          148.99295818200002,
+          268.59123753673003,
+          383.7159875872417,
+          440.6384414171634,
+          526.4247404649952
+        ],
+        "segments": 8,
+        "solver": "Code_Aster 18.1.0 / PENTA6",
+        "status": "PASS_EXTERNAL_CORRELATION_BOUNDED",
+        "tolerance_policy": {
+          "frequency_relative": 0.01,
+          "mac": 0.99,
+          "post_result_retuning": false,
+          "source": "WP10-FINAL Owner predeclared same-mesh modal comparison policy"
+        }
+      }
+    ],
+    "error": null,
+    "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+    "mode_shape_policy": "six requested; MAC qualification uses first six when non-degenerate, subspace MAC for near-degenerate groups",
+    "primary_observables": [
+      "frequency_hz",
+      "mode_shape_mac"
+    ],
+    "solver": "Code_Aster 18.1.0 / PENTA6",
+    "status": "PASS_EXTERNAL_CORRELATION_BOUNDED"
+  },
+  "gate": "027-G10",
+  "limitations": [
+    "No lumped-mass route is qualified.",
+    "Qualification is bounded to the declared first-three-mode refinement scope and tested WEDGE6/PENTA6 meshes.",
+    "Modes four to six are externally compared where available but remain diagnostic for mesh convergence.",
+    "No modal qualification is transferred to Newmark, harmonic, nonlinear, J2, TL or contact routes.",
+    "Static WEDGE6 evidence remains a separate WP07-WP09 claim."
+  ],
+  "maturity": "QUALIFIED_BOUNDED",
+  "owner_decision": "OWNER_APPROVED_BOUNDED",
+  "policy": {
+    "frequency_relative_tolerance": 0.01,
+    "mac_threshold": 0.99,
+    "mass": "consistent translational mass only",
+    "near_degenerate_relative_frequency_gap": 1e-05,
+    "policy_frozen_before_replay": true,
+    "post_result_retuning": false,
+    "refinement_final_relative_change": 0.01,
+    "refinement_policy_status": "OWNER_APPROVED_BOUNDED",
+    "residual_pass": 1e-07
+  },
+  "refinement": {
+    "deterministic_replay_pass": true,
+    "final_relative_change_qualified_prefix": [
+      0.0077917008061267855,
+      0.0012548451534234587,
+      0.000301120696581076
+    ],
+    "final_relative_changes": [
+      0.0077917008061267855,
+      0.0012548451534234587,
+      0.000301120696581076,
+      0.010754390615925499,
+      0.0012189178042270633,
+      0.003388969227534068
+    ],
+    "finite_positive": true,
+    "levels": [
+      {
+        "deterministic_modes": true,
+        "frequencies_hz": [
+          81.55639813120003,
+          151.87047906404172,
+          269.8864938177622,
+          443.8581946965027,
+          447.05421112257363,
+          553.9612566962477
+        ],
+        "max_relative_residual": 7.222461338391328e-13,
+        "segments": 4
+      },
+      {
+        "deterministic_modes": true,
+        "frequencies_hz": [
+          73.51182870868807,
+          148.99295818200002,
+          268.59123753673003,
+          383.7159875872417,
+          440.6384414171634,
+          526.4247404649952
+        ],
+        "max_relative_residual": 1.654368257753692e-12,
+        "segments": 8
+      },
+      {
+        "deterministic_modes": true,
+        "frequencies_hz": [
+          71.33578856614683,
+          148.25379915532216,
+          268.2679697339079,
+          368.035864088793,
+          438.69753513860917,
+          519.4078322813558
+        ],
+        "max_relative_residual": 6.020449647694463e-12,
+        "segments": 16
+      },
+      {
+        "deterministic_modes": true,
+        "frequencies_hz": [
+          70.7799614448703,
+          148.06776359397549,
+          268.1871886959912,
+          364.07786264571246,
+          438.1627989023582,
+          517.6475751212141
+        ],
+        "max_relative_residual": 2.3993260594985674e-11,
+        "segments": 32
+      }
+    ],
+    "policy": {
+      "levels_used": [
+        4,
+        8,
+        16,
+        32
+      ],
+      "minimum_levels": 3,
+      "monotonicity_required": false,
+      "observable": "first three frequencies_hz",
+      "pass_rule": "each final adjacent relative change <= 1e-2; finite positive frequencies; residual <= 1e-7; deterministic replay",
+      "scope": "first three modes only; modes four to six remain diagnostic",
+      "status": "predeclared_before_replay"
+    },
+    "qualified_mode_prefix": 3,
+    "residual_pass": true,
+    "status": "PASS_QUALIFIED"
+  },
+  "replay": {
+    "external_cases": [
+      "WP10-EXT-AXIAL-SINGLE",
+      "WP10-EXT-BENDING-MULTI",
+      "WP10-EXT-DISTORTED",
+      "WP10-EXT-MULTI-WEDGE"
+    ],
+    "refinement_levels": [
+      4,
+      8,
+      16,
+      32
+    ],
+    "source_sha_required": "9d79dc8b306e6cc65f2f4ae2e77e00f676182b84"
+  },
+  "schema_version": 1,
+  "scope": {
+    "analysis": "modal",
+    "backend": "QF common SciPy modal route and headless Code_Aster PENTA6",
+    "element": "WEDGE6",
+    "mass": "consistent translational mass",
+    "material": "homogeneous isotropic small-strain elasticity",
+    "qualified_modes": "first three modes under the declared refinement policy; external six-mode bounded comparisons where matching passes"
+  },
+  "source_sha": "9d79dc8b306e6cc65f2f4ae2e77e00f676182b84",
+  "status": "PASS_WITH_LIMITATIONS",
+  "work_package": "WP10-FINAL"
+}

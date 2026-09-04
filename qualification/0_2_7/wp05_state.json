@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "work_package": "WP05",
+  "gate": "027-G05",
+  "status": "PASS",
+  "start_sha": "fb102e649235a276096b3a37e19eb61e19a5b43f",
+  "evidence_head": "e8a63e6f8ae05e79ab3d74fb3f33f193caf2f3ba",
+  "owner_decision": "bounded external-oracle preflight PASS; no WEDGE6 correlation or capability",
+  "calculix_c3d6": {
+    "state": "AVAILABLE_LOCAL_ONLY",
+    "version": "2.20",
+    "deck_validation": "PASS_DECK_VALIDATION_ONLY",
+    "ci_available": false
+  },
+  "code_aster_penta6": {
+    "state": "AVAILABLE_LOCAL_ONLY",
+    "version": "18.1.0",
+    "deck_validation": "PASS_DECK_VALIDATION_ONLY",
+    "ci_available": false
+  },
+  "reference_decks": {
+    "planned_cases": 8,
+    "executable_affine_decks": 2,
+    "executed_deck_validations": 2,
+    "qf_wedge6_correlation": "NOT_RUN_WEDGE6_NOT_IMPLEMENTED"
+  },
+  "required_controls": {
+    "node_mapping": "VALIDATED_REFERENCE_AND_DECK_CONNECTIVITY; QF_KERNEL_REPLAY_REQUIRED_IN_WP07",
+    "face_mapping": "VALIDATED_REFERENCE_ORIENTATION; PRESSURE_DECK_REPLAY_REQUIRED_IN_WP08",
+    "comparability_tolerance": "PROPOSED_OWNER_REVIEW_PREDECLARED",
+    "primary_observables": ["displacement", "total_reaction", "strain_energy"],
+    "unavailable_external_behavior": "SKIPPED_EXTERNAL_UNAVAILABLE_NEVER_PASS"
+  },
+  "t1r_overlay": {
+    "source_sha": "32e4e40bf18f0fdcd0a4ae9959d4f0df2b76892e",
+    "contract": "qualification/0_2_7/t1r_state.json",
+    "interpretation": "T1-R supersedes the preparatory control wording for future WP07 use; WP05 evidence remains historical deck validation only"
+  },
+  "wedge6_implemented": false,
+  "numerical_source_changed": false,
+  "artifact_classification": "CONTROLLED_PROOF"
+}

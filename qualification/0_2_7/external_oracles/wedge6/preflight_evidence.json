@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "evidence_id": "WP05-WEDGE6-PREFLIGHT-001",
+  "work_package": "WP05",
+  "source_sha": "fb102e649235a276096b3a37e19eb61e19a5b43f",
+  "execution_environment": {
+    "host": "Windows Docker Desktop under WSL2",
+    "docker": "29.2.1",
+    "single_thread": true,
+    "ci": false
+  },
+  "calculated_deck_validation": {
+    "status": "PASS_DECK_VALIDATION_ONLY",
+    "not_qf_correlation": true,
+    "input": "decks/calculix/WP05-A-affine-patch.inp",
+    "input_sha256": "09a4affd99af1f1d05f5e28cf29ce77ef598bb37456c02c5b1fc4a9823602de2",
+    "solver": "CalculiX",
+    "version": "2.20",
+    "image": "qf-solver/calculix-nafems13h:2.20",
+    "image_digest": "sha256:d9b16f92e61d0dc6fbe857549306c1efc5155c7bdc309c13c6a6f175193d1faf",
+    "command": ["docker", "run", "--rm", "-v", "<deck_dir>:/work", "-w", "/work", "qf-solver/calculix-nafems13h:2.20", "affine"],
+    "observables": {"nodes": 6, "elements": 1, "element_type": "C3D6", "integration_points_per_element": 2, "dofs_per_node": 3, "job_finished": true},
+    "outputs": [
+      {"path": "results/calculix_affine.dat", "sha256": "a147b67310c6b5608c221995b11e7e2c94a0c3ea13b77a673749e5a485d32aaa", "classification": "CONTROLLED_PROOF"},
+      {"path": "results/calculix_affine.frd", "sha256": "536d662ddec623b5e714d2fb1a4c8f10b79413ca10d55801062776736783bc83", "classification": "CONTROLLED_PROOF"},
+      {"path": "results/calculix_affine.sta", "sha256": "01e324ec0ea28f4d1fd7f5e2da1277af53812b873e218be1604c17a4c8e4990d", "classification": "CONTROLLED_PROOF"}
+    ]
+  },
+  "code_aster_deck_validation": {
+    "status": "PASS_DECK_VALIDATION_ONLY",
+    "not_qf_correlation": true,
+    "mesh": "decks/code_aster/WP05-A-penta6-affine.mail",
+    "mesh_sha256": "e9dac81647e0169c1f88730a152cedb6c2aa368543371e3c987ace88fd09192d",
+    "command_file": "decks/code_aster/WP05-A-penta6-affine.comm",
+    "command_file_sha256": "8f9fbf4086af3fead78b0cb15636518ce1d0e06c453f6cce5316de784f8040ab",
+    "solver": "Code_Aster",
+    "version": "18.1.0",
+    "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+    "image_digest": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+    "modelisation": "3D / MECA_PENTA6",
+    "command": ["docker", "run", "--rm", "--entrypoint", "/bin/bash", "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435", "<pinned-profile>/run_aster penta6.comm --last --link=F::mail::/work/penta6.mail::D::20 --memory 4096 --tpmax 900 --numthreads 1"],
+    "observables": {"nodes": 6, "elements": 1, "element_type": "PENTA6", "mechanical_element": "MECA_PENTA6", "job_finished": true, "alarms": 0},
+    "outputs": [
+      {"path": "results/code_aster_penta6.log", "sha256": "d46d842736a1c288120713d572572be370387140f54dd371009681dd555787a5", "classification": "CONTROLLED_PROOF"},
+      {"path": "results/code_aster_penta6.med", "sha256": "af8b89470c8d1b901896e023edf87cf7a48f6ff6e70232c61c791825dc79a0ab", "classification": "CONTROLLED_PROOF"}
+    ]
+  },
+  "interpretation": "Both external routes are locally reproducible for minimal deck validation. No QF WEDGE6 result exists, no external correlation verdict is issued, and no WEDGE6 capability is created.",
+  "artifact_classification": "CONTROLLED_PROOF"
+}

@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "work_package": "WP12",
+  "gate": "027-G12",
+  "status": "PASS_WITH_LIMITATIONS",
+  "decision_state": "OWNER_REVIEW_REQUIRED",
+  "start_sha": "4971ac4f6c1e5cff2ca48e40ca6db5e8147d0d0a",
+  "evidence_source_sha": "4971ac4f6c1e5cff2ca48e40ca6db5e8147d0d0a",
+  "evidence_artifact": "qualification/0_2_7/wp12_scaling_evidence.json",
+  "assembly_probe_artifact": "qualification/0_2_7/wp12_assembly_probe_300k.json",
+  "evidence_document": "docs/verification/0_2_7/0_2_7_large_scale_readiness.md",
+  "scope": {
+    "family": "TET4",
+    "topology": "connected structured block; six TET4 per hexahedral cell",
+    "analysis": "linear_static",
+    "material": "homogeneous isotropic linear elastic",
+    "loads": "uniform nodal UX dead load on the x=length face; total=1000 N",
+    "backends": ["matrix_free CG", "SciPy sparse CG", "SciPy sparse direct"],
+    "wedge6_included": false,
+    "new_physics": false
+  },
+  "size_ladder": [
+    {"target_dofs": 100000, "actual_dofs": 107811, "matrix_free": "PASS_ITERATIVE", "scipy_cg": "PASS_FULL_SOLVE", "scipy_direct": "RESOURCE_LIMITED_MEMORY"},
+    {"target_dofs": 300000, "actual_dofs": 311469, "matrix_free": "PASS_ITERATIVE", "scipy_cg": "SOLVER_LIMITED", "scipy_direct": "SOLVER_LIMITED"},
+    {"target_dofs": 500000, "actual_dofs": 526848, "matrix_free": "PASS_ITERATIVE", "scipy_cg": "SOLVER_LIMITED", "scipy_direct": "SOLVER_LIMITED"},
+    {"target_dofs": 750000, "actual_dofs": 750141, "matrix_free": "PASS_ITERATIVE", "scipy_cg": "SOLVER_LIMITED", "scipy_direct": "SOLVER_LIMITED"},
+    {"target_dofs": 1000000, "actual_dofs": 1029000, "matrix_free": "RESOURCE_LIMITED_TIME", "scipy_cg": "SOLVER_LIMITED", "scipy_direct": "SOLVER_LIMITED"}
+  ],
+  "assembly_probe": {
+    "target_dofs": 300000,
+    "actual_dofs": 311469,
+    "status": "PASS",
+    "solve": "NOT_RUN",
+    "element_count": 584016,
+    "global_stiffness_nnz": 11168199,
+    "global_matrix_storage_bytes": 135264268,
+    "wall_total_seconds": 217.88217379996786,
+    "peak_rss_bytes": 1466396672,
+    "source_sha": "4971ac4f6c1e5cff2ca48e40ca6db5e8147d0d0a"
+  },
+  "backends": {
+    "matrix_free": {
+      "max_completed_dofs": 750141,
+      "one_million_verdict": "RESOURCE_LIMITED_TIME",
+      "preconditioner": "nodal_block_jacobi",
+      "residual_range": "9.732e-09..9.898e-09"
+    },
+    "scipy_cg": {
+      "max_completed_dofs": 107811,
+      "configured_limit_dofs": 200000,
+      "higher_sizes": "SOLVER_LIMITED_NO_ALLOCATION"
+    },
+    "scipy_direct": {
+      "max_attempted_dofs": 107811,
+      "100k_verdict": "RESOURCE_LIMITED_MEMORY",
+      "higher_sizes": "SOLVER_LIMITED_NO_ALLOCATION"
+    },
+    "petsc": {
+      "status": "UNAVAILABLE_NOT_RUN",
+      "mpi4py": true,
+      "petsc4py": false,
+      "slepc4py": false
+    }
+  },
+  "optimization": {
+    "id": "WP12-OPT-001",
+    "location": "src/solveur/large/matrix_free.py",
+    "change": "cache template-grouped TET4 connectivity and flattened DOF indices",
+    "classification": "SAFE_PERFORMANCE_ONLY",
+    "targeted_numerical_equivalence": "PASS",
+    "measurement": {
+      "probe": "30k DOF local engineering comparison",
+      "before_elapsed_seconds": 5.0736,
+      "after_elapsed_seconds": [2.684, 2.6531],
+      "iterations": 397,
+      "speedup_scope": "local probe only; not a universal claim"
+    },
+    "existing_fem_formulation_changed": false
+  },
+  "safety": {
+    "numerical_failures": 0,
+    "nan_or_inf": false,
+    "deterministic_replay": "PASS",
+    "matrix_free_vs_scipy_targeted_equivalence": "PASS",
+    "dense_conversion": "NOT_USED"
+  },
+  "claims": {
+    "one_million_dof": "READINESS_MEASURED_OR_RESOURCE_LIMITED_ONLY",
+    "universal_scaling": false,
+    "hardware_specific": true,
+    "public_full_solve_claim": false
+  },
+  "limitations": [
+    "The campaign uses one generated structured TET4 topology and one linear-static load path.",
+    "The 300k assembly probe does not include a linear solve.",
+    "SciPy sparse is capped at 200000 DOF by its configured large-route guard.",
+    "SciPy direct reached the 4 GiB isolated RSS limit at the 100k case.",
+    "The 1M matrix-free probe reached the 600 second time limit; no 1M solve is claimed.",
+    "PETSc/SLEPc were not available in the measured environment.",
+    "Performance is hardware, software, topology and configuration dependent."
+  ],
+  "owner_decision": "PROPOSED_OWNER_REVIEW",
+  "artifact_classification": "CONTROLLED_PROOF"
+}

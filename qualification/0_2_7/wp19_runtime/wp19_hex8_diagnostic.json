@@ -1,0 +1,523 @@
+{
+  "schema_version": 1,
+  "work_package": "WP19",
+  "study_id": "WP19-HEX8-DIAGNOSTIC-001",
+  "source_sha": "dc5975b78727d9dca6d0a48b716e60f355b8799f",
+  "purpose": "diagnostic separation of QF behavior, low-order limitation and mesh/slenderness dependence",
+  "material": {
+    "E": 210000000000.0,
+    "nu": 0.3,
+    "load_total": 1000000.0,
+    "load": "uniform nodal UZ load on x=L plane"
+  },
+  "reference": {
+    "type": "Euler cantilever tip displacement",
+    "formula": "P L^3 / (3 E I_y)",
+    "section": "rectangular width y x height z; I_y = width*height^3/12",
+    "use": "diagnostic only; solid shear/3D effects are not treated as a universal oracle"
+  },
+  "rows": [
+    {
+      "id": "refinement_2",
+      "family": "refinement",
+      "length": 10.0,
+      "width": 1.0,
+      "height": 1.0,
+      "nx": 2,
+      "ny": 2,
+      "nz": 2,
+      "qf": {
+        "status": "PASS",
+        "finite": true,
+        "node_count": 27,
+        "element_count": 8,
+        "dofs": 81,
+        "tip_displacement": [
+          1.3552527156068805e-19,
+          3.934881468542737e-16,
+          -0.0017809414001071302
+        ],
+        "tip_displacement_z": -0.0017809414001071302,
+        "euler_tip_displacement_abs": 0.01904761904761905,
+        "euler_relative_error": 0.9065005764943758,
+        "reaction_resultant": [
+          -2.7939677238464355e-09,
+          -2.416782081127167e-07,
+          999999.9999995048
+        ],
+        "force_balance_relative_error": 5.510623259237099e-13,
+        "free_relative_residual": 1.4865584220312342e-12,
+        "strain_energy": 890.4707000532599,
+        "response_classification": "GLOBAL_BENDING_RESPONSE_CANDIDATE"
+      },
+      "calculix": {
+        "status": "PASS_EXTERNAL_CORRELATION",
+        "solver": {
+          "name": "CalculiX",
+          "version": "2.20",
+          "image": "qf-solver/calculix-nafems13h:2.20",
+          "image_id": "sha256:d9b16f92e61d0dc6fbe857549306c1efc5155c7bdc309c13c6a6f175193d1faf",
+          "element": "C3D8"
+        },
+        "same_mesh": true,
+        "same_boundary_conditions": true,
+        "same_material": true,
+        "same_nodal_loads": true,
+        "input_sha256": "60f7972ef0795fd26eb4991b0c3bc46217f8bdf34798483af2ed000788cb7942",
+        "full_displacement_relative_error": 1.997130986610937e-06,
+        "tip_displacement_relative_error": 7.861618752234401e-07,
+        "qf_tip_displacement": [
+          1.3552527156068805e-19,
+          3.934881468542737e-16,
+          -0.0017809414001071302
+        ],
+        "calculix_tip_displacement": [
+          5.1198435922926597e-20,
+          4.741915431856188e-17,
+          -0.0017809400000000002
+        ],
+        "reactions": "NOT_COMPARABLE: deck requests displacement only; QF reaction is retained separately",
+        "energy": "NOT_COMPARABLE: deck requests displacement only; QF energy is retained separately"
+      }
+    },
+    {
+      "id": "refinement_4",
+      "family": "refinement",
+      "length": 10.0,
+      "width": 1.0,
+      "height": 1.0,
+      "nx": 4,
+      "ny": 2,
+      "nz": 2,
+      "qf": {
+        "status": "PASS",
+        "finite": true,
+        "node_count": 45,
+        "element_count": 16,
+        "dofs": 135,
+        "tip_displacement": [
+          4.57171916064721e-18,
+          3.3452177764814153e-15,
+          -0.005475112761207146
+        ],
+        "tip_displacement_z": -0.005475112761207146,
+        "euler_tip_displacement_abs": 0.01904761904761905,
+        "euler_relative_error": 0.7125565800366248,
+        "reaction_resultant": [
+          -1.364387571811676e-07,
+          -9.355135262012482e-07,
+          999999.9999981844
+        ],
+        "force_balance_relative_error": 2.0470107382031235e-12,
+        "free_relative_residual": 6.379399660780214e-12,
+        "strain_energy": 2737.55638060487,
+        "response_classification": "GLOBAL_BENDING_RESPONSE_CANDIDATE"
+      },
+      "calculix": {
+        "status": "PASS_EXTERNAL_CORRELATION",
+        "solver": {
+          "name": "CalculiX",
+          "version": "2.20",
+          "image": "qf-solver/calculix-nafems13h:2.20",
+          "image_id": "sha256:d9b16f92e61d0dc6fbe857549306c1efc5155c7bdc309c13c6a6f175193d1faf",
+          "element": "C3D8"
+        },
+        "same_mesh": true,
+        "same_boundary_conditions": true,
+        "same_material": true,
+        "same_nodal_loads": true,
+        "input_sha256": "3a38a843f6c2bb57bcc35a02a5d19f55e3b66680fded614119a21eabd1a63a51",
+        "full_displacement_relative_error": 6.228793435144059e-07,
+        "tip_displacement_relative_error": 3.0743417617314116e-07,
+        "qf_tip_displacement": [
+          4.57171916064721e-18,
+          3.3452177764814153e-15,
+          -0.005475112761207146
+        ],
+        "calculix_tip_displacement": [
+          3.939267893364e-18,
+          -9.008411152164104e-16,
+          -0.0054751144444444445
+        ],
+        "reactions": "NOT_COMPARABLE: deck requests displacement only; QF reaction is retained separately",
+        "energy": "NOT_COMPARABLE: deck requests displacement only; QF energy is retained separately"
+      }
+    },
+    {
+      "id": "refinement_8",
+      "family": "refinement",
+      "length": 10.0,
+      "width": 1.0,
+      "height": 1.0,
+      "nx": 8,
+      "ny": 2,
+      "nz": 2,
+      "qf": {
+        "status": "PASS",
+        "finite": true,
+        "node_count": 81,
+        "element_count": 32,
+        "dofs": 243,
+        "tip_displacement": [
+          -2.9152991749054675e-18,
+          1.2478401828683776e-14,
+          -0.011478249510554409
+        ],
+        "tip_displacement_z": -0.011478249510554409,
+        "euler_tip_displacement_abs": 0.01904761904761905,
+        "euler_relative_error": 0.3973919006958936,
+        "reaction_resultant": [
+          1.2712553143501282e-07,
+          -1.4370307326316833e-06,
+          999999.9999993603
+        ],
+        "force_balance_relative_error": 1.5781118856282857e-12,
+        "free_relative_residual": 8.247960176225116e-12,
+        "strain_energy": 5739.124755267537,
+        "response_classification": "GLOBAL_BENDING_RESPONSE_CANDIDATE"
+      },
+      "calculix": {
+        "status": "PASS_EXTERNAL_CORRELATION",
+        "solver": {
+          "name": "CalculiX",
+          "version": "2.20",
+          "image": "qf-solver/calculix-nafems13h:2.20",
+          "image_id": "sha256:d9b16f92e61d0dc6fbe857549306c1efc5155c7bdc309c13c6a6f175193d1faf",
+          "element": "C3D8"
+        },
+        "same_mesh": true,
+        "same_boundary_conditions": true,
+        "same_material": true,
+        "same_nodal_loads": true,
+        "input_sha256": "b73d9645b61c1ca74b2ad25b6a7807ac2419147b34a6ccbcc34d36710999bf8d",
+        "full_displacement_relative_error": 9.845858192391947e-07,
+        "tip_displacement_relative_error": 4.4136627237410165e-07,
+        "qf_tip_displacement": [
+          -2.9152991749054675e-18,
+          1.2478401828683776e-14,
+          -0.011478249510554409
+        ],
+        "calculix_tip_displacement": [
+          1.2528558437610273e-18,
+          -3.7678778350949856e-17,
+          -0.011478244444444445
+        ],
+        "reactions": "NOT_COMPARABLE: deck requests displacement only; QF reaction is retained separately",
+        "energy": "NOT_COMPARABLE: deck requests displacement only; QF energy is retained separately"
+      }
+    },
+    {
+      "id": "slenderness_5",
+      "family": "slenderness",
+      "length": 5.0,
+      "width": 1.0,
+      "height": 1.0,
+      "nx": 2,
+      "ny": 2,
+      "nz": 2,
+      "qf": {
+        "status": "PASS",
+        "finite": true,
+        "node_count": 27,
+        "element_count": 8,
+        "dofs": 81,
+        "tip_displacement": [
+          1.4757196236608255e-19,
+          1.6517289525789977e-18,
+          -0.0006883459390927445
+        ],
+        "tip_displacement_z": -0.0006883459390927445,
+        "euler_tip_displacement_abs": 0.002380952380952381,
+        "euler_relative_error": 0.7108947055810474,
+        "reaction_resultant": [
+          -1.1175870895385742e-08,
+          6.344635039567947e-09,
+          999999.9999998158
+        ],
+        "force_balance_relative_error": 1.846168720843271e-13,
+        "free_relative_residual": 4.79134776165511e-13,
+        "strain_energy": 344.1729695463774,
+        "response_classification": "GLOBAL_BENDING_RESPONSE_CANDIDATE"
+      },
+      "calculix": {
+        "status": "PASS_EXTERNAL_CORRELATION",
+        "solver": {
+          "name": "CalculiX",
+          "version": "2.20",
+          "image": "qf-solver/calculix-nafems13h:2.20",
+          "image_id": "sha256:d9b16f92e61d0dc6fbe857549306c1efc5155c7bdc309c13c6a6f175193d1faf",
+          "element": "C3D8"
+        },
+        "same_mesh": true,
+        "same_boundary_conditions": true,
+        "same_material": true,
+        "same_nodal_loads": true,
+        "input_sha256": "652db769c2776b36d6868ca70ed5f25477ef6d49d281ef241066dc5b1b871642",
+        "full_displacement_relative_error": 6.462128913307895e-07,
+        "tip_displacement_relative_error": 2.499009785993535e-07,
+        "qf_tip_displacement": [
+          1.4757196236608255e-19,
+          1.6517289525789977e-18,
+          -0.0006883459390927445
+        ],
+        "calculix_tip_displacement": [
+          1.2498441710596786e-19,
+          -1.5318032044635764e-18,
+          -0.0006883461111111113
+        ],
+        "reactions": "NOT_COMPARABLE: deck requests displacement only; QF reaction is retained separately",
+        "energy": "NOT_COMPARABLE: deck requests displacement only; QF energy is retained separately"
+      }
+    },
+    {
+      "id": "slenderness_10",
+      "family": "slenderness",
+      "length": 10.0,
+      "width": 1.0,
+      "height": 1.0,
+      "nx": 4,
+      "ny": 2,
+      "nz": 2,
+      "qf": {
+        "status": "PASS",
+        "finite": true,
+        "node_count": 45,
+        "element_count": 16,
+        "dofs": 135,
+        "tip_displacement": [
+          4.57171916064721e-18,
+          3.3452177764814153e-15,
+          -0.005475112761207146
+        ],
+        "tip_displacement_z": -0.005475112761207146,
+        "euler_tip_displacement_abs": 0.01904761904761905,
+        "euler_relative_error": 0.7125565800366248,
+        "reaction_resultant": [
+          -1.364387571811676e-07,
+          -9.355135262012482e-07,
+          999999.9999981844
+        ],
+        "force_balance_relative_error": 2.0470107382031235e-12,
+        "free_relative_residual": 6.379399660780214e-12,
+        "strain_energy": 2737.55638060487,
+        "response_classification": "GLOBAL_BENDING_RESPONSE_CANDIDATE"
+      },
+      "calculix": {
+        "status": "PASS_EXTERNAL_CORRELATION",
+        "solver": {
+          "name": "CalculiX",
+          "version": "2.20",
+          "image": "qf-solver/calculix-nafems13h:2.20",
+          "image_id": "sha256:d9b16f92e61d0dc6fbe857549306c1efc5155c7bdc309c13c6a6f175193d1faf",
+          "element": "C3D8"
+        },
+        "same_mesh": true,
+        "same_boundary_conditions": true,
+        "same_material": true,
+        "same_nodal_loads": true,
+        "input_sha256": "3a38a843f6c2bb57bcc35a02a5d19f55e3b66680fded614119a21eabd1a63a51",
+        "full_displacement_relative_error": 6.228793435144059e-07,
+        "tip_displacement_relative_error": 3.0743417617314116e-07,
+        "qf_tip_displacement": [
+          4.57171916064721e-18,
+          3.3452177764814153e-15,
+          -0.005475112761207146
+        ],
+        "calculix_tip_displacement": [
+          3.939267893364e-18,
+          -9.008411152164104e-16,
+          -0.0054751144444444445
+        ],
+        "reactions": "NOT_COMPARABLE: deck requests displacement only; QF reaction is retained separately",
+        "energy": "NOT_COMPARABLE: deck requests displacement only; QF energy is retained separately"
+      }
+    },
+    {
+      "id": "slenderness_20",
+      "family": "slenderness",
+      "length": 20.0,
+      "width": 1.0,
+      "height": 1.0,
+      "nx": 8,
+      "ny": 2,
+      "nz": 2,
+      "qf": {
+        "status": "PASS",
+        "finite": true,
+        "node_count": 81,
+        "element_count": 32,
+        "dofs": 243,
+        "tip_displacement": [
+          -9.514476398100571e-17,
+          2.7107445702611687e-13,
+          -0.04393947600892907
+        ],
+        "tip_displacement_z": -0.04393947600892907,
+        "euler_tip_displacement_abs": 0.1523809523809524,
+        "euler_relative_error": 0.711647188691403,
+        "reaction_resultant": [
+          8.847564458847046e-07,
+          -8.413102477788925e-06,
+          999999.9999768338
+        ],
+        "force_balance_relative_error": 2.4662423639443903e-11,
+        "free_relative_residual": 5.546395477274631e-11,
+        "strain_energy": 21969.738004411825,
+        "response_classification": "GLOBAL_BENDING_RESPONSE_CANDIDATE"
+      },
+      "calculix": {
+        "status": "PASS_EXTERNAL_CORRELATION",
+        "solver": {
+          "name": "CalculiX",
+          "version": "2.20",
+          "image": "qf-solver/calculix-nafems13h:2.20",
+          "image_id": "sha256:d9b16f92e61d0dc6fbe857549306c1efc5155c7bdc309c13c6a6f175193d1faf",
+          "element": "C3D8"
+        },
+        "same_mesh": true,
+        "same_boundary_conditions": true,
+        "same_material": true,
+        "same_nodal_loads": true,
+        "input_sha256": "52d40a8e3e7bbd8cae8c2dd62be965515d132fc1daaca272abe6277990c2f0ce",
+        "full_displacement_relative_error": 1.04553275481322e-06,
+        "tip_displacement_relative_error": 2.1261665469060168e-07,
+        "qf_tip_displacement": [
+          -9.514476398100571e-17,
+          2.7107445702611687e-13,
+          -0.04393947600892907
+        ],
+        "calculix_tip_displacement": [
+          6.775058908953864e-17,
+          1.7647866658022883e-14,
+          -0.04393946666666666
+        ],
+        "reactions": "NOT_COMPARABLE: deck requests displacement only; QF reaction is retained separately",
+        "energy": "NOT_COMPARABLE: deck requests displacement only; QF energy is retained separately"
+      }
+    },
+    {
+      "id": "transverse_1",
+      "family": "transverse",
+      "length": 10.0,
+      "width": 1.0,
+      "height": 1.0,
+      "nx": 8,
+      "ny": 1,
+      "nz": 1,
+      "qf": {
+        "status": "PASS",
+        "finite": true,
+        "node_count": 36,
+        "element_count": 8,
+        "dofs": 108,
+        "tip_displacement": [
+          -4.689174395999807e-18,
+          6.5577814878064046e-15,
+          -0.010810814476520901
+        ],
+        "tip_displacement_z": -0.010810814476520901,
+        "euler_tip_displacement_abs": 0.01904761904761905,
+        "euler_relative_error": 0.43243223998265273,
+        "reaction_resultant": [
+          3.5390257835388184e-08,
+          -7.981434464454651e-07,
+          1000000.0000012381
+        ],
+        "force_balance_relative_error": 1.473472076321633e-12,
+        "free_relative_residual": 2.5648634272747774e-12,
+        "strain_energy": 5405.407238259535,
+        "response_classification": "GLOBAL_BENDING_RESPONSE_CANDIDATE"
+      },
+      "calculix": {
+        "status": "NOT_RUN"
+      }
+    },
+    {
+      "id": "transverse_2",
+      "family": "transverse",
+      "length": 10.0,
+      "width": 1.0,
+      "height": 1.0,
+      "nx": 8,
+      "ny": 2,
+      "nz": 2,
+      "qf": {
+        "status": "PASS",
+        "finite": true,
+        "node_count": 81,
+        "element_count": 32,
+        "dofs": 243,
+        "tip_displacement": [
+          -2.9152991749054675e-18,
+          1.2478401828683776e-14,
+          -0.011478249510554409
+        ],
+        "tip_displacement_z": -0.011478249510554409,
+        "euler_tip_displacement_abs": 0.01904761904761905,
+        "euler_relative_error": 0.3973919006958936,
+        "reaction_resultant": [
+          1.2712553143501282e-07,
+          -1.4370307326316833e-06,
+          999999.9999993603
+        ],
+        "force_balance_relative_error": 1.5781118856282857e-12,
+        "free_relative_residual": 8.247960176225116e-12,
+        "strain_energy": 5739.124755267537,
+        "response_classification": "GLOBAL_BENDING_RESPONSE_CANDIDATE"
+      },
+      "calculix": {
+        "status": "NOT_RUN"
+      }
+    },
+    {
+      "id": "transverse_4",
+      "family": "transverse",
+      "length": 10.0,
+      "width": 1.0,
+      "height": 1.0,
+      "nx": 8,
+      "ny": 4,
+      "nz": 4,
+      "qf": {
+        "status": "PASS",
+        "finite": true,
+        "node_count": 225,
+        "element_count": 128,
+        "dofs": 675,
+        "tip_displacement": [
+          -6.245004513516506e-18,
+          2.0719072804900904e-14,
+          -0.011669137228715598
+        ],
+        "tip_displacement_z": -0.011669137228715598,
+        "euler_tip_displacement_abs": 0.01904761904761905,
+        "euler_relative_error": 0.3873702954924311,
+        "reaction_resultant": [
+          1.5809200704097748e-07,
+          -2.809218131005764e-06,
+          999999.9999953364
+        ],
+        "force_balance_relative_error": 5.446636022300255e-12,
+        "free_relative_residual": 4.2847527068724375e-11,
+        "strain_energy": 5834.568614334147,
+        "response_classification": "GLOBAL_BENDING_RESPONSE_CANDIDATE"
+      },
+      "calculix": {
+        "status": "NOT_RUN"
+      }
+    }
+  ],
+  "comparability": {
+    "qf_calculix": "same structured HEX8/C3D8 mesh, material, constraints and nodal loads",
+    "primary_observable": "displacement",
+    "reaction": "QF-only in this diagnostic because the inherited C3D8 deck does not request RF",
+    "energy": "QF-only in this diagnostic because the inherited C3D8 deck does not request energy",
+    "tolerance": "existing 1 percent diagnostic displacement threshold; no retuning"
+  },
+  "interpretation": {
+    "qf_specific_bug": false,
+    "low_order_limitation": "supported when QF/C3D8 agree while both deviate from slender Euler",
+    "production_hex8r": "not evaluated or promoted by WP19"
+  },
+  "artifact_classification": "CONTROLLED_PROOF"
+}

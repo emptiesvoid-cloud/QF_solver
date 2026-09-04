@@ -1,0 +1,263 @@
+{
+  "schema_version": 1,
+  "record_type": "f5_packaging_compatibility_audit",
+  "audit_id": "QF-027-F5-PACKAGE-001",
+  "release": "0.2.7a0",
+  "active_branch": "codex/0.2.7-foundation",
+  "audit_start_sha": "124c61f6492eee351a34e3542d198a13c00c2874",
+  "audit_start_sha_role": "clean F4 closeout checkout before F5 packaging correction",
+  "worktree_clean_at_start": true,
+  "scope": [
+    "pyproject and build metadata",
+    "sdist and wheel contents",
+    "clean wheel and sdist installation",
+    "public imports, API and CLI",
+    "optional dependency behavior",
+    "runtime package resources",
+    "Python and OS compatibility evidence",
+    "source-tree independence",
+    "build reproducibility and package hygiene"
+  ],
+  "source_hierarchy": [
+    "executed package and installation results",
+    "qualification JSON and registry",
+    "frozen V&V evidence",
+    "tests",
+    "qualification documentation",
+    "README and user documentation",
+    "package metadata"
+  ],
+  "identity": {
+    "distribution_name": "qf-solver",
+    "import_namespaces": ["qf_solver", "solveur"],
+    "declared_version": "0.2.7a0",
+    "python_requirement": ">=3.10",
+    "version_consistency": "PASS",
+    "final_tag": "NOT_CREATED",
+    "pypi_publication": "NOT_PERFORMED"
+  },
+  "metadata_audit": {
+    "pyproject": "PASS",
+    "build_backend": "setuptools.build_meta",
+    "package_discovery": "src/qf_solver and src/solveur",
+    "license_metadata": "PASS",
+    "entry_points": {
+      "qf-solver": "solveur.cli.main:main",
+      "solveur-ef": "solveur.cli.main:legacy_main",
+      "mitc4-solver": "solveur.compat.mitc4.cli:main"
+    },
+    "core_dependencies": ["numpy>=1.24", "scipy>=1.10", "matplotlib>=3.7"],
+    "optional_dependency_groups": ["test", "dev", "large", "hpc", "docs", "mesh"],
+    "optional_solver_dependencies_not_core": true,
+    "package_data_policy": "runtime examples, qualification inputs required by public tools, capability registry and locked baseline files only",
+    "repository_only_trees_excluded": ["docs", "scripts", "tests", "tools", "qualification/reviews", "qualification/vnv"]
+  },
+  "findings": [
+    {
+      "id": "F5-P1-001",
+      "priority": "P1",
+      "status": "FIXED",
+      "title": "Clean release-vv CLI lacked two declared runtime qualification matrices.",
+      "evidence": "The installed wheel raised a controlled resource error for element_analysis_matrix.json before the fix.",
+      "correction": "Added element_analysis_matrix.json and technical_content_coverage.json to MANIFEST.in and setuptools data-files.",
+      "verification": "The patched wheel and sdist expose both files and release-vv now writes a controlled report instead of failing on a missing resource."
+    },
+    {
+      "id": "F5-P2-001",
+      "priority": "P2",
+      "status": "DEFERRED_NON_BLOCKING",
+      "title": "macOS package execution was not directly verified.",
+      "reason": "No macOS runner or local macOS environment is available in this audit; macOS is not present in the project CI matrix."
+    },
+    {
+      "id": "F5-P2-002",
+      "priority": "P2",
+      "status": "DEFERRED_NON_BLOCKING",
+      "title": "The release-vv entry point is usable but its default bundled record is a legacy 0.2.1 release context.",
+      "reason": "The installed command returns a report and a controlled qualification-rejected exit code when current checkout evidence is absent; this is not a 0.2.7 release qualification claim."
+    },
+    {
+      "id": "F5-P3-001",
+      "priority": "P3",
+      "status": "DEFERRED_NON_BLOCKING",
+      "title": "Repeated build archive hashes are not byte-identical.",
+      "reason": "Wheel and sdist structures and member contents are identical; whole-file differences are limited to normal archive/build metadata such as timestamps."
+    }
+  ],
+  "artifact_validation": {
+    "build_source": "isolated clean Git archive at committed packaging state 456fdf3; no repository import used",
+    "wheel": {
+      "filename": "qf_solver-0.2.7a0-py3-none-any.whl",
+      "size_bytes": 1344679,
+      "sha256": "ff6416e9e9534642cfe46bf3f27057825555374bcdd2f77ece3a3a4294c562a0",
+      "twine_check": "PASS",
+      "distribution_policy_check": "PASS",
+      "metadata": "Name qf-solver, Version 0.2.7a0, Requires-Python >=3.10",
+      "runtime_resources": "PASS"
+    },
+    "sdist": {
+      "filename": "qf_solver-0.2.7a0.tar.gz",
+      "size_bytes": 996957,
+      "sha256": "04b7dd95f530b0ea353d676e3278198086e54e98b15f10d9577a93e1491e090e",
+      "twine_check": "PASS",
+      "distribution_policy_check": "PASS",
+      "runtime_resources": "PASS"
+    },
+    "repeated_build_comparison": {
+      "wheel_archive_sha256": "DIFFERENT_NORMAL_BUILD_METADATA",
+      "wheel_structure": "IDENTICAL",
+      "wheel_member_contents": "IDENTICAL",
+      "sdist_archive_sha256": "DIFFERENT_NORMAL_BUILD_METADATA",
+      "sdist_structure": "IDENTICAL",
+      "sdist_member_contents": "IDENTICAL",
+      "functional_difference": "NONE"
+    },
+    "hygiene": {
+      "secrets_or_credentials": "NONE_FOUND",
+      "personal_paths": "NONE_FOUND",
+      "env_files": "NONE_FOUND",
+      "pycache_or_pyc": "NONE_FOUND",
+      "private_or_heavy_runtime_dumps": "NONE_FOUND"
+    }
+  },
+  "clean_install_matrix": [
+    {
+      "artifact": "wheel",
+      "python": "3.13",
+      "os": "Windows",
+      "outside_repository": true,
+      "import": "PASS",
+      "api_smoke": "PASS",
+      "cli_smoke": "PASS",
+      "resource_smoke": "PASS"
+    },
+    {
+      "artifact": "sdist",
+      "python": "3.13",
+      "os": "Windows",
+      "outside_repository": true,
+      "import": "PASS",
+      "api_smoke": "PASS",
+      "cli_smoke": "PASS",
+      "resource_smoke": "PASS"
+    },
+    {
+      "artifact": "wheel",
+      "python": "3.12",
+      "os": "Windows",
+      "outside_repository": true,
+      "import": "PASS",
+      "api_smoke": "PASS",
+      "cli_smoke": "PASS",
+      "resource_smoke": "PASS"
+    }
+  ],
+  "compatibility": {
+    "python": {
+      "3.10": "CI_DECLARED_AND_COVERED_BY_QUALITY_WORKFLOW_NOT_LOCAL",
+      "3.11": "DECLARED_NOT_DIRECTLY_VERIFIED",
+      "3.12": "LOCAL_WHEEL_INSTALL_PASS",
+      "3.13": "LOCAL_WHEEL_AND_SDIST_INSTALL_PASS"
+    },
+    "os": {
+      "Windows": "LOCAL_PACKAGE_INSTALL_AND_SMOKE_PASS",
+      "Linux": "CI_DECLARED_FOR_3.10_AND_3.13; NO_LOCAL_ARTIFACT_INSTALL",
+      "macOS": "UNVERIFIED_NOT_DECLARED_IN_CI"
+    },
+    "source_tree_independence": "PASS",
+    "path_portability": "Windows path smoke pass; package code uses pathlib for audited resource paths",
+    "network_requirement_for_core_install": "NONE_BEYOND_PACKAGE_INDEX_DEPENDENCY_RESOLUTION"
+  },
+  "runtime_checks": {
+    "base_import_without_petsc_or_mpi": "PASS",
+    "public_imports": "PASS",
+    "tet4_load_check_mesh_solve": "PASS",
+    "qf_solver_version": "PASS",
+    "qf_solver_help": "PASS",
+    "qf_solver_invalid_input_exit": "PASS_CONTROLLED_ERROR",
+    "legacy_solveur_ef_version": "PASS_WITH_DEPRECATION_WARNING",
+    "release_vv_report_without_current_evidence": "PASS_CONTROLLED_FAIL_REPORT",
+    "optional_h5py_route_without_extra": "PASS_TYPED_INFRASTRUCTURE_ERROR",
+    "optional_petsc_mpi_routes_without_extra": "PASS_TYPED_INFRASTRUCTURE_ERROR"
+  },
+  "validation": {
+    "targeted_tests": "100 passed, 10 skipped in the final targeted battery",
+    "packaging_tests": "PASS",
+    "api_tests": "PASS",
+    "cli_tests": "PASS",
+    "ruff": "PASS",
+    "compileall": "PASS",
+    "diff_check": "PASS",
+    "full_regression_run": false,
+    "heavy_benchmark_run": false
+  },
+  "controls": {
+    "numerical_source_changed": false,
+    "requalification_required": false,
+    "historical_evidence_modified": false,
+    "maturity_promoted": false,
+    "pypi_published": false,
+    "tag_created": false,
+    "pushed": false
+  },
+  "publication_readiness": {
+    "wheel_ready": true,
+    "sdist_ready": true,
+    "clean_install_ready": true,
+    "pypi_artifact_ready": true,
+    "interpretation": "Technical candidate artifacts are installable and pass package checks; no publication, tag or release action was performed."
+  },
+  "summary": {
+    "p0_found": 0,
+    "p1_found": 1,
+    "p2_found": 2,
+    "p3_found": 1,
+    "p0_fixed": 0,
+    "p1_fixed": 1,
+    "p2_fixed": 0,
+    "p3_fixed": 0,
+    "release_blockers_remaining": 0
+  },
+  "conclusion": {
+    "status": "PASS_WITH_LIMITATIONS",
+    "answer_to_install_question": "An external user can install the built 0.2.7a0 wheel or sdist in the directly verified Windows Python 3.12/3.13 clean environments and use the bounded core API and CLI without the development checkout. Linux is CI-covered, while macOS and some declared Python versions remain unverified here.",
+    "ready_for_f6": true,
+    "limitations": [
+      "This checkout is an unreleased 0.2.7a0 candidate; tag, GitHub release and PyPI publication remain deferred.",
+      "Python 3.10 is CI-covered but not locally exercised; Python 3.11 is declared but not directly verified in this audit.",
+      "Linux is represented by CI declarations rather than a local clean-artifact run, and macOS is unverified.",
+      "PETSc/MPI, HDF5 large-model and external-tool routes remain optional and require their declared extras/runtime environment.",
+      "The release-vv command is controlled from the installed package but its default bundled evidence is a legacy release context and is not a 0.2.7 qualification result."
+    ]
+  },
+  "evidence_refs": [
+    "pyproject.toml",
+    "MANIFEST.in",
+    "scripts/check_distribution.py",
+    ".github/workflows/quality.yml",
+    ".github/workflows/publish-pypi.yml",
+    "tests/integration/test_packaging.py",
+    "tests/integration/test_api_and_cli.py",
+    "tests/integration/test_release_vv_cli.py",
+    "tests/unit/test_f5_packaging_compatibility.py",
+    "docs/verification/0_2_7/0_2_7_f5_packaging_compatibility_audit.md"
+  ],
+  "files": {
+    "created": [
+      "qualification/0_2_7/f5_packaging_compatibility_audit.json",
+      "docs/verification/0_2_7/0_2_7_f5_packaging_compatibility_audit.md",
+      "tests/unit/test_f5_packaging_compatibility.py"
+    ],
+    "updated": [
+      "MANIFEST.in",
+      "pyproject.toml",
+      "tests/integration/test_packaging.py",
+      "qualification/0_2_7/manifest.json",
+      "docs/document_registry.json",
+      "docs/verification/0_2_7/README.md",
+      "docs/verification/0_2_7/0_2_7_progress_tracker.md",
+      "docs/verification/0_2_7/0_2_7_gate_matrix.md",
+      "docs/verification/0_2_7/0_2_7_owner_decision_log.md"
+    ]
+  }
+}

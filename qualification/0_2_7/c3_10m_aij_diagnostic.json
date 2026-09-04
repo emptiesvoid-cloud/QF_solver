@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "record_type": "c3_10m_petsc_aij_post_insertion_diagnostic",
+  "work_package": "C3",
+  "source_sha": "d6581561509114b8d37d6612fe0154e634848482",
+  "status": "OWNER_TERMINATED_FOR_DIAGNOSTIC",
+  "non_blocking": true,
+  "classification": {
+    "capacity_failure_proven": false,
+    "resource_limited_proven": false,
+    "oom_proven": false,
+    "petsc_mpi_failure_proven": false,
+    "deadlock_proven": false,
+    "numerical_failure_proven": false,
+    "root_cause_proven": false
+  },
+  "owner_terminated_run": {
+    "dof": 10125000,
+    "tet4_elements": 19847694,
+    "ranks": 8,
+    "insertion_reached_100_percent": true,
+    "insertion_runtime_s": 9539.32727633603,
+    "runtime_at_stop": "06:01:36",
+    "post_insertion_elapsed_s_approx": 12089,
+    "pc_ready_global_observed": false,
+    "completed_observed": false,
+    "raw_report_written": false,
+    "all_ranks_alive_before_stop": true,
+    "cpu_activity": "approximately 99.9 percent per rank",
+    "memory": "approximately 17.7 GiB of 46.99 GiB, stable",
+    "termination_messages": "SIGTERM/PETSc/MPI output was caused by the owner-directed Docker stop and is not a solver failure."
+  },
+  "comparison_5m": {
+    "dof": 5012640,
+    "tet4_elements": 9773946,
+    "insertion_runtime_s_approx": 1384,
+    "bronze_runtime_s": 3485.85,
+    "dof_ratio_10m_over_5m": 2.020,
+    "element_ratio_10m_over_5m": 2.031,
+    "insertion_time_ratio_10m_over_5m": 6.893,
+    "classification": "PATHOLOGICAL_SCALING_SUSPECTED"
+  },
+  "source_path": {
+    "element_contributions": "src/solveur/large/assembler.py:161-184",
+    "first_matrix_assembly": "src/solveur/large/assembler.py:192-197",
+    "constrained_rows": "src/solveur/large/assembler.py:199-205",
+    "second_matrix_assembly": "src/solveur/large/assembler.py:207-212",
+    "rhs": "scripts/run_lu2_wp04_bronze.py:139-146",
+    "ksp_setup": "scripts/run_lu2_wp04_bronze.py:148-182",
+    "global_readiness": "scripts/run_lu2_wp04_bronze.py:216-246"
+  },
+  "current_path_characterization": {
+    "matrix_type": "MPIAIJ through PETSc Mat.createAIJ",
+    "preallocation": "uniform nnz=120; no explicit diagonal/off-diagonal MPIAIJ preallocation",
+    "matsetvalues_calls_global_estimate_10m": 19847694,
+    "scalar_values_submitted_global_estimate_10m": 2858067936,
+    "assembly_count": 2,
+    "constraint_mutation": "owned constrained rows are written between the two assemblies",
+    "root_cause": "The owner-terminated 10M run cannot isolate a single post-insertion operation. Per-element Python MatSetValues and generic MPIAIJ preallocation are demonstrated structural risks; phase-resolved 10M evidence was absent."
+  },
+  "candidate_causes": {
+    "python_per_element_insertion": "PROVEN",
+    "off_process_insertion": "STRONGLY_SUPPORTED",
+    "preallocation": "PROVEN_ON_REPRESENTATIVE_MPI_CASE",
+    "reallocation": "PROVEN_ON_REPRESENTATIVE_MPI_CASE",
+    "assemble_1": "POSSIBLE",
+    "constraint_mutation": "UNSUPPORTED_AS_PRIMARY_CAUSE_ON_MICROCASE",
+    "assemble_2": "UNSUPPORTED_AS_PRIMARY_CAUSE_ON_MICROCASE",
+    "mpi_sync": "NOT_PROVEN",
+    "memory_bandwidth": "POSSIBLE",
+    "other": "UNKNOWN_POST_INSERTION_PHASE_BEFORE_INSTRUMENTATION"
+  },
+  "representative_mpi_microbenchmark": {
+    "model": "structured TET4, 89373 DOF, 162000 elements, 8 ranks",
+    "run_status": "PASS",
+    "global_matsetvalues_calls": 162000,
+    "global_scalar_values_submitted": 23328000,
+    "off_process_row_entry_fraction_per_rank": "0.116 to 0.119",
+    "matrix_info_after_first_assembly": {
+      "mallocs": 41610,
+      "nz_allocated": 11795775,
+      "nz_used": 3817539,
+      "nz_unneeded": 7978236
+    },
+    "phase_timing_max_s": {
+      "element_insertion": 0.4865,
+      "assemble_1": 0.4725,
+      "constraints": 0.00119,
+      "assemble_2": 0.00110,
+      "ksp_setup": 0.45326,
+      "bronze_total": 1.8077
+    },
+    "raw_artifact": "tmp/c3_diagnostic/runner_output3/wp04_bronze_raw.json",
+    "raw_artifact_sha256": "f026316c630b684cd48c60c5a50f70df99fdadbfcbfed8e7593c4ae56a576b4d",
+    "telemetry_artifact": "tmp/c3_diagnostic/runner_progress3.jsonl",
+    "telemetry_artifact_sha256": "88160a49736c9f49df1fcb132bac841b5a83068759e674bcefeb08d36867e65d"
+  },
+  "instrumentation": {
+    "status": "INSTALLED",
+    "per_rank_independent": true,
+    "fail_safe": true,
+    "markers": ["POST_INSERTION", "PRE_ASSEMBLE_1", "POST_ASSEMBLE_1", "PRE_CONSTRAINTS", "POST_CONSTRAINTS", "PRE_ASSEMBLE_2", "POST_ASSEMBLE_2", "PRE_RHS", "POST_RHS", "PRE_SETUP", "POST_SETUP", "PC_READY_GLOBAL", "FINALIZE_ENTER", "FINALIZE_EXIT", "EXCEPTION"],
+    "timings": ["element_insertion", "assemble_1", "constraints", "assemble_2", "rhs", "ksp_setup", "bronze_total"],
+    "matrix_info": "Best-effort common-path snapshots after setup, first assembly, and second assembly.",
+    "no_collective_marker_writes": true
+  },
+  "decision": {
+    "behavioral_patch_applied": false,
+    "why": "No single 10M operation is proven as the root cause. The accepted change is diagnostic instrumentation only.",
+    "recommended_next_action": "Replay the identical frozen 10M workload only when separately authorized. Use per-rank phase markers and phase timing summaries to identify the dominant post-insertion phase before considering an AIJ behavioral change.",
+    "ready_for_luna_c3_10m_replay": true,
+    "recommended_monitoring": "Read rank markers and phase timing artifacts at spaced intervals; classify a phase only after all-rank markers and common-path evidence agree."
+  },
+  "execution": {
+    "heavy_benchmark_run": false,
+    "full_regression_run": false,
+    "numerical_formulation_changed": false,
+    "tolerances_changed": false,
+    "wp02_freeze_changed": false,
+    "workload_changed": false,
+    "ten_million_replay_run": false,
+    "pushed": false
+  },
+  "artifact_classification": "CONTROLLED_PROOF"
+}

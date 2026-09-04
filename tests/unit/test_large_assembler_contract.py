@@ -34,6 +34,9 @@ class _FakeMatrix:
     def convert(self, kind) -> None:
         self.calls.append(("convert", kind))
 
+    def getInfo(self):
+        return {"mallocs": 0.0, "nz_allocated": 120.0, "nz_used": 72.0}
+
 
 class _FakeMatFactory:
     Type = SimpleNamespace(AIJ="aij")
@@ -56,6 +59,14 @@ class _FakeComm:
 
     def getSize(self):
         return 1
+
+
+class _RankTelemetry:
+    def __init__(self) -> None:
+        self.markers: list[tuple[str, str, dict[str, object] | None]] = []
+
+    def marker(self, name, *, phase, context=None) -> None:
+        self.markers.append((name, phase, context))
 
 
 def _fake_petsc(factory: _FakeMatFactory):
@@ -125,3 +136,90 @@ def test_petsc_assembler_rejects_invalid_format_and_chunk_is_clamped() -> None:
     with pytest.raises(ValueError, match="matrix_format"):
         assembler.PetscTET4Assembler(matrix_format="dense")
     assert assembler.PetscTET4Assembler(chunk_size=0).chunk_size == 1
+
+
+def test_petsc_assembler_emits_post_insertion_boundaries_and_diagnostics(monkeypatch, tmp_path) -> None:
+    model = generate_tet4_block(tmp_path / "model.h5", nx=1, ny=1, nz=1)
+    factory = _FakeMatFactory()
+    markers = _RankTelemetry()
+    monkeypatch.setattr(assembler, "_petsc", lambda: _fake_petsc(factory))
+
+    assembled = assembler.PetscTET4Assembler(
+        chunk_size=1,
+        matrix_format="aij",
+        rank_telemetry=markers,
+        capture_diagnostics=True,
+    )
+    assembled.assemble(model)
+
+    assert [name for name, _, _ in markers.markers] == [
+        "POST_INSERTION",
+        "PRE_ASSEMBLE_1",
+        "POST_ASSEMBLE_1",
+        "PRE_CONSTRAINTS",
+        "POST_CONSTRAINTS",
+        "PRE_ASSEMBLE_2",
+        "POST_ASSEMBLE_2",
+    ]
+    diagnostics = assembled.last_diagnostics
+    assert diagnostics["preallocation"]["strategy"] == "structured_six_tet4_exact_diag_offdiag"
+    assert diagnostics["preallocation"]["diag_offdiag_preallocation"] == "EXACT_STRUCTURED_STENCIL"
+    assert diagnostics["preallocation"]["diagonal_nnz"]["max"] <= 45
+    assert diagnostics["preallocation"]["off_diagonal_nnz"]["sum"] == 0
+    assert diagnostics["preallocation"]["matrix_info_after_assemble_2"]["available"] is True
+    assert diagnostics["insertions"]["matsetvalues_call_count"] == model.element_count
+    assert diagnostics["insertions"]["scalar_values_submitted"] == model.element_count * 144
+    assert set(diagnostics["phase_timing_seconds"]) == {
+        "element_insertion",
+        "assemble_1",
+        "constraints",
+        "assemble_2",
+        "total_assembler",
+    }
+
+
+def test_structured_six_tet4_aij_preallocation_matches_generated_connectivity(tmp_path) -> None:
+    model = generate_tet4_block(tmp_path / "structured.h5", nx=3, ny=2, nz=2)
+    for rank in range(4):
+        row_start, row_stop = assembler._petsc_contiguous_ownership_range(model.ndof, rank, 4)
+        actual = assembler._structured_six_tet4_aij_nnz(model, row_start, row_stop, np.int64)
+        assert actual is not None
+        diagonal, off_diagonal = actual
+        expected_diagonal, expected_off_diagonal = _brute_aij_preallocation(model, row_start, row_stop)
+        assert np.array_equal(diagonal, expected_diagonal)
+        assert np.array_equal(off_diagonal, expected_off_diagonal)
+
+
+def test_structured_stencil_preallocation_refuses_unproven_topology(tmp_path) -> None:
+    model = generate_tet4_block(tmp_path / "centered.h5", nx=2, ny=2, nz=2, decomposition="centered")
+    row_start, row_stop = assembler._petsc_contiguous_ownership_range(model.ndof, 0, 2)
+    assert assembler._structured_six_tet4_aij_nnz(model, row_start, row_stop, np.int32) is None
+
+
+def test_explicit_aij_ownership_matches_petsc_remainder_distribution() -> None:
+    ranges = [assembler._petsc_contiguous_ownership_range(89_373, rank, 8) for rank in range(8)]
+    assert ranges == [
+        (0, 11_172),
+        (11_172, 22_344),
+        (22_344, 33_516),
+        (33_516, 44_688),
+        (44_688, 55_860),
+        (55_860, 67_031),
+        (67_031, 78_202),
+        (78_202, 89_373),
+    ]
+
+
+def _brute_aij_preallocation(model, row_start: int, row_stop: int) -> tuple[np.ndarray, np.ndarray]:
+    columns_by_row = [set() for _ in range(row_stop - row_start)]
+    for tet in model.tet4:
+        dofs = assembler.element_dofs(tet)
+        local_rows = dofs[(dofs >= row_start) & (dofs < row_stop)]
+        for row in local_rows:
+            columns_by_row[int(row - row_start)].update(int(column) for column in dofs)
+    diagonal = np.zeros(row_stop - row_start, dtype=np.int64)
+    off_diagonal = np.zeros(row_stop - row_start, dtype=np.int64)
+    for index, columns in enumerate(columns_by_row):
+        diagonal[index] = sum(row_start <= column < row_stop for column in columns)
+        off_diagonal[index] = len(columns) - diagonal[index]
+    return diagonal, off_diagonal

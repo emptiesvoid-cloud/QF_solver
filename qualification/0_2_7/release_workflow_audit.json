@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-027-WP01-WORKFLOW-AUDIT-001",
+  "work_package": "WP01",
+  "status": "PASS_WITH_LIMITATIONS",
+  "workflow": ".github/workflows/publish-pypi.yml",
+  "evidence_head": "bb822839248b5ffb9faef5d79a6c83f288faefb3",
+  "triggers": ["release.published", "workflow_dispatch.confirm_publish"],
+  "tag_version_contract": {
+    "required": true,
+    "rule": "The workflow must run from refs/tags/<tag> and the v-prefixed tag must match pyproject project.version.",
+    "manual_dispatch_branch": "rejected before publish"
+  },
+  "publication_guard": {
+    "release_event": "requires successful tagged build and exact tag/version match",
+    "manual_dispatch": "requires confirm_publish=true and a tagged ref",
+    "duplicate_attempt": "PyPI rejects an already-uploaded version explicitly; no skip-existing behavior is enabled",
+    "concurrency": "not configured; an Owner must avoid concurrent retries for the same tag"
+  },
+  "credentials": {
+    "current": "PYPI_API_TOKEN GitHub secret",
+    "exposed": false,
+    "oidc": "not configured; future Trusted Publishing migration remains a separate task"
+  },
+  "evidence": {
+    "source_sha": "e99289aca40011ca0424944099e2d2093cf21a65",
+    "classification": "CONTROLLED_PROOF"
+  }
+}

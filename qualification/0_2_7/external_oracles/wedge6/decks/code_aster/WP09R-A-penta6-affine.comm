@@ -1,0 +1,64 @@
+# coding=utf-8
+import json
+import numpy as np
+from code_aster.Commands import *
+
+DEBUT(CODE="OUI", ERREUR=_F(ALARME="EXCEPTION"))
+
+mesh = LIRE_MAILLAGE(FORMAT="ASTER", UNITE=20)
+model = AFFE_MODELE(
+    MAILLAGE=mesh,
+    AFFE=_F(GROUP_MA="SOLID", PHENOMENE="MECANIQUE", MODELISATION="3D"),
+)
+material = DEFI_MATERIAU(ELAS=_F(E=210000.0, NU=0.3))
+field = AFFE_MATERIAU(MAILLAGE=mesh, AFFE=_F(GROUP_MA="SOLID", MATER=material))
+boundary = AFFE_CHAR_MECA(
+    MODELE=model,
+    DDL_IMPO=_F(GROUP_NO="FIXED", DX=0.0, DY=0.0, DZ=0.0),
+)
+force = AFFE_CHAR_MECA(MODELE=model, FORCE_NODALE=_F(GROUP_NO="LOAD", FZ=1.0))
+static = MECA_STATIQUE(
+    MODELE=model,
+    CHAM_MATER=field,
+    EXCIT=(_F(CHARGE=boundary), _F(CHARGE=force)),
+)
+
+CALC_CHAMP(reuse=static, RESULTAT=static, FORCE=("REAC_NODA",))
+order = static.getIndexes()[0]
+displacement = static.getField("DEPL", order)
+reaction = static.getField("REAC_NODA", order)
+displacement_values = []
+for component in ("DX", "DY", "DZ"):
+    values, _ = displacement.getValuesWithDescription(component, ["ALL"])
+    displacement_values.append([float(value) for value in values])
+reaction_values = []
+for component in ("DX", "DY", "DZ"):
+    values, _ = reaction.getValuesWithDescription(component, ["FIXED"])
+    reaction_values.append([float(value) for value in values])
+external_displacement = np.asarray(displacement_values, dtype=float).T
+load_vector = np.asarray((0.0, 0.0, 1.0), dtype=float)
+raw = {
+    "case_id": "WP09-CODE_ASTER-AFFINE",
+    "solver": "Code_Aster 18.1.0 / MECA_PENTA6",
+    "node_order": ["N1", "N2", "N3", "N4", "N5", "N6"],
+    "displacement": external_displacement.tolist(),
+    "total_reaction": np.sum(np.asarray(reaction_values, dtype=float), axis=1).tolist(),
+    "strain_energy": float(0.5 * np.dot(load_vector, external_displacement[3])),
+    "reaction_nodes": reaction_values,
+}
+with open("/work/WP09R-A-penta6-affine.json", "w", encoding="utf-8") as stream:
+    json.dump(raw, stream, indent=2, sort_keys=True)
+
+# RESULTAT is a stable text oracle for the nodal displacement field.  MED is
+# retained as an optional raw artifact for later post-processing.
+IMPR_RESU(
+    RESU=_F(MAILLAGE=mesh, RESULTAT=static, NOM_CHAM="DEPL", TOUT_ORDRE="OUI"),
+    FORMAT="RESULTAT",
+    UNITE=8,
+)
+IMPR_RESU(
+    RESU=_F(MAILLAGE=mesh, RESULTAT=static, NOM_CHAM="DEPL"),
+    FORMAT="MED",
+    UNITE=80,
+)
+FIN()

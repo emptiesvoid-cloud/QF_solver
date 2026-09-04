@@ -11,8 +11,8 @@
     {
       "id": "DOC-STATE-001",
       "path": "index.md",
-      "title": "Tableau de bord du solveur EF",
-      "status": "draft",
+      "title": "QF Solver 0.2.7",
+      "status": "controlled",
       "requirements": [
         "REQ-AUD-001",
         "REQ-CMP-001"
@@ -45,8 +45,8 @@
     {
       "id": "DOC-STATE-002",
       "path": "etat/capacites.md",
-      "title": "Capacites et maturite",
-      "status": "draft",
+      "title": "Capabilities and maturity",
+      "status": "controlled",
       "requirements": [
         "REQ-CMP-001",
         "REQ-REL-001"
@@ -57,8 +57,8 @@
     {
       "id": "DOC-STATE-003",
       "path": "etat/limites.md",
-      "title": "Limites connues",
-      "status": "draft",
+      "title": "Known limitations",
+      "status": "controlled",
       "requirements": [
         "REQ-CMP-002",
         "REQ-REL-001"
@@ -69,8 +69,8 @@
     {
       "id": "DOC-START-001",
       "path": "demarrage/installation.md",
-      "title": "Installation locale",
-      "status": "draft",
+      "title": "Installation pointer",
+      "status": "superseded",
       "requirements": [
         "REQ-REL-001"
       ],
@@ -82,8 +82,8 @@
     {
       "id": "DOC-START-002",
       "path": "demarrage/premier_calcul.md",
-      "title": "Premier calcul controle",
-      "status": "draft",
+      "title": "Quickstart pointer",
+      "status": "superseded",
       "requirements": [
         "REQ-IO-001",
         "REQ-MESH-001",
@@ -359,8 +359,8 @@
     {
       "id": "DOC-ELEM-000",
       "path": "elements/index.md",
-      "title": "Elements finis disponibles",
-      "status": "draft",
+      "title": "Elements",
+      "status": "controlled",
       "requirements": [
         "REQ-SOL-001",
         "REQ-SOL-002",
@@ -1380,8 +1380,8 @@
     {
       "id": "DOC-SOL-000",
       "path": "solveurs/index.md",
-      "title": "Carte des methodes de resolution",
-      "status": "draft",
+      "title": "Solvers and backends",
+      "status": "controlled",
       "requirements": [
         "REQ-SOL-001",
         "REQ-MOD-001",
@@ -1634,8 +1634,8 @@
     {
       "id": "DOC-LRG-001",
       "path": "solveurs/grand_modele.md",
-      "title": "Resolution des grands modeles",
-      "status": "draft",
+      "title": "Large models",
+      "status": "controlled",
       "requirements": [
         "REQ-LRG-001",
         "REQ-LRG-002",
@@ -1656,8 +1656,8 @@
     {
       "id": "DOC-DEMO-000",
       "path": "demonstrations/index.md",
-      "title": "Catalogue des demonstrations executables",
-      "status": "draft",
+      "title": "Demonstrations",
+      "status": "controlled",
       "requirements": [
         "REQ-CMP-003",
         "REQ-CMP-004",
@@ -1961,7 +1961,7 @@
       "id": "DOC-VV-000",
       "path": "verification/index.md",
       "title": "Regles d'acceptation d'un calcul",
-      "status": "draft",
+      "status": "controlled",
       "requirements": [
         "REQ-CMP-001",
         "REQ-CMP-002",
@@ -2738,7 +2738,7 @@
       "id": "DOC-REF-002",
       "path": "reference/registre_documentaire.md",
       "title": "Registre documentaire",
-      "status": "draft",
+      "status": "controlled",
       "requirements": [
         "REQ-CMP-001",
         "REQ-EVD-001"
@@ -2750,7 +2750,7 @@
       "id": "DOC-REF-006",
       "path": "reference/references.md",
       "title": "References scientifiques et numeriques",
-      "status": "draft",
+      "status": "controlled",
       "requirements": [
         "REQ-CMP-003",
         "REQ-CMP-004"
@@ -2772,8 +2772,8 @@
     {
       "id": "DOC-REF-004",
       "path": "reference/feuille_de_route.md",
-      "title": "Feuille de route",
-      "status": "draft",
+      "title": "Public roadmap",
+      "status": "controlled",
       "requirements": [
         "REQ-CMP-002",
         "REQ-REL-001"
@@ -2861,8 +2861,8 @@
     {
       "id": "DOC-LRG-002",
       "path": "grand_modele.md",
-      "title": "Mode grand modele",
-      "status": "draft",
+      "title": "Large models pointer",
+      "status": "superseded",
       "requirements": [
         "REQ-LRG-001",
         "REQ-LRG-002",
@@ -2996,8 +2996,8 @@
     {
       "id": "DOC-REF-API-002",
       "path": "reference/api_stability.md",
-      "title": "Stabilite de l'API Python",
-      "status": "draft",
+      "title": "API stability",
+      "status": "controlled",
       "requirements": [
         "REQ-REL-001"
       ],
@@ -4206,6 +4206,806 @@
       "title": "Decision Owner de revision du scope QF_solver 0.2.5 alpha",
       "status": "approved",
       "requirements": ["REQ-AUD-001", "REQ-EVD-001", "REQ-REL-001"],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-027-001",
+      "path": "verification/0_2_7/README.md",
+      "title": "QF Solver 0.2.7 foundation",
+      "status": "controlled",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-027-002",
+      "path": "verification/0_2_7/0_2_7_gate_matrix.md",
+      "title": "0.2.7 gate matrix",
+      "status": "controlled_release",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-027-003",
+      "path": "verification/0_2_7/0_2_7_progress_tracker.md",
+      "title": "0.2.7 progress tracker",
+      "status": "controlled_release",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-027-004",
+      "path": "verification/0_2_7/0_2_7_test_policy.md",
+      "title": "0.2.7 test policy",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-027-005",
+      "path": "verification/0_2_7/0_2_7_vnv_strategy.md",
+      "title": "0.2.7 V&V strategy",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-027-006",
+      "path": "verification/0_2_7/0_2_7_master_plan.md",
+      "title": "0.2.7 master plan",
+      "status": "controlled_release",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-027-007",
+      "path": "verification/0_2_7/0_2_7_external_oracle_plan.md",
+      "title": "0.2.7 external oracle preflight",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-027-008",
+      "path": "verification/0_2_7/0_2_7_wedge6_plan.md",
+      "title": "0.2.7 WEDGE6 plan",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-027-009",
+      "path": "verification/0_2_7/0_2_7_mesh_quality_plan.md",
+      "title": "0.2.7 mesh quality and distortion contract",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-027-010",
+      "path": "verification/0_2_7/0_2_7_j2_gap_closure.md",
+      "title": "0.2.7 J2 gap closure",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-027-011",
+      "path": "verification/0_2_7/0_2_7_1m_dof_plan.md",
+      "title": "0.2.7 1M-DOF plan",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-027-012",
+      "path": "verification/0_2_7/0_2_7_risk_register.md",
+      "title": "0.2.7 risk register",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-027-013",
+      "path": "verification/0_2_7/0_2_7_owner_decision_log.md",
+      "title": "0.2.7 Owner decision log",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-027-014",
+      "path": "verification/0_2_7/0_2_7_release_criteria.md",
+      "title": "0.2.7 release criteria",
+      "status": "controlled_release",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-027-015",
+      "path": "verification/0_2_7/0_2_7_release_workflow_audit.md",
+      "title": "0.2.7 release workflow audit",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_7/release_truth.json",
+        "qualification/0_2_7/release_workflow_audit.json"
+      ],
+      "tests": []
+    },
+    {
+      "id": "DOC-027-016",
+      "path": "verification/0_2_7/0_2_7_capability_matrix.md",
+      "title": "0.2.7 capability registry v2 generated view",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_7/capability_registry_v2.json",
+        "qualification/0_2_7/registry_migration.json"
+      ],
+      "tests": [
+        "tests/unit/test_capability_registry_v2.py"
+      ]
+    },
+    {
+      "id": "DOC-027-017",
+      "path": "verification/0_2_7/0_2_7_element_descriptor_preflight.md",
+      "title": "0.2.7 element descriptors and compatibility preflight",
+      "status": "controlled_candidate",
+      "requirements": ["027-REQ-004"],
+      "examples": [
+        "qualification/0_2_7/wp03_state.json",
+        "qualification/0_2_7/capability_registry_v2.json"
+      ],
+      "tests": [
+        "tests/unit/test_element_descriptor_preflight.py"
+      ]
+    },
+    {
+      "id": "DOC-027-018",
+      "path": "verification/0_2_7/0_2_7_vnv_harness_v2.md",
+      "title": "0.2.7 declarative V&V harness v2",
+      "status": "controlled_candidate",
+      "requirements": ["027-REQ-005"],
+      "examples": [
+        "qualification/0_2_7/vnv_v2/sample_cases.json",
+        "qualification/0_2_7/vnv_v2/wp04_state.json"
+      ],
+      "tests": [
+        "tests/unit/test_vnv_harness_v2.py"
+      ]
+    },
+    {
+      "id": "DOC-027-019",
+      "path": "verification/0_2_7/0_2_7_wedge6_external_review.md",
+      "title": "0.2.7 WEDGE6 external oracle review pack",
+      "status": "controlled_candidate",
+      "requirements": ["027-REQ-006"],
+      "examples": [
+        "qualification/0_2_7/external_oracles/wedge6/contract.json",
+        "qualification/0_2_7/external_oracles/wedge6/mapping.json",
+        "qualification/0_2_7/external_oracles/wedge6/specs/cases.json",
+        "qualification/0_2_7/external_oracles/wedge6/preflight_evidence.json"
+      ],
+      "tests": [
+        "tests/unit/test_wedge6_external_preflight.py"
+      ]
+    },
+    {
+      "id": "DOC-027-020",
+      "path": "verification/0_2_7/0_2_7_mesh_quality_contract.md",
+      "title": "0.2.7 mesh quality contract",
+      "status": "controlled_candidate",
+      "requirements": ["027-REQ-007"],
+      "examples": [
+        "qualification/0_2_7/wp06_state.json",
+        "qualification/0_2_7/vnv_v2/mesh_quality_cases.json"
+      ],
+      "tests": [
+        "tests/unit/test_mesh_quality_contract.py"
+      ]
+    },
+    {
+      "id": "DOC-027-021",
+      "path": "verification/0_2_7/0_2_7_wedge6_static_vertical_slice.md",
+      "title": "0.2.7 WEDGE6 static vertical slice",
+      "status": "controlled_candidate",
+      "requirements": ["027-REQ-009"],
+      "examples": [
+        "qualification/0_2_7/wp08_state.json",
+        "qualification/0_2_7/vnv_v2/wp08_cases.json",
+        "qualification/0_2_7/vnv_v2/wp08_evidence.json"
+      ],
+      "tests": [
+        "tests/integration/test_wedge6_static_workflow.py"
+      ]
+    },
+    {
+      "id": "DOC-027-022",
+      "path": "verification/0_2_7/0_2_7_wp11_j2_closure.md",
+      "title": "0.2.7 WP11 existing J2 maturity and closure evidence",
+      "status": "controlled_candidate",
+      "requirements": ["027-REQ-012"],
+      "examples": [
+        "qualification/0_2_7/wp11_j2_cases.json",
+        "qualification/0_2_7/wp11_j2_evidence.json",
+        "qualification/0_2_7/wp11_state.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp11_j2_closure.py"
+      ]
+    },
+    {
+      "id": "DOC-027-023",
+      "path": "verification/0_2_7/0_2_7_large_scale_readiness.md",
+      "title": "0.2.7 large-scale readiness evidence",
+      "status": "controlled_candidate",
+      "requirements": ["027-REQ-013"],
+      "examples": [
+        "qualification/0_2_7/wp12_state.json",
+        "qualification/0_2_7/wp12_scaling_evidence.json",
+        "qualification/0_2_7/wp12_assembly_probe_300k.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp12_scaling.py"
+      ]
+    },
+    {
+      "id": "DOC-027-024",
+      "path": "verification/0_2_7/0_2_7_wp17r_petsc_remediation.md",
+      "title": "0.2.7 WP17-R PETSc environment and 1M solver remediation",
+      "status": "controlled_candidate",
+      "requirements": ["027-LU-REQ-017"],
+      "examples": [
+        "qualification/0_2_7/wp17r_state.json",
+        "qualification/0_2_7/wp17_runtime/wp17r_summary.json",
+        "tools/containers/large/wp17r.Dockerfile"
+      ],
+      "tests": [
+        "tests/unit/test_wp17r_petsc_remediation.py"
+      ]
+    },
+    {
+      "id": "DOC-027-WP07-FORMULATION-001",
+      "path": "verification/0_2_7/0_2_7_wedge6_formulation_contract.md",
+      "title": "0.2.7 WEDGE6 formulation contract",
+      "status": "controlled_candidate",
+      "requirements": ["027-REQ-008"],
+      "examples": [
+        "qualification/0_2_7/wp07_prerequisites.json",
+        "qualification/0_2_7/vnv_v2/wp07_cases.json"
+      ],
+      "tests": [
+        "tests/unit/test_wedge6_kernel.py"
+      ]
+    },
+    {
+      "id": "DOC-027-WP07-KERNEL-001",
+      "path": "verification/0_2_7/0_2_7_wedge6_kernel.md",
+      "title": "0.2.7 WEDGE6 kernel evidence",
+      "status": "controlled_candidate",
+      "requirements": ["027-REQ-008"],
+      "examples": [
+        "qualification/0_2_7/wp07_state.json",
+        "qualification/0_2_7/vnv_v2/wp07_evidence.json"
+      ],
+      "tests": [
+        "tests/unit/test_wedge6_kernel.py"
+      ]
+    },
+    {
+      "id": "DOC-027-WP10-MODAL-001",
+      "path": "verification/0_2_7/0_2_7_wedge6_modal.md",
+      "title": "0.2.7 WEDGE6 modal qualification evidence",
+      "status": "controlled_candidate",
+      "requirements": ["027-REQ-011"],
+      "examples": [
+        "qualification/0_2_7/wp10_final_state.json",
+        "qualification/0_2_7/vnv_v2/wp10_final_evidence.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp10_final_modal.py"
+      ]
+    },
+    {
+      "id": "DOC-027-WP09-EXTERNAL-001",
+      "path": "verification/0_2_7/0_2_7_wedge6_robustness_external_vnv.md",
+      "title": "0.2.7 WEDGE6 robustness and external V&V",
+      "status": "controlled_candidate",
+      "requirements": ["027-REQ-010"],
+      "examples": [
+        "qualification/0_2_7/wp09_final_state.json",
+        "qualification/0_2_7/vnv_v2/wp09_final_external_evidence.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp09_final_external.py",
+        "tests/unit/test_wp09_wedge6_robustness.py"
+      ]
+    },
+    {
+      "id": "DOC-027-WP09-S3-CLOSEOUT-001",
+      "path": "verification/0_2_7/0_2_7_wp09_s3_closeout.md",
+      "title": "0.2.7 WP09 WEDGE6 static-linear S3 closeout",
+      "status": "controlled_candidate",
+      "requirements": ["027-REQ-010"],
+      "examples": [
+        "qualification/0_2_7/wp09_s3_closeout.json",
+        "qualification/0_2_7/vnv_v2/wp09_evidence.json",
+        "qualification/0_2_7/vnv_v2/wp09_final_external_evidence.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp09_s3_closeout.py",
+        "tests/unit/test_wp09_wedge6_robustness.py",
+        "tests/unit/test_wp09_final_external.py"
+      ]
+    },
+    {
+      "id": "DOC-027-WP13-001",
+      "path": "verification/0_2_7/0_2_7_wp13_golden_baseline.md",
+      "title": "0.2.7 WP13 golden numerical baseline",
+      "status": "controlled_candidate",
+      "requirements": ["027-LU-REQ-013"],
+      "examples": [
+        "qualification/0_2_7/wp13_state.json",
+        "qualification/0_2_7/golden/evidence.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp13_golden.py"
+      ]
+    },
+    {
+      "id": "DOC-027-WP14-001",
+      "path": "verification/0_2_7/0_2_7_wp14_large_scale_contract.md",
+      "title": "0.2.7 WP14 large-scale execution contract",
+      "status": "controlled_candidate",
+      "requirements": ["027-LU-REQ-014"],
+      "examples": [
+        "qualification/0_2_7/wp14_execution_contract.json",
+        "qualification/0_2_7/wp14_state.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp14_contract.py"
+      ]
+    },
+    {
+      "id": "DOC-027-WP15-001",
+      "path": "verification/0_2_7/0_2_7_wp15_matrix_free.md",
+      "title": "0.2.7 WP15 matrix-free TET4 V2",
+      "status": "controlled_candidate",
+      "requirements": ["027-LU-REQ-015"],
+      "examples": [
+        "qualification/0_2_7/wp15_state.json",
+        "qualification/0_2_7/wp15_matrix_free_benchmark.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp15_matrix_free.py"
+      ]
+    },
+    {
+      "id": "DOC-027-WP16-001",
+      "path": "verification/0_2_7/0_2_7_wp16_1m_qualification.md",
+      "title": "0.2.7 WP16 true 1M DOF qualification",
+      "status": "controlled_candidate",
+      "requirements": ["027-LU-REQ-016"],
+      "examples": [
+        "qualification/0_2_7/wp16_state.json",
+        "qualification/0_2_7/wp16_runtime/wp16_retry_summary.json"
+      ],
+      "tests": []
+    },
+    {
+      "id": "DOC-027-WP17-FINAL",
+      "path": "verification/0_2_7/0_2_7_wp17_final.md",
+      "title": "0.2.7 WP17 final PETSc/MPI solver path closure",
+      "status": "controlled_candidate",
+      "requirements": ["027-LU-REQ-017"],
+      "examples": [
+        "qualification/0_2_7/wp17_final_state.json",
+        "qualification/0_2_7/wp17_runtime/wp17r_strict_summary.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp17_final.py"
+      ]
+    },
+    {
+      "id": "DOC-027-WP17-STACK-001",
+      "path": "verification/0_2_7/0_2_7_wp17_solver_stack.md",
+      "title": "0.2.7 WP17 large solver stack and preconditioning",
+      "status": "controlled_candidate",
+      "requirements": ["027-LU-REQ-017"],
+      "examples": [
+        "qualification/0_2_7/wp17_state.json",
+        "qualification/0_2_7/wp17_runtime/wp17_probe.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp17_solver_stack.py"
+      ]
+    },
+    {
+      "id": "DOC-027-WP18-001",
+      "path": "verification/0_2_7/0_2_7_wp18_3m_ladder.md",
+      "title": "0.2.7 WP18 3M DOF ladder",
+      "status": "controlled_candidate",
+      "requirements": ["027-LU-REQ-018"],
+      "examples": [
+        "qualification/0_2_7/wp18_state.json",
+        "qualification/0_2_7/wp18_runtime/wp18_summary.json",
+        "qualification/0_2_7/wp18_runtime/wp18_replay_comparison.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp18_3m_ladder.py"
+      ]
+    },
+    {
+      "id": "DOC-027-WP19-001",
+      "path": "verification/0_2_7/0_2_7_wp19_robustness_hex8.md",
+      "title": "0.2.7 WP19 adversarial robustness and HEX8 diagnostic",
+      "status": "controlled_candidate",
+      "requirements": ["027-LU-REQ-019"],
+      "examples": [
+        "qualification/0_2_7/wp19_state.json",
+        "qualification/0_2_7/wp19_runtime/wp19_robustness_evidence.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp19_robustness_hex8.py"
+      ]
+    },
+    {
+      "id": "DOC-027-WP20-001",
+      "path": "verification/0_2_7/0_2_7_wp20_j2_closeout.md",
+      "title": "0.2.7 WP20 residual J2 and external V&V closure",
+      "status": "controlled_candidate",
+      "requirements": ["027-LU-REQ-020"],
+      "examples": [
+        "qualification/0_2_7/wp20_state.json",
+        "qualification/0_2_7/wp11_j2_evidence.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp20_j2_closure.py"
+      ]
+    },
+    {
+      "id": "DOC-027-LU2-WP01-001",
+      "path": "verification/0_2_7/0_2_7_wp01_observatory.md",
+      "title": "0.2.7 LU2-WP01 evidence and performance observatory",
+      "status": "controlled_candidate",
+      "requirements": ["027-LU2-REQ-001"],
+      "examples": [
+        "qualification/0_2_7/observatory_contract.json",
+        "qualification/0_2_7/wp01_observatory_sample.json"
+      ],
+      "tests": [
+        "tests/unit/test_observatory.py",
+        "tests/unit/test_level_up_2_governance.py"
+      ]
+    },
+    {
+      "id": "DOC-027-LU2-WP02-001",
+      "path": "verification/0_2_7/0_2_7_wp02_configuration_freeze.md",
+      "title": "0.2.7 LU2-WP02 CPU/MPI/PETSc configuration freeze",
+      "status": "controlled_candidate",
+      "requirements": ["027-LU2-REQ-002"],
+      "examples": [
+        "qualification/0_2_7/wp02_execution_contract.json",
+        "qualification/0_2_7/wp02_runtime/wp02_evidence_index.json",
+        "qualification/0_2_7/wp02_runtime/wp02_config_freeze.json",
+        "qualification/0_2_7/wp02_state.json"
+      ],
+      "tests": [
+        "tests/unit/test_lu2_wp02.py",
+        "tests/unit/test_level_up_2_governance.py"
+      ]
+    },
+    {
+      "id": "DOC-027-LU2-WP03-001",
+      "path": "verification/0_2_7/0_2_7_wp03_3m_gold_compute.md",
+      "title": "0.2.7 LU2-WP03 bounded 3M Gold Compute",
+      "status": "controlled_candidate",
+      "requirements": ["027-LU2-REQ-003"],
+      "examples": [
+        "qualification/0_2_7/wp03_execution_contract.json",
+        "qualification/0_2_7/lu2_wp03_state.json",
+        "qualification/0_2_7/wp03_runtime/wp03_evidence_index.json",
+        "qualification/0_2_7/wp03_runtime/wp03_summary.json",
+        "qualification/0_2_7/wp03_runtime/wp03_replay_comparison.json"
+      ],
+      "tests": [
+        "tests/unit/test_lu2_wp03.py",
+        "tests/unit/test_level_up_2_governance.py"
+      ]
+    },
+    {
+      "id": "DOC-027-LU2-WP04-001",
+      "path": "verification/0_2_7/0_2_7_wp04_5m_bronze.md",
+      "title": "0.2.7 LU2-WP04 5M Bronze forensic evidence",
+      "status": "controlled_evidence",
+      "requirements": ["027-LU2-REQ-004"],
+      "examples": [
+        "qualification/0_2_7/wp04_execution_contract.json",
+        "qualification/0_2_7/wp04_runtime/wp04_preflight.json",
+        "qualification/0_2_7/wp04_runtime/wp04_resource_guard_audit.json",
+        "qualification/0_2_7/wp04_runtime/wp04_evidence_index.json",
+        "qualification/0_2_7/wp04_runtime/wp04_summary.json",
+        "qualification/0_2_7/lu2_wp04_state.json",
+        "qualification/0_2_7/wp04_runtime/wp04_forensic_audit.json"
+      ],
+      "tests": [
+        "tests/unit/test_lu2_wp04.py",
+        "tests/unit/test_level_up_2_governance.py"
+      ]
+    },
+    {
+      "id": "DOC-027-LU2-WP04-FORENSIC-001",
+      "path": "verification/0_2_7/0_2_7_wp04_forensic_audit.md",
+      "title": "0.2.7 LU2-WP04 5M Bronze forensic audit",
+      "status": "controlled_evidence",
+      "requirements": ["027-LU2-REQ-004"],
+      "examples": [
+        "qualification/0_2_7/wp04_runtime/wp04_forensic_audit.json"
+      ],
+      "tests": [
+        "tests/unit/test_lu2_wp04.py",
+        "tests/unit/test_level_up_2_governance.py"
+      ]
+    },
+    {
+      "id": "DOC-027-LU2-WP08-001",
+      "path": "verification/0_2_7/0_2_7_lu2_wp08_decisions.md",
+      "title": "0.2.7 LU2-WP08 mixed/new-solid/HEX8 scope decisions",
+      "status": "controlled_evidence",
+      "requirements": ["027-LU2-REQ-008"],
+      "examples": [
+        "qualification/0_2_7/lu2_wp08_decision_matrix.json",
+        "qualification/0_2_7/lu2_wp08_state.json",
+        "qualification/0_2_7/wp19_state.json",
+        "qualification/0_2_7/wp19_runtime/wp19_hex8_diagnostic.json"
+      ],
+      "tests": [
+        "tests/unit/test_lu2_wp08_scope_decisions.py"
+      ]
+    },
+    {
+      "id": "DOC-027-LU2-WP06-001",
+      "path": "verification/0_2_7/0_2_7_wp06_execution_contract.md",
+      "title": "0.2.7 LU2-WP06 execution, recovery and diagnostics contract",
+      "status": "controlled_evidence",
+      "requirements": ["027-LU2-REQ-006"],
+      "examples": [
+        "qualification/0_2_7/wp06_execution_contract.json",
+        "qualification/0_2_7/lu2_wp06_state.json"
+      ],
+      "tests": [
+        "tests/unit/test_execution_contract.py",
+        "tests/unit/test_nonlinear_checkpoint.py",
+        "tests/unit/test_dynamic_checkpoint.py"
+      ]
+    },
+    {
+      "id": "DOC-027-LU2-WP07-001",
+      "path": "verification/0_2_7/0_2_7_lu2_wp07_maturity.md",
+      "title": "0.2.7 LU2-WP07 existing route maturity and targeted V&V",
+      "status": "controlled_evidence",
+      "requirements": ["027-LU2-REQ-007"],
+      "examples": [
+        "qualification/0_2_7/lu2_wp07_maturity_matrix.json",
+        "qualification/0_2_7/lu2_wp07_state.json",
+        "qualification/0_2_7/wp06_state.json",
+        "qualification/0_2_7/wp19_state.json",
+        "qualification/0_2_7/wp20_state.json"
+      ],
+      "tests": [
+        "tests/unit/test_lu2_wp07_maturity.py",
+        "tests/unit/test_wp19_robustness_hex8.py",
+        "tests/unit/test_wp20_j2_closure.py",
+        "tests/unit/test_execution_contract.py"
+      ]
+    },
+    {
+      "id": "DOC-027-S1-001",
+      "path": "verification/0_2_7/0_2_7_s1_assembly_telemetry.md",
+      "title": "0.2.7 S1 5M assembly telemetry setup",
+      "status": "controlled_evidence",
+      "requirements": ["027-LU2-REQ-004"],
+      "examples": [
+        "qualification/0_2_7/wp04_telemetry_contract.json",
+        "qualification/0_2_7/s1_telemetry_state.json",
+        "src/solveur/large/telemetry.py"
+      ],
+      "tests": [
+        "tests/unit/test_assembly_telemetry.py"
+      ]
+    },
+    {
+      "id": "DOC-027-S3-001",
+      "path": "verification/0_2_7/0_2_7_s3_expanded_validation.md",
+      "title": "0.2.7 S3 expanded validation matrix and release pre-gate",
+      "status": "controlled_evidence",
+      "requirements": ["027-LU-REQ-013"],
+      "examples": [
+        "qualification/0_2_7/s3_validation_matrix.json",
+        "qualification/0_2_7/golden/evidence.json",
+        "qualification/0_2_7/wp19_runtime/wp19_robustness_summary.json",
+        "qualification/0_2_7/wp20_state.json"
+      ],
+      "tests": [
+        "tests/unit/test_s3_validation_matrix.py"
+      ]
+    },
+    {
+      "id": "DOC-027-F1-ARCH-001",
+      "path": "verification/0_2_7/0_2_7_f1_architecture_audit.md",
+      "title": "0.2.7 F1 architecture audit",
+      "status": "controlled_candidate",
+      "requirements": ["027-LU-REQ-021"],
+      "examples": [
+        "qualification/0_2_7/f1_architecture_audit.json",
+        "tests/unit/test_f1_architecture_audit.py"
+      ],
+      "tests": [
+        "tests/unit/test_f1_architecture_audit.py",
+        "tests/unit/test_architecture_rules.py"
+      ]
+    },
+    {
+      "id": "DOC-027-F2-BUG-001",
+      "path": "verification/0_2_7/0_2_7_f2_bug_hunt.md",
+      "title": "0.2.7 F2 bug and sensitive-zone hunt",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_7/f2_bug_hunt.json",
+        "tests/unit/test_f2_bug_hunt.py"
+      ],
+      "tests": [
+        "tests/unit/test_f2_bug_hunt.py",
+        "tests/unit/test_g04_invalid_inputs.py",
+        "tests/integration/test_packaging.py"
+      ]
+    },
+    {
+      "id": "DOC-027-F3-PUBLIC-001",
+      "path": "verification/0_2_7/0_2_7_f3_public_claim_audit.md",
+      "title": "0.2.7 F3 public claims audit",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_7/f3_public_claim_audit.json",
+        "tests/unit/test_f3_public_claims.py"
+      ],
+      "tests": [
+        "tests/unit/test_f3_public_claims.py",
+        "tests/unit/test_public_document_audit.py"
+      ]
+    },
+    {
+      "id": "DOC-027-F4-TEST-001",
+      "path": "verification/0_2_7/0_2_7_f4_unit_test_quality_audit.md",
+      "title": "0.2.7 F4 unit-test quality audit",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_7/f4_unit_test_quality_audit.json",
+        "tests/unit/test_f4_unit_test_quality.py"
+      ],
+      "tests": [
+        "tests/unit/test_f4_unit_test_quality.py",
+        "tests/unit/test_f2_bug_hunt.py",
+        "tests/unit/test_f3_public_claims.py"
+      ]
+    },
+    {
+      "id": "DOC-027-F5-PACKAGE-001",
+      "path": "verification/0_2_7/0_2_7_f5_packaging_compatibility_audit.md",
+      "title": "0.2.7 F5 packaging and compatibility audit",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_7/f5_packaging_compatibility_audit.json",
+        "tests/unit/test_f5_packaging_compatibility.py"
+      ],
+      "tests": [
+        "tests/unit/test_f5_packaging_compatibility.py",
+        "tests/integration/test_packaging.py",
+        "tests/integration/test_api_and_cli.py"
+      ]
+    },
+    {
+      "id": "DOC-027-F6-REGRESSION-001",
+      "path": "verification/0_2_7/0_2_7_f6_numerical_performance_regression_audit.md",
+      "title": "0.2.7 F6 numerical and performance regression audit",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_7/f6_numerical_performance_regression_audit.json",
+        "tests/unit/test_f6_numerical_performance_regression.py"
+      ],
+      "tests": [
+        "tests/unit/test_f6_numerical_performance_regression.py",
+        "tests/unit/test_f4_unit_test_quality.py",
+        "tests/unit/test_f5_packaging_compatibility.py"
+      ]
+    },
+    {
+      "id": "DOC-027-R0-RELEASE-001",
+      "path": "verification/0_2_7/0_2_7_r0_release_readiness.md",
+      "title": "0.2.7 R0 release readiness",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_7/r0_release_readiness.json",
+        "tests/unit/test_r0_release_readiness.py"
+      ],
+      "tests": [
+        "tests/unit/test_r0_release_readiness.py",
+        "tests/unit/test_release_readiness.py",
+        "tests/unit/test_public_release_audit.py"
+      ]
+    },
+    {
+      "id": "DOC-ANALYSIS-000",
+      "path": "analyses/index.md",
+      "title": "Analyses",
+      "status": "controlled",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-EXAMPLES-000",
+      "path": "examples/index.md",
+      "title": "Examples",
+      "status": "controlled",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-START-PUB-001",
+      "path": "getting-started/installation.md",
+      "title": "Installation",
+      "status": "controlled",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-START-PUB-002",
+      "path": "getting-started/quickstart.md",
+      "title": "First calculation",
+      "status": "controlled",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-027-5M-CLOSEOUT",
+      "path": "verification/0_2_7/0_2_7_lu2_wp04_wp05_5m_closeout.md",
+      "title": "LU2 5M Bronze and Silver Closeout",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-027-STEP1",
+      "path": "verification/0_2_7/0_2_7_step1_release_freeze.md",
+      "title": "Historical 0.2.7 Step 1 release-freeze record",
+      "status": "controlled_release",
+      "requirements": [],
       "examples": [],
       "tests": []
     }

@@ -6,6 +6,7 @@ import numpy as np
 import pytest
 
 from solveur.core.modal import ModalAnalysisSolver
+from solveur.core.errors import InputValidationError
 from solveur.core.model import FiniteElementModel
 from solveur.core.solver import LinearStaticSolver
 from solveur.elements.beam.beam2 import Beam2Element
@@ -190,7 +191,7 @@ def test_beam2_schema_and_mesh_reject_invalid_sections_and_geometry() -> None:
         "elements": [{"type": "BEAM2", "nodes": [0, 1], "material": "beam"}],
         "materials": {"beam": {"type": "beam_isotropic", "E": E, "A": A, "Iy": IY, "Iz": IZ, "J": J}},
     }
-    with pytest.raises(Exception, match="requires G or nu"):
+    with pytest.raises(InputValidationError, match="requires G or nu"):
         JsonSchemaValidator().validate(data)
     model = beam_model()
     model.nodes[1] = model.nodes[0]

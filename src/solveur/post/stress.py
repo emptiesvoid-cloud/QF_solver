@@ -35,6 +35,7 @@ from solveur.post.shell_results import (
 )
 from solveur.post.solid_results import hex8_result as _hex8_result
 from solveur.post.solid_results import hex20_result as _hex20_result
+from solveur.post.solid_results import wedge6_result as _wedge6_result
 from solveur.post.solid_recovery import (
     _average_solid_points,
     _material_state,
@@ -115,6 +116,10 @@ class StressPostProcessor:
             elif definition.type == "HEX20" and isinstance(material, SolidConstitutiveMaterial):
                 results.append(
                     _hex20_result(index, definition.type, definition.nodes, material, coords, local_u, states)
+                )
+            elif definition.type == "WEDGE6" and isinstance(material, SolidConstitutiveMaterial):
+                results.append(
+                    _wedge6_result(index, definition.type, definition.nodes, material, coords, local_u, states)
                 )
             elif definition.type == "MITC4" and isinstance(material, ShellMaterial):
                 results.append(self._mitc4_result(index, definition.type, definition.nodes, material, coords, local_u))

@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "record_type": "expanded_validation_matrix",
+  "gate": "S3",
+  "namespace": "027-S3-EXPANDED-VALIDATION",
+  "release": "0.2.7a0",
+  "status": "PASS_WITH_LIMITATIONS",
+  "source_sha": "bd2b6a833bfd385e8f2b515840b16c09943b2074",
+  "weight_percent": 0,
+  "global_progress_percent": 96,
+  "source_of_truth": "qualification/0_2_7/s3_validation_matrix.json",
+  "artifact_classification": "CONTROLLED_PROOF",
+  "scope": {
+    "purpose": "Consolidate high-value validation coverage before WP09 without promoting capability maturity.",
+    "case_count_basis": "S3-added coverage records; reused evidence is explicitly marked and is not counted as a new solver execution.",
+    "new_case_count": 24,
+    "existing_golden_case_count": 9,
+    "no_full_regression": true,
+    "no_heavy_benchmark": true,
+    "no_maturity_promotion": true
+  },
+  "coverage_audit": [
+    {"route": "linear_static", "families": ["TET4", "TET10", "HEX8", "HEX20", "WEDGE6"], "status": "SUPPORTED_BOUNDED", "gap": "distortion and family-specific external depth remain bounded"},
+    {"route": "modal", "families": ["WEDGE6"], "status": "QUALIFIED_BOUNDED", "gap": "scope limited to documented modes and cases"},
+    {"route": "buckling", "families": ["TET4"], "status": "QUALIFIED_BOUNDED", "gap": "no universal stability claim"},
+    {"route": "harmonic", "families": ["existing routes"], "status": "EXPERIMENTAL", "gap": "external and cross-family evidence incomplete"},
+    {"route": "dynamics_newmark", "families": ["existing routes"], "status": "PASS_WITH_LIMITATIONS", "gap": "coverage is not transferable to untested families"},
+    {"route": "nonlinear_static", "families": ["existing routes"], "status": "PASS_WITH_LIMITATIONS", "gap": "failure and convergence domains remain bounded"},
+    {"route": "arc_length", "families": ["existing routes"], "status": "EXPERIMENTAL", "gap": "refined continuation scope is excluded"},
+    {"route": "j2_small_strain", "families": ["TET4", "TET10", "HEX8", "HEX20"], "status": "QUALIFIED_BOUNDED", "gap": "no transitive claim for finite-kinematic J2"},
+    {"route": "contact", "families": ["existing routes"], "status": "EXPERIMENTAL", "gap": "limited contact and recovery evidence"}
+  ],
+  "new_cases": [
+    {"case_id": "S3-TET4-STATIC-TENSION", "family": "TET4", "route": "linear_static", "variation": "affine tension", "invariants": ["displacement", "reaction_equilibrium", "energy", "finite"], "execution_status": "REUSED_EXISTING_EVIDENCE", "evidence_refs": ["qualification/0_2_7/golden/evidence.json"], "maturity_impact": "KEEP"},
+    {"case_id": "S3-TET4-STATIC-COMPRESSION", "family": "TET4", "route": "linear_static", "variation": "affine compression", "invariants": ["displacement", "reaction_equilibrium", "energy", "finite"], "execution_status": "REUSED_EXISTING_EVIDENCE", "evidence_refs": ["qualification/0_2_7/golden/evidence.json"], "maturity_impact": "KEEP"},
+    {"case_id": "S3-TET4-STATIC-SHEAR", "family": "TET4", "route": "linear_static", "variation": "shear patch", "invariants": ["displacement", "reaction_equilibrium", "energy", "finite"], "execution_status": "TARGETED_REPLAY_PASS", "evidence_refs": ["qualification/0_2_7/golden/evidence.json", "qualification/0_2_7/wp19_runtime/wp19_golden_replay.json"], "maturity_impact": "KEEP"},
+    {"case_id": "S3-TET4-MULTI-ELEMENT", "family": "TET4", "route": "linear_static", "variation": "multi-element affine patch", "invariants": ["reaction_equilibrium", "energy", "residual", "finite"], "execution_status": "REUSED_EXISTING_EVIDENCE", "evidence_refs": ["qualification/0_2_7/golden/evidence.json"], "maturity_impact": "KEEP"},
+    {"case_id": "S3-TET4-SCALE-INVARIANCE", "family": "TET4", "route": "linear_static", "variation": "rigid transform and scale diagnostic", "invariants": ["dimensionless_quality", "finite", "deterministic_replay"], "execution_status": "REUSED_EXISTING_EVIDENCE", "evidence_refs": ["qualification/0_2_7/wp19_runtime/wp19_robustness_summary.json"], "maturity_impact": "KEEP"},
+    {"case_id": "S3-TET10-STATIC-TENSION", "family": "TET10", "route": "linear_static", "variation": "affine tension", "invariants": ["displacement", "reaction_equilibrium", "energy", "finite"], "execution_status": "REUSED_EXISTING_EVIDENCE", "evidence_refs": ["qualification/0_2_7/golden/evidence.json"], "maturity_impact": "KEEP"},
+    {"case_id": "S3-TET10-REFINEMENT", "family": "TET10", "route": "linear_static", "variation": "bounded refinement", "invariants": ["convergence_trend", "energy", "finite"], "execution_status": "REUSED_EXISTING_EVIDENCE", "evidence_refs": ["qualification/0_2_7/wp20_state.json"], "maturity_impact": "KEEP"},
+    {"case_id": "S3-HEX8-DISTORTION", "family": "HEX8", "route": "linear_static", "variation": "valid distortion", "invariants": ["jacobian", "reaction_equilibrium", "displacement", "finite"], "execution_status": "TARGETED_REPLAY_PASS", "evidence_refs": ["qualification/0_2_7/wp19_cases.json", "qualification/0_2_7/wp19_runtime/wp19_robustness_summary.json"], "maturity_impact": "BOUND_MORE_STRICTLY"},
+    {"case_id": "S3-HEX8-ASPECT-RATIO", "family": "HEX8", "route": "linear_static", "variation": "slenderness ladder", "invariants": ["displacement", "finite", "diagnostic_only"], "execution_status": "REUSED_EXISTING_EVIDENCE", "evidence_refs": ["qualification/0_2_7/wp19_runtime/wp19_hex8_diagnostic.json"], "maturity_impact": "BOUND_MORE_STRICTLY"},
+    {"case_id": "S3-HEX20-STATIC-REFINEMENT", "family": "HEX20", "route": "linear_static", "variation": "refinement", "invariants": ["convergence_trend", "reaction_equilibrium", "energy", "finite"], "execution_status": "REUSED_EXISTING_EVIDENCE", "evidence_refs": ["qualification/0_2_7/golden/evidence.json"], "maturity_impact": "KEEP"},
+    {"case_id": "S3-WEDGE6-AFFINE-STATIC", "family": "WEDGE6", "route": "linear_static", "variation": "affine prism", "invariants": ["displacement", "reaction_equilibrium", "energy", "finite"], "execution_status": "TARGETED_REPLAY_PASS", "evidence_refs": ["qualification/0_2_7/golden/evidence.json", "qualification/0_2_7/wp09_state.json"], "maturity_impact": "KEEP"},
+    {"case_id": "S3-WEDGE6-DISTORTED-STATIC", "family": "WEDGE6", "route": "linear_static", "variation": "valid distorted prism", "invariants": ["jacobian", "energy", "finite", "deterministic_replay"], "execution_status": "REUSED_EXISTING_EVIDENCE", "evidence_refs": ["qualification/0_2_7/wp09_state.json"], "maturity_impact": "KEEP"},
+    {"case_id": "S3-WEDGE6-MODAL-MAC", "family": "WEDGE6", "route": "modal", "variation": "modes 1-3 and MAC", "invariants": ["frequency", "MAC", "mode_residual", "finite"], "execution_status": "TARGETED_REPLAY_PASS", "evidence_refs": ["qualification/0_2_7/wp10_final_state.json", "qualification/0_2_7/external_oracles/wedge6/results/wp10_code_aster_modal.json"], "maturity_impact": "KEEP"},
+    {"case_id": "S3-TET4-BUCKLING", "family": "TET4", "route": "buckling", "variation": "bounded critical factor", "invariants": ["eigenpair_residual", "finite", "deterministic_replay"], "execution_status": "REUSED_EXISTING_EVIDENCE", "evidence_refs": ["qualification/0_2_7/golden/evidence.json"], "maturity_impact": "KEEP"},
+    {"case_id": "S3-TET4-DYNAMIC-INVARIANT", "family": "TET4", "route": "dynamics_newmark", "variation": "bounded dynamic invariant", "invariants": ["energy", "finite", "deterministic_replay"], "execution_status": "REUSED_EXISTING_EVIDENCE", "evidence_refs": ["qualification/0_2_7/wp06_state.json"], "maturity_impact": "BOUND_MORE_STRICTLY"},
+    {"case_id": "S3-TET10-DYNAMIC-BOUNDARY", "family": "TET10", "route": "dynamics_newmark", "variation": "route boundary audit", "invariants": ["finite", "failure_mode", "no_transitive_promotion"], "execution_status": "PLANNED", "evidence_refs": ["qualification/0_2_7/wp06_state.json"], "maturity_impact": "BOUND_MORE_STRICTLY"},
+    {"case_id": "S3-J2-ELASTIC-PREDICTOR", "family": "TET4", "route": "j2_small_strain", "variation": "elastic predictor", "invariants": ["stress_update", "plastic_strain", "finite"], "execution_status": "REUSED_EXISTING_EVIDENCE", "evidence_refs": ["qualification/0_2_7/wp11_j2_evidence.json", "qualification/0_2_7/wp20_state.json"], "maturity_impact": "KEEP"},
+    {"case_id": "S3-J2-YIELD-RETURN", "family": "HEX8", "route": "j2_small_strain", "variation": "yield and return mapping", "invariants": ["yield_detection", "return_mapping", "finite"], "execution_status": "TARGETED_REPLAY_PASS", "evidence_refs": ["qualification/0_2_7/wp11_j2_evidence.json"], "maturity_impact": "KEEP"},
+    {"case_id": "S3-J2-UNLOAD-RELOAD", "family": "TET10", "route": "j2_small_strain", "variation": "unloading/reloading", "invariants": ["state_integrity", "plastic_strain", "finite"], "execution_status": "REUSED_EXISTING_EVIDENCE", "evidence_refs": ["qualification/0_2_7/wp20_state.json"], "maturity_impact": "KEEP"},
+    {"case_id": "S3-J2-INCREMENT-REFINEMENT", "family": "HEX20", "route": "j2_small_strain", "variation": "increment refinement", "invariants": ["increment_sensitivity", "tangent", "finite"], "execution_status": "REUSED_EXISTING_EVIDENCE", "evidence_refs": ["qualification/0_2_7/wp11_j2_evidence.json"], "maturity_impact": "BOUND_MORE_STRICTLY"},
+    {"case_id": "S3-NONLINEAR-NONCONVERGENCE", "family": "existing_routes", "route": "nonlinear_static", "variation": "expected non-convergence", "invariants": ["explicit_failure", "no_nan_inf", "rollback"], "execution_status": "EXPECTED_FAILURE_PASS", "expected_failure": "NON_CONVERGENCE", "evidence_refs": ["qualification/0_2_7/wp06_state.json"], "maturity_impact": "KEEP"},
+    {"case_id": "S3-CONTACT-UNSUPPORTED-ROUTE", "family": "existing_routes", "route": "contact", "variation": "unsupported route", "invariants": ["fail_closed", "diagnostic_code", "no_nan_inf"], "execution_status": "EXPECTED_FAILURE_PASS", "expected_failure": "UNSUPPORTED_CAPABILITY", "evidence_refs": ["qualification/0_2_7/wp06_state.json"], "maturity_impact": "KEEP"},
+    {"case_id": "S3-INVALID-MATERIAL-NAN-GUARD", "family": "existing_routes", "route": "preflight", "variation": "invalid material/input", "invariants": ["fail_closed", "no_nan_inf", "deterministic_diagnostic"], "execution_status": "EXPECTED_FAILURE_PASS", "expected_failure": "INVALID_INPUT", "evidence_refs": ["qualification/0_2_7/wp19_runtime/wp19_golden_replay.json"], "maturity_impact": "KEEP"},
+    {"case_id": "S3-UNKNOWN-ELEMENT-PREFLIGHT", "family": "PYRAMID5", "route": "preflight", "variation": "unimplemented family", "invariants": ["fail_closed", "no_silent_fallback", "deterministic_diagnostic"], "execution_status": "EXPECTED_FAILURE_PASS", "expected_failure": "UNKNOWN_ELEMENT", "evidence_refs": ["qualification/0_2_7/golden/evidence.json"], "maturity_impact": "KEEP"}
+  ],
+  "replay": {
+    "representative_cases": ["S3-TET4-STATIC-SHEAR", "S3-WEDGE6-AFFINE-STATIC", "S3-WEDGE6-MODAL-MAC", "S3-J2-YIELD-RETURN", "S3-UNKNOWN-ELEMENT-PREFLIGHT"],
+    "status": "PASS_WITH_LIMITATIONS",
+    "evidence_reused_without_rewrite": true,
+    "deterministic": true,
+    "nan_inf_free": true,
+    "expected_failures_preserved": true
+  },
+  "external_vv": {
+    "code_aster": "AVAILABLE_REPRODUCIBLE_FOR_BOUNDED_WEDGE6_STATIC_MODAL",
+    "calculix": "NOT_COMPARABLE_FOR_HEX8_REACTION_AND_ENERGY; retained as diagnostic where documented",
+    "primary_observables": ["displacement", "total_reaction", "strain_energy", "frequency", "MAC"],
+    "stress_policy": "secondary only when point, measure, frame and convention are equivalent",
+    "no_invented_values": true,
+    "evidence_refs": ["qualification/0_2_7/external_oracles/wedge6/contract.json", "qualification/0_2_7/external_oracles/wedge6/results/wp10_code_aster_modal.json", "qualification/0_2_7/wp19_runtime/wp19_hex8_diagnostic.json"]
+  },
+  "claim_policy": {
+    "promotions": [],
+    "demotions": [],
+    "bound_more_strictly": ["HEX8 distortion/aspect-ratio diagnostics", "dynamics family transfer", "J2 increment scope"],
+    "qualification_is_non_transitive": true,
+    "c3_10m_speedup_public_qualified": false,
+    "c3_claim_boundary": "Recorded TET4 linear-static PETSc route only; exact speedups remain provisional and hardware/configuration bound.",
+    "deferred": ["mixed meshes", "WEDGE15", "PYRAMID5", "HEX8R/SRI/B-bar production", "finite-kinematic J2", "general Newmark/harmonic qualification"]
+  },
+  "counts": {
+    "new_cases": 24,
+    "targeted_replay_pass": 5,
+    "reused_existing_evidence": 14,
+    "expected_failure_pass": 4,
+    "planned": 1,
+    "not_comparable": 0,
+    "pass": 23,
+    "fail": 0,
+    "promotions": 0
+  },
+  "known_limitations": [
+    "Several S3 records consolidate already controlled evidence; they do not claim fresh executions.",
+    "Harmonic, contact, mixed-mesh and broad dynamics coverage remain bounded or experimental.",
+    "External stress comparisons remain excluded unless observables are strictly equivalent.",
+    "C3 10M exact timing/speedup remains a bounded engineering observation, not a universal public claim."
+  ],
+  "governance": {
+    "owner_decision": "PASS_WITH_LIMITATIONS",
+    "ready_for_wp09": true,
+    "progress_change": 0,
+    "full_regression_run": false,
+    "numerical_source_changed": false,
+    "maturity_promoted": false
+  }
+}

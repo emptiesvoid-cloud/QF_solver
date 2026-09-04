@@ -1,0 +1,169 @@
+{
+  "schema_version": 1,
+  "record_type": "lu2_wp04_5m_bronze_forensic_audit",
+  "work_package": "LU2-WP04",
+  "gate": "LU2-027-G04",
+  "status": "USER_INTERRUPTED_INCONCLUSIVE",
+  "decision": "RETRY_LONGER_RECOMMENDED",
+  "audit_source_sha": "c4c62bdd42d99b8252130f0d5de6a1a9c54def8b",
+  "execution_source_sha": "3c579e4a51a2e9edca23b7583cdbfc48c7f80368",
+  "source_sha_relation": "execution source is an ancestor of the audit HEAD",
+  "configuration_freeze": {
+    "id": "LU2-WP02-FREEZE-bfd1975b012453a3",
+    "digest_sha256": "bfd1975b012453a3b492cc79c968ceeba6ae6951a293e3ce65ddda548d8339a1",
+    "unchanged": true,
+    "backend": "petsc",
+    "runtime_image": "qf-solver-large@sha256:d6a1718001fc36772906d1a9505637bbd0a4b7e1d8ccc9afdbcb6f67b7ff6d0e",
+    "mpi_ranks": 8,
+    "partition_strategy": "contiguous",
+    "matrix_format": "aij",
+    "ksp": "cg",
+    "preconditioner": "gamg"
+  },
+  "timeline": [
+    {
+      "phase": "generation",
+      "status": "PASS",
+      "evidence": [
+        "qualification/0_2_7/wp04_runtime/workload_5m_run1_build.json",
+        "qualification/0_2_7/wp04_runtime/workload_5m_run2_build.json"
+      ],
+      "generation_seconds": [7.678664300008677, 7.259523699991405],
+      "input_digest_sha256": "ff73bc9debd0c8e1ae7355cb6b42e62734c619efa87423e484284878449a55ec",
+      "true_dof": 5012640,
+      "elements": 9773946
+    },
+    {
+      "phase": "mpi_and_model_initialization",
+      "status": "REACHED_BY_CONTROL_FLOW",
+      "evidence": "The runner enters model loading, audit, partition digest and then the PETSc assembler before the observed long-running phase.",
+      "ranks": 8,
+      "errors_observed": false
+    },
+    {
+      "phase": "petsc_aij_setup",
+      "status": "STARTED",
+      "evidence": "PetscTET4Assembler creates an AIJ matrix and calls matrix.setUp() before the element insertion loop.",
+      "matrix_assembly_completed": false
+    },
+    {
+      "phase": "aij_element_insertion",
+      "status": "ACTIVE_AT_LAST_SAMPLE",
+      "evidence": "All eight Python ranks were runnable and CPU-active; the runner had not reached matrix.assemble().",
+      "progress_counter": "NOT_CAPTURED",
+      "completed_elements": "UNKNOWN",
+      "completed_chunks": "UNKNOWN",
+      "progress_percent": "NOT_ESTIMABLE"
+    },
+    {
+      "phase": "rhs_and_pc_setup",
+      "status": "NOT_REACHED",
+      "evidence": "The runner calls RHS construction and ksp.setUp() only after PetscTET4Assembler.assemble() returns."
+    }
+  ],
+  "termination": {
+    "owner_interrupted": true,
+    "owner_interrupt_effective_on_terminal_session": false,
+    "container_was_still_running_at_forensic_observation": true,
+    "container_id": "dfd8587c70c665d09422bd504d1fb525a6a2097431521869b27c3934260920a0",
+    "container_started_at_utc": "2026-09-02T11:01:06.697963748Z",
+    "elapsed_seconds_at_forensic_observation": 14531,
+    "previous_recorded_elapsed_seconds": 12500,
+    "forensic_stop_performed": true,
+    "forensic_stop_result": "container stopped and removed; no raw result was written",
+    "classification": "USER_INTERRUPTED",
+    "computation_failure_proven": false
+  },
+  "process_observations": {
+    "cpu_activity": "CPU_BOUND_SIGNATURE",
+    "rank_count": 8,
+    "rank_process_state": "Rsl",
+    "rank_cpu_percent_at_last_sample": 99.9,
+    "all_ranks_active": true,
+    "mpi_activity": "ACTIVE_NO_MPI_ERROR_OBSERVED",
+    "deadlock_signature": false,
+    "log_output": "EMPTY; runner writes the JSON only after completion",
+    "raw_result": "NOT_WRITTEN"
+  },
+  "memory_observations": {
+    "docker_memory_limit_bytes": 50458099712,
+    "last_observed_container_rss": "approximately 4.02 GiB from docker top; not a peak measurement",
+    "previous_partial_observation": "approximately 9.9 GiB plateau was observed during monitoring; no persisted time series",
+    "oom_killed": false,
+    "memory_pressure": "NOT_PROVEN",
+    "peak_rss": "NOT_MEASURED",
+    "stability": "CONTROLLED_AT_OBSERVED_SAMPLES_ONLY",
+    "swap_pressure": "NOT_MEASURED"
+  },
+  "petsc_state": {
+    "petsc_runtime_started": true,
+    "aij_object_created_and_setup": true,
+    "element_insertions_started": true,
+    "final_matrix_assembly_reached": false,
+    "rhs_setup_reached": false,
+    "ksp_setup_reached": false,
+    "gamg_readiness": "NOT_PROVED",
+    "silent_fallback_observed": false
+  },
+  "scaling_analysis": {
+    "reference_3m_dof": 3000000,
+    "reference_3m_elements": 5821794,
+    "reference_total_mean_seconds": 1582.4006848660065,
+    "reference_assembly_mean_seconds": 1288.8447923809872,
+    "workload_5m_dof": 5012640,
+    "workload_5m_elements": 9773946,
+    "dof_ratio": 1.67088,
+    "element_ratio": 1.67885466232574,
+    "recorded_elapsed_lower_bound_seconds": 12500,
+    "forensic_elapsed_lower_bound_seconds": 14531,
+    "forensic_to_3m_total_mean_ratio_lower_bound": 9.182,
+    "forensic_to_3m_assembly_mean_ratio_lower_bound": 11.274,
+    "interpretation": "Linear DOF/element growth of about 1.67 does not by itself explain the observed multi-hour AIJ insertion phase. The 3M total includes solve and post while the 5M observation is pre-readiness, so the ratios are diagnostic rather than an apples-to-apples benchmark. The source path performs a Python loop and one PETSc setValues call per element, making sparse insertion and communication overhead plausible contributors; no counter isolates them.",
+    "eta_to_pc_ready": "NOT_ESTIMABLE; no element/chunk progress counter and no completed assembly record"
+  },
+  "decision": {
+    "resource_limited_proven": false,
+    "c1_trigger_confirmed": false,
+    "c1_candidate": "The AIJ insertion path is a diagnostic lead, not a confirmed conditional-gate trigger.",
+    "wp04_corrected_status": "USER_INTERRUPTED_INCONCLUSIVE",
+    "bronze_pass": false,
+    "ready_for_wp04_retry": true,
+    "ready_for_lu2_wp05": false,
+    "ready_for_c1": false
+  },
+  "retry_plan": {
+    "recommendation": "YES",
+    "maximum_wall_time_seconds": 18000,
+    "two_times_3m_reference_checkpoint_seconds": 3164.801369732013,
+    "checkpoint_interpretation": "Audit progress and resource telemetry at the 2x reference point; elapsed time alone must not be converted into RESOURCE_LIMITED without a completed run or a measured resource ceiling.",
+    "pre_run_policy_clarification_required": "The existing guard text says to stop at 2x; before a longer retry, Owner must explicitly treat that point as a diagnostic checkpoint while retaining the five-hour hard ceiling.",
+    "memory_stop_limit": "The existing Docker cgroup limit of 50458099712 bytes; no new acceptance threshold is introduced.",
+    "stop_conditions": [
+      "Docker cgroup memory limit or OOM signal",
+      "MPI error or rank loss",
+      "all-rank CPU inactivity with no counter advancement",
+      "no observable assembly progress for a declared sampling interval",
+      "wall time reaches 18000 seconds"
+    ],
+    "metrics_to_capture_every_60_seconds": [
+      "phase marker",
+      "elements and chunks completed per rank",
+      "PETSc matrix insertion/nnz information",
+      "CPU time and CPU percent per rank",
+      "current and peak RSS per rank",
+      "cgroup memory events and host swap pressure",
+      "MPI rank liveness and error state"
+    ],
+    "freeze_unchanged": true
+  },
+  "historical_interpretation": {
+    "supersedes_active_label": "RESOURCE_LIMITED",
+    "preserved_observation": "The previous resource-guard record still documents the 2x budget overrun and the absence of a completed raw record; its causal classification is superseded because the process was manually interrupted and remained alive.",
+    "historical_artifact": "qualification/0_2_7/wp04_runtime/wp04_resource_guard_audit.json"
+  },
+  "claim_boundary": "Deterministic 5M workload generation and preflight are proved. AIJ insertion was active but incomplete; no 5M Bronze readiness, PC_READY, 5M solve, performance or universal capacity claim is made.",
+  "artifact_classification": "CONTROLLED_PROOF",
+  "heavy_5m_rerun_in_this_audit": false,
+  "numerical_source_changed": false,
+  "configuration_changed": false
+}

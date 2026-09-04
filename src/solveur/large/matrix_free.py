@@ -89,41 +89,77 @@ class StructuredBlockOperator(LinearOperator):
             np.arange(local_index, model.element_count, len(self.templates), dtype=np.int64)
             for local_index in range(len(self.templates))
         )
+        # Preserve the historical template/element order while avoiding a
+        # repeated advanced-indexing gather in every matrix-vector product.
+        self.nodes_by_template = tuple(
+            model.tet4[element_ids] for element_ids in self.element_ids_by_template
+        )
+        self.flat_dofs_by_template = tuple(
+            _flat_element_dofs(nodes) for nodes in self.nodes_by_template
+        )
+        # These workspaces are private to the operator.  SciPy may call the
+        # matrix-vector and preconditioner callbacks many times; reusing them
+        # removes full-vector allocations without changing apply_full's
+        # independent-result semantics.
+        self._full_workspace = np.empty(model.ndof, dtype=float)
+        self._internal_workspace = np.empty((model.node_count, 3), dtype=float)
+        self._preconditioned_workspace = np.empty((model.node_count, 3), dtype=float)
         self.diagonal = self._build_diagonal()
         self.block_inverse = self._build_block_inverse()
         self.memory_bytes = int(
             sum(template.nbytes for template in self.templates)
+            + sum(nodes.nbytes for nodes in self.nodes_by_template)
+            + sum(flat_dofs.nbytes for flat_dofs in self.flat_dofs_by_template)
             + self.diagonal.nbytes
             + self.block_inverse.nbytes
             + self.free.nbytes
+            + self._full_workspace.nbytes
+            + self._internal_workspace.nbytes
+            + self._preconditioned_workspace.nbytes
         )
         super().__init__(dtype=float, shape=(self.free.size, self.free.size))
 
     def _matvec(self, vector: np.ndarray) -> np.ndarray:
-        full = np.zeros(self.model.ndof, dtype=float)
-        full[self.free] = vector
-        internal = self.apply_full(full)
-        return internal[self.free]
+        self._full_workspace.fill(0.0)
+        self._full_workspace[self.free] = vector
+        self._apply_full_into(self._full_workspace, self._internal_workspace)
+        # Advanced indexing returns the fresh vector required by LinearOperator
+        # while the full and internal workspaces remain reusable.
+        return self._internal_workspace.ravel()[self.free]
 
     def apply_full(self, displacement: np.ndarray) -> np.ndarray:
+        result = np.zeros((self.model.node_count, 3), dtype=float)
+        self._apply_full_into(displacement, result)
+        return result.ravel()
+
+    def _apply_full_into(self, displacement: np.ndarray, target: np.ndarray) -> None:
         u_nodes = displacement.reshape((self.model.node_count, 3))
-        y_nodes = np.zeros_like(u_nodes)
-        for template, selected in zip(self.templates, self.element_ids_by_template, strict=True):
-            for start in range(0, selected.size, self.chunk_size):
-                element_ids = selected[start : start + self.chunk_size]
-                nodes = self.model.tet4[element_ids]
+        y_nodes = target.reshape((self.model.node_count, 3))
+        y_nodes.fill(0.0)
+        for template, nodes_by_template, flat_dofs_by_template in zip(
+            self.templates, self.nodes_by_template, self.flat_dofs_by_template, strict=True
+        ):
+            for start in range(0, nodes_by_template.shape[0], self.chunk_size):
+                stop = start + self.chunk_size
+                nodes = nodes_by_template[start:stop]
+                flat_dofs = flat_dofs_by_template[start * 12 : stop * 12]
                 local_u = u_nodes[nodes].reshape((-1, 12))
                 local_f = local_u @ template.T
-                _accumulate_node_values(y_nodes, nodes, local_f.reshape((-1, 4, 3)))
-        return y_nodes.ravel()
+                _accumulate_node_values(y_nodes, nodes, local_f.reshape((-1, 4, 3)), flat_dofs=flat_dofs)
 
     def preconditioner(self) -> LinearOperator:
         def apply(vector: np.ndarray) -> np.ndarray:
-            full = np.zeros(self.model.ndof, dtype=float)
-            full[self.free] = vector
-            values = full.reshape((self.model.node_count, 3))
-            corrected = np.einsum("nij,nj->ni", self.block_inverse, values, optimize=True)
-            return corrected.ravel()[self.free]
+            self._full_workspace.fill(0.0)
+            self._full_workspace[self.free] = vector
+            values = self._full_workspace.reshape((self.model.node_count, 3))
+            np.einsum(
+                "nij,nj->ni",
+                self.block_inverse,
+                values,
+                out=self._preconditioned_workspace,
+                optimize=True,
+            )
+            return self._preconditioned_workspace.ravel()[self.free]
 
         return LinearOperator(
             shape=(self.free.size, self.free.size),
@@ -133,26 +169,29 @@ class StructuredBlockOperator(LinearOperator):
 
     def _build_diagonal(self) -> np.ndarray:
         diagonal_nodes = np.zeros((self.model.node_count, 3), dtype=float)
-        for template, selected in zip(self.templates, self.element_ids_by_template, strict=True):
+        for template, nodes_by_template, flat_dofs_by_template in zip(
+            self.templates, self.nodes_by_template, self.flat_dofs_by_template, strict=True
+        ):
             local_diag = np.diag(template).reshape((4, 3))
-            for start in range(0, selected.size, self.chunk_size):
-                nodes = self.model.tet4[selected[start : start + self.chunk_size]]
+            for start in range(0, nodes_by_template.shape[0], self.chunk_size):
+                stop = start + self.chunk_size
+                nodes = nodes_by_template[start:stop]
+                flat_dofs = flat_dofs_by_template[start * 12 : stop * 12]
                 tiled = np.broadcast_to(local_diag, (nodes.shape[0], 4, 3))
-                _accumulate_node_values(diagonal_nodes, nodes, tiled)
+                _accumulate_node_values(diagonal_nodes, nodes, tiled, flat_dofs=flat_dofs)
         return diagonal_nodes.ravel()
 
     def _build_block_inverse(self) -> np.ndarray:
         """Build a 3-by-3 nodal block-Jacobi inverse for faster CG convergence."""
         blocks = np.zeros((self.model.node_count, 3, 3), dtype=float)
-        for template, selected in zip(self.templates, self.element_ids_by_template, strict=True):
+        for template, nodes_by_template in zip(self.templates, self.nodes_by_template, strict=True):
             for local_node in range(4):
                 node_block = template[3 * local_node : 3 * local_node + 3, 3 * local_node : 3 * local_node + 3]
-                nodes_by_element = self.model.tet4[selected]
                 for row in range(3):
                     for column in range(3):
                         blocks[:, row, column] += np.bincount(
-                            nodes_by_element[:, local_node],
-                            weights=np.full(nodes_by_element.shape[0], node_block[row, column]),
+                            nodes_by_template[:, local_node],
+                            weights=np.full(nodes_by_template.shape[0], node_block[row, column]),
                             minlength=self.model.node_count,
                         )
         try:
@@ -164,12 +203,23 @@ class StructuredBlockOperator(LinearOperator):
             return inverse
 
 
-def _accumulate_node_values(target: np.ndarray, nodes: np.ndarray, values: np.ndarray) -> None:
+def _flat_element_dofs(nodes: np.ndarray) -> np.ndarray:
+    components = np.arange(3, dtype=nodes.dtype)
+    return (nodes[:, :, None] * 3 + components).reshape(-1)
+
+
+def _accumulate_node_values(
+    target: np.ndarray,
+    nodes: np.ndarray,
+    values: np.ndarray,
+    *,
+    flat_dofs: np.ndarray | None = None,
+) -> None:
     """Accumulate all three components in one vectorized scatter operation."""
     if nodes.ndim != 2 or nodes.shape[1] != 4 or values.shape != (nodes.shape[0], 4, 3):
         raise ValueError("Structured TET4 accumulation expects nodes (n, 4) and values (n, 4, 3).")
-    components = np.arange(3, dtype=nodes.dtype)
-    flat_dofs = (nodes[:, :, None] * 3 + components).reshape(-1)
+    if flat_dofs is None:
+        flat_dofs = _flat_element_dofs(nodes)
     target.ravel()[:] += np.bincount(
         flat_dofs,
         weights=values.reshape(-1),

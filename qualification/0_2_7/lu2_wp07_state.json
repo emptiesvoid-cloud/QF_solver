@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "record_type": "lu2_work_package_state",
+  "namespace": "027-LEVEL-UP-2",
+  "work_package": "LU2-WP07",
+  "gate": "LU2-027-G07",
+  "status": "PASS_WITH_LIMITATIONS",
+  "weight_percent": 4,
+  "start_sha": "65b9d2b168ac7be1df1c0c1cd2d58e8286d4af00",
+  "evidence": "qualification/0_2_7/lu2_wp07_maturity_matrix.json",
+  "evidence_document": "docs/verification/0_2_7/0_2_7_lu2_wp07_maturity.md",
+  "owner_decision": "PASS_WITH_LIMITATIONS: existing route maturity is defensible when read at the documented element/analysis/material/backend scope; no promotion or demotion is made.",
+  "routes_audited": ["linear_static", "modal", "buckling", "harmonic", "dynamics_newmark", "nonlinear_static", "arc_length", "j2_small_strain", "contact", "wedge6"],
+  "routes_requiring_new_tests": [],
+  "routes_reusing_existing_evidence": ["linear_static", "modal", "buckling", "harmonic", "dynamics_newmark", "nonlinear_static", "arc_length", "j2_small_strain", "contact", "wedge6"],
+  "maturity_actions": {"promotions": [], "demotions": [], "unchanged": true},
+  "external_vnv": "NOT_NEEDED; existing bounded evidence is sufficient and no new comparable case was run.",
+  "adversarial": {"fail_closed": true, "no_nan_inf": true, "silent_fallback": false, "evidence": "WP19/WP20/WP06 reused"},
+  "limitations": [
+    "Qualification remains non-transitive across element, analysis, material and backend routes.",
+    "Finite-kinematic J2, coupled nonlinear routes, friction, mixed meshes, HEX8 next-generation formulations and untested large routes remain experimental, research-only, deferred or not qualified.",
+    "External evidence remains bounded and family-specific; no universal external validation claim is made.",
+    "WP04 remains USER_INTERRUPTED_INCONCLUSIVE and its retry is not changed by WP07."
+  ],
+  "execution": {"new_external_runs": false, "heavy_benchmark_run": false, "full_regression_run": false, "numerical_source_changed": false, "pushed": false},
+  "targeted_tests": "93 passed, 2 skipped; existing NumPy warning only",
+  "readiness": {"ready_for_lu2_wp09": false, "ready_for_wp04_retry": true}
+}

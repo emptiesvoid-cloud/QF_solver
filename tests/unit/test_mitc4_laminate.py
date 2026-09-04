@@ -6,6 +6,7 @@ from solveur.compat.mitc4.material import ShellMaterial
 from solveur.compat.mitc4.mesh import MeshFactory
 
 from solveur.api import check_mesh, solve_model
+from solveur.core.errors import InputValidationError
 from solveur.core.model import FiniteElementModel
 from solveur.core.qualification import model_maturity
 from solveur.io.schema import JsonSchemaValidator
@@ -169,7 +170,7 @@ def test_laminate_schema_rejects_missing_transverse_shear():
         "elements": [{"type": "MITC4", "nodes": [0, 1, 2, 3], "material": "laminate"}],
         "materials": {"laminate": definition},
     }
-    with pytest.raises(Exception, match="G13"):
+    with pytest.raises(InputValidationError, match="G13"):
         JsonSchemaValidator().validate(raw)
 
 
@@ -340,5 +341,5 @@ def test_schema_rejects_incomplete_or_invalid_allowables(mutator, match: str):
         "elements": [{"type": "MITC4", "nodes": [0, 1, 2, 3], "material": "laminate"}],
         "materials": {"laminate": definition},
     }
-    with pytest.raises(Exception, match=match):
+    with pytest.raises(InputValidationError, match=match):
         JsonSchemaValidator().validate(raw)

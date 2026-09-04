@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "contract_id": "026-G12-OPTIMIZATION",
+  "environment": {
+    "os": "Windows-10-10.0.19045-SP0",
+    "python": "3.13.1",
+    "numpy": "2.2.6",
+    "scipy": "1.15.2",
+    "psutil": "7.2.2",
+    "logical_cpus": 12,
+    "ram_bytes": 102963109888,
+    "git_head": "4971ac4f6c1e5cff2ca48e40ca6db5e8147d0d0a"
+  },
+  "status": "PASS",
+  "route": "linear_static",
+  "probe": "assembly_only",
+  "timeout_seconds": 300.0,
+  "max_rss_bytes": 4294967296,
+  "rows": [
+    {
+      "label": "assembly-only TET4 target 300000",
+      "status": "PASS",
+      "total_dofs": 311469,
+      "node_count": 103823,
+      "element_count": 584016,
+      "global_stiffness_nnz": 11168199,
+      "global_matrix_storage_bytes": 135264268,
+      "mesh_validation_seconds": 158.6088330000057,
+      "assembly_plan_seconds": 10.554309099970851,
+      "assembly_seconds": 45.6620227000094,
+      "element_kernel_seconds": 34.219883102807216,
+      "sparse_conversion_seconds": 4.035709199262783,
+      "sparse_finalize_seconds": 0.06933519995072857,
+      "linear_solve_seconds": null,
+      "wall_total_seconds": 217.88217379996786,
+      "finite_metrics": true,
+      "topology": {
+        "topology": "connected_structured_block",
+        "cells_per_axis": 46
+      },
+      "phase_notes": {
+        "solve": "NOT_RUN",
+        "loads": "NOT_RUN"
+      },
+      "family": "TET4",
+      "target_dofs": 300000,
+      "case_peak_rss_bytes": 1466396672,
+      "case_peak_rss_scope": "parent sampler over isolated assembly-only child"
+    }
+  ],
+  "resource_policy": {
+    "stop_after_first_limit": true,
+    "timeout_seconds": 300.0,
+    "max_rss_bytes": 4294967296
+  }
+}

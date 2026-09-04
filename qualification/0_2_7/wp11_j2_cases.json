@@ -1,0 +1,239 @@
+{
+  "schema_version": 1,
+  "work_package": "WP11",
+  "cases": [
+    {
+      "case_id": "027-WP11-J2-MATERIAL-001",
+      "requirement_id": "027-REQ-012",
+      "capability_refs": [
+        "MAT-J2-SMALL"
+      ],
+      "element_families": [
+        "TET4",
+        "TET10",
+        "HEX8",
+        "HEX20"
+      ],
+      "analysis": "material_point",
+      "material_route": "small_strain_J2_radial_return_isotropic_hardening",
+      "oracle_type": "ANALYTICAL_AND_INTERNAL_INVARIANT",
+      "observables": [
+        "stress",
+        "yield_function",
+        "plastic_strain",
+        "equivalent_plastic_strain"
+      ],
+      "tolerance": "EXISTING_G06_MATERIAL_POLICY",
+      "expected_failure": null,
+      "execution_tier": "T2",
+      "provenance": "qualification/0_2_6/g06_depth_evidence.json"
+    },
+    {
+      "case_id": "027-WP11-J2-TANGENT-001",
+      "requirement_id": "027-REQ-012",
+      "capability_refs": [
+        "MAT-J2-SMALL"
+      ],
+      "element_families": [
+        "TET4",
+        "TET10",
+        "HEX8",
+        "HEX20"
+      ],
+      "analysis": "constitutive_tangent",
+      "material_route": "algorithmic_tangent_vs_central_finite_difference",
+      "oracle_type": "INTERNAL_INVARIANT",
+      "observables": [
+        "relative_frobenius_error",
+        "tangent_symmetry"
+      ],
+      "tolerance": "existing G06 relative FD limit 1e-6; symmetry diagnostic only",
+      "expected_failure": null,
+      "execution_tier": "T2",
+      "provenance": "qualification/0_2_6/g06_depth_evidence.json"
+    },
+    {
+      "case_id": "027-WP11-J2-MULTI-ELEMENT-001",
+      "requirement_id": "027-REQ-012",
+      "capability_refs": [
+        "MAT-J2-SMALL",
+        "ANA-NONLINEAR-LOAD"
+      ],
+      "element_families": [
+        "TET4",
+        "TET10",
+        "HEX8",
+        "HEX20"
+      ],
+      "analysis": "nonlinear_static",
+      "material_route": "connected_multi_element_newton_raphson",
+      "oracle_type": "INTERNAL_INVARIANT",
+      "observables": [
+        "residual",
+        "reaction",
+        "equivalent_plastic_strain",
+        "internal_work"
+      ],
+      "tolerance": "existing G06 residual policy 1e-7; no new cross-family equality threshold",
+      "expected_failure": null,
+      "execution_tier": "T2",
+      "provenance": "qualification/0_2_6/g06_depth_evidence.json"
+    },
+    {
+      "case_id": "027-WP11-J2-CYCLE-001",
+      "requirement_id": "027-REQ-012",
+      "capability_refs": [
+        "MAT-J2-SMALL"
+      ],
+      "element_families": [
+        "TET4",
+        "TET10",
+        "HEX8",
+        "HEX20"
+      ],
+      "analysis": "nonlinear_static",
+      "material_route": "loading_unloading_reversal_reloading",
+      "oracle_type": "INTERNAL_INVARIANT",
+      "observables": [
+        "equivalent_plastic_strain",
+        "plastic_dissipation",
+        "residual"
+      ],
+      "tolerance": "existing G06 path invariants; cyclic calibration is excluded",
+      "expected_failure": null,
+      "execution_tier": "T2",
+      "provenance": "qualification/0_2_6/g06_depth_evidence.json"
+    },
+    {
+      "case_id": "027-WP11-J2-ENERGY-001",
+      "requirement_id": "027-REQ-012",
+      "capability_refs": [
+        "MAT-J2-SMALL"
+      ],
+      "element_families": [
+        "TET4",
+        "TET10",
+        "HEX8",
+        "HEX20"
+      ],
+      "analysis": "nonlinear_static",
+      "material_route": "external_internal_work_energy_balance",
+      "oracle_type": "INTERNAL_INVARIANT",
+      "observables": [
+        "external_work",
+        "elastic_energy",
+        "plastic_dissipation",
+        "balance_error"
+      ],
+      "tolerance": "existing G06 energy diagnostic; Owner acceptance band remains unchanged",
+      "expected_failure": null,
+      "execution_tier": "T2",
+      "provenance": "qualification/0_2_6/g06_depth_evidence.json"
+    },
+    {
+      "case_id": "027-WP11-J2-ROLLBACK-001",
+      "requirement_id": "027-REQ-012",
+      "capability_refs": [
+        "MAT-J2-SMALL",
+        "INF-DIAGNOSTICS-FAILURES"
+      ],
+      "element_families": [
+        "TET4",
+        "TET10",
+        "HEX8",
+        "HEX20"
+      ],
+      "analysis": "nonlinear_static",
+      "material_route": "rejected_increment_cutback_retry",
+      "oracle_type": "FAILURE_EXPECTATION_AND_INTERNAL_INVARIANT",
+      "observables": [
+        "rejected_increments",
+        "state_digest",
+        "retry_displacement",
+        "final_state"
+      ],
+      "tolerance": "state digest equality; no new final-state equivalence band",
+      "expected_failure": "one controlled rejection per family",
+      "execution_tier": "T2",
+      "provenance": "qualification/0_2_6/g06_depth_evidence.json"
+    },
+    {
+      "case_id": "027-WP11-J2-INCREMENT-001",
+      "requirement_id": "027-REQ-012",
+      "capability_refs": [
+        "MAT-J2-SMALL"
+      ],
+      "element_families": [
+        "TET4",
+        "TET10",
+        "HEX8",
+        "HEX20"
+      ],
+      "analysis": "nonlinear_static",
+      "material_route": "monotonic_increment_partition_characterization",
+      "oracle_type": "INTERNAL_INVARIANT",
+      "observables": [
+        "final_displacement",
+        "equivalent_plastic_strain",
+        "external_work",
+        "residual"
+      ],
+      "tolerance": "NO_NEW_UNIVERSAL_THRESHOLD; report family-specific sensitivity",
+      "expected_failure": "coarse difficult paths may be non-convergent",
+      "execution_tier": "T2",
+      "provenance": "existing G06 policy plus WP11 controlled characterization"
+    },
+    {
+      "case_id": "027-WP11-J2-NEWTON-001",
+      "requirement_id": "027-REQ-012",
+      "capability_refs": [
+        "ANA-NONLINEAR-LOAD",
+        "MAT-J2-SMALL"
+      ],
+      "element_families": [
+        "TET4",
+        "TET10",
+        "HEX8",
+        "HEX20"
+      ],
+      "analysis": "nonlinear_static",
+      "material_route": "full_newton_vs_modified_newton",
+      "oracle_type": "FAILURE_EXPECTATION_AND_INTERNAL_INVARIANT",
+      "observables": [
+        "convergence",
+        "iterations",
+        "residual_history"
+      ],
+      "tolerance": "existing solver convergence policy; no monotone-rate claim",
+      "expected_failure": "modified Newton non-convergence is explicit characterization",
+      "execution_tier": "T2",
+      "provenance": "existing robustness Newton rate study"
+    },
+    {
+      "case_id": "027-WP11-J2-EXTERNAL-001",
+      "requirement_id": "027-REQ-012",
+      "capability_refs": [
+        "MAT-J2-SMALL",
+        "INF-EXTERNAL-CORRELATION"
+      ],
+      "element_families": [
+        "TET4",
+        "TET10",
+        "HEX8",
+        "HEX20"
+      ],
+      "analysis": "nonlinear_static",
+      "material_route": "reused_Code_Aster_constitutive_correlation",
+      "oracle_type": "EXTERNAL_SOLVER",
+      "observables": [
+        "displacement",
+        "reaction",
+        "stress"
+      ],
+      "tolerance": "pre-existing G06 bounded external policy",
+      "expected_failure": null,
+      "execution_tier": "T2",
+      "provenance": "qualification/0_2_6/g06_depth_evidence.json"
+    }
+  ]
+}
