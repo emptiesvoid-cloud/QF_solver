@@ -85,11 +85,11 @@
     }
   ],
   "artifact_validation": {
-    "build_source": "isolated clean Git archive with the F5 packaging correction applied; no repository import used",
+    "build_source": "isolated clean Git archive at committed packaging state 456fdf3; no repository import used",
     "wheel": {
       "filename": "qf_solver-0.2.7a0-py3-none-any.whl",
       "size_bytes": 1344679,
-      "sha256": "be9805123c037ce91176c4974fa0f8605df40d88acc4e4b2419530f1540cf9d4",
+      "sha256": "ff6416e9e9534642cfe46bf3f27057825555374bcdd2f77ece3a3a4294c562a0",
       "twine_check": "PASS",
       "distribution_policy_check": "PASS",
       "metadata": "Name qf-solver, Version 0.2.7a0, Requires-Python >=3.10",
@@ -97,8 +97,8 @@
     },
     "sdist": {
       "filename": "qf_solver-0.2.7a0.tar.gz",
-      "size_bytes": 997208,
-      "sha256": "b694b571a473d2c46e33e00a00cb30b2f58fd283cbb5e187b36080aec34d0db0",
+      "size_bytes": 996957,
+      "sha256": "04b7dd95f530b0ea353d676e3278198086e54e98b15f10d9577a93e1491e090e",
       "twine_check": "PASS",
       "distribution_policy_check": "PASS",
       "runtime_resources": "PASS"
