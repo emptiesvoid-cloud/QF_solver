@@ -2,8 +2,10 @@
 
 ## Supported Versions
 
-Security and correctness fixes are applied to the current development branch.
-Released versions will be listed here once public versioning starts.
+0.2.7 = supported
+older releases = not actively supported
+
+Support is provided on a best-effort basis.
 
 ## Reporting
 
