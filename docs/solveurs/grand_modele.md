@@ -45,3 +45,23 @@ python -m pip install "qf-solver[large]"
 PETSc and MPI availability is environment-dependent. When unavailable, the
 standard package remains importable and the large route must fail with an
 explicit controlled diagnostic.
+
+## Engineering documentation contract
+
+The large-model documentation records the geometry and degrees of freedom
+(DDL), the mathematical formulation, integration algorithm, executable
+example, mesh, loading and boundary conditions, result tables, deformed
+figures, invariants, convergence, limits and references. The owner review
+record remains separate from this technical description.
+
+Pour le contrat documentaire, cette page couvre aussi la geometrie et les DDL,
+la formulation mathematique, l'integration et l'algorithme, l'exemple executable,
+le maillage, le chargement et les conditions limites, le tableau de resultats,
+la figure de deformee, les invariants, la convergence, les limites et les
+references.
+
+The maintained example can be checked with:
+
+```powershell
+python .\qf_solver.py verify --quick
+```
