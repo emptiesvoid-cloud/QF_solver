@@ -1,30 +1,36 @@
 ---
 doc_id: DOC-VV-000
-revision: 0.1
-status: draft controle
-applicable_version: 0.2.5a0
+revision: 1.0
+status: controlled
+applicable_version: 0.2.7
 reviewer: ""
 approver: ""
 ---
 
-# Regles d'acceptation d'un calcul
+# Verification and evidence
 
-Un calcul est acceptable dans son perimetre seulement si les cinq niveaux
-suivants sont satisfaits:
+The active 0.2.7 public evidence summary is the canonical entry point:
+[verification/0_2_7/README.md](0_2_7/README.md).
 
-1. entree conforme au schema et unites explicites;
-2. maillage et conditions limites mecaniquement coherents;
-3. solveur converge avec residu fini sous le seuil;
-4. equilibre, energie et invariants compatibles;
-5. capacite couverte par une preuve et une maturite adaptee a l'usage.
+Detailed work-package, gate and audit records are retained as traceability
+records, not as user-facing product status.
 
-`PASS` signifie que les criteres programmes passent. `WARNING` impose une
-decision justifiee. `FAIL` interdit l'acceptation. Le profil `qualification`
-refuse en plus les fonctions experimentales et les preuves orphelines.
+## Acceptance rules for a calculation
 
-Pour le candidat `0.2.5a0`, la campagne de regression de reference est
-documentee avec `1719` tests passes et `0` echec, une couverture de `88.37 %`
-et `64/64` controles externes passes. Ces chiffres s'appliquent au scope
-qualifie borne; ils ne constituent pas une validation physique generale.
+A calculation is acceptable within its declared scope when:
+
+1. the input follows the schema and units are explicit;
+2. the mesh and boundary conditions are mechanically coherent;
+3. the solver converges with a finite residual under the configured threshold;
+4. equilibrium, energy and other invariants are compatible;
+5. the capability is covered by evidence and an appropriate maturity boundary.
+
+PASS means the programmed criteria pass. WARNING requires a documented
+decision. FAIL prevents acceptance. The qualification profile additionally
+rejects experimental routes and orphaned evidence.
+
+The active release evidence is bounded by the declared element, analysis,
+material, mesh, loading and solver scope. Historical campaign counts remain in
+their original records and are not current release metrics.
 
 --8<-- "docs/generated/qualification_status.md"

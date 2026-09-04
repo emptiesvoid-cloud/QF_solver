@@ -1,56 +1,41 @@
 ---
 doc_id: DOC-STATE-002
-revision: 0.4
-status: draft
-applicable_version: 0.2.5a0
+revision: 1.0
+status: controlled
+applicable_version: 0.2.7
 reviewer: ""
 approver: ""
 ---
 
-# Capacites et maturite
+# Capabilities and maturity
 
-Cette page resume la maturite observable dans le depot. Elle ne remplace pas
-les matrices V&V de chaque release. `QUALIFIED / BOUNDED` signifie que les
-preuves et les gates sont fermees dans une enveloppe explicitement limitee ;
-cela ne constitue pas une qualification generale.
+This page summarizes the active public scope of QF Solver 0.2.7. A maturity
+label applies to the declared combination, not to every possible use of an
+element or analysis.
 
-## Release 0.2.5a0
-
-| Statut | Capacite | Enveloppe de preuve |
+| Scope | Maturity | Qualification boundary |
 | --- | --- | --- |
-| `QUALIFIED / BOUNDED` | J2 small-strain | TET4, TET10, HEX8 et HEX20 ; chemins et correlation Code_Aster documentes |
-| `QUALIFIED / BOUNDED` | Elasticite Total-Lagrangian | TET4 et HEX8, domaine pre-limite avec `det(F) > 0` |
-| `QUALIFIED / BOUNDED` | Flambement lineaire sparse | Premier seuil d'instabilite tangentielle, evidence Euler et correlation TET4 bornee |
-| `QUALIFIED / BOUNDED` | Contact sans frottement | Noeud/patch vers surface triangulee, recherche et transitions dans le contrat G05 |
-| `QUALIFIED / BOUNDED` | Performance | Caracterisation reproductible des chemins mesures, sans claim HPC general |
-| `QUALIFIED / BOUNDED` | Modes d'echec | Diagnostics structures et transactions d'etat pour la matrice G09 |
-| `EXPERIMENTAL / NOT QUALIFIED` | Arc-length FEM complet | Branche et point limite observes, mais pas de claim qualifie 0.2.5a0 |
-| `EXPERIMENTAL / NOT QUALIFIED` | J2 finite-kinematic | Implementation de recherche, formulation et correlation externe non qualifiees |
-| `EXPERIMENTAL / NOT QUALIFIED` | Couplages non lineaires | J2 + geometrie, geometrie + contact et couplage triple hors claims qualifies |
-| `NOT IN RELEASE SCOPE` | Contact avec frottement | G07 non promue dans cette release |
+| TET4/TET10/HEX8/HEX20 linear static | `QUALIFIED_BOUNDED` | Recorded elastic materials, meshes, loads and solver routes. |
+| TET4/TET10/HEX8/HEX20 small-strain J2 | `QUALIFIED_BOUNDED` | Homogeneous constitutive cases in the active evidence matrix. |
+| Modal, Newmark and harmonic | `SUPPORTED_WITH_LIMITATIONS` | Controlled linear cases; mass, damping and element coverage remain route-specific. |
+| Linear buckling | `SUPPORTED_WITH_LIMITATIONS` | Bounded sparse first-factor cases. |
+| Frictionless contact | `SUPPORTED_WITH_LIMITATIONS` | Bounded node-to-triangle contact cases only. |
+| WEDGE6 static | `EXPERIMENTAL` | Small-strain elastic vertical-slice workflow. |
+| WEDGE6 modal | `QUALIFIED_BOUNDED` | First three modes, homogeneous isotropic consistent-mass scope. |
+| Large-model PETSc/MPI | `SUPPORTED_WITH_LIMITATIONS` | Structured TET4 workloads on recorded configurations. |
 
-## Autres capacites documentees
+## Evidence vocabulary
 
-| Capacite | Maturite | Restriction principale |
-| --- | --- | --- |
-| TET4/TET10 lineaires | `stable_after_reinforced_tests` | Domaine de maillage et de chargement documente |
-| HEX8/HEX20 lineaires | `accepted_for_release_0_2_3` | Scope 0.2.3a0, sans promotion stable generale |
-| MITC3+/MITC4 | `engineering_internal_validated` ou `with_recommendations` | Voir les pages element et les revues Owner |
-| BEAM2 et entites discretes | `experimental` ou scope borne | Assemblages et domaines dynamiques avances ouverts |
-| Grands modeles PETSc/MPI | `experimental` | Environnement et tailles qualifies separement |
-| Import Gmsh MSH 4.1 | `stable_after_reinforced_tests` | Familles et groupes physiques supportes explicitement |
+- `IMPLEMENTED`: code exists.
+- `TESTED`: an automated or controlled case was executed.
+- `VERIFIED`: an invariant, analytical result or quantitative comparison was
+  checked.
+- `EXTERNALLY_VALIDATED`: a comparable external reference was used.
+- `QUALIFIED`: evidence satisfies a declared qualification gate.
+- `EXPERIMENTAL`: the route is usable for bounded exploration but is not a
+  general qualified capability.
 
-Les gates, exigences et preuves faisant foi pour 0.2.5a0 sont dans le
-[pack de qualification](../verification/0_2_5/README.md). Le registre
-machine-readable reste la source d'autorite pour les scopes individuels.
-
-## Vocabulaire
-
-- `QUALIFIED / BOUNDED` : exigences obligatoires fermees dans un domaine borne.
-- `EXPERIMENTAL / NOT QUALIFIED` : code ou essais disponibles, preuve de
-  release insuffisante pour une revendication qualifiee.
-- `RESEARCH` : voie exploratoire sans domaine d'emploi qualifie.
-- `NOT IN RELEASE SCOPE` : explicitement exclu de la release.
-
-Une comparaison avec un solveur externe est une correlation numerique. Elle ne
-constitue pas, a elle seule, une validation physique.
+The machine-readable source of truth is
+[`qualification/0_2_7/capability_registry_v2.json`](../../qualification/0_2_7/capability_registry_v2.json).
+The readable combination matrix is
+[`0.2.7 capability matrix`](../verification/0_2_7/0_2_7_capability_matrix.md).

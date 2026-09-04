@@ -11,8 +11,8 @@
     {
       "id": "DOC-STATE-001",
       "path": "index.md",
-      "title": "Tableau de bord du solveur EF",
-      "status": "draft",
+      "title": "QF Solver 0.2.7",
+      "status": "controlled",
       "requirements": [
         "REQ-AUD-001",
         "REQ-CMP-001"
@@ -45,8 +45,8 @@
     {
       "id": "DOC-STATE-002",
       "path": "etat/capacites.md",
-      "title": "Capacites et maturite",
-      "status": "draft",
+      "title": "Capabilities and maturity",
+      "status": "controlled",
       "requirements": [
         "REQ-CMP-001",
         "REQ-REL-001"
@@ -57,8 +57,8 @@
     {
       "id": "DOC-STATE-003",
       "path": "etat/limites.md",
-      "title": "Limites connues",
-      "status": "draft",
+      "title": "Known limitations",
+      "status": "controlled",
       "requirements": [
         "REQ-CMP-002",
         "REQ-REL-001"
@@ -69,8 +69,8 @@
     {
       "id": "DOC-START-001",
       "path": "demarrage/installation.md",
-      "title": "Installation locale",
-      "status": "draft",
+      "title": "Installation pointer",
+      "status": "superseded",
       "requirements": [
         "REQ-REL-001"
       ],
@@ -82,8 +82,8 @@
     {
       "id": "DOC-START-002",
       "path": "demarrage/premier_calcul.md",
-      "title": "Premier calcul controle",
-      "status": "draft",
+      "title": "Quickstart pointer",
+      "status": "superseded",
       "requirements": [
         "REQ-IO-001",
         "REQ-MESH-001",
@@ -359,8 +359,8 @@
     {
       "id": "DOC-ELEM-000",
       "path": "elements/index.md",
-      "title": "Elements finis disponibles",
-      "status": "draft",
+      "title": "Elements",
+      "status": "controlled",
       "requirements": [
         "REQ-SOL-001",
         "REQ-SOL-002",
@@ -1380,8 +1380,8 @@
     {
       "id": "DOC-SOL-000",
       "path": "solveurs/index.md",
-      "title": "Carte des methodes de resolution",
-      "status": "draft",
+      "title": "Solvers and backends",
+      "status": "controlled",
       "requirements": [
         "REQ-SOL-001",
         "REQ-MOD-001",
@@ -1634,8 +1634,8 @@
     {
       "id": "DOC-LRG-001",
       "path": "solveurs/grand_modele.md",
-      "title": "Resolution des grands modeles",
-      "status": "draft",
+      "title": "Large models",
+      "status": "controlled",
       "requirements": [
         "REQ-LRG-001",
         "REQ-LRG-002",
@@ -1656,8 +1656,8 @@
     {
       "id": "DOC-DEMO-000",
       "path": "demonstrations/index.md",
-      "title": "Catalogue des demonstrations executables",
-      "status": "draft",
+      "title": "Demonstrations",
+      "status": "controlled",
       "requirements": [
         "REQ-CMP-003",
         "REQ-CMP-004",
@@ -1961,7 +1961,7 @@
       "id": "DOC-VV-000",
       "path": "verification/index.md",
       "title": "Regles d'acceptation d'un calcul",
-      "status": "draft",
+      "status": "controlled",
       "requirements": [
         "REQ-CMP-001",
         "REQ-CMP-002",
@@ -2738,7 +2738,7 @@
       "id": "DOC-REF-002",
       "path": "reference/registre_documentaire.md",
       "title": "Registre documentaire",
-      "status": "draft",
+      "status": "controlled",
       "requirements": [
         "REQ-CMP-001",
         "REQ-EVD-001"
@@ -2750,7 +2750,7 @@
       "id": "DOC-REF-006",
       "path": "reference/references.md",
       "title": "References scientifiques et numeriques",
-      "status": "draft",
+      "status": "controlled",
       "requirements": [
         "REQ-CMP-003",
         "REQ-CMP-004"
@@ -2772,8 +2772,8 @@
     {
       "id": "DOC-REF-004",
       "path": "reference/feuille_de_route.md",
-      "title": "Feuille de route",
-      "status": "draft",
+      "title": "Public roadmap",
+      "status": "controlled",
       "requirements": [
         "REQ-CMP-002",
         "REQ-REL-001"
@@ -2861,8 +2861,8 @@
     {
       "id": "DOC-LRG-002",
       "path": "grand_modele.md",
-      "title": "Mode grand modele",
-      "status": "draft",
+      "title": "Large models pointer",
+      "status": "superseded",
       "requirements": [
         "REQ-LRG-001",
         "REQ-LRG-002",
@@ -2996,8 +2996,8 @@
     {
       "id": "DOC-REF-API-002",
       "path": "reference/api_stability.md",
-      "title": "Stabilite de l'API Python",
-      "status": "draft",
+      "title": "API stability",
+      "status": "controlled",
       "requirements": [
         "REQ-REL-001"
       ],
@@ -4213,7 +4213,7 @@
       "id": "DOC-027-001",
       "path": "verification/0_2_7/README.md",
       "title": "QF Solver 0.2.7 foundation",
-      "status": "controlled_candidate",
+      "status": "controlled",
       "requirements": [],
       "examples": [],
       "tests": []
@@ -4222,7 +4222,7 @@
       "id": "DOC-027-002",
       "path": "verification/0_2_7/0_2_7_gate_matrix.md",
       "title": "0.2.7 gate matrix",
-      "status": "controlled_candidate",
+      "status": "controlled_release",
       "requirements": [],
       "examples": [],
       "tests": []
@@ -4231,7 +4231,7 @@
       "id": "DOC-027-003",
       "path": "verification/0_2_7/0_2_7_progress_tracker.md",
       "title": "0.2.7 progress tracker",
-      "status": "controlled_candidate",
+      "status": "controlled_release",
       "requirements": [],
       "examples": [],
       "tests": []
@@ -4258,7 +4258,7 @@
       "id": "DOC-027-006",
       "path": "verification/0_2_7/0_2_7_master_plan.md",
       "title": "0.2.7 master plan",
-      "status": "controlled_candidate",
+      "status": "controlled_release",
       "requirements": [],
       "examples": [],
       "tests": []
@@ -4330,7 +4330,7 @@
       "id": "DOC-027-014",
       "path": "verification/0_2_7/0_2_7_release_criteria.md",
       "title": "0.2.7 release criteria",
-      "status": "controlled_candidate",
+      "status": "controlled_release",
       "requirements": [],
       "examples": [],
       "tests": []
@@ -4954,6 +4954,60 @@
         "tests/unit/test_release_readiness.py",
         "tests/unit/test_public_release_audit.py"
       ]
+    },
+    {
+      "id": "DOC-ANALYSIS-000",
+      "path": "analyses/index.md",
+      "title": "Analyses",
+      "status": "controlled",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-EXAMPLES-000",
+      "path": "examples/index.md",
+      "title": "Examples",
+      "status": "controlled",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-START-PUB-001",
+      "path": "getting-started/installation.md",
+      "title": "Installation",
+      "status": "controlled",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-START-PUB-002",
+      "path": "getting-started/quickstart.md",
+      "title": "First calculation",
+      "status": "controlled",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-027-5M-CLOSEOUT",
+      "path": "verification/0_2_7/0_2_7_lu2_wp04_wp05_5m_closeout.md",
+      "title": "LU2 5M Bronze and Silver Closeout",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-027-STEP1",
+      "path": "verification/0_2_7/0_2_7_step1_release_freeze.md",
+      "title": "Historical 0.2.7 Step 1 release-freeze record",
+      "status": "controlled_release",
+      "requirements": [],
+      "examples": [],
+      "tests": []
     }
   ]
 }

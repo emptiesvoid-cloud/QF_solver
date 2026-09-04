@@ -1,3 +1,12 @@
+---
+doc_id: DOC-027-S3-001
+revision: 1.0
+status: controlled_evidence
+applicable_version: 0.2.7
+reviewer: ""
+approver: ""
+---
+
 # S3 Expanded Validation Matrix
 
 S3 is a zero-weight release pre-gate at the 0.2.7 HEAD. Its purpose is to consolidate high-value validation coverage before WP09 and expose gaps without changing numerical formulations or promoting maturity.

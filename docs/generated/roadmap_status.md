@@ -1,6 +1,6 @@
-| Action | Etat genere | Condition de fermeture |
+| Action | Generated state | Release boundary |
 | --- | --- | --- |
-| Revision Git de reference | disponible | commit approuve et depot propre |
-| Site engineering | genere | build strict et campagne PASS |
-| Owner review 0.2.5a0 | approuvee | publication reste une action Owner separee |
-| Scope 1M PETSc | hors scope | requalification future avec environnement controle |
+| Reference Git revision | available at build | approved commit and clean repository |
+| Engineering documentation | generated | strict build and declared checks |
+| 0.2.7 public scope | complete | bounded evidence remains explicit |
+| Large-model evidence | bounded | hardware and workload scope remains explicit |

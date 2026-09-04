@@ -3,9 +3,14 @@ doc_id: DOC-027-STEP1
 revision: 1.0
 status: controlled_release
 applicable_version: 0.2.7
+reviewer: ""
+approver: ""
 ---
 
-# QF Solver 0.2.7 Step 1 release freeze
+# Historical 0.2.7 Step 1 release-freeze record
+
+This page records the pre-stable freeze procedure. It is retained for
+traceability; the active public release summary is in [the verification index](README.md).
 
 Step 1 converts the owner-approved `0.2.7a0` candidate into the stable
 `0.2.7` release identity. The release commit and annotated tag are the single

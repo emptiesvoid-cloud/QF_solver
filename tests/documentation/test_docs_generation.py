@@ -274,6 +274,8 @@ def test_owner_reviewed_document_normalizes_to_controlled() -> None:
 
 def test_document_lifecycle_statuses_are_preserved() -> None:
     for status in (
+        "controlled_release",
+        "controlled_evidence",
         "ready_for_owner_review",
         "owner_accepted",
         "owner_accepted_experimental",
