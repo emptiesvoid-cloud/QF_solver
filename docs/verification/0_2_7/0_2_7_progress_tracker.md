@@ -334,3 +334,23 @@ their explicit environment requirements. Global qualification accounting is
 unchanged and F6 is the next audit; no maturity or numerical claim moved.
 The controlled record is
 `qualification/0_2_7/f5_packaging_compatibility_audit.json`.
+
+## F6 numerical and performance regression audit
+
+F6 starts from `f6cfde036f5866c15e688bce70be5ed21b493ff1` and closes as
+`PASS_WITH_LIMITATIONS`. The controlled regression audit retained zero P0 and
+zero P1 findings. Targeted element, solver, BC/load/material, post-processing,
+MPI/PETSc and governance checks passed. The full suite result was
+`2147 passed, 3 failed, 184 skipped, 2 warnings`; the three failures are the
+same pre-existing F4 failures in experimental or stale nonlinear paths, with
+no new skip or xfail.
+
+The active 1M, 3M and 5M replay records, bounded C3 10M record and structured
+AIJ preallocation evidence remain valid. No numerical source, tolerance,
+baseline or maturity changed. A new 5M/10M run was not required because F6
+introduced no relevant source change and this gate is a controlled regression
+audit rather than a new qualification campaign. F6 evidence is recorded in
+`qualification/0_2_7/f6_numerical_performance_regression_audit.json` and
+`docs/verification/0_2_7/0_2_7_f6_numerical_performance_regression_audit.md`.
+
+F6 is ready for the separate Owner R0 decision; R0 was not started.

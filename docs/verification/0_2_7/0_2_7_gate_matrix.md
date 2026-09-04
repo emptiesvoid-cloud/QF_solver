@@ -289,3 +289,20 @@ Linux is CI-declared rather than locally exercised, Python 3.10 is not locally
 available, Python 3.11 and macOS are unverified, and `release-vv` is a
 controlled legacy evidence tool rather than a 0.2.7 qualification result.
 No tag, publication, numerical change or maturity promotion occurred.
+
+## F6 numerical and performance regression audit
+
+F6 is `PASS_WITH_LIMITATIONS`. The controlled record is
+`qualification/0_2_7/f6_numerical_performance_regression_audit.json` and the
+review document is
+`docs/verification/0_2_7/0_2_7_f6_numerical_performance_regression_audit.md`.
+The current release candidate retains zero P0 and zero P1 regression findings.
+Targeted numerical, route, MPI/PETSc and performance sanity checks passed.
+The full suite result is `2147 passed, 3 failed, 184 skipped, 2 warnings`;
+the three failures reproduce F4 and remain outside the officially supported
+bounded release matrix.
+
+The active 1M, 3M and 5M replay evidence and bounded C3 10M record remain
+applicable. No numerical source, tolerance, active baseline or maturity
+changed, so no heavy replay was required. F6 is a technical pre-R0 gate only;
+it makes no publication or release decision and does not start R0.
