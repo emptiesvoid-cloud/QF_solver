@@ -19,9 +19,6 @@ documents.
 The 0.2.7 qualification is complete for its declared, bounded scope. The
 evidence supports the following summary:
 
-The active state is complete; historical pre-closure views may retain `46/50`
-or `96/100` and must be read as historical rather than current status.
-
 | Area | Public conclusion |
 | --- | --- |
 | Solid elements | TET4, TET10, HEX8 and HEX20 have bounded recorded routes. |
@@ -38,13 +35,13 @@ general physical validation.
 ## Evidence navigation
 
 - [Capability matrix](0_2_7_capability_matrix.md)
-- [1M qualification](0_2_7_wp16_1m_qualification.md)
-- [3M ladder](0_2_7_wp18_3m_ladder.md)
-- [5M Bronze and Silver](0_2_7_lu2_wp04_wp05_5m_closeout.md)
+- [Large-model evidence](#internal-qualification-traceability)
+- [Qualification campaign records](#internal-qualification-traceability)
+- [Release audit records](#internal-qualification-traceability)
 - [WEDGE6 static boundary](0_2_7_wedge6_static_vertical_slice.md)
 - [WEDGE6 modal boundary](0_2_7_wedge6_modal.md)
 - [S3 expanded validation](0_2_7_s3_expanded_validation.md)
-- [WP09 robustness and external V&V](0_2_7_wedge6_robustness_external_vnv.md)
+- [WEDGE6 robustness and external V&V](0_2_7_wedge6_robustness_external_vnv.md)
 
 Machine-readable records are indexed by
 [`qualification/0_2_7/manifest.json`](../../../qualification/0_2_7/manifest.json),
@@ -64,6 +61,9 @@ and [`release_truth.json`](../../../qualification/0_2_7/release_truth.json).
   Python versions and operating systems are not claimed as verified.
 
 ## Internal qualification traceability
+
+Historical pre-closure views may retain `46/50` or `96/100`; these scores are
+preserved for traceability and do not override the active conclusion above.
 
 The detailed work-package, gate and audit records are retained for provenance.
 They are implementation and governance history, not user-facing capability

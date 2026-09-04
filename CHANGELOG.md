@@ -3,7 +3,7 @@
 ## 0.2.7 - 2026-09-04
 
 QF Solver 0.2.7 freezes the reproducible large-model solving and numerical
-trust work from Level-Up 1 and LU2. The release includes the matured TET/HEX
+trust work from the 0.2.7 qualification campaign. The release includes the matured TET/HEX
 routes and bounded J2 small-strain evidence, while WEDGE6 static remains
 experimental and WEDGE6 modal remains qualified only in its declared bounded
 scope. Static/modal routes, MPI collective ordering, structured PETSc MPIAIJ
@@ -16,8 +16,8 @@ TET4/PETSc/MPI workloads. The 10M C3 result is retained as bounded
 `PASS_WITH_LIMITATIONS` evidence; no universal performance, hardware,
 nonlinear, mixed-mesh or GPU claim is implied.
 
-Validation includes the S3 matrix, WP09, bounded Code_Aster comparisons and
-the F1-F6 release audits. CalculiX remains `NOT_COMPARABLE` for the affected
+Validation includes expanded validation, bounded Code_Aster comparisons and
+architecture, testing, packaging and numerical regression audits. CalculiX remains `NOT_COMPARABLE` for the affected
 WEDGE6 comparison. Wheel/sdist, clean-install, API and CLI checks passed.
 
 Known limitations include deferred 5M Gold and deeper 10M scaling analysis,

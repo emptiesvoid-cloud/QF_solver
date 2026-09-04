@@ -40,6 +40,6 @@ surface.
 ## Before a production decision
 
 Confirm that the element, analysis, material, loading, boundary conditions and
-solver backend all fall within the [published capability matrix](../elements/index.md).
+solver backend all fall within the [published capability matrix](../verification/0_2_7/0_2_7_capability_matrix.md).
 Read the [known limitations](../etat/limites.md) and retain the input,
 configuration and result files with the calculation record.
