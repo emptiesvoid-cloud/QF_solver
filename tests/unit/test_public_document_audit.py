@@ -16,7 +16,7 @@ def test_public_document_audit_passes_without_web_delivery_or_internal_paths() -
     report = public_document_audit()
 
     assert report["status"] == "PASS"
-    assert report["release"]["version"] == "0.2.7a0"
+    assert report["release"]["version"] == "0.2.7"
     assert report["classification"]["public_generated_documentation"]["count"] > 0
     assert report["classification"]["internal"]["tracked_count"] == 0
     assert all(check["status"] == "PASS" for check in report["checks"])

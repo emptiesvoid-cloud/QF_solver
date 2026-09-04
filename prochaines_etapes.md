@@ -1,16 +1,14 @@
 # Prochaines etapes du solveur EF
 
-## Priorite courante: 0.2.7a0
+## Priorite courante: 0.2.7
 
-La priorite courante est le Level-Up 2 de `0.2.7a0`, consacre a la resolution
-reproductible de grands modeles et a la maturite des solveurs. Le pack
-controle, ses neuf work packages LU2 et leurs criteres STOP/GO sont dans
+La release stable `0.2.7` est complete a `100/100`. Le Level-Up 2 de
+`0.2.7` a ferme ses neuf work packages LU2 et ses criteres STOP/GO sont dans
 [`docs/verification/0_2_7/README.md`](docs/verification/0_2_7/README.md).
-LU2-WP01-WP03 sont termines; LU2-WP08 est termine avec
-`PASS_WITH_LIMITATIONS`; LU2-WP04 reste
-`USER_INTERRUPTED_INCONCLUSIVE` et son retry supervise est la prochaine
-action operationnelle. Aucun WEDGE15, PYRAMID5, mixed-mesh framework ou
-formulation HEX8 de nouvelle generation n'est active.
+La verification CI du commit candidat courant est la prochaine action de
+release; elle ne modifie ni le tag `v0.2.7` ni les preuves numeriques.
+Aucun WEDGE15, PYRAMID5, mixed-mesh framework ou formulation HEX8 de nouvelle
+generation n'est active.
 
 Les sections ci-dessous sont conservees comme historique de planification et
 ne definissent pas la priorite courante.

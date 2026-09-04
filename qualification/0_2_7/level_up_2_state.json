@@ -11,7 +11,7 @@
   "wp01_source_sha": "e1703b5bc00e9cf2eb92e7e346783c9764201808",
   "branch": "codex/0.2.7-foundation",
   "pre_lu2_qualified_baseline": "8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3",
-  "current_work_package": "STEP2B",
+  "current_work_package": "STEP2D",
   "next_work_package": "STEP3",
   "s3_release_pre_gate": {
     "status": "PASS_WITH_LIMITATIONS",

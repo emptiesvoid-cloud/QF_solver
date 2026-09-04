@@ -15,6 +15,7 @@ BASELINE_SHA = "8f08bfb5a6d4dedcd24966f5474e8c12cbfa5bc3"
 WP01_SOURCE_SHA = "e1703b5bc00e9cf2eb92e7e346783c9764201808"
 WP02_SOURCE_SHA = "3cb817c9391ef7998c5950d3071c8d9ce1be5dd8"
 WP03_SOURCE_SHA = "0a6b573485cb39d07b5e179aecd654af41bbc8e7"
+CURRENT_METADATA_SHA = "dec201ff50fdb9dfa848c1af3101e733659b6546"
 EXECUTION_SOURCE_SHA = "04b07e00ddfe0b339b5790493a607ec902b1ed80"
 
 
@@ -86,7 +87,7 @@ def test_lu2_state_index_and_existing_lu1_are_consistent() -> None:
     assert state["status"] == "CLOSED"
     assert state["source_sha"] == EXECUTION_SOURCE_SHA
     assert state["wp01_source_sha"] == WP01_SOURCE_SHA
-    assert state["current_work_package"] == "STEP2B"
+    assert state["current_work_package"] == "STEP2D"
     assert state["global_accounting"] == {
         "level_up_1": "50/50 CLOSED",
         "level_up_2": "50/50 CLOSED",
@@ -132,9 +133,9 @@ def test_current_governance_consumers_point_to_lu2_and_keep_baseline_roles() -> 
     gates = _load(QUALIFICATION / "gates.json")
     requirements = _load(QUALIFICATION / "requirements.json")
 
-    assert manifest["current_development_head"] == WP03_SOURCE_SHA
+    assert manifest["current_development_head"] == CURRENT_METADATA_SHA
     assert manifest["level_up_2_scope"]["status"] == "CLOSED"
-    assert manifest["level_up_2_scope"]["current_work_package"] == "STEP2B"
+    assert manifest["level_up_2_scope"]["current_work_package"] == "STEP2D"
     assert manifest["level_up_2_scope"]["level_up_2_acquired_percent"] == 50
     assert manifest["level_up_2_scope"]["current_global_progress_percent"] == 100
     assert manifest["level_up_2_scope"]["wp08_status"] == "PASS_WITH_LIMITATIONS"
@@ -158,7 +159,8 @@ def test_current_governance_consumers_point_to_lu2_and_keep_baseline_roles() -> 
         )
     )
 
-    assert progress["current_work_package"] == "STEP2B"
+    assert progress["current_work_package"] == "STEP2D"
+    assert progress["current_release_audit"] == "STEP2D_CI_READINESS"
     assert progress["global_accounting"]["current_global_progress_percent"] == 100
     assert progress["level_up_2"]["status"] == "CLOSED"
     assert progress["level_up_2"]["wp02_status"] == "PASS_WITH_LIMITATIONS"
@@ -169,8 +171,11 @@ def test_current_governance_consumers_point_to_lu2_and_keep_baseline_roles() -> 
     assert progress["level_up_2"]["wp06_status"] == "PASS_WITH_LIMITATIONS"
     assert progress["level_up_2"]["wp08_status"] == "PASS_WITH_LIMITATIONS"
     assert progress["level_up_2"]["c1_matrix_free_triggered"] is False
-    assert release_truth["current_development_head"]["sha"] == WP03_SOURCE_SHA
-    assert release_truth["level_up_2"]["status"] == "OPEN"
+    assert release_truth["current_development_head"]["sha"] == CURRENT_METADATA_SHA
+    assert release_truth["target_027"]["version"] == "0.2.7"
+    assert release_truth["target_027"]["tag"] == "v0.2.7"
+    assert release_truth["level_up_2"]["status"] == "CLOSED"
+    assert release_truth["level_up_2"]["current_global_progress_percent"] == 100
     assert release_truth["level_up_2"]["wp04_status"] == "PASS"
     assert release_truth["level_up_2"]["wp05_status"] == "PASS"
     assert release_truth["level_up_2"]["wp08_status"] == "PASS_WITH_LIMITATIONS"
