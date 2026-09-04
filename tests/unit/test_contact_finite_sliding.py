@@ -8,6 +8,7 @@ import pytest
 from solveur.contact.entities import FrictionlessContact
 from solveur.contact.solver import assemble_penalty_contact
 from solveur.api import solve_model
+from solveur.compatibility.preflight import CompatibilityError
 from solveur.core.errors import InputValidationError
 from solveur.io.json_reader import JsonModelReader
 from solveur.io.model_writer import model_to_dict
@@ -108,7 +109,7 @@ def test_finite_sliding_benchmark_records_bounded_face_crossing() -> None:
     assert all(row["active_contacts"] == [0] for row in result["rows"])
 
 
-def test_finite_sliding_diagnostics_reach_common_newton_result() -> None:
+def test_public_finite_sliding_route_fails_closed_until_qualified() -> None:
     model = JsonModelReader().from_dict(
         {
             "analysis": {
@@ -148,15 +149,8 @@ def test_finite_sliding_diagnostics_reach_common_newton_result() -> None:
         }
     )
 
-    result = solve_model(model, enforce_policy=False)
-    step = result.to_dict()["solver"]["steps"][-1]
-
-    assert result.status == "PASS"
-    assert step["contact_finite_sliding"] is True
-    assert step["contact_projection_clamped"] == [True]
-    assert step["contact_master_face_indices"] == [0]
-    assert step["contact_closest_distances"][0] > 0.0
-    assert step["contact_projection_modes"] == ["bounded_closest_point_node_to_triangle"]
+    with pytest.raises(CompatibilityError, match="ANALYSIS_NOT_SUPPORTED"):
+        solve_model(model, enforce_policy=False)
 
 
 def test_surface_patch_is_backward_compatible_and_sparse() -> None:

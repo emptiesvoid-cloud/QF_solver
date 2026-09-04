@@ -219,9 +219,13 @@ def _run_once(
     try:
         result = solve_model(model, enforce_policy=False)
     except Exception as error:  # benchmark evidence must record failures, not hide them
+        reason = getattr(error, "reason", None)
+        if reason is None:
+            reason = getattr(getattr(error, "result", None), "reason", None)
+        reason = getattr(reason, "value", reason)
         failure = {
             "type": type(error).__name__,
-            "reason": getattr(getattr(error, "reason", None), "value", getattr(error, "reason", None)),
+            "reason": reason,
             "diagnostics": dict(getattr(error, "diagnostics", {})),
         }
     finally:

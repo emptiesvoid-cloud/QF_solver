@@ -188,6 +188,11 @@ def test_nonlinear_benchmark_paths_execute_bounded_profiles(path: str) -> None:
 
     sample = report["samples"][0]
     assert sample["path"] == path
+    if path == "finite_sliding":
+        assert sample["status"] == "FAIL"
+        assert sample["failure"]["type"] == "CompatibilityError"
+        assert sample["failure"]["reason"] == "ANALYSIS_NOT_SUPPORTED"
+        return
     assert sample["status"] == "PASS"
     assert sample["dof_count"] is not None
     assert sample["failure"] is None
@@ -199,7 +204,3 @@ def test_nonlinear_benchmark_paths_execute_bounded_profiles(path: str) -> None:
     elif path != "finite_sliding":
         assert sample["element_kernel_seconds"] > 0.0
         assert sample["sparse_conversion_seconds"] >= 0.0
-    if path == "finite_sliding":
-        assert sample["finite_sliding_steps"] == 1
-        assert sample["projection_clamped_count"] == 1
-        assert sample["projection_modes"] == ["bounded_closest_point_node_to_triangle"]
