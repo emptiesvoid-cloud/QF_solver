@@ -521,3 +521,26 @@ routes and deferred candidates remain outside qualified claims. WP06, WP19
 and WP20 evidence was reused, no new external case was run, and no maturity
 promotion or demotion was made. LU2 progress is now `32/50` and `82/100`
 globally. The LU2-WP04 supervised retry remains unchanged.
+
+## F5 packaging and compatibility audit
+
+Date: 2026-09-04. Audit start SHA:
+`124c61f6492eee351a34e3542d198a13c00c2874`.
+
+Owner decision recorded by the controlled F5 audit is
+`PASS_WITH_LIMITATIONS`. The candidate `0.2.7a0` wheel and sdist build and
+install cleanly in the directly verified Windows Python 3.12/3.13
+environments, and the public API, CLI and runtime resources work from outside
+the source tree. The audit found and fixed one P1: two qualification matrices
+required by the public `release-vv` entry point were omitted from the sdist
+manifest and wheel data files. No numerical source, historical evidence or
+maturity was changed.
+
+This decision is bounded. Linux is covered by the existing CI matrix but was
+not locally artifact-tested; Python 3.10 is CI-covered, Python 3.11 and macOS
+were not directly verified; optional PETSc/MPI/HDF5 routes still require their
+declared environments. The installed `release-vv` command returns a controlled
+report/status for its bundled legacy 0.2.1 context and this is not a 0.2.7
+release qualification claim. Tagging, publication and F6 remain separate
+Owner actions. The controlled record is
+`qualification/0_2_7/f5_packaging_compatibility_audit.json`.

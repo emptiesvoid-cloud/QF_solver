@@ -95,6 +95,10 @@ def test_runtime_distribution_excludes_repository_only_trees():
     data = tomllib.loads((PROJECT_ROOT / "pyproject.toml").read_text(encoding="utf-8"))
     data_files = data["tool"]["setuptools"]["data-files"]
     assert set(data_files) == {"examples", "qualification", "qualification/0_2_7", "requirements"}
+    assert {
+        "qualification/element_analysis_matrix.json",
+        "qualification/technical_content_coverage.json",
+    } <= set(data_files["qualification"])
     serialized = repr(data_files)
     assert "tests/" not in serialized
     assert "docs/" not in serialized

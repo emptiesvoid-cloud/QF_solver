@@ -35,10 +35,13 @@ release-truth cleanup; WP22 remains `PLANNED` for final Owner release action.
 
 F4 is `PASS_WITH_LIMITATIONS`: the unit-test quality audit found no P0/P1
 release blocker, strengthened critical negative-test exception contracts and
-added guards for bounded maturity, evidence and skip policy. F5 has not
-started; the complete-suite audit retains three visible experimental/stale
-nonlinear failures without masking them. No numerical source, historical
-evidence or maturity was changed.
+added guards for bounded maturity, evidence and skip policy. F5 is now
+`PASS_WITH_LIMITATIONS`: clean wheel and sdist installs, public API/CLI smoke
+tests and runtime resource checks pass on the directly verified Windows
+environments; one packaging P1 was fixed. Python 3.10/3.13 Linux/Windows are
+CI-declared, while Python 3.11, macOS and optional external runtimes remain
+bounded limitations. No numerical source, historical evidence or maturity
+was changed.
 
 The historical Level-Up 1 machine-readable source is
 `qualification/0_2_7/level_up_plan.json`. WP16's 1M-DOF requirement is
@@ -261,5 +264,8 @@ capability was added.
 
 For the active claim audit, see
 [`qualification/0_2_7/f3_public_claim_audit.json`](../../../qualification/0_2_7/f3_public_claim_audit.json).
+For the packaging/install audit, see
+[`qualification/0_2_7/f5_packaging_compatibility_audit.json`](../../../qualification/0_2_7/f5_packaging_compatibility_audit.json)
+and [`0_2_7_f5_packaging_compatibility_audit.md`](0_2_7_f5_packaging_compatibility_audit.md).
 Runtime state and evidence heads take precedence over preserved historical
 snapshots in this directory.

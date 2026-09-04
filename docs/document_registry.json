@@ -4906,6 +4906,22 @@
         "tests/unit/test_f2_bug_hunt.py",
         "tests/unit/test_f3_public_claims.py"
       ]
+    },
+    {
+      "id": "DOC-027-F5-PACKAGE-001",
+      "path": "verification/0_2_7/0_2_7_f5_packaging_compatibility_audit.md",
+      "title": "0.2.7 F5 packaging and compatibility audit",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_7/f5_packaging_compatibility_audit.json",
+        "tests/unit/test_f5_packaging_compatibility.py"
+      ],
+      "tests": [
+        "tests/unit/test_f5_packaging_compatibility.py",
+        "tests/integration/test_packaging.py",
+        "tests/integration/test_api_and_cli.py"
+      ]
     }
   ]
 }
