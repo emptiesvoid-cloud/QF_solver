@@ -4938,6 +4938,22 @@
         "tests/unit/test_f4_unit_test_quality.py",
         "tests/unit/test_f5_packaging_compatibility.py"
       ]
+    },
+    {
+      "id": "DOC-027-R0-RELEASE-001",
+      "path": "verification/0_2_7/0_2_7_r0_release_readiness.md",
+      "title": "0.2.7 R0 release readiness",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_7/r0_release_readiness.json",
+        "tests/unit/test_r0_release_readiness.py"
+      ],
+      "tests": [
+        "tests/unit/test_r0_release_readiness.py",
+        "tests/unit/test_release_readiness.py",
+        "tests/unit/test_public_release_audit.py"
+      ]
     }
   ]
 }

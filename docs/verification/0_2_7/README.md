@@ -292,3 +292,24 @@ with the review view in
 F6 is technically ready for the separate Owner R0 decision. It does not
 start R0, publish artifacts, promote maturity or broaden any performance
 claim beyond the recorded workload and environment.
+
+## R0 release readiness
+
+R0 closes as `PASS_WITH_LIMITATIONS` at the current candidate source. The
+release worktree initially contained one unrelated modification to the old
+0.2.1 hygiene report. It was classified as `FOREIGN_CHANGE` and preserved in
+targeted stash `a9e64d5e03ebadfcd1292ad3c5b04460761c10aa`; it is not part of the
+candidate. The machine-readable R0 record is
+[`qualification/0_2_7/r0_release_readiness.json`](../../../qualification/0_2_7/r0_release_readiness.json).
+
+F1-F6 are closed with their recorded `PASS` or `PASS_WITH_LIMITATIONS`
+statuses, active qualification accounting remains `96/100`, 5M Silver remains
+valid, and the C3 10M result remains bounded. The closeout battery passed
+(`138 passed, 2 skipped`), wheel and sdist checks pass, and no numerical source,
+baseline, historical evidence or maturity record changed.
+
+R0 does not create `v0.2.7a0`, publish PyPI or create a GitHub release. The
+generic publication readiness command therefore remains `NOT_READY` until the
+owner reviews the reachable-history prefilter and performs the explicit tag
+action. The candidate is ready for that Owner decision with known limitations;
+no P0/P1 release blocker remains.

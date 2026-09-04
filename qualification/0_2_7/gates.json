@@ -515,5 +515,35 @@
       "Three pre-existing F4 failures remain in experimental or stale nonlinear paths.",
       "No fresh 5M or 10M replay was required for this controlled regression audit."
     ]
+  },
+  "r0_release_readiness": {
+    "id": "R0",
+    "status": "PASS_WITH_LIMITATIONS",
+    "source_of_truth": "qualification/0_2_7/r0_release_readiness.json",
+    "document": "docs/verification/0_2_7/0_2_7_r0_release_readiness.md",
+    "targeted_test": "tests/unit/test_r0_release_readiness.py",
+    "audit_start_sha": "5323a0996f214a3203f06b5bb468843b57c25270",
+    "release_candidate_sha_policy": "Final local R0 closeout commit; exact SHA is reported outside the self-referential evidence record.",
+    "coactivity": "One unrelated 0.2.1 documentation change preserved in targeted stash a9e64d5e03ebadfcd1292ad3c5b04460761c10aa.",
+    "p0_found": 0,
+    "p1_found": 0,
+    "p0_open": 0,
+    "p1_open": 0,
+    "worktree_clean_after_isolation": true,
+    "qualification_score": "96/100",
+    "five_million_status": "PASS",
+    "ten_million_status": "PASS_WITH_LIMITATIONS",
+    "wheel_ready": true,
+    "sdist_ready": true,
+    "clean_install_ready": true,
+    "ready_for_owner_decision": true,
+    "tag_created": false,
+    "github_release_created": false,
+    "pypi_published": false,
+    "limitations": [
+      "Owner must review the reachable-history prefilter before publication.",
+      "The tag and publication actions are intentionally not performed by R0.",
+      "F1-F6 PASS_WITH_LIMITATIONS findings and the three known experimental/stale nonlinear failures remain visible."
+    ]
   }
 }

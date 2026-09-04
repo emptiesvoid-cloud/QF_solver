@@ -568,3 +568,26 @@ universal speedup or hardware-independent scaling claim is authorized. F6 is
 ready for the separate Owner R0 decision; R0, publication, tagging and push
 remain deferred. The controlled record is
 `qualification/0_2_7/f6_numerical_performance_regression_audit.json`.
+
+## R0 release readiness closeout
+
+Date: 2026-09-04. R0 starts from F6 closeout SHA
+`5323a0996f214a3203f06b5bb468843b57c25270` and records
+`PASS_WITH_LIMITATIONS`. One modification to the old 0.2.1 hygiene report was
+found during coactivity inspection. It was classified as foreign and preserved
+in targeted stash `a9e64d5e03ebadfcd1292ad3c5b04460761c10aa`; it is not included
+in the release tree or the R0 commit.
+
+The candidate tree is clean, F1-F6 are closed, active qualification accounting
+remains `96/100`, and closeout smoke/guard tests pass. The 5M Silver result and
+bounded C3 10M result remain applicable. No P0/P1 release blocker was found,
+and no numerical source, active baseline, historical evidence or maturity was
+changed.
+
+The package remains `0.2.7a0`. The wheel and sdist pass distribution checks and
+F5 clean-install evidence remains valid. R0 deliberately does not create the
+`v0.2.7a0` tag, GitHub release or PyPI publication. The generic readiness tool
+therefore continues to report the expected pre-publication tag failure and a
+reachable-history manual-review item. The Owner recommendation is
+`RELEASE_WITH_KNOWN_LIMITATIONS`, subject to the explicit manual review before
+irreversible publication actions.
