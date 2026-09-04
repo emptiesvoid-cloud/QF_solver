@@ -1,13 +1,20 @@
 ---
 doc_id: DOC-027-003
 revision: 0.1
-status: controlled_candidate
-applicable_version: 0.2.7a0
+status: controlled_release
+applicable_version: 0.2.7
 reviewer: ""
 approver: ""
 ---
 
 # 0.2.7 Progress Tracker
+
+## Current release reconciliation
+
+Stable `v0.2.7` is Owner-complete at `100/100`. WP22 is closed as
+`PASS_WITH_LIMITATIONS` through R0 and Step 1. The earlier `46/50`, `96/100`,
+`WP22 PLANNED` and `0.2.7a0` entries retained in this chronological tracker
+are historical checkpoints, not the active release state.
 
 This tracker records actual progress, not intent. WP01 through WP06 and T1-R
 record completed foundation controls; WP07 records the Terra-authorized
@@ -33,12 +40,12 @@ PASS_WITH_LIMITATIONS 3M ladder: Bronze preflight
 and Silver full solve passed on the declared PETSc route; Gold remains
 unattempted.
 
-F4 is the current release audit and is recorded as `PASS_WITH_LIMITATIONS`
-after its targeted and full-test validation: no P0/P1 test-quality finding
-remains, critical invalid-input assertions are typed, and the remaining
-optional-environment/test-harness limitations are explicit. The full suite
-retains three visible failures in experimental or stale nonlinear paths; none
-was hidden or reclassified as PASS. F5 has not started.
+F1-F6 and R0 are closed with their recorded `PASS` or
+`PASS_WITH_LIMITATIONS` statuses. The full suite retains three visible
+failures in experimental or stale nonlinear paths; none was hidden or
+reclassified as PASS. Step 2B is the current reconciliation/CI checkpoint;
+the stable package and active qualification state are already recorded as
+`0.2.7` and `100/100`.
 
 | WP | Status | Current test level | Start SHA | Evidence head | Owner decision | Blocker |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -70,7 +77,8 @@ Bronze/Silver ladder. WP19 is now `PASS_WITH_LIMITATIONS` on bounded
 adversarial and HEX8 diagnostic evidence; WP20 is now
 `PASS_WITH_LIMITATIONS` for the existing bounded J2 scope. WP21 is
 `PASS_WITH_LIMITATIONS` on surgical cleanup and does not promote a capability;
-WP22 remains `PLANNED` and neither package constitutes a final release approval.
+WP22 is closed as `PASS_WITH_LIMITATIONS` through R0 and Step 1; neither
+package record alone constitutes an automatic publication approval.
 WP13 has its own
 controlled proof record; the remaining criteria and weights are authoritative in
 `qualification/0_2_7/level_up_plan.json`.
@@ -86,7 +94,7 @@ controlled proof record; the remaining criteria and weights are authoritative in
 | WP19 | 5% | MUST | `PASS_WITH_LIMITATIONS` | 24-case fail-closed robustness corpus and bounded HEX8/C3D8 diagnostic |
 | WP20 | 3% | SHOULD | `PASS_WITH_LIMITATIONS` | bounded existing four-family J2 closure; reused constitutive external evidence; no universal structural increment claim |
 | WP21 | 3% | SHOULD | `PASS_WITH_LIMITATIONS` | surgical architecture/API/registry cleanup; broader redesign deferred |
-| WP22 | 3% | MUST | `PLANNED` | final release qualification |
+| WP22 | 3% | MUST | `PASS_WITH_LIMITATIONS` | final release qualification |
 
 The 45% historical block, 82% current acquired/progress view and 100% total
 plan weights are separate governance measures and must not be added together.
@@ -165,7 +173,8 @@ its AIJ memory limitation. WP18 has completed its Bronze/Silver ladder: the
 case was run. WP19 has completed its bounded adversarial and HEX8 diagnostic
 campaign. WP20 closes the Owner review with the existing bounded scope; WP21
 has completed its surgical compatibility and release-truth scope with
-`PASS_WITH_LIMITATIONS`; WP22 remains `PLANNED` for final Owner release.
+`PASS_WITH_LIMITATIONS`; WP22 is closed as `PASS_WITH_LIMITATIONS` through the
+final Owner release checkpoint.
 
 ## WP19 - Adversarial robustness and HEX8 diagnostic
 
@@ -191,7 +200,8 @@ The controlled records are `qualification/0_2_7/wp19_state.json`,
 `qualification/0_2_7/wp19_runtime/wp19_hex8_diagnostic.json` and
 `qualification/0_2_7/wp19_runtime/wp19_golden_replay.json`. WEDGE6 and all
 previous gate decisions remain unchanged. WP20 is closed with bounded
-limitations and WP21 is closed with `PASS_WITH_LIMITATIONS`; WP22 is next.
+limitations and WP21 is closed with `PASS_WITH_LIMITATIONS`; WP22 is closed
+through the final release checkpoint.
 
 ## WP20 - Residual J2 and external V&V closure
 
@@ -215,13 +225,15 @@ experimental/not qualified. The authoritative records are
 `qualification/0_2_7/wp20_state.json`,
 `qualification/0_2_7/wp11_j2_evidence.json` and
 `docs/verification/0_2_7/0_2_7_wp20_j2_closeout.md`. WP21 is closed with
-`PASS_WITH_LIMITATIONS`; WP22 is next.
+`PASS_WITH_LIMITATIONS`; WP22 is closed through the final release checkpoint.
 
 ## Active global accounting
 
 The historical Level-Up portfolio is closed as Level-Up 1 at `50/50`. The
-active program is Level-Up 2 at `46/50`, giving `CURRENT_GLOBAL_PROGRESS =
-96/100`. The earlier 45/55, 82/85 and 32/50 views remain historical accounting
+historical pre-closure Level-Up 2 checkpoint was `46/50`, giving
+`CURRENT_GLOBAL_PROGRESS = 96/100`. The active Owner-complete program is
+`50/50` and `CURRENT_GLOBAL_PROGRESS = 100/100`. The earlier 45/55, 82/85 and
+32/50 views remain historical accounting
 records only; they are not added to the current program and do not replace
 any evidence. The active machine-readable records are
 `qualification/0_2_7/level_up_2_plan.json`,
@@ -240,7 +252,7 @@ any evidence. The active machine-readable records are
 | LU2-WP06 | 4% | MUST | `PASS_WITH_LIMITATIONS` | recovery, diagnostics and fail-closed execution; bounded to existing checkpoint routes |
 | LU2-WP07 | 4% | SHOULD | `PASS_WITH_LIMITATIONS` | existing route maturity retained at bounded combination scope; no promotion or demotion |
 | LU2-WP08 | 2% | SHOULD | `PASS_WITH_LIMITATIONS` | explicit decisions; deferred/research routes remain unqualified |
-| LU2-WP09 | 4% | MUST | `NOT_STARTED` | final registry, CI, package and Owner qualification |
+| LU2-WP09 | 4% | MUST | `PASS_WITH_LIMITATIONS` | final registry, CI, package and Owner qualification |
 
 LU2-WP02 evidence is defined by the predeclared contract
 `qualification/0_2_7/wp02_execution_contract.json`, the controlled run index
@@ -307,8 +319,9 @@ matrix `qualification/0_2_7/lu2_wp07_maturity_matrix.json` and state
 `qualification/0_2_7/lu2_wp07_state.json`. Existing route maturity was audited
 against the registry and reused WP06, WP19 and WP20 evidence; no new external
 campaign, numerical source change or maturity promotion was performed. The
-active accounting is now `46/50` and `96/100` globally. WP04 and WP05 are
-closed; LU2-WP09 is the next active gate.
+historical pre-closure accounting was `46/50` and `96/100` globally. The active
+Owner-complete accounting is `50/50` and `100/100`. WP04 and WP05 are
+closed; LU2-WP09 is closed through the final release qualification checkpoint.
 
 S1 installs the optional rank-zero JSONL assembly telemetry contract for that
 retry. It records flushed chunk progress, rates, ETA when available, phases,
@@ -319,7 +332,7 @@ WP04 status or global progress.
 
 F5 starts from clean source SHA
 `124c61f6492eee351a34e3542d198a13c00c2874` and closes as
-`PASS_WITH_LIMITATIONS`. Wheel and sdist artifacts for the `0.2.7a0` candidate
+`PASS_WITH_LIMITATIONS`. Wheel and sdist artifacts for the historical `0.2.7a0` candidate
 were built and checked in isolated output directories, then installed from
 outside the repository on Windows Python 3.12 and 3.13. Public imports, a
 lightweight TET4 API workflow, CLI help/version/check/solve and packaged runtime
@@ -327,7 +340,9 @@ resources passed. A missing-resource P1 in the `release-vv` package path was
 fixed in `MANIFEST.in` and `pyproject.toml`; the command now emits a controlled
 report when its legacy bundled evidence is not a current 0.2.7 qualification.
 
-The package remains `0.2.7a0`, with no tag, PyPI publication or GitHub release.
+The historical candidate was `0.2.7a0`, with no tag, PyPI publication or
+GitHub release at that checkpoint. The stable package identity is reconciled
+in the current release records.
 Python 3.10/Linux are represented by CI declarations, Python 3.11 and macOS
 remain unverified in this audit, and optional PETSc/MPI/HDF5 routes retain
 their explicit environment requirements. Global qualification accounting is

@@ -86,7 +86,7 @@ def test_lu2_state_index_and_existing_lu1_are_consistent() -> None:
     assert state["status"] == "CLOSED"
     assert state["source_sha"] == EXECUTION_SOURCE_SHA
     assert state["wp01_source_sha"] == WP01_SOURCE_SHA
-    assert state["current_work_package"] == "STEP1"
+    assert state["current_work_package"] == "STEP2B"
     assert state["global_accounting"] == {
         "level_up_1": "50/50 CLOSED",
         "level_up_2": "50/50 CLOSED",
@@ -104,7 +104,7 @@ def test_lu2_state_index_and_existing_lu1_are_consistent() -> None:
     assert state["readiness"]["ready_for_lu2_wp07"] is True
     assert state["readiness"]["ready_for_lu2_wp05"] is True
     assert state["readiness"]["ready_for_heavy_benchmark"] is False
-    assert state["readiness"]["next_work_package"] == "STEP2"
+    assert state["readiness"]["next_work_package"] == "STEP3"
     assert state["work_packages"][3]["status"] == "PASS"
     assert state["work_packages"][4]["status"] == "PASS"
     assert state["work_packages"][7]["status"] == "PASS_WITH_LIMITATIONS"
@@ -134,7 +134,7 @@ def test_current_governance_consumers_point_to_lu2_and_keep_baseline_roles() -> 
 
     assert manifest["current_development_head"] == WP03_SOURCE_SHA
     assert manifest["level_up_2_scope"]["status"] == "CLOSED"
-    assert manifest["level_up_2_scope"]["current_work_package"] == "STEP1"
+    assert manifest["level_up_2_scope"]["current_work_package"] == "STEP2B"
     assert manifest["level_up_2_scope"]["level_up_2_acquired_percent"] == 50
     assert manifest["level_up_2_scope"]["current_global_progress_percent"] == 100
     assert manifest["level_up_2_scope"]["wp08_status"] == "PASS_WITH_LIMITATIONS"
@@ -158,7 +158,7 @@ def test_current_governance_consumers_point_to_lu2_and_keep_baseline_roles() -> 
         )
     )
 
-    assert progress["current_work_package"] == "STEP1"
+    assert progress["current_work_package"] == "STEP2B"
     assert progress["global_accounting"]["current_global_progress_percent"] == 100
     assert progress["level_up_2"]["status"] == "CLOSED"
     assert progress["level_up_2"]["wp02_status"] == "PASS_WITH_LIMITATIONS"

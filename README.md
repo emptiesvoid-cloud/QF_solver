@@ -36,8 +36,10 @@ The parent 0.2.6 gate status is preserved in its historical records. Current
 0.2.7 Level-Up status is maintained in
 [`qualification/0_2_7/gates.json`](qualification/0_2_7/gates.json): WP13 and
 WP14 are `PASS`, WP15 is `PASS_WITH_LIMITATIONS`, WP16 is `PASS`, WP17-WP21
-are `PASS_WITH_LIMITATIONS` within their declared scopes, and WP22 remains
-`PLANNED`. Gate status does not expand the scope of an individual capability.
+are `PASS_WITH_LIMITATIONS` within their declared scopes, and WP22 is
+`PASS_WITH_LIMITATIONS` through the completed R0 release-qualification
+checkpoint. The Owner qualification is complete at `100/100`; gate status
+does not expand the scope of an individual capability.
 
 ## Capability overview
 
@@ -144,8 +146,8 @@ missing functionality:
   and analysis.
 - External correlation can be unavailable or non-comparable and must then be
   recorded as such; it is not silently treated as a pass.
-- The current 0.2.7 release has bounded Level-Up evidence through WP21;
-  release action is frozen at tag `v0.2.7`.
+- The current 0.2.7 release has bounded Level-Up evidence through the final
+  WP22/R0 checkpoint; release action is frozen at tag `v0.2.7`.
 - PETSc/MPI is optional at runtime. The bounded 1.029M, 3M and 5M results
   apply only to the recorded structured TET4 route and pinned environment;
   they do not qualify other element families, nonlinear analyses or dynamics.

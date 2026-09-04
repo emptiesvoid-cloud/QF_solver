@@ -1,7 +1,7 @@
 ---
 doc_id: DOC-027-001
 revision: 0.1
-status: controlled_candidate
+status: controlled_release
 applicable_version: 0.2.7
 reviewer: ""
 approver: ""
@@ -33,6 +33,14 @@ WP20 is `PASS_WITH_LIMITATIONS` for the existing bounded small-strain J2
 scope. WP21 is `PASS_WITH_LIMITATIONS` for surgical compatibility and
 release-truth cleanup. The Owner has completed the qualification decision;
 Step 1 freezes the stable tag while preserving the historical audit records.
+
+## Current release reconciliation
+
+The Owner-complete current state for stable `v0.2.7` is `COMPLETE` at
+`100/100`. WP22 final release qualification is `PASS_WITH_LIMITATIONS`, closed
+by the R0 and Step 1 records. Any `46/50`, `96/100` or `WP22 PLANNED` wording
+later in this document is a preserved pre-closure planning checkpoint, not the
+active release state.
 
 F4 is `PASS_WITH_LIMITATIONS`: the unit-test quality audit found no P0/P1
 release blocker, strengthened critical negative-test exception contracts and
@@ -114,10 +122,11 @@ in [`0_2_7_progress_tracker.md`](0_2_7_progress_tracker.md).
 | WP19 | Adversarial robustness and HEX8 diagnostic | `PASS_WITH_LIMITATIONS` |
 | WP20 | Residual J2 and external V&V closure | `PASS_WITH_LIMITATIONS` (bounded existing scope) |
 | WP21 | Architecture, API and registry surgical cleanup | `PASS_WITH_LIMITATIONS` (broader redesign deferred) |
-| WP22 | Final release qualification | `PLANNED` |
+| WP22 | Final release qualification | `PASS_WITH_LIMITATIONS` (R0/Step 1 closed) |
 | Foundation WP13-WP14 proposal | Superseded by the Level-Up namespace | `PRESERVED_HISTORY` |
 
-The active LU2 accounting is `46/50` and `96/100` globally. LU2-WP04 and
+The historical pre-closure LU2 accounting was `46/50` and `96/100` globally.
+The active Owner-complete accounting is `50/50` and `100/100`. LU2-WP04 and
 LU2-WP05 are now closed, while LU2-WP06, LU2-WP07 and LU2-WP08 are
 closed as `PASS_WITH_LIMITATIONS`: mixed TET/WEDGE/HEX is deferred without an
 end-to-end claim; WEDGE15 and PYRAMID5 are not supported; and HEX8R, SRI,
@@ -244,7 +253,9 @@ The active successor is Level-Up 2, installed from the qualified snapshot
 `qualification/0_2_7/level_up_2_plan.json`,
 `qualification/0_2_7/level_up_2_state.json` and
 `qualification/0_2_7/level_up_2_index.json`. LU1 remains a preserved historical
-record; LU2 is open at `46/50` (`96/100` globally). LU2-WP03 is closed as
+record; the historical checkpoint recorded LU2 open at `46/50` (`96/100`
+globally). The current LU2 state is closed at `50/50` (`100/100`). LU2-WP03
+is closed as
 `PASS_WITH_LIMITATIONS`, with `3M_GOLD_COMPUTE = PASS` for the controlled
 structured TET4/PETSc route. LU2-WP04 and LU2-WP05 are closed as `PASS` for
 the recorded 5M Bronze and two-replay Silver scope under the frozen route;
@@ -304,7 +315,8 @@ candidate. The machine-readable R0 record is
 [`qualification/0_2_7/r0_release_readiness.json`](../../../qualification/0_2_7/r0_release_readiness.json).
 
 F1-F6 are closed with their recorded `PASS` or `PASS_WITH_LIMITATIONS`
-statuses, active qualification accounting remains `96/100`, 5M Silver remains
+statuses, the historical R0 checkpoint recorded `96/100`; current Owner
+qualification is `100/100`, 5M Silver remains
 valid, and the C3 10M result remains bounded. The closeout battery passed
 (`138 passed, 2 skipped`), wheel and sdist checks pass, and no numerical source,
 baseline, historical evidence or maturity record changed.
