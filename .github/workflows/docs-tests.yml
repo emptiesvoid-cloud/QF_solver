@@ -2,6 +2,7 @@ name: Documentation tests
 
 on:
   workflow_dispatch:
+
   push:
     branches:
       - main
@@ -11,6 +12,14 @@ on:
       - "scripts/docs_publication.py"
       - ".github/workflows/docs-tests.yml"
 
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "docs/**"
+      - "tests/documentation/**"
+      - "scripts/docs_publication.py"
+      - ".github/workflows/docs-tests.yml"
 jobs:
   docs-tests:
     runs-on: ubuntu-latest
