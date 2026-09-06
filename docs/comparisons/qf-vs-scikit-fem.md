@@ -379,3 +379,10 @@ engineering.
 - [QF Solver vs CalculiX](qf-vs-calculix.md)
 - [QF Solver vs Code_Aster](qf-vs-code-aster.md)
 - [When should I use QF Solver?](../getting-started/when-to-use-qf-solver.md)
+
+## External references
+
+- scikit-fem documentation: https://scikit-fem.readthedocs.io/
+- scikit-fem source repository: https://github.com/kinnala/scikit-fem
+
+External product information reviewed: 2026-09-06.
