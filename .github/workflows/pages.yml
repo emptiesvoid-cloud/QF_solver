@@ -2,7 +2,13 @@ name: Deploy QF Solver docs
 
 on:
   workflow_dispatch:
-
+  push:
+    branches:
+      - main
+    paths:
+      - "docs/**"
+      - "mkdocs.yml"
+      - ".github/workflows/pages.yml"
 permissions:
   contents: read
   pages: write
