@@ -7,7 +7,18 @@ and reproducible verification evidence. Support is always scoped by element,
 analysis, material, mesh, loading and solver route. A passing example is not a
 universal qualification.
 
-install it with : pip install qf-solver
+## Install
+
+```bash
+pip install qf-solver
+```
+
+**QF Solver** is a Python FEM/FEA solver for structural mechanics and dynamics,
+with transparent formulations, reproducible V&V, and optional PETSc/MPI
+large-scale solving.
+
+[Documentation](https://emptiesvoid-cloud.github.io/QF_solver/) ·
+[When to use QF Solver](https://emptiesvoid-cloud.github.io/QF_solver/getting-started/when-to-use-qf-solver/)
 
 ## Capabilities
 
