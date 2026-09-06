@@ -1,5 +1,3 @@
-This comparison is intended as a technical selection guide, not as a claim
-that one solver is universally superior to another.
 
 ---
 doc_id: DOC-SOLVER-COMP-005
@@ -10,6 +8,9 @@ reviewer: ""
 approver: ""
 ---
 # QF Solver vs Code_Aster
+
+This comparison is intended as a technical selection guide, not as a claim
+that one solver is universally superior to another.
 
 QF Solver and Code_Aster are both open-source finite-element solvers relevant
 to structural mechanics, but they exist at very different levels of maturity
