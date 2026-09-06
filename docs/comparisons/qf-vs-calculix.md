@@ -8,6 +8,9 @@ approver: ""
 ---
 # QF Solver vs CalculiX
 
+This comparison is intended as a technical selection guide, not as a claim
+that one solver is universally superior to another.
+
 QF Solver and CalculiX are both open-source finite-element projects with a
 strong structural-mechanics orientation.
 
