@@ -384,3 +384,19 @@ For QF Solver specifically, also read:
 - [Analyses](../analyses/index.md)
 - [Known limitations](../etat/limites.md)
 - [QF Solver 0.2.7 verification](../verification/0_2_7/README.md)
+
+## External references
+
+External solver information in this overview was checked against the official
+project documentation:
+
+- SfePy: https://sfepy.org/doc/
+- scikit-fem: https://scikit-fem.readthedocs.io/en/latest/
+- CalculiX: https://www.calculix.de/
+- Code_Aster: https://www.code-aster.org/
+- Code_Aster documentation: https://code-aster.org/doc/
+
+External product information reviewed: 2026-09-06.
+
+For detailed selection notes and limitations, see the solver-specific
+comparison pages above.
