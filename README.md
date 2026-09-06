@@ -18,7 +18,8 @@ with transparent formulations, reproducible V&V, and optional PETSc/MPI
 large-scale solving.
 
 [Documentation](https://emptiesvoid-cloud.github.io/QF_solver/) ·
-[When to use QF Solver](https://emptiesvoid-cloud.github.io/QF_solver/getting-started/when-to-use-qf-solver/)
+[When to use QF Solver](https://emptiesvoid-cloud.github.io/QF_solver/getting-started/when-to-use-qf-solver/) ·
+[Compare FEM solvers](https://emptiesvoid-cloud.github.io/QF_solver/comparisons/)
 
 ## Capabilities
 
