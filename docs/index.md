@@ -61,3 +61,8 @@ The stable source release is `0.2.7`, frozen at tag `v0.2.7`. See the
 [public roadmap](reference/feuille_de_route.md) for product-level next steps.
 Historical qualification records remain available for provenance and are
 clearly labelled as historical in their own pages.
+
+## Performance and reproducibility
+
+- [Benchmarks and reproducibility](benchmarks/index.md)
+
