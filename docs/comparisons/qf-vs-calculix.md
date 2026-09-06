@@ -358,3 +358,9 @@ workflows, QF Solver can provide a more accessible architecture.
 - [QF Solver vs Code_Aster](qf-vs-code-aster.md)
 - [When should I use QF Solver?](../getting-started/when-to-use-qf-solver.md)
 - [QF Solver verification](../verification/0_2_7/README.md)
+  
+## External references
+
+- CalculiX official website: https://www.calculix.de/
+
+External product information reviewed: 2026-09-06.
