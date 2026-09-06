@@ -37,7 +37,7 @@ jobs:
           python -m pip install mkdocs mkdocs-material
 
       - name: Build documentation
-        run: mkdocs build
+        run: mkdocs build -f .github/pages/mkdocs.yml
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
