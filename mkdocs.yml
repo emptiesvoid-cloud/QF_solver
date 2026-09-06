@@ -1,0 +1,44 @@
+site_name: QF Solver
+site_description: Open-source Python FEM/FEA solver for structural mechanics and dynamics
+site_author: Quentin Farinazzo
+site_url: https://emptiesvoid-cloud.github.io/QF_solver/
+
+repo_name: emptiesvoid-cloud/QF_solver
+repo_url: https://github.com/emptiesvoid-cloud/QF_solver
+
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.indexes
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+
+extra:
+  version:
+    provider: mike
+
+copyright: >
+  QF Solver — Apache-2.0 software.
+  Documentation licensed under CC BY 4.0.
