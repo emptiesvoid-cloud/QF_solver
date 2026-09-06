@@ -22,7 +22,15 @@ linked evidence.
 4. Check [elements and maturities](elements/index.md).
 5. Select an [analysis route](analyses/index.md) and [solver backend](solveurs/index.md).
 6. Read the [known limitations](etat/limites.md) before using a result.
+7. 
+## Choosing a FEM solver
 
+If you are evaluating QF Solver against other open-source finite-element
+tools, start with the solver-selection and comparison guides:
+
+- [Compare open-source FEM solvers](comparisons/index.md)
+- [Python FEM solvers: which one should you use?](comparisons/python-fem-solvers.md)
+- 
 ## Current scope
 
 - Bounded linear static routes are available for the element combinations in
