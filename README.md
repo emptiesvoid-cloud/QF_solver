@@ -7,6 +7,8 @@ and reproducible verification evidence. Support is always scoped by element,
 analysis, material, mesh, loading and solver route. A passing example is not a
 universal qualification.
 
+install it with : pip install qf-solver
+
 ## Capabilities
 
 | Capability | Public status | Scope |
