@@ -5071,6 +5071,15 @@
   "requirements": [],
   "examples": [],
   "tests": []
+},
+    {
+  "id": "DOC-SOLVER-BENCH-001",
+  "path": "benchmarks/index.md",
+  "title": "QF Solver benchmarks and reproducibility",
+  "status": "controlled",
+  "requirements": [],
+  "examples": [],
+  "tests": []
 }
   ]
   
