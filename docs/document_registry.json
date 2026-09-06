@@ -5008,9 +5008,8 @@
       "requirements": [],
       "examples": [],
       "tests": []
-    }
-  ]
-  {
+    },
+    {
   "id": "DOC-SOLVER-GUIDE-001",
   "path": "getting-started/when-to-use-qf-solver.md",
   "title": "When should I use QF Solver?",
@@ -5073,4 +5072,6 @@
   "examples": [],
   "tests": []
 }
+  ]
+  
 }
