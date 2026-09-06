@@ -570,3 +570,29 @@ Install QF Solver with:
 
 ```bash
 python -m pip install qf-solver
+```
+
+Then continue with:
+
+- [Installation](installation.md)
+- [Quick start](quickstart.md)
+- [Elements](../elements/index.md)
+- [Analyses](../analyses/index.md)
+- [Known limitations](../etat/limites.md)
+- [QF Solver 0.2.7 verification](../verification/0_2_7/README.md)
+
+---
+
+# Final recommendation
+
+Choose QF Solver when transparency, Python integration, numerical verification
+and control over the finite-element workflow matter.
+
+Choose another solver when your primary requirement is the broadest possible
+industrial feature set, mature complex nonlinear workflows, certified
+production processes or specialized physics that QF Solver does not currently
+cover.
+
+When in doubt, treat the capability matrix and the linked verification
+evidence as authoritative rather than assuming that a feature is generally
+supported.
