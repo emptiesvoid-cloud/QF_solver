@@ -440,3 +440,11 @@ offer a substantially smaller and more accessible environment.
 - [QF Solver vs CalculiX](qf-vs-calculix.md)
 - [When should I use QF Solver?](../getting-started/when-to-use-qf-solver.md)
 - [QF Solver 0.2.7 verification](../verification/0_2_7/README.md)
+
+## External references
+
+- Code_Aster official website: https://www.code-aster.org/
+- Code_Aster documentation: https://code-aster.org/doc/
+
+External product information reviewed: 2026-09-06.
+
