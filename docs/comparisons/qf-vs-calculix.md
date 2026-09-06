@@ -1,3 +1,11 @@
+---
+doc_id: DOC-SOLVER-COMP-004
+revision: 1.0
+status: controlled
+applicable_version: 0.2.7
+reviewer: ""
+approver: ""
+---
 # QF Solver vs CalculiX
 
 QF Solver and CalculiX are both open-source finite-element projects with a
