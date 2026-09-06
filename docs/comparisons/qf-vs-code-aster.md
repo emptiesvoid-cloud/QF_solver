@@ -449,6 +449,6 @@ offer a substantially smaller and more accessible environment.
 
 - Code_Aster official website: https://www.code-aster.org/
 - Code_Aster documentation: https://code-aster.org/doc/
+- Code_Aster v16 validation documentation: https://code-aster.org/doc/v16/index.html
 
 External product information reviewed: 2026-09-06.
-
