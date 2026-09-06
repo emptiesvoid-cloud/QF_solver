@@ -22,7 +22,8 @@ linked evidence.
 4. Check [elements and maturities](elements/index.md).
 5. Select an [analysis route](analyses/index.md) and [solver backend](solveurs/index.md).
 6. Read the [known limitations](etat/limites.md) before using a result.
-7. 
+
+   
 ## Choosing a FEM solver
 
 If you are evaluating QF Solver against other open-source finite-element
