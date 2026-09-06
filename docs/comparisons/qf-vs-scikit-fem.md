@@ -1,6 +1,3 @@
-
-
-
 ---
 doc_id: DOC-SOLVER-COMP-003
 revision: 1.0
