@@ -1,3 +1,12 @@
+---
+doc_id: DOC-SOLVER-COMP-000
+revision: 1.0
+status: controlled
+applicable_version: 0.2.7
+reviewer: ""
+approver: ""
+---
+
 # FEM solver comparisons
 
 Choosing a finite-element solver depends on the type of problem, the desired
