@@ -399,6 +399,6 @@ QF Solver provides a more specialized workflow.
 Information about SfePy was checked against the official project resources:
 
 - SfePy project: https://sfepy.org/
-- SfePy documentation: https://sfepy.org/doc-devel/
+- SfePy documentation: https://sfepy.org/doc/
 
 External product information reviewed: 2026-09-06.
