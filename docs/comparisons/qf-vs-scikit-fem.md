@@ -1,3 +1,11 @@
+---
+doc_id: DOC-SOLVER-COMP-003
+revision: 1.0
+status: controlled
+applicable_version: 0.2.7
+reviewer: ""
+approver: ""
+---
 # QF Solver vs scikit-fem
 
 QF Solver and scikit-fem are both Python finite-element projects, but they
