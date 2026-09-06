@@ -35,7 +35,7 @@ dependencies = [
 Homepage = "https://github.com/emptiesvoid-cloud/QF_solver"
 Source = "https://github.com/emptiesvoid-cloud/QF_solver"
 Issues = "https://github.com/emptiesvoid-cloud/QF_solver/issues"
-Documentation = "https://github.com/emptiesvoid-cloud/QF_solver/tree/main/docs"
+Documentation = "https://emptiesvoid-cloud.github.io/QF_solver/"
 Changelog = "https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CHANGELOG.md"
 
 [project.optional-dependencies]
