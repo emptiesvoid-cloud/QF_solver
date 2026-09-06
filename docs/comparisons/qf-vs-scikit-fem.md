@@ -1,3 +1,7 @@
+This comparison is intended as a technical selection guide, not as a claim
+that one solver is universally superior to another.
+
+
 ---
 doc_id: DOC-SOLVER-COMP-003
 revision: 1.0
