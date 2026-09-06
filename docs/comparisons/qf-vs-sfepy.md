@@ -393,3 +393,12 @@ QF Solver provides a more specialized workflow.
 - [When should I use QF Solver?](../getting-started/when-to-use-qf-solver.md)
 - [QF Solver analyses](../analyses/index.md)
 - [Known limitations](../etat/limites.md)
+
+## External references
+
+Information about SfePy was checked against the official project resources:
+
+- SfePy project: https://sfepy.org/
+- SfePy documentation: https://sfepy.org/doc-devel/
+
+External product information reviewed: 2026-09-06.
