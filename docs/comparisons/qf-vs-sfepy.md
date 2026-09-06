@@ -8,6 +8,9 @@ approver: ""
 ---
 # QF Solver vs SfePy
 
+This comparison is intended as a technical selection guide, not as a claim
+that one solver is universally superior to another.
+
 QF Solver and SfePy are both open-source finite-element tools that can be used
 from Python, but they are designed around different priorities.
 
