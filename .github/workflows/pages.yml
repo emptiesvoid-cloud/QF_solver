@@ -7,7 +7,7 @@ on:
       - main
     paths:
       - "docs/**"
-      - "mkdocs.yml"
+      - ".github/pages/mkdocs.yml"
       - ".github/workflows/pages.yml"
 permissions:
   contents: read
