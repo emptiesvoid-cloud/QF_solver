@@ -1,5 +1,4 @@
-This comparison is intended as a technical selection guide, not as a claim
-that one solver is universally superior to another.
+
 
 
 ---
@@ -11,6 +10,9 @@ reviewer: ""
 approver: ""
 ---
 # QF Solver vs scikit-fem
+
+This comparison is intended as a technical selection guide, not as a claim
+that one solver is universally superior to another.
 
 QF Solver and scikit-fem are both Python finite-element projects, but they
 operate at different abstraction levels.
