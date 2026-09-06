@@ -1,4 +1,3 @@
-
 ---
 doc_id: DOC-SOLVER-COMP-005
 revision: 1.0
@@ -7,6 +6,7 @@ applicable_version: 0.2.7
 reviewer: ""
 approver: ""
 ---
+
 # QF Solver vs Code_Aster
 
 This comparison is intended as a technical selection guide, not as a claim
