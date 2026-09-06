@@ -5010,4 +5010,67 @@
       "tests": []
     }
   ]
+  {
+  "id": "DOC-SOLVER-GUIDE-001",
+  "path": "getting-started/when-to-use-qf-solver.md",
+  "title": "When should I use QF Solver?",
+  "status": "controlled",
+  "requirements": [],
+  "examples": [],
+  "tests": []
+},
+{
+  "id": "DOC-SOLVER-COMP-000",
+  "path": "comparisons/index.md",
+  "title": "FEM solver comparisons",
+  "status": "controlled",
+  "requirements": [],
+  "examples": [],
+  "tests": []
+},
+{
+  "id": "DOC-SOLVER-COMP-001",
+  "path": "comparisons/python-fem-solvers.md",
+  "title": "Python FEM solvers: which one should you use?",
+  "status": "controlled",
+  "requirements": [],
+  "examples": [],
+  "tests": []
+},
+{
+  "id": "DOC-SOLVER-COMP-002",
+  "path": "comparisons/qf-vs-sfepy.md",
+  "title": "QF Solver vs SfePy",
+  "status": "controlled",
+  "requirements": [],
+  "examples": [],
+  "tests": []
+},
+{
+  "id": "DOC-SOLVER-COMP-003",
+  "path": "comparisons/qf-vs-scikit-fem.md",
+  "title": "QF Solver vs scikit-fem",
+  "status": "controlled",
+  "requirements": [],
+  "examples": [],
+  "tests": []
+},
+{
+  "id": "DOC-SOLVER-COMP-004",
+  "path": "comparisons/qf-vs-calculix.md",
+  "title": "QF Solver vs CalculiX",
+  "status": "controlled",
+  "requirements": [],
+  "examples": [],
+  "tests": []
+},
+{
+  "id": "DOC-SOLVER-COMP-005",
+  "path": "comparisons/qf-vs-code-aster.md",
+  "title": "QF Solver vs Code_Aster",
+  "status": "controlled",
+  "requirements": [],
+  "examples": [],
+  "tests": []
+}
 }
