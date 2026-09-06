@@ -17,10 +17,11 @@ linked evidence.
 ## Start here
 
 1. [Install QF Solver](getting-started/installation.md).
-2. Run the [first calculation](getting-started/quickstart.md).
-3. Check [elements and maturities](elements/index.md).
-4. Select an [analysis route](analyses/index.md) and [solver backend](solveurs/index.md).
-5. Read the [known limitations](etat/limites.md) before using a result.
+2. [Check whether QF Solver fits your problem](getting-started/when-to-use-qf-solver.md).
+3. Run the [first calculation](getting-started/quickstart.md).
+4. Check [elements and maturities](elements/index.md).
+5. Select an [analysis route](analyses/index.md) and [solver backend](solveurs/index.md).
+6. Read the [known limitations](etat/limites.md) before using a result.
 
 ## Current scope
 
