@@ -5162,6 +5162,20 @@
   "tests": [
     "tests/verification/test_028_mitc_vnv.py"
   ]
+},
+{
+  "id": "DOC-028-WP04-OWNER-001",
+  "path": "verification/0_2_8/wp04_owner_gate_final.md",
+  "title": "QF Solver 0.2.8 WP04 final Owner gate",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp04_owner_gate_final.json",
+    "qualification/0_2_8/wp04_maturity_matrix.json"
+  ],
+  "tests": [
+    "tests/verification/test_028_wp04_owner_gate_final.py"
+  ]
 }
   ]
   

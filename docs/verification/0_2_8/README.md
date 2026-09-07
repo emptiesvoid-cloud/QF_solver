@@ -110,11 +110,16 @@ The WP04 frozen contract, executable replays and bounded decision delta are
 recorded in [`WP04 MITC V&V`](wp04_mitc_vnv.md) and its
 [`machine-readable evidence`](../../../qualification/0_2_8/wp04_mitc_vnv.json)
 and [`WP04 maturity matrix`](../../../qualification/0_2_8/wp04_maturity_matrix.json).
+The final decisions are recorded in the [`WP04 Owner gate`](wp04_owner_gate_final.md)
+and [`machine-readable Owner record`](../../../qualification/0_2_8/wp04_owner_gate_final.json).
 MITC3 static, MITC4 static, MITC4 Newmark and MITC4 harmonic are technical
-`QUALIFIED_BOUNDED` candidates pending Owner review. MITC3 modal/Newmark/
-harmonic remain `EXPERIMENTAL` because no executable independent shell oracle
-is present. MITC4 modal also remains `EXPERIMENTAL`: its deterministic replay
+`QUALIFIED_BOUNDED` within their bounded scopes. MITC3 modal/Newmark/harmonic
+remain `EXPERIMENTAL` because no executable independent shell oracle is
+present. MITC4 modal also remains `EXPERIMENTAL`: its deterministic replay
 misses the frozen relative-residual gate, and that tolerance was not relaxed.
+Across the 46 source combinations: 31 are `QUALIFIED_BOUNDED`, 14 are
+`EXPERIMENTAL`, and `COMB-HEX8-linear_buckling` is the sole
+`NOT_QUALIFIED` combination. WEDGE6 static remains distinct and experimental.
 
 ## Explicit boundaries
 

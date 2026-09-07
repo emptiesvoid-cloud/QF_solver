@@ -1,6 +1,6 @@
 ---
 doc_id: DOC-028-WP04-001
-revision: 0.2
+revision: 0.3
 status: controlled_candidate
 applicable_version: 0.2.8-development
 reviewer: ""
@@ -75,12 +75,30 @@ The machine-readable replay digests, observed values and test references are
 recorded in [`wp04_mitc_vnv.json`](../../../qualification/0_2_8/wp04_mitc_vnv.json).
 The eight-route decision delta is summarized in the
 [`WP04 maturity matrix`](../../../qualification/0_2_8/wp04_maturity_matrix.json).
-The four bounded candidates remain subject to the Owner gate; this record does
-not itself promote public maturity.
+The final Owner decisions are recorded in
+[`wp04_owner_gate_final.json`](../../../qualification/0_2_8/wp04_owner_gate_final.json).
+The four approved bounded routes are now `QUALIFIED_BOUNDED` within the scopes
+below; no claim is broadened beyond the evidence.
 
 Across the 46-record technical matrix after the WP03 and WP04 deltas, the
-state is 31 `QUALIFIED_BOUNDED` (27 already public and 4 awaiting the WP04
-Owner gate), 13 `EXPERIMENTAL`, and 1 `NOT_QUALIFIED`. One separate record,
-`COMB-WEDGE6-linear_static`, remains unresolved at its prior
-`NEEDS_MAJOR_VNV` planning state and is not silently folded into an allowed
-WP04 decision.
+state is 31 `QUALIFIED_BOUNDED`, 14 `EXPERIMENTAL`, and 1
+`NOT_QUALIFIED`, for a total of 46. The sole not-qualified combination is
+`COMB-HEX8-linear_buckling`. `COMB-WEDGE6-linear_static` remains a distinct
+`EXPERIMENTAL` combination and is not confused with that status.
+
+## Final Owner gate
+
+| Combination | Owner decision | Resulting state | Limitation or rejected gate |
+| --- | --- | --- | --- |
+| MITC3 linear static | `APPROVE_WITH_LIMITATIONS` | `QUALIFIED_BOUNDED` | Executed patch, equilibrium, energy, orientation, permutation and locking scope only. |
+| MITC3 modal | `REJECT` | `EXPERIMENTAL` | No executable independent shell modal oracle. |
+| MITC3 Newmark | `REJECT` | `EXPERIMENTAL` | No executable independent same-mesh transient shell oracle. |
+| MITC3 harmonic | `REJECT` | `EXPERIMENTAL` | No executable independent same-mesh shell FRF oracle. |
+| MITC4 linear static | `APPROVE_WITH_LIMITATIONS` | `QUALIFIED_BOUNDED` | Executed mechanics, patch, equilibrium, drilling and reference-mesh scope only. |
+| MITC4 modal | `REJECT` | `EXPERIMENTAL` | Relative residual `2.6317020430528298e-08` exceeds frozen `1e-08` gate. |
+| MITC4 Newmark | `APPROVE_WITH_LIMITATIONS` | `QUALIFIED_BOUNDED` | Verified first-mode, undamped Newmark temporal scope only. |
+| MITC4 harmonic | `APPROVE_WITH_LIMITATIONS` | `QUALIFIED_BOUNDED` | Verified first-mode, seven-frequency, mass-proportional damping scope only. |
+
+The Owner gate found no numerical-core change, no opportunistic tolerance
+change and no alteration of 0.2.7 evidence. The machine-readable gate also
+reconciles all 46 source combination records directly.
