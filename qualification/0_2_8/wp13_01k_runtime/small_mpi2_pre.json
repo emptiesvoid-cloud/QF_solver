@@ -1,0 +1,95 @@
+{
+  "gates": {
+    "aspect": true,
+    "jacobian_condition": true,
+    "jacobian_min": true,
+    "jacobian_max": true,
+    "diagonal": true,
+    "connected": true,
+    "no_bypass": true,
+    "load_only_tet": true,
+    "support_only_hex": true,
+    "valid_interfaces": true
+  },
+  "max_aspect_ratio": 1.7320508075688772,
+  "min_jacobian": 0.12499999999999997,
+  "max_jacobian": 1.0,
+  "max_jacobian_condition": 3.7320508075688785,
+  "stiffness_diagonal_range": [
+    20192307692.30769,
+    201923076923.0769
+  ],
+  "stiffness_diagonal_ratio": 10.0,
+  "stiffness_entry_range": [
+    1121794871.7948728,
+    74038461538.46153
+  ],
+  "stiffness_entry_ratio": 65.99999999999994,
+  "condition_number": "NOT_COMPUTED; geometry and positive diagonal proxies only",
+  "connectivity": {
+    "connected_components": 1,
+    "element_counts": {
+      "TET4": 3,
+      "WEDGE6": 2,
+      "HEX8": 1
+    },
+    "interface_counts": {
+      "TET4_WEDGE6": 1,
+      "WEDGE6_HEX8": 1
+    },
+    "interface_records_sample": [
+      {
+        "families": [
+          "HEX8",
+          "WEDGE6"
+        ],
+        "nodes": [
+          2,
+          3,
+          6,
+          7
+        ],
+        "element_indices": [
+          0,
+          5
+        ]
+      },
+      {
+        "families": [
+          "TET4",
+          "WEDGE6"
+        ],
+        "nodes": [
+          10,
+          11,
+          12
+        ],
+        "element_indices": [
+          1,
+          2
+        ]
+      }
+    ],
+    "family_graph": {
+      "TET4": [
+        "WEDGE6"
+      ],
+      "WEDGE6": [
+        "HEX8",
+        "TET4"
+      ],
+      "HEX8": [
+        "WEDGE6"
+      ]
+    },
+    "load_families": [
+      "TET4"
+    ],
+    "fixed_families": [
+      "HEX8"
+    ],
+    "mechanical_load_path": "LOAD -> TET4 -> WEDGE6 -> HEX8 -> SUPPORT",
+    "scope_errors": []
+  },
+  "direct_support_bypass": false
+}
