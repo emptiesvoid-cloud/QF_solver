@@ -206,3 +206,23 @@ refinement is a consistency check, not a general accuracy-convergence claim.
 Dynamic and other analysis routes remain out of scope, no external solver
 correlation is claimed, and no 0.2.7 evidence or prior WP01-WP06B record is
 changed.
+
+## WP08 mixed TET4/WEDGE6/HEX8 modal
+
+WP08 audits the existing mixed consistent-mass modal route separately from the
+46 element-analysis combinations and from the WP07 static workflow. The frozen
+[`WP08 contract`](../../../qualification/0_2_8/wp08_mixed_modal_contract.json),
+machine-readable [`WP08 evidence`](../../../qualification/0_2_8/wp08_mixed_modal_vnv.json)
+and [`WP08 matrix`](../../../qualification/0_2_8/wp08_mixed_modal_matrix.json)
+cover conforming fixed-base TET4/WEDGE6/HEX8 pairwise and three-family cases,
+the first six positive modes, an independent dense local-matrix oracle, mass
+conservation, residuals, orthogonality, interface failure paths and two
+deterministic replays.
+
+The mixed cases and the independent modal oracle pass. The first-frequency
+refinement trend is finite and positive, but the predeclared shared-node
+mode-matching gate fails on the first refinement transition (`MAC min ≈ 0.103`
+against a `0.5` gate). WP08 therefore records
+`SUPPORTED_WITH_LIMITATIONS`, applies no public promotion and requests no
+Owner gate. No external industrial correlation is claimed, no modal stress
+claim is made, and no 0.2.7 evidence or WP07 static claim is changed.
