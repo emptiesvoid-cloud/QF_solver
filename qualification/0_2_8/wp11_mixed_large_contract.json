@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP11-MIXED-LARGE-CONTRACT",
+  "work_package": "WP11",
+  "baseline_sha": "9ab8dc8ddfc432134436f2cf9fa2d65933adecb4",
+  "status": "PREDECLARED",
+  "scope": "Recorded large-scale mixed TET4/WEDGE6/HEX8 evidence for the conforming linear_static route in one declared environment; no accuracy, production, precision, modal, dynamic, nonlinear or universal performance claim.",
+  "model": {
+    "topology": "Repeated conforming three-family chains; each chain is one TET4, one WEDGE6 and one HEX8 with a shared triangular TET4/WEDGE6 interface and shared quadrilateral WEDGE6/HEX8 interface.",
+    "mandatory": {
+      "chains": 9091,
+      "segments_per_chain": 1,
+      "nodes": 100001,
+      "dof": 300003,
+      "elements": 27273,
+      "elements_by_family": {"TET4": 9091, "WEDGE6": 9091, "HEX8": 9091},
+      "interfaces": {"triangular": 9091, "quadrilateral": 9091},
+      "components": 9091
+    },
+    "baseline": {
+      "chains": 2,
+      "segments_per_chain": 1,
+      "dof": 66,
+      "elements_by_family": {"TET4": 2, "WEDGE6": 2, "HEX8": 2}
+    },
+    "desired_1m": {"chains": 30303, "dof": 999999, "status": "OPTIONAL_NON_BLOCKER"},
+    "stretch_3m": {"chains": 90909, "dof": 2999997, "status": "OPTIONAL_NON_BLOCKER"},
+    "material": {"type": "isotropic_3d", "E": 210000000000.0, "nu": 0.3, "density": 7800.0},
+    "analysis": "small-strain linear isotropic elasticity; fixed x=0 DOFs; unit total Z load per chain distributed on free top nodes; SI units",
+    "interfaces": "nodal conforming only; no hanging nodes, MPC transition, PYRAMID5 or HEX8-SRI"
+  },
+  "gates": {
+    "status": "PASS",
+    "mandatory_dof_at_least": 300000,
+    "all_three_families_present": true,
+    "relative_solver_residual_max": 1e-8,
+    "global_force_closure_relative_max": 1e-8,
+    "global_moment_closure_relative_max": 1e-8,
+    "energy_identity_relative_max": 1e-8,
+    "replay_digest_exact_match": true,
+    "finite_solution": true,
+    "runtime_and_memory": "recorded, informative only"
+  },
+  "environment": {
+    "backend": "SciPy sparse linear solver as selected by the standard mixed LinearStaticSolver",
+    "mpi_ranks": 1,
+    "preallocation": "record actual exposed backend diagnostics; do not infer unavailable allocator details",
+    "packages": ["python", "numpy", "scipy", "petsc4py", "mpi4py"]
+  },
+  "reproducibility": {
+    "replays_required": 2,
+    "comparison": "input digest, displacement digest, iterations, residual, equilibrium and energy; runtime/memory excluded from exact physics digest"
+  },
+  "non_goals": [
+    "No 0.2.7 evidence rewrite.",
+    "No numerical formulation change.",
+    "No PYRAMID5, HEX8-SRI, modal, dynamic, nonlinear or nonconforming scope.",
+    "No external correlation claim.",
+    "No 1M or 3M blocker if resources are not budgeted; those runs are optional and must not be fabricated."
+  ]
+}
