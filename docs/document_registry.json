@@ -5233,6 +5233,34 @@
   "tests": [
     "tests/verification/test_028_hex8_buckling_vnv.py"
   ]
+},
+{
+  "id": "DOC-028-WP06B-001",
+  "path": "verification/0_2_8/wp06b_hex8_buckling_vnv.md",
+  "title": "QF Solver 0.2.8 WP06B HEX8 buckling root-cause remediation",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp06b_hex8_buckling_contract.json",
+    "qualification/0_2_8/wp06b_hex8_buckling_vnv.json",
+    "qualification/0_2_8/wp06b_maturity_matrix.json"
+  ],
+  "tests": [
+    "tests/verification/test_028_wp06b_hex8_buckling.py"
+  ]
+},
+{
+  "id": "DOC-028-WP06B-MATRIX-001",
+  "path": "qualification/0_2_8/wp06b_maturity_matrix.json",
+  "title": "QF Solver 0.2.8 WP06B HEX8 maturity delta",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp06b_hex8_buckling_vnv.json"
+  ],
+  "tests": [
+    "tests/verification/test_028_wp06b_hex8_buckling.py"
+  ]
 }
   ]
   

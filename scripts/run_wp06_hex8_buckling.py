@@ -56,6 +56,13 @@ def _canonical_digest(value: object) -> str:
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
+def _deterministic_start_vector(size: int) -> np.ndarray:
+    """Use a fixed ARPACK start for replay-only diagnostic eigenvalues."""
+
+    vector = np.linspace(1.0, 2.0, int(size), dtype=float)
+    return vector / np.linalg.norm(vector)
+
+
 def _structured_mesh(length: float, width: float, height: float, counts: tuple[int, int, int]) -> tuple[np.ndarray, list[list[int]]]:
     nx, ny, nz = counts
     coordinates: list[tuple[float, float, float]] = []
@@ -126,7 +133,7 @@ def _model(
         index = int(np.argmin(np.linalg.norm(nodes - center, axis=1)))
         nodes[index] += np.asarray([0.0, 0.03 * width, 0.02 * height])
     if invalid_orientation:
-        elements = [list(reversed(item)) for item in elements]
+        elements = [[item[index] for index in (1, 0, 3, 2, 5, 4, 7, 6)] for item in elements]
 
     x0 = np.flatnonzero(np.isclose(nodes[:, 0], 0.0))
     x1 = np.flatnonzero(np.isclose(nodes[:, 0], length))
@@ -212,8 +219,27 @@ def _matrix_diagnostics(model: FiniteElementModel, mode: np.ndarray, factor: flo
     kg_norm = max(float(np.linalg.norm(reduced_geometric.toarray())), 1.0)
     kg_symmetry = float(np.linalg.norm((reduced_geometric - reduced_geometric.T).toarray()) / kg_norm)
     try:
-        kg_min = float(eigsh(reduced_geometric, k=1, which="SA", return_eigenvectors=False, tol=1.0e-8)[0])
-        kg_max = float(eigsh(reduced_geometric, k=1, which="LA", return_eigenvectors=False, tol=1.0e-8)[0])
+        start = _deterministic_start_vector(reduced_geometric.shape[0])
+        kg_min = float(
+            eigsh(
+                reduced_geometric,
+                k=1,
+                which="SA",
+                return_eigenvectors=False,
+                tol=1.0e-8,
+                v0=start,
+            )[0]
+        )
+        kg_max = float(
+            eigsh(
+                reduced_geometric,
+                k=1,
+                which="LA",
+                return_eigenvectors=False,
+                tol=1.0e-8,
+                v0=start,
+            )[0]
+        )
     except (RuntimeError, ValueError, TypeError):
         kg_min = float("nan")
         kg_max = float("nan")

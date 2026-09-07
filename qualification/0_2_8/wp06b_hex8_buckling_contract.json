@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP06B-HEX8-BUCKLING-CONTRACT",
+  "work_package": "WP06B",
+  "applicable_version": "0.2.8-development",
+  "baseline_sha": "be8fbd99d8a3d3b8e4ee3b8d867842389b063061",
+  "status": "ROOT_CAUSE_AUDIT_AND_MINIMAL_REMEDIATION",
+  "source_record": "COMB-HEX8-linear_buckling",
+  "parent_campaign": "qualification/0_2_8/wp06_hex8_buckling_vnv.json",
+  "root_cause_audit": {
+    "euler_factor": {
+      "classification": "MODEL_SCOPE_LIMITATION",
+      "finding": "The Euler formula, units, weak-axis inertia and factor conversion are internally correct. The cantilever discrepancy is consistent with fully integrated low-order HEX8 bending/section discretization. The pinned-pinned test leaves all but one UX degree of freedom on the x=0 plane free and returns a predominantly axial/warping first solid mode; that boundary/model is not equivalent to a pure Euler pinned column.",
+      "numerical_bug": false,
+      "oracle_problem": true
+    },
+    "mesh_convergence": {
+      "classification": "MODEL_SCOPE_LIMITATION",
+      "finding": "The declared factors are genuine generalized eigenvalues, but the selected low-order HEX8 first mode is affected by section discretization, aspect ratio and the pinned boundary constraint. The non-monotone sequence is not to be disguised as convergence.",
+      "numerical_bug": false,
+      "oracle_problem": true
+    },
+    "invalid_orientation": {
+      "classification": "TEST_ORACLE_PROBLEM",
+      "finding": "Reversing all eight connectivity entries is an orientation-preserving HEX8 permutation and correctly keeps detJ positive. A true mirrored x-orientation is required to exercise rejection.",
+      "geometry_validation_gap": false,
+      "numerical_bug": false
+    },
+    "replay_determinism": {
+      "classification": "SOLVER_NONDETERMINISM",
+      "finding": "The two complete runs retained identical critical factors and physical mode metrics to roundoff, while ARPACK/BLAS start and reduction paths changed residual and diagnostic floating-point tails. The existing sign canonicalization was not the cause and no physical eigenpair change was observed.",
+      "eigenpair_canonicalization_required": false,
+      "numerical_bug": true
+    },
+    "external_oracle": {
+      "classification": "MODEL_SCOPE_LIMITATION",
+      "finding": "The current Docker/CalculiX service is unavailable. No external result is invented. The historical C3D8 record remains historical only; Code_Aster remains NOT_COMPARABLE under the frozen comparability rule.",
+      "numerical_bug": false
+    }
+  },
+  "scope": {
+    "inherited_without_expansion": true,
+    "element": "HEX8",
+    "analysis": "linear_buckling",
+    "formulation": "first linearized tangent-instability factor from one converged proportional preload",
+    "material": "homogeneous isotropic_3d small-strain linear elasticity",
+    "loads": "uniform nodal dead compression on the x=L end plane",
+    "geometry": "rectangular prismatic solid column with x-axis length L, y-width b=1.2 and z-height h=1.0",
+    "boundary_configurations": [
+      "cantilever: all DOFs fixed on x=0, x=L end free",
+      "pinned_pinned_lateral: UY/UZ fixed on both end planes and one x=0 UX anchor"
+    ],
+    "mesh": "conforming structured HEX8 meshes with at least three declared refinements in x/y/z",
+    "no_scope_change": true
+  },
+  "tolerance_policy": {
+    "inherited_from": "qualification/0_2_8/wp06_hex8_buckling_contract.json",
+    "changed": false,
+    "fixed_before_wp06": true,
+    "post_observation_retuning": false,
+    "preload_relative_residual": 1.0e-8,
+    "geometric_stiffness_symmetry_relative": 1.0e-12,
+    "eigen_residual_relative_pass": 1.0e-7,
+    "critical_factor_bracket_relative": 1.0e-3,
+    "analytical_factor_relative_error": 0.10,
+    "analytical_mode_mac": 0.90,
+    "refinement_minimum_levels": 3,
+    "refinement_final_adjacent_factor_change": 0.01,
+    "external_factor_relative_error": 0.10,
+    "external_mode_mac": 0.90,
+    "scale_relation_relative_error": 0.02,
+    "preload_relation_relative_error": 0.02,
+    "replay_digest": "exact equality of declared deterministic outputs"
+  },
+  "minimal_remediation": {
+    "numerical_source_change": {
+      "applied": true,
+      "path": "src/solveur/core/analyses/buckling.py",
+      "change": "Pass a fixed normalized ARPACK start vector to the existing sparse eigensolver calls. The generalized eigenproblem, tolerances and mode-sign canonicalization are unchanged.",
+      "regression_required": true
+    },
+    "validation_test_change": {
+      "applied": true,
+      "path": "scripts/run_wp06_hex8_buckling.py",
+      "change": "Replace the orientation-preserving reverse permutation with a true mirrored x-connectivity permutation so invalid HEX8 detJ rejection is exercised.",
+      "regression_required": true
+    },
+    "not_applied": [
+      "No Euler formula or tolerance change.",
+      "No boundary-condition or scope rewrite.",
+      "No numerical formulation, integration or geometric-stiffness change.",
+      "No invented external correlation."
+    ]
+  },
+  "promotion_gate": "QUALIFIED_BOUNDED_CANDIDATE only if the unchanged WP06 gates pass after the demonstrated minimal fixes; no public promotion is applied by WP06B.",
+  "owner_gate_required": true,
+  "public_maturity_during_wp06b": "NOT_QUALIFIED"
+}
