@@ -1,0 +1,48 @@
+{
+  "mode": "partition",
+  "comparisons": [
+    {
+      "reference": "small_serial",
+      "label": "small_mpi1",
+      "values": {
+        "displacement": 8.773124029742788e-15,
+        "reactions": 5.429838990946876e-15,
+        "energy": 4.620601456440448e-15,
+        "residual_difference": 1.510591643300858e-16,
+        "equilibrium_difference": 4.306339242211684e-16
+      },
+      "pass": true,
+      "same_model": true,
+      "raw_digest_equal": false
+    },
+    {
+      "reference": "small_serial",
+      "label": "small_mpi2_contract",
+      "values": {
+        "displacement": 1.9719769247729345e-14,
+        "reactions": 1.117388475064684e-14,
+        "energy": 2.114813743524632e-14,
+        "residual_difference": 1.1565482686987903e-15,
+        "equilibrium_difference": 3.353219882586326e-15
+      },
+      "pass": true,
+      "same_model": true,
+      "raw_digest_equal": false
+    },
+    {
+      "reference": "small_serial",
+      "label": "small_mpi4",
+      "values": {
+        "displacement": 1.1049765009821615e-14,
+        "reactions": 5.623801511670636e-15,
+        "energy": 1.4039519809953538e-14,
+        "residual_difference": 7.264632740163762e-16,
+        "equilibrium_difference": 2.7968864139396836e-16
+      },
+      "pass": true,
+      "same_model": true,
+      "raw_digest_equal": false
+    }
+  ],
+  "pass": true
+}
