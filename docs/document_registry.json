@@ -5093,6 +5093,19 @@
   "tests": [
     "tests/unit/test_028_wp01_maturity_matrix.py"
   ]
+},
+{
+  "id": "DOC-REF-API-003",
+  "path": "reference/qf_solver_api.md",
+  "title": "QF Solver public Python API contract",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "examples/tet4_static.json"
+  ],
+  "tests": [
+    "tests/unit/test_public_api_contract.py"
+  ]
 }
   ]
   

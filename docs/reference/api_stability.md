@@ -18,6 +18,8 @@ from qf_solver import check_mesh, load_model, save_result, solve_model
 ```
 
 The standard flow is `load_model -> check_mesh -> solve_model -> save_result`.
+The complete symbol inventory, signatures, stability categories, and exception
+contract are maintained in the [`qf_solver` API contract](qf_solver_api.md).
 The package version is available without importing implementation modules:
 
 ```python
