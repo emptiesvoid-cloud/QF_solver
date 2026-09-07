@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP13-02A-HARMONIC-MIXED-CONTRACT",
+  "contract_id": "WP13-02A-HARMONIC-MIXED-CONTRACT-001",
+  "work_package": "WP13-02A",
+  "applicable_version": "0.2.8-development",
+  "creation_sha": "889fbf27328e843813b670bcbded98327e320b24",
+  "status": "PREDECLARED_CONTRACT",
+  "objective": "Freeze a bounded V&V contract for a future connected mixed TET4/WEDGE6/HEX8 harmonic campaign without changing the production formulation or declaring a maturity promotion.",
+  "scope": {
+    "analysis": "linear harmonic response / FRF",
+    "backend": "small-system SciPy complex reference path only for 02C; no distributed-runtime claim",
+    "element_families": ["TET4", "WEDGE6", "HEX8"],
+    "interfaces": [
+      "conforming shared triangular TET4-WEDGE6 interface",
+      "conforming shared quadrilateral WEDGE6-HEX8 interface"
+    ],
+    "kinematics": "small-strain homogeneous linear isotropic elasticity",
+    "mass": "consistent translational element mass",
+    "damping": {
+      "model": "Rayleigh",
+      "beta_stiffness": 0.0,
+      "mass_coefficient": "alpha=2*zeta*omega1",
+      "zeta_at_first_mode": 0.02
+    },
+    "geometry": "WP13-01K compact elbow at n=1: HEX8 box [0,1]x[-1,0]x[0,1], WEDGE6 right-triangular prism x>=0,y>=0,x+y<=1,z in [0,2], and a TET4 continuation over z in [2,3], with shared conforming interfaces and 48 translational DOF.",
+    "boundary_conditions": "All translational DOFs on the HEX8 y=-1 support surface are fixed; no independent support is allowed on TET4 or WEDGE6.",
+    "harmonic_load": "Unit generalized modal force proportional to the independent first mode mass vector, applied as a fixed complex amplitude with zero phase; no frequency-dependent load retuning.",
+    "monitored_dofs": "The first modal coordinate and a fixed free-interface/probe displacement selected before execution; the probe list is part of the evidence record.",
+    "excluded": [
+      "nonlinear dynamics",
+      "contact",
+      "nonconforming or hanging-node interfaces",
+      "TET10/HEX20/PYRAMID5 mixed dynamics",
+      "distributed harmonic performance",
+      "harmonic maturity promotion",
+      "general arbitrary-load or arbitrary-geometry claim"
+    ]
+  },
+  "frequency_contract": {
+    "reference_frequency": "f1=omega1/(2*pi) from the independent dense generalized-eigen oracle",
+    "frequency_ratios": [0.0, 0.5, 0.8, 0.95, 1.0, 1.05, 1.2, 1.5, 2.0],
+    "required_points": ["zero-frequency/static limit", "off-resonance points below and above f1", "near-resonance points 0.95*f1 and 1.05*f1", "resonance point f1 with declared 2% damping"],
+    "no_result_dependent_frequency_selection": true
+  },
+  "independent_oracle": {
+    "method": "Separate dense generalized eigensolve of independently scattered K/M contributions, followed by the closed-form first-mode SDOF FRF H(omega)=1/(k1-omega^2*m1+i*omega*c1).",
+    "independence_boundary": "The reference implementation must not call HarmonicResponseSolver, the production router, or the production frequency loop. It may consume an independently scattered K/M snapshot and scipy.linalg.eigh.",
+    "role": "Validates amplitude, phase, resonance and off-resonance behavior for the declared assembled system; it is not an external correlation and does not by itself qualify the element formulation.",
+    "external_correlation": "NOT_REQUIRED_FOR_THIS_NARROW_02C_CONTRACT; no external-correlation claim is allowed."
+  },
+  "predeclared_gates": {
+    "fixed_before_execution": true,
+    "post_observation_retuning": false,
+    "zero_frequency_static_relative": {"operator": "<=", "value": 1.0e-8},
+    "oracle_amplitude_relative": {"operator": "<=", "value": 0.01},
+    "oracle_phase_absolute_rad": {"operator": "<=", "value": 0.02},
+    "harmonic_residual_relative": {"operator": "<=", "value": 1.0e-7},
+    "frequency_grid_consistency_relative": {"operator": "<=", "value": 1.0e-8},
+    "interface_displacement_continuity": "shared translational DOFs are unique and have zero jump",
+    "interface_force_transfer_relative": {"operator": "<=", "value": 1.0e-8},
+    "replay_amplitude_relative": {"operator": "<=", "value": 1.0e-12},
+    "replay_phase_absolute_rad": {"operator": "<=", "value": 1.0e-12},
+    "replay_residual_absolute_difference": {"operator": "<=", "value": 1.0e-12},
+    "replay_frequency_grid": "identical declared frequencies and same convergence status",
+    "pure_control": "Record pure-family controls where a physically comparable control exists; never relabel a mixed result based on a control.",
+    "numerical_determinism": "two complete replays under the same process and solver settings; raw bitwise identity is diagnostic only"
+  },
+  "required_evidence": [
+    "predeclared geometry/material/BC/load/damping/frequency records",
+    "independent dense K/M oracle and first-mode frequency",
+    "amplitude and phase at every declared frequency",
+    "zero-frequency, off-resonance and near-resonance checks",
+    "complex dynamic residual and interface force transfer",
+    "two complete deterministic replays",
+    "pure-family controls when comparable",
+    "explicit record of any rejected route or unsupported backend"
+  ],
+  "abort_criteria": [
+    "WEDGE6 remains rejected by the public harmonic compatibility preflight and no separately approved 02C route is available",
+    "consistent mass or Rayleigh damping assembly is not symmetric/compatible across the three families",
+    "no independent analytical or reduced FRF oracle can be implemented without reusing the production harmonic solver",
+    "interface continuity or dynamic force transfer fails",
+    "the conditioning contract fails before solving",
+    "a tolerance or frequency point would need to be changed after observing a result",
+    "a solver/formulation redesign is required rather than a bounded route enablement"
+  ],
+  "claim_policy": {
+    "maximum": "Only a bounded, connected mixed harmonic evidence statement for the declared compact-elbow case, damping and frequency ratios may be considered after a separate 02C campaign and Owner review.",
+    "not_allowed": "No general mixed harmonic support, no distributed-performance claim, no production maturity claim and no claim for routes outside this contract.",
+    "owner_gate_required": true
+  },
+  "integrity": {
+    "numerical_source_change_allowed": false,
+    "formulation_change_allowed": false,
+    "maturity_change_allowed": false,
+    "historical_0_2_7_evidence_read_only": true,
+    "wp13_01_records_read_only": true,
+    "contract_change_after_first_result": false
+  }
+}
