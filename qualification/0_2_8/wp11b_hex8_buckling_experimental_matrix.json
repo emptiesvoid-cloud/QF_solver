@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP11B-HEX8-BUCKLING-EXPERIMENTAL-MATRIX",
+  "work_package": "WP11B",
+  "source_sha": "eed9fc7cdeec07f77cccfa647cfa167031668bef",
+  "technical_decision": "EXPERIMENTAL_CANDIDATE",
+  "proposed_public_status": "EXPERIMENTAL",
+  "owner_gate_required": true,
+  "scope": "HEX8 linear eigenvalue buckling; linear-elastic prestress; valid bounded cantilever solid block; first positive mode; exploratory/research use only",
+  "limitations": [
+    "WP06 Euler and mesh-convergence FAIL results remain unchanged and visible.",
+    "No general Euler prediction or convergence claim.",
+    "No external correlation claim.",
+    "No production, certification, nonlinear, post-buckling, arbitrary-mesh, mixed-mesh or multi-mode claim."
+  ],
+  "integrity": {
+    "numerical_source_changed": false,
+    "bugs_found": false,
+    "bugs_fixed": false,
+    "predeclared_gates_changed": false
+  }
+}

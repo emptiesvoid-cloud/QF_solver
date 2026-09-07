@@ -310,3 +310,21 @@ chain topology is not an arbitrary connected industrial mesh. No accuracy,
 production, modal, dynamic, nonlinear, PYRAMID5, HEX8-SRI or universal
 scalability claim is made. The optional 1M and 3M targets were not run and remain
 non-blockers; no 0.2.7 evidence or prior qualification record was changed.
+
+## WP11B HEX8 buckling experimental-readiness gate
+
+WP11B adds a separate pre-publication experimental-readiness record for HEX8
+linear eigenvalue buckling. Its frozen benchmark is a clamped solid cantilever
+block under uniform end-face compression, not the historical pinned Euler model.
+The three declared refinements produce finite positive factors with UZ-dominant
+modes, passing prestress, geometric-stiffness, eigen-residual, scaling,
+robustness and replay checks. Refinement is characterized honestly and is not
+claimed to converge to Euler.
+
+The result is `EXPERIMENTAL_CANDIDATE`, proposing `EXPERIMENTAL` exposure only
+after a separate Owner gate. The historical WP06 Euler and mesh-convergence
+`FAIL` results remain unchanged, no external correlation is claimed, and no
+0.2.7 evidence or numerical source was modified. See the [WP11B report](wp11b_hex8_buckling_experimental_vnv.md),
+[contract](wp11b_hex8_buckling_experimental_contract.md),
+[evidence](../../../qualification/0_2_8/wp11b_hex8_buckling_experimental_vnv.json)
+and [matrix](../../../qualification/0_2_8/wp11b_hex8_buckling_experimental_matrix.json).
