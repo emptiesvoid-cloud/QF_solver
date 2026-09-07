@@ -242,3 +242,15 @@ and [`WP08B matrix`](../../../qualification/0_2_8/wp08b_mixed_modal_matrix.json)
 record `QUALIFIED_BOUNDED_CANDIDATE` only. It remains a separate mixed-workflow
 candidate, with no public maturity relabel or change to the 46 combination
 records, pending a dedicated Owner gate.
+
+The dedicated [`WP08B Owner gate`](wp08b_owner_gate_final.md) approves the
+workflow as `QUALIFIED_BOUNDED` with limitations. The qualification is limited
+to modal linear analysis of the tested fixed-base conforming TET4/WEDGE6/HEX8
+chain, consistent translational mass, and the first six positive modes at
+levels 1/2/4/8. Shape-function prolongation and the fine consistent-mass MAC
+are the valid cross-mesh comparison; the original WP08 shared-node MAC gate
+and its failure remain unchanged. No external correlation is claimed, and no
+modal stress, Newmark, harmonic, nonlinear, contact, nonconforming, higher-
+order-family or large-performance claim is created. The Owner decision is
+recorded in the [`WP08B Owner record`](../../../qualification/0_2_8/wp08b_owner_gate_final.json),
+without changing the 46 element-analysis combinations or starting WP09.
