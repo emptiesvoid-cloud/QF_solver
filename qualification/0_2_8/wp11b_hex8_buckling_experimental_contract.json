@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP11B-HEX8-BUCKLING-EXPERIMENTAL-CONTRACT",
+  "work_package": "WP11B",
+  "baseline_sha": "eed9fc7cdeec07f77cccfa647cfa167031668bef",
+  "status": "PREDECLARED",
+  "decision_space": ["EXPERIMENTAL_CANDIDATE", "NOT_QUALIFIED"],
+  "scope": "HEX8 linear eigenvalue buckling with linear-elastic prestress, valid bounded geometries, explicitly tested boundary conditions and first positive mode only; exploratory/research use.",
+  "benchmark": {
+    "name": "clamped solid cantilever block under uniform end-face dead compression",
+    "geometry": "rectangular prismatic HEX8 block, L=4.0, b=1.2, h=1.0",
+    "boundary_conditions": "all UX/UY/UZ fixed on x=0; x=L end face free",
+    "preload": "uniform nodal compression in UX on x=L, total P=1.0",
+    "material": {"E": 1000.0, "nu": 0.3, "model": "homogeneous isotropic linear elasticity"},
+    "levels": [[2, 2, 2], [4, 4, 4], [6, 6, 6]],
+    "modes": "first positive linearized tangent-instability factor and associated mode"
+  },
+  "gates": {
+    "preload_relative_residual_max": 1e-8,
+    "geometric_stiffness_symmetry_relative_max": 1e-12,
+    "eigen_residual_relative_max": 1e-7,
+    "critical_factor": "finite and strictly positive",
+    "mode": "finite, dominant lateral UZ and no NaN/Inf",
+    "E_scaling": "doubling E gives factor ratio 2.0 within 5%",
+    "preload_scaling": "doubling P gives factor ratio 0.5 within 5%",
+    "geometry_sensitivity": "doubling L gives a finite positive factor lower than the reference",
+    "moderate_perturbation": "finite positive factor within 10% of the level-4 reference",
+    "replays": "two exact declared-output digests"
+  },
+  "refinement_policy": "record factors, adjacent changes, mode direction and residuals; do not require convergence to Euler and do not relabel a trend as convergence",
+  "external_oracle": "desirable but not required for EXPERIMENTAL_CANDIDATE; report NOT_AVAILABLE if unavailable",
+  "excluded_scope": [
+    "general Euler prediction",
+    "general convergence claim",
+    "certification or production use",
+    "imperfections, nonlinear/post-buckling or plasticity",
+    "arbitrary meshes",
+    "universal accuracy claim",
+    "multi-mode or mixed-mesh buckling",
+    "HEX8R, SRI, B-bar or hourglass formulations"
+  ],
+  "integrity": {
+    "wp06_gates_unchanged": true,
+    "historical_0_2_7_evidence_unchanged": true,
+    "numerical_source_change_permitted": false,
+    "post_observation_retuning": false
+  }
+}
