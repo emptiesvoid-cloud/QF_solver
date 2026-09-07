@@ -1,0 +1,406 @@
+{
+  "applicable_version": "0.2.8-development",
+  "artifact_classification": "CONTROLLED_PROOF",
+  "baseline_modified": false,
+  "baseline_sha": "0ad191a41b45283cff53bb461996b08c8dc2739a",
+  "bug_audit": {
+    "bugs_fixed": false,
+    "bugs_found": false
+  },
+  "checks": {
+    "convergence": {
+      "observed": {
+        "all_pass": true,
+        "levels": [
+          {
+            "displacement_norm": 1.5668260040044446e-05,
+            "element_count": 1,
+            "force_balance_relative_error": 1.260064970365687e-16,
+            "free_relative_residual": 1.340123006720315e-16,
+            "level": 1,
+            "moment_balance_relative_error": 8.144429729801879e-17,
+            "node_count": 6,
+            "status": "PASS",
+            "strain_energy": 4.349735968970511e-06
+          },
+          {
+            "displacement_norm": 3.511377017531008e-05,
+            "element_count": 2,
+            "force_balance_relative_error": 2.638391228454011e-16,
+            "free_relative_residual": 2.732709393410062e-16,
+            "level": 2,
+            "moment_balance_relative_error": 2.0298673864102293e-16,
+            "node_count": 9,
+            "status": "PASS",
+            "strain_energy": 9.088329304014482e-06
+          },
+          {
+            "displacement_norm": 8.783539521108817e-05,
+            "element_count": 4,
+            "force_balance_relative_error": 1.1106542500550444e-15,
+            "free_relative_residual": 9.949689777851646e-16,
+            "level": 4,
+            "moment_balance_relative_error": 3.1118371778414034e-15,
+            "node_count": 15,
+            "status": "PASS",
+            "strain_energy": 1.8611388470673678e-05
+          }
+        ],
+        "refinement_levels": [
+          1,
+          2,
+          4
+        ]
+      },
+      "status": "PASS"
+    },
+    "elemental": {
+      "observed": {
+        "affine_mapping_abs": 2.220446049250313e-16,
+        "affine_strain_max_abs": 3.469446951953614e-18,
+        "constitutive_stress_relative": 4.0100584824250234e-17,
+        "derivative_sum_max_abs": 0.0,
+        "energy_identity_relative": 1.3984503859156594e-16,
+        "integration_point_count": 6,
+        "minimum_production_detJ": 1.0,
+        "post_processing_finite": true,
+        "production_reference_stiffness_relative": 3.927286158142333e-16,
+        "production_volume": 1.0,
+        "reference_volume": 1.0,
+        "rigid_body_residual_relative": 2.6505788805961612e-17,
+        "shape_kronecker_max_abs": 0.0,
+        "shape_partition_abs": 1.1102230246251565e-16,
+        "stiffness_rank": 12,
+        "stiffness_symmetry_relative": 0.0
+      },
+      "status": "PASS"
+    },
+    "external_oracle": {
+      "observed": {
+        "artifact": "qualification/0_2_7/vnv_v2/wp09_final_external_evidence.json",
+        "artifact_sha256": "9237cc1fdb8d54fcca2bf19089142ec55087c091d62180da737a498f0b6c4868",
+        "calculix_status": "NOT_COMPARABLE",
+        "cases_total": 12,
+        "contract_sha256": "e99e3366ed8af7689cd32ae87a0e4726c4e78350b0f23c8591067688cb2d9970",
+        "current_numeric_source_unchanged_since_external": true,
+        "executed_in_wp05": false,
+        "external_cases_run": 12,
+        "external_fail": 0,
+        "external_pass": 12,
+        "external_replay": {
+          "case_id": "WP09-FINAL-J-REFINEMENT-4",
+          "first_output_digest": "685ce7d0f257eedcca0b98ae390d4469e35fedc591221fabe455275b8fe60f3d",
+          "second_output_digest": "685ce7d0f257eedcca0b98ae390d4469e35fedc591221fabe455275b8fe60f3d",
+          "status": "PASS"
+        },
+        "external_skipped": 0,
+        "historical_source_sha": "4b2fcdc9ed51821b05b52851912be3ebbe764b14",
+        "independent_comparable": true,
+        "max_relative_errors": {
+          "displacement": 2.9229502854856794e-15,
+          "strain_energy": 2.471435039975173e-15,
+          "total_reaction": 3.5954185263640105e-15
+        },
+        "post_result_retuning": false,
+        "qf_replay": "PASS",
+        "reuse_policy": "The 0.2.7 controlled Code_Aster artifact is preserved and audited; it is not rewritten or falsely relabeled as a current rerun.",
+        "solver": {
+          "base_image_digest": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+          "element": "PENTA6",
+          "gui_used": false,
+          "image": "qf-solver/code-aster-headless:18.1.0",
+          "image_digest": "sha256:df70aa569db65f952cdfd4b1391acac4819d0afa46d0788ee756683b87fac579",
+          "run_aster_no_mpi": true,
+          "solver": "Code_Aster",
+          "version": "18.1.0"
+        },
+        "tolerance_policy_fixed_before_execution": true
+      },
+      "status": "PASS"
+    },
+    "face_loads": {
+      "observed": {
+        "pressure_all_faces_max_relative_error": 1.1102230246251565e-16,
+        "pressure_face_resultants": {
+          "0": [
+            0.0,
+            0.0,
+            2.0
+          ],
+          "1": [
+            0.0,
+            0.0,
+            -2.0
+          ],
+          "2": [
+            0.0,
+            3.9999999999999996,
+            0.0
+          ],
+          "3": [
+            -1.9999999999999998,
+            -3.9999999999999996,
+            0.0
+          ],
+          "4": [
+            2.0,
+            0.0,
+            0.0
+          ]
+        },
+        "quadrilateral_faces_checked": 3,
+        "traction_relative_error": 6.634851608868751e-17,
+        "triangular_faces_checked": 2
+      },
+      "status": "PASS"
+    },
+    "geometry_robustness": {
+      "observed": {
+        "cyclic_permutation": "VALID",
+        "cyclic_permutation_policy": "explicitly assessed; no automatic repair",
+        "direct_invalid_geometry_rejected": true,
+        "flat": "INVALID",
+        "flat_fatal_findings": [
+          "COINCIDENT_ELEMENT_NODES"
+        ],
+        "inverted": "INVALID",
+        "inverted_fatal_findings": [
+          "JACOBIAN_ORIENTATION_INVALID",
+          "WEDGE6_JACOBIAN_CERTIFICATE_INVALID",
+          "NONPOSITIVE_SIGNED_VOLUME"
+        ],
+        "near_degenerate": "VALID_WITH_WARNING",
+        "nominal": "VALID",
+        "valid_skew": "VALID"
+      },
+      "status": "PASS"
+    },
+    "multi_element_and_equilibrium": "PASS",
+    "patch_affine": "PASS",
+    "post_processing": "PASS"
+  },
+  "contract": "qualification/0_2_8/wp05_wedge6_contract.json",
+  "current_replays": {
+    "replay_policy": "result_digest equality; timestamps and runtimes are not part of the deterministic comparison",
+    "required_replays": 2,
+    "wp07": {
+      "all_declared_verdicts_pass": true,
+      "case_count": 8,
+      "case_ids": [
+        "WP07-SHAPE-IDENTITIES",
+        "WP07-JACOBIAN-NOMINAL",
+        "WP07-JACOBIAN-TERRA-ADVERSARIAL",
+        "WP07-K-SYMMETRY",
+        "WP07-RIGID-RANK",
+        "WP07-AFFINE-CONSTANT-STRAIN",
+        "WP07-QUADRATURE-COMPARISON",
+        "WP07-STRESS-RECOVERY"
+      ],
+      "case_result_digests": [
+        "9de248da2dac3ca599a7180dc4a133ce81f314835e7c295196f5bf89ea0796a1",
+        "abdc2e30d584849b9c65525146ce2d080e532d626b95513cea5c1efc43b4414e",
+        "e163ee6c97979492fe0c2adb3bb7ab98b1a8e039f04a9f63d4a153c2daa10e82",
+        "12112b48138d9621e1cb99d7befc1454b7e1d4393b9e0f4284a9f167124e7e06",
+        "89a44959b76feffcedf75b6b8a6304e7011ebc11d95e28848814b8908e7544dc",
+        "097a0e6a7715026d167b5c74d66df85f65af394c4995de78d129b982c436fe38",
+        "606f3c7c2b863990d01f920509e3b5955e0b0c3462f8c1287039420b4ee56aa7",
+        "7f259a2721b750b456a8bba9ce03bbc0d647de5dfa50e54214d4d57dca1b1310"
+      ],
+      "catalog": "qualification/0_2_7/vnv_v2/wp07_cases.json",
+      "deterministic": true,
+      "replay_digests": [
+        "d7676c50d104ee9237dc5a4011d3e13a27718635e2a2fdad163f72caa6914e29",
+        "d7676c50d104ee9237dc5a4011d3e13a27718635e2a2fdad163f72caa6914e29"
+      ],
+      "verdict_counts": {
+        "EXPECTED_FAILURE_PASS": 1,
+        "PASS": 7
+      }
+    },
+    "wp08": {
+      "all_declared_verdicts_pass": true,
+      "case_count": 15,
+      "case_ids": [
+        "WP08-GMSH-IMPORT",
+        "WP08-GMSH-FACE-MAP",
+        "WP08-NODAL-STATIC",
+        "WP08-BODY-FORCE",
+        "WP08-TRI-PRESSURE",
+        "WP08-QUAD-PRESSURE",
+        "WP08-TRACTION",
+        "WP08-MULTI-PRISM",
+        "WP08-MOMENT-EQUILIBRIUM",
+        "WP08-PRESCRIBED-DISPLACEMENT",
+        "WP08-POST",
+        "WP08-ENERGY",
+        "WP08-BENDING",
+        "WP08-DISTORTED",
+        "WP08-INVERTED"
+      ],
+      "case_result_digests": [
+        "be7f078ed0693866fd3a8495961e28529fa569f239663680069456f424158008",
+        "2409ee9af3671e2b27bc441adda0368a0fb8eb7c713b18d380de5cefdb60c91b",
+        "ec518f699aa901cd53f46381fb9a790188dccc85fabe57998c3f77e005d4ee67",
+        "c08beedead7552c7a8326a03384b45c8e85d9a2bee6985cda4fdb84bb74b9589",
+        "d69b45c315cbe2fe7c1a97aa75b89eb483d552b1251520d153f0f763b2769c54",
+        "759398dd6381aa7c5ffd71772a6c81da6d706835bcaa50554e702db854f81689",
+        "63cb5565cb6c796bfce649900dbb1b97ead818d4556cb841e702ecff9f4f6c79",
+        "78b8143e7ad5a935492444388a674bd548f443b1c84fb5cc23d8c3e6f940235e",
+        "01fbf861eff98d8bcfb1ce37f728805d241f811ee32395f9f1c639c42ae00f2e",
+        "894c97817decb94dd16856cf16f4fb7823900c3297baf4a258eef99e50f8bbbf",
+        "455a615fc7043d7227eca6bc75b921f962d7cca821d7d102f6eb606ac1a4571d",
+        "73289956a2b5c2c58b2cb6461667057f1c96c839d29f5a3977de1e7511b5741e",
+        "5ace9e1e0b671982e968bde3df4ad566cadcbbe6eb0512344bff730e7930a4cd",
+        "6b48473afdb46addd3c78232f925be558e3b789967e4aa6e9dfed464015e5b87",
+        "28065ad4a91e07bb3f8d23febdee8129b6d826af80c5727ce0f1ec28a95415fb"
+      ],
+      "catalog": "qualification/0_2_7/vnv_v2/wp08_cases.json",
+      "deterministic": true,
+      "replay_digests": [
+        "05e2aa275a7b51377d9feda3fe93d8ac3d9d122768babed2bac875b81ad97ab1",
+        "05e2aa275a7b51377d9feda3fe93d8ac3d9d122768babed2bac875b81ad97ab1"
+      ],
+      "verdict_counts": {
+        "EXPECTED_FAILURE_PASS": 1,
+        "PASS": 14
+      }
+    },
+    "wp09": {
+      "all_declared_verdicts_pass": true,
+      "case_count": 22,
+      "case_ids": [
+        "WP09-AFFINE-TENSION",
+        "WP09-COMPRESSION",
+        "WP09-SHEAR",
+        "WP09-BENDING",
+        "WP09-TRI-PRESSURE",
+        "WP09-QUAD-PRESSURE",
+        "WP09-PRESCRIBED-DISPLACEMENT",
+        "WP09-MULTI-ELEMENT",
+        "WP09-DISTORTED-VALID",
+        "WP09-REFINEMENT-1",
+        "WP09-REFINEMENT-2",
+        "WP09-REFINEMENT-3",
+        "WP09-ASPECT-RATIOS",
+        "WP09-SKEW",
+        "WP09-NEAR-DEGENERATE",
+        "WP09-INVERTED",
+        "WP09-WRONG-NODE-ORDER",
+        "WP09-MALFORMED-GMSH",
+        "WP09-SINGULAR-BC",
+        "WP09-RIGID-TRANSFORM",
+        "WP09-SCALE",
+        "WP09-DETERMINISTIC-REPLAY"
+      ],
+      "case_result_digests": [
+        "70b04e363647a388d175b162aa6359ecfe0936a0e797b5b6b6408cfc418ee4b4",
+        "1fdf34bf1c5e878a2f7b1587c3251dbb7c4af4ac75a13a51c7c1d35091444dcc",
+        "d28017a670698431524d3f9f6f8809a2010b0aa4f0fd48cc2e8e3ce591ee61f5",
+        "7d6bbbb1d32b3a2ad118f41177218c50c0137d185f4fc1d84b8ce3b3c04c2f67",
+        "5e3a46ea9e03f3c7cb8c83218ce2980bdf5de3f01136fc8331bc432112ad464a",
+        "0bd5489e88c4d802c3d3efd60f2dd38bf359bbf6ed9719b345ce4b3969890410",
+        "7d3aee510cd64eab04d7c204569db1b6ec97df08e640916f6284a2830658eb78",
+        "d84654eb90b5816f1f1e9a503ccda53a314bea06440d06e6e20b22760b7f72a7",
+        "c5b7fd505c7be162a1374490d88f47b9ca961577beaf856afb65b0c115a5ff0f",
+        "b02221ed09ae713a44937b3af133bdf869dd8b4789b6b97d7d7c8bd69ed43b06",
+        "5ef0c71c9dbfd56d4150508e591bcff1a3e26d0f560f53e7ff79a024bc3f0987",
+        "c897b908edcda494a945417fa8b5f1a39efbb039242a5ffe9c1f463995991828",
+        "8493c6e9fca31785e040b9a20ec4d581cb377265f4e97de7a1239001fb8b847b",
+        "b379956c920c986feb3a97dd265d2af611ae529cef43226682a0b776c9185b47",
+        "6171cdc85e3f38d5ea2d122cd800eea3862191fdeea807f0247334316f246dab",
+        "c6b78a3962342fa42e1bef5cdf14a0055ba94ac97b9374b15a3e1f9091ac55a6",
+        "98bd03d056b119e434aee60f1c3e40cc5d1243f2bbed314f5c42193ace50e7e7",
+        "16f16e4cf3c5ef3d6c5fcd00b95e0f655979c917e28fe664b2a9e8851b796c14",
+        "0be24cb1356de37310bbb3baa4f49bc73824ca53ac7021c681b5274da1ba8cfb",
+        "d26b4896d8da6b35ea9bd6645ef3cf9022bb99211b2b415c03aa30bd263f14da",
+        "50d76ae6d42592026d07cecc4e83a9f55f9ae50759098c3ded4079e6174f3977",
+        "591ef4f60c81761e4e4956d8406ebabae6b33fb33e32f540cfcf8ed6af086011"
+      ],
+      "catalog": "qualification/0_2_7/vnv_v2/wp09_cases.json",
+      "deterministic": true,
+      "replay_digests": [
+        "a9457156552b8ccc1525c531d816fcac1bef7e16ab9857f8bafacf199272b55c",
+        "a9457156552b8ccc1525c531d816fcac1bef7e16ab9857f8bafacf199272b55c"
+      ],
+      "verdict_counts": {
+        "EXPECTED_FAILURE_PASS": 4,
+        "PASS": 18
+      }
+    }
+  },
+  "global_state": {
+    "current_public": {
+      "EXPERIMENTAL": 14,
+      "NOT_QUALIFIED": 1,
+      "QUALIFIED_BOUNDED": 31,
+      "TOTAL": 46
+    },
+    "not_qualified_combination": "COMB-HEX8-linear_buckling",
+    "technical_if_owner_approves": {
+      "EXPERIMENTAL": 13,
+      "NOT_QUALIFIED": 1,
+      "QUALIFIED_BOUNDED": 32,
+      "TOTAL": 46
+    },
+    "wedge6_static_current_public": "EXPERIMENTAL"
+  },
+  "historical_0_2_7_evidence_modified": false,
+  "numerical_source_modified": false,
+  "owner_gate_required": true,
+  "promotion_boundary": {
+    "excluded_routes_remain": [
+      "COMB-WEDGE6-modal public state is unchanged",
+      "WEDGE6 Newmark",
+      "WEDGE6 harmonic"
+    ],
+    "public_action": "No public maturity relabel is applied before a separate Owner gate.",
+    "scope": {
+      "analysis": "linear_static",
+      "element": "WEDGE6",
+      "excluded": [
+        "modal",
+        "Newmark",
+        "harmonic",
+        "nonlinear",
+        "J2",
+        "Total-Lagrangian",
+        "contact",
+        "WEDGE15",
+        "mixed-mesh qualification",
+        "unbounded arbitrary distortion",
+        "stress qualification against an external solver"
+      ],
+      "failure_policy": "coincident, nonfinite, inverted, wrong-order and negative-Jacobian geometry fails explicitly; no automatic repair",
+      "geometry": "positive-Jacobian valid affine, conforming multi-element, declared skew/distorted and aspect-ratio probes",
+      "import": "Gmsh Prism 6 through the existing importer",
+      "loads": [
+        "nodal",
+        "body_force",
+        "gravity",
+        "uniform TRI3 pressure",
+        "uniform QUAD4 pressure",
+        "constant surface traction"
+      ],
+      "material": "homogeneous isotropic small-strain linear elasticity",
+      "post_processing": [
+        "displacement",
+        "Gauss-point strain",
+        "Gauss-point stress",
+        "von Mises diagnostic",
+        "strain energy",
+        "reactions",
+        "force and moment equilibrium"
+      ],
+      "production_quadrature": "TRI3_X_GAUSS2",
+      "reference_quadrature": "DUFFY_GAUSS5_X_GAUSS4 verification-only",
+      "topology": "six-node linear triangular prism / Gmsh Prism 6"
+    },
+    "technical_gate": "QUALIFIED_BOUNDED only if every declared internal gate passes, current deterministic replays agree, the independent external artifact remains complete and comparable, and no source or historical-evidence change is present"
+  },
+  "public_maturity": "EXPERIMENTAL",
+  "record_id": "QF-028-WP05-WEDGE6-VNV",
+  "schema_version": 1,
+  "status": "CAMPAIGN_COMPLETE_OWNER_GATE_PENDING",
+  "technical_decision": "QUALIFIED_BOUNDED",
+  "work_package": "WP05"
+}

@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP05-WEDGE6-VNV-CONTRACT",
+  "work_package": "WP05",
+  "applicable_version": "0.2.8-development",
+  "baseline_sha": "0ad191a41b45283cff53bb461996b08c8dc2739a",
+  "status": "PREDECLARED_CAMPAIGN_CONTRACT",
+  "source_record": "COMB-WEDGE6-linear_static",
+  "wp01_gap": {
+    "disposition": "NEEDS_MAJOR_VNV",
+    "candidate_plan": "CAND-WEDGE6-STATIC",
+    "proof_missing": "The 0.2.7 Owner decision kept static WEDGE6 experimental; an expanded independent static campaign is required.",
+    "required_tests": "tests/verification/test_028_wedge6_static_campaign.py",
+    "required_exit": "Affine, face-load, multi-element, refinement and valid-distortion evidence; two replays; complete provenance; explicit Owner decision."
+  },
+  "historical_0_2_7_inventory": [
+    {"path": "qualification/0_2_7/wp07_state.json", "role": "kernel state", "status": "PASS; public static maturity remained EXPERIMENTAL"},
+    {"path": "qualification/0_2_7/wp08_state.json", "role": "static workflow state", "status": "PASS; public qualification deferred"},
+    {"path": "qualification/0_2_7/wp09_state.json", "role": "robustness and external state", "status": "PASS_WITH_LIMITATIONS; public qualification deferred"},
+    {"path": "qualification/0_2_7/wp09_final_state.json", "role": "external closure state", "status": "PASS_WITH_LIMITATIONS; public qualification deferred"},
+    {"path": "qualification/0_2_7/wp09r_state.json", "role": "Code_Aster headless replay state", "status": "PASS_WITH_LIMITATIONS"},
+    {"path": "qualification/0_2_7/vnv_v2/wp07_evidence.json", "role": "elemental machine-readable evidence", "status": "controlled historical evidence"},
+    {"path": "qualification/0_2_7/vnv_v2/wp08_evidence.json", "role": "static workflow machine-readable evidence", "status": "controlled historical evidence"},
+    {"path": "qualification/0_2_7/vnv_v2/wp09_evidence.json", "role": "robustness machine-readable evidence", "status": "controlled historical evidence"},
+    {"path": "qualification/0_2_7/vnv_v2/wp09_final_external_evidence.json", "role": "Code_Aster PENTA6 correlation", "status": "12 bounded PASS comparisons; Owner review tolerance state"},
+    {"path": "qualification/0_2_7/vnv_v2/wp09r_code_aster_evidence.json", "role": "affine Code_Aster correlation", "status": "bounded PASS; Owner review tolerance state"},
+    {"path": "docs/verification/0_2_7/0_2_7_wedge6_kernel.md", "role": "public technical record", "status": "historical; no rewrite"},
+    {"path": "docs/verification/0_2_7/0_2_7_wedge6_static_vertical_slice.md", "role": "public static-slice record", "status": "historical; no rewrite"},
+    {"path": "docs/verification/0_2_7/0_2_7_wedge6_robustness_external_vnv.md", "role": "robustness/external record", "status": "historical; no rewrite"},
+    {"path": "qualification/0_2_7/wedge6_formulation_contract.json", "role": "formulation and observable contract", "status": "historical; no rewrite"},
+    {"path": "qualification/0_2_7/wedge6_mapping_fixture.json", "role": "mapping and face-order fixture", "status": "historical; no rewrite"}
+  ],
+  "scope": {
+    "element": "WEDGE6",
+    "topology": "six-node linear triangular prism / Gmsh Prism 6",
+    "analysis": "linear_static",
+    "material": "homogeneous isotropic small-strain linear elasticity",
+    "production_quadrature": "TRI3_X_GAUSS2",
+    "reference_quadrature": "DUFFY_GAUSS5_X_GAUSS4 verification-only",
+    "import": "Gmsh Prism 6 through the existing importer",
+    "loads": ["nodal", "body_force", "gravity", "uniform TRI3 pressure", "uniform QUAD4 pressure", "constant surface traction"],
+    "post_processing": ["displacement", "Gauss-point strain", "Gauss-point stress", "von Mises diagnostic", "strain energy", "reactions", "force and moment equilibrium"],
+    "geometry": "positive-Jacobian valid affine, conforming multi-element, declared skew/distorted and aspect-ratio probes",
+    "failure_policy": "coincident, nonfinite, inverted, wrong-order and negative-Jacobian geometry fails explicitly; no automatic repair",
+    "excluded": ["modal", "Newmark", "harmonic", "nonlinear", "J2", "Total-Lagrangian", "contact", "WEDGE15", "mixed-mesh qualification", "unbounded arbitrary distortion", "stress qualification against an external solver"]
+  },
+  "oracles": {
+    "elemental": "independent shape-function identities, affine mapping, Jacobian certificate, stiffness symmetry/rank, six rigid-body modes and production/reference quadrature comparison",
+    "patch": "closed-form constant strain for affine displacement fields; constitutive stress and strain-energy identities",
+    "loads_and_equilibrium": "geometric face area vectors, prescribed load resultants/moments, global reaction balance and solver free residual",
+    "convergence": "declared conforming stacked-prism refinement levels 1, 2 and 4 with the independent Code_Aster PENTA6 records as the external comparator",
+    "external": {
+      "solver": "Code_Aster 18.1.0",
+      "element": "PENTA6",
+      "artifact": "qualification/0_2_7/vnv_v2/wp09_final_external_evidence.json",
+      "comparability": "same six-node physical prism connectivity, material, loads and primary observables displacement/reaction/strain-energy; bounded cases only",
+      "calculix": "NOT_COMPARABLE because the inherited C3D6 route uses a different integration convention"
+    }
+  },
+  "tolerance_policy": {
+    "fixed_before_execution": true,
+    "post_observation_retuning": false,
+    "element_partition_and_derivative_sum_abs": 1.0e-14,
+    "affine_mapping_abs": 1.0e-13,
+    "stiffness_symmetry_relative": 1.0e-12,
+    "rigid_body_residual_relative": 1.0e-12,
+    "stiffness_rank": 12,
+    "affine_strain_abs": 1.0e-12,
+    "constitutive_stress_relative": 1.0e-12,
+    "production_reference_stiffness_relative": 1.0e-12,
+    "energy_identity_relative": 1.0e-12,
+    "load_resultant_relative": 1.0e-12,
+    "equilibrium_force_relative": 1.0e-12,
+    "equilibrium_moment_relative": 1.0e-12,
+    "free_solver_residual_relative": 1.0e-12,
+    "external_classes": {
+      "AFFINE_SAME_MESH": {"displacement": 1.0e-6, "total_reaction": 1.0e-6, "strain_energy": 1.0e-6, "approval_state": "OWNER_REVIEW_REQUIRED"},
+      "DISTORTED": {"displacement": 1.0e-5, "total_reaction": 1.0e-5, "strain_energy": 1.0e-5, "approval_state": "OWNER_REVIEW_REQUIRED"},
+      "REFINEMENT": {"displacement": 1.0e-5, "total_reaction": 1.0e-5, "strain_energy": 1.0e-5, "approval_state": "OWNER_REVIEW_REQUIRED"}
+    },
+    "invalid_geometry": "exact declared failure code / non-PASS verdict"
+  },
+  "replays_required": 2,
+  "promotion_gate": {
+    "technical_decision": "QUALIFIED_BOUNDED only if every declared internal gate passes, current deterministic replays agree, the independent external artifact remains complete and comparable, and no source or historical-evidence change is present",
+    "owner_gate": "required before any public maturity relabel",
+    "public_maturity_during_wp05": "EXPERIMENTAL",
+    "claim_boundary": "The bounded decision, if obtained, does not promote WEDGE6 modal/Newmark/harmonic or arbitrary solid-element behavior."
+  },
+  "artifact_policy": {
+    "historical_0_2_7": "read-only and preserved",
+    "new_artifacts": "qualification/0_2_8 and docs/verification/0_2_8 only",
+    "numerical_source_change": false,
+    "baseline_change": false
+  }
+}
