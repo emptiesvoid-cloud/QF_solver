@@ -272,3 +272,22 @@ and the 46-combination element-analysis registry, so public dispatch remains
 fail-closed. No coherent h-refinement or external-solver correlation is
 claimed. WP07/WP08 scopes remain TET4/WEDGE6/HEX8 only, and WP10 is not
 started.
+
+## WP10 HEX8 selective reduced integration research gate
+
+WP10 evaluates a separate HEX8 SRI research kernel under the frozen
+[formulation](wp10_hex8_sri_formulation.md) and
+[contract](../../../qualification/0_2_8/wp10_hex8_sri_contract.json). The
+[machine-readable evidence](../../../qualification/0_2_8/wp10_hex8_sri_vnv.json)
+and [matrix](../../../qualification/0_2_8/wp10_hex8_sri_matrix.json) compare
+the unchanged standard HEX8 with a deviatoric `2×2×2` plus volumetric centre
+integration variant.
+
+The bounded campaign records measurable fine-level displacement-error
+reduction on both declared bending families, with passing rank, rigid-body,
+symmetry, energy, geometry and replay gates. The result is
+`EXPERIMENTAL_BOUNDED_CANDIDATE`, not `QUALIFIED_BOUNDED`. A diagnostic
+affine nodal-force action difference remains, so no general patch-force or
+production accuracy claim is made. SRI is not in the public registry or
+compatibility descriptor; HEX8 standard and all prior WP01–WP09 records remain
+unchanged. No WP11 large mixed workflow is started.

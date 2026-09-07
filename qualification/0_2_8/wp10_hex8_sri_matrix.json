@@ -1,0 +1,27 @@
+{
+  "baseline_sha": "324e496c125d55d6925309ee791faaedcead3039",
+  "evidence": "qualification/0_2_8/wp10_hex8_sri_vnv.json",
+  "integrity": {
+    "hex8_standard_changed": false,
+    "historical_0_2_7_evidence_changed": false,
+    "numerical_source_changed": true,
+    "wp07_wp09_claims_changed": false
+  },
+  "limitations": [
+    "Affine strain and energy pass, but the centre-only volumetric term changes the affine nodal force action.",
+    "No general patch-force, industrial external-correlation or production performance claim is made."
+  ],
+  "owner_gate_required": true,
+  "proposed_maturity": "EXPERIMENTAL_BOUNDED_CANDIDATE",
+  "public_promotion": false,
+  "record_id": "QF-028-WP10-HEX8-SRI-MATRIX",
+  "registry_separation": {
+    "element_analysis_registry_46_changed": false,
+    "hex8_sri_public_registry_entry": false,
+    "public_hex8_standard_unchanged": true
+  },
+  "schema_version": 1,
+  "scope": "Internal isotropic small-strain linear-static HEX8 SRI research candidate on the tested bending and nearly-incompressible structured meshes.",
+  "technical_decision": "EXPERIMENTAL_BOUNDED_CANDIDATE",
+  "work_package": "WP10"
+}

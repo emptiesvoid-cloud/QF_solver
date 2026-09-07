@@ -1,0 +1,386 @@
+{
+  "baseline_locking_cases": [
+    "bending_nu030",
+    "nearly_incompressible_nu04999"
+  ],
+  "baseline_sha": "324e496c125d55d6925309ee791faaedcead3039",
+  "campaign": {
+    "cases": {
+      "bending_nu030": {
+        "sri": [
+          {
+            "distorted": false,
+            "element_count": 16,
+            "energy": 0.0015809216232498138,
+            "finite": true,
+            "free_residual_relative": 3.769458594256392e-12,
+            "global_dof_count": 135,
+            "local_stiffness_rule_evaluations": 9,
+            "max_strain": 5.976854159166164e-06,
+            "max_stress": 10.847874602086721,
+            "node_count": 45,
+            "nu": 0.3,
+            "nx": 4,
+            "ny": 2,
+            "nz": 2,
+            "reference_energy": 0.0160312,
+            "reference_tip_displacement": -0.0320624,
+            "relative_displacement_error": 0.9013846983853666,
+            "relative_energy_error": 0.9013846983850359,
+            "sri": true,
+            "tip_displacement": -0.003161843246489021
+          },
+          {
+            "distorted": false,
+            "element_count": 32,
+            "energy": 0.005502415188126883,
+            "finite": true,
+            "free_residual_relative": 1.7110942549910415e-11,
+            "global_dof_count": 243,
+            "local_stiffness_rule_evaluations": 9,
+            "max_strain": 2.0158071073789157e-05,
+            "max_stress": 42.482302545200206,
+            "node_count": 81,
+            "nu": 0.3,
+            "nx": 8,
+            "ny": 2,
+            "nz": 2,
+            "reference_energy": 0.0160312,
+            "reference_tip_displacement": -0.0320624,
+            "relative_displacement_error": 0.6567683524533172,
+            "relative_energy_error": 0.656768352454783,
+            "sri": true,
+            "tip_displacement": -0.011004830376300763
+          },
+          {
+            "distorted": false,
+            "element_count": 64,
+            "energy": 0.014507707667993527,
+            "finite": true,
+            "free_residual_relative": 3.540318800607793e-11,
+            "global_dof_count": 459,
+            "local_stiffness_rule_evaluations": 9,
+            "max_strain": 5.5734154163051017e-05,
+            "max_stress": 124.06569765799631,
+            "node_count": 153,
+            "nu": 0.3,
+            "nx": 16,
+            "ny": 2,
+            "nz": 2,
+            "reference_energy": 0.0160312,
+            "reference_tip_displacement": -0.0320624,
+            "relative_displacement_error": 0.09503295647345253,
+            "relative_energy_error": 0.09503295648525827,
+            "sri": true,
+            "tip_displacement": -0.029015415336365574
+          }
+        ],
+        "standard": [
+          {
+            "distorted": false,
+            "element_count": 16,
+            "energy": 0.001495749049584584,
+            "finite": true,
+            "free_residual_relative": 8.496326669255272e-12,
+            "global_dof_count": 135,
+            "local_stiffness_rule_evaluations": 8,
+            "max_strain": 5.6532912222136195e-06,
+            "max_stress": 5.880073481393106,
+            "node_count": 45,
+            "nu": 0.3,
+            "nx": 4,
+            "ny": 2,
+            "nz": 2,
+            "reference_energy": 0.0160312,
+            "reference_tip_displacement": -0.0320624,
+            "relative_displacement_error": 0.9066976240338656,
+            "relative_energy_error": 0.906697624034097,
+            "sri": false,
+            "tip_displacement": -0.0029914980991765892
+          },
+          {
+            "distorted": false,
+            "element_count": 32,
+            "energy": 0.004613644981092582,
+            "finite": true,
+            "free_residual_relative": 1.859931431068575e-11,
+            "global_dof_count": 243,
+            "local_stiffness_rule_evaluations": 8,
+            "max_strain": 1.655471215559151e-05,
+            "max_stress": 18.53268014885326,
+            "node_count": 81,
+            "nu": 0.3,
+            "nx": 8,
+            "ny": 2,
+            "nz": 2,
+            "reference_energy": 0.0160312,
+            "reference_tip_displacement": -0.0320624,
+            "relative_displacement_error": 0.7122083823392729,
+            "relative_energy_error": 0.7122083823361581,
+            "sri": false,
+            "tip_displacement": -0.009227289962085296
+          },
+          {
+            "distorted": false,
+            "element_count": 64,
+            "energy": 0.009681019150973818,
+            "finite": true,
+            "free_residual_relative": 5.6702118320165365e-11,
+            "global_dof_count": 459,
+            "local_stiffness_rule_evaluations": 8,
+            "max_strain": 3.714494092428499e-05,
+            "max_stress": 38.56611475982644,
+            "node_count": 153,
+            "nu": 0.3,
+            "nx": 16,
+            "ny": 2,
+            "nz": 2,
+            "reference_energy": 0.0160312,
+            "reference_tip_displacement": -0.0320624,
+            "relative_displacement_error": 0.3961138809849752,
+            "relative_energy_error": 0.39611388099619377,
+            "sri": false,
+            "tip_displacement": -0.01936203830230733
+          }
+        ]
+      },
+      "nearly_incompressible_nu04999": {
+        "sri": [
+          {
+            "distorted": false,
+            "element_count": 16,
+            "energy": 0.0017055147406024583,
+            "finite": true,
+            "free_residual_relative": 3.5909721227956682e-09,
+            "global_dof_count": 135,
+            "local_stiffness_rule_evaluations": 9,
+            "max_strain": 7.3823770345885254e-06,
+            "max_stress": 64.37303589745648,
+            "node_count": 45,
+            "nu": 0.4999,
+            "nx": 4,
+            "ny": 2,
+            "nz": 2,
+            "reference_energy": 0.0160359976,
+            "reference_tip_displacement": -0.0320719952,
+            "relative_displacement_error": 0.8936446125177369,
+            "relative_energy_error": 0.8936446123811806,
+            "sri": true,
+            "tip_displacement": -0.003411029476825282
+          },
+          {
+            "distorted": false,
+            "element_count": 32,
+            "energy": 0.005176218343388331,
+            "finite": true,
+            "free_residual_relative": 8.8518827897173e-09,
+            "global_dof_count": 243,
+            "local_stiffness_rule_evaluations": 9,
+            "max_strain": 2.212249306493562e-05,
+            "max_stress": 211.6589438204502,
+            "node_count": 81,
+            "nu": 0.4999,
+            "nx": 8,
+            "ny": 2,
+            "nz": 2,
+            "reference_energy": 0.0160359976,
+            "reference_tip_displacement": -0.0320719952,
+            "relative_displacement_error": 0.6772125752782441,
+            "relative_energy_error": 0.6772125768222658,
+            "sri": true,
+            "tip_displacement": -0.010352436736296518
+          },
+          {
+            "distorted": false,
+            "element_count": 64,
+            "energy": 0.010730955846595757,
+            "finite": true,
+            "free_residual_relative": 1.1270791077212468e-08,
+            "global_dof_count": 459,
+            "local_stiffness_rule_evaluations": 9,
+            "max_strain": 5.169807052388642e-05,
+            "max_stress": 375.5111075341689,
+            "node_count": 153,
+            "nu": 0.4999,
+            "nx": 16,
+            "ny": 2,
+            "nz": 2,
+            "reference_energy": 0.0160359976,
+            "reference_tip_displacement": -0.0320719952,
+            "relative_displacement_error": 0.33082081111402606,
+            "relative_energy_error": 0.33082081238302524,
+            "sri": true,
+            "tip_displacement": -0.02146191173389085
+          }
+        ],
+        "standard": [
+          {
+            "distorted": false,
+            "element_count": 16,
+            "energy": 0.00023704742115790396,
+            "finite": true,
+            "free_residual_relative": 6.203035210224785e-09,
+            "global_dof_count": 135,
+            "local_stiffness_rule_evaluations": 8,
+            "max_strain": 3.1983256150992517e-06,
+            "max_stress": 86.16863837295148,
+            "node_count": 45,
+            "nu": 0.4999,
+            "nx": 4,
+            "ny": 2,
+            "nz": 2,
+            "reference_energy": 0.0160359976,
+            "reference_tip_displacement": -0.0320719952,
+            "relative_displacement_error": 0.9852177939358682,
+            "relative_energy_error": 0.9852177939239711,
+            "sri": false,
+            "tip_displacement": -0.00047409484193424535
+          },
+          {
+            "distorted": false,
+            "element_count": 32,
+            "energy": 0.0007540291087402587,
+            "finite": true,
+            "free_residual_relative": 1.1768390887671077e-08,
+            "global_dof_count": 243,
+            "local_stiffness_rule_evaluations": 8,
+            "max_strain": 4.829530940695499e-06,
+            "max_stress": 93.96161609162921,
+            "node_count": 81,
+            "nu": 0.4999,
+            "nx": 8,
+            "ny": 2,
+            "nz": 2,
+            "reference_energy": 0.0160359976,
+            "reference_tip_displacement": -0.0320719952,
+            "relative_displacement_error": 0.9529789707898911,
+            "relative_energy_error": 0.9529789709659062,
+            "sri": false,
+            "tip_displacement": -0.0015080582231256712
+          },
+          {
+            "distorted": false,
+            "element_count": 64,
+            "energy": 0.002113728133923575,
+            "finite": true,
+            "free_residual_relative": 3.30600200052655e-08,
+            "global_dof_count": 459,
+            "local_stiffness_rule_evaluations": 8,
+            "max_strain": 1.0687422739533249e-05,
+            "max_stress": 97.38949620536987,
+            "node_count": 153,
+            "nu": 0.4999,
+            "nx": 16,
+            "ny": 2,
+            "nz": 2,
+            "reference_energy": 0.0160359976,
+            "reference_tip_displacement": -0.0320719952,
+            "relative_displacement_error": 0.8681885473934305,
+            "relative_energy_error": 0.8681885476259004,
+            "sri": false,
+            "tip_displacement": -0.004227456275302925
+          }
+        ]
+      }
+    },
+    "gates": {
+      "finite_campaign": "PASS",
+      "locking_reduction": "PASS",
+      "mesh_convergence": "PASS",
+      "patch": "PASS",
+      "stability": "PASS"
+    },
+    "locking_reduction": {
+      "bending_nu030": {
+        "fine_level_error_reduction": 0.760086780505788,
+        "fine_level_sri_error": 0.09503295647345253,
+        "fine_level_standard_error": 0.3961138809849752
+      },
+      "nearly_incompressible_nu04999": {
+        "fine_level_error_reduction": 0.6189528045408431,
+        "fine_level_sri_error": 0.33082081111402606,
+        "fine_level_standard_error": 0.8681885473934305
+      }
+    },
+    "mesh_convergence": {
+      "levels": [
+        4,
+        8,
+        16
+      ],
+      "sri_error_non_increasing": true
+    },
+    "numerical_source_changed": true,
+    "patch_and_rank": {
+      "constant_stiffness_action_difference": 0.8749534857084776,
+      "constant_strain_error": 3.3306690738754696e-16,
+      "energy_identity_relative": 6.339974218338293e-16,
+      "null_modes": 6,
+      "patch_error": 3.3306690738754696e-16,
+      "positive_mode_min_relative": 6.655264464088052e-07,
+      "rank": 18,
+      "rigid_body_relative": 4.569502793590297e-16,
+      "status": "PASS",
+      "stiffness_symmetry_relative": 0.0
+    },
+    "predeclared_tolerances": {
+      "constant_strain_absolute": 1e-11,
+      "energy_identity_relative": 1e-10,
+      "fine_locking_gain": 0.5,
+      "patch_absolute": 1e-11,
+      "positive_mode_relative": 1e-12,
+      "rank_null_relative": 1e-10,
+      "rigid_body_relative": 1e-10,
+      "symmetry_relative": 1e-12
+    },
+    "stability": {
+      "invalid_orientation": "PASS",
+      "status": "PASS",
+      "valid_cases": [
+        {
+          "distorted": false,
+          "max_eigenvalue": 4174083524.990866,
+          "min_eigenvalue": -2.8333464735193035e-08,
+          "null_modes": 6
+        },
+        {
+          "distorted": true,
+          "max_eigenvalue": 4174083524.990866,
+          "min_eigenvalue": -2.8333464735193035e-08,
+          "null_modes": 6
+        }
+      ]
+    },
+    "standard_hex8_changed": false,
+    "technical_decision": "EXPERIMENTAL_BOUNDED_CANDIDATE"
+  },
+  "contract": "qualification/0_2_8/wp10_hex8_sri_contract.json",
+  "formulation": "full deviatoric 2x2x2 plus centre-only volumetric contribution for isotropic linear elasticity",
+  "integrity": {
+    "hex8_standard_changed": false,
+    "historical_0_2_7_evidence_changed": false,
+    "numerical_source_changed": true,
+    "wp07_wp09_claims_changed": false
+  },
+  "limitations": [
+    "SRI is internal and not a public registry or compatibility capability.",
+    "Scope is isotropic small-strain linear-static HEX8 only.",
+    "No hourglass control, HEX8R, nonlinear, modal, dynamic, buckling, mixed-large or PYRAMID5 maturation claim.",
+    "No external solver correlation is claimed; the Timoshenko oracle is used for the executed slender cantilever scope.",
+    "The affine strain and energy checks pass, but the centre-only volumetric term changes the affine nodal force action; no general patch-force qualification is claimed."
+  ],
+  "record_id": "QF-028-WP10-HEX8-SRI-VNV",
+  "replays": {
+    "deterministic": true,
+    "digests": [
+      "c82fda8fb906a827a2a59a11413b283ecdf4a7eb159a5ca9242cc3aaa5c46e66",
+      "c82fda8fb906a827a2a59a11413b283ecdf4a7eb159a5ca9242cc3aaa5c46e66"
+    ],
+    "required": 2,
+    "status": "PASS"
+  },
+  "schema_version": 1,
+  "status": "CAMPAIGN_COMPLETE_RESEARCH_GATE",
+  "technical_decision": "EXPERIMENTAL_BOUNDED_CANDIDATE",
+  "work_package": "WP10"
+}
