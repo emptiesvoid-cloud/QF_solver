@@ -104,6 +104,18 @@ static/modal decision. The resulting bounded maturity decisions are recorded
 by the [`final WP03 Owner gate`](wp03_owner_gate_final.md): seven routes are
 `QUALIFIED_BOUNDED`; DISCRETE Newmark remains `EXPERIMENTAL`.
 
+## WP04 MITC3 and MITC4 V&V
+
+The WP04 frozen contract, executable replays and bounded decision delta are
+recorded in [`WP04 MITC V&V`](wp04_mitc_vnv.md) and its
+[`machine-readable evidence`](../../../qualification/0_2_8/wp04_mitc_vnv.json)
+and [`WP04 maturity matrix`](../../../qualification/0_2_8/wp04_maturity_matrix.json).
+MITC3 static, MITC4 static, MITC4 Newmark and MITC4 harmonic are technical
+`QUALIFIED_BOUNDED` candidates pending Owner review. MITC3 modal/Newmark/
+harmonic remain `EXPERIMENTAL` because no executable independent shell oracle
+is present. MITC4 modal also remains `EXPERIMENTAL`: its deterministic replay
+misses the frozen relative-residual gate, and that tolerance was not relaxed.
+
 ## Explicit boundaries
 
 The eight nonlinear combination records remain `KEEP_EXPERIMENTAL`: this WP
