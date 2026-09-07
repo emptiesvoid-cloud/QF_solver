@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP08B-MIXED-MODAL-CONTRACT",
+  "work_package": "WP08B",
+  "applicable_version": "0.2.8-development",
+  "baseline_sha": "59a438bc0d58ee32d35e084dd091eefe78418bb6",
+  "status": "PREDECLARED_FOLLOW_UP_CONTRACT",
+  "parent_records": [
+    "qualification/0_2_8/wp08b_root_cause_audit.json",
+    "qualification/0_2_8/wp08_mixed_modal_contract.json",
+    "qualification/0_2_8/wp08_mixed_modal_vnv.json"
+  ],
+  "objective": "Re-run the bounded mixed TET4/WEDGE6/HEX8 modal refinement campaign on one invariant physical domain after the WP08 root-cause audit demonstrated an invalid mesh-to-mesh comparison protocol.",
+  "scope": {
+    "analysis": "modal",
+    "families": ["TET4", "WEDGE6", "HEX8"],
+    "interfaces": "conforming shared-node triangular and quadrilateral interfaces only",
+    "kinematics": "small-strain homogeneous linear isotropic elasticity",
+    "mass": "consistent translational finite-element mass only",
+    "boundary_conditions": "fixed x=0 base used by the declared chain",
+    "modes": "first six positive modes only",
+    "refinement_levels": [1, 2, 4, 8],
+    "excluded": [
+      "lumped or concentrated-mass qualification",
+      "Newmark",
+      "harmonic",
+      "nonlinear",
+      "contact",
+      "nonconforming interfaces",
+      "hanging nodes or MPC/RBE transitions",
+      "TET10/HEX20 mixed",
+      "PYRAMID5",
+      "large-model performance",
+      "universal all-frequency or modal-stress claim"
+    ]
+  },
+  "mesh_construction_rule": {
+    "physical_domain": "Every refinement level retains the single TET4 plus all WEDGE6 and HEX8 segments generated for that level.",
+    "expected_element_counts": "1 TET4, N WEDGE6 and N HEX8 for level N.",
+    "invariant_checks": ["total volume", "coordinate bounding box", "material density", "fixed-base boundary", "strictly increasing node and DOF counts"]
+  },
+  "comparison_method": {
+    "frequency_pairing": "Compute the full coarse-to-fine MAC matrix and select the maximum-total-MAC assignment with the Hungarian algorithm; retain the recorded permutation.",
+    "mesh_mapping": "Evaluate each coarse mode at every fine-mesh node using the containing coarse element's linear shape functions. Reject extrapolation or failed inverse natural-coordinate mapping.",
+    "mac_inner_product": "Use the fine global consistent mass matrix after coarse-mode prolongation. For vectors u and v, MAC=(u^T M_fine v)^2/((u^T M_fine u)(v^T M_fine v)).",
+    "normalization": "Use unit generalized-mass production modes and normalize prolonged coarse vectors in the fine-mass inner product before subspace calculations.",
+    "near_degenerate_rule": "For diagnostic pure-family controls only, modes within 3 percent relative frequency separation are compared as a mass-orthonormal subspace by the minimum squared singular value. The mixed qualification modes are individually matched unless that rule is triggered.",
+    "no_retroactive_change": "This comparison method belongs only to WP08B. The WP08 shared-node gate and its recorded failure remain unchanged."
+  },
+  "oracle": {
+    "mass": "analytical rho*sum(volume) and translational mass conservation",
+    "modal": "independent dense local-matrix scatter plus scipy.linalg.eigh; it does not call the production GlobalAssembler matrix path or ModalAnalysisSolver",
+    "external": "NOT_AVAILABLE_AND_NOT_REQUIRED_FOR_THIS_BOUNDED_MIXED_ASSEMBLY_SCOPE",
+    "external_policy": "No external correlation is claimed."
+  },
+  "tolerance_policy": {
+    "fixed_before_execution": true,
+    "post_observation_retuning": false,
+    "values": {
+      "geometry_volume_relative": 1.0e-12,
+      "geometry_coordinate_absolute": 1.0e-12,
+      "mapping_reconstruction_absolute": 1.0e-10,
+      "mapping_interface_disagreement_absolute": 1.0e-12,
+      "mass_symmetry_relative": 1.0e-12,
+      "mass_conservation_relative": 1.0e-12,
+      "modal_residual_relative": 1.0e-8,
+      "modal_mass_orthogonality_relative": 1.0e-10,
+      "oracle_frequency_relative": 1.0e-9,
+      "adjacent_frequency_relative": 1.0e-1,
+      "mapped_global_mac": 8.5e-1,
+      "pure_control_subspace_mac": 8.5e-1,
+      "near_degenerate_frequency_relative": 3.0e-2,
+      "replay_frequency_absolute": 1.0e-12,
+      "replay_mode_absolute_after_sign": 1.0e-10
+    }
+  },
+  "required_gates": [
+    "invariant physical-domain construction at all four levels",
+    "mixed mass assembly and analytical mass conservation",
+    "pairwise and three-family modal assembly/oracle checks",
+    "independent dense generalized-eigen oracle",
+    "mapped global frequency and MAC matching for every adjacent refinement transition",
+    "residuals, mass orthogonality, normalization and ordered positive modes",
+    "mixed-interface and invalid-input rejection",
+    "pure TET4, WEDGE6 and HEX8 diagnostic controls, recorded without relabeling any individual family route",
+    "two deterministic complete replays",
+    "no modal-stress or external-correlation claim"
+  ],
+  "integrity": {
+    "wp08_contract_and_evidence_read_only": true,
+    "historical_0_2_7_evidence_read_only": true,
+    "numerical_source_change_allowed": false,
+    "public_maturity_relabel_applied": false,
+    "owner_gate_required_if_candidate": true
+  }
+}
