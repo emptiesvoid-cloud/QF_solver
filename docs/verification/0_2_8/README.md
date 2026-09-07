@@ -226,3 +226,19 @@ against a `0.5` gate). WP08 therefore records
 `SUPPORTED_WITH_LIMITATIONS`, applies no public promotion and requests no
 Owner gate. No external industrial correlation is claimed, no modal stress
 claim is made, and no 0.2.7 evidence or WP07 static claim is changed.
+
+## WP08B mixed modal refinement follow-up
+
+The [`WP08B root-cause audit`](../../../qualification/0_2_8/wp08b_root_cause_audit.json)
+shows that the failed WP08 refinement compared changing mechanical domains:
+only the first WEDGE6/HEX8 segment was retained beyond level one. WP08B leaves
+that record and its `0.5` gate unchanged, then uses a new predeclared contract
+with the full invariant physical chain and a fine-mass mapped MAC comparator.
+
+All new mixed gates pass: volume/bounds are invariant, the first six modes are
+globally matched without permutations, and the minimum mapped MAC is `0.9037`.
+The resulting [`WP08B evidence`](../../../qualification/0_2_8/wp08b_mixed_modal_vnv.json)
+and [`WP08B matrix`](../../../qualification/0_2_8/wp08b_mixed_modal_matrix.json)
+record `QUALIFIED_BOUNDED_CANDIDATE` only. It remains a separate mixed-workflow
+candidate, with no public maturity relabel or change to the 46 combination
+records, pending a dedicated Owner gate.

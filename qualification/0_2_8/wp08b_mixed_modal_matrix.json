@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP08B-MIXED-MODAL-MATRIX",
+  "work_package": "WP08B",
+  "applicable_version": "0.2.8-development",
+  "baseline_sha": "59a438bc0d58ee32d35e084dd091eefe78418bb6",
+  "parent_matrix": "qualification/0_2_8/wp08_mixed_modal_matrix.json",
+  "root_cause_record": "qualification/0_2_8/wp08b_root_cause_audit.json",
+  "contract_record": "qualification/0_2_8/wp08b_mixed_modal_contract.json",
+  "evidence_record": "qualification/0_2_8/wp08b_mixed_modal_vnv.json",
+  "status": "TECHNICAL_CANDIDATE_OWNER_GATE_REQUIRED",
+  "public_maturity_policy": "WP08B creates a separate mixed-workflow technical candidate only. It applies no public maturity relabel and does not change the 46 element-analysis records.",
+  "summary": {
+    "wp08_initial_decision_preserved": "SUPPORTED_WITH_LIMITATIONS",
+    "wp08b_technical_decision": "QUALIFIED_BOUNDED_CANDIDATE",
+    "public_maturity_relabels_applied": 0,
+    "owner_gate_required": true,
+    "element_analysis_registry_total": 46,
+    "element_analysis_registry_changed": false,
+    "mixed_workflow_registry_separate": true
+  },
+  "mixed_candidate": {
+    "id": "CAND-MIXED-TET4-WEDGE6-HEX8-modal-consistent-mass",
+    "technical_decision": "QUALIFIED_BOUNDED_CANDIDATE",
+    "owner_gate": "PENDING",
+    "scope": "modal; fixed x=0 base; TET4 plus every WEDGE6 and HEX8 segment in the conforming chain; small-strain homogeneous linear isotropic elasticity; consistent translational finite-element mass; and the first six positive modes on levels 1, 2, 4 and 8",
+    "limitations": [
+      "No public promotion before a separate Owner gate.",
+      "No external industrial-solver correlation is claimed.",
+      "No modal-stress, Newmark, harmonic, nonlinear, contact, nonconforming-interface, higher-order-family or large-performance claim.",
+      "Pure-family controls are diagnostic only and do not relabel their individual modal routes."
+    ]
+  },
+  "root_cause_resolution": {
+    "primary": "MESH_TO_MESH_MAPPING_PROBLEM",
+    "secondary": "GEOMETRIC_DISCRETIZATION_EFFECT",
+    "wp08_gate_changed": false,
+    "wp08_evidence_rewritten": false,
+    "numerical_source_changed": false,
+    "remediation": "A separate WP08B runner retains all generated WEDGE6/HEX8 segments at every level and prolongs coarse fields to the fine mesh before applying a fine-mass global MAC."
+  },
+  "evidence_summary": {
+    "mesh_construction": "PASS",
+    "mixed_mass_assembly": "PASS",
+    "mass_conservation": "PASS",
+    "pairwise_modal": "PASS",
+    "reference_oracle": "PASS_WITHOUT_EXTERNAL_CORRELATION",
+    "mesh_refinement": "PASS",
+    "mode_residuals": "PASS",
+    "orthogonality": "PASS",
+    "mapped_global_mode_matching": "PASS",
+    "interface_robustness": "PASS",
+    "replay_determinism": "PASS_2_REPLAYS",
+    "pure_family_controls": "PASS_DIAGNOSTIC",
+    "post_processing": "PASS"
+  },
+  "registry_integrity": {
+    "source_registry_0_2_7_unchanged": true,
+    "historical_0_2_7_evidence_changed": false,
+    "wp08_evidence_unchanged": true,
+    "not_added_to_element_analysis_registry": true,
+    "mixed_workflow_record_kind": "mixed_workflow_qualification"
+  }
+}
