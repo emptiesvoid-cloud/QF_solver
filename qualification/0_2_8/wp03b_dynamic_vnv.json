@@ -1,0 +1,205 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP03B-DYNAMIC-VNV",
+  "work_package": "WP03B",
+  "applicable_version": "0.2.8-development",
+  "baseline_sha": "6b9c08f91c876bf5136a9da39555149b89dc2b98",
+  "status": "CAMPAIGN_COMPLETE_WITH_ONE_EXPERIMENTAL_ROUTE",
+  "historical_0_2_7_evidence_modified": false,
+  "supersedes": [],
+  "preserves_wp03a_decisions": [
+    "BEAM2_STATIC",
+    "BEAM2_MODAL",
+    "DISCRETE_STATIC",
+    "DISCRETE_MODAL"
+  ],
+  "policy": {
+    "allowed_decisions": ["QUALIFIED_BOUNDED", "EXPERIMENTAL", "NOT_QUALIFIED"],
+    "no_automatic_maturity_promotion": true,
+    "oracle_rule": "The exact solution of the declared one-degree-of-freedom semi-discrete linear system is an independent analytical oracle for the integration or direct-frequency route. It does not requalify the general element formulation, matrix assembly outside the declared axial/scalar subspace, or multi-DOF coupling.",
+    "replay_rule": "Each full route is executed twice in the executable test; canonical replay digests must match before a decision is recorded.",
+    "owner_rule": "Every technical bounded decision remains pending explicit Owner confirmation before any public maturity relabel."
+  },
+  "cases": {
+    "BEAM2_NEWMARK": {
+      "source_record": "COMB-BEAM2-newmark_transient",
+      "source_wp01_disposition": "NEEDS_MAJOR_VNV",
+      "decision": "QUALIFIED_BOUNDED",
+      "promotion_applied": false,
+      "owner_gate": "PENDING",
+      "scope": "One straight constant-section isotropic BEAM2, fixed root, axial UX-only free vibration, consistent axial mass, no applied load, Newmark average acceleration beta=0.25 and gamma=0.5, four periods at 40 and 80 samples per period.",
+      "hypotheses": [
+        "The axial subspace is isolated by the fixed root and zero transverse/rotational initial state.",
+        "The independent physical coefficients are k=EA/L and m=rho*A*L/3.",
+        "No damping, transverse dynamics, joints, releases, offsets, distributed loading, nonlinear response or multi-element claim is made."
+      ],
+      "oracle_type": "ANALYTICAL_SEMIDISCRETE",
+      "oracle": "u(t)=u0 cos(omega t), v(t)=-u0 omega sin(omega t), omega=sqrt((EA/L)/(rho*A*L/3)).",
+      "tolerances": {
+        "coarse.max_relative_displacement_error": 0.055,
+        "coarse.max_relative_velocity_error": 0.06,
+        "coarse.max_phase_error_rad": 0.06,
+        "coarse.measured_frequency_relative_error": 0.015,
+        "coarse.max_relative_amplitude_error": 1.0e-10,
+        "coarse.max_relative_energy_drift": 5.0e-10,
+        "dt_displacement_error_ratio": 0.30,
+        "dt_velocity_error_ratio": 0.30
+      },
+      "replay_count": 2,
+      "replay_digests": ["b998604b770a181a80cfc8c6b4d58739b7e86d75c6caec73b78980b8b78a875b", "b998604b770a181a80cfc8c6b4d58739b7e86d75c6caec73b78980b8b78a875b"],
+      "observed": {
+        "natural_frequency_hz": 143.0352584454231,
+        "coarse": {
+          "max_phase_error_rad": 0.051486704190374155,
+          "max_relative_amplitude_error": 2.667137344314341e-14,
+          "max_relative_displacement_error": 0.04825004398418592,
+          "max_relative_energy_drift": 5.3459882023855156e-14,
+          "max_relative_velocity_error": 0.051463959686752166,
+          "measured_frequency_relative_error": 0.002054098034630747
+        },
+        "fine": {
+          "max_phase_error_rad": 0.012907341207615275,
+          "max_relative_amplitude_error": 4.662069341687669e-14,
+          "max_relative_displacement_error": 0.012109026409659659,
+          "max_relative_energy_drift": 9.311493375294265e-14,
+          "max_relative_velocity_error": 0.012906982817925948,
+          "measured_frequency_relative_error": 0.0005140001477841327
+        },
+        "dt_displacement_error_ratio": 0.25096404914425413,
+        "dt_velocity_error_ratio": 0.25079653599309926
+      },
+      "exit_gate": "Two deterministic replays, analytical displacement/velocity/frequency/phase/amplitude/energy checks and dt refinement pass; explicit Owner confirmation remains required.",
+      "limitations": ["This narrow axial free-vibration case does not qualify general BEAM2 transient dynamics."]
+    },
+    "BEAM2_HARMONIC": {
+      "source_record": "COMB-BEAM2-harmonic",
+      "source_wp01_disposition": "NEEDS_MAJOR_VNV",
+      "decision": "QUALIFIED_BOUNDED",
+      "promotion_applied": false,
+      "owner_gate": "PENDING",
+      "scope": "One straight constant-section isotropic BEAM2, fixed root, axial UX unit harmonic load, mass-proportional Rayleigh damping zeta=0.02, direct complex solve at seven frequency ratios 0.25, 0.5, 0.9, 1.0, 1.1, 1.5 and 2.0.",
+      "hypotheses": [
+        "The independent scalar dynamic stiffness is k-omega^2*m+i*omega*alpha*m with k=EA/L and m=rho*A*L/3.",
+        "The sampled peak condition is only asserted on the frozen seven-frequency grid.",
+        "No transverse, multi-element, joint, release, offset, nonlinear or alternative damping-model claim is made."
+      ],
+      "oracle_type": "ANALYTICAL_SEMIDISCRETE",
+      "oracle": "H(omega)=1/(k-omega^2*m+i*omega*alpha*m), compared as complex response, amplitude and wrapped phase.",
+      "tolerances": {
+        "max_relative_amplitude_error": 1.0e-10,
+        "max_phase_error_rad": 1.0e-10,
+        "max_relative_complex_response_error": 1.0e-10,
+        "max_relative_residual": 1.0e-10
+      },
+      "replay_count": 2,
+      "replay_digests": ["acb61fb781649108f5f0a5bfdd9f1a5b304a1369633c855ae9cf5b037f7a0365", "acb61fb781649108f5f0a5bfdd9f1a5b304a1369633c855ae9cf5b037f7a0365"],
+      "observed": {
+        "frequency_count": 7,
+        "max_phase_error_rad": 2.7755575615628914e-17,
+        "max_relative_amplitude_error": 2.981662060711325e-16,
+        "max_relative_complex_response_error": 3.0734269040524025e-16,
+        "max_relative_residual": 3.552713678800501e-15,
+        "off_resonance_amplitude_ratio_high": 31.28597928785353,
+        "off_resonance_amplitude_ratio_low": 18.75666548190269,
+        "sampled_peak_frequency_hz": 143.0352584454231,
+        "sampled_peak_is_natural_frequency": true
+      },
+      "exit_gate": "Two deterministic replays, all seven analytical complex FRF samples, sampled peak and off-resonance checks pass; explicit Owner confirmation remains required.",
+      "limitations": ["The sampled resonance result is not a continuous frequency search or a general BEAM2 FRF qualification."]
+    },
+    "DISCRETE_NEWMARK": {
+      "source_record": "COMB-DISCRETE-newmark_transient",
+      "source_wp01_disposition": "NEEDS_MAJOR_VNV",
+      "decision": "EXPERIMENTAL",
+      "promotion_applied": false,
+      "owner_gate": "NOT_APPLICABLE",
+      "scope": "One grounded UX spring k=1000 N/m and one 10 kg concentrated mass, initial UX displacement 0.02 m, zero initial velocity, mass-proportional Rayleigh damping zeta=0.02, Newmark average acceleration beta=0.25 and gamma=0.5, four periods at 80 and 160 samples per period.",
+      "hypotheses": [
+        "UY and UZ are fixed; the declared route has exactly one physical translational degree of freedom.",
+        "The damping coefficient is c=alpha*m with alpha=2*zeta*sqrt(k/m).",
+        "No coupled stiffness/mass, rotational inertia, orientation, gap, nonlinear spring or multi-node claim is made."
+      ],
+      "oracle_type": "ANALYTICAL_SEMIDISCRETE",
+      "oracle": "Underdamped SDOF closed form with omega_d=omega_n*sqrt(1-zeta^2), compared in displacement, velocity, state-plane phase and damped frequency; mechanical plus trapezoid-integrated damping energy is the energy invariant.",
+      "tolerances": {
+        "coarse.max_relative_displacement_error": 0.01,
+        "coarse.max_relative_velocity_error": 0.011,
+        "coarse.max_phase_error_rad": 0.012,
+        "coarse.measured_frequency_relative_error": 0.003,
+        "coarse.max_relative_energy_balance_error": 0.0015,
+        "coarse.max_mechanical_energy_increase": 1.0e-12,
+        "dt_displacement_error_ratio": 0.30,
+        "dt_velocity_error_ratio": 0.30
+      },
+      "replay_count": 2,
+      "replay_digests": ["e1fff9708552e13deec7e74c9eb6ce1deb6e427c86b3205dc667fdef75d1dda1", "e1fff9708552e13deec7e74c9eb6ce1deb6e427c86b3205dc667fdef75d1dda1"],
+      "observed": {
+        "natural_frequency_hz": 1.5915494309189535,
+        "damped_frequency_hz": 1.5912310891954131,
+        "rayleigh_alpha": 0.4,
+        "coarse": {
+          "final_mechanical_energy_ratio": 0.36623892648971623,
+          "max_mechanical_energy_increase": -2.884602237490652e-07,
+          "max_phase_error_rad": 0.012895220110156203,
+          "max_relative_displacement_error": 0.0075545451510954835,
+          "max_relative_energy_balance_error": 0.0009669147224642686,
+          "max_relative_velocity_error": 0.0078048525988951515,
+          "measured_frequency_relative_error": 0.0005130133450242935
+        },
+        "fine": {
+          "final_mechanical_energy_ratio": 0.3659526659928775,
+          "max_mechanical_energy_increase": -4.007861241495103e-08,
+          "max_phase_error_rad": 0.0032254224099297346,
+          "max_relative_displacement_error": 0.0018891710939277844,
+          "max_relative_energy_balance_error": 0.00024314411745056372,
+          "max_relative_velocity_error": 0.0019525950059548084,
+          "measured_frequency_relative_error": 0.00012820920698430882
+        },
+        "dt_displacement_error_ratio": 0.2500707926345289,
+        "dt_velocity_error_ratio": 0.25017705090692116
+      },
+      "failed_gate": {
+        "metric": "coarse.max_phase_error_rad",
+        "reason": "The deterministic coarse-step phase error 0.012895220110156203 rad exceeds the predeclared 0.012 rad gate. The tolerance and time grid are retained without post-result adjustment."
+      },
+      "exit_gate": "Repeat the campaign under a separately predeclared contract that resolves the failed coarse-step phase gate; no maturity action is available from this record.",
+      "limitations": ["The energy-balance quadrature is a verification observable, not an additional solver output or a general damping qualification."]
+    },
+    "DISCRETE_HARMONIC": {
+      "source_record": "COMB-DISCRETE-harmonic",
+      "source_wp01_disposition": "NEEDS_MAJOR_VNV",
+      "decision": "QUALIFIED_BOUNDED",
+      "promotion_applied": false,
+      "owner_gate": "PENDING",
+      "scope": "One grounded UX spring k=1000 N/m and one 10 kg concentrated mass, unit UX harmonic load, mass-proportional Rayleigh damping zeta=0.02, direct complex solve at seven frequency ratios 0.25, 0.5, 0.9, 1.0, 1.1, 1.5 and 2.0.",
+      "hypotheses": [
+        "The declared route is a scalar translational SDOF system.",
+        "The independent FRF uses k-omega^2*m+i*omega*alpha*m.",
+        "No coupled, rotational, multi-node, orientation, nonlinear or alternate-damping claim is made."
+      ],
+      "oracle_type": "ANALYTICAL_SEMIDISCRETE",
+      "oracle": "Damped SDOF H(omega)=1/(k-omega^2*m+i*omega*alpha*m), compared as complex response, amplitude and wrapped phase.",
+      "tolerances": {
+        "max_relative_amplitude_error": 1.0e-10,
+        "max_phase_error_rad": 1.0e-10,
+        "max_relative_complex_response_error": 1.0e-10,
+        "max_relative_residual": 1.0e-10
+      },
+      "replay_count": 2,
+      "replay_digests": ["57c2062f0e632916715622be998212d409b3d31c4337cbe9418ef2e4b3a043e2", "57c2062f0e632916715622be998212d409b3d31c4337cbe9418ef2e4b3a043e2"],
+      "observed": {
+        "frequency_count": 7,
+        "max_phase_error_rad": 0.0,
+        "max_relative_amplitude_error": 1.8610114743883564e-16,
+        "max_relative_complex_response_error": 1.8610114743883564e-16,
+        "max_relative_residual": 2.220513810852149e-16,
+        "off_resonance_amplitude_ratio_high": 31.285979287853536,
+        "off_resonance_amplitude_ratio_low": 18.756665481902694,
+        "sampled_peak_frequency_hz": 1.5915494309189535,
+        "sampled_peak_is_natural_frequency": true
+      },
+      "exit_gate": "Two deterministic replays, all seven damped analytical complex FRF samples, sampled peak and off-resonance checks pass; explicit Owner confirmation remains required.",
+      "limitations": ["The sampled resonance result does not qualify a general MDOF or damping-model frequency response."]
+    }
+  }
+}
