@@ -31,13 +31,25 @@ class MixedSolidFace:
 
 
 def mixed_linear_static_scope_errors(model: Any) -> list[str]:
+    """Return explicit errors for an out-of-contract mixed static model."""
+
+    return _mixed_scope_errors(model, "linear_static")
+
+
+def mixed_modal_scope_errors(model: Any) -> list[str]:
+    """Return explicit errors for an out-of-contract mixed modal model."""
+
+    return _mixed_scope_errors(model, "modal")
+
+
+def _mixed_scope_errors(model: Any, analysis_type: str) -> list[str]:
     """Return explicit errors for an out-of-contract mixed solid model.
 
-    The general solver remains family-generic.  When a linear-static model uses
-    more than one solid family, this contract requires the three WP07 families,
-    shared-node conforming interfaces and no hidden MPC/RBE coupling.  Exact
-    coincident faces with different node identities are rejected because they
-    otherwise create disconnected duplicate DDLs without a visible solver
+    The general solver remains family-generic.  When a supported analysis model
+    uses more than one solid family, this contract requires the three WP07
+    families, shared-node conforming interfaces and no hidden MPC/RBE coupling.
+    Exact coincident faces with different node identities are rejected because
+    they otherwise create disconnected duplicate DDLs without a visible solver
     error.
     """
 
@@ -47,16 +59,17 @@ def mixed_linear_static_scope_errors(model: Any) -> list[str]:
     if len(solid_families) < 2:
         return []
 
+    scope_name = f"Mixed {analysis_type}"
     errors: list[str] = []
     unsupported = sorted(families - MIXED_LINEAR_STATIC_FAMILIES)
     if unsupported:
         errors.append(
-            "Mixed linear_static scope supports only TET4/WEDGE6/HEX8 solid families; "
+            f"{scope_name} scope supports only TET4/WEDGE6/HEX8 solid families; "
             f"received {', '.join(sorted(families))}."
         )
     if getattr(model, "multipoint_constraints", []) or getattr(model, "rbe2", []) or getattr(model, "rbe3", []):
         errors.append(
-            "Mixed linear_static scope rejects MPC/RBE coupling; hanging-node and nonconforming interface "
+            f"{scope_name} scope rejects MPC/RBE coupling; hanging-node and nonconforming interface "
             "contracts are not supported."
         )
 
@@ -72,7 +85,7 @@ def mixed_linear_static_scope_errors(model: Any) -> list[str]:
     for node_set, entries in by_nodes.items():
         if len(entries) > 2:
             errors.append(
-                "Mixed linear_static interface is non-manifold: face nodes "
+                f"{scope_name} interface is non-manifold: face nodes "
                 f"{sorted(node_set)} belong to {len(entries)} elements."
             )
 
@@ -87,13 +100,13 @@ def mixed_linear_static_scope_errors(model: Any) -> list[str]:
         families_at_geometry = {face.element_type for face in entries}
         if len(element_ids) > 1 and len(node_sets) > 1 and len(families_at_geometry) > 1:
             errors.append(
-                "Mixed linear_static nonconforming interface rejected: coincident faces from different "
+                f"{scope_name} nonconforming interface rejected: coincident faces from different "
                 "families do not share the same node identities."
             )
 
     if not cross_family_interfaces:
         errors.append(
-            "Mixed linear_static model has no conforming shared-face interface between its solid families."
+            f"{scope_name} model has no conforming shared-face interface between its solid families."
         )
     return errors
 
@@ -136,5 +149,6 @@ __all__ = [
     "MIXED_LINEAR_STATIC_FAMILIES",
     "MixedSolidFace",
     "mixed_linear_static_scope_errors",
+    "mixed_modal_scope_errors",
     "mixed_solid_faces",
 ]
