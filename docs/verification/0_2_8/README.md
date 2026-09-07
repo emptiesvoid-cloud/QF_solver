@@ -164,3 +164,23 @@ records no promotion and reconciles the unchanged global state as 32
 `COMB-HEX8-linear_buckling`. WEDGE6 static remains distinct. No 0.2.7 evidence
 or numerical source was changed, and no Owner promotion gate is requested
 while the technical decision is negative.
+
+## WP06B HEX8 buckling root-cause remediation
+
+WP06B starts from `be8fbd99d8a3d3b8e4ee3b8d867842389b063061` and reuses the
+WP06 scope and tolerances without retuning. The
+[`WP06B contract`](../../../qualification/0_2_8/wp06b_hex8_buckling_contract.json)
+classifies the Euler/refinement failures as model/scope limitations, the
+original invalid-orientation probe as a test-oracle problem, and the replay
+tail variation as sparse-solver start nondeterminism. The minimal remediation
+fixes only the latter two test/replay issues: a fixed ARPACK start vector is
+used, and a true mirrored HEX8 connectivity is tested.
+
+After remediation, invalid geometry, robustness and two complete deterministic
+replays pass. The Euler factor and mesh-refinement gates still fail in the
+unchanged scope, and the current CalculiX oracle remains unavailable. The
+[`WP06B evidence`](../../../qualification/0_2_8/wp06b_hex8_buckling_vnv.json)
+and [`WP06B maturity delta`](../../../qualification/0_2_8/wp06b_maturity_matrix.json)
+therefore retain `COMB-HEX8-linear_buckling` as `NOT_QUALIFIED`; no public
+promotion or Owner gate is applied. No 0.2.7 evidence is changed and WP07 is
+not started.
