@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "contract_id": "QF-SOLVER-0.2.8-WP13-VNV-CONTRACT",
+  "status": "TEMPLATE",
+  "purpose": "Reusable pre-declaration contract for WP13 campaigns; it does not contain campaign results.",
+  "required_fields": [
+    "scope",
+    "oracle",
+    "tolerances",
+    "required_metrics",
+    "replay_count",
+    "owner_gate",
+    "abort_criteria",
+    "claim_limitations",
+    "source_sha",
+    "environment"
+  ],
+  "field_contract": {
+    "scope": "Object with capability, analysis, in_scope and out_of_scope.",
+    "oracle": "Object declaring reference, independence and comparison observable.",
+    "tolerances": "Object with predeclared=true, named gates and numeric values fixed before execution.",
+    "required_metrics": "Non-empty list of metric identifiers.",
+    "replay_count": "Integer >= 2 for a qualifying campaign.",
+    "owner_gate": "Object declaring required boolean and decision record path when required.",
+    "abort_criteria": "Non-empty list of conditions that stop the campaign without changing gates.",
+    "claim_limitations": "Non-empty list of explicit claim boundaries.",
+    "source_sha": "40-character Git SHA of the source under test.",
+    "environment": "Object captured before execution, including Python, platform and relevant dependencies."
+  },
+  "required_metric_catalog": [
+    "residual",
+    "equilibrium",
+    "energy",
+    "reaction",
+    "determinism",
+    "runtime",
+    "memory"
+  ],
+  "tolerance_policy": {
+    "must_be_predeclared": true,
+    "post_result_changes_forbidden": true,
+    "each_gate_requires": ["metric", "operator", "limit", "tolerance_id"]
+  },
+  "owner_policy": {
+    "required_for": ["public promotion", "new public workflow", "claim expansion"],
+    "not_a_substitute_for": ["failed V&V", "missing oracle", "missing replay"]
+  }
+}

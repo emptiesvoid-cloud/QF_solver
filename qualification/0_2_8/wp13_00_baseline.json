@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "baseline_id": "QF-SOLVER-0.2.8-WP13-00",
+  "start_sha_wp13": "30bff8d585b3988befaff9cc21e881098ff1b2df",
+  "purpose": "Frozen expansion baseline; no new mechanical capability is introduced by WP13-00.",
+  "maturity": {
+    "element_analysis_registry": {
+      "total": 46,
+      "state_counts": {
+        "QUALIFIED_BOUNDED": 32,
+        "EXPERIMENTAL": 14,
+        "NOT_QUALIFIED": 0
+      },
+      "QUALIFIED_BOUNDED": 32,
+      "EXPERIMENTAL": 14,
+      "NOT_QUALIFIED": 0,
+      "not_qualified_combination": null,
+      "source": "qualification/0_2_8/consolidated_registry.json"
+    },
+    "mixed_static": "QUALIFIED_BOUNDED",
+    "mixed_modal": "QUALIFIED_BOUNDED",
+    "hex8_sri": "EXPERIMENTAL_BOUNDED",
+    "pyramid5": "INTERNAL_FEASIBLE_CONTINUE",
+    "large_mixed_300003_dof": "PASS_WITH_BOUNDED_EVIDENCE"
+  },
+  "element_analysis_registry": {
+    "source": "qualification/0_2_8/consolidated_registry.json",
+    "source_registry": "qualification/0_2_7/capability_registry_v2.json",
+    "source_registry_sha256": "cea5cbc24f6c28b22903d7cbfe76aab83ae654e7029d5604f07937fb7f5d1b48",
+    "total": 46,
+    "state_counts": {
+      "QUALIFIED_BOUNDED": 32,
+      "EXPERIMENTAL": 14,
+      "NOT_QUALIFIED": 0
+    },
+    "registry_boundary": "Element/analysis combinations only; mixed workflows and variants are not counted here."
+  },
+  "mixed_workflow_registry": {
+    "source": "qualification/0_2_8/consolidated_registry.json",
+    "records": [
+      "MIXED-TET4-WEDGE6-HEX8-linear_static",
+      "MIXED-TET4-WEDGE6-HEX8-modal",
+      "MIXED-TET4-WEDGE6-HEX8-large-linear_static"
+    ],
+    "qualification_boundary": "Separate workflow records; no implicit transfer to the 46 combination registry."
+  },
+  "experimental_research_registry": {
+    "source": "qualification/0_2_8/consolidated_registry.json",
+    "records": [
+      "HEX8-SRI-linear_static",
+      "HEX8-linear_buckling-experimental",
+      "PYRAMID5-feasibility"
+    ],
+    "qualification_boundary": "Experimental and internal research records retain their own scopes and limitations."
+  },
+  "baseline_tests": {
+    "command": "python -m pytest tests/unit tests/integration tests/verification tests/documentation",
+    "status": "PASS",
+    "passed": 2240,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 184,
+    "warnings": 2
+  },
+  "deferred_p2": [
+    "39 oversized files",
+    "193 runners",
+    "27 legacy links",
+    "legacy APIs",
+    "WP08 runner remains large but is below the architecture guard"
+  ],
+  "immutability": {
+    "qualification_0_2_7": {
+      "git_tree_at_start_sha": "4045eb7a6643a8b132e970ab7915c06ec0e6108c",
+      "registry_sha256": "cea5cbc24f6c28b22903d7cbfe76aab83ae654e7029d5604f07937fb7f5d1b48",
+      "policy": "Historical 0.2.7 qualification evidence is immutable and must remain byte-identical."
+    },
+    "docs_verification_0_2_7": {
+      "git_tree_at_start_sha": "25e3e413bca957fc7421b3a7d9ef4d54d2310739",
+      "policy": "Historical 0.2.7 verification documentation is immutable."
+    }
+  },
+  "references": {
+    "vnv_contract": "qualification/0_2_8/wp13_vnv_contract.json",
+    "evidence_pack_schema": "qualification/0_2_8/wp13_evidence_pack_schema.json",
+    "common_helpers": "scripts/wp13_common.py",
+    "guards": "scripts/wp13_00_guards.py"
+  }
+}
