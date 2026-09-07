@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "contract_id": "WP13-01A-MIXED-PETSC-MPI-001",
+  "status": "PREDECLARED",
+  "source_sha": "0c6204f398a8350c9e3fdb5e68f40708a5ca1750",
+  "scope": {
+    "capability": "distributed PETSc/MPI mixed linear_static feasibility",
+    "analysis": "linear_static",
+    "element_families": ["TET4", "WEDGE6", "HEX8"],
+    "interfaces": "conforming shared-node interfaces only",
+    "materials": "small-strain linear isotropic elasticity",
+    "loads": "declared nodal loads used by the test model",
+    "claim": "architecture feasibility only; no public performance or qualification claim"
+  },
+  "oracle": {
+    "reference": "same conforming mixed model solved through the existing serial SciPy mixed workflow",
+    "independence": "independent backend execution plus exact topology, family-contribution and global-DOF checks",
+    "external_correlation": "not required for this feasibility spike; no external correlation is claimed"
+  },
+  "tolerances": {
+    "predeclared": true,
+    "gates": [
+      {"id": "displacement_relative_l2", "operator": "<=", "limit": 1.0e-10},
+      {"id": "reaction_relative_l2", "operator": "<=", "limit": 1.0e-10},
+      {"id": "residual_relative_l2", "operator": "<=", "limit": 1.0e-10},
+      {"id": "equilibrium_relative", "operator": "<=", "limit": 1.0e-10},
+      {"id": "energy_relative", "operator": "<=", "limit": 1.0e-10},
+      {"id": "dof_count", "operator": "==", "limit": 0},
+      {"id": "connectivity_digest", "operator": "==", "limit": 0},
+      {"id": "family_contribution_count", "operator": ">", "limit": 0}
+    ],
+    "post_observation_retuning": false
+  },
+  "required_metrics": [
+    "displacement",
+    "reactions",
+    "residual",
+    "equilibrium",
+    "energy",
+    "global_dof_count",
+    "connectivity_digest",
+    "element_contributions_by_family",
+    "ownership",
+    "ghost_nodes",
+    "bc_distribution",
+    "load_distribution",
+    "preallocation",
+    "reallocations",
+    "global_gather",
+    "replay_digest"
+  ],
+  "replay_count": 2,
+  "owner_gate": {
+    "required": true,
+    "decision": "GO or NO_GO",
+    "promotion": "none; WP13-01A cannot change maturity"
+  },
+  "abort_criteria": [
+    "mixed element records are rejected by the large-model input contract",
+    "any TET4/WEDGE6/HEX8 family is absent from distributed assembly",
+    "PETSc/MPI execution is unavailable or falls back silently to SciPy",
+    "partition changes physical results beyond the predeclared gates",
+    "ownership, ghosting, interface, BC, load or reaction accounting is inconsistent",
+    "a global gather is structurally required for the proposed mixed large path",
+    "a major backend redesign is required before a two-rank concept test is possible"
+  ],
+  "claim_limitations": [
+    "No 1M DOF target is executed in WP13-01A.",
+    "No mixed dynamics, MPC/RBE, multi-material, industrial import or public benchmark is included.",
+    "Existing TET4-only large evidence is not transferred to mixed elements.",
+    "The 46 element-analysis registry and mixed-workflow registry remain separate.",
+    "Historical 0.2.7 evidence is immutable."
+  ],
+  "environment": {
+    "required": ["Python", "mpi4py", "petsc4py", "MPI launcher"],
+    "rank_counts": [1, 2, 4],
+    "capture": ["python_version", "mpi4py_version", "petsc4py_version", "mpi_implementation", "rank_count", "commands"]
+  }
+}
