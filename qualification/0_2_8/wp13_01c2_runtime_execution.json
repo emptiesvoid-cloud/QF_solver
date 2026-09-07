@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP13-01C2-RUNTIME-EXECUTION",
+  "contract_id": "WP13-01F-MIXED-PETSC-RUNTIME-002",
+  "contract_path": "qualification/0_2_8/wp13_01f_mixed_petsc_runtime_contract.json",
+  "contract_git_blob_sha1": "bb14d280e7052daa2aa42e051ae53d794cba3f67",
+  "status": "PASS_1M",
+  "source": {
+    "start_sha": "f7f476c38000f575d56a83af4810bb1e5bd6cb4d",
+    "numerical_source_changed": false,
+    "formulation_changed": false,
+    "gates_changed": false,
+    "benchmark_changed_after_results": false,
+    "maturity_changed": false,
+    "historical_0_2_7_evidence_changed": false
+  },
+  "historical_record_integrity": {
+    "wp13_01c_contract": {"git_blob_sha1": "e65b7bcb48a882e99ebb31615e8aa10d110cb655", "status": "PRESERVED"},
+    "wp13_01c_execution": {"git_blob_sha1": "bbd925c5ddb372b8f8c967c4d9aea8bc767da0af", "status": "PRESERVED_FAIL_RUNTIME"},
+    "wp13_01d_diagnosis": {"git_blob_sha1": "2bfd940741dbf92ab408ba4e17806ede149e834a", "status": "PRESERVED_FAIL_KEEP_STAGE_A_BLOCKED"}
+  },
+  "environment": {
+    "container_image": "qf-solver-large:0.2.0",
+    "petsc4py": "3.25.1",
+    "petsc": "3.25.1",
+    "mpi4py": "4.1.2",
+    "mpi": "MPICH 5.0.1",
+    "launcher": "mpiexec",
+    "available_ranks": [1, 2, 4]
+  },
+  "benchmark": {
+    "id": "WP13-01F-FAMILY-MAJOR-MIXED-BUNDLE-001",
+    "geometry": "Frozen unit-scale WP11 11-node component template, translated by (0, 3*c, 0), with family-major element ordering.",
+    "limitation": "Components are mechanically disconnected. This evidence is limited to family-balanced distributed mixed runtime plumbing and does not claim arbitrary connected-structure scalability."
+  },
+  "control_66_dof": {
+    "status": "PASS",
+    "dof": 66,
+    "element_counts": {"TET4": 2, "WEDGE6": 2, "HEX8": 2},
+    "serial": {"residual": 2.342840229615247e-16, "e_force": 2.257274553331845e-16, "e_component": 2.220446049250313e-16, "energy": 0.0},
+    "petsc_1": {"status": "PASS", "residual": 2.516485326479827e-16, "e_force": 4.570198053353878e-16, "e_component": 4.440892098500626e-16, "energy": 6.462348535570529e-27},
+    "mpi_2": {"status": "PASS", "residual": 3.3648269882070403e-16, "e_force": 2.869591298159143e-16, "e_component": 2.220446049250313e-16, "energy": 0.0, "interface_fractions": {"tet4_wedge6": 0.5, "wedge6_hex8": 0.5}},
+    "mpi_4": {"status": "PASS", "residual": 4.0549509121820484e-16, "e_force": 2.2301825219878386e-16, "e_component": 2.220446049250313e-16, "energy": 0.0, "interface_fractions": {"tet4_wedge6": 1.0, "wedge6_hex8": 1.0}}
+  },
+  "stage_a": {
+    "status": "PASS",
+    "dof": 100023,
+    "element_counts": {"TET4": 3031, "WEDGE6": 3031, "HEX8": 3031},
+    "mpi_1": {"runtime_seconds": 13.310164781000367, "peak_memory_mb": 443.89453125, "iterations": 1, "residual": 3.375211745997624e-16, "e_force": 8.434168075031064e-18, "e_component": 8.415497852445718e-18, "energy": 0.0},
+    "mpi_2": {"runtime_seconds": 11.225906949000091, "peak_memory_mb": 318.265625, "iterations": 1, "residual": 3.383767818577061e-16, "e_force": 7.941175105970032e-18, "e_component": 6.97781214751212e-18, "energy": 6.617444900424222e-24, "interface_fractions": {"tet4_wedge6": 0.4998350379412735, "wedge6_hex8": 0.5001649620587265}},
+    "mpi_4": {"runtime_seconds": 7.607863238999926, "peak_memory_mb": 289.37890625, "iterations": 1, "residual": 3.3762320974039417e-16, "e_force": 3.417041144660242e-18, "e_component": 3.2370821445479447e-18, "energy": 6.617444900424222e-24, "interface_fractions": {"tet4_wedge6": 1.0, "wedge6_hex8": 1.0}},
+    "partition_invariance": {"status": "PASS", "mpi_1_vs_2_displacement_relative_l2": 4.786218850041688e-25, "mpi_1_vs_2_reaction_relative_l2": 2.7667641506871254e-16, "mpi_1_vs_4_displacement_relative_l2": 4.731546955612591e-25, "mpi_1_vs_4_reaction_relative_l2": 2.719372654217257e-16},
+    "replays_mpi_2": {"status": "PASS", "count": 2, "displacement_relative_l2": 0.0, "reaction_relative_l2": 0.0, "residual_relative_difference": 0.0, "energy_relative_difference": 0.0, "iteration_difference": 0, "normalized_digest_equal": true}
+  },
+  "stage_b": {
+    "status": "PASS",
+    "dof": 300003,
+    "element_counts": {"TET4": 9091, "WEDGE6": 9091, "HEX8": 9091},
+    "mpi_2": {"runtime_seconds": 35.48307463299989, "peak_memory_mb": 714.33203125, "iterations": 1, "residual": 3.391033796298334e-16, "e_force": 8.79570260432612e-18, "e_component": 8.389871498377324e-18, "energy": 2.6469779601696886e-23, "interface_fractions": {"tet4_wedge6": 0.4999450005499945, "wedge6_hex8": 0.5000549994500055}},
+    "mpi_4": {"runtime_seconds": 23.550321154999438, "peak_memory_mb": 592.0, "iterations": 1, "residual": 3.3828329335099583e-16, "e_force": 7.292491634029464e-18, "e_component": 7.25259816026031e-18, "energy": 2.6469779601696886e-23, "interface_fractions": {"tet4_wedge6": 1.0, "wedge6_hex8": 1.0}}
+  },
+  "stage_c": {
+    "status": "PASS",
+    "dof": 999999,
+    "element_counts": {"TET4": 30303, "WEDGE6": 30303, "HEX8": 30303},
+    "mpi_2": {"runtime_seconds": 115.62411920500017, "peak_memory_mb": 2139.21875, "iterations": 1, "residual": 3.3831847896991334e-16, "e_force": 8.555338740801543e-18, "e_component": 8.08289660805931e-18, "energy": 1.0587911840678754e-22, "interface_fractions": {"tet4_wedge6": 0.4999834999835, "wedge6_hex8": 0.5000165000165}, "reallocations": 0.0, "global_gather_present": false},
+    "replays_mpi_2": {
+      "status": "PASS",
+      "count": 2,
+      "replay_1": {"runtime_seconds": 117.51558132800074, "peak_memory_mb": 2139.30078125},
+      "replay_2": {"runtime_seconds": 114.9215187740001, "peak_memory_mb": 2138.953125},
+      "displacement_relative_l2": 0.0,
+      "reaction_relative_l2": 0.0,
+      "residual_relative_difference": 0.0,
+      "energy_relative_difference": 0.0,
+      "iteration_difference": 0,
+      "normalized_digest_equal": true,
+      "raw_bitwise_digest_equal": true,
+      "raw_digest_policy": "DIAGNOSTIC_ONLY"
+    }
+  },
+  "runtime_characteristics": {
+    "preallocation": "PETSc.Mat.InfoType.LOCAL per rank with mpi4py scalar aggregation; mallocs_sum = 0.0 on all recorded stages.",
+    "structural_global_gather": "NOT_PRESENT",
+    "accepted_result_exchange": "Root-only result gathering and reaction post-processing are retained; no global K, connectivity or element-field gather is used.",
+    "memory_scalability": "Observed max RSS/rank: 318.27 MB at 100023 DOF MPI-2, 714.33 MB at 300003 DOF MPI-2, and 2139.22 MB at 999999 DOF MPI-2."
+  },
+  "claim": {
+    "id": "BOUNDED_MIXED_PETSC_MPI_1M",
+    "text": "Bounded PETSc/MPI runtime evidence at 999999 DOF on two MPI ranks for the frozen unit-scale, family-balanced TET4/WEDGE6/HEX8 component bundle.",
+    "limitations": ["No arbitrary connected-structure claim.", "No MPI-4 claim at 999999 DOF.", "No dynamic, nonlinear, contact, multi-material, external-correlation or production claim."]
+  },
+  "validation": {
+    "targeted_numerical_runs": "control serial/PETSc-1/MPI-2/MPI-4; Stage A PETSc-1/MPI-2/MPI-4 plus two MPI-2 replays; Stage B MPI-2/MPI-4; Stage C MPI-2 plus two MPI-2 replays",
+    "full_test_suite": "DEFERRED_TO_WP13_FINAL_GATE"
+  },
+  "decision": {"wp13_01c2_status": "PASS_1M", "wp13_01_final_status": "RUNTIME_1M_EVIDENCE_PASS_PENDING_OWNER_GATE", "ready_for_wp13_02": false, "next_step": "Owner gate for the bounded WP13-01C2 evidence; do not start WP13-02 automatically."}
+}
