@@ -254,3 +254,21 @@ modal stress, Newmark, harmonic, nonlinear, contact, nonconforming, higher-
 order-family or large-performance claim is created. The Owner decision is
 recorded in the [`WP08B Owner record`](../../../qualification/0_2_8/wp08b_owner_gate_final.json),
 without changing the 46 element-analysis combinations or starting WP09.
+
+## WP09 PYRAMID5 feasibility gate
+
+WP09 records a bounded internal feasibility gate for a five-node linear
+pyramid. The frozen [formulation](wp09_pyramid5_formulation.md),
+[contract](../../../qualification/0_2_8/wp09_pyramid5_contract.json),
+[evidence](../../../qualification/0_2_8/wp09_pyramid5_vnv.json), and
+[decision matrix](../../../qualification/0_2_8/wp09_pyramid5_matrix.json)
+cover the collapsed-coordinate kernel, bounded geometry validation, affine
+patch, loads, post-processing, Gmsh type-7 import, a conforming
+HEX8/PYRAMID5/TET4 transition and two deterministic replays.
+
+The decision is `FEASIBLE_CONTINUE`, not a qualification or maturity
+promotion. PYRAMID5 remains absent from the public compatibility descriptor
+and the 46-combination element-analysis registry, so public dispatch remains
+fail-closed. No coherent h-refinement or external-solver correlation is
+claimed. WP07/WP08 scopes remain TET4/WEDGE6/HEX8 only, and WP10 is not
+started.

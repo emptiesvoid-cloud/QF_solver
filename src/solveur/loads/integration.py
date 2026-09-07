@@ -21,6 +21,7 @@ from solveur.elements.solid.quadrature import tetra_duffy_rule, triangle_duffy_r
 from solveur.elements.solid.tet4 import Tet4Element
 from solveur.elements.solid.tet10 import Tet10Element
 from solveur.elements.solid.wedge6 import Wedge6Element
+from solveur.elements.solid.pyramid5 import Pyramid5Element
 from solveur.loads.entities import BodyLoad, DistributedLoad, EdgeLoad, GravityLoad, LineLoad, SurfaceLoad
 from solveur.materials.factory import MaterialFactory
 from solveur.materials.laminate import LaminateShellMaterial
@@ -32,6 +33,7 @@ from solveur.mesh.topology import (
     TET10_FACES,
     TET4_FACES,
     WEDGE6_FACES,
+    PYRAMID5_FACES,
 )
 
 @dataclass(frozen=True)
@@ -150,6 +152,8 @@ class DistributedLoadIntegrator:
             return _hex20_body_vector(coords, force_density)
         if definition.type == "WEDGE6":
             return _wedge6_body_vector(coords, force_density)
+        if definition.type == "PYRAMID5":
+            return _pyramid5_body_vector(coords, force_density)
         if definition.type == "MITC4" and isinstance(material, (ShellMaterial, LaminateShellMaterial)):
             return _mitc4_surface_vector(coords, force_density * material.t, pressure=None)
         if definition.type == "MITC3" and isinstance(material, (ShellMaterial, LaminateShellMaterial)):
@@ -172,6 +176,8 @@ class DistributedLoadIntegrator:
             return _solid_face_vector(coords, HEX20_FACES[int(load.face)], traction, pressure, load.coordinate_system)
         if definition.type == "WEDGE6":
             return _solid_face_vector(coords, WEDGE6_FACES[int(load.face)], traction, pressure, load.coordinate_system)
+        if definition.type == "PYRAMID5":
+            return _solid_face_vector(coords, PYRAMID5_FACES[int(load.face)], traction, pressure, load.coordinate_system)
         if definition.type == "MITC4":
             if traction is not None and load.coordinate_system == "local":
                 traction = MITC4Element.local_frame(coords).T @ traction
@@ -335,6 +341,15 @@ def _wedge6_body_vector(coords: np.ndarray, force_density: np.ndarray) -> np.nda
     local = np.zeros(18, dtype=float)
     for point, weight, _, determinant in Wedge6Element.integration_data(coords):
         shape = Wedge6Element.shape_functions(point)
+        for node, value in enumerate(shape):
+            local[3 * node : 3 * node + 3] += weight * determinant * value * force_density
+    return local
+
+
+def _pyramid5_body_vector(coords: np.ndarray, force_density: np.ndarray) -> np.ndarray:
+    local = np.zeros(15, dtype=float)
+    for point, weight, _, determinant in Pyramid5Element.integration_data(coords):
+        shape = Pyramid5Element.shape_functions(point)
         for node, value in enumerate(shape):
             local[3 * node : 3 * node + 3] += weight * determinant * value * force_density
     return local

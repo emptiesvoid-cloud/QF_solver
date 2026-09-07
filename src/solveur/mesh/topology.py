@@ -35,5 +35,15 @@ WEDGE6_FACES = (
     (1, 2, 5, 4),
     (2, 0, 3, 5),
 )
+# PYRAMID5 follows the Gmsh first-order ordering: a counter-clockwise QUAD4
+# base (0..3) and apex node 4. Face loops have outward normals for the
+# canonical positive-Jacobian pyramid used by the WP09 feasibility contract.
+PYRAMID5_FACES = (
+    (0, 3, 2, 1),
+    (0, 1, 4),
+    (1, 2, 4),
+    (2, 3, 4),
+    (3, 0, 4),
+)
 MITC4_EDGES = ((0, 1), (1, 2), (2, 3), (3, 0))
 MITC3_EDGES = ((0, 1), (1, 2), (2, 0))

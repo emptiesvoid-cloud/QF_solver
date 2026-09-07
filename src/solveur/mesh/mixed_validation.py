@@ -8,16 +8,18 @@ from typing import Any
 
 import numpy as np
 
-from solveur.mesh.topology import HEX8_FACES, TET4_FACES, WEDGE6_FACES
+from solveur.mesh.topology import HEX8_FACES, PYRAMID5_FACES, TET4_FACES, WEDGE6_FACES
 
 
 MIXED_LINEAR_STATIC_FAMILIES = frozenset({"TET4", "WEDGE6", "HEX8"})
+PYRAMID5_FEASIBILITY_FAMILIES = frozenset({"TET4", "PYRAMID5", "HEX8"})
 _FACE_MAP = {
     "TET4": TET4_FACES,
     "WEDGE6": WEDGE6_FACES,
     "HEX8": HEX8_FACES,
+    "PYRAMID5": PYRAMID5_FACES,
 }
-_NODE_COUNTS = {"TET4": 4, "WEDGE6": 6, "HEX8": 8}
+_NODE_COUNTS = {"TET4": 4, "WEDGE6": 6, "HEX8": 8, "PYRAMID5": 5}
 
 
 @dataclass(frozen=True)
@@ -46,8 +48,10 @@ def _mixed_scope_errors(model: Any, analysis_type: str) -> list[str]:
     """Return explicit errors for an out-of-contract mixed solid model.
 
     The general solver remains family-generic.  When a supported analysis model
-    uses more than one solid family, this contract requires the three WP07
-    families, shared-node conforming interfaces and no hidden MPC/RBE coupling.
+    uses more than one solid family, the qualified WP07 contract requires the
+    three WP07 families, shared-node conforming interfaces and no hidden
+    MPC/RBE coupling.  The separate PYRAMID5 feasibility path is limited to
+    bounded internal linear-static verification and does not extend WP07.
     Exact coincident faces with different node identities are rejected because
     they otherwise create disconnected duplicate DDLs without a visible solver
     error.
@@ -55,16 +59,20 @@ def _mixed_scope_errors(model: Any, analysis_type: str) -> list[str]:
 
     elements = list(getattr(model, "elements", []))
     families = {str(getattr(element, "type", "")).upper() for element in elements}
-    solid_families = families.intersection(MIXED_LINEAR_STATIC_FAMILIES)
+    allowed_scopes = (
+        (MIXED_LINEAR_STATIC_FAMILIES, PYRAMID5_FEASIBILITY_FAMILIES)
+        if analysis_type == "linear_static"
+        else (MIXED_LINEAR_STATIC_FAMILIES,)
+    )
+    solid_families = families.intersection(frozenset().union(*allowed_scopes))
     if len(solid_families) < 2:
         return []
 
     scope_name = f"Mixed {analysis_type}"
     errors: list[str] = []
-    unsupported = sorted(families - MIXED_LINEAR_STATIC_FAMILIES)
-    if unsupported:
+    if not any(families.issubset(scope) for scope in allowed_scopes):
         errors.append(
-            f"{scope_name} scope supports only TET4/WEDGE6/HEX8 solid families; "
+            f"{scope_name} scope supports only its declared conforming solid families; "
             f"received {', '.join(sorted(families))}."
         )
     if getattr(model, "multipoint_constraints", []) or getattr(model, "rbe2", []) or getattr(model, "rbe3", []):
@@ -147,6 +155,7 @@ def _geometry_key(coords: np.ndarray) -> tuple[tuple[int, int, int], ...]:
 
 __all__ = [
     "MIXED_LINEAR_STATIC_FAMILIES",
+    "PYRAMID5_FEASIBILITY_FAMILIES",
     "MixedSolidFace",
     "mixed_linear_static_scope_errors",
     "mixed_modal_scope_errors",

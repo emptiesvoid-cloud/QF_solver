@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP09-PYRAMID5-MATRIX",
+  "work_package": "WP09",
+  "applicable_version": "0.2.8-development",
+  "baseline_sha": "8daed7e0c6e11b79e6ad8f88a7c2da859c7eeac6",
+  "contract_record": "qualification/0_2_8/wp09_pyramid5_contract.json",
+  "evidence_record": "qualification/0_2_8/wp09_pyramid5_vnv.json",
+  "status": "FEASIBILITY_GATE_CLOSED_FEASIBLE_CONTINUE",
+  "technical_decision": "FEASIBLE_CONTINUE",
+  "public_maturity_policy": "No public maturity, compatibility-descriptor or capability-registry relabel is applied by WP09.",
+  "kernel": {
+    "implemented": true,
+    "family": "PYRAMID5",
+    "formulation": "five-node collapsed-coordinate isoparametric displacement pyramid",
+    "consistent_mass_implemented": true,
+    "gmsh_import": "PASS",
+    "faces": ["QUAD4 base", "four TRI3 sides"],
+    "geometry_validation": "positive sampled Jacobians in the bounded domain; invalid/folded/near-flat cases reject explicitly"
+  },
+  "technical_gates": {
+    "elemental_mathematics": "PASS",
+    "affine_patch": "PASS",
+    "loads_reactions_energy": "PASS",
+    "post_processing": "PASS",
+    "geometric_robustness": "PASS_BOUNDED",
+    "hex8_pyramid5_tet4_conforming_transition": "PASS_FEASIBILITY_ONLY",
+    "replays": "PASS_2_DETERMINISTIC",
+    "coherent_h_refinement": "NOT_RUN",
+    "external_correlation": "NOT_AVAILABLE_NOT_CLAIMED"
+  },
+  "scope": "Internal linear-static feasibility kernel only: homogeneous isotropic small-strain elasticity; convex planar QUAD4 base; non-coplanar apex; positive sampled Jacobians; nodal/body/gravity/pressure/surface-traction loads; and the tested conforming HEX8/PYRAMID5/TET4 patch.",
+  "limitations": [
+    "The collapsed-coordinate Jacobian and derivatives are singular at the apex, which is never a derivative or quadrature point.",
+    "No coherent conforming PYRAMID5 h-refinement, convergence claim or external-solver correlation exists in WP09.",
+    "PYRAMID5 remains absent from the public compatibility descriptor and 0.2.7 capability registry; public solve dispatch remains fail-closed.",
+    "No modal, Newmark, harmonic, nonlinear, contact, SRI, stabilization, hourglass-control, nonconforming, hanging-node, MPC/RBE, PYRAMID13 or general transition-mesh claim is made.",
+    "The separate WP07/WP08 mixed-workflow records are unchanged."
+  ],
+  "registry_separation": {
+    "element_analysis_registry": "qualification/0_2_7/capability_registry_v2.json",
+    "element_analysis_registry_total": 46,
+    "added_to_element_analysis_registry": false,
+    "wp07_wp08_mixed_workflow_records_changed": false
+  },
+  "integrity": {
+    "numerical_source_changed": true,
+    "historical_0_2_7_evidence_changed": false,
+    "claims_maturity_promoted": false,
+    "owner_gate_required": false
+  },
+  "recommended_follow_up": "Only start a separately authorized PYRAMID5 maturation WP after defining a coherent conforming refinement family and an independent comparable oracle. PYRAMID5 is not a release blocker for 0.2.8."
+}

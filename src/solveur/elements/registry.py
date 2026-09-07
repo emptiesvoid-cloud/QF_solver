@@ -16,6 +16,7 @@ from solveur.elements.solid.tet4 import Tet4Element
 from solveur.elements.solid.hex8 import Hex8Element
 from solveur.elements.solid.hex20 import Hex20Element
 from solveur.elements.solid.wedge6 import Wedge6Element
+from solveur.elements.solid.pyramid5 import Pyramid5Element
 
 
 class ElementProtocol(Protocol):
@@ -97,6 +98,13 @@ class ElementRegistry:
             SOLID_DOFS,
             ("isotropic_3d",),
             Wedge6Element,
+        ),
+        "PYRAMID5": ElementSpec(
+            "PYRAMID5",
+            5,
+            SOLID_DOFS,
+            ("isotropic_3d",),
+            Pyramid5Element,
         ),
     }
 
