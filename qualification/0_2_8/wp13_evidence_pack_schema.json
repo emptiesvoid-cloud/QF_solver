@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "schema_id": "QF-SOLVER-0.2.8-WP13-EVIDENCE-PACK",
+  "status": "TEMPLATE",
+  "purpose": "Common envelope for future WP13 evidence; it reuses existing manifest and runtime fingerprint conventions.",
+  "required_fields": [
+    "schema_version",
+    "contract_id",
+    "status",
+    "source",
+    "environment",
+    "inputs",
+    "commands",
+    "outputs",
+    "metrics",
+    "replays",
+    "digests",
+    "owner_decision"
+  ],
+  "source_fields": ["sha", "branch", "dirty"],
+  "input_entry": ["path", "sha256", "role"],
+  "output_entry": ["path", "sha256", "role", "size_bytes"],
+  "metric_fields": [
+    "residual",
+    "equilibrium",
+    "energy",
+    "reaction",
+    "modal",
+    "dynamic",
+    "runtime",
+    "memory"
+  ],
+  "replay_entry": ["run_id", "status", "comparison_digest", "differences"],
+  "digest_policy": "SHA-256 over canonical JSON for structured payloads and existing file digests for artifacts.",
+  "owner_decision_policy": "Use PENDING before review; APPROVE, APPROVE_WITH_LIMITATIONS or REJECT only in an Owner record.",
+  "non_goals": [
+    "No automatic maturity promotion",
+    "No replacement of evidence_manifest.json",
+    "No rewriting of 0.2.7 evidence"
+  ]
+}
