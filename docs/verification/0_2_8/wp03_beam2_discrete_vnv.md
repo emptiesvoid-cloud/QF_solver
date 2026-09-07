@@ -39,8 +39,9 @@ treated as unchecked narrative.
 | DISCRETE modal | `NEEDS_MINOR_VNV` | closed-form uncoupled mass-spring frequencies | `QUALIFIED_BOUNDED` | Owner confirmation pending |
 
 `QUALIFIED_BOUNDED` is the technical V&V decision recorded by WP03. The
-`promotion_applied` field remains `false` for all four cases because WP01
-requires an explicit Owner gate before any public maturity relabel.
+technical evidence record retains `promotion_applied: false`; the separate
+[`final WP03 Owner gate`](wp03_owner_gate_final.md) applies the approved
+bounded maturity action without rewriting this campaign record.
 
 ## BEAM2 static
 
@@ -108,8 +109,6 @@ the absent reproducible 0.2.8 evidence.
 
 ## Decision and next gate
 
-WP03 establishes four technical `QUALIFIED_BOUNDED` decisions and preserves
-the two transient and two harmonic routes as `EXPERIMENTAL`. No public
-maturity is changed automatically. The next gate for the four bounded
-decisions is a dated explicit Owner confirmation against this record; the
-remaining dynamic routes require their own independent-oracle campaigns.
+WP03 establishes four technical `QUALIFIED_BOUNDED` decisions and its
+historical route list remains unchanged. The final Owner gate is recorded
+separately after WP03B, so the frozen evidence is not rewritten.
