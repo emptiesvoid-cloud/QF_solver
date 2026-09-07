@@ -79,13 +79,37 @@ the bounded candidate scope and remains for Owner review.
 
 ## Technical decision and maturity boundary
 
-WP07 technical result: **`QUALIFIED_BOUNDED_CANDIDATE`**. This is a
-technical candidate only. The 46-combination source registry remains
-unchanged at `32 QUALIFIED_BOUNDED`, `13 EXPERIMENTAL` and one
-`NOT_QUALIFIED`, namely `COMB-HEX8-linear_buckling`. WEDGE6 static remains a
-separate route. No public qualification, maturity relabel or claim expansion
-is applied by WP07.
+WP07 technical result: **`QUALIFIED_BOUNDED_CANDIDATE`**. The separate final
+[`WP07 Owner gate`](wp07_owner_gate_final.md), recorded in
+[`wp07_owner_gate_final.json`](../../../qualification/0_2_8/wp07_owner_gate_final.json),
+approves this candidate **`APPROVE_WITH_LIMITATIONS`** and records the mixed
+workflow as **`QUALIFIED_BOUNDED`**. This status belongs to the dedicated
+`mixed_workflow_qualification` record; it is not added as a new element/analyse
+combination.
 
-The separate Owner decision must either approve this exact bounded scope,
-approve it with further limitations, or reject it. WP08 is not started by
-this record.
+The 46-combination source registry remains unchanged at
+`32 QUALIFIED_BOUNDED`, `13 EXPERIMENTAL` and one `NOT_QUALIFIED`, namely
+`COMB-HEX8-linear_buckling`. WEDGE6 static remains a separate route.
+
+The affine manufactured field and `K·u` load construction are sufficient for
+the bounded assembly/interface/load contract, but the refinement sequence is
+an affine-consistency check rather than an independent general accuracy
+convergence study. No general mixed-mesh accuracy, arbitrary-load, external
+solver or large-model claim is made.
+
+## Owner-approved scope and limitations
+
+The approved scope is `linear_static` only, with TET4/WEDGE6/HEX8, conforming
+shared-node triangular and quadrilateral interfaces, small-strain homogeneous
+isotropic elasticity, valid element geometries and the nodal, body-force,
+pressure and surface-traction routes actually exercised by WP07. It covers
+the tested pairwise interfaces and the tested three-family chain, including
+the recorded continuity, DOF, equilibrium, energy, recovery and failure
+contracts.
+
+Modal/Newmark/harmonic, nonlinear, contact, hanging-node or MPC transitions,
+TET10/HEX20 mixed, PYRAMID5, nonconforming interfaces, arbitrary mixed
+topologies, large-model performance and general accuracy convergence remain
+out of scope.
+
+WP08 is not started by this record.

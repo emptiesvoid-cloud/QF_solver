@@ -197,7 +197,12 @@ failure contract and two deterministic replays.
 
 All declared technical gates pass, producing
 `QUALIFIED_BOUNDED_CANDIDATE` for the exact conforming TET4/WEDGE6/HEX8
-linear-static scope. The result is still pending a separate Owner gate: WP07
-does not apply a public maturity relabel, does not qualify dynamic or other
-analysis routes, and does not claim an external solver correlation. No 0.2.7
-evidence or prior WP01-WP06B record is changed.
+linear-static scope. The separate
+[`WP07 Owner gate`](wp07_owner_gate_final.md) approves that workflow as
+`QUALIFIED_BOUNDED` with limitations; the corresponding
+[`Owner record`](../../../qualification/0_2_8/wp07_owner_gate_final.json)
+keeps it separate from the 46 element-analysis combinations. The affine
+refinement is a consistency check, not a general accuracy-convergence claim.
+Dynamic and other analysis routes remain out of scope, no external solver
+correlation is claimed, and no 0.2.7 evidence or prior WP01-WP06B record is
+changed.

@@ -7,8 +7,9 @@
   "contract_record": "qualification/0_2_8/wp07_mixed_static_contract.json",
   "evidence_record": "qualification/0_2_8/wp07_mixed_static_vnv.json",
   "baseline_sha": "d7501fd144daf11a5f51eae5c04d664ebbcdc763",
-  "status": "TECHNICAL_CANDIDATE_OWNER_GATE_PENDING",
-  "public_maturity_policy": "WP07 does not apply a public maturity relabel. The mixed linear-static decision remains pending a separate Owner gate.",
+  "status": "OWNER_APPROVED_WITH_LIMITATIONS",
+  "owner_gate_record": "qualification/0_2_8/wp07_owner_gate_final.json",
+  "public_maturity_policy": "The Owner gate approves only the separate mixed-workflow record with limitations. The 46 element-analysis combination records are not changed by WP07.",
   "summary": {
     "technical_candidates_added": 1,
     "public_maturity_relabels_applied": 0,
@@ -24,15 +25,27 @@
   "mixed_candidate": {
     "id": "CAND-MIXED-TET4-WEDGE6-HEX8-linear_static",
     "technical_decision": "QUALIFIED_BOUNDED_CANDIDATE",
-    "public_maturity_before_owner_gate": "NOT_RELABELED",
-    "owner_gate": "REQUIRED",
+    "owner_decision": "APPROVE_WITH_LIMITATIONS",
+    "final_status": "QUALIFIED_BOUNDED",
+    "owner_gate": "CLOSED",
     "scope": "linear_static, small-strain isotropic elasticity, homogeneous candidate material, conforming shared-node TET4/WEDGE6/HEX8 interfaces and tested load routes only",
     "limitations": [
       "No modal, dynamic, nonlinear, buckling or contact qualification.",
       "No TET10, HEX20, PYRAMID5, hanging-node, MPC/RBE or nonconforming-interface qualification.",
       "No universal mixed-mesh or arbitrary-distortion claim.",
-      "No external solver correlation is claimed in WP07."
+      "No external solver correlation is claimed in WP07.",
+      "Refinement evidence demonstrates affine consistency only; it is not a general accuracy-convergence claim."
     ]
+  },
+  "mixed_workflow_qualification": {
+    "record_kind": "mixed_workflow_qualification",
+    "id": "MIXED-TET4-WEDGE6-HEX8-linear_static-conforming",
+    "status": "QUALIFIED_BOUNDED",
+    "owner_decision": "APPROVE_WITH_LIMITATIONS",
+    "element_analysis_registry": "qualification/0_2_7/capability_registry_v2.json",
+    "element_analysis_registry_total": 46,
+    "not_added_to_element_analysis_registry": true,
+    "scope_note": "This status qualifies the tested mixed workflow contract, not a new element/analyse combination and not arbitrary mixed-mesh accuracy."
   },
   "registry_integrity": {
     "source_registry_0_2_7_unchanged": true,
