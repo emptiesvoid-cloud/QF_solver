@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "contract_id": "WP13-01B-MIXED-DISTRIBUTED-ARCHITECTURE-001",
+  "status": "PASS_ARCHITECTURE_ONLY",
+  "source": {
+    "start_sha": "fb01146c1caab4cf23304d0f1ca62601e136f886",
+    "baseline": "WP13-01A",
+    "parent_contract": "qualification/0_2_8/wp13_01a_mixed_petsc_contract.json"
+  },
+  "environment": {
+    "python": "3.13.1",
+    "numpy": "available",
+    "scipy": "available",
+    "petsc4py": "not required/not used",
+    "rank_simulation": "logical partitions 1 and 2",
+    "host_mpi": "Microsoft MPI 10.1.12498.52; mpi4py smoke previously PASS"
+  },
+  "inputs": [
+    {
+      "id": "WP07-mixed-model",
+      "status": "PASS",
+      "element_counts": {"TET4": 1, "WEDGE6": 1, "HEX8": 1},
+      "total_elements": 3,
+      "total_dof": 33,
+      "source": "scripts/run_wp07_mixed_static.py::_base_model(1)"
+    },
+    {
+      "id": "legacy-tet4-contract",
+      "status": "PASS",
+      "source_paths": [
+        "src/solveur/large/model.py",
+        "src/solveur/large/io.py",
+        "tests/integration/test_large_model.py"
+      ]
+    },
+    {
+      "id": "generic-architecture",
+      "status": "PASS",
+      "source_paths": ["src/solveur/large/generic_distributed.py"]
+    }
+  ],
+  "commands": [
+    "python -m pytest -q tests/unit/test_wp13_01b_generic_distributed.py tests/unit/test_wp13_01a_architecture.py tests/verification/test_028_wp07_mixed_static.py tests/unit/test_distributed_large_model.py tests/unit/test_large_petsc_contract.py tests/unit/test_large_assembler.py tests/unit/test_large_assembler_contract.py tests/integration/test_large_model.py -k WP13-01B-targeted",
+    "python -m ruff check src/solveur/large/generic_distributed.py tests/unit/test_wp13_01b_generic_distributed.py tests/unit/test_wp13_01a_architecture.py scripts/wp13_common.py",
+    "python -m compileall -q src/solveur/large/generic_distributed.py scripts tests/unit/test_wp13_01a_architecture.py tests/unit/test_wp13_01b_generic_distributed.py"
+  ],
+  "outputs": [
+    {"id": "targeted-tests", "status": "PASS", "result": "32 passed, 22 deselected in 4.86s"},
+    {"id": "schema", "status": "PASS", "result": "TET4/WEDGE6/HEX8 blocks; legacy TET4 remains separate"},
+    {"id": "shadow-partition-1", "status": "PASS", "result": "3 elements; 33 DOF; all families dispatched"},
+    {"id": "shadow-partition-2", "status": "PASS", "result": "owned/ghost/interface maps valid; recomposed matrix matches serial"},
+    {"id": "failure-contract", "status": "PASS", "result": "unsupported family and invalid partition size fail explicitly"},
+    {"id": "petsc-runtime", "status": "DEFERRED_TO_WP13_01C", "result": "no petsc4py execution by contract"}
+  ],
+  "metrics": {
+    "distributed_model_schema": "PASS",
+    "supported_families": ["TET4", "WEDGE6", "HEX8"],
+    "generic_dof_map": "PASS",
+    "generic_partitioning": "PASS",
+    "ownership_model": "PASS",
+    "ghost_model": "PASS",
+    "mixed_element_dispatch": "PASS via ElementRegistry",
+    "generic_preallocation": "PASS; exact connectivity-derived diag/offdiag metadata; no 12x12 hardcode",
+    "bc_contract": "PASS; one node-owner per constrained DOF",
+    "load_contract": "PASS; one node-owner per nodal load",
+    "reaction_contract": "PASS; local contributions reduce then publish once at DOF owner",
+    "global_gather_architecture": "PASS; generic path gathers neither K nor connectivity nor element fields; shadow recomposition is test-only",
+    "scalable_path_available": "ARCHITECTURE_READY_FOR_WP13_01C; PETSc runtime unvalidated",
+    "postprocessing_schema": "PASS; nodal displacement plus family/element/material/region fields",
+    "shadow_partition_1": {"status": "PASS", "TET4": 1, "WEDGE6": 1, "HEX8": 1, "total_elements": 3, "total_dof": 33},
+    "shadow_partition_2": {"status": "PASS", "ghost_nodes": "present at shared interfaces", "family_counts": {"TET4": 1, "WEDGE6": 1, "HEX8": 1}},
+    "partition_recomposition": "PASS; relative matrix tolerance <= 1e-12",
+    "serial_reference_comparison": "PASS; shadow sparse matrix matches existing GlobalAssembler mixed matrix",
+    "legacy_tet4_compatibility": "PASS; existing targeted TET4 conversion/distributed contracts pass",
+    "petsc_runtime_validation": "DEFERRED_TO_WP13_01C",
+    "numerical_source_changed": false,
+    "formulation_changed": false,
+    "maturity_changed": false,
+    "historical_0_2_7_evidence_changed": false
+  },
+  "replays": [
+    {"id": "shadow-replay-1", "status": "PASS", "partition_counts": [1, 2], "deterministic": "PASS"},
+    {"id": "shadow-replay-2", "status": "PASS", "partition_counts": [1, 2], "deterministic": "PASS"}
+  ],
+  "digests": {
+    "contract": "2dabafa12ec24f1ebeb7e90c801d00b8aec8e9d459313040da68161ee9b8f17f",
+    "inputs": "1318cea169c030df0bdb7c1972c5b7b0808798ab9f373d79415d6e0b60ab616d",
+    "outputs": "fc348ea1ace2d385c07e6c3983ec214ba4a304b70203109d3fe1646c3a392151",
+    "metrics": "df41743df0461e98485c78630031b78a7e5d403a422523383645826dfc930d86"
+  },
+  "owner_decision": {
+    "status": "PASS",
+    "decision": "ARCHITECTURE_ONLY",
+    "runtime_gate": "WP13-01C_REQUIRED",
+    "reason": "Generic schema, partition, dispatch, ownership, preallocation, reaction and result contracts pass without changing the numerical core."
+  }
+}
