@@ -5120,6 +5120,20 @@
   "tests": [
     "tests/verification/test_028_beam2_discrete_vnv.py"
   ]
+},
+{
+  "id": "DOC-028-WP03B-001",
+  "path": "verification/0_2_8/wp03b_dynamic_vnv.md",
+  "title": "QF Solver 0.2.8 WP03B BEAM2 and DISCRETE dynamic V&V",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp03b_dynamic_vnv.json",
+    "qualification/0_2_8/wp03b_maturity_matrix.json"
+  ],
+  "tests": [
+    "tests/verification/test_028_beam2_discrete_dynamic_vnv.py"
+  ]
 }
   ]
   

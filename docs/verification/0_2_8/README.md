@@ -97,8 +97,10 @@ candidate changes public maturity until its stated gate passes.
 The completed technical campaign for BEAM2 and DISCRETE static/modal routes is
 documented in [`WP03 V&V`](wp03_beam2_discrete_vnv.md). It records the frozen
 analytical oracles, tolerances, invariants, two replays and bounded decisions.
-Newmark and harmonic routes remain experimental because their independent
-time-history or frequency-response evidence was not run in WP03.
+The four dynamic routes were intentionally not decided by that WP03A record;
+their separate bounded analytical campaign is documented in
+[`WP03B dynamic V&V`](wp03b_dynamic_vnv.md). WP03B preserves every WP03A
+static/modal decision and applies no public maturity relabel.
 
 ## Explicit boundaries
 
