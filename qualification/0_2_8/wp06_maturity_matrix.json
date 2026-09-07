@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP06-MATURITY-DELTA",
+  "work_package": "WP06",
+  "applicable_version": "0.2.8-development",
+  "parent_matrix": "qualification/0_2_8/wp05_maturity_matrix.json",
+  "evidence_record": "qualification/0_2_8/wp06_hex8_buckling_vnv.json",
+  "contract_record": "qualification/0_2_8/wp06_hex8_buckling_contract.json",
+  "baseline_sha": "1dac48f88c07f1f5450f693702263472824f42bb",
+  "status": "TECHNICAL_CAMPAIGN_COMPLETE_NO_PROMOTION",
+  "public_maturity_policy": "HEX8 linear buckling remains NOT_QUALIFIED. No public promotion is applied without passing all predeclared gates and a separate Owner gate.",
+  "summary": {
+    "QUALIFIED_BOUNDED": 0,
+    "EXPERIMENTAL": 0,
+    "NOT_QUALIFIED": 1,
+    "public_maturity_relabels_applied": 0,
+    "owner_gate_candidates": 0,
+    "global_state_after_wp06": {
+      "QUALIFIED_BOUNDED": 32,
+      "EXPERIMENTAL": 13,
+      "NOT_QUALIFIED": 1,
+      "TOTAL": 46,
+      "not_qualified_combination": "COMB-HEX8-linear_buckling"
+    },
+    "registry_counts_consistent": true
+  },
+  "decision": {
+    "source_record": "COMB-HEX8-linear_buckling",
+    "wp01_disposition": "NOT_QUALIFIED_TO_CLOSE",
+    "technical_decision": "NOT_QUALIFIED",
+    "public_maturity": "NOT_QUALIFIED",
+    "promotion_applied": false,
+    "scope": "No qualified scope. The assessed candidate was limited to first linearized tangent-instability factor and first mode for homogeneous isotropic HEX8 rectangular columns under proportional nodal dead compression, with cantilever and pinned-pinned lateral boundary configurations and three structured mesh levels.",
+    "blocking_gates": [
+      "Euler critical-factor relative-error gate failed on every declared level in both configurations.",
+      "Three-level refinement did not reach the predeclared final adjacent-factor-change gate: 0.204597 for cantilever and 0.745298 for pinned-pinned lateral, against 0.01.",
+      "The invalid-orientation robustness input did not fail explicitly as required.",
+      "CalculiX C3D8 current correlation was unavailable because the Docker daemon could not be reached; the historical 0.2.6 correlation was audited only and was not reused as current WP06 execution evidence.",
+      "Two full-campaign replay digests differed; the deterministic replay gate therefore failed."
+    ],
+    "passing_subchecks": [
+      "Preload residual, geometric-stiffness symmetry/sign and eigen residual checks passed for the executed valid rows.",
+      "First-mode shape matching passed the declared analytical mode gate for the valid rows.",
+      "Scale and preload proportionality checks passed within their fixed tolerances.",
+      "Singular-boundary handling failed closed explicitly."
+    ],
+    "future_closure_requirements": [
+      "Retain the frozen tolerances; do not retune them after results.",
+      "Provide a comparable independent current correlation or a formally justified alternative under a new predeclared contract.",
+      "Close the refinement/factor error and invalid-geometry robustness gaps.",
+      "Make the complete campaign replay deterministic before requesting an Owner gate."
+    ]
+  },
+  "registry_integrity": {
+    "source_registry_0_2_7_unchanged": true,
+    "historical_0_2_7_evidence_changed": false,
+    "numerical_source_changed": false,
+    "not_qualified_combination_is_hex8_buckling": true,
+    "wedge6_static_distinct_from_hex8_buckling": true,
+    "owner_gate_applied": false,
+    "total_combinations": 46
+  }
+}
