@@ -19,6 +19,7 @@ from solveur.mesh.contact_validation import frictionless_contact_errors
 from solveur.mesh.quality import MeshQuality, MeshQualityThresholds
 from solveur.mesh.quality_contract import INVALID as QUALITY_INVALID, VALID_WITH_WARNING as QUALITY_WARNING
 from solveur.mesh.solid_validation import maximum_surface_face, quality_details
+from solveur.mesh.mixed_validation import mixed_linear_static_scope_errors
 from solveur.mesh.topology import MITC3_EDGES, MITC4_EDGES
 from solveur.mesh.validation_helpers import (
     distributed_element_indices as _distributed_element_indices,
@@ -57,6 +58,8 @@ class MeshValidator:
         details["quality_thresholds"] = self.thresholds.to_dict()
         self._check_nodes(model, errors)
         self._check_elements(model, errors, warnings)
+        if model.analysis.type == "linear_static":
+            errors.extend(mixed_linear_static_scope_errors(model))
         self._check_shell_orientation(model, errors)
         details["element_quality"] = self._element_quality_details(model, warnings)
         self._enforce_qualification_shell_domain(model, details["element_quality"], errors)

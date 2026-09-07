@@ -184,3 +184,20 @@ and [`WP06B maturity delta`](../../../qualification/0_2_8/wp06b_maturity_matrix.
 therefore retain `COMB-HEX8-linear_buckling` as `NOT_QUALIFIED`; no public
 promotion or Owner gate is applied. No 0.2.7 evidence is changed and WP07 is
 not started.
+
+## WP07 mixed TET4/WEDGE6/HEX8 linear static
+
+WP07 audits the existing family-generic architecture for one conforming
+mixed-solid `linear_static` workflow. The frozen
+[`WP07 contract`](../../../qualification/0_2_8/wp07_mixed_static_contract.json),
+executable [`WP07 evidence`](../../../qualification/0_2_8/wp07_mixed_static_vnv.json)
+and [`WP07 candidate matrix`](../../../qualification/0_2_8/wp07_mixed_static_matrix.json)
+record the subsystem audit, affine/interface/load gates, Gmsh path, explicit
+failure contract and two deterministic replays.
+
+All declared technical gates pass, producing
+`QUALIFIED_BOUNDED_CANDIDATE` for the exact conforming TET4/WEDGE6/HEX8
+linear-static scope. The result is still pending a separate Owner gate: WP07
+does not apply a public maturity relabel, does not qualify dynamic or other
+analysis routes, and does not claim an external solver correlation. No 0.2.7
+evidence or prior WP01-WP06B record is changed.
