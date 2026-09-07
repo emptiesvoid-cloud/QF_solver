@@ -37,6 +37,11 @@ The exact replay digest covers the generated input, displacement vector,
 iterations, residual, equilibrium and energy. Timing and memory are excluded
 from that digest because they are environment-dependent.
 
+The iterative backend is SciPy CG with `assume_spd=true`. This is an explicit
+solver-policy assumption, justified here by homogeneous small-strain isotropic
+elasticity and complete per-chain Dirichlet constraints; it is not a new
+formulation or an accuracy claim.
+
 ## Claim boundary
 
 The only permitted public wording is: “Recorded large-scale mixed

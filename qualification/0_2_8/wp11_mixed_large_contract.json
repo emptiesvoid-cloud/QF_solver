@@ -43,6 +43,7 @@
   },
   "environment": {
     "backend": "SciPy sparse linear solver as selected by the standard mixed LinearStaticSolver",
+    "solver_assumption": "assume_spd=true; justified by homogeneous small-strain isotropic elasticity with complete per-chain Dirichlet constraints",
     "mpi_ranks": 1,
     "preallocation": "record actual exposed backend diagnostics; do not infer unavailable allocator details",
     "packages": ["python", "numpy", "scipy", "petsc4py", "mpi4py"]
