@@ -5488,6 +5488,21 @@
     "qualification/0_2_8/wp13_02a_harmonic_contract.json"
   ],
   "tests": []
+},
+{
+  "id": "DOC-028-WP13-02A2-WEDGE6-DYNAMIC-001",
+  "path": "verification/0_2_8/wp13_02a2_wedge6_dynamic_enablement.md",
+  "title": "QF Solver 0.2.8 WP13-02A2 WEDGE6 dynamic enablement",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp13_02a2_wedge6_dynamic_evidence.json",
+    "qualification/0_2_8/wp13_02a_newmark_contract.json",
+    "qualification/0_2_8/wp13_02a_harmonic_contract.json"
+  ],
+  "tests": [
+    "tests/unit/test_wp13_02a2_wedge6_dynamic.py"
+  ]
 }
   ]
   

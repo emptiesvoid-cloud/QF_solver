@@ -106,12 +106,12 @@ DESCRIPTORS: dict[str, ElementCapabilityDescriptor] = {
     "WEDGE6": ElementCapabilityDescriptor(
         "WEDGE6", ("WEDGE6", "PRISM6"), 3, 6, ("UX", "UY", "UZ"), "linear triangular prism",
         ("TRI3", "TRI3", "QUAD4", "QUAD4", "QUAD4"), "TRI3_X_GAUSS2",
-        ("isotropic_3d",), ("linear_static", "modal"), ("nodal", "gravity", "body_force", "pressure", "surface_traction"), "consistent",
+        ("isotropic_3d",), ("linear_static", "modal", "transient_dynamic", "harmonic_response"), ("nodal", "gravity", "body_force", "pressure", "surface_traction"), "consistent",
         "Gauss-point strain/stress recovery with integration energy",
         "Gmsh Prism6 import and canonical face/load mapping validated by WP08",
         ("scipy_sparse",),
         (
-            "Newmark/harmonic routes are not implemented",
+            "Newmark/harmonic routes are experimental internal candidates; WP13-02B V&V and a separate Owner gate are required",
             "J2, TL, contact, external correlation and robustness qualification are deferred",
         ),
         ("COMB-WEDGE6-linear_static", "COMB-WEDGE6-modal"),

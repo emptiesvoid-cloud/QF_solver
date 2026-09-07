@@ -73,7 +73,8 @@ def test_public_facades_and_maturity_boundaries_remain_explicit() -> None:
 
     assert check_compatibility("WEDGE6", "linear_static", "elastic").status == "EXPERIMENTAL_ROUTE"
     assert check_compatibility("WEDGE6", "modal", "elastic").status == "SUPPORTED_ROUTE"
-    assert check_compatibility("WEDGE6", "transient_dynamic", "elastic").status == "UNSUPPORTED_ROUTE"
+    assert check_compatibility("WEDGE6", "transient_dynamic", "elastic").status == "EXPERIMENTAL_ROUTE"
+    assert check_compatibility("WEDGE6", "harmonic_response", "elastic").status == "EXPERIMENTAL_ROUTE"
     assert (
         check_compatibility("HEX8", "linear_static", "finite_kinematic_j2").status
         == "NOT_QUALIFIED_ROUTE"
