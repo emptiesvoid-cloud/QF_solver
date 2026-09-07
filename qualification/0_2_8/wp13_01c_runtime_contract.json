@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "contract_id": "WP13-01C-MIXED-PETSC-RUNTIME-001",
+  "status": "PREDECLARED",
+  "source_sha": "b795cf70e5db2606e3092e7c4654d01df48ff085",
+  "scope": {
+    "capability": "runtime mixed PETSc/MPI linear_static validation",
+    "analysis": "linear_static",
+    "element_families": ["TET4", "WEDGE6", "HEX8"],
+    "interfaces": "conforming shared-node interfaces only",
+    "materials": "small-strain linear isotropic elasticity",
+    "ranks": [1, 2, 4],
+    "stages": ["small", "50k-150k DOF", "300k DOF", "1M DOF if feasible"],
+    "claim": "bounded runtime evidence only for actually executed configurations"
+  },
+  "oracle": {
+    "reference": "existing serial GlobalAssembler mixed workflow on identical input",
+    "independence": "serial reference and PETSc/MPI runtime use separate assembly/solver paths",
+    "external_correlation": "not required for this runtime gate; no external correlation claim"
+  },
+  "tolerances": {
+    "predeclared": true,
+    "gates": [
+      {"id": "displacement_relative_l2", "operator": "<=", "limit": 1.0e-10},
+      {"id": "reaction_relative_l2", "operator": "<=", "limit": 1.0e-10},
+      {"id": "residual_relative_l2", "operator": "<=", "limit": 1.0e-10},
+      {"id": "equilibrium_relative", "operator": "<=", "limit": 1.0e-10},
+      {"id": "energy_relative", "operator": "<=", "limit": 1.0e-10},
+      {"id": "global_dof_count", "operator": "==", "limit": 0},
+      {"id": "connectivity_and_family_counts", "operator": "==", "limit": 0},
+      {"id": "replay_digest_difference", "operator": "==", "limit": 0}
+    ],
+    "post_observation_retuning": false
+  },
+  "required_metrics": [
+    "displacement",
+    "reactions",
+    "residual",
+    "equilibrium",
+    "energy",
+    "iterations",
+    "runtime",
+    "peak_memory",
+    "reallocations",
+    "ghost_communication",
+    "global_gather",
+    "partition_invariance",
+    "replay_digests"
+  ],
+  "replay_count": 2,
+  "owner_gate": {
+    "required": true,
+    "decision": "PASS_1M, PASS_SUBMILLION, BLOCKED_ENVIRONMENT or FAIL_RUNTIME",
+    "promotion": "none; runtime evidence does not change maturity"
+  },
+  "abort_criteria": [
+    "PETSc or MPI cannot be executed in the declared environment",
+    "any mixed family is ignored, duplicated or routed through a silent fallback",
+    "partition changes physical results beyond the fixed tolerances",
+    "BC, loads, reactions, ghosting or interface contributions are inconsistent",
+    "a structural global gather of K, connectivity or element fields is required",
+    "runtime evidence is insufficient for the reported bounded claim"
+  ],
+  "claim_limitations": [
+    "No universal million-DOF mixed support claim is allowed.",
+    "No mixed dynamics, MPC/RBE, multi-material, nonlinear or industrial-import claim is included.",
+    "Unavailable runtime dependencies produce BLOCKED_ENVIRONMENT, not FAIL_RUNTIME.",
+    "Historical 0.2.7 evidence is immutable."
+  ],
+  "environment": {
+    "required": ["Python", "petsc4py", "PETSc", "mpi4py", "MPI launcher"],
+    "capture": ["python_version", "petsc4py_version", "petsc_version", "mpi4py_version", "mpi_implementation", "rank_count", "commands"]
+  }
+}

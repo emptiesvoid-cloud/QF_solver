@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "contract_id": "WP13-01C-MIXED-PETSC-RUNTIME-001",
+  "status": "BLOCKED_ENVIRONMENT",
+  "source": {
+    "start_sha": "b795cf70e5db2606e3092e7c4654d01df48ff085",
+    "baseline": "WP13-01B",
+    "runtime_claim": "none"
+  },
+  "environment": {
+    "python": "3.13.1",
+    "petsc4py": null,
+    "petsc": "unavailable",
+    "mpi4py": "4.1.0",
+    "mpi": "Microsoft MPI 10.1.12498.52",
+    "available_ranks": "2 launcher ranks verified; PETSc ranks 0",
+    "host_rank_count": 1
+  },
+  "inputs": [
+    {
+      "id": "mixed-small-reference",
+      "status": "PASS",
+      "element_counts": {"TET4": 1, "WEDGE6": 1, "HEX8": 1},
+      "total_elements": 3,
+      "total_dof": 33,
+      "source": "scripts/run_wp07_mixed_static.py::_case(1)"
+    },
+    {
+      "id": "runtime-dependency-probe",
+      "status": "BLOCKED_ENVIRONMENT",
+      "petsc4py_available": false,
+      "petsc_binary_wheel": "not available for this interpreter",
+      "source": "python import/pip binary-only probe"
+    }
+  ],
+  "commands": [
+    "python -c \"from scripts.run_wp07_mixed_static import _case; ... _case(1), _case(2), _case(4)\"",
+    "mpiexec -n 2 python -c \"from mpi4py import MPI; ...\"",
+    "python -c \"import importlib.util; ... petsc4py=False\"",
+    "python -m pip install --dry-run --only-binary=:all: petsc4py",
+    "python -m pytest -q <WP13-01C targeted selections>",
+    "python -m ruff check <WP13 targeted Python files>",
+    "python -m compileall -q <WP13 targeted Python files>"
+  ],
+  "outputs": [
+    {"id": "serial-reference-small", "status": "PASS", "result": "segments 1/2/4 PASS; DOF 33/48/78; families TET4/WEDGE6/HEX8 present"},
+    {"id": "mpi-launcher-smoke", "status": "PASS", "result": "rank=0/2; rank=1/2"},
+    {"id": "petsc4py-probe", "status": "BLOCKED_ENVIRONMENT", "result": "petsc4py unavailable"},
+    {"id": "petsc-binary-wheel-probe", "status": "BLOCKED_ENVIRONMENT", "result": "no matching binary distribution for current interpreter"},
+    {"id": "targeted-tests", "status": "PASS", "result": "32 passed, 22 deselected in 4.73s"},
+    {"id": "staged-runtime", "status": "NOT_RUN", "reason": "PETSc runtime dependency unavailable"}
+  ],
+  "metrics": {
+    "petsc4py": "UNAVAILABLE",
+    "petsc_version": "UNAVAILABLE",
+    "mpi4py": "4.1.0",
+    "mpi_runtime": "Microsoft MPI 10.1.12498.52",
+    "available_ranks": "2 launcher ranks verified; no PETSc rank available",
+    "petsc_1_rank": "BLOCKED_ENVIRONMENT",
+    "mpi_2_ranks": "BLOCKED_ENVIRONMENT",
+    "mpi_4_ranks": "NOT_RUN",
+    "small_reference": {"status": "PASS", "TET4": 1, "WEDGE6": 1, "HEX8": 1, "total_dof": 33},
+    "partition_invariance": "NOT_RUN_RUNTIME",
+    "displacement_comparison": "NOT_RUN_RUNTIME",
+    "reaction_comparison": "NOT_RUN_RUNTIME",
+    "residual": "NOT_RUN_RUNTIME",
+    "equilibrium": "NOT_RUN_RUNTIME",
+    "energy": "NOT_RUN_RUNTIME",
+    "bc_distribution": "NOT_RUN_RUNTIME; architecture contract PASS",
+    "load_distribution": "NOT_RUN_RUNTIME; architecture contract PASS",
+    "reaction_reconstruction": "NOT_RUN_RUNTIME; architecture contract PASS",
+    "preallocation_runtime": "NOT_RUN_RUNTIME; architecture metadata PASS",
+    "global_gather_present": "NOT_ASSESSED_RUNTIME; generic architecture has no structural gather",
+    "memory_behavior": "NOT_RUN_RUNTIME",
+    "stage_a": {"dof": null, "status": "NOT_RUN_DEPENDENCY"},
+    "stage_b": {"dof": null, "status": "NOT_RUN_DEPENDENCY"},
+    "stage_c": {"dof": null, "status": "NOT_RUN_DEPENDENCY"},
+    "largest_validated_runtime_dof": 0,
+    "numerical_source_changed": false,
+    "formulation_changed": false,
+    "maturity_changed": false,
+    "historical_0_2_7_evidence_changed": false
+  },
+  "replays": [
+    {"id": "mixed-petsc-replay-1", "status": "NOT_RUN", "reason": "PETSc unavailable"},
+    {"id": "mixed-petsc-replay-2", "status": "NOT_RUN", "reason": "PETSc unavailable"}
+  ],
+  "digests": {
+    "contract": "2ec6a2e57c1058389752192df2eb6cb97dead09abf906ff618f79917c6bfd77c",
+    "inputs": "33327813a981373dcd7cef82216002b2ffad2ce588e2143d97a9a4d4294e996c",
+    "outputs": "793520a168ed4caf318c608266bb0dba443ddae5d03a5a8f35dc638a154a9b85",
+    "metrics": "1882ea4da7c36911cfbbf628d7b274988bf44c293fb493801bf283e3f007d3f2"
+  },
+  "owner_decision": {
+    "status": "BLOCKED_ENVIRONMENT",
+    "decision": "BLOCKED_ENVIRONMENT",
+    "reason": "Architecture is ready, MPI launcher and mpi4py are available, but PETSc/petsc4py cannot be executed in the current environment without an unreasonable source reconstruction."
+  }
+}
