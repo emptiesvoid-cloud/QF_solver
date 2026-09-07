@@ -1,0 +1,169 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP13-01I-MICROCHECK",
+  "work_package": "WP13-01I",
+  "start_sha": "f2dfc4c1e4145f11a1954e68351d98e3238a763e",
+  "source_execution": "qualification/0_2_8/wp13_01g_runtime/stage_a_mpi2.npz",
+  "status": "NO_BUG_CONDITIONING_LIMITATION",
+  "contract_policy": {
+    "mesh_changed": false,
+    "geometry_changed": false,
+    "boundary_conditions_changed": false,
+    "loads_changed": false,
+    "element_ordering_changed": false,
+    "gate_changed": false,
+    "reference_displacement_fixed": true,
+    "full_test_suite": "DEFERRED_TO_WP13_FINAL_GATE"
+  },
+  "microcheck_1_element_internal_forces": {
+    "status": "PASS_DIAGNOSTIC",
+    "current_path": "float64 local Ke @ u followed by ordinary per-DOF accumulation",
+    "stable_path": "same local forces followed by math.fsum per global DOF",
+    "high_precision_path": "diagnostic-only numpy.longdouble local products and accumulation",
+    "current_global_defect_N": [
+      5.095789674669504e-7,
+      5.7863417168846354e-8,
+      -6.75576989124238e-5
+    ],
+    "current_equilibrium_relative": 6.755964550854925e-10,
+    "stable_global_defect_N": [
+      2.3355823941528797e-7,
+      1.4086845112615265e-7,
+      -6.622176215387299e-5
+    ],
+    "stable_equilibrium_relative": 6.622232385031384e-10,
+    "high_precision_global_defect_N": [
+      3.321911208331585e-7,
+      1.8478932861665243e-7,
+      -6.551424011558282e-5
+    ],
+    "high_precision_equilibrium_relative": 6.55153429049942e-10,
+    "interpretation": "Stable accumulation reduces the metric by about two percent and long-double diagnostics by about three percent, but neither removes the defect or approaches the frozen gate. The final summation is not the dominant source."
+  },
+  "family_decomposition": {
+    "TET4": {
+      "element_count": 1,
+      "internal_force_norm": 9282.778304043368,
+      "resultant_N": [0.0, 0.0, 0.0],
+      "current_vs_stable_max_abs": 0.0,
+      "rigid_translation_relative_error": 5.15231838474026e-17
+    },
+    "WEDGE6": {
+      "element_count": 3332,
+      "internal_force_norm": 20149.55839076479,
+      "resultant_N": [
+        2.7541227609617636e-7,
+        -5.625679477816448e-9,
+        -1.2585893273353577e-5
+      ],
+      "current_vs_stable_max_abs": 0.0,
+      "rigid_translation_relative_error": 4.976479875795657e-16
+    },
+    "HEX8": {
+      "element_count": 3332,
+      "internal_force_norm": 72774.10213134153,
+      "resultant_N": [
+        -4.186085789115168e-8,
+        1.464941306039691e-7,
+        -5.363586842577206e-5
+      ],
+      "current_vs_stable_max_abs": 0.0,
+      "rigid_translation_relative_error": 7.464720197898088e-16
+    },
+    "dominant_family": "HEX8",
+    "dominant_family_basis": "Largest Z resultant magnitude and largest local force population; no isolated family implementation error was found."
+  },
+  "microcheck_2_ku_minus_f_vs_element_sum": {
+    "status": "PASS_DIAGNOSTIC_DIVERGENCE_QUANTIFIED",
+    "reference_path_a": {
+      "definition": "sparse assembled K multiplied by the fixed reference u, then minus F",
+      "free_l2": 2.0574069153682956e-6,
+      "free_max_abs": 1.1175870895385742e-7,
+      "constrained_l2": 44723.21661125155,
+      "constrained_max_abs": 26795.891060147434,
+      "resultant_N": [-99999.99999979386, 1.763442014635075e-8, -6.82723934914975e-5]
+    },
+    "reference_path_b_current_element_sum": {
+      "free_l2": 1.831338914669621e-6,
+      "free_max_abs": 8.442475518677384e-8,
+      "constrained_l2": 44723.216611251206,
+      "constrained_max_abs": 26795.891060145528,
+      "resultant_N": [-99999.99999949042, 5.7863417168846354e-8, -6.75576989124238e-5]
+    },
+    "reference_path_b_stable_element_sum": {
+      "free_l2": 1.8313386638567926e-6,
+      "free_max_abs": 8.442475518677384e-8,
+      "constrained_l2": 44723.216611251206,
+      "constrained_max_abs": 26795.891060145528,
+      "resultant_N": [-99999.99999976644, 1.4086845112615265e-7, -6.622176215387299e-5]
+    },
+    "reference_path_b_high_precision": {
+      "free_l2": 1.7277569081716192e-6,
+      "free_max_abs": 9.427822078578174e-8,
+      "constrained_l2": 44723.216611251024,
+      "constrained_max_abs": 26795.89106014322,
+      "resultant_N": [-99999.99999966781, 1.8478932861665243e-7, -6.551424011558282e-5]
+    },
+    "path_difference_current_element_vs_Ku": {
+      "free_l2": 1.5763006036765312e-6,
+      "free_max_abs": 7.956623448990285e-8,
+      "constrained_l2": 8.290513527207614e-7,
+      "constrained_max_abs": 4.020330379717052e-8,
+      "global_l2": 1.7810249124027213e-6
+    },
+    "conclusion": "Both paths show the same force scale and the same equilibrium failure. Their small difference is consistent with floating-point assembly/order effects, not a missing family contribution or a reaction-only defect."
+  },
+  "rigid_translation_checks": {
+    "TET4": {"max_relative_error": 5.15231838474026e-17},
+    "WEDGE6": {"max_relative_error": 4.976479875795657e-16},
+    "HEX8": {"max_relative_error": 7.464720197898088e-16},
+    "conclusion": "All sampled family kernels satisfy rigid translation checks at their local matrix roundoff scale."
+  },
+  "error_localization": {
+    "by_family": "HEX8 dominant, WEDGE6 secondary, TET4 negligible",
+    "by_component": "Z dominant: about -6.76e-5 N; X and Y are below 6e-7 N",
+    "by_rank": {
+      "MPI-2-rank-0_reaction_resultant_N": [-19996.248754291544, -2938.1868563376765, 9256.931212666837],
+      "MPI-2-rank-1_reaction_resultant_N": [-80003.75124570844, 2938.1868563376843, -9256.931212666826],
+      "MPI-2_allreduce_vs_ordered_fsum_max_abs_N": 0.0
+    },
+    "by_interface_region": "NOT_ISOLATED; no separate interface residual observable was available. Family rigid-body checks show no unique interface or family implementation defect.",
+    "dominant_error_source": "HEX8/WEDGE6 local force cancellation under extreme axial aspect ratio, amplified by local stiffness scale separation",
+    "confidence": 88
+  },
+  "conditioning": {
+    "aspect_ratio": 3332.0,
+    "stiffness_abs_nonzero_range": [1.8730715366286544e-12, 104658979745829.7],
+    "stiffness_abs_range_ratio": 5.587559134778463e25,
+    "petsc_diagonal_scale_range": [0.02394348577794769, 1.0],
+    "condition_estimate": "NOT_COMPUTED",
+    "assessment": "Strongly ill-scaled local arithmetic is demonstrated; a matrix condition number was not computed and is not inferred."
+  },
+  "decision": {
+    "bug_found": false,
+    "bug_type": "NO_NUMERICAL_BUG_PROVEN; CONDITIONING_AND_ROUNDOFF_LIMITATION",
+    "fix_applied": false,
+    "fix_description": "NO_SAFE_CODE_FIX. Stable accumulation, long-double diagnostics and independent K*u/F paths do not remove the defect. Changing precision or formulation would be a broader numerical change, not a justified micro-fix.",
+    "equilibrium_before": 6.755964550854925e-10,
+    "equilibrium_after": "NOT_APPLICABLE",
+    "residual_after": "NOT_RUN_NO_FIX",
+    "energy_after": "NOT_RUN_NO_FIX",
+    "partition_invariance_after": "NOT_RUN_NO_FIX",
+    "small_status": "PASS_EXISTING_EVIDENCE",
+    "stage_a_status": "FAIL_KEEP_STAGE_A_BLOCKED",
+    "wp13_01i_decision": "NO_BUG_CONDITIONING_LIMITATION",
+    "ready_for_owner_gate": false,
+    "blockers": [
+      "Stage-A equilibrium remains above the unchanged 1e-10 relative gate.",
+      "No safe local code correction was demonstrated.",
+      "The benchmark's 3332:1 aspect ratio and 5.59e25 local stiffness magnitude range dominate the diagnostic interpretation."
+    ]
+  },
+  "integrity": {
+    "numerical_source_changed": false,
+    "formulation_changed": false,
+    "gates_changed": false,
+    "benchmark_changed": false,
+    "evidence_0_2_7_changed": false
+  }
+}
