@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP11-MIXED-LARGE-MATRIX",
+  "work_package": "WP11",
+  "execution_sha": "08b9ca2bc9420e100483c2ee4ff3262baea8077f",
+  "decision": "PASS_WITH_BOUNDED_EVIDENCE",
+  "mandatory_status": "PASS",
+  "mandatory_model": {
+    "nodes": 100001,
+    "dof": 300003,
+    "elements": 27273,
+    "elements_by_family": {"TET4": 9091, "WEDGE6": 9091, "HEX8": 9091},
+    "conforming_interfaces": {"triangular_tet4_wedge6": 9091, "quadrilateral_wedge6_hex8": 9091},
+    "components": 9091,
+    "load": "unit total Z load per repeated chain; x=0 DOFs fixed"
+  },
+  "gates": {
+    "two_replays": "PASS",
+    "iterations": 12,
+    "relative_residual": 2.484933369237869e-09,
+    "force_balance_relative_error": 2.0730893516296557e-12,
+    "moment_balance_relative_error": 4.358628815121694e-12,
+    "energy_identity_relative_error": 0.0,
+    "finite_solution": "PASS",
+    "replay_physics_digest": "c0002f86478594f0c51806307296e83b245fabe00cfc6250177ac2137a7d1d8"
+  },
+  "performance": {
+    "assembly_seconds": [46.11255359998904, 46.00564650003798],
+    "linear_solve_seconds": [0.053697200026363134, 0.0516353000421077],
+    "total_seconds": [62.4159071999602, 62.5279550999403],
+    "peak_rss_after_bytes": [754372608, 754372608],
+    "reduced_matrix_nnz": 1309104,
+    "backend": "scipy",
+    "method": "cg",
+    "preconditioner": "jacobi",
+    "mpi_ranks": 1
+  },
+  "optional_targets": {
+    "one_million_dof": "NOT_RUN_NON_BLOCKER",
+    "three_million_dof": "NOT_RUN_NON_BLOCKER"
+  },
+  "limitations": [
+    "The mandatory evidence is a repeated conforming-chain scale model, not an arbitrary connected industrial mesh.",
+    "Runtime and memory are environment records, not universal thresholds.",
+    "No accuracy, production, precision, modal, dynamic, nonlinear or universal scalability claim.",
+    "No PYRAMID5 or HEX8-SRI appears in this large model.",
+    "No external correlation is claimed."
+  ],
+  "integrity": {
+    "numerical_source_changed": false,
+    "historical_0_2_7_evidence_changed": false,
+    "wp01_wp10_records_changed": false
+  }
+}

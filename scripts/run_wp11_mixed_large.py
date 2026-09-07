@@ -5,13 +5,14 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import platform
 import sys
 import time
 from pathlib import Path
 from typing import Any
 
 import numpy as np
+
+# ruff: noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "src"
@@ -151,15 +152,53 @@ def _memory_delta(before: dict[str, Any], after: dict[str, Any]) -> dict[str, An
     }
 
 
+def _snapshot() -> dict[str, Any]:
+    snapshot = process_memory_snapshot()
+    if snapshot.get("current_rss_bytes") is not None:
+        return snapshot
+    try:
+        import psutil
+
+        info = psutil.Process().memory_info()
+        peak = getattr(info, "peak_wset", None)
+        return {
+            "source": "psutil",
+            "current_rss_bytes": int(info.rss),
+            "peak_rss_bytes": int(peak) if peak is not None else None,
+        }
+    except (ImportError, OSError, AttributeError):
+        return snapshot
+
+
+def _compact_equilibrium(equilibrium: dict[str, Any]) -> dict[str, Any]:
+    """Keep machine-readable equilibrium summaries without serializing reactions."""
+    compact: dict[str, Any] = {}
+    for key, value in equilibrium.items():
+        if key in {"reactions", "constraint_reactions"}:
+            continue
+        if key == "constraint_forces" and isinstance(value, dict):
+            compact[key] = {
+                nested_key: nested_value
+                for nested_key, nested_value in value.items()
+                if nested_key not in {"reactions", "constraint_reactions"}
+            }
+            continue
+        if isinstance(value, (str, int, float, bool)) or value is None:
+            compact[key] = value
+        elif isinstance(value, list) and len(value) <= 16:
+            compact[key] = value
+    return compact
+
+
 def _run_once(model: FiniteElementModel, manifest: dict[str, Any], label: str) -> dict[str, Any]:
-    memory_before = process_memory_snapshot()
+    memory_before = _snapshot()
     started = time.perf_counter()
     result = LinearStaticSolver().solve(model, detail_level="summary")
     total_seconds = time.perf_counter() - started
-    memory_after = process_memory_snapshot()
+    memory_after = _snapshot()
     if result.audit is None:
         raise RuntimeError("WP11 requires a solver audit")
-    equilibrium = dict(result.audit.equilibrium)
+    equilibrium = _compact_equilibrium(dict(result.audit.equilibrium))
     solver_execution = dict(result.solver.get("execution", {}))
     solver_selection = dict(result.solver.get("selection", {}))
     external_work = 0.0
@@ -216,11 +255,11 @@ def _run_once(model: FiniteElementModel, manifest: dict[str, Any], label: str) -
 
 
 def _run_case(chains: int, label: str) -> dict[str, Any]:
-    prep_before = process_memory_snapshot()
+    prep_before = _snapshot()
     prep_started = time.perf_counter()
     model, manifest = _make_model(chains)
     prep_seconds = time.perf_counter() - prep_started
-    prep_after = process_memory_snapshot()
+    prep_after = _snapshot()
     interface_records = mixed_solid_faces(model)
     manifest["interface_records_detected"] = len(interface_records)
     replays = [_run_once(model, manifest, "replay_1"), _run_once(model, manifest, "replay_2")]
@@ -258,7 +297,8 @@ def main() -> int:
             "preallocation": "standard SparseCsrAccumulator; allocator detail not exposed",
             "command": "python scripts/run_wp11_mixed_large.py",
             "baseline_sha": BASELINE_SHA,
-        }
+        },
+        packages=("numpy", "scipy", "h5py", "mpi4py", "petsc4py", "psutil"),
     )
     (PACK / "input_manifest.json").write_text(json.dumps({"small": small["manifest"], "mandatory": mandatory["manifest"]}, indent=2), encoding="utf-8")
     (PACK / "replay_1.json").write_text(json.dumps(mandatory["replays"][0], indent=2, default=_json_default), encoding="utf-8")

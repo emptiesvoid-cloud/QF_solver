@@ -292,4 +292,21 @@ production accuracy claim is made. The Owner gate records
 `APPROVE_EXPERIMENTAL_BOUNDED` as a separate documented research capability;
 SRI is not added to the 46 element-analysis combinations and does not replace
 standard HEX8. HEX8 standard and all prior WP01–WP09 records remain unchanged.
-No WP11 large mixed workflow is started.
+No WP11 large mixed workflow is started by this WP10 record.
+
+## WP11 mixed large-scale evidence
+
+WP11 records a mandatory 300,003-DOF mixed `linear_static` run using equal
+counts of TET4, WEDGE6 and HEX8 in repeated conforming chains. The small
+baseline, two large replays, residual/equilibrium/energy gates and environment
+metadata pass. See the [WP11 evidence report](wp11_mixed_large_vnv.md), the
+[frozen contract](wp11_mixed_large_contract.md), the
+[machine-readable evidence](../../../qualification/0_2_8/wp11_mixed_large_vnv.json)
+and the [decision matrix](../../../qualification/0_2_8/wp11_mixed_large_matrix.json).
+
+The bounded claim is only recorded large-scale mixed TET4/WEDGE6/HEX8 evidence
+for this specific conforming linear-static route and environment. The repeated
+chain topology is not an arbitrary connected industrial mesh. No accuracy,
+production, modal, dynamic, nonlinear, PYRAMID5, HEX8-SRI or universal
+scalability claim is made. The optional 1M and 3M targets were not run and remain
+non-blockers; no 0.2.7 evidence or prior qualification record was changed.
