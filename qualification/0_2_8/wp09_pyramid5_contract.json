@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP09-PYRAMID5-CONTRACT",
+  "work_package": "WP09",
+  "applicable_version": "0.2.8-development",
+  "baseline_sha": "8daed7e0c6e11b79e6ad8f88a7c2da859c7eeac6",
+  "status": "PREDECLARED_FEASIBILITY_CONTRACT",
+  "formulation": {
+    "family": "PYRAMID5",
+    "reference_coordinates": "collapsed (r, s, t) in [-1,1] x [-1,1] x [0,1], with physical reference map ((1-t)r, (1-t)s,t)",
+    "node_order": "counter-clockwise QUAD4 base nodes 0..3 followed by apex node 4",
+    "shape_functions": "N0..N3=(1-t)(1+/-r)(1+/-s)/4; N4=t",
+    "derivative_at_apex": "not evaluated; collapsed-coordinate derivatives/Jacobian are singular there",
+    "production_quadrature": "Gauss-Legendre 3 x 3 x 4 on collapsed coordinates",
+    "reference_quadrature": "Gauss-Legendre 5 x 5 x 6 on collapsed coordinates"
+  },
+  "candidate_scope": {
+    "analysis": ["linear_static"],
+    "material": ["homogeneous isotropic_3d linear elasticity"],
+    "geometry": "convex planar QUAD4 base, non-coplanar apex and positive sampled Jacobians",
+    "loads": ["nodal", "body_force", "gravity", "pressure", "surface_traction"],
+    "faces": ["QUAD4 base", "four TRI3 sides"],
+    "transition": "conforming static HEX8/PYRAMID5/TET4 patch only",
+    "excluded": [
+      "PYRAMID13", "modal", "Newmark", "harmonic", "nonlinear", "contact",
+      "SRI", "stabilization", "hourglass control", "nonconforming interfaces",
+      "hanging nodes", "MPC/RBE transitions", "general mixed workflow claim"
+    ]
+  },
+  "tolerance_policy": {
+    "fixed_before_execution": true,
+    "post_observation_retuning": false,
+    "kronecker_absolute": 1e-14,
+    "partition_unity_absolute": 1e-13,
+    "derivative_sum_absolute": 1e-13,
+    "affine_displacement_and_strain_relative": 1e-11,
+    "jacobian_positive_tolerance_scale": 1e-12,
+    "stiffness_symmetry_relative": 1e-12,
+    "positive_energy_relative_eigenvalue": 1e-8,
+    "expected_stiffness_rank": 9,
+    "production_reference_stiffness_relative": 1e-5,
+    "mass_conservation_relative": 1e-12,
+    "patch_reaction_energy_relative": 1e-10,
+    "interface_displacement_absolute": 1e-12,
+    "transition_equilibrium_relative": 1e-10,
+    "replay_digest_exact": true
+  },
+  "decision_policy": "A passing campaign may yield FEASIBLE_CONTINUE or EXPERIMENTAL_BOUNDED_CANDIDATE only. It cannot qualify a production capability or alter WP07/WP08 mixed-workflow records.",
+  "integrity": {
+    "historical_0_2_7_evidence_changed": false,
+    "wp07_wp08_claims_changed": false,
+    "numerical_source_changed_at_contract_freeze": false
+  }
+}
