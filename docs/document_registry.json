@@ -5072,7 +5072,7 @@
   "examples": [],
   "tests": []
 },
-    {
+{
   "id": "DOC-SOLVER-BENCH-001",
   "path": "benchmarks/index.md",
   "title": "QF Solver benchmarks and reproducibility",
@@ -5080,6 +5080,19 @@
   "requirements": [],
   "examples": [],
   "tests": []
+},
+{
+  "id": "DOC-028-001",
+  "path": "verification/0_2_8/README.md",
+  "title": "QF Solver 0.2.8 WP01 maturity baseline",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp01_maturity_matrix.json"
+  ],
+  "tests": [
+    "tests/unit/test_028_wp01_maturity_matrix.py"
+  ]
 }
   ]
   
