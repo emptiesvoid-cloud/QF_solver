@@ -1,0 +1,503 @@
+{
+  "applicable_version": "0.2.8-development",
+  "baseline_sha": "d7501fd144daf11a5f51eae5c04d664ebbcdc763",
+  "checks": {
+    "affine_patch": {
+      "primary": {
+        "displacement_max_abs_error": 4.235164736271502e-22,
+        "element_result_count": 3,
+        "element_result_types": [
+          "TET4",
+          "WEDGE6",
+          "HEX8"
+        ],
+        "energy_identity_relative": 5.551115123125783e-17,
+        "force_balance_relative": 3.7478747353235883e-16,
+        "free_residual_relative": 1.2230794959180354e-16,
+        "moment_balance_relative": 5.157506033058889e-16,
+        "strain_max_abs_error": 2.117582368135751e-22,
+        "stress_max_relative_error": 2.1626667949054482e-16
+      },
+      "status": "PASS"
+    },
+    "convergence": {
+      "affine_errors": [
+        4.235164736271502e-22,
+        4.235164736271502e-22,
+        6.352747104407253e-22
+      ],
+      "levels": [
+        {
+          "affine": {
+            "displacement_max_abs_error": 4.235164736271502e-22,
+            "element_result_count": 3,
+            "element_result_types": [
+              "TET4",
+              "WEDGE6",
+              "HEX8"
+            ],
+            "energy_identity_relative": 5.551115123125783e-17,
+            "force_balance_relative": 3.7478747353235883e-16,
+            "free_residual_relative": 1.2230794959180354e-16,
+            "moment_balance_relative": 5.157506033058889e-16,
+            "strain_max_abs_error": 2.117582368135751e-22,
+            "stress_max_relative_error": 2.1626667949054482e-16
+          },
+          "assembly": {
+            "deterministic_matrix_digest": "cb05f396211d11e5b1f1e32765f60d4e118ca7d9be904b0e1b149dadfc3f6c23",
+            "duplicate_element_dofs": false,
+            "expected_rigid_body_modes": 6,
+            "ndof": 33,
+            "nnz": 763,
+            "observed_rigid_body_modes": 6,
+            "rank": 27,
+            "symmetry_relative": 7.93298255271809e-18
+          },
+          "element_count": 3,
+          "input_digest": "c9cc75e4ff609edb80ac14461c94444ba87ac4ddc22eae59c9b9ac012958aab1",
+          "interfaces": {
+            "displacement_continuity_max": 0.0,
+            "interface_count": 2,
+            "interface_family_pairs": [
+              [
+                "TET4",
+                "WEDGE6"
+              ],
+              [
+                "HEX8",
+                "WEDGE6"
+              ]
+            ],
+            "interface_force_equilibrium_max_relative": 2.908642809035571e-16
+          },
+          "node_count": 11,
+          "pass": true,
+          "segments": 1,
+          "status": "PASS"
+        },
+        {
+          "affine": {
+            "displacement_max_abs_error": 4.235164736271502e-22,
+            "element_result_count": 5,
+            "element_result_types": [
+              "TET4",
+              "WEDGE6",
+              "HEX8",
+              "WEDGE6",
+              "HEX8"
+            ],
+            "energy_identity_relative": 5.551115123125783e-17,
+            "force_balance_relative": 5.621281818392118e-17,
+            "free_residual_relative": 2.6320962340176387e-16,
+            "moment_balance_relative": 2.8553837557595624e-17,
+            "strain_max_abs_error": 6.352747104407253e-22,
+            "stress_max_relative_error": 5.488047924071121e-16
+          },
+          "assembly": {
+            "deterministic_matrix_digest": "b7ed5dd5e20e4cd6faecc126a366aed83a63bcdbeda02482df16cfe285d488bb",
+            "duplicate_element_dofs": false,
+            "expected_rigid_body_modes": 6,
+            "ndof": 48,
+            "nnz": 1286,
+            "observed_rigid_body_modes": 6,
+            "rank": 42,
+            "symmetry_relative": 6.140390206056716e-18
+          },
+          "element_count": 5,
+          "input_digest": "10ae5a96eab53ccc74163efa28ebe8e3c90e9cba2096cd3105d7a61d3c94246b",
+          "interfaces": {
+            "displacement_continuity_max": 0.0,
+            "interface_count": 3,
+            "interface_family_pairs": [
+              [
+                "TET4",
+                "WEDGE6"
+              ],
+              [
+                "HEX8",
+                "WEDGE6"
+              ],
+              [
+                "HEX8",
+                "WEDGE6"
+              ]
+            ],
+            "interface_force_equilibrium_max_relative": 3.1437528249620253e-16
+          },
+          "node_count": 16,
+          "pass": true,
+          "segments": 2,
+          "status": "PASS"
+        },
+        {
+          "affine": {
+            "displacement_max_abs_error": 6.352747104407253e-22,
+            "element_result_count": 9,
+            "element_result_types": [
+              "TET4",
+              "WEDGE6",
+              "HEX8",
+              "WEDGE6",
+              "HEX8",
+              "WEDGE6",
+              "HEX8",
+              "WEDGE6",
+              "HEX8"
+            ],
+            "energy_identity_relative": 1.1102230246251565e-16,
+            "force_balance_relative": 8.118977711484027e-17,
+            "free_residual_relative": 3.066580627076491e-16,
+            "moment_balance_relative": 1.7132302534557375e-16,
+            "strain_max_abs_error": 3.5293039468929173e-22,
+            "stress_max_relative_error": 2.9868876920896115e-16
+          },
+          "assembly": {
+            "deterministic_matrix_digest": "a7dc24f71b6f3721c41db430223226606ea8403271ff1751f23254271d58b4c1",
+            "duplicate_element_dofs": false,
+            "expected_rigid_body_modes": 6,
+            "ndof": 78,
+            "nnz": 2396,
+            "observed_rigid_body_modes": 6,
+            "rank": 72,
+            "symmetry_relative": 1.883749349724476e-17
+          },
+          "element_count": 9,
+          "input_digest": "e562195efa06fc4f10fe079eddce30b7aba8b2ef69219b91074b8ddb51e48259",
+          "interfaces": {
+            "displacement_continuity_max": 0.0,
+            "interface_count": 5,
+            "interface_family_pairs": [
+              [
+                "TET4",
+                "WEDGE6"
+              ],
+              [
+                "HEX8",
+                "WEDGE6"
+              ],
+              [
+                "HEX8",
+                "WEDGE6"
+              ],
+              [
+                "HEX8",
+                "WEDGE6"
+              ],
+              [
+                "HEX8",
+                "WEDGE6"
+              ]
+            ],
+            "interface_force_equilibrium_max_relative": 3.453895525109497e-16
+          },
+          "node_count": 26,
+          "pass": true,
+          "segments": 4,
+          "status": "PASS"
+        }
+      ],
+      "status": "PASS"
+    },
+    "failure_contract": {
+      "cases": {
+        "invalid_connectivity": {
+          "errors": [
+            "Element 1: repeated node in connectivity.",
+            "Mixed linear_static model has no conforming shared-face interface between its solid families."
+          ],
+          "status": "PASS",
+          "validator_status": "FAIL"
+        },
+        "invalid_geometry": {
+          "errors": [
+            "Element 0: invalid TET4 signed corner volume -1.666667e-01."
+          ],
+          "status": "PASS",
+          "validator_status": "FAIL"
+        },
+        "nonconforming_interface": {
+          "errors": [
+            "Model contains exact duplicate nodes.",
+            "Mixed linear_static nonconforming interface rejected: coincident faces from different families do not share the same node identities.",
+            "Mixed linear_static nonconforming interface rejected: coincident faces from different families do not share the same node identities.",
+            "Mixed linear_static model has no conforming shared-face interface between its solid families."
+          ],
+          "status": "PASS",
+          "validator_status": "FAIL"
+        },
+        "unknown_family": {
+          "errors": [
+            "Element 3: Unsupported element type 'PYRAMID5'.",
+            "Mixed linear_static scope supports only TET4/WEDGE6/HEX8 solid families; received HEX8, PYRAMID5, TET4, WEDGE6."
+          ],
+          "status": "PASS",
+          "validator_status": "FAIL"
+        }
+      },
+      "status": "PASS"
+    },
+    "global_assembly": {
+      "primary": {
+        "deterministic_matrix_digest": "cb05f396211d11e5b1f1e32765f60d4e118ca7d9be904b0e1b149dadfc3f6c23",
+        "duplicate_element_dofs": false,
+        "expected_rigid_body_modes": 6,
+        "ndof": 33,
+        "nnz": 763,
+        "observed_rigid_body_modes": 6,
+        "rank": 27,
+        "symmetry_relative": 7.93298255271809e-18
+      },
+      "status": "PASS"
+    },
+    "gmsh_import": {
+      "action_counts": {
+        "elements": 3,
+        "fixed_dofs": 7,
+        "nodal_load": 4
+      },
+      "element_count": 3,
+      "element_family": "HEX8+TET4+WEDGE6",
+      "mesh_status": "PASS",
+      "node_count": 11,
+      "solve_status": "PASS",
+      "status": "PASS"
+    },
+    "interface_continuity": {
+      "primary": {
+        "displacement_continuity_max": 0.0,
+        "interface_count": 2,
+        "interface_family_pairs": [
+          [
+            "TET4",
+            "WEDGE6"
+          ],
+          [
+            "HEX8",
+            "WEDGE6"
+          ]
+        ],
+        "interface_force_equilibrium_max_relative": 2.908642809035571e-16
+      },
+      "status": "PASS"
+    },
+    "interface_equilibrium": {
+      "primary": {
+        "displacement_continuity_max": 0.0,
+        "interface_count": 2,
+        "interface_family_pairs": [
+          [
+            "TET4",
+            "WEDGE6"
+          ],
+          [
+            "HEX8",
+            "WEDGE6"
+          ]
+        ],
+        "interface_force_equilibrium_max_relative": 2.908642809035571e-16
+      },
+      "status": "PASS"
+    },
+    "loads": {
+      "observed": {
+        "body_force_relative_error": 0.0,
+        "body_force_resultant": [
+          0.0,
+          0.0,
+          -3.333333333333333
+        ],
+        "maximum_surface_load_relative_error": 2.220446049250313e-16,
+        "pressure_faces": [
+          {
+            "element": 0,
+            "face": 0,
+            "family": "TET4",
+            "relative_error": 0.0,
+            "resultant": [
+              -1.0,
+              -1.0,
+              1.0
+            ]
+          },
+          {
+            "element": 1,
+            "face": 1,
+            "family": "WEDGE6",
+            "relative_error": 0.0,
+            "resultant": [
+              0.0,
+              0.0,
+              -1.0
+            ]
+          },
+          {
+            "element": 2,
+            "face": 1,
+            "family": "HEX8",
+            "relative_error": 2.7755575615628914e-17,
+            "resultant": [
+              0.0,
+              -5.551115123125783e-17,
+              -2.0
+            ]
+          }
+        ],
+        "traction_faces": [
+          {
+            "element": 0,
+            "face": 0,
+            "family": "TET4",
+            "relative_error": 0.0,
+            "resultant": [
+              1.299038105676658,
+              -0.4330127018922193,
+              0.21650635094610965
+            ]
+          },
+          {
+            "element": 1,
+            "face": 1,
+            "family": "WEDGE6",
+            "relative_error": 2.220446049250313e-16,
+            "resultant": [
+              0.7500000000000002,
+              -0.25,
+              0.125
+            ]
+          },
+          {
+            "element": 2,
+            "face": 1,
+            "family": "HEX8",
+            "relative_error": 0.0,
+            "resultant": [
+              1.5,
+              -0.5,
+              0.25
+            ]
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    "materials": {
+      "element_types": [
+        "TET4",
+        "WEDGE6",
+        "HEX8"
+      ],
+      "finite_displacements": true,
+      "scope": "smoke only; heterogeneous materials remain outside the candidate qualification scope",
+      "status": "PASS"
+    },
+    "mixed_architecture": {
+      "assembly_plan_global_assembler": "ALREADY_IMPLEMENTED",
+      "boundary_conditions": "ALREADY_IMPLEMENTED_NEEDS_VNV",
+      "diagnostics": "PARTIAL_NEEDS_FIX",
+      "dof_mapping": "ALREADY_IMPLEMENTED_NEEDS_VNV",
+      "element_registry": "ALREADY_IMPLEMENTED",
+      "gmsh_importer": "ALREADY_IMPLEMENTED_NEEDS_VNV",
+      "loads": "ALREADY_IMPLEMENTED_NEEDS_VNV",
+      "materials": "ALREADY_IMPLEMENTED_NEEDS_VNV",
+      "mixed_interface_contract": "FIXED_AND_TESTED",
+      "reactions": "ALREADY_IMPLEMENTED_NEEDS_VNV",
+      "results_export": "ALREADY_IMPLEMENTED_NEEDS_VNV",
+      "status": "PASS",
+      "stress_strain_recovery": "ALREADY_IMPLEMENTED_NEEDS_VNV"
+    },
+    "pairwise": {
+      "TET4_WEDGE6": "PASS",
+      "TET4_WEDGE6_HEX8": "PASS",
+      "WEDGE6_HEX8": "PASS",
+      "status": "PASS"
+    },
+    "post_processing_export": {
+      "export": {
+        "json": true,
+        "vtu": true
+      },
+      "post_processing": {
+        "families": [
+          "TET4",
+          "WEDGE6",
+          "HEX8"
+        ],
+        "finite": true,
+        "status": "PASS"
+      },
+      "status": "PASS"
+    },
+    "reactions_equilibrium": {
+      "status": "PASS"
+    }
+  },
+  "external_oracle": {
+    "decision": "Analytical affine manufactured-solution oracle is sufficient for this narrow candidate; no external correlation is claimed.",
+    "status": "NOT_AVAILABLE"
+  },
+  "fixes_applied": [
+    "Added explicit mixed linear-static conforming-interface validation and failure diagnostics."
+  ],
+  "historical_0_2_7_evidence_changed": false,
+  "limitations": [
+    "This is a technical candidate only; no public maturity promotion is applied.",
+    "The analytical oracle is an exact affine manufactured solution, not a general industrial benchmark.",
+    "External Code_Aster/CalculiX mixed-family correlation is not claimed in this WP.",
+    "Qualification is limited to the tested conforming topology and declared linear-static load contracts."
+  ],
+  "numerical_source_changed": false,
+  "owner_gate_required": true,
+  "predeclared_tolerances": {
+    "affine_displacement_absolute": 1e-10,
+    "affine_strain_absolute": 1e-10,
+    "affine_stress_relative": 1e-10,
+    "convergence_affine_absolute": 1e-10,
+    "energy_identity_relative": 1e-10,
+    "force_balance_relative": 1e-10,
+    "free_residual_relative": 1e-10,
+    "interface_displacement_absolute": 1e-14,
+    "interface_force_relative": 1e-10,
+    "load_resultant_relative": 1e-10,
+    "matrix_symmetry_relative": 1e-12,
+    "moment_balance_relative": 1e-10
+  },
+  "record_id": "QF-028-WP07-MIXED-STATIC-VNV",
+  "replays": {
+    "deterministic": true,
+    "digests": [
+      "ebd6db368d3f6c21242e741cf77c92a953d386d78c4ac8d8425f99f14a9acddd",
+      "ebd6db368d3f6c21242e741cf77c92a953d386d78c4ac8d8425f99f14a9acddd"
+    ],
+    "required": 2
+  },
+  "schema_version": 1,
+  "scope": {
+    "analysis": "linear_static",
+    "excluded": [
+      "TET10",
+      "HEX20",
+      "PYRAMID5",
+      "hanging nodes",
+      "MPC/RBE",
+      "modal",
+      "dynamic",
+      "nonlinear",
+      "buckling",
+      "contact",
+      "large mixed models"
+    ],
+    "families": [
+      "TET4",
+      "WEDGE6",
+      "HEX8"
+    ],
+    "interfaces": "conforming shared-node triangular and quadrilateral faces only",
+    "kinematics": "small-strain linear elasticity",
+    "loads": "nodal, body-force, pressure and global surface traction on tested supported faces",
+    "material": "homogeneous isotropic_3d for the qualification candidate"
+  },
+  "source_sha": "d7501fd144daf11a5f51eae5c04d664ebbcdc763",
+  "status": "CAMPAIGN_COMPLETE_OWNER_GATE_PENDING",
+  "technical_decision": "QUALIFIED_BOUNDED_CANDIDATE",
+  "work_package": "WP07"
+}

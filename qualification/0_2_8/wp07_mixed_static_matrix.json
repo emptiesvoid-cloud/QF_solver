@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP07-MIXED-STATIC-MATRIX",
+  "work_package": "WP07",
+  "applicable_version": "0.2.8-development",
+  "parent_matrix": "qualification/0_2_8/wp06b_maturity_matrix.json",
+  "contract_record": "qualification/0_2_8/wp07_mixed_static_contract.json",
+  "evidence_record": "qualification/0_2_8/wp07_mixed_static_vnv.json",
+  "baseline_sha": "d7501fd144daf11a5f51eae5c04d664ebbcdc763",
+  "status": "TECHNICAL_CANDIDATE_OWNER_GATE_PENDING",
+  "public_maturity_policy": "WP07 does not apply a public maturity relabel. The mixed linear-static decision remains pending a separate Owner gate.",
+  "summary": {
+    "technical_candidates_added": 1,
+    "public_maturity_relabels_applied": 0,
+    "global_state_after_wp07": {
+      "QUALIFIED_BOUNDED": 32,
+      "EXPERIMENTAL": 13,
+      "NOT_QUALIFIED": 1,
+      "TOTAL": 46,
+      "not_qualified_combination": "COMB-HEX8-linear_buckling"
+    },
+    "registry_counts_consistent": true
+  },
+  "mixed_candidate": {
+    "id": "CAND-MIXED-TET4-WEDGE6-HEX8-linear_static",
+    "technical_decision": "QUALIFIED_BOUNDED_CANDIDATE",
+    "public_maturity_before_owner_gate": "NOT_RELABELED",
+    "owner_gate": "REQUIRED",
+    "scope": "linear_static, small-strain isotropic elasticity, homogeneous candidate material, conforming shared-node TET4/WEDGE6/HEX8 interfaces and tested load routes only",
+    "limitations": [
+      "No modal, dynamic, nonlinear, buckling or contact qualification.",
+      "No TET10, HEX20, PYRAMID5, hanging-node, MPC/RBE or nonconforming-interface qualification.",
+      "No universal mixed-mesh or arbitrary-distortion claim.",
+      "No external solver correlation is claimed in WP07."
+    ]
+  },
+  "registry_integrity": {
+    "source_registry_0_2_7_unchanged": true,
+    "historical_0_2_7_evidence_changed": false,
+    "prior_wp01_wp06b_records_changed": false,
+    "numerical_source_changed": false,
+    "total_combinations": 46,
+    "wedge6_static_distinct": true,
+    "hex8_buckling_not_qualified_unchanged": true
+  }
+}
