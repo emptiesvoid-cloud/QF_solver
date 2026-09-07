@@ -45,5 +45,6 @@ def test_wp11b_preserves_wp06_failures_and_integrity() -> None:
         "bugs_fixed": False,
         "predeclared_gates_changed": False,
     }
-    assert matrix["owner_gate_required"] is True
+    assert matrix["owner_gate_required"] is False
+    assert matrix["final_status"] == "EXPERIMENTAL"
     assert matrix["technical_decision"] == "EXPERIMENTAL_CANDIDATE"

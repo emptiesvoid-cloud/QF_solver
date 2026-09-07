@@ -328,3 +328,20 @@ after a separate Owner gate. The historical WP06 Euler and mesh-convergence
 [contract](wp11b_hex8_buckling_experimental_contract.md),
 [evidence](../../../qualification/0_2_8/wp11b_hex8_buckling_experimental_vnv.json)
 and [matrix](../../../qualification/0_2_8/wp11b_hex8_buckling_experimental_matrix.json).
+
+## WP11B HEX8 buckling Owner gate
+
+The [WP11B Owner gate](wp11b_hex8_buckling_owner_gate_final.md) approves the
+separate HEX8 linear-buckling route as `EXPERIMENTAL`, not
+`QUALIFIED_BOUNDED`. The bounded scope is linear-elastic prestress, valid
+clamped cantilever solid geometries, the first positive mode and exploratory or
+research use only. The solid-block benchmark passes physical scaling, mode,
+residual, robustness and deterministic replay checks.
+
+The refinement factors remain a characterization (`41.9397`, `21.5200`,
+`17.8649`) and are not presented as general convergence or Euler evidence. The
+WP06/WP06B Euler and convergence `FAIL` records, and the unavailable external
+oracle, remain explicit. The 46 element-analysis records now reconcile to
+`32 QUALIFIED_BOUNDED`, `14 EXPERIMENTAL`, `0 NOT_QUALIFIED`; only
+`COMB-HEX8-linear_buckling` transitioned. No numerical source or 0.2.7 evidence
+was changed, and no WP12 work is started.
