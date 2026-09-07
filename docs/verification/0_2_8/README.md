@@ -117,9 +117,10 @@ MITC3 static, MITC4 static, MITC4 Newmark and MITC4 harmonic are technical
 remain `EXPERIMENTAL` because no executable independent shell oracle is
 present. MITC4 modal also remains `EXPERIMENTAL`: its deterministic replay
 misses the frozen relative-residual gate, and that tolerance was not relaxed.
-Across the 46 source combinations: 31 are `QUALIFIED_BOUNDED`, 14 are
+Across the 46 source combinations: 32 are `QUALIFIED_BOUNDED`, 13 are
 `EXPERIMENTAL`, and `COMB-HEX8-linear_buckling` is the sole
-`NOT_QUALIFIED` combination. WEDGE6 static remains distinct and experimental.
+`NOT_QUALIFIED` combination. WEDGE6 static is distinct and is qualified only
+within the bounded scope recorded by WP05.
 
 ## Explicit boundaries
 
@@ -137,6 +138,9 @@ paths and the audited Code_Aster evidence are recorded in
 [`WP05 WEDGE6 V&V`](wp05_wedge6_vnv.md), its
 [`machine-readable evidence`](../../../qualification/0_2_8/wp05_wedge6_vnv.json)
 and [`maturity delta`](../../../qualification/0_2_8/wp05_maturity_matrix.json).
-The decision is `QUALIFIED_BOUNDED` only as a technical candidate; the public
-maturity remains `EXPERIMENTAL` pending a separate Owner gate. Modal, Newmark
-and harmonic WEDGE6 routes are not promoted.
+The decision is `QUALIFIED_BOUNDED` for the exact static scope after the
+separate Owner gate; the public maturity is now `QUALIFIED_BOUNDED` within
+that scope, with the limitations recorded in the
+[`WP05 Owner gate`](wp05_owner_gate_final.md). The machine-readable Owner record is
+[`wp05_owner_gate_final.json`](../../../qualification/0_2_8/wp05_owner_gate_final.json).
+Modal, Newmark and harmonic WEDGE6 routes are not promoted.

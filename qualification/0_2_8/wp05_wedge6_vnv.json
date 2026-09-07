@@ -329,31 +329,32 @@
     }
   },
   "global_state": {
-    "current_public": {
+    "pre_owner_gate_public": {
       "EXPERIMENTAL": 14,
       "NOT_QUALIFIED": 1,
       "QUALIFIED_BOUNDED": 31,
       "TOTAL": 46
     },
-    "not_qualified_combination": "COMB-HEX8-linear_buckling",
-    "technical_if_owner_approves": {
+    "current_public": {
       "EXPERIMENTAL": 13,
       "NOT_QUALIFIED": 1,
       "QUALIFIED_BOUNDED": 32,
       "TOTAL": 46
     },
-    "wedge6_static_current_public": "EXPERIMENTAL"
+    "not_qualified_combination": "COMB-HEX8-linear_buckling",
+    "wedge6_static_current_public": "QUALIFIED_BOUNDED"
   },
   "historical_0_2_7_evidence_modified": false,
   "numerical_source_modified": false,
-  "owner_gate_required": true,
+  "owner_gate_required": false,
+  "owner_gate_record": "qualification/0_2_8/wp05_owner_gate_final.json",
   "promotion_boundary": {
     "excluded_routes_remain": [
       "COMB-WEDGE6-modal public state is unchanged",
       "WEDGE6 Newmark",
       "WEDGE6 harmonic"
     ],
-    "public_action": "No public maturity relabel is applied before a separate Owner gate.",
+    "public_action": "The separate Owner gate approved the exact bounded static scope; no other WEDGE6 route is relabeled.",
     "scope": {
       "analysis": "linear_static",
       "element": "WEDGE6",
@@ -397,10 +398,10 @@
     },
     "technical_gate": "QUALIFIED_BOUNDED only if every declared internal gate passes, current deterministic replays agree, the independent external artifact remains complete and comparable, and no source or historical-evidence change is present"
   },
-  "public_maturity": "EXPERIMENTAL",
+  "public_maturity": "QUALIFIED_BOUNDED",
   "record_id": "QF-028-WP05-WEDGE6-VNV",
   "schema_version": 1,
-  "status": "CAMPAIGN_COMPLETE_OWNER_GATE_PENDING",
+  "status": "CAMPAIGN_COMPLETE_OWNER_GATE_FINALIZED",
   "technical_decision": "QUALIFIED_BOUNDED",
   "work_package": "WP05"
 }
