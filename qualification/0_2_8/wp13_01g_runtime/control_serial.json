@@ -1,0 +1,288 @@
+{
+  "backend": "serial",
+  "case": "control",
+  "contract_id": "WP13-01G-CONNECTED-MIXED-PETSC-001",
+  "result": {
+    "backend": "serial",
+    "case": "control",
+    "connectivity": {
+      "connected_components": 1,
+      "element_counts": {
+        "HEX8": 1,
+        "TET4": 1,
+        "WEDGE6": 1
+      },
+      "family_graph": {
+        "HEX8": [
+          "WEDGE6"
+        ],
+        "TET4": [
+          "WEDGE6"
+        ],
+        "WEDGE6": [
+          "HEX8",
+          "TET4"
+        ]
+      },
+      "fixed_families": [
+        "HEX8",
+        "TET4",
+        "WEDGE6"
+      ],
+      "interface_counts": {
+        "TET4_WEDGE6": 1,
+        "WEDGE6_HEX8": 1
+      },
+      "interface_records_sample": [
+        {
+          "element_indices": [
+            0,
+            1
+          ],
+          "families": [
+            "TET4",
+            "WEDGE6"
+          ],
+          "nodes": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "element_indices": [
+            1,
+            2
+          ],
+          "families": [
+            "HEX8",
+            "WEDGE6"
+          ],
+          "nodes": [
+            0,
+            1,
+            3,
+            4
+          ]
+        }
+      ],
+      "load_families": [
+        "HEX8",
+        "WEDGE6"
+      ],
+      "mechanical_load_path": "TET4 -> WEDGE6 -> HEX8 through shared conforming faces",
+      "scope_errors": []
+    },
+    "contract_id": "WP13-01G-CONNECTED-MIXED-PETSC-001",
+    "displacement": [
+      0.0,
+      0.0,
+      0.0,
+      -1.392766338044211e-07,
+      1.3390936541895638e-07,
+      -2.8968317660688494e-07,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      5.581900805034395e-07,
+      -7.767206947963253e-08,
+      -4.406110133448854e-07,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -3.5045695209084035e-07,
+      8.057816736461975e-08,
+      -5.080618181409766e-07,
+      0.0,
+      0.0,
+      0.0,
+      1.3449055591023364e-06,
+      2.9320949078990615e-07,
+      -6.96034719257171e-07
+    ],
+    "displacement_digest": "1274b0903026224dca109a2364720caedc7309b84debc99d58564c50bb8cb8d2",
+    "displacement_norm": 1.8438112835354805e-06,
+    "element_count": 3,
+    "energy": 0.047577390990144394,
+    "energy_identity_relative": 1.3877787807814457e-17,
+    "equilibrium_relative": 2.511012588416365e-16,
+    "external_load_resultant": [
+      100000.0,
+      0.0,
+      0.0
+    ],
+    "family_counts": {
+      "HEX8": 1,
+      "TET4": 1,
+      "WEDGE6": 1
+    },
+    "free_residual_relative": 1.2974253529761977e-16,
+    "gates": {
+      "connected_components": true,
+      "energy": true,
+      "equilibrium_component": true,
+      "equilibrium_force": true,
+      "family_presence": true,
+      "free_residual": true,
+      "reallocations": true,
+      "structural_global_gather": true,
+      "tet4_wedge6_interface": true,
+      "wedge6_hex8_interface": true
+    },
+    "ghost_nodes": 0,
+    "global_gather_present": false,
+    "internal_force_norm": 100404.80232001063,
+    "iterations": "direct",
+    "loads": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      50000.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      50000.0,
+      0.0,
+      0.0
+    ],
+    "matrix_nnz": 763,
+    "model_digest": "b000088da27b15f3895fbe9518ad92c520b819a430c5470839eb1577f4506912",
+    "ndof": 33,
+    "partition": {
+      "cross_rank_interfaces": {
+        "TET4_WEDGE6": 0,
+        "WEDGE6_HEX8": 0
+      },
+      "element_components": 1,
+      "local_records": [
+        {
+          "families": {
+            "HEX8": 1,
+            "TET4": 1,
+            "WEDGE6": 1
+          },
+          "ghost_nodes": 0,
+          "interface_nodes": 0,
+          "neighbors": [],
+          "owned_elements": [
+            0,
+            1,
+            2
+          ],
+          "owned_nodes": 11,
+          "rank": 0
+        }
+      ],
+      "partition_digest": "4fee8821513cbc05b92dbf5630786f68b3e3481d208c6980fb1e300814ae7686",
+      "rank_count": 1,
+      "total_family_interfaces": {
+        "TET4_WEDGE6": 1,
+        "WEDGE6_HEX8": 1
+      }
+    },
+    "peak_memory_mb": 62.05859375,
+    "rank_count": 1,
+    "reaction_digest": "9c01c7b01f2035ee7e3e22dbdcf5306644a7b8cdf0da4b12152949277b67bee3",
+    "reaction_norm": 71282.0056460283,
+    "reaction_resultant": [
+      -99999.99999999999,
+      -1.2278178473934531e-11,
+      1.6370904631912708e-11
+    ],
+    "reaction_vector": [
+      -5171.901636892673,
+      -1749.222046139017,
+      -1994.910928527741,
+      5650.657283613683,
+      -800.7981135610748,
+      -3875.764648643565,
+      -54604.05329933689,
+      5022.395254820259,
+      11619.16836518349,
+      -2712.4704272760005,
+      7629.143968972823,
+      1027.5530250087158,
+      3899.5812235542203,
+      0.0,
+      2812.3166441277335,
+      -8277.918093829445,
+      -4190.130673813686,
+      -11758.154163760328,
+      -38783.89504983288,
+      -5911.388390279316,
+      2169.7917066117107
+    ],
+    "reallocations": 0,
+    "residual": [
+      -5171.901636892673,
+      -1749.222046139017,
+      -1994.910928527741,
+      -2.7284841053187847e-12,
+      0.0,
+      5.4569682106375694e-12,
+      5650.657283613683,
+      -800.7981135610748,
+      -3875.764648643565,
+      -54604.05329933689,
+      5022.395254820259,
+      11619.16836518349,
+      0.0,
+      -1.3642420526593924e-12,
+      3.637978807091713e-12,
+      -2712.4704272760005,
+      7629.143968972823,
+      1027.5530250087158,
+      3899.5812235542203,
+      0.0,
+      2812.3166441277335,
+      -8277.918093829445,
+      -4190.130673813686,
+      -11758.154163760328,
+      -2.2737367544323206e-12,
+      3.183231456205249e-12,
+      -3.637978807091713e-12,
+      -38783.89504983288,
+      -5911.388390279316,
+      2169.7917066117107,
+      0.0,
+      1.8189894035458565e-12,
+      0.0
+    ],
+    "residual_digest": "dc528b15070db02702d40feab1aa159e6eb9183fa525738961f45c813a925e4a",
+    "runtime_seconds": 0.00680983400070545
+  },
+  "schema_version": 1,
+  "segments": 1
+}

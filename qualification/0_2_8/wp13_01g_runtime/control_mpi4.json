@@ -1,0 +1,481 @@
+{
+  "backend": "petsc",
+  "case": "control",
+  "contract_id": "WP13-01G-CONNECTED-MIXED-PETSC-001",
+  "result": {
+    "backend": "petsc",
+    "case": "control",
+    "connectivity": {
+      "connected_components": 1,
+      "element_counts": {
+        "HEX8": 1,
+        "TET4": 1,
+        "WEDGE6": 1
+      },
+      "family_graph": {
+        "HEX8": [
+          "WEDGE6"
+        ],
+        "TET4": [
+          "WEDGE6"
+        ],
+        "WEDGE6": [
+          "HEX8",
+          "TET4"
+        ]
+      },
+      "fixed_families": [
+        "HEX8",
+        "TET4",
+        "WEDGE6"
+      ],
+      "interface_counts": {
+        "TET4_WEDGE6": 1,
+        "WEDGE6_HEX8": 1
+      },
+      "interface_records_sample": [
+        {
+          "element_indices": [
+            0,
+            1
+          ],
+          "families": [
+            "TET4",
+            "WEDGE6"
+          ],
+          "nodes": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "element_indices": [
+            1,
+            2
+          ],
+          "families": [
+            "HEX8",
+            "WEDGE6"
+          ],
+          "nodes": [
+            0,
+            1,
+            3,
+            4
+          ]
+        }
+      ],
+      "load_families": [
+        "HEX8",
+        "WEDGE6"
+      ],
+      "mechanical_load_path": "TET4 -> WEDGE6 -> HEX8 through shared conforming faces",
+      "scope_errors": []
+    },
+    "contract_id": "WP13-01G-CONNECTED-MIXED-PETSC-001",
+    "displacement": [
+      0.0,
+      0.0,
+      0.0,
+      -1.3927663380442108e-07,
+      1.3390936541895638e-07,
+      -2.8968317660688494e-07,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      5.581900805034393e-07,
+      -7.767206947963252e-08,
+      -4.406110133448853e-07,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -3.504569520908403e-07,
+      8.057816736461978e-08,
+      -5.080618181409765e-07,
+      0.0,
+      0.0,
+      0.0,
+      1.3449055591023364e-06,
+      2.9320949078990605e-07,
+      -6.960347192571711e-07
+    ],
+    "displacement_digest": "87d3a98c81c5d79e69a69ea9efe570177c4f6542eebc8a4d6f6b044282f971c0",
+    "displacement_norm": 1.8438112835354802e-06,
+    "element_count": 3,
+    "energy": 0.047577390990144394,
+    "energy_identity_relative": 0.0,
+    "equilibrium_relative": 1.908855834864458e-16,
+    "external_load_resultant": [
+      100000.0,
+      0.0,
+      0.0
+    ],
+    "family_counts": {
+      "HEX8": 1,
+      "TET4": 1,
+      "WEDGE6": 1
+    },
+    "free_residual_relative": 1.200136759543661e-16,
+    "gates": {
+      "connected_components": true,
+      "energy": true,
+      "equilibrium_component": true,
+      "equilibrium_force": true,
+      "family_presence": true,
+      "free_residual": true,
+      "reallocations": true,
+      "structural_global_gather": true,
+      "tet4_wedge6_interface": true,
+      "wedge6_hex8_interface": true
+    },
+    "ghost_nodes_global_sum": 7,
+    "ghost_nodes_local": 0,
+    "global_gather_present": false,
+    "internal_force_norm": 100404.80232001063,
+    "iterations": 1,
+    "linear_solves": 3,
+    "load_diagnostics": {
+      "rank_external_load_resultants": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          50000.0,
+          0.0,
+          0.0
+        ],
+        [
+          50000.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "rank_ordered_fsum_resultant": [
+        100000.0,
+        0.0,
+        0.0
+      ]
+    },
+    "loads": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      50000.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      50000.0,
+      0.0,
+      0.0
+    ],
+    "local_family_counts": {
+      "HEX8": 0,
+      "TET4": 1,
+      "WEDGE6": 0
+    },
+    "local_ghost_nodes": 0,
+    "local_owned_nodes": 4,
+    "matrix_nnz": null,
+    "model_digest": "b000088da27b15f3895fbe9518ad92c520b819a430c5470839eb1577f4506912",
+    "ndof": 33,
+    "partition": {
+      "cross_rank_interfaces": {
+        "TET4_WEDGE6": 1,
+        "WEDGE6_HEX8": 1
+      },
+      "element_components": 1,
+      "local_records": [
+        {
+          "families": {
+            "HEX8": 0,
+            "TET4": 1,
+            "WEDGE6": 0
+          },
+          "ghost_nodes": 0,
+          "interface_nodes": 3,
+          "neighbors": [
+            1,
+            2
+          ],
+          "owned_elements": [
+            0
+          ],
+          "owned_nodes": 4,
+          "rank": 0
+        },
+        {
+          "families": {
+            "HEX8": 0,
+            "TET4": 0,
+            "WEDGE6": 1
+          },
+          "ghost_nodes": 3,
+          "interface_nodes": 5,
+          "neighbors": [
+            0,
+            2
+          ],
+          "owned_elements": [
+            1
+          ],
+          "owned_nodes": 3,
+          "rank": 1
+        },
+        {
+          "families": {
+            "HEX8": 1,
+            "TET4": 0,
+            "WEDGE6": 0
+          },
+          "ghost_nodes": 4,
+          "interface_nodes": 4,
+          "neighbors": [
+            0,
+            1
+          ],
+          "owned_elements": [
+            2
+          ],
+          "owned_nodes": 4,
+          "rank": 2
+        },
+        {
+          "families": {
+            "HEX8": 0,
+            "TET4": 0,
+            "WEDGE6": 0
+          },
+          "ghost_nodes": 0,
+          "interface_nodes": 0,
+          "neighbors": [],
+          "owned_elements": [],
+          "owned_nodes": 0,
+          "rank": 3
+        }
+      ],
+      "partition_digest": "fc259622c0c11cccb7d15c2f7c79cc39c8fc2ff911a08d67a413209b009be885",
+      "rank_count": 4,
+      "total_family_interfaces": {
+        "TET4_WEDGE6": 1,
+        "WEDGE6_HEX8": 1
+      }
+    },
+    "peak_memory_mb": 99.86328125,
+    "preallocation": {
+      "diag_nnz_sum": 81,
+      "matgetinfo": {
+        "by_rank": [
+          {
+            "assemblies": 1.0,
+            "block_size": 1.0,
+            "factor_mallocs": 0.0,
+            "fill_ratio_given": 0.0,
+            "fill_ratio_needed": 0.0,
+            "mallocs": 0.0,
+            "memory": 0.0,
+            "nz_allocated": 261.0,
+            "nz_unneeded": 0.0,
+            "nz_used": 261.0
+          },
+          {
+            "assemblies": 1.0,
+            "block_size": 1.0,
+            "factor_mallocs": 0.0,
+            "fill_ratio_given": 0.0,
+            "fill_ratio_needed": 0.0,
+            "mallocs": 0.0,
+            "memory": 0.0,
+            "nz_allocated": 216.0,
+            "nz_unneeded": 0.0,
+            "nz_used": 216.0
+          },
+          {
+            "assemblies": 1.0,
+            "block_size": 1.0,
+            "factor_mallocs": 0.0,
+            "fill_ratio_given": 0.0,
+            "fill_ratio_needed": 0.0,
+            "mallocs": 0.0,
+            "memory": 0.0,
+            "nz_allocated": 150.0,
+            "nz_unneeded": 0.0,
+            "nz_used": 150.0
+          },
+          {
+            "assemblies": 1.0,
+            "block_size": 1.0,
+            "factor_mallocs": 0.0,
+            "fill_ratio_given": 0.0,
+            "fill_ratio_needed": 0.0,
+            "mallocs": 0.0,
+            "memory": 0.0,
+            "nz_allocated": 192.0,
+            "nz_unneeded": 0.0,
+            "nz_used": 192.0
+          }
+        ],
+        "global_petsc_query": "NOT_USED_MPICH_ABI_UNRELIABLE",
+        "mallocs_sum": 0.0,
+        "nz_allocated_sum": 819.0,
+        "nz_used_sum": 819.0,
+        "query": "PETSc.Mat.InfoType.LOCAL per rank; mpi4py aggregation"
+      },
+      "offdiag_nnz_sum": 180,
+      "strategy": "global_connectivity_exact_for_PETSc_owned_rows"
+    },
+    "rank_count": 4,
+    "reaction_diagnostics": {
+      "mpi_allreduce_resultant": [
+        -99999.99999999999,
+        -1.3642420526593924e-12,
+        1.2278178473934531e-11
+      ],
+      "mpi_allreduce_vs_rank_ordered_fsum_max_abs": 0.0,
+      "rank_fixed_reaction_resultants": [
+        [
+          6562.072169631378,
+          -1802.6260729474898,
+          3899.5812235542203
+        ],
+        [
+          -26558.320923922918,
+          -1135.5607833901927,
+          5357.349989112619
+        ],
+        [
+          -80003.75124570845,
+          2938.186856337681,
+          -9256.931212666828
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "rank_ordered_fsum_resultant": [
+        -99999.99999999999,
+        -1.3642420526593924e-12,
+        1.2278178473934531e-11
+      ]
+    },
+    "reaction_digest": "c569fa7cc111a0f321d61164a3674b1a83d4640d5fd522a2970b546422f10e0d",
+    "reaction_norm": 71282.00564602831,
+    "reaction_resultant": [
+      -99999.99999999999,
+      -1.3642420526593924e-12,
+      1.2278178473934531e-11
+    ],
+    "reaction_vector": [
+      -5171.9016368926805,
+      -1749.2220461390175,
+      -1994.910928527746,
+      5650.657283613683,
+      -800.7981135610735,
+      -3875.764648643568,
+      -54604.0532993369,
+      5022.395254820263,
+      11619.16836518349,
+      -2712.470427276,
+      7629.143968972824,
+      1027.5530250087172,
+      3899.5812235542203,
+      0.0,
+      2812.316644127733,
+      -8277.918093829445,
+      -4190.1306738136855,
+      -11758.154163760324,
+      -38783.89504983287,
+      -5911.388390279312,
+      2169.7917066117097
+    ],
+    "reallocations": 0.0,
+    "residual": [
+      -5171.9016368926805,
+      -1749.2220461390175,
+      -1994.910928527746,
+      -6.821210263296962e-13,
+      -1.8189894035458565e-12,
+      0.0,
+      5650.657283613683,
+      -800.7981135610735,
+      -3875.764648643568,
+      -54604.0532993369,
+      5022.395254820263,
+      11619.16836518349,
+      0.0,
+      -2.7284841053187847e-12,
+      9.094947017729282e-13,
+      -2712.470427276,
+      7629.143968972824,
+      1027.5530250087172,
+      3899.5812235542203,
+      0.0,
+      2812.316644127733,
+      -8277.918093829445,
+      -4190.1306738136855,
+      -11758.154163760324,
+      0.0,
+      1.8189894035458565e-12,
+      5.4569682106375694e-12,
+      -38783.89504983287,
+      -5911.388390279312,
+      2169.7917066117097,
+      0.0,
+      -1.3642420526593924e-12,
+      -5.002220859751105e-12
+    ],
+    "residual_digest": "299f34ae10ac7a341c1771f5c3402e8a9d6abcad38aac414ffe46d64c959b47e",
+    "residual_refinement_steps": 2,
+    "result_only_solution_scatter": true,
+    "runtime_seconds": 0.0156546280004477,
+    "solver_scaling": {
+      "diagonal_scale_max": 1.5905124110580622,
+      "diagonal_scale_min": 1.0,
+      "type": "uniform_plus_symmetric_diagonal",
+      "uniform_factor": 4.761904761904762e-12
+    }
+  },
+  "schema_version": 1,
+  "segments": 1
+}
