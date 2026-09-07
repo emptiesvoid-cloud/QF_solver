@@ -3,6 +3,15 @@ title: "WP10 HEX8-SRI Owner gate"
 status: "APPROVE_EXPERIMENTAL_BOUNDED"
 ---
 
+---
+doc_id: DOC-028-WP10-OWNER-001
+revision: 0.1
+status: controlled_candidate
+applicable_version: 0.2.8-development
+reviewer: ""
+approver: ""
+---
+
 # WP10 HEX8-SRI Owner gate
 
 The Owner decision is `APPROVE_EXPERIMENTAL_BOUNDED` for the separate

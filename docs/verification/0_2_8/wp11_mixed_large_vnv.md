@@ -1,3 +1,12 @@
+---
+doc_id: DOC-028-WP11-VNV-001
+revision: 0.1
+status: controlled_candidate
+applicable_version: 0.2.8-development
+reviewer: ""
+approver: ""
+---
+
 # WP11 mixed large-scale evidence
 
 WP11 records performance and reproducibility evidence for the already bounded

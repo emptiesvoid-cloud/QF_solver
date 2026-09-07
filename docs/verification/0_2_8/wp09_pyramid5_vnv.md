@@ -4,6 +4,15 @@ status: "FEASIBLE_CONTINUE"
 scope: "internal bounded linear-static feasibility only"
 ---
 
+---
+doc_id: DOC-028-WP09-VNV-001
+revision: 0.1
+status: controlled_candidate
+applicable_version: 0.2.8-development
+reviewer: ""
+approver: ""
+---
+
 # WP09 PYRAMID5 feasibility gate
 
 WP09 evaluates whether a five-node linear pyramid can be integrated into the
