@@ -144,3 +144,23 @@ that scope, with the limitations recorded in the
 [`WP05 Owner gate`](wp05_owner_gate_final.md). The machine-readable Owner record is
 [`wp05_owner_gate_final.json`](../../../qualification/0_2_8/wp05_owner_gate_final.json).
 Modal, Newmark and harmonic WEDGE6 routes are not promoted.
+
+## WP06 HEX8 linear-buckling assessment
+
+WP06 audits the sole `NOT_QUALIFIED` combination,
+`COMB-HEX8-linear_buckling`, using the frozen
+[`HEX8 buckling contract`](../../../qualification/0_2_8/wp06_hex8_buckling_contract.json)
+and executable [`campaign evidence`](../../../qualification/0_2_8/wp06_hex8_buckling_vnv.json).
+The technical decision remains `NOT_QUALIFIED`: the Euler factor and
+three-level refinement gates failed in both declared boundary configurations,
+the invalid-orientation case did not fail closed, current CalculiX execution
+was unavailable, and the two complete replay digests differed. The passing
+preload, `Kg`, eigen-residual and mode-shape sub-checks do not override those
+failed closure gates.
+
+The [`WP06 maturity delta`](../../../qualification/0_2_8/wp06_maturity_matrix.json)
+records no promotion and reconciles the unchanged global state as 32
+`QUALIFIED_BOUNDED`, 13 `EXPERIMENTAL` and one `NOT_QUALIFIED`, exactly
+`COMB-HEX8-linear_buckling`. WEDGE6 static remains distinct. No 0.2.7 evidence
+or numerical source was changed, and no Owner promotion gate is requested
+while the technical decision is negative.

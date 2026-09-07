@@ -1,0 +1,777 @@
+{
+  "applicable_version": "0.2.8-development",
+  "baseline_sha": "1dac48f88c07f1f5450f693702263472824f42bb",
+  "bugs": {
+    "fixed": false,
+    "found": false
+  },
+  "campaign_policy": {
+    "external_required_for_promotion": true,
+    "no_post_observation_retuning": true,
+    "replays_required": 2,
+    "tolerances_frozen_before_execution": true
+  },
+  "contract": "qualification/0_2_8/wp06_hex8_buckling_contract.json",
+  "external_oracle": {
+    "comparable": true,
+    "reason": "failed to connect to the docker API at npipe:////./pipe/dockerDesktopLinuxEngine; check if the path is correct and if the daemon is running: open //./pipe/dockerDesktopLinuxEngine: Le fichier sp\u00c3\u00a9cifi\u00c3\u00a9 est introuvable.",
+    "status": "SKIPPED_EXTERNAL_UNAVAILABLE"
+  },
+  "global_state": {
+    "before_wp06": {
+      "EXPERIMENTAL": 13,
+      "NOT_QUALIFIED": 1,
+      "QUALIFIED_BOUNDED": 32,
+      "TOTAL": 46
+    },
+    "not_qualified_combination": "COMB-HEX8-linear_buckling",
+    "technical_if_not_promoted": {
+      "EXPERIMENTAL": 13,
+      "NOT_QUALIFIED": 1,
+      "QUALIFIED_BOUNDED": 32,
+      "TOTAL": 46
+    },
+    "technical_if_promoted": {
+      "EXPERIMENTAL": 13,
+      "NOT_QUALIFIED": 0,
+      "QUALIFIED_BOUNDED": 33,
+      "TOTAL": 46
+    }
+  },
+  "historical_external_audit": {
+    "hex8_rows": 1,
+    "historical_0_2_7_preserved": true,
+    "max_relative_error": 0.0008967643985924344,
+    "not_current_wp06_execution": true,
+    "pass_rows": 1,
+    "path": "qualification/0_2_6/g08_calculix_correlation.json",
+    "status": "AUDITED_HISTORICAL_ONLY"
+  },
+  "integrity": {
+    "historical_0_2_7_evidence_changed": false,
+    "historical_clean_check": true,
+    "numerical_source_changed": false,
+    "source_clean_check": true
+  },
+  "limitations": [
+    "First linearized tangent-instability factor and first mode only.",
+    "Euler is the independent analytical oracle; no universal solid-buckling claim is made.",
+    "CalculiX C3D8 correlation is required for promotion and is explicitly unavailable when Docker cannot connect.",
+    "Code_Aster solid eigen-buckling remains NOT_COMPARABLE unless an equivalent modelisation is demonstrated.",
+    "No post-buckling, collapse, multi-mode, HEX8R/SRI/B-bar/hourglass or mixed-mesh claim."
+  ],
+  "owner_gate_required": true,
+  "primary_campaign": {
+    "rows": [
+      {
+        "analytical_factor": 15.42125687670212,
+        "analytical_pcr": 15.42125687670212,
+        "analytical_relative_error": 1.7196023087935477,
+        "configuration": "cantilever",
+        "counts": [
+          2,
+          2,
+          2
+        ],
+        "critical_bracket": {
+          "lower": 41.939453125,
+          "relative_width": 5.821230025904474e-06,
+          "upper": 41.939697265625
+        },
+        "critical_factor": 41.93968580637746,
+        "eigen_formulation": "generalized_eigs_shift_invert",
+        "element_count": 8,
+        "expected_passes": {
+          "analytical_factor": false,
+          "analytical_mode": true,
+          "bracket": true,
+          "eigen_residual": true,
+          "kg_sign": true,
+          "kg_symmetry": true,
+          "preload": true
+        },
+        "height": 1.0,
+        "input_sha256": "8902251e5146042d6f1b64388b9bf549f3a4f5968daa587f8aeb4dcba3680c04",
+        "length": 4.0,
+        "load_total": 1.0,
+        "matrix_diagnostics": {
+          "compression_sign_detected": true,
+          "eigen_residual_relative_recomputed": 6.564306495012189e-14,
+          "free_dof_count": 54,
+          "geometric_stiffness_eigenvalue_max": 0.09013475890125798,
+          "geometric_stiffness_eigenvalue_min": -0.19552159700416116,
+          "geometric_stiffness_symmetry_relative": 0.0,
+          "geometric_tangent_nnz": 1029,
+          "initial_tangent_nnz": 2983,
+          "preload_relative_residual": 1.2735713002240326e-12
+        },
+        "mode_match": {
+          "dominant_lateral_direction": "UZ",
+          "mac_selected": 0.9999578645251567,
+          "shape_relative_rmse_selected": 0.006491184394475789,
+          "uy_mac": 1.3081681338262603e-23,
+          "uy_shape_relative_rmse": 1.0,
+          "uz_mac": 0.9999578645251567,
+          "uz_shape_relative_rmse": 0.006491184394475789,
+          "weak_axis_expected": "UZ"
+        },
+        "mode_norm": 1.0,
+        "node_count": 27,
+        "solver_reported_residual_relative": 1.7365848916573587e-13,
+        "status": "PASS",
+        "width": 1.2
+      },
+      {
+        "analytical_factor": 15.42125687670212,
+        "analytical_pcr": 15.42125687670212,
+        "analytical_relative_error": 0.39547548823601564,
+        "configuration": "cantilever",
+        "counts": [
+          4,
+          4,
+          4
+        ],
+        "critical_bracket": {
+          "lower": 21.5198974609375,
+          "relative_width": 5.672407142695074e-06,
+          "upper": 21.52001953125
+        },
+        "critical_factor": 21.519985969228905,
+        "eigen_formulation": "generalized_eigs_shift_invert",
+        "element_count": 64,
+        "expected_passes": {
+          "analytical_factor": false,
+          "analytical_mode": true,
+          "bracket": true,
+          "eigen_residual": true,
+          "kg_sign": true,
+          "kg_symmetry": true,
+          "preload": true
+        },
+        "height": 1.0,
+        "input_sha256": "c68013c14fe8e741ac312a7e032d4e953e04c0401a70aea5c8a014ba07e79ee9",
+        "length": 4.0,
+        "load_total": 1.0,
+        "matrix_diagnostics": {
+          "compression_sign_detected": true,
+          "eigen_residual_relative_recomputed": 5.068292899926537e-13,
+          "free_dof_count": 300,
+          "geometric_stiffness_eigenvalue_max": 0.07789771134748849,
+          "geometric_stiffness_eigenvalue_min": -0.19207211928083293,
+          "geometric_stiffness_symmetry_relative": 0.0,
+          "geometric_tangent_nnz": 6591,
+          "initial_tangent_nnz": 19173,
+          "preload_relative_residual": 9.172404067731643e-13
+        },
+        "mode_match": {
+          "dominant_lateral_direction": "UZ",
+          "mac_selected": 0.9999216796662838,
+          "shape_relative_rmse_selected": 0.00884987761022313,
+          "uy_mac": 1.5236855385269118e-22,
+          "uy_shape_relative_rmse": 1.0,
+          "uz_mac": 0.9999216796662838,
+          "uz_shape_relative_rmse": 0.00884987761022313,
+          "weak_axis_expected": "UZ"
+        },
+        "mode_norm": 1.0,
+        "node_count": 125,
+        "solver_reported_residual_relative": 3.23931135329847e-13,
+        "status": "PASS",
+        "width": 1.2
+      },
+      {
+        "analytical_factor": 15.42125687670212,
+        "analytical_pcr": 15.42125687670212,
+        "analytical_relative_error": 0.1584579563467968,
+        "configuration": "cantilever",
+        "counts": [
+          6,
+          6,
+          6
+        ],
+        "critical_bracket": {
+          "lower": 17.8648681640625,
+          "relative_width": 6.832934745473181e-06,
+          "upper": 17.864990234375
+        },
+        "critical_factor": 17.864877725683325,
+        "eigen_formulation": "generalized_eigs_shift_invert",
+        "element_count": 216,
+        "expected_passes": {
+          "analytical_factor": false,
+          "analytical_mode": true,
+          "bracket": true,
+          "eigen_residual": true,
+          "kg_sign": true,
+          "kg_symmetry": true,
+          "preload": true
+        },
+        "height": 1.0,
+        "input_sha256": "c8472eb819b9216740739113dd450b72832d4cb48493654572eb67f1b52d37f2",
+        "length": 4.0,
+        "load_total": 1.0,
+        "matrix_diagnostics": {
+          "compression_sign_detected": true,
+          "eigen_residual_relative_recomputed": 1.3980755222781294e-12,
+          "free_dof_count": 882,
+          "geometric_stiffness_eigenvalue_max": 0.07612177352333727,
+          "geometric_stiffness_eigenvalue_min": -0.1464576116214982,
+          "geometric_stiffness_symmetry_relative": 0.0,
+          "geometric_tangent_nnz": 20577,
+          "initial_tangent_nnz": 60813,
+          "preload_relative_residual": 7.540002334897406e-13
+        },
+        "mode_match": {
+          "dominant_lateral_direction": "UZ",
+          "mac_selected": 0.9999295300464429,
+          "shape_relative_rmse_selected": 0.008394638381520008,
+          "uy_mac": 2.9198962380127357e-22,
+          "uy_shape_relative_rmse": 1.0000000000000002,
+          "uz_mac": 0.9999295300464429,
+          "uz_shape_relative_rmse": 0.008394638381520008,
+          "weak_axis_expected": "UZ"
+        },
+        "mode_norm": 1.0,
+        "node_count": 343,
+        "solver_reported_residual_relative": 3.235016521687442e-13,
+        "status": "PASS",
+        "width": 1.2
+      },
+      {
+        "analytical_factor": 61.68502750680848,
+        "analytical_pcr": 61.68502750680848,
+        "analytical_relative_error": 0.8157443817629452,
+        "configuration": "pinned_pinned_lateral",
+        "counts": [
+          2,
+          2,
+          2
+        ],
+        "critical_bracket": {
+          "lower": 112.00390625,
+          "relative_width": 8.718927920622881e-06,
+          "upper": 112.0048828125
+        },
+        "critical_factor": 112.00424213438023,
+        "eigen_formulation": "generalized_eigs_shift_invert",
+        "element_count": 8,
+        "expected_passes": {
+          "analytical_factor": false,
+          "analytical_mode": true,
+          "bracket": true,
+          "eigen_residual": true,
+          "kg_sign": true,
+          "kg_symmetry": true,
+          "preload": true
+        },
+        "height": 1.0,
+        "input_sha256": "6231d1f4852fe758e75918e1ab4389d1ba5245a44dfdc704ed10441b2dc7ce01",
+        "length": 4.0,
+        "load_total": 1.0,
+        "matrix_diagnostics": {
+          "compression_sign_detected": true,
+          "eigen_residual_relative_recomputed": 1.1223539638753373e-14,
+          "free_dof_count": 44,
+          "geometric_stiffness_eigenvalue_max": 0.15060211668453,
+          "geometric_stiffness_eigenvalue_min": -0.6358502767908072,
+          "geometric_stiffness_symmetry_relative": 0.0,
+          "geometric_tangent_nnz": 1029,
+          "initial_tangent_nnz": 2983,
+          "preload_relative_residual": 3.227285180729058e-13
+        },
+        "mode_match": {
+          "dominant_lateral_direction": "UZ",
+          "mac_selected": 0.9659253474322969,
+          "shape_relative_rmse_selected": 0.18459320834663212,
+          "uy_mac": 0.6889041057055388,
+          "uy_shape_relative_rmse": 0.5577597101749652,
+          "uz_mac": 0.9659253474322969,
+          "uz_shape_relative_rmse": 0.18459320834663212,
+          "weak_axis_expected": "UZ"
+        },
+        "mode_norm": 0.9999999999999998,
+        "node_count": 27,
+        "solver_reported_residual_relative": 2.0342338883736553e-14,
+        "status": "PASS",
+        "width": 1.2
+      },
+      {
+        "analytical_factor": 61.68502750680848,
+        "analytical_pcr": 61.68502750680848,
+        "analytical_relative_error": 0.20165097953011107,
+        "configuration": "pinned_pinned_lateral",
+        "counts": [
+          4,
+          4,
+          4
+        ],
+        "critical_bracket": {
+          "lower": 49.24609375,
+          "relative_width": 9.915028208255253e-06,
+          "upper": 49.24658203125
+        },
+        "critical_factor": 49.246181287718706,
+        "eigen_formulation": "generalized_eigs_shift_invert",
+        "element_count": 64,
+        "expected_passes": {
+          "analytical_factor": false,
+          "analytical_mode": true,
+          "bracket": true,
+          "eigen_residual": true,
+          "kg_sign": true,
+          "kg_symmetry": true,
+          "preload": true
+        },
+        "height": 1.0,
+        "input_sha256": "a75e4e90640a77df430bfedd081ee4aa059f5754f0fddb85e2f056c499671bf2",
+        "length": 4.0,
+        "load_total": 1.0,
+        "matrix_diagnostics": {
+          "compression_sign_detected": true,
+          "eigen_residual_relative_recomputed": 4.944514480370522e-14,
+          "free_dof_count": 274,
+          "geometric_stiffness_eigenvalue_max": 0.1366583013309589,
+          "geometric_stiffness_eigenvalue_min": -1.193613348680181,
+          "geometric_stiffness_symmetry_relative": 0.0,
+          "geometric_tangent_nnz": 6591,
+          "initial_tangent_nnz": 19173,
+          "preload_relative_residual": 2.1407473183130132e-13
+        },
+        "mode_match": {
+          "dominant_lateral_direction": "UZ",
+          "mac_selected": 0.9860363749319793,
+          "shape_relative_rmse_selected": 0.11816778354535176,
+          "uy_mac": 0.9556406500187492,
+          "uy_shape_relative_rmse": 0.2106165947432705,
+          "uz_mac": 0.9860363749319793,
+          "uz_shape_relative_rmse": 0.11816778354535176,
+          "weak_axis_expected": "UZ"
+        },
+        "mode_norm": 1.0,
+        "node_count": 125,
+        "solver_reported_residual_relative": 9.672356878359325e-14,
+        "status": "PASS",
+        "width": 1.2
+      },
+      {
+        "analytical_factor": 61.68502750680848,
+        "analytical_pcr": 61.68502750680848,
+        "analytical_relative_error": 0.5425716287433738,
+        "configuration": "pinned_pinned_lateral",
+        "counts": [
+          6,
+          6,
+          6
+        ],
+        "critical_bracket": {
+          "lower": 28.21630859375,
+          "relative_width": 8.652390222799048e-06,
+          "upper": 28.216552734375
+        },
+        "critical_factor": 28.216481663359584,
+        "eigen_formulation": "generalized_eigs_shift_invert",
+        "element_count": 216,
+        "expected_passes": {
+          "analytical_factor": false,
+          "analytical_mode": true,
+          "bracket": true,
+          "eigen_residual": true,
+          "kg_sign": true,
+          "kg_symmetry": true,
+          "preload": true
+        },
+        "height": 1.0,
+        "input_sha256": "7bad4eb37b41d3ded052285ffecd8e80dc3735f3bb7c11756af686c8d1c14463",
+        "length": 4.0,
+        "load_total": 1.0,
+        "matrix_diagnostics": {
+          "compression_sign_detected": true,
+          "eigen_residual_relative_recomputed": 7.042009091347543e-14,
+          "free_dof_count": 832,
+          "geometric_stiffness_eigenvalue_max": 0.222284904987437,
+          "geometric_stiffness_eigenvalue_min": -1.8515807097150188,
+          "geometric_stiffness_symmetry_relative": 0.0,
+          "geometric_tangent_nnz": 20577,
+          "initial_tangent_nnz": 60813,
+          "preload_relative_residual": 1.7432918252101853e-13
+        },
+        "mode_match": {
+          "dominant_lateral_direction": "UZ",
+          "mac_selected": 0.9738484532823866,
+          "shape_relative_rmse_selected": 0.1617143986094411,
+          "uy_mac": 0.9593835254976312,
+          "uy_shape_relative_rmse": 0.201535293441047,
+          "uz_mac": 0.9738484532823866,
+          "uz_shape_relative_rmse": 0.1617143986094411,
+          "weak_axis_expected": "UZ"
+        },
+        "mode_norm": 1.0,
+        "node_count": 343,
+        "solver_reported_residual_relative": 1.3620499904835602e-13,
+        "status": "PASS",
+        "width": 1.2
+      }
+    ],
+    "status": "FAIL",
+    "summaries": {
+      "cantilever": {
+        "analytical_factor_pass": false,
+        "analytical_mode_pass": true,
+        "analytical_relative_errors": [
+          1.7196023087935477,
+          0.39547548823601564,
+          0.1584579563467968
+        ],
+        "convergence_pass": false,
+        "critical_factors": [
+          41.93968580637746,
+          21.519985969228905,
+          17.864877725683325
+        ],
+        "final_adjacent_factor_change": 0.20459743971775624,
+        "internal_checks_pass": true,
+        "levels": [
+          [
+            2,
+            2,
+            2
+          ],
+          [
+            4,
+            4,
+            4
+          ],
+          [
+            6,
+            6,
+            6
+          ]
+        ],
+        "status": "FAIL"
+      },
+      "pinned_pinned_lateral": {
+        "analytical_factor_pass": false,
+        "analytical_mode_pass": true,
+        "analytical_relative_errors": [
+          0.8157443817629452,
+          0.20165097953011107,
+          0.5425716287433738
+        ],
+        "convergence_pass": false,
+        "critical_factors": [
+          112.00424213438023,
+          49.246181287718706,
+          28.216481663359584
+        ],
+        "final_adjacent_factor_change": 0.7452984349805443,
+        "internal_checks_pass": true,
+        "levels": [
+          [
+            2,
+            2,
+            2
+          ],
+          [
+            4,
+            4,
+            4
+          ],
+          [
+            6,
+            6,
+            6
+          ]
+        ],
+        "status": "FAIL"
+      }
+    }
+  },
+  "public_maturity": "NOT_QUALIFIED",
+  "record_id": "QF-028-WP06-HEX8-BUCKLING-VNV",
+  "replays": {
+    "deterministic": false,
+    "first_digest": "53481ef72f2d3a9d3d5ff6aec540017a62f541ffc4a5a7de831eba07b837d845",
+    "required": 2,
+    "second_digest": "62c8120c4ee01af56dc3022f9c939b235fd10fcb8e9b3c46cc5e6df425201b7c"
+  },
+  "robustness_campaign": {
+    "invalid_orientation": {
+      "explicit_failure": false,
+      "result": {
+        "analytical_factor": 15.42125687670212,
+        "analytical_pcr": 15.42125687670212,
+        "analytical_relative_error": 7.8369807623674905,
+        "configuration": "cantilever",
+        "counts": [
+          1,
+          1,
+          1
+        ],
+        "critical_bracket": {
+          "lower": 136.27734375,
+          "relative_width": 7.1659417122301126e-06,
+          "upper": 136.2783203125
+        },
+        "critical_factor": 136.277350350944,
+        "eigen_formulation": "generalized_eigs_shift_invert",
+        "element_count": 1,
+        "expected_passes": {
+          "analytical_factor": false,
+          "analytical_mode": true,
+          "bracket": true,
+          "eigen_residual": true,
+          "kg_sign": true,
+          "kg_symmetry": true,
+          "preload": true
+        },
+        "height": 1.0,
+        "input_sha256": "0ef8a09908595a301551f4f6971d74d05e5301fb5be56aaf131d78baa7a15e72",
+        "length": 4.0,
+        "load_total": 1.0,
+        "matrix_diagnostics": {
+          "compression_sign_detected": true,
+          "eigen_residual_relative_recomputed": 1.8118893737606552e-14,
+          "free_dof_count": 12,
+          "geometric_stiffness_eigenvalue_max": 0.06844727700368605,
+          "geometric_stiffness_eigenvalue_min": -0.06254798326956312,
+          "geometric_stiffness_symmetry_relative": 0.0,
+          "geometric_tangent_nnz": 192,
+          "initial_tangent_nnz": 576,
+          "preload_relative_residual": 1.0363059956100553e-12
+        },
+        "mode_match": {
+          "dominant_lateral_direction": "UZ",
+          "mac_selected": 1.0000000000000002,
+          "shape_relative_rmse_selected": 4.487303641936901e-15,
+          "uy_mac": 1.8861343446527562e-24,
+          "uy_shape_relative_rmse": 1.0,
+          "uz_mac": 1.0000000000000002,
+          "uz_shape_relative_rmse": 4.487303641936901e-15,
+          "weak_axis_expected": "UZ"
+        },
+        "mode_norm": 1.0,
+        "node_count": 8,
+        "solver_reported_residual_relative": 3.8138706556972e-14,
+        "status": "PASS",
+        "width": 1.2
+      }
+    },
+    "moderate_mesh_perturbation": {
+      "finite_pass": true,
+      "result": {
+        "analytical_factor": 15.42125687670212,
+        "analytical_pcr": 15.42125687670212,
+        "analytical_relative_error": 0.39553992858029396,
+        "configuration": "cantilever",
+        "counts": [
+          4,
+          4,
+          4
+        ],
+        "critical_bracket": {
+          "lower": 21.5208740234375,
+          "relative_width": 5.672149744753262e-06,
+          "upper": 21.52099609375
+        },
+        "critical_factor": 21.520979720331244,
+        "eigen_formulation": "generalized_eigs_shift_invert",
+        "element_count": 64,
+        "expected_passes": {
+          "analytical_factor": false,
+          "analytical_mode": true,
+          "bracket": true,
+          "eigen_residual": true,
+          "kg_sign": true,
+          "kg_symmetry": true,
+          "preload": true
+        },
+        "height": 1.0,
+        "input_sha256": "088603be88fdb9ae80f81d848b84496288f00737748ad8bf95157bc54160f382",
+        "length": 4.0,
+        "load_total": 1.0,
+        "matrix_diagnostics": {
+          "compression_sign_detected": true,
+          "eigen_residual_relative_recomputed": 4.975385343239068e-13,
+          "free_dof_count": 300,
+          "geometric_stiffness_eigenvalue_max": 0.0778915211696791,
+          "geometric_stiffness_eigenvalue_min": -0.19222913367908778,
+          "geometric_stiffness_symmetry_relative": 0.0,
+          "geometric_tangent_nnz": 6591,
+          "initial_tangent_nnz": 19249,
+          "preload_relative_residual": 9.366172272278455e-13
+        },
+        "mode_match": {
+          "dominant_lateral_direction": "UZ",
+          "mac_selected": 0.9999217599887922,
+          "shape_relative_rmse_selected": 0.008845338388512185,
+          "uy_mac": 0.001111134266317576,
+          "uy_shape_relative_rmse": 0.9994442784536226,
+          "uz_mac": 0.9999217599887922,
+          "uz_shape_relative_rmse": 0.008845338388512185,
+          "weak_axis_expected": "UZ"
+        },
+        "mode_norm": 0.9999999999999999,
+        "node_count": 125,
+        "solver_reported_residual_relative": 2.696373824398071e-13,
+        "status": "PASS",
+        "width": 1.2
+      }
+    },
+    "preload": {
+      "expected_factor_ratio": 0.5,
+      "observed_factor_ratio": 0.4995690669085592,
+      "pass": true,
+      "relative_error": 0.0008618661828816432,
+      "result": {
+        "analytical_factor": 7.71062843835106,
+        "analytical_pcr": 15.42125687670212,
+        "analytical_relative_error": 0.3942727751036648,
+        "configuration": "cantilever",
+        "counts": [
+          4,
+          4,
+          4
+        ],
+        "critical_bracket": {
+          "lower": 10.75067138671875,
+          "relative_width": 5.677302146020211e-06,
+          "upper": 10.750732421875
+        },
+        "critical_factor": 10.75071931053297,
+        "eigen_formulation": "generalized_eigs_shift_invert",
+        "element_count": 64,
+        "expected_passes": {
+          "analytical_factor": false,
+          "analytical_mode": true,
+          "bracket": true,
+          "eigen_residual": true,
+          "kg_sign": true,
+          "kg_symmetry": true,
+          "preload": true
+        },
+        "height": 1.0,
+        "input_sha256": "657104f1888ed4d9349d46bcb7dd7c9401481cb1879aec75d6a1b501ccb876a3",
+        "length": 4.0,
+        "load_total": 2.0,
+        "matrix_diagnostics": {
+          "compression_sign_detected": true,
+          "eigen_residual_relative_recomputed": 5.357012733182032e-13,
+          "free_dof_count": 300,
+          "geometric_stiffness_eigenvalue_max": 0.15602476105548682,
+          "geometric_stiffness_eigenvalue_min": -0.38447036247365546,
+          "geometric_stiffness_symmetry_relative": 0.0,
+          "geometric_tangent_nnz": 6591,
+          "initial_tangent_nnz": 19173,
+          "preload_relative_residual": 1.4301381951829807e-11
+        },
+        "mode_match": {
+          "dominant_lateral_direction": "UZ",
+          "mac_selected": 0.999921650027673,
+          "shape_relative_rmse_selected": 0.008851551972771947,
+          "uy_mac": 1.1387847278698455e-22,
+          "uy_shape_relative_rmse": 1.0,
+          "uz_mac": 0.999921650027673,
+          "uz_shape_relative_rmse": 0.008851551972771947,
+          "weak_axis_expected": "UZ"
+        },
+        "mode_norm": 1.0,
+        "node_count": 125,
+        "solver_reported_residual_relative": 3.0668667241165743e-13,
+        "status": "PASS",
+        "width": 1.2
+      }
+    },
+    "reference_input": "c68013c14fe8e741ac312a7e032d4e953e04c0401a70aea5c8a014ba07e79ee9",
+    "scale": {
+      "expected_factor_ratio": 0.25,
+      "observed_factor_ratio": 0.2519224468594345,
+      "pass": true,
+      "relative_error": 0.0076897874377379605,
+      "result": {
+        "analytical_factor": 3.85531421917553,
+        "analytical_pcr": 3.85531421917553,
+        "analytical_relative_error": 0.4062063981151243,
+        "configuration": "cantilever",
+        "counts": [
+          8,
+          4,
+          4
+        ],
+        "critical_bracket": {
+          "lower": 5.421356201171875,
+          "relative_width": 5.6291092497523194e-06,
+          "upper": 5.42138671875
+        },
+        "critical_factor": 5.421367521748845,
+        "eigen_formulation": "generalized_eigs_shift_invert",
+        "element_count": 128,
+        "expected_passes": {
+          "analytical_factor": false,
+          "analytical_mode": true,
+          "bracket": true,
+          "eigen_residual": true,
+          "kg_sign": true,
+          "kg_symmetry": true,
+          "preload": true
+        },
+        "height": 1.0,
+        "input_sha256": "e256341883a8e06b059aff4757a13df3d4d0d28a735ffb149965ddffca30133a",
+        "length": 8.0,
+        "load_total": 1.0,
+        "matrix_diagnostics": {
+          "compression_sign_detected": true,
+          "eigen_residual_relative_recomputed": 7.548180994631263e-12,
+          "free_dof_count": 600,
+          "geometric_stiffness_eigenvalue_max": 0.07741841798456987,
+          "geometric_stiffness_eigenvalue_min": -0.20818927887743655,
+          "geometric_stiffness_symmetry_relative": 0.0,
+          "geometric_tangent_nnz": 12675,
+          "initial_tangent_nnz": 36957,
+          "preload_relative_residual": 1.0736536039999318e-12
+        },
+        "mode_match": {
+          "dominant_lateral_direction": "UZ",
+          "mac_selected": 0.9999770718721629,
+          "shape_relative_rmse_selected": 0.004788332469286939,
+          "uy_mac": 7.493721632624009e-19,
+          "uy_shape_relative_rmse": 1.0000000000000002,
+          "uz_mac": 0.9999770718721629,
+          "uz_shape_relative_rmse": 0.004788332469286939,
+          "weak_axis_expected": "UZ"
+        },
+        "mode_norm": 0.9999999999999999,
+        "node_count": 225,
+        "solver_reported_residual_relative": 4.509391313262103e-13,
+        "status": "PASS",
+        "width": 1.2
+      }
+    },
+    "singular_boundary": {
+      "explicit_failure": true,
+      "result": {
+        "configuration": "cantilever",
+        "counts": [
+          1,
+          1,
+          1
+        ],
+        "element_count": 1,
+        "failure_message": "Full Newton line search failed to reduce the residual.",
+        "failure_type": "NumericalConvergenceError",
+        "height": 1.0,
+        "input_sha256": "0e84543730b22e69281011df5794967a4fbd6c5c728d0238f889fcd277e88dd8",
+        "length": 4.0,
+        "load_total": 1.0,
+        "node_count": 8,
+        "status": "EXPECTED_FAILURE",
+        "width": 1.2
+      }
+    },
+    "status": "FAIL"
+  },
+  "schema_version": 1,
+  "source_sha": "1dac48f88c07f1f5450f693702263472824f42bb",
+  "status": "CAMPAIGN_COMPLETE_OWNER_GATE_PENDING",
+  "technical_decision": "NOT_QUALIFIED",
+  "work_package": "WP06"
+}
