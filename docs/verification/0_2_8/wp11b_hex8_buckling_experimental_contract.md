@@ -1,3 +1,12 @@
+---
+doc_id: DOC-028-WP11B-CONTRACT-001
+revision: 0.1
+status: controlled_candidate
+applicable_version: 0.2.8-development
+reviewer: ""
+approver: ""
+---
+
 # WP11B HEX8 buckling experimental-readiness contract
 
 This contract is separate from WP06/WP06B. It does not rewrite their Euler or

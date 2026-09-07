@@ -3,6 +3,15 @@ title: "WP10 HEX8 selective reduced integration research gate"
 status: "EXPERIMENTAL_BOUNDED_CANDIDATE"
 ---
 
+---
+doc_id: DOC-028-WP10-VNV-001
+revision: 0.1
+status: controlled_candidate
+applicable_version: 0.2.8-development
+reviewer: ""
+approver: ""
+---
+
 # WP10 HEX8 selective reduced integration research gate
 
 WP10 evaluates a separate research-only SRI kernel. The frozen

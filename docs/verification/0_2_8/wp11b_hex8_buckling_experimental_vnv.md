@@ -1,3 +1,12 @@
+---
+doc_id: DOC-028-WP11B-VNV-001
+revision: 0.1
+status: controlled_candidate
+applicable_version: 0.2.8-development
+reviewer: ""
+approver: ""
+---
+
 # WP11B HEX8 buckling experimental-readiness campaign
 
 WP11B is a separate experimental-readiness record. It does not rewrite WP06 or

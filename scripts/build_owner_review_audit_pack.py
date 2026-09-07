@@ -1,5 +1,6 @@
 from __future__ import annotations
 import json
+import shutil
 import subprocess
 from pathlib import Path
 from typing import Any
@@ -38,6 +39,7 @@ except ModuleNotFoundError:  # Direct execution: ``python scripts/<name>.py``.
         validate_pdf as _validate_pdf,
     )
 ROOT = Path(__file__).resolve().parents[1]
+GIT_EXECUTABLE = shutil.which("git") or "git"
 PUBLIC_EVIDENCE_PATH = ROOT / "qualification" / "public_evidence" / "owner_review_audit_pack_0_2_1.json"
 DOCS_DIR = ROOT / "docs" / "verification"
 PDF_DIR = ROOT / "output" / "pdf"
@@ -121,9 +123,10 @@ SCOPE_NOTES = {
 def _load_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 def _run_git(*args: str) -> str:
-    completed = subprocess.run(
-        ["git", *args], cwd=ROOT, check=False, capture_output=True, text=True, timeout=20
-    )
+    try:
+        completed = subprocess.run([GIT_EXECUTABLE, *args], cwd=ROOT, check=False, capture_output=True, text=True, timeout=20)
+    except FileNotFoundError:
+        return ""
     return completed.stdout.strip() if completed.returncode == 0 else ""
 def _criteria_summary(criterion: dict[str, Any]) -> str:
     assertions = criterion.get("assertions", [])

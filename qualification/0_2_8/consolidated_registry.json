@@ -1,0 +1,1148 @@
+{
+  "applicable_version": "0.2.8-development",
+  "combination_registry": {
+    "not_qualified_combination": null,
+    "records": [
+      {
+        "analysis": "linear_static",
+        "capability_id": "COMB-BEAM2-linear_static",
+        "element_family": "BEAM2",
+        "owner_decisions": [
+          {
+            "limitations": [
+              "Straight constant-section isotropic small-displacement static BEAM2 only; releases, offsets, plasticity, contact, large rotations and dynamics remain excluded."
+            ],
+            "owner_decision": "APPROVE_WITH_LIMITATIONS",
+            "promotion_applied": true,
+            "record": "qualification/0_2_8/wp03_owner_gate_final.json",
+            "rejected_gate": null,
+            "resulting_maturity": "QUALIFIED_BOUNDED",
+            "scope": null,
+            "work_package": "WP03"
+          }
+        ],
+        "qualification_state": "QUALIFIED_BOUNDED",
+        "source_0_2_7_qualification_state": "EXPERIMENTAL",
+        "source_evidence_refs": [
+          "0.2.5 regression evidence",
+          "0.2.6 case registry: shell_beam_discrete",
+          "0.2.6 G05 final evidence",
+          "0.2.5 regression and external evidence"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 modal/dynamic/harmonic coverage is bounded; other BEAM2 scopes remain governed by their own gates. Family-specific requalification is scheduled in G04.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "modal",
+        "capability_id": "COMB-BEAM2-modal",
+        "element_family": "BEAM2",
+        "owner_decisions": [
+          {
+            "limitations": [
+              "Straight slender fixed-root undamped first-two-mode cantilever scope only; thick-beam, damping, joints, offsets and multi-body response remain excluded."
+            ],
+            "owner_decision": "APPROVE_WITH_LIMITATIONS",
+            "promotion_applied": true,
+            "record": "qualification/0_2_8/wp03_owner_gate_final.json",
+            "rejected_gate": null,
+            "resulting_maturity": "QUALIFIED_BOUNDED",
+            "scope": null,
+            "work_package": "WP03"
+          }
+        ],
+        "qualification_state": "QUALIFIED_BOUNDED",
+        "source_0_2_7_qualification_state": "EXPERIMENTAL",
+        "source_evidence_refs": [
+          "0.2.5 regression evidence",
+          "0.2.6 case registry: shell_beam_discrete",
+          "0.2.6 G05 final evidence",
+          "g05_requirements.json",
+          "g05_deep_case_registry.json",
+          "0_2_6_g05_final_evidence.md"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 modal/dynamic/harmonic coverage is bounded; other BEAM2 scopes remain governed by their own gates. G05 is PASS_WITH_LIMITATIONS: modal evidence covers eight internal family rows, while external correlation remains bounded and family-incomplete.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "newmark_transient",
+        "capability_id": "COMB-BEAM2-newmark_transient",
+        "element_family": "BEAM2",
+        "owner_decisions": [
+          {
+            "limitations": [
+              "One-element axial UX-only undamped free vibration with the declared Newmark parameters only; no general transient BEAM2 claim."
+            ],
+            "owner_decision": "APPROVE_WITH_LIMITATIONS",
+            "promotion_applied": true,
+            "record": "qualification/0_2_8/wp03_owner_gate_final.json",
+            "rejected_gate": null,
+            "resulting_maturity": "QUALIFIED_BOUNDED",
+            "scope": null,
+            "work_package": "WP03"
+          }
+        ],
+        "qualification_state": "QUALIFIED_BOUNDED",
+        "source_0_2_7_qualification_state": "EXPERIMENTAL",
+        "source_evidence_refs": [
+          "0.2.5 regression evidence",
+          "0.2.6 case registry: shell_beam_discrete",
+          "0.2.6 G05 final evidence",
+          "g05_requirements.json",
+          "g05_deep_case_registry.json",
+          "0_2_6_g05_final_evidence.md"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 modal/dynamic/harmonic coverage is bounded; other BEAM2 scopes remain governed by their own gates. G05 is PASS_WITH_LIMITATIONS: Newmark refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "harmonic",
+        "capability_id": "COMB-BEAM2-harmonic",
+        "element_family": "BEAM2",
+        "owner_decisions": [
+          {
+            "limitations": [
+              "One-element axial damped SDOF response on the declared seven-point frequency grid only; no general BEAM2 FRF claim."
+            ],
+            "owner_decision": "APPROVE_WITH_LIMITATIONS",
+            "promotion_applied": true,
+            "record": "qualification/0_2_8/wp03_owner_gate_final.json",
+            "rejected_gate": null,
+            "resulting_maturity": "QUALIFIED_BOUNDED",
+            "scope": null,
+            "work_package": "WP03"
+          }
+        ],
+        "qualification_state": "QUALIFIED_BOUNDED",
+        "source_0_2_7_qualification_state": "EXPERIMENTAL",
+        "source_evidence_refs": [
+          "0.2.5 regression evidence",
+          "0.2.6 case registry: shell_beam_discrete",
+          "0.2.6 G05 final evidence",
+          "g05_requirements.json",
+          "g05_deep_case_registry.json",
+          "0_2_6_g05_final_evidence.md"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 modal/dynamic/harmonic coverage is bounded; other BEAM2 scopes remain governed by their own gates. G05 is PASS_WITH_LIMITATIONS: harmonic refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "linear_static",
+        "capability_id": "COMB-MITC3-linear_static",
+        "element_family": "MITC3",
+        "owner_decisions": [
+          {
+            "limitations": [
+              "Isotropic MITC3 linear static, small-displacement/small-rotation, executed patch, equilibrium, energy, orientation, permutation, thickness and locking scope only.",
+              "Cook, Scordelis and pinched values remain bounded reference trends; composite, nonlinear, contact and dynamic MITC3 remain excluded."
+            ],
+            "owner_decision": "APPROVE_WITH_LIMITATIONS",
+            "promotion_applied": true,
+            "record": "qualification/0_2_8/wp04_owner_gate_final.json",
+            "rejected_gate": null,
+            "resulting_maturity": "QUALIFIED_BOUNDED",
+            "scope": null,
+            "work_package": "WP04"
+          }
+        ],
+        "qualification_state": "QUALIFIED_BOUNDED",
+        "source_0_2_7_qualification_state": "EXPERIMENTAL",
+        "source_evidence_refs": [
+          "0.2.6 READY shell modal/dynamic/harmonic cases",
+          "0.2.6 G05 final evidence",
+          "0.2.5 regression and external evidence"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; no comparable independent external deck is recorded for MITC3. Family-specific requalification is scheduled in G04.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "modal",
+        "capability_id": "COMB-MITC3-modal",
+        "element_family": "MITC3",
+        "owner_decisions": [
+          {
+            "limitations": [
+              "The inherited same-assembled-model evidence is not sufficient for route-level promotion."
+            ],
+            "owner_decision": "REJECT",
+            "promotion_applied": false,
+            "record": "qualification/0_2_8/wp04_owner_gate_final.json",
+            "rejected_gate": "independent executable shell modal oracle",
+            "resulting_maturity": "EXPERIMENTAL",
+            "scope": null,
+            "work_package": "WP04"
+          }
+        ],
+        "qualification_state": "EXPERIMENTAL",
+        "source_0_2_7_qualification_state": "EXPERIMENTAL",
+        "source_evidence_refs": [
+          "0.2.6 READY shell modal/dynamic/harmonic cases",
+          "0.2.6 G05 final evidence",
+          "g05_requirements.json",
+          "g05_deep_case_registry.json",
+          "0_2_6_g05_final_evidence.md"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; no comparable independent external deck is recorded for MITC3. G05 is PASS_WITH_LIMITATIONS: modal evidence covers eight internal family rows, while external correlation remains bounded and family-incomplete.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "newmark_transient",
+        "capability_id": "COMB-MITC3-newmark_transient",
+        "element_family": "MITC3",
+        "owner_decisions": [
+          {
+            "limitations": [
+              "Temporal refinement alone is not accepted as an independent element/oracle qualification."
+            ],
+            "owner_decision": "REJECT",
+            "promotion_applied": false,
+            "record": "qualification/0_2_8/wp04_owner_gate_final.json",
+            "rejected_gate": "independent executable same-mesh transient shell oracle",
+            "resulting_maturity": "EXPERIMENTAL",
+            "scope": null,
+            "work_package": "WP04"
+          }
+        ],
+        "qualification_state": "EXPERIMENTAL",
+        "source_0_2_7_qualification_state": "EXPERIMENTAL",
+        "source_evidence_refs": [
+          "0.2.6 READY shell modal/dynamic/harmonic cases",
+          "0.2.6 G05 final evidence",
+          "g05_requirements.json",
+          "g05_deep_case_registry.json",
+          "0_2_6_g05_final_evidence.md"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; no comparable independent external deck is recorded for MITC3. G05 is PASS_WITH_LIMITATIONS: Newmark refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "harmonic",
+        "capability_id": "COMB-MITC3-harmonic",
+        "element_family": "MITC3",
+        "owner_decisions": [
+          {
+            "limitations": [
+              "Internal harmonic evidence does not close the independent shell FRF requirement."
+            ],
+            "owner_decision": "REJECT",
+            "promotion_applied": false,
+            "record": "qualification/0_2_8/wp04_owner_gate_final.json",
+            "rejected_gate": "independent executable same-mesh shell FRF oracle",
+            "resulting_maturity": "EXPERIMENTAL",
+            "scope": null,
+            "work_package": "WP04"
+          }
+        ],
+        "qualification_state": "EXPERIMENTAL",
+        "source_0_2_7_qualification_state": "EXPERIMENTAL",
+        "source_evidence_refs": [
+          "0.2.6 READY shell modal/dynamic/harmonic cases",
+          "0.2.6 G05 final evidence",
+          "g05_requirements.json",
+          "g05_deep_case_registry.json",
+          "0_2_6_g05_final_evidence.md"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; no comparable independent external deck is recorded for MITC3. G05 is PASS_WITH_LIMITATIONS: harmonic refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "linear_static",
+        "capability_id": "COMB-MITC4-linear_static",
+        "element_family": "MITC4",
+        "owner_decisions": [
+          {
+            "limitations": [
+              "Isotropic constant-thickness MITC4 linear static, small-displacement/small-rotation, executed mechanics, patch, equilibrium, drilling and reference-mesh scope only.",
+              "No variable thickness, composite, nonlinear, contact, buckling or large-rotation claim; Cook remains a bounded trend warning."
+            ],
+            "owner_decision": "APPROVE_WITH_LIMITATIONS",
+            "promotion_applied": true,
+            "record": "qualification/0_2_8/wp04_owner_gate_final.json",
+            "rejected_gate": null,
+            "resulting_maturity": "QUALIFIED_BOUNDED",
+            "scope": null,
+            "work_package": "WP04"
+          }
+        ],
+        "qualification_state": "QUALIFIED_BOUNDED",
+        "source_0_2_7_qualification_state": "EXPERIMENTAL",
+        "source_evidence_refs": [
+          "0.2.6 READY shell modal/dynamic/harmonic cases",
+          "0.2.6 G05 final evidence",
+          "0.2.5 regression and external evidence"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; no comparable independent external deck is recorded for MITC4. Family-specific requalification is scheduled in G04.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "modal",
+        "capability_id": "COMB-MITC4-modal",
+        "element_family": "MITC4",
+        "owner_decisions": [
+          {
+            "limitations": [
+              "No tolerance relaxation or numerical-core change is authorized."
+            ],
+            "owner_decision": "REJECT",
+            "promotion_applied": false,
+            "record": "qualification/0_2_8/wp04_owner_gate_final.json",
+            "rejected_gate": "relative residual",
+            "resulting_maturity": "EXPERIMENTAL",
+            "scope": null,
+            "work_package": "WP04"
+          }
+        ],
+        "qualification_state": "EXPERIMENTAL",
+        "source_0_2_7_qualification_state": "EXPERIMENTAL",
+        "source_evidence_refs": [
+          "0.2.6 READY shell modal/dynamic/harmonic cases",
+          "0.2.6 G05 final evidence",
+          "g05_requirements.json",
+          "g05_deep_case_registry.json",
+          "0_2_6_g05_final_evidence.md"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; no comparable independent external deck is recorded for MITC4. G05 is PASS_WITH_LIMITATIONS: modal evidence covers eight internal family rows, while external correlation remains bounded and family-incomplete.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "newmark_transient",
+        "capability_id": "COMB-MITC4-newmark_transient",
+        "element_family": "MITC4",
+        "owner_decisions": [
+          {
+            "limitations": [
+              "Verified one-mode, undamped free-vibration Newmark average-acceleration temporal scope with the declared 20/40/80 steps-per-period study only.",
+              "The spatial mode is from QF Solver; forced, nonlinear, broadband, composite and curved-dynamic claims remain excluded."
+            ],
+            "owner_decision": "APPROVE_WITH_LIMITATIONS",
+            "promotion_applied": true,
+            "record": "qualification/0_2_8/wp04_owner_gate_final.json",
+            "rejected_gate": null,
+            "resulting_maturity": "QUALIFIED_BOUNDED",
+            "scope": null,
+            "work_package": "WP04"
+          }
+        ],
+        "qualification_state": "QUALIFIED_BOUNDED",
+        "source_0_2_7_qualification_state": "EXPERIMENTAL",
+        "source_evidence_refs": [
+          "0.2.6 READY shell modal/dynamic/harmonic cases",
+          "0.2.6 G05 final evidence",
+          "g05_requirements.json",
+          "g05_deep_case_registry.json",
+          "0_2_6_g05_final_evidence.md"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; no comparable independent external deck is recorded for MITC4. G05 is PASS_WITH_LIMITATIONS: Newmark refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "harmonic",
+        "capability_id": "COMB-MITC4-harmonic",
+        "element_family": "MITC4",
+        "owner_decisions": [
+          {
+            "limitations": [
+              "Verified first-mode, seven-frequency, mass-proportional damping FRF scope only.",
+              "Broadband coupling, thick-shell, composite, nonlinear and alternate damping-model claims remain excluded."
+            ],
+            "owner_decision": "APPROVE_WITH_LIMITATIONS",
+            "promotion_applied": true,
+            "record": "qualification/0_2_8/wp04_owner_gate_final.json",
+            "rejected_gate": null,
+            "resulting_maturity": "QUALIFIED_BOUNDED",
+            "scope": null,
+            "work_package": "WP04"
+          }
+        ],
+        "qualification_state": "QUALIFIED_BOUNDED",
+        "source_0_2_7_qualification_state": "EXPERIMENTAL",
+        "source_evidence_refs": [
+          "0.2.6 READY shell modal/dynamic/harmonic cases",
+          "0.2.6 G05 final evidence",
+          "g05_requirements.json",
+          "g05_deep_case_registry.json",
+          "0_2_6_g05_final_evidence.md"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; no comparable independent external deck is recorded for MITC4. G05 is PASS_WITH_LIMITATIONS: harmonic refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "linear_static",
+        "capability_id": "COMB-TET4-linear_static",
+        "element_family": "TET4",
+        "owner_decisions": [],
+        "qualification_state": "QUALIFIED_BOUNDED",
+        "source_0_2_7_qualification_state": "QUALIFIED_BOUNDED",
+        "source_evidence_refs": [
+          "0.2.5 owner evidence",
+          "0.2.6 G05-B TET4 cases",
+          "0.2.6 G05 final evidence",
+          "0.2.5 regression and external evidence"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; external coverage is bounded and other analysis scopes remain separately governed. Family-specific requalification is scheduled in G04.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "modal",
+        "capability_id": "COMB-TET4-modal",
+        "element_family": "TET4",
+        "owner_decisions": [],
+        "qualification_state": "QUALIFIED_BOUNDED",
+        "source_0_2_7_qualification_state": "QUALIFIED_BOUNDED",
+        "source_evidence_refs": [
+          "0.2.5 owner evidence",
+          "0.2.6 G05-B TET4 cases",
+          "0.2.6 G05 final evidence",
+          "g05_requirements.json",
+          "g05_deep_case_registry.json",
+          "0_2_6_g05_final_evidence.md"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; external coverage is bounded and other analysis scopes remain separately governed. G05 is PASS_WITH_LIMITATIONS: modal evidence covers eight internal family rows, while external correlation remains bounded and family-incomplete.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "newmark_transient",
+        "capability_id": "COMB-TET4-newmark_transient",
+        "element_family": "TET4",
+        "owner_decisions": [],
+        "qualification_state": "QUALIFIED_BOUNDED",
+        "source_0_2_7_qualification_state": "QUALIFIED_BOUNDED",
+        "source_evidence_refs": [
+          "0.2.5 owner evidence",
+          "0.2.6 G05-B TET4 cases",
+          "0.2.6 G05 final evidence",
+          "g05_requirements.json",
+          "g05_deep_case_registry.json",
+          "0_2_6_g05_final_evidence.md"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; external coverage is bounded and other analysis scopes remain separately governed. G05 is PASS_WITH_LIMITATIONS: Newmark refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "harmonic",
+        "capability_id": "COMB-TET4-harmonic",
+        "element_family": "TET4",
+        "owner_decisions": [],
+        "qualification_state": "QUALIFIED_BOUNDED",
+        "source_0_2_7_qualification_state": "QUALIFIED_BOUNDED",
+        "source_evidence_refs": [
+          "0.2.5 owner evidence",
+          "0.2.6 G05-B TET4 cases",
+          "0.2.6 G05 final evidence",
+          "g05_requirements.json",
+          "g05_deep_case_registry.json",
+          "0_2_6_g05_final_evidence.md"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; external coverage is bounded and other analysis scopes remain separately governed. G05 is PASS_WITH_LIMITATIONS: harmonic refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "linear_buckling",
+        "capability_id": "COMB-TET4-linear_buckling",
+        "element_family": "TET4",
+        "owner_decisions": [],
+        "qualification_state": "QUALIFIED_BOUNDED",
+        "source_0_2_7_qualification_state": "QUALIFIED_BOUNDED",
+        "source_evidence_refs": [
+          "0.2.5 owner evidence",
+          "0.2.6 G05-B TET4 cases",
+          "0.2.6 G05 final evidence",
+          "0.2.5 bounded Euler and external evidence"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; external coverage is bounded and other analysis scopes remain separately governed. No nonlinear collapse claim; 0.2.6 maturity extension is pending.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "nonlinear_load_control",
+        "capability_id": "COMB-TET4-nonlinear_load_control",
+        "element_family": "TET4",
+        "owner_decisions": [],
+        "qualification_state": "EXPERIMENTAL",
+        "source_0_2_7_qualification_state": "EXPERIMENTAL",
+        "source_evidence_refs": [
+          "0.2.5 owner evidence",
+          "0.2.6 G05-B TET4 cases",
+          "0.2.6 G05 final evidence",
+          "0.2.5 nonlinear owner evidence"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; external coverage is bounded and other analysis scopes remain separately governed. Maturity extension and multi-family correlation are scheduled separately.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "linear_static",
+        "capability_id": "COMB-TET10-linear_static",
+        "element_family": "TET10",
+        "owner_decisions": [],
+        "qualification_state": "QUALIFIED_BOUNDED",
+        "source_0_2_7_qualification_state": "QUALIFIED_BOUNDED",
+        "source_evidence_refs": [
+          "0.2.5 J2 bounded evidence",
+          "historical modal/dynamic tests",
+          "0.2.6 G05 final evidence",
+          "0.2.5 regression and external evidence"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. Family-specific requalification is scheduled in G04.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "modal",
+        "capability_id": "COMB-TET10-modal",
+        "element_family": "TET10",
+        "owner_decisions": [],
+        "qualification_state": "QUALIFIED_BOUNDED",
+        "source_0_2_7_qualification_state": "QUALIFIED_BOUNDED",
+        "source_evidence_refs": [
+          "0.2.5 J2 bounded evidence",
+          "historical modal/dynamic tests",
+          "0.2.6 G05 final evidence",
+          "g05_requirements.json",
+          "g05_deep_case_registry.json",
+          "0_2_6_g05_final_evidence.md"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. G05 is PASS_WITH_LIMITATIONS: modal evidence covers eight internal family rows, while external correlation remains bounded and family-incomplete.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "newmark_transient",
+        "capability_id": "COMB-TET10-newmark_transient",
+        "element_family": "TET10",
+        "owner_decisions": [],
+        "qualification_state": "QUALIFIED_BOUNDED",
+        "source_0_2_7_qualification_state": "QUALIFIED_BOUNDED",
+        "source_evidence_refs": [
+          "0.2.5 J2 bounded evidence",
+          "historical modal/dynamic tests",
+          "0.2.6 G05 final evidence",
+          "g05_requirements.json",
+          "g05_deep_case_registry.json",
+          "0_2_6_g05_final_evidence.md"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. G05 is PASS_WITH_LIMITATIONS: Newmark refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "harmonic",
+        "capability_id": "COMB-TET10-harmonic",
+        "element_family": "TET10",
+        "owner_decisions": [],
+        "qualification_state": "QUALIFIED_BOUNDED",
+        "source_0_2_7_qualification_state": "QUALIFIED_BOUNDED",
+        "source_evidence_refs": [
+          "0.2.5 J2 bounded evidence",
+          "historical modal/dynamic tests",
+          "0.2.6 G05 final evidence",
+          "g05_requirements.json",
+          "g05_deep_case_registry.json",
+          "0_2_6_g05_final_evidence.md"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. G05 is PASS_WITH_LIMITATIONS: harmonic refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "linear_buckling",
+        "capability_id": "COMB-TET10-linear_buckling",
+        "element_family": "TET10",
+        "owner_decisions": [],
+        "qualification_state": "QUALIFIED_BOUNDED",
+        "source_0_2_7_qualification_state": "QUALIFIED_BOUNDED",
+        "source_evidence_refs": [
+          "0.2.5 J2 bounded evidence",
+          "historical modal/dynamic tests",
+          "0.2.6 G05 final evidence",
+          "0.2.5 bounded Euler and external evidence"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. No nonlinear collapse claim; 0.2.6 maturity extension is pending.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "nonlinear_load_control",
+        "capability_id": "COMB-TET10-nonlinear_load_control",
+        "element_family": "TET10",
+        "owner_decisions": [],
+        "qualification_state": "EXPERIMENTAL",
+        "source_0_2_7_qualification_state": "EXPERIMENTAL",
+        "source_evidence_refs": [
+          "0.2.5 J2 bounded evidence",
+          "historical modal/dynamic tests",
+          "0.2.6 G05 final evidence",
+          "0.2.5 nonlinear owner evidence"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. Maturity extension and multi-family correlation are scheduled separately.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "linear_static",
+        "capability_id": "COMB-HEX8-linear_static",
+        "element_family": "HEX8",
+        "owner_decisions": [],
+        "qualification_state": "QUALIFIED_BOUNDED",
+        "source_0_2_7_qualification_state": "QUALIFIED_BOUNDED",
+        "source_evidence_refs": [
+          "0.2.5 HEX8 evidence",
+          "0.2.6 G05 final evidence",
+          "0.2.5 regression and external evidence"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. Family-specific requalification is scheduled in G04.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "modal",
+        "capability_id": "COMB-HEX8-modal",
+        "element_family": "HEX8",
+        "owner_decisions": [],
+        "qualification_state": "QUALIFIED_BOUNDED",
+        "source_0_2_7_qualification_state": "QUALIFIED_BOUNDED",
+        "source_evidence_refs": [
+          "0.2.5 HEX8 evidence",
+          "0.2.6 G05 final evidence",
+          "g05_requirements.json",
+          "g05_deep_case_registry.json",
+          "0_2_6_g05_final_evidence.md"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. G05 is PASS_WITH_LIMITATIONS: modal evidence covers eight internal family rows, while external correlation remains bounded and family-incomplete.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "newmark_transient",
+        "capability_id": "COMB-HEX8-newmark_transient",
+        "element_family": "HEX8",
+        "owner_decisions": [],
+        "qualification_state": "QUALIFIED_BOUNDED",
+        "source_0_2_7_qualification_state": "QUALIFIED_BOUNDED",
+        "source_evidence_refs": [
+          "0.2.5 HEX8 evidence",
+          "0.2.6 G05 final evidence",
+          "g05_requirements.json",
+          "g05_deep_case_registry.json",
+          "0_2_6_g05_final_evidence.md"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. G05 is PASS_WITH_LIMITATIONS: Newmark refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "harmonic",
+        "capability_id": "COMB-HEX8-harmonic",
+        "element_family": "HEX8",
+        "owner_decisions": [],
+        "qualification_state": "QUALIFIED_BOUNDED",
+        "source_0_2_7_qualification_state": "QUALIFIED_BOUNDED",
+        "source_evidence_refs": [
+          "0.2.5 HEX8 evidence",
+          "0.2.6 G05 final evidence",
+          "g05_requirements.json",
+          "g05_deep_case_registry.json",
+          "0_2_6_g05_final_evidence.md"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. G05 is PASS_WITH_LIMITATIONS: harmonic refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "linear_buckling",
+        "capability_id": "COMB-HEX8-linear_buckling",
+        "element_family": "HEX8",
+        "owner_decisions": [
+          {
+            "limitations": [
+              "EXPERIMENTAL does not mean QUALIFIED_BOUNDED, normal-use or production-ready.",
+              "No general Euler prediction or convergence claim is made; WP06/WP06B Euler and convergence FAIL records remain visible.",
+              "No certification, imperfections, nonlinear/post-buckling, plasticity, arbitrary-mesh, universal-accuracy, multi-mode or mixed-mesh claim.",
+              "No external correlation claim; current comparable Code_Aster/CalculiX evidence was unavailable.",
+              "HEX8R, SRI, B-bar and hourglass formulations are excluded."
+            ],
+            "owner_decision": "APPROVE_EXPERIMENTAL",
+            "promotion_applied": true,
+            "record": "qualification/0_2_8/wp11b_hex8_buckling_owner_gate_final.json",
+            "resulting_maturity": "EXPERIMENTAL",
+            "scope": "HEX8 linear eigenvalue buckling; linear-elastic prestress; valid bounded cantilever geometries; explicitly tested clamped solid-block boundary condition; first positive mode; exploratory/research use only.",
+            "transition": "COMB-HEX8-linear_buckling: NOT_QUALIFIED -> EXPERIMENTAL",
+            "work_package": "WP11B"
+          }
+        ],
+        "qualification_state": "EXPERIMENTAL",
+        "source_0_2_7_qualification_state": "NOT_QUALIFIED",
+        "source_evidence_refs": [
+          "0.2.5 HEX8 evidence",
+          "0.2.6 G05 final evidence",
+          "0.2.5 bounded Euler and external evidence"
+        ],
+        "source_limitations": "G14 explicitly retains HEX8 buckling as more-evidence-required. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. No nonlinear collapse claim; 0.2.6 maturity extension is pending.",
+        "source_owner_decision": "INHERITED_G14_MORE_EVIDENCE_REQUIRED"
+      },
+      {
+        "analysis": "nonlinear_load_control",
+        "capability_id": "COMB-HEX8-nonlinear_load_control",
+        "element_family": "HEX8",
+        "owner_decisions": [],
+        "qualification_state": "EXPERIMENTAL",
+        "source_0_2_7_qualification_state": "EXPERIMENTAL",
+        "source_evidence_refs": [
+          "0.2.5 HEX8 evidence",
+          "0.2.6 G05 final evidence",
+          "0.2.5 nonlinear owner evidence"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. Maturity extension and multi-family correlation are scheduled separately.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "linear_static",
+        "capability_id": "COMB-HEX20-linear_static",
+        "element_family": "HEX20",
+        "owner_decisions": [],
+        "qualification_state": "QUALIFIED_BOUNDED",
+        "source_0_2_7_qualification_state": "QUALIFIED_BOUNDED",
+        "source_evidence_refs": [
+          "0.2.5 HEX20 evidence",
+          "0.2.6 G05 final evidence",
+          "0.2.5 regression and external evidence"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. Family-specific requalification is scheduled in G04.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "modal",
+        "capability_id": "COMB-HEX20-modal",
+        "element_family": "HEX20",
+        "owner_decisions": [],
+        "qualification_state": "QUALIFIED_BOUNDED",
+        "source_0_2_7_qualification_state": "QUALIFIED_BOUNDED",
+        "source_evidence_refs": [
+          "0.2.5 HEX20 evidence",
+          "0.2.6 G05 final evidence",
+          "g05_requirements.json",
+          "g05_deep_case_registry.json",
+          "0_2_6_g05_final_evidence.md"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. G05 is PASS_WITH_LIMITATIONS: modal evidence covers eight internal family rows, while external correlation remains bounded and family-incomplete.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "newmark_transient",
+        "capability_id": "COMB-HEX20-newmark_transient",
+        "element_family": "HEX20",
+        "owner_decisions": [],
+        "qualification_state": "QUALIFIED_BOUNDED",
+        "source_0_2_7_qualification_state": "QUALIFIED_BOUNDED",
+        "source_evidence_refs": [
+          "0.2.5 HEX20 evidence",
+          "0.2.6 G05 final evidence",
+          "g05_requirements.json",
+          "g05_deep_case_registry.json",
+          "0_2_6_g05_final_evidence.md"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. G05 is PASS_WITH_LIMITATIONS: Newmark refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "harmonic",
+        "capability_id": "COMB-HEX20-harmonic",
+        "element_family": "HEX20",
+        "owner_decisions": [],
+        "qualification_state": "QUALIFIED_BOUNDED",
+        "source_0_2_7_qualification_state": "QUALIFIED_BOUNDED",
+        "source_evidence_refs": [
+          "0.2.5 HEX20 evidence",
+          "0.2.6 G05 final evidence",
+          "g05_requirements.json",
+          "g05_deep_case_registry.json",
+          "0_2_6_g05_final_evidence.md"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. G05 is PASS_WITH_LIMITATIONS: harmonic refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "linear_buckling",
+        "capability_id": "COMB-HEX20-linear_buckling",
+        "element_family": "HEX20",
+        "owner_decisions": [],
+        "qualification_state": "QUALIFIED_BOUNDED",
+        "source_0_2_7_qualification_state": "QUALIFIED_BOUNDED",
+        "source_evidence_refs": [
+          "0.2.5 HEX20 evidence",
+          "0.2.6 G05 final evidence",
+          "0.2.5 bounded Euler and external evidence"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. No nonlinear collapse claim; 0.2.6 maturity extension is pending.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "nonlinear_load_control",
+        "capability_id": "COMB-HEX20-nonlinear_load_control",
+        "element_family": "HEX20",
+        "owner_decisions": [],
+        "qualification_state": "EXPERIMENTAL",
+        "source_0_2_7_qualification_state": "EXPERIMENTAL",
+        "source_evidence_refs": [
+          "0.2.5 HEX20 evidence",
+          "0.2.6 G05 final evidence",
+          "0.2.5 nonlinear owner evidence"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. Maturity extension and multi-family correlation are scheduled separately.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "geometric_nonlinear_static",
+        "capability_id": "COMB-TET4-geometric_nonlinear_static",
+        "element_family": "TET4",
+        "owner_decisions": [],
+        "qualification_state": "EXPERIMENTAL",
+        "source_0_2_7_qualification_state": "EXPERIMENTAL",
+        "source_evidence_refs": [
+          "0.2.5 owner evidence",
+          "0.2.6 G05-B TET4 cases",
+          "0.2.6 G05 final evidence",
+          "0.2.5 G02 bounded Total-Lagrangian evidence"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 is PASS_WITH_LIMITATIONS; external coverage is bounded and other analysis scopes remain separately governed. Only bounded TET4/HEX8 Total-Lagrangian elasticity is qualified; high-order and finite-kinematic J2 remain non-qualified.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "geometric_nonlinear_static",
+        "capability_id": "COMB-TET10-geometric_nonlinear_static",
+        "element_family": "TET10",
+        "owner_decisions": [],
+        "qualification_state": "EXPERIMENTAL",
+        "source_0_2_7_qualification_state": "EXPERIMENTAL",
+        "source_evidence_refs": [
+          "0.2.5 J2 bounded evidence",
+          "historical modal/dynamic tests",
+          "0.2.6 G05 final evidence",
+          "0.2.5 G02 bounded Total-Lagrangian evidence"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. Only bounded TET4/HEX8 Total-Lagrangian elasticity is qualified; high-order and finite-kinematic J2 remain non-qualified.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "geometric_nonlinear_static",
+        "capability_id": "COMB-HEX8-geometric_nonlinear_static",
+        "element_family": "HEX8",
+        "owner_decisions": [],
+        "qualification_state": "EXPERIMENTAL",
+        "source_0_2_7_qualification_state": "EXPERIMENTAL",
+        "source_evidence_refs": [
+          "0.2.5 HEX8 evidence",
+          "0.2.6 G05 final evidence",
+          "0.2.5 G02 bounded Total-Lagrangian evidence"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. Only bounded TET4/HEX8 Total-Lagrangian elasticity is qualified; high-order and finite-kinematic J2 remain non-qualified.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "geometric_nonlinear_static",
+        "capability_id": "COMB-HEX20-geometric_nonlinear_static",
+        "element_family": "HEX20",
+        "owner_decisions": [],
+        "qualification_state": "EXPERIMENTAL",
+        "source_0_2_7_qualification_state": "EXPERIMENTAL",
+        "source_evidence_refs": [
+          "0.2.5 HEX20 evidence",
+          "0.2.6 G05 final evidence",
+          "0.2.5 G02 bounded Total-Lagrangian evidence"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 internal quantitative and analytical evidence is present; comparable independent external deck remains pending. Only bounded TET4/HEX8 Total-Lagrangian elasticity is qualified; high-order and finite-kinematic J2 remain non-qualified.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "linear_static",
+        "capability_id": "COMB-DISCRETE-linear_static",
+        "element_family": "DISCRETE",
+        "owner_decisions": [
+          {
+            "limitations": [
+              "Uncoupled translational linear ground springs and declared assembly invariant only; no rotational, oriented, nonlinear, gap or coupled claim."
+            ],
+            "owner_decision": "APPROVE_WITH_LIMITATIONS",
+            "promotion_applied": true,
+            "record": "qualification/0_2_8/wp03_owner_gate_final.json",
+            "rejected_gate": null,
+            "resulting_maturity": "QUALIFIED_BOUNDED",
+            "scope": null,
+            "work_package": "WP03"
+          }
+        ],
+        "qualification_state": "QUALIFIED_BOUNDED",
+        "source_0_2_7_qualification_state": "EXPERIMENTAL",
+        "source_evidence_refs": [
+          "0.2.6 shell_beam_discrete planned cases",
+          "0.2.6 G05 final evidence",
+          "0.2.5 regression and external evidence"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 modal/dynamic/harmonic coverage is bounded; other discrete scopes remain governed by their own gates. Family-specific requalification is scheduled in G04.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "modal",
+        "capability_id": "COMB-DISCRETE-modal",
+        "element_family": "DISCRETE",
+        "owner_decisions": [
+          {
+            "limitations": [
+              "Uncoupled translational spring-mass modes only; no rotational inertia, coupling, damping or transient claim."
+            ],
+            "owner_decision": "APPROVE_WITH_LIMITATIONS",
+            "promotion_applied": true,
+            "record": "qualification/0_2_8/wp03_owner_gate_final.json",
+            "rejected_gate": null,
+            "resulting_maturity": "QUALIFIED_BOUNDED",
+            "scope": null,
+            "work_package": "WP03"
+          }
+        ],
+        "qualification_state": "QUALIFIED_BOUNDED",
+        "source_0_2_7_qualification_state": "EXPERIMENTAL",
+        "source_evidence_refs": [
+          "0.2.6 shell_beam_discrete planned cases",
+          "0.2.6 G05 final evidence",
+          "g05_requirements.json",
+          "g05_deep_case_registry.json",
+          "0_2_6_g05_final_evidence.md"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 modal/dynamic/harmonic coverage is bounded; other discrete scopes remain governed by their own gates. G05 is PASS_WITH_LIMITATIONS: modal evidence covers eight internal family rows, while external correlation remains bounded and family-incomplete.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "newmark_transient",
+        "capability_id": "COMB-DISCRETE-newmark_transient",
+        "element_family": "DISCRETE",
+        "owner_decisions": [
+          {
+            "limitations": [
+              "The gate and coarse time grid are retained unchanged. No promotion is authorized."
+            ],
+            "owner_decision": "REJECT",
+            "promotion_applied": false,
+            "record": "qualification/0_2_8/wp03_owner_gate_final.json",
+            "rejected_gate": "coarse.max_phase_error_rad",
+            "resulting_maturity": "EXPERIMENTAL",
+            "scope": null,
+            "work_package": "WP03"
+          }
+        ],
+        "qualification_state": "EXPERIMENTAL",
+        "source_0_2_7_qualification_state": "EXPERIMENTAL",
+        "source_evidence_refs": [
+          "0.2.6 shell_beam_discrete planned cases",
+          "0.2.6 G05 final evidence",
+          "g05_requirements.json",
+          "g05_deep_case_registry.json",
+          "0_2_6_g05_final_evidence.md"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 modal/dynamic/harmonic coverage is bounded; other discrete scopes remain governed by their own gates. G05 is PASS_WITH_LIMITATIONS: Newmark refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "harmonic",
+        "capability_id": "COMB-DISCRETE-harmonic",
+        "element_family": "DISCRETE",
+        "owner_decisions": [
+          {
+            "limitations": [
+              "Damped translational SDOF response on the declared seven-point frequency grid only; no general MDOF or alternate damping-model FRF claim."
+            ],
+            "owner_decision": "APPROVE_WITH_LIMITATIONS",
+            "promotion_applied": true,
+            "record": "qualification/0_2_8/wp03_owner_gate_final.json",
+            "rejected_gate": null,
+            "resulting_maturity": "QUALIFIED_BOUNDED",
+            "scope": null,
+            "work_package": "WP03"
+          }
+        ],
+        "qualification_state": "QUALIFIED_BOUNDED",
+        "source_0_2_7_qualification_state": "EXPERIMENTAL",
+        "source_evidence_refs": [
+          "0.2.6 shell_beam_discrete planned cases",
+          "0.2.6 G05 final evidence",
+          "g05_requirements.json",
+          "g05_deep_case_registry.json",
+          "0_2_6_g05_final_evidence.md"
+        ],
+        "source_limitations": "Combination state is inherited from aggregate 0.2.6 records; no new execution evidence is implied. G05 modal/dynamic/harmonic coverage is bounded; other discrete scopes remain governed by their own gates. G05 is PASS_WITH_LIMITATIONS: harmonic refinement and analytical evidence are complete, while external correlation remains bounded and family-incomplete.",
+        "source_owner_decision": "INHERITED_0_2_6_SCOPE"
+      },
+      {
+        "analysis": "linear_static",
+        "capability_id": "COMB-WEDGE6-linear_static",
+        "element_family": "WEDGE6",
+        "owner_decisions": [
+          {
+            "limitations": [
+              "No modal, Newmark or harmonic promotion is implied.",
+              "No nonlinear, J2, Total-Lagrangian, contact, WEDGE15, mixed-mesh or unbounded arbitrary-distortion claim is made.",
+              "Automatic orientation repair is not claimed; coincident, nonfinite, inverted, wrong-order and negative-Jacobian geometry must fail explicitly.",
+              "The external correlation claim is limited to the recorded Code_Aster PENTA6 primary observables and declared tolerance classes."
+            ],
+            "owner_decision": "APPROVE_WITH_LIMITATIONS",
+            "promotion_applied": true,
+            "record": "qualification/0_2_8/wp05_owner_gate_final.json",
+            "rejected_gate": null,
+            "resulting_maturity": "QUALIFIED_BOUNDED",
+            "scope": "Gmsh Prism 6 WEDGE6, homogeneous isotropic small-strain linear elasticity, linear static analysis, declared nodal/body/gravity/TRI3-pressure/QUAD4-pressure/surface-traction loads, conforming prism assemblies, declared valid distortions and explicit failure of invalid geometry, with displacement, Gauss-point strain/stress, energy, reactions and global equilibrium checks.",
+            "work_package": "WP05"
+          }
+        ],
+        "qualification_state": "QUALIFIED_BOUNDED",
+        "source_0_2_7_qualification_state": "EXPERIMENTAL",
+        "source_evidence_refs": [
+          "qualification/0_2_7/wp07_state.json",
+          "docs/verification/0_2_7/0_2_7_wedge6_kernel.md",
+          "qualification/0_2_7/wp08_state.json",
+          "qualification/0_2_7/vnv_v2/wp08_cases.json",
+          "qualification/0_2_7/vnv_v2/wp08_evidence.json",
+          "tests/integration/test_wedge6_static_workflow.py",
+          "docs/verification/0_2_7/0_2_7_wedge6_static_vertical_slice.md"
+        ],
+        "source_limitations": "WP08 validates the bounded Gmsh Prism 6 static workflow, declared TRI3/QUAD4 face loads, reactions/equilibrium and Gauss-point post-processing; WEDGE6 remains EXPERIMENTAL and public qualification, robustness, modal/dynamic routes, nonlinear routes and external correlation remain deferred.",
+        "source_owner_decision": "WP08_STATIC_VERTICAL_SLICE_EXPERIMENTAL"
+      },
+      {
+        "analysis": "modal",
+        "capability_id": "COMB-WEDGE6-modal",
+        "element_family": "WEDGE6",
+        "owner_decisions": [],
+        "qualification_state": "QUALIFIED_BOUNDED",
+        "source_0_2_7_qualification_state": "QUALIFIED_BOUNDED",
+        "source_evidence_refs": [
+          "qualification/0_2_7/wp10_final_state.json",
+          "qualification/0_2_7/vnv_v2/wp10_final_cases.json",
+          "qualification/0_2_7/vnv_v2/wp10_final_evidence.json",
+          "docs/verification/0_2_7/0_2_7_wedge6_modal.md",
+          "src/solveur/verification/modal_comparison.py",
+          "tests/unit/test_wp10_final_modal.py",
+          "tests/unit/test_wp10_wedge6_modal.py"
+        ],
+        "source_limitations": "WP10 qualifies only the homogeneous isotropic small-strain WEDGE6 consistent-mass modal route within the declared four-level first-three-mode refinement and four same-mesh Code_Aster PENTA6 comparisons. Modes four to six remain diagnostic for refinement; static evidence is not transferred automatically, and Newmark, harmonic, nonlinear, J2, TL and contact routes remain outside this record.",
+        "source_owner_decision": "OWNER_APPROVED_BOUNDED_FIRST_THREE_MODES"
+      }
+    ],
+    "state_counts": {
+      "EXPERIMENTAL": 14,
+      "NOT_QUALIFIED": 0,
+      "QUALIFIED_BOUNDED": 32
+    },
+    "total": 46
+  },
+  "internal_research_kernels": [
+    {
+      "element_family": "PYRAMID5",
+      "public_registered": false,
+      "reason": "bounded internal feasibility only; public dispatch remains fail-closed",
+      "record": "qualification/0_2_8/wp09_pyramid5_matrix.json",
+      "status": "FEASIBLE_CONTINUE"
+    }
+  ],
+  "owner_records_preserved": [
+    "qualification/0_2_8/wp03_owner_gate_final.json",
+    "qualification/0_2_8/wp04_owner_gate_final.json",
+    "qualification/0_2_8/wp05_owner_gate_final.json",
+    "qualification/0_2_8/wp11b_hex8_buckling_owner_gate_final.json"
+  ],
+  "registry_id": "QF-028-CONSOLIDATED-CAPABILITY-REGISTRY",
+  "schema_version": 1,
+  "separate_workflows": [
+    {
+      "id": "MIXED-TET4-WEDGE6-HEX8-linear_static",
+      "limitations": [
+        "The affine manufactured solution with equivalent K*u loads is sufficient for the declared assembly/interface/load consistency contract, but is not an independent general mechanical benchmark.",
+        "The refinement sequence demonstrates affine consistency only; it is not a general accuracy-convergence claim.",
+        "No external Code_Aster/CalculiX mixed-family correlation is claimed.",
+        "No modal, Newmark, harmonic, nonlinear, contact, hanging-node, MPC, nonconforming-interface, TET10/HEX20, PYRAMID5 or large-model claim is made."
+      ],
+      "owner_record": "qualification/0_2_8/wp07_owner_gate_final.json",
+      "record_kind": "mixed_workflow_qualification",
+      "scope": "linear_static only; TET4, WEDGE6 and HEX8; conforming shared-node triangular and quadrilateral interfaces; small-strain homogeneous isotropic elasticity; valid element geometries; and the nodal, body-force, pressure and surface-traction routes actually exercised by WP07.",
+      "status": "QUALIFIED_BOUNDED"
+    },
+    {
+      "id": "MIXED-TET4-WEDGE6-HEX8-modal",
+      "limitations": [
+        "The result is a bounded workflow qualification for the tested fixed-base chain, not a universal mixed-modal or all-frequency claim.",
+        "The WP08B contract uses shape-function field prolongation with no extrapolation and a fine consistent-mass inner product; the original WP08 shared-node MAC gate of 0.5 remains unchanged and its 0.1028 failure remains historical evidence.",
+        "The independent dense local-matrix scatter/eigensolve plus analytical mass conservation is sufficient for the declared assembly scope; no external industrial-solver correlation is claimed.",
+        "No modal stress, lumped/concentrated mass, Newmark, harmonic, nonlinear, contact, nonconforming/hanging-node/MPC/RBE interface, TET10/HEX20, PYRAMID5, large-model performance or universal all-frequency claim is made."
+      ],
+      "owner_record": "qualification/0_2_8/wp08b_owner_gate_final.json",
+      "record_kind": "mixed_workflow_qualification",
+      "scope": "modal linear only; fixed x=0 base; conforming shared-node triangular and quadrilateral interfaces; TET4, WEDGE6 and HEX8; small-strain homogeneous isotropic elasticity; consistent translational finite-element mass; first six positive modes; refinement levels 1, 2, 4 and 8; and valid geometries in the already qualified elementary domains.",
+      "status": "QUALIFIED_BOUNDED"
+    },
+    {
+      "evidence_record": "qualification/0_2_8/wp09_pyramid5_vnv.json",
+      "id": "PYRAMID5-feasibility",
+      "limitations": [
+        "The collapsed-coordinate Jacobian and derivatives are singular at the apex, which is never a derivative or quadrature point.",
+        "No coherent conforming PYRAMID5 h-refinement, convergence claim or external-solver correlation exists in WP09.",
+        "PYRAMID5 remains absent from the public compatibility descriptor and 0.2.7 capability registry; public solve dispatch remains fail-closed.",
+        "No modal, Newmark, harmonic, nonlinear, contact, SRI, stabilization, hourglass-control, nonconforming, hanging-node, MPC/RBE, PYRAMID13 or general transition-mesh claim is made.",
+        "The separate WP07/WP08 mixed-workflow records are unchanged."
+      ],
+      "owner_record": null,
+      "record_kind": "internal_feasibility_kernel",
+      "scope": "Internal linear-static feasibility kernel only: homogeneous isotropic small-strain elasticity; convex planar QUAD4 base; non-coplanar apex; positive sampled Jacobians; nodal/body/gravity/pressure/surface-traction loads; and the tested conforming HEX8/PYRAMID5/TET4 patch.",
+      "status": "FEASIBLE_CONTINUE"
+    },
+    {
+      "id": "HEX8-SRI-linear_static",
+      "limitations": [
+        "No production-use claim.",
+        "No universal incompressibility or universal locking-cure claim.",
+        "No general affine patch-force qualification.",
+        "No arbitrary-distortion, nonlinear, dynamic, contact, HEX8R or hourglass-control scope.",
+        "No external correlation claim."
+      ],
+      "owner_record": "qualification/0_2_8/wp10_hex8_sri_owner_gate_final.json",
+      "record_kind": "separate_experimental_capability",
+      "scope": "HEX8-SRI; linear static only; isotropic small-strain elasticity; structured bending cases in the executed domain; documented locking reduction only.",
+      "status": "EXPERIMENTAL_BOUNDED"
+    },
+    {
+      "id": "MIXED-TET4-WEDGE6-HEX8-large-linear_static",
+      "limitations": [
+        "The mandatory evidence is a repeated conforming-chain scale model, not an arbitrary connected industrial mesh.",
+        "Runtime and memory are environment records, not universal thresholds.",
+        "No accuracy, production, precision, modal, dynamic, nonlinear or universal scalability claim.",
+        "No PYRAMID5 or HEX8-SRI appears in this large model.",
+        "No external correlation is claimed."
+      ],
+      "owner_record": "qualification/0_2_8/wp11_mixed_large_matrix.json",
+      "record_kind": "bounded_performance_evidence",
+      "scope": {
+        "components": 9091,
+        "conforming_interfaces": {
+          "quadrilateral_wedge6_hex8": 9091,
+          "triangular_tet4_wedge6": 9091
+        },
+        "dof": 300003,
+        "elements": 27273,
+        "elements_by_family": {
+          "HEX8": 9091,
+          "TET4": 9091,
+          "WEDGE6": 9091
+        },
+        "load": "unit total Z load per repeated chain; x=0 DOFs fixed",
+        "nodes": 100001
+      },
+      "status": "PASS_WITH_BOUNDED_EVIDENCE"
+    },
+    {
+      "id": "HEX8-linear_buckling-experimental",
+      "limitations": [
+        "EXPERIMENTAL does not mean QUALIFIED_BOUNDED, normal-use or production-ready.",
+        "No general Euler prediction or convergence claim is made; WP06/WP06B Euler and convergence FAIL records remain visible.",
+        "No certification, imperfections, nonlinear/post-buckling, plasticity, arbitrary-mesh, universal-accuracy, multi-mode or mixed-mesh claim.",
+        "No external correlation claim; current comparable Code_Aster/CalculiX evidence was unavailable.",
+        "HEX8R, SRI, B-bar and hourglass formulations are excluded."
+      ],
+      "owner_record": "qualification/0_2_8/wp11b_hex8_buckling_owner_gate_final.json",
+      "record_kind": "experimental_capability",
+      "scope": "HEX8 linear eigenvalue buckling; linear-elastic prestress; valid bounded cantilever geometries; explicitly tested clamped solid-block boundary condition; first positive mode; exploratory/research use only.",
+      "status": "EXPERIMENTAL"
+    }
+  ],
+  "source_registry": "qualification/0_2_7/capability_registry_v2.json",
+  "source_registry_sha256": "cea5cbc24f6c28b22903d7cbfe76aab83ae654e7029d5604f07937fb7f5d1b48",
+  "source_registry_state": {
+    "EXPERIMENTAL": 25,
+    "NOT_QUALIFIED": 1,
+    "QUALIFIED_BOUNDED": 20,
+    "TOTAL": 46
+  }
+}
