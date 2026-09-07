@@ -4,7 +4,8 @@
   "work_package": "WP04",
   "applicable_version": "0.2.8-development",
   "baseline_sha": "2a6a02859e3f19ddf26903167de1db6fdd3f3c7c",
-  "status": "CAMPAIGN_COMPLETE_OWNER_GATE_PENDING",
+  "status": "CAMPAIGN_COMPLETE_OWNER_GATE_FINALIZED",
+  "owner_gate_record": "qualification/0_2_8/wp04_owner_gate_final.json",
   "historical_0_2_7_evidence_modified": false,
   "policy": {
     "allowed_decisions": ["QUALIFIED_BOUNDED", "EXPERIMENTAL", "NOT_QUALIFIED"],
@@ -33,7 +34,7 @@
     "MITC3_STATIC": {
       "source_record": "COMB-MITC3-linear_static",
       "decision": "QUALIFIED_BOUNDED",
-      "owner_gate": "PENDING",
+      "owner_gate": "APPROVED_WITH_LIMITATIONS",
       "scope": "MITC3 isotropic shell, linear static, small displacement/small rotation, flat and faceted curved assemblies within the executed mesh families; membrane, bending and transverse shear patch behavior, thin-shell locking trend, one reference-shell trend, load resultant and static energy/reaction checks.",
       "oracle": "Affine membrane/bending/transverse-shear patch identities, global static equilibrium and strain-energy identity; Cook/Scordelis/pinched values are recorded as bounded reference trends, not universal acceptance claims.",
       "tolerances": {
@@ -83,7 +84,7 @@
     "MITC3_MODAL": {
       "source_record": "COMB-MITC3-modal",
       "decision": "EXPERIMENTAL",
-      "owner_gate": "NOT_APPLICABLE",
+      "owner_gate": "REJECTED",
       "scope": "No WP04 promotion scope.",
       "oracle": "The current executable records provide same-assembled-model modal invariants, but no materialized independent same-mesh shell modal oracle is available in this clone.",
       "tolerances": {},
@@ -94,7 +95,7 @@
     "MITC3_NEWMARK": {
       "source_record": "COMB-MITC3-newmark_transient",
       "decision": "EXPERIMENTAL",
-      "owner_gate": "NOT_APPLICABLE",
+      "owner_gate": "REJECTED",
       "scope": "No WP04 promotion scope.",
       "oracle": "Current temporal-refinement studies use the first mode of the same assembled MITC3 model and explicitly do not provide an independent element oracle.",
       "tolerances": {},
@@ -105,7 +106,7 @@
     "MITC3_HARMONIC": {
       "source_record": "COMB-MITC3-harmonic",
       "decision": "EXPERIMENTAL",
-      "owner_gate": "NOT_APPLICABLE",
+      "owner_gate": "REJECTED",
       "scope": "No WP04 promotion scope.",
       "oracle": "Current internal harmonic evidence shares the assembled spatial model and does not provide a materialized independent shell FRF oracle.",
       "tolerances": {},
@@ -116,7 +117,7 @@
     "MITC4_STATIC": {
       "source_record": "COMB-MITC4-linear_static",
       "decision": "QUALIFIED_BOUNDED",
-      "owner_gate": "PENDING",
+      "owner_gate": "APPROVED_WITH_LIMITATIONS",
       "scope": "MITC4 isotropic constant-thickness shell, linear static, small displacement/small rotation, distorted flat quadrilateral patch and the executed bounded structural reference meshes; membrane, bending, shear, rigid-body, frame-objectivity, drilling and convergence checks.",
       "oracle": "Affine patch identities and exact element invariants, plus the declared Cook/Scordelis/pinched reference trends. The route claim is limited to these executable cases and mesh-quality controls.",
       "tolerances": {
@@ -162,7 +163,7 @@
     "MITC4_MODAL": {
       "source_record": "COMB-MITC4-modal",
       "decision": "EXPERIMENTAL",
-      "owner_gate": "NOT_APPLICABLE",
+      "owner_gate": "REJECTED",
       "scope": "Straight slender isotropic MITC4 cantilever, coherent mass, fixed root, undamped first-mode and first-two-mode modal study on the executed 4x1, 8x2 and 16x4 meshes, with rigid-body and mode-shape checks.",
       "oracle": "Euler-Bernoulli slender cantilever frequency and first-mode shape, with eigen-residual, mass orthogonality, deterministic mode pairing and mesh convergence.",
       "tolerances": {
@@ -197,7 +198,7 @@
     "MITC4_NEWMARK": {
       "source_record": "COMB-MITC4-newmark_transient",
       "decision": "QUALIFIED_BOUNDED",
-      "owner_gate": "PENDING",
+      "owner_gate": "APPROVED_WITH_LIMITATIONS",
       "scope": "MITC4 isotropic cantilever initialized with one verified numerical mode, undamped linear free vibration, Newmark average acceleration beta=0.25/gamma=0.5, two periods and 20/40/80 steps per period; a damped sensitivity point is recorded but not generalized.",
       "oracle": "Exact first-mode sinusoidal time history generated from the precomputed mode; it is independent of the Newmark recurrence and qualifies temporal integration on the declared spatial model only.",
       "tolerances": {
@@ -230,7 +231,7 @@
     "MITC4_HARMONIC": {
       "source_record": "COMB-MITC4-harmonic",
       "decision": "QUALIFIED_BOUNDED",
-      "owner_gate": "PENDING",
+      "owner_gate": "APPROVED_WITH_LIMITATIONS",
       "scope": "MITC4 isotropic cantilever first-mode harmonic response with mass-proportional Rayleigh damping ratio 0.02, seven frequency ratios from 0 to 2, static limit, resonance, off-resonance phase and damping sensitivity.",
       "oracle": "Closed-form single-mode complex response using the computed mass-normalized first mode; amplitude, wrapped phase, static limit, resonance location and residual are checked.",
       "tolerances": {
@@ -272,6 +273,12 @@
       "MITC4_NEWMARK",
       "MITC4_HARMONIC"
     ],
+    "owner_approved_promotions": [
+      "MITC3_STATIC",
+      "MITC4_STATIC",
+      "MITC4_NEWMARK",
+      "MITC4_HARMONIC"
+    ],
     "remain_experimental": [
       "MITC3_MODAL",
       "MITC3_NEWMARK",
@@ -284,13 +291,16 @@
     "qualifying_replays": 8,
     "historical_0_2_7_evidence_modified": false,
     "numerical_source_modified": false,
-    "global_state_after_wp04_technical_delta": {
+    "owner_gate_finalized": true,
+    "global_state_after_wp04_owner_gate": {
       "QUALIFIED_BOUNDED": 31,
-      "PUBLIC_QUALIFIED_BOUNDED": 27,
-      "EXPERIMENTAL": 13,
+      "PUBLIC_QUALIFIED_BOUNDED": 31,
+      "EXPERIMENTAL": 14,
       "NOT_QUALIFIED": 1,
-      "UNRESOLVED_NEEDS_MAJOR_VNV": 1,
-      "unresolved_record": "COMB-WEDGE6-linear_static"
-    }
+      "TOTAL": 46,
+      "not_qualified_combination": "COMB-HEX8-linear_buckling",
+      "wedge6_static_state": "EXPERIMENTAL"
+    },
+    "registry_counts_consistent": true
   }
 }
