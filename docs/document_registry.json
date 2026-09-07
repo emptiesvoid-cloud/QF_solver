@@ -5106,6 +5106,20 @@
   "tests": [
     "tests/unit/test_public_api_contract.py"
   ]
+},
+{
+  "id": "DOC-028-WP03-001",
+  "path": "verification/0_2_8/wp03_beam2_discrete_vnv.md",
+  "title": "QF Solver 0.2.8 WP03 BEAM2 and DISCRETE V&V",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp03_beam2_discrete_vnv.json",
+    "qualification/0_2_8/wp03_maturity_matrix.json"
+  ],
+  "tests": [
+    "tests/verification/test_028_beam2_discrete_vnv.py"
+  ]
 }
   ]
   

@@ -1,0 +1,232 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP03-BEAM2-DISCRETE-VNV",
+  "work_package": "WP03",
+  "applicable_version": "0.2.8-development",
+  "baseline_sha": "598704c834b4642f7c2a9a1fdc7595895f9e4130",
+  "status": "CAMPAIGN_COMPLETE_OWNER_GATE_PENDING",
+  "maturity_matrix": "qualification/0_2_8/wp03_maturity_matrix.json",
+  "policy": {
+    "allowed_decisions": [
+      "QUALIFIED_BOUNDED",
+      "EXPERIMENTAL",
+      "NOT_QUALIFIED"
+    ],
+    "no_automatic_maturity_promotion": true,
+    "historical_0_2_7_evidence_modified": false,
+    "oracle_rule": "Analytical or independent external oracle and predeclared tolerances are required; passing regression tests alone is insufficient.",
+    "owner_rule": "The four technical bounded decisions remain pending explicit Owner confirmation before any public maturity relabel."
+  },
+  "cases": {
+    "BEAM2_STATIC": {
+      "source_record": "COMB-BEAM2-linear_static",
+      "source_wp01_disposition": "NEEDS_MINOR_VNV",
+      "decision": "QUALIFIED_BOUNDED",
+      "promotion_applied": false,
+      "owner_gate": "PENDING",
+      "scope": "Straight two-node BEAM2 elements, isotropic constant section, small displacement, linear static axial, transverse tip-force and torsional cases; one-, two- and four-element meshes.",
+      "hypotheses": [
+        "Euler-Bernoulli slender limit is not used as the static oracle; the Timoshenko closed-form tip solution is used.",
+        "The section is constant and the local reference vector is valid.",
+        "No releases, offsets, plasticity, contact, large rotation or distributed dynamic load is claimed."
+      ],
+      "oracle_type": "ANALYTICAL",
+      "oracle": "Closed-form Timoshenko cantilever displacement for axial, two transverse bending planes and torsion; reaction balance and strain-energy identity are independent invariants.",
+      "tolerances": {
+        "max_relative_displacement_error": 1.0e-10,
+        "max_reaction_equilibrium_error": 1.0e-10,
+        "max_energy_identity_error": 1.0e-10,
+        "max_relative_solver_residual": 1.0e-10
+      },
+      "primary_metric": "max_relative_displacement_error",
+      "invariant_metric": "max_reaction_equilibrium_error",
+      "residual_metric": "max_relative_solver_residual",
+      "additional_metrics": {
+        "max_energy_identity_error": 1.0e-10
+      },
+      "replay_count": 2,
+      "replay_digests": [
+        "1c2e1dbdbf19791235af2a6a4b3666d550a31465ae8dfce1cefb9df35c0bb253",
+        "1c2e1dbdbf19791235af2a6a4b3666d550a31465ae8dfce1cefb9df35c0bb253"
+      ],
+      "observed": {
+        "max_relative_displacement_error": 2.3212746969057987e-15,
+        "max_reaction_equilibrium_error": 2.3987922759260987e-14,
+        "max_energy_identity_error": 1.572637146129579e-14,
+        "max_relative_solver_residual": 4.9657078105950856e-14,
+        "rigid_body_stiffness_nullity": 6
+      },
+      "refinement_observations": [
+        {"case": "axial", "elements": 1, "relative_displacement_error": 0.0},
+        {"case": "axial", "elements": 2, "relative_displacement_error": 0.0},
+        {"case": "axial", "elements": 4, "relative_displacement_error": 0.0},
+        {"case": "flexion_y", "elements": 1, "relative_displacement_error": 6.143113852068658e-16},
+        {"case": "flexion_y", "elements": 2, "relative_displacement_error": 0.0},
+        {"case": "flexion_y", "elements": 4, "relative_displacement_error": 1.4333932321493535e-15},
+        {"case": "flexion_z", "elements": 1, "relative_displacement_error": 5.461822816248938e-16},
+        {"case": "flexion_z", "elements": 2, "relative_displacement_error": 2.3212746969057987e-15},
+        {"case": "flexion_z", "elements": 4, "relative_displacement_error": 1.228910133656011e-15},
+        {"case": "torsion", "elements": 1, "relative_displacement_error": 0.0},
+        {"case": "torsion", "elements": 2, "relative_displacement_error": 0.0},
+        {"case": "torsion", "elements": 4, "relative_displacement_error": 5.254210528198985e-16}
+      ],
+      "exit_gate": "Technical evidence complete for the bounded route; explicit Owner confirmation is still required before public maturity promotion."
+    },
+    "BEAM2_MODAL": {
+      "source_record": "COMB-BEAM2-modal",
+      "source_wp01_disposition": "NEEDS_MINOR_VNV",
+      "decision": "QUALIFIED_BOUNDED",
+      "promotion_applied": false,
+      "owner_gate": "PENDING",
+      "scope": "Straight slender BEAM2 cantilever, isotropic constant section, coherent mass, fixed root, undamped linear modal analysis; first two bending modes on one-, two- and four-element meshes.",
+      "hypotheses": [
+        "The analytical oracle is the Euler-Bernoulli slender-beam first-mode reference; it does not qualify thick-beam shear behavior.",
+        "Density is positive and the fixed root removes the six rigid-body modes.",
+        "No damping, nonlinear dynamics, joint, offset or multi-body claim is made."
+      ],
+      "oracle_type": "ANALYTICAL",
+      "oracle": "First two cantilever bending frequencies using beta_1 = 1.875104068711961 and sqrt(E I / (rho A)); eigen-residual, mass orthogonality and positive-mode count are invariants.",
+      "tolerances": {
+        "max_relative_frequency_error": 1.0e-2,
+        "max_mass_orthogonality_error": 1.0e-8,
+        "max_relative_eigen_residual": 1.0e-8
+      },
+      "primary_metric": "max_relative_frequency_error",
+      "invariant_metric": "max_mass_orthogonality_error",
+      "residual_metric": "max_relative_eigen_residual",
+      "additional_metrics": {},
+      "replay_count": 2,
+      "replay_digests": [
+        "d57d5c2a4c68939fa2ed2f94c361d2438f171f9debded21914e9f8dc4f4a5bbe",
+        "d57d5c2a4c68939fa2ed2f94c361d2438f171f9debded21914e9f8dc4f4a5bbe"
+      ],
+      "observed": {
+        "max_relative_frequency_error": 0.004332548615143528,
+        "max_mass_orthogonality_error": 2.376149277353064e-16,
+        "max_relative_eigen_residual": 5.2557815335770205e-12,
+        "positive_frequency_count_final_mesh": 2
+      },
+      "analytic_reference_frequencies_hz": [10.265692153022604, 12.572853815699316],
+      "refinement_observations": [
+        {"elements": 1, "frequencies_hz": [10.310168763343672, 12.62467771437721], "relative_errors": [0.004332548615143528, 0.004121888271156289]},
+        {"elements": 2, "frequencies_hz": [10.265970102360352, 12.570328792452488], "relative_errors": [2.7075557459285074e-05, 0.0002008313533142237]},
+        {"elements": 4, "frequencies_hz": [10.261179614348812, 12.564361871561763], "relative_errors": [0.00043957471220907457, 0.000675418982995703]}
+      ],
+      "exit_gate": "Technical evidence complete for the bounded slender route; explicit Owner confirmation is still required before public maturity promotion."
+    },
+    "DISCRETE_STATIC": {
+      "source_record": "COMB-DISCRETE-linear_static",
+      "source_wp01_disposition": "NEEDS_MINOR_VNV",
+      "decision": "QUALIFIED_BOUNDED",
+      "promotion_applied": false,
+      "owner_gate": "PENDING",
+      "scope": "Linear ground springs with three uncoupled translational directions, one concentrated translational mass, direct static solve and a two-node spring assembly invariant.",
+      "hypotheses": [
+        "Spring stiffness is constant, positive and expressed in SI units.",
+        "The static oracle is the closed-form relation u = F/k.",
+        "No coupled multi-DOF, rotational inertia, orientation, nonlinear, gap or damping claim is made."
+      ],
+      "oracle_type": "ANALYTICAL",
+      "oracle": "Independent scalar spring solutions u_x = 25/1000, u_y = -20/4000 and u_z = 45/9000; energy and action-reaction invariants are checked separately.",
+      "tolerances": {
+        "max_relative_displacement_error": 1.0e-12,
+        "max_equilibrium_error": 1.0e-12,
+        "max_relative_solver_residual": 1.0e-12,
+        "max_energy_identity_error": 1.0e-12,
+        "two_node_rigid_mode_error": 1.0e-12,
+        "two_node_action_reaction_error": 1.0e-12
+      },
+      "primary_metric": "max_relative_displacement_error",
+      "invariant_metric": "max_equilibrium_error",
+      "residual_metric": "max_relative_solver_residual",
+      "additional_metrics": {
+        "max_energy_identity_error": 1.0e-12,
+        "two_node_rigid_mode_error": 1.0e-12,
+        "two_node_action_reaction_error": 1.0e-12
+      },
+      "replay_count": 2,
+      "replay_digests": [
+        "27964f51f9f3f6d75d8554d27f9dba7e58f423836c5877347ef442e440be4426",
+        "27964f51f9f3f6d75d8554d27f9dba7e58f423836c5877347ef442e440be4426"
+      ],
+      "observed": {
+        "max_relative_displacement_error": 0.0,
+        "max_equilibrium_error": 0.0,
+        "max_relative_solver_residual": 0.0,
+        "max_energy_identity_error": 0.0,
+        "two_node_rigid_mode_error": 0.0,
+        "two_node_action_reaction_error": 0.0
+      },
+      "observed_displacements_m": {"UX": 0.025, "UY": -0.005, "UZ": 0.005},
+      "exit_gate": "Technical evidence complete for the declared uncoupled translational route; explicit Owner confirmation is still required before public maturity promotion."
+    },
+    "DISCRETE_MODAL": {
+      "source_record": "COMB-DISCRETE-modal",
+      "source_wp01_disposition": "NEEDS_MINOR_VNV",
+      "decision": "QUALIFIED_BOUNDED",
+      "promotion_applied": false,
+      "owner_gate": "PENDING",
+      "scope": "Three uncoupled translational spring-mass directions with k = (1000, 4000, 9000) N/m and m = 10 kg; undamped modal solve.",
+      "hypotheses": [
+        "Mass and stiffness are diagonal in the global translational basis.",
+        "The analytical oracle is omega_i = sqrt(k_i/m) with f_i = omega_i/(2 pi).",
+        "No rotational inertia, coupled mass, multi-node coupling, damping or transient claim is made."
+      ],
+      "oracle_type": "ANALYTICAL",
+      "oracle": "Closed-form frequencies 1.5915494309189535, 3.183098861837907 and 4.7746482927568605 Hz; mass orthogonality and eigen-residual are invariants.",
+      "tolerances": {
+        "max_relative_frequency_error": 1.0e-12,
+        "mass_orthogonality_error": 1.0e-12,
+        "max_relative_eigen_residual": 1.0e-12
+      },
+      "primary_metric": "max_relative_frequency_error",
+      "invariant_metric": "mass_orthogonality_error",
+      "residual_metric": "max_relative_eigen_residual",
+      "additional_metrics": {},
+      "replay_count": 2,
+      "replay_digests": [
+        "b279e5e8b121e1b9daf665adb666a1f939bd676d9074a789e8a5dece59265975",
+        "b279e5e8b121e1b9daf665adb666a1f939bd676d9074a789e8a5dece59265975"
+      ],
+      "observed": {
+        "max_relative_frequency_error": 0.0,
+        "mass_orthogonality_error": 0.0,
+        "max_relative_eigen_residual": 1.7975467359112705e-16,
+        "positive_frequency_count": 3
+      },
+      "analytic_reference_frequencies_hz": [1.5915494309189535, 3.183098861837907, 4.7746482927568605],
+      "observed_frequencies_hz": [1.5915494309189535, 3.183098861837907, 4.7746482927568605],
+      "exit_gate": "Technical evidence complete for the declared uncoupled translational route; explicit Owner confirmation is still required before public maturity promotion."
+    }
+  },
+  "routes": {
+    "BEAM2_NEWMARK": {
+      "source_record": "COMB-BEAM2-newmark_transient",
+      "source_wp01_disposition": "NEEDS_MAJOR_VNV",
+      "decision": "EXPERIMENTAL",
+      "oracle_required": "Independent time-history oracle with identical damping, integration parameters, time grid and sampled observables.",
+      "reason_not_closed": "No new WP03 external or analytical transient campaign was run."
+    },
+    "BEAM2_HARMONIC": {
+      "source_record": "COMB-BEAM2-harmonic",
+      "source_wp01_disposition": "NEEDS_MAJOR_VNV",
+      "decision": "EXPERIMENTAL",
+      "oracle_required": "Independent frequency-response oracle with declared excitation, damping, frequency grid, phase and amplitude comparison.",
+      "reason_not_closed": "No new WP03 independent harmonic campaign was run."
+    },
+    "DISCRETE_NEWMARK": {
+      "source_record": "COMB-DISCRETE-newmark_transient",
+      "source_wp01_disposition": "NEEDS_MAJOR_VNV",
+      "decision": "EXPERIMENTAL",
+      "oracle_required": "Analytical or independent SDOF/MDOF time-history oracle with declared damping and time grid.",
+      "reason_not_closed": "No new WP03 transient campaign was run."
+    },
+    "DISCRETE_HARMONIC": {
+      "source_record": "COMB-DISCRETE-harmonic",
+      "source_wp01_disposition": "NEEDS_MAJOR_VNV",
+      "decision": "EXPERIMENTAL",
+      "oracle_required": "Analytical or independent frequency-response oracle with declared phase and amplitude tolerances.",
+      "reason_not_closed": "No new WP03 independent harmonic campaign was run."
+    }
+  }
+}

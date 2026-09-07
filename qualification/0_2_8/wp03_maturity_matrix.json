@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP03-MATURITY-MATRIX",
+  "work_package": "WP03",
+  "applicable_version": "0.2.8-development",
+  "parent_baseline": "qualification/0_2_8/wp01_maturity_matrix.json",
+  "baseline_sha": "598704c834b4642f7c2a9a1fdc7595895f9e4130",
+  "status": "TECHNICAL_VNV_COMPLETE_OWNER_GATE_PENDING",
+  "public_maturity_policy": "No public maturity relabel is applied by this matrix; each bounded technical decision requires explicit Owner confirmation.",
+  "summary": {
+    "QUALIFIED_BOUNDED": 4,
+    "EXPERIMENTAL": 4,
+    "NOT_QUALIFIED": 0,
+    "public_maturity_relabels_applied": 0
+  },
+  "evidence_record": "qualification/0_2_8/wp03_beam2_discrete_vnv.json",
+  "decisions": [
+    {
+      "source_record": "COMB-BEAM2-linear_static",
+      "wp01_disposition": "NEEDS_MINOR_VNV",
+      "decision": "QUALIFIED_BOUNDED",
+      "public_maturity": "UNCHANGED_PENDING_OWNER",
+      "owner_gate": "PENDING"
+    },
+    {
+      "source_record": "COMB-BEAM2-modal",
+      "wp01_disposition": "NEEDS_MINOR_VNV",
+      "decision": "QUALIFIED_BOUNDED",
+      "public_maturity": "UNCHANGED_PENDING_OWNER",
+      "owner_gate": "PENDING"
+    },
+    {
+      "source_record": "COMB-BEAM2-newmark_transient",
+      "wp01_disposition": "NEEDS_MAJOR_VNV",
+      "decision": "EXPERIMENTAL",
+      "public_maturity": "UNCHANGED",
+      "owner_gate": "NOT_APPLICABLE"
+    },
+    {
+      "source_record": "COMB-BEAM2-harmonic",
+      "wp01_disposition": "NEEDS_MAJOR_VNV",
+      "decision": "EXPERIMENTAL",
+      "public_maturity": "UNCHANGED",
+      "owner_gate": "NOT_APPLICABLE"
+    },
+    {
+      "source_record": "COMB-DISCRETE-linear_static",
+      "wp01_disposition": "NEEDS_MINOR_VNV",
+      "decision": "QUALIFIED_BOUNDED",
+      "public_maturity": "UNCHANGED_PENDING_OWNER",
+      "owner_gate": "PENDING"
+    },
+    {
+      "source_record": "COMB-DISCRETE-modal",
+      "wp01_disposition": "NEEDS_MINOR_VNV",
+      "decision": "QUALIFIED_BOUNDED",
+      "public_maturity": "UNCHANGED_PENDING_OWNER",
+      "owner_gate": "PENDING"
+    },
+    {
+      "source_record": "COMB-DISCRETE-newmark_transient",
+      "wp01_disposition": "NEEDS_MAJOR_VNV",
+      "decision": "EXPERIMENTAL",
+      "public_maturity": "UNCHANGED",
+      "owner_gate": "NOT_APPLICABLE"
+    },
+    {
+      "source_record": "COMB-DISCRETE-harmonic",
+      "wp01_disposition": "NEEDS_MAJOR_VNV",
+      "decision": "EXPERIMENTAL",
+      "public_maturity": "UNCHANGED",
+      "owner_gate": "NOT_APPLICABLE"
+    }
+  ]
+}
