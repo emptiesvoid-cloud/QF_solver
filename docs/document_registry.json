@@ -5475,6 +5475,19 @@
   "tests": [
     "tests/verification/test_028_wp11b_owner_gate_final.py"
   ]
+},
+{
+  "id": "DOC-028-WP13-02A-READINESS-001",
+  "path": "verification/0_2_8/wp13_02a_dynamic_readiness.md",
+  "title": "QF Solver 0.2.8 WP13-02A mixed dynamics readiness",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp13_02a_readiness.json",
+    "qualification/0_2_8/wp13_02a_newmark_contract.json",
+    "qualification/0_2_8/wp13_02a_harmonic_contract.json"
+  ],
+  "tests": []
 }
   ]
   
