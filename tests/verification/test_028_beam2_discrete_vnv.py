@@ -290,11 +290,13 @@ def test_wp03_machine_evidence_declares_bounded_scope_and_decisions() -> None:
     assert all(case["owner_gate"] == "PENDING" for case in evidence["cases"].values())
     assert all(case["replay_count"] >= 2 for case in evidence["cases"].values())
     assert matrix["parent_baseline"] == "qualification/0_2_8/wp01_maturity_matrix.json"
+    assert matrix["status"] == "OWNER_GATE_FINALIZED"
+    assert matrix["owner_gate_record"] == "qualification/0_2_8/wp03_owner_gate_final.json"
     assert matrix["summary"] == {
-        "QUALIFIED_BOUNDED": 4,
-        "EXPERIMENTAL": 4,
+        "QUALIFIED_BOUNDED": 7,
+        "EXPERIMENTAL": 1,
         "NOT_QUALIFIED": 0,
-        "public_maturity_relabels_applied": 0,
+        "public_maturity_relabels_applied": 7,
     }
     assert len(matrix["decisions"]) == 8
 

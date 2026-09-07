@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP03-OWNER-GATE-FINAL",
+  "work_package": "WP03",
+  "applicable_version": "0.2.8-development",
+  "audited_commit": "6895576206e163cfb9999ba74f5b4cbf081b1c98",
+  "status": "CLOSED_WITH_ONE_EXPERIMENTAL_ROUTE",
+  "authorization": {
+    "source": "Explicit project-owner instruction in the associated task.",
+    "owner_identity": null,
+    "identity_note": "No personal identity or signature is inferred by this record."
+  },
+  "technical_evidence": [
+    {
+      "path": "qualification/0_2_8/wp03_beam2_discrete_vnv.json",
+      "sha256": "d7310af832f22d2e26b939a26a569d5d10de96d098d00fd9a6d53789239be0b6"
+    },
+    {
+      "path": "qualification/0_2_8/wp03b_dynamic_vnv.json",
+      "sha256": "bd66f8478e2cb68d4e386cc4c288cf691ffc644b9f0fce54093724e142591e58"
+    }
+  ],
+  "audit_checks": {
+    "predeclared_scope_and_tolerances": "PASS",
+    "analytical_oracle_validity_and_independence": "PASS_WITH_LIMITATIONS",
+    "convergence_amplitude_phase_and_energy_checks": "PASS_WITH_LIMITATIONS",
+    "deterministic_replays": "PASS",
+    "claim_scope_coherence": "PASS",
+    "opportunistic_numerical_core_change": "NOT_FOUND",
+    "targeted_non_regression": "PASS",
+    "historical_0_2_7_evidence_integrity": "PASS"
+  },
+  "decision_policy": "APPROVE_WITH_LIMITATIONS applies only to the exact declared analytical scope. It is a QUALIFIED_BOUNDED maturity action, never a general element, dynamic, damping, multi-DOF, nonlinear or external-correlation claim.",
+  "decisions": {
+    "BEAM2_STATIC": {
+      "owner_decision": "APPROVE_WITH_LIMITATIONS",
+      "promotion_applied": true,
+      "resulting_maturity": "QUALIFIED_BOUNDED",
+      "limitations": ["Straight constant-section isotropic small-displacement static BEAM2 only; releases, offsets, plasticity, contact, large rotations and dynamics remain excluded."]
+    },
+    "BEAM2_MODAL": {
+      "owner_decision": "APPROVE_WITH_LIMITATIONS",
+      "promotion_applied": true,
+      "resulting_maturity": "QUALIFIED_BOUNDED",
+      "limitations": ["Straight slender fixed-root undamped first-two-mode cantilever scope only; thick-beam, damping, joints, offsets and multi-body response remain excluded."]
+    },
+    "BEAM2_NEWMARK": {
+      "owner_decision": "APPROVE_WITH_LIMITATIONS",
+      "promotion_applied": true,
+      "resulting_maturity": "QUALIFIED_BOUNDED",
+      "limitations": ["One-element axial UX-only undamped free vibration with the declared Newmark parameters only; no general transient BEAM2 claim."]
+    },
+    "BEAM2_HARMONIC": {
+      "owner_decision": "APPROVE_WITH_LIMITATIONS",
+      "promotion_applied": true,
+      "resulting_maturity": "QUALIFIED_BOUNDED",
+      "limitations": ["One-element axial damped SDOF response on the declared seven-point frequency grid only; no general BEAM2 FRF claim."]
+    },
+    "DISCRETE_STATIC": {
+      "owner_decision": "APPROVE_WITH_LIMITATIONS",
+      "promotion_applied": true,
+      "resulting_maturity": "QUALIFIED_BOUNDED",
+      "limitations": ["Uncoupled translational linear ground springs and declared assembly invariant only; no rotational, oriented, nonlinear, gap or coupled claim."]
+    },
+    "DISCRETE_MODAL": {
+      "owner_decision": "APPROVE_WITH_LIMITATIONS",
+      "promotion_applied": true,
+      "resulting_maturity": "QUALIFIED_BOUNDED",
+      "limitations": ["Uncoupled translational spring-mass modes only; no rotational inertia, coupling, damping or transient claim."]
+    },
+    "DISCRETE_HARMONIC": {
+      "owner_decision": "APPROVE_WITH_LIMITATIONS",
+      "promotion_applied": true,
+      "resulting_maturity": "QUALIFIED_BOUNDED",
+      "limitations": ["Damped translational SDOF response on the declared seven-point frequency grid only; no general MDOF or alternate damping-model FRF claim."]
+    },
+    "DISCRETE_NEWMARK": {
+      "owner_decision": "REJECT",
+      "promotion_applied": false,
+      "resulting_maturity": "EXPERIMENTAL",
+      "rejected_gate": "coarse.max_phase_error_rad",
+      "observed_value_rad": 0.012895220110156203,
+      "predeclared_limit_rad": 0.012,
+      "limitations": ["The gate and coarse time grid are retained unchanged. No promotion is authorized."]
+    }
+  },
+  "final_matrix": "qualification/0_2_8/wp03_maturity_matrix.json",
+  "documentation": "docs/verification/0_2_8/wp03_owner_gate_final.md",
+  "summary": {
+    "approved_with_limitations": 7,
+    "rejected_promotions": 1,
+    "qualified_bounded_total": 7,
+    "experimental_total": 1,
+    "not_qualified_total": 0
+  }
+}

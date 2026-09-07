@@ -100,7 +100,9 @@ analytical oracles, tolerances, invariants, two replays and bounded decisions.
 The four dynamic routes were intentionally not decided by that WP03A record;
 their separate bounded analytical campaign is documented in
 [`WP03B dynamic V&V`](wp03b_dynamic_vnv.md). WP03B preserves every WP03A
-static/modal decision and applies no public maturity relabel.
+static/modal decision. The resulting bounded maturity decisions are recorded
+by the [`final WP03 Owner gate`](wp03_owner_gate_final.md): seven routes are
+`QUALIFIED_BOUNDED`; DISCRETE Newmark remains `EXPERIMENTAL`.
 
 ## Explicit boundaries
 

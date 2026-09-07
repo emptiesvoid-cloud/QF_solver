@@ -98,7 +98,7 @@ bounded technical gates. DISCRETE Newmark is intentionally retained as
 frozen `0.012 rad` limit. The tolerance and time grid were not adjusted after
 the result.
 
-No public maturity relabel is applied. The four WP03A decisions and the three
-passing WP03B decisions require their own explicit Owner confirmation. Seven
-bounded technical decisions are therefore candidates for Owner review; none
-is an automatic maturity promotion.
+The technical record retains its pre-Owner state. The final Owner decision is
+maintained separately in the
+[`final WP03 Owner gate`](wp03_owner_gate_final.md), so its frozen scope,
+tolérances and replay observations are not rewritten.
