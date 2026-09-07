@@ -127,3 +127,16 @@ The eight nonlinear combination records remain `KEEP_EXPERIMENTAL`: this WP
 does not expand nonlinear scope, finite-kinematic J2, friction, GPU or
 distributed nonlinear execution. No mixed-mesh, PYRAMID5, HEX8R, SRI, B-bar or
 hourglass production claim is created by WP01.
+
+## WP05 WEDGE6 static V&V
+
+WP05 closes the technical V&V campaign for the WEDGE6 linear-static candidate
+identified by WP01 as `NEEDS_MAJOR_VNV`. The bounded technical decision,
+predeclared contract, current replays, face-load checks, geometry failure
+paths and the audited Code_Aster evidence are recorded in
+[`WP05 WEDGE6 V&V`](wp05_wedge6_vnv.md), its
+[`machine-readable evidence`](../../../qualification/0_2_8/wp05_wedge6_vnv.json)
+and [`maturity delta`](../../../qualification/0_2_8/wp05_maturity_matrix.json).
+The decision is `QUALIFIED_BOUNDED` only as a technical candidate; the public
+maturity remains `EXPERIMENTAL` pending a separate Owner gate. Modal, Newmark
+and harmonic WEDGE6 routes are not promoted.
