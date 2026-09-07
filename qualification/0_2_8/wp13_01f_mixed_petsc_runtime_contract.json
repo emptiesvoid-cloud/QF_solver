@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "contract_id": "WP13-01F-MIXED-PETSC-RUNTIME-002",
+  "work_package": "WP13-01F",
+  "status": "PREDECLARED_OWNER_AUTHORIZED_NOT_EXECUTED",
+  "creation_sha": "9d578c71587fcc899aaa761fe9c57d6027ac013b",
+  "rationale": "This is a new, forward-only distributed-runtime contract. It does not supersede, amend or pass the failed WP13-01C contract or execution.",
+  "historical_records_preserved": [
+    "qualification/0_2_8/wp13_01c_runtime_contract.json",
+    "qualification/0_2_8/wp13_01c_runtime_execution.json",
+    "qualification/0_2_8/wp13_01d_runtime_diagnosis.json"
+  ],
+  "scope": {
+    "capability": "bounded PETSc/MPI assembly, solve, partition-invariance and replay evidence for a family-balanced mixed linear-static component bundle",
+    "analysis": "linear_static only",
+    "element_families": ["TET4", "WEDGE6", "HEX8"],
+    "interfaces": "conforming shared-node triangular TET4/WEDGE6 and quadrilateral WEDGE6/HEX8 interfaces only",
+    "materials": "homogeneous small-strain isotropic elasticity",
+    "ranks": [1, 2, 4],
+    "claim": "bounded runtime evidence only for configurations actually executed; no arbitrary connected-structure, general performance, modal, dynamic, nonlinear, contact, nonconforming, multi-material or production claim"
+  },
+  "benchmark": {
+    "id": "WP13-01F-FAMILY-MAJOR-MIXED-BUNDLE-001",
+    "source_template": "scripts/run_wp11_mixed_large.py::_make_model",
+    "selection_before_execution": true,
+    "topology": "A bundle of repeated, physically bounded 11-node conforming mixed components. Each component contains exactly one TET4, one WEDGE6 and one HEX8, one triangular and one quadrilateral mixed interface, seven fully fixed nodes and two Z loads of -0.5 N.",
+    "geometry": {
+      "component_coordinates": "The exact unit-scale coordinates and connectivity are those in scripts/run_wp11_mixed_large.py::_make_model; component c is translated by (0, 3*c, 0).",
+      "element_scale": "No coordinate is divided by the number of components; every component retains the unit template dimensions.",
+      "shape_requirement": "Positive-Jacobian unit template only; no scale-dependent thin-layer geometry is permitted.",
+      "components_are_mechanically_disconnected": true,
+      "why_this_is_acceptable": "The claim is restricted to distributed mixed runtime plumbing. Family-major ordering forces a declared fraction of actual TET4/WEDGE6 and WEDGE6/HEX8 interfaces across rank boundaries, while the small connected WP13-01C control remains required."
+    },
+    "partition_stress_order": {
+      "element_order": "all TET4 records by increasing component index, then all WEDGE6 records, then all HEX8 records; node numbering, connectivity, loads and fixed DOFs remain unchanged",
+      "partitioner": "existing deterministic contiguous generic partitioner",
+      "required_cross_rank_interface_fraction": {
+        "mpi_2": {"tet4_wedge6_min": 0.49, "wedge6_hex8_min": 0.49},
+        "mpi_4": {"tet4_wedge6_min": 0.99, "wedge6_hex8_min": 0.99}
+      },
+      "required_rank_content": "Every active rank must own at least one element and report its local family counts; all global family counts must be exact."
+    },
+    "material": {"type": "isotropic_3d", "E": 210000000000.0, "nu": 0.3, "density": 7800.0},
+    "boundary_conditions": "For each component, UX/UY/UZ are fixed at local nodes 0, 2, 3, 5, 6, 7 and 9.",
+    "loads": "For each component, apply UZ=-0.5 N at local nodes 4 and 10; the total applied Z load is -1 N per component.",
+    "stages": {
+      "control": {"components": 2, "dof": 66, "elements_by_family": {"TET4": 2, "WEDGE6": 2, "HEX8": 2}},
+      "stage_a": {"components": 3031, "dof": 100023, "elements_by_family": {"TET4": 3031, "WEDGE6": 3031, "HEX8": 3031}},
+      "stage_b": {"components": 9091, "dof": 300003, "elements_by_family": {"TET4": 9091, "WEDGE6": 9091, "HEX8": 9091}},
+      "stage_c": {"components": 30303, "dof": 999999, "elements_by_family": {"TET4": 30303, "WEDGE6": 30303, "HEX8": 30303}, "status": "OPTIONAL_RESOURCE_GATED"}
+    }
+  },
+  "oracles_and_comparisons": {
+    "control_oracle": "Existing serial GlobalAssembler mixed workflow on the identical 66-DOF input, compared to PETSc 1/2/4 ranks.",
+    "partition_oracle": "PETSc one-rank result on the exact same stage input, compared with PETSc MPI two and four rank results.",
+    "independence_limit": "This is a runtime-contract campaign, not an external FEM accuracy correlation. WP07 remains the bounded mixed static correctness evidence."
+  },
+  "predeclared_metrics_and_gates": {
+    "force_balance": {
+      "formula": "F_ext = sum(applied nodal load vectors); R = sum(reconstructed constrained reaction vectors); F_ref = max(norm_2(F_ext), 1 N); e_force = norm_2(R + F_ext) / F_ref; e_component = max_i(abs(R_i + F_ext_i)) / F_ref.",
+      "gate": "e_force <= 1e-10 AND e_component <= 1e-10",
+      "rationale": "The original relative force scale is retained rather than loosened. The additional component-wise value makes transverse closure explicit and prevents cancellation in a vector-only summary."
+    },
+    "free_residual_relative": {"formula": "norm_2(r_free) / max(norm_2(f_free), 1)", "gate": "<= 1e-10"},
+    "energy_identity_relative": {"formula": "abs(2*U - u^T*f) / max(abs(u^T*f), 1)", "gate": "<= 1e-10"},
+    "partition_invariance": {
+      "metrics": ["displacement_relative_l2", "reaction_relative_l2", "family_counts", "global_dof_count", "cross_rank_interface_fraction"],
+      "gates": "PETSc 1 versus MPI 2 and MPI 4: displacement_relative_l2 <= 1e-10, reaction_relative_l2 <= 1e-10, exact counts/DOF, and declared cross-rank interface fractions met."
+    },
+    "preallocation_and_memory": {
+      "metrics": ["per-rank PETSc.Mat.InfoType.LOCAL mallocs", "local/global nnz", "max RSS per rank", "runtime", "ghost counts", "structural global gather"],
+      "gate": "No structural gather of K, connectivity or element fields; allocator counters, runtime and memory are recorded, not tuned as numerical pass/fail thresholds."
+    }
+  },
+  "replay_contract": {
+    "policy": "USE_NUMERICAL_DETERMINISM_FOR_MPI",
+    "raw_bitwise_digest": "Recorded as diagnostic evidence only; it is not a pass/fail criterion because PETSc/MPI reductions and parallel factorizations do not provide a portable byte-ordering guarantee.",
+    "replays_required": 2,
+    "same_environment_and_input_required": true,
+    "gates": {
+      "same_input_digest": true,
+      "same_partition_digest": true,
+      "same_solver_convergence_status": true,
+      "iteration_difference": "0 for direct/preonly; <= 1 for iterative solvers",
+      "displacement_relative_l2": "<= 1e-12 using max(norm_2(reference), 1) denominator",
+      "reaction_relative_l2": "<= 1e-12 using max(norm_2(reference), 1) denominator",
+      "free_residual_relative_difference": "<= 1e-12",
+      "energy_relative_difference": "<= 1e-12"
+    },
+    "normalized_physics_digest": "Record a diagnostic digest after each vector is scaled by max(norm_inf(vector), 1e-30) and rounded to 12 decimal places. It does not replace the numerical vector gates."
+  },
+  "required_execution_order": [
+    "Validate the new geometry manifest, positive Jacobians, exact counts and interface classification before PETSc execution.",
+    "Run the 66-DOF serial/PETSc-1/MPI-2/MPI-4 control and partition comparisons.",
+    "Run Stage A on at least MPI 2 after all control gates pass.",
+    "Run two Stage-A replays before considering Stage B.",
+    "Run Stage B only after Stage A passes every gate.",
+    "Run Stage C only if Stage B passes and resources permit."
+  ],
+  "abort_criteria": [
+    "Any historical WP13-01C or WP13-01D record is altered or reclassified.",
+    "Any TET4, WEDGE6 or HEX8 family is absent, duplicated, or silently falls back to SciPy.",
+    "The geometry is not the frozen unit-scale WP11 template or does not meet its declared family/interface counts.",
+    "The family-major partition stress order or its cross-rank interface fractions is not achieved.",
+    "BC, loads, reactions, ownership, ghosts or global equilibrium fail their predeclared gates.",
+    "A structural global gather of K, connectivity or element fields is required.",
+    "Two replays fail the numerical-determinism contract.",
+    "Stage A fails; Stage B and Stage C must then remain unexecuted."
+  ],
+  "non_goals": [
+    "No claim that disconnected components demonstrate arbitrary connected-structure scalability.",
+    "No numerical formulation, element, maturity or 0.2.7 evidence change.",
+    "No modal, Newmark, harmonic, nonlinear, contact, GPU, external-correlation or release claim.",
+    "No retroactive pass or gate change for WP13-01C."
+  ],
+  "owner_gate": {"required_after_execution": true, "allowed_decisions": ["PASS_1M", "PASS_SUBMILLION", "FAIL_RUNTIME", "BLOCKED_ENVIRONMENT"]}
+}
