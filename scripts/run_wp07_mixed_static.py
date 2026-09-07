@@ -435,7 +435,7 @@ def _failure_contract(model: FiniteElementModel) -> dict[str, object]:
         nodes=model.nodes.tolist(),
         elements=[
             *[{"type": item.type, "nodes": list(item.nodes), "material": item.material} for item in model.elements],
-            {"type": "PYRAMID5", "nodes": [0, 1, 2, 3, 6], "material": "solid"},
+            {"type": "WEDGE15", "nodes": [0, 1, 2, 3, 4, 5], "material": "solid"},
         ],
         materials={"solid": dict(MATERIAL)},
         fixed_dofs=_fixed_rows(model),

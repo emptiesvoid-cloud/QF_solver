@@ -51,4 +51,6 @@ def test_candidate_families_are_not_active_descriptors() -> None:
     assert '"WEDGE15"' not in descriptors
     assert '"PYRAMID5"' not in descriptors
     assert '"WEDGE15"' not in element_registry
-    assert '"PYRAMID5"' not in element_registry
+    # WP09 may register an internal PYRAMID5 feasibility kernel. It remains
+    # absent from the public compatibility descriptor, preserving the 0.2.7
+    # historical scope decision without making the new kernel public.

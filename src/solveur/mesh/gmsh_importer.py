@@ -23,12 +23,13 @@ from solveur.mesh.topology import (
     TET10_FACES,
     TET4_FACES,
     WEDGE6_FACES,
+    PYRAMID5_FACES,
 )
 from solveur.mesh.validation import MeshValidator
 from solveur.version import DISPLAY_NAME, __version__
 
 
-SUPPORTED_FAMILIES = {"TET4", "TET10", "HEX8", "HEX20", "WEDGE6", "MITC3", "MITC4"}
+SUPPORTED_FAMILIES = {"TET4", "TET10", "HEX8", "HEX20", "WEDGE6", "PYRAMID5", "MITC3", "MITC4"}
 SUPPORTED_ACTIONS = {
     "elements",
     "fixed_dofs",
@@ -263,7 +264,7 @@ def _element_assignments(
             selected_families.add(family)
             if len(selected_families) > 1 and not (
                 selected_families.issubset({"MITC3", "MITC4"})
-                or selected_families.issubset({"TET4", "TET10", "HEX8", "HEX20", "WEDGE6"})
+                or selected_families.issubset({"TET4", "TET10", "HEX8", "HEX20", "WEDGE6", "PYRAMID5"})
             ):
                 raise MeshValidationError(
                     "Mixed imported families must be all shells or all 3D solids: "
@@ -289,7 +290,7 @@ def _element_assignments(
             "Structural cells are not assigned to a material: "
             f"{missing[:8]} (families={sorted(selected_families)})"
         )
-    if all(family.startswith("TET") or family in {"HEX8", "HEX20", "WEDGE6"} for family in selected_families):
+    if all(family.startswith("TET") or family in {"HEX8", "HEX20", "WEDGE6", "PYRAMID5"} for family in selected_families):
         unsupported = [cell.tag for cell in mesh.cells.values() if cell.dimension == 3 and cell.tag not in candidates]
     else:
         unsupported = [cell.tag for cell in mesh.cells.values() if cell.dimension == 2 and cell.tag not in candidates]
@@ -345,6 +346,15 @@ def _oriented_connectivities(
                 )
             except ValueError as exc:
                 raise MeshValidationError(f"Gmsh WEDGE6 {tag} has invalid orientation or Jacobian: {exc}") from exc
+        if family == "PYRAMID5":
+            from solveur.elements.solid.pyramid5 import Pyramid5Element
+
+            try:
+                Pyramid5Element.validate_geometry(
+                    np.asarray([mesh.nodes[node] for node in connectivity], dtype=float)
+                )
+            except ValueError as exc:
+                raise MeshValidationError(f"Gmsh PYRAMID5 {tag} has invalid orientation or Jacobian: {exc}") from exc
         connectivities[tag] = tuple(connectivity)
     return connectivities, repairs
 
@@ -471,7 +481,7 @@ def _solid_face_map(
     element_index: dict[int, int],
 ) -> dict[frozenset[int], list[tuple[int, int]]]:
     family_set = set(families.values())
-    if not family_set or not family_set.issubset({"TET4", "TET10", "HEX8", "HEX20", "WEDGE6"}):
+    if not family_set or not family_set.issubset({"TET4", "TET10", "HEX8", "HEX20", "WEDGE6", "PYRAMID5"}):
         return {}
     mapping: dict[frozenset[int], list[tuple[int, int]]] = defaultdict(list)
     for tag, connectivity in connectivities.items():
@@ -486,6 +496,8 @@ def _solid_face_map(
             else HEX20_FACES
             if family == "HEX20"
             else WEDGE6_FACES
+            if family == "WEDGE6"
+            else PYRAMID5_FACES
         )
         for face, local_nodes in enumerate(faces):
             mapping[frozenset(connectivity[index] for index in local_nodes)].append((element_index[tag], face))
@@ -530,6 +542,8 @@ def _surface_targets(
             *(8 for family in family_set if family == "HEX20"),
             *(3 for family in family_set if family == "WEDGE6"),
             *(4 for family in family_set if family == "WEDGE6"),
+            *(3 for family in family_set if family == "PYRAMID5"),
+            *(4 for family in family_set if family == "PYRAMID5"),
         }
         if len(cell.nodes) not in allowed_face_sizes:
             raise MeshValidationError(
@@ -589,6 +603,8 @@ def _cell_family(cell: Any) -> str | None:
         return "HEX20"
     if cell.dimension == 3 and "prism" in name and cell.order == 1 and len(cell.nodes) == 6:
         return "WEDGE6"
+    if cell.dimension == 3 and "pyramid" in name and cell.order == 1 and len(cell.nodes) == 5:
+        return "PYRAMID5"
     if cell.dimension == 2 and ("quad" in name) and cell.order == 1 and len(cell.nodes) == 4:
         return "MITC4"
     if cell.dimension == 2 and ("triangle" in name or "tri" in name) and cell.order == 1 and len(cell.nodes) == 3:

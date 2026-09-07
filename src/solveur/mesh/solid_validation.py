@@ -8,6 +8,7 @@ import numpy as np
 
 from solveur.elements.solid.hex20 import Hex20Element
 from solveur.elements.solid.hex8 import Hex8Element
+from solveur.elements.solid.pyramid5 import Pyramid5Element
 from solveur.mesh.quality import MeshQuality
 from solveur.mesh.quality_contract import assess_element, wedge6_jacobian_certificate
 
@@ -60,7 +61,7 @@ def geometry_error(index: int, element_type: str, coords: np.ndarray) -> str | N
         except (TypeError, ValueError, np.linalg.LinAlgError) as exc:
             return f"Element {index}: invalid WEDGE6 geometry: {exc}"
         return None
-    element = {"HEX8": Hex8Element, "HEX20": Hex20Element}.get(element_type)
+    element = {"HEX8": Hex8Element, "HEX20": Hex20Element, "PYRAMID5": Pyramid5Element}.get(element_type)
     if element is None:
         return None
     try:
@@ -77,5 +78,7 @@ def maximum_surface_face(element_type: str) -> int | None:
     if element_type in {"TET4", "TET10"}:
         return 3
     if element_type == "WEDGE6":
+        return 4
+    if element_type == "PYRAMID5":
         return 4
     return None
