@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP13-01C2-OWNER-GATE",
+  "work_package": "WP13-01C2",
+  "audited_commit": "d8da13c78d34e8b06a996561d510f0d8efc44d9a",
+  "status": "REQUIRE_CONNECTED_CONFIRMATION",
+  "authorization": {
+    "source": "Explicit project-owner instruction in the associated task.",
+    "owner_identity": null,
+    "identity_note": "No personal identity or signature is inferred by this record."
+  },
+  "contract_audit": {
+    "contract_id": "WP13-01F-MIXED-PETSC-RUNTIME-002",
+    "contract_path": "qualification/0_2_8/wp13_01f_mixed_petsc_runtime_contract.json",
+    "contract_git_blob_sha1": "bb14d280e7052daa2aa42e051ae53d794cba3f67",
+    "valid": true,
+    "unchanged": true,
+    "gates_passed": "YES within the frozen disconnected-bundle scope"
+  },
+  "campaign_audit": {
+    "execution_record": "qualification/0_2_8/wp13_01c2_runtime_execution.json",
+    "execution_git_blob_sha1": "a404d1d3ff529e627ecb809cb4df720fb32371a8",
+    "small_66_dof": "PASS at serial, PETSc-1, MPI-2 and MPI-4",
+    "stage_a_100023_dof": "PASS at PETSc-1, MPI-2 and MPI-4",
+    "stage_b_300003_dof": "PASS at MPI-2 and MPI-4",
+    "stage_c_999999_dof": "PASS at MPI-2",
+    "partition_invariance": "PASS",
+    "replay": "PASS numerical determinism; two Stage-C MPI-2 replays",
+    "one_m_run_valid": true,
+    "structural_global_gather": "NOT_PRESENT",
+    "reallocations": 0,
+    "family_counts_at_1m": {
+      "TET4": 30303,
+      "WEDGE6": 30303,
+      "HEX8": 30303
+    }
+  },
+  "benchmark_audit": {
+    "connected": false,
+    "topology": "Mechanically disconnected, repeated unit-scale TET4/WEDGE6/HEX8 component bundle; global stiffness is block diagonal.",
+    "cross_rank_interfaces_real": true,
+    "cross_rank_interface_evidence": "Family-major ordering produces measured TET4/WEDGE6 and WEDGE6/HEX8 shared-node interface fractions at MPI-2 and MPI-4; ghost synchronization is exercised.",
+    "bc_load_reaction_evidence": "PASS for the frozen component bundle; each component has fixed nodes and applied loads with reaction reconstruction and equilibrium checks.",
+    "representativeness": "Valid for distributed mixed runtime plumbing and the frozen synthetic bundle; insufficient for connected mixed scalability or general solver difficulty.",
+    "solver_difficulty_representative": false,
+    "preallocation_representativeness": "Exact preallocation and zero reallocations are valid for this repeated topology but do not establish arbitrary connected sparsity behavior.",
+    "performance_interpretation": "The direct solve reports one iteration and therefore does not exercise distributed Krylov/preconditioner convergence or long-range connected coupling."
+  },
+  "decision": {
+    "owner_decision": "REQUIRE_CONNECTED_CONFIRMATION",
+    "allowed_runtime_plumbing_claim": "BOUNDED_MIXED_PETSC_MPI_1M_RUNTIME_PLUMBING_ONLY",
+    "claim_exact_text": "Bounded synthetic PETSc/MPI mixed runtime-plumbing evidence for the frozen unit-scale disconnected TET4/WEDGE6/HEX8 component bundle: linear static, 999999 DOF, MPI-2, qf-solver-large:0.2.0, PETSc 3.25.1, MPICH 5.0.1. This is not evidence for arbitrary connected mixed models, general 1M scalability, industrial models, or production use.",
+    "full_bounded_mixed_1m_claim": "NOT_CLOSED",
+    "connected_confirmation_required": true,
+    "connected_confirmation_scope": "A separately predeclared connected mixed TET4/WEDGE6/HEX8 benchmark at small or intermediate scale, with real cross-rank connected coupling and gates for distributed assembly, BC/load/reaction handling, equilibrium, residual, energy, partition invariance and replay.",
+    "limitations": [
+      "Mechanically disconnected block-diagonal component bundle.",
+      "MPI-2 only at 999999 DOF.",
+      "Direct solve with one iteration; no distributed Krylov/preconditioner evidence.",
+      "One frozen environment and one observed Stage-C timing; no general performance claim.",
+      "No connected long-range coupling evidence and no arbitrary connected-model claim.",
+      "Root/result solution exchange remains allowed for post-processing only; no structural K/connectivity/element-field gather."
+    ]
+  },
+  "observed_1m_evidence": {
+    "scalability": "Real capacity evidence for the frozen synthetic bundle, not general mixed-model scalability.",
+    "memory": "2139.22 MB/rank peak on MPI-2.",
+    "performance": "115.62 s for one Stage-C MPI-2 run; informative observation only."
+  },
+  "historical_integrity": {
+    "wp13_01c_contract": {
+      "path": "qualification/0_2_8/wp13_01c_runtime_contract.json",
+      "git_blob_sha1": "e65b7bcb48a882e99ebb31615e8aa10d110cb655",
+      "preserved": true
+    },
+    "wp13_01c_execution": {
+      "path": "qualification/0_2_8/wp13_01c_runtime_execution.json",
+      "git_blob_sha1": "bbd925c5ddb372b8f8c967c4d9aea8bc767da0af",
+      "preserved": true
+    },
+    "wp13_01d_diagnosis": {
+      "path": "qualification/0_2_8/wp13_01d_runtime_diagnosis.json",
+      "git_blob_sha1": "2bfd940741dbf92ab408ba4e17806ede149e834a",
+      "preserved": true
+    },
+    "wp13_01c_fail_runtime_preserved": true,
+    "historical_stage_a_equilibrium_fail_preserved": true,
+    "historical_raw_bitwise_replay_fail_preserved": true,
+    "historical_0_2_7_evidence_changed": false
+  },
+  "integrity": {
+    "gates_changed": false,
+    "numerical_source_changed": false,
+    "formulation_changed": false,
+    "benchmark_changed_after_results": false,
+    "maturity_changed": false,
+    "claims_bounded": true,
+    "evidence_integrity": "PASS"
+  },
+  "validation": {
+    "targeted_checks": [
+      "JSON parse",
+      "execution/contract coherence",
+      "campaign and historical blob hash checks",
+      "no modification under qualification/0_2_7",
+      "no modification under src/"
+    ],
+    "full_test_suite": "DEFERRED_TO_WP13_FINAL_GATE"
+  },
+  "next_step": "Predeclare and execute a connected mixed confirmation campaign before closing the general WP13-01 runtime claim; do not modify WP13-01C/C2 records or their frozen gates."
+}
