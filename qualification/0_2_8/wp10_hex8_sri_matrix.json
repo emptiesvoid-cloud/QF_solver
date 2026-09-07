@@ -12,6 +12,8 @@
     "No general patch-force, industrial external-correlation or production performance claim is made."
   ],
   "owner_gate_required": true,
+  "owner_decision": "APPROVE_EXPERIMENTAL_BOUNDED",
+  "public_exposure": "EXPERIMENTAL_BOUNDED as a separate documented research capability; no maturity promotion of standard HEX8",
   "proposed_maturity": "EXPERIMENTAL_BOUNDED_CANDIDATE",
   "public_promotion": false,
   "record_id": "QF-028-WP10-HEX8-SRI-MATRIX",

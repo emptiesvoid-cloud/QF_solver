@@ -288,6 +288,8 @@ reduction on both declared bending families, with passing rank, rigid-body,
 symmetry, energy, geometry and replay gates. The result is
 `EXPERIMENTAL_BOUNDED_CANDIDATE`, not `QUALIFIED_BOUNDED`. A diagnostic
 affine nodal-force action difference remains, so no general patch-force or
-production accuracy claim is made. SRI is not in the public registry or
-compatibility descriptor; HEX8 standard and all prior WP01–WP09 records remain
-unchanged. No WP11 large mixed workflow is started.
+production accuracy claim is made. The Owner gate records
+`APPROVE_EXPERIMENTAL_BOUNDED` as a separate documented research capability;
+SRI is not added to the 46 element-analysis combinations and does not replace
+standard HEX8. HEX8 standard and all prior WP01–WP09 records remain unchanged.
+No WP11 large mixed workflow is started.
