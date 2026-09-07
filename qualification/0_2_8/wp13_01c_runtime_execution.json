@@ -1,0 +1,135 @@
+{
+  "schema_version": 1,
+  "record_type": "WP13-01C-RUNTIME-EXECUTION",
+  "parent_contract": "qualification/0_2_8/wp13_01c_runtime_contract.json",
+  "source": {
+    "start_sha": "89c4bab9f0975f7dc5743e5756123bde59bf037f",
+    "runner_sha": "75a8f964427d09eba183ebbc82368b48ae30ec29",
+    "formulation_source_changed": false,
+    "historical_0_2_7_evidence_changed": false,
+    "maturity_changed": false
+  },
+  "environment": {
+    "container_image": "qf-solver-large:0.2.0",
+    "container_digest": "sha256:9efd68c16474925744fabf507c9de6018b71738887921e27e53701bd22ae45de",
+    "python": "3.12.3",
+    "petsc4py": "3.25.1",
+    "petsc": "3.25.1",
+    "mpi4py": "4.1.2",
+    "mpi": "MPICH 5.0.1",
+    "launcher": "mpiexec",
+    "available_ranks": [1, 2, 4]
+  },
+  "predeclared_gates": {
+    "unchanged": true,
+    "displacement_relative_l2": 1.0e-10,
+    "reaction_relative_l2": 1.0e-10,
+    "free_residual_relative_l2": 1.0e-10,
+    "equilibrium_relative": 1.0e-10,
+    "energy_relative": 1.0e-10,
+    "replay_digest_difference": 0
+  },
+  "small_case": {
+    "status": "PASS",
+    "dof": 33,
+    "element_counts": {"TET4": 1, "WEDGE6": 1, "HEX8": 1},
+    "serial": {
+      "status": "PASS",
+      "runtime_seconds": 0.013338744000066072,
+      "iterations": "direct",
+      "free_residual_relative": 1.2230794959180354e-16,
+      "equilibrium_relative": 1.3737395435328754e-16,
+      "energy_identity_relative": 5.551115123125783e-17
+    },
+    "petsc_1_rank": {
+      "status": "PASS",
+      "runtime_seconds": 0.014083778999975038,
+      "iterations": 1,
+      "free_residual_relative": 4.1706664646925014e-17,
+      "equilibrium_relative": 1.544284881377707e-17,
+      "energy_identity_relative": 0.0,
+      "ghost_nodes": 0
+    },
+    "mpi_2_ranks": {
+      "status": "PASS",
+      "runtime_seconds": 0.04595591800011789,
+      "iterations": 1,
+      "free_residual_relative": 9.691753056203893e-17,
+      "equilibrium_relative": 1.3035264684047955e-16,
+      "energy_identity_relative": 0.0,
+      "ghost_nodes": 4
+    },
+    "mpi_4_ranks": {
+      "status": "PASS",
+      "runtime_seconds": 0.04378021299999091,
+      "iterations": 1,
+      "free_residual_relative": 1.4265874227982477e-16,
+      "equilibrium_relative": 3.937169372345623e-17,
+      "energy_identity_relative": 5.551115123125783e-17,
+      "ghost_nodes": 7
+    },
+    "serial_comparison_max": {
+      "displacement_relative_l2": 5.003184315091735e-16,
+      "reaction_relative_l2": 1.7815067499676875e-16,
+      "partition_invariance": "PASS"
+    }
+  },
+  "stage_a": {
+    "status": "FAIL_GATE",
+    "dof": 49998,
+    "ranks": 2,
+    "element_counts": {"TET4": 1, "WEDGE6": 3332, "HEX8": 3332},
+    "runtime_seconds": 9.600869921999902,
+    "iterations": 1,
+    "free_residual_relative": 2.6397081880474557e-11,
+    "equilibrium_relative": 6.794908928102695e-10,
+    "energy_identity_relative": 2.1116441928370477e-13,
+    "peak_memory_mb_max_rank": 236.97265625,
+    "preallocation": "exact_connectivity_pattern_declared; MatGetInfo malloc counter unavailable in this MPI image",
+    "failure": "equilibrium_relative 6.794908928102695e-10 exceeds predeclared 1.0e-10 gate"
+  },
+  "stage_b": {"dof": null, "status": "NOT_RUN_STAGE_A_GATE_FAILED"},
+  "stage_c": {"dof": null, "status": "NOT_RUN_STAGE_A_GATE_FAILED"},
+  "replays": {
+    "case": "small",
+    "ranks": 4,
+    "count": 2,
+    "physical_status": "PASS_WITHIN_PREDECLARED_GATES",
+    "raw_bitwise_digest_equal": false,
+    "max_displacement_absolute_difference": 5.561777322626824e-22,
+    "displacement_relative_difference": 1.0322631711803803e-21,
+    "reaction_relative_difference": 1.157250766984817e-16,
+    "residual_relative_difference": 2.262689465171461e-16,
+    "energy_absolute_difference": 5.551115123125783e-17,
+    "status": "FAIL_BITWISE_DIGEST_GATE"
+  },
+  "runtime_observations": {
+    "mixed_dispatch": "PASS",
+    "distributed_assembly": "PASS",
+    "bc_distribution": "PASS_SMALL",
+    "load_distribution": "PASS_SMALL",
+    "reaction_reconstruction": "PASS_SMALL; stage A physical equilibrium gate failed",
+    "structural_global_gather": "NOT_PRESENT",
+    "result_only_solution_scatter": "PRESENT_FOR_REACTION_POSTPROCESSING",
+    "matrix_malloc_counter": "NOT_CAPTURED_DUE_TO_MPI_ABI_MATGETINFO_FAILURE",
+    "memory": "captured as max RSS per rank"
+  },
+  "commands": [
+    "docker run qf-solver-large:0.2.0 python3 scripts/run_wp13_01c_runtime.py --case small --backend serial",
+    "docker run qf-solver-large:0.2.0 python3 scripts/run_wp13_01c_runtime.py --case small --backend petsc --pc-type lu",
+    "docker run qf-solver-large:0.2.0 mpiexec -n 2 python3 scripts/run_wp13_01c_runtime.py --case small --backend petsc --pc-type lu",
+    "docker run qf-solver-large:0.2.0 mpiexec -n 4 python3 scripts/run_wp13_01c_runtime.py --case small --backend petsc --pc-type lu",
+    "docker run qf-solver-large:0.2.0 mpiexec -n 2 python3 scripts/run_wp13_01c_runtime.py --case stage-a --backend petsc --pc-type lu"
+  ],
+  "decision": {
+    "status": "FAIL_RUNTIME",
+    "largest_validated_dof": 33,
+    "largest_validated_ranks": 4,
+    "stage_b_c_blocked_by": "stage A equilibrium gate",
+    "blockers": [
+      "The required ~50k-150k DOF stage does not satisfy the fixed equilibrium gate.",
+      "The two 4-rank replays are numerically equivalent within gates but not bitwise digest-identical.",
+      "PETSc MatGetInfo malloc counters are unavailable in the pinned image MPI ABI; no zero-reallocation claim is made."
+    ]
+  }
+}
