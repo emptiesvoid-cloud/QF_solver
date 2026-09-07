@@ -186,6 +186,21 @@ def _resultant(model: FiniteElementModel, vector: np.ndarray, *, fixed_only: boo
     return np.asarray([math.fsum(values) for values in components], dtype=float)
 
 
+def _fixed_resultant(model: FiniteElementModel, fixed: np.ndarray, values: np.ndarray) -> np.ndarray:
+    """Return an accurately summed XYZ resultant for a fixed-DOF vector."""
+
+    dofs = model.dof_manager()
+    component_for_dof = {
+        dofs.index(node, name): component
+        for node in range(len(model.nodes))
+        for component, name in enumerate(("UX", "UY", "UZ"))
+    }
+    components: list[list[float]] = [[], [], []]
+    for dof, value in zip(fixed, values, strict=True):
+        components[component_for_dof[int(dof)]].append(float(value))
+    return np.asarray([math.fsum(component) for component in components], dtype=float)
+
+
 def _digest_vectors(*vectors: np.ndarray) -> str:
     digest = hashlib.sha256()
     for vector in vectors:
@@ -324,7 +339,7 @@ def _reconstruct_reactions(
     model: FiniteElementModel,
     comm: Any,
     petsc: Any,
-) -> np.ndarray:
+) -> tuple[np.ndarray, dict[str, Any] | None]:
     """Reduce element internal forces on constrained DOFs only.
 
     The solution scatter is a result/post-processing exchange.  No matrix,
@@ -349,7 +364,21 @@ def _reconstruct_reactions(
 
     reaction = np.zeros_like(local_values)
     comm.Allreduce(local_values, reaction, op=MPI.SUM)
-    return reaction
+    rank_vectors = comm.gather(local_values, root=0)
+    rank_resultants = comm.gather(_fixed_resultant(model, fixed, local_values), root=0)
+    if comm.Get_rank() != 0:
+        return reaction, None
+    assert rank_vectors is not None and rank_resultants is not None
+    ordered_reaction = np.asarray(
+        [math.fsum(float(values[position]) for values in rank_vectors) for position in range(fixed.size)],
+        dtype=float,
+    )
+    return reaction, {
+        "rank_fixed_reaction_resultants": [values.tolist() for values in rank_resultants],
+        "mpi_allreduce_resultant": _fixed_resultant(model, fixed, reaction).tolist(),
+        "rank_ordered_fsum_resultant": _fixed_resultant(model, fixed, ordered_reaction).tolist(),
+        "mpi_allreduce_vs_rank_ordered_fsum_max_abs": float(np.max(np.abs(reaction - ordered_reaction))),
+    }
 
 
 def _petsc_row_pattern(generic: GenericDistributedModel, row_start: int, row_stop: int) -> tuple[np.ndarray, np.ndarray]:
@@ -374,7 +403,13 @@ def _petsc_row_pattern(generic: GenericDistributedModel, row_start: int, row_sto
     return diag, offdiag
 
 
-def _petsc_run(model: FiniteElementModel, pc_type: str, ksp_type: str) -> dict[str, Any] | None:
+def _petsc_run(
+    model: FiniteElementModel,
+    pc_type: str,
+    ksp_type: str,
+    residual_refinement_steps: int,
+    include_vectors: bool,
+) -> dict[str, Any] | None:
     from mpi4py import MPI
     from petsc4py import PETSc
 
@@ -406,18 +441,23 @@ def _petsc_run(model: FiniteElementModel, pc_type: str, ksp_type: str) -> dict[s
         matrix.setValues(rows, rows, contribution.stiffness, addv=PETSc.InsertMode.ADD_VALUES)
         contributions.append(contribution)
     matrix.assemble()
-    # MatGetInfo is collective on this PETSc build and is not reliable through
-    # the image's mixed MPI ABI.  Keep the preallocation contract explicit and
-    # report runtime malloc counters as unavailable rather than guessing.
+    # The PETSc global MatGetInfo reduction is not reliable through this image's
+    # MPICH ABI.  The LOCAL query is available on every rank; aggregate those
+    # values with mpi4py rather than invoking PETSc's failing global path.
+    local_matrix_info = {key: float(value) for key, value in matrix.getInfo(PETSc.Mat.InfoType.LOCAL).items()}
+    matrix_info_by_rank = comm.gather(local_matrix_info, root=0)
 
     rhs = matrix.createVecRight()
     rhs.set(0.0)
     node_owner = partitions[0].node_owner
     dofs = model.dof_manager()
+    local_load_resultant = np.zeros(3, dtype=float)
     for load in model.loads:
         if int(node_owner[int(load.node)]) == rank:
             rhs.setValue(dofs.index(load.node, load.dof), float(load.value), addv=PETSc.InsertMode.ADD_VALUES)
+            local_load_resultant[("UX", "UY", "UZ").index(load.dof)] += float(load.value)
     rhs.assemble()
+    rank_load_resultants = comm.gather(local_load_resultant, root=0)
     rhs_original = rhs.duplicate()
     rhs.copy(rhs_original)
 
@@ -486,7 +526,7 @@ def _petsc_run(model: FiniteElementModel, pc_type: str, ksp_type: str) -> dict[s
         # the global reaction resultant can lose digits when physical forces
         # are reconstructed from large stiffness coefficients.  Correct only
         # the algebraic residual, leaving the FE matrix and all gates fixed.
-        for _ in range(2):
+        for _ in range(residual_refinement_steps):
             correction_rhs = internal.duplicate()
             internal.copy(correction_rhs)
             correction_rhs.axpy(-1.0, rhs_original)
@@ -517,13 +557,14 @@ def _petsc_run(model: FiniteElementModel, pc_type: str, ksp_type: str) -> dict[s
     max_runtime = float(comm.allreduce(runtime, op=MPI.MAX))
     max_memory = float(comm.allreduce(float(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss) / 1024.0, op=MPI.MAX))
     ghost_nodes_global_sum = int(comm.allreduce(partition.ghost_node_ids.size, op=MPI.SUM))
-    reconstructed_reactions = _reconstruct_reactions(solution, contributions, model, comm, PETSc)
+    reconstructed_reactions, reaction_diagnostics = _reconstruct_reactions(solution, contributions, model, comm, PETSc)
     displacement = _petsc_vec_gather(solution, comm, ndof)
     residual_values = _petsc_vec_gather(residual, comm, ndof)
     loads = _petsc_vec_gather(rhs_original, comm, ndof)
     if rank != 0:
         return None
     assert displacement is not None and residual_values is not None and loads is not None
+    assert matrix_info_by_rank is not None and rank_load_resultants is not None and reaction_diagnostics is not None
     residual_values[_fixed_indices(model)] = reconstructed_reactions
     result = _metrics(
         model,
@@ -540,7 +581,7 @@ def _petsc_run(model: FiniteElementModel, pc_type: str, ksp_type: str) -> dict[s
             "backend": "petsc_mixed_distributed",
             "rank_count": size,
             "matrix_nnz": None,
-            "reallocations": "NOT_CAPTURED_MATGETINFO_MPI_ABI",
+            "reallocations": float(math.fsum(info["mallocs"] for info in matrix_info_by_rank)),
             "ghost_nodes_local": int(partition.ghost_node_ids.size),
             "ghost_nodes_global_sum": ghost_nodes_global_sum,
             "global_gather_present": False,
@@ -549,7 +590,14 @@ def _petsc_run(model: FiniteElementModel, pc_type: str, ksp_type: str) -> dict[s
                 "strategy": "global_connectivity_exact_for_PETSc_owned_rows",
                 "diag_nnz_sum": int(np.sum(diag, dtype=np.int64)),
                 "offdiag_nnz_sum": int(np.sum(offdiag, dtype=np.int64)),
-                "matrix_mallocs": "NOT_CAPTURED_MATGETINFO_MPI_ABI",
+                "matgetinfo": {
+                    "query": "PETSc.Mat.InfoType.LOCAL per rank; mpi4py aggregation",
+                    "global_petsc_query": "NOT_USED_MPICH_ABI_UNRELIABLE",
+                    "by_rank": matrix_info_by_rank,
+                    "mallocs_sum": float(math.fsum(info["mallocs"] for info in matrix_info_by_rank)),
+                    "nz_used_sum": float(math.fsum(info["nz_used"] for info in matrix_info_by_rank)),
+                    "nz_allocated_sum": float(math.fsum(info["nz_allocated"] for info in matrix_info_by_rank)),
+                },
             },
             "solver_scaling": {
                 "type": "uniform_plus_symmetric_diagonal",
@@ -559,14 +607,22 @@ def _petsc_run(model: FiniteElementModel, pc_type: str, ksp_type: str) -> dict[s
             },
             "linear_solves": int(1 + refinement_steps),
             "residual_refinement_steps": refinement_steps,
+            "reaction_diagnostics": reaction_diagnostics,
+            "load_diagnostics": {
+                "rank_external_load_resultants": [values.tolist() for values in rank_load_resultants],
+                "rank_ordered_fsum_resultant": np.asarray(
+                    [math.fsum(float(values[index]) for values in rank_load_resultants) for index in range(3)],
+                    dtype=float,
+                ).tolist(),
+            },
             "family_counts": generic.element_counts(),
             "local_family_counts": partition.element_counts,
             "local_owned_nodes": int(partition.owned_node_ids.size),
             "local_ghost_nodes": int(partition.ghost_node_ids.size),
-            "displacement": displacement.tolist() if ndof <= 1000 else None,
-            "reaction_vector": residual_values[_fixed_indices(model)].tolist() if ndof <= 1000 else None,
-            "residual": residual_values.tolist() if ndof <= 1000 else None,
-            "loads": loads.tolist() if ndof <= 1000 else None,
+            "displacement": displacement.tolist() if include_vectors or ndof <= 1000 else None,
+            "reaction_vector": residual_values[_fixed_indices(model)].tolist() if include_vectors or ndof <= 1000 else None,
+            "residual": residual_values.tolist() if include_vectors or ndof <= 1000 else None,
+            "loads": loads.tolist() if include_vectors or ndof <= 1000 else None,
         }
     )
     return result
@@ -579,6 +635,8 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--segments", type=int, default=None)
     parser.add_argument("--pc-type", default="jacobi")
     parser.add_argument("--ksp-type", default="auto")
+    parser.add_argument("--residual-refinement-steps", type=int, default=2)
+    parser.add_argument("--include-vectors", action="store_true")
     parser.add_argument("--output", type=Path, default=None)
     return parser.parse_args()
 
@@ -591,7 +649,15 @@ def main() -> int:
             raise SystemExit("serial backend is only defined for the 33-DOF reference case")
         result = _serial_run(model)
     else:
-        result = _petsc_run(model, args.pc_type, args.ksp_type)
+        if args.residual_refinement_steps < 0:
+            raise SystemExit("--residual-refinement-steps must be non-negative")
+        result = _petsc_run(
+            model,
+            args.pc_type,
+            args.ksp_type,
+            args.residual_refinement_steps,
+            args.include_vectors,
+        )
         if result is None:
             return 0
     payload = {

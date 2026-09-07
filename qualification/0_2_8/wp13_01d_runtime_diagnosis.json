@@ -1,0 +1,163 @@
+{
+  "schema_version": 1,
+  "record_type": "WP13-01D-RUNTIME-DIAGNOSIS",
+  "parent_contract": "qualification/0_2_8/wp13_01c_runtime_contract.json",
+  "historical_execution": {
+    "path": "qualification/0_2_8/wp13_01c_runtime_execution.json",
+    "git_blob_sha1": "bbd925c5ddb372b8f8c967c4d9aea8bc767da0af",
+    "modified": false
+  },
+  "source": {
+    "start_sha": "c1aec7668a4e7586db0b4e70899c45164f1d942d",
+    "numerical_source_changed": false,
+    "formulation_changed": false,
+    "maturity_changed": false,
+    "historical_0_2_7_evidence_changed": false
+  },
+  "predeclared_gates": {
+    "unchanged": true,
+    "equilibrium_relative": 1e-10,
+    "replay_digest_difference": 0
+  },
+  "environment": {
+    "container_image": "qf-solver-large:0.2.0",
+    "petsc": "3.25.1",
+    "petsc4py": "3.25.1",
+    "mpi4py": "4.1.2",
+    "mpi": "MPICH 5.0.1",
+    "launcher": "mpiexec"
+  },
+  "equilibrium_diagnosis": {
+    "classification": "FLOATING_POINT_ACCUMULATION",
+    "ruled_out": [
+      "LOAD_REDUCTION",
+      "REACTION_RECONSTRUCTION",
+      "MPI_REDUCTION_ORDER",
+      "BC_REDUCTION"
+    ],
+    "before": 6.794908928102695e-10,
+    "after_default_direct_lu": 6.794908928102695e-10,
+    "gate": 1e-10,
+    "stage_a": {
+      "dof": 49998,
+      "ranks": 2,
+      "segments": 3332,
+      "layer_thickness": 0.00030012004801920766,
+      "cross_layer_aspect_ratio": 3332.0,
+      "external_load_resultant": [100000.0, 0.0, 0.0],
+      "rank_external_load_resultants": [[0.0, 0.0, 0.0], [100000.0, 0.0, 0.0]],
+      "rank_fixed_reaction_resultants": [
+        [-1029.130323498834, -6984.4465782225225, 17297.889762635004],
+        [-98970.86967597448, 6984.446578314168, -17297.889830581993]
+      ],
+      "mpi_allreduce_resultant": [-99999.99999947332, 9.164523362414911e-08, -6.794698629164486e-05],
+      "rank_ordered_fsum_resultant": [-99999.99999947332, 9.164523362414911e-08, -6.794698629164486e-05],
+      "mpi_allreduce_vs_rank_ordered_fsum_max_abs": 0.0
+    },
+    "solver_tolerance_effect": {
+      "direct_lu_two_residual_refinements": {
+        "free_residual_relative": 2.639708188047455e-11,
+        "equilibrium_relative": 6.794908928102695e-10
+      },
+      "direct_lu_six_residual_refinements": {
+        "free_residual_relative": 2.611166429459929e-11,
+        "equilibrium_relative": 6.832438910963094e-10
+      },
+      "cholesky_no_residual_refinement": {
+        "free_residual_relative": 7.965370733393215e-11,
+        "equilibrium_relative": 4.876910718261201e-10
+      },
+      "conclusion": "No tested solver-only remediation reaches the frozen equilibrium gate."
+    },
+    "conclusion": "The highly anisotropic fixed Stage-A mesh produces cancellation of large transverse internal reactions. Accurate local and rank-ordered summation does not recover the required digits; changing the frozen benchmark or gate is out of scope."
+  },
+  "replay_diagnosis": {
+    "classification": "PETSC_PARALLEL_FACTORIZATION_OR_REDUCTION_ORDER",
+    "contract": "Raw float64 SHA-256 equality remains required by the unchanged WP13-01C contract.",
+    "historical_wp13_01c": {
+      "case": "small",
+      "ranks": 4,
+      "raw_bitwise_digest_equal": false,
+      "numerical_gates": "PASS"
+    },
+    "wp13_01d_observations": {
+      "stage_a_initial_pair": {
+        "ranks": 2,
+        "raw_bitwise_digest_equal": false,
+        "first_displacement_digest": "4e4aa526aa8e25c883ca1af28da4bbec7bc0736c8b1c67c56949ff5c04f54ded",
+        "second_displacement_digest": "a6a7a907b0bb6e1461aa3e81ce96b12d39c2f4d22985aea22be8925994ebe0c1"
+      },
+      "stage_a_vector_captured_pair": {
+        "ranks": 2,
+        "raw_bitwise_digest_equal": true,
+        "displacement_relative_l2": 0.0,
+        "displacement_max_absolute": 0.0,
+        "reaction_relative_l2": 0.0,
+        "reaction_max_absolute": 0.0,
+        "residual_relative_l2": 0.0,
+        "residual_max_absolute": 0.0
+      },
+      "small_pair": {
+        "ranks": 4,
+        "raw_bitwise_digest_equal": true
+      }
+    },
+    "numerical_determinism": "PASS_FOR_CAPTURED_STAGE_A_PAIR",
+    "bitwise_determinism": "INTERMITTENT_NOT_PORTABLY_ESTABLISHED",
+    "contract_compliance": "FAIL_FROZEN_RAW_DIGEST_GATE; numerical equivalence cannot replace the predeclared raw-digest requirement in this work package.",
+    "required_to_close": "A separately predeclared reproducible-MPI contract and a demonstrated deterministic PETSc/factorization configuration, or an owner-approved contract change."
+  },
+  "matgetinfo_diagnosis": {
+    "classification": "PETSC_GLOBAL_MATGETINFO_MPICH_ABI_PATH",
+    "gate_classification": "DIAGNOSTIC_ONLY",
+    "global_query": "NOT_USED_AFTER_PRIOR_MPI_FAILURE",
+    "remediation": "PETSc.Mat.InfoType.LOCAL on every rank followed by explicit mpi4py scalar aggregation.",
+    "stage_a": {
+      "mallocs_by_rank": [0.0, 0.0],
+      "mallocs_sum": 0.0,
+      "nz_used_by_rank": [974907.0, 914589.0],
+      "nz_allocated_by_rank": [974907.0, 914589.0]
+    },
+    "status": "PASS_CAPTURED_WITH_LOCAL_QUERY"
+  },
+  "targeted_rerun": {
+    "small_case": {
+      "dof": 33,
+      "element_counts": {"TET4": 1, "WEDGE6": 1, "HEX8": 1},
+      "serial": "PASS",
+      "petsc_1_rank": "PASS",
+      "mpi_2_ranks": "PASS",
+      "mpi_4_ranks": "PASS"
+    },
+    "stage_a": {
+      "status": "FAIL_KEEP_STAGE_A_BLOCKED",
+      "dof": 49998,
+      "ranks": 2,
+      "runtime_seconds_range": [8.418933408000157, 8.971568445999765],
+      "peak_memory_mb_range": [236.36328125, 237.20703125],
+      "free_residual_relative": 2.639708188047455e-11,
+      "equilibrium_relative": 6.794908928102695e-10,
+      "energy_identity_relative": 2.1116441928370477e-13,
+      "reactions": "PASS_RECONSTRUCTION_AND_LOAD_CONSERVATION; FAIL_GLOBAL_EQUILIBRIUM_GATE"
+    },
+    "stage_b": "NOT_RUN_STAGE_A_NOT_CLOSED",
+    "stage_c": "NOT_RUN_STAGE_A_NOT_CLOSED"
+  },
+  "validation": {
+    "targeted_runtime": "small serial/PETSc-1/MPI-2/MPI-4; Stage-A MPI-2; two Stage-A replays; MatGetInfo local probe",
+    "targeted_tests": "9 passed: tests/unit/test_wp13_01b_generic_distributed.py tests/verification/test_028_wp07_mixed_static.py",
+    "ruff": "PASS: python -m ruff check scripts/run_wp13_01c_runtime.py",
+    "compileall": "PASS: python -m compileall -q scripts/run_wp13_01c_runtime.py",
+    "full_test_suite": "DEFERRED_TO_WP13_FINAL_GATE"
+  },
+  "decision": {
+    "status": "FAIL_KEEP_STAGE_A_BLOCKED",
+    "ready_for_stage_b_300k": false,
+    "ready_for_stage_c_1m": false,
+    "blockers": [
+      "Stage-A equilibrium remains above the unchanged 1e-10 gate.",
+      "The frozen raw-digest replay gate is not portably demonstrated; the historical and an initial WP13-01D replay pair remain non-bitwise."
+    ],
+    "recommended_next_step": "Owner decision: preserve the frozen Stage-A result and either retire/redesign this runtime benchmark in a separately predeclared work package, or provide a separately predeclared deterministic-MPI contract. Do not advance to Stage B or C."
+  }
+}
