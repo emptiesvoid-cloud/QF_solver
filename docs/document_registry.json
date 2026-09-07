@@ -5191,6 +5191,20 @@
   "tests": [
     "tests/verification/test_028_wedge6_static_campaign.py"
   ]
+},
+{
+  "id": "DOC-028-WP05-OWNER-001",
+  "path": "verification/0_2_8/wp05_owner_gate_final.md",
+  "title": "QF Solver 0.2.8 WP05 final Owner gate",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp05_owner_gate_final.json",
+    "qualification/0_2_8/wp05_maturity_matrix.json"
+  ],
+  "tests": [
+    "tests/verification/test_028_wp05_owner_gate_final.py"
+  ]
 }
   ]
   

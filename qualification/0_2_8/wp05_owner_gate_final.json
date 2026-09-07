@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP05-OWNER-GATE-FINAL",
+  "work_package": "WP05",
+  "applicable_version": "0.2.8-development",
+  "audited_commit": "e9d83047b310cd85380551d8096d898090a7cba9",
+  "status": "CLOSED_WITH_APPROVAL_WITH_LIMITATIONS",
+  "authorization": {
+    "source": "Explicit project-owner instruction in the associated task.",
+    "owner_identity": null,
+    "identity_note": "No personal identity or signature is inferred by this record."
+  },
+  "technical_evidence": [
+    {
+      "path": "qualification/0_2_8/wp05_wedge6_contract.json",
+      "sha256": "168e8aa2f8fb47488eebfca5abeb8372f0e2e08f1b9e36af08450cf5ffb8813f"
+    },
+    {
+      "path": "qualification/0_2_8/wp05_wedge6_vnv.json",
+      "sha256": "1167e0e5df238deee4185f248d21dd5797357c0b6599917628bb8f619ffe4245"
+    },
+    {
+      "path": "qualification/0_2_8/wp05_maturity_matrix.json",
+      "sha256": "7769b2cf61b246314842cc2e205a5b940a207ce7e2e01fd3f537c4817be59761"
+    },
+    {
+      "path": "docs/verification/0_2_8/wp05_wedge6_vnv.md",
+      "sha256": "f06e620121b207bb5ff0eaaceedfc06a1eda27a067be084742e7094c30f813bb"
+    }
+  ],
+  "audit_checks": {
+    "predeclared_scope": "PASS",
+    "patch_and_affine_completeness": "PASS",
+    "multi_element_evidence": "PASS",
+    "face_load_conservation": "PASS",
+    "reactions_equilibrium_energy": "PASS",
+    "stress_strain_recovery": "PASS",
+    "distortion_limits": "PASS_WITH_LIMITATIONS",
+    "convergence": "PASS",
+    "oracle_independence_and_validity": "PASS_WITH_LIMITATIONS",
+    "frozen_tolerances": "PASS",
+    "deterministic_replays": "PASS",
+    "claim_evidence_coherence": "PASS",
+    "opportunistic_numerical_core_change": "NOT_FOUND",
+    "historical_0_2_7_evidence_integrity": "PASS",
+    "source_registry_reconciliation": "PASS"
+  },
+  "decision_policy": "APPROVE_WITH_LIMITATIONS applies only to the exact declared WEDGE6 linear-static scope. It is not a universal WEDGE6, solid-element, dynamic, nonlinear, mixed-mesh or external-stress claim.",
+  "decision": {
+    "source_record": "COMB-WEDGE6-linear_static",
+    "owner_decision": "APPROVE_WITH_LIMITATIONS",
+    "promotion_applied": true,
+    "resulting_maturity": "QUALIFIED_BOUNDED",
+    "evidence_case": "WEDGE6_STATIC",
+    "scope": "Gmsh Prism 6 WEDGE6, homogeneous isotropic small-strain linear elasticity, linear static analysis, declared nodal/body/gravity/TRI3-pressure/QUAD4-pressure/surface-traction loads, conforming prism assemblies, declared valid distortions and explicit failure of invalid geometry, with displacement, Gauss-point strain/stress, energy, reactions and global equilibrium checks.",
+    "external_oracle_decision": "LIMITATION_COMPATIBLE_WITH_BOUNDED_SCOPE",
+    "external_oracle_limitations": [
+      "The independent evidence is the controlled 0.2.7 Code_Aster 18.1 PENTA6 artifact audited by reference; it is not a new WP05 Code_Aster execution.",
+      "The artifact contains 12 comparable primary-observable cases and all 12 pass; current numerical source is unchanged since the external source commit.",
+      "CalculiX C3D6 remains NOT_COMPARABLE because its integration convention differs from the QF TRI3_X_GAUSS2 contract.",
+      "No external stress qualification is claimed without an equivalent sampling contract."
+    ],
+    "limitations": [
+      "No modal, Newmark or harmonic promotion is implied.",
+      "No nonlinear, J2, Total-Lagrangian, contact, WEDGE15, mixed-mesh or unbounded arbitrary-distortion claim is made.",
+      "Automatic orientation repair is not claimed; coincident, nonfinite, inverted, wrong-order and negative-Jacobian geometry must fail explicitly.",
+      "The external correlation claim is limited to the recorded Code_Aster PENTA6 primary observables and declared tolerance classes."
+    ]
+  },
+  "registry_reconciliation": {
+    "source_path": "qualification/0_2_7/capability_registry_v2.json",
+    "source_combination_count": 46,
+    "source_counts": {
+      "QUALIFIED_BOUNDED": 20,
+      "EXPERIMENTAL": 25,
+      "NOT_QUALIFIED": 1
+    },
+    "applied_wp03_delta": {
+      "QUALIFIED_BOUNDED": 7,
+      "EXPERIMENTAL": 1,
+      "NOT_QUALIFIED": 0
+    },
+    "applied_wp04_delta": {
+      "QUALIFIED_BOUNDED": 4,
+      "EXPERIMENTAL": 4,
+      "NOT_QUALIFIED": 0
+    },
+    "applied_wp05_delta": {
+      "QUALIFIED_BOUNDED": 1,
+      "EXPERIMENTAL": -1,
+      "NOT_QUALIFIED": 0
+    },
+    "final_counts": {
+      "QUALIFIED_BOUNDED": 32,
+      "EXPERIMENTAL": 13,
+      "NOT_QUALIFIED": 1,
+      "TOTAL": 46
+    },
+    "identity_check": "32 + 13 + 1 = 46",
+    "not_qualified_combination": "COMB-HEX8-linear_buckling",
+    "wedge6_static_state": "QUALIFIED_BOUNDED",
+    "wedge6_is_not_not_qualified": true
+  },
+  "final_matrix": "qualification/0_2_8/wp05_maturity_matrix.json",
+  "documentation": "docs/verification/0_2_8/wp05_owner_gate_final.md",
+  "summary": {
+    "owner_decision": "APPROVE_WITH_LIMITATIONS",
+    "approved_promotions": 1,
+    "qualified_bounded_global": 32,
+    "experimental_global": 13,
+    "not_qualified_global": 1,
+    "total_global": 46,
+    "not_qualified_combination": "COMB-HEX8-linear_buckling",
+    "wedge6_static_global": "QUALIFIED_BOUNDED"
+  }
+}

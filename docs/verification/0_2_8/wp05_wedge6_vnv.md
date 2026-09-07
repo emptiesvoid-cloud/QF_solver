@@ -1,6 +1,6 @@
 ---
 doc_id: DOC-028-WP05-001
-revision: 0.1
+revision: 0.2
 status: controlled_candidate
 applicable_version: 0.2.8-development
 reviewer: ""
@@ -11,7 +11,8 @@ approver: ""
 
 WP05 audits the `COMB-WEDGE6-linear_static` record identified by WP01 as
 `NEEDS_MAJOR_VNV`. The campaign is additive: it does not rewrite any 0.2.7
-record, change the numerical source or apply a public maturity relabel.
+record or change the numerical source. Its public decision is recorded by the
+separate Owner gate below and is limited to the exact static scope.
 
 The frozen contract is
 [`wp05_wedge6_contract.json`](../../../qualification/0_2_8/wp05_wedge6_contract.json).
@@ -19,6 +20,8 @@ The machine-readable campaign record is
 [`wp05_wedge6_vnv.json`](../../../qualification/0_2_8/wp05_wedge6_vnv.json),
 and its maturity delta is
 [`wp05_maturity_matrix.json`](../../../qualification/0_2_8/wp05_maturity_matrix.json).
+The final Owner decision is recorded in
+[`wp05_owner_gate_final.json`](../../../qualification/0_2_8/wp05_owner_gate_final.json).
 The executable campaign is
 [`run_wp05_wedge6.py`](../../../scripts/run_wp05_wedge6.py), with focused
 checks in
@@ -83,10 +86,32 @@ qualification is inferred from either external artifact.
 ## Technical decision and boundary
 
 The WP05 technical decision is `QUALIFIED_BOUNDED` for the exact static scope
-above. The public state remains `EXPERIMENTAL` until a separate Owner gate.
-This result does not promote WEDGE6 modal, Newmark or harmonic routes and does
-not change the sole 0.2.8 `NOT_QUALIFIED` combination,
-`COMB-HEX8-linear_buckling`.
+above. The Owner gate approved that scope with limitations; the public state is
+now `QUALIFIED_BOUNDED` only for `COMB-WEDGE6-linear_static`. This result does
+not promote WEDGE6 modal, Newmark or harmonic routes and does not change the
+sole 0.2.8 `NOT_QUALIFIED` combination, `COMB-HEX8-linear_buckling`.
+
+## Final Owner gate
+
+The Owner decision is `APPROVE_WITH_LIMITATIONS`. The approved claim is limited
+to Gmsh Prism 6 WEDGE6, homogeneous isotropic small-strain linear elasticity,
+linear static analysis, the declared nodal/body/gravity/TRI3-pressure/QUAD4-
+pressure/surface-traction contracts, conforming prism assemblies, declared
+valid distortions and explicit failure of invalid geometry. It includes the
+recorded displacement, Gauss-point strain/stress, energy, reactions and global
+equilibrium checks.
+
+The external limitation is retained: the independent evidence is the audited
+0.2.7 Code_Aster 18.1 PENTA6 artifact, not a new WP05 Code_Aster execution.
+Its 12 comparable primary-observable cases pass, while CalculiX C3D6 remains
+`NOT_COMPARABLE`; no external stress qualification is claimed. Modal, Newmark,
+harmonic, nonlinear, WEDGE15, mixed-mesh, arbitrary-distortion and other
+unexecuted routes remain outside the qualification.
+
+After this gate the 46-combination reconciliation is 32
+`QUALIFIED_BOUNDED`, 13 `EXPERIMENTAL` and 1 `NOT_QUALIFIED`. The sole
+not-qualified combination remains `COMB-HEX8-linear_buckling`; WEDGE6 static
+is distinct from it.
 
 No numerical bug was found or fixed. No file under `src/` or
 `qualification/0_2_7/` was changed.

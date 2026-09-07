@@ -6,16 +6,17 @@
   "parent_wp04_matrix": "qualification/0_2_8/wp04_maturity_matrix.json",
   "evidence_record": "qualification/0_2_8/wp05_wedge6_vnv.json",
   "baseline_sha": "0ad191a41b45283cff53bb461996b08c8dc2739a",
-  "status": "TECHNICAL_VNV_COMPLETE_OWNER_GATE_PENDING",
-  "public_maturity_policy": "The technical bounded decision is recorded without applying a public maturity relabel. A separate Owner gate is required before the WEDGE6 static registry state can change.",
+  "status": "OWNER_GATE_FINALIZED",
+  "owner_gate_record": "qualification/0_2_8/wp05_owner_gate_final.json",
+  "public_maturity_policy": "Only the exact WEDGE6 linear-static scope approved with limitations by the final WP05 Owner gate is relabeled QUALIFIED_BOUNDED. Modal, Newmark and harmonic WEDGE6 routes remain outside this decision.",
   "summary": {
-    "technical_qualified_bounded": 1,
-    "technical_experimental": 0,
-    "technical_not_qualified": 0,
-    "public_maturity_relabels_applied": 0,
-    "owner_gate_candidates": 1,
-    "current_public_global": {"QUALIFIED_BOUNDED": 31, "EXPERIMENTAL": 14, "NOT_QUALIFIED": 1, "TOTAL": 46},
-    "technical_global_if_owner_approves": {"QUALIFIED_BOUNDED": 32, "EXPERIMENTAL": 13, "NOT_QUALIFIED": 1, "TOTAL": 46},
+    "QUALIFIED_BOUNDED": 1,
+    "EXPERIMENTAL": 0,
+    "NOT_QUALIFIED": 0,
+    "public_maturity_relabels_applied": 1,
+    "owner_gate_candidates": 0,
+    "global_state_after_wp05_owner_gate": {"QUALIFIED_BOUNDED": 32, "EXPERIMENTAL": 13, "NOT_QUALIFIED": 1, "TOTAL": 46, "not_qualified_combination": "COMB-HEX8-linear_buckling", "wedge6_static_state": "QUALIFIED_BOUNDED"},
+    "registry_counts_consistent": true,
     "not_qualified_combination": "COMB-HEX8-linear_buckling"
   },
   "decisions": [
@@ -23,9 +24,9 @@
       "source_record": "COMB-WEDGE6-linear_static",
       "wp01_disposition": "NEEDS_MAJOR_VNV",
       "decision": "QUALIFIED_BOUNDED",
-      "public_maturity": "EXPERIMENTAL",
-      "owner_gate": "PENDING",
-      "promotion_applied": false,
+      "public_maturity": "QUALIFIED_BOUNDED",
+      "owner_gate": "APPROVED_WITH_LIMITATIONS",
+      "promotion_applied": true,
       "evidence_case": "WEDGE6_STATIC",
       "scope": "Gmsh Prism 6 WEDGE6, linear static, homogeneous isotropic small-strain elasticity, declared nodal/body/gravity/TRI3-pressure/QUAD4-pressure/surface-traction loads, conforming prism assemblies, declared valid distortions and fail-closed invalid geometry.",
       "limitations": [
@@ -34,7 +35,7 @@
         "External correlation is limited to the recorded Code_Aster PENTA6 primary observables and declared tolerance classes.",
         "Stress comparison to an external solver is excluded without an equivalent sampling contract."
       ],
-      "gate": "The WP05 campaign passed its predeclared elemental, patch, load, multi-element, post-processing, geometry, refinement, replay and independent external-evidence checks. Owner approval remains required."
+      "gate": "The WP05 campaign passed its predeclared elemental, patch, load, multi-element, post-processing, geometry, refinement, replay and independent external-evidence checks. The Owner approved the exact bounded static scope with the limitations recorded in the final Owner gate."
     },
     {
       "source_record": "COMB-WEDGE6-modal",
@@ -54,6 +55,7 @@
     "historical_0_2_7_evidence_changed": false,
     "numerical_source_changed": false,
     "wedge6_static_distinct_from_hex8_buckling": true,
+    "owner_gate_applied": true,
     "total_combinations": 46
   }
 }

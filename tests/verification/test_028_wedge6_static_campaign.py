@@ -33,15 +33,15 @@ def test_wp05_contract_evidence_and_matrix_are_bounded() -> None:
     assert contract["tolerance_policy"]["fixed_before_execution"] is True
     assert contract["tolerance_policy"]["post_observation_retuning"] is False
     assert evidence["technical_decision"] == "QUALIFIED_BOUNDED"
-    assert evidence["public_maturity"] == "EXPERIMENTAL"
-    assert evidence["owner_gate_required"] is True
+    assert evidence["public_maturity"] == "QUALIFIED_BOUNDED"
+    assert evidence["owner_gate_required"] is False
     assert evidence["historical_0_2_7_evidence_modified"] is False
     assert evidence["numerical_source_modified"] is False
-    assert matrix["status"] == "TECHNICAL_VNV_COMPLETE_OWNER_GATE_PENDING"
-    assert matrix["summary"]["public_maturity_relabels_applied"] == 0
+    assert matrix["status"] == "OWNER_GATE_FINALIZED"
+    assert matrix["summary"]["public_maturity_relabels_applied"] == 1
     assert matrix["decisions"][0]["source_record"] == "COMB-WEDGE6-linear_static"
     assert matrix["decisions"][0]["decision"] == "QUALIFIED_BOUNDED"
-    assert matrix["decisions"][0]["promotion_applied"] is False
+    assert matrix["decisions"][0]["promotion_applied"] is True
 
 
 def test_wp05_replays_and_declared_verdicts_are_deterministic() -> None:
