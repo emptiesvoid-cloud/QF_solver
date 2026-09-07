@@ -92,6 +92,14 @@ The detailed candidate records in the machine-readable matrix name the exact
 test file to add, oracle/reference, tolerance policy, exit gate and risk. No
 candidate changes public maturity until its stated gate passes.
 
+## WP03 BEAM2 and DISCRETE V&V
+
+The completed technical campaign for BEAM2 and DISCRETE static/modal routes is
+documented in [`WP03 V&V`](wp03_beam2_discrete_vnv.md). It records the frozen
+analytical oracles, tolerances, invariants, two replays and bounded decisions.
+Newmark and harmonic routes remain experimental because their independent
+time-history or frequency-response evidence was not run in WP03.
+
 ## Explicit boundaries
 
 The eight nonlinear combination records remain `KEEP_EXPERIMENTAL`: this WP
