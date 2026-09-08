@@ -1,0 +1,163 @@
+{
+  "$schema": "./wp13_02b4_contract.schema.json",
+  "schema_version": 1,
+  "contract_id": "WP13-02B4-NEWMARK-MIXED-V2-001",
+  "status": "PREDECLARED_NOT_EXECUTED",
+  "baseline_sha": "d69d84b2f34e57f5ca3c32e2086be464f1cfcc5d",
+  "provenance": {
+    "independent_versioned_contract": true,
+    "blind_to_previous_results": false,
+    "basis": "Prospective V2 requirements explicitly requested after V1 ambiguity. Historical results were known; this is not a blind validation, nor a reinterpretation or replacement of V1.",
+    "freeze": "The first commit containing this contract is the freeze commit. Before any V2 solve, record that commit, contract and schema Git blobs and SHA256, evaluator source digest and execution source SHA. Compare before and after every run. No self-referential creation SHA is embedded.",
+    "first_v2_run": null,
+    "historical_results_may_satisfy_v2": false,
+    "new_campaign": "WP13-02B5; fresh outputs in a separate directory, never overwrite prior evidence."
+  },
+  "scope": {
+    "analysis": "linear transient Newmark average acceleration",
+    "families": ["TET4", "WEDGE6", "HEX8"],
+    "kinematics": "small-strain homogeneous isotropic linear elasticity",
+    "backend": "serial float64 coupled full-system Newmark with direct linear solve; no modal time-stepping substitution",
+    "mass": "consistent translational mass",
+    "damping": {"model": "Rayleigh", "alpha_per_s": 0.0, "beta_s": 0.0},
+    "exclusions": ["forced transients", "nonzero damping validation", "nonlinear", "contact", "nonconforming interfaces", "universal dt stability", "industrial generality", "MPI performance", "historical maturity promotion"]
+  },
+  "benchmark": {
+    "generator": "scripts/run_wp13_01k_mvp.py",
+    "generator_git_blob": "9756c57b16cd553d2256cbd31da5e9eb100bcd89",
+    "generator_call": "build(1), geometry and element ordering only; discard static loads and static analysis",
+    "geometry_m": "HEX8 [0,1]x[-1,0]x[0,1]; WEDGE6 triangular prism x>=0,y>=0,x+y<=1,z in [0,2]; conforming TET4 continuation z in [2,3]",
+    "family_counts": {"TET4": 3, "WEDGE6": 2, "HEX8": 1},
+    "ndof": 48,
+    "connected_components": 1,
+    "support_nodes": [0, 1, 4, 5],
+    "support_dofs": ["UX", "UY", "UZ"],
+    "material": {"E_Pa": 210000000000.0, "nu": 0.3, "density_kg_m3": 7800.0},
+    "external_load": "F(t)=0 on every DOF for the whole run; no static 100000 N load retained",
+    "mechanical_path": "TET4 -> WEDGE6 -> HEX8 -> support; globally excited first-mode free vibration, not a claim of externally forced load transfer",
+    "direct_support_bypass": false,
+    "interfaces": {"TET4_WEDGE6": [10, 11, 12], "WEDGE6_HEX8": [2, 3, 6, 7]},
+    "probe": {"node": 13, "dof": "UZ"},
+    "topology_checks": "One component, unique shared global DOFs, no TET4/HEX8 shared nodes, no non-HEX8 support; removing either interface disconnects the TET4 continuation from support. Every family contributes K and M.",
+    "initial_conditions": "Let phi satisfy phi.T*M*phi=1 for the lowest positive fixed-base eigenpair. Fix its sign by making its largest-magnitude free component positive, lowest DOF index breaks ties. q0=1e-5 m/max(abs(phi)); u0=q0*phi; v0=0; a0_free=solve(Mff,-(K*u0)_free); fixed u/v/a=0. Archive phi, q0, K, M, DOF order and exact initial arrays.",
+    "conditioning_precheck": "Before integration require finite K/M, positive Jacobians, max longest/shortest nonzero element node-distance ratio <=4, max affine Jacobian condition <=10, positive assembled K/M diagonal ratios <=100; Kff and Mff positive definite; symmetry relative Frobenius error <=1e-12. No global condition-number claim unless computed."
+  },
+  "time_discretization": {
+    "beta": 0.25,
+    "gamma": 0.5,
+    "period": "T1=2*pi/omega1 from the independently assembled eigen-oracle; no historical frequency substituted",
+    "final_time": "4*T1",
+    "samples": "t_j=j*T1/N for j=0,...,4*N inclusive; all samples including t=0; no trimming or result-dependent sampling",
+    "levels": [
+      {"name": "T1/20", "N": 20, "steps": 80, "role": "CHARACTERIZATION_ONLY"},
+      {"name": "T1/40", "N": 40, "steps": 160, "role": "CHARACTERIZATION_ONLY"},
+      {"name": "T1/80", "N": 80, "steps": 320, "role": "ACCEPTANCE"},
+      {"name": "T1/160", "N": 160, "steps": 640, "role": "ACCEPTANCE"}
+    ]
+  },
+  "oracle": {
+    "construction": "Independent local-element K/M scatter into dense arrays using explicit node-major UX/UY/UZ mapping, then scipy.linalg.eigh on Kff/Mff. Compare against the production assembled K/M with relative Frobenius error <=1e-12 and production modal first eigenfrequency relative error <=1e-8. Require eigenpair residual <=1e-10 and positive omega1.",
+    "independence": "Must not call the production assembler for reference construction, NewmarkDynamicSolver, production router, production time loop or production result arrays to construct analytical reference. Local FEM K/M kernels and scipy eigensolver may be shared; archive this boundary.",
+    "reference_histories": "q_ref=q0*cos(omega1*t); qv_ref=-q0*omega1*sin(omega1*t); qa_ref=-q0*omega1^2*cos(omega1*t); u_ref=phi*q_ref; v_ref=phi*qv_ref; a_ref=phi*qa_ref",
+    "runtime_modal_projection": "q=phi.T*M*u; qv=phi.T*M*v; qa=phi.T*M*a using the independently frozen phi and M",
+    "limitation": "Independent time-integration and scatter check for this discrete system; not independent element-formulation validation or external correlation."
+  },
+  "metric_definitions": {
+    "Q_ERROR": "norm(q-q_ref,2)/norm(q_ref,2) over all time samples",
+    "V_ERROR": "norm(qv-qv_ref,2)/norm(qv_ref,2) over all time samples; also archive full v-v_ref relative Frobenius error",
+    "A_ERROR": "norm(qa-qa_ref,2)/norm(qa_ref,2) over all time samples; also archive full a-a_ref relative Frobenius error",
+    "AMPLITUDE_ERROR": "Least-squares q(t)=c*cos(omega1*t)+s*sin(omega1*t) at fixed oracle omega1 over all samples; abs(sqrt(c*c+s*s)/abs(q0)-1). Archive c,s and fit residual. Apply same relative amplitude check at the frozen nonzero probe.",
+    "PHASE_ERROR": "abs(wrap_to_minus_pi_pi(atan2(-s,c))) rad with positive q0. Probe reference phase is 0 or pi according to u0_probe; apply the same 0.02 rad gate there.",
+    "FREQUENCY_ERROR": "abs(omega_fit-omega1)/omega1; omega_fit minimizes cosine/sine least-squares residual for q over [0.75,1.25]*omega1. Use fixed 1001-point grid to select a bracket then bounded minimization within its adjacent grid points, xatol=1e-10*omega1, maxiter=500. Endpoint minimum or failed optimization aborts. Not the production modal eigenfrequency metric.",
+    "scales": "Ustar=norm(u0_free,2)>0; Vstar=omega1*Ustar; Astar=omega1^2*Ustar; Fstar=max(norm(K*u0,2),norm(M*a0,2),1 N); E0=0.5*u0.T*K*u0>0. Freeze these from the oracle initial state, not the run error.",
+    "FREE_RESIDUAL": "max_j norm((M*a_j+C*v_j+K*u_j-F_j)_free,2)/Fstar; independently reconstruct using archived operators",
+    "reactions": "R_j=(M*a_j+C*v_j+K*u_j-F_j)_fixed, with fixed-index mapping archived",
+    "ENERGY_ERROR": "max_j abs(Ekin_j+Estrain_j+Edamp_j-E0-Wext_j)/E0; Ekin=0.5*v.T*M*v; Estrain=0.5*u.T*K*u; Edamp cumulative trapezoidal v.T*C*v; Wext cumulative trapezoidal v.T*F. Edamp and Wext are explicitly zero for this scope.",
+    "invalid_metrics": "Any nonfinite data, zero oracle signal norm or undefined fit/order is a failed metric; no implicit epsilon floor, rounding, clamping or hidden exemption."
+  },
+  "acceptance_gates": {
+    "applies_to": ["T1/80", "T1/160"],
+    "operator": "<=",
+    "Q_ERROR": 0.01,
+    "V_ERROR": 0.01,
+    "A_ERROR": 0.01,
+    "AMPLITUDE_ERROR": 0.01,
+    "PHASE_ERROR_rad": 0.02,
+    "FREQUENCY_ERROR": 0.001,
+    "FREE_RESIDUAL": 1e-7,
+    "ENERGY_ERROR": 1e-6,
+    "full_history_controls": "Full u/v/a relative Frobenius errors against phi*q_ref, phi*qv_ref, phi*qa_ref must each be <=0.01 at both acceptance levels; modal projection alone must not hide other-mode contamination.",
+    "coarse_exemption": "20/40 record all errors but carry none of these acceptance gates; their errors still participate in the explicitly separate convergence gates."
+  },
+  "convergence": {
+    "metrics": ["Q_ERROR", "V_ERROR", "A_ERROR", "AMPLITUDE_ERROR", "PHASE_ERROR"],
+    "levels": [20, 40, 80, 160],
+    "monotonicity": "E(20)>E(40)>E(80)>E(160)>0 required for each metric",
+    "order_formula": "p_N=log(E(N)/E(2*N))/log(2) for N=20,40,80; archive every p",
+    "order_gate": {"minimum": 1.5, "maximum": 2.5, "applies_to_N": [20, 40, 80], "inclusive": true},
+    "failure_policy": "Convergence failure is a sequence gate failure; it is not retroactive application of fine accuracy gates to coarse levels.",
+    "rationale": "Average-acceleration Newmark has second-order time accuracy for smooth linear response. The prospectively selected +/-0.5 band around 2 allows finite-step higher-order terms while excluding first-order behavior; it is an engineering criterion, not a theorem fixing this band or a threshold fitted to historical errors."
+  },
+  "tolerance_rationale": {
+    "accuracy": "1% relative history/amplitude accuracy and 0.02 rad phase accuracy are bounded application requirements, not consequences of a passing historical run. Same values at both acceptance levels avoid result-dependent per-level budgets.",
+    "frequency": "0.1% transient frequency accuracy is distinct from 1e-8 eigensystem agreement. For the ideal scalar oscillator Newmark has omega_dt=(2/dt)*atan(omega*dt/2), a second-order dispersion defect; this analytic relation motivates measuring finite-dt dispersion rather than demanding eigensolver precision of the transient signal.",
+    "conservation": "1e-7 force backward residual and 1e-6 relative energy closure separate algebraic/conservation error from the 1% temporal accuracy budget. They retain the V1 conservation budgets with explicit normalizations.",
+    "interface": "1e-8 normalized interface force/work closure tests assembled internal conservation at a tighter budget than 1e-6 global energy. E0 normalization avoids division by near-zero signed net interface work over full cycles.",
+    "reference": "https://opensees.github.io/OpenSeesDocumentation/user/manual/analysis/integrator/Newmark.html",
+    "reference_scope": "Supports beta=0.25/gamma=0.5 average acceleration and second-order accuracy; numeric engineering gates are choices of this contract, not claimed to be supplied by that source."
+  },
+  "interfaces": {
+    "applies_to": "ALL_DT_LEVELS",
+    "continuity": {"metric": "max norm(u_left(shared,j)-u_right(shared,j),infinity)/max(abs(u0)) using independently gathered local family states and verified shared ID mapping", "maximum": 1e-12},
+    "force_transfer": {"metric": "For each shared node set I, g_f=(sum elements in family(Ke*u_e+Me*a_e))_I. max_j norm(g_left+g_right,2)/Fstar; archive both side vectors, not only their sum", "maximum": 1e-8},
+    "energy_transfer": {"metric": "P_left=g_left.T*v_I and P_right=g_right.T*v_I; cumulative W_left,W_right by trapezoidal integration at every sample. INTERFACE_ENERGY_ERROR=max_j abs(W_left_j+W_right_j)/E0; also report integral(abs(P_left+P_right))/E0 and gross exchanged work as diagnostics", "maximum": 1e-8},
+    "interpretation": "Effective discrete nodal interfacial work including consistent-mass inertial terms, not continuum stress-flux validation. Also archive each family's kinetic/strain energies and its interface work to examine unexplained energy change. Fixed supports have zero work; shared nodes are free/unforced."
+  },
+  "histories_required": {
+    "every_level_and_replay": ["time", "u", "v", "a", "q", "qv", "qa", "analytical u/v/a/q/qv/qa", "residual full vector", "residual free normalized", "kinetic energy", "strain energy", "damping energy", "external work", "reactions", "interface side force/power/cumulative work", "family kinetic/strain energies"],
+    "format": "NPZ float64 arrays without pickle plus JSON manifest with units, node/DOF order, shapes, SHA256 per array/file, methods, versions and convergence/iterations. Exact model inputs, independent K/M, mode and scale archived. No probe-only replacement.",
+    "reported_scalars": "Amplitude, phase, estimated frequency, errors, all observed orders and per-gate status at every level; retain coarse exceedances explicitly as characterization."
+  },
+  "replay": {
+    "level": "T1/160",
+    "count": 2,
+    "meaning": "Two fresh complete integrations in addition to the main T1/160 run; compare each to main and to each other under identical settings/environment",
+    "fields": ["u", "v", "a", "q", "residual full vector", "kinetic energy", "strain energy", "damping energy", "external work", "reactions"],
+    "tolerance": 1e-12,
+    "metric": "max_t norm(delta field(t),2)/scale; scales are Ustar,Vstar,Astar,abs(q0),Fstar,E0,E0,E0,E0,Fstar respectively. Require identical time arrays/DOF mapping, shapes, convergence status and total/per-step iterations for direct solve. Archive max-norm comparison as diagnostic too.",
+    "bitwise_identity_required": false,
+    "nan_equal_allowed": false
+  },
+  "failure_contract": {
+    "silent_fallback_allowed": false,
+    "cases": {
+      "invalid_dt": "0, negative and nonfinite dt; reject explicitly before integration",
+      "missing_mass": "Absent density, zero density and singular free M; reject explicitly before integration",
+      "unsupported_damping": "Negative/nonfinite Rayleigh coefficient or unknown damping model; reject explicitly before integration",
+      "unsupported_time_load": "Unknown load_function; reject explicitly, never replace with zero or a supported function",
+      "invalid_initial_conditions": "Non-list container, malformed entry, unknown DOF, out-of-range node, nonfinite value or nonzero fixed initial state; explicit rejection required, not silent zero state",
+      "invalid_mixed_interface": "Out-of-range connectivity and duplicated/renumbered shared nodes disconnecting the chain; explicit geometry/model or campaign scope rejection before integration",
+      "unsupported_family": "PYRAMID5 transient route or unknown family; explicit route/scope rejection with no family substitution"
+    },
+    "boundary": "Archive offending input, exception type/message and rejecting layer. Document solver vs explicit campaign scope validation separately. A campaign wrapper does not prove public API rejection. Public malformed-input cases must be rejected by the runtime API; known non-list initial-vector silence is a pending risk, never presumed PASS. Failure-case success means expected rejection; unexpected crash or unrelated exception is not PASS.",
+    "known_risk": "The current _initial_vector returns zero for a non-list container. WP13-02B4 does not fix this; if present at campaign execution the corresponding failure gate fails and requires a separate scoped remediation decision."
+  },
+  "abort_policy": {
+    "mandatory": ["contract/schema changed after first V2 run", "formulation change during campaign", "family drop", "silent fallback", "invalid oracle", "disconnected model", "mechanical support bypass", "conditioning precheck failure", "acceptance level failure", "sequence convergence failure", "replay failure", "interface gate failure", "failure-contract case not explicitly rejected", "nonfinite states or missing archive"],
+    "on_failure": "Stop further positive campaign runs, retain inputs/outputs and FAIL evidence. No threshold, metric, initial state, dt selector or fit adjustment after observation. Owner review required for a separate version, never repair the verdict in place.",
+    "coarse_policy": "Coarse accuracy exceedance alone cannot fail a fine acceptance gate. Topology, finite-state, interface and sequence-convergence obligations remain applicable as explicitly declared.",
+    "decision": "All required gates PASS produces CANDIDATE_ONLY; Owner gate still required; no automatic maturity or claim promotion."
+  },
+  "historical_integrity": {
+    "read_only": {
+      "qualification/0_2_8/wp13_02a_newmark_contract.json": "7e5af8374e33e8d45a61d4a60b01127802bfca64",
+      "qualification/0_2_8/wp13_02b_mixed_newmark_evidence.json": "13dc7b0fe338b6ce9de18072b0a8970b978381a2",
+      "qualification/0_2_8/wp13_02b_owner_gate.json": "1e6f7c5a6ffbfae580247ef677b4a1fe8128adfa",
+      "qualification/0_2_8/wp13_02b2_raw": "52aec7d09d6df51a9ba488b860f436608bea379b",
+      "qualification/0_2_8/wp13_02b3_owner_gate.json": "9f08c7ebbb70a907fbf9b8f440872b56aacb8c07",
+      "qualification/0_2_7": "4045eb7a6643a8b132e970ab7915c06ec0e6108c"
+    },
+    "all_other_existing_evidence": "Read-only, including V1 docs, contracts, matrices and Owner decisions; V2 does not erase ambiguity or retrospective rejection."
+  },
+  "execution_policy": {"newmark_runs_in_02B4": 0, "full_test_suite": "DEFERRED_TO_WP13_FINAL_GATE", "allowed_checks": ["JSON/schema", "contract coherence", "reference existence", "historical hashes"], "next_step": "WP13-02B5 only after the freeze commit; begin with contract/input failure prechecks"}
+}

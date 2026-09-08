@@ -1,0 +1,287 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "WP13-02B4 Newmark V2 contract structure",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "contract_id",
+    "status",
+    "baseline_sha",
+    "provenance",
+    "scope",
+    "benchmark",
+    "time_discretization",
+    "oracle",
+    "metric_definitions",
+    "acceptance_gates",
+    "convergence",
+    "tolerance_rationale",
+    "interfaces",
+    "histories_required",
+    "replay",
+    "failure_contract",
+    "abort_policy",
+    "historical_integrity",
+    "execution_policy"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "contract_id": {
+      "const": "WP13-02B4-NEWMARK-MIXED-V2-001"
+    },
+    "status": {
+      "const": "PREDECLARED_NOT_EXECUTED"
+    },
+    "baseline_sha": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{40}$"
+    },
+    "provenance": {
+      "type": "object"
+    },
+    "scope": {
+      "type": "object"
+    },
+    "benchmark": {
+      "type": "object"
+    },
+    "time_discretization": {
+      "type": "object",
+      "required": [
+        "beta",
+        "gamma",
+        "levels",
+        "samples"
+      ],
+      "properties": {
+        "beta": {
+          "const": 0.25
+        },
+        "gamma": {
+          "const": 0.5
+        },
+        "levels": {
+          "const": [
+            {
+              "name": "T1/20",
+              "N": 20,
+              "steps": 80,
+              "role": "CHARACTERIZATION_ONLY"
+            },
+            {
+              "name": "T1/40",
+              "N": 40,
+              "steps": 160,
+              "role": "CHARACTERIZATION_ONLY"
+            },
+            {
+              "name": "T1/80",
+              "N": 80,
+              "steps": 320,
+              "role": "ACCEPTANCE"
+            },
+            {
+              "name": "T1/160",
+              "N": 160,
+              "steps": 640,
+              "role": "ACCEPTANCE"
+            }
+          ]
+        }
+      }
+    },
+    "oracle": {
+      "type": "object"
+    },
+    "metric_definitions": {
+      "type": "object"
+    },
+    "acceptance_gates": {
+      "type": "object",
+      "required": [
+        "applies_to",
+        "Q_ERROR",
+        "V_ERROR",
+        "A_ERROR",
+        "AMPLITUDE_ERROR",
+        "PHASE_ERROR_rad",
+        "FREQUENCY_ERROR",
+        "FREE_RESIDUAL",
+        "ENERGY_ERROR"
+      ],
+      "properties": {
+        "applies_to": {
+          "const": [
+            "T1/80",
+            "T1/160"
+          ]
+        },
+        "Q_ERROR": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "V_ERROR": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "A_ERROR": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "AMPLITUDE_ERROR": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "PHASE_ERROR_rad": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "FREQUENCY_ERROR": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "FREE_RESIDUAL": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "ENERGY_ERROR": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      }
+    },
+    "convergence": {
+      "type": "object"
+    },
+    "tolerance_rationale": {
+      "type": "object"
+    },
+    "interfaces": {
+      "type": "object",
+      "required": [
+        "applies_to",
+        "continuity",
+        "force_transfer",
+        "energy_transfer"
+      ],
+      "properties": {
+        "continuity": {
+          "type": "object",
+          "required": [
+            "metric",
+            "maximum"
+          ],
+          "properties": {
+            "metric": {
+              "type": "string",
+              "minLength": 20
+            },
+            "maximum": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            }
+          }
+        },
+        "force_transfer": {
+          "type": "object",
+          "required": [
+            "metric",
+            "maximum"
+          ],
+          "properties": {
+            "metric": {
+              "type": "string",
+              "minLength": 20
+            },
+            "maximum": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            }
+          }
+        },
+        "energy_transfer": {
+          "type": "object",
+          "required": [
+            "metric",
+            "maximum"
+          ],
+          "properties": {
+            "metric": {
+              "type": "string",
+              "minLength": 20
+            },
+            "maximum": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            }
+          }
+        }
+      }
+    },
+    "histories_required": {
+      "type": "object"
+    },
+    "replay": {
+      "type": "object",
+      "required": [
+        "level",
+        "count",
+        "fields",
+        "metric",
+        "tolerance"
+      ],
+      "properties": {
+        "level": {
+          "const": "T1/160"
+        },
+        "count": {
+          "const": 2
+        },
+        "tolerance": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      }
+    },
+    "failure_contract": {
+      "type": "object",
+      "required": [
+        "silent_fallback_allowed",
+        "cases",
+        "boundary"
+      ],
+      "properties": {
+        "silent_fallback_allowed": {
+          "const": false
+        },
+        "cases": {
+          "type": "object",
+          "required": [
+            "invalid_dt",
+            "missing_mass",
+            "unsupported_damping",
+            "unsupported_time_load",
+            "invalid_initial_conditions",
+            "invalid_mixed_interface",
+            "unsupported_family"
+          ]
+        }
+      }
+    },
+    "abort_policy": {
+      "type": "object"
+    },
+    "historical_integrity": {
+      "type": "object"
+    },
+    "execution_policy": {
+      "type": "object"
+    },
+    "$schema": {
+      "type": "string"
+    }
+  }
+}
