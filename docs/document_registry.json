@@ -5547,6 +5547,21 @@
   "tests": [
     "tests/verification/test_028_wp13_02b5_newmark_v2.py"
   ]
+},
+{
+  "id": "DOC-028-WP13-02B7-NEWMARK-V2-RERUN-001",
+  "path": "verification/0_2_8/wp13_02b7_newmark_v2_rerun.md",
+  "title": "QF Solver 0.2.8 WP13-02B7 Newmark V2 rerun",
+  "status": "owner_review_required",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp13_02b4_newmark_v2_contract.json",
+    "qualification/0_2_8/wp13_02b7_v2/manifest.json",
+    "qualification/0_2_8/wp13_02b7_v2/wp13_02b7_arrays.npz"
+  ],
+  "tests": [
+    "tests/verification/test_028_wp13_02b7_newmark_v2.py"
+  ]
 }
   ]
   
