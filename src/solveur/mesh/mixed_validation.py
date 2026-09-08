@@ -44,6 +44,82 @@ def mixed_modal_scope_errors(model: Any) -> list[str]:
     return _mixed_scope_errors(model, "modal")
 
 
+def declared_mixed_dynamic_scope_errors(model: Any) -> list[str]:
+    """Validate an explicitly declared dynamic mixed-family/interface scope.
+
+    Pure-family dynamic models remain family-generic.  A dynamic input opts
+    into this preflight only when it declares the families and interfaces that
+    the campaign requires; this makes a missing family an explicit input/model
+    error instead of silently reducing the problem to a different topology.
+    """
+
+    parameters = getattr(getattr(model, "analysis", None), "parameters", {})
+    required_raw = parameters.get("required_mixed_families")
+    interfaces_raw = parameters.get("required_mixed_interfaces")
+    if required_raw is None and interfaces_raw is None:
+        return []
+
+    errors: list[str] = []
+    required: list[str] = []
+    if not isinstance(required_raw, list) or not required_raw or any(
+        not isinstance(item, str) or not item.strip() for item in required_raw
+    ):
+        errors.append("required_mixed_families must be a non-empty list of family names.")
+    else:
+        required = [item.strip().upper() for item in required_raw]
+        if len(set(required)) != len(required):
+            errors.append("required_mixed_families must not contain duplicate family names.")
+
+    elements = list(getattr(model, "elements", []))
+    actual = {str(getattr(element, "type", "")).upper() for element in elements}
+    missing = sorted(set(required).difference(actual))
+    if missing:
+        errors.append(
+            "Declared mixed dynamic scope is missing required element family/families: "
+            + ", ".join(missing)
+            + "."
+        )
+
+    declared_interfaces: list[tuple[str, str]] = []
+    if interfaces_raw is not None:
+        if not isinstance(interfaces_raw, list):
+            errors.append("required_mixed_interfaces must be a list of two-family pairs.")
+        else:
+            for index, raw_pair in enumerate(interfaces_raw):
+                if (
+                    not isinstance(raw_pair, list)
+                    or len(raw_pair) != 2
+                    or any(not isinstance(item, str) or not item.strip() for item in raw_pair)
+                ):
+                    errors.append(
+                        f"required_mixed_interfaces[{index}] must contain exactly two family names."
+                    )
+                    continue
+                declared_interfaces.append((raw_pair[0].strip().upper(), raw_pair[1].strip().upper()))
+
+    if declared_interfaces:
+        faces = _face_records(elements)
+        by_nodes: dict[frozenset[int], list[MixedSolidFace]] = defaultdict(list)
+        for face in faces:
+            by_nodes[frozenset(face.nodes)].append(face)
+        present_pairs = {
+            frozenset(face.element_type for face in entries)
+            for entries in by_nodes.values()
+            if len(entries) == 2
+        }
+        for left, right in declared_interfaces:
+            pair = frozenset((left, right))
+            if left not in required or right not in required:
+                errors.append(
+                    f"Declared mixed interface {left}/{right} is not included in required_mixed_families."
+                )
+            if left not in actual or right not in actual or pair not in present_pairs:
+                errors.append(
+                    f"Declared mixed interface {left}/{right} is missing or not conformingly connected."
+                )
+    return errors
+
+
 def _mixed_scope_errors(model: Any, analysis_type: str) -> list[str]:
     """Return explicit errors for an out-of-contract mixed solid model.
 
@@ -159,5 +235,6 @@ __all__ = [
     "MixedSolidFace",
     "mixed_linear_static_scope_errors",
     "mixed_modal_scope_errors",
+    "declared_mixed_dynamic_scope_errors",
     "mixed_solid_faces",
 ]

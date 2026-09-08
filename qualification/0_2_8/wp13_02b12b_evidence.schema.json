@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_id",
+    "work_package",
+    "start_sha",
+    "execution_sha",
+    "contract_id",
+    "contract_sha",
+    "contract_unchanged",
+    "gates_unchanged",
+    "historical_integrity",
+    "root_causes_and_fixes",
+    "targeted_cases",
+    "valid_controls",
+    "failure_contract",
+    "change_audit",
+    "decision"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "record_id": {"const": "QF-028-WP13-02B12B-VALIDATION-FIX"},
+    "work_package": {"const": "WP13-02B12b"},
+    "start_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "execution_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "contract_id": {"const": "WP13-02B4-NEWMARK-MIXED-V2-001"},
+    "contract_sha": {"const": "8b44792466eacaf1f341a7970502e9b48dbed4e1"},
+    "contract_unchanged": {"const": true},
+    "gates_unchanged": {"const": true},
+    "historical_integrity": {
+      "type": "object",
+      "required": ["b12_manifest", "b12_manifest_sha256_before", "b12_manifest_sha256_after", "b12_unchanged", "historical_results_preserved"],
+      "properties": {
+        "b12_manifest": {"type": "string"},
+        "b12_manifest_sha256_before": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "b12_manifest_sha256_after": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "b12_unchanged": {"const": true},
+        "historical_results_preserved": {"const": true}
+      }
+    },
+    "root_causes_and_fixes": {"type": "object", "minProperties": 3},
+    "targeted_cases": {
+      "type": "object",
+      "required": ["unsupported_damping_unknown_model", "invalid_initial_conditions_nonzero_fixed_state", "invalid_mixed_interface_family_missing"]
+    },
+    "valid_controls": {"type": "object", "minProperties": 4},
+    "failure_contract": {
+      "type": "object",
+      "required": ["variants_required", "variants_executed", "variants_pass", "new_blocker_variants_executed", "new_blocker_variants_pass", "silent_fallback"],
+      "properties": {
+        "variants_required": {"const": 27},
+        "variants_executed": {"const": 27},
+        "variants_pass": {"const": 27},
+        "new_blocker_variants_executed": {"const": 3},
+        "new_blocker_variants_pass": {"const": 3},
+        "silent_fallback": {"const": false}
+      }
+    },
+    "change_audit": {
+      "type": "object",
+      "required": ["numerical_source_changed", "input_validation_source_changed", "preflight_source_changed", "formulation_changed", "contract_changed", "gates_changed", "maturity_changed", "evidence_0_2_7_changed"],
+      "properties": {
+        "numerical_source_changed": {"const": false},
+        "input_validation_source_changed": {"const": true},
+        "preflight_source_changed": {"const": true},
+        "formulation_changed": {"const": false},
+        "contract_changed": {"const": false},
+        "gates_changed": {"const": false},
+        "maturity_changed": {"const": false},
+        "evidence_0_2_7_changed": {"const": false}
+      }
+    },
+    "decision": {
+      "type": "object",
+      "required": ["status", "targeted_blockers_pass", "valid_controls_pass", "ready_for_wp13_02b13"],
+      "properties": {
+        "status": {"const": "PASS_27_OF_27"},
+        "targeted_blockers_pass": {"const": true},
+        "valid_controls_pass": {"const": true},
+        "ready_for_wp13_02b13": {"const": true}
+      }
+    }
+  }
+}
