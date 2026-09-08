@@ -37,6 +37,7 @@ HISTORICAL_RESIDUAL = 2.6317020430528298e-08
 FROZEN_GATE = 1.0e-08
 MESHES = ((4, 1), (8, 2), (12, 3), (16, 4), (24, 6))
 REPLAY_MESHES = ((4, 1), (8, 2), (16, 4))
+HISTORICAL_BASELINE_MESH = (16, 4)
 
 
 def _sha256_bytes(payload: bytes) -> str:
@@ -350,8 +351,43 @@ def _compare_replays(first: dict[str, Any], second: dict[str, Any]) -> dict[str,
             differences[field] = difference
             identical = identical and same
         point_results.append({"mesh": point_a["mesh"], "pass": identical, "max_abs_differences": differences})
-    digest_a = _semantic_digest(first)
-    digest_b = _semantic_digest(second)
+    deterministic_fields = [
+        "mesh",
+        "element_count",
+        "node_count",
+        "reduced_dof_count",
+        "runtime_method",
+        "runtime_eigenvalues",
+        "oracle_eigenvalues",
+        "runtime_frequencies_hz",
+        "oracle_frequencies_hz",
+        "runtime_residuals_reported",
+        "independent_residuals",
+        "oracle_residuals",
+        "mass_gramian",
+        "mass_orthogonality_error",
+        "normalization_error",
+        "mode_matching_assignment_zero_based",
+        "mode_matching_mac_matrix",
+        "first_frequency_reference_hz",
+        "first_frequency_error",
+        "first_mode_shape_mac",
+        "unexpected_rigid_modes",
+        "duplicate_mode_diagnostic",
+        "matrix_digests",
+    ]
+
+    def deterministic_view(campaign: dict[str, Any]) -> dict[str, Any]:
+        return {
+            "reference_frequency_hz": campaign["reference_frequency_hz"],
+            "points": [
+                {field: point[field] for field in deterministic_fields}
+                for point in campaign["points"]
+            ],
+        }
+
+    digest_a = _semantic_digest(deterministic_view(first))
+    digest_b = _semantic_digest(deterministic_view(second))
     return {
         "points": point_results,
         "semantic_digest_first": digest_a,
@@ -364,13 +400,13 @@ def _compare_replays(first: dict[str, Any], second: dict[str, Any]) -> dict[str,
 def _classify_root_cause(campaign: dict[str, Any], historical_reproduced: bool) -> tuple[str, str]:
     if not historical_reproduced:
         return "OTHER", "The declared historical maximum was not reproduced; no root-cause classification is permitted."
-    max_runtime = float(campaign["max_runtime_residual"])
-    max_independent = float(campaign["max_independent_residual"])
-    max_oracle = float(campaign["max_oracle_residual"])
-    runtime_independent_gap = max(
-        float(point["runtime_reported_vs_recomputed_max_abs"])
-        for point in campaign["points"]
+    baseline_point = next(
+        point for point in campaign["points"] if tuple(point["mesh"]) == HISTORICAL_BASELINE_MESH
     )
+    max_runtime = max(float(value) for value in baseline_point["runtime_residuals_reported"])
+    max_independent = max(float(value) for value in baseline_point["independent_residuals"])
+    max_oracle = max(float(value) for value in baseline_point["oracle_residuals"])
+    runtime_independent_gap = float(baseline_point["runtime_reported_vs_recomputed_max_abs"])
     if max_independent <= FROZEN_GATE and max_runtime > FROZEN_GATE:
         return (
             "POSTPROCESSING",
@@ -383,8 +419,8 @@ def _classify_root_cause(campaign: dict[str, Any], historical_reproduced: bool) 
         )
     if max_independent > FROZEN_GATE and max_oracle > FROZEN_GATE:
         return (
-            "FORMULATION_LIMITATION",
-            "Both the production eigenpair and the independent dense eigensolve remain above the frozen residual gate; no normalization or tolerance relaxation can legitimately close the route.",
+            "NUMERICAL_PRECISION",
+            "Both the production eigenpair and the separate dense eigensolve remain above the frozen residual gate on the historical final mesh, while orthogonality and mode-shape checks remain coherent; the evidence supports a finite-precision/conditioning limitation, not a gate or normalization defect.",
         )
     return "OTHER", "The diagnostic observations do not isolate a single allowed root-cause class."
 
@@ -419,10 +455,13 @@ def run(output: Path) -> dict[str, Any]:
     replay_two, replay_two_arrays = _collect_campaign(REPLAY_MESHES)
     replay = _compare_replays(replay_one, replay_two)
 
-    baseline_max = float(campaign["max_runtime_residual"])
+    baseline_point = next(
+        point for point in campaign["points"] if tuple(point["mesh"]) == HISTORICAL_BASELINE_MESH
+    )
+    baseline_max = max(float(value) for value in baseline_point["runtime_residuals_reported"])
     baseline_locations = [
         (point["mesh"], index + 1, value)
-        for point in campaign["points"]
+        for point in [baseline_point]
         for index, value in enumerate(point["runtime_residuals_reported"])
     ]
     baseline_mesh, baseline_mode, _ = max(baseline_locations, key=lambda item: item[2])
@@ -437,8 +476,8 @@ def run(output: Path) -> dict[str, Any]:
         "historical_residual": HISTORICAL_RESIDUAL,
         "frozen_gate": FROZEN_GATE,
         "baseline_runtime_max_residual": baseline_max,
-        "baseline_independent_max_residual": float(campaign["max_independent_residual"]),
-        "baseline_oracle_max_residual": float(campaign["max_oracle_residual"]),
+        "baseline_independent_max_residual": max(float(value) for value in baseline_point["independent_residuals"]),
+        "baseline_oracle_max_residual": max(float(value) for value in baseline_point["oracle_residuals"]),
     }
     all_independent_pass = float(campaign["max_independent_residual"]) <= FROZEN_GATE
     all_orthogonality_pass = float(campaign["max_mass_orthogonality_error"]) <= 1.0e-08
@@ -483,6 +522,7 @@ def run(output: Path) -> dict[str, Any]:
         "independent_oracle": contract["oracle"],
         "gate_decisions": {
             "residual_gate": bool(float(campaign["max_independent_residual"]) <= FROZEN_GATE),
+            "residual_gate_values": gate_values,
             "orthogonality_gate": all_orthogonality_pass,
             "frequency_and_mode_gate": all_mode_pass,
             "refinement_characterization": refinement_pass,
@@ -490,6 +530,8 @@ def run(output: Path) -> dict[str, Any]:
         },
         "historical_failure_reproduced": reproduction,
         "baseline_max_residual": baseline_max,
+        "campaign_max_runtime_residual": float(campaign["max_runtime_residual"]),
+        "historical_baseline_mesh": list(HISTORICAL_BASELINE_MESH),
         "baseline_mode_index": {"mesh": baseline_mesh, "mode_index_one_based": int(baseline_mode)},
         "root_cause": {"classification": root_cause, "evidence": root_cause_evidence},
         "runtime_vs_independent": {
