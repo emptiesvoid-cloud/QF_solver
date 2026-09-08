@@ -1,0 +1,1172 @@
+{
+  "affine_field_reproduction": {
+    "gate": {
+      "definition": "max(abs(C u_affine - d))",
+      "operator": "<=",
+      "value": 1e-12
+    },
+    "quadrilateral_max_abs": 5.551115123125783e-17,
+    "status": "PASS",
+    "triangle_max_abs": 2.7755575615628914e-17
+  },
+  "change_audit": {
+    "element_analysis_registry_changed": false,
+    "evidence_0_2_7_changed": false,
+    "formulation_changed": false,
+    "maturity_changed": false,
+    "numerical_source_changed": false
+  },
+  "compatibility_matrix": {
+    "HEX20_HEX8": {
+      "classification": "REQUIRES_MPC_OR_TRANSITION_ELEMENT",
+      "direct_conforming": false,
+      "high_order_face": "QUAD8",
+      "linear_face": "QUAD4",
+      "reason": "Shared corner nodes alone do not make a quadratic QUAD8 trace conforming to QUAD4."
+    },
+    "HEX20_PYRAMID5": {
+      "classification": "REQUIRES_MPC_OR_TRANSITION_ELEMENT",
+      "direct_conforming": false,
+      "high_order_face": "QUAD8",
+      "linear_face": "QUAD4",
+      "reason": "A PYRAMID5 base is QUAD4; PYRAMID5 cannot connect a HEX20 QUAD8 trace directly."
+    },
+    "HEX20_WEDGE6": {
+      "classification": "REQUIRES_MPC_OR_TRANSITION_ELEMENT",
+      "direct_conforming": false,
+      "high_order_face": "QUAD8",
+      "linear_face": "QUAD4",
+      "reason": "The HEX20 face has four edge midside nodes absent from the WEDGE6 quadrilateral face."
+    },
+    "TET10_PYRAMID5": {
+      "classification": "REQUIRES_MPC_OR_TRANSITION_ELEMENT",
+      "direct_conforming": false,
+      "high_order_face": "TRI6",
+      "linear_face": "TRI3",
+      "reason": "A PYRAMID5 triangular side is TRI3; PYRAMID5 does not supply the high-order face nodes."
+    },
+    "TET10_TET4": {
+      "classification": "REQUIRES_MPC_OR_TRANSITION_ELEMENT",
+      "direct_conforming": false,
+      "high_order_face": "TRI6",
+      "linear_face": "TRI3",
+      "reason": "Shared corner nodes alone do not make a quadratic TRI6 trace conforming to TRI3."
+    },
+    "TET10_WEDGE6": {
+      "classification": "REQUIRES_MPC_OR_TRANSITION_ELEMENT",
+      "direct_conforming": false,
+      "high_order_face": "TRI6",
+      "linear_face": "TRI3",
+      "reason": "The TET10 face has three edge midside nodes absent from the WEDGE6 triangular face."
+    }
+  },
+  "contract_created_before_micro_run": true,
+  "contract_id": "WP13-09-HIGH-ORDER-INTERFACE-FEASIBILITY-001",
+  "contract_sha": "6937f31753b5ae801537ae5d572e05f302a15ffbbb1cf78d6b1bed44f3e81f0c",
+  "contract_unchanged": true,
+  "decision": {
+    "case_1_TET10_HEX20_direct": "NO_GO",
+    "case_2_TET10_HEX20_WEDGE6": "RESEARCH_ONLY",
+    "case_3_high_order_linear_MPC": "GO_WITH_LIMITATIONS",
+    "case_4_transition_element": "RESEARCH_ONLY",
+    "direct_high_order_mixed": "NO_GO_CURRENT_ARCHITECTURE",
+    "final_technical_decision": "MPC_TRANSITION_FEASIBLE",
+    "limitations": [
+      "Feasibility is limited to explicit straight planar TRI6/QUAD8-to-TRI3/QUAD4 affine trace relations.",
+      "No automatic high-order face matching or transition element exists in the current architecture.",
+      "Full quadratic continuity, curved midside geometry, element-level equilibrium and production load transfer remain unqualified.",
+      "WEDGE15/PYRAMID13 or a dedicated transition element remain research paths for exact high-order conformity.",
+      "No public capability or maturity promotion is created."
+    ],
+    "mpc_based_transition": "MPC_TRANSITION_FEASIBLE_BOUNDED_AFFINE_TRACE_ONLY",
+    "public_capability_created": false,
+    "pyramid13_required": true,
+    "transition_element_path": "TRANSITION_ELEMENTS_REQUIRED_FOR_FULL_HIGH_ORDER_CONFORMITY",
+    "wedge15_required": true
+  },
+  "determinism": {
+    "quadrilateral_digest_equal": true,
+    "status": "PASS",
+    "triangle_digest_equal": true
+  },
+  "environment": {
+    "numpy": "2.2.6",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "python": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]"
+  },
+  "face_topology_matrix": {
+    "checks": {
+      "HEX20_QUAD8": true,
+      "HEX8_QUAD4": true,
+      "PYRAMID13_absent": true,
+      "PYRAMID5_TRI3_QUAD4": true,
+      "TET10_TRI6": true,
+      "TET4_TRI3": true,
+      "WEDGE15_absent": true,
+      "WEDGE6_TRI3_QUAD4": true,
+      "all_declared": true
+    },
+    "declared": {
+      "HEX20": {
+        "faces": [
+          "QUAD8"
+        ],
+        "midside_nodes": 12,
+        "node_count": 20,
+        "source": "src/solveur/mesh/topology.py:HEX20_FACES; src/solveur/elements/solid/hex20.py:edge_data"
+      },
+      "HEX8": {
+        "faces": [
+          "QUAD4"
+        ],
+        "midside_nodes": 0,
+        "node_count": 8,
+        "source": "src/solveur/mesh/topology.py:HEX8_FACES"
+      },
+      "PYRAMID13": {
+        "faces": [
+          "TRI6",
+          "QUAD8"
+        ],
+        "midside_nodes": 8,
+        "node_count": 13,
+        "source": "not present in current registry/topology/Gmsh mapping"
+      },
+      "PYRAMID5": {
+        "faces": [
+          "TRI3",
+          "QUAD4"
+        ],
+        "midside_nodes": 0,
+        "node_count": 5,
+        "source": "src/solveur/mesh/topology.py:PYRAMID5_FACES"
+      },
+      "TET10": {
+        "faces": [
+          "TRI6"
+        ],
+        "midside_nodes": 6,
+        "node_count": 10,
+        "source": "src/solveur/mesh/topology.py:TET10_FACES"
+      },
+      "TET4": {
+        "faces": [
+          "TRI3"
+        ],
+        "midside_nodes": 0,
+        "node_count": 4,
+        "source": "src/solveur/mesh/topology.py:TET4_FACES"
+      },
+      "WEDGE15": {
+        "faces": [
+          "TRI6",
+          "QUAD8"
+        ],
+        "midside_nodes": 9,
+        "node_count": 15,
+        "source": "not present in current registry/topology/Gmsh mapping"
+      },
+      "WEDGE6": {
+        "faces": [
+          "TRI3",
+          "QUAD4"
+        ],
+        "midside_nodes": 0,
+        "node_count": 6,
+        "source": "src/solveur/mesh/topology.py:WEDGE6_FACES"
+      }
+    }
+  },
+  "full_test_suite": "DEFERRED_TO_WP13_FINAL_GATE",
+  "gmsh_reality": {
+    "limitation": "Gmsh can provide the endpoint families individually but the current importer has no native transition-element mapping or high-order/linear interface constraint generation.",
+    "node_ordering_check": "Use the existing TET10 Gmsh permutation and existing HEX20 Gmsh ordering; no transition ordering is available.",
+    "supported_native_families": [
+      "TET4",
+      "TET10",
+      "HEX8",
+      "HEX20",
+      "WEDGE6",
+      "PYRAMID5"
+    ],
+    "unsupported_transition_families": [
+      "WEDGE15",
+      "PYRAMID13"
+    ]
+  },
+  "historical_integrity": {
+    "consolidated_registry_present": true,
+    "wp02_7_directory_present": true,
+    "wp09_matrix_present": true,
+    "wp13_08_contract_present": true
+  },
+  "interface_continuity": {
+    "metric": "max(abs(C u_affine))",
+    "scope": "affine straight-face trace only; no full FE interface solve",
+    "status": "PASS"
+  },
+  "load_transfer_evidence": {
+    "metric": "max(norm(sum(C.T lambda)), norm(sum(x cross (C.T lambda))))",
+    "quadrilateral": 0.0,
+    "scope": "algebraic constraint-force pair balance only; no mechanical load-transfer qualification",
+    "status": "PASS",
+    "triangle": 0.0
+  },
+  "mcp_micro_spike": {
+    "executed": true,
+    "quadrilateral": {
+      "C": [
+        [
+          -0.5,
+          0.0,
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          -0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "geometry": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.5,
+          0.0
+        ],
+        [
+          0.5,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.5,
+          0.0
+        ]
+      ],
+      "metrics": {
+        "affine_max_abs": 5.551115123125783e-17,
+        "affine_residual": 6.359601310784502e-17,
+        "column_count": 24,
+        "constraint_force_moment": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "constraint_force_resultant": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "corner_count": 4,
+        "deterministic_digest": "6bf36692181a3f9f8ee7c034432b2014c2d5b69b5fcaf7f661c6563df37fd27d",
+        "face_name": "QUAD8_to_QUAD4",
+        "load_transfer_residual": 0.0,
+        "midside_count": 4,
+        "nullity": 12,
+        "rank": 12,
+        "relation_labels": [
+          "edge_0:component_0",
+          "edge_0:component_1",
+          "edge_0:component_2",
+          "edge_1:component_0",
+          "edge_1:component_1",
+          "edge_1:component_2",
+          "edge_2:component_0",
+          "edge_2:component_1",
+          "edge_2:component_2",
+          "edge_3:component_0",
+          "edge_3:component_1",
+          "edge_3:component_2"
+        ],
+        "rigid_residual": 0.0,
+        "row_count": 12
+      },
+      "production_linear_constraint_reduction": {
+        "accepted": true,
+        "constraint_count": 12,
+        "dependent_dof_count": 12,
+        "independent_dof_count": 12,
+        "matrix_rank_matches_rows": true,
+        "strategy": "sparse_affine_substitution"
+      }
+    },
+    "repeat_digests": {
+      "quadrilateral_equal": true,
+      "triangle_equal": true
+    },
+    "scope": "straight planar face traces, translational displacement only",
+    "triangle": {
+      "C": [
+        [
+          -0.5,
+          0.0,
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          -0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "geometry": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.5,
+          0.0
+        ],
+        [
+          0.0,
+          0.5,
+          0.0
+        ]
+      ],
+      "metrics": {
+        "affine_max_abs": 2.7755575615628914e-17,
+        "affine_residual": 3.1031676915590914e-17,
+        "column_count": 18,
+        "constraint_force_moment": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "constraint_force_resultant": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "corner_count": 3,
+        "deterministic_digest": "dce178f23f5ca3f7b79ea77decff887b2ac12f3bf201894e1926d0c29b41269e",
+        "face_name": "TRI6_to_TRI3",
+        "load_transfer_residual": 0.0,
+        "midside_count": 3,
+        "nullity": 9,
+        "rank": 9,
+        "relation_labels": [
+          "edge_0:component_0",
+          "edge_0:component_1",
+          "edge_0:component_2",
+          "edge_1:component_0",
+          "edge_1:component_1",
+          "edge_1:component_2",
+          "edge_2:component_0",
+          "edge_2:component_1",
+          "edge_2:component_2"
+        ],
+        "rigid_residual": 0.0,
+        "row_count": 9
+      },
+      "production_linear_constraint_reduction": {
+        "accepted": true,
+        "constraint_count": 9,
+        "dependent_dof_count": 9,
+        "independent_dof_count": 9,
+        "matrix_rank_matches_rows": true,
+        "strategy": "sparse_affine_substitution"
+      }
+    }
+  },
+  "rank_evidence": {
+    "quadrilateral": {
+      "nullity": 12,
+      "rank": 12,
+      "rows": 12
+    },
+    "status": "PASS",
+    "triangle": {
+      "nullity": 9,
+      "rank": 9,
+      "rows": 9
+    }
+  },
+  "record_id": "QF-028-WP13-09-HIGH-ORDER-INTERFACE-FEASIBILITY-EVIDENCE",
+  "repo_sha": "35ba8b759a62bd7baf82c0a0032f75c532cdc9a8",
+  "rigid_mode_evidence": {
+    "quadrilateral_max_abs": 0.0,
+    "status": "PASS",
+    "triangle_max_abs": 0.0
+  },
+  "schema_version": 1,
+  "source_audit": {
+    "declared": [
+      {
+        "classification": "ALREADY_IMPLEMENTED",
+        "finding": "All four element classes are individually registered; this does not establish mixed interface compatibility.",
+        "path": "src/solveur/elements/registry.py",
+        "symbols": [
+          "ElementRegistry._specs",
+          "TET10",
+          "HEX20",
+          "WEDGE6",
+          "PYRAMID5"
+        ]
+      },
+      {
+        "classification": "ALREADY_IMPLEMENTED",
+        "finding": "TET10 uses four corner nodes plus six midside edge nodes and validates the high-order geometry.",
+        "path": "src/solveur/elements/solid/tet10.py",
+        "symbols": [
+          "Tet10Element.edge_nodes",
+          "Tet10Element.shape_functions",
+          "Tet10Element.validate_geometry"
+        ]
+      },
+      {
+        "classification": "ALREADY_IMPLEMENTED",
+        "finding": "HEX20 uses eight corner nodes plus twelve midside edge nodes and validates sampled Jacobians.",
+        "path": "src/solveur/elements/solid/hex20.py",
+        "symbols": [
+          "Hex20Element.edge_data",
+          "Hex20Element.shape_functions",
+          "Hex20Element.validate_geometry"
+        ]
+      },
+      {
+        "classification": "PARTIAL",
+        "finding": "High-order face definitions exist for TET10 and HEX20, but no WEDGE15 or PYRAMID13 topology exists.",
+        "path": "src/solveur/mesh/topology.py",
+        "symbols": [
+          "TET4_FACES",
+          "TET10_FACES",
+          "WEDGE6_FACES",
+          "HEX8_FACES",
+          "HEX20_FACES",
+          "PYRAMID5_FACES"
+        ]
+      },
+      {
+        "classification": "PARTIAL",
+        "finding": "Gmsh imports TET10/HEX20/WEDGE6/PYRAMID5 individually and maps high-order faces for surface targeting, but has no WEDGE15/PYRAMID13 transition mapping.",
+        "path": "src/solveur/mesh/gmsh_importer.py",
+        "symbols": [
+          "SUPPORTED_FAMILIES",
+          "GMSH_TET10_TO_INTERNAL",
+          "_cell_family",
+          "_oriented_connectivities",
+          "_solid_face_map"
+        ]
+      },
+      {
+        "classification": "TOPOLOGY_GAP",
+        "finding": "Mixed scope and face records enumerate TET4/WEDGE6/HEX8/PYRAMID5 only; TET10/HEX20 are not validated as mixed interface families.",
+        "path": "src/solveur/mesh/mixed_validation.py",
+        "symbols": [
+          "MIXED_LINEAR_STATIC_FAMILIES",
+          "PYRAMID5_FEASIBILITY_FAMILIES",
+          "_FACE_MAP",
+          "_NODE_COUNTS",
+          "_mixed_scope_errors",
+          "_face_records"
+        ]
+      },
+      {
+        "classification": "ALREADY_IMPLEMENTED",
+        "finding": "Translation MPCs accept arbitrary linear coefficients, use affine elimination, expose rank/relation diagnostics, and recover constraint forces. No high-order face interpolator is provided.",
+        "path": "src/solveur/core/constraints.py",
+        "symbols": [
+          "LinearConstraint",
+          "ConstraintReduction",
+          "validate_constraint_definitions",
+          "recover_constraint_forces"
+        ]
+      },
+      {
+        "classification": "PARTIAL",
+        "finding": "RBE2 is expanded into translational linear MPC equations for its bounded route; it is not a high-order face transition generator.",
+        "path": "src/solveur/core/rbe.py",
+        "symbols": [
+          "Rbe2Definition",
+          "rbe2_constraints"
+        ]
+      },
+      {
+        "classification": "RESEARCH_ONLY",
+        "finding": "The qualified MPC route is linear-static, conforming TET4/WEDGE6/HEX8, homogeneous and translational only; it excludes nonconforming interfaces and arbitrary MPCs.",
+        "path": "qualification/0_2_8/wp13_03d_mixed_mpc_owner_delivery.json",
+        "symbols": [
+          "workflow",
+          "limitations"
+        ]
+      },
+      {
+        "classification": "RESEARCH_ONLY",
+        "finding": "PYRAMID5 feasibility is bounded to a HEX8/PYRAMID5/TET4 conforming patch and explicitly makes no PYRAMID13 or transition-mesh claim.",
+        "path": "qualification/0_2_8/wp09_pyramid5_matrix.json",
+        "symbols": [
+          "hex8_pyramid5_tet4_conforming_transition",
+          "limitations"
+        ]
+      }
+    ],
+    "files": [
+      {
+        "path": "src/solveur/elements/registry.py",
+        "present": true,
+        "sha256": "ce42bc26ddde7d13ba70ecff3b87dd48903d3cc0f571e7b3212c6efcf41cfd6d"
+      },
+      {
+        "path": "src/solveur/elements/solid/tet10.py",
+        "present": true,
+        "sha256": "a29b8bb118c20ce4b78406b07829a3017357f467af4318b8b6e0ffa72c89bbc5"
+      },
+      {
+        "path": "src/solveur/elements/solid/hex20.py",
+        "present": true,
+        "sha256": "0b4de54be71ff59f1487eff9f22aacf19fcefa3c9c360045c04f2e323295744c"
+      },
+      {
+        "path": "src/solveur/elements/solid/wedge6.py",
+        "present": true,
+        "sha256": "0d164b4cc09c1c2eee2ff63611f42321be82c6717c9bece5d60d2fbe4252ac0f"
+      },
+      {
+        "path": "src/solveur/elements/solid/pyramid5.py",
+        "present": true,
+        "sha256": "21cf07a66bb88d03454b13752d7f1f970c811380f7fe06730fec8c7bb35a0c7d"
+      },
+      {
+        "path": "src/solveur/mesh/topology.py",
+        "present": true,
+        "sha256": "849ead223e18b5e9add2d446960dc4e58bff539255aea69e6544140166fdd458"
+      },
+      {
+        "path": "src/solveur/mesh/gmsh_importer.py",
+        "present": true,
+        "sha256": "2467af9d455b71ed1e0126fb6c8b0f627013bb26e066e7111c8a520be0ce4a0e"
+      },
+      {
+        "path": "src/solveur/mesh/mixed_validation.py",
+        "present": true,
+        "sha256": "290bd92b62215a31890e0827da59eabb918d0eddcb6d446922d91e0dc11da6de"
+      },
+      {
+        "path": "src/solveur/core/constraints.py",
+        "present": true,
+        "sha256": "b3bc8f1025e18741ab4f245ae24cb7df6bd1dd104dc5a4da716bc3aedb776e5e"
+      },
+      {
+        "path": "src/solveur/core/rbe.py",
+        "present": true,
+        "sha256": "cacceef5d811a67f4dc181cf74a764114a2e724ed953ba64b566928698bcdd07"
+      },
+      {
+        "path": "qualification/0_2_8/wp13_03d_mixed_mpc_owner_delivery.json",
+        "present": true,
+        "sha256": "1c58f866ade5d386c3bef580bf0856377a29aa9ba091b6ef1a90cf2ab1ceaa0f"
+      },
+      {
+        "path": "qualification/0_2_8/wp09_pyramid5_matrix.json",
+        "present": true,
+        "sha256": "66509e9f16e79c02bbdf3513bb565d5b447f960d54b97ca0f18033230cba2f05"
+      }
+    ]
+  },
+  "source_sha_before": {
+    "qualification\\0_2_8\\wp09_pyramid5_matrix.json": "66509e9f16e79c02bbdf3513bb565d5b447f960d54b97ca0f18033230cba2f05",
+    "qualification\\0_2_8\\wp13_03d_mixed_mpc_owner_delivery.json": "1c58f866ade5d386c3bef580bf0856377a29aa9ba091b6ef1a90cf2ab1ceaa0f",
+    "src\\solveur\\core\\constraints.py": "b3bc8f1025e18741ab4f245ae24cb7df6bd1dd104dc5a4da716bc3aedb776e5e",
+    "src\\solveur\\core\\rbe.py": "cacceef5d811a67f4dc181cf74a764114a2e724ed953ba64b566928698bcdd07",
+    "src\\solveur\\elements\\registry.py": "ce42bc26ddde7d13ba70ecff3b87dd48903d3cc0f571e7b3212c6efcf41cfd6d",
+    "src\\solveur\\elements\\solid\\hex20.py": "0b4de54be71ff59f1487eff9f22aacf19fcefa3c9c360045c04f2e323295744c",
+    "src\\solveur\\elements\\solid\\pyramid5.py": "21cf07a66bb88d03454b13752d7f1f970c811380f7fe06730fec8c7bb35a0c7d",
+    "src\\solveur\\elements\\solid\\tet10.py": "a29b8bb118c20ce4b78406b07829a3017357f467af4318b8b6e0ffa72c89bbc5",
+    "src\\solveur\\elements\\solid\\wedge6.py": "0d164b4cc09c1c2eee2ff63611f42321be82c6717c9bece5d60d2fbe4252ac0f",
+    "src\\solveur\\mesh\\gmsh_importer.py": "2467af9d455b71ed1e0126fb6c8b0f627013bb26e066e7111c8a520be0ce4a0e",
+    "src\\solveur\\mesh\\mixed_validation.py": "290bd92b62215a31890e0827da59eabb918d0eddcb6d446922d91e0dc11da6de",
+    "src\\solveur\\mesh\\topology.py": "849ead223e18b5e9add2d446960dc4e58bff539255aea69e6544140166fdd458"
+  },
+  "status": "PASS_FEASIBILITY_AUDIT",
+  "targeted_checks": [
+    "contract JSON validation",
+    "contract committed before micro-spike",
+    "source and topology audit",
+    "face compatibility matrix",
+    "Gmsh mapping reality check",
+    "affine MPC trace micro-spike",
+    "rank and rigid-mode checks",
+    "algebraic constraint-force pair balance",
+    "determinism check",
+    "historical path and registry presence checks"
+  ],
+  "transition_options": {
+    "DEDICATED_TRANSITION_ELEMENT": {
+      "architecture_cost": "VERY_HIGH",
+      "complexity": "VERY_HIGH",
+      "current_status": "MISSING",
+      "feasibility": "RESEARCH_ONLY",
+      "numerical_risk": "HIGH",
+      "value": "The cleanest route for exact high-order continuity if the transition family and its shape functions are developed.",
+      "vnv_cost": "VERY_HIGH"
+    },
+    "HANGING_NODE_CONSTRAINTS": {
+      "architecture_cost": "HIGH",
+      "complexity": "HIGH",
+      "current_status": "MISSING",
+      "feasibility": "RESEARCH_ONLY",
+      "numerical_risk": "HIGH",
+      "value": "Could express p-transition constraints but no dedicated hanging-node topology/ownership path exists.",
+      "vnv_cost": "HIGH"
+    },
+    "LOCAL_LINEAR_DOWNGRADE": {
+      "architecture_cost": "MEDIUM",
+      "complexity": "MEDIUM",
+      "current_status": "NOT_AUTOMATIC",
+      "feasibility": "PARTIAL",
+      "numerical_risk": "MEDIUM",
+      "value": "A high-order element can be restricted at an interface to the linear trace, but this is a deliberate local p-downgrade and needs explicit transition semantics.",
+      "vnv_cost": "HIGH"
+    },
+    "MPC_MIDSIDE_TYING": {
+      "architecture_cost": "MEDIUM",
+      "complexity": "MEDIUM",
+      "current_status": "PRIMITIVE_EXISTS_NO_FACE_GENERATOR",
+      "feasibility": "PARTIAL",
+      "limitations": [
+        "not full quadratic continuity",
+        "requires geometry-aware mapping",
+        "requires rank/load-transfer validation",
+        "not automatically valid for curved midside geometry"
+      ],
+      "numerical_risk": "MEDIUM",
+      "value": "Can express bounded straight-interface relations u_mid = 0.5*(u_a + u_b), preserving affine traces but restricting the high-order interface to the linear neighbor space.",
+      "vnv_cost": "HIGH"
+    },
+    "PYRAMID13": {
+      "architecture_cost": "HIGH",
+      "complexity": "HIGH",
+      "current_status": "MISSING",
+      "feasibility": "RESEARCH_ONLY",
+      "numerical_risk": "HIGH",
+      "required_for_full_high_order_HEX20_TET10_transition": true,
+      "value": "Would provide high-order triangular and quadrilateral transition faces around a pyramid.",
+      "vnv_cost": "HIGH"
+    },
+    "WEDGE15": {
+      "architecture_cost": "HIGH",
+      "complexity": "HIGH",
+      "current_status": "MISSING",
+      "feasibility": "RESEARCH_ONLY",
+      "numerical_risk": "MEDIUM",
+      "value": "Would provide TRI6 and QUAD8 faces for high-order prism transitions.",
+      "vnv_cost": "HIGH"
+    }
+  },
+  "work_package": "WP13-09"
+}
