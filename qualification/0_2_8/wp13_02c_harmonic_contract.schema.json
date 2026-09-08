@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "qf-solver-0.2.8/wp13-02c-harmonic-mixed-contract.schema.json",
+  "title": "QF Solver 0.2.8 WP13-02C mixed harmonic contract",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "record_id",
+    "contract_id",
+    "work_package",
+    "creation_sha",
+    "status",
+    "scope",
+    "conditioning_precheck",
+    "frequency_contract",
+    "oracle",
+    "predeclared_gates",
+    "interfaces",
+    "replay",
+    "failure_contract",
+    "evidence_schema",
+    "abort_criteria",
+    "claim_policy",
+    "integrity"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "record_id": {"const": "QF-028-WP13-02C-HARMONIC-MIXED-CONTRACT"},
+    "contract_id": {"const": "WP13-02C-HARMONIC-MIXED-001"},
+    "work_package": {"const": "WP13-02C"},
+    "creation_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "status": {"const": "PREDECLARED_NOT_EXECUTED"},
+    "scope": {
+      "type": "object",
+      "required": ["analysis", "element_families", "geometry", "boundary_conditions", "harmonic_load", "connected_components", "direct_support_bypass"],
+      "properties": {
+        "element_families": {"const": ["TET4", "WEDGE6", "HEX8"]},
+        "connected_components": {"const": 1},
+        "direct_support_bypass": {"const": false}
+      }
+    },
+    "frequency_contract": {
+      "type": "object",
+      "required": ["reference_frequency", "frequency_ratios", "required_regions", "no_result_dependent_frequency_selection"],
+      "properties": {
+        "frequency_ratios": {"type": "array", "minItems": 10},
+        "no_result_dependent_frequency_selection": {"const": true}
+      }
+    },
+    "predeclared_gates": {
+      "type": "object",
+      "required": ["fixed_before_execution", "post_observation_retuning", "oracle_amplitude_relative", "oracle_phase_absolute_rad", "harmonic_residual_relative", "static_limit_relative", "interface_displacement_continuity", "interface_force_transfer_relative", "interface_energy_error_relative", "replay_response_relative"],
+      "properties": {
+        "fixed_before_execution": {"const": true},
+        "post_observation_retuning": {"const": false}
+      }
+    },
+    "failure_contract": {
+      "type": "object",
+      "required": ["silent_fallback_allowed", "cases", "all_cases_must_execute"],
+      "properties": {
+        "silent_fallback_allowed": {"const": false},
+        "cases": {"type": "object", "minProperties": 9},
+        "all_cases_must_execute": {"const": true}
+      }
+    },
+    "evidence_schema": {
+      "type": "object",
+      "required": ["format", "required_fields", "contract_values_single_source_of_truth", "all_gate_values_must_be_loaded_from_contract"],
+      "properties": {
+        "contract_values_single_source_of_truth": {"const": true},
+        "all_gate_values_must_be_loaded_from_contract": {"const": true}
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "required": ["numerical_source_change_allowed", "formulation_change_allowed", "contract_change_after_first_result", "maturity_change_allowed"],
+      "properties": {
+        "numerical_source_change_allowed": {"const": false},
+        "formulation_change_allowed": {"const": false},
+        "contract_change_after_first_result": {"const": false},
+        "maturity_change_allowed": {"const": false}
+      }
+    }
+  }
+}
