@@ -104,8 +104,18 @@ class NewmarkDynamicSolver:
             initial_energy = checkpoint.initial_energy
             restart_step = checkpoint.completed_step
         else:
-            displacement = _initial_vector(dofs, params.get("initial_displacements", []))
-            velocity = _initial_vector(dofs, params.get("initial_velocities", []))
+            displacement = _initial_vector(
+                dofs,
+                params.get("initial_displacements", []),
+                fixed_indices=fixed,
+                field_name="initial_displacements",
+            )
+            velocity = _initial_vector(
+                dofs,
+                params.get("initial_velocities", []),
+                fixed_indices=fixed,
+                field_name="initial_velocities",
+            )
             reduced_displacement = reducer.reduce_state(displacement)
             reduced_velocity = reducer.reduce_state(velocity)
             initial_force = self._dynamic_load(params, 0, 0.0, steps, dt, loads, load_vectors)
@@ -508,7 +518,13 @@ def _reduced_matrices(
     return mass[free, :][:, free], damping[free, :][:, free], stiffness[free, :][:, free]
 
 
-def _initial_vector(dofs: DofManager, entries: object) -> np.ndarray:
+def _initial_vector(
+    dofs: DofManager,
+    entries: object,
+    *,
+    fixed_indices: np.ndarray | None = None,
+    field_name: str = "initial_conditions",
+) -> np.ndarray:
     """Normalize a supported list of nodal initial-condition entries.
 
     The public dynamic contract uses ``list[dict]`` entries with ``node``,
@@ -516,6 +532,7 @@ def _initial_vector(dofs: DofManager, entries: object) -> np.ndarray:
     malformed input here instead of silently treating it as a zero state.
     """
     vector = np.zeros(dofs.ndof, dtype=float)
+    fixed_set = {int(item) for item in fixed_indices} if fixed_indices is not None else set()
     if not isinstance(entries, list):
         raise InputValidationError(
             "Initial conditions must be provided as a list of {node, dof, value} entries."
@@ -541,6 +558,11 @@ def _initial_vector(dofs: DofManager, entries: object) -> np.ndarray:
             raise InputValidationError(
                 f"Invalid initial-condition entry {position}: {exc}."
             ) from exc
+        if index in fixed_set and value != 0.0:
+            raise InputValidationError(
+                f"{field_name} entry {position} sets a nonzero value on fixed DOF "
+                f"{entry['node']}:{entry['dof']}; constrained initial states must be zero."
+            )
         vector[index] = value
     return vector
 
