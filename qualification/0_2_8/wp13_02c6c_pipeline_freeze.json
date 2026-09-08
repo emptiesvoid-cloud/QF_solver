@@ -5,7 +5,7 @@
   "contract_blob_digest": "f26f7160f308e812da8fa0fc94ebdbba1eb1958f50db9f6d255ffb993951d045",
   "candidate_schema_digest": "000c4c64248fd4793e485de013ed0709c3e82cd39e14ea25f9003c054c87ba7f",
   "final_schema_digest": "6aa772f6b54400a359435bf9a3902589a90f8c2e9e0705706cef4ecc70e1b1ed",
-  "repo_sha": "27263a9147e8c180832c3c8d7508b3bb836001dc",
+  "repo_sha": "f5bb372a11167a8345618af7396f039e84261952",
   "repo_sha_role": "source commit containing the frozen C6c pipeline; the runtime pre-run guard records the actual execution HEAD before solve",
   "c6c_expected_pipeline_digest": "8f3c55a7daae769d4cee7b492b839d6480edfb283b7306a08dfa2144cdff9c01",
   "pipeline_combined_digest": "8f3c55a7daae769d4cee7b492b839d6480edfb283b7306a08dfa2144cdff9c01",
