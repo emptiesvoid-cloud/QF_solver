@@ -66,7 +66,7 @@ class MeshValidator:
             errors.extend(mixed_linear_static_scope_errors(model))
         elif model.analysis.type == "modal":
             errors.extend(mixed_modal_scope_errors(model))
-        elif model.analysis.type == "transient_dynamic":
+        elif model.analysis.type in {"transient_dynamic", "harmonic_response"}:
             errors.extend(declared_mixed_dynamic_scope_errors(model))
         self._check_shell_orientation(model, errors)
         details["element_quality"] = self._element_quality_details(model, warnings)
@@ -173,6 +173,12 @@ class MeshValidator:
         details: list[dict[str, Any]] = []
         warning_start = len(warnings)
         for index, element in enumerate(model.elements):
+            try:
+                expected_nodes = ElementRegistry.get(element.type).node_count
+            except ValueError:
+                continue
+            if len(element.nodes) != expected_nodes:
+                continue
             if any(node < 0 or node >= model.node_count for node in element.nodes):
                 continue
             coords = model.nodes[list(element.nodes)]

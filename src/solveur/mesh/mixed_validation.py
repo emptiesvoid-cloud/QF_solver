@@ -81,6 +81,13 @@ def declared_mixed_dynamic_scope_errors(model: Any) -> list[str]:
             + ", ".join(missing)
             + "."
         )
+    unexpected = sorted(actual.difference(required))
+    if required and unexpected:
+        errors.append(
+            "Declared mixed dynamic scope contains unsupported undeclared element family/families: "
+            + ", ".join(unexpected)
+            + "."
+        )
 
     declared_interfaces: list[tuple[str, str]] = []
     if interfaces_raw is not None:
