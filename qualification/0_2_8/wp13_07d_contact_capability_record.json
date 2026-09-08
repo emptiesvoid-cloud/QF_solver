@@ -1,0 +1,163 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP13-07D-CONTACT-FRICTIONLESS-CAPABILITY",
+  "capability_id": "CONTACT-FRICTIONLESS-PENALTY-NODE-TRIANGLE-BOUNDED",
+  "registry_kind": "CONTACT_RESEARCH_CAPABILITY",
+  "applicable_version": "0.2.8",
+  "status": "EXPERIMENTAL_BOUNDED",
+  "public_wording": "Experimental bounded frictionless penalty contact for the documented small-sliding node-to-triangle static/quasi-static scope.",
+  "owner_decision": {
+    "decision": "APPROVE_EXPERIMENTAL_BOUNDED",
+    "final_status": "APPROVED_EXPERIMENTAL_BOUNDED",
+    "source": "WP13-07C Owner Gate",
+    "source_start_sha": "f55eca749f5f5f92cfdcfd5f97fb11863930c79d",
+    "traceability": "Separate bounded frictionless-contact capability; no promotion of the 46 ELEMENT_ANALYSIS records."
+  },
+  "approved_scope": {
+    "contact": "frictionless",
+    "formulation": "penalty",
+    "geometry": "node-to-triangle",
+    "sliding": "bounded small-sliding with documented fixed search/active-set route",
+    "analysis": "static/quasi-static",
+    "material": "linear-elastic TET4 solids",
+    "geometries": "tested geometries only",
+    "penalty_values": "tested penalty range only",
+    "features": [
+      "gap and penetration evaluation",
+      "contact force and reaction evidence",
+      "incremental conservative energy balance",
+      "documented active-set transitions",
+      "deterministic replay",
+      "fail-closed invalid-input handling"
+    ]
+  },
+  "limitations": [
+    "frictionless only",
+    "penalty only",
+    "node-to-triangle only",
+    "bounded small-sliding only",
+    "static/quasi-static only",
+    "tested geometries only",
+    "tested penalty range only",
+    "linear-elastic solids only",
+    "refinement characterization only",
+    "no general convergence",
+    "no friction",
+    "no finite-sliding generality",
+    "no general surface-to-surface",
+    "no self-contact",
+    "no dynamic impact",
+    "no nonlinear materials",
+    "no MPI/distributed contact",
+    "no universal contact claim"
+  ],
+  "historical_traceability": {
+    "v1": {
+      "contract_id": "WP13-07-CONTACT-BOUNDED-001",
+      "status": "FAIL_ENERGY_GATE",
+      "immutable": true,
+      "contract_sha256": "7599708d36bf4f508971f5ca4d98d8d866dec7d6f167d1c7b6b53cc309115d0d",
+      "evidence": "qualification/0_2_8/wp13_07_contact_bounded/wp13_07_contact_evidence.json"
+    },
+    "v2": {
+      "contract_id": "WP13-07-CONTACT-BOUNDED-002",
+      "status": "FAIL_CONTACT_BOUNDED_CAMPAIGN",
+      "immutable": true,
+      "contract_sha256": "d7f9105fcad22d9df164692d9bbc0a483ca77ded5f18395bd647403790d0bf2c",
+      "evidence": "qualification/0_2_8/wp13_07_contact_bounded_v2/wp13_07_contact_v2_evidence.json"
+    },
+    "v3": {
+      "contract_id": "WP13-07-CONTACT-BOUNDED-003",
+      "contract_sha256": "f775343f6008191ef3c9c81b2600ab2a42c53e1113237d01d1ec62dcf001333e",
+      "contract_path": "qualification/0_2_8/wp13_07_contact_bounded_v3_contract.json",
+      "evidence": "qualification/0_2_8/wp13_07_contact_bounded_v3/wp13_07_contact_v3_evidence.json",
+      "owner_decision": "APPROVE_EXPERIMENTAL_BOUNDED",
+      "immutable": true
+    }
+  },
+  "energy_definition": {
+    "load_parameterization": "F(lambda)=lambda*F_ref",
+    "branch_displacement": "u_q(lambda)=A_q*lambda+b_q",
+    "derivative": "du_q/dlambda=A_q",
+    "branch_work": "0.5*(lambda_b^2-lambda_a^2)*F_ref^T*A_q",
+    "b_offset_work_contribution": 0.0,
+    "contact_potential": "U_contact=0.5*k_p*min(g,0)^2",
+    "v1_v2_retroactive_rewrite": false
+  },
+  "evidence": {
+    "manifest": "qualification/0_2_8/wp13_07_contact_bounded_v3/wp13_07_contact_v3_evidence.json",
+    "manifest_sha256": "1451f43f6ad08ff46d24ee8a3dc9325eeed3a1ddc3e216b12542e01ddb1d314d",
+    "case_a": {
+      "status": "PASS",
+      "u_strain_final": 20.5374761126597,
+      "u_contact_final": 1.87868661411326,
+      "w_external_analytic": 22.41616272677299,
+      "w_external_numerical": 22.416162726773806,
+      "work_crosscheck": 8.171241461241152e-13,
+      "energy_error_relative": 1.267911451965783e-15
+    },
+    "case_b": {
+      "status": "PASS",
+      "active_set_sequence": ["inactive", "active", "inactive", "active"],
+      "u_strain_final": 20.537476112659697,
+      "u_contact_final": 1.8786866141132517,
+      "w_external_analytic": 22.41616272677299,
+      "w_external_numerical": 22.41616272677382,
+      "work_crosscheck": 8.313350008393172e-13,
+      "energy_error_relative": 1.7433782464529517e-15,
+      "ghost_contact_energy": 0.0
+    },
+    "active_set_transition_energy": {
+      "status": "PASS",
+      "maximum_local_error": 4.263256414560601e-14
+    },
+    "mechanical_gates": {
+      "gap": "PASS",
+      "penetration": "PASS",
+      "contact_force": "PASS",
+      "reactions": "PASS",
+      "residual": "PASS"
+    },
+    "penalty_sensitivity": "PASS",
+    "refinement": "PASS_CHARACTERIZATION",
+    "oracle": "PASS",
+    "oracle_independence": "PASS_WITH_KERNEL_LIMITATION",
+    "search": "PASS",
+    "active_set": "PASS",
+    "failure_cases": {"required": 8, "executed": 8, "passed": "8/8", "silent_fallback": false},
+    "replay": {"replay_1": "PASS", "replay_2": "PASS", "full_array_comparison": "PASS", "semantic_digest_equal": true},
+    "evidence_integrity": "PASS"
+  },
+  "frictional_route": {
+    "status": "RESEARCH / NOT_IN_RELEASE_SCOPE / IMPLEMENTED_BUT_UNQUALIFIED",
+    "promoted_by_this_record": false
+  },
+  "registry_separation": {
+    "element_analysis_registry": "qualification/0_2_8/consolidated_registry.json#/combination_registry/records",
+    "element_analysis_counts": {
+      "QUALIFIED_BOUNDED": 32,
+      "EXPERIMENTAL": 14,
+      "NOT_QUALIFIED": 0,
+      "TOTAL": 46
+    },
+    "added_to_element_analysis_registry": false,
+    "separate_capability_record": true,
+    "separation_valid": true
+  },
+  "historical_integrity": {
+    "v1_v2_v3_contracts_unchanged": true,
+    "evidence_0_2_7_changed": false,
+    "contact_formulation_changed": false,
+    "element_formulation_changed": false,
+    "numerical_source_changed": false,
+    "maturity_46_changed": false,
+    "gates_changed": false
+  },
+  "delivery": {
+    "start_sha": "f55eca749f5f5f92cfdcfd5f97fb11863930c79d",
+    "numerical_runs": "NONE",
+    "full_test_suite": "DEFERRED_TO_WP13_FINAL_GATE",
+    "release_metadata_changed": false,
+    "version_bump": false
+  }
+}
