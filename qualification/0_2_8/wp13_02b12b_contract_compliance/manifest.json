@@ -1,0 +1,2439 @@
+{
+  "change_audit": {
+    "contract_changed": false,
+    "evidence_0_2_7_changed": false,
+    "formulation_changed": false,
+    "gates_changed": false,
+    "input_validation_source_changed": true,
+    "maturity_changed": false,
+    "numerical_source_changed": false,
+    "preflight_source_changed": true
+  },
+  "contract_id": "WP13-02B4-NEWMARK-MIXED-V2-001",
+  "contract_sha": "8b44792466eacaf1f341a7970502e9b48dbed4e1",
+  "contract_sha256": "f5ac038fc57497f873c96bea59f2250a67a5a40676683ca4a7875ef61afdfb48",
+  "contract_unchanged": true,
+  "decision": {
+    "full_test_suite": "DEFERRED_TO_WP13_FINAL_GATE",
+    "ready_for_wp13_02b13": true,
+    "status": "PASS_27_OF_27",
+    "targeted_blockers_pass": true,
+    "valid_controls_pass": true
+  },
+  "execution_sha": "b0715a3a2c9c45b03f511d119d7caf83050b1f81",
+  "failure_contract": {
+    "cumulative_evidence": true,
+    "new_blocker_variants_executed": 3,
+    "new_blocker_variants_pass": 3,
+    "new_targeted_cases_actually_executed": [
+      "unsupported_damping_unknown_model",
+      "invalid_initial_conditions_nonzero_fixed_state",
+      "invalid_mixed_interface_family_missing"
+    ],
+    "prior_b12_variants_executed": 27,
+    "prior_b12_variants_pass": 24,
+    "silent_fallback": false,
+    "source": "WP13-02B4-NEWMARK-MIXED-V2-001/failure_contract.cases",
+    "variants_executed": 27,
+    "variants_pass": 27,
+    "variants_required": 27
+  },
+  "gates_unchanged": true,
+  "historical_integrity": {
+    "b12_manifest": "qualification/0_2_8/wp13_02b12_contract_compliance/manifest.json",
+    "b12_manifest_sha256_after": "5f32831e3b29f216b103d7f52792cbbe1b71cd35153bf64235390392da87bb2c",
+    "b12_manifest_sha256_before": "5f32831e3b29f216b103d7f52792cbbe1b71cd35153bf64235390392da87bb2c",
+    "b12_unchanged": true,
+    "historical_results_preserved": true
+  },
+  "record_id": "QF-028-WP13-02B12B-VALIDATION-FIX",
+  "root_causes_and_fixes": {
+    "invalid_initial_conditions_nonzero_fixed_state": {
+      "affected_function": "solveur.core.analyses.dynamic._initial_vector",
+      "affected_route": "transient_dynamic/newmark initial state",
+      "fix": "Reject nonzero displacement or velocity entries on fixed DOFs; preserve zero entries.",
+      "fix_location": "initial vector validation after fixed DOF resolution",
+      "root_cause": "INPUT_VALIDATION"
+    },
+    "invalid_mixed_interface_family_missing": {
+      "affected_function": "solveur.mesh.mixed_validation.declared_mixed_dynamic_scope_errors",
+      "affected_route": "transient_dynamic/newmark declared mixed scope",
+      "fix": "Validate declared required families and conforming family-interface pairs before integration.",
+      "fix_location": "MeshValidator dynamic preflight before assembly",
+      "root_cause": "PREFLIGHT_VALIDATION"
+    },
+    "unsupported_damping_unknown_model": {
+      "affected_function": "solveur.core.analyses.dynamic_controls.rayleigh_damping_definition",
+      "affected_route": "transient_dynamic/newmark and dynamic damping control",
+      "fix": "Reject a declared damping_model unless it is the supported Rayleigh model.",
+      "fix_location": "input damping model validation before coefficient normalization",
+      "root_cause": "INPUT_VALIDATION"
+    }
+  },
+  "schema_version": 1,
+  "start_sha": "a6fcc1da7aaba6ae39a993728c1a25fb84aa9f16",
+  "targeted_cases": {
+    "invalid_initial_conditions_nonzero_fixed_state": {
+      "case_id": "invalid_initial_conditions_nonzero_fixed_state",
+      "category": "invalid_initial_conditions",
+      "executed": true,
+      "execution_path": "solve_model(model, enforce_policy=False)",
+      "expected_exception": "InputValidationError",
+      "input": {
+        "analysis": {
+          "dynamic_residual_failure_tolerance": 1e-07,
+          "history_probes": [
+            {
+              "dof": "UZ",
+              "label": "mixed_probe_13_UZ",
+              "node": 13
+            }
+          ],
+          "initial_displacements": [
+            {
+              "dof": "UX",
+              "node": 0,
+              "value": 1.0
+            }
+          ],
+          "initial_velocities": [],
+          "linear_method": "direct",
+          "mass_formulation": "consistent",
+          "method": "newmark",
+          "newmark_beta": 0.25,
+          "newmark_gamma": 0.5,
+          "postprocess_mode": "summary",
+          "rayleigh_alpha": 0.0,
+          "rayleigh_beta": 0.0,
+          "steps": 2,
+          "time_step": 0.000511226814129704,
+          "type": "transient_dynamic"
+        },
+        "elements": [
+          {
+            "material": "solid",
+            "nodes": [
+              3,
+              2,
+              8,
+              7,
+              6,
+              9
+            ],
+            "type": "WEDGE6"
+          },
+          {
+            "material": "solid",
+            "nodes": [
+              7,
+              6,
+              9,
+              10,
+              11,
+              12
+            ],
+            "type": "WEDGE6"
+          },
+          {
+            "material": "solid",
+            "nodes": [
+              10,
+              11,
+              12,
+              15
+            ],
+            "type": "TET4"
+          },
+          {
+            "material": "solid",
+            "nodes": [
+              11,
+              10,
+              14,
+              15
+            ],
+            "type": "TET4"
+          },
+          {
+            "material": "solid",
+            "nodes": [
+              10,
+              13,
+              14,
+              15
+            ],
+            "type": "TET4"
+          },
+          {
+            "material": "solid",
+            "nodes": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "type": "HEX8"
+          }
+        ],
+        "fixed_dofs": [
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 0
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 1
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 4
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 5
+          }
+        ],
+        "loads": [],
+        "materials": {
+          "solid": {
+            "E": 210000000000.0,
+            "density": 7800.0,
+            "nu": 0.3,
+            "type": "isotropic_3d"
+          }
+        },
+        "nodes": [
+          [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.0,
+            1.0
+          ],
+          [
+            1.0,
+            -1.0,
+            1.0
+          ],
+          [
+            1.0,
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.0,
+            2.0
+          ],
+          [
+            1.0,
+            0.0,
+            2.0
+          ],
+          [
+            0.0,
+            1.0,
+            2.0
+          ],
+          [
+            0.0,
+            0.0,
+            3.0
+          ],
+          [
+            1.0,
+            0.0,
+            3.0
+          ],
+          [
+            0.0,
+            1.0,
+            3.0
+          ]
+        ]
+      },
+      "message": "initial_displacements entry 0 sets a nonzero value on fixed DOF 0:UX; constrained initial states must be zero.",
+      "observed_exception": "InputValidationError",
+      "pass": true,
+      "status": "REJECTED"
+    },
+    "invalid_mixed_interface_family_missing": {
+      "case_id": "invalid_mixed_interface_family_missing",
+      "category": "invalid_mixed_interface",
+      "executed": true,
+      "execution_path": "solve_model(model, enforce_policy=False)",
+      "expected_exception": "MeshValidationError",
+      "input": {
+        "analysis": {
+          "dynamic_residual_failure_tolerance": 1e-07,
+          "history_probes": [],
+          "initial_displacements": [],
+          "initial_velocities": [],
+          "linear_method": "direct",
+          "mass_formulation": "consistent",
+          "method": "newmark",
+          "newmark_beta": 0.25,
+          "newmark_gamma": 0.5,
+          "postprocess_mode": "summary",
+          "rayleigh_alpha": 0.0,
+          "rayleigh_beta": 0.0,
+          "required_mixed_families": [
+            "TET4",
+            "WEDGE6",
+            "HEX8"
+          ],
+          "required_mixed_interfaces": [
+            [
+              "TET4",
+              "WEDGE6"
+            ],
+            [
+              "WEDGE6",
+              "HEX8"
+            ]
+          ],
+          "steps": 2,
+          "time_step": 0.000511226814129704,
+          "type": "transient_dynamic"
+        },
+        "elements": [
+          {
+            "material": "solid",
+            "nodes": [
+              10,
+              11,
+              12,
+              15
+            ],
+            "type": "TET4"
+          },
+          {
+            "material": "solid",
+            "nodes": [
+              11,
+              10,
+              14,
+              15
+            ],
+            "type": "TET4"
+          },
+          {
+            "material": "solid",
+            "nodes": [
+              10,
+              13,
+              14,
+              15
+            ],
+            "type": "TET4"
+          },
+          {
+            "material": "solid",
+            "nodes": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "type": "HEX8"
+          }
+        ],
+        "fixed_dofs": [
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 0
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 1
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 4
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 5
+          }
+        ],
+        "loads": [],
+        "materials": {
+          "solid": {
+            "E": 210000000000.0,
+            "density": 7800.0,
+            "nu": 0.3,
+            "type": "isotropic_3d"
+          }
+        },
+        "nodes": [
+          [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.0,
+            1.0
+          ],
+          [
+            1.0,
+            -1.0,
+            1.0
+          ],
+          [
+            1.0,
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.0,
+            2.0
+          ],
+          [
+            1.0,
+            0.0,
+            2.0
+          ],
+          [
+            0.0,
+            1.0,
+            2.0
+          ],
+          [
+            0.0,
+            0.0,
+            3.0
+          ],
+          [
+            1.0,
+            0.0,
+            3.0
+          ],
+          [
+            0.0,
+            1.0,
+            3.0
+          ]
+        ]
+      },
+      "message": "Mesh validation failed: Declared mixed dynamic scope is missing required element family/families: WEDGE6.; Declared mixed interface TET4/WEDGE6 is missing or not conformingly connected.; Declared mixed interface WEDGE6/HEX8 is missing or not conformingly connected.",
+      "observed_exception": "MeshValidationError",
+      "pass": true,
+      "status": "REJECTED"
+    },
+    "unsupported_damping_unknown_model": {
+      "case_id": "unsupported_damping_unknown_model",
+      "category": "unsupported_damping",
+      "executed": true,
+      "execution_path": "solve_model(model, enforce_policy=False)",
+      "expected_exception": "InputValidationError",
+      "input": {
+        "analysis": {
+          "damping_model": "unknown",
+          "dynamic_residual_failure_tolerance": 1e-07,
+          "history_probes": [
+            {
+              "dof": "UZ",
+              "label": "mixed_probe_13_UZ",
+              "node": 13
+            }
+          ],
+          "initial_displacements": [
+            {
+              "dof": "UX",
+              "node": 2,
+              "value": -5.877448623714592e-07
+            },
+            {
+              "dof": "UY",
+              "node": 2,
+              "value": -2.903069565237084e-07
+            },
+            {
+              "dof": "UZ",
+              "node": 2,
+              "value": -1.187414251079139e-06
+            },
+            {
+              "dof": "UX",
+              "node": 3,
+              "value": -6.270770794209522e-07
+            },
+            {
+              "dof": "UY",
+              "node": 3,
+              "value": 4.373751549931764e-09
+            },
+            {
+              "dof": "UZ",
+              "node": 3,
+              "value": 8.434896038879454e-07
+            },
+            {
+              "dof": "UX",
+              "node": 6,
+              "value": 1.4487207091057667e-06
+            },
+            {
+              "dof": "UY",
+              "node": 6,
+              "value": -1.1885283544492769e-07
+            },
+            {
+              "dof": "UZ",
+              "node": 6,
+              "value": -1.3886924267076854e-06
+            },
+            {
+              "dof": "UX",
+              "node": 7,
+              "value": 1.5104801304189337e-06
+            },
+            {
+              "dof": "UY",
+              "node": 7,
+              "value": 4.672332750627414e-07
+            },
+            {
+              "dof": "UZ",
+              "node": 7,
+              "value": 1.0938476804800542e-06
+            },
+            {
+              "dof": "UX",
+              "node": 8,
+              "value": -3.277482973255757e-07
+            },
+            {
+              "dof": "UY",
+              "node": 8,
+              "value": -5.877116192020323e-08
+            },
+            {
+              "dof": "UZ",
+              "node": 8,
+              "value": 4.4987288100343923e-07
+            },
+            {
+              "dof": "UX",
+              "node": 9,
+              "value": 2.268628505675432e-06
+            },
+            {
+              "dof": "UY",
+              "node": 9,
+              "value": 5.493777623118704e-07
+            },
+            {
+              "dof": "UZ",
+              "node": 9,
+              "value": 3.4025509226831996e-07
+            },
+            {
+              "dof": "UX",
+              "node": 10,
+              "value": 5.074087150822134e-06
+            },
+            {
+              "dof": "UY",
+              "node": 10,
+              "value": 1.8801956461370259e-06
+            },
+            {
+              "dof": "UZ",
+              "node": 10,
+              "value": 1.8932732406889642e-06
+            },
+            {
+              "dof": "UX",
+              "node": 11,
+              "value": 5.083401935194547e-06
+            },
+            {
+              "dof": "UY",
+              "node": 11,
+              "value": 1.105145491841068e-06
+            },
+            {
+              "dof": "UZ",
+              "node": 11,
+              "value": -2.092618992292121e-06
+            },
+            {
+              "dof": "UX",
+              "node": 12,
+              "value": 5.80880473869821e-06
+            },
+            {
+              "dof": "UY",
+              "node": 12,
+              "value": 1.8685388471504887e-06
+            },
+            {
+              "dof": "UZ",
+              "node": 12,
+              "value": 2.33569558179577e-07
+            },
+            {
+              "dof": "UX",
+              "node": 13,
+              "value": 9.215423606624098e-06
+            },
+            {
+              "dof": "UY",
+              "node": 13,
+              "value": 3.620737574161177e-06
+            },
+            {
+              "dof": "UZ",
+              "node": 13,
+              "value": 1.936029076835871e-06
+            },
+            {
+              "dof": "UX",
+              "node": 14,
+              "value": 9.21218605272887e-06
+            },
+            {
+              "dof": "UY",
+              "node": 14,
+              "value": 2.825472768075484e-06
+            },
+            {
+              "dof": "UZ",
+              "node": 14,
+              "value": -2.1106792485917627e-06
+            },
+            {
+              "dof": "UX",
+              "node": 15,
+              "value": 1.0000000000000003e-05
+            },
+            {
+              "dof": "UY",
+              "node": 15,
+              "value": 3.6038190268761216e-06
+            },
+            {
+              "dof": "UZ",
+              "node": 15,
+              "value": 2.1321747022652608e-07
+            }
+          ],
+          "initial_velocities": [],
+          "linear_method": "direct",
+          "mass_formulation": "consistent",
+          "method": "newmark",
+          "newmark_beta": 0.25,
+          "newmark_gamma": 0.5,
+          "postprocess_mode": "summary",
+          "rayleigh_alpha": 0.0,
+          "rayleigh_beta": 0.0,
+          "steps": 2,
+          "time_step": 0.000511226814129704,
+          "type": "transient_dynamic"
+        },
+        "elements": [
+          {
+            "material": "solid",
+            "nodes": [
+              3,
+              2,
+              8,
+              7,
+              6,
+              9
+            ],
+            "type": "WEDGE6"
+          },
+          {
+            "material": "solid",
+            "nodes": [
+              7,
+              6,
+              9,
+              10,
+              11,
+              12
+            ],
+            "type": "WEDGE6"
+          },
+          {
+            "material": "solid",
+            "nodes": [
+              10,
+              11,
+              12,
+              15
+            ],
+            "type": "TET4"
+          },
+          {
+            "material": "solid",
+            "nodes": [
+              11,
+              10,
+              14,
+              15
+            ],
+            "type": "TET4"
+          },
+          {
+            "material": "solid",
+            "nodes": [
+              10,
+              13,
+              14,
+              15
+            ],
+            "type": "TET4"
+          },
+          {
+            "material": "solid",
+            "nodes": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "type": "HEX8"
+          }
+        ],
+        "fixed_dofs": [
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 0
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 1
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 4
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 5
+          }
+        ],
+        "loads": [],
+        "materials": {
+          "solid": {
+            "E": 210000000000.0,
+            "density": 7800.0,
+            "nu": 0.3,
+            "type": "isotropic_3d"
+          }
+        },
+        "nodes": [
+          [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.0,
+            1.0
+          ],
+          [
+            1.0,
+            -1.0,
+            1.0
+          ],
+          [
+            1.0,
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.0,
+            2.0
+          ],
+          [
+            1.0,
+            0.0,
+            2.0
+          ],
+          [
+            0.0,
+            1.0,
+            2.0
+          ],
+          [
+            0.0,
+            0.0,
+            3.0
+          ],
+          [
+            1.0,
+            0.0,
+            3.0
+          ],
+          [
+            0.0,
+            1.0,
+            3.0
+          ]
+        ]
+      },
+      "message": "Unsupported damping model; the dynamic scope supports only Rayleigh damping.",
+      "observed_exception": "InputValidationError",
+      "pass": true,
+      "status": "REJECTED"
+    }
+  },
+  "valid_controls": {
+    "supported_damping_valid": {
+      "case_id": "supported_damping_valid",
+      "category": "valid_control",
+      "executed": true,
+      "execution_path": "solve_model(model, enforce_policy=False)",
+      "expected_exception": null,
+      "input": {
+        "analysis": {
+          "damping_model": "Rayleigh",
+          "dynamic_residual_failure_tolerance": 1e-07,
+          "history_probes": [
+            {
+              "dof": "UZ",
+              "label": "mixed_probe_13_UZ",
+              "node": 13
+            }
+          ],
+          "initial_displacements": [
+            {
+              "dof": "UX",
+              "node": 2,
+              "value": -5.877448623714592e-07
+            },
+            {
+              "dof": "UY",
+              "node": 2,
+              "value": -2.903069565237084e-07
+            },
+            {
+              "dof": "UZ",
+              "node": 2,
+              "value": -1.187414251079139e-06
+            },
+            {
+              "dof": "UX",
+              "node": 3,
+              "value": -6.270770794209522e-07
+            },
+            {
+              "dof": "UY",
+              "node": 3,
+              "value": 4.373751549931764e-09
+            },
+            {
+              "dof": "UZ",
+              "node": 3,
+              "value": 8.434896038879454e-07
+            },
+            {
+              "dof": "UX",
+              "node": 6,
+              "value": 1.4487207091057667e-06
+            },
+            {
+              "dof": "UY",
+              "node": 6,
+              "value": -1.1885283544492769e-07
+            },
+            {
+              "dof": "UZ",
+              "node": 6,
+              "value": -1.3886924267076854e-06
+            },
+            {
+              "dof": "UX",
+              "node": 7,
+              "value": 1.5104801304189337e-06
+            },
+            {
+              "dof": "UY",
+              "node": 7,
+              "value": 4.672332750627414e-07
+            },
+            {
+              "dof": "UZ",
+              "node": 7,
+              "value": 1.0938476804800542e-06
+            },
+            {
+              "dof": "UX",
+              "node": 8,
+              "value": -3.277482973255757e-07
+            },
+            {
+              "dof": "UY",
+              "node": 8,
+              "value": -5.877116192020323e-08
+            },
+            {
+              "dof": "UZ",
+              "node": 8,
+              "value": 4.4987288100343923e-07
+            },
+            {
+              "dof": "UX",
+              "node": 9,
+              "value": 2.268628505675432e-06
+            },
+            {
+              "dof": "UY",
+              "node": 9,
+              "value": 5.493777623118704e-07
+            },
+            {
+              "dof": "UZ",
+              "node": 9,
+              "value": 3.4025509226831996e-07
+            },
+            {
+              "dof": "UX",
+              "node": 10,
+              "value": 5.074087150822134e-06
+            },
+            {
+              "dof": "UY",
+              "node": 10,
+              "value": 1.8801956461370259e-06
+            },
+            {
+              "dof": "UZ",
+              "node": 10,
+              "value": 1.8932732406889642e-06
+            },
+            {
+              "dof": "UX",
+              "node": 11,
+              "value": 5.083401935194547e-06
+            },
+            {
+              "dof": "UY",
+              "node": 11,
+              "value": 1.105145491841068e-06
+            },
+            {
+              "dof": "UZ",
+              "node": 11,
+              "value": -2.092618992292121e-06
+            },
+            {
+              "dof": "UX",
+              "node": 12,
+              "value": 5.80880473869821e-06
+            },
+            {
+              "dof": "UY",
+              "node": 12,
+              "value": 1.8685388471504887e-06
+            },
+            {
+              "dof": "UZ",
+              "node": 12,
+              "value": 2.33569558179577e-07
+            },
+            {
+              "dof": "UX",
+              "node": 13,
+              "value": 9.215423606624098e-06
+            },
+            {
+              "dof": "UY",
+              "node": 13,
+              "value": 3.620737574161177e-06
+            },
+            {
+              "dof": "UZ",
+              "node": 13,
+              "value": 1.936029076835871e-06
+            },
+            {
+              "dof": "UX",
+              "node": 14,
+              "value": 9.21218605272887e-06
+            },
+            {
+              "dof": "UY",
+              "node": 14,
+              "value": 2.825472768075484e-06
+            },
+            {
+              "dof": "UZ",
+              "node": 14,
+              "value": -2.1106792485917627e-06
+            },
+            {
+              "dof": "UX",
+              "node": 15,
+              "value": 1.0000000000000003e-05
+            },
+            {
+              "dof": "UY",
+              "node": 15,
+              "value": 3.6038190268761216e-06
+            },
+            {
+              "dof": "UZ",
+              "node": 15,
+              "value": 2.1321747022652608e-07
+            }
+          ],
+          "initial_velocities": [],
+          "linear_method": "direct",
+          "mass_formulation": "consistent",
+          "method": "newmark",
+          "newmark_beta": 0.25,
+          "newmark_gamma": 0.5,
+          "postprocess_mode": "summary",
+          "rayleigh_alpha": 0.0,
+          "rayleigh_beta": 0.0,
+          "steps": 2,
+          "time_step": 0.000511226814129704,
+          "type": "transient_dynamic"
+        },
+        "elements": [
+          {
+            "material": "solid",
+            "nodes": [
+              3,
+              2,
+              8,
+              7,
+              6,
+              9
+            ],
+            "type": "WEDGE6"
+          },
+          {
+            "material": "solid",
+            "nodes": [
+              7,
+              6,
+              9,
+              10,
+              11,
+              12
+            ],
+            "type": "WEDGE6"
+          },
+          {
+            "material": "solid",
+            "nodes": [
+              10,
+              11,
+              12,
+              15
+            ],
+            "type": "TET4"
+          },
+          {
+            "material": "solid",
+            "nodes": [
+              11,
+              10,
+              14,
+              15
+            ],
+            "type": "TET4"
+          },
+          {
+            "material": "solid",
+            "nodes": [
+              10,
+              13,
+              14,
+              15
+            ],
+            "type": "TET4"
+          },
+          {
+            "material": "solid",
+            "nodes": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "type": "HEX8"
+          }
+        ],
+        "fixed_dofs": [
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 0
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 1
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 4
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 5
+          }
+        ],
+        "loads": [],
+        "materials": {
+          "solid": {
+            "E": 210000000000.0,
+            "density": 7800.0,
+            "nu": 0.3,
+            "type": "isotropic_3d"
+          }
+        },
+        "nodes": [
+          [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.0,
+            1.0
+          ],
+          [
+            1.0,
+            -1.0,
+            1.0
+          ],
+          [
+            1.0,
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.0,
+            2.0
+          ],
+          [
+            1.0,
+            0.0,
+            2.0
+          ],
+          [
+            0.0,
+            1.0,
+            2.0
+          ],
+          [
+            0.0,
+            0.0,
+            3.0
+          ],
+          [
+            1.0,
+            0.0,
+            3.0
+          ],
+          [
+            0.0,
+            1.0,
+            3.0
+          ]
+        ]
+      },
+      "message": null,
+      "observed_exception": null,
+      "pass": true,
+      "result_status": "PASS",
+      "status": "VALID"
+    },
+    "valid_initial_conditions": {
+      "case_id": "valid_initial_conditions",
+      "category": "valid_control",
+      "executed": true,
+      "execution_path": "solve_model(model, enforce_policy=False)",
+      "expected_exception": null,
+      "input": {
+        "analysis": {
+          "dynamic_residual_failure_tolerance": 1e-07,
+          "history_probes": [
+            {
+              "dof": "UZ",
+              "label": "mixed_probe_13_UZ",
+              "node": 13
+            }
+          ],
+          "initial_displacements": [
+            {
+              "dof": "UX",
+              "node": 2,
+              "value": -5.877448623714592e-07
+            },
+            {
+              "dof": "UY",
+              "node": 2,
+              "value": -2.903069565237084e-07
+            },
+            {
+              "dof": "UZ",
+              "node": 2,
+              "value": -1.187414251079139e-06
+            },
+            {
+              "dof": "UX",
+              "node": 3,
+              "value": -6.270770794209522e-07
+            },
+            {
+              "dof": "UY",
+              "node": 3,
+              "value": 4.373751549931764e-09
+            },
+            {
+              "dof": "UZ",
+              "node": 3,
+              "value": 8.434896038879454e-07
+            },
+            {
+              "dof": "UX",
+              "node": 6,
+              "value": 1.4487207091057667e-06
+            },
+            {
+              "dof": "UY",
+              "node": 6,
+              "value": -1.1885283544492769e-07
+            },
+            {
+              "dof": "UZ",
+              "node": 6,
+              "value": -1.3886924267076854e-06
+            },
+            {
+              "dof": "UX",
+              "node": 7,
+              "value": 1.5104801304189337e-06
+            },
+            {
+              "dof": "UY",
+              "node": 7,
+              "value": 4.672332750627414e-07
+            },
+            {
+              "dof": "UZ",
+              "node": 7,
+              "value": 1.0938476804800542e-06
+            },
+            {
+              "dof": "UX",
+              "node": 8,
+              "value": -3.277482973255757e-07
+            },
+            {
+              "dof": "UY",
+              "node": 8,
+              "value": -5.877116192020323e-08
+            },
+            {
+              "dof": "UZ",
+              "node": 8,
+              "value": 4.4987288100343923e-07
+            },
+            {
+              "dof": "UX",
+              "node": 9,
+              "value": 2.268628505675432e-06
+            },
+            {
+              "dof": "UY",
+              "node": 9,
+              "value": 5.493777623118704e-07
+            },
+            {
+              "dof": "UZ",
+              "node": 9,
+              "value": 3.4025509226831996e-07
+            },
+            {
+              "dof": "UX",
+              "node": 10,
+              "value": 5.074087150822134e-06
+            },
+            {
+              "dof": "UY",
+              "node": 10,
+              "value": 1.8801956461370259e-06
+            },
+            {
+              "dof": "UZ",
+              "node": 10,
+              "value": 1.8932732406889642e-06
+            },
+            {
+              "dof": "UX",
+              "node": 11,
+              "value": 5.083401935194547e-06
+            },
+            {
+              "dof": "UY",
+              "node": 11,
+              "value": 1.105145491841068e-06
+            },
+            {
+              "dof": "UZ",
+              "node": 11,
+              "value": -2.092618992292121e-06
+            },
+            {
+              "dof": "UX",
+              "node": 12,
+              "value": 5.80880473869821e-06
+            },
+            {
+              "dof": "UY",
+              "node": 12,
+              "value": 1.8685388471504887e-06
+            },
+            {
+              "dof": "UZ",
+              "node": 12,
+              "value": 2.33569558179577e-07
+            },
+            {
+              "dof": "UX",
+              "node": 13,
+              "value": 9.215423606624098e-06
+            },
+            {
+              "dof": "UY",
+              "node": 13,
+              "value": 3.620737574161177e-06
+            },
+            {
+              "dof": "UZ",
+              "node": 13,
+              "value": 1.936029076835871e-06
+            },
+            {
+              "dof": "UX",
+              "node": 14,
+              "value": 9.21218605272887e-06
+            },
+            {
+              "dof": "UY",
+              "node": 14,
+              "value": 2.825472768075484e-06
+            },
+            {
+              "dof": "UZ",
+              "node": 14,
+              "value": -2.1106792485917627e-06
+            },
+            {
+              "dof": "UX",
+              "node": 15,
+              "value": 1.0000000000000003e-05
+            },
+            {
+              "dof": "UY",
+              "node": 15,
+              "value": 3.6038190268761216e-06
+            },
+            {
+              "dof": "UZ",
+              "node": 15,
+              "value": 2.1321747022652608e-07
+            }
+          ],
+          "initial_velocities": [],
+          "linear_method": "direct",
+          "mass_formulation": "consistent",
+          "method": "newmark",
+          "newmark_beta": 0.25,
+          "newmark_gamma": 0.5,
+          "postprocess_mode": "summary",
+          "rayleigh_alpha": 0.0,
+          "rayleigh_beta": 0.0,
+          "steps": 2,
+          "time_step": 0.000511226814129704,
+          "type": "transient_dynamic"
+        },
+        "elements": [
+          {
+            "material": "solid",
+            "nodes": [
+              3,
+              2,
+              8,
+              7,
+              6,
+              9
+            ],
+            "type": "WEDGE6"
+          },
+          {
+            "material": "solid",
+            "nodes": [
+              7,
+              6,
+              9,
+              10,
+              11,
+              12
+            ],
+            "type": "WEDGE6"
+          },
+          {
+            "material": "solid",
+            "nodes": [
+              10,
+              11,
+              12,
+              15
+            ],
+            "type": "TET4"
+          },
+          {
+            "material": "solid",
+            "nodes": [
+              11,
+              10,
+              14,
+              15
+            ],
+            "type": "TET4"
+          },
+          {
+            "material": "solid",
+            "nodes": [
+              10,
+              13,
+              14,
+              15
+            ],
+            "type": "TET4"
+          },
+          {
+            "material": "solid",
+            "nodes": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "type": "HEX8"
+          }
+        ],
+        "fixed_dofs": [
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 0
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 1
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 4
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 5
+          }
+        ],
+        "loads": [],
+        "materials": {
+          "solid": {
+            "E": 210000000000.0,
+            "density": 7800.0,
+            "nu": 0.3,
+            "type": "isotropic_3d"
+          }
+        },
+        "nodes": [
+          [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.0,
+            1.0
+          ],
+          [
+            1.0,
+            -1.0,
+            1.0
+          ],
+          [
+            1.0,
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.0,
+            2.0
+          ],
+          [
+            1.0,
+            0.0,
+            2.0
+          ],
+          [
+            0.0,
+            1.0,
+            2.0
+          ],
+          [
+            0.0,
+            0.0,
+            3.0
+          ],
+          [
+            1.0,
+            0.0,
+            3.0
+          ],
+          [
+            0.0,
+            1.0,
+            3.0
+          ]
+        ]
+      },
+      "message": null,
+      "observed_exception": null,
+      "pass": true,
+      "result_status": "PASS",
+      "status": "VALID"
+    },
+    "valid_mixed_interface": {
+      "case_id": "valid_mixed_interface",
+      "category": "valid_control",
+      "executed": true,
+      "execution_path": "solve_model(model, enforce_policy=False)",
+      "expected_exception": null,
+      "input": {
+        "analysis": {
+          "dynamic_residual_failure_tolerance": 1e-07,
+          "history_probes": [
+            {
+              "dof": "UZ",
+              "label": "mixed_probe_13_UZ",
+              "node": 13
+            }
+          ],
+          "initial_displacements": [
+            {
+              "dof": "UX",
+              "node": 2,
+              "value": -5.877448623714592e-07
+            },
+            {
+              "dof": "UY",
+              "node": 2,
+              "value": -2.903069565237084e-07
+            },
+            {
+              "dof": "UZ",
+              "node": 2,
+              "value": -1.187414251079139e-06
+            },
+            {
+              "dof": "UX",
+              "node": 3,
+              "value": -6.270770794209522e-07
+            },
+            {
+              "dof": "UY",
+              "node": 3,
+              "value": 4.373751549931764e-09
+            },
+            {
+              "dof": "UZ",
+              "node": 3,
+              "value": 8.434896038879454e-07
+            },
+            {
+              "dof": "UX",
+              "node": 6,
+              "value": 1.4487207091057667e-06
+            },
+            {
+              "dof": "UY",
+              "node": 6,
+              "value": -1.1885283544492769e-07
+            },
+            {
+              "dof": "UZ",
+              "node": 6,
+              "value": -1.3886924267076854e-06
+            },
+            {
+              "dof": "UX",
+              "node": 7,
+              "value": 1.5104801304189337e-06
+            },
+            {
+              "dof": "UY",
+              "node": 7,
+              "value": 4.672332750627414e-07
+            },
+            {
+              "dof": "UZ",
+              "node": 7,
+              "value": 1.0938476804800542e-06
+            },
+            {
+              "dof": "UX",
+              "node": 8,
+              "value": -3.277482973255757e-07
+            },
+            {
+              "dof": "UY",
+              "node": 8,
+              "value": -5.877116192020323e-08
+            },
+            {
+              "dof": "UZ",
+              "node": 8,
+              "value": 4.4987288100343923e-07
+            },
+            {
+              "dof": "UX",
+              "node": 9,
+              "value": 2.268628505675432e-06
+            },
+            {
+              "dof": "UY",
+              "node": 9,
+              "value": 5.493777623118704e-07
+            },
+            {
+              "dof": "UZ",
+              "node": 9,
+              "value": 3.4025509226831996e-07
+            },
+            {
+              "dof": "UX",
+              "node": 10,
+              "value": 5.074087150822134e-06
+            },
+            {
+              "dof": "UY",
+              "node": 10,
+              "value": 1.8801956461370259e-06
+            },
+            {
+              "dof": "UZ",
+              "node": 10,
+              "value": 1.8932732406889642e-06
+            },
+            {
+              "dof": "UX",
+              "node": 11,
+              "value": 5.083401935194547e-06
+            },
+            {
+              "dof": "UY",
+              "node": 11,
+              "value": 1.105145491841068e-06
+            },
+            {
+              "dof": "UZ",
+              "node": 11,
+              "value": -2.092618992292121e-06
+            },
+            {
+              "dof": "UX",
+              "node": 12,
+              "value": 5.80880473869821e-06
+            },
+            {
+              "dof": "UY",
+              "node": 12,
+              "value": 1.8685388471504887e-06
+            },
+            {
+              "dof": "UZ",
+              "node": 12,
+              "value": 2.33569558179577e-07
+            },
+            {
+              "dof": "UX",
+              "node": 13,
+              "value": 9.215423606624098e-06
+            },
+            {
+              "dof": "UY",
+              "node": 13,
+              "value": 3.620737574161177e-06
+            },
+            {
+              "dof": "UZ",
+              "node": 13,
+              "value": 1.936029076835871e-06
+            },
+            {
+              "dof": "UX",
+              "node": 14,
+              "value": 9.21218605272887e-06
+            },
+            {
+              "dof": "UY",
+              "node": 14,
+              "value": 2.825472768075484e-06
+            },
+            {
+              "dof": "UZ",
+              "node": 14,
+              "value": -2.1106792485917627e-06
+            },
+            {
+              "dof": "UX",
+              "node": 15,
+              "value": 1.0000000000000003e-05
+            },
+            {
+              "dof": "UY",
+              "node": 15,
+              "value": 3.6038190268761216e-06
+            },
+            {
+              "dof": "UZ",
+              "node": 15,
+              "value": 2.1321747022652608e-07
+            }
+          ],
+          "initial_velocities": [],
+          "linear_method": "direct",
+          "mass_formulation": "consistent",
+          "method": "newmark",
+          "newmark_beta": 0.25,
+          "newmark_gamma": 0.5,
+          "postprocess_mode": "summary",
+          "rayleigh_alpha": 0.0,
+          "rayleigh_beta": 0.0,
+          "required_mixed_families": [
+            "TET4",
+            "WEDGE6",
+            "HEX8"
+          ],
+          "required_mixed_interfaces": [
+            [
+              "TET4",
+              "WEDGE6"
+            ],
+            [
+              "WEDGE6",
+              "HEX8"
+            ]
+          ],
+          "steps": 2,
+          "time_step": 0.000511226814129704,
+          "type": "transient_dynamic"
+        },
+        "elements": [
+          {
+            "material": "solid",
+            "nodes": [
+              3,
+              2,
+              8,
+              7,
+              6,
+              9
+            ],
+            "type": "WEDGE6"
+          },
+          {
+            "material": "solid",
+            "nodes": [
+              7,
+              6,
+              9,
+              10,
+              11,
+              12
+            ],
+            "type": "WEDGE6"
+          },
+          {
+            "material": "solid",
+            "nodes": [
+              10,
+              11,
+              12,
+              15
+            ],
+            "type": "TET4"
+          },
+          {
+            "material": "solid",
+            "nodes": [
+              11,
+              10,
+              14,
+              15
+            ],
+            "type": "TET4"
+          },
+          {
+            "material": "solid",
+            "nodes": [
+              10,
+              13,
+              14,
+              15
+            ],
+            "type": "TET4"
+          },
+          {
+            "material": "solid",
+            "nodes": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "type": "HEX8"
+          }
+        ],
+        "fixed_dofs": [
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 0
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 1
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 4
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 5
+          }
+        ],
+        "loads": [],
+        "materials": {
+          "solid": {
+            "E": 210000000000.0,
+            "density": 7800.0,
+            "nu": 0.3,
+            "type": "isotropic_3d"
+          }
+        },
+        "nodes": [
+          [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.0,
+            1.0
+          ],
+          [
+            1.0,
+            -1.0,
+            1.0
+          ],
+          [
+            1.0,
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.0,
+            2.0
+          ],
+          [
+            1.0,
+            0.0,
+            2.0
+          ],
+          [
+            0.0,
+            1.0,
+            2.0
+          ],
+          [
+            0.0,
+            0.0,
+            3.0
+          ],
+          [
+            1.0,
+            0.0,
+            3.0
+          ],
+          [
+            0.0,
+            1.0,
+            3.0
+          ]
+        ]
+      },
+      "message": null,
+      "observed_exception": null,
+      "pass": true,
+      "result_status": "PASS",
+      "status": "VALID"
+    },
+    "zero_initial_state_on_fixed_dof": {
+      "case_id": "zero_initial_state_on_fixed_dof",
+      "category": "valid_control",
+      "executed": true,
+      "execution_path": "solve_model(model, enforce_policy=False)",
+      "expected_exception": null,
+      "input": {
+        "analysis": {
+          "dynamic_residual_failure_tolerance": 1e-07,
+          "history_probes": [
+            {
+              "dof": "UZ",
+              "label": "mixed_probe_13_UZ",
+              "node": 13
+            }
+          ],
+          "initial_displacements": [
+            {
+              "dof": "UX",
+              "node": 0,
+              "value": 0.0
+            }
+          ],
+          "initial_velocities": [],
+          "linear_method": "direct",
+          "mass_formulation": "consistent",
+          "method": "newmark",
+          "newmark_beta": 0.25,
+          "newmark_gamma": 0.5,
+          "postprocess_mode": "summary",
+          "rayleigh_alpha": 0.0,
+          "rayleigh_beta": 0.0,
+          "steps": 2,
+          "time_step": 0.000511226814129704,
+          "type": "transient_dynamic"
+        },
+        "elements": [
+          {
+            "material": "solid",
+            "nodes": [
+              3,
+              2,
+              8,
+              7,
+              6,
+              9
+            ],
+            "type": "WEDGE6"
+          },
+          {
+            "material": "solid",
+            "nodes": [
+              7,
+              6,
+              9,
+              10,
+              11,
+              12
+            ],
+            "type": "WEDGE6"
+          },
+          {
+            "material": "solid",
+            "nodes": [
+              10,
+              11,
+              12,
+              15
+            ],
+            "type": "TET4"
+          },
+          {
+            "material": "solid",
+            "nodes": [
+              11,
+              10,
+              14,
+              15
+            ],
+            "type": "TET4"
+          },
+          {
+            "material": "solid",
+            "nodes": [
+              10,
+              13,
+              14,
+              15
+            ],
+            "type": "TET4"
+          },
+          {
+            "material": "solid",
+            "nodes": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "type": "HEX8"
+          }
+        ],
+        "fixed_dofs": [
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 0
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 1
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 4
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 5
+          }
+        ],
+        "loads": [],
+        "materials": {
+          "solid": {
+            "E": 210000000000.0,
+            "density": 7800.0,
+            "nu": 0.3,
+            "type": "isotropic_3d"
+          }
+        },
+        "nodes": [
+          [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.0,
+            1.0
+          ],
+          [
+            1.0,
+            -1.0,
+            1.0
+          ],
+          [
+            1.0,
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.0,
+            2.0
+          ],
+          [
+            1.0,
+            0.0,
+            2.0
+          ],
+          [
+            0.0,
+            1.0,
+            2.0
+          ],
+          [
+            0.0,
+            0.0,
+            3.0
+          ],
+          [
+            1.0,
+            0.0,
+            3.0
+          ],
+          [
+            0.0,
+            1.0,
+            3.0
+          ]
+        ]
+      },
+      "message": null,
+      "observed_exception": null,
+      "pass": true,
+      "result_status": "PASS",
+      "status": "VALID"
+    }
+  },
+  "work_package": "WP13-02B12b"
+}
