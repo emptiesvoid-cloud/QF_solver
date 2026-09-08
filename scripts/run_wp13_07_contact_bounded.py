@@ -302,6 +302,13 @@ def _run_case(raw: dict[str, Any], contract: dict[str, Any], *, include_oracle: 
     material_energy = float(0.5 * displacement @ (stiffness @ displacement))
     contact_energy = float(0.5 * penalty * max(-final_gap, 0.0) ** 2)
     external_work = float(0.5 * loads @ displacement)
+    incremental_external_work = float(
+        sum(float(item["incremental_external_work"]) for item in steps)
+    )
+    incremental_internal_work = float(
+        sum(float(item["incremental_internal_work"]) for item in steps)
+    )
+    potential_energy = material_energy + contact_energy
     energy_error = abs(material_energy + contact_energy - external_work) / max(abs(external_work), 1.0e-30)
     relative_residual = max(float(item["relative_residual"]) for item in steps)
     oracle_record: dict[str, Any] = {}
@@ -385,8 +392,12 @@ def _run_case(raw: dict[str, Any], contract: dict[str, Any], *, include_oracle: 
             "strain_energy": material_energy,
             "contact_penalty_energy": contact_energy,
             "external_work": external_work,
+            "incremental_external_work_observed": incremental_external_work,
+            "incremental_internal_work_observed": incremental_internal_work,
+            "potential_energy": potential_energy,
             "relative_error": energy_error,
             "identity": gate_values["energy"]["identity"],
+            "contract_external_work_definition": gate_values["energy"]["external_work"],
         },
         "force_balance": {
             "maximum_free_relative_residual": relative_residual,
@@ -478,12 +489,19 @@ def _mesh_characterization(contract: dict[str, Any]) -> dict[str, Any]:
             "contacts": [{"slave_node": 0, "master_nodes": [master_start, master_start + 1, master_start + 2]}],
         }
         result = _run_case(raw, contract)
+        characterization_status = bool(
+            result["solver_status"] == "PASS"
+            and np.all(np.isfinite(result["displacement"]))
+            and np.isfinite(result["max_penetration"])
+            and np.isfinite(result["contact_force_magnitude"])
+            and np.isfinite(np.linalg.norm(result["reactions"]))
+        )
         rows.append({
             "level": label,
             "cells": list(cells),
             "node_count": len(nodes),
             "element_count": len(elements),
-            "status": result["status"],
+            "status": "PASS_CHARACTERIZATION" if characterization_status else "FAIL",
             "solver_status": result["solver_status"],
             "contact_force_magnitude": result["contact_force_magnitude"],
             "displacement_norm": float(np.linalg.norm(result["displacement"])),
@@ -492,7 +510,9 @@ def _mesh_characterization(contract: dict[str, Any]) -> dict[str, Any]:
             "maximum_free_relative_residual": result["force_balance"]["maximum_free_relative_residual"],
         })
     return {
-        "status": "PASS_CHARACTERIZATION" if all(row["status"] == "PASS" for row in rows) else "FAIL",
+        "status": "PASS_CHARACTERIZATION" if all(
+            row["status"] == "PASS_CHARACTERIZATION" for row in rows
+        ) else "FAIL",
         "levels": rows,
         "promotion_gate": contract["gates"]["mesh_refinement"]["promotion_gate"],
     }
@@ -741,6 +761,12 @@ def main() -> None:
         sensitivity.append({
             "penalty": float(penalty),
             "status": result["status"],
+            "convergence_status": result["solver_status"],
+            "finite_observations": bool(
+                np.all(np.isfinite(result["displacement"]))
+                and np.isfinite(result["max_penetration"])
+                and np.isfinite(result["force_balance"]["maximum_free_relative_residual"])
+            ),
             "maximum_penetration": result["max_penetration"],
             "final_gap": result["final_gap"],
             "contact_force_magnitude": result["contact_force_magnitude"],
@@ -748,7 +774,7 @@ def main() -> None:
         })
     penetration_values = [float(row["maximum_penetration"]) for row in sensitivity]
     sensitivity_status = bool(
-        all(row["status"] == "PASS" for row in sensitivity)
+        all(row["convergence_status"] == "PASS" and row["finite_observations"] for row in sensitivity)
         and all(left >= right for left, right in zip(penetration_values, penetration_values[1:]))
         and all(np.isfinite(value) for value in penetration_values)
     )
@@ -790,7 +816,10 @@ def main() -> None:
         "penalty_sensitivity": {
             "rows": sensitivity,
             "penetration_non_increasing": all(left >= right for left, right in zip(penetration_values, penetration_values[1:])),
-            "all_converged_finite": all(row["status"] == "PASS" for row in sensitivity),
+            "all_converged_finite": all(
+                row["convergence_status"] == "PASS" and row["finite_observations"]
+                for row in sensitivity
+            ),
             "universal_penalty_claim": False,
             "status": "PASS" if sensitivity_status else "FAIL",
         },
