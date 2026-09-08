@@ -1,0 +1,44 @@
+{
+  "diff_kind": "CONTRACT_REMEDIATION",
+  "v1": {
+    "contract_id": "WP13-03-MIXED-MPC-RBE2-001",
+    "contract_sha256": "9ef7113c45a0bf285d532bd64cbfe22193edaee333bb3cb698e54d40c0785e06",
+    "status": "BLOCKED_INVALID_TET4_ORIENTATION",
+    "numerical_campaign_executed": false,
+    "tet4_1_connectivity": [10, 11, 14, 15],
+    "tet4_1_signed_volume": -0.16666666666666666
+  },
+  "v2": {
+    "contract_id": "WP13-03-MIXED-MPC-RBE2-002",
+    "contract_sha256": "10ff2f0708c4f579c7a032036d981f616e8970f04ee000ed86b9146d3ca903d7",
+    "status": "PREDECLARED_GEOMETRICALLY_CORRECTED",
+    "numerical_campaign_executed": false,
+    "tet4_1_connectivity": [10, 14, 11, 15],
+    "tet4_1_signed_volume": 0.16666666666666666
+  },
+  "field_comparison": {
+    "geometry_coordinates_changed": false,
+    "vertex_set_changed": false,
+    "materials_changed": false,
+    "loads_changed": false,
+    "bc_changed": false,
+    "mpc_definition_changed": false,
+    "rbe2_definition_changed": false,
+    "oracle_changed": false,
+    "gates_changed": false,
+    "failure_contract_changed": false,
+    "tet4_local_orientation_changed": true,
+    "metadata_changed": [
+      "contract_id",
+      "contract_version",
+      "creation_sha",
+      "status",
+      "supersedes",
+      "geometry_remediation",
+      "v2_geometry_precheck"
+    ]
+  },
+  "allowed_difference": "Only tet4_1 local orientation/connectivity and version/provenance metadata changed.",
+  "contract_diff_allowed": true,
+  "preflight_block_preserved": true
+}
