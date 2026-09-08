@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP13-04D-MULTIMATERIAL-OWNER-DELIVERY",
+  "work_package": "WP13-04D",
+  "audited_commit": "e52a116df1f4f5d458bbf71915f94296551c213a",
+  "record_kind": "mixed_workflow_qualification",
+  "mixed_workflow_id": "MIXED-TET4-WEDGE6-HEX8-linear_static_multimaterial",
+  "owner_decision": "APPROVE_WITH_LIMITATIONS",
+  "status": "QUALIFIED_BOUNDED",
+  "approved_scope": "Connected conforming TET4/WEDGE6/HEX8 linear-static models with multiple isotropic linear-elastic material regions and perfectly bonded shared-node interfaces within the documented scope.",
+  "public_wording": "Connected conforming TET4/WEDGE6/HEX8 linear-static workflow with multiple isotropic linear-elastic material regions and perfectly bonded shared-node interfaces within the documented scope.",
+  "limitations": [
+    "linear static only",
+    "connected conforming TET4/WEDGE6/HEX8",
+    "isotropic linear-elastic materials only",
+    "multiple material regions",
+    "perfectly bonded shared-node interfaces",
+    "tested Gmsh region-to-material mapping",
+    "tested bounded material contrasts only",
+    "no nonlinear materials",
+    "no plasticity",
+    "no anisotropy",
+    "no contact",
+    "no nonconforming interfaces",
+    "no modal",
+    "no Newmark",
+    "no harmonic",
+    "no arbitrary material contrasts",
+    "no arbitrary meshes",
+    "no general convergence claim",
+    "no universal claim"
+  ],
+  "evidence_references": {
+    "owner_gate": {
+      "status": "APPROVE_WITH_LIMITATIONS",
+      "source": "WP13-04C Owner Gate audited at e52a116df1f4f5d458bbf71915f94296551c213a"
+    },
+    "contract": {
+      "contract_id": "WP13-04-MIXED-MULTIMATERIAL-001",
+      "path": "qualification/0_2_8/wp13_04_multimaterial_contract.json",
+      "sha256": "6bcea1571ba794a3069d8f2d28a49ead2f451b39082a186b54b481d7bab053dc"
+    },
+    "campaign": {
+      "evidence_path": "qualification/0_2_8/wp13_04_multimaterial_runtime_final/wp13_04_multimaterial_evidence.json",
+      "report_path": "qualification/0_2_8/wp13_04_multimaterial_runtime_final/wp13_04_multimaterial_report.json",
+      "raw_npz_path": "qualification/0_2_8/wp13_04_multimaterial_runtime_final/wp13_04_multimaterial_arrays.npz",
+      "evidence_sha256": "9d45624c467909cd1a700a8b99abdc870dd538b8f56102d11627783052829ff1",
+      "report_sha256": "60a1e07c4b0ac02a3dc2478cd4e29fc78a32ed46592eeea2602cbc5995977ae0",
+      "raw_npz_sha256": "1afaba4d49d0dc25fdc30ad2fe9afb17ce247afe661ee40a41e07b0984f17872"
+    },
+    "evidence_packs": {
+      "main_campaign": "qualification/0_2_8/wp13_04_multimaterial_runtime_final/wp13_04_multimaterial_evidence.json",
+      "independent_oracle": "qualification/0_2_8/wp13_04_multimaterial_runtime_final/wp13_04_multimaterial_evidence.json#checks.oracle",
+      "homogeneous_control": "qualification/0_2_8/wp13_04_multimaterial_runtime_final/wp13_04_multimaterial_evidence.json#material_sets.homogeneous_control",
+      "moderate_contrast": "qualification/0_2_8/wp13_04_multimaterial_runtime_final/wp13_04_multimaterial_evidence.json#material_sets.moderate_contrast",
+      "high_contrast": "qualification/0_2_8/wp13_04_multimaterial_runtime_final/wp13_04_multimaterial_evidence.json#material_sets.high_contrast",
+      "gmsh_mapping": "qualification/0_2_8/wp13_04_multimaterial_runtime_final/wp13_04_multimaterial_evidence.json#gmsh_mapping",
+      "refinement_characterization": "qualification/0_2_8/wp13_04_multimaterial_runtime_final/wp13_04_multimaterial_evidence.json#refinement",
+      "replay_1": "qualification/0_2_8/wp13_04_multimaterial_runtime_final/wp13_04_multimaterial_evidence.json#replay.replay_1",
+      "replay_2": "qualification/0_2_8/wp13_04_multimaterial_runtime_final/wp13_04_multimaterial_evidence.json#replay.replay_2",
+      "failure_contract": "qualification/0_2_8/wp13_04_multimaterial_runtime_final/wp13_04_multimaterial_evidence.json#checks.failure_contract"
+    }
+  },
+  "oracle_independence": "PASS_WITH_SHARED_ELEMENT_KERNEL_LIMITATION",
+  "oracle_limitation": "Reference assembly, solve and mapping are independent from the production assembly/solver path; selected elementary stiffness and material kernels are shared.",
+  "refinement_status": "CHARACTERIZATION_ONLY",
+  "general_convergence_claim_allowed": false,
+  "registry_separation": {
+    "element_analysis_registry_total": 46,
+    "element_analysis_registry_changed": false,
+    "mixed_workflow_added_to_combination_registry": false,
+    "separate_workflow_registry": true
+  },
+  "integrity": {
+    "numerical_source_changed": false,
+    "formulation_changed": false,
+    "maturity_46_changed": false,
+    "historical_0_2_7_evidence_changed": false,
+    "contract_changed": false,
+    "gates_changed": false,
+    "raw_evidence_changed": false
+  }
+}
