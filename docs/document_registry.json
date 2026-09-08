@@ -5578,6 +5578,22 @@
   "tests": [
     "tests/verification/test_028_wp13_02c_mixed_harmonic.py"
   ]
+},
+{
+  "id": "DOC-028-WP13-02C2-HARMONIC-HARNESS-001",
+  "path": "verification/0_2_8/wp13_02c2_harmonic_harness.md",
+  "title": "QF Solver 0.2.8 WP13-02C2 harmonic harness/evidence correction",
+  "status": "owner_review_required",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp13_02c_harmonic_contract.json",
+    "qualification/0_2_8/wp13_02c_harmonic_evidence.schema.json",
+    "qualification/0_2_8/wp13_02c2_harmonic_harness/manifest.json",
+    "qualification/0_2_8/wp13_02c2_harmonic_harness/wp13_02c2_harness_arrays.npz"
+  ],
+  "tests": [
+    "tests/verification/test_028_wp13_02c2_harmonic_harness.py"
+  ]
 }
   ]
   
