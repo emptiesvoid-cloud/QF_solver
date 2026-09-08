@@ -19,6 +19,7 @@ from solveur.io.evidence_writer import EvidenceBundleWriter
 from solveur.io.json_reader import JsonModelReader
 from solveur.io.json_writer import JsonResultWriter
 from solveur.io.model_writer import JsonModelWriter
+from solveur.io.inp_reader import InpImportResult, InpModelImporter
 from solveur.io.vtu_writer import VtuResultWriter
 from solveur.large.audit import LargeAuditReport
 from solveur.large.audit import inspect_large_model as _inspect_large_model
@@ -71,6 +72,11 @@ DEFAULT_QUALIFICATION_CAMPAIGN = project_path("qualification/campaign.json")
 def load_model(path: str | Path) -> FiniteElementModel:
     """Load a finite element model from a JSON file."""
     return JsonModelReader().read(path)
+
+
+def read_inp(path: str | Path) -> InpImportResult:
+    """Read the bounded, fail-closed Abaqus/CalculiX ``.inp`` subset."""
+    return InpModelImporter().import_model(path)
 
 
 def import_gmsh_model(
