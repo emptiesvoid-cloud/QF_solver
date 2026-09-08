@@ -1,0 +1,3106 @@
+{
+  "schema_version": 1,
+  "contract_id": "WP13-05-INP-IMPORT-001",
+  "contract_sha256": "13ffa0c31683ab69d04782f56ff5e0d7144e834eea41a7dceaa1defdd240fb27",
+  "contract_created_before_numerical_campaign": true,
+  "repo_sha": "f320b909c10b895cb4d8e968ddf3d52f1548914f",
+  "environment": {
+    "python": {
+      "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+      "executable": "C:\\Python313\\python.exe"
+    },
+    "platform": {
+      "system": "Windows",
+      "release": "10",
+      "machine": "AMD64",
+      "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+    },
+    "packages": {
+      "numpy": "2.2.6",
+      "scipy": "1.15.2",
+      "matplotlib": "3.10.3",
+      "h5py": "3.14.0",
+      "mpi4py": "4.1.0",
+      "petsc4py": null
+    },
+    "blas": {
+      "name": "scipy-openblas",
+      "version": "0.3.29",
+      "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+    },
+    "parallel_environment": {
+      "OMP_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "PETSC_ARCH": null
+    }
+  },
+  "units_policy": "USER_CONSISTENT / NO_AUTOMATIC_CONVERSION",
+  "supported_keywords": [
+    "BOUNDARY",
+    "CLOAD",
+    "ELASTIC",
+    "ELEMENT",
+    "ELSET",
+    "END STEP",
+    "MATERIAL",
+    "NODE",
+    "NSET",
+    "SOLID SECTION",
+    "STATIC",
+    "STEP"
+  ],
+  "unsupported_keywords": [
+    "AMPLITUDE",
+    "ASSEMBLY",
+    "COUPLING",
+    "DAMPING",
+    "DLOAD",
+    "DYNAMIC",
+    "FREQUENCY",
+    "HYPERELASTIC",
+    "INCLUDE",
+    "INTERACTION",
+    "OUTPUT",
+    "PLASTIC",
+    "RADIATE",
+    "SHELL SECTION",
+    "SURFACE",
+    "TEMPERATURE",
+    "USER MATERIAL"
+  ],
+  "ignorable_metadata": [
+    "HEADING",
+    "PREPRINT",
+    "COMMENT_LINES_STARTING_WITH_DOUBLE_ASTERISK"
+  ],
+  "supported_elements": {
+    "C3D4": "TET4",
+    "C3D6": "WEDGE6",
+    "C3D8": "HEX8"
+  },
+  "fixtures": [
+    {
+      "fixture": "tet4_simple.inp",
+      "input_file_digest": "cd09fc21dd05ac33e85805a654a9bb6798330f52686783eff5bb1c43efe954f1",
+      "parsed_model_digest": "e1867e49482a43826f3210f6b84b3c2a199c65e1eb60a7064c587871bda0e217",
+      "native_model_digest": "461b22f31303a9990cd6805a42204e4f54ce26eda77e6e14c2e7685cbe7534f3",
+      "mapping_report": {
+        "status": "WARNING",
+        "solver_name": "QF_solver",
+        "solver_version": "0.2.7",
+        "source_path": "tet4_simple.inp",
+        "source_sha256": "cd09fc21dd05ac33e85805a654a9bb6798330f52686783eff5bb1c43efe954f1",
+        "analysis": "linear_static",
+        "node_count": 4,
+        "element_count": 1,
+        "elements_by_family": {
+          "TET4": 1
+        },
+        "node_sets": {
+          "FIX": 3
+        },
+        "element_sets": {
+          "EALL": 1
+        },
+        "materials": [
+          "STEEL"
+        ],
+        "sections": {
+          "EALL": "STEEL"
+        },
+        "boundary_records": 3,
+        "cload_records": 1,
+        "keyword_counts": {
+          "BOUNDARY": 1,
+          "CLOAD": 1,
+          "ELASTIC": 1,
+          "ELEMENT": 1,
+          "ELSET": 1,
+          "END STEP": 1,
+          "HEADING": 1,
+          "MATERIAL": 1,
+          "NODE": 1,
+          "NSET": 1,
+          "SOLID SECTION": 1,
+          "STATIC": 1,
+          "STEP": 1
+        },
+        "element_mapping": {
+          "C3D4": "TET4",
+          "C3D6": "WEDGE6",
+          "C3D8": "HEX8"
+        },
+        "label_to_index": {
+          "1": 0,
+          "2": 1,
+          "3": 2,
+          "4": 3
+        },
+        "element_label_to_index": {
+          "1": 0
+        },
+        "units_policy": "USER_CONSISTENT / NO_AUTOMATIC_CONVERSION",
+        "warnings": [
+          "Ignored metadata card HEADING at line 1."
+        ]
+      },
+      "model": {
+        "nodes": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "elements": [
+          {
+            "type": "TET4",
+            "nodes": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "material": "STEEL"
+          }
+        ],
+        "materials": {
+          "STEEL": {
+            "type": "isotropic_3d",
+            "E": 210000000000.0,
+            "nu": 0.3
+          }
+        },
+        "fixed_dofs": [
+          {
+            "node": 0,
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ]
+          },
+          {
+            "node": 1,
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ]
+          },
+          {
+            "node": 2,
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ]
+          }
+        ],
+        "loads": [
+          {
+            "node": 3,
+            "dof": "UZ",
+            "value": 1000.0
+          }
+        ],
+        "analysis": {
+          "type": "linear_static",
+          "method": "direct",
+          "parameters": {}
+        },
+        "units": {
+          "system": "USER_CONSISTENT"
+        }
+      },
+      "raw_arrays": {
+        "loads": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1000.0
+        ],
+        "displacements": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          2.122448979591837e-08
+        ],
+        "internal_force": [
+          -428.57142857142856,
+          -428.57142857142856,
+          -1000.0,
+          428.57142857142856,
+          0.0,
+          0.0,
+          0.0,
+          428.57142857142856,
+          0.0,
+          0.0,
+          0.0,
+          1000.0
+        ],
+        "residual": [
+          -428.57142857142856,
+          -428.57142857142856,
+          -1000.0,
+          428.57142857142856,
+          0.0,
+          0.0,
+          0.0,
+          428.57142857142856,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "reactions": [
+          -428.57142857142856,
+          -428.57142857142856,
+          -1000.0,
+          428.57142857142856,
+          0.0,
+          0.0,
+          0.0,
+          428.57142857142856,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "equilibrium": {
+        "sign_convention": "residual = internal_force - external_force; reactions are residuals on fixed dofs",
+        "load_factor": 1.0,
+        "free_residual_norm": 0.0,
+        "free_relative_residual": 0.0,
+        "fixed_reaction_norm": 1317.0777796132697,
+        "ground_spring_reaction_norm": 0.0,
+        "external_load_norm": 1000.0,
+        "internal_force_norm": 1653.6909861128893,
+        "displacement_norm": 2.122448979591837e-08,
+        "external_work_at_final_load": 2.1224489795918368e-05,
+        "secant_internal_energy": 1.0612244897959184e-05,
+        "linear_energy_identity_relative_error": 0.0,
+        "external_resultant": [
+          0.0,
+          0.0,
+          1000.0
+        ],
+        "reaction_resultant": [
+          0.0,
+          0.0,
+          -1000.0
+        ],
+        "force_imbalance": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "force_balance_relative_error": 0.0,
+        "external_moment_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "reaction_moment_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "moment_imbalance_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "moment_balance_relative_error": 0.0,
+        "reactions": [
+          {
+            "index": 0,
+            "node": 0,
+            "dof": "UX",
+            "value": -428.5714285714286
+          },
+          {
+            "index": 1,
+            "node": 0,
+            "dof": "UY",
+            "value": -428.5714285714286
+          },
+          {
+            "index": 2,
+            "node": 0,
+            "dof": "UZ",
+            "value": -1000.0
+          },
+          {
+            "index": 3,
+            "node": 1,
+            "dof": "UX",
+            "value": 428.5714285714286
+          },
+          {
+            "index": 4,
+            "node": 1,
+            "dof": "UY",
+            "value": -0.0
+          },
+          {
+            "index": 5,
+            "node": 1,
+            "dof": "UZ",
+            "value": -0.0
+          },
+          {
+            "index": 6,
+            "node": 2,
+            "dof": "UX",
+            "value": -0.0
+          },
+          {
+            "index": 7,
+            "node": 2,
+            "dof": "UY",
+            "value": 428.5714285714286
+          },
+          {
+            "index": 8,
+            "node": 2,
+            "dof": "UZ",
+            "value": -0.0
+          }
+        ],
+        "constraint_forces": {
+          "equation_count": 9,
+          "kinematic_equation_count": 0,
+          "fixed_equation_count": 9,
+          "constraint_violation_norm": 0.0,
+          "constraint_violation_max_abs": 0.0,
+          "equilibrium_relative_error": 8.631748214216903e-17,
+          "lsmr_stop_code": 1,
+          "sign_convention": "K u - f + C.T lambda = 0",
+          "fixed_support_reaction_norm": 1317.0777796132697,
+          "largest_multipliers": [
+            {
+              "index": 2,
+              "name": "fixed_2",
+              "kind": "fixed",
+              "multiplier": 1000.0,
+              "violation": 0.0
+            },
+            {
+              "index": 0,
+              "name": "fixed_0",
+              "kind": "fixed",
+              "multiplier": 428.5714285714286,
+              "violation": 0.0
+            },
+            {
+              "index": 7,
+              "name": "fixed_7",
+              "kind": "fixed",
+              "multiplier": -428.5714285714286,
+              "violation": 0.0
+            },
+            {
+              "index": 3,
+              "name": "fixed_3",
+              "kind": "fixed",
+              "multiplier": -428.5714285714286,
+              "violation": 0.0
+            },
+            {
+              "index": 1,
+              "name": "fixed_1",
+              "kind": "fixed",
+              "multiplier": 428.5714285714286,
+              "violation": 0.0
+            },
+            {
+              "index": 8,
+              "name": "fixed_8",
+              "kind": "fixed",
+              "multiplier": 0.0,
+              "violation": 0.0
+            },
+            {
+              "index": 4,
+              "name": "fixed_4",
+              "kind": "fixed",
+              "multiplier": 0.0,
+              "violation": 0.0
+            },
+            {
+              "index": 6,
+              "name": "fixed_6",
+              "kind": "fixed",
+              "multiplier": 0.0,
+              "violation": 0.0
+            },
+            {
+              "index": 5,
+              "name": "fixed_5",
+              "kind": "fixed",
+              "multiplier": 0.0,
+              "violation": 0.0
+            }
+          ],
+          "generalized_force_norm": 1317.0777796132697,
+          "resultant": [
+            0.0,
+            0.0,
+            1000.0
+          ],
+          "moment_about_origin": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "residual_resultant": [
+            0.0,
+            0.0,
+            -1000.0
+          ],
+          "residual_moment_about_origin": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "global_force_closure_relative_error": 0.0,
+          "global_moment_closure_relative_error": 0.0
+        }
+      },
+      "numerical_output_digest": "2531280b16c0201a3aa42a68aa44c6818607249f17bc1dff2dced4b8fa335c83",
+      "native_equivalence": {
+        "nodes": {
+          "exact": true,
+          "max_absolute_error": 0.0
+        },
+        "elements": {
+          "connectivity_exact": true
+        },
+        "materials_exact": true,
+        "sets_exact": true,
+        "boundary_exact": true,
+        "loads_exact": true,
+        "displacement_error": 0.0,
+        "reaction_error": 0.0,
+        "equilibrium_error": 0.0,
+        "energy_error": 0.0,
+        "pass": true
+      },
+      "status": "PASS"
+    },
+    {
+      "fixture": "wedge6_simple.inp",
+      "input_file_digest": "ef9d0b3b17bf4a9428a8ebbdc390da4d45a7f727ba837b481cebd6d1884b600d",
+      "parsed_model_digest": "7f5ccc52978fcf7eaafa99bb1b6f32e54a9aafa2c10c474dc38a1cff15433f2d",
+      "native_model_digest": "b1885edad004742bbecd93b84410a78c5776ad33665ea691328f3250b9eaa853",
+      "mapping_report": {
+        "status": "WARNING",
+        "solver_name": "QF_solver",
+        "solver_version": "0.2.7",
+        "source_path": "wedge6_simple.inp",
+        "source_sha256": "ef9d0b3b17bf4a9428a8ebbdc390da4d45a7f727ba837b481cebd6d1884b600d",
+        "analysis": "linear_static",
+        "node_count": 6,
+        "element_count": 1,
+        "elements_by_family": {
+          "WEDGE6": 1
+        },
+        "node_sets": {
+          "FIX": 3
+        },
+        "element_sets": {
+          "EALL": 1
+        },
+        "materials": [
+          "STEEL"
+        ],
+        "sections": {
+          "EALL": "STEEL"
+        },
+        "boundary_records": 3,
+        "cload_records": 1,
+        "keyword_counts": {
+          "BOUNDARY": 1,
+          "CLOAD": 1,
+          "ELASTIC": 1,
+          "ELEMENT": 1,
+          "ELSET": 1,
+          "END STEP": 1,
+          "HEADING": 1,
+          "MATERIAL": 1,
+          "NODE": 1,
+          "NSET": 1,
+          "SOLID SECTION": 1,
+          "STATIC": 1,
+          "STEP": 1
+        },
+        "element_mapping": {
+          "C3D4": "TET4",
+          "C3D6": "WEDGE6",
+          "C3D8": "HEX8"
+        },
+        "label_to_index": {
+          "1": 0,
+          "2": 1,
+          "3": 2,
+          "4": 3,
+          "5": 4,
+          "6": 5
+        },
+        "element_label_to_index": {
+          "1": 0
+        },
+        "units_policy": "USER_CONSISTENT / NO_AUTOMATIC_CONVERSION",
+        "warnings": [
+          "Ignored metadata card HEADING at line 1."
+        ]
+      },
+      "model": {
+        "nodes": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ],
+          [
+            -1.0,
+            0.0,
+            0.0
+          ],
+          [
+            -1.0,
+            1.0,
+            0.0
+          ],
+          [
+            -1.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "elements": [
+          {
+            "type": "WEDGE6",
+            "nodes": [
+              0,
+              2,
+              1,
+              3,
+              5,
+              4
+            ],
+            "material": "STEEL"
+          }
+        ],
+        "materials": {
+          "STEEL": {
+            "type": "isotropic_3d",
+            "E": 120000000000.0,
+            "nu": 0.3
+          }
+        },
+        "fixed_dofs": [
+          {
+            "node": 0,
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ]
+          },
+          {
+            "node": 1,
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ]
+          },
+          {
+            "node": 2,
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ]
+          }
+        ],
+        "loads": [
+          {
+            "node": 3,
+            "dof": "UX",
+            "value": 1000.0
+          }
+        ],
+        "analysis": {
+          "type": "linear_static",
+          "method": "direct",
+          "parameters": {}
+        },
+        "units": {
+          "system": "USER_CONSISTENT"
+        }
+      },
+      "raw_arrays": {
+        "loads": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1000.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "displacements": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          6.855740922473011e-08,
+          -4.2296368989205054e-08,
+          -4.229636898920513e-08,
+          -1.1442590775269858e-08,
+          -3.566241413150143e-08,
+          -4.2041216879293416e-08,
+          -1.1442590775269894e-08,
+          -4.2041216879293416e-08,
+          -3.5662414131501506e-08
+        ],
+        "internal_force": [
+          -1000.0,
+          138.37095191364088,
+          138.37095191364085,
+          -2.5579538487363607e-13,
+          -144.25907752698754,
+          5.888125613346503,
+          4.263256414560601e-13,
+          5.888125613346416,
+          -144.25907752698737,
+          999.9999999999997,
+          3.979039320256561e-13,
+          -1.1368683772161603e-13,
+          2.842170943040401e-14,
+          -5.684341886080802e-14,
+          -1.2789769243681803e-13,
+          0.0,
+          1.1368683772161603e-13,
+          -4.547473508864641e-13
+        ],
+        "residual": [
+          -1000.0,
+          138.37095191364088,
+          138.37095191364085,
+          -2.5579538487363607e-13,
+          -144.25907752698754,
+          5.888125613346503,
+          4.263256414560601e-13,
+          5.888125613346416,
+          -144.25907752698737,
+          -3.410605131648481e-13,
+          3.979039320256561e-13,
+          -1.1368683772161603e-13,
+          2.842170943040401e-14,
+          -5.684341886080802e-14,
+          -1.2789769243681803e-13,
+          0.0,
+          1.1368683772161603e-13,
+          -4.547473508864641e-13
+        ],
+        "reactions": [
+          -1000.0,
+          138.37095191364088,
+          138.37095191364085,
+          -2.5579538487363607e-13,
+          -144.25907752698754,
+          5.888125613346503,
+          4.263256414560601e-13,
+          5.888125613346416,
+          -144.25907752698737,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "equilibrium": {
+        "sign_convention": "residual = internal_force - external_force; reactions are residuals on fixed dofs",
+        "load_factor": 1.0,
+        "free_residual_norm": 7.264235318377847e-13,
+        "free_relative_residual": 7.264235318377847e-16,
+        "fixed_reaction_norm": 1039.2226631532465,
+        "ground_spring_reaction_norm": 0.0,
+        "external_load_norm": 1000.0,
+        "internal_force_norm": 1442.2148742858415,
+        "displacement_norm": 1.2090696085423154e-07,
+        "external_work_at_final_load": 6.855740922473011e-05,
+        "secant_internal_energy": 3.427870461236504e-05,
+        "linear_energy_identity_relative_error": 2.710505431213761e-20,
+        "external_resultant": [
+          1000.0,
+          0.0,
+          0.0
+        ],
+        "reaction_resultant": [
+          -999.9999999999998,
+          -2.433608869978343e-13,
+          0.0
+        ],
+        "force_imbalance": [
+          2.2737367544323206e-13,
+          -2.433608869978343e-13,
+          0.0
+        ],
+        "force_balance_relative_error": 3.330515119391247e-16,
+        "external_moment_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "reaction_moment_about_origin": [
+          8.704148513061227e-14,
+          4.263256414560601e-13,
+          2.5579538487363607e-13
+        ],
+        "moment_imbalance_about_origin": [
+          8.704148513061227e-14,
+          4.263256414560601e-13,
+          2.5579538487363607e-13
+        ],
+        "moment_balance_relative_error": 5.047385973148034e-13,
+        "reactions": [
+          {
+            "index": 0,
+            "node": 0,
+            "dof": "UX",
+            "value": -1000.0
+          },
+          {
+            "index": 1,
+            "node": 0,
+            "dof": "UY",
+            "value": 138.37095191364088
+          },
+          {
+            "index": 2,
+            "node": 0,
+            "dof": "UZ",
+            "value": 138.37095191364085
+          },
+          {
+            "index": 3,
+            "node": 1,
+            "dof": "UX",
+            "value": -2.5579538487363607e-13
+          },
+          {
+            "index": 4,
+            "node": 1,
+            "dof": "UY",
+            "value": -144.25907752698754
+          },
+          {
+            "index": 5,
+            "node": 1,
+            "dof": "UZ",
+            "value": 5.888125613346503
+          },
+          {
+            "index": 6,
+            "node": 2,
+            "dof": "UX",
+            "value": 4.263256414560601e-13
+          },
+          {
+            "index": 7,
+            "node": 2,
+            "dof": "UY",
+            "value": 5.888125613346416
+          },
+          {
+            "index": 8,
+            "node": 2,
+            "dof": "UZ",
+            "value": -144.25907752698737
+          }
+        ],
+        "constraint_forces": {
+          "equation_count": 9,
+          "kinematic_equation_count": 0,
+          "fixed_equation_count": 9,
+          "constraint_violation_norm": 0.0,
+          "constraint_violation_max_abs": 0.0,
+          "equilibrium_relative_error": 6.990066302380709e-16,
+          "lsmr_stop_code": 1,
+          "sign_convention": "K u - f + C.T lambda = 0",
+          "fixed_support_reaction_norm": 1039.2226631532465,
+          "largest_multipliers": [
+            {
+              "index": 0,
+              "name": "fixed_0",
+              "kind": "fixed",
+              "multiplier": 1000.0,
+              "violation": 0.0
+            },
+            {
+              "index": 4,
+              "name": "fixed_4",
+              "kind": "fixed",
+              "multiplier": 144.25907752698754,
+              "violation": 0.0
+            },
+            {
+              "index": 8,
+              "name": "fixed_8",
+              "kind": "fixed",
+              "multiplier": 144.25907752698737,
+              "violation": 0.0
+            },
+            {
+              "index": 1,
+              "name": "fixed_1",
+              "kind": "fixed",
+              "multiplier": -138.37095191364088,
+              "violation": 0.0
+            },
+            {
+              "index": 2,
+              "name": "fixed_2",
+              "kind": "fixed",
+              "multiplier": -138.37095191364085,
+              "violation": 0.0
+            },
+            {
+              "index": 5,
+              "name": "fixed_5",
+              "kind": "fixed",
+              "multiplier": -5.888125613346503,
+              "violation": 0.0
+            },
+            {
+              "index": 7,
+              "name": "fixed_7",
+              "kind": "fixed",
+              "multiplier": -5.888125613346416,
+              "violation": 0.0
+            },
+            {
+              "index": 6,
+              "name": "fixed_6",
+              "kind": "fixed",
+              "multiplier": -4.263256414560601e-13,
+              "violation": 0.0
+            },
+            {
+              "index": 3,
+              "name": "fixed_3",
+              "kind": "fixed",
+              "multiplier": 2.5579538487363607e-13,
+              "violation": 0.0
+            }
+          ],
+          "generalized_force_norm": 1039.2226631532465,
+          "resultant": [
+            999.9999999999998,
+            2.433608869978343e-13,
+            0.0
+          ],
+          "moment_about_origin": [
+            -8.704148513061227e-14,
+            -4.263256414560601e-13,
+            -2.5579538487363607e-13
+          ],
+          "residual_resultant": [
+            -1000.0000000000001,
+            2.113864638886298e-13,
+            -6.963318810448982e-13
+          ],
+          "residual_moment_about_origin": [
+            -1.545430450278218e-13,
+            -2.7000623958883807e-13,
+            -2.2737367544323206e-13
+          ],
+          "global_force_closure_relative_error": 8.988857076058406e-16,
+          "global_moment_closure_relative_error": 8.813021698707446e-13
+        }
+      },
+      "numerical_output_digest": "5dba912b16a194486e91a961956dfb7654047cbd0ea68e7378c67092c7272649",
+      "native_equivalence": {
+        "nodes": {
+          "exact": true,
+          "max_absolute_error": 0.0
+        },
+        "elements": {
+          "connectivity_exact": true
+        },
+        "materials_exact": true,
+        "sets_exact": true,
+        "boundary_exact": true,
+        "loads_exact": true,
+        "displacement_error": 0.0,
+        "reaction_error": 0.0,
+        "equilibrium_error": 0.0,
+        "energy_error": 0.0,
+        "pass": true
+      },
+      "status": "PASS"
+    },
+    {
+      "fixture": "hex8_simple.inp",
+      "input_file_digest": "42251c5606609a31a7f8664b4a7bf6b2587cf72afffe14fb63dc4e4ca6af4741",
+      "parsed_model_digest": "7739b9649a27b18cbbdab43d0f2a62a6176007ae6fa1489dcd981027f546d6b7",
+      "native_model_digest": "95cfd80efb2b8e6f269db7e8d3836a647429588717a3fbf076d472d2b1735957",
+      "mapping_report": {
+        "status": "WARNING",
+        "solver_name": "QF_solver",
+        "solver_version": "0.2.7",
+        "source_path": "hex8_simple.inp",
+        "source_sha256": "42251c5606609a31a7f8664b4a7bf6b2587cf72afffe14fb63dc4e4ca6af4741",
+        "analysis": "linear_static",
+        "node_count": 8,
+        "element_count": 1,
+        "elements_by_family": {
+          "HEX8": 1
+        },
+        "node_sets": {
+          "FIX": 4
+        },
+        "element_sets": {
+          "EALL": 1
+        },
+        "materials": [
+          "STEEL"
+        ],
+        "sections": {
+          "EALL": "STEEL"
+        },
+        "boundary_records": 4,
+        "cload_records": 1,
+        "keyword_counts": {
+          "BOUNDARY": 1,
+          "CLOAD": 1,
+          "ELASTIC": 1,
+          "ELEMENT": 1,
+          "ELSET": 1,
+          "END STEP": 1,
+          "HEADING": 1,
+          "MATERIAL": 1,
+          "NODE": 1,
+          "NSET": 1,
+          "SOLID SECTION": 1,
+          "STATIC": 1,
+          "STEP": 1
+        },
+        "element_mapping": {
+          "C3D4": "TET4",
+          "C3D6": "WEDGE6",
+          "C3D8": "HEX8"
+        },
+        "label_to_index": {
+          "1": 0,
+          "2": 1,
+          "3": 2,
+          "4": 3,
+          "5": 4,
+          "6": 5,
+          "7": 6,
+          "8": 7
+        },
+        "element_label_to_index": {
+          "1": 0
+        },
+        "units_policy": "USER_CONSISTENT / NO_AUTOMATIC_CONVERSION",
+        "warnings": [
+          "Ignored metadata card HEADING at line 1."
+        ]
+      },
+      "model": {
+        "nodes": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            1.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ],
+          [
+            1.0,
+            0.0,
+            1.0
+          ],
+          [
+            1.0,
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0,
+            1.0
+          ]
+        ],
+        "elements": [
+          {
+            "type": "HEX8",
+            "nodes": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "material": "STEEL"
+          }
+        ],
+        "materials": {
+          "STEEL": {
+            "type": "isotropic_3d",
+            "E": 210000000000.0,
+            "nu": 0.3
+          }
+        },
+        "fixed_dofs": [
+          {
+            "node": 0,
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ]
+          },
+          {
+            "node": 1,
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ]
+          },
+          {
+            "node": 2,
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ]
+          },
+          {
+            "node": 3,
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ]
+          }
+        ],
+        "loads": [
+          {
+            "node": 4,
+            "dof": "UZ",
+            "value": 1000.0
+          }
+        ],
+        "analysis": {
+          "type": "linear_static",
+          "method": "direct",
+          "parameters": {}
+        },
+        "units": {
+          "system": "USER_CONSISTENT"
+        }
+      },
+      "raw_arrays": {
+        "loads": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1000.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "displacements": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.3155328798185943e-08,
+          1.3155328798185923e-08,
+          3.2541950113378674e-08,
+          7.053287981859416e-09,
+          6.624716553287985e-09,
+          -5.95238095238095e-09,
+          9.01247165532878e-09,
+          9.0124716553288e-09,
+          -3.303854875283441e-09,
+          6.624716553287968e-09,
+          7.053287981859396e-09,
+          -5.952380952380948e-09
+        ],
+        "internal_force": [
+          -35.073260073260194,
+          -35.073260073260045,
+          -753.8461538461535,
+          219.6886446886445,
+          -114.92673992673998,
+          -246.15384615384616,
+          -69.68864468864464,
+          -69.6886446886447,
+          246.1538461538458,
+          -114.92673992673981,
+          219.68864468864484,
+          -246.1538461538461,
+          1.0658141036401503e-13,
+          -1.1013412404281553e-13,
+          1000.0,
+          5.861977570020827e-14,
+          -1.4566126083082054e-13,
+          1.4210854715202004e-14,
+          -9.237055564881302e-14,
+          8.526512829121202e-14,
+          1.4210854715202004e-14,
+          -5.684341886080802e-14,
+          1.4210854715202004e-14,
+          -1.1368683772161603e-13
+        ],
+        "residual": [
+          -35.073260073260194,
+          -35.073260073260045,
+          -753.8461538461535,
+          219.6886446886445,
+          -114.92673992673998,
+          -246.15384615384616,
+          -69.68864468864464,
+          -69.6886446886447,
+          246.1538461538458,
+          -114.92673992673981,
+          219.68864468864484,
+          -246.1538461538461,
+          1.0658141036401503e-13,
+          -1.1013412404281553e-13,
+          0.0,
+          5.861977570020827e-14,
+          -1.4566126083082054e-13,
+          1.4210854715202004e-14,
+          -9.237055564881302e-14,
+          8.526512829121202e-14,
+          1.4210854715202004e-14,
+          -5.684341886080802e-14,
+          1.4210854715202004e-14,
+          -1.1368683772161603e-13
+        ],
+        "reactions": [
+          -35.073260073260194,
+          -35.073260073260045,
+          -753.8461538461535,
+          219.6886446886445,
+          -114.92673992673998,
+          -246.15384615384616,
+          -69.68864468864464,
+          -69.6886446886447,
+          246.1538461538458,
+          -114.92673992673981,
+          219.68864468864484,
+          -246.1538461538461,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "equilibrium": {
+        "sign_convention": "residual = internal_force - external_force; reactions are residuals on fixed dofs",
+        "load_factor": 1.0,
+        "free_residual_norm": 2.8408938996617115e-13,
+        "free_relative_residual": 2.8408938996617114e-16,
+        "fixed_reaction_norm": 940.8373746029065,
+        "ground_spring_reaction_norm": 0.0,
+        "external_load_norm": 1000.0,
+        "internal_force_norm": 1373.0167389546602,
+        "displacement_norm": 4.285559212062022e-08,
+        "external_work_at_final_load": 3.254195011337867e-05,
+        "secant_internal_energy": 1.6270975056689336e-05,
+        "linear_energy_identity_relative_error": 0.0,
+        "external_resultant": [
+          0.0,
+          0.0,
+          1000.0
+        ],
+        "reaction_resultant": [
+          -1.7053025658242404e-13,
+          1.1368683772161603e-13,
+          -999.9999999999999
+        ],
+        "force_imbalance": [
+          -1.7053025658242404e-13,
+          1.1368683772161603e-13,
+          1.1368683772161603e-13
+        ],
+        "force_balance_relative_error": 2.3437142008433854e-16,
+        "external_moment_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "reaction_moment_about_origin": [
+          -3.126388037344441e-13,
+          3.694822225952521e-13,
+          -2.1316282072803006e-13
+        ],
+        "moment_imbalance_about_origin": [
+          -3.126388037344441e-13,
+          3.694822225952521e-13,
+          -2.1316282072803006e-13
+        ],
+        "moment_balance_relative_error": 5.288653160826128e-13,
+        "reactions": [
+          {
+            "index": 0,
+            "node": 0,
+            "dof": "UX",
+            "value": -35.073260073260194
+          },
+          {
+            "index": 1,
+            "node": 0,
+            "dof": "UY",
+            "value": -35.07326007326005
+          },
+          {
+            "index": 2,
+            "node": 0,
+            "dof": "UZ",
+            "value": -753.8461538461535
+          },
+          {
+            "index": 3,
+            "node": 1,
+            "dof": "UX",
+            "value": 219.6886446886445
+          },
+          {
+            "index": 4,
+            "node": 1,
+            "dof": "UY",
+            "value": -114.92673992673998
+          },
+          {
+            "index": 5,
+            "node": 1,
+            "dof": "UZ",
+            "value": -246.15384615384616
+          },
+          {
+            "index": 6,
+            "node": 2,
+            "dof": "UX",
+            "value": -69.68864468864464
+          },
+          {
+            "index": 7,
+            "node": 2,
+            "dof": "UY",
+            "value": -69.6886446886447
+          },
+          {
+            "index": 8,
+            "node": 2,
+            "dof": "UZ",
+            "value": 246.1538461538458
+          },
+          {
+            "index": 9,
+            "node": 3,
+            "dof": "UX",
+            "value": -114.92673992673983
+          },
+          {
+            "index": 10,
+            "node": 3,
+            "dof": "UY",
+            "value": 219.68864468864484
+          },
+          {
+            "index": 11,
+            "node": 3,
+            "dof": "UZ",
+            "value": -246.1538461538461
+          }
+        ],
+        "constraint_forces": {
+          "equation_count": 12,
+          "kinematic_equation_count": 0,
+          "fixed_equation_count": 12,
+          "constraint_violation_norm": 0.0,
+          "constraint_violation_max_abs": 0.0,
+          "equilibrium_relative_error": 3.0242562595189717e-16,
+          "lsmr_stop_code": 1,
+          "sign_convention": "K u - f + C.T lambda = 0",
+          "fixed_support_reaction_norm": 940.8373746029065,
+          "largest_multipliers": [
+            {
+              "index": 2,
+              "name": "fixed_2",
+              "kind": "fixed",
+              "multiplier": 753.8461538461535,
+              "violation": 0.0
+            },
+            {
+              "index": 5,
+              "name": "fixed_5",
+              "kind": "fixed",
+              "multiplier": 246.15384615384616,
+              "violation": 0.0
+            },
+            {
+              "index": 11,
+              "name": "fixed_11",
+              "kind": "fixed",
+              "multiplier": 246.1538461538461,
+              "violation": 0.0
+            },
+            {
+              "index": 8,
+              "name": "fixed_8",
+              "kind": "fixed",
+              "multiplier": -246.1538461538458,
+              "violation": 0.0
+            },
+            {
+              "index": 10,
+              "name": "fixed_10",
+              "kind": "fixed",
+              "multiplier": -219.68864468864484,
+              "violation": 0.0
+            },
+            {
+              "index": 3,
+              "name": "fixed_3",
+              "kind": "fixed",
+              "multiplier": -219.6886446886445,
+              "violation": 0.0
+            },
+            {
+              "index": 4,
+              "name": "fixed_4",
+              "kind": "fixed",
+              "multiplier": 114.92673992673998,
+              "violation": 0.0
+            },
+            {
+              "index": 9,
+              "name": "fixed_9",
+              "kind": "fixed",
+              "multiplier": 114.92673992673983,
+              "violation": 0.0
+            },
+            {
+              "index": 7,
+              "name": "fixed_7",
+              "kind": "fixed",
+              "multiplier": 69.6886446886447,
+              "violation": 0.0
+            },
+            {
+              "index": 6,
+              "name": "fixed_6",
+              "kind": "fixed",
+              "multiplier": 69.68864468864464,
+              "violation": 0.0
+            },
+            {
+              "index": 0,
+              "name": "fixed_0",
+              "kind": "fixed",
+              "multiplier": 35.073260073260194,
+              "violation": 0.0
+            },
+            {
+              "index": 1,
+              "name": "fixed_1",
+              "kind": "fixed",
+              "multiplier": 35.07326007326005,
+              "violation": 0.0
+            }
+          ],
+          "generalized_force_norm": 940.8373746029065,
+          "resultant": [
+            1.7053025658242404e-13,
+            -1.1368683772161603e-13,
+            999.9999999999999
+          ],
+          "moment_about_origin": [
+            3.126388037344441e-13,
+            -3.694822225952521e-13,
+            2.1316282072803006e-13
+          ],
+          "residual_resultant": [
+            -1.4033219031261979e-13,
+            -4.263256414560601e-14,
+            -1000.0
+          ],
+          "residual_moment_about_origin": [
+            -2.5579538487363607e-13,
+            3.5704772471945034e-13,
+            -1.3855583347321954e-13
+          ],
+          "global_force_closure_relative_error": 1.956332683305746e-16,
+          "global_moment_closure_relative_error": 9.461497530754865e-14
+        }
+      },
+      "numerical_output_digest": "78689a7b68969a9389b8aa0085b02aefde6acf2247d479b4d8448f7fcf47420f",
+      "native_equivalence": {
+        "nodes": {
+          "exact": true,
+          "max_absolute_error": 0.0
+        },
+        "elements": {
+          "connectivity_exact": true
+        },
+        "materials_exact": true,
+        "sets_exact": true,
+        "boundary_exact": true,
+        "loads_exact": true,
+        "displacement_error": 0.0,
+        "reaction_error": 0.0,
+        "equilibrium_error": 0.0,
+        "energy_error": 0.0,
+        "pass": true
+      },
+      "status": "PASS"
+    },
+    {
+      "fixture": "mixed_tet4_wedge6_hex8.inp",
+      "input_file_digest": "2d0605cc3e89d8daf113f38e731769725a6615064b4677bc866e64d0bfa472c9",
+      "parsed_model_digest": "3a459fbf9656ae40aefef9f7a29661c875f2af5ef507af2ab9d24f45fdc8b066",
+      "native_model_digest": "e8bd8f0239f6a51a528379c5546155afa6e4599d5448021d225a237dc02baac5",
+      "mapping_report": {
+        "status": "WARNING",
+        "solver_name": "QF_solver",
+        "solver_version": "0.2.7",
+        "source_path": "mixed_tet4_wedge6_hex8.inp",
+        "source_sha256": "2d0605cc3e89d8daf113f38e731769725a6615064b4677bc866e64d0bfa472c9",
+        "analysis": "linear_static",
+        "node_count": 11,
+        "element_count": 3,
+        "elements_by_family": {
+          "HEX8": 1,
+          "TET4": 1,
+          "WEDGE6": 1
+        },
+        "node_sets": {
+          "FIX": 4,
+          "LOAD": 1
+        },
+        "element_sets": {
+          "EHEX": 1,
+          "ETET": 1,
+          "EWEDGE": 1
+        },
+        "materials": [
+          "STEEL"
+        ],
+        "sections": {
+          "EHEX": "STEEL",
+          "ETET": "STEEL",
+          "EWEDGE": "STEEL"
+        },
+        "boundary_records": 4,
+        "cload_records": 1,
+        "keyword_counts": {
+          "BOUNDARY": 1,
+          "CLOAD": 1,
+          "ELASTIC": 1,
+          "ELEMENT": 3,
+          "ELSET": 3,
+          "END STEP": 1,
+          "HEADING": 1,
+          "MATERIAL": 1,
+          "NODE": 1,
+          "NSET": 2,
+          "SOLID SECTION": 3,
+          "STATIC": 1,
+          "STEP": 1
+        },
+        "element_mapping": {
+          "C3D4": "TET4",
+          "C3D6": "WEDGE6",
+          "C3D8": "HEX8"
+        },
+        "label_to_index": {
+          "1": 0,
+          "2": 1,
+          "3": 2,
+          "4": 3,
+          "5": 4,
+          "6": 5,
+          "7": 6,
+          "8": 7,
+          "9": 8,
+          "10": 9,
+          "11": 10
+        },
+        "element_label_to_index": {
+          "1": 0,
+          "2": 1,
+          "3": 2
+        },
+        "units_policy": "USER_CONSISTENT / NO_AUTOMATIC_CONVERSION",
+        "warnings": [
+          "Ignored metadata card HEADING at line 1."
+        ]
+      },
+      "model": {
+        "nodes": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ],
+          [
+            -1.0,
+            0.0,
+            0.0
+          ],
+          [
+            -1.0,
+            1.0,
+            0.0
+          ],
+          [
+            -1.0,
+            0.0,
+            1.0
+          ],
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            -1.0
+          ],
+          [
+            0.0,
+            1.0,
+            -1.0
+          ],
+          [
+            -1.0,
+            1.0,
+            -1.0
+          ],
+          [
+            -1.0,
+            0.0,
+            -1.0
+          ]
+        ],
+        "elements": [
+          {
+            "type": "TET4",
+            "nodes": [
+              0,
+              1,
+              2,
+              6
+            ],
+            "material": "STEEL"
+          },
+          {
+            "type": "WEDGE6",
+            "nodes": [
+              0,
+              2,
+              1,
+              3,
+              5,
+              4
+            ],
+            "material": "STEEL"
+          },
+          {
+            "type": "HEX8",
+            "nodes": [
+              0,
+              3,
+              4,
+              1,
+              7,
+              10,
+              9,
+              8
+            ],
+            "material": "STEEL"
+          }
+        ],
+        "materials": {
+          "STEEL": {
+            "type": "isotropic_3d",
+            "E": 210000000000.0,
+            "nu": 0.3
+          }
+        },
+        "fixed_dofs": [
+          {
+            "node": 7,
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ]
+          },
+          {
+            "node": 8,
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ]
+          },
+          {
+            "node": 9,
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ]
+          },
+          {
+            "node": 10,
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ]
+          }
+        ],
+        "loads": [
+          {
+            "node": 6,
+            "dof": "UZ",
+            "value": 1000.0
+          }
+        ],
+        "analysis": {
+          "type": "linear_static",
+          "method": "direct",
+          "parameters": {}
+        },
+        "units": {
+          "system": "USER_CONSISTENT"
+        }
+      },
+      "raw_arrays": {
+        "loads": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1000.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "displacements": [
+          -2.130509973693888e-08,
+          9.60060482855402e-09,
+          4.4151871379893806e-08,
+          -2.552599536156673e-08,
+          4.747862317415373e-09,
+          1.2197148757357386e-08,
+          -1.224752957273863e-07,
+          3.488004239876079e-08,
+          5.2088869380361044e-08,
+          -2.8735437453678747e-08,
+          5.7929093668572785e-09,
+          -2.3494921287290647e-08,
+          -2.677205429032368e-08,
+          1.0813070240385323e-08,
+          -2.2494645417966204e-08,
+          -1.0094650732697989e-07,
+          1.5918108584748913e-08,
+          -3.135872828703939e-08,
+          -2.2626923518079705e-08,
+          1.3821500453181864e-08,
+          2.1960778165605546e-07,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "internal_force": [
+          4.547473508864641e-13,
+          -2.842170943040401e-14,
+          0.0,
+          -3.410605131648481e-13,
+          -6.252776074688882e-13,
+          4.973799150320701e-13,
+          -1.3642420526593924e-12,
+          -3.8276532750291285e-13,
+          -3.410605131648481e-13,
+          -7.389644451905042e-13,
+          -1.1368683772161603e-13,
+          -2.2737367544323206e-13,
+          3.979039320256561e-13,
+          3.410605131648481e-13,
+          2.5579538487363607e-13,
+          -9.094947017729282e-13,
+          -5.684341886080802e-14,
+          2.2737367544323206e-13,
+          0.0,
+          -8.526512829121202e-14,
+          999.9999999999993,
+          228.7095100217103,
+          -293.88038977400765,
+          -1233.1604152167488,
+          105.0631956652445,
+          381.99444157991826,
+          -766.8395847832528,
+          -16.949143859334953,
+          -134.1296897127986,
+          766.839584783252,
+          -316.8235618276194,
+          46.01563790688738,
+          233.1604152167497
+        ],
+        "residual": [
+          4.547473508864641e-13,
+          -2.842170943040401e-14,
+          0.0,
+          -3.410605131648481e-13,
+          -6.252776074688882e-13,
+          4.973799150320701e-13,
+          -1.3642420526593924e-12,
+          -3.8276532750291285e-13,
+          -3.410605131648481e-13,
+          -7.389644451905042e-13,
+          -1.1368683772161603e-13,
+          -2.2737367544323206e-13,
+          3.979039320256561e-13,
+          3.410605131648481e-13,
+          2.5579538487363607e-13,
+          -9.094947017729282e-13,
+          -5.684341886080802e-14,
+          2.2737367544323206e-13,
+          0.0,
+          -8.526512829121202e-14,
+          -6.821210263296962e-13,
+          228.7095100217103,
+          -293.88038977400765,
+          -1233.1604152167488,
+          105.0631956652445,
+          381.99444157991826,
+          -766.8395847832528,
+          -16.949143859334953,
+          -134.1296897127986,
+          766.839584783252,
+          -316.8235618276194,
+          46.01563790688738,
+          233.1604152167497
+        ],
+        "reactions": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          228.7095100217103,
+          -293.88038977400765,
+          -1233.1604152167488,
+          105.0631956652445,
+          381.99444157991826,
+          -766.8395847832528,
+          -16.949143859334953,
+          -134.1296897127986,
+          766.839584783252,
+          -316.8235618276194,
+          46.01563790688738,
+          233.1604152167497
+        ]
+      },
+      "equilibrium": {
+        "sign_convention": "residual = internal_force - external_force; reactions are residuals on fixed dofs",
+        "load_factor": 1.0,
+        "free_residual_norm": 2.322006648249005e-12,
+        "free_relative_residual": 2.322006648249005e-15,
+        "fixed_reaction_norm": 1779.758043615274,
+        "ground_spring_reaction_norm": 0.0,
+        "external_load_norm": 1000.0,
+        "internal_force_norm": 2041.4550432995738,
+        "displacement_norm": 2.921590886032399e-07,
+        "external_work_at_final_load": 0.00021960778165605547,
+        "secant_internal_energy": 0.00010980389082802778,
+        "linear_energy_identity_relative_error": 8.131516293641283e-20,
+        "external_resultant": [
+          0.0,
+          0.0,
+          1000.0
+        ],
+        "reaction_resultant": [
+          4.547473508864641e-13,
+          -6.252776074688882e-13,
+          -1000.0
+        ],
+        "force_imbalance": [
+          4.547473508864641e-13,
+          -6.252776074688882e-13,
+          0.0
+        ],
+        "force_balance_relative_error": 7.731540852509763e-16,
+        "external_moment_about_origin": [
+          0.0,
+          -1000.0,
+          0.0
+        ],
+        "reaction_moment_about_origin": [
+          -1.4779288903810084e-12,
+          1000.0000000000013,
+          1.6768808563938364e-12
+        ],
+        "moment_imbalance_about_origin": [
+          -1.4779288903810084e-12,
+          1.2505552149377763e-12,
+          1.6768808563938364e-12
+        ],
+        "moment_balance_relative_error": 2.5612675684455574e-15,
+        "reactions": [
+          {
+            "index": 21,
+            "node": 7,
+            "dof": "UX",
+            "value": 228.70951002171032
+          },
+          {
+            "index": 22,
+            "node": 7,
+            "dof": "UY",
+            "value": -293.88038977400765
+          },
+          {
+            "index": 23,
+            "node": 7,
+            "dof": "UZ",
+            "value": -1233.1604152167488
+          },
+          {
+            "index": 24,
+            "node": 8,
+            "dof": "UX",
+            "value": 105.0631956652445
+          },
+          {
+            "index": 25,
+            "node": 8,
+            "dof": "UY",
+            "value": 381.99444157991826
+          },
+          {
+            "index": 26,
+            "node": 8,
+            "dof": "UZ",
+            "value": -766.8395847832528
+          },
+          {
+            "index": 27,
+            "node": 9,
+            "dof": "UX",
+            "value": -16.949143859334953
+          },
+          {
+            "index": 28,
+            "node": 9,
+            "dof": "UY",
+            "value": -134.1296897127986
+          },
+          {
+            "index": 29,
+            "node": 9,
+            "dof": "UZ",
+            "value": 766.839584783252
+          },
+          {
+            "index": 30,
+            "node": 10,
+            "dof": "UX",
+            "value": -316.8235618276194
+          },
+          {
+            "index": 31,
+            "node": 10,
+            "dof": "UY",
+            "value": 46.01563790688738
+          },
+          {
+            "index": 32,
+            "node": 10,
+            "dof": "UZ",
+            "value": 233.16041521674973
+          }
+        ],
+        "constraint_forces": {
+          "equation_count": 12,
+          "kinematic_equation_count": 0,
+          "fixed_equation_count": 12,
+          "constraint_violation_norm": 0.0,
+          "constraint_violation_max_abs": 0.0,
+          "equilibrium_relative_error": 1.304870915744686e-15,
+          "lsmr_stop_code": 1,
+          "sign_convention": "K u - f + C.T lambda = 0",
+          "fixed_support_reaction_norm": 1779.7580436152737,
+          "largest_multipliers": [
+            {
+              "index": 2,
+              "name": "fixed_23",
+              "kind": "fixed",
+              "multiplier": 1233.1604152167488,
+              "violation": 0.0
+            },
+            {
+              "index": 5,
+              "name": "fixed_26",
+              "kind": "fixed",
+              "multiplier": 766.8395847832528,
+              "violation": 0.0
+            },
+            {
+              "index": 8,
+              "name": "fixed_29",
+              "kind": "fixed",
+              "multiplier": -766.839584783252,
+              "violation": 0.0
+            },
+            {
+              "index": 4,
+              "name": "fixed_25",
+              "kind": "fixed",
+              "multiplier": -381.99444157991826,
+              "violation": 0.0
+            },
+            {
+              "index": 9,
+              "name": "fixed_30",
+              "kind": "fixed",
+              "multiplier": 316.8235618276194,
+              "violation": 0.0
+            },
+            {
+              "index": 1,
+              "name": "fixed_22",
+              "kind": "fixed",
+              "multiplier": 293.88038977400765,
+              "violation": 0.0
+            },
+            {
+              "index": 11,
+              "name": "fixed_32",
+              "kind": "fixed",
+              "multiplier": -233.16041521674973,
+              "violation": 0.0
+            },
+            {
+              "index": 0,
+              "name": "fixed_21",
+              "kind": "fixed",
+              "multiplier": -228.70951002171032,
+              "violation": 0.0
+            },
+            {
+              "index": 7,
+              "name": "fixed_28",
+              "kind": "fixed",
+              "multiplier": 134.1296897127986,
+              "violation": 0.0
+            },
+            {
+              "index": 3,
+              "name": "fixed_24",
+              "kind": "fixed",
+              "multiplier": -105.0631956652445,
+              "violation": 0.0
+            },
+            {
+              "index": 10,
+              "name": "fixed_31",
+              "kind": "fixed",
+              "multiplier": -46.01563790688738,
+              "violation": 0.0
+            },
+            {
+              "index": 6,
+              "name": "fixed_27",
+              "kind": "fixed",
+              "multiplier": 16.949143859334953,
+              "violation": 0.0
+            }
+          ],
+          "generalized_force_norm": 1779.7580436152737,
+          "resultant": [
+            -4.547473508864641e-13,
+            6.252776074688882e-13,
+            1000.0
+          ],
+          "moment_about_origin": [
+            1.4779288903810084e-12,
+            -1000.0000000000013,
+            -1.6768808563938364e-12
+          ],
+          "residual_resultant": [
+            -2.0463630789890885e-12,
+            -1.5916157281026244e-12,
+            -1000.0
+          ],
+          "residual_moment_about_origin": [
+            -2.2737367544323206e-13,
+            1000.0,
+            1.3642420526593924e-12
+          ],
+          "global_force_closure_relative_error": 2.6812987050722666e-15,
+          "global_moment_closure_relative_error": 1.795973193791219e-15
+        }
+      },
+      "numerical_output_digest": "ee0cbd7165ce8e08a6d5a9908bf5aeaf3fae999a7e8742877a1a0c16111edeae",
+      "native_equivalence": {
+        "nodes": {
+          "exact": true,
+          "max_absolute_error": 0.0
+        },
+        "elements": {
+          "connectivity_exact": true
+        },
+        "materials_exact": true,
+        "sets_exact": true,
+        "boundary_exact": true,
+        "loads_exact": true,
+        "displacement_error": 0.0,
+        "reaction_error": 0.0,
+        "equilibrium_error": 0.0,
+        "energy_error": 0.0,
+        "pass": true
+      },
+      "status": "PASS"
+    },
+    {
+      "fixture": "mixed_multimaterial.inp",
+      "input_file_digest": "c90ec589d14d2335a2170a08bc40de7fc41552591db4acb635c1ad843ca47eeb",
+      "parsed_model_digest": "5df113ac92ff221d62da9dd6e6f23ab373d7a25944f811c8def8478b4c99c77e",
+      "native_model_digest": "26552cf014e554f3045dde8cc870414b1ea7c13ff03a142ce05dddeae7bfc5ac",
+      "mapping_report": {
+        "status": "WARNING",
+        "solver_name": "QF_solver",
+        "solver_version": "0.2.7",
+        "source_path": "mixed_multimaterial.inp",
+        "source_sha256": "c90ec589d14d2335a2170a08bc40de7fc41552591db4acb635c1ad843ca47eeb",
+        "analysis": "linear_static",
+        "node_count": 11,
+        "element_count": 3,
+        "elements_by_family": {
+          "HEX8": 1,
+          "TET4": 1,
+          "WEDGE6": 1
+        },
+        "node_sets": {
+          "FIX": 4,
+          "LOAD": 1
+        },
+        "element_sets": {
+          "EHEX": 1,
+          "ETET": 1,
+          "EWEDGE": 1
+        },
+        "materials": [
+          "MAT_HEX",
+          "MAT_TET",
+          "MAT_WEDGE"
+        ],
+        "sections": {
+          "EHEX": "MAT_HEX",
+          "ETET": "MAT_TET",
+          "EWEDGE": "MAT_WEDGE"
+        },
+        "boundary_records": 4,
+        "cload_records": 1,
+        "keyword_counts": {
+          "BOUNDARY": 1,
+          "CLOAD": 1,
+          "ELASTIC": 3,
+          "ELEMENT": 3,
+          "ELSET": 3,
+          "END STEP": 1,
+          "HEADING": 1,
+          "MATERIAL": 3,
+          "NODE": 1,
+          "NSET": 2,
+          "SOLID SECTION": 3,
+          "STATIC": 1,
+          "STEP": 1
+        },
+        "element_mapping": {
+          "C3D4": "TET4",
+          "C3D6": "WEDGE6",
+          "C3D8": "HEX8"
+        },
+        "label_to_index": {
+          "1": 0,
+          "2": 1,
+          "3": 2,
+          "4": 3,
+          "5": 4,
+          "6": 5,
+          "7": 6,
+          "8": 7,
+          "9": 8,
+          "10": 9,
+          "11": 10
+        },
+        "element_label_to_index": {
+          "1": 0,
+          "2": 1,
+          "3": 2
+        },
+        "units_policy": "USER_CONSISTENT / NO_AUTOMATIC_CONVERSION",
+        "warnings": [
+          "Ignored metadata card HEADING at line 1."
+        ]
+      },
+      "model": {
+        "nodes": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ],
+          [
+            -1.0,
+            0.0,
+            0.0
+          ],
+          [
+            -1.0,
+            1.0,
+            0.0
+          ],
+          [
+            -1.0,
+            0.0,
+            1.0
+          ],
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            -1.0
+          ],
+          [
+            0.0,
+            1.0,
+            -1.0
+          ],
+          [
+            -1.0,
+            1.0,
+            -1.0
+          ],
+          [
+            -1.0,
+            0.0,
+            -1.0
+          ]
+        ],
+        "elements": [
+          {
+            "type": "TET4",
+            "nodes": [
+              0,
+              1,
+              2,
+              6
+            ],
+            "material": "MAT_TET"
+          },
+          {
+            "type": "WEDGE6",
+            "nodes": [
+              0,
+              2,
+              1,
+              3,
+              5,
+              4
+            ],
+            "material": "MAT_WEDGE"
+          },
+          {
+            "type": "HEX8",
+            "nodes": [
+              0,
+              3,
+              4,
+              1,
+              7,
+              10,
+              9,
+              8
+            ],
+            "material": "MAT_HEX"
+          }
+        ],
+        "materials": {
+          "MAT_TET": {
+            "type": "isotropic_3d",
+            "E": 70000000000.0,
+            "nu": 0.3
+          },
+          "MAT_WEDGE": {
+            "type": "isotropic_3d",
+            "E": 120000000000.0,
+            "nu": 0.3
+          },
+          "MAT_HEX": {
+            "type": "isotropic_3d",
+            "E": 210000000000.0,
+            "nu": 0.3
+          }
+        },
+        "fixed_dofs": [
+          {
+            "node": 7,
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ]
+          },
+          {
+            "node": 8,
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ]
+          },
+          {
+            "node": 9,
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ]
+          },
+          {
+            "node": 10,
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ]
+          }
+        ],
+        "loads": [
+          {
+            "node": 6,
+            "dof": "UZ",
+            "value": 1000.0
+          }
+        ],
+        "analysis": {
+          "type": "linear_static",
+          "method": "direct",
+          "parameters": {}
+        },
+        "units": {
+          "system": "USER_CONSISTENT"
+        }
+      },
+      "raw_arrays": {
+        "loads": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1000.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "displacements": [
+          -2.1315425945927828e-08,
+          1.1689532161680675e-08,
+          4.6389629401943456e-08,
+          -2.5623834166383666e-08,
+          3.2093721053467618e-09,
+          1.0812684845035845e-08,
+          -1.5743749009219643e-07,
+          3.577607349203862e-08,
+          6.397950881354391e-08,
+          -3.0641261005971764e-08,
+          3.872211375139066e-09,
+          -2.624509783983632e-08,
+          -2.6851541287787253e-08,
+          1.1545381394159709e-08,
+          -2.098465031925493e-08,
+          -1.2063808485504888e-07,
+          1.4570657224765554e-08,
+          -4.0766760773404185e-08,
+          -2.5219591383899196e-08,
+          1.5997940382136528e-08,
+          4.0536883640535497e-07,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "internal_force": [
+          2.2737367544323206e-13,
+          -1.3500311979441904e-12,
+          6.821210263296962e-13,
+          -1.5631940186722204e-13,
+          1.1368683772161603e-13,
+          3.979039320256561e-13,
+          4.547473508864641e-13,
+          -1.3224008667694868e-13,
+          6.536993168992922e-13,
+          2.1316282072803006e-13,
+          -3.979039320256561e-13,
+          3.410605131648481e-13,
+          -4.831690603168681e-13,
+          2.8421709430404007e-13,
+          -1.1368683772161603e-13,
+          3.410605131648481e-13,
+          5.684341886080802e-14,
+          0.0,
+          0.0,
+          7.105427357601002e-14,
+          1000.0000000000002,
+          224.74923085264692,
+          -245.65028298255893,
+          -1236.801619441778,
+          131.23048674624283,
+          377.8470550954076,
+          -763.1983805582216,
+          0.9662853666055184,
+          -136.5650185513141,
+          763.1983805582213,
+          -356.9460029654955,
+          4.368246438465576,
+          236.80161944177806
+        ],
+        "residual": [
+          2.2737367544323206e-13,
+          -1.3500311979441904e-12,
+          6.821210263296962e-13,
+          -1.5631940186722204e-13,
+          1.1368683772161603e-13,
+          3.979039320256561e-13,
+          4.547473508864641e-13,
+          -1.3224008667694868e-13,
+          6.536993168992922e-13,
+          2.1316282072803006e-13,
+          -3.979039320256561e-13,
+          3.410605131648481e-13,
+          -4.831690603168681e-13,
+          2.8421709430404007e-13,
+          -1.1368683772161603e-13,
+          3.410605131648481e-13,
+          5.684341886080802e-14,
+          0.0,
+          0.0,
+          7.105427357601002e-14,
+          2.2737367544323206e-13,
+          224.74923085264692,
+          -245.65028298255893,
+          -1236.801619441778,
+          131.23048674624283,
+          377.8470550954076,
+          -763.1983805582216,
+          0.9662853666055184,
+          -136.5650185513141,
+          763.1983805582213,
+          -356.9460029654955,
+          4.368246438465576,
+          236.80161944177806
+        ],
+        "reactions": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          224.74923085264692,
+          -245.65028298255893,
+          -1236.801619441778,
+          131.23048674624283,
+          377.8470550954076,
+          -763.1983805582216,
+          0.9662853666055184,
+          -136.5650185513141,
+          763.1983805582213,
+          -356.9460029654955,
+          4.368246438465576,
+          236.80161944177806
+        ]
+      },
+      "equilibrium": {
+        "sign_convention": "residual = internal_force - external_force; reactions are residuals on fixed dofs",
+        "load_factor": 1.0,
+        "free_residual_norm": 2.0026010690948826e-12,
+        "free_relative_residual": 2.0026010690948827e-15,
+        "fixed_reaction_norm": 1779.7818331472408,
+        "ground_spring_reaction_norm": 0.0,
+        "external_load_norm": 1000.0,
+        "internal_force_norm": 2041.475783251164,
+        "displacement_norm": 4.671912157848699e-07,
+        "external_work_at_final_load": 0.000405368836405355,
+        "secant_internal_energy": 0.00020268441820267752,
+        "linear_energy_identity_relative_error": 5.421010862427522e-20,
+        "external_resultant": [
+          0.0,
+          0.0,
+          1000.0
+        ],
+        "reaction_resultant": [
+          -2.8421709430404007e-13,
+          1.412203687323199e-13,
+          -1000.0000000000002
+        ],
+        "force_imbalance": [
+          -2.8421709430404007e-13,
+          1.412203687323199e-13,
+          -2.2737367544323206e-13
+        ],
+        "force_balance_relative_error": 3.9041175382420055e-16,
+        "external_moment_about_origin": [
+          0.0,
+          -1000.0,
+          0.0
+        ],
+        "reaction_moment_about_origin": [
+          -3.419486915845482e-13,
+          999.9999999999994,
+          1.9984014443252818e-13
+        ],
+        "moment_imbalance_about_origin": [
+          -3.419486915845482e-13,
+          -5.684341886080801e-13,
+          1.9984014443252818e-13
+        ],
+        "moment_balance_relative_error": 6.928076340382838e-16,
+        "reactions": [
+          {
+            "index": 21,
+            "node": 7,
+            "dof": "UX",
+            "value": 224.7492308526469
+          },
+          {
+            "index": 22,
+            "node": 7,
+            "dof": "UY",
+            "value": -245.65028298255893
+          },
+          {
+            "index": 23,
+            "node": 7,
+            "dof": "UZ",
+            "value": -1236.801619441778
+          },
+          {
+            "index": 24,
+            "node": 8,
+            "dof": "UX",
+            "value": 131.2304867462428
+          },
+          {
+            "index": 25,
+            "node": 8,
+            "dof": "UY",
+            "value": 377.8470550954076
+          },
+          {
+            "index": 26,
+            "node": 8,
+            "dof": "UZ",
+            "value": -763.1983805582216
+          },
+          {
+            "index": 27,
+            "node": 9,
+            "dof": "UX",
+            "value": 0.9662853666055184
+          },
+          {
+            "index": 28,
+            "node": 9,
+            "dof": "UY",
+            "value": -136.5650185513141
+          },
+          {
+            "index": 29,
+            "node": 9,
+            "dof": "UZ",
+            "value": 763.1983805582212
+          },
+          {
+            "index": 30,
+            "node": 10,
+            "dof": "UX",
+            "value": -356.9460029654955
+          },
+          {
+            "index": 31,
+            "node": 10,
+            "dof": "UY",
+            "value": 4.368246438465575
+          },
+          {
+            "index": 32,
+            "node": 10,
+            "dof": "UZ",
+            "value": 236.80161944177806
+          }
+        ],
+        "constraint_forces": {
+          "equation_count": 12,
+          "kinematic_equation_count": 0,
+          "fixed_equation_count": 12,
+          "constraint_violation_norm": 0.0,
+          "constraint_violation_max_abs": 0.0,
+          "equilibrium_relative_error": 1.1272327278326562e-15,
+          "lsmr_stop_code": 1,
+          "sign_convention": "K u - f + C.T lambda = 0",
+          "fixed_support_reaction_norm": 1779.7818331472408,
+          "largest_multipliers": [
+            {
+              "index": 2,
+              "name": "fixed_23",
+              "kind": "fixed",
+              "multiplier": 1236.801619441778,
+              "violation": 0.0
+            },
+            {
+              "index": 5,
+              "name": "fixed_26",
+              "kind": "fixed",
+              "multiplier": 763.1983805582216,
+              "violation": 0.0
+            },
+            {
+              "index": 8,
+              "name": "fixed_29",
+              "kind": "fixed",
+              "multiplier": -763.1983805582212,
+              "violation": 0.0
+            },
+            {
+              "index": 4,
+              "name": "fixed_25",
+              "kind": "fixed",
+              "multiplier": -377.8470550954076,
+              "violation": 0.0
+            },
+            {
+              "index": 9,
+              "name": "fixed_30",
+              "kind": "fixed",
+              "multiplier": 356.9460029654955,
+              "violation": 0.0
+            },
+            {
+              "index": 1,
+              "name": "fixed_22",
+              "kind": "fixed",
+              "multiplier": 245.65028298255893,
+              "violation": 0.0
+            },
+            {
+              "index": 11,
+              "name": "fixed_32",
+              "kind": "fixed",
+              "multiplier": -236.80161944177806,
+              "violation": 0.0
+            },
+            {
+              "index": 0,
+              "name": "fixed_21",
+              "kind": "fixed",
+              "multiplier": -224.7492308526469,
+              "violation": 0.0
+            },
+            {
+              "index": 7,
+              "name": "fixed_28",
+              "kind": "fixed",
+              "multiplier": 136.5650185513141,
+              "violation": 0.0
+            },
+            {
+              "index": 3,
+              "name": "fixed_24",
+              "kind": "fixed",
+              "multiplier": -131.2304867462428,
+              "violation": 0.0
+            },
+            {
+              "index": 10,
+              "name": "fixed_31",
+              "kind": "fixed",
+              "multiplier": -4.368246438465575,
+              "violation": 0.0
+            },
+            {
+              "index": 6,
+              "name": "fixed_27",
+              "kind": "fixed",
+              "multiplier": -0.9662853666055184,
+              "violation": 0.0
+            }
+          ],
+          "generalized_force_norm": 1779.7818331472408,
+          "resultant": [
+            2.8421709430404007e-13,
+            -1.412203687323199e-13,
+            1000.0000000000002
+          ],
+          "moment_about_origin": [
+            3.419486915845482e-13,
+            -999.9999999999994,
+            -1.9984014443252818e-13
+          ],
+          "residual_resultant": [
+            3.979039320256561e-13,
+            -1.2221335055073723e-12,
+            -999.999999999998
+          ],
+          "residual_moment_about_origin": [
+            2.2737367544323206e-13,
+            1000.0000000000005,
+            9.379164112033322e-13
+          ],
+          "global_force_closure_relative_error": 2.7374991706705367e-15,
+          "global_moment_closure_relative_error": 1.3841188518082056e-15
+        }
+      },
+      "numerical_output_digest": "7ec28164f814034ff8ba240162921d5f13f018f9e44598a4bda4d1779fa4983d",
+      "native_equivalence": {
+        "nodes": {
+          "exact": true,
+          "max_absolute_error": 0.0
+        },
+        "elements": {
+          "connectivity_exact": true
+        },
+        "materials_exact": true,
+        "sets_exact": true,
+        "boundary_exact": true,
+        "loads_exact": true,
+        "displacement_error": 0.0,
+        "reaction_error": 0.0,
+        "equilibrium_error": 0.0,
+        "energy_error": 0.0,
+        "pass": true
+      },
+      "status": "PASS"
+    }
+  ],
+  "negative_cases": [
+    {
+      "case_id": "unknown_element_type",
+      "input_digest": "b06a5e76ff4b78b61c15a8f01ab79f1a4031ad1b25258c7cd255d4eb174b5756",
+      "execution_path": "InpModelImporter.from_text -> _parse_cards -> _parse_deck",
+      "expected_exception_type": "InputValidationError",
+      "expected_message_pattern": "Unsupported INP element type",
+      "observed_exception_type": "InputValidationError",
+      "observed_message": "Unsupported INP element type 'C3D10' at line 8; no silent mapping is allowed.",
+      "type_match": true,
+      "message_match": true,
+      "pass": true
+    },
+    {
+      "case_id": "malformed_node",
+      "input_digest": "9833712074dfdc69c7fe2f3bc3a22c3d0ecf6d378dfe6fe967370a63a8161c07",
+      "execution_path": "InpModelImporter.from_text -> _parse_cards -> _parse_deck",
+      "expected_exception_type": "InputValidationError",
+      "expected_message_pattern": "Malformed \\*NODE",
+      "observed_exception_type": "InputValidationError",
+      "observed_message": "Malformed *NODE row at line 4; expected label,x,y,z.",
+      "type_match": true,
+      "message_match": true,
+      "pass": true
+    },
+    {
+      "case_id": "malformed_connectivity",
+      "input_digest": "1b38d3da0f49e5ec0fc87fdc10eef798cbed5bf6e31a897606bc7f1ac06fe9c2",
+      "execution_path": "InpModelImporter.from_text -> _parse_cards -> _parse_deck",
+      "expected_exception_type": "InputValidationError",
+      "expected_message_pattern": "Malformed \\*ELEMENT",
+      "observed_exception_type": "InputValidationError",
+      "observed_message": "Malformed *ELEMENT C3D4 at line 8; records need 5 integer fields.",
+      "type_match": true,
+      "message_match": true,
+      "pass": true
+    },
+    {
+      "case_id": "duplicate_ids",
+      "input_digest": "56e26d10519ad3331493a9a61ab83df3c18739514b4089fcd549fe616e2e3bdd",
+      "execution_path": "InpModelImporter.from_text -> _parse_cards -> _parse_deck",
+      "expected_exception_type": "InputValidationError",
+      "expected_message_pattern": "Duplicate node",
+      "observed_exception_type": "InputValidationError",
+      "observed_message": "Duplicate node label 1 at line 7.",
+      "type_match": true,
+      "message_match": true,
+      "pass": true
+    },
+    {
+      "case_id": "missing_material",
+      "input_digest": "159b8a05c96eac18283df5dc29d5aa88489aa27a4717a2f05db4b25724a285ce",
+      "execution_path": "InpModelImporter.from_text -> _parse_cards -> _parse_deck",
+      "expected_exception_type": "InputValidationError",
+      "expected_message_pattern": "missing MATERIAL",
+      "observed_exception_type": "InputValidationError",
+      "observed_message": "*SOLID SECTION references missing MATERIAL 'MISSING'.",
+      "type_match": true,
+      "message_match": true,
+      "pass": true
+    },
+    {
+      "case_id": "invalid_elset",
+      "input_digest": "3bb738cda917c497239c239086483f50acff1f96cb99b9691fda3e2463672db1",
+      "execution_path": "InpModelImporter.from_text -> _parse_cards -> _parse_deck",
+      "expected_exception_type": "InputValidationError",
+      "expected_message_pattern": "missing ELSET",
+      "observed_exception_type": "InputValidationError",
+      "observed_message": "*SOLID SECTION references missing ELSET 'NO_SUCH_SET'.",
+      "type_match": true,
+      "message_match": true,
+      "pass": true
+    },
+    {
+      "case_id": "invalid_nset",
+      "input_digest": "975fce5e6b7c41b97ba62f8d59a0a9d8c7247ee54c8c2f85f446538056e7a7b4",
+      "execution_path": "InpModelImporter.from_text -> _parse_cards -> _parse_deck",
+      "expected_exception_type": "InputValidationError",
+      "expected_message_pattern": "does not exist",
+      "observed_exception_type": "InputValidationError",
+      "observed_message": "NSET 'NO_SUCH_SET' at line 21 does not exist.",
+      "type_match": true,
+      "message_match": true,
+      "pass": true
+    },
+    {
+      "case_id": "unsupported_physical_keyword",
+      "input_digest": "e8d950aeca51b2e40b74a7e5612a41bf8164b0783639410e0a58344f9e785152",
+      "execution_path": "InpModelImporter.from_text -> _parse_cards -> _parse_deck",
+      "expected_exception_type": "InputValidationError",
+      "expected_message_pattern": "Unsupported INP keyword",
+      "observed_exception_type": "InputValidationError",
+      "observed_message": "Unsupported INP keyword 'DLOAD' at line 22; input is fail-closed.",
+      "type_match": true,
+      "message_match": true,
+      "pass": true
+    },
+    {
+      "case_id": "invalid_boundary_dof",
+      "input_digest": "40c42dd1619f5a7bc307445adb26e658785ef40a3223d4639f99dccf4561f388",
+      "execution_path": "InpModelImporter.from_text -> _parse_cards -> _parse_deck",
+      "expected_exception_type": "InputValidationError",
+      "expected_message_pattern": "DOF",
+      "observed_exception_type": "InputValidationError",
+      "observed_message": "DOF at line 21 must be in 1..3, got 4.",
+      "type_match": true,
+      "message_match": true,
+      "pass": true
+    },
+    {
+      "case_id": "invalid_material_property",
+      "input_digest": "03e6686f66e2985b440bc9eec082950f9fec6cca0f608d5b993e715eb2c5245e",
+      "execution_path": "InpModelImporter.from_text -> _parse_cards -> _parse_deck",
+      "expected_exception_type": "InputValidationError",
+      "expected_message_pattern": "Invalid isotropic elastic",
+      "observed_exception_type": "InputValidationError",
+      "observed_message": "Invalid isotropic elastic properties at line 13: E=210000000000.0, nu=0.6.",
+      "type_match": true,
+      "message_match": true,
+      "pass": true
+    }
+  ],
+  "replay": {
+    "count": 2,
+    "fields": [
+      "input_file_digest",
+      "parsed_model_digest",
+      "numerical_output_digest",
+      "mapping_report"
+    ],
+    "records": [
+      {
+        "label": "replay_1",
+        "input_file_digest": "c90ec589d14d2335a2170a08bc40de7fc41552591db4acb635c1ad843ca47eeb",
+        "parsed_model_digest": "5df113ac92ff221d62da9dd6e6f23ab373d7a25944f811c8def8478b4c99c77e",
+        "numerical_output_digest": "7ec28164f814034ff8ba240162921d5f13f018f9e44598a4bda4d1779fa4983d"
+      },
+      {
+        "label": "replay_2",
+        "input_file_digest": "c90ec589d14d2335a2170a08bc40de7fc41552591db4acb635c1ad843ca47eeb",
+        "parsed_model_digest": "5df113ac92ff221d62da9dd6e6f23ab373d7a25944f811c8def8478b4c99c77e",
+        "numerical_output_digest": "7ec28164f814034ff8ba240162921d5f13f018f9e44598a4bda4d1779fa4983d"
+      }
+    ],
+    "exact_digest_match": true
+  },
+  "claim_candidate": "EXPERIMENTAL_BOUNDED",
+  "public_claim": "bounded Abaqus/CalculiX .inp import subset",
+  "silent_fallback": false,
+  "element_formulation_changed": false,
+  "numerical_source_changed": false,
+  "maturity_changed": false,
+  "evidence_0_2_7_changed": false,
+  "validation": {
+    "errors": [],
+    "status": "PASS"
+  },
+  "report_sha256": "151e9a4437a2d40b49653bced339ff7a850f1a9c8b8a24ad6dee2e40ef713432"
+}
