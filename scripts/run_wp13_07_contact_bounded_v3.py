@@ -345,7 +345,7 @@ def main() -> None:
     payload["evidence_integrity_sha256"] = _digest(payload)
     OUTPUT_DIR.mkdir(parents=True, exist_ok=False)
     EVIDENCE_PATH.write_text(json.dumps(v1._strip_internal(payload), indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    print(json.dumps({"status":payload["gate_decisions"]["overall_targeted_status"],"contract_sha":contract_sha,"repo_sha":repo_sha,"evidence":str(EVIDENCE_PATH),"case_a":case_a["energy"],"case_b":case_b["energy"],"failure_cases":sum(bool(row["pass"]) for row in failures),"replay":replay["all_fields_exact"] and replay["semantic_digest_equal"]}, indent=2))
+    print(json.dumps(v1._jsonable({"status":payload["gate_decisions"]["overall_targeted_status"],"contract_sha":contract_sha,"repo_sha":repo_sha,"evidence":str(EVIDENCE_PATH),"case_a":case_a["energy"],"case_b":case_b["energy"],"failure_cases":sum(bool(row["pass"]) for row in failures),"replay":replay["all_fields_exact"] and replay["semantic_digest_equal"]}), indent=2))
 
 
 if __name__ == "__main__":
