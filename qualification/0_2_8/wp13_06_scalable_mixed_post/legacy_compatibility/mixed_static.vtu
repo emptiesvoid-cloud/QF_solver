@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<VTKFile type="UnstructuredGrid" version="0.1" byte_order="LittleEndian">
+  <UnstructuredGrid>
+    <Piece NumberOfPoints="11" NumberOfCells="3">
+      <Points>
+        <DataArray type="Float64" NumberOfComponents="3" format="ascii">0 0 0 0 1 0 0 0 1 -1 0 0 -1 1 0 -1 0 1 1 0 0 0 0 -1 0 1 -1 -1 1 -1 -1 0 -1</DataArray>
+      </Points>
+      <Cells>
+        <DataArray type="Int32" Name="connectivity" format="ascii">0 1 2 6 0 2 1 3 5 4 0 3 4 1 7 10 9 8</DataArray>
+        <DataArray type="Int32" Name="offsets" format="ascii">4 10 18</DataArray>
+        <DataArray type="UInt8" Name="types" format="ascii">10 13 12</DataArray>
+      </Cells>
+      <PointData Vectors="Displacement">
+        <DataArray type="Float64" Name="Displacement" NumberOfComponents="3" format="ascii">-2.13050997369e-08 9.60060482855e-09 4.41518713799e-08 -2.55259953616e-08 4.74786231742e-09 1.21971487574e-08 -1.22475295727e-07 3.48800423988e-08 5.20888693804e-08 -2.87354374537e-08 5.79290936686e-09 -2.34949212873e-08 -2.67720542903e-08 1.08130702404e-08 -2.2494645418e-08 -1.00946507327e-07 1.59181085847e-08 -3.1358728287e-08 -2.26269235181e-08 1.38215004532e-08 2.19607781656e-07 0 0 0 0 0 0 0 0 0 0 0 0</DataArray>
+        <DataArray type="Float64" Name="DisplacementMagnitude" format="ascii">4.99546457722e-08 2.86860431847e-08 1.37586575416e-07 3.75671996678e-08 3.66015635107e-08 1.06896928685e-07 2.21202597875e-07 0 0 0 0</DataArray>
+        <DataArray type="Float64" Name="NodalVonMises" format="ascii">4870.73134427 4870.73134427 7099.33964428 2007.80760896 2007.80760896 3602.10047365 10596.5788149 413.514744269 413.514744269 413.514744269 413.514744269</DataArray>
+        <DataArray type="Float64" Name="NodalStressTrace" format="ascii">419.89901008 419.89901008 -630.365976247 167.21019172 167.21019172 -2186.00859929 925.276646799 2520.42898273 2520.42898273 2520.42898273 2520.42898273</DataArray>
+        <DataArray type="Float64" Name="NodalPrincipalStress" NumberOfComponents="3" format="ascii">-2566.56635433 -14.9898347147 3001.45519912 -2566.56635433 -14.9898347147 3001.45519912 -4132.70394792 -499.844827011 4002.18279868 -1187.12034216 260.344616554 1093.98591733 -1187.12034216 260.344616554 1093.98591733 -2939.94951718 -434.030916769 1187.97183466 -5325.45837865 -565.658737253 6816.3937627 565.708832857 954.720149878 1000 565.708832857 954.720149878 1000 565.708832857 954.720149878 1000 565.708832857 954.720149878 1000</DataArray>
+        <DataArray type="Float64" Name="ShellTopNodalVonMises" format="ascii">0 0 0 0 0 0 0 0 0 0 0</DataArray>
+        <DataArray type="Float64" Name="ShellBottomNodalVonMises" format="ascii">0 0 0 0 0 0 0 0 0 0 0</DataArray>
+      </PointData>
+      <CellData Scalars="VonMises">
+        <DataArray type="Int32" Name="ElementIndex" format="ascii">0 1 2</DataArray>
+        <DataArray type="Float64" Name="VonMises" format="ascii">10596.5788149 3602.10047365 413.514744269</DataArray>
+        <DataArray type="Int32" Name="HasVonMises" format="ascii">1 1 1</DataArray>
+        <DataArray type="Float64" Name="StressTrace" format="ascii">925.276646799 -2186.00859929 2520.42898273</DataArray>
+        <DataArray type="Float64" Name="HydrostaticPressure" format="ascii">-308.425548933 728.669533098 -840.142994245</DataArray>
+        <DataArray type="Float64" Name="PrincipalStress" NumberOfComponents="3" format="ascii">-5325.45837865 -565.658737253 6816.3937627 -2939.94951718 -434.030916769 1187.97183466 565.708832857 954.720149878 1000</DataArray>
+        <DataArray type="Float64" Name="PrincipalStrain" NumberOfComponents="3" format="ascii">-3.42889470776e-08 -4.82352072604e-09 4.08748995118e-08 -1.50768180598e-08 4.36011371373e-10 1.0476980785e-08 -9.86057719355e-11 2.30955952391e-09 2.589863358e-09</DataArray>
+        <DataArray type="Float64" Name="ShellTopVonMises" format="ascii">0 0 0</DataArray>
+        <DataArray type="Float64" Name="ShellBottomVonMises" format="ascii">0 0 0</DataArray>
+      </CellData>
+    </Piece>
+  </UnstructuredGrid>
+</VTKFile>

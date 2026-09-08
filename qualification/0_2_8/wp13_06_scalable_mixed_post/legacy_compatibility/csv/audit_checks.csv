@@ -1,0 +1,194 @@
+name,status,value,limit,message
+mesh_validation,PASS,PASS,PASS,Mesh validation passed.
+boundary_has_fixed_dofs,PASS,12,> 0,At least one fixed dof is required to constrain the model.
+boundary_has_free_dofs,PASS,21,> 0,At least one free dof is required to solve the model.
+matrix:stiffness:finite_norm,PASS,680046448299.0713,finite,Matrix norm must be finite.
+matrix:stiffness:symmetry,PASS,1.635426249551935e-17,"<= 1e-9 PASS, <= 1e-8 WARNING",Conservative mechanical matrices are expected to be symmetric.
+matrix:reduced_stiffness:finite_norm,PASS,616315776882.5322,finite,Matrix norm must be finite.
+matrix:reduced_stiffness:symmetry,PASS,0.0,"<= 1e-9 PASS, <= 1e-8 WARNING",Conservative mechanical matrices are expected to be symmetric.
+matrix:reduced_stiffness:condition_estimate,PASS,245.2909120029517,"<= 1e12 PASS, <= 1e16 WARNING",High condition estimates indicate numerical fragility.
+matrix:reduced_stiffness:positive_definite,PASS,True,true,Reduced stiffness/mass matrices should be positive definite after constraints.
+element:0:TET4:positive_volume,PASS,0.16666666666666666,> 1e-14,Solid element corner volume must be positive.
+element:0:TET4:corner_quality,PASS,0.7698003589195013,">= 0.05 PASS, >= 0.01 WARNING",Low tetrahedral quality can degrade conditioning and stress accuracy.
+element:0:TET4:local_stiffness:finite_norm,PASS,238918606625.1768,finite,Matrix norm must be finite.
+element:0:TET4:local_stiffness:symmetry,PASS,0.0,"<= 1e-9 PASS, <= 1e-8 WARNING",Conservative mechanical matrices are expected to be symmetric.
+element:1:WEDGE6:local_stiffness:finite_norm,PASS,319445739713.8077,finite,Matrix norm must be finite.
+element:1:WEDGE6:local_stiffness:symmetry,PASS,0.0,"<= 1e-9 PASS, <= 1e-8 WARNING",Conservative mechanical matrices are expected to be symmetric.
+element:2:HEX8:local_stiffness:finite_norm,PASS,362046151993.87213,finite,Matrix norm must be finite.
+element:2:HEX8:local_stiffness:symmetry,PASS,0.0,"<= 1e-9 PASS, <= 1e-8 WARNING",Conservative mechanical matrices are expected to be symmetric.
+post:0:TET4:finite_calculation_displacement,PASS,True,all finite,Recovered post-processing values must be finite.
+post:0:TET4:finite_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:0:TET4:finite_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:0:TET4:finite_principal_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:0:TET4:finite_principal_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:0:TET4:finite_deviatoric_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:0:TET4:von_mises_nonnegative,PASS,10596.578814904882,>= 0,Von Mises stress must be finite and non-negative.
+post:0:TET4:ip0:finite_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:0:TET4:ip0:finite_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:0:TET4:ip0:finite_principal_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:0:TET4:ip0:finite_principal_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:0:TET4:ip0:von_mises_nonnegative,PASS,10596.578814904882,>= 0,Integration-point Von Mises stress must be finite and non-negative.
+post:0:TET4:node0:finite_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:0:TET4:node0:finite_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:0:TET4:node0:finite_principal_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:0:TET4:node0:finite_principal_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:0:TET4:node1:finite_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:0:TET4:node1:finite_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:0:TET4:node1:finite_principal_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:0:TET4:node1:finite_principal_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:0:TET4:node2:finite_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:0:TET4:node2:finite_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:0:TET4:node2:finite_principal_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:0:TET4:node2:finite_principal_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:0:TET4:node6:finite_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:0:TET4:node6:finite_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:0:TET4:node6:finite_principal_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:0:TET4:node6:finite_principal_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:finite_calculation_displacement,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:finite_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:finite_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:finite_principal_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:finite_principal_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:finite_deviatoric_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:von_mises_nonnegative,PASS,3602.100473647754,>= 0,Von Mises stress must be finite and non-negative.
+post:1:WEDGE6:ip0:finite_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:ip0:finite_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:ip0:finite_principal_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:ip0:finite_principal_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:ip0:von_mises_nonnegative,PASS,4384.523754157518,>= 0,Integration-point Von Mises stress must be finite and non-negative.
+post:1:WEDGE6:ip1:finite_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:ip1:finite_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:ip1:finite_principal_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:ip1:finite_principal_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:ip1:von_mises_nonnegative,PASS,2538.692570256388,>= 0,Integration-point Von Mises stress must be finite and non-negative.
+post:1:WEDGE6:ip2:finite_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:ip2:finite_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:ip2:finite_principal_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:ip2:finite_principal_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:ip2:von_mises_nonnegative,PASS,4208.468315169051,>= 0,Integration-point Von Mises stress must be finite and non-negative.
+post:1:WEDGE6:ip3:finite_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:ip3:finite_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:ip3:finite_principal_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:ip3:finite_principal_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:ip3:von_mises_nonnegative,PASS,3141.375228176136,>= 0,Integration-point Von Mises stress must be finite and non-negative.
+post:1:WEDGE6:ip4:finite_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:ip4:finite_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:ip4:finite_principal_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:ip4:finite_principal_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:ip4:von_mises_nonnegative,PASS,6658.347094155615,>= 0,Integration-point Von Mises stress must be finite and non-negative.
+post:1:WEDGE6:ip5:finite_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:ip5:finite_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:ip5:finite_principal_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:ip5:finite_principal_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:ip5:von_mises_nonnegative,PASS,4450.275800819155,>= 0,Integration-point Von Mises stress must be finite and non-negative.
+post:1:WEDGE6:node0:finite_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:node0:finite_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:node0:finite_principal_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:node0:finite_principal_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:node2:finite_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:node2:finite_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:node2:finite_principal_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:node2:finite_principal_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:node1:finite_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:node1:finite_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:node1:finite_principal_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:node1:finite_principal_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:node3:finite_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:node3:finite_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:node3:finite_principal_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:node3:finite_principal_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:node5:finite_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:node5:finite_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:node5:finite_principal_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:node5:finite_principal_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:node4:finite_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:node4:finite_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:node4:finite_principal_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:1:WEDGE6:node4:finite_principal_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:finite_calculation_displacement,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:finite_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:finite_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:finite_principal_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:finite_principal_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:finite_deviatoric_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:von_mises_nonnegative,PASS,413.51474426911665,>= 0,Von Mises stress must be finite and non-negative.
+post:2:HEX8:ip0:finite_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:ip0:finite_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:ip0:finite_principal_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:ip0:finite_principal_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:ip0:von_mises_nonnegative,PASS,5412.516276131654,>= 0,Integration-point Von Mises stress must be finite and non-negative.
+post:2:HEX8:ip1:finite_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:ip1:finite_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:ip1:finite_principal_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:ip1:finite_principal_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:ip1:von_mises_nonnegative,PASS,4215.862370161737,>= 0,Integration-point Von Mises stress must be finite and non-negative.
+post:2:HEX8:ip2:finite_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:ip2:finite_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:ip2:finite_principal_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:ip2:finite_principal_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:ip2:von_mises_nonnegative,PASS,2857.3855423742752,>= 0,Integration-point Von Mises stress must be finite and non-negative.
+post:2:HEX8:ip3:finite_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:ip3:finite_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:ip3:finite_principal_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:ip3:finite_principal_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:ip3:von_mises_nonnegative,PASS,2836.316870918784,>= 0,Integration-point Von Mises stress must be finite and non-negative.
+post:2:HEX8:ip4:finite_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:ip4:finite_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:ip4:finite_principal_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:ip4:finite_principal_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:ip4:von_mises_nonnegative,PASS,3734.6287806420046,>= 0,Integration-point Von Mises stress must be finite and non-negative.
+post:2:HEX8:ip5:finite_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:ip5:finite_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:ip5:finite_principal_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:ip5:finite_principal_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:ip5:von_mises_nonnegative,PASS,2838.569478967208,>= 0,Integration-point Von Mises stress must be finite and non-negative.
+post:2:HEX8:ip6:finite_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:ip6:finite_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:ip6:finite_principal_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:ip6:finite_principal_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:ip6:von_mises_nonnegative,PASS,2823.536309895741,>= 0,Integration-point Von Mises stress must be finite and non-negative.
+post:2:HEX8:ip7:finite_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:ip7:finite_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:ip7:finite_principal_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:ip7:finite_principal_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:ip7:von_mises_nonnegative,PASS,3586.19160612492,>= 0,Integration-point Von Mises stress must be finite and non-negative.
+post:2:HEX8:node0:finite_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:node0:finite_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:node0:finite_principal_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:node0:finite_principal_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:node3:finite_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:node3:finite_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:node3:finite_principal_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:node3:finite_principal_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:node4:finite_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:node4:finite_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:node4:finite_principal_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:node4:finite_principal_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:node1:finite_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:node1:finite_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:node1:finite_principal_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:node1:finite_principal_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:node7:finite_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:node7:finite_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:node7:finite_principal_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:node7:finite_principal_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:node10:finite_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:node10:finite_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:node10:finite_principal_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:node10:finite_principal_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:node9:finite_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:node9:finite_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:node9:finite_principal_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:node9:finite_principal_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:node8:finite_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:node8:finite_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:node8:finite_principal_strain,PASS,True,all finite,Recovered post-processing values must be finite.
+post:2:HEX8:node8:finite_principal_stress,PASS,True,all finite,Recovered post-processing values must be finite.
+equilibrium:free_relative_residual,PASS,2.322006648249005e-15,"<= 1e-8 PASS, <= 1e-6 WARNING",Free dofs should satisfy the solved equilibrium equations.
+equilibrium:global_force_balance,PASS,7.731540852509763e-16,"<= 1e-10 PASS, <= 1e-8 WARNING",Applied forces and support reactions should have a zero global resultant.
+equilibrium:global_moment_balance,PASS,2.5612675684455574e-15,"<= 1e-10 PASS, <= 1e-8 WARNING",Applied loads and support reactions should have a zero global moment about the origin.
+equilibrium:constraint_compatibility,PASS,0.0,"<= 1e-10 PASS, <= 1e-8 WARNING",Kinematic constraint equations must be satisfied after reconstruction.
+equilibrium:constraint_force_closure,PASS,1.304870915744686e-15,"<= 1e-10 PASS, <= 1e-7 WARNING",Recovered constraint forces must close full-space equilibrium.
+equilibrium:constraint_global_force_closure,PASS,2.6812987050722666e-15,"<= 1e-10 PASS, <= 1e-7 WARNING",Constraint generalized forces must close the global force balance of the residual.
+equilibrium:constraint_global_moment_closure,PASS,1.795973193791219e-15,"<= 1e-10 PASS, <= 1e-7 WARNING",Constraint generalized forces must close the global moment balance of the residual.
+equilibrium:linear_energy_identity,PASS,8.131516293641283e-20,"<= 1e-8 PASS, <= 1e-6 WARNING","For linear statics, external work should equal twice the strain energy."
