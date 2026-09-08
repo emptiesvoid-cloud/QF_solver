@@ -15,7 +15,6 @@ import time
 from pathlib import Path
 from typing import Any
 
-import jsonschema
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -28,16 +27,16 @@ if str(SCRIPTS) not in sys.path:
 
 import run_wp13_02c_harmonic_mixed as legacy  # noqa: E402
 import run_wp13_02c5_harmonic_pipeline as c5  # noqa: E402
+import run_wp13_02c6b_pipeline as c6b  # noqa: E402
 from solveur.api.public import solve_model  # noqa: E402
 
 
 CONTRACT_PATH = c5.CONTRACT_PATH
-C6_SCHEMA_PATH = ROOT / "qualification/0_2_8/wp13_02c6_harmonic_evidence.schema.json"
-OUTPUT_DIR = ROOT / "qualification/0_2_8/wp13_02c6_harmonic_final"
+OUTPUT_DIR = ROOT / "qualification/0_2_8/wp13_02c6c_harmonic_final"
 FREEZE_PATH = OUTPUT_DIR / "pre_run_freeze.json"
 ARCHIVE_PATH = OUTPUT_DIR / "wp13_02c6_harmonic_arrays.npz"
 MANIFEST_PATH = OUTPUT_DIR / "manifest.json"
-RUNNER_PATH = Path(__file__).resolve()
+FAILURE_RECORD_PATH = OUTPUT_DIR / "failure_record.json"
 INTERFACES = legacy.INTERFACES
 FAMILIES = legacy.FAMILIES
 
@@ -357,23 +356,8 @@ def _energy_summary(rows: list[dict[str, Any]]) -> dict[str, Any]:
 def main() -> int:
     contract = load_contract()
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    if c5.pipeline_combined_digest(c5.pipeline_component_digests()) != "180c6d48a8613b8b4e082c13725a293d4aef28f405c5055093bff14645867389":
-        raise RuntimeError("C5 pipeline combined digest mismatch before run.")
-    c5_freeze = c5.build_pipeline_freeze()
-    if c5_freeze["pipeline_combined_digest"] != "180c6d48a8613b8b4e082c13725a293d4aef28f405c5055093bff14645867389":
-        raise RuntimeError("Unexpected C5 combined pipeline digest.")
-    campaign_freeze = {
-        **c5_freeze,
-        "campaign_driver_path": "scripts/run_wp13_02c6_harmonic_final.py",
-        "campaign_driver_digest": sha256_file(RUNNER_PATH),
-        "campaign_schema_path": "qualification/0_2_8/wp13_02c6_harmonic_evidence.schema.json",
-        "campaign_schema_digest": sha256_file(C6_SCHEMA_PATH),
-        "contract_blob_digest": sha256_file(CONTRACT_PATH),
-        "schema_blob_digest": sha256_file(c5.EVIDENCE_SCHEMA_PATH),
-        "repo_sha": c5.git_revision(),
-        "pre_run_freeze_valid": True,
-        "numerical_campaign_started": False,
-    }
+    c6b.assert_output_paths_clean(MANIFEST_PATH, ARCHIVE_PATH, FAILURE_RECORD_PATH, FREEZE_PATH)
+    campaign_freeze = c6b.build_c6c_pre_run_freeze()
     FREEZE_PATH.write_text(json.dumps(json_safe(campaign_freeze), indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
     base = legacy.build(1)
@@ -466,7 +450,7 @@ def main() -> int:
             add_array(arrays, array_digests, f"replay_{label}_{name}", value, dtype)
         _interface_arrays(arrays, array_digests, f"replay_{label}", packet["interfaces"])
 
-    np.savez_compressed(ARCHIVE_PATH, **arrays)
+    c6b.write_archive_once(ARCHIVE_PATH, arrays)
     energy_contract = _energy_summary(main_metrics["interfaces"])
     phi_digest = c5.canonical_digest(ref["mode"])
     mass_digest = c5.canonical_digest(ref["mass"])
@@ -589,6 +573,7 @@ def main() -> int:
         "claim_candidate": contract["claim_policy"]["candidate"],
         "status": "PASS_HARMONIC_FINAL_OWNER_READY" if all(gate_decisions.values()) else "FAIL",
         "evidence_schema_valid": False,
+        "semantic_validator_valid": False,
         "integrity": {
             "numerical_source_changed": False, "vnv_harness_changed": False,
             "formulation_changed": False, "contract_changed": False,
@@ -597,25 +582,12 @@ def main() -> int:
             "historical_0_2_7_evidence_changed": False,
         },
     }
-    schema = json.loads(C6_SCHEMA_PATH.read_text(encoding="utf-8"))
-    errors = [error.message for error in jsonschema.Draft202012Validator(schema).iter_errors(json_safe(manifest))]
-    manifest["evidence_schema_valid"] = not bool(errors)
-    manifest["evidence_schema_errors"] = errors
-    if errors:
-        raise RuntimeError(f"C6 schema validation failed: {errors}")
-    if c5.validate_pipeline_evidence(manifest, contract):
-        raise RuntimeError("C5 semantic validator rejected C6 evidence.")
-    pre_digest = campaign_freeze["pipeline_combined_digest"]
-    post_freeze = c5.build_pipeline_freeze()
-    post_driver_digest = sha256_file(RUNNER_PATH)
-    post_schema_digest = sha256_file(C6_SCHEMA_PATH)
-    if post_freeze["pipeline_combined_digest"] != pre_digest or post_driver_digest != campaign_freeze["campaign_driver_digest"] or post_schema_digest != campaign_freeze["campaign_schema_digest"]:
-        raise RuntimeError("Pipeline or campaign-driver mutation detected after numerical run.")
-    manifest["post_run_pipeline_digest"] = post_freeze["pipeline_combined_digest"]
-    manifest["pipeline_digest_match"] = True
-    manifest["pipeline_mutation_detected"] = False
-    manifest["evidence_integrity"] = True
-    MANIFEST_PATH.write_text(json.dumps(json_safe(manifest), indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    manifest, failure_record = c6b.finalize_candidate(manifest, contract)
+    if failure_record is not None:
+        c6b.write_partial_failure_once(FAILURE_RECORD_PATH, failure_record)
+        raise RuntimeError(f"C6 evidence finalization failed: {failure_record}")
+    assert manifest is not None
+    c6b.write_final_manifest_once(MANIFEST_PATH, manifest)
     print(json.dumps({
         "status": manifest["status"],
         "gates": gate_decisions,

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "qf-solver-0.2.8/wp13-02c6-harmonic-evidence-v1",
-  "title": "WP13-02C6 frozen harmonic evidence schema",
+  "$id": "qf-solver-0.2.8/wp13-02c6b-candidate-evidence-v1",
+  "title": "WP13-02C6b candidate harmonic evidence schema",
   "type": "object",
   "required": [
     "schema_version", "record_id", "work_package", "contract_id", "contract_sha256",
@@ -12,8 +12,7 @@
     "replay_comparison", "replay_pipeline", "failure_executions", "pipeline_freeze",
     "post_run_pipeline_mutation_allowed", "post_run_manifest_rewrite_allowed",
     "historical_owner_records", "digests", "gate_decisions", "historical_records_preserved",
-    "evidence_schema_valid", "semantic_validator_valid", "post_run_pipeline_digest",
-    "pipeline_digest_match", "pipeline_mutation_detected", "evidence_integrity", "integrity"
+    "evidence_schema_valid", "semantic_validator_valid", "integrity"
   ],
   "properties": {
     "schema_version": {"const": 6},
@@ -59,7 +58,7 @@
     },
     "pipeline_freeze": {
       "type": "object",
-      "required": ["pipeline_components", "pipeline_component_digests", "pipeline_combined_digest", "campaign_driver_digest", "campaign_schema_digest", "pre_run_freeze_valid", "numerical_campaign_started"],
+      "required": ["pipeline_components", "pipeline_component_digests", "pipeline_combined_digest", "pre_run_freeze_valid", "numerical_campaign_started"],
       "properties": {"pipeline_combined_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"}, "pre_run_freeze_valid": {"const": true}, "numerical_campaign_started": {"const": false}}
     },
     "post_run_pipeline_mutation_allowed": {"const": false},
@@ -68,12 +67,8 @@
     "digests": {"type": "object", "minProperties": 1},
     "gate_decisions": {"type": "object", "minProperties": 1},
     "historical_records_preserved": {"const": true},
-    "evidence_schema_valid": {"const": true},
-    "semantic_validator_valid": {"const": true},
-    "post_run_pipeline_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
-    "pipeline_digest_match": {"const": true},
-    "pipeline_mutation_detected": {"const": false},
-    "evidence_integrity": {"const": true},
+    "evidence_schema_valid": {"const": false},
+    "semantic_validator_valid": {"const": false},
     "integrity": {"type": "object", "minProperties": 1}
   },
   "additionalProperties": true
