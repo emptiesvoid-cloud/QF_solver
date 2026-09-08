@@ -18,6 +18,11 @@
     "frozen_residual_gate": 1.0e-08,
     "historical_replay_count": 2,
     "historical_replay_digest": "3cc0069ed48d37b0cb15b49c4c4fff146319d52416a35dd7e9d217f540d464ba",
+    "reproduction_check": {
+      "comparison": "Compare the independently collected baseline maximum to the archived historical residual; this is a traceability check, not a replacement gate.",
+      "relative_tolerance": 1.0e-06,
+      "absolute_tolerance": 1.0e-15
+    },
     "historical_evidence_read_only": true,
     "historical_0_2_7_evidence_read_only": true
   },
