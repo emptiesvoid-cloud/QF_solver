@@ -170,6 +170,8 @@ tool or artifact is unavailable.
 - `list_demonstrations(*, family: str | None = None, method: str | None = None, maturity: str | None = None) -> tuple[DemonstrationDescriptor, ...]` — list demonstration descriptors; `PROVISIONAL`.
 - `load_large_model(path: str | Path) -> LargeModel` — load large-model storage; `PROVISIONAL`.
 - `load_distributed_large_model(path: str | Path, *, partition_strategy: str = 'contiguous', graph_partitioner: str = 'ptscotch') -> object` — load a distributed partition; `PROVISIONAL`.
+- `load_mixed_results_hdf5(path: str | Path, *, families: tuple[str, ...] | list[str] | None = None, fields: tuple[str, ...] | list[str] | None = None, region_id: int | None = None) -> dict[str, object]` — read family-aware mixed HDF5 results with optional family, field, and region selectors; `PROVISIONAL`.
+- `read_inp(path: str | Path) -> InpImportResult` — import the bounded Abaqus/CalculiX `.inp` subset; `PROVISIONAL`.
 - `parse_petsc_log_view(path: str | Path) -> dict[str, object]` — parse PETSc log output; `PROVISIONAL`.
 - `postprocess_large_model(model_path: str | Path, displacement_path: str | Path, output_dir: str | Path, *, chunk_size: int = 65536, resume: bool = False, overwrite: bool = False, max_chunks: int | None = None) -> dict[str, object]` — post-process a large result; `PROVISIONAL`.
 - `qualify_large_tet4_pipeline(output_dir: str | Path, *, target_dofs: int = 1000000, nx: int | None = None, ny: int | None = None, nz: int | None = None, solver_backend: str = 'petsc', preconditioner: str | None = None, chunk_size: int = 4096, **kwargs: object) -> dict[str, object]` — run the large TET4 qualification pipeline; `PROVISIONAL`.
@@ -191,7 +193,9 @@ tool or artifact is unavailable.
 - `save_large_readiness(report: dict[str, object], output_dir: str | Path) -> dict[str, Path]` — persist large-readiness artifacts; `PROVISIONAL`.
 - `save_large_runtime_environment(output_dir: str | Path, metadata: dict[str, object] | None = None) -> Path` — persist runtime metadata; `PROVISIONAL`.
 - `save_large_verification(report: LargeQualificationVerification, *, json_path: str | Path | None = None, markdown_path: str | Path | None = None) -> dict[str, Path]` — persist large qualification verification; `PROVISIONAL`.
+- `save_mixed_results_hdf5(path: str | Path, model: object, results: object, *, reactions: object | None = None, source_sha: str, metadata: dict[str, object] | None = None) -> Path` — write family-aware mixed HDF5 results; `PROVISIONAL`.
 - `solve_large_model(model: LargeModel, output_dir: str | Path | None = None, *, solver_backend: str = 'scipy', preconditioner: str = 'jacobi', chunk_size: int = 4096, matrix_format: str = 'baij') -> LargeSolveResult` — solve a large-model representation; `PROVISIONAL`.
+- `mixed_results_semantic_digest(path: str | Path) -> str` — digest logical family-aware mixed-result content; `PROVISIONAL`.
 - `verify_large_qualification(path: str | Path, *, target_dofs: int = 1000000, max_solver_residual: float = 1e-06) -> LargeQualificationVerification` — verify large qualification evidence; `PROVISIONAL`.
 - `write_petsc_profile_report(profile_paths: tuple[str | Path, ...], output_dir: str | Path, *, labels: tuple[str, ...] | None = None) -> dict[str, object]` — write PETSc profile reports; `PROVISIONAL`.
 
