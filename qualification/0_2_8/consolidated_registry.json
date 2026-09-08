@@ -1033,7 +1033,8 @@
     "qualification/0_2_8/wp03_owner_gate_final.json",
     "qualification/0_2_8/wp04_owner_gate_final.json",
     "qualification/0_2_8/wp05_owner_gate_final.json",
-    "qualification/0_2_8/wp11b_hex8_buckling_owner_gate_final.json"
+    "qualification/0_2_8/wp11b_hex8_buckling_owner_gate_final.json",
+    "qualification/0_2_8/wp13_03d_mixed_mpc_owner_delivery.json"
   ],
   "registry_id": "QF-028-CONSOLIDATED-CAPABILITY-REGISTRY",
   "schema_version": 1,
@@ -1135,6 +1136,64 @@
       "record_kind": "experimental_capability",
       "scope": "HEX8 linear eigenvalue buckling; linear-elastic prestress; valid bounded cantilever geometries; explicitly tested clamped solid-block boundary condition; first positive mode; exploratory/research use only.",
       "status": "EXPERIMENTAL"
+    },
+    {
+      "evidence_references": {
+        "owner_gate": {
+          "source": "WP13-03C Owner Gate audited at 5e48f259d1adbed42c1f0ec3851b14bb35df0c0a",
+          "status": "APPROVE_WITH_LIMITATIONS"
+        },
+        "v1": {
+          "contract_id": "WP13-03-MIXED-MPC-RBE2-001",
+          "contract_status": "BLOCKED_INVALID_TET4_ORIENTATION",
+          "path": "qualification/0_2_8/wp13_03a_mixed_mpc_rbe2_contract.json",
+          "sha256": "9ef7113c45a0bf285d532bd64cbfe22193edaee333bb3cb698e54d40c0785e06",
+          "status": "preserved"
+        },
+        "v2": {
+          "contract_id": "WP13-03-MIXED-MPC-RBE2-002",
+          "contract_status": "FAIL_ENERGY",
+          "path": "qualification/0_2_8/wp13_03a_mixed_mpc_rbe2_contract_v2.json",
+          "sha256": "10ff2f0708c4f579c7a032036d981f616e8970f04ee000ed86b9146d3ca903d7",
+          "status": "preserved"
+        },
+        "v3": {
+          "contract_id": "WP13-03-MIXED-MPC-RBE2-003",
+          "contract_path": "qualification/0_2_8/wp13_03b_v3_mpc_rbe2_contract.json",
+          "contract_sha256": "0d43ef67274ef7675cc643e722b4647da9d66c774f46339c23135ac8d514d44a",
+          "evidence_path": "qualification/0_2_8/wp13_03b_v3_mpc_rbe2_runtime/wp13_03b_v3_evidence.json",
+          "evidence_sha256": "811149532f5bd1561a72455104ccb40f2d5a2435adafe092d50bcb1965e4b7e9",
+          "raw_npz_path": "qualification/0_2_8/wp13_03b_v3_mpc_rbe2_runtime/wp13_03b_v3_raw.npz",
+          "raw_npz_sha256": "22bcc6ecfbb0d53681cc0368767793a6dfe2370ca55d57d277f32baeaceb0cef",
+          "status": "successful_prospective_campaign"
+        }
+      },
+      "id": "MIXED-TET4-WEDGE6-HEX8-linear_static_translational_mpc",
+      "limitations": [
+        "linear static only",
+        "connected conforming TET4/WEDGE6/HEX8",
+        "translational MPC only",
+        "homogeneous constraints",
+        "zero affine offset",
+        "no rotational RBE2",
+        "no true rigid-body claim",
+        "no RBE3",
+        "no modal MPC",
+        "no Newmark MPC",
+        "no harmonic MPC",
+        "no nonlinear MPC",
+        "no contact coupling",
+        "no nonconforming interfaces",
+        "no arbitrary MPC claim",
+        "no universal claim"
+      ],
+      "owner_decision": "APPROVE_WITH_LIMITATIONS",
+      "owner_record": "qualification/0_2_8/wp13_03d_mixed_mpc_owner_delivery.json",
+      "public_wording": "Connected conforming TET4/WEDGE6/HEX8 mixed linear-static workflow validated with translational linear MPC constraints generated from the frozen RBE2-definition benchmark.",
+      "record_kind": "mixed_workflow_qualification",
+      "scope": "Connected conforming TET4/WEDGE6/HEX8 linear-static workflow with homogeneous zero-offset translational linear MPC constraints generated from the frozen RBE2-definition benchmark.",
+      "status": "QUALIFIED_BOUNDED",
+      "workflow": "mixed_linear_static_translational_mpc"
     }
   ],
   "source_registry": "qualification/0_2_7/capability_registry_v2.json",
