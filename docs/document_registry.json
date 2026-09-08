@@ -5562,6 +5562,22 @@
   "tests": [
     "tests/verification/test_028_wp13_02b7_newmark_v2.py"
   ]
+},
+{
+  "id": "DOC-028-WP13-02C-MIXED-HARMONIC-001",
+  "path": "verification/0_2_8/wp13_02c_mixed_harmonic.md",
+  "title": "QF Solver 0.2.8 WP13-02C connected mixed harmonic campaign",
+  "status": "owner_review_required",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp13_02c_harmonic_contract.json",
+    "qualification/0_2_8/wp13_02c_harmonic_contract.schema.json",
+    "qualification/0_2_8/wp13_02c_harmonic_v1/manifest.json",
+    "qualification/0_2_8/wp13_02c_harmonic_v1/wp13_02c_harmonic_arrays.npz"
+  ],
+  "tests": [
+    "tests/verification/test_028_wp13_02c_mixed_harmonic.py"
+  ]
 }
   ]
   
