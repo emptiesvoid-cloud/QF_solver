@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP13-02B3-OWNER-GATE",
+  "audited_commit": "dcc7a25b92c27481f1c5a27db199375b4873dfec",
+  "authorization": "Explicit user request for this Owner audit; no personal signature inferred.",
+  "owner_decision": "REQUIRE_NEW_PREDECLARED_CAMPAIGN",
+  "status": "OWNER_AUDIT_COMPLETE_CLAIM_WITHHELD",
+  "contract": {
+    "id": "WP13-02A-NEWMARK-MIXED-CONTRACT-001",
+    "first_commit": "e7c75286dbf073b7b82f05eaef276dabc05684e0",
+    "original_and_current_blob": "7e5af8374e33e8d45a61d4a60b01127802bfca64",
+    "classification": "AMBIGUOUS",
+    "fine_only_interpretation_defensible_for_approval": false,
+    "rationale": "The four dt levels and numeric acceptance values are explicit, but there is no coarse exemption, fine-level selector or rule deriving the acceptance subset. A refinement sequence implies comparison of resolutions; it does not establish that precisely T1/80 and T1/160 carry acceptance. The readiness document at 894f1ad also provides no such selector. Choosing that subset now would change acceptance applicability after results, even if the numeric thresholds remain unchanged. This audit does not infer ALL_LEVELS_REQUIRED either.",
+    "first_visible_fine_interpretation": "wp13_02a2_wedge6_dynamic_evidence.json at 402dea9: after the pure WEDGE6 micro-run results and before mixed 02B. This is recorded provenance, not a pre-result rule from the original contract.",
+    "amplitude": "No separate amplitude-error threshold exists in the JSON contract. The 0.01 displacement RMS gate must not silently become an amplitude-only gate.",
+    "q": "Modal coordinate is required evidence. Its relation to the displacement RMS acceptance should be made explicit prospectively; this audit records the comparison without inventing a new q gate.",
+    "frequency": "The reported dense/production eigenfrequency comparison and the fitted transient frequency are different observables. The 1e-8 eigenfrequency result must not be claimed for the finite-dt fitted frequency.",
+    "changed": false,
+    "numeric_gates_changed": false
+  },
+  "campaign_audit": {
+    "archive_sha256": "e808836dbf372ecf776afdec8096e5c9653b5f62de0edd702e09bcab6cee1c09",
+    "all_144_array_hashes_shapes_and_finiteness_verified": true,
+    "levels": [20, 40, 80, 160],
+    "state_shapes": [[81, 48], [161, 48], [321, 48], [641, 48]],
+    "coarse_levels_preserved": true,
+    "hidden_data_selection_detected": false,
+    "acceptance_selection": "Fine-only acceptance was introduced after pure micro-run observations; it is visible, not concealed, and cannot be certified as originally predeclared.",
+    "q_errors_recomputed": [0.11660793079262897, 0.029549933179115872, 0.007422875502642276, 0.0018593674729855828],
+    "q_orders_recomputed": [1.980439139947628, 1.9931047909555049, 1.9971662489291646],
+    "v_orders_recomputed": [1.9896547919755043, 2.000975404668957, 2.0019390988114147],
+    "a_orders_recomputed": [1.9804391399469456, 1.9931047909538417, 1.9971662489230515],
+    "phase_errors_recomputed_rad": [0.10264861125225178, 0.025795486180779204, 0.006456970064338208, 0.0016147438278548698],
+    "dt_convergence": "PASS_OBSERVED_MONOTONE_SECOND_ORDER",
+    "fine_levels": "Observed q RMS below 0.01 and phase below 0.02 at 80/160. This numerical observation does not settle original applicability. Amplitude and v/a remain characterization where no separate gate exists.",
+    "coarse_levels": "Recorded q RMS and phase exceed 0.01 and 0.02 at 20/40; no exemption is granted here.",
+    "method_traceability": "02B2 includes t=0 in errors/fits and uses a bounded fitted-frequency estimator. Its newly computed summaries are not numerically identical to the older summaries; the method and original arrays/results are retained separately. No historical overwrite detected."
+  },
+  "replay": {
+    "original_requirement": "Two complete deterministic replays under the same process and solver settings; not merely a final probe comparison.",
+    "original_unspecified_details": "The replay dt level and exact archived array schema are unspecified; complete does not unambiguously mean repeating all four dt levels.",
+    "new_evidence": "Two complete T1/160 integrations, each with all time samples; all 20 pairs of archived fields compare exactly equal.",
+    "supporting_evidence_valid": true,
+    "historical_requirement_rewritten": false
+  },
+  "interface_energy": {
+    "classification": "SUPPORTING_EVIDENCE_ONLY",
+    "basis": "Per-side effective nodal power v_interface.T*(Ke*u+Me*a) and trapezoidal work histories are archived. They extend the earlier assembly identity check. No separately predeclared interface-energy numerical threshold exists, so no promotion gate is inferred.",
+    "limitations": "Undamped free-vibration benchmark, shared local FEM kernels, finite-step energy quadrature; no independent continuum energy-flux or forced/damped claim."
+  },
+  "additional_caveat": "02B2 failure tests cover seven recorded categories but do not establish universal input rejection: _initial_vector still returns zero for non-list initial conditions. The earlier Owner caveat is not closed by testing an invalid DOF name. No solver modification is made here.",
+  "claims": {
+    "candidate": "CONNECTED_MIXED_NEWMARK_TET4_WEDGE6_HEX8_BOUNDED",
+    "allowed": false,
+    "exact_text": null,
+    "observation_only": "Archived experimental free-vibration results for the 48-DOF conforming mixed elbow show monotone second-order refinement and complete T1/160 replay agreement. Contractual qualification remains withheld.",
+    "maturity_changed": false
+  },
+  "integrity": {
+    "original_contract_unchanged": true,
+    "historical_results_unchanged": true,
+    "historical_owner_rejection_preserved": true,
+    "numerical_source_changed_by_this_gate": false,
+    "source_tree_since_02A2": "d6c4e012c6925cc092a0fcfa6110cf6e09cd1854",
+    "source_difference_from_contract_creation": "Only the separately recorded 02A2 compatibility-descriptor enablement; no such change made by this gate.",
+    "qualification_0_2_7_tree": "4045eb7a6643a8b132e970ab7915c06ec0e6108c",
+    "docs_0_2_7_tree": "25e3e413bca957fc7421b3a7d9ef4d54d2310739",
+    "evidence_0_2_7_changed": false
+  },
+  "checks": ["Contract blob/history and pre-campaign readiness text", "Archive SHA256 plus 144 array digests/shapes/finiteness", "Independent arithmetic from archived q/v/a and probe arrays", "All 20 full replay field pairs compared", "3 existing 02B2 archive guards passed", "Historical tree/hash checks"],
+  "full_test_suite": "DEFERRED_TO_WP13_FINAL_GATE",
+  "new_numerical_runs": 0,
+  "wp13_02b_points_validated": 0,
+  "wp13_total_validated": 25,
+  "score_basis": "22 previously validated plus 3 readiness points; no additional 02B or 02B3 points.",
+  "ready_for_wp13_02c": "YES_AS_SEPARATE_CAMPAIGN_ONLY; neither started nor approved by this gate",
+  "blockers": ["Original coarse/fine acceptance applicability cannot be established before results"],
+  "recommended_next_step": "Separately authorize a new versioned Newmark contract and campaign. Freeze acceptance levels, characterization levels, error operators, frequency observable, replay scope and failure-input scope before reruns. Retain all current evidence and rejections. No new contract or campaign is created by this gate."
+}
