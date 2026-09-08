@@ -335,6 +335,7 @@ def _geometry_checks(contract: dict[str, Any]) -> dict[str, Any]:
         path = "Pyramid5Element.validate_geometry"
         try:
             if case_id in {"invalid_connectivity", "missing_material"}:
+                path = "MeshValidator.validate"
                 model = FiniteElementModel.from_raw(
                     nodes=payload["nodes"], elements=payload["elements"], materials={"solid": dict(MATERIAL)},
                     analysis={"type": "linear_static", "method": "direct"},
@@ -352,14 +353,19 @@ def _geometry_checks(contract: dict[str, Any]) -> dict[str, Any]:
             observed_type = type(exc).__name__
             observed_message = str(exc)
         expected_text = expected[case_id]
-        message_match = bool(observed_message and any(token in observed_message for token in {
-            "PYRAMID5_JACOBIAN_INVALID": "PYRAMID5_JACOBIAN_INVALID" in expected_text,
-            "coincident": "coincident" in expected_text,
-            "connectivity": "connectivity" in expected_text,
-            "unknown material": "unknown material" in expected_text,
-            "Unsupported PYRAMID5 quadrature": "unsupported quadrature" in expected_text,
-            "shape": "shape" in expected_text,
-        } if token))
+        observed_lower = (observed_message or "").lower()
+        expected_lower = expected_text.lower()
+        message_match = bool(
+            observed_message
+            and (
+                ("jacobian" in expected_lower and "pyramid5_jacobian_invalid" in observed_lower)
+                or ("coincident" in expected_lower and "coincident" in observed_lower)
+                or ("connectivity" in expected_lower and ("expects" in observed_lower or "connectivity" in observed_lower))
+                or ("unknown material" in expected_lower and "unknown material" in observed_lower)
+                or ("unsupported quadrature" in expected_lower and "unsupported pyramid5 quadrature" in observed_lower)
+                or ("shape" in expected_lower and "shape" in observed_lower)
+            )
+        )
         passed = observed_type is not None and message_match
         invalid_records.append({
             "case_id": case_id,
