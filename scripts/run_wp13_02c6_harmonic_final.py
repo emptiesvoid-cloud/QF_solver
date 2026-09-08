@@ -377,6 +377,7 @@ def main() -> int:
     FREEZE_PATH.write_text(json.dumps(json_safe(campaign_freeze), indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
     base = legacy.build(1)
+    legacy.CONTRACT = contract
     ref = legacy.oracle(base)
     ratios = np.asarray(contract["frequency_contract"]["frequency_ratios"], dtype=float)
     frequencies = ref["frequency_hz"] * ratios
