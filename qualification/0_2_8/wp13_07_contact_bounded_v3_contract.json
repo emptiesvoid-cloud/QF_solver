@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "contract_id": "WP13-07-CONTACT-BOUNDED-003",
+  "created_before_campaign": true,
+  "supersedes": {
+    "contract_id": "WP13-07-CONTACT-BOUNDED-002",
+    "status": "FAIL_CONTACT_BOUNDED_CAMPAIGN",
+    "immutable": true,
+    "finding": "active_branch_work_included_constant_affine_offset_b_q"
+  },
+  "scope": {
+    "analysis": "nonlinear_static_quasi_static",
+    "kinematics": "small_strain",
+    "material": "isotropic_3d_linear_elastic",
+    "element_family": "TET4",
+    "contact_formulation": "frictionless_penalty",
+    "contact_geometry": "single_slave_node_to_single_fixed_triangular_master",
+    "search_policy": "initial_fixed_face_and_normal",
+    "sliding_scope": "bounded_small_sliding_without_updated_search",
+    "solver_method": "newton_raphson_load_control",
+    "finite_sliding": false,
+    "friction": false,
+    "surface_to_surface": false,
+    "nonlinear_material": false,
+    "dynamics": false,
+    "impact": false,
+    "self_contact": false
+  },
+  "route_traceability": {
+    "contact_assembly": "src/solveur/contact/solver.py:assemble_penalty_contact",
+    "nonlinear_dispatch": "src/solveur/core/router.py -> src/solveur/core/nonlinear/solver.py",
+    "common_driver": "src/solveur/core/assembly/nonlinear.py",
+    "geometry": "src/solveur/contact/entities.py:FrictionlessContact.face_geometry",
+    "post_processing": "SolveResult.solver.steps contact diagnostics and SolverAudit"
+  },
+  "benchmark": {
+    "material": {"type":"isotropic_3d","young_modulus":10000.0,"poisson_ratio":0.3,"units":"SI-consistent"},
+    "contact_penalty_primary": 100000.0,
+    "penalty_sensitivity_values": [10000.0,100000.0,1000000.0],
+    "load_magnitude": 1000.0,
+    "load_dof_case_a": "UX",
+    "load_dof_case_b": "UY",
+    "load_path_case_a": [0.25,0.5,0.75,1.0],
+    "load_path_case_b": [0.25,1.0,0.0,1.0],
+    "boundary_condition_policy": "all structural nodes except the loaded slave are fixed; slave tangential DOFs fixed; master triangle fixed; all prescribed displacements are zero",
+    "case_a": {
+      "description":"slave initially separated from a fixed plane with +UX normal",
+      "nodes":[[0.1,0.0,0.0],[1.0,0.0,0.0],[0.1,1.0,0.0],[0.1,0.0,1.0],[0.0,-1.0,-1.0],[0.0,1.0,-1.0],[0.0,-1.0,1.0]],
+      "tet4_connectivity":[[0,1,2,3]],"master_nodes":[4,5,6],"slave_node":0,"initial_gap":0.1,"expected_final_state":"active"
+    },
+    "case_b": {
+      "description":"distinct slave/plane orientation with activation, unloading and reactivation",
+      "nodes":[[0.0,0.1,0.0],[1.0,0.1,0.0],[0.0,1.0,0.0],[0.0,0.1,1.0],[-1.0,0.0,-1.0],[-1.0,0.0,1.0],[1.0,0.0,-1.0]],
+      "tet4_connectivity":[[0,1,2,3]],"master_nodes":[4,5,6],"slave_node":0,"initial_gap":0.1,"expected_state_sequence":["inactive","active","inactive","active"]
+    }
+  },
+  "gates": {
+    "max_penetration":{"definition":"max over all recorded load steps of max(-gap,0)","threshold":0.05,"units":"m"},
+    "final_gap":{"definition":"absolute final normal gap for the active final state","threshold":0.05,"units":"m"},
+    "active_contact_count":{"definition":"final active contact count","minimum":1},
+    "normal_force":{"definition":"final contact force is compressive along the frozen master normal","threshold":0.0,"comparison":"strictly positive contact-force norm and non-tensile normal sign"},
+    "force_balance":{"definition":"maximum recorded nonlinear free residual relative to reference load norm","threshold":1e-7},
+    "energy": {
+      "strain_energy":"U_strain(u)=0.5*u^T*K*u",
+      "contact_potential":"U_contact(u)=0.5*k_p*min(g0+c^T*u,0)^2",
+      "contact_force":"f_contact(u)=dU_contact/du=k_p*min(g0+c^T*u,0)*c",
+      "load_parameterization":"F(lambda)=lambda*F_ref, as used by the frozen runtime load path",
+      "branch_solution":"u_q(lambda)=A_q*lambda+b_q",
+      "branch_work":"W_q(lambda_a,lambda_b)=0.5*(lambda_b^2-lambda_a^2)*F_ref_free^T*A_q",
+      "branch_derivation":"du_q/dlambda=A_q; the constant b_q has zero work contribution",
+      "active_branch_definitions":{"inactive":"K0=Kff; A0=K0^-1*F_ref_free; b0=0","active":"K1=Kff+k_p*c_free*c_free^T; A1=K1^-1*F_ref_free; b1=-K1^-1*k_p*g0*c_free"},
+      "transition_policy":"split each load interval at every observed inactive/active or active/inactive transition; use the branch valid on each subinterval",
+      "prescribed_displacement_work":"0 J in the frozen benchmark",
+      "other_external_work":"0 J in the frozen benchmark",
+      "final_balance":"U_strain_final+U_contact_final-W_external_incremental",
+      "absolute_tolerance":1e-10,
+      "relative_tolerance":1e-12,
+      "incremental_local_absolute_tolerance":1e-10,
+      "work_crosscheck_tolerance":1e-8,
+      "b_offset_work_contribution":0.0,
+      "contact_energy_nonnegative":true,
+      "ghost_energy_tolerance":1e-14
+    },
+    "penalty_sensitivity":{"definition":"penetration is non-increasing over the declared penalty sequence; every solve converges and residuals are finite","penalties":[10000.0,100000.0,1000000.0],"universal_penalty_claim":false},
+    "mesh_refinement":{"definition":"two-level contact force, displacement, penetration and reaction characterization","levels":["2x1x1","4x2x2"],"status":"CHARACTERIZATION_ONLY","promotion_gate":"none; finite, converged, traceable observations required"},
+    "search":{"no_missed_contact_in_declared_cases":true,"duplicate_pair_count":0,"unexpected_self_contact":false,"deterministic_face_selection":true,"updated_search_required":false},
+    "replay":{"replay_count":2,"fields":["displacement","reactions","contact_forces","gaps","penetration","active_contact_set","strain_energy","contact_penalty_energy","external_work","solver_status","evidence_digest"],"comparison":"exact arrays and identical status; semantic digest equality"}
+  },
+  "cross_check": {
+    "analytic_method":"active-set branchwise exact integral using only F_ref^T*A_q; no b_q term",
+    "numerical_method":"independent pointwise equilibrium solves sampled by numerical quadrature; state transitions detected and bracketed numerically; quadrature does not call analytic A_q/b_q work formula",
+    "panels_per_smooth_segment":64,
+    "transition_bisection_iterations":60,
+    "work_crosscheck_tolerance":1e-8
+  },
+  "oracle":{"plan":"independent dense linear-elastic K plus independently constructed contact row and active-set branch work integration","construction":"[K_ff+k_p*c_f*c_f^T]u_f=lambda*f_f-k_p*g0*c_f on active branches; K_ff*u_f=lambda*f_f on inactive branches","shared_limitations":["element K kernel may be shared with runtime assembly","contact row, gap equation, dense solve and work integration are independent of runtime active/contact assembly"],"independence":"PASS_WITH_KERNEL_LIMITATION"},
+  "failure_contract":[
+    {"case_id":"WP13-07-F-01","name":"invalid master surface","expected_exception":"InputValidationError","message_pattern":"existing node|master"},
+    {"case_id":"WP13-07-F-02","name":"invalid slave node","expected_exception":"InputValidationError","message_pattern":"existing node|slave"},
+    {"case_id":"WP13-07-F-03","name":"zero penalty","expected_exception":"InputValidationError","message_pattern":"Penalty contact stiffness.*positive"},
+    {"case_id":"WP13-07-F-04","name":"negative penalty","expected_exception":"InputValidationError","message_pattern":"Penalty contact stiffness.*positive"},
+    {"case_id":"WP13-07-F-05","name":"invalid triangle","expected_exception":"InputValidationError","message_pattern":"zero or non-finite area|degenerate"},
+    {"case_id":"WP13-07-F-06","name":"unsupported contact mode","expected_exception":"InputValidationError","message_pattern":"contact_mode='penalty'"},
+    {"case_id":"WP13-07-F-07","name":"unsupported friction request","expected_exception":"InputValidationError","message_pattern":"frictionless only"},
+    {"case_id":"WP13-07-F-08","name":"malformed contact pair","expected_exception":"InputValidationError","message_pattern":"exactly three master nodes|master nodes"}
+  ],
+  "limitations":["bounded frictionless node-to-triangle penalty only","initial small-sliding search with frozen normal and face","linear elastic isotropic TET4 solids only","no general surface-to-surface contact","no general finite sliding or self-contact","no friction qualification","no augmented Lagrangian, mortar, impact, dynamic, MPI or nonlinear-material contact claim","mesh refinement remains characterization only","penalty values are bounded tested values, not universal recommendations"],
+  "evidence":{"machine_readable":true,"required":["contract_id","contract_sha256","repo_sha","environment","case_inputs","load_factor","active_contact_set","gap","penetration","contact_force","contact_penalty_energy","strain_energy","external_incremental_work","analytic_work","numerical_path_work","energy_transitions","dense_oracle","penalty_sensitivity","mesh_refinement_characterization","search_evidence","failure_cases","replay_digests","gate_decisions"]},
+  "historical_integrity":{"v1_contract_and_evidence_immutable":true,"v2_contract_and_evidence_immutable":true,"element_analysis_registry_46_unchanged":true,"evidence_0_2_7_unchanged":true,"numerical_source_changed":false,"contact_formulation_changed":false,"element_formulation_changed":false,"maturity_changed":false},
+  "claim_policy":{"candidate":"EXPERIMENTAL_BOUNDED","wording":"Bounded frictionless penalty contact, small-sliding node-to-triangle static/quasi-static, tested on the documented TET4 geometries and penalty range.","owner_gate_required":true,"no_general_contact_claim":true}
+}
