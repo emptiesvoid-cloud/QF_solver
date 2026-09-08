@@ -5594,6 +5594,22 @@
   "tests": [
     "tests/verification/test_028_wp13_02c2_harmonic_harness.py"
   ]
+},
+{
+  "id": "DOC-028-WP13-02C3-HARMONIC-FINAL-001",
+  "path": "verification/0_2_8/wp13_02c3_harmonic_final.md",
+  "title": "QF Solver 0.2.8 WP13-02C3 final mixed harmonic campaign",
+  "status": "owner_review_required",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp13_02c_harmonic_contract.json",
+    "qualification/0_2_8/wp13_02c3_harmonic_evidence.schema.json",
+    "qualification/0_2_8/wp13_02c3_harmonic_final/manifest.json",
+    "qualification/0_2_8/wp13_02c3_harmonic_final/wp13_02c3_harmonic_arrays.npz"
+  ],
+  "tests": [
+    "tests/verification/test_028_wp13_02c3_harmonic_final.py"
+  ]
 }
   ]
   
