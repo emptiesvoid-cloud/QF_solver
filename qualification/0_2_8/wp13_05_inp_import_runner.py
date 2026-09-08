@@ -115,15 +115,17 @@ def _native_model(fixture: str) -> FiniteElementModel:
             [-1.0, 1.0, 0.0], [-1.0, 0.0, 1.0], [1.0, 0.0, 0.0], [0.0, 0.0, -1.0],
             [0.0, 1.0, -1.0], [-1.0, 1.0, -1.0], [-1.0, 0.0, -1.0],
         ]
-        elements = [
-            {"type": "TET4", "nodes": [0, 1, 2, 6], "material": "MAT_TET"},
-            {"type": "WEDGE6", "nodes": [0, 2, 1, 3, 5, 4], "material": "MAT_WEDGE"},
-            {"type": "HEX8", "nodes": [0, 3, 4, 1, 7, 10, 9, 8], "material": "MAT_HEX"},
-        ]
         if fixture == "mixed_tet4_wedge6_hex8.inp":
-            materials = {"MAT_TET": {"type": "isotropic_3d", "E": 210.0e9, "nu": 0.3}, "MAT_WEDGE": {"type": "isotropic_3d", "E": 210.0e9, "nu": 0.3}, "MAT_HEX": {"type": "isotropic_3d", "E": 210.0e9, "nu": 0.3}}
+            element_material = "STEEL"
+            materials = {"STEEL": {"type": "isotropic_3d", "E": 210.0e9, "nu": 0.3}}
         else:
+            element_material = None
             materials = {"MAT_TET": {"type": "isotropic_3d", "E": 70.0e9, "nu": 0.3}, "MAT_WEDGE": {"type": "isotropic_3d", "E": 120.0e9, "nu": 0.3}, "MAT_HEX": {"type": "isotropic_3d", "E": 210.0e9, "nu": 0.3}}
+        elements = [
+            {"type": "TET4", "nodes": [0, 1, 2, 6], "material": element_material or "MAT_TET"},
+            {"type": "WEDGE6", "nodes": [0, 2, 1, 3, 5, 4], "material": element_material or "MAT_WEDGE"},
+            {"type": "HEX8", "nodes": [0, 3, 4, 1, 7, 10, 9, 8], "material": element_material or "MAT_HEX"},
+        ]
         fixed = [{"node": node, "dofs": ["UX", "UY", "UZ"]} for node in (7, 8, 9, 10)]
         loads = [{"node": 6, "dof": "UZ", "value": 1000.0}]
     return FiniteElementModel.from_raw(
