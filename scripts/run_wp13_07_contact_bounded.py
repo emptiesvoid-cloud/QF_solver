@@ -110,7 +110,7 @@ def _case_load_direction(nodes: np.ndarray, master_nodes: list[int], load_dof: s
 def _case_raw(contract: dict[str, Any], case_name: str, penalty: float | None = None) -> dict[str, Any]:
     benchmark = contract["benchmark"]
     spec = copy.deepcopy(benchmark[case_name])
-    load_dof = str(benchmark[f"load_dof_{case_name[-1].lower()}"])
+    load_dof = str(benchmark[f"load_dof_case_{case_name[-1].lower()}"])
     nodes = np.asarray(spec["nodes"], dtype=float)
     normal, normal_component, _ = _case_load_direction(nodes, spec["master_nodes"], load_dof)
     slave = int(spec["slave_node"])
