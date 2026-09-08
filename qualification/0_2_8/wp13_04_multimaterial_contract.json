@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "contract_id": "WP13-04-MIXED-MULTIMATERIAL-001",
+  "contract_version": "1.0",
+  "created_before_numerical_campaign": true,
+  "scope": {
+    "analysis": "linear_static",
+    "element_families": ["TET4", "WEDGE6", "HEX8"],
+    "mesh": "connected conforming shared-node mixed mesh",
+    "material_model": "isotropic_3d linear elasticity",
+    "regions": "three explicitly assigned material regions",
+    "interfaces": "perfectly bonded shared-node interfaces",
+    "excluded": ["contact", "nonlinear_material", "anisotropy", "nearly_incompressible_materials", "dynamics"]
+  },
+  "benchmark": {
+    "name": "connected_compact_elbow_mixed_three_material_regions",
+    "geometry_units": "m",
+    "force_units": "N",
+    "nodes": [
+      [0.0, -1.0, 0.0],
+      [1.0, -1.0, 0.0],
+      [1.0, 0.0, 0.0],
+      [0.0, 0.0, 0.0],
+      [0.0, -1.0, 1.0],
+      [1.0, -1.0, 1.0],
+      [1.0, 0.0, 1.0],
+      [0.0, 0.0, 1.0],
+      [0.0, 1.0, 0.0],
+      [0.0, 1.0, 1.0],
+      [0.0, 0.0, 2.0],
+      [1.0, 0.0, 2.0],
+      [0.0, 1.0, 2.0],
+      [0.0, 0.0, 3.0],
+      [1.0, 0.0, 3.0],
+      [0.0, 1.0, 3.0]
+    ],
+    "elements": [
+      {"id": "hex8_0", "family": "HEX8", "connectivity": [0, 1, 2, 3, 4, 5, 6, 7], "region": "region_hex8"},
+      {"id": "wedge6_0", "family": "WEDGE6", "connectivity": [3, 2, 8, 7, 6, 9], "region": "region_wedge6_lower"},
+      {"id": "wedge6_1", "family": "WEDGE6", "connectivity": [7, 6, 9, 10, 11, 12], "region": "region_wedge6_upper"},
+      {"id": "tet4_0", "family": "TET4", "connectivity": [10, 11, 12, 15], "region": "region_tet4"},
+      {"id": "tet4_1", "family": "TET4", "connectivity": [10, 14, 11, 15], "region": "region_tet4"},
+      {"id": "tet4_2", "family": "TET4", "connectivity": [10, 13, 14, 15], "region": "region_tet4"}
+    ],
+    "interfaces": [
+      {"id": "tet4_wedge6", "left_family": "TET4", "right_family": "WEDGE6", "shared_nodes": [10, 11, 12]},
+      {"id": "wedge6_hex8", "left_family": "WEDGE6", "right_family": "HEX8", "shared_nodes": [3, 7, 2, 6]}
+    ],
+    "boundary_conditions": {"fixed_nodes": [0, 1, 4, 5], "fixed_dofs": ["UX", "UY", "UZ"]},
+    "loads": [
+      {"node": 13, "dof": "UZ", "value_n": 33333.333333333336},
+      {"node": 14, "dof": "UZ", "value_n": 33333.333333333336},
+      {"node": 15, "dof": "UZ", "value_n": 33333.333333333336}
+    ],
+    "mechanical_load_path": "LOAD -> TET4 -> TET4/WEDGE6 interface -> WEDGE6 -> WEDGE6/HEX8 interface -> HEX8 -> SUPPORT"
+  },
+  "materials": {
+    "moderate_contrast": {
+      "material_hex8": {"type": "isotropic_3d", "E": 210000000000.0, "nu": 0.30, "density": 7800.0},
+      "material_wedge6": {"type": "isotropic_3d", "E": 120000000000.0, "nu": 0.25, "density": 4500.0},
+      "material_tet4": {"type": "isotropic_3d", "E": 70000000000.0, "nu": 0.28, "density": 2700.0}
+    },
+    "high_contrast": {
+      "material_hex8": {"type": "isotropic_3d", "E": 210000000000.0, "nu": 0.30, "density": 7800.0},
+      "material_wedge6": {"type": "isotropic_3d", "E": 21000000000.0, "nu": 0.25, "density": 4500.0},
+      "material_tet4": {"type": "isotropic_3d", "E": 2100000000.0, "nu": 0.28, "density": 2700.0}
+    },
+    "homogeneous_control": {
+      "material_hex8": {"type": "isotropic_3d", "E": 210000000000.0, "nu": 0.30, "density": 7800.0},
+      "material_wedge6": {"type": "isotropic_3d", "E": 210000000000.0, "nu": 0.30, "density": 7800.0},
+      "material_tet4": {"type": "isotropic_3d", "E": 210000000000.0, "nu": 0.30, "density": 7800.0}
+    }
+  },
+  "material_assignment": {
+    "region_hex8": "material_hex8",
+    "region_wedge6_lower": "material_wedge6",
+    "region_wedge6_upper": "material_wedge6",
+    "region_tet4": "material_tet4"
+  },
+  "gmsh_mapping": {
+    "physical_groups": {
+      "region_hex8": "material_hex8",
+      "region_wedge6_lower": "material_wedge6",
+      "region_wedge6_upper": "material_wedge6",
+      "region_tet4": "material_tet4"
+    },
+    "mapping_rule": "each structural volume group must assign an explicit known material; no default is allowed"
+  },
+  "gates": {
+    "geometry": {"connected_components": 1, "max_aspect_ratio": 2.0, "min_jacobian": 0.1, "zero_volume_elements": 0, "inverted_elements": 0},
+    "mapping": {"material_count": 3, "all_elements_assigned": true, "unknown_materials": 0, "default_material_used": false, "region_conflicts": 0},
+    "oracle": {"displacement_relative": 1e-10, "reaction_relative": 1e-10, "element_response_relative": 1e-10},
+    "interface": {"displacement_continuity": 1e-12, "force_transfer_relative": 1e-10},
+    "equilibrium": {"force_relative": 1e-10, "moment_relative": 1e-10},
+    "energy": {"absolute_j": 1e-10, "relative": 1e-10, "clapeyron_j": 1e-10},
+    "control": {"homogeneous_relative": 1e-10, "material_effect_minimum": 1e-3},
+    "replay": {"array_relative": 1e-12, "status_identical": true, "assignment_identical": true},
+    "refinement": {"status": "CHARACTERIZATION_ONLY", "purpose": "material assignment stability; no general convergence claim"}
+  },
+  "failure_contract": {
+    "cases": [
+      {"case_id": "material_missing", "expected_exception": "MeshValidationError", "message_pattern": "unknown material"},
+      {"case_id": "unknown_material", "expected_exception": "MeshValidationError", "message_pattern": "unknown material"},
+      {"case_id": "region_without_material", "expected_exception": "InputValidationError", "message_pattern": "material"},
+      {"case_id": "invalid_material_properties", "expected_exception": "MeshValidationError", "message_pattern": "material"},
+      {"case_id": "element_nonexistent_region", "expected_exception": "InputValidationError", "message_pattern": "region"},
+      {"case_id": "unsupported_material_model", "expected_exception": "MeshValidationError", "message_pattern": "material"},
+      {"case_id": "malformed_group_mapping", "expected_exception": "InputValidationError", "message_pattern": "group"}
+    ],
+    "any_exception_accepted": false,
+    "silent_fallback_allowed": false
+  },
+  "oracle": {
+    "type": "independent_dense_element_scatter",
+    "assembly": "manual per-element local stiffness scatter using explicit element->material mapping",
+    "runtime_route_reused": false,
+    "shared_kernel_limitation": "element stiffness kernels and MaterialFactory are shared; production GlobalAssembler, reduction and linear factorization are not reused"
+  },
+  "replay": {"count": 2, "fields": ["displacement", "reactions", "element_material_assignment", "energies", "status", "evidence_digest"]},
+  "claim_policy": "Connected conforming TET4/WEDGE6/HEX8 linear-static models with multiple isotropic linear-elastic material regions and perfectly bonded shared-node interfaces within this documented scope."
+}
