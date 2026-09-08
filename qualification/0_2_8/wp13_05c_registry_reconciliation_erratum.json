@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP13-05C-REGISTRY-RECONCILIATION-ERRATUM",
+  "work_package": "WP13-05C-R",
+  "audited_commit": "2abbd0f690e46959d1ab45b7d61745e71e1f6aac",
+  "status": "RECONCILED_STALE_SOURCE",
+  "scope": "Registry-count reconciliation only; no numerical evidence, formulation, maturity, or historical-registry change.",
+  "authoritative_sources": {
+    "historical_base_0_2_7": {
+      "path": "qualification/0_2_7/capability_registry_v2.json",
+      "sha256": "cea5cbc24f6c28b22903d7cbfe76aab83ae654e7029d5604f07937fb7f5d1b48",
+      "combination_counts": {
+        "QUALIFIED_BOUNDED": 20,
+        "EXPERIMENTAL": 25,
+        "NOT_QUALIFIED": 1,
+        "TOTAL": 46
+      },
+      "hex8_linear_buckling": "NOT_QUALIFIED"
+    },
+    "consolidated_element_analysis_0_2_8": {
+      "path": "qualification/0_2_8/consolidated_registry.json",
+      "sha256": "4ce1f2d74182733d972f11d743f5f81707f7a963e9627ac1dd0254ab15dc3c38",
+      "record_path": "combination_registry.records",
+      "combination_counts": {
+        "QUALIFIED_BOUNDED": 32,
+        "EXPERIMENTAL": 14,
+        "NOT_QUALIFIED": 0,
+        "TOTAL": 46
+      },
+      "hex8_linear_buckling": "EXPERIMENTAL"
+    },
+    "separate_workflows": {
+      "path": "qualification/0_2_8/consolidated_registry.json#/separate_workflows",
+      "total_records": 8,
+      "mixed_workflow_qualification_records": 4
+    },
+    "internal_research_kernels": {
+      "path": "qualification/0_2_8/consolidated_registry.json#/internal_research_kernels",
+      "total_records": 1
+    }
+  },
+  "wp11b_traceability": {
+    "owner_record": "qualification/0_2_8/wp11b_hex8_buckling_owner_gate_final.json",
+    "owner_decision": "APPROVE_EXPERIMENTAL",
+    "final_status": "EXPERIMENTAL",
+    "transition": "COMB-HEX8-linear_buckling: NOT_QUALIFIED -> EXPERIMENTAL",
+    "state_after_wp11b": {
+      "QUALIFIED_BOUNDED": 32,
+      "EXPERIMENTAL": 14,
+      "NOT_QUALIFIED": 0,
+      "TOTAL": 46
+    },
+    "decision_present": true
+  },
+  "mismatch": {
+    "wp13_05c_reported_counts": {
+      "QUALIFIED_BOUNDED": 32,
+      "EXPERIMENTAL": 13,
+      "NOT_QUALIFIED": 1,
+      "TOTAL": 46
+    },
+    "wrong_source": {
+      "path": "qualification/0_2_8/wp05_maturity_matrix.json#/summary/global_state_after_wp05_owner_gate",
+      "record_id": "QF-028-WP05-MATURITY-DELTA",
+      "historical_state": "Snapshot created before the WP11B HEX8 buckling Owner decision.",
+      "hex8_linear_buckling": "NOT_QUALIFIED"
+    },
+    "root_cause": "STALE_SOURCE_WRONG_REGISTRY: the WP13-05C report read the immutable WP05 historical maturity snapshot instead of the live consolidated combination_registry.records.",
+    "current_authoritative_state": "qualification/0_2_8/consolidated_registry.json#/combination_registry/records",
+    "registry_regression_detected": false,
+    "maturity_regression_detected": false
+  },
+  "correction": {
+    "required": true,
+    "type": "MACHINE_READABLE_ERRATUM_ONLY",
+    "registry_modified": false,
+    "maturity_modified": false,
+    "numerical_source_modified": false,
+    "historical_0_2_7_evidence_modified": false,
+    "historical_records_rewritten": false
+  },
+  "wp13_05c_importer_owner_decision": {
+    "owner_decision": "APPROVE_EXPERIMENTAL_BOUNDED",
+    "final_status": "APPROVED_EXPERIMENTAL_BOUNDED",
+    "separate_capability": "bounded Abaqus/CalculiX .inp subset",
+    "included_in_element_analysis_46": false,
+    "preserved": true,
+    "affected_by_registry_count_erratum": false
+  },
+  "validation": {
+    "registry_lookup": "PASS",
+    "wp11b_traceability": "PASS",
+    "count_audit": "PASS",
+    "owner_decision_traceability": "PASS",
+    "schema_validation": "PASS",
+    "full_test_suite": "DEFERRED_TO_WP13_FINAL_GATE"
+  }
+}
