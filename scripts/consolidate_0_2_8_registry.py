@@ -38,6 +38,7 @@ OWNER_RECORDS = {
     "WP04": QUALIFICATION_ROOT / "wp04_owner_gate_final.json",
     "WP05": QUALIFICATION_ROOT / "wp05_owner_gate_final.json",
     "WP11B": QUALIFICATION_ROOT / "wp11b_hex8_buckling_owner_gate_final.json",
+    "WP13_03D": QUALIFICATION_ROOT / "wp13_03d_mixed_mpc_owner_delivery.json",
 }
 
 
@@ -140,6 +141,7 @@ def _separate_workflows() -> list[dict[str, Any]]:
     wp10 = _load(QUALIFICATION_ROOT / "wp10_hex8_sri_owner_gate_final.json")
     wp11 = _load(QUALIFICATION_ROOT / "wp11_mixed_large_matrix.json")
     wp11b = _load(OWNER_RECORDS["WP11B"])
+    wp13_03d = _load(OWNER_RECORDS["WP13_03D"])
     return [
         {
             "id": "MIXED-TET4-WEDGE6-HEX8-linear_static",
@@ -189,6 +191,18 @@ def _separate_workflows() -> list[dict[str, Any]]:
             "owner_record": "qualification/0_2_8/wp11b_hex8_buckling_owner_gate_final.json",
             "scope": wp11b["scope"],
             "limitations": wp11b["limitations"],
+        },
+        {
+            "id": "MIXED-TET4-WEDGE6-HEX8-linear_static_translational_mpc",
+            "workflow": wp13_03d["workflow"],
+            "record_kind": wp13_03d["record_kind"],
+            "status": wp13_03d["status"],
+            "owner_record": OWNER_RECORDS["WP13_03D"].relative_to(ROOT).as_posix(),
+            "owner_decision": wp13_03d["owner_decision"],
+            "scope": wp13_03d["scope"],
+            "public_wording": wp13_03d["public_wording"],
+            "limitations": wp13_03d["limitations"],
+            "evidence_references": wp13_03d["evidence_references"],
         },
     ]
 
