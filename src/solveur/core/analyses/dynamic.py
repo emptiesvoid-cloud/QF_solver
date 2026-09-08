@@ -509,12 +509,39 @@ def _reduced_matrices(
 
 
 def _initial_vector(dofs: DofManager, entries: object) -> np.ndarray:
+    """Normalize a supported list of nodal initial-condition entries.
+
+    The public dynamic contract uses ``list[dict]`` entries with ``node``,
+    ``dof`` and finite numeric ``value`` fields.  Reject unsupported or
+    malformed input here instead of silently treating it as a zero state.
+    """
     vector = np.zeros(dofs.ndof, dtype=float)
     if not isinstance(entries, list):
-        return vector
-    for entry in entries:
-        if isinstance(entry, dict):
-            vector[dofs.index(int(entry["node"]), entry["dof"])] = float(entry["value"])
+        raise InputValidationError(
+            "Initial conditions must be provided as a list of {node, dof, value} entries."
+        )
+    for position, entry in enumerate(entries):
+        if not isinstance(entry, dict):
+            raise InputValidationError(
+                f"Initial-condition entry {position} must be an object with node, dof and value."
+            )
+        missing = {"node", "dof", "value"}.difference(entry)
+        if missing:
+            names = ", ".join(sorted(missing))
+            raise InputValidationError(
+                f"Initial-condition entry {position} is missing required field(s): {names}."
+            )
+        try:
+            node = int(entry["node"])
+            value = float(entry["value"])
+            if not np.isfinite(value):
+                raise ValueError("value must be finite")
+            index = dofs.index(node, entry["dof"])
+        except (TypeError, ValueError, OverflowError, KeyError) as exc:
+            raise InputValidationError(
+                f"Invalid initial-condition entry {position}: {exc}."
+            ) from exc
+        vector[index] = value
     return vector
 
 
