@@ -51,7 +51,9 @@ EXPECTED_PUBLIC_SYMBOLS = (
     "list_methods",
     "load_large_model",
     "load_distributed_large_model",
+    "load_mixed_results_hdf5",
     "load_model",
+    "read_inp",
     "parse_petsc_log_view",
     "postprocess_large_model",
     "qualify_large_tet4_pipeline",
@@ -75,12 +77,14 @@ EXPECTED_PUBLIC_SYMBOLS = (
     "save_large_readiness",
     "save_large_runtime_environment",
     "save_large_verification",
+    "save_mixed_results_hdf5",
     "save_model",
     "save_result",
     "save_result_csv",
     "save_result_vtu",
     "solve_large_model",
     "solve_model",
+    "mixed_results_semantic_digest",
     "verify_evidence",
     "verify_large_qualification",
     "write_petsc_profile_report",
@@ -125,7 +129,7 @@ PROVISIONAL_SYMBOLS = set(EXPECTED_PUBLIC_SYMBOLS) - STABLE_SYMBOLS
 
 def test_public_facade_matches_documented_export_inventory() -> None:
     assert tuple(qf_solver.__all__) == EXPECTED_PUBLIC_SYMBOLS
-    assert len(EXPECTED_PUBLIC_SYMBOLS) == 70
+    assert len(EXPECTED_PUBLIC_SYMBOLS) == 74
     assert all(name == "__version__" or not name.startswith("_") for name in qf_solver.__all__)
     assert all(hasattr(qf_solver, name) for name in qf_solver.__all__)
 
@@ -133,7 +137,7 @@ def test_public_facade_matches_documented_export_inventory() -> None:
 def test_documented_stability_classification_covers_every_export() -> None:
     text = (ROOT / "docs" / "reference" / "qf_solver_api.md").read_text(encoding="utf-8")
     assert len(STABLE_SYMBOLS) == 30
-    assert len(PROVISIONAL_SYMBOLS) == 40
+    assert len(PROVISIONAL_SYMBOLS) == 44
     assert STABLE_SYMBOLS | PROVISIONAL_SYMBOLS == set(EXPECTED_PUBLIC_SYMBOLS)
     for name in STABLE_SYMBOLS:
         assert f"- `{name}" in text
