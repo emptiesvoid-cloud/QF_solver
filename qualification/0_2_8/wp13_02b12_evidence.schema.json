@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://qf-solver.org/schemas/wp13-02b12-evidence.json",
+  "title": "QF Solver WP13-02B12 Newmark contract-compliance evidence",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_id",
+    "work_package",
+    "start_sha",
+    "repo_sha",
+    "contract_id",
+    "contract_sha",
+    "contract_sha256",
+    "contract_unchanged",
+    "gates_unchanged",
+    "contract_values_single_source_of_truth",
+    "environment",
+    "benchmark_inputs",
+    "dt_roles",
+    "fstar",
+    "residual",
+    "fit_coefficients",
+    "raw_arrays",
+    "convergence_orders",
+    "interface_metrics",
+    "family_energies",
+    "replay_iterations",
+    "failure_contract",
+    "digests",
+    "gate_decisions",
+    "historical_records",
+    "integrity",
+    "decision"
+  ],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "record_id": {"type": "string", "minLength": 1},
+    "work_package": {"type": "string", "const": "WP13-02B12"},
+    "start_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "repo_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "contract_id": {"type": "string", "const": "WP13-02B4-NEWMARK-MIXED-V2-001"},
+    "contract_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "contract_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "contract_unchanged": {"type": "boolean", "const": true},
+    "gates_unchanged": {"type": "boolean", "const": true},
+    "contract_values_single_source_of_truth": {"type": "boolean", "const": true},
+    "environment": {"type": "object", "required": ["python", "platform", "numpy", "scipy"]},
+    "benchmark_inputs": {
+      "type": "object",
+      "required": ["source_archive", "connected_components", "family_counts", "ndof", "input_sha256"]
+    },
+    "dt_roles": {
+      "type": "object",
+      "required": ["T1/20", "T1/40", "T1/80", "T1/160"]
+    },
+    "fstar": {
+      "type": "object",
+      "required": ["value_N", "source", "formula", "frozen_from_oracle"]
+    },
+    "residual": {
+      "type": "object",
+      "required": ["definition", "denominator", "fstar_source", "variable_denominator_used", "by_level"]
+    },
+    "fit_coefficients": {
+      "type": "object",
+      "required": ["definition", "method", "time_window", "units", "by_level"]
+    },
+    "raw_arrays": {
+      "type": "object",
+      "required": ["archive", "source_archive", "array_manifest", "required_fields", "all_required_fields_present"]
+    },
+    "convergence_orders": {"type": "object", "required": ["metrics", "by_metric", "source"]},
+    "interface_metrics": {"type": "object", "required": ["interfaces", "normalizations_from_contract"]},
+    "family_energies": {"type": "object", "required": ["families", "global_fields", "all_families_present"]},
+    "replay_iterations": {
+      "type": "object",
+      "required": ["level", "main", "replay_1", "replay_2", "time_grid_identical", "status_sequence_identical", "iterations_per_step_identical"]
+    },
+    "failure_contract": {
+      "type": "object",
+      "required": ["cases", "variants_required", "variants_executed", "variants_pass", "silent_fallback"]
+    },
+    "digests": {"type": "object", "required": ["contract_sha256", "source_archive_sha256", "archive_sha256", "arrays"]},
+    "gate_decisions": {"type": "object", "required": ["residual_relative_fstar", "fit_coefficients", "replay_iterations", "failure_contract"]},
+    "historical_records": {"type": "object", "required": ["B5", "B6", "B7", "B8", "B9", "B10", "B11", "owner_gates_preserved"]},
+    "integrity": {"type": "object", "required": ["numerical_source_changed", "contract_changed", "gates_changed", "maturity_changed", "evidence_0_2_7_changed"]},
+    "decision": {"type": "object", "required": ["status", "blockers", "full_test_suite"]}
+  },
+  "additionalProperties": true
+}
