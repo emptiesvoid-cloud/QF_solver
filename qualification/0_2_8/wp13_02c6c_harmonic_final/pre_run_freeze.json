@@ -1,0 +1,119 @@
+{
+  "campaign_driver_digest": "507fefb6c5d8912ddc5ec0bd1886101a7ddd0f7d98abc2751aaebd053f8b6415",
+  "campaign_driver_path": "scripts/run_wp13_02c6_harmonic_final.py",
+  "campaign_schema_digest": "6aa772f6b54400a359435bf9a3902589a90f8c2e9e0705706cef4ecc70e1b1ed",
+  "campaign_schema_path": "qualification/0_2_8/wp13_02c6_harmonic_evidence.schema.json",
+  "candidate_schema_digest": "000c4c64248fd4793e485de013ed0709c3e82cd39e14ea25f9003c054c87ba7f",
+  "contract_blob_digest": "f26f7160f308e812da8fa0fc94ebdbba1eb1958f50db9f6d255ffb993951d045",
+  "environment": {
+    "executable": "C:\\Python313\\python.exe",
+    "numpy": "2.2.6",
+    "pipeline": "WP13-02C6c frozen evidence pipeline",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "python": "3.13.1",
+    "scipy": "1.15.2"
+  },
+  "final_schema_digest": "6aa772f6b54400a359435bf9a3902589a90f8c2e9e0705706cef4ecc70e1b1ed",
+  "freeze_version": 1,
+  "numerical_campaign_started": false,
+  "pipeline_combined_digest": "8f3c55a7daae769d4cee7b492b839d6480edfb283b7306a08dfa2144cdff9c01",
+  "pipeline_component_digests": {
+    "c2_harness": "9b885b7afc664cf987a82b8c354a6cc69cbae3a0983ca48d57666fb56c35c651",
+    "c3_modal_evidence": "db83eb5d4bfb94f0edcc9a4563b6841db62604b7c406829cf2de4473e98a0473",
+    "c6_campaign_driver": "507fefb6c5d8912ddc5ec0bd1886101a7ddd0f7d98abc2751aaebd053f8b6415",
+    "c6_candidate_schema": "000c4c64248fd4793e485de013ed0709c3e82cd39e14ea25f9003c054c87ba7f",
+    "c6_final_schema": "6aa772f6b54400a359435bf9a3902589a90f8c2e9e0705706cef4ecc70e1b1ed",
+    "c6b_sequence_guard": "caed5503b59827bf8cd30909b108678d8670821b6b28a7da7c2fb20ab66ff915",
+    "contract": "f26f7160f308e812da8fa0fc94ebdbba1eb1958f50db9f6d255ffb993951d045",
+    "failure_evaluator": "678ed1952572f65194212bce9dc8f19db286dfe15d33326c14dfb12aeb601e22",
+    "main_pipeline": "678ed1952572f65194212bce9dc8f19db286dfe15d33326c14dfb12aeb601e22",
+    "modal_coordinate": "678ed1952572f65194212bce9dc8f19db286dfe15d33326c14dfb12aeb601e22",
+    "model_and_oracle_builder": "8c11c7fa3fb608ba41917119024ca57a7820a8a221c479380280bc9909f613f7",
+    "post_run_guard": "678ed1952572f65194212bce9dc8f19db286dfe15d33326c14dfb12aeb601e22",
+    "replay_comparator": "678ed1952572f65194212bce9dc8f19db286dfe15d33326c14dfb12aeb601e22",
+    "runtime_entrypoint": "37888d5c43f1a1f4c883c3242eac4af43290f72842c91b9e977ff5f63c61b377",
+    "schema": "58de62a881d304c1a0f34d0a134b2702a2a6768dce9341d6bb743a6f5964a84e"
+  },
+  "pipeline_components": [
+    {
+      "name": "contract",
+      "path": "qualification/0_2_8/wp13_02c_harmonic_contract.json",
+      "role": "contract source"
+    },
+    {
+      "name": "schema",
+      "path": "qualification/0_2_8/wp13_02c5_pipeline.schema.json",
+      "role": "evidence schema"
+    },
+    {
+      "name": "main_pipeline",
+      "path": "scripts/run_wp13_02c5_harmonic_pipeline.py",
+      "role": "main runner/manifest builder"
+    },
+    {
+      "name": "modal_coordinate",
+      "path": "scripts/run_wp13_02c5_harmonic_pipeline.py",
+      "role": "frozen modal projection"
+    },
+    {
+      "name": "replay_comparator",
+      "path": "scripts/run_wp13_02c5_harmonic_pipeline.py",
+      "role": "replay comparator"
+    },
+    {
+      "name": "failure_evaluator",
+      "path": "scripts/run_wp13_02c5_harmonic_pipeline.py",
+      "role": "failure evaluator"
+    },
+    {
+      "name": "post_run_guard",
+      "path": "scripts/run_wp13_02c5_harmonic_pipeline.py",
+      "role": "post-run mutation guard"
+    },
+    {
+      "name": "model_and_oracle_builder",
+      "path": "scripts/run_wp13_02c_harmonic_mixed.py",
+      "role": "frozen model/oracle builder"
+    },
+    {
+      "name": "runtime_entrypoint",
+      "path": "src/solveur/api/public.py",
+      "role": "public runtime entrypoint"
+    },
+    {
+      "name": "c2_harness",
+      "path": "scripts/run_wp13_02c2_harmonic_harness.py",
+      "role": "independent interface/failure harness source"
+    },
+    {
+      "name": "c3_modal_evidence",
+      "path": "scripts/derive_wp13_02c3_modal_evidence.py",
+      "role": "historical modal evidence derivation source"
+    },
+    {
+      "name": "c6_campaign_driver",
+      "path": "scripts/run_wp13_02c6_harmonic_final.py",
+      "role": "frozen C6c campaign driver and manifest builder"
+    },
+    {
+      "name": "c6_candidate_schema",
+      "path": "qualification/0_2_8/wp13_02c6b_candidate.schema.json",
+      "role": "candidate/prevalidation schema"
+    },
+    {
+      "name": "c6_final_schema",
+      "path": "qualification/0_2_8/wp13_02c6_harmonic_evidence.schema.json",
+      "role": "final evidence schema"
+    },
+    {
+      "name": "c6b_sequence_guard",
+      "path": "scripts/run_wp13_02c6b_pipeline.py",
+      "role": "sequence, semantic and immutability guard"
+    }
+  ],
+  "post_run_manifest_rewrite_allowed": false,
+  "post_run_pipeline_mutation_allowed": false,
+  "pre_run_freeze_valid": true,
+  "repo_sha": "f4551b4b8b37571424ef5f551c69d843b80f0ee6",
+  "schema_blob_digest": "58de62a881d304c1a0f34d0a134b2702a2a6768dce9341d6bb743a6f5964a84e"
+}
