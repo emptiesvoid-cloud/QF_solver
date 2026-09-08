@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP13-02B-OWNER-GATE",
+  "audited_commit": "33fba143189922c05d3bc127d46257ecdea67e3b",
+  "authorization": "Explicit project-owner audit request; no personal signature or identity inferred.",
+  "owner_decision": "REJECT_KEEP_EXPERIMENTAL",
+  "owner_status": "AUDIT_COMPLETE_CLAIM_REJECTED",
+  "precedence": "This separate Owner decision withholds approval of the 02B candidate. The original technical PASS_WITH_LIMITATIONS and 8/8 assertion remain unchanged historical records, not Owner-approved points.",
+  "contract": {
+    "id": "WP13-02A-NEWMARK-MIXED-CONTRACT-001",
+    "path": "qualification/0_2_8/wp13_02a_newmark_contract.json",
+    "first_contract_commit": "e7c75286dbf073b7b82f05eaef276dabc05684e0",
+    "declared_creation_baseline": "889fbf27328e843813b670bcbded98327e320b24",
+    "original_and_current_git_blob": "7e5af8374e33e8d45a61d4a60b01127802bfca64",
+    "predeclared": true,
+    "unchanged": true,
+    "numeric_gates_unchanged": true,
+    "dt_levels_conform": true,
+    "execution_acceptance_fully_established": false,
+    "coarse_level_issue": "The frozen contract lists all four levels but does not explicitly assign coarse characterization exemptions or fine-only acceptance. The fine-only interpretation is already present in the 02A2 micro-run report at 402dea92, before the mixed 02B runs, but after the pure micro-run results; it is not an explicit rule in the frozen contract. This audit neither makes every coarse level mandatory by inference nor accepts an undocumented exemption as predeclared.",
+    "gate_application_issue": "Threshold bytes are unchanged; the claimed fine-only acceptance rule is not established by the original contract. Scope of gate application needs explicit reconciliation without relabelling recorded exceedances.",
+    "initial_state_issue": "The contract requests a generalized-mass-normalized initial mode and monitoring of its modal coordinate. Execution scaled the mode to max displacement 1e-5 m and recorded one nodal probe. The scale is disclosed in the summary but the exact input mode and modal-coordinate history are not archived. Scaling a linear mode is not evidence of a FEM bug; compliance and exact replay inputs remain incomplete.",
+    "abort_criteria": "No demonstrated mass/route/conditioning/solver failure. Full compliance is not certified while acceptance interpretation and evidence completeness remain unresolved."
+  },
+  "oracle": {
+    "method_valid": true,
+    "independence": "PASS_WITH_LIMITATIONS",
+    "basis": "The visible execution used local-element K/M matrices scattered independently into dense arrays, a generalized eigensolve, and an analytic cosine. The oracle did not call the production Newmark loop. Sharing local FEM kernels and a dense eigensolver is permitted by the contract; this verifies assembly/time integration, not independent element physics or external correlation.",
+    "runtime_is_newmark": true,
+    "runtime_basis": "src/solveur/core/analyses/dynamic.py advances the coupled free-DOF system through effective stiffness solves and u/v/a updates. A first-mode initial state is an intentional reduced analytical test, not substitution of a modal solution for the runtime.",
+    "limitations": "No archived 02B runner, exact K/M snapshot, initial mode or raw histories is present in the audited commit. The formula and visible session execution can be reviewed, but repository-only numerical recomputation is unavailable.",
+    "frequency_reference_hz": 97.80394654204198,
+    "frequency_mixed_hz": 97.80394654200138,
+    "frequency_relative_difference_recomputed": 4.151203847779255e-13,
+    "stored_frequency_relative_difference": 4.150011260703e-13,
+    "frequency_gate": "PASS for the reported eigenfrequency pair; small summary arithmetic discrepancy does not affect 1e-8 acceptance.",
+    "transient_frequency_diagnostic": "The prior runner divided the fixed-frequency fitted phase offset by omega*t_final. This is a phase-drift proxy, not an independent fitted oscillation frequency. It must not replace the eigenfrequency comparison or establish general spectral accuracy."
+  },
+  "dynamic_audit": {
+    "observed_displacement_rms_orders": [1.9892901408164294, 1.997571353345804, 1.9994099444435187],
+    "convergence": "PASS_REPORTED_VALUES; fine adjacent trajectory difference 0.005585216889486116 <= 0.01",
+    "coarse_exceedances": [
+      {"level": "T1/20", "displacement_rms": 0.11805653205911465, "phase_rad": 0.10267643634107548},
+      {"level": "T1/40", "displacement_rms": 0.02973404669353537, "phase_rad": 0.025795953688879436}
+    ],
+    "fine_observations": "T1/80 and T1/160 satisfy the listed displacement RMS <=0.01 and phase <=0.02 rad thresholds. The fitted amplitude errors are small, but the original contract has no separately defined amplitude-only threshold.",
+    "histories": "PARTIAL: nodal u compared with cosine; v/a only finite and deterministic, without archived comparisons against -omega*phi*sin and -omega^2*phi*cos. The required modal-coordinate history is absent.",
+    "residual": "PASS_REPORTED_BOUND: absolute maximum 6.262457569351659e-9 is already below 1e-7; the production relative denominator is >=1. Raw relative-residual history was not archived.",
+    "energy": "PASS_REPORTED_UNDAMPED_DRIFT: 1.8201536793793772e-13 <=1e-6. Final kinetic and strain energies sum to approximately 0.05912810861459479 J. Zero work/damping are consistent with free vibration, not validation of forced or damped transients.",
+    "replay": "PARTIAL_NOT_SUFFICIENT_FOR_OWNER_APPROVAL: two complete integrations were performed, but the visible comparison used one probe's u/v/a histories, energy/residual histories and independently reconstructed final reactions. Full displacement/reaction histories and replay artifacts were not committed; the JSON contains only zero differences and status flags."
+  },
+  "mixed_audit": {
+    "topology_check": "Existing build(1) mesh generator evaluated with a data-only sink; no numerical solver executed in this gate.",
+    "ndof": 48,
+    "connected_components": 1,
+    "family_counts": {"TET4": 3, "WEDGE6": 2, "HEX8": 1},
+    "tet4_wedge6_shared_nodes": [10, 11, 12],
+    "wedge6_hex8_shared_nodes": [2, 3, 6, 7],
+    "tet4_hex8_shared_nodes": [],
+    "fixed_nodes_only_on_hex8": [0, 1, 4, 5],
+    "direct_support_bypass": false,
+    "participation": "All six element K/M contributions occur in the visible dense scatter and generic runtime assembly. No family substitution observed. Shared global DOFs couple the family chain.",
+    "load_path": "A conforming stiffness path exists from TET4 through WEDGE6 to the HEX8 support. The dynamic experiment excites a global initial mode and removes the original static load; it does not demonstrate an externally applied time-varying load traversing the chain.",
+    "continuity": "PASS_BY_SHARED_DOF_CONSTRUCTION; the earlier diagnostic assigned jump=0 rather than measuring independently duplicated interface states.",
+    "force_transfer": "PASS_WITH_LIMITATIONS: all-step local Ke*u+Me*a pair balance reported <=3.66742111211155e-12 against 1e-8. This is a valid effective nodal balance test for shared unforced free nodes. Per-side trajectories, reference denominator and evaluator are not archived for independent recomputation.",
+    "energy_transfer": "PARTIAL: summing element quadratic energies and comparing with assembled quadratic energy checks assembly consistency. The reported <=3.948190782042867e-14 is not an independent measurement of interfacial work/energy flux; the global energy-drift check provides separate bounded support.",
+    "failure_contract": "PARTIAL: six rejection cases appear in the record, but the requested missing-mass rejection case was not executed/recorded. Non-list initial conditions are silently ignored by the existing _initial_vector implementation; the invalid-node case alone does not establish a comprehensive invalid-initial-condition failure contract. No source correction is made in this gate."
+  },
+  "evidence_audit": {
+    "repository_artifacts": [
+      "qualification/0_2_8/wp13_02b_mixed_newmark_evidence.json",
+      "docs/verification/0_2_8/wp13_02b_mixed_newmark.md",
+      "tests/verification/test_028_wp13_02b_mixed_newmark.py"
+    ],
+    "missing_reproducibility_artifacts": ["campaign/evaluator source", "exact initial state and K/M reference", "u/v/a and modal-coordinate histories", "raw replay histories and per-interface quantities"],
+    "existing_tests": "2 passed; they check summary flags and some thresholds, not the numerical campaign or full contract hash. Their PASS does not close the gaps identified here.",
+    "integrity_meaning": "Historical bytes verified unchanged. This does not certify completeness or correctness of every historical PASS assertion."
+  },
+  "claims": {
+    "candidate": "CONNECTED_MIXED_NEWMARK_TET4_WEDGE6_HEX8_BOUNDED",
+    "candidate_allowed": false,
+    "qualified_claim_exact_text": null,
+    "observation_only": "Recorded experimental Newmark free-vibration results for the 48-DOF conforming TET4/WEDGE6/HEX8 elbow show second-order displacement refinement and small reported residual/energy errors; Owner approval remains withheld pending contract-application and reproducibility closure.",
+    "limitations": ["zero external load and zero Rayleigh damping", "single initial mode and nodal probe", "no arbitrary transient model", "no nonlinear dynamics", "no nonconforming interfaces", "no universal timestep stability", "no industrial or distributed generality", "no maturity promotion"]
+  },
+  "integrity": {
+    "campaign_src_tree_unchanged": "d6c4e012c6925cc092a0fcfa6110cf6e09cd1854",
+    "qualification_0_2_7_tree_unchanged": "4045eb7a6643a8b132e970ab7915c06ec0e6108c",
+    "docs_0_2_7_tree_unchanged": "25e3e413bca957fc7421b3a7d9ef4d54d2310739",
+    "historical_0_2_7_comparison": "Identical at 402dea92, audited HEAD, and WP13 baseline 30bff8d585b3988befaff9cc21e881098ff1b2df.",
+    "original_02b_summary_preserved": true,
+    "numerical_source_changed": false,
+    "formulation_changed": false,
+    "gates_changed_by_this_owner_gate": false,
+    "maturity_changed": false,
+    "evidence_0_2_7_changed": false
+  },
+  "checks": ["Git contract ancestry and blob equality", "historical Git tree equality", "JSON and reported-metric arithmetic", "data-only connected topology check", "oracle/runtime/source audit", "2 existing evidence tests passed"],
+  "full_test_suite": "DEFERRED_TO_WP13_FINAL_GATE",
+  "new_numerical_campaigns_executed": false,
+  "wp13_02c_started": false,
+  "wp13_02b_owner_points_validated": 0,
+  "wp13_02b_points_available": 8,
+  "wp13_total_validated": 25,
+  "score_basis": "User-supplied WP13-01 cumulative baseline 22 plus recorded 02A readiness 3; no 02A2 extra allocation inferred and no 02B points Owner-approved.",
+  "ready_for_wp13_02c": "YES_AS_SEPARATE_CAMPAIGN; enabling route remains available, this decision does not approve harmonic claims.",
+  "blockers": ["Fine-only gate applicability not explicit in original contract", "Missing reproducible evaluator/inputs/history/replay artifacts", "Modal coordinate and analytical velocity/acceleration comparison incomplete", "Failure-contract coverage incomplete"],
+  "recommended_next_step": "A separately authorized 02B evidence-closure step should preserve existing results, reconcile acceptance applicability explicitly, archive executable evaluator and exact states, and complete missing history/replay/failure checks before a new Owner review. Do not alter thresholds or automatically approve the candidate."
+}
