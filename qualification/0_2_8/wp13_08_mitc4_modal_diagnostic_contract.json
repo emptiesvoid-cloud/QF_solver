@@ -1,0 +1,225 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP13-08-MITC4-MODAL-DIAGNOSTIC-CONTRACT",
+  "contract_id": "WP13-08-MITC4-MODAL-DIAGNOSTIC-001",
+  "work_package": "WP13-08",
+  "applicable_version": "0.2.8-development",
+  "creation_sha": "bec37ceee30fc97f0c390bc6fa9c70cf3db0dc7f",
+  "status": "PREDECLARED_NOT_EXECUTED",
+  "contract_created_before_campaign": true,
+  "objective": "Diagnose the frozen MITC4 modal residual failure without changing the historical formulation, evidence, tolerance or maturity registry.",
+  "historical_reference": {
+    "source_path": "qualification/0_2_8/wp04_mitc_vnv.json",
+    "source_record": "COMB-MITC4-modal",
+    "current_status": "EXPERIMENTAL",
+    "owner_gate": "REJECTED",
+    "historical_execution_status": "REPLAY_PASS_FROZEN_GATE_FAILED",
+    "historical_residual": 2.6317020430528298e-08,
+    "frozen_residual_gate": 1.0e-08,
+    "historical_replay_count": 2,
+    "historical_replay_digest": "3cc0069ed48d37b0cb15b49c4c4fff146319d52416a35dd7e9d217f540d464ba",
+    "historical_evidence_read_only": true,
+    "historical_0_2_7_evidence_read_only": true
+  },
+  "scope": {
+    "analysis": "linear modal eigenanalysis",
+    "formulation": "thin, straight, slender isotropic MITC4 cantilever with coherent consistent mass",
+    "geometry": "length=1.0 m, width=0.2 m, thickness=0.01 m, clamped root at x=0",
+    "material": {
+      "young_modulus_pa": 70000000000.0,
+      "poisson_ratio": 0.3,
+      "density_kg_per_m3": 2700.0,
+      "drilling_scale": 0.0001
+    },
+    "boundary_conditions": "UX, UY, UZ, RX, RY and RZ fixed on every node at x=0",
+    "mesh_levels": [[4, 1], [8, 2], [12, 3], [16, 4], [24, 6]],
+    "modes_requested": 4,
+    "mode_domain": "positive fixed-base modes after constrained reduction",
+    "excluded": [
+      "general shell modal qualification",
+      "thick-shell shear",
+      "damping",
+      "prestress",
+      "concentrated mass",
+      "composite material",
+      "general curved-shell modal claims",
+      "MITC3",
+      "Newmark",
+      "harmonic response",
+      "nonlinear analysis",
+      "historical maturity promotion without Owner Gate"
+    ]
+  },
+  "residual_contract": {
+    "gate_metric_name": "max_relative_modal_residual",
+    "equation": "r_i = K_ff phi_i - lambda_i M_ff phi_i",
+    "relative_definition": "||r_i||_2 / max(||K_ff phi_i||_2, abs(lambda_i)*||M_ff phi_i||_2, 1.0)",
+    "independent_recomputation": "Recompute K_ff, M_ff, lambda_i and phi_i from archived/raw solver outputs without reading the solver diagnostic residual as the result.",
+    "frozen_gate": {"operator": "<=", "value": 1.0e-08},
+    "per_mode_required": true,
+    "additional_diagnostic_metric": "Also report the homogeneous scale-invariant denominator max(||K_ff phi_i||_2, abs(lambda_i)*||M_ff phi_i||_2) when positive; it is diagnostic only and cannot replace the frozen gate."
+  },
+  "frozen_acceptance_metrics": {
+    "relative_frequency_error": {"operator": "<=", "value": 0.02},
+    "mode_assurance_criterion": {"operator": ">=", "value": 0.999},
+    "mass_orthogonality_error": {"operator": "<=", "value": 1.0e-08},
+    "mesh_frequency_increment": {"operator": "<=", "value": 0.02},
+    "modal_residual": {"operator": "<=", "value": 1.0e-08},
+    "post_observation_retuning": false,
+    "note": "These values reproduce the frozen WP04 promotion gate. They are not relaxed or replaced by the looser internal runner limits."
+  },
+  "internal_runner_reference": {
+    "source_path": "src/solveur/verification/mitc4_modal.py",
+    "builder": "Mitc4ModalCantileverStudy.build_model",
+    "study": "Mitc4ModalCantileverStudy.run",
+    "internal_frequency_limit": 0.05,
+    "internal_mac_limit": 0.995,
+    "internal_residual_limit": 1.0e-07,
+    "internal_orthogonality_limit": 1.0e-07,
+    "interpretation": "These are existing study/runtime acceptance limits and are archived as evidence of the historical mismatch; they are not WP13-08 gates."
+  },
+  "eigensolver_diagnostic": {
+    "historical_analysis_method": "eigh",
+    "historical_parameters": {
+      "modes": 4,
+      "dense_modal_max_dofs": 6000,
+      "modal_residual_failure_tolerance": 1.0e-06,
+      "arpack_tolerance": "omitted/default",
+      "arpack_maxiter": "omitted/default",
+      "arpack_ncv": "omitted/default",
+      "modal_shift": "zero/default",
+      "prefer_dense_modal": false,
+      "modal_eigenpair_refinement_iterations": 0,
+      "initial_vector": "not used by dense eigh path",
+      "symmetry_assumption": "scipy.linalg.eigh generalized symmetric/Hermitian problem"
+    },
+    "required_audit_fields": [
+      "method",
+      "tolerance",
+      "maxiter",
+      "ncv",
+      "shift",
+      "initial_vector_policy",
+      "symmetry_assumption",
+      "eigenvalue_ordering",
+      "eigenpair_refinement"
+    ],
+    "parameter_change_policy": "No parameter change is allowed in the baseline reproduction. Any comparison run must be declared in this contract/evidence before it is executed and cannot be used to rewrite the historical result.",
+    "deterministic_ordering": "Sort positive eigenvalues ascending and canonicalize each mode sign by its largest-magnitude free component for comparison."
+  },
+  "orthogonality_contract": {
+    "mass_gramian": "G = Phi^T M_ff Phi",
+    "off_diagonal_metric": "||G - diag(diag(G))||_F / max(||G||_F, 1.0)",
+    "normalization_metric": "max_i abs(phi_i^T M_ff phi_i - 1.0)",
+    "gate": {"operator": "<=", "value": 1.0e-08},
+    "required": true
+  },
+  "frequency_and_mode_contract": {
+    "frequency_reference": "Euler-Bernoulli first cantilever bending frequency with beta_1=1.875104068711961 over the declared slender geometry",
+    "frequency_definition": "sqrt(lambda_i)/(2*pi)",
+    "mode_matching": "Match each tested mode to the declared analytical shape or independent dense reference using deterministic ordering and record the pairing.",
+    "mac_definition": "(phi^T reference)^2 / ((phi^T phi)*(reference^T reference)) for the declared first-bending shape; use mass MAC for a dense modal comparison when available.",
+    "mac_gate": {"operator": ">=", "value": 0.999},
+    "checks": [
+      "mode ordering",
+      "frequency sequence",
+      "MAC/mode assurance",
+      "unexpected rigid modes",
+      "duplicate eigenvalues/modes",
+      "mode crossing or ambiguous pairing"
+    ]
+  },
+  "refinement_characterization": {
+    "levels": [[4, 1], [8, 2], [12, 3], [16, 4], [24, 6]],
+    "purpose": "Characterize frequency, residual and mode-shape behavior over the already declared historical mesh sequence; no general convergence claim is made.",
+    "required_observations": ["frequency_hz", "relative_frequency_error", "relative_residual", "mass_orthogonality_error", "mode_assurance_criterion", "adjacent_frequency_increment"],
+    "status_if_completed": "CHARACTERIZATION_ONLY"
+  },
+  "oracle": {
+    "primary": "Independent scipy.linalg.eigh generalized dense eigensolve applied to explicitly materialized K_ff and M_ff, with independently recomputed residuals and modal Gramian.",
+    "analytical": "Euler-Bernoulli slender-cantilever first bending frequency and declared first-mode shape.",
+    "independence_boundary": "The primary eigensolve and diagnostics are independent of ModalAnalysisSolver's returned solver metrics, but element K/M assembly uses the existing GlobalAssembler and MITC4 element kernels; this shared-kernel limitation is recorded and no independent formulation claim is made.",
+    "oracle_calls_production_modal_solver": false,
+    "external_correlation": "NOT_AVAILABLE_AND_NOT_REQUIRED_FOR_THIS_NARROW_DIAGNOSTIC_SCOPE"
+  },
+  "replay": {
+    "count": 2,
+    "mesh_levels": [[4, 1], [8, 2], [16, 4]],
+    "fields": ["frequencies", "eigenvalues", "sign-canonicalized eigenvectors", "runtime residuals", "independent residuals", "mass Gramian", "orthogonality metrics", "mode matching", "status"],
+    "deterministic_comparison": "JSON semantic digest equality after canonical sign/order normalization",
+    "raw_bitwise_identity_required": false
+  },
+  "root_cause_classification": {
+    "allowed": [
+      "EIGENSOLVER_TOLERANCE",
+      "EIGENVECTOR_NORMALIZATION",
+      "RESIDUAL_DEFINITION",
+      "MASS_MATRIX",
+      "STIFFNESS_MATRIX",
+      "BC_HANDLING",
+      "MODE_MATCHING",
+      "POSTPROCESSING",
+      "NUMERICAL_PRECISION",
+      "FORMULATION_LIMITATION",
+      "TEST_ORACLE_PROBLEM",
+      "OTHER"
+    ],
+    "decision_rule": "Classify only from archived independent residual, raw K/M/eigenpair checks, solver parameter audit, orthogonality, frequency/mode checks, refinement, oracle and replay evidence. Do not infer a bug solely from a failed gate."
+  },
+  "evidence_schema": {
+    "format": "JSON manifest with float64 arrays encoded as JSON lists or NPZ without pickle when arrays are materialized",
+    "required_fields": [
+      "contract_id",
+      "contract_sha",
+      "repo_sha",
+      "environment",
+      "historical_reference",
+      "benchmark_inputs",
+      "solver_parameters",
+      "mesh_points",
+      "raw_eigenvalues",
+      "raw_frequencies",
+      "raw_eigenvectors",
+      "assembled_K_M_digests",
+      "runtime_residuals",
+      "independent_residuals",
+      "residual_denominators",
+      "mass_gramians",
+      "orthogonality_metrics",
+      "frequency_and_mode_matching",
+      "refinement_characterization",
+      "oracle_evidence",
+      "replay_evidence",
+      "root_cause_assessment",
+      "gate_decisions",
+      "historical_integrity"
+    ],
+    "contract_values_single_source_of_truth": true,
+    "historical_evidence_immutable": true
+  },
+  "abort_criteria": [
+    "contract or historical evidence modified after freeze",
+    "gate value changed or post-observation retuning attempted",
+    "baseline reproduction cannot be traced to the declared historical route",
+    "independent residual cannot be recomputed from raw K/M/eigenpair data",
+    "oracle calls the production modal solver or reads its diagnostic residual as its result",
+    "nonfinite eigenpair, unexpected rigid mode, duplicate/crossed mode without declared handling",
+    "numerical/formulation source change is required for diagnosis",
+    "historical 0.2.7/0.2.8 evidence or maturity registry would be rewritten"
+  ],
+  "claim_policy": {
+    "promotion_candidate": "Only if the independently recomputed frozen residual is <= 1e-8 for all required modes/levels, orthogonality and mode checks pass, replays pass and the evidence is complete; Owner Gate remains mandatory.",
+    "keep_experimental": "Valid diagnostic outcome if the frozen residual remains >1e-8 or evidence remains insufficient; this does not require changing historical evidence.",
+    "maximum_claim": "No broader MITC4 modal qualification is created by WP13-08; any future claim remains limited to the explicitly evidenced slender-cantilever scope.",
+    "owner_gate_required": true
+  },
+  "integrity": {
+    "numerical_source_change_allowed": false,
+    "formulation_change_allowed": false,
+    "gate_change_allowed": false,
+    "maturity_change_allowed": false,
+    "historical_evidence_read_only": true,
+    "historical_0_2_7_evidence_read_only": true,
+    "full_test_suite": "DEFERRED_TO_WP13_FINAL_GATE"
+  }
+}
