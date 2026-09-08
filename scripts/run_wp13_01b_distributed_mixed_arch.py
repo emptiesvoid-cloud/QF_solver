@@ -266,7 +266,7 @@ def _failure_cases(model, distributed: GenericDistributedModel) -> list[dict[str
     cases: list[tuple[str, dict[str, Any], str, str, Callable[[], None]]] = [
         ("unsupported_element_family", {"family": "PYRAMID5"}, "ElementBlock.__post_init__", "Unsupported distributed element family", lambda: ElementBlock("PYRAMID5", np.zeros((1, 5), dtype=np.int64), np.array([9]), np.array([0]), np.array([0]), ("solid",))),
         ("malformed_connectivity", {"family": "TET4", "connectivity_shape": [1, 3]}, "ElementBlock.__post_init__", "distributed connectivity", lambda: ElementBlock("TET4", np.zeros((1, 3), dtype=np.int64), np.array([9]), np.array([0]), np.array([0]), ("solid",))),
-        ("invalid_element_owner", {"element_id": 0, "owner": 1}, "validate_partitions", "element-owner maps disagree", invalid_owner),
+        ("invalid_element_owner", {"element_id": 0, "owner": 1}, "validate_partitions", "invalid owner", invalid_owner),
         ("duplicate_owned_element", {"duplicate_element_id": int(partitions[0].elements[0].element_id)}, "validate_partitions", "lost or duplicated an element", duplicate_element),
         ("missing_ghost_node", {"rank": 1, "ghost_nodes": []}, "validate_partitions", "local node map is incoherent", missing_ghost),
         ("invalid_local_global_dof_map", {"rank": 0, "node_local_index": 99}, "RankLocalDofMap.__post_init__", "node local/global mapping", invalid_map),

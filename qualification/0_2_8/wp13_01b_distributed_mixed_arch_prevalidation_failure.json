@@ -1,0 +1,18 @@
+{
+  "record_id": "QF-028-WP13-01B-PREVALIDATION-FAILURE-001",
+  "status": "PREVALIDATION_FAILURE_NOT_A_QUALIFICATION_CAMPAIGN",
+  "source_sha": "0a436329fa098077738222619ed4d7cdd8705150",
+  "scope": "Runner evidence-schema prevalidation only; no final manifest was written and no qualification decision was made.",
+  "raw_array_path": "qualification/0_2_8/wp13_01b_distributed_mixed_arch_prevalidation_failure_arrays.npz",
+  "raw_array_sha256": "2164b51f1608941a6c9d6b23eabb718e7b5730a7ef59358cff922c4c5c63b665",
+  "finding": {
+    "case_id": "invalid_element_owner",
+    "expected_message_pattern": "element-owner maps disagree",
+    "observed_exception": "InputValidationError",
+    "observed_message": "Distributed partition has an element with an invalid owner.",
+    "resolution": "The frozen failure contract still requires InputValidationError. The runner pattern was narrowed to the actually emitted explicit invalid-owner rejection before the final campaign."
+  },
+  "final_evidence_written": false,
+  "historical_0_2_7_evidence_changed": false,
+  "numerical_source_changed": false
+}
