@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP13-02B14-OWNER-GATE",
+  "work_package": "WP13-02B14",
+  "audited_commit": "6c5d5852e26a40fddf968692bdc98b102839ec0e",
+  "owner_decision": "REJECT_CONTRACT_VIOLATION",
+  "status": "HISTORICAL_OWNER_DECISION_PRESERVED",
+  "points_validated": 0,
+  "points_total": 8,
+  "verdict_basis": [
+    "B13 archived residual_relative histories used a variable denominator instead of the contractual Fstar",
+    "the scalar residual gate result did not close the separate contractual history-archive requirement"
+  ],
+  "historical_integrity": {
+    "results_rewritten": false,
+    "contract_rewritten": false,
+    "gates_retroactively_changed": false,
+    "evidence_0_2_7_changed": false
+  }
+}
