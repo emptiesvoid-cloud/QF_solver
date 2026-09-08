@@ -1,0 +1,338 @@
+{
+  "checkpoint": {
+    "metadata_ready": true,
+    "observed": "result storage only; restart solver not implemented",
+    "restart_solver": false,
+    "status": "RESTART_NOT_IN_SCOPE"
+  },
+  "claim_candidate": "EXPERIMENTAL_BOUNDED",
+  "contract_commit_sha": "e3e38d8747ac84a2b04fae0cd2226a6b64951e3b",
+  "contract_committed_before_campaign": true,
+  "contract_id": "WP13-06-SCALABLE-MIXED-POST-001",
+  "contract_sha256": "bd9153a7a96df3ae2cc5b4a7861a4c7f57f6979fbb77a6b767a12b451b5008c3",
+  "environment": {
+    "h5py": "3.14.0",
+    "numpy": "2.2.6",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "python": "3.13.1",
+    "scipy": "1.15.2"
+  },
+  "evidence_integrity": "PASS",
+  "evidence_schema_valid": true,
+  "failure_cases": [
+    {
+      "actual_input": "qualification\\0_2_8\\wp13_06_scalable_mixed_post\\failure_cases\\case_01_unsupported_family.h5",
+      "actual_input_digest": "5d77728d7ef45431f7b52a5e24edf4953fabe660915c2747801e3513960f0847",
+      "case": "unsupported family",
+      "case_id": "WP13-06-F-01",
+      "execution_path": "load_mixed_results_hdf5",
+      "expected_exception_type": "InputValidationError",
+      "expected_message_pattern": "unsupported element family",
+      "message_match": true,
+      "observed_exception_type": "InputValidationError",
+      "observed_message": "Mixed result file contains an unsupported element family block.",
+      "pass": true,
+      "type_match": true
+    },
+    {
+      "actual_input": "qualification\\0_2_8\\wp13_06_scalable_mixed_post\\failure_cases\\case_02_malformed_connectivity.h5",
+      "actual_input_digest": "55cbccd5b8f79683f56102a26de550df9d1cdb46a5aa4bb7ed2657b4ae582876",
+      "case": "malformed connectivity",
+      "case_id": "WP13-06-F-02",
+      "execution_path": "load_mixed_results_hdf5",
+      "expected_exception_type": "InputValidationError",
+      "expected_message_pattern": "wrong native width",
+      "message_match": true,
+      "observed_exception_type": "InputValidationError",
+      "observed_message": "TET4 connectivity has the wrong native width.",
+      "pass": true,
+      "type_match": true
+    },
+    {
+      "actual_input": "qualification\\0_2_8\\wp13_06_scalable_mixed_post\\failure_cases\\case_03_duplicate_ids.h5",
+      "actual_input_digest": "3db79ee337c3e2e66301b1d571e7aadb137414f86be270b00bee744ced57e3a3",
+      "case": "duplicate ids",
+      "case_id": "WP13-06-F-03",
+      "execution_path": "load_mixed_results_hdf5",
+      "expected_exception_type": "InputValidationError",
+      "expected_message_pattern": "element ids are not unique",
+      "message_match": true,
+      "observed_exception_type": "InputValidationError",
+      "observed_message": "TET4 element ids are not unique.",
+      "pass": true,
+      "type_match": true
+    },
+    {
+      "actual_input": "qualification\\0_2_8\\wp13_06_scalable_mixed_post\\failure_cases\\case_04_inconsistent_array_lengths.h5",
+      "actual_input_digest": "474915c879194656b8da5a24245e2603b20a523d186a4df0657cfd78bd79d863",
+      "case": "inconsistent array lengths",
+      "case_id": "WP13-06-F-04",
+      "execution_path": "load_mixed_results_hdf5",
+      "expected_exception_type": "InputValidationError",
+      "expected_message_pattern": "inconsistent lengths",
+      "message_match": true,
+      "observed_exception_type": "InputValidationError",
+      "observed_message": "TET4 block arrays have inconsistent lengths.",
+      "pass": true,
+      "type_match": true
+    },
+    {
+      "actual_input": "qualification\\0_2_8\\wp13_06_scalable_mixed_post\\failure_cases\\case_05_missing_required_field.h5",
+      "actual_input_digest": "17f1e61ac0897df000993f97ef18fa7d1fae9a37e7ae1e0e73d0a66b12fdb15b",
+      "case": "missing required field",
+      "case_id": "WP13-06-F-05",
+      "execution_path": "load_mixed_results_hdf5",
+      "expected_exception_type": "InputValidationError",
+      "expected_message_pattern": "Missing required dataset.*displacement",
+      "message_match": true,
+      "observed_exception_type": "InputValidationError",
+      "observed_message": "Missing required dataset /results/nodal/displacement.",
+      "pass": true,
+      "type_match": true
+    },
+    {
+      "actual_input": "qualification\\0_2_8\\wp13_06_scalable_mixed_post\\failure_cases\\case_06_invalid_result_shape.h5",
+      "actual_input_digest": "54bb3b00737ea9948d1696f81c4d5b1070d35ae101df2b766bf157d290d1318a",
+      "case": "invalid result shape",
+      "case_id": "WP13-06-F-06",
+      "execution_path": "load_mixed_results_hdf5",
+      "expected_exception_type": "InputValidationError",
+      "expected_message_pattern": "Nodal displacement shape",
+      "message_match": true,
+      "observed_exception_type": "InputValidationError",
+      "observed_message": "Nodal displacement shape or values are invalid.",
+      "pass": true,
+      "type_match": true
+    },
+    {
+      "actual_input": "qualification\\0_2_8\\wp13_06_scalable_mixed_post\\failure_cases\\case_07_corrupt_file.h5",
+      "actual_input_digest": "1efa502907c3b669706bf91111465cb9d43dc76093678a3f14338425f103bc6c",
+      "case": "corrupt file",
+      "case_id": "WP13-06-F-07",
+      "execution_path": "load_mixed_results_hdf5",
+      "expected_exception_type": "OSError",
+      "expected_message_pattern": "Unable to open file|file signature not found",
+      "message_match": true,
+      "observed_exception_type": "OSError",
+      "observed_message": "Unable to synchronously open file (file signature not found)",
+      "pass": true,
+      "type_match": true
+    },
+    {
+      "actual_input": "qualification\\0_2_8\\wp13_06_scalable_mixed_post\\failure_cases\\case_08_unsupported_schema_version.h5",
+      "actual_input_digest": "1562085af84358bab9cd7b42ce4f10f2f3ca0d695762425ded42453c0a82dd2b",
+      "case": "unsupported schema version",
+      "case_id": "WP13-06-F-08",
+      "execution_path": "load_mixed_results_hdf5",
+      "expected_exception_type": "InputValidationError",
+      "expected_message_pattern": "Unsupported mixed result schema version",
+      "message_match": true,
+      "observed_exception_type": "InputValidationError",
+      "observed_message": "Unsupported mixed result schema version.",
+      "pass": true,
+      "type_match": true
+    }
+  ],
+  "failure_contract_pass": true,
+  "format_schema": {
+    "contract_selected_format": {
+      "container": "HDF5",
+      "justification": "Chunkable persistent datasets, family-homogeneous blocks with native connectivity widths, metadata attributes, and dataset-level selective reads are available through the existing h5py dependency. XDMF is not required for the bounded storage claim and is not generated.",
+      "name": "QF mixed-results HDF5",
+      "schema_version": "1.0",
+      "semantic_replay_digest": true,
+      "write_policy": "create-only; an existing target is rejected"
+    },
+    "format": "qf_solver.mixed_results.hdf5",
+    "schema_version": "1.0"
+  },
+  "gate_decisions": {
+    "all_three_families_present": true,
+    "evidence_schema": true,
+    "failure_contract": true,
+    "legacy_outputs_preserved": true,
+    "no_family_silent_drop": true,
+    "round_trip": true,
+    "selective_read": true,
+    "semantic_replay_digest_match": true
+  },
+  "historical_integrity": {
+    "element_analysis_registry_46_unchanged": true,
+    "evidence_0_2_7_unchanged": true,
+    "formulation_changed": false,
+    "maturity_changed": false,
+    "numerical_source_changed": false
+  },
+  "legacy_compatibility": {
+    "csv": true,
+    "npz": "preserved legacy checkpoint routes; no static NPZ writer replaced or removed",
+    "vtu": true
+  },
+  "memory_gather_audit": {
+    "conversion_boundary_note": "FiniteElementModel-to-family-envelope conversion is a bounded API boundary; storage reads/writes are block-aware.",
+    "full_model_duplication": false,
+    "global_gather_required": false,
+    "scalable_memory_path": "family-homogeneous HDF5 blocks with chunked datasets; writer does not reconstruct a padded global mixed connectivity"
+  },
+  "mixed_model_summary": {
+    "all_families_present": true,
+    "connectivity_widths": {
+      "HEX8": 8,
+      "TET4": 4,
+      "WEDGE6": 6
+    },
+    "dof_count": 33,
+    "element_count": 3,
+    "family_counts": {
+      "HEX8": 1,
+      "TET4": 1,
+      "WEDGE6": 1
+    },
+    "fixture": "qualification\\0_2_8\\wp13_05_inp_fixtures\\mixed_tet4_wedge6_hex8.inp",
+    "max_displacement": 2.1960778165605546e-07,
+    "node_count": 11,
+    "nodes_ids": "0..node_count-1; native solver index identity",
+    "solve_status": "PASS"
+  },
+  "replay_digests": {
+    "files": [
+      "qualification\\0_2_8\\wp13_06_scalable_mixed_post\\mixed_result_main.h5",
+      "qualification\\0_2_8\\wp13_06_scalable_mixed_post\\mixed_result_replay_1.h5",
+      "qualification\\0_2_8\\wp13_06_scalable_mixed_post\\mixed_result_replay_2.h5"
+    ],
+    "semantic_digest_match": true,
+    "semantic_digests": [
+      "3d9065d1b92b30bc62a6e79a83c31d4c1bd270efe96e5659e3bf552ca87e1ed7",
+      "3d9065d1b92b30bc62a6e79a83c31d4c1bd270efe96e5659e3bf552ca87e1ed7",
+      "3d9065d1b92b30bc62a6e79a83c31d4c1bd270efe96e5659e3bf552ca87e1ed7"
+    ]
+  },
+  "repo_sha": "fc16fb9883cc6a06c2404e001949f9e665d0b574",
+  "round_trip": true,
+  "round_trip_metrics": {
+    "blocks": {
+      "HEX8": {
+        "connectivity_error": 0.0,
+        "element_ids_error": 0.0,
+        "fields": {
+          "strain_trace": 0.0,
+          "stress_trace": 0.0,
+          "von_mises": 0.0
+        },
+        "material_ids_error": 0.0,
+        "material_names_exact": true,
+        "present": true,
+        "region_ids_error": 0.0
+      },
+      "TET4": {
+        "connectivity_error": 0.0,
+        "element_ids_error": 0.0,
+        "fields": {
+          "strain_trace": 0.0,
+          "stress_trace": 0.0,
+          "von_mises": 0.0
+        },
+        "material_ids_error": 0.0,
+        "material_names_exact": true,
+        "present": true,
+        "region_ids_error": 0.0
+      },
+      "WEDGE6": {
+        "connectivity_error": 0.0,
+        "element_ids_error": 0.0,
+        "fields": {
+          "strain_trace": 0.0,
+          "stress_trace": 0.0,
+          "von_mises": 0.0
+        },
+        "material_ids_error": 0.0,
+        "material_names_exact": true,
+        "present": true,
+        "region_ids_error": 0.0
+      }
+    },
+    "coordinates_error": 0.0,
+    "displacement_error": 0.0,
+    "metadata_exact": true,
+    "nodes_error": 0.0,
+    "reaction_error": 0.0,
+    "source_sha_exact": true
+  },
+  "scale_characterization": {
+    "dof": 100023,
+    "elements": 9093,
+    "family_counts": {
+      "HEX8": 3031,
+      "TET4": 3031,
+      "WEDGE6": 3031
+    },
+    "memory": {
+      "current_rss_after_bytes": null,
+      "current_rss_before_bytes": null,
+      "current_rss_delta_bytes": null,
+      "peak_rss_after_bytes": null,
+      "peak_rss_before_bytes": null,
+      "peak_rss_delta_bytes": null,
+      "source": "unavailable"
+    },
+    "mode": "storage_only_zero_result; no large numerical solve",
+    "nodes": 33341,
+    "output_file_size_bytes": 127605,
+    "output_runtime_seconds": 0.06958540000005087,
+    "partial_read_runtime_seconds": 0.06685090000019045,
+    "read_runtime_seconds": 0.0770316000002822,
+    "target_manifest": {
+      "chains": 3031,
+      "components": 3031,
+      "dof": 100023,
+      "elements": 9093,
+      "elements_by_family": {
+        "HEX8": 3031,
+        "TET4": 3031,
+        "WEDGE6": 3031
+      },
+      "fixed_nodes_per_chain": 7,
+      "input_digest": "851b727ec9d8528972c3ede592656c240faa4050926e1436b012c389b4cbc10b",
+      "interfaces": {
+        "quadrilateral": 3031,
+        "triangular": 3031
+      },
+      "loads_per_chain": 2,
+      "material": {
+        "E": 210000000000.0,
+        "density": 7800.0,
+        "nu": 0.3,
+        "type": "isotropic_3d"
+      },
+      "nodes": 33341,
+      "segments_per_chain": 1
+    }
+  },
+  "selective_read_metrics": {
+    "displacement_only": {
+      "families": [
+        "HEX8",
+        "TET4",
+        "WEDGE6"
+      ],
+      "fields": []
+    },
+    "one_element_family": [
+      "WEDGE6"
+    ],
+    "one_region_block": [
+      "HEX8",
+      "TET4",
+      "WEDGE6"
+    ],
+    "one_result_field": {
+      "field": "von_mises",
+      "field_names": [
+        "von_mises"
+      ]
+    },
+    "pass": true,
+    "status": "SUPPORTED"
+  },
+  "wp13_06_status": "PASS_TECHNICAL_CANDIDATE"
+}
