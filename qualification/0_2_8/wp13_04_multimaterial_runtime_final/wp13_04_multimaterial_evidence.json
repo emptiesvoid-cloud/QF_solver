@@ -1,0 +1,2906 @@
+{
+  "benchmark": {
+    "boundary_conditions": {
+      "fixed_dofs": [
+        "UX",
+        "UY",
+        "UZ"
+      ],
+      "fixed_nodes": [
+        0,
+        1,
+        4,
+        5
+      ]
+    },
+    "elements": [
+      {
+        "connectivity": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "family": "HEX8",
+        "id": "hex8_0",
+        "region": "region_hex8"
+      },
+      {
+        "connectivity": [
+          3,
+          2,
+          8,
+          7,
+          6,
+          9
+        ],
+        "family": "WEDGE6",
+        "id": "wedge6_0",
+        "region": "region_wedge6_lower"
+      },
+      {
+        "connectivity": [
+          7,
+          6,
+          9,
+          10,
+          11,
+          12
+        ],
+        "family": "WEDGE6",
+        "id": "wedge6_1",
+        "region": "region_wedge6_upper"
+      },
+      {
+        "connectivity": [
+          10,
+          11,
+          12,
+          15
+        ],
+        "family": "TET4",
+        "id": "tet4_0",
+        "region": "region_tet4"
+      },
+      {
+        "connectivity": [
+          10,
+          14,
+          11,
+          15
+        ],
+        "family": "TET4",
+        "id": "tet4_1",
+        "region": "region_tet4"
+      },
+      {
+        "connectivity": [
+          10,
+          13,
+          14,
+          15
+        ],
+        "family": "TET4",
+        "id": "tet4_2",
+        "region": "region_tet4"
+      }
+    ],
+    "force_units": "N",
+    "geometry_units": "m",
+    "interfaces": [
+      {
+        "id": "tet4_wedge6",
+        "left_family": "TET4",
+        "right_family": "WEDGE6",
+        "shared_nodes": [
+          10,
+          11,
+          12
+        ]
+      },
+      {
+        "id": "wedge6_hex8",
+        "left_family": "WEDGE6",
+        "right_family": "HEX8",
+        "shared_nodes": [
+          3,
+          7,
+          2,
+          6
+        ]
+      }
+    ],
+    "loads": [
+      {
+        "dof": "UZ",
+        "node": 13,
+        "value_n": 33333.333333333336
+      },
+      {
+        "dof": "UZ",
+        "node": 14,
+        "value_n": 33333.333333333336
+      },
+      {
+        "dof": "UZ",
+        "node": 15,
+        "value_n": 33333.333333333336
+      }
+    ],
+    "mechanical_load_path": "LOAD -> TET4 -> TET4/WEDGE6 interface -> WEDGE6 -> WEDGE6/HEX8 interface -> HEX8 -> SUPPORT",
+    "name": "connected_compact_elbow_mixed_three_material_regions",
+    "nodes": [
+      [
+        0.0,
+        -1.0,
+        0.0
+      ],
+      [
+        1.0,
+        -1.0,
+        0.0
+      ],
+      [
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        -1.0,
+        1.0
+      ],
+      [
+        1.0,
+        -1.0,
+        1.0
+      ],
+      [
+        1.0,
+        0.0,
+        1.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.0,
+        1.0
+      ],
+      [
+        0.0,
+        0.0,
+        2.0
+      ],
+      [
+        1.0,
+        0.0,
+        2.0
+      ],
+      [
+        0.0,
+        1.0,
+        2.0
+      ],
+      [
+        0.0,
+        0.0,
+        3.0
+      ],
+      [
+        1.0,
+        0.0,
+        3.0
+      ],
+      [
+        0.0,
+        1.0,
+        3.0
+      ]
+    ]
+  },
+  "checks": {
+    "control": true,
+    "energy": true,
+    "equilibrium": true,
+    "failure_contract": true,
+    "geometry": true,
+    "gmsh": true,
+    "interface": true,
+    "mapping": true,
+    "oracle": true,
+    "replay": true
+  },
+  "contract_id": "WP13-04-MIXED-MULTIMATERIAL-001",
+  "contract_sha256": "6bcea1571ba794a3069d8f2d28a49ead2f451b39082a186b54b481d7bab053dc",
+  "environment": {
+    "numpy": "2.2.6",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "python": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]"
+  },
+  "failure_contract": [
+    {
+      "case_id": "material_missing",
+      "execution_path": "FiniteElementModel.from_raw -> MeshValidator.validate",
+      "expected_exception": "MeshValidationError",
+      "message_match": true,
+      "message_pattern": "unknown material",
+      "observed_exception": "MeshValidationError",
+      "observed_message": "Mesh validation failed: Element 3: unknown material 'material_tet4'.; Element 4: unknown material 'material_tet4'.; Element 5: unknown material 'material_tet4'.",
+      "pass": true,
+      "payload_digest": "eadc71807eccc51d95e17a6119d37629dac479f5420edd1d29eb91f6b0cc6bf0",
+      "type_match": true
+    },
+    {
+      "case_id": "unknown_material",
+      "execution_path": "FiniteElementModel.from_raw -> MeshValidator.validate",
+      "expected_exception": "MeshValidationError",
+      "message_match": true,
+      "message_pattern": "unknown material",
+      "observed_exception": "MeshValidationError",
+      "observed_message": "Mesh validation failed: Element 3: unknown material 'material_unknown'.",
+      "pass": true,
+      "payload_digest": "c18441a0ab87f11812063c73c5006b483fce935f4de6b84bf088384c1af6ae33",
+      "type_match": true
+    },
+    {
+      "case_id": "region_without_material",
+      "execution_path": "region/material assignment preflight",
+      "expected_exception": "InputValidationError",
+      "message_match": true,
+      "message_pattern": "material",
+      "observed_exception": "InputValidationError",
+      "observed_message": "element 3 region 'region_tet4' has no material assignment",
+      "pass": true,
+      "payload_digest": "166cee41798842b44dc4576d724e040463a27dbe27d6399d918abc531356f2ca",
+      "type_match": true
+    },
+    {
+      "case_id": "invalid_material_properties",
+      "execution_path": "FiniteElementModel.from_raw -> MeshValidator.validate",
+      "expected_exception": "MeshValidationError",
+      "message_match": true,
+      "message_pattern": "material",
+      "observed_exception": "MeshValidationError",
+      "observed_message": "Mesh validation failed: Element 3: material 'material_tet4' has type '', expected one of ('isotropic_3d', 'orthotropic_3d', 'composite_orthotropic_3d', 'nonlinear_isotropic_3d', 'von_mises_elastoplastic_3d').; Element 4: material 'material_tet4' has type '', expected one of ('isotropic_3d', 'orthotropic_3d', 'composite_orthotropic_3d', 'nonlinear_isotropic_3d', 'von_mises_elastoplastic_3d').; Element 5: material 'material_tet4' has type '', expected one of ('isotropic_3d', 'orthotropic_3d', 'composite_orthotropic_3d', 'nonlinear_isotropic_3d', 'von_mises_elastoplastic_3d').",
+      "pass": true,
+      "payload_digest": "30f6e6cd59ec636bc65c296de0a540f948889dc10215632aeb0943dcbd4c2c24",
+      "type_match": true
+    },
+    {
+      "case_id": "element_nonexistent_region",
+      "execution_path": "element region assignment preflight",
+      "expected_exception": "InputValidationError",
+      "message_match": true,
+      "message_pattern": "region",
+      "observed_exception": "InputValidationError",
+      "observed_message": "element 3 region 'region_unknown' has no material assignment",
+      "pass": true,
+      "payload_digest": "f44986d01623deee23efba7bd46137e76a87dc348154613b36e42f17f1459388",
+      "type_match": true
+    },
+    {
+      "case_id": "unsupported_material_model",
+      "execution_path": "FiniteElementModel.from_raw -> MeshValidator.validate",
+      "expected_exception": "MeshValidationError",
+      "message_match": true,
+      "message_pattern": "material",
+      "observed_exception": "MeshValidationError",
+      "observed_message": "Mesh validation failed: Element 3: material 'material_tet4' has type 'unsupported_model', expected one of ('isotropic_3d', 'orthotropic_3d', 'composite_orthotropic_3d', 'nonlinear_isotropic_3d', 'von_mises_elastoplastic_3d').; Element 4: material 'material_tet4' has type 'unsupported_model', expected one of ('isotropic_3d', 'orthotropic_3d', 'composite_orthotropic_3d', 'nonlinear_isotropic_3d', 'von_mises_elastoplastic_3d').; Element 5: material 'material_tet4' has type 'unsupported_model', expected one of ('isotropic_3d', 'orthotropic_3d', 'composite_orthotropic_3d', 'nonlinear_isotropic_3d', 'von_mises_elastoplastic_3d').",
+      "pass": true,
+      "payload_digest": "df4021022a42688cbb5ab5c12e0b32c2a809fa14547f4ed92aa28887b0f5ab59",
+      "type_match": true
+    },
+    {
+      "case_id": "malformed_group_mapping",
+      "execution_path": "GmshModelImporter._validate_setup",
+      "expected_exception": "InputValidationError",
+      "message_match": true,
+      "message_pattern": "group",
+      "observed_exception": "InputValidationError",
+      "observed_message": "Gmsh companion group 'region_hex8' requires actions.",
+      "pass": true,
+      "payload_digest": "f6281d36b750e1426cc51c11b7d957c2ce1555c833e35a0edae1965a99df6fef",
+      "type_match": true
+    }
+  ],
+  "gmsh_mapping": {
+    "actual_assignment": [
+      "material_hex8",
+      "material_wedge6",
+      "material_wedge6",
+      "material_tet4",
+      "material_tet4",
+      "material_tet4"
+    ],
+    "assignment_digest": "d7fea6e5b01d76f2a53d3b03fd009e2eff88abae0b91b38fa29892a959de207f",
+    "default_material_used": false,
+    "expected_assignment": [
+      "material_hex8",
+      "material_wedge6",
+      "material_wedge6",
+      "material_tet4",
+      "material_tet4",
+      "material_tet4"
+    ],
+    "report": {
+      "action_counts": {
+        "elements": 6
+      },
+      "binary": false,
+      "element_count": 6,
+      "element_family": "HEX8+TET4+WEDGE6",
+      "gmsh_version": "synthetic",
+      "group_count": 4,
+      "mesh_status": "WARNING",
+      "msh_version": "4.1",
+      "node_count": 16,
+      "orientation_repairs": 0,
+      "physical_groups": [
+        {
+          "cell_count": 1,
+          "dimension": 3,
+          "name": "region_hex8",
+          "node_count": 8,
+          "tag": 1
+        },
+        {
+          "cell_count": 3,
+          "dimension": 3,
+          "name": "region_tet4",
+          "node_count": 6,
+          "tag": 2
+        },
+        {
+          "cell_count": 1,
+          "dimension": 3,
+          "name": "region_wedge6_lower",
+          "node_count": 6,
+          "tag": 3
+        },
+        {
+          "cell_count": 1,
+          "dimension": 3,
+          "name": "region_wedge6_upper",
+          "node_count": 6,
+          "tag": 4
+        }
+      ],
+      "setup_path": "<memory>",
+      "setup_sha256": "memory",
+      "solver_name": "QF_solver",
+      "solver_version": "0.2.7",
+      "source_path": "<memory>",
+      "source_sha256": "memory",
+      "status": "WARNING",
+      "warnings": [
+        "Fewer than three constrained dofs; rigid body motion is likely.",
+        "Component 0 has no fixed dof; rigid body motion is likely.",
+        "Component 0 has 0 fixed dofs; expected at least 3.",
+        "Reduced stiffness has 6 near-zero modes; constraints may be insufficient.",
+        "No fixed degree of freedom is defined; the solve may be singular."
+      ]
+    },
+    "status": "PASS"
+  },
+  "interfaces": {
+    "tet4_wedge6": {
+      "displacement_continuity": 0.0,
+      "displacement_jump": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "force_balance": [
+        9.00399754755199e-11,
+        -1.5279510989785194e-10,
+        1.6007106751203537e-10
+      ],
+      "force_transfer_relative": 2.3890644496700264e-15,
+      "left_family": "TET4",
+      "left_force": [
+        -2535.4540215754423,
+        -4300.658007216349,
+        -33333.33333333339,
+        2950.2232299312927,
+        -414.7692083559268,
+        -33333.3333333333,
+        -414.7692083558695,
+        4715.427215572126,
+        -33333.33333333317
+      ],
+      "left_force_resultant": [
+        -1.9099388737231493e-11,
+        -1.4915713109076023e-10,
+        -99999.99999999985
+      ],
+      "left_state": [
+        2.28189640035209e-06,
+        -6.902409461058102e-06,
+        5.143286971734147e-06,
+        1.5489948273233177e-06,
+        -6.53781297859489e-06,
+        3.7983532109681364e-06,
+        1.8535913674854173e-06,
+        -7.37013371379559e-06,
+        1.035421505891767e-05
+      ],
+      "right_family": "WEDGE6",
+      "right_force": [
+        2535.454021575468,
+        4300.658007216203,
+        33333.33333333346,
+        -2950.2232299312673,
+        414.76920835594865,
+        33333.33333333332,
+        414.76920835590863,
+        -4715.427215572156,
+        33333.33333333324
+      ],
+      "right_force_resultant": [
+        1.0913936421275139e-10,
+        -3.637978807091713e-12,
+        100000.00000000001
+      ],
+      "right_state": [
+        2.28189640035209e-06,
+        -6.902409461058102e-06,
+        5.143286971734147e-06,
+        1.5489948273233177e-06,
+        -6.53781297859489e-06,
+        3.7983532109681364e-06,
+        1.8535913674854173e-06,
+        -7.37013371379559e-06,
+        1.035421505891767e-05
+      ],
+      "shared_nodes": [
+        10,
+        11,
+        12
+      ],
+      "trace_digests": {
+        "left": "42b611e47856cccce103f4c6be2cdda35962fd6ea32fcaf14e88d0b70bc79bc1",
+        "right": "42b611e47856cccce103f4c6be2cdda35962fd6ea32fcaf14e88d0b70bc79bc1"
+      }
+    },
+    "wedge6_hex8": {
+      "displacement_continuity": 0.0,
+      "displacement_jump": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "force_balance": [
+        1.8189894035458565e-11,
+        6.002665031701326e-11,
+        -1.4551915228366852e-11
+      ],
+      "force_transfer_relative": 6.438811404378747e-16,
+      "left_family": "WEDGE6",
+      "left_force": [
+        5742.989648917119,
+        -18847.110890677533,
+        -22041.67738630328,
+        -13949.589963707316,
+        18847.110890677774,
+        -39542.546764718565,
+        -660.5471332722591,
+        -14486.222442655802,
+        -11632.787383028113,
+        8867.147448062347,
+        14486.222442655791,
+        -26782.988465949966
+      ],
+      "left_force_resultant": [
+        -1.0913936421275139e-10,
+        2.2919266484677792e-10,
+        -99999.99999999993
+      ],
+      "left_state": [
+        -3.342464703071506e-07,
+        1.5160603915858226e-06,
+        3.1933489843938176e-06,
+        4.915735399490158e-07,
+        -1.5561947826093472e-06,
+        3.4609535448409966e-06,
+        -8.369236333183795e-07,
+        1.3168968978700332e-06,
+        1.908285305929372e-06,
+        6.596398695760004e-07,
+        -1.3370745947930376e-06,
+        2.116019784074999e-06
+      ],
+      "right_family": "HEX8",
+      "right_force": [
+        -5742.989648917122,
+        18847.110890677537,
+        22041.677386303214,
+        13949.589963707313,
+        -18847.110890677737,
+        39542.546764718645,
+        660.5471332722664,
+        14486.222442655817,
+        11632.787383028117,
+        -8867.14744806233,
+        -14486.222442655786,
+        26782.988465949937
+      ],
+      "right_force_resultant": [
+        1.2732925824820995e-10,
+        -1.6916601452976465e-10,
+        99999.99999999991
+      ],
+      "right_state": [
+        -3.342464703071506e-07,
+        1.5160603915858226e-06,
+        3.1933489843938176e-06,
+        4.915735399490158e-07,
+        -1.5561947826093472e-06,
+        3.4609535448409966e-06,
+        -8.369236333183795e-07,
+        1.3168968978700332e-06,
+        1.908285305929372e-06,
+        6.596398695760004e-07,
+        -1.3370745947930376e-06,
+        2.116019784074999e-06
+      ],
+      "shared_nodes": [
+        3,
+        7,
+        2,
+        6
+      ],
+      "trace_digests": {
+        "left": "7d5018dc83c574d724f2a17c5cc954ceb2ab137a79ab43e39fc8bd11aff668fb",
+        "right": "7d5018dc83c574d724f2a17c5cc954ceb2ab137a79ab43e39fc8bd11aff668fb"
+      }
+    }
+  },
+  "material_assignment": {
+    "region_hex8": "material_hex8",
+    "region_tet4": "material_tet4",
+    "region_wedge6_lower": "material_wedge6",
+    "region_wedge6_upper": "material_wedge6"
+  },
+  "material_sets": {
+    "high_contrast": {
+      "_displacement": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -9.849918407346424e-07,
+        1.2783977410110841e-06,
+        1.909380056469177e-06,
+        -1.1496869283903092e-07,
+        1.6547504661149353e-06,
+        3.2499250487238034e-06,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        7.767263493198728e-07,
+        -1.305263187247371e-06,
+        2.1505941304668052e-06,
+        2.8754923389163074e-07,
+        -1.7173008627133917e-06,
+        3.5981939738079476e-06,
+        -4.3591571808264223e-07,
+        4.706780531138788e-06,
+        1.326989696978964e-05,
+        4.835278172934144e-07,
+        -5.397829269818369e-06,
+        2.015811929778727e-05,
+        5.239221904525922e-06,
+        -1.880433301495334e-05,
+        1.3906533828745213e-05,
+        -2.226925099210887e-06,
+        -1.6918010046647985e-05,
+        1.2458933985404074e-05,
+        2.8783061252133034e-06,
+        -2.2377826230115737e-05,
+        3.046645915272452e-05,
+        1.6807707483026624e-05,
+        -1.8625178848991134e-05,
+        0.0001090209145030625,
+        -6.423034808421607e-06,
+        -1.1922684833072845e-05,
+        0.00010289274155811056,
+        4.5293028875575476e-06,
+        -4.534776110643475e-05,
+        0.00010729839303865829
+      ],
+      "audit_status": null,
+      "element_count": 6,
+      "element_responses": [
+        {
+          "index": 0,
+          "internal_force_norm": 158992.24614738085,
+          "local_displacement_norm": 6.517250129478405e-06,
+          "material": {
+            "E": 210000000000.0,
+            "density": 7800.0,
+            "material": "material_hex8",
+            "nu": 0.3,
+            "type": "isotropic_3d"
+          },
+          "nodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "strain_energy": 0.20251315038357773,
+          "type": "HEX8"
+        },
+        {
+          "index": 1,
+          "internal_force_norm": 53242.32582843082,
+          "local_displacement_norm": 2.6012086689087926e-05,
+          "material": {
+            "E": 21000000000.0,
+            "density": 4500.0,
+            "material": "material_wedge6",
+            "nu": 0.25,
+            "type": "isotropic_3d"
+          },
+          "nodes": [
+            3,
+            2,
+            8,
+            7,
+            6,
+            9
+          ],
+          "strain_energy": 0.21823340587824053,
+          "type": "WEDGE6"
+        },
+        {
+          "index": 2,
+          "internal_force_norm": 87322.90343446801,
+          "local_displacement_norm": 5.400680755490921e-05,
+          "material": {
+            "E": 21000000000.0,
+            "density": 4500.0,
+            "material": "material_wedge6",
+            "nu": 0.25,
+            "type": "isotropic_3d"
+          },
+          "nodes": [
+            7,
+            6,
+            9,
+            10,
+            11,
+            12
+          ],
+          "strain_energy": 0.6132295207504495,
+          "type": "WEDGE6"
+        },
+        {
+          "index": 3,
+          "internal_force_norm": 50782.65950470943,
+          "local_displacement_norm": 0.0001266806355436893,
+          "material": {
+            "E": 2100000000.0,
+            "density": 2700.0,
+            "material": "material_tet4",
+            "nu": 0.28,
+            "type": "isotropic_3d"
+          },
+          "nodes": [
+            10,
+            11,
+            12,
+            15
+          ],
+          "strain_energy": 1.1958675322104755,
+          "type": "TET4"
+        },
+        {
+          "index": 4,
+          "internal_force_norm": 48063.81711656483,
+          "local_displacement_norm": 0.00015931430755156868,
+          "material": {
+            "E": 2100000000.0,
+            "density": 2700.0,
+            "material": "material_tet4",
+            "nu": 0.28,
+            "type": "isotropic_3d"
+          },
+          "nodes": [
+            10,
+            14,
+            11,
+            15
+          ],
+          "strain_energy": 1.500328936954075,
+          "type": "TET4"
+        },
+        {
+          "index": 5,
+          "internal_force_norm": 47570.5296006657,
+          "local_displacement_norm": 0.00019351899496515361,
+          "material": {
+            "E": 2100000000.0,
+            "density": 2700.0,
+            "material": "material_tet4",
+            "nu": 0.28,
+            "type": "isotropic_3d"
+          },
+          "nodes": [
+            10,
+            13,
+            14,
+            15
+          ],
+          "strain_energy": 1.590028272153706,
+          "type": "TET4"
+        }
+      ],
+      "energies": {
+        "absolute_error_j": 0.0,
+        "clapeyron_error_j": 0.0,
+        "external_work_j": 5.320200818330523,
+        "relative_error": 0.0,
+        "strain_energy_j": 5.320200818330523
+      },
+      "equilibrium": {
+        "external_force": [
+          0.0,
+          0.0,
+          100000.0
+        ],
+        "external_moment": [
+          33333.333333333336,
+          -33333.333333333336,
+          0.0
+        ],
+        "force_balance": [
+          2.6830093702301383e-11,
+          -1.0618350643198937e-10,
+          0.0
+        ],
+        "force_relative": 1.0952073304295677e-15,
+        "moment_balance": [
+          2.4010660126805305e-10,
+          5.093170329928398e-11,
+          -9.322320693172514e-12
+        ],
+        "moment_relative": 5.210513968550109e-15,
+        "support_reaction_moment": [
+          -33333.333333333096,
+          33333.33333333339,
+          -9.322320693172514e-12
+        ],
+        "support_reaction_resultant": [
+          2.6830093702301383e-11,
+          -1.0618350643198937e-10,
+          -100000.0
+        ]
+      },
+      "family_energies": {
+        "HEX8": {
+          "element_count": 1,
+          "response_norm": 158992.24614738085,
+          "strain_energy": 0.20251315038357773
+        },
+        "TET4": {
+          "element_count": 3,
+          "response_norm": 146417.00622193996,
+          "strain_energy": 4.286224741318256
+        },
+        "WEDGE6": {
+          "element_count": 2,
+          "response_norm": 140565.22926289882,
+          "strain_energy": 0.8314629266286899
+        }
+      },
+      "geometry": {
+        "components": [
+          [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        ],
+        "connected_components": 1,
+        "inverted_elements": 0,
+        "max_aspect_ratio": 1.7320508075688772,
+        "max_jacobian": 1.0,
+        "min_jacobian": 0.12499999999999997,
+        "quality_rows": [
+          {
+            "family": "HEX8",
+            "index": 0,
+            "nodes": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          },
+          {
+            "family": "WEDGE6",
+            "index": 1,
+            "nodes": [
+              3,
+              2,
+              8,
+              7,
+              6,
+              9
+            ]
+          },
+          {
+            "family": "WEDGE6",
+            "index": 2,
+            "nodes": [
+              7,
+              6,
+              9,
+              10,
+              11,
+              12
+            ]
+          },
+          {
+            "family": "TET4",
+            "index": 3,
+            "nodes": [
+              10,
+              11,
+              12,
+              15
+            ]
+          },
+          {
+            "family": "TET4",
+            "index": 4,
+            "nodes": [
+              10,
+              14,
+              11,
+              15
+            ]
+          },
+          {
+            "family": "TET4",
+            "index": 5,
+            "nodes": [
+              10,
+              13,
+              14,
+              15
+            ]
+          }
+        ],
+        "validator_report": {
+          "details": {
+            "component_count": 1,
+            "components": [
+              {
+                "element_types": {
+                  "HEX8": 1,
+                  "TET4": 3,
+                  "WEDGE6": 2
+                },
+                "elements": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "fixed_dof_count": 12,
+                "fixed_translation_dof_count": 12,
+                "fixed_translation_node_count": 4,
+                "index": 0,
+                "load_count": 3,
+                "nodes": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9,
+                  10,
+                  11,
+                  12,
+                  13,
+                  14,
+                  15
+                ]
+              }
+            ],
+            "concentrated_mass_count": 0,
+            "contact_count": 0,
+            "distributed_load_count": 0,
+            "element_count": 6,
+            "element_quality": [
+              {
+                "index": 0,
+                "quality_status": "PASS",
+                "quality_warnings": [],
+                "type": "HEX8"
+              },
+              {
+                "aspect_ratio": 1.4142135623730951,
+                "certified_detj_ratio": 1.0,
+                "certified_detj_scale": 0.5,
+                "certified_geometry_tolerance": 1.1102230246251565e-16,
+                "certified_min_jacobian_determinant": 0.5,
+                "degeneracy_indicator": 1.0,
+                "distortion_metric": 0.0,
+                "edge_length_max": 1.4142135623730951,
+                "edge_length_min": 1.0,
+                "geometric_conditioning_indicator": null,
+                "index": 1,
+                "jacobian_determinant_ratio": 1.0,
+                "jacobian_sign_consistent": true,
+                "max_jacobian_determinant": 0.5,
+                "min_jacobian_determinant": 0.5,
+                "orientation_state": "POSITIVE",
+                "quality_classification": "VALID",
+                "quality_fatal_findings": [],
+                "quality_status": "PASS",
+                "quality_warnings": [],
+                "signed_volume": 0.49999999999999994,
+                "type": "WEDGE6",
+                "volume": 0.49999999999999994
+              },
+              {
+                "aspect_ratio": 1.4142135623730951,
+                "certified_detj_ratio": 1.0,
+                "certified_detj_scale": 0.5,
+                "certified_geometry_tolerance": 1.1102230246251565e-16,
+                "certified_min_jacobian_determinant": 0.5,
+                "degeneracy_indicator": 1.0,
+                "distortion_metric": 0.0,
+                "edge_length_max": 1.4142135623730951,
+                "edge_length_min": 1.0,
+                "geometric_conditioning_indicator": null,
+                "index": 2,
+                "jacobian_determinant_ratio": 1.0,
+                "jacobian_sign_consistent": true,
+                "max_jacobian_determinant": 0.5,
+                "min_jacobian_determinant": 0.5,
+                "orientation_state": "POSITIVE",
+                "quality_classification": "VALID",
+                "quality_fatal_findings": [],
+                "quality_status": "PASS",
+                "quality_warnings": [],
+                "signed_volume": 0.49999999999999994,
+                "type": "WEDGE6",
+                "volume": 0.49999999999999994
+              },
+              {
+                "aspect_ratio": 1.7320508075688772,
+                "edge_length_max": 1.7320508075688772,
+                "edge_length_min": 1.0,
+                "index": 3,
+                "quality": 0.6572670690061994,
+                "quality_status": "PASS",
+                "quality_warnings": [],
+                "radius_ratio": 0.7174389352143009,
+                "relative_volume": 0.03207501495497921,
+                "signed_volume": 0.16666666666666666,
+                "skew": 0.34273293099380064,
+                "type": "TET4"
+              },
+              {
+                "aspect_ratio": 1.7320508075688772,
+                "edge_length_max": 1.7320508075688772,
+                "edge_length_min": 1.0,
+                "index": 4,
+                "quality": 0.5697086922186473,
+                "quality_status": "PASS",
+                "quality_warnings": [],
+                "radius_ratio": 0.6229863075268962,
+                "relative_volume": 0.03207501495497921,
+                "signed_volume": 0.16666666666666666,
+                "skew": 0.4302913077813527,
+                "type": "TET4"
+              },
+              {
+                "aspect_ratio": 1.4142135623730951,
+                "edge_length_max": 1.4142135623730951,
+                "edge_length_min": 1.0,
+                "index": 5,
+                "quality": 0.7698003589195008,
+                "quality_status": "PASS",
+                "quality_warnings": [],
+                "radius_ratio": 0.7320508075688774,
+                "relative_volume": 0.058925565098878946,
+                "signed_volume": 0.16666666666666666,
+                "skew": 0.23019964108049917,
+                "type": "TET4"
+              }
+            ],
+            "element_types": {
+              "HEX8": 1,
+              "TET4": 3,
+              "WEDGE6": 2
+            },
+            "error_count": 0,
+            "fixed_condition_count": 4,
+            "isolated_nodes": [],
+            "load_count": 3,
+            "material_count": 3,
+            "mechanical_rank": {
+              "checked": true,
+              "eigenvalue_max": 173907454749.03876,
+              "eigenvalue_min": 33600783.71316228,
+              "free_dof_count": 36,
+              "rank": 36,
+              "tolerance": 17.390745474903877,
+              "zero_mode_count": 0
+            },
+            "multipoint_constraint_count": 0,
+            "nodal_load_count": 3,
+            "node_count": 16,
+            "quality_thresholds": {
+              "mitc3_max_angle_degrees": 140.0,
+              "mitc3_max_aspect_ratio": 10.0,
+              "mitc3_min_angle_degrees": 20.0,
+              "mitc3_min_relative_area": 1e-08,
+              "mitc4_max_angle_degrees": 150.0,
+              "mitc4_max_aspect_ratio": 10.0,
+              "mitc4_max_planarity_ratio": 0.001,
+              "mitc4_max_warpage_degrees": 5.0,
+              "mitc4_min_angle_degrees": 30.0,
+              "tet10_max_mid_edge_deviation_ratio": 0.05,
+              "tet10_min_jacobian_ratio": 0.05,
+              "tet10_min_sampled_jacobian": 1e-14,
+              "tet_max_aspect_ratio": 20.0,
+              "tet_min_quality": 0.05,
+              "tet_min_radius_ratio": 0.05,
+              "tet_min_relative_volume": 0.0001,
+              "tet_min_signed_volume": 1e-14
+            },
+            "rbe2_count": 0,
+            "rbe3_count": 0,
+            "spring_count": 0,
+            "warning_count": 0
+          },
+          "errors": [],
+          "status": "PASS",
+          "warnings": []
+        },
+        "zero_volume_elements": 0
+      },
+      "material_assignment": [
+        {
+          "element": 0,
+          "family": "HEX8",
+          "material": "material_hex8"
+        },
+        {
+          "element": 1,
+          "family": "WEDGE6",
+          "material": "material_wedge6"
+        },
+        {
+          "element": 2,
+          "family": "WEDGE6",
+          "material": "material_wedge6"
+        },
+        {
+          "element": 3,
+          "family": "TET4",
+          "material": "material_tet4"
+        },
+        {
+          "element": 4,
+          "family": "TET4",
+          "material": "material_tet4"
+        },
+        {
+          "element": 5,
+          "family": "TET4",
+          "material": "material_tet4"
+        }
+      ],
+      "material_assignment_digest": "4a7826ff4f23cba1eb187351f675458504509dbf0fb68585e09af3830141cf9d",
+      "material_set": "high_contrast",
+      "ndof": 48,
+      "node_count": 16,
+      "oracle": {
+        "displacement_relative_error": 3.9371833220897e-16,
+        "element_response_relative_error": 9.086528722208976e-16,
+        "independent_stiffness_digest": "c38122c0739c03c69051a648a0b136645a9bf6707a3c5ed70d7f717e57320292",
+        "reaction_relative_error": 8.659266100410933e-16,
+        "runtime_route_reused": false,
+        "shared_kernel_limitation": "element stiffness kernels and MaterialFactory are shared; production GlobalAssembler, reduction and linear factorization are not reused",
+        "type": "independent_dense_element_scatter"
+      },
+      "solver": {
+        "backend": {
+          "fallback_used": false,
+          "petsc_available": false,
+          "reason": "SciPy selected as the standard backend",
+          "requested": "auto",
+          "selected": "scipy",
+          "slepc_available": false
+        },
+        "contact": {},
+        "converged": true,
+        "execution": {
+          "assembly_seconds": 0.008531600004062057,
+          "atol": null,
+          "backend": "auto",
+          "backend_used": "scipy",
+          "fallback_used": false,
+          "linear_solve_seconds": 0.001095399959012866,
+          "maxiter": null,
+          "preconditioner": "none",
+          "requested_method": "direct",
+          "residual_failure_tolerance": 1e-07,
+          "resource_estimate": {
+            "dense_memory_estimate_bytes": 10368,
+            "direct_budget_exceeded": false,
+            "direct_memory_budget_bytes": null,
+            "direct_memory_estimate_bytes": 82120,
+            "nnz": 672,
+            "sparse_memory_bytes": 8212
+          },
+          "rtol": null,
+          "total_seconds": 0.04569079983048141,
+          "used_method": "direct"
+        },
+        "initial_residual_norm": 57735.026918962576,
+        "iterations": 1,
+        "load_assembly": {
+          "contributions": [
+            {
+              "dof": "UZ",
+              "index": 0,
+              "moment_about_origin": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "node": 13,
+              "nonzero_dof_count": 1,
+              "resultant": [
+                0.0,
+                0.0,
+                33333.333333333336
+              ],
+              "type": "nodal",
+              "vector_norm": 33333.333333333336
+            },
+            {
+              "dof": "UZ",
+              "index": 1,
+              "moment_about_origin": [
+                0.0,
+                -33333.333333333336,
+                0.0
+              ],
+              "node": 14,
+              "nonzero_dof_count": 1,
+              "resultant": [
+                0.0,
+                0.0,
+                33333.333333333336
+              ],
+              "type": "nodal",
+              "vector_norm": 33333.333333333336
+            },
+            {
+              "dof": "UZ",
+              "index": 2,
+              "moment_about_origin": [
+                33333.333333333336,
+                0.0,
+                0.0
+              ],
+              "node": 15,
+              "nonzero_dof_count": 1,
+              "resultant": [
+                0.0,
+                0.0,
+                33333.333333333336
+              ],
+              "type": "nodal",
+              "vector_norm": 33333.333333333336
+            }
+          ],
+          "distributed_load_count": 0,
+          "load_vector_count": 0,
+          "moment_about_origin": [
+            33333.333333333336,
+            -33333.333333333336,
+            0.0
+          ],
+          "nodal_load_count": 3,
+          "resultant": [
+            0.0,
+            0.0,
+            100000.0
+          ]
+        },
+        "method": "direct",
+        "multipoint_constraints": {
+          "constraint_count": 12,
+          "dependent_dof_count": 12,
+          "fixed_constraint_count": 12,
+          "independent_dof_count": 36,
+          "mpc_count": 0,
+          "strategy": "sparse_affine_substitution",
+          "transform_nnz": 36
+        },
+        "preconditioner": "none",
+        "relative_residual_norm": 1.3417193682747408e-15,
+        "residual_history": [
+          7.746420384503563e-11
+        ],
+        "residual_norm": 7.746420384503563e-11,
+        "selection": {
+          "matrix_contract": {
+            "positive_definite_assumed": false,
+            "positive_definite_evidence": "dense_cholesky",
+            "positive_definite_verified": true,
+            "positive_diagonal": true,
+            "real": true,
+            "symmetric": true
+          },
+          "rationale": "reduced matrix is real symmetric positive definite (dense Cholesky verified)",
+          "recommended_method": "cg",
+          "requested_method": "direct",
+          "resource_estimate": {
+            "dense_memory_estimate_bytes": 10368,
+            "direct_budget_exceeded": false,
+            "direct_memory_budget_bytes": null,
+            "direct_memory_estimate_bytes": 82120,
+            "nnz": 672,
+            "sparse_memory_bytes": 8212
+          },
+          "used_method": "direct",
+          "warnings": []
+        },
+        "termination_reason": "converged",
+        "tolerance": 1e-07
+      },
+      "status": "PASS"
+    },
+    "homogeneous_control": {
+      "_displacement": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -7.881452513203934e-07,
+        1.329928901849245e-06,
+        1.912335050415684e-06,
+        -4.0242510262393946e-07,
+        1.475929899624105e-06,
+        3.186087401780026e-06,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        6.293726786325985e-07,
+        -1.347086120074263e-06,
+        2.101251323227036e-06,
+        5.493299044299531e-07,
+        -1.5049548887309058e-06,
+        3.4106069872367267e-06,
+        -5.06619540265146e-07,
+        1.8295216303883177e-06,
+        6.966975165142478e-06,
+        5.44318948296569e-07,
+        -1.98430768820095e-06,
+        7.594998960579772e-06,
+        2.0799632186914395e-06,
+        -5.78826718522566e-06,
+        4.329032205222565e-06,
+        1.7469195202513624e-06,
+        -5.5609469212781434e-06,
+        3.019676541212867e-06,
+        1.8242057844454005e-06,
+        -6.040310510531413e-06,
+        8.51342417856559e-06,
+        3.357159320737103e-06,
+        -9.956252391428616e-06,
+        5.283478247174395e-06,
+        3.0607398602619093e-06,
+        -9.736314748945338e-06,
+        3.989630110428512e-06,
+        3.145748807154464e-06,
+        -1.0235839134672234e-05,
+        9.468476853140279e-06
+      ],
+      "audit_status": null,
+      "element_count": 6,
+      "element_responses": [
+        {
+          "index": 0,
+          "internal_force_norm": 159445.10280477302,
+          "local_displacement_norm": 6.274016083744304e-06,
+          "material": {
+            "E": 210000000000.0,
+            "density": 7800.0,
+            "material": "material_hex8",
+            "nu": 0.3,
+            "type": "isotropic_3d"
+          },
+          "nodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "strain_energy": 0.19033475939193595,
+          "type": "HEX8"
+        },
+        {
+          "index": 1,
+          "internal_force_norm": 54828.7719581859,
+          "local_displacement_norm": 1.2386428171816416e-05,
+          "material": {
+            "E": 210000000000.0,
+            "density": 7800.0,
+            "material": "material_wedge6",
+            "nu": 0.3,
+            "type": "isotropic_3d"
+          },
+          "nodes": [
+            3,
+            2,
+            8,
+            7,
+            6,
+            9
+          ],
+          "strain_energy": 0.026784790834216907,
+          "type": "WEDGE6"
+        },
+        {
+          "index": 2,
+          "internal_force_norm": 84025.35605130103,
+          "local_displacement_norm": 1.716680656933076e-05,
+          "material": {
+            "E": 210000000000.0,
+            "density": 7800.0,
+            "material": "material_wedge6",
+            "nu": 0.3,
+            "type": "isotropic_3d"
+          },
+          "nodes": [
+            7,
+            6,
+            9,
+            10,
+            11,
+            12
+          ],
+          "strain_energy": 0.04677433739148559,
+          "type": "WEDGE6"
+        },
+        {
+          "index": 3,
+          "internal_force_norm": 47109.75134584937,
+          "local_displacement_norm": 2.0402861809963405e-05,
+          "material": {
+            "E": 210000000000.0,
+            "density": 7800.0,
+            "material": "material_tet4",
+            "nu": 0.3,
+            "type": "isotropic_3d"
+          },
+          "nodes": [
+            10,
+            11,
+            12,
+            15
+          ],
+          "strain_energy": 0.016016082194643316,
+          "type": "TET4"
+        },
+        {
+          "index": 4,
+          "internal_force_norm": 47495.13562226784,
+          "local_displacement_norm": 2.0592872621016284e-05,
+          "material": {
+            "E": 210000000000.0,
+            "density": 7800.0,
+            "material": "material_tet4",
+            "nu": 0.3,
+            "type": "isotropic_3d"
+          },
+          "nodes": [
+            10,
+            14,
+            11,
+            15
+          ],
+          "strain_energy": 0.016501458180375503,
+          "type": "TET4"
+        },
+        {
+          "index": 5,
+          "internal_force_norm": 47147.70664359176,
+          "local_displacement_norm": 2.2787819568255045e-05,
+          "material": {
+            "E": 210000000000.0,
+            "density": 7800.0,
+            "material": "material_tet4",
+            "nu": 0.3,
+            "type": "isotropic_3d"
+          },
+          "nodes": [
+            10,
+            13,
+            14,
+            15
+          ],
+          "strain_energy": 0.015948325519727795,
+          "type": "TET4"
+        }
+      ],
+      "energies": {
+        "absolute_error_j": 2.1649348980190553e-15,
+        "clapeyron_error_j": 2.1649348980190553e-15,
+        "external_work_j": 0.31235975351238643,
+        "relative_error": 6.930902184660631e-15,
+        "strain_energy_j": 0.31235975351238426
+      },
+      "equilibrium": {
+        "external_force": [
+          0.0,
+          0.0,
+          100000.0
+        ],
+        "external_moment": [
+          33333.333333333336,
+          -33333.333333333336,
+          0.0
+        ],
+        "force_balance": [
+          -9.458744898438454e-11,
+          7.239577826112509e-10,
+          -2.6193447411060333e-10
+        ],
+        "force_relative": 7.756747548015026e-15,
+        "moment_balance": [
+          -1.7316779121756554e-09,
+          -1.1641532182693481e-10,
+          1.709850039333105e-10
+        ],
+        "moment_relative": 3.699558832630495e-14,
+        "support_reaction_moment": [
+          -33333.33333333507,
+          33333.33333333322,
+          1.709850039333105e-10
+        ],
+        "support_reaction_resultant": [
+          -9.458744898438454e-11,
+          7.239577826112509e-10,
+          -100000.00000000026
+        ]
+      },
+      "family_energies": {
+        "HEX8": {
+          "element_count": 1,
+          "response_norm": 159445.10280477302,
+          "strain_energy": 0.19033475939193595
+        },
+        "TET4": {
+          "element_count": 3,
+          "response_norm": 141752.59361170896,
+          "strain_energy": 0.048465865894746614
+        },
+        "WEDGE6": {
+          "element_count": 2,
+          "response_norm": 138854.12800948694,
+          "strain_energy": 0.0735591282257025
+        }
+      },
+      "geometry": {
+        "components": [
+          [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        ],
+        "connected_components": 1,
+        "inverted_elements": 0,
+        "max_aspect_ratio": 1.7320508075688772,
+        "max_jacobian": 1.0,
+        "min_jacobian": 0.12499999999999997,
+        "quality_rows": [
+          {
+            "family": "HEX8",
+            "index": 0,
+            "nodes": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          },
+          {
+            "family": "WEDGE6",
+            "index": 1,
+            "nodes": [
+              3,
+              2,
+              8,
+              7,
+              6,
+              9
+            ]
+          },
+          {
+            "family": "WEDGE6",
+            "index": 2,
+            "nodes": [
+              7,
+              6,
+              9,
+              10,
+              11,
+              12
+            ]
+          },
+          {
+            "family": "TET4",
+            "index": 3,
+            "nodes": [
+              10,
+              11,
+              12,
+              15
+            ]
+          },
+          {
+            "family": "TET4",
+            "index": 4,
+            "nodes": [
+              10,
+              14,
+              11,
+              15
+            ]
+          },
+          {
+            "family": "TET4",
+            "index": 5,
+            "nodes": [
+              10,
+              13,
+              14,
+              15
+            ]
+          }
+        ],
+        "validator_report": {
+          "details": {
+            "component_count": 1,
+            "components": [
+              {
+                "element_types": {
+                  "HEX8": 1,
+                  "TET4": 3,
+                  "WEDGE6": 2
+                },
+                "elements": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "fixed_dof_count": 12,
+                "fixed_translation_dof_count": 12,
+                "fixed_translation_node_count": 4,
+                "index": 0,
+                "load_count": 3,
+                "nodes": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9,
+                  10,
+                  11,
+                  12,
+                  13,
+                  14,
+                  15
+                ]
+              }
+            ],
+            "concentrated_mass_count": 0,
+            "contact_count": 0,
+            "distributed_load_count": 0,
+            "element_count": 6,
+            "element_quality": [
+              {
+                "index": 0,
+                "quality_status": "PASS",
+                "quality_warnings": [],
+                "type": "HEX8"
+              },
+              {
+                "aspect_ratio": 1.4142135623730951,
+                "certified_detj_ratio": 1.0,
+                "certified_detj_scale": 0.5,
+                "certified_geometry_tolerance": 1.1102230246251565e-16,
+                "certified_min_jacobian_determinant": 0.5,
+                "degeneracy_indicator": 1.0,
+                "distortion_metric": 0.0,
+                "edge_length_max": 1.4142135623730951,
+                "edge_length_min": 1.0,
+                "geometric_conditioning_indicator": null,
+                "index": 1,
+                "jacobian_determinant_ratio": 1.0,
+                "jacobian_sign_consistent": true,
+                "max_jacobian_determinant": 0.5,
+                "min_jacobian_determinant": 0.5,
+                "orientation_state": "POSITIVE",
+                "quality_classification": "VALID",
+                "quality_fatal_findings": [],
+                "quality_status": "PASS",
+                "quality_warnings": [],
+                "signed_volume": 0.49999999999999994,
+                "type": "WEDGE6",
+                "volume": 0.49999999999999994
+              },
+              {
+                "aspect_ratio": 1.4142135623730951,
+                "certified_detj_ratio": 1.0,
+                "certified_detj_scale": 0.5,
+                "certified_geometry_tolerance": 1.1102230246251565e-16,
+                "certified_min_jacobian_determinant": 0.5,
+                "degeneracy_indicator": 1.0,
+                "distortion_metric": 0.0,
+                "edge_length_max": 1.4142135623730951,
+                "edge_length_min": 1.0,
+                "geometric_conditioning_indicator": null,
+                "index": 2,
+                "jacobian_determinant_ratio": 1.0,
+                "jacobian_sign_consistent": true,
+                "max_jacobian_determinant": 0.5,
+                "min_jacobian_determinant": 0.5,
+                "orientation_state": "POSITIVE",
+                "quality_classification": "VALID",
+                "quality_fatal_findings": [],
+                "quality_status": "PASS",
+                "quality_warnings": [],
+                "signed_volume": 0.49999999999999994,
+                "type": "WEDGE6",
+                "volume": 0.49999999999999994
+              },
+              {
+                "aspect_ratio": 1.7320508075688772,
+                "edge_length_max": 1.7320508075688772,
+                "edge_length_min": 1.0,
+                "index": 3,
+                "quality": 0.6572670690061994,
+                "quality_status": "PASS",
+                "quality_warnings": [],
+                "radius_ratio": 0.7174389352143009,
+                "relative_volume": 0.03207501495497921,
+                "signed_volume": 0.16666666666666666,
+                "skew": 0.34273293099380064,
+                "type": "TET4"
+              },
+              {
+                "aspect_ratio": 1.7320508075688772,
+                "edge_length_max": 1.7320508075688772,
+                "edge_length_min": 1.0,
+                "index": 4,
+                "quality": 0.5697086922186473,
+                "quality_status": "PASS",
+                "quality_warnings": [],
+                "radius_ratio": 0.6229863075268962,
+                "relative_volume": 0.03207501495497921,
+                "signed_volume": 0.16666666666666666,
+                "skew": 0.4302913077813527,
+                "type": "TET4"
+              },
+              {
+                "aspect_ratio": 1.4142135623730951,
+                "edge_length_max": 1.4142135623730951,
+                "edge_length_min": 1.0,
+                "index": 5,
+                "quality": 0.7698003589195008,
+                "quality_status": "PASS",
+                "quality_warnings": [],
+                "radius_ratio": 0.7320508075688774,
+                "relative_volume": 0.058925565098878946,
+                "signed_volume": 0.16666666666666666,
+                "skew": 0.23019964108049917,
+                "type": "TET4"
+              }
+            ],
+            "element_types": {
+              "HEX8": 1,
+              "TET4": 3,
+              "WEDGE6": 2
+            },
+            "error_count": 0,
+            "fixed_condition_count": 4,
+            "isolated_nodes": [],
+            "load_count": 3,
+            "material_count": 3,
+            "mechanical_rank": {
+              "checked": true,
+              "eigenvalue_max": 546513068283.92175,
+              "eigenvalue_min": 271445139.8026924,
+              "free_dof_count": 36,
+              "rank": 36,
+              "tolerance": 54.65130682839218,
+              "zero_mode_count": 0
+            },
+            "multipoint_constraint_count": 0,
+            "nodal_load_count": 3,
+            "node_count": 16,
+            "quality_thresholds": {
+              "mitc3_max_angle_degrees": 140.0,
+              "mitc3_max_aspect_ratio": 10.0,
+              "mitc3_min_angle_degrees": 20.0,
+              "mitc3_min_relative_area": 1e-08,
+              "mitc4_max_angle_degrees": 150.0,
+              "mitc4_max_aspect_ratio": 10.0,
+              "mitc4_max_planarity_ratio": 0.001,
+              "mitc4_max_warpage_degrees": 5.0,
+              "mitc4_min_angle_degrees": 30.0,
+              "tet10_max_mid_edge_deviation_ratio": 0.05,
+              "tet10_min_jacobian_ratio": 0.05,
+              "tet10_min_sampled_jacobian": 1e-14,
+              "tet_max_aspect_ratio": 20.0,
+              "tet_min_quality": 0.05,
+              "tet_min_radius_ratio": 0.05,
+              "tet_min_relative_volume": 0.0001,
+              "tet_min_signed_volume": 1e-14
+            },
+            "rbe2_count": 0,
+            "rbe3_count": 0,
+            "spring_count": 0,
+            "warning_count": 0
+          },
+          "errors": [],
+          "status": "PASS",
+          "warnings": []
+        },
+        "zero_volume_elements": 0
+      },
+      "material_assignment": [
+        {
+          "element": 0,
+          "family": "HEX8",
+          "material": "material_hex8"
+        },
+        {
+          "element": 1,
+          "family": "WEDGE6",
+          "material": "material_wedge6"
+        },
+        {
+          "element": 2,
+          "family": "WEDGE6",
+          "material": "material_wedge6"
+        },
+        {
+          "element": 3,
+          "family": "TET4",
+          "material": "material_tet4"
+        },
+        {
+          "element": 4,
+          "family": "TET4",
+          "material": "material_tet4"
+        },
+        {
+          "element": 5,
+          "family": "TET4",
+          "material": "material_tet4"
+        }
+      ],
+      "material_assignment_digest": "4a7826ff4f23cba1eb187351f675458504509dbf0fb68585e09af3830141cf9d",
+      "material_set": "homogeneous_control",
+      "ndof": 48,
+      "node_count": 16,
+      "oracle": {
+        "displacement_relative_error": 1.834841861642169e-14,
+        "element_response_relative_error": 2.0354608551414953e-14,
+        "independent_stiffness_digest": "1c9877ee4a7e7f0d18ac1eedf1efd9a229c2b7e6ebf63d15aca4fb4f220467f9",
+        "reaction_relative_error": 1.01125124228168e-14,
+        "runtime_route_reused": false,
+        "shared_kernel_limitation": "element stiffness kernels and MaterialFactory are shared; production GlobalAssembler, reduction and linear factorization are not reused",
+        "type": "independent_dense_element_scatter"
+      },
+      "solver": {
+        "backend": {
+          "fallback_used": false,
+          "petsc_available": false,
+          "reason": "SciPy selected as the standard backend",
+          "requested": "auto",
+          "selected": "scipy",
+          "slepc_available": false
+        },
+        "contact": {},
+        "converged": true,
+        "execution": {
+          "assembly_seconds": 0.008044600021094084,
+          "atol": null,
+          "backend": "auto",
+          "backend_used": "scipy",
+          "fallback_used": false,
+          "linear_solve_seconds": 0.000976799987256527,
+          "maxiter": null,
+          "preconditioner": "none",
+          "requested_method": "direct",
+          "residual_failure_tolerance": 1e-07,
+          "resource_estimate": {
+            "dense_memory_estimate_bytes": 10368,
+            "direct_budget_exceeded": false,
+            "direct_memory_budget_bytes": null,
+            "direct_memory_estimate_bytes": 81160,
+            "nnz": 664,
+            "sparse_memory_bytes": 8116
+          },
+          "rtol": null,
+          "total_seconds": 0.049377200193703175,
+          "used_method": "direct"
+        },
+        "initial_residual_norm": 57735.026918962576,
+        "iterations": 1,
+        "load_assembly": {
+          "contributions": [
+            {
+              "dof": "UZ",
+              "index": 0,
+              "moment_about_origin": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "node": 13,
+              "nonzero_dof_count": 1,
+              "resultant": [
+                0.0,
+                0.0,
+                33333.333333333336
+              ],
+              "type": "nodal",
+              "vector_norm": 33333.333333333336
+            },
+            {
+              "dof": "UZ",
+              "index": 1,
+              "moment_about_origin": [
+                0.0,
+                -33333.333333333336,
+                0.0
+              ],
+              "node": 14,
+              "nonzero_dof_count": 1,
+              "resultant": [
+                0.0,
+                0.0,
+                33333.333333333336
+              ],
+              "type": "nodal",
+              "vector_norm": 33333.333333333336
+            },
+            {
+              "dof": "UZ",
+              "index": 2,
+              "moment_about_origin": [
+                33333.333333333336,
+                0.0,
+                0.0
+              ],
+              "node": 15,
+              "nonzero_dof_count": 1,
+              "resultant": [
+                0.0,
+                0.0,
+                33333.333333333336
+              ],
+              "type": "nodal",
+              "vector_norm": 33333.333333333336
+            }
+          ],
+          "distributed_load_count": 0,
+          "load_vector_count": 0,
+          "moment_about_origin": [
+            33333.333333333336,
+            -33333.333333333336,
+            0.0
+          ],
+          "nodal_load_count": 3,
+          "resultant": [
+            0.0,
+            0.0,
+            100000.0
+          ]
+        },
+        "method": "direct",
+        "multipoint_constraints": {
+          "constraint_count": 12,
+          "dependent_dof_count": 12,
+          "fixed_constraint_count": 12,
+          "independent_dof_count": 36,
+          "mpc_count": 0,
+          "strategy": "sparse_affine_substitution",
+          "transform_nnz": 36
+        },
+        "preconditioner": "none",
+        "relative_residual_norm": 1.0468469707553504e-14,
+        "residual_history": [
+          6.043973803659459e-10
+        ],
+        "residual_norm": 6.043973803659459e-10,
+        "selection": {
+          "matrix_contract": {
+            "positive_definite_assumed": false,
+            "positive_definite_evidence": "dense_cholesky",
+            "positive_definite_verified": true,
+            "positive_diagonal": true,
+            "real": true,
+            "symmetric": true
+          },
+          "rationale": "reduced matrix is real symmetric positive definite (dense Cholesky verified)",
+          "recommended_method": "cg",
+          "requested_method": "direct",
+          "resource_estimate": {
+            "dense_memory_estimate_bytes": 10368,
+            "direct_budget_exceeded": false,
+            "direct_memory_budget_bytes": null,
+            "direct_memory_estimate_bytes": 81160,
+            "nnz": 664,
+            "sparse_memory_bytes": 8116
+          },
+          "used_method": "direct",
+          "warnings": []
+        },
+        "termination_reason": "converged",
+        "tolerance": 1e-07
+      },
+      "status": "PASS"
+    },
+    "moderate_contrast": {
+      "_displacement": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -8.369236333183795e-07,
+        1.3168968978700332e-06,
+        1.908285305929372e-06,
+        -3.342464703071506e-07,
+        1.5160603915858226e-06,
+        3.1933489843938176e-06,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        6.596398695760004e-07,
+        -1.3370745947930376e-06,
+        2.116019784074999e-06,
+        4.915735399490158e-07,
+        -1.5561947826093472e-06,
+        3.4609535448409966e-06,
+        -4.888394279017289e-07,
+        2.1250621854584813e-06,
+        7.517259586196274e-06,
+        4.984679033377833e-07,
+        -2.284302514495596e-06,
+        8.671881632024529e-06,
+        2.28189640035209e-06,
+        -6.902409461058102e-06,
+        5.143286971734147e-06,
+        1.5489948273233177e-06,
+        -6.53781297859489e-06,
+        3.7983532109681364e-06,
+        1.8535913674854173e-06,
+        -7.37013371379559e-06,
+        1.035421505891767e-05,
+        3.648697837311378e-06,
+        -1.1892839350950425e-05,
+        8.00570389410132e-06,
+        2.8542070070464465e-06,
+        -1.1500590665905775e-05,
+        6.65132037372629e-06,
+        3.2258287927100545e-06,
+        -1.26784640642399e-05,
+        1.3026283934528821e-05
+      ],
+      "audit_status": null,
+      "element_count": 6,
+      "element_responses": [
+        {
+          "index": 0,
+          "internal_force_norm": 159166.90538122528,
+          "local_displacement_norm": 6.326600043368296e-06,
+          "material": {
+            "E": 210000000000.0,
+            "density": 7800.0,
+            "material": "material_hex8",
+            "nu": 0.3,
+            "type": "isotropic_3d"
+          },
+          "nodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "strain_energy": 0.19241886169558342,
+          "type": "HEX8"
+        },
+        {
+          "index": 1,
+          "internal_force_norm": 53514.49385399488,
+          "local_displacement_norm": 1.3489179083308874e-05,
+          "material": {
+            "E": 120000000000.0,
+            "density": 4500.0,
+            "material": "material_wedge6",
+            "nu": 0.25,
+            "type": "isotropic_3d"
+          },
+          "nodes": [
+            3,
+            2,
+            8,
+            7,
+            6,
+            9
+          ],
+          "strain_energy": 0.042438238526982364,
+          "type": "WEDGE6"
+        },
+        {
+          "index": 2,
+          "internal_force_norm": 83297.60543512912,
+          "local_displacement_norm": 2.0145671467359834e-05,
+          "material": {
+            "E": 120000000000.0,
+            "density": 4500.0,
+            "material": "material_wedge6",
+            "nu": 0.25,
+            "type": "isotropic_3d"
+          },
+          "nodes": [
+            7,
+            6,
+            9,
+            10,
+            11,
+            12
+          ],
+          "strain_energy": 0.08891114642363071,
+          "type": "WEDGE6"
+        },
+        {
+          "index": 3,
+          "internal_force_norm": 47300.996775746724,
+          "local_displacement_norm": 2.5390382352995557e-05,
+          "material": {
+            "E": 70000000000.0,
+            "density": 2700.0,
+            "material": "material_tet4",
+            "nu": 0.28,
+            "type": "isotropic_3d"
+          },
+          "nodes": [
+            10,
+            11,
+            12,
+            15
+          ],
+          "strain_energy": 0.042295439309353616,
+          "type": "TET4"
+        },
+        {
+          "index": 4,
+          "internal_force_norm": 47212.76197947231,
+          "local_displacement_norm": 2.5775127946256376e-05,
+          "material": {
+            "E": 70000000000.0,
+            "density": 2700.0,
+            "material": "material_tet4",
+            "nu": 0.28,
+            "type": "isotropic_3d"
+          },
+          "nodes": [
+            10,
+            14,
+            11,
+            15
+          ],
+          "strain_energy": 0.047522332618461546,
+          "type": "TET4"
+        },
+        {
+          "index": 5,
+          "internal_force_norm": 47279.923268503364,
+          "local_displacement_norm": 2.8698976786429182e-05,
+          "material": {
+            "E": 70000000000.0,
+            "density": 2700.0,
+            "material": "material_tet4",
+            "nu": 0.28,
+            "type": "isotropic_3d"
+          },
+          "nodes": [
+            10,
+            13,
+            14,
+            15
+          ],
+          "strain_energy": 0.047802451465262234,
+          "type": "TET4"
+        }
+      ],
+      "energies": {
+        "absolute_error_j": 1.6653345369377348e-16,
+        "clapeyron_error_j": 1.6653345369377348e-16,
+        "external_work_j": 0.4613884700392739,
+        "relative_error": 3.6093978178431284e-16,
+        "strain_energy_j": 0.4613884700392741
+      },
+      "equilibrium": {
+        "external_force": [
+          0.0,
+          0.0,
+          100000.0
+        ],
+        "external_moment": [
+          33333.333333333336,
+          -33333.333333333336,
+          0.0
+        ],
+        "force_balance": [
+          6.184563972055912e-11,
+          0.0,
+          8.731149137020111e-11
+        ],
+        "force_relative": 1.069961666497165e-15,
+        "moment_balance": [
+          1.1641532182693481e-10,
+          2.255546860396862e-10,
+          3.637978807091713e-12
+        ],
+        "moment_relative": 5.385007455718978e-15,
+        "support_reaction_moment": [
+          -33333.33333333322,
+          33333.33333333356,
+          3.637978807091713e-12
+        ],
+        "support_reaction_resultant": [
+          6.184563972055912e-11,
+          0.0,
+          -99999.99999999991
+        ]
+      },
+      "family_energies": {
+        "HEX8": {
+          "element_count": 1,
+          "response_norm": 159166.90538122528,
+          "strain_energy": 0.19241886169558342
+        },
+        "TET4": {
+          "element_count": 3,
+          "response_norm": 141793.6820237224,
+          "strain_energy": 0.1376202233930774
+        },
+        "WEDGE6": {
+          "element_count": 2,
+          "response_norm": 136812.09928912402,
+          "strain_energy": 0.13134938495061307
+        }
+      },
+      "geometry": {
+        "components": [
+          [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        ],
+        "connected_components": 1,
+        "inverted_elements": 0,
+        "max_aspect_ratio": 1.7320508075688772,
+        "max_jacobian": 1.0,
+        "min_jacobian": 0.12499999999999997,
+        "quality_rows": [
+          {
+            "family": "HEX8",
+            "index": 0,
+            "nodes": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          },
+          {
+            "family": "WEDGE6",
+            "index": 1,
+            "nodes": [
+              3,
+              2,
+              8,
+              7,
+              6,
+              9
+            ]
+          },
+          {
+            "family": "WEDGE6",
+            "index": 2,
+            "nodes": [
+              7,
+              6,
+              9,
+              10,
+              11,
+              12
+            ]
+          },
+          {
+            "family": "TET4",
+            "index": 3,
+            "nodes": [
+              10,
+              11,
+              12,
+              15
+            ]
+          },
+          {
+            "family": "TET4",
+            "index": 4,
+            "nodes": [
+              10,
+              14,
+              11,
+              15
+            ]
+          },
+          {
+            "family": "TET4",
+            "index": 5,
+            "nodes": [
+              10,
+              13,
+              14,
+              15
+            ]
+          }
+        ],
+        "validator_report": {
+          "details": {
+            "component_count": 1,
+            "components": [
+              {
+                "element_types": {
+                  "HEX8": 1,
+                  "TET4": 3,
+                  "WEDGE6": 2
+                },
+                "elements": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "fixed_dof_count": 12,
+                "fixed_translation_dof_count": 12,
+                "fixed_translation_node_count": 4,
+                "index": 0,
+                "load_count": 3,
+                "nodes": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9,
+                  10,
+                  11,
+                  12,
+                  13,
+                  14,
+                  15
+                ]
+              }
+            ],
+            "concentrated_mass_count": 0,
+            "contact_count": 0,
+            "distributed_load_count": 0,
+            "element_count": 6,
+            "element_quality": [
+              {
+                "index": 0,
+                "quality_status": "PASS",
+                "quality_warnings": [],
+                "type": "HEX8"
+              },
+              {
+                "aspect_ratio": 1.4142135623730951,
+                "certified_detj_ratio": 1.0,
+                "certified_detj_scale": 0.5,
+                "certified_geometry_tolerance": 1.1102230246251565e-16,
+                "certified_min_jacobian_determinant": 0.5,
+                "degeneracy_indicator": 1.0,
+                "distortion_metric": 0.0,
+                "edge_length_max": 1.4142135623730951,
+                "edge_length_min": 1.0,
+                "geometric_conditioning_indicator": null,
+                "index": 1,
+                "jacobian_determinant_ratio": 1.0,
+                "jacobian_sign_consistent": true,
+                "max_jacobian_determinant": 0.5,
+                "min_jacobian_determinant": 0.5,
+                "orientation_state": "POSITIVE",
+                "quality_classification": "VALID",
+                "quality_fatal_findings": [],
+                "quality_status": "PASS",
+                "quality_warnings": [],
+                "signed_volume": 0.49999999999999994,
+                "type": "WEDGE6",
+                "volume": 0.49999999999999994
+              },
+              {
+                "aspect_ratio": 1.4142135623730951,
+                "certified_detj_ratio": 1.0,
+                "certified_detj_scale": 0.5,
+                "certified_geometry_tolerance": 1.1102230246251565e-16,
+                "certified_min_jacobian_determinant": 0.5,
+                "degeneracy_indicator": 1.0,
+                "distortion_metric": 0.0,
+                "edge_length_max": 1.4142135623730951,
+                "edge_length_min": 1.0,
+                "geometric_conditioning_indicator": null,
+                "index": 2,
+                "jacobian_determinant_ratio": 1.0,
+                "jacobian_sign_consistent": true,
+                "max_jacobian_determinant": 0.5,
+                "min_jacobian_determinant": 0.5,
+                "orientation_state": "POSITIVE",
+                "quality_classification": "VALID",
+                "quality_fatal_findings": [],
+                "quality_status": "PASS",
+                "quality_warnings": [],
+                "signed_volume": 0.49999999999999994,
+                "type": "WEDGE6",
+                "volume": 0.49999999999999994
+              },
+              {
+                "aspect_ratio": 1.7320508075688772,
+                "edge_length_max": 1.7320508075688772,
+                "edge_length_min": 1.0,
+                "index": 3,
+                "quality": 0.6572670690061994,
+                "quality_status": "PASS",
+                "quality_warnings": [],
+                "radius_ratio": 0.7174389352143009,
+                "relative_volume": 0.03207501495497921,
+                "signed_volume": 0.16666666666666666,
+                "skew": 0.34273293099380064,
+                "type": "TET4"
+              },
+              {
+                "aspect_ratio": 1.7320508075688772,
+                "edge_length_max": 1.7320508075688772,
+                "edge_length_min": 1.0,
+                "index": 4,
+                "quality": 0.5697086922186473,
+                "quality_status": "PASS",
+                "quality_warnings": [],
+                "radius_ratio": 0.6229863075268962,
+                "relative_volume": 0.03207501495497921,
+                "signed_volume": 0.16666666666666666,
+                "skew": 0.4302913077813527,
+                "type": "TET4"
+              },
+              {
+                "aspect_ratio": 1.4142135623730951,
+                "edge_length_max": 1.4142135623730951,
+                "edge_length_min": 1.0,
+                "index": 5,
+                "quality": 0.7698003589195008,
+                "quality_status": "PASS",
+                "quality_warnings": [],
+                "radius_ratio": 0.7320508075688774,
+                "relative_volume": 0.058925565098878946,
+                "signed_volume": 0.16666666666666666,
+                "skew": 0.23019964108049917,
+                "type": "TET4"
+              }
+            ],
+            "element_types": {
+              "HEX8": 1,
+              "TET4": 3,
+              "WEDGE6": 2
+            },
+            "error_count": 0,
+            "fixed_condition_count": 4,
+            "isolated_nodes": [],
+            "load_count": 3,
+            "material_count": 3,
+            "mechanical_rank": {
+              "checked": true,
+              "eigenvalue_max": 263641801479.1505,
+              "eigenvalue_min": 198494778.4974639,
+              "free_dof_count": 36,
+              "rank": 36,
+              "tolerance": 26.364180147915054,
+              "zero_mode_count": 0
+            },
+            "multipoint_constraint_count": 0,
+            "nodal_load_count": 3,
+            "node_count": 16,
+            "quality_thresholds": {
+              "mitc3_max_angle_degrees": 140.0,
+              "mitc3_max_aspect_ratio": 10.0,
+              "mitc3_min_angle_degrees": 20.0,
+              "mitc3_min_relative_area": 1e-08,
+              "mitc4_max_angle_degrees": 150.0,
+              "mitc4_max_aspect_ratio": 10.0,
+              "mitc4_max_planarity_ratio": 0.001,
+              "mitc4_max_warpage_degrees": 5.0,
+              "mitc4_min_angle_degrees": 30.0,
+              "tet10_max_mid_edge_deviation_ratio": 0.05,
+              "tet10_min_jacobian_ratio": 0.05,
+              "tet10_min_sampled_jacobian": 1e-14,
+              "tet_max_aspect_ratio": 20.0,
+              "tet_min_quality": 0.05,
+              "tet_min_radius_ratio": 0.05,
+              "tet_min_relative_volume": 0.0001,
+              "tet_min_signed_volume": 1e-14
+            },
+            "rbe2_count": 0,
+            "rbe3_count": 0,
+            "spring_count": 0,
+            "warning_count": 0
+          },
+          "errors": [],
+          "status": "PASS",
+          "warnings": []
+        },
+        "zero_volume_elements": 0
+      },
+      "material_assignment": [
+        {
+          "element": 0,
+          "family": "HEX8",
+          "material": "material_hex8"
+        },
+        {
+          "element": 1,
+          "family": "WEDGE6",
+          "material": "material_wedge6"
+        },
+        {
+          "element": 2,
+          "family": "WEDGE6",
+          "material": "material_wedge6"
+        },
+        {
+          "element": 3,
+          "family": "TET4",
+          "material": "material_tet4"
+        },
+        {
+          "element": 4,
+          "family": "TET4",
+          "material": "material_tet4"
+        },
+        {
+          "element": 5,
+          "family": "TET4",
+          "material": "material_tet4"
+        }
+      ],
+      "material_assignment_digest": "4a7826ff4f23cba1eb187351f675458504509dbf0fb68585e09af3830141cf9d",
+      "material_set": "moderate_contrast",
+      "ndof": 48,
+      "node_count": 16,
+      "oracle": {
+        "displacement_relative_error": 5.900826947030055e-15,
+        "element_response_relative_error": 4.9697824539997485e-15,
+        "independent_stiffness_digest": "cc345a72ebaf31fbd3c428911ddb997e0f9160f7c96b86119a09cd08c9ae3647",
+        "reaction_relative_error": 3.0652808799137852e-15,
+        "runtime_route_reused": false,
+        "shared_kernel_limitation": "element stiffness kernels and MaterialFactory are shared; production GlobalAssembler, reduction and linear factorization are not reused",
+        "type": "independent_dense_element_scatter"
+      },
+      "solver": {
+        "backend": {
+          "fallback_used": false,
+          "petsc_available": false,
+          "reason": "SciPy selected as the standard backend",
+          "requested": "auto",
+          "selected": "scipy",
+          "slepc_available": false
+        },
+        "contact": {},
+        "converged": true,
+        "execution": {
+          "assembly_seconds": 0.00798440002836287,
+          "atol": null,
+          "backend": "auto",
+          "backend_used": "scipy",
+          "fallback_used": false,
+          "linear_solve_seconds": 0.0011370000429451466,
+          "maxiter": null,
+          "preconditioner": "none",
+          "requested_method": "direct",
+          "residual_failure_tolerance": 1e-07,
+          "resource_estimate": {
+            "dense_memory_estimate_bytes": 10368,
+            "direct_budget_exceeded": false,
+            "direct_memory_budget_bytes": null,
+            "direct_memory_estimate_bytes": 81880,
+            "nnz": 670,
+            "sparse_memory_bytes": 8188
+          },
+          "rtol": null,
+          "total_seconds": 0.05599229992367327,
+          "used_method": "direct"
+        },
+        "initial_residual_norm": 57735.026918962576,
+        "iterations": 1,
+        "load_assembly": {
+          "contributions": [
+            {
+              "dof": "UZ",
+              "index": 0,
+              "moment_about_origin": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "node": 13,
+              "nonzero_dof_count": 1,
+              "resultant": [
+                0.0,
+                0.0,
+                33333.333333333336
+              ],
+              "type": "nodal",
+              "vector_norm": 33333.333333333336
+            },
+            {
+              "dof": "UZ",
+              "index": 1,
+              "moment_about_origin": [
+                0.0,
+                -33333.333333333336,
+                0.0
+              ],
+              "node": 14,
+              "nonzero_dof_count": 1,
+              "resultant": [
+                0.0,
+                0.0,
+                33333.333333333336
+              ],
+              "type": "nodal",
+              "vector_norm": 33333.333333333336
+            },
+            {
+              "dof": "UZ",
+              "index": 2,
+              "moment_about_origin": [
+                33333.333333333336,
+                0.0,
+                0.0
+              ],
+              "node": 15,
+              "nonzero_dof_count": 1,
+              "resultant": [
+                0.0,
+                0.0,
+                33333.333333333336
+              ],
+              "type": "nodal",
+              "vector_norm": 33333.333333333336
+            }
+          ],
+          "distributed_load_count": 0,
+          "load_vector_count": 0,
+          "moment_about_origin": [
+            33333.333333333336,
+            -33333.333333333336,
+            0.0
+          ],
+          "nodal_load_count": 3,
+          "resultant": [
+            0.0,
+            0.0,
+            100000.0
+          ]
+        },
+        "method": "direct",
+        "multipoint_constraints": {
+          "constraint_count": 12,
+          "dependent_dof_count": 12,
+          "fixed_constraint_count": 12,
+          "independent_dof_count": 36,
+          "mpc_count": 0,
+          "strategy": "sparse_affine_substitution",
+          "transform_nnz": 36
+        },
+        "preconditioner": "none",
+        "relative_residual_norm": 4.407557121668659e-15,
+        "residual_history": [
+          2.5447042906640524e-10
+        ],
+        "residual_norm": 2.5447042906640524e-10,
+        "selection": {
+          "matrix_contract": {
+            "positive_definite_assumed": false,
+            "positive_definite_evidence": "dense_cholesky",
+            "positive_definite_verified": true,
+            "positive_diagonal": true,
+            "real": true,
+            "symmetric": true
+          },
+          "rationale": "reduced matrix is real symmetric positive definite (dense Cholesky verified)",
+          "recommended_method": "cg",
+          "requested_method": "direct",
+          "resource_estimate": {
+            "dense_memory_estimate_bytes": 10368,
+            "direct_budget_exceeded": false,
+            "direct_memory_budget_bytes": null,
+            "direct_memory_estimate_bytes": 81880,
+            "nnz": 670,
+            "sparse_memory_bytes": 8188
+          },
+          "used_method": "direct",
+          "warnings": []
+        },
+        "termination_reason": "converged",
+        "tolerance": 1e-07
+      },
+      "status": "PASS"
+    }
+  },
+  "npz": {
+    "arrays": {
+      "high_displacement": {
+        "sha256": "0dcf08410ffd1e26f55cada7bad532dfc60bc7c43e770e96c72e704ba2988ee7",
+        "shape": [
+          48
+        ]
+      },
+      "high_oracle_displacement": {
+        "sha256": "8a1513c0a13fa276a6ce98bef123bea7125cae10d0c49c1a72601baa5138c678",
+        "shape": [
+          48
+        ]
+      },
+      "homogeneous_displacement": {
+        "sha256": "37e4210d2728fa69cfcf1d18a615470d1fa9fc75f5fd910814aa345636b759ea",
+        "shape": [
+          48
+        ]
+      },
+      "homogeneous_oracle_displacement": {
+        "sha256": "3ed24ccc8aca75a89290727314f7294aae5d151a9be4e19d48c0d230bee4575a",
+        "shape": [
+          48
+        ]
+      },
+      "moderate_displacement": {
+        "sha256": "040cf7cec68adf723bd3c6b62fd9ac297879d75d073ee2849f0840b49c3438ec",
+        "shape": [
+          48
+        ]
+      },
+      "moderate_force_balance": {
+        "sha256": "01b0366a8ea50f8351e39e2738aad1b32b15871601ef0daa5a1ae3852fbd2cf3",
+        "shape": [
+          3
+        ]
+      },
+      "moderate_loads": {
+        "sha256": "28e182f81bd0af98fd1799bd2f04087cafa87055bf3a6656512916c14ee5a0c9",
+        "shape": [
+          48
+        ]
+      },
+      "moderate_moment_balance": {
+        "sha256": "4fd766429ba5845c08110d29b659520bf4ce4367584f0bdc16f0af161abdab54",
+        "shape": [
+          3
+        ]
+      },
+      "moderate_oracle_displacement": {
+        "sha256": "403bb3179083cea53b0cc2e8c81c8e966032062f81bfa94dee4c87f648a6a01b",
+        "shape": [
+          48
+        ]
+      },
+      "moderate_reactions": {
+        "sha256": "c82e46b5fea42e9794522e18c32d8403032b4804f5c6978478d8dbfaf81f8760",
+        "shape": [
+          48
+        ]
+      },
+      "moderate_replay1_displacement": {
+        "sha256": "040cf7cec68adf723bd3c6b62fd9ac297879d75d073ee2849f0840b49c3438ec",
+        "shape": [
+          48
+        ]
+      },
+      "moderate_replay1_reactions": {
+        "sha256": "c82e46b5fea42e9794522e18c32d8403032b4804f5c6978478d8dbfaf81f8760",
+        "shape": [
+          48
+        ]
+      },
+      "moderate_replay2_displacement": {
+        "sha256": "040cf7cec68adf723bd3c6b62fd9ac297879d75d073ee2849f0840b49c3438ec",
+        "shape": [
+          48
+        ]
+      },
+      "moderate_replay2_reactions": {
+        "sha256": "c82e46b5fea42e9794522e18c32d8403032b4804f5c6978478d8dbfaf81f8760",
+        "shape": [
+          48
+        ]
+      }
+    },
+    "path": "wp13_04_multimaterial_arrays.npz"
+  },
+  "refinement": {
+    "purpose": "material assignment stability; no general convergence claim",
+    "status": "CHARACTERIZATION_ONLY"
+  },
+  "replay": {
+    "array_relative_gate": 1e-12,
+    "count": 2,
+    "replay_1": {
+      "assignment_identical": true,
+      "energy_relative_errors": {
+        "absolute_error_j": 0.0,
+        "clapeyron_error_j": 0.0,
+        "external_work_j": 0.0,
+        "relative_error": 0.0,
+        "strain_energy_j": 0.0
+      },
+      "evidence_digest": "ae955dd29a6f46abd41085073d555bfa4f88410c5abb46d664f79622250b3f5b",
+      "field_relative_errors": {
+        "displacement": 0.0,
+        "force_balance": 0.0,
+        "loads": 0.0,
+        "moment_balance": 0.0,
+        "oracle_displacement": 0.0,
+        "reactions": 0.0
+      },
+      "pass": true,
+      "status_identical": true
+    },
+    "replay_2": {
+      "assignment_identical": true,
+      "energy_relative_errors": {
+        "absolute_error_j": 0.0,
+        "clapeyron_error_j": 0.0,
+        "external_work_j": 0.0,
+        "relative_error": 0.0,
+        "strain_energy_j": 0.0
+      },
+      "evidence_digest": "ae955dd29a6f46abd41085073d555bfa4f88410c5abb46d664f79622250b3f5b",
+      "field_relative_errors": {
+        "displacement": 0.0,
+        "force_balance": 0.0,
+        "loads": 0.0,
+        "moment_balance": 0.0,
+        "oracle_displacement": 0.0,
+        "reactions": 0.0
+      },
+      "pass": true,
+      "status_identical": true
+    },
+    "status": "PASS"
+  },
+  "repo_sha": "3fb86678567f8d1dcfa8595866e42683cc7412cc"
+}
