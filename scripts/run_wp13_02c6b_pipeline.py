@@ -200,6 +200,10 @@ def validate_c6c_freeze_record(record: dict[str, Any]) -> list[str]:
         errors.append("pipeline component digests do not match")
     if record.get("pipeline_combined_digest") != current["pipeline_combined_digest"]:
         errors.append("pipeline combined digest does not match")
+    if record.get("c6c_expected_pipeline_digest") != current["pipeline_combined_digest"]:
+        errors.append("C6C expected pipeline digest does not match")
+    if record.get("pipeline_components") != current["pipeline_components"]:
+        errors.append("pipeline component declaration does not match")
     for key in (
         "pre_run_freeze_valid",
         "numerical_campaign_started",

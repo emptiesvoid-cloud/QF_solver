@@ -172,3 +172,5 @@ def test_c6c_prospective_digest_is_not_the_old_c5_digest() -> None:
     freeze = c6b.build_c6c_pre_run_freeze()
     assert freeze["pipeline_combined_digest"] != "180c6d48a8613b8b4e082c13725a293d4aef28f405c5055093bff14645867389"
     assert len(freeze["pipeline_combined_digest"]) == 64
+    record = json.loads(c6b.C6C_FREEZE_RECORD_PATH.read_text(encoding="utf-8"))
+    assert c6b.validate_c6c_freeze_record(record) == []
