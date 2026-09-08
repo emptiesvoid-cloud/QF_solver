@@ -749,7 +749,7 @@ def main() -> None:
     penetration_values = [float(row["maximum_penetration"]) for row in sensitivity]
     sensitivity_status = bool(
         all(row["status"] == "PASS" for row in sensitivity)
-        and all(left >= right for left, right in zip(penetration_values, penetration_values[1:], strict=True))
+        and all(left >= right for left, right in zip(penetration_values, penetration_values[1:]))
         and all(np.isfinite(value) for value in penetration_values)
     )
     mesh_characterization = _mesh_characterization(contract)
@@ -789,7 +789,7 @@ def main() -> None:
         },
         "penalty_sensitivity": {
             "rows": sensitivity,
-            "penetration_non_increasing": all(left >= right for left, right in zip(penetration_values, penetration_values[1:], strict=True)),
+            "penetration_non_increasing": all(left >= right for left, right in zip(penetration_values, penetration_values[1:])),
             "all_converged_finite": all(row["status"] == "PASS" for row in sensitivity),
             "universal_penalty_claim": False,
             "status": "PASS" if sensitivity_status else "FAIL",
