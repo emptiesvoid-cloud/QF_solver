@@ -1,0 +1,26 @@
+{
+  "record_id": "QF-028-WP13-02C6B-STATUS",
+  "work_package": "WP13-02C6B",
+  "c6_status": "BLOCKED_SCHEMA_SEQUENCE",
+  "c6_final_evidence": false,
+  "historical_c6_output": "qualification/0_2_8/wp13_02c6_harmonic_final/",
+  "root_cause": "The C6 runner initialized evidence_schema_valid=false and submitted that candidate to a final schema requiring const=true before semantic validation could establish the final value.",
+  "faulty_sequence": [
+    "manifest construction",
+    "evidence_schema_valid=false initialization",
+    "final schema validation",
+    "semantic validation was never reached",
+    "final manifest write was never reached"
+  ],
+  "corrected_sequence": [
+    "candidate manifest construction with evidence_schema_valid=false and semantic_validator_valid=false",
+    "candidate/prevalidation schema validation",
+    "semantic validation",
+    "final manifest promotion with both validity flags true only after successful validation",
+    "final schema validation",
+    "single immutable final manifest write"
+  ],
+  "historical_results_preserved": true,
+  "final_claim_allowed": false,
+  "immutable_record": true
+}
