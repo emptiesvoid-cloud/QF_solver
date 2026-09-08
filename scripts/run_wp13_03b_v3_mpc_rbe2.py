@@ -13,6 +13,7 @@ from typing import Any
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "src"))
 
 from scripts import run_wp13_03b_v2_mpc_rbe2 as v2
