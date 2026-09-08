@@ -8,6 +8,8 @@ from typing import Any
 
 import numpy as np
 
+from solveur.core.errors import InputValidationError
+from solveur.core.rbe import rbe2_constraints
 from solveur.mesh.topology import HEX8_FACES, PYRAMID5_FACES, TET4_FACES, WEDGE6_FACES
 
 
@@ -151,11 +153,14 @@ def _mixed_scope_errors(model: Any, analysis_type: str) -> list[str]:
             f"{scope_name} scope supports only its declared conforming solid families; "
             f"received {', '.join(sorted(families))}."
         )
-    if getattr(model, "multipoint_constraints", []) or getattr(model, "rbe2", []) or getattr(model, "rbe3", []):
-        errors.append(
-            f"{scope_name} scope rejects MPC/RBE coupling; hanging-node and nonconforming interface "
-            "contracts are not supported."
-        )
+    if analysis_type != "linear_static":
+        if getattr(model, "multipoint_constraints", []) or getattr(model, "rbe2", []) or getattr(model, "rbe3", []):
+            errors.append(
+                f"{scope_name} scope rejects MPC/RBE coupling; only the bounded linear_static "
+                "translation-only route is enabled."
+            )
+    else:
+        errors.extend(_mixed_linear_static_constraint_errors(model))
 
     faces = _face_records(elements)
     by_nodes: dict[frozenset[int], list[MixedSolidFace]] = defaultdict(list)
@@ -192,6 +197,39 @@ def _mixed_scope_errors(model: Any, analysis_type: str) -> list[str]:
         errors.append(
             f"{scope_name} model has no conforming shared-face interface between its solid families."
         )
+    return errors
+
+
+def _mixed_linear_static_constraint_errors(model: Any) -> list[str]:
+    """Keep mixed static MPC/RBE2 enabling narrow and fail closed."""
+
+    errors: list[str] = []
+    rotational = {"RX", "RY", "RZ"}
+    for index, constraint in enumerate(getattr(model, "multipoint_constraints", [])):
+        if any(str(term.dof).upper() in rotational for term in constraint.terms):
+            errors.append(
+                f"Mixed linear_static MPC {index} contains rotational DOFs; "
+                "the bounded mixed route is translation-only."
+            )
+    if getattr(model, "rbe3", []):
+        errors.append("Mixed linear_static RBE3 coupling is outside the bounded MPC/RBE2 route.")
+    for index, definition in enumerate(getattr(model, "rbe2", [])):
+        if definition.tie_rotations:
+            errors.append(
+                f"Mixed linear_static RBE2 {index} requests rotational tying; "
+                "RBE2 rotational coupling is outside the bounded route."
+            )
+            continue
+        try:
+            generated = rbe2_constraints(np.asarray(model.nodes, dtype=float), definition)
+        except (InputValidationError, ValueError) as exc:
+            errors.append(f"Mixed linear_static RBE2 {index} is invalid: {exc}")
+            continue
+        if any(str(term.dof).upper() in rotational for row in generated for term in row.terms):
+            errors.append(
+                f"Mixed linear_static RBE2 {index} generates rotational master terms from a nonzero offset; "
+                "rotational RBE2 support is not available in the mixed solid route."
+            )
     return errors
 
 
