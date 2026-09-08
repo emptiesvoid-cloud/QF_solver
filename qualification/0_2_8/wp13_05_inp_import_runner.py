@@ -287,20 +287,39 @@ def _replays(fixture: str) -> dict[str, Any]:
     }
 
 
-def validate_evidence(evidence: dict[str, Any]) -> list[str]:
-    required = {"contract_id", "contract_sha256", "repo_sha", "environment", "fixtures", "negative_cases", "replay", "claim_candidate"}
+def validate_evidence(evidence: dict[str, Any], contract: dict[str, Any]) -> list[str]:
+    required = set(contract["evidence"]["required"]) | {
+        "contract_id",
+        "contract_sha256",
+        "repo_sha",
+        "environment",
+        "fixtures",
+        "negative_cases",
+        "replay",
+        "claim_candidate",
+    }
     errors = sorted(required - set(evidence))
-    if evidence.get("contract_id") != "WP13-05-INP-IMPORT-001":
+    if evidence.get("contract_id") != contract["contract_id"]:
         errors.append("contract_id")
-    if len(evidence.get("fixtures", [])) != 5:
+    expected_fixtures = {f"{fixture}.inp" for fixture in contract["fixtures"]}
+    actual_fixtures = {item.get("fixture") for item in evidence.get("fixtures", [])}
+    if actual_fixtures != expected_fixtures:
         errors.append("fixtures")
-    if len(evidence.get("negative_cases", [])) != 10:
+    expected_negative_cases = set(contract["negative_cases"])
+    actual_negative_cases = {item.get("case_id") for item in evidence.get("negative_cases", [])}
+    if actual_negative_cases != expected_negative_cases:
         errors.append("negative_cases")
     if evidence.get("replay", {}).get("exact_digest_match") is not True:
         errors.append("replay")
     if not all(item.get("native_equivalence", {}).get("pass") for item in evidence.get("fixtures", [])):
         errors.append("native_equivalence")
-    if not all(item.get("pass") for item in evidence.get("negative_cases", [])):
+    if evidence.get("failure_cases") != evidence.get("negative_cases"):
+        errors.append("failure_cases")
+    fixture_keys = actual_fixtures
+    for field in ("input_digest", "parsed_model_digest", "output_digest", "mapping_report", "gate_decisions"):
+        if set(evidence.get(field, {})) != fixture_keys:
+            errors.append(field)
+    if not all(item.get("pass") for item in evidence.get("failure_cases", [])):
         errors.append("failure_cases")
     return sorted(set(errors))
 
@@ -311,6 +330,8 @@ def run(output_dir: str | Path = OUTPUT_DIR) -> dict[str, Any]:
     contract = json.loads(CONTRACT_PATH.read_text(encoding="utf-8"))
     contract_sha = sha256(CONTRACT_PATH)
     repo_sha = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
+    fixtures = [_fixture_record(fixture) for fixture in FIXTURES]
+    negative_cases = [_run_failure_case(case) for case in _failure_cases()]
     evidence = {
         "schema_version": 1,
         "contract_id": contract["contract_id"],
@@ -323,8 +344,8 @@ def run(output_dir: str | Path = OUTPUT_DIR) -> dict[str, Any]:
         "unsupported_keywords": contract["unsupported_keywords"],
         "ignorable_metadata": contract["ignorable_metadata"],
         "supported_elements": contract["element_mapping"],
-        "fixtures": [_fixture_record(fixture) for fixture in FIXTURES],
-        "negative_cases": [_run_failure_case(case) for case in _failure_cases()],
+        "fixtures": fixtures,
+        "negative_cases": negative_cases,
         "replay": _replays("mixed_multimaterial.inp"),
         "claim_candidate": "EXPERIMENTAL_BOUNDED",
         "public_claim": "bounded Abaqus/CalculiX .inp import subset",
@@ -334,7 +355,18 @@ def run(output_dir: str | Path = OUTPUT_DIR) -> dict[str, Any]:
         "maturity_changed": False,
         "evidence_0_2_7_changed": False,
     }
-    evidence["validation"] = {"errors": validate_evidence(evidence), "status": "PASS" if not validate_evidence(evidence) else "FAIL"}
+    evidence.update(
+        {
+            "input_digest": {item["fixture"]: item["input_file_digest"] for item in fixtures},
+            "parsed_model_digest": {item["fixture"]: item["parsed_model_digest"] for item in fixtures},
+            "output_digest": {item["fixture"]: item["numerical_output_digest"] for item in fixtures},
+            "mapping_report": {item["fixture"]: item["mapping_report"] for item in fixtures},
+            "gate_decisions": {item["fixture"]: item["native_equivalence"] for item in fixtures},
+            "failure_cases": negative_cases,
+        }
+    )
+    validation_errors = validate_evidence(evidence, contract)
+    evidence["validation"] = {"errors": validation_errors, "status": "PASS" if not validation_errors else "FAIL"}
     evidence_path = output / "wp13_05_inp_import_evidence.json"
     write_json_file(evidence_path, evidence)
     report = {
