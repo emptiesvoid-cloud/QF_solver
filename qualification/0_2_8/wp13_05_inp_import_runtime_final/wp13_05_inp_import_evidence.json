@@ -3,7 +3,7 @@
   "contract_id": "WP13-05-INP-IMPORT-001",
   "contract_sha256": "13ffa0c31683ab69d04782f56ff5e0d7144e834eea41a7dceaa1defdd240fb27",
   "contract_created_before_numerical_campaign": true,
-  "repo_sha": "f320b909c10b895cb4d8e968ddf3d52f1548914f",
+  "repo_sha": "4f9a834ab9b005e36ab0e765f3a728a417d4bebb",
   "environment": {
     "python": {
       "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
@@ -3098,9 +3098,586 @@
   "numerical_source_changed": false,
   "maturity_changed": false,
   "evidence_0_2_7_changed": false,
+  "input_digest": {
+    "tet4_simple.inp": "cd09fc21dd05ac33e85805a654a9bb6798330f52686783eff5bb1c43efe954f1",
+    "wedge6_simple.inp": "ef9d0b3b17bf4a9428a8ebbdc390da4d45a7f727ba837b481cebd6d1884b600d",
+    "hex8_simple.inp": "42251c5606609a31a7f8664b4a7bf6b2587cf72afffe14fb63dc4e4ca6af4741",
+    "mixed_tet4_wedge6_hex8.inp": "2d0605cc3e89d8daf113f38e731769725a6615064b4677bc866e64d0bfa472c9",
+    "mixed_multimaterial.inp": "c90ec589d14d2335a2170a08bc40de7fc41552591db4acb635c1ad843ca47eeb"
+  },
+  "parsed_model_digest": {
+    "tet4_simple.inp": "e1867e49482a43826f3210f6b84b3c2a199c65e1eb60a7064c587871bda0e217",
+    "wedge6_simple.inp": "7f5ccc52978fcf7eaafa99bb1b6f32e54a9aafa2c10c474dc38a1cff15433f2d",
+    "hex8_simple.inp": "7739b9649a27b18cbbdab43d0f2a62a6176007ae6fa1489dcd981027f546d6b7",
+    "mixed_tet4_wedge6_hex8.inp": "3a459fbf9656ae40aefef9f7a29661c875f2af5ef507af2ab9d24f45fdc8b066",
+    "mixed_multimaterial.inp": "5df113ac92ff221d62da9dd6e6f23ab373d7a25944f811c8def8478b4c99c77e"
+  },
+  "output_digest": {
+    "tet4_simple.inp": "2531280b16c0201a3aa42a68aa44c6818607249f17bc1dff2dced4b8fa335c83",
+    "wedge6_simple.inp": "5dba912b16a194486e91a961956dfb7654047cbd0ea68e7378c67092c7272649",
+    "hex8_simple.inp": "78689a7b68969a9389b8aa0085b02aefde6acf2247d479b4d8448f7fcf47420f",
+    "mixed_tet4_wedge6_hex8.inp": "ee0cbd7165ce8e08a6d5a9908bf5aeaf3fae999a7e8742877a1a0c16111edeae",
+    "mixed_multimaterial.inp": "7ec28164f814034ff8ba240162921d5f13f018f9e44598a4bda4d1779fa4983d"
+  },
+  "mapping_report": {
+    "tet4_simple.inp": {
+      "status": "WARNING",
+      "solver_name": "QF_solver",
+      "solver_version": "0.2.7",
+      "source_path": "tet4_simple.inp",
+      "source_sha256": "cd09fc21dd05ac33e85805a654a9bb6798330f52686783eff5bb1c43efe954f1",
+      "analysis": "linear_static",
+      "node_count": 4,
+      "element_count": 1,
+      "elements_by_family": {
+        "TET4": 1
+      },
+      "node_sets": {
+        "FIX": 3
+      },
+      "element_sets": {
+        "EALL": 1
+      },
+      "materials": [
+        "STEEL"
+      ],
+      "sections": {
+        "EALL": "STEEL"
+      },
+      "boundary_records": 3,
+      "cload_records": 1,
+      "keyword_counts": {
+        "BOUNDARY": 1,
+        "CLOAD": 1,
+        "ELASTIC": 1,
+        "ELEMENT": 1,
+        "ELSET": 1,
+        "END STEP": 1,
+        "HEADING": 1,
+        "MATERIAL": 1,
+        "NODE": 1,
+        "NSET": 1,
+        "SOLID SECTION": 1,
+        "STATIC": 1,
+        "STEP": 1
+      },
+      "element_mapping": {
+        "C3D4": "TET4",
+        "C3D6": "WEDGE6",
+        "C3D8": "HEX8"
+      },
+      "label_to_index": {
+        "1": 0,
+        "2": 1,
+        "3": 2,
+        "4": 3
+      },
+      "element_label_to_index": {
+        "1": 0
+      },
+      "units_policy": "USER_CONSISTENT / NO_AUTOMATIC_CONVERSION",
+      "warnings": [
+        "Ignored metadata card HEADING at line 1."
+      ]
+    },
+    "wedge6_simple.inp": {
+      "status": "WARNING",
+      "solver_name": "QF_solver",
+      "solver_version": "0.2.7",
+      "source_path": "wedge6_simple.inp",
+      "source_sha256": "ef9d0b3b17bf4a9428a8ebbdc390da4d45a7f727ba837b481cebd6d1884b600d",
+      "analysis": "linear_static",
+      "node_count": 6,
+      "element_count": 1,
+      "elements_by_family": {
+        "WEDGE6": 1
+      },
+      "node_sets": {
+        "FIX": 3
+      },
+      "element_sets": {
+        "EALL": 1
+      },
+      "materials": [
+        "STEEL"
+      ],
+      "sections": {
+        "EALL": "STEEL"
+      },
+      "boundary_records": 3,
+      "cload_records": 1,
+      "keyword_counts": {
+        "BOUNDARY": 1,
+        "CLOAD": 1,
+        "ELASTIC": 1,
+        "ELEMENT": 1,
+        "ELSET": 1,
+        "END STEP": 1,
+        "HEADING": 1,
+        "MATERIAL": 1,
+        "NODE": 1,
+        "NSET": 1,
+        "SOLID SECTION": 1,
+        "STATIC": 1,
+        "STEP": 1
+      },
+      "element_mapping": {
+        "C3D4": "TET4",
+        "C3D6": "WEDGE6",
+        "C3D8": "HEX8"
+      },
+      "label_to_index": {
+        "1": 0,
+        "2": 1,
+        "3": 2,
+        "4": 3,
+        "5": 4,
+        "6": 5
+      },
+      "element_label_to_index": {
+        "1": 0
+      },
+      "units_policy": "USER_CONSISTENT / NO_AUTOMATIC_CONVERSION",
+      "warnings": [
+        "Ignored metadata card HEADING at line 1."
+      ]
+    },
+    "hex8_simple.inp": {
+      "status": "WARNING",
+      "solver_name": "QF_solver",
+      "solver_version": "0.2.7",
+      "source_path": "hex8_simple.inp",
+      "source_sha256": "42251c5606609a31a7f8664b4a7bf6b2587cf72afffe14fb63dc4e4ca6af4741",
+      "analysis": "linear_static",
+      "node_count": 8,
+      "element_count": 1,
+      "elements_by_family": {
+        "HEX8": 1
+      },
+      "node_sets": {
+        "FIX": 4
+      },
+      "element_sets": {
+        "EALL": 1
+      },
+      "materials": [
+        "STEEL"
+      ],
+      "sections": {
+        "EALL": "STEEL"
+      },
+      "boundary_records": 4,
+      "cload_records": 1,
+      "keyword_counts": {
+        "BOUNDARY": 1,
+        "CLOAD": 1,
+        "ELASTIC": 1,
+        "ELEMENT": 1,
+        "ELSET": 1,
+        "END STEP": 1,
+        "HEADING": 1,
+        "MATERIAL": 1,
+        "NODE": 1,
+        "NSET": 1,
+        "SOLID SECTION": 1,
+        "STATIC": 1,
+        "STEP": 1
+      },
+      "element_mapping": {
+        "C3D4": "TET4",
+        "C3D6": "WEDGE6",
+        "C3D8": "HEX8"
+      },
+      "label_to_index": {
+        "1": 0,
+        "2": 1,
+        "3": 2,
+        "4": 3,
+        "5": 4,
+        "6": 5,
+        "7": 6,
+        "8": 7
+      },
+      "element_label_to_index": {
+        "1": 0
+      },
+      "units_policy": "USER_CONSISTENT / NO_AUTOMATIC_CONVERSION",
+      "warnings": [
+        "Ignored metadata card HEADING at line 1."
+      ]
+    },
+    "mixed_tet4_wedge6_hex8.inp": {
+      "status": "WARNING",
+      "solver_name": "QF_solver",
+      "solver_version": "0.2.7",
+      "source_path": "mixed_tet4_wedge6_hex8.inp",
+      "source_sha256": "2d0605cc3e89d8daf113f38e731769725a6615064b4677bc866e64d0bfa472c9",
+      "analysis": "linear_static",
+      "node_count": 11,
+      "element_count": 3,
+      "elements_by_family": {
+        "HEX8": 1,
+        "TET4": 1,
+        "WEDGE6": 1
+      },
+      "node_sets": {
+        "FIX": 4,
+        "LOAD": 1
+      },
+      "element_sets": {
+        "EHEX": 1,
+        "ETET": 1,
+        "EWEDGE": 1
+      },
+      "materials": [
+        "STEEL"
+      ],
+      "sections": {
+        "EHEX": "STEEL",
+        "ETET": "STEEL",
+        "EWEDGE": "STEEL"
+      },
+      "boundary_records": 4,
+      "cload_records": 1,
+      "keyword_counts": {
+        "BOUNDARY": 1,
+        "CLOAD": 1,
+        "ELASTIC": 1,
+        "ELEMENT": 3,
+        "ELSET": 3,
+        "END STEP": 1,
+        "HEADING": 1,
+        "MATERIAL": 1,
+        "NODE": 1,
+        "NSET": 2,
+        "SOLID SECTION": 3,
+        "STATIC": 1,
+        "STEP": 1
+      },
+      "element_mapping": {
+        "C3D4": "TET4",
+        "C3D6": "WEDGE6",
+        "C3D8": "HEX8"
+      },
+      "label_to_index": {
+        "1": 0,
+        "2": 1,
+        "3": 2,
+        "4": 3,
+        "5": 4,
+        "6": 5,
+        "7": 6,
+        "8": 7,
+        "9": 8,
+        "10": 9,
+        "11": 10
+      },
+      "element_label_to_index": {
+        "1": 0,
+        "2": 1,
+        "3": 2
+      },
+      "units_policy": "USER_CONSISTENT / NO_AUTOMATIC_CONVERSION",
+      "warnings": [
+        "Ignored metadata card HEADING at line 1."
+      ]
+    },
+    "mixed_multimaterial.inp": {
+      "status": "WARNING",
+      "solver_name": "QF_solver",
+      "solver_version": "0.2.7",
+      "source_path": "mixed_multimaterial.inp",
+      "source_sha256": "c90ec589d14d2335a2170a08bc40de7fc41552591db4acb635c1ad843ca47eeb",
+      "analysis": "linear_static",
+      "node_count": 11,
+      "element_count": 3,
+      "elements_by_family": {
+        "HEX8": 1,
+        "TET4": 1,
+        "WEDGE6": 1
+      },
+      "node_sets": {
+        "FIX": 4,
+        "LOAD": 1
+      },
+      "element_sets": {
+        "EHEX": 1,
+        "ETET": 1,
+        "EWEDGE": 1
+      },
+      "materials": [
+        "MAT_HEX",
+        "MAT_TET",
+        "MAT_WEDGE"
+      ],
+      "sections": {
+        "EHEX": "MAT_HEX",
+        "ETET": "MAT_TET",
+        "EWEDGE": "MAT_WEDGE"
+      },
+      "boundary_records": 4,
+      "cload_records": 1,
+      "keyword_counts": {
+        "BOUNDARY": 1,
+        "CLOAD": 1,
+        "ELASTIC": 3,
+        "ELEMENT": 3,
+        "ELSET": 3,
+        "END STEP": 1,
+        "HEADING": 1,
+        "MATERIAL": 3,
+        "NODE": 1,
+        "NSET": 2,
+        "SOLID SECTION": 3,
+        "STATIC": 1,
+        "STEP": 1
+      },
+      "element_mapping": {
+        "C3D4": "TET4",
+        "C3D6": "WEDGE6",
+        "C3D8": "HEX8"
+      },
+      "label_to_index": {
+        "1": 0,
+        "2": 1,
+        "3": 2,
+        "4": 3,
+        "5": 4,
+        "6": 5,
+        "7": 6,
+        "8": 7,
+        "9": 8,
+        "10": 9,
+        "11": 10
+      },
+      "element_label_to_index": {
+        "1": 0,
+        "2": 1,
+        "3": 2
+      },
+      "units_policy": "USER_CONSISTENT / NO_AUTOMATIC_CONVERSION",
+      "warnings": [
+        "Ignored metadata card HEADING at line 1."
+      ]
+    }
+  },
+  "gate_decisions": {
+    "tet4_simple.inp": {
+      "nodes": {
+        "exact": true,
+        "max_absolute_error": 0.0
+      },
+      "elements": {
+        "connectivity_exact": true
+      },
+      "materials_exact": true,
+      "sets_exact": true,
+      "boundary_exact": true,
+      "loads_exact": true,
+      "displacement_error": 0.0,
+      "reaction_error": 0.0,
+      "equilibrium_error": 0.0,
+      "energy_error": 0.0,
+      "pass": true
+    },
+    "wedge6_simple.inp": {
+      "nodes": {
+        "exact": true,
+        "max_absolute_error": 0.0
+      },
+      "elements": {
+        "connectivity_exact": true
+      },
+      "materials_exact": true,
+      "sets_exact": true,
+      "boundary_exact": true,
+      "loads_exact": true,
+      "displacement_error": 0.0,
+      "reaction_error": 0.0,
+      "equilibrium_error": 0.0,
+      "energy_error": 0.0,
+      "pass": true
+    },
+    "hex8_simple.inp": {
+      "nodes": {
+        "exact": true,
+        "max_absolute_error": 0.0
+      },
+      "elements": {
+        "connectivity_exact": true
+      },
+      "materials_exact": true,
+      "sets_exact": true,
+      "boundary_exact": true,
+      "loads_exact": true,
+      "displacement_error": 0.0,
+      "reaction_error": 0.0,
+      "equilibrium_error": 0.0,
+      "energy_error": 0.0,
+      "pass": true
+    },
+    "mixed_tet4_wedge6_hex8.inp": {
+      "nodes": {
+        "exact": true,
+        "max_absolute_error": 0.0
+      },
+      "elements": {
+        "connectivity_exact": true
+      },
+      "materials_exact": true,
+      "sets_exact": true,
+      "boundary_exact": true,
+      "loads_exact": true,
+      "displacement_error": 0.0,
+      "reaction_error": 0.0,
+      "equilibrium_error": 0.0,
+      "energy_error": 0.0,
+      "pass": true
+    },
+    "mixed_multimaterial.inp": {
+      "nodes": {
+        "exact": true,
+        "max_absolute_error": 0.0
+      },
+      "elements": {
+        "connectivity_exact": true
+      },
+      "materials_exact": true,
+      "sets_exact": true,
+      "boundary_exact": true,
+      "loads_exact": true,
+      "displacement_error": 0.0,
+      "reaction_error": 0.0,
+      "equilibrium_error": 0.0,
+      "energy_error": 0.0,
+      "pass": true
+    }
+  },
+  "failure_cases": [
+    {
+      "case_id": "unknown_element_type",
+      "input_digest": "b06a5e76ff4b78b61c15a8f01ab79f1a4031ad1b25258c7cd255d4eb174b5756",
+      "execution_path": "InpModelImporter.from_text -> _parse_cards -> _parse_deck",
+      "expected_exception_type": "InputValidationError",
+      "expected_message_pattern": "Unsupported INP element type",
+      "observed_exception_type": "InputValidationError",
+      "observed_message": "Unsupported INP element type 'C3D10' at line 8; no silent mapping is allowed.",
+      "type_match": true,
+      "message_match": true,
+      "pass": true
+    },
+    {
+      "case_id": "malformed_node",
+      "input_digest": "9833712074dfdc69c7fe2f3bc3a22c3d0ecf6d378dfe6fe967370a63a8161c07",
+      "execution_path": "InpModelImporter.from_text -> _parse_cards -> _parse_deck",
+      "expected_exception_type": "InputValidationError",
+      "expected_message_pattern": "Malformed \\*NODE",
+      "observed_exception_type": "InputValidationError",
+      "observed_message": "Malformed *NODE row at line 4; expected label,x,y,z.",
+      "type_match": true,
+      "message_match": true,
+      "pass": true
+    },
+    {
+      "case_id": "malformed_connectivity",
+      "input_digest": "1b38d3da0f49e5ec0fc87fdc10eef798cbed5bf6e31a897606bc7f1ac06fe9c2",
+      "execution_path": "InpModelImporter.from_text -> _parse_cards -> _parse_deck",
+      "expected_exception_type": "InputValidationError",
+      "expected_message_pattern": "Malformed \\*ELEMENT",
+      "observed_exception_type": "InputValidationError",
+      "observed_message": "Malformed *ELEMENT C3D4 at line 8; records need 5 integer fields.",
+      "type_match": true,
+      "message_match": true,
+      "pass": true
+    },
+    {
+      "case_id": "duplicate_ids",
+      "input_digest": "56e26d10519ad3331493a9a61ab83df3c18739514b4089fcd549fe616e2e3bdd",
+      "execution_path": "InpModelImporter.from_text -> _parse_cards -> _parse_deck",
+      "expected_exception_type": "InputValidationError",
+      "expected_message_pattern": "Duplicate node",
+      "observed_exception_type": "InputValidationError",
+      "observed_message": "Duplicate node label 1 at line 7.",
+      "type_match": true,
+      "message_match": true,
+      "pass": true
+    },
+    {
+      "case_id": "missing_material",
+      "input_digest": "159b8a05c96eac18283df5dc29d5aa88489aa27a4717a2f05db4b25724a285ce",
+      "execution_path": "InpModelImporter.from_text -> _parse_cards -> _parse_deck",
+      "expected_exception_type": "InputValidationError",
+      "expected_message_pattern": "missing MATERIAL",
+      "observed_exception_type": "InputValidationError",
+      "observed_message": "*SOLID SECTION references missing MATERIAL 'MISSING'.",
+      "type_match": true,
+      "message_match": true,
+      "pass": true
+    },
+    {
+      "case_id": "invalid_elset",
+      "input_digest": "3bb738cda917c497239c239086483f50acff1f96cb99b9691fda3e2463672db1",
+      "execution_path": "InpModelImporter.from_text -> _parse_cards -> _parse_deck",
+      "expected_exception_type": "InputValidationError",
+      "expected_message_pattern": "missing ELSET",
+      "observed_exception_type": "InputValidationError",
+      "observed_message": "*SOLID SECTION references missing ELSET 'NO_SUCH_SET'.",
+      "type_match": true,
+      "message_match": true,
+      "pass": true
+    },
+    {
+      "case_id": "invalid_nset",
+      "input_digest": "975fce5e6b7c41b97ba62f8d59a0a9d8c7247ee54c8c2f85f446538056e7a7b4",
+      "execution_path": "InpModelImporter.from_text -> _parse_cards -> _parse_deck",
+      "expected_exception_type": "InputValidationError",
+      "expected_message_pattern": "does not exist",
+      "observed_exception_type": "InputValidationError",
+      "observed_message": "NSET 'NO_SUCH_SET' at line 21 does not exist.",
+      "type_match": true,
+      "message_match": true,
+      "pass": true
+    },
+    {
+      "case_id": "unsupported_physical_keyword",
+      "input_digest": "e8d950aeca51b2e40b74a7e5612a41bf8164b0783639410e0a58344f9e785152",
+      "execution_path": "InpModelImporter.from_text -> _parse_cards -> _parse_deck",
+      "expected_exception_type": "InputValidationError",
+      "expected_message_pattern": "Unsupported INP keyword",
+      "observed_exception_type": "InputValidationError",
+      "observed_message": "Unsupported INP keyword 'DLOAD' at line 22; input is fail-closed.",
+      "type_match": true,
+      "message_match": true,
+      "pass": true
+    },
+    {
+      "case_id": "invalid_boundary_dof",
+      "input_digest": "40c42dd1619f5a7bc307445adb26e658785ef40a3223d4639f99dccf4561f388",
+      "execution_path": "InpModelImporter.from_text -> _parse_cards -> _parse_deck",
+      "expected_exception_type": "InputValidationError",
+      "expected_message_pattern": "DOF",
+      "observed_exception_type": "InputValidationError",
+      "observed_message": "DOF at line 21 must be in 1..3, got 4.",
+      "type_match": true,
+      "message_match": true,
+      "pass": true
+    },
+    {
+      "case_id": "invalid_material_property",
+      "input_digest": "03e6686f66e2985b440bc9eec082950f9fec6cca0f608d5b993e715eb2c5245e",
+      "execution_path": "InpModelImporter.from_text -> _parse_cards -> _parse_deck",
+      "expected_exception_type": "InputValidationError",
+      "expected_message_pattern": "Invalid isotropic elastic",
+      "observed_exception_type": "InputValidationError",
+      "observed_message": "Invalid isotropic elastic properties at line 13: E=210000000000.0, nu=0.6.",
+      "type_match": true,
+      "message_match": true,
+      "pass": true
+    }
+  ],
   "validation": {
     "errors": [],
     "status": "PASS"
   },
-  "report_sha256": "151e9a4437a2d40b49653bced339ff7a850f1a9c8b8a24ad6dee2e40ef713432"
+  "report_sha256": "6033142a710fda508b7e4114874e8b476bcdd7df9c62a6073e5b5d9cfd487615"
 }
