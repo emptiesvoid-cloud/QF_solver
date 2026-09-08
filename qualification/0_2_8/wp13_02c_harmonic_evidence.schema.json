@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "qf-solver-0.2.8/wp13-02c-harmonic-evidence-v2",
+  "title": "WP13-02C harmonic evidence schema",
+  "description": "Evidence schema for the corrected WP13-02C harness. It is deliberately separate from the frozen contract schema.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_id",
+    "work_package",
+    "contract_id",
+    "contract_sha256",
+    "contract_blob_sha",
+    "repo_sha",
+    "environment",
+    "benchmark_inputs",
+    "conditioning",
+    "frequencies",
+    "damping",
+    "raw_complex_responses",
+    "oracle_responses",
+    "amplitude_phase",
+    "residuals",
+    "static_limit",
+    "resonance",
+    "interface_metrics",
+    "replay_arrays",
+    "replay_comparison",
+    "failure_executions",
+    "modal_coordinate",
+    "digests",
+    "gate_decisions",
+    "provenance_freeze",
+    "contract_values_single_source_of_truth"
+  ],
+  "properties": {
+    "schema_version": {"const": 2},
+    "record_id": {"type": "string", "minLength": 1},
+    "work_package": {"const": "WP13-02C2"},
+    "contract_id": {"const": "WP13-02C-HARMONIC-MIXED-001"},
+    "contract_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "contract_blob_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "repo_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "environment": {"type": "object", "minProperties": 1},
+    "benchmark_inputs": {"type": "object", "minProperties": 1},
+    "conditioning": {"type": "object", "minProperties": 1},
+    "frequencies": {"type": "object", "minProperties": 1},
+    "damping": {"type": "object", "minProperties": 1},
+    "raw_complex_responses": {"type": "object", "minProperties": 1},
+    "oracle_responses": {"type": "object", "minProperties": 1},
+    "amplitude_phase": {"type": "object", "minProperties": 1},
+    "residuals": {"type": "object", "minProperties": 1},
+    "static_limit": {"type": "object", "minProperties": 1},
+    "resonance": {"type": "object", "minProperties": 1},
+    "interface_metrics": {"type": "object", "minProperties": 1},
+    "replay_arrays": {"type": "object", "minProperties": 1},
+    "replay_comparison": {"type": "object", "minProperties": 1},
+    "failure_executions": {"type": "object", "minProperties": 1},
+    "modal_coordinate": {
+      "type": "object",
+      "required": ["complex", "amplitude", "phase", "definition"],
+      "properties": {
+        "complex": {"type": "object", "minProperties": 1},
+        "amplitude": {"type": "object", "minProperties": 1},
+        "phase": {"type": "object", "minProperties": 1},
+        "definition": {
+          "type": "object",
+          "required": ["modal_vector_source", "normalization", "projection_formula"]
+        }
+      }
+    },
+    "digests": {"type": "object", "minProperties": 1},
+    "gate_decisions": {"type": "object", "minProperties": 1},
+    "contract_values_single_source_of_truth": {"const": true},
+    "provenance_freeze": {
+      "type": "object",
+      "required": [
+        "evaluator_pre_run_digest",
+        "schema_blob_digest",
+        "contract_blob_digest",
+        "repo_sha",
+        "environment",
+        "pre_run_freeze_valid"
+      ],
+      "properties": {
+        "evaluator_pre_run_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "schema_blob_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "contract_blob_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "repo_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "environment": {"type": "object", "minProperties": 1},
+        "pre_run_freeze_valid": {"const": true}
+      }
+    },
+    "source_campaign_manifest": {"type": "string"},
+    "source_campaign_conformance": {"type": "string"},
+    "historical_record_immutable": {"const": true}
+  },
+  "additionalProperties": true
+}
