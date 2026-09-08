@@ -1,0 +1,200 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP13-10-PYRAMID5-MATURATION-CONTRACT",
+  "contract_id": "WP13-10-PYRAMID5-MATURATION-001",
+  "work_package": "WP13-10",
+  "applicable_version": "0.2.8-development",
+  "creation_sha": "26729afdf05ad62d25c5e7e462929d60941c7b4b",
+  "status": "PREDECLARED_NOT_EXECUTED",
+  "contract_created_before_campaign": true,
+  "objective": "Assess whether the existing bounded PYRAMID5 linear-static feasibility kernel has enough new evidence for an experimental capability; do not force promotion and do not change historical maturity or formulation.",
+  "historical_reference": {
+    "wp09_contract": "qualification/0_2_8/wp09_pyramid5_contract.json",
+    "wp09_evidence": "qualification/0_2_8/wp09_pyramid5_vnv.json",
+    "wp09_matrix": "qualification/0_2_8/wp09_pyramid5_matrix.json",
+    "wp09_expected_status": "FEASIBLE_CONTINUE_INTERNAL_ONLY",
+    "wp09_limitations": [
+      "collapsed-coordinate PYRAMID5 kernel exists",
+      "internal linear-static feasibility only",
+      "no coherent conforming h-refinement",
+      "no strong external solver correlation",
+      "no public dispatch or maturity promotion",
+      "no change to the 46 ELEMENT_ANALYSIS records"
+    ],
+    "historical_records_read_only": true,
+    "historical_0_2_7_evidence_read_only": true
+  },
+  "scope": {
+    "family": "PYRAMID5",
+    "analysis": "linear_static",
+    "material": "homogeneous isotropic small-strain linear elasticity",
+    "geometry": "convex planar QUAD4 base, non-coplanar apex, positive sampled Jacobians",
+    "loads": ["nodal", "body_force", "gravity", "pressure", "surface_traction"],
+    "transition": "bounded conforming HEX8/PYRAMID5/TET4 linear patch only",
+    "distortion": "declared regular, moderately skewed, stretched, apex-shifted and near-degenerate-valid cases",
+    "excluded": [
+      "PYRAMID13",
+      "TET10/HEX20 transitions",
+      "modal analysis",
+      "Newmark/transient dynamics",
+      "harmonic response",
+      "nonlinear material or geometry",
+      "contact",
+      "MPC/RBE or hanging-node transitions",
+      "arbitrary distortion",
+      "universal convergence",
+      "production release"
+    ]
+  },
+  "formulation_audit": {
+    "source": "src/solveur/elements/solid/pyramid5.py",
+    "reference_domain": "collapsed (r,s,t) in [-1,1] x [-1,1] x [0,1]",
+    "node_order": "counter-clockwise QUAD4 base nodes 0..3 followed by apex node 4",
+    "shape_functions": "N0..N3=(1-t)(1+/-r)(1+/-s)/4 and N4=t",
+    "derivatives": "evaluated only away from the collapsed apex",
+    "jacobian": "determinant sampled on the dense reference rule and rejected when nonfinite or below the declared scale tolerance",
+    "production_integration": "Gauss-Legendre 3 x 3 x 4 collapsed-coordinate rule",
+    "reference_integration": "Gauss-Legendre 5 x 5 x 6 collapsed-coordinate rule",
+    "stiffness": "small-strain B-transpose-D-B integration",
+    "mass": "consistent translational mass retained for elemental checks only",
+    "orientation": "no automatic orientation repair; non-positive sampled Jacobian rejects",
+    "stress_strain_recovery": "production integration-point B, strain and constitutive stress",
+    "source_change_allowed": false
+  },
+  "gates": {
+    "fixed_before_execution": true,
+    "post_observation_retuning": false,
+    "shape_kronecker_absolute": {"operator": "<=", "value": 1.0e-14},
+    "partition_unity_absolute": {"operator": "<=", "value": 1.0e-13},
+    "derivative_sum_absolute": {"operator": "<=", "value": 1.0e-13},
+    "affine_displacement_and_strain_absolute": {"operator": "<=", "value": 1.0e-11},
+    "rigid_body_relative_residual": {"operator": "<=", "value": 1.0e-10},
+    "jacobian_positive": {"operator": ">", "value": 0.0, "scale_tolerance": 1.0e-12},
+    "jacobian_finite": true,
+    "stiffness_symmetry_relative": {"operator": "<=", "value": 1.0e-12},
+    "positive_energy_relative_eigenvalue": {"operator": ">=", "value": 1.0e-8},
+    "expected_stiffness_rank": {"operator": "==", "value": 9},
+    "production_reference_stiffness_relative": {"operator": "<=", "value": 1.0e-5},
+    "mass_conservation_relative": {"operator": "<=", "value": 1.0e-12},
+    "energy_identity_relative": {"operator": "<=", "value": 1.0e-10},
+    "reaction_balance_relative": {"operator": "<=", "value": 1.0e-10},
+    "transition_displacement_absolute": {"operator": "<=", "value": 1.0e-12},
+    "transition_equilibrium_relative": {"operator": "<=", "value": 1.0e-10},
+    "transition_energy_relative": {"operator": "<=", "value": 1.0e-10},
+    "replay_digest": {"operator": "==", "value": "identical"},
+    "failure_contract": {"operator": "==", "value": "all declared cases reject explicitly"}
+  },
+  "patch_tests": {
+    "required": [
+      "rigid translation X",
+      "rigid translation Y",
+      "rigid translation Z",
+      "rigid infinitesimal rotation X",
+      "rigid infinitesimal rotation Y",
+      "rigid infinitesimal rotation Z",
+      "constant strain X",
+      "constant strain Y",
+      "constant strain Z",
+      "simple shear XY",
+      "simple shear XZ",
+      "simple shear YZ"
+    ],
+    "metrics": ["displacement", "strain", "stress", "energy", "reaction", "free residual"],
+    "claim_limit": "element and bounded patch consistency only"
+  },
+  "geometry_cases": {
+    "valid": {
+      "regular": [[-1.0,-1.0,0.0],[1.0,-1.0,0.0],[1.0,1.0,0.0],[-1.0,1.0,0.0],[0.0,0.0,1.0]],
+      "moderately_skewed": [[-1.0,-1.0,0.0],[1.2,-0.9,0.0],[0.8,1.1,0.0],[-1.1,0.9,0.0],[0.15,-0.1,1.3]],
+      "stretched": [[-2.0,-1.0,0.0],[2.0,-1.0,0.0],[2.0,1.0,0.0],[-2.0,1.0,0.0],[0.0,0.0,2.0]],
+      "apex_shifted": [[-1.0,-1.0,0.0],[1.0,-1.0,0.0],[1.0,1.0,0.0],[-1.0,1.0,0.0],[0.2,-0.15,1.1]],
+      "near_degenerate_valid": [[-1.0,-1.0,0.0],[1.0,-1.0,0.0],[1.0,1.0,0.0],[-1.0,1.0,0.0],[0.0,0.0,0.05]]
+    },
+    "invalid": [
+      "inverted pyramid",
+      "zero or near-zero volume",
+      "duplicate nodes",
+      "invalid connectivity",
+      "bad node ordering",
+      "missing material",
+      "unsupported formulation route",
+      "malformed geometry"
+    ],
+    "no_silent_orientation_repair": true
+  },
+  "energy_contract": {
+    "strain_energy": "U = 0.5 * u^T K u",
+    "linear_load_identity": "u^T K u = u^T F for the prescribed proportional final load",
+    "relative_error": "abs(U - 0.5*u^T*F) / max(abs(U), abs(0.5*u^T*F), 1e-30)",
+    "gate": {"operator": "<=", "value": 1.0e-10},
+    "required_fields": ["displacement", "reactions", "external_force", "strain_energy", "global_equilibrium", "free_residual"],
+    "post_observation_retuning": false
+  },
+  "refinement_contract": {
+    "coherent_h_refinement_required_if_constructible": true,
+    "levels_to_attempt": 3,
+    "candidate_levels": ["L0_base", "L1_subdivision", "L2_subdivision"],
+    "metrics": ["displacement", "reactions", "energy", "stress_metric", "topology_signature"],
+    "classification": ["CONVERGENCE_PASS", "CHARACTERIZATION_ONLY", "NO_COHERENT_REFINEMENT"],
+    "rule": "Do not call a sequence convergence when topology, family or boundary conditions change fundamentally. If a conforming PYRAMID5 h-refinement family cannot be built without additional transition families, record NO_COHERENT_REFINEMENT and keep the result internal."
+  },
+  "oracle": {
+    "required": true,
+    "primary": "Analytical affine displacement/strain/stress and volume/mass identities for the bounded element and transition patch.",
+    "secondary": "Production/reference quadrature comparison and an independently constructed dense linear algebra check where applicable.",
+    "external": "Attempt availability audit for Code_Aster/CalculiX; absence or non-comparability must remain explicit.",
+    "independence_boundary": "The analytical affine oracle is independent of the numerical displacement solve but the stiffness-based manufactured-load patch shares the PYRAMID5 K kernel; no external general mechanical correlation is claimed.",
+    "limitations": ["no independent general-load displacement reference", "no external same-mesh correlation in WP09", "no universal accuracy claim"]
+  },
+  "transition_contract": {
+    "families": ["TET4", "PYRAMID5", "HEX8"],
+    "interfaces": ["HEX8/PYRAMID5 shared QUAD4", "PYRAMID5/TET4 shared TRI3"],
+    "required": ["connected_component_count=1", "all three families present and participating", "shared-node continuity", "affine patch", "rank", "rigid modes", "load/reaction balance", "energy consistency", "no spurious rank defect"],
+    "high_order_transition": "out of scope; WP13-09 conclusion PYRAMID13_REQUIRED_FOR_HIGH_ORDER_TRANSITION remains unchanged"
+  },
+  "failure_contract": {
+    "cases": [
+      {"case_id": "inverted_pyramid", "expected": "explicit PYRAMID5_JACOBIAN_INVALID"},
+      {"case_id": "zero_or_near_zero_volume", "expected": "explicit PYRAMID5_JACOBIAN_INVALID"},
+      {"case_id": "duplicate_nodes", "expected": "explicit coincident-node validation error"},
+      {"case_id": "invalid_connectivity", "expected": "explicit element connectivity error"},
+      {"case_id": "bad_node_ordering", "expected": "explicit orientation/Jacobian error"},
+      {"case_id": "missing_material", "expected": "explicit unknown material error"},
+      {"case_id": "unsupported_formulation_route", "expected": "explicit unsupported quadrature/route error"},
+      {"case_id": "malformed_geometry", "expected": "explicit shape/finite geometry error"}
+    ],
+    "actual_execution_required": true,
+    "any_exception_is_not_automatically_pass": true,
+    "silent_fallback_allowed": false,
+    "trace_fields": ["case_id", "input", "input_digest", "execution_path", "expected_exception", "observed_exception", "message_match", "pass"]
+  },
+  "replay": {
+    "count": 2,
+    "fields": ["displacement", "reactions", "energies", "refinement_metrics", "oracle_metrics", "transition_metrics", "status", "evidence_digest"],
+    "comparison": "canonical semantic digest equality",
+    "post_observation_retuning": false
+  },
+  "evidence_schema": {
+    "format": "JSON machine-readable manifest",
+    "required_fields": [
+      "contract_id", "contract_sha", "repo_sha", "environment", "historical_wp09_audit", "formulation_audit", "patch_tests", "geometry_cases", "energy", "refinement", "oracle", "transition", "distortion", "failure_cases", "replays", "gate_decisions", "historical_integrity"
+    ],
+    "contract_values_single_source_of_truth": true,
+    "historical_records_immutable": true
+  },
+  "decision_policy": {
+    "experimental_candidate": "Only if all declared patch, geometry, energy, transition, distortion, oracle, failure and replay checks pass and no major formulation concern remains; Owner Gate is still required.",
+    "keep_internal": "PASS outcome when the kernel is correct but coherent refinement or sufficiently independent external evidence remains absent.",
+    "research_only_no_go": "Any formulation defect, unresolved invalid geometry behavior, energy/equilibrium failure, transition failure or silent fallback.",
+    "maximum_pre_owner_claim": "Experimental bounded PYRAMID5 static capability within the documented geometry, material and transition scope.",
+    "maturity_registry": "No change; PYRAMID5 remains separate from the 46 ELEMENT_ANALYSIS records."
+  },
+  "integrity": {
+    "numerical_source_change_allowed": false,
+    "formulation_change_allowed": false,
+    "maturity_change_allowed": false,
+    "element_analysis_registry_change_allowed": false,
+    "historical_0_2_7_evidence_read_only": true,
+    "full_test_suite": "DEFERRED_TO_WP13_FINAL_GATE"
+  }
+}
