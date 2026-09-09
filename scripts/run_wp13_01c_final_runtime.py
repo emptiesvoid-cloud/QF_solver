@@ -77,7 +77,8 @@ def _solver_config(solver_config: dict[str, Any] | None) -> dict[str, Any]:
         raise InputValidationError(f"Unsupported explicit PETSc PC '{config['pc']}'.")
     for key in ("rtol", "atol", "dtol"):
         config[key] = float(config[key])
-        if not math.isfinite(config[key]) or config[key] <= 0.0:
+        lower_bound_invalid = config[key] < 0.0 if key == "atol" else config[key] <= 0.0
+        if not math.isfinite(config[key]) or lower_bound_invalid:
             raise InputValidationError(f"Invalid explicit PETSc {key}={config[key]!r}.")
     config["max_it"] = int(config["max_it"])
     if config["max_it"] <= 0:
@@ -444,6 +445,7 @@ def _petsc_case(
     allow_nonconverged: bool = False,
     diagnostic: bool = False,
     physical_policy: dict[str, Any] | None = None,
+    physical_callback_policy: dict[str, Any] | None = None,
 ) -> dict[str, Any] | None:
     from mpi4py import MPI
     from petsc4py import PETSc
@@ -553,6 +555,51 @@ def _petsc_case(
     )
     solution_scaled = rhs.duplicate()
     solution_scaled.set(0.0)
+    native_policy = dict(physical_callback_policy or {})
+    native_policy_enabled = bool(native_policy)
+    callback_physical_gate = float(native_policy.get("physical_relative_gate", 1.0e-8))
+    callback_history: list[dict[str, Any]] = []
+    callback_errors: list[str] = []
+    callback_solution = rhs.duplicate()
+    callback_internal = matrix.createVecLeft()
+    callback_residual = callback_internal.duplicate()
+    free_load_l2 = math.sqrt(
+        comm.allreduce(float(np.dot(rhs_original_local[free_mask], rhs_original_local[free_mask])), op=MPI.SUM)
+    )
+
+    def _native_physical_convergence(ksp_object: Any, iteration: int, scaled_norm: float) -> int:
+        """PETSc callback whose convergence decision is the physical free residual."""
+
+        try:
+            solution_scaled.copy(callback_solution)
+            callback_solution.pointwiseMult(dscale, callback_solution)
+            matrix.mult(callback_solution, callback_internal)
+            callback_internal.copy(callback_residual)
+            callback_residual.axpy(-1.0, rhs_original)
+            local_values = np.asarray(callback_residual.getArray(readonly=True), dtype=float)
+            local_free = local_values[free_mask]
+            local_squared = float(np.dot(local_free, local_free))
+            physical_l2 = math.sqrt(comm.allreduce(local_squared, op=MPI.SUM))
+            physical_inf = float(comm.allreduce(float(np.max(np.abs(local_free))), op=MPI.MAX))
+            physical_relative = physical_l2 / max(free_load_l2, 1.0)
+            if not all(math.isfinite(value) for value in (scaled_norm, physical_l2, physical_inf, physical_relative)):
+                raise FloatingPointError("Native physical convergence callback produced NaN/Inf.")
+            accepted = physical_relative <= callback_physical_gate
+            callback_history.append(
+                {
+                    "iteration": int(iteration),
+                    "petsc_scaled_norm": float(scaled_norm),
+                    "physical_residual_l2": physical_l2,
+                    "physical_residual_inf": physical_inf,
+                    "physical_relative_residual": physical_relative,
+                    "physical_gate": accepted,
+                }
+            )
+            return 2 if accepted else 0
+        except Exception as exc:  # noqa: BLE001 - callback must fail closed
+            callback_errors.append(f"{type(exc).__name__}: {exc}")
+            return -9
+
     ksp = PETSc.KSP().create(comm=PETSc.COMM_WORLD)
     ksp.setOperators(work)
     ksp.setType(config["ksp"])
@@ -564,6 +611,8 @@ def _petsc_case(
         ksp.setNormType(PETSc.KSP.NormType.UNPRECONDITIONED)
     except AttributeError:
         pass
+    if native_policy_enabled:
+        ksp.setConvergenceTest(_native_physical_convergence)
     assembly_seconds = float(comm.allreduce(time.perf_counter() - case_started, op=MPI.MAX))
     solve_started = time.perf_counter()
     policy = dict(physical_policy or {})
@@ -832,6 +881,18 @@ def _petsc_case(
             "final_force_balance_relative": force_balance,
             "checks": policy_checks,
         }
+    physical_callback_report = None
+    if native_policy_enabled:
+        physical_callback_report = {
+            "implemented": True,
+            "physical_relative_gate": callback_physical_gate,
+            "callback_count": len(callback_history),
+            "callback_error": callback_errors[-1] if callback_errors else None,
+            "accepted_by_callback": bool(callback_history and callback_history[-1]["physical_gate"] and not callback_errors),
+            "final_physical_relative_residual": residual_relative,
+            "final_force_balance_relative": force_balance,
+            "history": callback_history,
+        }
     solution_full = None
     residual_full = None
     if gather_solution:
@@ -943,7 +1004,11 @@ def _petsc_case(
         "status": (
             ("PASS" if policy_accepted else "FAIL_PHYSICAL_GATE")
             if policy_enabled
-            else ("PASS" if reason > 0 else "FAIL")
+            else (
+                ("PASS" if reason > 0 and residual_relative <= callback_physical_gate and force_balance <= float(native_policy.get("force_balance_gate", 1.0e-8)) else "FAIL_PHYSICAL_GATE")
+                if native_policy_enabled
+                else ("PASS" if reason > 0 else "FAIL")
+            )
         ),
         "backend": "petsc4py_mpi_rank_local",
         "rank_count": size,
@@ -988,6 +1053,7 @@ def _petsc_case(
         "matrix_sanity": matrix_sanity,
         "diagnostic": diagnostic_payload if diagnostic else None,
         "physical_convergence_policy": physical_policy_report,
+        "physical_convergence_callback": physical_callback_report,
     }
     if solution_full is not None and residual_full is not None:
         payload["normalized_physics_digest"] = _digest(
