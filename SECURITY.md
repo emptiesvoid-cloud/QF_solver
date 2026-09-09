@@ -2,10 +2,18 @@
 
 ## Supported Versions
 
-0.2.7 = supported
-older releases = not actively supported
+| Version or channel | Security support |
+| --- | --- |
+| Latest published release | Best-effort security support. |
+| Current `0.2.8` pre-publication candidate | Security fixes may be accepted during release preparation; it is not a published release. |
+| Older releases | Best effort only; not actively supported. |
 
-Support is provided on a best-effort basis.
+Support is provided on a best-effort basis. A security fix for the current
+candidate does not imply that the candidate has been released, certified or
+qualified for a broader technical scope.
+
+Current candidate publication status: `NOT_PUBLISHED_YET`. DOI status:
+`NOT_AVAILABLE_YET`.
 
 ## Reporting
 
