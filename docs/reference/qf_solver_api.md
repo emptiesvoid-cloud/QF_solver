@@ -210,4 +210,5 @@ contract.
 
 For the overview and compatibility boundary, see
 [`api_stability.md`](api_stability.md). The active capability limits remain in
-the [0.2.7 capability matrix](../verification/0_2_7/0_2_7_capability_matrix.md).
+the [0.2.8 consolidated registry](../../qualification/0_2_8/consolidated_registry.json)
+and linked mixed-workflow/capability records.

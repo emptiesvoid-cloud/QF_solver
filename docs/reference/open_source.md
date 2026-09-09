@@ -2,7 +2,7 @@
 doc_id: DOC-REF-OSS-001
 revision: 1.0
 status: controlled
-applicable_version: 0.2.7
+applicable_version: 0.2.8-development
 reviewer: ""
 approver: ""
 ---
@@ -26,7 +26,8 @@ terms described in CONTRIBUTING.md.
 
 ## Release boundary
 
-The public 0.2.7 scope is explicitly bounded. Experimental and non-comparable
+The public 0.2.8 development scope is explicitly bounded. Experimental,
+research-only, not-validated and non-comparable
 routes remain labeled as such in the capabilities and known-limitations pages.
 Historical audit records keep the version and status that were true when they
 were produced.

@@ -2,7 +2,7 @@
 doc_id: DOC-REF-API-002
 revision: 1.0
 status: controlled
-applicable_version: 0.2.7
+applicable_version: 0.2.8-development
 reviewer: ""
 approver: ""
 ---
@@ -36,5 +36,8 @@ available for compatibility but should not be used in new integrations.
 JSON v1 inputs remain supported where the documented schema permits them. CLI
 commands and stable exit codes are part of the public interface. Interface
 stability does not qualify every element, analysis or material combination;
-the active [capability matrix](../verification/0_2_7/0_2_7_capability_matrix.md)
-defines those boundaries.
+the active [0.2.8 consolidated registry](../../qualification/0_2_8/consolidated_registry.json)
+and separate mixed-workflow/capability records define those boundaries.
+
+`qf_solver.read_inp(path)` remains `PROVISIONAL`; it covers only the documented
+bounded Abaqus/CalculiX subset and is not a full-format compatibility claim.

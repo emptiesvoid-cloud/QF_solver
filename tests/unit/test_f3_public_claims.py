@@ -65,7 +65,8 @@ def test_active_boundaries_match_registry_and_release_truth() -> None:
     assert state["global_accounting"]["level_up_2"] == "50/50 CLOSED"
 
     root_readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    assert "WEDGE6 static remains experimental" in root_readme
+    assert "WEDGE6 static | `QUALIFIED_BOUNDED`" in root_readme
+    assert "qualification/0_2_8/consolidated_registry.json" in root_readme
     assert "No claim of GPU, general HPC" in root_readme
     assert "two complete 5M Silver replays" in root_readme
     assert "No claim of certification" in root_readme
@@ -92,7 +93,8 @@ def test_active_lu2_views_do_not_present_old_accounting_as_current() -> None:
 
     roadmap = (ROOT / "docs/reference/feuille_de_route.md").read_text(encoding="utf-8")
     assert "historical planning snapshot" in roadmap
-    assert "0.2.7 active scope" in roadmap
+    assert "0.2.8 development scope" in roadmap
+    assert "QF Solver 0.2.7 is the current stable source release" not in roadmap
 
     for relative in ("docs/elements/tet4.md", "docs/elements/tet10.md", "docs/elements/mitc4.md"):
         text = (ROOT / relative).read_text(encoding="utf-8")

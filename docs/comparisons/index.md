@@ -2,7 +2,7 @@
 doc_id: DOC-SOLVER-COMP-000
 revision: 1.0
 status: controlled
-applicable_version: 0.2.7
+applicable_version: 0.2.8-development
 reviewer: ""
 approver: ""
 ---
@@ -14,6 +14,10 @@ level of control, the numerical methods required and the maturity expected
 from the software.
 
 This section compares QF Solver with several open-source finite-element tools.
+
+The detailed comparison articles retain their explicit 0.2.7 snapshot where
+stated. For current QF Solver maturity and limitations, use the 0.2.8 sources
+linked below; in particular, mixed PETSc/MPI is `NOT_VALIDATED`.
 
 The objective is not to claim that QF Solver is universally better. Each
 project has a different scope and design philosophy.
@@ -92,5 +96,6 @@ The authoritative QF Solver capability information is available in:
 - [Elements](../elements/index.md)
 - [Analyses](../analyses/index.md)
 - [Known limitations](../etat/limites.md)
-- [QF Solver 0.2.7 verification](../verification/0_2_7/README.md)
+- [QF Solver 0.2.8 verification](../verification/0_2_8/README.md)
+- [Historical QF Solver 0.2.7 verification](../verification/0_2_7/README.md)
 - [When should I use QF Solver?](../getting-started/when-to-use-qf-solver.md)

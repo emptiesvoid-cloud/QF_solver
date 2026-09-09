@@ -2,7 +2,7 @@
 doc_id: DOC-LRG-001
 revision: 1.0
 status: controlled
-applicable_version: 0.2.7
+applicable_version: 0.2.8-development
 reviewer: ""
 approver: ""
 ---
@@ -26,13 +26,18 @@ use HDF5, MPI-IO and PETSc when those optional dependencies are installed.
 Modal, dynamic, harmonic, nonlinear and generalized mixed-mesh large-model
 claims are outside this page.
 
+The 0.2.8 generic mixed distributed architecture is a separate route. Its
+PETSc/MPI runtime is `NOT_VALIDATED`: two-rank force balance fails and the
+three-rank run breaks down. No partial mixed-distributed claim follows from
+the structured TET4 evidence below.
+
 ## Recorded evidence
 
 The 1M, 3M, 5M and bounded 10M results are tied to their exact workload,
 hardware, container, MPI layout and solver options. They demonstrate recorded
 capability, not universal scalability. The active evidence index and matrix are
 available in [`0.2.7 verification`](../verification/0_2_7/README.md) and the
-[capability matrix](../verification/0_2_7/0_2_7_capability_matrix.md).
+[historical capability matrix](../verification/0_2_7/0_2_7_capability_matrix.md).
 
 ## Optional installation
 

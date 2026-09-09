@@ -2,7 +2,7 @@
 doc_id: DOC-SOLVER-GUIDE-001
 revision: 1.0
 status: controlled
-applicable_version: 0.2.7
+applicable_version: 0.2.8-development
 reviewer: ""
 approver: ""
 ---
@@ -37,7 +37,7 @@ QF Solver is a good fit if you need:
 - modal and structural dynamic analysis within documented limits;
 - small-strain elastoplastic calculations within qualified routes;
 - sparse linear solving;
-- PETSc/MPI solving for selected large models;
+- PETSc/MPI solving for the recorded structured TET4 large-model routes;
 - an engineering solver that exposes numerical diagnostics;
 - a solver that explicitly separates implemented, tested, verified and
   qualified capabilities.
@@ -126,6 +126,9 @@ Typical applications include:
 WEDGE6 modal analysis has bounded qualification for a specifically documented
 homogeneous isotropic consistent-mass route and for the first three modes.
 
+WEDGE6 static has a separate `QUALIFIED_BOUNDED` linear-elastic scope. Neither
+decision qualifies arbitrary WEDGE6 analyses.
+
 This qualification must not be generalized to other WEDGE6 analyses.
 
 ---
@@ -139,6 +142,10 @@ QF Solver contains dynamic-analysis routes including:
 - harmonic analysis.
 
 These capabilities are currently supported with documented limitations.
+
+The connected mixed TET4/WEDGE6/HEX8 Newmark and harmonic routes are
+`EXPERIMENTAL_BOUNDED`; their serial model, damping, timestep or frequency
+scope must be matched exactly.
 
 They are appropriate for controlled structural-dynamics studies when the
 chosen formulation, model and solver route match the available verification
@@ -258,6 +265,10 @@ for:
 
 Use QF Solver for large models when the intended solver route is close to the
 documented large-scale configurations.
+
+The 0.2.8 mixed PETSc/MPI architecture does not yet satisfy its runtime
+qualification gates and remains `NOT_VALIDATED`; it must not be inferred from
+the structured TET4 results.
 
 ---
 
@@ -587,7 +598,8 @@ Then continue with:
 - [Elements](../elements/index.md)
 - [Analyses](../analyses/index.md)
 - [Known limitations](../etat/limites.md)
-- [QF Solver 0.2.7 verification](../verification/0_2_7/README.md)
+- [QF Solver 0.2.8 verification](../verification/0_2_8/README.md)
+- [Historical QF Solver 0.2.7 verification](../verification/0_2_7/README.md)
 
 ---
 

@@ -2,7 +2,7 @@
 doc_id: DOC-START-PUB-001
 revision: 1.0
 status: controlled
-applicable_version: 0.2.7
+applicable_version: 0.2.8-development
 reviewer: ""
 approver: ""
 ---
@@ -11,19 +11,21 @@ approver: ""
 
 ## User installation
 
-Install the stable package when it is available from the package index:
+Install the package when a 0.2.8 distribution is available from the package
+index. This development documentation does not claim that publication has
+already occurred:
 
 ```powershell
 python -m pip install qf-solver
 qf-solver --version
 ```
 
-For a reproducible source checkout, use the stable tag:
+For development from source, use the intended branch or commit explicitly;
+no 0.2.8 tag is claimed here:
 
 ```powershell
 git clone https://github.com/emptiesvoid-cloud/QF_solver.git
 Set-Location QF_solver
-git checkout v0.2.7
 python -m pip install .
 qf-solver --version
 ```
@@ -41,13 +43,17 @@ The optional extras are intended for specific workflows:
 
 ```powershell
 python -m pip install "qf-solver[mesh]"
+python -m pip install "qf-solver[hdf5]"
 python -m pip install "qf-solver[large]"
 python -m pip install "qf-solver[hpc]"
 ```
 
-`mesh` adds mesh tooling. `large` adds HDF5 and MPI/PETSc support used by the
+`mesh` adds mesh tooling. `hdf5` adds only the optional family-aware HDF5
+result dependency. `large` adds HDF5 and MPI/PETSc support used by the
 large-model route. `hpc` adds the optional SLEPc integration. These extras are
-not required for core import or small standard examples.
+not required for core import or small standard examples. Calling an HDF5 API
+without `h5py` raises a typed `InfrastructureError`; importing `qf_solver`
+does not require `h5py`.
 
 ## Development installation
 
@@ -56,10 +62,22 @@ For project development only:
 ```powershell
 git clone https://github.com/emptiesvoid-cloud/QF_solver.git
 Set-Location QF_solver
-git checkout v0.2.7
 python -m pip install -e ".[test,dev]"
 ```
 
 Development extras do not expand the qualified numerical scope. PETSc/MPI
 availability depends on the host and is reported explicitly by the relevant
 commands.
+
+## Distribution traceability data
+
+The wheel and source distribution include only the lightweight public 0.2.8
+traceability set: the consolidated 46-record element-analysis registry and the
+HEX8-SRI, mixed-dynamics, mixed-MPC, mixed-multimaterial, `.inp`, mixed-HDF5
+and contact owner/delivery records. Historical 0.2.7 capability metadata is
+retained separately.
+
+Raw NPZ/HDF5 arrays, full campaign output, caches, debug artifacts and
+temporary files are intentionally excluded from package data. They remain
+repository evidence and are not required for importing or using the base
+package.
