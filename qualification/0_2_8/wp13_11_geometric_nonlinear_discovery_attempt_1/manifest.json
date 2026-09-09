@@ -1,0 +1,548 @@
+{
+  "benchmark": {
+    "dof": 60,
+    "elements": 24,
+    "family": "TET4",
+    "geometry": {
+      "depth": 0.5,
+      "height": 0.5,
+      "length": 4.0
+    },
+    "loading": {
+      "large_total": 750.0,
+      "small_total": 0.75,
+      "type": "nodal_dead_transverse"
+    },
+    "material": {
+      "E": 1000000.0,
+      "nu": 0.3,
+      "type": "isotropic_3d"
+    },
+    "nodes": 20
+  },
+  "contract_id": "WP13-11-GEOMETRIC-NONLINEAR-DISCOVERY-001",
+  "contract_sha": "f10d0e0894e4f3c35c640fc5074d1e65c2c538461332558cad0cf1964a2a2a11",
+  "decision": {
+    "public_capability_created": false,
+    "rationale": [
+      "The TET4 Total-Lagrangian tangent and bounded dead-load equilibrium path are mechanically exercised.",
+      "The external work check on the frozen 24-interval sampled path fails its prospective discovery gate, exposing missing public increment-state provenance rather than a basis for a claim.",
+      "The only independent comparison is a supporting Euler-elastica model, not a three-dimensional solid acceptance oracle.",
+      "Updated-Lagrangian and corotational alternatives are absent, while the existing route remains homogeneous-family research scope."
+    ],
+    "status": "RESEARCH_ONLY"
+  },
+  "digests": {
+    "array_count": 37,
+    "array_semantic_digest": "ab4185e644f6c8eb4aad1979dca467cbe237ce304a7ab8ff521d79d4b8a27550",
+    "raw_npz_sha256": "2182b4a68d65b4c0fc4098e2a23b65aa9300d58b60d311ff9b0e30412d7b4064"
+  },
+  "energy_work": {
+    "external_incremental_work": 147.65823014138164,
+    "gate": 1e-07,
+    "internal_energy_final": 147.65616832035371,
+    "maximum_local_relative_error": 0.00018000434518716896,
+    "relative_error": 1.3963468382007748e-05,
+    "sampling_method": "independent converged equilibrium samples on the frozen 24-interval proportional dead-load path"
+  },
+  "environment": {
+    "numpy": "2.2.6",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "python": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]"
+  },
+  "evidence_integrity": "FAIL",
+  "evidence_schema_valid": true,
+  "failure_contract": [
+    {
+      "actual_input": {
+        "load_increments": 0
+      },
+      "actual_input_digest": "71f512b09249a7c8ca4b628b4b85a56c7e857aa339ea9e59b52a3e5aa6e037e9",
+      "case_id": "zero_load_steps",
+      "execution_path": "solveur.core.analyses.geometric_nonlinear_controls.GeometricNonlinearControls",
+      "expected_exception_type": "ValueError",
+      "expected_message_pattern": "at least 6",
+      "message_match": true,
+      "observed_exception_type": "ValueError",
+      "observed_message": "load_increments must be at least 6; the recommended default is 10.",
+      "pass": true,
+      "path_match": true,
+      "type_match": true
+    },
+    {
+      "actual_input": {
+        "load_increments": -1
+      },
+      "actual_input_digest": "b27409879713429b03f52b6648238fd121d74c800ff7b4dbb4b1d29b0715933a",
+      "case_id": "negative_load_steps",
+      "execution_path": "solveur.core.analyses.geometric_nonlinear_controls.GeometricNonlinearControls",
+      "expected_exception_type": "ValueError",
+      "expected_message_pattern": "at least 6",
+      "message_match": true,
+      "observed_exception_type": "ValueError",
+      "observed_message": "load_increments must be at least 6; the recommended default is 10.",
+      "pass": true,
+      "path_match": true,
+      "type_match": true
+    },
+    {
+      "actual_input": {
+        "max_iterations": 1,
+        "tolerance": 1e-30
+      },
+      "actual_input_digest": "1586e2555d8043309cbdce60d9d582df6cf6de8bba745ce65ff961d1b1b25170",
+      "case_id": "impossible_convergence",
+      "execution_path": "solveur.core.nonlinear.iteration.solve_full_newton",
+      "expected_exception_type": "NumericalConvergenceError",
+      "expected_message_pattern": "did not converge",
+      "message_match": true,
+      "observed_exception_type": "NumericalConvergenceError",
+      "observed_message": "Full Newton did not converge at increment 1; relative residual=8.333333e-02.",
+      "pass": true,
+      "path_match": true,
+      "type_match": true
+    },
+    {
+      "actual_input": {
+        "fixed_dofs": []
+      },
+      "actual_input_digest": "f0a8178d5b1255af16bab814bd310854a6a755679f5c533e4428fda39826c99b",
+      "case_id": "singular_tangent",
+      "execution_path": "solveur.core.nonlinear.iteration.solve_full_newton",
+      "expected_exception_type": "NumericalConvergenceError",
+      "expected_message_pattern": "tangent is singular",
+      "message_match": false,
+      "observed_exception_type": "NumericalConvergenceError",
+      "observed_message": "Full Newton line search failed to reduce the residual.",
+      "pass": false,
+      "path_match": true,
+      "type_match": true
+    },
+    {
+      "actual_input": {
+        "element_family": "WEDGE6"
+      },
+      "actual_input_digest": "45ebf02ef117e4c6a33638bfe1d4acc77523f6a082ebf859d6b8e8b32c04e55a",
+      "case_id": "unsupported_element_family",
+      "execution_path": "solveur.core.analyses.geometric_nonlinear.GeometricNonlinearStaticSolver._validate_scope",
+      "expected_exception_type": "InputValidationError",
+      "expected_message_pattern": "supports TET4",
+      "message_match": false,
+      "observed_exception_type": "CompatibilityError",
+      "observed_message": "ANALYSIS_NOT_SUPPORTED: WEDGE6 does not declare analysis 'geometric_nonlinear_static'.",
+      "pass": false,
+      "path_match": true,
+      "type_match": false
+    },
+    {
+      "actual_input": {
+        "material_type": "orthotropic_3d"
+      },
+      "actual_input_digest": "95fe216f776e06f6a71bed6e38629094834e3c4e5f2c254fc61568fcf311c77e",
+      "case_id": "unsupported_material",
+      "execution_path": "solveur.core.analyses.geometric_nonlinear.GeometricNonlinearStaticSolver._validate_scope",
+      "expected_exception_type": "InputValidationError",
+      "expected_message_pattern": "requires material type",
+      "message_match": true,
+      "observed_exception_type": "InputValidationError",
+      "observed_message": "geometric_nonlinear_static requires material type 'isotropic_3d'.",
+      "pass": true,
+      "path_match": true,
+      "type_match": true
+    },
+    {
+      "actual_input": {
+        "fixed_dofs": []
+      },
+      "actual_input_digest": "f0a8178d5b1255af16bab814bd310854a6a755679f5c533e4428fda39826c99b",
+      "case_id": "invalid_boundary_conditions",
+      "execution_path": "solveur.core.analyses.geometric_nonlinear._newton_dead_load",
+      "expected_exception_type": "MeshValidationError",
+      "expected_message_pattern": "requires constrained dofs",
+      "message_match": true,
+      "observed_exception_type": "MeshValidationError",
+      "observed_message": "geometric_nonlinear_static requires constrained dofs.",
+      "pass": true,
+      "path_match": true,
+      "type_match": true
+    },
+    {
+      "actual_input": {
+        "first_tet4_orientation": "inverted"
+      },
+      "actual_input_digest": "313d98a3baaebfe4ddedff45c431e3f59dfc3c0dfb9721e79df56724ab64c98c",
+      "case_id": "malformed_geometry",
+      "execution_path": "solveur.elements.solid.tet4_total_lagrangian_batch.TotalLagrangianTet4Assembly",
+      "expected_exception_type": "ValueError",
+      "expected_message_pattern": "Invalid TET4-TL reference volume",
+      "message_match": true,
+      "observed_exception_type": "ValueError",
+      "observed_message": "Invalid TET4-TL reference volume at element 0: -4.166667e-02.",
+      "pass": true,
+      "path_match": true,
+      "type_match": true
+    }
+  ],
+  "force_balance": {
+    "external_resultant": [
+      0.0,
+      0.0,
+      -750.0
+    ],
+    "gate": 1e-08,
+    "reaction_resultant": [
+      1.4551915228366852e-11,
+      5.684341886080802e-14,
+      749.9999999999989
+    ],
+    "relative_error": 3.892364607290256e-14
+  },
+  "formulation_assessment": {
+    "corotational": {
+      "evidence": "No corotational element transformation path was found.",
+      "status": "MISSING"
+    },
+    "geometric_stiffness_only": {
+      "evidence": "Linear buckling assembles an initial-stress geometric stiffness, but it is not a nonlinear equilibrium/update route.",
+      "status": "PARTIAL"
+    },
+    "total_lagrangian": {
+      "evidence": "Existing homogeneous TET4 Total-Lagrangian Saint-Venant-Kirchhoff assembly, consistent tangent and Full Newton route.",
+      "risk": "Research route; homogeneous family/material only; incremental displacement states are not exposed by the public result.",
+      "status": "PARTIAL"
+    },
+    "updated_lagrangian": {
+      "evidence": "No updated-configuration residual/tangent assembly was found.",
+      "status": "MISSING"
+    }
+  },
+  "gate_decisions": {
+    "energy_work": false,
+    "failure_contract": false,
+    "final_residual": true,
+    "force_balance": true,
+    "large_displacement_informative": false,
+    "minimum_det_f": true,
+    "path_step_sensitivity": true,
+    "replay": true,
+    "small_displacement": true,
+    "tangent_fd": true
+  },
+  "large_displacement_case": {
+    "gate": 0.05,
+    "linear_tip_displacement": -0.4050178187631963,
+    "minimum_det_f": 0.9846974420682743,
+    "nonlinear_tip_displacement": -0.39693187666357543,
+    "relative_difference": 0.019964410761760892
+  },
+  "load_step_sensitivity": {
+    "attempted_single_step": {
+      "minimum_supported": 6,
+      "status": "REJECTED_BY_EXISTING_CONTROL"
+    },
+    "classification": "PATH_STABLE_BOUNDED",
+    "gate": 1e-08,
+    "levels": {
+      "12": {
+        "final_relative_residual": 6.087833775054686e-13,
+        "newton_iterations": 48,
+        "tip_displacement": -0.39693187666357455,
+        "tip_relative_error_to_24": 2.2376092017747215e-15
+      },
+      "24": {
+        "final_relative_residual": 4.13214613173538e-13,
+        "newton_iterations": 96,
+        "tip_displacement": -0.39693187666357543,
+        "tip_relative_error_to_24": 0.0
+      },
+      "6": {
+        "final_relative_residual": 5.487400745429032e-13,
+        "newton_iterations": 42,
+        "tip_displacement": -0.396931876663574,
+        "tip_relative_error_to_24": 3.636114952883922e-15
+      }
+    }
+  },
+  "newton": {
+    "converged": true,
+    "final_relative_residual": 4.13214613173538e-13,
+    "gate": 1e-09,
+    "max_iterations": 5,
+    "total_iterations": 96
+  },
+  "oracle": {
+    "comparison": {
+      "elastica_tip_z": -2.133186389210818,
+      "relative_difference": 0.8139253659824718,
+      "solver_tip_z": -0.39693187666357543
+    },
+    "independence": "Independent beam-theory boundary-value solve; no production Total-Lagrangian assembly or Newton loop is reused.",
+    "limitations": "Not an acceptance oracle for a three-dimensional TET4 solid because it omits shear and end effects.",
+    "type": "Euler elastica dead-load supporting comparison"
+  },
+  "preflight": {
+    "results": [
+      {
+        "analysis": "geometric_nonlinear_static",
+        "element_family": "TET4",
+        "formulation_or_route": "geometric_nonlinear_static",
+        "material_model": "isotropic_3d",
+        "message": "TET4 + geometric_nonlinear_static is technically declared but remains experimental/bounded by its registry state.",
+        "reason": "EXPERIMENTAL_ROUTE",
+        "registry_maturity": "EXPERIMENTAL",
+        "status": "EXPERIMENTAL_ROUTE"
+      },
+      {
+        "analysis": "geometric_nonlinear_static",
+        "element_family": "TET4",
+        "formulation_or_route": "geometric_nonlinear_static",
+        "material_model": "isotropic_3d",
+        "message": "TET4 + geometric_nonlinear_static is technically declared but remains experimental/bounded by its registry state.",
+        "reason": "EXPERIMENTAL_ROUTE",
+        "registry_maturity": "EXPERIMENTAL",
+        "status": "EXPERIMENTAL_ROUTE"
+      },
+      {
+        "analysis": "geometric_nonlinear_static",
+        "element_family": "TET4",
+        "formulation_or_route": "geometric_nonlinear_static",
+        "material_model": "isotropic_3d",
+        "message": "TET4 + geometric_nonlinear_static is technically declared but remains experimental/bounded by its registry state.",
+        "reason": "EXPERIMENTAL_ROUTE",
+        "registry_maturity": "EXPERIMENTAL",
+        "status": "EXPERIMENTAL_ROUTE"
+      },
+      {
+        "analysis": "geometric_nonlinear_static",
+        "element_family": "TET4",
+        "formulation_or_route": "geometric_nonlinear_static",
+        "material_model": "isotropic_3d",
+        "message": "TET4 + geometric_nonlinear_static is technically declared but remains experimental/bounded by its registry state.",
+        "reason": "EXPERIMENTAL_ROUTE",
+        "registry_maturity": "EXPERIMENTAL",
+        "status": "EXPERIMENTAL_ROUTE"
+      },
+      {
+        "analysis": "geometric_nonlinear_static",
+        "element_family": "TET4",
+        "formulation_or_route": "geometric_nonlinear_static",
+        "material_model": "isotropic_3d",
+        "message": "TET4 + geometric_nonlinear_static is technically declared but remains experimental/bounded by its registry state.",
+        "reason": "EXPERIMENTAL_ROUTE",
+        "registry_maturity": "EXPERIMENTAL",
+        "status": "EXPERIMENTAL_ROUTE"
+      },
+      {
+        "analysis": "geometric_nonlinear_static",
+        "element_family": "TET4",
+        "formulation_or_route": "geometric_nonlinear_static",
+        "material_model": "isotropic_3d",
+        "message": "TET4 + geometric_nonlinear_static is technically declared but remains experimental/bounded by its registry state.",
+        "reason": "EXPERIMENTAL_ROUTE",
+        "registry_maturity": "EXPERIMENTAL",
+        "status": "EXPERIMENTAL_ROUTE"
+      },
+      {
+        "analysis": "geometric_nonlinear_static",
+        "element_family": "TET4",
+        "formulation_or_route": "geometric_nonlinear_static",
+        "material_model": "isotropic_3d",
+        "message": "TET4 + geometric_nonlinear_static is technically declared but remains experimental/bounded by its registry state.",
+        "reason": "EXPERIMENTAL_ROUTE",
+        "registry_maturity": "EXPERIMENTAL",
+        "status": "EXPERIMENTAL_ROUTE"
+      },
+      {
+        "analysis": "geometric_nonlinear_static",
+        "element_family": "TET4",
+        "formulation_or_route": "geometric_nonlinear_static",
+        "material_model": "isotropic_3d",
+        "message": "TET4 + geometric_nonlinear_static is technically declared but remains experimental/bounded by its registry state.",
+        "reason": "EXPERIMENTAL_ROUTE",
+        "registry_maturity": "EXPERIMENTAL",
+        "status": "EXPERIMENTAL_ROUTE"
+      },
+      {
+        "analysis": "geometric_nonlinear_static",
+        "element_family": "TET4",
+        "formulation_or_route": "geometric_nonlinear_static",
+        "material_model": "isotropic_3d",
+        "message": "TET4 + geometric_nonlinear_static is technically declared but remains experimental/bounded by its registry state.",
+        "reason": "EXPERIMENTAL_ROUTE",
+        "registry_maturity": "EXPERIMENTAL",
+        "status": "EXPERIMENTAL_ROUTE"
+      },
+      {
+        "analysis": "geometric_nonlinear_static",
+        "element_family": "TET4",
+        "formulation_or_route": "geometric_nonlinear_static",
+        "material_model": "isotropic_3d",
+        "message": "TET4 + geometric_nonlinear_static is technically declared but remains experimental/bounded by its registry state.",
+        "reason": "EXPERIMENTAL_ROUTE",
+        "registry_maturity": "EXPERIMENTAL",
+        "status": "EXPERIMENTAL_ROUTE"
+      },
+      {
+        "analysis": "geometric_nonlinear_static",
+        "element_family": "TET4",
+        "formulation_or_route": "geometric_nonlinear_static",
+        "material_model": "isotropic_3d",
+        "message": "TET4 + geometric_nonlinear_static is technically declared but remains experimental/bounded by its registry state.",
+        "reason": "EXPERIMENTAL_ROUTE",
+        "registry_maturity": "EXPERIMENTAL",
+        "status": "EXPERIMENTAL_ROUTE"
+      },
+      {
+        "analysis": "geometric_nonlinear_static",
+        "element_family": "TET4",
+        "formulation_or_route": "geometric_nonlinear_static",
+        "material_model": "isotropic_3d",
+        "message": "TET4 + geometric_nonlinear_static is technically declared but remains experimental/bounded by its registry state.",
+        "reason": "EXPERIMENTAL_ROUTE",
+        "registry_maturity": "EXPERIMENTAL",
+        "status": "EXPERIMENTAL_ROUTE"
+      },
+      {
+        "analysis": "geometric_nonlinear_static",
+        "element_family": "TET4",
+        "formulation_or_route": "geometric_nonlinear_static",
+        "material_model": "isotropic_3d",
+        "message": "TET4 + geometric_nonlinear_static is technically declared but remains experimental/bounded by its registry state.",
+        "reason": "EXPERIMENTAL_ROUTE",
+        "registry_maturity": "EXPERIMENTAL",
+        "status": "EXPERIMENTAL_ROUTE"
+      },
+      {
+        "analysis": "geometric_nonlinear_static",
+        "element_family": "TET4",
+        "formulation_or_route": "geometric_nonlinear_static",
+        "material_model": "isotropic_3d",
+        "message": "TET4 + geometric_nonlinear_static is technically declared but remains experimental/bounded by its registry state.",
+        "reason": "EXPERIMENTAL_ROUTE",
+        "registry_maturity": "EXPERIMENTAL",
+        "status": "EXPERIMENTAL_ROUTE"
+      },
+      {
+        "analysis": "geometric_nonlinear_static",
+        "element_family": "TET4",
+        "formulation_or_route": "geometric_nonlinear_static",
+        "material_model": "isotropic_3d",
+        "message": "TET4 + geometric_nonlinear_static is technically declared but remains experimental/bounded by its registry state.",
+        "reason": "EXPERIMENTAL_ROUTE",
+        "registry_maturity": "EXPERIMENTAL",
+        "status": "EXPERIMENTAL_ROUTE"
+      },
+      {
+        "analysis": "geometric_nonlinear_static",
+        "element_family": "TET4",
+        "formulation_or_route": "geometric_nonlinear_static",
+        "material_model": "isotropic_3d",
+        "message": "TET4 + geometric_nonlinear_static is technically declared but remains experimental/bounded by its registry state.",
+        "reason": "EXPERIMENTAL_ROUTE",
+        "registry_maturity": "EXPERIMENTAL",
+        "status": "EXPERIMENTAL_ROUTE"
+      },
+      {
+        "analysis": "geometric_nonlinear_static",
+        "element_family": "TET4",
+        "formulation_or_route": "geometric_nonlinear_static",
+        "material_model": "isotropic_3d",
+        "message": "TET4 + geometric_nonlinear_static is technically declared but remains experimental/bounded by its registry state.",
+        "reason": "EXPERIMENTAL_ROUTE",
+        "registry_maturity": "EXPERIMENTAL",
+        "status": "EXPERIMENTAL_ROUTE"
+      },
+      {
+        "analysis": "geometric_nonlinear_static",
+        "element_family": "TET4",
+        "formulation_or_route": "geometric_nonlinear_static",
+        "material_model": "isotropic_3d",
+        "message": "TET4 + geometric_nonlinear_static is technically declared but remains experimental/bounded by its registry state.",
+        "reason": "EXPERIMENTAL_ROUTE",
+        "registry_maturity": "EXPERIMENTAL",
+        "status": "EXPERIMENTAL_ROUTE"
+      },
+      {
+        "analysis": "geometric_nonlinear_static",
+        "element_family": "TET4",
+        "formulation_or_route": "geometric_nonlinear_static",
+        "material_model": "isotropic_3d",
+        "message": "TET4 + geometric_nonlinear_static is technically declared but remains experimental/bounded by its registry state.",
+        "reason": "EXPERIMENTAL_ROUTE",
+        "registry_maturity": "EXPERIMENTAL",
+        "status": "EXPERIMENTAL_ROUTE"
+      },
+      {
+        "analysis": "geometric_nonlinear_static",
+        "element_family": "TET4",
+        "formulation_or_route": "geometric_nonlinear_static",
+        "material_model": "isotropic_3d",
+        "message": "TET4 + geometric_nonlinear_static is technically declared but remains experimental/bounded by its registry state.",
+        "reason": "EXPERIMENTAL_ROUTE",
+        "registry_maturity": "EXPERIMENTAL",
+        "status": "EXPERIMENTAL_ROUTE"
+      },
+      {
+        "analysis": "geometric_nonlinear_static",
+        "element_family": "TET4",
+        "formulation_or_route": "geometric_nonlinear_static",
+        "material_model": "isotropic_3d",
+        "message": "TET4 + geometric_nonlinear_static is technically declared but remains experimental/bounded by its registry state.",
+        "reason": "EXPERIMENTAL_ROUTE",
+        "registry_maturity": "EXPERIMENTAL",
+        "status": "EXPERIMENTAL_ROUTE"
+      },
+      {
+        "analysis": "geometric_nonlinear_static",
+        "element_family": "TET4",
+        "formulation_or_route": "geometric_nonlinear_static",
+        "material_model": "isotropic_3d",
+        "message": "TET4 + geometric_nonlinear_static is technically declared but remains experimental/bounded by its registry state.",
+        "reason": "EXPERIMENTAL_ROUTE",
+        "registry_maturity": "EXPERIMENTAL",
+        "status": "EXPERIMENTAL_ROUTE"
+      },
+      {
+        "analysis": "geometric_nonlinear_static",
+        "element_family": "TET4",
+        "formulation_or_route": "geometric_nonlinear_static",
+        "material_model": "isotropic_3d",
+        "message": "TET4 + geometric_nonlinear_static is technically declared but remains experimental/bounded by its registry state.",
+        "reason": "EXPERIMENTAL_ROUTE",
+        "registry_maturity": "EXPERIMENTAL",
+        "status": "EXPERIMENTAL_ROUTE"
+      },
+      {
+        "analysis": "geometric_nonlinear_static",
+        "element_family": "TET4",
+        "formulation_or_route": "geometric_nonlinear_static",
+        "material_model": "isotropic_3d",
+        "message": "TET4 + geometric_nonlinear_static is technically declared but remains experimental/bounded by its registry state.",
+        "reason": "EXPERIMENTAL_ROUTE",
+        "registry_maturity": "EXPERIMENTAL",
+        "status": "EXPERIMENTAL_ROUTE"
+      }
+    ],
+    "route_scope": "existing geometric_nonlinear_static is a research route and is invoked with enforce_policy=False for this discovery study",
+    "status": "EXPERIMENTAL_ROUTE"
+  },
+  "replay": {
+    "full_array_comparison": "PASS",
+    "replay_1": "PASS",
+    "replay_2": "PASS"
+  },
+  "repo_sha": "438eac50d2f7d3016bcb6dd0512b70cec9e3eb95",
+  "semantic_validator_valid": false,
+  "small_displacement_limit": {
+    "displacement_relative_error": 5.805575752779971e-05,
+    "gate": 0.0001,
+    "linear_tip_displacement": -0.0004050178187631964,
+    "nonlinear_tip_displacement": -0.0004050127695932231,
+    "reaction_relative_error": 2.843452057753461e-05
+  },
+  "tangent_fd": {
+    "gate": 1e-06,
+    "relative_error": 1.5673041594765626e-10,
+    "step": 1e-07
+  }
+}
