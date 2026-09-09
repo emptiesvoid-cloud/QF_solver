@@ -260,7 +260,7 @@ def _rank_local_model(segments: int, rank: int, size: int) -> RankLocalModel:
     owned_loads = tuple(
         OwnedNodalLoad(load_id=index, node=node, global_dof=3 * node, value=50_000.0)
         for index, node in enumerate(_load_nodes(segments))
-        if owners[node] == rank
+        if _node_owner(node, segments, size) == rank
     )
     return RankLocalModel(
         rank=rank,
