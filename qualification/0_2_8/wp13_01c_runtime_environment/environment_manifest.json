@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP13-01C-ENV-PETSC-RUNTIME",
+  "work_package": "WP13-01C-ENV",
+  "source_sha_at_environment_run": "ea544f072f45510c491230a82a980c26f08a1fbe",
+  "purpose": "Optional, isolated PETSc/MPI environment prerequisite for the future WP13-01C runtime campaign. No QF Solver numerical campaign is executed by this record.",
+  "host_environment": {
+    "python_version": "3.13.1",
+    "python_executable": "C:/Python313/python.exe",
+    "python_architecture": "AMD64 / 64-bit",
+    "venv": false,
+    "platform": "Windows-10-10.0.19045-SP0",
+    "mpi4py_version": "4.1.0",
+    "mpi_implementation": "Microsoft MPI 10.1.12498.52",
+    "mpiexec_path": "C:/Program Files/Microsoft MPI/Bin/mpiexec.exe",
+    "host_mpi_2_rank_smoke": "PASS: rank 0 / 2 and rank 1 / 2"
+  },
+  "strategy_assessment": {
+    "native_windows_petsc": {
+      "feasibility": "REJECTED_FOR_THIS_HOST",
+      "risk": "petsc4py has no binary wheel for the active Python 3.13/Windows environment; no PETSc toolchain is installed",
+      "install_complexity": "high",
+      "mpi_compatibility": "Microsoft MPI exists but no matched PETSc binary was available"
+    },
+    "conda_forge_native_windows": {
+      "feasibility": "NOT_SELECTED",
+      "risk": "would introduce an additional native MPI/PETSc stack without demonstrated compatibility with Microsoft MPI",
+      "install_complexity": "medium",
+      "mpi_compatibility": "unverified"
+    },
+    "wsl2_linux": {
+      "feasibility": "NOT_AVAILABLE",
+      "risk": "no usable Linux distribution was registered; docker-desktop alone contains no Python runtime",
+      "install_complexity": "requires an operating-system distribution installation",
+      "mpi_compatibility": "not tested"
+    },
+    "dedicated_docker_conda_forge": {
+      "feasibility": "SELECTED_AND_VALIDATED",
+      "risk": "isolated Linux container; PETSc runtime remains optional",
+      "install_complexity": "bounded Docker image build",
+      "mpi_compatibility": "validated with bundled MPICH 5.0.1 on 2 and 3 ranks"
+    }
+  },
+  "selected_environment": {
+    "strategy": "Docker Linux + conda-forge dedicated environment",
+    "base_image": "mambaorg/micromamba:2.5.0@sha256:313021a575cb995a45357e26c48e7979cae278267c28e12c2ecac49c35729c8b",
+    "image_tag": "qf-solver-wp13-01c-petsc:2026-09",
+    "image_id": "sha256:1e0228ff97daa91e39349325b2b5b5c6916344b952d11973e63b04ccc8d8862f",
+    "python_version": "3.12.14",
+    "mpi_implementation": "MPICH 5.0.1",
+    "petsc4py_version": "3.25.5",
+    "petsc_version": "3.25.5",
+    "petsc_scalar_type": "numpy.float64 (real)",
+    "petsc_int_type": "numpy.int32",
+    "environment_definition": "qualification/0_2_8/wp13_01c_runtime_environment/environment.yml"
+  },
+  "smokes": {
+    "petsc_mpi_2_rank": {
+      "status": "PASS",
+      "matrix_assembly": "PASS",
+      "vector_assembly": "PASS",
+      "ksp": "CG + Jacobi",
+      "iterations": 4,
+      "converged_reason": 3,
+      "final_residual": 0.0
+    },
+    "petsc_mpi_3_rank": {
+      "status": "PASS",
+      "matrix_assembly": "PASS",
+      "vector_assembly": "PASS",
+      "ksp": "CG + Jacobi",
+      "iterations": 6,
+      "converged_reason": 3,
+      "final_residual": 0.0
+    },
+    "qf_solver_import": {
+      "status": "PASS",
+      "qf_solver_source_path": "/workspace/qf_solver.py",
+      "solveur_source_path": "/workspace/src/solveur/__init__.py",
+      "repository_mount": "read-only"
+    }
+  },
+  "reproducibility": {
+    "dockerfile": "qualification/0_2_8/wp13_01c_runtime_environment/Dockerfile",
+    "environment_file": "qualification/0_2_8/wp13_01c_runtime_environment/environment.yml",
+    "smoke": "qualification/0_2_8/wp13_01c_runtime_environment/petsc_mpi_smoke.py",
+    "instructions": "qualification/0_2_8/wp13_01c_runtime_environment/README.md",
+    "public_package_dependency_changed": false,
+    "optional_runtime_only": true
+  },
+  "integrity": {
+    "numerical_source_changed": false,
+    "maturity_changed": false,
+    "historical_0_2_7_evidence_changed": false,
+    "wp13_runtime_contract_created": false,
+    "wp13_01c_campaign_executed": false
+  },
+  "status": "READY_FOR_WP13_01C"
+}
