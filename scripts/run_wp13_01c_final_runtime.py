@@ -448,6 +448,7 @@ def _petsc_case(
     rank = comm.Get_rank()
     size = comm.Get_size()
     config = _solver_config(solver_config)
+    case_started = time.perf_counter()
     local_model = _rank_local_model(segments, rank, size)
     _trace(comm, "rank-local model ready")
     ndof = 3 * _node_count(segments)
@@ -552,8 +553,11 @@ def _petsc_case(
         ksp.setNormType(PETSc.KSP.NormType.UNPRECONDITIONED)
     except AttributeError:
         pass
+    assembly_seconds = float(comm.allreduce(time.perf_counter() - case_started, op=MPI.MAX))
+    solve_started = time.perf_counter()
     ksp.solve(scaled_rhs, solution_scaled)
     _trace(comm, "KSP solve complete")
+    solve_seconds = float(comm.allreduce(time.perf_counter() - solve_started, op=MPI.MAX))
     reason = int(ksp.getConvergedReason())
     if reason <= 0 and not allow_nonconverged:
         raise RuntimeError(f"PETSc {config['ksp'].upper()}/{config['pc'].upper()} did not converge: reason={reason}")
@@ -701,6 +705,8 @@ def _petsc_case(
             "global_gather_only_for_validation": gather_solution,
         },
         "runtime_seconds": max_runtime,
+        "assembly_seconds": assembly_seconds,
+        "solve_seconds": solve_seconds,
         "model_digest": _digest({"segments": segments, "family_counts": family_global}),
         "matrix_sanity": matrix_sanity,
     }
