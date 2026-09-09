@@ -44,7 +44,8 @@ from solveur.large.generic_distributed import (
 CONTRACT_ID = "WP13-01C-PETSC-MPI-MIXED-RUNTIME-001"
 CONTRACT_PATH = ROOT / "qualification" / "0_2_8" / "wp13_01c_petsc_mpi_mixed_runtime_contract.json"
 OUTPUT_DIR = ROOT / "qualification" / "0_2_8" / "wp13_01c_petsc_mpi_mixed_runtime"
-CONTRACT_COMMIT_SHA = "bdbb1a4"
+CONTRACT_COMMIT_SHA = "bdbb1a4e5d8fabeb578a82a591f0ab13f260ce0c"
+CAMPAIGN_REPO_SHA = "f5c1c6229390121645d6a1678a7bbe1a2662d8d6"
 MATERIAL = {"type": "isotropic_3d", "E": 210.0e9, "nu": 0.3, "density": 7_800.0}
 FAMILIES = ("TET4", "WEDGE6", "HEX8")
 KSP_RTOL = 1.0e-13
@@ -908,7 +909,8 @@ def _build_evidence(args: argparse.Namespace) -> int:
         "contract_id": CONTRACT_ID,
         "contract_sha256": contract_sha,
         "contract_commit_sha": CONTRACT_COMMIT_SHA,
-        "repo_sha": _repo_sha(),
+        "repo_sha": CAMPAIGN_REPO_SHA,
+        "evidence_builder_sha": _repo_sha(),
         "environment": environment,
         "mixed_runtime_case": {
             "connected": True,
@@ -999,7 +1001,7 @@ def _build_evidence(args: argparse.Namespace) -> int:
         "schema_version": 1,
         "contract_id": CONTRACT_ID,
         "contract_sha256": contract_sha,
-        "repo_sha": _repo_sha(),
+        "repo_sha": CAMPAIGN_REPO_SHA,
         "files": {"raw_runtime_arrays.npz": _file_sha256(npz_path)},
         "array_names": sorted(arrays),
         "array_shapes": {name: list(np.asarray(value).shape) for name, value in arrays.items()},
