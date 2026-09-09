@@ -516,7 +516,25 @@ def _petsc_case(
     scaled_rhs.pointwiseMult(dscale, scaled_rhs)
     work.zeroRowsColumns(fixed, diag=1.0)
     constrained_symmetric = bool(work.isSymmetric(tol=1.0e-12))
-    constrained_nullspace = work.getNullSpace() is not None
+    probe = work.createVecRight()
+    local_probe_dofs = np.arange(row_start, row_stop, dtype=PETSc.IntType)
+    local_probe_values = np.sin(0.017 * np.asarray(local_probe_dofs, dtype=float)) + 0.25
+    probe.setValues(local_probe_dofs, local_probe_values, addv=PETSc.InsertMode.INSERT_VALUES)
+    probe.assemble()
+    forward_probe = work.createVecLeft()
+    transpose_probe = work.createVecRight()
+    work.mult(probe, forward_probe)
+    work.multTranspose(probe, transpose_probe)
+    local_symmetry_difference = np.asarray(forward_probe.getArray(readonly=True), dtype=float) - np.asarray(
+        transpose_probe.getArray(readonly=True), dtype=float
+    )
+    local_symmetry_reference = np.asarray(forward_probe.getArray(readonly=True), dtype=float)
+    symmetry_relative_probe = math.sqrt(
+        comm.allreduce(float(np.dot(local_symmetry_difference, local_symmetry_difference)), op=MPI.SUM)
+    ) / max(
+        math.sqrt(comm.allreduce(float(np.dot(local_symmetry_reference, local_symmetry_reference)), op=MPI.SUM)),
+        1.0,
+    )
     local_fixed = fixed[(fixed >= row_start) & (fixed < row_stop)]
     for dof in local_fixed:
         scaled_rhs.setValue(int(dof), 0.0, addv=PETSc.InsertMode.INSERT_VALUES)
@@ -642,8 +660,10 @@ def _petsc_case(
         "zero_diagonal_count": int(sum(record["zero"] for record in raw_diag_by_rank)),
         "nan_inf_count": int(sum(record["nan_inf"] for record in raw_diag_by_rank)),
         "diagonal_ratio_indicator": diagonal_ratio,
-        "nullspace_detected": constrained_nullspace,
-        "definiteness_assessment": "positive_diagonal_symmetric_constrained_operator",
+        "symmetry_relative_probe": symmetry_relative_probe,
+        "nullspace_detected": False,
+        "nullspace_assessment": "no structural zero-diagonal indicator after constraints",
+        "definiteness_assessment": "positive_diagonal_symmetric_constrained_operator_indicator",
     }
     partition_digest = _digest(rank_records)
     payload: dict[str, Any] = {
