@@ -1,0 +1,252 @@
+{
+  "candidate_id": "CG_GAMG",
+  "case": "mpi",
+  "contract_id": "WP13-01C-R1-KSP-REMEDIATION-001",
+  "contract_sha256": "6b2a08244ad1203dd175c1311ddb2d268efcb4e3dfed222149df6362d3411e1d",
+  "result": {
+    "backend": "petsc4py_mpi_rank_local",
+    "candidate_configuration": {
+      "atol": 1e-12,
+      "id": "CG_GAMG",
+      "ksp": "CG",
+      "max_it": 20000,
+      "pc": "GAMG",
+      "rtol": 1e-10
+    },
+    "candidate_id": "CG_GAMG",
+    "converged_reason": 3,
+    "element_count": 3,
+    "energy": 0.04827941450199386,
+    "family_counts": {
+      "HEX8": 1,
+      "TET4": 1,
+      "WEDGE6": 1
+    },
+    "force_balance_component_relative": 3.7535122969529764e-08,
+    "force_balance_relative": 5.256574890694201e-08,
+    "free_residual_relative": 1.6206704942335936e-07,
+    "global_gather_audit": {
+      "ghost_solution_exchange": true,
+      "global_connectivity_required_on_all_ranks": false,
+      "global_gather_only_for_validation": true,
+      "global_k_replicated_on_all_ranks": false,
+      "global_model_retained_on_any_rank": false,
+      "global_u_required_on_all_ranks": false
+    },
+    "iterations": 7,
+    "ksp_final_residual": 8.60954118715564e-14,
+    "load_resultant": [
+      100000.0,
+      0.0,
+      0.0
+    ],
+    "matrix_sanity": {
+      "constrained_scaled_matrix_symmetric": true,
+      "definiteness_assessment": "positive_diagonal_symmetric_constrained_operator_indicator",
+      "diagonal_max": 207532051282.05127,
+      "diagonal_min": 20192307692.30769,
+      "diagonal_ratio_indicator": 10.277777777777779,
+      "nan_inf_count": 0,
+      "negative_diagonal_count": 0,
+      "nullspace_assessment": "no structural zero-diagonal indicator after constraints",
+      "nullspace_detected": false,
+      "raw_matrix_symmetric": true,
+      "symmetry_relative_probe": 9.70090010573868e-17,
+      "zero_diagonal_count": 0
+    },
+    "model_digest": "178b1e4afe20f85404bb643905d3439256c3357ba120895ffad06ced98d7407c",
+    "ndof": 33,
+    "normalized_physics_digest": "baf7f0570e1ea50a66bf24b1a9ff74b2c39ddb826da3296abc5762892b1fc32a",
+    "offprocess_insertion": true,
+    "partition": {
+      "digest": "92ed50955e7e1144d01423958015a204453e0fd919522020bc3712174ce92ece",
+      "records": [
+        {
+          "family_counts": {
+            "HEX8": 0,
+            "TET4": 1,
+            "WEDGE6": 0
+          },
+          "ghost_nodes": 0,
+          "global_model_retained": false,
+          "local_nodes": 4,
+          "owned_elements": [
+            0
+          ],
+          "owned_nodes": 4,
+          "rank": 0
+        },
+        {
+          "family_counts": {
+            "HEX8": 1,
+            "TET4": 0,
+            "WEDGE6": 1
+          },
+          "ghost_nodes": 3,
+          "global_model_retained": false,
+          "local_nodes": 10,
+          "owned_elements": [
+            1,
+            2
+          ],
+          "owned_nodes": 7,
+          "rank": 1
+        }
+      ]
+    },
+    "petsc_matrix_assembly": "PASS",
+    "petsc_vector_assembly": "PASS",
+    "preallocation_runtime": {
+      "global_connectivity_required": false,
+      "mallocs_zero": true,
+      "mat_info_local": {
+        "by_rank": [
+          {
+            "assemblies": 1.0,
+            "block_size": 1.0,
+            "factor_mallocs": 0.0,
+            "fill_ratio_given": 0.0,
+            "fill_ratio_needed": 0.0,
+            "mallocs": 0.0,
+            "memory": 0.0,
+            "nz_allocated": 459.0,
+            "nz_unneeded": 0.0,
+            "nz_used": 459.0
+          },
+          {
+            "assemblies": 1.0,
+            "block_size": 1.0,
+            "factor_mallocs": 0.0,
+            "fill_ratio_given": 0.0,
+            "fill_ratio_needed": 0.0,
+            "mallocs": 0.0,
+            "memory": 0.0,
+            "nz_allocated": 360.0,
+            "nz_unneeded": 0.0,
+            "nz_used": 360.0
+          }
+        ],
+        "mallocs_sum": 0.0,
+        "nz_allocated_sum": 819.0,
+        "nz_used_sum": 819.0
+      },
+      "max_diag_nnz": 16,
+      "max_offdiag_nnz": 17,
+      "owned_row_pattern_complete": true,
+      "received_row_records": 25,
+      "sent_row_records": 12,
+      "strategy": "rank-local connectivity exact row-owner exchange"
+    },
+    "rank_count": 2,
+    "reaction_resultant": [
+      -99999.99676790062,
+      0.0017596188877805861,
+      0.0037535122969529766
+    ],
+    "reaction_vector": [
+      -4624.3425845941565,
+      -1633.938101299229,
+      -3934.500037354593,
+      5508.03847268826,
+      -312.0870788311288,
+      -3935.211671603735,
+      -55370.200110692705,
+      4392.356294892503,
+      12129.43706232703,
+      -2799.101374172226,
+      7696.007718012602,
+      931.6903604342419,
+      -7748.704279993088,
+      -3953.7875446200487,
+      -11398.211576383845,
+      -39542.36082540174,
+      -6188.549617614344,
+      2494.877897435039,
+      4576.673934265039,
+      8.907853368239288e-05,
+      3711.9217186581586
+    ],
+    "residual": [
+      -4624.342584594151,
+      -1633.9381012992287,
+      -3934.5000373545927,
+      -0.0009488368646931043,
+      0.0011939611340494594,
+      0.002501904206840408,
+      5508.038472688262,
+      -312.087078831129,
+      -3935.211671603734,
+      -55370.2001106927,
+      4392.356294892503,
+      12129.437062327033,
+      -0.0062467922834912315,
+      -0.0008476741045342351,
+      -0.008014103032110143,
+      -2799.101374172226,
+      7696.007718012602,
+      931.6903604342415,
+      -7748.704279993084,
+      -3953.7875446200487,
+      -11398.211576383848,
+      0.0021928505675532506,
+      0.0007880786961322883,
+      0.0012600453028426273,
+      -39542.36082540173,
+      -6188.549617614344,
+      2494.8778974350403,
+      0.0017706791913951747,
+      -0.0028939846192770347,
+      0.0004986412386642769,
+      4576.673934265038,
+      8.907853368239288e-05,
+      3711.9217186581586
+    ],
+    "runtime_seconds": 0.03158902900031535,
+    "segments": 1,
+    "solution": [
+      3.301358996918997e-15,
+      3.301358996918997e-15,
+      3.021848852457616e-15,
+      -1.8382849568150714e-07,
+      1.5311812062132577e-07,
+      -3.3998147906090466e-07,
+      8.389826528086934e-15,
+      4.948049740405547e-15,
+      6.5815214126728756e-15,
+      4.030342298062515e-15,
+      4.030342298062515e-15,
+      4.356759619636654e-15,
+      5.742715414541292e-07,
+      -7.000061329274228e-08,
+      -4.6805192274477886e-07,
+      9.687737208890511e-15,
+      5.93250323098906e-15,
+      7.154868103549755e-15,
+      6.1962975384010765e-15,
+      6.1962975384010765e-15,
+      6.1962975384010765e-15,
+      -3.5018909549226435e-07,
+      8.405990877538607e-08,
+      -5.22012810980876e-07,
+      6.1962975384010765e-15,
+      6.1962975384010765e-15,
+      6.1962975384010765e-15,
+      1.3569050585131626e-06,
+      3.149385539075764e-07,
+      -7.191875980380103e-07,
+      8.389826528086934e-15,
+      8.389826528086934e-15,
+      4.484550914652618e-15
+    ],
+    "solver_configuration": {
+      "atol": 1e-12,
+      "id": "CG_GAMG",
+      "ksp": "cg",
+      "max_it": 20000,
+      "pc": "gamg",
+      "rtol": 1e-10
+    },
+    "status": "PASS"
+  },
+  "schema_version": 1
+}
