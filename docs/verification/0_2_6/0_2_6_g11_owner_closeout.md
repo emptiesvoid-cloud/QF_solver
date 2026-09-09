@@ -7,7 +7,7 @@ closeout records the existing evidence; it adds no runtime case and changes no
 solver formulation, route implementation or diagnostic threshold.
 
 The machine-readable decision is
-[`g11_owner_closeout.json`](../../../qualification/0_2_6/g11_owner_closeout.json).
+[`g11_owner_closeout.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_6/g11_owner_closeout.json).
 
 | Item | Result |
 | --- | --- |

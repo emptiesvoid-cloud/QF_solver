@@ -80,12 +80,12 @@ zero drift. Historical WP13 evidence remains tied to its original source SHA
 
 Machine-readable records:
 
-- [`wp19_state.json`](../../../qualification/0_2_7/wp19_state.json)
-- [`wp19_cases.json`](../../../qualification/0_2_7/wp19_cases.json)
-- [`wp19_robustness_summary.json`](../../../qualification/0_2_7/wp19_runtime/wp19_robustness_summary.json)
-- [`wp19_robustness_evidence.json`](../../../qualification/0_2_7/wp19_runtime/wp19_robustness_evidence.json)
-- [`wp19_hex8_diagnostic.json`](../../../qualification/0_2_7/wp19_runtime/wp19_hex8_diagnostic.json)
-- [`wp19_golden_replay.json`](../../../qualification/0_2_7/wp19_runtime/wp19_golden_replay.json)
+- [`wp19_state.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/wp19_state.json)
+- [`wp19_cases.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/wp19_cases.json)
+- [`wp19_robustness_summary.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/wp19_runtime/wp19_robustness_summary.json)
+- [`wp19_robustness_evidence.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/wp19_runtime/wp19_robustness_evidence.json)
+- [`wp19_hex8_diagnostic.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/wp19_runtime/wp19_hex8_diagnostic.json)
+- [`wp19_golden_replay.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/wp19_runtime/wp19_golden_replay.json)
 
 WP20 may continue with the existing J2 and external V&V scope. This record
 does not claim general HEX8 accuracy, universal adversarial robustness, or a

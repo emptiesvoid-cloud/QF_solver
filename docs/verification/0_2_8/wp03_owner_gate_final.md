@@ -16,10 +16,10 @@ promotions and one rejected promotion. It does not alter numerical source or
 certification, external correlation or universal maturity.
 
 The machine-readable decision is
-[`wp03_owner_gate_final.json`](../../../qualification/0_2_8/wp03_owner_gate_final.json).
+[`wp03_owner_gate_final.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp03_owner_gate_final.json).
 It pins the SHA-256 digests of the technical WP03A and WP03B evidence and
 updates the final
-[`WP03 maturity matrix`](../../../qualification/0_2_8/wp03_maturity_matrix.json).
+[`WP03 maturity matrix`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp03_maturity_matrix.json).
 
 ## Audit outcome
 

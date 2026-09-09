@@ -43,7 +43,7 @@ provenance and are not treated as the current release state.
 ## Integrity
 
 The machine-readable record is
-[`qualification/0_2_7/step1_release_freeze.json`](../../../qualification/0_2_7/step1_release_freeze.json).
+[`qualification/0_2_7/step1_release_freeze.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/step1_release_freeze.json).
 The foreign 0.2.1 documentation change remains isolated in the preserved
 targeted stash and is not part of the release candidate. No numerical source,
 baseline, maturity decision or historical evidence was changed for the freeze.

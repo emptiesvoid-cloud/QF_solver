@@ -13,11 +13,11 @@ WP08 audits one bounded mixed modal workflow using `TET4 + WEDGE6 + HEX8`,
 starting from `65c816fee4a1497dd320358565a297c01bfcaff5`. It does not rewrite
 0.2.7 evidence, the WP07 static decision, or the element-analysis registry.
 The frozen campaign contract is the
-[`WP08 contract`](../../../qualification/0_2_8/wp08_mixed_modal_contract.json);
+[`WP08 contract`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp08_mixed_modal_contract.json);
 the executable machine-readable result is the
-[`WP08 evidence`](../../../qualification/0_2_8/wp08_mixed_modal_vnv.json);
+[`WP08 evidence`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp08_mixed_modal_vnv.json);
 and the decision matrix is the
-[`WP08 matrix`](../../../qualification/0_2_8/wp08_mixed_modal_matrix.json).
+[`WP08 matrix`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp08_mixed_modal_matrix.json).
 
 ## Scope and architecture audit
 

@@ -64,4 +64,4 @@ checkpoint before the retry policy is run; the WP02 backend, ranks,
 partitioning, KSP, PC and tolerances remain frozen.
 
 The machine-readable report is
-[`wp04_forensic_audit.json`](../../../qualification/0_2_7/wp04_runtime/wp04_forensic_audit.json).
+[`wp04_forensic_audit.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/wp04_runtime/wp04_forensic_audit.json).

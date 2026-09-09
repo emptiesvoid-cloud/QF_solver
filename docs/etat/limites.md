@@ -45,7 +45,7 @@ it.
   hardware-independent performance claim is made.
 
 For exact element-analysis boundaries, use the
-[0.2.8 consolidated registry](../../qualification/0_2_8/consolidated_registry.json)
+[0.2.8 consolidated registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/consolidated_registry.json)
 and the [0.2.8 evidence summary](../verification/0_2_8/README.md). The 0.2.7
 records remain available as immutable historical evidence.
 

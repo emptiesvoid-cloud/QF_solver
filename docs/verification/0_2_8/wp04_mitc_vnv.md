@@ -11,7 +11,7 @@ approver: ""
 
 This record freezes the WP04 contract from baseline
 `2a6a02859e3f19ddf26903167de1db6fdd3f3c7c`. The machine-readable contract is
-[`wp04_mitc_vnv.json`](../../../qualification/0_2_8/wp04_mitc_vnv.json).
+[`wp04_mitc_vnv.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp04_mitc_vnv.json).
 
 ## Historical evidence audit
 
@@ -72,11 +72,11 @@ oracle requirement.
 | MITC4 harmonic | `QUALIFIED_BOUNDED` candidate | Two deterministic replays pass the declared multi-frequency amplitude, phase, resonance, static-limit and residual gates. |
 
 The machine-readable replay digests, observed values and test references are
-recorded in [`wp04_mitc_vnv.json`](../../../qualification/0_2_8/wp04_mitc_vnv.json).
+recorded in [`wp04_mitc_vnv.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp04_mitc_vnv.json).
 The eight-route decision delta is summarized in the
-[`WP04 maturity matrix`](../../../qualification/0_2_8/wp04_maturity_matrix.json).
+[`WP04 maturity matrix`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp04_maturity_matrix.json).
 The final Owner decisions are recorded in
-[`wp04_owner_gate_final.json`](../../../qualification/0_2_8/wp04_owner_gate_final.json).
+[`wp04_owner_gate_final.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp04_owner_gate_final.json).
 The four approved bounded routes are now `QUALIFIED_BOUNDED` within the scopes
 below; no claim is broadened beyond the evidence.
 

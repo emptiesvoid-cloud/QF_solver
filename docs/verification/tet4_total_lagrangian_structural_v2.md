@@ -208,4 +208,4 @@ La grille detaillee est disponible dans
 
 Le dossier pret pour un relecteur independant est disponible en
 [Markdown](tet4_total_lagrangian_independent_review_pack.md) et en
-[PDF](../../output/pdf/qf_solver_tet4_total_lagrangian_independent_review_0_2_1.pdf).
+PDF (source artifact not included in the tracked release tree).

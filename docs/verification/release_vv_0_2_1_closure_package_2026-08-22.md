@@ -108,8 +108,8 @@ La fiche prete pour ta revalidation est :
 - `docs/verification/tet4_total_lagrangian_phase2_owner_review_2026-08-22.md` ;
 - `output/pdf/qf_solver_0_2_1_alpha_closure_owner_review_2026-08-22.pdf` ;
 - `qualification/reviews/tet4_total_lagrangian_phase2_owner_review_pending_2026-08-22.json` ;
-- [resume tentative 012](../../results/VNV-TET4-TL-PHASE2-LARGE-012/summary.json) ;
-- [rapport tentative 012](../../results/VNV-TET4-TL-PHASE2-LARGE-012/report.md).
+- resume tentative 012 (source artifact not included in the tracked release tree) ;
+- rapport tentative 012 (source artifact not included in the tracked release tree).
 
 ## Ce qui n'est pas encore valide pour la release
 

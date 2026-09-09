@@ -14,9 +14,9 @@ Newmark or harmonic campaign, change an element formulation, promote maturity,
 or alter any 0.2.7 evidence.
 
 The machine-readable audit is
-[`wp13_02a_readiness.json`](../../../qualification/0_2_8/wp13_02a_readiness.json).
-The frozen contracts are the [Newmark contract](../../../qualification/0_2_8/wp13_02a_newmark_contract.json)
-and the [harmonic contract](../../../qualification/0_2_8/wp13_02a_harmonic_contract.json).
+[`wp13_02a_readiness.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp13_02a_readiness.json).
+The frozen contracts are the [Newmark contract](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp13_02a_newmark_contract.json)
+and the [harmonic contract](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp13_02a_harmonic_contract.json).
 They were committed before the readiness measurements under commit
 `e7c75286dbf073b7b82f05eaef276dabc05684e0`, from baseline
 `889fbf27328e843813b670bcbded98327e320b24`.

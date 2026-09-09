@@ -16,7 +16,7 @@ approver: ""
 
 The Owner decision is `APPROVE_EXPERIMENTAL_BOUNDED` for the separate
 HEX8-SRI research capability. The machine-readable decision is recorded in
-[`wp10_hex8_sri_owner_gate_final.json`](../../../qualification/0_2_8/wp10_hex8_sri_owner_gate_final.json).
+[`wp10_hex8_sri_owner_gate_final.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp10_hex8_sri_owner_gate_final.json).
 
 The decision accepts the isotropic small-strain linear-static formulation with
 deviatoric `2×2×2` and volumetric `1×1×1` integration. The executed fine-level

@@ -12,7 +12,7 @@ approver: ""
 This Owner gate audits commit
 `35d2debbd414917ac31d2b2d945df1132737eae5` and applies only to the WP08B
 mixed modal workflow. The machine-readable decision is recorded in
-[`wp08b_owner_gate_final.json`](../../../qualification/0_2_8/wp08b_owner_gate_final.json).
+[`wp08b_owner_gate_final.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp08b_owner_gate_final.json).
 The WP08 initial failure, the WP08B contract and the WP08B campaign evidence
 remain unchanged. No numerical source, tolerance or 0.2.7 evidence is
 changed.
@@ -22,10 +22,10 @@ changed.
 **`APPROVE_WITH_LIMITATIONS` — resulting workflow state: `QUALIFIED_BOUNDED`**
 
 The decision is recorded in the separate
-[`WP08B mixed-modal matrix`](../../../qualification/0_2_8/wp08b_mixed_modal_matrix.json)
+[`WP08B mixed-modal matrix`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp08b_mixed_modal_matrix.json)
 as a `mixed_workflow_qualification` record. It does not create or relabel an
 element-analysis combination in the 46-record
-[`element-analysis registry`](../../../qualification/0_2_7/capability_registry_v2.json).
+[`element-analysis registry`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/capability_registry_v2.json).
 
 ## Audit result
 

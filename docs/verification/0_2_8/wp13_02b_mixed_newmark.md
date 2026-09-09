@@ -10,12 +10,12 @@ approver: ""
 # WP13-02B connected mixed Newmark campaign
 
 WP13-02B executes the frozen Newmark contract
-[`WP13-02A-NEWMARK-MIXED-CONTRACT-001`](../../../qualification/0_2_8/wp13_02a_newmark_contract.json)
+[`WP13-02A-NEWMARK-MIXED-CONTRACT-001`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp13_02a_newmark_contract.json)
 on the connected compact elbow. It does not change the Newmark formulation,
 the contract gates, the historical maturity registry, or any 0.2.7 evidence.
 
 The machine-readable evidence is
-[`wp13_02b_mixed_newmark_evidence.json`](../../../qualification/0_2_8/wp13_02b_mixed_newmark_evidence.json).
+[`wp13_02b_mixed_newmark_evidence.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp13_02b_mixed_newmark_evidence.json).
 
 ## Campaign scope
 

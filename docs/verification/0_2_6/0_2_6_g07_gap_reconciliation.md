@@ -8,7 +8,7 @@ Functional source changed: `NO`
 This document records Step A only. It does not execute a new external case,
 change a formulation, promote TL or Arc-Length, or close G07. The complete
 machine-readable matrix is
-[`g07_gap_reconciliation.json`](../../../qualification/0_2_6/g07_gap_reconciliation.json).
+[`g07_gap_reconciliation.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_6/g07_gap_reconciliation.json).
 
 ## Scope
 

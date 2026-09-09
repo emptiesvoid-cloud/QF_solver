@@ -55,5 +55,5 @@ Text digests use canonical UTF-8 bytes with LF newlines and SHA-256. Binary
 artifacts are hashed byte-for-byte without text normalization.
 
 The machine-readable records are
-[`release_truth.json`](../../../qualification/0_2_7/release_truth.json) and
-[`release_workflow_audit.json`](../../../qualification/0_2_7/release_workflow_audit.json).
+[`release_truth.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/release_truth.json) and
+[`release_workflow_audit.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/release_workflow_audit.json).

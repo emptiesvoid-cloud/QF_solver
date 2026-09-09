@@ -15,12 +15,12 @@ evidence, numerical source code, or the four static/modal decisions recorded
 by WP03A. It does not claim universal dynamic validation or certification.
 
 The machine-readable record is
-[`wp03b_dynamic_vnv.json`](../../../qualification/0_2_8/wp03b_dynamic_vnv.json).
+[`wp03b_dynamic_vnv.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp03b_dynamic_vnv.json).
 Its decision delta is
-[`wp03b_maturity_matrix.json`](../../../qualification/0_2_8/wp03b_maturity_matrix.json),
+[`wp03b_maturity_matrix.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp03b_maturity_matrix.json),
 which explicitly preserves the WP03A static/modal decisions. The executable
 campaign is
-[`test_028_beam2_discrete_dynamic_vnv.py`](../../../tests/verification/test_028_beam2_discrete_dynamic_vnv.py).
+[`test_028_beam2_discrete_dynamic_vnv.py`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/tests/verification/test_028_beam2_discrete_dynamic_vnv.py).
 
 ## Frozen campaign contract
 

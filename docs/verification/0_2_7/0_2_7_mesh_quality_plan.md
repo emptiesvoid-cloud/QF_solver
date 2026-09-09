@@ -55,7 +55,7 @@ warning leaves calculation permitted; invalid geometry is reported fail-closed
 by preflight. Dimensionless diagnostics are invariant under rigid transforms
 and coordinate scaling in the controlled tests. See
 [`0_2_7_mesh_quality_contract.md`](0_2_7_mesh_quality_contract.md) and
-[`qualification/0_2_7/vnv_v2/mesh_quality_cases.json`](../../../qualification/0_2_7/vnv_v2/mesh_quality_cases.json).
+[`qualification/0_2_7/vnv_v2/mesh_quality_cases.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/vnv_v2/mesh_quality_cases.json).
 
 ## Owner review items
 

@@ -10,7 +10,7 @@ approver: ""
 # WP13-02B7 — Newmark V2 rerun
 
 WP13-02B7 reruns the exact contract
-[`WP13-02B4-NEWMARK-MIXED-V2-001`](../../../qualification/0_2_8/wp13_02b4_newmark_v2_contract.json)
+[`WP13-02B4-NEWMARK-MIXED-V2-001`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp13_02b4_newmark_v2_contract.json)
 at `fc6b32c8ea1fff0a98390b7788018b14e2ac4891`, after the focused WP13-02B6
 input-validation fix. The contract blob remains
 `8b44792466eacaf1f341a7970502e9b48dbed4e1`; no gate, benchmark, oracle or
@@ -31,8 +31,8 @@ Two complete T1/160 replays pass numerical determinism with full archived
 array comparisons within `1e-12`.
 
 The complete machine-readable evidence is in
-[`manifest.json`](../../../qualification/0_2_8/wp13_02b7_v2/manifest.json) and
-[`wp13_02b7_arrays.npz`](../../../qualification/0_2_8/wp13_02b7_v2/wp13_02b7_arrays.npz),
+[`manifest.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp13_02b7_v2/manifest.json) and
+[`wp13_02b7_arrays.npz`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp13_02b7_v2/wp13_02b7_arrays.npz),
 including all 166 float64 arrays, inputs, oracle, interface records, replays
 and SHA-256 digests.
 

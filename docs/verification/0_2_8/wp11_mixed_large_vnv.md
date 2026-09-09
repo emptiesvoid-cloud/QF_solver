@@ -53,10 +53,10 @@ both remain non-blockers and are not represented as measured results.
 
 Machine-readable records:
 
-- [frozen WP11 contract](../../../qualification/0_2_8/wp11_mixed_large_contract.json)
-- [WP11 evidence](../../../qualification/0_2_8/wp11_mixed_large_vnv.json)
-- [WP11 matrix](../../../qualification/0_2_8/wp11_mixed_large_matrix.json)
-- [input manifest and replay pack](../../../qualification/0_2_8/wp11_mixed_large_evidence/)
+- [frozen WP11 contract](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp11_mixed_large_contract.json)
+- [WP11 evidence](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp11_mixed_large_vnv.json)
+- [WP11 matrix](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp11_mixed_large_matrix.json)
+- [input manifest and replay pack](https://github.com/emptiesvoid-cloud/QF_solver/tree/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp11_mixed_large_evidence)
 
 ## Bounded claim
 
