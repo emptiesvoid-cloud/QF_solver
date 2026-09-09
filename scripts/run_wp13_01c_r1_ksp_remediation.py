@@ -159,12 +159,27 @@ def _build_evidence(args: argparse.Namespace) -> int:
         candidate_id = candidate["id"]
         small_path = args.results_dir / f"small_{candidate_id}.json"
         scale_path = args.results_dir / f"scale_a_{candidate_id}.json"
-        if not small_path.exists() or not scale_path.exists():
+        if not small_path.exists():
             rows.append({"candidate_id": candidate_id, "status": "NOT_RUN"})
             continue
         small = _read_result(small_path)
-        scale = _read_result(scale_path)
         non_regression = _small_non_regression(serial, small, gates)
+        if not scale_path.exists():
+            rows.append(
+                {
+                    "candidate_id": candidate_id,
+                    "ksp": candidate["ksp"],
+                    "pc": candidate["pc"],
+                    "small_non_regression": non_regression,
+                    "scale_a": {
+                        "status": "NOT_RUN_SMALL_NON_REGRESSION_FAILED"
+                        if not non_regression["pass"]
+                        else "NOT_RUN",
+                    },
+                }
+            )
+            continue
+        scale = _read_result(scale_path)
         scale_pass = _scale_acceptance(scale, gates)
         row = {
             "candidate_id": candidate_id,
@@ -209,6 +224,13 @@ def _build_evidence(args: argparse.Namespace) -> int:
             ) else "FAIL"
             replay_rows.append(row)
     replay_pass = len(replay_rows) == 2 and all(row["status"] == "PASS" for row in replay_rows)
+    replay_status = (
+        "PASS"
+        if replay_pass
+        else "NOT_RUN_NO_SELECTED_CONFIGURATION"
+        if selected is None
+        else "FAIL"
+    )
     original_failure = json.loads(ORIGINAL_SCALE_A.read_text(encoding="utf-8"))["result"]
     status = "REMEDIATED" if selected is not None and replay_pass else "STILL_FAIL_RUNTIME"
     evidence = {
@@ -229,7 +251,7 @@ def _build_evidence(args: argparse.Namespace) -> int:
         "selected_small_case": selected_small,
         "selected_scale_a": selected_scale,
         "replays": replay_rows,
-        "replay_determinism": "PASS" if replay_pass else "FAIL",
+        "replay_determinism": replay_status,
         "scale_b": json.loads(args.scale_b.read_text(encoding="utf-8"))["result"] if args.scale_b and args.scale_b.exists() else {"status": "NOT_RUN"},
         "one_million_dof_status": "NOT_RUN_RESOURCE_LIMIT",
         "automatic_solver_fallback": False,
