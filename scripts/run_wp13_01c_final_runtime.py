@@ -460,7 +460,9 @@ def _petsc_case(segments: int, *, replay: bool = False) -> dict[str, Any] | None
     residual_relative = math.sqrt(comm.allreduce(local_r2, op=MPI.SUM)) / max(math.sqrt(comm.allreduce(local_f2, op=MPI.SUM)), 1.0)
     local_reactions: dict[int, float] = {}
     for contribution in contributions:
-        local_u = np.asarray(solution.getValues(contribution.global_dofs), dtype=float)
+        local_u = np.asarray(
+            solution.getValues(np.asarray(contribution.global_dofs, dtype=PETSc.IntType)), dtype=float
+        )
         local_internal = np.asarray(contribution.stiffness @ local_u, dtype=float)
         for dof, value in zip(contribution.global_dofs, local_internal, strict=True):
             if int(dof) in fixed_set:
