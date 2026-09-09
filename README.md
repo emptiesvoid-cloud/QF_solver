@@ -32,8 +32,11 @@ On this page: [Why QF Solver?](README.md#why-qf-solver) ·
 - Reproducible verification evidence with explicit capability maturity.
 - Optional integrations for bounded HDF5 and PETSc/MPI large-model workflows.
 
-Current source version: `0.2.8`. See [GitHub Releases](https://github.com/emptiesvoid-cloud/QF_solver/releases)
-and [PyPI](https://pypi.org/project/qf-solver/) for published availability.
+Current source candidate: `0.2.8`. **Publication status:**
+`NOT_PUBLISHED_YET`. **DOI status:** `NOT_AVAILABLE_YET`. See [GitHub
+Releases](https://github.com/emptiesvoid-cloud/QF_solver/releases) and
+[PyPI](https://pypi.org/project/qf-solver/) for published availability; these
+links do not announce publication of the current candidate.
 
 ## Installation
 

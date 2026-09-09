@@ -4,6 +4,13 @@ This section records the current public release-readiness state for QF Solver
 0.2.8 in preparation. It is not a publication or tag record and is distinct
 from the historical snapshots below.
 
+Current candidate metadata:
+
+- Version: `0.2.8`
+- Publication status: `NOT_PUBLISHED_YET`
+- Release/tag status: `NOT_CREATED`
+- DOI status: `NOT_AVAILABLE_YET`
+
 ## Current public gates
 
 - [x] Package `qf-solver`, CLI `qf-solver` and public Python API
