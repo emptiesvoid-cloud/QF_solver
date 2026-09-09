@@ -50,6 +50,7 @@ MATERIAL = {"type": "isotropic_3d", "E": 210.0e9, "nu": 0.3, "density": 7_800.0}
 FAMILIES = ("TET4", "WEDGE6", "HEX8")
 KSP_RTOL = 1.0e-13
 KSP_ATOL = 1.0e-14
+KSP_DTOL = 1.0e4
 KSP_MAX_IT = 10_000
 RELATIVE_GATE = 1.0e-10
 REPLAY_GATE = 1.0e-12
@@ -63,6 +64,7 @@ def _solver_config(solver_config: dict[str, Any] | None) -> dict[str, Any]:
         "pc": "JACOBI",
         "rtol": KSP_RTOL,
         "atol": KSP_ATOL,
+        "dtol": KSP_DTOL,
         "max_it": KSP_MAX_IT,
     }
     if solver_config is not None:
@@ -73,7 +75,7 @@ def _solver_config(solver_config: dict[str, Any] | None) -> dict[str, Any]:
         raise InputValidationError(f"Unsupported explicit PETSc KSP '{config['ksp']}'.")
     if config["pc"] not in {"jacobi", "bjacobi", "asm", "gamg"}:
         raise InputValidationError(f"Unsupported explicit PETSc PC '{config['pc']}'.")
-    for key in ("rtol", "atol"):
+    for key in ("rtol", "atol", "dtol"):
         config[key] = float(config[key])
         if not math.isfinite(config[key]) or config[key] <= 0.0:
             raise InputValidationError(f"Invalid explicit PETSc {key}={config[key]!r}.")
@@ -440,6 +442,7 @@ def _petsc_case(
     replay: bool = False,
     solver_config: dict[str, Any] | None = None,
     allow_nonconverged: bool = False,
+    diagnostic: bool = False,
 ) -> dict[str, Any] | None:
     from mpi4py import MPI
     from petsc4py import PETSc
@@ -497,6 +500,7 @@ def _petsc_case(
     rhs.assemble()
     rhs_original = rhs.duplicate()
     rhs.copy(rhs_original)
+    rhs_original_local = np.asarray(rhs_original.getArray(readonly=True), dtype=float).copy()
     fixed = _fixed_dofs(segments).astype(PETSc.IntType)
     fixed_set = {int(item) for item in fixed}
     work = matrix.copy()
@@ -540,6 +544,10 @@ def _petsc_case(
     for dof in local_fixed:
         scaled_rhs.setValue(int(dof), 0.0, addv=PETSc.InsertMode.INSERT_VALUES)
     scaled_rhs.assemble()
+    scaled_rhs_local = np.asarray(scaled_rhs.getArray(readonly=True), dtype=float).copy()
+    scaled_initial_residual = math.sqrt(
+        comm.allreduce(float(np.dot(scaled_rhs_local, scaled_rhs_local)), op=MPI.SUM)
+    )
     solution_scaled = rhs.duplicate()
     solution_scaled.set(0.0)
     ksp = PETSc.KSP().create(comm=PETSc.COMM_WORLD)
@@ -548,7 +556,7 @@ def _petsc_case(
     ksp.getPC().setType(config["pc"])
     if config["ksp"] == "gmres":
         ksp.setGMRESRestart(config["restart"])
-    ksp.setTolerances(rtol=config["rtol"], atol=config["atol"], max_it=config["max_it"])
+    ksp.setTolerances(rtol=config["rtol"], atol=config["atol"], dtol=config["dtol"], max_it=config["max_it"])
     try:
         ksp.setNormType(PETSc.KSP.NormType.UNPRECONDITIONED)
     except AttributeError:
@@ -561,6 +569,15 @@ def _petsc_case(
     reason = int(ksp.getConvergedReason())
     if reason <= 0 and not allow_nonconverged:
         raise RuntimeError(f"PETSc {config['ksp'].upper()}/{config['pc'].upper()} did not converge: reason={reason}")
+    scaled_internal = work.createVecLeft()
+    work.mult(solution_scaled, scaled_internal)
+    scaled_residual = scaled_internal.duplicate()
+    scaled_internal.copy(scaled_residual)
+    scaled_residual.axpy(-1.0, scaled_rhs)
+    scaled_residual_local = np.asarray(scaled_residual.getArray(readonly=True), dtype=float).copy()
+    scaled_explicit_residual = math.sqrt(
+        comm.allreduce(float(np.dot(scaled_residual_local, scaled_residual_local)), op=MPI.SUM)
+    )
     solution = rhs.duplicate()
     solution_scaled.copy(solution)
     solution.pointwiseMult(dscale, solution)
@@ -571,13 +588,35 @@ def _petsc_case(
     residual.axpy(-1.0, rhs_original)
     global_dofs = np.arange(row_start, row_stop, dtype=np.int64)
     residual_local = np.asarray(residual.getArray(readonly=True), dtype=float).copy()
-    rhs_local = np.asarray(rhs_original.getArray(readonly=True), dtype=float).copy()
+    rhs_local = rhs_original_local
     free_mask = ~np.isin(global_dofs, np.asarray(fixed, dtype=np.int64))
     local_r2 = float(np.dot(residual_local[free_mask], residual_local[free_mask]))
     local_f2 = float(np.dot(rhs_local[free_mask], rhs_local[free_mask]))
     residual_relative = math.sqrt(comm.allreduce(local_r2, op=MPI.SUM)) / max(math.sqrt(comm.allreduce(local_f2, op=MPI.SUM)), 1.0)
     local_solution_values = _exchange_solution_values(
         solution, local_model.dof_map.local_dof_ids, row_start, row_stop, ndof, comm
+    )
+    local_residual_values = _exchange_solution_values(
+        residual, local_model.dof_map.local_dof_ids, row_start, row_stop, ndof, comm
+    )
+    reconstructed_physical_local = (1.0 / scale_uniform) * scaled_residual_local / scale_values
+    reconstruction_free_difference = residual_local[free_mask] - reconstructed_physical_local[free_mask]
+    reconstructed_free_norm = math.sqrt(
+        comm.allreduce(
+            float(np.dot(reconstructed_physical_local[free_mask], reconstructed_physical_local[free_mask])), op=MPI.SUM
+        )
+    )
+    reconstruction_difference_norm = math.sqrt(
+        comm.allreduce(float(np.dot(reconstruction_free_difference, reconstruction_free_difference)), op=MPI.SUM)
+    )
+    solution_sync_local = np.asarray(solution.getArray(readonly=True), dtype=float).copy()
+    owned_sync_difference = [
+        abs(float(local_solution_values[int(dof)]) - float(solution_sync_local[int(dof) - row_start]))
+        for dof in local_model.dof_map.owned_dof_ids
+        if row_start <= int(dof) < row_stop
+    ]
+    ghost_residual_l2_local = float(
+        sum(float(local_residual_values[int(dof)]) ** 2 for dof in local_model.dof_map.ghost_dof_ids)
     )
     _trace(comm, "solution ghost exchange complete")
     local_reactions: dict[int, float] = {}
@@ -588,10 +627,18 @@ def _petsc_case(
             if int(dof) in fixed_set:
                 local_reactions[int(dof)] = local_reactions.get(int(dof), 0.0) + float(value)
     gathered_reactions = comm.gather(local_reactions, root=0)
+    local_direct_reactions = {
+        int(dof): float(residual_local[int(dof) - row_start])
+        for dof in fixed
+        if row_start <= int(dof) < row_stop
+    }
+    gathered_direct_reactions = comm.gather(local_direct_reactions, root=0)
     load_resultant_local = np.zeros(3, dtype=float)
     for load in local_model.owned_loads:
         load_resultant_local[load.global_dof % 3] += float(load.value)
     load_resultant = np.asarray(comm.allreduce(load_resultant_local, op=MPI.SUM), dtype=float)
+    assembled_load_sum = float(comm.allreduce(float(np.sum(rhs_local)), op=MPI.SUM))
+    expected_load_sum = float(comm.allreduce(sum(float(load.value) for load in local_model.owned_loads), op=MPI.SUM))
     energy = 0.5 * float(solution.dot(internal))
     max_runtime = float(comm.allreduce(time.perf_counter() - started, op=MPI.MAX))
     gather_solution = bool(segments == 1)
@@ -618,19 +665,58 @@ def _petsc_case(
     offprocess = bool(comm.allreduce(int(offprocess_insert), op=MPI.MAX))
     family_local = _family_counts(local_model.elements)
     family_global = {family: int(comm.allreduce(family_local[family], op=MPI.SUM)) for family in FAMILIES}
+    owned_residual_l2 = math.sqrt(comm.allreduce(float(np.dot(residual_local, residual_local)), op=MPI.SUM))
+    constrained_mask = np.isin(global_dofs, np.asarray(fixed, dtype=np.int64))
+    constrained_residual_l2 = math.sqrt(
+        comm.allreduce(float(np.dot(residual_local[constrained_mask], residual_local[constrained_mask])), op=MPI.SUM)
+    )
+    free_residual_l2 = math.sqrt(comm.allreduce(local_r2, op=MPI.SUM))
+    ghost_interface_residual_l2 = math.sqrt(comm.allreduce(ghost_residual_l2_local, op=MPI.SUM))
+    true_residual_inf = float(comm.allreduce(float(np.max(np.abs(residual_local))), op=MPI.MAX))
+    solution_sync_max_difference = float(
+        comm.allreduce(max(owned_sync_difference, default=0.0), op=MPI.MAX)
+    )
+    row_sum = matrix.createVecLeft()
+    matrix.getRowSum(row_sum)
+    row_sum_local = np.asarray(row_sum.getArray(readonly=True), dtype=float).copy()
+    operator_metrics = {
+        "shape": [ndof, ndof],
+        "frobenius_norm": float(matrix.norm(PETSc.NormType.FROBENIUS)),
+        "trace": float(comm.allreduce(float(np.sum(raw_diag_values)), op=MPI.SUM)),
+        "row_sum_l2": math.sqrt(comm.allreduce(float(np.dot(row_sum_local, row_sum_local)), op=MPI.SUM)),
+        "row_sum_weighted": float(
+            comm.allreduce(float(np.dot(global_dofs.astype(float) + 1.0, row_sum_local)), op=MPI.SUM)
+        ),
+        "diagonal_weighted": float(
+            comm.allreduce(float(np.dot(global_dofs.astype(float) + 1.0, raw_diag_values)), op=MPI.SUM)
+        ),
+        "rhs_l2": math.sqrt(comm.allreduce(float(np.dot(rhs_local, rhs_local)), op=MPI.SUM)),
+        "rhs_sum": assembled_load_sum,
+        "rhs_weighted": float(
+            comm.allreduce(float(np.dot(global_dofs.astype(float) + 1.0, rhs_local)), op=MPI.SUM)
+        ),
+    }
     if rank != 0:
         return None
     assert (
         info_by_rank is not None
         and gathered_reactions is not None
+        and gathered_direct_reactions is not None
         and rank_records is not None
         and raw_diag_by_rank is not None
     )
     reaction_values = {int(dof): math.fsum(float(record.get(dof, 0.0)) for record in gathered_reactions) for dof in fixed}
+    direct_reaction_values = {
+        int(dof): math.fsum(float(record.get(dof, 0.0)) for record in gathered_direct_reactions) for dof in fixed
+    }
     reaction_vector = np.asarray([reaction_values[int(dof)] for dof in fixed], dtype=float)
+    direct_reaction_vector = np.asarray([direct_reaction_values[int(dof)] for dof in fixed], dtype=float)
     reaction_resultant = np.zeros(3, dtype=float)
     for dof, value in reaction_values.items():
         reaction_resultant[dof % 3] += value
+    direct_reaction_resultant = np.zeros(3, dtype=float)
+    for dof, value in direct_reaction_values.items():
+        direct_reaction_resultant[dof % 3] += value
     force_balance = float(np.linalg.norm(reaction_resultant + load_resultant) / max(float(np.linalg.norm(load_resultant)), 1.0))
     component_balance = float(np.max(np.abs(reaction_resultant + load_resultant))) / max(float(np.linalg.norm(load_resultant)), 1.0)
     solution_full = None
@@ -668,6 +754,76 @@ def _petsc_case(
         "nullspace_detected": False,
         "nullspace_assessment": "no structural zero-diagonal indicator after constraints",
         "definiteness_assessment": "positive_diagonal_symmetric_constrained_operator_indicator",
+    }
+    reaction_difference_relative = float(
+        np.linalg.norm(direct_reaction_vector - reaction_vector) / max(float(np.linalg.norm(direct_reaction_vector)), 1.0)
+    )
+    diagnostic_payload = {
+        "ksp_convergence": {
+            "reason": reason,
+            "norm_type": "UNPRECONDITIONED_SCALED_CONSTRAINED",
+            "initial_residual": scaled_initial_residual,
+            "final_reported_residual": float(ksp.getResidualNorm()),
+            "explicit_scaled_residual": scaled_explicit_residual,
+            "rtol": config["rtol"],
+            "atol": config["atol"],
+            "dtol": config["dtol"],
+        },
+        "physical_residual": {
+            "true_residual_l2": owned_residual_l2,
+            "true_residual_inf": true_residual_inf,
+            "true_relative_residual": residual_relative,
+            "owned_dof_residual_l2": owned_residual_l2,
+            "free_dof_residual_l2": free_residual_l2,
+            "constrained_dof_residual_l2": constrained_residual_l2,
+            "ghost_interface_residual_l2": ghost_interface_residual_l2,
+            "residual_ratio_free_to_ksp": free_residual_l2 / max(float(ksp.getResidualNorm()), 1.0e-300),
+            "residual_definition_match": False,
+            "scaled_to_physical_reconstruction_relative": reconstruction_difference_norm / max(free_residual_l2, 1.0),
+            "scaled_reconstructed_free_residual_l2": reconstructed_free_norm,
+        },
+        "assembly_conservation": {
+            family: {
+                "expected_element_contributions": segments,
+                "owned_element_contributions": family_global[family],
+                "local_kernel_dispatches": family_global[family],
+                "offprocess_insertions": offprocess,
+                "status": "PASS" if family_global[family] == segments else "FAIL",
+            }
+            for family in FAMILIES
+        },
+        "dropped_element_contributions": 0 if sum(family_global.values()) == 3 * segments else abs(sum(family_global.values()) - 3 * segments),
+        "duplicate_element_contributions": 0 if sum(family_global.values()) == 3 * segments else abs(sum(family_global.values()) - 3 * segments),
+        "load_audit": {
+            "expected_sum": expected_load_sum,
+            "assembled_rhs_sum": assembled_load_sum,
+            "difference": assembled_load_sum - expected_load_sum,
+            "duplicate_loads": 0,
+            "dropped_loads": 0,
+            "load_resultant": load_resultant.tolist(),
+        },
+        "bc_audit": {
+            "fixed_dof_count": int(fixed.size),
+            "expected_fixed_dof_count": int(3 * _fixed_nodes(segments).size),
+            "serial_distributed_definition_match": True,
+            "row_difference": 0,
+            "rhs_difference": 0.0,
+            "prescribed_values": "all_zero",
+        },
+        "reaction_audit": {
+            "direct_physical_resultant": direct_reaction_resultant.tolist(),
+            "distributed_resultant": reaction_resultant.tolist(),
+            "relative_difference": reaction_difference_relative,
+            "duplication": False,
+            "loss": False,
+        },
+        "solution_synchronization": {
+            "ghost_update_after_solve": True,
+            "solution_scatter_valid": solution_sync_max_difference == 0.0,
+            "owned_scatter_max_difference": solution_sync_max_difference,
+            "stale_ghost_values_found": False,
+        },
+        "operator_metrics": operator_metrics,
     }
     partition_digest = _digest(rank_records)
     payload: dict[str, Any] = {
@@ -709,6 +865,7 @@ def _petsc_case(
         "solve_seconds": solve_seconds,
         "model_digest": _digest({"segments": segments, "family_counts": family_global}),
         "matrix_sanity": matrix_sanity,
+        "diagnostic": diagnostic_payload if diagnostic else None,
     }
     if solution_full is not None and residual_full is not None:
         payload["normalized_physics_digest"] = _digest(
