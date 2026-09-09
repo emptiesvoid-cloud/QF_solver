@@ -556,7 +556,7 @@ def _petsc_case(
     ksp.getPC().setType(config["pc"])
     if config["ksp"] == "gmres":
         ksp.setGMRESRestart(config["restart"])
-    ksp.setTolerances(rtol=config["rtol"], atol=config["atol"], dtol=config["dtol"], max_it=config["max_it"])
+    ksp.setTolerances(rtol=config["rtol"], atol=config["atol"], divtol=config["dtol"], max_it=config["max_it"])
     try:
         ksp.setNormType(PETSc.KSP.NormType.UNPRECONDITIONED)
     except AttributeError:
