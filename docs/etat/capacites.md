@@ -17,8 +17,8 @@ element or analysis.
 | --- | --- | --- |
 | TET4/TET10/HEX8/HEX20 linear static | `QUALIFIED_BOUNDED` | Recorded elastic materials, meshes, loads and solver routes. |
 | TET4/TET10/HEX8/HEX20 small-strain J2 | `QUALIFIED_BOUNDED` | Homogeneous constitutive cases in the active evidence matrix. |
-| Modal, Newmark and harmonic | `SUPPORTED_WITH_LIMITATIONS` | Controlled linear cases; mass, damping and element coverage remain route-specific. |
-| Linear buckling | `SUPPORTED_WITH_LIMITATIONS` | Bounded sparse first-factor cases. |
+| Modal, Newmark and harmonic | `ROUTE_DEPENDENT — see capability index` | Controlled linear cases; mass, damping and element coverage remain route-specific. |
+| Linear buckling | `ROUTE_DEPENDENT — see capability index` | Bounded sparse first-factor cases. |
 | Frictionless contact | `EXPERIMENTAL_BOUNDED` | Penalty, node-to-triangle, small-sliding static/quasi-static cases only. |
 | WEDGE6 static | `QUALIFIED_BOUNDED` | Approved isotropic linear-elastic static scope only. |
 | WEDGE6 modal | `QUALIFIED_BOUNDED` | First three modes, homogeneous isotropic consistent-mass scope. |
@@ -30,7 +30,7 @@ element or analysis.
 | HEX8-SRI | `EXPERIMENTAL_BOUNDED` | Separate opt-in linear-static locking-sensitive research capability. |
 | PYRAMID5 | `INTERNAL / RESEARCH_ONLY` | No public supported-element claim. |
 | MITC4 modal | `EXPERIMENTAL` | Element-analysis record remains experimental. |
-| Structured TET4 PETSc/MPI | `SUPPORTED_WITH_LIMITATIONS` | Historical recorded workloads and exact environments only. |
+| Structured TET4 PETSc/MPI | `ROUTE_DEPENDENT — see capability index` | Historical recorded workloads and exact environments only. |
 | Mixed distributed PETSc/MPI | `NOT_VALIDATED` | Architecture foundation exists; runtime physical and partition gates fail. |
 
 ## Evidence vocabulary

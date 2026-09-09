@@ -45,4 +45,9 @@ their original records and are not current release metrics.
 
 The current candidate is `0.2.8-development` and is not published yet.
 
+Historical and intermediate pages remain directly accessible for provenance
+and are visibly labeled. The current MkDocs search configuration has no
+verified exclusion policy for those records, so search-specific demotion or
+exclusion is deferred rather than approximated with an untested extension.
+
 --8<-- "docs/generated/qualification_status.md"

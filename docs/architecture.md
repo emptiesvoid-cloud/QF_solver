@@ -2,12 +2,12 @@
 doc_id: DOC-ARCH-001
 revision: 2.1
 status: controlled
-applicable_version: 0.2.5a0
+applicable_version: 0.2.8-development
 reviewer: ""
 approver: ""
 ---
 
-# Architecture Du Solveur EF
+# QF Solver architecture
 
 La formulation mathematique, les reperes locaux et les conventions des
 elements sont documentes dans les sections `fondements/` et `elements/` des
@@ -57,41 +57,31 @@ Les visualisations, campagnes et verifications vivent respectivement dans
 durant la serie 0.2.x. Les deux chemins d'import sont proteges par une
 baseline matricielle et la campagne MITC4.
 
-## Etat de transition 0.2.5a0
+## Current architecture (0.2.8 development)
 
-`src/solveur/elements/shell/mitc4` est l'unique implementation canonique de
-MITC4. `src/solveur/compat/mitc4` est une facade de compatibilite interne maintenue pour la serie
-`0.2.x`; son retrait est planifie pour `0.3.0` apres une periode de migration
-documentee et testee. Aucun nouveau calcul ne doit etre implemente dans cette
-facade.
+`src/solveur/elements/shell/mitc4` is the canonical MITC4 implementation.
+`src/solveur/compat/mitc4` is an internal compatibility facade retained for
+the 0.2.x migration; it contains no new numerical formulation. The public
+architecture is organized around the `qf_solver` facade, with `solveur`
+providing the implementation and compatibility layers.
 
-Les decisions de maturite sont portees par le registre machine-readable
-`qualification/element_analysis_matrix.json` et par le pack V&V 0.2.5a0. Les
-formulations HEX8 et HEX20 lineaires reutilisent le meme assembleur sparse, les
-memes backends et les memes contrats statique/modal/Newmark/harmonique que les
-solides existants. Dans le scope 0.2.5a0, J2 small-strain est qualifie dans un
-domaine borne sur les quatre familles, tandis que l'elasticite Total-Lagrangian
-et le flambement sont limites aux enveloppes G02/G03 documentees. L'arc-length,
-le J2 finite-kinematic et les couplages G06 restent experimentaux ou differes.
+Current maturity is sourced from the machine-readable
+`qualification/0_2_8/consolidated_registry.json` and from separate 0.2.8
+workflow and capability records. The 46 element-analysis records remain
+separate from mixed workflows and research routes; source-tree presence does
+not imply qualification.
 
-Docker ne fait pas partie du runtime standard. Le Dockerfile conserve dans
-`tools/containers/large/` sert seulement a reproduire un environnement
-PETSc/MPI epingle pour les campagnes grand modele. `pip install qf-solver`
-n'installe ni Docker, ni PETSc, ni les artefacts documentaires.
+The standard runtime does not require Docker, PETSc or MPI. The pinned
+container under `tools/containers/large/` exists for reproducible historical
+large-model campaigns. The generic mixed TET4/WEDGE6/HEX8 PETSc/MPI runtime
+remains `NOT_VALIDATED`; its architecture foundation is not a distributed
+runtime claim.
 
-Le backend numerique commun est porte par `solveur.core.linear_methods`,
-`solveur.core.linear_policy` et `solveur.core.solver_backend`. SciPy reste le
-chemin standard. PETSc/SLEPc sont optionnels et ne sont importes que si
-`backend='petsc'` est demande ou si la politique `auto` est configuree pour les
-grands systemes. La reponse harmonique complexe reste explicitement sur SciPy
-dans cette alpha.
-
-Les archives PyPI sont volontairement centrees sur le produit : elles ne
-dupliquent ni le manuel, ni les Owner reviews, ni les tests. Le depot GitHub
-est la distribution publique complete et lisible. Les operations de qualification qui
-verifient l'existence physique de ces preuves s'executent depuis un clone du
-depot; le paquet installe reste utilisable pour charger, verifier et resoudre
-les modeles couverts.
+The common backend is implemented by `solveur.core.linear_methods`,
+`solveur.core.linear_policy` and `solveur.core.solver_backend`. SciPy is the
+standard path; PETSc/SLEPc are optional and are loaded only when the optional
+backend is selected. The package does not include Docker, PETSc, MPI or
+documentation evidence archives.
 
 ## Couches
 
@@ -153,6 +143,11 @@ HDF5/NPZ -> LargeModel -> inspect_large_model -> backend SciPy/PETSc/matrix_free
 Le mode grand modele evite les deplacements monolithiques en JSON et utilise
 un audit agrege. Les artefacts de preuve incluent une empreinte d'entree et un
 rapport `runtime_environment.json`.
+
+This flow describes the historical structured-TET4 large-model route. The
+generic mixed PETSc/MPI path is architecture evidence only and remains
+`NOT_VALIDATED`; no mixed distributed qualification or general scalability
+claim follows from the recorded large-model workloads.
 
 ## Assemblage et scaling 0.2.2 alpha
 

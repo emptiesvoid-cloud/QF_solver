@@ -20,7 +20,7 @@ use HDF5, MPI-IO and PETSc when those optional dependencies are installed.
 - material: isotropic 3D linear elasticity;
 - degrees of freedom: `UX`, `UY`, `UZ`;
 - input: supported HDF5 or NPZ large-model files;
-- scalable backend: optional PETSc/MPI;
+- backend: optional PETSc/MPI for the recorded structured workloads;
 - comparison backend: chunked SciPy for small or intermediate models.
 
 Modal, dynamic, harmonic, nonlinear and generalized mixed-mesh large-model

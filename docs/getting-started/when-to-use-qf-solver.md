@@ -553,14 +553,14 @@ For example:
 | --- | --- |
 | Linear static solid routes | `QUALIFIED_BOUNDED` |
 | Small-strain J2 on TET4/TET10/HEX8/HEX20 | `QUALIFIED_BOUNDED` |
-| Modal analysis | `SUPPORTED_WITH_LIMITATIONS` |
-| Newmark dynamics | `SUPPORTED_WITH_LIMITATIONS` |
-| Harmonic analysis | `SUPPORTED_WITH_LIMITATIONS` |
-| Linear buckling | `SUPPORTED_WITH_LIMITATIONS` |
-| Frictionless contact | `SUPPORTED_WITH_LIMITATIONS` |
+| Modal analysis | `ROUTE_DEPENDENT — see capability index` |
+| Newmark dynamics | `ROUTE_DEPENDENT — see capability index` |
+| Harmonic analysis | `ROUTE_DEPENDENT — see capability index` |
+| Linear buckling | `ROUTE_DEPENDENT — see capability index` |
+| Frictionless contact | `EXPERIMENTAL_BOUNDED` |
 | WEDGE6 static | `QUALIFIED_BOUNDED` |
 | WEDGE6 modal, declared route | `QUALIFIED_BOUNDED` |
-| Structured TET4 PETSc/MPI route | `SUPPORTED_WITH_LIMITATIONS` |
+| Structured TET4 PETSc/MPI route | `ROUTE_DEPENDENT — see capability index` |
 | Mixed distributed PETSc/MPI runtime | `NOT_VALIDATED` |
 | General frictional contact | Not qualified |
 | General finite-strain plasticity | Not qualified |
