@@ -37,7 +37,6 @@ from solveur.large.generic_distributed import (
     RankLocalElement,
     RankLocalModel,
     dispatch_rank_local_element,
-    rank_local_preallocation_metadata,
 )
 
 
@@ -317,6 +316,55 @@ def _local_matrix_info(matrix: Any, petsc: Any) -> dict[str, float]:
     return {str(key): float(value) for key, value in matrix.getInfo(petsc.Mat.InfoType.LOCAL).items()}
 
 
+def _dof_owner(dof: int, ndof: int, size: int) -> int:
+    boundaries = np.asarray([ndof * rank // int(size) for rank in range(int(size) + 1)], dtype=np.int64)
+    return int(min(int(size) - 1, np.searchsorted(boundaries[1:], int(dof), side="right")))
+
+
+def _exact_row_pattern(
+    contributions: list[Any], row_start: int, row_stop: int, ndof: int, comm: Any
+) -> tuple[np.ndarray, np.ndarray, dict[str, Any]]:
+    """Exchange only row/column sparsity metadata with each row owner."""
+
+    destinations: list[dict[int, set[int]]] = [dict() for _ in range(comm.size)]
+    for contribution in contributions:
+        dofs = [int(value) for value in contribution.global_dofs]
+        for row in dofs:
+            owner = _dof_owner(row, ndof, comm.size)
+            columns = destinations[owner].setdefault(row, set())
+            columns.update(dofs)
+    send = [
+        [(int(row), sorted(int(column) for column in columns)) for row, columns in sorted(rows.items())]
+        for rows in destinations
+    ]
+    received = comm.alltoall(send)
+    owned: dict[int, set[int]] = {}
+    for packet in received:
+        for row, columns in packet:
+            owned.setdefault(int(row), set()).update(int(column) for column in columns)
+    expected = set(range(int(row_start), int(row_stop)))
+    if set(owned) != expected:
+        missing = sorted(expected.difference(owned))[:8]
+        raise RuntimeError(f"PETSc row-owner preallocation exchange lost owned rows: {missing}")
+    diag = np.asarray(
+        [sum(row_start <= column < row_stop for column in owned[row]) for row in range(row_start, row_stop)],
+        dtype=np.int32,
+    )
+    offdiag = np.asarray(
+        [sum(column < row_start or column >= row_stop for column in owned[row]) for row in range(row_start, row_stop)],
+        dtype=np.int32,
+    )
+    return diag, offdiag, {
+        "strategy": "rank-local connectivity exact row-owner exchange",
+        "global_connectivity_required": False,
+        "owned_row_pattern_complete": True,
+        "sent_row_records": int(sum(len(rows) for rows in send)),
+        "received_row_records": int(sum(len(packet) for packet in received)),
+        "max_diag_nnz": int(np.max(diag)) if diag.size else 0,
+        "max_offdiag_nnz": int(np.max(offdiag)) if offdiag.size else 0,
+    }
+
+
 def _petsc_case(segments: int, *, replay: bool = False) -> dict[str, Any] | None:
     from mpi4py import MPI
     from petsc4py import PETSc
@@ -329,13 +377,12 @@ def _petsc_case(segments: int, *, replay: bool = False) -> dict[str, Any] | None
     row_start = ndof * rank // size
     row_stop = ndof * (rank + 1) // size
     local_rows = row_stop - row_start
-    local_meta = rank_local_preallocation_metadata(local_model)
-    local_max_diag = int(local_meta["max_diag_nnz"])
-    local_max_off = int(local_meta["max_offdiag_nnz"])
-    max_diag = int(comm.allreduce(local_max_diag, op=MPI.MAX)) + 24
-    max_off = int(comm.allreduce(local_max_off, op=MPI.MAX)) + 24
-    diag = np.full(local_rows, max_diag, dtype=PETSc.IntType)
-    offdiag = np.full(local_rows, max_off, dtype=PETSc.IntType)
+    contributions = []
+    for element in sorted(local_model.elements, key=lambda item: item.element_id):
+        contributions.append(dispatch_rank_local_element(local_model, element))
+    diag, offdiag, preallocation_metadata = _exact_row_pattern(contributions, row_start, row_stop, ndof, comm)
+    diag = np.asarray(diag, dtype=PETSc.IntType)
+    offdiag = np.asarray(offdiag, dtype=PETSc.IntType)
     started = time.perf_counter()
     matrix = PETSc.Mat().createAIJ(
         size=((local_rows, ndof), (local_rows, ndof)),
@@ -343,11 +390,8 @@ def _petsc_case(segments: int, *, replay: bool = False) -> dict[str, Any] | None
         comm=PETSc.COMM_WORLD,
     )
     matrix.setUp()
-    contributions = []
     offprocess_insert = False
-    for element in sorted(local_model.elements, key=lambda item: item.element_id):
-        contribution = dispatch_rank_local_element(local_model, element)
-        contributions.append(contribution)
+    for contribution in contributions:
         rows = np.asarray(contribution.global_dofs, dtype=PETSc.IntType)
         offprocess_insert = offprocess_insert or bool(np.any((rows < row_start) | (rows >= row_stop)))
         matrix.setValues(rows, rows, contribution.stiffness, addv=PETSc.InsertMode.ADD_VALUES)
@@ -486,7 +530,7 @@ def _petsc_case(segments: int, *, replay: bool = False) -> dict[str, Any] | None
         "family_counts": family_global,
         "petsc_matrix_assembly": "PASS",
         "petsc_vector_assembly": "PASS",
-        "preallocation_runtime": {"strategy": "rank-local connectivity upper-bound", "mat_info_local": matrix_info, "mallocs_zero": matrix_info["mallocs_sum"] == 0.0},
+        "preallocation_runtime": {**preallocation_metadata, "mat_info_local": matrix_info, "mallocs_zero": matrix_info["mallocs_sum"] == 0.0},
         "offprocess_insertion": offprocess,
         "iterations": int(ksp.getIterationNumber()),
         "ksp_final_residual": float(ksp.getResidualNorm()),
