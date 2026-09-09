@@ -13,6 +13,7 @@ from dataclasses import replace
 import hashlib
 import json
 import math
+import os
 from pathlib import Path
 import subprocess
 import sys
@@ -293,6 +294,11 @@ def _normalized_digest(value: np.ndarray) -> str:
     return hashlib.sha256(np.round(vector / scale, 12).astype(np.float64).tobytes(order="C")).hexdigest()
 
 
+def _trace(comm: Any, message: str) -> None:
+    if os.environ.get("QF_WP13_01C_TRACE") in {"1", "true", "TRUE"}:
+        print(f"[wp13-01c rank {comm.Get_rank()}/{comm.Get_size()}] {message}", flush=True)
+
+
 def _serial_case(segments: int) -> dict[str, Any]:
     model = _full_model(segments)
     started = time.perf_counter()
@@ -402,6 +408,7 @@ def _petsc_case(segments: int, *, replay: bool = False) -> dict[str, Any] | None
     rank = comm.Get_rank()
     size = comm.Get_size()
     local_model = _rank_local_model(segments, rank, size)
+    _trace(comm, "rank-local model ready")
     ndof = 3 * _node_count(segments)
     row_start = ndof * rank // size
     row_stop = ndof * (rank + 1) // size
@@ -410,6 +417,7 @@ def _petsc_case(segments: int, *, replay: bool = False) -> dict[str, Any] | None
     for element in sorted(local_model.elements, key=lambda item: item.element_id):
         contributions.append(dispatch_rank_local_element(local_model, element))
     diag, offdiag, preallocation_metadata = _exact_row_pattern(contributions, row_start, row_stop, ndof, comm)
+    _trace(comm, "preallocation metadata exchanged")
     diag = np.asarray(diag, dtype=PETSc.IntType)
     offdiag = np.asarray(offdiag, dtype=PETSc.IntType)
     started = time.perf_counter()
@@ -425,6 +433,7 @@ def _petsc_case(segments: int, *, replay: bool = False) -> dict[str, Any] | None
         offprocess_insert = offprocess_insert or bool(np.any((rows < row_start) | (rows >= row_stop)))
         matrix.setValues(rows, rows, contribution.stiffness, addv=PETSc.InsertMode.ADD_VALUES)
     matrix.assemble()
+    _trace(comm, "matrix assembled")
     local_info = _local_matrix_info(matrix, PETSc)
     info_by_rank = comm.gather(local_info, root=0)
     rhs = matrix.createVecRight()
@@ -469,6 +478,7 @@ def _petsc_case(segments: int, *, replay: bool = False) -> dict[str, Any] | None
     except AttributeError:
         pass
     ksp.solve(scaled_rhs, solution_scaled)
+    _trace(comm, "KSP solve complete")
     reason = int(ksp.getConvergedReason())
     if reason <= 0:
         raise RuntimeError(f"PETSc CG/Jacobi did not converge: reason={reason}")
@@ -490,6 +500,7 @@ def _petsc_case(segments: int, *, replay: bool = False) -> dict[str, Any] | None
     local_solution_values = _exchange_solution_values(
         solution, local_model.dof_map.local_dof_ids, row_start, row_stop, ndof, comm
     )
+    _trace(comm, "solution ghost exchange complete")
     local_reactions: dict[int, float] = {}
     for contribution in contributions:
         local_u = np.asarray([local_solution_values[int(dof)] for dof in contribution.global_dofs], dtype=float)
@@ -523,6 +534,7 @@ def _petsc_case(segments: int, *, replay: bool = False) -> dict[str, Any] | None
         "global_model_retained": bool(local_model.metadata.get("global_model_retained")),
     }
     rank_records = comm.gather(rank_record, root=0)
+    _trace(comm, "rank records gathered")
     offprocess = bool(comm.allreduce(int(offprocess_insert), op=MPI.MAX))
     family_local = _family_counts(local_model.elements)
     family_global = {family: int(comm.allreduce(family_local[family], op=MPI.SUM)) for family in FAMILIES}
