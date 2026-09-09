@@ -22,10 +22,11 @@ def test_wp13_12_contract_freezes_the_separate_sri_scope() -> None:
     assert contract["gates"]["post_observation_retuning"] is False
 
 
-def test_wp13_12_final_evidence_retains_experimental_scope() -> None:
+def test_wp13_12_final_evidence_preserves_the_predeclared_failure_diagnosis() -> None:
     evidence = _load("qualification/0_2_8/wp13_12_hex8_sri_maturation/manifest.json")
-    assert evidence["technical_decision"] == "EXPERIMENTAL_BOUNDED_RETAIN"
-    assert all(value == "PASS" for value in evidence["gates"].values())
+    assert evidence["technical_decision"] == "KEEP_EXPERIMENTAL"
+    assert evidence["gates"]["equilibrium"] == "FAIL"
+    assert evidence["gates"]["energy"] == "FAIL"
     assert evidence["patch_and_rank"]["spurious_zero_modes"] == 0
     assert evidence["failure_contract"]["executed"] == evidence["failure_contract"]["required"] == 9
     assert evidence["replays"]["full_array_comparison"] == "PASS"
