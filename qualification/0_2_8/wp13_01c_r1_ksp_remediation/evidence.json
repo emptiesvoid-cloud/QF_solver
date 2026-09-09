@@ -41,7 +41,7 @@
           "zero_diagonal_count": 0
         },
         "pass": false,
-        "runtime_seconds": 2.159501554000599,
+        "runtime_seconds": 1.8896773400010716,
         "status": "FAIL"
       },
       "small_non_regression": {
@@ -109,7 +109,7 @@
           "zero_diagonal_count": 0
         },
         "pass": false,
-        "runtime_seconds": 2.0879029759998957,
+        "runtime_seconds": 2.2173690290001105,
         "status": "PASS"
       },
       "small_non_regression": {

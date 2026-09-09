@@ -4,6 +4,7 @@
   "contract_id": "WP13-01C-R1-KSP-REMEDIATION-001",
   "contract_sha256": "6b2a08244ad1203dd175c1311ddb2d268efcb4e3dfed222149df6362d3411e1d",
   "result": {
+    "assembly_seconds": 29.63573713199912,
     "backend": "petsc4py_mpi_rank_local",
     "candidate_configuration": {
       "atol": 1e-12,
@@ -16810,9 +16811,10 @@
     ],
     "reaction_vector": null,
     "residual": null,
-    "runtime_seconds": 2.0879029759998957,
+    "runtime_seconds": 2.2173690290001105,
     "segments": 5556,
     "solution": null,
+    "solve_seconds": 0.509793360999538,
     "solver_configuration": {
       "atol": 1e-12,
       "id": "GMRES_ASM",
