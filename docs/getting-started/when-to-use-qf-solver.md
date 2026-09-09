@@ -267,8 +267,12 @@ Use QF Solver for large models when the intended solver route is close to the
 documented large-scale configurations.
 
 The 0.2.8 mixed PETSc/MPI architecture does not yet satisfy its runtime
-qualification gates and remains `NOT_VALIDATED`; it must not be inferred from
-the structured TET4 results.
+qualification gates and remains `NOT_VALIDATED`: the two-rank run passes its
+residual check but fails force balance, the three-rank run reaches
+`KSP_DIVERGED_BREAKDOWN`, and partition consistency fails. This is architecture
+evidence only; it must not be presented as scalable mixed PETSc support,
+validated distributed mixed support, production-ready mixed MPI, or even as a
+limited two-rank claim.
 
 ---
 
@@ -340,11 +344,11 @@ WEDGE6 support must be interpreted carefully.
 
 Current status:
 
-- WEDGE6 static: `EXPERIMENTAL`;
+- WEDGE6 static: `QUALIFIED_BOUNDED` within its documented linear-elastic scope;
 - WEDGE6 modal: bounded qualification for a specific documented route.
 
-A successful WEDGE6 modal qualification does not imply static, nonlinear or
-general dynamic qualification.
+Neither WEDGE6 static nor modal qualification implies nonlinear or general
+dynamic qualification.
 
 WEDGE15 is currently outside the supported qualified scope.
 
@@ -554,9 +558,10 @@ For example:
 | Harmonic analysis | `SUPPORTED_WITH_LIMITATIONS` |
 | Linear buckling | `SUPPORTED_WITH_LIMITATIONS` |
 | Frictionless contact | `SUPPORTED_WITH_LIMITATIONS` |
-| WEDGE6 static | `EXPERIMENTAL` |
+| WEDGE6 static | `QUALIFIED_BOUNDED` |
 | WEDGE6 modal, declared route | `QUALIFIED_BOUNDED` |
-| PETSc/MPI large-model route | `SUPPORTED_WITH_LIMITATIONS` |
+| Structured TET4 PETSc/MPI route | `SUPPORTED_WITH_LIMITATIONS` |
+| Mixed distributed PETSc/MPI runtime | `NOT_VALIDATED` |
 | General frictional contact | Not qualified |
 | General finite-strain plasticity | Not qualified |
 | GPU solving | Not claimed |
