@@ -245,7 +245,10 @@ def _build_evidence(args: argparse.Namespace) -> int:
             "dof": original_failure["ndof"],
             "reason": original_failure["converged_reason"],
         },
-        "matrix_diagnosis": next((row["scale_a"]["matrix_sanity"] for row in rows if "scale_a" in row), None),
+        "matrix_diagnosis": next(
+            (row["scale_a"]["matrix_sanity"] for row in rows if "matrix_sanity" in row.get("scale_a", {})),
+            None,
+        ),
         "candidates": rows,
         "selected": selected,
         "selected_small_case": selected_small,
