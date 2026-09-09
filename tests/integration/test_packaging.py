@@ -64,10 +64,10 @@ def test_pyproject_declares_installable_solver_package():
     assert {"h5py>=3.10", "mpi4py>=3.1", "petsc4py>=3.20"} <= set(project["optional-dependencies"]["large"])
     assert "pypdf==6.10.0" in project["optional-dependencies"]["docs"]
     assert "platformdirs==4.9.4" in project["optional-dependencies"]["docs"]
-    assert not any(
-        dependency.startswith(("mkdocs", "playwright"))
-        for dependency in project["optional-dependencies"]["docs"]
-    )
+    assert "mkdocs>=1.6,<2" in project["optional-dependencies"]["docs"]
+    assert "mkdocs-material>=9.5,<10" in project["optional-dependencies"]["docs"]
+    assert not any("playwright" in dependency for dependency in project["optional-dependencies"]["docs"])
+    assert set(project["license-files"]) == {"LICENSE", "LICENSE-DOCS", "NOTICE", "THIRD_PARTY_LICENSES.md"}
     assert project["scripts"]["qf-solver"] == "solveur.cli.main:main"
     assert "qf-solver-docs" not in project["scripts"]
     assert project["scripts"]["solveur-ef"] == "solveur.cli.main:legacy_main"

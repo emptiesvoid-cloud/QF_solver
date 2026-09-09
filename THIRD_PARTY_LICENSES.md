@@ -13,9 +13,25 @@ distributed by each upstream project.
 | SciPy | sparse matrices and numerical solvers | [SciPy license](https://github.com/scipy/scipy/blob/main/LICENSE.txt) |
 | Matplotlib | plots and generated figures | [Matplotlib license](https://matplotlib.org/stable/project/license.html) |
 
-Optional integrations such as Gmsh, h5py, mpi4py and PETSc/petsc4py must be
-reviewed with the exact version installed before redistribution. They are not
-relicensed by QF_solver.
+## Optional integrations and documentation tooling
+
+The following packages are optional integrations or documentation tooling. Their
+upstream terms remain applicable; the exact installed version must be reviewed
+before redistribution. They are not relicensed by QF_solver.
+
+| Component | Extra/use | Upstream reference |
+| --- | --- | --- |
+| Gmsh | `mesh` and documentation mesh examples | [Gmsh](https://gmsh.info/) |
+| h5py | `hdf5` and `large` result storage | [h5py](https://github.com/h5py/h5py) |
+| mpi4py | `large`/`hpc` MPI bindings | [mpi4py](https://github.com/mpi4py/mpi4py) |
+| PETSc / petsc4py | `large`/`hpc` sparse solver bindings | [PETSc](https://petsc.org/) and [petsc4py](https://gitlab.com/petsc/petsc4py) |
+| SLEPc / slepc4py | `hpc` eigensolver bindings | [SLEPc](https://slepc.upv.es/) and [slepc4py](https://gitlab.com/slepc/slepc4py) |
+| MkDocs | `docs` public-site builder | [MkDocs](https://www.mkdocs.org/) |
+| Material for MkDocs | `docs` public-site theme | [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) |
+
+Test and engineering-only helpers such as pytest, pytest-cov, psutil, PyYAML,
+Ruff, mypy, Hypothesis, ReportLab, svglib and pypdf are likewise governed by
+their upstream terms. They are not runtime solver dependencies.
 
 ## Verification references and external outputs
 

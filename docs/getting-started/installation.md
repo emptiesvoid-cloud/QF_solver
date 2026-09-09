@@ -19,20 +19,24 @@ Install the package when a 0.2.8 distribution is available from the package
 index. This development documentation does not claim that publication has
 already occurred:
 
-```powershell
+```bash
 python -m pip install qf-solver
 qf-solver --version
 ```
 
-For development from source, use the intended branch or commit explicitly;
-no 0.2.8 tag is claimed here:
+An unqualified clone follows the repository default branch; it is not a
+release selector. For this pre-publication candidate, select the branch
+explicitly. No 0.2.8 tag is claimed here:
 
-```powershell
-git clone https://github.com/emptiesvoid-cloud/QF_solver.git
-Set-Location QF_solver
+```bash
+git clone --branch 0.2.8-pre-publication --single-branch https://github.com/emptiesvoid-cloud/QF_solver.git
+cd QF_solver
 python -m pip install .
 qf-solver --version
 ```
+
+An eventual tagged release should instead select its published tag explicitly;
+the default branch is not a promise that it contains this candidate.
 
 The core package requires Python 3.10 or newer. The public import is:
 
@@ -45,27 +49,43 @@ print(qf_solver.__version__)
 
 The optional extras are intended for specific workflows:
 
-```powershell
+```bash
 python -m pip install "qf-solver[mesh]"
 python -m pip install "qf-solver[hdf5]"
 python -m pip install "qf-solver[large]"
 python -m pip install "qf-solver[hpc]"
+python -m pip install "qf-solver[docs]"
 ```
 
 `mesh` adds mesh tooling. `hdf5` adds only the optional family-aware HDF5
 result dependency. `large` adds HDF5 and MPI/PETSc support used by the
-large-model route. `hpc` adds the optional SLEPc integration. These extras are
-not required for core import or small standard examples. Calling an HDF5 API
-without `h5py` raises a typed `InfrastructureError`; importing `qf_solver`
-does not require `h5py`.
+large-model route. `hpc` adds the optional SLEPc integration. `docs` adds the
+MkDocs/MkDocs Material site builder and the controlled Markdown/PDF tooling.
+These extras are not required for core import or small standard examples.
+Calling an HDF5 API without `h5py` raises a typed `InfrastructureError`;
+importing `qf_solver` does not require `h5py`.
+
+The `large` and `hpc` extras expose Python bindings to native MPI, PETSc and
+SLEPc environments; they do not make those native runtimes universally
+installable through pip. The recorded PETSc/MPI environments are Linux
+conda/container setups, and native Windows compatibility is environment-specific
+and not guaranteed. The mixed distributed PETSc/MPI runtime remains
+`NOT_VALIDATED`.
+
+From a repository checkout, the public documentation site can be built with:
+
+```bash
+python -m pip install ".[docs]"
+python -m mkdocs build --strict -f .github/pages/mkdocs.yml
+```
 
 ## Development installation
 
 For project development only:
 
-```powershell
+```bash
 git clone https://github.com/emptiesvoid-cloud/QF_solver.git
-Set-Location QF_solver
+cd QF_solver
 python -m pip install -e ".[test,dev]"
 ```
 
