@@ -10,7 +10,7 @@ approver: ""
 # F3 - Audit des claims publics 0.2.7a0
 
 > **CONTROLLED VIEW** - La source machine-readable est
-> [`f3_public_claim_audit.json`](../../../qualification/0_2_7/f3_public_claim_audit.json).
+> [`f3_public_claim_audit.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/f3_public_claim_audit.json).
 > Cette page ne remplace ni les preuves d'execution ni le registry v2.
 
 ## Decision rule
@@ -78,4 +78,4 @@ sont pas convertis en preuves disponibles.
 - [`V&V harness v2`](0_2_7_vnv_harness_v2.md)
 - [`3M ladder`](0_2_7_wp18_3m_ladder.md)
 - [`5M closeout`](0_2_7_lu2_wp04_wp05_5m_closeout.md)
-- [`LU2 state`](../../../qualification/0_2_7/level_up_2_state.json)
+- [`LU2 state`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/level_up_2_state.json)

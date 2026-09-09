@@ -79,10 +79,10 @@ python .\scripts\run_tet4_error_audit.py
 
 Artefacts :
 
-- [`summary.json`](../../qualification/vnv/tet4_error_audit_2026-08-21/summary.json)
-- [`report.md`](../../qualification/vnv/tet4_error_audit_2026-08-21/report.md)
-- [`tet4_error_convergence.png`](../../qualification/vnv/tet4_error_audit_2026-08-21/tet4_error_convergence.png)
-- [`vnv_manifest.json`](../../qualification/vnv/tet4_error_audit_2026-08-21/vnv_manifest.json)
+- `summary.json` (source artifact not included in the tracked release tree)
+- `report.md` (source artifact not included in the tracked release tree)
+- `tet4_error_convergence.png` (source artifact not included in the tracked release tree)
+- `vnv_manifest.json` (source artifact not included in the tracked release tree)
 
 L'audit ne signe pas une Owner Review et ne change pas seul la maturite du
 scope.

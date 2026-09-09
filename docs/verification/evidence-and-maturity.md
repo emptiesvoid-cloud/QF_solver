@@ -14,7 +14,7 @@ approver: ""
 
 This page explains how a public capability status is supported. The current
 orientation is maintained by the [0.2.8 capability index](../capabilities/index.md)
-and the [consolidated element-analysis registry](../../qualification/0_2_8/consolidated_registry.json).
+and the [consolidated element-analysis registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/consolidated_registry.json).
 
 ## Evidence chain
 

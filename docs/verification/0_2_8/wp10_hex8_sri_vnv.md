@@ -16,7 +16,7 @@ approver: ""
 
 WP10 evaluates a separate research-only SRI kernel. The frozen
 [formulation](wp10_hex8_sri_formulation.md) and
-[contract](../../../qualification/0_2_8/wp10_hex8_sri_contract.json) keep the
+[contract](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp10_hex8_sri_contract.json) keep the
 qualified HEX8 implementation unchanged.
 
 The candidate integrates the deviatoric contribution at the standard eight

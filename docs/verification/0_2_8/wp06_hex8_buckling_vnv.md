@@ -13,8 +13,8 @@ WP06 audits the sole `NOT_QUALIFIED` source combination,
 `COMB-HEX8-linear_buckling`, from the WP01 maturity baseline. The campaign
 does not alter the numerical source, the 0.2.7 registry or historical
 evidence. Its machine-readable contract and output are
-[`the frozen contract`](../../../qualification/0_2_8/wp06_hex8_buckling_contract.json)
-and [`the campaign evidence`](../../../qualification/0_2_8/wp06_hex8_buckling_vnv.json).
+[`the frozen contract`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp06_hex8_buckling_contract.json)
+and [`the campaign evidence`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp06_hex8_buckling_vnv.json).
 
 ## Frozen scope and gates
 

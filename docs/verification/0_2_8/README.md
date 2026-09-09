@@ -13,14 +13,14 @@ approver: ""
 > WP01 and WP13 working history for auditability. Interim dispositions below do
 > not define the current public status. For current 0.2.8 maturity, use the
 > [central capability index](../../capabilities/index.md) and the
-> [consolidated registry](../../../qualification/0_2_8/consolidated_registry.json).
+> [consolidated registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/consolidated_registry.json).
 
 ## Current authoritative 0.2.8 state
 
 This file is a chronological WP13 record, so interim counts and failed
 campaigns below are retained as historical observations. The authoritative
 current element-analysis source is
-[`qualification/0_2_8/consolidated_registry.json`](../../../qualification/0_2_8/consolidated_registry.json):
+[`qualification/0_2_8/consolidated_registry.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/consolidated_registry.json):
 32 `QUALIFIED_BOUNDED`, 14 `EXPERIMENTAL`, 0 `NOT_QUALIFIED`, total 46.
 
 Connected conforming mixed static, modal, translational-MPC and multi-material
@@ -40,7 +40,7 @@ not a qualification-state change. The 0.2.7 registry and all its historical
 evidence remain unchanged.
 
 The machine-readable source is
-[`qualification/0_2_8/wp01_maturity_matrix.json`](../../../qualification/0_2_8/wp01_maturity_matrix.json).
+[`qualification/0_2_8/wp01_maturity_matrix.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp01_maturity_matrix.json).
 It preserves the exact source-registry digest, every combination identifier,
 the required next proof, test, oracle, tolerance policy, exit gate and risk.
 
@@ -132,10 +132,10 @@ by the [`final WP03 Owner gate`](wp03_owner_gate_final.md): seven routes are
 
 The WP04 frozen contract, executable replays and bounded decision delta are
 recorded in [`WP04 MITC V&V`](wp04_mitc_vnv.md) and its
-[`machine-readable evidence`](../../../qualification/0_2_8/wp04_mitc_vnv.json)
-and [`WP04 maturity matrix`](../../../qualification/0_2_8/wp04_maturity_matrix.json).
+[`machine-readable evidence`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp04_mitc_vnv.json)
+and [`WP04 maturity matrix`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp04_maturity_matrix.json).
 The final decisions are recorded in the [`WP04 Owner gate`](wp04_owner_gate_final.md)
-and [`machine-readable Owner record`](../../../qualification/0_2_8/wp04_owner_gate_final.json).
+and [`machine-readable Owner record`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp04_owner_gate_final.json).
 MITC3 static, MITC4 static, MITC4 Newmark and MITC4 harmonic are technical
 `QUALIFIED_BOUNDED` within their bounded scopes. MITC3 modal/Newmark/harmonic
 remain `EXPERIMENTAL` because no executable independent shell oracle is
@@ -160,21 +160,21 @@ identified by WP01 as `NEEDS_MAJOR_VNV`. The bounded technical decision,
 predeclared contract, current replays, face-load checks, geometry failure
 paths and the audited Code_Aster evidence are recorded in
 [`WP05 WEDGE6 V&V`](wp05_wedge6_vnv.md), its
-[`machine-readable evidence`](../../../qualification/0_2_8/wp05_wedge6_vnv.json)
-and [`maturity delta`](../../../qualification/0_2_8/wp05_maturity_matrix.json).
+[`machine-readable evidence`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp05_wedge6_vnv.json)
+and [`maturity delta`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp05_maturity_matrix.json).
 The decision is `QUALIFIED_BOUNDED` for the exact static scope after the
 separate Owner gate; the public maturity is now `QUALIFIED_BOUNDED` within
 that scope, with the limitations recorded in the
 [`WP05 Owner gate`](wp05_owner_gate_final.md). The machine-readable Owner record is
-[`wp05_owner_gate_final.json`](../../../qualification/0_2_8/wp05_owner_gate_final.json).
+[`wp05_owner_gate_final.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp05_owner_gate_final.json).
 Modal, Newmark and harmonic WEDGE6 routes are not promoted.
 
 ## WP06 HEX8 linear-buckling assessment
 
 WP06 audits the sole `NOT_QUALIFIED` combination,
 `COMB-HEX8-linear_buckling`, using the frozen
-[`HEX8 buckling contract`](../../../qualification/0_2_8/wp06_hex8_buckling_contract.json)
-and executable [`campaign evidence`](../../../qualification/0_2_8/wp06_hex8_buckling_vnv.json).
+[`HEX8 buckling contract`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp06_hex8_buckling_contract.json)
+and executable [`campaign evidence`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp06_hex8_buckling_vnv.json).
 The technical decision remains `NOT_QUALIFIED`: the Euler factor and
 three-level refinement gates failed in both declared boundary configurations,
 the invalid-orientation case did not fail closed, current CalculiX execution
@@ -182,7 +182,7 @@ was unavailable, and the two complete replay digests differed. The passing
 preload, `Kg`, eigen-residual and mode-shape sub-checks do not override those
 failed closure gates.
 
-The [`WP06 maturity delta`](../../../qualification/0_2_8/wp06_maturity_matrix.json)
+The [`WP06 maturity delta`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp06_maturity_matrix.json)
 records no promotion and reconciles the unchanged global state as 32
 `QUALIFIED_BOUNDED`, 13 `EXPERIMENTAL` and one `NOT_QUALIFIED`, exactly
 `COMB-HEX8-linear_buckling`. WEDGE6 static remains distinct. No 0.2.7 evidence
@@ -193,7 +193,7 @@ while the technical decision is negative.
 
 WP06B starts from `be8fbd99d8a3d3b8e4ee3b8d867842389b063061` and reuses the
 WP06 scope and tolerances without retuning. The
-[`WP06B contract`](../../../qualification/0_2_8/wp06b_hex8_buckling_contract.json)
+[`WP06B contract`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp06b_hex8_buckling_contract.json)
 classifies the Euler/refinement failures as model/scope limitations, the
 original invalid-orientation probe as a test-oracle problem, and the replay
 tail variation as sparse-solver start nondeterminism. The minimal remediation
@@ -203,8 +203,8 @@ used, and a true mirrored HEX8 connectivity is tested.
 After remediation, invalid geometry, robustness and two complete deterministic
 replays pass. The Euler factor and mesh-refinement gates still fail in the
 unchanged scope, and the current CalculiX oracle remains unavailable. The
-[`WP06B evidence`](../../../qualification/0_2_8/wp06b_hex8_buckling_vnv.json)
-and [`WP06B maturity delta`](../../../qualification/0_2_8/wp06b_maturity_matrix.json)
+[`WP06B evidence`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp06b_hex8_buckling_vnv.json)
+and [`WP06B maturity delta`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp06b_maturity_matrix.json)
 therefore retain `COMB-HEX8-linear_buckling` as `NOT_QUALIFIED`; no public
 promotion or Owner gate is applied. No 0.2.7 evidence is changed and WP07 is
 not started.
@@ -213,9 +213,9 @@ not started.
 
 WP07 audits the existing family-generic architecture for one conforming
 mixed-solid `linear_static` workflow. The frozen
-[`WP07 contract`](../../../qualification/0_2_8/wp07_mixed_static_contract.json),
-executable [`WP07 evidence`](../../../qualification/0_2_8/wp07_mixed_static_vnv.json)
-and [`WP07 candidate matrix`](../../../qualification/0_2_8/wp07_mixed_static_matrix.json)
+[`WP07 contract`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp07_mixed_static_contract.json),
+executable [`WP07 evidence`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp07_mixed_static_vnv.json)
+and [`WP07 candidate matrix`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp07_mixed_static_matrix.json)
 record the subsystem audit, affine/interface/load gates, Gmsh path, explicit
 failure contract and two deterministic replays.
 
@@ -224,7 +224,7 @@ All declared technical gates pass, producing
 linear-static scope. The separate
 [`WP07 Owner gate`](wp07_owner_gate_final.md) approves that workflow as
 `QUALIFIED_BOUNDED` with limitations; the corresponding
-[`Owner record`](../../../qualification/0_2_8/wp07_owner_gate_final.json)
+[`Owner record`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp07_owner_gate_final.json)
 keeps it separate from the 46 element-analysis combinations. The affine
 refinement is a consistency check, not a general accuracy-convergence claim.
 Dynamic and other analysis routes remain out of scope, no external solver
@@ -235,9 +235,9 @@ changed.
 
 WP08 audits the existing mixed consistent-mass modal route separately from the
 46 element-analysis combinations and from the WP07 static workflow. The frozen
-[`WP08 contract`](../../../qualification/0_2_8/wp08_mixed_modal_contract.json),
-machine-readable [`WP08 evidence`](../../../qualification/0_2_8/wp08_mixed_modal_vnv.json)
-and [`WP08 matrix`](../../../qualification/0_2_8/wp08_mixed_modal_matrix.json)
+[`WP08 contract`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp08_mixed_modal_contract.json),
+machine-readable [`WP08 evidence`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp08_mixed_modal_vnv.json)
+and [`WP08 matrix`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp08_mixed_modal_matrix.json)
 cover conforming fixed-base TET4/WEDGE6/HEX8 pairwise and three-family cases,
 the first six positive modes, an independent dense local-matrix oracle, mass
 conservation, residuals, orthogonality, interface failure paths and two
@@ -253,7 +253,7 @@ claim is made, and no 0.2.7 evidence or WP07 static claim is changed.
 
 ## WP08B mixed modal refinement follow-up
 
-The [`WP08B root-cause audit`](../../../qualification/0_2_8/wp08b_root_cause_audit.json)
+The [`WP08B root-cause audit`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp08b_root_cause_audit.json)
 shows that the failed WP08 refinement compared changing mechanical domains:
 only the first WEDGE6/HEX8 segment was retained beyond level one. WP08B leaves
 that record and its `0.5` gate unchanged, then uses a new predeclared contract
@@ -261,8 +261,8 @@ with the full invariant physical chain and a fine-mass mapped MAC comparator.
 
 All new mixed gates pass: volume/bounds are invariant, the first six modes are
 globally matched without permutations, and the minimum mapped MAC is `0.9037`.
-The resulting [`WP08B evidence`](../../../qualification/0_2_8/wp08b_mixed_modal_vnv.json)
-and [`WP08B matrix`](../../../qualification/0_2_8/wp08b_mixed_modal_matrix.json)
+The resulting [`WP08B evidence`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp08b_mixed_modal_vnv.json)
+and [`WP08B matrix`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp08b_mixed_modal_matrix.json)
 record `QUALIFIED_BOUNDED_CANDIDATE` only. It remains a separate mixed-workflow
 candidate, with no public maturity relabel or change to the 46 combination
 records, pending a dedicated Owner gate.
@@ -276,16 +276,16 @@ are the valid cross-mesh comparison; the original WP08 shared-node MAC gate
 and its failure remain unchanged. No external correlation is claimed, and no
 modal stress, Newmark, harmonic, nonlinear, contact, nonconforming, higher-
 order-family or large-performance claim is created. The Owner decision is
-recorded in the [`WP08B Owner record`](../../../qualification/0_2_8/wp08b_owner_gate_final.json),
+recorded in the [`WP08B Owner record`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp08b_owner_gate_final.json),
 without changing the 46 element-analysis combinations or starting WP09.
 
 ## WP09 PYRAMID5 feasibility gate
 
 WP09 records a bounded internal feasibility gate for a five-node linear
 pyramid. The frozen [formulation](wp09_pyramid5_formulation.md),
-[contract](../../../qualification/0_2_8/wp09_pyramid5_contract.json),
-[evidence](../../../qualification/0_2_8/wp09_pyramid5_vnv.json), and
-[decision matrix](../../../qualification/0_2_8/wp09_pyramid5_matrix.json)
+[contract](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp09_pyramid5_contract.json),
+[evidence](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp09_pyramid5_vnv.json), and
+[decision matrix](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp09_pyramid5_matrix.json)
 cover the collapsed-coordinate kernel, bounded geometry validation, affine
 patch, loads, post-processing, Gmsh type-7 import, a conforming
 HEX8/PYRAMID5/TET4 transition and two deterministic replays.
@@ -301,9 +301,9 @@ started.
 
 WP10 evaluates a separate HEX8 SRI research kernel under the frozen
 [formulation](wp10_hex8_sri_formulation.md) and
-[contract](../../../qualification/0_2_8/wp10_hex8_sri_contract.json). The
-[machine-readable evidence](../../../qualification/0_2_8/wp10_hex8_sri_vnv.json)
-and [matrix](../../../qualification/0_2_8/wp10_hex8_sri_matrix.json) compare
+[contract](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp10_hex8_sri_contract.json). The
+[machine-readable evidence](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp10_hex8_sri_vnv.json)
+and [matrix](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp10_hex8_sri_matrix.json) compare
 the unchanged standard HEX8 with a deviatoric `2×2×2` plus volumetric centre
 integration variant.
 
@@ -325,8 +325,8 @@ counts of TET4, WEDGE6 and HEX8 in repeated conforming chains. The small
 baseline, two large replays, residual/equilibrium/energy gates and environment
 metadata pass. See the [WP11 evidence report](wp11_mixed_large_vnv.md), the
 [frozen contract](wp11_mixed_large_contract.md), the
-[machine-readable evidence](../../../qualification/0_2_8/wp11_mixed_large_vnv.json)
-and the [decision matrix](../../../qualification/0_2_8/wp11_mixed_large_matrix.json).
+[machine-readable evidence](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp11_mixed_large_vnv.json)
+and the [decision matrix](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp11_mixed_large_matrix.json).
 
 The bounded claim is only recorded large-scale mixed TET4/WEDGE6/HEX8 evidence
 for this specific conforming linear-static route and environment. The repeated
@@ -350,8 +350,8 @@ after a separate Owner gate. The historical WP06 Euler and mesh-convergence
 `FAIL` results remain unchanged, no external correlation is claimed, and no
 0.2.7 evidence or numerical source was modified. See the [WP11B report](wp11b_hex8_buckling_experimental_vnv.md),
 [contract](wp11b_hex8_buckling_experimental_contract.md),
-[evidence](../../../qualification/0_2_8/wp11b_hex8_buckling_experimental_vnv.json)
-and [matrix](../../../qualification/0_2_8/wp11b_hex8_buckling_experimental_matrix.json).
+[evidence](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp11b_hex8_buckling_experimental_vnv.json)
+and [matrix](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp11b_hex8_buckling_experimental_matrix.json).
 
 ## WP11B HEX8 buckling Owner gate
 

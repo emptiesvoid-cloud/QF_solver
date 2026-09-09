@@ -15,7 +15,7 @@ not establish universal element or solver qualification.
 
 ## Public examples
 
-The maintained JSON examples are in [`examples/`](../../examples/). The
+The maintained JSON examples are in [`examples/`](https://github.com/emptiesvoid-cloud/QF_solver/tree/0b356330bdbf63ca6c0406d9a5f816bd75246764/examples). The
 shortest path is the [TET4 static quickstart](../getting-started/quickstart.md).
 The public Python API is available through `qf_solver`.
 

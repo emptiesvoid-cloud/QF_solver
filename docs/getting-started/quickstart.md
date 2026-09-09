@@ -41,7 +41,7 @@ surface.
 
 Confirm that the element, analysis, material, loading, boundary conditions and
 solver backend all fall within the
-[0.2.8 consolidated registry](../../qualification/0_2_8/consolidated_registry.json)
+[0.2.8 consolidated registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/consolidated_registry.json)
 and, for mixed workflows or separate capabilities, the linked delivery record.
 Read the [known limitations](../etat/limites.md) and retain the input,
 configuration and result files with the calculation record.

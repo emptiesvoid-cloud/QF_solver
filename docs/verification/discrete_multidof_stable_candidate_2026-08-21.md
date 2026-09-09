@@ -41,7 +41,7 @@ La campagne externe Code_Aster mono-DDL reste la preuve de correlation externe.
 La presente etude ajoute une preuve de bonne gestion de l'assemblage, de la
 masse, des matrices couplees et des methodes lineaires sur plusieurs DDL.
 
-![Resultats multi-DDL](../../qualification/vnv/discrete_multidof_2026-08-21/discrete_multidof_results.png)
+*Resultats multi-DDL — source artifact not included in the tracked release tree.*
 
 ## Limites maintenues
 
@@ -52,10 +52,10 @@ automatique vers `stable`.
 
 ## Artefacts
 
-- [`summary.json`](../../qualification/vnv/discrete_multidof_2026-08-21/summary.json)
-- [`report.md`](../../qualification/vnv/discrete_multidof_2026-08-21/report.md)
-- [`discrete_multidof_results.png`](../../qualification/vnv/discrete_multidof_2026-08-21/discrete_multidof_results.png)
-- [`vnv_manifest.json`](../../qualification/vnv/discrete_multidof_2026-08-21/vnv_manifest.json)
+- `summary.json` (source artifact not included in the tracked release tree)
+- `report.md` (source artifact not included in the tracked release tree)
+- `discrete_multidof_results.png` (source artifact not included in the tracked release tree)
+- `vnv_manifest.json` (source artifact not included in the tracked release tree)
 
 Commande de regeneration :
 

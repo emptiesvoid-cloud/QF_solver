@@ -12,11 +12,11 @@ approver: ""
 WP08B starts from `59a438bc0d58ee32d35e084dd091eefe78418bb6`. It preserves the
 WP08 decision, `SUPPORTED_WITH_LIMITATIONS`, and does not rewrite WP08 or
 0.2.7 evidence. The diagnostic is recorded in the
-[`root-cause audit`](../../../qualification/0_2_8/wp08b_root_cause_audit.json),
+[`root-cause audit`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp08b_root_cause_audit.json),
 followed by the separate predeclared
-[`WP08B contract`](../../../qualification/0_2_8/wp08b_mixed_modal_contract.json),
-executable [`WP08B evidence`](../../../qualification/0_2_8/wp08b_mixed_modal_vnv.json)
-and [`WP08B matrix`](../../../qualification/0_2_8/wp08b_mixed_modal_matrix.json).
+[`WP08B contract`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp08b_mixed_modal_contract.json),
+executable [`WP08B evidence`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp08b_mixed_modal_vnv.json)
+and [`WP08B matrix`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp08b_mixed_modal_matrix.json).
 
 ## Root cause
 

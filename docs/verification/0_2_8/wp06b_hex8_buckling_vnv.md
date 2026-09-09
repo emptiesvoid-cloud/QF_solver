@@ -12,8 +12,8 @@ approver: ""
 WP06B starts from commit
 `be8fbd99d8a3d3b8e4ee3b8d867842389b063061` and does not rewrite the WP06
 evidence or any 0.2.7 evidence. The frozen WP06 scope and tolerances are
-reused unchanged in the [`WP06B contract`](../../../qualification/0_2_8/wp06b_hex8_buckling_contract.json).
-The machine-readable result is the [`WP06B evidence`](../../../qualification/0_2_8/wp06b_hex8_buckling_vnv.json).
+reused unchanged in the [`WP06B contract`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp06b_hex8_buckling_contract.json).
+The machine-readable result is the [`WP06B evidence`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp06b_hex8_buckling_vnv.json).
 
 ## Root-cause audit
 

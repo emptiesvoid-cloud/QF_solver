@@ -10,7 +10,7 @@ approver: ""
 # WP13-02B5 — Newmark V2 campaign
 
 WP13-02B5 executes the pre-declared contract
-[`WP13-02B4-NEWMARK-MIXED-V2-001`](../../../qualification/0_2_8/wp13_02b4_newmark_v2_contract.json)
+[`WP13-02B4-NEWMARK-MIXED-V2-001`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp13_02b4_newmark_v2_contract.json)
 from commit `ccab01854f42d56aa6dc7202d9c5dd76dd9b2dde`. The contract, gates,
 benchmark, formulation and prior WP13-02B/02B2/02B3 records are unchanged.
 
@@ -19,9 +19,9 @@ benchmark, formulation and prior WP13-02B/02B2/02B3 records are unchanged.
 The run uses a connected 48-DOF model with 3 TET4, 2 WEDGE6 and 1 HEX8, one
 connected component, consistent mass, zero Rayleigh damping and a first-mode
 initial condition. The full machine-readable result is recorded in
-[`manifest.json`](../../../qualification/0_2_8/wp13_02b5_v2/manifest.json)
+[`manifest.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp13_02b5_v2/manifest.json)
 and the float64 archive in
-[`wp13_02b5_arrays.npz`](../../../qualification/0_2_8/wp13_02b5_v2/wp13_02b5_arrays.npz).
+[`wp13_02b5_arrays.npz`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp13_02b5_v2/wp13_02b5_arrays.npz).
 The archive contains all four time-step histories, oracle controls, interface
 records and two complete T1/160 replays; the manifest records shapes and
 SHA-256 digests for all 166 arrays.

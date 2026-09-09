@@ -15,12 +15,12 @@ evidence and does not claim universal validation, certification, or a general
 BEAM2/DISCRETE maturity promotion.
 
 The machine-readable record is
-[`wp03_beam2_discrete_vnv.json`](../../../qualification/0_2_8/wp03_beam2_discrete_vnv.json).
+[`wp03_beam2_discrete_vnv.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp03_beam2_discrete_vnv.json).
 The WP03 decision delta is maintained separately in
-[`wp03_maturity_matrix.json`](../../../qualification/0_2_8/wp03_maturity_matrix.json);
+[`wp03_maturity_matrix.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp03_maturity_matrix.json);
 the WP01 baseline remains unchanged.
 The executable campaign is
-[`test_028_beam2_discrete_vnv.py`](../../../tests/verification/test_028_beam2_discrete_vnv.py).
+[`test_028_beam2_discrete_vnv.py`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/tests/verification/test_028_beam2_discrete_vnv.py).
 
 ## Frozen campaign contract
 

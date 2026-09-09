@@ -69,6 +69,6 @@ The historical WP06 Euler `FAIL`, WP06 mesh-convergence `FAIL`, and absence of a
 comparable external oracle remain unchanged and visible. No numerical source or
 0.2.7 evidence was modified.
 
-Machine-readable records: [contract](../../../qualification/0_2_8/wp11b_hex8_buckling_experimental_contract.json),
-[evidence](../../../qualification/0_2_8/wp11b_hex8_buckling_experimental_vnv.json),
-and [matrix](../../../qualification/0_2_8/wp11b_hex8_buckling_experimental_matrix.json).
+Machine-readable records: [contract](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp11b_hex8_buckling_experimental_contract.json),
+[evidence](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp11b_hex8_buckling_experimental_vnv.json),
+and [matrix](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp11b_hex8_buckling_experimental_matrix.json).

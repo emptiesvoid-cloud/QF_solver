@@ -39,7 +39,7 @@ Ce gate requiert une relecture independante. Une decision du proprietaire seule 
 
 ### Figures de preuve
 
-![Figure de preuve](/docs/assets/reviews/tet4_tl_assembly_convergence.png)
+![Figure de preuve](../assets/reviews/tet4_tl_assembly_convergence.png)
 *docs/assets/reviews/tet4_tl_assembly_convergence.png*
 
 ### Criteres
@@ -91,7 +91,7 @@ Fiche controlee : `qualification/reviews/tet4_total_lagrangian_independent_revie
 
 ### Figures de preuve
 
-![Figure de preuve](/docs/assets/reviews/mitc3_laminate_code_aster_comparison.png)
+![Figure de preuve](../assets/reviews/mitc3_laminate_code_aster_comparison.png)
 *docs/assets/reviews/mitc3_laminate_code_aster_comparison.png*
 
 ### Criteres
@@ -139,9 +139,9 @@ Fiche controlee : `qualification/reviews/mitc3_laminate_dynamic_dkt_thin_owner_r
 
 ### Figures de preuve
 
-![Figure de preuve](/docs/assets/reviews/mitc3_curved_laminate_code_aster_convergence.png)
+![Figure de preuve](../assets/reviews/mitc3_curved_laminate_code_aster_convergence.png)
 *docs/assets/reviews/mitc3_curved_laminate_code_aster_convergence.png*
-![Figure de preuve](/docs/assets/reviews/mitc3_curved_laminate_code_aster_deformation.png)
+![Figure de preuve](../assets/reviews/mitc3_curved_laminate_code_aster_deformation.png)
 *docs/assets/reviews/mitc3_curved_laminate_code_aster_deformation.png*
 
 ### Criteres

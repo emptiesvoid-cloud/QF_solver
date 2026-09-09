@@ -13,11 +13,11 @@ This record covers the separate WP13-02C harmonic workflow for the connected
 TET4/WEDGE6/HEX8 compact elbow.  The machine-readable contract was committed
 before the numerical campaign in commit
 `4f6e4490d4069b417e9830b8b6a7dc595bd23bb6` and is
-[`wp13_02c_harmonic_contract.json`](../../../qualification/0_2_8/wp13_02c_harmonic_contract.json).
+[`wp13_02c_harmonic_contract.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp13_02c_harmonic_contract.json).
 
 The evidence is archived in
-[`manifest.json`](../../../qualification/0_2_8/wp13_02c_harmonic_v1/manifest.json)
-and [`wp13_02c_harmonic_arrays.npz`](../../../qualification/0_2_8/wp13_02c_harmonic_v1/wp13_02c_harmonic_arrays.npz).
+[`manifest.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp13_02c_harmonic_v1/manifest.json)
+and [`wp13_02c_harmonic_arrays.npz`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp13_02c_harmonic_v1/wp13_02c_harmonic_arrays.npz).
 
 ## Scope and result
 

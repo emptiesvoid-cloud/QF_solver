@@ -12,7 +12,7 @@ approver: ""
 This Owner gate audits commit
 `da310e8f3708c46d0a69a2980a2f47c4c7e9f4aa` and applies only to the WP07
 mixed workflow. The machine-readable decision is recorded in
-[`wp07_owner_gate_final.json`](../../../qualification/0_2_8/wp07_owner_gate_final.json).
+[`wp07_owner_gate_final.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp07_owner_gate_final.json).
 The underlying contract and campaign evidence remain unchanged. No numerical
 source, tolerance or 0.2.7 evidence is changed.
 
@@ -25,9 +25,9 @@ source, tolerance or 0.2.7 evidence is changed.
 | TET4 + WEDGE6 + HEX8 | `APPROVE_WITH_LIMITATIONS` | `QUALIFIED_BOUNDED` |
 
 The decision is recorded as a separate `mixed_workflow_qualification` record
-in the [`WP07 matrix`](../../../qualification/0_2_8/wp07_mixed_static_matrix.json).
+in the [`WP07 matrix`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp07_mixed_static_matrix.json).
 It does not create or relabel an element/analyse combination in the 46-record
-[`element-analysis registry`](../../../qualification/0_2_7/capability_registry_v2.json).
+[`element-analysis registry`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/capability_registry_v2.json).
 
 ## Audit result
 

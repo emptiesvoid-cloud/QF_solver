@@ -70,7 +70,7 @@ introduced.
 ## Predeclared gates
 
 The machine-readable contract
-[`wp09_pyramid5_contract.json`](../../../qualification/0_2_8/wp09_pyramid5_contract.json)
+[`wp09_pyramid5_contract.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp09_pyramid5_contract.json)
 fixes all gates before execution. In particular, the regular and bounded
 distorted cases must have exactly six rigid-body null modes and rank `9` of
 `15`; production/reference relative stiffness error is bounded by `1e-5`; and

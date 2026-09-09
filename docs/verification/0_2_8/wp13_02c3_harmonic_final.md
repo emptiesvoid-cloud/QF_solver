@@ -11,9 +11,9 @@ approver: ""
 
 WP13-02C3 replays the complete frozen twelve-point harmonic campaign under
 the unchanged contract
-[WP13-02C-HARMONIC-MIXED-001](../../../qualification/0_2_8/wp13_02c_harmonic_contract.json).
+[WP13-02C-HARMONIC-MIXED-001](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp13_02c_harmonic_contract.json).
 The campaign was run after the C2 harness freeze and produced a separate
-[manifest](../../../qualification/0_2_8/wp13_02c3_harmonic_final/manifest.json)
+[manifest](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp13_02c3_harmonic_final/manifest.json)
 and NPZ archive.
 
 All declared numerical gates pass. The dense complex K/M/C reference is the

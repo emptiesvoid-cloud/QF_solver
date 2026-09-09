@@ -13,7 +13,7 @@ closeout_start_sha: c55f768d570905869904e08042180f2b515f26c4
 
 L’Owner clôt `026-G07` comme **PASS_WITH_LIMITATIONS** dans un périmètre
 explicitement borné. La décision est enregistrée dans
-[`g07_owner_closeout.json`](../../../qualification/0_2_6/g07_owner_closeout.json).
+[`g07_owner_closeout.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_6/g07_owner_closeout.json).
 
 Les preuves ne promeuvent pas toutes les familles ni tous les chemins
 nonlinéaires. Elles autorisent uniquement les claims détaillés ci-dessous ; une

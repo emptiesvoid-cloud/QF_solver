@@ -45,6 +45,6 @@ not part of the current public promise. They require new evidence and a
 separate decision.
 
 Historical plans and qualification records remain in
-[`docs/verification/0_2_7/`](../verification/0_2_7/) for provenance. They are
+[`docs/verification/0_2_7/`](../verification/0_2_7/README.md) for provenance. They are
 not the active product roadmap. The mixed distributed PETSc/MPI runtime is
 explicitly `NOT_VALIDATED` and is deferred beyond the 0.2.8 release gate.

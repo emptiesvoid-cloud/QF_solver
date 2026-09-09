@@ -12,7 +12,7 @@ approver: ""
 This Owner gate audits commit
 `e9d83047b310cd85380551d8096d898090a7cba9` and applies only the WP05
 decision. The machine-readable record is
-[`wp05_owner_gate_final.json`](../../../qualification/0_2_8/wp05_owner_gate_final.json).
+[`wp05_owner_gate_final.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp05_owner_gate_final.json).
 No numerical source, tolerance or 0.2.7 evidence is changed.
 
 ## Decision
@@ -60,7 +60,7 @@ restricted to the recorded QF checks and Code_Aster primary observables.
 ## Registry reconciliation
 
 The 46 `record_kind=combination` records are counted directly from
-[`capability_registry_v2.json`](../../../qualification/0_2_7/capability_registry_v2.json).
+[`capability_registry_v2.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/capability_registry_v2.json).
 The prior WP03 and WP04 decisions are preserved, then the single WP05
 promotion is applied:
 

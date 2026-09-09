@@ -17,7 +17,7 @@ any 0.2.7 evidence.
 ## Frozen contract and interpretation
 
 The source contract is
-[`WP13-02A-NEWMARK-MIXED-CONTRACT-001`](../../../qualification/0_2_8/wp13_02a_newmark_contract.json)
+[`WP13-02A-NEWMARK-MIXED-CONTRACT-001`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp13_02a_newmark_contract.json)
 with Git blob SHA
 `7e5af8374e33e8d45a61d4a60b01127802bfca64`. The closure runner verified that
 the blob is unchanged.
@@ -45,9 +45,9 @@ results are reported without changing their predeclared numeric values.
 ## Raw archive
 
 The machine-readable manifest is
-[`manifest.json`](../../../qualification/0_2_8/wp13_02b2_raw/manifest.json),
+[`manifest.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp13_02b2_raw/manifest.json),
 and the complete float64 archive is
-[`wp13_02b2_raw_arrays.npz`](../../../qualification/0_2_8/wp13_02b2_raw/wp13_02b2_raw_arrays.npz).
+[`wp13_02b2_raw_arrays.npz`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp13_02b2_raw/wp13_02b2_raw_arrays.npz).
 The NPZ contains the time vector, displacement, velocity, acceleration,
 reaction and residual histories for every declared level, plus modal
 coordinates and analytical controls, probe records, interface power records,

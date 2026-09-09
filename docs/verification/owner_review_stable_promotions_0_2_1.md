@@ -32,9 +32,9 @@ Nombre de scopes : **3**.
 
 ### Figures de preuve
 
-![Figure de preuve](/docs/assets/reviews/orthotropic_solid_convergence.png)
+![Figure de preuve](../assets/reviews/orthotropic_solid_convergence.png)
 *docs/assets/reviews/orthotropic_solid_convergence.png*
-![Figure de preuve](/docs/assets/reviews/orthotropic_lbracket_code_aster.png)
+![Figure de preuve](../assets/reviews/orthotropic_lbracket_code_aster.png)
 *docs/assets/reviews/orthotropic_lbracket_code_aster.png*
 
 ### Criteres
@@ -75,7 +75,7 @@ Decision : `__________`  Nom : `__________`  Date : `__________`  Signature : `_
 
 ### Figures de preuve
 
-![Figure de preuve](/docs/assets/reviews/orthotropic_modal_convergence.png)
+![Figure de preuve](../assets/reviews/orthotropic_modal_convergence.png)
 *docs/assets/reviews/orthotropic_modal_convergence.png*
 
 ### Criteres
@@ -119,9 +119,9 @@ Fiche controlee : `qualification/reviews/orthotropic_modal_owner_review_pending.
 
 ### Figures de preuve
 
-![Figure de preuve](/docs/assets/reviews/orthotropic_newmark_convergence.png)
+![Figure de preuve](../assets/reviews/orthotropic_newmark_convergence.png)
 *docs/assets/reviews/orthotropic_newmark_convergence.png*
-![Figure de preuve](/docs/assets/reviews/orthotropic_code_aster_newmark.png)
+![Figure de preuve](../assets/reviews/orthotropic_code_aster_newmark.png)
 *docs/assets/reviews/orthotropic_code_aster_newmark.png*
 
 ### Criteres

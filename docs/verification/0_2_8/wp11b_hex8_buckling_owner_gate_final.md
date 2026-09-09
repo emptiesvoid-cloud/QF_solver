@@ -59,7 +59,7 @@ Only `COMB-HEX8-linear_buckling` transitions from `NOT_QUALIFIED` to
 changed, and no 0.2.7 evidence was modified. Any later promotion or scope
 expansion requires another Owner gate.
 
-Machine-readable records: [WP11B contract](../../../qualification/0_2_8/wp11b_hex8_buckling_experimental_contract.json),
-[campaign evidence](../../../qualification/0_2_8/wp11b_hex8_buckling_experimental_vnv.json),
-[updated matrix](../../../qualification/0_2_8/wp11b_hex8_buckling_experimental_matrix.json),
-and [this Owner record](../../../qualification/0_2_8/wp11b_hex8_buckling_owner_gate_final.json).
+Machine-readable records: [WP11B contract](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp11b_hex8_buckling_experimental_contract.json),
+[campaign evidence](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp11b_hex8_buckling_experimental_vnv.json),
+[updated matrix](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp11b_hex8_buckling_experimental_matrix.json),
+and [this Owner record](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp11b_hex8_buckling_owner_gate_final.json).

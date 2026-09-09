@@ -14,10 +14,10 @@ generic Newmark and harmonic solvers. It does not modify the WEDGE6 FEM
 formulation, add a maturity record, or qualify WEDGE6 dynamics.
 
 The machine-readable evidence is
-[`wp13_02a2_wedge6_dynamic_evidence.json`](../../../qualification/0_2_8/wp13_02a2_wedge6_dynamic_evidence.json).
+[`wp13_02a2_wedge6_dynamic_evidence.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp13_02a2_wedge6_dynamic_evidence.json).
 The preceding frozen contracts remain unchanged:
-[`Newmark`](../../../qualification/0_2_8/wp13_02a_newmark_contract.json) and
-[`harmonic`](../../../qualification/0_2_8/wp13_02a_harmonic_contract.json).
+[`Newmark`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp13_02a_newmark_contract.json) and
+[`harmonic`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp13_02a_harmonic_contract.json).
 
 ## Root cause and minimal enablement
 

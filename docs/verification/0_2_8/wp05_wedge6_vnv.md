@@ -15,17 +15,17 @@ record or change the numerical source. Its public decision is recorded by the
 separate Owner gate below and is limited to the exact static scope.
 
 The frozen contract is
-[`wp05_wedge6_contract.json`](../../../qualification/0_2_8/wp05_wedge6_contract.json).
+[`wp05_wedge6_contract.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp05_wedge6_contract.json).
 The machine-readable campaign record is
-[`wp05_wedge6_vnv.json`](../../../qualification/0_2_8/wp05_wedge6_vnv.json),
+[`wp05_wedge6_vnv.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp05_wedge6_vnv.json),
 and its maturity delta is
-[`wp05_maturity_matrix.json`](../../../qualification/0_2_8/wp05_maturity_matrix.json).
+[`wp05_maturity_matrix.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp05_maturity_matrix.json).
 The final Owner decision is recorded in
-[`wp05_owner_gate_final.json`](../../../qualification/0_2_8/wp05_owner_gate_final.json).
+[`wp05_owner_gate_final.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp05_owner_gate_final.json).
 The executable campaign is
-[`run_wp05_wedge6.py`](../../../scripts/run_wp05_wedge6.py), with focused
+[`run_wp05_wedge6.py`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/scripts/run_wp05_wedge6.py), with focused
 checks in
-[`test_028_wedge6_static_campaign.py`](../../../tests/verification/test_028_wedge6_static_campaign.py).
+[`test_028_wedge6_static_campaign.py`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/tests/verification/test_028_wedge6_static_campaign.py).
 
 ## Frozen scope and tolerances
 

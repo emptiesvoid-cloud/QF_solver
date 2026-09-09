@@ -12,11 +12,11 @@ approver: ""
 WP07 audits one mixed workflow using `TET4 + WEDGE6 + HEX8`, starting from
 `d7501fd144daf11a5f51eae5c04d664ebbcdc763`. It does not rewrite 0.2.7
 evidence or any earlier 0.2.8 record. The frozen campaign contract is the
-[`WP07 contract`](../../../qualification/0_2_8/wp07_mixed_static_contract.json);
+[`WP07 contract`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp07_mixed_static_contract.json);
 the executable machine-readable result is the
-[`WP07 evidence`](../../../qualification/0_2_8/wp07_mixed_static_vnv.json);
+[`WP07 evidence`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp07_mixed_static_vnv.json);
 and the candidate matrix is the
-[`WP07 matrix`](../../../qualification/0_2_8/wp07_mixed_static_matrix.json).
+[`WP07 matrix`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp07_mixed_static_matrix.json).
 
 ## Existing architecture audit
 
@@ -81,7 +81,7 @@ the bounded candidate scope and remains for Owner review.
 
 WP07 technical result: **`QUALIFIED_BOUNDED_CANDIDATE`**. The separate final
 [`WP07 Owner gate`](wp07_owner_gate_final.md), recorded in
-[`wp07_owner_gate_final.json`](../../../qualification/0_2_8/wp07_owner_gate_final.json),
+[`wp07_owner_gate_final.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp07_owner_gate_final.json),
 approves this candidate **`APPROVE_WITH_LIMITATIONS`** and records the mixed
 workflow as **`QUALIFIED_BOUNDED`**. This status belongs to the dedicated
 `mixed_workflow_qualification` record; it is not added as a new element/analyse

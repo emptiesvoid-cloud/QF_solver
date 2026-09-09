@@ -14,11 +14,11 @@ WP13-02C harmonic campaign and does not modify its contract, gates, solver
 formulation, result manifest or archive.
 
 The corrected record is
-[manifest.json](../../../qualification/0_2_8/wp13_02c2_harmonic_harness/manifest.json)
+[manifest.json](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp13_02c2_harmonic_harness/manifest.json)
 with its machine-readable micro-check arrays in
-[wp13_02c2_harness_arrays.npz](../../../qualification/0_2_8/wp13_02c2_harmonic_harness/wp13_02c2_harness_arrays.npz).
+[wp13_02c2_harness_arrays.npz](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp13_02c2_harmonic_harness/wp13_02c2_harness_arrays.npz).
 The evidence schema is
-[wp13_02c_harmonic_evidence.schema.json](../../../qualification/0_2_8/wp13_02c_harmonic_evidence.schema.json).
+[wp13_02c_harmonic_evidence.schema.json](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp13_02c_harmonic_evidence.schema.json).
 
 ## Corrections covered
 

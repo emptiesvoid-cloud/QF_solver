@@ -35,5 +35,5 @@ required output quantities before solving. Mesh refinement does not repair an
 inappropriate kinematic assumption, invalid Jacobian or unsupported material
 route.
 
-[Open the authoritative 0.2.8 registry](../../qualification/0_2_8/consolidated_registry.json).
+[Open the authoritative 0.2.8 registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/consolidated_registry.json).
 For the cross-registry current status, use the [central capability index](../capabilities/index.md).

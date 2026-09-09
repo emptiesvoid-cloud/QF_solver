@@ -18,12 +18,12 @@ approver: ""
 WP09 evaluates whether a five-node linear pyramid can be integrated into the
 existing solid-element architecture without claiming a released public
 capability. The frozen [formulation](wp09_pyramid5_formulation.md) and
-[predeclared contract](../../../qualification/0_2_8/wp09_pyramid5_contract.json)
+[predeclared contract](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp09_pyramid5_contract.json)
 use collapsed reference coordinates and never evaluate derivatives at the
 coordinate singularity at the apex.
 
-The executable [evidence](../../../qualification/0_2_8/wp09_pyramid5_vnv.json)
-and [decision matrix](../../../qualification/0_2_8/wp09_pyramid5_matrix.json)
+The executable [evidence](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp09_pyramid5_vnv.json)
+and [decision matrix](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp09_pyramid5_matrix.json)
 record passing Kronecker, partition-of-unity, derivative-sum, affine,
 Jacobian, rank, rigid-body, stiffness-symmetry and mass-conservation checks.
 Regular and bounded distorted geometries, invalid geometry rejection, a

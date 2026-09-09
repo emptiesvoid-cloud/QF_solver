@@ -12,7 +12,7 @@ approver: ""
 This Owner gate audits commit
 `0496467120997b0c23f6817eb2f6e76eeda698d8` and applies only the WP04
 decisions. The machine-readable decision record is
-[`wp04_owner_gate_final.json`](../../../qualification/0_2_8/wp04_owner_gate_final.json).
+[`wp04_owner_gate_final.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/wp04_owner_gate_final.json).
 No numerical source, tolerance or 0.2.7 evidence is changed.
 
 ## Decisions
@@ -39,7 +39,7 @@ because the required executable independent shell oracles are absent.
 ## Registry reconciliation
 
 The reconciliation reads the 46 `record_kind=combination` records directly
-from [`capability_registry_v2.json`](../../../qualification/0_2_7/capability_registry_v2.json),
+from [`capability_registry_v2.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/capability_registry_v2.json),
 then applies the finalized WP03 and WP04 deltas:
 
 | State | Source 0.2.7 | Final 0.2.8 |
