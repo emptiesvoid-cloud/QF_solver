@@ -781,17 +781,10 @@ def _mpi_mode(args: argparse.Namespace) -> int:
     if result is None:
         return 0
     if args.replay:
-        replay_1 = result
-        replay_2 = _petsc_case(args.segments)
-        assert replay_2 is not None
-        comparisons = {
-            "same_model_digest": replay_1["model_digest"] == replay_2["model_digest"],
-            "same_partition_digest": replay_1["partition"]["digest"] == replay_2["partition"]["digest"],
-            "same_iterations": replay_1["iterations"] == replay_2["iterations"],
-            "normalized_digest_equal": replay_1.get("normalized_physics_digest") == replay_2.get("normalized_physics_digest"),
-            "status": "PASS" if replay_1.get("normalized_physics_digest") == replay_2.get("normalized_physics_digest") else "FAIL",
-        }
-        result["replay"] = {"required": 2, "comparison": comparisons, "run_1": replay_1, "run_2": replay_2}
+        # A replay is launched as a separate mpiexec process.  Reinitializing
+        # multiple PETSc KSP/Mat graphs inside one MPI process is not portable
+        # across PETSc builds and is not required by the contract.
+        result["replay_role"] = "external_process_replay"
     _write_json(args.output, {"schema_version": 1, "contract_id": CONTRACT_ID, "case": "mpi", "result": result})
     return 0
 
@@ -804,6 +797,8 @@ def _failure_mode(args: argparse.Namespace) -> int:
 def _build_evidence(args: argparse.Namespace) -> int:
     serial = json.loads(args.serial.read_text(encoding="utf-8"))["result"]
     mpi2 = json.loads(args.mpi2.read_text(encoding="utf-8"))["result"]
+    mpi2_replay1 = json.loads(args.mpi2_replay1.read_text(encoding="utf-8"))["result"] if args.mpi2_replay1 and args.mpi2_replay1.exists() else None
+    mpi2_replay2 = json.loads(args.mpi2_replay2.read_text(encoding="utf-8"))["result"] if args.mpi2_replay2 and args.mpi2_replay2.exists() else None
     mpi3 = json.loads(args.mpi3.read_text(encoding="utf-8"))["result"] if args.mpi3.exists() else None
     scale_a = json.loads(args.scale_a.read_text(encoding="utf-8"))["result"] if args.scale_a.exists() else None
     scale_b = json.loads(args.scale_b.read_text(encoding="utf-8"))["result"] if args.scale_b.exists() else None
@@ -845,8 +840,32 @@ def _build_evidence(args: argparse.Namespace) -> int:
         and mpi2["family_counts"] == {family: 1 for family in FAMILIES}
         and not mpi2["global_gather_audit"]["global_model_retained_on_any_rank"]
     )
-    replay = mpi2.get("replay", {})
-    replay_pass = replay.get("comparison", {}).get("status") == "PASS"
+    replay_sources = [mpi2_replay1, mpi2_replay2]
+    replay_comparisons: list[dict[str, Any]] = []
+    for replay_index, replay_payload in enumerate(replay_sources, start=1):
+        if replay_payload is None:
+            replay_comparisons.append({"id": f"replay_{replay_index}", "status": "NOT_RUN"})
+            continue
+        displacement = _relative(np.asarray(replay_payload.get("solution", []), dtype=float), mpi_u)
+        reactions = _relative(np.asarray(replay_payload.get("reaction_vector", []), dtype=float), mpi_r)
+        residual = _relative(np.asarray(replay_payload.get("residual", []), dtype=float), np.asarray(mpi2.get("residual", []), dtype=float))
+        energy = abs(float(replay_payload["energy"]) - float(mpi2["energy"])) / max(abs(float(mpi2["energy"])), 1.0)
+        row = {
+            "id": f"replay_{replay_index}",
+            "same_model_digest": replay_payload["model_digest"] == mpi2["model_digest"],
+            "same_partition_digest": replay_payload["partition"]["digest"] == mpi2["partition"]["digest"],
+            "same_iterations": replay_payload["iterations"] == mpi2["iterations"],
+            "displacement_relative_l2": displacement,
+            "reaction_relative_l2": reactions,
+            "residual_relative_difference": residual,
+            "energy_relative_difference": energy,
+            "normalized_digest_equal": replay_payload.get("normalized_physics_digest") == mpi2.get("normalized_physics_digest"),
+        }
+        row["status"] = "PASS" if all(
+            [row["same_model_digest"], row["same_partition_digest"], row["same_iterations"], row["normalized_digest_equal"], displacement <= REPLAY_GATE, reactions <= REPLAY_GATE, residual <= REPLAY_GATE, energy <= REPLAY_GATE]
+        ) else "FAIL"
+        replay_comparisons.append(row)
+    replay_pass = len(replay_comparisons) == 2 and all(row.get("status") == "PASS" for row in replay_comparisons)
     scale_records = []
     for label, payload in (("A", scale_a), ("B", scale_b)):
         if payload is None:
@@ -935,9 +954,9 @@ def _build_evidence(args: argparse.Namespace) -> int:
         "failure_cases": failures,
         "replays": {
             "required": 2,
-            "mpi2": replay,
-            "replay_1": "PASS" if replay_pass else "FAIL",
-            "replay_2": "PASS" if replay_pass else "FAIL",
+            "mpi2": replay_comparisons,
+            "replay_1": "PASS" if replay_comparisons and replay_comparisons[0].get("status") == "PASS" else "FAIL",
+            "replay_2": "PASS" if len(replay_comparisons) > 1 and replay_comparisons[1].get("status") == "PASS" else "FAIL",
             "determinism": "PASS" if replay_pass else "FAIL",
         },
         "gate_decisions": {
@@ -1000,6 +1019,8 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--output", type=Path, default=None)
     parser.add_argument("--serial", type=Path)
     parser.add_argument("--mpi2", type=Path)
+    parser.add_argument("--mpi2-replay1", type=Path)
+    parser.add_argument("--mpi2-replay2", type=Path)
     parser.add_argument("--mpi3", type=Path)
     parser.add_argument("--scale-a", type=Path)
     parser.add_argument("--scale-b", type=Path)
