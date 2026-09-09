@@ -1242,6 +1242,84 @@
       "scope": "Connected conforming TET4/WEDGE6/HEX8 linear-static models with multiple isotropic linear-elastic material regions and perfectly bonded shared-node interfaces within the documented scope.",
       "status": "QUALIFIED_BOUNDED",
       "workflow": "mixed_linear_static_multimaterial"
+    },
+    {
+      "delivery_record": "qualification/0_2_8/wp13_02d_mixed_dynamics_delivery.json",
+      "evidence_references": {
+        "manifest": "qualification/0_2_8/wp13_02_mixed_dynamics_vnv/final/manifest.json",
+        "raw_npz": "qualification/0_2_8/wp13_02_mixed_dynamics_vnv/final/wp13_02_mixed_dynamics_arrays.npz",
+        "archive_sha256": "141016b969838350bb0099fe0af7f861265cfd58065b632be9d434489d692c48",
+        "raw_arrays": 119,
+        "semantic_digest": "7ab0dc50a9ef1872f26d0a0dd16935faa57e4728d76858aa88b998307f0b2d38",
+        "failure_cases": "10/10 PASS",
+        "replays": "Newmark 2/2 PASS"
+      },
+      "id": "MIXED-TET4-WEDGE6-HEX8-NEWMARK-LINEAR",
+      "limitations": [
+        "serial only",
+        "linear only",
+        "TET4/WEDGE6/HEX8 only",
+        "documented Rayleigh damping only",
+        "gamma=0.5 beta=0.25 tested scope",
+        "T1/160 only as acceptance",
+        "T1/40 and T1/80 remain characterization",
+        "no universal timestep convergence",
+        "no arbitrary damping",
+        "no nonlinear dynamics",
+        "no contact dynamics",
+        "no impact",
+        "no MPI/distributed dynamics"
+      ],
+      "owner_decision": "APPROVE_EXPERIMENTAL_BOUNDED",
+      "owner_gate_source": "WP13-02C Owner Gate audited at bd8bec5f942ddaf4d5b60823f721ad7599e50ebf",
+      "public_wording": "Experimental bounded mixed TET4/WEDGE6/HEX8 Newmark linear dynamics within the documented timestep, damping, loading and model scope.",
+      "record_kind": "mixed_workflow_capability",
+      "scope": "connected serial TET4/WEDGE6/HEX8; linear dynamics; Newmark gamma=0.5 beta=0.25; documented Rayleigh mass-proportional damping; documented half-sine load; T1/160 acceptance scope",
+      "status": "EXPERIMENTAL_BOUNDED",
+      "contract": {
+        "id": "WP13-02-MIXED-DYNAMICS-001",
+        "sha256": "27705f5218a5adc5c929ef26794a2d6ded9024aff8f7d6f52b0601525f8d1f1f",
+        "path": "qualification/0_2_8/wp13_02_mixed_dynamics_contract.json"
+      },
+      "workflow": "mixed_tet4_wedge6_hex8_newmark_linear"
+    },
+    {
+      "delivery_record": "qualification/0_2_8/wp13_02d_mixed_dynamics_delivery.json",
+      "evidence_references": {
+        "manifest": "qualification/0_2_8/wp13_02_mixed_dynamics_vnv/final/manifest.json",
+        "raw_npz": "qualification/0_2_8/wp13_02_mixed_dynamics_vnv/final/wp13_02_mixed_dynamics_arrays.npz",
+        "archive_sha256": "141016b969838350bb0099fe0af7f861265cfd58065b632be9d434489d692c48",
+        "raw_arrays": 119,
+        "semantic_digest": "7ab0dc50a9ef1872f26d0a0dd16935faa57e4728d76858aa88b998307f0b2d38",
+        "failure_cases": "10/10 PASS",
+        "replays": "Harmonic 2/2 PASS"
+      },
+      "id": "MIXED-TET4-WEDGE6-HEX8-HARMONIC-LINEAR",
+      "limitations": [
+        "serial only",
+        "linear only",
+        "TET4/WEDGE6/HEX8 only",
+        "documented damping only",
+        "frozen tested sweep only",
+        "no arbitrary frequency range claim",
+        "no universal resonance prediction",
+        "no nonlinear response",
+        "no contact",
+        "no MPI",
+        "no modal-reduction claim"
+      ],
+      "owner_decision": "APPROVE_EXPERIMENTAL_BOUNDED",
+      "owner_gate_source": "WP13-02C Owner Gate audited at bd8bec5f942ddaf4d5b60823f721ad7599e50ebf",
+      "public_wording": "Experimental bounded mixed TET4/WEDGE6/HEX8 harmonic linear response within the documented frequency, damping, loading and model scope.",
+      "record_kind": "mixed_workflow_capability",
+      "scope": "connected serial TET4/WEDGE6/HEX8; linear harmonic response; documented Rayleigh damping; frozen 12-frequency sweep from 0 to 2*f1; documented load/support/model scope",
+      "status": "EXPERIMENTAL_BOUNDED",
+      "contract": {
+        "id": "WP13-02-MIXED-DYNAMICS-001",
+        "sha256": "27705f5218a5adc5c929ef26794a2d6ded9024aff8f7d6f52b0601525f8d1f1f",
+        "path": "qualification/0_2_8/wp13_02_mixed_dynamics_contract.json"
+      },
+      "workflow": "mixed_tet4_wedge6_hex8_harmonic_linear"
     }
   ],
   "source_registry": "qualification/0_2_7/capability_registry_v2.json",
