@@ -9,6 +9,24 @@ approver: ""
 
 # QF Solver 0.2.8 WP01 maturity baseline
 
+## Current authoritative 0.2.8 state
+
+This file is a chronological WP13 record, so interim counts and failed
+campaigns below are retained as historical observations. The authoritative
+current element-analysis source is
+[`qualification/0_2_8/consolidated_registry.json`](../../../qualification/0_2_8/consolidated_registry.json):
+32 `QUALIFIED_BOUNDED`, 14 `EXPERIMENTAL`, 0 `NOT_QUALIFIED`, total 46.
+
+Connected conforming mixed static, modal, translational-MPC and multi-material
+workflows are separate `QUALIFIED_BOUNDED` records. Mixed Newmark and harmonic,
+the bounded `.inp` subset, family-aware mixed HDF5 storage, bounded
+frictionless contact and HEX8-SRI are separate `EXPERIMENTAL_BOUNDED`
+workflows/capabilities. PYRAMID5 remains internal/research-only. The generic
+mixed PETSc/MPI runtime remains `NOT_VALIDATED`; its WP13-01C initial
+`FAIL_RUNTIME`, R1 `STILL_FAIL_RUNTIME`, R2 diagnostic
+`PASS_DIAGNOSTIC_FIX_REQUIRED`, and R3/R4 `STILL_FAIL_PHYSICAL_CONVERGENCE`
+history is not overridden by architecture readiness or partial two-rank results.
+
 This record audits the 46 active combination records from the public 0.2.7
 capability registry at the frozen baseline
 `9a0d2ab8e8fc3509f0f7ea53bb93db0bd7d99ca5`. It is a planning disposition,

@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.2.8 - Development
+
+QF Solver 0.2.8 retains the 46-record element-analysis registry at
+32 `QUALIFIED_BOUNDED`, 14 `EXPERIMENTAL` and 0 `NOT_QUALIFIED`. It records
+separate bounded mixed TET4/WEDGE6/HEX8 workflows for static, modal,
+translational MPC, multiple materials, Newmark and harmonic analyses, plus
+separate experimental bounded `.inp`, mixed-HDF5, contact and HEX8-SRI
+capabilities. PYRAMID5 remains internal research only.
+
+The generic distributed mixed architecture is recorded, but its PETSc/MPI
+runtime is `NOT_VALIDATED`: the latest campaign still fails force-balance and
+three-rank partition-consistency gates. No distributed mixed, general HPC,
+nonlinear-production or universal scalability claim is introduced.
+
 ## 0.2.7 - 2026-09-04
 
 QF Solver 0.2.7 freezes the reproducible large-model solving and numerical

@@ -60,6 +60,7 @@ def test_pyproject_declares_installable_solver_package():
     assert project["requires-python"] == ">=3.10"
     assert {"numpy>=1.24", "scipy>=1.10", "matplotlib>=3.7"} <= set(project["dependencies"])
     assert "ruff>=0.6" in project["optional-dependencies"]["dev"]
+    assert project["optional-dependencies"]["hdf5"] == ["h5py>=3.10"]
     assert {"h5py>=3.10", "mpi4py>=3.1", "petsc4py>=3.20"} <= set(project["optional-dependencies"]["large"])
     assert "pypdf==6.10.0" in project["optional-dependencies"]["docs"]
     assert "platformdirs==4.9.4" in project["optional-dependencies"]["docs"]
@@ -94,16 +95,35 @@ def test_pyproject_packages_include_public_and_internal_namespaces():
 def test_runtime_distribution_excludes_repository_only_trees():
     data = tomllib.loads((PROJECT_ROOT / "pyproject.toml").read_text(encoding="utf-8"))
     data_files = data["tool"]["setuptools"]["data-files"]
-    assert set(data_files) == {"examples", "qualification", "qualification/0_2_7", "requirements"}
+    assert set(data_files) == {
+        "examples",
+        "qualification",
+        "qualification/0_2_7",
+        "qualification/0_2_8",
+        "requirements",
+    }
     assert {
         "qualification/element_analysis_matrix.json",
         "qualification/technical_content_coverage.json",
     } <= set(data_files["qualification"])
+    assert set(data_files["qualification/0_2_8"]) == {
+        "qualification/0_2_8/consolidated_registry.json",
+        "qualification/0_2_8/wp10_hex8_sri_owner_gate_final.json",
+        "qualification/0_2_8/wp13_02d_mixed_dynamics_delivery.json",
+        "qualification/0_2_8/wp13_03d_mixed_mpc_owner_delivery.json",
+        "qualification/0_2_8/wp13_04d_multimaterial_owner_delivery.json",
+        "qualification/0_2_8/wp13_05_inp_import_capability_record.json",
+        "qualification/0_2_8/wp13_05c_registry_reconciliation_erratum.json",
+        "qualification/0_2_8/wp13_06d_mixed_hdf5_capability_record.json",
+        "qualification/0_2_8/wp13_07d_contact_capability_record.json",
+    }
     serialized = repr(data_files)
     assert "tests/" not in serialized
     assert "docs/" not in serialized
     assert "qualification/reviews" not in serialized
     assert "qualification/vnv" not in serialized
+    assert ".npz" not in serialized
+    assert ".h5" not in serialized
 
 
 def test_large_container_is_optional_tooling_not_a_root_runtime_file():

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "qf-solver"
-version = "0.2.7"
+version = "0.2.8"
 description = "Open-source white-box Python finite element solver for structural mechanics, dynamics and verifiable engineering simulation."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -39,6 +39,9 @@ Documentation = "https://emptiesvoid-cloud.github.io/QF_solver/"
 Changelog = "https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CHANGELOG.md"
 
 [project.optional-dependencies]
+hdf5 = [
+  "h5py>=3.10"
+]
 test = [
   "pytest>=8",
   "pytest-cov>=6.2",
@@ -102,6 +105,17 @@ qualification = [
   "qualification/technical_content_coverage.json"
 ]
 "qualification/0_2_7" = ["qualification/0_2_7/capability_registry_v2.json"]
+"qualification/0_2_8" = [
+  "qualification/0_2_8/consolidated_registry.json",
+  "qualification/0_2_8/wp10_hex8_sri_owner_gate_final.json",
+  "qualification/0_2_8/wp13_02d_mixed_dynamics_delivery.json",
+  "qualification/0_2_8/wp13_03d_mixed_mpc_owner_delivery.json",
+  "qualification/0_2_8/wp13_04d_multimaterial_owner_delivery.json",
+  "qualification/0_2_8/wp13_05_inp_import_capability_record.json",
+  "qualification/0_2_8/wp13_05c_registry_reconciliation_erratum.json",
+  "qualification/0_2_8/wp13_06d_mixed_hdf5_capability_record.json",
+  "qualification/0_2_8/wp13_07d_contact_capability_record.json"
+]
 requirements = ["requirements/baseline-standard.txt", "requirements/baseline-large-linux.txt"]
 
 [tool.pytest.ini_options]

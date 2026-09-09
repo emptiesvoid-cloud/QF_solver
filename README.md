@@ -30,23 +30,30 @@ large-scale solving.
 | Small-strain J2 | `QUALIFIED_BOUNDED` | TET4, TET10, HEX8 and HEX20 within the documented small-strain scope. |
 | Modal, Newmark and harmonic | `SUPPORTED_WITH_LIMITATIONS` | Controlled linear cases with route-specific evidence. |
 | Linear buckling | `SUPPORTED_WITH_LIMITATIONS` | Bounded family-specific sparse cases; no post-buckling claim. |
-| Frictionless contact | `SUPPORTED_WITH_LIMITATIONS` | Bounded node-to-triangle cases; friction is outside this claim. |
-| WEDGE6 static | `EXPERIMENTAL` | Controlled small-strain elastic vertical-slice workflow only. |
+| Frictionless contact | `EXPERIMENTAL_BOUNDED` | Penalty node-to-triangle, frictionless small-sliding cases only. |
+| WEDGE6 static | `QUALIFIED_BOUNDED` | Gmsh Prism 6, small-strain isotropic linear elasticity and the documented bounded load/mesh scope. |
 | WEDGE6 modal | `QUALIFIED_BOUNDED` | Homogeneous isotropic consistent-mass route, first three modes, declared scope only. |
+| Mixed static, modal, translational MPC and multi-material | `QUALIFIED_BOUNDED` | Connected conforming serial TET4/WEDGE6/HEX8 benchmarks and their documented limitations only. |
+| Mixed Newmark and harmonic | `EXPERIMENTAL_BOUNDED` | Connected serial TET4/WEDGE6/HEX8 frozen dynamic benchmarks only. |
+| Bounded Abaqus/CalculiX `.inp` subset | `EXPERIMENTAL_BOUNDED` | Five documented fixtures; this is not general format compatibility. |
+| Family-aware mixed HDF5 results | `EXPERIMENTAL_BOUNDED` | Opt-in schema-v1.0 TET4/WEDGE6/HEX8 storage and selective reads. |
+| HEX8-SRI | `EXPERIMENTAL_BOUNDED` | Separate locking-sensitive linear-elastic research capability; not locking-free. |
+| PYRAMID5 | `INTERNAL_RESEARCH_ONLY` | Internal feasibility kernel; not a supported public element. |
+| Mixed distributed PETSc/MPI | `NOT_VALIDATED` | Architecture foundation only; runtime physical and partition gates remain failed. |
 | Large-model PETSc/MPI | `SUPPORTED_WITH_LIMITATIONS` | Recorded structured TET4 workloads and pinned environments only. |
 
-The active combination matrix is in
-[`docs/verification/0_2_7/0_2_7_capability_matrix.md`](docs/verification/0_2_7/0_2_7_capability_matrix.md).
-It is the authoritative guide to what a particular combination means.
+The authoritative 0.2.8 source is the tracked
+[`qualification/0_2_8/consolidated_registry.json`](qualification/0_2_8/consolidated_registry.json):
+32 `QUALIFIED_BOUNDED`, 14 `EXPERIMENTAL`, 0 `NOT_QUALIFIED`, 46 element-analysis
+records. Mixed workflows and separate capabilities are not added to those 46.
 
 ## Installation
 
-For the stable source release:
+For the current 0.2.8 development source (no tag or publication is implied):
 
 ```powershell
 git clone https://github.com/emptiesvoid-cloud/QF_solver.git
 Set-Location QF_solver
-git checkout v0.2.7
 python -m pip install .
 qf-solver --version
 ```
@@ -61,8 +68,8 @@ qf-solver --version
 
 Optional development and integration extras are documented in
 [`docs/getting-started/installation.md`](docs/getting-started/installation.md).
-PETSc, MPI and SLEPc are optional integrations and are not required for the
-core import or the standard small examples.
+HDF5, PETSc, MPI and SLEPc are optional integrations and are not required for
+the core import or the standard small examples.
 
 ## Quick start: CLI
 
@@ -99,10 +106,11 @@ The public element summary is in
 [`docs/elements/index.md`](docs/elements/index.md), and the analysis summary is
 in [`docs/analyses/index.md`](docs/analyses/index.md).
 
-The current release includes bounded routes for TET4, TET10, HEX8 and HEX20,
+The current 0.2.8 development baseline includes bounded routes for TET4, TET10, HEX8 and HEX20,
 along with case-bounded shell, beam and discrete paths. The status is explicit:
-WEDGE6 static remains experimental. WEDGE6 modal qualification does not transfer to static,
-nonlinear or other dynamic analyses.
+WEDGE6 static and modal are `QUALIFIED_BOUNDED` only in their distinct recorded
+scopes. That qualification does not transfer to nonlinear or general dynamic
+analyses.
 
 ## Measured performance
 
@@ -120,9 +128,16 @@ or a general nonlinear performance claim is made.
 
 ## Main limitations
 
-- WEDGE6 static is experimental; WEDGE15 and PYRAMID5 are not supported.
-- Mixed TET/WEDGE/HEX workflows and next-generation HEX8R/SRI/B-bar paths are
-  deferred or research-only.
+- WEDGE6 static and modal are bounded to their separately documented scopes;
+  WEDGE15 is not supported and PYRAMID5 remains internal research only.
+- Mixed static, modal, translational-MPC and multi-material workflows are
+  qualified only on their connected conforming serial TET4/WEDGE6/HEX8 scopes.
+- Mixed Newmark, mixed harmonic, bounded `.inp`, mixed HDF5 and frictionless
+  contact capabilities remain `EXPERIMENTAL_BOUNDED`.
+- Mixed distributed PETSc/MPI is `NOT_VALIDATED`; no partial 2-rank or general
+  distributed mixed claim is made.
+- HEX8-SRI is a separate `EXPERIMENTAL_BOUNDED` capability; no locking-free,
+  arbitrary-distortion or production claim is made. HEX8R and B-bar remain deferred.
 - Finite-kinematic J2, generalized nonlinear, contact and finite-sliding routes
   remain experimental or outside the qualified scope.
 - 5M Gold and deeper 10M scaling analysis are deferred.
@@ -138,7 +153,8 @@ or a general nonlinear performance claim is made.
 - [Analyses](docs/analyses/index.md)
 - [Solvers and backends](docs/solveurs/index.md)
 - [Public roadmap](docs/reference/feuille_de_route.md)
-- [0.2.7 verification summary](docs/verification/0_2_7/README.md)
+- [0.2.8 verification summary](docs/verification/0_2_8/README.md)
+- [Historical 0.2.7 verification summary](docs/verification/0_2_7/README.md)
 - [API stability](docs/reference/api_stability.md)
 - [Detailed changelog](CHANGELOG.md)
 

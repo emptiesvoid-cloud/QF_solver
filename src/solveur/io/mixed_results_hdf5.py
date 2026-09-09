@@ -12,17 +12,19 @@ import hashlib
 import json
 from collections.abc import Mapping, Sequence
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
-import h5py
 import numpy as np
 
-from solveur.core.errors import InputValidationError
+from solveur.core.errors import InfrastructureError, InputValidationError
 from solveur.large.generic_distributed import (
     SUPPORTED_DISTRIBUTED_FAMILIES,
     FamilyAwareResults,
     GenericDistributedModel,
 )
+
+if TYPE_CHECKING:
+    import h5py
 
 
 MIXED_RESULTS_FORMAT = "qf_solver.mixed_results.hdf5"
@@ -54,6 +56,7 @@ def write_mixed_results_hdf5(
     share a padded connectivity array.
     """
 
+    h5py = _require_h5py()
     target = Path(path)
     if target.exists():
         raise InputValidationError(f"Refusing to overwrite existing mixed result file: {target}")
@@ -153,6 +156,7 @@ def read_mixed_results_hdf5(
     selective-read path bounded by the requested result subset.
     """
 
+    h5py = _require_h5py()
     source = Path(path)
     if not source.is_file():
         raise InputValidationError(f"Mixed result file does not exist: {source}")
@@ -327,6 +331,7 @@ def _write_dataset(group: h5py.Group, name: str, values: np.ndarray) -> None:
 
 
 def _write_string_dataset(group: h5py.Group, name: str, values: Sequence[str]) -> None:
+    h5py = _require_h5py()
     dtype = h5py.string_dtype(encoding="utf-8")
     group.create_dataset(name, data=np.asarray([str(value) for value in values], dtype=object), dtype=dtype)
 
@@ -354,9 +359,23 @@ def _read_string_array(group: h5py.Group, name: str) -> list[str]:
 
 
 def _require_group(parent: h5py.Group, name: str) -> h5py.Group:
+    h5py = _require_h5py()
     if name not in parent or not isinstance(parent[name], h5py.Group):
         raise InputValidationError(f"Missing required HDF5 group {parent.name}/{name}.")
     return parent[name]
+
+
+def _require_h5py() -> Any:
+    """Import the optional HDF5 runtime only when an HDF5 API is called."""
+
+    try:
+        import h5py
+    except ImportError as exc:
+        raise InfrastructureError(
+            "Mixed HDF5 result storage requires the optional 'h5py' dependency; "
+            "install qf-solver[hdf5] (or qf-solver[large]) before using this API."
+        ) from exc
+    return h5py
 
 
 def _normalize_families(values: Sequence[str] | None) -> set[str] | None:

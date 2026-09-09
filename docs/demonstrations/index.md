@@ -2,7 +2,7 @@
 doc_id: DOC-DEMO-000
 revision: 1.0
 status: controlled
-applicable_version: 0.2.7
+applicable_version: 0.2.8-development
 reviewer: ""
 approver: ""
 ---
@@ -25,6 +25,6 @@ Some demonstrations generate a result directory containing inputs, outputs,
 diagnostics and a manifest. Read the reported residual, reactions, energy and
 mesh checks together. A plausible displacement alone is not sufficient.
 
-The active 0.2.7 capability and evidence boundaries are in the
-[verification summary](../verification/0_2_7/README.md). Large-model examples
+The active 0.2.8 capability and evidence boundaries are in the
+[verification summary](../verification/0_2_8/README.md). Large-model examples
 are described in [Large models](../solveurs/grand_modele.md).

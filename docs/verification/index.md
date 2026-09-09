@@ -2,15 +2,16 @@
 doc_id: DOC-VV-000
 revision: 1.0
 status: controlled
-applicable_version: 0.2.7
+applicable_version: 0.2.8-development
 reviewer: ""
 approver: ""
 ---
 
 # Verification and evidence
 
-The active 0.2.7 public evidence summary is the canonical entry point:
-[verification/0_2_7/README.md](0_2_7/README.md).
+The 0.2.8 development evidence summary is the current entry point:
+[verification/0_2_8/README.md](0_2_8/README.md). The
+[0.2.7 summary](0_2_7/README.md) remains immutable historical evidence.
 
 Detailed work-package, gate and audit records are retained as traceability
 records, not as user-facing product status.
