@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "contract_id": "WP13-01C-R2-PHYSICAL-RESIDUAL-DIAGNOSTIC-001",
+  "work_package": "WP13-01C-R2",
+  "creation_sha": "5800df2a88cf744caed15353e3291aecfacf556a",
+  "purpose": "Diagnose the defined difference between PETSc's scaled constrained KSP norm and the physical K*u-F residual without tuning the solver.",
+  "historical_preservation": {
+    "wp13_01c_status": "FAIL_RUNTIME",
+    "wp13_01c_r1_status": "STILL_FAIL_RUNTIME",
+    "rewrite_historical_evidence": false
+  },
+  "environment": {
+    "strategy": "Dedicated Docker Linux + conda-forge",
+    "container_image": "qf-solver-wp13-01c-petsc:2026-09",
+    "petsc": "3.25.5",
+    "petsc4py": "3.25.5",
+    "mpi": "MPICH 5.0.1"
+  },
+  "frozen_scale_a": {
+    "segments": 5556,
+    "dof": 100023,
+    "tet4": 5556,
+    "wedge6": 5556,
+    "hex8": 5556,
+    "ranks": 2,
+    "mesh_materials_bc_loads_partition_scaling_unchanged": true
+  },
+  "diagnostic_solver": {
+    "ksp": "GMRES",
+    "pc": "ASM",
+    "rtol": 1e-10,
+    "atol": 1e-12,
+    "dtol": 10000.0,
+    "max_it": 20000,
+    "restart": 100,
+    "automatic_fallback": false
+  },
+  "ladder": [
+    {"id": "L1", "segments": 55, "dof": 1005, "ranks": 2},
+    {"id": "L2", "segments": 555, "dof": 10005, "ranks": 2},
+    {"id": "L3", "segments": 1666, "dof": 30003, "ranks": 2},
+    {"id": "L4", "segments": 5556, "dof": 100023, "ranks": 2}
+  ],
+  "partition_dependence": {"segments": 555, "dof": 10005, "ranks": [1, 2, 3]},
+  "operator_comparison": {"segments": 55, "dof": 1005, "ranks": [1, 2], "serial_reference": true},
+  "diagnostic_gates": {
+    "scaled_to_physical_residual_reconstruction_relative_max": 1e-10,
+    "constrained_scaled_symmetry_relative_max": 1e-12,
+    "negative_diagonal_count": 0,
+    "zero_diagonal_count": 0,
+    "nan_inf_count": 0,
+    "assembly_contribution_count_exact": true,
+    "load_difference_abs_max": 0.0,
+    "bc_row_difference": 0,
+    "bc_rhs_difference_abs_max": 0.0,
+    "reaction_direct_distributed_relative_max": 1e-10,
+    "ghost_owned_scatter_difference_abs_max": 0.0,
+    "operator_scalar_relative_max": 1e-10
+  },
+  "scope": {
+    "new_ksp_pc_search": false,
+    "solver_tuning": false,
+    "fem_formulation_change": false,
+    "mesh_material_bc_load_change": false,
+    "numerical_scaling_change": false,
+    "maturity_change": false,
+    "historical_0_2_7_evidence_change": false,
+    "public_claim": false
+  },
+  "fix_policy": {
+    "diagnostic_only": true,
+    "fix_requires_new_work_package": "WP13-01C-R3"
+  }
+}
