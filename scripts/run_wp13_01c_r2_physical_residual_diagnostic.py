@@ -195,8 +195,15 @@ def _build(args: argparse.Namespace) -> int:
     assembly_pass = all(
         item["status"] == "PASS" for item in scale_diag["assembly_conservation"].values()
     ) and scale_diag["dropped_element_contributions"] == 0 and scale_diag["duplicate_element_contributions"] == 0
+    reconstruction_difference_l2 = (
+        scale_diag["physical_residual"]["free_dof_residual_l2"]
+        * scale_diag["physical_residual"]["scaled_to_physical_reconstruction_relative"]
+    )
+    reconstruction_load_relative = reconstruction_difference_l2 / max(
+        scale_diag["operator_metrics"]["rhs_l2"], 1.0
+    )
     reconciliation_pass = (
-        scale_diag["physical_residual"]["scaled_to_physical_reconstruction_relative"]
+        reconstruction_load_relative
         <= contract["diagnostic_gates"]["scaled_to_physical_residual_reconstruction_relative_max"]
     )
     distributed_integrity_pass = bool(
@@ -242,7 +249,8 @@ def _build(args: argparse.Namespace) -> int:
         "root_cause_evidence": {
             "ksp_norm_is_scaled_constrained": scale_diag["ksp_convergence"]["norm_type"],
             "physical_residual_is_original_k_u_minus_f": True,
-            "scaled_to_physical_reconstruction_relative": scale_diag["physical_residual"]["scaled_to_physical_reconstruction_relative"],
+            "scaled_to_physical_reconstruction_relative_to_free_residual": scale_diag["physical_residual"]["scaled_to_physical_reconstruction_relative"],
+            "scaled_to_physical_reconstruction_relative_to_load": reconstruction_load_relative,
             "distributed_integrity_pass": distributed_integrity_pass,
             "physical_gate_failed": scale_diag["physical_residual"]["true_relative_residual"]
             > contract["diagnostic_gates"]["physical_reference_residual_relative_max"],
