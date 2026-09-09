@@ -303,6 +303,7 @@ def _serial_case(segments: int) -> dict[str, Any]:
     model = _full_model(segments)
     started = time.perf_counter()
     result = _serial_run(model)
+    result["status"] = "PASS"
     result["wall_seconds"] = time.perf_counter() - started
     result["segments"] = segments
     result["model"] = {
