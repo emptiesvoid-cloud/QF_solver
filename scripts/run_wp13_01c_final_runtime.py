@@ -870,7 +870,7 @@ def _build_evidence(args: argparse.Namespace) -> int:
     scale_records = []
     for label, payload in (("A", scale_a), ("B", scale_b)):
         if payload is None:
-            scale_records.append({"id": label, "status": "NOT_RUN_RESOURCE_LIMIT"})
+            scale_records.append({"id": label, "status": "NOT_RUN_PREVIOUS_SCALE_GATE_FAILED"})
         else:
             scale_records.append(
                 {
@@ -902,7 +902,9 @@ def _build_evidence(args: argparse.Namespace) -> int:
         "schema_version": 1,
         "record_id": "QF-028-WP13-01C-PETSC-MPI-MIXED-RUNTIME",
         "work_package": "WP13-01C",
-        "status": "PASS_RUNTIME_BOUNDED" if small_gate and replay_pass and failures["status"] == "PASS" else "FAIL_RUNTIME",
+        "status": "PASS_RUNTIME_BOUNDED"
+        if small_gate and replay_pass and failures["status"] == "PASS" and scale_records and scale_records[0]["status"] == "PASS"
+        else "FAIL_RUNTIME",
         "contract_id": CONTRACT_ID,
         "contract_sha256": contract_sha,
         "contract_commit_sha": CONTRACT_COMMIT_SHA,
@@ -949,7 +951,7 @@ def _build_evidence(args: argparse.Namespace) -> int:
         "no_global_gather_audit": mpi2["global_gather_audit"],
         "scale_characterization": {
             "cases": scale_records,
-            "one_million_dof_status": "NOT_RUN_RESOURCE_LIMIT",
+            "one_million_dof_status": "NOT_RUN_PREVIOUS_SCALE_GATE_FAILED",
             "interpretation": "bounded characterization; no general scaling claim",
         },
         "failure_cases": failures,
@@ -964,7 +966,7 @@ def _build_evidence(args: argparse.Namespace) -> int:
             "environment": "PASS",
             "small_connected_runtime": "PASS" if small_gate else "FAIL",
             "mpi3_optional": "PASS" if mpi3_equivalence is not None and mpi3_equivalence["pass"] else "NOT_RUN",
-            "scale": "PASS" if any(row["status"] == "PASS" for row in scale_records) else "NOT_RUN_RESOURCE_LIMIT",
+            "scale": "PASS" if scale_records and scale_records[0]["status"] == "PASS" else "FAIL",
             "failure_contract": failures["status"],
             "replay": "PASS" if replay_pass else "FAIL",
         },
