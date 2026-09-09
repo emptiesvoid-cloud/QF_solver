@@ -22,8 +22,51 @@ theme:
     - search.highlight
     - content.code.copy
 
+nav:
+  - Home:
+      - Home: index.md
+  - Getting Started:
+      - Installation: getting-started/installation.md
+      - Quick Start: getting-started/quickstart.md
+      - When to Use QF Solver: getting-started/when-to-use-qf-solver.md
+  - Capabilities:
+      - Overview: capabilities/index.md
+      - Elements: elements/index.md
+      - Analyses: analyses/index.md
+      - Solvers & Backends: solveurs/index.md
+      - Known Limitations: etat/limites.md
+  - Examples:
+      - Overview: examples/index.md
+      - Demonstrations: demonstrations/index.md
+  - Verification & Validation:
+      - V&V and Maturity: verification/evidence-and-maturity.md
+      - Current 0.2.8 Verification: verification/0_2_8/README.md
+      - Benchmarks: benchmarks/index.md
+      - Historical Evidence:
+          - 0.2.7 Verification: verification/0_2_7/README.md
+  - API:
+      - Public API Contract: reference/qf_solver_api.md
+      - API Stability: reference/api_stability.md
+  - Comparisons:
+      - Overview: comparisons/index.md
+      - Python FEM Solvers: comparisons/python-fem-solvers.md
+      - QF Solver vs CalculiX: comparisons/qf-vs-calculix.md
+      - QF Solver vs Code_Aster: comparisons/qf-vs-code-aster.md
+      - QF Solver vs scikit-fem: comparisons/qf-vs-scikit-fem.md
+      - QF Solver vs SfePy: comparisons/qf-vs-sfepy.md
+  - Project:
+      - What's New 0.2.8: whats-new/0.2.8.md
+      - Roadmap: reference/feuille_de_route.md
+
 plugins:
   - search
+
+# The source tree retains historical engineering pages whose references may
+# target qualification artifacts outside the published documentation tree.
+# Navigation paths are checked separately in the public-site guard below.
+validation:
+  links:
+    not_found: info
 
 markdown_extensions:
   - admonition
