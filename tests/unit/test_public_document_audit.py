@@ -16,7 +16,8 @@ def test_public_document_audit_passes_without_web_delivery_or_internal_paths() -
     report = public_document_audit()
 
     assert report["status"] == "PASS"
-    assert report["release"]["version"] == "0.2.7"
+    assert report["audit_id"] == "QF-PUBLIC-DOC-AUDIT-028-001"
+    assert report["release"]["version"] == "0.2.8"
     assert report["classification"]["public_generated_documentation"]["count"] > 0
     assert report["classification"]["internal"]["tracked_count"] == 0
     assert all(check["status"] == "PASS" for check in report["checks"])
@@ -26,10 +27,16 @@ def test_controlled_public_document_audit_record_matches_current_classification(
     record = json.loads(RECORD.read_text(encoding="utf-8"))
     current = public_document_audit()
 
-    assert record["audit_id"] == current["audit_id"]
-    assert record["status"] == current["status"] == "PASS"
-    # WP21 is an immutable snapshot; F3 appends public documentation afterward.
-    # The current audit must still pass, but its append-only counts may be larger.
+    # WP21 is an immutable 0.2.7 snapshot.  The current audit must pass for
+    # 0.2.8 without rewriting the historical record or conflating audit IDs.
+    assert record["audit_id"] == "QF-PUBLIC-DOC-AUDIT-027-001"
+    assert record["release"]["version"] == "0.2.7a0"
+    assert record["status"] == "PASS"
+    assert current["audit_id"] == "QF-PUBLIC-DOC-AUDIT-028-001"
+    assert current["release"]["version"] == "0.2.8"
+    assert current["status"] == "PASS"
+    # F3 and subsequent releases append public documentation afterward.
+    # The current audit must still pass, but its append-only counts may grow.
     assert current["classification"]["public_source_documentation"]["count"] >= record["classification"]["public_source_documentation"]["count"]
     assert current["public_release_audit"]["scanned_files"] >= record["public_release_audit"]["scanned_files"]
     assert all(check["status"] == "PASS" for check in current["checks"])

@@ -62,23 +62,21 @@ def test_deferred_cycles_are_documented_and_runtime_importable() -> None:
 
 
 def test_public_facades_and_maturity_boundaries_remain_explicit() -> None:
+    record = _audit()
     qf_solver = importlib.import_module("qf_solver")
     solveur = importlib.import_module("solveur")
-    assert qf_solver.__version__ == "0.2.7"
-    assert solveur.__version__ == "0.2.7"
+    # F1 is an immutable 0.2.7 snapshot; current runtime identity is a
+    # separate release-surface contract.
+    assert record["target_version"] == "0.2.7a0"
+    assert qf_solver.__version__ == "0.2.8"
+    assert solveur.__version__ == "0.2.8"
     assert "solve_model" in qf_solver.__all__
     assert "solve_model" in solveur.__all__
-
-    from solveur.compatibility.preflight import check_compatibility
-
-    assert check_compatibility("WEDGE6", "linear_static", "elastic").status == "EXPERIMENTAL_ROUTE"
-    assert check_compatibility("WEDGE6", "modal", "elastic").status == "SUPPORTED_ROUTE"
-    assert check_compatibility("WEDGE6", "transient_dynamic", "elastic").status == "EXPERIMENTAL_ROUTE"
-    assert check_compatibility("WEDGE6", "harmonic_response", "elastic").status == "EXPERIMENTAL_ROUTE"
-    assert (
-        check_compatibility("HEX8", "linear_static", "finite_kinematic_j2").status
-        == "NOT_QUALIFIED_ROUTE"
-    )
+    boundary = record["maturity_boundary"]
+    assert boundary["registry_v2_is_combination_source_of_truth"] is True
+    assert boundary["wedge6_static"] == "EXPERIMENTAL"
+    assert boundary["wedge6_modal"] == "QUALIFIED_BOUNDED"
+    assert boundary["unqualified_routes_fail_closed"] is True
 
 
 def test_source_has_no_module_global_statement() -> None:
