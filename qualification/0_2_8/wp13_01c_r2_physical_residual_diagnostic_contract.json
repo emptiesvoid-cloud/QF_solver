@@ -45,6 +45,8 @@
   "operator_comparison": {"segments": 55, "dof": 1005, "ranks": [1, 2], "serial_reference": true},
   "diagnostic_gates": {
     "scaled_to_physical_residual_reconstruction_relative_max": 1e-10,
+    "physical_reference_residual_relative_max": 1e-8,
+    "physical_reference_force_balance_relative_max": 1e-8,
     "constrained_scaled_symmetry_relative_max": 1e-12,
     "negative_diagonal_count": 0,
     "zero_diagonal_count": 0,
