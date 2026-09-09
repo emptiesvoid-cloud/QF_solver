@@ -129,6 +129,73 @@ def c6c_pipeline_component_digests() -> dict[str, str]:
     return digests
 
 
+def _git_file_digest_variants(revision: str, relative_path: str) -> set[str]:
+    """Return canonical-blob and historical-worktree digests, fail closed.
+
+    The original prospective record was made with ``Path.read_bytes()`` on
+    Windows.  Most producers retained LF bytes while the pre-existing public
+    facade was checked out as CRLF.  Both byte representations must therefore
+    resolve to the same immutable Git blob; a later live worktree is never
+    consulted for historical validation.
+    """
+
+    spec = f"{revision}:{relative_path}"
+    commands = (
+        ["git", "show", spec],
+        ["git", "cat-file", "--filters", f"--path={relative_path}", spec],
+    )
+    digests: set[str] = set()
+    for command in commands:
+        completed = subprocess.run(
+            command,
+            cwd=ROOT,
+            check=False,
+            capture_output=True,
+        )
+        if completed.returncode != 0:
+            raise C6bComplianceError(
+                f"Frozen C6c component is unavailable at {revision}: {relative_path}"
+            )
+        digests.add(hashlib.sha256(completed.stdout).hexdigest())
+    return digests
+
+
+def _frozen_record_component_digests(record: dict[str, Any]) -> dict[str, str]:
+    """Compute the record's declared pipeline against its frozen revision."""
+
+    revision = record.get("repo_sha")
+    components = record.get("pipeline_components")
+    if not isinstance(revision, str) or not re.fullmatch(r"[0-9a-f]{40}", revision):
+        raise C6bComplianceError("repo_sha is missing or malformed")
+    if not isinstance(components, list) or not components:
+        raise C6bComplianceError("pipeline_components is missing or malformed")
+    expected = record.get("pipeline_component_digests")
+    if not isinstance(expected, dict):
+        raise C6bComplianceError("pipeline_component_digests is missing or malformed")
+
+    digests: dict[str, str] = {}
+    for component in components:
+        if not isinstance(component, dict):
+            raise C6bComplianceError("pipeline component declaration is malformed")
+        name = component.get("name")
+        path = component.get("path")
+        if not isinstance(name, str) or not name or not isinstance(path, str) or not path:
+            raise C6bComplianceError("pipeline component name or path is malformed")
+        if name in digests or Path(path).is_absolute() or ".." in Path(path).parts:
+            raise C6bComplianceError("pipeline component declaration is unsafe or duplicated")
+        expected_digest = expected.get(name)
+        if not isinstance(expected_digest, str) or not re.fullmatch(r"[0-9a-f]{64}", expected_digest):
+            raise C6bComplianceError("pipeline component digest is missing or malformed")
+        if expected_digest not in _git_file_digest_variants(revision, path):
+            raise C6bComplianceError(
+                f"Frozen C6c component digest does not resolve at {revision}: {path}"
+            )
+        digests[name] = expected_digest
+    if set(expected) != set(digests):
+        raise C6bComplianceError("pipeline component digest names do not match the declaration")
+    return digests
+
+
 def c6c_pipeline_combined_digest(digests: dict[str, str]) -> str:
     payload = {key: digests[key] for key in sorted(digests)}
     return c5.canonical_digest(payload)
@@ -187,30 +254,34 @@ def validate_c6c_freeze_record(record: dict[str, Any]) -> list[str]:
     if not isinstance(record.get("repo_sha"), str) or not re.fullmatch(r"[0-9a-f]{40}", record["repo_sha"]):
         errors.append("repo_sha is missing or malformed")
     try:
-        current = build_c6c_pre_run_freeze(repo_sha=record.get("repo_sha"))
+        frozen_digests = _frozen_record_component_digests(record)
     except C6bComplianceError as exc:
         return [str(exc)]
-    if record.get("contract_blob_digest") != current["contract_blob_digest"]:
+    if record.get("contract_blob_digest") != frozen_digests.get("contract"):
         errors.append("contract digest does not match the frozen contract")
-    if record.get("candidate_schema_digest") != current["candidate_schema_digest"]:
+    if record.get("candidate_schema_digest") != frozen_digests.get("c6_candidate_schema"):
         errors.append("candidate schema digest does not match")
-    if record.get("final_schema_digest") != current["final_schema_digest"]:
+    if record.get("final_schema_digest") != frozen_digests.get("c6_final_schema"):
         errors.append("final schema digest does not match")
-    if record.get("pipeline_component_digests") != current["pipeline_component_digests"]:
+    if record.get("pipeline_component_digests") != frozen_digests:
         errors.append("pipeline component digests do not match")
-    if record.get("pipeline_combined_digest") != current["pipeline_combined_digest"]:
+    combined = c6c_pipeline_combined_digest(frozen_digests)
+    if record.get("pipeline_combined_digest") != combined:
         errors.append("pipeline combined digest does not match")
-    if record.get("c6c_expected_pipeline_digest") != current["pipeline_combined_digest"]:
+    if record.get("c6c_expected_pipeline_digest") != combined:
         errors.append("C6C expected pipeline digest does not match")
-    if record.get("pipeline_components") != current["pipeline_components"]:
-        errors.append("pipeline component declaration does not match")
     for key in (
         "pre_run_freeze_valid",
         "numerical_campaign_started",
         "post_run_pipeline_mutation_allowed",
         "post_run_manifest_rewrite_allowed",
     ):
-        if record.get(key) != current[key]:
+        if record.get(key) != {
+            "pre_run_freeze_valid": True,
+            "numerical_campaign_started": False,
+            "post_run_pipeline_mutation_allowed": False,
+            "post_run_manifest_rewrite_allowed": False,
+        }[key]:
             errors.append(f"freeze flag {key} is invalid")
     return errors
 

@@ -8,15 +8,34 @@ from pathlib import Path
 import pytest
 from pypdf import PdfReader
 
-from scripts.build_owner_review_audit_pack import build
+from scripts import build_owner_review_audit_pack as audit_pack
 
 
 ROOT = Path(__file__).resolve().parents[2]
 
 
-@pytest.fixture(scope="module")
-def generated_pack() -> tuple[Path, Path, Path]:
-    return build()
+@pytest.fixture
+def generated_pack(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> tuple[Path, Path, Path]:
+    """Build all generated artifacts outside tracked documentation paths."""
+    tracked_sources = {
+        path: path.read_bytes()
+        for path in (
+            audit_pack.STABLE_MD,
+            audit_pack.OPEN_MD,
+            audit_pack.PROJECT_AUDIT_MD,
+        )
+    }
+    markdown = tmp_path / "markdown"
+    pdfs = tmp_path / "pdf"
+    monkeypatch.setattr(audit_pack, "STABLE_MD", markdown / "stable.md")
+    monkeypatch.setattr(audit_pack, "OPEN_MD", markdown / "open.md")
+    monkeypatch.setattr(audit_pack, "PROJECT_AUDIT_MD", markdown / "audit.md")
+    monkeypatch.setattr(audit_pack, "STABLE_PDF", pdfs / "stable.pdf")
+    monkeypatch.setattr(audit_pack, "OPEN_PDF", pdfs / "open.pdf")
+    monkeypatch.setattr(audit_pack, "PROJECT_AUDIT_PDF", pdfs / "audit.pdf")
+    result = audit_pack.build()
+    assert {path: path.read_bytes() for path in tracked_sources} == tracked_sources
+    return result
 
 
 def _text(path: Path) -> str:

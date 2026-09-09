@@ -173,4 +173,10 @@ def test_c6c_prospective_digest_is_not_the_old_c5_digest() -> None:
     assert freeze["pipeline_combined_digest"] != "180c6d48a8613b8b4e082c13725a293d4aef28f405c5055093bff14645867389"
     assert len(freeze["pipeline_combined_digest"]) == 64
     record = json.loads(c6b.C6C_FREEZE_RECORD_PATH.read_text(encoding="utf-8"))
+    # The public facade legitimately changed after this prospective freeze.
+    # Historical validation must use the recorded freeze revision, not HEAD.
+    assert c6b.c6c_pipeline_component_digests()["runtime_entrypoint"] != record["pipeline_component_digests"]["runtime_entrypoint"]
     assert c6b.validate_c6c_freeze_record(record) == []
+    broken = copy.deepcopy(record)
+    broken["pipeline_component_digests"]["contract"] = "0" * 64
+    assert any("does not resolve" in error for error in c6b.validate_c6c_freeze_record(broken))

@@ -63,16 +63,32 @@ def _windows_memory() -> dict[str, Any] | None:
                 ("PeakPagefileUsage", ctypes.c_size_t),
             ]
 
+        get_current_process = ctypes.windll.kernel32.GetCurrentProcess
+        get_current_process.argtypes = []
+        get_current_process.restype = wintypes.HANDLE
+        get_process_memory_info = ctypes.windll.psapi.GetProcessMemoryInfo
+        get_process_memory_info.argtypes = [
+            wintypes.HANDLE,
+            ctypes.POINTER(ProcessMemoryCounters),
+            wintypes.DWORD,
+        ]
+        get_process_memory_info.restype = wintypes.BOOL
         counters = ProcessMemoryCounters()
         counters.cb = ctypes.sizeof(counters)
-        process = ctypes.windll.kernel32.GetCurrentProcess()
-        success = ctypes.windll.psapi.GetProcessMemoryInfo(process, ctypes.byref(counters), counters.cb)
+        process = get_current_process()
+        success = get_process_memory_info(process, ctypes.byref(counters), counters.cb)
         if not success:
+            return None
+        current = int(counters.WorkingSetSize)
+        peak = int(counters.PeakWorkingSetSize)
+        # Zero is not a meaningful successful process-memory measurement.
+        # Returning unavailable lets callers report that fact explicitly.
+        if current <= 0 or peak <= 0:
             return None
         return {
             "source": f"windows_psapi:{platform.release()}",
-            "current_rss_bytes": int(counters.WorkingSetSize),
-            "peak_rss_bytes": int(counters.PeakWorkingSetSize),
+            "current_rss_bytes": current,
+            "peak_rss_bytes": peak,
         }
     except (AttributeError, OSError, TypeError, ValueError):
         return None
