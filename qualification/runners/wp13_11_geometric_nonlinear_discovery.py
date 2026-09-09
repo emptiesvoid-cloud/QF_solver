@@ -18,8 +18,10 @@ from pathlib import Path
 from typing import Callable
 
 import numpy as np
+from scipy.sparse import csr_matrix
+
 from solveur.api import solve_model
-from solveur.compatibility.preflight import preflight_model
+from solveur.compatibility.preflight import CompatibilityError, preflight_model
 from solveur.core.analyses.geometric_nonlinear import GeometricNonlinearStaticSolver
 from solveur.core.analyses.geometric_nonlinear_controls import GeometricNonlinearControls
 from solveur.core.errors import InputValidationError, MeshValidationError, NumericalConvergenceError
@@ -233,7 +235,6 @@ def _failure_model(family: str) -> FiniteElementModel:
 def _failure_records() -> list[dict[str, object]]:
     base = _case(load=1.0, increments=6)
     assembly = TotalLagrangianTet4Assembly(base.nodes, base.elements, SolidMaterial(E=YOUNG, nu=POISSON))
-    singular_force = base.force.copy()
 
     def invalid_steps(value: int) -> Callable[[], object]:
         return lambda: GeometricNonlinearControls(load_increments=value)
@@ -244,8 +245,17 @@ def _failure_records() -> list[dict[str, object]]:
         )
 
     def singular_tangent() -> object:
+        class ZeroTangentAssembly:
+            ndof = 3
+
+            def assemble(
+                self, displacement: np.ndarray, *, tangent_required: bool = True
+            ) -> tuple[np.ndarray, csr_matrix | None]:
+                return np.zeros(3, dtype=float), csr_matrix((3, 3)) if tangent_required else None
+
+        force = np.asarray([0.0, 1.0, 0.0], dtype=float)
         return solve_full_newton(
-            assembly, singular_force, np.asarray([], dtype=int), increments=6, tolerance=1.0e-9, max_iterations=30
+            ZeroTangentAssembly(), force, np.asarray([0], dtype=int), increments=6, tolerance=1.0e-9, max_iterations=30
         )
 
     def unsupported_family() -> object:
@@ -271,7 +281,7 @@ def _failure_records() -> list[dict[str, object]]:
         ("negative_load_steps", {"load_increments": -1}, "solveur.core.analyses.geometric_nonlinear_controls.GeometricNonlinearControls", ValueError, "at least 6", invalid_steps(-1)),
         ("impossible_convergence", {"tolerance": 1.0e-30, "max_iterations": 1}, "solveur.core.nonlinear.iteration.solve_full_newton", NumericalConvergenceError, "did not converge", impossible_convergence),
         ("singular_tangent", {"fixed_dofs": []}, "solveur.core.nonlinear.iteration.solve_full_newton", NumericalConvergenceError, "tangent is singular", singular_tangent),
-        ("unsupported_element_family", {"element_family": "WEDGE6"}, "solveur.core.analyses.geometric_nonlinear.GeometricNonlinearStaticSolver._validate_scope", InputValidationError, "supports TET4", unsupported_family),
+        ("unsupported_element_family", {"element_family": "WEDGE6"}, "solveur.compatibility.preflight.check_compatibility", CompatibilityError, "ANALYSIS_NOT_SUPPORTED", unsupported_family),
         ("unsupported_material", {"material_type": "orthotropic_3d"}, "solveur.core.analyses.geometric_nonlinear.GeometricNonlinearStaticSolver._validate_scope", InputValidationError, "requires material type", unsupported_material),
         ("invalid_boundary_conditions", {"fixed_dofs": []}, "solveur.core.analyses.geometric_nonlinear._newton_dead_load", MeshValidationError, "requires constrained dofs", invalid_boundary_conditions),
         ("malformed_geometry", {"first_tet4_orientation": "inverted"}, "solveur.elements.solid.tet4_total_lagrangian_batch.TotalLagrangianTet4Assembly", ValueError, "Invalid TET4-TL reference volume", malformed_geometry),
