@@ -1,0 +1,145 @@
+{
+  "case": "native_physical_convergence_failure_contract",
+  "contract_id": "WP13-01C-R4-NATIVE-PHYSICAL-CONVERGENCE-001",
+  "contract_sha256": "7c7ed0038ba89af4783e2d72c37888e6e7e86170d179f1b0a2c43628439959ef",
+  "failure_contract": {
+    "cases": [
+      {
+        "actual_input": {
+          "callback_implemented": false
+        },
+        "actual_input_digest": "c0b4558893b7f3b10b08d1da17a2ff849ed1e2c9232793c4b9bc1a1ed3def3f9",
+        "case_id": "physical_callback_failure",
+        "execution_path": "__main__.physical_callback_guard",
+        "expected_exception_type": "RuntimeError",
+        "expected_message_pattern": "callback is unavailable",
+        "message_match": true,
+        "observed_exception_type": "RuntimeError",
+        "observed_execution_function": "physical_callback_guard",
+        "observed_message": "Native physical convergence callback is unavailable.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      {
+        "actual_input": {
+          "runtime_encoding": "float('nan')",
+          "values": [
+            "NaN"
+          ]
+        },
+        "actual_input_digest": "5342ea951afae80bc94025f91732fb129c0f57dcd99ad2d82a814ebf5cc92155",
+        "case_id": "nan_physical_residual",
+        "execution_path": "__main__.nan_residual_guard",
+        "expected_exception_type": "ValueError",
+        "expected_message_pattern": "contains NaN/Inf",
+        "message_match": true,
+        "observed_exception_type": "ValueError",
+        "observed_execution_function": "nan_residual_guard",
+        "observed_message": "Native physical residual contains NaN/Inf.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      {
+        "actual_input": {
+          "diagonal_factor": [
+            1.0
+          ],
+          "uniform_factor": 0.0
+        },
+        "actual_input_digest": "3af8e3810d3a7d088f63686c6c84d3934a2a51ec68e4539e94e32fc71f31c72a",
+        "case_id": "invalid_scaling_map",
+        "execution_path": "__main__.scaling_map_guard",
+        "expected_exception_type": "InputValidationError",
+        "expected_message_pattern": "scaling map is invalid",
+        "message_match": true,
+        "observed_exception_type": "InputValidationError",
+        "observed_execution_function": "scaling_map_guard",
+        "observed_message": "Native physical scaling map is invalid.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      {
+        "actual_input": {
+          "reduced_squared_norm": "NaN",
+          "runtime_encoding": "float('nan')"
+        },
+        "actual_input_digest": "abd303bdc9ed9cad4b17f484daacf61a357d75003f47b401e22ed02f1e55d1bf",
+        "case_id": "mpi_reduction_failure",
+        "execution_path": "__main__.mpi_reduction_guard",
+        "expected_exception_type": "RuntimeError",
+        "expected_message_pattern": "MPI reduction is invalid",
+        "message_match": true,
+        "observed_exception_type": "RuntimeError",
+        "observed_execution_function": "mpi_reduction_guard",
+        "observed_message": "Native physical residual MPI reduction is invalid.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      {
+        "actual_input": {
+          "norm_type": "PRECONDITIONED"
+        },
+        "actual_input_digest": "a3460b339c896f98bde79d8e8acca65a1e18d87e36a1662d8f9ca7e443701041",
+        "case_id": "unsupported_norm_configuration",
+        "execution_path": "__main__.norm_configuration_guard",
+        "expected_exception_type": "InputValidationError",
+        "expected_message_pattern": "Unsupported physical callback norm",
+        "message_match": true,
+        "observed_exception_type": "InputValidationError",
+        "observed_execution_function": "norm_configuration_guard",
+        "observed_message": "Unsupported physical callback norm configuration.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      {
+        "actual_input": {
+          "reason": -5
+        },
+        "actual_input_digest": "e57b45e293e2d4e9b45e43faf4de67ce98a2f9022bc45698984eef15cbf82af1",
+        "case_id": "ksp_breakdown",
+        "execution_path": "__main__.breakdown_guard",
+        "expected_exception_type": "RuntimeError",
+        "expected_message_pattern": "KSP breakdown",
+        "message_match": true,
+        "observed_exception_type": "RuntimeError",
+        "observed_execution_function": "breakdown_guard",
+        "observed_message": "PETSc KSP breakdown prevents physical convergence.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      {
+        "actual_input": {
+          "dof": 33,
+          "shape": [
+            33,
+            32
+          ]
+        },
+        "actual_input_digest": "65a59897091d599f5a8bbd4582211dae9895181234a481ec76baac23cf76479d",
+        "case_id": "invalid_physical_operator",
+        "execution_path": "__main__.physical_operator_guard",
+        "expected_exception_type": "InputValidationError",
+        "expected_message_pattern": "operator shape",
+        "message_match": true,
+        "observed_exception_type": "InputValidationError",
+        "observed_execution_function": "physical_operator_guard",
+        "observed_message": "Invalid physical residual operator shape.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      }
+    ],
+    "executed": 7,
+    "pass": 7,
+    "required": 7,
+    "silent_fallback": false,
+    "status": "PASS"
+  },
+  "schema_version": 1
+}
