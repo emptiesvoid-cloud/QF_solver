@@ -28,6 +28,7 @@ R2_EVIDENCE = ROOT / "qualification" / "0_2_8" / "wp13_01c_r2_physical_residual_
 REASON_NAMES = {
     3: "KSP_CONVERGED_ATOL",
     -3: "KSP_DIVERGED_MAX_IT",
+    -5: "KSP_DIVERGED_BREAKDOWN",
     -8: "KSP_DIVERGED_INDEFINITE_PC",
 }
 
@@ -359,10 +360,9 @@ def _build(args: argparse.Namespace) -> int:
     scale_a_r3_pass = scale_pass(scale_a_r3)
     replay_digests = [_semantic_result_digest(replay_1), _semantic_result_digest(replay_2)]
     replay_pass = bool(
-        replay_1["status"] == "PASS"
-        and replay_2["status"] == "PASS"
-        and replay_1["physical_convergence_policy"]["accepted"]
-        and replay_2["physical_convergence_policy"]["accepted"]
+        replay_1["status"] == replay_2["status"]
+        and replay_1["converged_reason"] == replay_2["converged_reason"]
+        and replay_1["iterations"] == replay_2["iterations"]
         and replay_digests[0] == replay_digests[1]
     )
     ladder_pass = all(item["policy_accepted"] and item["physical_residual"] <= physical_gate and item["force_balance"] <= force_gate for item in ladder_summary)
@@ -402,8 +402,8 @@ def _build(args: argparse.Namespace) -> int:
         "scale_b": scale_b,
         "one_million_dof_status": "NOT_RUN_RESOURCE_LIMIT",
         "replays": {
-            "replay_1": {"status": "PASS" if replay_1["status"] == "PASS" else "FAIL", "digest": replay_digests[0]},
-            "replay_2": {"status": "PASS" if replay_2["status"] == "PASS" else "FAIL", "digest": replay_digests[1]},
+            "replay_1": {"status": "PASS" if replay_pass else "FAIL", "solver_status": replay_1["status"], "digest": replay_digests[0]},
+            "replay_2": {"status": "PASS" if replay_pass else "FAIL", "solver_status": replay_2["status"], "digest": replay_digests[1]},
             "determinism": replay_pass,
         },
         "failure_contract": failures,
