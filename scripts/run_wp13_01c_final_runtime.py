@@ -443,6 +443,7 @@ def _petsc_case(
     solver_config: dict[str, Any] | None = None,
     allow_nonconverged: bool = False,
     diagnostic: bool = False,
+    physical_policy: dict[str, Any] | None = None,
 ) -> dict[str, Any] | None:
     from mpi4py import MPI
     from petsc4py import PETSc
@@ -545,6 +546,8 @@ def _petsc_case(
         scaled_rhs.setValue(int(dof), 0.0, addv=PETSc.InsertMode.INSERT_VALUES)
     scaled_rhs.assemble()
     scaled_rhs_local = np.asarray(scaled_rhs.getArray(readonly=True), dtype=float).copy()
+    global_dofs = np.arange(row_start, row_stop, dtype=np.int64)
+    free_mask = ~np.isin(global_dofs, np.asarray(fixed, dtype=np.int64))
     scaled_initial_residual = math.sqrt(
         comm.allreduce(float(np.dot(scaled_rhs_local, scaled_rhs_local)), op=MPI.SUM)
     )
@@ -563,10 +566,105 @@ def _petsc_case(
         pass
     assembly_seconds = float(comm.allreduce(time.perf_counter() - case_started, op=MPI.MAX))
     solve_started = time.perf_counter()
-    ksp.solve(scaled_rhs, solution_scaled)
-    _trace(comm, "KSP solve complete")
+    policy = dict(physical_policy or {})
+    policy_enabled = bool(policy)
+    policy_checks: list[dict[str, Any]] = []
+    policy_total_iterations = 0
+    policy_last_reason: int | None = None
+    policy_last_reported_residual: float | None = None
+    policy_accepted = False
+    policy_max_restarts = int(policy.get("max_restarts", 0))
+    policy_physical_gate = float(policy.get("physical_relative_gate", 1.0e-8))
+    policy_force_gate = float(policy.get("force_balance_gate", 1.0e-8))
+    policy_load_resultant_local = np.zeros(3, dtype=float)
+    for load in local_model.owned_loads:
+        policy_load_resultant_local[load.global_dof % 3] += float(load.value)
+    policy_load_resultant = np.asarray(comm.allreduce(policy_load_resultant_local, op=MPI.SUM), dtype=float)
+
+    def _evaluate_physical_state() -> tuple[Any, Any, float, float]:
+        current_solution = rhs.duplicate()
+        solution_scaled.copy(current_solution)
+        current_solution.pointwiseMult(dscale, current_solution)
+        current_internal = matrix.createVecLeft()
+        matrix.mult(current_solution, current_internal)
+        current_residual = current_internal.duplicate()
+        current_internal.copy(current_residual)
+        current_residual.axpy(-1.0, rhs_original)
+        current_residual_local = np.asarray(current_residual.getArray(readonly=True), dtype=float).copy()
+        free_l2 = math.sqrt(
+            comm.allreduce(float(np.dot(current_residual_local[free_mask], current_residual_local[free_mask])), op=MPI.SUM)
+        )
+        free_load_l2 = math.sqrt(
+            comm.allreduce(float(np.dot(rhs_original_local[free_mask], rhs_original_local[free_mask])), op=MPI.SUM)
+        )
+        physical_relative = free_l2 / max(free_load_l2, 1.0)
+        current_solution_values = _exchange_solution_values(
+            current_solution, local_model.dof_map.local_dof_ids, row_start, row_stop, ndof, comm
+        )
+        local_reaction_resultant = np.zeros(3, dtype=float)
+        for contribution in contributions:
+            local_u = np.asarray([current_solution_values[int(dof)] for dof in contribution.global_dofs], dtype=float)
+            local_internal_force = np.asarray(contribution.stiffness @ local_u, dtype=float)
+            for dof, value in zip(contribution.global_dofs, local_internal_force, strict=True):
+                if int(dof) in fixed_set:
+                    local_reaction_resultant[int(dof) % 3] += float(value)
+        reaction_resultant = np.asarray(comm.allreduce(local_reaction_resultant, op=MPI.SUM), dtype=float)
+        force_balance = float(
+            np.linalg.norm(reaction_resultant + policy_load_resultant)
+            / max(float(np.linalg.norm(policy_load_resultant)), 1.0)
+        )
+        return current_solution, current_residual, physical_relative, force_balance
+
+    if policy_enabled:
+        correction_rhs = scaled_rhs.duplicate()
+        correction_solution = rhs.duplicate()
+        for restart_index in range(policy_max_restarts + 1):
+            ksp.setInitialGuessNonzero(False)
+            if restart_index == 0:
+                ksp.solve(scaled_rhs, solution_scaled)
+            else:
+                correction_solution.set(0.0)
+                ksp.solve(correction_rhs, correction_solution)
+                solution_scaled.axpy(1.0, correction_solution)
+            reason = int(ksp.getConvergedReason())
+            reported_residual = float(ksp.getResidualNorm())
+            iterations = int(ksp.getIterationNumber())
+            policy_total_iterations += iterations
+            policy_last_reason = reason
+            policy_last_reported_residual = reported_residual
+            current_solution, current_residual, physical_relative, force_balance = _evaluate_physical_state()
+            policy_accepted = bool(
+                reason > 0
+                and physical_relative <= policy_physical_gate
+                and force_balance <= policy_force_gate
+            )
+            policy_checks.append(
+                {
+                    "restart_index": restart_index,
+                    "reason": reason,
+                    "reported_residual": reported_residual,
+                    "iterations": iterations,
+                    "physical_relative_residual": physical_relative,
+                    "force_balance_relative": force_balance,
+                    "petsc_gate": reason > 0,
+                    "physical_gate": physical_relative <= policy_physical_gate,
+                    "force_balance_gate": force_balance <= policy_force_gate,
+                }
+            )
+            if policy_accepted or reason <= 0 or restart_index == policy_max_restarts:
+                break
+            current_residual.copy(correction_rhs)
+            correction_rhs.scale(-scale_uniform)
+            correction_rhs.pointwiseMult(dscale, correction_rhs)
+            for dof in local_fixed:
+                correction_rhs.setValue(int(dof), 0.0, addv=PETSc.InsertMode.INSERT_VALUES)
+            correction_rhs.assemble()
+        _trace(comm, "physical convergence policy complete")
+    else:
+        ksp.solve(scaled_rhs, solution_scaled)
+        _trace(comm, "KSP solve complete")
     solve_seconds = float(comm.allreduce(time.perf_counter() - solve_started, op=MPI.MAX))
-    reason = int(ksp.getConvergedReason())
+    reason = int(policy_last_reason if policy_enabled and policy_last_reason is not None else ksp.getConvergedReason())
     if reason <= 0 and not allow_nonconverged:
         raise RuntimeError(f"PETSc {config['ksp'].upper()}/{config['pc'].upper()} did not converge: reason={reason}")
     scaled_internal = work.createVecLeft()
@@ -578,6 +676,7 @@ def _petsc_case(
     scaled_explicit_residual = math.sqrt(
         comm.allreduce(float(np.dot(scaled_residual_local, scaled_residual_local)), op=MPI.SUM)
     )
+    physical_policy_report = None
     solution = rhs.duplicate()
     solution_scaled.copy(solution)
     solution.pointwiseMult(dscale, solution)
@@ -719,6 +818,20 @@ def _petsc_case(
         direct_reaction_resultant[dof % 3] += value
     force_balance = float(np.linalg.norm(reaction_resultant + load_resultant) / max(float(np.linalg.norm(load_resultant)), 1.0))
     component_balance = float(np.max(np.abs(reaction_resultant + load_resultant))) / max(float(np.linalg.norm(load_resultant)), 1.0)
+    if policy_enabled:
+        physical_policy_report = {
+            "selected": str(policy.get("selected", "")),
+            "max_restarts": policy_max_restarts,
+            "solve_count": len(policy_checks),
+            "total_iterations": policy_total_iterations,
+            "physical_relative_gate": policy_physical_gate,
+            "force_balance_gate": policy_force_gate,
+            "accepted": policy_accepted,
+            "final_scaled_explicit_residual": scaled_explicit_residual,
+            "final_physical_relative_residual": residual_relative,
+            "final_force_balance_relative": force_balance,
+            "checks": policy_checks,
+        }
     solution_full = None
     residual_full = None
     if gather_solution:
@@ -827,7 +940,11 @@ def _petsc_case(
     }
     partition_digest = _digest(rank_records)
     payload: dict[str, Any] = {
-        "status": "PASS" if reason > 0 else "FAIL",
+        "status": (
+            ("PASS" if policy_accepted else "FAIL_PHYSICAL_GATE")
+            if policy_enabled
+            else ("PASS" if reason > 0 else "FAIL")
+        ),
         "backend": "petsc4py_mpi_rank_local",
         "rank_count": size,
         "segments": segments,
@@ -839,8 +956,12 @@ def _petsc_case(
         "preallocation_runtime": {**preallocation_metadata, "mat_info_local": matrix_info, "mallocs_zero": matrix_info["mallocs_sum"] == 0.0},
         "offprocess_insertion": offprocess,
         "solver_configuration": {key: config[key] for key in sorted(config)},
-        "iterations": int(ksp.getIterationNumber()),
-        "ksp_final_residual": float(ksp.getResidualNorm()),
+        "iterations": int(policy_total_iterations if policy_enabled else ksp.getIterationNumber()),
+        "ksp_final_residual": float(
+            policy_last_reported_residual
+            if policy_enabled and policy_last_reported_residual is not None
+            else ksp.getResidualNorm()
+        ),
         "converged_reason": reason,
         "free_residual_relative": float(residual_relative),
         "force_balance_relative": force_balance,
@@ -866,6 +987,7 @@ def _petsc_case(
         "model_digest": _digest({"segments": segments, "family_counts": family_global}),
         "matrix_sanity": matrix_sanity,
         "diagnostic": diagnostic_payload if diagnostic else None,
+        "physical_convergence_policy": physical_policy_report,
     }
     if solution_full is not None and residual_full is not None:
         payload["normalized_physics_digest"] = _digest(
