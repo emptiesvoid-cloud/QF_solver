@@ -135,6 +135,25 @@ target-version = "py310"
 [tool.ruff.lint]
 select = ["E4", "E7", "E9", "F"]
 
+# Gate-E-C2: these are immutable WP13 V&V campaign runners, not release
+# library code, active release utilities, or public API modules.  Their
+# repository bootstrap imports and compact evidence-case construction are
+# retained as frozen campaign provenance.  The exclusions are intentionally
+# explicit by path and rule; active production, test, release, and guard
+# sources remain fully linted.
+[tool.ruff.lint.per-file-ignores]
+"scripts/run_wp13_01c_r1_ksp_remediation.py" = ["E402"]
+"scripts/run_wp13_01c_r2_physical_residual_diagnostic.py" = ["E402"]
+"scripts/run_wp13_01c_r3_physical_convergence.py" = ["E402"]
+"scripts/run_wp13_01c_r4_native_physical_convergence.py" = ["E402"]
+"scripts/run_wp13_01g_connected_mixed.py" = ["F401"]
+"scripts/run_wp13_03b_v2_mpc_rbe2.py" = ["E402", "E702", "F401"]
+"scripts/run_wp13_03b_v3_mpc_rbe2.py" = ["E402"]
+"scripts/run_wp13_06_scalable_mixed_post.py" = ["E402", "F401"]
+"scripts/run_wp13_07_contact_bounded.py" = ["F401"]
+"scripts/run_wp13_07_contact_bounded_v2.py" = ["F401"]
+"scripts/run_wp13_10_pyramid5_maturation.py" = ["F401"]
+
 [tool.coverage.run]
 branch = true
 source = ["solveur"]
