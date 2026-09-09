@@ -55,6 +55,38 @@ RELATIVE_GATE = 1.0e-10
 REPLAY_GATE = 1.0e-12
 
 
+def _solver_config(solver_config: dict[str, Any] | None) -> dict[str, Any]:
+    """Normalize an explicit PETSc configuration without any fallback."""
+
+    config: dict[str, Any] = {
+        "ksp": "CG",
+        "pc": "JACOBI",
+        "rtol": KSP_RTOL,
+        "atol": KSP_ATOL,
+        "max_it": KSP_MAX_IT,
+    }
+    if solver_config is not None:
+        config.update(solver_config)
+    config["ksp"] = str(config["ksp"]).lower()
+    config["pc"] = str(config["pc"]).lower()
+    if config["ksp"] not in {"cg", "gmres"}:
+        raise InputValidationError(f"Unsupported explicit PETSc KSP '{config['ksp']}'.")
+    if config["pc"] not in {"jacobi", "bjacobi", "asm", "gamg"}:
+        raise InputValidationError(f"Unsupported explicit PETSc PC '{config['pc']}'.")
+    for key in ("rtol", "atol"):
+        config[key] = float(config[key])
+        if not math.isfinite(config[key]) or config[key] <= 0.0:
+            raise InputValidationError(f"Invalid explicit PETSc {key}={config[key]!r}.")
+    config["max_it"] = int(config["max_it"])
+    if config["max_it"] <= 0:
+        raise InputValidationError("Explicit PETSc max_it must be positive.")
+    if config["ksp"] == "gmres":
+        config["restart"] = int(config.get("restart", 30))
+        if config["restart"] <= 0:
+            raise InputValidationError("Explicit PETSc GMRES restart must be positive.")
+    return config
+
+
 def _json_default(value: object) -> object:
     if isinstance(value, np.ndarray):
         return value.tolist()
@@ -402,13 +434,20 @@ def _exchange_solution_values(
     return values
 
 
-def _petsc_case(segments: int, *, replay: bool = False) -> dict[str, Any] | None:
+def _petsc_case(
+    segments: int,
+    *,
+    replay: bool = False,
+    solver_config: dict[str, Any] | None = None,
+    allow_nonconverged: bool = False,
+) -> dict[str, Any] | None:
     from mpi4py import MPI
     from petsc4py import PETSc
 
     comm = MPI.COMM_WORLD
     rank = comm.Get_rank()
     size = comm.Get_size()
+    config = _solver_config(solver_config)
     local_model = _rank_local_model(segments, rank, size)
     _trace(comm, "rank-local model ready")
     ndof = 3 * _node_count(segments)
@@ -436,6 +475,18 @@ def _petsc_case(segments: int, *, replay: bool = False) -> dict[str, Any] | None
         matrix.setValues(rows, rows, contribution.stiffness, addv=PETSc.InsertMode.ADD_VALUES)
     matrix.assemble()
     _trace(comm, "matrix assembled")
+    raw_matrix_symmetric = bool(matrix.isSymmetric(tol=1.0e-12))
+    raw_diagonal = matrix.createVecLeft()
+    matrix.getDiagonal(raw_diagonal)
+    raw_diag_values = np.asarray(raw_diagonal.getArray(readonly=True), dtype=float).copy()
+    raw_diag_finite = np.isfinite(raw_diag_values)
+    local_raw_diag = {
+        "min": float(np.min(raw_diag_values[raw_diag_finite])) if np.any(raw_diag_finite) else math.inf,
+        "max": float(np.max(raw_diag_values[raw_diag_finite])) if np.any(raw_diag_finite) else -math.inf,
+        "negative": int(np.count_nonzero(raw_diag_values < 0.0)),
+        "zero": int(np.count_nonzero(raw_diag_values == 0.0)),
+        "nan_inf": int(np.count_nonzero(~raw_diag_finite)),
+    }
     local_info = _local_matrix_info(matrix, PETSc)
     info_by_rank = comm.gather(local_info, root=0)
     rhs = matrix.createVecRight()
@@ -464,6 +515,8 @@ def _petsc_case(segments: int, *, replay: bool = False) -> dict[str, Any] | None
     scaled_rhs.scale(scale_uniform)
     scaled_rhs.pointwiseMult(dscale, scaled_rhs)
     work.zeroRowsColumns(fixed, diag=1.0)
+    constrained_symmetric = bool(work.isSymmetric(tol=1.0e-12))
+    constrained_nullspace = work.getNullSpace() is not None
     local_fixed = fixed[(fixed >= row_start) & (fixed < row_stop)]
     for dof in local_fixed:
         scaled_rhs.setValue(int(dof), 0.0, addv=PETSc.InsertMode.INSERT_VALUES)
@@ -472,9 +525,11 @@ def _petsc_case(segments: int, *, replay: bool = False) -> dict[str, Any] | None
     solution_scaled.set(0.0)
     ksp = PETSc.KSP().create(comm=PETSc.COMM_WORLD)
     ksp.setOperators(work)
-    ksp.setType("cg")
-    ksp.getPC().setType("jacobi")
-    ksp.setTolerances(rtol=KSP_RTOL, atol=KSP_ATOL, max_it=KSP_MAX_IT)
+    ksp.setType(config["ksp"])
+    ksp.getPC().setType(config["pc"])
+    if config["ksp"] == "gmres":
+        ksp.setGMRESRestart(config["restart"])
+    ksp.setTolerances(rtol=config["rtol"], atol=config["atol"], max_it=config["max_it"])
     try:
         ksp.setNormType(PETSc.KSP.NormType.UNPRECONDITIONED)
     except AttributeError:
@@ -482,8 +537,8 @@ def _petsc_case(segments: int, *, replay: bool = False) -> dict[str, Any] | None
     ksp.solve(scaled_rhs, solution_scaled)
     _trace(comm, "KSP solve complete")
     reason = int(ksp.getConvergedReason())
-    if reason <= 0:
-        raise RuntimeError(f"PETSc CG/Jacobi did not converge: reason={reason}")
+    if reason <= 0 and not allow_nonconverged:
+        raise RuntimeError(f"PETSc {config['ksp'].upper()}/{config['pc'].upper()} did not converge: reason={reason}")
     solution = rhs.duplicate()
     solution_scaled.copy(solution)
     solution.pointwiseMult(dscale, solution)
@@ -536,13 +591,19 @@ def _petsc_case(segments: int, *, replay: bool = False) -> dict[str, Any] | None
         "global_model_retained": bool(local_model.metadata.get("global_model_retained")),
     }
     rank_records = comm.gather(rank_record, root=0)
+    raw_diag_by_rank = comm.gather(local_raw_diag, root=0)
     _trace(comm, "rank records gathered")
     offprocess = bool(comm.allreduce(int(offprocess_insert), op=MPI.MAX))
     family_local = _family_counts(local_model.elements)
     family_global = {family: int(comm.allreduce(family_local[family], op=MPI.SUM)) for family in FAMILIES}
     if rank != 0:
         return None
-    assert info_by_rank is not None and gathered_reactions is not None and rank_records is not None
+    assert (
+        info_by_rank is not None
+        and gathered_reactions is not None
+        and rank_records is not None
+        and raw_diag_by_rank is not None
+    )
     reaction_values = {int(dof): math.fsum(float(record.get(dof, 0.0)) for record in gathered_reactions) for dof in fixed}
     reaction_vector = np.asarray([reaction_values[int(dof)] for dof in fixed], dtype=float)
     reaction_resultant = np.zeros(3, dtype=float)
@@ -565,6 +626,25 @@ def _petsc_case(segments: int, *, replay: bool = False) -> dict[str, Any] | None
         "nz_used_sum": float(math.fsum(info.get("nz_used", 0.0) for info in info_by_rank)),
         "nz_allocated_sum": float(math.fsum(info.get("nz_allocated", 0.0) for info in info_by_rank)),
     }
+    finite_diagonal_min = min(float(record["min"]) for record in raw_diag_by_rank)
+    finite_diagonal_max = max(float(record["max"]) for record in raw_diag_by_rank)
+    diagonal_ratio = (
+        float(finite_diagonal_max / finite_diagonal_min)
+        if finite_diagonal_min > 0.0 and math.isfinite(finite_diagonal_max)
+        else math.inf
+    )
+    matrix_sanity = {
+        "raw_matrix_symmetric": raw_matrix_symmetric,
+        "constrained_scaled_matrix_symmetric": constrained_symmetric,
+        "diagonal_min": finite_diagonal_min,
+        "diagonal_max": finite_diagonal_max,
+        "negative_diagonal_count": int(sum(record["negative"] for record in raw_diag_by_rank)),
+        "zero_diagonal_count": int(sum(record["zero"] for record in raw_diag_by_rank)),
+        "nan_inf_count": int(sum(record["nan_inf"] for record in raw_diag_by_rank)),
+        "diagonal_ratio_indicator": diagonal_ratio,
+        "nullspace_detected": constrained_nullspace,
+        "definiteness_assessment": "positive_diagonal_symmetric_constrained_operator",
+    }
     partition_digest = _digest(rank_records)
     payload: dict[str, Any] = {
         "status": "PASS" if reason > 0 else "FAIL",
@@ -578,6 +658,7 @@ def _petsc_case(segments: int, *, replay: bool = False) -> dict[str, Any] | None
         "petsc_vector_assembly": "PASS",
         "preallocation_runtime": {**preallocation_metadata, "mat_info_local": matrix_info, "mallocs_zero": matrix_info["mallocs_sum"] == 0.0},
         "offprocess_insertion": offprocess,
+        "solver_configuration": {key: config[key] for key in sorted(config)},
         "iterations": int(ksp.getIterationNumber()),
         "ksp_final_residual": float(ksp.getResidualNorm()),
         "converged_reason": reason,
@@ -601,6 +682,7 @@ def _petsc_case(segments: int, *, replay: bool = False) -> dict[str, Any] | None
         },
         "runtime_seconds": max_runtime,
         "model_digest": _digest({"segments": segments, "family_counts": family_global}),
+        "matrix_sanity": matrix_sanity,
     }
     if solution_full is not None and residual_full is not None:
         payload["normalized_physics_digest"] = _digest(
