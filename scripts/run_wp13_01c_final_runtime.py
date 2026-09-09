@@ -571,13 +571,12 @@ def _petsc_case(
         """PETSc callback whose convergence decision is the physical free residual."""
 
         try:
-            # petsc4py invokes the convergence test before copying the current
-            # iterate back to the user-owned solution vector.  Read the live
-            # KSP iterate; reading ``solution_scaled`` here would monitor the
-            # initial guess and could falsely defer/accept the physical gate.
-            current_scaled = ksp_object.getSolution()
-            current_scaled.copy(callback_solution)
-            callback_solution.pointwiseMult(dscale, current_scaled)
+            # petsc4py documents that getSolution() need not expose the vector
+            # stored during an iterative solve.  Build the live iterate from
+            # PETSc's KSP state; reading the user-owned output vector here
+            # would monitor the initial guess and could falsify the gate.
+            ksp_object.buildSolution(callback_solution)
+            callback_solution.pointwiseMult(dscale, callback_solution)
             matrix.mult(callback_solution, callback_internal)
             callback_internal.copy(callback_residual)
             callback_residual.axpy(-1.0, rhs_original)
