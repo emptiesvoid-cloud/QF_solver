@@ -174,10 +174,6 @@ def _solve_case(nx: int, nu: float, *, sri: bool, distortion: str = "regular") -
         "detj_min": float(np.min(determinants)),
         "detj_max": float(np.max(determinants)),
         "finite": bool(np.all(np.isfinite(stiffness)) and np.all(np.isfinite(displacement))),
-        "displacement": displacement,
-        "reactions": reactions,
-        "residual": residual,
-        "force": force,
     }
 
 
