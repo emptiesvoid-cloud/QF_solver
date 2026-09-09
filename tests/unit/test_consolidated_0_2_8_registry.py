@@ -42,6 +42,7 @@ def test_mixed_and_research_workflows_are_not_inflated_into_46_combinations() ->
     workflows = registry["separate_workflows"]
     assert {row["record_kind"] for row in workflows} == {
         "mixed_workflow_qualification",
+        "mixed_workflow_capability",
         "internal_feasibility_kernel",
         "separate_experimental_capability",
         "bounded_performance_evidence",

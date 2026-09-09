@@ -9,8 +9,21 @@ universal qualification.
 
 ## Install
 
+QF Solver `0.2.8` is currently a development candidate in release
+preparation; it is not published yet. For the current source checkout:
+
+```powershell
+git clone https://github.com/emptiesvoid-cloud/QF_solver.git
+Set-Location QF_solver
+python -m pip install .
+qf-solver --version
+```
+
+When a published package is available, the corresponding package-index
+installation is:
+
 ```bash
-pip install qf-solver
+python -m pip install qf-solver
 ```
 
 **QF Solver** is a Python FEM/FEA solver for structural mechanics and dynamics,
@@ -18,6 +31,7 @@ with transparent formulations, reproducible V&V, and optional PETSc/MPI
 large-scale solving.
 
 [Documentation](https://emptiesvoid-cloud.github.io/QF_solver/) ·
+[Capability index](https://emptiesvoid-cloud.github.io/QF_solver/capabilities/) ·
 [When to use QF Solver](https://emptiesvoid-cloud.github.io/QF_solver/getting-started/when-to-use-qf-solver/) ·
 [Compare FEM solvers](https://emptiesvoid-cloud.github.io/QF_solver/comparisons/)
 [Benchmarks](https://emptiesvoid-cloud.github.io/QF_solver/benchmarks/)
@@ -149,11 +163,14 @@ or a general nonlinear performance claim is made.
 ## Documentation and verification
 
 - [Getting started](docs/getting-started/quickstart.md)
+- [0.2.8 capability index](docs/capabilities/index.md)
+- [What's New in 0.2.8](docs/whats-new/0.2.8.md)
 - [Elements](docs/elements/index.md)
 - [Analyses](docs/analyses/index.md)
 - [Solvers and backends](docs/solveurs/index.md)
 - [Public roadmap](docs/reference/feuille_de_route.md)
 - [0.2.8 verification summary](docs/verification/0_2_8/README.md)
+- [V&V and maturity model](docs/verification/evidence-and-maturity.md)
 - [Historical 0.2.7 verification summary](docs/verification/0_2_7/README.md)
 - [API stability](docs/reference/api_stability.md)
 - [Detailed changelog](CHANGELOG.md)

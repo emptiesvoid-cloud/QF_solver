@@ -212,3 +212,6 @@ For the overview and compatibility boundary, see
 [`api_stability.md`](api_stability.md). The active capability limits remain in
 the [0.2.8 consolidated registry](../../qualification/0_2_8/consolidated_registry.json)
 and linked mixed-workflow/capability records.
+
+The cross-registry public orientation is maintained by the
+[0.2.8 capability index](../capabilities/index.md).

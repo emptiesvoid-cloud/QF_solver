@@ -7,7 +7,13 @@ reviewer: ""
 approver: ""
 ---
 
-# QF Solver 0.2.8 WP01 maturity baseline
+# QF Solver 0.2.8 WP01 maturity baseline — historical/intermediate record
+
+> **Historical / intermediate record.** This page preserves the chronological
+> WP01 and WP13 working history for auditability. Interim dispositions below do
+> not define the current public status. For current 0.2.8 maturity, use the
+> [central capability index](../../capabilities/index.md) and the
+> [consolidated registry](../../../qualification/0_2_8/consolidated_registry.json).
 
 ## Current authoritative 0.2.8 state
 
@@ -38,7 +44,7 @@ The machine-readable source is
 It preserves the exact source-registry digest, every combination identifier,
 the required next proof, test, oracle, tolerance policy, exit gate and risk.
 
-## Disposition policy
+## Disposition policy (WP01 historical context)
 
 - `KEEP_QUALIFIED`: retain the current bounded 0.2.7 state; WP01 adds no claim.
 - `PROMOTABLE_WITH_EXISTING_EVIDENCE`: reserved for a record with complete
@@ -55,7 +61,7 @@ Every future numerical tolerance must name its observable, numerical value and
 provenance before a run. Case-dependent values are allowed only when justified
 by mesh, formulation and oracle. Retuning after a result is forbidden.
 
-## Matrix summary
+## Matrix summary (WP01 historical context)
 
 | Disposition | Count |
 | --- | ---: |
@@ -66,7 +72,7 @@ by mesh, formulation and oracle. Retuning after a result is forbidden.
 | `KEEP_EXPERIMENTAL` | 8 |
 | `NOT_QUALIFIED_TO_CLOSE` | 1 |
 
-## Combination dispositions
+## Combination dispositions (WP01 historical context)
 
 | Family | Routes and WP01 disposition |
 | --- | --- |
@@ -80,7 +86,7 @@ by mesh, formulation and oracle. Retuning after a result is forbidden.
 | HEX20 | static, modal, Newmark, harmonic, linear buckling: `KEEP_QUALIFIED`; nonlinear load control and geometric nonlinear static: `KEEP_EXPERIMENTAL`. |
 | WEDGE6 | modal: `KEEP_QUALIFIED`; static: `NEEDS_MAJOR_VNV`. |
 
-## Evidence findings and priority candidates
+## Evidence findings and priority candidates (WP01 historical context)
 
 The source registry confirms that each active record has a declared
 implementation path, tests and recorded evidence references. It also records

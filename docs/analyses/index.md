@@ -2,7 +2,7 @@
 doc_id: DOC-ANALYSIS-000
 revision: 1.0
 status: controlled
-applicable_version: 0.2.8
+applicable_version: 0.2.8-development
 reviewer: ""
 approver: ""
 ---
@@ -33,3 +33,4 @@ universal friction law, arbitrary mixed meshes, generalized dynamics and
 production finite-sliding are not qualified by this release.
 
 [Read the authoritative 0.2.8 registry](../../qualification/0_2_8/consolidated_registry.json).
+For separate mixed workflows and capabilities, use the [central capability index](../capabilities/index.md).

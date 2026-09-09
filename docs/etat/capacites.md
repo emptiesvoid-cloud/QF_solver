@@ -49,3 +49,6 @@ is [`qualification/0_2_8/consolidated_registry.json`](../../qualification/0_2_8/
 32 `QUALIFIED_BOUNDED`, 14 `EXPERIMENTAL`, 0 `NOT_QUALIFIED`, total 46.
 Mixed workflows and the `.inp`, HDF5, contact and HEX8-SRI capabilities are
 separate records and are not added to those 46 combinations.
+
+Use the [central capability index](../capabilities/index.md) to navigate from
+this registry to the separate mixed-workflow, capability and research records.
