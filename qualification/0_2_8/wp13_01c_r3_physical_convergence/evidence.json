@@ -141,7 +141,7 @@
   },
   "maturity_changed": false,
   "numerical_source_changed": false,
-  "one_million_dof_status": "NOT_RUN_RESOURCE_LIMIT",
+  "one_million_dof_status": "NOT_RUN_SCALE_A_FAIL",
   "partition_consistency": false,
   "physical_residual_definition": {
     "definition": "r_phys = K_original_physical*u_physical - F_original_physical on free DOFs",
