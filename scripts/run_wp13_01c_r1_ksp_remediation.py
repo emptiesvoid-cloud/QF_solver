@@ -255,8 +255,12 @@ def _build_evidence(args: argparse.Namespace) -> int:
         "selected_scale_a": selected_scale,
         "replays": replay_rows,
         "replay_determinism": replay_status,
-        "scale_b": json.loads(args.scale_b.read_text(encoding="utf-8"))["result"] if args.scale_b and args.scale_b.exists() else {"status": "NOT_RUN"},
-        "one_million_dof_status": "NOT_RUN_RESOURCE_LIMIT",
+        "scale_b": (
+            json.loads(args.scale_b.read_text(encoding="utf-8"))["result"]
+            if args.scale_b and args.scale_b.exists()
+            else {"status": "NOT_RUN_NO_ACCEPTED_SCALE_A" if selected is None else "NOT_RUN"}
+        ),
+        "one_million_dof_status": "NOT_RUN_NO_ACCEPTED_SCALE_A" if selected is None else "NOT_RUN_RESOURCE_LIMIT",
         "automatic_solver_fallback": False,
         "numerical_source_changed": False,
         "element_formulation_changed": False,
