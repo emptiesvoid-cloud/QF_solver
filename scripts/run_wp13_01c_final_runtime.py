@@ -138,7 +138,8 @@ def _element_nodes(element_id: int, segments: int) -> tuple[int, ...]:
 
 def _element_owner(element_id: int, segments: int, size: int) -> int:
     element_count = 3 * segments
-    return min(int(size) - 1, int(element_id) * int(size) // element_count)
+    boundaries = np.asarray([element_count * rank // int(size) for rank in range(int(size) + 1)], dtype=np.int64)
+    return int(min(int(size) - 1, np.searchsorted(boundaries[1:], int(element_id), side="right")))
 
 
 def _incident_elements(node: int, segments: int) -> tuple[int, ...]:
