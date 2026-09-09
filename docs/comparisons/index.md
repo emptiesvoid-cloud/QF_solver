@@ -15,6 +15,10 @@ from the software.
 
 This section compares QF Solver with several open-source finite-element tools.
 
+> **HISTORICAL SNAPSHOT NOTICE.** The detailed comparison pages retain their
+> explicitly labeled 0.2.7 snapshots. They are not the current 0.2.8 maturity
+> record; use the capability index for current status.
+
 The detailed comparison articles retain their explicit 0.2.7 snapshot where
 stated. For current QF Solver maturity and limitations, use the 0.2.8 sources
 linked below; in particular, mixed PETSc/MPI is `NOT_VALIDATED`.

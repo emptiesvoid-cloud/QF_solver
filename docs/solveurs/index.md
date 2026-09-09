@@ -16,11 +16,11 @@ conditioning and final diagnostics for every calculation.
 | Analysis | Public status | Available methods or backend |
 | --- | --- | --- |
 | Linear static | `QUALIFIED_BOUNDED` | Direct and iterative sparse routes within the element matrix. |
-| Modal | `SUPPORTED_WITH_LIMITATIONS` | Sparse eigenvalue routes for the recorded bounded cases. |
-| Newmark / harmonic | `SUPPORTED_WITH_LIMITATIONS` | Controlled linear routes; mixed TET4/WEDGE6/HEX8 variants are separate `EXPERIMENTAL_BOUNDED` workflows. |
-| Linear buckling | `SUPPORTED_WITH_LIMITATIONS` | Bounded sparse tangent-instability cases. |
-| Nonlinear and contact | `EXPERIMENTAL` or bounded | Newton, load-control, Arc-Length and contact paths remain route-specific. |
-| Structured TET4 large model | `SUPPORTED_WITH_LIMITATIONS` | PETSc/MPI for recorded historical workloads; SciPy is for small or intermediate cases. |
+| Modal | `ROUTE_DEPENDENT — see capability index` | Sparse eigenvalue routes for the recorded bounded cases. |
+| Newmark / harmonic | `ROUTE_DEPENDENT — see capability index` | Controlled linear routes; mixed TET4/WEDGE6/HEX8 variants are separate `EXPERIMENTAL_BOUNDED` workflows. |
+| Linear buckling | `ROUTE_DEPENDENT — see capability index` | Bounded sparse tangent-instability cases. |
+| Nonlinear and contact | `ROUTE_DEPENDENT — see capability index` | Newton, load-control, Arc-Length and contact paths remain route-specific. |
+| Structured TET4 large model | `ROUTE_DEPENDENT — see capability index` | PETSc/MPI for recorded historical workloads; SciPy is for small or intermediate cases. |
 | Mixed distributed PETSc/MPI | `NOT_VALIDATED` | Architecture foundation only; physical balance and three-rank runtime gates remain failed. |
 
 ## Optional PETSc/MPI route

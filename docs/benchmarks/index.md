@@ -23,7 +23,7 @@ materials, solver settings or hardware.
 
 ## Large-model evidence
 
-The strongest QF Solver 0.2.7 large-model evidence currently concerns
+The strongest retained QF Solver 0.2.7 large-model evidence concerns
 structured TET4 linear-static models using selected PETSc/MPI routes.
 
 | Model size | Recorded result | Scope |

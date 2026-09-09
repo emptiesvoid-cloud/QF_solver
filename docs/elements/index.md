@@ -19,7 +19,7 @@ read with its analysis, material and mesh restrictions.
 | HEX8 | `QUALIFIED_BOUNDED` | Recorded linear and small-strain J2 cases; no HEX8R/SRI/B-bar claim. |
 | HEX20 | `QUALIFIED_BOUNDED` | Recorded linear and small-strain J2 cases with bounded route coverage. |
 | WEDGE6 | `QUALIFIED_BOUNDED` for static and modal | Static is bounded to Gmsh Prism 6, isotropic small-strain elasticity and the recorded loads/meshes. Modal is limited to its homogeneous consistent-mass scope. |
-| MITC3/MITC4, BEAM2 and discrete entities | `SUPPORTED_WITH_LIMITATIONS` or `EXPERIMENTAL` | Use the individual route evidence; no blanket qualification is implied. |
+| MITC3/MITC4, BEAM2 and discrete entities | `ROUTE_DEPENDENT — see capability index` | Use the individual route evidence; no blanket qualification is implied. |
 
 ## Deferred or excluded
 

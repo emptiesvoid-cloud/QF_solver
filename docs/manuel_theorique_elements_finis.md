@@ -9,6 +9,11 @@ approver: ""
 
 # Manuel theorique des elements finis
 
+> **SUPERSEDED / COMPATIBILITY URL.** The canonical current documentation is
+> the modular [FEM foundations](fondements/travaux_virtuels.md) and
+> [elements](elements/index.md) documentation. This page is not a current
+> solver capability claim.
+
 !!! warning "Document remplace"
     Le manuel monolithique a ete migre vers les pages techniques modulaires afin
     d'eviter deux formulations concurrentes. Cette page ne contient plus de

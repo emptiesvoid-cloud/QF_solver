@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "language": "fr",
+  "language": "en",
   "authority": "Les exigences et maturites proviennent de qualification/requirements.json.",
   "default_review_roles": [
     "ingenieur_mecanique",
@@ -11,7 +11,7 @@
     {
       "id": "DOC-STATE-001",
       "path": "index.md",
-      "title": "QF Solver 0.2.7",
+      "title": "QF Solver 0.2.8",
       "status": "controlled",
       "requirements": [
         "REQ-AUD-001",
@@ -2737,7 +2737,7 @@
     {
       "id": "DOC-REF-002",
       "path": "reference/registre_documentaire.md",
-      "title": "Registre documentaire",
+      "title": "Documentation registry",
       "status": "controlled",
       "requirements": [
         "REQ-CMP-001",
@@ -2812,7 +2812,7 @@
     {
       "id": "DOC-ARCH-001",
       "path": "architecture.md",
-      "title": "Architecture Du Solveur EF",
+      "title": "QF Solver architecture",
       "status": "controlled",
       "requirements": [
         "REQ-REL-001"

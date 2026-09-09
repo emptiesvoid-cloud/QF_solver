@@ -15,10 +15,10 @@ defines the valid element/material combinations.
 | Analysis | Status | Boundary |
 | --- | --- | --- |
 | Linear static | `QUALIFIED_BOUNDED` | Elastic and bounded material routes recorded in the matrix. |
-| Modal | `SUPPORTED_WITH_LIMITATIONS` | Controlled linear eigenvalue cases; WEDGE6 first three modes are separately bounded. |
-| Newmark transient | `SUPPORTED_WITH_LIMITATIONS` | Linear cases with documented mass, damping and time-step assumptions. |
-| Harmonic | `SUPPORTED_WITH_LIMITATIONS` | Controlled frequency-domain cases; not a general dynamic claim. |
-| Linear buckling | `SUPPORTED_WITH_LIMITATIONS` | Bounded first-factor sparse cases; no post-buckling claim. |
+| Modal | `ROUTE_DEPENDENT — see capability index` | Controlled linear eigenvalue cases; WEDGE6 first three modes are separately bounded. |
+| Newmark transient | `ROUTE_DEPENDENT — see capability index` | Linear cases with documented mass, damping and time-step assumptions. |
+| Harmonic | `ROUTE_DEPENDENT — see capability index` | Controlled frequency-domain cases; not a general dynamic claim. |
+| Linear buckling | `ROUTE_DEPENDENT — see capability index` | Bounded first-factor sparse cases; no post-buckling claim. |
 | Small-strain J2 | `QUALIFIED_BOUNDED` | TET4, TET10, HEX8 and HEX20 within the recorded constitutive scope. |
 | Mixed static and modal | `QUALIFIED_BOUNDED` | Connected conforming serial TET4/WEDGE6/HEX8 benchmark scopes only. |
 | Mixed Newmark and harmonic | `EXPERIMENTAL_BOUNDED` | Frozen serial dynamic benchmarks only. |
