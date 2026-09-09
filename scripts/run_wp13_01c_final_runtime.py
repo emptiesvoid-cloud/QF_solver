@@ -365,6 +365,35 @@ def _exact_row_pattern(
     }
 
 
+def _exchange_solution_values(
+    solution: Any, local_dof_ids: np.ndarray, row_start: int, row_stop: int, ndof: int, comm: Any
+) -> dict[int, float]:
+    """Exchange only locally-needed ghost values from the distributed Vec."""
+
+    requested = [[] for _ in range(comm.size)]
+    for dof in sorted(int(value) for value in np.asarray(local_dof_ids, dtype=np.int64)):
+        requested[_dof_owner(dof, ndof, comm.size)].append(dof)
+    incoming = comm.alltoall(requested)
+    local_values = np.asarray(solution.getArray(readonly=True), dtype=float)
+    responses = [[] for _ in range(comm.size)]
+    for source_rank, dofs in enumerate(incoming):
+        responses[source_rank] = [
+            (int(dof), float(local_values[int(dof) - row_start]))
+            for dof in dofs
+            if row_start <= int(dof) < row_stop
+        ]
+    received = comm.alltoall(responses)
+    values: dict[int, float] = {}
+    for packet in received:
+        for dof, value in packet:
+            values[int(dof)] = float(value)
+    expected = {int(value) for value in np.asarray(local_dof_ids, dtype=np.int64)}
+    if set(values) != expected:
+        missing = sorted(expected.difference(values))[:8]
+        raise RuntimeError(f"PETSc ghost solution exchange lost DOFs: {missing}")
+    return values
+
+
 def _petsc_case(segments: int, *, replay: bool = False) -> dict[str, Any] | None:
     from mpi4py import MPI
     from petsc4py import PETSc
@@ -458,11 +487,12 @@ def _petsc_case(segments: int, *, replay: bool = False) -> dict[str, Any] | None
     local_r2 = float(np.dot(residual_local[free_mask], residual_local[free_mask]))
     local_f2 = float(np.dot(rhs_local[free_mask], rhs_local[free_mask]))
     residual_relative = math.sqrt(comm.allreduce(local_r2, op=MPI.SUM)) / max(math.sqrt(comm.allreduce(local_f2, op=MPI.SUM)), 1.0)
+    local_solution_values = _exchange_solution_values(
+        solution, local_model.dof_map.local_dof_ids, row_start, row_stop, ndof, comm
+    )
     local_reactions: dict[int, float] = {}
     for contribution in contributions:
-        local_u = np.asarray(
-            solution.getValues(np.asarray(contribution.global_dofs, dtype=PETSc.IntType)), dtype=float
-        )
+        local_u = np.asarray([local_solution_values[int(dof)] for dof in contribution.global_dofs], dtype=float)
         local_internal = np.asarray(contribution.stiffness @ local_u, dtype=float)
         for dof, value in zip(contribution.global_dofs, local_internal, strict=True):
             if int(dof) in fixed_set:
@@ -552,6 +582,7 @@ def _petsc_case(segments: int, *, replay: bool = False) -> dict[str, Any] | None
             "global_u_required_on_all_ranks": False,
             "global_connectivity_required_on_all_ranks": False,
             "global_model_retained_on_any_rank": any(record["global_model_retained"] for record in rank_records),
+            "ghost_solution_exchange": True,
             "global_gather_only_for_validation": gather_solution,
         },
         "runtime_seconds": max_runtime,
