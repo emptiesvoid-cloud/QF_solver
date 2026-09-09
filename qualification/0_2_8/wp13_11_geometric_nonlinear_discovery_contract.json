@@ -1,0 +1,123 @@
+{
+  "contract_id": "WP13-11-GEOMETRIC-NONLINEAR-DISCOVERY-001",
+  "status": "PREDECLARED",
+  "created_from_repo_sha": "b066443a55734a39f9b345a5b980d6338df48bb9",
+  "purpose": "Discovery-only feasibility study of the existing static Total-Lagrangian geometric-nonlinear path. No public capability or maturity decision is authorized by this contract.",
+  "selected_scope": {
+    "analysis": "geometric_nonlinear_static",
+    "element_family": "TET4",
+    "formulation": "total_lagrangian_saint_venant_kirchhoff",
+    "material": "isotropic_3d with Saint-Venant-Kirchhoff finite-kinematics response",
+    "geometry": "connected structured solid cantilever",
+    "loading": "nodal dead transverse load",
+    "boundary_conditions": "fully clamped root",
+    "solver": "full_newton with existing deterministic line search",
+    "excluded": [
+      "mixed nonlinear elements",
+      "contact",
+      "plasticity",
+      "dynamics",
+      "follower loads",
+      "arc-length continuation",
+      "updated Lagrangian production path",
+      "corotational production path"
+    ]
+  },
+  "residual_definition": "R(u)=F_external-F_internal(u); relative residual=norm(R_free)/max(norm(F_external_free),1)",
+  "tangent_definition": "K_tangent=dF_internal/du=K_material+K_geometric from the Total-Lagrangian Saint-Venant-Kirchhoff assembly",
+  "load_stepping": {
+    "attempted_single_step": 1,
+    "accepted_levels": [6, 12, 24],
+    "reference_level": 24,
+    "newton_tolerance": 1e-9,
+    "max_iterations": 30
+  },
+  "gates": {
+    "tangent_fd_relative": 1e-6,
+    "final_relative_residual": 1e-9,
+    "force_balance_relative": 1e-8,
+    "energy_work_relative": 1e-7,
+    "small_displacement_linear_relative": 1e-4,
+    "path_final_tip_relative": 1e-8,
+    "large_displacement_relative_difference_minimum": 0.05,
+    "minimum_det_f": 0.2,
+    "replay_relative": 1e-12
+  },
+  "energy_work_definition": {
+    "internal_energy": "U_int(u)=integral_reference W(E(u)) dV",
+    "external_incremental_work": "sum_n 0.5*(F_n+F_n+1)^T*(u_n+1-u_n)",
+    "balance": "abs(U_int_final-W_external_incremental)/max(abs(U_int_final),abs(W_external_incremental),1e-30)"
+  },
+  "oracle": {
+    "primary": "Euler elastica under a dead transverse tip load, supporting comparison only",
+    "acceptance_oracle": false,
+    "limitation": "Beam theory does not reproduce three-dimensional solid shear or end effects and cannot qualify the TET4 solid response."
+  },
+  "failure_contract": {
+    "strict_type_message_path_matching": true,
+    "silent_fallback_allowed": false,
+    "cases": [
+      "zero_load_steps",
+      "negative_load_steps",
+      "impossible_convergence",
+      "singular_tangent",
+      "unsupported_element_family",
+      "unsupported_material",
+      "invalid_boundary_conditions",
+      "malformed_geometry"
+    ]
+  },
+  "replay": {
+    "runs": ["MAIN", "REPLAY_1", "REPLAY_2"],
+    "fields": [
+      "load_step_history",
+      "displacements",
+      "reactions",
+      "newton_iterations",
+      "residual_history",
+      "internal_energy",
+      "external_incremental_work",
+      "status"
+    ],
+    "semantic_digest_required": true
+  },
+  "evidence": {
+    "output_directory": "qualification/0_2_8/wp13_11_geometric_nonlinear_discovery",
+    "schema_validation_required": true,
+    "raw_arrays_required": true,
+    "required_fields": [
+      "contract_id",
+      "contract_sha",
+      "repo_sha",
+      "environment",
+      "preflight",
+      "formulation_assessment",
+      "benchmark",
+      "tangent_fd",
+      "small_displacement_limit",
+      "large_displacement_case",
+      "load_step_sensitivity",
+      "energy_work",
+      "force_balance",
+      "oracle",
+      "failure_contract",
+      "replay",
+      "digests",
+      "decision"
+    ]
+  },
+  "registry_policy": {
+    "element_analysis_registry_change": false,
+    "public_capability_created": false,
+    "expected_element_analysis_counts": {
+      "qualified_bounded": 32,
+      "experimental": 14,
+      "not_qualified": 0,
+      "total": 46
+    }
+  },
+  "decision_policy": {
+    "allowed": ["FEASIBLE_CONTINUE", "RESEARCH_ONLY", "NO_GO_CURRENT_ARCHITECTURE"],
+    "public_claim_allowed": false
+  }
+}
