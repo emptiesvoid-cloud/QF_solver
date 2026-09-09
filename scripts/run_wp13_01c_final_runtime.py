@@ -992,8 +992,10 @@ def _build_evidence(args: argparse.Namespace) -> int:
     arrays = {
         "serial_displacement": serial_u,
         "serial_reactions": serial_r,
+        "serial_residual": np.asarray(serial.get("residual", []), dtype=float),
         "mpi2_displacement": mpi_u,
         "mpi2_reactions": mpi_r,
+        "mpi2_residual": np.asarray(mpi2.get("residual", []), dtype=float),
     }
     npz_path = OUTPUT_DIR / "raw_runtime_arrays.npz"
     np.savez_compressed(npz_path, **arrays)
