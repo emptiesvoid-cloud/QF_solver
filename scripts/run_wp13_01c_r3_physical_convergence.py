@@ -400,7 +400,7 @@ def _build(args: argparse.Namespace) -> int:
         },
         "partition_consistency": scale_a_pass and scale_a_r3_pass,
         "scale_b": scale_b,
-        "one_million_dof_status": "NOT_RUN_RESOURCE_LIMIT",
+        "one_million_dof_status": "NOT_RUN_SCALE_A_FAIL",
         "replays": {
             "replay_1": {"status": "PASS" if replay_pass else "FAIL", "solver_status": replay_1["status"], "digest": replay_digests[0]},
             "replay_2": {"status": "PASS" if replay_pass else "FAIL", "solver_status": replay_2["status"], "digest": replay_digests[1]},
