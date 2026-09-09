@@ -1,0 +1,1055 @@
+{
+  "claim_candidate": "Experimental bounded PETSc/MPI mixed static runtime for documented TET4/WEDGE6/HEX8 distributed workflows.",
+  "contract_commit_sha": "bdbb1a4e5d8fabeb578a82a591f0ab13f260ce0c",
+  "contract_id": "WP13-01C-PETSC-MPI-MIXED-RUNTIME-001",
+  "contract_sha256": "43ee8f4c331b3aafb8ce10da1e0f60210ad672eb14af88b42ab959fb7b5003a1",
+  "digests": {
+    "manifest": "9557767e63546d3a06763d6685187af38a2b3864722c3c204b5702eed11a2bab",
+    "raw_npz": "846cfc293e0ac72eeb5cfe5cca700223e7e76ea1a302ef468103f02166c50850",
+    "semantic": "67e27ad6ae9ebe2320faf88b62b20c908c41c96bf10318166a21e3db9339cac9"
+  },
+  "environment": {
+    "container_image": "qf-solver-wp13-01c-petsc:2026-09",
+    "index": "int32",
+    "launcher": "mpiexec",
+    "mpi": "MPICH 5.0.1",
+    "mpi4py": "4.1.2",
+    "petsc": "3.25.5",
+    "petsc4py": "3.25.5",
+    "python": "3.12.14",
+    "scalar": "float64",
+    "strategy": "Dedicated Docker Linux + conda-forge"
+  },
+  "evidence_builder_sha": "UNAVAILABLE",
+  "failure_cases": {
+    "cases": [
+      {
+        "actual_input": {
+          "family": "PYRAMID5",
+          "nodes": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "actual_input_digest": "1b50e677c191f9fcd1d7fdade5b98835252554f337dcce7aec8cf36b8eaf9163",
+        "case_id": "unsupported_family",
+        "execution_path": "RankLocalElement.__post_init__",
+        "expected_exception_type": "InputValidationError",
+        "expected_message_pattern": "Unsupported rank-local element family",
+        "message_match": true,
+        "observed_exception_type": "InputValidationError",
+        "observed_execution_function": "__post_init__",
+        "observed_message": "Unsupported rank-local element family 'PYRAMID5'.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      {
+        "actual_input": {
+          "rank_count": 0,
+          "segments": 1
+        },
+        "actual_input_digest": "0503aaee999b89e32413143db51abf85c326907b9159489ad8f9d8b1a1d31e12",
+        "case_id": "invalid_partition",
+        "execution_path": "_rank_local_model",
+        "expected_exception_type": "InputValidationError",
+        "expected_message_pattern": "Invalid MPI rank/size",
+        "message_match": true,
+        "observed_exception_type": "InputValidationError",
+        "observed_execution_function": "_rank_local_model",
+        "observed_message": "Invalid MPI rank/size for rank-local model.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      {
+        "actual_input": {
+          "element_owner": {
+            "0": 1
+          },
+          "rank": 0
+        },
+        "actual_input_digest": "77f188e77cf2cfedd89d0c9db65389660369424b876b6ccc8c3eabb91b2c7c7c",
+        "case_id": "invalid_owner",
+        "execution_path": "RankLocalModel.__post_init__",
+        "expected_exception_type": "InputValidationError",
+        "expected_message_pattern": "does not belong to this rank",
+        "message_match": true,
+        "observed_exception_type": "InputValidationError",
+        "observed_execution_function": "__post_init__",
+        "observed_message": "Rank-local element does not belong to this rank.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      {
+        "actual_input": {
+          "local_nodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "requested_node": 9999
+        },
+        "actual_input_digest": "3606a6d0f710bd35632a2f373d4566125d4744169760bc65a3540771abda969d",
+        "case_id": "missing_ghost",
+        "execution_path": "RankLocalModel.coordinates_for",
+        "expected_exception_type": "InputValidationError",
+        "expected_message_pattern": "missing node coordinate",
+        "message_match": true,
+        "observed_exception_type": "InputValidationError",
+        "observed_execution_function": "coordinates_for",
+        "observed_message": "Rank-local element requested a missing node coordinate.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      {
+        "actual_input": {
+          "family": "TET4",
+          "nodes": [
+            0,
+            1,
+            2
+          ]
+        },
+        "actual_input_digest": "f789a0e44c716216e220b9e2cf7347848e5dedd300d0488ed24fb857156efd6e",
+        "case_id": "malformed_connectivity",
+        "execution_path": "RankLocalElement.__post_init__",
+        "expected_exception_type": "InputValidationError",
+        "expected_message_pattern": "invalid connectivity",
+        "message_match": true,
+        "observed_exception_type": "InputValidationError",
+        "observed_execution_function": "__post_init__",
+        "observed_message": "TET4 rank-local element 0 has invalid connectivity.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      {
+        "actual_input": {
+          "local_nodes": [
+            0
+          ],
+          "node_global_to_local": {
+            "0": 1
+          }
+        },
+        "actual_input_digest": "58adb5682925681900c3b1ec918d061711bd96c57e39c6251895f46fcaa702aa",
+        "case_id": "bad_dof_map",
+        "execution_path": "RankLocalDofMap.__post_init__",
+        "expected_exception_type": "InputValidationError",
+        "expected_message_pattern": "node local/global mapping is invalid",
+        "message_match": true,
+        "observed_exception_type": "InputValidationError",
+        "observed_execution_function": "__post_init__",
+        "observed_message": "Rank-local node local/global mapping is invalid.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      {
+        "actual_input": {
+          "element_material": "solid",
+          "materials": {}
+        },
+        "actual_input_digest": "547aa499ea24e298d25b1ead3e8be0e37374fbfb1483a2d06dad79ac78e59a89",
+        "case_id": "missing_material",
+        "execution_path": "RankLocalModel.__post_init__",
+        "expected_exception_type": "InputValidationError",
+        "expected_message_pattern": "unknown material",
+        "message_match": true,
+        "observed_exception_type": "InputValidationError",
+        "observed_execution_function": "__post_init__",
+        "observed_message": "Rank-local element references unknown material 'solid'.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      {
+        "actual_input": {
+          "mpi_initialized": true,
+          "petsc_initialized": false
+        },
+        "actual_input_digest": "777e80430e80d29ed16976479d2da986d7e4b8c3f7feecfa6a664d09743a5d29",
+        "case_id": "petsc_initialization_failure_path",
+        "execution_path": "_require_petsc_mpi",
+        "expected_exception_type": "RuntimeError",
+        "expected_message_pattern": "PETSc MPI initialization failed",
+        "message_match": true,
+        "observed_exception_type": "RuntimeError",
+        "observed_execution_function": "_require_petsc_mpi",
+        "observed_message": "PETSc MPI initialization failed: PETSc is not initialized.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      {
+        "actual_input": {
+          "ksp": "gmres",
+          "pc": "jacobi"
+        },
+        "actual_input_digest": "1b99a85fdb15c989679a81a6ac7cfe84dea74c100acf5308eb0a3c717f31fde9",
+        "case_id": "incompatible_solver_configuration",
+        "execution_path": "_strict_solver_config",
+        "expected_exception_type": "InputValidationError",
+        "expected_message_pattern": "requires CG/Jacobi",
+        "message_match": true,
+        "observed_exception_type": "InputValidationError",
+        "observed_execution_function": "_strict_solver_config",
+        "observed_message": "WP13-01C incompatible solver configuration: contract requires CG/Jacobi.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      }
+    ],
+    "executed": 9,
+    "pass": 9,
+    "required": 9,
+    "silent_fallback": false,
+    "status": "PASS"
+  },
+  "family_participation": {
+    "all_families_distributed_participation": true,
+    "load_and_solution": "shared connected control path",
+    "stiffness": "non-zero rank-local contributions for TET4/WEDGE6/HEX8"
+  },
+  "gate_decisions": {
+    "environment": "PASS",
+    "failure_contract": "PASS",
+    "mpi3_optional": "PASS",
+    "replay": "PASS",
+    "scale": "FAIL",
+    "small_connected_runtime": "PASS"
+  },
+  "integrity": {
+    "element_formulation_changed": false,
+    "full_test_suite": "DEFERRED_TO_WP13_FINAL_GATE",
+    "historical_0_2_7_evidence_changed": false,
+    "historical_wp13_01c_records_rewritten": false,
+    "maturity_changed": false,
+    "numerical_source_changed": false
+  },
+  "limitations": [
+    "Owner Gate required before any public capability claim.",
+    "Linear-static scope only; no dynamics, nonlinear, contact, MPC/RBE or arbitrary-family claim.",
+    "Scale results are bounded characterization only and do not establish universal HPC scalability.",
+    "The connected control is the serial-equivalence and reaction qualification case.",
+    "Root-only solution exchange is used for validation; structural global K/connectivity/element-field gather is absent."
+  ],
+  "mixed_runtime_case": {
+    "connected": true,
+    "connected_components": 1,
+    "dof": 33,
+    "hex8_count": 1,
+    "model_digest": "1173570aff535ef4d8374bd1dad91c60141664ee4dcb4635a62ce24031ca2c73",
+    "tet4_count": 1,
+    "wedge6_count": 1
+  },
+  "no_global_gather_audit": {
+    "ghost_solution_exchange": true,
+    "global_connectivity_required_on_all_ranks": false,
+    "global_gather_only_for_validation": true,
+    "global_k_replicated_on_all_ranks": false,
+    "global_model_retained_on_any_rank": false,
+    "global_u_required_on_all_ranks": false
+  },
+  "petsc_assembly": {
+    "matrix": "PASS",
+    "offprocess_insertion": true,
+    "preallocation": {
+      "global_connectivity_required": false,
+      "mallocs_zero": true,
+      "mat_info_local": {
+        "by_rank": [
+          {
+            "assemblies": 1.0,
+            "block_size": 1.0,
+            "factor_mallocs": 0.0,
+            "fill_ratio_given": 0.0,
+            "fill_ratio_needed": 0.0,
+            "mallocs": 0.0,
+            "memory": 0.0,
+            "nz_allocated": 459.0,
+            "nz_unneeded": 0.0,
+            "nz_used": 459.0
+          },
+          {
+            "assemblies": 1.0,
+            "block_size": 1.0,
+            "factor_mallocs": 0.0,
+            "fill_ratio_given": 0.0,
+            "fill_ratio_needed": 0.0,
+            "mallocs": 0.0,
+            "memory": 0.0,
+            "nz_allocated": 360.0,
+            "nz_unneeded": 0.0,
+            "nz_used": 360.0
+          }
+        ],
+        "mallocs_sum": 0.0,
+        "nz_allocated_sum": 819.0,
+        "nz_used_sum": 819.0
+      },
+      "max_diag_nnz": 16,
+      "max_offdiag_nnz": 17,
+      "owned_row_pattern_complete": true,
+      "received_row_records": 25,
+      "sent_row_records": 12,
+      "strategy": "rank-local connectivity exact row-owner exchange"
+    },
+    "vector": "PASS"
+  },
+  "petsc_solve": {
+    "converged_reason_r2": 3,
+    "final_residual_r2": 1.2473956671342079e-18,
+    "iterations_r2": 12,
+    "ksp_rtol": 1e-13,
+    "ksp_type": "CG",
+    "mpi2": {
+      "backend": "petsc4py_mpi_rank_local",
+      "converged_reason": 3,
+      "element_count": 3,
+      "energy": 0.04827941499919999,
+      "family_counts": {
+        "HEX8": 1,
+        "TET4": 1,
+        "WEDGE6": 1
+      },
+      "force_balance_component_relative": 1.3373210094869136e-12,
+      "force_balance_relative": 1.3374023708276375e-12,
+      "free_residual_relative": 2.058574718312439e-12,
+      "global_gather_audit": {
+        "ghost_solution_exchange": true,
+        "global_connectivity_required_on_all_ranks": false,
+        "global_gather_only_for_validation": true,
+        "global_k_replicated_on_all_ranks": false,
+        "global_model_retained_on_any_rank": false,
+        "global_u_required_on_all_ranks": false
+      },
+      "iterations": 12,
+      "ksp_final_residual": 1.2473956671342079e-18,
+      "load_resultant": [
+        100000.0,
+        0.0,
+        0.0
+      ],
+      "model_digest": "178b1e4afe20f85404bb643905d3439256c3357ba120895ffad06ced98d7407c",
+      "ndof": 33,
+      "normalized_physics_digest": "9cd376b22f3d3aae2b04fc6acbd2aa3ca4735204984d359a4b7ae8f15ea29113",
+      "offprocess_insertion": true,
+      "partition": {
+        "digest": "92ed50955e7e1144d01423958015a204453e0fd919522020bc3712174ce92ece",
+        "records": [
+          {
+            "family_counts": {
+              "HEX8": 0,
+              "TET4": 1,
+              "WEDGE6": 0
+            },
+            "ghost_nodes": 0,
+            "global_model_retained": false,
+            "local_nodes": 4,
+            "owned_elements": [
+              0
+            ],
+            "owned_nodes": 4,
+            "rank": 0
+          },
+          {
+            "family_counts": {
+              "HEX8": 1,
+              "TET4": 0,
+              "WEDGE6": 1
+            },
+            "ghost_nodes": 3,
+            "global_model_retained": false,
+            "local_nodes": 10,
+            "owned_elements": [
+              1,
+              2
+            ],
+            "owned_nodes": 7,
+            "rank": 1
+          }
+        ]
+      },
+      "petsc_matrix_assembly": "PASS",
+      "petsc_vector_assembly": "PASS",
+      "preallocation_runtime": {
+        "global_connectivity_required": false,
+        "mallocs_zero": true,
+        "mat_info_local": {
+          "by_rank": [
+            {
+              "assemblies": 1.0,
+              "block_size": 1.0,
+              "factor_mallocs": 0.0,
+              "fill_ratio_given": 0.0,
+              "fill_ratio_needed": 0.0,
+              "mallocs": 0.0,
+              "memory": 0.0,
+              "nz_allocated": 459.0,
+              "nz_unneeded": 0.0,
+              "nz_used": 459.0
+            },
+            {
+              "assemblies": 1.0,
+              "block_size": 1.0,
+              "factor_mallocs": 0.0,
+              "fill_ratio_given": 0.0,
+              "fill_ratio_needed": 0.0,
+              "mallocs": 0.0,
+              "memory": 0.0,
+              "nz_allocated": 360.0,
+              "nz_unneeded": 0.0,
+              "nz_used": 360.0
+            }
+          ],
+          "mallocs_sum": 0.0,
+          "nz_allocated_sum": 819.0,
+          "nz_used_sum": 819.0
+        },
+        "max_diag_nnz": 16,
+        "max_offdiag_nnz": 17,
+        "owned_row_pattern_complete": true,
+        "received_row_records": 25,
+        "sent_row_records": 12,
+        "strategy": "rank-local connectivity exact row-owner exchange"
+      },
+      "rank_count": 2,
+      "reaction_resultant": [
+        -100000.00000013373,
+        -1.4651959645561874e-09,
+        -1.7143975128419697e-10
+      ],
+      "reaction_vector": [
+        -4624.344811778221,
+        -1633.9395263723356,
+        -3934.503150618622,
+        5508.037382840732,
+        -312.08606134529305,
+        -3935.2129490166935,
+        -55370.2016951636,
+        4392.354505811345,
+        12129.438121511237,
+        -2799.101108282334,
+        7696.009254884872,
+        931.6916886999022,
+        -7748.7035077624005,
+        -3953.7885677787963,
+        -11398.212223569244,
+        -39542.36021774333,
+        -6188.549605201256,
+        2494.8768077568056,
+        4576.673957755423,
+        0.0,
+        3711.9217052364434
+      ],
+      "residual": [
+        -4624.344811778211,
+        -1633.9395263723354,
+        -3934.503150618617,
+        3.550530891516246e-08,
+        4.366302164271474e-08,
+        -5.137007974553853e-08,
+        5508.037382840732,
+        -312.0860613452942,
+        -3935.2129490166935,
+        -55370.2016951636,
+        4392.354505811345,
+        12129.438121511239,
+        3.5543052945286036e-08,
+        4.3977252062177286e-08,
+        5.180936568649486e-08,
+        -2799.101108282334,
+        7696.009254884871,
+        931.6916886999024,
+        -7748.703507762404,
+        -3953.7885677787967,
+        -11398.212223569248,
+        3.1058220884006005e-08,
+        -4.314188117859885e-08,
+        -4.385037755127996e-08,
+        -39542.36021774332,
+        -6188.549605201255,
+        2494.876807756804,
+        3.162131179124117e-08,
+        -4.30327418143861e-08,
+        4.359753802418709e-08,
+        4576.673957755423,
+        0.0,
+        3711.9217052364434
+      ],
+      "runtime_seconds": 0.005624982999961503,
+      "segments": 1,
+      "solution": [
+        0.0,
+        0.0,
+        0.0,
+        -1.8382850349742388e-07,
+        1.5311809982928432e-07,
+        -3.399814940046885e-07,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        5.742715819807811e-07,
+        -7.000062236567741e-08,
+        -4.6805185420571885e-07,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -3.5018914311124073e-07,
+        8.405987983172517e-08,
+        -5.220128295507832e-07,
+        0.0,
+        0.0,
+        0.0,
+        1.3569050179868764e-06,
+        3.1493859502365035e-07,
+        -7.191876129219562e-07,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "status": "PASS"
+    },
+    "mpi3": {
+      "backend": "petsc4py_mpi_rank_local",
+      "converged_reason": 3,
+      "element_count": 3,
+      "energy": 0.048279414999195316,
+      "family_counts": {
+        "HEX8": 1,
+        "TET4": 1,
+        "WEDGE6": 1
+      },
+      "force_balance_component_relative": 9.720679372549057e-13,
+      "force_balance_relative": 9.721294869110946e-13,
+      "free_residual_relative": 1.4963663948133532e-12,
+      "global_gather_audit": {
+        "ghost_solution_exchange": true,
+        "global_connectivity_required_on_all_ranks": false,
+        "global_gather_only_for_validation": true,
+        "global_k_replicated_on_all_ranks": false,
+        "global_model_retained_on_any_rank": false,
+        "global_u_required_on_all_ranks": false
+      },
+      "iterations": 12,
+      "ksp_final_residual": 9.068849173354248e-19,
+      "load_resultant": [
+        100000.0,
+        0.0,
+        0.0
+      ],
+      "model_digest": "178b1e4afe20f85404bb643905d3439256c3357ba120895ffad06ced98d7407c",
+      "ndof": 33,
+      "normalized_physics_digest": "d0e0b148f25965a3fdb63e85a5715d0345d6e2e6b058bb931ecb149a6c9a681b",
+      "offprocess_insertion": true,
+      "partition": {
+        "digest": "041b7556f3014ee059cef15936d0f31b7a8f1cdaa67392769fbefb1f7e2049f4",
+        "records": [
+          {
+            "family_counts": {
+              "HEX8": 0,
+              "TET4": 1,
+              "WEDGE6": 0
+            },
+            "ghost_nodes": 0,
+            "global_model_retained": false,
+            "local_nodes": 4,
+            "owned_elements": [
+              0
+            ],
+            "owned_nodes": 4,
+            "rank": 0
+          },
+          {
+            "family_counts": {
+              "HEX8": 0,
+              "TET4": 0,
+              "WEDGE6": 1
+            },
+            "ghost_nodes": 3,
+            "global_model_retained": false,
+            "local_nodes": 6,
+            "owned_elements": [
+              1
+            ],
+            "owned_nodes": 3,
+            "rank": 1
+          },
+          {
+            "family_counts": {
+              "HEX8": 1,
+              "TET4": 0,
+              "WEDGE6": 0
+            },
+            "ghost_nodes": 4,
+            "global_model_retained": false,
+            "local_nodes": 8,
+            "owned_elements": [
+              2
+            ],
+            "owned_nodes": 4,
+            "rank": 2
+          }
+        ]
+      },
+      "petsc_matrix_assembly": "PASS",
+      "petsc_vector_assembly": "PASS",
+      "preallocation_runtime": {
+        "global_connectivity_required": false,
+        "mallocs_zero": true,
+        "mat_info_local": {
+          "by_rank": [
+            {
+              "assemblies": 1.0,
+              "block_size": 1.0,
+              "factor_mallocs": 0.0,
+              "fill_ratio_given": 0.0,
+              "fill_ratio_needed": 0.0,
+              "mallocs": 0.0,
+              "memory": 0.0,
+              "nz_allocated": 321.0,
+              "nz_unneeded": 0.0,
+              "nz_used": 321.0
+            },
+            {
+              "assemblies": 1.0,
+              "block_size": 1.0,
+              "factor_mallocs": 0.0,
+              "fill_ratio_given": 0.0,
+              "fill_ratio_needed": 0.0,
+              "mallocs": 0.0,
+              "memory": 0.0,
+              "nz_allocated": 270.0,
+              "nz_unneeded": 0.0,
+              "nz_used": 270.0
+            },
+            {
+              "assemblies": 1.0,
+              "block_size": 1.0,
+              "factor_mallocs": 0.0,
+              "fill_ratio_given": 0.0,
+              "fill_ratio_needed": 0.0,
+              "mallocs": 0.0,
+              "memory": 0.0,
+              "nz_allocated": 228.0,
+              "nz_unneeded": 0.0,
+              "nz_used": 228.0
+            }
+          ],
+          "mallocs_sum": 0.0,
+          "nz_allocated_sum": 819.0,
+          "nz_used_sum": 819.0
+        },
+        "max_diag_nnz": 11,
+        "max_offdiag_nnz": 22,
+        "owned_row_pattern_complete": true,
+        "received_row_records": 28,
+        "sent_row_records": 12,
+        "strategy": "rank-local connectivity exact row-owner exchange"
+      },
+      "rank_count": 3,
+      "reaction_resultant": [
+        -100000.0000000972,
+        -1.0868461686186492e-09,
+        -1.241460267920047e-10
+      ],
+      "reaction_vector": [
+        -4624.344811764877,
+        -1633.9395263746735,
+        -3934.5031506126847,
+        5508.037382839291,
+        -312.08606134750835,
+        -3935.2129490148513,
+        -55370.20169515189,
+        4392.354505808315,
+        12129.438121504743,
+        -2799.1011082835525,
+        7696.009254882822,
+        931.6916886979809,
+        -7748.703507755014,
+        -3953.7885677738186,
+        -11398.212223563194,
+        -39542.36021773588,
+        -6188.549605196222,
+        2494.8768077509026,
+        4576.673957754719,
+        0.0,
+        3711.9217052369795
+      ],
+      "residual": [
+        -4624.344811764872,
+        -1633.9395263746728,
+        -3934.503150612685,
+        2.580554792075418e-08,
+        3.174318408127874e-08,
+        -3.7347490433603525e-08,
+        5508.037382839292,
+        -312.0860613475088,
+        -3935.212949014851,
+        -55370.20169515189,
+        4392.354505808324,
+        12129.438121504742,
+        2.5829649530351162e-08,
+        3.1969193514669314e-08,
+        3.7667632568627596e-08,
+        -2799.1011082835525,
+        7696.0092548828225,
+        931.6916886979807,
+        -7748.70350775501,
+        -3953.7885677738177,
+        -11398.21222356319,
+        2.2571839508600533e-08,
+        -3.136392479063943e-08,
+        -3.187869879184291e-08,
+        -39542.36021773588,
+        -6188.549605196223,
+        2494.876807750904,
+        2.2970198187977076e-08,
+        -3.1269337341655046e-08,
+        3.169043338857591e-08,
+        4576.673957754719,
+        0.0,
+        3711.9217052369795
+      ],
+      "runtime_seconds": 0.02062139399959051,
+      "segments": 1,
+      "solution": [
+        0.0,
+        0.0,
+        0.0,
+        -1.8382850349745043e-07,
+        1.5311809982923038e-07,
+        -3.3998149400463626e-07,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        5.742715819807484e-07,
+        -7.00006223657372e-08,
+        -4.6805185420577555e-07,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -3.501891431113004e-07,
+        8.405987983180806e-08,
+        -5.220128295506993e-07,
+        0.0,
+        0.0,
+        0.0,
+        1.356905017986816e-06,
+        3.149385950237331e-07,
+        -7.1918761292204e-07,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "status": "PASS"
+    },
+    "pc_type": "JACOBI"
+  },
+  "raw_data_archived": {
+    "array_count": 6,
+    "manifest": "manifest.json",
+    "path": "raw_runtime_arrays.npz"
+  },
+  "reactions": {
+    "definition": "R = K*u - F on constrained DOFs",
+    "reduction": "root validation reduction of owner-partitioned rank packets",
+    "runtime": "rank-local element internal-force contributions",
+    "serial_equivalence": true
+  },
+  "record_id": "QF-028-WP13-01C-PETSC-MPI-MIXED-RUNTIME",
+  "replays": {
+    "determinism": "PASS",
+    "mpi2": [
+      {
+        "displacement_relative_l2": 0.0,
+        "energy_relative_difference": 0.0,
+        "id": "replay_1",
+        "normalized_digest_equal": true,
+        "reaction_relative_l2": 0.0,
+        "residual_relative_difference": 0.0,
+        "same_iterations": true,
+        "same_model_digest": true,
+        "same_partition_digest": true,
+        "status": "PASS"
+      },
+      {
+        "displacement_relative_l2": 0.0,
+        "energy_relative_difference": 0.0,
+        "id": "replay_2",
+        "normalized_digest_equal": true,
+        "reaction_relative_l2": 0.0,
+        "residual_relative_difference": 0.0,
+        "same_iterations": true,
+        "same_model_digest": true,
+        "same_partition_digest": true,
+        "status": "PASS"
+      }
+    ],
+    "replay_1": "PASS",
+    "replay_2": "PASS",
+    "required": 2
+  },
+  "repo_sha": "f5c1c6229390121645d6a1678a7bbe1a2662d8d6",
+  "scale_characterization": {
+    "cases": [
+      {
+        "assembly_runtime": null,
+        "dof": 100023,
+        "element_counts": {
+          "HEX8": 5556,
+          "TET4": 5556,
+          "WEDGE6": 5556
+        },
+        "id": "A",
+        "iterations": null,
+        "peak_memory": null,
+        "ranks": 2,
+        "residual": null,
+        "solve_runtime": null,
+        "status": "FAIL"
+      },
+      {
+        "id": "B",
+        "status": "NOT_RUN_PREVIOUS_SCALE_GATE_FAILED"
+      }
+    ],
+    "interpretation": "bounded characterization; no general scaling claim",
+    "one_million_dof_status": "NOT_RUN_PREVIOUS_SCALE_GATE_FAILED"
+  },
+  "schema_version": 1,
+  "serial_equivalence": {
+    "mpi2": {
+      "displacement_error_r2": 8.120447433750489e-19,
+      "energy_error_r2": 1.709743457922741e-14,
+      "force_balance_r2": 1.3374023708276375e-12,
+      "pass": true,
+      "reaction_error_r2": 1.299604282230818e-12,
+      "residual_r2": 2.058574718312439e-12
+    },
+    "mpi3": {
+      "displacement_error_r3": 5.902605545418898e-19,
+      "energy_error_r3": 1.2420620087993939e-14,
+      "force_balance_r3": 9.721294869110946e-13,
+      "pass": true,
+      "reaction_error_r3": 9.446274609555245e-13,
+      "residual_r3": 1.4963663948133532e-12
+    }
+  },
+  "serial_reference": {
+    "backend": "serial_global_assembler",
+    "displacement": [
+      0.0,
+      0.0,
+      0.0,
+      -1.8382850349752102e-07,
+      1.5311809982908588e-07,
+      -3.3998149400449745e-07,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      5.742715819806618e-07,
+      -7.000062236589645e-08,
+      -4.6805185420592696e-07,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -3.501891431114589e-07,
+      8.405987983202793e-08,
+      -5.220128295504752e-07,
+      0.0,
+      0.0,
+      0.0,
+      1.3569050179866542e-06,
+      3.149385950239527e-07,
+      -7.191876129222623e-07,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "displacement_digest": "dea52cc0f152e4e9f18dbeb096fe8e25e1e113c40328e9e105ae869b723337c9",
+    "displacement_norm": 1.8937767094634946e-06,
+    "element_count": 3,
+    "energy": 0.048279414999182896,
+    "energy_identity_relative": 1.3877787807814457e-17,
+    "equilibrium_relative": 1.619309279227751e-16,
+    "external_load_resultant": [
+      100000.0,
+      0.0,
+      0.0
+    ],
+    "family_counts": {
+      "HEX8": 1,
+      "TET4": 1,
+      "WEDGE6": 1
+    },
+    "free_residual_relative": 3.292603210724474e-16,
+    "ghost_nodes": 0,
+    "global_gather_present": false,
+    "internal_force_norm": 101163.74092547894,
+    "iterations": "direct",
+    "loads": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      50000.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      50000.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "matrix_nnz": 763,
+    "model": {
+      "connected_components": 1,
+      "dof": 33,
+      "element_count": 3,
+      "family_counts": {
+        "HEX8": 1,
+        "TET4": 1,
+        "WEDGE6": 1
+      },
+      "fixed_nodes": 7,
+      "load_nodes": [
+        4,
+        9
+      ],
+      "model_digest": "1173570aff535ef4d8374bd1dad91c60141664ee4dcb4635a62ce24031ca2c73",
+      "node_count": 11
+    },
+    "model_digest": "5e8a2dbe0af0004dd8131659fb1c09ef53a4988cc6139be1b4cd74c79923809a",
+    "ndof": 33,
+    "peak_memory_mb": 78.82421875,
+    "rank_count": 1,
+    "reaction_digest": "0ae204d2e2dbfea5dc196e98ee7b5aac4cd99e0c375a9d7647a9fe2656a53290",
+    "reaction_norm": 72347.0972329742,
+    "reaction_resultant": [
+      -100000.0,
+      -1.000444171950221e-11,
+      1.2732925824820995e-11
+    ],
+    "reaction_vector": [
+      -4624.344811729378,
+      -1633.939526380872,
+      -3934.503150596891,
+      5508.03738283544,
+      -312.0860613534005,
+      -3935.212949009946,
+      -55370.20169512074,
+      4392.354505800264,
+      12129.438121487452,
+      -2799.101108286807,
+      7696.00925487738,
+      931.6916886928757,
+      -7748.703507735336,
+      -3953.78856776055,
+      -11398.212223547072,
+      -39542.360217716036,
+      -6188.549605182831,
+      2494.8768077351897,
+      4576.673957752851,
+      0.0,
+      3711.9217052384047
+    ],
+    "reallocations": 0,
+    "residual": [
+      -4624.344811729378,
+      -1633.939526380872,
+      -3934.503150596891,
+      -2.2737367544323206e-13,
+      -3.637978807091713e-12,
+      5.4569682106375694e-12,
+      5508.03738283544,
+      -312.0860613534005,
+      -3935.212949009946,
+      -55370.20169512074,
+      4392.354505800264,
+      12129.438121487452,
+      1.4551915228366852e-11,
+      -9.094947017729282e-13,
+      -7.275957614183426e-12,
+      -2799.101108286807,
+      7696.00925487738,
+      931.6916886928757,
+      -7748.703507735336,
+      -3953.78856776055,
+      -11398.212223547072,
+      0.0,
+      2.2737367544323206e-12,
+      1.8189894035458565e-12,
+      -39542.360217716036,
+      -6188.549605182831,
+      2494.8768077351897,
+      -1.4551915228366852e-11,
+      3.637978807091713e-12,
+      0.0,
+      4576.673957752851,
+      0.0,
+      3711.9217052384047
+    ],
+    "residual_digest": "11a437707fce5bb4910c4e54fd94fea0b90b810724d943fab3e11aa9d8f44d2a",
+    "runtime_seconds": 0.010356198999943445,
+    "segments": 1,
+    "status": "PASS",
+    "wall_seconds": 0.011072425999827828
+  },
+  "status": "FAIL_RUNTIME",
+  "work_package": "WP13-01C"
+}

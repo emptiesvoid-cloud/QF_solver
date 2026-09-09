@@ -1,0 +1,203 @@
+{
+  "contract_id": "WP13-01C-PETSC-MPI-MIXED-RUNTIME-001",
+  "failure_contract": {
+    "cases": [
+      {
+        "actual_input": {
+          "family": "PYRAMID5",
+          "nodes": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "actual_input_digest": "1b50e677c191f9fcd1d7fdade5b98835252554f337dcce7aec8cf36b8eaf9163",
+        "case_id": "unsupported_family",
+        "execution_path": "RankLocalElement.__post_init__",
+        "expected_exception_type": "InputValidationError",
+        "expected_message_pattern": "Unsupported rank-local element family",
+        "message_match": true,
+        "observed_exception_type": "InputValidationError",
+        "observed_execution_function": "__post_init__",
+        "observed_message": "Unsupported rank-local element family 'PYRAMID5'.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      {
+        "actual_input": {
+          "rank_count": 0,
+          "segments": 1
+        },
+        "actual_input_digest": "0503aaee999b89e32413143db51abf85c326907b9159489ad8f9d8b1a1d31e12",
+        "case_id": "invalid_partition",
+        "execution_path": "_rank_local_model",
+        "expected_exception_type": "InputValidationError",
+        "expected_message_pattern": "Invalid MPI rank/size",
+        "message_match": true,
+        "observed_exception_type": "InputValidationError",
+        "observed_execution_function": "_rank_local_model",
+        "observed_message": "Invalid MPI rank/size for rank-local model.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      {
+        "actual_input": {
+          "element_owner": {
+            "0": 1
+          },
+          "rank": 0
+        },
+        "actual_input_digest": "77f188e77cf2cfedd89d0c9db65389660369424b876b6ccc8c3eabb91b2c7c7c",
+        "case_id": "invalid_owner",
+        "execution_path": "RankLocalModel.__post_init__",
+        "expected_exception_type": "InputValidationError",
+        "expected_message_pattern": "does not belong to this rank",
+        "message_match": true,
+        "observed_exception_type": "InputValidationError",
+        "observed_execution_function": "__post_init__",
+        "observed_message": "Rank-local element does not belong to this rank.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      {
+        "actual_input": {
+          "local_nodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "requested_node": 9999
+        },
+        "actual_input_digest": "3606a6d0f710bd35632a2f373d4566125d4744169760bc65a3540771abda969d",
+        "case_id": "missing_ghost",
+        "execution_path": "RankLocalModel.coordinates_for",
+        "expected_exception_type": "InputValidationError",
+        "expected_message_pattern": "missing node coordinate",
+        "message_match": true,
+        "observed_exception_type": "InputValidationError",
+        "observed_execution_function": "coordinates_for",
+        "observed_message": "Rank-local element requested a missing node coordinate.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      {
+        "actual_input": {
+          "family": "TET4",
+          "nodes": [
+            0,
+            1,
+            2
+          ]
+        },
+        "actual_input_digest": "f789a0e44c716216e220b9e2cf7347848e5dedd300d0488ed24fb857156efd6e",
+        "case_id": "malformed_connectivity",
+        "execution_path": "RankLocalElement.__post_init__",
+        "expected_exception_type": "InputValidationError",
+        "expected_message_pattern": "invalid connectivity",
+        "message_match": true,
+        "observed_exception_type": "InputValidationError",
+        "observed_execution_function": "__post_init__",
+        "observed_message": "TET4 rank-local element 0 has invalid connectivity.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      {
+        "actual_input": {
+          "local_nodes": [
+            0
+          ],
+          "node_global_to_local": {
+            "0": 1
+          }
+        },
+        "actual_input_digest": "58adb5682925681900c3b1ec918d061711bd96c57e39c6251895f46fcaa702aa",
+        "case_id": "bad_dof_map",
+        "execution_path": "RankLocalDofMap.__post_init__",
+        "expected_exception_type": "InputValidationError",
+        "expected_message_pattern": "node local/global mapping is invalid",
+        "message_match": true,
+        "observed_exception_type": "InputValidationError",
+        "observed_execution_function": "__post_init__",
+        "observed_message": "Rank-local node local/global mapping is invalid.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      {
+        "actual_input": {
+          "element_material": "solid",
+          "materials": {}
+        },
+        "actual_input_digest": "547aa499ea24e298d25b1ead3e8be0e37374fbfb1483a2d06dad79ac78e59a89",
+        "case_id": "missing_material",
+        "execution_path": "RankLocalModel.__post_init__",
+        "expected_exception_type": "InputValidationError",
+        "expected_message_pattern": "unknown material",
+        "message_match": true,
+        "observed_exception_type": "InputValidationError",
+        "observed_execution_function": "__post_init__",
+        "observed_message": "Rank-local element references unknown material 'solid'.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      {
+        "actual_input": {
+          "mpi_initialized": true,
+          "petsc_initialized": false
+        },
+        "actual_input_digest": "777e80430e80d29ed16976479d2da986d7e4b8c3f7feecfa6a664d09743a5d29",
+        "case_id": "petsc_initialization_failure_path",
+        "execution_path": "_require_petsc_mpi",
+        "expected_exception_type": "RuntimeError",
+        "expected_message_pattern": "PETSc MPI initialization failed",
+        "message_match": true,
+        "observed_exception_type": "RuntimeError",
+        "observed_execution_function": "_require_petsc_mpi",
+        "observed_message": "PETSc MPI initialization failed: PETSc is not initialized.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      {
+        "actual_input": {
+          "ksp": "gmres",
+          "pc": "jacobi"
+        },
+        "actual_input_digest": "1b99a85fdb15c989679a81a6ac7cfe84dea74c100acf5308eb0a3c717f31fde9",
+        "case_id": "incompatible_solver_configuration",
+        "execution_path": "_strict_solver_config",
+        "expected_exception_type": "InputValidationError",
+        "expected_message_pattern": "requires CG/Jacobi",
+        "message_match": true,
+        "observed_exception_type": "InputValidationError",
+        "observed_execution_function": "_strict_solver_config",
+        "observed_message": "WP13-01C incompatible solver configuration: contract requires CG/Jacobi.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      }
+    ],
+    "executed": 9,
+    "pass": 9,
+    "required": 9,
+    "silent_fallback": false,
+    "status": "PASS"
+  },
+  "schema_version": 1
+}

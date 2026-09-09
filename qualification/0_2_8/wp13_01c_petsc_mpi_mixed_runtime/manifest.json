@@ -1,0 +1,40 @@
+{
+  "array_names": [
+    "mpi2_displacement",
+    "mpi2_reactions",
+    "mpi2_residual",
+    "serial_displacement",
+    "serial_reactions",
+    "serial_residual"
+  ],
+  "array_shapes": {
+    "mpi2_displacement": [
+      33
+    ],
+    "mpi2_reactions": [
+      21
+    ],
+    "mpi2_residual": [
+      33
+    ],
+    "serial_displacement": [
+      33
+    ],
+    "serial_reactions": [
+      21
+    ],
+    "serial_residual": [
+      33
+    ]
+  },
+  "contract_id": "WP13-01C-PETSC-MPI-MIXED-RUNTIME-001",
+  "contract_sha256": "43ee8f4c331b3aafb8ce10da1e0f60210ad672eb14af88b42ab959fb7b5003a1",
+  "evidence_integrity": "PASS",
+  "evidence_schema_valid": true,
+  "files": {
+    "raw_runtime_arrays.npz": "846cfc293e0ac72eeb5cfe5cca700223e7e76ea1a302ef468103f02166c50850"
+  },
+  "repo_sha": "f5c1c6229390121645d6a1678a7bbe1a2662d8d6",
+  "schema_version": 1,
+  "semantic_digest": "67e27ad6ae9ebe2320faf88b62b20c908c41c96bf10318166a21e3db9339cac9"
+}
