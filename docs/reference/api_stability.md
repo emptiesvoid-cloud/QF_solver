@@ -41,3 +41,8 @@ and separate mixed-workflow/capability records define those boundaries.
 
 `qf_solver.read_inp(path)` remains `PROVISIONAL`; it covers only the documented
 bounded Abaqus/CalculiX subset and is not a full-format compatibility claim.
+
+The family-aware mixed HDF5 functions are also `PROVISIONAL` and
+`EXPERIMENTAL_BOUNDED`: they cover the documented schema-v1.0 TET4/WEDGE6/HEX8
+result-storage path only. Internal implementation symbols under `solveur` are
+not stable API exports unless listed in the API contract.

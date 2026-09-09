@@ -9,7 +9,10 @@ approver: ""
 
 # Verification and evidence
 
-The 0.2.8 development evidence summary is the current entry point:
+The [0.2.8 capability index](../capabilities/index.md) is the current public
+status entry point. The [V&V and maturity model](evidence-and-maturity.md)
+explains the evidence chain. The 0.2.8 development evidence summary is the
+chronological entry point:
 [verification/0_2_8/README.md](0_2_8/README.md). The
 [0.2.7 summary](0_2_7/README.md) remains immutable historical evidence.
 
@@ -33,5 +36,13 @@ rejects experimental routes and orphaned evidence.
 The active release evidence is bounded by the declared element, analysis,
 material, mesh, loading and solver scope. Historical campaign counts remain in
 their original records and are not current release metrics.
+
+## Current 0.2.8 links
+
+- [Capability index](../capabilities/index.md)
+- [What's New](../whats-new/0.2.8.md)
+- [Known limitations](../etat/limites.md)
+
+The current candidate is `0.2.8-development` and is not published yet.
 
 --8<-- "docs/generated/qualification_status.md"

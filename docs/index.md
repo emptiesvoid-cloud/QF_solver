@@ -10,9 +10,10 @@ approver: ""
 # QF Solver 0.2.8
 
 QF Solver is an inspectable Python finite-element solver for structural
-mechanics. This site documents the 0.2.8 development candidate; it does not
-announce a tag or publication. Claims are bounded by the active consolidated
-registry, separate workflow/capability records and their linked evidence.
+mechanics. **Current development state:** `0.2.8`. **Publication status:**
+`NOT_PUBLISHED_YET`. This site does not announce a tag or publication. Claims
+are bounded by the active consolidated registry, separate workflow/capability
+records and their linked evidence.
 
 ## Start here
 
@@ -22,6 +23,8 @@ registry, separate workflow/capability records and their linked evidence.
 4. Check [elements and maturities](elements/index.md).
 5. Select an [analysis route](analyses/index.md) and [solver backend](solveurs/index.md).
 6. Read the [known limitations](etat/limites.md) before using a result.
+7. Use the [central capability index](capabilities/index.md) for current
+   maturity and record links.
 
    
 ## Choosing a FEM solver
@@ -31,7 +34,6 @@ tools, start with the solver-selection and comparison guides:
 
 - [Compare open-source FEM solvers](comparisons/index.md)
 - [Python FEM solvers: which one should you use?](comparisons/python-fem-solvers.md)
-- 
 ## Current scope
 
 - Bounded linear static routes are available for the element combinations in
@@ -54,9 +56,12 @@ tools, start with the solver-selection and comparison guides:
 
 ## Verification
 
-The [0.2.8 verification summary](verification/0_2_8/README.md) gives the current
-development overview, while the [0.2.7 summary](verification/0_2_7/README.md)
-remains immutable historical evidence. Internal gate,
+The [central capability index](capabilities/index.md) gives the current public
+status. The [V&V and maturity model](verification/evidence-and-maturity.md)
+explains contracts, frozen gates, evidence and replays. The [0.2.8 verification
+summary](verification/0_2_8/README.md) gives the chronological development
+overview, while the [0.2.7 summary](verification/0_2_7/README.md) remains
+immutable historical evidence. Internal gate,
 work-package and audit identifiers are kept there under an explicit
 traceability section; they are not part of the user workflow.
 
@@ -70,6 +75,9 @@ The source currently identifies as `0.2.8`; no 0.2.8 tag or publication is
 claimed by this documentation update. See the [public roadmap](reference/feuille_de_route.md)
 for product-level next steps. Historical qualification records remain
 available for provenance and are labelled as historical in their own pages.
+
+Read [What's New in 0.2.8](whats-new/0.2.8.md) for the current bounded
+development summary.
 
 ## Performance and reproducibility
 

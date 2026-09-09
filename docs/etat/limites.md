@@ -48,3 +48,5 @@ For exact element-analysis boundaries, use the
 [0.2.8 consolidated registry](../../qualification/0_2_8/consolidated_registry.json)
 and the [0.2.8 evidence summary](../verification/0_2_8/README.md). The 0.2.7
 records remain available as immutable historical evidence.
+
+For the current cross-registry status, use the [central capability index](../capabilities/index.md).

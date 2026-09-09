@@ -9,6 +9,10 @@ approver: ""
 
 # Installation
 
+The current candidate is QF Solver `0.2.8-development`; publication has not
+occurred yet. The [central capability index](../capabilities/index.md) and
+[What's New](../whats-new/0.2.8.md) describe the current bounded public scope.
+
 ## User installation
 
 Install the package when a 0.2.8 distribution is available from the package

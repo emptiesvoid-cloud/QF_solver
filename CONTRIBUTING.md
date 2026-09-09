@@ -12,6 +12,14 @@ Contributions are welcome, including bug fixes, documentation improvements,
 new examples, tests, numerical methods, solver improvements, and verification
 cases.
 
+## Current release state
+
+The repository currently targets QF Solver `0.2.8-development` in release
+preparation. It is not published or tagged as 0.2.8 yet. The public
+[capability index](docs/capabilities/index.md) and [V&V/maturity guide](docs/verification/evidence-and-maturity.md)
+define the current bounded scope; historical 0.2.7 evidence must remain
+unchanged.
+
 Because QF Solver is numerical engineering software, changes that affect results
 need a little more care than ordinary application code.
 
