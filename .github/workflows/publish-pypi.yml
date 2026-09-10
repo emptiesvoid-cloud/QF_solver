@@ -104,7 +104,10 @@ jobs:
         with:
           name: python-package-distributions
           path: dist/
-      - uses: pypa/gh-action-pypi-publish@release/v1
+      # Pin the publication action to the current release/v1 commit. PyPI
+      # publication remains gated by the tag/version check and confirmation
+      # input above; this is not a branch or pull-request publication path.
+      - uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33
         with:
           user: __token__
           password: ${{ secrets.PYPI_API_TOKEN }}
