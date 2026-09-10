@@ -48,6 +48,7 @@ test = [
   "tomli>=2.0; python_version < '3.11'",
   "h5py>=3.10",
   "psutil>=5.9",
+  "jsonschema>=4.26,<5",
   "PyYAML>=6.0"
 ]
 dev = [
@@ -57,6 +58,7 @@ dev = [
   "coverage>=7.9",
   "psutil>=5.9",
   "h5py>=3.10",
+  "jsonschema>=4.26,<5",
   "ruff>=0.6",
   "mypy>=1.16",
   "hypothesis>=6.135",
