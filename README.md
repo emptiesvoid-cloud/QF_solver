@@ -14,29 +14,45 @@ analysis, material, mesh, loading and solver route. A passing example is not a
 universal qualification.
 
 On this page: [Why QF Solver?](README.md#why-qf-solver) ·
+[Intended use](README.md#intended-use) ·
 [Installation](README.md#installation) · [Quick start](README.md#quick-start) ·
 [Main capabilities](README.md#main-capabilities) ·
 [Verification](README.md#verification-and-maturity) ·
 [Performance](README.md#performance-context) · [Limitations](README.md#limitations) ·
 [Documentation](README.md#documentation) ·
-[Contributing](README.md#contributing-citation-and-license) ·
-[CLI](README.md#command-line) · [Python API](README.md#python) ·
-[Status labels](README.md#verification-and-maturity) ·
-[Performance table](README.md#performance-context) ·
-[Limitations](README.md#limitations)
+[Contributing](README.md#contributing-citation-and-license)
 
 ## Why QF Solver?
 
 - Python-native API and inspectable finite-element implementations.
 - Numerical diagnostics intended to make assumptions and failure modes visible.
 - Reproducible verification evidence with explicit capability maturity.
-- Optional integrations for bounded HDF5 and PETSc/MPI large-model workflows.
+- Optional integrations for bounded HDF5 and documented large-model workflows;
+  mixed distributed PETSc/MPI remains not validated.
 
-Current source candidate: `0.2.8`. **Publication status:**
-`NOT_PUBLISHED_YET`. **DOI status:** `NOT_AVAILABLE_YET`. See [GitHub
-Releases](https://github.com/emptiesvoid-cloud/QF_solver/releases) and
-[PyPI](https://pypi.org/project/qf-solver/) for published availability; these
-links do not announce publication of the current candidate.
+## Project status
+
+| Item | Status |
+| --- | --- |
+| Release line | `0.2.8` |
+| Development stage | Beta |
+| Python | `>=3.10` |
+| CI validation | Windows and Linux |
+| License | Apache-2.0 |
+| Documentation | [Online documentation](https://emptiesvoid-cloud.github.io/QF_solver/) |
+
+Release availability is authoritative on [PyPI](https://pypi.org/project/qf-solver/)
+and [GitHub Releases](https://github.com/emptiesvoid-cloud/QF_solver/releases).
+This page describes the `0.2.8` release line and does not make a transient
+publication-state claim. Citation metadata, including any DOI if one is
+assigned, is authoritative in [`CITATION.cff`](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CITATION.cff).
+
+## Intended use
+
+QF Solver is designed for inspectable structural FEM, engineering prototyping
+and reproducible V&V. It is not presented as a certified solver, a universal
+nonlinear solver or a replacement for a commercial general-purpose FEA
+package.
 
 ## Installation
 
@@ -47,7 +63,8 @@ python -m pip install qf-solver
 qf-solver --version
 ```
 
-To evaluate the current pre-publication source candidate specifically:
+To install a repository checkout (for example, the pre-publication branch
+during development):
 
 ```bash
 git clone --branch 0.2.8-pre-publication https://github.com/emptiesvoid-cloud/QF_solver.git
@@ -93,11 +110,22 @@ The historical `solveur` namespace remains available for compatibility. New
 applications should use `qf_solver`; see the
 [API stability guide](https://emptiesvoid-cloud.github.io/QF_solver/reference/api_stability/).
 
+A successful maintained example writes the requested JSON result file and
+returns a passing solve status. Inspect the result object or JSON for
+displacements and derived result fields; model-specific stresses, reactions
+and diagnostics remain subject to the documented route scope.
+
 ## Main capabilities
 
 The public status model is bounded and route-specific. The
 [central capability index](https://emptiesvoid-cloud.github.io/QF_solver/capabilities/)
 links each status to its evidence and limitations.
+
+**At a glance:** solids include TET4, TET10, HEX8, HEX20 and WEDGE6; the
+repository also contains BEAM2 and MITC3/MITC4 shell routes. Main analyses are
+static, modal and buckling, with mixed Newmark/harmonic dynamics remaining
+experimental-bounded. Geometric nonlinearity and PYRAMID5 are research or
+internal paths, and mixed distributed PETSc/MPI is not validated.
 
 | Capability | Status | Boundary |
 | --- | --- | --- |
@@ -114,10 +142,12 @@ links each status to its evidence and limitations.
 | Mixed distributed PETSc/MPI | `NOT_VALIDATED` | Architecture evidence only; no validated runtime claim. |
 | PYRAMID5 | `INTERNAL` / `RESEARCH_ONLY` | Internal feasibility path; not a supported public element. |
 
-The authoritative [0.2.8 element-analysis registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/qualification/0_2_8/consolidated_registry.json)
+The authoritative [0.2.8 element-analysis registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/b706795a8d7d2d8e64df4ec669e343ef1a666ead/qualification/0_2_8/consolidated_registry.json)
 contains 32 `QUALIFIED_BOUNDED`, 14 `EXPERIMENTAL`, 0 `NOT_QUALIFIED` and 46
 records. Mixed workflows and separate capabilities are not added to those 46
-records.
+records. Release-specific evidence links in this page are pinned to the exact
+`0.2.8` candidate commit; project-global links may follow the project default
+branch.
 
 ## Verification and maturity
 
@@ -132,7 +162,7 @@ evidence, replay checks and failure cases. The maturity labels mean:
 - `INTERNAL`: not part of the supported public surface.
 
 Read the [V&V and maturity model](https://emptiesvoid-cloud.github.io/QF_solver/verification/evidence-and-maturity/)
-and the [0.2.8 verification summary](https://emptiesvoid-cloud.github.io/QF_solver/verification/0_2_8/).
+and the [0.2.8 verification summary pinned to the candidate commit](https://github.com/emptiesvoid-cloud/QF_solver/tree/b706795a8d7d2d8e64df4ec669e343ef1a666ead/docs/verification/0_2_8/).
 
 ## Performance context
 

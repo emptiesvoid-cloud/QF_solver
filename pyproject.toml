@@ -24,7 +24,7 @@ classifiers = [
   "Programming Language :: Python :: 3.13",
   "Topic :: Scientific/Engineering",
 ]
-keywords = ["finite-element-method", "fem", "structural-mechanics", "nonlinear-fem", "scientific-computing", "qf-solver", "white-box-audit"]
+keywords = ["finite-element-method", "fem", "structural-mechanics", "engineering-prototyping", "scientific-computing", "qf-solver", "white-box-audit"]
 dependencies = [
   "numpy>=1.24",
   "scipy>=1.10",
