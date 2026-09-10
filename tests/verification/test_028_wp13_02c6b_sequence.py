@@ -16,7 +16,7 @@ import run_wp13_02c6b_pipeline as c6b
 
 
 ROOT = Path(__file__).resolve().parents[2]
-PARTIAL_C6 = ROOT / "qualification/0_2_8/wp13_02c6_harmonic_final/wp13_02c6_harmonic_arrays.npz"
+PARTIAL_C6 = ROOT / "qualification/0_2_8/wp13_02c6c_harmonic_final/wp13_02c6_harmonic_arrays.npz"
 
 
 def _candidate() -> dict:

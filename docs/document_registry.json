@@ -67,6 +67,33 @@
       "tests": []
     },
     {
+      "id": "DOC-CAPABILITY-028-001",
+      "path": "capabilities/index.md",
+      "title": "QF Solver 0.2.8 capability index",
+      "status": "controlled",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-VV-MATURITY-028-001",
+      "path": "verification/evidence-and-maturity.md",
+      "title": "V&V, evidence and maturity",
+      "status": "controlled",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-WHATS-NEW-028-001",
+      "path": "whats-new/0.2.8.md",
+      "title": "What's New in QF Solver 0.2.8",
+      "status": "controlled",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
       "id": "DOC-START-001",
       "path": "demarrage/installation.md",
       "title": "Installation pointer",
@@ -5222,19 +5249,6 @@
   ]
 },
 {
-  "id": "DOC-028-WP06-MATRIX-001",
-  "path": "qualification/0_2_8/wp06_maturity_matrix.json",
-  "title": "QF Solver 0.2.8 WP06 HEX8 maturity delta",
-  "status": "controlled_candidate",
-  "requirements": [],
-  "examples": [
-    "qualification/0_2_8/wp06_hex8_buckling_vnv.json"
-  ],
-  "tests": [
-    "tests/verification/test_028_hex8_buckling_vnv.py"
-  ]
-},
-{
   "id": "DOC-028-WP06B-001",
   "path": "verification/0_2_8/wp06b_hex8_buckling_vnv.md",
   "title": "QF Solver 0.2.8 WP06B HEX8 buckling root-cause remediation",
@@ -5244,19 +5258,6 @@
     "qualification/0_2_8/wp06b_hex8_buckling_contract.json",
     "qualification/0_2_8/wp06b_hex8_buckling_vnv.json",
     "qualification/0_2_8/wp06b_maturity_matrix.json"
-  ],
-  "tests": [
-    "tests/verification/test_028_wp06b_hex8_buckling.py"
-  ]
-},
-{
-  "id": "DOC-028-WP06B-MATRIX-001",
-  "path": "qualification/0_2_8/wp06b_maturity_matrix.json",
-  "title": "QF Solver 0.2.8 WP06B HEX8 maturity delta",
-  "status": "controlled_candidate",
-  "requirements": [],
-  "examples": [
-    "qualification/0_2_8/wp06b_hex8_buckling_vnv.json"
   ],
   "tests": [
     "tests/verification/test_028_wp06b_hex8_buckling.py"

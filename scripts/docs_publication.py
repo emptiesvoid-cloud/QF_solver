@@ -451,6 +451,19 @@ def read_document_metadata(path: Path) -> dict[str, Any]:
     metadata = yaml.safe_load(parts[1])
     if not isinstance(metadata, dict):
         raise ValueError(f"Controlled document has invalid YAML metadata: {path}")
+    # A small set of older 0.2.8 pages carried a descriptive status header
+    # followed by the controlled-document header.  Preserve both pieces of
+    # metadata while making the controlled registry fields authoritative for
+    # publication validation.  Do not reinterpret ordinary Markdown rules as
+    # a second header: only a header missing ``doc_id`` can enter this path.
+    if "doc_id" not in metadata:
+        remainder = parts[2].lstrip()
+        if remainder.startswith("---\n"):
+            secondary_parts = remainder.split("---", 2)
+            if len(secondary_parts) == 3:
+                secondary = yaml.safe_load(secondary_parts[1])
+                if isinstance(secondary, dict):
+                    metadata = {**metadata, **secondary}
     return metadata
 
 
@@ -467,6 +480,7 @@ def normalize_document_status(status: str) -> str:
         "owner_accepted",
         "owner_accepted_experimental",
         "owner_accepted_with_recommendations",
+        "owner_review_required",
         "accepted_for_release_0_2_3",
         "ready_for_owner_review",
         "verified_development_external_correlation",
