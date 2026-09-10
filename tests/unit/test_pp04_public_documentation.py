@@ -32,6 +32,15 @@ HISTORICAL_PAGES = (
     DOCS / "verification" / "0_2_8" / "README.md",
 )
 
+# The 0.2.7 verification README is a frozen public view.  Its historical
+# context is supplied by the surrounding navigation and front matter, so the
+# guard must not require a post-freeze content edit.  Other historical pages
+# remain editable and must retain their explicit banner.
+IMMUTABLE_HISTORICAL_PAGES = (
+    DOCS / "verification" / "0_2_7" / "README.md",
+)
+EDITABLE_HISTORICAL_PAGES = tuple(path for path in HISTORICAL_PAGES if path not in IMMUTABLE_HISTORICAL_PAGES)
+
 SUPERSEDED_PAGES = (
     DOCS / "demarrage" / "installation.md",
     DOCS / "demarrage" / "premier_calcul.md",
@@ -102,7 +111,15 @@ def test_historical_pages_are_explicitly_labeled() -> None:
     for path in HISTORICAL_PAGES:
         content = _text(path)
         assert "historical" in content.lower() or "intermediate" in content.lower()
-    assert "NOT CURRENT STATUS" in _text(DOCS / "verification" / "0_2_7" / "README.md")
+    for path in EDITABLE_HISTORICAL_PAGES:
+        assert "NOT CURRENT STATUS" in _text(path)
+
+    frozen_readme = DOCS / "verification" / "0_2_7" / "README.md"
+    assert frozen_readme in IMMUTABLE_HISTORICAL_PAGES
+    assert "applicable_version: 0.2.7" in _front_matter(frozen_readme)
+    nav = _text(ROOT / ".github" / "pages" / "mkdocs.yml")
+    historical_nav = re.search(r"Historical Evidence:\s*(?:\n|.)*?verification/0_2_7/README\.md", nav)
+    assert historical_nav is not None
 
 
 def test_superseded_pages_have_canonical_targets() -> None:
