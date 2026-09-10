@@ -9,9 +9,6 @@ approver: ""
 
 # QF Solver 0.2.7 verification
 
-> **HISTORICAL / NOT CURRENT STATUS.** This page preserves the 0.2.7
-> verification record. Use the 0.2.8 capability index for current status.
-
 This page is the readable entry point to the 0.2.7 evidence pack. It separates
 the active public conclusion from the internal qualification trace. Historical
 records are preserved unchanged and are labelled as historical in their own

@@ -19,6 +19,12 @@ BASELINE = ROOT / "qualification/0_2_8/wp13_00_baseline.json"
 CONTRACT_SCHEMA = ROOT / "qualification/0_2_8/wp13_vnv_contract.json"
 EVIDENCE_SCHEMA = ROOT / "qualification/0_2_8/wp13_evidence_pack_schema.json"
 CONSOLIDATED = ROOT / "qualification/0_2_8/consolidated_registry.json"
+# PP03 froze the public 0.2.7 documentation view after replacing site-relative
+# evidence links with immutable Git blobs.  The machine-readable 0.2.7 evidence
+# remains protected by the start-SHA tree below; this separate projection avoids
+# treating later public-documentation work as a rewrite of that evidence.
+DOCS_027_HISTORICAL_VIEW_FREEZE_SHA = "4db743129738fa2b7fa752e143fd92cc61b54e6a"
+DOCS_027_HISTORICAL_VIEW_TREE = "ab1a16f2a141834570bdb67336a6471251d94f12"
 
 
 def _read(path: Path) -> dict[str, Any]:
@@ -56,9 +62,28 @@ def validate_baseline() -> list[str]:
     current_qualification_tree = _git("rev-parse", "HEAD:qualification/0_2_7")
     if current_qualification_tree != baseline["immutability"]["qualification_0_2_7"]["git_tree_at_start_sha"]:
         errors.append("qualification/0_2_7 tree changed")
-    current_docs_tree = _git("rev-parse", "HEAD:docs/verification/0_2_7")
-    if current_docs_tree != baseline["immutability"]["docs_verification_0_2_7"]["git_tree_at_start_sha"]:
-        errors.append("docs/verification/0_2_7 tree changed")
+    frozen_docs_tree = _git(
+        "rev-parse", f"{DOCS_027_HISTORICAL_VIEW_FREEZE_SHA}:docs/verification/0_2_7"
+    )
+    if frozen_docs_tree != DOCS_027_HISTORICAL_VIEW_TREE:
+        errors.append("0.2.7 historical documentation freeze cannot be resolved")
+    docs_view_matches_freeze = (
+        subprocess.run(
+            [
+                "git",
+                "diff",
+                "--quiet",
+                DOCS_027_HISTORICAL_VIEW_FREEZE_SHA,
+                "--",
+                "docs/verification/0_2_7",
+            ],
+            cwd=ROOT,
+            check=False,
+        ).returncode
+        == 0
+    )
+    if not docs_view_matches_freeze:
+        errors.append("docs/verification/0_2_7 tree differs from its frozen public view")
     return errors
 
 
