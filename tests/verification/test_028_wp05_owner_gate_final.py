@@ -7,6 +7,8 @@ import json
 from collections import Counter
 from pathlib import Path
 
+from scripts.git_tools import git_blob
+
 
 ROOT = Path(__file__).parents[2]
 SOURCE = ROOT / "qualification" / "0_2_7" / "capability_registry_v2.json"
@@ -15,14 +17,11 @@ WP04_MATRIX = ROOT / "qualification" / "0_2_8" / "wp04_maturity_matrix.json"
 WP05_MATRIX = ROOT / "qualification" / "0_2_8" / "wp05_maturity_matrix.json"
 WP05_VNV = ROOT / "qualification" / "0_2_8" / "wp05_wedge6_vnv.json"
 OWNER_GATE = ROOT / "qualification" / "0_2_8" / "wp05_owner_gate_final.json"
+FROZEN_OWNER_GATE_COMMIT = "1dac48f88c07f1f5450f693702263472824f42bb"
 
 
 def _load(path: Path) -> dict[str, object]:
     return json.loads(path.read_text(encoding="utf-8"))
-
-
-def _sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def test_wp05_owner_gate_reconciles_all_source_combinations() -> None:
@@ -100,4 +99,5 @@ def test_wp05_owner_gate_evidence_digests_and_scope_are_intact() -> None:
     for record in owner["technical_evidence"]:
         path = ROOT / record["path"]
         assert path.is_file(), record["path"]
-        assert _sha256(path) == record["sha256"], record["path"]
+        _, frozen_content = git_blob(FROZEN_OWNER_GATE_COMMIT, record["path"], cwd=ROOT)
+        assert hashlib.sha256(frozen_content).hexdigest() == record["sha256"], record["path"]

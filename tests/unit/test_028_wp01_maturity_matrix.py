@@ -5,7 +5,8 @@ from __future__ import annotations
 import hashlib
 import json
 from pathlib import Path
-import subprocess
+
+from scripts.git_tools import git_blob
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -16,24 +17,6 @@ FROZEN_SOURCE_REGISTRY_SHA256 = "4d44a5f37ed998216405c7eab4dddf957740ed1e00198a8
 
 def _load(path: Path) -> dict[str, object]:
     return json.loads(path.read_text(encoding="utf-8"))
-
-
-def _git_blob(revision: str, relative: str) -> tuple[str, bytes]:
-    reference = f"{revision}:{relative}"
-    blob = subprocess.run(
-        ["git", "rev-parse", reference],
-        cwd=ROOT,
-        check=True,
-        capture_output=True,
-        text=True,
-    ).stdout.strip()
-    content = subprocess.run(
-        ["git", "cat-file", "blob", blob],
-        cwd=ROOT,
-        check=True,
-        capture_output=True,
-    ).stdout
-    return blob, content
 
 
 def test_wp01_covers_each_active_027_combination_exactly_once() -> None:
@@ -68,8 +51,8 @@ def test_wp01_dispositions_are_exhaustive_and_non_promotional() -> None:
     # The retained SHA-256 field was recorded from a CRLF worktree during WP01.
     # Validate the frozen Git blob instead: Git objects are byte-stable across
     # operating systems and preserve the actual 0.2.7 source identity.
-    frozen_blob, frozen_content = _git_blob(freeze_sha, source_registry)
-    current_blob, _ = _git_blob("HEAD", source_registry)
+    frozen_blob, frozen_content = git_blob(freeze_sha, source_registry, cwd=ROOT)
+    current_blob, _ = git_blob("HEAD", source_registry, cwd=ROOT)
     assert current_blob == frozen_blob
     assert hashlib.sha256(frozen_content).hexdigest() == FROZEN_SOURCE_REGISTRY_SHA256
 

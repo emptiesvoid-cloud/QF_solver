@@ -2,9 +2,10 @@
 
 import json
 import re
-import subprocess
 from pathlib import Path
 from urllib.parse import unquote, urlparse
+
+from scripts.git_tools import git_object_exists
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -140,13 +141,7 @@ def test_critical_markdown_links_resolve_locally() -> None:
     frozen_missing = [
         reference
         for reference in sorted(frozen_blob_references)
-        if subprocess.run(
-            ["git", "cat-file", "-e", reference],
-            cwd=ROOT,
-            check=False,
-            capture_output=True,
-        ).returncode
-        != 0
+        if not git_object_exists(reference, cwd=ROOT)
     ]
     assert local_checked > 0
     assert frozen_blob_references
