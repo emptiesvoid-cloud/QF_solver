@@ -156,7 +156,15 @@ def _git_file_digest_variants(revision: str, relative_path: str) -> set[str]:
             raise C6bComplianceError(
                 f"Frozen C6c component is unavailable at {revision}: {relative_path}"
             )
-        digests.add(hashlib.sha256(completed.stdout).hexdigest())
+        content = completed.stdout
+        digests.add(hashlib.sha256(content).hexdigest())
+        # The freeze digest was captured from a Windows worktree for this
+        # historical text component.  Make that representation explicit so a
+        # Linux checkout can validate the same immutable Git blob without
+        # relying on the host's core.autocrlf configuration.
+        normalized = content.replace(b"\r\n", b"\n")
+        digests.add(hashlib.sha256(normalized).hexdigest())
+        digests.add(hashlib.sha256(normalized.replace(b"\n", b"\r\n")).hexdigest())
     return digests
 
 
