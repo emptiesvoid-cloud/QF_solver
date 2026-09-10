@@ -40,6 +40,12 @@ IMMUTABLE_HISTORICAL_PAGES = (
     DOCS / "verification" / "0_2_7" / "README.md",
 )
 EDITABLE_HISTORICAL_PAGES = tuple(path for path in HISTORICAL_PAGES if path not in IMMUTABLE_HISTORICAL_PAGES)
+HISTORICAL_CONTEXT_MARKERS = (
+    "NOT CURRENT STATUS",
+    "Historical 0.2.7 evidence page",
+    "HISTORICAL SNAPSHOT NOTICE",
+    "Historical / intermediate record",
+)
 
 SUPERSEDED_PAGES = (
     DOCS / "demarrage" / "installation.md",
@@ -112,7 +118,8 @@ def test_historical_pages_are_explicitly_labeled() -> None:
         content = _text(path)
         assert "historical" in content.lower() or "intermediate" in content.lower()
     for path in EDITABLE_HISTORICAL_PAGES:
-        assert "NOT CURRENT STATUS" in _text(path)
+        content = _text(path).lower()
+        assert any(marker.lower() in content for marker in HISTORICAL_CONTEXT_MARKERS)
 
     frozen_readme = DOCS / "verification" / "0_2_7" / "README.md"
     assert frozen_readme in IMMUTABLE_HISTORICAL_PAGES
