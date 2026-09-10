@@ -69,9 +69,15 @@ def test_candidate_metadata_and_citation_are_coherent() -> None:
         "OPEN_SOURCE_READINESS.md",
         "PUBLIC_RELEASE_POLICY.md",
     ):
-        assert "0.2.8" in _text(relative), relative
-        assert "NOT_PUBLISHED_YET" in _text(relative), relative
-        assert "NOT_AVAILABLE_YET" in _text(relative), relative
+        text = _text(relative)
+        assert "0.2.8" in text, relative
+        if relative == "README.md":
+            assert "Release availability is authoritative" in text
+            assert "NOT_PUBLISHED_YET" not in text
+            assert "NOT_AVAILABLE_YET" not in text
+        else:
+            assert "NOT_PUBLISHED_YET" in text, relative
+            assert "NOT_AVAILABLE_YET" in text, relative
 
     for relative in ("SECURITY.md", "SUPPORT.md"):
         assert "0.2.8" in _text(relative), relative
