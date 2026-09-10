@@ -1,0 +1,209 @@
+{
+  "0_2_7_evidence_changed": false,
+  "all_families_participate": true,
+  "all_families_present": true,
+  "blockers": [
+    "No general convergence claim; refinement is characterization-only and was not required for the frozen bounded gates."
+  ],
+  "claim_candidate": "Connected conforming TET4/WEDGE6/HEX8 linear-static models with multiple isotropic linear-elastic material regions and perfectly bonded shared-node interfaces within this documented scope.",
+  "clapeyron_error": 1.6653345369377348e-16,
+  "compileall": "PASS",
+  "constraint_effect_demonstrated": "NOT_APPLICABLE_NO_CONSTRAINTS_IN_SCOPE",
+  "material_effect_demonstrated": true,
+  "contract_created_before_run": true,
+  "contract_id": "WP13-04-MIXED-MULTIMATERIAL-001",
+  "contract_sha": "6bcea1571ba794a3069d8f2d28a49ead2f451b39082a186b54b481d7bab053dc",
+  "contract_unchanged": true,
+  "direct_support_bypass": false,
+  "displacement_error": 5.900826947030055e-15,
+  "element_formulation_changed": false,
+  "energy_error": 3.6093978178431284e-16,
+  "energy_gate": true,
+  "equilibrium_gate": true,
+  "evidence_integrity": "PASS",
+  "evidence_schema_valid": true,
+  "evidence_validation": {
+    "digest_errors": [],
+    "integrity": "PASS",
+    "missing_fields": [],
+    "schema_valid": true,
+    "semantic_valid": true
+  },
+  "existing_multimaterial_support": {
+    "energy": "ALREADY_IMPLEMENTED",
+    "gmsh_physical_groups": "ALREADY_IMPLEMENTED",
+    "interface_handling": "ALREADY_IMPLEMENTED",
+    "material_registry": "ALREADY_IMPLEMENTED",
+    "mixed_assembly": "ALREADY_IMPLEMENTED",
+    "multi_material_qualification_evidence": "MISSING_BEFORE_WP13_04",
+    "per_element_material_dispatch": "ALREADY_IMPLEMENTED",
+    "post_processing": "ALREADY_IMPLEMENTED",
+    "reactions": "ALREADY_IMPLEMENTED",
+    "region_group_mapping": "ALREADY_IMPLEMENTED"
+  },
+  "failure_cases_executed": 7,
+  "failure_cases_pass": 7,
+  "failure_cases_required": 7,
+  "full_test_suite": "DEFERRED_TO_WP13_FINAL_GATE",
+  "gates_unchanged": true,
+  "global_force_balance": {
+    "external_force": [
+      0.0,
+      0.0,
+      100000.0
+    ],
+    "external_moment": [
+      33333.333333333336,
+      -33333.333333333336,
+      0.0
+    ],
+    "force_balance": [
+      6.184563972055912e-11,
+      0.0,
+      8.731149137020111e-11
+    ],
+    "force_relative": 1.069961666497165e-15,
+    "moment_balance": [
+      1.1641532182693481e-10,
+      2.255546860396862e-10,
+      3.637978807091713e-12
+    ],
+    "moment_relative": 5.385007455718978e-15,
+    "support_reaction_moment": [
+      -33333.33333333322,
+      33333.33333333356,
+      3.637978807091713e-12
+    ],
+    "support_reaction_resultant": [
+      6.184563972055912e-11,
+      0.0,
+      -99999.99999999991
+    ]
+  },
+  "global_moment_balance": {
+    "external_force": [
+      0.0,
+      0.0,
+      100000.0
+    ],
+    "external_moment": [
+      33333.333333333336,
+      -33333.333333333336,
+      0.0
+    ],
+    "force_balance": [
+      6.184563972055912e-11,
+      0.0,
+      8.731149137020111e-11
+    ],
+    "force_relative": 1.069961666497165e-15,
+    "moment_balance": [
+      1.1641532182693481e-10,
+      2.255546860396862e-10,
+      3.637978807091713e-12
+    ],
+    "moment_relative": 5.385007455718978e-15,
+    "support_reaction_moment": [
+      -33333.33333333322,
+      33333.33333333356,
+      3.637978807091713e-12
+    ],
+    "support_reaction_resultant": [
+      6.184563972055912e-11,
+      0.0,
+      -99999.99999999991
+    ]
+  },
+  "gmsh_region_mapping": "PASS",
+  "high_contrast": {
+    "material_effect_vs_homogeneous": 6.329189234776169,
+    "status": "PASS"
+  },
+  "homogeneous_control": "PASS",
+  "independent_oracle": "PASS",
+  "interface_displacement": 0.0,
+  "interface_force_transfer": 2.3890644496700264e-15,
+  "material_assignment_valid": true,
+  "material_count": 3,
+  "material_formulation_changed": false,
+  "maturity_changed": false,
+  "model_connected": true,
+  "moderate_contrast": {
+    "material_effect_vs_homogeneous": 0.24689966838681474,
+    "status": "PASS"
+  },
+  "no_interface_bypass": true,
+  "numerical_source_changed": false,
+  "oracle_independence": "PASS_WITH_SHARED_ELEMENT_KERNEL_LIMITATION",
+  "preflight_status": "PASS_TECHNICALLY_IMPLEMENTED_NOT_PREVIOUSLY_QUALIFIED",
+  "reaction_error": 3.0652808799137852e-15,
+  "ready_for_owner_gate": true,
+  "refinement_status": {
+    "purpose": "material assignment stability; no general convergence claim",
+    "status": "CHARACTERIZATION_ONLY"
+  },
+  "region_mapping_valid": true,
+  "replay_1": {
+    "assignment_identical": true,
+    "energy_relative_errors": {
+      "absolute_error_j": 0.0,
+      "clapeyron_error_j": 0.0,
+      "external_work_j": 0.0,
+      "relative_error": 0.0,
+      "strain_energy_j": 0.0
+    },
+    "evidence_digest": "ae955dd29a6f46abd41085073d555bfa4f88410c5abb46d664f79622250b3f5b",
+    "field_relative_errors": {
+      "displacement": 0.0,
+      "force_balance": 0.0,
+      "loads": 0.0,
+      "moment_balance": 0.0,
+      "oracle_displacement": 0.0,
+      "reactions": 0.0
+    },
+    "pass": true,
+    "status_identical": true
+  },
+  "replay_2": {
+    "assignment_identical": true,
+    "energy_relative_errors": {
+      "absolute_error_j": 0.0,
+      "clapeyron_error_j": 0.0,
+      "external_work_j": 0.0,
+      "relative_error": 0.0,
+      "strain_energy_j": 0.0
+    },
+    "evidence_digest": "ae955dd29a6f46abd41085073d555bfa4f88410c5abb46d664f79622250b3f5b",
+    "field_relative_errors": {
+      "displacement": 0.0,
+      "force_balance": 0.0,
+      "loads": 0.0,
+      "moment_balance": 0.0,
+      "oracle_displacement": 0.0,
+      "reactions": 0.0
+    },
+    "pass": true,
+    "status_identical": true
+  },
+  "replay_full_array_comparison": true,
+  "ruff": "NOT_AVAILABLE",
+  "semantic_validator_valid": true,
+  "start_sha": "ed10a0cba7b28e31d93639769bd690e7a5222229",
+  "targeted_tests": [
+    "preflight",
+    "contract",
+    "main_cases",
+    "dense_oracle",
+    "interfaces",
+    "equilibrium",
+    "energy",
+    "homogeneous_control",
+    "gmsh_mapping",
+    "replay_x2",
+    "failure_contract",
+    "evidence_validation"
+  ],
+  "u_strain": 0.4613884700392741,
+  "w_external_ramped": 0.4613884700392739,
+  "wp13_04_technical_status": "PASS_BOUNDED_OWNER_READY"
+}

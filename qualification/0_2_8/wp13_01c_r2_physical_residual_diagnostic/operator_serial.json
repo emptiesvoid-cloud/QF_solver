@@ -1,0 +1,25 @@
+{
+  "bc": {
+    "fixed_dof_count": 669,
+    "prescribed_values": "all_zero"
+  },
+  "case": "serial_operator_diagnostic",
+  "contract_id": "WP13-01C-R2-PHYSICAL-RESIDUAL-DIAGNOSTIC-001",
+  "contract_sha256": "a6dd2b88f8b12947b1b7b42053f6956cab74e6d6b4b9c1b3d061ff6d0c793dca",
+  "operator_metrics": {
+    "diagonal_weighted": 1.2461999576923082e+18,
+    "frobenius_norm": 158507459470788.16,
+    "nnz": 32508,
+    "rhs_l2": 70710.67811865476,
+    "rhs_sum": 100000.0,
+    "rhs_weighted": 66850000.0,
+    "row_sum_l2": 0.01660763982590766,
+    "row_sum_weighted": -6.654196359217167,
+    "shape": [
+      1005,
+      1005
+    ],
+    "trace": 2763781730769231.5
+  },
+  "schema_version": 1
+}

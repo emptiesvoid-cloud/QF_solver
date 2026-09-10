@@ -1,0 +1,523 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP11B-HEX8-BUCKLING-EXPERIMENTAL-VNV",
+  "work_package": "WP11B",
+  "source_sha": "eed9fc7cdeec07f77cccfa647cfa167031668bef",
+  "contract": "qualification/0_2_8/wp11b_hex8_buckling_experimental_contract.json",
+  "benchmark": {
+    "benchmark": "clamped solid cantilever block under uniform end-face dead compression",
+    "rows": [
+      {
+        "counts": [
+          2,
+          2,
+          2
+        ],
+        "length": 4.0,
+        "load_total": 1.0,
+        "youngs_modulus": 1000.0,
+        "node_count": 27,
+        "element_count": 8,
+        "input_sha256": "8902251e5146042d6f1b64388b9bf549f3a4f5968daa587f8aeb4dcba3680c04",
+        "status": "PASS",
+        "critical_factor": 41.93968580637746,
+        "mode_metrics": {
+          "dominant_lateral_direction": "UZ",
+          "lateral_fraction": 0.9837637272860341,
+          "uy_norm": 0.007781431524640805,
+          "uz_norm": 0.9837329517949157,
+          "free_mode_norm": 1.0,
+          "mode_norm": 1.0,
+          "free_dof_count": 54,
+          "fixed_dof_count": 27
+        },
+        "solver_reported_residual_relative": 2.1514053896416884e-13,
+        "matrix_diagnostics": {
+          "preload_relative_residual": 1.2735713002240326e-12,
+          "geometric_stiffness_symmetry_relative": 0.0,
+          "geometric_stiffness_eigenvalue_min": -0.19552159700416127,
+          "geometric_stiffness_eigenvalue_max": 0.09013475890125812,
+          "compression_sign_detected": true,
+          "initial_tangent_nnz": 2983,
+          "geometric_tangent_nnz": 1029,
+          "eigen_residual_relative_recomputed": 7.638955742304379e-14,
+          "free_dof_count": 54
+        },
+        "physical_checks": {
+          "critical_factor_positive_finite": true,
+          "mode_finite": true,
+          "dominant_lateral_UZ": true,
+          "preload_residual": true,
+          "geometric_stiffness_symmetry": true,
+          "eigen_residual": true,
+          "compression_sign": true
+        },
+        "evidence_digest": "41ecce0d0fb0d5587bee5dd9c55ac10bba09ccf54c6c96c5a1f414a6f43c3e4b"
+      },
+      {
+        "counts": [
+          4,
+          4,
+          4
+        ],
+        "length": 4.0,
+        "load_total": 1.0,
+        "youngs_modulus": 1000.0,
+        "node_count": 125,
+        "element_count": 64,
+        "input_sha256": "c68013c14fe8e741ac312a7e032d4e953e04c0401a70aea5c8a014ba07e79ee9",
+        "status": "PASS",
+        "critical_factor": 21.519985969228905,
+        "mode_metrics": {
+          "dominant_lateral_direction": "UZ",
+          "lateral_fraction": 0.9848193084385105,
+          "uy_norm": 0.00737776773031052,
+          "uz_norm": 0.9847916728002039,
+          "free_mode_norm": 1.0,
+          "mode_norm": 1.0,
+          "free_dof_count": 300,
+          "fixed_dof_count": 75
+        },
+        "solver_reported_residual_relative": 3.3462376299093653e-13,
+        "matrix_diagnostics": {
+          "preload_relative_residual": 9.172404067731643e-13,
+          "geometric_stiffness_symmetry_relative": 0.0,
+          "geometric_stiffness_eigenvalue_min": -0.1920721192808331,
+          "geometric_stiffness_eigenvalue_max": 0.0778977113474885,
+          "compression_sign_detected": true,
+          "initial_tangent_nnz": 19173,
+          "geometric_tangent_nnz": 6591,
+          "eigen_residual_relative_recomputed": 5.448792949712956e-13,
+          "free_dof_count": 300
+        },
+        "physical_checks": {
+          "critical_factor_positive_finite": true,
+          "mode_finite": true,
+          "dominant_lateral_UZ": true,
+          "preload_residual": true,
+          "geometric_stiffness_symmetry": true,
+          "eigen_residual": true,
+          "compression_sign": true
+        },
+        "evidence_digest": "b7cba9732b8080a536a865bcd3c3a0e19c9bb969b6913efd382589ead5cac5b8"
+      },
+      {
+        "counts": [
+          6,
+          6,
+          6
+        ],
+        "length": 4.0,
+        "load_total": 1.0,
+        "youngs_modulus": 1000.0,
+        "node_count": 343,
+        "element_count": 216,
+        "input_sha256": "c8472eb819b9216740739113dd450b72832d4cb48493654572eb67f1b52d37f2",
+        "status": "PASS",
+        "critical_factor": 17.864877725683325,
+        "mode_metrics": {
+          "dominant_lateral_direction": "UZ",
+          "lateral_fraction": 0.9854051296636425,
+          "uy_norm": 0.007009848890160632,
+          "uz_norm": 0.9853801964652816,
+          "free_mode_norm": 1.0,
+          "mode_norm": 0.9999999999999999,
+          "free_dof_count": 882,
+          "fixed_dof_count": 147
+        },
+        "solver_reported_residual_relative": 3.3773894292663816e-13,
+        "matrix_diagnostics": {
+          "preload_relative_residual": 7.540002334897406e-13,
+          "geometric_stiffness_symmetry_relative": 0.0,
+          "geometric_stiffness_eigenvalue_min": -0.14645761162149834,
+          "geometric_stiffness_eigenvalue_max": 0.07612177352333727,
+          "compression_sign_detected": true,
+          "initial_tangent_nnz": 60813,
+          "geometric_tangent_nnz": 20577,
+          "eigen_residual_relative_recomputed": 1.4984977588183868e-12,
+          "free_dof_count": 882
+        },
+        "physical_checks": {
+          "critical_factor_positive_finite": true,
+          "mode_finite": true,
+          "dominant_lateral_UZ": true,
+          "preload_residual": true,
+          "geometric_stiffness_symmetry": true,
+          "eigen_residual": true,
+          "compression_sign": true
+        },
+        "evidence_digest": "6ef51695c3ff3874e6793b4aebfd60df3449f4fdedd59dfb9048728c9a7513d5"
+      }
+    ],
+    "critical_factors": [
+      41.93968580637746,
+      21.519985969228905,
+      17.864877725683325
+    ],
+    "adjacent_relative_changes": [
+      0.9488714289287349,
+      0.20459743971775624
+    ],
+    "trend": "decreasing_positive_factor_with_refinement",
+    "internal_gates": "PASS",
+    "refinement_characterization": "CHARACTERIZED_ONLY; no Euler convergence gate applied"
+  },
+  "scaling_and_robustness": {
+    "E_scaling": {
+      "result": {
+        "counts": [
+          4,
+          4,
+          4
+        ],
+        "length": 4.0,
+        "load_total": 1.0,
+        "youngs_modulus": 2000.0,
+        "node_count": 125,
+        "element_count": 64,
+        "input_sha256": "65f966b9820f9bd38f9fc5ad9fa1682d35fdbf2e604ca1aaea7371fe67637a0c",
+        "status": "PASS",
+        "critical_factor": 43.058482869300285,
+        "mode_metrics": {
+          "dominant_lateral_direction": "UZ",
+          "lateral_fraction": 0.9848193549496731,
+          "uy_norm": 0.00737774594313703,
+          "uz_norm": 0.9847917194758945,
+          "free_mode_norm": 1.0,
+          "mode_norm": 1.0,
+          "free_dof_count": 300,
+          "fixed_dof_count": 75
+        },
+        "solver_reported_residual_relative": 7.879260837747879e-13,
+        "matrix_diagnostics": {
+          "preload_relative_residual": 5.581777810271425e-13,
+          "geometric_stiffness_symmetry_relative": 0.0,
+          "geometric_stiffness_eigenvalue_min": -0.19199084880907252,
+          "geometric_stiffness_eigenvalue_max": 0.07784056541085138,
+          "compression_sign_detected": true,
+          "initial_tangent_nnz": 19173,
+          "geometric_tangent_nnz": 6591,
+          "eigen_residual_relative_recomputed": 6.274688909934295e-13,
+          "free_dof_count": 300
+        },
+        "physical_checks": {
+          "critical_factor_positive_finite": true,
+          "mode_finite": true,
+          "dominant_lateral_UZ": true,
+          "preload_residual": true,
+          "geometric_stiffness_symmetry": true,
+          "eigen_residual": true,
+          "compression_sign": true
+        },
+        "evidence_digest": "07d257f595400577535d187c9d7526eb8ba2eadf9bad23dc9a883d04c11226d2"
+      },
+      "expected_ratio": 2.0,
+      "observed_ratio": 2.0008601739271086,
+      "relative_error": 0.0004300869635542881,
+      "pass": true
+    },
+    "preload_scaling": {
+      "result": {
+        "counts": [
+          4,
+          4,
+          4
+        ],
+        "length": 4.0,
+        "load_total": 2.0,
+        "youngs_modulus": 1000.0,
+        "node_count": 125,
+        "element_count": 64,
+        "input_sha256": "657104f1888ed4d9349d46bcb7dd7c9401481cb1879aec75d6a1b501ccb876a3",
+        "status": "PASS",
+        "critical_factor": 10.75071931053297,
+        "mode_metrics": {
+          "dominant_lateral_direction": "UZ",
+          "lateral_fraction": 0.9848192149027284,
+          "uy_norm": 0.007377811537174607,
+          "uz_norm": 0.9847915789336078,
+          "free_mode_norm": 1.0,
+          "mode_norm": 1.0,
+          "free_dof_count": 300,
+          "fixed_dof_count": 75
+        },
+        "solver_reported_residual_relative": 3.3442041779370307e-13,
+        "matrix_diagnostics": {
+          "preload_relative_residual": 1.4301381951829807e-11,
+          "geometric_stiffness_symmetry_relative": 0.0,
+          "geometric_stiffness_eigenvalue_min": -0.38447036247365546,
+          "geometric_stiffness_eigenvalue_max": 0.15602476105548674,
+          "compression_sign_detected": true,
+          "initial_tangent_nnz": 19173,
+          "geometric_tangent_nnz": 6591,
+          "eigen_residual_relative_recomputed": 5.737707840964777e-13,
+          "free_dof_count": 300
+        },
+        "physical_checks": {
+          "critical_factor_positive_finite": true,
+          "mode_finite": true,
+          "dominant_lateral_UZ": true,
+          "preload_residual": true,
+          "geometric_stiffness_symmetry": true,
+          "eigen_residual": true,
+          "compression_sign": true
+        },
+        "evidence_digest": "625ebf55481011729f0b02b61002ecafb0ecc69ed4d2eb31be7eda35c9e6990b"
+      },
+      "expected_ratio": 0.5,
+      "observed_ratio": 0.4995690669085592,
+      "relative_error": 0.0008618661828816432,
+      "pass": true
+    },
+    "length_sensitivity": {
+      "result": {
+        "counts": [
+          4,
+          4,
+          4
+        ],
+        "length": 8.0,
+        "load_total": 1.0,
+        "youngs_modulus": 1000.0,
+        "node_count": 125,
+        "element_count": 64,
+        "input_sha256": "489d684f68c968e04b22470fcefbcb9cf9d0938c305ec95c6d2a03da6c7e164b",
+        "status": "PASS",
+        "critical_factor": 10.038186515624064,
+        "mode_metrics": {
+          "dominant_lateral_direction": "UZ",
+          "lateral_fraction": 0.9959587337799697,
+          "uy_norm": 0.0019735868694280524,
+          "uz_norm": 0.9959567783530916,
+          "free_mode_norm": 0.9999999999999999,
+          "mode_norm": 0.9999999999999999,
+          "free_dof_count": 300,
+          "fixed_dof_count": 75
+        },
+        "solver_reported_residual_relative": 6.420433085036614e-13,
+        "matrix_diagnostics": {
+          "preload_relative_residual": 1.2711375761653032e-12,
+          "geometric_stiffness_symmetry_relative": 0.0,
+          "geometric_stiffness_eigenvalue_min": -0.09736362379078829,
+          "geometric_stiffness_eigenvalue_max": 0.1288986200969527,
+          "compression_sign_detected": true,
+          "initial_tangent_nnz": 19241,
+          "geometric_tangent_nnz": 6591,
+          "eigen_residual_relative_recomputed": 3.954942361821803e-12,
+          "free_dof_count": 300
+        },
+        "physical_checks": {
+          "critical_factor_positive_finite": true,
+          "mode_finite": true,
+          "dominant_lateral_UZ": true,
+          "preload_residual": true,
+          "geometric_stiffness_symmetry": true,
+          "eigen_residual": true,
+          "compression_sign": true
+        },
+        "evidence_digest": "4255a2fc8ef372fcf593a3831957fb5004c060019ffbb21fbb9710c6c19526be"
+      },
+      "reference_factor": 21.519985969228905,
+      "pass": true
+    },
+    "moderate_perturbation": {
+      "result": {
+        "counts": [
+          4,
+          4,
+          4
+        ],
+        "length": 4.0,
+        "load_total": 1.0,
+        "youngs_modulus": 1000.0,
+        "node_count": 125,
+        "element_count": 64,
+        "input_sha256": "088603be88fdb9ae80f81d848b84496288f00737748ad8bf95157bc54160f382",
+        "status": "PASS",
+        "critical_factor": 21.520979720331244,
+        "mode_metrics": {
+          "dominant_lateral_direction": "UZ",
+          "lateral_fraction": 0.9848192695831947,
+          "uy_norm": 0.0073807844696983736,
+          "uz_norm": 0.9847916113386571,
+          "free_mode_norm": 0.9999999999999999,
+          "mode_norm": 0.9999999999999999,
+          "free_dof_count": 300,
+          "fixed_dof_count": 75
+        },
+        "solver_reported_residual_relative": 3.1022784383322076e-13,
+        "matrix_diagnostics": {
+          "preload_relative_residual": 9.366172272278455e-13,
+          "geometric_stiffness_symmetry_relative": 0.0,
+          "geometric_stiffness_eigenvalue_min": -0.1922291336790877,
+          "geometric_stiffness_eigenvalue_max": 0.0778915211696791,
+          "compression_sign_detected": true,
+          "initial_tangent_nnz": 19249,
+          "geometric_tangent_nnz": 6591,
+          "eigen_residual_relative_recomputed": 4.2577487781220335e-13,
+          "free_dof_count": 300
+        },
+        "physical_checks": {
+          "critical_factor_positive_finite": true,
+          "mode_finite": true,
+          "dominant_lateral_UZ": true,
+          "preload_residual": true,
+          "geometric_stiffness_symmetry": true,
+          "eigen_residual": true,
+          "compression_sign": true
+        },
+        "evidence_digest": "7331b489c894ad9e462c139ba094f82f400121884205c5b9065431c7b89c4a6c"
+      },
+      "observed_ratio": 1.0000461780553092,
+      "relative_change": 4.6178055309153976e-05,
+      "pass": true
+    },
+    "invalid_orientation": {
+      "result": {
+        "counts": [
+          1,
+          1,
+          1
+        ],
+        "length": 4.0,
+        "load_total": 1.0,
+        "youngs_modulus": 1000.0,
+        "node_count": 8,
+        "element_count": 1,
+        "input_sha256": "d0e143bb29e5eb09424387c6b72a1c810025b1166cbe27eaae46a31b32d811f6",
+        "status": "EXPECTED_FAILURE",
+        "failure_type": "MeshValidationError",
+        "failure_message": "Mesh validation failed: Element 0: invalid HEX8 geometry: Invalid HEX8 Jacobian determinant -6.000000e-01."
+      },
+      "explicit_failure": true
+    },
+    "status": "PASS"
+  },
+  "replays": {
+    "required": 2,
+    "first": {
+      "counts": [
+        4,
+        4,
+        4
+      ],
+      "length": 4.0,
+      "load_total": 1.0,
+      "youngs_modulus": 1000.0,
+      "node_count": 125,
+      "element_count": 64,
+      "input_sha256": "c68013c14fe8e741ac312a7e032d4e953e04c0401a70aea5c8a014ba07e79ee9",
+      "status": "PASS",
+      "critical_factor": 21.519985969228905,
+      "mode_metrics": {
+        "dominant_lateral_direction": "UZ",
+        "lateral_fraction": 0.9848193084385105,
+        "uy_norm": 0.00737776773031052,
+        "uz_norm": 0.9847916728002039,
+        "free_mode_norm": 1.0,
+        "mode_norm": 1.0,
+        "free_dof_count": 300,
+        "fixed_dof_count": 75
+      },
+      "solver_reported_residual_relative": 3.3462376299093653e-13,
+      "matrix_diagnostics": {
+        "preload_relative_residual": 9.172404067731643e-13,
+        "geometric_stiffness_symmetry_relative": 0.0,
+        "geometric_stiffness_eigenvalue_min": -0.1920721192808331,
+        "geometric_stiffness_eigenvalue_max": 0.0778977113474885,
+        "compression_sign_detected": true,
+        "initial_tangent_nnz": 19173,
+        "geometric_tangent_nnz": 6591,
+        "eigen_residual_relative_recomputed": 5.448792949712956e-13,
+        "free_dof_count": 300
+      },
+      "physical_checks": {
+        "critical_factor_positive_finite": true,
+        "mode_finite": true,
+        "dominant_lateral_UZ": true,
+        "preload_residual": true,
+        "geometric_stiffness_symmetry": true,
+        "eigen_residual": true,
+        "compression_sign": true
+      },
+      "evidence_digest": "b7cba9732b8080a536a865bcd3c3a0e19c9bb969b6913efd382589ead5cac5b8"
+    },
+    "second": {
+      "counts": [
+        4,
+        4,
+        4
+      ],
+      "length": 4.0,
+      "load_total": 1.0,
+      "youngs_modulus": 1000.0,
+      "node_count": 125,
+      "element_count": 64,
+      "input_sha256": "c68013c14fe8e741ac312a7e032d4e953e04c0401a70aea5c8a014ba07e79ee9",
+      "status": "PASS",
+      "critical_factor": 21.519985969228905,
+      "mode_metrics": {
+        "dominant_lateral_direction": "UZ",
+        "lateral_fraction": 0.9848193084385105,
+        "uy_norm": 0.00737776773031052,
+        "uz_norm": 0.9847916728002039,
+        "free_mode_norm": 1.0,
+        "mode_norm": 1.0,
+        "free_dof_count": 300,
+        "fixed_dof_count": 75
+      },
+      "solver_reported_residual_relative": 3.3462376299093653e-13,
+      "matrix_diagnostics": {
+        "preload_relative_residual": 9.172404067731643e-13,
+        "geometric_stiffness_symmetry_relative": 0.0,
+        "geometric_stiffness_eigenvalue_min": -0.1920721192808331,
+        "geometric_stiffness_eigenvalue_max": 0.0778977113474885,
+        "compression_sign_detected": true,
+        "initial_tangent_nnz": 19173,
+        "geometric_tangent_nnz": 6591,
+        "eigen_residual_relative_recomputed": 5.448792949712956e-13,
+        "free_dof_count": 300
+      },
+      "physical_checks": {
+        "critical_factor_positive_finite": true,
+        "mode_finite": true,
+        "dominant_lateral_UZ": true,
+        "preload_residual": true,
+        "geometric_stiffness_symmetry": true,
+        "eigen_residual": true,
+        "compression_sign": true
+      },
+      "evidence_digest": "b7cba9732b8080a536a865bcd3c3a0e19c9bb969b6913efd382589ead5cac5b8"
+    },
+    "deterministic": true,
+    "comparison": "critical_factor, mode vector, residuals, matrix diagnostics and evidence digest"
+  },
+  "external_oracle": {
+    "status": "NOT_AVAILABLE",
+    "comparable": false,
+    "reason": "No independent current comparable solver result was available; no correlation is claimed."
+  },
+  "historical_preservation": {
+    "wp06_euler_fail_preserved": true,
+    "wp06_convergence_fail_preserved": true,
+    "wp06_records_rewritten": false,
+    "historical_0_2_7_evidence_changed": false
+  },
+  "integrity": {
+    "numerical_source_changed": false,
+    "bugs_found": false,
+    "bugs_fixed": false,
+    "predeclared_gates_changed": false
+  },
+  "gates": {
+    "primary_internal_checks": "PASS",
+    "physical_scaling": "PASS",
+    "invalid_geometry": true,
+    "replay_determinism": true,
+    "finite_eigenvalues": true,
+    "external_oracle": "NOT_REQUIRED_FOR_EXPERIMENTAL"
+  },
+  "decision": "EXPERIMENTAL_CANDIDATE",
+  "proposed_public_status": "EXPERIMENTAL",
+  "owner_gate_required": true
+}

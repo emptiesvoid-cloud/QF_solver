@@ -1,0 +1,13 @@
+name: qf-wp13-01c-petsc
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - numpy
+  - scipy
+  - matplotlib-base
+  - h5py
+  - mpi4py
+  - mpich
+  - petsc
+  - petsc4py

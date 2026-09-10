@@ -119,7 +119,7 @@ mais conserve le gate général bloqué tant que l'asymptote axiale et la
 comparabilité des formulations ne sont pas établies sur une seconde géométrie
 ou par une référence de même ordre.
 
-![Audit externe axial](../assets/generated/mitc3_curved_axial_reference_audit.png)
+*Audit externe axial — source artifact not included in the tracked release tree.*
 
 ## Lecture des figures
 

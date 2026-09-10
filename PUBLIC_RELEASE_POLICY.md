@@ -12,6 +12,27 @@ kept out of the public archive. Owner review decisions may identify Quentin
 Farinazzo where authorship or accountability is required; they must not include
 contact details beyond the public repository profile.
 
+## Candidate Metadata
+
+The current source candidate is QF Solver `0.2.8`. Its publication status is
+`NOT_PUBLISHED_YET`, its release/tag status is `NOT_CREATED`, and its DOI status
+is `NOT_AVAILABLE_YET`. These labels describe release state only; they do not
+change any capability maturity or V&V result.
+
+## Content Classification
+
+The public release may include reviewed, controlled V&V contracts, selected qualification records,
+Owner/delivery decisions and evidence manifests when
+they are needed to substantiate a public claim. Inclusion requires review of
+scope, provenance, licensing and confidentiality. Large raw arrays, temporary
+runtime outputs, private models, local environment fingerprints and internal
+execution logs remain excluded unless a separate review explicitly selects a
+safe, reproducible artifact.
+
+Ephemeral files, caches, debug traces, private or confidential material,
+credentials and secrets are never release content. An archive exclusion is not
+permission to commit such material, and it is not an access-control mechanism.
+
 ## Repository Boundary
 
 A public Git repository exposes every committed file and its reachable history.

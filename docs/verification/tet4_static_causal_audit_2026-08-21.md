@@ -25,7 +25,7 @@ Elle distingue explicitement le cas statique du pas de temps et reprend les
 indicateurs modal, Newmark et harmonique sans modifier le statut de promotion.
 
 La version machine-readable de cet audit est
-[`tet4_static_causal_audit_2026-08-21.json`](../../qualification/vnv/tet4_static_causal_audit_2026-08-21.json).
+`tet4_static_causal_audit_2026-08-21.json` (source artifact not included in the tracked release tree).
 Elle constitue la source structurée des valeurs, du gate et des actions
 requises ; ce document Markdown reste la lecture technique détaillée.
 
@@ -105,7 +105,7 @@ statique, il n'y a ni pas de temps ni integrateur temporel a raffiner.
 
 ### 1. Interpolation TET4 a deformation constante
 
-Le noyau [`tet4.py`](../../src/solveur/elements/solid/tet4.py) definit des
+Le noyau [`tet4.py`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/src/solveur/elements/solid/tet4.py) definit des
 fonctions de forme lineaires. Les gradients sont constants dans l'element ; la
 matrice deformation-deplacement `B` est donc constante et la rigidite est
 calculee exactement avec une integration a un point :

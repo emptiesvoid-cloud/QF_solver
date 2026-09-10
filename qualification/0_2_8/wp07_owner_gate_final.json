@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP07-OWNER-GATE-FINAL",
+  "work_package": "WP07",
+  "applicable_version": "0.2.8-development",
+  "audited_commit": "da310e8f3708c46d0a69a2980a2f47c4c7e9f4aa",
+  "status": "CLOSED_WITH_APPROVE_WITH_LIMITATIONS",
+  "authorization": {
+    "source": "Explicit project-owner instruction in the associated task.",
+    "owner_identity": null,
+    "identity_note": "No personal identity or signature is inferred by this record."
+  },
+  "technical_evidence": [
+    {
+      "path": "qualification/0_2_8/wp07_mixed_static_contract.json",
+      "sha256": "c6537ea74c7fec4992a731485f41edbb9fb20e730698354b33c44eb4487380f1"
+    },
+    {
+      "path": "qualification/0_2_8/wp07_mixed_static_vnv.json",
+      "sha256": "5c0753ef4dd959d3d69cb4fb3b4c0614237ed3c594818645d28bbdd2b4ac07f3"
+    },
+    {
+      "path": "qualification/0_2_8/wp07_mixed_static_matrix.json",
+      "sha256": "de186a0215fed749af52a6dde95657c1d1e8296124c306cfb7ad081449dbbd17"
+    },
+    {
+      "path": "docs/verification/0_2_8/wp07_mixed_static_vnv.md",
+      "sha256": "122fb15c6b54b2da8c55c00770a58dd193ef32db03f81b88315142dc9d4efad9"
+    }
+  ],
+  "audit_checks": {
+    "predeclared_scope": "PASS",
+    "mixed_interfaces": "PASS",
+    "affine_exactness": "PASS",
+    "oracle_independence_and_validity": "PASS_WITH_LIMITATIONS",
+    "convergence": "PASS_WITH_LIMITATIONS",
+    "loads_reactions_energy": "PASS",
+    "post_processing": "PASS_WITH_LIMITATIONS",
+    "failure_contract": "PASS",
+    "deterministic_replays": "PASS",
+    "claim_evidence_coherence": "PASS_WITH_LIMITATIONS",
+    "opportunistic_numerical_core_change": "NOT_FOUND",
+    "historical_0_2_7_evidence_integrity": "PASS",
+    "element_analysis_registry_reconciliation": "PASS"
+  },
+  "decision_policy": "APPROVE_WITH_LIMITATIONS applies only to the dedicated mixed_workflow_qualification record. It does not add a combination to the 46 element-analysis records and does not establish general mixed-mesh accuracy.",
+  "decision": {
+    "TET4_WEDGE6": {
+      "owner_decision": "APPROVE_WITH_LIMITATIONS",
+      "resulting_status": "QUALIFIED_BOUNDED"
+    },
+    "WEDGE6_HEX8": {
+      "owner_decision": "APPROVE_WITH_LIMITATIONS",
+      "resulting_status": "QUALIFIED_BOUNDED"
+    },
+    "TET4_WEDGE6_HEX8": {
+      "owner_decision": "APPROVE_WITH_LIMITATIONS",
+      "resulting_status": "QUALIFIED_BOUNDED"
+    },
+    "mixed_static_final_status": "QUALIFIED_BOUNDED",
+    "scope": "linear_static only; TET4, WEDGE6 and HEX8; conforming shared-node triangular and quadrilateral interfaces; small-strain homogeneous isotropic elasticity; valid element geometries; and the nodal, body-force, pressure and surface-traction routes actually exercised by WP07.",
+    "analytical_oracle_sufficient": true,
+    "external_correlation_required_for_scope": false,
+    "external_oracle_decision": "LIMITATION_COMPATIBLE_WITH_BOUNDED_WORKFLOW_SCOPE",
+    "limitations": [
+      "The affine manufactured solution with equivalent K*u loads is sufficient for the declared assembly/interface/load consistency contract, but is not an independent general mechanical benchmark.",
+      "The refinement sequence demonstrates affine consistency only; it is not a general accuracy-convergence claim.",
+      "No external Code_Aster/CalculiX mixed-family correlation is claimed.",
+      "No modal, Newmark, harmonic, nonlinear, contact, hanging-node, MPC, nonconforming-interface, TET10/HEX20, PYRAMID5 or large-model claim is made."
+    ]
+  },
+  "registry_separation": {
+    "element_analysis_registry": "qualification/0_2_7/capability_registry_v2.json",
+    "element_analysis_registry_total": 46,
+    "source_counts": {
+      "QUALIFIED_BOUNDED": 20,
+      "EXPERIMENTAL": 25,
+      "NOT_QUALIFIED": 1
+    },
+    "final_element_analysis_counts_after_wp06b": {
+      "QUALIFIED_BOUNDED": 32,
+      "EXPERIMENTAL": 13,
+      "NOT_QUALIFIED": 1,
+      "TOTAL": 46
+    },
+    "mixed_workflow_record": "qualification/0_2_8/wp07_mixed_static_matrix.json",
+    "mixed_workflow_record_kind": "mixed_workflow_qualification",
+    "mixed_workflow_added_to_combination_registry": false,
+    "not_qualified_combination": "COMB-HEX8-linear_buckling"
+  },
+  "integrity": {
+    "claims_bounded": true,
+    "numerical_source_changed": false,
+    "historical_0_2_7_evidence_changed": false,
+    "wp07_campaign_evidence_rewritten": false,
+    "owner_decision_applied_only_to_0_2_8": true
+  },
+  "final_matrix": "qualification/0_2_8/wp07_mixed_static_matrix.json",
+  "documentation": "docs/verification/0_2_8/wp07_owner_gate_final.md",
+  "summary": {
+    "owner_decision": "APPROVE_WITH_LIMITATIONS",
+    "mixed_workflow_status": "QUALIFIED_BOUNDED",
+    "element_analysis_registry_total": 46,
+    "qualified_bounded_global": 32,
+    "experimental_global": 13,
+    "not_qualified_global": 1,
+    "not_qualified_combination": "COMB-HEX8-linear_buckling"
+  }
+}

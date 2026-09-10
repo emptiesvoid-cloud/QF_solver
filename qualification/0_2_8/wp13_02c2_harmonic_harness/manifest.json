@@ -1,0 +1,2240 @@
+{
+  "amplitude_phase": {
+    "formula_source": "contract amplitude_error and phase_error definitions",
+    "phase_array_key": "micro_phases",
+    "reference_array_key": "micro_reference_amplitudes",
+    "runtime_array_key": "micro_amplitudes"
+  },
+  "benchmark_inputs": {
+    "connected_components": 1,
+    "direct_support_bypass": false,
+    "family_counts": {
+      "HEX8": 1,
+      "TET4": 3,
+      "WEDGE6": 2
+    },
+    "generator": "scripts/run_wp13_01k_mvp.py:build(1), static loads discarded",
+    "interfaces": {
+      "TET4_WEDGE6": [
+        10,
+        11,
+        12
+      ],
+      "WEDGE6_HEX8": [
+        2,
+        3,
+        6,
+        7
+      ]
+    },
+    "mechanical_load_path": "LOAD -> TET4 -> TET4/WEDGE6 triangular interface -> WEDGE6 -> WEDGE6/HEX8 quadrilateral interface -> HEX8 -> SUPPORT",
+    "ndof": 48,
+    "probe": {
+      "dof": "UZ",
+      "node": 13
+    }
+  },
+  "conditioning": {
+    "gates": {
+      "assembled_mass_positive_diagonal_ratio": true,
+      "assembled_stiffness_positive_diagonal_ratio": true,
+      "free_mass_positive_definite": true,
+      "free_stiffness_positive_definite": true,
+      "jacobian_condition_number": true,
+      "jacobian_determinant_positive": true,
+      "mass_symmetry": true,
+      "max_element_edge_aspect_ratio": true,
+      "stiffness_symmetry": true
+    },
+    "status": "PASS",
+    "values": {
+      "conditioning_number_estimate": {
+        "Kff": 2013.3463015072093,
+        "Mff": 15.421627453869856
+      },
+      "free_mass_min_eigenvalue": 97.78460876175913,
+      "free_stiffness_min_eigenvalue": 271445139.80272394,
+      "jacobian_range": [
+        0.12499999999999997,
+        1.0
+      ],
+      "mass_scale_range": 5.555555555555555,
+      "mass_symmetry_error": 0.0,
+      "max_aspect_ratio": 1.7320508075688772,
+      "max_jacobian_condition": 3.7320508075688785,
+      "stiffness_scale_range": 10.0,
+      "stiffness_symmetry_error": 0.0
+    }
+  },
+  "contract_blob_sha": "68e9b53eade0c697ebc6b5b5154b73c72ae240ac",
+  "contract_id": "WP13-02C-HARMONIC-MIXED-001",
+  "contract_sha256": "f26f7160f308e812da8fa0fc94ebdbba1eb1958f50db9f6d255ffb993951d045",
+  "contract_values_single_source_of_truth": true,
+  "damping": {
+    "alpha": 24.580812795885436,
+    "beta": 0.0,
+    "model": "Rayleigh",
+    "zeta": 0.02
+  },
+  "digests": {
+    "arrays": {
+      "micro_amplitudes": {
+        "dtype": "float64",
+        "key": "micro_amplitudes",
+        "sha256": "01e2ef45cdddd75badf216a690f61ac7089276f0362f0912f100dbe26003e436",
+        "shape": [
+          2
+        ]
+      },
+      "micro_frequencies_hz": {
+        "dtype": "float64",
+        "key": "micro_frequencies_hz",
+        "sha256": "422083fe8d95c5b71ef840483f2cd41ca0bf658ab03761d8cf0c16e12273ef7b",
+        "shape": [
+          2
+        ]
+      },
+      "micro_oracle_dense_responses": {
+        "dtype": "complex128",
+        "key": "micro_oracle_dense_responses",
+        "sha256": "658da4114207b75227c04246c2c66f272cf30702e5dceeb1f44a3574d94680fd",
+        "shape": [
+          2,
+          48
+        ]
+      },
+      "micro_phases": {
+        "dtype": "float64",
+        "key": "micro_phases",
+        "sha256": "70408e65c332970e257e7e8064ee023b0e02c928734d99754b141aebce652e7c",
+        "shape": [
+          2
+        ]
+      },
+      "micro_reference_amplitudes": {
+        "dtype": "float64",
+        "key": "micro_reference_amplitudes",
+        "sha256": "3408647371ae752f941a7c84d7835bd0e4288374ba945c732b273c55113f9c3b",
+        "shape": [
+          2
+        ]
+      },
+      "micro_residual_vectors": {
+        "dtype": "complex128",
+        "key": "micro_residual_vectors",
+        "sha256": "5815acc9c08f6ac9a8408e20a88e83e47041cd40364e6bd32fb51dbff0ecfa61",
+        "shape": [
+          2,
+          48
+        ]
+      },
+      "micro_runtime_responses": {
+        "dtype": "complex128",
+        "key": "micro_runtime_responses",
+        "sha256": "a2ae8c664764536703f879c4bb9a303c2c29f46d487496c371e505a445d78fe2",
+        "shape": [
+          2,
+          48
+        ]
+      },
+      "modal_coordinate_amplitude": {
+        "dtype": "float64",
+        "key": "modal_coordinate_amplitude",
+        "sha256": "8b37616e488f9996f3f9fae101aa3bb5cdfcba72ef78e529c56ecae90790f1af",
+        "shape": [
+          4
+        ]
+      },
+      "modal_coordinate_complex": {
+        "dtype": "complex128",
+        "key": "modal_coordinate_complex",
+        "sha256": "d7e4ff3daf7d90a89c14efae1d8897038a12ef45a4edc6807ef193e1cf20943f",
+        "shape": [
+          4
+        ]
+      },
+      "modal_coordinate_phase": {
+        "dtype": "float64",
+        "key": "modal_coordinate_phase",
+        "sha256": "ae080c91bfcecfe6ccd667885f0f2754303ba3a873cee84976f43340f218e1ce",
+        "shape": [
+          4
+        ]
+      },
+      "replay_main_modal_coordinate_complex": {
+        "dtype": "complex128",
+        "key": "replay_main_modal_coordinate_complex",
+        "sha256": "bbb51dfc9dca7351b50f85fcd35110d0f0ec0db2d6399616d5cd1e24d35d1a2a",
+        "shape": [
+          2
+        ]
+      },
+      "replay_main_reactions": {
+        "dtype": "complex128",
+        "key": "replay_main_reactions",
+        "sha256": "bc7fe7f23cf8089f94544fce0055683317d61ae013d02049f3fa6e7e9a82c920",
+        "shape": [
+          2,
+          12
+        ]
+      },
+      "replay_main_residual_vectors": {
+        "dtype": "complex128",
+        "key": "replay_main_residual_vectors",
+        "sha256": "5815acc9c08f6ac9a8408e20a88e83e47041cd40364e6bd32fb51dbff0ecfa61",
+        "shape": [
+          2,
+          48
+        ]
+      },
+      "replay_main_responses": {
+        "dtype": "complex128",
+        "key": "replay_main_responses",
+        "sha256": "a2ae8c664764536703f879c4bb9a303c2c29f46d487496c371e505a445d78fe2",
+        "shape": [
+          2,
+          48
+        ]
+      },
+      "replay_main_tet4_wedge6_left_force": {
+        "dtype": "complex128",
+        "key": "replay_main_tet4_wedge6_left_force",
+        "sha256": "c497a87d23e23a56278be5c5ea7458dee4ffab44da143fc6a12f177be6a0cc07",
+        "shape": [
+          2,
+          9
+        ]
+      },
+      "replay_main_tet4_wedge6_left_state": {
+        "dtype": "complex128",
+        "key": "replay_main_tet4_wedge6_left_state",
+        "sha256": "386a79a7df74c293c3671e0816558698d58d2d84db94f0f5ae5aeeffddbf0554",
+        "shape": [
+          2,
+          9
+        ]
+      },
+      "replay_main_tet4_wedge6_right_force": {
+        "dtype": "complex128",
+        "key": "replay_main_tet4_wedge6_right_force",
+        "sha256": "27c22c647d9bbc047ffbceb8430ab0e43668bfd5a1da976c298dacb8898cc9c0",
+        "shape": [
+          2,
+          9
+        ]
+      },
+      "replay_main_tet4_wedge6_right_state": {
+        "dtype": "complex128",
+        "key": "replay_main_tet4_wedge6_right_state",
+        "sha256": "c205032dc60457214f1b552f6cbcd8caa8d56e035202ca6b506faeecee7625d4",
+        "shape": [
+          2,
+          9
+        ]
+      },
+      "replay_main_tet4_wedge6_work_left": {
+        "dtype": "complex128",
+        "key": "replay_main_tet4_wedge6_work_left",
+        "sha256": "b56d457fd1d220ab11db17cd60e3b31497ce98f2587a8ef2162f0d7752f98935",
+        "shape": [
+          2
+        ]
+      },
+      "replay_main_tet4_wedge6_work_right": {
+        "dtype": "complex128",
+        "key": "replay_main_tet4_wedge6_work_right",
+        "sha256": "f8e1d596ee026d66a446e6e1f6877cbab570c85fd3ee02932f14d2bd760e2e1a",
+        "shape": [
+          2
+        ]
+      },
+      "replay_main_wedge6_hex8_left_force": {
+        "dtype": "complex128",
+        "key": "replay_main_wedge6_hex8_left_force",
+        "sha256": "30ed4dcf2caf20e8484c302cac447a8e49fcf81bcf3decc87444d79e54dd94c7",
+        "shape": [
+          2,
+          12
+        ]
+      },
+      "replay_main_wedge6_hex8_left_state": {
+        "dtype": "complex128",
+        "key": "replay_main_wedge6_hex8_left_state",
+        "sha256": "1863dfe0efa355eff7e7854b508b3edc2803d97ccbc331babc872f47fbb3aca2",
+        "shape": [
+          2,
+          12
+        ]
+      },
+      "replay_main_wedge6_hex8_right_force": {
+        "dtype": "complex128",
+        "key": "replay_main_wedge6_hex8_right_force",
+        "sha256": "9c1156ebc3fa3304e3c4e8bdfe9b9179ba0609b89e0744f68a41323bf40b5d09",
+        "shape": [
+          2,
+          12
+        ]
+      },
+      "replay_main_wedge6_hex8_right_state": {
+        "dtype": "complex128",
+        "key": "replay_main_wedge6_hex8_right_state",
+        "sha256": "1863dfe0efa355eff7e7854b508b3edc2803d97ccbc331babc872f47fbb3aca2",
+        "shape": [
+          2,
+          12
+        ]
+      },
+      "replay_main_wedge6_hex8_work_left": {
+        "dtype": "complex128",
+        "key": "replay_main_wedge6_hex8_work_left",
+        "sha256": "84e0fbd8a0372816e3f031e99c4149279e35927565ee41dbda376fe799ec80ef",
+        "shape": [
+          2
+        ]
+      },
+      "replay_main_wedge6_hex8_work_right": {
+        "dtype": "complex128",
+        "key": "replay_main_wedge6_hex8_work_right",
+        "sha256": "34916e8194a21f86c04e2a4c22302d4e7dde38bdfb0ed55e15f7cb4656eb2610",
+        "shape": [
+          2
+        ]
+      },
+      "replay_replay_1_modal_coordinate_complex": {
+        "dtype": "complex128",
+        "key": "replay_replay_1_modal_coordinate_complex",
+        "sha256": "bbb51dfc9dca7351b50f85fcd35110d0f0ec0db2d6399616d5cd1e24d35d1a2a",
+        "shape": [
+          2
+        ]
+      },
+      "replay_replay_1_reactions": {
+        "dtype": "complex128",
+        "key": "replay_replay_1_reactions",
+        "sha256": "bc7fe7f23cf8089f94544fce0055683317d61ae013d02049f3fa6e7e9a82c920",
+        "shape": [
+          2,
+          12
+        ]
+      },
+      "replay_replay_1_residual_vectors": {
+        "dtype": "complex128",
+        "key": "replay_replay_1_residual_vectors",
+        "sha256": "5815acc9c08f6ac9a8408e20a88e83e47041cd40364e6bd32fb51dbff0ecfa61",
+        "shape": [
+          2,
+          48
+        ]
+      },
+      "replay_replay_1_responses": {
+        "dtype": "complex128",
+        "key": "replay_replay_1_responses",
+        "sha256": "a2ae8c664764536703f879c4bb9a303c2c29f46d487496c371e505a445d78fe2",
+        "shape": [
+          2,
+          48
+        ]
+      },
+      "replay_replay_1_tet4_wedge6_left_force": {
+        "dtype": "complex128",
+        "key": "replay_replay_1_tet4_wedge6_left_force",
+        "sha256": "c497a87d23e23a56278be5c5ea7458dee4ffab44da143fc6a12f177be6a0cc07",
+        "shape": [
+          2,
+          9
+        ]
+      },
+      "replay_replay_1_tet4_wedge6_left_state": {
+        "dtype": "complex128",
+        "key": "replay_replay_1_tet4_wedge6_left_state",
+        "sha256": "386a79a7df74c293c3671e0816558698d58d2d84db94f0f5ae5aeeffddbf0554",
+        "shape": [
+          2,
+          9
+        ]
+      },
+      "replay_replay_1_tet4_wedge6_right_force": {
+        "dtype": "complex128",
+        "key": "replay_replay_1_tet4_wedge6_right_force",
+        "sha256": "27c22c647d9bbc047ffbceb8430ab0e43668bfd5a1da976c298dacb8898cc9c0",
+        "shape": [
+          2,
+          9
+        ]
+      },
+      "replay_replay_1_tet4_wedge6_right_state": {
+        "dtype": "complex128",
+        "key": "replay_replay_1_tet4_wedge6_right_state",
+        "sha256": "c205032dc60457214f1b552f6cbcd8caa8d56e035202ca6b506faeecee7625d4",
+        "shape": [
+          2,
+          9
+        ]
+      },
+      "replay_replay_1_tet4_wedge6_work_left": {
+        "dtype": "complex128",
+        "key": "replay_replay_1_tet4_wedge6_work_left",
+        "sha256": "b56d457fd1d220ab11db17cd60e3b31497ce98f2587a8ef2162f0d7752f98935",
+        "shape": [
+          2
+        ]
+      },
+      "replay_replay_1_tet4_wedge6_work_right": {
+        "dtype": "complex128",
+        "key": "replay_replay_1_tet4_wedge6_work_right",
+        "sha256": "f8e1d596ee026d66a446e6e1f6877cbab570c85fd3ee02932f14d2bd760e2e1a",
+        "shape": [
+          2
+        ]
+      },
+      "replay_replay_1_wedge6_hex8_left_force": {
+        "dtype": "complex128",
+        "key": "replay_replay_1_wedge6_hex8_left_force",
+        "sha256": "30ed4dcf2caf20e8484c302cac447a8e49fcf81bcf3decc87444d79e54dd94c7",
+        "shape": [
+          2,
+          12
+        ]
+      },
+      "replay_replay_1_wedge6_hex8_left_state": {
+        "dtype": "complex128",
+        "key": "replay_replay_1_wedge6_hex8_left_state",
+        "sha256": "1863dfe0efa355eff7e7854b508b3edc2803d97ccbc331babc872f47fbb3aca2",
+        "shape": [
+          2,
+          12
+        ]
+      },
+      "replay_replay_1_wedge6_hex8_right_force": {
+        "dtype": "complex128",
+        "key": "replay_replay_1_wedge6_hex8_right_force",
+        "sha256": "9c1156ebc3fa3304e3c4e8bdfe9b9179ba0609b89e0744f68a41323bf40b5d09",
+        "shape": [
+          2,
+          12
+        ]
+      },
+      "replay_replay_1_wedge6_hex8_right_state": {
+        "dtype": "complex128",
+        "key": "replay_replay_1_wedge6_hex8_right_state",
+        "sha256": "1863dfe0efa355eff7e7854b508b3edc2803d97ccbc331babc872f47fbb3aca2",
+        "shape": [
+          2,
+          12
+        ]
+      },
+      "replay_replay_1_wedge6_hex8_work_left": {
+        "dtype": "complex128",
+        "key": "replay_replay_1_wedge6_hex8_work_left",
+        "sha256": "84e0fbd8a0372816e3f031e99c4149279e35927565ee41dbda376fe799ec80ef",
+        "shape": [
+          2
+        ]
+      },
+      "replay_replay_1_wedge6_hex8_work_right": {
+        "dtype": "complex128",
+        "key": "replay_replay_1_wedge6_hex8_work_right",
+        "sha256": "34916e8194a21f86c04e2a4c22302d4e7dde38bdfb0ed55e15f7cb4656eb2610",
+        "shape": [
+          2
+        ]
+      },
+      "replay_replay_2_modal_coordinate_complex": {
+        "dtype": "complex128",
+        "key": "replay_replay_2_modal_coordinate_complex",
+        "sha256": "bbb51dfc9dca7351b50f85fcd35110d0f0ec0db2d6399616d5cd1e24d35d1a2a",
+        "shape": [
+          2
+        ]
+      },
+      "replay_replay_2_reactions": {
+        "dtype": "complex128",
+        "key": "replay_replay_2_reactions",
+        "sha256": "bc7fe7f23cf8089f94544fce0055683317d61ae013d02049f3fa6e7e9a82c920",
+        "shape": [
+          2,
+          12
+        ]
+      },
+      "replay_replay_2_residual_vectors": {
+        "dtype": "complex128",
+        "key": "replay_replay_2_residual_vectors",
+        "sha256": "5815acc9c08f6ac9a8408e20a88e83e47041cd40364e6bd32fb51dbff0ecfa61",
+        "shape": [
+          2,
+          48
+        ]
+      },
+      "replay_replay_2_responses": {
+        "dtype": "complex128",
+        "key": "replay_replay_2_responses",
+        "sha256": "a2ae8c664764536703f879c4bb9a303c2c29f46d487496c371e505a445d78fe2",
+        "shape": [
+          2,
+          48
+        ]
+      },
+      "replay_replay_2_tet4_wedge6_left_force": {
+        "dtype": "complex128",
+        "key": "replay_replay_2_tet4_wedge6_left_force",
+        "sha256": "c497a87d23e23a56278be5c5ea7458dee4ffab44da143fc6a12f177be6a0cc07",
+        "shape": [
+          2,
+          9
+        ]
+      },
+      "replay_replay_2_tet4_wedge6_left_state": {
+        "dtype": "complex128",
+        "key": "replay_replay_2_tet4_wedge6_left_state",
+        "sha256": "386a79a7df74c293c3671e0816558698d58d2d84db94f0f5ae5aeeffddbf0554",
+        "shape": [
+          2,
+          9
+        ]
+      },
+      "replay_replay_2_tet4_wedge6_right_force": {
+        "dtype": "complex128",
+        "key": "replay_replay_2_tet4_wedge6_right_force",
+        "sha256": "27c22c647d9bbc047ffbceb8430ab0e43668bfd5a1da976c298dacb8898cc9c0",
+        "shape": [
+          2,
+          9
+        ]
+      },
+      "replay_replay_2_tet4_wedge6_right_state": {
+        "dtype": "complex128",
+        "key": "replay_replay_2_tet4_wedge6_right_state",
+        "sha256": "c205032dc60457214f1b552f6cbcd8caa8d56e035202ca6b506faeecee7625d4",
+        "shape": [
+          2,
+          9
+        ]
+      },
+      "replay_replay_2_tet4_wedge6_work_left": {
+        "dtype": "complex128",
+        "key": "replay_replay_2_tet4_wedge6_work_left",
+        "sha256": "b56d457fd1d220ab11db17cd60e3b31497ce98f2587a8ef2162f0d7752f98935",
+        "shape": [
+          2
+        ]
+      },
+      "replay_replay_2_tet4_wedge6_work_right": {
+        "dtype": "complex128",
+        "key": "replay_replay_2_tet4_wedge6_work_right",
+        "sha256": "f8e1d596ee026d66a446e6e1f6877cbab570c85fd3ee02932f14d2bd760e2e1a",
+        "shape": [
+          2
+        ]
+      },
+      "replay_replay_2_wedge6_hex8_left_force": {
+        "dtype": "complex128",
+        "key": "replay_replay_2_wedge6_hex8_left_force",
+        "sha256": "30ed4dcf2caf20e8484c302cac447a8e49fcf81bcf3decc87444d79e54dd94c7",
+        "shape": [
+          2,
+          12
+        ]
+      },
+      "replay_replay_2_wedge6_hex8_left_state": {
+        "dtype": "complex128",
+        "key": "replay_replay_2_wedge6_hex8_left_state",
+        "sha256": "1863dfe0efa355eff7e7854b508b3edc2803d97ccbc331babc872f47fbb3aca2",
+        "shape": [
+          2,
+          12
+        ]
+      },
+      "replay_replay_2_wedge6_hex8_right_force": {
+        "dtype": "complex128",
+        "key": "replay_replay_2_wedge6_hex8_right_force",
+        "sha256": "9c1156ebc3fa3304e3c4e8bdfe9b9179ba0609b89e0744f68a41323bf40b5d09",
+        "shape": [
+          2,
+          12
+        ]
+      },
+      "replay_replay_2_wedge6_hex8_right_state": {
+        "dtype": "complex128",
+        "key": "replay_replay_2_wedge6_hex8_right_state",
+        "sha256": "1863dfe0efa355eff7e7854b508b3edc2803d97ccbc331babc872f47fbb3aca2",
+        "shape": [
+          2,
+          12
+        ]
+      },
+      "replay_replay_2_wedge6_hex8_work_left": {
+        "dtype": "complex128",
+        "key": "replay_replay_2_wedge6_hex8_work_left",
+        "sha256": "84e0fbd8a0372816e3f031e99c4149279e35927565ee41dbda376fe799ec80ef",
+        "shape": [
+          2
+        ]
+      },
+      "replay_replay_2_wedge6_hex8_work_right": {
+        "dtype": "complex128",
+        "key": "replay_replay_2_wedge6_hex8_work_right",
+        "sha256": "34916e8194a21f86c04e2a4c22302d4e7dde38bdfb0ed55e15f7cb4656eb2610",
+        "shape": [
+          2
+        ]
+      }
+    },
+    "contract_blob_sha": "68e9b53eade0c697ebc6b5b5154b73c72ae240ac",
+    "contract_schema_sha256": "9c4d61847f1b9209cc334dcf408c0d76c51799a321c33fb6a26f5e39c41e8d70",
+    "contract_sha256": "f26f7160f308e812da8fa0fc94ebdbba1eb1958f50db9f6d255ffb993951d045",
+    "evidence_schema_blob_sha": "68239f0780c572ec046a94c053f7b19ef56388d7",
+    "evidence_schema_sha256": "18f10c47e111a0639269f3f8499f55eaab198bd4b3f2704ffd56e926b1ad639a",
+    "micro_archive_sha256": "4a4ff83b2a4e809339d89f8892b326f7464967f05c9377658f1b36fb185257cb",
+    "source_archive_sha256": "3d9f5a59720f84f242027aa0539473220a43fea7c1fc9f41eca82d3c92a97403",
+    "source_manifest_sha256": "8a61add472a2f2a4df06687183111f5a47cf6f30ff3ff30fc7794631811c132b"
+  },
+  "environment": {
+    "executable": "C:\\Python313\\python.exe",
+    "harness": "WP13-02C2 micro-check; no twelve-frequency campaign",
+    "numpy": "2.2.6",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "python": "3.13.1",
+    "scipy": "1.15.2"
+  },
+  "failure_executions": {
+    "all_cases_actually_executed": true,
+    "cases": {
+      "invalid_complex_real_input": {
+        "case_id": "invalid_complex_real_input",
+        "executed": true,
+        "execution_path": "strict_failure_executions -> <lambda> -> build_harmonic_model -> from_raw",
+        "expected_exception_type": "TypeError",
+        "expected_execution_path": "build_harmonic_model.*from_raw",
+        "expected_message_pattern": "not 'complex'",
+        "failure_any_exception_accepted": false,
+        "input_digest": "6648eb1efa1a9f26505683e70706cf2da0b9306b818a4994fbd4100b0a099754",
+        "input_payload": {
+          "loads": [
+            {
+              "dof": "UZ",
+              "node": 13,
+              "value": "1+1j"
+            }
+          ]
+        },
+        "message_match": true,
+        "observed_exception_type": "TypeError",
+        "observed_message": "float() argument must be a string or a real number, not 'complex'",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      "invalid_frequency_inf": {
+        "case_id": "invalid_frequency_inf",
+        "executed": true,
+        "execution_path": "strict_failure_executions -> <lambda> -> solve_model -> solve -> solve -> frequency_grid",
+        "expected_exception_type": "InputValidationError",
+        "expected_execution_path": "solve_model.*frequency_grid",
+        "expected_message_pattern": "finite and non-negative",
+        "failure_any_exception_accepted": false,
+        "input_digest": "107ac854c09daf87eab0b0aa308c0748089f15a1afa5c4b1e63c91c3da269e10",
+        "input_payload": {
+          "analysis": {
+            "frequencies_hz": [
+              "+Inf"
+            ]
+          }
+        },
+        "message_match": true,
+        "observed_exception_type": "InputValidationError",
+        "observed_message": "Harmonic frequencies must be finite and non-negative.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      "invalid_frequency_nan": {
+        "case_id": "invalid_frequency_nan",
+        "executed": true,
+        "execution_path": "strict_failure_executions -> <lambda> -> solve_model -> solve -> solve -> frequency_grid",
+        "expected_exception_type": "InputValidationError",
+        "expected_execution_path": "solve_model.*frequency_grid",
+        "expected_message_pattern": "finite and non-negative",
+        "failure_any_exception_accepted": false,
+        "input_digest": "9afbcf38c3ef81f28a63dc3a7eace2ec1beaac9da98f5b425dbb01c289b39318",
+        "input_payload": {
+          "analysis": {
+            "frequencies_hz": [
+              "NaN"
+            ]
+          }
+        },
+        "message_match": true,
+        "observed_exception_type": "InputValidationError",
+        "observed_message": "Harmonic frequencies must be finite and non-negative.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      "invalid_frequency_negative": {
+        "case_id": "invalid_frequency_negative",
+        "executed": true,
+        "execution_path": "strict_failure_executions -> <lambda> -> solve_model -> solve -> solve -> frequency_grid",
+        "expected_exception_type": "InputValidationError",
+        "expected_execution_path": "solve_model.*frequency_grid",
+        "expected_message_pattern": "finite and non-negative",
+        "failure_any_exception_accepted": false,
+        "input_digest": "9a7cb22ed61808588a77dd3a76ea5f07bca41f98a4c8696219defb61bad94f31",
+        "input_payload": {
+          "analysis": {
+            "frequencies_hz": [
+              -1.0
+            ]
+          }
+        },
+        "message_match": true,
+        "observed_exception_type": "InputValidationError",
+        "observed_message": "Harmonic frequencies must be finite and non-negative.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      "invalid_mixed_interface": {
+        "case_id": "invalid_mixed_interface",
+        "executed": true,
+        "execution_path": "strict_failure_executions -> <lambda> -> validate_connected_scope",
+        "expected_exception_type": "InputValidationError",
+        "expected_execution_path": "validate_connected_scope",
+        "expected_message_pattern": "requires exactly",
+        "failure_any_exception_accepted": false,
+        "input_digest": "085f1c7681509de9f0e63049966e42a1c1a0e69c533b4b5c84cbca7261a23a88",
+        "input_payload": {
+          "elements": "WEDGE6 family removed from declared chain"
+        },
+        "message_match": true,
+        "observed_exception_type": "InputValidationError",
+        "observed_message": "Mixed harmonic scope requires exactly ('TET4', 'WEDGE6', 'HEX8'); got ['HEX8', 'TET4'].",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      "malformed_harmonic_load": {
+        "case_id": "malformed_harmonic_load",
+        "executed": true,
+        "execution_path": "strict_failure_executions -> <lambda> -> build_harmonic_model -> from_raw -> normalize_dof_name",
+        "expected_exception_type": "ValueError",
+        "expected_execution_path": "build_harmonic_model.*normalize_dof_name",
+        "expected_message_pattern": "Unknown dof name 'BAD'",
+        "failure_any_exception_accepted": false,
+        "input_digest": "dfb1e5a181808d1f15bfba7e9c88723f894de9dab43422655103a6c4693e2c81",
+        "input_payload": {
+          "loads": [
+            {
+              "dof": "BAD",
+              "node": 13,
+              "value": 1.0
+            }
+          ]
+        },
+        "message_match": true,
+        "observed_exception_type": "ValueError",
+        "observed_message": "Unknown dof name 'BAD'.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      "missing_mass": {
+        "case_id": "missing_mass",
+        "executed": true,
+        "execution_path": "strict_failure_executions -> <lambda> -> solve_model -> solve -> solve",
+        "expected_exception_type": "MeshValidationError",
+        "expected_execution_path": "solve_model.*solve",
+        "expected_message_pattern": "positive density",
+        "failure_any_exception_accepted": false,
+        "input_digest": "7317088e973755f1d73826c89f5769c6b9fc3f39c7e58d7002fe3ef423c36a64",
+        "input_payload": {
+          "materials": {
+            "solid": {
+              "density": 0.0
+            }
+          }
+        },
+        "message_match": true,
+        "observed_exception_type": "MeshValidationError",
+        "observed_message": "Mesh validation failed: Element 0: harmonic_response analysis requires positive density.; Element 1: harmonic_response analysis requires positive density.; Element 2: harmonic_response analysis requires positive density.; Element 3: harmonic_response analysis requires positive density.; Element 4: harmonic_response analysis requires positive density.; Element 5: harmonic_response analysis requires positive density.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      "unsupported_damping": {
+        "case_id": "unsupported_damping",
+        "executed": true,
+        "execution_path": "strict_failure_executions -> <lambda> -> solve_model -> solve -> solve -> rayleigh_damping_definition",
+        "expected_exception_type": "InputValidationError",
+        "expected_execution_path": "solve_model.*rayleigh_damping_definition",
+        "expected_message_pattern": "Unsupported damping model",
+        "failure_any_exception_accepted": false,
+        "input_digest": "287208b9f0da563069e4378de8bf0786e6cd98e80e741d2088a894e48153e876",
+        "input_payload": {
+          "analysis": {
+            "damping_model": "unknown_model"
+          }
+        },
+        "message_match": true,
+        "observed_exception_type": "InputValidationError",
+        "observed_message": "Unsupported damping model; the dynamic scope supports only Rayleigh damping.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      "unsupported_family": {
+        "case_id": "unsupported_family",
+        "executed": true,
+        "execution_path": "strict_failure_executions -> <lambda> -> solve_model -> solve -> raise_for_error",
+        "expected_exception_type": "CompatibilityError",
+        "expected_execution_path": "solve_model.*raise_for_error",
+        "expected_message_pattern": "UNKNOWN_ELEMENT",
+        "failure_any_exception_accepted": false,
+        "input_digest": "c3d5f867358055ad639081006967ce5d27d1af521e2b4d22244b31df40cd11a1",
+        "input_payload": {
+          "elements": [
+            {
+              "type": "PYRAMID5"
+            }
+          ]
+        },
+        "message_match": true,
+        "observed_exception_type": "CompatibilityError",
+        "observed_message": "UNKNOWN_ELEMENT: Unknown element family 'PYRAMID5'.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      }
+    },
+    "failure_any_exception_accepted": false,
+    "strict_type_message_path_matching": true
+  },
+  "frequencies": {
+    "microcheck_frequencies_hz": [
+      73.35295990653148,
+      97.80394654204198
+    ],
+    "microcheck_ratios": [
+      0.75,
+      1.0
+    ],
+    "source_campaign_frequency_grid_unchanged": true
+  },
+  "gate_decisions": {
+    "energy_normalization": true,
+    "failure_traceability": true,
+    "harness_microchecks": true,
+    "interface_state_collection": true,
+    "modal_coordinate": true,
+    "old_campaign_schema_conformance": false,
+    "provenance_freeze": true,
+    "replay_comparator": true
+  },
+  "historical_record_immutable": true,
+  "integrity": {
+    "contract_changed": false,
+    "formulation_changed": false,
+    "gates_changed": false,
+    "historical_0_2_7_evidence_modified": false,
+    "historical_c_campaign_modified": false,
+    "maturity_changed": false,
+    "numerical_source_changed": false,
+    "vnv_harness_changed": true
+  },
+  "interface_metrics": {
+    "archived_fields": [
+      "left_state",
+      "right_state",
+      "force_left",
+      "force_right",
+      "work_left",
+      "work_right",
+      "energy_numerator",
+      "ffree_norm",
+      "x_l2_norm",
+      "energy_denominator",
+      "energy_relative"
+    ],
+    "continuity_hardcoded": false,
+    "continuity_tautological": false,
+    "energy_normalization_formula": "||Ffree||2 * ||x||2",
+    "energy_normalization_source": "W_side=conj(x_interface) dot g_side; mismatch=abs(W_left+W_right)/max(abs(W_left)+abs(W_right),max(norm(F_free)*norm(x),1e-30)",
+    "frequency_rows": {
+      "73.35295990653148": {
+        "TET4_WEDGE6": {
+          "continuity_hardcoded": false,
+          "continuity_tautological": false,
+          "displacement_jump": 1.9708163747301393e-18,
+          "energy_denominator": 2.9951214978252046e-10,
+          "energy_normalization": {
+            "formula": "||Ffree||2 * ||x||2",
+            "source": "W_side=conj(x_interface) dot g_side; mismatch=abs(W_left+W_right)/max(abs(W_left)+abs(W_right),max(norm(F_free)*norm(x),1e-30)",
+            "variable_denominator": false
+          },
+          "energy_numerator": 6.7269576147108325e-25,
+          "energy_relative": 2.245971530569081e-15,
+          "ffree_norm": 0.5773502691896257,
+          "force_balance_relative": 3.9381987342150426e-15,
+          "independent_state_collection": true,
+          "left_family": "TET4",
+          "left_force": [
+            {
+              "imag": -0.0005750139454578952,
+              "real": 0.04759401313319411
+            },
+            {
+              "imag": -0.0022472330624540293,
+              "real": 0.01931679642664097
+            },
+            {
+              "imag": -0.0033147255101017388,
+              "real": -0.3059685503168992
+            },
+            {
+              "imag": 0.0028822688287829384,
+              "real": -0.06452304320806346
+            },
+            {
+              "imag": -0.0038733034155656737,
+              "real": 0.03217799350557882
+            },
+            {
+              "imag": -0.0007517820574402811,
+              "real": -0.33055733195326
+            },
+            {
+              "imag": 0.0019271923012026057,
+              "real": -0.02436376240738719
+            },
+            {
+              "imag": -0.00713513741773332,
+              "real": 0.07782809020495929
+            },
+            {
+              "imag": 0.009634888202132458,
+              "real": -0.43151576821644344
+            }
+          ],
+          "left_force_source": {
+            "collection": "family-local dynamic element forces on interface DOFs",
+            "family": "TET4",
+            "nodes": [
+              10,
+              11,
+              12
+            ],
+            "source_element_records": [
+              2,
+              3,
+              4
+            ]
+          },
+          "left_state": [
+            {
+              "imag": -1.953541254951991e-12,
+              "real": 4.0447256635525294e-11
+            },
+            {
+              "imag": 5.295743275051957e-12,
+              "real": -1.1177186350612408e-10
+            },
+            {
+              "imag": -1.1507370888901694e-12,
+              "real": 5.5903475665656555e-11
+            },
+            {
+              "imag": -1.9072169989308843e-12,
+              "real": 3.661560417864117e-11
+            },
+            {
+              "imag": 5.1465373978195964e-12,
+              "real": -1.0788215115755647e-10
+            },
+            {
+              "imag": -8.498290992345953e-14,
+              "real": 3.200743337992952e-11
+            },
+            {
+              "imag": -1.7730773922001556e-12,
+              "real": 3.5959059992128825e-11
+            },
+            {
+              "imag": 5.275767887255887e-12,
+              "real": -1.1412537255094941e-10
+            },
+            {
+              "imag": -5.6962412343903864e-12,
+              "real": 1.436385411856967e-10
+            }
+          ],
+          "left_state_source": {
+            "collection": "family-local element records -> local node-major DOF slices",
+            "family": "TET4",
+            "nodes": [
+              10,
+              11,
+              12
+            ],
+            "observation_count": 6,
+            "source_element_records": [
+              [
+                2,
+                3,
+                4
+              ],
+              [
+                2,
+                3
+              ],
+              [
+                2
+              ]
+            ],
+            "within_family_observation_max_difference": 0.0
+          },
+          "right_family": "WEDGE6",
+          "right_force": [
+            {
+              "imag": 0.0005750139454578015,
+              "real": -0.04759401313319356
+            },
+            {
+              "imag": 0.002247233062453946,
+              "real": -0.01931679642664097
+            },
+            {
+              "imag": 0.003314725510101705,
+              "real": 0.3059685503168992
+            },
+            {
+              "imag": -0.0028822688287829176,
+              "real": 0.06452304320806546
+            },
+            {
+              "imag": 0.0038733034155657535,
+              "real": -0.03217799350558059
+            },
+            {
+              "imag": 0.0007517820574403696,
+              "real": 0.3305573319532598
+            },
+            {
+              "imag": -0.001927192301202578,
+              "real": 0.024363762407388023
+            },
+            {
+              "imag": 0.0071351374177333615,
+              "real": -0.07782809020496195
+            },
+            {
+              "imag": -0.009634888202132444,
+              "real": 0.4315157682164439
+            }
+          ],
+          "right_force_source": {
+            "collection": "family-local dynamic element forces on interface DOFs",
+            "family": "WEDGE6",
+            "nodes": [
+              10,
+              11,
+              12
+            ],
+            "source_element_records": [
+              1
+            ]
+          },
+          "right_state": [
+            {
+              "imag": -1.9535412549519915e-12,
+              "real": 4.0447256635525294e-11
+            },
+            {
+              "imag": 5.295743275051957e-12,
+              "real": -1.1177186350612408e-10
+            },
+            {
+              "imag": -1.1507370888901696e-12,
+              "real": 5.5903475665656555e-11
+            },
+            {
+              "imag": -1.9072169989308843e-12,
+              "real": 3.661560417864117e-11
+            },
+            {
+              "imag": 5.1465373978195964e-12,
+              "real": -1.0788215115755647e-10
+            },
+            {
+              "imag": -8.498290992345953e-14,
+              "real": 3.200743337992952e-11
+            },
+            {
+              "imag": -1.7730773922001556e-12,
+              "real": 3.5959059992128825e-11
+            },
+            {
+              "imag": 5.275767887255887e-12,
+              "real": -1.1412537255094941e-10
+            },
+            {
+              "imag": -5.6962412343903864e-12,
+              "real": 1.436385411856967e-10
+            }
+          ],
+          "right_state_source": {
+            "collection": "family-local element records -> local node-major DOF slices",
+            "family": "WEDGE6",
+            "nodes": [
+              10,
+              11,
+              12
+            ],
+            "observation_count": 3,
+            "source_element_records": [
+              [
+                1
+              ],
+              [
+                1
+              ],
+              [
+                1
+              ]
+            ],
+            "within_family_observation_max_difference": 0.0
+          },
+          "shared_nodes": [
+            10,
+            11,
+            12
+          ],
+          "work_left": {
+            "imag": -7.804951447805862e-13,
+            "real": -1.0562183229668384e-10
+          },
+          "work_right": {
+            "imag": 7.804951447806149e-13,
+            "real": 1.0562183229668451e-10
+          },
+          "x_l2_norm": 5.187702609075051e-10
+        },
+        "WEDGE6_HEX8": {
+          "continuity_hardcoded": false,
+          "continuity_tautological": false,
+          "displacement_jump": 0.0,
+          "energy_denominator": 2.9951214978252046e-10,
+          "energy_normalization": {
+            "formula": "||Ffree||2 * ||x||2",
+            "source": "W_side=conj(x_interface) dot g_side; mismatch=abs(W_left+W_right)/max(abs(W_left)+abs(W_right),max(norm(F_free)*norm(x),1e-30)",
+            "variable_denominator": false
+          },
+          "energy_numerator": 1.2932330990232162e-25,
+          "energy_relative": 4.3177984598028793e-16,
+          "ffree_norm": 0.5773502691896257,
+          "force_balance_relative": 2.178680782079449e-15,
+          "independent_state_collection": true,
+          "left_family": "WEDGE6",
+          "left_force": [
+            {
+              "imag": -0.001768395687386931,
+              "real": -0.007207998538549587
+            },
+            {
+              "imag": 0.013469902793194214,
+              "real": -0.2877766379688601
+            },
+            {
+              "imag": 0.006375147654404847,
+              "real": -0.19789787130172765
+            },
+            {
+              "imag": -0.002179700574893244,
+              "real": 0.10954312853868642
+            },
+            {
+              "imag": 0.017132342281101227,
+              "real": -0.3561563662812466
+            },
+            {
+              "imag": 0.014076241488846938,
+              "real": -0.37496084707075616
+            },
+            {
+              "imag": -0.0035086622250514923,
+              "real": 0.13953981398091053
+            },
+            {
+              "imag": -0.021931995350151695,
+              "real": 0.37051142680398497
+            },
+            {
+              "imag": -0.0060540851845940664,
+              "real": -0.2127018291318078
+            },
+            {
+              "imag": 0.01404360622872658,
+              "real": -0.305055922566694
+            },
+            {
+              "imag": -0.02762134868587219,
+              "real": 0.46029372145645153
+            },
+            {
+              "imag": 0.0008322172155615648,
+              "real": -0.3952142674150998
+            }
+          ],
+          "left_force_source": {
+            "collection": "family-local dynamic element forces on interface DOFs",
+            "family": "WEDGE6",
+            "nodes": [
+              2,
+              3,
+              6,
+              7
+            ],
+            "source_element_records": [
+              0,
+              1
+            ]
+          },
+          "left_state": [
+            {
+              "imag": 5.141862637192782e-13,
+              "real": -1.3199483117995651e-11
+            },
+            {
+              "imag": -6.526024061933724e-13,
+              "real": 2.018885724876504e-11
+            },
+            {
+              "imag": -5.170230715861164e-13,
+              "real": 2.493080209872978e-11
+            },
+            {
+              "imag": 3.0677177987296333e-13,
+              "real": -7.18223911450476e-12
+            },
+            {
+              "imag": -9.327489533637338e-13,
+              "real": 2.439292442908531e-11
+            },
+            {
+              "imag": -1.6649797462737833e-12,
+              "real": 4.927045799334809e-11
+            },
+            {
+              "imag": -7.447812304555348e-13,
+              "real": 1.3732299607946508e-11
+            },
+            {
+              "imag": 8.24912908758282e-13,
+              "real": -2.200543184962579e-11
+            },
+            {
+              "imag": -4.545568854785346e-13,
+              "real": 2.6253725664288922e-11
+            },
+            {
+              "imag": -5.820598529900554e-13,
+              "real": 1.1286490688036014e-11
+            },
+            {
+              "imag": 9.305324658882223e-13,
+              "real": -2.4732917010382262e-11
+            },
+            {
+              "imag": -1.5420382914085051e-12,
+              "real": 5.037142306047197e-11
+            }
+          ],
+          "left_state_source": {
+            "collection": "family-local element records -> local node-major DOF slices",
+            "family": "WEDGE6",
+            "nodes": [
+              2,
+              3,
+              6,
+              7
+            ],
+            "observation_count": 6,
+            "source_element_records": [
+              [
+                0
+              ],
+              [
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "within_family_observation_max_difference": 0.0
+          },
+          "right_family": "HEX8",
+          "right_force": [
+            {
+              "imag": 0.001768395687386931,
+              "real": 0.00720799853854881
+            },
+            {
+              "imag": -0.013469902793194212,
+              "real": 0.2877766379688603
+            },
+            {
+              "imag": -0.006375147654404865,
+              "real": 0.19789787130172892
+            },
+            {
+              "imag": 0.0021797005748932317,
+              "real": -0.10954312853868597
+            },
+            {
+              "imag": -0.017132342281101248,
+              "real": 0.35615636628124686
+            },
+            {
+              "imag": -0.014076241488846956,
+              "real": 0.3749608470707574
+            },
+            {
+              "imag": 0.0035086622250515218,
+              "real": -0.1395398139809101
+            },
+            {
+              "imag": 0.021931995350151723,
+              "real": -0.37051142680398513
+            },
+            {
+              "imag": 0.006054085184594047,
+              "real": 0.21270182913180735
+            },
+            {
+              "imag": -0.014043606228726644,
+              "real": 0.30505592256669406
+            },
+            {
+              "imag": 0.027621348685872175,
+              "real": -0.46029372145645175
+            },
+            {
+              "imag": -0.0008322172155617001,
+              "real": 0.39521426741510024
+            }
+          ],
+          "right_force_source": {
+            "collection": "family-local dynamic element forces on interface DOFs",
+            "family": "HEX8",
+            "nodes": [
+              2,
+              3,
+              6,
+              7
+            ],
+            "source_element_records": [
+              5
+            ]
+          },
+          "right_state": [
+            {
+              "imag": 5.141862637192782e-13,
+              "real": -1.3199483117995651e-11
+            },
+            {
+              "imag": -6.526024061933724e-13,
+              "real": 2.018885724876504e-11
+            },
+            {
+              "imag": -5.170230715861164e-13,
+              "real": 2.493080209872978e-11
+            },
+            {
+              "imag": 3.0677177987296333e-13,
+              "real": -7.18223911450476e-12
+            },
+            {
+              "imag": -9.327489533637338e-13,
+              "real": 2.439292442908531e-11
+            },
+            {
+              "imag": -1.6649797462737833e-12,
+              "real": 4.927045799334809e-11
+            },
+            {
+              "imag": -7.447812304555348e-13,
+              "real": 1.3732299607946508e-11
+            },
+            {
+              "imag": 8.24912908758282e-13,
+              "real": -2.200543184962579e-11
+            },
+            {
+              "imag": -4.545568854785346e-13,
+              "real": 2.6253725664288922e-11
+            },
+            {
+              "imag": -5.820598529900554e-13,
+              "real": 1.1286490688036014e-11
+            },
+            {
+              "imag": 9.305324658882223e-13,
+              "real": -2.4732917010382262e-11
+            },
+            {
+              "imag": -1.5420382914085051e-12,
+              "real": 5.037142306047197e-11
+            }
+          ],
+          "right_state_source": {
+            "collection": "family-local element records -> local node-major DOF slices",
+            "family": "HEX8",
+            "nodes": [
+              2,
+              3,
+              6,
+              7
+            ],
+            "observation_count": 4,
+            "source_element_records": [
+              [
+                5
+              ],
+              [
+                5
+              ],
+              [
+                5
+              ],
+              [
+                5
+              ]
+            ],
+            "within_family_observation_max_difference": 0.0
+          },
+          "shared_nodes": [
+            2,
+            3,
+            6,
+            7
+          ],
+          "work_left": {
+            "imag": -4.983378634759217e-14,
+            "real": -8.525461274634881e-11
+          },
+          "work_right": {
+            "imag": 4.983378634758773e-14,
+            "real": 8.525461274634894e-11
+          },
+          "x_l2_norm": 5.187702609075051e-10
+        }
+      },
+      "97.80394654204198": {
+        "TET4_WEDGE6": {
+          "continuity_hardcoded": false,
+          "continuity_tautological": false,
+          "displacement_jump": 5.2005729480510634e-18,
+          "energy_denominator": 8.459908149476962e-10,
+          "energy_normalization": {
+            "formula": "||Ffree||2 * ||x||2",
+            "source": "W_side=conj(x_interface) dot g_side; mismatch=abs(W_left+W_right)/max(abs(W_left)+abs(W_right),max(norm(F_free)*norm(x),1e-30)",
+            "variable_denominator": false
+          },
+          "energy_numerator": 1.3824593359337195e-24,
+          "energy_relative": 1.6341304320416183e-15,
+          "ffree_norm": 0.5773502691896257,
+          "force_balance_relative": 1.614011333157269e-14,
+          "independent_state_collection": true,
+          "left_family": "TET4",
+          "left_force": [
+            {
+              "imag": 0.005040229030386034,
+              "real": 0.06789454040181919
+            },
+            {
+              "imag": -0.024419616407763245,
+              "real": 0.11147302627110367
+            },
+            {
+              "imag": -0.022334015038994653,
+              "real": -0.1436661667238175
+            },
+            {
+              "imag": 0.037669588972031987,
+              "real": -0.17349459842751846
+            },
+            {
+              "imag": -0.03928648325605377,
+              "real": 0.19453809898348862
+            },
+            {
+              "imag": -0.029392563099311264,
+              "real": -0.2909158695045533
+            },
+            {
+              "imag": 0.031454912149643376,
+              "real": -0.09952909880475369
+            },
+            {
+              "imag": -0.07419053304164258,
+              "real": 0.375585977556252
+            },
+            {
+              "imag": 0.09674969913523368,
+              "real": -0.8184648873688314
+            }
+          ],
+          "left_force_source": {
+            "collection": "family-local dynamic element forces on interface DOFs",
+            "family": "TET4",
+            "nodes": [
+              10,
+              11,
+              12
+            ],
+            "source_element_records": [
+              2,
+              3,
+              4
+            ]
+          },
+          "left_state": [
+            {
+              "imag": -3.3596879169264166e-11,
+              "real": 1.1401387841880862e-10
+            },
+            {
+              "imag": 5.126460640729918e-11,
+              "real": -3.2533755067563175e-10
+            },
+            {
+              "imag": -1.5760099062081777e-11,
+              "real": 9.687795939260944e-11
+            },
+            {
+              "imag": -3.316691549797686e-11,
+              "real": 1.084197386318779e-10
+            },
+            {
+              "imag": 5.175868827224954e-11,
+              "real": -3.150428883169558e-10
+            },
+            {
+              "imag": 5.497072448609309e-12,
+              "real": 3.441171047917808e-11
+            },
+            {
+              "imag": -3.365480430070566e-11,
+              "real": 1.0189969434358486e-10
+            },
+            {
+              "imag": 5.103853969602671e-11,
+              "real": -3.2676128238059254e-10
+            },
+            {
+              "imag": -6.010843355599022e-11,
+              "real": 3.6921310005580824e-10
+            }
+          ],
+          "left_state_source": {
+            "collection": "family-local element records -> local node-major DOF slices",
+            "family": "TET4",
+            "nodes": [
+              10,
+              11,
+              12
+            ],
+            "observation_count": 6,
+            "source_element_records": [
+              [
+                2,
+                3,
+                4
+              ],
+              [
+                2,
+                3
+              ],
+              [
+                2
+              ]
+            ],
+            "within_family_observation_max_difference": 0.0
+          },
+          "right_family": "WEDGE6",
+          "right_force": [
+            {
+              "imag": -0.0050402290303875885,
+              "real": -0.06789454040181431
+            },
+            {
+              "imag": 0.024419616407762135,
+              "real": -0.11147302627109568
+            },
+            {
+              "imag": 0.022334015038994126,
+              "real": 0.1436661667238177
+            },
+            {
+              "imag": -0.03766958897203121,
+              "real": 0.1734945984275229
+            },
+            {
+              "imag": 0.03928648325605488,
+              "real": -0.19453809898349683
+            },
+            {
+              "imag": 0.02939256309931093,
+              "real": 0.29091586950456017
+            },
+            {
+              "imag": -0.031454912149642855,
+              "real": 0.0995290988047497
+            },
+            {
+              "imag": 0.07419053304164258,
+              "real": -0.37558597755625556
+            },
+            {
+              "imag": -0.09674969913523324,
+              "real": 0.8184648873688296
+            }
+          ],
+          "right_force_source": {
+            "collection": "family-local dynamic element forces on interface DOFs",
+            "family": "WEDGE6",
+            "nodes": [
+              10,
+              11,
+              12
+            ],
+            "source_element_records": [
+              1
+            ]
+          },
+          "right_state": [
+            {
+              "imag": -3.3596879169264166e-11,
+              "real": 1.1401387841880862e-10
+            },
+            {
+              "imag": 5.126460640729918e-11,
+              "real": -3.2533755067563175e-10
+            },
+            {
+              "imag": -1.576009906208178e-11,
+              "real": 9.687795939260944e-11
+            },
+            {
+              "imag": -3.316691549797686e-11,
+              "real": 1.084197386318779e-10
+            },
+            {
+              "imag": 5.175868827224954e-11,
+              "real": -3.150428883169558e-10
+            },
+            {
+              "imag": 5.497072448609309e-12,
+              "real": 3.441171047917808e-11
+            },
+            {
+              "imag": -3.365480430070566e-11,
+              "real": 1.0189969434358486e-10
+            },
+            {
+              "imag": 5.103853969602671e-11,
+              "real": -3.2676128238059254e-10
+            },
+            {
+              "imag": -6.010843355599022e-11,
+              "real": 3.6921310005580824e-10
+            }
+          ],
+          "right_state_source": {
+            "collection": "family-local element records -> local node-major DOF slices",
+            "family": "WEDGE6",
+            "nodes": [
+              10,
+              11,
+              12
+            ],
+            "observation_count": 3,
+            "source_element_records": [
+              [
+                1
+              ],
+              [
+                1
+              ],
+              [
+                1
+              ]
+            ],
+            "within_family_observation_max_difference": 0.0
+          },
+          "shared_nodes": [
+            10,
+            11,
+            12
+          ],
+          "work_left": {
+            "imag": -6.663233308040824e-12,
+            "real": -5.827836654798416e-10
+          },
+          "work_right": {
+            "imag": 6.663233308041147e-12,
+            "real": 5.827836654798429e-10
+          },
+          "x_l2_norm": 1.46529907422601e-09
+        },
+        "WEDGE6_HEX8": {
+          "continuity_hardcoded": false,
+          "continuity_tautological": false,
+          "displacement_jump": 0.0,
+          "energy_denominator": 8.459908149476962e-10,
+          "energy_normalization": {
+            "formula": "||Ffree||2 * ||x||2",
+            "source": "W_side=conj(x_interface) dot g_side; mismatch=abs(W_left+W_right)/max(abs(W_left)+abs(W_right),max(norm(F_free)*norm(x),1e-30)",
+            "variable_denominator": false
+          },
+          "energy_numerator": 4.233701493617114e-25,
+          "energy_relative": 5.004429621235149e-16,
+          "ffree_norm": 0.5773502691896257,
+          "force_balance_relative": 7.473121084818427e-15,
+          "independent_state_collection": true,
+          "left_family": "WEDGE6",
+          "left_force": [
+            {
+              "imag": -0.02064163508055733,
+              "real": 0.06849642096299968
+            },
+            {
+              "imag": 0.1317897688663481,
+              "real": -0.8301877102228926
+            },
+            {
+              "imag": 0.05279355264554181,
+              "real": -0.4499451367273437
+            },
+            {
+              "imag": -0.019325551018731235,
+              "real": 0.1882861685880246
+            },
+            {
+              "imag": 0.17659667449665584,
+              "real": -1.0460854836055575
+            },
+            {
+              "imag": 0.1500996710226753,
+              "real": -0.9272823267089287
+            },
+            {
+              "imag": -0.010814156931115926,
+              "real": 0.2815220540403512
+            },
+            {
+              "imag": -0.2361211339966435,
+              "real": 1.2581656509720966
+            },
+            {
+              "imag": -0.11653621760426885,
+              "real": 0.04818382059436521
+            },
+            {
+              "imag": 0.16779241232058623,
+              "real": -0.8603250589258395
+            },
+            {
+              "imag": -0.2669132360243919,
+              "real": 1.5876379480966794
+            },
+            {
+              "imag": 0.04270819048139665,
+              "real": -0.3736678066191641
+            }
+          ],
+          "left_force_source": {
+            "collection": "family-local dynamic element forces on interface DOFs",
+            "family": "WEDGE6",
+            "nodes": [
+              2,
+              3,
+              6,
+              7
+            ],
+            "source_element_records": [
+              0,
+              1
+            ]
+          },
+          "left_state": [
+            {
+              "imag": 6.7871436315604015e-12,
+              "real": -3.283122291640882e-11
+            },
+            {
+              "imag": -5.858424685593545e-12,
+              "real": 4.5724054855149566e-11
+            },
+            {
+              "imag": -1.818662780985379e-12,
+              "real": 4.4986408497564175e-11
+            },
+            {
+              "imag": 4.754641399056032e-12,
+              "real": -1.8649982854761675e-11
+            },
+            {
+              "imag": -9.694025161940832e-12,
+              "real": 6.119153021444925e-11
+            },
+            {
+              "imag": -1.9117667185684604e-11,
+              "real": 1.1335453164331045e-10
+            },
+            {
+              "imag": -1.1666515843736921e-11,
+              "real": 4.2472451489542705e-11
+            },
+            {
+              "imag": 8.842634897906171e-12,
+              "real": -5.438221600864074e-11
+            },
+            {
+              "imag": -5.717172136132082e-13,
+              "real": 4.3793669382290945e-11
+            },
+            {
+              "imag": -1.008893189011406e-11,
+              "real": 3.342676283353792e-11
+            },
+            {
+              "imag": 8.395439758480487e-12,
+              "real": -6.167122573502447e-11
+            },
+            {
+              "imag": -1.830956157316339e-11,
+              "real": 1.0892108665612036e-10
+            }
+          ],
+          "left_state_source": {
+            "collection": "family-local element records -> local node-major DOF slices",
+            "family": "WEDGE6",
+            "nodes": [
+              2,
+              3,
+              6,
+              7
+            ],
+            "observation_count": 6,
+            "source_element_records": [
+              [
+                0
+              ],
+              [
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "within_family_observation_max_difference": 0.0
+          },
+          "right_family": "HEX8",
+          "right_force": [
+            {
+              "imag": 0.02064163508055708,
+              "real": -0.06849642096299902
+            },
+            {
+              "imag": -0.13178976886634813,
+              "real": 0.8301877102228921
+            },
+            {
+              "imag": -0.052793552645541905,
+              "real": 0.44994513672734493
+            },
+            {
+              "imag": 0.01932555101873104,
+              "real": -0.18828616858802438
+            },
+            {
+              "imag": -0.17659667449665603,
+              "real": 1.0460854836055602
+            },
+            {
+              "imag": -0.15009967102267519,
+              "real": 0.9272823267089281
+            },
+            {
+              "imag": 0.010814156931115648,
+              "real": -0.2815220540403489
+            },
+            {
+              "imag": 0.2361211339966432,
+              "real": -1.258165650972094
+            },
+            {
+              "imag": 0.116536217604269,
+              "real": -0.04818382059436921
+            },
+            {
+              "imag": -0.16779241232058678,
+              "real": 0.8603250589258403
+            },
+            {
+              "imag": 0.26691323602439165,
+              "real": -1.5876379480966787
+            },
+            {
+              "imag": -0.04270819048139682,
+              "real": 0.3736678066191681
+            }
+          ],
+          "right_force_source": {
+            "collection": "family-local dynamic element forces on interface DOFs",
+            "family": "HEX8",
+            "nodes": [
+              2,
+              3,
+              6,
+              7
+            ],
+            "source_element_records": [
+              5
+            ]
+          },
+          "right_state": [
+            {
+              "imag": 6.7871436315604015e-12,
+              "real": -3.283122291640882e-11
+            },
+            {
+              "imag": -5.858424685593545e-12,
+              "real": 4.5724054855149566e-11
+            },
+            {
+              "imag": -1.818662780985379e-12,
+              "real": 4.4986408497564175e-11
+            },
+            {
+              "imag": 4.754641399056032e-12,
+              "real": -1.8649982854761675e-11
+            },
+            {
+              "imag": -9.694025161940832e-12,
+              "real": 6.119153021444925e-11
+            },
+            {
+              "imag": -1.9117667185684604e-11,
+              "real": 1.1335453164331045e-10
+            },
+            {
+              "imag": -1.1666515843736921e-11,
+              "real": 4.2472451489542705e-11
+            },
+            {
+              "imag": 8.842634897906171e-12,
+              "real": -5.438221600864074e-11
+            },
+            {
+              "imag": -5.717172136132082e-13,
+              "real": 4.3793669382290945e-11
+            },
+            {
+              "imag": -1.008893189011406e-11,
+              "real": 3.342676283353792e-11
+            },
+            {
+              "imag": 8.395439758480487e-12,
+              "real": -6.167122573502447e-11
+            },
+            {
+              "imag": -1.830956157316339e-11,
+              "real": 1.0892108665612036e-10
+            }
+          ],
+          "right_state_source": {
+            "collection": "family-local element records -> local node-major DOF slices",
+            "family": "HEX8",
+            "nodes": [
+              2,
+              3,
+              6,
+              7
+            ],
+            "observation_count": 4,
+            "source_element_records": [
+              [
+                5
+              ],
+              [
+                5
+              ],
+              [
+                5
+              ],
+              [
+                5
+              ]
+            ],
+            "within_family_observation_max_difference": 0.0
+          },
+          "shared_nodes": [
+            2,
+            3,
+            6,
+            7
+          ],
+          "work_left": {
+            "imag": -3.1506746627988333e-13,
+            "real": -4.671014443887818e-10
+          },
+          "work_right": {
+            "imag": 3.150674662799738e-13,
+            "real": 4.671014443887822e-10
+          },
+          "x_l2_norm": 1.46529907422601e-09
+        }
+      }
+    },
+    "state_collection_independent": true
+  },
+  "modal_coordinate": {
+    "amplitude": {
+      "array_key": "modal_coordinate_amplitude"
+    },
+    "complex": {
+      "array_key": "modal_coordinate_complex",
+      "shape": [
+        4
+      ]
+    },
+    "definition": {
+      "first_mode_dominated_claim_allowed": false,
+      "modal_vector_source": "independent dense K/M eigen-oracle first fixed-base mode",
+      "normalization": "mass-normalized eigenvector with canonical sign",
+      "projection_formula": "q = phi^H M x"
+    },
+    "phase": {
+      "array_key": "modal_coordinate_phase"
+    }
+  },
+  "old_campaign_schema_missing_fields": [
+    "'WP13-02C2' was expected",
+    "'amplitude_phase' is a required property",
+    "'contract_values_single_source_of_truth' is a required property",
+    "'digests' is a required property",
+    "'modal_coordinate' is a required property",
+    "'oracle_responses' is a required property",
+    "'provenance_freeze' is a required property",
+    "'raw_complex_responses' is a required property",
+    "'replay_arrays' is a required property",
+    "'replay_comparison' is a required property",
+    "'residuals' is a required property",
+    "'resonance' is a required property",
+    "'static_limit' is a required property",
+    "2 was expected",
+    "[{'TET4_WEDGE6': {'shared_nodes': [10, 11, 12], 'displacement_jump': 0.0, 'force_left': [{'real': 0.03984230204519951, 'imag': 0.0}, {'real': -0.0028772621542653143, 'imag': 0.0}, {'real': -0.33333333333333587, 'imag': 0.0}, {'real': -0.034373615449330375, 'imag': 0.0}, {'real': -0.005468686595871408, 'imag': 0.0}, {'real': -0.33333333333333237, 'imag': 0.0}, {'real': -0.005468686595869882, 'imag': 0.0}, {'real': 0.008345948750136278, 'imag': 0.0}, {'real': -0.3333333333333339, 'imag': 0.0}], 'force_right': [{'real': -0.03984230204519856, 'imag': 0.0}, {'real': 0.0028772621542665355, 'imag': 0.0}, {'real': 0.33333333333333404, 'imag': 0.0}, {'real': 0.034373615449329264, 'imag': 0.0}, {'real': 0.005468686595871408, 'imag': 0.0}, {'real': 0.3333333333333339, 'imag': 0.0}, {'real': 0.005468686595869743, 'imag': 0.0}, {'real': -0.008345948750136722, 'imag': 0.0}, {'real': 0.3333333333333335, 'imag': 0.0}], 'force_balance_relative': 3.130479504647812e-15, 'work_left': {'real': -5.2778777523528034e-11, 'imag': 0.0}, 'work_right': {'real': 5.277877752352792e-11, 'imag': 0.0}, 'energy_mismatch_relative': 1.101979612813264e-15}, 'WEDGE6_HEX8': {'shared_nodes': [2, 3, 6, 7], 'displacement_jump': 0.0, 'force_left': [{'real': -0.02367295807066916, 'imag': 0.0}, {'real': -0.15066427920510683, 'imag': 0.0}, {'real': -0.13075523110020926, 'imag': 0.0}, {'real': 0.08484900004080709, 'imag': 0.0}, {'real': -0.18266905412822454, 'imag': 0.0}, {'real': -0.22925642342645713, 'imag': 0.0}, {'real': 0.10149294752039914, 'imag': 0.0}, {'real': 0.15066427920510517, 'imag': 0.0}, {'real': -0.2637541442032609, 'imag': 0.0}, {'real': -0.16266898949053837, 'imag': 0.0}, {'real': 0.18266905412822504, 'imag': 0.0}, {'real': -0.37623420127007173, 'imag': 0.0}], 'force_right': [{'real': 0.023672958070668826, 'imag': 0.0}, {'real': 0.1506642792051066, 'imag': 0.0}, {'real': 0.13075523110020965, 'imag': 0.0}, {'real': -0.08484900004080742, 'imag': 0.0}, {'real': 0.18266905412822476, 'imag': 0.0}, {'real': 0.22925642342645813, 'imag': 0.0}, {'real': -0.10149294752039906, 'imag': 0.0}, {'real': -0.150664279205105, 'imag': 0.0}, {'real': 0.2637541442032618, 'imag': 0.0}, {'real': 0.1626689894905384, 'imag': 0.0}, {'real': -0.18266905412822557, 'imag': 0.0}, {'real': 0.376234201270072, 'imag': 0.0}], 'force_balance_relative': 1.6586133764571923e-15, 'work_left': {'real': -3.806695187838722e-11, 'imag': 0.0}, 'work_right': {'real': 3.80669518783873e-11, 'imag': 0.0}, 'energy_mismatch_relative': 8.207488400032061e-16}}, {'TET4_WEDGE6': {'shared_nodes': [10, 11, 12], 'displacement_jump': 0.0, 'force_left': [{'real': 0.04051615463227842, 'imag': -0.00011030291084402483}, {'real': -0.001526995126853281, 'imag': -0.0002292003466511771}, {'real': -0.3322221666190253, 'imag': -0.00020007013910952804}, {'real': -0.03638144785085007, 'imag': 0.0003372416533444153}, {'real': -0.003241459978119865, 'imag': -0.000379369726821786}, {'real': -0.33362410212210913, 'imag': 3.999025919202131e-05}, {'real': -0.006611079847881909, 'imag': 0.00019400310722815202}, {'real': 0.012470647480366859, 'imag': -0.0007022784634663978}, {'real': -0.3396101453524647, 'imag': 0.0010592284682266646}], 'force_right': [{'real': -0.04051615463227776, 'imag': 0.00011030291084403263}, {'real': 0.0015269951268543913, 'imag': 0.00022920034665118577}, {'real': 0.33222216661902754, 'imag': 0.00020007013910952002}, {'real': 0.036381447850850956, 'imag': -0.000337241653344424}, {'real': 0.003241459978119976, 'imag': 0.00037936972682176776}, {'real': 0.3336241021221081, 'imag': -3.999025919201979e-05}, {'real': 0.006611079847881451, 'imag': -0.00019400310722814985}, {'real': -0.01247064748036908, 'imag': 0.0007022784634664186}, {'real': 0.3396101453524645, 'imag': -0.001059228468226656}], 'force_balance_relative': 3.702817227928363e-15, 'work_left': {'real': -5.5446687056314676e-11, 'imag': -1.0638892500165535e-13}, 'work_right': {'real': 5.544668705631481e-11, 'imag': 1.0638892500165603e-13}, 'energy_mismatch_relative': 1.2237952181499042e-15}, 'WEDGE6_HEX8': {'shared_nodes': [2, 3, 6, 7], 'displacement_jump': 0.0, 'force_left': [{'real': -0.022772385214933744, 'imag': -0.00015494947460953628}, {'real': -0.15940534473808166, 'imag': 0.0014757261982267667}, {'real': -0.13525028779171422, 'imag': 0.0007547372160184767}, {'real': 0.08666587945896953, 'imag': -0.00030204160514624157}, {'real': -0.19364947936736088, 'imag': 0.0018552310215292018}, {'real': -0.238791166596665, 'imag': 0.0016048304701006084}, {'real': 0.10413042224348709, 'imag': -0.0004412921724080911}, {'real': 0.16436395324280656, 'imag': -0.002318854392378625}, {'real': -0.2614976216896458, 'imag': -0.00040012811786350067}, {'real': -0.17171406946626702, 'imag': 0.0015274447810990576}, {'real': 0.20001855893686205, 'imag': -0.0029359189972162116}, {'real': -0.3784986932670388, 'imag': 0.0003614600274227213}], 'force_right': [{'real': 0.022772385214933744, 'imag': 0.00015494947460953715}, {'real': 0.15940534473808118, 'imag': -0.0014757261982267643}, {'real': 0.13525028779171477, 'imag': -0.0007547372160184784}, {'real': -0.08666587945896959, 'imag': 0.00030204160514623875}, {'real': 0.19364947936736074, 'imag': -0.001855231021529204}, {'real': 0.23879116659666516, 'imag': -0.0016048304701006084}, {'real': -0.10413042224348734, 'imag': 0.0004412921724080989}, {'real': -0.16436395324280662, 'imag': 0.0023188543923786244}, {'real': 0.26149762168964613, 'imag': 0.0004001281178635063}, {'real': 0.17171406946626683, 'imag': -0.0015274447810990541}, {'real': -0.20001855893686243, 'imag': 0.002935918997216214}, {'real': 0.3784986932670386, 'imag': -0.00036146002742272}], 'force_balance_relative': 9.868564692349892e-16, 'work_left': {'real': -4.054756862638728e-11, 'imag': -8.31094061635308e-15}, 'work_right': {'real': 4.0547568626387285e-11, 'imag': 8.310940616353281e-15}, 'energy_mismatch_relative': 5.940268195398337e-17}}, {'TET4_WEDGE6': {'shared_nodes': [10, 11, 12], 'displacement_jump': 0.0, 'force_left': [{'real': 0.042745720778426394, 'imag': -0.0002580918373033918}, {'real': 0.0036658222955172626, 'imag': -0.00067036568229914}, {'real': -0.32693839297774363, 'imag': -0.0007643121739504277}, {'real': -0.0437869794352114, 'imag': 0.0009302320124773885}, {'real': 0.005439511686198051, 'imag': -0.001130064334380787}, {'real': -0.33391418350347346, 'imag': -3.026385283560508e-05}, {'real': -0.011013290834381233, 'imag': 0.0005691791409711492}, {'real': 0.028521176866357134, 'imag': -0.002087283949910434}, {'real': -0.3631997231003483, 'imag': 0.0030004746074936417}], 'force_right': [{'real': -0.04274572077842431, 'imag': 0.000258091837303312}, {'real': -0.003665822295515042, 'imag': 0.00067036568229914}, {'real': 0.3269383929777434, 'imag': 0.0007643121739504301}, {'real': 0.043786979435212925, 'imag': -0.0009302320124773521}, {'real': -0.005439511686198606, 'imag': 0.0011300643343807506}, {'real': 0.3339141835034722, 'imag': 3.0263852835622426e-05}, {'real': 0.011013290834381184, 'imag': -0.000569179140971144}, {'real': -0.028521176866355802, 'imag': 0.0020872839499104026}, {'real': 0.36319972310034965, 'imag': -0.003000474607493704}], 'force_balance_relative': 4.1410290741658036e-15, 'work_left': {'real': -6.628223314001865e-11, 'imag': -2.7911171455024115e-13}, 'work_right': {'real': 6.628223314001859e-11, 'imag': 2.7911171455023863e-13}, 'energy_mismatch_relative': 4.850367866354215e-16}, 'WEDGE6_HEX8': {'shared_nodes': [2, 3, 6, 7], 'displacement_jump': 0.0, 'force_left': [{'real': -0.01912528395789559, 'imag': -0.00048578264935360965}, {'real': -0.19230823478262787, 'imag': 0.004188825909037102}, {'real': -0.1518027586498104, 'imag': 0.0020764566410699636}, {'real': 0.09308824782556657, 'imag': -0.0007826767542112381}, {'real': -0.23511207989015825, 'imag': 0.005289808433405671}, {'real': -0.2742507512055572, 'imag': 0.004478577170815883}, {'real': 0.11370273834757874, 'imag': -0.0011885001643451554}, {'real': 0.21646538298258877, 'imag': -0.006678089981821397}, {'real': -0.2513020094853746, 'imag': -0.001441003423575891}, {'real': -0.20580121765975096, 'imag': 0.004343624689476432}, {'real': 0.26593100161751504, 'imag': -0.008441732406816185}, {'real': -0.3851835168363691, 'imag': 0.000698154000367596}], 'force_right': [{'real': 0.019125283957896255, 'imag': 0.0004857826493536027}, {'real': 0.19230823478262773, 'imag': -0.004188825909037102}, {'real': 0.15180275864981013, 'imag': -0.002076456641069959}, {'real': -0.09308824782556707, 'imag': 0.0007826767542112442}, {'real': 0.2351120798901586, 'imag': -0.005289808433405685}, {'real': 0.274250751205558, 'imag': -0.004478577170815895}, {'real': -0.11370273834757894, 'imag': 0.0011885001643451576}, {'real': -0.21646538298258877, 'imag': 0.006678089981821398}, {'real': 0.2513020094853749, 'imag': 0.001441003423575899}, {'real': 0.20580121765975037, 'imag': -0.0043436246894764195}, {'real': -0.2659310016175155, 'imag': 0.008441732406816208}, {'real': 0.38518351683637003, 'imag': -0.000698154000367603}], 'force_balance_relative': 1.7458642001468788e-15, 'work_left': {'real': -5.049314992746818e-11, 'imag': -2.0462877027774443e-14}, 'work_right': {'real': 5.0493149927468255e-11, 'imag': 2.0462877027774342e-14}, 'energy_mismatch_relative': 5.816010800964193e-16}}, {'TET4_WEDGE6': {'shared_nodes': [10, 11, 12], 'displacement_jump': 0.0, 'force_left': [{'real': 0.04759401313319411, 'imag': -0.0005750139454578952}, {'real': 0.01931679642664097, 'imag': -0.0022472330624540293}, {'real': -0.3059685503168992, 'imag': -0.0033147255101017388}, {'real': -0.06452304320806346, 'imag': 0.0028822688287829384}, {'real': 0.03217799350557882, 'imag': -0.0038733034155656737}, {'real': -0.33055733195326, 'imag': -0.0007517820574402811}, {'real': -0.02436376240738719, 'imag': 0.0019271923012026057}, {'real': 0.07782809020495929, 'imag': -0.00713513741773332}, {'real': -0.43151576821644344, 'imag': 0.009634888202132458}], 'force_right': [{'real': -0.04759401313319356, 'imag': 0.0005750139454578015}, {'real': -0.01931679642664097, 'imag': 0.002247233062453946}, {'real': 0.3059685503168992, 'imag': 0.003314725510101705}, {'real': 0.06452304320806546, 'imag': -0.0028822688287829176}, {'real': -0.03217799350558059, 'imag': 0.0038733034155657535}, {'real': 0.3305573319532598, 'imag': 0.0007517820574403696}, {'real': 0.024363762407388023, 'imag': -0.001927192301202578}, {'real': -0.07782809020496195, 'imag': 0.0071351374177333615}, {'real': 0.4315157682164439, 'imag': -0.009634888202132444}], 'force_balance_relative': 3.9381987342150426e-15, 'work_left': {'real': -1.0562183229668384e-10, 'imag': -7.804951447805866e-13}, 'work_right': {'real': 1.0562183229668451e-10, 'imag': 7.804951447806149e-13}, 'energy_mismatch_relative': 3.184286263961016e-15}, 'WEDGE6_HEX8': {'shared_nodes': [2, 3, 6, 7], 'displacement_jump': 0.0, 'force_left': [{'real': -0.007207998538549587, 'imag': -0.001768395687386931}, {'real': -0.2877766379688601, 'imag': 0.013469902793194214}, {'real': -0.19789787130172765, 'imag': 0.006375147654404847}, {'real': 0.10954312853868642, 'imag': -0.002179700574893244}, {'real': -0.3561563662812466, 'imag': 0.017132342281101227}, {'real': -0.37496084707075616, 'imag': 0.014076241488846938}, {'real': 0.13953981398091053, 'imag': -0.0035086622250514923}, {'real': 0.37051142680398497, 'imag': -0.021931995350151695}, {'real': -0.2127018291318078, 'imag': -0.0060540851845940664}, {'real': -0.305055922566694, 'imag': 0.01404360622872658}, {'real': 0.46029372145645153, 'imag': -0.02762134868587219}, {'real': -0.3952142674150998, 'imag': 0.0008322172155615648}], 'force_right': [{'real': 0.00720799853854881, 'imag': 0.001768395687386931}, {'real': 0.2877766379688603, 'imag': -0.013469902793194212}, {'real': 0.19789787130172892, 'imag': -0.006375147654404865}, {'real': -0.10954312853868597, 'imag': 0.0021797005748932317}, {'real': 0.35615636628124686, 'imag': -0.017132342281101248}, {'real': 0.3749608470707574, 'imag': -0.014076241488846956}, {'real': -0.1395398139809101, 'imag': 0.0035086622250515218}, {'real': -0.37051142680398513, 'imag': 0.021931995350151723}, {'real': 0.21270182913180735, 'imag': 0.006054085184594047}, {'real': 0.30505592256669406, 'imag': -0.014043606228726644}, {'real': -0.46029372145645175, 'imag': 0.027621348685872175}, {'real': 0.39521426741510024, 'imag': -0.0008322172155617001}], 'force_balance_relative': 2.178680782079449e-15, 'work_left': {'real': -8.525461274634881e-11, 'imag': -4.983378634759217e-14}, 'work_right': {'real': 8.525461274634894e-11, 'imag': 4.983378634758773e-14}, 'energy_mismatch_relative': 6.310337373774456e-16}}, {'TET4_WEDGE6': {'shared_nodes': [10, 11, 12], 'displacement_jump': 0.0, 'force_left': [{'real': 0.05363421794642892, 'imag': -0.0011140647432555523}, {'real': 0.048632067606667384, 'imag': -0.006865147450081988}, {'real': -0.2600880556148174, 'imag': -0.010998456254131608}, {'real': -0.10133829075247303, 'imag': 0.008564838942279288}, {'real': 0.08297213745961951, 'imag': -0.01190888165018264}, {'real': -0.31761106026475616, 'imag': -0.0036503151590647487}, {'real': -0.04985921732323095, 'imag': 0.006109383498522317}, {'real': 0.17136513896348937, 'imag': -0.021940611114254827}, {'real': -0.5553177757764658, 'imag': 0.028661682396136756}], 'force_right': [{'real': -0.05363421794643042, 'imag': 0.001114064743255344}, {'real': -0.0486320676066736, 'imag': 0.006865147450082043}, {'real': 0.2600880556148152, 'imag': 0.010998456254131705}, {'real': 0.10133829075247514, 'imag': -0.008564838942279607}, {'real': -0.08297213745961196, 'imag': 0.011908881650183167}, {'real': 0.3176110602647574, 'imag': 0.0036503151590647626}, {'real': 0.04985921732323462, 'imag': -0.006109383498522303}, {'real': -0.1713651389634956, 'imag': 0.02194061111425505}, {'real': 0.5553177757764711, 'imag': -0.028661682396136645}], 'force_balance_relative': 1.3774660430299885e-14, 'work_left': {'real': -2.1004970700570453e-10, 'imag': -2.0700444829591493e-12}, 'work_right': {'real': 2.1004970700570678e-10, 'imag': 2.0700444829591897e-12}, 'energy_mismatch_relative': 5.3538535476172395e-15}, 'WEDGE6_HEX8': {'shared_nodes': [2, 3, 6, 7], 'displacement_jump': 0.0, 'force_left': [{'real': 0.016450606872487006, 'imag': -0.005634769834306011}, {'real': -0.4607828799231932, 'imag': 0.040009913808702294}, {'real': -0.27826559758374403, 'imag': 0.018288223117713373}, {'real': 0.1360595596570211, 'imag': -0.005902367555167556}, {'real': -0.5769800511295029, 'imag': 0.051257315156314154}, {'real': -0.5547264439588631, 'imag': 0.04153067285136078}, {'real': 0.18266001966846868, 'imag': -0.009493812351320546}, {'real': 0.6547210995586842, 'imag': -0.06627199042719839}, {'real': -0.1274720199972732, 'imag': -0.02126677967358951}, {'real': -0.4865825361951366, 'imag': 0.0424041374605946}, {'real': 0.8169583022622089, 'imag': -0.08272704982080148}, {'real': -0.4009207019515902, 'imag': 0.0008985214875775124}], 'force_right': [{'real': -0.016450606872487228, 'imag': 0.005634769834306087}, {'real': 0.4607828799231931, 'imag': -0.04000991380870229}, {'real': 0.2782655975837459, 'imag': -0.018288223117713408}, {'real': -0.13605955965702188, 'imag': 0.0059023675551675495}, {'real': 0.5769800511295033, 'imag': -0.051257315156314126}, {'real': 0.5547264439588633, 'imag': -0.041530672851360736}, {'real': -0.18266001966847045, 'imag': 0.009493812351320713}, {'real': -0.6547210995586852, 'imag': 0.06627199042719836}, {'real': 0.12747201999727242, 'imag': 0.021266779673589482}, {'real': 0.4865825361951355, 'imag': -0.042404137460594654}, {'real': -0.8169583022622093, 'imag': 0.08272704982080144}, {'real': 0.40092070195158724, 'imag': -0.0008985214875773667}], 'force_balance_relative': 4.402590112826334e-15, 'work_left': {'real': -1.7270690221900633e-10, 'imag': -1.1373424818596928e-13}, 'work_right': {'real': 1.727069022190062e-10, 'imag': 1.137342481859725e-13}, 'energy_mismatch_relative': 3.7429692845349834e-16}}, {'TET4_WEDGE6': {'shared_nodes': [10, 11, 12], 'displacement_jump': 0.0, 'force_left': [{'real': 0.05931653614323218, 'imag': 0.0014643316569356024}, {'real': 0.09156470374944359, 'imag': -0.01771153360868649}, {'real': -0.1909009255288503, 'imag': -0.02078680718648196}, {'real': -0.15490302065940087, 'imag': 0.025384724675785564}, {'real': 0.15740903409097662, 'imag': -0.029314424253047866}, {'real': -0.2922048850128509, 'imag': -0.01736726707846542}, {'real': -0.08881355235695265, 'imag': 0.020332974886842867}, {'real': 0.30859013313175954, 'imag': -0.054849365322735655}, {'real': -0.7332820511642097, 'imag': 0.07134239895189776}], 'force_right': [{'real': -0.05931653614323373, 'imag': -0.0014643316569342146}, {'real': -0.09156470374947112, 'imag': 0.01771153360868971}, {'real': 0.19090092552885118, 'imag': 0.02078680718648193}, {'real': 0.15490302065940087, 'imag': -0.025384724675786174}, {'real': -0.15740903409098972, 'imag': 0.029314424253048116}, {'real': 0.2922048850128507, 'imag': 0.0173672670784652}, {'real': 0.08881355235695398, 'imag': -0.020332974886843436}, {'real': -0.3085901331317622, 'imag': 0.0548493653227371}, {'real': 0.733282051164208, 'imag': -0.07134239895189809}], 'force_balance_relative': 3.098872728086031e-14, 'work_left': {'real': -4.4171664592600295e-10, 'imag': -4.93978653877541e-12}, 'work_right': {'real': 4.417166459260145e-10, 'imag': 4.939786538775533e-12}, 'energy_mismatch_relative': 1.3049952756879912e-14}, 'WEDGE6_HEX8': {'shared_nodes': [2, 3, 6, 7], 'displacement_jump': 0.0, 'force_left': [{'real': 0.052027610755443376, 'imag': -0.01487115522177912}, {'real': -0.7089511289633479, 'imag': 0.09805303640221945}, {'real': -0.3904560710941425, 'imag': 0.041198090257881015}, {'real': 0.17185888783492986, 'imag': -0.014266894915338668}, {'real': -0.8957965230719478, 'imag': 0.12931592633007546}, {'real': -0.8125495556227325, 'imag': 0.10788941279197967}, {'real': 0.23930609839786987, 'imag': -0.013529755434241938}, {'real': 1.0681916908674287, 'imag': -0.17097942429438928}, {'real': 0.011165931545481511, 'imag': -0.07453637788526593}, {'real': -0.7518696673094685, 'imag': 0.11715714662215101}, {'real': 1.330782815911502, 'imag': -0.2003172155961359}, {'real': -0.40612824119912705, 'imag': 0.02027562903532866}], 'force_right': [{'real': -0.05202761075544182, 'imag': 0.014871155221779148}, {'real': 0.7089511289633479, 'imag': -0.09805303640221942}, {'real': 0.39045607109414293, 'imag': -0.04119809025788117}, {'real': -0.17185888783492898, 'imag': 0.014266894915338751}, {'real': 0.8957965230719485, 'imag': -0.12931592633007555}, {'real': 0.8125495556227316, 'imag': -0.10788941279197989}, {'real': -0.23930609839786965, 'imag': 0.013529755434242008}, {'real': -1.0681916908674267, 'imag': 0.17097942429438925}, {'real': -0.011165931545478402, 'imag': 0.07453637788526576}, {'real': 0.7518696673094689, 'imag': -0.11715714662215114}, {'real': -1.3307828159115023, 'imag': 0.20031721559613633}, {'real': 0.4061282411991296, 'imag': -0.02027562903532837}], 'force_balance_relative': 5.050065774183122e-15, 'work_left': {'real': -3.5919685181331974e-10, 'imag': -2.418708331494033e-13}, 'work_right': {'real': 3.591968518133199e-10, 'imag': 2.4187083314938393e-13}, 'energy_mismatch_relative': 2.1757334792139805e-16}}, {'TET4_WEDGE6': {'shared_nodes': [10, 11, 12], 'displacement_jump': 0.0, 'force_left': [{'real': 0.06789454040181919, 'imag': 0.005040229030386034}, {'real': 0.11147302627110367, 'imag': -0.024419616407763245}, {'real': -0.1436661667238175, 'imag': -0.022334015038994653}, {'real': -0.17349459842751846, 'imag': 0.037669588972031987}, {'real': 0.19453809898348862, 'imag': -0.03928648325605377}, {'real': -0.2909158695045533, 'imag': -0.029392563099311264}, {'real': -0.09952909880475369, 'imag': 0.031454912149643376}, {'real': 0.375585977556252, 'imag': -0.07419053304164258}, {'real': -0.8184648873688314, 'imag': 0.09674969913523368}], 'force_right': [{'real': -0.06789454040181431, 'imag': -0.0050402290303875885}, {'real': -0.11147302627109568, 'imag': 0.024419616407762135}, {'real': 0.1436661667238177, 'imag': 0.022334015038994126}, {'real': 0.1734945984275229, 'imag': -0.03766958897203121}, {'real': -0.19453809898349683, 'imag': 0.03928648325605488}, {'real': 0.29091586950456017, 'imag': 0.02939256309931093}, {'real': 0.0995290988047497, 'imag': -0.031454912149642855}, {'real': -0.37558597755625556, 'imag': 0.07419053304164258}, {'real': 0.8184648873688296, 'imag': -0.09674969913523324}], 'force_balance_relative': 1.614011333157269e-14, 'work_left': {'real': -5.827836654798416e-10, 'imag': -6.663233308040824e-12}, 'work_right': {'real': 5.827836654798429e-10, 'imag': 6.663233308041147e-12}, 'energy_mismatch_relative': 1.1860052592180986e-15}, 'WEDGE6_HEX8': {'shared_nodes': [2, 3, 6, 7], 'displacement_jump': 0.0, 'force_left': [{'real': 0.06849642096299968, 'imag': -0.02064163508055733}, {'real': -0.8301877102228926, 'imag': 0.1317897688663481}, {'real': -0.4499451367273437, 'imag': 0.05279355264554181}, {'real': 0.1882861685880246, 'imag': -0.019325551018731235}, {'real': -1.0460854836055575, 'imag': 0.17659667449665584}, {'real': -0.9272823267089287, 'imag': 0.1500996710226753}, {'real': 0.2815220540403512, 'imag': -0.010814156931115926}, {'real': 1.2581656509720966, 'imag': -0.2361211339966435}, {'real': 0.04818382059436521, 'imag': -0.11653621760426885}, {'real': -0.8603250589258395, 'imag': 0.16779241232058623}, {'real': 1.5876379480966794, 'imag': -0.2669132360243919}, {'real': -0.3736678066191641, 'imag': 0.04270819048139665}], 'force_right': [{'real': -0.06849642096299902, 'imag': 0.02064163508055708}, {'real': 0.8301877102228921, 'imag': -0.13178976886634813}, {'real': 0.44994513672734493, 'imag': -0.052793552645541905}, {'real': -0.18828616858802438, 'imag': 0.01932555101873104}, {'real': 1.0460854836055602, 'imag': -0.17659667449665603}, {'real': 0.9272823267089281, 'imag': -0.15009967102267519}, {'real': -0.2815220540403489, 'imag': 0.010814156931115648}, {'real': -1.258165650972094, 'imag': 0.2361211339966432}, {'real': -0.04818382059436921, 'imag': 0.116536217604269}, {'real': 0.8603250589258403, 'imag': -0.16779241232058678}, {'real': -1.5876379480966787, 'imag': 0.26691323602439165}, {'real': 0.3736678066191681, 'imag': -0.04270819048139682}], 'force_balance_relative': 7.473121084818427e-15, 'work_left': {'real': -4.671014443887818e-10, 'imag': -3.1506746627988333e-13}, 'work_right': {'real': 4.671014443887822e-10, 'imag': 3.150674662799738e-13}, 'energy_mismatch_relative': 4.531885505138501e-16}}, {'TET4_WEDGE6': {'shared_nodes': [10, 11, 12], 'displacement_jump': 0.0, 'force_left': [{'real': 0.0775874494871922, 'imag': -0.0017180140706599678}, {'real': 0.1390868386113535, 'imag': -0.035959035977843445}, {'real': -0.08255978040772294, 'imag': -0.05491316349269654}, {'real': -0.20115543169087702, 'imag': 0.04633041421670392}, {'real': 0.24524237450003117, 'imag': -0.061685307401875056}, {'real': -0.2851350631044931, 'imag': -0.02703809999618001}, {'real': -0.1168418677218046, 'imag': 0.03530975295076122}, {'real': 0.46750840269530425, 'imag': -0.11416392485308346}, {'real': -0.9354013727832111, 'imag': 0.1468016375666492}], 'force_right': [{'real': -0.07758744948719887, 'imag': 0.0017180140706571922}, {'real': -0.13908683861136595, 'imag': 0.03595903597783989}, {'real': 0.08255978040771561, 'imag': 0.05491316349269704}, {'real': 0.20115543169088212, 'imag': -0.04633041421670292}, {'real': -0.24524237450000652, 'imag': 0.06168530740187872}, {'real': 0.285135063104494, 'imag': 0.02703809999617987}, {'real': 0.11684186772181171, 'imag': -0.03530975295076055}, {'real': -0.4675084026952998, 'imag': 0.11416392485308346}, {'real': 0.9354013727832093, 'imag': -0.14680163756664677}], 'force_balance_relative': 3.1651446422870145e-14, 'work_left': {'real': -8.164838049265662e-10, 'imag': -9.513692701715938e-12}, 'work_right': {'real': 8.164838049265588e-10, 'imag': 9.513692701715499e-12}, 'energy_mismatch_relative': 4.503377272462558e-15}, 'WEDGE6_HEX8': {'shared_nodes': [2, 3, 6, 7], 'displacement_jump': 0.0, 'force_left': [{'real': 0.09145873115048753, 'imag': -0.030236270530557163}, {'real': -0.9958263892514214, 'imag': 0.20378408595681086}, {'real': -0.5295019359630815, 'imag': 0.08941779175344355}, {'real': 0.21075471104844912, 'imag': -0.02859007445288375}, {'real': -1.2532376461657115, 'imag': 0.2642324842184396}, {'real': -1.0872403697129096, 'imag': 0.2146319906520454}, {'real': 0.3343953176389205, 'imag': -0.040201339353136356}, {'real': 1.5218732795854124, 'imag': -0.34546778869804207}, {'real': 0.10956600595880839, 'imag': -0.1297537761919994}, {'real': -1.0151583994466733, 'imag': 0.2257444167843628}, {'real': 1.9371666979813749, 'imag': -0.4214599868320394}, {'real': -0.3389654880994778, 'imag': 0.012012781548121687}], 'force_right': [{'real': -0.09145873115048753, 'imag': 0.030236270530556886}, {'real': 0.9958263892514206, 'imag': -0.20378408595681088}, {'real': 0.5295019359630829, 'imag': -0.08941779175344405}, {'real': -0.21075471104844645, 'imag': 0.028590074452883585}, {'real': 1.2532376461657142, 'imag': -0.2642324842184395}, {'real': 1.0872403697129098, 'imag': -0.2146319906520447}, {'real': -0.33439531763892516, 'imag': 0.04020133935313697}, {'real': -1.5218732795854129, 'imag': 0.34546778869804246}, {'real': -0.10956600595881083, 'imag': 0.1297537761919995}, {'real': 1.0151583994466722, 'imag': -0.22574441678436338}, {'real': -1.9371666979813777, 'imag': 0.4214599868320397}, {'real': 0.33896548809946725, 'imag': -0.012012781548121687}], 'force_balance_relative': 1.2942880550124053e-14, 'work_left': {'real': -6.428476100676824e-10, 'imag': -4.3297615708716014e-13}, 'work_right': {'real': 6.428476100676812e-10, 'imag': 4.329761570869275e-13}, 'energy_mismatch_relative': 9.818755200871765e-16}}, {'TET4_WEDGE6': {'shared_nodes': [10, 11, 12], 'displacement_jump': 0.0, 'force_left': [{'real': 0.10723766568685811, 'imag': -0.09961955050264137}, {'real': 0.3231438004406364, 'imag': -0.5928183471801773}, {'real': 0.24854972682483867, 'imag': -1.101581216353423}, {'real': -0.4175270540171985, 'imag': 0.6834934680628377}, {'real': 0.5696960660418284, 'imag': -1.050362030182825}, {'real': -0.18381914697610036, 'imag': -0.32098030941572553}, {'real': -0.27250509209730644, 'imag': 0.4906450613469424}, {'real': 1.0630295348967493, 'imag': -1.9253532939968885}, {'real': -1.696734009236522, 'imag': 2.4493754312789733}], 'force_right': [{'real': -0.10723766568684923, 'imag': 0.09961955050263605}, {'real': -0.32314380044066127, 'imag': 0.5928183471801489}, {'real': -0.24854972682483023, 'imag': 1.1015812163534067}, {'real': 0.4175270540171958, 'imag': -0.6834934680628368}, {'real': -0.5696960660417965, 'imag': 1.0503620301828418}, {'real': 0.18381914697608748, 'imag': 0.32098030941572997}, {'real': 0.2725050920973171, 'imag': -0.4906450613469442}, {'real': -1.06302953489676, 'imag': 1.9253532939969062}, {'real': 1.696734009236497, 'imag': -2.449375431278945}], 'force_balance_relative': 7.312654006082151e-14, 'work_left': {'real': -1.1631305536618134e-08, 'imag': -1.431768454136534e-10}, 'work_right': {'real': 1.1631305536618094e-08, 'imag': 1.4317684541364927e-10}, 'energy_mismatch_relative': 1.7159069381528304e-15}, 'WEDGE6_HEX8': {'shared_nodes': [2, 3, 6, 7], 'displacement_jump': 0.0, 'force_left': [{'real': 0.24584205642020684, 'imag': -0.4993959465573248}, {'real': -2.061126064360776, 'imag': 3.430472315001666}, {'real': -1.0138723338331532, 'imag': 1.5613873981541744}, {'real': 0.3574734921105698, 'imag': -0.4645771999168087}, {'real': -2.6153428990019822, 'imag': 4.380724977284305}, {'real': -2.171430091010472, 'imag': 3.4687747757007372}, {'real': 0.5955271575090058, 'imag': -0.8568131160328156}, {'real': 3.2851494353221087, 'imag': -5.668874074943069}, {'real': 0.6782237324084872, 'imag': -1.811036454200928}, {'real': -2.1221308758533697, 'imag': 3.534891204199165}, {'real': 4.15925172248281, 'imag': -7.1727833157182515}, {'real': -0.284845050433177, 'imag': -0.25178249363003324}], 'force_right': [{'real': -0.24584205642020907, 'imag': 0.4993959465573248}, {'real': 2.0611260643607743, 'imag': -3.4304723150016634}, {'real': 1.013872333833155, 'imag': -1.561387398154179}, {'real': -0.35747349211057244, 'imag': 0.46457719991680735}, {'real': 2.615342899001987, 'imag': -4.380724977284313}, {'real': 2.171430091010473, 'imag': -3.468774775700738}, {'real': -0.5955271575090064, 'imag': 0.8568131160328107}, {'real': -3.285149435322113, 'imag': 5.668874074943072}, {'real': -0.6782237324084863, 'imag': 1.8110364542009325}, {'real': 2.122130875853375, 'imag': -3.534891204199175}, {'real': -4.159251722482817, 'imag': 7.1727833157182594}, {'real': 0.28484505043317254, 'imag': 0.2517824936300279}], 'force_balance_relative': 2.227761470618363e-14, 'work_left': {'real': -8.527210664469536e-09, 'imag': -5.4574539298607615e-12}, 'work_right': {'real': 8.527210664469547e-09, 'imag': 5.45745392985828e-12}, 'energy_mismatch_relative': 6.944487498899547e-16}}, {'TET4_WEDGE6': {'shared_nodes': [10, 11, 12], 'displacement_jump': 0.0, 'force_left': [{'real': 0.031439899223648426, 'imag': -0.0032126829054154593}, {'real': -0.144191361103573, 'imag': -0.016175403794803977}, {'real': -0.6346748723867757, 'imag': -0.028382859051935883}, {'real': 0.11611077015573823, 'imag': 0.01921726566908677}, {'real': -0.2602675975570721, 'imag': -0.028453940979941583}, {'real': -0.4433384310894657, 'imag': -0.00766879912668772}, {'real': 0.1126867605958255, 'imag': 0.013446648755244622}, {'real': -0.457596790233433, 'imag': -0.05222733949993963}, {'real': 0.2289233394961574, 'imag': 0.06759215358575399}], 'force_right': [{'real': -0.031439899223647316, 'imag': 0.0032126829054148764}, {'real': 0.14419136110357833, 'imag': 0.016175403794803422}, {'real': 0.6346748723867797, 'imag': 0.02838285905193605}, {'real': -0.11611077015573779, 'imag': -0.019217265669087713}, {'real': 0.26026759755707407, 'imag': 0.028453940979943193}, {'real': 0.4433384310894646, 'imag': 0.0076687991266877475}, {'real': -0.11268676059582283, 'imag': -0.013446648755243817}, {'real': 0.45759679023343125, 'imag': 0.052227339499939074}, {'real': -0.22892333949616006, 'imag': -0.06759215358575454}], 'force_balance_relative': 8.591101679805866e-15, 'work_left': {'real': -3.0941935915572084e-10, 'imag': -3.3410562755622968e-12}, 'work_right': {'real': 3.094193591557225e-10, 'imag': 3.3410562755624e-12}, 'energy_mismatch_relative': 2.6783919263601948e-15}, 'WEDGE6_HEX8': {'shared_nodes': [2, 3, 6, 7], 'displacement_jump': 0.0, 'force_left': [{'real': -0.1497550675314927, 'imag': -0.013371497972273383}, {'real': 0.6358991633436156, 'imag': 0.09472790298709566}, {'real': 0.21011603471117501, 'imag': 0.04369480463313369}, {'real': -0.0018145873863151252, 'imag': -0.013617322566229356}, {'real': 0.8297905590304495, 'imag': 0.1207042404001516}, {'real': 0.547634648036361, 'imag': 0.09663837989153123}, {'real': -0.0766687279721816, 'imag': -0.024162733598373398}, {'real': -1.1764761499606722, 'imag': -0.15562759701593054}, {'real': -0.7606327172823755, 'imag': -0.04732758039304635}, {'real': 0.653168452123845, 'imag': 0.09767216935984921}, {'real': -1.4891054996679054, 'imag': -0.19695491532839632}, {'real': -0.5144725656930195, 'imag': -0.003412122834970832}], 'force_right': [{'real': 0.14975506753149354, 'imag': 0.013371497972273438}, {'real': -0.6358991633436162, 'imag': -0.0947279029870958}, {'real': -0.2101160347111751, 'imag': -0.04369480463313376}, {'real': 0.00181458738631457, 'imag': 0.013617322566229426}, {'real': -0.8297905590304508, 'imag': -0.12070424040015185}, {'real': -0.5476346480363593, 'imag': -0.09663837989153087}, {'real': 0.0766687279721836, 'imag': 0.024162733598373343}, {'real': 1.1764761499606728, 'imag': 0.1556275970159308}, {'real': 0.7606327172823755, 'imag': 0.047327580393046284}, {'real': -0.6531684521238479, 'imag': -0.09767216935984935}, {'real': 1.4891054996679065, 'imag': 0.19695491532839615}, {'real': 0.5144725656930207, 'imag': 0.0034121228349704713}], 'force_balance_relative': 4.672323673786284e-15, 'work_left': {'real': -1.699838678318597e-10, 'imag': -7.711420296145468e-14}, 'work_right': {'real': 1.6998386783185967e-10, 'imag': 7.711420296147084e-14}, 'energy_mismatch_relative': 6.048186786222065e-17}}, {'TET4_WEDGE6': {'shared_nodes': [10, 11, 12], 'displacement_jump': 0.0, 'force_left': [{'real': 0.05101820735813317, 'imag': -0.0010955285623695313}, {'real': -0.07581225544207681, 'imag': -0.0017391646551095236}, {'real': -0.5325877443641461, 'imag': -0.000835713077640729}, {'real': 0.028806948927320053, 'imag': 0.0028211446974699163}, {'real': -0.14215384283705657, 'imag': -0.0027894362032687414}, {'real': -0.4237786539666075, 'imag': 0.0007711883570592701}, {'real': 0.055690154796304236, 'imag': 0.0014582762100069056}, {'real': -0.2400257391979157, 'imag': -0.005220213961564343}, {'real': -0.0654544098956662, 'imag': 0.008336186000071494}], 'force_right': [{'real': -0.051018207358137335, 'imag': 0.001095528562369455}, {'real': 0.07581225544207637, 'imag': 0.001739164655109926}, {'real': 0.5325877443641469, 'imag': 0.0008357130776407533}, {'real': -0.028806948927320386, 'imag': -0.002821144697469885}, {'real': 0.1421538428370645, 'imag': 0.0027894362032688004}, {'real': 0.42377865396660735, 'imag': -0.0007711883570592389}, {'real': -0.05569015479630335, 'imag': -0.00145827621000693}, {'real': 0.2400257391979146, 'imag': 0.0052202139615643295}, {'real': 0.06545440989566664, 'imag': -0.008336186000071522}], 'force_balance_relative': 9.147710580206291e-15, 'work_left': {'real': -7.25972610178008e-11, 'imag': -3.6220807929546857e-13}, 'work_right': {'real': 7.259726101780148e-11, 'imag': 3.622080792954831e-13}, 'energy_mismatch_relative': 3.610490610332215e-15}, 'WEDGE6_HEX8': {'shared_nodes': [2, 3, 6, 7], 'displacement_jump': 0.0, 'force_left': [{'real': -0.09601564333862872, 'imag': -0.0010981094413197064}, {'real': 0.22201496886010286, 'imag': 0.011880297655239142}, {'real': 0.012440528850267585, 'imag': 0.0063227220569525636}, {'real': 0.06663063391771684, 'imag': -0.0028347170018921675}, {'real': 0.3060703935965502, 'imag': 0.01465425923812274}, {'real': 0.1166642907182393, 'imag': 0.013196132299066667}, {'real': 0.035662353644939776, 'imag': -0.0038926152581934695}, {'real': -0.5079434063767636, 'imag': -0.0180551633978961}, {'real': -0.5861974416143507, 'imag': -0.0018682932520441183}, {'real': 0.22749935169223393, 'imag': 0.012076393230378714}, {'real': -0.6406449086169462, 'imag': -0.023200599566918965}, {'real': -0.5368154805076493, 'imag': 0.004183781307273038}], 'force_right': [{'real': 0.09601564333862872, 'imag': 0.0010981094413197202}, {'real': -0.2220149688601029, 'imag': -0.011880297655239144}, {'real': -0.01244052885026764, 'imag': -0.006322722056952548}, {'real': -0.06663063391771679, 'imag': 0.002834717001892169}, {'real': -0.30607039359654997, 'imag': -0.01465425923812272}, {'real': -0.11666429071823922, 'imag': -0.013196132299066642}, {'real': -0.03566235364493958, 'imag': 0.0038926152581934756}, {'real': 0.5079434063767636, 'imag': 0.018055163397896114}, {'real': 0.5861974416143513, 'imag': 0.0018682932520441217}, {'real': -0.22749935169223467, 'imag': -0.012076393230378703}, {'real': 0.6406449086169468, 'imag': 0.023200599566919007}, {'real': 0.5368154805076488, 'imag': -0.004183781307273048}], 'force_balance_relative': 1.217346139004617e-15, 'work_left': {'real': -2.6180022210282828e-11, 'imag': -7.952371619388708e-15}, 'work_right': {'real': 2.618002221028284e-11, 'imag': 7.952371619387799e-15}, 'energy_mismatch_relative': 6.827527092890723e-17}}, {'TET4_WEDGE6': {'shared_nodes': [10, 11, 12], 'displacement_jump': 0.0, 'force_left': [{'real': 0.08508664104632568, 'imag': -0.0019835159803966614}, {'real': -0.06761971356616192, 'imag': 0.0005360210464073721}, {'real': -0.6157505486991323, 'imag': 0.007408297140046016}, {'real': -0.014909397256829382, 'imag': 0.0016562598855156072}, {'real': -0.14002379102743667, 'imag': 0.0017854171150434896}, {'real': -0.48735189151035985, 'imag': 0.004528514247386529}, {'real': 0.04851564644121198, 'imag': -0.00042655026984757174}, {'real': -0.23061387333492858, 'imag': 0.002841655676470191}, {'real': -0.144933503233115, 'imag': 0.0006403907959126875}], 'force_right': [{'real': -0.08508664104632513, 'imag': 0.0019835159803966614}, {'real': 0.06761971356616314, 'imag': -0.0005360210464073756}, {'real': 0.6157505486991302, 'imag': -0.007408297140046011}, {'real': 0.01490939725683027, 'imag': -0.0016562598855156038}, {'real': 0.14002379102743556, 'imag': -0.0017854171150434826}, {'real': 0.48735189151035957, 'imag': -0.004528514247386567}, {'real': -0.048515646441212035, 'imag': 0.0004265502698475813}, {'real': 0.23061387333493033, 'imag': -0.0028416556764701666}, {'real': 0.14493350323311527, 'imag': -0.0006403907959126945}], 'force_balance_relative': 3.3893599102496515e-15, 'work_left': {'real': -8.133712874500036e-11, 'imag': -3.512296085003424e-13}, 'work_right': {'real': 8.133712874500028e-11, 'imag': 3.5122960850033737e-13}, 'energy_mismatch_relative': 4.777131387286024e-16}, 'WEDGE6_HEX8': {'shared_nodes': [2, 3, 6, 7], 'displacement_jump': 0.0, 'force_left': [{'real': -0.10249644557025817, 'imag': 0.0012067280245195797}, {'real': 0.09678685693964502, 'imag': 0.002087980541454054}, {'real': -0.08130919740497991, 'imag': 0.003250007641705523}, {'real': 0.13666927468338325, 'imag': -0.0038799575176389437}, {'real': 0.17268947105568383, 'imag': 0.0006309822491825743}, {'real': -0.05745502743405326, 'imag': 0.00513024003283406}, {'real': 0.10704152634198344, 'imag': -0.0031997609334104104}, {'real': -0.37249331164123534, 'imag': 0.0015622322241663107}, {'real': -0.7044311151730424, 'imag': 0.010929573232132546}, {'real': 0.11046474357487657, 'imag': 0.0011028636658025883}, {'real': -0.44635360241982974, 'imag': 2.188520272171368e-05}, {'real': -0.7343845416570647, 'imag': 0.013222750261807182}], 'force_right': [{'real': 0.10249644557025794, 'imag': -0.0012067280245195607}, {'real': -0.09678685693964512, 'imag': -0.002087980541454048}, {'real': 0.08130919740498022, 'imag': -0.0032500076417055455}, {'real': -0.13666927468338283, 'imag': 0.0038799575176389424}, {'real': -0.17268947105568366, 'imag': -0.0006309822491825869}, {'real': 0.05745502743405381, 'imag': -0.005130240032834038}, {'real': -0.1070415263419832, 'imag': 0.003199760933410394}, {'real': 0.37249331164123517, 'imag': -0.0015622322241663085}, {'real': 0.7044311151730426, 'imag': -0.01092957323213253}, {'real': -0.11046474357487635, 'imag': -0.0011028636658025857}, {'real': 0.4463536024198298, 'imag': -2.1885202721706742e-05}, {'real': 0.7343845416570653, 'imag': -0.013222750261807203}], 'force_balance_relative': 1.1368974378834113e-15, 'work_left': {'real': -4.2304358830155865e-11, 'imag': -5.631897439298284e-14}, 'work_right': {'real': 4.230435883015591e-11, 'imag': 5.631897439298405e-14}, 'energy_mismatch_relative': 4.050211428491639e-16}}] is not of type 'object'"
+  ],
+  "oracle_responses": {
+    "array_key": "micro_oracle_dense_responses",
+    "independent_from_production_route": true,
+    "method": "Independently scatter each TET4/WEDGE6/HEX8 local K and M contribution into dense arrays with explicit node-major UX/UY/UZ indices; independently form C=alpha*M+beta*K; solve (K+i*omega*C-omega^2*M)x=F directly for each declared frequency using scipy.linalg.solve."
+  },
+  "provenance_freeze": {
+    "contract_blob_digest": "f26f7160f308e812da8fa0fc94ebdbba1eb1958f50db9f6d255ffb993951d045",
+    "contract_blob_sha": "68e9b53eade0c697ebc6b5b5154b73c72ae240ac",
+    "environment": {
+      "executable": "C:\\Python313\\python.exe",
+      "harness": "WP13-02C2 micro-check; no twelve-frequency campaign",
+      "numpy": "2.2.6",
+      "platform": "Windows-10-10.0.19045-SP0",
+      "python": "3.13.1",
+      "scipy": "1.15.2"
+    },
+    "evaluator_pre_run_digest": "9b885b7afc664cf987a82b8c354a6cc69cbae3a0983ca48d57666fb56c35c651",
+    "freeze_stage": "before WP13-02C3 numerical campaign",
+    "numerical_campaign_executed": false,
+    "pre_run_freeze_valid": true,
+    "repo_sha": "a793df1f22352426fb69bd3062cb2fc7e510e980",
+    "schema_blob_digest": "18f10c47e111a0639269f3f8499f55eaab198bd4b3f2704ffd56e926b1ad639a",
+    "schema_blob_sha": "68239f0780c572ec046a94c053f7b19ef56388d7"
+  },
+  "raw_complex_responses": {
+    "array_key": "micro_runtime_responses",
+    "complete_fields": [
+      "complex displacement"
+    ],
+    "source": "immutable B/C archive"
+  },
+  "record_id": "QF-028-WP13-02C2-HARMONIC-HARNESS",
+  "replay_arrays": {
+    "array_keys": [
+      "replay_main_modal_coordinate_complex",
+      "replay_main_reactions",
+      "replay_main_residual_vectors",
+      "replay_main_responses",
+      "replay_main_tet4_wedge6_left_force",
+      "replay_main_tet4_wedge6_left_state",
+      "replay_main_tet4_wedge6_right_force",
+      "replay_main_tet4_wedge6_right_state",
+      "replay_main_tet4_wedge6_work_left",
+      "replay_main_tet4_wedge6_work_right",
+      "replay_main_wedge6_hex8_left_force",
+      "replay_main_wedge6_hex8_left_state",
+      "replay_main_wedge6_hex8_right_force",
+      "replay_main_wedge6_hex8_right_state",
+      "replay_main_wedge6_hex8_work_left",
+      "replay_main_wedge6_hex8_work_right",
+      "replay_replay_1_modal_coordinate_complex",
+      "replay_replay_1_reactions",
+      "replay_replay_1_residual_vectors",
+      "replay_replay_1_responses",
+      "replay_replay_1_tet4_wedge6_left_force",
+      "replay_replay_1_tet4_wedge6_left_state",
+      "replay_replay_1_tet4_wedge6_right_force",
+      "replay_replay_1_tet4_wedge6_right_state",
+      "replay_replay_1_tet4_wedge6_work_left",
+      "replay_replay_1_tet4_wedge6_work_right",
+      "replay_replay_1_wedge6_hex8_left_force",
+      "replay_replay_1_wedge6_hex8_left_state",
+      "replay_replay_1_wedge6_hex8_right_force",
+      "replay_replay_1_wedge6_hex8_right_state",
+      "replay_replay_1_wedge6_hex8_work_left",
+      "replay_replay_1_wedge6_hex8_work_right",
+      "replay_replay_2_modal_coordinate_complex",
+      "replay_replay_2_reactions",
+      "replay_replay_2_residual_vectors",
+      "replay_replay_2_responses",
+      "replay_replay_2_tet4_wedge6_left_force",
+      "replay_replay_2_tet4_wedge6_left_state",
+      "replay_replay_2_tet4_wedge6_right_force",
+      "replay_replay_2_tet4_wedge6_right_state",
+      "replay_replay_2_tet4_wedge6_work_left",
+      "replay_replay_2_tet4_wedge6_work_right",
+      "replay_replay_2_wedge6_hex8_left_force",
+      "replay_replay_2_wedge6_hex8_left_state",
+      "replay_replay_2_wedge6_hex8_right_force",
+      "replay_replay_2_wedge6_hex8_right_state",
+      "replay_replay_2_wedge6_hex8_work_left",
+      "replay_replay_2_wedge6_hex8_work_right"
+    ],
+    "fields": [
+      "complex displacement",
+      "reactions",
+      "full residual",
+      "amplitude",
+      "phase",
+      "interface left/right states",
+      "interface continuity",
+      "interface forces",
+      "interface work/energy",
+      "status"
+    ],
+    "packets": [
+      "main",
+      "replay_1",
+      "replay_2"
+    ]
+  },
+  "replay_comparison": {
+    "comparisons": [
+      {
+        "amplitude_relative": 0.0,
+        "complex_displacement_relative": 0.0,
+        "complex_reactions_relative": 0.0,
+        "fields_compared": [
+          "complex displacement",
+          "complex reactions",
+          "full residual",
+          "amplitude",
+          "phase",
+          "interface left/right states",
+          "interface continuity",
+          "interface forces",
+          "interface work/energy",
+          "status",
+          "iterations per frequency"
+        ],
+        "frequency_grid_identical": true,
+        "full_residual_relative": 0.0,
+        "interface_continuity_relative": 0.0,
+        "interface_energy_relative": 0.0,
+        "interface_force_balance_relative": 0.0,
+        "interface_left_force_relative": 0.0,
+        "interface_left_state_relative": 0.0,
+        "interface_right_force_relative": 0.0,
+        "interface_right_state_relative": 0.0,
+        "interface_work_left_relative": 0.0,
+        "interface_work_right_relative": 0.0,
+        "iterations_per_frequency_identical": true,
+        "pass": true,
+        "phase_absolute_rad": 0.0,
+        "status_identical": true
+      },
+      {
+        "amplitude_relative": 0.0,
+        "complex_displacement_relative": 0.0,
+        "complex_reactions_relative": 0.0,
+        "fields_compared": [
+          "complex displacement",
+          "complex reactions",
+          "full residual",
+          "amplitude",
+          "phase",
+          "interface left/right states",
+          "interface continuity",
+          "interface forces",
+          "interface work/energy",
+          "status",
+          "iterations per frequency"
+        ],
+        "frequency_grid_identical": true,
+        "full_residual_relative": 0.0,
+        "interface_continuity_relative": 0.0,
+        "interface_energy_relative": 0.0,
+        "interface_force_balance_relative": 0.0,
+        "interface_left_force_relative": 0.0,
+        "interface_left_state_relative": 0.0,
+        "interface_right_force_relative": 0.0,
+        "interface_right_state_relative": 0.0,
+        "interface_work_left_relative": 0.0,
+        "interface_work_right_relative": 0.0,
+        "iterations_per_frequency_identical": true,
+        "pass": true,
+        "phase_absolute_rad": 0.0,
+        "status_identical": true
+      }
+    ],
+    "complete_arrays_compared": true,
+    "normalization_source": "contract predeclared replay gates"
+  },
+  "repo_sha": "a793df1f22352426fb69bd3062cb2fc7e510e980",
+  "residuals": {
+    "array_key": "micro_residual_vectors",
+    "definition_source": "frozen contract",
+    "normalization": "legacy campaign metric retained; no C2 gate reinterpretation"
+  },
+  "resonance": {
+    "historical_source": "B/C manifest",
+    "microcheck": "not rerun"
+  },
+  "schema_version": 2,
+  "source_campaign_conformance": "NONCONFORMING_UNDER_C2_SCHEMA",
+  "source_campaign_manifest": "qualification/0_2_8/wp13_02c_harmonic_v1/manifest.json",
+  "static_limit": {
+    "historical_source": "B/C manifest",
+    "microcheck": "not rerun"
+  },
+  "status": "PASS_HARMONIC_HARNESS_READY",
+  "work_package": "WP13-02C2"
+}

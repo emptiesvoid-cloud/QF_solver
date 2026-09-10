@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "contract_id": "WP13-01C-PETSC-MPI-MIXED-RUNTIME-001",
+  "work_package": "WP13-01C",
+  "status": "PREDECLARED",
+  "creation_sha": "94f97645e649617ea9b3e50ca777dec35227623e",
+  "historical_records_preserved": [
+    "qualification/0_2_8/wp13_01c_runtime_contract.json",
+    "qualification/0_2_8/wp13_01c_runtime_execution.json",
+    "qualification/0_2_8/wp13_01c_runtime_evidence.json",
+    "qualification/0_2_8/wp13_01c2_runtime_execution.json",
+    "qualification/0_2_8/wp13_01c2_owner_gate.json"
+  ],
+  "scope": {
+    "analysis": "linear_static",
+    "element_families": ["TET4", "WEDGE6", "HEX8"],
+    "interfaces": "conforming shared-node mixed interfaces for the connected control; family-balanced connected chain for scale characterization",
+    "material": "homogeneous small-strain isotropic elasticity",
+    "runtime": "real PETSc/petsc4py and real MPICH MPI in the pinned Docker environment",
+    "ranks_required": [2],
+    "ranks_optional": [3],
+    "claim": "bounded runtime evidence only for the executed connected control and declared scale characterization; no general HPC claim"
+  },
+  "environment": {
+    "strategy": "Dedicated Docker Linux + conda-forge",
+    "python": "3.12.14",
+    "petsc": "3.25.5",
+    "petsc4py": "3.25.5",
+    "mpi": "MPICH 5.0.1",
+    "scalar": "float64",
+    "index": "int32",
+    "launcher": "mpiexec"
+  },
+  "solver": {
+    "ksp_type": "cg",
+    "pc_type": "jacobi",
+    "ksp_rtol": 1.0e-13,
+    "ksp_atol": 1.0e-14,
+    "ksp_max_it": 10000,
+    "post_observation_retuning": false
+  },
+  "benchmark": {
+    "connected_control": {
+      "source": "family-balanced connected TET4/WEDGE6/HEX8 chain",
+      "segments": 1,
+      "element_counts": {"TET4": 1, "WEDGE6": 1, "HEX8": 1},
+      "dof": 33,
+      "support": "all nodes on x=0 fixed in UX/UY/UZ",
+      "load": "equal UX loads on the x=1,z=1 end nodes",
+      "serial_reference": "existing serial GlobalAssembler on the identical input"
+    },
+    "scale_characterization": {
+      "source": "same family-balanced connected chain generator",
+      "required": [
+        {"id": "A", "minimum_dof": 100000, "segments": 5556},
+        {"id": "B", "minimum_dof": 300000, "segments": 16667},
+        {"id": "C", "target_dof": 1000000, "segments": 55556, "optional": true}
+      ],
+      "interpretation": "bounded characterization only; not a universal scaling or production-HPC claim"
+    }
+  },
+  "gates": {
+    "petsc_matrix_assembly": true,
+    "petsc_vector_assembly": true,
+    "preallocation_runtime": "mallocs == 0 where PETSc exposes the local counter",
+    "offprocess_insertion": true,
+    "convergence_reason_positive": true,
+    "serial_equivalence_relative_l2": {"operator": "<=", "value": 1.0e-10},
+    "reaction_equivalence_relative_l2": {"operator": "<=", "value": 1.0e-10},
+    "energy_relative": {"operator": "<=", "value": 1.0e-10},
+    "force_balance_relative": {"operator": "<=", "value": 1.0e-10},
+    "free_residual_relative": {"operator": "<=", "value": 1.0e-10},
+    "replay_displacement_relative_l2": {"operator": "<=", "value": 1.0e-12},
+    "replay_reaction_relative_l2": {"operator": "<=", "value": 1.0e-12},
+    "replay_residual_relative_difference": {"operator": "<=", "value": 1.0e-12},
+    "replay_energy_relative_difference": {"operator": "<=", "value": 1.0e-12},
+    "replay_iterations_difference": {"operator": "==", "value": 0},
+    "family_counts": "exact and all three positive",
+    "post_observation_retuning": false
+  },
+  "reaction_contract": {
+    "definition": "R = K*u - F on constrained DOFs",
+    "ownership": "element internal-force contributions are reduced once to the unique constrained-DOF owner",
+    "validation_gather": "root-only result/post-processing exchange is permitted; no structural K/connectivity/element-field gather"
+  },
+  "failure_contract": {
+    "cases": [
+      "unsupported_family",
+      "invalid_partition",
+      "invalid_owner",
+      "missing_ghost",
+      "malformed_connectivity",
+      "bad_dof_map",
+      "missing_material",
+      "petsc_initialization_failure_path",
+      "incompatible_solver_configuration"
+    ],
+    "actual_execution_required": true,
+    "type_message_path_match_required": true,
+    "any_exception_is_not_automatically_pass": true,
+    "silent_fallback_allowed": false
+  },
+  "no_gather_contract": {
+    "global_k_replicated_on_all_ranks": false,
+    "global_u_required_on_all_ranks": false,
+    "global_connectivity_required_on_all_ranks": false,
+    "validation_post_gather_allowed": true
+  },
+  "replay": {
+    "required": 2,
+    "same_environment_and_input": true,
+    "semantic_digest_deterministic": true,
+    "raw_bitwise_digest": "diagnostic only; MPI reductions need not be portable byte-for-byte"
+  },
+  "evidence_schema": {
+    "required": [
+      "contract_id",
+      "contract_sha",
+      "repo_sha",
+      "environment",
+      "mixed_runtime_case",
+      "serial_reference",
+      "petsc_assembly",
+      "petsc_solve",
+      "reactions",
+      "serial_equivalence",
+      "family_participation",
+      "no_global_gather_audit",
+      "scale_characterization",
+      "failure_cases",
+      "replays",
+      "digests",
+      "gate_decisions",
+      "integrity"
+    ],
+    "contract_values_single_source_of_truth": true
+  },
+  "claim_policy": {
+    "maximum_pre_owner_claim": "Experimental bounded PETSc/MPI mixed static runtime for documented TET4/WEDGE6/HEX8 distributed workflows.",
+    "forbidden": [
+      "production HPC ready",
+      "universally scalable",
+      "millions of DOFs generally supported",
+      "distributed mixed fully qualified",
+      "dynamic, nonlinear, contact or arbitrary-family claims"
+    ]
+  },
+  "integrity": {
+    "numerical_source_changed": false,
+    "element_formulation_changed": false,
+    "maturity_changed": false,
+    "historical_0_2_7_evidence_changed": false,
+    "full_test_suite": "DEFERRED_TO_WP13_FINAL_GATE"
+  }
+}

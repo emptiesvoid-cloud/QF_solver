@@ -59,7 +59,7 @@ unguarded. The concrete exception guard is now also enforced by
 | API/CLI, packaging, registry and preflight | Contract, import and release guard tests | Implemented/tested surfaces | Live optional environments are separate jobs |
 
 The full machine-readable matrix, mutation-style analysis and evidence links
-are in [`f4_unit_test_quality_audit.json`](../../../qualification/0_2_7/f4_unit_test_quality_audit.json).
+are in [`f4_unit_test_quality_audit.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/f4_unit_test_quality_audit.json).
 
 ## Mutation-style checks
 

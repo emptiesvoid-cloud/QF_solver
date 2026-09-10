@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP13-01E-OWNER-GATE",
+  "work_package": "WP13-01E",
+  "audited_commit": "9d578c71587fcc899aaa761fe9c57d6027ac013b",
+  "status": "CLOSED_APPROVE_NEW_BENCHMARK_AND_RUNTIME_CONTRACT",
+  "authorization": {
+    "source": "Explicit project-owner instruction in the associated task.",
+    "owner_identity": null,
+    "identity_note": "No personal identity or signature is inferred by this record."
+  },
+  "historical_integrity": {
+    "wp13_01c_contract": {"path": "qualification/0_2_8/wp13_01c_runtime_contract.json", "git_blob_sha1": "e65b7bcb48a882e99ebb31615e8aa10d110cb655", "preserved": true},
+    "wp13_01c_execution": {"path": "qualification/0_2_8/wp13_01c_runtime_execution.json", "git_blob_sha1": "bbd925c5ddb372b8f8c967c4d9aea8bc767da0af", "preserved": true},
+    "wp13_01d_diagnosis": {"path": "qualification/0_2_8/wp13_01d_runtime_diagnosis.json", "git_blob_sha1": "2bfd940741dbf92ab408ba4e17806ede149e834a", "preserved": true},
+    "wp13_01c_status": "FAIL_RUNTIME preserved",
+    "historical_stage_a_equilibrium": "FAIL_GATE preserved: 6.794908928102695e-10 > 1e-10",
+    "historical_raw_bitwise_replay": "FAIL_BITWISE_DIGEST_GATE preserved",
+    "historical_0_2_7_evidence_changed": false
+  },
+  "equilibrium_audit": {
+    "assessment": "BENCHMARK_DEPENDENT; PHYSICALLY_WELL_POSED_IN_PRINCIPLE; NUMERICALLY_OVERSTRICT_FOR_THE_ANISOTROPIC_WP13-01C_STAGE_A_WORKLOAD",
+    "physical_interpretation": "The 6.794908928102695e-10 relative imbalance is not evidence of a load, BC, reaction-reconstruction or MPI-reduction defect. It is the residual of cancelling transverse reactions after an extreme 3332:1 layer aspect ratio, with a free residual and energy identity already within their frozen gates.",
+    "evidence": {
+      "external_load_resultant": [100000.0, 0.0, 0.0],
+      "reaction_resultant": [-99999.99999947332, 9.164523362414911e-08, -6.794698629164486e-05],
+      "mpi_allreduce_vs_ordered_fsum_max_abs": 0.0,
+      "free_residual_relative": 2.639708188047455e-11,
+      "energy_identity_relative": 2.1116441928370477e-13,
+      "best_alternate_equilibrium": 4.876910718261201e-10
+    },
+    "owner_conclusion": "Do not change the historical gate. Retain 1e-10 in the new contract, but apply it to a unit-scale benchmark that does not manufacture the diagnosed cancellation."
+  },
+  "replay_audit": {
+    "decision": "USE_NUMERICAL_DETERMINISM_FOR_MPI",
+    "raw_bitwise_identity_required": false,
+    "rationale": "Raw float64 bytes are sensitive to legitimate PETSc/MPI reduction and factorization order. The old failure is preserved; a forward-only contract must instead prove bounded numerical equivalence, solver convergence and stable partition/input identity.",
+    "anti_masking_policy": "Raw digests remain recorded, and numerical vector gates are independently enforced. A normalized digest is diagnostic only and cannot substitute for vector comparisons."
+  },
+  "decision": {
+    "owner_decision": "APPROVE_NEW_BENCHMARK_AND_RUNTIME_CONTRACT",
+    "new_contract": "qualification/0_2_8/wp13_01f_mixed_petsc_runtime_contract.json",
+    "new_contract_id": "WP13-01F-MIXED-PETSC-RUNTIME-002",
+    "authorization_boundary": "The approval authorizes only a future WP13-01F campaign under its frozen benchmark and gates. It authorizes no runtime execution, Stage B/Stage C execution, maturity change, claim expansion or historical-record edit in WP13-01E."
+  },
+  "integrity": {
+    "gates_retroactively_changed": false,
+    "claims_bounded": true,
+    "numerical_source_changed": false,
+    "formulation_changed": false,
+    "maturity_changed": false,
+    "evidence_integrity": "PASS"
+  },
+  "validation": {
+    "required": ["JSON parse", "historical record hash check", "no diff under qualification/0_2_7"],
+    "full_test_suite": "DEFERRED_TO_WP13_FINAL_GATE"
+  },
+  "next_step": "WP13-01F — NEW DISTRIBUTED RUNTIME CAMPAIGN. Execute no stage until the frozen contract's geometry-manifest and control gates are implemented and verified."
+}

@@ -2,15 +2,19 @@
 doc_id: DOC-VV-000
 revision: 1.0
 status: controlled
-applicable_version: 0.2.7
+applicable_version: 0.2.8-development
 reviewer: ""
 approver: ""
 ---
 
 # Verification and evidence
 
-The active 0.2.7 public evidence summary is the canonical entry point:
-[verification/0_2_7/README.md](0_2_7/README.md).
+The [0.2.8 capability index](../capabilities/index.md) is the current public
+status entry point. The [V&V and maturity model](evidence-and-maturity.md)
+explains the evidence chain. The 0.2.8 development evidence summary is the
+chronological entry point:
+[verification/0_2_8/README.md](0_2_8/README.md). The
+[0.2.7 summary](0_2_7/README.md) remains immutable historical evidence.
 
 Detailed work-package, gate and audit records are retained as traceability
 records, not as user-facing product status.
@@ -32,5 +36,18 @@ rejects experimental routes and orphaned evidence.
 The active release evidence is bounded by the declared element, analysis,
 material, mesh, loading and solver scope. Historical campaign counts remain in
 their original records and are not current release metrics.
+
+## Current 0.2.8 links
+
+- [Capability index](../capabilities/index.md)
+- [What's New](../whats-new/0.2.8.md)
+- [Known limitations](../etat/limites.md)
+
+The current candidate is `0.2.8-development` and is not published yet.
+
+Historical and intermediate pages remain directly accessible for provenance
+and are visibly labeled. The current MkDocs search configuration has no
+verified exclusion policy for those records, so search-specific demotion or
+exclusion is deferred rather than approximated with an untested extension.
 
 --8<-- "docs/generated/qualification_status.md"

@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP08-MIXED-MODAL-MATRIX",
+  "work_package": "WP08",
+  "applicable_version": "0.2.8-development",
+  "parent_matrix": "qualification/0_2_8/wp07_mixed_static_matrix.json",
+  "contract_record": "qualification/0_2_8/wp08_mixed_modal_contract.json",
+  "evidence_record": "qualification/0_2_8/wp08_mixed_modal_vnv.json",
+  "baseline_sha": "65c816fee4a1497dd320358565a297c01bfcaff5",
+  "status": "TECHNICAL_COMPLETE_SUPPORTED_WITH_LIMITATIONS",
+  "public_maturity_policy": "WP08 applies no public maturity promotion. The mixed modal workflow remains supported only with the recorded limitations until a new, predeclared campaign closes the failed refinement mode-matching gate.",
+  "summary": {
+    "technical_decision": "SUPPORTED_WITH_LIMITATIONS",
+    "technical_candidates_added": 0,
+    "public_maturity_relabels_applied": 0,
+    "owner_gate_requested": false,
+    "mixed_workflow_registry_separate": true,
+    "element_analysis_registry_total": 46,
+    "element_analysis_registry_changed": false
+  },
+  "mixed_candidate": {
+    "id": "CAND-MIXED-TET4-WEDGE6-HEX8-modal-consistent-mass",
+    "technical_decision": "SUPPORTED_WITH_LIMITATIONS",
+    "final_status": "SUPPORTED_WITH_LIMITATIONS",
+    "owner_gate": "NOT_REQUESTED",
+    "scope": "modal, fixed-base small-strain linear isotropic elasticity, homogeneous positive-density material, consistent translational finite-element mass, conforming shared-node triangular and quadrilateral interfaces, and the first six positive modes in the tested cases",
+    "limitations": [
+      "The predeclared shared-node mode-matching gate fails on the 1-to-2 segment refinement transition; no general modal convergence claim is made.",
+      "The modal oracle is an independent dense local-matrix scatter with scipy.linalg.eigh, not an external industrial-solver correlation.",
+      "Lumped and concentrated mass, Newmark, harmonic, nonlinear, contact, nonconforming interfaces, TET10/HEX20, PYRAMID5 and large-model performance remain out of scope.",
+      "No modal stress claim is made."
+    ]
+  },
+  "evidence_summary": {
+    "mixed_mass_assembly": "PASS",
+    "mass_conservation": "PASS",
+    "TET4_WEDGE6_modal": "PASS",
+    "WEDGE6_HEX8_modal": "PASS",
+    "TET4_WEDGE6_HEX8_modal": "PASS",
+    "pure_vs_mixed": "PASS",
+    "reference_oracle": "PASS_WITHOUT_EXTERNAL_CORRELATION",
+    "mesh_refinement": "FAIL_PREDECLARED_MODE_MATCHING_GATE",
+    "mode_residuals": "PASS",
+    "orthogonality": "PASS",
+    "mode_matching": "PASS_FOR_INDEPENDENT_PAIRWISE_ORACLE; REFINEMENT_GATE_LIMITED",
+    "interface_robustness": "PASS",
+    "replay_determinism": "PASS_2_REPLAYS",
+    "post_processing": "PASS"
+  },
+  "registry_integrity": {
+    "source_registry_0_2_7_unchanged": true,
+    "historical_0_2_7_evidence_changed": false,
+    "prior_wp01_wp07_records_changed": false,
+    "numerical_source_changed": false,
+    "element_analysis_registry_total": 46,
+    "not_added_to_element_analysis_registry": true,
+    "mixed_workflow_record_kind": "mixed_workflow_qualification"
+  }
+}

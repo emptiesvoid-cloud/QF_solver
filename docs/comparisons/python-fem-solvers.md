@@ -9,6 +9,10 @@ approver: ""
 
 # Python FEM solvers: which one should you use?
 
+> **HISTORICAL / NOT CURRENT STATUS.** This comparison preserves a 0.2.7
+> snapshot. Current 0.2.8 maturity and limitations are defined by the
+> [capability index](../capabilities/index.md).
+
 There is no single best finite-element solver for every problem.
 
 Python users can choose between lightweight FEM libraries, general PDE

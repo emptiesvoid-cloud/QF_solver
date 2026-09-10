@@ -1,0 +1,252 @@
+{
+  "candidate_id": "CG_BJACOBI",
+  "case": "mpi",
+  "contract_id": "WP13-01C-R1-KSP-REMEDIATION-001",
+  "contract_sha256": "6b2a08244ad1203dd175c1311ddb2d268efcb4e3dfed222149df6362d3411e1d",
+  "result": {
+    "backend": "petsc4py_mpi_rank_local",
+    "candidate_configuration": {
+      "atol": 1e-12,
+      "id": "CG_BJACOBI",
+      "ksp": "CG",
+      "max_it": 20000,
+      "pc": "BJACOBI",
+      "rtol": 1e-10
+    },
+    "candidate_id": "CG_BJACOBI",
+    "converged_reason": 3,
+    "element_count": 3,
+    "energy": 0.048279414999182244,
+    "family_counts": {
+      "HEX8": 1,
+      "TET4": 1,
+      "WEDGE6": 1
+    },
+    "force_balance_component_relative": 4.070249808137305e-08,
+    "force_balance_relative": 4.3489919640147385e-08,
+    "free_residual_relative": 1.5039116674000452e-07,
+    "global_gather_audit": {
+      "ghost_solution_exchange": true,
+      "global_connectivity_required_on_all_ranks": false,
+      "global_gather_only_for_validation": true,
+      "global_k_replicated_on_all_ranks": false,
+      "global_model_retained_on_any_rank": false,
+      "global_u_required_on_all_ranks": false
+    },
+    "iterations": 11,
+    "ksp_final_residual": 7.888145688064028e-14,
+    "load_resultant": [
+      100000.0,
+      0.0,
+      0.0
+    ],
+    "matrix_sanity": {
+      "constrained_scaled_matrix_symmetric": true,
+      "definiteness_assessment": "positive_diagonal_symmetric_constrained_operator_indicator",
+      "diagonal_max": 207532051282.05127,
+      "diagonal_min": 20192307692.30769,
+      "diagonal_ratio_indicator": 10.277777777777779,
+      "nan_inf_count": 0,
+      "negative_diagonal_count": 0,
+      "nullspace_assessment": "no structural zero-diagonal indicator after constraints",
+      "nullspace_detected": false,
+      "raw_matrix_symmetric": true,
+      "symmetry_relative_probe": 9.70090010573868e-17,
+      "zero_diagonal_count": 0
+    },
+    "model_digest": "178b1e4afe20f85404bb643905d3439256c3357ba120895ffad06ced98d7407c",
+    "ndof": 33,
+    "normalized_physics_digest": "a1d00159c8de0287910e94070298b77f3beb2db39dc4bd7d7f55fdf8cbf35c86",
+    "offprocess_insertion": true,
+    "partition": {
+      "digest": "92ed50955e7e1144d01423958015a204453e0fd919522020bc3712174ce92ece",
+      "records": [
+        {
+          "family_counts": {
+            "HEX8": 0,
+            "TET4": 1,
+            "WEDGE6": 0
+          },
+          "ghost_nodes": 0,
+          "global_model_retained": false,
+          "local_nodes": 4,
+          "owned_elements": [
+            0
+          ],
+          "owned_nodes": 4,
+          "rank": 0
+        },
+        {
+          "family_counts": {
+            "HEX8": 1,
+            "TET4": 0,
+            "WEDGE6": 1
+          },
+          "ghost_nodes": 3,
+          "global_model_retained": false,
+          "local_nodes": 10,
+          "owned_elements": [
+            1,
+            2
+          ],
+          "owned_nodes": 7,
+          "rank": 1
+        }
+      ]
+    },
+    "petsc_matrix_assembly": "PASS",
+    "petsc_vector_assembly": "PASS",
+    "preallocation_runtime": {
+      "global_connectivity_required": false,
+      "mallocs_zero": true,
+      "mat_info_local": {
+        "by_rank": [
+          {
+            "assemblies": 1.0,
+            "block_size": 1.0,
+            "factor_mallocs": 0.0,
+            "fill_ratio_given": 0.0,
+            "fill_ratio_needed": 0.0,
+            "mallocs": 0.0,
+            "memory": 0.0,
+            "nz_allocated": 459.0,
+            "nz_unneeded": 0.0,
+            "nz_used": 459.0
+          },
+          {
+            "assemblies": 1.0,
+            "block_size": 1.0,
+            "factor_mallocs": 0.0,
+            "fill_ratio_given": 0.0,
+            "fill_ratio_needed": 0.0,
+            "mallocs": 0.0,
+            "memory": 0.0,
+            "nz_allocated": 360.0,
+            "nz_unneeded": 0.0,
+            "nz_used": 360.0
+          }
+        ],
+        "mallocs_sum": 0.0,
+        "nz_allocated_sum": 819.0,
+        "nz_used_sum": 819.0
+      },
+      "max_diag_nnz": 16,
+      "max_offdiag_nnz": 17,
+      "owned_row_pattern_complete": true,
+      "received_row_records": 25,
+      "sent_row_records": 12,
+      "strategy": "rank-local connectivity exact row-owner exchange"
+    },
+    "rank_count": 2,
+    "reaction_resultant": [
+      -99999.99592975019,
+      -0.0014442003130170633,
+      -0.0005109628737045568
+    ],
+    "reaction_vector": [
+      -4624.33984063615,
+      -1633.937259386175,
+      -3934.5034205554603,
+      5508.037710928289,
+      -312.0885608397948,
+      -3935.2115071935204,
+      -55370.2001067094,
+      4392.354510920803,
+      12129.435597725891,
+      -2799.1003232126973,
+      7696.008418402717,
+      931.690481627689,
+      -7748.704980655168,
+      -3953.7885436494817,
+      -11398.212966256706,
+      -39542.36186615836,
+      -6188.550009648382,
+      2494.8783414412546,
+      4576.673476693288,
+      0.0,
+      3711.922962247978
+    ],
+    "residual": [
+      -4624.3398406361475,
+      -1633.9372593861726,
+      -3934.503420555455,
+      -0.00676224815833848,
+      4.2335062971687876e-05,
+      0.005567128122493159,
+      5508.037710928289,
+      -312.0885608397939,
+      -3935.2115071935214,
+      -55370.200106709395,
+      4392.354510920799,
+      12129.435597725893,
+      -9.833044168772176e-05,
+      0.0012359986239971477,
+      -0.0036330066332084243,
+      -2799.1003232126973,
+      7696.008418402717,
+      931.6904816276892,
+      -7748.704980655166,
+      -3953.788543649482,
+      -11398.212966256704,
+      0.0031466083634086317,
+      -0.000700867838531849,
+      -0.002873233137506759,
+      -39542.36186615836,
+      -6188.550009648381,
+      2494.8783414412537,
+      -0.0003562795609468594,
+      0.0008667344568493718,
+      0.001450074558306369,
+      4576.673476693288,
+      0.0,
+      3711.922962247978
+    ],
+    "runtime_seconds": 0.004047747999720741,
+    "segments": 1,
+    "solution": [
+      0.0,
+      0.0,
+      0.0,
+      -1.8382856574942368e-07,
+      1.5311811598177374e-07,
+      -3.3998145826864423e-07,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      5.742716105684332e-07,
+      -7.000058877454518e-08,
+      -4.6805190205742553e-07,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -3.5018905751601364e-07,
+      8.405989529690641e-08,
+      -5.220128718498561e-07,
+      0.0,
+      0.0,
+      0.0,
+      1.3569049893988565e-06,
+      3.1493863688084636e-07,
+      -7.191875702149265e-07,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "solver_configuration": {
+      "atol": 1e-12,
+      "id": "CG_BJACOBI",
+      "ksp": "cg",
+      "max_it": 20000,
+      "pc": "bjacobi",
+      "rtol": 1e-10
+    },
+    "status": "PASS"
+  },
+  "schema_version": 1
+}

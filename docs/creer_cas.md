@@ -11,6 +11,7 @@ approver: ""
 
 Cette ancienne adresse est conservee pour compatibilite. Le guide maintenu est
 [Creer et verifier un cas](demarrage/creer_un_cas.md).
+Ce guide maintenu est la cible canonique pour le contenu courant.
 
 Le schema d'entree autoritatif reste decrit dans le
 [schema JSON](schema_json.md).

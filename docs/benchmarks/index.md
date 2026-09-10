@@ -9,6 +9,11 @@ approver: ""
 
 # QF Solver benchmarks and reproducibility
 
+> **Historical 0.2.7 evidence page.** The measurements below are retained for
+> provenance and are not the current 0.2.8 maturity or a general performance
+> promise. Use the [0.2.8 capability index](../capabilities/index.md) for the
+> current public status.
+
 QF Solver publishes bounded numerical and large-model evidence for selected
 finite-element routes.
 
@@ -18,7 +23,7 @@ materials, solver settings or hardware.
 
 ## Large-model evidence
 
-The strongest QF Solver 0.2.7 large-model evidence currently concerns
+The strongest retained QF Solver 0.2.7 large-model evidence concerns
 structured TET4 linear-static models using selected PETSc/MPI routes.
 
 | Model size | Recorded result | Scope |

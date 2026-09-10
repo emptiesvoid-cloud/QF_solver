@@ -1,0 +1,93 @@
+{
+  "report_schema_version": 1,
+  "created_at_utc": "2026-09-07T11:54:04.162855Z",
+  "solver": {
+    "name": "QF_solver",
+    "version": "0.2.7"
+  },
+  "python": {
+    "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+    "version_info": [
+      3,
+      13,
+      1,
+      "final",
+      0
+    ],
+    "executable": "python.exe",
+    "implementation": "CPython",
+    "compiler": "MSC v.1942 64 bit (AMD64)",
+    "build": [
+      "tags/v3.13.1:0671451",
+      "Dec  3 2024 19:06:28"
+    ]
+  },
+  "platform": {
+    "platform": "Windows-10-10.0.19045-SP0",
+    "system": "Windows",
+    "release": "10",
+    "version": "10.0.19045",
+    "machine": "AMD64",
+    "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+    "architecture": [
+      "64bit",
+      "WindowsPE"
+    ]
+  },
+  "process": {
+    "pid": 4216,
+    "cwd": ".",
+    "argv": [
+      "scripts/run_wp11_mixed_large.py"
+    ]
+  },
+  "environment": {
+    "OMP_NUM_THREADS": null,
+    "MKL_NUM_THREADS": null,
+    "OPENBLAS_NUM_THREADS": null,
+    "NUMEXPR_NUM_THREADS": null,
+    "PYTHONHASHSEED": null,
+    "PETSC_DIR": null,
+    "PETSC_ARCH": null
+  },
+  "packages": {
+    "numpy": {
+      "available": true,
+      "version": "2.2.6",
+      "origin": "__init__.py"
+    },
+    "scipy": {
+      "available": true,
+      "version": "1.15.2",
+      "origin": "__init__.py"
+    },
+    "h5py": {
+      "available": true,
+      "version": "3.14.0",
+      "origin": "__init__.py"
+    },
+    "mpi4py": {
+      "available": true,
+      "version": "4.1.0",
+      "origin": "__init__.py"
+    },
+    "petsc4py": {
+      "available": false,
+      "version": null,
+      "origin": null
+    },
+    "psutil": {
+      "available": true,
+      "version": "7.2.2",
+      "origin": "__init__.py"
+    }
+  },
+  "metadata": {
+    "work_package": "WP11",
+    "backend": "scipy",
+    "mpi_ranks": 1,
+    "preallocation": "standard SparseCsrAccumulator; allocator detail not exposed",
+    "command": "python scripts/run_wp11_mixed_large.py",
+    "baseline_sha": "9ab8dc8ddfc432134436f2cf9fa2d65933adecb4"
+  }
+}

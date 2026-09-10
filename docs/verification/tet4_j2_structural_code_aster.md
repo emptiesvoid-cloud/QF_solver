@@ -59,9 +59,9 @@ observees sont :
 | Ratio deplacement petits deplacements | `7.60e-3` | `1.0e-1` | PASS |
 | Residu relatif maximal QF_solver | `1.36e-12` | `1.0e-7` | PASS |
 
-![Comparaison des chemins QF_solver et Code_Aster](../../qualification/vnv/external/code_aster_tet4_j2_complex/reference/comparison.png)
+*Comparaison des chemins QF_solver et Code_Aster — source artifact not included in the tracked release tree.*
 
-![Deformee de l'equerre TET4](../../qualification/vnv/external/code_aster_tet4_j2_complex/reference/deformation.png)
+*Deformee de l'equerre TET4 — source artifact not included in the tracked release tree.*
 
 ## Interpretation et limites
 

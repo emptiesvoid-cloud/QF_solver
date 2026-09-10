@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "contract_id": "WP13-01A-MIXED-PETSC-MPI-001",
+  "status": "NO_GO",
+  "source": {
+    "start_sha": "0c6204f398a8350c9e3fdb5e68f40708a5ca1750",
+    "baseline": "WP13-00"
+  },
+  "environment": {
+    "python": "3.13.1",
+    "mpi4py": "4.1.0",
+    "petsc4py": null,
+    "mpi": "Microsoft MPI 10.1.12498.52",
+    "mpi_launcher": "mpiexec available; 2-rank mpi4py smoke PASS",
+    "host_rank_count": 1
+  },
+  "inputs": [
+    {
+      "id": "WP07-mixed-serial-case-1",
+      "status": "PASS",
+      "element_counts": {"TET4": 1, "WEDGE6": 1, "HEX8": 1},
+      "total_elements": 3,
+      "total_dof": 33,
+      "source": "existing WP07 mixed static reference"
+    },
+    {
+      "id": "backend-audit",
+      "status": "PASS",
+      "source_paths": [
+        "src/solveur/large/model.py",
+        "src/solveur/large/io.py",
+        "src/solveur/large/distributed_model.py",
+        "src/solveur/large/partitioning.py",
+        "src/solveur/large/assembler.py",
+        "src/solveur/large/solver.py",
+        "src/solveur/large/postprocess.py"
+      ]
+    }
+  ],
+  "commands": [
+    "python -m pytest -q tests/verification/test_028_wp07_mixed_static.py tests/unit/test_distributed_large_model.py tests/unit/test_large_petsc_contract.py tests/unit/test_large_assembler.py tests/unit/test_large_assembler_contract.py tests/integration/test_large_model.py -k WP13-01A-targeted",
+    "mpiexec -n 2 python -c \"from mpi4py import MPI; ...\"",
+    "python -c \"import importlib.util; ... petsc4py=False\""
+  ],
+  "outputs": [
+    {"id": "targeted-tests", "status": "PASS", "result": "23 passed, 22 deselected in 4.33s"},
+    {"id": "mpi-launcher-smoke", "status": "PASS", "result": "rank=0/2; rank=1/2"},
+    {"id": "petsc-backend-readiness", "status": "FAIL_CLOSED", "result": "petsc4py unavailable"},
+    {"id": "mixed-petsc-concept", "status": "NOT_RUN", "reason": "large backend contract is TET4-only and petsc4py is unavailable"}
+  ],
+  "metrics": {
+    "petsc_backend_classification": "TET4_ONLY",
+    "architecture_extension_class": "MAJOR_REDESIGN",
+    "architecture_redesign_required": true,
+    "distributed_dof_map": "PARTIAL: global/local numbering exists only in the TET4 LargeModel contract",
+    "element_ownership": "TET4_ONLY: contiguous and graph partitioners exchange TET4 rows",
+    "ghost_handling": "TET4_ONLY: compact halo nodes are derived from global_tet4; no family-generic halo records",
+    "mixed_dispatch": "MISSING in large backend; core ElementRegistry is not used by PETSc assembly",
+    "distributed_assembly": "TET4_ONLY: PetscTET4Assembler and tet4_batch kernels",
+    "preallocation": "TET4_ONLY: fixed BAIJ nnz=40 or structured six-TET4 AIJ pattern",
+    "bc_distribution": "TET4_ONLY: distributed HDF5 boundary filtering exists; no mixed schema",
+    "load_distribution": "TET4_ONLY: nodal load arrays; distributed loads rejected during conversion",
+    "reactions": "MISSING from distributed PETSc result contract",
+    "postprocessing": "TET4_ONLY: postprocess_large_tet4 and tet4_response_batch",
+    "solver_dispatch": "PARTIAL: PETSc dispatch exists but routes all large models to TET4 assembler",
+    "result_gathering": "PARTIAL: root Gatherv for replicated input, MPI-IO for distributed TET4 output",
+    "replay_determinism": "PARTIAL: existing TET4 evidence only; no mixed distributed replay",
+    "error_handling": "READY for missing backend/unsupported scope fail-closed; mixed-specific distributed checks absent",
+    "tet4_only_assumptions_found": [
+      "LargeModel and HDF5/NPZ schemas expose tet4 connectivity only.",
+      "DistributedLargeModel stores tet4/global_tet4 and load_distributed_large_model reads the tet4 dataset only.",
+      "Partitioning builds TET4 four-face dual graphs and exchanges fixed-width TET4 rows.",
+      "PETSc stiffness/mass assembly calls tet4_batch kernels, 12x12 local matrices and TET4 material policy.",
+      "PETSc BAIJ/AIJ preallocation is fixed or exact only for TET4 patterns.",
+      "Large audit, readiness, solver dynamics and post-processing are TET4-scoped.",
+      "Non-TET4 conversion is explicitly rejected; no silent fallback is available."
+    ],
+    "serial_reference": {
+      "status": "PASS",
+      "source": "existing WP07 mixed static case",
+      "TET4": 1,
+      "WEDGE6": 1,
+      "HEX8": 1,
+      "total_elements": 3,
+      "total_dof": 33,
+      "residual_relative": 1.2230794959180354e-16,
+      "equilibrium_relative": 3.7478747353235883e-16,
+      "energy_relative": 5.551115123125783e-17
+    },
+    "petsc_1_rank": {"status": "BLOCKED_DEPENDENCY", "petsc4py_available": false},
+    "mpi_2_ranks": {"status": "NOT_RUN", "mpi4py_smoke": "PASS", "petsc4py_available": false},
+    "mpi_4_ranks": {"status": "NOT_RUN", "reason": "PETSc dependency unavailable"},
+    "partition_invariance": "NOT_EVALUATED: no mixed PETSc execution",
+    "global_gather_present": "YES on replicated-input PETSc path; distributed TET4 output avoids root displacement gather via MPI-IO",
+    "scalable_to_1m_assessment": "NO_GO for mixed; existing 1M evidence is bounded to TET4",
+    "intermediate_status": "NOT_RUN_ARCHITECTURE_KILL_GATE",
+    "numerical_source_changed": false,
+    "bugs_found": "No numerical bug; mixed distributed backend capability is absent by design.",
+    "bugs_fixed": false,
+    "maturity_changed": false,
+    "historical_0_2_7_evidence_changed": false
+  },
+  "replays": [
+    {"id": "mixed-petsc-replay-1", "status": "NOT_RUN", "reason": "PETSc unavailable and architecture is TET4-only"},
+    {"id": "mixed-petsc-replay-2", "status": "NOT_RUN", "reason": "PETSc unavailable and architecture is TET4-only"}
+  ],
+  "digests": {
+    "contract": "28081b9da3c8d0b806dbbab6c7f4859a8b7bb8634180d1cd8497789ce86f65ca",
+    "inputs": "aff8edb84df79e5fe192f9d1dcc7e34f15ee71891ac734bd7a902c97c69b0656",
+    "outputs": "25610c0e464e8e9d4cf511f4dc6f69affaa0dc668c36690412b9955df303150f",
+    "metrics": "f3602239bcd317ec55e1edcbfde63e33f20043a86399265a5184fc746555948d"
+  },
+  "owner_decision": {
+    "status": "NO_GO",
+    "reason": "The current large PETSc/MPI path is structurally TET4-only; mixed support requires a major redesign before a valid two-rank concept test."
+  }
+}

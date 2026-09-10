@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "contract_id": "WP13-06-SCALABLE-MIXED-POST-001",
+  "created_before_campaign": true,
+  "scope": {
+    "families": ["TET4", "WEDGE6", "HEX8"],
+    "analysis_minimum": "linear_static",
+    "result_scope": [
+      "nodal displacements",
+      "element family and id",
+      "material and region",
+      "reactions when available",
+      "family-aware element fields",
+      "persistent scalable result storage"
+    ],
+    "formulations_changed": false,
+    "historical_outputs_preserved": true
+  },
+  "selected_format": {
+    "name": "QF mixed-results HDF5",
+    "container": "HDF5",
+    "schema_version": "1.0",
+    "justification": "Chunkable persistent datasets, family-homogeneous blocks with native connectivity widths, metadata attributes, and dataset-level selective reads are available through the existing h5py dependency. XDMF is not required for the bounded storage claim and is not generated.",
+    "write_policy": "create-only; an existing target is rejected",
+    "semantic_replay_digest": true
+  },
+  "layout": {
+    "required_root_attributes": [
+      "format",
+      "schema_version",
+      "qf_solver_version_or_dev_state",
+      "source_sha",
+      "metadata_json"
+    ],
+    "required_datasets": [
+      "mesh/nodes/id",
+      "mesh/nodes/coordinates",
+      "results/nodal/displacement"
+    ],
+    "optional_datasets": ["results/nodal/reaction"],
+    "element_block_pattern": "mesh/element_blocks/<TET4|WEDGE6|HEX8>/{connectivity,element_ids,material_ids,region_ids,material_names,fields/*}",
+    "connectivity_widths": {"TET4": 4, "WEDGE6": 6, "HEX8": 8},
+    "global_node_ids": true,
+    "family_homogeneous_blocks": true,
+    "required_provenance": ["source_sha", "model_metadata", "units_metadata"]
+  },
+  "gates": {
+    "all_three_families_present": true,
+    "no_family_silent_drop": true,
+    "nodes_connectivity_element_ids_families_material_regions_preserved": true,
+    "displacement_round_trip_absolute_error": 0.0,
+    "reaction_round_trip_absolute_error_when_present": 0.0,
+    "element_field_round_trip_absolute_error_when_present": 0.0,
+    "metadata_round_trip_exact": true,
+    "semantic_replay_digest_match": true,
+    "global_gather_required": false,
+    "full_model_duplication_required": false
+  },
+  "selective_read": {
+    "supported": true,
+    "selectors": ["families", "fields", "region_id"],
+    "required_probes": ["displacement_only", "one_element_family", "one_result_field", "one_region_block"]
+  },
+  "checkpoint": {
+    "metadata_ready": true,
+    "restart_solver": false,
+    "status": "RESTART_NOT_IN_SCOPE"
+  },
+  "scale_characterization": {
+    "target_dof": 100000,
+    "optional_target_dof": 300000,
+    "public_benchmark_claim": false,
+    "measurements": ["output_runtime", "output_file_size", "peak_additional_memory_when_available", "read_runtime", "partial_read_runtime"]
+  },
+  "failure_contract": [
+    "unsupported family",
+    "malformed connectivity",
+    "duplicate ids",
+    "inconsistent array lengths",
+    "missing required field",
+    "invalid result shape",
+    "corrupt file",
+    "unsupported schema version"
+  ],
+  "compatibility": {
+    "legacy_vtu": "preserved",
+    "legacy_csv": "preserved",
+    "legacy_npz": "preserved",
+    "new_path": "opt_in"
+  },
+  "claim_policy": {
+    "candidate": "EXPERIMENTAL_BOUNDED",
+    "wording": "Family-aware persistent mixed TET4/WEDGE6/HEX8 result storage with bounded round-trip and scalable-access evidence.",
+    "owner_gate_required": true,
+    "no_general_scalability_claim": true
+  },
+  "evidence": {
+    "machine_readable": true,
+    "required": [
+      "contract_id",
+      "contract_sha256",
+      "repo_sha",
+      "environment",
+      "format_schema",
+      "mixed_model_summary",
+      "round_trip_metrics",
+      "selective_read_metrics",
+      "memory_gather_audit",
+      "scale_characterization",
+      "failure_cases",
+      "replay_digests",
+      "gate_decisions"
+    ]
+  },
+  "historical_integrity": {
+    "element_analysis_registry_46_unchanged": true,
+    "evidence_0_2_7_unchanged": true,
+    "numerical_source_changed": false,
+    "formulation_changed": false,
+    "maturity_changed": false
+  }
+}

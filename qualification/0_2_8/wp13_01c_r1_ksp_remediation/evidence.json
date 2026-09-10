@@ -1,0 +1,180 @@
+{
+  "automatic_solver_fallback": false,
+  "candidates": [
+    {
+      "candidate_id": "CG_BJACOBI",
+      "ksp": "CG",
+      "pc": "BJACOBI",
+      "scale_a": {
+        "status": "NOT_RUN_SMALL_NON_REGRESSION_FAILED"
+      },
+      "small_non_regression": {
+        "displacement_relative": 1.529602039355913e-13,
+        "energy_relative": 6.522560269672795e-16,
+        "force_balance_relative": 4.3489919640147385e-08,
+        "free_residual_relative": 1.5039116674000452e-07,
+        "pass": false,
+        "reaction_relative": 1.0687892571692288e-07
+      }
+    },
+    {
+      "candidate_id": "CG_ASM",
+      "ksp": "CG",
+      "pc": "ASM",
+      "scale_a": {
+        "converged_reason": -8,
+        "force_balance_relative": 0.7397956272364193,
+        "free_residual_relative": 0.4100397311371989,
+        "iterations": 2,
+        "matrix_sanity": {
+          "constrained_scaled_matrix_symmetric": true,
+          "definiteness_assessment": "positive_diagonal_symmetric_constrained_operator_indicator",
+          "diagonal_max": 1134350018576191.2,
+          "diagonal_min": 37396156269027.43,
+          "diagonal_ratio_indicator": 30.33333186479629,
+          "nan_inf_count": 0,
+          "negative_diagonal_count": 0,
+          "nullspace_assessment": "no structural zero-diagonal indicator after constraints",
+          "nullspace_detected": false,
+          "raw_matrix_symmetric": false,
+          "symmetry_relative_probe": 6.870986794761176e-17,
+          "zero_diagonal_count": 0
+        },
+        "pass": false,
+        "runtime_seconds": 1.8896773400010716,
+        "status": "FAIL"
+      },
+      "small_non_regression": {
+        "displacement_relative": 9.912040081636764e-22,
+        "energy_relative": 2.0816681711721685e-17,
+        "force_balance_relative": 4.2281722988547085e-16,
+        "free_residual_relative": 4.160503370199066e-16,
+        "pass": true,
+        "reaction_relative": 4.166099793628088e-16
+      }
+    },
+    {
+      "candidate_id": "CG_GAMG",
+      "ksp": "CG",
+      "pc": "GAMG",
+      "scale_a": {
+        "status": "NOT_RUN_SMALL_NON_REGRESSION_FAILED"
+      },
+      "small_non_regression": {
+        "displacement_relative": 1.2221180613546669e-13,
+        "energy_relative": 4.971890329996675e-10,
+        "force_balance_relative": 5.256574890694201e-08,
+        "free_residual_relative": 1.6206704942335936e-07,
+        "pass": false,
+        "reaction_relative": 8.200179336111325e-08
+      }
+    },
+    {
+      "candidate_id": "GMRES_BJACOBI",
+      "ksp": "GMRES",
+      "pc": "BJACOBI",
+      "scale_a": {
+        "status": "NOT_RUN_SMALL_NON_REGRESSION_FAILED"
+      },
+      "small_non_regression": {
+        "displacement_relative": 2.316980229151998e-13,
+        "energy_relative": 6.871686414333666e-10,
+        "force_balance_relative": 5.373954339011249e-08,
+        "free_residual_relative": 1.3229079873713173e-07,
+        "pass": false,
+        "reaction_relative": 1.1205001901715771e-07
+      }
+    },
+    {
+      "candidate_id": "GMRES_ASM",
+      "ksp": "GMRES",
+      "pc": "ASM",
+      "scale_a": {
+        "converged_reason": 3,
+        "force_balance_relative": 0.0015795656017068575,
+        "free_residual_relative": 2.9798810002306444e-05,
+        "iterations": 8,
+        "matrix_sanity": {
+          "constrained_scaled_matrix_symmetric": true,
+          "definiteness_assessment": "positive_diagonal_symmetric_constrained_operator_indicator",
+          "diagonal_max": 1134350018576191.2,
+          "diagonal_min": 37396156269027.43,
+          "diagonal_ratio_indicator": 30.33333186479629,
+          "nan_inf_count": 0,
+          "negative_diagonal_count": 0,
+          "nullspace_assessment": "no structural zero-diagonal indicator after constraints",
+          "nullspace_detected": false,
+          "raw_matrix_symmetric": false,
+          "symmetry_relative_probe": 6.870986794761176e-17,
+          "zero_diagonal_count": 0
+        },
+        "pass": false,
+        "runtime_seconds": 2.2173690290001105,
+        "status": "PASS"
+      },
+      "small_non_regression": {
+        "displacement_relative": 1.3388842595562628e-21,
+        "energy_relative": 4.163336342344337e-17,
+        "force_balance_relative": 6.468291535091174e-16,
+        "free_residual_relative": 4.531757568334861e-16,
+        "pass": true,
+        "reaction_relative": 6.197010036760375e-16
+      }
+    },
+    {
+      "candidate_id": "GMRES_GAMG",
+      "ksp": "GMRES",
+      "pc": "GAMG",
+      "scale_a": {
+        "status": "NOT_RUN_SMALL_NON_REGRESSION_FAILED"
+      },
+      "small_non_regression": {
+        "displacement_relative": 1.4083968659705348e-13,
+        "energy_relative": 2.232829338089104e-10,
+        "force_balance_relative": 4.223863453439958e-08,
+        "free_residual_relative": 1.5604367874012226e-07,
+        "pass": false,
+        "reaction_relative": 7.065187099957481e-08
+      }
+    }
+  ],
+  "contract_id": "WP13-01C-R1-KSP-REMEDIATION-001",
+  "contract_sha256": "6b2a08244ad1203dd175c1311ddb2d268efcb4e3dfed222149df6362d3411e1d",
+  "element_formulation_changed": false,
+  "historical_0_2_7_evidence_changed": false,
+  "matrix_diagnosis": {
+    "constrained_scaled_matrix_symmetric": true,
+    "definiteness_assessment": "positive_diagonal_symmetric_constrained_operator_indicator",
+    "diagonal_max": 1134350018576191.2,
+    "diagonal_min": 37396156269027.43,
+    "diagonal_ratio_indicator": 30.33333186479629,
+    "nan_inf_count": 0,
+    "negative_diagonal_count": 0,
+    "nullspace_assessment": "no structural zero-diagonal indicator after constraints",
+    "nullspace_detected": false,
+    "raw_matrix_symmetric": false,
+    "symmetry_relative_probe": 6.870986794761176e-17,
+    "zero_diagonal_count": 0
+  },
+  "maturity_changed": false,
+  "numerical_source_changed": false,
+  "one_million_dof_status": "NOT_RUN_NO_ACCEPTED_SCALE_A",
+  "original_failure_preserved": {
+    "dof": 100023,
+    "ksp": "CG",
+    "path": "qualification/0_2_8/wp13_01c_petsc_mpi_mixed_runtime/scale_a.json",
+    "pc": "JACOBI",
+    "reason": -3,
+    "status": "FAIL_RUNTIME"
+  },
+  "replay_determinism": "NOT_RUN_NO_SELECTED_CONFIGURATION",
+  "replays": [],
+  "scale_b": {
+    "status": "NOT_RUN_NO_ACCEPTED_SCALE_A"
+  },
+  "schema_version": 1,
+  "selected": null,
+  "selected_scale_a": null,
+  "selected_small_case": null,
+  "status": "STILL_FAIL_RUNTIME"
+}

@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "contract_id": "WP13-01B-MIXED-DISTRIBUTED-ARCHITECTURE-001",
+  "status": "PREDECLARED",
+  "source_sha": "fb01146c1caab4cf23304d0f1ca62601e136f886",
+  "scope": {
+    "capability": "family-aware distributed architecture for mixed solids",
+    "analysis": "linear_static architecture only",
+    "element_families": ["TET4", "WEDGE6", "HEX8"],
+    "backend": "backend-neutral shadow partitions; PETSc adapter boundary only",
+    "interfaces": "conforming shared-node interfaces",
+    "claim": "architecture readiness for WP13-01C; no PETSc/MPI runtime qualification"
+  },
+  "oracle": {
+    "reference": "existing serial GlobalAssembler on the same mixed FiniteElementModel",
+    "independence": "partition-local dispatch and sparse recomposition are separate from serial matrix assembly",
+    "external_correlation": "not applicable to an architecture spike"
+  },
+  "tolerances": {
+    "predeclared": true,
+    "gates": [
+      {"id": "shadow_matrix_relative", "operator": "<=", "limit": 1.0e-12},
+      {"id": "dof_count", "operator": "==", "limit": 0},
+      {"id": "element_set_difference", "operator": "==", "limit": 0},
+      {"id": "family_contribution_count", "operator": ">", "limit": 0},
+      {"id": "duplicate_node_ownership", "operator": "==", "limit": 0},
+      {"id": "duplicate_bc_or_load_ownership", "operator": "==", "limit": 0}
+    ],
+    "post_observation_retuning": false
+  },
+  "required_metrics": [
+    "distributed_model_schema",
+    "global_local_dof_map",
+    "owned_and_ghost_nodes",
+    "element_ownership",
+    "neighboring_ranks",
+    "mixed_element_dispatch",
+    "connectivity_derived_preallocation",
+    "bc_ownership",
+    "load_ownership",
+    "reaction_reduction_contract",
+    "family_aware_result_schema",
+    "shadow_partition_recomposition",
+    "legacy_tet4_compatibility",
+    "global_gather_audit"
+  ],
+  "replay_count": 2,
+  "owner_gate": {
+    "required": true,
+    "decision": "PASS or FAIL_ARCHITECTURE",
+    "promotion": "none; maturity and public runtime claims remain unchanged"
+  },
+  "abort_criteria": [
+    "a family-specific distributed backend is required instead of the generic layer",
+    "any TET4/WEDGE6/HEX8 family is lost or duplicated during partitioning",
+    "shadow recomposition differs from serial mixed assembly beyond the fixed gate",
+    "ownership or ghost maps are ambiguous",
+    "BC or nodal-load ownership can be duplicated or dropped",
+    "the generic path requires a structural global gather of K, connectivity or element fields",
+    "legacy TET4 large conversion or its existing targeted contracts regress"
+  ],
+  "claim_limitations": [
+    "No PETSc/MPI runtime is executed or qualified in WP13-01B.",
+    "No 1M DOF, performance, mixed dynamics, MPC/RBE or multi-material claim is made.",
+    "The shadow recomposition is a validation harness, not a production solver backend.",
+    "Historical 0.2.7 evidence remains immutable.",
+    "The 46 element-analysis registry and mixed-workflow registry remain separate."
+  ],
+  "environment": {
+    "required": ["Python", "NumPy", "SciPy"],
+    "petsc4py": "optional and intentionally not required",
+    "capture": ["python_version", "commands", "rank_simulation", "source_sha", "artifact_digests"]
+  }
+}

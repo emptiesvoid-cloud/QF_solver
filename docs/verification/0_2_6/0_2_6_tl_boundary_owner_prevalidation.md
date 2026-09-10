@@ -50,7 +50,7 @@ Status: `PASS_DIAGNOSTIC`; this decision approves bounded diagnostic policies an
 | Degraded conditioning median | ~9.25e4 |
 | Out-of-scope conditioning median | ~8.22e6 |
 
-The four persistent failures, the twelve degraded cases and the historical CASE2 anchor remain in the [failure zoo](../../../qualification/0_2_6/tl_boundary_study/tl_boundary_failure_zoo.json). These values are observations, not acceptance thresholds.
+The four persistent failures, the twelve degraded cases and the historical CASE2 anchor remain in the [failure zoo](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_6/tl_boundary_study/tl_boundary_failure_zoo.json). These values are observations, not acceptance thresholds.
 
 ## Technical decision
 

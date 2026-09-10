@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP07-MIXED-STATIC-CONTRACT",
+  "work_package": "WP07",
+  "applicable_version": "0.2.8-development",
+  "baseline_sha": "d7501fd144daf11a5f51eae5c04d664ebbcdc763",
+  "status": "PREDECLARED_CAMPAIGN_CONTRACT",
+  "parent_records": [
+    "qualification/0_2_8/wp01_maturity_matrix.json",
+    "qualification/0_2_8/wp06b_maturity_matrix.json"
+  ],
+  "objective": "Audit and test one conforming mixed linear-static workflow using TET4, WEDGE6 and HEX8 without changing the numerical formulation.",
+  "subsystem_classification": {
+    "ElementRegistry": "ALREADY_IMPLEMENTED",
+    "AssemblyPlan_GlobalAssembler": "ALREADY_IMPLEMENTED",
+    "Gmsh_importer": "ALREADY_IMPLEMENTED_NEEDS_VNV",
+    "materials": "ALREADY_IMPLEMENTED_NEEDS_VNV",
+    "DOF_mapping": "ALREADY_IMPLEMENTED_NEEDS_VNV",
+    "loads": "ALREADY_IMPLEMENTED_NEEDS_VNV",
+    "boundary_conditions": "ALREADY_IMPLEMENTED_NEEDS_VNV",
+    "reactions": "ALREADY_IMPLEMENTED_NEEDS_VNV",
+    "stress_strain_recovery": "ALREADY_IMPLEMENTED_NEEDS_VNV",
+    "results_export": "ALREADY_IMPLEMENTED_NEEDS_VNV",
+    "diagnostics": "PARTIAL_NEEDS_FIX",
+    "mixed_interface_validation": "NEEDS_FIX"
+  },
+  "missing_components": [],
+  "scope": {
+    "analysis": "linear_static",
+    "families": ["TET4", "WEDGE6", "HEX8"],
+    "interfaces": "conforming shared-node triangular and quadrilateral faces only",
+    "topologies": [
+      "TET4-WEDGE6 triangular interface",
+      "WEDGE6-HEX8 quadrilateral interface",
+      "TET4-WEDGE6-HEX8 conforming chain"
+    ],
+    "kinematics": "small-strain linear elasticity",
+    "material": "homogeneous isotropic_3d for the qualification candidate",
+    "loads": "nodal, body-force, pressure and global surface traction on tested supported faces",
+    "excluded": [
+      "TET10",
+      "HEX20",
+      "PYRAMID5",
+      "hanging nodes",
+      "MPC/RBE",
+      "nonconforming interfaces",
+      "modal",
+      "Newmark",
+      "harmonic",
+      "nonlinear",
+      "buckling",
+      "contact",
+      "large mixed models"
+    ]
+  },
+  "tolerance_policy": {
+    "fixed_before_execution": true,
+    "post_observation_retuning": false,
+    "values": {
+      "matrix_symmetry_relative": 1.0e-12,
+      "affine_displacement_absolute": 1.0e-10,
+      "affine_strain_absolute": 1.0e-10,
+      "affine_stress_relative": 1.0e-10,
+      "free_residual_relative": 1.0e-10,
+      "force_balance_relative": 1.0e-10,
+      "moment_balance_relative": 1.0e-10,
+      "energy_identity_relative": 1.0e-10,
+      "interface_displacement_absolute": 1.0e-14,
+      "interface_force_relative": 1.0e-10,
+      "convergence_affine_absolute": 1.0e-10,
+      "load_resultant_relative": 1.0e-10
+    }
+  },
+  "gates": [
+    "element registry and one global assembly matrix",
+    "affine displacement, strain, stress and energy identity",
+    "pairwise and three-family interface displacement continuity",
+    "interface force equilibrium",
+    "symmetry, DOF uniqueness, rank and six rigid-body modes before constraints",
+    "nodal, body-force, pressure and surface-traction resultant conservation",
+    "reactions, force balance, moment balance and post-processing/export",
+    "three-level conforming-chain refinement",
+    "Gmsh mixed import and solve",
+    "explicit rejection of unsupported, invalid and nonconforming inputs",
+    "two deterministic replays"
+  ],
+  "oracle": {
+    "primary": "exact affine manufactured displacement field u_x = alpha*x with equivalent assembled loads",
+    "coverage": "assembly, interface, load, recovery and equilibrium contract for the declared topology",
+    "external": "NOT_AVAILABLE",
+    "external_policy": "No Code_Aster or other external mixed-family correlation is claimed without comparable geometry, interfaces, material, loads and observables."
+  },
+  "failure_contract": {
+    "unsupported_family": "explicit validation failure",
+    "invalid_connectivity_or_geometry": "explicit validation failure",
+    "duplicate_or_nonconforming_interface": "explicit validation failure",
+    "mpc_rbe_or_hanging_node": "outside scope and explicit validation failure"
+  },
+  "historical_integrity": {
+    "source_registry_0_2_7_read_only": true,
+    "evidence_0_2_7_read_only": true,
+    "prior_wp01_wp06b_records_read_only": true,
+    "public_maturity_relabel_applied": false,
+    "owner_gate_required": true
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP13-01G-CONNECTED-MIXED-PETSC-001",
+  "contract_id": "WP13-01G-CONNECTED-MIXED-PETSC-001",
+  "work_package": "WP13-01G",
+  "applicable_version": "0.2.8-development",
+  "creation_sha": "c06838b909e1586ef776ce6ac986488965bbb8bb",
+  "status": "PREDECLARED_CAMPAIGN_CONTRACT",
+  "objective": "Confirm the distributed PETSc/MPI linear-static runtime on one mechanically connected TET4/WEDGE6/HEX8 chain without changing any FEM formulation or replacing prior WP13-01C/C2 evidence.",
+  "scope": {
+    "analysis": "linear_static",
+    "backend": "PETSc/MPI",
+    "element_families": ["TET4", "WEDGE6", "HEX8"],
+    "interfaces": [
+      "conforming shared triangular TET4-WEDGE6 interface",
+      "conforming shared quadrilateral WEDGE6-HEX8 interface",
+      "conforming shared triangular/quadrilateral interfaces between repeated axial cells"
+    ],
+    "kinematics": "small-strain linear isotropic elasticity",
+    "material": {
+      "name": "solid",
+      "type": "isotropic_3d",
+      "E": 210000000000.0,
+      "nu": 0.3,
+      "density": 7800.0
+    },
+    "connected_components": 1,
+    "excluded": [
+      "disconnected component bundles",
+      "block-diagonal synthetic scaling claims",
+      "modal, Newmark and harmonic analysis",
+      "nonlinear, contact and multipoint constraints",
+      "hanging or nonconforming interfaces",
+      "TET10, HEX20 and PYRAMID5",
+      "arbitrary industrial-model or production-performance claims"
+    ]
+  },
+  "benchmark": {
+    "id": "WP13-01G-CONNECTED-AXIAL-CHAIN-001",
+    "geometry": "One axial connected chain generated from the existing WP13 mixed geometry: a TET4 cap shares the first WEDGE6 triangular face; each WEDGE6 shares its longitudinal quadrilateral face with the corresponding HEX8; consecutive WEDGE6 and HEX8 cells share their end faces.",
+    "generation": "The connected chain uses segments s with 5*s+6 nodes and 15*s+18 translational DOF. The TET4 count is 1, and WEDGE6 and HEX8 counts are s each.",
+    "stages": {
+      "control": {"segments": 1, "target_dof": 33},
+      "stage_a": {"segments": 3332, "target_dof": 49998},
+      "stage_b": {"segments": 9999, "target_dof": 150003},
+      "stage_c": {"segments": 19999, "target_dof": 300003}
+    },
+    "boundary_conditions": "All translational DOFs on nodes with x=0 are fixed.",
+    "loads": "A total +100000 N UX nodal load is distributed equally over nodes with x=1 and z=1.",
+    "mechanical_load_path": "The loaded x=1 end transfers stiffness through the HEX8 strip and WEDGE6 chain, through their shared quadrilateral interfaces and the WEDGE6 end faces, into the TET4 cap at the chain base and the fixed x=0 boundary.",
+    "partitioning": "Existing deterministic contiguous element ownership from GenericDistributedModel; compare serial/PETSc-1/MPI-2/MPI-4 where available.",
+    "postprocessing": "Result-only displacement/reaction exchanges are allowed; structural K, connectivity and element-field gathers are not allowed."
+  },
+  "predeclared_gates": {
+    "fixed_before_execution": true,
+    "post_observation_retuning": false,
+    "free_residual_relative": {"operator": "<=", "value": 1.0e-10},
+    "equilibrium_force_relative": {"operator": "<=", "value": 1.0e-10},
+    "equilibrium_component_relative": {"operator": "<=", "value": 1.0e-10},
+    "energy_identity_relative": {"operator": "<=", "value": 1.0e-10},
+    "partition_displacement_relative_l2": {"operator": "<=", "value": 1.0e-10},
+    "partition_reaction_relative_l2": {"operator": "<=", "value": 1.0e-10},
+    "partition_energy_relative": {"operator": "<=", "value": 1.0e-10},
+    "partition_residual_difference": {"operator": "<=", "value": 1.0e-10},
+    "replay_displacement_relative_l2": {"operator": "<=", "value": 1.0e-12},
+    "replay_reaction_relative_l2": {"operator": "<=", "value": 1.0e-12},
+    "replay_energy_relative": {"operator": "<=", "value": 1.0e-12},
+    "replay_residual_difference": {"operator": "<=", "value": 1.0e-12},
+    "replay_iterations": "identical for direct solve, or absolute delta <= 1 for iterative solve",
+    "interface_displacement_continuity": "shared-node DOFs are unique and have no duplicate interface assembly",
+    "interface_load_transfer": "all family interfaces have nonzero connected ownership/path evidence and no lost contribution",
+    "connected_component_count": {"operator": "==", "value": 1},
+    "family_presence": "TET4, WEDGE6 and HEX8 each contribute at least one element to the same connected component",
+    "preallocation": "exact row pattern for the declared connectivity; reallocations recorded and must be zero",
+    "global_gather": "no structural global gather of K, connectivity or element fields",
+    "determinism": "numerical determinism, not raw bitwise identity across MPI runs"
+  },
+  "required_runs": {
+    "control": ["serial", "PETSc-1", "MPI-2", "MPI-4 if available"],
+    "stage_a": ["MPI-2", "MPI-4 if available"],
+    "stage_b": ["MPI-2", "MPI-4 if available"],
+    "stage_c": ["MPI-2", "MPI-4 if reasonably available"],
+    "partition_invariance": "control and Stage A at minimum; 4-rank comparison when available",
+    "replays": "two replays on the largest validated connected stage"
+  },
+  "evidence_required": [
+    "exact DOF and TET4/WEDGE6/HEX8 counts",
+    "connected component and mechanical load-path proof",
+    "shared-node interface, ownership and ghost metadata",
+    "displacements, reactions, residual, equilibrium and energy",
+    "partition invariance and numerical replay comparisons",
+    "runtime, peak memory, iterations, preallocation and reallocations",
+    "explicit absence of structural global gather",
+    "serial/PETSc/MPI coherence for the control"
+  ],
+  "abort_criteria": [
+    "control case fails any frozen physical or interface gate",
+    "any stage fails a frozen gate",
+    "element family is present only in counts and not in the connected load path",
+    "connected_component_count is not exactly one",
+    "lost or duplicated shared-node/interface contribution",
+    "silent fallback to SciPy or another non-PETSc backend",
+    "structural global gather or incompatible global duplication is observed",
+    "environment cannot execute the required PETSc/MPI run"
+  ],
+  "claim_policy": {
+    "maximum_if_all_stages_pass": "Bounded connected mixed PETSc/MPI linear-static runtime evidence through approximately 300k DOF for the declared axial-chain topology and tested ranks.",
+    "not_allowed": "No arbitrary connected mixed-model support, industrial scalability, production-performance or general 1M connected claim.",
+    "owner_gate_required": true,
+    "prior_evidence_policy": "WP13-01C FAIL_RUNTIME, WP13-01D diagnosis, WP13-01E decision and WP13-01C2 plumbing-only evidence remain immutable historical records."
+  },
+  "integrity": {
+    "numerical_source_changed": false,
+    "formulation_changed": false,
+    "maturity_changed": false,
+    "evidence_0_2_7_changed": false,
+    "contract_change_after_first_result": false
+  }
+}

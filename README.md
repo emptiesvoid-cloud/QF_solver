@@ -1,82 +1,99 @@
 # QF Solver
 
-**An inspectable Python finite-element solver for structural mechanics.**
+[![Python](https://img.shields.io/pypi/pyversions/qf-solver.svg)](https://pypi.org/project/qf-solver/)
+[![PyPI](https://img.shields.io/pypi/v/qf-solver.svg)](https://pypi.org/project/qf-solver/)
+[![License](https://img.shields.io/github/license/emptiesvoid-cloud/QF_solver.svg)](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/LICENSE)
+[![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-2f80ed.svg)](https://emptiesvoid-cloud.github.io/QF_solver/)
+[![CI](https://github.com/emptiesvoid-cloud/QF_solver/actions/workflows/quality.yml/badge.svg)](https://github.com/emptiesvoid-cloud/QF_solver/actions/workflows/quality.yml)
 
-QF Solver provides white-box finite-element formulations, numerical diagnostics
-and reproducible verification evidence. Support is always scoped by element,
+Python FEM/FEA solver for structural mechanics and dynamics, with inspectable
+formulations, reproducible V&V and bounded large-model workflows.
+
+QF Solver is deliberately evidence-led: support is scoped by element,
 analysis, material, mesh, loading and solver route. A passing example is not a
 universal qualification.
 
-## Install
+On this page: [Why QF Solver?](README.md#why-qf-solver) ·
+[Intended use](README.md#intended-use) ·
+[Installation](README.md#installation) · [Quick start](README.md#quick-start) ·
+[Main capabilities](README.md#main-capabilities) ·
+[Verification](README.md#verification-and-maturity) ·
+[Performance](README.md#performance-context) · [Limitations](README.md#limitations) ·
+[Documentation](README.md#documentation) ·
+[Contributing](README.md#contributing-citation-and-license)
 
-```bash
-pip install qf-solver
-```
+## Why QF Solver?
 
-**QF Solver** is a Python FEM/FEA solver for structural mechanics and dynamics,
-with transparent formulations, reproducible V&V, and optional PETSc/MPI
-large-scale solving.
+- Python-native API and inspectable finite-element implementations.
+- Numerical diagnostics intended to make assumptions and failure modes visible.
+- Reproducible verification evidence with explicit capability maturity.
+- Optional integrations for bounded HDF5 and documented large-model workflows;
+  mixed distributed PETSc/MPI remains not validated.
 
-[Documentation](https://emptiesvoid-cloud.github.io/QF_solver/) ·
-[When to use QF Solver](https://emptiesvoid-cloud.github.io/QF_solver/getting-started/when-to-use-qf-solver/) ·
-[Compare FEM solvers](https://emptiesvoid-cloud.github.io/QF_solver/comparisons/)
-[Benchmarks](https://emptiesvoid-cloud.github.io/QF_solver/benchmarks/)
+## Project status
 
-## Capabilities
+| Item | Status |
+| --- | --- |
+| Release line | `0.2.8` |
+| Development stage | Beta |
+| Python | `>=3.10` |
+| CI validation | Windows and Linux |
+| License | Apache-2.0 |
+| Documentation | [Online documentation](https://emptiesvoid-cloud.github.io/QF_solver/) |
 
-| Capability | Public status | Scope |
-| --- | --- | --- |
-| Linear static | `QUALIFIED_BOUNDED` | Recorded elastic element and load combinations. |
-| Small-strain J2 | `QUALIFIED_BOUNDED` | TET4, TET10, HEX8 and HEX20 within the documented small-strain scope. |
-| Modal, Newmark and harmonic | `SUPPORTED_WITH_LIMITATIONS` | Controlled linear cases with route-specific evidence. |
-| Linear buckling | `SUPPORTED_WITH_LIMITATIONS` | Bounded family-specific sparse cases; no post-buckling claim. |
-| Frictionless contact | `SUPPORTED_WITH_LIMITATIONS` | Bounded node-to-triangle cases; friction is outside this claim. |
-| WEDGE6 static | `EXPERIMENTAL` | Controlled small-strain elastic vertical-slice workflow only. |
-| WEDGE6 modal | `QUALIFIED_BOUNDED` | Homogeneous isotropic consistent-mass route, first three modes, declared scope only. |
-| Large-model PETSc/MPI | `SUPPORTED_WITH_LIMITATIONS` | Recorded structured TET4 workloads and pinned environments only. |
+Release availability is authoritative on [PyPI](https://pypi.org/project/qf-solver/)
+and [GitHub Releases](https://github.com/emptiesvoid-cloud/QF_solver/releases).
+This page describes the `0.2.8` release line and does not make a transient
+publication-state claim. Citation metadata, including any DOI if one is
+assigned, is authoritative in [`CITATION.cff`](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CITATION.cff).
 
-The active combination matrix is in
-[`docs/verification/0_2_7/0_2_7_capability_matrix.md`](docs/verification/0_2_7/0_2_7_capability_matrix.md).
-It is the authoritative guide to what a particular combination means.
+## Intended use
+
+QF Solver is designed for inspectable structural FEM, engineering prototyping
+and reproducible V&V. It is not presented as a certified solver, a universal
+nonlinear solver or a replacement for a commercial general-purpose FEA
+package.
 
 ## Installation
 
-For the stable source release:
+For a published package:
 
-```powershell
-git clone https://github.com/emptiesvoid-cloud/QF_solver.git
-Set-Location QF_solver
-git checkout v0.2.7
-python -m pip install .
-qf-solver --version
-```
-
-When the package is available from the package index, the equivalent user
-installation is:
-
-```powershell
+```bash
 python -m pip install qf-solver
 qf-solver --version
 ```
 
-Optional development and integration extras are documented in
-[`docs/getting-started/installation.md`](docs/getting-started/installation.md).
-PETSc, MPI and SLEPc are optional integrations and are not required for the
-core import or the standard small examples.
+To install a repository checkout (for example, the pre-publication branch
+during development):
 
-## Quick start: CLI
+```bash
+git clone --branch 0.2.8-pre-publication https://github.com/emptiesvoid-cloud/QF_solver.git
+cd QF_solver
+python -m pip install .
+qf-solver --version
+```
+
+Use the matching release tag or source archive when one is published. Optional
+development and integration extras are described in the
+[installation guide](https://emptiesvoid-cloud.github.io/QF_solver/getting-started/installation/).
+HDF5, PETSc, MPI and SLEPc remain optional integrations and are not required
+for the core import or standard small examples.
+
+## Quick start
+
+### Command line
 
 From the repository root, run the maintained TET4 example:
 
-```powershell
-qf-solver check-mesh --input .\examples\tet4_static.json
-qf-solver solve --input .\examples\tet4_static.json --output .\results\tet4.json
+```bash
+qf-solver check-mesh --input examples/tet4_static.json
+qf-solver solve --input examples/tet4_static.json --output results/tet4.json
 ```
 
-The full first-calculation guide is
-[`docs/getting-started/quickstart.md`](docs/getting-started/quickstart.md).
+See the [first-calculation guide](https://emptiesvoid-cloud.github.io/QF_solver/getting-started/quickstart/)
+for the complete workflow.
 
-## Quick start: Python
+### Python
 
 Use the public `qf_solver` namespace:
 
@@ -90,77 +107,117 @@ save_result(result, "results/tet4.json")
 ```
 
 The historical `solveur` namespace remains available for compatibility. New
-applications should use `qf_solver`; see
-[`docs/reference/api_stability.md`](docs/reference/api_stability.md).
+applications should use `qf_solver`; see the
+[API stability guide](https://emptiesvoid-cloud.github.io/QF_solver/reference/api_stability/).
 
-## Elements and analyses
+A successful maintained example writes the requested JSON result file and
+returns a passing solve status. Inspect the result object or JSON for
+displacements and derived result fields; model-specific stresses, reactions
+and diagnostics remain subject to the documented route scope.
 
-The public element summary is in
-[`docs/elements/index.md`](docs/elements/index.md), and the analysis summary is
-in [`docs/analyses/index.md`](docs/analyses/index.md).
+## Main capabilities
 
-The current release includes bounded routes for TET4, TET10, HEX8 and HEX20,
-along with case-bounded shell, beam and discrete paths. The status is explicit:
-WEDGE6 static remains experimental. WEDGE6 modal qualification does not transfer to static,
-nonlinear or other dynamic analyses.
+The public status model is bounded and route-specific. The
+[central capability index](https://emptiesvoid-cloud.github.io/QF_solver/capabilities/)
+links each status to its evidence and limitations.
 
-## Measured performance
+**At a glance:** solids include TET4, TET10, HEX8, HEX20 and WEDGE6; the
+repository also contains BEAM2 and MITC3/MITC4 shell routes. Main analyses are
+static, modal and buckling, with mixed Newmark/harmonic dynamics remaining
+experimental-bounded. Geometric nonlinearity and PYRAMID5 are research or
+internal paths, and mixed distributed PETSc/MPI is not validated.
 
-The published performance evidence is bounded, not a universal scaling law:
-
-| Workload | Recorded result | Boundary |
+| Capability | Status | Boundary |
 | --- | --- | --- |
-| 1,029,000 DOF | Two stable PETSc replays | Structured TET4, recorded host and MPI container. |
-| 3,000,000 DOF | Two Silver replays plus bounded Gold Compute evidence | Same frozen PETSc/CG/GAMG route. |
-| 5,012,640 DOF | Bronze and two complete 5M Silver replays | 9,773,946 TET4 elements, recorded 8-rank environment. |
-| 10,125,000 DOF | C3 `PASS_WITH_LIMITATIONS` evidence | Complete solve evidence exists; deeper scaling analysis remains bounded. |
+| Linear static and small-strain solid routes | `QUALIFIED_BOUNDED` | Recorded element/material/load combinations only. |
+| WEDGE6 static | `QUALIFIED_BOUNDED` | Documented Gmsh Prism 6 static scope. |
+| WEDGE6 modal | `QUALIFIED_BOUNDED` | Documented homogeneous consistent-mass modal scope. |
+| Mixed static, modal, translational MPC and multi-material | `QUALIFIED_BOUNDED` | Connected conforming serial TET4/WEDGE6/HEX8 workflows. |
+| Mixed Newmark and harmonic | `EXPERIMENTAL_BOUNDED` | Connected serial TET4/WEDGE6/HEX8 frozen dynamic cases. |
+| Bounded Abaqus/CalculiX `.inp` subset | `EXPERIMENTAL_BOUNDED` | Documented subset; not general format compatibility. |
+| Family-aware mixed HDF5 results | `EXPERIMENTAL_BOUNDED` | Opt-in schema 1.0 storage and selective reads. |
+| Frictionless contact | `EXPERIMENTAL_BOUNDED` | Penalty node-to-triangle, bounded small-sliding cases. |
+| HEX8-SRI | `EXPERIMENTAL_BOUNDED` | Locking-sensitive linear-elastic capability; not locking-free. |
+| MITC4 modal | `EXPERIMENTAL` | Experimental route with its recorded scope. |
+| Mixed distributed PETSc/MPI | `NOT_VALIDATED` | Architecture evidence only; no validated runtime claim. |
+| PYRAMID5 | `INTERNAL` / `RESEARCH_ONLY` | Internal feasibility path; not a supported public element. |
+
+The authoritative [0.2.8 element-analysis registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/b706795a8d7d2d8e64df4ec669e343ef1a666ead/qualification/0_2_8/consolidated_registry.json)
+contains 32 `QUALIFIED_BOUNDED`, 14 `EXPERIMENTAL`, 0 `NOT_QUALIFIED` and 46
+records. Mixed workflows and separate capabilities are not added to those 46
+records. Release-specific evidence links in this page are pinned to the exact
+`0.2.8` candidate commit; project-global links may follow the project default
+branch.
+
+## Verification and maturity
+
+Qualification records use prospective contracts, frozen gates, reproducible
+evidence, replay checks and failure cases. The maturity labels mean:
+
+- `QUALIFIED_BOUNDED`: frozen gates passed within the declared scope; not a universal claim.
+- `EXPERIMENTAL_BOUNDED`: usable route with bounded evidence and explicit limitations.
+- `EXPERIMENTAL`: evidence exists, but the route remains below bounded qualification.
+- `RESEARCH_ONLY`: discovery or feasibility work; no production support claim.
+- `NOT_VALIDATED`: implementation or architecture exists, but required runtime evidence is absent or failed.
+- `INTERNAL`: not part of the supported public surface.
+
+Read the [V&V and maturity model](https://emptiesvoid-cloud.github.io/QF_solver/verification/evidence-and-maturity/)
+and the [0.2.8 verification summary pinned to the candidate commit](https://github.com/emptiesvoid-cloud/QF_solver/tree/b706795a8d7d2d8e64df4ec669e343ef1a666ead/docs/verification/0_2_8/).
+
+## Performance context
+
+Recorded large-model results are historical, bounded evidence for structured
+TET4 workloads in documented PETSc/MPI environments:
+
+| Workload | Recorded context | Boundary |
+| --- | --- | --- |
+| ~1.029M DOF | Two stable PETSc replays | Structured TET4 only. |
+| ~3M DOF | Silver replays and bounded Gold evidence | Same recorded route and environment. |
+| ~5.01264M DOF | Bronze and two complete 5M Silver replays | Structured TET4, recorded 8-rank environment. |
+| ~10M DOF | Bounded C3 capacity/solve context | Not a universal scaling guarantee. |
 
 No claim of GPU, general HPC, hardware-independent scaling, mixed-mesh support
-or a general nonlinear performance claim is made.
+or general nonlinear scaling is made. The mixed distributed PETSc/MPI runtime
+remains `NOT_VALIDATED`.
 
-## Main limitations
+## Limitations
 
-- WEDGE6 static is experimental; WEDGE15 and PYRAMID5 are not supported.
-- Mixed TET/WEDGE/HEX workflows and next-generation HEX8R/SRI/B-bar paths are
-  deferred or research-only.
-- Finite-kinematic J2, generalized nonlinear, contact and finite-sliding routes
-  remain experimental or outside the qualified scope.
-- 5M Gold and deeper 10M scaling analysis are deferred.
-- Code_Aster correlation is bounded to comparable recorded cases. CalculiX is
-  `NOT_COMPARABLE` where conventions or observables do not match strictly.
-- Linux and Windows evidence is available in the recorded test matrix; macOS
-  and some Python versions remain unverified and are not claimed as tested.
+- General nonlinear dynamics and finite-kinematic material routes are not production-qualified.
+- PYRAMID5 is internal/research only; WEDGE15 is not supported.
+- MITC4 modal remains `EXPERIMENTAL`.
+- HEX8-SRI remains `EXPERIMENTAL_BOUNDED`, not locking-free or universally robust.
+- The `.inp` reader supports a bounded Abaqus/CalculiX subset only.
+- Contact is limited to the documented frictionless penalty node-to-triangle scope.
+- Mixed Newmark and harmonic are bounded linear serial workflows.
+- Mixed distributed PETSc/MPI is `NOT_VALIDATED`; no partial-rank or general distributed claim is made.
 
-## Documentation and verification
+See the dedicated [limitations page](https://emptiesvoid-cloud.github.io/QF_solver/etat/limites/)
+and [solver/backend notes](https://emptiesvoid-cloud.github.io/QF_solver/solveurs/).
 
-- [Getting started](docs/getting-started/quickstart.md)
-- [Elements](docs/elements/index.md)
-- [Analyses](docs/analyses/index.md)
-- [Solvers and backends](docs/solveurs/index.md)
-- [Public roadmap](docs/reference/feuille_de_route.md)
-- [0.2.7 verification summary](docs/verification/0_2_7/README.md)
-- [API stability](docs/reference/api_stability.md)
-- [Detailed changelog](CHANGELOG.md)
+## Documentation
 
-QF Solver distinguishes `IMPLEMENTED`, `TESTED`, `VERIFIED`,
-`EXTERNALLY_VALIDATED`, `QUALIFIED` and `EXPERIMENTAL`. The detailed evidence
-pack preserves the exact inputs, outputs, manifests and source references used
-for each recorded result.
+- [Getting started](https://emptiesvoid-cloud.github.io/QF_solver/getting-started/quickstart/)
+- [Capability index](https://emptiesvoid-cloud.github.io/QF_solver/capabilities/)
+- [Elements](https://emptiesvoid-cloud.github.io/QF_solver/elements/)
+- [Analyses](https://emptiesvoid-cloud.github.io/QF_solver/analyses/)
+- [What's New in 0.2.8](https://emptiesvoid-cloud.github.io/QF_solver/whats-new/0.2.8/)
+- [Benchmarks](https://emptiesvoid-cloud.github.io/QF_solver/benchmarks/)
+- [V&V and maturity](https://emptiesvoid-cloud.github.io/QF_solver/verification/evidence-and-maturity/)
+- [API stability](https://emptiesvoid-cloud.github.io/QF_solver/reference/api_stability/)
+- [Historical 0.2.7 verification](https://emptiesvoid-cloud.github.io/QF_solver/verification/0_2_7/)
+- [Detailed changelog](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CHANGELOG.md)
 
-No claim of certification or universal physical validation is made.
-
-## Contributing, license and citation
+## Contributing, citation and license
 
 Development setup and quality checks are described in
-[`CONTRIBUTING.md`](CONTRIBUTING.md). The software is distributed under the
-[Apache License 2.0](LICENSE); documentation and original examples are under
-[`CC BY 4.0`](LICENSE-DOCS). Third-party terms are listed in
-[`THIRD_PARTY_LICENSES.md`](THIRD_PARTY_LICENSES.md). See
-[`CITATION.cff`](CITATION.cff) for citation metadata.
+[CONTRIBUTING.md](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CONTRIBUTING.md).
+QF Solver is distributed under the
+[Apache License 2.0](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/LICENSE);
+documentation and original examples are under
+[CC BY 4.0](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/LICENSE-DOCS).
+Third-party terms are listed in
+[THIRD_PARTY_LICENSES.md](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/THIRD_PARTY_LICENSES.md).
+For citation metadata, see
+the [CITATION.cff file](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CITATION.cff).
 
-Documentation contributors can build the controlled evidence locally with:
-
-```powershell
-python .\scripts\build_docs.py --profile engineering
-python .\scripts\build_technical_latex.py
-```
+No claim of certification or universal physical validation is made.

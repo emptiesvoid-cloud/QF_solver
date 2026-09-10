@@ -1,0 +1,2144 @@
+{
+  "applicable_version": "0.2.8-development",
+  "baseline_sha": "59a438bc0d58ee32d35e084dd091eefe78418bb6",
+  "bugs_fixed": [
+    "WP08B uses all generated WEDGE6/HEX8 segments and a fine-mass prolongation MAC in a separate campaign runner; no numerical kernel changed."
+  ],
+  "bugs_found": [
+    "WP08 refinement construction selected only the first WEDGE6/HEX8 segment above level one, changing the physical domain.",
+    "WP08 compared shared nodal samples rather than fields represented on one mesh and one mass inner product."
+  ],
+  "failure_contract": {
+    "cases": {
+      "disconnected_families": {
+        "error": "Mesh validation failed: Mixed modal model has no conforming shared-face interface between its solid families.",
+        "status": "PASS"
+      },
+      "invalid_connectivity": {
+        "error": "Mesh validation failed: Element 1: repeated node in connectivity.",
+        "status": "PASS"
+      },
+      "invalid_orientation": {
+        "error": "Mesh validation failed: Element 0: invalid TET4 signed corner volume -1.666667e-01.",
+        "status": "PASS"
+      },
+      "nonconforming_interface": {
+        "error": "Mesh validation failed: Model contains exact duplicate nodes.; Mixed modal nonconforming interface rejected: coincident faces from different families do not share the same node identities.; Mixed modal nonconforming interface rejected: coincident faces from different families do not share the same node identities.; Mixed modal model has no conforming shared-face interface between its solid families.",
+        "status": "PASS"
+      }
+    },
+    "status": "PASS"
+  },
+  "historical_0_2_7_evidence_changed": false,
+  "interface_robustness": {
+    "displacement_continuity_max": 0.0,
+    "duplicate_interface_dofs": false,
+    "interface_count": 5,
+    "interface_family_pairs": [
+      [
+        "TET4",
+        "WEDGE6"
+      ],
+      [
+        "HEX8",
+        "WEDGE6"
+      ],
+      [
+        "HEX8",
+        "WEDGE6"
+      ],
+      [
+        "HEX8",
+        "WEDGE6"
+      ],
+      [
+        "HEX8",
+        "WEDGE6"
+      ]
+    ],
+    "mass_duplication_check": "covered by analytical total-mass conservation",
+    "shared_dof_sets_consistent": true,
+    "shared_node_count": 19,
+    "status": "PASS"
+  },
+  "limitations": [
+    "The independent dense oracle checks a separate global scatter and generalized eigensolve, not an external industrial-solver correlation.",
+    "The qualification candidate is limited to the declared fixed-base chain, first six modes, consistent mass and conforming interfaces.",
+    "Pure-family controls are diagnostic only and do not relabel their individual modal routes.",
+    "No modal stress, Newmark, harmonic, nonlinear, nonconforming-interface or large-performance claim is made."
+  ],
+  "mesh_construction": {
+    "coordinate_maximum_absolute_error": 0.0,
+    "expected_family_counts": true,
+    "levels": {
+      "1": {
+        "coordinate_max": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "coordinate_min": [
+          0.0,
+          -1.0,
+          -1.0
+        ],
+        "dof_count": 33,
+        "element_count": 3,
+        "family_counts": {
+          "HEX8": 1,
+          "TET4": 1,
+          "WEDGE6": 1
+        },
+        "node_count": 11,
+        "total_volume": 1.6666666666666665
+      },
+      "2": {
+        "coordinate_max": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "coordinate_min": [
+          0.0,
+          -1.0,
+          -1.0
+        ],
+        "dof_count": 48,
+        "element_count": 5,
+        "family_counts": {
+          "HEX8": 2,
+          "TET4": 1,
+          "WEDGE6": 2
+        },
+        "node_count": 16,
+        "total_volume": 1.6666666666666663
+      },
+      "4": {
+        "coordinate_max": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "coordinate_min": [
+          0.0,
+          -1.0,
+          -1.0
+        ],
+        "dof_count": 78,
+        "element_count": 9,
+        "family_counts": {
+          "HEX8": 4,
+          "TET4": 1,
+          "WEDGE6": 4
+        },
+        "node_count": 26,
+        "total_volume": 1.6666666666666665
+      },
+      "8": {
+        "coordinate_max": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "coordinate_min": [
+          0.0,
+          -1.0,
+          -1.0
+        ],
+        "dof_count": 138,
+        "element_count": 17,
+        "family_counts": {
+          "HEX8": 8,
+          "TET4": 1,
+          "WEDGE6": 8
+        },
+        "node_count": 46,
+        "total_volume": 1.6666666666666663
+      }
+    },
+    "node_and_dof_counts_strictly_increase": true,
+    "status": "PASS",
+    "volume_relative_error": 1.332267629550188e-16
+  },
+  "mesh_refinement": {
+    "frequency_order_monotone_decreasing": true,
+    "levels": {
+      "1": {
+        "dof_count": 33,
+        "first_six_frequencies_hz": [
+          779.2970010584501,
+          876.0645186655587,
+          1139.4548515471656,
+          1616.6196599993436,
+          2207.4327397382967,
+          2285.4134048737073
+        ],
+        "node_count": 11
+      },
+      "2": {
+        "dof_count": 48,
+        "first_six_frequencies_hz": [
+          770.1499631167884,
+          873.1117559394899,
+          1136.2714804120355,
+          1613.7095044299756,
+          2187.6000509913674,
+          2263.2197843218273
+        ],
+        "node_count": 16
+      },
+      "4": {
+        "dof_count": 78,
+        "first_six_frequencies_hz": [
+          757.5028256542097,
+          871.9146845914033,
+          1121.0686449623518,
+          1612.216428759423,
+          2066.447243299222,
+          2235.72459515029
+        ],
+        "node_count": 26
+      },
+      "8": {
+        "dof_count": 138,
+        "first_six_frequencies_hz": [
+          753.3363247965001,
+          871.5747173312384,
+          1116.185993464026,
+          1611.7501652041876,
+          2032.606078410475,
+          2228.093914493616
+        ],
+        "node_count": 46
+      }
+    },
+    "mode_crossing_observed": false,
+    "status": "PASS",
+    "transitions": [
+      {
+        "assignment": [
+          {
+            "coarse_mode": 0,
+            "fine_mode": 0,
+            "mac": 0.9989838732367105
+          },
+          {
+            "coarse_mode": 1,
+            "fine_mode": 1,
+            "mac": 0.9991483773630149
+          },
+          {
+            "coarse_mode": 2,
+            "fine_mode": 2,
+            "mac": 0.9994594759198485
+          },
+          {
+            "coarse_mode": 3,
+            "fine_mode": 3,
+            "mac": 0.9991735973089504
+          },
+          {
+            "coarse_mode": 4,
+            "fine_mode": 4,
+            "mac": 0.9853619551932534
+          },
+          {
+            "coarse_mode": 5,
+            "fine_mode": 5,
+            "mac": 0.9750632149681868
+          }
+        ],
+        "assignment_is_identity": true,
+        "coarse_frequencies_hz": [
+          779.2970010584501,
+          876.0645186655587,
+          1139.4548515471656,
+          1616.6196599993436,
+          2207.4327397382967,
+          2285.4134048737073
+        ],
+        "coarse_level": 1,
+        "fine_frequencies_hz": [
+          770.1499631167884,
+          873.1117559394899,
+          1136.2714804120355,
+          1613.7095044299756,
+          2187.6000509913674,
+          2263.2197843218273
+        ],
+        "fine_level": 2,
+        "frequency_relative_changes": [
+          0.011876956930107097,
+          0.0033818840554856516,
+          0.0028015938004320212,
+          0.0018033949489539773,
+          0.009065957343501437,
+          0.009806215333404015
+        ],
+        "mac_matrix": [
+          [
+            0.9989838732367105,
+            0.0003626360363738484,
+            8.500763343922677e-06,
+            6.331559133763442e-08,
+            1.0563144272603956e-06,
+            2.4273310961888048e-05
+          ],
+          [
+            0.00035738702473482907,
+            0.9991483773630149,
+            2.7931181561243766e-05,
+            1.460376329653826e-06,
+            1.2140015248747002e-05,
+            5.080863902056627e-06
+          ],
+          [
+            9.317898706032452e-06,
+            2.4932755413917825e-05,
+            0.9994594759198485,
+            2.3378737697881016e-06,
+            5.1434798521355845e-05,
+            1.3398343282586462e-05
+          ],
+          [
+            2.9055899028528566e-08,
+            8.79784724420381e-07,
+            1.732658795207851e-06,
+            0.9991735973089504,
+            2.2870926366399703e-07,
+            3.8638080327705676e-06
+          ],
+          [
+            2.3337333471961992e-06,
+            4.843908451111019e-06,
+            2.770053160209427e-05,
+            1.3987886283874071e-06,
+            0.9853619551932534,
+            0.007975573494263737
+          ],
+          [
+            1.0967399612210916e-05,
+            1.1195867133567193e-06,
+            5.695306900932417e-06,
+            4.935763445701238e-07,
+            0.006665868576552459,
+            0.9750632149681868
+          ]
+        ],
+        "mapping": {
+          "extrapolation": false,
+          "maximum_containing_elements_at_one_node": 3,
+          "maximum_coordinate_reconstruction_error": 0.0,
+          "maximum_interface_field_disagreement": 0.0,
+          "target_node_count": 16
+        },
+        "maximum_frequency_relative_change": 0.011876956930107097,
+        "minimum_assigned_mac": 0.9750632149681868,
+        "mixed_near_degenerate_clusters": {
+          "coarse": [
+            [
+              0
+            ],
+            [
+              1
+            ],
+            [
+              2
+            ],
+            [
+              3
+            ],
+            [
+              4
+            ],
+            [
+              5
+            ]
+          ],
+          "fine": [
+            [
+              0
+            ],
+            [
+              1
+            ],
+            [
+              2
+            ],
+            [
+              3
+            ],
+            [
+              4
+            ],
+            [
+              5
+            ]
+          ]
+        },
+        "status": "PASS"
+      },
+      {
+        "assignment": [
+          {
+            "coarse_mode": 0,
+            "fine_mode": 0,
+            "mac": 0.9988622794359757
+          },
+          {
+            "coarse_mode": 1,
+            "fine_mode": 1,
+            "mac": 0.9995010645382614
+          },
+          {
+            "coarse_mode": 2,
+            "fine_mode": 2,
+            "mac": 0.9985978421855624
+          },
+          {
+            "coarse_mode": 3,
+            "fine_mode": 3,
+            "mac": 0.9997410951755462
+          },
+          {
+            "coarse_mode": 4,
+            "fine_mode": 4,
+            "mac": 0.9036534290771685
+          },
+          {
+            "coarse_mode": 5,
+            "fine_mode": 5,
+            "mac": 0.9135199181127577
+          }
+        ],
+        "assignment_is_identity": true,
+        "coarse_frequencies_hz": [
+          770.1499631167884,
+          873.1117559394899,
+          1136.2714804120355,
+          1613.7095044299756,
+          2187.6000509913674,
+          2263.2197843218273
+        ],
+        "coarse_level": 2,
+        "fine_frequencies_hz": [
+          757.5028256542097,
+          871.9146845914033,
+          1121.0686449623518,
+          1612.216428759423,
+          2066.447243299222,
+          2235.72459515029
+        ],
+        "fine_level": 4,
+        "frequency_relative_changes": [
+          0.016695828760316687,
+          0.0013729225682756975,
+          0.01356102101151383,
+          0.0009261012627823615,
+          0.05862855104818297,
+          0.012298110970903817
+        ],
+        "mac_matrix": [
+          [
+            0.9988622794359757,
+            0.00040334745742507343,
+            0.0001156799759925023,
+            2.0242547733883557e-07,
+            5.374135849260103e-06,
+            9.005883812162376e-06
+          ],
+          [
+            0.0003964591864337563,
+            0.9995010645382614,
+            4.094519202651383e-05,
+            8.107166973346558e-08,
+            2.557229903849377e-06,
+            1.323528033123746e-06
+          ],
+          [
+            0.00011467768652505044,
+            3.706861160373819e-05,
+            0.9985978421855624,
+            2.408447127592597e-06,
+            6.289400685385586e-05,
+            1.780852479123014e-05
+          ],
+          [
+            1.7156584892905074e-07,
+            7.428344755570376e-08,
+            2.3736188674475485e-06,
+            0.9997410951755462,
+            9.567636978911741e-05,
+            9.462247807321775e-08
+          ],
+          [
+            5.4816932561684355e-06,
+            2.5684634219142385e-06,
+            3.0375623450829387e-05,
+            7.550112666045222e-05,
+            0.9036534290771685,
+            0.07580289999494323
+          ],
+          [
+            1.352280663394347e-06,
+            1.782533263169468e-07,
+            2.8916274987005713e-05,
+            7.2006368752065974e-06,
+            0.07322642753523644,
+            0.9135199181127577
+          ]
+        ],
+        "mapping": {
+          "extrapolation": false,
+          "maximum_containing_elements_at_one_node": 4,
+          "maximum_coordinate_reconstruction_error": 0.0,
+          "maximum_interface_field_disagreement": 0.0,
+          "target_node_count": 26
+        },
+        "maximum_frequency_relative_change": 0.05862855104818297,
+        "minimum_assigned_mac": 0.9036534290771685,
+        "mixed_near_degenerate_clusters": {
+          "coarse": [
+            [
+              0
+            ],
+            [
+              1
+            ],
+            [
+              2
+            ],
+            [
+              3
+            ],
+            [
+              4
+            ],
+            [
+              5
+            ]
+          ],
+          "fine": [
+            [
+              0
+            ],
+            [
+              1
+            ],
+            [
+              2
+            ],
+            [
+              3
+            ],
+            [
+              4
+            ],
+            [
+              5
+            ]
+          ]
+        },
+        "status": "PASS"
+      },
+      {
+        "assignment": [
+          {
+            "coarse_mode": 0,
+            "fine_mode": 0,
+            "mac": 0.9999046171630146
+          },
+          {
+            "coarse_mode": 1,
+            "fine_mode": 1,
+            "mac": 0.999955814461868
+          },
+          {
+            "coarse_mode": 2,
+            "fine_mode": 2,
+            "mac": 0.9998908102677968
+          },
+          {
+            "coarse_mode": 3,
+            "fine_mode": 3,
+            "mac": 0.9999717553408453
+          },
+          {
+            "coarse_mode": 4,
+            "fine_mode": 4,
+            "mac": 0.9983499325251556
+          },
+          {
+            "coarse_mode": 5,
+            "fine_mode": 5,
+            "mac": 0.9979137182657807
+          }
+        ],
+        "assignment_is_identity": true,
+        "coarse_frequencies_hz": [
+          757.5028256542097,
+          871.9146845914033,
+          1121.0686449623518,
+          1612.216428759423,
+          2066.447243299222,
+          2235.72459515029
+        ],
+        "coarse_level": 4,
+        "fine_frequencies_hz": [
+          753.3363247965001,
+          871.5747173312384,
+          1116.185993464026,
+          1611.7501652041876,
+          2032.606078410475,
+          2228.093914493616
+        ],
+        "fine_level": 8,
+        "frequency_relative_changes": [
+          0.005530731388580123,
+          0.0003900609476212431,
+          0.004374406709022237,
+          0.0002892902171201769,
+          0.01664915068797357,
+          0.003424757191353971
+        ],
+        "mac_matrix": [
+          [
+            0.9999046171630146,
+            3.521189202597205e-05,
+            1.4333311645098818e-05,
+            2.993676198226729e-08,
+            7.957823311556168e-07,
+            9.510962928285732e-07
+          ],
+          [
+            3.502236649449058e-05,
+            0.999955814461868,
+            4.752698031212888e-06,
+            3.654894274396873e-09,
+            2.3594006433246499e-07,
+            1.0428116266174577e-07
+          ],
+          [
+            1.4329120599633258e-05,
+            4.622144703230552e-06,
+            0.9998908102677968,
+            2.2997667349502503e-07,
+            3.752696958239819e-06,
+            1.2451578344626078e-06
+          ],
+          [
+            2.8453185507035037e-08,
+            3.6633995795553914e-09,
+            2.3039844146282863e-07,
+            0.9999717553408453,
+            1.3392254573181623e-05,
+            1.9951880967905246e-09
+          ],
+          [
+            7.621111389964641e-07,
+            2.284527319565308e-07,
+            3.48576013777572e-06,
+            1.3066787108563138e-05,
+            0.9983499325251556,
+            0.0005630175186650859
+          ],
+          [
+            7.157536192656862e-07,
+            7.899602846122157e-08,
+            1.2568468484876511e-06,
+            1.1106880526568427e-08,
+            0.0005674493471673938,
+            0.9979137182657807
+          ]
+        ],
+        "mapping": {
+          "extrapolation": false,
+          "maximum_containing_elements_at_one_node": 4,
+          "maximum_coordinate_reconstruction_error": 0.0,
+          "maximum_interface_field_disagreement": 0.0,
+          "target_node_count": 46
+        },
+        "maximum_frequency_relative_change": 0.01664915068797357,
+        "minimum_assigned_mac": 0.9979137182657807,
+        "mixed_near_degenerate_clusters": {
+          "coarse": [
+            [
+              0
+            ],
+            [
+              1
+            ],
+            [
+              2
+            ],
+            [
+              3
+            ],
+            [
+              4
+            ],
+            [
+              5
+            ]
+          ],
+          "fine": [
+            [
+              0
+            ],
+            [
+              1
+            ],
+            [
+              2
+            ],
+            [
+              3
+            ],
+            [
+              4
+            ],
+            [
+              5
+            ]
+          ]
+        },
+        "status": "PASS"
+      }
+    ]
+  },
+  "mixed_mass_assembly": {
+    "cases": {
+      "TET4_WEDGE6": {
+        "assembly": {
+          "accumulator_chunk_count": 1,
+          "accumulator_occupied_levels": 1,
+          "assembly_index_dtype": "int32",
+          "assembly_memory_budget_bytes": null,
+          "assembly_memory_budget_exceeded": false,
+          "assembly_peak_memory_estimate_bytes": 69120,
+          "assembly_phase_seconds": {
+            "assembly_plan": 0.00026739994063973427,
+            "chunk_fusion": 3.00002284348011e-06,
+            "chunk_sparse_conversion": 0.00027190009132027626,
+            "discrete_merge": 4.989991430193186e-05,
+            "element_kernel": 0.016332099912688136,
+            "sparse_finalize": 0.0001607000594958663
+          },
+          "assembly_plan_reused": false,
+          "chunk_count": 1,
+          "chunk_size": 256,
+          "coefficient_entry_count": 1440,
+          "concentrated_mass_count": 0,
+          "element_count": 5,
+          "final_nnz": 372,
+          "matrix": "mass",
+          "paired_assembly": true,
+          "peak_chunk_entry_count": 1440,
+          "shared_chunk_pattern": true,
+          "spring_count": 0
+        },
+        "direction_masses": {
+          "UX": 5200.000000000001,
+          "UY": 5200.000000000001,
+          "UZ": 5200.0
+        },
+        "dof_count": 48,
+        "expected_total_mass": 5200.0,
+        "formulation": "consistent_translational_finite_element_mass",
+        "independent_scatter_relative": 0.0,
+        "mass_conservation_relative": 1.7490282726402466e-16,
+        "minimum_eigenvalue": 20.354080827419278,
+        "minimum_eigenvalue_relative_to_trace": 0.0037278536313954717,
+        "paired_vs_direct_relative": 0.0,
+        "positive_definite": true,
+        "status": "PASS",
+        "symmetry_relative": 0.0,
+        "unique_dof_count": 48
+      },
+      "TET4_WEDGE6_HEX8": {
+        "assembly": {
+          "accumulator_chunk_count": 1,
+          "accumulator_occupied_levels": 1,
+          "assembly_index_dtype": "int32",
+          "assembly_memory_budget_bytes": null,
+          "assembly_memory_budget_exceeded": false,
+          "assembly_peak_memory_estimate_bytes": 179712,
+          "assembly_phase_seconds": {
+            "assembly_plan": 0.0004314000252634287,
+            "chunk_fusion": 2.200016751885414e-06,
+            "chunk_sparse_conversion": 0.00033900002017617226,
+            "discrete_merge": 5.000003147870302e-05,
+            "element_kernel": 0.038894800003618,
+            "sparse_finalize": 0.00017060001846402884
+          },
+          "assembly_plan_reused": false,
+          "chunk_count": 1,
+          "chunk_size": 256,
+          "coefficient_entry_count": 3744,
+          "concentrated_mass_count": 0,
+          "element_count": 9,
+          "final_nnz": 840,
+          "matrix": "mass",
+          "paired_assembly": true,
+          "peak_chunk_entry_count": 3744,
+          "shared_chunk_pattern": true,
+          "spring_count": 0
+        },
+        "direction_masses": {
+          "UX": 12999.999999999996,
+          "UY": 12999.999999999996,
+          "UZ": 12999.999999999996
+        },
+        "dof_count": 78,
+        "expected_total_mass": 12999.999999999998,
+        "formulation": "consistent_translational_finite_element_mass",
+        "independent_scatter_relative": 6.8177592845108e-17,
+        "mass_conservation_relative": 1.3992226181121976e-16,
+        "minimum_eigenvalue": 20.171294950631797,
+        "minimum_eigenvalue_relative_to_trace": 0.0016275923843974013,
+        "paired_vs_direct_relative": 0.0,
+        "positive_definite": true,
+        "status": "PASS",
+        "symmetry_relative": 2.055631768880383e-17,
+        "unique_dof_count": 78
+      },
+      "WEDGE6_HEX8": {
+        "assembly": {
+          "accumulator_chunk_count": 1,
+          "accumulator_occupied_levels": 1,
+          "assembly_index_dtype": "int32",
+          "assembly_memory_budget_bytes": null,
+          "assembly_memory_budget_exceeded": false,
+          "assembly_peak_memory_estimate_bytes": 172800,
+          "assembly_phase_seconds": {
+            "assembly_plan": 0.0004385000793263316,
+            "chunk_fusion": 2.800021320581436e-06,
+            "chunk_sparse_conversion": 0.0003299000672996044,
+            "discrete_merge": 5.349994171410799e-05,
+            "element_kernel": 0.037846899940632284,
+            "sparse_finalize": 0.00017300003673881292
+          },
+          "assembly_plan_reused": false,
+          "chunk_count": 1,
+          "chunk_size": 256,
+          "coefficient_entry_count": 3600,
+          "concentrated_mass_count": 0,
+          "element_count": 8,
+          "final_nnz": 819,
+          "matrix": "mass",
+          "paired_assembly": true,
+          "peak_chunk_entry_count": 3600,
+          "shared_chunk_pattern": true,
+          "spring_count": 0
+        },
+        "direction_masses": {
+          "UX": 11699.999999999996,
+          "UY": 11699.999999999996,
+          "UZ": 11699.999999999996
+        },
+        "dof_count": 75,
+        "expected_total_mass": 11699.999999999998,
+        "formulation": "consistent_translational_finite_element_mass",
+        "independent_scatter_relative": 7.526150046968791e-17,
+        "mass_conservation_relative": 1.5546917979024417e-16,
+        "minimum_eigenvalue": 19.478972326547087,
+        "minimum_eigenvalue_relative_to_trace": 0.001798058983988962,
+        "paired_vs_direct_relative": 0.0,
+        "positive_definite": true,
+        "status": "PASS",
+        "symmetry_relative": 2.269219620155559e-17,
+        "unique_dof_count": 75
+      }
+    },
+    "status": "PASS"
+  },
+  "numerical_source_changed": false,
+  "owner_gate_required": true,
+  "pairwise_modal": {
+    "TET4_WEDGE6": {
+      "element_types": [
+        "TET4",
+        "WEDGE6",
+        "WEDGE6",
+        "WEDGE6",
+        "WEDGE6"
+      ],
+      "free_dof_count": 15,
+      "frequencies_hz": [
+        1183.3414112127944,
+        1311.4931643406649,
+        1944.1469596178154,
+        2195.9633545939446,
+        2888.8701764968155,
+        3004.338141160037
+      ],
+      "frequency_count": 6,
+      "independent_reference_frequencies_hz": [
+        1183.3414112127975,
+        1311.4931643406562,
+        1944.1469596178144,
+        2195.96335459394,
+        2888.870176496813,
+        3004.338141160035
+      ],
+      "input_digest": "3abc6fc3bfd22f17805bc6aa24f77a225a812bf981964ce411e3edc2b825f205",
+      "mass_orthogonality_error": 4.0262893498362107e-16,
+      "maximum_relative_frequency_error": 6.588063058023346e-15,
+      "maximum_relative_residual": 1.3369650601191946e-14,
+      "modal_mass_normalization_error": 8.881784197001252e-16,
+      "mode_matching": {
+        "assignment": [
+          {
+            "candidate": 0,
+            "mac": 0.9999999999999999,
+            "reference": 0
+          },
+          {
+            "candidate": 1,
+            "mac": 1.0000000000000002,
+            "reference": 1
+          },
+          {
+            "candidate": 2,
+            "mac": 1.0000000000000002,
+            "reference": 2
+          },
+          {
+            "candidate": 3,
+            "mac": 1.0,
+            "reference": 3
+          },
+          {
+            "candidate": 4,
+            "mac": 1.0,
+            "reference": 4
+          },
+          {
+            "candidate": 5,
+            "mac": 1.0000000000000004,
+            "reference": 5
+          }
+        ],
+        "cluster_assignment": [
+          {
+            "candidate_modes": [
+              0
+            ],
+            "reference_modes": [
+              0
+            ],
+            "subspace_mac": 1.0
+          },
+          {
+            "candidate_modes": [
+              1
+            ],
+            "reference_modes": [
+              1
+            ],
+            "subspace_mac": 0.9999999999999987
+          },
+          {
+            "candidate_modes": [
+              2
+            ],
+            "reference_modes": [
+              2
+            ],
+            "subspace_mac": 0.9999999999999984
+          },
+          {
+            "candidate_modes": [
+              3
+            ],
+            "reference_modes": [
+              3
+            ],
+            "subspace_mac": 1.0000000000000004
+          },
+          {
+            "candidate_modes": [
+              4
+            ],
+            "reference_modes": [
+              4
+            ],
+            "subspace_mac": 0.9999999999999996
+          },
+          {
+            "candidate_modes": [
+              5
+            ],
+            "reference_modes": [
+              5
+            ],
+            "subspace_mac": 1.0000000000000009
+          }
+        ],
+        "matching_method": "individual MAC with subspace MAC for numerically degenerate eigenvalue clusters",
+        "minimum_assigned_mac": 0.9999999999999984,
+        "minimum_individual_mac": 0.9999999999999999,
+        "mode_ordered": true
+      },
+      "name": "WP08B_TET4_WEDGE6",
+      "node_count": 16,
+      "output_labels": {
+        "analysis": "modal",
+        "families": [
+          "TET4",
+          "WEDGE6"
+        ],
+        "normalization": "unit generalized mass"
+      },
+      "relative_residuals": [
+        1.3369650601191946e-14,
+        1.0274389644160098e-14,
+        5.94760887837348e-15,
+        4.579412164778823e-15,
+        2.5379101863791164e-15,
+        2.423216290079241e-15
+      ],
+      "status": "PASS"
+    },
+    "TET4_WEDGE6_HEX8": {
+      "element_types": [
+        "TET4",
+        "WEDGE6",
+        "HEX8",
+        "WEDGE6",
+        "HEX8",
+        "WEDGE6",
+        "HEX8",
+        "WEDGE6",
+        "HEX8"
+      ],
+      "free_dof_count": 30,
+      "frequencies_hz": [
+        757.5028256542097,
+        871.9146845914033,
+        1121.0686449623518,
+        1612.216428759423,
+        2066.447243299222,
+        2235.72459515029
+      ],
+      "frequency_count": 6,
+      "independent_reference_frequencies_hz": [
+        757.5028256542058,
+        871.9146845914029,
+        1121.0686449623395,
+        1612.2164287594287,
+        2066.4472432992216,
+        2235.724595150288
+      ],
+      "input_digest": "e2445113d22a6a70cd83639a889408430dea5834ebbb9b998c32b2b351875bfa",
+      "mass_orthogonality_error": 3.9578498278185875e-16,
+      "maximum_relative_frequency_error": 1.0952209330898732e-14,
+      "maximum_relative_residual": 7.714140072231404e-14,
+      "modal_mass_normalization_error": 1.1102230246251565e-15,
+      "mode_matching": {
+        "assignment": [
+          {
+            "candidate": 0,
+            "mac": 0.9999999999999998,
+            "reference": 0
+          },
+          {
+            "candidate": 1,
+            "mac": 1.0000000000000002,
+            "reference": 1
+          },
+          {
+            "candidate": 2,
+            "mac": 0.9999999999999992,
+            "reference": 2
+          },
+          {
+            "candidate": 3,
+            "mac": 1.0,
+            "reference": 3
+          },
+          {
+            "candidate": 4,
+            "mac": 1.0000000000000002,
+            "reference": 4
+          },
+          {
+            "candidate": 5,
+            "mac": 0.9999999999999998,
+            "reference": 5
+          }
+        ],
+        "cluster_assignment": [
+          {
+            "candidate_modes": [
+              0
+            ],
+            "reference_modes": [
+              0
+            ],
+            "subspace_mac": 1.0000000000000009
+          },
+          {
+            "candidate_modes": [
+              1
+            ],
+            "reference_modes": [
+              1
+            ],
+            "subspace_mac": 1.0000000000000004
+          },
+          {
+            "candidate_modes": [
+              2
+            ],
+            "reference_modes": [
+              2
+            ],
+            "subspace_mac": 0.9999999999999996
+          },
+          {
+            "candidate_modes": [
+              3
+            ],
+            "reference_modes": [
+              3
+            ],
+            "subspace_mac": 1.0000000000000009
+          },
+          {
+            "candidate_modes": [
+              4
+            ],
+            "reference_modes": [
+              4
+            ],
+            "subspace_mac": 1.0000000000000004
+          },
+          {
+            "candidate_modes": [
+              5
+            ],
+            "reference_modes": [
+              5
+            ],
+            "subspace_mac": 0.9999999999999993
+          }
+        ],
+        "matching_method": "individual MAC with subspace MAC for numerically degenerate eigenvalue clusters",
+        "minimum_assigned_mac": 0.9999999999999993,
+        "minimum_individual_mac": 0.9999999999999992,
+        "mode_ordered": true
+      },
+      "name": "WP08B_TET4_WEDGE6_HEX8",
+      "node_count": 26,
+      "output_labels": {
+        "analysis": "modal",
+        "families": [
+          "HEX8",
+          "TET4",
+          "WEDGE6"
+        ],
+        "normalization": "unit generalized mass"
+      },
+      "relative_residuals": [
+        7.714140072231404e-14,
+        2.8147182115413722e-14,
+        2.5643389111024934e-14,
+        1.606407440727402e-14,
+        4.4527515199985676e-15,
+        5.588438448014114e-15
+      ],
+      "status": "PASS"
+    },
+    "WEDGE6_HEX8": {
+      "element_types": [
+        "WEDGE6",
+        "HEX8",
+        "WEDGE6",
+        "HEX8",
+        "WEDGE6",
+        "HEX8",
+        "WEDGE6",
+        "HEX8"
+      ],
+      "free_dof_count": 30,
+      "frequencies_hz": [
+        716.8217120062772,
+        836.3596774350925,
+        1064.3272051979116,
+        1586.3151600357755,
+        2082.3767955713065,
+        2229.523012629844
+      ],
+      "frequency_count": 6,
+      "independent_reference_frequencies_hz": [
+        716.821712006279,
+        836.3596774350963,
+        1064.3272051979106,
+        1586.3151600357803,
+        2082.3767955713097,
+        2229.5230126298425
+      ],
+      "input_digest": "c1a8b889fbd6e89d68babd3f17fba1b484e7dfc806b2b5c06aabac948ab56a4d",
+      "mass_orthogonality_error": 3.5696072583086262e-16,
+      "maximum_relative_frequency_error": 4.485708417123526e-15,
+      "maximum_relative_residual": 4.675434786531455e-14,
+      "modal_mass_normalization_error": 6.661338147750939e-16,
+      "mode_matching": {
+        "assignment": [
+          {
+            "candidate": 0,
+            "mac": 1.0000000000000002,
+            "reference": 0
+          },
+          {
+            "candidate": 1,
+            "mac": 0.9999999999999998,
+            "reference": 1
+          },
+          {
+            "candidate": 2,
+            "mac": 1.0000000000000002,
+            "reference": 2
+          },
+          {
+            "candidate": 3,
+            "mac": 1.0,
+            "reference": 3
+          },
+          {
+            "candidate": 4,
+            "mac": 1.0000000000000002,
+            "reference": 4
+          },
+          {
+            "candidate": 5,
+            "mac": 1.0,
+            "reference": 5
+          }
+        ],
+        "cluster_assignment": [
+          {
+            "candidate_modes": [
+              0
+            ],
+            "reference_modes": [
+              0
+            ],
+            "subspace_mac": 1.0000000000000009
+          },
+          {
+            "candidate_modes": [
+              1
+            ],
+            "reference_modes": [
+              1
+            ],
+            "subspace_mac": 0.9999999999999996
+          },
+          {
+            "candidate_modes": [
+              2
+            ],
+            "reference_modes": [
+              2
+            ],
+            "subspace_mac": 1.0000000000000009
+          },
+          {
+            "candidate_modes": [
+              3
+            ],
+            "reference_modes": [
+              3
+            ],
+            "subspace_mac": 0.9999999999999996
+          },
+          {
+            "candidate_modes": [
+              4
+            ],
+            "reference_modes": [
+              4
+            ],
+            "subspace_mac": 0.9999999999999991
+          },
+          {
+            "candidate_modes": [
+              5
+            ],
+            "reference_modes": [
+              5
+            ],
+            "subspace_mac": 0.9999999999999996
+          }
+        ],
+        "matching_method": "individual MAC with subspace MAC for numerically degenerate eigenvalue clusters",
+        "minimum_assigned_mac": 0.9999999999999991,
+        "minimum_individual_mac": 0.9999999999999998,
+        "mode_ordered": true
+      },
+      "name": "WP08B_WEDGE6_HEX8",
+      "node_count": 25,
+      "output_labels": {
+        "analysis": "modal",
+        "families": [
+          "HEX8",
+          "WEDGE6"
+        ],
+        "normalization": "unit generalized mass"
+      },
+      "relative_residuals": [
+        4.5698692574462786e-14,
+        3.6519147485537615e-14,
+        4.675434786531455e-14,
+        1.1737365197934205e-14,
+        5.430168875352326e-15,
+        7.437588455223979e-15
+      ],
+      "status": "PASS"
+    }
+  },
+  "post_processing_output": {
+    "element_labels": {
+      "HEX8": 4,
+      "TET4": 1,
+      "WEDGE6": 4
+    },
+    "frequencies_finite": true,
+    "json_analysis": "modal",
+    "mode_rows": 6,
+    "status": "PASS",
+    "stress_modal_claim": false
+  },
+  "predeclared_tolerances": {
+    "adjacent_frequency_relative": 0.1,
+    "geometry_coordinate_absolute": 1e-12,
+    "geometry_volume_relative": 1e-12,
+    "mapped_global_mac": 0.85,
+    "mapping_interface_disagreement_absolute": 1e-12,
+    "mapping_reconstruction_absolute": 1e-10,
+    "mass_conservation_relative": 1e-12,
+    "mass_symmetry_relative": 1e-12,
+    "modal_mass_orthogonality_relative": 1e-10,
+    "modal_residual_relative": 1e-08,
+    "near_degenerate_frequency_relative": 0.03,
+    "oracle_frequency_relative": 1e-09,
+    "pure_control_subspace_mac": 0.85,
+    "replay_frequency_absolute": 1e-12,
+    "replay_mode_absolute_after_sign": 1e-10
+  },
+  "pure_family_controls": {
+    "controls": {
+      "HEX8": {
+        "first_six_frequencies_hz": {
+          "1": [
+            654.7080902860578,
+            654.7080902860617,
+            887.0670159088427,
+            1473.6726495150772,
+            2411.1745256939907,
+            2411.1745256939917
+          ],
+          "2": [
+            647.4210977238413,
+            651.7626540967543,
+            887.06701590884,
+            1470.6596755098783,
+            2351.608792757413,
+            2393.8354939871106
+          ],
+          "4": [
+            636.3471000459821,
+            650.7127499275829,
+            868.3475510651209,
+            1469.6539117056984,
+            2229.6982811012335,
+            2292.0341870264624
+          ]
+        },
+        "qualification_effect": "NONE; this is a protocol control, not an individual-family maturity decision.",
+        "status": "PASS_DIAGNOSTIC",
+        "transitions": [
+          {
+            "assignment": [
+              {
+                "coarse_mode": 0,
+                "fine_mode": 0,
+                "mac": 0.5384407025892743
+              },
+              {
+                "coarse_mode": 1,
+                "fine_mode": 1,
+                "mac": 0.5384108850703885
+              },
+              {
+                "coarse_mode": 2,
+                "fine_mode": 2,
+                "mac": 0.9999999999999997
+              },
+              {
+                "coarse_mode": 3,
+                "fine_mode": 3,
+                "mac": 0.9991781569969143
+              },
+              {
+                "coarse_mode": 4,
+                "fine_mode": 4,
+                "mac": 0.9310324256693954
+              },
+              {
+                "coarse_mode": 5,
+                "fine_mode": 5,
+                "mac": 0.9933982463298561
+              }
+            ],
+            "coarse_level": 1,
+            "fine_level": 2,
+            "mac_matrix": [
+              [
+                0.5384407025892743,
+                0.4611845233237143,
+                4.701729787453028e-30,
+                1.7025494058448713e-30,
+                3.820388960751375e-05,
+                1.8718917489352666e-05
+              ],
+              [
+                0.4612100640002028,
+                0.5384108850703885,
+                4.39896254685277e-29,
+                5.478903796803798e-32,
+                4.4601214864030765e-05,
+                1.6033990542980634e-05
+              ],
+              [
+                3.981563035790935e-29,
+                1.3558694796812668e-29,
+                0.9999999999999997,
+                9.576402271100137e-32,
+                3.185989082214254e-31,
+                1.6897643467973577e-34
+              ],
+              [
+                1.418435667992248e-30,
+                1.2824756688903394e-30,
+                2.993349580438095e-32,
+                0.9991781569969143,
+                1.951470092333848e-30,
+                9.306802942625274e-30
+              ],
+              [
+                3.843289589489865e-08,
+                1.7723586406774663e-05,
+                2.629919258462037e-31,
+                3.792857350873465e-30,
+                0.9310324256693954,
+                0.001748921677518613
+              ],
+              [
+                2.183012073932232e-05,
+                3.120316004637152e-08,
+                6.748922322358768e-32,
+                1.115868150484172e-29,
+                0.0016391238838422103,
+                0.9933982463298561
+              ]
+            ],
+            "mapping": {
+              "extrapolation": false,
+              "maximum_containing_elements_at_one_node": 1,
+              "maximum_coordinate_reconstruction_error": 0.0,
+              "maximum_interface_field_disagreement": 0.0,
+              "target_node_count": 12
+            },
+            "minimum_assigned_mac": 0.5384108850703885,
+            "subspace_checks": [
+              {
+                "coarse_modes": [
+                  0,
+                  1
+                ],
+                "fine_modes": [
+                  0,
+                  1
+                ],
+                "minimum_subspace_mac": 0.9995954083941033,
+                "status": "PASS"
+              },
+              {
+                "coarse_modes": [
+                  4,
+                  5
+                ],
+                "fine_modes": [
+                  4,
+                  5
+                ],
+                "minimum_subspace_mac": 0.9326715495532375,
+                "status": "PASS"
+              }
+            ]
+          },
+          {
+            "assignment": [
+              {
+                "coarse_mode": 0,
+                "fine_mode": 0,
+                "mac": 0.9995006179028916
+              },
+              {
+                "coarse_mode": 1,
+                "fine_mode": 1,
+                "mac": 0.9999649365015398
+              },
+              {
+                "coarse_mode": 2,
+                "fine_mode": 2,
+                "mac": 0.998938550758522
+              },
+              {
+                "coarse_mode": 3,
+                "fine_mode": 3,
+                "mac": 0.9999105608751033
+              },
+              {
+                "coarse_mode": 4,
+                "fine_mode": 4,
+                "mac": 4.1048622776267554e-30
+              },
+              {
+                "coarse_mode": 5,
+                "fine_mode": 5,
+                "mac": 0.984642458805719
+              }
+            ],
+            "coarse_level": 2,
+            "fine_level": 4,
+            "mac_matrix": [
+              [
+                0.9995006179028916,
+                1.383147505477452e-26,
+                3.998246472066428e-28,
+                6.863295991400182e-32,
+                3.507868150436303e-30,
+                0.00017609049292429185
+              ],
+              [
+                1.3672565252255236e-26,
+                0.9999649365015398,
+                9.24296289436076e-28,
+                3.4853626014256896e-31,
+                1.1276846092851924e-30,
+                5.2973202233905185e-31
+              ],
+              [
+                3.9701299831332734e-28,
+                9.171153501821283e-28,
+                0.998938550758522,
+                1.28646953713436e-29,
+                4.47772308597078e-05,
+                9.986814605856535e-31
+              ],
+              [
+                5.281817142267804e-32,
+                2.2286594522285893e-31,
+                1.3041940479772208e-29,
+                0.9999105608751033,
+                3.0201266848636677e-31,
+                1.0617227690277594e-29
+              ],
+              [
+                1.762705109224551e-30,
+                3.411138552921568e-06,
+                3.9376704172639164e-30,
+                5.385519076708031e-32,
+                4.1048622776267554e-30,
+                1.337528264646614e-26
+              ],
+              [
+                0.00012437039886266816,
+                1.95598476757101e-30,
+                2.580334971412232e-31,
+                9.084295412475272e-30,
+                3.852453647102799e-27,
+                0.984642458805719
+              ]
+            ],
+            "mapping": {
+              "extrapolation": false,
+              "maximum_containing_elements_at_one_node": 2,
+              "maximum_coordinate_reconstruction_error": 0.0,
+              "maximum_interface_field_disagreement": 0.0,
+              "target_node_count": 20
+            },
+            "minimum_assigned_mac": 4.1048622776267554e-30,
+            "subspace_checks": [
+              {
+                "coarse_modes": [
+                  0,
+                  1
+                ],
+                "fine_modes": [
+                  0,
+                  1
+                ],
+                "minimum_subspace_mac": 0.9995006179028925,
+                "status": "PASS"
+              },
+              {
+                "coarse_modes": [
+                  4,
+                  5
+                ],
+                "fine_modes": [
+                  4,
+                  5
+                ],
+                "minimum_subspace_mac": 4.2843437006564844e-30,
+                "status": "FAIL"
+              }
+            ]
+          }
+        ]
+      },
+      "TET4": {
+        "first_six_frequencies_hz": {
+          "1": [
+            752.6974013190952,
+            794.8627760645733,
+            1518.8732047075273,
+            1690.909123437808,
+            2378.12948753551,
+            2575.9364436165065
+          ],
+          "2": [
+            725.6021493546075,
+            786.6816974669409,
+            1522.3828145961359,
+            1620.9084716306158,
+            2481.261069369744,
+            2571.003081478383
+          ],
+          "4": [
+            711.4661024663861,
+            787.1671734686182,
+            1524.5136982643535,
+            1588.2916104705444,
+            2472.4290862929015,
+            2532.2344349341706
+          ]
+        },
+        "qualification_effect": "NONE; this is a protocol control, not an individual-family maturity decision.",
+        "status": "PASS_DIAGNOSTIC",
+        "transitions": [
+          {
+            "assignment": [
+              {
+                "coarse_mode": 0,
+                "fine_mode": 0,
+                "mac": 0.7570938671289245
+              },
+              {
+                "coarse_mode": 1,
+                "fine_mode": 1,
+                "mac": 0.7469093564147411
+              },
+              {
+                "coarse_mode": 2,
+                "fine_mode": 2,
+                "mac": 0.9966609111405228
+              },
+              {
+                "coarse_mode": 3,
+                "fine_mode": 3,
+                "mac": 0.9635593305107267
+              },
+              {
+                "coarse_mode": 4,
+                "fine_mode": 4,
+                "mac": 0.912207238819458
+              },
+              {
+                "coarse_mode": 5,
+                "fine_mode": 5,
+                "mac": 0.9097887455431928
+              }
+            ],
+            "coarse_level": 1,
+            "fine_level": 2,
+            "mac_matrix": [
+              [
+                0.7570938671289245,
+                0.2414309492839824,
+                0.00012228690619061347,
+                0.00041727707507481585,
+                1.822689314089513e-08,
+                0.0003926984367038969
+              ],
+              [
+                0.25081333077884577,
+                0.7469093564147411,
+                0.000428080325622461,
+                3.4267996283413606e-05,
+                0.00017186361343113484,
+                0.0011592296927124864
+              ],
+              [
+                0.0011873190126967534,
+                1.1617300742174671e-05,
+                0.9966609111405228,
+                0.0013631869359282272,
+                6.544373813386714e-05,
+                0.0002475162195861963
+              ],
+              [
+                0.003149099878961558,
+                0.017778391296873683,
+                0.003830665026369362,
+                0.9635593305107267,
+                0.0052515516302030175,
+                4.562968081724097e-06
+              ],
+              [
+                0.0035811013079024767,
+                0.004853600785676501,
+                0.012877652989167019,
+                0.00895706608981307,
+                0.912207238819458,
+                7.442254308691306e-05
+              ],
+              [
+                0.0007948996047953537,
+                0.004612834721049928,
+                0.009849553142207944,
+                0.0034124618122092928,
+                0.026268142329958055,
+                0.9097887455431928
+              ]
+            ],
+            "mapping": {
+              "extrapolation": false,
+              "maximum_containing_elements_at_one_node": 6,
+              "maximum_coordinate_reconstruction_error": 0.0,
+              "maximum_interface_field_disagreement": 0.0,
+              "target_node_count": 12
+            },
+            "minimum_assigned_mac": 0.7469093564147411,
+            "subspace_checks": []
+          },
+          {
+            "assignment": [
+              {
+                "coarse_mode": 0,
+                "fine_mode": 0,
+                "mac": 0.9780175974524875
+              },
+              {
+                "coarse_mode": 1,
+                "fine_mode": 1,
+                "mac": 0.9782016108317642
+              },
+              {
+                "coarse_mode": 2,
+                "fine_mode": 2,
+                "mac": 0.9991421965878601
+              },
+              {
+                "coarse_mode": 3,
+                "fine_mode": 3,
+                "mac": 0.9876330995408343
+              },
+              {
+                "coarse_mode": 4,
+                "fine_mode": 4,
+                "mac": 0.5870517221837441
+              },
+              {
+                "coarse_mode": 5,
+                "fine_mode": 5,
+                "mac": 0.6294897600359864
+              }
+            ],
+            "coarse_level": 2,
+            "fine_level": 4,
+            "mac_matrix": [
+              [
+                0.9780175974524875,
+                0.021339846642916365,
+                0.0001688446612234139,
+                7.82801214606885e-05,
+                2.6501641819924232e-06,
+                0.0001354804787048193
+              ],
+              [
+                0.021477219714797574,
+                0.9782016108317642,
+                5.40993516979116e-05,
+                5.677207506394537e-05,
+                0.00011231168248527687,
+                4.835795855505118e-05
+              ],
+              [
+                0.0004203876352107443,
+                6.029873502508536e-06,
+                0.9991421965878601,
+                1.4212992396357418e-05,
+                0.0001666262124853912,
+                6.11719636476444e-05
+              ],
+              [
+                0.00023917046781086064,
+                0.0056841786508223194,
+                0.00028936096923044103,
+                0.9876330995408343,
+                0.002108028812620044,
+                0.0004299471040646209
+              ],
+              [
+                0.0001233911242214953,
+                0.000709517781464571,
+                0.002558543975067705,
+                0.00242614440630888,
+                0.5870517221837441,
+                0.38919509650874545
+              ],
+              [
+                6.418456707176031e-06,
+                0.0014913529093444433,
+                0.004002992495939205,
+                0.0010483916335174215,
+                0.3310282025333005,
+                0.6294897600359864
+              ]
+            ],
+            "mapping": {
+              "extrapolation": false,
+              "maximum_containing_elements_at_one_node": 8,
+              "maximum_coordinate_reconstruction_error": 0.0,
+              "maximum_interface_field_disagreement": 0.0,
+              "target_node_count": 20
+            },
+            "minimum_assigned_mac": 0.5870517221837441,
+            "subspace_checks": [
+              {
+                "coarse_modes": [
+                  4
+                ],
+                "fine_modes": [
+                  4,
+                  5
+                ],
+                "status": "NOT_COMPARABLE_CLUSTER_SIZE_CHANGED"
+              }
+            ]
+          }
+        ]
+      },
+      "WEDGE6": {
+        "first_six_frequencies_hz": {
+          "1": [
+            1065.2205048069131,
+            1254.5022046321176,
+            2140.2211412428223,
+            2172.8615566299964,
+            3015.7665452440765,
+            3676.6662825154494
+          ],
+          "2": [
+            1051.3553674361094,
+            1254.5022046321192,
+            2121.0916765884185,
+            2172.8615566299973,
+            2920.5881817252885,
+            3475.1037495350165
+          ],
+          "4": [
+            1027.7381198980431,
+            1254.5022046321171,
+            2073.1980258660333,
+            2113.1678897874817,
+            2830.9396213311234,
+            3329.064370381465
+          ]
+        },
+        "qualification_effect": "NONE; this is a protocol control, not an individual-family maturity decision.",
+        "status": "PASS_DIAGNOSTIC",
+        "transitions": [
+          {
+            "assignment": [
+              {
+                "coarse_mode": 0,
+                "fine_mode": 0,
+                "mac": 0.9990693309193227
+              },
+              {
+                "coarse_mode": 1,
+                "fine_mode": 1,
+                "mac": 1.0000000000000002
+              },
+              {
+                "coarse_mode": 2,
+                "fine_mode": 2,
+                "mac": 0.9928837229030845
+              },
+              {
+                "coarse_mode": 3,
+                "fine_mode": 3,
+                "mac": 1.0000000000000002
+              },
+              {
+                "coarse_mode": 4,
+                "fine_mode": 4,
+                "mac": 0.9847381715553827
+              },
+              {
+                "coarse_mode": 5,
+                "fine_mode": 5,
+                "mac": 0.8075418838600839
+              }
+            ],
+            "coarse_level": 1,
+            "fine_level": 2,
+            "mac_matrix": [
+              [
+                0.9990693309193227,
+                1.843180611184474e-29,
+                1.5026212545317143e-31,
+                3.143307662629305e-31,
+                0.00033558999757485087,
+                2.141813996110617e-32
+              ],
+              [
+                1.7036367666062695e-29,
+                1.0000000000000002,
+                7.832507472327044e-31,
+                6.1387913157791476e-30,
+                4.613521769253659e-33,
+                1.5844096674535547e-32
+              ],
+              [
+                6.269525094547289e-32,
+                1.0823462818826273e-30,
+                0.9928837229030845,
+                2.0358181782435133e-28,
+                5.3295011134349e-31,
+                0.003459032678381425
+              ],
+              [
+                4.149929758988828e-31,
+                5.409623942281356e-30,
+                2.034769098077268e-28,
+                1.0000000000000002,
+                2.0617617246064133e-32,
+                2.021963495676231e-31
+              ],
+              [
+                0.00023089128321765963,
+                3.462820070640219e-32,
+                4.2446094487505185e-31,
+                1.6758487548149815e-32,
+                0.9847381715553827,
+                3.0246677639202397e-32
+              ],
+              [
+                5.006703942166797e-33,
+                1.3610232913035852e-33,
+                0.0007003419915512571,
+                2.9979956470777975e-32,
+                4.237826757009443e-32,
+                0.8075418838600839
+              ]
+            ],
+            "mapping": {
+              "extrapolation": false,
+              "maximum_containing_elements_at_one_node": 1,
+              "maximum_coordinate_reconstruction_error": 0.0,
+              "maximum_interface_field_disagreement": 0.0,
+              "target_node_count": 9
+            },
+            "minimum_assigned_mac": 0.8075418838600839,
+            "subspace_checks": [
+              {
+                "coarse_modes": [
+                  2,
+                  3
+                ],
+                "fine_modes": [
+                  2,
+                  3
+                ],
+                "minimum_subspace_mac": 0.9928837229030845,
+                "status": "PASS"
+              }
+            ]
+          },
+          {
+            "assignment": [
+              {
+                "coarse_mode": 0,
+                "fine_mode": 0,
+                "mac": 0.9986330787636261
+              },
+              {
+                "coarse_mode": 1,
+                "fine_mode": 1,
+                "mac": 0.9999999999999998
+              },
+              {
+                "coarse_mode": 2,
+                "fine_mode": 3,
+                "mac": 0.998952095761971
+              },
+              {
+                "coarse_mode": 3,
+                "fine_mode": 2,
+                "mac": 0.9861359120657515
+              },
+              {
+                "coarse_mode": 4,
+                "fine_mode": 4,
+                "mac": 0.9861685286193732
+              },
+              {
+                "coarse_mode": 5,
+                "fine_mode": 5,
+                "mac": 0.9706357637931181
+              }
+            ],
+            "coarse_level": 2,
+            "fine_level": 4,
+            "mac_matrix": [
+              [
+                0.9986330787636261,
+                4.102046577946178e-29,
+                3.221101120269733e-30,
+                3.1854095465919007e-31,
+                0.0002416799232059702,
+                2.1750589789603329e-32
+              ],
+              [
+                4.006875433683606e-29,
+                0.9999999999999998,
+                1.773132778646877e-29,
+                2.2220371392596398e-31,
+                1.4254560122377732e-31,
+                1.99283358461224e-32
+              ],
+              [
+                7.227636265767336e-31,
+                9.9005983513667e-32,
+                6.9888386343451275e-28,
+                0.998952095761971,
+                1.7567215820884104e-29,
+                0.0005108422597776391
+              ],
+              [
+                2.664500067117887e-30,
+                1.8073713541183356e-29,
+                0.9861359120657515,
+                7.0466215484169875e-28,
+                1.7700999508685227e-30,
+                7.90900964123739e-31
+              ],
+              [
+                0.0001410858276149627,
+                1.3261530240562808e-31,
+                1.6452239226283726e-30,
+                1.9521352353428448e-29,
+                0.9861685286193732,
+                1.3707098023404825e-31
+              ],
+              [
+                3.2093205884342768e-31,
+                1.1870450166053192e-31,
+                4.79025897823686e-31,
+                0.00038044395559327964,
+                4.718344591403187e-31,
+                0.9706357637931181
+              ]
+            ],
+            "mapping": {
+              "extrapolation": false,
+              "maximum_containing_elements_at_one_node": 2,
+              "maximum_coordinate_reconstruction_error": 0.0,
+              "maximum_interface_field_disagreement": 0.0,
+              "target_node_count": 15
+            },
+            "minimum_assigned_mac": 0.9706357637931181,
+            "subspace_checks": [
+              {
+                "coarse_modes": [
+                  2,
+                  3
+                ],
+                "fine_modes": [
+                  2,
+                  3
+                ],
+                "minimum_subspace_mac": 0.9861359120657517,
+                "status": "PASS"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "status": "PASS"
+  },
+  "record_id": "QF-028-WP08B-MIXED-MODAL-VNV",
+  "reference_oracle": {
+    "external": "NOT_AVAILABLE_AND_NOT_REQUIRED_FOR_THIS_BOUNDED_MIXED_ASSEMBLY_SCOPE",
+    "external_correlation_claimed": false,
+    "mass": "analytical rho*volume conservation",
+    "modal": "independent dense local-matrix scatter plus scipy.linalg.eigh",
+    "status": "PASS"
+  },
+  "replay_determinism": {
+    "canonicalization": "eigenvector sign only; no mode permutation applied",
+    "digests": [
+      "8fb4383e6a6f6a097f9a66417ccf7f1c34453fa97d84dbe134bb3b9a8bce4c9b",
+      "8fb4383e6a6f6a097f9a66417ccf7f1c34453fa97d84dbe134bb3b9a8bce4c9b"
+    ],
+    "eigenvalues_exactly_equal": true,
+    "maximum_frequency_absolute_difference": 0.0,
+    "maximum_mode_difference_after_sign_canonicalization": 0.0,
+    "required_replays": 2,
+    "status": "PASS"
+  },
+  "root_cause": {
+    "primary": "MESH_TO_MESH_MAPPING_PROBLEM",
+    "secondary": "GEOMETRIC_DISCRETIZATION_EFFECT",
+    "wp08_evidence_rewritten": false,
+    "wp08_gate_changed": false
+  },
+  "schema_version": 1,
+  "scope": {
+    "analysis": "modal",
+    "excluded": [
+      "lumped or concentrated-mass qualification",
+      "Newmark",
+      "harmonic",
+      "nonlinear",
+      "contact",
+      "nonconforming interfaces",
+      "TET10/HEX20 mixed",
+      "PYRAMID5",
+      "large mixed performance",
+      "universal all-frequency or modal-stress claim"
+    ],
+    "families": [
+      "TET4",
+      "WEDGE6",
+      "HEX8"
+    ],
+    "interfaces": "conforming shared-node triangular and quadrilateral interfaces only",
+    "mass": "consistent translational finite-element mass only",
+    "material": "homogeneous isotropic_3d with positive density",
+    "modes": "first six positive modes in the invariant physical chain"
+  },
+  "status": "CAMPAIGN_COMPLETE_OWNER_GATE_PENDING",
+  "technical_decision": "QUALIFIED_BOUNDED_CANDIDATE",
+  "work_package": "WP08B",
+  "wp08_evidence_changed": false
+}

@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP03B-MATURITY-DELTA",
+  "work_package": "WP03B",
+  "applicable_version": "0.2.8-development",
+  "baseline_sha": "6b9c08f91c876bf5136a9da39555149b89dc2b98",
+  "parent_wp03a_matrix": "qualification/0_2_8/wp03_maturity_matrix.json",
+  "evidence_record": "qualification/0_2_8/wp03b_dynamic_vnv.json",
+  "status": "TECHNICAL_VNV_COMPLETE_WITH_ONE_EXPERIMENTAL_ROUTE",
+  "public_maturity_policy": "No public maturity relabel is applied by this delta; every bounded technical decision requires explicit Owner confirmation.",
+  "preserved_wp03a_decisions": [
+    "BEAM2_STATIC",
+    "BEAM2_MODAL",
+    "DISCRETE_STATIC",
+    "DISCRETE_MODAL"
+  ],
+  "summary": {
+    "new_qualified_bounded": 3,
+    "remain_experimental": 1,
+    "public_maturity_relabels_applied": 0,
+    "total_owner_gate_candidates_after_wp03b": 7
+  },
+  "decisions": [
+    {
+      "source_record": "COMB-BEAM2-newmark_transient",
+      "wp01_disposition": "NEEDS_MAJOR_VNV",
+      "decision": "QUALIFIED_BOUNDED",
+      "public_maturity": "UNCHANGED_PENDING_OWNER",
+      "owner_gate": "PENDING"
+    },
+    {
+      "source_record": "COMB-BEAM2-harmonic",
+      "wp01_disposition": "NEEDS_MAJOR_VNV",
+      "decision": "QUALIFIED_BOUNDED",
+      "public_maturity": "UNCHANGED_PENDING_OWNER",
+      "owner_gate": "PENDING"
+    },
+    {
+      "source_record": "COMB-DISCRETE-newmark_transient",
+      "wp01_disposition": "NEEDS_MAJOR_VNV",
+      "decision": "EXPERIMENTAL",
+      "public_maturity": "UNCHANGED",
+      "owner_gate": "NOT_APPLICABLE",
+      "failed_gate": "coarse.max_phase_error_rad exceeds the predeclared WP03B limit"
+    },
+    {
+      "source_record": "COMB-DISCRETE-harmonic",
+      "wp01_disposition": "NEEDS_MAJOR_VNV",
+      "decision": "QUALIFIED_BOUNDED",
+      "public_maturity": "UNCHANGED_PENDING_OWNER",
+      "owner_gate": "PENDING"
+    }
+  ]
+}

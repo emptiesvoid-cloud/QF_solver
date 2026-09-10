@@ -33,7 +33,7 @@ HPC générale, ni une promotion de route ou de formulation.
 | Statut officiel | PASS_WITH_LIMITATIONS |
 
 La preuve machine-readable est
-[`g12_owner_closeout.json`](../../../qualification/0_2_6/g12_owner_closeout.json).
+[`g12_owner_closeout.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_6/g12_owner_closeout.json).
 
 ## Requirement Owner
 

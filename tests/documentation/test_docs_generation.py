@@ -363,14 +363,17 @@ def test_generated_manifest_hashes_and_images_are_valid() -> None:
     assert review["status"] == "BLOCKED"
 
 
-def test_documentation_is_markdown_and_pdf_first_without_web_runtime() -> None:
+def test_current_documentation_uses_static_site_build_and_preserves_legacy_tools() -> None:
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    installation = (DOCS / "demarrage" / "installation.md").read_text(encoding="utf-8")
-    for content in (readme, installation):
-        assert "scripts\\build_docs.py" in content
-        assert "scripts\\build_technical_latex.py" in content
-        assert "serve_docs.py" not in content
-    assert not (ROOT / "mkdocs.yml").exists()
+    installation = (DOCS / "getting-started" / "installation.md").read_text(encoding="utf-8")
+    legacy_installation = (DOCS / "demarrage" / "installation.md").read_text(encoding="utf-8")
+
+    assert "python -m pip install \".[docs]\"" in installation
+    assert "python -m mkdocs build --strict -f .github/pages/mkdocs.yml" in installation
+    assert "scripts/serve_docs.py" not in readme
+    assert "scripts/serve_docs.py" not in installation
+    assert "scripts\\build_docs.py" in legacy_installation
+    assert "scripts\\build_technical_latex.py" in legacy_installation
 
 
 def test_printable_mitc4_reviews_do_not_require_a_latex_renderer() -> None:

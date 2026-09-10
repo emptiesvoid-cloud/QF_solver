@@ -7,8 +7,8 @@ Gate status preserved: `026-G07 = NOT_STARTED`
 Functional source changed: `NO`
 
 The complete machine-readable record is
-[`g07_b1_arc_length_evidence.json`](../../../qualification/0_2_6/g07_b1_arc_length_evidence.json).
-The runner is [`run_g07_b1_arc_length.py`](../../../scripts/run_g07_b1_arc_length.py).
+[`g07_b1_arc_length_evidence.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_6/g07_b1_arc_length_evidence.json).
+The runner is [`run_g07_b1_arc_length.py`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/scripts/run_g07_b1_arc_length.py).
 This step is targeted evidence only; it does not modify TL, change a
 formulation, or close G07.
 

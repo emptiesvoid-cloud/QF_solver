@@ -1,0 +1,255 @@
+{
+  "contract_id": "WP13-01K-CONNECTED-MVP-001",
+  "contract_sha256": "b5961f60216722853ce4c5e17fe4aad5adbada3e7d4457bc365b65e61c6f3226",
+  "case": "small",
+  "result": {
+    "ndof": 48,
+    "element_count": 6,
+    "family_counts": {
+      "TET4": 3,
+      "WEDGE6": 2,
+      "HEX8": 1
+    },
+    "runtime_seconds": 0.010478850001163664,
+    "iterations": 1,
+    "free_residual_relative": 6.9291614252592005e-15,
+    "equilibrium_relative": 5.844372191783384e-15,
+    "energy": 0.3123597535123897,
+    "energy_identity_relative": 9.992007221626409e-16,
+    "displacement_norm": 2.877662414995605e-05,
+    "reaction_norm": 145080.77139619278,
+    "external_load_resultant": [
+      0.0,
+      0.0,
+      100000.0
+    ],
+    "reaction_resultant": [
+      9.094947017729282e-13,
+      5.529727786779404e-10,
+      -100000.00000000019
+    ],
+    "displacement_digest": "06ba1d261e5debdc31cb9946033ed5ec18996bce780bd857361661cc5589e3c3",
+    "reaction_digest": "b8c6e56504c67b6aada5f7f363a0e4136da5436d9f15cb6c8f4bf39ce3b9f948",
+    "residual_digest": "fb3ebef97b1837cdf7cff60dd1acf508accf5d24909986614be37a71aa957d23",
+    "model_digest": "b0e1c4a85eea4c1a580af631b13c6050c9f12f6ff410123117dc66bbc5772284",
+    "peak_memory_mb": 97.7890625,
+    "internal_force_norm": 156146.6091922834,
+    "backend": "petsc_mixed_distributed",
+    "rank_count": 2,
+    "matrix_nnz": null,
+    "reallocations": 0.0,
+    "ghost_nodes_local": 0,
+    "ghost_nodes_global_sum": 7,
+    "global_gather_present": false,
+    "result_only_solution_scatter": true,
+    "preallocation": {
+      "strategy": "global_connectivity_exact_for_PETSc_owned_rows",
+      "diag_nnz_sum": 576,
+      "offdiag_nnz_sum": 126,
+      "matgetinfo": {
+        "query": "PETSc.Mat.InfoType.LOCAL per rank; mpi4py aggregation",
+        "global_petsc_query": "NOT_USED_MPICH_ABI_UNRELIABLE",
+        "by_rank": [
+          {
+            "block_size": 1.0,
+            "nz_allocated": 702.0,
+            "nz_used": 702.0,
+            "nz_unneeded": 0.0,
+            "memory": 0.0,
+            "assemblies": 1.0,
+            "mallocs": 0.0,
+            "fill_ratio_given": 0.0,
+            "fill_ratio_needed": 0.0,
+            "factor_mallocs": 0.0
+          },
+          {
+            "block_size": 1.0,
+            "nz_allocated": 486.0,
+            "nz_used": 486.0,
+            "nz_unneeded": 0.0,
+            "memory": 0.0,
+            "assemblies": 1.0,
+            "mallocs": 0.0,
+            "fill_ratio_given": 0.0,
+            "fill_ratio_needed": 0.0,
+            "factor_mallocs": 0.0
+          }
+        ],
+        "mallocs_sum": 0.0,
+        "nz_used_sum": 1188.0,
+        "nz_allocated_sum": 1188.0
+      }
+    },
+    "solver_scaling": {
+      "type": "uniform_plus_symmetric_diagonal",
+      "uniform_factor": 4.761904761904762e-12,
+      "diagonal_scale_min": 1.0,
+      "diagonal_scale_max": 1.7376290854810406
+    },
+    "linear_solves": 3,
+    "residual_refinement_steps": 2,
+    "reaction_diagnostics": {
+      "rank_fixed_reaction_resultants": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          9.094947017729282e-13,
+          5.529727786779404e-10,
+          -100000.00000000019
+        ]
+      ],
+      "mpi_allreduce_resultant": [
+        9.094947017729282e-13,
+        5.529727786779404e-10,
+        -100000.00000000019
+      ],
+      "rank_ordered_fsum_resultant": [
+        9.094947017729282e-13,
+        5.529727786779404e-10,
+        -100000.00000000019
+      ],
+      "mpi_allreduce_vs_rank_ordered_fsum_max_abs": 0.0
+    },
+    "load_diagnostics": {
+      "rank_external_load_resultants": [
+        [
+          0.0,
+          0.0,
+          33333.333333333336
+        ],
+        [
+          0.0,
+          0.0,
+          66666.66666666667
+        ]
+      ],
+      "rank_ordered_fsum_resultant": [
+        0.0,
+        0.0,
+        100000.0
+      ]
+    },
+    "local_family_counts": {
+      "TET4": 1,
+      "WEDGE6": 2,
+      "HEX8": 0
+    },
+    "local_owned_nodes": 10,
+    "local_ghost_nodes": 0
+  },
+  "partition": {
+    "rank_count": 2,
+    "partition_digest": "66012dcdd8046d80ae43ffa98be51c218005a444015a941820505fb7b388f4a4",
+    "local_records": [
+      {
+        "rank": 0,
+        "owned_elements": [
+          0,
+          1,
+          2
+        ],
+        "families": {
+          "TET4": 1,
+          "WEDGE6": 2,
+          "HEX8": 0
+        },
+        "owned_nodes": 10,
+        "ghost_nodes": 0,
+        "interface_nodes": 7,
+        "neighbors": [
+          1
+        ]
+      },
+      {
+        "rank": 1,
+        "owned_elements": [
+          3,
+          4,
+          5
+        ],
+        "families": {
+          "TET4": 2,
+          "WEDGE6": 0,
+          "HEX8": 1
+        },
+        "owned_nodes": 6,
+        "ghost_nodes": 7,
+        "interface_nodes": 7,
+        "neighbors": [
+          0
+        ]
+      }
+    ],
+    "cross_rank_interfaces": {
+      "TET4_WEDGE6": 0,
+      "WEDGE6_HEX8": 1
+    },
+    "total_family_interfaces": {
+      "TET4_WEDGE6": 1,
+      "WEDGE6_HEX8": 1
+    },
+    "element_components": 1
+  },
+  "interfaces": {
+    "TET4_WEDGE6": {
+      "shared_nodes": 3,
+      "displacement_jump": 0.0,
+      "nodal_force_jump_relative": 3.4601462665749437e-15,
+      "force_a_N": [
+        6.730260793119669e-11,
+        1.4551915228366852e-10,
+        -100000.00000000026
+      ],
+      "force_b_N": [
+        -1.0186340659856796e-10,
+        -3.128661774098873e-10,
+        100000.00000000015
+      ],
+      "transfer_error_relative": 3.0710769030308604e-15,
+      "unique_dofs": true
+    },
+    "WEDGE6_HEX8": {
+      "shared_nodes": 4,
+      "displacement_jump": 0.0,
+      "nodal_force_jump_relative": 1.4425170879190293e-15,
+      "force_a_N": [
+        -7.275957614183426e-11,
+        4.911271389573812e-10,
+        -100000.0000000002
+      ],
+      "force_b_N": [
+        2.1827872842550278e-11,
+        -5.675246939063072e-10,
+        100000.00000000016
+      ],
+      "transfer_error_relative": 5.366604484739517e-15,
+      "unique_dofs": true
+    }
+  },
+  "force_defect_N": [
+    0.0,
+    5.675246939063072e-10,
+    -1.8917489796876907e-10
+  ],
+  "force_defect_fsum_N": [
+    9.094947017729282e-13,
+    5.529727786779404e-10,
+    -1.8917489796876907e-10
+  ],
+  "force_defect_norm_N": 5.98223553711271e-10,
+  "equilibrium_normal": 5.98223553711271e-15,
+  "gates": {
+    "residual": true,
+    "equilibrium": true,
+    "equilibrium_fsum": true,
+    "energy": true,
+    "reallocations": true,
+    "interfaces": true,
+    "cross_rank": true
+  },
+  "status": "PASS",
+  "memory_limitations": "Global input model and partition metadata replicated; solution scattered to all; result vectors gathered to root. No structural MPI gather of K/connectivity."
+}

@@ -2,7 +2,7 @@
 doc_id: DOC-SOLVER-GUIDE-001
 revision: 1.0
 status: controlled
-applicable_version: 0.2.7
+applicable_version: 0.2.8-development
 reviewer: ""
 approver: ""
 ---
@@ -37,7 +37,7 @@ QF Solver is a good fit if you need:
 - modal and structural dynamic analysis within documented limits;
 - small-strain elastoplastic calculations within qualified routes;
 - sparse linear solving;
-- PETSc/MPI solving for selected large models;
+- PETSc/MPI solving for the recorded structured TET4 large-model routes;
 - an engineering solver that exposes numerical diagnostics;
 - a solver that explicitly separates implemented, tested, verified and
   qualified capabilities.
@@ -126,6 +126,9 @@ Typical applications include:
 WEDGE6 modal analysis has bounded qualification for a specifically documented
 homogeneous isotropic consistent-mass route and for the first three modes.
 
+WEDGE6 static has a separate `QUALIFIED_BOUNDED` linear-elastic scope. Neither
+decision qualifies arbitrary WEDGE6 analyses.
+
 This qualification must not be generalized to other WEDGE6 analyses.
 
 ---
@@ -139,6 +142,10 @@ QF Solver contains dynamic-analysis routes including:
 - harmonic analysis.
 
 These capabilities are currently supported with documented limitations.
+
+The connected mixed TET4/WEDGE6/HEX8 Newmark and harmonic routes are
+`EXPERIMENTAL_BOUNDED`; their serial model, damping, timestep or frequency
+scope must be matched exactly.
 
 They are appropriate for controlled structural-dynamics studies when the
 chosen formulation, model and solver route match the available verification
@@ -259,6 +266,14 @@ for:
 Use QF Solver for large models when the intended solver route is close to the
 documented large-scale configurations.
 
+The 0.2.8 mixed PETSc/MPI architecture does not yet satisfy its runtime
+qualification gates and remains `NOT_VALIDATED`: the two-rank run passes its
+residual check but fails force balance, the three-rank run reaches
+`KSP_DIVERGED_BREAKDOWN`, and partition consistency fails. This is architecture
+evidence only; it must not be presented as scalable mixed PETSc support,
+validated distributed mixed support, production-ready mixed MPI, or even as a
+limited two-rank claim.
+
 ---
 
 # When QF Solver is probably not the right tool
@@ -329,11 +344,11 @@ WEDGE6 support must be interpreted carefully.
 
 Current status:
 
-- WEDGE6 static: `EXPERIMENTAL`;
+- WEDGE6 static: `QUALIFIED_BOUNDED` within its documented linear-elastic scope;
 - WEDGE6 modal: bounded qualification for a specific documented route.
 
-A successful WEDGE6 modal qualification does not imply static, nonlinear or
-general dynamic qualification.
+Neither WEDGE6 static nor modal qualification implies nonlinear or general
+dynamic qualification.
 
 WEDGE15 is currently outside the supported qualified scope.
 
@@ -538,14 +553,15 @@ For example:
 | --- | --- |
 | Linear static solid routes | `QUALIFIED_BOUNDED` |
 | Small-strain J2 on TET4/TET10/HEX8/HEX20 | `QUALIFIED_BOUNDED` |
-| Modal analysis | `SUPPORTED_WITH_LIMITATIONS` |
-| Newmark dynamics | `SUPPORTED_WITH_LIMITATIONS` |
-| Harmonic analysis | `SUPPORTED_WITH_LIMITATIONS` |
-| Linear buckling | `SUPPORTED_WITH_LIMITATIONS` |
-| Frictionless contact | `SUPPORTED_WITH_LIMITATIONS` |
-| WEDGE6 static | `EXPERIMENTAL` |
+| Modal analysis | `ROUTE_DEPENDENT — see capability index` |
+| Newmark dynamics | `ROUTE_DEPENDENT — see capability index` |
+| Harmonic analysis | `ROUTE_DEPENDENT — see capability index` |
+| Linear buckling | `ROUTE_DEPENDENT — see capability index` |
+| Frictionless contact | `EXPERIMENTAL_BOUNDED` |
+| WEDGE6 static | `QUALIFIED_BOUNDED` |
 | WEDGE6 modal, declared route | `QUALIFIED_BOUNDED` |
-| PETSc/MPI large-model route | `SUPPORTED_WITH_LIMITATIONS` |
+| Structured TET4 PETSc/MPI route | `ROUTE_DEPENDENT — see capability index` |
+| Mixed distributed PETSc/MPI runtime | `NOT_VALIDATED` |
 | General frictional contact | Not qualified |
 | General finite-strain plasticity | Not qualified |
 | GPU solving | Not claimed |
@@ -587,7 +603,8 @@ Then continue with:
 - [Elements](../elements/index.md)
 - [Analyses](../analyses/index.md)
 - [Known limitations](../etat/limites.md)
-- [QF Solver 0.2.7 verification](../verification/0_2_7/README.md)
+- [QF Solver 0.2.8 verification](../verification/0_2_8/README.md)
+- [Historical QF Solver 0.2.7 verification](../verification/0_2_7/README.md)
 
 ---
 

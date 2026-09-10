@@ -1,0 +1,34 @@
+{
+  "mode": "replay",
+  "comparisons": [
+    {
+      "reference": "stage_b_mpi2",
+      "label": "stage_b_replay1",
+      "values": {
+        "displacement": 0.0,
+        "reactions": 0.0,
+        "energy": 0.0,
+        "residual_difference": 0.0,
+        "equilibrium_difference": 0.0
+      },
+      "pass": true,
+      "same_model": true,
+      "raw_digest_equal": true
+    },
+    {
+      "reference": "stage_b_mpi2",
+      "label": "stage_b_replay2",
+      "values": {
+        "displacement": 1.6926640881411754e-13,
+        "reactions": 9.145723034613519e-14,
+        "energy": 1.1089805922333512e-13,
+        "residual_difference": 1.5149503914847228e-15,
+        "equilibrium_difference": 3.78439864177877e-14
+      },
+      "pass": true,
+      "same_model": true,
+      "raw_digest_equal": false
+    }
+  ],
+  "pass": true
+}

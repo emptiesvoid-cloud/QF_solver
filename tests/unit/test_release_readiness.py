@@ -3,14 +3,33 @@
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
 
 from scripts.release_readiness import release_readiness
+from scripts.git_tools import git_command
 
 
 ROOT = Path(__file__).resolve().parents[2]
+_RELEASE_AUDIT_SUBPROCESS_TIMEOUT = 180
+
+
+def _read_subprocess_report(output: Path, completed: subprocess.CompletedProcess[str]) -> dict[str, object]:
+    """Fail with child diagnostics when a release audit cannot write its report."""
+    assert output.is_file(), (
+        f"release audit did not write {output}; returncode={completed.returncode}; "
+        f"stdout={completed.stdout!r}; stderr={completed.stderr!r}"
+    )
+    return json.loads(output.read_text(encoding="utf-8"))
+
+
+def _audit_subprocess_environment() -> dict[str, str]:
+    """Pass the already-resolved Git executable into nested audit processes."""
+    environment = os.environ.copy()
+    environment["QF_SOLVER_GIT"] = git_command()
+    return environment
 
 
 def test_current_open_source_tree_reports_its_actual_release_state() -> None:
@@ -48,12 +67,17 @@ def test_release_readiness_supports_direct_script_execution(tmp_path) -> None:
         text=True,
         capture_output=True,
         check=False,
+        env=_audit_subprocess_environment(),
         # The direct readiness audit scans the complete public tree and is
         # noticeably slower on Windows runners, especially on Python 3.13.
-        timeout=90,
+        # The audit scans the full public tree and Git archive.  On a loaded
+        # Windows CI worker the subprocess can exceed 90 seconds without
+        # being hung; keep a finite, documented guard with room for that
+        # bounded workload.
+        timeout=_RELEASE_AUDIT_SUBPROCESS_TIMEOUT,
     )
 
-    report = json.loads(output.read_text(encoding="utf-8"))
+    report = _read_subprocess_report(output, completed)
     expected_returncode = 0 if report["status"] == "READY" else 4
     assert completed.returncode == expected_returncode
     assert f"RELEASE READINESS: {report['status']}" in completed.stdout
@@ -75,9 +99,10 @@ def test_release_audit_commands_create_nested_output_directories(tmp_path) -> No
             text=True,
             capture_output=True,
             check=False,
-            timeout=90,
+            env=_audit_subprocess_environment(),
+            timeout=_RELEASE_AUDIT_SUBPROCESS_TIMEOUT,
         )
 
-        status = json.loads(output.read_text(encoding="utf-8"))["status"]
+        status = _read_subprocess_report(output, completed)["status"]
         assert status in returncodes
         assert completed.returncode == returncodes[status], completed.stderr

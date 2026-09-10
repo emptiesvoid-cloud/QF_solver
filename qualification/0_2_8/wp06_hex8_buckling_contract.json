@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP06-HEX8-BUCKLING-CONTRACT",
+  "work_package": "WP06",
+  "applicable_version": "0.2.8-development",
+  "baseline_sha": "1dac48f88c07f1f5450f693702263472824f42bb",
+  "status": "PREDECLARED_CAMPAIGN_CONTRACT",
+  "source_record": "COMB-HEX8-linear_buckling",
+  "wp01_gap": {
+    "disposition": "NOT_QUALIFIED_TO_CLOSE",
+    "candidate_plan": "CAND-HEX8-BUCKLING",
+    "historical_reason": "The 0.2.6 G08 Owner review retained HEX8 as MORE_EVIDENCE_REQUIRED: the same-model C3D8 correlation and eigen diagnostics passed, but the corrected Euler error remained 298.413 percent and no comparable analytical/converged HEX8 closure was available."
+  },
+  "historical_evidence_inventory": [
+    {"path": "qualification/0_2_6/g08_requirements.json", "role": "frozen G08 buckling contract"},
+    {"path": "qualification/0_2_6/g08_execution_evidence.json", "role": "historical execution and first-factor diagnostics"},
+    {"path": "qualification/0_2_6/g08_euler_prevalidation_evidence.json", "role": "corrected Euler and HEX8 root-cause evidence"},
+    {"path": "qualification/0_2_6/g08_calculix_correlation.json", "role": "historical C3D8 external correlation"},
+    {"path": "qualification/0_2_6/g08_owner_final_review.json", "role": "active historical Owner decision"},
+    {"path": "qualification/0_2_7/wp19_runtime/wp19_hex8_diagnostic.json", "role": "0.2.7 HEX8 diagnostic and C3D8 displacement comparison"},
+    {"path": "docs/verification/0_2_7/0_2_7_wp19_robustness_hex8.md", "role": "0.2.7 bounded diagnostic interpretation"}
+  ],
+  "scope": {
+    "element": "HEX8",
+    "analysis": "linear_buckling",
+    "formulation": "first linearized tangent-instability factor from one converged proportional preload",
+    "material": "homogeneous isotropic_3d small-strain linear elasticity",
+    "loads": "uniform nodal dead compression on the x=L end plane",
+    "geometry": "rectangular prismatic solid column with x-axis length L, y-width b=1.2 and z-height h=1.0",
+    "boundary_configurations": [
+      "cantilever: all DOFs fixed on x=0, x=L end free",
+      "pinned_pinned_lateral: UY/UZ fixed on both end planes and one x=0 UX anchor"
+    ],
+    "mesh": "conforming structured HEX8 meshes with at least three declared refinements in x/y/z",
+    "outputs": ["critical factor", "first mode", "preload residual", "Kg diagnostics", "eigen residual", "mode matching", "replay digest"],
+    "included": ["first factor", "first mode", "bounded mesh trend", "declared scale and preload perturbations", "fail-closed invalid/singular cases"],
+    "excluded": ["HEX8R", "SRI", "B-bar", "hourglass", "post-buckling", "collapse", "imperfection sensitivity", "multi-mode qualification", "mixed mesh", "plates", "shell/beam/discrete routes", "nonlinear material", "finite-kinematic J2", "unbounded geometry or universal buckling claims"]
+  },
+  "oracles": {
+    "analytical": {
+      "name": "Euler column first-factor oracle",
+      "formula": "Pcr = C*pi^2*E*Iweak/L^2; C=0.25 for cantilever and C=1.0 for pinned-pinned_lateral",
+      "section_inertia": "Iweak = b*h^3/12 for the z-displacement weak bending plane",
+      "factor_conversion": "lambda_reference = Pcr / P_reference, with P_reference equal to the total applied nodal compression",
+      "mode_shape": "cantilever f(x)=1-cos(pi*x/(2L)); pinned-pinned f(x)=sin(pi*x/L), projected onto the z displacement direction",
+      "independence": "closed-form continuum reference evaluated independently from QF element assembly"
+    },
+    "external": {
+      "preferred": "CalculiX C3D8 same mesh, geometry, material, constraints, preload and first factor/mode when executable is available",
+      "code_aster": "NOT_COMPARABLE unless an equivalent 3D solid eigen-buckling modelisation is demonstrated",
+      "comparability_rule": "mismatched boundary conditions, load convention, geometry, element formulation or observable is NOT_COMPARABLE, never PASS"
+    }
+  },
+  "tolerance_policy": {
+    "fixed_before_execution": true,
+    "post_observation_retuning": false,
+    "preload_relative_residual": 1.0e-8,
+    "geometric_stiffness_symmetry_relative": 1.0e-12,
+    "eigen_residual_relative_pass": 1.0e-7,
+    "eigen_residual_relative_warning_upper": 1.0e-5,
+    "critical_factor_bracket_relative": 1.0e-3,
+    "analytical_factor_relative_error": 0.10,
+    "analytical_mode_mac": 0.90,
+    "refinement_minimum_levels": 3,
+    "refinement_final_adjacent_factor_change": 0.01,
+    "external_factor_relative_error": 0.10,
+    "external_mode_mac": 0.90,
+    "scale_relation_relative_error": 0.02,
+    "preload_relation_relative_error": 0.02,
+    "replay_digest": "exact equality of declared deterministic outputs",
+    "replay_seed": 0
+  },
+  "promotion_gate": "QUALIFIED_BOUNDED only if both boundary configurations meet the analytical factor and mode gates on an eligible refinement, the first-factor sequence is converged, Kg/preload/eigen/replay checks pass, comparable external correlation passes when available, invalid cases fail closed, and no source or historical-evidence change is present.",
+  "owner_gate_required": true,
+  "public_maturity_during_wp06": "NOT_QUALIFIED",
+  "no_core_change_policy": "A numerical source change is outside this campaign unless a demonstrated bug has a minimal fix and regression evidence; no tolerance may change after observing results."
+}

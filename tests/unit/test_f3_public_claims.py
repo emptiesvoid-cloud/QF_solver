@@ -3,6 +3,9 @@
 import json
 import re
 from pathlib import Path
+from urllib.parse import unquote, urlparse
+
+from scripts.git_tools import git_object_exists
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -19,6 +22,20 @@ def _active_markdown_scope() -> list[Path]:
         paths.extend(sorted((ROOT / "docs" / directory).rglob("*.md")))
     paths.append(ROOT / "examples/README.md")
     return paths
+
+
+def _frozen_first_party_blob_reference(target: str) -> str | None:
+    """Return a local Git object reference for a pinned first-party blob URL."""
+    parsed = urlparse(target)
+    if parsed.scheme != "https" or parsed.netloc != "github.com":
+        return None
+    parts = unquote(parsed.path).strip("/").split("/")
+    if len(parts) < 5 or parts[:3] != ["emptiesvoid-cloud", "QF_solver", "blob"]:
+        return None
+    revision, relative = parts[3], "/".join(parts[4:])
+    if not re.fullmatch(r"[0-9a-f]{40}", revision):
+        return None
+    return f"{revision}:{relative}"
 
 
 def test_f3_audit_schema_and_evidence_references_are_complete() -> None:
@@ -65,7 +82,8 @@ def test_active_boundaries_match_registry_and_release_truth() -> None:
     assert state["global_accounting"]["level_up_2"] == "50/50 CLOSED"
 
     root_readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    assert "WEDGE6 static remains experimental" in root_readme
+    assert "WEDGE6 static | `QUALIFIED_BOUNDED`" in root_readme
+    assert "qualification/0_2_8/consolidated_registry.json" in root_readme
     assert "No claim of GPU, general HPC" in root_readme
     assert "two complete 5M Silver replays" in root_readme
     assert "No claim of certification" in root_readme
@@ -92,7 +110,8 @@ def test_active_lu2_views_do_not_present_old_accounting_as_current() -> None:
 
     roadmap = (ROOT / "docs/reference/feuille_de_route.md").read_text(encoding="utf-8")
     assert "historical planning snapshot" in roadmap
-    assert "0.2.7 active scope" in roadmap
+    assert "0.2.8 development scope" in roadmap
+    assert "QF Solver 0.2.7 is the current stable source release" not in roadmap
 
     for relative in ("docs/elements/tet4.md", "docs/elements/tet10.md", "docs/elements/mitc4.md"):
         text = (ROOT / relative).read_text(encoding="utf-8")
@@ -101,20 +120,33 @@ def test_active_lu2_views_do_not_present_old_accounting_as_current() -> None:
 
 def test_critical_markdown_links_resolve_locally() -> None:
     link_pattern = re.compile(r"\[[^\]]*\]\(([^)]+)\)")
-    checked = 0
+    local_checked = 0
     broken: list[tuple[str, str]] = []
+    frozen_blob_references: set[str] = set()
     for path in _active_markdown_scope():
         text = path.read_text(encoding="utf-8")
         for raw_target in link_pattern.findall(text):
             target = raw_target.split("#", 1)[0].strip()
+            frozen_reference = _frozen_first_party_blob_reference(target)
+            if frozen_reference is not None:
+                frozen_blob_references.add(frozen_reference)
+                continue
             if not target or target.startswith(("http://", "https://", "mailto:")):
                 continue
-            checked += 1
+            local_checked += 1
             candidate = (path.parent / target).resolve()
             if not candidate.exists():
                 broken.append((str(path.relative_to(ROOT)), raw_target))
-    assert checked >= 354
+
+    frozen_missing = [
+        reference
+        for reference in sorted(frozen_blob_references)
+        if not git_object_exists(reference, cwd=ROOT)
+    ]
+    assert local_checked > 0
+    assert frozen_blob_references
     assert broken == broken[:0], broken
+    assert frozen_missing == [], frozen_missing
 
     audit = json.loads(AUDIT_PATH.read_text(encoding="utf-8"))
     assert audit["scanned_scope"]["active_link_scope_broken"] == 0

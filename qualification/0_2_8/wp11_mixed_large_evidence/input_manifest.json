@@ -1,0 +1,56 @@
+{
+  "small": {
+    "chains": 2,
+    "segments_per_chain": 1,
+    "components": 2,
+    "nodes": 22,
+    "dof": 66,
+    "elements": 6,
+    "elements_by_family": {
+      "TET4": 2,
+      "WEDGE6": 2,
+      "HEX8": 2
+    },
+    "interfaces": {
+      "triangular": 2,
+      "quadrilateral": 2
+    },
+    "fixed_nodes_per_chain": 7,
+    "loads_per_chain": 2,
+    "material": {
+      "type": "isotropic_3d",
+      "E": 210000000000.0,
+      "nu": 0.3,
+      "density": 7800.0
+    },
+    "input_digest": "e15be04639374a53768aa4366913ff127c80f4fd5776a29c64f2672c4290c3eb",
+    "interface_records_detected": 30
+  },
+  "mandatory": {
+    "chains": 9091,
+    "segments_per_chain": 1,
+    "components": 9091,
+    "nodes": 100001,
+    "dof": 300003,
+    "elements": 27273,
+    "elements_by_family": {
+      "TET4": 9091,
+      "WEDGE6": 9091,
+      "HEX8": 9091
+    },
+    "interfaces": {
+      "triangular": 9091,
+      "quadrilateral": 9091
+    },
+    "fixed_nodes_per_chain": 7,
+    "loads_per_chain": 2,
+    "material": {
+      "type": "isotropic_3d",
+      "E": 210000000000.0,
+      "nu": 0.3,
+      "density": 7800.0
+    },
+    "input_digest": "32a9f024ebd243cccdf7842e4ce3f8be4bdae56cdcfcfd6164ba634a9c2a0eb8",
+    "interface_records_detected": 136365
+  }
+}

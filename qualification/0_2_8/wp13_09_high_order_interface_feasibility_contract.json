@@ -1,0 +1,323 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP13-09-HIGH-ORDER-INTERFACE-FEASIBILITY-CONTRACT",
+  "contract_id": "WP13-09-HIGH-ORDER-INTERFACE-FEASIBILITY-001",
+  "work_package": "WP13-09",
+  "applicable_version": "0.2.8-development",
+  "creation_sha": "7d3ee4eee37be0a01d58d4d1040f8638cfbe8bc9",
+  "status": "PREDECLARED_NOT_EXECUTED",
+  "contract_created_before_micro_run": true,
+  "objective": "Feasibility and topology audit for high-order mixed interfaces without creating a production workflow, changing FEM formulations, changing the 46-record maturity registry, or changing historical evidence.",
+  "scope": {
+    "analysis": "topology_and_kinematic_feasibility_only",
+    "families": ["TET10", "HEX20", "WEDGE6", "PYRAMID5", "TET4", "HEX8"],
+    "high_order_targets": ["TET10", "HEX20"],
+    "linear_neighbors": ["WEDGE6", "PYRAMID5", "TET4", "HEX8"],
+    "mechanics": "No production static, modal, dynamic, contact, nonlinear, or public mixed high-order qualification is executed by WP13-09.",
+    "historical_evidence_read_only": true,
+    "historical_0_2_7_evidence_read_only": true,
+    "maturity_registry_read_only": true,
+    "public_capability_created": false,
+    "excluded": [
+      "WEDGE15 production implementation",
+      "PYRAMID13 production implementation",
+      "general high-order mixed workflow",
+      "arbitrary nonconforming interface qualification",
+      "modal or dynamic MPC transition",
+      "nonlinear or contact transition",
+      "full mechanical V&V campaign",
+      "full test suite"
+    ]
+  },
+  "preflight_audit": {
+    "source_traceability": [
+      {
+        "path": "src/solveur/elements/registry.py",
+        "symbols": ["ElementRegistry._specs", "TET10", "HEX20", "WEDGE6", "PYRAMID5"],
+        "classification": "ALREADY_IMPLEMENTED",
+        "finding": "All four element classes are individually registered; this does not establish mixed interface compatibility."
+      },
+      {
+        "path": "src/solveur/elements/solid/tet10.py",
+        "symbols": ["Tet10Element.edge_nodes", "Tet10Element.shape_functions", "Tet10Element.validate_geometry"],
+        "classification": "ALREADY_IMPLEMENTED",
+        "finding": "TET10 uses four corner nodes plus six midside edge nodes and validates the high-order geometry."
+      },
+      {
+        "path": "src/solveur/elements/solid/hex20.py",
+        "symbols": ["Hex20Element.edge_data", "Hex20Element.shape_functions", "Hex20Element.validate_geometry"],
+        "classification": "ALREADY_IMPLEMENTED",
+        "finding": "HEX20 uses eight corner nodes plus twelve midside edge nodes and validates sampled Jacobians."
+      },
+      {
+        "path": "src/solveur/mesh/topology.py",
+        "symbols": ["TET4_FACES", "TET10_FACES", "WEDGE6_FACES", "HEX8_FACES", "HEX20_FACES", "PYRAMID5_FACES"],
+        "classification": "PARTIAL",
+        "finding": "High-order face definitions exist for TET10 and HEX20, but no WEDGE15 or PYRAMID13 topology exists."
+      },
+      {
+        "path": "src/solveur/mesh/gmsh_importer.py",
+        "symbols": ["SUPPORTED_FAMILIES", "GMSH_TET10_TO_INTERNAL", "_cell_family", "_oriented_connectivities", "_solid_face_map"],
+        "classification": "PARTIAL",
+        "finding": "Gmsh imports TET10/HEX20/WEDGE6/PYRAMID5 individually and maps high-order faces for surface targeting, but has no WEDGE15/PYRAMID13 transition mapping."
+      },
+      {
+        "path": "src/solveur/mesh/mixed_validation.py",
+        "symbols": ["MIXED_LINEAR_STATIC_FAMILIES", "PYRAMID5_FEASIBILITY_FAMILIES", "_FACE_MAP", "_NODE_COUNTS", "_mixed_scope_errors", "_face_records"],
+        "classification": "TOPOLOGY_GAP",
+        "finding": "Mixed scope and face records enumerate TET4/WEDGE6/HEX8/PYRAMID5 only; TET10/HEX20 are not validated as mixed interface families."
+      },
+      {
+        "path": "src/solveur/core/constraints.py",
+        "symbols": ["LinearConstraint", "ConstraintReduction", "validate_constraint_definitions", "recover_constraint_forces"],
+        "classification": "ALREADY_IMPLEMENTED",
+        "finding": "Translation MPCs accept arbitrary linear coefficients, use affine elimination, expose rank/relation diagnostics, and recover constraint forces. No high-order face interpolator is provided."
+      },
+      {
+        "path": "src/solveur/core/rbe.py",
+        "symbols": ["Rbe2Definition", "rbe2_constraints"],
+        "classification": "PARTIAL",
+        "finding": "RBE2 is expanded into translational linear MPC equations for its bounded route; it is not a high-order face transition generator."
+      },
+      {
+        "path": "qualification/0_2_8/wp13_03d_mixed_mpc_owner_delivery.json",
+        "symbols": ["workflow", "limitations"],
+        "classification": "RESEARCH_ONLY",
+        "finding": "The qualified MPC route is linear-static, conforming TET4/WEDGE6/HEX8, homogeneous and translational only; it excludes nonconforming interfaces and arbitrary MPCs."
+      },
+      {
+        "path": "qualification/0_2_8/wp09_pyramid5_matrix.json",
+        "symbols": ["hex8_pyramid5_tet4_conforming_transition", "limitations"],
+        "classification": "RESEARCH_ONLY",
+        "finding": "PYRAMID5 feasibility is bounded to a HEX8/PYRAMID5/TET4 conforming patch and explicitly makes no PYRAMID13 or transition-mesh claim."
+      }
+    ],
+    "known_architecture_limits": [
+      "TET10 and HEX20 are individually supported but their mixed high-order interface faces are not represented by the current mixed validator.",
+      "The current conforming interface model is exact shared node identity; a shared corner vertex set is insufficient when midside nodes are absent on the linear side.",
+      "Current MPC reduction can express linear interpolation equations but has no automatic face matching, curved-edge projection, transition-element generation, or high-order interface load audit.",
+      "WEDGE15 and PYRAMID13 are absent from the element registry and Gmsh family mapping."
+    ]
+  },
+  "face_topology": {
+    "TET4": {"faces": ["TRI3"], "node_count": 4, "midside_nodes": 0, "source": "src/solveur/mesh/topology.py:TET4_FACES"},
+    "TET10": {"faces": ["TRI6"], "node_count": 10, "midside_nodes": 6, "source": "src/solveur/mesh/topology.py:TET10_FACES"},
+    "WEDGE6": {"faces": ["TRI3", "QUAD4"], "node_count": 6, "midside_nodes": 0, "source": "src/solveur/mesh/topology.py:WEDGE6_FACES"},
+    "HEX8": {"faces": ["QUAD4"], "node_count": 8, "midside_nodes": 0, "source": "src/solveur/mesh/topology.py:HEX8_FACES"},
+    "HEX20": {"faces": ["QUAD8"], "node_count": 20, "midside_nodes": 12, "source": "src/solveur/mesh/topology.py:HEX20_FACES; src/solveur/elements/solid/hex20.py:edge_data"},
+    "PYRAMID5": {"faces": ["TRI3", "QUAD4"], "node_count": 5, "midside_nodes": 0, "source": "src/solveur/mesh/topology.py:PYRAMID5_FACES"},
+    "WEDGE15": {"faces": ["TRI6", "QUAD8"], "node_count": 15, "midside_nodes": 9, "source": "not present in current registry/topology/Gmsh mapping"},
+    "PYRAMID13": {"faces": ["TRI6", "QUAD8"], "node_count": 13, "midside_nodes": 8, "source": "not present in current registry/topology/Gmsh mapping"}
+  },
+  "compatibility_matrix": {
+    "TET10_WEDGE6": {
+      "high_order_face": "TRI6",
+      "linear_face": "TRI3",
+      "classification": "REQUIRES_MPC_OR_TRANSITION_ELEMENT",
+      "direct_conforming": false,
+      "reason": "The TET10 face has three edge midside nodes absent from the WEDGE6 triangular face."
+    },
+    "HEX20_WEDGE6": {
+      "high_order_face": "QUAD8",
+      "linear_face": "QUAD4",
+      "classification": "REQUIRES_MPC_OR_TRANSITION_ELEMENT",
+      "direct_conforming": false,
+      "reason": "The HEX20 face has four edge midside nodes absent from the WEDGE6 quadrilateral face."
+    },
+    "TET10_TET4": {
+      "high_order_face": "TRI6",
+      "linear_face": "TRI3",
+      "classification": "REQUIRES_MPC_OR_TRANSITION_ELEMENT",
+      "direct_conforming": false,
+      "reason": "Shared corner nodes alone do not make a quadratic TRI6 trace conforming to TRI3."
+    },
+    "HEX20_HEX8": {
+      "high_order_face": "QUAD8",
+      "linear_face": "QUAD4",
+      "classification": "REQUIRES_MPC_OR_TRANSITION_ELEMENT",
+      "direct_conforming": false,
+      "reason": "Shared corner nodes alone do not make a quadratic QUAD8 trace conforming to QUAD4."
+    },
+    "TET10_PYRAMID5": {
+      "high_order_face": "TRI6",
+      "linear_face": "TRI3",
+      "classification": "REQUIRES_MPC_OR_TRANSITION_ELEMENT",
+      "direct_conforming": false,
+      "reason": "A PYRAMID5 triangular side is TRI3; PYRAMID5 does not supply the high-order face nodes."
+    },
+    "HEX20_PYRAMID5": {
+      "high_order_face": "QUAD8",
+      "linear_face": "QUAD4",
+      "classification": "REQUIRES_MPC_OR_TRANSITION_ELEMENT",
+      "direct_conforming": false,
+      "reason": "A PYRAMID5 base is QUAD4; PYRAMID5 cannot connect a HEX20 QUAD8 trace directly."
+    }
+  },
+  "transition_options": {
+    "WEDGE15": {
+      "feasibility": "RESEARCH_ONLY",
+      "value": "Would provide TRI6 and QUAD8 faces for high-order prism transitions.",
+      "complexity": "HIGH",
+      "numerical_risk": "MEDIUM",
+      "vnv_cost": "HIGH",
+      "architecture_cost": "HIGH",
+      "current_status": "MISSING"
+    },
+    "PYRAMID13": {
+      "feasibility": "RESEARCH_ONLY",
+      "value": "Would provide high-order triangular and quadrilateral transition faces around a pyramid.",
+      "complexity": "HIGH",
+      "numerical_risk": "HIGH",
+      "vnv_cost": "HIGH",
+      "architecture_cost": "HIGH",
+      "current_status": "MISSING",
+      "required_for_full_high_order_HEX20_TET10_transition": true
+    },
+    "MPC_MIDSIDE_TYING": {
+      "feasibility": "PARTIAL",
+      "value": "Can express bounded straight-interface relations u_mid = 0.5*(u_a + u_b), preserving affine traces but restricting the high-order interface to the linear neighbor space.",
+      "complexity": "MEDIUM",
+      "numerical_risk": "MEDIUM",
+      "vnv_cost": "HIGH",
+      "architecture_cost": "MEDIUM",
+      "current_status": "PRIMITIVE_EXISTS_NO_FACE_GENERATOR",
+      "limitations": ["not full quadratic continuity", "requires geometry-aware mapping", "requires rank/load-transfer validation", "not automatically valid for curved midside geometry"]
+    },
+    "HANGING_NODE_CONSTRAINTS": {
+      "feasibility": "RESEARCH_ONLY",
+      "value": "Could express p-transition constraints but no dedicated hanging-node topology/ownership path exists.",
+      "complexity": "HIGH",
+      "numerical_risk": "HIGH",
+      "vnv_cost": "HIGH",
+      "architecture_cost": "HIGH",
+      "current_status": "MISSING"
+    },
+    "LOCAL_LINEAR_DOWNGRADE": {
+      "feasibility": "PARTIAL",
+      "value": "A high-order element can be restricted at an interface to the linear trace, but this is a deliberate local p-downgrade and needs explicit transition semantics.",
+      "complexity": "MEDIUM",
+      "numerical_risk": "MEDIUM",
+      "vnv_cost": "HIGH",
+      "architecture_cost": "MEDIUM",
+      "current_status": "NOT_AUTOMATIC"
+    },
+    "DEDICATED_TRANSITION_ELEMENT": {
+      "feasibility": "RESEARCH_ONLY",
+      "value": "The cleanest route for exact high-order continuity if the transition family and its shape functions are developed.",
+      "complexity": "VERY_HIGH",
+      "numerical_risk": "HIGH",
+      "vnv_cost": "VERY_HIGH",
+      "architecture_cost": "VERY_HIGH",
+      "current_status": "MISSING"
+    }
+  },
+  "mcp_micro_spike": {
+    "allowed": true,
+    "purpose": "Pure algebraic feasibility check after contract freeze; not a production mixed FE campaign.",
+    "relations": {
+      "triangle": "For each translation component, each TRI6 midside node is constrained to the midpoint average of its two TRI3 corner nodes.",
+      "quadrilateral": "For each translation component, each QUAD8 edge node is constrained to the midpoint average of its two QUAD4 corner nodes."
+    },
+    "required_checks": [
+      "displacement compatibility",
+      "affine field reproduction",
+      "constraint matrix full row rank",
+      "no overconstraint in the declared face-only system",
+      "constant translation and infinitesimal rotation preservation",
+      "zero resultant and zero moment of internal constraint-force pairs",
+      "deterministic repeated construction"
+    ],
+    "stop_if": [
+      "generalization beyond linear translation MPC is required",
+      "rank deficiency or redundant relation appears",
+      "rigid-body affine modes are not preserved",
+      "a full mechanics or production solver change is required"
+    ]
+  },
+  "feasibility_gates": {
+    "affine_field_reproduction": {"definition": "max(abs(C u_affine - d))", "operator": "<=", "value": 1.0e-12},
+    "constraint_residual": {"definition": "||C u - d||2", "operator": "<=", "value": 1.0e-12},
+    "constraint_row_rank": {"definition": "rank(C) equals the number of declared independent rows", "operator": "==", "value": "row_count"},
+    "rigid_mode_preservation": {"definition": "max(abs(C u_rigid - d)) for three translations and three infinitesimal rotations", "operator": "<=", "value": 1.0e-12},
+    "interface_continuity": {"definition": "max displacement jump on shared face trace", "operator": "<=", "value": 1.0e-12},
+    "load_transfer": {"definition": "constraint-force resultant and moment pair residual for declared straight-face relations", "operator": "<=", "value": 1.0e-12},
+    "determinism": {"definition": "semantic digest of two identical algebraic constructions", "operator": "==", "value": "identical"},
+    "topology_consistency": {"definition": "face node counts and midside-node ownership match the declared topology matrix", "operator": "==", "value": "PASS"}
+  },
+  "oracle": {
+    "primary": "Independent algebraic construction of face interpolation matrix C from explicit corner/midside topology, compared against the production LinearConstraint/ConstraintReduction acceptance of the same declared relations.",
+    "independence_boundary": "The check may call the existing generic validation/reduction primitives to test representability, but it must construct face relations independently and must not call a future high-order transition helper because none exists.",
+    "mechanical_oracle": "NOT_RUN; WP13-09 is topology/feasibility only and does not qualify a static solve or interface mechanics.",
+    "shared_kernel_limitation": "The algebraic check does not validate element K/M kernels, nonlinear geometry, contact, or external-solver correlation."
+  },
+  "gmsh_reality": {
+    "supported_native_families": ["TET4", "TET10", "HEX8", "HEX20", "WEDGE6", "PYRAMID5"],
+    "unsupported_transition_families": ["WEDGE15", "PYRAMID13"],
+    "node_ordering_check": "Use the existing TET10 Gmsh permutation and existing HEX20 Gmsh ordering; no transition ordering is available.",
+    "limitation": "Gmsh can provide the endpoint families individually but the current importer has no native transition-element mapping or high-order/linear interface constraint generation."
+  },
+  "decision_policy": {
+    "case_1_TET10_HEX20_direct": "NO_GO",
+    "case_2_TET10_HEX20_WEDGE6": "NO_GO without an explicit transition mechanism; RESEARCH_ONLY with MPC or transition elements",
+    "case_3_high_order_linear_MPC": "GO_WITH_LIMITATIONS only for bounded straight affine trace compatibility if all algebraic gates pass; not a production claim",
+    "case_4_transition_element": "RESEARCH_ONLY until WEDGE15/PYRAMID13 or a dedicated transition element is implemented and independently qualified",
+    "final_decision_options": ["DIRECT_HIGH_ORDER_FEASIBLE", "MPC_TRANSITION_FEASIBLE", "TRANSITION_ELEMENTS_REQUIRED", "NO_GO_CURRENT_ARCHITECTURE"],
+    "public_capability": "NO",
+    "maturity_registry": "UNCHANGED"
+  },
+  "evidence_schema": {
+    "format": "JSON manifest; arrays may be JSON lists; no production result archive is required",
+    "required_fields": [
+      "contract_id",
+      "contract_sha",
+      "repo_sha",
+      "environment",
+      "source_audit",
+      "face_topology_matrix",
+      "compatibility_matrix",
+      "transition_options",
+      "gmsh_reality",
+      "mpc_micro_spike",
+      "affine_field_reproduction",
+      "rank_evidence",
+      "rigid_mode_evidence",
+      "interface_continuity",
+      "load_transfer_evidence",
+      "determinism",
+      "historical_integrity",
+      "decision"
+    ],
+    "contract_values_single_source_of_truth": true,
+    "historical_evidence_immutable": true
+  },
+  "abort_criteria": [
+    "contract is changed after the first micro-run",
+    "a source/formulation change is required",
+    "a production high-order mixed workflow is attempted",
+    "a numerical mechanics claim is inferred from the algebraic feasibility check",
+    "historical WP13-08, 0.2.7 evidence or maturity registry is modified",
+    "full test suite is launched",
+    "a silent family, node or constraint fallback is observed"
+  ],
+  "claim_policy": {
+    "maximum_claim": "No public high-order mixed capability is created. At most, WP13-09 may document a bounded MPC transition feasibility direction for straight affine traces.",
+    "not_allowed": [
+      "direct TET10/HEX20 mixed production support",
+      "WEDGE15 or PYRAMID13 support",
+      "general high-order mixed interfaces",
+      "full mechanical qualification",
+      "maturity promotion",
+      "public capability registry entry"
+    ],
+    "owner_gate_required": false,
+    "follow_up": "A future implementation WP must predeclare a separate contract for geometry-aware transition relations or transition elements and perform full static V&V."
+  },
+  "integrity": {
+    "numerical_source_change_allowed": false,
+    "formulation_change_allowed": false,
+    "maturity_change_allowed": false,
+    "element_analysis_registry_change_allowed": false,
+    "historical_0_2_7_evidence_read_only": true,
+    "full_test_suite": "DEFERRED_TO_WP13_FINAL_GATE"
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "contract_id": "WP13-01K-CONNECTED-MVP-001",
+  "contract_sha256": "b5961f60216722853ce4c5e17fe4aad5adbada3e7d4457bc365b65e61c6f3226",
+  "case": "small",
+  "result": {
+    "ndof": 48,
+    "element_count": 6,
+    "family_counts": {
+      "TET4": 3,
+      "WEDGE6": 2,
+      "HEX8": 1
+    },
+    "runtime_seconds": 0.011813754001195775,
+    "iterations": "direct",
+    "free_residual_relative": 8.08570969395799e-15,
+    "equilibrium_relative": 2.4911523091970578e-15,
+    "energy": 0.3123597535123831,
+    "energy_identity_relative": 5.995204332975845e-15,
+    "displacement_norm": 2.877662414995552e-05,
+    "reaction_norm": 145080.77139619127,
+    "external_load_resultant": [
+      0.0,
+      0.0,
+      100000.0
+    ],
+    "reaction_resultant": [
+      -8.36735125631094e-11,
+      -2.9103830456733704e-11,
+      -99999.99999999977
+    ],
+    "displacement_digest": "96257e1156cd0d554ed0df13a3091ea6174dbc5b597a44d8433da17060ea5aae",
+    "reaction_digest": "d4798c4dddbff4052957dee51e974e0ad5fb0cdc75cafb09f278a9abf54980bf",
+    "residual_digest": "9dce610744b617d79eb18958836957d1062068c623d7687d4c446e0e68b5ebf0",
+    "model_digest": "b0e1c4a85eea4c1a580af631b13c6050c9f12f6ff410123117dc66bbc5772284",
+    "peak_memory_mb": 72.08984375,
+    "internal_force_norm": 156146.60919228193,
+    "backend": "serial_global_assembler",
+    "rank_count": 1,
+    "matrix_nnz": 1096,
+    "reallocations": 0,
+    "ghost_nodes": 0,
+    "global_gather_present": false
+  },
+  "partition": {
+    "rank_count": 1,
+    "partition_digest": "8dfd1b14985e4081b42b72f0cffad8b016b274478c38f5f9e8034536ba085414",
+    "local_records": [
+      {
+        "rank": 0,
+        "owned_elements": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "families": {
+          "TET4": 3,
+          "WEDGE6": 2,
+          "HEX8": 1
+        },
+        "owned_nodes": 16,
+        "ghost_nodes": 0,
+        "interface_nodes": 0,
+        "neighbors": []
+      }
+    ],
+    "cross_rank_interfaces": {
+      "TET4_WEDGE6": 0,
+      "WEDGE6_HEX8": 0
+    },
+    "total_family_interfaces": {
+      "TET4_WEDGE6": 1,
+      "WEDGE6_HEX8": 1
+    },
+    "element_components": 1
+  },
+  "interfaces": {
+    "TET4_WEDGE6": {
+      "shared_nodes": 3,
+      "displacement_jump": 0.0,
+      "nodal_force_jump_relative": 2.3396651768345344e-15,
+      "force_a_N": [
+        1.3915268937125802e-10,
+        -1.4551915228366852e-11,
+        -99999.99999999994
+      ],
+      "force_b_N": [
+        4.3655745685100555e-11,
+        8.731149137020111e-11,
+        99999.99999999999
+      ],
+      "transfer_error_relative": 1.5153666548094755e-15,
+      "unique_dofs": true
+    },
+    "WEDGE6_HEX8": {
+      "shared_nodes": 4,
+      "displacement_jump": 0.0,
+      "nodal_force_jump_relative": 1.9886138570606197e-15,
+      "force_a_N": [
+        -1.3460521586239338e-10,
+        -7.275957614183426e-12,
+        -99999.99999999984
+      ],
+      "force_b_N": [
+        6.548361852765083e-11,
+        1.0913936421275139e-11,
+        99999.99999999974
+      ],
+      "transfer_error_relative": 2.0927075847095194e-15,
+      "unique_dofs": true
+    }
+  },
+  "force_defect_N": [
+    -8.36735125631094e-11,
+    -1.4551915228366852e-11,
+    2.473825588822365e-10
+  ],
+  "force_defect_fsum_N": [
+    -8.36735125631094e-11,
+    -2.9103830456733704e-11,
+    2.3283064365386963e-10
+  ],
+  "force_defect_norm_N": 2.615552434584052e-10,
+  "equilibrium_normal": 2.615552434584052e-15,
+  "gates": {
+    "residual": true,
+    "equilibrium": true,
+    "equilibrium_fsum": true,
+    "energy": true,
+    "reallocations": true,
+    "interfaces": true,
+    "cross_rank": true
+  },
+  "status": "PASS",
+  "memory_limitations": "Global input model and partition metadata replicated; solution scattered to all; result vectors gathered to root. No structural MPI gather of K/connectivity."
+}

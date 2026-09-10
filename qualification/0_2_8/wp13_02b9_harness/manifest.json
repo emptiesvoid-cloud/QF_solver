@@ -1,0 +1,6042 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP13-02B9-HARNESS-READINESS",
+  "work_package": "WP13-02B9",
+  "repo_sha": "992e92455fc46b711feee960beda45aacf5f8fff",
+  "contract_id": "WP13-02B4-NEWMARK-MIXED-V2-001",
+  "contract_blob_sha": "8b44792466eacaf1f341a7970502e9b48dbed4e1",
+  "contract_unchanged": true,
+  "contract_values_single_source_of_truth": true,
+  "contract_gates": {
+    "acceptance": {
+      "applies_to": [
+        "T1/80",
+        "T1/160"
+      ],
+      "operator": "<=",
+      "Q_ERROR": 0.01,
+      "V_ERROR": 0.01,
+      "A_ERROR": 0.01,
+      "AMPLITUDE_ERROR": 0.01,
+      "PHASE_ERROR_rad": 0.02,
+      "FREQUENCY_ERROR": 0.001,
+      "FREE_RESIDUAL": 1e-07,
+      "ENERGY_ERROR": 1e-06,
+      "full_history_controls": "Full u/v/a relative Frobenius errors against phi*q_ref, phi*qv_ref, phi*qa_ref must each be <=0.01 at both acceptance levels; modal projection alone must not hide other-mode contamination.",
+      "coarse_exemption": "20/40 record all errors but carry none of these acceptance gates; their errors still participate in the explicitly separate convergence gates."
+    },
+    "convergence": {
+      "metrics": [
+        "Q_ERROR",
+        "V_ERROR",
+        "A_ERROR",
+        "AMPLITUDE_ERROR",
+        "PHASE_ERROR"
+      ],
+      "levels": [
+        20,
+        40,
+        80,
+        160
+      ],
+      "monotonicity": "E(20)>E(40)>E(80)>E(160)>0 required for each metric",
+      "order_formula": "p_N=log(E(N)/E(2*N))/log(2) for N=20,40,80; archive every p",
+      "order_gate": {
+        "minimum": 1.5,
+        "maximum": 2.5,
+        "applies_to_N": [
+          20,
+          40,
+          80
+        ],
+        "inclusive": true
+      },
+      "failure_policy": "Convergence failure is a sequence gate failure; it is not retroactive application of fine accuracy gates to coarse levels.",
+      "rationale": "Average-acceleration Newmark has second-order time accuracy for smooth linear response. The prospectively selected +/-0.5 band around 2 allows finite-step higher-order terms while excluding first-order behavior; it is an engineering criterion, not a theorem fixing this band or a threshold fitted to historical errors."
+    },
+    "interfaces": {
+      "applies_to": "ALL_DT_LEVELS",
+      "continuity": {
+        "metric": "max norm(u_left(shared,j)-u_right(shared,j),infinity)/max(abs(u0)) using independently gathered local family states and verified shared ID mapping",
+        "maximum": 1e-12
+      },
+      "force_transfer": {
+        "metric": "For each shared node set I, g_f=(sum elements in family(Ke*u_e+Me*a_e))_I. max_j norm(g_left+g_right,2)/Fstar; archive both side vectors, not only their sum",
+        "maximum": 1e-08
+      },
+      "energy_transfer": {
+        "metric": "P_left=g_left.T*v_I and P_right=g_right.T*v_I; cumulative W_left,W_right by trapezoidal integration at every sample. INTERFACE_ENERGY_ERROR=max_j abs(W_left_j+W_right_j)/E0; also report integral(abs(P_left+P_right))/E0 and gross exchanged work as diagnostics",
+        "maximum": 1e-08
+      },
+      "interpretation": "Effective discrete nodal interfacial work including consistent-mass inertial terms, not continuum stress-flux validation. Also archive each family's kinetic/strain energies and its interface work to examine unexplained energy change. Fixed supports have zero work; shared nodes are free/unforced."
+    },
+    "replay": {
+      "level": "T1/160",
+      "count": 2,
+      "meaning": "Two fresh complete integrations in addition to the main T1/160 run; compare each to main and to each other under identical settings/environment",
+      "fields": [
+        "u",
+        "v",
+        "a",
+        "q",
+        "residual full vector",
+        "kinetic energy",
+        "strain energy",
+        "damping energy",
+        "external work",
+        "reactions"
+      ],
+      "tolerance": 1e-12,
+      "metric": "max_t norm(delta field(t),2)/scale; scales are Ustar,Vstar,Astar,abs(q0),Fstar,E0,E0,E0,E0,Fstar respectively. Require identical time arrays/DOF mapping, shapes, convergence status and total/per-step iterations for direct solve. Archive max-norm comparison as diagnostic too.",
+      "bitwise_identity_required": false,
+      "nan_equal_allowed": false
+    }
+  },
+  "history_fields": {
+    "time": [
+      "time"
+    ],
+    "u": [
+      "displacement"
+    ],
+    "v": [
+      "velocity"
+    ],
+    "a": [
+      "acceleration"
+    ],
+    "q": [
+      "q"
+    ],
+    "qv": [
+      "qv"
+    ],
+    "qa": [
+      "qa"
+    ],
+    "analytical u/v/a/q/qv/qa": [
+      "u_ref",
+      "v_ref",
+      "a_ref",
+      "q_ref",
+      "qv_ref",
+      "qa_ref"
+    ],
+    "residual full vector": [
+      "residual_vector"
+    ],
+    "residual free normalized": [
+      "residual_relative"
+    ],
+    "kinetic energy": [
+      "energy_kinetic"
+    ],
+    "strain energy": [
+      "energy_strain"
+    ],
+    "damping energy": [
+      "energy_damping"
+    ],
+    "external work": [
+      "energy_external"
+    ],
+    "reactions": [
+      "reactions"
+    ],
+    "interface side force/power/cumulative work": [
+      "TET4_WEDGE6_left_force",
+      "TET4_WEDGE6_right_force",
+      "TET4_WEDGE6_power_left",
+      "TET4_WEDGE6_power_right",
+      "TET4_WEDGE6_work_left",
+      "TET4_WEDGE6_work_right",
+      "WEDGE6_HEX8_left_force",
+      "WEDGE6_HEX8_right_force",
+      "WEDGE6_HEX8_power_left",
+      "WEDGE6_HEX8_power_right",
+      "WEDGE6_HEX8_work_left",
+      "WEDGE6_HEX8_work_right"
+    ],
+    "family kinetic/strain energies": [
+      "family_TET4_kinetic",
+      "family_TET4_strain",
+      "family_WEDGE6_kinetic",
+      "family_WEDGE6_strain",
+      "family_HEX8_kinetic",
+      "family_HEX8_strain"
+    ]
+  },
+  "replay_fields": [
+    "u",
+    "v",
+    "a",
+    "q",
+    "residual full vector",
+    "kinetic energy",
+    "strain energy",
+    "damping energy",
+    "external work",
+    "reactions"
+  ],
+  "source_b7": {
+    "manifest": "qualification/0_2_8/wp13_02b7_v2/manifest.json",
+    "manifest_sha256": "2d0e36bef4bc8aa632a6d7be6f2b389a9f54f7b1651a9e8f751b01a048b4d325",
+    "archive_sha256": "a7db4002ef095d6e4c413f293f2ce72afb05a456f836f580f8eec670f8f10a18",
+    "start_sha": "fc6b32c8ea1fff0a98390b7788018b14e2ac4891",
+    "historical_evidence_modified": false
+  },
+  "micro_execution": {
+    "full_v2_campaign_run": false,
+    "fresh_replay_smoke_runs": 3,
+    "failure_cases_actually_executed": 7,
+    "purpose": "Harness/evaluator/archive validation only; no B10 campaign verdict."
+  },
+  "failure_contract": {
+    "cases": {
+      "invalid_dt": {
+        "case": "invalid_dt",
+        "case_executed": true,
+        "expected_exception": "InputValidationError",
+        "expected_route_status": null,
+        "input": {
+          "nodes": [
+            [
+              0.0,
+              -1.0,
+              0.0
+            ],
+            [
+              1.0,
+              -1.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              -1.0,
+              1.0
+            ],
+            [
+              1.0,
+              -1.0,
+              1.0
+            ],
+            [
+              1.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              2.0
+            ],
+            [
+              1.0,
+              0.0,
+              2.0
+            ],
+            [
+              0.0,
+              1.0,
+              2.0
+            ],
+            [
+              0.0,
+              0.0,
+              3.0
+            ],
+            [
+              1.0,
+              0.0,
+              3.0
+            ],
+            [
+              0.0,
+              1.0,
+              3.0
+            ]
+          ],
+          "elements": [
+            {
+              "type": "WEDGE6",
+              "nodes": [
+                3,
+                2,
+                8,
+                7,
+                6,
+                9
+              ],
+              "material": "solid"
+            },
+            {
+              "type": "WEDGE6",
+              "nodes": [
+                7,
+                6,
+                9,
+                10,
+                11,
+                12
+              ],
+              "material": "solid"
+            },
+            {
+              "type": "TET4",
+              "nodes": [
+                10,
+                11,
+                12,
+                15
+              ],
+              "material": "solid"
+            },
+            {
+              "type": "TET4",
+              "nodes": [
+                11,
+                10,
+                14,
+                15
+              ],
+              "material": "solid"
+            },
+            {
+              "type": "TET4",
+              "nodes": [
+                10,
+                13,
+                14,
+                15
+              ],
+              "material": "solid"
+            },
+            {
+              "type": "HEX8",
+              "nodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "material": "solid"
+            }
+          ],
+          "materials": {
+            "solid": {
+              "type": "isotropic_3d",
+              "E": 210000000000.0,
+              "nu": 0.3,
+              "density": 7800.0
+            }
+          },
+          "fixed_dofs": [
+            {
+              "node": 0,
+              "dofs": [
+                "UX",
+                "UY",
+                "UZ"
+              ]
+            },
+            {
+              "node": 1,
+              "dofs": [
+                "UX",
+                "UY",
+                "UZ"
+              ]
+            },
+            {
+              "node": 4,
+              "dofs": [
+                "UX",
+                "UY",
+                "UZ"
+              ]
+            },
+            {
+              "node": 5,
+              "dofs": [
+                "UX",
+                "UY",
+                "UZ"
+              ]
+            }
+          ],
+          "loads": [],
+          "analysis": {
+            "type": "transient_dynamic",
+            "method": "newmark",
+            "time_step": 0.0,
+            "steps": 80,
+            "initial_displacements": [
+              {
+                "node": 2,
+                "dof": "UX",
+                "value": -5.877448623714592e-07
+              },
+              {
+                "node": 2,
+                "dof": "UY",
+                "value": -2.903069565237084e-07
+              },
+              {
+                "node": 2,
+                "dof": "UZ",
+                "value": -1.187414251079139e-06
+              },
+              {
+                "node": 3,
+                "dof": "UX",
+                "value": -6.270770794209522e-07
+              },
+              {
+                "node": 3,
+                "dof": "UY",
+                "value": 4.373751549931764e-09
+              },
+              {
+                "node": 3,
+                "dof": "UZ",
+                "value": 8.434896038879454e-07
+              },
+              {
+                "node": 6,
+                "dof": "UX",
+                "value": 1.4487207091057667e-06
+              },
+              {
+                "node": 6,
+                "dof": "UY",
+                "value": -1.1885283544492769e-07
+              },
+              {
+                "node": 6,
+                "dof": "UZ",
+                "value": -1.3886924267076854e-06
+              },
+              {
+                "node": 7,
+                "dof": "UX",
+                "value": 1.5104801304189337e-06
+              },
+              {
+                "node": 7,
+                "dof": "UY",
+                "value": 4.672332750627414e-07
+              },
+              {
+                "node": 7,
+                "dof": "UZ",
+                "value": 1.0938476804800542e-06
+              },
+              {
+                "node": 8,
+                "dof": "UX",
+                "value": -3.277482973255757e-07
+              },
+              {
+                "node": 8,
+                "dof": "UY",
+                "value": -5.877116192020323e-08
+              },
+              {
+                "node": 8,
+                "dof": "UZ",
+                "value": 4.4987288100343923e-07
+              },
+              {
+                "node": 9,
+                "dof": "UX",
+                "value": 2.268628505675432e-06
+              },
+              {
+                "node": 9,
+                "dof": "UY",
+                "value": 5.493777623118704e-07
+              },
+              {
+                "node": 9,
+                "dof": "UZ",
+                "value": 3.4025509226831996e-07
+              },
+              {
+                "node": 10,
+                "dof": "UX",
+                "value": 5.074087150822134e-06
+              },
+              {
+                "node": 10,
+                "dof": "UY",
+                "value": 1.8801956461370259e-06
+              },
+              {
+                "node": 10,
+                "dof": "UZ",
+                "value": 1.8932732406889642e-06
+              },
+              {
+                "node": 11,
+                "dof": "UX",
+                "value": 5.083401935194547e-06
+              },
+              {
+                "node": 11,
+                "dof": "UY",
+                "value": 1.105145491841068e-06
+              },
+              {
+                "node": 11,
+                "dof": "UZ",
+                "value": -2.092618992292121e-06
+              },
+              {
+                "node": 12,
+                "dof": "UX",
+                "value": 5.80880473869821e-06
+              },
+              {
+                "node": 12,
+                "dof": "UY",
+                "value": 1.8685388471504887e-06
+              },
+              {
+                "node": 12,
+                "dof": "UZ",
+                "value": 2.33569558179577e-07
+              },
+              {
+                "node": 13,
+                "dof": "UX",
+                "value": 9.215423606624098e-06
+              },
+              {
+                "node": 13,
+                "dof": "UY",
+                "value": 3.620737574161177e-06
+              },
+              {
+                "node": 13,
+                "dof": "UZ",
+                "value": 1.936029076835871e-06
+              },
+              {
+                "node": 14,
+                "dof": "UX",
+                "value": 9.21218605272887e-06
+              },
+              {
+                "node": 14,
+                "dof": "UY",
+                "value": 2.825472768075484e-06
+              },
+              {
+                "node": 14,
+                "dof": "UZ",
+                "value": -2.1106792485917627e-06
+              },
+              {
+                "node": 15,
+                "dof": "UX",
+                "value": 1.0000000000000003e-05
+              },
+              {
+                "node": 15,
+                "dof": "UY",
+                "value": 3.6038190268761216e-06
+              },
+              {
+                "node": 15,
+                "dof": "UZ",
+                "value": 2.1321747022652608e-07
+              }
+            ],
+            "mass_formulation": "consistent",
+            "rayleigh_alpha": 0.0,
+            "rayleigh_beta": 0.0
+          }
+        },
+        "execution": {
+          "path": "solve_model(model, enforce_policy=False)",
+          "harness": "scripts/wp13_02b9_harness.py::run_failure_contract"
+        },
+        "status": "REJECTED",
+        "observed_exception": "InputValidationError",
+        "exception_message": "Newmark time_step and steps must be positive.",
+        "pass": true
+      },
+      "missing_mass": {
+        "case": "missing_mass",
+        "case_executed": true,
+        "expected_exception": "MeshValidationError",
+        "expected_route_status": null,
+        "input": {
+          "nodes": [
+            [
+              0.0,
+              -1.0,
+              0.0
+            ],
+            [
+              1.0,
+              -1.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              -1.0,
+              1.0
+            ],
+            [
+              1.0,
+              -1.0,
+              1.0
+            ],
+            [
+              1.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              2.0
+            ],
+            [
+              1.0,
+              0.0,
+              2.0
+            ],
+            [
+              0.0,
+              1.0,
+              2.0
+            ],
+            [
+              0.0,
+              0.0,
+              3.0
+            ],
+            [
+              1.0,
+              0.0,
+              3.0
+            ],
+            [
+              0.0,
+              1.0,
+              3.0
+            ]
+          ],
+          "elements": [
+            {
+              "type": "WEDGE6",
+              "nodes": [
+                3,
+                2,
+                8,
+                7,
+                6,
+                9
+              ],
+              "material": "solid"
+            },
+            {
+              "type": "WEDGE6",
+              "nodes": [
+                7,
+                6,
+                9,
+                10,
+                11,
+                12
+              ],
+              "material": "solid"
+            },
+            {
+              "type": "TET4",
+              "nodes": [
+                10,
+                11,
+                12,
+                15
+              ],
+              "material": "solid"
+            },
+            {
+              "type": "TET4",
+              "nodes": [
+                11,
+                10,
+                14,
+                15
+              ],
+              "material": "solid"
+            },
+            {
+              "type": "TET4",
+              "nodes": [
+                10,
+                13,
+                14,
+                15
+              ],
+              "material": "solid"
+            },
+            {
+              "type": "HEX8",
+              "nodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "material": "solid"
+            }
+          ],
+          "materials": {
+            "solid": {
+              "type": "isotropic_3d",
+              "E": 210000000000.0,
+              "nu": 0.3,
+              "density": 0.0
+            }
+          },
+          "fixed_dofs": [
+            {
+              "node": 0,
+              "dofs": [
+                "UX",
+                "UY",
+                "UZ"
+              ]
+            },
+            {
+              "node": 1,
+              "dofs": [
+                "UX",
+                "UY",
+                "UZ"
+              ]
+            },
+            {
+              "node": 4,
+              "dofs": [
+                "UX",
+                "UY",
+                "UZ"
+              ]
+            },
+            {
+              "node": 5,
+              "dofs": [
+                "UX",
+                "UY",
+                "UZ"
+              ]
+            }
+          ],
+          "loads": [],
+          "analysis": {
+            "type": "transient_dynamic",
+            "method": "newmark",
+            "time_step": 0.000511226814129704,
+            "steps": 80,
+            "initial_displacements": [
+              {
+                "node": 2,
+                "dof": "UX",
+                "value": -5.877448623714592e-07
+              },
+              {
+                "node": 2,
+                "dof": "UY",
+                "value": -2.903069565237084e-07
+              },
+              {
+                "node": 2,
+                "dof": "UZ",
+                "value": -1.187414251079139e-06
+              },
+              {
+                "node": 3,
+                "dof": "UX",
+                "value": -6.270770794209522e-07
+              },
+              {
+                "node": 3,
+                "dof": "UY",
+                "value": 4.373751549931764e-09
+              },
+              {
+                "node": 3,
+                "dof": "UZ",
+                "value": 8.434896038879454e-07
+              },
+              {
+                "node": 6,
+                "dof": "UX",
+                "value": 1.4487207091057667e-06
+              },
+              {
+                "node": 6,
+                "dof": "UY",
+                "value": -1.1885283544492769e-07
+              },
+              {
+                "node": 6,
+                "dof": "UZ",
+                "value": -1.3886924267076854e-06
+              },
+              {
+                "node": 7,
+                "dof": "UX",
+                "value": 1.5104801304189337e-06
+              },
+              {
+                "node": 7,
+                "dof": "UY",
+                "value": 4.672332750627414e-07
+              },
+              {
+                "node": 7,
+                "dof": "UZ",
+                "value": 1.0938476804800542e-06
+              },
+              {
+                "node": 8,
+                "dof": "UX",
+                "value": -3.277482973255757e-07
+              },
+              {
+                "node": 8,
+                "dof": "UY",
+                "value": -5.877116192020323e-08
+              },
+              {
+                "node": 8,
+                "dof": "UZ",
+                "value": 4.4987288100343923e-07
+              },
+              {
+                "node": 9,
+                "dof": "UX",
+                "value": 2.268628505675432e-06
+              },
+              {
+                "node": 9,
+                "dof": "UY",
+                "value": 5.493777623118704e-07
+              },
+              {
+                "node": 9,
+                "dof": "UZ",
+                "value": 3.4025509226831996e-07
+              },
+              {
+                "node": 10,
+                "dof": "UX",
+                "value": 5.074087150822134e-06
+              },
+              {
+                "node": 10,
+                "dof": "UY",
+                "value": 1.8801956461370259e-06
+              },
+              {
+                "node": 10,
+                "dof": "UZ",
+                "value": 1.8932732406889642e-06
+              },
+              {
+                "node": 11,
+                "dof": "UX",
+                "value": 5.083401935194547e-06
+              },
+              {
+                "node": 11,
+                "dof": "UY",
+                "value": 1.105145491841068e-06
+              },
+              {
+                "node": 11,
+                "dof": "UZ",
+                "value": -2.092618992292121e-06
+              },
+              {
+                "node": 12,
+                "dof": "UX",
+                "value": 5.80880473869821e-06
+              },
+              {
+                "node": 12,
+                "dof": "UY",
+                "value": 1.8685388471504887e-06
+              },
+              {
+                "node": 12,
+                "dof": "UZ",
+                "value": 2.33569558179577e-07
+              },
+              {
+                "node": 13,
+                "dof": "UX",
+                "value": 9.215423606624098e-06
+              },
+              {
+                "node": 13,
+                "dof": "UY",
+                "value": 3.620737574161177e-06
+              },
+              {
+                "node": 13,
+                "dof": "UZ",
+                "value": 1.936029076835871e-06
+              },
+              {
+                "node": 14,
+                "dof": "UX",
+                "value": 9.21218605272887e-06
+              },
+              {
+                "node": 14,
+                "dof": "UY",
+                "value": 2.825472768075484e-06
+              },
+              {
+                "node": 14,
+                "dof": "UZ",
+                "value": -2.1106792485917627e-06
+              },
+              {
+                "node": 15,
+                "dof": "UX",
+                "value": 1.0000000000000003e-05
+              },
+              {
+                "node": 15,
+                "dof": "UY",
+                "value": 3.6038190268761216e-06
+              },
+              {
+                "node": 15,
+                "dof": "UZ",
+                "value": 2.1321747022652608e-07
+              }
+            ],
+            "mass_formulation": "consistent",
+            "rayleigh_alpha": 0.0,
+            "rayleigh_beta": 0.0
+          }
+        },
+        "execution": {
+          "path": "solve_model(model, enforce_policy=False)",
+          "harness": "scripts/wp13_02b9_harness.py::run_failure_contract"
+        },
+        "status": "REJECTED",
+        "observed_exception": "MeshValidationError",
+        "exception_message": "Mesh validation failed: Element 0: transient_dynamic analysis requires positive density.; Element 1: transient_dynamic analysis requires positive density.; Element 2: transient_dynamic analysis requires positive density.; Element 3: transient_dynamic analysis requires positive density.; Element 4: transient_dynamic analysis requires positive density.; Element 5: transient_dynamic analysis requires positive density.",
+        "pass": true
+      },
+      "unsupported_damping": {
+        "case": "unsupported_damping",
+        "case_executed": true,
+        "expected_exception": "InputValidationError",
+        "expected_route_status": null,
+        "input": {
+          "nodes": [
+            [
+              0.0,
+              -1.0,
+              0.0
+            ],
+            [
+              1.0,
+              -1.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              -1.0,
+              1.0
+            ],
+            [
+              1.0,
+              -1.0,
+              1.0
+            ],
+            [
+              1.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              2.0
+            ],
+            [
+              1.0,
+              0.0,
+              2.0
+            ],
+            [
+              0.0,
+              1.0,
+              2.0
+            ],
+            [
+              0.0,
+              0.0,
+              3.0
+            ],
+            [
+              1.0,
+              0.0,
+              3.0
+            ],
+            [
+              0.0,
+              1.0,
+              3.0
+            ]
+          ],
+          "elements": [
+            {
+              "type": "WEDGE6",
+              "nodes": [
+                3,
+                2,
+                8,
+                7,
+                6,
+                9
+              ],
+              "material": "solid"
+            },
+            {
+              "type": "WEDGE6",
+              "nodes": [
+                7,
+                6,
+                9,
+                10,
+                11,
+                12
+              ],
+              "material": "solid"
+            },
+            {
+              "type": "TET4",
+              "nodes": [
+                10,
+                11,
+                12,
+                15
+              ],
+              "material": "solid"
+            },
+            {
+              "type": "TET4",
+              "nodes": [
+                11,
+                10,
+                14,
+                15
+              ],
+              "material": "solid"
+            },
+            {
+              "type": "TET4",
+              "nodes": [
+                10,
+                13,
+                14,
+                15
+              ],
+              "material": "solid"
+            },
+            {
+              "type": "HEX8",
+              "nodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "material": "solid"
+            }
+          ],
+          "materials": {
+            "solid": {
+              "type": "isotropic_3d",
+              "E": 210000000000.0,
+              "nu": 0.3,
+              "density": 7800.0
+            }
+          },
+          "fixed_dofs": [
+            {
+              "node": 0,
+              "dofs": [
+                "UX",
+                "UY",
+                "UZ"
+              ]
+            },
+            {
+              "node": 1,
+              "dofs": [
+                "UX",
+                "UY",
+                "UZ"
+              ]
+            },
+            {
+              "node": 4,
+              "dofs": [
+                "UX",
+                "UY",
+                "UZ"
+              ]
+            },
+            {
+              "node": 5,
+              "dofs": [
+                "UX",
+                "UY",
+                "UZ"
+              ]
+            }
+          ],
+          "loads": [],
+          "analysis": {
+            "type": "transient_dynamic",
+            "method": "newmark",
+            "time_step": 0.000511226814129704,
+            "steps": 80,
+            "initial_displacements": [
+              {
+                "node": 2,
+                "dof": "UX",
+                "value": -5.877448623714592e-07
+              },
+              {
+                "node": 2,
+                "dof": "UY",
+                "value": -2.903069565237084e-07
+              },
+              {
+                "node": 2,
+                "dof": "UZ",
+                "value": -1.187414251079139e-06
+              },
+              {
+                "node": 3,
+                "dof": "UX",
+                "value": -6.270770794209522e-07
+              },
+              {
+                "node": 3,
+                "dof": "UY",
+                "value": 4.373751549931764e-09
+              },
+              {
+                "node": 3,
+                "dof": "UZ",
+                "value": 8.434896038879454e-07
+              },
+              {
+                "node": 6,
+                "dof": "UX",
+                "value": 1.4487207091057667e-06
+              },
+              {
+                "node": 6,
+                "dof": "UY",
+                "value": -1.1885283544492769e-07
+              },
+              {
+                "node": 6,
+                "dof": "UZ",
+                "value": -1.3886924267076854e-06
+              },
+              {
+                "node": 7,
+                "dof": "UX",
+                "value": 1.5104801304189337e-06
+              },
+              {
+                "node": 7,
+                "dof": "UY",
+                "value": 4.672332750627414e-07
+              },
+              {
+                "node": 7,
+                "dof": "UZ",
+                "value": 1.0938476804800542e-06
+              },
+              {
+                "node": 8,
+                "dof": "UX",
+                "value": -3.277482973255757e-07
+              },
+              {
+                "node": 8,
+                "dof": "UY",
+                "value": -5.877116192020323e-08
+              },
+              {
+                "node": 8,
+                "dof": "UZ",
+                "value": 4.4987288100343923e-07
+              },
+              {
+                "node": 9,
+                "dof": "UX",
+                "value": 2.268628505675432e-06
+              },
+              {
+                "node": 9,
+                "dof": "UY",
+                "value": 5.493777623118704e-07
+              },
+              {
+                "node": 9,
+                "dof": "UZ",
+                "value": 3.4025509226831996e-07
+              },
+              {
+                "node": 10,
+                "dof": "UX",
+                "value": 5.074087150822134e-06
+              },
+              {
+                "node": 10,
+                "dof": "UY",
+                "value": 1.8801956461370259e-06
+              },
+              {
+                "node": 10,
+                "dof": "UZ",
+                "value": 1.8932732406889642e-06
+              },
+              {
+                "node": 11,
+                "dof": "UX",
+                "value": 5.083401935194547e-06
+              },
+              {
+                "node": 11,
+                "dof": "UY",
+                "value": 1.105145491841068e-06
+              },
+              {
+                "node": 11,
+                "dof": "UZ",
+                "value": -2.092618992292121e-06
+              },
+              {
+                "node": 12,
+                "dof": "UX",
+                "value": 5.80880473869821e-06
+              },
+              {
+                "node": 12,
+                "dof": "UY",
+                "value": 1.8685388471504887e-06
+              },
+              {
+                "node": 12,
+                "dof": "UZ",
+                "value": 2.33569558179577e-07
+              },
+              {
+                "node": 13,
+                "dof": "UX",
+                "value": 9.215423606624098e-06
+              },
+              {
+                "node": 13,
+                "dof": "UY",
+                "value": 3.620737574161177e-06
+              },
+              {
+                "node": 13,
+                "dof": "UZ",
+                "value": 1.936029076835871e-06
+              },
+              {
+                "node": 14,
+                "dof": "UX",
+                "value": 9.21218605272887e-06
+              },
+              {
+                "node": 14,
+                "dof": "UY",
+                "value": 2.825472768075484e-06
+              },
+              {
+                "node": 14,
+                "dof": "UZ",
+                "value": -2.1106792485917627e-06
+              },
+              {
+                "node": 15,
+                "dof": "UX",
+                "value": 1.0000000000000003e-05
+              },
+              {
+                "node": 15,
+                "dof": "UY",
+                "value": 3.6038190268761216e-06
+              },
+              {
+                "node": 15,
+                "dof": "UZ",
+                "value": 2.1321747022652608e-07
+              }
+            ],
+            "mass_formulation": "consistent",
+            "rayleigh_alpha": -1.0,
+            "rayleigh_beta": 0.0
+          }
+        },
+        "execution": {
+          "path": "solve_model(model, enforce_policy=False)",
+          "harness": "scripts/wp13_02b9_harness.py::run_failure_contract"
+        },
+        "status": "REJECTED",
+        "observed_exception": "InputValidationError",
+        "exception_message": "rayleigh_alpha must be a finite non-negative number.",
+        "pass": true
+      },
+      "unsupported_time_load": {
+        "case": "unsupported_time_load",
+        "case_executed": true,
+        "expected_exception": "InputValidationError",
+        "expected_route_status": null,
+        "input": {
+          "nodes": [
+            [
+              0.0,
+              -1.0,
+              0.0
+            ],
+            [
+              1.0,
+              -1.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              -1.0,
+              1.0
+            ],
+            [
+              1.0,
+              -1.0,
+              1.0
+            ],
+            [
+              1.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              2.0
+            ],
+            [
+              1.0,
+              0.0,
+              2.0
+            ],
+            [
+              0.0,
+              1.0,
+              2.0
+            ],
+            [
+              0.0,
+              0.0,
+              3.0
+            ],
+            [
+              1.0,
+              0.0,
+              3.0
+            ],
+            [
+              0.0,
+              1.0,
+              3.0
+            ]
+          ],
+          "elements": [
+            {
+              "type": "WEDGE6",
+              "nodes": [
+                3,
+                2,
+                8,
+                7,
+                6,
+                9
+              ],
+              "material": "solid"
+            },
+            {
+              "type": "WEDGE6",
+              "nodes": [
+                7,
+                6,
+                9,
+                10,
+                11,
+                12
+              ],
+              "material": "solid"
+            },
+            {
+              "type": "TET4",
+              "nodes": [
+                10,
+                11,
+                12,
+                15
+              ],
+              "material": "solid"
+            },
+            {
+              "type": "TET4",
+              "nodes": [
+                11,
+                10,
+                14,
+                15
+              ],
+              "material": "solid"
+            },
+            {
+              "type": "TET4",
+              "nodes": [
+                10,
+                13,
+                14,
+                15
+              ],
+              "material": "solid"
+            },
+            {
+              "type": "HEX8",
+              "nodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "material": "solid"
+            }
+          ],
+          "materials": {
+            "solid": {
+              "type": "isotropic_3d",
+              "E": 210000000000.0,
+              "nu": 0.3,
+              "density": 7800.0
+            }
+          },
+          "fixed_dofs": [
+            {
+              "node": 0,
+              "dofs": [
+                "UX",
+                "UY",
+                "UZ"
+              ]
+            },
+            {
+              "node": 1,
+              "dofs": [
+                "UX",
+                "UY",
+                "UZ"
+              ]
+            },
+            {
+              "node": 4,
+              "dofs": [
+                "UX",
+                "UY",
+                "UZ"
+              ]
+            },
+            {
+              "node": 5,
+              "dofs": [
+                "UX",
+                "UY",
+                "UZ"
+              ]
+            }
+          ],
+          "loads": [],
+          "analysis": {
+            "type": "transient_dynamic",
+            "method": "newmark",
+            "time_step": 0.000511226814129704,
+            "steps": 80,
+            "initial_displacements": [
+              {
+                "node": 2,
+                "dof": "UX",
+                "value": -5.877448623714592e-07
+              },
+              {
+                "node": 2,
+                "dof": "UY",
+                "value": -2.903069565237084e-07
+              },
+              {
+                "node": 2,
+                "dof": "UZ",
+                "value": -1.187414251079139e-06
+              },
+              {
+                "node": 3,
+                "dof": "UX",
+                "value": -6.270770794209522e-07
+              },
+              {
+                "node": 3,
+                "dof": "UY",
+                "value": 4.373751549931764e-09
+              },
+              {
+                "node": 3,
+                "dof": "UZ",
+                "value": 8.434896038879454e-07
+              },
+              {
+                "node": 6,
+                "dof": "UX",
+                "value": 1.4487207091057667e-06
+              },
+              {
+                "node": 6,
+                "dof": "UY",
+                "value": -1.1885283544492769e-07
+              },
+              {
+                "node": 6,
+                "dof": "UZ",
+                "value": -1.3886924267076854e-06
+              },
+              {
+                "node": 7,
+                "dof": "UX",
+                "value": 1.5104801304189337e-06
+              },
+              {
+                "node": 7,
+                "dof": "UY",
+                "value": 4.672332750627414e-07
+              },
+              {
+                "node": 7,
+                "dof": "UZ",
+                "value": 1.0938476804800542e-06
+              },
+              {
+                "node": 8,
+                "dof": "UX",
+                "value": -3.277482973255757e-07
+              },
+              {
+                "node": 8,
+                "dof": "UY",
+                "value": -5.877116192020323e-08
+              },
+              {
+                "node": 8,
+                "dof": "UZ",
+                "value": 4.4987288100343923e-07
+              },
+              {
+                "node": 9,
+                "dof": "UX",
+                "value": 2.268628505675432e-06
+              },
+              {
+                "node": 9,
+                "dof": "UY",
+                "value": 5.493777623118704e-07
+              },
+              {
+                "node": 9,
+                "dof": "UZ",
+                "value": 3.4025509226831996e-07
+              },
+              {
+                "node": 10,
+                "dof": "UX",
+                "value": 5.074087150822134e-06
+              },
+              {
+                "node": 10,
+                "dof": "UY",
+                "value": 1.8801956461370259e-06
+              },
+              {
+                "node": 10,
+                "dof": "UZ",
+                "value": 1.8932732406889642e-06
+              },
+              {
+                "node": 11,
+                "dof": "UX",
+                "value": 5.083401935194547e-06
+              },
+              {
+                "node": 11,
+                "dof": "UY",
+                "value": 1.105145491841068e-06
+              },
+              {
+                "node": 11,
+                "dof": "UZ",
+                "value": -2.092618992292121e-06
+              },
+              {
+                "node": 12,
+                "dof": "UX",
+                "value": 5.80880473869821e-06
+              },
+              {
+                "node": 12,
+                "dof": "UY",
+                "value": 1.8685388471504887e-06
+              },
+              {
+                "node": 12,
+                "dof": "UZ",
+                "value": 2.33569558179577e-07
+              },
+              {
+                "node": 13,
+                "dof": "UX",
+                "value": 9.215423606624098e-06
+              },
+              {
+                "node": 13,
+                "dof": "UY",
+                "value": 3.620737574161177e-06
+              },
+              {
+                "node": 13,
+                "dof": "UZ",
+                "value": 1.936029076835871e-06
+              },
+              {
+                "node": 14,
+                "dof": "UX",
+                "value": 9.21218605272887e-06
+              },
+              {
+                "node": 14,
+                "dof": "UY",
+                "value": 2.825472768075484e-06
+              },
+              {
+                "node": 14,
+                "dof": "UZ",
+                "value": -2.1106792485917627e-06
+              },
+              {
+                "node": 15,
+                "dof": "UX",
+                "value": 1.0000000000000003e-05
+              },
+              {
+                "node": 15,
+                "dof": "UY",
+                "value": 3.6038190268761216e-06
+              },
+              {
+                "node": 15,
+                "dof": "UZ",
+                "value": 2.1321747022652608e-07
+              }
+            ],
+            "mass_formulation": "consistent",
+            "rayleigh_alpha": 0.0,
+            "rayleigh_beta": 0.0,
+            "load_function": "not_a_supported_function"
+          }
+        },
+        "execution": {
+          "path": "solve_model(model, enforce_policy=False)",
+          "harness": "scripts/wp13_02b9_harness.py::run_failure_contract"
+        },
+        "status": "REJECTED",
+        "observed_exception": "InputValidationError",
+        "exception_message": "Unsupported dynamic load_function 'not_a_supported_function'; allowed: constant, half_sine_pulse, linear_chirp, linear_ramp, sine.",
+        "pass": true
+      },
+      "invalid_initial_conditions": {
+        "case": "invalid_initial_conditions",
+        "case_executed": true,
+        "expected_exception": "InputValidationError",
+        "expected_route_status": null,
+        "input": {
+          "nodes": [
+            [
+              0.0,
+              -1.0,
+              0.0
+            ],
+            [
+              1.0,
+              -1.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              -1.0,
+              1.0
+            ],
+            [
+              1.0,
+              -1.0,
+              1.0
+            ],
+            [
+              1.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              2.0
+            ],
+            [
+              1.0,
+              0.0,
+              2.0
+            ],
+            [
+              0.0,
+              1.0,
+              2.0
+            ],
+            [
+              0.0,
+              0.0,
+              3.0
+            ],
+            [
+              1.0,
+              0.0,
+              3.0
+            ],
+            [
+              0.0,
+              1.0,
+              3.0
+            ]
+          ],
+          "elements": [
+            {
+              "type": "WEDGE6",
+              "nodes": [
+                3,
+                2,
+                8,
+                7,
+                6,
+                9
+              ],
+              "material": "solid"
+            },
+            {
+              "type": "WEDGE6",
+              "nodes": [
+                7,
+                6,
+                9,
+                10,
+                11,
+                12
+              ],
+              "material": "solid"
+            },
+            {
+              "type": "TET4",
+              "nodes": [
+                10,
+                11,
+                12,
+                15
+              ],
+              "material": "solid"
+            },
+            {
+              "type": "TET4",
+              "nodes": [
+                11,
+                10,
+                14,
+                15
+              ],
+              "material": "solid"
+            },
+            {
+              "type": "TET4",
+              "nodes": [
+                10,
+                13,
+                14,
+                15
+              ],
+              "material": "solid"
+            },
+            {
+              "type": "HEX8",
+              "nodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "material": "solid"
+            }
+          ],
+          "materials": {
+            "solid": {
+              "type": "isotropic_3d",
+              "E": 210000000000.0,
+              "nu": 0.3,
+              "density": 7800.0
+            }
+          },
+          "fixed_dofs": [
+            {
+              "node": 0,
+              "dofs": [
+                "UX",
+                "UY",
+                "UZ"
+              ]
+            },
+            {
+              "node": 1,
+              "dofs": [
+                "UX",
+                "UY",
+                "UZ"
+              ]
+            },
+            {
+              "node": 4,
+              "dofs": [
+                "UX",
+                "UY",
+                "UZ"
+              ]
+            },
+            {
+              "node": 5,
+              "dofs": [
+                "UX",
+                "UY",
+                "UZ"
+              ]
+            }
+          ],
+          "loads": [],
+          "analysis": {
+            "type": "transient_dynamic",
+            "method": "newmark",
+            "time_step": 0.000511226814129704,
+            "steps": 80,
+            "initial_displacements": {
+              "node": 13,
+              "dof": "UZ",
+              "value": 1.0
+            },
+            "mass_formulation": "consistent",
+            "rayleigh_alpha": 0.0,
+            "rayleigh_beta": 0.0
+          }
+        },
+        "execution": {
+          "path": "solve_model(model, enforce_policy=False)",
+          "harness": "scripts/wp13_02b9_harness.py::run_failure_contract"
+        },
+        "status": "REJECTED",
+        "observed_exception": "InputValidationError",
+        "exception_message": "Initial conditions must be provided as a list of {node, dof, value} entries.",
+        "pass": true
+      },
+      "invalid_mixed_interface": {
+        "case": "invalid_mixed_interface",
+        "case_executed": true,
+        "expected_exception": "MeshValidationError",
+        "expected_route_status": null,
+        "input": {
+          "nodes": [
+            [
+              0.0,
+              -1.0,
+              0.0
+            ],
+            [
+              1.0,
+              -1.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              -1.0,
+              1.0
+            ],
+            [
+              1.0,
+              -1.0,
+              1.0
+            ],
+            [
+              1.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              2.0
+            ],
+            [
+              1.0,
+              0.0,
+              2.0
+            ],
+            [
+              0.0,
+              1.0,
+              2.0
+            ],
+            [
+              0.0,
+              0.0,
+              3.0
+            ],
+            [
+              1.0,
+              0.0,
+              3.0
+            ],
+            [
+              0.0,
+              1.0,
+              3.0
+            ]
+          ],
+          "elements": [
+            {
+              "type": "WEDGE6",
+              "nodes": [
+                3,
+                2,
+                8,
+                7,
+                6,
+                9
+              ],
+              "material": "solid"
+            },
+            {
+              "type": "WEDGE6",
+              "nodes": [
+                7,
+                6,
+                9,
+                10,
+                11,
+                999
+              ],
+              "material": "solid"
+            },
+            {
+              "type": "TET4",
+              "nodes": [
+                10,
+                11,
+                12,
+                15
+              ],
+              "material": "solid"
+            },
+            {
+              "type": "TET4",
+              "nodes": [
+                11,
+                10,
+                14,
+                15
+              ],
+              "material": "solid"
+            },
+            {
+              "type": "TET4",
+              "nodes": [
+                10,
+                13,
+                14,
+                15
+              ],
+              "material": "solid"
+            },
+            {
+              "type": "HEX8",
+              "nodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "material": "solid"
+            }
+          ],
+          "materials": {
+            "solid": {
+              "type": "isotropic_3d",
+              "E": 210000000000.0,
+              "nu": 0.3,
+              "density": 7800.0
+            }
+          },
+          "fixed_dofs": [
+            {
+              "node": 0,
+              "dofs": [
+                "UX",
+                "UY",
+                "UZ"
+              ]
+            },
+            {
+              "node": 1,
+              "dofs": [
+                "UX",
+                "UY",
+                "UZ"
+              ]
+            },
+            {
+              "node": 4,
+              "dofs": [
+                "UX",
+                "UY",
+                "UZ"
+              ]
+            },
+            {
+              "node": 5,
+              "dofs": [
+                "UX",
+                "UY",
+                "UZ"
+              ]
+            }
+          ],
+          "loads": [],
+          "analysis": {
+            "type": "transient_dynamic",
+            "method": "newmark",
+            "time_step": 0.000511226814129704,
+            "steps": 80,
+            "initial_displacements": [
+              {
+                "node": 2,
+                "dof": "UX",
+                "value": -5.877448623714592e-07
+              },
+              {
+                "node": 2,
+                "dof": "UY",
+                "value": -2.903069565237084e-07
+              },
+              {
+                "node": 2,
+                "dof": "UZ",
+                "value": -1.187414251079139e-06
+              },
+              {
+                "node": 3,
+                "dof": "UX",
+                "value": -6.270770794209522e-07
+              },
+              {
+                "node": 3,
+                "dof": "UY",
+                "value": 4.373751549931764e-09
+              },
+              {
+                "node": 3,
+                "dof": "UZ",
+                "value": 8.434896038879454e-07
+              },
+              {
+                "node": 6,
+                "dof": "UX",
+                "value": 1.4487207091057667e-06
+              },
+              {
+                "node": 6,
+                "dof": "UY",
+                "value": -1.1885283544492769e-07
+              },
+              {
+                "node": 6,
+                "dof": "UZ",
+                "value": -1.3886924267076854e-06
+              },
+              {
+                "node": 7,
+                "dof": "UX",
+                "value": 1.5104801304189337e-06
+              },
+              {
+                "node": 7,
+                "dof": "UY",
+                "value": 4.672332750627414e-07
+              },
+              {
+                "node": 7,
+                "dof": "UZ",
+                "value": 1.0938476804800542e-06
+              },
+              {
+                "node": 8,
+                "dof": "UX",
+                "value": -3.277482973255757e-07
+              },
+              {
+                "node": 8,
+                "dof": "UY",
+                "value": -5.877116192020323e-08
+              },
+              {
+                "node": 8,
+                "dof": "UZ",
+                "value": 4.4987288100343923e-07
+              },
+              {
+                "node": 9,
+                "dof": "UX",
+                "value": 2.268628505675432e-06
+              },
+              {
+                "node": 9,
+                "dof": "UY",
+                "value": 5.493777623118704e-07
+              },
+              {
+                "node": 9,
+                "dof": "UZ",
+                "value": 3.4025509226831996e-07
+              },
+              {
+                "node": 10,
+                "dof": "UX",
+                "value": 5.074087150822134e-06
+              },
+              {
+                "node": 10,
+                "dof": "UY",
+                "value": 1.8801956461370259e-06
+              },
+              {
+                "node": 10,
+                "dof": "UZ",
+                "value": 1.8932732406889642e-06
+              },
+              {
+                "node": 11,
+                "dof": "UX",
+                "value": 5.083401935194547e-06
+              },
+              {
+                "node": 11,
+                "dof": "UY",
+                "value": 1.105145491841068e-06
+              },
+              {
+                "node": 11,
+                "dof": "UZ",
+                "value": -2.092618992292121e-06
+              },
+              {
+                "node": 12,
+                "dof": "UX",
+                "value": 5.80880473869821e-06
+              },
+              {
+                "node": 12,
+                "dof": "UY",
+                "value": 1.8685388471504887e-06
+              },
+              {
+                "node": 12,
+                "dof": "UZ",
+                "value": 2.33569558179577e-07
+              },
+              {
+                "node": 13,
+                "dof": "UX",
+                "value": 9.215423606624098e-06
+              },
+              {
+                "node": 13,
+                "dof": "UY",
+                "value": 3.620737574161177e-06
+              },
+              {
+                "node": 13,
+                "dof": "UZ",
+                "value": 1.936029076835871e-06
+              },
+              {
+                "node": 14,
+                "dof": "UX",
+                "value": 9.21218605272887e-06
+              },
+              {
+                "node": 14,
+                "dof": "UY",
+                "value": 2.825472768075484e-06
+              },
+              {
+                "node": 14,
+                "dof": "UZ",
+                "value": -2.1106792485917627e-06
+              },
+              {
+                "node": 15,
+                "dof": "UX",
+                "value": 1.0000000000000003e-05
+              },
+              {
+                "node": 15,
+                "dof": "UY",
+                "value": 3.6038190268761216e-06
+              },
+              {
+                "node": 15,
+                "dof": "UZ",
+                "value": 2.1321747022652608e-07
+              }
+            ],
+            "mass_formulation": "consistent",
+            "rayleigh_alpha": 0.0,
+            "rayleigh_beta": 0.0
+          }
+        },
+        "execution": {
+          "path": "solve_model(model, enforce_policy=False)",
+          "harness": "scripts/wp13_02b9_harness.py::run_failure_contract"
+        },
+        "status": "REJECTED",
+        "observed_exception": "MeshValidationError",
+        "exception_message": "Mesh validation failed: Element 1: node index outside model node range.",
+        "pass": true
+      },
+      "unsupported_family": {
+        "case": "unsupported_family",
+        "case_executed": true,
+        "expected_exception": "CompatibilityError",
+        "expected_route_status": "UNSUPPORTED_ROUTE",
+        "input": {
+          "nodes": [
+            [
+              0.0,
+              -1.0,
+              0.0
+            ],
+            [
+              1.0,
+              -1.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              -1.0,
+              1.0
+            ],
+            [
+              1.0,
+              -1.0,
+              1.0
+            ],
+            [
+              1.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              2.0
+            ],
+            [
+              1.0,
+              0.0,
+              2.0
+            ],
+            [
+              0.0,
+              1.0,
+              2.0
+            ],
+            [
+              0.0,
+              0.0,
+              3.0
+            ],
+            [
+              1.0,
+              0.0,
+              3.0
+            ],
+            [
+              0.0,
+              1.0,
+              3.0
+            ]
+          ],
+          "elements": [
+            {
+              "type": "PYRAMID5",
+              "nodes": [
+                3,
+                2,
+                8,
+                7,
+                6
+              ],
+              "material": "solid"
+            },
+            {
+              "type": "WEDGE6",
+              "nodes": [
+                7,
+                6,
+                9,
+                10,
+                11,
+                12
+              ],
+              "material": "solid"
+            },
+            {
+              "type": "TET4",
+              "nodes": [
+                10,
+                11,
+                12,
+                15
+              ],
+              "material": "solid"
+            },
+            {
+              "type": "TET4",
+              "nodes": [
+                11,
+                10,
+                14,
+                15
+              ],
+              "material": "solid"
+            },
+            {
+              "type": "TET4",
+              "nodes": [
+                10,
+                13,
+                14,
+                15
+              ],
+              "material": "solid"
+            },
+            {
+              "type": "HEX8",
+              "nodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "material": "solid"
+            }
+          ],
+          "materials": {
+            "solid": {
+              "type": "isotropic_3d",
+              "E": 210000000000.0,
+              "nu": 0.3,
+              "density": 7800.0
+            }
+          },
+          "fixed_dofs": [
+            {
+              "node": 0,
+              "dofs": [
+                "UX",
+                "UY",
+                "UZ"
+              ]
+            },
+            {
+              "node": 1,
+              "dofs": [
+                "UX",
+                "UY",
+                "UZ"
+              ]
+            },
+            {
+              "node": 4,
+              "dofs": [
+                "UX",
+                "UY",
+                "UZ"
+              ]
+            },
+            {
+              "node": 5,
+              "dofs": [
+                "UX",
+                "UY",
+                "UZ"
+              ]
+            }
+          ],
+          "loads": [],
+          "analysis": {
+            "type": "transient_dynamic",
+            "method": "newmark",
+            "time_step": 0.000511226814129704,
+            "steps": 80,
+            "initial_displacements": [
+              {
+                "node": 2,
+                "dof": "UX",
+                "value": -5.877448623714592e-07
+              },
+              {
+                "node": 2,
+                "dof": "UY",
+                "value": -2.903069565237084e-07
+              },
+              {
+                "node": 2,
+                "dof": "UZ",
+                "value": -1.187414251079139e-06
+              },
+              {
+                "node": 3,
+                "dof": "UX",
+                "value": -6.270770794209522e-07
+              },
+              {
+                "node": 3,
+                "dof": "UY",
+                "value": 4.373751549931764e-09
+              },
+              {
+                "node": 3,
+                "dof": "UZ",
+                "value": 8.434896038879454e-07
+              },
+              {
+                "node": 6,
+                "dof": "UX",
+                "value": 1.4487207091057667e-06
+              },
+              {
+                "node": 6,
+                "dof": "UY",
+                "value": -1.1885283544492769e-07
+              },
+              {
+                "node": 6,
+                "dof": "UZ",
+                "value": -1.3886924267076854e-06
+              },
+              {
+                "node": 7,
+                "dof": "UX",
+                "value": 1.5104801304189337e-06
+              },
+              {
+                "node": 7,
+                "dof": "UY",
+                "value": 4.672332750627414e-07
+              },
+              {
+                "node": 7,
+                "dof": "UZ",
+                "value": 1.0938476804800542e-06
+              },
+              {
+                "node": 8,
+                "dof": "UX",
+                "value": -3.277482973255757e-07
+              },
+              {
+                "node": 8,
+                "dof": "UY",
+                "value": -5.877116192020323e-08
+              },
+              {
+                "node": 8,
+                "dof": "UZ",
+                "value": 4.4987288100343923e-07
+              },
+              {
+                "node": 9,
+                "dof": "UX",
+                "value": 2.268628505675432e-06
+              },
+              {
+                "node": 9,
+                "dof": "UY",
+                "value": 5.493777623118704e-07
+              },
+              {
+                "node": 9,
+                "dof": "UZ",
+                "value": 3.4025509226831996e-07
+              },
+              {
+                "node": 10,
+                "dof": "UX",
+                "value": 5.074087150822134e-06
+              },
+              {
+                "node": 10,
+                "dof": "UY",
+                "value": 1.8801956461370259e-06
+              },
+              {
+                "node": 10,
+                "dof": "UZ",
+                "value": 1.8932732406889642e-06
+              },
+              {
+                "node": 11,
+                "dof": "UX",
+                "value": 5.083401935194547e-06
+              },
+              {
+                "node": 11,
+                "dof": "UY",
+                "value": 1.105145491841068e-06
+              },
+              {
+                "node": 11,
+                "dof": "UZ",
+                "value": -2.092618992292121e-06
+              },
+              {
+                "node": 12,
+                "dof": "UX",
+                "value": 5.80880473869821e-06
+              },
+              {
+                "node": 12,
+                "dof": "UY",
+                "value": 1.8685388471504887e-06
+              },
+              {
+                "node": 12,
+                "dof": "UZ",
+                "value": 2.33569558179577e-07
+              },
+              {
+                "node": 13,
+                "dof": "UX",
+                "value": 9.215423606624098e-06
+              },
+              {
+                "node": 13,
+                "dof": "UY",
+                "value": 3.620737574161177e-06
+              },
+              {
+                "node": 13,
+                "dof": "UZ",
+                "value": 1.936029076835871e-06
+              },
+              {
+                "node": 14,
+                "dof": "UX",
+                "value": 9.21218605272887e-06
+              },
+              {
+                "node": 14,
+                "dof": "UY",
+                "value": 2.825472768075484e-06
+              },
+              {
+                "node": 14,
+                "dof": "UZ",
+                "value": -2.1106792485917627e-06
+              },
+              {
+                "node": 15,
+                "dof": "UX",
+                "value": 1.0000000000000003e-05
+              },
+              {
+                "node": 15,
+                "dof": "UY",
+                "value": 3.6038190268761216e-06
+              },
+              {
+                "node": 15,
+                "dof": "UZ",
+                "value": 2.1321747022652608e-07
+              }
+            ],
+            "mass_formulation": "consistent",
+            "rayleigh_alpha": 0.0,
+            "rayleigh_beta": 0.0
+          }
+        },
+        "execution": {
+          "path": "solve_model(model, enforce_policy=False)",
+          "harness": "scripts/wp13_02b9_harness.py::run_failure_contract"
+        },
+        "status": "REJECTED",
+        "observed_exception": "CompatibilityError",
+        "exception_message": "UNKNOWN_ELEMENT: Unknown element family 'PYRAMID5'.",
+        "pass": true
+      }
+    },
+    "unsupported_family_executed": true,
+    "unsupported_family_rejected": true,
+    "silent_fallback": false
+  },
+  "interface_continuity": {
+    "implementation": "family-local DOF gathering from recorded displacement histories",
+    "hardcoded": false,
+    "all_interface_gates_pass": true,
+    "interfaces": [
+      "TET4_WEDGE6",
+      "WEDGE6_HEX8"
+    ]
+  },
+  "energy_fields": {
+    "TET4": [
+      "kinetic",
+      "strain"
+    ],
+    "WEDGE6": [
+      "kinetic",
+      "strain"
+    ],
+    "HEX8": [
+      "kinetic",
+      "strain"
+    ],
+    "global": [
+      "kinetic",
+      "strain",
+      "damping",
+      "external",
+      "total"
+    ]
+  },
+  "replay": {
+    "fields_implemented": [
+      "u",
+      "v",
+      "a",
+      "q",
+      "residual full vector",
+      "kinetic energy",
+      "strain energy",
+      "damping energy",
+      "external work",
+      "reactions"
+    ],
+    "full_residual_vector_archived": true,
+    "separate_energy_fields_archived": true,
+    "reactions_archived": true,
+    "comparisons": [
+      {
+        "field_errors": {
+          "u": 0.0,
+          "v": 0.0,
+          "a": 0.0,
+          "q": 0.0,
+          "residual full vector": 0.0,
+          "kinetic energy": 0.0,
+          "strain energy": 0.0,
+          "damping energy": 0.0,
+          "external work": 0.0,
+          "reactions": 0.0
+        },
+        "tolerance": 1e-12,
+        "shapes_match": true,
+        "time_identical": true,
+        "all_fields_pass": true,
+        "status_identical": true,
+        "iterations_identical": true
+      },
+      {
+        "field_errors": {
+          "u": 0.0,
+          "v": 0.0,
+          "a": 0.0,
+          "q": 0.0,
+          "residual full vector": 0.0,
+          "kinetic energy": 0.0,
+          "strain energy": 0.0,
+          "damping energy": 0.0,
+          "external work": 0.0,
+          "reactions": 0.0
+        },
+        "tolerance": 1e-12,
+        "shapes_match": true,
+        "time_identical": true,
+        "all_fields_pass": true,
+        "status_identical": true,
+        "iterations_identical": true
+      }
+    ],
+    "all_fields_pass": true
+  },
+  "conditioning_prechecks": {
+    "max_aspect_ratio": 1.7320508075688772,
+    "min_jacobian": 0.12499999999999997,
+    "max_jacobian": 1.0,
+    "max_affine_jacobian_condition": 3.7320508075688785,
+    "mass_scale_range": 5.555555555555555,
+    "stiffness_scale_range": 10.0,
+    "kff_positive_definite": true,
+    "mff_positive_definite": true,
+    "stiffness_symmetry_relative": 0.0,
+    "mass_symmetry_relative": 0.0,
+    "global_condition_number": "NOT_COMPUTED_BY_CONTRACT",
+    "limits_from_contract": {
+      "max_aspect_ratio": 4.0,
+      "max_affine_jacobian_condition": 10.0,
+      "max_diagonal_ratio": 100.0,
+      "symmetry_relative": 1e-12
+    },
+    "pass": true
+  },
+  "archive": {
+    "path": "qualification/0_2_8/wp13_02b9_harness/wp13_02b9_harness_arrays.npz",
+    "sha256": "13fc73e85c839c48584d8b68015860790fe2203823aecd9d6779475a4a357bac",
+    "array_count": 364,
+    "array_manifest": {
+      "dt_t1_20_time": {
+        "shape": [
+          81
+        ],
+        "dtype": "float64",
+        "sha256": "5edcd14a2e1b42651c87299be579bd63a3f176699583c987fb1145ba4c2cb20d"
+      },
+      "dt_t1_20_displacement": {
+        "shape": [
+          81,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "188cfb95f086ca648b95a8069338fb85ee8d4fe23933847cc6011b753523a4a7"
+      },
+      "dt_t1_20_velocity": {
+        "shape": [
+          81,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "4d1ed1e126fb9cdc776b5c97753e3c1af6a99e07bd2ba8da33f1692d8aff43bb"
+      },
+      "dt_t1_20_acceleration": {
+        "shape": [
+          81,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "8e330fc0eca48462a9ddfff0414274235c0ebf440757c56c79dd84b3000aab74"
+      },
+      "dt_t1_20_u_ref": {
+        "shape": [
+          81,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "e916be0bfcda164c962bdb660cd6cb4bbafa4144c5aedb7332afebfed70b57bc"
+      },
+      "dt_t1_20_v_ref": {
+        "shape": [
+          81,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "4ef40035693b20da70d9e76cac391024867866f1f1e593ccd9cc3d50142bf0c2"
+      },
+      "dt_t1_20_a_ref": {
+        "shape": [
+          81,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "b56a3ce0c4bf11a3fc1b799cdc5c1711574cd46839ca6279aa93ceed8d812d00"
+      },
+      "dt_t1_20_q": {
+        "shape": [
+          81
+        ],
+        "dtype": "float64",
+        "sha256": "235a7c4d7e88b277a9d85512a2861998917db5ed5d41271a053299cd9540249a"
+      },
+      "dt_t1_20_q_ref": {
+        "shape": [
+          81
+        ],
+        "dtype": "float64",
+        "sha256": "56665e1ae933b42f5095603be9fb6ec55671a46a0caed888877aa27bfad68b2e"
+      },
+      "dt_t1_20_qv": {
+        "shape": [
+          81
+        ],
+        "dtype": "float64",
+        "sha256": "a301792badac45a3a0f51394633e90898f9dde2f05b09400b25ec066db1bb372"
+      },
+      "dt_t1_20_qv_ref": {
+        "shape": [
+          81
+        ],
+        "dtype": "float64",
+        "sha256": "b55434caa6a7759a9055d17435e26449902bc709b47a0f3c4f40ee5ebc76a6d7"
+      },
+      "dt_t1_20_qa": {
+        "shape": [
+          81
+        ],
+        "dtype": "float64",
+        "sha256": "09c4b7038342c7a995dbbe6a738a3180a00656afc0424cdaf319fece7e37c0da"
+      },
+      "dt_t1_20_qa_ref": {
+        "shape": [
+          81
+        ],
+        "dtype": "float64",
+        "sha256": "20ec1d23a12be01ce13347991b7d6afafbbb17139fc334c6b621653d2d790254"
+      },
+      "dt_t1_20_residual_vector": {
+        "shape": [
+          81,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "8837d5b6a620572cc9117de65755b3eeb839a486c6aab974bebd0e9222d150a7"
+      },
+      "dt_t1_20_residual_norm": {
+        "shape": [
+          81
+        ],
+        "dtype": "float64",
+        "sha256": "d6315d003aad6552f3cf78bb1bedf079e504acf8f39a1973a673aeb425934c2a"
+      },
+      "dt_t1_20_residual_relative": {
+        "shape": [
+          81
+        ],
+        "dtype": "float64",
+        "sha256": "4a02ca8fc68f61a055d91535534836b24fe906a7e5f49f7ea8d3f2e02d7d8244"
+      },
+      "dt_t1_20_reactions": {
+        "shape": [
+          81,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "22cdf78f971ba4a54d7de69c7a0b7de4a70e7283859f529902dd39ad1fa513bd"
+      },
+      "dt_t1_20_energy_strain": {
+        "shape": [
+          81
+        ],
+        "dtype": "float64",
+        "sha256": "ca09067a9a1839547152e231533716eb51b73f0ff62c07fce2235772df659a0a"
+      },
+      "dt_t1_20_energy_kinetic": {
+        "shape": [
+          81
+        ],
+        "dtype": "float64",
+        "sha256": "d5b74969a543b432fae12524e22f8f77a1a32e69cc13624e67097ea57d603443"
+      },
+      "dt_t1_20_energy_total": {
+        "shape": [
+          81
+        ],
+        "dtype": "float64",
+        "sha256": "07baf07c9f1d33972cb4a5d7989f9894bd767c6595059aa1f10d1e8abc079a03"
+      },
+      "dt_t1_20_energy_damping": {
+        "shape": [
+          81
+        ],
+        "dtype": "float64",
+        "sha256": "f4bd841308415de6ed2727462cd66a7333ac8155b4e8e95de0220355189c785c"
+      },
+      "dt_t1_20_energy_external": {
+        "shape": [
+          81
+        ],
+        "dtype": "float64",
+        "sha256": "f4bd841308415de6ed2727462cd66a7333ac8155b4e8e95de0220355189c785c"
+      },
+      "dt_t1_20_damping_power": {
+        "shape": [
+          81
+        ],
+        "dtype": "float64",
+        "sha256": "f4bd841308415de6ed2727462cd66a7333ac8155b4e8e95de0220355189c785c"
+      },
+      "dt_t1_20_external_power": {
+        "shape": [
+          81
+        ],
+        "dtype": "float64",
+        "sha256": "f4bd841308415de6ed2727462cd66a7333ac8155b4e8e95de0220355189c785c"
+      },
+      "dt_t1_20_TET4_WEDGE6_left_displacement": {
+        "shape": [
+          81,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "7bbe183623c181bd69778c6d5567ee893c92113562a1d2a49cf45f519d1fb752"
+      },
+      "dt_t1_20_TET4_WEDGE6_right_displacement": {
+        "shape": [
+          81,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "7bbe183623c181bd69778c6d5567ee893c92113562a1d2a49cf45f519d1fb752"
+      },
+      "dt_t1_20_TET4_WEDGE6_delta_u": {
+        "shape": [
+          81,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "d1575943c8a4713d0cdfc917aff7903805fab6350d7fcdc2000ccd7839ccd134"
+      },
+      "dt_t1_20_TET4_WEDGE6_continuity_relative_history": {
+        "shape": [
+          81
+        ],
+        "dtype": "float64",
+        "sha256": "f4bd841308415de6ed2727462cd66a7333ac8155b4e8e95de0220355189c785c"
+      },
+      "dt_t1_20_TET4_WEDGE6_left_force": {
+        "shape": [
+          81,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "2cedbe11f4a48e5929f1a1a3946b792cea6fefada30c75d1bf924211488d0ddf"
+      },
+      "dt_t1_20_TET4_WEDGE6_right_force": {
+        "shape": [
+          81,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "28329e2ba34472513fd9977e72e88b467e4ca5eb3daeb0612b06790cc921fa6c"
+      },
+      "dt_t1_20_TET4_WEDGE6_force_balance_vector": {
+        "shape": [
+          81,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "403b331f05e49ed472b468bbfa4418b48ab9e0385fbf967151de9dbb4287d648"
+      },
+      "dt_t1_20_TET4_WEDGE6_power_left": {
+        "shape": [
+          81
+        ],
+        "dtype": "float64",
+        "sha256": "92fd6b6554dfd2624c1277ba0935b7f5033e9753698412f39e58f33b10f9729b"
+      },
+      "dt_t1_20_TET4_WEDGE6_power_right": {
+        "shape": [
+          81
+        ],
+        "dtype": "float64",
+        "sha256": "94ba034b3e8eaf706a95692bb4be70135e0d0753e3c3c8f78088cb5d0d519b80"
+      },
+      "dt_t1_20_TET4_WEDGE6_work_left": {
+        "shape": [
+          81
+        ],
+        "dtype": "float64",
+        "sha256": "42486c7c6bacebf01a0a00c233d92cf88f0d52ba2d49f952214a0c4b36334891"
+      },
+      "dt_t1_20_TET4_WEDGE6_work_right": {
+        "shape": [
+          81
+        ],
+        "dtype": "float64",
+        "sha256": "31a502cd4b4fb31705e022b40a413345700f5427855a99be87538e94875ae33a"
+      },
+      "dt_t1_20_WEDGE6_HEX8_left_displacement": {
+        "shape": [
+          81,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "85700bd37179e7531f87951ee1c0e605db8076151981a1999cf6807d04004471"
+      },
+      "dt_t1_20_WEDGE6_HEX8_right_displacement": {
+        "shape": [
+          81,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "85700bd37179e7531f87951ee1c0e605db8076151981a1999cf6807d04004471"
+      },
+      "dt_t1_20_WEDGE6_HEX8_delta_u": {
+        "shape": [
+          81,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "f9787d6224fad2b17c57a70c21b11d4288a939ca26f1add55446b358aac43d39"
+      },
+      "dt_t1_20_WEDGE6_HEX8_continuity_relative_history": {
+        "shape": [
+          81
+        ],
+        "dtype": "float64",
+        "sha256": "f4bd841308415de6ed2727462cd66a7333ac8155b4e8e95de0220355189c785c"
+      },
+      "dt_t1_20_WEDGE6_HEX8_left_force": {
+        "shape": [
+          81,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "a386032e44cd43e6013b575c3af7025692a3ea355f430907599fe69d41ea391c"
+      },
+      "dt_t1_20_WEDGE6_HEX8_right_force": {
+        "shape": [
+          81,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "73024c85c991c0275801d06a33d8ecd3d2b3016294e20dc1a8e387eb3270b710"
+      },
+      "dt_t1_20_WEDGE6_HEX8_force_balance_vector": {
+        "shape": [
+          81,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "3840bb7f9c58d268e43e8b9e9c7dbe2d08764f6291797ffc768ca803bd8f9de9"
+      },
+      "dt_t1_20_WEDGE6_HEX8_power_left": {
+        "shape": [
+          81
+        ],
+        "dtype": "float64",
+        "sha256": "23de8686838bda95b4bc5dddb63e5f4a79f6266e6074ec98885e88ca1a4fcd4c"
+      },
+      "dt_t1_20_WEDGE6_HEX8_power_right": {
+        "shape": [
+          81
+        ],
+        "dtype": "float64",
+        "sha256": "f27b92ec72334d079f97acd941e15d310b59b346da0e5e71aa237c343fd2a8eb"
+      },
+      "dt_t1_20_WEDGE6_HEX8_work_left": {
+        "shape": [
+          81
+        ],
+        "dtype": "float64",
+        "sha256": "499a224019c9fceaf1d01414917dba789aeeb0e3b483bd0b0ec84c08e20c94d8"
+      },
+      "dt_t1_20_WEDGE6_HEX8_work_right": {
+        "shape": [
+          81
+        ],
+        "dtype": "float64",
+        "sha256": "7ca1cf6fb9e5fd2951e957a541baae0653c6102d6dbf664591cded401384c0a5"
+      },
+      "dt_t1_20_family_TET4_kinetic": {
+        "shape": [
+          81
+        ],
+        "dtype": "float64",
+        "sha256": "4e0df921577e428eaac8cbaf85ef5a545ea8127a7e85b42136a85b5c429e99bb"
+      },
+      "dt_t1_20_family_TET4_strain": {
+        "shape": [
+          81
+        ],
+        "dtype": "float64",
+        "sha256": "148eadcc0a4cd5061d1ae776d4849f8a4b4bd2127b5d61643e25110484544d74"
+      },
+      "dt_t1_20_family_WEDGE6_kinetic": {
+        "shape": [
+          81
+        ],
+        "dtype": "float64",
+        "sha256": "7fd35db360994398d5e48b906c105cd2fc4ee762433faadf0b6f9fd19ab51eb9"
+      },
+      "dt_t1_20_family_WEDGE6_strain": {
+        "shape": [
+          81
+        ],
+        "dtype": "float64",
+        "sha256": "3794f511533209502eafe8224f9478c29d596d74e5bd42e7252b735956b91367"
+      },
+      "dt_t1_20_family_HEX8_kinetic": {
+        "shape": [
+          81
+        ],
+        "dtype": "float64",
+        "sha256": "2cf61becc5738a6a0719b2fa8b84630504d04082f6b4a4ca9844ad3f4d68c648"
+      },
+      "dt_t1_20_family_HEX8_strain": {
+        "shape": [
+          81
+        ],
+        "dtype": "float64",
+        "sha256": "a44af0f32856cd5df4b7a791a9ffbd49e401fa092365a0f6d9a1150ac484d275"
+      },
+      "dt_t1_40_time": {
+        "shape": [
+          161
+        ],
+        "dtype": "float64",
+        "sha256": "7c548e5df1bdc74ceb1c81872d25e043170ce0f68fb1a08a0c7e5df15a8de030"
+      },
+      "dt_t1_40_displacement": {
+        "shape": [
+          161,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "f0aa82072a689b570ad4221967bddd96e79ea3e4f2518f6ac854228d55d48dc7"
+      },
+      "dt_t1_40_velocity": {
+        "shape": [
+          161,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "801d2a99aea9686f37075690568614ef1e33ce9d74c65415b5159c8d0fb9ba3a"
+      },
+      "dt_t1_40_acceleration": {
+        "shape": [
+          161,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "46077177b191b0d0c98e660af8b20e9bce55a92fd69bbde4d232bb45a91534c5"
+      },
+      "dt_t1_40_u_ref": {
+        "shape": [
+          161,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "684a2e86946bae59a159a5ad13825d2b3fd045924e3dec181e1cfb3fe781b0db"
+      },
+      "dt_t1_40_v_ref": {
+        "shape": [
+          161,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "7d6d5e9138b9e45cc59c1f161b2b49de7db9d90e767e70e88d46ead119547d00"
+      },
+      "dt_t1_40_a_ref": {
+        "shape": [
+          161,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "c1606e0bb125834d430891366f3d4ff971329fc8fec75c4db58ec673b98f330c"
+      },
+      "dt_t1_40_q": {
+        "shape": [
+          161
+        ],
+        "dtype": "float64",
+        "sha256": "1f41023267141c49fbee65cf2738c7acf508d3a1fbca7e03b44963efd0d3e77b"
+      },
+      "dt_t1_40_q_ref": {
+        "shape": [
+          161
+        ],
+        "dtype": "float64",
+        "sha256": "f4769aced34c87058dc84fee87cf6deffe263055fd610585e3208fde036f4406"
+      },
+      "dt_t1_40_qv": {
+        "shape": [
+          161
+        ],
+        "dtype": "float64",
+        "sha256": "8f060a1152c0814b491a9865621326ff8c9533ea6332e572831b4f3327486b90"
+      },
+      "dt_t1_40_qv_ref": {
+        "shape": [
+          161
+        ],
+        "dtype": "float64",
+        "sha256": "392109acf6b540a43b8db162a32369ad14dc90e047b294a6c5b3446f4249d772"
+      },
+      "dt_t1_40_qa": {
+        "shape": [
+          161
+        ],
+        "dtype": "float64",
+        "sha256": "f8ba5da42a89cfca7d1a5195288291b347a11d06653624c30e1c84ede441dc8f"
+      },
+      "dt_t1_40_qa_ref": {
+        "shape": [
+          161
+        ],
+        "dtype": "float64",
+        "sha256": "1faa03ca4e10624c91e4f16d93b388b424e50c4b018586ae4a7cf3bec9a4a7ee"
+      },
+      "dt_t1_40_residual_vector": {
+        "shape": [
+          161,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "60511c1be3fdbf03cda84161c20998785f59390e2acc306410eaa23f99ec8c77"
+      },
+      "dt_t1_40_residual_norm": {
+        "shape": [
+          161
+        ],
+        "dtype": "float64",
+        "sha256": "307c660c0f5b231ecbca6ab6bf1be4767c107017774a441f062f31d791f900a2"
+      },
+      "dt_t1_40_residual_relative": {
+        "shape": [
+          161
+        ],
+        "dtype": "float64",
+        "sha256": "c722cad2ead4ace090014054ada5ba31bca7810d7f9f3f83a94ce85c65db0c8d"
+      },
+      "dt_t1_40_reactions": {
+        "shape": [
+          161,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "32c139882e04d4a508ac29c721f05ce857ee8aedbe4e62a438d9db6650226846"
+      },
+      "dt_t1_40_energy_strain": {
+        "shape": [
+          161
+        ],
+        "dtype": "float64",
+        "sha256": "77d4c21429a35e6efac9156808d75fabaa2a5b426077eeb54f52733d03c84e70"
+      },
+      "dt_t1_40_energy_kinetic": {
+        "shape": [
+          161
+        ],
+        "dtype": "float64",
+        "sha256": "04b1f38ed674a3a357f5059f78f3896f874b83b8744c5e4eb2d2e642e9dc730e"
+      },
+      "dt_t1_40_energy_total": {
+        "shape": [
+          161
+        ],
+        "dtype": "float64",
+        "sha256": "b5a7918df955d92d6db8169069cf31b3528943b0e3f321ec8ef6fe51c1e23ffc"
+      },
+      "dt_t1_40_energy_damping": {
+        "shape": [
+          161
+        ],
+        "dtype": "float64",
+        "sha256": "2ef0b8632395250da7a50aba9c73b8b97c27e1a5ff76d0ae2ffce238e3ce4f0c"
+      },
+      "dt_t1_40_energy_external": {
+        "shape": [
+          161
+        ],
+        "dtype": "float64",
+        "sha256": "2ef0b8632395250da7a50aba9c73b8b97c27e1a5ff76d0ae2ffce238e3ce4f0c"
+      },
+      "dt_t1_40_damping_power": {
+        "shape": [
+          161
+        ],
+        "dtype": "float64",
+        "sha256": "2ef0b8632395250da7a50aba9c73b8b97c27e1a5ff76d0ae2ffce238e3ce4f0c"
+      },
+      "dt_t1_40_external_power": {
+        "shape": [
+          161
+        ],
+        "dtype": "float64",
+        "sha256": "2ef0b8632395250da7a50aba9c73b8b97c27e1a5ff76d0ae2ffce238e3ce4f0c"
+      },
+      "dt_t1_40_TET4_WEDGE6_left_displacement": {
+        "shape": [
+          161,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "53024ea73c22835deccd17b8b896dbd42a91f74eb3372fc29e6a1d358295ad71"
+      },
+      "dt_t1_40_TET4_WEDGE6_right_displacement": {
+        "shape": [
+          161,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "53024ea73c22835deccd17b8b896dbd42a91f74eb3372fc29e6a1d358295ad71"
+      },
+      "dt_t1_40_TET4_WEDGE6_delta_u": {
+        "shape": [
+          161,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "6211799752c83b5ea87a9201ab2013ae424c15c15fffa25e2030d7d04013d9d8"
+      },
+      "dt_t1_40_TET4_WEDGE6_continuity_relative_history": {
+        "shape": [
+          161
+        ],
+        "dtype": "float64",
+        "sha256": "2ef0b8632395250da7a50aba9c73b8b97c27e1a5ff76d0ae2ffce238e3ce4f0c"
+      },
+      "dt_t1_40_TET4_WEDGE6_left_force": {
+        "shape": [
+          161,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "1c15111d5367ac22db4767a558e319e6f2241126166646a225149169568d96ce"
+      },
+      "dt_t1_40_TET4_WEDGE6_right_force": {
+        "shape": [
+          161,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "ed9573658eae93a32482b71033233244019fc60f3c6f2515ca332267cd57369a"
+      },
+      "dt_t1_40_TET4_WEDGE6_force_balance_vector": {
+        "shape": [
+          161,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "95a358fd3393420e6324dbffdfaf7974fbdd0da4e95048f470975d8574092379"
+      },
+      "dt_t1_40_TET4_WEDGE6_power_left": {
+        "shape": [
+          161
+        ],
+        "dtype": "float64",
+        "sha256": "7add113aab41883a5eff794cbea223311bcb10c0112b9dc0ef99587cc07615ce"
+      },
+      "dt_t1_40_TET4_WEDGE6_power_right": {
+        "shape": [
+          161
+        ],
+        "dtype": "float64",
+        "sha256": "549ddb83e0ffe4a44aba2e2f2da0cea5f58043ca654b1a1ced00a6a17d3122ac"
+      },
+      "dt_t1_40_TET4_WEDGE6_work_left": {
+        "shape": [
+          161
+        ],
+        "dtype": "float64",
+        "sha256": "2c6b7680b78fd30289544547dad9eceabd88f5ac2c16604d8dde1f89b3a46554"
+      },
+      "dt_t1_40_TET4_WEDGE6_work_right": {
+        "shape": [
+          161
+        ],
+        "dtype": "float64",
+        "sha256": "1b2fe3fd08611a06fecec8eedb1a6dc6d5b66316cc90590ccdfe5fc471988ef3"
+      },
+      "dt_t1_40_WEDGE6_HEX8_left_displacement": {
+        "shape": [
+          161,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "3f1106e2c4ca76fb991ae87dc9b6c74d12c5f7c5cbad1f9444d87ab6da2d5ae8"
+      },
+      "dt_t1_40_WEDGE6_HEX8_right_displacement": {
+        "shape": [
+          161,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "3f1106e2c4ca76fb991ae87dc9b6c74d12c5f7c5cbad1f9444d87ab6da2d5ae8"
+      },
+      "dt_t1_40_WEDGE6_HEX8_delta_u": {
+        "shape": [
+          161,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "46db9d9a644d1dbd759afd9407f4551ee6b5907345e9e4137da84c06a76ffca6"
+      },
+      "dt_t1_40_WEDGE6_HEX8_continuity_relative_history": {
+        "shape": [
+          161
+        ],
+        "dtype": "float64",
+        "sha256": "2ef0b8632395250da7a50aba9c73b8b97c27e1a5ff76d0ae2ffce238e3ce4f0c"
+      },
+      "dt_t1_40_WEDGE6_HEX8_left_force": {
+        "shape": [
+          161,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "75751c9562326f34b5e5500405e262c7de1b67196c100db0eabeae8b13e44fdf"
+      },
+      "dt_t1_40_WEDGE6_HEX8_right_force": {
+        "shape": [
+          161,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "adcbf8acc871e6f71e4d7959c8cdcfa638c5f4b3de35dd5c32e1fef9057a8e41"
+      },
+      "dt_t1_40_WEDGE6_HEX8_force_balance_vector": {
+        "shape": [
+          161,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "4e617096e59d17c2fcf76c13f38989c425110e3d24ca26f08b748168e7d5b80b"
+      },
+      "dt_t1_40_WEDGE6_HEX8_power_left": {
+        "shape": [
+          161
+        ],
+        "dtype": "float64",
+        "sha256": "76e2fc507fb4a28c1cbc6cd500ce1b89baaf8c8441261b38eba43d7bcf5183f8"
+      },
+      "dt_t1_40_WEDGE6_HEX8_power_right": {
+        "shape": [
+          161
+        ],
+        "dtype": "float64",
+        "sha256": "0ed0386b89ff7bdcfcbea02e4aef66c4ec67353dc83f19f52d4ab166dd15dd01"
+      },
+      "dt_t1_40_WEDGE6_HEX8_work_left": {
+        "shape": [
+          161
+        ],
+        "dtype": "float64",
+        "sha256": "b0b46bcdb44cf87217e73dddc3f10ccb2b53a085cd244fe73e47f5289d9ce186"
+      },
+      "dt_t1_40_WEDGE6_HEX8_work_right": {
+        "shape": [
+          161
+        ],
+        "dtype": "float64",
+        "sha256": "fadb6d0f048b2a82aaee53b7b4f6c8eebd8a966df9d13fdd858e06eec1fd72d5"
+      },
+      "dt_t1_40_family_TET4_kinetic": {
+        "shape": [
+          161
+        ],
+        "dtype": "float64",
+        "sha256": "e537ddde32b74ae80b73a4650e08cf0ed5509382c84e0016d412f863c1c95467"
+      },
+      "dt_t1_40_family_TET4_strain": {
+        "shape": [
+          161
+        ],
+        "dtype": "float64",
+        "sha256": "a49225db8cdba49613b6bc19b074633ac05ff3ae1aadd85a66c3bfdd4a883496"
+      },
+      "dt_t1_40_family_WEDGE6_kinetic": {
+        "shape": [
+          161
+        ],
+        "dtype": "float64",
+        "sha256": "0e36f216e253043de4f71f69f09a97b33b59a9ade7bdff49f5a27ae3b4179596"
+      },
+      "dt_t1_40_family_WEDGE6_strain": {
+        "shape": [
+          161
+        ],
+        "dtype": "float64",
+        "sha256": "1f3e183982933b63d80973559ca29cde5949971f0397f41394be42dfc5a4b92d"
+      },
+      "dt_t1_40_family_HEX8_kinetic": {
+        "shape": [
+          161
+        ],
+        "dtype": "float64",
+        "sha256": "d32f6a88a5faea296d02885798a570bbea041bf13901ebe9409897e907798d1a"
+      },
+      "dt_t1_40_family_HEX8_strain": {
+        "shape": [
+          161
+        ],
+        "dtype": "float64",
+        "sha256": "474ec70951747d2405d7b9c3dc7ea826f0cafe2cc565f5172b2f9f0aaa464c32"
+      },
+      "dt_t1_80_time": {
+        "shape": [
+          321
+        ],
+        "dtype": "float64",
+        "sha256": "b1065baa45f55b14c4284dc4774723b04c0932869ce353d1f412fb7552b2c7f3"
+      },
+      "dt_t1_80_displacement": {
+        "shape": [
+          321,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "a90604cda903c1baacdb219fce7cd025a72704b1dc4c6ab9c1813b2b45ad77c8"
+      },
+      "dt_t1_80_velocity": {
+        "shape": [
+          321,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "2cbed847793c0dcbd496f245f4a33a2e4958a6059161beab00d729c0578f6210"
+      },
+      "dt_t1_80_acceleration": {
+        "shape": [
+          321,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "1ea5eea602df3a201ebb89819788b0cfbfe9072001c666f69f6f0198d9680955"
+      },
+      "dt_t1_80_u_ref": {
+        "shape": [
+          321,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "88dac48e150a200cc6f52f9d3a77b0a83c913aed92c18ca590ccbdcb7cd25156"
+      },
+      "dt_t1_80_v_ref": {
+        "shape": [
+          321,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "44b499dae02d6fac2083b26a62cabd858ef04a8a0cc60c7cff5b11ebdcf67748"
+      },
+      "dt_t1_80_a_ref": {
+        "shape": [
+          321,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "690e105731c7f4b2366601f3c30637ca4afd5cecc9a6e419e097cf7340582183"
+      },
+      "dt_t1_80_q": {
+        "shape": [
+          321
+        ],
+        "dtype": "float64",
+        "sha256": "d48cabd346272c90d5f50937c2cb057734c972874387e4eda1445fed7f6d0e85"
+      },
+      "dt_t1_80_q_ref": {
+        "shape": [
+          321
+        ],
+        "dtype": "float64",
+        "sha256": "d8ab818edbdb6701e272cfa71576ded56da160fdf34d9ca4ca6d47b7f07f96e5"
+      },
+      "dt_t1_80_qv": {
+        "shape": [
+          321
+        ],
+        "dtype": "float64",
+        "sha256": "ad91d8208e627777c24014a632a4b3bc7c2d0500eb8d1744d81ca8c263bfb2a0"
+      },
+      "dt_t1_80_qv_ref": {
+        "shape": [
+          321
+        ],
+        "dtype": "float64",
+        "sha256": "e855c1698edcf9a42db044e558846dca40540abeea888c4cb393201e70771dd6"
+      },
+      "dt_t1_80_qa": {
+        "shape": [
+          321
+        ],
+        "dtype": "float64",
+        "sha256": "e71274c4add2583c543bbe44a488ef32b9fd53ae453177e7a67774f2a5bc119c"
+      },
+      "dt_t1_80_qa_ref": {
+        "shape": [
+          321
+        ],
+        "dtype": "float64",
+        "sha256": "80df8e034bc392a7a0d2bdf28ecea341478b23585118cae697732b608334ea3d"
+      },
+      "dt_t1_80_residual_vector": {
+        "shape": [
+          321,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "143ac8e3457b0b872ddf4a19b87b62c3a52de94364353eeaf08a30b82198cf5d"
+      },
+      "dt_t1_80_residual_norm": {
+        "shape": [
+          321
+        ],
+        "dtype": "float64",
+        "sha256": "cacc9f18cc83d497ebac2baa523dc37f9d2ff6d34cc5980b12a51a3b9879bedd"
+      },
+      "dt_t1_80_residual_relative": {
+        "shape": [
+          321
+        ],
+        "dtype": "float64",
+        "sha256": "81b50b6ba979cc265796fcdfb93f11e5f14026b00db37d0b7b8bc513f453af4c"
+      },
+      "dt_t1_80_reactions": {
+        "shape": [
+          321,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "fefc5e14eafa5d4667d498bb360ff6eb25a9995535d168b783129343159781e9"
+      },
+      "dt_t1_80_energy_strain": {
+        "shape": [
+          321
+        ],
+        "dtype": "float64",
+        "sha256": "76ff38464a5e7fe10415d2989b8761786aff90cbcf9bea0f62c0c4dfcfdd8027"
+      },
+      "dt_t1_80_energy_kinetic": {
+        "shape": [
+          321
+        ],
+        "dtype": "float64",
+        "sha256": "9a1cb1ea2aa8b4b348bbb96e860b863c9676eaadffd80dcb2d0ce75b78aa1d0d"
+      },
+      "dt_t1_80_energy_total": {
+        "shape": [
+          321
+        ],
+        "dtype": "float64",
+        "sha256": "2d778980039af888fc4850fa9e0ae408070dc0b0d877ad47f7155af57a16a4fc"
+      },
+      "dt_t1_80_energy_damping": {
+        "shape": [
+          321
+        ],
+        "dtype": "float64",
+        "sha256": "2006005ec9adbd2bb5fa7d75691cf404bd4c808b6ffd7cc5ccf57008f07e8fd5"
+      },
+      "dt_t1_80_energy_external": {
+        "shape": [
+          321
+        ],
+        "dtype": "float64",
+        "sha256": "2006005ec9adbd2bb5fa7d75691cf404bd4c808b6ffd7cc5ccf57008f07e8fd5"
+      },
+      "dt_t1_80_damping_power": {
+        "shape": [
+          321
+        ],
+        "dtype": "float64",
+        "sha256": "2006005ec9adbd2bb5fa7d75691cf404bd4c808b6ffd7cc5ccf57008f07e8fd5"
+      },
+      "dt_t1_80_external_power": {
+        "shape": [
+          321
+        ],
+        "dtype": "float64",
+        "sha256": "2006005ec9adbd2bb5fa7d75691cf404bd4c808b6ffd7cc5ccf57008f07e8fd5"
+      },
+      "dt_t1_80_TET4_WEDGE6_left_displacement": {
+        "shape": [
+          321,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "58fb775de3e5e52fe0c3442077e58dd4765ff60682a0f12df8fed020d3285bbc"
+      },
+      "dt_t1_80_TET4_WEDGE6_right_displacement": {
+        "shape": [
+          321,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "58fb775de3e5e52fe0c3442077e58dd4765ff60682a0f12df8fed020d3285bbc"
+      },
+      "dt_t1_80_TET4_WEDGE6_delta_u": {
+        "shape": [
+          321,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "79493f783ab7b5f3a960b0199b8664c6c3a43b705eaf0e8377df5fce5b2b310b"
+      },
+      "dt_t1_80_TET4_WEDGE6_continuity_relative_history": {
+        "shape": [
+          321
+        ],
+        "dtype": "float64",
+        "sha256": "2006005ec9adbd2bb5fa7d75691cf404bd4c808b6ffd7cc5ccf57008f07e8fd5"
+      },
+      "dt_t1_80_TET4_WEDGE6_left_force": {
+        "shape": [
+          321,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "8c0ce4ae9c69a50297553fd80b682c7ca0beb1899f33b9311fa06b2fe2c62e61"
+      },
+      "dt_t1_80_TET4_WEDGE6_right_force": {
+        "shape": [
+          321,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "4f98ff96c14aa2d1337392909e2ea0ec04a8bb0f54058adf49b6ce1b0f185dbb"
+      },
+      "dt_t1_80_TET4_WEDGE6_force_balance_vector": {
+        "shape": [
+          321,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "7ae8e83781be6f63cf306120c9911f41ee87d70757373916959e11765233dfef"
+      },
+      "dt_t1_80_TET4_WEDGE6_power_left": {
+        "shape": [
+          321
+        ],
+        "dtype": "float64",
+        "sha256": "59f3cf607b3eb4da32299615142aef93c7ab943ef24f93b029a40db5856ecda2"
+      },
+      "dt_t1_80_TET4_WEDGE6_power_right": {
+        "shape": [
+          321
+        ],
+        "dtype": "float64",
+        "sha256": "b497548ebe39e5682bec4704c336c56d13449ad5e6ee5b783e156d7a3890a82f"
+      },
+      "dt_t1_80_TET4_WEDGE6_work_left": {
+        "shape": [
+          321
+        ],
+        "dtype": "float64",
+        "sha256": "d344f14183424c21c3f4412da28f97d5740615918b628bdbd25b76e98725fcaf"
+      },
+      "dt_t1_80_TET4_WEDGE6_work_right": {
+        "shape": [
+          321
+        ],
+        "dtype": "float64",
+        "sha256": "057f0e7196f9ca2bc48b1698cc7d6451bb5de2b64f807a34ce26576ace4c9a99"
+      },
+      "dt_t1_80_WEDGE6_HEX8_left_displacement": {
+        "shape": [
+          321,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "c11f74b0ec4bca9076f25b344e63a6828ca7a8ef491c3c6e06dcb7208ed23c70"
+      },
+      "dt_t1_80_WEDGE6_HEX8_right_displacement": {
+        "shape": [
+          321,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "c11f74b0ec4bca9076f25b344e63a6828ca7a8ef491c3c6e06dcb7208ed23c70"
+      },
+      "dt_t1_80_WEDGE6_HEX8_delta_u": {
+        "shape": [
+          321,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "032a0ce1c4003b9bdcb39f8a996545252618c6813f5ad58c770e95310225fa18"
+      },
+      "dt_t1_80_WEDGE6_HEX8_continuity_relative_history": {
+        "shape": [
+          321
+        ],
+        "dtype": "float64",
+        "sha256": "2006005ec9adbd2bb5fa7d75691cf404bd4c808b6ffd7cc5ccf57008f07e8fd5"
+      },
+      "dt_t1_80_WEDGE6_HEX8_left_force": {
+        "shape": [
+          321,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "6cf29c169a87976470770f656d4f58cfefe2bc66b2b1cf5d67ed3e4de6f4154e"
+      },
+      "dt_t1_80_WEDGE6_HEX8_right_force": {
+        "shape": [
+          321,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "2c9b453eebd86e3ee5fba1b28c9055e3a544f4faaecb2b4cdcc42e004f73e722"
+      },
+      "dt_t1_80_WEDGE6_HEX8_force_balance_vector": {
+        "shape": [
+          321,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "daee0e2a1209c23c3a2549b9fda29c34012e0981056cc22ad895a8e690c928af"
+      },
+      "dt_t1_80_WEDGE6_HEX8_power_left": {
+        "shape": [
+          321
+        ],
+        "dtype": "float64",
+        "sha256": "867307be62db8af12355601223b29079a5add7314886f5bfb62309dbbd1134d1"
+      },
+      "dt_t1_80_WEDGE6_HEX8_power_right": {
+        "shape": [
+          321
+        ],
+        "dtype": "float64",
+        "sha256": "17823a93d45cce2885b197ad9710863e344ffb5a060ae7773d5679f73ce292b3"
+      },
+      "dt_t1_80_WEDGE6_HEX8_work_left": {
+        "shape": [
+          321
+        ],
+        "dtype": "float64",
+        "sha256": "597aaf7f3f20df46077a70e15cc187addf55a87823517e7d0ba670c27fdeba30"
+      },
+      "dt_t1_80_WEDGE6_HEX8_work_right": {
+        "shape": [
+          321
+        ],
+        "dtype": "float64",
+        "sha256": "665169fe8b17621c706cead790fc43d011c2a0c63eda28c8a845cea615f2ecf6"
+      },
+      "dt_t1_80_family_TET4_kinetic": {
+        "shape": [
+          321
+        ],
+        "dtype": "float64",
+        "sha256": "8fae256335a43c4b3aa951eaf448ef3752abcf37127481de5aff97a375041f64"
+      },
+      "dt_t1_80_family_TET4_strain": {
+        "shape": [
+          321
+        ],
+        "dtype": "float64",
+        "sha256": "4bf3a1ad7582c851184c83ad46dfff4febc836182bf4e86596ed94e005cdb9d3"
+      },
+      "dt_t1_80_family_WEDGE6_kinetic": {
+        "shape": [
+          321
+        ],
+        "dtype": "float64",
+        "sha256": "678ccd38484cfbba41f6420dff75bc9cd55b2d41f400616d1d866460bfc9a847"
+      },
+      "dt_t1_80_family_WEDGE6_strain": {
+        "shape": [
+          321
+        ],
+        "dtype": "float64",
+        "sha256": "cd2f3342aa6ae7bc190b6d631eb22fd6a291f4dd32f90866b1a67a71fb605a5b"
+      },
+      "dt_t1_80_family_HEX8_kinetic": {
+        "shape": [
+          321
+        ],
+        "dtype": "float64",
+        "sha256": "af22c6ac929509d1e1389989a417fa75db25c2850bbec649af96799ab9faddf8"
+      },
+      "dt_t1_80_family_HEX8_strain": {
+        "shape": [
+          321
+        ],
+        "dtype": "float64",
+        "sha256": "61d9a6d50a57f1dc3ab32f46f31f4077391366bf0f84429a9d34fa0314cc7cc9"
+      },
+      "dt_t1_160_time": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "11be718b7e2aca74b77a9ea6951ff8a784bf56509c3a7760ca0a02ab45900e66"
+      },
+      "dt_t1_160_displacement": {
+        "shape": [
+          641,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "a01bb309420aad78ec902635caae2803d3b0c8038c8a8be2653109c267547a78"
+      },
+      "dt_t1_160_velocity": {
+        "shape": [
+          641,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "dbb6af1561caad8bf91b3f0fb2d871a507b8bc4d94834c899da455fb2226e108"
+      },
+      "dt_t1_160_acceleration": {
+        "shape": [
+          641,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "cf3387e837faff07bf89ebd097e0a4f8d8b0a4a48e2291f05119e510a230ba28"
+      },
+      "dt_t1_160_u_ref": {
+        "shape": [
+          641,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "b549d953f504588559ef41a568400500ba24ad204cd4cb262a1c7b12ba4bf3c8"
+      },
+      "dt_t1_160_v_ref": {
+        "shape": [
+          641,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "221ea6c6d0867f17f9c5126bb72e6fa7f15205b1cc8acfd02425700451f49687"
+      },
+      "dt_t1_160_a_ref": {
+        "shape": [
+          641,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "d7366e1e7ebf5cb95b36f148cea581aa25e183c1077f794352f23a2ec3ea2a7c"
+      },
+      "dt_t1_160_q": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "400d421d64765cc61f1891276c2fd2890f3dc1932271d62ae6695b4ec9bac5a5"
+      },
+      "dt_t1_160_q_ref": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "97b12cf6bca6fc3f923cbfbbfcd136973415af1571ef6567302641e3753f5f09"
+      },
+      "dt_t1_160_qv": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "d423a67eca8c544a34ba0c7071742951a4c32134d97b0a6471662349d76207bd"
+      },
+      "dt_t1_160_qv_ref": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "9de8ea8d3188fad55a2c2a2edb222e856c75d2a9ab0551d5d4cb0a9b6186e9a6"
+      },
+      "dt_t1_160_qa": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "6e5c071597b4db37b0074adc7671e9f45a465d6356e06fdb1a56f96032c2b51a"
+      },
+      "dt_t1_160_qa_ref": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "d99c2b8308ca8eb473b3f08e348c7defb8a78b62a8f0ec809b33782eb669e92f"
+      },
+      "dt_t1_160_residual_vector": {
+        "shape": [
+          641,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "b3be11d396c069aa3f232ed1b35ee0b52c6b27dc4ab53e4c46dfe246c4953a9e"
+      },
+      "dt_t1_160_residual_norm": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "560a2c66d8781e80d92178a669a36f1b6f119663c870bc4c67bf440fefaed668"
+      },
+      "dt_t1_160_residual_relative": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "926efc8b9a459a523dd9e2e29c042ef7b2391618ae518afd3a67ec69f2f619af"
+      },
+      "dt_t1_160_reactions": {
+        "shape": [
+          641,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "b7d853c3a9d6b5265e26a1997ba66be0db7c6862802520e1c005fe9b7aa56813"
+      },
+      "dt_t1_160_energy_strain": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "37d12c26bbd4676ea7750bd30de5a172dac55e4aa320792dc7ef8739c7400106"
+      },
+      "dt_t1_160_energy_kinetic": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "a73032d0430aed352b561db8d346e6ff1a2d801a52a7e1fd80ee450e4b209dad"
+      },
+      "dt_t1_160_energy_total": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "6bd16241da1d55a43e364e0b8148aac692d8033c7af7795e43f37d01a42e50a5"
+      },
+      "dt_t1_160_energy_damping": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "aa8b81d746d258905bc11c22f78ed6b9fd538b6253f38b1adf2ad74004b4268a"
+      },
+      "dt_t1_160_energy_external": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "aa8b81d746d258905bc11c22f78ed6b9fd538b6253f38b1adf2ad74004b4268a"
+      },
+      "dt_t1_160_damping_power": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "aa8b81d746d258905bc11c22f78ed6b9fd538b6253f38b1adf2ad74004b4268a"
+      },
+      "dt_t1_160_external_power": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "aa8b81d746d258905bc11c22f78ed6b9fd538b6253f38b1adf2ad74004b4268a"
+      },
+      "dt_t1_160_TET4_WEDGE6_left_displacement": {
+        "shape": [
+          641,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "d885b6eb505d611089dee88e5b693910f56eee4b6b7cc15d49ee21aeb507dc92"
+      },
+      "dt_t1_160_TET4_WEDGE6_right_displacement": {
+        "shape": [
+          641,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "d885b6eb505d611089dee88e5b693910f56eee4b6b7cc15d49ee21aeb507dc92"
+      },
+      "dt_t1_160_TET4_WEDGE6_delta_u": {
+        "shape": [
+          641,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "e5b156806ea2c6f9ede44dd21c873ea59d7b4f1d67f0a51ee4cef09446e735e2"
+      },
+      "dt_t1_160_TET4_WEDGE6_continuity_relative_history": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "aa8b81d746d258905bc11c22f78ed6b9fd538b6253f38b1adf2ad74004b4268a"
+      },
+      "dt_t1_160_TET4_WEDGE6_left_force": {
+        "shape": [
+          641,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "90b20c61706f19d28471a2b89a81564412d4030e2e061c44bb0a1c8823c75626"
+      },
+      "dt_t1_160_TET4_WEDGE6_right_force": {
+        "shape": [
+          641,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "3fd15cbc449f1f3e1d84be7182994b0d68473d7e94c6997a30cb9528500b35e3"
+      },
+      "dt_t1_160_TET4_WEDGE6_force_balance_vector": {
+        "shape": [
+          641,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "7d6dfe2213bde46004b56196d6da6bfe801c339393734af97ff124145d53b427"
+      },
+      "dt_t1_160_TET4_WEDGE6_power_left": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "b37ce26759871e691aeaa0c84102e3999b9b8a3790c3ee896840376fde08a8eb"
+      },
+      "dt_t1_160_TET4_WEDGE6_power_right": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "c745f35cb5dbfc37fb2e1217f61a91f89bf4f9d50e1fc60e9922b7747af31d30"
+      },
+      "dt_t1_160_TET4_WEDGE6_work_left": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "d42169454776aa694fdebe3c924c887b0e6f08ce27d4773bb516f08ffb686207"
+      },
+      "dt_t1_160_TET4_WEDGE6_work_right": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "ef3fa090029a53ba46c6a863f5d92ede62a55cd7e551efb08e9c03fc82a67753"
+      },
+      "dt_t1_160_WEDGE6_HEX8_left_displacement": {
+        "shape": [
+          641,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "efdda56e1a38e6ddeac640e47319b96d805d83dc03f0380efee2b5e9e1474a93"
+      },
+      "dt_t1_160_WEDGE6_HEX8_right_displacement": {
+        "shape": [
+          641,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "efdda56e1a38e6ddeac640e47319b96d805d83dc03f0380efee2b5e9e1474a93"
+      },
+      "dt_t1_160_WEDGE6_HEX8_delta_u": {
+        "shape": [
+          641,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "f13233e8e8ce9c53f1f56e6696539fbff5ee451ab90bfe44f3e09c8834023b6a"
+      },
+      "dt_t1_160_WEDGE6_HEX8_continuity_relative_history": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "aa8b81d746d258905bc11c22f78ed6b9fd538b6253f38b1adf2ad74004b4268a"
+      },
+      "dt_t1_160_WEDGE6_HEX8_left_force": {
+        "shape": [
+          641,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "6ba59b7b9875c12b67cd9171f2137f55b003d9e172c9f24e849a9793bdfe8449"
+      },
+      "dt_t1_160_WEDGE6_HEX8_right_force": {
+        "shape": [
+          641,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "d7a476371497a84746ba40edc300d51cad88db7265062601d1ac1d4007cc6e24"
+      },
+      "dt_t1_160_WEDGE6_HEX8_force_balance_vector": {
+        "shape": [
+          641,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "5b5303332f52820459318e553ef9265768793a9ef9925905d6d3aec9c5df4cde"
+      },
+      "dt_t1_160_WEDGE6_HEX8_power_left": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "9c4b5c9ef3c3e06dadec7c1059bf0b42fec4d10c68a7e2823bc2193e609807db"
+      },
+      "dt_t1_160_WEDGE6_HEX8_power_right": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "b50225ee58ad9ff943518fea462294defff10c92d1101e86d91b19a3244cd2a9"
+      },
+      "dt_t1_160_WEDGE6_HEX8_work_left": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "5cc8f793e27fccbbbbe1acfac207e2c37bbaa057d5f87001d3014df8d3d2d95b"
+      },
+      "dt_t1_160_WEDGE6_HEX8_work_right": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "a52cd47fbfd131750d37be870dfb4796eb8e4cd765b12ef5a28605d0a60dc39f"
+      },
+      "dt_t1_160_family_TET4_kinetic": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "b03350fe88ee59e74422b426b2b5b9c57ce2f9486f5a780b4702cde1afe7764c"
+      },
+      "dt_t1_160_family_TET4_strain": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "bfe2e643db18bf328207ac58ff03f70187fa3a93b4589a16fa187f0c8a63abb3"
+      },
+      "dt_t1_160_family_WEDGE6_kinetic": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "b0a8f4c428fd31fba764a9afcf19019509c51df75246f4e60b676522cf407626"
+      },
+      "dt_t1_160_family_WEDGE6_strain": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "47002e963d8e5b5fc40d7d9e9feaf1fb17f6f95b04cc011573e936d9e4b7cf55"
+      },
+      "dt_t1_160_family_HEX8_kinetic": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "5154d35940343372708f4681f76490642cecfc33af4976a417cb968dfcb8cdd5"
+      },
+      "dt_t1_160_family_HEX8_strain": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "a22b39af9ba3eae46e8492abb3072dff135c0b1cab7347b41b4b8799e13c9e57"
+      },
+      "replay_0_t1_160_time": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "11be718b7e2aca74b77a9ea6951ff8a784bf56509c3a7760ca0a02ab45900e66"
+      },
+      "replay_0_t1_160_displacement": {
+        "shape": [
+          641,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "a01bb309420aad78ec902635caae2803d3b0c8038c8a8be2653109c267547a78"
+      },
+      "replay_0_t1_160_velocity": {
+        "shape": [
+          641,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "dbb6af1561caad8bf91b3f0fb2d871a507b8bc4d94834c899da455fb2226e108"
+      },
+      "replay_0_t1_160_acceleration": {
+        "shape": [
+          641,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "cf3387e837faff07bf89ebd097e0a4f8d8b0a4a48e2291f05119e510a230ba28"
+      },
+      "replay_0_t1_160_u_ref": {
+        "shape": [
+          641,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "b549d953f504588559ef41a568400500ba24ad204cd4cb262a1c7b12ba4bf3c8"
+      },
+      "replay_0_t1_160_v_ref": {
+        "shape": [
+          641,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "221ea6c6d0867f17f9c5126bb72e6fa7f15205b1cc8acfd02425700451f49687"
+      },
+      "replay_0_t1_160_a_ref": {
+        "shape": [
+          641,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "d7366e1e7ebf5cb95b36f148cea581aa25e183c1077f794352f23a2ec3ea2a7c"
+      },
+      "replay_0_t1_160_q": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "400d421d64765cc61f1891276c2fd2890f3dc1932271d62ae6695b4ec9bac5a5"
+      },
+      "replay_0_t1_160_q_ref": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "97b12cf6bca6fc3f923cbfbbfcd136973415af1571ef6567302641e3753f5f09"
+      },
+      "replay_0_t1_160_qv": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "d423a67eca8c544a34ba0c7071742951a4c32134d97b0a6471662349d76207bd"
+      },
+      "replay_0_t1_160_qv_ref": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "9de8ea8d3188fad55a2c2a2edb222e856c75d2a9ab0551d5d4cb0a9b6186e9a6"
+      },
+      "replay_0_t1_160_qa": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "6e5c071597b4db37b0074adc7671e9f45a465d6356e06fdb1a56f96032c2b51a"
+      },
+      "replay_0_t1_160_qa_ref": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "d99c2b8308ca8eb473b3f08e348c7defb8a78b62a8f0ec809b33782eb669e92f"
+      },
+      "replay_0_t1_160_residual_vector": {
+        "shape": [
+          641,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "b3be11d396c069aa3f232ed1b35ee0b52c6b27dc4ab53e4c46dfe246c4953a9e"
+      },
+      "replay_0_t1_160_residual_norm": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "560a2c66d8781e80d92178a669a36f1b6f119663c870bc4c67bf440fefaed668"
+      },
+      "replay_0_t1_160_residual_relative": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "926efc8b9a459a523dd9e2e29c042ef7b2391618ae518afd3a67ec69f2f619af"
+      },
+      "replay_0_t1_160_reactions": {
+        "shape": [
+          641,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "b7d853c3a9d6b5265e26a1997ba66be0db7c6862802520e1c005fe9b7aa56813"
+      },
+      "replay_0_t1_160_energy_strain": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "37d12c26bbd4676ea7750bd30de5a172dac55e4aa320792dc7ef8739c7400106"
+      },
+      "replay_0_t1_160_energy_kinetic": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "a73032d0430aed352b561db8d346e6ff1a2d801a52a7e1fd80ee450e4b209dad"
+      },
+      "replay_0_t1_160_energy_total": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "6bd16241da1d55a43e364e0b8148aac692d8033c7af7795e43f37d01a42e50a5"
+      },
+      "replay_0_t1_160_energy_damping": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "aa8b81d746d258905bc11c22f78ed6b9fd538b6253f38b1adf2ad74004b4268a"
+      },
+      "replay_0_t1_160_energy_external": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "aa8b81d746d258905bc11c22f78ed6b9fd538b6253f38b1adf2ad74004b4268a"
+      },
+      "replay_0_t1_160_damping_power": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "aa8b81d746d258905bc11c22f78ed6b9fd538b6253f38b1adf2ad74004b4268a"
+      },
+      "replay_0_t1_160_external_power": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "aa8b81d746d258905bc11c22f78ed6b9fd538b6253f38b1adf2ad74004b4268a"
+      },
+      "replay_0_t1_160_TET4_WEDGE6_left_displacement": {
+        "shape": [
+          641,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "d885b6eb505d611089dee88e5b693910f56eee4b6b7cc15d49ee21aeb507dc92"
+      },
+      "replay_0_t1_160_TET4_WEDGE6_right_displacement": {
+        "shape": [
+          641,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "d885b6eb505d611089dee88e5b693910f56eee4b6b7cc15d49ee21aeb507dc92"
+      },
+      "replay_0_t1_160_TET4_WEDGE6_delta_u": {
+        "shape": [
+          641,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "e5b156806ea2c6f9ede44dd21c873ea59d7b4f1d67f0a51ee4cef09446e735e2"
+      },
+      "replay_0_t1_160_TET4_WEDGE6_continuity_relative_history": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "aa8b81d746d258905bc11c22f78ed6b9fd538b6253f38b1adf2ad74004b4268a"
+      },
+      "replay_0_t1_160_TET4_WEDGE6_left_force": {
+        "shape": [
+          641,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "90b20c61706f19d28471a2b89a81564412d4030e2e061c44bb0a1c8823c75626"
+      },
+      "replay_0_t1_160_TET4_WEDGE6_right_force": {
+        "shape": [
+          641,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "3fd15cbc449f1f3e1d84be7182994b0d68473d7e94c6997a30cb9528500b35e3"
+      },
+      "replay_0_t1_160_TET4_WEDGE6_force_balance_vector": {
+        "shape": [
+          641,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "7d6dfe2213bde46004b56196d6da6bfe801c339393734af97ff124145d53b427"
+      },
+      "replay_0_t1_160_TET4_WEDGE6_power_left": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "b37ce26759871e691aeaa0c84102e3999b9b8a3790c3ee896840376fde08a8eb"
+      },
+      "replay_0_t1_160_TET4_WEDGE6_power_right": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "c745f35cb5dbfc37fb2e1217f61a91f89bf4f9d50e1fc60e9922b7747af31d30"
+      },
+      "replay_0_t1_160_TET4_WEDGE6_work_left": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "d42169454776aa694fdebe3c924c887b0e6f08ce27d4773bb516f08ffb686207"
+      },
+      "replay_0_t1_160_TET4_WEDGE6_work_right": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "ef3fa090029a53ba46c6a863f5d92ede62a55cd7e551efb08e9c03fc82a67753"
+      },
+      "replay_0_t1_160_WEDGE6_HEX8_left_displacement": {
+        "shape": [
+          641,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "efdda56e1a38e6ddeac640e47319b96d805d83dc03f0380efee2b5e9e1474a93"
+      },
+      "replay_0_t1_160_WEDGE6_HEX8_right_displacement": {
+        "shape": [
+          641,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "efdda56e1a38e6ddeac640e47319b96d805d83dc03f0380efee2b5e9e1474a93"
+      },
+      "replay_0_t1_160_WEDGE6_HEX8_delta_u": {
+        "shape": [
+          641,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "f13233e8e8ce9c53f1f56e6696539fbff5ee451ab90bfe44f3e09c8834023b6a"
+      },
+      "replay_0_t1_160_WEDGE6_HEX8_continuity_relative_history": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "aa8b81d746d258905bc11c22f78ed6b9fd538b6253f38b1adf2ad74004b4268a"
+      },
+      "replay_0_t1_160_WEDGE6_HEX8_left_force": {
+        "shape": [
+          641,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "6ba59b7b9875c12b67cd9171f2137f55b003d9e172c9f24e849a9793bdfe8449"
+      },
+      "replay_0_t1_160_WEDGE6_HEX8_right_force": {
+        "shape": [
+          641,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "d7a476371497a84746ba40edc300d51cad88db7265062601d1ac1d4007cc6e24"
+      },
+      "replay_0_t1_160_WEDGE6_HEX8_force_balance_vector": {
+        "shape": [
+          641,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "5b5303332f52820459318e553ef9265768793a9ef9925905d6d3aec9c5df4cde"
+      },
+      "replay_0_t1_160_WEDGE6_HEX8_power_left": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "9c4b5c9ef3c3e06dadec7c1059bf0b42fec4d10c68a7e2823bc2193e609807db"
+      },
+      "replay_0_t1_160_WEDGE6_HEX8_power_right": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "b50225ee58ad9ff943518fea462294defff10c92d1101e86d91b19a3244cd2a9"
+      },
+      "replay_0_t1_160_WEDGE6_HEX8_work_left": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "5cc8f793e27fccbbbbe1acfac207e2c37bbaa057d5f87001d3014df8d3d2d95b"
+      },
+      "replay_0_t1_160_WEDGE6_HEX8_work_right": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "a52cd47fbfd131750d37be870dfb4796eb8e4cd765b12ef5a28605d0a60dc39f"
+      },
+      "replay_0_t1_160_family_TET4_kinetic": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "b03350fe88ee59e74422b426b2b5b9c57ce2f9486f5a780b4702cde1afe7764c"
+      },
+      "replay_0_t1_160_family_TET4_strain": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "bfe2e643db18bf328207ac58ff03f70187fa3a93b4589a16fa187f0c8a63abb3"
+      },
+      "replay_0_t1_160_family_WEDGE6_kinetic": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "b0a8f4c428fd31fba764a9afcf19019509c51df75246f4e60b676522cf407626"
+      },
+      "replay_0_t1_160_family_WEDGE6_strain": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "47002e963d8e5b5fc40d7d9e9feaf1fb17f6f95b04cc011573e936d9e4b7cf55"
+      },
+      "replay_0_t1_160_family_HEX8_kinetic": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "5154d35940343372708f4681f76490642cecfc33af4976a417cb968dfcb8cdd5"
+      },
+      "replay_0_t1_160_family_HEX8_strain": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "a22b39af9ba3eae46e8492abb3072dff135c0b1cab7347b41b4b8799e13c9e57"
+      },
+      "replay_1_t1_160_time": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "11be718b7e2aca74b77a9ea6951ff8a784bf56509c3a7760ca0a02ab45900e66"
+      },
+      "replay_1_t1_160_displacement": {
+        "shape": [
+          641,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "a01bb309420aad78ec902635caae2803d3b0c8038c8a8be2653109c267547a78"
+      },
+      "replay_1_t1_160_velocity": {
+        "shape": [
+          641,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "dbb6af1561caad8bf91b3f0fb2d871a507b8bc4d94834c899da455fb2226e108"
+      },
+      "replay_1_t1_160_acceleration": {
+        "shape": [
+          641,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "cf3387e837faff07bf89ebd097e0a4f8d8b0a4a48e2291f05119e510a230ba28"
+      },
+      "replay_1_t1_160_u_ref": {
+        "shape": [
+          641,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "b549d953f504588559ef41a568400500ba24ad204cd4cb262a1c7b12ba4bf3c8"
+      },
+      "replay_1_t1_160_v_ref": {
+        "shape": [
+          641,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "221ea6c6d0867f17f9c5126bb72e6fa7f15205b1cc8acfd02425700451f49687"
+      },
+      "replay_1_t1_160_a_ref": {
+        "shape": [
+          641,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "d7366e1e7ebf5cb95b36f148cea581aa25e183c1077f794352f23a2ec3ea2a7c"
+      },
+      "replay_1_t1_160_q": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "400d421d64765cc61f1891276c2fd2890f3dc1932271d62ae6695b4ec9bac5a5"
+      },
+      "replay_1_t1_160_q_ref": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "97b12cf6bca6fc3f923cbfbbfcd136973415af1571ef6567302641e3753f5f09"
+      },
+      "replay_1_t1_160_qv": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "d423a67eca8c544a34ba0c7071742951a4c32134d97b0a6471662349d76207bd"
+      },
+      "replay_1_t1_160_qv_ref": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "9de8ea8d3188fad55a2c2a2edb222e856c75d2a9ab0551d5d4cb0a9b6186e9a6"
+      },
+      "replay_1_t1_160_qa": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "6e5c071597b4db37b0074adc7671e9f45a465d6356e06fdb1a56f96032c2b51a"
+      },
+      "replay_1_t1_160_qa_ref": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "d99c2b8308ca8eb473b3f08e348c7defb8a78b62a8f0ec809b33782eb669e92f"
+      },
+      "replay_1_t1_160_residual_vector": {
+        "shape": [
+          641,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "b3be11d396c069aa3f232ed1b35ee0b52c6b27dc4ab53e4c46dfe246c4953a9e"
+      },
+      "replay_1_t1_160_residual_norm": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "560a2c66d8781e80d92178a669a36f1b6f119663c870bc4c67bf440fefaed668"
+      },
+      "replay_1_t1_160_residual_relative": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "926efc8b9a459a523dd9e2e29c042ef7b2391618ae518afd3a67ec69f2f619af"
+      },
+      "replay_1_t1_160_reactions": {
+        "shape": [
+          641,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "b7d853c3a9d6b5265e26a1997ba66be0db7c6862802520e1c005fe9b7aa56813"
+      },
+      "replay_1_t1_160_energy_strain": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "37d12c26bbd4676ea7750bd30de5a172dac55e4aa320792dc7ef8739c7400106"
+      },
+      "replay_1_t1_160_energy_kinetic": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "a73032d0430aed352b561db8d346e6ff1a2d801a52a7e1fd80ee450e4b209dad"
+      },
+      "replay_1_t1_160_energy_total": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "6bd16241da1d55a43e364e0b8148aac692d8033c7af7795e43f37d01a42e50a5"
+      },
+      "replay_1_t1_160_energy_damping": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "aa8b81d746d258905bc11c22f78ed6b9fd538b6253f38b1adf2ad74004b4268a"
+      },
+      "replay_1_t1_160_energy_external": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "aa8b81d746d258905bc11c22f78ed6b9fd538b6253f38b1adf2ad74004b4268a"
+      },
+      "replay_1_t1_160_damping_power": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "aa8b81d746d258905bc11c22f78ed6b9fd538b6253f38b1adf2ad74004b4268a"
+      },
+      "replay_1_t1_160_external_power": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "aa8b81d746d258905bc11c22f78ed6b9fd538b6253f38b1adf2ad74004b4268a"
+      },
+      "replay_1_t1_160_TET4_WEDGE6_left_displacement": {
+        "shape": [
+          641,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "d885b6eb505d611089dee88e5b693910f56eee4b6b7cc15d49ee21aeb507dc92"
+      },
+      "replay_1_t1_160_TET4_WEDGE6_right_displacement": {
+        "shape": [
+          641,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "d885b6eb505d611089dee88e5b693910f56eee4b6b7cc15d49ee21aeb507dc92"
+      },
+      "replay_1_t1_160_TET4_WEDGE6_delta_u": {
+        "shape": [
+          641,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "e5b156806ea2c6f9ede44dd21c873ea59d7b4f1d67f0a51ee4cef09446e735e2"
+      },
+      "replay_1_t1_160_TET4_WEDGE6_continuity_relative_history": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "aa8b81d746d258905bc11c22f78ed6b9fd538b6253f38b1adf2ad74004b4268a"
+      },
+      "replay_1_t1_160_TET4_WEDGE6_left_force": {
+        "shape": [
+          641,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "90b20c61706f19d28471a2b89a81564412d4030e2e061c44bb0a1c8823c75626"
+      },
+      "replay_1_t1_160_TET4_WEDGE6_right_force": {
+        "shape": [
+          641,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "3fd15cbc449f1f3e1d84be7182994b0d68473d7e94c6997a30cb9528500b35e3"
+      },
+      "replay_1_t1_160_TET4_WEDGE6_force_balance_vector": {
+        "shape": [
+          641,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "7d6dfe2213bde46004b56196d6da6bfe801c339393734af97ff124145d53b427"
+      },
+      "replay_1_t1_160_TET4_WEDGE6_power_left": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "b37ce26759871e691aeaa0c84102e3999b9b8a3790c3ee896840376fde08a8eb"
+      },
+      "replay_1_t1_160_TET4_WEDGE6_power_right": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "c745f35cb5dbfc37fb2e1217f61a91f89bf4f9d50e1fc60e9922b7747af31d30"
+      },
+      "replay_1_t1_160_TET4_WEDGE6_work_left": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "d42169454776aa694fdebe3c924c887b0e6f08ce27d4773bb516f08ffb686207"
+      },
+      "replay_1_t1_160_TET4_WEDGE6_work_right": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "ef3fa090029a53ba46c6a863f5d92ede62a55cd7e551efb08e9c03fc82a67753"
+      },
+      "replay_1_t1_160_WEDGE6_HEX8_left_displacement": {
+        "shape": [
+          641,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "efdda56e1a38e6ddeac640e47319b96d805d83dc03f0380efee2b5e9e1474a93"
+      },
+      "replay_1_t1_160_WEDGE6_HEX8_right_displacement": {
+        "shape": [
+          641,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "efdda56e1a38e6ddeac640e47319b96d805d83dc03f0380efee2b5e9e1474a93"
+      },
+      "replay_1_t1_160_WEDGE6_HEX8_delta_u": {
+        "shape": [
+          641,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "f13233e8e8ce9c53f1f56e6696539fbff5ee451ab90bfe44f3e09c8834023b6a"
+      },
+      "replay_1_t1_160_WEDGE6_HEX8_continuity_relative_history": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "aa8b81d746d258905bc11c22f78ed6b9fd538b6253f38b1adf2ad74004b4268a"
+      },
+      "replay_1_t1_160_WEDGE6_HEX8_left_force": {
+        "shape": [
+          641,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "6ba59b7b9875c12b67cd9171f2137f55b003d9e172c9f24e849a9793bdfe8449"
+      },
+      "replay_1_t1_160_WEDGE6_HEX8_right_force": {
+        "shape": [
+          641,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "d7a476371497a84746ba40edc300d51cad88db7265062601d1ac1d4007cc6e24"
+      },
+      "replay_1_t1_160_WEDGE6_HEX8_force_balance_vector": {
+        "shape": [
+          641,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "5b5303332f52820459318e553ef9265768793a9ef9925905d6d3aec9c5df4cde"
+      },
+      "replay_1_t1_160_WEDGE6_HEX8_power_left": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "9c4b5c9ef3c3e06dadec7c1059bf0b42fec4d10c68a7e2823bc2193e609807db"
+      },
+      "replay_1_t1_160_WEDGE6_HEX8_power_right": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "b50225ee58ad9ff943518fea462294defff10c92d1101e86d91b19a3244cd2a9"
+      },
+      "replay_1_t1_160_WEDGE6_HEX8_work_left": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "5cc8f793e27fccbbbbe1acfac207e2c37bbaa057d5f87001d3014df8d3d2d95b"
+      },
+      "replay_1_t1_160_WEDGE6_HEX8_work_right": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "a52cd47fbfd131750d37be870dfb4796eb8e4cd765b12ef5a28605d0a60dc39f"
+      },
+      "replay_1_t1_160_family_TET4_kinetic": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "b03350fe88ee59e74422b426b2b5b9c57ce2f9486f5a780b4702cde1afe7764c"
+      },
+      "replay_1_t1_160_family_TET4_strain": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "bfe2e643db18bf328207ac58ff03f70187fa3a93b4589a16fa187f0c8a63abb3"
+      },
+      "replay_1_t1_160_family_WEDGE6_kinetic": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "b0a8f4c428fd31fba764a9afcf19019509c51df75246f4e60b676522cf407626"
+      },
+      "replay_1_t1_160_family_WEDGE6_strain": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "47002e963d8e5b5fc40d7d9e9feaf1fb17f6f95b04cc011573e936d9e4b7cf55"
+      },
+      "replay_1_t1_160_family_HEX8_kinetic": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "5154d35940343372708f4681f76490642cecfc33af4976a417cb968dfcb8cdd5"
+      },
+      "replay_1_t1_160_family_HEX8_strain": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "a22b39af9ba3eae46e8492abb3072dff135c0b1cab7347b41b4b8799e13c9e57"
+      },
+      "replay_2_t1_160_time": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "11be718b7e2aca74b77a9ea6951ff8a784bf56509c3a7760ca0a02ab45900e66"
+      },
+      "replay_2_t1_160_displacement": {
+        "shape": [
+          641,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "a01bb309420aad78ec902635caae2803d3b0c8038c8a8be2653109c267547a78"
+      },
+      "replay_2_t1_160_velocity": {
+        "shape": [
+          641,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "dbb6af1561caad8bf91b3f0fb2d871a507b8bc4d94834c899da455fb2226e108"
+      },
+      "replay_2_t1_160_acceleration": {
+        "shape": [
+          641,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "cf3387e837faff07bf89ebd097e0a4f8d8b0a4a48e2291f05119e510a230ba28"
+      },
+      "replay_2_t1_160_u_ref": {
+        "shape": [
+          641,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "b549d953f504588559ef41a568400500ba24ad204cd4cb262a1c7b12ba4bf3c8"
+      },
+      "replay_2_t1_160_v_ref": {
+        "shape": [
+          641,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "221ea6c6d0867f17f9c5126bb72e6fa7f15205b1cc8acfd02425700451f49687"
+      },
+      "replay_2_t1_160_a_ref": {
+        "shape": [
+          641,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "d7366e1e7ebf5cb95b36f148cea581aa25e183c1077f794352f23a2ec3ea2a7c"
+      },
+      "replay_2_t1_160_q": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "400d421d64765cc61f1891276c2fd2890f3dc1932271d62ae6695b4ec9bac5a5"
+      },
+      "replay_2_t1_160_q_ref": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "97b12cf6bca6fc3f923cbfbbfcd136973415af1571ef6567302641e3753f5f09"
+      },
+      "replay_2_t1_160_qv": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "d423a67eca8c544a34ba0c7071742951a4c32134d97b0a6471662349d76207bd"
+      },
+      "replay_2_t1_160_qv_ref": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "9de8ea8d3188fad55a2c2a2edb222e856c75d2a9ab0551d5d4cb0a9b6186e9a6"
+      },
+      "replay_2_t1_160_qa": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "6e5c071597b4db37b0074adc7671e9f45a465d6356e06fdb1a56f96032c2b51a"
+      },
+      "replay_2_t1_160_qa_ref": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "d99c2b8308ca8eb473b3f08e348c7defb8a78b62a8f0ec809b33782eb669e92f"
+      },
+      "replay_2_t1_160_residual_vector": {
+        "shape": [
+          641,
+          48
+        ],
+        "dtype": "float64",
+        "sha256": "b3be11d396c069aa3f232ed1b35ee0b52c6b27dc4ab53e4c46dfe246c4953a9e"
+      },
+      "replay_2_t1_160_residual_norm": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "560a2c66d8781e80d92178a669a36f1b6f119663c870bc4c67bf440fefaed668"
+      },
+      "replay_2_t1_160_residual_relative": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "926efc8b9a459a523dd9e2e29c042ef7b2391618ae518afd3a67ec69f2f619af"
+      },
+      "replay_2_t1_160_reactions": {
+        "shape": [
+          641,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "b7d853c3a9d6b5265e26a1997ba66be0db7c6862802520e1c005fe9b7aa56813"
+      },
+      "replay_2_t1_160_energy_strain": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "37d12c26bbd4676ea7750bd30de5a172dac55e4aa320792dc7ef8739c7400106"
+      },
+      "replay_2_t1_160_energy_kinetic": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "a73032d0430aed352b561db8d346e6ff1a2d801a52a7e1fd80ee450e4b209dad"
+      },
+      "replay_2_t1_160_energy_total": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "6bd16241da1d55a43e364e0b8148aac692d8033c7af7795e43f37d01a42e50a5"
+      },
+      "replay_2_t1_160_energy_damping": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "aa8b81d746d258905bc11c22f78ed6b9fd538b6253f38b1adf2ad74004b4268a"
+      },
+      "replay_2_t1_160_energy_external": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "aa8b81d746d258905bc11c22f78ed6b9fd538b6253f38b1adf2ad74004b4268a"
+      },
+      "replay_2_t1_160_damping_power": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "aa8b81d746d258905bc11c22f78ed6b9fd538b6253f38b1adf2ad74004b4268a"
+      },
+      "replay_2_t1_160_external_power": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "aa8b81d746d258905bc11c22f78ed6b9fd538b6253f38b1adf2ad74004b4268a"
+      },
+      "replay_2_t1_160_TET4_WEDGE6_left_displacement": {
+        "shape": [
+          641,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "d885b6eb505d611089dee88e5b693910f56eee4b6b7cc15d49ee21aeb507dc92"
+      },
+      "replay_2_t1_160_TET4_WEDGE6_right_displacement": {
+        "shape": [
+          641,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "d885b6eb505d611089dee88e5b693910f56eee4b6b7cc15d49ee21aeb507dc92"
+      },
+      "replay_2_t1_160_TET4_WEDGE6_delta_u": {
+        "shape": [
+          641,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "e5b156806ea2c6f9ede44dd21c873ea59d7b4f1d67f0a51ee4cef09446e735e2"
+      },
+      "replay_2_t1_160_TET4_WEDGE6_continuity_relative_history": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "aa8b81d746d258905bc11c22f78ed6b9fd538b6253f38b1adf2ad74004b4268a"
+      },
+      "replay_2_t1_160_TET4_WEDGE6_left_force": {
+        "shape": [
+          641,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "90b20c61706f19d28471a2b89a81564412d4030e2e061c44bb0a1c8823c75626"
+      },
+      "replay_2_t1_160_TET4_WEDGE6_right_force": {
+        "shape": [
+          641,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "3fd15cbc449f1f3e1d84be7182994b0d68473d7e94c6997a30cb9528500b35e3"
+      },
+      "replay_2_t1_160_TET4_WEDGE6_force_balance_vector": {
+        "shape": [
+          641,
+          9
+        ],
+        "dtype": "float64",
+        "sha256": "7d6dfe2213bde46004b56196d6da6bfe801c339393734af97ff124145d53b427"
+      },
+      "replay_2_t1_160_TET4_WEDGE6_power_left": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "b37ce26759871e691aeaa0c84102e3999b9b8a3790c3ee896840376fde08a8eb"
+      },
+      "replay_2_t1_160_TET4_WEDGE6_power_right": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "c745f35cb5dbfc37fb2e1217f61a91f89bf4f9d50e1fc60e9922b7747af31d30"
+      },
+      "replay_2_t1_160_TET4_WEDGE6_work_left": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "d42169454776aa694fdebe3c924c887b0e6f08ce27d4773bb516f08ffb686207"
+      },
+      "replay_2_t1_160_TET4_WEDGE6_work_right": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "ef3fa090029a53ba46c6a863f5d92ede62a55cd7e551efb08e9c03fc82a67753"
+      },
+      "replay_2_t1_160_WEDGE6_HEX8_left_displacement": {
+        "shape": [
+          641,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "efdda56e1a38e6ddeac640e47319b96d805d83dc03f0380efee2b5e9e1474a93"
+      },
+      "replay_2_t1_160_WEDGE6_HEX8_right_displacement": {
+        "shape": [
+          641,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "efdda56e1a38e6ddeac640e47319b96d805d83dc03f0380efee2b5e9e1474a93"
+      },
+      "replay_2_t1_160_WEDGE6_HEX8_delta_u": {
+        "shape": [
+          641,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "f13233e8e8ce9c53f1f56e6696539fbff5ee451ab90bfe44f3e09c8834023b6a"
+      },
+      "replay_2_t1_160_WEDGE6_HEX8_continuity_relative_history": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "aa8b81d746d258905bc11c22f78ed6b9fd538b6253f38b1adf2ad74004b4268a"
+      },
+      "replay_2_t1_160_WEDGE6_HEX8_left_force": {
+        "shape": [
+          641,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "6ba59b7b9875c12b67cd9171f2137f55b003d9e172c9f24e849a9793bdfe8449"
+      },
+      "replay_2_t1_160_WEDGE6_HEX8_right_force": {
+        "shape": [
+          641,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "d7a476371497a84746ba40edc300d51cad88db7265062601d1ac1d4007cc6e24"
+      },
+      "replay_2_t1_160_WEDGE6_HEX8_force_balance_vector": {
+        "shape": [
+          641,
+          12
+        ],
+        "dtype": "float64",
+        "sha256": "5b5303332f52820459318e553ef9265768793a9ef9925905d6d3aec9c5df4cde"
+      },
+      "replay_2_t1_160_WEDGE6_HEX8_power_left": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "9c4b5c9ef3c3e06dadec7c1059bf0b42fec4d10c68a7e2823bc2193e609807db"
+      },
+      "replay_2_t1_160_WEDGE6_HEX8_power_right": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "b50225ee58ad9ff943518fea462294defff10c92d1101e86d91b19a3244cd2a9"
+      },
+      "replay_2_t1_160_WEDGE6_HEX8_work_left": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "5cc8f793e27fccbbbbe1acfac207e2c37bbaa057d5f87001d3014df8d3d2d95b"
+      },
+      "replay_2_t1_160_WEDGE6_HEX8_work_right": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "a52cd47fbfd131750d37be870dfb4796eb8e4cd765b12ef5a28605d0a60dc39f"
+      },
+      "replay_2_t1_160_family_TET4_kinetic": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "b03350fe88ee59e74422b426b2b5b9c57ce2f9486f5a780b4702cde1afe7764c"
+      },
+      "replay_2_t1_160_family_TET4_strain": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "bfe2e643db18bf328207ac58ff03f70187fa3a93b4589a16fa187f0c8a63abb3"
+      },
+      "replay_2_t1_160_family_WEDGE6_kinetic": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "b0a8f4c428fd31fba764a9afcf19019509c51df75246f4e60b676522cf407626"
+      },
+      "replay_2_t1_160_family_WEDGE6_strain": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "47002e963d8e5b5fc40d7d9e9feaf1fb17f6f95b04cc011573e936d9e4b7cf55"
+      },
+      "replay_2_t1_160_family_HEX8_kinetic": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "5154d35940343372708f4681f76490642cecfc33af4976a417cb968dfcb8cdd5"
+      },
+      "replay_2_t1_160_family_HEX8_strain": {
+        "shape": [
+          641
+        ],
+        "dtype": "float64",
+        "sha256": "a22b39af9ba3eae46e8492abb3072dff135c0b1cab7347b41b4b8799e13c9e57"
+      }
+    },
+    "source_level_names": {
+      "20": [
+        "dt_t1_20_time",
+        "dt_t1_20_displacement",
+        "dt_t1_20_velocity",
+        "dt_t1_20_acceleration",
+        "dt_t1_20_u_ref",
+        "dt_t1_20_v_ref",
+        "dt_t1_20_a_ref",
+        "dt_t1_20_q",
+        "dt_t1_20_q_ref",
+        "dt_t1_20_qv",
+        "dt_t1_20_qv_ref",
+        "dt_t1_20_qa",
+        "dt_t1_20_qa_ref",
+        "dt_t1_20_residual_vector",
+        "dt_t1_20_residual_norm",
+        "dt_t1_20_residual_relative",
+        "dt_t1_20_reactions",
+        "dt_t1_20_energy_strain",
+        "dt_t1_20_energy_kinetic",
+        "dt_t1_20_energy_total",
+        "dt_t1_20_energy_damping",
+        "dt_t1_20_energy_external",
+        "dt_t1_20_damping_power",
+        "dt_t1_20_external_power",
+        "dt_t1_20_TET4_WEDGE6_left_displacement",
+        "dt_t1_20_TET4_WEDGE6_right_displacement",
+        "dt_t1_20_TET4_WEDGE6_delta_u",
+        "dt_t1_20_TET4_WEDGE6_continuity_relative_history",
+        "dt_t1_20_TET4_WEDGE6_left_force",
+        "dt_t1_20_TET4_WEDGE6_right_force",
+        "dt_t1_20_TET4_WEDGE6_force_balance_vector",
+        "dt_t1_20_TET4_WEDGE6_power_left",
+        "dt_t1_20_TET4_WEDGE6_power_right",
+        "dt_t1_20_TET4_WEDGE6_work_left",
+        "dt_t1_20_TET4_WEDGE6_work_right",
+        "dt_t1_20_WEDGE6_HEX8_left_displacement",
+        "dt_t1_20_WEDGE6_HEX8_right_displacement",
+        "dt_t1_20_WEDGE6_HEX8_delta_u",
+        "dt_t1_20_WEDGE6_HEX8_continuity_relative_history",
+        "dt_t1_20_WEDGE6_HEX8_left_force",
+        "dt_t1_20_WEDGE6_HEX8_right_force",
+        "dt_t1_20_WEDGE6_HEX8_force_balance_vector",
+        "dt_t1_20_WEDGE6_HEX8_power_left",
+        "dt_t1_20_WEDGE6_HEX8_power_right",
+        "dt_t1_20_WEDGE6_HEX8_work_left",
+        "dt_t1_20_WEDGE6_HEX8_work_right",
+        "dt_t1_20_family_TET4_kinetic",
+        "dt_t1_20_family_TET4_strain",
+        "dt_t1_20_family_WEDGE6_kinetic",
+        "dt_t1_20_family_WEDGE6_strain",
+        "dt_t1_20_family_HEX8_kinetic",
+        "dt_t1_20_family_HEX8_strain"
+      ],
+      "40": [
+        "dt_t1_40_time",
+        "dt_t1_40_displacement",
+        "dt_t1_40_velocity",
+        "dt_t1_40_acceleration",
+        "dt_t1_40_u_ref",
+        "dt_t1_40_v_ref",
+        "dt_t1_40_a_ref",
+        "dt_t1_40_q",
+        "dt_t1_40_q_ref",
+        "dt_t1_40_qv",
+        "dt_t1_40_qv_ref",
+        "dt_t1_40_qa",
+        "dt_t1_40_qa_ref",
+        "dt_t1_40_residual_vector",
+        "dt_t1_40_residual_norm",
+        "dt_t1_40_residual_relative",
+        "dt_t1_40_reactions",
+        "dt_t1_40_energy_strain",
+        "dt_t1_40_energy_kinetic",
+        "dt_t1_40_energy_total",
+        "dt_t1_40_energy_damping",
+        "dt_t1_40_energy_external",
+        "dt_t1_40_damping_power",
+        "dt_t1_40_external_power",
+        "dt_t1_40_TET4_WEDGE6_left_displacement",
+        "dt_t1_40_TET4_WEDGE6_right_displacement",
+        "dt_t1_40_TET4_WEDGE6_delta_u",
+        "dt_t1_40_TET4_WEDGE6_continuity_relative_history",
+        "dt_t1_40_TET4_WEDGE6_left_force",
+        "dt_t1_40_TET4_WEDGE6_right_force",
+        "dt_t1_40_TET4_WEDGE6_force_balance_vector",
+        "dt_t1_40_TET4_WEDGE6_power_left",
+        "dt_t1_40_TET4_WEDGE6_power_right",
+        "dt_t1_40_TET4_WEDGE6_work_left",
+        "dt_t1_40_TET4_WEDGE6_work_right",
+        "dt_t1_40_WEDGE6_HEX8_left_displacement",
+        "dt_t1_40_WEDGE6_HEX8_right_displacement",
+        "dt_t1_40_WEDGE6_HEX8_delta_u",
+        "dt_t1_40_WEDGE6_HEX8_continuity_relative_history",
+        "dt_t1_40_WEDGE6_HEX8_left_force",
+        "dt_t1_40_WEDGE6_HEX8_right_force",
+        "dt_t1_40_WEDGE6_HEX8_force_balance_vector",
+        "dt_t1_40_WEDGE6_HEX8_power_left",
+        "dt_t1_40_WEDGE6_HEX8_power_right",
+        "dt_t1_40_WEDGE6_HEX8_work_left",
+        "dt_t1_40_WEDGE6_HEX8_work_right",
+        "dt_t1_40_family_TET4_kinetic",
+        "dt_t1_40_family_TET4_strain",
+        "dt_t1_40_family_WEDGE6_kinetic",
+        "dt_t1_40_family_WEDGE6_strain",
+        "dt_t1_40_family_HEX8_kinetic",
+        "dt_t1_40_family_HEX8_strain"
+      ],
+      "80": [
+        "dt_t1_80_time",
+        "dt_t1_80_displacement",
+        "dt_t1_80_velocity",
+        "dt_t1_80_acceleration",
+        "dt_t1_80_u_ref",
+        "dt_t1_80_v_ref",
+        "dt_t1_80_a_ref",
+        "dt_t1_80_q",
+        "dt_t1_80_q_ref",
+        "dt_t1_80_qv",
+        "dt_t1_80_qv_ref",
+        "dt_t1_80_qa",
+        "dt_t1_80_qa_ref",
+        "dt_t1_80_residual_vector",
+        "dt_t1_80_residual_norm",
+        "dt_t1_80_residual_relative",
+        "dt_t1_80_reactions",
+        "dt_t1_80_energy_strain",
+        "dt_t1_80_energy_kinetic",
+        "dt_t1_80_energy_total",
+        "dt_t1_80_energy_damping",
+        "dt_t1_80_energy_external",
+        "dt_t1_80_damping_power",
+        "dt_t1_80_external_power",
+        "dt_t1_80_TET4_WEDGE6_left_displacement",
+        "dt_t1_80_TET4_WEDGE6_right_displacement",
+        "dt_t1_80_TET4_WEDGE6_delta_u",
+        "dt_t1_80_TET4_WEDGE6_continuity_relative_history",
+        "dt_t1_80_TET4_WEDGE6_left_force",
+        "dt_t1_80_TET4_WEDGE6_right_force",
+        "dt_t1_80_TET4_WEDGE6_force_balance_vector",
+        "dt_t1_80_TET4_WEDGE6_power_left",
+        "dt_t1_80_TET4_WEDGE6_power_right",
+        "dt_t1_80_TET4_WEDGE6_work_left",
+        "dt_t1_80_TET4_WEDGE6_work_right",
+        "dt_t1_80_WEDGE6_HEX8_left_displacement",
+        "dt_t1_80_WEDGE6_HEX8_right_displacement",
+        "dt_t1_80_WEDGE6_HEX8_delta_u",
+        "dt_t1_80_WEDGE6_HEX8_continuity_relative_history",
+        "dt_t1_80_WEDGE6_HEX8_left_force",
+        "dt_t1_80_WEDGE6_HEX8_right_force",
+        "dt_t1_80_WEDGE6_HEX8_force_balance_vector",
+        "dt_t1_80_WEDGE6_HEX8_power_left",
+        "dt_t1_80_WEDGE6_HEX8_power_right",
+        "dt_t1_80_WEDGE6_HEX8_work_left",
+        "dt_t1_80_WEDGE6_HEX8_work_right",
+        "dt_t1_80_family_TET4_kinetic",
+        "dt_t1_80_family_TET4_strain",
+        "dt_t1_80_family_WEDGE6_kinetic",
+        "dt_t1_80_family_WEDGE6_strain",
+        "dt_t1_80_family_HEX8_kinetic",
+        "dt_t1_80_family_HEX8_strain"
+      ],
+      "160": [
+        "dt_t1_160_time",
+        "dt_t1_160_displacement",
+        "dt_t1_160_velocity",
+        "dt_t1_160_acceleration",
+        "dt_t1_160_u_ref",
+        "dt_t1_160_v_ref",
+        "dt_t1_160_a_ref",
+        "dt_t1_160_q",
+        "dt_t1_160_q_ref",
+        "dt_t1_160_qv",
+        "dt_t1_160_qv_ref",
+        "dt_t1_160_qa",
+        "dt_t1_160_qa_ref",
+        "dt_t1_160_residual_vector",
+        "dt_t1_160_residual_norm",
+        "dt_t1_160_residual_relative",
+        "dt_t1_160_reactions",
+        "dt_t1_160_energy_strain",
+        "dt_t1_160_energy_kinetic",
+        "dt_t1_160_energy_total",
+        "dt_t1_160_energy_damping",
+        "dt_t1_160_energy_external",
+        "dt_t1_160_damping_power",
+        "dt_t1_160_external_power",
+        "dt_t1_160_TET4_WEDGE6_left_displacement",
+        "dt_t1_160_TET4_WEDGE6_right_displacement",
+        "dt_t1_160_TET4_WEDGE6_delta_u",
+        "dt_t1_160_TET4_WEDGE6_continuity_relative_history",
+        "dt_t1_160_TET4_WEDGE6_left_force",
+        "dt_t1_160_TET4_WEDGE6_right_force",
+        "dt_t1_160_TET4_WEDGE6_force_balance_vector",
+        "dt_t1_160_TET4_WEDGE6_power_left",
+        "dt_t1_160_TET4_WEDGE6_power_right",
+        "dt_t1_160_TET4_WEDGE6_work_left",
+        "dt_t1_160_TET4_WEDGE6_work_right",
+        "dt_t1_160_WEDGE6_HEX8_left_displacement",
+        "dt_t1_160_WEDGE6_HEX8_right_displacement",
+        "dt_t1_160_WEDGE6_HEX8_delta_u",
+        "dt_t1_160_WEDGE6_HEX8_continuity_relative_history",
+        "dt_t1_160_WEDGE6_HEX8_left_force",
+        "dt_t1_160_WEDGE6_HEX8_right_force",
+        "dt_t1_160_WEDGE6_HEX8_force_balance_vector",
+        "dt_t1_160_WEDGE6_HEX8_power_left",
+        "dt_t1_160_WEDGE6_HEX8_power_right",
+        "dt_t1_160_WEDGE6_HEX8_work_left",
+        "dt_t1_160_WEDGE6_HEX8_work_right",
+        "dt_t1_160_family_TET4_kinetic",
+        "dt_t1_160_family_TET4_strain",
+        "dt_t1_160_family_WEDGE6_kinetic",
+        "dt_t1_160_family_WEDGE6_strain",
+        "dt_t1_160_family_HEX8_kinetic",
+        "dt_t1_160_family_HEX8_strain"
+      ]
+    },
+    "replay_names": {
+      "0": [
+        "replay_0_t1_160_time",
+        "replay_0_t1_160_displacement",
+        "replay_0_t1_160_velocity",
+        "replay_0_t1_160_acceleration",
+        "replay_0_t1_160_u_ref",
+        "replay_0_t1_160_v_ref",
+        "replay_0_t1_160_a_ref",
+        "replay_0_t1_160_q",
+        "replay_0_t1_160_q_ref",
+        "replay_0_t1_160_qv",
+        "replay_0_t1_160_qv_ref",
+        "replay_0_t1_160_qa",
+        "replay_0_t1_160_qa_ref",
+        "replay_0_t1_160_residual_vector",
+        "replay_0_t1_160_residual_norm",
+        "replay_0_t1_160_residual_relative",
+        "replay_0_t1_160_reactions",
+        "replay_0_t1_160_energy_strain",
+        "replay_0_t1_160_energy_kinetic",
+        "replay_0_t1_160_energy_total",
+        "replay_0_t1_160_energy_damping",
+        "replay_0_t1_160_energy_external",
+        "replay_0_t1_160_damping_power",
+        "replay_0_t1_160_external_power",
+        "replay_0_t1_160_TET4_WEDGE6_left_displacement",
+        "replay_0_t1_160_TET4_WEDGE6_right_displacement",
+        "replay_0_t1_160_TET4_WEDGE6_delta_u",
+        "replay_0_t1_160_TET4_WEDGE6_continuity_relative_history",
+        "replay_0_t1_160_TET4_WEDGE6_left_force",
+        "replay_0_t1_160_TET4_WEDGE6_right_force",
+        "replay_0_t1_160_TET4_WEDGE6_force_balance_vector",
+        "replay_0_t1_160_TET4_WEDGE6_power_left",
+        "replay_0_t1_160_TET4_WEDGE6_power_right",
+        "replay_0_t1_160_TET4_WEDGE6_work_left",
+        "replay_0_t1_160_TET4_WEDGE6_work_right",
+        "replay_0_t1_160_WEDGE6_HEX8_left_displacement",
+        "replay_0_t1_160_WEDGE6_HEX8_right_displacement",
+        "replay_0_t1_160_WEDGE6_HEX8_delta_u",
+        "replay_0_t1_160_WEDGE6_HEX8_continuity_relative_history",
+        "replay_0_t1_160_WEDGE6_HEX8_left_force",
+        "replay_0_t1_160_WEDGE6_HEX8_right_force",
+        "replay_0_t1_160_WEDGE6_HEX8_force_balance_vector",
+        "replay_0_t1_160_WEDGE6_HEX8_power_left",
+        "replay_0_t1_160_WEDGE6_HEX8_power_right",
+        "replay_0_t1_160_WEDGE6_HEX8_work_left",
+        "replay_0_t1_160_WEDGE6_HEX8_work_right",
+        "replay_0_t1_160_family_TET4_kinetic",
+        "replay_0_t1_160_family_TET4_strain",
+        "replay_0_t1_160_family_WEDGE6_kinetic",
+        "replay_0_t1_160_family_WEDGE6_strain",
+        "replay_0_t1_160_family_HEX8_kinetic",
+        "replay_0_t1_160_family_HEX8_strain"
+      ],
+      "1": [
+        "replay_1_t1_160_time",
+        "replay_1_t1_160_displacement",
+        "replay_1_t1_160_velocity",
+        "replay_1_t1_160_acceleration",
+        "replay_1_t1_160_u_ref",
+        "replay_1_t1_160_v_ref",
+        "replay_1_t1_160_a_ref",
+        "replay_1_t1_160_q",
+        "replay_1_t1_160_q_ref",
+        "replay_1_t1_160_qv",
+        "replay_1_t1_160_qv_ref",
+        "replay_1_t1_160_qa",
+        "replay_1_t1_160_qa_ref",
+        "replay_1_t1_160_residual_vector",
+        "replay_1_t1_160_residual_norm",
+        "replay_1_t1_160_residual_relative",
+        "replay_1_t1_160_reactions",
+        "replay_1_t1_160_energy_strain",
+        "replay_1_t1_160_energy_kinetic",
+        "replay_1_t1_160_energy_total",
+        "replay_1_t1_160_energy_damping",
+        "replay_1_t1_160_energy_external",
+        "replay_1_t1_160_damping_power",
+        "replay_1_t1_160_external_power",
+        "replay_1_t1_160_TET4_WEDGE6_left_displacement",
+        "replay_1_t1_160_TET4_WEDGE6_right_displacement",
+        "replay_1_t1_160_TET4_WEDGE6_delta_u",
+        "replay_1_t1_160_TET4_WEDGE6_continuity_relative_history",
+        "replay_1_t1_160_TET4_WEDGE6_left_force",
+        "replay_1_t1_160_TET4_WEDGE6_right_force",
+        "replay_1_t1_160_TET4_WEDGE6_force_balance_vector",
+        "replay_1_t1_160_TET4_WEDGE6_power_left",
+        "replay_1_t1_160_TET4_WEDGE6_power_right",
+        "replay_1_t1_160_TET4_WEDGE6_work_left",
+        "replay_1_t1_160_TET4_WEDGE6_work_right",
+        "replay_1_t1_160_WEDGE6_HEX8_left_displacement",
+        "replay_1_t1_160_WEDGE6_HEX8_right_displacement",
+        "replay_1_t1_160_WEDGE6_HEX8_delta_u",
+        "replay_1_t1_160_WEDGE6_HEX8_continuity_relative_history",
+        "replay_1_t1_160_WEDGE6_HEX8_left_force",
+        "replay_1_t1_160_WEDGE6_HEX8_right_force",
+        "replay_1_t1_160_WEDGE6_HEX8_force_balance_vector",
+        "replay_1_t1_160_WEDGE6_HEX8_power_left",
+        "replay_1_t1_160_WEDGE6_HEX8_power_right",
+        "replay_1_t1_160_WEDGE6_HEX8_work_left",
+        "replay_1_t1_160_WEDGE6_HEX8_work_right",
+        "replay_1_t1_160_family_TET4_kinetic",
+        "replay_1_t1_160_family_TET4_strain",
+        "replay_1_t1_160_family_WEDGE6_kinetic",
+        "replay_1_t1_160_family_WEDGE6_strain",
+        "replay_1_t1_160_family_HEX8_kinetic",
+        "replay_1_t1_160_family_HEX8_strain"
+      ],
+      "2": [
+        "replay_2_t1_160_time",
+        "replay_2_t1_160_displacement",
+        "replay_2_t1_160_velocity",
+        "replay_2_t1_160_acceleration",
+        "replay_2_t1_160_u_ref",
+        "replay_2_t1_160_v_ref",
+        "replay_2_t1_160_a_ref",
+        "replay_2_t1_160_q",
+        "replay_2_t1_160_q_ref",
+        "replay_2_t1_160_qv",
+        "replay_2_t1_160_qv_ref",
+        "replay_2_t1_160_qa",
+        "replay_2_t1_160_qa_ref",
+        "replay_2_t1_160_residual_vector",
+        "replay_2_t1_160_residual_norm",
+        "replay_2_t1_160_residual_relative",
+        "replay_2_t1_160_reactions",
+        "replay_2_t1_160_energy_strain",
+        "replay_2_t1_160_energy_kinetic",
+        "replay_2_t1_160_energy_total",
+        "replay_2_t1_160_energy_damping",
+        "replay_2_t1_160_energy_external",
+        "replay_2_t1_160_damping_power",
+        "replay_2_t1_160_external_power",
+        "replay_2_t1_160_TET4_WEDGE6_left_displacement",
+        "replay_2_t1_160_TET4_WEDGE6_right_displacement",
+        "replay_2_t1_160_TET4_WEDGE6_delta_u",
+        "replay_2_t1_160_TET4_WEDGE6_continuity_relative_history",
+        "replay_2_t1_160_TET4_WEDGE6_left_force",
+        "replay_2_t1_160_TET4_WEDGE6_right_force",
+        "replay_2_t1_160_TET4_WEDGE6_force_balance_vector",
+        "replay_2_t1_160_TET4_WEDGE6_power_left",
+        "replay_2_t1_160_TET4_WEDGE6_power_right",
+        "replay_2_t1_160_TET4_WEDGE6_work_left",
+        "replay_2_t1_160_TET4_WEDGE6_work_right",
+        "replay_2_t1_160_WEDGE6_HEX8_left_displacement",
+        "replay_2_t1_160_WEDGE6_HEX8_right_displacement",
+        "replay_2_t1_160_WEDGE6_HEX8_delta_u",
+        "replay_2_t1_160_WEDGE6_HEX8_continuity_relative_history",
+        "replay_2_t1_160_WEDGE6_HEX8_left_force",
+        "replay_2_t1_160_WEDGE6_HEX8_right_force",
+        "replay_2_t1_160_WEDGE6_HEX8_force_balance_vector",
+        "replay_2_t1_160_WEDGE6_HEX8_power_left",
+        "replay_2_t1_160_WEDGE6_HEX8_power_right",
+        "replay_2_t1_160_WEDGE6_HEX8_work_left",
+        "replay_2_t1_160_WEDGE6_HEX8_work_right",
+        "replay_2_t1_160_family_TET4_kinetic",
+        "replay_2_t1_160_family_TET4_strain",
+        "replay_2_t1_160_family_WEDGE6_kinetic",
+        "replay_2_t1_160_family_WEDGE6_strain",
+        "replay_2_t1_160_family_HEX8_kinetic",
+        "replay_2_t1_160_family_HEX8_strain"
+      ]
+    },
+    "required_history_arrays_present": true
+  },
+  "integrity": {
+    "numerical_source_changed": false,
+    "vnv_harness_changed": true,
+    "input_validation_source_changed": false,
+    "formulation_changed": false,
+    "contract_changed": false,
+    "gates_changed": false,
+    "maturity_changed": false,
+    "evidence_0_2_7_changed": false,
+    "historical_b5_b6_b7_b8_preserved": true
+  },
+  "decision": {
+    "status": "PASS_HARNESS_READY",
+    "newmark_campaign_verdict": "NOT_RUN",
+    "ready_for_wp13_02b10": true
+  }
+}

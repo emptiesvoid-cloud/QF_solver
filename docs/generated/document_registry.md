@@ -1,6 +1,6 @@
 | ID | Title | Status | Requirements | Examples | Tests | Source |
 | --- | --- | --- | --- | --- | --- | --- |
-| DOC-STATE-001 | QF Solver 0.2.7 | controlled | REQ-AUD-001, REQ-CMP-001 | 1 | 1 | index.md |
+| DOC-STATE-001 | QF Solver 0.2.8 | controlled | REQ-AUD-001, REQ-CMP-001 | 1 | 1 | index.md |
 | DOC-VNV-CODEASTER-CAMPAIGN-2026-08-14 | Campagne de correlation Code_Aster du 2026-08-14 | ready_for_owner_review | REQ-CMP-003, REQ-AUD-001 | 1 | 3 | verification/code_aster_correlation_campaign_2026-08-14.md |
 | DOC-STATE-002 | Capabilities and maturity | controlled | REQ-CMP-001, REQ-REL-001 | 0 | 0 | etat/capacites.md |
 | DOC-STATE-003 | Known limitations | controlled | REQ-CMP-002, REQ-REL-001 | 0 | 0 | etat/limites.md |
@@ -152,13 +152,13 @@
 | DOC-RELEASE-V020-ALPHA-FREEZE-001 | Dossier de gel V0.2.0-alpha avant publication | controlled | REQ-REL-001, REQ-EVD-001 | 1 | 2 | verification/release_v020_alpha_freeze.md |
 | DOC-REF-001 | Interfaces CLI et API | draft | REQ-IO-001, REQ-IO-002 | 0 | 0 | reference/interfaces.md |
 | DOC-REF-GMSH-001 | Import Gmsh MSH 4.1 | draft | REQ-IO-001, REQ-MESH-001, REQ-MESH-002 | 0 | 2 | reference/import_gmsh.md |
-| DOC-REF-002 | Registre documentaire | controlled | REQ-CMP-001, REQ-EVD-001 | 0 | 0 | reference/registre_documentaire.md |
+| DOC-REF-002 | Documentation registry | controlled | REQ-CMP-001, REQ-EVD-001 | 0 | 0 | reference/registre_documentaire.md |
 | DOC-REF-006 | References scientifiques et numeriques | controlled | REQ-CMP-003, REQ-CMP-004 | 0 | 0 | reference/references.md |
 | DOC-REF-003 | Glossaire | draft | REQ-REL-001 | 0 | 0 | reference/glossaire.md |
 | DOC-REF-004 | Public roadmap | controlled | REQ-CMP-002, REQ-REL-001 | 0 | 0 | reference/feuille_de_route.md |
 | DOC-REF-005 | Conventions de resultats | draft | REQ-AUD-001, REQ-SOL-001, REQ-SOL-002 | 0 | 0 | conventions_resultats.md |
 | DOC-IO-001 | Schema JSON du solveur EF | draft | REQ-IO-001, REQ-IO-002 | 0 | 2 | schema_json.md |
-| DOC-ARCH-001 | Architecture Du Solveur EF | controlled | REQ-REL-001 | 0 | 1 | architecture.md |
+| DOC-ARCH-001 | QF Solver architecture | controlled | REQ-REL-001 | 0 | 1 | architecture.md |
 | DOC-QA-001 | Controle qualite projet | draft | REQ-REL-001 | 0 | 0 | controle_qualite.md |
 | DOC-AUD-001 | Audit de qualification industrielle du solveur EF | draft | REQ-CMP-001, REQ-CMP-002, REQ-REL-001 | 0 | 0 | audit_qualification_industrielle.md |
 | DOC-MESH-001 | Qualite de maillage | draft | REQ-MESH-001, REQ-MESH-002 | 0 | 0 | qualite_maillage.md |

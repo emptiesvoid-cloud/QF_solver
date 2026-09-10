@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP08B-MIXED-MODAL-MATRIX",
+  "work_package": "WP08B",
+  "applicable_version": "0.2.8-development",
+  "baseline_sha": "59a438bc0d58ee32d35e084dd091eefe78418bb6",
+  "parent_matrix": "qualification/0_2_8/wp08_mixed_modal_matrix.json",
+  "root_cause_record": "qualification/0_2_8/wp08b_root_cause_audit.json",
+  "contract_record": "qualification/0_2_8/wp08b_mixed_modal_contract.json",
+  "evidence_record": "qualification/0_2_8/wp08b_mixed_modal_vnv.json",
+  "status": "OWNER_APPROVED_WITH_LIMITATIONS",
+  "public_maturity_policy": "WP08B is approved only as a separate bounded mixed-workflow qualification. It does not change the 46 element-analysis records.",
+  "summary": {
+    "wp08_initial_decision_preserved": "SUPPORTED_WITH_LIMITATIONS",
+    "wp08b_technical_decision": "QUALIFIED_BOUNDED_CANDIDATE",
+    "owner_decision": "APPROVE_WITH_LIMITATIONS",
+    "mixed_workflow_final_status": "QUALIFIED_BOUNDED",
+    "public_maturity_relabels_applied": 0,
+    "owner_gate_required": false,
+    "element_analysis_registry_total": 46,
+    "element_analysis_registry_changed": false,
+    "mixed_workflow_registry_separate": true
+  },
+  "mixed_candidate": {
+    "id": "CAND-MIXED-TET4-WEDGE6-HEX8-modal-consistent-mass",
+    "technical_decision": "QUALIFIED_BOUNDED_CANDIDATE",
+    "owner_gate": "APPROVE_WITH_LIMITATIONS",
+    "final_status": "QUALIFIED_BOUNDED",
+    "scope": "modal; fixed x=0 base; TET4 plus every WEDGE6 and HEX8 segment in the conforming chain; small-strain homogeneous linear isotropic elasticity; consistent translational finite-element mass; and the first six positive modes on levels 1, 2, 4 and 8",
+    "limitations": [
+      "The public decision is limited to this separate mixed-workflow record.",
+      "No external industrial-solver correlation is claimed.",
+      "No modal-stress, Newmark, harmonic, nonlinear, contact, nonconforming-interface, higher-order-family or large-performance claim.",
+      "Pure-family controls are diagnostic only and do not relabel their individual modal routes."
+    ],
+    "owner_limitations": [
+      "The qualification applies only to the fixed-base conforming chain tested at refinement levels 1, 2, 4 and 8 and to its first six positive modes.",
+      "The independent dense local-matrix scatter/eigensolve and analytical mass conservation are sufficient for this bounded assembly claim; no external industrial-solver correlation is claimed.",
+      "The mapped MAC is a field comparison by shape-function prolongation in the fine consistent-mass inner product; direct shared-node MAC remains the failed WP08 protocol and is not replaced retroactively.",
+      "No modal stress, lumped/concentrated mass, Newmark, harmonic, nonlinear, contact, nonconforming/hanging-node/MPC/RBE interface, TET10/HEX20, PYRAMID5, large-performance or universal all-frequency claim is made."
+    ]
+  },
+  "root_cause_resolution": {
+    "primary": "MESH_TO_MESH_MAPPING_PROBLEM",
+    "secondary": "GEOMETRIC_DISCRETIZATION_EFFECT",
+    "wp08_gate_changed": false,
+    "wp08_evidence_rewritten": false,
+    "numerical_source_changed": false,
+    "remediation": "A separate WP08B runner retains all generated WEDGE6/HEX8 segments at every level and prolongs coarse fields to the fine mesh before applying a fine-mass global MAC."
+  },
+  "evidence_summary": {
+    "mesh_construction": "PASS",
+    "mixed_mass_assembly": "PASS",
+    "mass_conservation": "PASS",
+    "pairwise_modal": "PASS",
+    "reference_oracle": "PASS_WITHOUT_EXTERNAL_CORRELATION",
+    "mesh_refinement": "PASS",
+    "mode_residuals": "PASS",
+    "orthogonality": "PASS",
+    "mapped_global_mode_matching": "PASS",
+    "interface_robustness": "PASS",
+    "replay_determinism": "PASS_2_REPLAYS",
+    "pure_family_controls": "PASS_DIAGNOSTIC",
+    "post_processing": "PASS"
+  },
+  "registry_integrity": {
+    "source_registry_0_2_7_unchanged": true,
+    "historical_0_2_7_evidence_changed": false,
+    "wp08_evidence_unchanged": true,
+    "not_added_to_element_analysis_registry": true,
+    "mixed_workflow_record_kind": "mixed_workflow_qualification"
+  },
+  "owner_gate": {
+    "record": "qualification/0_2_8/wp08b_owner_gate_final.json",
+    "decision": "APPROVE_WITH_LIMITATIONS",
+    "audited_commit": "35d2debbd414917ac31d2b2d945df1132737eae5",
+    "evidence_integrity": "PASS",
+    "numerical_source_changed": false,
+    "historical_0_2_7_evidence_changed": false
+  }
+}

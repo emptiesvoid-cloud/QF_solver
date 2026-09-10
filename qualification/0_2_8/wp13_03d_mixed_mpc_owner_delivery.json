@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP13-03D-MIXED-MPC-OWNER-DELIVERY",
+  "work_package": "WP13-03D",
+  "audited_commit": "5e48f259d1adbed42c1f0ec3851b14bb35df0c0a",
+  "record_kind": "mixed_workflow_qualification",
+  "workflow": "mixed_linear_static_translational_mpc",
+  "owner_decision": "APPROVE_WITH_LIMITATIONS",
+  "status": "QUALIFIED_BOUNDED",
+  "scope": "Connected conforming TET4/WEDGE6/HEX8 linear-static workflow with homogeneous zero-offset translational linear MPC constraints generated from the frozen RBE2-definition benchmark.",
+  "public_wording": "Connected conforming TET4/WEDGE6/HEX8 mixed linear-static workflow validated with translational linear MPC constraints generated from the frozen RBE2-definition benchmark.",
+  "limitations": [
+    "linear static only",
+    "connected conforming TET4/WEDGE6/HEX8",
+    "translational MPC only",
+    "homogeneous constraints",
+    "zero affine offset",
+    "no rotational RBE2",
+    "no true rigid-body claim",
+    "no RBE3",
+    "no modal MPC",
+    "no Newmark MPC",
+    "no harmonic MPC",
+    "no nonlinear MPC",
+    "no contact coupling",
+    "no nonconforming interfaces",
+    "no arbitrary MPC claim",
+    "no universal claim"
+  ],
+  "evidence_references": {
+    "v1": {
+      "status": "preserved",
+      "contract_id": "WP13-03-MIXED-MPC-RBE2-001",
+      "contract_status": "BLOCKED_INVALID_TET4_ORIENTATION",
+      "path": "qualification/0_2_8/wp13_03a_mixed_mpc_rbe2_contract.json",
+      "sha256": "9ef7113c45a0bf285d532bd64cbfe22193edaee333bb3cb698e54d40c0785e06"
+    },
+    "v2": {
+      "status": "preserved",
+      "contract_id": "WP13-03-MIXED-MPC-RBE2-002",
+      "contract_status": "FAIL_ENERGY",
+      "path": "qualification/0_2_8/wp13_03a_mixed_mpc_rbe2_contract_v2.json",
+      "sha256": "10ff2f0708c4f579c7a032036d981f616e8970f04ee000ed86b9146d3ca903d7"
+    },
+    "v3": {
+      "status": "successful_prospective_campaign",
+      "contract_id": "WP13-03-MIXED-MPC-RBE2-003",
+      "contract_sha256": "0d43ef67274ef7675cc643e722b4647da9d66c774f46339c23135ac8d514d44a",
+      "contract_path": "qualification/0_2_8/wp13_03b_v3_mpc_rbe2_contract.json",
+      "evidence_path": "qualification/0_2_8/wp13_03b_v3_mpc_rbe2_runtime/wp13_03b_v3_evidence.json",
+      "evidence_sha256": "811149532f5bd1561a72455104ccb40f2d5a2435adafe092d50bcb1965e4b7e9",
+      "raw_npz_path": "qualification/0_2_8/wp13_03b_v3_mpc_rbe2_runtime/wp13_03b_v3_raw.npz",
+      "raw_npz_sha256": "22bcc6ecfbb0d53681cc0368767793a6dfe2370ca55d57d277f32baeaceb0cef"
+    },
+    "owner_gate": {
+      "status": "APPROVE_WITH_LIMITATIONS",
+      "source": "WP13-03C Owner Gate audited at 5e48f259d1adbed42c1f0ec3851b14bb35df0c0a"
+    }
+  },
+  "registry_separation": {
+    "element_analysis_registry_total": 46,
+    "element_analysis_registry_changed": false,
+    "mixed_workflow_added_to_combination_registry": false,
+    "separate_workflow_registry": true
+  },
+  "integrity": {
+    "numerical_source_changed": false,
+    "formulation_changed": false,
+    "maturity_46_changed": false,
+    "historical_0_2_7_evidence_changed": false,
+    "v1_v2_v3_evidence_rewritten": false
+  }
+}

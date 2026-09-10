@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "qf-solver-0.2.8/wp13-02c6-harmonic-evidence-v1",
+  "title": "WP13-02C6 frozen harmonic evidence schema",
+  "type": "object",
+  "required": [
+    "schema_version", "record_id", "work_package", "contract_id", "contract_sha256",
+    "repo_sha", "environment", "benchmark_inputs", "conditioning", "frequencies",
+    "damping", "raw_complex_responses", "oracle_responses", "amplitude_phase",
+    "modal_coordinate", "modal_coordinate_pipeline", "residuals", "static_limit",
+    "resonance", "interface_metrics", "energy_contract", "replay_arrays",
+    "replay_comparison", "replay_pipeline", "failure_executions", "pipeline_freeze",
+    "post_run_pipeline_mutation_allowed", "post_run_manifest_rewrite_allowed",
+    "historical_owner_records", "digests", "gate_decisions", "historical_records_preserved",
+    "evidence_schema_valid", "semantic_validator_valid", "post_run_pipeline_digest",
+    "pipeline_digest_match", "pipeline_mutation_detected", "evidence_integrity", "integrity"
+  ],
+  "properties": {
+    "schema_version": {"const": 6},
+    "record_id": {"type": "string", "minLength": 1},
+    "work_package": {"const": "WP13-02C6"},
+    "contract_id": {"const": "WP13-02C-HARMONIC-MIXED-001"},
+    "contract_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "repo_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "environment": {"type": "object", "minProperties": 1},
+    "benchmark_inputs": {"type": "object", "minProperties": 1},
+    "conditioning": {"type": "object", "minProperties": 1},
+    "frequencies": {"type": "object", "minProperties": 1},
+    "damping": {"type": "object", "minProperties": 1},
+    "raw_complex_responses": {"type": "object", "minProperties": 1},
+    "oracle_responses": {"type": "object", "minProperties": 1},
+    "amplitude_phase": {"type": "object", "minProperties": 1},
+    "modal_coordinate": {"type": "object", "minProperties": 1},
+    "modal_coordinate_pipeline": {
+      "type": "object",
+      "required": ["frozen_pipeline", "phi_source", "phi_digest", "mass_source", "mass_digest", "normalization", "projection_formula"],
+      "properties": {"frozen_pipeline": {"const": true}, "projection_formula": {"const": "q = phi^H M x"}}
+    },
+    "residuals": {"type": "object", "minProperties": 1},
+    "static_limit": {"type": "object", "minProperties": 1},
+    "resonance": {"type": "object", "minProperties": 1},
+    "interface_metrics": {"type": "object", "minProperties": 1},
+    "energy_contract": {
+      "type": "object",
+      "required": ["contract_path", "literal_definition", "formula_literal_match", "energy_denominator", "energy_numerator", "energy_relative"],
+      "properties": {"contract_path": {"const": "metric_definitions.interface_energy"}, "formula_literal_match": {"const": true}}
+    },
+    "replay_arrays": {"type": "object", "minProperties": 1},
+    "replay_comparison": {"type": "object", "minProperties": 1},
+    "replay_pipeline": {
+      "type": "object",
+      "required": ["fields", "runtime_iteration_semantics", "synthetic_fields"],
+      "properties": {"synthetic_fields": {"const": []}}
+    },
+    "failure_executions": {
+      "type": "object",
+      "required": ["required", "executed", "pass", "silent_fallback_allowed", "cases"],
+      "properties": {"required": {"const": 9}, "executed": {"const": 9}, "pass": {"const": 9}, "silent_fallback_allowed": {"const": false}, "cases": {"type": "object", "minProperties": 9}}
+    },
+    "pipeline_freeze": {
+      "type": "object",
+      "required": ["pipeline_components", "pipeline_component_digests", "pipeline_combined_digest", "campaign_driver_digest", "campaign_schema_digest", "pre_run_freeze_valid", "numerical_campaign_started"],
+      "properties": {"pipeline_combined_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"}, "pre_run_freeze_valid": {"const": true}, "numerical_campaign_started": {"const": false}}
+    },
+    "post_run_pipeline_mutation_allowed": {"const": false},
+    "post_run_manifest_rewrite_allowed": {"const": false},
+    "historical_owner_records": {"type": "object", "required": ["WP13-02C4"]},
+    "digests": {"type": "object", "minProperties": 1},
+    "gate_decisions": {"type": "object", "minProperties": 1},
+    "historical_records_preserved": {"const": true},
+    "evidence_schema_valid": {"const": true},
+    "semantic_validator_valid": {"const": true},
+    "post_run_pipeline_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "pipeline_digest_match": {"const": true},
+    "pipeline_mutation_detected": {"const": false},
+    "evidence_integrity": {"const": true},
+    "integrity": {"type": "object", "minProperties": 1}
+  },
+  "additionalProperties": true
+}

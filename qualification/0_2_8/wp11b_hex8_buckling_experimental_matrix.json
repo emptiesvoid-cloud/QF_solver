@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP11B-HEX8-BUCKLING-EXPERIMENTAL-MATRIX",
+  "work_package": "WP11B",
+  "source_sha": "eed9fc7cdeec07f77cccfa647cfa167031668bef",
+  "technical_decision": "EXPERIMENTAL_CANDIDATE",
+  "owner_decision": "APPROVE_EXPERIMENTAL",
+  "final_status": "EXPERIMENTAL",
+  "proposed_public_status": "EXPERIMENTAL",
+  "public_promotion_applied": true,
+  "owner_gate_required": false,
+  "scope": "HEX8 linear eigenvalue buckling; linear-elastic prestress; valid bounded cantilever solid block; first positive mode; exploratory/research use only",
+  "limitations": [
+    "WP06 Euler and mesh-convergence FAIL results remain unchanged and visible.",
+    "No general Euler prediction or convergence claim.",
+    "No external correlation claim.",
+    "No production, certification, nonlinear, post-buckling, arbitrary-mesh, mixed-mesh or multi-mode claim."
+  ],
+  "integrity": {
+    "numerical_source_changed": false,
+    "bugs_found": false,
+    "bugs_fixed": false,
+    "predeclared_gates_changed": false,
+    "wp06_evidence_rewritten": false,
+    "historical_0_2_7_evidence_changed": false
+  },
+  "registry_reconciliation": {
+    "source_registry": "qualification/0_2_7/capability_registry_v2.json",
+    "element_analysis_registry_total": 46,
+    "state_before_wp11b": {"QUALIFIED_BOUNDED": 32, "EXPERIMENTAL": 13, "NOT_QUALIFIED": 1},
+    "transition": "COMB-HEX8-linear_buckling: NOT_QUALIFIED -> EXPERIMENTAL",
+    "state_after_wp11b": {"QUALIFIED_BOUNDED": 32, "EXPERIMENTAL": 14, "NOT_QUALIFIED": 0, "TOTAL": 46},
+    "counts_consistent": true
+  }
+}

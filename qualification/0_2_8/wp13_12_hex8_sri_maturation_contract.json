@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "contract_id": "WP13-12-HEX8-SRI-MATURATION-001",
+  "work_package": "WP13-12",
+  "status": "PREDECLARED",
+  "purpose": "Prospective maturity assessment of the existing separate HEX8 selective-reduced-integration capability; standard HEX8 and the 46 element/analysis registry remain unchanged.",
+  "formulation": {
+    "implementation": "src/solveur/elements/solid/hex8_sri.py",
+    "material_scope": "isotropic linear small-strain elasticity",
+    "deviatoric_rule": "full 2x2x2 Gauss integration",
+    "volumetric_rule": "one centre Gauss point",
+    "hourglass_control": false,
+    "hex8r": false,
+    "standard_hex8_must_remain_unchanged": true
+  },
+  "campaign": {
+    "patch_states": ["rigid_translation", "constant_strain_x", "constant_strain_y", "constant_strain_z", "shear_xy", "shear_xz", "shear_yz", "volumetric"],
+    "locking_cases": [
+      {"id": "WP10-BEND-NU030", "nu": 0.3, "levels": [4, 8, 16]},
+      {"id": "WP10-BEND-NU04999", "nu": 0.4999, "levels": [4, 8, 16]}
+    ],
+    "near_incompressible_nu": [0.3, 0.45, 0.49, 0.495],
+    "distortions": ["regular", "moderate_skew", "stretched", "warped_valid", "near_degenerate_valid"],
+    "refinement_levels": [4, 8, 16],
+    "replays_required": 2,
+    "failure_cases_required": 8
+  },
+  "oracle": {
+    "kind": "independent Timoshenko slender-beam displacement and energy reference",
+    "independence": "Does not call HEX8 or HEX8-SRI stiffness routines; its beam-theory limitation is explicit."
+  },
+  "metrics": {
+    "strain_energy": "0.5 * u^T K u",
+    "ramped_external_work": "0.5 * u^T F",
+    "force_balance": "||K*u-F-reactions||_2 / max(||F||_2, 1)",
+    "moment_balance": "resultant moment of external load plus support reactions about the origin",
+    "locking_reduction": "(standard fine displacement error - sri fine displacement error) / standard fine displacement error"
+  },
+  "gates": {
+    "affine_field_absolute": 1e-11,
+    "constant_strain_absolute": 1e-11,
+    "rigid_body_relative": 1e-10,
+    "stiffness_symmetry_relative": 1e-12,
+    "energy_identity_relative": 1e-10,
+    "force_balance_relative": 1e-10,
+    "moment_balance_relative": 1e-10,
+    "rank_null_relative": 1e-10,
+    "positive_mode_relative": 1e-12,
+    "zero_energy_modes": 6,
+    "locking_reduction_minimum": 0.5,
+    "refinement": "SRI fine error must not exceed prior level for both frozen locking cases",
+    "distortion": "all valid frozen geometries finite, positive-Jacobian, symmetric and without extra zero modes",
+    "replay": "two equal semantic campaign digests",
+    "post_observation_retuning": false
+  },
+  "failure_contract": [
+    "invalid_poisson_ratio",
+    "inverted_element",
+    "zero_volume",
+    "negative_volume",
+    "malformed_connectivity",
+    "duplicate_nodes",
+    "missing_material",
+    "unsupported_material",
+    "invalid_integration_configuration"
+  ],
+  "claim_policy": {
+    "maximum_pre_owner_wording": "Bounded HEX8 selective-reduced-integration capability for documented linear-elastic locking-sensitive cases.",
+    "forbidden": ["locking-free", "universally robust", "incompressible-safe", "production-ready", "superior to HEX8 in all cases"],
+    "element_analysis_registry_46_changed": false,
+    "owner_gate_required": true
+  },
+  "immutability": {
+    "wp10_historical_evidence": "preserved",
+    "qualification_0_2_7": "unchanged",
+    "standard_hex8": "unchanged"
+  }
+}

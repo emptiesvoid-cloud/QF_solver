@@ -30,7 +30,7 @@ This is a bounded compute claim, not a general scalability or accuracy claim.
 - No post-result tuning, formulation change or silent fallback
 
 The predeclared contract is
-[`wp03_execution_contract.json`](../../../qualification/0_2_7/wp03_execution_contract.json).
+[`wp03_execution_contract.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/wp03_execution_contract.json).
 
 ## Workloads
 
@@ -68,7 +68,7 @@ including SPD-compatible CG, passed without changing WP14 tolerances.
 ## Replay
 
 The replay record is
-[`wp03_replay_comparison.json`](../../../qualification/0_2_7/wp03_runtime/wp03_replay_comparison.json).
+[`wp03_replay_comparison.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/wp03_runtime/wp03_replay_comparison.json).
 It records identical input, configuration and freeze digests, identical
 iteration count, and PASS. The maximum recorded numerical relative delta is
 `6.06e-13`; RSS variation is 4,096 bytes. Timing is allowed to vary: assembly/
@@ -78,7 +78,7 @@ is 50.801 s. No performance conclusion is inferred from those differences.
 ## Workload A/B comparison
 
 The descriptive comparison is
-[`wp03_workload_comparison.json`](../../../qualification/0_2_7/wp03_runtime/wp03_workload_comparison.json).
+[`wp03_workload_comparison.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/wp03_runtime/wp03_workload_comparison.json).
 The workloads have the same DOF, element count, route, rank count and frozen
 configuration, but different geometry and input digests. Workload A recorded
 598 iterations and 1,568.651 s total; Workload B recorded 1,046 iterations and
@@ -94,9 +94,9 @@ inferred from total time.
 
 The machine-readable index and state are:
 
-- [`wp03_evidence_index.json`](../../../qualification/0_2_7/wp03_runtime/wp03_evidence_index.json)
-- [`wp03_summary.json`](../../../qualification/0_2_7/wp03_runtime/wp03_summary.json)
-- [`lu2_wp03_state.json`](../../../qualification/0_2_7/lu2_wp03_state.json)
+- [`wp03_evidence_index.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/wp03_runtime/wp03_evidence_index.json)
+- [`wp03_summary.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/wp03_runtime/wp03_summary.json)
+- [`lu2_wp03_state.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/lu2_wp03_state.json)
 
 ## Claim boundary and next step
 

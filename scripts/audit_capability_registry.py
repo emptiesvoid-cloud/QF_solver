@@ -20,6 +20,7 @@ DEFAULT_REGISTRY = ROOT / "qualification" / "capability_registry.json"
 DEFAULT_DOCUMENT = ROOT / "docs" / "verification" / "0_2_6" / "capability_coverage.md"
 DEFAULT_HISTORICAL_SNAPSHOTS = ROOT / "qualification" / "historical_inventory_snapshots.json"
 ACTIVE_V2_REGISTRY = ROOT / "qualification" / "0_2_7" / "capability_registry_v2.json"
+CONSOLIDATED_028_REGISTRY = ROOT / "qualification" / "0_2_8" / "consolidated_registry.json"
 REQUIRED_FIELDS = {
     "CAPABILITY_ID", "DOMAIN", "ELEMENT", "ANALYSIS", "MATERIAL_PHYSICS",
     "PRESENT_IN_CODE", "PUBLIC", "MATURITY", "TESTS", "VNV_LEVEL",
@@ -134,14 +135,27 @@ def _technical_only_current_elements() -> set[str]:
     try:
         active = json.loads(ACTIVE_V2_REGISTRY.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
-        return set()
+        active = {}
     public_anchors = set(active.get("public_capability_ids", []))
-    return {
+    technical_only = {
         record["element_family"]
         for record in active.get("records", [])
         if record.get("record_kind") == "combination"
         and record.get("historical_origin", {}).get("legacy_capability_id") not in public_anchors
     }
+    # 0.2.8 records internal feasibility kernels separately from the public
+    # 46-combination registry. Presence in the implementation is not
+    # sufficient to make a kernel public.
+    try:
+        consolidated = json.loads(CONSOLIDATED_028_REGISTRY.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        consolidated = {}
+    technical_only.update(
+        row["element_family"]
+        for row in consolidated.get("internal_research_kernels", [])
+        if row.get("public_registered") is False and row.get("element_family")
+    )
+    return technical_only
 
 
 def validate_registry(registry: dict[str, Any]) -> list[str]:

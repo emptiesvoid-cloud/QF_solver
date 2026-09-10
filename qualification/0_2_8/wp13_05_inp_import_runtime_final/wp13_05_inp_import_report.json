@@ -1,0 +1,88 @@
+{
+  "start_sha": "7677c3679c34755d4381c017e76e6c7f231cbb77",
+  "repo_sha": "4f9a834ab9b005e36ab0e765f3a728a417d4bebb",
+  "contract_id": "WP13-05-INP-IMPORT-001",
+  "contract_sha": "13ffa0c31683ab69d04782f56ff5e0d7144e834eea41a7dceaa1defdd240fb27",
+  "contract_unchanged": true,
+  "gates_unchanged": true,
+  "preflight_status": "PARTIAL_EXISTING_GMSH_IMPORT; INP_READER_MISSING_BEFORE_WP13_05",
+  "import_architecture": "NEW_BOUNDED_FAIL_CLOSED_INP_READER_REUSING_FINITE_ELEMENT_MODEL_AND_ELEMENT_REGISTRY",
+  "supported_elements": {
+    "C3D4": "TET4",
+    "C3D6": "WEDGE6",
+    "C3D8": "HEX8"
+  },
+  "abaqus_subset": [
+    "NODE",
+    "ELEMENT",
+    "NSET",
+    "ELSET",
+    "MATERIAL",
+    "ELASTIC",
+    "SOLID SECTION",
+    "BOUNDARY",
+    "CLOAD",
+    "STEP",
+    "STATIC",
+    "END STEP"
+  ],
+  "calculix_subset": [
+    "NODE",
+    "ELEMENT",
+    "NSET",
+    "ELSET",
+    "MATERIAL",
+    "ELASTIC",
+    "SOLID SECTION",
+    "BOUNDARY",
+    "CLOAD",
+    "STEP",
+    "STATIC",
+    "END STEP"
+  ],
+  "common_subset": [
+    "NODE",
+    "ELEMENT",
+    "NSET",
+    "ELSET",
+    "MATERIAL",
+    "ELASTIC",
+    "SOLID SECTION",
+    "BOUNDARY",
+    "CLOAD",
+    "STEP",
+    "STATIC",
+    "END STEP"
+  ],
+  "units_policy": "USER_CONSISTENT / NO_AUTOMATIC_CONVERSION",
+  "fixture_count": 5,
+  "negative_cases_required": 10,
+  "negative_cases_executed": 10,
+  "negative_cases_pass": 10,
+  "silent_fallback": false,
+  "replay_1": {
+    "label": "replay_1",
+    "input_file_digest": "c90ec589d14d2335a2170a08bc40de7fc41552591db4acb635c1ad843ca47eeb",
+    "parsed_model_digest": "5df113ac92ff221d62da9dd6e6f23ab373d7a25944f811c8def8478b4c99c77e",
+    "numerical_output_digest": "7ec28164f814034ff8ba240162921d5f13f018f9e44598a4bda4d1779fa4983d"
+  },
+  "replay_2": {
+    "label": "replay_2",
+    "input_file_digest": "c90ec589d14d2335a2170a08bc40de7fc41552591db4acb635c1ad843ca47eeb",
+    "parsed_model_digest": "5df113ac92ff221d62da9dd6e6f23ab373d7a25944f811c8def8478b4c99c77e",
+    "numerical_output_digest": "7ec28164f814034ff8ba240162921d5f13f018f9e44598a4bda4d1779fa4983d"
+  },
+  "evidence_integrity": "PASS",
+  "claim_candidate": "EXPERIMENTAL_BOUNDED",
+  "ready_for_owner_gate": true,
+  "full_test_suite": "DEFERRED_TO_WP13_FINAL_GATE",
+  "targeted_tests": [
+    "parser",
+    "fixtures",
+    "native_equivalence",
+    "negative_cases",
+    "replay",
+    "schema/evidence",
+    "api_smoke"
+  ]
+}

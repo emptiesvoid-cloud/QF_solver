@@ -3,10 +3,11 @@
 from __future__ import annotations
 
 import argparse
-import io
 import json
+import os
 import subprocess
 import tarfile
+import tempfile
 from dataclasses import asdict
 from pathlib import Path
 from typing import Sequence, cast
@@ -51,31 +52,60 @@ def audit_release_archive(
 ) -> dict[str, object]:
     """Return exported paths using prospective or committed attribute rules."""
     base = Path(root).resolve()
-    command = [git_command(), "archive", "--format=tar"]
-    if use_worktree_attributes:
-        command.append("--worktree-attributes")
-    command.append(ref)
     try:
-        completed = subprocess.run(
-            command,
-            cwd=base,
-            check=False,
-            capture_output=True,
-            timeout=30,
-        )
-    except (FileNotFoundError, subprocess.TimeoutExpired) as exc:
-        return {"status": "FAIL", "ref": ref, "attribute_source": "worktree" if use_worktree_attributes else "commit", "paths": [], "findings": [f"git archive unavailable: {exc}"]}
-    if completed.returncode != 0:
-        message = completed.stderr.decode("utf-8", errors="replace").strip() or "git archive failed"
-        return {"status": "FAIL", "ref": ref, "attribute_source": "worktree" if use_worktree_attributes else "commit", "paths": [], "findings": [message]}
-    content_findings: list[dict[str, object]] = []
-    with tarfile.open(fileobj=io.BytesIO(completed.stdout), mode="r:") as archive:
-        members = [member for member in archive.getmembers() if member.isfile()]
-        paths = sorted(member.name.rstrip("/") for member in members)
-        for member in members:
-            stream = archive.extractfile(member)
-            if stream is not None:
-                content_findings.extend(_scan_member(member.name, stream.read()))
+        command = [git_command(), "archive", "--format=tar"]
+        if use_worktree_attributes:
+            command.append("--worktree-attributes")
+        command.append(ref)
+        with tempfile.TemporaryFile(mode="w+b") as archive_file:
+            environment = os.environ.copy()
+            for name in ("GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE"):
+                environment.pop(name, None)
+            process = subprocess.Popen(
+                command,
+                cwd=base,
+                env=environment,
+                stdout=archive_file,
+                stderr=subprocess.PIPE,
+            )
+            try:
+                _, stderr = process.communicate(timeout=30)
+            except subprocess.TimeoutExpired as exc:
+                process.kill()
+                process.communicate()
+                return {
+                    "status": "FAIL",
+                    "ref": ref,
+                    "attribute_source": "worktree" if use_worktree_attributes else "commit",
+                    "paths": [],
+                    "findings": [f"git archive unavailable: {exc}"],
+                }
+            if process.returncode != 0:
+                message = stderr.decode("utf-8", errors="replace").strip() or "git archive failed"
+                return {
+                    "status": "FAIL",
+                    "ref": ref,
+                    "attribute_source": "worktree" if use_worktree_attributes else "commit",
+                    "paths": [],
+                    "findings": [message],
+                }
+            archive_file.seek(0)
+            with tarfile.open(fileobj=archive_file, mode="r:") as archive:
+                members = [member for member in archive.getmembers() if member.isfile()]
+                paths = sorted(member.name.rstrip("/") for member in members)
+                content_findings: list[dict[str, object]] = []
+                for member in members:
+                    stream = archive.extractfile(member)
+                    if stream is not None:
+                        content_findings.extend(_scan_member(member.name, stream.read()))
+    except (FileNotFoundError, OSError, tarfile.TarError) as exc:
+        return {
+            "status": "FAIL",
+            "ref": ref,
+            "attribute_source": "worktree" if use_worktree_attributes else "commit",
+            "paths": [],
+            "findings": [f"git archive unavailable: {exc}"],
+        }
     findings: list[object] = [
         {"identifier": "forbidden_path", "path": path, "line": 0, "excerpt": "excluded tree"}
         for path in paths

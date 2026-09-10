@@ -1,0 +1,70 @@
+{
+  "contract_id": "WP13-02-MIXED-DYNAMICS-001",
+  "status": "PREDECLARED",
+  "created_from_repo_sha": "3ddc6f65657eaefa0816de6fd96329c0f7af461a",
+  "purpose": "Prospective bounded verification of connected serial mixed TET4/WEDGE6/HEX8 linear Newmark and harmonic workflows.",
+  "scope": {
+    "families": ["TET4", "WEDGE6", "HEX8"],
+    "analysis_routes": ["transient_dynamic", "harmonic_response"],
+    "material_model": "isotropic_3d_linear_elastic",
+    "mass_formulation": "consistent",
+    "damping": {
+      "model": "rayleigh",
+      "zeta_first_mode": 0.02,
+      "beta": 0.0,
+      "alpha_definition": "2*zeta_first_mode*omega_1"
+    },
+    "benchmark_builder": "scripts/run_wp13_01k_mvp.py::build(1)",
+    "required_mixed_interfaces": [["TET4", "WEDGE6"], ["WEDGE6", "HEX8"]],
+    "required_connected_components": 1,
+    "direct_support_bypass": false,
+    "non_goals": ["nonlinear dynamics", "contact dynamics", "impact", "large deformation", "MPI distributed dynamics", "arbitrary damping", "universal frequency or stability claims"]
+  },
+  "newmark": {
+    "integrator": "newmark_average_acceleration",
+    "gamma": 0.5,
+    "beta": 0.25,
+    "load_function": "half_sine_pulse",
+    "pulse_duration_period_fraction": 0.25,
+    "total_time_periods": 2.0,
+    "time_levels_per_first_period": [40, 80, 160],
+    "initial_displacement": 0.0,
+    "initial_velocity": 0.0,
+    "oracle": "independently_scattered_dense_K_M_C_and_dense_Newmark_recurrence",
+    "residual_definition": "r_n=M*a_n+C*v_n+K*u_n-F_n",
+    "energy_definition": {
+      "kinetic": "0.5*v^T*M*v",
+      "strain": "0.5*u^T*K*u",
+      "damping_dissipation": "trapezoidal_sum(0.5*(v_n^T*C*v_n+v_n+1^T*C*v_n+1)*dt)",
+      "external_work": "trapezoidal_sum(0.5*(F_n+F_n+1)^T*(u_n+1-u_n))",
+      "balance_error": "abs(kinetic+strain+damping_dissipation-external_work)/max(max_abs_external_work,max_stored_energy,1e-30)"
+    },
+    "gates": {"displacement_history_relative": 1e-9, "velocity_history_relative": 1e-9, "acceleration_history_relative": 1e-9, "peak_response_relative": 1e-9, "residual_relative": 1e-7, "energy_balance_error": 0.001, "replay_relative": 1e-12},
+    "time_step_policy": "characterization_only; compare dt, dt/2, dt/4 without a general convergence claim"
+  },
+  "harmonic": {
+    "equation": "(K+i*omega*C-omega^2*M)u=F",
+    "frequency_ratios_to_first_mode": [0.0, 0.25, 0.5, 0.75, 0.9, 0.98, 1.0, 1.02, 1.1, 1.25, 1.5, 2.0],
+    "oracle": "independently_scattered_dense_K_M_C_and_direct_complex_dense_solve",
+    "residual_definition": "r=(K+i*omega*C-omega^2*M)u-F",
+    "amplitude_definition": "abs(monitored_complex_displacement)",
+    "phase_definition": "angle(monitored_complex_displacement)",
+    "gates": {"amplitude_relative": 1e-8, "phase_absolute_rad": 1e-8, "residual_relative": 1e-7, "static_limit_relative": 1e-8, "replay_relative": 1e-12},
+    "replay_ratios": [0.75, 1.0],
+    "peak_wording": "FRF_PEAK_IN_FROZEN_FREQUENCY_CAMPAIGN"
+  },
+  "mixed_interface_metrics": {
+    "continuity_definition": "max normalized displacement jump from independently collected left/right family element traces on geometrically shared interface nodes",
+    "force_transfer_definition": "norm(left_interface_force+right_interface_force)/Fstar",
+    "energy_definition": "abs(Wleft+Wright)/max(abs(Wleft)+abs(Wright),max(norm(Ffree)*norm(x),1e-30))",
+    "side_work_definition": "conj(x_interface) dot g_side",
+    "gates": {"continuity": 1e-12, "force_transfer": 1e-8, "energy": 1e-8},
+    "hardcoded_metrics_allowed": false
+  },
+  "family_participation": {"required": true, "fields": ["stiffness_norm", "mass_norm", "dynamic_force_norm"], "family_drop_allowed": false},
+  "failure_contract": {"strict_type_message_path_matching": true, "silent_fallback_allowed": false, "cases": ["invalid_dt", "invalid_beta_gamma", "missing_density", "singular_mass", "unsupported_damping", "unsupported_family", "malformed_connectivity", "invalid_harmonic_frequency", "negative_harmonic_frequency", "missing_material"]},
+  "replay": {"runs": ["MAIN", "REPLAY_1", "REPLAY_2"], "newmark_fields": ["u", "v", "a", "energy", "residual", "status"], "harmonic_fields": ["complex_displacement", "amplitude", "phase", "residual", "status"], "semantic_digest_required": true},
+  "evidence": {"output_directory": "qualification/0_2_8/wp13_02_mixed_dynamics_vnv", "raw_arrays_required": true, "manifest_required_fields": ["contract_id", "contract_sha", "repo_sha", "environment", "benchmark", "conditioning", "newmark", "harmonic", "interfaces", "family_participation", "replay", "failure_contract", "digests", "gate_decisions"], "schema_validation_required": true, "semantic_validation_required": true},
+  "registry_policy": {"element_analysis_registry_change": false, "mixed_workflow_only": true, "expected_element_analysis_counts": {"qualified_bounded": 32, "experimental": 14, "not_qualified": 0, "total": 46}},
+  "claim_policy": {"newmark_and_harmonic_separate": true, "maximum_scope": "Mixed TET4/WEDGE6/HEX8 linear dynamics within the documented Newmark/harmonic scope.", "owner_gate_required": true}
+}

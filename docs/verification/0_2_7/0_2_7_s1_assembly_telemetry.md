@@ -16,8 +16,8 @@ configuration, tolerances or numerical formulation.
 ## Contract
 
 The machine-readable contract is
-[`wp04_telemetry_contract.json`](../../../qualification/0_2_7/wp04_telemetry_contract.json).
-The implementation is [`telemetry.py`](../../../src/solveur/large/telemetry.py),
+[`wp04_telemetry_contract.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/wp04_telemetry_contract.json).
+The implementation is [`telemetry.py`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/src/solveur/large/telemetry.py),
 and the WP04 runner enables it explicitly with:
 
 ```text

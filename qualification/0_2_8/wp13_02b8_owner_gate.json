@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP13-02B8-OWNER-GATE",
+  "work_package": "WP13-02B8",
+  "audited_commit": "992e92455fc46b711feee960beda45aacf5f8fff",
+  "owner_decision": "REJECT_KEEP_EXPERIMENTAL",
+  "status": "HISTORICAL_OWNER_DECISION_PRESERVED",
+  "candidate": "CONNECTED_MIXED_NEWMARK_TET4_WEDGE6_HEX8_BOUNDED",
+  "verdict_basis": [
+    "coarse/fine gate applicability was not explicit in the original contract",
+    "raw amplitude and phase data were not archived",
+    "full displacement/velocity/acceleration histories were insufficiently compared",
+    "modal coordinate evidence was missing",
+    "complete replay evidence was not archived",
+    "interface energy had no predeclared numerical threshold",
+    "the failure contract was incomplete"
+  ],
+  "historical_integrity": {
+    "results_rewritten": false,
+    "contract_rewritten": false,
+    "gates_retroactively_changed": false,
+    "evidence_0_2_7_changed": false
+  }
+}

@@ -1,8 +1,10 @@
 cff-version: 1.2.0
 message: "If you use QF Solver, please cite the software and its release version."
+# Publication status: NOT_PUBLISHED_YET
+# DOI status: NOT_AVAILABLE_YET
 type: software
 title: "QF Solver"
-version: "0.2.7"
+version: "0.2.8"
 license: "Apache-2.0"
 authors:
   - family-names: "Farinazzo"

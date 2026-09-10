@@ -44,9 +44,9 @@ general physical validation.
 - [WEDGE6 robustness and external V&V](0_2_7_wedge6_robustness_external_vnv.md)
 
 Machine-readable records are indexed by
-[`qualification/0_2_7/manifest.json`](../../../qualification/0_2_7/manifest.json),
-[`capability_registry_v2.json`](../../../qualification/0_2_7/capability_registry_v2.json)
-and [`release_truth.json`](../../../qualification/0_2_7/release_truth.json).
+[`qualification/0_2_7/manifest.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/manifest.json),
+[`capability_registry_v2.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/capability_registry_v2.json)
+and [`release_truth.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/release_truth.json).
 
 ## Known limitations
 
@@ -129,11 +129,11 @@ The remaining controlled records are available from this evidence index:
 - [WEDGE6 modal](0_2_7_wedge6_modal.md)
 - [S3 validation matrix](0_2_7_s3_expanded_validation.md)
 - [step freeze record](0_2_7_step1_release_freeze.md)
-- [release manifest](../../../qualification/0_2_7/manifest.json)
-- [gate records](../../../qualification/0_2_7/gates.json)
-- [release truth](../../../qualification/0_2_7/release_truth.json)
-- [S3 evidence](../../../qualification/0_2_7/s3_validation_matrix.json)
-- [F6 evidence](../../../qualification/0_2_7/f6_numerical_performance_regression_audit.json)
+- [release manifest](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/manifest.json)
+- [gate records](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/gates.json)
+- [release truth](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/release_truth.json)
+- [S3 evidence](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/s3_validation_matrix.json)
+- [F6 evidence](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/f6_numerical_performance_regression_audit.json)
 
 References to earlier prerelease versions, intermediate scores and planned
 work packages in this traceability area describe the state at that time. They

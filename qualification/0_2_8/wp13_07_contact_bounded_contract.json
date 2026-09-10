@@ -1,0 +1,250 @@
+{
+  "schema_version": 1,
+  "contract_id": "WP13-07-CONTACT-BOUNDED-001",
+  "created_before_campaign": true,
+  "scope": {
+    "analysis": "nonlinear_static_quasi_static",
+    "kinematics": "small_strain",
+    "material": "isotropic_3d_linear_elastic",
+    "element_family": "TET4",
+    "contact_formulation": "frictionless_penalty",
+    "contact_geometry": "single_slave_node_to_single_fixed_triangular_master",
+    "search_policy": "initial_fixed_face_and_normal",
+    "sliding_scope": "bounded_small_sliding_without_updated_search",
+    "solver_method": "newton_raphson_load_control",
+    "finite_sliding": false,
+    "friction": false,
+    "surface_to_surface": false
+  },
+  "route_traceability": {
+    "contact_assembly": "src/solveur/contact/solver.py:assemble_penalty_contact",
+    "nonlinear_dispatch": "src/solveur/core/router.py -> src/solveur/core/nonlinear/solver.py",
+    "common_driver": "src/solveur/core/assembly/nonlinear.py",
+    "geometry": "src/solveur/contact/entities.py:FrictionlessContact.face_geometry",
+    "post_processing": "SolveResult.solver.steps contact diagnostics and SolverAudit",
+    "adjacent_exact_route": "src/solveur/core/solvers/static.py:FrictionlessActiveSetSolver"
+  },
+  "benchmark": {
+    "material": {
+      "type": "isotropic_3d",
+      "young_modulus": 10000.0,
+      "poisson_ratio": 0.3,
+      "units": "SI-consistent"
+    },
+    "contact_penalty_primary": 100000.0,
+    "penalty_sensitivity_values": [10000.0, 100000.0, 1000000.0],
+    "load_magnitude": 1000.0,
+    "load_dof_case_a": "UX",
+    "load_dof_case_b": "UY",
+    "load_path_case_a": [0.25, 0.5, 0.75, 1.0],
+    "load_path_case_b": [0.25, 1.0, 0.0, 1.0],
+    "boundary_condition_policy": "all structural nodes except the loaded slave are fixed; slave tangential DOFs fixed; master triangle fixed",
+    "case_a": {
+      "description": "slave initially separated from a fixed plane with +UX normal",
+      "nodes": [
+        [0.1, 0.0, 0.0],
+        [1.0, 0.0, 0.0],
+        [0.1, 1.0, 0.0],
+        [0.1, 0.0, 1.0],
+        [0.0, -1.0, -1.0],
+        [0.0, 1.0, -1.0],
+        [0.0, -1.0, 1.0]
+      ],
+      "tet4_connectivity": [[0, 1, 2, 3]],
+      "master_nodes": [4, 5, 6],
+      "slave_node": 0,
+      "initial_gap": 0.1,
+      "expected_final_state": "active"
+    },
+    "case_b": {
+      "description": "distinct slave/plane orientation with activation, unloading and reactivation",
+      "nodes": [
+        [0.0, 0.1, 0.0],
+        [1.0, 0.1, 0.0],
+        [0.0, 1.0, 0.0],
+        [0.0, 0.1, 1.0],
+        [-1.0, 0.0, -1.0],
+        [-1.0, 0.0, 1.0],
+        [1.0, 0.0, -1.0]
+      ],
+      "tet4_connectivity": [[0, 1, 2, 3]],
+      "master_nodes": [4, 5, 6],
+      "slave_node": 0,
+      "initial_gap": 0.1,
+      "expected_state_sequence": ["inactive", "active", "inactive", "active"]
+    }
+  },
+  "gates": {
+    "max_penetration": {
+      "definition": "max over all recorded load steps of max(-gap, 0)",
+      "threshold": 0.05,
+      "units": "m"
+    },
+    "final_gap": {
+      "definition": "absolute final normal gap for the active final state",
+      "threshold": 0.05,
+      "units": "m"
+    },
+    "active_contact_count": {
+      "definition": "final active contact count",
+      "minimum": 1
+    },
+    "normal_force": {
+      "definition": "final contact force is compressive along the frozen master normal",
+      "threshold": 0.0,
+      "comparison": "strictly positive contact-force norm and non-tensile normal sign"
+    },
+    "force_balance": {
+      "definition": "maximum recorded nonlinear free residual relative to reference load norm",
+      "threshold": 1.0e-7
+    },
+    "penalty_sensitivity": {
+      "definition": "penetration is non-increasing over the declared penalty sequence; every solve converges and residuals are finite",
+      "penalties": [10000.0, 100000.0, 1000000.0],
+      "universal_penalty_claim": false
+    },
+    "mesh_refinement": {
+      "definition": "two-level contact force, displacement, penetration and reaction characterization",
+      "levels": ["2x1x1", "4x2x2"],
+      "status": "CHARACTERIZATION_ONLY",
+      "promotion_gate": "none; finite, converged, traceable observations required"
+    },
+    "energy": {
+      "identity": "U_strain + U_contact_penalty = W_external for proportional linear-elastic load",
+      "error": "abs(U_strain + U_contact_penalty - W_external) / max(abs(W_external), 1e-30)",
+      "threshold": 1.0e-8,
+      "contact_penalty_energy": "0.5 * penalty * penetration^2",
+      "external_work": "0.5 * f_final dot u_final"
+    },
+    "search": {
+      "no_missed_contact_in_declared_cases": true,
+      "duplicate_pair_count": 0,
+      "unexpected_self_contact": false,
+      "deterministic_face_selection": true,
+      "updated_search_required": false
+    },
+    "replay": {
+      "replay_count": 2,
+      "fields": [
+        "displacement",
+        "reactions",
+        "contact_forces",
+        "gaps",
+        "active_contact_set",
+        "strain_energy",
+        "contact_penalty_energy",
+        "external_work",
+        "solver_status",
+        "evidence_digest"
+      ],
+      "comparison": "exact arrays and identical status; semantic digest equality"
+    }
+  },
+  "oracle": {
+    "plan": "independent dense linear-elastic K plus independently constructed contact row and penalty term",
+    "construction": "[K_ff + p c_f c_f^T] u_f = f_f - p g0 c_f with fixed DOFs removed",
+    "shared_limitations": [
+      "element K kernel may be shared with runtime assembly",
+      "contact row, gap equation and dense solve are constructed independently of runtime active/contact assembly"
+    ],
+    "independence": "PASS_WITH_KERNEL_LIMITATION_EXPECTED"
+  },
+  "failure_contract": [
+    {
+      "case_id": "WP13-07-F-01",
+      "name": "invalid master surface",
+      "expected_exception": "InputValidationError",
+      "message_pattern": "existing node|master"
+    },
+    {
+      "case_id": "WP13-07-F-02",
+      "name": "invalid slave node",
+      "expected_exception": "InputValidationError",
+      "message_pattern": "existing node|slave"
+    },
+    {
+      "case_id": "WP13-07-F-03",
+      "name": "zero penalty",
+      "expected_exception": "InputValidationError",
+      "message_pattern": "Penalty contact stiffness.*positive"
+    },
+    {
+      "case_id": "WP13-07-F-04",
+      "name": "negative penalty",
+      "expected_exception": "InputValidationError",
+      "message_pattern": "Penalty contact stiffness.*positive"
+    },
+    {
+      "case_id": "WP13-07-F-05",
+      "name": "invalid triangle",
+      "expected_exception": "InputValidationError",
+      "message_pattern": "zero or non-finite area|degenerate"
+    },
+    {
+      "case_id": "WP13-07-F-06",
+      "name": "unsupported contact mode",
+      "expected_exception": "InputValidationError",
+      "message_pattern": "contact_mode='penalty'"
+    },
+    {
+      "case_id": "WP13-07-F-07",
+      "name": "unsupported friction request",
+      "expected_exception": "InputValidationError",
+      "message_pattern": "frictionless only"
+    },
+    {
+      "case_id": "WP13-07-F-08",
+      "name": "malformed contact pair",
+      "expected_exception": "InputValidationError",
+      "message_pattern": "exactly three master nodes|master nodes"
+    }
+  ],
+  "limitations": [
+    "bounded frictionless node-to-triangle penalty only",
+    "initial small-sliding search with frozen normal and face",
+    "linear elastic isotropic TET4 solids only",
+    "no general surface-to-surface contact",
+    "no general finite sliding or self-contact",
+    "no friction qualification; the existing frictional route remains separate and unqualified by this contract",
+    "no augmented Lagrangian, mortar, impact, dynamic, MPI or nonlinear-material contact claim",
+    "mesh refinement remains characterization only",
+    "penalty values are bounded tested values, not universal recommendations"
+  ],
+  "evidence": {
+    "machine_readable": true,
+    "required": [
+      "contract_id",
+      "contract_sha256",
+      "repo_sha",
+      "environment",
+      "case_inputs",
+      "gap_histories",
+      "penetration",
+      "active_contact_sets",
+      "normal_forces",
+      "reactions",
+      "dense_oracle",
+      "penalty_sensitivity",
+      "mesh_refinement_characterization",
+      "energy_components",
+      "search_evidence",
+      "failure_cases",
+      "replay_digests",
+      "gate_decisions"
+    ]
+  },
+  "historical_integrity": {
+    "element_analysis_registry_46_unchanged": true,
+    "evidence_0_2_7_unchanged": true,
+    "numerical_source_changed": false,
+    "contact_formulation_changed": false,
+    "element_formulation_changed": false,
+    "maturity_changed": false
+  },
+  "claim_policy": {
+    "candidate": "EXPERIMENTAL_BOUNDED",
+    "wording": "Bounded frictionless penalty contact for the documented small-sliding node-to-triangle static scope.",
+    "owner_gate_required": true,
+    "no_general_contact_claim": true
+  }
+}

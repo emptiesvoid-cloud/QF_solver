@@ -1,0 +1,1819 @@
+{
+  "arrays": {
+    "array_count": 88,
+    "keys": [
+      "main_m12x3_mass_gramian",
+      "main_m12x3_nodes",
+      "main_m12x3_oracle_eigenvalues",
+      "main_m12x3_oracle_frequencies",
+      "main_m12x3_oracle_modes",
+      "main_m12x3_runtime_eigenvalues",
+      "main_m12x3_runtime_frequencies",
+      "main_m12x3_runtime_modes",
+      "main_m16x4_mass_gramian",
+      "main_m16x4_nodes",
+      "main_m16x4_oracle_eigenvalues",
+      "main_m16x4_oracle_frequencies",
+      "main_m16x4_oracle_modes",
+      "main_m16x4_runtime_eigenvalues",
+      "main_m16x4_runtime_frequencies",
+      "main_m16x4_runtime_modes",
+      "main_m24x6_mass_gramian",
+      "main_m24x6_nodes",
+      "main_m24x6_oracle_eigenvalues",
+      "main_m24x6_oracle_frequencies",
+      "main_m24x6_oracle_modes",
+      "main_m24x6_runtime_eigenvalues",
+      "main_m24x6_runtime_frequencies",
+      "main_m24x6_runtime_modes",
+      "main_m4x1_mass_gramian",
+      "main_m4x1_nodes",
+      "main_m4x1_oracle_eigenvalues",
+      "main_m4x1_oracle_frequencies",
+      "main_m4x1_oracle_modes",
+      "main_m4x1_runtime_eigenvalues",
+      "main_m4x1_runtime_frequencies",
+      "main_m4x1_runtime_modes",
+      "main_m8x2_mass_gramian",
+      "main_m8x2_nodes",
+      "main_m8x2_oracle_eigenvalues",
+      "main_m8x2_oracle_frequencies",
+      "main_m8x2_oracle_modes",
+      "main_m8x2_runtime_eigenvalues",
+      "main_m8x2_runtime_frequencies",
+      "main_m8x2_runtime_modes",
+      "replay1_m16x4_mass_gramian",
+      "replay1_m16x4_nodes",
+      "replay1_m16x4_oracle_eigenvalues",
+      "replay1_m16x4_oracle_frequencies",
+      "replay1_m16x4_oracle_modes",
+      "replay1_m16x4_runtime_eigenvalues",
+      "replay1_m16x4_runtime_frequencies",
+      "replay1_m16x4_runtime_modes",
+      "replay1_m4x1_mass_gramian",
+      "replay1_m4x1_nodes",
+      "replay1_m4x1_oracle_eigenvalues",
+      "replay1_m4x1_oracle_frequencies",
+      "replay1_m4x1_oracle_modes",
+      "replay1_m4x1_runtime_eigenvalues",
+      "replay1_m4x1_runtime_frequencies",
+      "replay1_m4x1_runtime_modes",
+      "replay1_m8x2_mass_gramian",
+      "replay1_m8x2_nodes",
+      "replay1_m8x2_oracle_eigenvalues",
+      "replay1_m8x2_oracle_frequencies",
+      "replay1_m8x2_oracle_modes",
+      "replay1_m8x2_runtime_eigenvalues",
+      "replay1_m8x2_runtime_frequencies",
+      "replay1_m8x2_runtime_modes",
+      "replay2_m16x4_mass_gramian",
+      "replay2_m16x4_nodes",
+      "replay2_m16x4_oracle_eigenvalues",
+      "replay2_m16x4_oracle_frequencies",
+      "replay2_m16x4_oracle_modes",
+      "replay2_m16x4_runtime_eigenvalues",
+      "replay2_m16x4_runtime_frequencies",
+      "replay2_m16x4_runtime_modes",
+      "replay2_m4x1_mass_gramian",
+      "replay2_m4x1_nodes",
+      "replay2_m4x1_oracle_eigenvalues",
+      "replay2_m4x1_oracle_frequencies",
+      "replay2_m4x1_oracle_modes",
+      "replay2_m4x1_runtime_eigenvalues",
+      "replay2_m4x1_runtime_frequencies",
+      "replay2_m4x1_runtime_modes",
+      "replay2_m8x2_mass_gramian",
+      "replay2_m8x2_nodes",
+      "replay2_m8x2_oracle_eigenvalues",
+      "replay2_m8x2_oracle_frequencies",
+      "replay2_m8x2_oracle_modes",
+      "replay2_m8x2_runtime_eigenvalues",
+      "replay2_m8x2_runtime_frequencies",
+      "replay2_m8x2_runtime_modes"
+    ],
+    "path": "wp13_08_mitc4_modal_diagnostic_arrays.npz",
+    "sha256": "29be07a3d93222c81b4565dce618e3e67521f912bd58295e61a96a3aca8c15ed"
+  },
+  "baseline_max_residual": 2.6317020430528298e-08,
+  "baseline_mode_index": {
+    "mesh": [
+      16,
+      4
+    ],
+    "mode_index_one_based": 1
+  },
+  "benchmark_inputs": {
+    "analysis": "linear modal eigenanalysis",
+    "boundary_conditions": "UX, UY, UZ, RX, RY and RZ fixed on every node at x=0",
+    "excluded": [
+      "general shell modal qualification",
+      "thick-shell shear",
+      "damping",
+      "prestress",
+      "concentrated mass",
+      "composite material",
+      "general curved-shell modal claims",
+      "MITC3",
+      "Newmark",
+      "harmonic response",
+      "nonlinear analysis",
+      "historical maturity promotion without Owner Gate"
+    ],
+    "formulation": "thin, straight, slender isotropic MITC4 cantilever with coherent consistent mass",
+    "geometry": "length=1.0 m, width=0.2 m, thickness=0.01 m, clamped root at x=0",
+    "material": {
+      "density_kg_per_m3": 2700.0,
+      "drilling_scale": 0.0001,
+      "poisson_ratio": 0.3,
+      "young_modulus_pa": 70000000000.0
+    },
+    "mesh_levels": [
+      [
+        4,
+        1
+      ],
+      [
+        8,
+        2
+      ],
+      [
+        12,
+        3
+      ],
+      [
+        16,
+        4
+      ],
+      [
+        24,
+        6
+      ]
+    ],
+    "mode_domain": "positive fixed-base modes after constrained reduction",
+    "modes_requested": 4
+  },
+  "campaign": {
+    "max_independent_residual": 4.3075575289010535e-08,
+    "max_mass_orthogonality_error": 1.0152052138207847e-15,
+    "max_normalization_error": 1.3322676295501878e-15,
+    "max_oracle_residual": 5.988348513826712e-08,
+    "max_runtime_oracle_frequency_difference_hz": 1.9640961923528266e-07,
+    "max_runtime_residual": 4.307579448497758e-08,
+    "points": [
+      {
+        "assembly_diagnostics": {
+          "mass": {
+            "accumulator_chunk_count": 1,
+            "accumulator_occupied_levels": 1,
+            "assembly_index_dtype": "int32",
+            "assembly_memory_budget_bytes": null,
+            "assembly_memory_budget_exceeded": false,
+            "assembly_peak_memory_estimate_bytes": 110592,
+            "assembly_phase_seconds": {
+              "assembly_plan": 0.000266899999587622,
+              "chunk_fusion": 2.6999996407539584e-06,
+              "chunk_sparse_conversion": 0.00027460000001156004,
+              "discrete_merge": 5.359999977372354e-05,
+              "element_kernel": 0.004758900000524591,
+              "sparse_finalize": 0.00017970000044442713
+            },
+            "assembly_plan_reused": false,
+            "chunk_count": 1,
+            "chunk_size": 256,
+            "coefficient_entry_count": 2304,
+            "concentrated_mass_count": 0,
+            "element_count": 4,
+            "final_nnz": 260,
+            "matrix": "mass",
+            "paired_assembly": true,
+            "peak_chunk_entry_count": 2304,
+            "shared_chunk_pattern": true,
+            "spring_count": 0
+          },
+          "stiffness": {
+            "accumulator_chunk_count": 1,
+            "accumulator_occupied_levels": 1,
+            "assembly_index_dtype": "int32",
+            "assembly_memory_budget_bytes": null,
+            "assembly_memory_budget_exceeded": false,
+            "assembly_peak_memory_estimate_bytes": 110592,
+            "assembly_phase_seconds": {
+              "assembly_plan": 0.000266899999587622,
+              "chunk_fusion": 2.6999996407539584e-06,
+              "chunk_sparse_conversion": 0.00027460000001156004,
+              "discrete_merge": 5.359999977372354e-05,
+              "element_kernel": 0.004758900000524591,
+              "sparse_finalize": 0.00017970000044442713
+            },
+            "assembly_plan_reused": false,
+            "chunk_count": 1,
+            "chunk_size": 256,
+            "coefficient_entry_count": 2304,
+            "concentrated_mass_count": 0,
+            "element_count": 4,
+            "final_nnz": 900,
+            "matrix": "stiffness",
+            "paired_assembly": true,
+            "peak_chunk_entry_count": 2304,
+            "shared_chunk_pattern": true,
+            "spring_count": 0
+          }
+        },
+        "duplicate_mode_diagnostic": false,
+        "element_count": 4,
+        "first_frequency_error": 0.02056157671102273,
+        "first_frequency_reference_hz": 8.225217652411406,
+        "first_mode_shape_mac": 0.9998798258275754,
+        "independent_residual_denominators": [
+          1994.4643058296092,
+          97565.90622664658,
+          123641.62202810872,
+          1218928.0055026123
+        ],
+        "independent_residual_numerators": [
+          8.591269736700747e-05,
+          7.874498834669473e-05,
+          0.00012052865730224952,
+          0.0001226646043431113
+        ],
+        "independent_residuals": [
+          4.3075575289010535e-08,
+          8.070953409049401e-10,
+          9.74822679654336e-10,
+          1.0063318242698988e-10
+        ],
+        "independent_scale_invariant_residuals": [
+          4.3075575289010535e-08,
+          8.070953409049401e-10,
+          9.74822679654336e-10,
+          1.0063318242698988e-10
+        ],
+        "lowest_oracle_eigenvalues": [
+          2781.8451792507576,
+          146836.0760325797,
+          284229.88993463444,
+          1699595.0224124664
+        ],
+        "mass_gramian": [
+          [
+            1.0000000000000002,
+            8.462972484292522e-17,
+            -8.686960549665892e-17,
+            6.484887081453174e-19
+          ],
+          [
+            1.4380955173480903e-16,
+            0.9999999999999999,
+            -3.425643078988916e-16,
+            1.2593814184342608e-16
+          ],
+          [
+            -8.991553839509797e-17,
+            -2.816332125922252e-16,
+            0.9999999999999996,
+            -1.1924955220529648e-16
+          ],
+          [
+            6.48488707999426e-19,
+            1.259381418432134e-16,
+            -1.1924955220540157e-16,
+            0.999999999999999
+          ]
+        ],
+        "mass_orthogonality_error": 2.7400030337661287e-16,
+        "matched_mass_mac_min": 0.9999999999999998,
+        "matrix_digests": {
+          "global_mass": "9cf2554300ca4672d5a57677a6fbcf0d7a69e223da16268db359b7b840582eea",
+          "global_stiffness": "57b5bfdb8133f053666dc113eaba8c149a203be09d616857c456ff86f8a8ca0b",
+          "reduced_mass": "fa001d1a04e0636708e0b38fde1e134b76987bd3943fe9f440f64c0317d43c95",
+          "reduced_stiffness": "ba9bf489f331f449401227608d3cbfb5c8918018dc7ab135b884d78d4c193b11"
+        },
+        "mesh": [
+          4,
+          1
+        ],
+        "minimum_positive_mode_gap_relative": 0.9356952161509006,
+        "mode_matching_assignment_zero_based": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            3
+          ]
+        ],
+        "mode_matching_mac_matrix": [
+          [
+            0.9999999999999998,
+            7.411943886051359e-20,
+            3.087288307715278e-20,
+            1.9403012199624881e-22
+          ],
+          [
+            7.411937307699326e-20,
+            0.9999999999999999,
+            9.875079023336638e-20,
+            7.269951056807172e-22
+          ],
+          [
+            3.0873050969216516e-20,
+            9.875083779484223e-20,
+            1.0000000000000002,
+            4.0543861522039565e-23
+          ],
+          [
+            1.940307949209841e-22,
+            7.269994507529917e-22,
+            4.0541697911952284e-23,
+            1.0
+          ]
+        ],
+        "node_count": 10,
+        "normalization_error": 9.992007221626409e-16,
+        "oracle_eigenvalues": [
+          2781.8451792507576,
+          146836.0760325797,
+          284229.88993463444,
+          1699595.0224124664
+        ],
+        "oracle_frequencies_hz": [
+          8.394341044290167,
+          60.986894135169074,
+          84.85061707894138,
+          207.48793903710205
+        ],
+        "oracle_residual_denominators": [
+          1994.4643098908543,
+          97565.90621172464,
+          123641.62203156072,
+          1218928.005397933
+        ],
+        "oracle_residual_numerators": [
+          7.672471983841342e-05,
+          8.947172514633208e-05,
+          0.00010187343631131216,
+          8.3556793675736e-05
+        ],
+        "oracle_residuals": [
+          3.8468835695842624e-08,
+          9.170388368265895e-10,
+          8.239412799462302e-10,
+          6.85494084192921e-11
+        ],
+        "oracle_scale_invariant_residuals": [
+          3.8468835695842624e-08,
+          9.170388368265895e-10,
+          8.239412799462302e-10,
+          6.85494084192921e-11
+        ],
+        "reduced_dof_count": 40,
+        "runtime_eigenvalues": [
+          2781.845213613902,
+          146836.07613697267,
+          284229.8900284216,
+          1699595.0225630046
+        ],
+        "runtime_frequencies_hz": [
+          8.394341096136321,
+          60.986894156848365,
+          84.85061709294042,
+          207.48793904629096
+        ],
+        "runtime_method": "eigh",
+        "runtime_reported_vs_recomputed_max_abs": 2.1919596704822777e-13,
+        "runtime_residuals_reported": [
+          4.307579448497758e-08,
+          8.071088493805162e-10,
+          9.748518579417619e-10,
+          1.0060009873015839e-10
+        ],
+        "runtime_vs_oracle_eigenvalue_max_abs": 0.00015053828246891499,
+        "runtime_vs_oracle_frequency_max_abs_hz": 5.1846154036638836e-08,
+        "solver_diagnostics": {
+          "arpack": {
+            "maxiter": null,
+            "ncv": null,
+            "shift_eigenvalue": 0.0,
+            "shift_hz": null,
+            "tolerance": 0.0,
+            "which": "SM"
+          },
+          "backend": {
+            "fallback_used": false,
+            "petsc_available": false,
+            "reason": "SciPy selected as the standard backend",
+            "requested": "auto",
+            "selected": "scipy",
+            "slepc_available": false
+          },
+          "dense_conversion_used": true,
+          "dynamic_reduction": {
+            "candidate_drilling_dof_count": 8,
+            "condensed_drilling_dof_count": 8,
+            "condensed_mass_coupling_ratio": 0.0,
+            "condensed_stiffness_nnz": 586,
+            "drilling_mass_tolerance": 1e-10,
+            "lazy_condensation": false,
+            "maximum_candidate_mass_row_ratio": 0.0,
+            "retained_dof_count": 40,
+            "strategy": "consistent_mass_static_drilling_condensation"
+          },
+          "eigenpair_refinement": {
+            "iterations_performed": 0,
+            "iterations_requested": 0,
+            "maximum_residual_after": 4.307579448497758e-08,
+            "maximum_residual_before": 4.307579448497758e-08
+          },
+          "modal_masses": [
+            1.0,
+            1.0,
+            0.9999999999999997,
+            0.9999999999999989
+          ],
+          "modal_stiffnesses": [
+            2781.8452619773025,
+            146836.07612300286,
+            284229.8900502427,
+            1699595.022409631
+          ]
+        },
+        "unexpected_rigid_modes": false
+      },
+      {
+        "adjacent_frequency_increment": 0.0036874982659067,
+        "assembly_diagnostics": {
+          "mass": {
+            "accumulator_chunk_count": 1,
+            "accumulator_occupied_levels": 1,
+            "assembly_index_dtype": "int32",
+            "assembly_memory_budget_bytes": null,
+            "assembly_memory_budget_exceeded": false,
+            "assembly_peak_memory_estimate_bytes": 442368,
+            "assembly_phase_seconds": {
+              "assembly_plan": 0.000527700000020559,
+              "chunk_fusion": 2.099999619531445e-06,
+              "chunk_sparse_conversion": 0.0004743999998026993,
+              "discrete_merge": 6.450000000768341e-05,
+              "element_kernel": 0.016128799999933108,
+              "sparse_finalize": 0.0002015999998548068
+            },
+            "assembly_plan_reused": false,
+            "chunk_count": 1,
+            "chunk_size": 256,
+            "coefficient_entry_count": 9216,
+            "concentrated_mass_count": 0,
+            "element_count": 16,
+            "final_nnz": 875,
+            "matrix": "mass",
+            "paired_assembly": true,
+            "peak_chunk_entry_count": 9216,
+            "shared_chunk_pattern": true,
+            "spring_count": 0
+          },
+          "stiffness": {
+            "accumulator_chunk_count": 1,
+            "accumulator_occupied_levels": 1,
+            "assembly_index_dtype": "int32",
+            "assembly_memory_budget_bytes": null,
+            "assembly_memory_budget_exceeded": false,
+            "assembly_peak_memory_estimate_bytes": 442368,
+            "assembly_phase_seconds": {
+              "assembly_plan": 0.000527700000020559,
+              "chunk_fusion": 2.099999619531445e-06,
+              "chunk_sparse_conversion": 0.0004743999998026993,
+              "discrete_merge": 6.450000000768341e-05,
+              "element_kernel": 0.016128799999933108,
+              "sparse_finalize": 0.0002015999998548068
+            },
+            "assembly_plan_reused": false,
+            "chunk_count": 1,
+            "chunk_size": 256,
+            "coefficient_entry_count": 9216,
+            "concentrated_mass_count": 0,
+            "element_count": 16,
+            "final_nnz": 2881,
+            "matrix": "stiffness",
+            "paired_assembly": true,
+            "peak_chunk_entry_count": 9216,
+            "shared_chunk_pattern": true,
+            "spring_count": 0
+          }
+        },
+        "duplicate_mode_diagnostic": false,
+        "element_count": 16,
+        "first_frequency_error": 0.0168120839148338,
+        "first_frequency_reference_hz": 8.225217652411406,
+        "first_mode_shape_mac": 0.9999591497712562,
+        "independent_residual_denominators": [
+          1301.0633894908947,
+          53691.56132679408,
+          88495.23655576199,
+          467420.6326404478
+        ],
+        "independent_residual_numerators": [
+          3.871402029413924e-05,
+          7.265646374359581e-05,
+          5.542660521777673e-05,
+          8.786896457215401e-05
+        ],
+        "independent_residuals": [
+          2.9755675708689346e-08,
+          1.3532194249552872e-09,
+          6.263230358489601e-10,
+          1.879869189252181e-10
+        ],
+        "independent_scale_invariant_residuals": [
+          2.9755675708689346e-08,
+          1.3532194249552872e-09,
+          6.263230358489601e-10,
+          1.879869189252181e-10
+        ],
+        "lowest_oracle_eigenvalues": [
+          2761.442029549887,
+          116367.90032803064,
+          274310.3524355623,
+          1061034.645612836
+        ],
+        "mass_gramian": [
+          [
+            1.0000000000000004,
+            3.578364686705241e-16,
+            -2.099998152970318e-16,
+            -7.750183674919857e-17
+          ],
+          [
+            3.0472364700153475e-16,
+            1.0000000000000009,
+            -5.913407551658202e-16,
+            -4.180561025285486e-16
+          ],
+          [
+            -2.22787995132708e-16,
+            -5.665357114701892e-16,
+            1.0,
+            -3.2054117662230484e-16
+          ],
+          [
+            -1.176512158750028e-16,
+            -3.080176736748808e-16,
+            -3.266407652821674e-16,
+            1.0000000000000007
+          ]
+        ],
+        "mass_orthogonality_error": 6.091427223057015e-16,
+        "matched_mass_mac_min": 0.9999999999999998,
+        "matrix_digests": {
+          "global_mass": "360cb45fef6aef0d1fac51246caca2e6c7f8dfcfc5988021d40992d851b84558",
+          "global_stiffness": "763e84c0e152dcd9a46e5b3372fe62ae841660f15d8b47c85807634be018f0f0",
+          "reduced_mass": "72ac7e15744fbffa6811579ffba986c72b2f8aeecd9ae5fae3eb5131bf445370",
+          "reduced_stiffness": "c25409cae6cedc50046456efe483ba9e42ca35dd18abb14df537d8108cded7ba"
+        },
+        "mesh": [
+          8,
+          2
+        ],
+        "minimum_positive_mode_gap_relative": 1.3572682128173328,
+        "mode_matching_assignment_zero_based": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            3
+          ]
+        ],
+        "mode_matching_mac_matrix": [
+          [
+            1.0000000000000002,
+            7.241293363462661e-20,
+            1.897847160836281e-23,
+            4.626984334468093e-24
+          ],
+          [
+            7.241262652467875e-20,
+            0.9999999999999998,
+            1.256596139870224e-20,
+            2.976518569420606e-21
+          ],
+          [
+            1.8977718592422503e-23,
+            1.2566037787862508e-20,
+            1.0000000000000002,
+            2.1518149561027247e-21
+          ],
+          [
+            4.627938439981084e-24,
+            2.9765667887416643e-21,
+            2.1517711297960428e-21,
+            1.0
+          ]
+        ],
+        "node_count": 27,
+        "normalization_error": 8.881784197001252e-16,
+        "oracle_eigenvalues": [
+          2761.442029549887,
+          116367.90032803064,
+          274310.3524355623,
+          1061034.645612836
+        ],
+        "oracle_frequencies_hz": [
+          8.363500687416934,
+          54.29211130359928,
+          83.3568377431,
+          163.93999373171647
+        ],
+        "oracle_residual_denominators": [
+          1301.0633856050279,
+          53691.561320825866,
+          88495.23655236569,
+          467420.63260783424
+        ],
+        "oracle_residual_numerators": [
+          2.3976086293250498e-05,
+          5.2918102431176914e-05,
+          4.1501617568265245e-05,
+          4.688195807992299e-05
+        ],
+        "oracle_residuals": [
+          1.842806934583053e-08,
+          9.855944049563532e-10,
+          4.689700732502964e-10,
+          1.0029929106543513e-10
+        ],
+        "oracle_scale_invariant_residuals": [
+          1.842806934583053e-08,
+          9.855944049563532e-10,
+          4.689700732502964e-10,
+          1.0029929106543513e-10
+        ],
+        "reduced_dof_count": 120,
+        "runtime_eigenvalues": [
+          2761.442039048827,
+          116367.90033752352,
+          274310.35245682957,
+          1061034.6456816674
+        ],
+        "runtime_frequencies_hz": [
+          8.363500701801518,
+          54.292111305813755,
+          83.35683774633134,
+          163.93999373703403
+        ],
+        "runtime_method": "eigh",
+        "runtime_reported_vs_recomputed_max_abs": 5.8221172765750624e-12,
+        "runtime_residuals_reported": [
+          2.974985359141277e-08,
+          1.3527966334402163e-09,
+          6.261193872749104e-10,
+          1.8800367104084375e-10
+        ],
+        "runtime_vs_oracle_eigenvalue_max_abs": 6.883149035274982e-05,
+        "runtime_vs_oracle_frequency_max_abs_hz": 1.4384584190452188e-08,
+        "solver_diagnostics": {
+          "arpack": {
+            "maxiter": null,
+            "ncv": null,
+            "shift_eigenvalue": 0.0,
+            "shift_hz": null,
+            "tolerance": 0.0,
+            "which": "SM"
+          },
+          "backend": {
+            "fallback_used": false,
+            "petsc_available": false,
+            "reason": "SciPy selected as the standard backend",
+            "requested": "auto",
+            "selected": "scipy",
+            "slepc_available": false
+          },
+          "dense_conversion_used": true,
+          "dynamic_reduction": {
+            "candidate_drilling_dof_count": 24,
+            "condensed_drilling_dof_count": 24,
+            "condensed_mass_coupling_ratio": 0.0,
+            "condensed_stiffness_nnz": 3544,
+            "drilling_mass_tolerance": 1e-10,
+            "lazy_condensation": false,
+            "maximum_candidate_mass_row_ratio": 0.0,
+            "retained_dof_count": 120,
+            "strategy": "consistent_mass_static_drilling_condensation"
+          },
+          "eigenpair_refinement": {
+            "iterations_performed": 0,
+            "iterations_requested": 0,
+            "maximum_residual_after": 2.974985359141277e-08,
+            "maximum_residual_before": 2.974985359141277e-08
+          },
+          "modal_masses": [
+            1.0000000000000002,
+            1.0000000000000009,
+            1.0,
+            1.0000000000000007
+          ],
+          "modal_stiffnesses": [
+            2761.4420251851734,
+            116367.90031722722,
+            274310.35244663985,
+            1061034.6455935554
+          ]
+        },
+        "unexpected_rigid_modes": false
+      },
+      {
+        "adjacent_frequency_increment": 0.002017147694147272,
+        "assembly_diagnostics": {
+          "mass": {
+            "accumulator_chunk_count": 1,
+            "accumulator_occupied_levels": 1,
+            "assembly_index_dtype": "int32",
+            "assembly_memory_budget_bytes": null,
+            "assembly_memory_budget_exceeded": false,
+            "assembly_peak_memory_estimate_bytes": 995328,
+            "assembly_phase_seconds": {
+              "assembly_plan": 0.0009778000003279885,
+              "chunk_fusion": 2.5000008463393897e-06,
+              "chunk_sparse_conversion": 0.0008229999994000536,
+              "discrete_merge": 5.669999973179074e-05,
+              "element_kernel": 0.03683970000020054,
+              "sparse_finalize": 0.00023639999926672317
+            },
+            "assembly_plan_reused": false,
+            "chunk_count": 1,
+            "chunk_size": 256,
+            "coefficient_entry_count": 20736,
+            "concentrated_mass_count": 0,
+            "element_count": 36,
+            "final_nnz": 1850,
+            "matrix": "mass",
+            "paired_assembly": true,
+            "peak_chunk_entry_count": 20736,
+            "shared_chunk_pattern": true,
+            "spring_count": 0
+          },
+          "stiffness": {
+            "accumulator_chunk_count": 1,
+            "accumulator_occupied_levels": 1,
+            "assembly_index_dtype": "int32",
+            "assembly_memory_budget_bytes": null,
+            "assembly_memory_budget_exceeded": false,
+            "assembly_peak_memory_estimate_bytes": 995328,
+            "assembly_phase_seconds": {
+              "assembly_plan": 0.0009778000003279885,
+              "chunk_fusion": 2.5000008463393897e-06,
+              "chunk_sparse_conversion": 0.0008229999994000536,
+              "discrete_merge": 5.669999973179074e-05,
+              "element_kernel": 0.03683970000020054,
+              "sparse_finalize": 0.00023639999926672317
+            },
+            "assembly_plan_reused": false,
+            "chunk_count": 1,
+            "chunk_size": 256,
+            "coefficient_entry_count": 20736,
+            "concentrated_mass_count": 0,
+            "element_count": 36,
+            "final_nnz": 6414,
+            "matrix": "stiffness",
+            "paired_assembly": true,
+            "peak_chunk_entry_count": 20736,
+            "shared_chunk_pattern": true,
+            "spring_count": 0
+          }
+        },
+        "duplicate_mode_diagnostic": false,
+        "element_count": 36,
+        "first_frequency_error": 0.01476515272690971,
+        "first_frequency_reference_hz": 8.225217652411406,
+        "first_mode_shape_mac": 0.9999740041620752,
+        "independent_residual_denominators": [
+          931.3711638506119,
+          37294.72820118049,
+          74450.47129891835,
+          306004.1682018568
+        ],
+        "independent_residual_numerators": [
+          3.082708114629435e-05,
+          5.31638480760299e-05,
+          3.79795242282518e-05,
+          6.704668550236785e-05
+        ],
+        "independent_residuals": [
+          3.3098599508754907e-08,
+          1.4255057119399278e-09,
+          5.101314144240157e-10,
+          2.1910383082801754e-10
+        ],
+        "independent_scale_invariant_residuals": [
+          3.3098599508754907e-08,
+          1.4255057119399278e-09,
+          5.101314144240157e-10,
+          2.1910383082801754e-10
+        ],
+        "lowest_oracle_eigenvalues": [
+          2750.3351511344126,
+          111233.50102958764,
+          272199.58505954326,
+          933152.02505567
+        ],
+        "mass_gramian": [
+          [
+            1.0000000000000002,
+            -2.7755575615628914e-17,
+            -6.120150093419371e-16,
+            -4.579669976578771e-16
+          ],
+          [
+            0.0,
+            0.9999999999999998,
+            1.0826465531025885e-16,
+            3.885780586188048e-16
+          ],
+          [
+            -6.098816523551766e-16,
+            9.808023524474584e-17,
+            1.0000000000000007,
+            -1.900995510766813e-16
+          ],
+          [
+            -6.938893903907228e-17,
+            2.7755575615628914e-16,
+            -1.9911516635837357e-16,
+            0.9999999999999997
+          ]
+        ],
+        "mass_orthogonality_error": 5.67228510317012e-16,
+        "matched_mass_mac_min": 0.9999999999999991,
+        "matrix_digests": {
+          "global_mass": "7a7d6b4d0f435a5cd65c6a9beef51bdab8f180a12824e12642173e06b75e0c4c",
+          "global_stiffness": "40b65399537e6b35518eb59e7f01b703dfff77ce43f34c0c16dcc1a30bce4797",
+          "reduced_mass": "66ec90751158b6acf6406fd1d34e1cb683f884f89d5a8a6ab88c9fb962ebbc47",
+          "reduced_stiffness": "045e709f25f0cf619aa291432405d4db2227b783373c53de837f2f41513748e7"
+        },
+        "mesh": [
+          12,
+          3
+        ],
+        "minimum_positive_mode_gap_relative": 1.447100761371696,
+        "mode_matching_assignment_zero_based": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            3
+          ]
+        ],
+        "mode_matching_mac_matrix": [
+          [
+            1.0000000000000004,
+            3.1601610991537523e-21,
+            1.1695091351908735e-20,
+            2.7025815624204787e-22
+          ],
+          [
+            3.1601798226409975e-21,
+            1.0,
+            5.462792922397284e-20,
+            1.0589833670549403e-21
+          ],
+          [
+            1.1695277984242299e-20,
+            5.462792986825395e-20,
+            0.9999999999999991,
+            4.0778612985524763e-22
+          ],
+          [
+            2.702750391848743e-22,
+            1.0589544641281455e-21,
+            4.077898284408234e-22,
+            0.9999999999999997
+          ]
+        ],
+        "node_count": 52,
+        "normalization_error": 6.661338147750939e-16,
+        "oracle_eigenvalues": [
+          2750.3351511344126,
+          111233.50102958764,
+          272199.58505954326,
+          933152.02505567
+        ],
+        "oracle_frequencies_hz": [
+          8.346664197840756,
+          53.08085809639624,
+          83.03551069450064,
+          153.74334757712683
+        ],
+        "oracle_residual_denominators": [
+          931.371162971349,
+          37294.72822811846,
+          74450.47130477779,
+          306004.1681870013
+        ],
+        "oracle_residual_numerators": [
+          2.3320796383509316e-05,
+          4.8654647275975384e-05,
+          3.090006056304359e-05,
+          5.203968928499861e-05
+        ],
+        "oracle_residuals": [
+          2.5039208116675086e-08,
+          1.3045985206909775e-09,
+          4.1504183951432703e-10,
+          1.7006202756426763e-10
+        ],
+        "oracle_scale_invariant_residuals": [
+          2.5039208116675086e-08,
+          1.3045985206909775e-09,
+          4.1504183951432703e-10,
+          1.7006202756426763e-10
+        ],
+        "reduced_dof_count": 240,
+        "runtime_eigenvalues": [
+          2750.3351837038676,
+          111233.50094373252,
+          272199.5850133767,
+          933152.0251011074
+        ],
+        "runtime_frequencies_hz": [
+          8.346664247261334,
+          53.080858075911124,
+          83.03551068745901,
+          153.7433475808699
+        ],
+        "runtime_method": "eigh",
+        "runtime_reported_vs_recomputed_max_abs": 1.4547183013665851e-11,
+        "runtime_residuals_reported": [
+          3.308405232574124e-08,
+          1.4261407152676235e-09,
+          5.100195991583922e-10,
+          2.1913645530247876e-10
+        ],
+        "runtime_vs_oracle_eigenvalue_max_abs": 8.585512114223093e-05,
+        "runtime_vs_oracle_frequency_max_abs_hz": 4.942057785228826e-08,
+        "solver_diagnostics": {
+          "arpack": {
+            "maxiter": null,
+            "ncv": null,
+            "shift_eigenvalue": 0.0,
+            "shift_hz": null,
+            "tolerance": 0.0,
+            "which": "SM"
+          },
+          "backend": {
+            "fallback_used": false,
+            "petsc_available": false,
+            "reason": "SciPy selected as the standard backend",
+            "requested": "auto",
+            "selected": "scipy",
+            "slepc_available": false
+          },
+          "dense_conversion_used": true,
+          "dynamic_reduction": {
+            "candidate_drilling_dof_count": 48,
+            "condensed_drilling_dof_count": 48,
+            "condensed_mass_coupling_ratio": 0.0,
+            "condensed_stiffness_nnz": 12148,
+            "drilling_mass_tolerance": 1e-10,
+            "lazy_condensation": false,
+            "maximum_candidate_mass_row_ratio": 0.0,
+            "retained_dof_count": 240,
+            "strategy": "consistent_mass_static_drilling_condensation"
+          },
+          "eigenpair_refinement": {
+            "iterations_performed": 0,
+            "iterations_requested": 0,
+            "maximum_residual_after": 3.308405232574124e-08,
+            "maximum_residual_before": 3.308405232574124e-08
+          },
+          "modal_masses": [
+            1.0000000000000002,
+            0.9999999999999998,
+            1.0000000000000007,
+            0.9999999999999997
+          ],
+          "modal_stiffnesses": [
+            2750.335193303921,
+            111233.50094980994,
+            272199.58503588365,
+            933152.0250477373
+          ]
+        },
+        "unexpected_rigid_modes": false
+      },
+      {
+        "adjacent_frequency_increment": 0.0008756916790627656,
+        "assembly_diagnostics": {
+          "mass": {
+            "accumulator_chunk_count": 1,
+            "accumulator_occupied_levels": 1,
+            "assembly_index_dtype": "int32",
+            "assembly_memory_budget_bytes": null,
+            "assembly_memory_budget_exceeded": false,
+            "assembly_peak_memory_estimate_bytes": 1769472,
+            "assembly_phase_seconds": {
+              "assembly_plan": 0.00154240000028949,
+              "chunk_fusion": 2.3000002329354174e-06,
+              "chunk_sparse_conversion": 0.0011920000006284681,
+              "discrete_merge": 5.9699999837903306e-05,
+              "element_kernel": 0.06426370000008319,
+              "sparse_finalize": 0.0003164999998261919
+            },
+            "assembly_plan_reused": false,
+            "chunk_count": 1,
+            "chunk_size": 256,
+            "coefficient_entry_count": 36864,
+            "concentrated_mass_count": 0,
+            "element_count": 64,
+            "final_nnz": 3185,
+            "matrix": "mass",
+            "paired_assembly": true,
+            "peak_chunk_entry_count": 36864,
+            "shared_chunk_pattern": true,
+            "spring_count": 0
+          },
+          "stiffness": {
+            "accumulator_chunk_count": 1,
+            "accumulator_occupied_levels": 1,
+            "assembly_index_dtype": "int32",
+            "assembly_memory_budget_bytes": null,
+            "assembly_memory_budget_exceeded": false,
+            "assembly_peak_memory_estimate_bytes": 1769472,
+            "assembly_phase_seconds": {
+              "assembly_plan": 0.00154240000028949,
+              "chunk_fusion": 2.3000002329354174e-06,
+              "chunk_sparse_conversion": 0.0011920000006284681,
+              "discrete_merge": 5.9699999837903306e-05,
+              "element_kernel": 0.06426370000008319,
+              "sparse_finalize": 0.0003164999998261919
+            },
+            "assembly_plan_reused": false,
+            "chunk_count": 1,
+            "chunk_size": 256,
+            "coefficient_entry_count": 36864,
+            "concentrated_mass_count": 0,
+            "element_count": 64,
+            "final_nnz": 10642,
+            "matrix": "stiffness",
+            "paired_assembly": true,
+            "peak_chunk_entry_count": 36864,
+            "shared_chunk_pattern": true,
+            "spring_count": 0
+          }
+        },
+        "duplicate_mode_diagnostic": false,
+        "element_count": 64,
+        "first_frequency_error": 0.013877308803999497,
+        "first_frequency_reference_hz": 8.225217652411406,
+        "first_mode_shape_mac": 0.9999792558936241,
+        "independent_residual_denominators": [
+          722.4470116158924,
+          28632.764719549017,
+          61607.91292704886,
+          230343.68887031754
+        ],
+        "independent_residual_numerators": [
+          1.9012555107630063e-05,
+          3.948431549724435e-05,
+          6.128702805737786e-05,
+          6.070521213292425e-05
+        ],
+        "independent_residuals": [
+          2.631688525516191e-08,
+          1.3789906732368892e-09,
+          9.947914991041658e-10,
+          2.635418944215182e-10
+        ],
+        "independent_scale_invariant_residuals": [
+          2.631688525516191e-08,
+          1.3789906732368892e-09,
+          9.947914991041658e-10,
+          2.635418944215182e-10
+        ],
+        "lowest_oracle_eigenvalues": [
+          2745.52466049969,
+          109467.77975001639,
+          271162.197134436,
+          892398.0723167092
+        ],
+        "mass_gramian": [
+          [
+            1.0,
+            2.7755575615628914e-16,
+            -2.914335439641036e-16,
+            0.0
+          ],
+          [
+            4.996003610813204e-16,
+            0.9999999999999998,
+            -1.3027773304585821e-15,
+            4.163336342344337e-16
+          ],
+          [
+            -2.740863092043355e-16,
+            -1.2750217548429532e-15,
+            1.0,
+            -7.567731163948821e-17
+          ],
+          [
+            -2.7755575615628914e-17,
+            3.608224830031759e-16,
+            -5.421010862427522e-17,
+            0.9999999999999999
+          ]
+        ],
+        "mass_orthogonality_error": 1.0152052138207847e-15,
+        "matched_mass_mac_min": 0.9999999999999996,
+        "matrix_digests": {
+          "global_mass": "4f941c35a77c95f9c27333ba1e89756ee92d966a9e5b3488b425373992fb5d27",
+          "global_stiffness": "3e4db067ac096259bd80d236d0d02f46410438b2546b5e2b8e248aaee2ed865f",
+          "reduced_mass": "b315b195bfbd699366ca3a2823226aa2b08594b29fce8baef9a79e96e24bd266",
+          "reduced_stiffness": "c806e1020234cbb83e44ddebd59f20bce7d87b1353cd80b67f0768ab90724dab"
+        },
+        "mesh": [
+          16,
+          4
+        ],
+        "minimum_positive_mode_gap_relative": 1.4770959797820817,
+        "mode_matching_assignment_zero_based": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            3
+          ]
+        ],
+        "mode_matching_mac_matrix": [
+          [
+            1.0,
+            1.8007716227994026e-21,
+            5.528088247461951e-24,
+            8.22421569479559e-24
+          ],
+          [
+            1.80072451023888e-21,
+            1.0,
+            6.312162810718925e-23,
+            3.0133017138112937e-22
+          ],
+          [
+            5.526032792806571e-24,
+            6.314481193890342e-23,
+            0.9999999999999996,
+            1.9752150437399693e-22
+          ],
+          [
+            8.22485248427241e-24,
+            3.013118630588996e-22,
+            1.9751449360197227e-22,
+            1.0000000000000004
+          ]
+        ],
+        "node_count": 85,
+        "normalization_error": 2.220446049250313e-16,
+        "oracle_eigenvalues": [
+          2745.52466049969,
+          109467.77975001639,
+          271162.197134436,
+          892398.0723167092
+        ],
+        "oracle_frequencies_hz": [
+          8.339361611074558,
+          52.65786981774518,
+          82.87713009738874,
+          150.34861902198298
+        ],
+        "oracle_residual_denominators": [
+          722.4470243214405,
+          28632.7647203837,
+          61607.91292446514,
+          230343.68886957798
+        ],
+        "oracle_residual_numerators": [
+          2.313712162466753e-05,
+          4.964066518865814e-05,
+          2.750772066408367e-05,
+          5.260553652912695e-05
+        ],
+        "oracle_residuals": [
+          3.202604598779974e-08,
+          1.7337014316790334e-09,
+          4.464965514707457e-10,
+          2.283784582390383e-10
+        ],
+        "oracle_scale_invariant_residuals": [
+          3.202604598779974e-08,
+          1.7337014316790334e-09,
+          4.464965514707457e-10,
+          2.283784582390383e-10
+        ],
+        "reduced_dof_count": 400,
+        "runtime_eigenvalues": [
+          2745.5246122218155,
+          109467.7798253189,
+          271162.19715076464,
+          892398.0724100571
+        ],
+        "runtime_frequencies_hz": [
+          8.339361537754026,
+          52.657869835856765,
+          82.87713009988406,
+          150.34861902984645
+        ],
+        "runtime_method": "eigh",
+        "runtime_reported_vs_recomputed_max_abs": 3.930326899457432e-13,
+        "runtime_residuals_reported": [
+          2.6317020430528298e-08,
+          1.3793837059268349e-09,
+          9.947444681915033e-10,
+          2.6355695262995813e-10
+        ],
+        "runtime_vs_oracle_eigenvalue_max_abs": 9.334785863757133e-05,
+        "runtime_vs_oracle_frequency_max_abs_hz": 7.332053186814846e-08,
+        "solver_diagnostics": {
+          "arpack": {
+            "maxiter": null,
+            "ncv": null,
+            "shift_eigenvalue": 0.0,
+            "shift_hz": null,
+            "tolerance": 0.0,
+            "which": "SM"
+          },
+          "backend": {
+            "fallback_used": false,
+            "petsc_available": false,
+            "reason": "SciPy selected as the standard backend",
+            "requested": "auto",
+            "selected": "scipy",
+            "slepc_available": false
+          },
+          "dense_conversion_used": true,
+          "dynamic_reduction": {
+            "candidate_drilling_dof_count": 80,
+            "condensed_drilling_dof_count": 80,
+            "condensed_mass_coupling_ratio": 0.0,
+            "condensed_stiffness_nnz": 30576,
+            "drilling_mass_tolerance": 1e-10,
+            "lazy_condensation": false,
+            "maximum_candidate_mass_row_ratio": 0.0,
+            "retained_dof_count": 400,
+            "strategy": "consistent_mass_static_drilling_condensation"
+          },
+          "eigenpair_refinement": {
+            "iterations_performed": 0,
+            "iterations_requested": 0,
+            "maximum_residual_after": 2.6317020430528298e-08,
+            "maximum_residual_before": 2.6317020430528298e-08
+          },
+          "modal_masses": [
+            0.9999999999999999,
+            0.9999999999999998,
+            1.0,
+            0.9999999999999999
+          ],
+          "modal_stiffnesses": [
+            2745.5246115866776,
+            109467.77983212107,
+            271162.19714226946,
+            892398.0724292088
+          ]
+        },
+        "unexpected_rigid_modes": false
+      },
+      {
+        "adjacent_frequency_increment": 0.000761384776752048,
+        "assembly_diagnostics": {
+          "mass": {
+            "accumulator_chunk_count": 1,
+            "accumulator_occupied_levels": 1,
+            "assembly_index_dtype": "int32",
+            "assembly_memory_budget_bytes": null,
+            "assembly_memory_budget_exceeded": false,
+            "assembly_peak_memory_estimate_bytes": 3981312,
+            "assembly_phase_seconds": {
+              "assembly_plan": 0.003331100000650622,
+              "chunk_fusion": 2.499999936844688e-06,
+              "chunk_sparse_conversion": 0.0023129000001063105,
+              "discrete_merge": 7.829999958630651e-05,
+              "element_kernel": 0.14362359999995533,
+              "sparse_finalize": 0.0004930000004605972
+            },
+            "assembly_plan_reused": false,
+            "chunk_count": 1,
+            "chunk_size": 256,
+            "coefficient_entry_count": 82944,
+            "concentrated_mass_count": 0,
+            "element_count": 144,
+            "final_nnz": 6935,
+            "matrix": "mass",
+            "paired_assembly": true,
+            "peak_chunk_entry_count": 82944,
+            "shared_chunk_pattern": true,
+            "spring_count": 0
+          },
+          "stiffness": {
+            "accumulator_chunk_count": 1,
+            "accumulator_occupied_levels": 1,
+            "assembly_index_dtype": "int32",
+            "assembly_memory_budget_bytes": null,
+            "assembly_memory_budget_exceeded": false,
+            "assembly_peak_memory_estimate_bytes": 3981312,
+            "assembly_phase_seconds": {
+              "assembly_plan": 0.003331100000650622,
+              "chunk_fusion": 2.499999936844688e-06,
+              "chunk_sparse_conversion": 0.0023129000001063105,
+              "discrete_merge": 7.829999958630651e-05,
+              "element_kernel": 0.14362359999995533,
+              "sparse_finalize": 0.0004930000004605972
+            },
+            "assembly_plan_reused": false,
+            "chunk_count": 1,
+            "chunk_size": 256,
+            "coefficient_entry_count": 82944,
+            "concentrated_mass_count": 0,
+            "element_count": 144,
+            "final_nnz": 24137,
+            "matrix": "stiffness",
+            "paired_assembly": true,
+            "peak_chunk_entry_count": 82944,
+            "shared_chunk_pattern": true,
+            "spring_count": 0
+          }
+        },
+        "duplicate_mode_diagnostic": false,
+        "element_count": 144,
+        "first_frequency_error": 0.013105945359965428,
+        "first_frequency_reference_hz": 8.225217652411406,
+        "first_mode_shape_mac": 0.9999834073673279,
+        "independent_residual_denominators": [
+          497.5878892011867,
+          19579.748571423243,
+          44770.265960049335,
+          155377.40824257617
+        ],
+        "independent_residual_numerators": [
+          1.9283295856703697e-05,
+          3.2861233503707156e-05,
+          2.48874431245639e-05,
+          3.4755329925764485e-05
+        ],
+        "independent_residuals": [
+          3.8753547413825817e-08,
+          1.6783276549152586e-09,
+          5.558922331793196e-10,
+          2.2368329037580707e-10
+        ],
+        "independent_scale_invariant_residuals": [
+          3.8753547413825817e-08,
+          1.6783276549152586e-09,
+          5.558922331793196e-10,
+          2.2368329037580707e-10
+        ],
+        "lowest_oracle_eigenvalues": [
+          2741.348710116387,
+          108199.37764947771,
+          269838.5554714048,
+          864319.1065705759
+        ],
+        "mass_gramian": [
+          [
+            1.0000000000000009,
+            4.996003610813204e-16,
+            3.209238430557093e-16,
+            -9.159339953157541e-16
+          ],
+          [
+            4.996003610813204e-16,
+            1.0000000000000007,
+            2.2551405187698492e-17,
+            -3.885780586188048e-16
+          ],
+          [
+            3.434752482434078e-16,
+            -1.214306433183765e-17,
+            1.0000000000000013,
+            6.938893903907228e-18
+          ],
+          [
+            -8.049116928532385e-16,
+            -4.718447854656915e-16,
+            3.2959746043559335e-17,
+            1.0000000000000004
+          ]
+        ],
+        "mass_orthogonality_error": 8.034935034049631e-16,
+        "matched_mass_mac_min": 1.0,
+        "matrix_digests": {
+          "global_mass": "2ef416200aabc4c6fc9e433c0ade6894191faad22c1327b9b6f52d9262a90539",
+          "global_stiffness": "1b89b7255cfd672bda840c3a6bd92b76aa5bc7d5538d9b16d49e60e4bd236436",
+          "reduced_mass": "6c0423d0d8c378ad3f8369f7bcc9396850106a89f10b40e0c9f542b56686ff91",
+          "reduced_stiffness": "40f1ed2c71c1bece6c6d05ed2c2192adf8f82867e432486be967ba04a1faa7d8"
+        },
+        "mesh": [
+          24,
+          6
+        ],
+        "minimum_positive_mode_gap_relative": 1.4939011788549539,
+        "mode_matching_assignment_zero_based": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            3
+          ]
+        ],
+        "mode_matching_mac_matrix": [
+          [
+            1.0,
+            1.7516322037004712e-20,
+            2.1232078951685466e-21,
+            2.308479012384956e-24
+          ],
+          [
+            1.751649836206026e-20,
+            1.0,
+            6.2883337050153985e-22,
+            1.665514718062607e-22
+          ],
+          [
+            2.1231735240857483e-21,
+            6.288294554284022e-22,
+            1.0000000000000002,
+            4.551403931612592e-22
+          ],
+          [
+            2.3116851156670983e-24,
+            1.6656651650769606e-22,
+            4.551436869348145e-22,
+            1.0
+          ]
+        ],
+        "node_count": 175,
+        "normalization_error": 1.3322676295501878e-15,
+        "oracle_eigenvalues": [
+          2741.348710116387,
+          108199.37764947771,
+          269838.5554714048,
+          864319.1065705759
+        ],
+        "oracle_frequencies_hz": [
+          8.333017101947352,
+          52.35190782772246,
+          82.67460588460848,
+          147.9643833177588
+        ],
+        "oracle_residual_denominators": [
+          497.58791265496933,
+          19579.74858312469,
+          44770.26595835548,
+          155377.4082513795
+        ],
+        "oracle_residual_numerators": [
+          2.9797298372455215e-05,
+          3.427590699681071e-05,
+          2.494006485740134e-05,
+          3.647574867962087e-05
+        ],
+        "oracle_residuals": [
+          5.988348513826712e-08,
+          1.7505795261514383e-09,
+          5.570676055532069e-10,
+          2.347558058157855e-10
+        ],
+        "oracle_scale_invariant_residuals": [
+          5.988348513826712e-08,
+          1.7505795261514383e-09,
+          5.570676055532069e-10,
+          2.347558058157855e-10
+        ],
+        "reduced_dof_count": 840,
+        "runtime_eigenvalues": [
+          2741.3485808889427,
+          108199.37757389137,
+          269838.5554965986,
+          864319.1065207698
+        ],
+        "runtime_frequencies_hz": [
+          8.333016905537733,
+          52.35190780943635,
+          82.674605888468,
+          147.9643833134956
+        ],
+        "runtime_method": "eigh",
+        "runtime_reported_vs_recomputed_max_abs": 3.8217309215865566e-11,
+        "runtime_residuals_reported": [
+          3.871533010460995e-08,
+          1.677296078768325e-09,
+          5.555577004947075e-10,
+          2.2366540803388672e-10
+        ],
+        "runtime_vs_oracle_eigenvalue_max_abs": 0.00012922744417664944,
+        "runtime_vs_oracle_frequency_max_abs_hz": 1.9640961923528266e-07,
+        "solver_diagnostics": {
+          "arpack": {
+            "maxiter": null,
+            "ncv": null,
+            "shift_eigenvalue": 0.0,
+            "shift_hz": null,
+            "tolerance": 0.0,
+            "which": "SM"
+          },
+          "backend": {
+            "fallback_used": false,
+            "petsc_available": false,
+            "reason": "SciPy selected as the standard backend",
+            "requested": "auto",
+            "selected": "scipy",
+            "slepc_available": false
+          },
+          "dense_conversion_used": true,
+          "dynamic_reduction": {
+            "candidate_drilling_dof_count": 168,
+            "condensed_drilling_dof_count": 168,
+            "condensed_mass_coupling_ratio": 0.0,
+            "condensed_stiffness_nnz": 124350,
+            "drilling_mass_tolerance": 1e-10,
+            "lazy_condensation": false,
+            "maximum_candidate_mass_row_ratio": 0.0,
+            "retained_dof_count": 840,
+            "strategy": "consistent_mass_static_drilling_condensation"
+          },
+          "eigenpair_refinement": {
+            "iterations_performed": 0,
+            "iterations_requested": 0,
+            "maximum_residual_after": 3.871533010460995e-08,
+            "maximum_residual_before": 3.871533010460995e-08
+          },
+          "modal_masses": [
+            1.0000000000000009,
+            1.0000000000000007,
+            1.0000000000000013,
+            1.0000000000000007
+          ],
+          "modal_stiffnesses": [
+            2741.3485756324053,
+            108199.37758340404,
+            269838.5555134785,
+            864319.1065168951
+          ]
+        },
+        "unexpected_rigid_modes": false
+      }
+    ],
+    "reference_frequency_hz": 8.225217652411406
+  },
+  "campaign_max_runtime_residual": 4.307579448497758e-08,
+  "contract_id": "WP13-08-MITC4-MODAL-DIAGNOSTIC-001",
+  "contract_sha": "0ea1fe1f1405a0393740461b86aaeeae74136c136143456de049ceeba20585ca",
+  "decision": {
+    "claim_candidate": "MITC4 remains EXPERIMENTAL; the frozen residual gate remains unmet in the declared slender-cantilever diagnostic.",
+    "owner_gate_required": true,
+    "promotion_candidate": false,
+    "technical_decision": "KEEP_EXPERIMENTAL"
+  },
+  "environment": {
+    "numpy": "2.2.6",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "python": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+    "scipy": "1.15.2"
+  },
+  "gate_decisions": {
+    "frequency_and_mode_gate": false,
+    "orthogonality_gate": true,
+    "refinement_characterization": true,
+    "replay_gate": true,
+    "residual_gate": false,
+    "residual_gate_values": {
+      "baseline_independent_max_residual": 2.631688525516191e-08,
+      "baseline_oracle_max_residual": 3.202604598779974e-08,
+      "baseline_runtime_max_residual": 2.6317020430528298e-08,
+      "frozen_gate": 1e-08,
+      "historical_residual": 2.6317020430528298e-08
+    }
+  },
+  "historical_baseline_mesh": [
+    16,
+    4
+  ],
+  "historical_failure_reproduced": true,
+  "historical_reference": {
+    "current_status": "EXPERIMENTAL",
+    "frozen_residual_gate": 1e-08,
+    "historical_0_2_7_evidence_read_only": true,
+    "historical_evidence_read_only": true,
+    "historical_execution_status": "REPLAY_PASS_FROZEN_GATE_FAILED",
+    "historical_file_sha256": "2857d08589217840911e687697589b5c4ae0236527e684e90fdb411233935a2c",
+    "historical_replay_count": 2,
+    "historical_replay_digest": "3cc0069ed48d37b0cb15b49c4c4fff146319d52416a35dd7e9d217f540d464ba",
+    "historical_residual": 2.6317020430528298e-08,
+    "owner_gate": "REJECTED",
+    "reproduction_check": {
+      "absolute_tolerance": 1e-15,
+      "comparison": "Compare the independently collected baseline maximum to the archived historical residual; this is a traceability check, not a replacement gate.",
+      "relative_tolerance": 1e-06
+    },
+    "source_path": "qualification/0_2_8/wp04_mitc_vnv.json",
+    "source_record": "COMB-MITC4-modal"
+  },
+  "independent_oracle": {
+    "analytical": "Euler-Bernoulli slender-cantilever first bending frequency and declared first-mode shape.",
+    "external_correlation": "NOT_AVAILABLE_AND_NOT_REQUIRED_FOR_THIS_NARROW_DIAGNOSTIC_SCOPE",
+    "independence_boundary": "The primary eigensolve and diagnostics are independent of ModalAnalysisSolver's returned solver metrics, but element K/M assembly uses the existing GlobalAssembler and MITC4 element kernels; this shared-kernel limitation is recorded and no independent formulation claim is made.",
+    "oracle_calls_production_modal_solver": false,
+    "primary": "Independent scipy.linalg.eigh generalized dense eigensolve applied to explicitly materialized K_ff and M_ff, with independently recomputed residuals and modal Gramian."
+  },
+  "integrity": {
+    "formulation_changed": false,
+    "full_test_suite": "DEFERRED_TO_WP13_FINAL_GATE",
+    "gate_changed": false,
+    "historical_0_2_7_evidence_unchanged": true,
+    "historical_evidence_unchanged": true,
+    "maturity_changed": false,
+    "numerical_source_changed": false
+  },
+  "refinement_characterization": {
+    "increments": [
+      0.0036874982659067,
+      0.002017147694147272,
+      0.0008756916790627656,
+      0.000761384776752048
+    ],
+    "max_increment": 0.0036874982659067,
+    "status": "CHARACTERIZATION_ONLY"
+  },
+  "replays": {
+    "comparison": {
+      "pass": true,
+      "points": [
+        {
+          "max_abs_differences": {
+            "first_mode_shape_mac": 0.0,
+            "independent_residuals": 0.0,
+            "mass_gramian": 0.0,
+            "mass_orthogonality_error": 0.0,
+            "mode_matching_assignment_zero_based": 0.0,
+            "mode_matching_mac_matrix": 0.0,
+            "normalization_error": 0.0,
+            "oracle_eigenvalues": 0.0,
+            "oracle_frequencies_hz": 0.0,
+            "oracle_residuals": 0.0,
+            "runtime_eigenvalues": 0.0,
+            "runtime_frequencies_hz": 0.0,
+            "runtime_residuals_reported": 0.0
+          },
+          "mesh": [
+            4,
+            1
+          ],
+          "pass": true
+        },
+        {
+          "max_abs_differences": {
+            "first_mode_shape_mac": 0.0,
+            "independent_residuals": 0.0,
+            "mass_gramian": 0.0,
+            "mass_orthogonality_error": 0.0,
+            "mode_matching_assignment_zero_based": 0.0,
+            "mode_matching_mac_matrix": 0.0,
+            "normalization_error": 0.0,
+            "oracle_eigenvalues": 0.0,
+            "oracle_frequencies_hz": 0.0,
+            "oracle_residuals": 0.0,
+            "runtime_eigenvalues": 0.0,
+            "runtime_frequencies_hz": 0.0,
+            "runtime_residuals_reported": 0.0
+          },
+          "mesh": [
+            8,
+            2
+          ],
+          "pass": true
+        },
+        {
+          "max_abs_differences": {
+            "first_mode_shape_mac": 0.0,
+            "independent_residuals": 0.0,
+            "mass_gramian": 0.0,
+            "mass_orthogonality_error": 0.0,
+            "mode_matching_assignment_zero_based": 0.0,
+            "mode_matching_mac_matrix": 0.0,
+            "normalization_error": 0.0,
+            "oracle_eigenvalues": 0.0,
+            "oracle_frequencies_hz": 0.0,
+            "oracle_residuals": 0.0,
+            "runtime_eigenvalues": 0.0,
+            "runtime_frequencies_hz": 0.0,
+            "runtime_residuals_reported": 0.0
+          },
+          "mesh": [
+            16,
+            4
+          ],
+          "pass": true
+        }
+      ],
+      "semantic_digest_equal": true,
+      "semantic_digest_first": "b0bedd53e87509906ed75268eb6b42472a1d2cc15e21152cd6013c760693184b",
+      "semantic_digest_second": "b0bedd53e87509906ed75268eb6b42472a1d2cc15e21152cd6013c760693184b"
+    },
+    "count": 2,
+    "mesh_levels": [
+      [
+        4,
+        1
+      ],
+      [
+        8,
+        2
+      ],
+      [
+        16,
+        4
+      ]
+    ]
+  },
+  "repo_sha": "eb027850c67c25839b9e066b54cfd7d3bb8915b0",
+  "root_cause": {
+    "classification": "NUMERICAL_PRECISION",
+    "evidence": "Both the production eigenpair and the separate dense eigensolve remain above the frozen residual gate on the historical final mesh, while orthogonality and mode-shape checks remain coherent; the evidence supports a finite-precision/conditioning limitation, not a gate or normalization defect."
+  },
+  "runtime_vs_independent": {
+    "max_reported_recomputed_absolute_difference": 3.8217309215865566e-11,
+    "reported_metric_not_used_as_independent_result": true
+  },
+  "schema_version": 1,
+  "solver_parameters": {
+    "deterministic_ordering": "Sort positive eigenvalues ascending and canonicalize each mode sign by its largest-magnitude free component for comparison.",
+    "historical_analysis_method": "eigh",
+    "historical_parameters": {
+      "arpack_maxiter": "omitted/default",
+      "arpack_ncv": "omitted/default",
+      "arpack_tolerance": "omitted/default",
+      "dense_modal_max_dofs": 6000,
+      "initial_vector": "not used by dense eigh path",
+      "modal_eigenpair_refinement_iterations": 0,
+      "modal_residual_failure_tolerance": 1e-06,
+      "modal_shift": "zero/default",
+      "modes": 4,
+      "prefer_dense_modal": false,
+      "symmetry_assumption": "scipy.linalg.eigh generalized symmetric/Hermitian problem"
+    },
+    "parameter_change_policy": "No parameter change is allowed in the baseline reproduction. Any comparison run must be declared in this contract/evidence before it is executed and cannot be used to rewrite the historical result.",
+    "required_audit_fields": [
+      "method",
+      "tolerance",
+      "maxiter",
+      "ncv",
+      "shift",
+      "initial_vector_policy",
+      "symmetry_assumption",
+      "eigenvalue_ordering",
+      "eigenpair_refinement"
+    ]
+  }
+}

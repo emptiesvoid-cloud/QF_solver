@@ -86,7 +86,11 @@ def public_document_audit(root: str | Path = ROOT) -> dict[str, Any]:
         relative for relative in WEB_RUNTIME_PATHS if (base / relative).is_file()
     ]
     pyproject = _read_text(base / "pyproject.toml").casefold()
-    web_dependencies = [name for name in ("mkdocs", "playwright") if name in pyproject]
+    # MkDocs is a static-site builder used by the public documentation workflow;
+    # it is not a repository-hosted web runtime. Browser automation remains a
+    # web-only dependency for the purpose of this historical hygiene guard.
+    web_runtime_dependencies = [name for name in ("playwright",) if name in pyproject]
+    static_site_tools = [name for name in ("mkdocs", "mkdocs-material") if name in pyproject]
     release_audit = audit_public_release(base)
     release_version = _project_version(base)
     release_key = release_version.split("a", 1)[0].replace(".", "")
@@ -106,10 +110,11 @@ def public_document_audit(root: str | Path = ROOT) -> dict[str, Any]:
         ),
         _check(
             "web_delivery_retired",
-            not web_runtime_present and not web_dependencies,
-            "no web runtime source or web-only dependency remains"
-            if not web_runtime_present and not web_dependencies
-            else f"runtime={web_runtime_present}, dependencies={web_dependencies}",
+            not web_runtime_present and not web_runtime_dependencies,
+            "no web runtime source or browser-only dependency remains; "
+            f"static site tooling={static_site_tools}"
+            if not web_runtime_present and not web_runtime_dependencies
+            else f"runtime={web_runtime_present}, dependencies={web_runtime_dependencies}",
         ),
         _check(
             "internal_paths_not_tracked",

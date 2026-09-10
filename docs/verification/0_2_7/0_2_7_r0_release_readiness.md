@@ -25,7 +25,7 @@ classified as `FOREIGN_CHANGE` and preserved in a targeted stash with commit
 The current candidate remains `0.2.7a0`, with no tag, GitHub release or PyPI
 publication. The future tag/build source is the final local R0 closeout commit
 reported with this record. The machine-readable record is
-[`qualification/0_2_7/r0_release_readiness.json`](../../../qualification/0_2_7/r0_release_readiness.json).
+[`qualification/0_2_7/r0_release_readiness.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/r0_release_readiness.json).
 
 ## Gate result
 
